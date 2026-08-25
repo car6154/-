@@ -506,7 +506,14 @@ class Scraper:
 # ==========================================
 # ⚙️ 4. 사이드바 UI 및 메인 리스트 출력
 # ==========================================
-st.sidebar.markdown("## J-PRO")
+st.sidebar.markdown("""
+<div style='margin-bottom: -15px;'>
+    <span style='font-size: 32px; font-weight: 800; color: #1E3A8A; letter-spacing: -1px;'>J-PRO</span>
+</div>
+<div style='margin-bottom: 25px;'>
+    <span style='font-size: 12px; font-weight: 500; color: #64748B; letter-spacing: 2px; text-transform: uppercase;'>Auto Valuation Intelligence</span>
+</div>
+""", unsafe_allow_html=True)
 st.sidebar.markdown("### 🗃️ 데이터 스캔 관리")
 
 with st.sidebar.expander("📁 자사 재고 엑셀 관리", expanded=False):
@@ -688,7 +695,6 @@ if not filtered_df.empty:
 
 st.sidebar.markdown("---")
 
-st.markdown("## J-PRO Valuation Dashboard")
 
 tab_main, tab_sales, tab_inventory, tab_ledger = st.tabs(["📊 시세 조회 및 스캔", "📋 판매 리스트", "📋 재고 리스트", "📋 내 실전 장부 리스트"])
 
