@@ -1,0 +1,1362 @@
+import streamlit as st
+import pandas as pd
+import requests
+import urllib.parse
+import json
+import re
+import os
+import time
+import random
+import math
+from datetime import datetime
+import numpy as np
+import plotly.graph_objects as go
+
+# ==========================================
+# ⚙️ 1. 설정 및 상태 관리
+# ==========================================
+st.set_page_config(page_title="J-PRO Valuation System", page_icon="🏅", layout="wide")
+
+DB_FILE = "jpro_db.csv"
+LEDGER_FILE = "my_car_ledger.csv"
+INVENTORY_FILE = "autoplus_inventory.csv" 
+COOKIE_FILE = "encar_cookie.txt" 
+WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbyFTXuPkC0R9y-UftHOFmJfgBwxycMwqOabhxKVT4bcsBK9gfsscQtGCTohzFiccq71/exec"
+
+def load_cookie():
+    if os.path.exists(COOKIE_FILE):
+        with open(COOKIE_FILE, "r", encoding="utf-8") as f:
+            return f.read().strip()
+    return ""
+
+def save_cookie(cookie_str):
+    with open(COOKIE_FILE, "w", encoding="utf-8") as f:
+        f.write(cookie_str)
+
+if 'inventory_data' not in st.session_state:
+    if os.path.exists(INVENTORY_FILE):
+        try: st.session_state.inventory_data = pd.read_csv(INVENTORY_FILE)
+        except: st.session_state.inventory_data = pd.DataFrame()
+    else: st.session_state.inventory_data = pd.DataFrame()
+
+if 'scan_data' not in st.session_state: st.session_state.scan_data = pd.DataFrame()
+if 'f_status' not in st.session_state: st.session_state.f_status = []
+if 'f_brand' not in st.session_state: st.session_state.f_brand = "전체"
+if 'f_name' not in st.session_state: st.session_state.f_name = "전체"
+if 'f_sub' not in st.session_state: st.session_state.f_sub = "전체"
+if 'my_ledger_data' not in st.session_state:
+    if os.path.exists(LEDGER_FILE):
+        try:
+            st.session_state.my_ledger_data = pd.read_csv(LEDGER_FILE)
+            st.session_state.my_ledger_data['차량번호'] = st.session_state.my_ledger_data['차량번호'].astype(str)
+        except:
+            st.session_state.my_ledger_data = pd.DataFrame(columns=['등록일', '차량번호', '제조사', '차량명', '세부모델', '연식', '주행거리', '매입가', '판매가', '특이사항'])
+    else:
+        st.session_state.my_ledger_data = pd.DataFrame(columns=['등록일', '차량번호', '제조사', '차량명', '세부모델', '연식', '주행거리', '매입가', '판매가', '특이사항'])
+
+if 'option_catalog_cache' not in st.session_state:
+    st.session_state.option_catalog_cache = {}
+
+if 'purchase_route' not in st.session_state:
+    st.session_state.purchase_route = "셀프(기본)"
+
+# 🔥 입력값 초기화를 위한 리셋 키 (에러 해결의 핵심!)
+if 'form_reset_key' not in st.session_state:
+    st.session_state.form_reset_key = 0
+
+if 'save_success' not in st.session_state: st.session_state.save_success = False
+if 'saved_car_num' not in st.session_state: st.session_state.saved_car_num = ""
+
+# ==========================================
+# ⚙️ 2. 데이터 처리 엔진 (띄어쓰기 압착 및 매핑 강화)
+# ==========================================
+class DataProcessor:
+    @staticmethod
+    def infer_brand(car_name):
+        name = str(car_name).strip().upper()
+        if any(x in name for x in ['G70', 'G80', 'G90', 'GV70', 'GV80', 'GV60', '제네시스', 'EQ900']): return "제네시스"
+        elif any(x in name for x in ['쏘나타', '그랜저', '아반떼', '싼타페', '투싼', '팰리세이드', '캐스퍼', '포터', '스타리아', '스타렉스', '코나', '아이오닉', '베뉴']): return "현대"
+        elif any(x in name for x in ['K3', 'K5', 'K7', 'K8', 'K9', '쏘렌토', '스포티지', '카니발', '레이', '모닝', '봉고', '셀토스', '니로', '모하비', 'EV6', 'EV9']): return "기아"
+        elif any(x in name for x in ['스파크', '말리부', '트레일블레이저', '트래버스', '콜로라도', '이쿼녹스', '볼트']): return "쉐보레"
+        elif any(x in name for x in ['SM3', 'SM5', 'SM6', 'QM3', 'QM6', 'XM3']): return "르노코리아"
+        elif any(x in name for x in ['티볼리', '코란도', '렉스턴', '토레스']): return "KG모빌리티"
+        elif any(x in name for x in ['E클래스', 'S클래스', 'C클래스', '벤츠', 'GLC', 'GLE', 'GLA', 'GLB', 'AMG']): return "벤츠"
+        elif any(x in name for x in ['3시리즈', '5시리즈', '7시리즈', 'BMW', 'X3', 'X4', 'X5', 'X6', 'X7', 'M3', 'M4', 'M5']): return "BMW"
+        elif any(x in name for x in ['아우디', 'A4', 'A6', 'A7', 'A8', 'Q5', 'Q7', 'Q8']): return "아우디"
+        elif any(x in name for x in ['렉서스', 'ES', 'RX', 'NX', 'LS']): return "렉서스"
+        elif any(x in name for x in ['볼보', 'XC60', 'XC90', 'S90']): return "볼보"
+        elif any(x in name for x in ['포르쉐', '카이엔', '파나메라', '마칸', '911']): return "포르쉐"
+        elif any(x in name for x in ['미니', 'MINI', '클럽맨', '컨트리맨']): return "미니"
+        elif any(x in name for x in ['포드', '익스플로러', '머스탱']): return "포드"
+        elif any(x in name for x in ['테슬라', '모델3', '모델Y', '모델S', '모델X']): return "테슬라"
+        return "기타"
+
+    @staticmethod
+    def standardize(df):
+        if df.empty: return df
+        df = df.copy()
+        df = df.loc[:, ~df.columns.duplicated()]
+        
+        rename_dict = {}
+        price_candidates = {"할인적용가": 1, "지점판매가": 2, "판매가": 3, "가격": 4, "매입가": 5}
+        best_price_col = None
+        best_price_rank = 99
+        
+        for col in df.columns:
+            clean_col = str(col).replace(" ", "").lower()
+            
+            if "세부모델" in clean_col: rename_dict[col] = "세부모델"
+            elif any(x in clean_col for x in ["제조사", "브랜드", "메이커"]): rename_dict[col] = "제조사"
+            elif any(x in clean_col for x in ["차종", "차량명", "모델"]): rename_dict[col] = "차량명"
+            elif "상태" in clean_col: rename_dict[col] = "상태"
+            elif any(x in clean_col for x in ["등록일", "연식"]): rename_dict[col] = "연식"
+            elif "주행거리" in clean_col: rename_dict[col] = "주행거리"
+            elif any(x in clean_col for x in ["경과일", "재고"]): rename_dict[col] = "재고" 
+            elif "성능" in clean_col: rename_dict[col] = "성능일"
+            elif any(x in clean_col for x in ["url", "링크", "웹페이지", "사이트", "link"]): rename_dict[col] = "링크"
+            
+            for cand, rank in price_candidates.items():
+                if cand in clean_col and rank < best_price_rank:
+                    best_price_col = col
+                    best_price_rank = rank
+                    
+        if best_price_col:
+            rename_dict[best_price_col] = "판매가"
+
+        df = df.rename(columns=rename_dict)
+        df = df.loc[:, ~df.columns.duplicated()]
+        
+        if "차량명" in df.columns:
+            df["차량명"] = df["차량명"].astype(str).str.replace(" ", "", regex=False)
+        if "세부모델" in df.columns:
+            df["세부모델"] = df["세부모델"].astype(str).str.replace(" ", "", regex=False)
+            
+        if "제조사" not in df.columns: df["제조사"] = ""
+        if "차량명" in df.columns:
+            df["제조사"] = df.apply(lambda row: DataProcessor.infer_brand(row["차량명"]) if pd.isna(row["제조사"]) or str(row["제조사"]).strip() == "" else row["제조사"], axis=1)
+        
+        if "_carid" not in df.columns: df["_carid"] = ""
+        df["_carid"] = df["_carid"].astype(str)
+        
+        target_columns = ['상태', '성능일', '링크', '차량명', '세부모델', '연식', '주행거리', '판매가', '재고', '사고유무', '외장컬러', '추가옵션', '제조사', '_carid']
+        for col in target_columns:
+            if col not in df.columns:
+                if col in ['사고유무', '추가옵션', '성능일', '재고', '외장컬러']: df[col] = "-"
+                elif col == '상태': df[col] = "자사재고"
+                else: df[col] = ""
+                
+        df["상태"] = df["상태"].fillna("자사재고").replace("", "자사재고")
+                
+        ordered_df = df[target_columns].copy()
+
+        if "링크" in ordered_df.columns:
+            def fix_url(url):
+                u = str(url).strip()
+                if not u or u.lower() in ["nan", "-", "none", ""] or "javascript" in u.lower(): return None
+                if not u.startswith("http"): return f"https://{u}"
+                return u
+            ordered_df["링크"] = ordered_df["링크"].apply(fix_url)
+
+        if "연식" in ordered_df.columns:
+            def format_year(y):
+                y = str(y).strip()
+                if len(y) >= 7 and y[4] == '-': return y[2:7] 
+                if len(y) == 6 and y.isdigit(): return f"{y[2:4]}-{y[4:6]}" 
+                if len(y) == 4 and y.isdigit(): return y[2:4] 
+                return y
+            ordered_df["연식"] = ordered_df["연식"].apply(format_year)
+            
+        if "주행거리" in ordered_df.columns:
+            ordered_df["주행거리"] = ordered_df["주행거리"].astype(str).str.replace(r'[^\d.]', '', regex=True)
+            ordered_df["주행거리"] = pd.to_numeric(ordered_df["주행거리"], errors='coerce')
+        
+        if "판매가" in ordered_df.columns:
+            ordered_df["판매가"] = ordered_df["판매가"].astype(str).str.replace(r'[^\d.]', '', regex=True)
+            ordered_df["판매가"] = pd.to_numeric(ordered_df["판매가"], errors='coerce')
+            ordered_df["판매가"] = ordered_df["판매가"].apply(lambda x: x / 10000 if pd.notna(x) and x >= 100000 else x)
+            
+            valid_prices = ordered_df["판매가"].dropna()
+            if len(valid_prices) > 10:
+                low_bound = valid_prices.quantile(0.01)
+                high_bound = valid_prices.quantile(0.99)
+                ordered_df = ordered_df[(ordered_df["판매가"].isna()) | ((ordered_df["판매가"] >= low_bound) & (ordered_df["판매가"] <= high_bound))]
+
+        if "재고" in ordered_df.columns:
+            def format_inv(v):
+                v_str = str(v).strip()
+                if v_str.lower() in ['nan', 'none', '', '-']: return "-"
+                try: return str(int(float(v_str)))
+                except: return v_str
+            ordered_df["재고"] = ordered_df["재고"].apply(format_inv)
+
+        ordered_df = ordered_df.fillna("")
+        if "링크" in ordered_df.columns:
+            ordered_df["링크"] = ordered_df["링크"].replace("", None)
+            
+        return ordered_df
+
+# ==========================================
+# ⚙️ 3. 초정밀 데이터 스크래퍼 엔진
+# ==========================================
+class Scraper:
+    @staticmethod
+    def calculate_inventory_days(date_str):
+        try:
+            full_date_str = f"20{date_str}" 
+            delta = datetime.now() - datetime.strptime(full_date_str, "%Y-%m-%d")
+            return str(delta.days)
+        except: return "-"
+
+    @staticmethod
+    def _fetch_json(session, url, ref_id):
+        headers = {"Referer": f"https://fem.encar.com/cars/detail/{ref_id}"}
+        try:
+            res = session.get(url, headers=headers, timeout=5)
+            json_data = None
+            if res.status_code == 200:
+                try: json_data = res.json()
+                except: pass
+            return {"status": res.status_code, "json": json_data}
+        except Exception:
+            return {"status": "error", "json": None}
+
+    @staticmethod
+    def clean_option_name(name):
+        return re.sub(r'\([^)]*\)|\[[^\]]*\]', '', str(name)).strip()
+
+    @staticmethod
+    def fetch_car_detail(session, c_id):
+        perf_date = "⚠️미등록"
+        inv_days = "-"
+        accident_status = "⚠️정보없음"
+        color = "⚠️정보없음"
+        opt_str = "없음"
+        is_rate_limited = False
+
+        v_resp = Scraper._fetch_json(session, f"https://api.encar.com/v1/readside/vehicle/{c_id}?include=MANAGE,OPTIONS,SPEC", c_id)
+        if v_resp["status"] in [403, 429]: return {"성능일": "⚠️조회실패", "재고": "-", "사고유무": "⚠️조회실패", "외장컬러": "⚠️조회실패", "추가옵션": "⚠️조회실패", "is_rate_limited": True}
+        
+        real_id = str(c_id)
+        applied_codes = []
+        
+        if v_resp["status"] == 200 and v_resp["json"]:
+            manage = v_resp["json"].get("manage") or {}
+            spec = v_resp["json"].get("spec") or {}
+            color = spec.get("colorName", "⚠️정보없음")
+            if manage.get("dummy"):
+                real_id = str(manage.get("dummyVehicleId", c_id))
+            applied_codes = v_resp["json"].get("options", {}).get("choice", [])
+
+        i_resp = Scraper._fetch_json(session, f"https://api.encar.com/v1/readside/inspection/vehicle/{real_id}", c_id)
+        if i_resp["status"] in [403, 429]: return {"성능일": "⚠️조회실패", "재고": "-", "사고유무": "⚠️조회실패", "추가옵션": "⚠️조회실패", "is_rate_limited": True}
+        
+        if i_resp["status"] == 200 and i_resp["json"]:
+            master = i_resp["json"].get("master") or {}
+            detail = master.get("detail") or {}
+
+            issue_date = detail.get("issueDate", "")
+            if issue_date and len(issue_date) == 8:
+                perf_date = f"{issue_date[2:4]}-{issue_date[4:6]}-{issue_date[6:8]}"
+                inv_days = Scraper.calculate_inventory_days(perf_date)
+
+            acc = master.get("accdient")
+            rep = master.get("simpleRepair")
+
+            if acc is False and rep is False:
+                accident_status = "✅ 완전무사고"
+            elif acc is None and rep is None:
+                accident_status = "⚠️정보없음"
+            else:
+                flags = []
+                if acc: flags.append("사고")
+                if rep: flags.append("판금")
+                accident_status = f"⚠️ ({'/'.join(flags)})"
+        elif i_resp["status"] == 404:
+            perf_date = "미검사/사진"
+            accident_status = "기록부(사진)"
+
+        exch_cnt = 0
+        sheet_cnt = 0
+        d_resp = Scraper._fetch_json(session, f"https://api.encar.com/v1/readside/diagnosis/vehicle/{real_id}", c_id)
+        if d_resp["status"] == 200 and d_resp["json"]:
+            outers = d_resp["json"].get("outers", []) or []
+            inners = d_resp["json"].get("inners", []) or []
+            all_parts = outers + inners
+            
+            for part in all_parts:
+                status_types = part.get("statusTypes", []) or []
+                codes = [s.get("code", "") for s in status_types if isinstance(s, dict)]
+                if "X" in codes:
+                    exch_cnt += 1
+                elif any(c in codes for c in ["W", "C", "A", "U", "T"]):
+                    sheet_cnt += 1
+                    
+        if exch_cnt > 0 or sheet_cnt > 0:
+            if "기록부(사진)" not in accident_status:
+                accident_status += f" [교환:{exch_cnt} / 판금:{sheet_cnt}]"
+
+        if applied_codes:
+            if c_id not in st.session_state.option_catalog_cache:
+                o_resp = Scraper._fetch_json(session, f"https://api.encar.com/v1/readside/vehicles/car/{c_id}/options/choice", c_id)
+                if o_resp["status"] == 200 and o_resp["json"]:
+                    st.session_state.option_catalog_cache[c_id] = o_resp["json"]
+                elif o_resp["status"] == 404:
+                    opt_str = "없음(구버전점검)" 
+                elif o_resp["status"] in [403, 429]:
+                    opt_str = "⚠️조회실패"
+                    is_rate_limited = True
+                elif o_resp["status"] != 200:
+                    opt_str = "코드매칭실패"
+
+            if opt_str == "없음": 
+                catalog = st.session_state.option_catalog_cache.get(c_id, [])
+                if isinstance(catalog, list) and catalog:
+                    applied_opts = []
+                    for opt in catalog:
+                        if isinstance(opt, dict) and str(opt.get("optionCd", "")) in applied_codes:
+                            name = Scraper.clean_option_name(opt.get("optionName", ""))
+                            price = opt.get("price", 0)
+                            if name and "외장컬러" not in name:
+                                if price > 0: applied_opts.append(f"{name}({price}만)")
+                                else: applied_opts.append(name)
+                    if applied_opts:
+                        opt_str = " / ".join(applied_opts)
+
+        return {
+            "성능일": perf_date,
+            "재고": inv_days,
+            "사고유무": accident_status,
+            "외장컬러": color,
+            "추가옵션": opt_str,
+            "is_rate_limited": is_rate_limited
+        }
+
+    @staticmethod
+    def dedupe_after_scan(df):
+        if df.empty: return df
+        df_copy = df.copy()
+        
+        def calculate_score(row):
+            score = 0
+            if str(row.get('성능일', '')) not in ['⚠️미등록', '미검사/사진', '⚠️조회실패', '-']: score += 1
+            if str(row.get('사고유무', '')) not in ['⚠️정보없음', '기록부(사진)', '⚠️조회실패', '-']: score += 1
+            if str(row.get('추가옵션', '')) not in ['⚠️조회실패', '코드매칭실패', '없음(구버전점검)', '-']: score += 1
+            return score
+
+        df_copy['data_score'] = df_copy.apply(calculate_score, axis=1)
+        deduped = df_copy.sort_values('data_score', ascending=False).drop_duplicates(
+            subset=['차량명', '세부모델', '연식', '주행거리', '판매가'], keep='first'
+        )
+        deduped = deduped.drop(columns=['data_score']).reset_index(drop=True)
+        return deduped
+
+    @staticmethod
+    def run(target_url, custom_cookie, progress_bar, status_text):
+        try:
+            status_text.text("1/3: 실시간 통신 준비...")
+            progress_bar.progress(10)
+            
+            decoded_url = urllib.parse.unquote_plus(target_url.strip())
+            condition = ""
+            json_match = re.search(r'#!(\{.*\})', decoded_url)
+            if json_match:
+                try: condition = json.loads(json_match.group(1)).get("action", "")
+                except: pass
+                    
+            if not condition:
+                match = re.search(r'"action"\s*:\s*"([^"]+)"', decoded_url)
+                if match: condition = match.group(1).encode('ascii', 'backslashreplace').decode('unicode_escape') if r'\u' in match.group(1) else match.group(1)
+                elif 'q=' in decoded_url: 
+                    try: condition = decoded_url.split('q=')[1].split('&')[0]
+                    except: pass
+
+            if not condition: return pd.DataFrame(), "❌ URL 검색 조건 누락"
+                
+            safe_condition = urllib.parse.quote(condition)
+            api_url = f"https://api.encar.com/search/car/list/general?count=false&q={safe_condition}&sr=%7CModifiedDate%7C0%7C100"
+            
+            session = requests.Session()
+            headers = {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+                "Accept": "application/json, text/plain, */*",
+                "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
+                "Origin": "https://fem.encar.com",
+            }
+            if custom_cookie: headers["Cookie"] = custom_cookie
+            session.headers.update(headers)
+
+            cars_res = session.get(api_url).json()
+            cars = cars_res.get("SearchResults", [])
+            if not cars: return pd.DataFrame(), "❌ 매물 없음"
+
+            car_data_list = []
+            for car in cars:
+                if car.get("Price", 0) <= 0: continue
+                
+                sell_type = str(car.get("SellType", ""))
+                if "렌트" in sell_type or "리스" in sell_type: continue
+                if car.get("LeaseType"): continue 
+                
+                badge_group = car.get('BadgeGroup', '')
+                badge = car.get('Badge', '')
+                badge_detail = car.get('BadgeDetail', '')
+                
+                parts = []
+                if badge_group: parts.append(badge_group)
+                if badge and badge not in parts: parts.append(badge)
+                if badge_detail and badge_detail not in parts: parts.append(badge_detail)
+                
+                sub_model_full = " ".join(parts).strip()
+
+                reg_year = str(car.get("Year", ""))
+                form_year = str(car.get("FormYear", ""))
+                if len(reg_year) >= 4:
+                    year_str = f"{reg_year[2:4]}({form_year[2:] if len(form_year)==4 else form_year})"
+                else:
+                    year_str = f"{reg_year}({form_year})"
+
+                car_data_list.append({
+                    "상태": "실시간", "제조사": car.get('Manufacturer', '').strip(),
+                    "차량명": car.get('Model', '').strip(), "세부모델": sub_model_full, 
+                    "연식": year_str, "주행거리": car.get("Mileage", 0),
+                    "판매가": car.get("Price", 0), "성능일": "-", "재고": "-",
+                    "사고유무": "-", "외장컬러": "-", "추가옵션": "-",
+                    "링크": f"http://www.encar.com/dc/dc_cardetailview.do?carid={car.get('Id', '')}",
+                    "_carid": str(car.get('Id', ''))
+                })
+            
+            total_cars = len(car_data_list)
+            consecutive_failures = 0
+            
+            for idx, car in enumerate(car_data_list):
+                status_text.text(f"2/3: 쾌속 정밀 스캔 중... ({idx+1}/{total_cars}대)")
+                progress_bar.progress(10 + int(80 * (idx + 1) / total_cars))
+                
+                res = Scraper.fetch_car_detail(session, car["_carid"])
+                
+                car["성능일"] = res["성능일"]
+                car["재고"] = res["재고"]
+                car["사고유무"] = res["사고유무"]
+                car["외장컬러"] = res.get("외장컬러", "-")
+                car["추가옵션"] = res["추가옵션"]
+
+                if res.get("is_rate_limited"):
+                    consecutive_failures += 1
+                    if consecutive_failures >= 5:
+                        status_text.text("⚠️ 엔카 방어막 감지! 15초간 보안 대기합니다...")
+                        time.sleep(15.0)
+                        consecutive_failures = 0
+                else:
+                    consecutive_failures = 0
+                    
+                time.sleep(random.uniform(0.01, 0.05))
+
+            status_text.text("3/3: 스캔 완료. 스마트 데이터 취합 중...")
+            raw_df = pd.DataFrame(car_data_list)
+            deduped_df = Scraper.dedupe_after_scan(raw_df)
+
+            progress_bar.progress(100)
+            status_text.text("✅ 스캔 및 최적화 완전 성공!")
+            return DataProcessor.standardize(deduped_df), "success"
+        except Exception as e:
+            return pd.DataFrame(), f"❌ 에러: {str(e)}"
+
+    @staticmethod
+    def rescan(failed_indices, custom_cookie, progress_bar, status_text):
+        session = requests.Session()
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            "Accept": "application/json, text/plain, */*",
+            "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
+            "Origin": "https://fem.encar.com",
+        }
+        if custom_cookie: headers["Cookie"] = custom_cookie
+        session.headers.update(headers)
+        
+        consecutive_failures = 0
+        total_cars = len(failed_indices)
+        
+        for i, idx in enumerate(failed_indices):
+            status_text.text(f"♻️ 실패 매물 원터치 재스캔... ({i+1}/{total_cars}대)")
+            progress_bar.progress(int(100 * (i + 1) / total_cars))
+            
+            time.sleep(random.uniform(0.05, 0.1)) 
+            
+            c_id = st.session_state.scan_data.loc[idx, '_carid']
+            res = Scraper.fetch_car_detail(session, c_id)
+            
+            st.session_state.scan_data.loc[idx, '성능일'] = res["성능일"]
+            st.session_state.scan_data.loc[idx, '재고'] = res["재고"]
+            st.session_state.scan_data.loc[idx, '사고유무'] = res["사고유무"]
+            st.session_state.scan_data.loc[idx, '추가옵션'] = res["추가옵션"]
+            
+            if res.get("is_rate_limited"):
+                consecutive_failures += 1
+                if consecutive_failures >= 5:
+                    status_text.text("⚠️ 보안 대기 중 (15초)...")
+                    time.sleep(15.0)
+                    consecutive_failures = 0
+            else:
+                consecutive_failures = 0
+                
+        status_text.text("✅ 재스캔 완료!")
+
+# ==========================================
+# ⚙️ 4. 사이드바 UI 및 메인 리스트 출력
+# ==========================================
+# ⚙️ 4. 사이드바 UI 및 메인 리스트 출력
+# ==========================================
+st.sidebar.markdown("## J-PRO")
+st.sidebar.markdown("### 🗃️ 데이터 스캔 관리")
+
+with st.sidebar.expander("📁 자사 재고 엑셀 관리", expanded=False):
+    uploaded_files = st.file_uploader("자사 재고 엑셀 업로드", type=['xlsx', 'xls', 'csv'], accept_multiple_files=True, label_visibility="collapsed")
+    if st.button("📁 엑셀 병합 및 DB 저장", use_container_width=True):
+        if uploaded_files:
+            new_dfs = []
+            for uf in uploaded_files:
+                try: new_dfs.append(pd.read_excel(uf) if uf.name.endswith(('xls', 'xlsx')) else pd.read_csv(uf))
+                except: pass
+            if new_dfs:
+                merged_df = pd.concat(new_dfs, ignore_index=True)
+                if not st.session_state.inventory_data.empty:
+                    st.session_state.inventory_data = pd.concat([st.session_state.inventory_data, merged_df])
+                else:
+                    st.session_state.inventory_data = merged_df
+                
+                if '차량번호' in st.session_state.inventory_data.columns:
+                    st.session_state.inventory_data = st.session_state.inventory_data.drop_duplicates(subset=['차량번호'], keep='last')
+                st.session_state.inventory_data.to_csv(INVENTORY_FILE, index=False, encoding='utf-8-sig')
+                st.rerun()
+
+    if st.button("🗑️ 저장된 엑셀 DB 지우기", use_container_width=True):
+        st.session_state.inventory_data = pd.DataFrame()
+        if os.path.exists(INVENTORY_FILE): os.remove(INVENTORY_FILE)
+        st.rerun()
+
+scan_url = st.sidebar.text_input("엔카 정밀 스캔 URL 입력:", key=f"scan_url_{st.session_state.form_reset_key}", label_visibility="collapsed", placeholder="엔카 URL 붙여넣기")
+    
+if st.sidebar.button("🚀 실시간 엔카 스캔", use_container_width=True):
+    if scan_url:
+        p_bar, s_text = st.progress(0), st.empty()
+        new_scan_df, msg = Scraper.run(scan_url, "", p_bar, s_text)
+        if msg == "success":
+            st.session_state.scan_data = pd.concat([st.session_state.scan_data, new_scan_df], ignore_index=True)
+            st.session_state.scan_data = st.session_state.scan_data.drop_duplicates(subset=['_carid'], keep='last').reset_index(drop=True)
+            
+            if not new_scan_df.empty:
+                st.session_state.f_brand = new_scan_df['제조사'].iloc[0] if '제조사' in new_scan_df.columns else "전체"
+                st.session_state.f_name = new_scan_df['차량명'].iloc[0]
+                st.session_state.f_sub = new_scan_df['세부모델'].iloc[0]
+                st.session_state.f_status = [] 
+            st.rerun()
+        else: s_text.error(msg)
+        
+btn_col1, btn_col2 = st.sidebar.columns(2)
+with btn_col1:
+    if st.button("스캔 초기화", use_container_width=True): 
+        st.session_state.scan_data = pd.DataFrame()
+        st.session_state.f_brand = "전체"
+        st.session_state.f_name = "전체"
+        st.session_state.f_sub = "전체"
+        st.rerun()
+with btn_col2:
+    kcar_search_text = ""
+    f_name = st.session_state.get('f_name', '전체')
+    f_sub = st.session_state.get('f_sub', '전체')
+    
+    if f_name != "전체":
+        import re
+        
+        # 괄호 제거 후 띄어쓰기 모두 없앰 (Kcar는 띄어쓰기 없는게 검색 더 잘됨)
+        kcar_name_clean = re.sub(r'\(.*?\)', '', str(f_name)).replace(" ", "").strip()
+        kcar_parts = [kcar_name_clean]
+        
+        if f_sub != "전체":
+            # 세부모델의 괄호 제거
+            kcar_sub_clean = re.sub(r'\(.*?\)', '', str(f_sub)).strip()
+            # KCar는 영문과 숫자 사이 띄어쓰기를 인식하는 경우가 많음 (예: VX 2WD)
+            kcar_sub_clean = re.sub(r'([A-Za-z])(\d)', r'\1 \2', kcar_sub_clean).strip()
+            if kcar_sub_clean:
+                kcar_parts.append(kcar_sub_clean)
+                
+        kcar_search_text = " ".join(kcar_parts)
+        
+    if kcar_search_text:
+        import urllib.parse, json
+        # KCar의 현재 검색 파라미터 규격에 맞춤
+        cond = {"wr_txt_idx": kcar_search_text}
+        cond_str = json.dumps(cond, separators=(',', ':'))
+        kcar_url = f"https://www.kcar.com/bc/search?searchCond={urllib.parse.quote(cond_str)}"
+    else:
+        kcar_url = "https://www.kcar.com/bc/search"
+    st.link_button("🔎 KCAR", kcar_url, use_container_width=True)
+
+if not st.session_state.scan_data.empty:
+    failed_mask = st.session_state.scan_data['성능일'].astype(str).str.contains("조회실패") | \
+                  st.session_state.scan_data['사고유무'].astype(str).str.contains("조회실패") | \
+                  st.session_state.scan_data['추가옵션'].astype(str).str.contains("조회실패")
+    failed_count = failed_mask.sum()
+    
+    if failed_count > 0:
+        st.markdown("---")
+        st.warning(f"⚠️ 조회실패 차량: {failed_count}대")
+        if st.sidebar.button("♻️ 실패 차량만 재스캔", use_container_width=True):
+            p_bar, s_text = st.progress(0), st.empty()
+            failed_indices = st.session_state.scan_data[failed_mask].index
+            Scraper.rescan(failed_indices, "", p_bar, s_text)
+            st.rerun()
+
+st.sidebar.markdown(f"**총 스캔 대수: {len(st.session_state.scan_data)} 대**")
+
+st.sidebar.markdown("### 🔍 상세 검색 필터")
+filtered_df = st.session_state.scan_data.copy()
+filtered_df = DataProcessor.standardize(filtered_df)
+
+current_f_year = ""
+current_f_mil = 0
+
+if not filtered_df.empty:
+        f_brand_opts = ["전체"] + list(filtered_df['제조사'].dropna().unique())
+        if st.session_state.f_brand not in f_brand_opts: st.session_state.f_brand = "전체"
+        st.session_state.f_brand = st.sidebar.selectbox("제조사/브랜드", f_brand_opts, index=f_brand_opts.index(st.session_state.f_brand))
+        if st.session_state.f_brand != "전체": 
+            filtered_df = filtered_df[filtered_df['제조사'] == st.session_state.f_brand]
+
+        def get_smart_sort_key(name):
+            name_str = str(name)
+            core_models = ['그랜저', '싼타페', '아반떼', '쏘나타', '투싼', '팰리세이드', '스타리아', '스타렉스',
+                           'K3', 'K5', 'K7', 'K8', 'K9', '쏘렌토', '스포티지', '카니발', '모닝', '레이',
+                           '제네시스', 'G70', 'G80', 'G90', 'GV70', 'GV80', 'GV60',
+                           '스파크', '말리부', '트레일블레이저', 'SM3', 'SM5', 'SM6', 'QM3', 'QM6', 'XM3',
+                           '티볼리', '코란도', '렉스턴', '토레스', 'E클래스', 'S클래스', 'C클래스', '5시리즈', '3시리즈', '7시리즈']
+            for core in core_models:
+                if core in name_str: return f"{core}_{name_str}"
+            return name_str
+
+        raw_names = set(filtered_df['차량명'].dropna().unique())
+        if 'inventory_data' in st.session_state and not st.session_state.inventory_data.empty:
+            raw_names.update(st.session_state.inventory_data['차량명'].dropna().unique())
+        
+        sorted_names = sorted(list(raw_names), key=get_smart_sort_key)
+        f_name_opts = ["전체"] + sorted_names
+        
+        if st.session_state.f_name not in f_name_opts: st.session_state.f_name = "전체"
+        st.session_state.f_name = st.sidebar.selectbox("차량명", f_name_opts, index=f_name_opts.index(st.session_state.f_name))
+        
+        if st.session_state.f_name != "전체": 
+            # 엔카 데이터도 띄어쓰기 무시 필터 적용
+            name_clean_f = str(st.session_state.f_name).replace(" ", "").lower()
+            filtered_df = filtered_df[filtered_df['차량명'].astype(str).str.replace(" ", "").str.lower().str.contains(name_clean_f, na=False, regex=False)]
+        
+        raw_subs = set(filtered_df['세부모델'].dropna().unique())
+        if 'inventory_data' in st.session_state and not st.session_state.inventory_data.empty:
+            if '세부모델' in st.session_state.inventory_data.columns:
+                inv_df_filtered = st.session_state.inventory_data
+                if st.session_state.f_name != "전체":
+                    name_clean_f = str(st.session_state.f_name).replace(" ", "").lower()
+                    full_names = inv_df_filtered['차량명'].astype(str) + " " + inv_df_filtered['세부모델'].astype(str)
+                    full_names_clean = full_names.str.replace(" ", "").str.lower()
+                    inv_df_filtered = inv_df_filtered[full_names_clean.str.contains(name_clean_f, na=False, regex=False)]
+                raw_subs.update(inv_df_filtered['세부모델'].dropna().unique())
+        
+        f_sub_opts = ["전체"] + sorted(list(raw_subs))
+        if st.session_state.f_sub not in f_sub_opts: st.session_state.f_sub = "전체"
+        st.session_state.f_sub = st.sidebar.selectbox("세부모델", f_sub_opts, index=f_sub_opts.index(st.session_state.f_sub))
+        
+        if st.session_state.f_sub != "전체": 
+            # 엔카 데이터도 띄어쓰기 무시 + 단어별 필터 적용
+            sub_parts = str(st.session_state.f_sub).split()
+            encar_sub_clean = filtered_df['세부모델'].astype(str).str.replace(" ", "").str.lower()
+            for part in sub_parts:
+                part_clean = part.replace(" ", "").lower()
+                filtered_df = filtered_df[encar_sub_clean.str.contains(part_clean, na=False, regex=False)]
+                encar_sub_clean = encar_sub_clean[filtered_df.index]
+        
+        current_f_year = st.sidebar.text_input("연식 검색 (예: 24)", key=f"search_year_{st.session_state.form_reset_key}")
+        if current_f_year: filtered_df = filtered_df[filtered_df['연식'].astype(str).str.contains(current_f_year)]
+        
+        if "주행거리" in filtered_df.columns:
+            filtered_df["주행거리"] = pd.to_numeric(filtered_df["주행거리"], errors='coerce').fillna(0)
+            max_mil = int(filtered_df["주행거리"].max()) if not filtered_df.empty else 0
+            if max_mil > 0:
+                current_f_mil = st.sidebar.slider("📈 시세분석용 주행거리 이하 (km)", 0, max_mil, max_mil, step=1000)
+
+        if "재고" in filtered_df.columns:
+            filtered_df['_sort_inv'] = pd.to_numeric(filtered_df['재고'], errors='coerce').fillna(99999)
+            filtered_df = filtered_df.sort_values(by='_sort_inv', ascending=True).drop(columns=['_sort_inv']).reset_index(drop=True)
+
+st.sidebar.markdown("---")
+
+st.markdown("## J-PRO Valuation Dashboard")
+
+tab_main, tab_sales, tab_inventory, tab_ledger = st.tabs(["📊 시세 조회 및 스캔", "📋 판매 리스트", "📋 재고 리스트", "📋 내 실전 장부 리스트"])
+
+with tab_main:
+    # ==========================================
+    # 📝 실시간 장부 자동 계산기 (리얼타임 반응형)
+    # ==========================================
+    st.sidebar.markdown("### 📝 장부 관리")
+
+    if st.session_state.save_success:
+        st.sidebar.success(f"✅ {st.session_state.saved_car_num} 장부 및 구글시트 저장 완료!")
+        st.session_state.save_success = False
+
+    # 🔥 폼 입력칸들에 동적 키(form_reset_key)를 부여하여, 저장 시 에러 없이 통째로 교체되게 만듦
+    reset_idx = st.session_state.form_reset_key
+
+    l_car_num = st.sidebar.text_input("차량번호 (필수)", key=f"car_num_{reset_idx}")
+    l_mil = st.sidebar.number_input("주행거리 (km)", min_value=0, step=1000, key=f"mil_{reset_idx}")
+
+    st.sidebar.markdown("---")
+
+    l_sell_price = st.sidebar.number_input("판매가 (예상, 만원)", min_value=0, step=10, key=f"sell_{reset_idx}")
+    l_ext_repair = st.sidebar.number_input("외판 수리 갯수", min_value=0, step=1, format="%d", key=f"ext_{reset_idx}")
+
+    route_options = ["셀프(기본)", "제로", "개인"]
+    def update_route():
+        st.session_state.purchase_route = st.session_state._route_selector
+
+    l_route = st.sidebar.radio("매입 경로", route_options, index=route_options.index(st.session_state.purchase_route), key="_route_selector", on_change=update_route)
+
+    l_manual_fee = 0
+    if l_route == "개인":
+        l_manual_fee = st.sidebar.number_input("매입 수수료 (직접입력, 만원)", min_value=0, step=1, key=f"man_{reset_idx}")
+
+    l_margin = st.sidebar.number_input("목표 마진 (만원)", min_value=0, step=10, value=120, key="margin_key")
+
+    name_val = st.session_state.f_name if st.session_state.f_name != "전체" else ""
+    is_light_car = any(x in name_val for x in ["모닝", "레이", "스파크", "마티즈", "캐스퍼", "티코"])
+
+    selling_fee = l_sell_price * 0.007
+    misc_cost = 15
+    ext_cost = l_ext_repair * 13
+
+    first_target = l_sell_price - selling_fee - misc_cost - ext_cost - l_margin
+    purchase_fee = 0
+
+    if l_route == "셀프(기본)":
+        if first_target <= 100: purchase_fee = 7.5
+        elif first_target <= 500: purchase_fee = 18.5
+        elif first_target <= 1000: purchase_fee = 19.0 if is_light_car else 24.5
+        elif first_target <= 3000: purchase_fee = 25.0
+        else: purchase_fee = 36.0
+    elif l_route == "제로":
+        if first_target <= 100: purchase_fee = 14.0
+        elif first_target <= 500: purchase_fee = 30.0
+        elif first_target <= 1000: purchase_fee = 30.5 if is_light_car else 36.5
+        elif first_target <= 1500: purchase_fee = 36.5
+        elif first_target <= 3000: purchase_fee = 39.5
+        elif first_target <= 4000: purchase_fee = 47.5
+        else: purchase_fee = 50.5
+    elif l_route == "개인":
+        purchase_fee = l_manual_fee
+
+    final_target_raw = first_target - purchase_fee
+    final_target = int(math.floor(final_target_raw))
+
+    st.sidebar.markdown("---")
+    if l_sell_price > 0:
+        html_content = f"""
+        <div style="background-color: #d1e7dd; border: 1px solid #badbcc; padding: 15px; border-radius: 8px; color: #0f5132; margin-bottom: 15px;">
+            <div style="font-size: 1.1em; font-weight: bold; margin-bottom: 5px;">✅ 권장 입찰가(매입가)</div>
+            <div style="font-size: 2.3em; font-weight: 900; text-align: right; margin-bottom: 15px; color: #0a3622;">
+                {final_target:,} <span style="font-size: 0.6em; font-weight: normal;">만원</span>
+            </div>
+            <div style="font-size: 0.9em; text-align: right; color: #146c43;">
+                (수수료: {purchase_fee:g}만 / 수리비: {ext_cost:g}만)
+            </div>
+        </div>
+        """
+        st.sidebar.markdown(html_content, unsafe_allow_html=True)
+    else:
+        st.sidebar.info("💡 판매가를 입력하시면 매입가가 자동 계산됩니다.")
+
+    l_memo = st.sidebar.text_area("특이사항 / 메모", height=80, key=f"memo_{reset_idx}")
+
+    if st.sidebar.button("💾 내 장부 및 구글시트에 저장", use_container_width=True):
+        if not l_car_num:
+            st.sidebar.error("⚠️ 차량번호 필수")
+        else:
+            brand_val = st.session_state.f_brand if st.session_state.f_brand != "전체" else ""
+            sub_val = st.session_state.f_sub if st.session_state.f_sub != "전체" else ""
+            year_val = current_f_year if current_f_year else ""
+
+            new_record = {
+                '등록일': datetime.now().strftime("%y-%m-%d"), 
+                '차량번호': l_car_num, 
+                '제조사': brand_val,
+                '차량명': name_val,
+                '세부모델': sub_val,
+                '연식': year_val,
+                '주행거리': f"{l_mil:,} km" if l_mil > 0 else "", 
+                '매입가': final_target if l_sell_price > 0 else "", 
+                '판매가': l_sell_price if l_sell_price > 0 else "", 
+                '특이사항': f"[{st.session_state.purchase_route}] " + l_memo
+            }
+            st.session_state.my_ledger_data = pd.concat([st.session_state.my_ledger_data, pd.DataFrame([new_record])], ignore_index=True)
+            st.session_state.my_ledger_data.to_csv(LEDGER_FILE, index=False, encoding='utf-8-sig')
+        
+            try:
+                response = requests.post(WEBHOOK_URL, json=new_record, timeout=5)
+                response.raise_for_status()
+            except Exception as e:
+                print(f"🔥 구글 시트 웹훅 전송 실패: {e}")
+
+            st.session_state.save_success = True
+            st.session_state.saved_car_num = l_car_num
+            st.session_state.form_reset_key += 1
+        
+            st.rerun()
+
+
+    # Top Metrics
+    chart_base = filtered_df.copy()
+    if current_f_mil > 0 and '주행거리' in chart_base.columns:
+        chart_base = chart_base[chart_base['주행거리'] <= current_f_mil]
+
+    if not chart_base.empty and '판매가' in chart_base.columns:
+        valid_prices = pd.to_numeric(chart_base['판매가'], errors='coerce').dropna()
+    else:
+        valid_prices = pd.Series(dtype=float)
+        
+    total_count = len(chart_base)
+    min_price = int(valid_prices.min()) if not valid_prices.empty else 0
+    max_price = int(valid_prices.max()) if not valid_prices.empty else 0
+    avg_price = int(valid_prices.mean()) if not valid_prices.empty else 0
+
+    metrics_html = f"""
+    <style>
+    .metric-card {{
+        background-color: white;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        border: 1px solid #eee;
+    }}
+    .metric-icon {{
+        font-size: 2em;
+        background: #f0f2f6;
+        padding: 10px;
+        border-radius: 10px;
+    }}
+    .metric-content h4 {{
+        margin: 0;
+        font-size: 0.9em;
+        color: #666;
+    }}
+    .metric-content h2 {{
+        margin: 5px 0 0 0;
+        font-size: 1.8em;
+        color: #333;
+    }}
+    </style>
+    <div style='display: flex; gap: 20px; margin-top: 15px;'>
+        <div class='metric-card' style='flex: 1;'>
+            <div class='metric-icon'>🚙</div>
+            <div class='metric-content'><h4>총 매물 수</h4><h2>{total_count} 대</h2></div>
+        </div>
+        <div class='metric-card' style='flex: 1;'>
+            <div class='metric-icon'>⬇️</div>
+            <div class='metric-content'><h4>최저가</h4><h2 style='color: #0066cc;'>{min_price:,} 만원 <span style='font-size: 0.6em'>⬇️</span></h2></div>
+        </div>
+        <div class='metric-card' style='flex: 1;'>
+            <div class='metric-icon'>⬆️</div>
+            <div class='metric-content'><h4>최고가</h4><h2 style='color: #cc0000;'>{max_price:,} 만원 <span style='font-size: 0.6em'>⬆️</span></h2></div>
+        </div>
+        <div class='metric-card' style='flex: 1;'>
+            <div class='metric-icon'>📊</div>
+            <div class='metric-content'><h4>평균가</h4><h2>{avg_price:,} 만원</h2></div>
+        </div>
+    </div>
+    """
+    st.markdown(metrics_html, unsafe_allow_html=True)
+
+    st.markdown("---")
+
+    if not filtered_df.empty:
+        main_col1, main_col2 = st.columns([6.5, 3.5])
+
+        with main_col1:
+            st.markdown("#### 📊 시세 스캔 리스트")
+            display_df = filtered_df.copy()
+
+            def summarize_options(opt_str):
+                if not opt_str or opt_str in ("없음", "-", "없음(구버전점검)", "⚠️조회실패", "코드매칭실패"):
+                    return opt_str
+                items = [o.strip() for o in str(opt_str).split(" / ") if o.strip()]
+                return f"{len(items)}개 옵션"
+
+            display_df["추가옵션_요약"] = display_df["추가옵션"].apply(summarize_options)
+    
+            def make_link_name(row):
+                if pd.notna(row.get('링크')) and str(row.get('링크')).startswith('http'):
+                    return f"{row['링크']}&_n={row['차량명']}"
+                return row['차량명']
+            display_df["차량명_링크"] = display_df.apply(make_link_name, axis=1)
+
+            try:
+                styled_df = display_df.style.set_properties(
+                    subset=[c for c in ['주행거리', '판매가'] if c in display_df.columns],
+                    **{'font-size': '1.1em', 'font-weight': 'bold'}
+                ).format(precision=0)
+
+                event = st.dataframe(
+                    styled_df,
+                    column_config={
+                        "상태": st.column_config.TextColumn("상태", width=70),
+                        "성능일": st.column_config.TextColumn("성능일", width=70),
+                        "제조사": st.column_config.TextColumn("제조사", width=50),
+                        "차량명": None,
+                        "차량명_링크": st.column_config.LinkColumn("차량명", display_text=r"&_n=(.*)$", width=110),
+                        "세부모델": st.column_config.TextColumn("세부모델", width=140),
+                        "연식": st.column_config.TextColumn("연식", width=50),
+                        "주행거리": st.column_config.NumberColumn("주행거리", format="%d km"), 
+                        "판매가": st.column_config.NumberColumn("판매가", format="%d 만", width=60),
+                        "재고": st.column_config.TextColumn("재고", width=50),
+                        "사고유무": st.column_config.TextColumn("사고유무", width=180),
+                        "외장컬러": st.column_config.TextColumn("색상", width=50),
+                        "추가옵션": None,
+                        "추가옵션_요약": st.column_config.TextColumn("옵션", width=80),
+                        "링크": None,
+                        "_carid": None
+                    },
+                    column_order=["상태", "성능일", "차량명_링크", "세부모델", "연식", "주행거리", "판매가", "재고", "사고유무", "외장컬러", "추가옵션_요약", "제조사"],
+                    use_container_width=True,
+                    height=750,  
+                    hide_index=True,
+                    on_select="rerun",
+                    selection_mode="single-row",
+                )
+            except Exception as e:
+                event = st.dataframe(display_df, use_container_width=True, height=750, hide_index=True)
+
+        with main_col2:
+            st.markdown("#### 🚘 상세 스펙 및 옵션")
+            selected_rows = event.selection.rows if hasattr(event, "selection") else []
+    
+            if selected_rows:
+                sel_idx = selected_rows[0]
+                row = filtered_df.iloc[sel_idx]
+        
+                def get_damage_info(carid):
+                    import requests
+                    try:
+                        if not carid: return {}
+                        headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)", "Referer": f"https://fem.encar.com/cars/detail/{carid}"}
+                        v_url = f"https://api.encar.com/v1/readside/vehicle/{carid}?include=MANAGE"
+                        v_resp = requests.get(v_url, headers=headers, timeout=5)
+                        real_id = str(carid)
+                        if v_resp.status_code == 200:
+                            manage = v_resp.json().get("manage") or {}
+                            if manage.get("dummy"):
+                                real_id = str(manage.get("dummyVehicleId", carid))
+
+                        d_url = f"https://api.encar.com/v1/readside/diagnosis/vehicle/{real_id}"
+                        d_resp = requests.get(d_url, headers=headers, timeout=5)
+                
+                        if d_resp.status_code != 200:
+                            d_url = f"https://api.encar.com/v1/readside/inspection/vehicle/{real_id}"
+                            d_resp = requests.get(d_url, headers=headers, timeout=5)
+                    
+                        if d_resp.status_code != 200:
+                            return {}
+
+                        d_json = d_resp.json()
+                        all_parts = (d_json.get("outers", []) or []) + (d_json.get("inners", []) or [])
+
+                        damage_dict = {}
+                        for part in all_parts:
+                            part_type = part.get("type", {}) or {}
+                            name = part_type.get("title", "")
+                            status_types = part.get("statusTypes", []) or []
+                            codes = [s.get("code", "") for s in status_types if isinstance(s, dict)]
+
+                            if not name:
+                                continue
+                            if "X" in codes:
+                                damage_dict[name] = "교환"
+                            elif any(c in codes for c in ["W", "C", "A", "U", "T"]):
+                                damage_dict[name] = "판금"
+                            else:
+                                damage_dict[name] = "정상"
+                        return damage_dict
+                    except Exception:
+                        return {}
+
+
+                PART_COORDS_OUTER = [
+                    (("후드",),                55, 20,  110, 55, "후드", "후드"),
+                    (("프론트","휀더","좌"),    15, 25,  35, 65, "F휀", "프론트 휀더(좌)"),
+                    (("프론트","휀더","우"),   170, 25,  35, 65, "F휀", "프론트 휀더(우)"),
+                    (("프론트","도어","좌"),    10, 100, 40, 60, "F도", "프론트 도어(좌)"),
+                    (("프론트","도어","우"),   170, 100, 40, 60, "F도", "프론트 도어(우)"),
+                    (("리어","도어","좌"),      10, 165, 40, 60, "R도", "리어 도어(좌)"),
+                    (("리어","도어","우"),     170, 165, 40, 60, "R도", "리어 도어(우)"),
+                    (("쿼터","좌"),             10, 230, 40, 60, "쿼터", "쿼터 패널(리어펜더)(좌)"),
+                    (("쿼터","우"),            170, 230, 40, 60, "쿼터", "쿼터 패널(리어펜더)(우)"),
+                    (("루프",),                 55, 80,  110, 145, "루프", "루프"),
+                    (("트렁크","리드"),         55, 230, 110, 60, "TR", "트렁크리드"),
+                ]
+
+                PART_COORDS_INNER = [
+                    (("프론트","사이드","멤버","좌"), 10, 30,  40, 55, "F멤", "프론트 사이드멤버(좌)"),
+                    (("프론트","사이드","멤버","우"),170, 30,  40, 55, "F멤", "프론트 사이드멤버(우)"),
+                    (("크로스","멤버"),               55, 30,  110, 30, "크로스", "크로스멤버"),
+                    (("라디에이터","서포트"),         55, 65,  110, 30, "R.S", "라디에이터 서포트"),
+                    (("인사이드","패널","좌"),        10, 100, 40, 120, "I패", "인사이드 패널(좌)"),
+                    (("인사이드","패널","우"),       170, 100, 40, 120, "I패", "인사이드 패널(우)"),
+                    (("리어","사이드","멤버","좌"),   10, 230, 40, 60, "R멤", "리어 사이드멤버(좌)"),
+                    (("리어","사이드","멤버","우"),  170, 230, 40, 60, "R멤", "리어 사이드멤버(우)"),
+                    (("트렁크","플로어"),             55, 230, 110, 60, "T플", "트렁크 플로어"),
+                ]
+
+                STATUS_COLOR = {
+                    "교환": "#ff4d4d",       # X
+                    "판금": "#ffdd57",       # W/C/A/U/T
+                    "정상": "#e2e8f0",
+                }
+
+                def find_status(damage_data, *keywords):
+                    for name, status in damage_data.items():
+                        if all(k in name for k in keywords):
+                            return status
+                    return "정상"
+
+                def render_panel_svg(damage_data, coords, panel_title):
+                    shapes = ""
+                    for keywords, x, y, w, h, short_label, full_label in coords:
+                        status = find_status(damage_data, *keywords)
+                        color = STATUS_COLOR.get(status, "#e2e8f0")
+                        tx, ty = x + w / 2, y + h / 2
+                        shapes += f"""<g>
+    <title>{full_label} : {status}</title>
+    <rect x="{x}" y="{y}" width="{w}" height="{h}" rx="6" fill="{color}" stroke="#64748b" stroke-width="1.2"/>
+    <text x="{tx}" y="{ty}" text-anchor="middle" dominant-baseline="middle" font-size="10" fill="#333">{short_label}</text>
+    </g>"""
+
+                    return f"""
+    <div style="text-align:center;">
+      <div style="font-weight:bold; margin-bottom:6px; color:#555;">{panel_title}</div>
+      <svg viewBox="0 0 220 340" style="width:100%; max-width:250px;">
+        <rect x="15" y="10" width="190" height="320" rx="30" fill="#f8fafc" stroke="#94a3b8" stroke-width="1"/>
+        {shapes}
+      </svg>
+    </div>
+    """
+
+                def render_car_diagram(damage_data):
+                    outer_html = render_panel_svg(damage_data, PART_COORDS_OUTER, "외판")
+                    inner_html = render_panel_svg(damage_data, PART_COORDS_INNER, "주요골격")
+
+                    svg = f"""
+    <div style='background-color: white; border-radius: 10px; padding: 20px; border: 1px solid #ddd; box-shadow: 0 4px 6px rgba(0,0,0,0.05);'>
+    <h4 style='color: #555; text-align:center; margin-bottom: 15px;'>🚨 성능기록부 사고 부위 오버레이</h4>
+    <div style="display:flex; justify-content:space-around; gap:10px;">
+      {outer_html}
+      {inner_html}
+    </div>
+    <div style='margin-top: 15px; font-size: 0.9em; color: #666; text-align:center;'>
+    <span style='margin-right: 10px;'><span style='color: #ff4d4d;'>■</span> 교환</span>
+    <span style='margin-right: 10px;'><span style='color: #ffdd57;'>■</span> 판금/부식/흠집/요철/손상</span>
+    <span><span style='color: #e2e8f0;'>■</span> 정상</span>
+    </div>
+    </div>
+    """
+                    return svg
+
+                def format_num(val):
+                    try: 
+                        if pd.isna(val) or str(val).strip() == "": return "-"
+                        return f"{int(float(val)):,}"
+                    except: return val
+
+                opt_items = [o.strip() for o in str(row['추가옵션']).split(" / ") if o.strip() and o.strip() not in ("없음", "-", "없음(구버전점검)", "⚠️조회실패", "코드매칭실패")]
+                opt_html = ""
+                for opt in opt_items[:8]:
+                    opt_html += f"<div style='background:#f0f2f6; padding:5px 10px; border-radius:15px; font-size:0.8em; margin:3px; display:inline-block;'>✓ {opt}</div>"
+                if len(opt_items) > 8:
+                    opt_html += f"<div style='background:#f0f2f6; padding:5px 10px; border-radius:15px; font-size:0.8em; margin:3px; display:inline-block;'>+{len(opt_items)-8} 더보기</div>"
+
+                carid = row.get('_carid')
+                damage_summary_html = ""
+                damage_data = {}
+                if carid:
+                    damage_data = get_damage_info(carid)
+                
+                    issues = {}
+                    for coords in [PART_COORDS_OUTER, PART_COORDS_INNER]:
+                        for item in coords:
+                            keywords = item[0]
+                            full_label = item[6]
+                            status = find_status(damage_data, *keywords)
+                            if status in ["교환", "판금"]:
+                                issues[full_label] = status
+
+                    if issues:
+                        issue_items = []
+                        for k, v in issues.items():
+                            bg_color = "#ff4d4d" if v == "교환" else "#ffdd57"
+                            text_color = "#fff" if v == "교환" else "#333"
+                            issue_items.append(f"<span style='background:{bg_color}; color:{text_color}; padding:2px 8px; border-radius:12px; font-size:0.85em; margin-right:5px; margin-bottom:5px; display:inline-block; box-shadow:0 1px 2px rgba(0,0,0,0.1);'>{k}: {v}</span>")
+                        damage_summary_html = f"<div style='margin-top: 10px; padding-top: 10px; border-top: 1px dashed #ddd;'><div style='color: #555; font-size: 0.85em; margin-bottom: 5px; font-weight:bold;'>🛠️ 상세 손상 부위</div>{' '.join(issue_items)}</div>"
+                    elif damage_data:
+                        damage_summary_html = f"<div style='margin-top: 10px; padding-top: 10px; border-top: 1px dashed #ddd;'><div style='color: #38a169; font-size: 0.9em; font-weight:bold;'>✨ 특이사항 없음 (모든 부위 정상)</div></div>"
+
+                detail_html = f"""
+    <div style='background-color: white; border-radius: 10px; padding: 20px; border: 1px solid #ddd; box-shadow: 0 4px 6px rgba(0,0,0,0.05);'>
+    <div style='display: flex; align-items: center; border-bottom: 2px solid #f0f2f6; padding-bottom: 10px; margin-bottom: 15px;'>
+    <div style='font-size: 2em; margin-right: 15px;'>🚙</div>
+    <div>
+    <h3 style='margin: 0; color: #333;'>{row['차량명']}</h3>
+    </div>
+    </div>
+    <h4 style='color: #555; margin-bottom: 10px;'>기본 정보</h4>
+    <table style='width: 100%; border-collapse: collapse; margin-bottom: 20px;'>
+    <tr><td style='padding: 5px 0; color: #666; width: 40%; border-bottom: 1px solid #f0f2f6;'>모델</td><td style='padding: 5px 0; font-weight: bold; border-bottom: 1px solid #f0f2f6;'>{row['세부모델']}</td></tr>
+    <tr><td style='padding: 5px 0; color: #666; border-bottom: 1px solid #f0f2f6;'>연식</td><td style='padding: 5px 0; font-weight: bold; border-bottom: 1px solid #f0f2f6;'>{row['연식']}</td></tr>
+    <tr><td style='padding: 5px 0; color: #666; border-bottom: 1px solid #f0f2f6;'>주행거리</td><td style='padding: 5px 0; font-weight: bold; border-bottom: 1px solid #f0f2f6;'>{format_num(row['주행거리'])} km</td></tr>
+    <tr><td style='padding: 5px 0; color: #666; border-bottom: 1px solid #f0f2f6;'>색상</td><td style='padding: 5px 0; font-weight: bold; border-bottom: 1px solid #f0f2f6;'>{row.get('외장컬러', '-')}</td></tr>
+    <tr><td style='padding: 5px 0; color: #666;'>판매가</td><td style='padding: 5px 0; font-weight: bold; color: #e53e3e;'>{format_num(row['판매가'])} 만원</td></tr>
+    </table>
+    <h4 style='color: #555; margin-bottom: 10px;'>상태 정보</h4>
+    <div style='background-color: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 20px;'>
+    <div style='margin-bottom: 5px;'><span style='color: #666;'>사고내역:</span> <span style='font-weight: bold; color: {'#e53e3e' if '사고' in str(row['사고유무']) else '#38a169' if '무사고' in str(row['사고유무']) else '#dd6b20'};'>{row['사고유무']}</span></div>
+    <div style='margin-bottom: 5px;'><span style='color: #666;'>성능점검일:</span> <span>{row['성능일']}</span></div>
+    {damage_summary_html}
+    </div>
+    <h4 style='color: #555; margin-bottom: 10px;'>핵심 옵션</h4>
+    <div style='display: flex; flex-wrap: wrap;'>
+    {opt_html if opt_html else "<span style='color: #999;'>옵션 정보 없음</span>"}
+    </div>
+    </div>
+    """
+                st.markdown(detail_html, unsafe_allow_html=True)
+        
+                if carid:
+                    if st.toggle("🔍 성능기록부 도면 전체 보기", key=f"btn_poc_{carid}"):
+                        svg_html = render_car_diagram(damage_data)
+                        st.markdown(svg_html, unsafe_allow_html=True)
+            else:
+                st.success("👈 좌측 표에서 차량을 클릭하시면\n상세 정보가 여기에 표시됩니다.")
+
+        st.markdown("---")
+        st.markdown("### 📊 가격-주행거리 산점도")
+
+        chart_base = filtered_df.copy()
+        if current_f_mil > 0:
+            chart_base = chart_base[chart_base['주행거리'] <= current_f_mil]
+
+        valid_prices = pd.to_numeric(chart_base['판매가'], errors='coerce').dropna()
+
+        if not valid_prices.empty:
+            chart_base['주행거리_num'] = pd.to_numeric(chart_base['주행거리'], errors='coerce')
+            chart_base['판매가_num'] = pd.to_numeric(chart_base['판매가'], errors='coerce')
+            chart_df = chart_base.dropna(subset=['주행거리_num', '판매가_num'])
+    
+            if not chart_df.empty:
+                fig = go.Figure()
+
+                def get_color(acc):
+                    acc_str = str(acc)
+                    if "완전무사고" in acc_str: return '#2CA02C' 
+                    elif "사고" in acc_str and "완전무사고" not in acc_str: return '#D62728' 
+                    elif "판금" in acc_str or "교환" in acc_str: return '#FF7F0E' 
+                    else: return '#7F7F7F'
+
+                def get_symbol(stat):
+                    stat_str = str(stat)
+                    if stat_str == "실시간": return 'circle'
+                    else: return 'diamond'
+
+                colors = chart_df['사고유무'].apply(get_color).tolist()
+                symbols = chart_df['상태'].apply(get_symbol).tolist()
+
+                hover_text = [
+                    f"출처: {r['상태']}<br>{r['연식']}년식 · 성능일 {r['성능일']}<br>{r['사고유무']}"
+                    for _, r in chart_df.iterrows()
+                ]
+
+                fig.add_trace(go.Scatter(
+                    x=chart_df['주행거리_num'],
+                    y=chart_df['판매가_num'],
+                    mode='markers',
+                    marker=dict(size=10, color=colors, symbol=symbols, opacity=0.8, line=dict(width=1, color='white')),
+                    text=hover_text,
+                    hovertemplate="주행거리: %{x:,.0f}km<br>판매가: %{y:,.0f}만원<br>%{text}<extra></extra>",
+                    name="매물"
+                ))
+
+                if len(chart_df) >= 2:
+                    try:
+                        z = np.polyfit(chart_df['주행거리_num'], chart_df['판매가_num'], 1)
+                        x_trend = np.linspace(chart_df['주행거리_num'].min(), chart_df['주행거리_num'].max(), 50)
+                        y_trend = np.polyval(z, x_trend)
+                        fig.add_trace(go.Scatter(
+                            x=x_trend, y=y_trend,
+                            mode='lines',
+                            line=dict(color='gray', dash='dash', width=1.5),
+                            name='추세선',
+                            hoverinfo='skip'
+                        ))
+                    except: pass
+
+                selected_rows_for_chart = event.selection.rows if hasattr(event, "selection") else []
+                if selected_rows_for_chart:
+                    sel_row = filtered_df.iloc[selected_rows_for_chart[0]]
+                    sel_km = pd.to_numeric(sel_row['주행거리'], errors='coerce')
+                    sel_price = pd.to_numeric(sel_row['판매가'], errors='coerce')
+                    if pd.notna(sel_km) and pd.notna(sel_price) and (current_f_mil == 0 or sel_km <= current_f_mil):
+                        fig.add_trace(go.Scatter(
+                            x=[sel_km], y=[sel_price],
+                            mode='markers',
+                            marker=dict(size=22, color='red', symbol='star', line=dict(width=2, color='darkred')),
+                            name='⭐ 선택한 차량',
+                            hovertemplate=f"⭐ 선택한 차량<br>주행거리: {sel_km:,.0f}km<br>판매가: {sel_price:,.0f}만원<extra></extra>"
+                        ))
+
+                x_min, x_max = chart_df['주행거리_num'].min(), chart_df['주행거리_num'].max()
+                y_min, y_max = chart_df['판매가_num'].min(), chart_df['판매가_num'].max()
+                x_pad = max((x_max - x_min) * 0.08, 500)
+                y_pad = max((y_max - y_min) * 0.08, 20)
+
+                fig.update_layout(
+                    xaxis_title='주행거리 (km)',
+                    yaxis_title='판매가 (만원)',
+                    xaxis=dict(range=[x_min - x_pad, x_max + x_pad]),
+                    yaxis=dict(range=[y_min - y_pad, y_max + y_pad]),
+                    height=450,
+                    margin=dict(l=10, r=10, t=40, b=10),
+                    legend=dict(orientation='h', yanchor='bottom', y=1.02, xanchor='right', x=1),
+                    hovermode='closest',
+                )
+
+                st.plotly_chart(fig, use_container_width=True)
+            else:
+                st.info("유효한 주행거리/판매가 데이터가 없어 차트를 그릴 수 없습니다.")
+        else:
+            st.info("현재 설정된 주행거리 기준에 맞는 매물이 없습니다.")
+
+    else:
+        st.info("👈 좌측 메뉴에서 엑셀을 업로드하거나 엔카 URL을 스캔하여 데이터를 불러와 주세요.")
+
+    st.markdown("---")
+
+with tab_ledger:
+    st.markdown("### 📋 내 실전 장부 리스트")
+    if not st.session_state.my_ledger_data.empty:
+        st.dataframe(
+            st.session_state.my_ledger_data,
+            use_container_width=True, 
+            height=400, 
+            hide_index=True
+        )
+    else:
+        st.info("아직 저장된 장부 내역이 없습니다. 좌측 장부 입력폼을 통해 타점을 기록해 보세요!")
+
+with tab_sales:
+    st.markdown("### 📋 자사 판매 리스트")
+    inv_df = pd.DataFrame()
+    if 'inventory_data' in st.session_state and not st.session_state.inventory_data.empty:
+        inv_df = st.session_state.inventory_data.copy()
+        
+    if not inv_df.empty:
+        col_map = {}
+        for col in inv_df.columns:
+            clean_col = str(col).replace(" ", "").lower()
+            if "차종" in clean_col or "차량명" in clean_col: col_map[col] = "차량명"
+            elif "세부모델" in clean_col: col_map[col] = "세부모델"
+            elif "최초등록일" in clean_col: col_map[col] = "연식"
+            elif "경과일수" in clean_col: col_map[col] = "재고"
+            elif "할인적용가" in clean_col: col_map[col] = "판매가_할인"
+            elif "지점판매가" in clean_col: col_map[col] = "판매가_지점"
+            elif "eurl" in clean_col: col_map[col] = "링크"
+        inv_df = inv_df.rename(columns=col_map)
+        
+        # 2. 필수 컬럼 확보
+        for req_col in ["최종수정일", "차량명", "링크", "세부모델", "연식", "주행거리", "재고", "판매가", "매입가", "색상", "홈페이지상태"]:
+            if req_col not in inv_df.columns:
+                inv_df[req_col] = ""
+                
+        # 3. 값 정리
+        if '판매가_할인' in inv_df.columns and '판매가_지점' in inv_df.columns:
+            inv_df['판매가'] = pd.to_numeric(inv_df['판매가_할인'], errors='coerce').fillna(0)
+            inv_df.loc[inv_df['판매가'] <= 0, '판매가'] = pd.to_numeric(inv_df['판매가_지점'], errors='coerce').fillna(0)
+        else:
+            inv_df['판매가'] = pd.to_numeric(inv_df['판매가'], errors='coerce').fillna(0)
+            
+        inv_df['판매가'] = inv_df['판매가'].apply(lambda x: int(x/10000) if pd.notna(x) and x >= 10000 else x)
+        inv_df['매입가'] = pd.to_numeric(inv_df['매입가'], errors='coerce').fillna(0)
+        inv_df['매입가'] = inv_df['매입가'].apply(lambda x: int(x/10000) if pd.notna(x) and x >= 10000 else x)
+        
+        def make_link_name(row):
+            link = str(row.get('링크', '')).strip()
+            name = str(row.get('차량명', '')).strip()
+            
+            # 자바스크립트 링크인 경우 (예: javascript:mobileEcarLink('42591490'))
+            if link.startswith('javascript'):
+                import re
+                m = re.search(r'\d{7,10}', link)
+                if m:
+                    link = f"https://fem.encar.com/cars/detail/{m.group(0)}"
+            
+            if link.startswith('http'):
+                connector = "&" if "?" in link else "?"
+                return f"{link}{connector}_n={name}"
+                
+            return f"https://encar.com/?_n={name}"
+            
+        inv_df['차량명_링크'] = inv_df.apply(make_link_name, axis=1)
+        
+        # 4. 출력용 데이터프레임 구성
+        disp_cols = ["최종수정일", "차량명_링크", "세부모델", "연식", "주행거리", "재고", "판매가", "매입가", "색상"]
+        out_df = inv_df[disp_cols + ["홈페이지상태", "차량명"]].copy()
+        
+        # 사이드바 필터 적용 (차량명/세부모델 분리가 다른 경우를 대비해 병합 검색)
+        full_names = out_df['차량명'].astype(str) + " " + out_df['세부모델'].astype(str)
+        full_names_clean = full_names.str.replace(" ", "").str.lower()
+
+        f_name_val = st.session_state.get('f_name', '전체')
+        f_sub_val = st.session_state.get('f_sub', '전체')
+        
+        if f_name_val != "전체":
+            name_clean = str(f_name_val).replace(" ", "").lower()
+            out_df = out_df[full_names_clean.str.contains(name_clean, na=False, regex=False)]
+            full_names_clean = full_names_clean[out_df.index]
+            
+        if f_sub_val != "전체":
+            # 세부모델은 '가솔린 1.6' vs '1.6 가솔린' 처럼 순서가 다를 수 있으므로 쪼개서 모두 포함되는지 확인
+            sub_parts = str(f_sub_val).split()
+            for part in sub_parts:
+                part_clean = part.replace(" ", "").lower()
+                out_df = out_df[full_names_clean.str.contains(part_clean, na=False, regex=False)]
+                full_names_clean = full_names_clean[out_df.index]
+                
+        if current_f_year:
+            out_df = out_df[out_df['연식'].astype(str).str.contains(current_f_year, na=False)]
+        
+        # 컬럼 컨피그
+        ccfg = {
+            "차량명_링크": st.column_config.LinkColumn("차량명", display_text=r"&_n=(.*)$"),
+            "판매가": st.column_config.NumberColumn("판매가(만)", format="%d"),
+            "매입가": st.column_config.NumberColumn("매입가(만)", format="%d"),
+        }
+                
+        status_col = out_df['홈페이지상태'].astype(str).str.strip()
+        sales_df = out_df[status_col != '판매중'][disp_cols] # 판매완료, 계약중
+        stock_df = out_df[status_col == '판매중'][disp_cols] # 판매중
+        
+        st.dataframe(sales_df, use_container_width=True, hide_index=True, height=600, column_config=ccfg)
+    else:
+        st.info("👈 좌측에서 자사 재고 엑셀 파일을 업로드해 주세요.")
+
+with tab_inventory:
+    st.markdown("### 📋 자사 재고 리스트")
+    if not inv_df.empty:
+        st.dataframe(stock_df, use_container_width=True, hide_index=True, height=600, column_config=ccfg)
+    else:
+        st.info("👈 좌측에서 자사 재고 엑셀 파일을 업로드해 주세요.")

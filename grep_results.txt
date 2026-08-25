@@ -1,0 +1,23 @@
+16: # ⚙️ 1. 설정 및 상태 관리
+43: if 'f_status' not in st.session_state: st.session_state.f_status = []
+111:             elif "상태" in clean_col: rename_dict[col] = "상태"
+141:         target_columns = ['상태', '성능일', '링크', '차량명', '세부모델', '연식', '주행거리', '판매가', '재고', '사고유무', '외장컬러', '추가옵션', '제조사', '_carid']
+145:                 elif col == '상태': df[col] = "자사재고"
+148:         df["상태"] = df["상태"].fillna("자사재고").replace("", "자사재고")
+419:                     "상태": "실시간", "제조사": car.get('Manufacturer', '').strip(),
+548:                 st.session_state.f_status = [] 
+559:         st.session_state.f_status = []
+613:     status_options = list(filtered_df['상태'].unique()) if '상태' in filtered_df.columns else []
+614:     if not st.session_state.f_status:
+615:         st.session_state.f_status = status_options
+617:     st.session_state.f_status = st.sidebar.multiselect(
+618:         "데이터 출처 / 판매상태", 
+620:         default=st.session_state.f_status
+623:     if st.session_state.f_status and '상태' in filtered_df.columns:
+624:         filtered_df = filtered_df[filtered_df['상태'].isin(st.session_state.f_status)]
+678: tab_main, tab_ledger = st.tabs(["📊 시세 조회 및 스캔", "📋 내 실전 장부 리스트"])
+892:                         "상태": st.column_config.TextColumn("상태", width=70),
+909:                     column_order=["상태", "성능일", "차량명_링크", "세부모델", "연식", "주행거리", "판매가", "재고", "사고유무", "외장컬러", "추가옵션_요약", "제조사"],
+1107:     <h4 style='color: #555; margin-bottom: 10px;'>상태 정보</h4>
+1158:                 symbols = chart_df['상태'].apply(get_symbol).tolist()
+1161:                     f"출처: {r['상태']}<br>{r['연식']}년식 · 성능일 {r['성능일']}<br>{r['사고유무']}"
