@@ -1299,28 +1299,19 @@ with tab_sales:
         inv_df['매입가'] = pd.to_numeric(inv_df['매입가'], errors='coerce').fillna(0)
         inv_df['매입가'] = inv_df['매입가'].apply(lambda x: int(x/10000) if pd.notna(x) and x >= 10000 else x)
         
-        def make_link_name(row):
+
+        def extract_encar_link(row):
             link = str(row.get('링크', '')).strip()
-            name = str(row.get('차량명', '')).strip()
-            
-            # 자바스크립트 링크인 경우 (예: javascript:mobileEcarLink('42591490'))
-            if link.startswith('javascript'):
-                import re
-                m = re.search(r'\d{7,10}', link)
-                if m:
-                    link = f"https://fem.encar.com/cars/detail/{m.group(0)}"
-            
+            # http로 시작하는 정상 링크만 살리고, javascript 등은 링크 제거(None 반환)
             if link.startswith('http'):
-                connector = "&" if "?" in link else "?"
-                return f"{link}{connector}_n={name}"
-                
-            return f"https://encar.com/?_n={name}"
+                return link
+            return None
             
-        inv_df['차량명_링크'] = inv_df.apply(make_link_name, axis=1)
-        
+        inv_df['엔카 링크'] = inv_df.apply(extract_encar_link, axis=1)
+
         # 4. 출력용 데이터프레임 구성
-        disp_cols = ["최종수정일", "차량명_링크", "세부모델", "연식", "주행거리", "재고", "판매가", "매입가", "색상"]
-        out_df = inv_df[disp_cols + ["홈페이지상태", "차량명"]].copy()
+        disp_cols = ["최종수정일", "차량명", "세부모델", "연식", "주행거리", "재고", "판매가", "매입가", "색상", "엔카 링크"]
+        out_df = inv_df[disp_cols + ["홈페이지상태"]].copy()
         
         # 사이드바 필터 적용 (차량명/세부모델 분리가 다른 경우를 대비해 병합 검색)
         full_names = out_df['차량명'].astype(str) + " " + out_df['세부모델'].astype(str)
@@ -1347,9 +1338,10 @@ with tab_sales:
         
         # 컬럼 컨피그
         ccfg = {
-            "차량명_링크": st.column_config.LinkColumn("차량명", display_text=r"&_n=(.*)$"),
+            "차량명": st.column_config.TextColumn("차량명"),
             "판매가": st.column_config.NumberColumn("판매가(만)", format="%d"),
             "매입가": st.column_config.NumberColumn("매입가(만)", format="%d"),
+            "엔카 링크": st.column_config.LinkColumn("엔카 링크", display_text="🔗 보러가기"),
         }
                 
         status_col = out_df['홈페이지상태'].astype(str).str.strip()
