@@ -93,10 +93,10 @@ def get_gemini_estimate(prompt, status_callback=None):
     import time
     import re
     try:
-        # SDK 자체 무한 재시도 방지 및 타임아웃 30초 설정
+        # SDK 자체 무한 재시도 방지 및 타임아웃 120초 설정 (생성에 시간이 오래 걸릴 수 있음)
         http_opts = types.HttpOptions(
-            timeout=30.0,
-            retry_options={"max_retries": 0} # 내부 재시도 완전 비활성화, 우리가 직접 제어
+            timeout=120.0,
+            retry_options=types.HttpRetryOptions(attempts=1) # 내부 재시도 완전 비활성화(1회 시도), 우리가 직접 제어
         )
         client = genai.Client(api_key=api_key, http_options=http_opts)
         
@@ -124,10 +124,10 @@ def get_gemini_estimate(prompt, status_callback=None):
                             if status_callback:
                                 status_callback("🤖 Gemini AI가 백그라운드에서 견적을 계산 중입니다... (대기 완료, 재시도 중)")
                             continue
-                elif '503' in error_msg and attempt < 2:
+                elif ('503' in error_msg or 'timed out' in error_msg.lower()) and attempt < 2:
                     for remaining in range(3, 0, -1):
                         if status_callback:
-                            status_callback(f"⚠️ 서버 지연(503): {remaining}초 후 재시도합니다...")
+                            status_callback(f"⚠️ 구글 서버 응답 지연: {remaining}초 후 재시도합니다...")
                         time.sleep(1)
                     if status_callback:
                         status_callback("🤖 Gemini AI가 백그라운드에서 견적을 계산 중입니다... (대기 완료, 재시도 중)")
