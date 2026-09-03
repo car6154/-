@@ -122,3 +122,190 @@ class EncarScraper:
 
         except Exception as e:
             raise Exception(str(e))
+
+class HeydealerScraper:
+    @staticmethod
+    def build_session(cookie_str):
+        """초기 쿠키 문자열로 새 requests.Session을 생성합니다."""
+        session = requests.Session()
+        session.headers.update({
+            "Accept": "application/json, text/plain, */*",
+            "App-Os": "pc",
+            "App-Type": "dealer",
+            "App-Version": "1.9.0",
+            "Origin": "https://dealer.heydealer.com",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36"
+        })
+        # 쿠키 문자열을 파싱하여 세션에 등록
+        # api/dealer 두 도메인 모두에 쿠키 등록 (헤이딜러는 두 도메인 모두 사용)
+        for domain in ['api.heydealer.com', 'dealer.heydealer.com']:
+            for item in cookie_str.split(';'):
+                item = item.strip()
+                if '=' in item:
+                    k, v = item.split('=', 1)
+                    session.cookies.set(k.strip(), v.strip(), domain=domain)
+        # 초기 csrftoken 헤더 설정
+        HeydealerScraper._sync_csrf_header(session)
+        return session
+
+    @staticmethod
+    def _sync_csrf_header(session):
+        """
+        session의 쿠키 jar에서 최신 csrftoken을 읽어 X-Csrftoken 헤더를 동기화합니다.
+        서버가 Set-Cookie로 csrftoken을 갱신할 때마다 이 함수를 호출해야 합니다.
+        """
+        csrf = None
+        for cookie in session.cookies:
+            if cookie.name == 'csrftoken':
+                csrf = cookie.value
+                break
+                
+        if csrf:
+            session.headers['X-Csrftoken'] = csrf
+
+    @staticmethod
+    def save_session_to_env(session, env_path=None):
+        """
+        현재 session의 쿠키를 .env 파일의 HEYDEALER_COOKIE에 자동으로 저장합니다.
+        앱 재시작 후에도 최신 쿠키로 자동 복원됩니다.
+        """
+        import os, re
+        if env_path is None:
+            env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '.env')
+        
+        # 세션 쿠키 jar를 'key=value; key=value' 형식으로 직렬화
+        cookie_parts = [f"{c.name}={c.value}" for c in session.cookies]
+        if not cookie_parts:
+            return
+        new_cookie_str = "; ".join(cookie_parts)
+
+        # .env 파일 읽기
+        try:
+            with open(env_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+        except FileNotFoundError:
+            content = ""
+
+        new_line = f'HEYDEALER_COOKIE="{new_cookie_str}"'
+        if 'HEYDEALER_COOKIE=' in content:
+            content = re.sub(r'HEYDEALER_COOKIE=.*', new_line, content)
+        else:
+            content = content.rstrip('\n') + '\n' + new_line + '\n'
+
+        with open(env_path, 'w', encoding='utf-8') as f:
+            f.write(content)
+
+    @staticmethod
+    def fetch_auction_repairs(car_id, session):
+        """
+        차량 ID로 헤이딜러 낙찰 이력 데이터를 가져옵니다.
+        엔드포인트: GET /v2/dealers/web/accident_repairs_for_auction/?car={car_id}
+        """
+        auction_url = f"https://api.heydealer.com/v2/dealers/web/accident_repairs_for_auction/?car={car_id}"
+        HeydealerScraper._sync_csrf_header(session)
+        try:
+            resp = session.get(auction_url, timeout=10)
+            HeydealerScraper._sync_csrf_header(session)
+            if resp.status_code == 200:
+                return resp.text  # JSON 문자열 반환
+        except Exception:
+            pass
+        return None  # 실패해도 전체 흐름에는 영향 없음
+
+    @staticmethod
+    def fetch_market_prices(params_dict, session):
+        """
+        차량 상세 데이터의 price_info.params를 바탕으로 동급 낙찰시세를 가져옵니다.
+        엔드포인트: GET /v2/dealers/web/price/cars/?...
+        """
+        import urllib.parse
+        query_parts = ["page=1"]
+        for k, v in params_dict.items():
+            if isinstance(v, list):
+                for item in v:
+                    query_parts.append(f"{k}={urllib.parse.quote(str(item))}")
+            else:
+                query_parts.append(f"{k}={urllib.parse.quote(str(v))}")
+        
+        if 'period' not in params_dict:
+            query_parts.append("period=c")
+        if 'order' not in params_dict:
+            query_parts.append("order=recent")
+            
+        query_string = "&".join(query_parts)
+        market_url = f"https://api.heydealer.com/v2/dealers/web/price/cars/?{query_string}"
+        HeydealerScraper._sync_csrf_header(session)
+        try:
+            resp = session.get(market_url, timeout=10)
+            HeydealerScraper._sync_csrf_header(session)
+            if resp.status_code == 200:
+                return resp.text
+        except Exception:
+            pass
+        return None
+
+
+    @staticmethod
+    def fetch_car_detail(url_or_id, cookie_str=None, session=None):
+        """
+        session이 있으면 재사용 (쿠키 자동 갱신), 없으면 cookie_str로 일회성 요청.
+        차량 상세 정보와 낙찰 이력 데이터를 함께 반환합니다.
+        반환값: dict { 'detail': str(JSON), 'auction_repairs': str(JSON) or None }
+        """
+        if session is None:
+            if not cookie_str or not cookie_str.strip():
+                raise Exception("헤이딜러 세션 쿠키가 제공되지 않았습니다. UI에 쿠키를 입력하거나 .env 파일에 HEYDEALER_COOKIE를 설정해주세요.")
+            session = HeydealerScraper.build_session(cookie_str)
+            
+        car_id = url_or_id.strip()
+        # URL에서 차량 ID 추출
+        match = re.search(r'/cars/([a-zA-Z0-9]+)', car_id)
+        if match:
+            car_id = match.group(1)
+        elif "/" in car_id or "heydealer.com" in car_id:
+            raise Exception("유효한 헤이딜러 차량 ID 또는 URL 형식이 아닙니다.")
+            
+        api_url = f"https://api.heydealer.com/v2/dealers/web/cars/{car_id}/"
+        session.headers['Referer'] = f"https://dealer.heydealer.com/cars/{car_id}/"
+
+        # 요청 직전에 csrftoken 헤더를 최신 쿠키와 동기화 (로테이션 대응 핵심)
+        HeydealerScraper._sync_csrf_header(session)
+        
+        response = session.get(api_url)
+
+        # 응답 후에도 혹시 Set-Cookie로 csrftoken이 바뀌었으면 즉시 동기화
+        HeydealerScraper._sync_csrf_header(session)
+        
+        if response.status_code in (401, 403):
+            raise Exception(f"인증 오류 ({response.status_code}): 세션이 만료되었거나 쿠키가 올바르지 않습니다. 다시 로그인 후 쿠키를 업데이트해 주세요.")
+        elif response.status_code != 200:
+            raise Exception(f"API 요청 실패 ({response.status_code}): {response.text[:200]}")
+
+        # 성공 시 최신 쿠키를 .env에 자동 저장 (앱 재시작 후에도 최신 쿠키 유지)
+        try:
+            HeydealerScraper.save_session_to_env(session)
+        except Exception:
+            pass  # .env 저장 실패해도 요청 결과에는 영향 없음
+
+        detail_json = response.text
+        market_prices_json = None
+
+        # 낙찰 이력 데이터 자동 추가 요청 (실패해도 무시)
+        auction_repairs_json = HeydealerScraper.fetch_auction_repairs(car_id, session)
+
+        # 동급 낙찰시세 자동 요청
+        try:
+            parsed = json.loads(detail_json)
+            params = parsed.get("price_info", {}).get("params")
+            if not params:
+                params = parsed.get("etc", {}).get("price_info", {}).get("params")
+            if params:
+                market_prices_json = HeydealerScraper.fetch_market_prices(params, session)
+        except Exception:
+            pass
+
+        return {
+            'detail': detail_json,
+            'auction_repairs': auction_repairs_json,
+            'market_prices': market_prices_json
+        }

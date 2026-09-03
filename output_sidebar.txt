@@ -1,0 +1,8 @@
+738: current_f_year = st.sidebar.text_input("연식 검색 (예: 24)", key=f"search_year_{st.session_state.form_reset_key}")
+745: current_f_mil = st.sidebar.slider("📈 시세분석용 주행거리 이하 (km)", 0, max_mil, max_mil, step=1000)
+769: l_car_num = st.sidebar.text_input("차량번호 (필수)", key=f"car_num_{reset_idx}")
+770: l_mil = st.sidebar.number_input("주행거리 (km)", min_value=0, step=1000, key=f"mil_{reset_idx}")
+841: st.sidebar.error("⚠️ 차량번호 필수")
+1422: st.session_state.hd_target_year = st.sidebar.text_input("연식 (최초등록일 기준연도)", value=str(st.session_state.hd_target_year))
+1423: st.session_state.hd_target_mileage = st.sidebar.text_input("주행거리 (km)", value=str(st.session_state.hd_target_mileage))
+1424: st.session_state.hd_target_plate = st.sidebar.text_input("차량번호", value=str(st.session_state.hd_target_plate))

@@ -1,0 +1,8 @@
+  File "C:\Users\car61\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\streamlit\runtime\scriptrunner\exec_code.py", line 136, in exec_func_with_error_handling
+ImportError: cannot import name 'genai' from 'google' (unknown location)
+  File "C:\Users\car61\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\streamlit\runtime\scriptrunner\exec_code.py", line 136, in exec_func_with_error_handling
+ModuleNotFoundError: No module named 'dotenv'
+  File "C:\Users\car61\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\streamlit\runtime\scriptrunner\exec_code.py", line 136, in exec_func_with_error_handling
+ModuleNotFoundError: No module named 'dotenv'
+Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+ConnectionResetError: [WinError 10054] � � � ȣ�Ʈ� � � �ϴ�

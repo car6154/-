@@ -1,0 +1,25 @@
+435: "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+523: "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+571: """, unsafe_allow_html=True)
+822: html_content = f"""
+833: st.sidebar.markdown(html_content, unsafe_allow_html=True)
+890: metrics_html = f"""
+939: st.markdown(metrics_html, unsafe_allow_html=True)
+1115: outer_html = render_panel_svg(damage_data, PART_COORDS_OUTER, "외판")
+1116: inner_html = render_panel_svg(damage_data, PART_COORDS_INNER, "주요골격")
+1122: {outer_html}
+1123: {inner_html}
+1141: opt_html = ""
+1143: opt_html += f"<div style='background:#f0f2f6; color:#333; padding:5px 10px; border-radius:15px; font-size:0.8em; margin:3px; display:inline-block;'>✓ {opt}</div>"
+1145: opt_html += f"<div style='background:#f0f2f6; color:#333; padding:5px 10px; border-radius:15px; font-size:0.8em; margin:3px; display:inline-block;'>+{len(opt_items)-8} 더보기</div>"
+1148: damage_summary_html = ""
+1168: damage_summary_html = f"<div style='margin-top: 10px; padding-top: 10px; border-top: 1px dashed #ddd;'><div style='color: #555; font-size: 0.85em; margin-bottom: 5px; font-weight:bold;'>🛠️ 상세 손상 부위</div>{' '.join(issue_items)}</div>"
+1170: damage_summary_html = f"<div style='margin-top: 10px; padding-top: 10px; border-top: 1px dashed #ddd;'><div style='color: #38a169; font-size: 0.9em; font-weight:bold;'>✨ 특이사항 없음 (모든 부위 정상)</div></div>"
+1172: detail_html = f"""
+1190: <div style='margin-bottom: 5px;'><span style='color: #666;'>사고내역:</span> <span style='font-weight: bold; color: {'#e53e3e' if '사고' in str(row['사고유무']) else '#38a169' if '무사고' in str(row['사고유무']) else '#dd6b20'};'>{row['사고유무']}</span></div>
+1191: <div style='margin-bottom: 5px;'><span style='color: #666;'>성능점검일:</span> <span>{row['성능일']}</span></div>
+1192: {damage_summary_html}
+1196: {opt_html if opt_html else "<span style='color: #999;'>옵션 정보 없음</span>"}
+1200: st.markdown(detail_html, unsafe_allow_html=True)
+1204: svg_html = render_car_diagram(damage_data)
+1205: st.markdown(svg_html, unsafe_allow_html=True)
