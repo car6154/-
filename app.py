@@ -763,6 +763,9 @@ with tab_main:
     # ==========================================
     # 📝 실시간 장부 자동 계산기 (리얼타임 반응형)
     # ==========================================
+    ai_summary_placeholder = st.sidebar.empty()
+
+
     st.sidebar.markdown("### 📝 장부 관리")
 
     if st.session_state.save_success:
@@ -1473,14 +1476,17 @@ if st.button("차량 정보 수집 및 AI 견적 산출", key="heydealer_btn", d
                 auction_repairs_json = result.get('auction_repairs') or ""
                 market_prices_json = result.get('market_prices') or ""
                 
-            st.success(f"차량 정보 수집 성공! {'✅ 낙찰이력 데이터도 자동 수집됨' if auction_repairs_json else '⚠️ 낙찰이력 없음 (없거나 미지원)'}")
+            st.session_state.debug_success_msg = f"차량 정보 수집 성공! {'✅ 낙찰이력 데이터도 자동 수집됨' if auction_repairs_json else '⚠️ 낙찰이력 없음 (없거나 미지원)'}"
 
             # 헤이딜러 정보로 사이드바 폼 값 자동 채우기
             try:
                 import json
                 hd_data = json.loads(heydealer_json_str)
                 hd_detail = hd_data.get('detail', {})
-                hd_year = hd_detail.get('year', '')
+                reg_date = hd_detail.get('initial_registration_date') or hd_detail.get('first_registration_date') or hd_detail.get('registration_date') or ''
+                import re
+                m_year = re.search(r'(\d{4})', str(reg_date))
+                hd_year = m_year.group(1) if m_year else hd_detail.get('year', '')
                 hd_mil = hd_detail.get('mileage', '')
                 hd_plate = hd_detail.get('vehicle_no') or hd_detail.get('number') or hd_detail.get('car_number') or hd_detail.get('plate_number') or hd_detail.get('plate') or hd_detail.get('full_name') or ''
                 
@@ -1558,7 +1564,11 @@ if st.button("차량 정보 수집 및 AI 견적 산출", key="heydealer_btn", d
                         st.session_state.hd_comp_df = hd_comp_df
                         
                         hd_detail = json.loads(heydealer_json_str).get('detail', {})
-                        target_year = hd_detail.get('year', 0)
+                        reg_date_hd = hd_detail.get('initial_registration_date') or hd_detail.get('first_registration_date') or hd_detail.get('registration_date') or ''
+                        import re
+                        m_year_hd = re.search(r'(\d{4})', str(reg_date_hd))
+                        target_year = int(m_year_hd.group(1)) if m_year_hd else hd_detail.get('year', 0)
+                        
                         target_mileage = hd_detail.get('mileage', 0)
                         target_plate = hd_detail.get('vehicle_number', '') or hd_detail.get('plate_number', '')
                         
@@ -1577,29 +1587,36 @@ if st.button("차량 정보 수집 및 AI 견적 산출", key="heydealer_btn", d
                                 hd_prev = pd.DataFrame()
                                 hd_next = pd.DataFrame()
                                 
-                            # 기준 데이터: 동일 연식 우선, 없으면 전체
-                            base_df = hd_same_year if not hd_same_year.empty else hd_comp_df
-                            
-                            # 1. Polyfit 추세선 기준가 계산
-                            if len(base_df) >= 2:
-                                z = np.polyfit(base_df['주행거리_num'], base_df['판매가_num'], 1)
-                                hd_market_avg = int(np.polyval(z, int(target_mileage) if target_mileage else 50000))
-                            else:
-                                hd_market_avg = int(base_df['판매가_num'].mean())
+                            # 기준 데이터: 동일 연식 우선, 없으면 0원 처리
+                            if not hd_same_year.empty:
+                                base_df = hd_same_year
+                                # 1. Polyfit 추세선 기준가 계산
+                                if len(base_df) >= 2:
+                                    z = np.polyfit(base_df['주행거리_num'], base_df['판매가_num'], 1)
+                                    hd_market_avg = int(np.polyval(z, int(target_mileage) if target_mileage else 50000))
+                                else:
+                                    hd_market_avg = int(base_df['판매가_num'].mean())
+                                    
+                                # 2. 사고/무사고 차이
+                                is_no_acc = base_df['사고유무'] == '완전무사고'
+                                hd_no_acc_avg = int(base_df[is_no_acc]['판매가_num'].mean()) if is_no_acc.any() else hd_market_avg
+                                hd_acc_avg = int(base_df[~is_no_acc]['판매가_num'].mean()) if (~is_no_acc).any() else hd_market_avg
                                 
-                            # 2. 사고/무사고 차이
-                            is_no_acc = base_df['사고유무'] == '완전무사고'
-                            hd_no_acc_avg = int(base_df[is_no_acc]['판매가_num'].mean()) if is_no_acc.any() else hd_market_avg
-                            hd_acc_avg = int(base_df[~is_no_acc]['판매가_num'].mean()) if (~is_no_acc).any() else hd_market_avg
-                            
-                            # 3. 타겟 차량 추가옵션 포함 여부 차이
-                            if hd_target_options:
-                                has_target_opt = base_df['옵션리스트'].apply(lambda opts: any(opt in hd_target_options for opt in opts))
-                                hd_target_opt_avg = int(base_df[has_target_opt]['판매가_num'].mean()) if has_target_opt.any() else hd_market_avg
-                                hd_no_target_opt_avg = int(base_df[~has_target_opt]['판매가_num'].mean()) if (~has_target_opt).any() else hd_market_avg
+                                # 3. 타겟 차량 추가옵션 포함 여부 차이
+                                if hd_target_options:
+                                    has_target_opt = base_df['옵션리스트'].apply(lambda opts: any(opt in hd_target_options for opt in opts))
+                                    hd_target_opt_avg = int(base_df[has_target_opt]['판매가_num'].mean()) if has_target_opt.any() else hd_market_avg
+                                    hd_no_target_opt_avg = int(base_df[~has_target_opt]['판매가_num'].mean()) if (~has_target_opt).any() else hd_market_avg
+                                else:
+                                    hd_target_opt_avg = hd_market_avg
+                                    hd_no_target_opt_avg = hd_market_avg
                             else:
-                                hd_target_opt_avg = hd_market_avg
-                                hd_no_target_opt_avg = hd_market_avg
+                                base_df = pd.DataFrame()
+                                hd_market_avg = 0
+                                hd_no_acc_avg = 0
+                                hd_acc_avg = 0
+                                hd_target_opt_avg = 0
+                                hd_no_target_opt_avg = 0
                             
                             # 4. 전후 연식
                             prev_year_avg = int(hd_prev['판매가_num'].mean()) if not hd_prev.empty else 0
@@ -1617,7 +1634,7 @@ if st.button("차량 정보 수집 및 AI 견적 산출", key="heydealer_btn", d
             encar_acc_avg = 0
             encar_target_opt_avg = 0
             encar_no_target_opt_avg = 0
-            ai_prompt = extract_car_data_for_ai(
+            ai_result = extract_car_data_for_ai(
                 heydealer_json_str, 
                 retail_avg=avg_price if 'avg_price' in locals() else 0,
                 retail_no_acc_avg=no_acc_avg if 'no_acc_avg' in locals() else 0,
@@ -1633,63 +1650,37 @@ if st.button("차량 정보 수집 및 AI 견적 산출", key="heydealer_btn", d
                 next_year_avg=next_year_avg if 'next_year_avg' in locals() else 0,
                 auction_repairs_json=auction_repairs_json
             )
+            ai_prompt = ai_result["ai_prompt"]
+            data_header = ai_result["data_header"]
             
-            import threading
-            from streamlit.runtime.scriptrunner import add_script_run_ctx
-            
-            def run_ai_bg(prompt):
-                try:
-                    def update_status(msg):
-                        st.session_state.ai_status_msg = msg
-                    result = get_gemini_estimate(prompt, status_callback=update_status)
-                    st.session_state.ai_estimate_result = result
-                    st.session_state.ai_estimate_prompt = prompt
-                    st.session_state.ai_status = "완료"
-                except Exception as e:
-                    st.session_state.ai_estimate_result = f"오류 발생: {str(e)}"
-                    st.session_state.ai_status = "오류"
-                    
-            st.session_state.ai_status = "진행중"
-            st.session_state.ai_status_msg = "🤖 Gemini AI가 백그라운드에서 견적을 계산 중입니다... (이 동안 다른 차량의 시세를 확인하셔도 계산은 중지되지 않습니다!)"
-            st.session_state.ai_estimate_prompt = ai_prompt
-            t = threading.Thread(target=run_ai_bg, args=(ai_prompt,))
-            add_script_run_ctx(t)
-            t.start()
-            
+            st.session_state.ai_estimate_result = data_header
+            st.session_state.ai_status = "표시됨"
             st.rerun()
             
         except Exception as e:
             st.error(f"작업 실패: {str(e)}")
+
+if 'debug_success_msg' in st.session_state:
+    st.success(st.session_state.debug_success_msg)
+    # 한 번 표시 후 삭제하여 계속 떠있지 않게 함 (단, 다시 조회하면 다시 생성됨)
+    # st.session_state.pop('debug_success_msg', None) - rerun 때문에 바로 지우면 안 될 수 있으니 유지하거나 폼 변경 시 지우는 게 좋지만, 일단 유지합니다.
 
 if 'debug_autofill' in st.session_state:
     st.warning(st.session_state.debug_autofill)
 if 'debug_hd_market' in st.session_state:
     st.warning(st.session_state.debug_hd_market)
 
-@st.fragment(run_every=2)
-def poll_ai_status():
-    status = st.session_state.get("ai_status")
-    if status == "진행중":
-        msg = st.session_state.get("ai_status_msg", "🤖 Gemini AI가 백그라운드에서 견적을 계산 중입니다... (이 동안 다른 차량의 시세를 확인하셔도 계산은 중지되지 않습니다!)")
-        st.sidebar.info(msg.replace("Gemini AI가 백그라운드에서 견적을 계산 중입니다...", "AI 매입 견적 산출 중입니다..."))
-        with st.spinner(msg):
-            pass
-    elif status in ["완료", "오류"]:
-        st.session_state.ai_status = "표시됨"
-        st.rerun()
-
 status = st.session_state.get("ai_status")
-if status in ["진행중", "완료", "오류"]:
-    poll_ai_status()
-elif status == "표시됨" and 'ai_estimate_result' in st.session_state:
+if status == "표시됨" and 'ai_estimate_result' in st.session_state:
     if 'hd_comp_df' in st.session_state and not st.session_state.hd_comp_df.empty:
-        with st.expander("📊 헤이딜러 매입시세 리스트 (AI 산출 기준 데이터)", expanded=True):
+        with st.expander("📊 헤이딜러 매입시세 리스트 (산출 기준 데이터)", expanded=True):
             st.dataframe(st.session_state.hd_comp_df, use_container_width=True, hide_index=True)
-            
-    with st.expander("생성된 프롬프트 보기"):
-        st.code(st.session_state.get('ai_estimate_prompt', ''), language="markdown")
-    st.info("🤖 **Gemini AI 매입 견적 결과**")
-    st.markdown(st.session_state.ai_estimate_result)
+    
+    if 'ai_summary_placeholder' in locals():
+        with ai_summary_placeholder.container():
+            st.info("📊 **실시간 매물 데이터 요약**")
+            st.markdown(st.session_state.ai_estimate_result)
+            st.markdown("---")
 
 
 # 강제 리로드 트리거 7
