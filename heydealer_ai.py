@@ -93,32 +93,42 @@ def get_gemini_estimate(prompt, status_callback=None):
     import time
     import re
     try:
-        client = genai.Client(api_key=api_key)
+        # SDK 자체 무한 재시도 방지 및 타임아웃 30초 설정
+        http_opts = types.HttpOptions(
+            timeout=30.0,
+            retry_options={"max_retries": 0} # 내부 재시도 완전 비활성화, 우리가 직접 제어
+        )
+        client = genai.Client(api_key=api_key, http_options=http_opts)
+        
         for attempt in range(4):
             try:
                 response = client.models.generate_content(
                     model='gemini-3.6-flash',
                     contents=prompt,
+                    config=types.GenerateContentConfig(
+                        temperature=0.0
+                    )
                 )
                 return response.text
             except Exception as e:
                 error_msg = str(e)
                 if '429' in error_msg:
-                    # 429 Too Many Requests -> 'retry in 45.9s' 파싱
                     m = re.search(r'retry in (\d+\.?\d*)s', error_msg)
                     if m and attempt < 3:
                         wait_time = float(m.group(1)) + 1.0 # 1초 여유
                         if wait_time <= 60: # 60초 이하일 때만 대기 후 재시도
-                            if status_callback:
-                                status_callback(f"⚠️ 무료 API 요청 한도 도달: 구글 서버 요청에 따라 {int(wait_time)}초 대기 후 자동 재시도합니다...")
-                            time.sleep(wait_time)
+                            for remaining in range(int(wait_time), 0, -1):
+                                if status_callback:
+                                    status_callback(f"⚠️ 무료 API 요청 한도 도달: {remaining}초 대기 후 자동 재시도합니다...")
+                                time.sleep(1)
                             if status_callback:
                                 status_callback("🤖 Gemini AI가 백그라운드에서 견적을 계산 중입니다... (대기 완료, 재시도 중)")
                             continue
                 elif '503' in error_msg and attempt < 2:
-                    if status_callback:
-                        status_callback("⚠️ 서버 지연: 2초 후 재시도합니다...")
-                    time.sleep(2)
+                    for remaining in range(3, 0, -1):
+                        if status_callback:
+                            status_callback(f"⚠️ 서버 지연(503): {remaining}초 후 재시도합니다...")
+                        time.sleep(1)
                     if status_callback:
                         status_callback("🤖 Gemini AI가 백그라운드에서 견적을 계산 중입니다... (대기 완료, 재시도 중)")
                     continue
