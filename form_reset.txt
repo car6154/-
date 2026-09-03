@@ -1,0 +1,8 @@
+69: if 'form_reset_key' not in st.session_state:
+70: st.session_state.form_reset_key = 0
+599: scan_url = st.sidebar.text_input("엔카 정밀 스캔 URL 입력:", key=f"scan_url_{st.session_state.form_reset_key}", label_visibility="collapsed", placeholder="엔카 URL 붙여넣기")
+738: current_f_year = st.sidebar.text_input("연식 검색 (예: 24)", key=f"search_year_{st.session_state.form_reset_key}")
+766: # 🔥 폼 입력칸들에 동적 키(form_reset_key)를 부여하여, 저장 시 에러 없이 통째로 교체되게 만듦
+767: reset_idx = st.session_state.form_reset_key
+870: st.session_state.form_reset_key += 1
+1475: reset_key = st.session_state.get('form_reset_key', 0)

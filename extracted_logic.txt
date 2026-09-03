@@ -1,0 +1,31 @@
+encar_avg_price = 0
+            encar_no_acc_avg = 0
+            encar_acc_avg = 0
+            encar_sunroof_avg = 0
+            encar_no_sunroof_avg = 0
+            
+            if 'filtered_df' in globals() and not filtered_df.empty:
+                import pandas as pd
+                df_temp = filtered_df.copy()
+                df_temp['판매가'] = pd.to_numeric(df_temp['판매가'], errors='coerce')
+                df_temp = df_temp.dropna(subset=['판매가'])
+                
+                if not df_temp.empty:
+                    encar_avg_price = int(df_temp['판매가'].mean())
+                    
+                    # 사고 유무별 평균
+                    is_no_acc = df_temp['사고유무'].astype(str).str.contains('무사고')
+                    encar_no_acc_avg = int(df_temp[is_no_acc]['판매가'].mean()) if is_no_acc.any() else encar_avg_price
+                    encar_acc_avg = int(df_temp[~is_no_acc]['판매가'].mean()) if (~is_no_acc).any() else encar_avg_price
+                    acc_gap = encar_no_acc_avg - encar_acc_avg
+                    
+                    # 옵션 (간단한 선루프 유무)
+                    has_sunroof = df_temp['추가옵션'].astype(str).str.contains('선루프')
+                    encar_sunroof_avg = int(df_temp[has_sunroof]['판매가'].mean()) if has_sunroof.any() else encar_avg_price
+                    encar_no_sunroof_avg = int(df_temp[~has_sunroof]['판매가'].mean()) if (~has_sunroof).any() else encar_avg_price
+                    sunroof_gap = encar_sunroof_avg - encar_no_sunroof_avg
+                    
+                    market_data_str = f"엔카 동급 매물 평균가: {encar_avg_price}만원\n무사고 평균가: {encar_no_acc_avg}만원 / 유사고 평균가: {encar_acc_avg}만원 (사고감가 차이: {acc_gap}만원)\n선루프 장착 매물 평균가: {encar_sunroof_avg}만원 / 미장착 평균가: {encar_no_sunroof_avg}만원 (옵션 차이: {sunroof_gap}만원)\n" link
+            return None
+            
+        inv_df['엔카 링크'] = 
