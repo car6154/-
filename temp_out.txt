@@ -1,0 +1,1 @@
+[(22, 'st.set_page_config(page_title="J-PRO Valuation System", page_icon="🏅", layout="wide")'), (621, "    <span style='font-size: 32px; font-weight: 800; color: #1E3A8A; letter-spacing: -1px;'>J-PRO</span>")]
