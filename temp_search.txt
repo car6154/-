@@ -1,0 +1,7 @@
+1455: display_df["추가옵션_요약"] = display_df["추가옵션"].apply(summarize_options)
+1494: "추가옵션_요약": st.column_config.TextColumn("추가옵션", width=140),
+1498: column_order=["성능일", "차량명_링크", "세부모델", "연식", "주행거리", "판매가", "재고", "사고유무", "외장컬러", "추가옵션_요약", "제조사"],
+1959: hd_display_df["추가옵션_요약"] = hd_display_df["옵션리스트"].apply(summarize_hd_options)
+1979: "추가옵션_요약": st.column_config.TextColumn("추가옵션"),
+1982: column_order=["경과일", "연식", "주행거리_num", "판매가_num", "사고유무", "추가옵션_요약"],
+2056: st.info("📊 **실시간 매물 데이터 요약**")

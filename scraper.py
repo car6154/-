@@ -240,8 +240,10 @@ class HeydealerScraper:
             HeydealerScraper._sync_csrf_header(session)
             if resp.status_code == 200:
                 return resp.text
-        except Exception:
-            pass
+            else:
+                print(f"[헤이딜러] fetch_market_prices 응답 코드: {resp.status_code}, 내용: {resp.text[:100]}")
+        except Exception as e:
+            print(f"[헤이딜러] fetch_market_prices 예외: {e}")
         return None
 
 
@@ -278,6 +280,8 @@ class HeydealerScraper:
         
         if response.status_code in (401, 403):
             raise Exception(f"인증 오류 ({response.status_code}): 세션이 만료되었거나 쿠키가 올바르지 않습니다. 다시 로그인 후 쿠키를 업데이트해 주세요.")
+        elif response.status_code == 404:
+            raise Exception("해당 차량은 헤이딜러에서 이미 마감되었거나 존재하지 않는 매물입니다(404). 현재 진행 중인 다른 매물 URL을 입력해 주세요.")
         elif response.status_code != 200:
             raise Exception(f"API 요청 실패 ({response.status_code}): {response.text[:200]}")
 
@@ -290,22 +294,78 @@ class HeydealerScraper:
         detail_json = response.text
         market_prices_json = None
 
+        # 디버그용 덤프 저장
+        try:
+            with open("last_heydealer_detail.json", "w", encoding="utf-8") as f:
+                f.write(detail_json)
+        except Exception:
+            pass
+
         # 낙찰 이력 데이터 자동 추가 요청 (실패해도 무시)
         auction_repairs_json = HeydealerScraper.fetch_auction_repairs(car_id, session)
 
-        # 동급 낙찰시세 자동 요청
+        # 동급 낙찰시세 자동 요청 + 엔카 URL 추출
+        encar_url = None
         try:
             parsed = json.loads(detail_json)
-            params = parsed.get("price_info", {}).get("params")
+            
+            # 재귀적으로 price_info / params 탐색
+            params = None
+            def find_params(obj):
+                nonlocal params
+                if params or not isinstance(obj, dict): return
+                if "params" in obj and isinstance(obj["params"], dict) and ("model" in obj["params"] or "grade" in obj["params"]):
+                    params = obj["params"]
+                    return
+                if "price_info" in obj and isinstance(obj["price_info"], dict):
+                    p = obj["price_info"].get("params")
+                    if isinstance(p, dict):
+                        params = p
+                        return
+                for k, v in obj.items():
+                    if isinstance(v, dict):
+                        find_params(v)
+
+            find_params(parsed)
+
+            # 직접 model/grade로 params 구성 (fallback)
             if not params:
-                params = parsed.get("etc", {}).get("price_info", {}).get("params")
+                det = parsed.get("detail", {}) if isinstance(parsed.get("detail"), dict) else parsed
+                m_id = det.get("model") or det.get("model_id")
+                g_id = det.get("grade") or det.get("grade_id")
+                y_val = det.get("year")
+                if m_id and g_id:
+                    params = {
+                        "model": m_id,
+                        "grade": g_id,
+                        "year": [y_val - 1, y_val, y_val + 1] if y_val else []
+                    }
+
             if params:
                 market_prices_json = HeydealerScraper.fetch_market_prices(params, session)
-        except Exception:
-            pass
+            
+            # 재귀적으로 external_url (encar) 탐색
+            def find_encar_url(obj):
+                nonlocal encar_url
+                if encar_url or not isinstance(obj, dict): return
+                if "external_url" in obj and isinstance(obj["external_url"], dict):
+                    if obj["external_url"].get("encar"):
+                        encar_url = obj["external_url"]["encar"]
+                        return
+                if "encar" in obj and isinstance(obj["encar"], str) and obj["encar"].startswith("http"):
+                    encar_url = obj["encar"]
+                    return
+                for k, v in obj.items():
+                    if isinstance(v, dict):
+                        find_encar_url(v)
+
+            find_encar_url(parsed)
+        except Exception as e:
+            print(f"[헤이딜러] 마켓/엔카 URL 추출 실패: {e}")
 
         return {
             'detail': detail_json,
             'auction_repairs': auction_repairs_json,
-            'market_prices': market_prices_json
+            'market_prices': market_prices_json,
+            'encar_url': encar_url
         }

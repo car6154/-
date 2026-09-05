@@ -45,18 +45,14 @@ def extract_car_data_for_ai(json_payload, retail_avg=0, retail_no_acc_avg=0, ret
     wholesale_opt_line_display = f"옵션 포함 평균 {wholesale_opt_avg}만원 / 미포함 평균 {wholesale_no_opt_avg}만원\n" if wholesale_opt_avg != wholesale_no_opt_avg and len(options) > 0 else ""
 
     # 6. 화면 노출용 데이터 헤더 (깔끔하게 핵심만)
-    data_header = f"""[타겟 차량]
-{car_name} / {year}년식 / {mileage:,}km
-옵션: {', '.join(options)}
-상태: {condition_basic_str} / 평가사 소견: {inspector_comment}
+    data_header_encar = f"""동급 평균: **{retail_avg}만원** (무사고 {retail_no_acc_avg}만원 / 유사고 {retail_acc_avg}만원)
+{retail_opt_line_display}{year-1}년 평균 {prev_year_avg}만원 / {year+1}년 평균 {next_year_avg}만원"""
 
-(1) 예상 소매가 기준 (엔카 판매 데이터)
-동급 평균: {retail_avg}만원 (무사고 {retail_no_acc_avg}만원 / 유사고 {retail_acc_avg}만원)
-{retail_opt_line_display}{year-1}년 평균 {prev_year_avg}만원 / {year+1}년 평균 {next_year_avg}만원
-
-(2) 예상 매입가 기준 (헤이딜러 낙찰 데이터)
-동급 평균: {wholesale_avg}만원 (무사고 {wholesale_no_acc_avg}만원 / 유사고 {wholesale_acc_avg}만원)
+    data_header_heydealer = f"""동급 평균: **{wholesale_avg}만원** (무사고 {wholesale_no_acc_avg}만원 / 유사고 {wholesale_acc_avg}만원)
 {wholesale_opt_line_display}{year-1}년 평균 {prev_year_avg}만원 / {year+1}년 평균 {next_year_avg}만원"""
+
+    # 프롬프트 구성 시 에러 방지용 호환성
+    data_header = f"(1) 예상 소매가 기준\n{data_header_encar}\n\n(2) 예상 매입가 기준\n{data_header_heydealer}"
 
     # 엔카 데이터 0원 여부에 따라 소매가 섹션을 코드에서 미리 확정
     if retail_avg == 0:
@@ -105,7 +101,12 @@ def extract_car_data_for_ai(json_payload, retail_avg=0, retail_no_acc_avg=0, ret
   2. 감가 차감 내역: [감가된 내용 및 금액]
   3. 최종 금액: [최종 매입가]
 """
-    return {"data_header": data_header, "ai_prompt": ai_prompt}
+    return {
+        "data_header": data_header,
+        "data_header_encar": data_header_encar,
+        "data_header_heydealer": data_header_heydealer,
+        "ai_prompt": ai_prompt
+    }
 
 import os
 from google import genai
