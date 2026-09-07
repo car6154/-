@@ -163,6 +163,47 @@ class HeydealerScraper:
         if csrf:
             session.headers['X-Csrftoken'] = csrf
 
+    _keepalive_started = False
+    _keepalive_session = None
+
+    @staticmethod
+    def start_keepalive_worker(session):
+        """
+        봇 의심을 피하기 위해 불규칙한 랜덤 주기(5~8분)로 가벼운 핑을 보내
+        헤이딜러 세션이 유휴 상태로 만료되는 것을 방지하고 최신 쿠키를 유지합니다.
+        """
+        import threading, time, random
+
+        HeydealerScraper._keepalive_session = session
+        if HeydealerScraper._keepalive_started:
+            return
+        HeydealerScraper._keepalive_started = True
+
+        def _worker():
+            while True:
+                # 5분(300초) ~ 8분(480초) 사이의 무작위 간격으로 자연스러운 브라우징 시뮬레이션
+                sleep_sec = random.randint(300, 480)
+                time.sleep(sleep_sec)
+
+                cur_sess = HeydealerScraper._keepalive_session
+                if not cur_sess:
+                    continue
+
+                try:
+                    # 사람이 탭을 켜두었을 때 발생하는 가벼운 정적/메인 요청
+                    HeydealerScraper._sync_csrf_header(cur_sess)
+                    resp = cur_sess.get("https://dealer.heydealer.com/", timeout=10)
+                    HeydealerScraper._sync_csrf_header(cur_sess)
+
+                    # 서버에서 갱신된 쿠키가 있으면 .env에 자동 동기화
+                    if resp.status_code == 200:
+                        HeydealerScraper.save_session_to_env(cur_sess)
+                except Exception:
+                    pass
+
+        t = threading.Thread(target=_worker, daemon=True, name="HeydealerKeepAliveThread")
+        t.start()
+
     @staticmethod
     def save_session_to_env(session, env_path=None):
         """

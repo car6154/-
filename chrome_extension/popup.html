@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      width: 260px;
+      font-family: 'Segoe UI', Malgun Gothic, sans-serif;
+      padding: 16px;
+      margin: 0;
+      background: #0f172a;
+      color: #f8fafc;
+      text-align: center;
+    }
+    h3 {
+      margin-top: 0;
+      margin-bottom: 8px;
+      font-size: 15px;
+      color: #38bdf8;
+    }
+    p {
+      font-size: 12px;
+      color: #94a3b8;
+      margin-bottom: 14px;
+      line-height: 1.4;
+    }
+    button {
+      width: 100%;
+      background: linear-gradient(135deg, #0284c7, #2563eb);
+      color: white;
+      border: none;
+      padding: 10px 0;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    button:hover {
+      opacity: 0.9;
+    }
+    button:disabled {
+      background: #475569;
+      cursor: not-allowed;
+    }
+    #status {
+      margin-top: 12px;
+      font-size: 12px;
+      font-weight: 500;
+      min-height: 18px;
+    }
+    .success { color: #4ade80; }
+    .error { color: #f87171; }
+  </style>
+</head>
+<body>
+  <h3>🏅 J-PRO 쿠키 동기화</h3>
+  <p>헤이딜러 로그인 상태를 클릭 한 번으로 내 프로그램에 즉시 전송합니다.</p>
+  <button id="syncBtn">⚡ 프로그램으로 자동 전송</button>
+  <button id="copyBtn" style="margin-top: 8px; background: #334155;">📋 쿠키 텍스트 복사하기</button>
+  <div id="status"></div>
+  <script src="popup.js"></script>
+</body>
+</html>
