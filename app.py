@@ -15,7 +15,7 @@ from heydealer_ai import extract_car_data_for_ai, get_gemini_estimate
 from scraper import HeydealerScraper
 from dotenv import load_dotenv
 import threading
-from http.server import HTTPServer, BaseHTTPRequestHandler
+from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
 
 load_dotenv()
 
@@ -23,24 +23,31 @@ load_dotenv()
 # 🔌 크롬 확장프로그램 쿠키 수신 서버 (Port 8502)
 # ==========================================
 class CookieReceiverHandler(BaseHTTPRequestHandler):
+    def log_message(self, format, *args):
+        # 불필요한 콘솔 로그 방지
+        pass
+
     def do_OPTIONS(self):
         self.send_response(200)
         self.send_header('Access-Control-Allow-Origin', '*')
         self.send_header('Access-Control-Allow-Methods', 'POST, OPTIONS')
         self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+        self.send_header('Content-Length', '0')
         self.end_headers()
 
     def do_POST(self):
-        if self.path == '/api/save_cookie':
+        print(f"[CookieServer] Received POST to path: {self.path}", flush=True)
+        if self.path.startswith('/api/save_cookie'):
             content_length = int(self.headers.get('Content-Length', 0))
             post_data = self.rfile.read(content_length)
             try:
                 data = json.loads(post_data.decode('utf-8'))
                 raw_cookie = data.get('cookie', '').strip()
+                print(f"[CookieServer] Got cookie of length: {len(raw_cookie)}", flush=True)
                 if raw_cookie:
                     env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '.env')
                     try:
-                        with open(env_path, 'r', encoding='utf-8') as f:
+                        with open(env_path, 'r', encoding='utf-8-sig') as f:
                             c_txt = f.read()
                     except:
                         c_txt = ""
@@ -54,27 +61,36 @@ class CookieReceiverHandler(BaseHTTPRequestHandler):
                     with open(env_path, 'w', encoding='utf-8') as f:
                         f.write(c_txt)
 
+                    res_bytes = json.dumps({"status": "ok", "message": "Cookie saved"}).encode('utf-8')
                     self.send_response(200)
                     self.send_header('Content-Type', 'application/json')
+                    self.send_header('Content-Length', str(len(res_bytes)))
                     self.send_header('Access-Control-Allow-Origin', '*')
                     self.end_headers()
-                    self.wfile.write(json.dumps({"status": "ok", "message": "Cookie saved"}).encode('utf-8'))
+                    self.wfile.write(res_bytes)
+                    print("[CookieServer] Successfully saved to .env", flush=True)
                     return
             except Exception as ex:
-                pass
+                print(f"[CookieServer] Error processing POST: {ex}", flush=True)
         self.send_response(400)
         self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Content-Length', '0')
         self.end_headers()
 
+_COOKIE_SERVER = None
+
 def start_cookie_server():
-    if not getattr(st, '_cookie_server_running', False):
-        st._cookie_server_running = True
+    global _COOKIE_SERVER
+    if _COOKIE_SERVER is None:
         try:
-            server = HTTPServer(('127.0.0.1', 8502), CookieReceiverHandler)
+            server = ThreadingHTTPServer(('127.0.0.1', 8502), CookieReceiverHandler)
+            server.daemon_threads = True
+            _COOKIE_SERVER = server
             t = threading.Thread(target=server.serve_forever, daemon=True, name="CookieReceiverThread")
             t.start()
-        except Exception:
-            pass
+            print("[CookieServer] Started on port 8502", flush=True)
+        except Exception as e:
+            print(f"[CookieServer] Failed to start on 8502: {e}", flush=True)
 
 start_cookie_server()
 
@@ -944,8 +960,53 @@ st.sidebar.subheader("🤖 헤이딜러 AI 매입 견적")
 
 
 heydealer_url_input = st.sidebar.text_input("헤이딜러 차량 URL/ID", placeholder="URL 또는 ID 입력")
-default_cookie = os.getenv("HEYDEALER_COOKIE", "")
-heydealer_cookie_input = st.sidebar.text_input("세션 쿠키 (Cookie 헤더 전체)", value=default_cookie, type="password", help="브라우저 개발자 도구(F12) -> Network 탭에서 가져온 Cookie 문자열 전체를 붙여넣으세요. (.env에 HEYDEALER_COOKIE 로 저장하면 자동 입력됩니다.)")
+
+# 크롬 확장프로그램이 전송한 최신 쿠키를 .env에서 실시간으로 직접 읽어오기
+def get_current_hd_cookie():
+    try:
+        env_f = os.path.join(os.path.dirname(os.path.abspath(__file__)), '.env')
+        if os.path.exists(env_f):
+            with open(env_f, 'r', encoding='utf-8-sig') as f:
+                for line in f:
+                    line = line.strip()
+                    if line.startswith('HEYDEALER_COOKIE='):
+                        val = line.split('=', 1)[1].strip()
+                        if val.startswith('"') and val.endswith('"'): val = val[1:-1]
+                        elif val.startswith("'") and val.endswith("'"): val = val[1:-1]
+                        return val
+    except Exception:
+        pass
+    return os.getenv("HEYDEALER_COOKIE", "")
+
+live_cookie = get_current_hd_cookie()
+if 'cookie_version' not in st.session_state:
+    st.session_state.cookie_version = 0
+
+# 직전 로드한 쿠키와 다르면 강제 버전업하여 화면 갱신
+if st.session_state.get('_last_loaded_hd_cookie') != live_cookie:
+    st.session_state._last_loaded_hd_cookie = live_cookie
+    st.session_state.cookie_version += 1
+    st.session_state[f"hd_cookie_box_{st.session_state.cookie_version}"] = live_cookie
+
+# 쿠키 입력창과 미니 동기화(🔄) 버튼을 한 줄(가로 배치)로 구성
+col_ck_input, col_ck_btn = st.sidebar.columns([4, 1])
+with col_ck_input:
+    heydealer_cookie_input = st.text_input(
+        "세션 쿠키",
+        value=live_cookie,
+        key=f"hd_cookie_box_{st.session_state.cookie_version}",
+        type="password",
+        help="크롬 확장프로그램에서 [프로그램으로 자동 전송]을 누르면 즉시 동기화됩니다."
+    )
+with col_ck_btn:
+    st.write("") # 수직 정렬 여백
+    st.write("")
+    if st.button("🔄", help="전송받은 최신 쿠키 불러오기", key="sync_cookie_btn"):
+        live_cookie = get_current_hd_cookie()
+        st.session_state._last_loaded_hd_cookie = live_cookie
+        st.session_state.cookie_version += 1
+        st.session_state[f"hd_cookie_box_{st.session_state.cookie_version}"] = live_cookie
+        st.rerun()
 
 # 유효한 쿠키가 있으면 백그라운드에서 자연스러운 주기로 세션 자동 유지 시작
 if heydealer_cookie_input and heydealer_cookie_input.strip():
@@ -955,8 +1016,38 @@ if heydealer_cookie_input and heydealer_cookie_input.strip():
         st.session_state.heydealer_last_cookie = heydealer_cookie_input
         HeydealerScraper.start_keepalive_worker(st.session_state.heydealer_session)
 
+# KCar 검색 URL 사전 생성
+kcar_search_text = ""
+f_name = st.session_state.get('f_name', '전체')
+f_sub = st.session_state.get('f_sub', '전체')
+if f_name != "전체":
+    import re
+    kcar_name_clean = re.sub(r'\(.*?\)', '', str(f_name)).replace(" ", "").strip()
+    kcar_parts = [kcar_name_clean]
+    if f_sub != "전체":
+        kcar_sub_clean = re.sub(r'\(.*?\)', '', str(f_sub)).strip()
+        kcar_sub_clean = re.sub(r'([A-Za-z])(\d)', r'\1 \2', kcar_sub_clean).strip()
+        if kcar_sub_clean:
+            kcar_parts.append(kcar_sub_clean)
+    kcar_search_text = " ".join(kcar_parts)
+
+if kcar_search_text:
+    import urllib.parse, json
+    cond = {"wr_txt_idx": kcar_search_text}
+    cond_str = json.dumps(cond, separators=(',', ':'))
+    kcar_url = f"https://www.kcar.com/bc/search?searchCond={urllib.parse.quote(cond_str)}"
+else:
+    kcar_url = "https://www.kcar.com/bc/search"
+
+# 차량 수집 버튼과 KCAR 버튼을 나란히 배치 (줄바꿈 없이 한 줄에 예쁘게 나오도록 비율 조정)
+col_ai_btn, col_kcar_btn = st.sidebar.columns([2.3, 1])
 is_ai_running = st.session_state.get('ai_status') == "진행중"
-if st.sidebar.button("차량 정보 수집 및 AI 견적 산출", key="heydealer_btn", disabled=is_ai_running):
+with col_ai_btn:
+    run_heydealer = st.button("🤖 AI 견적 산출", key="heydealer_btn", disabled=is_ai_running, use_container_width=True)
+with col_kcar_btn:
+    st.link_button("KCAR", kcar_url, use_container_width=True)
+
+if run_heydealer:
     if not heydealer_url_input.strip():
         st.sidebar.warning("헤이딜러 차량 URL이나 ID를 입력해주세요.")
     elif not heydealer_cookie_input.strip():
@@ -1209,9 +1300,8 @@ if st.sidebar.button("차량 정보 수집 및 AI 견적 산출", key="heydealer
             
         except Exception as e:
             st.sidebar.error(f"작업 실패: {str(e)}")
-st.sidebar.markdown("### 🗃️ 데이터 스캔 관리")
-
-with st.sidebar.expander("📁 자사 재고 엑셀 관리", expanded=False):
+with st.sidebar.expander("🗃️ 부가 데이터 및 엔카 스캔", expanded=False):
+    st.caption("📁 자사 재고 엑셀 연동")
     uploaded_files = st.file_uploader("자사 재고 엑셀 업로드", type=['xlsx', 'xls', 'csv'], accept_multiple_files=True, label_visibility="collapsed")
     if st.button("📁 엑셀 병합 및 DB 저장", use_container_width=True):
         if uploaded_files:
@@ -1236,26 +1326,26 @@ with st.sidebar.expander("📁 자사 재고 엑셀 관리", expanded=False):
         if os.path.exists(INVENTORY_FILE): os.remove(INVENTORY_FILE)
         st.rerun()
 
-scan_url = st.sidebar.text_input("엔카 정밀 스캔 URL 입력:", key=f"scan_url_{st.session_state.form_reset_key}", label_visibility="collapsed", placeholder="엔카 URL 붙여넣기")
-    
-if st.sidebar.button("🚀 실시간 엔카 스캔", use_container_width=True):
-    if scan_url:
-        p_bar, s_text = st.progress(0), st.empty()
-        new_scan_df, msg = Scraper.run(scan_url, "", p_bar, s_text)
-        if msg == "success":
-            st.session_state.scan_data = pd.concat([st.session_state.scan_data, new_scan_df], ignore_index=True)
-            st.session_state.scan_data = st.session_state.scan_data.drop_duplicates(subset=['_carid'], keep='last').reset_index(drop=True)
-            
-            if not new_scan_df.empty:
-                st.session_state.f_brand = new_scan_df['제조사'].iloc[0] if '제조사' in new_scan_df.columns else "전체"
-                st.session_state.f_name = new_scan_df['차량명'].iloc[0]
-                st.session_state.f_sub = new_scan_df['세부모델'].iloc[0]
-                st.session_state.f_status = [] 
-            st.rerun()
-        else: s_text.error(msg)
+    st.markdown("---")
+    st.caption("🚗 엔카 정밀 스캔")
+    scan_url = st.text_input("엔카 정밀 스캔 URL 입력:", key=f"scan_url_{st.session_state.form_reset_key}", label_visibility="collapsed", placeholder="엔카 URL 붙여넣기")
         
-btn_col1, btn_col2 = st.sidebar.columns(2)
-with btn_col1:
+    if st.button("🚀 실시간 엔카 스캔", use_container_width=True):
+        if scan_url:
+            p_bar, s_text = st.progress(0), st.empty()
+            new_scan_df, msg = Scraper.run(scan_url, "", p_bar, s_text)
+            if msg == "success":
+                st.session_state.scan_data = pd.concat([st.session_state.scan_data, new_scan_df], ignore_index=True)
+                st.session_state.scan_data = st.session_state.scan_data.drop_duplicates(subset=['_carid'], keep='last').reset_index(drop=True)
+                
+                if not new_scan_df.empty:
+                    st.session_state.f_brand = new_scan_df['제조사'].iloc[0] if '제조사' in new_scan_df.columns else "전체"
+                    st.session_state.f_name = new_scan_df['차량명'].iloc[0]
+                    st.session_state.f_sub = new_scan_df['세부모델'].iloc[0]
+                    st.session_state.f_status = [] 
+                st.rerun()
+            else: s_text.error(msg)
+            
     if st.button("스캔 초기화", use_container_width=True): 
         st.session_state.scan_data = pd.DataFrame()
         st.session_state.f_brand = "전체"
@@ -1264,61 +1354,30 @@ with btn_col1:
         st.session_state.f_year = ""
         st.session_state.f_mil = 0
         st.rerun()
-with btn_col2:
-    kcar_search_text = ""
-    f_name = st.session_state.get('f_name', '전체')
-    f_sub = st.session_state.get('f_sub', '전체')
-    
-    if f_name != "전체":
-        import re
-        
-        # 괄호 제거 후 띄어쓰기 모두 없앰 (Kcar는 띄어쓰기 없는게 검색 더 잘됨)
-        kcar_name_clean = re.sub(r'\(.*?\)', '', str(f_name)).replace(" ", "").strip()
-        kcar_parts = [kcar_name_clean]
-        
-        if f_sub != "전체":
-            # 세부모델의 괄호 제거
-            kcar_sub_clean = re.sub(r'\(.*?\)', '', str(f_sub)).strip()
-            # KCar는 영문과 숫자 사이 띄어쓰기를 인식하는 경우가 많음 (예: VX 2WD)
-            kcar_sub_clean = re.sub(r'([A-Za-z])(\d)', r'\1 \2', kcar_sub_clean).strip()
-            if kcar_sub_clean:
-                kcar_parts.append(kcar_sub_clean)
-                
-        kcar_search_text = " ".join(kcar_parts)
-        
-    if kcar_search_text:
-        import urllib.parse, json
-        # KCar의 현재 검색 파라미터 규격에 맞춤
-        cond = {"wr_txt_idx": kcar_search_text}
-        cond_str = json.dumps(cond, separators=(',', ':'))
-        kcar_url = f"https://www.kcar.com/bc/search?searchCond={urllib.parse.quote(cond_str)}"
-    else:
-        kcar_url = "https://www.kcar.com/bc/search"
-    st.link_button("🔎 KCAR", kcar_url, use_container_width=True)
 
-if not st.session_state.scan_data.empty:
-    failed_mask = st.session_state.scan_data['성능일'].astype(str).str.contains("조회실패") | \
-                  st.session_state.scan_data['사고유무'].astype(str).str.contains("조회실패") | \
-                  st.session_state.scan_data['추가옵션'].astype(str).str.contains("조회실패")
-    failed_count = failed_mask.sum()
-    
-    if failed_count > 0:
-        st.markdown("---")
-        st.warning(f"⚠️ 조회실패 차량: {failed_count}대")
-        if st.sidebar.button("♻️ 실패 차량만 재스캔", use_container_width=True):
-            p_bar, s_text = st.progress(0), st.empty()
-            failed_indices = st.session_state.scan_data[failed_mask].index
-            Scraper.rescan(failed_indices, "", p_bar, s_text)
-            st.rerun()
+    if not st.session_state.scan_data.empty:
+        failed_mask = st.session_state.scan_data['성능일'].astype(str).str.contains("조회실패") | \
+                      st.session_state.scan_data['사고유무'].astype(str).str.contains("조회실패") | \
+                      st.session_state.scan_data['추가옵션'].astype(str).str.contains("조회실패")
+        failed_count = failed_mask.sum()
+        if failed_count > 0:
+            st.warning(f"⚠️ 조회실패 차량: {failed_count}대")
+            if st.button("♻️ 실패 차량만 재스캔", use_container_width=True):
+                p_bar, s_text = st.progress(0), st.empty()
+                failed_indices = st.session_state.scan_data[failed_mask].index
+                Scraper.rescan(failed_indices, "", p_bar, s_text)
+                st.rerun()
 
-st.sidebar.markdown(f"**총 스캔 대수: {len(st.session_state.scan_data)} 대**")
-
-st.sidebar.markdown("### 🔍 상세 검색 필터")
 filtered_df = st.session_state.scan_data.copy()
 filtered_df = DataProcessor.standardize(filtered_df)
 
 current_f_year = ""
 current_f_mil = 0
+
+# 스캔된 엔카 데이터가 있을 때만 검색 필터 노출
+if not filtered_df.empty:
+    st.sidebar.markdown(f"**총 스캔 대수: {len(st.session_state.scan_data)} 대**")
+    st.sidebar.markdown("### 🔍 상세 검색 필터")
 
 if not filtered_df.empty:
         f_brand_opts = ["전체"] + list(filtered_df['제조사'].dropna().unique())
@@ -2156,10 +2215,13 @@ with tab_main:
     </div>
     """, unsafe_allow_html=True)
 
-    # 요약 2번 계산
+    # 요약 2번 계산 및 🤖 AI 판단 낙찰(매입)가 산출
     hd_no_acc_avg = hd_avg_price
     hd_acc_avg = hd_avg_price
     hd_year_stats = ""
+    ai_wholesale_price = hd_avg_price
+    hd_ai_detail_desc = ""
+
     if not hd_df.empty and '판매가_num' in hd_df.columns:
         p_num = pd.to_numeric(hd_df['판매가_num'], errors='coerce')
         if '사고유무' in hd_df.columns:
@@ -2177,13 +2239,54 @@ with tab_main:
             if y_parts:
                 hd_year_stats = " / ".join(y_parts)
 
-    st.markdown(f"""
-    <div class='summary-box'>
-        <b style='color: #cc9166; font-size: 1.05em;'>📋 (2) 예상 매입가 기준 (헤이딜러 낙찰 데이터)</b><br>
-        • 동급 평균: <b style='color: #fff;'>{hd_avg_price:,}만원</b> (무사고 <b>{hd_no_acc_avg:,}만원</b> / 유사고 <b>{hd_acc_avg:,}만원</b>)<br>
-        • {hd_year_stats if hd_year_stats else '연식별 데이터 집계 완료'}
-    </div>
-    """, unsafe_allow_html=True)
+        # 🤖 AI 판단 낙찰(매입)가 계산
+        try:
+            hd_mil = pd.to_numeric(hd_df['주행거리_num'], errors='coerce').dropna()
+            hd_p = pd.to_numeric(hd_df['판매가_num'], errors='coerce').dropna()
+            valid_hd_idx = hd_mil.index.intersection(hd_p.index)
+
+            user_hd_target_mil = l_mil if ('l_mil' in locals() and l_mil > 0) else (current_f_mil if ('current_f_mil' in locals() and current_f_mil > 0) else (int(hd_mil.mean()) if not hd_mil.empty else 0))
+
+            hd_slope = -0.005  # 기본값: 1만km당 약 50만원 감가
+            base_hd_mil = int(hd_mil.loc[valid_hd_idx].mean()) if len(valid_hd_idx) > 0 else user_hd_target_mil
+            base_hd_price = hd_avg_price if hd_avg_price > 0 else (int(hd_p.mean()) if not hd_p.empty else 0)
+
+            if len(valid_hd_idx) >= 2:
+                hd_fit_z = np.polyfit(hd_mil.loc[valid_hd_idx], hd_p.loc[valid_hd_idx], 1)
+                if -0.02 <= hd_fit_z[0] <= -0.001:
+                    hd_slope = hd_fit_z[0]
+
+            hd_mil_diff = user_hd_target_mil - base_hd_mil
+            hd_mil_adj = int(round(hd_mil_diff * hd_slope))
+
+            ai_wholesale_price = int(base_hd_price + hd_mil_adj)
+
+            hd_adj_parts = []
+            if hd_mil_adj != 0:
+                hd_adj_parts.append(f"주행거리({user_hd_target_mil:,}km): {hd_mil_adj:+}만")
+            hd_ai_detail_desc = f" (동급 평균 {base_hd_price:,}만 대비 " + ", ".join(hd_adj_parts) + ")" if hd_adj_parts else " (동급 경매 평균 수준)"
+        except Exception:
+            ai_wholesale_price = hd_avg_price
+
+    hd_ai_badge_html = f"<span style='background: #1e293b; color: #38bdf8; padding: 4px 10px; border-radius: 6px; font-weight: bold; font-size: 1.05em; border: 1px solid #0284c7;'>🤖 AI 판단 매입가: <span style='font-size: 1.2em; color: #ffffff;'>{ai_wholesale_price:,}</span> 만원</span>" if (ai_wholesale_price > 0 and hd_total_count > 0) else ""
+
+    if hd_total_count > 0:
+        hd_summary_content = f"""<div class='summary-box'>
+<div style='display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #2e3038; padding-bottom: 8px; margin-bottom: 8px;'>
+<b style='color: #cc9166; font-size: 1.1em;'>📋 (2) 예상 매입가 기준 (헤이딜러 낙찰 데이터)</b>
+{hd_ai_badge_html}
+</div>
+• <b>AI 매입(낙찰)가 산출 내역:</b> <b style='color: #38bdf8;'>{ai_wholesale_price:,}만원</b><span style='color: #94a3b8; font-size: 0.9em;'>{hd_ai_detail_desc}</span><br>
+• 동급 경매 평균: <b style='color: #fff;'>{hd_avg_price:,}만원</b> (무사고 <b>{hd_no_acc_avg:,}만원</b> / 유사고 <b>{hd_acc_avg:,}만원</b>)<br>
+• {hd_year_stats if hd_year_stats else '연식별 데이터 집계 완료'}
+</div>"""
+    else:
+        hd_summary_content = """<div class='summary-box'>
+<b style='color: #cc9166; font-size: 1.1em;'>📋 (2) 예상 매입가 기준 (헤이딜러 낙찰 데이터)</b><br>
+• 헤이딜러 시세를 조회하면 동급 경매 평균 및 주행거리가 보정된 <b>AI 판단 매입(낙찰)가</b>가 여기에 계산되어 표시됩니다.
+</div>"""
+
+    st.markdown(hd_summary_content, unsafe_allow_html=True)
 
     # ==========================================
     # 📋 [5] 헤이딜러 리스트 및 상세스펙
