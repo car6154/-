@@ -14,8 +14,69 @@ import plotly.graph_objects as go
 from heydealer_ai import extract_car_data_for_ai, get_gemini_estimate
 from scraper import HeydealerScraper
 from dotenv import load_dotenv
+import threading
+from http.server import HTTPServer, BaseHTTPRequestHandler
 
 load_dotenv()
+
+# ==========================================
+# 🔌 크롬 확장프로그램 쿠키 수신 서버 (Port 8502)
+# ==========================================
+class CookieReceiverHandler(BaseHTTPRequestHandler):
+    def do_OPTIONS(self):
+        self.send_response(200)
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Access-Control-Allow-Methods', 'POST, OPTIONS')
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+        self.end_headers()
+
+    def do_POST(self):
+        if self.path == '/api/save_cookie':
+            content_length = int(self.headers.get('Content-Length', 0))
+            post_data = self.rfile.read(content_length)
+            try:
+                data = json.loads(post_data.decode('utf-8'))
+                raw_cookie = data.get('cookie', '').strip()
+                if raw_cookie:
+                    env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '.env')
+                    try:
+                        with open(env_path, 'r', encoding='utf-8') as f:
+                            c_txt = f.read()
+                    except:
+                        c_txt = ""
+
+                    new_line = f'HEYDEALER_COOKIE="{raw_cookie}"'
+                    if 'HEYDEALER_COOKIE=' in c_txt:
+                        c_txt = re.sub(r'HEYDEALER_COOKIE=.*', new_line, c_txt)
+                    else:
+                        c_txt = c_txt.rstrip('\n') + '\n' + new_line + '\n'
+
+                    with open(env_path, 'w', encoding='utf-8') as f:
+                        f.write(c_txt)
+
+                    self.send_response(200)
+                    self.send_header('Content-Type', 'application/json')
+                    self.send_header('Access-Control-Allow-Origin', '*')
+                    self.end_headers()
+                    self.wfile.write(json.dumps({"status": "ok", "message": "Cookie saved"}).encode('utf-8'))
+                    return
+            except Exception as ex:
+                pass
+        self.send_response(400)
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.end_headers()
+
+def start_cookie_server():
+    if not getattr(st, '_cookie_server_running', False):
+        st._cookie_server_running = True
+        try:
+            server = HTTPServer(('127.0.0.1', 8502), CookieReceiverHandler)
+            t = threading.Thread(target=server.serve_forever, daemon=True, name="CookieReceiverThread")
+            t.start()
+        except Exception:
+            pass
+
+start_cookie_server()
 
 # ==========================================
 # ⚙️ 1. 설정 및 상태 관리
@@ -159,6 +220,8 @@ if 'f_status' not in st.session_state: st.session_state.f_status = []
 if 'f_brand' not in st.session_state: st.session_state.f_brand = "전체"
 if 'f_name' not in st.session_state: st.session_state.f_name = "전체"
 if 'f_sub' not in st.session_state: st.session_state.f_sub = "전체"
+if 'f_year' not in st.session_state: st.session_state.f_year = ""
+if 'f_mil' not in st.session_state: st.session_state.f_mil = 0
 if 'my_ledger_data' not in st.session_state:
     if os.path.exists(LEDGER_FILE):
         try:
@@ -884,6 +947,14 @@ heydealer_url_input = st.sidebar.text_input("헤이딜러 차량 URL/ID", placeh
 default_cookie = os.getenv("HEYDEALER_COOKIE", "")
 heydealer_cookie_input = st.sidebar.text_input("세션 쿠키 (Cookie 헤더 전체)", value=default_cookie, type="password", help="브라우저 개발자 도구(F12) -> Network 탭에서 가져온 Cookie 문자열 전체를 붙여넣으세요. (.env에 HEYDEALER_COOKIE 로 저장하면 자동 입력됩니다.)")
 
+# 유효한 쿠키가 있으면 백그라운드에서 자연스러운 주기로 세션 자동 유지 시작
+if heydealer_cookie_input and heydealer_cookie_input.strip():
+    if ('heydealer_session' not in st.session_state or
+            st.session_state.get('heydealer_last_cookie') != heydealer_cookie_input):
+        st.session_state.heydealer_session = HeydealerScraper.build_session(heydealer_cookie_input)
+        st.session_state.heydealer_last_cookie = heydealer_cookie_input
+        HeydealerScraper.start_keepalive_worker(st.session_state.heydealer_session)
+
 is_ai_running = st.session_state.get('ai_status') == "진행중"
 if st.sidebar.button("차량 정보 수집 및 AI 견적 산출", key="heydealer_btn", disabled=is_ai_running):
     if not heydealer_url_input.strip():
@@ -897,6 +968,7 @@ if st.sidebar.button("차량 정보 수집 및 AI 견적 산출", key="heydealer
                     st.session_state.get('heydealer_last_cookie') != heydealer_cookie_input):
                 st.session_state.heydealer_session = HeydealerScraper.build_session(heydealer_cookie_input)
                 st.session_state.heydealer_last_cookie = heydealer_cookie_input
+            HeydealerScraper.start_keepalive_worker(st.session_state.heydealer_session)
 
             with st.sidebar.spinner("헤이딜러 서버에서 차량 정보를 가져오는 중입니다..."):
                 result = HeydealerScraper.fetch_car_detail(
@@ -969,7 +1041,14 @@ if st.sidebar.button("차량 정보 수집 및 AI 견적 산출", key="heydealer
                 st.session_state.form_reset_key = st.session_state.get('form_reset_key', 0) + 1
                 reset_key = st.session_state.form_reset_key
                 
+                # 헤이딜러 기준 연식(뒤 2자리 또는 전체) 및 주행거리를 사이드바 필터에 자동 설정
+                if hd_year:
+                    hd_year_str = str(hd_year).strip()
+                    # 4자리 연도인 경우 뒤 2자리 (예: 2024 -> 24)
+                    f_year_val = hd_year_str[-2:] if len(hd_year_str) == 4 and hd_year_str.isdigit() else hd_year_str
+                    st.session_state.f_year = f_year_val
                 if hd_mil:
+                    st.session_state.f_mil = int(hd_mil)
                     st.session_state[f"mil_{reset_key}"] = int(hd_mil)
                 if hd_plate:
                     st.session_state[f"car_num_{reset_key}"] = str(hd_plate)
@@ -1182,6 +1261,8 @@ with btn_col1:
         st.session_state.f_brand = "전체"
         st.session_state.f_name = "전체"
         st.session_state.f_sub = "전체"
+        st.session_state.f_year = ""
+        st.session_state.f_mil = 0
         st.rerun()
 with btn_col2:
     kcar_search_text = ""
@@ -1296,14 +1377,18 @@ if not filtered_df.empty:
                 filtered_df = filtered_df[encar_sub_clean.str.contains(part_clean, na=False, regex=False)]
                 encar_sub_clean = encar_sub_clean[filtered_df.index]
         
-        current_f_year = st.sidebar.text_input("연식 검색 (예: 24)", key=f"search_year_{st.session_state.form_reset_key}")
+        default_f_year = st.session_state.get('f_year', '')
+        current_f_year = st.sidebar.text_input("연식 검색 (예: 24)", value=default_f_year, key=f"search_year_{st.session_state.form_reset_key}")
         if current_f_year: filtered_df = filtered_df[filtered_df['연식'].astype(str).str.contains(current_f_year)]
         
         if "주행거리" in filtered_df.columns:
             filtered_df["주행거리"] = pd.to_numeric(filtered_df["주행거리"], errors='coerce').fillna(0)
             max_mil = int(filtered_df["주행거리"].max()) if not filtered_df.empty else 0
             if max_mil > 0:
-                current_f_mil = st.sidebar.slider("📈 시세분석용 주행거리 이하 (km)", 0, max_mil, max_mil, step=1000)
+                target_f_mil = st.session_state.get('f_mil', 0)
+                # 헤이딜러 주행거리가 있으면 그 값을 기본값으로, 없거나 범위 밖이면 max_mil 사용
+                default_mil_val = int(target_f_mil) if 0 < target_f_mil <= max_mil else max_mil
+                current_f_mil = st.sidebar.slider("📈 시세분석용 주행거리 이하 (km)", 0, max_mil, default_mil_val, step=1000)
 
         if "재고" in filtered_df.columns:
             filtered_df['_sort_inv'] = pd.to_numeric(filtered_df['재고'], errors='coerce').fillna(99999)
@@ -1500,13 +1585,85 @@ with tab_main:
             if y_parts:
                 encar_year_stats = " / ".join(y_parts)
 
-    st.markdown(f"""
-    <div class='summary-box'>
-        <b style='color: #cc9166; font-size: 1.05em;'>📋 (1) 예상 소매가 기준 (엔카 판매 데이터)</b><br>
-        • 동급 평균: <b style='color: #fff;'>{encar_avg_price:,}만원</b> (무사고 <b>{encar_no_acc_avg:,}만원</b> / 유사고 <b>{encar_acc_avg:,}만원</b> - 사고감가 차이: {encar_acc_gap:,}만원)<br>
-        • {encar_year_stats if encar_year_stats else '연식별 데이터 집계 완료'}
-    </div>
-    """, unsafe_allow_html=True)
+    # 🤖 AI 타겟 맞춤 소매가 자동 산출 (주행거리 추세선 기울기 + 옵션 차이 보정)
+    ai_retail_price = 0
+    ai_detail_desc = ""
+    try:
+        if not chart_base.empty:
+            c_mil = pd.to_numeric(chart_base['주행거리'], errors='coerce').dropna()
+            c_price = pd.to_numeric(chart_base['판매가'], errors='coerce').dropna()
+            valid_idx = c_mil.index.intersection(c_price.index)
+
+            # 1. 기준 주행거리 (좌측 장부에 입력된 주행거리 > 없으면 사이드바 필터 주행거리 > 없으면 평균)
+            user_target_mil = l_mil if ('l_mil' in locals() and l_mil > 0) else (current_f_mil if ('current_f_mil' in locals() and current_f_mil > 0) else (int(c_mil.mean()) if not c_mil.empty else 0))
+            
+            # 2. 주행거리 감가 기울기 (회귀 분석 a)
+            slope = -0.005  # 기본값: 1만km당 약 50만원 감가
+            base_mil = int(c_mil.loc[valid_idx].mean()) if len(valid_idx) > 0 else user_target_mil
+            base_price = encar_avg_price if encar_avg_price > 0 else (int(c_price.mean()) if not c_price.empty else 0)
+
+            if len(valid_idx) >= 2:
+                fit_z = np.polyfit(c_mil.loc[valid_idx], c_price.loc[valid_idx], 1)
+                # 기울기가 정상적인 음수(주행거리 늘면 감가)일 때 적용, 극단치 방지 (-0.02 ~ -0.001)
+                if -0.02 <= fit_z[0] <= -0.001:
+                    slope = fit_z[0]
+
+            mil_diff = user_target_mil - base_mil
+            mil_adj = int(round(mil_diff * slope))
+
+            # 3. 옵션 가치 차이 계산 (상세스펙 옵션 가격 파싱 및 잔존율 반영)
+            def extract_option_val(opt_str):
+                if not opt_str or str(opt_str) in ("없음", "-", "없음(구버전점검)", "⚠️조회실패", "코드매칭실패"):
+                    return 0
+                prices = re.findall(r'\((\d+)만\)', str(opt_str))
+                return sum(int(p) for p in prices) if prices else 0
+
+            # 전체 매물들의 평균 옵션 신차가액
+            avg_opt_new = 0
+            if '추가옵션' in chart_base.columns:
+                opt_vals = chart_base['추가옵션'].apply(extract_option_val)
+                avg_opt_new = int(opt_vals.mean()) if not opt_vals.empty else 0
+
+            # 선택되거나 타겟된 차량의 옵션 신차가액
+            target_opt_new = avg_opt_new
+            if 'selected_encar_row' in locals() and selected_encar_row is not None and pd.notna(selected_encar_row.get('추가옵션')):
+                target_opt_new = extract_option_val(selected_encar_row.get('추가옵션'))
+
+            # 옵션 중고차 잔존가치율: 4~5년차 기준 약 35% 인정
+            opt_adj = int(round((target_opt_new - avg_opt_new) * 0.35))
+
+            # 최종 AI 추정 소매가
+            ai_retail_price = int(base_price + mil_adj + opt_adj)
+
+            # 내역 설명 텍스트
+            adj_parts = []
+            if mil_adj != 0:
+                adj_parts.append(f"주행거리({user_target_mil:,}km): {mil_adj:+}만")
+            if opt_adj != 0:
+                adj_parts.append(f"옵션가치: {opt_adj:+}만")
+            ai_detail_desc = f" (동급 평균 {base_price:,}만 대비 " + ", ".join(adj_parts) + ")" if adj_parts else " (동급 기준 평균 수준)"
+    except Exception as e:
+        ai_retail_price = encar_avg_price
+
+    ai_badge_html = f"<span style='background: #1e293b; color: #38bdf8; padding: 4px 10px; border-radius: 6px; font-weight: bold; font-size: 1.05em; border: 1px solid #0284c7;'>🤖 AI 판단 소매가: <span style='font-size: 1.2em; color: #ffffff;'>{ai_retail_price:,}</span> 만원</span>" if (ai_retail_price > 0 and encar_total_count > 0) else ""
+
+    if encar_total_count > 0:
+        summary_content = f"""<div class='summary-box'>
+<div style='display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #2e3038; padding-bottom: 8px; margin-bottom: 8px;'>
+<b style='color: #cc9166; font-size: 1.1em;'>📋 (1) 예상 소매가 기준 (엔카 판매 데이터)</b>
+{ai_badge_html}
+</div>
+• <b>AI 소매가 산출 내역:</b> <b style='color: #38bdf8;'>{ai_retail_price:,}만원</b><span style='color: #94a3b8; font-size: 0.9em;'>{ai_detail_desc}</span><br>
+• 동급 시장 평균: <b style='color: #fff;'>{encar_avg_price:,}만원</b> (무사고 <b>{encar_no_acc_avg:,}만원</b> / 유사고 <b>{encar_acc_avg:,}만원</b> - 사고감가 차이: {encar_acc_gap:,}만원)<br>
+• {encar_year_stats if encar_year_stats else '연식별 데이터 집계 완료'}
+</div>"""
+    else:
+        summary_content = """<div class='summary-box'>
+<b style='color: #cc9166; font-size: 1.1em;'>📋 (1) 예상 소매가 기준 (엔카 판매 데이터)</b><br>
+• 데이터를 스캔하면 실시간 엔카 시장 평균가 및 주행거리·옵션 가치가 보정된 <b>AI 판단 소매가</b>가 여기에 계산되어 표시됩니다.
+</div>"""
+
+    st.markdown(summary_content, unsafe_allow_html=True)
 
     # ==========================================
     # 📊 [2] 엔카 시세 리스트 및 상세스펙
@@ -1609,10 +1766,23 @@ with tab_main:
         with main_col2:
             st.markdown("#### 🔍 상세 스펙 & 성능점검")
             selected_rows = event.selection.rows if hasattr(event, "selection") else []
+            selected_encar_row = None
             
+            # 1. 표(DataFrame)에서 행을 클릭한 경우
             if selected_rows:
                 selected_idx = selected_rows[0]
-                row = display_df.iloc[selected_idx]
+                if selected_idx < len(display_df):
+                    selected_encar_row = display_df.iloc[selected_idx]
+                    st.session_state.selected_car_id = selected_encar_row.get('_carid')
+            # 2. 산점도(Scatter Plot) 점을 클릭하여 세션 상태에 저장된 경우
+            elif st.session_state.get('selected_car_id'):
+                target_id = st.session_state.get('selected_car_id')
+                matched = display_df[display_df['_carid'] == target_id]
+                if not matched.empty:
+                    selected_encar_row = matched.iloc[0]
+
+            if selected_encar_row is not None:
+                row = selected_encar_row
 
                 PART_COORDS_OUTER = [
                     (("후드",),                55, 20,  110, 55, "후드", "후드"),
@@ -1854,12 +2024,15 @@ with tab_main:
                 for _, r in chart_df.iterrows()
             ]
 
+            car_ids = [str(r.get('_carid', '')) for _, r in chart_df.iterrows()]
+
             fig.add_trace(go.Scatter(
                 x=chart_df['주행거리_num'],
                 y=chart_df['판매가_num'],
                 mode='markers',
                 marker=dict(size=9, color=colors, opacity=0.85, line=dict(width=1, color='#1c1d22')),
                 text=hover_text,
+                customdata=car_ids,
                 hovertemplate="주행거리: %{x:,.0f}km<br>판매가: %{y:,.0f}만원<br>%{text}<extra></extra>",
                 name="엔카 매물"
             ))
@@ -1878,6 +2051,33 @@ with tab_main:
                     ))
                 except: pass
 
+            # 🎯 선택된 차량 산점도 강조 표시 (별 모양 및 외곽선)
+            if 'selected_encar_row' in locals() and selected_encar_row is not None:
+                try:
+                    sel_mil = pd.to_numeric(selected_encar_row.get('주행거리'), errors='coerce')
+                    sel_price = pd.to_numeric(selected_encar_row.get('판매가'), errors='coerce')
+                    if pd.notna(sel_mil) and pd.notna(sel_price):
+                        sel_name = selected_encar_row.get('차량명', '선택 차량')
+                        sel_acc = selected_encar_row.get('사고유무', '-')
+                        fig.add_trace(go.Scatter(
+                            x=[sel_mil],
+                            y=[sel_price],
+                            mode='markers+text',
+                            marker=dict(
+                                symbol='star',
+                                size=22,
+                                color='#facc15',
+                                line=dict(color='#dc2626', width=2.5)
+                            ),
+                            text=[f"⭐ {sel_name}"],
+                            textposition="top center",
+                            textfont=dict(color='#ffffff', size=12, family='sans-serif'),
+                            hovertemplate=f"<b>[선택 차량] {sel_name}</b><br>주행거리: %{{x:,.0f}}km<br>판매가: %{{y:,.0f}}만원<br>사고: {sel_acc}<extra></extra>",
+                            name="선택 차량"
+                        ))
+                except Exception as e:
+                    pass
+
             fig.update_layout(
                 paper_bgcolor='#08080a',
                 plot_bgcolor='#121317',
@@ -1890,7 +2090,32 @@ with tab_main:
                 hovermode='closest',
             )
 
-            st.plotly_chart(fig, use_container_width=True)
+            chart_event = st.plotly_chart(
+                fig,
+                use_container_width=True,
+                key="scatter_plot_chart",
+                on_select="rerun",
+                selection_mode="points"
+            )
+
+            # 산점도에서 점 클릭 시 선택 차량 세션 갱신 및 리런
+            if chart_event and hasattr(chart_event, 'selection') and chart_event.selection:
+                points = getattr(chart_event.selection, 'points', [])
+                if points:
+                    clicked_point = points[0]
+                    clicked_carid = None
+                    # customdata에서 carid 추출 시도
+                    if 'customdata' in clicked_point:
+                        cdata = clicked_point['customdata']
+                        clicked_carid = cdata[0] if isinstance(cdata, list) else cdata
+                    elif 'point_index' in clicked_point:
+                        pt_idx = clicked_point['point_index']
+                        if pt_idx < len(car_ids):
+                            clicked_carid = car_ids[pt_idx]
+
+                    if clicked_carid and str(clicked_carid) != str(st.session_state.get('selected_car_id')):
+                        st.session_state.selected_car_id = str(clicked_carid)
+                        st.rerun()
         else:
             st.info("차트를 그릴 수 있는 유효 데이터가 없습니다.")
     else:
@@ -1904,13 +2129,6 @@ with tab_main:
     st.markdown("### 🤖 헤이딜러 동급 낙찰 데이터 요약")
     
     hd_df = st.session_state.get('hd_comp_df', pd.DataFrame())
-    if os.path.exists('scratch_market_price.json') and (hd_df.empty or '사고상세' not in hd_df.columns or not hd_df['사고상세'].astype(str).str.strip().any() or hd_df['사고유무'].astype(str).str.contains('사고/단순').any()):
-        try:
-            with open('scratch_market_price.json', 'r', encoding='utf-8') as f:
-                raw_sc = json.load(f)
-                hd_df = parse_heydealer_comps(raw_sc)
-                st.session_state.hd_comp_df = hd_df
-        except Exception: pass
 
     hd_total_count = len(hd_df)
     hd_min_price = int(hd_df['판매가_num'].min()) if not hd_df.empty and '판매가_num' in hd_df.columns else 0

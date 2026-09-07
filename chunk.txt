@@ -1,0 +1,15 @@
+tbl_repair">
+					<caption>자동차 종합상태 표</caption>
+					<colgroup>
+						<col width="149px" /><col width="245px" /><col />
+					</colgroup>
+					<tbody>
+					<tr>
+						<th scope="row">사고이력 <a class="uibtn_q uitooltip_btn" href="#uitooltip_performance_notice1" onmouseover="uiTooltip.init({obj:'.uitooltip_performance_notice1',btn:this,hover:true,baseDiv:'.section_repair'});" onfocus="uiTooltip.init({obj:'.uitooltip_performance_notice1',btn:this,hover:true,baseDiv:'.section_repair'});">자세히보기</a></th>
+						<td colspan="2" class="td_left">
+							<span class="txt_state">있음</span>
+							<span class="txt_state on">없음</span>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">단순수리 <a class="uibtn_q uitooltip_btn" href="#uitooltip_performance_notice2" onmouseover="uiTool

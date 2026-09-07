@@ -1,0 +1,10 @@
+cus="uiTooltip.init({obj:'.uitooltip_performance_notice2',btn:this,hover:true,baseDiv:'.section_repair'});">자세히보기</a></th>
+						<td colspan="2" class="td_left">
+							<span class="txt_state on">있음</span>
+							<span class="txt_state">없음</span>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">가격조사 산정액<br/>및 특기사항</th>
+						<td class="td_left"></td>
+						<td class="td_

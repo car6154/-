@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "J-PRO 헤이딜러 쿠키 자동연동기",
+  "version": "1.0",
+  "description": "헤이딜러 로그인 쿠키를 J-PRO 전산 프로그램으로 1초만에 자동 전송합니다.",
+  "permissions": [
+    "cookies"
+  ],
+  "host_permissions": [
+    "*://*.heydealer.com/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "J-PRO 헤이딜러 쿠키 연동"
+  }
+}
