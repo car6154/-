@@ -7,20 +7,25 @@ document.getElementById('syncBtn').addEventListener('click', async () => {
   statusDiv.className = '';
 
   try {
-    // heydealer.com 관련 모든 쿠키 수집
-    const cookies1 = await chrome.cookies.getAll({ domain: 'heydealer.com' });
-    const cookies2 = await chrome.cookies.getAll({ domain: 'api.heydealer.com' });
-    const cookies3 = await chrome.cookies.getAll({ domain: 'dealer.heydealer.com' });
+    // heydealer.com 관련 모든 쿠키 수집 (url 방식 및 domain 방식 모두 병합)
+    const [cUrl1, cUrl2, cUrl3, cDom1, cDom2, cDom3] = await Promise.all([
+      chrome.cookies.getAll({ url: 'https://dealer.heydealer.com' }),
+      chrome.cookies.getAll({ url: 'https://heydealer.com' }),
+      chrome.cookies.getAll({ url: 'https://api.heydealer.com' }),
+      chrome.cookies.getAll({ domain: 'heydealer.com' }),
+      chrome.cookies.getAll({ domain: '.heydealer.com' }),
+      chrome.cookies.getAll({ domain: 'dealer.heydealer.com' })
+    ]);
 
     const allMap = new Map();
-    [...cookies1, ...cookies2, ...cookies3].forEach(c => {
-      if (c.name && c.value) {
+    [...cUrl1, ...cUrl2, ...cUrl3, ...cDom1, ...cDom2, ...cDom3].forEach(c => {
+      if (c && c.name && c.value) {
         allMap.set(c.name, c.value);
       }
     });
 
     if (allMap.size === 0) {
-      statusDiv.textContent = '❌ 헤이딜러 쿠키가 없습니다. 먼저 헤이딜러에 로그인해주세요!';
+      statusDiv.textContent = '❌ 헤이딜러 쿠키를 찾지 못했습니다. 헤이딜러 창을 열고 로그인해주세요!';
       statusDiv.className = 'error';
       btn.disabled = false;
       return;
@@ -38,8 +43,19 @@ document.getElementById('syncBtn').addEventListener('click', async () => {
       });
 
       if (response.ok) {
-        statusDiv.textContent = '✅ 쿠키 연동 완료! 프로그램에 자동 적용되었습니다.';
+        statusDiv.textContent = '✅ 쿠키 연동 완료! J-PRO 화면을 새로고침합니다...';
         statusDiv.className = 'success';
+        
+        // 열려있는 J-PRO(Streamlit) 탭 자동 새로고침
+        if (chrome.tabs) {
+          chrome.tabs.query({}, (tabs) => {
+            tabs.forEach(tab => {
+              if (tab.url && (tab.url.includes('localhost:8501') || tab.url.includes('127.0.0.1:8501'))) {
+                chrome.tabs.reload(tab.id);
+              }
+            });
+          });
+        }
         return;
       }
     } catch (netErr) {
@@ -62,9 +78,18 @@ document.getElementById('syncBtn').addEventListener('click', async () => {
 document.getElementById('copyBtn').addEventListener('click', async () => {
   const statusDiv = document.getElementById('status');
   try {
-    const cookies = await chrome.cookies.getAll({ domain: 'heydealer.com' });
+    const [cUrl1, cUrl2, cUrl3, cDom1, cDom2, cDom3] = await Promise.all([
+      chrome.cookies.getAll({ url: 'https://dealer.heydealer.com' }),
+      chrome.cookies.getAll({ url: 'https://heydealer.com' }),
+      chrome.cookies.getAll({ url: 'https://api.heydealer.com' }),
+      chrome.cookies.getAll({ domain: 'heydealer.com' }),
+      chrome.cookies.getAll({ domain: '.heydealer.com' }),
+      chrome.cookies.getAll({ domain: 'dealer.heydealer.com' })
+    ]);
     const allMap = new Map();
-    cookies.forEach(c => { if (c.name && c.value) allMap.set(c.name, c.value); });
+    [...cUrl1, ...cUrl2, ...cUrl3, ...cDom1, ...cDom2, ...cDom3].forEach(c => {
+      if (c && c.name && c.value) allMap.set(c.name, c.value);
+    });
     if (allMap.size === 0) {
       statusDiv.textContent = '❌ 헤이딜러 쿠키가 없습니다.';
       statusDiv.className = 'error';

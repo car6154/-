@@ -222,7 +222,7 @@ class HeydealerScraper:
 
         # .env 파일 읽기
         try:
-            with open(env_path, 'r', encoding='utf-8') as f:
+            with open(env_path, 'r', encoding='utf-8-sig') as f:
                 content = f.read()
         except FileNotFoundError:
             content = ""

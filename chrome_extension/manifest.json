@@ -4,10 +4,11 @@
   "version": "1.0",
   "description": "헤이딜러 로그인 쿠키를 J-PRO 전산 프로그램으로 1초만에 자동 전송합니다.",
   "permissions": [
-    "cookies"
+    "cookies",
+    "tabs"
   ],
   "host_permissions": [
-    "*://*.heydealer.com/*"
+    "<all_urls>"
   ],
   "action": {
     "default_popup": "popup.html",
