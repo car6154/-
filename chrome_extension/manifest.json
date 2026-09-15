@@ -13,5 +13,8 @@
   "action": {
     "default_popup": "popup.html",
     "default_title": "J-PRO 헤이딜러 쿠키 연동"
+  },
+  "background": {
+    "service_worker": "background.js"
   }
 }
