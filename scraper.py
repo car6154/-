@@ -229,7 +229,7 @@ class HeydealerScraper:
 
         new_line = f'HEYDEALER_COOKIE="{new_cookie_str}"'
         if 'HEYDEALER_COOKIE=' in content:
-            content = re.sub(r'HEYDEALER_COOKIE=.*', new_line, content)
+            content = re.sub(r'HEYDEALER_COOKIE=.*', lambda m: new_line, content)
         else:
             content = content.rstrip('\n') + '\n' + new_line + '\n'
 
