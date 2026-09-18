@@ -19,7 +19,7 @@ from sales_analysis import get_car_market_stats, generate_encar_market_url, Sale
 
 # ==========================================
 # 📦 Services & Views Modular Imports
-from services.cookie_server import get_current_hd_cookie, get_current_autoplus_cookie
+from services.cookie_server import get_current_hd_cookie, get_current_autoplus_cookie, start_cookie_server
 from services.heydealer_service import parse_heydealer_comps
 from services.data_processor import DataProcessor
 from services.encar_service import Scraper
@@ -35,66 +35,85 @@ from views.tab_ledger import (
 )
 
 load_dotenv()
+
+# 🍪 Chrome Extension 쿠키 수신 서버 시작 (포트 8502)
+start_cookie_server(port=8502)
 st.set_page_config(page_title="J-PRO Valuation System", page_icon="🏅", layout="wide")
 
 st.markdown('''
 <style>
-/* Midnight Vault Theme */
+/* ═══════════════════════════════════════════
+   Slash — Midnight Vault Theme
+   Based on 슬래시.md design tokens
+   ═══════════════════════════════════════════ */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap');
+
 :root {
+    /* ── Surfaces ── */
     --color-obsidian: #08080a;
+    --color-onyx: #040406;
     --color-carbon: #121317;
     --color-graphite: #1c1d22;
     --color-slate: #2e3038;
-    --color-copper: #cc9166;
+    /* ── Grays (text hierarchy) ── */
+    --color-smoke: #464853;
+    --color-ash: #5e616e;
+    --color-steel: #777a88;
     --color-fog: #9194a1;
+    --color-mist: #acafb9;
+    --color-silver: #c7c9d1;
     --color-bone: #e2e3e9;
     --color-paper-white: #ffffff;
+    /* ── Accent ── */
+    --color-copper: #cc9166;
 }
 
+/* ── Global ── */
 .stApp {
     background-color: var(--color-obsidian) !important;
     color: var(--color-bone) !important;
     font-family: 'Inter', sans-serif !important;
 }
 
+/* ── Sidebar ── */
 [data-testid="stSidebar"] {
     background-color: #0c0d11 !important;
     border-right: 1px solid var(--color-graphite) !important;
 }
 
+/* ── Headings: Serif for h1-h3, Sans for h4-h6 ── */
 h1, h2, h3 {
     color: var(--color-paper-white) !important;
     font-family: 'Playfair Display', serif !important;
     font-weight: 500 !important;
 }
-
 h4, h5, h6 {
     color: var(--color-bone) !important;
     font-family: 'Inter', sans-serif !important;
 }
 
-/* Metric Cards (2/3 compact size) */
+/* ═══ Metric Cards ═══ */
 .metric-card {
-    background-color: #121317 !important;
-    border-radius: 8px !important;
+    background-color: var(--color-carbon) !important;
+    border-radius: 10px !important;
     padding: 12px 14px !important;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.4) !important;
+    box-shadow: none !important;
     display: flex !important;
     align-items: center !important;
     justify-content: flex-start !important;
     margin-bottom: 10px !important;
-    border: 1px solid #2e3038 !important;
-    transition: all 0.2s ease;
+    border: 1px solid var(--color-slate) !important;
+    transition: border-color 0.2s ease;
     box-sizing: border-box !important;
 }
 .metric-card:hover {
-    border-color: #cc9166 !important;
+    border-color: var(--color-copper) !important;
 }
 .metric-icon {
     font-size: 1.35em !important;
-    background: #1c1d22 !important;
+    background: var(--color-graphite) !important;
     padding: 6px 10px !important;
-    border-radius: 8px !important;
+    border-radius: 10px !important;
     margin-right: 12px !important;
     flex-shrink: 0 !important;
 }
@@ -102,64 +121,66 @@ h4, h5, h6 {
     flex: 1 !important;
     min-width: 0 !important;
 }
+/* KPI 라벨: Silver로 올려 가독성 확보 */
 .metric-content h4 {
     margin: 0 !important;
     font-size: 0.78em !important;
-    color: #9194a1 !important;
+    color: var(--color-silver) !important;
     text-transform: uppercase !important;
     letter-spacing: 0.5px !important;
     white-space: nowrap !important;
     text-overflow: ellipsis !important;
     overflow: hidden !important;
 }
+/* KPI 핵심 숫자: Paper White + Serif */
 .metric-content h2 {
     margin: 2px 0 0 0 !important;
     font-size: 1.22em !important;
-    color: #ffffff !important;
+    color: var(--color-paper-white) !important;
     font-family: 'Playfair Display', serif !important;
     white-space: nowrap !important;
 }
 
-/* Summary Box */
+/* ═══ Summary Box ═══ */
 .summary-box {
-    background: #121317 !important;
-    border: 1px solid #1c1d22 !important;
-    border-left: 4px solid #cc9166 !important;
-    border-radius: 8px !important;
+    background: var(--color-carbon) !important;
+    border: 1px solid var(--color-graphite) !important;
+    border-left: 4px solid var(--color-copper) !important;
+    border-radius: 10px !important;
     padding: 12px 16px !important;
     margin-top: 6px !important;
     margin-bottom: 20px !important;
-    color: #e2e3e9 !important;
+    color: var(--color-bone) !important;
     font-size: 0.88em !important;
     line-height: 1.6 !important;
 }
 
-/* Tabs */
+/* ═══ Tabs ═══ */
 .stTabs [data-baseweb="tab-list"] {
     background-color: transparent !important;
-    border-bottom: 1px solid #1c1d22 !important;
+    border-bottom: 1px solid var(--color-graphite) !important;
     gap: 6px !important;
 }
 .stTabs [data-baseweb="tab"] {
-    color: #9194a1 !important;
-    background-color: #121317 !important;
-    border: 1px solid #1c1d22 !important;
+    color: var(--color-fog) !important;
+    background-color: var(--color-carbon) !important;
+    border: 1px solid var(--color-graphite) !important;
     border-radius: 6px 6px 0 0 !important;
     padding: 8px 16px !important;
 }
 .stTabs [aria-selected="true"] {
-    color: #cc9166 !important;
-    border-color: #cc9166 #cc9166 transparent #cc9166 !important;
+    color: var(--color-copper) !important;
+    border-color: var(--color-copper) var(--color-copper) transparent var(--color-copper) !important;
     background-color: #1a1b22 !important;
-    font-weight: bold !important;
+    font-weight: 600 !important;
 }
 
-/* Sidebar Ultra-Compact Mini Expanders (초슬림 크기 대폭 축소) */
+/* ═══ Sidebar Expanders (슬래시 팔레트 통일) ═══ */
 [data-testid="stSidebar"] [data-testid="stExpander"] {
-    border: 1px solid #1e293b !important;
+    border: 1px solid var(--color-graphite) !important;
     border-radius: 5px !important;
     margin-bottom: 3px !important;
-    background: #0f172a !important;
+    background: #0c0d11 !important;
     box-shadow: none !important;
 }
 [data-testid="stSidebar"] [data-testid="stExpander"] details {
@@ -174,29 +195,29 @@ h4, h5, h6 {
     cursor: pointer !important;
 }
 [data-testid="stSidebar"] [data-testid="stExpander"] summary:hover {
-    background: #1e293b !important;
+    background: var(--color-graphite) !important;
 }
 [data-testid="stSidebar"] [data-testid="stExpander"] summary p,
 [data-testid="stSidebar"] [data-testid="stExpander"] summary span,
 [data-testid="stSidebar"] [data-testid="stExpander"] summary div {
     font-size: 0.72rem !important;
     font-weight: 500 !important;
-    color: #94a3b8 !important;
+    color: var(--color-mist) !important;
     margin: 0 !important;
     line-height: 1 !important;
 }
 [data-testid="stSidebar"] [data-testid="stExpander"] summary svg {
     width: 10px !important;
     height: 10px !important;
-    fill: #64748b !important;
+    fill: var(--color-steel) !important;
 }
 [data-testid="stSidebar"] [data-testid="stExpander"] [data-testid="stExpanderDetails"] {
     padding: 6px 8px !important;
-    background: #090d16 !important;
-    border-top: 1px solid #1e293b !important;
+    background: var(--color-obsidian) !important;
+    border-top: 1px solid var(--color-graphite) !important;
 }
 
-/* Dataframe Row One-Click Selection & Subtle Selection Column Styling */
+/* ═══ Dataframe ═══ */
 [data-testid="stDataFrame"] {
     cursor: pointer !important;
 }
@@ -204,21 +225,21 @@ h4, h5, h6 {
     cursor: pointer !important;
 }
 
-/* 🎯 헤이딜러 URL/ID 입력창 시인성 극대화 (글로우 및 뚜렷한 포커스) */
+/* ═══ 헤이딜러 URL/ID 입력창 (Copper 글로우 통일) ═══ */
 div[data-testid="stTextInput"]:has(input[placeholder*="헤이딜러 URL"]) input,
 input[placeholder*="헤이딜러 URL"] {
-    background-color: #0f172a !important;
-    border: 2px solid #38bdf8 !important;
-    border-radius: 6px !important;
-    color: #ffffff !important;
+    background-color: var(--color-carbon) !important;
+    border: 2px solid var(--color-copper) !important;
+    border-radius: 10px !important;
+    color: var(--color-paper-white) !important;
     font-size: 0.95rem !important;
     font-weight: 500 !important;
-    box-shadow: 0 0 10px rgba(56, 189, 248, 0.25) !important;
+    box-shadow: 0 0 10px rgba(204, 145, 102, 0.2) !important;
     padding: 8px 12px !important;
 }
 input[placeholder*="헤이딜러 URL"]:focus {
-    border-color: #0284c7 !important;
-    box-shadow: 0 0 14px rgba(56, 189, 248, 0.45) !important;
+    border-color: #d9a47a !important;
+    box-shadow: 0 0 14px rgba(204, 145, 102, 0.35) !important;
 }
 </style>
 ''', unsafe_allow_html=True)
