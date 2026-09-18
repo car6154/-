@@ -655,35 +655,33 @@ class SalesDataAnalyzer:
                     rv = str(row_val).lower()
                     return sum(1 for t in meaningful_tokens if t in rv)
 
-                # A) 연식 밴드가 적용된 풀에서 세부 트림 검색 (Tier 1 후보)
+                # A) 연식 밴드가 적용된 풀에서 세부 트림 검색 (연식이 주어지면 해당 연식 밴드를 무조건 고수)
                 scores_year = year_pool['세부모델_clean'].apply(score_row)
                 max_s_year = scores_year.max() if not scores_year.empty else 0
                 if max_s_year >= 1:
                     cand_trim_year = year_pool[scores_year == max_s_year]
-                    if len(cand_trim_year) >= 3:
+                    if not cand_trim_year.empty:
                         best_subset = cand_trim_year
                         matched_tier = "🎯 정밀 등급·연식 매칭"
                         matched_trim_title = str(best_subset['세부모델'].iloc[0])
 
-                # B) 연식 밴드에서 표본 부족 시, 연식 제한을 푼 disp_filtered에서 동일 세부 트림 검색 (Tier 3 후보)
-                if best_subset.empty:
-                    scores_all = disp_filtered['세부모델_clean'].apply(score_row)
-                    max_s_all = scores_all.max() if not scores_all.empty else 0
-                    if max_s_all >= 1:
-                        cand_trim_all = disp_filtered[scores_all == max_s_all]
-                        if len(cand_trim_all) >= 3:
-                            best_subset = cand_trim_all
-                            matched_tier = "🏷️ 동일 등급 전체연식 매칭"
-                            matched_trim_title = str(best_subset['세부모델'].iloc[0])
-                            year_band_active = False
-                            year_band_desc = "전체연식"
-
-                # C) 세부 트림 표본이 부족한 경우: 동급 배기량/유종 + 연식군 풀 활용 (Tier 2)
-                if best_subset.empty and len(year_pool) >= 3:
+                # B) 세부 트림이 없을 때만 동일 연식 밴드의 동급 배기량/유종 풀로 fallback (연식 밴드는 유지)
+                if best_subset.empty and not year_pool.empty:
                     best_subset = year_pool
                     matched_tier = "📊 동급 배기량/연식군 매칭"
                     fuel_disp_part = f"{fuel_label} {disp_val}".strip()
                     matched_trim_title = f"{fuel_disp_part}군" if fuel_disp_part else "동급 표준형"
+
+                # C) 연식이 아예 입력되지 않은 경우에만 전체연식 풀 사용
+                if best_subset.empty and not year_band_active:
+                    scores_all = disp_filtered['세부모델_clean'].apply(score_row)
+                    max_s_all = scores_all.max() if not scores_all.empty else 0
+                    if max_s_all >= 1:
+                        cand_trim_all = disp_filtered[scores_all == max_s_all]
+                        if not cand_trim_all.empty:
+                            best_subset = cand_trim_all
+                            matched_tier = "🎯 정밀 등급 매칭"
+                            matched_trim_title = str(best_subset['세부모델'].iloc[0])
 
             # 5. 최종 풀 및 표시 명칭 결정
             if not best_subset.empty:

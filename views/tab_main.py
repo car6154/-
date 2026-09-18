@@ -361,47 +361,47 @@ def render_main_tab(
 
         total_sales_loaded = len(SalesDataAnalyzer.get_instance().df)
         if bd_target_car and bd_stats.get('has_data'):
-            tier_badge = f" <span style='background:#1e293b; border:1px solid #3b82f6; color:#60a5fa; padding:2px 8px; border-radius:12px; font-size:0.8em; font-weight:600;'>{bd_stats.get('matched_tier', '')}</span>" if bd_stats.get('matched_tier') else ""
+            tier_badge = f" <span style='background:rgba(204,145,102,0.12); border:1px solid #cc9166; color:#cc9166; padding:2px 8px; border-radius:12px; font-size:0.8em; font-weight:600;'>{bd_stats.get('matched_tier', '')}</span>" if bd_stats.get('matched_tier') else ""
             st.caption(f"💡 순수 내수 소매 완판 데이터 **{bd_stats.get('pure_sales_count', total_sales_loaded):,}건** 중 **[{bd_stats.get('matched_name', bd_target_car)}]** 실적({bd_stats.get('total_count', 0)}대) 분석 결과입니다.{tier_badge} (경매·도매 출고 {bd_stats.get('auction_filtered_count', 1339):,}건 왜곡 방지 자동 제외 완료)", unsafe_allow_html=True)
 
             c_m1, c_m2, c_m3, c_m4 = st.columns(4)
             with c_m1:
                 st.markdown(f"""
-                <div class='metric-card' style='min-height: 88px; height: 88px; display: flex; align-items: center; box-sizing: border-box;'>
+                <div class='metric-card' style='min-height: 72px; height: 72px; display: flex; align-items: center; box-sizing: border-box;'>
                     <div class='metric-icon'>⏱️</div>
                     <div class='metric-content' style='overflow: hidden;'>
                         <h4 style='white-space: nowrap; text-overflow: ellipsis; overflow: hidden;'>소매 평균 재고일수</h4>
-                        <h2 style='color: {bd_stats.get("turnover_color", "#4ade80")}; white-space: nowrap;'>{bd_stats.get("avg_days", 0)}일 <span style='font-size: 0.6em;'>({bd_stats.get("turnover_grade", "-")})</span></h2>
+                        <h2 style='color: {bd_stats.get("turnover_color", "#4ade80")}; white-space: nowrap;'>{bd_stats.get("avg_days", 0)}일 <span style='font-size: 0.6em; color: #acafb9;'>({bd_stats.get("turnover_grade", "-")})</span></h2>
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
             with c_m2:
                 st.markdown(f"""
-                <div class='metric-card' style='min-height: 88px; height: 88px; display: flex; align-items: center; box-sizing: border-box;'>
+                <div class='metric-card' style='min-height: 72px; height: 72px; display: flex; align-items: center; box-sizing: border-box;'>
                     <div class='metric-icon'>🏷️</div>
                     <div class='metric-content' style='overflow: hidden;'>
                         <h4 style='white-space: nowrap; text-overflow: ellipsis; overflow: hidden;'>과거 평균 판매가</h4>
-                        <h2 style='color: #38bdf8; white-space: nowrap;'>{bd_stats.get("avg_sell_price", 0):,}만원</h2>
+                        <h2 style='color: #e2e3e9; white-space: nowrap;'>{bd_stats.get("avg_sell_price", 0):,}만원</h2>
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
             with c_m3:
                 st.markdown(f"""
-                <div class='metric-card' style='min-height: 88px; height: 88px; display: flex; align-items: center; box-sizing: border-box;'>
+                <div class='metric-card' style='min-height: 72px; height: 72px; display: flex; align-items: center; box-sizing: border-box;'>
                     <div class='metric-icon'>🛣️</div>
                     <div class='metric-content' style='overflow: hidden;'>
                         <h4 style='white-space: nowrap; text-overflow: ellipsis; overflow: hidden;'>완판 평균 주행거리</h4>
-                        <h2 style='color: #a78bfa; white-space: nowrap;'>{bd_stats.get("avg_mileage", 0):,}km</h2>
+                        <h2 style='color: #acafb9; white-space: nowrap;'>{bd_stats.get("avg_mileage", 0):,}km</h2>
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
             with c_m4:
                 st.markdown(f"""
-                <div class='metric-card' style='min-height: 88px; height: 88px; display: flex; align-items: center; box-sizing: border-box;'>
+                <div class='metric-card' style='min-height: 72px; height: 72px; display: flex; align-items: center; box-sizing: border-box;'>
                     <div class='metric-icon'>💰</div>
                     <div class='metric-content' style='overflow: hidden;'>
                         <h4 style='white-space: nowrap; text-overflow: ellipsis; overflow: hidden;'>과거 평균 실현마진</h4>
-                        <h2 style='color: #cc9166; white-space: nowrap;'>+{int(bd_stats.get("avg_profit", 0)):,}만원 <span style='font-size: 0.6em; color: #94a3b8;'>({bd_stats.get("profit_rate", 0)}%)</span></h2>
+                        <h2 style='color: #cc9166; white-space: nowrap;'>+{int(bd_stats.get("avg_profit", 0)):,}만원 <span style='font-size: 0.6em; color: #acafb9;'>({bd_stats.get("profit_rate", 0)}%)</span></h2>
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
@@ -413,21 +413,21 @@ def render_main_tab(
                 sold_text_html = f"<div style='margin-top: 8px; font-size: 0.9em; color: #cbd5e1; border-top: 1px dashed #2e3038; padding-top: 6px;'>⚡ <b>엔카 실시간 소화 속도</b>: 최근 30일간 <b>{sold_out_res.get('count_30d', 0)}대</b> 완판 (일평균 <b>{sold_out_res.get('daily_rate', 0)}대</b> 출고 / 완판 평균 주행거리 <b>{sold_out_res.get('avg_mileage', 0):,}km</b> / 최근 완판: <b>{sold_out_res.get('latest_sold_date', '-')}</b>)</div>"
 
             briefing_box_html = (
-                f"<div style='background-color: #121317; border: 1px solid #2e3038; border-radius: 8px; padding: 14px 18px; margin-top: 4px; margin-bottom: 12px;'>"
+                f"<div style='background-color: #121317; border: 1px solid #2e3038; border-radius: 10px; padding: 14px 18px; margin-top: 4px; margin-bottom: 12px;'>"
                 f"<div style='display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;'>"
-                f"<span style='color: #38bdf8; font-weight: bold; font-size: 1.05em;'>💡 AI 비딩 전략 브리핑</span>"
+                f"<span style='color: #cc9166; font-weight: bold; font-size: 1.05em;'>💡 AI 비딩 전략 브리핑</span>"
                 f"<div style='display: flex; align-items: center; gap: 8px; flex-wrap: wrap;'>"
-                f"<span style='font-size: 0.86em; background: rgba(255,255,255,0.06); padding: 3px 10px; border-radius: 12px; border: 1px solid #3b4252;'>"
-                f"수요도: <b>{bd_stats.get('demand_badge', '보통')}</b> <span style='color:#94a3b8;'>({bd_stats.get('demand_level', '보통')})</span>"
+                f"<span style='font-size: 0.86em; background: rgba(255,255,255,0.06); padding: 3px 10px; border-radius: 12px; border: 1px solid #2e3038;'>"
+                f"수요도: <b>{bd_stats.get('demand_badge', '보통')}</b> <span style='color:#9194a1;'>({bd_stats.get('demand_level', '보통')})</span>"
                 f"</span>"
-                f"<span style='font-size: 0.86em; background: rgba(255,255,255,0.06); padding: 3px 10px; border-radius: 12px; border: 1px solid #3b4252;'>"
-                f"자사 재고: <b style='color: {bd_stats.get('stock_color', '#38bdf8')};'>{bd_stats.get('current_stock_count', 0)}대</b> <span style='color:#94a3b8;'>({bd_stats.get('current_stock_desc', '미보유')})</span>"
+                f"<span style='font-size: 0.86em; background: rgba(255,255,255,0.06); padding: 3px 10px; border-radius: 12px; border: 1px solid #2e3038;'>"
+                f"자사 재고: <b style='color: {bd_stats.get('stock_color', '#cc9166')};'>{bd_stats.get('current_stock_count', 0)}대</b> <span style='color:#9194a1;'>({bd_stats.get('current_stock_desc', '미보유')})</span>"
                 f"</span>"
                 f"{sold_badge_html}"
                 f"</div>"
                 f"</div>"
-                f"<div style='color: #e2e8f0; font-size: 0.95em; line-height: 1.55;'>"
-                f"{bd_stats.get('turnover_desc', '')} 👉 <span style='color: #f59e0b; font-weight: bold;'>{bd_stats.get('rec_strategy', '')}</span>"
+                f"<div style='color: #e2e3e9; font-size: 0.95em; line-height: 1.55;'>"
+                f"{bd_stats.get('turnover_desc', '')} 👉 <span style='color: #cc9166; font-weight: bold;'>{bd_stats.get('rec_strategy', '')}</span>"
                 f"</div>"
                 f"{sold_text_html}"
                 f"</div>"
@@ -487,11 +487,11 @@ def render_main_tab(
             </div>
             <div class='metric-card' style='flex: 1;'>
                 <div class='metric-icon'>⬇️</div>
-                <div class='metric-content'><h4>최저가</h4><h2 style='color: #4a90e2;'>{encar_min_price:,} 만원 <span style='font-size: 0.6em'>⬇️</span></h2></div>
+                <div class='metric-content'><h4>최저가</h4><h2 style='color: #acafb9;'>{encar_min_price:,} 만원 <span style='font-size: 0.6em'>⬇️</span></h2></div>
             </div>
             <div class='metric-card' style='flex: 1;'>
                 <div class='metric-icon'>⬆️</div>
-                <div class='metric-content'><h4>최고가</h4><h2 style='color: #e25c5c;'>{encar_max_price:,} 만원 <span style='font-size: 0.6em'>⬆️</span></h2></div>
+                <div class='metric-content'><h4>최고가</h4><h2 style='color: #e2e3e9;'>{encar_max_price:,} 만원 <span style='font-size: 0.6em'>⬆️</span></h2></div>
             </div>
             <div class='metric-card' style='flex: 1;'>
                 <div class='metric-icon'>📊</div>

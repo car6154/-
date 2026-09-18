@@ -1,10 +1,10 @@
-// 쿠키 중복 전송 방지용 캐시
+// J-PRO 쿠키 자동 동기화 (Chrome MV3 Service Worker 호환)
+// chrome.alarms 기반 - Service Worker 비활성화 후에도 안정적 주기 동기화
+
 let lastHdCookie = "";
 let lastAutoplusCookie = "";
-let syncTimerHd = null;
-let syncTimerAp = null;
 
-// 헤이딜러 쿠키 동기화
+// ── 헤이딜러 쿠키 동기화 ──
 async function syncCookiesToLocalServer() {
   try {
     const [cUrl1, cUrl2, cUrl3, cDom1, cDom2, cDom3] = await Promise.all([
@@ -36,11 +36,11 @@ async function syncCookiesToLocalServer() {
     });
     console.log('[J-PRO AutoSync] 헤이딜러 최신 쿠키 동기화 완료');
   } catch (e) {
-    // 무시
+    // 서버 미실행 시 무시
   }
 }
 
-// 오토플러스 (차얼마2) 쿠키 동기화
+// ── 오토플러스 (차얼마2) 쿠키 동기화 ──
 async function syncAutoplusCookiesToLocalServer() {
   try {
     const [cUrl1, cDom1, cDom2] = await Promise.all([
@@ -69,30 +69,48 @@ async function syncAutoplusCookiesToLocalServer() {
     });
     console.log('[J-PRO AutoSync] 오토플러스(차얼마2) 최신 쿠키 동기화 완료');
   } catch (e) {
-    // 무시
+    // 서버 미실행 시 무시
   }
 }
 
-// 최초 기동 시 즉시 1회 동기화 시도
-syncCookiesToLocalServer();
-syncAutoplusCookiesToLocalServer();
-
-// 크롬 브라우저에서 탭 업데이트 감지 (차얼마2나 헤이딜러 페이지 접속/이동 시 즉시 쿠키 동기화)
-if (chrome.tabs && chrome.tabs.onUpdated) {
-  chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-    if (changeInfo.status === 'complete' && tab.url) {
-      if (tab.url.includes('autoplus.co.kr')) {
-        syncAutoplusCookiesToLocalServer();
-      } else if (tab.url.includes('heydealer.com')) {
-        syncCookiesToLocalServer();
-      }
-    }
-  });
-}
-
-// 1분 주기 자동 동기화 (Service Worker 살아있는 동안)
-setInterval(() => {
+// ── 전체 동기화 (두 서비스 모두) ──
+function syncAll() {
   syncCookiesToLocalServer();
   syncAutoplusCookiesToLocalServer();
-}, 60000);
+}
 
+// ── 1) Service Worker 기동 시 즉시 1회 동기화 ──
+syncAll();
+
+// ── 2) chrome.alarms 기반 1분 주기 동기화 (MV3 안정적) ──
+chrome.alarms.create('jpro-cookie-sync', { periodInMinutes: 1 });
+
+chrome.alarms.onAlarm.addListener((alarm) => {
+  if (alarm.name === 'jpro-cookie-sync') {
+    syncAll();
+  }
+});
+
+// ── 3) 탭 업데이트 감지 (해당 사이트 접속 시 즉시 동기화) ──
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+  if (changeInfo.status === 'complete' && tab.url) {
+    if (tab.url.includes('autoplus.co.kr')) {
+      syncAutoplusCookiesToLocalServer();
+    } else if (tab.url.includes('heydealer.com')) {
+      syncCookiesToLocalServer();
+    }
+  }
+});
+
+// ── 4) 쿠키 변경 실시간 감지 (즉시 동기화) ──
+chrome.cookies.onChanged.addListener((changeInfo) => {
+  const domain = changeInfo.cookie.domain || '';
+  if (domain.includes('heydealer.com')) {
+    // 중복 방지 위해 캐시 초기화 후 동기화
+    lastHdCookie = "";
+    syncCookiesToLocalServer();
+  } else if (domain.includes('autoplus.co.kr')) {
+    lastAutoplusCookie = "";
+    syncAutoplusCookiesToLocalServer();
+  }
+});
