@@ -361,8 +361,8 @@ def render_main_tab(
 
         total_sales_loaded = len(SalesDataAnalyzer.get_instance().df)
         if bd_target_car and bd_stats.get('has_data'):
-            st.markdown("### 📊 J-PRO 빅데이터 실적 분석 (회전율·마진·수요)")
-            st.caption(f"💡 순수 내수 소매 완판 데이터 **{bd_stats.get('pure_sales_count', total_sales_loaded):,}건** 중 **[{bd_stats.get('matched_name', bd_target_car)}]** 실적({bd_stats.get('total_count', 0)}대) 분석 결과입니다. (경매·도매 출고 {bd_stats.get('auction_filtered_count', 1339):,}건 왜곡 방지 자동 제외 완료)")
+            tier_badge = f" <span style='background:#1e293b; border:1px solid #3b82f6; color:#60a5fa; padding:2px 8px; border-radius:12px; font-size:0.8em; font-weight:600;'>{bd_stats.get('matched_tier', '')}</span>" if bd_stats.get('matched_tier') else ""
+            st.caption(f"💡 순수 내수 소매 완판 데이터 **{bd_stats.get('pure_sales_count', total_sales_loaded):,}건** 중 **[{bd_stats.get('matched_name', bd_target_car)}]** 실적({bd_stats.get('total_count', 0)}대) 분석 결과입니다.{tier_badge} (경매·도매 출고 {bd_stats.get('auction_filtered_count', 1339):,}건 왜곡 방지 자동 제외 완료)", unsafe_allow_html=True)
 
             c_m1, c_m2, c_m3, c_m4 = st.columns(4)
             with c_m1:
