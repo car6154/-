@@ -132,9 +132,10 @@ class SalesDataAnalyzer:
             if col not in df_work.columns:
                 df_work[col] = default_val
 
-        # 경과일수 수치화
+        # 경과일수 및 등록연도 수치화
         df_work['경과일수_num'] = pd.to_numeric(df_work['경과일수'], errors='coerce').fillna(0)
         df_work['주행거리_num'] = pd.to_numeric(df_work['주행거리'].astype(str).str.replace(r'[^\d.]', '', regex=True), errors='coerce').fillna(0)
+        df_work['등록연도_num'] = pd.to_numeric(df_work['최초등록일'].astype(str).str.extract(r'(\d{4})')[0], errors='coerce').fillna(0).astype(int)
 
         # 예상매출이익: 원 단위 -> 만원 단위 변환 (예: 2,000,000원 -> 200만원)
         profit_num = pd.to_numeric(df_work['예상매출이익'], errors='coerce').fillna(0)
@@ -396,20 +397,30 @@ class SalesDataAnalyzer:
                 elif target_year >= 2009:
                     is_sorento_r = True
 
-        # 4. 그랜저 (6세대 IG/더뉴그랜저 vs 7세대 GN7 디올뉴)
+        # 4. 그랜저 (5세대 HG vs 6세대 전기 IG vs 6세대 후기 더뉴그랜저IG vs 7세대 GN7 디올뉴)
         is_grandeur = '그랜저' in full_query_text
         is_grandeur_gn7 = False
+        is_grandeur_new_ig = False
         is_grandeur_ig = False
+        is_grandeur_hg = False
         if is_grandeur:
             if any(k in full_query_text for k in ['gn7', '디올뉴', '7세대']):
                 is_grandeur_gn7 = True
-            elif any(k in full_query_text for k in ['ig', '더뉴그랜저', '르블랑']):
+            elif any(k in full_query_text for k in ['더뉴그랜저', '르블랑']) or (target_year and 2020 <= target_year <= 2022 and 'hg' not in full_query_text):
+                is_grandeur_new_ig = True
+            elif any(k in full_query_text for k in ['그랜저ig', 'ig']) or (target_year and 2017 <= target_year <= 2019 and 'hg' not in full_query_text):
                 is_grandeur_ig = True
+            elif any(k in full_query_text for k in ['hg', '5세대']) or (target_year and target_year <= 2016):
+                is_grandeur_hg = True
             elif target_year:
                 if target_year >= 2023:
                     is_grandeur_gn7 = True
-                elif target_year <= 2022:
+                elif target_year >= 2020:
+                    is_grandeur_new_ig = True
+                elif target_year >= 2017:
                     is_grandeur_ig = True
+                else:
+                    is_grandeur_hg = True
 
         # 5. 스포티지 (4세대 전기 QL/신형스포티지 vs 4세대 페이스리프트 더볼드 vs 5세대 NQ5 디올뉴)
         is_sportage = '스포티지' in full_query_text
@@ -442,8 +453,12 @@ class SalesDataAnalyzer:
             candidates.extend(["신형k5(dl3)", "더뉴k5(dl3)", "k53세대", "k5dl3"])
         elif is_grandeur_gn7:
             candidates.extend(["그랜저gn7", "디올뉴그랜저"])
+        elif is_grandeur_new_ig:
+            candidates.extend(["더뉴그랜저", "더뉴그랜저ig"])
         elif is_grandeur_ig:
-            candidates.extend(["더뉴그랜저", "더뉴그랜저ig", "그랜저ig"])
+            candidates.extend(["그랜저ig"])
+        elif is_grandeur_hg:
+            candidates.extend(["그랜저hg"])
         elif is_sportage_gen4_early:
             candidates.extend(["신형스포티지", "스포티지4세대"])
         elif is_sportage_thebold:
@@ -525,6 +540,19 @@ class SalesDataAnalyzer:
             filtered_sp_g5 = sub_df[sub_df['차량명_clean'].str.contains('디올뉴', na=False)]
             if not filtered_sp_g5.empty: sub_df = filtered_sp_g5
 
+        if is_grandeur_ig and not sub_df.empty:
+            filtered_gig = sub_df[sub_df['차량명_clean'].str.contains('그랜저ig', na=False) & ~sub_df['차량명_clean'].str.contains('더뉴', na=False)]
+            if not filtered_gig.empty: sub_df = filtered_gig
+        elif is_grandeur_new_ig and not sub_df.empty:
+            filtered_gnig = sub_df[sub_df['차량명_clean'].str.contains('더뉴그랜저', na=False)]
+            if not filtered_gnig.empty: sub_df = filtered_gnig
+        elif is_grandeur_gn7 and not sub_df.empty:
+            filtered_ggn7 = sub_df[sub_df['차량명_clean'].str.contains('디올뉴', na=False)]
+            if not filtered_ggn7.empty: sub_df = filtered_ggn7
+        elif is_grandeur_hg and not sub_df.empty:
+            filtered_ghg = sub_df[sub_df['차량명_clean'].str.contains('그랜저hg', na=False)]
+            if not filtered_ghg.empty: sub_df = filtered_ghg
+
         # 만약 결과가 없거나 부족하면 코어 차종으로 확장 (단, 세대 필터 유지 및 세대 불일치 강제 확장 금지)
         # 사용자 원칙: "없으면 표시 안 해도 돼, 혼란만 줄 뿐이야" -> 다른 세대나 다른 차종 강제 유입 금지
         if (sub_df.empty or len(sub_df) < 3) and core and not is_sorento_r:
@@ -539,27 +567,153 @@ class SalesDataAnalyzer:
                 core_sub = core_sub[core_sub['차량명_clean'].str.contains('올뉴|더뉴', na=False)]
             elif is_sorento_gen4:
                 core_sub = core_sub[core_sub['차량명_clean'].str.contains('4세대|mq4', na=False)]
+            elif is_grandeur_ig:
+                core_sub = core_sub[core_sub['차량명_clean'].str.contains('그랜저ig', na=False) & ~core_sub['차량명_clean'].str.contains('더뉴', na=False)]
+            elif is_grandeur_new_ig:
+                core_sub = core_sub[core_sub['차량명_clean'].str.contains('더뉴그랜저', na=False)]
+            elif is_grandeur_gn7:
+                core_sub = core_sub[core_sub['차량명_clean'].str.contains('디올뉴', na=False)]
             if not core_sub.empty:
                 sub_df = core_sub
 
-        # 2차: 세부모델 토큰(Keyword Token) 매칭 (동일 차종 군 내에서 세부 트림 압축)
-        # 예: 헤이딜러 '가솔린 1.5 2WD C5 플러스' <-> 자사 '1.5 가솔린 2WD C5 플러스'
-        if not sub_df.empty and sub_model:
-            tokens = re.findall(r'[a-zA-Z0-9\.]+|[가-힣]+', str(sub_model).lower())
-            tokens = [t for t in tokens if len(t) >= 2 or t.isalnum()]
+        # =========================================================================
+        # 🎯 [2단계: 차종·등급(유종/배기량/트림)·연식(±1년) 정밀 매칭 엔진]
+        # =========================================================================
+        base_car_title = str(sub_df['차량명'].iloc[0]) if not sub_df.empty else str(car_name)
+        matched_tier = "차종 전체 매칭"
+        matched_name = f"{base_car_title} (전체)"
+        year_band_desc = ""
 
-            if tokens:
-                def score_row(row_sub):
-                    s = str(row_sub).lower()
-                    return sum(1 for t in tokens if t in s)
+        if not sub_df.empty:
+            # 1. 유종(Fuel) 분리 필터
+            is_query_hybrid = any(k in full_query_text for k in ['하이브리드', 'hybrid', 'hev'])
+            is_query_lpi = any(k in full_query_text for k in ['lpi', 'lpg', '렌터카', '장애인'])
+            is_query_diesel = any(k in full_query_text for k in ['디젤', 'diesel', 'crdi', 'vgt'])
+            is_query_ev = any(k in full_query_text for k in ['전기', 'ev', 'electric'])
+            is_query_gasoline = any(k in full_query_text for k in ['가솔린', 'gasoline', 'gdi', 't-gdi', '터보', 'turbo'])
 
-                scores = sub_df['세부모델_clean'].apply(score_row)
-                max_score = scores.max()
-                if max_score >= 2:
-                    filtered_sub = sub_df[scores >= max(2, max_score - 1)]
-                    if not filtered_sub.empty:
-                        sub_df = filtered_sub
+            fuel_filtered = sub_df.copy()
+            fuel_label = ""
+            if is_query_hybrid:
+                f_mask = fuel_filtered['차량명_clean'].str.contains('하이브리드', na=False) | fuel_filtered['세부모델_clean'].str.contains('hev', na=False)
+                if f_mask.any():
+                    fuel_filtered = fuel_filtered[f_mask]
+                    fuel_label = "하이브리드"
+            elif is_query_lpi:
+                f_mask = fuel_filtered['세부모델_clean'].str.contains('lpi|lpg|렌터카|장애인', na=False)
+                if f_mask.any():
+                    fuel_filtered = fuel_filtered[f_mask]
+                    fuel_label = "LPi"
+            elif is_query_diesel:
+                f_mask = fuel_filtered['차량명_clean'].str.contains('디젤', na=False) | fuel_filtered['세부모델_clean'].str.contains('디젤|crdi|vgt', na=False)
+                if f_mask.any():
+                    fuel_filtered = fuel_filtered[f_mask]
+                    fuel_label = "디젤"
+            elif is_query_ev:
+                f_mask = fuel_filtered['차량명_clean'].str.contains('ev|전기', na=False) | fuel_filtered['세부모델_clean'].str.contains('ev|전기', na=False)
+                if f_mask.any():
+                    fuel_filtered = fuel_filtered[f_mask]
+                    fuel_label = "전기"
+            else:
+                f_mask = ~fuel_filtered['차량명_clean'].str.contains('하이브리드', na=False) & ~fuel_filtered['세부모델_clean'].str.contains('hev|lpi|lpg|디젤', na=False)
+                if f_mask.any():
+                    fuel_filtered = fuel_filtered[f_mask]
+                    fuel_label = "가솔린"
 
+            # 2. 배기량(Displacement) 추출 및 필터
+            disp_match = re.search(r'(\d\.\d)', str(sub_model) + " " + str(car_name))
+            disp_val = disp_match.group(1) if disp_match else ""
+            disp_filtered = fuel_filtered.copy()
+            if disp_val:
+                d_mask = disp_filtered['세부모델_clean'].str.contains(disp_val, na=False)
+                if d_mask.any():
+                    disp_filtered = disp_filtered[d_mask]
+
+            # 3. 연식 밴드(Year Band: 기준 연식 ±1년) 필터 풀 생성
+            has_year_col = '등록연도_num' in disp_filtered.columns
+            year_pool = disp_filtered.copy()
+            year_band_active = False
+            if target_year and target_year >= 2000 and has_year_col:
+                y_min = target_year - 1
+                y_max = target_year + 1
+                y_mask = disp_filtered['등록연도_num'].between(y_min, y_max)
+                if y_mask.any():
+                    year_pool = disp_filtered[y_mask]
+                    year_band_desc = f"{y_min}~{y_max}년식"
+                    year_band_active = True
+
+            # 4. 세부 트림(Trim) 정밀 매칭
+            sub_tokens = re.findall(r'[a-zA-Z0-9\.]+|[가-힣]+', str(sub_model).lower())
+            stop_words = {'가솔린', '디젤', '하이브리드', 'hev', 'lpi', 'lpg', '2wd', '4wd', 'awd', 'auto', 'a/t', '오토'}
+            meaningful_tokens = [t for t in sub_tokens if t not in stop_words and (len(t) >= 2 or t.isalnum())]
+
+            best_subset = pd.DataFrame()
+            matched_trim_title = ""
+
+            if meaningful_tokens:
+                def score_row(row_val):
+                    rv = str(row_val).lower()
+                    return sum(1 for t in meaningful_tokens if t in rv)
+
+                # A) 연식 밴드가 적용된 풀에서 세부 트림 검색 (Tier 1 후보)
+                scores_year = year_pool['세부모델_clean'].apply(score_row)
+                max_s_year = scores_year.max() if not scores_year.empty else 0
+                if max_s_year >= 1:
+                    cand_trim_year = year_pool[scores_year == max_s_year]
+                    if len(cand_trim_year) >= 3:
+                        best_subset = cand_trim_year
+                        matched_tier = "🎯 정밀 등급·연식 매칭"
+                        matched_trim_title = str(best_subset['세부모델'].iloc[0])
+
+                # B) 연식 밴드에서 표본 부족 시, 연식 제한을 푼 disp_filtered에서 동일 세부 트림 검색 (Tier 3 후보)
+                if best_subset.empty:
+                    scores_all = disp_filtered['세부모델_clean'].apply(score_row)
+                    max_s_all = scores_all.max() if not scores_all.empty else 0
+                    if max_s_all >= 1:
+                        cand_trim_all = disp_filtered[scores_all == max_s_all]
+                        if len(cand_trim_all) >= 3:
+                            best_subset = cand_trim_all
+                            matched_tier = "🏷️ 동일 등급 전체연식 매칭"
+                            matched_trim_title = str(best_subset['세부모델'].iloc[0])
+                            year_band_active = False
+                            year_band_desc = "전체연식"
+
+                # C) 세부 트림 표본이 부족한 경우: 동급 배기량/유종 + 연식군 풀 활용 (Tier 2)
+                if best_subset.empty and len(year_pool) >= 3:
+                    best_subset = year_pool
+                    matched_tier = "📊 동급 배기량/연식군 매칭"
+                    fuel_disp_part = f"{fuel_label} {disp_val}".strip()
+                    matched_trim_title = f"{fuel_disp_part}군" if fuel_disp_part else "동급 표준형"
+
+            # 5. 최종 풀 및 표시 명칭 결정
+            if not best_subset.empty:
+                final_df = best_subset
+            elif not year_pool.empty and len(year_pool) >= 3:
+                final_df = year_pool
+                matched_tier = "📊 동급 배기량/연식군 매칭"
+                matched_trim_title = f"{fuel_label} {disp_val}".strip()
+            else:
+                final_df = sub_df
+                matched_tier = "🚗 차종 전체 매칭"
+                matched_trim_title = ""
+
+            # 최종 안내명 조립
+            name_parts = [base_car_title]
+            if matched_trim_title:
+                name_parts.append(matched_trim_title)
+            if year_band_desc:
+                name_parts.append(f"({year_band_desc})")
+            matched_name = " ".join(name_parts)
+
+            final_df = final_df.copy()
+            final_df.attrs['matched_name'] = matched_name
+            final_df.attrs['matched_tier'] = matched_tier
+            final_df.attrs['year_band'] = year_band_desc
+            return final_df
+
+        sub_df = sub_df.copy()
+        sub_df.attrs['matched_name'] = matched_name
+        sub_df.attrs['matched_tier'] = matched_tier
         return sub_df
 
     def find_inventory_matches(self, car_name, sub_model="", year=""):
@@ -708,12 +862,16 @@ class SalesDataAnalyzer:
         standard_bid = int(round(current_retail - std_m)) if current_retail > std_m else 0
         defensive_bid = int(round(current_retail - def_m)) if current_retail > def_m else 0
 
-        # 대표 모델명
-        matched_model_name = matches['차량명'].iloc[0]
+        # 대표 모델명 및 정밀 매칭 메타데이터
+        matched_model_name = matches.attrs.get('matched_name') if hasattr(matches, 'attrs') and matches.attrs.get('matched_name') else matches['차량명'].iloc[0]
+        matched_tier = matches.attrs.get('matched_tier', '정밀 매칭') if hasattr(matches, 'attrs') and matches.attrs.get('matched_tier') else '정밀 매칭'
+        matched_year_band = matches.attrs.get('year_band', '') if hasattr(matches, 'attrs') else ''
 
         return {
             "has_data": True,
             "matched_name": matched_model_name,
+            "matched_tier": matched_tier,
+            "matched_year_band": matched_year_band,
             "pure_sales_count": getattr(self, 'pure_sales_count', 0),
             "auction_filtered_count": getattr(self, 'auction_filtered_count', 0),
             "current_stock_count": current_stock_count,
