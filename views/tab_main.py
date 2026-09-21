@@ -912,6 +912,42 @@ def render_main_tab(
                     }
                     st.session_state.prev_table_idx = target_sel_rows[0]
 
+                # 1. 성능일 내림차순 ➔ 연식 내림차순 복합 정렬
+                if not display_df.empty:
+                    def _parse_sort_year(val):
+                        # '연식(형식)' 표기에서 괄호 앞 순수 '연식' 추출 후 4자리 정규화
+                        m = re.search(r'(\d+)', str(val))
+                        if not m:
+                            return 0
+                        yr = int(m.group(1))
+                        return yr + 2000 if yr < 100 else yr
+
+                    display_df['_sort_perf'] = display_df['성능일'].astype(str).apply(
+                        lambda x: x if re.match(r'^\d{2}-\d{2}-\d{2}', str(x)) else '00-00-00'
+                    )
+                    display_df['_sort_year'] = display_df['연식'].apply(_parse_sort_year)
+
+                    # 1순위 연식 최신순 ➔ 2순위 성능일 최신순
+                    display_df = display_df.sort_values(
+                        by=['_sort_year', '_sort_perf'],
+                        ascending=[False, False]
+                    ).drop(columns=['_sort_perf', '_sort_year']).reset_index(drop=True)
+
+                # 2. 차량명에 파란색 엔카 링크 입히기 (차량명 텍스트 유지)
+                def make_encar_link(r):
+                    c_title = str(r.get('차량명', '엔카매물')).strip()
+                    cand_l = str(r.get('링크', '')).strip()
+                    if not cand_l.startswith('http'):
+                        cid = str(r.get('_carid', '')).strip()
+                        if cid and cid != 'None':
+                            cand_l = f"http://www.encar.com/dc/dc_cardetailview.do?carid={cid}"
+                    if cand_l.startswith('http'):
+                        base_url = cand_l.split('#')[0]
+                        return f"{base_url}#{c_title}"
+                    return ""
+
+                display_df['차량명_링크'] = display_df.apply(make_encar_link, axis=1)
+
                 try:
                     styled_df = display_df.style.set_properties(
                         subset=[c for c in ['주행거리', '판매가'] if c in display_df.columns],
@@ -922,23 +958,21 @@ def render_main_tab(
                         styled_df,
                         key="encar_car_table",
                         column_config={
-                            "상태": st.column_config.TextColumn("상태"),
                             "성능일": st.column_config.TextColumn("성능일"),
-                            "차량명": st.column_config.TextColumn("차량명"),
-                            "세부모델": st.column_config.TextColumn("세부모델"),
+                            "재고": st.column_config.TextColumn("재고일"),
+                            "차량명_링크": st.column_config.LinkColumn("차량명", display_text=r"#(.*)"),
                             "연식": st.column_config.TextColumn("연식"),
                             "주행거리": st.column_config.NumberColumn("주행(km)", format="%d"),
                             "판매가": st.column_config.NumberColumn("가격(만)", format="%d"),
                             "사고유무_표시": st.column_config.TextColumn("사고유무"),
                             "외장컬러": st.column_config.TextColumn("색상"),
                             "추가옵션_요약": st.column_config.TextColumn("옵션"),
-                            "재고": st.column_config.TextColumn("재고"),
                         },
                         column_order=[
-                            "성능일", "차량명", "세부모델", "연식", 
-                            "주행거리", "판매가", "사고유무_표시", "외장컬러", "추가옵션_요약", "재고"
+                            "성능일", "재고", "차량명_링크", "연식", 
+                            "주행거리", "판매가", "사고유무_표시", "외장컬러", "추가옵션_요약"
                         ],
-                        use_container_width=False,
+                        use_container_width=True,
                         hide_index=True,
                         height=520,
                         on_select="rerun",
@@ -1169,12 +1203,84 @@ def render_main_tab(
 
                     diag_html = render_car_diagram(damage_data)
 
+                    yr_val = f"{row['연식']}년식" if pd.notna(row.get('연식')) else ""
+                    mil_num = int(row['주행거리']) if pd.notna(row.get('주행거리')) else 0
+                    mil_val = f"{mil_num:,}km"
+
+                    raw_color = str(row.get('외장컬러', '')).strip()
+                    if not raw_color or raw_color in ['-', '정보없음', '⚠️정보없음', '⚠️조회실패']:
+                        color_name = "색상미등록"
+                        c_text_color = "#94a3b8"
+                        c_bg_color = "rgba(148, 163, 184, 0.1)"
+                        c_border_color = "rgba(148, 163, 184, 0.25)"
+                        c_dot = "⚪"
+                    else:
+                        color_name = raw_color
+                        c_lower = raw_color.lower()
+                        if any(k in c_lower for k in ['검정', '블랙', 'black']):
+                            c_text_color = "#f3f4f6"
+                            c_bg_color = "#000000"
+                            c_border_color = "#6b7280"
+                            c_dot = "⚫"
+                        elif any(k in c_lower for k in ['흰색', '화이트', 'white', '진주', '아이보리', '펄']):
+                            c_text_color = "#ffffff"
+                            c_bg_color = "rgba(255, 255, 255, 0.12)"
+                            c_border_color = "#ffffff"
+                            c_dot = "⚪"
+                        elif any(k in c_lower for k in ['쥐색', '그레이', '다크그레이', '회색', '차콜', '메탈', '티타늄']):
+                            c_text_color = "#94a3b8"
+                            c_bg_color = "#1e2430"
+                            c_border_color = "#475569"
+                            c_dot = "🩶"
+                        elif any(k in c_lower for k in ['은색', '실버', 'silver']):
+                            c_text_color = "#e2e8f0"
+                            c_bg_color = "rgba(203, 213, 225, 0.15)"
+                            c_border_color = "#cbd5e1"
+                            c_dot = "💿"
+                        elif any(k in c_lower for k in ['빨강', '레드', 'red', '자주', '와인', '버건디', '주황', '오렌지']):
+                            c_text_color = "#f87171"
+                            c_bg_color = "rgba(239, 68, 68, 0.15)"
+                            c_border_color = "#ef4444"
+                            c_dot = "🔴"
+                        elif any(k in c_lower for k in ['파랑', '블루', 'blue', '남색', '네이비', '청색', '하늘']):
+                            c_text_color = "#60a5fa"
+                            c_bg_color = "rgba(59, 130, 246, 0.15)"
+                            c_border_color = "#3b82f6"
+                            c_dot = "🔵"
+                        elif any(k in c_lower for k in ['갈색', '브라운', 'brown', '베이지', '초코']):
+                            c_text_color = "#d97706"
+                            c_bg_color = "rgba(217, 119, 6, 0.15)"
+                            c_border_color = "#b45309"
+                            c_dot = "🟤"
+                        elif any(k in c_lower for k in ['초록', '그린', 'green', '국방', '카키']):
+                            c_text_color = "#4ade80"
+                            c_bg_color = "rgba(34, 197, 94, 0.15)"
+                            c_border_color = "#22c55e"
+                            c_dot = "🟢"
+                        elif any(k in c_lower for k in ['노랑', '옐로우', 'yellow', '골드', '금색']):
+                            c_text_color = "#facc15"
+                            c_bg_color = "rgba(234, 179, 8, 0.15)"
+                            c_border_color = "#eab308"
+                            c_dot = "🟡"
+                        else:
+                            c_text_color = "#cbd5e1"
+                            c_bg_color = "rgba(148, 163, 184, 0.12)"
+                            c_border_color = "rgba(148, 163, 184, 0.3)"
+                            c_dot = "🎨"
+
+                    color_badge_html = f"<span style='color: {c_text_color}; background: {c_bg_color}; border: 1px solid {c_border_color}; padding: 2px 8px; border-radius: 5px; font-weight: 700;'>{c_dot} {color_name}</span>"
+
                     st.markdown(f"""
-                    <div style='background:#121317; border: 1px solid #2e3038; border-radius: 8px; padding: 12px; margin-bottom: 10px;'>
-                        <div style='font-size: 1.1em; font-weight: bold; color: #ffffff;'>{row['차량명']}</div>
-                        <div style='font-size: 0.85em; color: #9194a1;'>{row['세부모델']} · {row['연식']}년식 · {int(row['주행거리']) if pd.notna(row['주행거리']) else 0:,}km</div>
-                        <div style='font-size: 1.25em; font-weight: bold; color: #cc9166; margin-top: 4px;'>{int(row['판매가']) if pd.notna(row['판매가']) else 0:,} 만원</div>
-                        <div style='margin-top: 8px;'>{opt_html}</div>
+                    <div style='background:#121317; border: 1px solid #2e3038; border-radius: 8px; padding: 14px; margin-bottom: 10px;'>
+                        <div style='font-size: 1.15em; font-weight: 800; color: #ffffff; letter-spacing: -0.02em;'>{row['차량명']}</div>
+                        <div style='font-size: 0.9em; font-weight: 500; color: #cbd5e1; margin-top: 2px;'>{row['세부모델']}</div>
+                        <div style='font-size: 0.88em; font-weight: 700; color: #38bdf8; margin-top: 5px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;'>
+                            <span style='background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.25); padding: 2px 8px; border-radius: 5px;'>{yr_val}</span>
+                            <span style='background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.25); padding: 2px 8px; border-radius: 5px;'>{mil_val}</span>
+                            {color_badge_html}
+                        </div>
+                        <div style='font-size: 1.35em; font-weight: 800; color: #cc9166; margin-top: 8px;'>{int(row['판매가']) if pd.notna(row['판매가']) else 0:,} 만원</div>
+                        <div style='margin-top: 10px;'>{opt_html}</div>
                     </div>
                     """, unsafe_allow_html=True)
                     st.markdown(diag_html, unsafe_allow_html=True)
