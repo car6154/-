@@ -43,178 +43,221 @@ st.set_page_config(page_title="J-PRO Valuation System", page_icon="🏅", layout
 st.markdown('''
 <style>
 /* ═══════════════════════════════════════════
-   Slash — Midnight Vault Theme
-   Based on 슬래시.md design tokens
+   Factory — Terminal War Room Theme
+   Based on 공장.md design tokens
    ═══════════════════════════════════════════ */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap');
 
 :root {
-    /* ── Surfaces ── */
-    --color-obsidian: #08080a;
-    --color-onyx: #040406;
-    --color-carbon: #121317;
-    --color-graphite: #1c1d22;
-    --color-slate: #2e3038;
-    /* ── Grays (text hierarchy) ── */
-    --color-smoke: #464853;
-    --color-ash: #5e616e;
-    --color-steel: #777a88;
-    --color-fog: #9194a1;
-    --color-mist: #acafb9;
-    --color-silver: #c7c9d1;
-    --color-bone: #e2e3e9;
-    --color-paper-white: #ffffff;
-    /* ── Accent ── */
-    --color-copper: #cc9166;
+    /* ── Surfaces (Factory) ── */
+    --color-obsidian-canvas: #101010;
+    --color-carbon-lift: #1c1917;
+    --color-surface-card: #181716;
+    --color-ash-stroke: #33302f;
+    --color-graphite-mid: #4d4947;
+    
+    /* ── Typography Grays (Factory) ── */
+    --color-warm-granite: #8a8380;
+    --color-pale-stone: #b8b3b0;
+    --color-bone: #eeeeee;
+    --color-chalk: #fafafa;
+    
+    /* ── Functional Accents (Factory) ── */
+    --color-signal-orange: #ee6018;
+    --color-metric-green: #a0ca92;
+    --color-metric-blue: #60a5fa;
+
+    /* ── Fonts ── */
+    --font-geist: 'Geist', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-geist-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
-/* ── Global ── */
+/* ── Global Canvas ── */
 .stApp {
-    background-color: var(--color-obsidian) !important;
+    background-color: var(--color-obsidian-canvas) !important;
     color: var(--color-bone) !important;
-    font-family: 'Inter', sans-serif !important;
+    font-family: var(--font-geist) !important;
+    letter-spacing: -0.015em !important;
 }
 
 /* ── Sidebar ── */
 [data-testid="stSidebar"] {
-    background-color: #0c0d11 !important;
-    border-right: 1px solid var(--color-graphite) !important;
+    background-color: #141312 !important;
+    border-right: 1px solid var(--color-ash-stroke) !important;
 }
 
-/* ── Headings: Serif for h1-h3, Sans for h4-h6 ── */
+/* ── Headings (Factory Style: Clean, Tight Tracking, Sans-only) ── */
 h1, h2, h3 {
-    color: var(--color-paper-white) !important;
-    font-family: 'Playfair Display', serif !important;
-    font-weight: 500 !important;
+    color: var(--color-chalk) !important;
+    font-family: var(--font-geist) !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.03em !important;
 }
 h4, h5, h6 {
-    color: var(--color-bone) !important;
-    font-family: 'Inter', sans-serif !important;
+    color: var(--color-pale-stone) !important;
+    font-family: var(--font-geist) !important;
+    font-weight: 500 !important;
+    letter-spacing: -0.02em !important;
 }
 
-/* ═══ Metric Cards ═══ */
+/* ═══ Metric Cards (Factory Compact High-Contrast) ═══ */
 .metric-card {
-    background-color: var(--color-carbon) !important;
-    border-radius: 10px !important;
-    padding: 12px 14px !important;
+    background-color: var(--color-surface-card) !important;
+    border-radius: 8px !important;
+    padding: 8px 12px !important;
     box-shadow: none !important;
     display: flex !important;
+    flex-direction: row !important;
     align-items: center !important;
     justify-content: flex-start !important;
-    margin-bottom: 10px !important;
-    border: 1px solid var(--color-slate) !important;
-    transition: border-color 0.2s ease;
+    margin-bottom: 4px !important;
+    border: 1px solid var(--color-ash-stroke) !important;
+    transition: border-color 0.15s ease, background-color 0.15s ease;
     box-sizing: border-box !important;
+    width: 100% !important;
 }
 .metric-card:hover {
-    border-color: var(--color-copper) !important;
+    border-color: var(--color-warm-granite) !important;
+    background-color: #211e1c !important;
 }
 .metric-icon {
-    font-size: 1.35em !important;
-    background: var(--color-graphite) !important;
-    padding: 6px 10px !important;
-    border-radius: 10px !important;
-    margin-right: 12px !important;
+    font-size: 1.25em !important;
+    background: #252220 !important;
+    border: 1px solid var(--color-ash-stroke) !important;
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 8px !important;
+    margin-right: 10px !important;
     flex-shrink: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 }
 .metric-content {
     flex: 1 !important;
     min-width: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
 }
-/* KPI 라벨: Silver로 올려 가독성 확보 */
+/* KPI 라벨: 또렷하게 읽히는 0.82em, 선명한 Bone 화이트 */
 .metric-content h4 {
     margin: 0 !important;
-    font-size: 0.78em !important;
-    color: var(--color-silver) !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.5px !important;
+    padding: 0 !important;
+    font-size: 0.82em !important;
+    font-weight: 500 !important;
+    color: var(--color-pale-stone) !important;
+    font-family: var(--font-geist) !important;
+    letter-spacing: -0.01em !important;
     white-space: nowrap !important;
     text-overflow: ellipsis !important;
     overflow: hidden !important;
+    line-height: 1.2 !important;
 }
-/* KPI 핵심 숫자: Paper White + Serif */
+/* KPI 핵심 숫자: Factory Bold + 선명한 대문자/수치 */
 .metric-content h2 {
     margin: 2px 0 0 0 !important;
-    font-size: 1.22em !important;
-    color: var(--color-paper-white) !important;
-    font-family: 'Playfair Display', serif !important;
+    padding: 0 !important;
+    font-size: 1.25em !important;
+    font-weight: 700 !important;
+    color: var(--color-chalk) !important;
+    font-family: var(--font-geist) !important;
+    letter-spacing: -0.02em !important;
     white-space: nowrap !important;
+    line-height: 1.2 !important;
 }
 
-/* ═══ Summary Box ═══ */
+/* ═══ Summary Box (Factory War Room Callout - 글자 시원하게 확대) ═══ */
 .summary-box {
-    background: var(--color-carbon) !important;
-    border: 1px solid var(--color-graphite) !important;
-    border-left: 4px solid var(--color-copper) !important;
-    border-radius: 10px !important;
-    padding: 12px 16px !important;
-    margin-top: 6px !important;
-    margin-bottom: 20px !important;
+    background: #161413 !important;
+    border: 1px solid var(--color-ash-stroke) !important;
+    border-left: 3px solid var(--color-signal-orange) !important;
+    border-radius: 6px !important;
+    padding: 8px 12px !important;
+    margin-top: 3px !important;
+    margin-bottom: 8px !important;
     color: var(--color-bone) !important;
-    font-size: 0.88em !important;
-    line-height: 1.6 !important;
+    font-size: 0.95em !important;
+    line-height: 1.55 !important;
 }
 
-/* ═══ Tabs ═══ */
+/* ═══ Tabs (Factory Flush Tabs) ═══ */
 .stTabs [data-baseweb="tab-list"] {
     background-color: transparent !important;
-    border-bottom: 1px solid var(--color-graphite) !important;
-    gap: 6px !important;
+    border-bottom: 1px solid var(--color-ash-stroke) !important;
+    gap: 4px !important;
 }
 .stTabs [data-baseweb="tab"] {
-    color: var(--color-fog) !important;
-    background-color: var(--color-carbon) !important;
-    border: 1px solid var(--color-graphite) !important;
-    border-radius: 6px 6px 0 0 !important;
-    padding: 8px 16px !important;
+    color: var(--color-pale-stone) !important;
+    background-color: var(--color-carbon-lift) !important;
+    border: 1px solid var(--color-ash-stroke) !important;
+    border-radius: 4px 4px 0 0 !important;
+    padding: 6px 14px !important;
+    font-size: 0.86em !important;
 }
 .stTabs [aria-selected="true"] {
-    color: var(--color-copper) !important;
-    border-color: var(--color-copper) var(--color-copper) transparent var(--color-copper) !important;
-    background-color: #1a1b22 !important;
+    color: var(--color-chalk) !important;
+    border-color: var(--color-signal-orange) var(--color-ash-stroke) transparent var(--color-ash-stroke) !important;
+    border-top: 2px solid var(--color-signal-orange) !important;
+    background-color: #24201e !important;
     font-weight: 600 !important;
 }
 
-/* ═══ Sidebar Expanders (슬래시 팔레트 통일) ═══ */
-[data-testid="stSidebar"] [data-testid="stExpander"] {
-    border: 1px solid var(--color-graphite) !important;
-    border-radius: 5px !important;
-    margin-bottom: 3px !important;
-    background: #0c0d11 !important;
+/* ═══ Global & Top Toolbar Expanders ═══ */
+[data-testid="stExpander"] {
+    border: 1px solid var(--color-ash-stroke) !important;
+    border-radius: 6px !important;
+    background: #161413 !important;
     box-shadow: none !important;
+    margin-bottom: 4px !important;
 }
-[data-testid="stSidebar"] [data-testid="stExpander"] details {
+[data-testid="stExpander"] details {
     border: none !important;
 }
-[data-testid="stSidebar"] [data-testid="stExpander"] summary {
-    padding: 2px 8px !important;
-    min-height: 24px !important;
-    height: 24px !important;
+[data-testid="stExpander"] summary {
+    padding: 6px 12px !important;
+    min-height: 38px !important;
+    height: 38px !important;
     display: flex !important;
     align-items: center !important;
     cursor: pointer !important;
+    border-radius: 6px !important;
+    background: #181716 !important;
+    transition: background-color 0.15s ease;
 }
-[data-testid="stSidebar"] [data-testid="stExpander"] summary:hover {
-    background: var(--color-graphite) !important;
+[data-testid="stExpander"] summary:hover {
+    background: #221f1d !important;
 }
-[data-testid="stSidebar"] [data-testid="stExpander"] summary p,
-[data-testid="stSidebar"] [data-testid="stExpander"] summary span,
-[data-testid="stSidebar"] [data-testid="stExpander"] summary div {
-    font-size: 0.72rem !important;
+[data-testid="stExpander"] summary p,
+[data-testid="stExpander"] summary span,
+[data-testid="stExpander"] summary div {
+    font-size: 0.85rem !important;
     font-weight: 500 !important;
-    color: var(--color-mist) !important;
+    color: var(--color-bone) !important;
     margin: 0 !important;
     line-height: 1 !important;
 }
-[data-testid="stSidebar"] [data-testid="stExpander"] summary svg {
-    width: 10px !important;
-    height: 10px !important;
-    fill: var(--color-steel) !important;
+[data-testid="stExpander"] summary svg {
+    width: 13px !important;
+    height: 13px !important;
+    fill: var(--color-warm-granite) !important;
 }
-[data-testid="stSidebar"] [data-testid="stExpander"] [data-testid="stExpanderDetails"] {
-    padding: 6px 8px !important;
-    background: var(--color-obsidian) !important;
-    border-top: 1px solid var(--color-graphite) !important;
+[data-testid="stExpander"] [data-testid="stExpanderDetails"] {
+    padding: 10px 14px !important;
+    background: #121110 !important;
+    border-top: 1px solid var(--color-ash-stroke) !important;
+}
+
+/* ═══ Top Selectbox (화면 이동) 칼맞춤 ═══ */
+div[data-testid="stSelectbox"] > div > div {
+    min-height: 38px !important;
+    height: 38px !important;
+    border-radius: 6px !important;
+    border: 1px solid var(--color-ash-stroke) !important;
+    background-color: #181716 !important;
+    color: var(--color-chalk) !important;
+    display: flex !important;
+    align-items: center !important;
 }
 
 /* ═══ Dataframe ═══ */
@@ -225,21 +268,43 @@ h4, h5, h6 {
     cursor: pointer !important;
 }
 
-/* ═══ 헤이딜러 URL/ID 입력창 (Copper 글로우 통일) ═══ */
+/* ═══ 헤이딜러 URL/ID 입력창 (Factory Signal Orange Accent) ═══ */
 div[data-testid="stTextInput"]:has(input[placeholder*="헤이딜러 URL"]) input,
 input[placeholder*="헤이딜러 URL"] {
-    background-color: var(--color-carbon) !important;
-    border: 2px solid var(--color-copper) !important;
-    border-radius: 10px !important;
-    color: var(--color-paper-white) !important;
-    font-size: 0.95rem !important;
+    background-color: var(--color-carbon-lift) !important;
+    border: 1px solid var(--color-signal-orange) !important;
+    border-radius: 6px !important;
+    color: var(--color-chalk) !important;
+    font-size: 0.92rem !important;
     font-weight: 500 !important;
-    box-shadow: 0 0 10px rgba(204, 145, 102, 0.2) !important;
-    padding: 8px 12px !important;
+    box-shadow: 0 0 8px rgba(238, 96, 24, 0.15) !important;
+    padding: 6px 10px !important;
 }
 input[placeholder*="헤이딜러 URL"]:focus {
-    border-color: #d9a47a !important;
-    box-shadow: 0 0 14px rgba(204, 145, 102, 0.35) !important;
+    border-color: #ff7528 !important;
+    box-shadow: 0 0 12px rgba(238, 96, 24, 0.3) !important;
+}
+
+/* ═══ Encar Direct Link Button ═══ */
+.encar-direct-btn {
+    display: block !important;
+    width: 100% !important;
+    text-align: center !important;
+    background: #201e1d !important;
+    color: #60a5fa !important;
+    font-size: 0.9em !important;
+    font-weight: 600 !important;
+    padding: 8px 0 !important;
+    border-radius: 6px !important;
+    border: 1px solid #3b3734 !important;
+    text-decoration: none !important;
+    transition: all 0.15s ease !important;
+    box-sizing: border-box !important;
+}
+.encar-direct-btn:hover {
+    background: #2d2926 !important;
+    color: #93c5fd !important;
+    border-color: #60a5fa !important;
 }
 </style>
 ''', unsafe_allow_html=True)
@@ -254,10 +319,16 @@ WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbyFTXuPkC0R9y-UftHOFmJfgB
 
 
 
-if 'inventory_data' not in st.session_state:
+if 'inventory_data' not in st.session_state or st.session_state.inventory_data.empty:
     if os.path.exists(INVENTORY_FILE):
-        try: st.session_state.inventory_data = pd.read_csv(INVENTORY_FILE)
-        except: st.session_state.inventory_data = pd.DataFrame()
+        for enc in ['utf-8-sig', 'utf-8', 'cp949', 'euc-kr']:
+            try:
+                st.session_state.inventory_data = pd.read_csv(INVENTORY_FILE, encoding=enc)
+                break
+            except Exception:
+                continue
+        if 'inventory_data' not in st.session_state:
+            st.session_state.inventory_data = pd.DataFrame()
     else: st.session_state.inventory_data = pd.DataFrame()
 
 if 'scan_data' not in st.session_state: st.session_state.scan_data = pd.DataFrame()
@@ -369,134 +440,8 @@ if st.session_state.get('_last_loaded_hd_cookie') != live_cookie:
     st.session_state.cookie_version += 1
     st.session_state[f"hd_cookie_box_{st.session_state.cookie_version}"] = live_cookie
 
+# 🔼 사이드바 상단은 즉시 핵심 업무(헤이딜러 견적 & 차량조회)로 시작
 heydealer_cookie_input = live_cookie
-live_ap_cookie = get_current_autoplus_cookie()
-
-with st.sidebar.expander("🔑 세션 쿠키 설정", expanded=False):
-    cookie_status = st.session_state.get('hd_cookie_status', 'valid' if (live_cookie and len(live_cookie.strip()) > 20) else 'empty')
-    if not live_cookie or not live_cookie.strip() or cookie_status == 'empty':
-        badge_html = "<span style='color:#f87171; font-weight:600;'>🔴 헤이딜러 미등록</span>"
-    elif cookie_status == 'expired':
-        badge_html = "<span style='color:#f87171; font-weight:600;'>🔴 헤이딜러 만료됨</span>"
-    else:
-        badge_html = "<span style='color:#4ade80; font-weight:600;'>🟢 헤이딜러 정상</span>"
-
-    ap_has_cookie = bool(live_ap_cookie and len(live_ap_cookie.strip()) > 10)
-    ap_badge_html = "<span style='color:#4ade80; font-weight:600;'>🟢 견적조회 정상</span>" if ap_has_cookie else "<span style='color:#f87171; font-weight:600;'>🔴 견적조회 미등록</span>"
-
-    c_sk1, c_sk2 = st.columns([3, 1.2])
-    with c_sk1:
-        st.markdown(f"<div style='font-size:0.73rem; margin-top:2px;'>{badge_html}<br>{ap_badge_html}</div>", unsafe_allow_html=True)
-    with c_sk2:
-        if st.button("🔄", help="쿠키 최신 동기화", key="sync_cookie_btn", use_container_width=True):
-            live_cookie = get_current_hd_cookie()
-            live_ap_cookie = get_current_autoplus_cookie()
-            st.session_state._last_loaded_hd_cookie = live_cookie
-            st.session_state.cookie_version += 1
-            st.session_state[f"hd_cookie_box_{st.session_state.cookie_version}"] = live_cookie
-            st.session_state.hd_cookie_status = 'valid' if (live_cookie and len(live_cookie.strip()) > 20) else 'empty'
-            st.rerun()
-
-    typed_cookie = st.text_input(
-        "헤이딜러 쿠키",
-        value=live_cookie,
-        key=f"hd_cookie_box_{st.session_state.cookie_version}",
-        type="password"
-    )
-    if typed_cookie:
-        heydealer_cookie_input = typed_cookie
-
-    typed_ap_cookie = st.text_input(
-        "견적조회 쿠키",
-        value=live_ap_cookie,
-        key="ap_cookie_manual_box",
-        type="password"
-    )
-    if typed_ap_cookie and typed_ap_cookie != live_ap_cookie:
-        from services.cookie_server import save_autoplus_cookie
-        save_autoplus_cookie(typed_ap_cookie)
-        os.environ['AUTOPLUS_COOKIE'] = typed_ap_cookie
-        st.rerun()
-
-with st.sidebar.expander("🗃️ 부가 데이터 및 엔카 스캔", expanded=False):
-    st.caption("📁 자사 재고 엑셀 연동")
-    uploaded_files = st.file_uploader("자사 재고 엑셀 업로드", type=['xlsx', 'xls', 'csv'], accept_multiple_files=True, label_visibility="collapsed", key="top_inventory_uploader")
-    if st.button("📁 엑셀 병합 및 DB 저장", use_container_width=True, key="top_merge_db_btn"):
-        if uploaded_files:
-            new_dfs = []
-            for uf in uploaded_files:
-                try: new_dfs.append(pd.read_excel(uf) if uf.name.endswith(('xls', 'xlsx')) else pd.read_csv(uf))
-                except: pass
-            if new_dfs:
-                merged_df = pd.concat(new_dfs, ignore_index=True)
-                if not st.session_state.inventory_data.empty:
-                    st.session_state.inventory_data = pd.concat([st.session_state.inventory_data, merged_df])
-                else:
-                    st.session_state.inventory_data = merged_df
-                
-                if '차량번호' in st.session_state.inventory_data.columns:
-                    st.session_state.inventory_data = st.session_state.inventory_data.drop_duplicates(subset=['차량번호'], keep='last')
-                st.session_state.inventory_data.to_csv(INVENTORY_FILE, index=False, encoding='utf-8-sig')
-                try:
-                    from sales_analysis import SalesDataAnalyzer
-                    SalesDataAnalyzer.get_instance().load_data()
-                except Exception as ex_reload:
-                    print(f"SalesDataAnalyzer reload error: {ex_reload}")
-                st.rerun()
-
-    if st.button("🗑️ 저장된 엑셀 DB 지우기", use_container_width=True, key="top_clear_db_btn"):
-        st.session_state.inventory_data = pd.DataFrame()
-        if os.path.exists(INVENTORY_FILE): os.remove(INVENTORY_FILE)
-        try:
-            from sales_analysis import SalesDataAnalyzer
-            SalesDataAnalyzer.get_instance().load_data()
-        except:
-            pass
-        st.rerun()
-
-    st.markdown("---")
-    st.caption("🚗 엔카 정밀 스캔")
-    scan_url = st.text_input("엔카 정밀 스캔 URL 입력:", key=f"scan_url_{st.session_state.form_reset_key}", label_visibility="collapsed", placeholder="엔카 URL 붙여넣기")
-    if st.button("🚀 실시간 엔카 스캔", use_container_width=True, key="top_scan_btn"):
-        if scan_url:
-            p_bar, s_text = st.progress(0), st.empty()
-            new_scan_df, msg = Scraper.run(scan_url, "", p_bar, s_text)
-            if msg == "success":
-                st.session_state.scan_source = "url"
-                st.session_state.scan_data = pd.concat([st.session_state.scan_data, new_scan_df], ignore_index=True)
-                st.session_state.scan_data = st.session_state.scan_data.drop_duplicates(subset=['_carid'], keep='last').reset_index(drop=True)
-                if not new_scan_df.empty:
-                    st.session_state.f_brand = "전체"
-                    st.session_state.f_name = "전체"
-                    st.session_state.f_sub = "전체"
-                    st.session_state.f_status = [] 
-                st.rerun()
-            else: s_text.error(msg)
-            
-    if st.button("스캔 초기화", use_container_width=True, key="top_reset_scan_btn"): 
-        st.session_state.scan_source = "inventory"
-        st.session_state.scan_data = pd.DataFrame()
-        st.session_state.f_brand = "전체"
-        st.session_state.f_name = "전체"
-        st.session_state.f_sub = "전체"
-        st.session_state.f_year = ""
-        st.session_state.f_mil = 0
-        st.rerun()
-
-    if not st.session_state.scan_data.empty:
-        failed_mask = st.session_state.scan_data['성능일'].astype(str).str.contains("조회실패") | \
-                      st.session_state.scan_data['사고유무'].astype(str).str.contains("조회실패") | \
-                      st.session_state.scan_data['추가옵션'].astype(str).str.contains("조회실패")
-        failed_count = failed_mask.sum()
-        if failed_count > 0:
-            st.warning(f"⚠️ 조회실패 차량: {failed_count}대")
-            if st.button("♻️ 실패 차량만 재스캔", use_container_width=True, key="top_rescan_failed_btn"):
-                p_bar, s_text = st.progress(0), st.empty()
-                failed_indices = st.session_state.scan_data[failed_mask].index
-                Scraper.rescan(failed_indices, "", p_bar, s_text)
-                st.rerun()
-
-st.sidebar.markdown("<hr style='margin: 10px 0 8px 0; border: none; border-top: 1px solid #1e293b;'>", unsafe_allow_html=True)
 st.sidebar.markdown("""
 <div style='display: flex; align-items: center; gap: 6px; margin-bottom: 6px;'>
     <span style='font-size: 1.05rem; font-weight: 700; color: #38bdf8;'>🤖 헤이딜러 AI 매입 견적</span>
@@ -1075,12 +1020,24 @@ f_year_num = st.sidebar.number_input(
 )
 current_f_year = f"{f_year_num:02d}" if f_year_num > 0 else ""
 
-if not filtered_df.empty and "주행거리" in filtered_df.columns:
-    filtered_df["주행거리"] = pd.to_numeric(filtered_df["주행거리"], errors='coerce').fillna(0)
+if not filtered_df.empty:
+    if "주행거리" in filtered_df.columns:
+        filtered_df["주행거리"] = pd.to_numeric(filtered_df["주행거리"], errors='coerce').fillna(0)
+    
+    # 성능일 내림차순 ➔ 연식 내림차순 정렬
+    def _parse_app_year(val):
+        m = re.search(r'(\d+)', str(val))
+        return int(m.group(1)) if m else 0
 
-if not filtered_df.empty and "재고" in filtered_df.columns:
-    filtered_df['_sort_inv'] = pd.to_numeric(filtered_df['재고'], errors='coerce').fillna(99999)
-    filtered_df = filtered_df.sort_values(by='_sort_inv', ascending=True).drop(columns=['_sort_inv']).reset_index(drop=True)
+    if "성능일" in filtered_df.columns and "연식" in filtered_df.columns:
+        filtered_df['_sort_perf'] = filtered_df['성능일'].astype(str).apply(
+            lambda x: x if re.match(r'^\d{2}-\d{2}-\d{2}', str(x)) else '00-00-00'
+        )
+        filtered_df['_sort_year'] = filtered_df['연식'].apply(_parse_app_year)
+        filtered_df = filtered_df.sort_values(
+            by=['_sort_perf', '_sort_year'],
+            ascending=[False, False]
+        ).drop(columns=['_sort_perf', '_sort_year']).reset_index(drop=True)
 
 # 🛠️ [DEBUG] 엔카 연동 상태 실시간 디버그 모니터
 with st.sidebar.expander("🛠️ 엔카 연동 디버그 정보", expanded=True):
@@ -1110,11 +1067,140 @@ st.sidebar.markdown("---")
 
 
 
-# 상단 헤더 & 은닉형 메뉴 드롭다운 (남들 눈에 띄지 않도록 단일 셀렉트박스로 축소)
-header_col1, header_col2 = st.columns([7.5, 2.5])
-with header_col1:
-    st.markdown("<h3 style='margin: 0; padding: 4px 0 12px 0; color: #ffffff;'>🏅 J-PRO 스마트 밸류에이션 시스템</h3>", unsafe_allow_html=True)
-with header_col2:
+# ═══════════════════════════════════════════
+# 🛠️ 상단 가로 유틸리티 바 (쿠키 설정, 부가데이터, 뷰 네비게이션)
+# ═══════════════════════════════════════════
+live_ap_cookie = get_current_autoplus_cookie()
+cookie_status = st.session_state.get('hd_cookie_status', 'valid' if (live_cookie and len(live_cookie.strip()) > 20) else 'empty')
+hd_ok = bool(live_cookie and len(live_cookie.strip()) > 20 and cookie_status != 'expired')
+ap_ok = bool(live_ap_cookie and len(live_ap_cookie.strip()) > 10)
+
+hd_badge_text = "🟢 헤이딜러" if hd_ok else "🔴 헤이딜러"
+ap_badge_text = "🟢 견적조회" if ap_ok else "🔴 견적조회"
+
+h_col1, h_col2, h_col3 = st.columns([3.6, 3.8, 2.6])
+
+with h_col1:
+    with st.expander(f"🔑 세션 쿠키 ({hd_badge_text} | {ap_badge_text})", expanded=False):
+        c_sk1, c_sk2 = st.columns([3, 1.2])
+        with c_sk1:
+            st.markdown(f"<div style='font-size:0.75rem; margin-top:2px;'><b>헤이딜러</b>: {'<span style=\"color:#4ade80;\">정상</span>' if hd_ok else '<span style=\"color:#f87171;\">미등록/만료</span>'}&nbsp;&nbsp;|&nbsp;&nbsp;<b>견적조회</b>: {'<span style=\"color:#4ade80;\">정상</span>' if ap_ok else '<span style=\"color:#f87171;\">미등록</span>'}</div>", unsafe_allow_html=True)
+        with c_sk2:
+            if st.button("🔄 동기화", key="top_sync_cookie_btn", use_container_width=True):
+                live_cookie = get_current_hd_cookie()
+                live_ap_cookie = get_current_autoplus_cookie()
+                st.session_state._last_loaded_hd_cookie = live_cookie
+                st.session_state.cookie_version += 1
+                st.session_state[f"hd_cookie_box_{st.session_state.cookie_version}"] = live_cookie
+                st.session_state.hd_cookie_status = 'valid' if (live_cookie and len(live_cookie.strip()) > 20) else 'empty'
+                st.rerun()
+
+        typed_cookie = st.text_input(
+            "헤이딜러 쿠키",
+            value=live_cookie,
+            key=f"hd_cookie_box_{st.session_state.cookie_version}",
+            type="password"
+        )
+        if typed_cookie:
+            heydealer_cookie_input = typed_cookie
+
+        typed_ap_cookie = st.text_input(
+            "견적조회 쿠키",
+            value=live_ap_cookie,
+            key="ap_cookie_manual_box",
+            type="password"
+        )
+        if typed_ap_cookie and typed_ap_cookie != live_ap_cookie:
+            from services.cookie_server import save_autoplus_cookie
+            save_autoplus_cookie(typed_ap_cookie)
+            os.environ['AUTOPLUS_COOKIE'] = typed_ap_cookie
+            st.rerun()
+
+with h_col2:
+    with st.expander("🗃️ 부가 데이터 및 엔카 스캔", expanded=False):
+        st.caption("📁 자사 재고 엑셀 업로드")
+        uploaded_files = st.file_uploader("자사 재고 엑셀 업로드", type=['xlsx', 'xls', 'csv'], accept_multiple_files=True, label_visibility="collapsed", key="top_inventory_uploader")
+        c_ex1, c_ex2 = st.columns(2)
+        with c_ex1:
+            if st.button("📁 엑셀 병합/DB저장", use_container_width=True, key="top_merge_db_btn"):
+                if uploaded_files:
+                    new_dfs = []
+                    for uf in uploaded_files:
+                        try: new_dfs.append(pd.read_excel(uf) if uf.name.endswith(('xls', 'xlsx')) else pd.read_csv(uf))
+                        except: pass
+                    if new_dfs:
+                        merged_df = pd.concat(new_dfs, ignore_index=True)
+                        if not st.session_state.inventory_data.empty:
+                            st.session_state.inventory_data = pd.concat([st.session_state.inventory_data, merged_df])
+                        else:
+                            st.session_state.inventory_data = merged_df
+                        
+                        if '차량번호' in st.session_state.inventory_data.columns:
+                            st.session_state.inventory_data = st.session_state.inventory_data.drop_duplicates(subset=['차량번호'], keep='last')
+                        st.session_state.inventory_data.to_csv(INVENTORY_FILE, index=False, encoding='utf-8-sig')
+                        try:
+                            from sales_analysis import SalesDataAnalyzer
+                            SalesDataAnalyzer.get_instance().load_data()
+                        except Exception as ex_reload:
+                            print(f"SalesDataAnalyzer reload error: {ex_reload}")
+                        st.rerun()
+        with c_ex2:
+            if st.button("🗑️ 저장 엑셀 DB 삭제", use_container_width=True, key="top_clear_db_btn"):
+                st.session_state.inventory_data = pd.DataFrame()
+                if os.path.exists(INVENTORY_FILE): os.remove(INVENTORY_FILE)
+                try:
+                    from sales_analysis import SalesDataAnalyzer
+                    SalesDataAnalyzer.get_instance().load_data()
+                except:
+                    pass
+                st.rerun()
+
+        st.markdown("<hr style='margin:6px 0; border:none; border-top:1px dashed #33302f;'>", unsafe_allow_html=True)
+        st.caption("🚗 엔카 정밀 스캔")
+        c_sc1, c_sc2, c_sc3 = st.columns([2.5, 1, 1])
+        with c_sc1:
+            scan_url = st.text_input("엔카 정밀 스캔 URL:", key=f"scan_url_{st.session_state.form_reset_key}", label_visibility="collapsed", placeholder="엔카 URL 붙여넣기")
+        with c_sc2:
+            if st.button("🚀 스캔", use_container_width=True, key="top_scan_btn"):
+                if scan_url:
+                    p_bar, s_text = st.progress(0), st.empty()
+                    new_scan_df, msg = Scraper.run(scan_url, "", p_bar, s_text)
+                    if msg == "success":
+                        st.session_state.scan_source = "url"
+                        st.session_state.scan_data = pd.concat([st.session_state.scan_data, new_scan_df], ignore_index=True)
+                        st.session_state.scan_data = st.session_state.scan_data.drop_duplicates(subset=['_carid'], keep='last').reset_index(drop=True)
+                        if not new_scan_df.empty:
+                            st.session_state.f_brand = "전체"
+                            st.session_state.f_name = "전체"
+                            st.session_state.f_sub = "전체"
+                            st.session_state.f_status = [] 
+                        st.rerun()
+                    else: s_text.error(msg)
+        with c_sc3:
+            if st.button("스캔 초기화", use_container_width=True, key="top_reset_scan_btn"): 
+                st.session_state.scan_source = "inventory"
+                st.session_state.scan_data = pd.DataFrame()
+                st.session_state.f_brand = "전체"
+                st.session_state.f_name = "전체"
+                st.session_state.f_sub = "전체"
+                st.session_state.f_year = ""
+                st.session_state.f_mil = 0
+                st.rerun()
+
+        if not st.session_state.scan_data.empty:
+            failed_mask = st.session_state.scan_data['성능일'].astype(str).str.contains("조회실패") | \
+                          st.session_state.scan_data['사고유무'].astype(str).str.contains("조회실패") | \
+                          st.session_state.scan_data['추가옵션'].astype(str).str.contains("조회실패")
+            failed_count = failed_mask.sum()
+            if failed_count > 0:
+                st.warning(f"⚠️ 조회실패: {failed_count}대")
+                if st.button("♻️ 실패 재스캔", use_container_width=True, key="top_rescan_failed_btn"):
+                    p_bar, s_text = st.progress(0), st.empty()
+                    failed_indices = st.session_state.scan_data[failed_mask].index
+                    Scraper.rescan(failed_indices, "", p_bar, s_text)
+                    st.rerun()
+
+with h_col3:
     nav_options = [
         "📊 시세 분석 및 스캔", 
         "📋 매입 장부 관리", 
@@ -1123,13 +1209,20 @@ with header_col2:
         "📈 자사 판매 실적", 
         "📦 자사 보유 재고"
     ]
-    cur_nav = st.session_state.get('nav_selection', '📊 시세 분석 및 스캔')
-    if cur_nav not in nav_options: cur_nav = "📊 시세 분석 및 스캔"
-    nav_idx = nav_options.index(cur_nav)
+    if 'nav_selection' not in st.session_state or st.session_state['nav_selection'] not in nav_options:
+        st.session_state['nav_selection'] = "📊 시세 분석 및 스캔"
+        
+    nav_idx = nav_options.index(st.session_state['nav_selection'])
+    
+    def _on_nav_change():
+        st.session_state['nav_selection'] = st.session_state['nav_selection_box']
+        
     nav_selection = st.selectbox(
         "화면 이동",
         nav_options,
         index=nav_idx,
+        key="nav_selection_box",
+        on_change=_on_nav_change,
         label_visibility="collapsed"
     )
     st.session_state['nav_selection'] = nav_selection

@@ -341,6 +341,7 @@ def render_settlement_tab(SETTLEMENT_FILE="my_inventory_settlement.csv"):
                             st.session_state['auto_scan_url'] = target_search_url
                             st.session_state['nav_target'] = "📊 시세 분석 및 스캔"
                             st.session_state['nav_selection'] = "📊 시세 분석 및 스캔"
+                            st.session_state['nav_selection_box'] = "📊 시세 분석 및 스캔"
                             st.rerun()
                         else:
                             st.error("❌ 동급 매물 검색 URL을 생성하지 못했습니다. 차종명을 확인해 주세요.")

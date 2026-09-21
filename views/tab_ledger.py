@@ -170,6 +170,7 @@ def render_ledger_tab(LEDGER_FILE='my_car_ledger.csv', SETTLEMENT_FILE='my_inven
                             st.session_state['auto_scan_url'] = target_url
                             st.session_state['nav_target'] = "📊 시세 분석 및 스캔"
                             st.session_state['nav_selection'] = "📊 시세 분석 및 스캔"
+                            st.session_state['nav_selection_box'] = "📊 시세 분석 및 스캔"
                             st.rerun()
                         else:
                             st.error("동급 매물 검색 조건을 생성하지 못했습니다.")
@@ -420,10 +421,18 @@ def render_completed_tab(SETTLEMENT_FILE='my_inventory_settlement.csv'):
 
 
 
-def _prepare_inventory_dfs(current_f_year=""):
+def _prepare_inventory_dfs(current_f_year="", apply_filter=True):
     inv_df = pd.DataFrame()
     if 'inventory_data' in st.session_state and not st.session_state.inventory_data.empty:
         inv_df = st.session_state.inventory_data.copy()
+    elif os.path.exists("autoplus_inventory.csv"):
+        for enc in ['utf-8-sig', 'utf-8', 'cp949', 'euc-kr']:
+            try:
+                inv_df = pd.read_csv("autoplus_inventory.csv", encoding=enc)
+                st.session_state.inventory_data = inv_df.copy()
+                break
+            except Exception:
+                continue
         
     if not inv_df.empty:
         col_map = {}
@@ -460,55 +469,314 @@ def _prepare_inventory_dfs(current_f_year=""):
             
         inv_df['엔카 링크'] = inv_df.apply(extract_encar_link, axis=1)
 
-        disp_cols = ["최종수정일", "차량명", "세부모델", "연식", "주행거리", "재고", "판매가", "매입가", "색상", "엔카 링크"]
+        disp_cols = ["차량번호", "최종수정일", "차량명", "세부모델", "연식", "주행거리", "재고", "판매가", "매입가", "색상", "엔카 링크"]
         out_df = inv_df[disp_cols + ["홈페이지상태"]].copy()
         
-        full_names = out_df['차량명'].astype(str) + " " + out_df['세부모델'].astype(str)
-        full_names_clean = full_names.str.replace(" ", "").str.lower()
+        filter_applied_info = ""
+        if apply_filter:
+            full_names = out_df['차량명'].astype(str) + " " + out_df['세부모델'].astype(str)
+            full_names_clean = full_names.str.replace(" ", "").str.lower()
 
-        f_name_val = st.session_state.get('f_name', '전체')
-        f_sub_val = st.session_state.get('f_sub', '전체')
-        
-        if f_name_val != "전체":
-            name_clean = str(f_name_val).replace(" ", "").lower()
-            out_df = out_df[full_names_clean.str.contains(name_clean, na=False, regex=False)]
-            full_names_clean = full_names_clean[out_df.index]
+            f_name_val = st.session_state.get('f_name', '전체')
+            f_sub_val = st.session_state.get('f_sub', '전체')
             
-        if f_sub_val != "전체":
-            sub_parts = str(f_sub_val).split()
-            for part in sub_parts:
-                part_clean = part.replace(" ", "").lower()
-                out_df = out_df[full_names_clean.str.contains(part_clean, na=False, regex=False)]
-                full_names_clean = full_names_clean[out_df.index]
+            # 1단계: 차량명(f_name) 매칭
+            if f_name_val != "전체":
+                name_clean = str(f_name_val).replace(" ", "").lower()
+                matched_mask = full_names_clean.str.contains(name_clean, na=False, regex=False)
+                if matched_mask.any():
+                    out_df = out_df[matched_mask]
+                    full_names_clean = full_names_clean[out_df.index]
+                    filter_applied_info = f"차종: {f_name_val}"
                 
-        if current_f_year:
-            out_df = out_df[out_df['연식'].astype(str).str.contains(current_f_year, na=False)]
+            # 2단계: 세부등급 매칭 (단, 결과가 0건이 되면 세부등급 필터는 스킵하고 차종 수준 유지)
+            if f_sub_val != "전체" and not out_df.empty:
+                sub_parts = [p for p in str(f_sub_val).split() if len(p) > 1]
+                temp_df = out_df.copy()
+                temp_names = full_names_clean.copy()
+                for part in sub_parts:
+                    part_clean = part.replace(" ", "").lower()
+                    mask = temp_names.str.contains(part_clean, na=False, regex=False)
+                    if mask.any():
+                        temp_df = temp_df[mask]
+                        temp_names = temp_names[temp_df.index]
+                if not temp_df.empty:
+                    out_df = temp_df
+                    filter_applied_info += f" / 세부등급: {f_sub_val}"
+                    
+            # 3단계: 연식 매칭 (결과가 0건이 되면 완화)
+            if current_f_year and not out_df.empty:
+                year_clean = str(current_f_year).strip()
+                # 2자리 연식이면 (예: '19') -> '2019' 또는 '19'
+                if len(year_clean) == 2:
+                    yr_regex = f"(20{year_clean}|19{year_clean}|^{year_clean})"
+                else:
+                    yr_regex = year_clean
+                mask_yr = out_df['연식'].astype(str).str.contains(yr_regex, na=False, regex=True)
+                if mask_yr.any():
+                    out_df = out_df[mask_yr]
+                    filter_applied_info += f" / 연식: {current_f_year}"
         
         ccfg = {
+            "차량번호": st.column_config.TextColumn("차량번호"),
             "차량명": st.column_config.TextColumn("차량명"),
             "판매가": st.column_config.NumberColumn("판매가(만)", format="%d"),
             "매입가": st.column_config.NumberColumn("매입가(만)", format="%d"),
-            "엔카 링크": st.column_config.TextColumn("엔카 링크 (복사용)"),
+            "엔카 링크": st.column_config.LinkColumn("엔카 매물 링크", display_text="🔗 엔카 보기"),
         }
                 
         status_col = out_df['홈페이지상태'].astype(str).str.strip()
         sales_df = out_df[status_col != '판매중'][disp_cols]
         stock_df = out_df[status_col == '판매중'][disp_cols]
-        return sales_df, stock_df, ccfg
-    return None, None, None
+        return sales_df, stock_df, ccfg, filter_applied_info
+    return None, None, None, ""
+
+def _trigger_market_scan_from_inventory(selected_row):
+    """자사 재고/판매 차량 정보를 메인 화면 시세 분석으로 주입하고 이동하는 함수"""
+    c_no = str(selected_row.get('차량번호', '')).strip()
+    c_name = str(selected_row.get('차량명', '')).strip()
+    c_sub = str(selected_row.get('세부모델', '')).strip()
+    full_c_text = f"{c_name} {c_sub}".strip() if (c_name or c_sub) else c_no
+    
+    encar_link = str(selected_row.get('엔카 링크', '')).strip()
+    if not encar_link.startswith('http') and '링크' in selected_row:
+        cand_l = str(selected_row.get('링크', '')).strip()
+        if cand_l.startswith('http'): encar_link = cand_l
+
+    target_search_url = ""
+    target_car_name = c_name
+    target_sub_model = c_sub
+    target_mil = 0
+    target_year = 0
+    target_acc = "완전무사고"
+
+    # 주행거리
+    raw_mil = str(selected_row.get('주행거리', 0)).replace(',', '').strip()
+    try:
+        m_val = int(float(raw_mil))
+        if m_val > 0: target_mil = m_val
+    except Exception:
+        pass
+
+    # 연식
+    yr_str = str(selected_row.get('연식', ''))
+    m_yr = re.search(r'(\d{2,4})', yr_str)
+    if m_yr:
+        y_num = int(m_yr.group(1))
+        target_year = (2000 + y_num) if y_num < 100 else y_num
+
+    # 1순위: 엔카 링크 역추적
+    if encar_link and encar_link.startswith('http'):
+        res = Scraper.build_search_from_car_url(encar_link)
+        if res.get("success"):
+            target_search_url = res.get("search_url", "")
+            if res.get("car_name"): target_car_name = res["car_name"]
+            if res.get("grade"): target_sub_model = res["grade"]
+            if res.get("mileage", 0) > 0: target_mil = res["mileage"]
+            if res.get("year", 0) > 0: target_year = res["year"]
+            target_acc = res.get("accident", target_acc)
+
+    # 2순위: 엔카 URL이 없거나 실패 시 차종명 기반 생성
+    if not target_search_url and target_car_name:
+        target_search_url = SalesDataAnalyzer.generate_encar_url(target_car_name, target_sub_model)
+
+    if target_search_url:
+        # 1. 폼 리셋 키 버전업
+        st.session_state.form_reset_key = st.session_state.get('form_reset_key', 0) + 1
+        new_k = st.session_state.form_reset_key
+
+        # 2. 세션 찌꺼기 클리어
+        stale_keys = [
+            'hd_target_url', 'hd_url_input', 'hd_detail_data', 'hd_target_options', 
+            'encar_target_options', 'hd_model_part_name', 'hd_grade_part_name', 
+            'hd_full_name', 'auto_encar_url', 'hd_comp_df', 'hd_car_spec_desc', 'hd_target_opt_price',
+            'hd_target_mil', 'hd_target_year', 'f_mil'
+        ]
+        for stale_k in stale_keys:
+            if stale_k in st.session_state:
+                st.session_state[stale_k] = [] if 'options' in stale_k else ("" if 'part' in stale_k or 'desc' in stale_k or 'url' in stale_k or 'name' in stale_k else 0)
+
+        # 3. 사이드바 및 스캐너 위젯 주입
+        two_digit_yr = (target_year % 100) if target_year > 0 else 0
+        st.session_state[f"search_year_{new_k}"] = two_digit_yr
+        st.session_state[f"search_year_num_{new_k}"] = two_digit_yr
+        st.session_state['f_year'] = f"{two_digit_yr:02d}" if two_digit_yr > 0 else ""
+        st.session_state['hd_target_year'] = target_year
+
+        if target_mil > 0:
+            st.session_state[f"mil_{new_k}"] = target_mil
+            st.session_state['f_mil'] = target_mil
+            st.session_state['user_target_mil'] = target_mil
+            st.session_state['hd_target_mil'] = target_mil
+        else:
+            st.session_state['user_target_mil'] = 0
+
+        st.session_state[f"car_num_{new_k}"] = c_no
+        st.session_state[f"hd_url_box_{new_k}"] = ""
+
+        if target_sub_model:
+            st.session_state['target_sub_model'] = target_sub_model
+            st.session_state['f_sub'] = target_sub_model
+        else:
+            st.session_state['target_sub_model'] = ""
+            st.session_state['f_sub'] = "전체"
+
+        st.session_state['hd_target_accident'] = target_acc if target_acc else "완전무사고"
+        if target_car_name:
+            st.session_state['target_car_name'] = target_car_name
+
+        st.session_state['auto_scan_url'] = target_search_url
+        st.session_state['nav_target'] = "📊 시세 분석 및 스캔"
+        st.session_state['nav_selection'] = "📊 시세 분석 및 스캔"
+        st.session_state['nav_selection_box'] = "📊 시세 분석 및 스캔"
+        st.rerun()
+    else:
+        st.error("동급 매물 검색 조건을 생성하지 못했습니다.")
 
 def render_sales_tab(current_f_year=""):
-    st.markdown("### 📋 자사 판매 리스트")
-    sales_df, stock_df, ccfg = _prepare_inventory_dfs(current_f_year)
-    if sales_df is not None:
+    st.markdown("### 📋 자사 판매 실적 (판매완료)")
+    
+    col_t1, col_t2 = st.columns([3, 1])
+    with col_t2:
+        use_filter = st.checkbox("🔍 현재 검색 차량 조건 필터 적용", value=False, key="filter_sales_check")
+        
+    sales_df, stock_df, ccfg, filter_info = _prepare_inventory_dfs(current_f_year, apply_filter=use_filter)
+    if sales_df is not None and not sales_df.empty:
+        # 상단 차량번호 직접 입력 & 시세 분석 연동 바
+        with st.container():
+            st.markdown("""
+            <div style="background:#161922; border:1px solid #232738; border-radius:8px; padding:10px 14px; margin-bottom:12px;">
+                <span style="font-size:0.92rem; font-weight:700; color:#60a5fa;">🔍 차량번호로 판매완료 차량 시세 분석</span>
+                <span style="font-size:0.8rem; color:#94a3b8; margin-left:8px;">차량번호를 직접 입력(예: 123가4567 또는 뒷4자리)하거나 목록에서 선택하면 메인 화면으로 이동하여 즉시 동급 시세를 스캔합니다.</span>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            b_c1, b_c2, b_c3 = st.columns([2.2, 3.8, 1.8])
+            with b_c1:
+                input_c_no = st.text_input("🚘 차량번호 직접 입력:", placeholder="예: 123가4567 또는 4567", key="input_sales_car_no").strip()
+            
+            # 차량번호 입력이 있으면 해당 매물 자동 필터링된 옵션 제시, 없으면 전체 상위 옵션
+            c_options = []
+            if input_c_no:
+                matched_cand = sales_df[sales_df['차량번호'].astype(str).str.contains(input_c_no, na=False, regex=False)]
+            else:
+                matched_cand = sales_df
+
+            c_options = [
+                f"{row.get('차량번호', '')} | {row.get('차량명', '')} {row.get('세부모델', '')} ({str(row.get('연식', ''))[:4]}년 / {int(float(str(row.get('주행거리', 0)).replace(',', '') or 0)):,}km)"
+                for _, row in matched_cand.iterrows()
+                if str(row.get('차량번호', '')).strip()
+            ]
+            
+            with b_c2:
+                sel_label = f"일치하는 차량 ({len(c_options)}건):" if input_c_no else "또는 목록에서 선택:"
+                if c_options:
+                    sel_item = st.selectbox(sel_label, c_options, key="sel_sales_car_scan")
+                else:
+                    st.selectbox(sel_label, ["일치하는 차량번호가 없습니다"], disabled=True, key="sel_sales_car_scan_empty")
+                    sel_item = None
+
+            with b_c3:
+                st.write("")
+                st.write("")
+                if st.button("🚀 동급 시세 분석", type="primary", use_container_width=True, key="btn_run_sales_scan"):
+                    target_row = None
+                    if sel_item and "|" in sel_item:
+                        sel_c_no = sel_item.split("|")[0].strip()
+                        matched = sales_df[sales_df['차량번호'] == sel_c_no]
+                        if not matched.empty: target_row = matched.iloc[0]
+                    elif input_c_no:
+                        exact_m = sales_df[sales_df['차량번호'].astype(str).str.strip() == input_c_no]
+                        if not exact_m.empty: target_row = exact_m.iloc[0]
+                        else:
+                            part_m = sales_df[sales_df['차량번호'].astype(str).str.contains(input_c_no, na=False, regex=False)]
+                            if not part_m.empty: target_row = part_m.iloc[0]
+
+                    if target_row is not None:
+                        _trigger_market_scan_from_inventory(target_row)
+                    else:
+                        st.error("입력한 차량번호에 해당하는 차량을 찾을 수 없습니다.")
+
+        if use_filter and filter_info:
+            st.caption(f"ℹ️ 적용된 조건: **{filter_info}** (총 {len(sales_df):,}건)")
+        else:
+            st.caption(f"ℹ️ 자사 전체 판매완료 데이터: **총 {len(sales_df):,}건**")
+            
         st.dataframe(sales_df, use_container_width=True, hide_index=True, height=600, column_config=ccfg)
+    elif sales_df is not None:
+        st.warning("⚠️ 현재 조건에 일치하는 판매 실적 데이터가 없습니다. 상단의 '현재 검색 차량 조건 필터 적용' 체크를 해제하면 전체 판매 실적을 확인할 수 있습니다.")
     else:
-        st.info("👈 좌측에서 자사 재고 엑셀 파일을 업로드해 주세요.")
+        st.info("👈 자사 재고 엑셀/CSV 파일(`autoplus_inventory.csv`)이 없거나 데이터가 비어 있습니다.")
 
 def render_inventory_tab(current_f_year=""):
-    st.markdown("### 📋 자사 재고 리스트")
-    sales_df, stock_df, ccfg = _prepare_inventory_dfs(current_f_year)
-    if stock_df is not None:
+    st.markdown("### 📦 자사 보유 재고 (판매중)")
+    
+    col_t1, col_t2 = st.columns([3, 1])
+    with col_t2:
+        use_filter = st.checkbox("🔍 현재 검색 차량 조건 필터 적용", value=False, key="filter_inv_check")
+        
+    sales_df, stock_df, ccfg, filter_info = _prepare_inventory_dfs(current_f_year, apply_filter=use_filter)
+    if stock_df is not None and not stock_df.empty:
+        # 상단 차량번호 직접 입력 & 시세 분석 연동 바
+        with st.container():
+            st.markdown("""
+            <div style="background:#161922; border:1px solid #232738; border-radius:8px; padding:10px 14px; margin-bottom:12px;">
+                <span style="font-size:0.92rem; font-weight:700; color:#34d399;">🚘 차량번호로 보유 재고 시세 분석</span>
+                <span style="font-size:0.8rem; color:#94a3b8; margin-left:8px;">차량번호를 직접 입력(예: 123가4567 또는 뒷4자리)하면 즉시 해당 매칭 차량을 찾아 메인 화면 동급 시세 분석으로 전달합니다.</span>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            b_c1, b_c2, b_c3 = st.columns([2.2, 3.8, 1.8])
+            with b_c1:
+                input_c_no = st.text_input("🚘 차량번호 직접 입력:", placeholder="예: 123가4567 또는 4567", key="input_inv_car_no").strip()
+            
+            if input_c_no:
+                matched_cand = stock_df[stock_df['차량번호'].astype(str).str.contains(input_c_no, na=False, regex=False)]
+            else:
+                matched_cand = stock_df
+
+            c_options = [
+                f"{row.get('차량번호', '')} | {row.get('차량명', '')} {row.get('세부모델', '')} ({str(row.get('연식', ''))[:4]}년 / {int(float(str(row.get('주행거리', 0)).replace(',', '') or 0)):,}km)"
+                for _, row in matched_cand.iterrows()
+                if str(row.get('차량번호', '')).strip()
+            ]
+            
+            with b_c2:
+                sel_label = f"일치하는 재고 ({len(c_options)}건):" if input_c_no else "또는 목록에서 선택:"
+                if c_options:
+                    sel_item = st.selectbox(sel_label, c_options, key="sel_inv_car_scan")
+                else:
+                    st.selectbox(sel_label, ["일치하는 차량번호가 없습니다"], disabled=True, key="sel_inv_car_scan_empty")
+                    sel_item = None
+
+            with b_c3:
+                st.write("")
+                st.write("")
+                if st.button("🚀 동급 시세 분석", type="primary", use_container_width=True, key="btn_run_inv_scan"):
+                    target_row = None
+                    if sel_item and "|" in sel_item:
+                        sel_c_no = sel_item.split("|")[0].strip()
+                        matched = stock_df[stock_df['차량번호'] == sel_c_no]
+                        if not matched.empty: target_row = matched.iloc[0]
+                    elif input_c_no:
+                        exact_m = stock_df[stock_df['차량번호'].astype(str).str.strip() == input_c_no]
+                        if not exact_m.empty: target_row = exact_m.iloc[0]
+                        else:
+                            part_m = stock_df[stock_df['차량번호'].astype(str).str.contains(input_c_no, na=False, regex=False)]
+                            if not part_m.empty: target_row = part_m.iloc[0]
+
+                    if target_row is not None:
+                        _trigger_market_scan_from_inventory(target_row)
+                    else:
+                        st.error("입력한 차량번호에 해당하는 보유 재고를 찾을 수 없습니다.")
+
+        if use_filter and filter_info:
+            st.caption(f"ℹ️ 적용된 조건: **{filter_info}** (총 {len(stock_df):,}건)")
+        else:
+            st.caption(f"ℹ️ 자사 전체 보유재고 데이터: **총 {len(stock_df):,}건**")
+            
         st.dataframe(stock_df, use_container_width=True, hide_index=True, height=600, column_config=ccfg)
+    elif stock_df is not None:
+        st.warning("⚠️ 현재 조건에 일치하는 보유 재고 데이터가 없습니다. 상단의 '현재 검색 차량 조건 필터 적용' 체크를 해제하면 전체 재고를 확인할 수 있습니다.")
     else:
-        st.info("👈 좌측에서 자사 재고 엑셀 파일을 업로드해 주세요.")
+        st.info("👈 자사 재고 엑셀/CSV 파일(`autoplus_inventory.csv`)이 없거나 데이터가 비어 있습니다.")
