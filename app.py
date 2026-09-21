@@ -1211,11 +1211,18 @@ with h_col3:
     ]
     if 'nav_selection' not in st.session_state or st.session_state['nav_selection'] not in nav_options:
         st.session_state['nav_selection'] = "📊 시세 분석 및 스캔"
+
+    # 1. 위젯 키 사전 초기화 및 외부 변경 시 상태 동기화 (KeyError 원천 차단)
+    if 'nav_selection_box' not in st.session_state or st.session_state['nav_selection_box'] != st.session_state['nav_selection']:
+        st.session_state['nav_selection_box'] = st.session_state['nav_selection']
         
     nav_idx = nav_options.index(st.session_state['nav_selection'])
     
+    # 2. get() 메서드로 안전하게 참조
     def _on_nav_change():
-        st.session_state['nav_selection'] = st.session_state['nav_selection_box']
+        new_val = st.session_state.get('nav_selection_box')
+        if new_val:
+            st.session_state['nav_selection'] = new_val
         
     nav_selection = st.selectbox(
         "화면 이동",
