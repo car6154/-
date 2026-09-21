@@ -326,6 +326,10 @@ def render_main_tab(
             if st.session_state.get('f_name') != "전체" and st.session_state.get('f_name'):
                 bd_target_car = st.session_state.f_name
                 bd_target_sub = st.session_state.f_sub if st.session_state.get('f_sub') != "전체" else ""
+            elif st.session_state.get('hd_model_part_name'):
+                # 헤이딜러 세션에 저장된 차량명이 있으면 사용 (URL 스캔 후 탭 전환 시)
+                bd_target_car = st.session_state.get('hd_model_part_name', '')
+                bd_target_sub = st.session_state.get('hd_grade_part_name', '')
             elif not filtered_df.empty and '차량명' in filtered_df.columns:
                 bd_target_car = str(filtered_df['차량명'].iloc[0])
                 bd_target_sub = str(filtered_df['세부모델'].iloc[0]) if '세부모델' in filtered_df.columns else ""
@@ -890,29 +894,7 @@ def render_main_tab(
                     return s
                 display_df["사고유무_표시"] = display_df["사고유무"].apply(format_display_acc)
 
-                # 산점도에서 선택된 차량이 있다면 표의 실제 체크박스(selection)에 즉시 동기화
-                curr_selected_id = str(st.session_state.get('selected_car_id', '')).strip()
-                target_sel_rows = []
-                if curr_selected_id and '_carid' in display_df.columns:
-                    matched_positions = [
-                        i for i, cid in enumerate(display_df['_carid'])
-                        if str(cid).strip() == curr_selected_id
-                    ]
-                    if matched_positions:
-                        target_sel_rows = [matched_positions[0]]
-
-                # 세션 상태 주입으로 표 기본 체크박스를 켬
-                if target_sel_rows and st.session_state.get('last_selected_source') == 'scatter':
-                    st.session_state["encar_car_table"] = {
-                        "selection": {
-                            "rows": target_sel_rows,
-                            "columns": [],
-                            "cells": []
-                        }
-                    }
-                    st.session_state.prev_table_idx = target_sel_rows[0]
-
-                # 1. 성능일 내림차순 ➔ 연식 내림차순 복합 정렬
+                # 1. 성능일 내림차순 ➔ 연식 내림차순 복합 정렬 (정렬을 먼저 수행해야 행 인덱스가 정확히 일치함)
                 if not display_df.empty:
                     def _parse_sort_year(val):
                         # '연식(형식)' 표기에서 괄호 앞 순수 '연식' 추출 후 4자리 정규화
@@ -933,6 +915,23 @@ def render_main_tab(
                         ascending=[False, False]
                     ).drop(columns=['_sort_perf', '_sort_year']).reset_index(drop=True)
 
+                # 산점도에서 선택된 차량이 있다면 표의 실제 체크박스(selection)에 1회 동기화
+                curr_selected_id = str(st.session_state.get('selected_car_id', '')).strip()
+                if curr_selected_id and '_carid' in display_df.columns and st.session_state.get('last_selected_source') == 'scatter':
+                    matched_positions = [
+                        i for i, cid in enumerate(display_df['_carid'])
+                        if str(cid).strip() == curr_selected_id
+                    ]
+                    if matched_positions:
+                        st.session_state["encar_car_table"] = {
+                            "selection": {
+                                "rows": [matched_positions[0]],
+                                "columns": [],
+                                "cells": []
+                            }
+                        }
+                    st.session_state.last_selected_source = None
+
                 # 2. 차량명에 파란색 엔카 링크 입히기 (차량명 텍스트 유지)
                 def make_encar_link(r):
                     c_title = str(r.get('차량명', '엔카매물')).strip()
@@ -948,10 +947,19 @@ def render_main_tab(
 
                 display_df['차량명_링크'] = display_df.apply(make_encar_link, axis=1)
 
+                # 판매가를 "1,234만" 텍스트 포맷으로 변환 (st.dataframe canvas 렌더러는 font-size 미지원)
+                if '판매가' in display_df.columns:
+                    display_df['판매가_표시'] = display_df['판매가'].apply(
+                        lambda x: f"💰 {int(x):,}만" if pd.notna(x) and x != 0 else "-"
+                    )
+
                 try:
                     styled_df = display_df.style.set_properties(
-                        subset=[c for c in ['주행거리', '판매가'] if c in display_df.columns],
-                        **{'font-size': '1.05em', 'font-weight': 'bold'}
+                        subset=[c for c in ['주행거리'] if c in display_df.columns],
+                        **{'font-weight': 'bold'}
+                    ).set_properties(
+                        subset=[c for c in ['판매가_표시'] if c in display_df.columns],
+                        **{'font-weight': 'bold', 'color': '#cc9166'}
                     ).format(precision=0)
 
                     event = st.dataframe(
@@ -963,14 +971,14 @@ def render_main_tab(
                             "차량명_링크": st.column_config.LinkColumn("차량명", display_text=r"#(.*)"),
                             "연식": st.column_config.TextColumn("연식"),
                             "주행거리": st.column_config.NumberColumn("주행(km)", format="%d"),
-                            "판매가": st.column_config.NumberColumn("가격(만)", format="%d"),
+                            "판매가_표시": st.column_config.TextColumn("💰가격"),
                             "사고유무_표시": st.column_config.TextColumn("사고유무"),
                             "외장컬러": st.column_config.TextColumn("색상"),
                             "추가옵션_요약": st.column_config.TextColumn("옵션"),
                         },
                         column_order=[
                             "성능일", "재고", "차량명_링크", "연식", 
-                            "주행거리", "판매가", "사고유무_표시", "외장컬러", "추가옵션_요약"
+                            "주행거리", "판매가_표시", "사고유무_표시", "외장컬러", "추가옵션_요약"
                         ],
                         use_container_width=True,
                         hide_index=True,
@@ -986,22 +994,21 @@ def render_main_tab(
                 selected_rows = event.selection.rows if hasattr(event, "selection") else []
                 selected_encar_row = None
 
-                # 1. 표(DataFrame)에서 행을 새로 클릭한 경우 (이전 클릭 인덱스와 다를 때만 갱신)
+                # 1. 표(DataFrame)에서 체크/선택된 경우 최우선 반영
                 curr_table_idx = selected_rows[0] if selected_rows else None
-                if curr_table_idx is not None and curr_table_idx != st.session_state.get('prev_table_idx'):
-                    st.session_state.prev_table_idx = curr_table_idx
-                    st.session_state.last_selected_source = 'table'
-                    if curr_table_idx < len(display_df):
-                        selected_encar_row = display_df.iloc[curr_table_idx]
-                        st.session_state.selected_car_id = str(selected_encar_row.get('_carid', '')).strip()
+                if curr_table_idx is not None and curr_table_idx < len(display_df):
+                    selected_encar_row = display_df.iloc[curr_table_idx]
+                    st.session_state.selected_car_id = str(selected_encar_row.get('_carid', '')).strip()
                 elif st.session_state.get('selected_car_id'):
-                    # 세션에 저장된 car_id (산점도 또는 이전 선택) 우선 반영
+                    # 2. 산점도 등에서 선택된 car_id 반영
                     target_id = str(st.session_state.get('selected_car_id', '')).strip()
                     matched = display_df[display_df['_carid'].astype(str).str.strip() == target_id]
                     if not matched.empty:
                         selected_encar_row = matched.iloc[0]
-                elif curr_table_idx is not None and curr_table_idx < len(display_df):
-                    selected_encar_row = display_df.iloc[curr_table_idx]
+                elif not display_df.empty:
+                    # 3. 기본값: 첫 번째 차량
+                    selected_encar_row = display_df.iloc[0]
+                    st.session_state.selected_car_id = str(selected_encar_row.get('_carid', '')).strip()
 
                 if selected_encar_row is not None:
                     row = selected_encar_row
@@ -1274,9 +1281,9 @@ def render_main_tab(
                     <div style='background:#121317; border: 1px solid #2e3038; border-radius: 8px; padding: 14px; margin-bottom: 10px;'>
                         <div style='font-size: 1.15em; font-weight: 800; color: #ffffff; letter-spacing: -0.02em;'>{row['차량명']}</div>
                         <div style='font-size: 0.9em; font-weight: 500; color: #cbd5e1; margin-top: 2px;'>{row['세부모델']}</div>
-                        <div style='font-size: 0.88em; font-weight: 700; color: #38bdf8; margin-top: 5px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;'>
-                            <span style='background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.25); padding: 2px 8px; border-radius: 5px;'>{yr_val}</span>
-                            <span style='background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.25); padding: 2px 8px; border-radius: 5px;'>{mil_val}</span>
+                        <div style='font-size: 0.88em; font-weight: 700; margin-top: 5px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;'>
+                            <span style='color: #38bdf8; background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.25); padding: 2px 8px; border-radius: 5px;'>{yr_val}</span>
+                            <span style='color: #a0ca92; background: rgba(160, 202, 146, 0.12); border: 1px solid rgba(160, 202, 146, 0.3); padding: 2px 8px; border-radius: 5px;'>{mil_val}</span>
                             {color_badge_html}
                         </div>
                         <div style='font-size: 1.35em; font-weight: 800; color: #cc9166; margin-top: 8px;'>{int(row['판매가']) if pd.notna(row['판매가']) else 0:,} 만원</div>
@@ -1401,7 +1408,7 @@ def render_main_tab(
                     selection_mode="points"
                 )
 
-                # 산점도에서 점 클릭 시 선택 차량 세션 갱신 (무한 리런 원천 차단)
+                # 산점도에서 점 클릭 시 선택 차량 세션 갱신 (산점도 자체 신규 클릭일 때만 반응)
                 if chart_event and hasattr(chart_event, 'selection') and chart_event.selection:
                     points = getattr(chart_event.selection, 'points', [])
                     if points:
@@ -1417,13 +1424,14 @@ def render_main_tab(
                                 if pt_idx < len(car_ids):
                                     clicked_carid = str(car_ids[pt_idx])
 
-                            curr_sel_id = str(st.session_state.get('selected_car_id', ''))
-                            if clicked_carid and clicked_carid != curr_sel_id:
+                            scatter_sig = (clicked_point.get('curve_number'), clicked_point.get('point_index'), clicked_carid)
+                            if clicked_carid and scatter_sig != st.session_state.get('last_scatter_click_sig'):
+                                st.session_state.last_scatter_click_sig = scatter_sig
                                 st.session_state.selected_car_id = clicked_carid
                                 st.session_state.last_selected_source = 'scatter'
-                                # 표의 이전 선택을 무효화하여 핑퐁 리런 루프 방지
-                                st.session_state.prev_table_idx = -1
                                 st.rerun()
+                    else:
+                        st.session_state.last_scatter_click_sig = None
             else:
                 st.info("차트를 그릴 수 있는 유효 데이터가 없습니다.")
         else:
