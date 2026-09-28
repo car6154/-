@@ -11,7 +11,7 @@ import numpy as np
 import requests
 
 from services.encar_service import Scraper
-from sales_analysis import get_car_market_stats, SalesDataAnalyzer
+from sales_analysis import get_car_market_stats, SalesDataAnalyzer, is_target_option_matched, get_current_target_options
 
 # ==========================================
 # 🚗 성능점검 다이어그램 상수 및 렌더링 함수
@@ -33,8 +33,8 @@ PART_COORDS_OUTER = [
 PART_COORDS_INNER = [
     (("앞","사이드","멤버","좌"), 10, 30,  40, 55, "F멤", "프론트 사이드멤버(좌)"),
     (("앞","사이드","멤버","우"),170, 30,  40, 55, "F멤", "프론트 사이드멤버(우)"),
-    (("크로스","멤버"),               55, 30,  110, 30, "크로스", "크로스멤버"),
-    (("라디에이터","서포트"),         55, 65,  110, 30, "R.S", "라디에이터 서포트"),
+    (("라디에이터","서포트"),         55, 30,  110, 30, "R.S", "라디에이터 서포트"),
+    (("크로스","멤버"),               55, 65,  110, 30, "크로스", "크로스멤버"),
     (("인사이드","패널","좌"),        10, 100, 40, 120, "I패", "인사이드 패널(좌)"),
     (("인사이드","패널","우"),       170, 100, 40, 120, "I패", "인사이드 패널(우)"),
     (("뒤","사이드","멤버","좌"),   10, 230, 40, 60, "R멤", "리어 사이드멤버(좌)"),
@@ -310,11 +310,25 @@ def render_car_detail_content(e_row, target_mil, show_close_btn=False):
         km_gap_str = "-"
         km_gap_color = "#94a3b8"
 
+    target_opts = get_current_target_options()
+    matched_opts = []
+    unmatched_opts = []
+    for opt in opt_list:
+        if target_opts and is_target_option_matched(opt, target_opts):
+            matched_opts.append(opt)
+        else:
+            unmatched_opts.append(opt)
+    
+    sorted_opt_list = [(opt, True) for opt in matched_opts] + [(opt, False) for opt in unmatched_opts]
+
     opt_badges_html = ""
-    for opt in opt_list[:10]:
-        opt_badges_html += f"<span style='background:#1e293b; color:#38bdf8; padding:3px 8px; border-radius:6px; font-size:11px; font-weight:600; border: 1px solid #0284c7; display:inline-block; margin:2px;'>✓ {opt}</span>"
-    if len(opt_list) > 10:
-        opt_badges_html += f"<span style='background:#1e293b; color:#94a3b8; padding:3px 8px; border-radius:6px; font-size:11px; border: 1px solid #334155; display:inline-block; margin:2px;'>+{len(opt_list)-10}</span>"
+    for opt, is_m in sorted_opt_list[:10]:
+        if is_m:
+            opt_badges_html += f"<span style='background:rgba(14, 165, 233, 0.18); color:#38bdf8; padding:3px 8px; border-radius:6px; font-size:11px; font-weight:700; border: 1px solid #0284c7; display:inline-block; margin:2px; box-shadow:0 0 6px rgba(14,165,233,0.2);'>✓ {opt}</span>"
+        else:
+            opt_badges_html += f"<span style='background:#1e293b; color:#94a3b8; padding:3px 8px; border-radius:6px; font-size:11px; font-weight:500; border: 1px solid #334155; display:inline-block; margin:2px;'>{opt}</span>"
+    if len(sorted_opt_list) > 10:
+        opt_badges_html += f"<span style='background:#1e293b; color:#94a3b8; padding:3px 8px; border-radius:6px; font-size:11px; border: 1px solid #334155; display:inline-block; margin:2px;'>+{len(sorted_opt_list)-10}</span>"
     if not opt_badges_html:
         opt_badges_html = "<span style='color:#64748b; font-size:12px;'>추가옵션 없음 또는 기본 트림 사양</span>"
 
@@ -618,7 +632,7 @@ def render_cockpit_view(
             ap_count = autoplus_stats.get("total_count", 0)
             ap_price = autoplus_stats.get("avg_sell_price", 0)
             ap_profit = int(autoplus_stats.get("avg_profit", 0))
-            ap_days = autoplus_stats.get("avg_days", 0)
+            yd_badge = f"<div style='font-size: 10px; color: #f87171; font-weight: 600; margin-top: 2px;'>⚠️ {autoplus_stats.get('year_diff_note')}</div>" if autoplus_stats.get('year_diff_note') else ""
             st.markdown(f"""
             <div class='metric-card' style='background: #131d2e; border: 1px solid #233249; border-radius: 10px; padding: 12px; min-height: 86px;'>
                 <div style='display: flex; justify-content: space-between;'>
@@ -630,6 +644,7 @@ def render_cockpit_view(
                     <span style='font-size: 12px; color: #cc9166;'>마진 <b>+{ap_profit:,}만</b></span>
                 </div>
                 <div style='font-size: 11px; color: #64748b; margin-top: 2px;'>평균 재고 {ap_days}일 소화 ({autoplus_stats.get("turnover_grade", "보통")})</div>
+                {yd_badge}
             </div>
             """, unsafe_allow_html=True)
         else:
