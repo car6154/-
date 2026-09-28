@@ -754,9 +754,9 @@ class SalesDataAnalyzer:
 
             is_query_ev = any(k in full_query_text for k in ['전기', 'ev', 'electric', '일렉트릭'])
             is_query_hybrid = any(k in full_query_text for k in ['하이브리드', 'hybrid', 'hev'])
-            is_query_lpi = any(k in full_query_text for k in ['lpi', 'lpg', '렌터카', '장애인'])
+            is_query_lpi = any(k in full_query_text for k in ['lpi', 'lpg', 'lpe', '렌터카', '장애인'])
             is_query_diesel = check_is_diesel(full_query_text)
-            is_query_gasoline = any(k in full_query_text for k in ['가솔린', 'gasoline', 'gdi', 't-gdi', 'tgdi', 'mpi']) or check_is_turbo(full_query_text)
+            is_query_gasoline = any(k in full_query_text for k in ['가솔린', 'gasoline', 'gde', 'gdi', 't-gdi', 'tgdi', 'mpi', 'cvvl']) or check_is_turbo(full_query_text)
 
             fuel_filtered = sub_df.copy()
             fuel_label = ""
@@ -787,14 +787,14 @@ class SalesDataAnalyzer:
                     empty_df.attrs['year_diff_note'] = ""
                     return empty_df
             elif is_query_lpi:
-                f_mask = fuel_filtered['세부모델_clean'].str.contains('lpi|lpg|렌터카|장애인', na=False) | fuel_filtered['차량명_clean'].str.contains('lpi|lpg', na=False)
+                f_mask = fuel_filtered['세부모델_clean'].str.contains('lpi|lpg|lpe|렌터카|장애인', na=False) | fuel_filtered['차량명_clean'].str.contains('lpi|lpg|lpe', na=False)
                 if f_mask.any():
                     fuel_filtered = fuel_filtered[f_mask]
-                    fuel_label = "LPi"
+                    fuel_label = "LPe/LPi" if 'lpe' in full_query_text else "LPi"
                 else:
                     empty_df = pd.DataFrame()
-                    empty_df.attrs['matched_name'] = f"{car_name} (LPi 소매 실적 축적 중)"
-                    empty_df.attrs['matched_tier'] = "⛽ LPi 데이터 없음"
+                    empty_df.attrs['matched_name'] = f"{car_name} (LPe/LPi 소매 실적 축적 중)"
+                    empty_df.attrs['matched_tier'] = "⛽ LPe/LPi 데이터 없음"
                     empty_df.attrs['year_band'] = ""
                     empty_df.attrs['is_year_diff'] = False
                     empty_df.attrs['year_diff_note'] = ""
@@ -813,9 +813,9 @@ class SalesDataAnalyzer:
                     empty_df.attrs['year_diff_note'] = ""
                     return empty_df
             else:
-                # 🚫 가솔린 쿼리 시 디젤(R2.0, R2.2, e-VGT, CRDi 등) 및 친환경/LPG 100% 완전 배제
+                # 🚫 가솔린 쿼리 시 디젤(R2.0, R2.2, e-VGT, CRDi 등) 및 친환경/LPG(LPe 포함) 100% 완전 배제
                 not_d_mask = ~fuel_filtered.apply(lambda r: check_is_diesel(r['차량명']) or check_is_diesel(r['세부모델']), axis=1)
-                not_other_mask = ~fuel_filtered['차량명_clean'].str.contains('하이브리드|전기|일렉트릭|ev', na=False) & ~fuel_filtered['세부모델_clean'].str.contains('hev|lpi|lpg|ev|전기|일렉트릭', na=False)
+                not_other_mask = ~fuel_filtered['차량명_clean'].str.contains('하이브리드|전기|일렉트릭|ev', na=False) & ~fuel_filtered['세부모델_clean'].str.contains('hev|lpi|lpg|lpe|ev|전기|일렉트릭', na=False)
                 gas_mask = not_d_mask & not_other_mask
                 if gas_mask.any():
                     fuel_filtered = fuel_filtered[gas_mask]
@@ -897,6 +897,19 @@ class SalesDataAnalyzer:
                 # 유종 일치 재확인 (가솔린 vs 디젤 절대 혼입 방지)
                 row_is_diesel = check_is_diesel(rv)
                 if is_query_diesel != row_is_diesel:
+                    return -999
+
+                # 유종 일치 재확인 (LPG/LPe vs 가솔린/GDe 절대 혼입 방지)
+                row_is_lpg = any(k in rv_clean for k in ['lpi', 'lpg', 'lpe'])
+                query_is_lpg = is_query_lpi or any(k in query_clean for k in ['lpi', 'lpg', 'lpe'])
+                if query_is_lpg != row_is_lpg:
+                    return -999
+
+                row_is_gde = 'gde' in rv_clean or '가솔린' in rv_clean
+                query_is_gde = is_query_gasoline or any(k in query_clean for k in ['gde', '가솔린'])
+                if query_is_gde and row_is_lpg:
+                    return -999
+                if query_is_lpg and row_is_gde:
                     return -999
 
                 # 배기량 일치 재확인 (1.7 vs 2.0 등 다른 배기량 절대 탈락)
@@ -1575,6 +1588,12 @@ class SalesDataAnalyzer:
         (r'스타리아', '스타리아', '스타리아'),
         (r'포터\s*ii|포터2|포터ii', '포터', '포터 II'),
 
+        # --- i40 (살룬 세단 vs 왜건 엄격 구분) ---
+        (r'더\s*뉴\s*i40\s*살룬|더뉴i40살룬', 'i40', '더 뉴 i40 살룬'),
+        (r'더\s*뉴\s*i40|더뉴i40', 'i40', '더 뉴 i40'),
+        (r'i40\s*살룬|i40살룬', 'i40', 'i40 살룬'),
+        (r'\bi40\b', 'i40', 'i40'),
+
         # --- 제네시스 ---
         (r'더\s*올\s*뉴\s*g80|신형\s*g80|g80\s*rg3|rg3', 'G80', 'G80 (RG3)'),
         (r'뉴\s*g80|뉴g80', 'G80', 'G80'),
@@ -1642,6 +1661,21 @@ class SalesDataAnalyzer:
         (r'\b넥쏘\b', '넥쏘', '넥쏘'),
         (r'올\s*뉴\s*코란도|뷰티풀\s*코란도', '코란도', '뷰티풀 코란도'),
         (r'\b코란도\b', '코란도', '코란도'),
+
+        # --- 르노코리아(삼성) ---
+        (r'the\s*new\s*qm6', 'QM6', 'The New QM6'),
+        (r'더\s*뉴\s*qm6|더뉴qm6|뉴\s*qm6|뉴qm6', 'QM6', '더 뉴 QM6'),
+        (r'\bqm6\b', 'QM6', 'QM6'),
+        (r'더\s*뉴\s*sm6|더뉴스m6', 'SM6', '더 뉴 SM6'),
+        (r'\bsm6\b', 'SM6', 'SM6'),
+        (r'더\s*뉴\s*xm3|더뉴xm3', 'XM3', '더 뉴 XM3'),
+        (r'\bxm3\b', 'XM3', 'XM3'),
+        (r'\bqm3\b', 'QM3', 'QM3'),
+        (r'뉴\s*qm3|더\s*뉴\s*qm3', 'QM3', '뉴 QM3'),
+        (r'\bsm5\s*노바|sm5노바', 'SM5', 'SM5 노바'),
+        (r'\bsm3\s*네오|sm3네오', 'SM3', 'SM3 네오'),
+        (r'\b아르카나\b', '아르카나', '아르카나'),
+        (r'\b그랑\s*콜레오스|그랑콜레오스\b', '그랑 콜레오스', '그랑 콜레오스'),
     ]
 
     @staticmethod
@@ -1778,18 +1812,30 @@ class SalesDataAnalyzer:
                     matched_sub_model = "더 뉴 스포티지 R"
                 elif parsed_year in [2010, 2011, 2012, 2013] or "스포티지r" in clean_lower:
                     matched_sub_model = "스포티지 R"
-
-        # 3. 세부 등급(BadgeDetail: 프레스티지, 노블레스, 럭셔리, 시그니처 등) 감지
-        badge_detail = None
-        detail_keywords = [
-            '프레스티지', '노블레스 스페셜', '노블레스', '시그니처', '캘리그래피', '인스퍼레이션',
-            '익스클루시브', '프리미엄', '모던', '스타일 에디션', '스페셜 에디션', '디럭스', '럭셔리',
-            '프리미에르', '샤이니', '프리미에', '마스터즈', '그래비티', 'VIP'
-        ]
-        for dk in detail_keywords:
-            if dk.lower() in clean_lower or dk.replace(" ", "").lower() in s:
-                badge_detail = dk
-                break
+            elif best_model == "QM6":
+                if parsed_year >= 2024 or "the new" in clean_lower:
+                    matched_sub_model = "The New QM6"
+                elif parsed_year in [2019, 2020, 2021, 2022, 2023] or "더뉴" in clean_lower or "뉴" in clean_lower:
+                    matched_sub_model = "더 뉴 QM6"
+                else:
+                    matched_sub_model = "QM6"
+            elif best_model == "SM6":
+                if parsed_year >= 2020 or "더뉴" in clean_lower:
+                    matched_sub_model = "더 뉴 SM6"
+                else:
+                    matched_sub_model = "SM6"
+            elif best_model == "XM3":
+                if parsed_year >= 2024 or "더뉴" in clean_lower:
+                    matched_sub_model = "더 뉴 XM3"
+                else:
+                    matched_sub_model = "XM3"
+            elif best_model == "i40":
+                is_saloon = "살룬" in clean_lower or "saloon" in clean_lower or "sedan" in clean_lower
+                is_the_new = "더뉴" in clean_lower or (parsed_year and parsed_year >= 2015)
+                if is_saloon:
+                    matched_sub_model = "더 뉴 i40 살룬" if is_the_new else "i40 살룬"
+                else:
+                    matched_sub_model = "더 뉴 i40" if is_the_new else "i40"
 
         # 4. 엔카 PC 데스크톱 검색 Action 쿼리 조립 (정밀 스마트 밴드 적용)
         if best_brand and best_model:
@@ -1799,14 +1845,22 @@ class SalesDataAnalyzer:
             ]
             car_type = "for" if is_import else "kor"
             
-            f_brand = str(best_brand)
+            # 제조사 괄호 표기 엔카 규격 변환 (르노코리아(삼성_) 등)
+            BRAND_ENCAR_MAP = {
+                "르노코리아(삼성)": "르노코리아(삼성_)",
+                "르노": "르노코리아(삼성_)",
+                "르노코리아": "르노코리아(삼성_)",
+                "쉐보레(GM대우)": "쉐보레(GM대우_)",
+                "쉐보레": "쉐보레(GM대우_)",
+                "KG모빌리티(쌍용)": "KG모빌리티(쌍용_)",
+                "쌍용": "KG모빌리티(쌍용_)",
+                "KGM": "KG모빌리티(쌍용_)"
+            }
+            f_brand = BRAND_ENCAR_MAP.get(str(best_brand), str(best_brand))
             f_mg = str(best_model)
             
-            # 모델 및 등급 코어 트리
-            if matched_sub_model and badge_detail:
-                f_sub = str(matched_sub_model)
-                core_tree = f"(C.CarType.Y._.(C.Manufacturer.{f_brand}._.(C.ModelGroup.{f_mg}._.(C.Model.{f_sub}._.BadgeDetail.{badge_detail}.))))"
-            elif matched_sub_model:
+            # 모델 코어 트리 (BadgeDetail은 엔카에 미등록된 차종이 많아 0건 방지를 위해 Model 단위로 안전 구성)
+            if matched_sub_model:
                 f_sub = str(matched_sub_model)
                 core_tree = f"(C.CarType.Y._.(C.Manufacturer.{f_brand}._.(C.ModelGroup.{f_mg}._.Model.{f_sub}.)))"
             else:
@@ -1858,23 +1912,44 @@ def generate_encar_market_url(car_name, sub_model="", year="", mileage=0):
 
 def is_target_option_matched(opt_str: str, target_opts: list) -> bool:
     """
-    엔카 매물의 옵션 문자열(예: '스타일(70만)')이 기준 차량의 타겟 옵션 목록(예: ['기본형-드라이브와이즈', '스타일', '내비게이션'])과
+    엔카 매물의 옵션 문자열(예: '스타일(70만)', 'S-Link 패키지 Ⅱ (103만)')이 
+    기준 차량의 타겟 옵션 목록(예: ['S-Link 패키지 II', '드라이빙 어시스트 패키지 I', '매직테일게이트'])과
     동일/유사 옵션인지 판별.
     """
     if not target_opts or not opt_str:
         return False
         
-    c_opt = re.sub(r'\(.*?\)', '', str(opt_str)).strip().lower()
-    norm_opt = re.sub(r'[\s\-_/.]', '', c_opt)
+    import unicodedata
+    import re
+
+    def normalize_opt(text):
+        if not text:
+            return ""
+        # 1. 유니코드 NFKC 정규화 (로마숫자 특수기호 Ⅰ, Ⅱ, Ⅲ -> I, II, III 등 자동 변환)
+        t = unicodedata.normalize('NFKC', str(text))
+        # 2. 괄호 및 가격 정보 제거: '매직테일게이트(50만)' -> '매직테일게이트'
+        t = re.sub(r'\(.*?\)', '', t).strip().lower()
+        # 3. 공백 및 기호 제거
+        t = re.sub(r'[\s\-_/.]', '', t)
+        return t
+
+    def roman_to_arabic(text):
+        # 로마숫자 iv, iii, ii, i 를 아라비아 숫자로 변환한 버전
+        t = text
+        t = t.replace('iv', '4').replace('iii', '3').replace('ii', '2').replace('i', '1')
+        return t
+
+    norm_opt = normalize_opt(opt_str)
     if not norm_opt:
         return False
+    norm_opt_num = roman_to_arabic(norm_opt)
 
     SYNONYM_GROUPS = [
-        {'내비', '네비', 'navigation', '내비게이션', '네비게이션'},
+        {'내비', '네비', 'navigation', '내비게이션', '네비게이션', 'slink', 's링크'},
         {'선루프', '썬루프', '파노라마선루프', '파노라마썬루프', '듀얼선루프'},
-        {'드라이브와이즈', '스마트센스', 'ascc', 'scc', '스마트크루즈', '반자율', '주행보조', 'hda'},
+        {'드라이브와이즈', '스마트센스', 'ascc', 'scc', '스마트크루즈', '반자율', '주행보조', 'hda', '드라이빙어시스트'},
         {'hud', '헤드업디스플레이', '헤드업'},
-        {'어라운드뷰', '서라운드뷰', '모니터링', '모니터링팩', 'svm', '360도뷰'},
+        {'어라운드뷰', '서라운드뷰', '모니터링', '모니터링팩', 'svm', '360도뷰', '스카이뷰'},
         {'통풍시트', '통풍'},
         {'메모리시트', '메모리', 'ims'},
         {'krell', '크렐', 'jbl', 'bose', '보스', '렉시콘', '사운드', '프리미엄사운드'},
@@ -1884,24 +1959,25 @@ def is_target_option_matched(opt_str: str, target_opts: list) -> bool:
         {'빌트인캠', '블랙박스'},
         {'테크', '테크팩', '하이테크'},
         {'패밀리', '패밀리팩'},
+        {'매직테일게이트', '스마트테일게이트', '전동트렁크', '파워테일게이트', '매직테일'}
     ]
 
     for t in target_opts:
         if not t:
             continue
-        c_t = re.sub(r'\(.*?\)', '', str(t)).strip().lower()
-        norm_t = re.sub(r'[\s\-_/.]', '', c_t)
+        norm_t = normalize_opt(t)
         if not norm_t:
             continue
+        norm_t_num = roman_to_arabic(norm_t)
 
-        # 1. 완전 일치
-        if norm_opt == norm_t:
+        # 1. 완전 일치 (NFKC 정규화 후, 또는 로마숫자 변환 후)
+        if norm_opt == norm_t or norm_opt_num == norm_t_num:
             return True
 
         # 2. 부분 일치 (2글자 이상 키워드 상호 포함)
-        if len(norm_t) >= 2 and norm_t in norm_opt:
+        if len(norm_t) >= 2 and (norm_t in norm_opt or norm_t_num in norm_opt_num):
             return True
-        if len(norm_opt) >= 2 and norm_opt in norm_t:
+        if len(norm_opt) >= 2 and (norm_opt in norm_t or norm_opt_num in norm_t_num):
             return True
 
         # 3. 유의어/동의어 그룹 매칭
@@ -1909,6 +1985,10 @@ def is_target_option_matched(opt_str: str, target_opts: list) -> bool:
             opt_hit = any(g in norm_opt for g in group)
             t_hit = any(g in norm_t for g in group)
             if opt_hit and t_hit:
+                nums_opt = re.findall(r'[1-9]', norm_opt_num)
+                nums_t = re.findall(r'[1-9]', norm_t_num)
+                if nums_opt and nums_t and nums_opt != nums_t:
+                    continue
                 return True
 
     return False

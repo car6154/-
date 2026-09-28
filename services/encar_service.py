@@ -352,16 +352,48 @@ class Scraper:
             cars_res = session.get(api_url).json()
             cars = cars_res.get("SearchResults", [])
             
-            # 💡 [지능형 Fallback] 세부 모델명 미스매치로 0건인 경우, 상위 모델그룹으로 자동 확장 검색
-            if not cars and "Model." in condition:
-                fallback_cond = re.sub(r'_\.\(C\.ModelGroup\.([^\.]+)\._\.Model\.[^\.]+\.\)', r'._.ModelGroup.\1.', condition)
-                fallback_cond = re.sub(r'_\.Model\.[^\.]+\.', r'', fallback_cond)
-                if fallback_cond != condition:
+            # 💡 [지능형 다단계 Fallback] 0건인 경우 단계별로 조건 완화 자동 재조회
+            if not cars:
+                fallback_candidates = []
+                cur_c = condition
+                # 0순위: 제조사명 괄호 보정 (르노코리아(삼성) -> 르노코리아(삼성_))
+                for orig_b, enc_b in [("르노코리아(삼성)", "르노코리아(삼성_)"), ("쉐보레(GM대우)", "쉐보레(GM대우_)"), ("KG모빌리티(쌍용)", "KG모빌리티(쌍용_)")]:
+                    if orig_b in cur_c and enc_b not in cur_c:
+                        cur_c = cur_c.replace(orig_b, enc_b)
+                if cur_c != condition:
+                    fallback_candidates.append(cur_c)
+
+                # 1순위: BadgeDetail 제거
+                if "BadgeDetail." in cur_c:
+                    c_nobd = re.sub(r'_\.BadgeDetail\.[^\.]+\.', '', cur_c)
+                    c_nobd = re.sub(r'\(\.BadgeDetail\.[^\.]+\.\)', '', c_nobd)
+                    fallback_candidates.append(c_nobd)
+                    
+                # 2순위: Badge / BadgeGroup 제거하고 Model까지만 유지
+                if "Badge." in cur_c or "BadgeGroup." in cur_c:
+                    m_model = re.search(r'\(C\.Manufacturer\.([^\.]+)\._\.\(C\.ModelGroup\.([^\.]+)\._\.Model\.([^\.]+)\.\)', cur_c)
+                    if m_model:
+                        brand_p, mg_p, model_p = m_model.group(1), m_model.group(2), m_model.group(3)
+                        bands = re.findall(r'_\.(?:Year|Mileage)\.range\([^\)]+\)\.', cur_c)
+                        band_str = "".join(bands)
+                        c_model_only = f"(And.Hidden.N._.(C.CarType.Y._.(C.Manufacturer.{brand_p}._.(C.ModelGroup.{mg_p}._.Model.{model_p}.))){band_str})"
+                        fallback_candidates.append(c_model_only)
+
+                # 3순위: Model 제거하고 ModelGroup 단위로 확대
+                if "Model." in cur_c:
+                    fb_mg = re.sub(r'_\.\(C\.ModelGroup\.([^\.]+)\._\.Model\.[^\.]+\.\)', r'._.ModelGroup.\1.', cur_c)
+                    fb_mg = re.sub(r'_\.Model\.[^\.]+\.', r'', fb_mg)
+                    fallback_candidates.append(fb_mg)
+
+                for fb_cond in fallback_candidates:
                     try:
-                        fb_safe = urllib.parse.quote(fallback_cond)
+                        fb_safe = urllib.parse.quote(fb_cond)
                         fb_url = f"https://api.encar.com/search/car/list/general?count=false&q={fb_safe}&sr=%7CModifiedDate%7C0%7C100"
                         fb_res = session.get(fb_url).json()
-                        cars = fb_res.get("SearchResults", [])
+                        fb_cars = fb_res.get("SearchResults", [])
+                        if fb_cars:
+                            cars = fb_cars
+                            break
                     except Exception:
                         pass
 

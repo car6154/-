@@ -3,6 +3,70 @@ import re
 from datetime import datetime
 import pandas as pd
 
+def parse_heydealer_options(spec_desc: str) -> list:
+    """
+    헤이딜러 car_spec.description 에서 순수 '신차 추가옵션'만 정확하게 파싱.
+    - '* 신차 추가옵션' 바로 위에 나열된 1), 2), 3) 목록만 추출
+    - 또는 '* 신차 추가옵션' 헤더 아래에 있는 항목만 추출
+    - '* 등급 기본옵션' / '기본품목' 섹션은 기본 사양이므로 원천 배제
+    """
+    if not spec_desc:
+        return []
+    lines = [line.strip() for line in str(spec_desc).split('\n') if line.strip()]
+    
+    # 1. "* 신차 추가옵션" 문구 위치 확인
+    opt_marker_idx = -1
+    for idx, l in enumerate(lines):
+        if any(k in l for k in ["신차 추가옵션", "신차추가옵션", "신차 추가 옵션"]):
+            opt_marker_idx = idx
+            break
+            
+    # 2. "* 등급 기본옵션" 또는 "* 기본옵션" 문구 위치 확인
+    base_marker_idx = -1
+    for idx, l in enumerate(lines):
+        if any(k in l for k in ["기본옵션", "기본 사양", "기본사양", "기본품목"]):
+            base_marker_idx = idx
+            break
+
+    target_options = []
+    
+    if opt_marker_idx != -1:
+        # 케이스 A: '* 신차 추가옵션' 바로 위에 번호 목록이 나열된 경우 (예: QM6, 그랜저HG 등)
+        above_options = []
+        for l in lines[:opt_marker_idx]:
+            m = re.search(r'^\d+\)\s*(.*?)(?:\s*\(|$)', l)
+            if m:
+                opt_name = m.group(1).strip()
+                if opt_name:
+                    above_options.append(opt_name)
+                    
+        # 케이스 B: '* 신차 추가옵션' 헤더 바로 아래에 번호 목록이 나열된 경우
+        below_options = []
+        end_idx = base_marker_idx if base_marker_idx > opt_marker_idx else len(lines)
+        for l in lines[opt_marker_idx + 1:end_idx]:
+            m = re.search(r'^\d+\)\s*(.*?)(?:\s*\(|$)', l)
+            if m:
+                opt_name = m.group(1).strip()
+                if opt_name:
+                    below_options.append(opt_name)
+
+        if above_options:
+            target_options = above_options
+        elif below_options:
+            target_options = below_options
+    else:
+        # '* 신차 추가옵션' 마커가 없는 경우: 기본옵션 마커 이전까지만 번호 목록 추출
+        end_idx = base_marker_idx if base_marker_idx != -1 else len(lines)
+        for l in lines[:end_idx]:
+            m = re.search(r'^\d+\)\s*(.*?)(?:\s*\(|$)', l)
+            if m:
+                opt_name = m.group(1).strip()
+                if opt_name:
+                    target_options.append(opt_name)
+                    
+    return target_options
+
+
 def format_relative_date(date_val):
     """헤이딜러 경매일시를 '4일 전', '1주 전', '오늘', '1달 전' 등의 상대 시간으로 변환"""
     if not date_val or str(date_val).strip() in ['', 'None', 'nan', '-', 'null']:
@@ -277,11 +341,7 @@ def parse_heydealer_comps(json_data):
             car_name = d.get("grade_part_name") or d.get("full_name") or "헤이딜러 매물"
             car_id = item.get("car_id") or d.get("id") or ""
             link = f"https://dealer.heydealer.com/cars/{car_id}" if car_id else ""
-            options = []
-            for line in spec_desc.split('\n'):
-                m = re.search(r'^\d+\)\s*(.*?)(?:\s*\(|$)', line.strip())
-                if m:
-                    options.append(m.group(1).strip())
+            options = parse_heydealer_options(spec_desc)
             
             p_val = price // 10000 if isinstance(price, (int, float)) and price >= 10000 else price
             try: y_num = int(re.search(r'\d{4}', str(year)).group(0)) if re.search(r'\d{4}', str(year)) else 0
