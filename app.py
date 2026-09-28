@@ -24,7 +24,12 @@ from services.heydealer_service import parse_heydealer_comps
 from services.data_processor import DataProcessor
 from services.encar_service import Scraper
 from services.settlement_service import get_auto_fee_rate, recalc_settlement_df
+from services.chaolma_service import ChaolmaService
+from views.components.chaolma_card import render_chaolma_card_ui
 
+import importlib
+import views.tab_main
+importlib.reload(views.tab_main)
 from views.tab_main import render_main_tab
 from views.tab_settlement import render_settlement_tab
 from views.tab_ledger import (
@@ -540,6 +545,12 @@ if run_heydealer:
                 
                 st.session_state.scan_source = "url"
                 st.session_state.pop('last_chaolma_data', None)
+                st.session_state.pop('target_carid', None)
+                st.session_state.pop('selected_car_id', None)
+                st.session_state.scan_data = pd.DataFrame()
+                st.session_state.hd_comp_df = pd.DataFrame()
+                st.session_state.auto_encar_url = ""
+                st.session_state.f_status = []
 
                 hd_detail_tmp = json.loads(heydealer_json_str).get('detail', {})
                 car_spec_tmp = hd_detail_tmp.get('car_spec') or {}
@@ -588,8 +599,16 @@ if run_heydealer:
                                 st.session_state.scan_source = "url"
                                 st.session_state.scan_data = new_scan_df
                                 st.session_state.f_status = []
+                            else:
+                                st.session_state.scan_source = "url"
+                                st.session_state.scan_data = pd.DataFrame()
+                                st.session_state.f_status = []
                     except Exception as e:
                         print(f"엔카 자동 스캔 예외: {e}")
+                        st.session_state.scan_data = pd.DataFrame()
+                else:
+                    st.session_state.scan_data = pd.DataFrame()
+                    st.session_state.auto_encar_url = ""
                 
             st.session_state.debug_success_msg = f"차량 정보 수집 성공! {'✅ 낙찰이력 데이터도 자동 수집됨' if auction_repairs_json else '⚠️ 낙찰이력 없음 (없거나 미지원)'}"
 
@@ -629,9 +648,15 @@ if run_heydealer:
                     st.session_state.f_name = hd_model
                 elif hd_full:
                     st.session_state.f_name = hd_full
+                else:
+                    st.session_state.f_name = "전체"
 
                 if hd_grade:
                     st.session_state.f_sub = hd_grade
+                elif 'scan_data' in st.session_state and not st.session_state.scan_data.empty and '세부모델' in st.session_state.scan_data.columns:
+                    st.session_state.f_sub = str(st.session_state.scan_data['세부모델'].iloc[0])
+                else:
+                    st.session_state.f_sub = "전체"
 
                 # 헤이딜러 기준 연식(뒤 2자리 또는 전체) 및 주행거리를 사이드바 필터에 자동 설정
                 if hd_year:
@@ -727,6 +752,14 @@ if run_heydealer:
                         hd_valid_comps = hd_comp_df[~hd_comp_df['수출여부']] if ('수출여부' in hd_comp_df.columns and not hd_comp_df.empty) else hd_comp_df
                         if hd_valid_comps.empty:
                             hd_valid_comps = hd_comp_df
+
+                        # 타겟 등급과 일치하는 낙찰 매물 우선 필터링
+                        target_trim_hd = hd_detail.get('grade_part_name', '')
+                        if target_trim_hd and not hd_valid_comps.empty and '차량명' in hd_valid_comps.columns:
+                            t_clean = str(target_trim_hd).replace(" ", "").lower()
+                            matched_grade_mask = hd_valid_comps['차량명'].apply(lambda x: t_clean in str(x).replace(" ", "").lower() or str(x).replace(" ", "").lower() in t_clean)
+                            if matched_grade_mask.any():
+                                hd_valid_comps = hd_valid_comps[matched_grade_mask]
 
                         if not hd_valid_comps.empty:
                             if target_year:
@@ -828,12 +861,144 @@ filtered_df = DataProcessor.standardize(filtered_df)
 is_url_mode = (st.session_state.get('scan_source') == "url")
 current_f_year = ""
 
-# 🔍 사이드바 상세 검색 필터 (스캔 데이터, 자사 재고, 빅데이터 및 견적조회 차량 상시 연동)
-if not filtered_df.empty:
-    st.sidebar.markdown(f"**총 스캔 대수: {len(st.session_state.scan_data)} 대**")
-st.sidebar.markdown("### 🔍 상세 검색 필터")
+# ═══════════════════════════════════════════
+# 📋 사이드바 (차량번호 ➔ 제조사 ➔ 차량명 ➔ 세부모델 ➔ 연식 ➔ 주행거리 ➔ 옵션 ➔ 판매/장부)
+# ═══════════════════════════════════════════
+reset_idx = st.session_state.form_reset_key
 
-# 1. 브랜드/제조사 목록 구성
+# 0. 저장 성공 배너 (슬림하게 표시)
+if st.session_state.save_success:
+    st.sidebar.success(f"✅ {st.session_state.saved_car_num} 저장 완료!")
+    st.session_state.save_success = False
+
+# 1. 차량번호 (필수) + 조회 버튼
+default_car_num = st.session_state.get(f"car_num_{reset_idx}", "")
+st.sidebar.markdown("<div style='font-size: 0.82rem; font-weight: 600; margin-bottom: 2px; color: #e2e3e9;'>차량번호 (필수)</div>", unsafe_allow_html=True)
+col_cnum, col_cbtn = st.sidebar.columns([3.0, 1.2])
+with col_cnum:
+    l_car_num = st.text_input(
+        "차량번호 (필수)",
+        value=default_car_num,
+        key=f"car_num_{reset_idx}",
+        label_visibility="collapsed",
+        placeholder="예: 12수1496"
+    ).replace(" ", "").strip()
+with col_cbtn:
+    btn_fetch_chaolma = st.button("조회", key=f"btn_chaolma_{reset_idx}", use_container_width=True, help="신차 출고가 & 순정옵션 견적조회")
+
+if not ChaolmaService.is_authenticated():
+    st.sidebar.markdown("<div style='font-size: 0.72rem; color: #fbbf24; background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 4px; padding: 2px 6px; margin: 1px 0 4px 0;'>⚠️ 견적조회 쿠키 미등록</div>", unsafe_allow_html=True)
+
+if btn_fetch_chaolma:
+    if not l_car_num:
+        st.sidebar.warning("차량번호를 입력해주세요.")
+    elif not ChaolmaService.is_authenticated():
+        st.sidebar.error("❌ 견적조회 쿠키가 없습니다. 상단 [🔑 세션 쿠키 설정]에 붙여넣어주세요.")
+    else:
+        cur_mil_val = int(st.session_state.get(f"mil_{reset_idx}", st.session_state.get('user_target_mil', 0)))
+        with st.sidebar.spinner(f"[{l_car_num}] 제원 및 옵션 조회 중..."):
+            res = ChaolmaService.fetch_car_info(l_car_num, mileage=cur_mil_val)
+            if res.get("success"):
+                st.session_state.scan_source = "car_number"
+                st.session_state[f"chaolma_data_{l_car_num}"] = res
+                st.session_state["last_chaolma_data"] = res
+
+                # 헤이딜러 잔존 세션 데이터 클리어
+                for k in ['hd_model_part_name', 'hd_grade_part_name', 'hd_full_name', 'auto_encar_url', 'hd_comp_df', 'hd_target_year', 'hd_target_options', 'encar_target_options']:
+                    st.session_state.pop(k, None)
+
+                # 사이드바 및 빅데이터 필터 자동 주입
+                raw_maker = res.get("maker", "")
+                raw_model = res.get("model_name", "")
+                raw_grade = res.get("grade_name", "")
+                raw_trim = res.get("trim_name", "")
+                raw_year = str(res.get("model_year", "")).replace("년", "").strip()
+
+                if raw_maker:
+                    st.session_state.f_brand = raw_maker
+                if raw_model:
+                    st.session_state.f_name = raw_model
+
+                combined_sub = raw_trim
+                disp_match = re.search(r'(\d\.\d)', str(raw_grade))
+                if disp_match and raw_trim:
+                    disp_str = disp_match.group(1)
+                    if disp_str not in raw_trim:
+                        combined_sub = f"{disp_str} {raw_trim}"
+                elif not combined_sub and raw_grade:
+                    combined_sub = raw_grade
+
+                st.session_state.f_sub = combined_sub
+
+                if raw_year:
+                    st.session_state.f_year = raw_year[-2:]
+                    cur_yr_key = f"search_year_{st.session_state.form_reset_key}"
+                    try:
+                        st.session_state[cur_yr_key] = int(raw_year[-2:])
+                    except:
+                        pass
+
+                if cur_mil_val > 0:
+                    st.session_state.f_mil = cur_mil_val
+                    st.session_state.user_target_mil = cur_mil_val
+
+                # 🚀 [자동 연동] 차량번호 조회 시 엔카 동급 매물 즉시 자동 스캔
+                st.session_state.scan_data = pd.DataFrame()
+                st.session_state.pop('target_carid', None)
+                st.session_state.pop('selected_car_id', None)
+
+                target_encar_url = generate_encar_market_url(
+                    raw_model, 
+                    combined_sub or raw_trim or raw_grade, 
+                    raw_year, 
+                    cur_mil_val
+                )
+                scan_cnt = 0
+                st.session_state.debug_encar_scan = {
+                    "time": datetime.now().strftime("%H:%M:%S"),
+                    "car_num": l_car_num,
+                    "target_url": target_encar_url,
+                    "searched_model": raw_model,
+                    "searched_sub": combined_sub,
+                    "searched_year": raw_year,
+                    "status": "진행안됨",
+                    "count": 0,
+                    "error": ""
+                }
+                if target_encar_url:
+                    try:
+                        with st.sidebar.spinner(f"[{raw_model}] 엔카 동급매물 자동 연동 중..."):
+                            p_bar, s_text = st.sidebar.progress(0), st.sidebar.empty()
+                            new_scan_df, msg = Scraper.run(target_encar_url, "", p_bar, s_text)
+                            p_bar.empty()
+                            s_text.empty()
+                            st.session_state.debug_encar_scan["status"] = msg
+                            if msg == "success" and not new_scan_df.empty:
+                                st.session_state.scan_data = new_scan_df
+                                scan_cnt = len(new_scan_df)
+                                st.session_state.debug_encar_scan["count"] = scan_cnt
+                                st.session_state.debug_encar_scan["encar_model"] = new_scan_df['차량명'].iloc[0] if '차량명' in new_scan_df.columns else "-"
+                                if '차량명' in new_scan_df.columns:
+                                    st.session_state.f_name = new_scan_df['차량명'].iloc[0]
+                            else:
+                                st.session_state.scan_data = pd.DataFrame()
+                                st.session_state.debug_encar_scan["count"] = 0
+                                st.session_state.debug_encar_scan["error"] = msg
+                    except Exception as ex_scan:
+                        st.session_state.scan_data = pd.DataFrame()
+                        st.session_state.debug_encar_scan["count"] = 0
+                        st.session_state.debug_encar_scan["status"] = "예외 에러"
+                        st.session_state.debug_encar_scan["error"] = str(ex_scan)
+                else:
+                    st.session_state.scan_data = pd.DataFrame()
+
+                msg_suffix = f" & 엔카 {scan_cnt}대 연동 완료!" if scan_cnt > 0 else ""
+                st.sidebar.success(f"✅ [{l_car_num}] {raw_model} {raw_trim} ({raw_year}년){msg_suffix}")
+                st.rerun()
+            else:
+                st.sidebar.error(f"❌ {res.get('message', '조회 실패')}")
+
+# 2. 제조사/브랜드
 f_brand_opts = ["전체"]
 if not filtered_df.empty and '제조사' in filtered_df.columns:
     f_brand_opts += list(filtered_df['제조사'].dropna().unique())
@@ -861,7 +1026,7 @@ def get_smart_sort_key(name):
         if core in name_str: return f"{core}_{name_str}"
     return name_str
 
-# 2. 차량명 목록 구성 (스캔 + 자사재고 + 실적DB + 견적조회 차량)
+# 3. 차량명 목록 구성 및 선택
 raw_names = set()
 if not filtered_df.empty and '차량명' in filtered_df.columns:
     raw_names.update(filtered_df['차량명'].dropna().unique())
@@ -882,7 +1047,6 @@ if st.session_state.f_name and st.session_state.f_name != "전체":
 sorted_names = sorted(list(raw_names), key=get_smart_sort_key)
 f_name_opts = ["전체"] + sorted_names
 
-# 만약 f_name 부분일치 매칭 지원
 cur_name = str(st.session_state.get('f_name', '전체')).strip()
 if cur_name not in f_name_opts and cur_name != "전체":
     matched_name = None
@@ -898,10 +1062,7 @@ st.session_state.f_name = st.sidebar.selectbox("차량명", f_name_opts, index=f
 
 if not is_url_mode and not filtered_df.empty and st.session_state.f_name != "전체" and '차량명' in filtered_df.columns: 
     name_clean_f = str(st.session_state.f_name).replace(" ", "").lower()
-    # 1. 완전/부분 문자열 포함 매칭
     mask = filtered_df['차량명'].astype(str).str.replace(" ", "").str.lower().str.contains(name_clean_f, na=False, regex=False)
-    
-    # 2. 미스매치 방지: 핵심 어근(Root) 기반 지능형 매칭 (예: '신형k5' <-> 'k5 2세대')
     if not mask.any():
         core_keywords = ['그랜저', '싼타페', '아반떼', '쏘나타', '투싼', '팰리세이드', '스타리아', '스타렉스',
                          'k3', 'k5', 'k7', 'k8', 'k9', '쏘렌토', '스포티지', '카니발', '모닝', '레이',
@@ -913,11 +1074,10 @@ if not is_url_mode and not filtered_df.empty and st.session_state.f_name != "전
                 mask = filtered_df['차량명'].astype(str).str.replace(" ", "").str.lower().str.contains(kw, na=False, regex=False)
                 if mask.any():
                     break
-    
     if mask.any():
         filtered_df = filtered_df[mask]
 
-# 3. 세부모델 목록 구성
+# 4. 세부모델 목록 구성 및 선택
 raw_subs = set()
 if not filtered_df.empty and '세부모델' in filtered_df.columns:
     raw_subs.update(filtered_df['세부모델'].dropna().unique())
@@ -943,7 +1103,6 @@ if st.session_state.f_sub and st.session_state.f_sub != "전체":
     raw_subs.add(st.session_state.f_sub)
 
 f_sub_opts = ["전체"] + sorted(list(raw_subs))
-
 cur_sub = str(st.session_state.get('f_sub', '전체')).strip()
 if cur_sub not in f_sub_opts and cur_sub != "전체":
     matched_opt = None
@@ -965,7 +1124,6 @@ if not is_url_mode and not filtered_df.empty and st.session_state.f_sub != "전�
     sub_parts = [p for p in sub_raw.split() if len(p) >= 2]
     encar_sub_clean = filtered_df['세부모델'].astype(str).str.replace(" ", "").str.lower()
     
-    # 1. 모든 키워드 토큰 포함 매칭
     all_matched = pd.Series(True, index=filtered_df.index)
     for part in sub_parts:
         part_clean = part.replace(" ", "").lower()
@@ -973,7 +1131,6 @@ if not is_url_mode and not filtered_df.empty and st.session_state.f_sub != "전�
     
     cand_df = filtered_df[all_matched] if all_matched.any() else filtered_df
     
-    # 2. 구동방식(2WD vs 4WD) 정밀 격리: 검색어에 4WD/4륜/AWD가 없으면 4WD 매물 자동 배제
     is_target_4wd = any(x in sub_clean for x in ['4wd', '4륜', 'awd'])
     if not is_target_4wd:
         non_4wd = ~cand_df['세부모델'].astype(str).str.contains(r'4wd|4륜|awd', case=False, regex=True, na=False)
@@ -984,10 +1141,8 @@ if not is_url_mode and not filtered_df.empty and st.session_state.f_sub != "전�
         if is_4wd.any():
             cand_df = cand_df[is_4wd]
             
-    # 3. 서브트림 키워드 엄격 일치 ('스페셜', '플러스', '에디션' 등)
     for sub_kw in ['스페셜', '플러스', '에디션', '마스터']:
         if sub_kw not in sub_clean:
-            # 선택된 등급에 '스페셜'이 없는데 '스페셜' 매물이 섞여 있다면 제외
             has_kw = cand_df['세부모델'].astype(str).str.contains(sub_kw, na=False)
             if (~has_kw).any():
                 cand_df = cand_df[~has_kw]
@@ -999,7 +1154,7 @@ if not is_url_mode and not filtered_df.empty and st.session_state.f_sub != "전�
     if not cand_df.empty:
         filtered_df = cand_df
 
-# 4. 연식 필터 (2자리 연식, 0=전체)
+# 5. 연식 (시세분석용 연식, 0=전체)
 default_f_year = st.session_state.get('f_year', '')
 try:
     init_year_val = (int(str(default_f_year).strip()) % 100) if str(default_f_year).strip().isdigit() else 0
@@ -1011,7 +1166,7 @@ if init_year_val > 0 and (cur_yr_key not in st.session_state or st.session_state
     st.session_state[cur_yr_key] = init_year_val
 
 f_year_num = st.sidebar.number_input(
-    "📈 시세분석용 연식 (0=전체, 예: 24)",
+    "연식 (시세분석용, 0=전체)",
     min_value=0,
     max_value=99,
     value=st.session_state.get(cur_yr_key, init_year_val),
@@ -1024,44 +1179,220 @@ if not filtered_df.empty:
     if "주행거리" in filtered_df.columns:
         filtered_df["주행거리"] = pd.to_numeric(filtered_df["주행거리"], errors='coerce').fillna(0)
     
-    # 성능일 내림차순 ➔ 연식 내림차순 정렬
     def _parse_app_year(val):
         m = re.search(r'(\d+)', str(val))
         return int(m.group(1)) if m else 0
 
     if "성능일" in filtered_df.columns and "연식" in filtered_df.columns:
+        filtered_df['_has_perf'] = filtered_df['성능일'].astype(str).apply(
+            lambda x: 1 if re.match(r'^\d{2}-\d{2}-\d{2}', str(x)) and str(x) not in ['미검사/사진', '⚠️미등록', '⚠️조회실패', '-'] else 0
+        )
         filtered_df['_sort_perf'] = filtered_df['성능일'].astype(str).apply(
-            lambda x: x if re.match(r'^\d{2}-\d{2}-\d{2}', str(x)) else '00-00-00'
+            lambda x: x if re.match(r'^\d{2}-\d{2}-\d{2}', str(x)) and str(x) not in ['미검사/사진', '⚠️미등록', '⚠️조회실패', '-'] else '00-00-00'
         )
         filtered_df['_sort_year'] = filtered_df['연식'].apply(_parse_app_year)
         filtered_df = filtered_df.sort_values(
-            by=['_sort_perf', '_sort_year'],
-            ascending=[False, False]
-        ).drop(columns=['_sort_perf', '_sort_year']).reset_index(drop=True)
+            by=['_has_perf', '_sort_year', '_sort_perf'],
+            ascending=[False, False, False]
+        ).drop(columns=['_has_perf', '_sort_perf', '_sort_year']).reset_index(drop=True)
 
-# 🛠️ [DEBUG] 엔카 연동 상태 실시간 디버그 모니터
-with st.sidebar.expander("🛠️ 엔카 연동 디버그 정보", expanded=True):
-    total_scanned = len(st.session_state.scan_data) if ('scan_data' in st.session_state and not st.session_state.scan_data.empty) else 0
-    final_filtered = len(filtered_df) if ('filtered_df' in locals() and not filtered_df.empty) else 0
+# 6. 주행거리 (km)
+default_mil_val = int(st.session_state.get(f"mil_{reset_idx}", st.session_state.get('user_target_mil', 0)))
+mil_k = f"mil_{reset_idx}"
+if default_mil_val > 0 and (mil_k not in st.session_state or st.session_state[mil_k] == 0):
+    st.session_state[mil_k] = default_mil_val
+l_mil = st.sidebar.number_input("주행거리 (km)", min_value=0, value=default_mil_val, step=1000, key=mil_k)
+if l_mil > 0:
+    st.session_state.user_target_mil = l_mil
+    st.session_state.f_mil = l_mil
+
+# 7. 옵션 (출고정보 카드 - 사이드바 전용 컴팩트 렌더링)
+cached_chaolma = st.session_state.get(f"chaolma_data_{l_car_num}") if l_car_num else None
+if not cached_chaolma:
+    cached_chaolma = st.session_state.get("last_chaolma_data")
+
+hd_opts = st.session_state.get('hd_target_options', [])
+encar_opts = st.session_state.get('encar_target_options', [])
+
+if cached_chaolma and cached_chaolma.get("success"):
+    raw_new_p = cached_chaolma.get("new_car_price", 0)
+    raw_base_p = cached_chaolma.get("base_car_price", 0)
+    raw_opt_p = cached_chaolma.get("total_option_price", 0)
+    raw_deprec_p = cached_chaolma.get("total_depreciated_opt_price", 0)
     
-    st.markdown(f"**📡 수집 상태**: {'🟢 ' + str(total_scanned) + '대 수집됨' if total_scanned > 0 else '⚪ 수집 매물 없음'}")
-    st.markdown(f"**🎯 필터 표출**: **{final_filtered}대** / 전체 {total_scanned}대")
+    new_p = raw_new_p // 10000 if raw_new_p >= 10000 else raw_new_p
+    base_p = raw_base_p // 10000 if raw_base_p >= 10000 else raw_base_p
+    opt_p = raw_opt_p // 10000 if raw_opt_p >= 10000 else raw_opt_p
+    deprec_p = raw_deprec_p // 10000 if raw_deprec_p >= 10000 else raw_deprec_p
+    opts_list = cached_chaolma.get("options", [])
     
-    dbg_info = st.session_state.get('debug_encar_scan', {})
-    if dbg_info:
-        st.markdown(f"- **시간**: {dbg_info.get('time', '-')}")
-        st.markdown(f"- **대상차량**: {dbg_info.get('car_num', '-')} ({dbg_info.get('searched_model', '-')})")
-        st.markdown(f"- **API 상태**: `{dbg_info.get('status', '-')}`")
-        if dbg_info.get('error'):
-            st.error(f"오류: {dbg_info.get('error')}")
-        st.caption(f"호출 URL: {dbg_info.get('target_url', '-')[:60]}...")
+    badge_html = ""
+    for o in opts_list:
+        o_name = o.get("name", "")
+        o_pr = o.get("price", 0)
+        pr_str = f" ({o_pr // 10000}만)" if o_pr >= 10000 else (f" ({o_pr}만)" if o_pr > 0 else "")
+        badge_html += f'<span style="display:inline-block; background:rgba(56,189,248,0.15); border:1px solid rgba(56,189,248,0.3); color:#7dd3fc; border-radius:4px; padding:2px 6px; font-size:0.72rem; margin:2px 2px;">{o_name}{pr_str}</span>'
+    
+    st.sidebar.markdown(f"""
+    <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(56, 189, 248, 0.35); border-radius: 8px; padding: 10px 12px; margin-top: 4px; margin-bottom: 8px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 4px; margin-bottom: 6px;">
+            <span style="font-size: 0.82rem; font-weight: 700; color: #38bdf8;">🏷️ 출고정보 & 순정옵션</span>
+            <span style="font-size: 0.74rem; font-weight: 600; color: #f8fafc;">출고가 {new_p:,}만원</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: #94a3b8; margin-bottom: 6px;">
+            <span>기본: {base_p:,}만</span>
+            <span>옵션: <b style="color: #38bdf8;">{opt_p:,}만</b> (잔존 <b style="color: #34d399;">{deprec_p:,}만</b>)</span>
+        </div>
+        <div style="margin-top: 4px; line-height: 1.4;">
+            {badge_html if badge_html else '<span style="font-size:0.72rem; color:#64748b;">장착 옵션 없음 (기본 사양)</span>'}
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+elif hd_opts or encar_opts:
+    active_opts = hd_opts if hd_opts else encar_opts
+    badge_html = "".join([f'<span style="display:inline-block; background:rgba(56,189,248,0.15); border:1px solid rgba(56,189,248,0.3); color:#7dd3fc; border-radius:4px; padding:2px 6px; font-size:0.72rem; margin:2px 2px;">{opt}</span>' for opt in active_opts])
+    st.sidebar.markdown(f"""
+    <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(56, 189, 248, 0.35); border-radius: 8px; padding: 10px 12px; margin-top: 4px; margin-bottom: 8px;">
+        <div style="font-size: 0.82rem; font-weight: 700; color: #38bdf8; margin-bottom: 4px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 4px;">
+            🏷️ 주요 장착 옵션 ({len(active_opts)}개)
+        </div>
+        <div style="margin-top: 4px; line-height: 1.4;">
+            {badge_html}
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+else:
+    st.sidebar.markdown("""
+    <div style="background: rgba(255, 255, 255, 0.02); border: 1px dashed rgba(255, 255, 255, 0.15); border-radius: 6px; padding: 8px 10px; margin-top: 3px; margin-bottom: 6px; font-size: 0.76rem; color: #94a3b8; text-align: center;">
+        🏷️ <b>옵션(출고정보)</b>: 상단 차량번호 <b>[조회]</b> 시 자동 표출
+    </div>
+    """, unsafe_allow_html=True)
+
+# 8. 이후 동일 (판매가 ➔ 외판수리 ➔ 매입경로 ➔ 목표마진 ➔ 권장입찰가 ➔ 메모 ➔ 저장)
+l_sell_price = st.sidebar.number_input("판매가 (예상, 만원)", min_value=0, step=10, key=f"sell_{reset_idx}")
+l_ext_repair = st.sidebar.number_input("외판 수리 갯수", min_value=0, step=1, format="%d", key=f"ext_{reset_idx}")
+
+route_options = ["셀프(기본)", "제로", "개인"]
+cur_route = st.session_state.get("purchase_route", "셀프(기본)")
+if cur_route not in route_options:
+    cur_route = "셀프(기본)"
+
+def update_route():
+    if "_route_selector" in st.session_state:
+        st.session_state.purchase_route = st.session_state._route_selector
+
+l_route = st.sidebar.selectbox(
+    "매입 경로", 
+    route_options, 
+    index=route_options.index(cur_route), 
+    key="_route_selector", 
+    on_change=update_route
+)
+st.session_state.purchase_route = l_route
+
+l_manual_fee = 0
+if l_route == "개인":
+    l_manual_fee = st.sidebar.number_input("매입 수수료 (직접입력, 만원)", min_value=0, step=1, key=f"man_{reset_idx}")
+
+l_margin = st.sidebar.number_input("목표 마진 (만원)", min_value=0, step=10, value=120, key="margin_key")
+
+name_val = st.session_state.f_name if st.session_state.f_name != "전체" else ""
+is_light_car = any(x in name_val for x in ["모닝", "레이", "스파크", "마티즈", "캐스퍼", "티코"])
+
+selling_fee = l_sell_price * 0.007
+misc_cost = 15
+ext_cost = l_ext_repair * 13
+
+first_target = l_sell_price - selling_fee - misc_cost - ext_cost - l_margin
+purchase_fee = 0
+
+if l_route == "셀프(기본)":
+    if first_target <= 100: purchase_fee = 7.5
+    elif first_target <= 500: purchase_fee = 18.5
+    elif first_target <= 1000: purchase_fee = 19.0 if is_light_car else 24.5
+    elif first_target <= 3000: purchase_fee = 25.0
+    else: purchase_fee = 36.0
+elif l_route == "제로":
+    if first_target <= 100: purchase_fee = 14.0
+    elif first_target <= 500: purchase_fee = 30.0
+    elif first_target <= 1000: purchase_fee = 30.5 if is_light_car else 36.5
+    elif first_target <= 1500: purchase_fee = 36.5
+    elif first_target <= 3000: purchase_fee = 39.5
+    elif first_target <= 4000: purchase_fee = 47.5
+    else: purchase_fee = 50.5
+elif l_route == "개인":
+    purchase_fee = l_manual_fee
+
+final_target_raw = first_target - purchase_fee
+final_target = int(math.floor(final_target_raw))
+
+if l_sell_price > 0:
+    c_label, c_btn = st.sidebar.columns([2.4, 1.2])
+    with c_label:
+        st.markdown("<div style='font-size: 0.95em; font-weight: 800; color: #4ade80; padding-top: 6px; white-space: nowrap;'>✅ 권장 입찰가</div>", unsafe_allow_html=True)
+    with c_btn:
+        if st.button("📋 복사", key=f"btn_copy_target_{final_target}", help=f"클립보드에 {final_target} 복사"):
+            try:
+                import subprocess
+                subprocess.run('clip', input=str(final_target), text=True, check=True)
+                st.toast(f"📋 권장 입찰가 {final_target:,}만원 ({final_target}) 복사 완료!")
+            except Exception as e:
+                st.toast(f"⚠️ 복사 오류: {e}")
+
+    html_content = f"""
+    <div style="background-color: rgba(74, 222, 128, 0.12); border: 1px solid rgba(74, 222, 128, 0.35); padding: 8px 12px; border-radius: 8px; color: #4ade80; margin-top: 2px; margin-bottom: 8px;">
+        <div style="font-size: 1.8em; font-weight: 900; text-align: right; color: #4ade80; letter-spacing: -0.02em;">
+            {final_target:,} <span style="font-size: 0.55em; font-weight: 700;">만원</span>
+        </div>
+        <div style="font-size: 0.78em; text-align: right; color: #86efac; font-weight: 500;">
+            (수수료: {purchase_fee:g}만 / 수리비: {ext_cost:g}만)
+        </div>
+    </div>
+    """
+    st.sidebar.markdown(html_content, unsafe_allow_html=True)
+else:
+    st.sidebar.caption("💡 판매가 입력 시 권장 매입가가 계산됩니다.")
+
+l_memo = st.sidebar.text_area("특이사항 / 메모", height=65, key=f"memo_{reset_idx}")
+
+if st.sidebar.button("💾 내 장부 및 구글시트에 저장", use_container_width=True):
+    if not l_car_num:
+        st.sidebar.error("⚠️ 차량번호 필수")
     else:
-        st.caption("차량번호 조회 또는 [🚀 엔카 동급매물 스캔] 클릭 시 디버그 로그가 기록됩니다.")
+        brand_val = st.session_state.f_brand if st.session_state.f_brand != "전체" else ""
+        sub_val = st.session_state.f_sub if st.session_state.f_sub != "전체" else ""
+        year_val = current_f_year if current_f_year else ""
 
-    if total_scanned > 0 and final_filtered == 0:
-        st.warning("⚠️ 스캔 매물은 있으나 필터 조건(차량명/세부모델)과 일치하지 않아 0대로 필터링되었습니다. 차량명/세부모델을 '전체'로 변경해보세요.")
+        new_record = {
+            '등록일': datetime.now().strftime("%y-%m-%d"), 
+            '차량번호': l_car_num, 
+            '제조사': brand_val,
+            '차량명': name_val,
+            '세부모델': sub_val,
+            '연식': year_val,
+            '주행거리': f"{l_mil:,} km" if l_mil > 0 else "", 
+            '매입가': final_target if l_sell_price > 0 else "", 
+            '판매가': l_sell_price if l_sell_price > 0 else "", 
+            '외판수리': l_ext_repair if 'l_ext_repair' in locals() else 0,
+            '외판수리비': ext_cost if 'ext_cost' in locals() else 0,
+            '헤딜수수료': purchase_fee if 'purchase_fee' in locals() else 0,
+            '특이사항': f"[{st.session_state.purchase_route}] " + l_memo,
+            '상태': '장부저장'
+        }
+        st.session_state.my_ledger_data = pd.concat([pd.DataFrame([new_record]), st.session_state.my_ledger_data], ignore_index=True)
+        st.session_state.my_ledger_data.to_csv(LEDGER_FILE, index=False, encoding='utf-8-sig')
 
-st.sidebar.markdown("---")
+        try:
+            response = requests.post(WEBHOOK_URL, json=new_record, timeout=5)
+            response.raise_for_status()
+        except Exception as e:
+            print(f"[구글 시트 웹훅 전송 실패]: {e}")
+
+        st.session_state.save_success = True
+        st.session_state.saved_car_num = l_car_num
+        st.session_state.form_reset_key += 1
+
+        st.rerun()
 
 
 
