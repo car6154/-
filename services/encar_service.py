@@ -54,16 +54,22 @@ class Scraper:
         
         real_id = str(c_id)
         applied_codes = []
+        regist_dt = ""
         
         if v_resp["status"] == 200 and v_resp["json"]:
             manage = v_resp["json"].get("manage") or {}
             spec = v_resp["json"].get("spec") or {}
             color = spec.get("colorName", "⚠️정보없음")
-            if manage.get("dummy"):
-                real_id = str(manage.get("dummyVehicleId", c_id))
+            regist_dt = manage.get("registDateTime") or manage.get("firstAdvertisedDateTime") or ""
+            if manage.get("dummy") and manage.get("dummyVehicleId"):
+                real_id = str(manage.get("dummyVehicleId"))
             applied_codes = v_resp["json"].get("options", {}).get("choice", [])
 
-        i_resp = Scraper._fetch_json(session, f"https://api.encar.com/v1/readside/inspection/vehicle/{real_id}", c_id)
+        # 1차로 c_id 조회, 404 발생 시 real_id(dummyVehicleId) 조회
+        i_resp = Scraper._fetch_json(session, f"https://api.encar.com/v1/readside/inspection/vehicle/{c_id}", c_id)
+        if i_resp["status"] == 404 and real_id != str(c_id):
+            i_resp = Scraper._fetch_json(session, f"https://api.encar.com/v1/readside/inspection/vehicle/{real_id}", c_id)
+        
         if i_resp["status"] in [403, 429]: return {"성능일": "⚠️조회실패", "재고": "-", "사고유무": "⚠️조회실패", "추가옵션": "⚠️조회실패", "is_rate_limited": True}
         
         if i_resp["status"] == 200 and i_resp["json"]:
@@ -71,7 +77,7 @@ class Scraper:
             detail = master.get("detail") or {}
 
             issue_date = detail.get("issueDate", "")
-            if issue_date and len(issue_date) == 8:
+            if issue_date and len(issue_date) >= 8:
                 perf_date = f"{issue_date[2:4]}-{issue_date[4:6]}-{issue_date[6:8]}"
                 inv_days = Scraper.calculate_inventory_days(perf_date)
 
@@ -89,7 +95,8 @@ class Scraper:
                 accident_status = f"({'/'.join(flags)})"
         elif i_resp["status"] == 404:
             perf_date = "미검사/사진"
-            accident_status = "기록부(사진)"
+            inv_days = "-"
+            accident_status = "미검사(사진)"
 
         exch_cnt = 0
         sheet_cnt = 0

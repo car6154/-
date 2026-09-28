@@ -128,18 +128,62 @@ def get_damage_info(carid):
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)", "Referer": f"https://fem.encar.com/cars/detail/{carid}"}
     damage_dict = {}
     try:
-        v_url = f"https://api.encar.com/v1/readside/vehicle/{carid}?include=MANAGE"
+        v_url = f"https://api.encar.com/v1/readside/vehicle/{carid}?include=MANAGE,OPTIONS,SPEC"
         v_resp = requests.get(v_url, headers=headers, timeout=4)
         real_id = str(carid)
+        live_color = ""
+        live_opts = []
+        regist_dt = ""
         if v_resp.status_code == 200:
-            manage = v_resp.json().get("manage") or {}
-            if manage.get("dummy"):
-                real_id = str(manage.get("dummyVehicleId") or carid)
+            vj = v_resp.json()
+            manage = vj.get("manage") or {}
+            spec = vj.get("spec") or {}
+            live_color = spec.get("colorName", "")
+            regist_dt = manage.get("registDateTime") or manage.get("firstAdvertisedDateTime") or ""
+            if manage.get("dummy") and manage.get("dummyVehicleId"):
+                real_id = str(manage.get("dummyVehicleId"))
+            choice_codes = vj.get("options", {}).get("choice", []) or []
+            if choice_codes:
+                from services.encar_service import Scraper
+                o_url = f"https://api.encar.com/v1/readside/vehicles/car/{carid}/options/choice"
+                o_resp = requests.get(o_url, headers=headers, timeout=4)
+                if o_resp.status_code == 200:
+                    catalog = o_resp.json() or []
+                    for opt in catalog:
+                        if str(opt.get("optionCd", "")) in [str(c) for c in choice_codes]:
+                            o_name = Scraper.clean_option_name(opt.get("optionName", ""))
+                            p = opt.get("price", 0)
+                            if o_name and "외장컬러" not in o_name:
+                                if p > 0: live_opts.append(f"{o_name}({p}만)")
+                                else: live_opts.append(o_name)
 
-        i_url = f"https://api.encar.com/v1/readside/inspection/vehicle/{real_id}"
+        live_perf_date = ""
+        live_inv_days = "-"
+        live_acc_status = ""
+        exch_cnt = 0
+        sheet_cnt = 0
+        acc_flag = None
+        rep_flag = None
+
+        i_url = f"https://api.encar.com/v1/readside/inspection/vehicle/{carid}"
         i_resp = requests.get(i_url, headers=headers, timeout=4)
+        if i_resp.status_code == 404 and real_id != str(carid):
+            i_url = f"https://api.encar.com/v1/readside/inspection/vehicle/{real_id}"
+            i_resp = requests.get(i_url, headers=headers, timeout=4)
+
         if i_resp.status_code == 200:
             ij = i_resp.json()
+            master = ij.get("master") or {}
+            detail = master.get("detail") or {}
+            issue_date = detail.get("issueDate", "")
+            if issue_date and len(issue_date) >= 8:
+                from services.encar_service import Scraper
+                live_perf_date = f"{issue_date[2:4]}-{issue_date[4:6]}-{issue_date[6:8]}"
+                live_inv_days = Scraper.calculate_inventory_days(live_perf_date)
+            
+            acc_flag = master.get("accdient")
+            rep_flag = master.get("simpleRepair")
+
             all_parts = (ij.get("outers", []) or []) + (ij.get("inners", []) or [])
             if not all_parts and "master" in ij:
                 all_parts = (ij["master"].get("outers", []) or []) + (ij["master"].get("inners", []) or [])
@@ -152,9 +196,11 @@ def get_damage_info(carid):
                 norm_n = normalize_part_name(name)
                 if "X" in codes:
                     damage_dict[norm_n] = "교환"
+                    exch_cnt += 1
                 elif any(c in codes for c in ["W", "C", "A", "U", "T"]):
                     if damage_dict.get(norm_n) != "교환":
                         damage_dict[norm_n] = "판금"
+                        sheet_cnt += 1
 
         has_damage = any(v in ["교환", "판금"] for v in damage_dict.values())
         if not has_damage:
@@ -172,9 +218,11 @@ def get_damage_info(carid):
                         norm_n = normalize_part_name(mapped_n)
                         if rc in ["REPLACEMENT", "EXCHANGE", "X"] or rt == "교환":
                             damage_dict[norm_n] = "교환"
+                            exch_cnt += 1
                         elif rc in ["SHEET_METAL", "WELD", "W", "C", "A", "U", "T"] or rt in ["판금", "용접", "도색", "수리"]:
                             if damage_dict.get(norm_n) != "교환":
                                 damage_dict[norm_n] = "판금"
+                                sheet_cnt += 1
                 d_parts = (dj.get("outers", []) or []) + (dj.get("inners", []) or [])
                 for part in d_parts:
                     part_type = part.get("type", {}) or {}
@@ -185,17 +233,47 @@ def get_damage_info(carid):
                     norm_n = normalize_part_name(name)
                     if "X" in codes:
                         damage_dict[norm_n] = "교환"
+                        exch_cnt += 1
                     elif any(c in codes for c in ["W", "C", "A", "U", "T"]):
                         if damage_dict.get(norm_n) != "교환":
                             damage_dict[norm_n] = "판금"
+                            sheet_cnt += 1
 
+        if exch_cnt > 0 or sheet_cnt > 0:
+            if acc_flag: base_label = "사고"
+            elif exch_cnt > 0 and sheet_cnt == 0: base_label = "단순교환"
+            elif sheet_cnt > 0 and exch_cnt == 0: base_label = "단순판금"
+            else: base_label = "단순(교환/판금)"
+            live_acc_status = f"{base_label} [교환:{exch_cnt} / 판금:{sheet_cnt}]"
+        elif acc_flag is False and rep_flag is False:
+            live_acc_status = "완전무사고"
+        elif acc_flag:
+            live_acc_status = "사고"
+        elif rep_flag:
+            live_acc_status = "단순교환"
+        elif not live_acc_status:
+            live_acc_status = "미검사(사진)"
+
+        if not live_perf_date:
+            live_perf_date = "미검사/사진"
+            live_inv_days = "-"
+
+        res_obj = {
+            "damage": damage_dict,
+            "color": live_color,
+            "options": live_opts,
+            "perf_date": live_perf_date,
+            "inv_days": live_inv_days,
+            "accident_status": live_acc_status
+        }
         if hasattr(st, "session_state"):
-            st.session_state[cache_key] = damage_dict
-        return damage_dict
+            st.session_state[cache_key] = res_obj
+        return res_obj
     except Exception:
+        fallback_obj = {"damage": {}, "color": "", "options": [], "perf_date": "", "inv_days": "-", "accident_status": ""}
         if hasattr(st, "session_state"):
-            st.session_state[cache_key] = {}
-        return {}
+            st.session_state[cache_key] = fallback_obj
+        return fallback_obj
 
 def render_car_detail_content(e_row, target_mil, show_close_btn=False):
     e_carid = e_row.get('_carid', '')
@@ -204,9 +282,25 @@ def render_car_detail_content(e_row, target_mil, show_close_btn=False):
     e_year = e_row.get('연식', '')
     e_km = int(e_row.get('주행거리', 0)) if pd.notna(e_row.get('주행거리')) else 0
     e_price = int(e_row.get('판매가', 0)) if pd.notna(e_row.get('판매가')) else 0
-    e_color = e_row.get('외장컬러', '')
-    e_acc = str(e_row.get('사고유무', ''))
-    e_options_str = str(e_row.get('추가옵션', ''))
+
+    detail_obj = get_damage_info(e_carid) if e_carid else {}
+    live_col = detail_obj.get("color", "")
+    e_color = live_col if live_col and live_col not in ['-', '정보없음', '⚠️정보없음', '⚠️조회실패'] else str(e_row.get('외장컬러', '') or '색상미등록')
+    
+    live_p_date = detail_obj.get("perf_date", "")
+    disp_perf_date = live_p_date if live_p_date else str(e_row.get('성능일', '-')).strip()
+    live_i_days = detail_obj.get("inv_days", "-")
+    disp_inv_days = live_i_days if live_i_days and live_i_days != "-" else str(e_row.get('재고', '-')).strip()
+    
+    live_acc = detail_obj.get("accident_status", "")
+    disp_acc = live_acc if live_acc else str(e_row.get('사고유무', '-')).strip()
+
+    live_opt_list = detail_obj.get("options", [])
+    if live_opt_list:
+        opt_list = live_opt_list
+    else:
+        e_options_str = str(e_row.get('추가옵션', ''))
+        opt_list = [o.strip() for o in e_options_str.split(" / ") if o.strip() and o.strip() not in ("없음", "-", "없음(구버전점검)", "⚠️조회실패", "코드매칭실패")]
 
     try:
         km_gap = e_km - int(target_mil)
@@ -216,7 +310,6 @@ def render_car_detail_content(e_row, target_mil, show_close_btn=False):
         km_gap_str = "-"
         km_gap_color = "#94a3b8"
 
-    opt_list = [o.strip() for o in e_options_str.split(" / ") if o.strip() and o.strip() not in ("없음", "-", "없음(구버전점검)", "⚠️조회실패", "코드매칭실패")]
     opt_badges_html = ""
     for opt in opt_list[:10]:
         opt_badges_html += f"<span style='background:#1e293b; color:#38bdf8; padding:3px 8px; border-radius:6px; font-size:11px; font-weight:600; border: 1px solid #0284c7; display:inline-block; margin:2px;'>✓ {opt}</span>"
@@ -225,16 +318,34 @@ def render_car_detail_content(e_row, target_mil, show_close_btn=False):
     if not opt_badges_html:
         opt_badges_html = "<span style='color:#64748b; font-size:12px;'>추가옵션 없음 또는 기본 트림 사양</span>"
 
-    damage_data = get_damage_info(e_carid) if e_carid else {}
+    damage_data = detail_obj.get("damage", {})
     diag_html = render_car_diagram(damage_data)
+
+    perf_badge_html = ""
+    if disp_perf_date and disp_perf_date not in ['-', '미검사/사진', '⚠️미등록', '⚠️조회실패']:
+        days_str = f" ({disp_inv_days}일 전)" if disp_inv_days and disp_inv_days != '-' else ""
+        perf_badge_html = f"<span style='color: #38bdf8; background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.25); padding: 2px 8px; border-radius: 5px; font-size: 11px;'>📅 점검 {disp_perf_date}{days_str}</span>"
+    else:
+        perf_badge_html = f"<span style='color: #94a3b8; background: rgba(148, 163, 184, 0.1); border: 1px solid rgba(148, 163, 184, 0.25); padding: 2px 8px; border-radius: 5px; font-size: 11px;'>📅 {disp_perf_date}</span>"
+
+    acc_badge_html = ""
+    if disp_acc and disp_acc not in ['-', '정보없음', '⚠️정보없음', '⚠️조회실패']:
+        if "완전" in disp_acc or "무사고" in disp_acc:
+            acc_badge_html = f"<span style='color: #4ade80; background: rgba(74, 222, 128, 0.12); border: 1px solid rgba(74, 222, 128, 0.3); padding: 2px 8px; border-radius: 5px; font-size: 11px;'>🛡️ {disp_acc}</span>"
+        elif "단순" in disp_acc or "판금" in disp_acc:
+            acc_badge_html = f"<span style='color: #facc15; background: rgba(250, 204, 21, 0.12); border: 1px solid rgba(250, 204, 21, 0.3); padding: 2px 8px; border-radius: 5px; font-size: 11px;'>⚠️ {disp_acc}</span>"
+        else:
+            acc_badge_html = f"<span style='color: #f87171; background: rgba(248, 113, 113, 0.12); border: 1px solid rgba(248, 113, 113, 0.3); padding: 2px 8px; border-radius: 5px; font-size: 11px;'>🚨 {disp_acc}</span>"
 
     st.markdown(f"""
     <div style='background: #131d2e; border: 1px solid #233249; border-radius: 12px; padding: 14px 16px; margin-bottom: 8px;'>
         <div style='display: flex; justify-content: space-between; align-items: flex-start;'>
             <div>
                 <div style='font-size: 15px; font-weight: 800; color: #f8fafc;'>{e_name} <span style='font-size: 13px; color: #38bdf8;'>{e_sub}</span></div>
-                <div style='font-size: 12px; color: #94a3b8; margin-top: 3px;'>
+                <div style='font-size: 12px; color: #94a3b8; margin-top: 4px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap;'>
                     <b>{e_year}년식</b> · {e_km:,} km (<span style='color: {km_gap_color}; font-weight: 700;'>{km_gap_str}</span>) · 색상: {e_color}
+                    {perf_badge_html}
+                    {acc_badge_html}
                 </div>
             </div>
             <div style='text-align: right;'>

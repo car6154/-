@@ -1,6 +1,168 @@
 # services/heydealer_service.py
 import re
+from datetime import datetime
 import pandas as pd
+
+def format_relative_date(date_val):
+    """헤이딜러 경매일시를 '4일 전', '1주 전', '오늘', '1달 전' 등의 상대 시간으로 변환"""
+    if not date_val or str(date_val).strip() in ['', 'None', 'nan', '-', 'null']:
+        return "-"
+    try:
+        s = str(date_val).strip()
+        time_keywords = [
+            '일 전', '일전', '주 전', '주전', '달 전', '달전', '개월 전', '개월전', '년 전', '년전',
+            '시간 전', '시간전', '분 전', '분전', '오늘', '어제', '방금', '진행중'
+        ]
+        # 이미 상대시간 표기인 경우 (예: "4일 전", "1주 전", "1일 전 ∙ 20명 입찰", "오늘")
+        if any(x in s for x in time_keywords):
+            m_week = re.search(r'(\d+)\s*주\s*전', s)
+            if m_week:
+                return f"{m_week.group(1)}주 전"
+            m_day = re.search(r'(\d+)\s*일\s*전', s)
+            if m_day:
+                return f"{m_day.group(1)}일 전"
+            m_month = re.search(r'(\d+)\s*(?:달|개월)\s*전', s)
+            if m_month:
+                return f"{m_month.group(1)}달 전"
+            m_year = re.search(r'(\d+)\s*년\s*전', s)
+            if m_year:
+                return f"{m_year.group(1)}년 전"
+            for w in ['오늘', '어제', '방금', '진행중']:
+                if w in s:
+                    return w
+            m_hour = re.search(r'(\d+)\s*시간\s*전', s)
+            if m_hour:
+                return "오늘"
+            return s
+
+        dt = None
+        # 1. 숫자 타임스탬프 (초 또는 밀리초)
+        if isinstance(date_val, (int, float)) or (isinstance(date_val, str) and date_val.isdigit() and len(date_val) in (10, 13)):
+            ts = float(date_val)
+            if ts > 1e11:  # milliseconds
+                ts /= 1000.0
+            dt = datetime.fromtimestamp(ts)
+        else:
+            # 2. ISO / 일반 날짜 정규식 (YYYY-MM-DD or YY-MM-DD or YYYY.MM.DD or YYYY/MM/DD)
+            m = re.search(r'(\d{2,4})[./-](\d{1,2})[./-](\d{1,2})', s)
+            if m:
+                y, mth, d = int(m.group(1)), int(m.group(2)), int(m.group(3))
+                if y < 100:
+                    y += 2000
+                dt = datetime(y, mth, d)
+            else:
+                # 3. 8자리 연속 숫자 (YYYYMMDD)
+                m8 = re.search(r'(\d{4})(\d{2})(\d{2})', s)
+                if m8:
+                    dt = datetime(int(m8.group(1)), int(m8.group(2)), int(m8.group(3)))
+
+        if dt:
+            now = datetime.now()
+            today = datetime(now.year, now.month, now.day)
+            target_day = datetime(dt.year, dt.month, dt.day)
+            diff = (today - target_day).days
+            if diff == 0:
+                return "오늘"
+            elif diff == 1:
+                return "1일 전"
+            elif 2 <= diff < 7:
+                return f"{diff}일 전"
+            elif 7 <= diff < 30:
+                return f"{diff // 7}주 전"
+            elif 30 <= diff < 365:
+                return f"{diff // 30}달 전"
+            elif diff >= 365:
+                return f"{diff // 365}년 전"
+            elif diff < 0:
+                return "진행중"
+    except Exception:
+        pass
+    return "-"
+
+def _extract_date_val(item, auc=None, d=None, bid=None):
+    # 1. tags 확인 (오직 시간 관련 키워드가 있는 경우만 추출)
+    time_keywords = [
+        '일 전', '일전', '주 전', '주전', '달 전', '달전', '개월 전', '개월전', '년 전', '년전',
+        '시간 전', '시간전', '오늘', '어제', '방금', '진행중'
+    ]
+    for container in [auc, item, d, bid]:
+        if isinstance(container, dict):
+            tags = container.get('tags', []) or []
+            for t in tags:
+                txt = ''
+                if isinstance(t, dict):
+                    txt = t.get('short_text') or t.get('text') or t.get('name') or t.get('label') or ''
+                elif isinstance(t, str):
+                    txt = t
+                txt = str(txt).strip()
+                if txt and any(k in txt for k in time_keywords):
+                    res = format_relative_date(txt)
+                    if res != "-":
+                        return res
+
+    # 2. 직접 날짜/시간 필드 검사 (종료/낙찰시점 -> 생성/등록시점)
+    date_keys_priority = [
+        'ended_at_display', 'end_at_display', 'auction_end_at_display', 'auction_ended_at_display',
+        'selected_at_display', 'closed_at_display', 'approved_at_display',
+        'ended_at', 'end_at', 'auction_end_at', 'auction_ended_at',
+        'selected_at', 'closed_at', 'sold_at', 'finished_at', 'completed_at',
+        'deal_date', 'auction_date', 'date', 'bidded_at', 'approved_at',
+        'created_at', 'registered_at', 'updated_at', 'time', 'timestamp'
+    ]
+    
+    for container in [auc, item, bid, d]:
+        if isinstance(container, dict):
+            for k in date_keys_priority:
+                v = container.get(k)
+                if v is not None and str(v).strip() not in ['', 'None', 'nan', '-', 'null']:
+                    res = format_relative_date(v)
+                    if res != "-":
+                        return res
+
+    # 3. auction_histories 확인 ([{'date': '26-09-04', ...}])
+    for container in [d, item, auc]:
+        if isinstance(container, dict):
+            ah_list = container.get('auction_histories', []) or []
+            if isinstance(ah_list, list) and ah_list:
+                for ah in ah_list:
+                    if isinstance(ah, dict):
+                        for k in ['date', 'ended_at', 'end_at', 'created_at']:
+                            if ah.get(k):
+                                res = format_relative_date(ah.get(k))
+                                if res != "-":
+                                    return res
+
+    # 4. 텍스트 필드 (bidding_help_info, comment, description 등)에서 상대시간/날짜 정규식 추출
+    for container in [d, auc, item]:
+        if isinstance(container, dict):
+            for tk in ['bidding_help_info', 'bidding_extra_info', 'comment', 'comment_html', 'description', 'caution_text']:
+                text_val = container.get(tk)
+                if text_val and isinstance(text_val, str):
+                    m_rel = re.search(r'(\d+)\s*일\s*전', text_val)
+                    if m_rel:
+                        return f"{m_rel.group(1)}일 전"
+                    m_date = re.search(r'(?:종료|일자|일시|낙찰)?\s*[:\s]*(\d{2,4}[.-]\d{1,2}[.-]\d{1,2})', text_val)
+                    if m_date:
+                        res = format_relative_date(m_date.group(1))
+                        if res != "-":
+                            return res
+
+    # 5. 재귀/심층 검색: dict 전체에서 날짜처럼 생긴 필드 탐색
+    if isinstance(item, dict):
+        for k, v in item.items():
+            if isinstance(v, dict):
+                for sub_k in date_keys_priority:
+                    if v.get(sub_k):
+                        res = format_relative_date(v.get(sub_k))
+                        if res != "-":
+                            return res
+            elif isinstance(v, str) and len(v) >= 6:
+                if any(x in k.lower() for x in ['date', 'ended', 'end', 'at', 'time']):
+                    res = format_relative_date(v)
+                    if res != "-":
+                        return res
+
+    return "-"
 
 def parse_heydealer_comps(json_data):
     rows = []
@@ -140,6 +302,15 @@ def parse_heydealer_comps(json_data):
             if is_export and price_display != "-":
                 price_display = f"🚢수출 {price_display}"
 
+            # ⏱️ 낙찰일시 및 'X일 전' 상대시간 산출
+            rel_date = _extract_date_val(item, auc, d, bid)
+            date_raw = (
+                auc.get("ended_at_display") or auc.get("ended_at") or auc.get("end_at") or
+                auc.get("selected_at") or auc.get("approved_at") or
+                item.get("ended_at_display") or item.get("ended_at") or item.get("end_at") or
+                item.get("created_at") or item.get("date") or ""
+            )
+
             rows.append({
                 "차량명": car_name,
                 "모델명": d.get("model_part_name") or "",
@@ -147,6 +318,7 @@ def parse_heydealer_comps(json_data):
                 "연식": f"{y_num}년" if y_num else "-",
                 "주행거리": f"{int(mileage):,} km" if mileage else "-",
                 "낙찰가": price_display,
+                "낙찰일": rel_date,
                 "사고유무": f"{acc_icon} {base_acc}",
                 "사고상세": repair_str,
                 "옵션": " / ".join(options[:4]) if options else "-",
@@ -156,6 +328,7 @@ def parse_heydealer_comps(json_data):
                 "연식_num": y_num,
                 "옵션리스트": options,
                 "수출여부": is_export,
+                "낙찰일시": date_raw or rel_date,
             })
         # 일반 시세 구조
         else:
@@ -184,6 +357,9 @@ def parse_heydealer_comps(json_data):
             if is_export and price_display != "-":
                 price_display = f"🚢수출 {price_display}"
 
+            rel_date = _extract_date_val(item)
+            date_raw = item.get("ended_at") or item.get("end_at") or item.get("date") or item.get("created_at") or item.get("selected_at") or ""
+
             rows.append({
                 "차량명": car_name,
                 "모델명": item.get('model_name') or "",
@@ -191,6 +367,7 @@ def parse_heydealer_comps(json_data):
                 "연식": f"{y_num}년" if y_num else "-",
                 "주행거리": f"{int(mileage):,} km" if mileage else "-",
                 "낙찰가": price_display,
+                "낙찰일": rel_date,
                 "사고유무": "🔴 사고" if has_accident else "🟢 무사고",
                 "사고상세": "",
                 "옵션": " / ".join(options[:4]) if options else "-",
@@ -200,5 +377,6 @@ def parse_heydealer_comps(json_data):
                 "연식_num": y_num,
                 "옵션리스트": options,
                 "수출여부": is_export,
+                "낙찰일시": date_raw or rel_date,
             })
     return pd.DataFrame(rows)
