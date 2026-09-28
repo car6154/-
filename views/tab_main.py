@@ -10,7 +10,7 @@ import pandas as pd
 import streamlit as st
 import plotly.graph_objects as go
 
-from sales_analysis import get_car_market_stats, generate_encar_market_url, SalesDataAnalyzer
+from sales_analysis import get_car_market_stats, generate_encar_market_url, SalesDataAnalyzer, is_target_option_matched, get_current_target_options
 from services.encar_service import Scraper
 from services.chaolma_service import ChaolmaService
 from views.components.chaolma_card import render_chaolma_section, render_chaolma_card_ui
@@ -116,7 +116,8 @@ def render_main_tab(
         total_sales_loaded = len(SalesDataAnalyzer.get_instance().df)
         if bd_target_car and bd_stats.get('has_data'):
             tier_badge = f" <span style='background:rgba(204,145,102,0.12); border:1px solid #cc9166; color:#cc9166; padding:2px 8px; border-radius:12px; font-size:0.8em; font-weight:600;'>{bd_stats.get('matched_tier', '')}</span>" if bd_stats.get('matched_tier') else ""
-            st.caption(f"💡 순수 내수 소매 완판 데이터 **{bd_stats.get('pure_sales_count', total_sales_loaded):,}건** 중 **[{bd_stats.get('matched_name', bd_target_car)}]** 실적({bd_stats.get('total_count', 0)}대) 분석 결과입니다.{tier_badge} (경매·도매 출고 {bd_stats.get('auction_filtered_count', 1339):,}건 왜곡 방지 자동 제외 완료)", unsafe_allow_html=True)
+            year_badge = f" <span style='background:rgba(239,68,68,0.15); border:1px solid #ef4444; color:#f87171; padding:2px 8px; border-radius:12px; font-size:0.8em; font-weight:700;'>⚠️ {bd_stats.get('year_diff_note')}</span>" if bd_stats.get('year_diff_note') else ""
+            st.caption(f"💡 순수 내수 소매 완판 데이터 **{bd_stats.get('pure_sales_count', total_sales_loaded):,}건** 중 **[{bd_stats.get('matched_name', bd_target_car)}]** 실적({bd_stats.get('total_count', 0)}대) 분석 결과입니다.{tier_badge}{year_badge} (경매·도매 출고 {bd_stats.get('auction_filtered_count', 1339):,}건 왜곡 방지 자동 제외 완료)", unsafe_allow_html=True)
 
             c_m1, c_m2, c_m3, c_m4 = st.columns(4)
             with c_m1:
@@ -268,18 +269,44 @@ def render_main_tab(
             if encar_no_acc_avg > 0 and encar_acc_avg > 0:
                 encar_acc_gap = encar_no_acc_avg - encar_acc_avg
 
-            # 연식별 평균
+            # 타겟 연식 확인 (강조 및 중심 표시용)
+            target_y_num = None
+            q_year_str = str(current_f_year if 'current_f_year' in locals() and current_f_year else st.session_state.get('f_year', '') or st.session_state.get('hd_target_year', ''))
+            m_ty = re.search(r'(\d{2,4})', q_year_str)
+            if m_ty:
+                ty_v = int(m_ty.group(1))
+                target_y_num = ty_v % 100 if ty_v >= 1000 else ty_v
+
+            # 연식별 평균 (정수 연도 단위 정규화 및 집계)
             if '연식' in chart_base.columns:
-                years = sorted(chart_base['연식'].dropna().unique())
+                def extract_reg_year(val):
+                    m = re.search(r'(\d{2,4})', str(val))
+                    if m:
+                        v = int(m.group(1))
+                        return v % 100 if v >= 1000 else v
+                    return None
+
+                norm_years = chart_base['연식'].apply(extract_reg_year)
+                unique_years = sorted([int(y) for y in norm_years.dropna().unique()])
+                
+                # 연식이 5개 이상으로 너무 많을 때만 타겟 연식 중심 ±1~2년 필터링, 그 외에는 전 연식 표시
+                if len(unique_years) > 4 and target_y_num:
+                    display_years = [y for y in unique_years if abs(y - target_y_num) <= 1]
+                    if not display_years:
+                        display_years = unique_years[-3:]
+                else:
+                    display_years = unique_years
+
                 y_parts = []
-                for y in years[-3:]:
-                    sub_p = p_num[chart_base['연식'] == y].dropna()
+                for y in display_years:
+                    sub_p = p_num[norm_years == y].dropna()
                     if not sub_p.empty:
-                        y_str = str(y).strip()
-                        m_dup = re.match(r'^(\d{2,4})\s*\(\1\)$', y_str)
-                        clean_y = m_dup.group(1) if m_dup else y_str
-                        y_label = f"{clean_y}년" if not clean_y.endswith('년') else clean_y
-                        y_parts.append(f"{y_label} 평균 {int(sub_p.mean()):,}만원")
+                        avg_val = int(round(sub_p.mean()))
+                        cnt = len(sub_p)
+                        if target_y_num and y == target_y_num:
+                            y_parts.append(f"<b style='color:#38bdf8;'>{y}년 {avg_val:,}만</b><span style='font-size:0.85em;color:#94a3b8;'>({cnt}대)</span>")
+                        else:
+                            y_parts.append(f"{y}년 {avg_val:,}만<span style='font-size:0.85em;color:#94a3b8;'>({cnt}대)</span>")
                 if y_parts:
                     encar_year_stats = " / ".join(y_parts)
 
@@ -788,8 +815,8 @@ def render_main_tab(
                     PART_COORDS_INNER = [
                         (("앞","사이드","멤버","좌"), 10, 30,  40, 55, "F멤", "프론트 사이드멤버(좌)"),
                         (("앞","사이드","멤버","우"),170, 30,  40, 55, "F멤", "프론트 사이드멤버(우)"),
-                        (("크로스","멤버"),               55, 30,  110, 30, "크로스", "크로스멤버"),
-                        (("라디에이터","서포트"),         55, 65,  110, 30, "R.S", "라디에이터 서포트"),
+                        (("라디에이터","서포트"),         55, 30,  110, 30, "R.S", "라디에이터 서포트"),
+                        (("크로스","멤버"),               55, 65,  110, 30, "크로스", "크로스멤버"),
                         (("인사이드","패널","좌"),        10, 100, 40, 120, "I패", "인사이드 패널(좌)"),
                         (("인사이드","패널","우"),       170, 100, 40, 120, "I패", "인사이드 패널(우)"),
                         (("뒤","사이드","멤버","좌"),   10, 230, 40, 60, "R멤", "리어 사이드멤버(좌)"),
@@ -1061,12 +1088,30 @@ def render_main_tab(
                     else:
                         opt_items = [o.strip() for o in str(row.get('추가옵션', '')).split(" / ") if o.strip() and o.strip() not in ("없음", "-", "없음(구버전점검)", "⚠️조회실패", "코드매칭실패")]
 
+                    # 기준 차량의 타겟 추가옵션 가져오기 및 매칭 판정
+                    target_opts = get_current_target_options()
+                    matched_opts = []
+                    unmatched_opts = []
+                    for opt in opt_items:
+                        if target_opts and is_target_option_matched(opt, target_opts):
+                            matched_opts.append(opt)
+                        else:
+                            unmatched_opts.append(opt)
+                    
+                    # 매칭된 옵션을 먼저 배치하여 가독성 극대화
+                    sorted_opt_items = [(opt, True) for opt in matched_opts] + [(opt, False) for opt in unmatched_opts]
+
                     opt_html = ""
-                    if opt_items:
-                        for opt in opt_items[:8]:
-                            opt_html += f"<div style='background:#1e222d; color:#93c5fd; padding:5px 10px; border-radius:8px; font-size:0.86em; font-weight:500; margin:3px 2px; display:inline-block; border: 1px solid #2e384d;'>✓ {opt}</div>"
-                        if len(opt_items) > 8:
-                            opt_html += f"<div style='background:#1e222d; color:#94a3b8; padding:5px 10px; border-radius:8px; font-size:0.86em; font-weight:500; margin:3px 2px; display:inline-block; border: 1px solid #2e384d;'>+{len(opt_items)-8}</div>"
+                    if sorted_opt_items:
+                        for opt, is_m in sorted_opt_items[:8]:
+                            if is_m:
+                                # 기준 차량과 동일/일치하는 옵션: 선명한 블루 강조 및 ✓ 체크
+                                opt_html += f"<div style='background:rgba(14, 165, 233, 0.18); color:#38bdf8; padding:5px 10px; border-radius:8px; font-size:0.86em; font-weight:700; margin:3px 2px; display:inline-block; border: 1px solid #0284c7; box-shadow:0 0 6px rgba(14,165,233,0.2);'>✓ {opt}</div>"
+                            else:
+                                # 그 외 옵션: 체크표시 없이 깔끔한 기본 뱃지
+                                opt_html += f"<div style='background:#1e222d; color:#94a3b8; padding:5px 10px; border-radius:8px; font-size:0.86em; font-weight:500; margin:3px 2px; display:inline-block; border: 1px solid #2e384d;'>{opt}</div>"
+                        if len(sorted_opt_items) > 8:
+                            opt_html += f"<div style='background:#1e222d; color:#94a3b8; padding:5px 10px; border-radius:8px; font-size:0.86em; font-weight:500; margin:3px 2px; display:inline-block; border: 1px solid #2e384d;'>+{len(sorted_opt_items)-8}</div>"
                     else:
                         opt_html = "<div style='color:#64748b; font-size:0.85em; margin-top:4px;'>추가옵션 없음 또는 기본 트림 사양</div>"
 

@@ -16,6 +16,7 @@ from dotenv import load_dotenv
 from heydealer_ai import extract_car_data_for_ai, get_gemini_estimate
 from scraper import HeydealerScraper
 from sales_analysis import get_car_market_stats, generate_encar_market_url, SalesDataAnalyzer
+# Reload sales analyzer on code update
 
 # ==========================================
 # 📦 Services & Views Modular Imports
@@ -1214,6 +1215,8 @@ if not cached_chaolma:
 hd_opts = st.session_state.get('hd_target_options', [])
 encar_opts = st.session_state.get('encar_target_options', [])
 
+hd_spec_desc = st.session_state.get('hd_car_spec_desc', '')
+
 if cached_chaolma and cached_chaolma.get("success"):
     raw_new_p = cached_chaolma.get("new_car_price", 0)
     raw_base_p = cached_chaolma.get("base_car_price", 0)
@@ -1248,13 +1251,36 @@ if cached_chaolma and cached_chaolma.get("success"):
         </div>
     </div>
     """, unsafe_allow_html=True)
-elif hd_opts or encar_opts:
-    active_opts = hd_opts if hd_opts else encar_opts
-    badge_html = "".join([f'<span style="display:inline-block; background:rgba(56,189,248,0.15); border:1px solid rgba(56,189,248,0.3); color:#7dd3fc; border-radius:4px; padding:2px 6px; font-size:0.72rem; margin:2px 2px;">{opt}</span>' for opt in active_opts])
+elif hd_opts:
+    badge_html = "".join([f'<span style="display:inline-block; background:rgba(56,189,248,0.15); border:1px solid rgba(56,189,248,0.3); color:#7dd3fc; border-radius:4px; padding:2px 6px; font-size:0.72rem; margin:2px 2px;">{opt}</span>' for opt in hd_opts])
     st.sidebar.markdown(f"""
     <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(56, 189, 248, 0.35); border-radius: 8px; padding: 10px 12px; margin-top: 4px; margin-bottom: 8px;">
         <div style="font-size: 0.82rem; font-weight: 700; color: #38bdf8; margin-bottom: 4px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 4px;">
-            🏷️ 주요 장착 옵션 ({len(active_opts)}개)
+            🏷️ 신차 추가 옵션 ({len(hd_opts)}개)
+        </div>
+        <div style="margin-top: 4px; line-height: 1.4;">
+            {badge_html}
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+elif hd_spec_desc:
+    # 헤이딜러 출고정보는 있으나 추가 옵션이 없는 경우
+    st.sidebar.markdown("""
+    <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(56, 189, 248, 0.35); border-radius: 8px; padding: 10px 12px; margin-top: 4px; margin-bottom: 8px;">
+        <div style="font-size: 0.82rem; font-weight: 700; color: #38bdf8; margin-bottom: 4px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 4px;">
+            🏷️ 신차 추가 옵션
+        </div>
+        <div style="margin-top: 4px; font-size: 0.74rem; color: #94a3b8;">
+            추가 옵션 없음 (기본 출고 사양)
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+elif encar_opts:
+    badge_html = "".join([f'<span style="display:inline-block; background:rgba(56,189,248,0.15); border:1px solid rgba(56,189,248,0.3); color:#7dd3fc; border-radius:4px; padding:2px 6px; font-size:0.72rem; margin:2px 2px;">{opt}</span>' for opt in encar_opts])
+    st.sidebar.markdown(f"""
+    <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(56, 189, 248, 0.35); border-radius: 8px; padding: 10px 12px; margin-top: 4px; margin-bottom: 8px;">
+        <div style="font-size: 0.82rem; font-weight: 700; color: #38bdf8; margin-bottom: 4px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 4px;">
+            🏷️ 주요 장착 편의장치 ({len(encar_opts)}개)
         </div>
         <div style="margin-top: 4px; line-height: 1.4;">
             {badge_html}

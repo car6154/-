@@ -735,12 +735,28 @@ class SalesDataAnalyzer:
         year_band_desc = ""
 
         if not sub_df.empty:
-            # 1. 유종(Fuel) 분리 필터
+            # 1. 유종(Fuel) 및 과급기(Turbo) 엄격 판별 헬퍼
+            def check_is_diesel(txt):
+                t = str(txt).lower().replace(' ', '')
+                if any(k in t for k in ['디젤', 'diesel', 'crdi', 'vgt', 'e-vgt', 'evgt', 'cdi', 'tdi', 'dci', 'r2.0', 'r2.2', 'u2', '1.7d', '1.6d', '2.0d', '2.2d', '3.0d', '1.7', '2.2']):
+                    return True
+                if re.search(r'(\d\.\d\s*d\b|\bd\d\.\d\b)', str(txt).lower()):
+                    return True
+                return False
+
+            def check_is_turbo(txt):
+                t = str(txt).lower().replace(' ', '')
+                if any(k in t for k in ['터보', 'turbo', 't-gdi', 'tgdi']):
+                    return True
+                if re.search(r'(\d\.\d\s*t\b|\b\d+t\b)', str(txt).lower()):
+                    return True
+                return False
+
+            is_query_ev = any(k in full_query_text for k in ['전기', 'ev', 'electric', '일렉트릭'])
             is_query_hybrid = any(k in full_query_text for k in ['하이브리드', 'hybrid', 'hev'])
             is_query_lpi = any(k in full_query_text for k in ['lpi', 'lpg', '렌터카', '장애인'])
-            is_query_diesel = any(k in full_query_text for k in ['디젤', 'diesel', 'crdi', 'vgt'])
-            is_query_ev = any(k in full_query_text for k in ['전기', 'ev', 'electric', '일렉트릭'])
-            is_query_gasoline = any(k in full_query_text for k in ['가솔린', 'gasoline', 'gdi', 't-gdi', '터보', 'turbo'])
+            is_query_diesel = check_is_diesel(full_query_text)
+            is_query_gasoline = any(k in full_query_text for k in ['가솔린', 'gasoline', 'gdi', 't-gdi', 'tgdi', 'mpi']) or check_is_turbo(full_query_text)
 
             fuel_filtered = sub_df.copy()
             fuel_label = ""
@@ -750,11 +766,12 @@ class SalesDataAnalyzer:
                     fuel_filtered = fuel_filtered[f_mask]
                     fuel_label = "전기"
                 else:
-                    # 전기차 요청인데 Autoplus 소매 완판 데이터에 전기차 실적이 없는 경우 -> 가솔린/디젤로 fallback 절대 금지!
                     empty_df = pd.DataFrame()
                     empty_df.attrs['matched_name'] = f"{car_name} (전기차 소매 실적 축적 중)"
                     empty_df.attrs['matched_tier'] = "⚡ 전기차 데이터 없음"
                     empty_df.attrs['year_band'] = ""
+                    empty_df.attrs['is_year_diff'] = False
+                    empty_df.attrs['year_diff_note'] = ""
                     return empty_df
             elif is_query_hybrid:
                 f_mask = fuel_filtered['차량명_clean'].str.contains('하이브리드', na=False) | fuel_filtered['세부모델_clean'].str.contains('hev|하이브리드', na=False)
@@ -766,6 +783,8 @@ class SalesDataAnalyzer:
                     empty_df.attrs['matched_name'] = f"{car_name} (하이브리드 소매 실적 축적 중)"
                     empty_df.attrs['matched_tier'] = "🍃 하이브리드 데이터 없음"
                     empty_df.attrs['year_band'] = ""
+                    empty_df.attrs['is_year_diff'] = False
+                    empty_df.attrs['year_diff_note'] = ""
                     return empty_df
             elif is_query_lpi:
                 f_mask = fuel_filtered['세부모델_clean'].str.contains('lpi|lpg|렌터카|장애인', na=False) | fuel_filtered['차량명_clean'].str.contains('lpi|lpg', na=False)
@@ -777,149 +796,235 @@ class SalesDataAnalyzer:
                     empty_df.attrs['matched_name'] = f"{car_name} (LPi 소매 실적 축적 중)"
                     empty_df.attrs['matched_tier'] = "⛽ LPi 데이터 없음"
                     empty_df.attrs['year_band'] = ""
+                    empty_df.attrs['is_year_diff'] = False
+                    empty_df.attrs['year_diff_note'] = ""
                     return empty_df
             elif is_query_diesel:
-                f_mask = fuel_filtered['차량명_clean'].str.contains('디젤', na=False) | fuel_filtered['세부모델_clean'].str.contains('디젤|crdi|vgt', na=False)
-                if f_mask.any():
-                    fuel_filtered = fuel_filtered[f_mask]
+                d_mask = fuel_filtered.apply(lambda r: check_is_diesel(r['차량명']) or check_is_diesel(r['세부모델']), axis=1)
+                if d_mask.any():
+                    fuel_filtered = fuel_filtered[d_mask]
                     fuel_label = "디젤"
                 else:
                     empty_df = pd.DataFrame()
                     empty_df.attrs['matched_name'] = f"{car_name} (디젤 소매 실적 축적 중)"
                     empty_df.attrs['matched_tier'] = "🚗 디젤 데이터 없음"
                     empty_df.attrs['year_band'] = ""
+                    empty_df.attrs['is_year_diff'] = False
+                    empty_df.attrs['year_diff_note'] = ""
                     return empty_df
             else:
-                f_mask = ~fuel_filtered['차량명_clean'].str.contains('하이브리드|전기|일렉트릭|ev', na=False) & ~fuel_filtered['세부모델_clean'].str.contains('hev|lpi|lpg|디젤|ev|전기|일렉트릭', na=False)
-                if f_mask.any():
-                    fuel_filtered = fuel_filtered[f_mask]
+                # 🚫 가솔린 쿼리 시 디젤(R2.0, R2.2, e-VGT, CRDi 등) 및 친환경/LPG 100% 완전 배제
+                not_d_mask = ~fuel_filtered.apply(lambda r: check_is_diesel(r['차량명']) or check_is_diesel(r['세부모델']), axis=1)
+                not_other_mask = ~fuel_filtered['차량명_clean'].str.contains('하이브리드|전기|일렉트릭|ev', na=False) & ~fuel_filtered['세부모델_clean'].str.contains('hev|lpi|lpg|ev|전기|일렉트릭', na=False)
+                gas_mask = not_d_mask & not_other_mask
+                if gas_mask.any():
+                    fuel_filtered = fuel_filtered[gas_mask]
                     fuel_label = "가솔린"
 
-            # 2. 배기량(Displacement) 추출 및 필터
+            # 1-1. 과급기(Turbo/T-GDI/2.0T 등) 엄격 분리
+            query_clean_all = (str(sub_model) + " " + str(car_name)).lower().replace(' ', '')
+            is_query_turbo = check_is_turbo(str(sub_model) + " " + str(car_name))
+            if is_query_turbo:
+                t_mask = fuel_filtered.apply(lambda r: check_is_turbo(r['차량명']) or check_is_turbo(r['세부모델']), axis=1)
+                if t_mask.any():
+                    fuel_filtered = fuel_filtered[t_mask]
+                    fuel_label = f"{fuel_label} 터보".strip()
+                else:
+                    empty_df = pd.DataFrame()
+                    empty_df.attrs['matched_name'] = f"{car_name} {sub_model} (터보 소매 실적 없음)"
+                    empty_df.attrs['matched_tier'] = "⚡ 터보 데이터 없음"
+                    empty_df.attrs['year_band'] = ""
+                    empty_df.attrs['is_year_diff'] = False
+                    empty_df.attrs['year_diff_note'] = ""
+                    return empty_df
+            else:
+                non_t_mask = ~fuel_filtered.apply(lambda r: check_is_turbo(r['차량명']) or check_is_turbo(r['세부모델']), axis=1)
+                if non_t_mask.any():
+                    fuel_filtered = fuel_filtered[non_t_mask]
+
+            # 1-2. 구동방식 (2WD vs 4WD/AWD) 엄격 분리
+            is_query_4wd = any(k in query_clean_all for k in ['4wd', 'awd', '4륜'])
+            if is_query_4wd:
+                wd_mask = fuel_filtered['세부모델_clean'].str.contains('4wd|awd|4륜', na=False) | fuel_filtered['차량명_clean'].str.contains('4wd|awd|4륜', na=False)
+                if wd_mask.any():
+                    fuel_filtered = fuel_filtered[wd_mask]
+            else:
+                non_wd_mask = ~fuel_filtered['세부모델_clean'].str.contains('4wd|awd|4륜', na=False) & ~fuel_filtered['차량명_clean'].str.contains('4wd|awd|4륜', na=False)
+                if non_wd_mask.any():
+                    fuel_filtered = fuel_filtered[non_wd_mask]
+
+            # 2. 배기량(Displacement) 추출 및 엄격 필터 (다른 배기량 혼입 100% 원천 차단)
             disp_match = re.search(r'(\d\.\d)', str(sub_model) + " " + str(car_name))
             disp_val = disp_match.group(1) if disp_match else ""
             disp_filtered = fuel_filtered.copy()
             if disp_val:
                 d_mask = disp_filtered['세부모델_clean'].str.contains(disp_val, na=False)
+                if disp_val == '2.0':
+                    d_mask |= disp_filtered['세부모델_clean'].str.contains('r2.0', na=False)
+                elif disp_val == '2.2':
+                    d_mask |= disp_filtered['세부모델_clean'].str.contains('r2.2', na=False)
+
                 if d_mask.any():
                     disp_filtered = disp_filtered[d_mask]
-
-            # 3. 연식 필터 풀 생성 (조회된 해당 연도 단일 매칭 1순위)
-            has_year_col = '등록연도_num' in disp_filtered.columns
-            year_pool = disp_filtered.copy()
-            year_band_active = False
-            exact_year_matched = False
-            if target_year and target_year >= 2000 and has_year_col:
-                exact_mask = disp_filtered['등록연도_num'] == target_year
-                if exact_mask.any():
-                    # 1순위: 필터/조회된 해당 연도만 엄격하게 매칭
-                    year_pool = disp_filtered[exact_mask]
-                    year_band_desc = f"{target_year}년식"
-                    year_band_active = True
-                    exact_year_matched = True
                 else:
-                    # 해당 연도 실적이 0건인 경우에 한해 ±1년 인접 연도 참고
-                    y_min = target_year - 1
-                    y_max = target_year + 1
-                    y_mask = disp_filtered['등록연도_num'].between(y_min, y_max)
-                    if y_mask.any():
-                        year_pool = disp_filtered[y_mask]
-                        year_band_desc = f"{y_min}~{y_max}년식"
-                        year_band_active = True
+                    # 쿼리 배기량이 DB에 없는 경우 -> 다른 배기량(예: 1.7에 2.0)으로 왜곡 매칭 절대 금지!
+                    empty_df = pd.DataFrame()
+                    empty_df.attrs['matched_name'] = f"{car_name} {sub_model} ({disp_val} 소매 실적 없음)"
+                    empty_df.attrs['matched_tier'] = f"⚠️ {disp_val} 실적 없음"
+                    empty_df.attrs['year_band'] = ""
+                    empty_df.attrs['is_year_diff'] = False
+                    empty_df.attrs['year_diff_note'] = ""
+                    return empty_df
 
-            # 4. 세부 트림(Trim) 정밀 매칭
+            # 3. 핵심 트림 키워드 엄격 추출 (프레스티지, 노블레스, 럭셔리, 인스퍼레이션 등)
+            core_trim_keywords = [
+                '프레스티지', '노블레스', '시그니처', '트렌디', '럭셔리', '디럭스', '스탠다드',
+                '인스퍼레이션', '캘리그래피', '익스클루시브', '프리미엄', '모던', '스마트',
+                't7', 't5', 're', 'le', 'se', 'premier', 'ltz', 'lt', 'ls'
+            ]
+            query_core_trims = [kw for kw in core_trim_keywords if kw in query_clean_all]
+
+            # 4. 세부 트림(Trim) 채점 함수 (필수 키워드 미포함 시 즉시 탈락)
             sub_tokens = re.findall(r'[a-zA-Z0-9\.]+|[가-힣]+', str(sub_model).lower())
             stop_words = {'가솔린', '디젤', '하이브리드', 'hev', 'lpi', 'lpg', '2wd', '4wd', 'awd', 'auto', 'a/t', '오토', 'ev', '전기', '일렉트릭'}
             meaningful_tokens = [t for t in sub_tokens if t not in stop_words and (len(t) >= 2 or t.isalnum())]
             query_clean = str(sub_model).replace(' ', '').lower()
             extra_modifiers = ['컬렉션', '스페셜', '에디션', '플러스', '마스터', '블랙', 'vip', '그래비티', '초이스', '샤이니', '패키지', '인텔리전트']
 
+            def score_trim_row(row_val):
+                rv = str(row_val).lower()
+                rv_clean = rv.replace(' ', '')
+                # 유종 일치 재확인 (가솔린 vs 디젤 절대 혼입 방지)
+                row_is_diesel = check_is_diesel(rv)
+                if is_query_diesel != row_is_diesel:
+                    return -999
+
+                # 배기량 일치 재확인 (1.7 vs 2.0 등 다른 배기량 절대 탈락)
+                if disp_val:
+                    row_disp = re.search(r'(\d\.\d)', rv)
+                    if row_disp and row_disp.group(1) != disp_val:
+                        return -999
+                    if disp_val not in rv:
+                        if not (disp_val == '2.0' and 'r2.0' in rv_clean) and not (disp_val == '2.2' and 'r2.2' in rv_clean):
+                            return -999
+
+                # 터보 일치 여부 재검증 (터보 불일치 시 절대 탈락)
+                row_has_turbo = check_is_turbo(rv)
+                if is_query_turbo != row_has_turbo:
+                    return -999
+
+                # 핵심 트림 키워드가 쿼리에 명시된 경우, 반드시 해당 트림이 포함되어야 함
+                for qct in query_core_trims:
+                    if qct not in rv_clean:
+                        return -999
+
+                matched_count = sum(1 for t in meaningful_tokens if t in rv)
+                if matched_count == 0:
+                    return -999
+                score = matched_count * 10
+                if rv_clean == query_clean:
+                    score += 50
+                for em in extra_modifiers:
+                    if em in rv and em not in query_clean:
+                        score -= 8
+                    elif em in query_clean and em not in rv:
+                        score -= 8
+                score -= min(20, abs(len(rv_clean) - len(query_clean)))
+                return score
+
+            # 5. 연식 풀 순회 매칭 (1순위: 해당 연식 ➔ 2순위: 인접 연식 ±1년 ➔ 3순위: 동일 세대 전체)
+            has_year_col = '등록연도_num' in disp_filtered.columns
             best_subset = pd.DataFrame()
             matched_trim_title = ""
+            matched_tier = "차종 전체 매칭"
+            year_band_desc = ""
 
-            if meaningful_tokens:
-                def score_trim_row(row_val):
-                    rv = str(row_val).lower()
-                    rv_clean = rv.replace(' ', '')
-                    matched_count = sum(1 for t in meaningful_tokens if t in rv)
-                    if matched_count == 0:
-                        return -100
-                    score = matched_count * 10
-                    # 완전 일치 보너스
-                    if rv_clean == query_clean:
-                        score += 50
-                    # 쿼리에 없는 추가 수식어(컬렉션, 스페셜 등) 또는 쿼리에는 있으나 row에 없는 수식어 감점
-                    for em in extra_modifiers:
-                        if em in rv and em not in query_clean:
-                            score -= 8
-                        elif em in query_clean and em not in rv:
-                            score -= 8
-                    # 글자 수 차이 감점
-                    score -= min(20, abs(len(rv_clean) - len(query_clean)))
-                    return score
+            is_year_diff = False
+            year_diff_note = ""
+            target_year_short = f"{str(target_year)[-2:]}년식" if target_year else ""
 
-                # A) 해당 연도 풀에서 세부 트림 검색
-                scores_year = year_pool['세부모델_clean'].apply(score_trim_row)
-                max_s_year = scores_year.max() if not scores_year.empty else -100
-                if max_s_year >= 0:
-                    cand_trim_year = year_pool[scores_year == max_s_year]
-                    if not cand_trim_year.empty:
-                        best_subset = cand_trim_year
-                        matched_tier = "🎯 정밀 등급·해당연식 매칭" if exact_year_matched else "🎯 정밀 등급·인접연식 매칭"
-                        matched_trim_title = str(best_subset['세부모델'].mode()[0] if not best_subset['세부모델'].empty else best_subset['세부모델'].iloc[0])
-
-                # 만약 해당 연도에는 해당 세부트림 실적이 전혀 없고 인접 연도(±1년)에만 실적이 있는 경우
-                if best_subset.empty and exact_year_matched and target_year and has_year_col:
-                    y_min = target_year - 1
-                    y_max = target_year + 1
-                    adj_pool = disp_filtered[disp_filtered['등록연도_num'].between(y_min, y_max)]
-                    if not adj_pool.empty:
-                        scores_adj = adj_pool['세부모델_clean'].apply(score_trim_row)
-                        max_s_adj = scores_adj.max() if not scores_adj.empty else -100
-                        if max_s_adj >= 0:
-                            cand_trim_adj = adj_pool[scores_adj == max_s_adj]
-                            if not cand_trim_adj.empty:
-                                best_subset = cand_trim_adj
-                                year_band_desc = f"{y_min}~{y_max}년식"
-                                matched_tier = "🎯 정밀 등급·인접연식 매칭"
-                                matched_trim_title = str(best_subset['세부모델'].mode()[0] if not best_subset['세부모델'].empty else best_subset['세부모델'].iloc[0])
-
-                # B) 세부 트림이 없을 때만 동일 연식군의 동급 배기량/유종 풀로 fallback
-                if best_subset.empty and not year_pool.empty:
-                    best_subset = year_pool
-                    matched_tier = "📊 동급 배기량/연식 매칭"
-                    fuel_disp_part = f"{fuel_label} {disp_val}".strip()
-                    matched_trim_title = f"{fuel_disp_part}군" if fuel_disp_part else "동급 표준형"
-
-                # C) 연식이 아예 입력되지 않은 경우에만 전체연식 풀 사용
-                if best_subset.empty and not year_band_active:
-                    scores_all = disp_filtered['세부모델_clean'].apply(score_trim_row)
-                    max_s_all = scores_all.max() if not scores_all.empty else -100
-                    if max_s_all >= 0:
-                        cand_trim_all = disp_filtered[scores_all == max_s_all]
-                        if not cand_trim_all.empty:
-                            best_subset = cand_trim_all
-                            matched_tier = "🎯 정밀 등급 매칭"
+            # Step 1: 해당 연식 풀에서 정밀 트림 검색
+            if target_year and target_year >= 2000 and has_year_col:
+                exact_mask = disp_filtered['등록연도_num'] == target_year
+                if exact_mask.any():
+                    pool_exact = disp_filtered[exact_mask]
+                    scores_exact = pool_exact['세부모델_clean'].apply(score_trim_row)
+                    max_s_exact = scores_exact.max() if not scores_exact.empty else -999
+                    if max_s_exact > -500:
+                        cand = pool_exact[scores_exact == max_s_exact]
+                        if not cand.empty:
+                            best_subset = cand
+                            matched_tier = "🎯 정밀 등급·해당연식 매칭"
+                            year_band_desc = f"{target_year}년식"
                             matched_trim_title = str(best_subset['세부모델'].mode()[0] if not best_subset['세부모델'].empty else best_subset['세부모델'].iloc[0])
+                            is_year_diff = False
+                            year_diff_note = ""
 
-            # 5. 최종 풀 및 표시 명칭 결정 (다른 유종/전체차종으로의 오염 방지: fuel_filtered 기준 고수)
-            if not best_subset.empty:
-                final_df = best_subset
-            elif not year_pool.empty and len(year_pool) >= 1:
-                final_df = year_pool
-                matched_tier = "📊 동급 배기량/연식군 매칭"
-                matched_trim_title = f"{fuel_label} {disp_val}".strip()
-            else:
-                final_df = fuel_filtered
-                matched_tier = "🚗 동급 유종 전체 매칭"
-                matched_trim_title = fuel_label
+            # Step 2: 해당 연식에 동일 등급이 없을 경우 -> 인접 연식(±1년)에서 동일 정밀 등급 검색
+            if best_subset.empty and target_year and target_year >= 2000 and has_year_col:
+                y_min = target_year - 1
+                y_max = target_year + 1
+                adj_mask = disp_filtered['등록연도_num'].between(y_min, y_max)
+                if adj_mask.any():
+                    pool_adj = disp_filtered[adj_mask]
+                    scores_adj = pool_adj['세부모델_clean'].apply(score_trim_row)
+                    max_s_adj = scores_adj.max() if not scores_adj.empty else -999
+                    if max_s_adj > -500:
+                        cand = pool_adj[scores_adj == max_s_adj]
+                        if not cand.empty:
+                            best_subset = cand
+                            matched_tier = "🎯 정밀 등급·인접연식 매칭"
+                            # 실제 매칭된 연식 대역 계산
+                            actual_years = sorted(list(best_subset['등록연도_num'].dropna().unique()))
+                            if len(actual_years) == 1:
+                                year_band_desc = f"{int(actual_years[0])}년식"
+                            elif len(actual_years) > 1:
+                                year_band_desc = f"{int(actual_years[0])}~{int(actual_years[-1])}년식"
+                            else:
+                                year_band_desc = f"{y_min}~{y_max}년식"
+                            matched_trim_title = str(best_subset['세부모델'].mode()[0] if not best_subset['세부모델'].empty else best_subset['세부모델'].iloc[0])
+                            is_year_diff = True
+                            year_diff_note = f"{target_year_short} 데이터 없음"
+
+            # Step 3: 인접 연식에도 없을 경우 -> 동일 세대 전체 연식에서 동일 정밀 등급 검색
+            if best_subset.empty:
+                scores_all = disp_filtered['세부모델_clean'].apply(score_trim_row)
+                max_s_all = scores_all.max() if not scores_all.empty else -999
+                if max_s_all > -500:
+                    cand = disp_filtered[scores_all == max_s_all]
+                    if not cand.empty:
+                        best_subset = cand
+                        matched_tier = "🎯 정밀 등급 매칭"
+                        actual_years = sorted(list(best_subset['등록연도_num'].dropna().unique())) if has_year_col else []
+                        if len(actual_years) == 1:
+                            year_band_desc = f"{int(actual_years[0])}년식"
+                        elif len(actual_years) > 1:
+                            year_band_desc = f"{int(actual_years[0])}~{int(actual_years[-1])}년식"
+                        matched_trim_title = str(best_subset['세부모델'].mode()[0] if not best_subset['세부모델'].empty else best_subset['세부모델'].iloc[0])
+                        if target_year and (not actual_years or target_year not in actual_years):
+                            is_year_diff = True
+                            year_diff_note = f"{target_year_short} 데이터 없음"
+
+            # Step 4: 세부 트림 실적이 전혀 없을 때 (다른 등급으로 억지 매칭 금지!)
+            if best_subset.empty:
+                empty_df = pd.DataFrame()
+                empty_df.attrs['matched_name'] = f"{car_name} {sub_model} (동일 등급 소매 실적 없음)"
+                empty_df.attrs['matched_tier'] = "⚠️ 해당 세부등급 실적 없음"
+                empty_df.attrs['year_band'] = ""
+                empty_df.attrs['is_year_diff'] = False
+                empty_df.attrs['year_diff_note'] = ""
+                return empty_df
+
+            final_df = best_subset
 
             # 최종 안내명 조립 (실제 매칭된 데이터셋의 차량명 우선)
             final_car_title = str(final_df['차량명'].iloc[0]) if not final_df.empty else base_car_title
             name_parts = [final_car_title]
             if matched_trim_title:
                 name_parts.append(matched_trim_title)
-            if year_band_desc:
+            if is_year_diff and year_diff_note and year_band_desc:
+                name_parts.append(f"({year_band_desc} - {year_diff_note})")
+            elif year_band_desc:
                 name_parts.append(f"({year_band_desc})")
             matched_name = " ".join(name_parts)
 
@@ -927,6 +1032,8 @@ class SalesDataAnalyzer:
             final_df.attrs['matched_name'] = matched_name
             final_df.attrs['matched_tier'] = matched_tier
             final_df.attrs['year_band'] = year_band_desc
+            final_df.attrs['is_year_diff'] = is_year_diff
+            final_df.attrs['year_diff_note'] = year_diff_note
             return final_df
 
         sub_df = sub_df.copy()
@@ -1084,12 +1191,20 @@ class SalesDataAnalyzer:
         matched_model_name = matches.attrs.get('matched_name') if hasattr(matches, 'attrs') and matches.attrs.get('matched_name') else matches['차량명'].iloc[0]
         matched_tier = matches.attrs.get('matched_tier', '정밀 매칭') if hasattr(matches, 'attrs') and matches.attrs.get('matched_tier') else '정밀 매칭'
         matched_year_band = matches.attrs.get('year_band', '') if hasattr(matches, 'attrs') else ''
+        is_year_diff = matches.attrs.get('is_year_diff', False) if hasattr(matches, 'attrs') else False
+        year_diff_note = matches.attrs.get('year_diff_note', '') if hasattr(matches, 'attrs') else ''
+
+        sample_desc_text = f"과거 순수 소매 완판 {total_count:,}대 실거래 기준: 평균 재고 {avg_days}일, 평균 실현마진 +{int(avg_profit):,}만 원 (마진율 {profit_rate}%)"
+        if year_diff_note:
+            sample_desc_text += f" (⚠️ {year_diff_note})"
 
         return {
             "has_data": True,
             "matched_name": matched_model_name,
             "matched_tier": matched_tier,
             "matched_year_band": matched_year_band,
+            "is_year_diff": is_year_diff,
+            "year_diff_note": year_diff_note,
             "pure_sales_count": getattr(self, 'pure_sales_count', 0),
             "auction_filtered_count": getattr(self, 'auction_filtered_count', 0),
             "current_stock_count": current_stock_count,
@@ -1117,7 +1232,7 @@ class SalesDataAnalyzer:
             "aggressive_bid": aggressive_bid,
             "standard_bid": standard_bid,
             "defensive_bid": defensive_bid,
-            "sample_desc": f"과거 순수 소매 완판 {total_count:,}대 실거래 기준: 평균 재고 {avg_days}일, 평균 실현마진 +{int(avg_profit):,}만 원 (마진율 {profit_rate}%)"
+            "sample_desc": sample_desc_text
         }
 
     # 오토플러스 표기 -> 엔카(Encar) 공식 제조사 및 대표 모델그룹 매핑 데이터베이스
@@ -1740,3 +1855,92 @@ def get_car_market_stats(car_name, sub_model="", year="", current_retail=0):
 
 def generate_encar_market_url(car_name, sub_model="", year="", mileage=0):
     return SalesDataAnalyzer.get_instance().generate_encar_url(car_name, sub_model, year, mileage)
+
+def is_target_option_matched(opt_str: str, target_opts: list) -> bool:
+    """
+    엔카 매물의 옵션 문자열(예: '스타일(70만)')이 기준 차량의 타겟 옵션 목록(예: ['기본형-드라이브와이즈', '스타일', '내비게이션'])과
+    동일/유사 옵션인지 판별.
+    """
+    if not target_opts or not opt_str:
+        return False
+        
+    c_opt = re.sub(r'\(.*?\)', '', str(opt_str)).strip().lower()
+    norm_opt = re.sub(r'[\s\-_/.]', '', c_opt)
+    if not norm_opt:
+        return False
+
+    SYNONYM_GROUPS = [
+        {'내비', '네비', 'navigation', '내비게이션', '네비게이션'},
+        {'선루프', '썬루프', '파노라마선루프', '파노라마썬루프', '듀얼선루프'},
+        {'드라이브와이즈', '스마트센스', 'ascc', 'scc', '스마트크루즈', '반자율', '주행보조', 'hda'},
+        {'hud', '헤드업디스플레이', '헤드업'},
+        {'어라운드뷰', '서라운드뷰', '모니터링', '모니터링팩', 'svm', '360도뷰'},
+        {'통풍시트', '통풍'},
+        {'메모리시트', '메모리', 'ims'},
+        {'krell', '크렐', 'jbl', 'bose', '보스', '렉시콘', '사운드', '프리미엄사운드'},
+        {'스타일', '스타일팩', '익스테리어'},
+        {'컴포트', '컴포트팩', '시트패키지'},
+        {'스마트커넥트', '디지털키'},
+        {'빌트인캠', '블랙박스'},
+        {'테크', '테크팩', '하이테크'},
+        {'패밀리', '패밀리팩'},
+    ]
+
+    for t in target_opts:
+        if not t:
+            continue
+        c_t = re.sub(r'\(.*?\)', '', str(t)).strip().lower()
+        norm_t = re.sub(r'[\s\-_/.]', '', c_t)
+        if not norm_t:
+            continue
+
+        # 1. 완전 일치
+        if norm_opt == norm_t:
+            return True
+
+        # 2. 부분 일치 (2글자 이상 키워드 상호 포함)
+        if len(norm_t) >= 2 and norm_t in norm_opt:
+            return True
+        if len(norm_opt) >= 2 and norm_opt in norm_t:
+            return True
+
+        # 3. 유의어/동의어 그룹 매칭
+        for group in SYNONYM_GROUPS:
+            opt_hit = any(g in norm_opt for g in group)
+            t_hit = any(g in norm_t for g in group)
+            if opt_hit and t_hit:
+                return True
+
+    return False
+
+def get_current_target_options():
+    """Streamlit 세션 상태로부터 현재 분석/조회 중인 기준 차량의 추가 옵션 목록을 안전하게 추출"""
+    try:
+        import streamlit as st
+    except ImportError:
+        return []
+        
+    target_opts = []
+    # 1. 헤이딜러 파싱된 타겟 옵션
+    for o in (st.session_state.get('hd_target_options', []) or []):
+        if o and str(o).strip() not in target_opts:
+            target_opts.append(str(o).strip())
+            
+    # 2. 차올마 출고정보 순정옵션
+    l_car_num = st.session_state.get('car_num_input', '') or st.session_state.get('selected_car_num', '')
+    cm = st.session_state.get(f"chaolma_data_{l_car_num}") if l_car_num else None
+    if not cm:
+        cm = st.session_state.get("last_chaolma_data")
+    if cm and isinstance(cm, dict) and cm.get("options"):
+        for o in cm.get("options", []):
+            name = o.get("name", "").strip() if isinstance(o, dict) else str(o).strip()
+            if name and name not in target_opts:
+                target_opts.append(name)
+                
+    # 3. 엔카 파싱된 타겟 옵션
+    for eo in (st.session_state.get('encar_target_options', []) or []):
+        if eo and str(eo).strip() not in target_opts:
+            target_opts.append(str(eo).strip())
+            
+    return target_opts
+
