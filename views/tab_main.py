@@ -67,7 +67,13 @@ def render_main_tab(
             last_c = st.session_state.get('last_chaolma_data', {})
             if last_c and last_c.get('success'):
                 bd_target_car = last_c.get('model_name', '')
-                bd_target_sub = last_c.get('trim_name', '') or last_c.get('grade_name', '')
+                c_sub_sess = st.session_state.get('f_sub', '')
+                if c_sub_sess and c_sub_sess != "전체":
+                    bd_target_sub = c_sub_sess
+                else:
+                    g = last_c.get('grade_name', '')
+                    t = last_c.get('trim_name', '')
+                    bd_target_sub = f"{g} {t}".strip() if (g and t and g not in t) else (t or g)
             if not bd_target_car and st.session_state.get('f_name') != "전체" and st.session_state.get('f_name'):
                 bd_target_car = st.session_state.f_name
                 bd_target_sub = st.session_state.f_sub if st.session_state.get('f_sub') != "전체" else ""
@@ -95,16 +101,34 @@ def render_main_tab(
             m = re.search(r'carid=(\d+)', str(auto_url))
             if m: target_carid = m.group(1)
 
-        # 2. 실시간 스캔 매물 또는 필터링 매물에서 추출
-        if not target_carid:
-            if 'scan_data' in st.session_state and not st.session_state.scan_data.empty:
-                if '_carid' in st.session_state.scan_data.columns and st.session_state.scan_data['_carid'].iloc[0]:
-                    target_carid = str(st.session_state.scan_data['_carid'].iloc[0])
-                elif '링크' in st.session_state.scan_data.columns:
-                    m = re.search(r'carid=(\d+)', str(st.session_state.scan_data['링크'].iloc[0]))
-                    if m: target_carid = m.group(1)
-            elif not filtered_df.empty and '링크' in filtered_df.columns:
+        # 2. 동급 필터링 매물(filtered_df) 1순위 추출 (GDe/LPe 등 세부등급 일치 매물)
+        if not target_carid and not filtered_df.empty:
+            if '_carid' in filtered_df.columns and filtered_df['_carid'].iloc[0]:
+                target_carid = str(filtered_df['_carid'].iloc[0])
+            elif '링크' in filtered_df.columns:
                 m = re.search(r'carid=(\d+)', str(filtered_df['링크'].iloc[0]))
+                if m: target_carid = m.group(1)
+
+        # 3. 실시간 스캔 매물(scan_data)에서 타겟 세부모델과 유종 일치 매물 추출
+        if not target_carid and 'scan_data' in st.session_state and not st.session_state.scan_data.empty:
+            s_df = st.session_state.scan_data
+            target_sub_clean = str(bd_target_sub).replace(' ', '').lower()
+            matched_carid = None
+            if target_sub_clean and '세부모델' in s_df.columns:
+                # GDe, LPe, 디젤 등 유종 및 트림 일치 행 탐색
+                for _, r in s_df.iterrows():
+                    sm_clean = str(r['세부모델']).replace(' ', '').lower()
+                    if ('gde' in target_sub_clean and 'gde' in sm_clean) or ('lpe' in target_sub_clean and 'lpe' in sm_clean):
+                        cid = r.get('_carid')
+                        if cid:
+                            matched_carid = str(cid)
+                            break
+            if matched_carid:
+                target_carid = matched_carid
+            elif '_carid' in s_df.columns and s_df['_carid'].iloc[0]:
+                target_carid = str(s_df['_carid'].iloc[0])
+            elif '링크' in s_df.columns:
+                m = re.search(r'carid=(\d+)', str(s_df['링크'].iloc[0]))
                 if m: target_carid = m.group(1)
 
         # 3. 최근 조회된 carid fallback

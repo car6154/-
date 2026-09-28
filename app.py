@@ -21,7 +21,7 @@ from sales_analysis import get_car_market_stats, generate_encar_market_url, Sale
 # ==========================================
 # 📦 Services & Views Modular Imports
 from services.cookie_server import get_current_hd_cookie, get_current_autoplus_cookie, start_cookie_server
-from services.heydealer_service import parse_heydealer_comps
+from services.heydealer_service import parse_heydealer_comps, parse_heydealer_options
 from services.data_processor import DataProcessor
 from services.encar_service import Scraper
 from services.settlement_service import get_auto_fee_rate, recalc_settlement_df
@@ -557,14 +557,11 @@ if run_heydealer:
                 car_spec_tmp = hd_detail_tmp.get('car_spec') or {}
                 spec_desc_tmp = car_spec_tmp.get('description', '')
                 import re
-                hd_target_options = []
                 hd_opt_prices = re.findall(r'\((\d+)\s*만(?:원)?\)', spec_desc_tmp)
                 hd_target_opt_price_sum = sum(int(p) for p in hd_opt_prices) if hd_opt_prices else 0
 
-                for line in spec_desc_tmp.split('\n'):
-                    m = re.search(r'^\d+\)\s*(.*?)(?:\s*\(|$)', line.strip())
-                    if m:
-                        hd_target_options.append(m.group(1).strip())
+                # 💡 순수 '신차 추가옵션'만 정확히 선별 파싱 (* 등급 기본옵션 섹션 제외)
+                hd_target_options = parse_heydealer_options(spec_desc_tmp)
                 
                 advanced_options_tmp = hd_detail_tmp.get('advanced_options') or []
                 encar_target_options = [
@@ -920,13 +917,16 @@ if btn_fetch_chaolma:
                 if raw_model:
                     st.session_state.f_name = raw_model
 
-                combined_sub = raw_trim
-                disp_match = re.search(r'(\d\.\d)', str(raw_grade))
-                if disp_match and raw_trim:
-                    disp_str = disp_match.group(1)
-                    if disp_str not in raw_trim:
-                        combined_sub = f"{disp_str} {raw_trim}"
-                elif not combined_sub and raw_grade:
+                # 💡 유종/배기량(raw_grade: 예 '2.0 GDe')과 세부트림(raw_trim: 예 'RE 시그니처')을 지능적으로 온전히 결합
+                if raw_grade and raw_trim:
+                    if raw_grade in raw_trim:
+                        combined_sub = raw_trim
+                    else:
+                        g_parts = [p for p in raw_grade.split() if p not in raw_trim]
+                        combined_sub = f"{' '.join(g_parts)} {raw_trim}".strip() if g_parts else f"{raw_grade} {raw_trim}".strip()
+                elif raw_trim:
+                    combined_sub = raw_trim
+                else:
                     combined_sub = raw_grade
 
                 st.session_state.f_sub = combined_sub
@@ -981,6 +981,8 @@ if btn_fetch_chaolma:
                                 st.session_state.debug_encar_scan["encar_model"] = new_scan_df['차량명'].iloc[0] if '차량명' in new_scan_df.columns else "-"
                                 if '차량명' in new_scan_df.columns:
                                     st.session_state.f_name = new_scan_df['차량명'].iloc[0]
+                                if '제조사' in new_scan_df.columns and new_scan_df['제조사'].iloc[0]:
+                                    st.session_state.f_brand = new_scan_df['제조사'].iloc[0]
                             else:
                                 st.session_state.scan_data = pd.DataFrame()
                                 st.session_state.debug_encar_scan["count"] = 0
@@ -1014,7 +1016,30 @@ if st.session_state.f_brand and st.session_state.f_brand not in f_brand_opts:
 if st.session_state.f_brand not in f_brand_opts: st.session_state.f_brand = "전체"
 st.session_state.f_brand = st.sidebar.selectbox("제조사/브랜드", f_brand_opts, index=f_brand_opts.index(st.session_state.f_brand))
 if not is_url_mode and not filtered_df.empty and st.session_state.f_brand != "전체" and '제조사' in filtered_df.columns: 
-    filtered_df = filtered_df[filtered_df['제조사'] == st.session_state.f_brand]
+    def is_brand_matched(target_b, row_b):
+        t = re.sub(r'[\(\)_\-\s]', '', str(target_b)).lower()
+        r = re.sub(r'[\(\)_\-\s]', '', str(row_b)).lower()
+        if t == r or t in r or r in t:
+            return True
+        brand_groups = [
+            {'르노코리아', '르노삼성', '르노', 'renault'},
+            {'kg모빌리티', '쌍용', 'kgm', 'ssangyong'},
+            {'쉐보레', 'gm대우', '대우', 'chevrolet'},
+            {'현대', '현대자동차', 'hyundai'},
+            {'기아', '기아자동차', 'kia'},
+            {'벤츠', 'mercedes', 'mercedesbenz'},
+            {'bmw'},
+            {'아우디', 'audi'},
+            {'폭스바겐', 'volkswagen'}
+        ]
+        for g in brand_groups:
+            if any(k in t for k in g) and any(k in r for k in g):
+                return True
+        return False
+
+    b_mask = filtered_df['제조사'].apply(lambda x: is_brand_matched(st.session_state.f_brand, x))
+    if b_mask.any():
+        filtered_df = filtered_df[b_mask]
 
 def get_smart_sort_key(name):
     name_str = str(name)
@@ -1123,25 +1148,85 @@ if not is_url_mode and not filtered_df.empty and st.session_state.f_sub != "전�
     sub_raw = str(st.session_state.f_sub).strip()
     sub_clean = sub_raw.lower().replace(" ", "")
     sub_parts = [p for p in sub_raw.split() if len(p) >= 2]
-    encar_sub_clean = filtered_df['세부모델'].astype(str).str.replace(" ", "").str.lower()
+    
+    # 💡 엔카 데이터는 '살룬' 등이 세부모델이 아닌 차량명(Model)에 위치하므로 [차량명 + 세부모델] 통합 풀텍스트로 검색
+    encar_full_clean = (filtered_df['차량명'].astype(str) + " " + filtered_df['세부모델'].astype(str)).str.replace(" ", "").str.lower()
     
     all_matched = pd.Series(True, index=filtered_df.index)
     for part in sub_parts:
         part_clean = part.replace(" ", "").lower()
-        all_matched = all_matched & encar_sub_clean.str.contains(part_clean, na=False, regex=False)
+        all_matched = all_matched & encar_full_clean.str.contains(part_clean, na=False, regex=False)
     
-    cand_df = filtered_df[all_matched] if all_matched.any() else filtered_df
+    cand_df = filtered_df[all_matched] if all_matched.any() else filtered_df.copy()
     
+    # 1. 🚗 [파생 바디/타입(살룬, 왜건, 하이리무진, 밴, 칸, 크로스오버 등) 범용 상호 배제]
+    BODY_TYPE_KEYWORDS = [
+        '살룬', '왜건', '해치백', '하이리무진', '리무진', '밴', '카고', 
+        '쿠페', '컨버터블', '카브리올레', '로드스터', '그란쿠페', 
+        '칸', '크로스오버', '아웃도어'
+    ]
+    target_all_text = (str(st.session_state.get('f_name', '')) + " " + sub_raw).lower()
+    cand_full_clean = (cand_df['차량명'].astype(str) + " " + cand_df['세부모델'].astype(str)).str.replace(" ", "").str.lower()
+    
+    for b_kw in BODY_TYPE_KEYWORDS:
+        if b_kw in target_all_text:
+            # 타겟에 파생타입이 있으면 해당 키워드가 있는 매물만 엄격 필터링
+            has_b = cand_full_clean.str.contains(b_kw, na=False)
+            if has_b.any():
+                cand_df = cand_df[has_b]
+                cand_full_clean = (cand_df['차량명'].astype(str) + " " + cand_df['세부모델'].astype(str)).str.replace(" ", "").str.lower()
+        else:
+            # 타겟에 파생타입이 없는데 엔카 매물 풀에 파생매물이 섞여있다면 파생매물 자동 탈락
+            has_b = cand_full_clean.str.contains(b_kw, na=False)
+            if has_b.any() and (~has_b).any():
+                cand_df = cand_df[~has_b]
+                cand_full_clean = (cand_df['차량명'].astype(str) + " " + cand_df['세부모델'].astype(str)).str.replace(" ", "").str.lower()
+                
+    # 2. ⛽ [유종(디젤 vs 가솔린 vs LPG) 엄격 상호 배제]
+    diesel_kws = ['vgt', 'crdi', '디젤', 'diesel', 'dci', 'cdi', 'tdi', 'e-vgt']
+    gas_kws = ['gdi', '가솔린', 'gasoline', 'gde', 't-gdi', 'mpi', 'cvvl']
+    lpg_kws = ['lpi', 'lpg', 'lpe']
+    
+    is_q_diesel = any(k in sub_clean for k in diesel_kws)
+    is_q_gas = any(k in sub_clean for k in gas_kws)
+    is_q_lpg = any(k in sub_clean for k in lpg_kws)
+    
+    cand_full_clean = (cand_df['차량명'].astype(str) + " " + cand_df['세부모델'].astype(str)).str.replace(" ", "").str.lower()
+    if is_q_diesel:
+        bad_fuel = cand_full_clean.str.contains('gdi|가솔린|gde|lpi|lpg|lpe', na=False)
+        if (~bad_fuel).any():
+            cand_df = cand_df[~bad_fuel]
+    elif is_q_gas:
+        bad_fuel = cand_full_clean.str.contains('vgt|crdi|디젤|diesel|dci|cdi|tdi|lpi|lpg|lpe', na=False)
+        if (~bad_fuel).any():
+            cand_df = cand_df[~bad_fuel]
+    elif is_q_lpg:
+        lpg_mask = cand_full_clean.str.contains('lpi|lpg|lpe', na=False)
+        if lpg_mask.any():
+            cand_df = cand_df[lpg_mask]
+            
+    # 3. 🔍 [배기량(Displacement: 1.7 vs 2.0 등) 엄격 일치]
+    disp_m = re.search(r'(\d\.\d)', sub_raw)
+    if disp_m:
+        disp_val = disp_m.group(1)
+        cand_full_clean = (cand_df['차량명'].astype(str) + " " + cand_df['세부모델'].astype(str)).str.replace(" ", "").str.lower()
+        disp_mask = cand_full_clean.str.contains(disp_val, na=False)
+        if disp_mask.any():
+            cand_df = cand_df[disp_mask]
+    
+    # 4. ⚙️ [구동방식 (2WD vs 4WD/AWD)]
     is_target_4wd = any(x in sub_clean for x in ['4wd', '4륜', 'awd'])
+    cand_sub_col = cand_df['세부모델'].astype(str)
     if not is_target_4wd:
-        non_4wd = ~cand_df['세부모델'].astype(str).str.contains(r'4wd|4륜|awd', case=False, regex=True, na=False)
+        non_4wd = ~cand_sub_col.str.contains(r'4wd|4륜|awd', case=False, regex=True, na=False)
         if non_4wd.any():
             cand_df = cand_df[non_4wd]
     else:
-        is_4wd = cand_df['세부모델'].astype(str).str.contains(r'4wd|4륜|awd', case=False, regex=True, na=False)
+        is_4wd = cand_sub_col.str.contains(r'4wd|4륜|awd', case=False, regex=True, na=False)
         if is_4wd.any():
             cand_df = cand_df[is_4wd]
             
+    # 5. ✨ [스페셜/플러스/에디션/마스터 등 서브 키워드]
     for sub_kw in ['스페셜', '플러스', '에디션', '마스터']:
         if sub_kw not in sub_clean:
             has_kw = cand_df['세부모델'].astype(str).str.contains(sub_kw, na=False)
