@@ -4,19 +4,23 @@ import json
 import time
 import random
 import math
+import importlib
 from datetime import datetime
 import numpy as np
 import pandas as pd
 import requests
 import urllib.parse
 import streamlit as st
+import streamlit.components.v1 as components
 import plotly.graph_objects as go
 from dotenv import load_dotenv
 
 from heydealer_ai import extract_car_data_for_ai, get_gemini_estimate
 from scraper import HeydealerScraper
+import sales_analysis
+importlib.reload(sales_analysis)
 from sales_analysis import get_car_market_stats, generate_encar_market_url, SalesDataAnalyzer
-# Reload sales analyzer on code update
+SalesDataAnalyzer._instance = None
 
 # ==========================================
 # 📦 Services & Views Modular Imports
@@ -28,7 +32,6 @@ from services.settlement_service import get_auto_fee_rate, recalc_settlement_df
 from services.chaolma_service import ChaolmaService
 from views.components.chaolma_card import render_chaolma_card_ui
 
-import importlib
 import views.tab_main
 importlib.reload(views.tab_main)
 from views.tab_main import render_main_tab
@@ -312,6 +315,30 @@ input[placeholder*="헤이딜러 URL"]:focus {
     color: #93c5fd !important;
     border-color: #60a5fa !important;
 }
+/* ═══ Green Bid Card & Click Bridge ═══ */
+#green_bid_card {
+    cursor: pointer !important;
+    user-select: none !important;
+}
+#green_bid_card * {
+    cursor: pointer !important;
+}
+#green_bid_card:hover {
+    background-color: rgba(74, 222, 128, 0.18) !important;
+    border-color: rgba(74, 222, 128, 0.6) !important;
+    box-shadow: 0 0 12px rgba(74, 222, 128, 0.2) !important;
+}
+#green_bid_card:active {
+    transform: scale(0.97) !important;
+    background-color: rgba(74, 222, 128, 0.28) !important;
+    border-color: #22c55e !important;
+}
+iframe[height="0"] {
+    display: none !important;
+    height: 0 !important;
+    width: 0 !important;
+    border: none !important;
+}
 </style>
 ''', unsafe_allow_html=True)
 
@@ -425,6 +452,8 @@ if auto_url:
         s_text.empty()
         st.rerun()
     else:
+        p_bar.empty()
+        s_text.empty()
         st.error(f"동급 매물 자동 스캔 실패: {msg}")
 
 st.sidebar.markdown("""
@@ -446,18 +475,21 @@ if st.session_state.get('_last_loaded_hd_cookie') != live_cookie:
     st.session_state.cookie_version += 1
     st.session_state[f"hd_cookie_box_{st.session_state.cookie_version}"] = live_cookie
 
+live_ap_cookie = get_current_autoplus_cookie()
+if 'ap_cookie_version' not in st.session_state:
+    st.session_state.ap_cookie_version = 0
+
+if st.session_state.get('_last_loaded_ap_cookie') != live_ap_cookie:
+    st.session_state._last_loaded_ap_cookie = live_ap_cookie
+    st.session_state.ap_cookie_version += 1
+    st.session_state[f"ap_cookie_box_{st.session_state.ap_cookie_version}"] = live_ap_cookie
+
 # 🔼 사이드바 상단은 즉시 핵심 업무(헤이딜러 견적 & 차량조회)로 시작
 heydealer_cookie_input = live_cookie
-st.sidebar.markdown("""
-<div style='display: flex; align-items: center; gap: 6px; margin-bottom: 6px;'>
-    <span style='font-size: 1.05rem; font-weight: 700; color: #38bdf8;'>🤖 헤이딜러 AI 매입 견적</span>
-</div>
-<div style='font-size: 0.8rem; color: #94a3b8; margin-bottom: 4px;'>🔗 <b>헤이딜러 차량 URL 또는 ID</b> (붙여넣기)</div>
-""", unsafe_allow_html=True)
 
 heydealer_url_input = st.sidebar.text_input(
     "헤이딜러 차량 URL/ID", 
-    placeholder="👉 여기에 헤이딜러 URL 또는 ID를 붙여넣으세요!", 
+    placeholder="헤이딜러 URL 또는 ID 입력", 
     key=f"hd_url_box_{st.session_state.form_reset_key}",
     label_visibility="collapsed"
 )
@@ -517,11 +549,16 @@ else:
 col_ai_btn, col_kcar_btn = st.sidebar.columns([2.3, 1])
 is_ai_running = st.session_state.get('ai_status') == "진행중"
 with col_ai_btn:
-    run_heydealer = st.button("🤖 AI 견적 산출", key="heydealer_btn", disabled=is_ai_running, use_container_width=True)
+    run_heydealer = st.button("AI 견적 산출", key="heydealer_btn", disabled=is_ai_running, use_container_width=True)
 with col_kcar_btn:
     st.link_button("KCAR", kcar_url, use_container_width=True)
 
 if run_heydealer:
+    # 💡 실행 직전 .env의 최신 쿠키를 강제 리로드하여 세션에 실시간 반영
+    latest_live_cookie = get_current_hd_cookie()
+    if latest_live_cookie and len(latest_live_cookie.strip()) > 20:
+        heydealer_cookie_input = latest_live_cookie
+
     if not heydealer_url_input.strip():
         st.sidebar.warning("헤이딜러 차량 URL이나 ID를 입력해주세요.")
     elif not heydealer_cookie_input.strip():
@@ -584,8 +621,14 @@ if run_heydealer:
                 market_prices_json = result.get('market_prices') or ""
                 encar_url = result.get('encar_url') or ""
                 
-                # 헤이딜러 응답에 포함된 엔카 시세 URL이 있으면 자동 스캔 실행
+                # 헤이딜러 응답에 포함된 엔카 시세 URL이 있으면 자동 스캔 실행 및 마스터 매핑 자체 학습
                 if encar_url:
+                    try:
+                        from services.master_mapping import MasterMappingService
+                        MasterMappingService.learn_from_heydealer(hd_detail_tmp, encar_url)
+                    except Exception as e_map:
+                        print(f"[MasterMapping] 자동 학습 실패: {e_map}")
+
                     st.session_state.auto_encar_url = encar_url
                     try:
                         with st.sidebar.spinner("엔카 실시간 시세를 자동 스캔 중입니다..."):
@@ -910,7 +953,14 @@ if btn_fetch_chaolma:
                 raw_model = res.get("model_name", "")
                 raw_grade = res.get("grade_name", "")
                 raw_trim = res.get("trim_name", "")
-                raw_year = str(res.get("model_year", "")).replace("년", "").strip()
+                
+                # 💡 [연식/형식 엄격 구분]
+                # reg_year: 최초등록일 기준 연식 (예: 2022년 11월 등록 -> 2022 / '22년식')
+                # model_year: 모델 형식연도 (예: 2023년형 -> '23년형')
+                reg_year = str(res.get("reg_year", "")).replace("년", "").strip()
+                model_year = str(res.get("model_year", "")).replace("년", "").strip()
+                target_year = reg_year if reg_year else model_year
+                year_display = res.get("year_display", f"{target_year[-2:]}년식" if target_year else "")
 
                 if raw_maker:
                     st.session_state.f_brand = raw_maker
@@ -931,11 +981,12 @@ if btn_fetch_chaolma:
 
                 st.session_state.f_sub = combined_sub
 
-                if raw_year:
-                    st.session_state.f_year = raw_year[-2:]
+                # 필터 연식(f_year)에는 시장 표준인 '최초등록연도(reg_year)' 주입 (22년식)
+                if target_year:
+                    st.session_state.f_year = target_year[-2:]
                     cur_yr_key = f"search_year_{st.session_state.form_reset_key}"
                     try:
-                        st.session_state[cur_yr_key] = int(raw_year[-2:])
+                        st.session_state[cur_yr_key] = int(target_year[-2:])
                     except:
                         pass
 
@@ -951,7 +1002,7 @@ if btn_fetch_chaolma:
                 target_encar_url = generate_encar_market_url(
                     raw_model, 
                     combined_sub or raw_trim or raw_grade, 
-                    raw_year, 
+                    target_year, 
                     cur_mil_val
                 )
                 scan_cnt = 0
@@ -961,7 +1012,7 @@ if btn_fetch_chaolma:
                     "target_url": target_encar_url,
                     "searched_model": raw_model,
                     "searched_sub": combined_sub,
-                    "searched_year": raw_year,
+                    "searched_year": target_year,
                     "status": "진행안됨",
                     "count": 0,
                     "error": ""
@@ -996,7 +1047,8 @@ if btn_fetch_chaolma:
                     st.session_state.scan_data = pd.DataFrame()
 
                 msg_suffix = f" & 엔카 {scan_cnt}대 연동 완료!" if scan_cnt > 0 else ""
-                st.sidebar.success(f"✅ [{l_car_num}] {raw_model} {raw_trim} ({raw_year}년){msg_suffix}")
+                disp_yr = f" ({year_display})" if year_display else ""
+                st.sidebar.success(f"✅ [{l_car_num}] {raw_model} {raw_trim}{disp_yr}{msg_suffix}")
                 st.rerun()
             else:
                 st.sidebar.error(f"❌ {res.get('message', '조회 실패')}")
@@ -1299,8 +1351,44 @@ if not cached_chaolma:
 
 hd_opts = st.session_state.get('hd_target_options', [])
 encar_opts = st.session_state.get('encar_target_options', [])
-
 hd_spec_desc = st.session_state.get('hd_car_spec_desc', '')
+
+# 🔍 현재 선택된 비교 매물의 옵션 목록 실시간 추출 (지연 없는 사이드바 하이라이트 동기화)
+cur_comp_opts = []
+if 'filtered_df' in locals() and not filtered_df.empty:
+    table_state = st.session_state.get('encar_car_table', {})
+    sel_rows = table_state.get('selection', {}).get('rows', []) if isinstance(table_state, dict) else []
+    
+    target_row = None
+    if sel_rows and sel_rows[0] < len(filtered_df):
+        target_row = filtered_df.iloc[sel_rows[0]]
+    elif st.session_state.get('selected_car_id'):
+        target_id = str(st.session_state.get('selected_car_id')).strip()
+        matched = filtered_df[filtered_df['_carid'].astype(str).str.strip() == target_id] if '_carid' in filtered_df.columns else pd.DataFrame()
+        if not matched.empty:
+            target_row = matched.iloc[0]
+            
+    if target_row is None and not filtered_df.empty:
+        target_row = filtered_df.iloc[0]
+        
+    if target_row is not None:
+        carid = target_row.get('_carid')
+        cache_key = f"_full_detail_cache_{carid}"
+        full_info = st.session_state.get(cache_key, {})
+        live_opt_list = full_info.get("options", [])
+        if live_opt_list:
+            cur_comp_opts = live_opt_list
+        else:
+            raw_opts = str(target_row.get('추가옵션', '')).split(" / ")
+            cur_comp_opts = [o.strip() for o in raw_opts if o.strip() and o.strip() not in ("없음", "-", "없음(구버전점검)", "⚠️조회실패", "코드매칭실패")]
+
+if not cur_comp_opts:
+    cur_comp_opts = st.session_state.get('selected_comp_car_opts', [])
+
+from sales_analysis import is_target_option_matched
+c_name_for_match = st.session_state.get('hd_model_part_name', '') or st.session_state.get('f_name', '')
+c_year_for_match = str(st.session_state.get('f_year', '') or '')
+has_comp_selected = bool(cur_comp_opts)
 
 if cached_chaolma and cached_chaolma.get("success"):
     raw_new_p = cached_chaolma.get("new_car_price", 0)
@@ -1314,18 +1402,33 @@ if cached_chaolma and cached_chaolma.get("success"):
     deprec_p = raw_deprec_p // 10000 if raw_deprec_p >= 10000 else raw_deprec_p
     opts_list = cached_chaolma.get("options", [])
     
-    badge_html = ""
+    badges = []
+    target_win_count = 0
     for o in opts_list:
         o_name = o.get("name", "")
         o_pr = o.get("price", 0)
         pr_str = f" ({o_pr // 10000}만)" if o_pr >= 10000 else (f" ({o_pr}만)" if o_pr > 0 else "")
-        badge_html += f'<span style="display:inline-block; background:rgba(56,189,248,0.15); border:1px solid rgba(56,189,248,0.3); color:#7dd3fc; border-radius:4px; padding:2px 6px; font-size:0.72rem; margin:2px 2px;">{o_name}{pr_str}</span>'
+        if has_comp_selected:
+            is_matched_in_comp = any(is_target_option_matched(c_opt, [o_name], c_name_for_match, c_year_for_match) for c_opt in cur_comp_opts)
+            if not is_matched_in_comp:
+                target_win_count += 1
+                badges.append(f'<span style="display:inline-block; background:rgba(34, 197, 94, 0.22); border:1.5px solid #22c55e; color:#4ade80; border-radius:5px; padding:3px 7px; font-size:0.75rem; font-weight:700; margin:2px 2px; box-shadow:0 0 6px rgba(34, 197, 94, 0.25);">+ {o_name}{pr_str}</span>')
+            else:
+                badges.append(f'<span style="display:inline-block; background:rgba(56, 189, 248, 0.12); border:1px solid rgba(56, 189, 248, 0.25); color:#94a3b8; border-radius:4px; padding:2px 6px; font-size:0.72rem; margin:2px 2px;">✓ {o_name}{pr_str}</span>')
+        else:
+            badges.append(f'<span style="display:inline-block; background:rgba(56,189,248,0.15); border:1px solid rgba(56,189,248,0.3); color:#7dd3fc; border-radius:4px; padding:2px 6px; font-size:0.72rem; margin:2px 2px;">{o_name}{pr_str}</span>')
     
+    badge_html = "".join(badges)
+    header_extra = f"<span style=\"font-size:0.68rem; color:#4ade80; font-weight:700; background:rgba(34,197,94,0.15); border:1px solid #22c55e; padding:1px 6px; border-radius:4px;\">🟢 우세 {target_win_count}개</span>" if (has_comp_selected and target_win_count > 0) else ""
+
     st.sidebar.markdown(f"""
     <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(56, 189, 248, 0.35); border-radius: 8px; padding: 10px 12px; margin-top: 4px; margin-bottom: 8px;">
         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 4px; margin-bottom: 6px;">
             <span style="font-size: 0.82rem; font-weight: 700; color: #38bdf8;">🏷️ 출고정보 & 순정옵션</span>
-            <span style="font-size: 0.74rem; font-weight: 600; color: #f8fafc;">출고가 {new_p:,}만원</span>
+            <div style="display:flex; align-items:center; gap:6px;">
+                {header_extra}
+                <span style="font-size: 0.74rem; font-weight: 600; color: #f8fafc;">출고가 {new_p:,}만원</span>
+            </div>
         </div>
         <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: #94a3b8; margin-bottom: 6px;">
             <span>기본: {base_p:,}만</span>
@@ -1337,11 +1440,32 @@ if cached_chaolma and cached_chaolma.get("success"):
     </div>
     """, unsafe_allow_html=True)
 elif hd_opts:
-    badge_html = "".join([f'<span style="display:inline-block; background:rgba(56,189,248,0.15); border:1px solid rgba(56,189,248,0.3); color:#7dd3fc; border-radius:4px; padding:2px 6px; font-size:0.72rem; margin:2px 2px;">{opt}</span>' for opt in hd_opts])
+    badges = []
+    target_win_count = 0
+
+    for opt in hd_opts:
+        if has_comp_selected:
+            # 비교 차량의 옵션 목록과 대조
+            is_matched_in_comp = any(is_target_option_matched(c_opt, [opt], c_name_for_match, c_year_for_match) for c_opt in cur_comp_opts)
+            if not is_matched_in_comp:
+                # 🟢 비교차에 없는 옵션: 내 차 우세! (에메랄드 그린 강조)
+                target_win_count += 1
+                badges.append(f'<span style="display:inline-block; background:rgba(34, 197, 94, 0.22); border:1.5px solid #22c55e; color:#4ade80; border-radius:5px; padding:3px 7px; font-size:0.75rem; font-weight:700; margin:2px 2px; box-shadow:0 0 6px rgba(34, 197, 94, 0.25);">+ {opt}</span>')
+            else:
+                # ⚪ 비교차에도 있는 공통 옵션
+                badges.append(f'<span style="display:inline-block; background:rgba(56, 189, 248, 0.12); border:1px solid rgba(56, 189, 248, 0.25); color:#94a3b8; border-radius:4px; padding:2px 6px; font-size:0.72rem; margin:2px 2px;">✓ {opt}</span>')
+        else:
+            # 비교차가 아직 선택되지 않은 기본 상태
+            badges.append(f'<span style="display:inline-block; background:rgba(56, 189, 248, 0.15); border:1px solid rgba(56, 189, 248, 0.3); color:#7dd3fc; border-radius:4px; padding:2px 6px; font-size:0.72rem; margin:2px 2px;">{opt}</span>')
+
+    badge_html = "".join(badges)
+    header_extra = f"<span style=\"font-size:0.68rem; color:#4ade80; font-weight:700; background:rgba(34,197,94,0.15); border:1px solid #22c55e; padding:1px 6px; border-radius:4px;\">🟢 우세 {target_win_count}개</span>" if (has_comp_selected and target_win_count > 0) else ""
+
     st.sidebar.markdown(f"""
     <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(56, 189, 248, 0.35); border-radius: 8px; padding: 10px 12px; margin-top: 4px; margin-bottom: 8px;">
-        <div style="font-size: 0.82rem; font-weight: 700; color: #38bdf8; margin-bottom: 4px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 4px;">
-            🏷️ 신차 추가 옵션 ({len(hd_opts)}개)
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 4px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 4px;">
+            <span style="font-size: 0.82rem; font-weight: 700; color: #38bdf8;">🏷️ 신차 추가 옵션 ({len(hd_opts)}개)</span>
+            {header_extra}
         </div>
         <div style="margin-top: 4px; line-height: 1.4;">
             {badge_html}
@@ -1361,25 +1485,35 @@ elif hd_spec_desc:
     </div>
     """, unsafe_allow_html=True)
 elif encar_opts:
-    badge_html = "".join([f'<span style="display:inline-block; background:rgba(56,189,248,0.15); border:1px solid rgba(56,189,248,0.3); color:#7dd3fc; border-radius:4px; padding:2px 6px; font-size:0.72rem; margin:2px 2px;">{opt}</span>' for opt in encar_opts])
+    badges = []
+    target_win_count = 0
+
+    for opt in encar_opts:
+        if has_comp_selected:
+            is_matched_in_comp = any(is_target_option_matched(c_opt, [opt], c_name_for_match, c_year_for_match) for c_opt in cur_comp_opts)
+            if not is_matched_in_comp:
+                target_win_count += 1
+                badges.append(f'<span style="display:inline-block; background:rgba(34, 197, 94, 0.22); border:1.5px solid #22c55e; color:#4ade80; border-radius:5px; padding:3px 7px; font-size:0.75rem; font-weight:700; margin:2px 2px; box-shadow:0 0 6px rgba(34, 197, 94, 0.25);">+ {opt}</span>')
+            else:
+                badges.append(f'<span style="display:inline-block; background:rgba(56, 189, 248, 0.12); border:1px solid rgba(56, 189, 248, 0.25); color:#94a3b8; border-radius:4px; padding:2px 6px; font-size:0.72rem; margin:2px 2px;">✓ {opt}</span>')
+        else:
+            badges.append(f'<span style="display:inline-block; background:rgba(56, 189, 248, 0.15); border:1px solid rgba(56, 189, 248, 0.3); color:#7dd3fc; border-radius:4px; padding:2px 6px; font-size:0.72rem; margin:2px 2px;">{opt}</span>')
+
+    badge_html = "".join(badges)
+    header_extra = f"<span style=\"font-size:0.68rem; color:#4ade80; font-weight:700; background:rgba(34,197,94,0.15); border:1px solid #22c55e; padding:1px 6px; border-radius:4px;\">🟢 우세 {target_win_count}개</span>" if (has_comp_selected and target_win_count > 0) else ""
+
     st.sidebar.markdown(f"""
     <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(56, 189, 248, 0.35); border-radius: 8px; padding: 10px 12px; margin-top: 4px; margin-bottom: 8px;">
-        <div style="font-size: 0.82rem; font-weight: 700; color: #38bdf8; margin-bottom: 4px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 4px;">
-            🏷️ 주요 장착 편의장치 ({len(encar_opts)}개)
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 4px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 4px;">
+            <span style="font-size: 0.82rem; font-weight: 700; color: #38bdf8;">🏷️ 주요 장착 편의장치 ({len(encar_opts)}개)</span>
+            {header_extra}
         </div>
         <div style="margin-top: 4px; line-height: 1.4;">
             {badge_html}
         </div>
     </div>
     """, unsafe_allow_html=True)
-else:
-    st.sidebar.markdown("""
-    <div style="background: rgba(255, 255, 255, 0.02); border: 1px dashed rgba(255, 255, 255, 0.15); border-radius: 6px; padding: 8px 10px; margin-top: 3px; margin-bottom: 6px; font-size: 0.76rem; color: #94a3b8; text-align: center;">
-        🏷️ <b>옵션(출고정보)</b>: 상단 차량번호 <b>[조회]</b> 시 자동 표출
-    </div>
-    """, unsafe_allow_html=True)
 
-# 8. 이후 동일 (판매가 ➔ 외판수리 ➔ 매입경로 ➔ 목표마진 ➔ 권장입찰가 ➔ 메모 ➔ 저장)
 l_sell_price = st.sidebar.number_input("판매가 (예상, 만원)", min_value=0, step=10, key=f"sell_{reset_idx}")
 l_ext_repair = st.sidebar.number_input("외판 수리 갯수", min_value=0, step=1, format="%d", key=f"ext_{reset_idx}")
 
@@ -1435,33 +1569,141 @@ elif l_route == "개인":
     purchase_fee = l_manual_fee
 
 final_target_raw = first_target - purchase_fee
-final_target = int(math.floor(final_target_raw))
+final_target = max(0, int(math.floor(final_target_raw)))
+
+# 💡 [양방향 연동] 권장 입찰가 직접 수정 및 실시간 마진 연동
+last_calc_key = f"_last_calc_target_{reset_idx}"
+user_bid_key = f"user_final_bid_{reset_idx}"
+
+# 판매가나 마진 등이 변경되어 기본 계산값이 바뀌면 사용자 수정값도 새 계산값으로 동기화
+if st.session_state.get(last_calc_key) != final_target:
+    st.session_state[last_calc_key] = final_target
+    st.session_state[user_bid_key] = final_target
 
 if l_sell_price > 0:
-    c_label, c_btn = st.sidebar.columns([2.4, 1.2])
-    with c_label:
-        st.markdown("<div style='font-size: 0.95em; font-weight: 800; color: #4ade80; padding-top: 6px; white-space: nowrap;'>✅ 권장 입찰가</div>", unsafe_allow_html=True)
+    # 🎨 최종 입찰가 입력창 및 복사 버튼 줄바꿈 방지 & 컴팩트 CSS
+    st.sidebar.markdown("""
+    <style>
+    /* 입력창 내부 숫자 크고 선명하게 */
+    div[data-testid="stSidebar"] input[aria-label="최종 입찰가"] {
+        font-size: 1.3rem !important;
+        font-weight: 800 !important;
+        color: #4ade80 !important;
+    }
+    /* 복사 버튼 글자 줄바꿈 절대 방지 및 깔끔한 높이 맞춤 */
+    div[data-testid="stSidebar"] div[data-testid="stHorizontalBlock"] button {
+        white-space: nowrap !important;
+        padding: 4px 6px !important;
+        font-size: 0.85rem !important;
+        color: #cbd5e1 !important;
+        border-color: rgba(255, 255, 255, 0.2) !important;
+        background: rgba(255, 255, 255, 0.05) !important;
+    }
+    div[data-testid="stSidebar"] div[data-testid="stHorizontalBlock"] button p {
+        white-space: nowrap !important;
+        word-break: keep-all !important;
+    }
+    /* 녹색 매입가 창 클릭 인터랙션 */
+    #green_bid_card:hover {
+        border-color: #4ade80 !important;
+        background-color: rgba(74, 222, 128, 0.18) !important;
+        box-shadow: 0 0 10px rgba(74, 222, 128, 0.3) !important;
+    }
+    #green_bid_card:active {
+        transform: scale(0.975);
+    }
+    [data-testid="stSidebar"] iframe[height="0"] {
+        display: none !important;
+        position: absolute !important;
+        visibility: hidden !important;
+        height: 0 !important;
+        width: 0 !important;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+    # 🎯 가로 1행: [입찰가 수정 입력창] + [📋 복사 버튼] (줄바꿈 없도록 너비 2.3 : 1.1 분할)
+    c_input, c_btn = st.sidebar.columns([2.3, 1.1])
+    cur_bid_default = st.session_state.get(user_bid_key, final_target)
+    
+    with c_input:
+        user_bid = st.number_input(
+            "최종 입찰가",
+            min_value=0,
+            step=1,
+            value=cur_bid_default,
+            key=f"bid_input_{reset_idx}_{final_target}",
+            label_visibility="collapsed",
+            help="권장가에서 직접 금액 수정 시 실시간 반영됩니다."
+        )
+        st.session_state[user_bid_key] = user_bid
+
+    # 💡 수정된 입찰가(user_bid) 기준 실시간 수수료 & 실제 마진 재계산
+    actual_purchase_fee = purchase_fee
+    if l_route == "셀프(기본)":
+        if user_bid <= 100: actual_purchase_fee = 7.5
+        elif user_bid <= 500: actual_purchase_fee = 18.5
+        elif user_bid <= 1000: actual_purchase_fee = 19.0 if is_light_car else 24.5
+        elif user_bid <= 3000: actual_purchase_fee = 25.0
+        else: actual_purchase_fee = 36.0
+    elif l_route == "제로":
+        if user_bid <= 100: actual_purchase_fee = 14.0
+        elif user_bid <= 500: actual_purchase_fee = 30.0
+        elif user_bid <= 1000: actual_purchase_fee = 30.5 if is_light_car else 36.5
+        elif user_bid <= 1500: actual_purchase_fee = 36.5
+        elif user_bid <= 3000: actual_purchase_fee = 39.5
+        elif user_bid <= 4000: actual_purchase_fee = 47.5
+        else: actual_purchase_fee = 50.5
+    elif l_route == "개인":
+        actual_purchase_fee = l_manual_fee
+
+    actual_margin = l_sell_price - selling_fee - misc_cost - ext_cost - actual_purchase_fee - user_bid
+    diff_bid = final_target - user_bid
+
     with c_btn:
-        if st.button("📋 복사", key=f"btn_copy_target_{final_target}", help=f"클립보드에 {final_target} 복사"):
+        if st.button("📋 복사", key=f"btn_copy_target_{user_bid}", help=f"클립보드에 {user_bid} 복사", use_container_width=True):
             try:
                 import subprocess
-                subprocess.run('clip', input=str(final_target), text=True, check=True)
-                st.toast(f"📋 권장 입찰가 {final_target:,}만원 ({final_target}) 복사 완료!")
+                subprocess.run('clip', input=str(user_bid), text=True, check=True)
+                st.toast(f"📋 입찰가 {user_bid:,}만원 ({user_bid}) 복사 완료!")
             except Exception as e:
                 st.toast(f"⚠️ 복사 오류: {e}")
 
+    # 🏷️ 라벨 (기본은 '권장 매입가', 수정한 경우만 '최종 매입가')
+    if user_bid != final_target:
+        label_html = f"<span style='font-size: 0.8rem; font-weight: 700; color: #cbd5e1;'>최종 매입가 <small style='color: #64748b; font-weight: normal;'>(권장 {final_target:,}만)</small></span>"
+    else:
+        label_html = "<span style='font-size: 0.85rem; font-weight: 700; color: #94a3b8;'>권장 매입가</span>"
+
+    # 💰 실시간 마진 간결한 한줄 표기 (아이콘 및 괄호 문구 제거로 줄바꿈 원천 차단)
+    margin_html = f"""<div style="display: flex; justify-content: space-between; align-items: center; margin-top: 2px; padding-top: 2px; border-top: 1px dashed rgba(74, 222, 128, 0.2); white-space: nowrap; line-height: 1.2;">
+        <span style="font-size: 0.76rem; color: #94a3b8; font-weight: 600;">예상마진</span>
+        <span style="font-size: 0.88rem; font-weight: 800; color: #38bdf8;">{actual_margin:,.0f}만원</span>
+    </div>"""
+
+    # 가로 2행: 권장매입가 및 실시간 마진 노출 (녹색 창 클릭 시 장부 즉시 저장)
     html_content = f"""
-    <div style="background-color: rgba(74, 222, 128, 0.12); border: 1px solid rgba(74, 222, 128, 0.35); padding: 8px 12px; border-radius: 8px; color: #4ade80; margin-top: 2px; margin-bottom: 8px;">
-        <div style="font-size: 1.8em; font-weight: 900; text-align: right; color: #4ade80; letter-spacing: -0.02em;">
-            {final_target:,} <span style="font-size: 0.55em; font-weight: 700;">만원</span>
+    <div id="green_bid_card" 
+         title="클릭 시 내 장부에 즉시 저장됩니다"
+         style="background-color: rgba(74, 222, 128, 0.1); border: 1px solid rgba(74, 222, 128, 0.35); padding: 7px 12px; border-radius: 8px; margin-top: -4px; margin-bottom: 6px; cursor: pointer; transition: all 0.15s ease;">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; white-space: nowrap;">
+            <div>{label_html}</div>
+            <div style="font-size: 1.55rem; font-weight: 900; text-align: right; color: #4ade80; letter-spacing: -0.02em; white-space: nowrap;">
+                {user_bid:,} <span style="font-size: 0.55em; font-weight: 700;">만원</span>
+            </div>
         </div>
-        <div style="font-size: 0.78em; text-align: right; color: #86efac; font-weight: 500;">
-            (수수료: {purchase_fee:g}만 / 수리비: {ext_cost:g}만)
+        {margin_html}
+        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.7rem; color: #64748b; margin-top: 3px; white-space: nowrap;">
+            <div>수수료: {actual_purchase_fee:g}만 · 수리: {ext_cost:g}만 · 잡비: {misc_cost}만</div>
+            <div style="color: #4ade80; font-weight: 700; font-size: 0.68rem; letter-spacing: -0.02em;">💾 누르면 저장</div>
         </div>
     </div>
     """
     st.sidebar.markdown(html_content, unsafe_allow_html=True)
 else:
+    user_bid = 0
+    actual_purchase_fee = 0
+    actual_margin = 0
     st.sidebar.caption("💡 판매가 입력 시 권장 매입가가 계산됩니다.")
 
 l_memo = st.sidebar.text_area("특이사항 / 메모", height=65, key=f"memo_{reset_idx}")
@@ -1482,16 +1724,25 @@ if st.sidebar.button("💾 내 장부 및 구글시트에 저장", use_container
             '세부모델': sub_val,
             '연식': year_val,
             '주행거리': f"{l_mil:,} km" if l_mil > 0 else "", 
-            '매입가': final_target if l_sell_price > 0 else "", 
+            '매입가': user_bid if l_sell_price > 0 else "", 
             '판매가': l_sell_price if l_sell_price > 0 else "", 
             '외판수리': l_ext_repair if 'l_ext_repair' in locals() else 0,
             '외판수리비': ext_cost if 'ext_cost' in locals() else 0,
-            '헤딜수수료': purchase_fee if 'purchase_fee' in locals() else 0,
-            '특이사항': f"[{st.session_state.purchase_route}] " + l_memo,
+            '헤딜수수료': actual_purchase_fee if 'actual_purchase_fee' in locals() else 0,
+            '특이사항': f"[{st.session_state.purchase_route} / 마진: {actual_margin:,.0f}만] " + l_memo,
             '상태': '장부저장'
         }
         st.session_state.my_ledger_data = pd.concat([pd.DataFrame([new_record]), st.session_state.my_ledger_data], ignore_index=True)
         st.session_state.my_ledger_data.to_csv(LEDGER_FILE, index=False, encoding='utf-8-sig')
+
+        # 마스터 매핑 서비스에 차량번호별 확정 엔카 URL 영구 저장 (0오차 동급 시세 복원용)
+        cur_target_url = st.session_state.get('auto_encar_url') or st.session_state.get('auto_scan_url') or ""
+        if cur_target_url and l_car_num:
+            try:
+                from services.master_mapping import MasterMappingService
+                MasterMappingService.save_car_link(l_car_num, cur_target_url)
+            except Exception as e_link:
+                print(f"[MasterMapping] 차량 링크 저장 실패: {e_link}")
 
         try:
             response = requests.post(WEBHOOK_URL, json=new_record, timeout=5)
@@ -1505,6 +1756,65 @@ if st.sidebar.button("💾 내 장부 및 구글시트에 저장", use_container
 
         st.rerun()
 
+# 🔗 권장매입가 초록창 클릭 -> 장부 저장 버튼 자동 격발 브릿지
+components.html("""
+<script>
+(function() {
+    try {
+        const parentDoc = window.parent.document;
+        if (parentDoc.__greenBidCardListenerSet) return;
+        parentDoc.__greenBidCardListenerSet = true;
+
+        parentDoc.addEventListener('click', function(e) {
+            const card = e.target.closest('#green_bid_card');
+            if (!card) return;
+
+            // 시각적 피드백
+            card.style.transform = 'scale(0.95)';
+            card.style.borderColor = '#22c55e';
+            card.style.backgroundColor = 'rgba(74, 222, 128, 0.3)';
+            setTimeout(() => {
+                if (card) {
+                    card.style.transform = '';
+                    card.style.borderColor = '';
+                    card.style.backgroundColor = '';
+                }
+            }, 200);
+
+            // 사이드바의 저장 버튼 찾기
+            const sidebar = parentDoc.querySelector('[data-testid="stSidebar"]');
+            if (!sidebar) return;
+            const buttons = Array.from(sidebar.querySelectorAll('button'));
+            const saveBtn = buttons.find(b => {
+                const txt = b.innerText || b.textContent || '';
+                return txt.includes('장부 및 구글시트에 저장') || txt.includes('내 장부');
+            });
+
+            if (saveBtn) {
+                // React 합성 이벤트 격발을 위한 마우스 시퀀스
+                const events = ['mousedown', 'mouseup', 'click'];
+                events.forEach(eventType => {
+                    saveBtn.dispatchEvent(new MouseEvent(eventType, {
+                        bubbles: true,
+                        cancelable: true,
+                        view: window.parent,
+                        buttons: 1
+                    }));
+                });
+                saveBtn.focus();
+                saveBtn.click();
+            } else {
+                console.warn('[green_bid_card] 저장 버튼을 찾지 못했습니다.');
+            }
+        }, true);
+    } catch (err) {
+        console.error('[green_bid_card bridge error]', err);
+    }
+})();
+</script>
+""", height=0)
+
+
 
 
 
@@ -1515,7 +1825,7 @@ if st.sidebar.button("💾 내 장부 및 구글시트에 저장", use_container
 live_ap_cookie = get_current_autoplus_cookie()
 cookie_status = st.session_state.get('hd_cookie_status', 'valid' if (live_cookie and len(live_cookie.strip()) > 20) else 'empty')
 hd_ok = bool(live_cookie and len(live_cookie.strip()) > 20 and cookie_status != 'expired')
-ap_ok = bool(live_ap_cookie and len(live_ap_cookie.strip()) > 10)
+ap_ok = ChaolmaService.is_authenticated()
 
 hd_badge_text = "🟢 헤이딜러" if hd_ok else "🔴 헤이딜러"
 ap_badge_text = "🟢 견적조회" if ap_ok else "🔴 견적조회"
@@ -1526,7 +1836,7 @@ with h_col1:
     with st.expander(f"🔑 세션 쿠키 ({hd_badge_text} | {ap_badge_text})", expanded=False):
         c_sk1, c_sk2 = st.columns([3, 1.2])
         with c_sk1:
-            st.markdown(f"<div style='font-size:0.75rem; margin-top:2px;'><b>헤이딜러</b>: {'<span style=\"color:#4ade80;\">정상</span>' if hd_ok else '<span style=\"color:#f87171;\">미등록/만료</span>'}&nbsp;&nbsp;|&nbsp;&nbsp;<b>견적조회</b>: {'<span style=\"color:#4ade80;\">정상</span>' if ap_ok else '<span style=\"color:#f87171;\">미등록</span>'}</div>", unsafe_allow_html=True)
+            st.markdown(f"<div style='font-size:0.75rem; margin-top:2px;'><b>헤이딜러</b>: {'<span style=\"color:#4ade80;\">정상</span>' if hd_ok else '<span style=\"color:#f87171;\">미등록/만료</span>'}&nbsp;&nbsp;|&nbsp;&nbsp;<b>견적조회</b>: {'<span style=\"color:#4ade80;\">정상</span>' if ap_ok else '<span style=\"color:#f87171;\">미등록/만료</span>'}</div>", unsafe_allow_html=True)
         with c_sk2:
             if st.button("🔄 동기화", key="top_sync_cookie_btn", use_container_width=True):
                 live_cookie = get_current_hd_cookie()
@@ -1535,6 +1845,10 @@ with h_col1:
                 st.session_state.cookie_version += 1
                 st.session_state[f"hd_cookie_box_{st.session_state.cookie_version}"] = live_cookie
                 st.session_state.hd_cookie_status = 'valid' if (live_cookie and len(live_cookie.strip()) > 20) else 'empty'
+
+                st.session_state._last_loaded_ap_cookie = live_ap_cookie
+                st.session_state.ap_cookie_version += 1
+                st.session_state[f"ap_cookie_box_{st.session_state.ap_cookie_version}"] = live_ap_cookie
                 st.rerun()
 
         typed_cookie = st.text_input(
@@ -1547,15 +1861,20 @@ with h_col1:
             heydealer_cookie_input = typed_cookie
 
         typed_ap_cookie = st.text_input(
-            "견적조회 쿠키",
+            "견적조회(차얼마2) 쿠키",
             value=live_ap_cookie,
-            key="ap_cookie_manual_box",
+            key=f"ap_cookie_box_{st.session_state.ap_cookie_version}",
             type="password"
         )
         if typed_ap_cookie and typed_ap_cookie != live_ap_cookie:
             from services.cookie_server import save_autoplus_cookie
             save_autoplus_cookie(typed_ap_cookie)
-            os.environ['AUTOPLUS_COOKIE'] = typed_ap_cookie
+            st.session_state._last_loaded_ap_cookie = typed_ap_cookie
+            try:
+                from services.chaolma_service import ChaolmaService
+                ChaolmaService.clear_cache()
+            except Exception:
+                pass
             st.rerun()
 
 with h_col2:
@@ -1651,6 +1970,9 @@ with h_col3:
         "📈 자사 판매 실적", 
         "📦 자사 보유 재고"
     ]
+    if st.session_state.get('nav_target') in nav_options:
+        st.session_state['nav_selection'] = st.session_state.pop('nav_target')
+
     if 'nav_selection' not in st.session_state or st.session_state['nav_selection'] not in nav_options:
         st.session_state['nav_selection'] = "📊 시세 분석 및 스캔"
 

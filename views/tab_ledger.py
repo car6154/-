@@ -125,7 +125,24 @@ def render_ledger_tab(LEDGER_FILE='my_car_ledger.csv', SETTLEMENT_FILE='my_inven
                         c_sub = str(t_row.get('세부모델', '')).strip()
                         full_c_text = f"{c_brand} {c_name} {c_sub}".strip()
                         
-                        target_url = SalesDataAnalyzer.generate_encar_url(c_name, c_sub)
+                        # 연식, 키로수 파싱
+                        parsed_y = 0
+                        yr_str = str(t_row.get('연식', ''))
+                        m_yr = re.search(r'(\d{2,4})', yr_str)
+                        if m_yr:
+                            parsed_y = int(m_yr.group(1))
+                            if parsed_y < 100: parsed_y += 2000
+
+                        parsed_m = 0
+                        mil_str = str(t_row.get('주행거리', ''))
+                        m_mil = re.sub(r'[^\d]', '', mil_str)
+                        if m_mil:
+                            parsed_m = int(m_mil)
+
+                        from services.master_mapping import MasterMappingService
+                        target_url = MasterMappingService.generate_smart_encar_url(
+                            c_name, c_sub, parsed_y, parsed_m, car_number=sel_buy_car
+                        )
                         if target_url:
                             # 1. 폼 리셋 키 버전업 ➔ 기존 사이드바의 헤이딜러 URL 및 연식/키로수 위젯 캐시 완전 리셋!
                             st.session_state.form_reset_key = st.session_state.get('form_reset_key', 0) + 1
@@ -134,43 +151,67 @@ def render_ledger_tab(LEDGER_FILE='my_car_ledger.csv', SETTLEMENT_FILE='my_inven
                             # 2. 이전 헤이딜러 세션 찌꺼기 완벽 클리어
                             stale_keys = [
                                 'hd_target_url', 'hd_url_input', 'hd_detail_data', 'hd_target_options', 
-                                'encar_target_options', 'hd_model_part_name', 'hd_grade_part_name', 
-                                'hd_full_name', 'auto_encar_url', 'hd_comp_df', 'hd_car_spec_desc', 'hd_target_opt_price'
+                                'encar_target_options', 'auto_encar_url', 'hd_comp_df', 'hd_car_spec_desc', 'hd_target_opt_price'
                             ]
                             for stale_k in stale_keys:
                                 if stale_k in st.session_state:
                                     st.session_state[stale_k] = [] if 'options' in stale_k else ""
 
                             # 연식, 키로수 주입
-                            yr_str = str(t_row.get('연식', ''))
-                            m_yr = re.search(r'(\d{2,4})', yr_str)
-                            if m_yr:
-                                parsed_y = int(m_yr.group(1))
-                                if parsed_y < 100: parsed_y += 2000
+                            if parsed_y > 0:
                                 two_digit_yr = parsed_y % 100
                                 st.session_state[f"search_year_{new_k}"] = two_digit_yr
                                 st.session_state[f"search_year_num_{new_k}"] = two_digit_yr
                                 st.session_state['f_year'] = f"{two_digit_yr:02d}"
                                 st.session_state['hd_target_year'] = parsed_y
                             
-                            mil_str = str(t_row.get('주행거리', ''))
-                            m_mil = re.sub(r'[^\d]', '', mil_str)
-                            if m_mil:
-                                parsed_m = int(m_mil)
+                            if parsed_m > 0:
                                 st.session_state[f"mil_{new_k}"] = parsed_m
                                 st.session_state['f_mil'] = parsed_m
                                 st.session_state['user_target_mil'] = parsed_m
                                 st.session_state['hd_target_mil'] = parsed_m
+                                st.session_state['hd_target_mileage'] = parsed_m
                             
                             st.session_state[f"car_num_{new_k}"] = sel_buy_car
                             st.session_state[f"hd_url_box_{new_k}"] = ""
-                            st.session_state['target_car_name'] = full_c_text
+                            st.session_state['hd_target_plate'] = sel_buy_car
+                            st.session_state['hd_model_part_name'] = c_name
+                            st.session_state['hd_grade_part_name'] = c_sub
+                            st.session_state['hd_full_name'] = full_c_text
+                            st.session_state['hd_target_accident'] = "완전무사고"
+
+                            # 판매가, 외판수리비, 매입경로, 메모 복원
+                            raw_sell = str(t_row.get('판매가', 0))
+                            m_sell = re.sub(r'[^\d]', '', raw_sell)
+                            if m_sell and int(m_sell) > 0:
+                                st.session_state[f"sell_{new_k}"] = int(m_sell)
+
+                            raw_ext = str(t_row.get('외판수리', 0))
+                            m_ext = re.sub(r'[^\d]', '', raw_ext)
+                            if m_ext:
+                                st.session_state[f"ext_{new_k}"] = int(m_ext)
+
+                            memo_raw = str(t_row.get('특이사항', ''))
+                            memo_clean = memo_raw
+                            for r_opt in ["셀프(기본)", "제로", "개인"]:
+                                if r_opt in memo_raw:
+                                    st.session_state["purchase_route"] = r_opt
+                                    st.session_state["_route_selector"] = r_opt
+                                    memo_clean = re.sub(r'^\[.*?\]\s*', '', memo_raw)
+                                    break
+                            if memo_clean and memo_clean.strip():
+                                st.session_state[f"memo_{new_k}"] = memo_clean.strip()
+
+                            if c_brand:
+                                st.session_state['f_brand'] = c_brand
+                            if c_name:
+                                st.session_state['f_name'] = c_name
+                            st.session_state['target_car_name'] = c_name
                             st.session_state['target_sub_model'] = c_sub
                             st.session_state['f_sub'] = c_sub if c_sub else "전체"
                             st.session_state['auto_scan_url'] = target_url
                             st.session_state['nav_target'] = "📊 시세 분석 및 스캔"
                             st.session_state['nav_selection'] = "📊 시세 분석 및 스캔"
-                            st.session_state['nav_selection_box'] = "📊 시세 분석 및 스캔"
                             st.rerun()
                         else:
                             st.error("동급 매물 검색 조건을 생성하지 못했습니다.")
@@ -578,7 +619,7 @@ def _trigger_market_scan_from_inventory(selected_row):
 
     # 2순위: 엔카 URL이 없거나 실패 시 차종명 기반 생성
     if not target_search_url and target_car_name:
-        target_search_url = SalesDataAnalyzer.generate_encar_url(target_car_name, target_sub_model)
+        target_search_url = SalesDataAnalyzer.generate_encar_url(target_car_name, target_sub_model, target_year, target_mil)
 
     if target_search_url:
         # 1. 폼 리셋 키 버전업
@@ -588,13 +629,12 @@ def _trigger_market_scan_from_inventory(selected_row):
         # 2. 세션 찌꺼기 클리어
         stale_keys = [
             'hd_target_url', 'hd_url_input', 'hd_detail_data', 'hd_target_options', 
-            'encar_target_options', 'hd_model_part_name', 'hd_grade_part_name', 
-            'hd_full_name', 'auto_encar_url', 'hd_comp_df', 'hd_car_spec_desc', 'hd_target_opt_price',
+            'encar_target_options', 'auto_encar_url', 'hd_comp_df', 'hd_car_spec_desc', 'hd_target_opt_price',
             'hd_target_mil', 'hd_target_year', 'f_mil'
         ]
         for stale_k in stale_keys:
             if stale_k in st.session_state:
-                st.session_state[stale_k] = [] if 'options' in stale_k else ("" if 'part' in stale_k or 'desc' in stale_k or 'url' in stale_k or 'name' in stale_k else 0)
+                st.session_state[stale_k] = [] if 'options' in stale_k else ("" if 'desc' in stale_k or 'url' in stale_k else 0)
 
         # 3. 사이드바 및 스캐너 위젯 주입
         two_digit_yr = (target_year % 100) if target_year > 0 else 0
@@ -608,27 +648,42 @@ def _trigger_market_scan_from_inventory(selected_row):
             st.session_state['f_mil'] = target_mil
             st.session_state['user_target_mil'] = target_mil
             st.session_state['hd_target_mil'] = target_mil
+            st.session_state['hd_target_mileage'] = target_mil
         else:
             st.session_state['user_target_mil'] = 0
 
         st.session_state[f"car_num_{new_k}"] = c_no
         st.session_state[f"hd_url_box_{new_k}"] = ""
+        st.session_state['hd_target_plate'] = c_no
 
         if target_sub_model:
             st.session_state['target_sub_model'] = target_sub_model
             st.session_state['f_sub'] = target_sub_model
+            st.session_state['hd_grade_part_name'] = target_sub_model
         else:
             st.session_state['target_sub_model'] = ""
             st.session_state['f_sub'] = "전체"
 
         st.session_state['hd_target_accident'] = target_acc if target_acc else "완전무사고"
         if target_car_name:
+            st.session_state['f_name'] = target_car_name
             st.session_state['target_car_name'] = target_car_name
+        st.session_state['hd_full_name'] = f"{target_car_name} {target_sub_model}".strip()
+
+        # 판매가, 외판수리비 복원
+        raw_sell = str(selected_row.get('판매가', 0))
+        m_sell = re.sub(r'[^\d]', '', raw_sell)
+        if m_sell and int(m_sell) > 0:
+            st.session_state[f"sell_{new_k}"] = int(m_sell)
+
+        raw_ext = str(selected_row.get('외판수리', 0))
+        m_ext = re.sub(r'[^\d]', '', raw_ext)
+        if m_ext:
+            st.session_state[f"ext_{new_k}"] = int(m_ext)
 
         st.session_state['auto_scan_url'] = target_search_url
         st.session_state['nav_target'] = "📊 시세 분석 및 스캔"
         st.session_state['nav_selection'] = "📊 시세 분석 및 스캔"
-        st.session_state['nav_selection_box'] = "📊 시세 분석 및 스캔"
         st.rerun()
     else:
         st.error("동급 매물 검색 조건을 생성하지 못했습니다.")

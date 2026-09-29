@@ -147,9 +147,9 @@ class SalesDataAnalyzer:
         sell_final = np.where(sell_p > 0, sell_p, sell_branch)
         df_work['판매가_만원'] = pd.Series(sell_final).apply(lambda x: round(x / 10000, 1) if x >= 10000 else x)
 
-        # 차량명 정규화 (검색 최적화)
-        df_work['차량명_clean'] = df_work['차량명'].astype(str).str.replace(" ", "").str.lower()
-        df_work['세부모델_clean'] = df_work['세부모델'].astype(str).str.replace(" ", "").str.lower()
+        # 차량명 정규화 (검색 최적화: 괄호, 특수기호, 공백 제거 후 소문자화)
+        df_work['차량명_clean'] = df_work['차량명'].astype(str).apply(lambda x: re.sub(r'[\(\)\[\]_\-\s]', '', str(x)).lower())
+        df_work['세부모델_clean'] = df_work['세부모델'].astype(str).apply(lambda x: re.sub(r'[\(\)\[\]_\-\s]', '', str(x)).lower())
 
         # 🚨 경매 / 도매 출고 차량 판별
         # 1. 담당자명이 공란(NaN)인 경우 (소매 영업사원 미배정 경매/도매 출고)
@@ -240,8 +240,8 @@ class SalesDataAnalyzer:
         "싼타페mx5": ["디올뉴싼타페", "더올뉴싼타페", "싼타페mx5", "싼타페5세대"],
         "더뉴싼타페": ["더뉴싼타페", "신형싼타페", "싼타페tm"],
         "신형싼타페": ["신형싼타페", "더뉴싼타페", "싼타페tm"],
-        "싼타페tm": ["신형싼타페", "더뉴싼타페", "싼타페tm"],
-        "싼타페더프라임": ["싼타페더프라임", "싼타페dm"],
+        "싼타페더프라임": ["싼타페더프라임", "더프라임"],
+        "싼타페dm": ["싼타페dm", "싼타페(dm)"],
         "디올뉴투싼": ["더올뉴투싼", "디올뉴투싼", "투싼nx4", "디올뉴투싼(nx4)", "더올뉴투싼(nx4)", "더뉴투싼(nx4)", "투싼4세대"],
         "더올뉴투싼": ["더올뉴투싼", "디올뉴투싼", "투싼nx4", "디올뉴투싼(nx4)", "더올뉴투싼(nx4)", "더뉴투싼(nx4)", "투싼4세대"],
         "투싼nx4": ["더올뉴투싼", "디올뉴투싼", "투싼nx4", "디올뉴투싼(nx4)", "더올뉴투싼(nx4)", "더뉴투싼(nx4)", "투싼4세대"],
@@ -328,7 +328,7 @@ class SalesDataAnalyzer:
         if search_df.empty or not car_name:
             return pd.DataFrame()
 
-        c_clean = str(car_name).replace(" ", "").lower()
+        c_clean = re.sub(r'[\(\)\[\]_\-\s]', '', str(car_name)).lower()
         # 브랜드명 제거 ('현대', '기아', '제네시스', '쉐보레', '르노코리아', '쌍용', 'kg모빌리티' 등)
         for b in ['현대', '기아', '제네시스', '쉐보레', '르노코리아', '르노삼성', '쌍용', 'kg모빌리티', '벤츠', 'bmw', '아우디', '폭스바겐', '볼보']:
             if c_clean.startswith(b) and len(c_clean) > len(b):
@@ -480,23 +480,31 @@ class SalesDataAnalyzer:
                 else:
                     is_tucson_ix = True
 
-        # 7. 싼타페 (3세대 DM/더프라임 vs 4세대 TM 신형/더뉴 vs 5세대 MX5 디올뉴)
+        # 7. 싼타페 (3세대 전기 DM vs 3세대 후기 더프라임 vs 4세대 TM 신형/더뉴 vs 5세대 MX5 디올뉴)
         is_santafe = any(k in full_query_text for k in ['싼타페', '산타페'])
         is_santafe_mx5 = False
         is_santafe_tm = False
+        is_santafe_theprime = False
         is_santafe_dm = False
         if is_santafe:
             if any(k in full_query_text for k in ['mx5', '5세대', '디올뉴', '더올뉴']):
                 is_santafe_mx5 = True
-            elif any(k in full_query_text for k in ['tm', '신형싼타페', '더뉴싼타페', '4세대']):
+            elif any(k in full_query_text for k in ['더뉴싼타페', '신형싼타페', 'tm', '4세대']):
                 is_santafe_tm = True
-            elif any(k in full_query_text for k in ['dm', '더프라임', '3세대']):
-                is_santafe_dm = True
+            elif any(k in full_query_text for k in ['더프라임', '프라임']):
+                is_santafe_theprime = True
+            elif any(k in full_query_text for k in ['dm', '3세대']):
+                if target_year and target_year >= 2016:
+                    is_santafe_theprime = True
+                else:
+                    is_santafe_dm = True
             elif target_year:
                 if target_year >= 2024:
                     is_santafe_mx5 = True
                 elif target_year >= 2018:
                     is_santafe_tm = True
+                elif target_year >= 2015:
+                    is_santafe_theprime = True
                 else:
                     is_santafe_dm = True
 
@@ -545,8 +553,10 @@ class SalesDataAnalyzer:
             candidates.extend(["디올뉴싼타페", "더올뉴싼타페", "싼타페mx5", "싼타페5세대"])
         elif is_santafe_tm:
             candidates.extend(["더뉴싼타페", "신형싼타페", "싼타페tm"])
+        elif is_santafe_theprime:
+            candidates.extend(["싼타페더프라임", "더프라임"])
         elif is_santafe_dm:
-            candidates.extend(["싼타페더프라임", "싼타페dm"])
+            candidates.extend(["싼타페dm", "싼타페(dm)"])
         elif is_kona_sx2:
             candidates.extend(["디올뉴코나", "더올뉴코나", "코나sx2", "코나2세대"])
         elif is_kona_os:
@@ -571,6 +581,12 @@ class SalesDataAnalyzer:
                 if is_tucson_tl and k in ('디올뉴투싼', '더올뉴투싼', '투싼nx4'):
                     continue
                 if is_santafe_mx5 and k in ('신형싼타페', '더뉴싼타페', '싼타페tm', '싼타페더프라임', '싼타페dm'):
+                    continue
+                if is_santafe_tm and k in ('디올뉴싼타페', '더올뉴싼타페', '싼타페mx5', '싼타페더프라임', '싼타페dm'):
+                    continue
+                if is_santafe_theprime and ('dm' in k or 'tm' in k or 'mx5' in k):
+                    continue
+                if is_santafe_dm and ('더프라임' in k or '프라임' in k or 'tm' in k or 'mx5' in k):
                     continue
                 if is_sportage_gen5 and k in ('신형스포티지', '스포티지더볼드', '스포티지ql'):
                     continue
@@ -657,8 +673,11 @@ class SalesDataAnalyzer:
         elif is_santafe_tm and not sub_df.empty:
             filtered_sf_tm = sub_df[sub_df['차량명_clean'].str.contains('더뉴싼타페|신형싼타페|tm', na=False) & ~sub_df['차량명_clean'].str.contains('디올뉴|더올뉴|mx5', na=False)]
             if not filtered_sf_tm.empty: sub_df = filtered_sf_tm
+        elif is_santafe_theprime and not sub_df.empty:
+            filtered_sf_prime = sub_df[sub_df['차량명_clean'].str.contains('더프라임|프라임', na=False) & ~sub_df['차량명_clean'].str.contains('더뉴싼타페|신형싼타페|디올뉴|더올뉴', na=False)]
+            if not filtered_sf_prime.empty: sub_df = filtered_sf_prime
         elif is_santafe_dm and not sub_df.empty:
-            filtered_sf_dm = sub_df[sub_df['차량명_clean'].str.contains('더프라임|dm', na=False) & ~sub_df['차량명_clean'].str.contains('더뉴싼타페|신형싼타페|디올뉴|더올뉴', na=False)]
+            filtered_sf_dm = sub_df[sub_df['차량명_clean'].str.contains('dm', na=False) & ~sub_df['차량명_clean'].str.contains('더프라임|프라임|더뉴싼타페|신형싼타페|디올뉴|더올뉴', na=False)]
             if not filtered_sf_dm.empty: sub_df = filtered_sf_dm
 
         if is_kona_sx2 and not sub_df.empty:
@@ -711,8 +730,10 @@ class SalesDataAnalyzer:
                 core_sub = core_sub[core_sub['차량명_clean'].str.contains('디올뉴|더올뉴|mx5', na=False)]
             elif is_santafe_tm:
                 core_sub = core_sub[core_sub['차량명_clean'].str.contains('더뉴싼타페|신형싼타페|tm', na=False) & ~core_sub['차량명_clean'].str.contains('디올뉴|더올뉴|mx5', na=False)]
+            elif is_santafe_theprime:
+                core_sub = core_sub[core_sub['차량명_clean'].str.contains('더프라임|프라임', na=False)]
             elif is_santafe_dm:
-                core_sub = core_sub[core_sub['차량명_clean'].str.contains('더프라임|dm', na=False)]
+                core_sub = core_sub[core_sub['차량명_clean'].str.contains('dm', na=False) & ~core_sub['차량명_clean'].str.contains('더프라임|프라임', na=False)]
             elif is_kona_sx2:
                 core_sub = core_sub[core_sub['차량명_clean'].str.contains('디올뉴|더올뉴|sx2', na=False)]
             elif is_kona_os:
@@ -814,12 +835,19 @@ class SalesDataAnalyzer:
                     return empty_df
             else:
                 # 🚫 가솔린 쿼리 시 디젤(R2.0, R2.2, e-VGT, CRDi 등) 및 친환경/LPG(LPe 포함) 100% 완전 배제
+                # 단, 쿼리에 유종이 명시적으로 없고 제거 결과가 비면 유종 필터 미적용 (전 차량이 디젤인 경우 보호)
                 not_d_mask = ~fuel_filtered.apply(lambda r: check_is_diesel(r['차량명']) or check_is_diesel(r['세부모델']), axis=1)
                 not_other_mask = ~fuel_filtered['차량명_clean'].str.contains('하이브리드|전기|일렉트릭|ev', na=False) & ~fuel_filtered['세부모델_clean'].str.contains('hev|lpi|lpg|lpe|ev|전기|일렉트릭', na=False)
                 gas_mask = not_d_mask & not_other_mask
                 if gas_mask.any():
                     fuel_filtered = fuel_filtered[gas_mask]
                     fuel_label = "가솔린"
+                elif is_query_gasoline:
+                    # 명시적으로 가솔린을 지정했는데 없으면 빈 결과 유지
+                    fuel_filtered = fuel_filtered[gas_mask]
+                    fuel_label = "가솔린"
+                # else: 쿼리에 유종 명시 없고 가솔린 필터 결과도 비면 → 유종 필터 미적용 (전체 유지)
+
 
             # 1-1. 과급기(Turbo/T-GDI/2.0T 등) 엄격 분리
             query_clean_all = (str(sub_model) + " " + str(car_name)).lower().replace(' ', '')
@@ -891,26 +919,31 @@ class SalesDataAnalyzer:
             query_clean = str(sub_model).replace(' ', '').lower()
             extra_modifiers = ['컬렉션', '스페셜', '에디션', '플러스', '마스터', '블랙', 'vip', '그래비티', '초이스', '샤이니', '패키지', '인텔리전트']
 
+            # 유종이 쿼리에 명시적으로 지정되었는지 판별
+            has_explicit_fuel = bool(is_query_diesel or is_query_gasoline or is_query_lpi or is_query_hybrid or is_query_ev)
+
             def score_trim_row(row_val):
                 rv = str(row_val).lower()
                 rv_clean = rv.replace(' ', '')
-                # 유종 일치 재확인 (가솔린 vs 디젤 절대 혼입 방지)
-                row_is_diesel = check_is_diesel(rv)
-                if is_query_diesel != row_is_diesel:
-                    return -999
+                # 유종 일치 재확인 (명시적 유종 쿼리일 때만 적용, 유종 미지정 시 건너뜀)
+                if has_explicit_fuel:
+                    row_is_diesel = check_is_diesel(rv)
+                    if is_query_diesel != row_is_diesel:
+                        return -999
 
-                # 유종 일치 재확인 (LPG/LPe vs 가솔린/GDe 절대 혼입 방지)
-                row_is_lpg = any(k in rv_clean for k in ['lpi', 'lpg', 'lpe'])
-                query_is_lpg = is_query_lpi or any(k in query_clean for k in ['lpi', 'lpg', 'lpe'])
-                if query_is_lpg != row_is_lpg:
-                    return -999
+                # 유종 일치 재확인 (LPG/LPe vs 가솔린/GDe 절대 혼입 방지 - 명시적 유종 쿼리 시에만)
+                if has_explicit_fuel:
+                    row_is_lpg = any(k in rv_clean for k in ['lpi', 'lpg', 'lpe'])
+                    query_is_lpg = is_query_lpi or any(k in query_clean for k in ['lpi', 'lpg', 'lpe'])
+                    if query_is_lpg != row_is_lpg:
+                        return -999
 
-                row_is_gde = 'gde' in rv_clean or '가솔린' in rv_clean
-                query_is_gde = is_query_gasoline or any(k in query_clean for k in ['gde', '가솔린'])
-                if query_is_gde and row_is_lpg:
-                    return -999
-                if query_is_lpg and row_is_gde:
-                    return -999
+                    row_is_gde = 'gde' in rv_clean or '가솔린' in rv_clean
+                    query_is_gde = is_query_gasoline or any(k in query_clean for k in ['gde', '가솔린'])
+                    if query_is_gde and row_is_lpg:
+                        return -999
+                    if query_is_lpg and row_is_gde:
+                        return -999
 
                 # 배기량 일치 재확인 (1.7 vs 2.0 등 다른 배기량 절대 탈락)
                 if disp_val:
@@ -921,10 +954,11 @@ class SalesDataAnalyzer:
                         if not (disp_val == '2.0' and 'r2.0' in rv_clean) and not (disp_val == '2.2' and 'r2.2' in rv_clean):
                             return -999
 
-                # 터보 일치 여부 재검증 (터보 불일치 시 절대 탈락)
-                row_has_turbo = check_is_turbo(rv)
-                if is_query_turbo != row_has_turbo:
-                    return -999
+                # 터보 일치 여부 재검증 (쿼리에 터보가 명시된 경우 터보 아닌 차량 배제)
+                if is_query_turbo:
+                    row_has_turbo = check_is_turbo(rv)
+                    if not row_has_turbo:
+                        return -999
 
                 # 핵심 트림 키워드가 쿼리에 명시된 경우, 반드시 해당 트림이 포함되어야 함
                 for qct in query_core_trims:
@@ -932,9 +966,9 @@ class SalesDataAnalyzer:
                         return -999
 
                 matched_count = sum(1 for t in meaningful_tokens if t in rv)
-                if matched_count == 0:
+                if meaningful_tokens and matched_count == 0:
                     return -999
-                score = matched_count * 10
+                score = matched_count * 10 if meaningful_tokens else 1  # sub_model 없으면 기본 1점
                 if rv_clean == query_clean:
                     score += 50
                 for em in extra_modifiers:
@@ -1272,7 +1306,9 @@ class SalesDataAnalyzer:
         ("현대", ["스타리아"], "스타리아"),
         ("현대", ["스타렉스"], "스타렉스"),
         ("현대", ["포터", "포터2", "포터ii"], "포터"),
-        ("현대", ["아이오닉5", "아이오닉6", "아이오닉"], "아이오닉"),
+        ("현대", ["아이오닉5", "아이오닉 5"], "아이오닉5"),
+        ("현대", ["아이오닉6", "아이오닉 6"], "아이오닉6"),
+        ("현대", ["아이오닉"], "아이오닉"),
         ("현대", ["맥스크루즈"], "맥스크루즈"),
         ("현대", ["벨로스터"], "벨로스터"),
         ("현대", ["i30"], "i30"),
@@ -1556,10 +1592,15 @@ class SalesDataAnalyzer:
         (r'싼타페\s*더\s*프라임|싼타페더프라임', '싼타페', '싼타페 더 프라임'),
         (r'싼타페\s*dm|싼타페\(dm\)', '싼타페', '싼타페 DM'),
 
-        (r'디\s*올\s*뉴\s*투싼|투싼\s*nx4|nx4', '투싼', '디 올 뉴 투싼'),
-        (r'더\s*뉴\s*투싼|더뉴투싼', '투싼', '더 뉴 투싼'),
+        (r'더\s*뉴\s*투싼\s*하이브리드', '투싼', '더 뉴 투싼 하이브리드 (NX4)'),
+        (r'투싼\s*하이브리드', '투싼', '투싼 하이브리드 (NX4)'),
+        (r'더\s*뉴\s*투싼\s*\(?nx4\)?', '투싼', '더 뉴 투싼 (NX4)'),
+        (r'디\s*올\s*뉴\s*투싼|투싼\s*nx4|nx4', '투싼', '투싼 (NX4)'),
+        (r'더\s*뉴\s*투싼|더뉴투싼', '투싼', '올 뉴 투싼'),
         (r'올\s*뉴\s*투싼|올뉴투싼|신형\s*투싼|신형투싼', '투싼', '올 뉴 투싼'),
-        (r'투싼\s*ix|투싼ix|뉴투싼ix', '투싼', '투싼 ix'),
+        (r'뉴\s*투싼\s*ix|뉴투싼ix', '투싼', '뉴 투싼 ix'),
+        (r'투싼\s*ix|투싼ix', '투싼', '투싼 ix'),
+        (r'\b투싼\b', '투싼', '투싼'),
 
         (r'더\s*뉴\s*팰리세이드|더뉴팰리세이드', '팰리세이드', '더 뉴 팰리세이드'),
         (r'\b팰리세이드\b', '팰리세이드', '팰리세이드'),
@@ -1587,6 +1628,12 @@ class SalesDataAnalyzer:
         (r'그랜드\s*스타렉스|그랜드스타렉스', '스타렉스', '그랜드 스타렉스'),
         (r'스타리아', '스타리아', '스타리아'),
         (r'포터\s*ii|포터2|포터ii', '포터', '포터 II'),
+
+        # --- 아이오닉5 / 아이오닉6 ---
+        (r'더\s*뉴\s*아이오닉\s*5|더뉴아이오닉5', '아이오닉5', '더 뉴 아이오닉5'),
+        (r'아이오닉\s*5|아이오닉5', '아이오닉5', '아이오닉5'),
+        (r'더\s*뉴\s*아이오닉\s*6|더뉴아이오닉6', '아이오닉6', '더 뉴 아이오닉6'),
+        (r'아이오닉\s*6|아이오닉6', '아이오닉6', '아이오닉6'),
 
         # --- i40 (살룬 세단 vs 왜건 엄격 구분) ---
         (r'더\s*뉴\s*i40\s*살룬|더뉴i40살룬', 'i40', '더 뉴 i40 살룬'),
@@ -1729,6 +1776,20 @@ class SalesDataAnalyzer:
                             best_brand = brand
                             best_model = model_group
 
+        # 1-1. [범용 동적 추론] 사전 테이블에 없는 신차/희귀차종 자동 매칭
+        # 차종마다 수동으로 코드를 고치지 않아도 차량명을 기반으로 엔카 ModelGroup 자동 구성
+        if not best_model and car_name:
+            clean_cname = str(car_name).strip().replace(" ", "").replace("-", "")
+            if clean_cname:
+                best_model = clean_cname
+                for b in ["현대", "기아", "제네시스", "쉐보레(GM대우)", "르노코리아", "KG모빌리티(쌍용)", "벤츠", "BMW", "아우디", "폭스바겐", "볼보", "포르쉐", "테슬라", "포드", "미니", "혼다", "토요타", "렉서스", "지프", "랜드로버"]:
+                    clean_b = b.replace("(GM대우)", "").replace("(쌍용)", "").replace(" ", "").lower()
+                    if clean_b in s:
+                        best_brand = b
+                        break
+                if not best_brand:
+                    best_brand = "현대"
+
         # 2. 세부 세대/모델 정밀 감지 (키워드 매칭 + 연식 힌트 보정)
         matched_sub_model = None
         if best_model:
@@ -1812,6 +1873,18 @@ class SalesDataAnalyzer:
                     matched_sub_model = "더 뉴 스포티지 R"
                 elif parsed_year in [2010, 2011, 2012, 2013] or "스포티지r" in clean_lower:
                     matched_sub_model = "스포티지 R"
+            elif best_model == "투싼":
+                is_hybrid = "하이브리드" in clean_lower or "hybrid" in clean_lower
+                if parsed_year >= 2024 or "더뉴" in clean_lower:
+                    matched_sub_model = "더 뉴 투싼 하이브리드 (NX4)" if is_hybrid else "더 뉴 투싼 (NX4)"
+                elif parsed_year in [2020, 2021, 2022, 2023] or "nx4" in clean_lower:
+                    matched_sub_model = "투싼 하이브리드 (NX4)" if is_hybrid else "투싼 (NX4)"
+                elif parsed_year in [2015, 2016, 2017, 2018, 2019, 2020] or "올뉴" in clean_lower:
+                    matched_sub_model = "올 뉴 투싼"
+                elif parsed_year in [2013, 2014, 2015] or "뉴투싼" in clean_lower:
+                    matched_sub_model = "뉴 투싼 ix"
+                elif parsed_year in [2009, 2010, 2011, 2012, 2013] or "ix" in clean_lower:
+                    matched_sub_model = "투싼 ix"
             elif best_model == "QM6":
                 if parsed_year >= 2024 or "the new" in clean_lower:
                     matched_sub_model = "The New QM6"
@@ -1836,6 +1909,13 @@ class SalesDataAnalyzer:
                     matched_sub_model = "더 뉴 i40 살룬" if is_the_new else "i40 살룬"
                 else:
                     matched_sub_model = "더 뉴 i40" if is_the_new else "i40"
+            elif best_model == "아이오닉5":
+                if (parsed_year and parsed_year >= 2024) and "더뉴" in clean_lower:
+                    matched_sub_model = "더 뉴 아이오닉5"
+                else:
+                    matched_sub_model = "아이오닉5"
+            elif best_model == "아이오닉6":
+                matched_sub_model = "아이오닉6"
 
         # 4. 엔카 PC 데스크톱 검색 Action 쿼리 조립 (정밀 스마트 밴드 적용)
         if best_brand and best_model:
@@ -1910,7 +1990,7 @@ def get_car_market_stats(car_name, sub_model="", year="", current_retail=0):
 def generate_encar_market_url(car_name, sub_model="", year="", mileage=0):
     return SalesDataAnalyzer.get_instance().generate_encar_url(car_name, sub_model, year, mileage)
 
-def is_target_option_matched(opt_str: str, target_opts: list) -> bool:
+def is_target_option_matched(opt_str: str, target_opts: list, car_name: str = "", year: str = "") -> bool:
     """
     엔카 매물의 옵션 문자열(예: '스타일(70만)', 'S-Link 패키지 Ⅱ (103만)')이 
     기준 차량의 타겟 옵션 목록(예: ['S-Link 패키지 II', '드라이빙 어시스트 패키지 I', '매직테일게이트'])과
@@ -1918,6 +1998,15 @@ def is_target_option_matched(opt_str: str, target_opts: list) -> bool:
     """
     if not target_opts or not opt_str:
         return False
+
+    # 1. 신차 패키지(컴포트/셀렉티브/드라이브와이즈 등)와 풀어진 세부 옵션 간 지능형 매칭 우선 검사
+    try:
+        from services.option_package_service import match_package_with_decomposed
+        pkg_matched, _, _ = match_package_with_decomposed(opt_str, target_opts, car_name, year)
+        if pkg_matched:
+            return True
+    except Exception:
+        pass
         
     import unicodedata
     import re

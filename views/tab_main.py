@@ -13,6 +13,7 @@ import plotly.graph_objects as go
 from sales_analysis import get_car_market_stats, generate_encar_market_url, SalesDataAnalyzer, is_target_option_matched, get_current_target_options
 from services.encar_service import Scraper
 from services.chaolma_service import ChaolmaService
+from services.option_package_service import build_option_tooltip
 from views.components.chaolma_card import render_chaolma_section, render_chaolma_card_ui
 
 def render_main_tab(
@@ -240,12 +241,7 @@ def render_main_tab(
         # 🚘 [1] 엔카 시세 요약본 (크기 2/3) + 요약 1번
         # ==========================================
         chart_base = filtered_df.copy()
-        # 실시간 엔카 스캔 데이터는 이미 정밀 스마트 밴드(±1년 등)가 적용되어 있으므로 1년 단위 추가 컷을 적용하지 않고 22대 온전히 표출
-        is_live_encar = '상태' in chart_base.columns and (chart_base['상태'] == '실시간').any()
-        if not is_live_encar and current_f_year and '연식' in chart_base.columns:
-            year_subset = chart_base[chart_base['연식'].astype(str).str.contains(str(current_f_year).strip())]
-            if not year_subset.empty:
-                chart_base = year_subset
+        # 실시간 엔카 스캔 데이터(±1년 스마트밴드 포함: 20/21/22년 전 매물)를 온전히 표출
 
         if not chart_base.empty and '판매가' in chart_base.columns:
             valid_prices = pd.to_numeric(chart_base['판매가'], errors='coerce').dropna()
@@ -430,7 +426,10 @@ def render_main_tab(
                     '어라운드뷰': 70, '서라운드뷰': 70, '모니터링': 60,
                     '드라이브와이즈': 80, '스마트센스': 80, '반자율': 70, 'ASCC': 70,
                     '통풍시트': 50, '전동트렁크': 40, '스마트테일게이트': 40,
-                    '사운드': 40, '크렐': 40, '보스': 40, 'JBL': 40, '렉시콘': 40
+                    '사운드': 40, '크렐': 40, '보스': 40, 'JBL': 40, '렉시콘': 40,
+                    '컴포트': 70, '멀티미디어내비': 70, '내비게이션': 60, '내비': 60,
+                    '익스테리어': 50, '스타일': 50, '플래티넘': 70, '빌트인캠': 40,
+                    '시트패키지': 50, '파킹어시스트': 60
                 }
 
                 def score_key_options(opt_list_or_str):
@@ -439,7 +438,7 @@ def render_main_tab(
                     score = 0
                     for k, w in KEY_OPT_WEIGHTS.items():
                         if k in text:
-                            norm_k = '선루프' if '선루프' in k else ('HUD' if k in ('HUD', '헤드업') else ('어라운드뷰' if '라운드뷰' in k or '모니터링' in k else ('주행보조' if k in ('드라이브와이즈', '스마트센스', '반자율', 'ASCC') else k)))
+                            norm_k = '선루프' if '선루프' in k else ('HUD' if k in ('HUD', '헤드업') else ('어라운드뷰' if '라운드뷰' in k or '모니터링' in k else ('주행보조' if k in ('드라이브와이즈', '스마트센스', '반자율', 'ASCC') else ('내비' if '내비' in k or '멀티미디어' in k else k))))
                             if norm_k not in matched_opts:
                                 matched_opts.append(norm_k)
                                 score += w
@@ -447,21 +446,38 @@ def render_main_tab(
 
                 # 차량 연식 확인 및 연식별 옵션 잔존가치 인정비율 산출
                 target_year_val = None
-                hd_year_val = st.session_state.get('hd_target_year')
-                if hd_year_val:
+                # 1순위: 파라미터 current_f_year ("21" or "2021")
+                if current_f_year:
                     try:
-                        target_year_val = int(str(hd_year_val)[:4])
+                        m_y = re.search(r'(\d{2,4})', str(current_f_year))
+                        if m_y:
+                            v = int(m_y.group(1))
+                            target_year_val = 2000 + v if v < 100 else v
                     except Exception:
                         pass
+
+                # 2순위: 세션 상태 (헤이딜러 / 필터 연식)
+                if not target_year_val:
+                    hd_year_val = st.session_state.get('hd_target_year') or st.session_state.get('f_year')
+                    if hd_year_val:
+                        try:
+                            m_y = re.search(r'(\d{2,4})', str(hd_year_val))
+                            if m_y:
+                                v = int(m_y.group(1))
+                                target_year_val = 2000 + v if v < 100 else v
+                        except Exception:
+                            pass
+
+                # 3순위: chart_base의 연식 칼럼에서 2자리 등록연도 최빈값 추출 (e.g. '21(21)' -> 2021)
                 if not target_year_val and '연식' in chart_base.columns:
                     try:
-                        extracted_years = chart_base['연식'].astype(str).str.extract(r'(\d{4})')[0].dropna().astype(int)
+                        extracted_years = chart_base['연식'].astype(str).str.extract(r'^\s*(\d{2})')[0].dropna().astype(int)
                         if not extracted_years.empty:
-                            target_year_val = int(extracted_years.median())
+                            target_year_val = 2000 + int(extracted_years.mode().iloc[0] if not extracted_years.mode().empty else extracted_years.median())
                     except Exception:
                         pass
                 if not target_year_val:
-                    target_year_val = 2022
+                    target_year_val = 2021
                 curr_year = datetime.now().year
                 car_age = max(0, curr_year - target_year_val)
 
@@ -508,6 +524,14 @@ def render_main_tab(
                         raw_hd_opt = int(hd_parsed_opt_price)
                         target_opt_new = raw_hd_opt // 10000 if raw_hd_opt >= 10000 else raw_hd_opt
 
+                # 헤이딜러 스펙 텍스트에서 옵션 가격 2차 정밀 파싱 (누락 방지)
+                if target_opt_new == 0:
+                    spec_desc_raw = st.session_state.get('hd_car_spec_desc', '')
+                    if spec_desc_raw:
+                        p_list = re.findall(r'\((\d+)\s*만(?:원)?\)', spec_desc_raw)
+                        if p_list:
+                            target_opt_new = sum(int(p) for p in p_list)
+
                 # 헤이딜러/엔카 스캔 옵션 명칭 및 점수 산정
                 hd_opts = st.session_state.get('hd_target_options', []) or []
                 encar_opts = st.session_state.get('encar_target_options', []) or []
@@ -521,8 +545,8 @@ def render_main_tab(
                         if parsed_from_text > 0:
                             target_opt_new = parsed_from_text
                         else:
-                            # 가격 정보가 없는 경우 점수 기반 가상 원가 추정
-                            target_opt_new = int(target_score * 1.5)
+                            # 가격 정보가 없는 경우 점수 및 옵션 갯수 기반 합리적 신차 원가 추정
+                            target_opt_new = int(target_score * 1.5) if target_score > 0 else (len(all_target_opts) * 80)
                 else:
                     # fallback: 리스트에서 선택한 차량의 옵션 참조
                     active_selected = str(st.session_state.get('selected_car_id', '')).strip()
@@ -533,10 +557,15 @@ def render_main_tab(
                         target_score, target_opt_names = score_key_options(sel_opt_str)
 
                 # 옵션 가치 차액에 연식 감가율(opt_ratio) 적용
-                if (target_opt_new > 0 or avg_opt_new > 0) and target_opt_new != avg_opt_new:
-                    opt_adj = int(round((target_opt_new - avg_opt_new) * opt_ratio))
-                elif target_score != avg_opt_score:
+                if target_opt_new > 0:
+                    if avg_opt_new > 0 and avg_opt_new != target_opt_new:
+                        opt_adj = int(round((target_opt_new - avg_opt_new) * opt_ratio))
+                    else:
+                        opt_adj = int(round(target_opt_new * opt_ratio * 0.7))
+                elif target_score != avg_opt_score and target_score > 0:
                     opt_adj = int(round((target_score - avg_opt_score) * opt_ratio))
+                elif all_target_opts:
+                    opt_adj = int(round(len(all_target_opts) * 70 * opt_ratio))
                 else:
                     opt_adj = 0
 
@@ -566,6 +595,7 @@ def render_main_tab(
             chart_base, 
             target_mil=user_target_mil, 
             target_accident=target_acc_status,
+            target_year=target_year_val,
             target_opt_adj=opt_adj
         ) if not chart_base.empty else {"has_data": False}
 
@@ -577,9 +607,27 @@ def render_main_tab(
             bubble_gap = encar_avg_price - b_ind
             bubble_pct = round((bubble_gap / b_ind) * 100, 1) if b_ind > 0 else 0
             bubble_sign = "+" if bubble_gap > 0 else ""
-            bubble_color = "#ef4444" if bubble_gap > 50 else ("#f59e0b" if bubble_gap > 0 else "#22c55e")
-            bubble_desc = "시장 호가에 마진/거품 형성 중" if bubble_gap > 0 else "시장 호가가 매우 보수적으로 형성됨"
+            if abs(bubble_gap) <= 50:
+                bubble_color = "#22c55e"
+                bubble_desc = "시장 호가와 AI 적정 소매가가 안정적으로 일치함"
+            elif bubble_gap > 50:
+                bubble_color = "#f59e0b"
+                bubble_desc = "시장 호가에 딜러 마진/거품 형성 중"
+            else:
+                bubble_color = "#38bdf8"
+                bubble_desc = "시장 호가가 저렴하게 형성된 급매/경쟁 구간"
             safe_bid_limit = max(0, b_ind - 180)  # 기대마진 150만 + 부대비용 30만 기준
+
+            # 옵션 가치 반영 내역 뱃지 생성
+            opt_cnt = len(all_target_opts) if 'all_target_opts' in locals() and all_target_opts else 0
+            if opt_adj > 0:
+                opt_spec_html = f" / <b style='color: #38bdf8;'>추가옵션 {opt_cnt}개 (+{opt_adj:,}만 반영)</b>"
+            elif opt_adj < 0:
+                opt_spec_html = f" / <span style='color: #94a3b8;'>옵션 열세 ({opt_adj:,}만 반영)</span>"
+            elif opt_cnt > 0:
+                opt_spec_html = f" / 추가옵션 {opt_cnt}개 포함"
+            else:
+                opt_spec_html = " / 기본형 (추가옵션 없음)"
 
             ai_badge_html = f"<span style='background: #1e293b; color: #38bdf8; padding: 4px 12px; border-radius: 6px; font-weight: bold; font-size: 1.05em; border: 1px solid #0284c7;'>🎯 정밀 소매가: <span style='font-size: 1.2em; color: #ffffff;'>{b_ind:,}</span> 만원 <span style='font-size: 0.85em; color: #94a3b8;'>({b_min:,}~{b_max:,}만)</span></span>"
 
@@ -596,7 +644,7 @@ def render_main_tab(
         </div>
         <div style='color: #f1f5f9; font-size: 0.9em; line-height: 1.6;'>
             • 적정 밴드: <b style='color: #38bdf8;'>{b_min:,} ~ {b_max:,}만 원</b> (기준: <b>{b_ind:,}만</b>)<br>
-            • 평가 스펙: 주행 {user_target_mil:,}km / {target_acc_status if target_acc_status else '완전무사고'}
+            • 평가 스펙: 주행 {user_target_mil:,}km / {target_acc_status if target_acc_status else '완전무사고'}{opt_spec_html}
         </div>
     </div>
     <div style='background: rgba(15, 23, 42, 0.65); padding: 12px 14px; border-radius: 6px; border-left: 3px solid #f59e0b;'>
@@ -762,14 +810,48 @@ def render_main_tab(
                         lambda x: f"💰 {int(x):,}만" if pd.notna(x) and x != 0 else "-"
                     )
 
+                # 💡 [연식 하이라이트] 기준 연식 매물 선별 (아이콘/배경박스 없이 깔끔한 글자색만 변경)
+                target_filter_year = ""
+                if current_f_year:
+                    m_yr = re.search(r'(\d{2,4})', str(current_f_year))
+                    if m_yr:
+                        y_val = int(m_yr.group(1))
+                        target_filter_year = f"{y_val % 100:02d}"
+                if not target_filter_year:
+                    hd_y = st.session_state.get('hd_target_year')
+                    if hd_y:
+                        target_filter_year = f"{int(hd_y) % 100:02d}"
+
+                def is_target_year_val(val):
+                    if not target_filter_year:
+                        return False
+                    # 💡 괄호 안의 형식(모델연도)은 배제하고, 앞쪽의 순수 등록 연식 2자리만 정밀 대조
+                    m = re.match(r'^\s*(\d{2})', str(val))
+                    if m:
+                        return m.group(1) == target_filter_year
+                    return False
+
                 try:
+                    def _style_year_cell(val):
+                        if is_target_year_val(val):
+                            return "color: #38bdf8; font-weight: bold;"
+                        return ""
+
                     styled_df = display_df.style.set_properties(
                         subset=[c for c in ['주행거리'] if c in display_df.columns],
                         **{'font-weight': 'bold'}
                     ).set_properties(
                         subset=[c for c in ['판매가_표시'] if c in display_df.columns],
                         **{'font-weight': 'bold', 'color': '#cc9166'}
-                    ).format(precision=0)
+                    )
+
+                    styler_map = getattr(styled_df, 'map', getattr(styled_df, 'applymap', None))
+                    if styler_map:
+                        styled_df = styler_map(
+                            _style_year_cell,
+                            subset=[c for c in ['연식'] if c in display_df.columns]
+                        )
+                    styled_df = styled_df.format(precision=0)
 
                     event = st.dataframe(
                         styled_df,
@@ -1112,32 +1194,42 @@ def render_main_tab(
                     else:
                         opt_items = [o.strip() for o in str(row.get('추가옵션', '')).split(" / ") if o.strip() and o.strip() not in ("없음", "-", "없음(구버전점검)", "⚠️조회실패", "코드매칭실패")]
 
-                    # 기준 차량의 타겟 추가옵션 가져오기 및 매칭 판정
-                    target_opts = get_current_target_options()
+                    current_car_name = str(row.get('차량명', '')).strip()
+                    current_car_year = str(row.get('연식', '')).strip()
+
+                    # 선택된 비교 차량의 옵션 목록 세션 저장 (사이드바 하이라이트 연동용)
+                    st.session_state['selected_comp_car_opts'] = opt_items
+                    target_opts = get_current_target_options() or []
+
                     matched_opts = []
                     unmatched_opts = []
                     for opt in opt_items:
-                        if target_opts and is_target_option_matched(opt, target_opts):
+                        if target_opts and is_target_option_matched(opt, target_opts, current_car_name, current_car_year):
                             matched_opts.append(opt)
                         else:
                             unmatched_opts.append(opt)
-                    
-                    # 매칭된 옵션을 먼저 배치하여 가독성 극대화
+
+                    # 공통 옵션(파랑 ✓)을 앞에 배치하고, 비교차에만 있는 추가 옵션(오렌지 +)을 뒤에 배치
                     sorted_opt_items = [(opt, True) for opt in matched_opts] + [(opt, False) for opt in unmatched_opts]
 
                     opt_html = ""
                     if sorted_opt_items:
                         for opt, is_m in sorted_opt_items[:8]:
+                            _, tooltip_text = build_option_tooltip(opt, target_opts, current_car_name, current_car_year)
+                            c_tip = tooltip_text.replace('"', '&quot;').replace("'", '&#39;').replace('\n', '&#10;')
                             if is_m:
-                                # 기준 차량과 동일/일치하는 옵션: 선명한 블루 강조 및 ✓ 체크
-                                opt_html += f"<div style='background:rgba(14, 165, 233, 0.18); color:#38bdf8; padding:5px 10px; border-radius:8px; font-size:0.86em; font-weight:700; margin:3px 2px; display:inline-block; border: 1px solid #0284c7; box-shadow:0 0 6px rgba(14,165,233,0.2);'>✓ {opt}</div>"
+                                # 공통 옵션: 선명한 블루 강조 및 ✓ 체크
+                                opt_html += f"<div title=\"{c_tip}\" style=\"background:rgba(14, 165, 233, 0.18); color:#38bdf8; padding:4px 9px; border-radius:6px; font-size:0.83em; font-weight:700; margin:2px 3px 2px 0; display:inline-block; border: 1px solid #0284c7; box-shadow:0 0 6px rgba(14,165,233,0.2); cursor:pointer;\">✓ {opt}</div>"
                             else:
-                                # 그 외 옵션: 체크표시 없이 깔끔한 기본 뱃지
-                                opt_html += f"<div style='background:#1e222d; color:#94a3b8; padding:5px 10px; border-radius:8px; font-size:0.86em; font-weight:500; margin:3px 2px; display:inline-block; border: 1px solid #2e384d;'>{opt}</div>"
+                                # 비교차 전용 옵션: 앰버 오렌지 뱃지
+                                opt_html += f"<div title=\"{c_tip}\" style=\"background:rgba(249, 115, 22, 0.18); color:#fb923c; padding:4px 9px; border-radius:6px; font-size:0.83em; font-weight:700; margin:2px 3px 2px 0; display:inline-block; border: 1px solid #ea580c; cursor:pointer;\">+ {opt}</div>"
                         if len(sorted_opt_items) > 8:
-                            opt_html += f"<div style='background:#1e222d; color:#94a3b8; padding:5px 10px; border-radius:8px; font-size:0.86em; font-weight:500; margin:3px 2px; display:inline-block; border: 1px solid #2e384d;'>+{len(sorted_opt_items)-8}</div>"
+                            more_opts = [o for o, _ in sorted_opt_items[8:]]
+                            more_tip = "추가 옵션:\n" + "\n".join([f"- {o}" for o in more_opts])
+                            c_more_tip = more_tip.replace('"', '&quot;').replace("'", '&#39;').replace('\n', '&#10;')
+                            opt_html += f"<div title=\"{c_more_tip}\" style=\"background:#1e222d; color:#94a3b8; padding:4px 8px; border-radius:6px; font-size:0.82em; font-weight:500; margin:2px 2px; display:inline-block; border: 1px solid #2e384d; cursor:pointer;\">+{len(sorted_opt_items)-8}</div>"
                     else:
-                        opt_html = "<div style='color:#64748b; font-size:0.85em; margin-top:4px;'>추가옵션 없음 또는 기본 트림 사양</div>"
+                        opt_html = "<div style=\"color:#64748b; font-size:0.85em; margin-top:4px;\">추가옵션 없음 또는 기본 트림 사양</div>"
 
                     if not raw_color or raw_color in ['-', '정보없음', '⚠️정보없음', '⚠️조회실패']:
                         color_name = "색상미등록"
@@ -1248,11 +1340,7 @@ def render_main_tab(
         st.markdown("### 📈 가격-주행거리 산점도")
 
         chart_base = filtered_df.copy()
-        is_live_encar = '상태' in chart_base.columns and (chart_base['상태'] == '실시간').any()
-        if not is_live_encar and current_f_year and '연식' in chart_base.columns:
-            year_subset = chart_base[chart_base['연식'].astype(str).str.contains(str(current_f_year).strip())]
-            if not year_subset.empty:
-                chart_base = year_subset
+        # 실시간 엔카 스캔 데이터(20/21/22년 전 매물)를 온전히 산점도에 반영
 
         valid_prices = pd.to_numeric(chart_base['판매가'], errors='coerce').dropna() if not chart_base.empty and '판매가' in chart_base.columns else pd.Series(dtype=float)
 

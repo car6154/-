@@ -290,7 +290,10 @@ def render_settlement_tab(SETTLEMENT_FILE="my_inventory_settlement.csv"):
 
                         # 2순위: 엔카 URL이 없거나 실패 시 차종명 기반 엔카 URL 자동 조립
                         if not target_search_url and target_car_name:
-                            target_search_url = SalesDataAnalyzer.generate_encar_url(target_car_name, target_sub_model)
+                            from services.master_mapping import MasterMappingService
+                            target_search_url = MasterMappingService.generate_smart_encar_url(
+                                target_car_name, target_sub_model, target_year, target_mil, car_number=sel_c_no
+                            )
 
                         if target_search_url:
                             # 1. 폼 리셋 키 버전업 ➔ 기존 사이드바의 헤이딜러 URL 및 연식/키로수 위젯 캐시를 완전히 새것으로 리셋!
@@ -300,13 +303,12 @@ def render_settlement_tab(SETTLEMENT_FILE="my_inventory_settlement.csv"):
                             # 2. 이전 헤이딜러 세션 찌꺼기 완벽 클리어
                             stale_keys = [
                                 'hd_target_url', 'hd_url_input', 'hd_detail_data', 'hd_target_options', 
-                                'encar_target_options', 'hd_model_part_name', 'hd_grade_part_name', 
-                                'hd_full_name', 'auto_encar_url', 'hd_comp_df', 'hd_car_spec_desc', 'hd_target_opt_price',
+                                'encar_target_options', 'auto_encar_url', 'hd_comp_df', 'hd_car_spec_desc', 'hd_target_opt_price',
                                 'hd_target_mil', 'hd_target_year', 'f_mil'
                             ]
                             for stale_k in stale_keys:
                                 if stale_k in st.session_state:
-                                    st.session_state[stale_k] = [] if 'options' in stale_k else ("" if 'part' in stale_k or 'desc' in stale_k or 'url' in stale_k or 'name' in stale_k else 0)
+                                    st.session_state[stale_k] = [] if 'options' in stale_k else ("" if 'desc' in stale_k or 'url' in stale_k else 0)
 
                             # 3. 사이드바 위젯 및 세션에 직접 대상 차량 스펙 주입
                             two_digit_yr = (target_year % 100) if target_year > 0 else 0
@@ -320,28 +322,47 @@ def render_settlement_tab(SETTLEMENT_FILE="my_inventory_settlement.csv"):
                                 st.session_state['f_mil'] = target_mil
                                 st.session_state['user_target_mil'] = target_mil
                                 st.session_state['hd_target_mil'] = target_mil
+                                st.session_state['hd_target_mileage'] = target_mil
                             else:
                                 st.session_state['user_target_mil'] = 0
 
                             st.session_state[f"car_num_{new_k}"] = sel_c_no
                             st.session_state[f"hd_url_box_{new_k}"] = ""
+                            st.session_state['hd_target_plate'] = sel_c_no
+
+                            if target_brand:
+                                st.session_state['f_brand'] = target_brand
 
                             if target_sub_model:
                                 st.session_state['target_sub_model'] = target_sub_model
                                 st.session_state['f_sub'] = target_sub_model
+                                st.session_state['hd_grade_part_name'] = target_sub_model
                             else:
                                 st.session_state['target_sub_model'] = ""
                                 st.session_state['f_sub'] = "전체"
 
                             st.session_state['hd_target_accident'] = target_acc if target_acc else "완전무사고"
                             if target_car_name:
+                                st.session_state['f_name'] = target_car_name
                                 st.session_state['target_car_name'] = target_car_name
+                            st.session_state['hd_full_name'] = f"{target_car_name} {target_sub_model}".strip()
+
+                            # 판매가, 외판수리비 복원
+                            if src_row is not None:
+                                raw_sell = str(src_row.get('판매가', 0))
+                                m_sell = re.sub(r'[^\d]', '', raw_sell)
+                                if m_sell and int(m_sell) > 0:
+                                    st.session_state[f"sell_{new_k}"] = int(m_sell)
+
+                                raw_ext = str(src_row.get('외판수리', 0))
+                                m_ext = re.sub(r'[^\d]', '', raw_ext)
+                                if m_ext:
+                                    st.session_state[f"ext_{new_k}"] = int(m_ext)
 
                             # 메인 탭에 자동 스캔 URL 주입 & 화면 이동 플래그
                             st.session_state['auto_scan_url'] = target_search_url
                             st.session_state['nav_target'] = "📊 시세 분석 및 스캔"
                             st.session_state['nav_selection'] = "📊 시세 분석 및 스캔"
-                            st.session_state['nav_selection_box'] = "📊 시세 분석 및 스캔"
                             st.rerun()
                         else:
                             st.error("❌ 동급 매물 검색 URL을 생성하지 못했습니다. 차종명을 확인해 주세요.")

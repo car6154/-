@@ -214,11 +214,14 @@ class HeydealerScraper:
         if env_path is None:
             env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '.env')
         
-        # 세션 쿠키 jar를 'key=value; key=value' 형식으로 직렬화
-        cookie_parts = [f"{c.name}={c.value}" for c in session.cookies]
-        if not cookie_parts:
+        # 세션 쿠키 jar를 'key=value; key=value' 형식으로 직렬화 (중복 키 제거 필수)
+        cookie_map = {}
+        for c in session.cookies:
+            if c.name and c.value:
+                cookie_map[c.name] = c.value
+        if not cookie_map:
             return
-        new_cookie_str = "; ".join(cookie_parts)
+        new_cookie_str = "; ".join(f"{k}={v}" for k, v in cookie_map.items())
 
         # .env 파일 읽기
         try:
@@ -319,6 +322,25 @@ class HeydealerScraper:
         # 응답 후에도 혹시 Set-Cookie로 csrftoken이 바뀌었으면 즉시 동기화
         HeydealerScraper._sync_csrf_header(session)
         
+        if response.status_code in (401, 403):
+            # 💡 크롬 확장프로그램이 새 창/새 탭에서 새 쿠키를 전송 중일 수 있으므로 최신 쿠키를 감지하여 자동 재시도
+            try:
+                import time
+                from services.cookie_server import get_current_hd_cookie
+                for retry_i in range(2):
+                    time.sleep(0.4)
+                    fresh_c = get_current_hd_cookie()
+                    if fresh_c and len(fresh_c) > 20:
+                        new_sess = HeydealerScraper.build_session(fresh_c)
+                        new_sess.headers['Referer'] = f"https://dealer.heydealer.com/cars/{car_id}/"
+                        retry_resp = new_sess.get(api_url)
+                        if retry_resp.status_code == 200:
+                            response = retry_resp
+                            session = new_sess
+                            break
+            except Exception:
+                pass
+
         if response.status_code in (401, 403):
             raise Exception(f"인증 오류 ({response.status_code}): 세션이 만료되었거나 쿠키가 올바르지 않습니다. 다시 로그인 후 쿠키를 업데이트해 주세요.")
         elif response.status_code == 404:
