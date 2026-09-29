@@ -15,12 +15,18 @@ import streamlit.components.v1 as components
 import plotly.graph_objects as go
 from dotenv import load_dotenv
 
+# python app.py 직접 실행 시 브라우저 및 Streamlit 웹 서버 자동 실행
+if not st.runtime.exists():
+    import sys
+    from streamlit.web import cli as stcli
+    print("[J-PRO] Starting Streamlit server for app.py...")
+    sys.argv = ["streamlit", "run", __file__]
+    sys.exit(stcli.main())
+
 from heydealer_ai import extract_car_data_for_ai, get_gemini_estimate
 from scraper import HeydealerScraper
 import sales_analysis
-importlib.reload(sales_analysis)
 from sales_analysis import get_car_market_stats, generate_encar_market_url, SalesDataAnalyzer
-SalesDataAnalyzer._instance = None
 
 # ==========================================
 # 📦 Services & Views Modular Imports
@@ -466,7 +472,7 @@ st.sidebar.markdown("""
 """, unsafe_allow_html=True)
 
 # 🔼 [사이드바 최상단] 접어두는 보조 설정 메뉴 (초슬림 크기)
-live_cookie = get_current_hd_cookie()
+live_cookie = (get_current_hd_cookie() or "").strip()
 if 'cookie_version' not in st.session_state:
     st.session_state.cookie_version = 0
 
@@ -475,7 +481,7 @@ if st.session_state.get('_last_loaded_hd_cookie') != live_cookie:
     st.session_state.cookie_version += 1
     st.session_state[f"hd_cookie_box_{st.session_state.cookie_version}"] = live_cookie
 
-live_ap_cookie = get_current_autoplus_cookie()
+live_ap_cookie = (get_current_autoplus_cookie() or "").strip()
 if 'ap_cookie_version' not in st.session_state:
     st.session_state.ap_cookie_version = 0
 
@@ -1859,6 +1865,11 @@ with h_col1:
         )
         if typed_cookie:
             heydealer_cookie_input = typed_cookie
+            if typed_cookie.strip() != (live_cookie or "").strip():
+                from services.cookie_server import set_env_variable
+                set_env_variable("HEYDEALER_COOKIE", typed_cookie.strip())
+                st.session_state._last_loaded_hd_cookie = typed_cookie.strip()
+                st.rerun()
 
         typed_ap_cookie = st.text_input(
             "견적조회(차얼마2) 쿠키",
@@ -1866,10 +1877,10 @@ with h_col1:
             key=f"ap_cookie_box_{st.session_state.ap_cookie_version}",
             type="password"
         )
-        if typed_ap_cookie and typed_ap_cookie != live_ap_cookie:
+        if typed_ap_cookie and typed_ap_cookie.strip() != (live_ap_cookie or "").strip():
             from services.cookie_server import save_autoplus_cookie
-            save_autoplus_cookie(typed_ap_cookie)
-            st.session_state._last_loaded_ap_cookie = typed_ap_cookie
+            save_autoplus_cookie(typed_ap_cookie.strip())
+            st.session_state._last_loaded_ap_cookie = typed_ap_cookie.strip()
             try:
                 from services.chaolma_service import ChaolmaService
                 ChaolmaService.clear_cache()

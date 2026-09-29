@@ -341,8 +341,13 @@ def normalize_opt_name(text: str) -> str:
         return ""
     # 유니코드 정규화 (Ⅰ, Ⅱ, Ⅲ -> I, II, III 등)
     t = unicodedata.normalize('NFKC', str(text))
-    # 괄호 및 가격 제거: '컴포트 패키지 III (79만)' -> '컴포트 패키지 III'
-    t = re.sub(r'\(.*?\)', '', t).strip().lower()
+    # 괄호 안의 가격 정보나 부가설명 제거: '컴포트 패키지 III (79만)' -> '컴포트 패키지 III'
+    # 단, 전체가 괄호로 감싸진 경우('(캘리그래피)') 괄호만 벗겨서 알맹이 보존
+    sub_t = re.sub(r'\(.*?\)', '', t).strip().lower()
+    if sub_t:
+        t = sub_t
+    else:
+        t = t.replace('(', '').replace(')', '').strip().lower()
     # 공백 및 특수기호 제거
     t = re.sub(r'[\s\-_/.]', '', t)
     # 로마숫자 통일
@@ -377,7 +382,7 @@ def find_package_definition(pkg_str: str, car_name: str = "", year: str = "") ->
     if not pkg_str:
         return None
     norm = normalize_opt_name(pkg_str)
-    if not norm:
+    if not norm or len(norm) < 2:
         return None
 
     # 1. 크롤링된 공식 엔카 신차가격표 DB 우선 검색
@@ -385,10 +390,11 @@ def find_package_definition(pkg_str: str, car_name: str = "", year: str = "") ->
     if crawled_db:
         # 1-1. 차종명이 지정된 경우 해당 차종 우선 검색
         target_models = []
-        if car_name:
+        if car_name and car_name != "전체":
             norm_car = normalize_opt_name(car_name)
             for m_key in crawled_db:
-                if norm_car in normalize_opt_name(m_key) or normalize_opt_name(m_key) in norm_car:
+                norm_m = normalize_opt_name(m_key)
+                if norm_car in norm_m or norm_m in norm_car:
                     target_models.append(m_key)
         
         # 차종 지정이 없거나 못 찾은 경우 전체 모델 검색
@@ -436,7 +442,9 @@ def find_package_definition(pkg_str: str, car_name: str = "", year: str = "") ->
 
                 for p_name, p_desc in items_to_search.items():
                     norm_p = normalize_opt_name(p_name)
-                    if norm == norm_p or norm_p in norm or norm in norm_p:
+                    if not norm_p or len(norm_p) < 2:
+                        continue
+                    if norm == norm_p or (len(norm) >= 3 and len(norm_p) >= 3 and (norm_p in norm or norm in norm_p)):
                         # 공식 DB에서 완벽 매칭 성공!
                         matched_kw = extract_keywords_from_description(p_desc)
                         return {
@@ -453,12 +461,16 @@ def find_package_definition(pkg_str: str, car_name: str = "", year: str = "") ->
     for pkg in PACKAGE_CATALOG:
         for alias in pkg["aliases"]:
             norm_alias = normalize_opt_name(alias)
-            if norm == norm_alias or norm_alias in norm or norm in norm_alias:
+            if not norm_alias or len(norm_alias) < 2:
+                continue
+            if norm == norm_alias or (len(norm) >= 3 and len(norm_alias) >= 3 and (norm_alias in norm or norm in norm_alias)):
                 return pkg
 
     for pkg in PACKAGE_CATALOG:
         norm_name = normalize_opt_name(pkg["name"])
-        if norm_name in norm or norm in norm_name:
+        if not norm_name or len(norm_name) < 2:
+            continue
+        if norm == norm_name or (len(norm) >= 3 and len(norm_name) >= 3 and (norm_name in norm or norm in norm_name)):
             return pkg
 
     return None
