@@ -786,26 +786,56 @@ class Scraper:
         if chart_base is None or chart_base.empty:
             return {"has_data": False, "msg": "동급 매물 없음"}
 
-        # 1. 유효한 rgsid / carid 탐색 (완전무사고 우선, 또는 첫 번째 유효 매물)
+        # 1. 타겟 연식(target_year) 매물 우선 탐색 (타 연식으로 인한 기준가 왜곡 원천 차단)
+        t_yr_norm = ""
+        if target_year:
+            m_yr = re.search(r'(\d{2,4})', str(target_year))
+            if m_yr:
+                t_yr_norm = f"{int(m_yr.group(1)) % 100:02d}"
+
+        # 타겟 연식에 맞는 매물군 분리
+        target_year_df = pd.DataFrame()
+        if t_yr_norm and '연식' in chart_base.columns:
+            target_year_df = chart_base[
+                chart_base['연식'].astype(str).str.strip().apply(
+                    lambda x: bool(re.match(rf'^\s*{t_yr_norm}', x))
+                )
+            ]
+
+        # 벤치마크 대상 매물 DF 결정 (타겟 연식 매물 우선)
+        cand_df = target_year_df if not target_year_df.empty else chart_base
+
+        # 무사고 매물 우선 정렬
+        is_no_acc = cand_df['사고유무'].astype(str).str.contains('무사고') if '사고유무' in cand_df.columns else pd.Series(False, index=cand_df.index)
+        sorted_cand_df = pd.concat([cand_df[is_no_acc], cand_df[~is_no_acc]]) if is_no_acc.any() else cand_df
+
         target_rgsids = []
-        if '_carid' in chart_base.columns:
-            for cid in chart_base['_carid'].dropna().unique():
+        if '_carid' in sorted_cand_df.columns:
+            for cid in sorted_cand_df['_carid'].dropna().unique():
                 c_str = str(cid).strip()
                 if c_str and c_str.isdigit() and len(c_str) >= 6:
                     target_rgsids.append(c_str)
 
-        if not target_rgsids and '링크' in chart_base.columns:
-            for link in chart_base['링크'].dropna().unique():
+        if not target_rgsids and '링크' in sorted_cand_df.columns:
+            for link in sorted_cand_df['링크'].dropna().unique():
                 m = re.search(r'carid=(\d+)', str(link))
                 if m:
                     target_rgsids.append(m.group(1))
 
+        # 전체 매물에서 fallback
+        if not target_rgsids:
+            if '_carid' in chart_base.columns:
+                for cid in chart_base['_carid'].dropna().unique():
+                    c_str = str(cid).strip()
+                    if c_str and c_str.isdigit() and len(c_str) >= 6:
+                        target_rgsids.append(c_str)
+
         if not target_rgsids:
             return {"has_data": False, "msg": "동급 매물 ID 없음"}
 
-        # 2. 대표 매물 1~3대로 엔카 시세리포트 호출
+        # 2. 대표 매물로 엔카 시세리포트 호출
         benchmark_report = None
-        for rid in target_rgsids[:3]:
+        for rid in target_rgsids[:5]:
             rep = Scraper.fetch_price_report(rid)
             if rep.get("has_data") and rep.get("individual_price", 0) > 0:
                 benchmark_report = rep
@@ -816,42 +846,90 @@ class Scraper:
 
         # 3. 엔카 표준 100점 기본가 및 상하한 밴드 계수 확보
         std_100_price = benchmark_report["std_100_price"]
-        bad_ratio = benchmark_report["bad_ratio"]
-        good_ratio = benchmark_report["good_ratio"]
-        base_mil = benchmark_report["base_mileage"]
+        bad_ratio = benchmark_report.get("bad_ratio", 0.96)
+        good_ratio = benchmark_report.get("good_ratio", 1.04)
 
-        # 4. 대상 차량(헤이딜러 미등록차) 스펙 적용
-        # (1) 주행거리 보정: 기준거리 대비 차이로 점수 산출
-        effective_mil = target_mil if target_mil > 0 else benchmark_report["actual_mileage"]
-        mil_diff = base_mil - effective_mil  # 양수면 기준보다 적게 탐
-        
-        # 차종 가격대에 따른 1만km당 점수 가중치 (경/소형 2.8점, 준중형/중형 3.2점, 대형/고가차 4.5점)
-        if std_100_price >= 2000:
-            pt_per_10k = 4.5
-        elif std_100_price >= 1200:
-            pt_per_10k = 2.8
+        # 💡 [실매물 코호트 통계 및 시장 앵커링] 현재 화면의 동급(타겟 연식) 매물 실제 통계
+        real_prices = pd.to_numeric(cand_df['판매가'], errors='coerce').dropna()
+        real_market_avg = int(real_prices.mean()) if not real_prices.empty else std_100_price
+
+        # 동급 무사고 매물들의 평균가
+        is_no_acc_cand = cand_df['사고유무'].astype(str).str.contains('무사고') if '사고유무' in cand_df.columns else pd.Series(False, index=cand_df.index)
+        no_acc_cand_prices = pd.to_numeric(cand_df.loc[is_no_acc_cand, '판매가'], errors='coerce').dropna()
+        cohort_no_acc_avg = int(no_acc_cand_prices.mean()) if not no_acc_cand_prices.empty else real_market_avg
+
+        # 💡 기준가(100점가) 현실 앵커링: 실매물 시장 무사고 평균(80%) + 엔카 리포트(20%)로 거품 완전 제거
+        if cohort_no_acc_avg > 0:
+            if std_100_price > 0:
+                std_100_price = int(round(cohort_no_acc_avg * 0.8 + std_100_price * 0.2))
+            else:
+                std_100_price = cohort_no_acc_avg
+        elif real_market_avg > 0:
+            std_100_price = real_market_avg
+
+        # 💡 동급 매물의 실제 평균 주행거리 산출 (기본 마일리지 기준점으로 사용)
+        real_mils = pd.to_numeric(cand_df['주행거리'].astype(str).str.replace(',', '').str.extract(r'(\d+)')[0], errors='coerce').dropna()
+        if not real_mils.empty and real_mils.mean() > 10000:
+            base_mil = int(real_mils.mean())
         else:
-            pt_per_10k = 3.2
+            calc_age = 4
+            if t_yr_norm and t_yr_norm.isdigit():
+                yr_val = 2000 + int(t_yr_norm)
+                calc_age = max(1, datetime.now().year - yr_val)
+            base_mil = calc_age * 15000
+
+        # 4. 대상 차량 스펙 적용
+        effective_mil = target_mil if target_mil > 0 else base_mil
+        mil_diff = base_mil - effective_mil  # 양수면 동급 평균보다 적게 탐 (가산점)
+
+        # 1만km당 감가율 정규화 (2000만원대 기준 1만km당 약 25~30만원 수준)
+        if std_100_price >= 2000:
+            pt_per_10k = 1.3
+        elif std_100_price >= 1200:
+            pt_per_10k = 1.5
+        else:
+            pt_per_10k = 1.8
 
         mil_score_delta = (mil_diff / 10000.0) * pt_per_10k
+        # 과도한 주행거리 점수 폭등/폭락 방지 (최대 ±6.0점 이내)
+        mil_score_delta = max(-6.0, min(6.0, mil_score_delta))
 
         # (2) 사고 감점
         acc_score_delta = 0.0
         acc_str = str(target_accident).strip()
         if "사고" in acc_str and "무사고" not in acc_str:
-            acc_score_delta = -12.0
+            acc_score_delta = -7.0
         elif "단순" in acc_str or "교환" in acc_str:
-            acc_score_delta = -5.0
+            acc_score_delta = -3.0
 
         # (3) 가치평가 점수 산출
         calc_score = round(100.0 + mil_score_delta + acc_score_delta, 1)
 
-        # (4) 대상 차량의 엔카 개별 기준가 산출 (옵션 감가 보정치 합산)
-        calc_individual_price = int(round(std_100_price * (calc_score / 100.0))) + int(target_opt_adj)
+        # (4) 대상 차량의 엔카 개별 기준가 산출 (초과 옵션 가치는 시장 매물 감안하여 현실적 순증분 반영)
+        if target_opt_adj > 0:
+            real_opt_adj = min(35, int(round(target_opt_adj * 0.35)))
+        elif target_opt_adj < 0:
+            real_opt_adj = max(-40, int(round(target_opt_adj * 0.4)))
+        else:
+            real_opt_adj = 0
+
+        calc_individual_price = int(round(std_100_price * (calc_score / 100.0))) + real_opt_adj
+
+        # 💡 [시장 현실 클램프] 실매물 최고가를 뚫고 비현실적으로 치솟는 거품 차단
+        if not real_prices.empty:
+            max_market = int(real_prices.max())
+            min_market = int(real_prices.min())
+            if calc_individual_price > max_market:
+                calc_individual_price = max_market
+            elif calc_individual_price < min_market:
+                calc_individual_price = min_market
 
         # (5) 엔카 적정 시세 밴드 (minPrice ~ maxPrice)
-        calc_min_price = int(round(calc_individual_price * bad_ratio))
-        calc_max_price = int(round(calc_individual_price * good_ratio))
+        safe_bad_ratio = max(0.95, min(0.97, bad_ratio)) if bad_ratio > 0 else 0.96
+        safe_good_ratio = min(1.05, max(1.03, good_ratio)) if good_ratio > 0 else 1.04
+
+        calc_min_price = int(round(calc_individual_price * safe_bad_ratio))
+        calc_max_price = int(round(calc_individual_price * safe_good_ratio))
 
         return {
             "has_data": True,

@@ -26,15 +26,26 @@ class ChaolmaService:
     BASE_URL = "https://purchase.autoplus.co.kr/purchase/PCVP010001"
 
     @classmethod
+    def clear_cache(cls):
+        """메모리 캐시 전체 초기화"""
+        global _CHAOLMA_CACHE
+        _CHAOLMA_CACHE.clear()
+
+    @classmethod
     def get_cookie(cls) -> str:
         """현재 저장된 오토플러스 로그인 쿠키 반환"""
         return get_current_autoplus_cookie()
 
     @classmethod
     def is_authenticated(cls) -> bool:
-        """오토플러스 쿠키가 존재하는지 확인"""
+        """오토플러스 쿠키가 존재하고 핵심 세션(JSESSIONID 등)이 있는지 확인"""
         cookie = cls.get_cookie()
-        return bool(cookie and len(cookie.strip()) > 10)
+        if not cookie or len(cookie.strip()) < 15:
+            return False
+        c_upper = cookie.upper()
+        # 단순 SCOUTER 등 추적 쿠키만 있는 경우(비로그인) 배제
+        has_session = ("JSESSIONID" in c_upper) or ("REMEMBER-ME" in c_upper)
+        return has_session or len(cookie.strip()) > 50
 
     @classmethod
     def fetch_car_info(cls, car_no: str, mileage: int = 50000, branch_code: str = "00244") -> Dict[str, Any]:
@@ -259,8 +270,34 @@ class ChaolmaService:
             if m_vin: vin = m_vin.group(1)
         result["vin"] = vin
 
-        result["model_year"] = hidden_inputs.get("carYear", "").replace("년", "").strip()
-        result["release_date"] = hidden_inputs.get("releaseDate", "").strip()
+        raw_model_yr = hidden_inputs.get("carYear", "").replace("년", "").strip()
+        raw_rel_date = hidden_inputs.get("releaseDate", "").strip()
+        
+        # 최초등록연도(연식) 파싱 (예: '2022-11-15' -> '2022')
+        reg_year = ""
+        if raw_rel_date:
+            m_ry = re.search(r'(\d{4})', raw_rel_date)
+            if m_ry:
+                reg_year = m_ry.group(1)
+        if not reg_year and raw_model_yr:
+            m_my = re.search(r'(\d{4})', raw_model_yr)
+            if m_my:
+                reg_year = m_my.group(1)
+
+        result["model_year"] = raw_model_yr    # 형식연도 (예: 2023년형)
+        result["reg_year"] = reg_year          # 최초등록연도 (예: 2022년식)
+        result["release_date"] = raw_rel_date  # 최초등록일 (예: 2022-11-15)
+
+        # 연식 및 형식 명확한 구분 표기
+        if reg_year and raw_model_yr and reg_year != raw_model_yr:
+            result["year_display"] = f"{reg_year[-2:]}년식 ({raw_model_yr[-2:]}년형)"
+        elif reg_year:
+            result["year_display"] = f"{reg_year[-2:]}년식"
+        elif raw_model_yr:
+            result["year_display"] = f"{raw_model_yr[-2:]}년식"
+        else:
+            result["year_display"] = ""
+
         result["color"] = hidden_inputs.get("carColor", "").strip()
 
         raw_new_price = hidden_inputs.get("newPrice", "")

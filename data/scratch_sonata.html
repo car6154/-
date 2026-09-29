@@ -1,0 +1,280 @@
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>차량DB - 차량정보 - 신차가격표</title>
+    <link type="text/css" rel="stylesheet" href="/css/common.css?v=1790034129176"/>
+    <link type="text/css" rel="stylesheet" href="/css/db.css?v=1790034129176"/>
+
+    <script type="text/javascript" src="/js/encarapp/lib/jquery/jquery-1.11.3.min.js?v=1790034132615"></script>
+    <script type="text/javascript" language="javascript" src="/js/common/ui.js?v=1790034132615"></script>
+    <script type="text/javascript" language="javascript" src="/js/prototype.js?v=1790034132615"></script>
+    <script type="text/javascript" src="/js/common/util.js?v=1790034132615"></script>
+
+    <script type="text/javascript" src="/js/common/db_common.js?v=1790034132615"></script>
+    <script type="text/javascript" src="/js/common/commonCombo.js?v=1790034132615"></script>
+    <script type="text/javascript" src="/js/common/carSearchCombo.js?v=1790034132615"></script>
+	<script>
+		window.enlogInitJson = {
+			"dataTalkView": {
+				"screenName": "신차가격표"
+			}
+		}
+
+	</script>
+
+
+</head>
+
+
+
+
+
+
+
+    <!-- 등급 체크박스  -->
+    <div style="display:none">
+        
+    </div>
+
+    <!-- 세부등급 체크박스 -->
+    <div style="display:none">
+        
+    </div>
+
+
+
+<body class="db db_newdetailview db_basicTemplate">
+
+
+
+
+	
+	
+	
+	
+
+
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-W9QQ2T"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W9QQ2T');</script>
+<!-- End Google Tag Manager -->
+
+<!-- container begin -->
+<div class="container" id="containerDIV">
+<input type="hidden" id = "foldYn" name="searchtype" value="0"/>
+<form id ="searchForm" name="searchForm">
+
+    <input type="hidden" id = "method" name="method" value="newpricePopV2"/>
+    <input type="hidden" id = "dimensiontype" name="dimensiontype" value="null"/>
+    <input type="hidden" id = "paramMnfccd" name="paramMnfccd" value=""/>
+    <input type="hidden" id = "paramMdlgroupcd" name="paramMdlgroupcd" value="018"/>
+    <input type="hidden" id = "paramMdlcd" name="paramMdlcd" value="157"/>
+    <input type="hidden" id = "paramYear" name="paramYear" value="2020"/>
+    <input type="hidden" id = "model" name="model" value="">
+    <input type="hidden" id = "paramCaryear" name="paramCaryear" value="2020"/>
+    <input type="hidden" id = "clsheadcd" name="clsheadcd" class="checkbox" value="null"/>
+    <input type="hidden" id = "paramGradeHead" name="paramGradeHead" value="null"/>
+	<input type="hidden" id = "searchtype" name="searchtype" value="check"/>
+	<input type="hidden" id = "pageAccessToken" name="pageAccessToken" value="AgV4hSpYkcYHf6P8TWWUaLj71iHLP5AFNJuq1jY90GorytYAcQACAAdFbmNhckNrAAdFbmNhckN2ABVhd3MtY3J5cHRvLXB1YmxpYy1rZXkAREFnak1JSGJNam9aaUlSUFdpVVFXQVBzUDlPei9qeXhoUE5kdU9rb1hYZ3JRcGdmcksrN1NISlFrUWRsN2tMbmw1dz09AAEAB2F3cy1rbXMAUGFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjI3MjM2MjQ4NzY1MzprZXkvbXJrLWRmZWEyNmY3NTVhMzQ3MjliNjkwMjRkZWZmM2M1MWFjALgBAgEAeAuqQuSJvQ+Ra4FSj55FZzS0sk+00amsb3yoAFiEYn4PAWZVie7BH/PskRSjZpo4bmAAAAB+MHwGCSqGSIb3DQEHBqBvMG0CAQAwaAYJKoZIhvcNAQcBMB4GCWCGSAFlAwQBLjARBAyB4IpWzRZMqJyNjY8CARCAO2zv7/hJ/stX+dn2PvE97CQiNsCPcDvVkyBNaHkONorCOrQrKVi5KAcJk2JkGNqb+p0K0gEaOkH2UU7cAgAAEAB4wB/PRTekxeGVa5xOvweYGd7+0P6d34xpb5byIpv0wGrgSUDZ/A0u/wF5zReRlT3/////AAAAAQAAAAAAAAAAAAAAAQAAAKMMai7HNR3E0UTXM91OY5H/2wHEbtk5l5HLXelb7gM2GoIQvIyhfujj2RuXcqqIFUw9OKhdzjnRjaVh75bN8gnd6gARCIzwUPPiAdCKJ8s7gGvbHAcB8mF+ise0jU2VijThModh5ze1TXDUoPn4bn40OeHKl9Zf6BBjk5KdOcDNgJH0XgDeamYiUK/s1sS17tupSf7Q0Fu7q2viOIDwXZrY0EgAjDZ2h88KWLL7byzEdchwZgBnMGUCMQCKHSlsado3XJiaFXw3RN1iu4Uw1YnVM1nin4jbNjy6/z1iMe2XQmu/QOe11ir1UU8CMD/rnLBLeVxsYUsZIb95rkhAyByQx6tVv66NFGvtuBiDkcuSK75Ksq9w8MLpcgur3g=="/>
+    <div class="header">
+        <h1 class="blind">SK엔카</h1>
+        <h2 class="tit_carprice" id="main_title">신차가격표</h2>
+        <p class="quickSearch">
+
+
+
+            <select title="제조사" class="opt_select" id="mnfccd" name="mnfccd" onChange="javascript:changeModelGroup(this.value);">
+                <option value="">제조사</option>
+            </select>
+
+            <select class="opt_select" title="모델" id="mdlgroupcd" name="mdlgroupcd" onChange="javascript:changeModel_jato($('mnfccd').value, this.value);">
+                <option>모델</option>
+            </select>
+
+            <select class="opt_select" title="세부모델" id="mdlcd" name="mdlcd" onChange="javascript:changeYearJato($('mnfccd').value, $('mdlcd').value);">
+                <option>세부모델</option>
+            </select>
+
+            <select class="opt_select" title="연식" id="caryear" name="caryear">
+                <option>연식</option>
+            </select>
+
+            <button type="button" class="btn_search" onclick="javascript:onSubmit();"/>검색</button>
+
+
+
+        </p>
+    </div>
+    <!-- body begin -->
+    <div class="body" id="bodydiv">
+		
+			
+			
+				<!-- 2017/01/19 [장] 신차가격표 없을 때 문구 추가 // -->
+				<div class="area_nodata">
+					<p><em class="db_ir ico_none">결과 없음</em></p>
+					<p class="desc_nodata">이 차량의 신차가격표는 준비중입니다.<br />다른 조건으로 검색해 보세요.</p>
+				</div>
+				<!-- // 2017/01/19 [장] 신차가격표 없을 때 문구 추가 -->
+			
+		
+    </div>
+
+    <!-- container end -->
+</form>
+</div>
+
+</body>
+<script language="javascript">
+
+
+    var strCompanyUrl = "/common/combo/cardbcompany.json?method=carList";
+    var strModelGroupUrl = "/common/combo/modelgroupfordb.json?method=carList";
+    var strModelUrl = "/common/combo/cardbmodel.json?method=carList";
+    var strYrJatoUrl = "/common/combo/jatoYr.json?method=carList";
+
+    var companyid = "mnfccd";
+    var modelgroupid = "mdlgroupcd";
+    var modelid = "mdlcd";
+    var yearid = "caryear";
+
+    function initGnb() {
+        var paramCompany = $("paramMnfccd").value;
+        var paramModelGroup = $("paramMdlgroupcd").value;
+        var paramModel = $("paramMdlcd").value;
+        var paramYr = $("paramYear").value;
+
+        // 제조사
+        if (paramModel != "") {
+            $("mdlcd").show();
+        }
+
+        //console.log("companyid :: " + companyid)
+        //console.log("paramCompany :: " + paramCompany)
+		if($('foldYn').value != 0){
+            foldingYN('f_fold');
+		}
+
+        setCompany(strCompanyUrl, companyid, "제조사", paramCompany);
+
+        // 제조사 값이 있으면 모델 검색
+        if (paramCompany >= '010') {
+            if (paramCompany != "") {
+                if (paramModel == "") {
+                    paramModel = paramModelGroup;
+                }
+                setModel(strModelUrl, modelid, paramCompany, "모델", paramModel)
+                $("mdlgroupcd").hide();
+
+            }
+        } else {
+            $("mdlgroupcd").show();
+            if (paramCompany != "") {
+                setModelGroup(strModelGroupUrl, modelgroupid, paramCompany, "모델", paramModelGroup);
+                if (paramModelGroup != "") {
+                    setModel_New(strModelUrl, modelid, paramCompany, paramModelGroup, "세부모델", paramModel);
+                }
+            }
+
+        }
+        if (paramCompany != "" && paramModel != "") {
+            setCarYear(strYrJatoUrl, yearid, paramCompany, paramModel, "형식연도", paramYr);
+        }
+
+        waitTime = 1;
+    }
+
+    function changeModel_jato(mnfccd, mdlgroupcd) {
+        setModel_New(strModelUrl, modelid, mnfccd, mdlgroupcd, "세부모델", "");
+        //모델그룹선택시 기본 세부모델선택
+        if ($("mdlcd") != null) {
+            $("mdlcd").selectedIndex = 1;
+            var mdlcd = $("mdlcd").options[$("mdlcd").selectedIndex].value;
+            changeYearJato(mnfccd, mdlcd);
+        }
+    }
+
+    function changeYearJato(mnfccd,mdlcd) {
+        setCarYear(strYrJatoUrl, yearid, mnfccd, mdlcd, "형식연도", "");
+        $(yearid).options[1].selected = true;
+    }
+
+
+
+    //덧글 리스트
+    function viewForm(index) {
+
+        var object = $("default" + index);
+        var objectSum = $("defaultSum" + index);
+        var selectSum = $("choiceSum" + index);
+        var object1 = $("choice" + index);
+        if (object != null) {
+            if (object.style.display == 'none') {
+                objectSum.hide();
+                selectSum.hide();
+                object.style.display = "block";
+                object1.style.display = "block";
+
+            } else {
+                object.hide();
+                object1.hide();
+                objectSum.style.display = "block";
+                selectSum.style.display = "block";
+            }
+        }
+    }
+
+    function viewAll() {
+        for (var i = 1; i <=0; i++) {
+            $("default" + i).style.display = "block";
+            $("defaultSum" + i).style.display = "none";
+            $("choice" + i).style.display = "block";
+            $("choiceSum" + i).style.display = "none";
+        }
+    }
+
+    function closeAll() {
+        for (var i = 1; i <=0; i++) {
+            $("default" + i).style.display = "none";
+            $("defaultSum" + i).style.display = "block";
+            $("choice" + i).style.display = "none";
+            $("choiceSum" + i).style.display = "block";
+        }
+    }
+
+    function firstLayerOpen() {
+        //viewForm(1);
+    }
+
+    function foldingYN(param) {
+        if (param == "f_fold") {
+            document.getElementById("folding").innerHTML ="<a href=\"javascript:foldingYN('f_unfold')\" class='folding f_unfold'>전체등급 펼쳐보기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "none";
+            document.getElementById("f_fold").style.display = "";
+        } else {
+            document.getElementById("folding").innerHTML = "<a href=\"javascript:foldingYN('f_fold')\" class='folding f_fold'>접기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "";
+            document.getElementById("f_fold").style.display = "none";
+        }
+    }
+
+    function onSubmit() {
+        jQuery("#searchForm").submit();
+
+    }
+    window.onload = initGnb;
+
+</script>
+</html>
+

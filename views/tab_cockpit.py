@@ -11,6 +11,7 @@ import numpy as np
 import requests
 
 from services.encar_service import Scraper
+from services.option_package_service import build_option_tooltip
 from sales_analysis import get_car_market_stats, SalesDataAnalyzer, is_target_option_matched, get_current_target_options
 
 # ==========================================
@@ -314,7 +315,7 @@ def render_car_detail_content(e_row, target_mil, show_close_btn=False):
     matched_opts = []
     unmatched_opts = []
     for opt in opt_list:
-        if target_opts and is_target_option_matched(opt, target_opts):
+        if target_opts and is_target_option_matched(opt, target_opts, e_name, e_year):
             matched_opts.append(opt)
         else:
             unmatched_opts.append(opt)
@@ -323,12 +324,17 @@ def render_car_detail_content(e_row, target_mil, show_close_btn=False):
 
     opt_badges_html = ""
     for opt, is_m in sorted_opt_list[:10]:
+        _, tooltip_text = build_option_tooltip(opt, target_opts, e_name, e_year)
+        clean_tip = tooltip_text.replace('"', '&quot;').replace("'", '&#39;')
         if is_m:
-            opt_badges_html += f"<span style='background:rgba(14, 165, 233, 0.18); color:#38bdf8; padding:3px 8px; border-radius:6px; font-size:11px; font-weight:700; border: 1px solid #0284c7; display:inline-block; margin:2px; box-shadow:0 0 6px rgba(14,165,233,0.2);'>✓ {opt}</span>"
+            opt_badges_html += f"<span title=\"{clean_tip}\" style='background:rgba(14, 165, 233, 0.18); color:#38bdf8; padding:3px 8px; border-radius:6px; font-size:11px; font-weight:700; border: 1px solid #0284c7; display:inline-block; margin:2px; box-shadow:0 0 6px rgba(14,165,233,0.2); cursor:pointer;'>✓ {opt}</span>"
         else:
-            opt_badges_html += f"<span style='background:#1e293b; color:#94a3b8; padding:3px 8px; border-radius:6px; font-size:11px; font-weight:500; border: 1px solid #334155; display:inline-block; margin:2px;'>{opt}</span>"
+            opt_badges_html += f"<span title=\"{clean_tip}\" style='background:#1e293b; color:#94a3b8; padding:3px 8px; border-radius:6px; font-size:11px; font-weight:500; border: 1px solid #334155; display:inline-block; margin:2px; cursor:pointer;'>{opt}</span>"
     if len(sorted_opt_list) > 10:
-        opt_badges_html += f"<span style='background:#1e293b; color:#94a3b8; padding:3px 8px; border-radius:6px; font-size:11px; border: 1px solid #334155; display:inline-block; margin:2px;'>+{len(sorted_opt_list)-10}</span>"
+        more_opts = [o for o, _ in sorted_opt_list[10:]]
+        more_tip = "추가 옵션 목록:\n" + "\n".join([f"- {o}" for o in more_opts])
+        clean_more_tip = more_tip.replace('"', '&quot;').replace("'", '&#39;')
+        opt_badges_html += f"<span title=\"{clean_more_tip}\" style='background:#1e293b; color:#94a3b8; padding:3px 8px; border-radius:6px; font-size:11px; border: 1px solid #334155; display:inline-block; margin:2px; cursor:pointer;'>+{len(sorted_opt_list)-10}</span>"
     if not opt_badges_html:
         opt_badges_html = "<span style='color:#64748b; font-size:12px;'>추가옵션 없음 또는 기본 트림 사양</span>"
 
@@ -446,6 +452,12 @@ def render_cockpit_view(
                         ]
                     if not encar_url_target:
                         encar_url_target = d_json.get('etc', {}).get('external_url', {}).get('encar', '')
+                    if encar_url_target and d_detail:
+                        try:
+                            from services.master_mapping import MasterMappingService
+                            MasterMappingService.learn_from_heydealer(d_detail, encar_url_target)
+                        except Exception:
+                            pass
         except Exception:
             pass
 
@@ -511,6 +523,14 @@ def render_cockpit_view(
                             res = HeydealerScraper.fetch_car_detail(quick_input, session=s)
                             e_url = res.get('encar_url', '')
                             if e_url:
+                                try:
+                                    from services.master_mapping import MasterMappingService
+                                    raw_det = res.get('detail', '')
+                                    if raw_det and raw_det.strip().startswith('{'):
+                                        d_dict = json.loads(raw_det).get('detail', {})
+                                        MasterMappingService.learn_from_heydealer(d_dict, e_url)
+                                except Exception:
+                                    pass
                                 p_bar, s_txt = st.progress(0), st.empty()
                                 new_df, msg = Scraper.run(e_url, "", p_bar, s_txt)
                                 p_bar.empty()

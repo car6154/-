@@ -81,9 +81,11 @@ def render_chaolma_card_ui(data: Dict[str, Any], on_apply_callback: Optional[Cal
     grade_name = data.get("grade_name", "")
     trim_name = data.get("trim_name", "")
     release_date = data.get("release_date", "")
+    year_display = data.get("year_display", "")
     vin = data.get("vin", "")
 
     rate_pct = int(deprec_rate * 100)
+    yr_badge = f"<span style='background:rgba(56,189,248,0.15); color:#38bdf8; border:1px solid rgba(56,189,248,0.4); border-radius:4px; padding:1px 6px; font-size:11px; margin-left:6px;'>{year_display}</span>" if year_display else ""
 
     st.markdown(f"""
     <div style="
@@ -99,11 +101,11 @@ def render_chaolma_card_ui(data: Dict[str, Any], on_apply_callback: Optional[Cal
             <div style="font-size: 15px; font-weight: bold; color: #38bdf8;">
                 🏷️ 신차 제원 & 순정 옵션
                 <span style="font-size: 12px; color: #94a3b8; font-weight: normal; margin-left: 8px;">
-                    {model_name} {grade_name} {trim_name} ({release_date})
+                    {model_name} {grade_name} {trim_name} {yr_badge}
                 </span>
             </div>
-            <div style="font-size: 12px; color: #cbd5e1;">
-                차대번호: <span style="font-family: monospace; color: #e2e8f0;">{vin if vin else '-'}</span>
+            <div style="font-size: 11px; color: #94a3b8;">
+                등록: <span style="color:#f8fafc;">{release_date}</span>&nbsp;&nbsp;|&nbsp;&nbsp;차대: <span style="font-family: monospace; color: #e2e8f0;">{vin if vin else '-'}</span>
             </div>
         </div>
         <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; text-align: center;">

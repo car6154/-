@@ -5,8 +5,39 @@ import json
 import threading
 from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
 
-COOKIE_FILE = "encar_cookie.txt"
-AUTOPLUS_COOKIE_FILE = "autoplus_cookie.txt"
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+COOKIE_FILE = os.path.join(BASE_DIR, "encar_cookie.txt")
+AUTOPLUS_COOKIE_FILE = os.path.join(BASE_DIR, "autoplus_cookie.txt")
+
+def set_env_variable(var_name: str, value: str):
+    """안전하게 .env 파일의 환경변수를 갱신 (줄바꿈 오염 및 중복 방지)"""
+    env_path = os.path.join(BASE_DIR, '.env')
+    clean_val = value.replace('\r', '').replace('\n', '').strip()
+    lines = []
+    if os.path.exists(env_path):
+        try:
+            with open(env_path, 'r', encoding='utf-8-sig') as f:
+                lines = f.readlines()
+        except:
+            lines = []
+
+    new_lines = []
+    found = False
+    for line in lines:
+        stripped = line.strip()
+        if stripped.startswith(f"{var_name}="):
+            new_lines.append(f'{var_name}="{clean_val}"\n')
+            found = True
+        elif '=' in stripped and not stripped.startswith(('"', "'")):
+            new_lines.append(line if line.endswith('\n') else line + '\n')
+    if not found:
+        new_lines.append(f'{var_name}="{clean_val}"\n')
+
+    try:
+        with open(env_path, 'w', encoding='utf-8') as f:
+            f.writelines(new_lines)
+    except Exception as e:
+        print(f"[CookieServer] Failed to write .env: {e}", flush=True)
 
 class CookieReceiverHandler(BaseHTTPRequestHandler):
     def log_message(self, format, *args):
@@ -32,12 +63,16 @@ class CookieReceiverHandler(BaseHTTPRequestHandler):
                 target = data.get('target', 'heydealer').lower()
                 print(f"[CookieServer] Got {target} cookie of length: {len(raw_cookie)}", flush=True)
                 if raw_cookie:
-                    env_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '.env')
-                    try:
-                        with open(env_path, 'r', encoding='utf-8-sig') as f:
-                            c_txt = f.read()
-                    except:
-                        c_txt = ""
+                    # 중복 키 제거 및 포맷 정규화
+                    cookie_map = {}
+                    for part in raw_cookie.split(';'):
+                        part = part.strip()
+                        if '=' in part:
+                            k, v = part.split('=', 1)
+                            k, v = k.strip(), v.strip()
+                            if k and v:
+                                cookie_map[k] = v
+                    cleaned_cookie = '; '.join(f'{k}={v}' for k, v in cookie_map.items()) if cookie_map else raw_cookie
 
                     if target == 'encar':
                         var_name = 'ENCAR_COOKIE'
@@ -46,19 +81,22 @@ class CookieReceiverHandler(BaseHTTPRequestHandler):
                     else:
                         var_name = 'HEYDEALER_COOKIE'
 
-                    new_line = f'{var_name}="{raw_cookie}"'
-                    if f'{var_name}=' in c_txt:
-                        c_txt = re.sub(rf'{var_name}=.*', new_line, c_txt)
-                    else:
-                        c_txt = c_txt.rstrip('\n') + '\n' + new_line + '\n'
-
-                    with open(env_path, 'w', encoding='utf-8') as f:
-                        f.write(c_txt)
+                    set_env_variable(var_name, cleaned_cookie)
+                    raw_cookie = cleaned_cookie
 
                     if target == 'encar':
                         save_cookie(raw_cookie)
+                        os.environ['ENCAR_COOKIE'] = raw_cookie
                     elif target == 'autoplus':
                         save_autoplus_cookie(raw_cookie)
+                        os.environ['AUTOPLUS_COOKIE'] = raw_cookie
+                        try:
+                            from services.chaolma_service import ChaolmaService
+                            ChaolmaService.clear_cache()
+                        except Exception:
+                            pass
+                    else:
+                        os.environ['HEYDEALER_COOKIE'] = raw_cookie
 
                     res_bytes = json.dumps({"status": "ok", "message": f"{target} Cookie saved"}).encode('utf-8')
                     self.send_response(200)
@@ -67,7 +105,7 @@ class CookieReceiverHandler(BaseHTTPRequestHandler):
                     self.send_header('Access-Control-Allow-Origin', '*')
                     self.end_headers()
                     self.wfile.write(res_bytes)
-                    print(f"[CookieServer] Successfully saved {target} to .env", flush=True)
+                    print(f"[CookieServer] Successfully saved {target} to .env and files", flush=True)
                     return
             except Exception as ex:
                 print(f"[CookieServer] Error processing POST: {ex}", flush=True)
@@ -151,6 +189,7 @@ def save_autoplus_cookie(cookie_str):
     try:
         with open(AUTOPLUS_COOKIE_FILE, "w", encoding="utf-8") as f:
             f.write(cookie_str)
+        os.environ['AUTOPLUS_COOKIE'] = cookie_str
     except:
         pass
 
@@ -159,7 +198,7 @@ def get_current_autoplus_cookie():
     if c:
         return c
     try:
-        env_f = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '.env')
+        env_f = os.path.join(BASE_DIR, '.env')
         if os.path.exists(env_f):
             with open(env_f, 'r', encoding='utf-8-sig') as f:
                 for line in f:
