@@ -52,8 +52,8 @@ async function syncCookiesToLocalServer(force = false) {
     const cookieStr = Array.from(allMap.entries()).map(([k, v]) => `${k}=${v}`).join('; ');
     const now = Date.now();
 
-    // 동일 쿠키 중복 전송 방지 (단, 쿠키가 변경되었거나 force=true면 즉시 전송)
-    if (!force && cookieStr === lastHdCookie && (now - lastHdSyncTime < 15000)) return;
+    // 동일 쿠키 중복 전송 방지 (동일 쿠키는 15초 이내 재전송 금지하여 무한 리로드 방지)
+    if (cookieStr === lastHdCookie && (now - lastHdSyncTime < 15000)) return;
 
     lastHdCookie = cookieStr;
     lastHdSyncTime = now;
@@ -103,7 +103,8 @@ async function syncAutoplusCookiesToLocalServer(force = false) {
     const cookieStr = Array.from(allMap.entries()).map(([k, v]) => `${k}=${v}`).join('; ');
     const now = Date.now();
 
-    if (!force && cookieStr === lastAutoplusCookie && (now - lastAutoplusSyncTime < 15000)) return;
+    // 동일 쿠키 중복 전송 방지 (동일 쿠키는 15초 이내 재전송 금지)
+    if (cookieStr === lastAutoplusCookie && (now - lastAutoplusSyncTime < 15000)) return;
 
     lastAutoplusCookie = cookieStr;
     lastAutoplusSyncTime = now;

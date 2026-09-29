@@ -10,9 +10,9 @@ COOKIE_FILE = os.path.join(BASE_DIR, "encar_cookie.txt")
 AUTOPLUS_COOKIE_FILE = os.path.join(BASE_DIR, "autoplus_cookie.txt")
 
 def set_env_variable(var_name: str, value: str):
-    """안전하게 .env 파일의 환경변수를 갱신 (줄바꿈 오염 및 중복 방지)"""
+    """안전하게 .env 파일의 환경변수를 갱신 (줄바꿈 오염, 파편 및 중복 방지)"""
     env_path = os.path.join(BASE_DIR, '.env')
-    clean_val = value.replace('\r', '').replace('\n', '').strip()
+    clean_val = value.replace('\r', '').replace('\n', '').strip().replace('"', '')
     lines = []
     if os.path.exists(env_path):
         try:
@@ -25,10 +25,16 @@ def set_env_variable(var_name: str, value: str):
     found = False
     for line in lines:
         stripped = line.strip()
-        if stripped.startswith(f"{var_name}="):
+        if not stripped or stripped.startswith('#'):
+            continue
+        m = re.match(r'^([A-Za-z_][A-Za-z0-9_]*)\s*=', stripped)
+        if not m:
+            continue
+        curr_key = m.group(1)
+        if curr_key == var_name:
             new_lines.append(f'{var_name}="{clean_val}"\n')
             found = True
-        elif '=' in stripped and not stripped.startswith(('"', "'")):
+        else:
             new_lines.append(line if line.endswith('\n') else line + '\n')
     if not found:
         new_lines.append(f'{var_name}="{clean_val}"\n')
@@ -76,10 +82,24 @@ class CookieReceiverHandler(BaseHTTPRequestHandler):
 
                     if target == 'encar':
                         var_name = 'ENCAR_COOKIE'
+                        curr_cookie = get_current_encar_cookie()
                     elif target == 'autoplus':
                         var_name = 'AUTOPLUS_COOKIE'
+                        curr_cookie = get_current_autoplus_cookie()
                     else:
                         var_name = 'HEYDEALER_COOKIE'
+                        curr_cookie = get_current_hd_cookie()
+
+                    # 불필요한 파일 쓰기 방지 (동일한 쿠키면 파일 수정하지 않아 Streamlit 무한 재실행 원천 차단)
+                    if curr_cookie and curr_cookie.strip() == cleaned_cookie.strip():
+                        res_bytes = json.dumps({"status": "ok", "message": f"{target} Cookie unchanged"}).encode('utf-8')
+                        self.send_response(200)
+                        self.send_header('Content-Type', 'application/json')
+                        self.send_header('Content-Length', str(len(res_bytes)))
+                        self.send_header('Access-Control-Allow-Origin', '*')
+                        self.end_headers()
+                        self.wfile.write(res_bytes)
+                        return
 
                     set_env_variable(var_name, cleaned_cookie)
                     raw_cookie = cleaned_cookie
