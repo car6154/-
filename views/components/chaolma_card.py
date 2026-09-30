@@ -1,6 +1,6 @@
 # views/components/chaolma_card.py
 """
-오토플러스 차얼마2 신차 출고가 & 순정 옵션 렌더링 독립 UI 컴포넌트
+오토플러스 차얼마(purchase.autoplus.co.kr) 신차 출고가 & 순정 옵션 렌더링 독립 UI 컴포넌트
 - 신차 기본가, 순정 옵션 목록, 연식별 감가율 적용 잔존가치 시각화
 - 원클릭으로 메인 시세 분석 화면의 신차가/옵션가에 자동 주입
 """
@@ -18,17 +18,17 @@ def render_chaolma_section(
     on_apply_callback: Optional[Callable[[int, int, Dict[str, Any]], None]] = None
 ):
     """
-    차얼마2 신차 및 옵션 정보 섹션 렌더링 함수
+    차얼마 신차 및 옵션 정보 섹션 렌더링 함수
     :param default_car_no: 기본 차량번호
     :param default_mileage: 기본 주행거리
     :param show_input: 차량번호 입력창 노출 여부
     :param key_prefix: 위젯 고유 키 접두사
     :param on_apply_callback: 신차가/옵션가를 상위 뷰에 전달하는 콜백 함수
     """
-    st.markdown("#### 🚗 신차 제원 & 순정옵션 견적조회")
+    st.markdown("#### 🚗 [차얼마] 신차 제원 & 순정옵션 견적조회")
 
     if not ChaolmaService.is_authenticated():
-        st.caption("⚠️ 쿠키 미등록 상태입니다. 확장프로그램에서 **[견적조회 쿠키 전송]** 을 눌러주세요.")
+        st.caption("⚠️ 차얼마 쿠키 미등록 상태입니다. 확장프로그램에서 **[차얼마 쿠키 전송]** 을 눌러주세요.")
 
     target_car_no = default_car_no
     fetch_btn = False
@@ -47,17 +47,17 @@ def render_chaolma_section(
             fetch_btn = st.button("🔍 조회", key=f"{key_prefix}_fetch_btn", use_container_width=True)
     else:
         if target_car_no:
-            fetch_btn = st.button(f"🚗 {target_car_no} 견적조회", key=f"{key_prefix}_btn", use_container_width=True)
+            fetch_btn = st.button(f"🚗 {target_car_no} 차얼마 조회", key=f"{key_prefix}_btn", use_container_width=True)
 
     cache_key = f"chaolma_data_{target_car_no}" if target_car_no else ""
 
     if fetch_btn and target_car_no:
-        with st.spinner(f"[{target_car_no}] 신차 출고가 및 순정 옵션을 조회 중..."):
+        with st.spinner(f"[{target_car_no}] 차얼마 신차 출고가 및 순정 옵션을 조회 중..."):
             res = ChaolmaService.fetch_car_info(target_car_no, mileage=default_mileage)
             if res.get("success"):
                 st.session_state[cache_key] = res
                 st.session_state["last_chaolma_data"] = res
-                st.success(f"✅ [{target_car_no}] 제원 조회 완료! (출고가: {res.get('new_car_price', 0):,}원, 옵션: {len(res.get('options', []))}개)")
+                st.success(f"✅ [{target_car_no}] 차얼마 제원 조회 완료! (출고가: {res.get('new_car_price', 0):,}원, 옵션: {len(res.get('options', []))}개)")
             else:
                 st.error(f"❌ {res.get('message', '조회 실패')}")
 
@@ -99,7 +99,7 @@ def render_chaolma_card_ui(data: Dict[str, Any], on_apply_callback: Optional[Cal
     ">
         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px; margin-bottom: 12px;">
             <div style="font-size: 15px; font-weight: bold; color: #38bdf8;">
-                🏷️ 신차 제원 & 순정 옵션
+                🏷️ [차얼마] 신차 제원 & 순정 옵션
                 <span style="font-size: 12px; color: #94a3b8; font-weight: normal; margin-left: 8px;">
                     {model_name} {grade_name} {trim_name} {yr_badge}
                 </span>

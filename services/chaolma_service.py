@@ -1,7 +1,7 @@
 # services/chaolma_service.py
 """
-오토플러스 차얼마2(purchase.autoplus.co.kr) 신차 출고 정보 및 순정 옵션 크롤링/파싱 서비스
-- 차량번호로 신차 출고가(기본가 + 순정 옵션가), 세부 옵션 목록, 잔가율, 출고일자 자동 수집
+오토플러스 차얼마(purchase.autoplus.co.kr) 신차 출고 정보 및 순정 옵션 연동 서비스
+- 차량번호로 신차 출고가(기본가 + 순정 옵션가), 장착된 세부 옵션 목록, 잔가율, 출고일자 자동 수집
 - 연식별 옵션 잔존가치(80% / 50% / 35% / 20%) 자동 계산
 """
 
@@ -9,11 +9,9 @@ import os
 import re
 import json
 import time
-import urllib.parse
 from datetime import datetime
 from typing import Dict, Any, List, Optional
 import requests
-from bs4 import BeautifulSoup
 
 from services.cookie_server import get_current_autoplus_cookie
 
@@ -22,8 +20,19 @@ _CHAOLMA_CACHE: Dict[str, Dict[str, Any]] = {}
 CACHE_TTL = 1800  # 30분
 
 
+def norm_opt_name(s: str) -> str:
+    """옵션명 정규화 (로마자, 띄어쓰기, 특수문자, 패키지 제거)"""
+    if not s:
+        return ""
+    s = s.lower().replace(" ", "").replace("-", "").replace("_", "").replace("+", "")
+    s = s.replace("iii", "3").replace("ii", "2").replace("iv", "4").replace("i", "1")
+    s = s.replace("패키지", "").replace("팩", "")
+    return s
+
+
 class ChaolmaService:
-    BASE_URL = "https://purchase.autoplus.co.kr/purchase/PCVP010001"
+    API_URL = "https://purchase.autoplus.co.kr/ajax/getCarMartData"
+    HISTORY_URL = "https://purchase.autoplus.co.kr/ajax/getPurchaseInfoList"
 
     @classmethod
     def clear_cache(cls):
@@ -33,24 +42,23 @@ class ChaolmaService:
 
     @classmethod
     def get_cookie(cls) -> str:
-        """현재 저장된 오토플러스 로그인 쿠키 반환"""
+        """현재 저장된 차얼마(오토플러스) 로그인 쿠키 반환"""
         return get_current_autoplus_cookie()
 
     @classmethod
     def is_authenticated(cls) -> bool:
-        """오토플러스 쿠키가 존재하고 핵심 세션(JSESSIONID 등)이 있는지 확인"""
+        """차얼마 로그인 쿠키가 유효한지 확인"""
         cookie = cls.get_cookie()
         if not cookie or len(cookie.strip()) < 15:
             return False
         c_upper = cookie.upper()
-        # 단순 SCOUTER 등 추적 쿠키만 있는 경우(비로그인) 배제
         has_session = ("JSESSIONID" in c_upper) or ("REMEMBER-ME" in c_upper)
-        return has_session or len(cookie.strip()) > 50
+        return has_session or len(cookie.strip()) > 30
 
     @classmethod
     def fetch_car_info(cls, car_no: str, mileage: int = 50000, branch_code: str = "00244") -> Dict[str, Any]:
         """
-        차량번호로 차얼마2에서 신차 기본가, 옵션 정보, 잔가율 등을 조회
+        차량번호로 차얼마에서 신차 기본가, 옵션 정보, 잔가율 등을 실시간 조회
         """
         car_no = str(car_no).replace(" ", "").strip()
         if not car_no:
@@ -68,105 +76,135 @@ class ChaolmaService:
         if not cookie:
             return {
                 "success": False,
-                "message": "오토플러스(차얼마2) 로그인 쿠키가 없습니다. 크롬 확장프로그램에서 차얼마2 쿠키를 전송해주세요.",
+                "message": "차얼마 로그인 쿠키가 없습니다. 크롬 확장프로그램에서 [차얼마 쿠키 전송]을 실행해주세요.",
                 "need_login": True
             }
 
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
             "Cookie": cookie,
-            "Referer": "https://purchase.autoplus.co.kr/",
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
+            "X-Requested-With": "XMLHttpRequest",
+            "Referer": "https://purchase.autoplus.co.kr/purchase/PCLP010001",
+            "Accept": "application/json, text/javascript, */*; q=0.01",
             "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
         }
 
-        params = {
-            "brCd": branch_code,
-            "tsKey": "",
-            "seriesNo": "",
+        data_payload = {
             "carNumber": car_no,
-            "carNavi": str(mileage)
+            "carNavi": str(mileage) if mileage > 0 else "50000",
+            "seriesNo": "",
+            "tsKey": ""
         }
 
         try:
-            resp = requests.get(cls.BASE_URL, params=params, headers=headers, timeout=8)
-            if resp.status_code == 200:
-                html_text = resp.text
-                
-                # 로그인 만료 체크 (로그인 페이지로 리다이렉트되거나 로그인 폼이 나타난 경우)
-                if "/login/login.do" in html_text or "로그인이 필요합니다" in html_text or "frm-login" in html_text:
-                    return {
-                        "success": False,
-                        "message": "오토플러스 로그인 세션이 만료되었습니다. 차얼마2에 다시 로그인 후 쿠키를 전송해주세요.",
-                        "need_login": True
-                    }
+            resp = requests.post(cls.API_URL, data=data_payload, headers=headers, timeout=10)
+            
+            # 응답 인코딩 UTF-8 강제
+            resp_text = resp.content.decode("utf-8", errors="ignore")
 
-                # HTML 파싱
-                parsed_data = cls.parse_car_html(html_text, car_no)
-                if parsed_data.get("success"):
-                    # 캐시에 저장
-                    _CHAOLMA_CACHE[car_no] = {
-                        "timestamp": now,
-                        "data": parsed_data
-                    }
-                return parsed_data
-            elif resp.status_code == 500:
+            # 로그인 만료 체크 (로그인 폼 HTML이 반환된 경우)
+            if "/login/login.do" in resp_text or "frm-login" in resp_text or ("<title>차얼마" in resp_text and not resp_text.strip().startswith("{")):
                 return {
                     "success": False,
-                    "message": "오토플러스(차얼마2) 로그인 세션이 만료되었습니다. 크롬에서 차얼마2(purchase.autoplus.co.kr)에 로그인 후 쿠키를 다시 전송해주세요.",
+                    "message": "차얼마 로그인 세션이 만료되었습니다. 크롬에서 차얼마(purchase.autoplus.co.kr) 로그인 후 쿠키를 다시 전송해주세요.",
                     "need_login": True
+                }
+
+            if resp.status_code == 200:
+                try:
+                    res_json = json.loads(resp_text)
+                except Exception:
+                    return {
+                        "success": False,
+                        "message": "차얼마 서버 응답 형식이 올바르지 않습니다."
+                    }
+
+                header = res_json.get("header", {})
+                if not header.get("isSuccessful"):
+                    msg = res_json.get("msg") or header.get("resultMessage") or "차량 정보를 찾을 수 없습니다."
+                    return {
+                        "success": False,
+                        "message": f"차얼마 조회 실패: {msg}"
+                    }
+
+                car_data = res_json.get("data")
+                if not car_data:
+                    return {
+                        "success": False,
+                        "message": f"차얼마에 해당 차량 데이터가 존재하지 않습니다 ({car_no})."
+                    }
+
+                # 정상 데이터 파싱
+                parsed = cls.parse_carmart_json(car_data, car_no)
+                if parsed.get("success"):
+                    _CHAOLMA_CACHE[car_no] = {
+                        "timestamp": now,
+                        "data": parsed
+                    }
+                return parsed
+
+            elif resp.status_code == 500:
+                # 500인 경우 JSON 에러 메시지 확인 ("차량번호가 없습니다." 등)
+                try:
+                    err_json = json.loads(resp_text)
+                    err_msg = err_json.get("msg") or err_json.get("header", {}).get("resultMessage")
+                    if err_msg:
+                        return {
+                            "success": False,
+                            "message": f"차얼마 안내: {err_msg} ({car_no})"
+                        }
+                except Exception:
+                    pass
+                return {
+                    "success": False,
+                    "message": f"차얼마에 등록되지 않은 차량번호이거나 조회할 수 없습니다 ({car_no})."
                 }
             else:
                 return {
                     "success": False,
-                    "message": f"차얼마2 서버 응답 오류 (상태코드: {resp.status_code})"
+                    "message": f"차얼마 서버 오류 (상태코드: {resp.status_code})"
                 }
+
         except requests.exceptions.Timeout:
-            return {"success": False, "message": "차얼마2 서버 응답 시간이 초과되었습니다 (8초 초과)."}
+            return {"success": False, "message": "차얼마 서버 응답 시간 초과 (10초). 잠시 후 다시 시도해주세요."}
         except Exception as e:
-            return {"success": False, "message": f"차얼마2 조회 중 오류 발생: {str(e)}"}
+            return {"success": False, "message": f"차얼마 조회 중 오류 발생: {str(e)}"}
 
     @classmethod
-    def parse_car_html(cls, html: str, target_car_no: str = "") -> Dict[str, Any]:
+    def parse_carmart_json(cls, c_data: Dict[str, Any], car_no: str) -> Dict[str, Any]:
         """
-        차얼마2 PCVP010001 HTML을 파싱하여 정형화된 데이터 반환
+        getCarMartData JSON 응답을 정형화된 시세 분석 데이터로 변환
         """
-        soup = BeautifulSoup(html, "html.parser")
-        result: Dict[str, Any] = {
-            "success": True,
-            "car_no": target_car_no,
-            "vin": "",
-            "maker": "",
-            "model_name": "",
-            "grade_name": "",
-            "trim_name": "",
-            "model_year": "",
-            "release_date": "",
-            "mileage": "",
-            "color": "",
-            "transmission": "",
-            "fuel": "",
-            "new_car_price": 0,           # 총 신차가 (기본가 + 옵션가)
-            "base_car_price": 0,          # 기본 출고가
-            "remain_rate": 0.0,           # 잔가율 (%)
-            "options": [],                # [{"name": "현대스마트센스", "price": 400000, "depreciated_price": ...}]
-            "total_option_price": 0,      # 순정옵션 합계 원가
-            "total_depreciated_opt_price": 0, # 감가 반영된 옵션 현재가
-            "depreciation_rate": 0.0,     # 적용된 감가율
-            "wholesale_price": 0,         # 기준도매가
-            "retail_price": 0,            # 기준소매가
-            "raw_inputs": {}
-        }
-
-        # 1. 히든 및 일반 인풋 태그 수집
-        hidden_inputs = {}
-        for inp in soup.find_all("input"):
-            name = inp.get("name") or inp.get("id")
+        # 1. 카탈로그 전체 옵션 목록 (원가 매핑용)
+        catalog_opts = c_data.get("optionSelectList", []) or []
+        price_by_name = {}
+        for o in catalog_opts:
+            name = str(o.get("name", "")).strip()
+            p_val = 0
+            try:
+                p_val = int(str(o.get("price", 0)).replace(",", "").strip() or 0)
+            except ValueError:
+                p_val = 0
             if name:
-                hidden_inputs[name] = inp.get("value", "")
-        result["raw_inputs"] = hidden_inputs
+                price_by_name[name] = p_val
 
-        # 2. 순정 옵션 표준 신차가 사전 (차얼마2에서 price가 null로 올 때 지능적 매칭)
+        # 2. 실제 장착된 옵션 목록 (jsonFullText.optlist)
+        jf = {}
+        raw_jf = c_data.get("jsonFullText")
+        if raw_jf:
+            if isinstance(raw_jf, dict):
+                jf = raw_jf
+            elif isinstance(raw_jf, str):
+                try:
+                    jf = json.loads(raw_jf)
+                except Exception:
+                    pass
+
+        # 기본 출고가 및 총 신차가
+        new_car_price = int(c_data.get("carMakePrice") or jf.get("carmakeprice") or 0)
+        base_car_price = int(jf.get("newprice") or 0)
+
+        # 3. 옵션 가격 사전 (카탈로그에 없거나 0일 때 보완)
         DEFAULT_OPTION_PRICES = {
             "7인치내비": 800000,
             "8인치내비": 950000,
@@ -179,17 +217,20 @@ class ChaolmaService:
             "컴포트": 600000,
             "컴포트시트": 600000,
             "기본형-컴포트시트": 600000,
+            "기본형-컨비니언스": 1000000,
+            "컨비니언스": 1000000,
             "시트": 500000,
             "통풍시트": 400000,
             "스타일": 850000,
             "스타일1": 850000,
             "스타일2": 950000,
-            "스타일3": 1050000,
-            "선루프": 1150000,
+            "선루프": 800000,
+            "와이드선루프": 790000,
+            "듀얼선루프": 800000,
             "파노라마선루프": 1150000,
             "드라이브와이즈": 1100000,
             "드라이브와이즈1": 1000000,
-            "드라이브와이즈2": 1150000,
+            "드라이브와이즈2": 1690000,
             "스마트센스": 1050000,
             "현대스마트센스": 1050000,
             "후측방경보": 450000,
@@ -205,163 +246,145 @@ class ChaolmaService:
             "크렐": 600000,
             "jbl": 600000,
             "보스": 600000,
+            "렉시콘": 1200000,
             "프리미엄사운드": 600000,
             "led헤드램프": 650000,
-            "휠": 500000,
-            "18인치휠": 500000,
-            "19인치휠": 650000,
         }
 
-        # 순정 옵션 리스트 파싱 (input#optionSelectList)
-        opt_json_str = hidden_inputs.get("optionSelectList", "")
-        if not opt_json_str:
-            opt_tag = soup.find("input", {"id": "optionSelectList"}) or soup.find("input", {"name": "optionSelectList"})
-            if opt_tag:
-                opt_json_str = opt_tag.get("value", "")
+        installed_opts_raw = jf.get("optlist", [])
+        if not installed_opts_raw and c_data.get("optList"):
+            installed_opts_raw = c_data.get("optList", [])
 
-        raw_options = []
-        if opt_json_str:
-            try:
-                raw_options = json.loads(opt_json_str)
-            except Exception:
-                matches = re.findall(r'\{"price":([^,]+),"name":"([^"]+)"\}', opt_json_str)
-                for price_val, name in matches:
-                    raw_options.append({"name": name, "price": price_val if price_val != "null" else None})
-
+        resolved_opts = []
         total_opt_price = 0
-        cleaned_options = []
-        for opt in raw_options:
-            name = str(opt.get("name", "")).strip()
-            price_raw = opt.get("price")
-            price = 0
-            if price_raw is not None:
+
+        for io in installed_opts_raw:
+            name = str(io.get("name", "")).strip()
+            if not name:
+                continue
+
+            p = io.get("price")
+            p_val = 0
+            if p is not None:
                 try:
-                    price = int(str(price_raw).replace(",", "").strip())
+                    p_val = int(str(p).replace(",", "").strip() or 0)
                 except ValueError:
-                    price = 0
-            
-            # 사내 시스템에서 price가 null/0으로 오는 경우 지능형 표준 가격 매핑
-            if price == 0 and name:
+                    p_val = 0
+
+            # 가격이 0이면 카탈로그 목록과 정규화 비교
+            if p_val == 0:
+                n_norm = norm_opt_name(name)
+                # 1) 카탈로그에서 매칭
+                for cname, cprice in price_by_name.items():
+                    cn_norm = norm_opt_name(cname)
+                    if n_norm == cn_norm or (n_norm in cn_norm) or (cn_norm in n_norm):
+                        p_val = cprice
+                        break
+
+            # 2) 여전히 0이면 기본 추정치 사전 매칭
+            if p_val == 0:
                 n_clean = name.lower().replace(" ", "").replace("_", "")
                 if n_clean in DEFAULT_OPTION_PRICES:
-                    price = DEFAULT_OPTION_PRICES[n_clean]
+                    p_val = DEFAULT_OPTION_PRICES[n_clean]
                 else:
                     for k, v in DEFAULT_OPTION_PRICES.items():
                         if k in n_clean:
-                            price = v
+                            p_val = v
                             break
-                if price == 0:
-                    price = 500000  # 기본 추정치
 
-            if name:
-                cleaned_options.append({
-                    "name": name,
-                    "price": price
-                })
-                total_opt_price += price
+            resolved_opts.append({
+                "name": name,
+                "price": p_val
+            })
+            total_opt_price += p_val
 
-        result["options"] = cleaned_options
-        result["total_option_price"] = total_opt_price
+        # 출고가 - 기본가 차액이 있고 옵션 총액과 차이가 날 때 정밀 보정
+        diff_price = max(0, new_car_price - base_car_price)
+        if diff_price > 0:
+            if total_opt_price == 0 and len(resolved_opts) > 0:
+                # 옵션이 1개면 바로 전액 배정
+                if len(resolved_opts) == 1:
+                    resolved_opts[0]["price"] = diff_price
+                    total_opt_price = diff_price
+            elif abs(diff_price - total_opt_price) > 0:
+                # 가격이 0인 옵션이 있으면 차액을 배정
+                unpriced = [o for o in resolved_opts if o["price"] == 0]
+                if len(unpriced) == 1 and diff_price > total_opt_price:
+                    unpriced[0]["price"] = diff_price - total_opt_price
+                    total_opt_price = diff_price
 
-        # 3. 신차 출고가 / 연식 / 최초등록일 / 차대번호 / 색상 / 변속기 / 연료
-        vin = hidden_inputs.get("ideNumber", "")
-        if not vin:
-            m_vin = re.search(r'ideNumber["\']?\s*[:=]\s*["\']?([A-Za-z0-9]{17})["\']?', html)
-            if m_vin: vin = m_vin.group(1)
-        result["vin"] = vin
+        # 신차가 / 기본가 상호 보완
+        if base_car_price == 0 and new_car_price > 0:
+            base_car_price = max(0, new_car_price - total_opt_price)
+        if new_car_price == 0 and base_car_price > 0:
+            new_car_price = base_car_price + total_opt_price
 
-        raw_model_yr = hidden_inputs.get("carYear", "").replace("년", "").strip()
-        raw_rel_date = hidden_inputs.get("releaseDate", "").strip()
-        
-        # 최초등록연도(연식) 파싱 (예: '2022-11-15' -> '2022')
+        # 4. 연식 및 최초등록일
+        rel_date = c_data.get("firstDate") or jf.get("firstdate") or ""
+        m_year = str(c_data.get("year") or jf.get("year") or "").replace("년", "").strip()
+
         reg_year = ""
-        if raw_rel_date:
-            m_ry = re.search(r'(\d{4})', raw_rel_date)
+        if rel_date:
+            m_ry = re.search(r"(\d{4})", rel_date)
             if m_ry:
                 reg_year = m_ry.group(1)
-        if not reg_year and raw_model_yr:
-            m_my = re.search(r'(\d{4})', raw_model_yr)
+        if not reg_year and m_year:
+            m_my = re.search(r"(\d{4})", m_year)
             if m_my:
                 reg_year = m_my.group(1)
 
-        result["model_year"] = raw_model_yr    # 형식연도 (예: 2023년형)
-        result["reg_year"] = reg_year          # 최초등록연도 (예: 2022년식)
-        result["release_date"] = raw_rel_date  # 최초등록일 (예: 2022-11-15)
+        cur_year = datetime.now().year
+        car_yr = int(reg_year) if reg_year and reg_year.isdigit() else (int(m_year) if m_year and m_year.isdigit() else cur_year)
 
-        # 연식 및 형식 명확한 구분 표기
-        if reg_year and raw_model_yr and reg_year != raw_model_yr:
-            result["year_display"] = f"{reg_year[-2:]}년식 ({raw_model_yr[-2:]}년형)"
+        if reg_year and m_year and reg_year != m_year:
+            year_display = f"{reg_year[-2:]}년식 ({m_year[-2:]}년형)"
         elif reg_year:
-            result["year_display"] = f"{reg_year[-2:]}년식"
-        elif raw_model_yr:
-            result["year_display"] = f"{raw_model_yr[-2:]}년식"
+            year_display = f"{reg_year[-2:]}년식"
+        elif m_year:
+            year_display = f"{m_year[-2:]}년식"
         else:
-            result["year_display"] = ""
+            year_display = f"{str(car_yr)[-2:]}년식"
 
-        result["color"] = hidden_inputs.get("carColor", "").strip()
-
-        raw_new_price = hidden_inputs.get("newPrice", "")
-        if not raw_new_price:
-            m_np = re.search(r'newPrice["\']?\s*[:=]\s*["\']?([0-9,]+)["\']?', html)
-            if m_np: raw_new_price = m_np.group(1)
-        clean_new_price = re.sub(r'[^\d]', '', raw_new_price) if raw_new_price else ""
-        result["new_car_price"] = int(clean_new_price) if clean_new_price else 0
-
-        # 기본 출고가 = 총 출고가 - 옵션 총액
-        result["base_car_price"] = max(0, result["new_car_price"] - result["total_option_price"])
-
-        # 제조사
-        maker_sel = soup.find("select", {"id": "menufacturer"})
-        maker = ""
-        if maker_sel:
-            opt = maker_sel.find("option", selected=True)
-            if opt: maker = opt.get_text(strip=True)
-        result["maker"] = maker or "현대/기아"
-
-        # 변속기 / 연료
-        trans_sel = soup.find("select", {"id": "gearbox"})
-        result["transmission"] = trans_sel.find("option", selected=True).get_text(strip=True) if trans_sel and trans_sel.find("option", selected=True) else "오토"
-
-        fuel_sel = soup.find("select", {"id": "carFuel"})
-        result["fuel"] = fuel_sel.find("option", selected=True).get_text(strip=True) if fuel_sel and fuel_sel.find("option", selected=True) else "가솔린"
-
-        # 4. 차종 / 모델 / 등급 / 세부등급 (JSP 스크립트 val 주입문 분석)
-        container_vals = re.findall(r"\$container\.val\(['\"]([^'\"]+)['\"]\)", html)
-        model_name = hidden_inputs.get("justModel", "")
-        grade_name = ""
-        trim_name = ""
-
-        if len(container_vals) >= 1:
-            model_name = container_vals[0]
-        if len(container_vals) >= 2:
-            grade_name = container_vals[1]
-        if len(container_vals) >= 3:
-            trim_name = container_vals[2]
-
-        result["model_name"] = model_name
-        result["grade_name"] = grade_name
-        result["trim_name"] = trim_name
-
-        # 잔가율 (사내 잔가율)
-        raw_remain = hidden_inputs.get("remainRate", "")
-        if not raw_remain:
-            m_rr = re.search(r'remainRate["\']?\s*[:=]\s*["\']?([0-9.]+)["\']?', html)
-            if m_rr: raw_remain = m_rr.group(1)
-        try:
-            result["remain_rate"] = float(raw_remain) if raw_remain else 0.0
-        except ValueError:
-            result["remain_rate"] = 0.0
-
-        # 5. 연식별 옵션 감가 계산 적용
+        # 5. 연식별 옵션 감가율 적용
         deprec_result = cls.calculate_option_depreciation(
-            cleaned_options,
-            release_date=result["release_date"],
-            year=result["model_year"]
+            resolved_opts,
+            release_date=rel_date,
+            year=str(car_yr)
         )
-        result["options"] = deprec_result["options"]
-        result["total_depreciated_opt_price"] = deprec_result["total_depreciated_opt_price"]
-        result["depreciation_rate"] = deprec_result["depreciation_rate"]
-        return result
+
+        maker = c_data.get("makerName") or jf.get("makername") or ""
+        model_name = c_data.get("modelName") or jf.get("modelname") or ""
+        model_detail = c_data.get("modelDetailName") or ""
+        grade_name = c_data.get("gradeName") or jf.get("seriesname1") or ""
+        grade_detail = c_data.get("gradeDetailName") or jf.get("seriesname") or ""
+        trim_name = grade_detail or model_detail or ""
+
+        return {
+            "success": True,
+            "car_no": car_no,
+            "vin": c_data.get("vin") or jf.get("vin") or "",
+            "maker": maker,
+            "model_name": model_name,
+            "model_detail_name": model_detail,
+            "grade_name": grade_name,
+            "grade_detail_name": grade_detail,
+            "trim_name": trim_name,
+            "model_year": m_year or str(car_yr),
+            "reg_year": reg_year or str(car_yr),
+            "release_date": rel_date,
+            "year_display": year_display,
+            "color": c_data.get("color") or jf.get("color") or "",
+            "fuel": c_data.get("fuel") or jf.get("fuel") or "",
+            "transmission": c_data.get("gearBox") or jf.get("gearbox") or "오토",
+            "new_car_price": new_car_price,
+            "base_car_price": base_car_price,
+            "options": deprec_result["options"],
+            "total_option_price": total_opt_price,
+            "total_depreciated_opt_price": deprec_result["total_depreciated_opt_price"],
+            "depreciation_rate": deprec_result["depreciation_rate"],
+            "remain_rate": 0.0,
+            "option_memo": jf.get("option_memo", "")
+        }
 
     @classmethod
     def calculate_option_depreciation(
@@ -373,16 +396,15 @@ class ChaolmaService:
         """
         차량 출고일 또는 연식에 따라 순정 옵션 잔존가치(감가율) 계산
         - 1년 미만: 80% (0.80)
-        - 1~2년차: 50% (0.50)
-        - 3~4년차: 35% (0.35)
+        - 1~3년차: 50% (0.50)
+        - 3~5년차: 35% (0.35)
         - 5년차 이상: 20% (0.20)
         """
-        age_years = 3.0  # 기본값 3년
+        age_years = 3.0
 
-        # 1. 최초등록일 기준 경과 연수 계산
         if release_date:
             try:
-                date_clean = re.sub(r'[^\d-]', '', release_date.strip())
+                date_clean = re.sub(r"[^\d-]", "", release_date.strip())
                 if len(date_clean) >= 10:
                     dt = datetime.strptime(date_clean[:10], "%Y-%m-%d")
                     age_years = (datetime.now() - dt).days / 365.25
@@ -390,12 +412,11 @@ class ChaolmaService:
                 pass
         elif year:
             try:
-                yr = int(re.sub(r'[^\d]', '', str(year)))
+                yr = int(re.sub(r"[^\d]", "", str(year)))
                 age_years = max(0.0, datetime.now().year - yr + 0.5)
             except Exception:
                 pass
 
-        # 2. 감가율(잔존율) 결정
         if age_years < 1.0:
             rate = 0.80
         elif age_years < 3.0:
@@ -405,7 +426,6 @@ class ChaolmaService:
         else:
             rate = 0.20
 
-        # 3. 각 옵션별 잔존가 계산
         total_deprec = 0
         computed_options = []
         for opt in options:

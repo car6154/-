@@ -105,8 +105,48 @@ PACKAGE_CATALOG = [
         "min_matches": 1
     },
     {
+        "id": "chevy_safety_2",
+        "aliases": ["세이프티패키지ii", "세이프티패키지2", "세이프티2", "세이프티ii", "safety2", "safetyii", "세이프티패키지", "세이프티팩"],
+        "name": "세이프티 패키지 II",
+        "brand": "쉐보레",
+        "description": "사각지대 경고시스템(SBZA), 후측방 경고시스템(RCTA), 전방충돌 경고시스템(RLAD/FCA), 차선이탈 경고시스템(LDWS)",
+        "items": ["사각지대 경고시스템", "후측방 경고시스템", "전방충돌 경고시스템", "차선이탈 경고시스템"],
+        "match_keywords": ["사각지대", "후측방", "전방충돌", "차선이탈", "sbza", "rcta", "ldws", "fcw", "rlad", "세이프티"],
+        "min_matches": 1
+    },
+    {
+        "id": "chevy_safety_1",
+        "aliases": ["세이프티패키지i", "세이프티패키지1", "세이프티1", "세이프티i", "safety1", "safetyi"],
+        "name": "세이프티 패키지 I",
+        "brand": "쉐보레",
+        "description": "사각지대 경고시스템(SBZA), 후측방 경고시스템(RCTA)",
+        "items": ["사각지대 경고시스템", "후측방 경고시스템"],
+        "match_keywords": ["사각지대", "후측방", "sbza", "rcta", "세이프티"],
+        "min_matches": 1
+    },
+    {
+        "id": "chevy_mylink_safety",
+        "aliases": ["마이링크&세이프티패키지", "마이링크세이프티패키지", "마이링크세이프티", "쉐보레인포테인먼트시스템&세이프티패키지"],
+        "name": "마이링크 & 세이프티 패키지",
+        "brand": "쉐보레",
+        "description": "마이링크/인포테인먼트, 후방카메라, 사각지대 경고시스템(SBZA), 후측방 경고시스템(RCTA)",
+        "items": ["마이링크", "후방카메라", "사각지대 경고시스템", "후측방 경고시스템"],
+        "match_keywords": ["마이링크", "후방카메라", "사각지대", "후측방", "sbza", "rcta", "세이프티"],
+        "min_matches": 1
+    },
+    {
+        "id": "chevy_style",
+        "aliases": ["스타일패키지", "스타일팩"],
+        "name": "스타일 패키지",
+        "brand": "쉐보레",
+        "description": "프로젝션 헤드램프, LED DRL & 포지셔닝 램프, 듀얼 시그니처 LED 테일램프, 18인치 알로이 휠",
+        "items": ["프로젝션 헤드램프", "LED DRL", "LED 테일램프", "18인치 알로이 휠"],
+        "match_keywords": ["스타일", "led", "헤드램프", "알로이휠"],
+        "min_matches": 1
+    },
+    {
         "id": "chevy_drive_assist",
-        "aliases": ["드라이브어시스트패키지", "드라이빙어시스트", "세이프티패키지", "쉐보레세이프티"],
+        "aliases": ["드라이브어시스트패키지", "드라이빙어시스트", "쉐보레세이프티"],
         "name": "드라이브 어시스트 패키지",
         "brand": "쉐보레",
         "description": "어댑티브 크루즈 컨트롤(ACC, 정차&재출발), 차선변경 및 사각지대 경고, 후측방 경고",
@@ -361,9 +401,11 @@ def extract_keywords_from_description(desc: str) -> list:
         "통풍시트", "통풍", "전동시트", "파워시트", "요추받침", "가죽시트", "열선시트", "열선핸들",
         "어댑티브", "스마트크루즈", "크루즈컨트롤", "acc", "scc", "ascc", "hda", "hda2",
         "차선변경", "사각지대", "후측방", "차로유지", "차로이탈", "긴급제동",
-        "헤드업", "hud", "내비게이션", "네비게이션", "후방카메라", "어라운드뷰", "서라운드뷰", "svm", "bvm",
+        "전방충돌", "차선이탈", "충돌경고", "충돌방지", "안전하차", "sbza", "rcta", "ldws", "fcw", "rlad",
+        "헤드업", "hud", "내비게이션", "네비게이션", "마이링크", "후방카메라", "어라운드뷰", "서라운드뷰", "svm", "bvm",
         "전동트렁크", "파워테일게이트", "스마트테일게이트", "리프트게이트", "무선충전", "선루프", "썬루프",
-        "파노라마선루프", "디지털키", "빌트인캠", "블랙박스", "bose", "보스", "크렐", "krell", "jbl", "스피커"
+        "파노라마선루프", "디지털키", "빌트인캠", "블랙박스", "bose", "보스", "크렐", "krell", "jbl", "스피커",
+        "스마트센스", "드라이브와이즈", "세이프티"
     ]
     norm_desc = normalize_opt_name(desc)
     found = []
@@ -371,6 +413,26 @@ def extract_keywords_from_description(desc: str) -> list:
         if normalize_opt_name(kw) in norm_desc:
             found.append(kw)
     return found
+
+
+def extract_year_candidates(year_str: str) -> list:
+    """연식 문자열에서 검색 가능한 4자리 연도 후보 목록 추출 (예: '16(17)' -> ['2016', '2017'])"""
+    if not year_str:
+        return []
+    s = str(year_str).strip()
+    cands = []
+    # 4자리 연도 (2016 등)
+    for m in re.findall(r'20\d{2}', s):
+        if m not in cands:
+            cands.append(m)
+    # 2자리 연도 (10~26 범위: '16(17)' -> 2016, 2017)
+    for m in re.findall(r'(?<!\d)(\d{2})(?!\d)', s):
+        val = int(m)
+        if 10 <= val <= 26:
+            y4 = f"20{m}"
+            if y4 not in cands:
+                cands.append(y4)
+    return cands
 
 
 def find_package_definition(pkg_str: str, car_name: str = "", year: str = "") -> dict:
@@ -401,30 +463,22 @@ def find_package_definition(pkg_str: str, car_name: str = "", year: str = "") ->
         if not target_models:
             target_models = list(crawled_db.keys())
 
-        # 연식 정규화 (예: '2021', '2021년형', '21/03', '21년03월' -> '2021')
-        clean_yr = ""
-        if year:
-            yr_str = str(year).strip()
-            m4 = re.search(r'20\d{2}', yr_str)
-            if m4:
-                clean_yr = m4.group(0)
-            else:
-                m2 = re.search(r'(?:^|[^\d])([12]\d)(?:년|/|\.|$)', yr_str)
-                if m2:
-                    clean_yr = f"20{m2.group(1)}"
+        # 연식 후보 리스트 순회 (일치하는 연식 우선)
+        yr_cands = extract_year_candidates(year)
 
         for m_key in target_models:
             yr_dict = crawled_db[m_key]
-            # 연식이 일치하는 연식 우선 탐색
-            search_years = [clean_yr] if clean_yr and clean_yr in yr_dict else list(yr_dict.keys())
+            search_years = [y for y in yr_cands if y in yr_dict]
+            if not search_years:
+                search_years = list(yr_dict.keys())
             for y in search_years:
                 yr_val = yr_dict.get(y, {})
                 items_to_search = {}
                 if isinstance(yr_val, dict):
                     if "packages" in yr_val or "options" in yr_val:
-                        # 1) 패키지 세부 구성 설명
+                        # 1) 패키지 세부 구성 설명 (순수 금액/숫자는 설명이 아니므로 스킵)
                         for p_name, p_desc in yr_val.get("packages", {}).items():
-                            if p_desc:
+                            if p_desc and not re.match(r'^[\d,\s원만원]+$', str(p_desc).strip()):
                                 items_to_search[p_name] = p_desc
                         # 2) 개별 옵션 (설명 또는 가격 포함)
                         for o_name, o_info in yr_val.get("options", {}).items():
@@ -433,20 +487,45 @@ def find_package_definition(pkg_str: str, car_name: str = "", year: str = "") ->
                                 price = o_info.get("price")
                                 if not desc and price:
                                     desc = f"선택옵션 (출고가: {price:,}원)"
-                                if desc and o_name not in items_to_search:
+                                if desc and not re.match(r'^[\d,\s원만원]+$', str(desc).strip()) and o_name not in items_to_search:
                                     items_to_search[o_name] = desc
-                            elif isinstance(o_info, str) and o_name not in items_to_search:
+                            elif isinstance(o_info, str) and not re.match(r'^[\d,\s원만원]+$', str(o_info).strip()) and o_name not in items_to_search:
                                 items_to_search[o_name] = o_info
                     else:
-                        items_to_search = yr_val
+                        items_to_search = {k: v for k, v in yr_val.items() if not re.match(r'^[\d,\s원만원]+$', str(v).strip())}
 
+                # 1단계: 완전 일치(Exact Match) 우선 탐색
+                for p_name, p_desc in items_to_search.items():
+                    norm_p = normalize_opt_name(p_name)
+                    if norm_p and norm == norm_p:
+                        matched_kw = extract_keywords_from_description(p_desc)
+                        if not matched_kw:
+                            for master_pkg in PACKAGE_CATALOG:
+                                for a in master_pkg.get("aliases", []):
+                                    if normalize_opt_name(a) == norm_p:
+                                        return master_pkg
+                        return {
+                            "id": f"crawled_{m_key}_{y}_{p_name}",
+                            "name": p_name,
+                            "brand": m_key,
+                            "description": p_desc,
+                            "items": [it.strip() for it in p_desc.split(",") if it.strip()],
+                            "match_keywords": matched_kw if matched_kw else [p_name],
+                            "min_matches": 1
+                        }
+
+                # 2단계: 부분 일치(Substring Match) 탐색
                 for p_name, p_desc in items_to_search.items():
                     norm_p = normalize_opt_name(p_name)
                     if not norm_p or len(norm_p) < 2:
                         continue
-                    if norm == norm_p or (len(norm) >= 3 and len(norm_p) >= 3 and (norm_p in norm or norm in norm_p)):
-                        # 공식 DB에서 완벽 매칭 성공!
+                    if len(norm) >= 3 and len(norm_p) >= 3 and (norm_p in norm or norm in norm_p):
                         matched_kw = extract_keywords_from_description(p_desc)
+                        if not matched_kw:
+                            for master_pkg in PACKAGE_CATALOG:
+                                for a in master_pkg.get("aliases", []):
+                                    if normalize_opt_name(a) == norm_p:
+                                        return master_pkg
                         return {
                             "id": f"crawled_{m_key}_{y}_{p_name}",
                             "name": p_name,

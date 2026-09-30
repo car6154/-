@@ -12,6 +12,7 @@ import plotly.graph_objects as go
 
 from sales_analysis import get_car_market_stats, generate_encar_market_url, SalesDataAnalyzer, is_target_option_matched, get_current_target_options
 from services.encar_service import Scraper
+from services.sold_out_tracker import SoldOutTracker
 from services.chaolma_service import ChaolmaService
 from services.option_package_service import build_option_tooltip
 from views.components.chaolma_card import render_chaolma_section, render_chaolma_card_ui
@@ -64,7 +65,7 @@ def render_main_tab(
                 bd_target_car = str(st.session_state.scan_data['차량명'].iloc[0])
                 bd_target_sub = str(st.session_state.scan_data['세부모델'].iloc[0]) if '세부모델' in st.session_state.scan_data.columns else ""
         elif scan_src == "car_number":
-            # 🚗 차량번호 조회 모드: 차올마 정보 1순위
+            # 🚗 차량번호 조회 모드: 차얼마 정보 1순위
             last_c = st.session_state.get('last_chaolma_data', {})
             if last_c and last_c.get('success'):
                 bd_target_car = last_c.get('model_name', '')
@@ -94,55 +95,103 @@ def render_main_tab(
         calc_year = current_f_year if current_f_year else str(st.session_state.get('f_year', '') or st.session_state.get('hd_target_year', ''))
         bd_stats = get_car_market_stats(bd_target_car, bd_target_sub, calc_year)
 
-        # 🔍 엔카 팔린매물(soldoutCars) 데이터 연동
-        target_carid = ""
-        # 1. 헤이딜러 응답의 자동 엔카 URL에서 추출
+        # 🔍 엔카 팔린매물(soldoutCars) 데이터 연동 (타겟 연식 1순위 후보 수집)
+        candidate_carids = []
+        ty_clean = str(calc_year).strip()[-2:] if str(calc_year).strip() else ""
+
+        def _get_cid_from_row(r):
+            cid = r.get('_carid')
+            if cid and str(cid).isdigit():
+                return str(cid)
+            link = r.get('링크')
+            if link:
+                m = re.search(r'carid=(\d+)', str(link))
+                if m:
+                    return m.group(1)
+            return None
+
+        # 1. filtered_df에서 타겟 연식 일치 매물 1순위 수집
+        if not filtered_df.empty:
+            df_target_yr = pd.DataFrame()
+            if ty_clean and '연식' in filtered_df.columns:
+                mask_yr = filtered_df['연식'].astype(str).str.contains(ty_clean, na=False)
+                df_target_yr = filtered_df[mask_yr]
+
+            # (1-A) 타겟 연식 + 세부모델 일치 매물
+            for _, r in df_target_yr.iterrows():
+                cid = _get_cid_from_row(r)
+                if cid and cid not in candidate_carids:
+                    candidate_carids.append(cid)
+
+            # (1-B) 인접 연식 (±1년) 매물
+            if ty_clean and ty_clean.isdigit() and '연식' in filtered_df.columns:
+                ty_num = int(ty_clean)
+                for adj_yr in [f"{ty_num-1:02d}", f"{ty_num+1:02d}"]:
+                    mask_adj = filtered_df['연식'].astype(str).str.contains(adj_yr, na=False)
+                    for _, r in filtered_df[mask_adj].iterrows():
+                        cid = _get_cid_from_row(r)
+                        if cid and cid not in candidate_carids:
+                            candidate_carids.append(cid)
+
+            # (1-C) filtered_df 나머지 매물
+            for _, r in filtered_df.iterrows():
+                cid = _get_cid_from_row(r)
+                if cid and cid not in candidate_carids:
+                    candidate_carids.append(cid)
+
+        # 2. scan_data에서 추가 후보 수집
+        if 'scan_data' in st.session_state and not st.session_state.scan_data.empty:
+            s_df = st.session_state.scan_data
+            if ty_clean and '연식' in s_df.columns:
+                mask_s_yr = s_df['연식'].astype(str).str.contains(ty_clean, na=False)
+                for _, r in s_df[mask_s_yr].iterrows():
+                    cid = _get_cid_from_row(r)
+                    if cid and cid not in candidate_carids:
+                        candidate_carids.append(cid)
+            for _, r in s_df.iterrows():
+                cid = _get_cid_from_row(r)
+                if cid and cid not in candidate_carids:
+                    candidate_carids.append(cid)
+
+        # 3. 헤이딜러 응답의 자동 엔카 URL 또는 session_state target_carid
         auto_url = st.session_state.get('auto_encar_url', '')
         if auto_url:
             m = re.search(r'carid=(\d+)', str(auto_url))
-            if m: target_carid = m.group(1)
+            if m and m.group(1) not in candidate_carids:
+                candidate_carids.append(m.group(1))
 
-        # 2. 동급 필터링 매물(filtered_df) 1순위 추출 (GDe/LPe 등 세부등급 일치 매물)
-        if not target_carid and not filtered_df.empty:
-            if '_carid' in filtered_df.columns and filtered_df['_carid'].iloc[0]:
-                target_carid = str(filtered_df['_carid'].iloc[0])
-            elif '링크' in filtered_df.columns:
-                m = re.search(r'carid=(\d+)', str(filtered_df['링크'].iloc[0]))
-                if m: target_carid = m.group(1)
+        if st.session_state.get('target_carid'):
+            c_val = str(st.session_state.target_carid).strip()
+            if c_val and c_val not in candidate_carids:
+                candidate_carids.append(c_val)
 
-        # 3. 실시간 스캔 매물(scan_data)에서 타겟 세부모델과 유종 일치 매물 추출
-        if not target_carid and 'scan_data' in st.session_state and not st.session_state.scan_data.empty:
-            s_df = st.session_state.scan_data
-            target_sub_clean = str(bd_target_sub).replace(' ', '').lower()
-            matched_carid = None
-            if target_sub_clean and '세부모델' in s_df.columns:
-                # GDe, LPe, 디젤 등 유종 및 트림 일치 행 탐색
-                for _, r in s_df.iterrows():
-                    sm_clean = str(r['세부모델']).replace(' ', '').lower()
-                    if ('gde' in target_sub_clean and 'gde' in sm_clean) or ('lpe' in target_sub_clean and 'lpe' in sm_clean):
-                        cid = r.get('_carid')
-                        if cid:
-                            matched_carid = str(cid)
-                            break
-            if matched_carid:
-                target_carid = matched_carid
-            elif '_carid' in s_df.columns and s_df['_carid'].iloc[0]:
-                target_carid = str(s_df['_carid'].iloc[0])
-            elif '링크' in s_df.columns:
-                m = re.search(r'carid=(\d+)', str(s_df['링크'].iloc[0]))
-                if m: target_carid = m.group(1)
-
-        # 3. 최근 조회된 carid fallback
-        if not target_carid and st.session_state.get('target_carid'):
-            target_carid = str(st.session_state.target_carid)
-
-        sold_out_res = Scraper.fetch_sold_out_cars(target_carid) if target_carid else {"has_data": False}
+        sold_out_res = Scraper.fetch_sold_out_cars(
+            candidate_carids,
+            target_year=calc_year,
+            expected_model=bd_target_car
+        ) if candidate_carids else {"has_data": False}
 
         total_sales_loaded = len(SalesDataAnalyzer.get_instance().df)
-        if bd_target_car and bd_stats.get('has_data'):
+        has_autoplus_data = bool(bd_target_car and bd_stats.get('has_data'))
+        has_encar_sold_data = bool(sold_out_res.get('has_data'))
+
+        # ----------------------------------------------------
+        # 1. 자사(오토플러스) 순수 소매 완판 통계 카드 (자사 데이터 보유 시)
+        # ----------------------------------------------------
+        if has_autoplus_data:
             tier_badge = f" <span style='background:rgba(204,145,102,0.12); border:1px solid #cc9166; color:#cc9166; padding:2px 8px; border-radius:12px; font-size:0.8em; font-weight:600;'>{bd_stats.get('matched_tier', '')}</span>" if bd_stats.get('matched_tier') else ""
             year_badge = f" <span style='background:rgba(239,68,68,0.15); border:1px solid #ef4444; color:#f87171; padding:2px 8px; border-radius:12px; font-size:0.8em; font-weight:700;'>⚠️ {bd_stats.get('year_diff_note')}</span>" if bd_stats.get('year_diff_note') else ""
-            st.caption(f"💡 순수 내수 소매 완판 데이터 **{bd_stats.get('pure_sales_count', total_sales_loaded):,}건** 중 **[{bd_stats.get('matched_name', bd_target_car)}]** 실적({bd_stats.get('total_count', 0)}대) 분석 결과입니다.{tier_badge}{year_badge} (경매·도매 출고 {bd_stats.get('auction_filtered_count', 1339):,}건 왜곡 방지 자동 제외 완료)", unsafe_allow_html=True)
+            
+            bd_cnt = bd_stats.get('total_count', 0)
+            sample_badge = ""
+            if bd_cnt < 3:
+                sample_badge = " <span style='background:rgba(234,179,8,0.15); border:1px solid #eab308; color:#facc15; padding:2px 8px; border-radius:12px; font-size:0.8em; font-weight:600;'>⚠️ 자사 소수표본 (엔카 시장속도 우선 연동)</span>"
+
+            st.caption(f"💡 순수 내수 소매 완판 데이터 **{bd_stats.get('pure_sales_count', total_sales_loaded):,}건** 중 **[{bd_stats.get('matched_name', bd_target_car)}]** 실적({bd_cnt}대) 분석 결과입니다.{tier_badge}{year_badge}{sample_badge} (경매·도매 출고 {bd_stats.get('auction_filtered_count', 1339):,}건 왜곡 방지 자동 제외 완료)", unsafe_allow_html=True)
+
+            grade_sub_text = bd_stats.get("turnover_grade", "-")
+            if bd_cnt < 3:
+                grade_sub_text = f"{bd_stats.get('turnover_grade', '-')} (1건 참고)"
 
             c_m1, c_m2, c_m3, c_m4 = st.columns(4)
             with c_m1:
@@ -151,7 +200,7 @@ def render_main_tab(
                     <div class='metric-icon'>⏱️</div>
                     <div class='metric-content' style='overflow: hidden;'>
                         <h4 style='white-space: nowrap; text-overflow: ellipsis; overflow: hidden;'>소매 평균 재고일수</h4>
-                        <h2 style='color: {bd_stats.get("turnover_color", "#4ade80")}; white-space: nowrap;'>{bd_stats.get("avg_days", 0)}일 <span style='font-size: 0.6em; color: #acafb9;'>({bd_stats.get("turnover_grade", "-")})</span></h2>
+                        <h2 style='color: {bd_stats.get("turnover_color", "#4ade80")}; white-space: nowrap;'>{bd_stats.get("avg_days", 0)}일 <span style='font-size: 0.58em; color: #acafb9;'>({grade_sub_text})</span></h2>
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
@@ -185,62 +234,186 @@ def render_main_tab(
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
+        elif bd_target_car and not has_autoplus_data:
+            model_disp = f"[{bd_target_car} {bd_target_sub}]".strip()
+            st.caption(f"💡 순수 내수 소매 완판 데이터 **{total_sales_loaded:,}건** 중 **{model_disp}** 자사(오토플러스) 완판 실적은 현재 미보유(0건) 상태입니다. (엔카 실시간 완판 시장속도 및 시세 기반 분석 제공)")
+
+        # ----------------------------------------------------
+        # 🎯 2. AI 종합 비딩 전략 판정 (자사 표본 부족/미보유 시에도 엔카 실시간 소화속도 기반 분석)
+        # ----------------------------------------------------
+        if bd_target_car:
+            bd_cnt = bd_stats.get('total_count', 0) if has_autoplus_data else 0
+            bd_days = bd_stats.get('avg_days', 0) if has_autoplus_data else 0
+            encar_30d = sold_out_res.get('count_30d', 0) if has_encar_sold_data else 0
+            stock_cnt = bd_stats.get('current_stock_count', 0)
+
+            if encar_30d >= 15:
+                if not has_autoplus_data or bd_cnt < 3:
+                    verdict_badge = "⚡ 시장 초고속 완판 (적극 매입)"
+                    verdict_color = "#38bdf8"
+                    if not has_autoplus_data:
+                        verdict_main = f"엔카 시장에서 최근 30일간 <b>{encar_30d}대</b>가 완판되는 초인기 차종입니다. (자사 소매 실적은 미보유 상태이나 전체 시장의 강력한 소화력을 바탕으로 <b>[적극적 표준 입찰]</b> 권장)"
+                    else:
+                        verdict_main = f"엔카 시장에서 최근 30일간 <b>{encar_30d}대</b>가 완판되는 초인기 차종입니다. 과거 자사 1건 기록({bd_days:.0f}일)은 소수 표본 특수 사례로, 전체 시장의 높은 소화력을 우선 반영하여 <b>[적극적 표준 입찰]</b>을 권장합니다."
+                    verdict_rec = "기본 기대마진 140~170만 원 확보 (빠른 회전으로 현금화 유리)"
+                elif bd_days <= 40:
+                    verdict_badge = "🔥 자사·시장 동반 쾌속회전 (공격 입찰)"
+                    verdict_color = "#38bdf8"
+                    verdict_main = f"자사 평균 {bd_days:.0f}일 및 엔카 월 {encar_30d}대 완판으로 회전이 극도로 빠릅니다."
+                    verdict_rec = "공격적 입찰 추천 (마진 100~130만 원으로 매입 성공률 극대화)"
+                else:
+                    verdict_badge = "⚖️ 시장 인기 대비 자사 장기화 (신중 표준 입찰)"
+                    verdict_color = "#facc15"
+                    verdict_main = f"엔카 시장(월 {encar_30d}대) 소화는 빠르나 과거 자사 평균 재고일({bd_days:.0f}일)이 길었습니다."
+                    verdict_rec = "안전마진 180~220만 원 확보 후 입찰 권장"
+            elif encar_30d >= 8:
+                if not has_autoplus_data or bd_cnt < 3 or bd_days <= 40:
+                    verdict_badge = "🟢 정상 유통 회전 (표준 입찰)"
+                    verdict_color = "#4ade80"
+                    verdict_main = f"엔카 시장(월 {encar_30d}대 출고)에서 꾸준히 소화되는 정상 유통 차종입니다."
+                    verdict_rec = "표준 입찰 추천 (기본 기대마진 150~180만 원 확보)"
+                else:
+                    verdict_badge = "🟡 재고 장기화 주의 (신중 입찰)"
+                    verdict_color = "#facc15"
+                    verdict_main = f"엔카 소화는 정상이나 자사 평균 재고일({bd_days:.0f}일)이 길어 마진 방어가 필요합니다."
+                    verdict_rec = "신중 입찰 권장 (안전마진 200~250만 원 이상 확보)"
+            elif has_autoplus_data:
+                if bd_days <= 20 and bd_cnt >= 3:
+                    verdict_badge = "⚡ 빠른 회전 (공격 입찰)"
+                    verdict_color = "#38bdf8"
+                    verdict_main = f"자사 소매 평균 {bd_days:.0f}일 만에 완판되는 빠른 회전 효자 차종입니다."
+                    verdict_rec = "공격적 입찰 추천 (기대마진 100~130만 원)"
+                elif bd_days <= 40:
+                    verdict_badge = "🟢 정상 재고 (표준 입찰)"
+                    verdict_color = "#4ade80"
+                    verdict_main = f"자사 소매 평균 {bd_days:.0f}일 소요되는 정상 유통 차종입니다."
+                    verdict_rec = "표준 입찰 추천 (기본 기대마진 150~180만 원)"
+                elif bd_days <= 60:
+                    verdict_badge = "🟡 장기 재고 주의 (신중 입찰)"
+                    verdict_color = "#facc15"
+                    verdict_main = f"자사 소매 평균 {bd_days:.0f}일 소요로 40일을 초과하는 장기 재고 진입 차종입니다."
+                    verdict_rec = "신중 입찰 권장 (안전마진 200~250만 원)"
+                else:
+                    verdict_badge = "🔴 악성 재고 주의 (방어적 입찰)"
+                    verdict_color = "#ef4444"
+                    verdict_main = f"소매 평균 재고일 {bd_days:.0f}일로 60일을 초과한 악성 재고 주의 차종입니다."
+                    verdict_rec = "방어적 입찰 필수 (가격 하락 방어 위해 마진 280~350만 원 이상 확보)"
+            else:
+                verdict_badge = "⚪ 시장 표본 완만 (표준 입찰)"
+                verdict_color = "#94a3b8"
+                verdict_main = f"자사 및 엔카 최근 30일 완판 표본이 적은 차종입니다. ({'엔카 최근30일 ' + str(encar_30d) + '대' if encar_30d > 0 else '실시간 시장 소화 대기 중'})"
+                verdict_rec = "표준 입찰 권장 (안전마진 160~200만 원 확보)"
+
+            if stock_cnt == 0:
+                verdict_main += " <span style='color: #4ade80;'>(✨ 현재 자사 미보유 모델로 빠른 전시/판매 유리)</span>"
+            elif stock_cnt >= 10:
+                verdict_main += f" <span style='color: #ef4444;'>(⚠️ 현재 자사 보유재고 {stock_cnt}대로 과밀 상태)</span>"
 
             sold_badge_html = ""
             sold_text_html = ""
-            if sold_out_res.get("has_data"):
-                sold_badge_html = f"<span style='font-size: 0.86em; background: rgba(255,255,255,0.06); padding: 3px 10px; border-radius: 12px; border: 1px solid #3b4252;'>엔카 완판: <b style='color: {sold_out_res.get('velocity_color', '#ef4444')};'>{sold_out_res.get('velocity_badge', '완판')}</b> <span style='color:#94a3b8;'>(최근30일 {sold_out_res.get('count_30d', 0)}대)</span></span>"
-                sold_text_html = f"<div style='margin-top: 8px; font-size: 0.9em; color: #cbd5e1; border-top: 1px dashed #2e3038; padding-top: 6px;'>⚡ <b>엔카 실시간 소화 속도</b>: 최근 30일간 <b>{sold_out_res.get('count_30d', 0)}대</b> 완판 (일평균 <b>{sold_out_res.get('daily_rate', 0)}대</b> 출고 / 완판 평균 주행거리 <b>{sold_out_res.get('avg_mileage', 0):,}km</b> / 최근 완판: <b>{sold_out_res.get('latest_sold_date', '-')}</b>)</div>"
+            if has_encar_sold_data:
+                yr_badge_info = f"{sold_out_res.get('target_year')}년식" if sold_out_res.get('is_year_filtered') else "동급 전연식"
+                sold_badge_html = f"<span style='font-size: 0.86em; background: rgba(255,255,255,0.06); padding: 3px 10px; border-radius: 12px; border: 1px solid #3b4252;'>엔카 완판({yr_badge_info}): <b style='color: {sold_out_res.get('velocity_color', '#ef4444')};'>{sold_out_res.get('velocity_badge', '완판')}</b> <span style='color:#94a3b8;'>(최근30일 {sold_out_res.get('count_30d', 0)}대)</span></span>"
+                sold_text_html = f"<div style='margin-top: 8px; font-size: 0.9em; color: #cbd5e1; border-top: 1px dashed #2e3038; padding-top: 6px;'>⚡ <b>엔카 실시간 소화 속도 ({yr_badge_info} 기준)</b>: 최근 30일간 <b>{sold_out_res.get('count_30d', 0)}대</b> 완판 (일평균 <b>{sold_out_res.get('daily_rate', 0)}대</b> 출고 / 완판 평균 주행거리 <b>{sold_out_res.get('avg_mileage', 0):,}km</b> / 최근 완판: <b>{sold_out_res.get('latest_sold_date', '-')}</b>)</div>"
 
             briefing_box_html = (
                 f"<div style='background-color: #121317; border: 1px solid #2e3038; border-radius: 10px; padding: 14px 18px; margin-top: 4px; margin-bottom: 12px;'>"
-                f"<div style='display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;'>"
+                f"<div style='display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;'>"
+                f"<div style='display: flex; align-items: center; gap: 10px;'>"
                 f"<span style='color: #cc9166; font-weight: bold; font-size: 1.05em;'>💡 AI 비딩 전략 브리핑</span>"
+                f"<span style='background: rgba(56, 189, 248, 0.15); border: 1px solid {verdict_color}; color: {verdict_color}; padding: 2px 10px; border-radius: 12px; font-size: 0.85em; font-weight: 700;'>{verdict_badge}</span>"
+                f"</div>"
                 f"<div style='display: flex; align-items: center; gap: 8px; flex-wrap: wrap;'>"
-                f"<span style='font-size: 0.86em; background: rgba(255,255,255,0.06); padding: 3px 10px; border-radius: 12px; border: 1px solid #2e3038;'>"
-                f"수요도: <b>{bd_stats.get('demand_badge', '보통')}</b> <span style='color:#9194a1;'>({bd_stats.get('demand_level', '보통')})</span>"
-                f"</span>"
                 f"<span style='font-size: 0.86em; background: rgba(255,255,255,0.06); padding: 3px 10px; border-radius: 12px; border: 1px solid #2e3038;'>"
                 f"자사 재고: <b style='color: {bd_stats.get('stock_color', '#cc9166')};'>{bd_stats.get('current_stock_count', 0)}대</b> <span style='color:#9194a1;'>({bd_stats.get('current_stock_desc', '미보유')})</span>"
                 f"</span>"
                 f"{sold_badge_html}"
                 f"</div>"
                 f"</div>"
-                f"<div style='color: #e2e3e9; font-size: 0.95em; line-height: 1.55;'>"
-                f"{bd_stats.get('turnover_desc', '')} 👉 <span style='color: #cc9166; font-weight: bold;'>{bd_stats.get('rec_strategy', '')}</span>"
+                f"<div style='color: #e2e3e9; font-size: 0.95em; line-height: 1.6; background: rgba(255,255,255,0.03); padding: 10px 14px; border-radius: 6px; border-left: 3px solid {verdict_color};'>"
+                f"{verdict_main}<br>👉 <span style='color: {verdict_color}; font-weight: bold;'>{verdict_rec}</span>"
                 f"</div>"
                 f"{sold_text_html}"
                 f"</div>"
             )
             st.markdown(briefing_box_html, unsafe_allow_html=True)
 
-            if sold_out_res.get("has_data") and sold_out_res.get("cars_sample"):
-                with st.expander(f"📋 엔카 실시간 완판(팔린매물) 최근 실거래 리스트 (총 {sold_out_res.get('total_sold_count', 0):,}건 중 최근 10대)", expanded=False):
-                    sample_df = pd.DataFrame(sold_out_res["cars_sample"])
-                    if not sample_df.empty:
-                        disp_df = pd.DataFrame()
-                        disp_df['차량정보'] = sample_df['name'] if 'name' in sample_df.columns else ''
-                        disp_df['연식'] = sample_df['year'] if 'year' in sample_df.columns else ''
-                        
-                        if 'km_num' in sample_df.columns:
-                            disp_df['완판 주행거리'] = sample_df['km_num'].apply(lambda x: f"{int(x):,}km" if pd.notna(x) and str(x).isdigit() or isinstance(x, (int, float)) else str(x))
-                        elif 'mileage' in sample_df.columns:
-                            disp_df['완판 주행거리'] = sample_df['mileage'].apply(lambda x: str(x) if 'km' in str(x) else f"{x:,}km" if str(x).isdigit() else str(x))
-                        else:
-                            disp_df['완판 주행거리'] = '-'
-                            
-                        disp_df['판매일자'] = sample_df['sold_date'] if 'sold_date' in sample_df.columns else ''
-                        st.dataframe(disp_df, use_container_width=True, hide_index=True)
+        # ----------------------------------------------------
+        # 📋 3. 엔카 실시간 완판(팔린매물) 최근 실거래 리스트 (100% 실측 스냅샷 데이터 기반)
+        # ----------------------------------------------------
+        if has_encar_sold_data and sold_out_res.get("cars_sample"):
+            enriched_info = SoldOutTracker.enrich_sold_cars(
+                sold_out_res["cars_sample"],
+                target_year=sold_out_res.get("target_year"),
+                expected_model=bd_target_car
+            )
+            sample_df = pd.DataFrame(enriched_info.get("enriched_cars", []))
+            yr_title = f"{sold_out_res.get('target_year')}년식 기준" if sold_out_res.get('is_year_filtered') else "동급 전연식"
+            tot_c = sold_out_res.get('total_sold_count', 0)
+            c_30d = sold_out_res.get('count_30d', 0)
+            avg_mil = sold_out_res.get('avg_mileage', 0)
+            latest_d = sold_out_res.get('latest_sold_date', '-')
 
+            matched_hits = enriched_info.get("matched_hits", 0)
+            sold_avg_p = enriched_info.get("sold_avg_price", 0)
+            sold_avg_d = enriched_info.get("sold_avg_days", 0)
+
+            if matched_hits > 0:
+                stat_caption = f" (최근 30일 완판: **{c_30d}대** / 완판 평균 주행: **{avg_mil:,}km** / 실거래 평균: **{sold_avg_p:,}만** / 평균 완판소요: **{sold_avg_d}일**)"
+            else:
+                stat_caption = f" (최근 30일 완판: **{c_30d}대** / 완판 평균 주행: **{avg_mil:,}km** / 최근 완판: **{latest_d}**)"
+
+            with st.expander(f"📋 엔카 실시간 완판(팔린매물) 최근 실거래 리스트 ({yr_title}: 총 {tot_c:,}건 중 최근 {len(sample_df)}대){stat_caption}", expanded=False):
+                if not sample_df.empty:
+                    disp_df = pd.DataFrame()
+                    disp_df['차량정보'] = sample_df['name'] if 'name' in sample_df.columns else ''
+                    disp_df['연식'] = sample_df['year'] if 'year' in sample_df.columns else ''
+                    
+                    if 'mileage' in sample_df.columns:
+                        disp_df['완판 주행거리'] = sample_df['mileage'].apply(lambda x: f"{int(x):,}km" if pd.notna(x) and (isinstance(x, (int, float)) or str(x).isdigit()) else str(x))
+                    elif 'km_num' in sample_df.columns:
+                        disp_df['완판 주행거리'] = sample_df['km_num'].apply(lambda x: f"{int(x):,}km" if pd.notna(x) and (isinstance(x, (int, float)) or str(x).isdigit()) else str(x))
+                    else:
+                        disp_df['완판 주행거리'] = '-'
+
+                    if 'est_price' in sample_df.columns:
+                        disp_df['실판매가'] = sample_df['est_price'].apply(lambda x: f"{int(x):,}만원" if pd.notna(x) and (isinstance(x, (int, float)) and x > 0) else "-")
+                    else:
+                        disp_df['실판매가'] = '-'
+
+                    if 'est_days' in sample_df.columns:
+                        def _format_inv_days(d):
+                            if not pd.notna(d) or d <= 0: return "-"
+                            d = int(d)
+                            if d <= 20: return f"⚡ {d}일 (빠른회전)"
+                            elif d <= 40: return f"🟢 {d}일 (정상재고)"
+                            elif d <= 60: return f"🟡 {d}일 (장기재고)"
+                            else: return f"🔴 {d}일 (악성재고)"
+                        disp_df['완판 소요 재고일수'] = sample_df['est_days'].apply(_format_inv_days)
+                    else:
+                        disp_df['완판 소요 재고일수'] = '-'
+
+                    disp_df['판매일자'] = sample_df['sold_date'] if 'sold_date' in sample_df.columns else ''
+
+                    st.dataframe(disp_df, use_container_width=True, hide_index=True)
+                    st.caption("※ [실판매가] 및 [완판 소요 재고일수]는 앱 사용 중 로컬 스냅샷 DB에 실시간 기록된 동일 차종(동일 연식·오차 20km 이내 동일 주행거리) 실측 매칭 결과입니다. (스냅샷 미매칭 매물은 데이터 왜곡 방지를 위해 '-'로 안전 표출)")
+
+        if bd_target_car:
             st.markdown("---")
-        elif not bd_target_car:
-            st.caption(f"💡 차량 조회 시 자사 순수 소매 완판 {total_sales_loaded:,}건 기반 회전율 및 보유 현황이 분석됩니다.")
+        else:
+            st.caption(f"💡 차량 조회 시 자사 순수 소매 완판 {total_sales_loaded:,}건 및 엔카 실시간 완판 데이터 기반 회전율 및 비딩 브리핑이 분석됩니다.")
             st.markdown("---")
 
         # ==========================================
         # 🚘 [1] 엔카 시세 요약본 (크기 2/3) + 요약 1번
         # ==========================================
         chart_base = filtered_df.copy()
+        # 실시간 매물 스냅샷을 로컬 DB에 자동 누적 (IP 위험 0%)
+        if not chart_base.empty:
+            try:
+                SoldOutTracker.record_active_listings(chart_base)
+            except Exception:
+                pass
         # 실시간 엔카 스캔 데이터(±1년 스마트밴드 포함: 20/21/22년 전 매물)를 온전히 표출
 
         if not chart_base.empty and '판매가' in chart_base.columns:

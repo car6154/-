@@ -69,7 +69,7 @@ async function syncCookiesToLocalServer(force = false) {
   }
 }
 
-// ── 오토플러스 (차얼마2) 쿠키 동기화 ──
+// ── 오토플러스 (차얼마) 쿠키 동기화 ──
 async function syncAutoplusCookiesToLocalServer(force = false) {
   try {
     const [cUrl1, cUrl2, cUrl3, cUrl4, cDom1, cDom2, cDom3, cDom4] = await Promise.all([
@@ -114,7 +114,7 @@ async function syncAutoplusCookiesToLocalServer(force = false) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ cookie: cookieStr, target: 'autoplus' })
     });
-    console.log('[J-PRO AutoSync] 오토플러스(차얼마2) 로그인 세션 쿠키 동기화 완료');
+    console.log('[J-PRO AutoSync] 오토플러스(차얼마) 로그인 세션 쿠키 동기화 완료');
   } catch (e) {
     // 로컬 서버 미실행 시 무시
   }

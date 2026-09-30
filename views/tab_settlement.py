@@ -310,6 +310,37 @@ def render_settlement_tab(SETTLEMENT_FILE="my_inventory_settlement.csv"):
                                 if stale_k in st.session_state:
                                     st.session_state[stale_k] = [] if 'options' in stale_k else ("" if 'desc' in stale_k or 'url' in stale_k else 0)
 
+                            # 2-1. 차량 옵션 데이터 완벽 복원 (장부 및 car_options_db 연동)
+                            from services.car_options_service import CarOptionsService
+                            opt_record = CarOptionsService.get_car_options(sel_c_no)
+                            restored_opts = opt_record.get('options', [])
+                            if not restored_opts and src_row is not None:
+                                raw_opt_col = str(src_row.get('옵션', ''))
+                                if raw_opt_col and raw_opt_col.strip() and raw_opt_col != 'nan':
+                                    restored_opts = CarOptionsService.clean_option_list(raw_opt_col)
+
+                            st.session_state['hd_target_options'] = restored_opts
+                            st.session_state['encar_target_options'] = restored_opts
+                            if opt_record.get('spec_desc'):
+                                st.session_state['hd_car_spec_desc'] = opt_record['spec_desc']
+                            elif restored_opts:
+                                st.session_state['hd_car_spec_desc'] = "\n".join([f"- {opt}" for opt in restored_opts])
+
+                            if opt_record.get('chaolma_data'):
+                                st.session_state['last_chaolma_data'] = opt_record['chaolma_data']
+                                st.session_state[f"chaolma_data_{sel_c_no}"] = opt_record['chaolma_data']
+                            elif restored_opts:
+                                st.session_state['last_chaolma_data'] = {
+                                    'success': True,
+                                    'car_number': sel_c_no,
+                                    'options': [{'name': opt, 'price': 0} for opt in restored_opts],
+                                    'new_car_price': 0,
+                                    'base_car_price': 0,
+                                    'total_option_price': 0,
+                                    'total_depreciated_opt_price': 0
+                                }
+                                st.session_state[f"chaolma_data_{sel_c_no}"] = st.session_state['last_chaolma_data']
+
                             # 3. 사이드바 위젯 및 세션에 직접 대상 차량 스펙 주입
                             two_digit_yr = (target_year % 100) if target_year > 0 else 0
                             st.session_state[f"search_year_{new_k}"] = two_digit_yr
@@ -347,7 +378,7 @@ def render_settlement_tab(SETTLEMENT_FILE="my_inventory_settlement.csv"):
                                 st.session_state['target_car_name'] = target_car_name
                             st.session_state['hd_full_name'] = f"{target_car_name} {target_sub_model}".strip()
 
-                            # 판매가, 외판수리비 복원
+                            # 판매가, 외판수리비, 매입가, 마진, 매입경로 복원
                             if src_row is not None:
                                 raw_sell = str(src_row.get('판매가', 0))
                                 m_sell = re.sub(r'[^\d]', '', raw_sell)
@@ -359,6 +390,32 @@ def render_settlement_tab(SETTLEMENT_FILE="my_inventory_settlement.csv"):
                                 if m_ext:
                                     st.session_state[f"ext_{new_k}"] = int(m_ext)
 
+                                raw_bid = str(src_row.get('매입가', 0))
+                                m_bid = re.sub(r'[^\d]', '', raw_bid)
+                                if m_bid and int(m_bid) > 0:
+                                    st.session_state[f"bid_{new_k}"] = int(m_bid)
+                                    st.session_state[f"user_final_bid_{new_k}"] = int(m_bid)
+
+                                memo_raw = str(src_row.get('특이사항', ''))
+                                m_margin = re.search(r'마진:\s*([0-9,]+)\s*만', memo_raw)
+                                if m_margin:
+                                    try:
+                                        s_margin = int(m_margin.group(1).replace(',', ''))
+                                        st.session_state[f"margin_{new_k}"] = s_margin
+                                        st.session_state["margin_key"] = s_margin
+                                    except Exception:
+                                        pass
+
+                                memo_clean = memo_raw
+                                for r_opt in ["셀프(기본)", "제로", "개인"]:
+                                    if r_opt in memo_raw:
+                                        st.session_state["purchase_route"] = r_opt
+                                        st.session_state[f"route_{new_k}"] = r_opt
+                                        memo_clean = re.sub(r'^\[.*?\]\s*', '', memo_raw)
+                                        break
+                                if memo_clean and memo_clean.strip():
+                                    st.session_state[f"memo_{new_k}"] = memo_clean.strip()
+
                             # 메인 탭에 자동 스캔 URL 주입 & 화면 이동 플래그
                             st.session_state['auto_scan_url'] = target_search_url
                             st.session_state['nav_target'] = "📊 시세 분석 및 스캔"
@@ -366,6 +423,27 @@ def render_settlement_tab(SETTLEMENT_FILE="my_inventory_settlement.csv"):
                             st.rerun()
                         else:
                             st.error("❌ 동급 매물 검색 URL을 생성하지 못했습니다. 차종명을 확인해 주세요.")
+
+            # 재고 차량의 옵션 정보 및 뱃지 표시
+            from services.car_options_service import CarOptionsService
+            car_opt_info = CarOptionsService.get_car_options(sel_c_no)
+            current_opts = car_opt_info.get('options', [])
+            if not current_opts and src_row is not None:
+                ledger_opts_str = str(src_row.get('옵션', '') or '').strip()
+                if ledger_opts_str and ledger_opts_str != 'nan':
+                    current_opts = CarOptionsService.clean_option_list(ledger_opts_str)
+
+            if current_opts:
+                opt_badges = "".join([f"<span style='display:inline-block; background:rgba(56,189,248,0.18); border:1px solid rgba(56,189,248,0.4); color:#7dd3fc; border-radius:4px; padding:2px 8px; font-size:0.75rem; font-weight:600; margin:2px 3px;'>🏷️ {opt}</span>" for opt in current_opts])
+            else:
+                opt_badges = "<span style='font-size:0.76rem; color:#94a3b8; font-style:italic;'>등록된 옵션 없음</span>"
+
+            st.markdown(f"""
+            <div style="background:rgba(15,23,42,0.55); border:1px solid rgba(56,189,248,0.25); border-radius:6px; padding:6px 12px; margin-top:-6px; margin-bottom:8px; display:flex; align-items:center; gap:8px;">
+                <span style="font-size:0.8rem; font-weight:700; color:#38bdf8; white-space:nowrap;">🏷️ 장착 옵션:</span>
+                <div style="flex:1; overflow-x:auto;">{opt_badges}</div>
+            </div>
+            """, unsafe_allow_html=True)
 
         # 4. 보유 재고 정산 테이블 렌더링 (맨 끝에 [판매완료] 체크박스 컬럼 배치)
         if not stock_df.empty:

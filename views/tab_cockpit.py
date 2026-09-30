@@ -562,16 +562,32 @@ def render_cockpit_view(
     autoplus_stats = get_car_market_stats(target_car_name, target_car_sub, target_year)
     total_sales_loaded = len(SalesDataAnalyzer.get_instance().df)
 
-    # (B) 엔카 팔린 매물 (수요 및 소화속도)
-    target_carid = ""
+    # (B) 엔카 팔린 매물 (수요 및 소화속도) - 타겟 연식 1순위 후보 수집
+    candidate_cids = []
+    ty_cockpit = str(target_year).strip()[-2:] if str(target_year).strip() else ""
+
+    if not filtered_df.empty and '_carid' in filtered_df.columns:
+        # 타겟 연식 일치 매물 1순위
+        if ty_cockpit and '연식' in filtered_df.columns:
+            m_yr = filtered_df['연식'].astype(str).str.contains(ty_cockpit, na=False)
+            for cid in filtered_df[m_yr]['_carid'].dropna().tolist():
+                if str(cid).isdigit() and str(cid) not in candidate_cids:
+                    candidate_cids.append(str(cid))
+        # 전체 filtered_df
+        for cid in filtered_df['_carid'].dropna().tolist():
+            if str(cid).isdigit() and str(cid) not in candidate_cids:
+                candidate_cids.append(str(cid))
+
     if encar_url_target:
         m = re.search(r'carid=(\d+)', str(encar_url_target))
-        if m: target_carid = m.group(1)
-    if not target_carid and not filtered_df.empty and '_carid' in filtered_df.columns:
-        valid_cids = [str(c) for c in filtered_df['_carid'].dropna().tolist() if str(c).isdigit()]
-        if valid_cids: target_carid = valid_cids[0]
+        if m and m.group(1) not in candidate_cids:
+            candidate_cids.append(m.group(1))
 
-    encar_sold_stats = Scraper.fetch_sold_out_cars(target_carid) if target_carid else {"has_data": False}
+    encar_sold_stats = Scraper.fetch_sold_out_cars(
+        candidate_cids,
+        target_year=target_year,
+        expected_model=target_car_name
+    ) if candidate_cids else {"has_data": False}
 
     # (C) 엔카 실시간 소매 시세 & 무사고/유사고 격차
     valid_prices = pd.to_numeric(filtered_df['판매가'], errors='coerce').dropna() if not filtered_df.empty and '판매가' in filtered_df.columns else pd.Series(dtype=float)
@@ -624,10 +640,11 @@ def render_cockpit_view(
             s_color = encar_sold_stats.get("velocity_color", "#38bdf8")
             s_30d = encar_sold_stats.get("count_30d", 0)
             s_daily = encar_sold_stats.get("daily_rate", 0)
+            yr_lbl = f" ({encar_sold_stats.get('target_year')}년식)" if encar_sold_stats.get('is_year_filtered') else ""
             st.markdown(f"""
             <div class='metric-card' style='background: #131d2e; border: 1px solid #233249; border-radius: 10px; padding: 12px; min-height: 86px;'>
                 <div style='display: flex; justify-content: space-between;'>
-                    <span style='font-size: 11px; color: #94a3b8; font-weight: 600;'>⚡ 엔카 소화속도 (수요)</span>
+                    <span style='font-size: 11px; color: #94a3b8; font-weight: 600;'>⚡ 엔카 소화속도{yr_lbl}</span>
                     <span style='font-size: 11px; color: {s_color}; font-weight: 700;'>{s_badge}</span>
                 </div>
                 <div style='display: flex; justify-content: space-between; align-items: baseline; margin-top: 4px;'>
@@ -872,5 +889,7 @@ def render_cockpit_view(
                         df_l = pd.DataFrame([new_row])
                     df_l.to_csv(LEDGER_FILE, index=False, encoding='utf-8-sig')
                     st.toast(f"🎉 {target_plate} 차량이 매입 장부에 정상 등록되었습니다!")
+                    st.session_state.should_scroll_top = True
+                    st.rerun()
                 except Exception as ex_save:
                     st.error(f"장부 저장 실패: {ex_save}")

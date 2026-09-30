@@ -1,6 +1,7 @@
 # views/tab_ledger.py
 import os
 import re
+import math
 from datetime import datetime
 import pandas as pd
 import streamlit as st
@@ -9,10 +10,37 @@ from services.encar_service import Scraper
 from sales_analysis import SalesDataAnalyzer
 
 def render_ledger_tab(LEDGER_FILE='my_car_ledger.csv', SETTLEMENT_FILE='my_inventory_settlement.csv'):
-    st.markdown("### 📋 내 실전 장부 리스트")
+    # 파일 변경 감지 시 자동 동기화
+    if os.path.exists(LEDGER_FILE):
+        cur_mtime = os.path.getmtime(LEDGER_FILE)
+        if st.session_state.get('_ledger_file_mtime', 0) != cur_mtime:
+            st.session_state._ledger_file_mtime = cur_mtime
+            try:
+                st.session_state.my_ledger_data = pd.read_csv(LEDGER_FILE)
+                st.session_state.my_ledger_data['차량번호'] = st.session_state.my_ledger_data['차량번호'].astype(str)
+                if '옵션' in st.session_state.my_ledger_data.columns:
+                    st.session_state.my_ledger_data['옵션'] = st.session_state.my_ledger_data['옵션'].fillna('').astype(str).replace('nan', '')
+            except Exception:
+                pass
+
+    hdr_c1, hdr_c2 = st.columns([8, 2])
+    with hdr_c1:
+        st.markdown("### 📋 내 실전 장부 리스트")
+    with hdr_c2:
+        if st.button("🔄 장부 파일 새로고침", use_container_width=True, help="my_car_ledger.csv 원본 파일에서 데이터를 즉시 다시 불러옵니다."):
+            if os.path.exists(LEDGER_FILE):
+                st.session_state._ledger_file_mtime = os.path.getmtime(LEDGER_FILE)
+                st.session_state.my_ledger_data = pd.read_csv(LEDGER_FILE)
+                st.session_state.my_ledger_data['차량번호'] = st.session_state.my_ledger_data['차량번호'].astype(str)
+                if '옵션' in st.session_state.my_ledger_data.columns:
+                    st.session_state.my_ledger_data['옵션'] = st.session_state.my_ledger_data['옵션'].fillna('').astype(str).replace('nan', '')
+                st.rerun()
+
     st.caption("💡 낙찰/매입된 차량의 [📦 매입 확정]을 누르면 `💰 실전 재고 및 정산 관리` 탭으로 이동하여 실제 판매 및 내 실수익을 정산합니다.")
 
     if not st.session_state.my_ledger_data.empty:
+        if '옵션' in st.session_state.my_ledger_data.columns:
+            st.session_state.my_ledger_data['옵션'] = st.session_state.my_ledger_data['옵션'].fillna('').astype(str).replace('nan', '')
         disp_ledger_df = st.session_state.my_ledger_data.copy()
         if '등록일' in disp_ledger_df.columns:
             disp_ledger_df = disp_ledger_df.sort_values(by='등록일', ascending=False, kind='mergesort')
@@ -27,7 +55,7 @@ def render_ledger_tab(LEDGER_FILE='my_car_ledger.csv', SETTLEMENT_FILE='my_inven
                 st.session_state['selected_ledger_car'] = current_sel_car
             default_box_idx = c_num_list.index(current_sel_car)
 
-            buy_col1, buy_col2, buy_col3, buy_col4 = st.columns([2.5, 2, 2, 2.5])
+            buy_col1, buy_col2, buy_col3, buy_col4, buy_col5 = st.columns([2.2, 1.8, 1.8, 2.2, 1.4])
             with buy_col1:
                 sel_buy_car = st.selectbox(
                     "📦 차량번호 선택:", 
@@ -157,6 +185,38 @@ def render_ledger_tab(LEDGER_FILE='my_car_ledger.csv', SETTLEMENT_FILE='my_inven
                                 if stale_k in st.session_state:
                                     st.session_state[stale_k] = [] if 'options' in stale_k else ""
 
+                            # 2-1. 차량 옵션 데이터 완벽 복원 (장부 및 car_options_db 연동)
+                            from services.car_options_service import CarOptionsService
+                            opt_record = CarOptionsService.get_car_options(sel_buy_car)
+                            restored_opts = opt_record.get('options', [])
+                            if not restored_opts:
+                                raw_opt_col = str(t_row.get('옵션', ''))
+                                if raw_opt_col and raw_opt_col.strip() and raw_opt_col != 'nan':
+                                    restored_opts = CarOptionsService.clean_option_list(raw_opt_col)
+
+                            st.session_state['hd_target_options'] = restored_opts
+                            st.session_state['encar_target_options'] = restored_opts
+                            if opt_record.get('spec_desc'):
+                                st.session_state['hd_car_spec_desc'] = opt_record['spec_desc']
+                            elif restored_opts:
+                                st.session_state['hd_car_spec_desc'] = "\n".join([f"- {opt}" for opt in restored_opts])
+                                
+                            if opt_record.get('chaolma_data'):
+                                st.session_state['last_chaolma_data'] = opt_record['chaolma_data']
+                                st.session_state[f"chaolma_data_{sel_buy_car}"] = opt_record['chaolma_data']
+                            elif restored_opts:
+                                # 차얼마 기본 구조 생성하여 출고정보 & 순정옵션 카드 연동
+                                st.session_state['last_chaolma_data'] = {
+                                    'success': True,
+                                    'car_number': sel_buy_car,
+                                    'options': [{'name': opt, 'price': 0} for opt in restored_opts],
+                                    'new_car_price': 0,
+                                    'base_car_price': 0,
+                                    'total_option_price': 0,
+                                    'total_depreciated_opt_price': 0
+                                }
+                                st.session_state[f"chaolma_data_{sel_buy_car}"] = st.session_state['last_chaolma_data']
+
                             # 연식, 키로수 주입
                             if parsed_y > 0:
                                 two_digit_yr = parsed_y % 100
@@ -180,7 +240,7 @@ def render_ledger_tab(LEDGER_FILE='my_car_ledger.csv', SETTLEMENT_FILE='my_inven
                             st.session_state['hd_full_name'] = full_c_text
                             st.session_state['hd_target_accident'] = "완전무사고"
 
-                            # 판매가, 외판수리비, 매입경로, 메모 복원
+                            # 판매가, 외판수리비, 매입경로, 메모, 마진, 매입가 복원
                             raw_sell = str(t_row.get('판매가', 0))
                             m_sell = re.sub(r'[^\d]', '', raw_sell)
                             if m_sell and int(m_sell) > 0:
@@ -191,12 +251,28 @@ def render_ledger_tab(LEDGER_FILE='my_car_ledger.csv', SETTLEMENT_FILE='my_inven
                             if m_ext:
                                 st.session_state[f"ext_{new_k}"] = int(m_ext)
 
+                            raw_bid = str(t_row.get('매입가', 0))
+                            m_bid = re.sub(r'[^\d]', '', raw_bid)
+                            if m_bid and int(m_bid) > 0:
+                                st.session_state[f"bid_{new_k}"] = int(m_bid)
+                                st.session_state[f"user_final_bid_{new_k}"] = int(m_bid)
+
                             memo_raw = str(t_row.get('특이사항', ''))
+                            # 저장 당시 마진 추출 및 복원
+                            m_margin = re.search(r'마진:\s*([0-9,]+)\s*만', memo_raw)
+                            if m_margin:
+                                try:
+                                    s_margin = int(m_margin.group(1).replace(',', ''))
+                                    st.session_state[f"margin_{new_k}"] = s_margin
+                                    st.session_state["margin_key"] = s_margin
+                                except Exception:
+                                    pass
+
                             memo_clean = memo_raw
                             for r_opt in ["셀프(기본)", "제로", "개인"]:
                                 if r_opt in memo_raw:
                                     st.session_state["purchase_route"] = r_opt
-                                    st.session_state["_route_selector"] = r_opt
+                                    st.session_state[f"route_{new_k}"] = r_opt
                                     memo_clean = re.sub(r'^\[.*?\]\s*', '', memo_raw)
                                     break
                             if memo_clean and memo_clean.strip():
@@ -216,19 +292,126 @@ def render_ledger_tab(LEDGER_FILE='my_car_ledger.csv', SETTLEMENT_FILE='my_inven
                         else:
                             st.error("동급 매물 검색 조건을 생성하지 못했습니다.")
 
+            with buy_col5:
+                st.write("")
+                st.write("")
+                if st.button("🗑️ 장부 삭제", key=f"del_ledger_btn_{current_sel_car}", use_container_width=True, help="선택한 차량을 매입 장부에서 완전히 삭제합니다."):
+                    st.session_state.my_ledger_data = st.session_state.my_ledger_data[st.session_state.my_ledger_data['차량번호'].astype(str) != current_sel_car]
+                    st.session_state.my_ledger_data.to_csv(LEDGER_FILE, index=False, encoding='utf-8-sig')
+                    st.success(f"🗑️ [{current_sel_car}] 차량이 장부에서 삭제되었습니다.")
+                    st.rerun()
+
+            # 선택된 차량의 옵션 정보 및 뱃지 표시
+            from services.car_options_service import CarOptionsService
+            car_opt_info = CarOptionsService.get_car_options(current_sel_car)
+            current_opts = car_opt_info.get('options', [])
+            if not current_opts and not matched_rows.empty:
+                ledger_opts_str = str(matched_rows.iloc[0].get('옵션', '') or '').strip()
+                if ledger_opts_str and ledger_opts_str != 'nan':
+                    current_opts = CarOptionsService.clean_option_list(ledger_opts_str)
+
+            if current_opts:
+                opt_badges = "".join([f"<span style='display:inline-block; background:rgba(56,189,248,0.18); border:1px solid rgba(56,189,248,0.4); color:#7dd3fc; border-radius:4px; padding:2px 8px; font-size:0.75rem; font-weight:600; margin:2px 3px;'>🏷️ {opt}</span>" for opt in current_opts])
+            else:
+                opt_badges = "<span style='font-size:0.76rem; color:#94a3b8; font-style:italic;'>등록된 옵션 없음</span>"
+
+            st.markdown(f"""
+            <div style="background:rgba(15,23,42,0.55); border:1px solid rgba(56,189,248,0.25); border-radius:6px; padding:6px 12px; margin-top:-6px; margin-bottom:8px; display:flex; align-items:center; gap:8px;">
+                <span style="font-size:0.8rem; font-weight:700; color:#38bdf8; white-space:nowrap;">🏷️ 장착 옵션:</span>
+                <div style="flex:1; overflow-x:auto;">{opt_badges}</div>
+            </div>
+            """, unsafe_allow_html=True)
+
         # 표시용 컬럼 정리 및 외판수리 기본값 보정
         if '외판수리' not in disp_ledger_df.columns:
             disp_ledger_df['외판수리'] = 0
         disp_ledger_df['외판수리'] = pd.to_numeric(disp_ledger_df['외판수리'], errors='coerce').fillna(0).astype(int)
 
         ledger_display_order = [
-            '등록일', '차량번호', '제조사', '차량명', '세부모델', '연식', '주행거리', 
+            '등록일', '차량번호', '제조사', '차량명', '세부모델', '연식', '주행거리', '옵션',
             '외판수리', '매입가', '판매가', '외판수리비', '헤딜수수료', '특이사항', '상태'
         ]
         # 실존하는 컬럼만 필터링
         final_ledger_cols = [col for col in ledger_display_order if col in disp_ledger_df.columns]
         # 나머지 혹시 모를 추가 컬럼 뒤에 붙이기
         final_ledger_cols += [col for col in disp_ledger_df.columns if col not in final_ledger_cols]
+
+        total_ledger_count = len(disp_ledger_df)
+        completed_mask = disp_ledger_df['상태'].astype(str) == '매입완료'
+        completed_count = int(completed_mask.sum())
+        pending_count = total_ledger_count - completed_count
+
+        # 상단 핵심 현황 대시보드
+        st.markdown(f"""
+        <div style='display: flex; gap: 12px; margin-top: 14px; margin-bottom: 14px;'>
+            <div class='metric-card' style='flex: 1;'>
+                <div class='metric-icon'>📋</div>
+                <div class='metric-content'>
+                    <h4>총 등록 장부</h4>
+                    <h2>{total_ledger_count:,} 대</h2>
+                </div>
+            </div>
+            <div class='metric-card' style='flex: 1;'>
+                <div class='metric-icon'>⏳</div>
+                <div class='metric-content'>
+                    <h4>진행 중 (미확정)</h4>
+                    <h2 style='color:#38bdf8;'>{pending_count:,} 대</h2>
+                </div>
+            </div>
+            <div class='metric-card' style='flex: 1;'>
+                <div class='metric-icon'>✅</div>
+                <div class='metric-content'>
+                    <h4>매입 확정 완료</h4>
+                    <h2 style='color:#4ade80;'>{completed_count:,} 대</h2>
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+        # 실시간 검색 및 필터 툴바
+        f_c1, f_c2, f_c3 = st.columns([3.2, 1.8, 2.0])
+        with f_c1:
+            search_kw = st.text_input("🔍 실시간 검색 (차량번호 / 차종 / 특이사항):", placeholder="예: 4504, 크루즈, 싼타페...", key="ledger_search_kw")
+        with f_c2:
+            status_filter = st.selectbox("상태 필터:", ["전체", "진행중 (미확정)", "매입완료"], key="ledger_status_flt")
+        with f_c3:
+            page_size_sel = st.selectbox("목록 표시 개수:", ["전체 보기", "50개씩 보기", "30개씩 보기", "100개씩 보기"], index=0, key="ledger_page_size")
+
+        filtered_df = disp_ledger_df.copy()
+        if search_kw and search_kw.strip():
+            kw = search_kw.strip().lower()
+            mask = (
+                filtered_df['차량번호'].astype(str).str.lower().str.contains(kw, na=False) |
+                filtered_df['차량명'].astype(str).str.lower().str.contains(kw, na=False) |
+                filtered_df['세부모델'].astype(str).str.lower().str.contains(kw, na=False) |
+                filtered_df['제조사'].astype(str).str.lower().str.contains(kw, na=False) |
+                filtered_df['특이사항'].astype(str).str.lower().str.contains(kw, na=False)
+            )
+            filtered_df = filtered_df[mask]
+
+        if status_filter == "진행중 (미확정)":
+            filtered_df = filtered_df[filtered_df['상태'].astype(str) != '매입완료']
+        elif status_filter == "매입완료":
+            filtered_df = filtered_df[filtered_df['상태'].astype(str) == '매입완료']
+
+        total_filtered = len(filtered_df)
+
+        if page_size_sel == "전체 보기":
+            page_size = max(1, total_filtered)
+            current_page = 1
+            total_pages = 1
+        else:
+            page_size = int(re.sub(r'[^\d]', '', page_size_sel))
+            total_pages = max(1, math.ceil(total_filtered / page_size))
+            p_col1, p_col2, p_col3 = st.columns([2, 3, 2])
+            with p_col2:
+                current_page = st.number_input(f"페이지 이동 (1 ~ {total_pages} 페이지):", min_value=1, max_value=total_pages, value=1, step=1, key="ledger_page_num")
+
+        start_idx = (current_page - 1) * page_size
+        end_idx = min(start_idx + page_size, total_filtered)
+        render_df = filtered_df.iloc[start_idx:end_idx]
+
+        st.caption(f"💡 현재 목록: 검색·필터 **{total_filtered:,}대** 중 **{start_idx + 1 if total_filtered > 0 else 0}~{end_idx}대** 표시 중 (전체 장부 데이터: **{total_ledger_count:,}대**)")
 
         # 원클릭 반응형 장부 테이블 (체크박스 없이 줄 전체 어디든 클릭 시 즉시 선택)
         st.markdown("""
@@ -269,9 +452,6 @@ def render_ledger_tab(LEDGER_FILE='my_car_ledger.csv', SETTLEMENT_FILE='my_inven
         </style>
         """, unsafe_allow_html=True)
 
-        # 헤더 라인
-        h_cols = st.columns([1.1, 1.3, 1.1, 2.0, 1.8, 0.8, 1.4, 0.8, 1.2, 1.2, 1.0, 1.2])
-        headers = ["등록일", "차량번호", "제조사", "차량명", "세부모델", "연식", "주행거리", "외판", "매입가", "판매가", "상태", "선택"]
         with st.container():
             st.markdown(f"""
             <div style="display:flex; background:#181b24; padding:8px 12px; border-radius:6px; border:1px solid #2a2e3f; margin-bottom:6px; font-size:0.83rem; font-weight:700; color:#94a3b8;">
@@ -290,8 +470,8 @@ def render_ledger_tab(LEDGER_FILE='my_car_ledger.csv', SETTLEMENT_FILE='my_inven
             </div>
             """, unsafe_allow_html=True)
 
-            # 각 행 렌더링 (최대 30개 표시)
-            for idx, r in disp_ledger_df.head(30).iterrows():
+            # 각 행 렌더링 (필터링 및 페이징된 전체 매물)
+            for idx, r in render_df.iterrows():
                 c_num = str(r.get('차량번호', '')).strip()
                 is_selected = (c_num == current_sel_car)
                 
@@ -309,9 +489,10 @@ def render_ledger_tab(LEDGER_FILE='my_car_ledger.csv', SETTLEMENT_FILE='my_inven
                     c_mil = str(r.get('주행거리', ''))
                     ext_cnt = f"{int(r.get('외판수리', 0))}판" if r.get('외판수리') else "0판"
                     
-                    b_price = f"{int(float(r.get('매입가', 0))):,}만" if r.get('매입가') and str(r.get('매입가')).strip() != '0' else "-"
-                    s_price = f"{int(float(r.get('판매가', 0))):,}만" if r.get('판매가') and str(r.get('판매가')).strip() != '0' else "-"
-                    status_val = str(r.get('상태', '보유중'))
+                    b_price = f"{int(float(r.get('매입가', 0))):,}만" if r.get('매입가') and str(r.get('매입가')).strip() not in ('0', '0.0', 'nan') else "-"
+                    s_price = f"{int(float(r.get('판매가', 0))):,}만" if r.get('판매가') and str(r.get('판매가')).strip() not in ('0', '0.0', 'nan') else "-"
+                    raw_status = r.get('상태', '보유중')
+                    status_val = '보유중' if pd.isna(raw_status) or str(raw_status).strip() in ('', 'nan') else str(raw_status).strip()
                     status_badge = f"<span style='background:#065f46; color:#34d399; padding:2px 6px; border-radius:4px; font-size:0.75rem;'>{status_val}</span>" if '완료' in status_val else f"<span style='background:#1e293b; color:#94a3b8; padding:2px 6px; border-radius:4px; font-size:0.75rem;'>{status_val}</span>"
 
                     st.markdown(f"""
@@ -337,6 +518,19 @@ def render_ledger_tab(LEDGER_FILE='my_car_ledger.csv', SETTLEMENT_FILE='my_inven
                         if current_sel_car != c_num:
                             st.session_state['selected_ledger_car'] = c_num
                             st.rerun()
+
+        # 하단 엑셀 데이터프레임 뷰어 & 다운로드
+        st.write("")
+        with st.expander("📊 장부 전체 스프레드시트 테이블 및 CSV 다운로드", expanded=False):
+            st.dataframe(filtered_df[final_ledger_cols], use_container_width=True, hide_index=True)
+            csv_bytes = filtered_df[final_ledger_cols].to_csv(index=False, encoding='utf-8-sig').encode('utf-8-sig')
+            st.download_button(
+                "📥 현재 필터 목록 CSV 다운로드",
+                data=csv_bytes,
+                file_name=f"my_car_ledger_{datetime.now().strftime('%Y%m%d_%H%M')}.csv",
+                mime="text/csv",
+                use_container_width=False
+            )
     else:
         st.info("아직 저장된 장부 내역이 없습니다. 좌측 장부 입력폼을 통해 타점을 기록해 보세요!")
 
@@ -619,7 +813,12 @@ def _trigger_market_scan_from_inventory(selected_row):
 
     # 2순위: 엔카 URL이 없거나 실패 시 차종명 기반 생성
     if not target_search_url and target_car_name:
-        target_search_url = SalesDataAnalyzer.generate_encar_url(target_car_name, target_sub_model, target_year, target_mil)
+        from services.master_mapping import MasterMappingService
+        target_search_url = MasterMappingService.generate_smart_encar_url(
+            target_car_name, target_sub_model, target_year, target_mil, car_number=c_no
+        )
+        if not target_search_url:
+            target_search_url = SalesDataAnalyzer.generate_encar_url(target_car_name, target_sub_model, target_year, target_mil)
 
     if target_search_url:
         # 1. 폼 리셋 키 버전업
@@ -635,6 +834,37 @@ def _trigger_market_scan_from_inventory(selected_row):
         for stale_k in stale_keys:
             if stale_k in st.session_state:
                 st.session_state[stale_k] = [] if 'options' in stale_k else ("" if 'desc' in stale_k or 'url' in stale_k else 0)
+
+        # 2-1. 차량 옵션 데이터 완벽 복원 (장부 및 car_options_db 연동)
+        from services.car_options_service import CarOptionsService
+        opt_record = CarOptionsService.get_car_options(c_no)
+        restored_opts = opt_record.get('options', [])
+        if not restored_opts:
+            raw_opt_col = str(selected_row.get('옵션', ''))
+            if raw_opt_col and raw_opt_col.strip() and raw_opt_col != 'nan':
+                restored_opts = CarOptionsService.clean_option_list(raw_opt_col)
+
+        st.session_state['hd_target_options'] = restored_opts
+        st.session_state['encar_target_options'] = restored_opts
+        if opt_record.get('spec_desc'):
+            st.session_state['hd_car_spec_desc'] = opt_record['spec_desc']
+        elif restored_opts:
+            st.session_state['hd_car_spec_desc'] = "\n".join([f"- {opt}" for opt in restored_opts])
+
+        if opt_record.get('chaolma_data'):
+            st.session_state['last_chaolma_data'] = opt_record['chaolma_data']
+            st.session_state[f"chaolma_data_{c_no}"] = opt_record['chaolma_data']
+        elif restored_opts:
+            st.session_state['last_chaolma_data'] = {
+                'success': True,
+                'car_number': c_no,
+                'options': [{'name': opt, 'price': 0} for opt in restored_opts],
+                'new_car_price': 0,
+                'base_car_price': 0,
+                'total_option_price': 0,
+                'total_depreciated_opt_price': 0
+            }
+            st.session_state[f"chaolma_data_{c_no}"] = st.session_state['last_chaolma_data']
 
         # 3. 사이드바 및 스캐너 위젯 주입
         two_digit_yr = (target_year % 100) if target_year > 0 else 0
@@ -670,7 +900,7 @@ def _trigger_market_scan_from_inventory(selected_row):
             st.session_state['target_car_name'] = target_car_name
         st.session_state['hd_full_name'] = f"{target_car_name} {target_sub_model}".strip()
 
-        # 판매가, 외판수리비 복원
+        # 판매가, 외판수리비, 매입가, 마진, 매입경로, 메모 복원
         raw_sell = str(selected_row.get('판매가', 0))
         m_sell = re.sub(r'[^\d]', '', raw_sell)
         if m_sell and int(m_sell) > 0:
@@ -680,6 +910,33 @@ def _trigger_market_scan_from_inventory(selected_row):
         m_ext = re.sub(r'[^\d]', '', raw_ext)
         if m_ext:
             st.session_state[f"ext_{new_k}"] = int(m_ext)
+
+        raw_bid = str(selected_row.get('매입가', 0))
+        m_bid = re.sub(r'[^\d]', '', raw_bid)
+        if m_bid and int(m_bid) > 0:
+            st.session_state[f"bid_{new_k}"] = int(m_bid)
+            st.session_state[f"user_final_bid_{new_k}"] = int(m_bid)
+
+        memo_raw = str(selected_row.get('특이사항', ''))
+        # 저장 당시 마진 추출 및 복원
+        m_margin = re.search(r'마진:\s*([0-9,]+)\s*만', memo_raw)
+        if m_margin:
+            try:
+                s_margin = int(m_margin.group(1).replace(',', ''))
+                st.session_state[f"margin_{new_k}"] = s_margin
+                st.session_state["margin_key"] = s_margin
+            except Exception:
+                pass
+
+        memo_clean = memo_raw
+        for r_opt in ["셀프(기본)", "제로", "개인"]:
+            if r_opt in memo_raw:
+                st.session_state["purchase_route"] = r_opt
+                st.session_state[f"route_{new_k}"] = r_opt
+                memo_clean = re.sub(r'^\[.*?\]\s*', '', memo_raw)
+                break
+        if memo_clean and memo_clean.strip():
+            st.session_state[f"memo_{new_k}"] = memo_clean.strip()
 
         st.session_state['auto_scan_url'] = target_search_url
         st.session_state['nav_target'] = "📊 시세 분석 및 스캔"
