@@ -333,6 +333,12 @@ class SalesDataAnalyzer:
         for b in ['현대', '기아', '제네시스', '쉐보레', '르노코리아', '르노삼성', '쌍용', 'kg모빌리티', '벤츠', 'bmw', '아우디', '폭스바겐', '볼보']:
             if c_clean.startswith(b) and len(c_clean) > len(b):
                 c_clean = c_clean[len(b):]
+            elif c_clean == b and sub_model:
+                c_clean = re.sub(r'[\(\)\[\]_\-\s]', '', str(sub_model)).lower()
+                for b2 in ['현대', '기아', '제네시스', '쉐보레', '르노코리아', '르노삼성', '쌍용', 'kg모빌리티', '벤츠', 'bmw', '아우디', '폭스바겐', '볼보']:
+                    if c_clean.startswith(b2) and len(c_clean) > len(b2):
+                        c_clean = c_clean[len(b2):]
+                break
 
         # 연식 파싱 (예: '2016', '16', '16년' -> 2016)
         target_year = None
@@ -758,18 +764,20 @@ class SalesDataAnalyzer:
         if not sub_df.empty:
             # 1. 유종(Fuel) 및 과급기(Turbo) 엄격 판별 헬퍼
             def check_is_diesel(txt):
-                t = str(txt).lower().replace(' ', '')
-                if any(k in t for k in ['디젤', 'diesel', 'crdi', 'vgt', 'e-vgt', 'evgt', 'cdi', 'tdi', 'dci', 'r2.0', 'r2.2', 'u2', '1.7d', '1.6d', '2.0d', '2.2d', '3.0d', '1.7', '2.2']):
+                t = str(txt).lower()
+                t_clean = t.replace(' ', '')
+                if any(k in t_clean for k in ['디젤', 'diesel', 'crdi', 'vgt', 'e-vgt', 'evgt', 'cdi', 'tdi', 'dci', 'r2.0', 'r2.2', 'u2', '1.7d', '1.6d', '2.0d', '2.2d', '3.0d', '1.7', '2.2']):
                     return True
-                if re.search(r'(\d\.\d\s*d\b|\bd\d\.\d\b)', str(txt).lower()):
+                if re.search(r'(\d\.\d\s*d(?=[^a-z0-9]|2wd|4wd|awd|$)|\bd\d\.\d\b)', t):
                     return True
                 return False
 
             def check_is_turbo(txt):
-                t = str(txt).lower().replace(' ', '')
-                if any(k in t for k in ['터보', 'turbo', 't-gdi', 'tgdi']):
+                t = str(txt).lower()
+                t_clean = t.replace(' ', '')
+                if any(k in t_clean for k in ['터보', 'turbo', 't-gdi', 'tgdi']):
                     return True
-                if re.search(r'(\d\.\d\s*t\b|\b\d+t\b)', str(txt).lower()):
+                if re.search(r'\d\.\d\s*t(?=[^a-z0-9]|2wd|4wd|awd|$)', t) or re.search(r'\b\d+t\b', t):
                     return True
                 return False
 
@@ -1167,36 +1175,42 @@ class SalesDataAnalyzer:
         valid_mileage = mileage_series[mileage_series >= 1000]
         avg_mileage = int(round(valid_mileage.mean())) if not valid_mileage.empty else int(round(mileage_series.mean()))
 
-        # 회전율 등급 평가 (순수 소매 완판 기준)
-        if avg_days <= 30 or under_30_pct >= 60:
-            turnover_grade = "S (초고속 완판)"
+        # 회전율 4단계 실무 표준 등급 평가 (순수 소매 완판 기준: 20일 / 40일 / 60일)
+        sample_limited = (total_count < 3)
+
+        if avg_days <= 20:
+            turnover_grade = "빠른 회전 (20일 이내)"
             turnover_color = "#38bdf8"
-            turnover_desc = f"순수 소매 평균 {avg_days}일 만에 완판! 30일 이내 회전율 {under_30_pct}%로 회전이 극도로 빠른 효자 차종입니다."
-            rec_strategy = "공격적 입찰 추천 (마진 80~100만 원만 잡고 높은 입찰가로 매입 성공률 극대화)"
+            turnover_desc = f"순수 소매 평균 {avg_days}일 만에 완판되는 빠른 회전 차종입니다."
+            rec_strategy = "공격적 입찰 추천 (기대마진 100~130만 원, 빠른 회전으로 현금화 유리)"
             agg_m = 90
-            std_m = 160
-            def_m = 250
-        elif avg_days <= 45 or under_30_pct >= 40:
-            turnover_grade = "A (빠른 회전)"
+            std_m = 140
+            def_m = 220
+        elif avg_days <= 40:
+            turnover_grade = "정상 재고 (40일 이내)"
             turnover_color = "#4ade80"
-            turnover_desc = f"순수 소매 평균 {avg_days}일 소요. 45일 이내 매각 확률이 높아 안정적 마진 확보가 가능합니다."
-            rec_strategy = "표준 입찰 추천 (기본 기대 마진 150~180만 원 확보)"
+            turnover_desc = f"순수 소매 평균 {avg_days}일 소요되는 정상 유통 차종입니다."
+            rec_strategy = "표준 입찰 추천 (기본 기대마진 150~180만 원 확보)"
             agg_m = 110
-            std_m = 180
-            def_m = 280
+            std_m = 170
+            def_m = 260
         elif avg_days <= 60:
-            turnover_grade = "B (보통 회전)"
+            turnover_grade = "장기 재고 (60일 이내)"
             turnover_color = "#facc15"
-            turnover_desc = f"순수 소매 평균 {avg_days}일 소요. 60일 이상 장기재고 비율({over_60_pct}%)을 고려하여 적정 마진을 유지하세요."
-            rec_strategy = "신중 입찰 (마진 200만 원 이상 권장)"
+            turnover_desc = f"순수 소매 평균 {avg_days}일 소요로 40일을 초과하는 장기 재고 진입 차종입니다."
+            rec_strategy = "신중 입찰 권장 (안전마진 200~250만 원 확보 필요)"
             agg_m = 130
             std_m = 210
-            def_m = 320
+            def_m = 300
         else:
-            turnover_grade = "C (장기재고 주의)"
+            turnover_grade = "악성 재고 (60일 초과)"
             turnover_color = "#ef4444"
-            turnover_desc = f"순수 소매 평균 재고일 {avg_days}일, 60일 초과 비율이 {over_60_pct}%에 달합니다. 소매 장기화 주의가 필요합니다."
-            rec_strategy = "방어적 입찰 필수 (안전 마진 280~350만 원 이상 확보하여 가격 하락 방어)"
+            if sample_limited:
+                turnover_desc = f"과거 자사 실적 1건이 {avg_days}일 소요(특수 사례 참고용)되었습니다."
+                rec_strategy = "시장 실시간 완판 속도 및 수요 확인 필수"
+            else:
+                turnover_desc = f"순수 소매 평균 재고일 {avg_days}일로 60일을 초과한 악성 재고 주의 차종입니다."
+                rec_strategy = "방어적 입찰 필수 (가격 하락 방어 위해 마진 280~350만 원 이상 확보)"
             agg_m = 160
             std_m = 250
             def_m = 350
@@ -1259,6 +1273,7 @@ class SalesDataAnalyzer:
             "current_stock_desc": current_stock_desc,
             "stock_color": stock_color,
             "total_count": total_count,
+            "sample_limited": sample_limited,
             "avg_days": avg_days,
             "median_days": median_days,
             "under_30_pct": under_30_pct,
@@ -2048,7 +2063,8 @@ def is_target_option_matched(opt_str: str, target_opts: list, car_name: str = ""
         {'빌트인캠', '블랙박스'},
         {'테크', '테크팩', '하이테크'},
         {'패밀리', '패밀리팩'},
-        {'매직테일게이트', '스마트테일게이트', '전동트렁크', '파워테일게이트', '매직테일'}
+        {'매직테일게이트', '스마트테일게이트', '전동트렁크', '파워테일게이트', '매직테일'},
+        {'세이프티', '세이프티패키지', '세이프티팩', '사각지대', '후측방', '전방충돌', '차선이탈', 'sbza', 'rcta', 'ldws', 'fcw', 'bsd'}
     ]
 
     for t in target_opts:
@@ -2095,7 +2111,7 @@ def get_current_target_options():
         if o and str(o).strip() not in target_opts:
             target_opts.append(str(o).strip())
             
-    # 2. 차올마 출고정보 순정옵션
+    # 2. 차얼마 출고정보 순정옵션
     l_car_num = st.session_state.get('car_num_input', '') or st.session_state.get('selected_car_num', '')
     cm = st.session_state.get(f"chaolma_data_{l_car_num}") if l_car_num else None
     if not cm:

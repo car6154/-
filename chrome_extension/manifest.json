@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "J-PRO 헤이딜러 쿠키 자동연동기",
-  "version": "1.2",
-  "description": "헤이딜러 로그인 쿠키를 J-PRO 전산 프로그램으로 1초만에 자동 전송합니다.",
+  "name": "J-PRO 헤이딜러 & 차얼마 쿠키 자동연동기",
+  "version": "1.3",
+  "description": "헤이딜러 및 차얼마(오토플러스) 로그인 쿠키를 J-PRO 전산 프로그램으로 실시간 자동 전송합니다.",
   "permissions": [
     "cookies",
     "tabs",
@@ -13,7 +13,7 @@
   ],
   "action": {
     "default_popup": "popup.html",
-    "default_title": "J-PRO 헤이딜러 쿠키 연동"
+    "default_title": "J-PRO 헤이딜러 & 차얼마 쿠키 연동"
   },
   "background": {
     "service_worker": "background.js"
@@ -23,7 +23,9 @@
       "matches": [
         "https://dealer.heydealer.com/*",
         "https://*.heydealer.com/*",
-        "https://purchase.autoplus.co.kr/*"
+        "https://purchase.autoplus.co.kr/*",
+        "http://purchase.autoplus.co.kr/*",
+        "https://*.autoplus.co.kr/*"
       ],
       "js": ["content.js"],
       "run_at": "document_start"

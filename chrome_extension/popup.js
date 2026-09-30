@@ -106,12 +106,12 @@ document.getElementById('copyBtn').addEventListener('click', async () => {
   }
 });
 
-// 견적조회(차얼마2) 쿠키 수동 동기화 버튼
+// 차얼마(오토플러스) 쿠키 수동 동기화 버튼
 document.getElementById('syncApBtn').addEventListener('click', async () => {
   const statusDiv = document.getElementById('status');
   const btn = document.getElementById('syncApBtn');
   btn.disabled = true;
-  statusDiv.textContent = '견적조회 쿠키 추출 중...';
+  statusDiv.textContent = '차얼마 쿠키 추출 중...';
   statusDiv.className = '';
 
   try {
@@ -132,7 +132,7 @@ document.getElementById('syncApBtn').addEventListener('click', async () => {
     });
 
     if (allMap.size === 0) {
-      statusDiv.innerHTML = '❌ 견적조회 로그인 쿠키를 찾지 못했습니다.<br><a href="https://purchase.autoplus.co.kr/login/login.do" target="_blank" style="color:#38bdf8;">차얼마2 로그인 열기</a>';
+      statusDiv.innerHTML = '❌ 차얼마 로그인 쿠키를 찾지 못했습니다.<br><a href="https://purchase.autoplus.co.kr/login/login.do" target="_blank" style="color:#38bdf8;">차얼마 로그인 열기</a>';
       statusDiv.className = 'error';
       btn.disabled = false;
       return;
@@ -145,7 +145,7 @@ document.getElementById('syncApBtn').addEventListener('click', async () => {
     });
 
     if (!hasSession) {
-      statusDiv.innerHTML = '⚠️ <b>로그인 세션이 없습니다!</b><br>차얼마2(purchase.autoplus.co.kr)에 먼저 로그인해주세요.<br><a href="https://purchase.autoplus.co.kr/login/login.do" target="_blank" style="color:#38bdf8; text-decoration:underline; font-size:12px; display:inline-block; margin-top:4px;">🔗 차얼마2 로그인 창 열기</a>';
+      statusDiv.innerHTML = '⚠️ <b>로그인 세션이 없습니다!</b><br>차얼마(purchase.autoplus.co.kr)에 먼저 로그인해주세요.<br><a href="https://purchase.autoplus.co.kr/login/login.do" target="_blank" style="color:#38bdf8; text-decoration:underline; font-size:12px; display:inline-block; margin-top:4px;">🔗 차얼마 로그인 창 열기</a>';
       statusDiv.className = 'error';
       btn.disabled = false;
       return;
@@ -164,7 +164,7 @@ document.getElementById('syncApBtn').addEventListener('click', async () => {
       });
 
       if (res.ok) {
-        statusDiv.textContent = '✅ 견적조회 쿠키 연동 성공! J-PRO 화면을 새로고침합니다...';
+        statusDiv.textContent = '✅ 차얼마 쿠키 연동 성공! J-PRO 화면을 새로고침합니다...';
         statusDiv.className = 'success';
         
         // 열려있는 J-PRO 탭 자동 새로고침
@@ -195,7 +195,7 @@ document.getElementById('syncApBtn').addEventListener('click', async () => {
   }
 });
 
-// 견적조회 쿠키 복사 버튼
+// 차얼마 쿠키 복사 버튼
 document.getElementById('copyApBtn').addEventListener('click', async () => {
   const statusDiv = document.getElementById('status');
   try {
@@ -214,7 +214,7 @@ document.getElementById('copyApBtn').addEventListener('click', async () => {
       if (c && c.name && c.value) allMap.set(c.name, c.value);
     });
     if (allMap.size === 0) {
-      statusDiv.textContent = '❌ 견적조회 쿠키를 찾지 못했습니다.';
+      statusDiv.textContent = '❌ 차얼마 쿠키를 찾지 못했습니다.';
       statusDiv.className = 'error';
       return;
     }
@@ -223,13 +223,13 @@ document.getElementById('copyApBtn').addEventListener('click', async () => {
       return u === 'JSESSIONID' || u === 'REMEMBER-ME';
     });
     if (!hasSession) {
-      statusDiv.innerHTML = '⚠️ <b>로그인 세션이 없습니다!</b> 차얼마2에 먼저 로그인해주세요.';
+      statusDiv.innerHTML = '⚠️ <b>로그인 세션이 없습니다!</b> 차얼마에 먼저 로그인해주세요.';
       statusDiv.className = 'error';
       return;
     }
     const cookieStr = Array.from(allMap.entries()).map(([k, v]) => `${k}=${v}`).join('; ');
     await navigator.clipboard.writeText(cookieStr);
-    statusDiv.textContent = '📋 견적조회 쿠키 복사 완료! (상단 🔑설정에 붙여넣기)';
+    statusDiv.textContent = '📋 차얼마 쿠키 복사 완료! (상단 🔑설정에 붙여넣기)';
     statusDiv.className = 'success';
   } catch (e) {
     statusDiv.textContent = '❌ 복사 실패: ' + e.message;

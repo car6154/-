@@ -335,6 +335,15 @@ class Scraper:
                     except: pass
 
             if not condition: return pd.DataFrame(), "❌ URL 검색 조건 누락"
+            
+            # 💡 [문자열 정제] 유니코드 이스케이프(\uXXXX) 및 + 기호를 실제 한글/공백으로 완벽 보정
+            if "\\u" in condition or r"\u" in condition:
+                try:
+                    condition = condition.encode('utf-8').decode('unicode_escape')
+                except Exception:
+                    pass
+            condition = condition.replace("+", " ")
+            condition = re.sub(r' +', ' ', condition)
                 
             safe_condition = urllib.parse.quote(condition)
             api_url = f"https://api.encar.com/search/car/list/general?count=false&q={safe_condition}&sr=%7CModifiedDate%7C0%7C100"
@@ -349,8 +358,13 @@ class Scraper:
             if custom_cookie: headers["Cookie"] = custom_cookie
             session.headers.update(headers)
 
-            cars_res = session.get(api_url).json()
-            cars = cars_res.get("SearchResults", [])
+            cars = []
+            try:
+                cars_res = session.get(api_url, timeout=7)
+                if cars_res.status_code == 200:
+                    cars = cars_res.json().get("SearchResults", [])
+            except Exception:
+                cars = []
             
             # 💡 [지능형 다단계 Fallback] 0건인 경우 단계별로 조건 완화 자동 재조회
             if not cars:
@@ -381,19 +395,22 @@ class Scraper:
 
                 # 3순위: Model 제거하고 ModelGroup 단위로 확대
                 if "Model." in cur_c:
-                    fb_mg = re.sub(r'_\.\(C\.ModelGroup\.([^\.]+)\._\.Model\.[^\.]+\.\)', r'._.ModelGroup.\1.', cur_c)
-                    fb_mg = re.sub(r'_\.Model\.[^\.]+\.', r'', fb_mg)
+                    fb_mg = re.sub(r'\._\.\(C\.ModelGroup\.([^\.]+)\._\.Model\.[^\.]+\.\)', r'._.ModelGroup.\1.', cur_c)
+                    fb_mg = re.sub(r'_\.\(C\.ModelGroup\.([^\.]+)\._\.Model\.[^\.]+\.\)', r'._.ModelGroup.\1.', fb_mg)
+                    fb_mg = re.sub(r'\._\.Model\.[^\.]+\.', r'', fb_mg)
+                    fb_mg = fb_mg.replace('.._.', '._.')
                     fallback_candidates.append(fb_mg)
 
                 for fb_cond in fallback_candidates:
                     try:
                         fb_safe = urllib.parse.quote(fb_cond)
                         fb_url = f"https://api.encar.com/search/car/list/general?count=false&q={fb_safe}&sr=%7CModifiedDate%7C0%7C100"
-                        fb_res = session.get(fb_url).json()
-                        fb_cars = fb_res.get("SearchResults", [])
-                        if fb_cars:
-                            cars = fb_cars
-                            break
+                        fb_resp = session.get(fb_url, timeout=7)
+                        if fb_resp.status_code == 200:
+                            fb_cars = fb_resp.json().get("SearchResults", [])
+                            if fb_cars:
+                                cars = fb_cars
+                                break
                     except Exception:
                         pass
 
@@ -515,182 +532,247 @@ class Scraper:
     _sold_out_failed_cache = {}
 
     @staticmethod
-    def fetch_sold_out_cars(carid, custom_cookie=None):
-        """엔카 '팔린매물 (soldoutCars)' 팝업 데이터 수집 및 소화 속도 분석"""
-        if not carid:
+    def fetch_sold_out_cars(carids, custom_cookie=None, target_year=None, expected_model=None):
+        """
+        엔카 '팔린매물 (soldoutCars)' 팝업 데이터 수집 및 소화 속도 분석
+        - carids: 단일 carid 또는 우선순위 정렬된 후보 carid 리스트
+        - target_year: 타겟 연식 (예: '16' 또는 '2016') - 해당 연식으로 필터링 및 통계 산출
+        - expected_model: 기대 모델명 (예: '투싼') - 엔카 56만건 엉뚱한 차종 응답 방어
+        """
+        if not carids:
             return {"has_data": False, "msg": "carid 누락"}
-        
-        carid = str(carid).strip()
+
+        if isinstance(carids, (list, tuple, set)):
+            candidate_list = [str(x).strip() for x in carids if x and str(x).strip()]
+        else:
+            candidate_list = [str(carids).strip()]
+
+        if not candidate_list:
+            return {"has_data": False, "msg": "유효한 carid 없음"}
+
+        ty_str = str(target_year).strip() if target_year else ""
+        ty_2d = ty_str[-2:] if len(ty_str) >= 2 else (f"{int(ty_str):02d}" if ty_str.isdigit() else ty_str)
+
         now_ts = time.time()
-
-        # 1. 실패한 carid는 10분(600초) 동안 재요청 금지 (백그라운드 봇 차단 방어)
-        if carid in Scraper._sold_out_failed_cache:
-            fail_time, fail_res = Scraper._sold_out_failed_cache[carid]
-            if now_ts - fail_time < 600:
-                return fail_res
-
-        # 2. 전역 메모리 캐시 확인
-        if carid in Scraper._sold_out_global_cache:
-            return Scraper._sold_out_global_cache[carid]
-
-        # 3. session_state 캐싱 확인
-        if hasattr(st, "session_state"):
-            if "sold_out_cars_cache" not in st.session_state:
-                st.session_state.sold_out_cars_cache = {}
-            if carid in st.session_state.sold_out_cars_cache:
-                return st.session_state.sold_out_cars_cache[carid]
-
         session = requests.Session()
-        headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36",
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
-            "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
-            "Referer": f"https://www.encar.com/dc/dc_cardetailview.do?carid={carid}",
-        }
-        
         cookie_val = custom_cookie or get_current_encar_cookie()
-        if cookie_val:
-            headers["Cookie"] = cookie_val
 
-        # 주의: method=soldoutCars (소문자 o 필수)
-        url = f"https://www.encar.com/dc/dc_carsearchpop.do?method=soldoutCars&carTypeCd=1&carid={carid}&wtClick_carview=067"
-        try:
-            res = session.get(url, headers=headers, timeout=3.0)
-            if res.status_code != 200 or len(res.content) < 1500:
-                result = {
-                    "has_data": False,
-                    "msg": f"조회 실패 (상태코드: {res.status_code})",
-                    "status_code": res.status_code
-                }
-                Scraper._sold_out_failed_cache[carid] = (now_ts, result)
-                if hasattr(st, "session_state"):
-                    st.session_state.sold_out_cars_cache[carid] = result
-                return result
+        for carid in candidate_list:
+            # 1. 실패한 carid는 20초 동안만 재요청 방어 (임시 네트워크 오류 즉시 복원 지원)
+            if carid in Scraper._sold_out_failed_cache:
+                fail_time, fail_res = Scraper._sold_out_failed_cache[carid]
+                if now_ts - fail_time < 20:
+                    continue
 
+            # 2. 캐시 확인 (carid + target_year 조합)
+            cache_k = f"{carid}_{ty_2d}"
+            if cache_k in Scraper._sold_out_global_cache:
+                return Scraper._sold_out_global_cache[cache_k]
+
+            if hasattr(st, "session_state"):
+                if "sold_out_cars_cache" not in st.session_state:
+                    st.session_state.sold_out_cars_cache = {}
+                if cache_k in st.session_state.sold_out_cars_cache:
+                    return st.session_state.sold_out_cars_cache[cache_k]
+
+            headers = {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36",
+                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+                "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
+                "Referer": f"https://www.encar.com/dc/dc_cardetailview.do?carid={carid}",
+            }
+            if cookie_val:
+                headers["Cookie"] = cookie_val
+
+            url = f"https://www.encar.com/dc/dc_carsearchpop.do?method=soldoutCars&carTypeCd=1&carid={carid}&wtClick_carview=067"
             try:
-                html = res.content.decode('euc-kr', errors='ignore')
-            except Exception:
-                html = res.text
-
-            soup = BeautifulSoup(html, 'html.parser')
-
-            # 1. 검색 건수 파싱 (예: <div class="part result"><p><em>검색결과</em> : <strong>70</strong>건</p></div>)
-            total_sold_count = 0
-            cnt_elem = soup.select_one('.part.result strong')
-            if cnt_elem:
-                try:
-                    total_sold_count = int(cnt_elem.get_text(strip=True).replace(',', ''))
-                except: pass
-            if not total_sold_count:
-                cnt_match = re.search(r'검색결과[^\d]*([0-9,]+)\s*건', html)
-                if cnt_match:
+                res = None
+                for _ in range(2):
                     try:
-                        total_sold_count = int(cnt_match.group(1).replace(',', ''))
+                        res = session.get(url, headers=headers, timeout=6.0)
+                        if res.status_code == 200 and len(res.content) >= 1500:
+                            break
+                    except Exception:
+                        time.sleep(0.2)
+
+                if not res or res.status_code != 200 or len(res.content) < 1500:
+                    Scraper._sold_out_failed_cache[carid] = (now_ts, {"has_data": False, "msg": "조회 실패"})
+                    continue
+
+                try:
+                    html_text = res.content.decode('euc-kr', errors='ignore')
+                except Exception:
+                    html_text = res.text
+
+                soup = BeautifulSoup(html_text, 'html.parser')
+
+                # 검색 건수 파싱
+                total_sold_count = 0
+                cnt_elem = soup.select_one('.part.result strong')
+                if cnt_elem:
+                    try: total_sold_count = int(cnt_elem.get_text(strip=True).replace(',', ''))
                     except: pass
-
-            # 2. 테이블 목록 파싱
-            rows = soup.select('table tr')
-            parsed_cars = []
-            now = datetime.now()
-
-            for r in rows:
-                cols = r.find_all(['td', 'th'])
-                if len(cols) >= 5 and cols[0].name == 'td':
-                    name_txt = cols[0].get_text(strip=True)
-                    year_txt = cols[1].get_text(strip=True)
-                    km_txt = cols[2].get_text(strip=True)
-                    sold_date_txt = cols[4].get_text(strip=True)
-
-                    if not km_txt or not sold_date_txt or km_txt == '-':
-                        continue
-
-                    # km 수치 변환
-                    km_num = 0
-                    km_match = re.search(r'([0-9,]+)', km_txt)
-                    if km_match:
-                        try:
-                            km_num = int(km_match.group(1).replace(',', ''))
+                if not total_sold_count:
+                    cnt_match = re.search(r'검색결과[^\d]*([0-9,]+)\s*건', html_text)
+                    if cnt_match:
+                        try: total_sold_count = int(cnt_match.group(1).replace(',', ''))
                         except: pass
 
-                    # 판매일 파싱 및 일수 차이 계산 (예: 2026/09/12)
-                    days_ago = 999
+                # 엔카 56만건 전체 매물 반환 방어 (DB 매핑 오류 carid)
+                if total_sold_count > 100000:
+                    Scraper._sold_out_failed_cache[carid] = (now_ts, {"has_data": False, "msg": "엔카 엉뚱한 전체 매물 반환"})
+                    continue
+
+                def _parse_rows(r_list):
+                    c_list = []
+                    now_dt = datetime.now()
+                    for r in r_list:
+                        cols = r.find_all(['td', 'th'])
+                        if len(cols) >= 5 and cols[0].name == 'td':
+                            name_txt = cols[0].get_text(strip=True)
+                            year_txt = cols[1].get_text(strip=True)
+                            km_txt = cols[2].get_text(strip=True)
+                            sold_date_txt = cols[4].get_text(strip=True)
+
+                            if not km_txt or not sold_date_txt or km_txt == '-':
+                                continue
+
+                            km_num = 0
+                            km_match = re.search(r'([0-9,]+)', km_txt)
+                            if km_match:
+                                try: km_num = int(km_match.group(1).replace(',', ''))
+                                except: pass
+
+                            days_ago = 999
+                            try:
+                                clean_date = sold_date_txt.replace('/', '-').replace('.', '-')
+                                dt = datetime.strptime(clean_date.strip()[:10], "%Y-%m-%d")
+                                days_ago = (now_dt - dt).days
+                            except: pass
+
+                            c_list.append({
+                                "name": name_txt,
+                                "year": year_txt,
+                                "mileage": km_num,
+                                "sold_date": sold_date_txt,
+                                "days_ago": days_ago
+                            })
+                    return c_list
+
+                parsed_cars = _parse_rows(soup.select('table tr'))
+
+                # 💡 최근 한 달치 이상(30~40대) 넉넉한 완판 매물 확보를 위해 2페이지 추가 연동 (안전 1회 호출)
+                if total_sold_count > 20 and len(parsed_cars) >= 15:
                     try:
-                        clean_date = sold_date_txt.replace('/', '-').replace('.', '-')
-                        dt = datetime.strptime(clean_date.strip()[:10], "%Y-%m-%d")
-                        days_ago = (now - dt).days
-                    except: pass
+                        url_p2 = f"https://www.encar.com/dc/dc_carsearchpop.do?method=soldoutCars&carTypeCd=1&carid={carid}&pagenum=2"
+                        res_p2 = session.get(url_p2, headers=headers, timeout=4.0)
+                        if res_p2.status_code == 200 and len(res_p2.content) >= 1500:
+                            soup_p2 = BeautifulSoup(res_p2.content.decode('euc-kr', errors='ignore'), 'html.parser')
+                            parsed_cars.extend(_parse_rows(soup_p2.select('table tr')))
+                    except Exception:
+                        pass
 
-                    parsed_cars.append({
-                        "name": name_txt,
-                        "year": year_txt,
-                        "mileage": km_num,
-                        "sold_date": sold_date_txt,
-                        "days_ago": days_ago
-                    })
+                if not parsed_cars:
+                    Scraper._sold_out_failed_cache[carid] = (now_ts, {"has_data": False, "msg": "매물 없음"})
+                    continue
 
-            if not parsed_cars and total_sold_count == 0:
-                result = {"has_data": False, "msg": "팔린 매물 데이터 없음"}
+                # 모델명 유효성 검증 (기대 모델명이 있는 경우)
+                if expected_model:
+                    exp_clean = re.sub(r'[^가-힣a-zA-Z0-9]', '', str(expected_model)).lower()
+                    first_name_clean = re.sub(r'[^가-힣a-zA-Z0-9]', '', parsed_cars[0]['name']).lower()
+                    matched_exp = False
+                    for part in [exp_clean[-4:], exp_clean[:4], exp_clean]:
+                        if part and (part in first_name_clean or first_name_clean in part):
+                            matched_exp = True
+                            break
+                    if not matched_exp and len(exp_clean) >= 2:
+                        Scraper._sold_out_failed_cache[carid] = (now_ts, {"has_data": False, "msg": "차종 불일치"})
+                        continue
+
+                # 연식 필터링 적용
+                def _match_year(y_txt, ty2):
+                    if not ty2:
+                        return True
+                    y_clean = str(y_txt).replace(' ', '')
+                    if f"{ty2}년형" in y_clean or f"20{ty2}년형" in y_clean:
+                        return True
+                    if f"{ty2}/" in y_clean:
+                        return True
+                    if f"20{ty2}" in y_clean or f"{ty2}년식" in y_clean:
+                        return True
+                    return False
+
+                if ty_2d:
+                    year_matched = [c for c in parsed_cars if _match_year(c["year"], ty_2d)]
+                else:
+                    year_matched = []
+
+                if year_matched:
+                    filtered_cars = year_matched
+                    is_year_filtered = True
+                else:
+                    filtered_cars = parsed_cars
+                    is_year_filtered = False
+
+                # 통계 계산 (필터링된 차량 기준)
+                recent_7d = [c for c in filtered_cars if c["days_ago"] <= 7]
+                recent_30d = [c for c in filtered_cars if c["days_ago"] <= 30]
+                count_7d = len(recent_7d)
+                count_30d = len(recent_30d)
+
+                mileages = [c["mileage"] for c in filtered_cars if c["mileage"] > 0]
+                avg_mileage = int(sum(mileages) / len(mileages)) if mileages else 0
+
+                daily_rate = round(count_30d / 30.0, 1) if count_30d > 0 else (round(count_7d / 7.0, 1) if count_7d > 0 else 0)
+
+                if daily_rate >= 1.0 or count_30d >= 30:
+                    velocity_grade = "초특급 완판"
+                    velocity_badge = "🔥 일 1대+ 출고"
+                    velocity_color = "#ef4444"
+                elif daily_rate >= 0.5 or count_30d >= 15:
+                    velocity_grade = "빠른 완판"
+                    velocity_badge = "⚡ 월 15대+ 출고"
+                    velocity_color = "#f59e0b"
+                elif count_30d >= 5:
+                    velocity_grade = "보통 완판"
+                    velocity_badge = "✨ 보통 출고"
+                    velocity_color = "#38bdf8"
+                else:
+                    velocity_grade = "완판 지연"
+                    velocity_badge = "☕ 저속 출고"
+                    velocity_color = "#94a3b8"
+
+                latest_sold_date = filtered_cars[0]["sold_date"] if filtered_cars else "-"
+
+                result = {
+                    "has_data": True,
+                    "carid": carid,
+                    "total_sold_count": total_sold_count or len(parsed_cars),
+                    "matched_count": len(filtered_cars),
+                    "is_year_filtered": is_year_filtered,
+                    "target_year": ty_2d if is_year_filtered else "",
+                    "count_7d": count_7d,
+                    "count_30d": count_30d,
+                    "daily_rate": daily_rate,
+                    "avg_mileage": avg_mileage,
+                    "velocity_grade": velocity_grade,
+                    "velocity_badge": velocity_badge,
+                    "velocity_color": velocity_color,
+                    "latest_sold_date": latest_sold_date,
+                    "cars_sample": filtered_cars[:35],
+                    "all_cars_sample": parsed_cars[:35]
+                }
+
+                Scraper._sold_out_global_cache[cache_k] = result
                 if hasattr(st, "session_state"):
-                    st.session_state.sold_out_cars_cache[carid] = result
+                    st.session_state.sold_out_cars_cache[cache_k] = result
                 return result
 
-            # 3. 통계 계산
-            recent_7d = [c for c in parsed_cars if c["days_ago"] <= 7]
-            recent_30d = [c for c in parsed_cars if c["days_ago"] <= 30]
-            count_7d = len(recent_7d)
-            count_30d = len(recent_30d)
+            except Exception as e:
+                Scraper._sold_out_failed_cache[carid] = (now_ts, {"has_data": False, "msg": f"에러: {e}"})
+                continue
 
-            # 주행거리 평균
-            mileages = [c["mileage"] for c in parsed_cars if c["mileage"] > 0]
-            avg_mileage = int(sum(mileages) / len(mileages)) if mileages else 0
-
-            # 일평균 출고 속도
-            daily_rate = round(count_30d / 30.0, 1) if count_30d > 0 else (round(count_7d / 7.0, 1) if count_7d > 0 else 0)
-
-            # 회전 속도 평가 등급 및 배지
-            if daily_rate >= 1.0 or count_30d >= 30:
-                velocity_grade = "초특급 완판"
-                velocity_badge = "🔥 일 1대+ 출고"
-                velocity_color = "#ef4444"
-            elif daily_rate >= 0.5 or count_30d >= 15:
-                velocity_grade = "빠른 완판"
-                velocity_badge = "⚡ 월 15대+ 출고"
-                velocity_color = "#f59e0b"
-            elif count_30d >= 5:
-                velocity_grade = "보통 완판"
-                velocity_badge = "✨ 보통 출고"
-                velocity_color = "#38bdf8"
-            else:
-                velocity_grade = "완판 지연"
-                velocity_badge = "☕ 저속 출고"
-                velocity_color = "#94a3b8"
-
-            latest_sold_date = parsed_cars[0]["sold_date"] if parsed_cars else "-"
-
-            result = {
-                "has_data": True,
-                "carid": carid,
-                "total_sold_count": total_sold_count or len(parsed_cars),
-                "count_7d": count_7d,
-                "count_30d": count_30d,
-                "daily_rate": daily_rate,
-                "avg_mileage": avg_mileage,
-                "velocity_grade": velocity_grade,
-                "velocity_badge": velocity_badge,
-                "velocity_color": velocity_color,
-                "latest_sold_date": latest_sold_date,
-                "cars_sample": parsed_cars[:10]
-            }
-
-            Scraper._sold_out_global_cache[carid] = result
-            if hasattr(st, "session_state"):
-                st.session_state.sold_out_cars_cache[carid] = result
-            return result
-
-        except Exception as e:
-            err_res = {"has_data": False, "msg": f"파싱 에러: {str(e)}"}
-            Scraper._sold_out_failed_cache[carid] = (time.time(), err_res)
-            return err_res
+        return {"has_data": False, "msg": "조회 가능한 팔린매물 데이터 없음"}
 
     @staticmethod
     def fetch_price_report(rgsid):
@@ -845,9 +927,26 @@ class Scraper:
             return {"has_data": False, "msg": "엔카 시세리포트 데이터 미제공 차종"}
 
         # 3. 엔카 표준 100점 기본가 및 상하한 밴드 계수 확보
-        std_100_price = benchmark_report["std_100_price"]
-        bad_ratio = benchmark_report.get("bad_ratio", 0.96)
-        good_ratio = benchmark_report.get("good_ratio", 1.04)
+        std_100_price = benchmark_report.get("std_100_price", 0)
+        bad_ratio = benchmark_report.get("bad_ratio", 0.95)
+        good_ratio = benchmark_report.get("good_ratio", 1.05)
+        rep_min_price = benchmark_report.get("min_price", 0)
+        rep_max_price = benchmark_report.get("max_price", 0)
+
+        # 💡 [기준 주행거리(base_mileage)] 엔카 공식 시세리포트 표준 마일리지 최우선 사용
+        rep_base_mil = benchmark_report.get("base_mileage", 0)
+        if rep_base_mil and rep_base_mil > 10000:
+            base_mil = int(rep_base_mil)
+        else:
+            real_mils = pd.to_numeric(cand_df['주행거리'].astype(str).str.replace(',', '').str.extract(r'(\d+)')[0], errors='coerce').dropna()
+            if not real_mils.empty and real_mils.mean() > 10000:
+                base_mil = int(real_mils.mean())
+            else:
+                calc_age = 4
+                if t_yr_norm and t_yr_norm.isdigit():
+                    yr_val = 2000 + int(t_yr_norm)
+                    calc_age = max(1, datetime.now().year - yr_val)
+                base_mil = calc_age * 15000
 
         # 💡 [실매물 코호트 통계 및 시장 앵커링] 현재 화면의 동급(타겟 연식) 매물 실제 통계
         real_prices = pd.to_numeric(cand_df['판매가'], errors='coerce').dropna()
@@ -857,26 +956,23 @@ class Scraper:
         is_no_acc_cand = cand_df['사고유무'].astype(str).str.contains('무사고') if '사고유무' in cand_df.columns else pd.Series(False, index=cand_df.index)
         no_acc_cand_prices = pd.to_numeric(cand_df.loc[is_no_acc_cand, '판매가'], errors='coerce').dropna()
         cohort_no_acc_avg = int(no_acc_cand_prices.mean()) if not no_acc_cand_prices.empty else real_market_avg
+        sample_count = len(no_acc_cand_prices) if not no_acc_cand_prices.empty else len(real_prices)
 
-        # 💡 기준가(100점가) 현실 앵커링: 실매물 시장 무사고 평균(80%) + 엔카 리포트(20%)로 거품 완전 제거
-        if cohort_no_acc_avg > 0:
-            if std_100_price > 0:
-                std_100_price = int(round(cohort_no_acc_avg * 0.8 + std_100_price * 0.2))
+        # 💡 기준가(100점가) 앵커링:
+        # 표본이 3대 미만인 소수 표본 상황에서는 특정 매물의 급매/호가 왜곡을 방지하기 위해 엔카 공식 빅데이터(100점가)를 100% 신뢰.
+        # 표본이 3대 이상일 때만 표본 수에 비례하여 시장 평균가를 점진적으로 블렌딩.
+        if std_100_price > 0:
+            if sample_count >= 10 and cohort_no_acc_avg > 0:
+                std_100_price = int(round(cohort_no_acc_avg * 0.6 + std_100_price * 0.4))
+            elif sample_count >= 5 and cohort_no_acc_avg > 0:
+                std_100_price = int(round(cohort_no_acc_avg * 0.4 + std_100_price * 0.6))
+            elif sample_count >= 3 and cohort_no_acc_avg > 0:
+                std_100_price = int(round(cohort_no_acc_avg * 0.2 + std_100_price * 0.8))
             else:
-                std_100_price = cohort_no_acc_avg
-        elif real_market_avg > 0:
-            std_100_price = real_market_avg
-
-        # 💡 동급 매물의 실제 평균 주행거리 산출 (기본 마일리지 기준점으로 사용)
-        real_mils = pd.to_numeric(cand_df['주행거리'].astype(str).str.replace(',', '').str.extract(r'(\d+)')[0], errors='coerce').dropna()
-        if not real_mils.empty and real_mils.mean() > 10000:
-            base_mil = int(real_mils.mean())
+                # 표본 1~2대: 엔카 빅데이터 100점가 100% 유지!
+                pass
         else:
-            calc_age = 4
-            if t_yr_norm and t_yr_norm.isdigit():
-                yr_val = 2000 + int(t_yr_norm)
-                calc_age = max(1, datetime.now().year - yr_val)
-            base_mil = calc_age * 15000
+            std_100_price = cohort_no_acc_avg if cohort_no_acc_avg > 0 else real_market_avg
 
         # 4. 대상 차량 스펙 적용
         effective_mil = target_mil if target_mil > 0 else base_mil
@@ -891,8 +987,8 @@ class Scraper:
             pt_per_10k = 1.8
 
         mil_score_delta = (mil_diff / 10000.0) * pt_per_10k
-        # 과도한 주행거리 점수 폭등/폭락 방지 (최대 ±6.0점 이내)
-        mil_score_delta = max(-6.0, min(6.0, mil_score_delta))
+        # 과도한 주행거리 점수 폭등/폭락 방지 (최대 ±8.0점 이내)
+        mil_score_delta = max(-8.0, min(8.0, mil_score_delta))
 
         # (2) 사고 감점
         acc_score_delta = 0.0
@@ -907,7 +1003,7 @@ class Scraper:
 
         # (4) 대상 차량의 엔카 개별 기준가 산출 (초과 옵션 가치는 시장 매물 감안하여 현실적 순증분 반영)
         if target_opt_adj > 0:
-            real_opt_adj = min(35, int(round(target_opt_adj * 0.35)))
+            real_opt_adj = min(40, int(round(target_opt_adj * 0.35)))
         elif target_opt_adj < 0:
             real_opt_adj = max(-40, int(round(target_opt_adj * 0.4)))
         else:
@@ -915,18 +1011,25 @@ class Scraper:
 
         calc_individual_price = int(round(std_100_price * (calc_score / 100.0))) + real_opt_adj
 
-        # 💡 [시장 현실 클램프] 실매물 최고가를 뚫고 비현실적으로 치솟는 거품 차단
-        if not real_prices.empty:
-            max_market = int(real_prices.max())
-            min_market = int(real_prices.min())
-            if calc_individual_price > max_market:
-                calc_individual_price = max_market
-            elif calc_individual_price < min_market:
-                calc_individual_price = min_market
+        # 💡 [이상치 방어 클램프]
+        # 표본이 3대 미만일 때는 단일 매물의 호가로 강제 클램프(Hard clamp)하지 않음!
+        # (예: 시장에 12.7만km 매물 1대(1,080만)만 있을 때, 10.6만km 무사고 차량이 1,080만에 묶이는 왜곡 원천 차단)
+        # 대신 엔카 공식 시세리포트의 상하한선(min_price, max_price)을 안전 잣대로 활용
+        if rep_max_price > 0 and rep_min_price > 0:
+            safe_ceiling = int(round(rep_max_price * 1.08))
+            safe_floor = int(round(rep_min_price * 0.92))
+            calc_individual_price = max(safe_floor, min(safe_ceiling, calc_individual_price))
+        elif sample_count >= 5:
+            market_max = int(real_prices.max())
+            market_min = int(real_prices.min())
+            if calc_score > 100 and calc_individual_price > market_max:
+                calc_individual_price = min(calc_individual_price, int(round(market_max * 1.10)))
+            elif calc_score < 100 and calc_individual_price < market_min:
+                calc_individual_price = max(calc_individual_price, int(round(market_min * 0.90)))
 
         # (5) 엔카 적정 시세 밴드 (minPrice ~ maxPrice)
-        safe_bad_ratio = max(0.95, min(0.97, bad_ratio)) if bad_ratio > 0 else 0.96
-        safe_good_ratio = min(1.05, max(1.03, good_ratio)) if good_ratio > 0 else 1.04
+        safe_bad_ratio = max(0.94, min(0.97, bad_ratio)) if bad_ratio > 0 else 0.95
+        safe_good_ratio = min(1.06, max(1.03, good_ratio)) if good_ratio > 0 else 1.05
 
         calc_min_price = int(round(calc_individual_price * safe_bad_ratio))
         calc_max_price = int(round(calc_individual_price * safe_good_ratio))

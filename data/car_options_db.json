@@ -1,0 +1,160 @@
+{
+  "112저4548": {
+    "options": [
+      "기본형-드라이브와이즈",
+      "스타일"
+    ],
+    "spec_desc": "신차정가(옵션 포함) : 1,655만원\n\n1) 기본형-드라이브와이즈 \n2) 스타일 \n* 신차 추가옵션",
+    "updated_at": "2026-09-30 13:52:38"
+  },
+  "37다1840": {
+    "options": [
+      "드라이브 와이즈",
+      "컴포트",
+      "스타일"
+    ],
+    "updated_at": "2026-09-30 13:59:16"
+  },
+  "20로8026": {
+    "options": [
+      "브라운패키지-드라이빙세이프티PACK",
+      "선루프",
+      "UVO+JBL"
+    ],
+    "chaolma_data": {
+      "success": true,
+      "car_no": "20로8026",
+      "vin": "KNAGW411BGA000695",
+      "maker": "기아",
+      "model_name": "신형 K5",
+      "grade_name": "2.0 가솔린",
+      "trim_name": "노블레스 스페셜 MX",
+      "model_year": "2016",
+      "release_date": "2015-07-10",
+      "mileage": "",
+      "color": "미색",
+      "transmission": "오토",
+      "fuel": "가솔린",
+      "new_car_price": 33680000,
+      "base_car_price": 31430000,
+      "remain_rate": 0.0,
+      "options": [
+        {
+          "name": "브라운패키지-드라이빙세이프티PACK",
+          "price": 500000,
+          "depreciated_price": 100000,
+          "rate": 0.2
+        },
+        {
+          "name": "선루프",
+          "price": 1150000,
+          "depreciated_price": 230000,
+          "rate": 0.2
+        },
+        {
+          "name": "UVO+JBL",
+          "price": 600000,
+          "depreciated_price": 120000,
+          "rate": 0.2
+        }
+      ],
+      "total_option_price": 2250000,
+      "total_depreciated_opt_price": 450000,
+      "depreciation_rate": 0.2,
+      "wholesale_price": 0,
+      "retail_price": 0,
+      "raw_inputs": {
+        "search-carNumber": "",
+        "purchaseId": "0",
+        "apCarId": "PCS_B3F0D558B45",
+        "apModelId": "32590",
+        "newCarId": "31961",
+        "brCd": "00244",
+        "basePrice": "",
+        "otherPrice": "",
+        "expProfitRate": "",
+        "carNumber": "20로8026",
+        "ideNumber": "KNAGW411BGA000695",
+        "justModel": "K5",
+        "carYear": "2016",
+        "releaseDate": "2015-07-10",
+        "carNavi": "140,000",
+        "carColor": "미색",
+        "newPrice": "33,680,000",
+        "remainRate": "",
+        "optionSelectList": "[{\"price\":null,\"name\":\"브라운패키지-드라이빙세이프티PACK\"},{\"price\":null,\"name\":\"선루프\"},{\"price\":null,\"name\":\"UVO+JBL\"}]",
+        "minWholesalePrice": "",
+        "maxWholesalePrice": "",
+        "accidentPrice": "",
+        "skinPrice": "",
+        "commercePrice": "",
+        "etcPrice": "",
+        "consignPrice": "",
+        "purchaseFee": "",
+        "acquiPrice": "",
+        "auctionFee": "",
+        "introductionFee": "",
+        "finePrice": "",
+        "saleType": "W",
+        "retailPrice": "",
+        "wholesalePrice": "",
+        "saleRetailPrice": "",
+        "saleWholesalePrice": "",
+        "consumePrice": "",
+        "expProfitlossPrice": "",
+        "standardPrice": "",
+        "adjustPrice": "",
+        "purchasePrice": "",
+        "standProfitlossPrice": "",
+        "targetSalePrice": "",
+        "finalExpProfitlossPrice": "",
+        "finalExpProfitRate": "",
+        "aqiYn": "",
+        "domestic": "3",
+        "gradYn": "Y",
+        "interiorCleanYn": "Y",
+        "cleaningCarYn": "Y",
+        "tlfWktype": "교환",
+        "trfWktype": "교환",
+        "tlrWktype": "교환",
+        "trrWktype": "교환",
+        "startAddrDetail": "",
+        "crdbBrCd": "ATC00",
+        "tabIndex": "1"
+      },
+      "reg_year": "2015",
+      "year_display": "15년식 (16년형)"
+    },
+    "updated_at": "2026-09-30 14:06:15"
+  },
+  "264부1087": {
+    "options": [
+      "시그니처 패키지Ⅰ",
+      "하이패스/전자식 룸 미러"
+    ],
+    "spec_desc": "신차정가(옵션 포함) : 2,387만원\n\n1) 시그니처 패키지Ⅰ \n2) 하이패스/전자식 룸 미러 \n* 신차 추가옵션\n\n1) 9.3인치 내비게이션\n2) 버튼시동\n3) 풀오토에어컨\n4) 열선시트(앞좌석)\n5) 사각지대 경보시스템(BSW)\n6) 전자식 파킹브레이크(E-PKB)\n7) LED PURE VISION 헤드램프\n8) 차선이탈 방지 보조 시스템(LKA)\n9) 10.25인치 디지털 계기판\n* 등급 기본옵션 포함",
+    "updated_at": "2026-09-30 14:38:52"
+  },
+  "136너2184": {
+    "options": [
+      "선루프",
+      "BOSE 사운드 시스템",
+      "스마트키",
+      "전동시트",
+      "사각지대 경고시스템",
+      "마이링크"
+    ],
+    "spec_desc": "신차정가(옵션 미포함) : 약 2,390만원\n\n1) 선루프\n2) BOSE 사운드 시스템\n3) 스마트키\n4) 전동시트(운전석)\n5) 사각지대 경고시스템(SBZA)\n6) 마이링크\n* 등급 기본옵션 포함",
+    "updated_at": "2026-09-30 14:46:12"
+  },
+  "338조3469": {
+    "options": [
+      "기본형-드라이브와이즈2",
+      "ECM&ETCS",
+      "선루프",
+      "내비게이션"
+    ],
+    "spec_desc": "신차정가(옵션 포함) : 3,148만원\n\n1) 기본형-드라이브와이즈2 \n2) ECM&ETCS \n3) 선루프 \n4) 내비게이션 \n* 신차 추가옵션",
+    "updated_at": "2026-09-30 14:49:17"
+  }
+}

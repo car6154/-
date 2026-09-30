@@ -335,6 +335,22 @@ class MasterMappingService:
             print(f"[MasterMapping] DB 저장 오류: {e}")
 
     @classmethod
+    def _clean_encar_token(cls, val: str) -> str:
+        """엔카 카탈로그 토큰 내 유니코드 이스케이프 및 + 기호 정제 (실제 공백 및 한글로 복원)"""
+        if not val:
+            return ""
+        # 1. 유니코드 이스케이프(\uXXXX) 복원
+        if "\\u" in val or r"\u" in val:
+            try:
+                val = val.encode('utf-8').decode('unicode_escape')
+            except Exception:
+                pass
+        # 2. + 문자를 공백으로 변환 (엔카 action 조건식은 +가 아닌 공백 문자를 요구함)
+        val = val.replace("+", " ")
+        # 3. 연속 공백 축약 및 양끝 공백 제거
+        return re.sub(r'\s+', ' ', val).strip()
+
+    @classmethod
     def parse_encar_url(cls, url: str) -> dict:
         """
         엔카 URL (PC Action 문자열 또는 모바일 overview)에서 엔카 공식 카탈로그 계층 추출
@@ -352,7 +368,7 @@ class MasterMappingService:
                 if m:
                     raw_val = m.group(1)
                     val = raw_val.replace('_.', '.').rstrip('.').strip()
-                    res[t] = val
+                    res[t] = cls._clean_encar_token(val)
             return res
         except Exception as e:
             print(f"[MasterMapping] 엔카 URL 파싱 실패: {e}")
@@ -534,9 +550,9 @@ class MasterMappingService:
         # 2순위: 마스터 DB에서 모델 계층 확인
         master_match = cls.resolve_encar_model("", car_name, sub_model)
         if master_match and master_match.get("model_group"):
-            f_brand = master_match.get("brand", "현대")
-            f_mg = master_match.get("model_group", "")
-            f_model = master_match.get("encar_model", "")
+            f_brand = cls._clean_encar_token(master_match.get("brand", "현대"))
+            f_mg = cls._clean_encar_token(master_match.get("model_group", ""))
+            f_model = cls._clean_encar_token(master_match.get("encar_model", ""))
 
             # 연식 파싱
             parsed_year = 0
