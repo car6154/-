@@ -51,6 +51,17 @@ from views.tab_ledger import (
 
 load_dotenv()
 
+def _ensure_git_smart_merge():
+    try:
+        import subprocess
+        subprocess.run(["git", "config", "merge.jpro_merge.name", "J-PRO Smart Merger"], check=False, capture_output=True)
+        subprocess.run(["git", "config", "merge.jpro_merge.driver", "python scripts/merge_ledger.py %O %A %B"], check=False, capture_output=True)
+        subprocess.run(["git", "config", "pull.rebase", "false"], check=False, capture_output=True)
+        subprocess.run(["git", "config", "merge.autoStash", "true"], check=False, capture_output=True)
+    except Exception:
+        pass
+_ensure_git_smart_merge()
+
 # 🍪 Chrome Extension 쿠키 수신 서버 시작 (포트 8502)
 start_cookie_server(port=8502)
 st.set_page_config(page_title="J-PRO Valuation System", page_icon="🏅", layout="wide")
