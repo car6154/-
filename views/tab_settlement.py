@@ -490,7 +490,7 @@ def render_settlement_tab(SETTLEMENT_FILE="my_inventory_settlement.csv"):
                                         return f"https://www.encar.com/dc/dc_carsearchpop.do?method=equalCar&carid={m_id.group(1)}"
                     except Exception:
                         pass
-                return generate_encar_market_url(r.get('차종', ''))
+                return generate_encar_market_url(r.get('차종', ''), car_number=c_no)
 
             edit_stock_df = stock_df.copy()
             edit_stock_df['판매완료'] = False
@@ -605,7 +605,7 @@ def render_settlement_tab(SETTLEMENT_FILE="my_inventory_settlement.csv"):
                     day_badge = f"<span style='background:#7f1d1d; color:#fca5a5; padding:4px 12px; border-radius:12px; font-weight:bold;'>🚨 위험 - 장기재고 ({t_days}일차)</span>"
                     day_advice = "60일 초과 악성 장기재고입니다! 자금 회전을 위해 원가 근접 빠른 급매 정리를 강력 권장합니다."
 
-                encar_live_url = generate_encar_market_url(t_name)
+                encar_live_url = generate_encar_market_url(t_name, car_number=selected_inspect_car)
 
                 c_card1, c_card2 = st.columns([6.2, 3.8])
                 with c_card1:

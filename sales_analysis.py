@@ -1954,7 +1954,21 @@ class SalesDataAnalyzer:
             f_brand = BRAND_ENCAR_MAP.get(str(best_brand), str(best_brand))
             f_mg = str(best_model)
             
-            # 모델 코어 트리 (BadgeDetail은 엔카에 미등록된 차종이 많아 0건 방지를 위해 Model 단위로 안전 구성)
+            # 모델 코어 트리 (세대 모델이 없을 경우 연식 기반 세대 자동 판별)
+            if not matched_sub_model and parsed_year:
+                try:
+                    from services.master_mapping import MasterMappingService
+                    for mg_k, gen_rules in MasterMappingService.YEAR_GENERATION_RULES.items():
+                        if mg_k in f_mg or f_mg in mg_k:
+                            for y_min, y_max, target_model in gen_rules:
+                                if y_min <= parsed_year <= y_max:
+                                    matched_sub_model = target_model
+                                    break
+                        if matched_sub_model:
+                            break
+                except Exception:
+                    pass
+
             if matched_sub_model:
                 f_sub = str(matched_sub_model)
                 core_tree = f"(C.CarType.Y._.(C.Manufacturer.{f_brand}._.(C.ModelGroup.{f_mg}._.Model.{f_sub}.)))"
@@ -2002,7 +2016,14 @@ class SalesDataAnalyzer:
 def get_car_market_stats(car_name, sub_model="", year="", current_retail=0):
     return SalesDataAnalyzer.get_instance().get_market_stats(car_name, sub_model, year, current_retail)
 
-def generate_encar_market_url(car_name, sub_model="", year="", mileage=0):
+def generate_encar_market_url(car_name, sub_model="", year="", mileage=0, car_number=None):
+    try:
+        from services.master_mapping import MasterMappingService
+        smart_url = MasterMappingService.generate_smart_encar_url(car_name, sub_model, year, mileage, car_number=car_number)
+        if smart_url and "searchType=model" in smart_url and "Hidden.N" in smart_url:
+            return smart_url
+    except Exception:
+        pass
     return SalesDataAnalyzer.get_instance().generate_encar_url(car_name, sub_model, year, mileage)
 
 def is_target_option_matched(opt_str: str, target_opts: list, car_name: str = "", year: str = "") -> bool:
@@ -2038,9 +2059,16 @@ def is_target_option_matched(opt_str: str, target_opts: list, car_name: str = ""
         return t
 
     def roman_to_arabic(text):
-        # 로마숫자 iv, iii, ii, i 를 아라비아 숫자로 변환한 버전
+        # 로마숫자 iv, iii, ii, i 를 아라비아 숫자로 안전하게 변환
         t = text
-        t = t.replace('iv', '4').replace('iii', '3').replace('ii', '2').replace('i', '1')
+        t = re.sub(r'iv$', '4', t)
+        t = re.sub(r'iii$', '3', t)
+        t = re.sub(r'ii$', '2', t)
+        t = re.sub(r'i$', '1', t)
+        t = re.sub(r'(패키지|플러스|팩|센스|와이즈|컨트롤|어시스트)iv', r'\g<1>4', t)
+        t = re.sub(r'(패키지|플러스|팩|센스|와이즈|컨트롤|어시스트)iii', r'\g<1>3', t)
+        t = re.sub(r'(패키지|플러스|팩|센스|와이즈|컨트롤|어시스트)ii', r'\g<1>2', t)
+        t = re.sub(r'(패키지|플러스|팩|센스|와이즈|컨트롤|어시스트)i', r'\g<1>1', t)
         return t
 
     norm_opt = normalize_opt(opt_str)
@@ -2049,9 +2077,9 @@ def is_target_option_matched(opt_str: str, target_opts: list, car_name: str = ""
     norm_opt_num = roman_to_arabic(norm_opt)
 
     SYNONYM_GROUPS = [
-        {'내비', '네비', 'navigation', '내비게이션', '네비게이션', 'slink', 's링크'},
+        {'내비', '네비', 'navigation', '내비게이션', '네비게이션', 'slink', 's링크', '멀티미디어', '멀티미디어패키지', '멀티미디어팩', '내비패키지', '네비패키지', 'uvo'},
         {'선루프', '썬루프', '파노라마선루프', '파노라마썬루프', '듀얼선루프'},
-        {'드라이브와이즈', '스마트센스', 'ascc', 'scc', '스마트크루즈', '반자율', '주행보조', 'hda', '드라이빙어시스트'},
+        {'드라이브와이즈', '스마트센스', 'ascc', 'scc', '스마트크루즈', '반자율', '주행보조', 'hda', '드라이빙어시스트', '전방충돌', '차선이탈', '차로이탈', '충돌방지', '충돌경고', 'fca', 'fcw', 'lka', 'ldw', 'bcw'},
         {'hud', '헤드업디스플레이', '헤드업'},
         {'어라운드뷰', '서라운드뷰', '모니터링', '모니터링팩', 'svm', '360도뷰', '스카이뷰'},
         {'통풍시트', '통풍'},

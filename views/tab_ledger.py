@@ -55,7 +55,7 @@ def render_ledger_tab(LEDGER_FILE='my_car_ledger.csv', SETTLEMENT_FILE='my_inven
                 st.session_state['selected_ledger_car'] = current_sel_car
             default_box_idx = c_num_list.index(current_sel_car)
 
-            buy_col1, buy_col2, buy_col3, buy_col4, buy_col5 = st.columns([2.2, 1.8, 1.8, 2.2, 1.4])
+            buy_col1, buy_col2, buy_col3, buy_col4 = st.columns([2.5, 1.8, 1.8, 2.4])
             with buy_col1:
                 sel_buy_car = st.selectbox(
                     "📦 차량번호 선택:", 
@@ -292,14 +292,7 @@ def render_ledger_tab(LEDGER_FILE='my_car_ledger.csv', SETTLEMENT_FILE='my_inven
                         else:
                             st.error("동급 매물 검색 조건을 생성하지 못했습니다.")
 
-            with buy_col5:
-                st.write("")
-                st.write("")
-                if st.button("🗑️ 장부 삭제", key=f"del_ledger_btn_{current_sel_car}", use_container_width=True, help="선택한 차량을 매입 장부에서 완전히 삭제합니다."):
-                    st.session_state.my_ledger_data = st.session_state.my_ledger_data[st.session_state.my_ledger_data['차량번호'].astype(str) != current_sel_car]
-                    st.session_state.my_ledger_data.to_csv(LEDGER_FILE, index=False, encoding='utf-8-sig')
-                    st.success(f"🗑️ [{current_sel_car}] 차량이 장부에서 삭제되었습니다.")
-                    st.rerun()
+
 
             # 선택된 차량의 옵션 정보 및 뱃지 표시
             from services.car_options_service import CarOptionsService
@@ -531,6 +524,48 @@ def render_ledger_tab(LEDGER_FILE='my_car_ledger.csv', SETTLEMENT_FILE='my_inven
                 mime="text/csv",
                 use_container_width=False
             )
+
+        with st.expander("🗑️ 장부 차량 삭제 (데이터 정리)", expanded=False):
+            st.caption("선택한 차량을 매입 장부에서 완전히 삭제합니다. 실수로 누르지 않도록 주의하세요. (삭제 전 자동 백업 보관)")
+            c_del1, c_del2, c_del3 = st.columns([2.5, 1.8, 5.7])
+            with c_del1:
+                del_target_car = st.selectbox(
+                    "🗑️ 삭제할 장부 차량 선택:", 
+                    ["선택..."] + c_num_list, 
+                    index=(c_num_list.index(current_sel_car) + 1) if current_sel_car in c_num_list else 0,
+                    key="del_ledger_car_select"
+                )
+            with c_del2:
+                st.write("")
+                st.write("")
+                if st.button("선택 차량 장부 삭제", key="btn_del_ledger_bottom", type="secondary", use_container_width=True):
+                    if del_target_car and del_target_car != "선택...":
+                        try:
+                            backup_file = "my_car_ledger_backup.csv"
+                            st.session_state.my_ledger_data.to_csv(backup_file, index=False, encoding='utf-8-sig')
+                        except Exception:
+                            pass
+                        st.session_state.my_ledger_data = st.session_state.my_ledger_data[st.session_state.my_ledger_data['차량번호'].astype(str) != str(del_target_car)]
+                        st.session_state.my_ledger_data.to_csv(LEDGER_FILE, index=False, encoding='utf-8-sig')
+                        if st.session_state.get('selected_ledger_car') == str(del_target_car):
+                            st.session_state.pop('selected_ledger_car', None)
+                        st.success(f"🗑️ [{del_target_car}] 차량이 장부에서 삭제되었습니다. (백업 보관 완료)")
+                        st.rerun()
+                    else:
+                        st.warning("삭제할 차량을 먼저 선택해 주세요.")
+
+            if os.path.exists("my_car_ledger_backup.csv"):
+                st.write("")
+                if st.button("🔄 최근 삭제 직전 백업 데이터로 장부 복원", key="btn_restore_ledger_backup", help="가장 최근 차량 삭제 직전에 자동 생성된 백업 파일에서 장부를 복원합니다."):
+                    try:
+                        backup_df = pd.read_csv("my_car_ledger_backup.csv")
+                        backup_df.to_csv(LEDGER_FILE, index=False, encoding='utf-8-sig')
+                        st.session_state.my_ledger_data = backup_df
+                        st.session_state._ledger_file_mtime = os.path.getmtime(LEDGER_FILE)
+                        st.success("✅ 최근 백업 데이터로 장부가 성공적으로 복원되었습니다!")
+                        st.rerun()
+                    except Exception as e:
+                        st.error(f"복원 실패: {e}")
     else:
         st.info("아직 저장된 장부 내역이 없습니다. 좌측 장부 입력폼을 통해 타점을 기록해 보세요!")
 

@@ -208,12 +208,42 @@ PACKAGE_CATALOG = [
     # ── 현대자동차 (Hyundai) ──
     {
         "id": "hyundai_smart_sense",
-        "aliases": ["현대스마트센스", "스마트센스", "스마트센스1", "스마트센스2", "스마트센스3", "스마트센스i", "스마트센스ii", "스마트센스iii"],
+        "aliases": ["현대스마트센스", "스마트센스", "스마트센스1", "스마트센스2", "스마트센스3", "스마트센스i", "스마트센스ii", "스마트센스iii", "스마트센스ⅰ", "스마트센스ⅱ", "스마트센스ⅲ"],
         "name": "현대 스마트센스",
         "brand": "현대",
-        "description": "전방 충돌방지 보조, 스마트 크루즈 컨트롤(Stop & Go), 고속도로 주행 보조(HDA), 후측방 충돌방지 보조, 안전 하차 보조",
-        "items": ["스마트 크루즈 컨트롤", "고속도로 주행 보조(HDA)", "후측방 충돌방지 보조", "안전 하차 보조"],
-        "match_keywords": ["스마트크루즈", "크루즈", "ascc", "scc", "hda", "후측방", "차로유지", "스마트센스"],
+        "description": "전방 충돌방지 보조(FCA), 스마트 크루즈 컨트롤(Stop & Go), 고속도로 주행 보조(HDA), 후측방 충돌방지 보조, 차로 이탈방지 보조(LKA), 안전 하차 보조",
+        "items": ["스마트 크루즈 컨트롤", "전방 충돌방지 보조", "고속도로 주행 보조(HDA)", "후측방 충돌방지 보조", "안전 하차 보조"],
+        "match_keywords": ["스마트크루즈", "크루즈", "ascc", "scc", "hda", "후측방", "차로유지", "차선유지", "전방충돌", "차선이탈", "차로이탈", "충돌방지", "충돌경고", "fca", "lka", "주행보조", "스마트센스"],
+        "min_matches": 1
+    },
+    {
+        "id": "hyundai_multimedia_navi_plus_2",
+        "aliases": ["멀티미디어내비플러스ii", "멀티미디어내비플러스2", "멀티미디어내비ii", "멀티미디어내비2", "멀티미디어내비플러스ⅱ"],
+        "name": "멀티미디어 내비 플러스 II",
+        "brand": "현대",
+        "description": "10.25인치/8인치 내비게이션, 후방 모니터, 풀오토 에어컨, 공기청정 모드",
+        "items": ["10.25인치 내비게이션", "후방 모니터", "풀오토 에어컨"],
+        "match_keywords": ["내비게이션", "네비게이션", "내비", "네비", "후방카메라", "후방모니터", "풀오토에어컨", "멀티미디어"],
+        "min_matches": 1
+    },
+    {
+        "id": "hyundai_multimedia_navi_plus_1",
+        "aliases": ["멀티미디어내비플러스i", "멀티미디어내비플러스1", "멀티미디어내비i", "멀티미디어내비1", "멀티미디어내비플러스", "내비플러스", "멀티미디어내비플러스ⅰ"],
+        "name": "멀티미디어 내비 플러스 I",
+        "brand": "현대",
+        "description": "8인치 디스플레이 오디오/내비게이션, 후방 모니터, 샤크핀 안테나",
+        "items": ["8인치 내비게이션", "후방 모니터"],
+        "match_keywords": ["내비게이션", "네비게이션", "내비", "네비", "후방카메라", "후방모니터", "멀티미디어"],
+        "min_matches": 1
+    },
+    {
+        "id": "hyundai_navi_package",
+        "aliases": ["내비게이션패키지", "네비게이션패키지", "내비패키지", "스마트내비게이션", "8인치내비게이션", "10.25인치내비게이션", "12.3인치내비게이션"],
+        "name": "내비게이션 패키지",
+        "brand": "현대",
+        "description": "정품 내비게이션 시스템, 후방 모니터, 샤크핀 안테나",
+        "items": ["내비게이션", "후방카메라"],
+        "match_keywords": ["내비게이션", "네비게이션", "내비", "네비", "후방카메라", "후방모니터"],
         "min_matches": 1
     },
     {
@@ -269,18 +299,58 @@ PACKAGE_CATALOG = [
 
     # ── 기아자동차 (Kia) ──
     {
+        "id": "kia_multimedia_2",
+        "aliases": ["멀티미디어패키지ii", "멀티미디어패키지2", "멀티미디어2", "멀티미디어ii", "멀티미디어패키지", "내비게이션패키지ii", "내비게이션패키지2", "멀티미디어팩2", "멀티미디어팩ii", "멀티미디어패키지ⅱ"],
+        "name": "멀티미디어 패키지 II",
+        "brand": "기아",
+        "description": "8인치 UVO 내비게이션(정품), 후방 모니터(카메라), 샤크핀 안테나, 풀오토 에어컨",
+        "items": ["8인치 UVO 내비게이션", "후방 모니터", "풀오토 에어컨", "샤크핀 안테나"],
+        "match_keywords": ["내비게이션", "네비게이션", "내비", "네비", "후방카메라", "후방모니터", "풀오토에어컨", "에어컨", "멀티미디어", "uvo"],
+        "min_matches": 1
+    },
+    {
+        "id": "kia_multimedia_1",
+        "aliases": ["멀티미디어패키지i", "멀티미디어패키지1", "멀티미디어1", "멀티미디어i", "내비게이션패키지i", "내비게이션패키지1", "멀티미디어팩1", "멀티미디어팩i", "멀티미디어패키지ⅰ"],
+        "name": "멀티미디어 패키지 I",
+        "brand": "기아",
+        "description": "7인치/8인치 스마트 내비게이션, 후방 모니터(후방카메라), 샤크핀 안테나",
+        "items": ["스마트 내비게이션", "후방 모니터", "샤크핀 안테나"],
+        "match_keywords": ["내비게이션", "네비게이션", "내비", "네비", "후방카메라", "후방모니터", "멀티미디어"],
+        "min_matches": 1
+    },
+    {
+        "id": "kia_uvo_navi",
+        "aliases": ["uvo내비게이션", "uvo내비", "uvo네비", "uvo", "스마트내비게이션"],
+        "name": "UVO / 스마트 내비게이션",
+        "brand": "기아",
+        "description": "정품 내비게이션, UVO 원격제어, 후방 모니터, 샤크핀 안테나",
+        "items": ["정품 내비게이션", "후방 모니터"],
+        "match_keywords": ["내비게이션", "네비게이션", "내비", "네비", "후방카메라", "uvo"],
+        "min_matches": 1
+    },
+    {
         "id": "kia_drive_wise",
-        "aliases": ["드라이브와이즈", "드라이브와이즈1", "드라이브와이즈2", "드라이브와이즈i", "드라이브와이즈ii", "drivewise"],
+        "aliases": ["드라이브와이즈", "드라이브와이즈1", "드라이브와이즈2", "드라이브와이즈i", "드라이브와이즈ii", "드라이브와이즈ⅰ", "드라이브와이즈ⅱ", "drivewise"],
         "name": "드라이브 와이즈",
         "brand": "기아",
-        "description": "전방 충돌방지 보조, 스마트 크루즈 컨트롤(정차&재출발), 후측방 충돌방지 보조, 고속도로 주행 보조(HDA), 안전 하차 보조",
-        "items": ["스마트 크루즈 컨트롤", "고속도로 주행 보조(HDA)", "후측방 충돌방지", "안전 하차 보조"],
-        "match_keywords": ["스마트크루즈", "크루즈", "ascc", "scc", "hda", "후측방", "차로유지", "드라이브와이즈"],
+        "description": "전방 충돌방지 보조(FCA), 스마트 크루즈 컨트롤(정차&재출발), 후측방 충돌방지 보조, 차로 이탈방지 보조(LKA), 고속도로 주행 보조(HDA), 안전 하차 보조",
+        "items": ["스마트 크루즈 컨트롤", "전방 충돌방지 보조", "차로 이탈방지 보조", "고속도로 주행 보조(HDA)", "후측방 충돌방지", "안전 하차 보조"],
+        "match_keywords": ["스마트크루즈", "크루즈", "ascc", "scc", "hda", "후측방", "차로유지", "차선유지", "전방충돌", "차선이탈", "차로이탈", "충돌방지", "충돌경고", "fca", "fcw", "lka", "ldw", "bcw", "주행보조", "사각지대", "드라이브와이즈"],
+        "min_matches": 1
+    },
+    {
+        "id": "kia_style",
+        "aliases": ["스타일", "스타일패키지", "스타일1", "스타일2", "스타일i", "스타일ii", "스타일ⅰ", "스타일ⅱ", "익스테리어"],
+        "name": "스타일 / 익스테리어",
+        "brand": "기아",
+        "description": "프로젝션 헤드램프, LED DRL, LED 리어콤비네이션 램프, 대구경 알로이 휠",
+        "items": ["LED 헤드램프", "LED 테일램프", "알로이 휠"],
+        "match_keywords": ["스타일", "led", "헤드램프", "프로젝션", "알로이휠"],
         "min_matches": 1
     },
     {
         "id": "kia_comfort",
-        "aliases": ["컴포트", "컴포트1", "컴포트2", "컴포트i", "컴포트ii", "시트패키지"],
+        "aliases": ["컴포트", "컴포트1", "컴포트2", "컴포트i", "컴포트ii", "컴포트ⅰ", "컴포트ⅱ", "시트패키지"],
         "name": "컴포트",
         "brand": "기아",
         "description": "1열 통풍시트, 운전석 파워시트, 전동식 허리지지대, 2열 열선시트, 스마트 파워테일게이트",
@@ -390,8 +460,16 @@ def normalize_opt_name(text: str) -> str:
         t = t.replace('(', '').replace(')', '').strip().lower()
     # 공백 및 특수기호 제거
     t = re.sub(r'[\s\-_/.]', '', t)
-    # 로마숫자 통일
-    t = t.replace('iv', '4').replace('iii', '3').replace('ii', '2').replace('i', '1')
+    # 로마숫자 통일 (끝자리 또는 패키지 키워드 뒤: iv->4, iii->3, ii->2, i->1)
+    # 순수 영단어(drivewise, navigation 등) 파괴를 방지하기 위해 로마숫자 치환 안전 처리
+    t = re.sub(r'iv$', '4', t)
+    t = re.sub(r'iii$', '3', t)
+    t = re.sub(r'ii$', '2', t)
+    t = re.sub(r'i$', '1', t)
+    t = re.sub(r'(패키지|플러스|팩|센스|와이즈|컨트롤|어시스트)iv', r'\g<1>4', t)
+    t = re.sub(r'(패키지|플러스|팩|센스|와이즈|컨트롤|어시스트)iii', r'\g<1>3', t)
+    t = re.sub(r'(패키지|플러스|팩|센스|와이즈|컨트롤|어시스트)ii', r'\g<1>2', t)
+    t = re.sub(r'(패키지|플러스|팩|센스|와이즈|컨트롤|어시스트)i', r'\g<1>1', t)
     return t
 
 
@@ -537,19 +615,40 @@ def find_package_definition(pkg_str: str, car_name: str = "", year: str = "") ->
                         }
 
     # 2. 기본 마스터 카탈로그 검색 (Fallback)
+    # 2-1단계: 별칭(alias) 완전 일치 우선 탐색
     for pkg in PACKAGE_CATALOG:
-        for alias in pkg["aliases"]:
+        for alias in pkg.get("aliases", []):
+            norm_alias = normalize_opt_name(alias)
+            if norm_alias and norm == norm_alias:
+                return pkg
+
+    # 2-2단계: 패키지 공식 명칭 완전 일치 탐색
+    for pkg in PACKAGE_CATALOG:
+        norm_name = normalize_opt_name(pkg.get("name", ""))
+        if norm_name and norm == norm_name:
+            return pkg
+
+    # 2-3단계: 부분 일치 탐색 (단, 숫자 1/2/3 등 번호가 다르면 오매칭 방지)
+    norm_num = re.findall(r'[1-9]', norm)
+    for pkg in PACKAGE_CATALOG:
+        for alias in pkg.get("aliases", []):
             norm_alias = normalize_opt_name(alias)
             if not norm_alias or len(norm_alias) < 2:
                 continue
-            if norm == norm_alias or (len(norm) >= 3 and len(norm_alias) >= 3 and (norm_alias in norm or norm in norm_alias)):
+            if len(norm) >= 3 and len(norm_alias) >= 3 and (norm_alias in norm or norm in norm_alias):
+                alias_num = re.findall(r'[1-9]', norm_alias)
+                if norm_num and alias_num and norm_num != alias_num:
+                    continue
                 return pkg
 
     for pkg in PACKAGE_CATALOG:
-        norm_name = normalize_opt_name(pkg["name"])
+        norm_name = normalize_opt_name(pkg.get("name", ""))
         if not norm_name or len(norm_name) < 2:
             continue
-        if norm == norm_name or (len(norm) >= 3 and len(norm_name) >= 3 and (norm_name in norm or norm in norm_name)):
+        if len(norm) >= 3 and len(norm_name) >= 3 and (norm_name in norm or norm in norm_name):
+            name_num = re.findall(r'[1-9]', norm_name)
+            if norm_num and name_num and norm_num != name_num:
+                continue
             return pkg
 
     return None
@@ -615,6 +714,6 @@ def build_option_tooltip(pkg_str: str, target_opts: list = None, car_name: str =
 
     # 일반 단일 옵션인 경우
     if is_matched:
-        return True, f"[{pkg_str}]\n✓ 기준 차량 장착 옵션과 일치함"
+        return True, f"[{pkg_str}]\n──────────────────────────────\n✓ 기준 차량 장착 옵션과 일치함"
     else:
-        return False, f"[{pkg_str}]"
+        return False, f"[{pkg_str}]\n──────────────────────────────\n(기준 차량에는 미장착된 옵션입니다)"
