@@ -1,0 +1,39 @@
+# Python compilation cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Environment variables & Machine-specific credentials
+.env
+*.env
+*.cookie
+*_cookie.txt
+autoplus_cookie.txt
+heydealer_cookie.txt
+
+# Temporary dump files & logs
+last_heydealer_detail.json
+data/catalog_crawl.log
+*.log
+
+# Backups
+*_backup.csv
+*.bak
+.system_generated/
