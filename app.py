@@ -62,6 +62,15 @@ def _ensure_git_smart_merge():
         pass
 _ensure_git_smart_merge()
 
+# ☁️ Git 자동 동기화 (앱 기동 시 원격 최신 장부 1회 자동 수신)
+try:
+    from services.git_sync_service import GitSyncService
+    if 'git_initial_pulled' not in st.session_state:
+        GitSyncService.sync_pull()
+        st.session_state.git_initial_pulled = True
+except Exception:
+    pass
+
 # 🍪 Chrome Extension 쿠키 수신 서버 시작 (포트 8502)
 start_cookie_server(port=8502)
 st.set_page_config(page_title="J-PRO Valuation System", page_icon="🏅", layout="wide")
@@ -1945,6 +1954,13 @@ if st.sidebar.button("💾 내 장부 및 구글시트에 저장", use_container
             response.raise_for_status()
         except Exception as e:
             print(f"[구글 시트 웹훅 전송 실패]: {e}")
+
+        # ☁️ 깃허브 자동 동기화 (백그라운드 비동기 푸시)
+        try:
+            from services.git_sync_service import GitSyncService
+            GitSyncService.sync_push_async(f"auto: save ledger for {l_car_num}")
+        except Exception:
+            pass
 
         st.session_state.save_success = True
         st.session_state.saved_car_num = l_car_num
