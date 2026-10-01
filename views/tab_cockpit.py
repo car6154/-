@@ -888,6 +888,11 @@ def render_cockpit_view(
                     else:
                         df_l = pd.DataFrame([new_row])
                     df_l.to_csv(LEDGER_FILE, index=False, encoding='utf-8-sig')
+                    try:
+                        from services.git_sync_service import GitSyncService
+                        GitSyncService.sync_push_async(f"auto: cockpit ledger update for {target_plate}")
+                    except Exception:
+                        pass
                     st.toast(f"🎉 {target_plate} 차량이 매입 장부에 정상 등록되었습니다!")
                     st.session_state.should_scroll_top = True
                     st.rerun()

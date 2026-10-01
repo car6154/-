@@ -664,6 +664,13 @@ def render_settlement_tab(SETTLEMENT_FILE="my_inventory_settlement.csv"):
                 save_cols = [col for col in st.session_state.my_settlement_data.columns if col not in ['연식', '주행거리', '판매완료', '엔카시세']]
                 st.session_state.my_settlement_data[save_cols].to_csv(SETTLEMENT_FILE, index=False, encoding='utf-8-sig')
 
+                # ☁️ 깃허브 자동 푸시
+                try:
+                    from services.git_sync_service import GitSyncService
+                    GitSyncService.sync_push_async("auto: update settlement table")
+                except Exception:
+                    pass
+
                 if completed_car_num:
                     st.success(f"🎉 {completed_car_num} 차량이 판매완료 처리되어 [🎉 판매완료 정산 내역] 탭으로 이동되었습니다!")
                 st.rerun()

@@ -24,18 +24,27 @@ def render_ledger_tab(LEDGER_FILE='my_car_ledger.csv', SETTLEMENT_FILE='my_inven
             except Exception:
                 pass
 
-    hdr_c1, hdr_c2 = st.columns([8, 2])
+    from services.git_sync_service import GitSyncService
+    sync_badge = GitSyncService.get_status_badge()
+
+    hdr_c1, hdr_c2 = st.columns([7.5, 2.5])
     with hdr_c1:
-        st.markdown("### 📋 내 실전 장부 리스트")
+        st.markdown(f"### 📋 내 실전 장부 리스트 <span style='font-size:0.55em; color:#94a3b8; font-weight:normal; margin-left:10px;'>({sync_badge})</span>", unsafe_allow_html=True)
     with hdr_c2:
-        if st.button("🔄 장부 파일 새로고침", use_container_width=True, help="my_car_ledger.csv 원본 파일에서 데이터를 즉시 다시 불러옵니다."):
-            if os.path.exists(LEDGER_FILE):
-                st.session_state._ledger_file_mtime = os.path.getmtime(LEDGER_FILE)
-                st.session_state.my_ledger_data = pd.read_csv(LEDGER_FILE)
-                st.session_state.my_ledger_data['차량번호'] = st.session_state.my_ledger_data['차량번호'].astype(str).str.strip()
-                st.session_state.my_ledger_data = st.session_state.my_ledger_data.drop_duplicates(subset=['차량번호'], keep='first')
-                if '옵션' in st.session_state.my_ledger_data.columns:
-                    st.session_state.my_ledger_data['옵션'] = st.session_state.my_ledger_data['옵션'].fillna('').astype(str).replace('nan', '')
+        if st.button("🔄 깃허브 & 장부 동기화", use_container_width=True, help="깃허브 클라우드 원격에서 최신 장부를 받아와 로컬과 자동 병합합니다."):
+            with st.spinner("☁️ 깃허브에서 최신 장부 동기화 중..."):
+                ok, msg = GitSyncService.sync_pull()
+                if os.path.exists(LEDGER_FILE):
+                    st.session_state._ledger_file_mtime = os.path.getmtime(LEDGER_FILE)
+                    st.session_state.my_ledger_data = pd.read_csv(LEDGER_FILE)
+                    st.session_state.my_ledger_data['차량번호'] = st.session_state.my_ledger_data['차량번호'].astype(str).str.strip()
+                    st.session_state.my_ledger_data = st.session_state.my_ledger_data.drop_duplicates(subset=['차량번호'], keep='first')
+                    if '옵션' in st.session_state.my_ledger_data.columns:
+                        st.session_state.my_ledger_data['옵션'] = st.session_state.my_ledger_data['옵션'].fillna('').astype(str).replace('nan', '')
+                if ok:
+                    st.toast("☁️ 깃허브 최신 장부와 성공적으로 동기화되었습니다!")
+                else:
+                    st.toast(f"⚠️ 동기화 알림: {msg[:40]}")
                 st.rerun()
 
     st.caption("💡 낙찰/매입된 차량의 [📦 매입 확정]을 누르면 `💰 실전 재고 및 정산 관리` 탭으로 이동하여 실제 판매 및 내 실수익을 정산합니다.")
@@ -140,6 +149,12 @@ def render_ledger_tab(LEDGER_FILE='my_car_ledger.csv', SETTLEMENT_FILE='my_inven
 
                             st.session_state.my_ledger_data.loc[st.session_state.my_ledger_data['차량번호'] == sel_buy_car, '상태'] = '매입완료'
                             st.session_state.my_ledger_data.to_csv(LEDGER_FILE, index=False, encoding='utf-8-sig')
+
+                            # ☁️ 깃허브 자동 푸시
+                            try:
+                                GitSyncService.sync_push_async(f"auto: confirm purchase for {sel_buy_car}")
+                            except Exception:
+                                pass
 
                             st.success(f"🎉 {sel_buy_car} 차량이 [실전 재고 및 정산 관리] 탭으로 이동되었습니다!")
                             st.rerun()
