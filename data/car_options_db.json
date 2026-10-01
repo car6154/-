@@ -519,5 +519,44 @@
     ],
     "spec_desc": "신차정가(옵션 포함) : 1,530만원\n\n1) 기본형-컨비니언스 \n* 신차 추가옵션",
     "updated_at": "2026-10-01 23:19:05"
+  },
+  "67누3318": {
+    "options": [
+      "기본형"
+    ],
+    "chaolma_data": {
+      "success": true,
+      "car_no": "67누3318",
+      "vin": "KNACG811BCT025050",
+      "maker": "기아",
+      "model_name": "레이",
+      "model_detail_name": "레이",
+      "grade_name": "가솔린",
+      "grade_detail_name": "디럭스",
+      "trim_name": "디럭스",
+      "model_year": "2012",
+      "reg_year": "2012",
+      "release_date": "2012-06-19",
+      "year_display": "12년식",
+      "color": "초록(연두)",
+      "fuel": "가솔린",
+      "transmission": "오토",
+      "new_car_price": 12400000,
+      "base_car_price": 12400000,
+      "options": [
+        {
+          "name": "기본형",
+          "price": 0,
+          "depreciated_price": 0,
+          "rate": 0.2
+        }
+      ],
+      "total_option_price": 0,
+      "total_depreciated_opt_price": 0,
+      "depreciation_rate": 0.2,
+      "remain_rate": 0.0,
+      "option_memo": ""
+    },
+    "updated_at": "2026-10-02 08:59:22"
   }
 }
