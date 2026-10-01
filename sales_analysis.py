@@ -889,6 +889,26 @@ class SalesDataAnalyzer:
                 if non_wd_mask.any():
                     fuel_filtered = fuel_filtered[non_wd_mask]
 
+            # 1-3. 밴(Van) vs 일반 승용(Passenger) 엄격 분리 (레이 밴, 스타렉스 밴, 캐스퍼 밴 등 왜곡 100% 차단)
+            van_kws = ['밴', 'van', '2인승', '1인승', '3인승', '5인승밴', '6인승밴', '판넬밴', '글래스밴']
+            is_query_van = any(k in full_query_text for k in van_kws) or any(k in query_clean_all for k in van_kws)
+            if is_query_van:
+                v_mask = fuel_filtered['세부모델_clean'].str.contains('밴|van|2인승|1인승|3인승|판넬밴|글래스밴', na=False) | fuel_filtered['차량명_clean'].str.contains('밴|van', na=False)
+                if v_mask.any():
+                    fuel_filtered = fuel_filtered[v_mask]
+                else:
+                    empty_df = pd.DataFrame()
+                    empty_df.attrs['matched_name'] = f"{car_name} {sub_model} (밴 소매 실적 없음)"
+                    empty_df.attrs['matched_tier'] = "🚐 밴 데이터 없음"
+                    empty_df.attrs['year_band'] = ""
+                    empty_df.attrs['is_year_diff'] = False
+                    empty_df.attrs['year_diff_note'] = ""
+                    return empty_df
+            else:
+                non_v_mask = ~fuel_filtered['세부모델_clean'].str.contains('밴|van|2인승|1인승|3인승|판넬밴|글래스밴', na=False) & ~fuel_filtered['차량명_clean'].str.contains('밴|van', na=False)
+                if non_v_mask.any():
+                    fuel_filtered = fuel_filtered[non_v_mask]
+
             # 2. 배기량(Displacement) 추출 및 엄격 필터 (다른 배기량 혼입 100% 원천 차단)
             disp_match = re.search(r'(\d\.\d)', str(sub_model) + " " + str(car_name))
             disp_val = disp_match.group(1) if disp_match else ""
@@ -953,6 +973,11 @@ class SalesDataAnalyzer:
                     if query_is_lpg and row_is_gde:
                         return -999
 
+                # 밴(Van) 일치 재확인 (일반 승용 검색 시 밴 절대 탈락, 밴 검색 시 일반 승용 절대 탈락)
+                row_is_van = any(k in rv_clean for k in ['밴', 'van', '2인승', '1인승', '3인승', '판넬밴', '글래스밴'])
+                if is_query_van != row_is_van:
+                    return -999
+
                 # 배기량 일치 재확인 (1.7 vs 2.0 등 다른 배기량 절대 탈락)
                 if disp_val:
                     row_disp = re.search(r'(\d\.\d)', rv)
@@ -984,7 +1009,10 @@ class SalesDataAnalyzer:
                         score -= 8
                     elif em in query_clean and em not in rv:
                         score -= 8
-                score -= min(20, abs(len(rv_clean) - len(query_clean)))
+                # 불필요한 배기량/유종 접두어로 인한 불이익 방지
+                rv_trim_pure = re.sub(r'^(1\.\d|2\.\d|3\.\d|가솔린|디젤|하이브리드|lpi|lpg|gde|crdi)+', '', rv_clean)
+                query_trim_pure = re.sub(r'^(1\.\d|2\.\d|3\.\d|가솔린|디젤|하이브리드|lpi|lpg|gde|crdi)+', '', query_clean)
+                score -= min(20, abs(len(rv_trim_pure) - len(query_trim_pure)))
                 return score
 
             # 5. 연식 풀 순회 매칭 (1순위: 해당 연식 ➔ 2순위: 인접 연식 ±1년 ➔ 3순위: 동일 세대 전체)
