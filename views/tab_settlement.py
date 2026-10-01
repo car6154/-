@@ -189,7 +189,31 @@ def render_settlement_tab(SETTLEMENT_FILE="my_inventory_settlement.csv"):
             </div>
             """, unsafe_allow_html=True)
             
-            c_options = [f"{row.get('차량번호', '')} | {row.get('차종', '')}" for _, row in stock_df.iterrows()]
+            # 매입 장부(my_car_ledger.csv) 데이터를 미리 읽어 뼈대 스펙(연식, 주행거리, 세부모델, 마진 등) 맵핑 구축
+            ledger_info_map = {}
+            if os.path.exists("my_car_ledger.csv"):
+                try:
+                    _df_l = pd.read_csv("my_car_ledger.csv")
+                    for _, lr in _df_l.iterrows():
+                        c_num = str(lr.get('차량번호', '')).strip()
+                        if c_num:
+                            ledger_info_map[c_num] = lr.to_dict()
+                except Exception:
+                    pass
+
+            c_options = []
+            for _, row in stock_df.iterrows():
+                c_no = str(row.get('차량번호', '')).strip()
+                l_info = ledger_info_map.get(c_no, {})
+                extra_txt = ""
+                y_val = l_info.get('연식')
+                m_val = l_info.get('주행거리')
+                if y_val or m_val:
+                    y_disp = f"{y_val}년" if y_val else ""
+                    m_disp = f"{m_val}" if m_val else ""
+                    extra_txt = f" [{y_disp} {m_disp}]".strip()
+                c_options.append(f"{c_no} | {row.get('차종', '')}{extra_txt}")
+
             sc_col1, sc_col2, sc_col3 = st.columns([3, 4.5, 2.5])
             with sc_col1:
                 sel_stock_str = st.selectbox("분석할 보유 차량 선택:", c_options, key="sel_stock_analysis_box")
@@ -239,35 +263,73 @@ def render_settlement_tab(SETTLEMENT_FILE="my_inventory_settlement.csv"):
                         target_mil = 0
                         target_year = 0
                         target_acc = "완전무사고"
+                        target_sell = 0
+                        target_bid = 0
+                        target_ext = 0
+                        target_margin = None
 
-                        # 0. 사내 재고 데이터(autoplus_inventory.csv 및 stock_df)에서 기본 스펙 추출 (무조건 보장)
-                        src_row = auto_inv_row if auto_inv_row is not None else (matched_stock.iloc[0] if not matched_stock.empty else None)
-                        if src_row is not None:
-                            # 주행거리 추출
-                            raw_mil = str(src_row.get('주행거리', 0)).replace(',', '').strip()
-                            try:
-                                m_val = int(float(raw_mil))
-                                if m_val > 0: target_mil = m_val
-                            except Exception:
-                                pass
+                        # 0. 사내 데이터(1순위: my_car_ledger.csv 뼈대 데이터, 2순위: autoplus_inventory.csv, 3순위: 정산 테이블)
+                        l_data = ledger_info_map.get(sel_c_no, {})
+                        if l_data:
+                            target_brand = str(l_data.get('제조사', '')).strip()
+                            target_car_name = str(l_data.get('차량명', '')).strip()
+                            target_sub_model = str(l_data.get('세부모델', '')).strip()
                             
-                            # 연식 추출 (최초등록일 또는 연식)
-                            reg_dt = str(src_row.get('최초등록일', '')).strip()
-                            if len(reg_dt) >= 4 and reg_dt[:4].isdigit():
-                                target_year = int(reg_dt[:4])
-                            elif '연식' in src_row:
-                                yr_cand = re.search(r'(\d{2,4})', str(src_row.get('연식', '')))
-                                if yr_cand:
-                                    y_num = int(yr_cand.group(1))
-                                    target_year = (2000 + y_num) if y_num < 100 else y_num
+                            # 연식 파싱
+                            yr_cand = re.search(r'(\d{2,4})', str(l_data.get('연식', '')))
+                            if yr_cand:
+                                y_num = int(yr_cand.group(1))
+                                target_year = (2000 + y_num) if y_num < 100 else y_num
+                                
+                            # 주행거리 파싱
+                            mil_cand = re.sub(r'[^\d]', '', str(l_data.get('주행거리', '')))
+                            if mil_cand:
+                                target_mil = int(mil_cand)
+                                
+                            # 매입/판매/외판/마진
+                            m_s = re.sub(r'[^\d]', '', str(l_data.get('판매가', 0)))
+                            if m_s: target_sell = int(m_s)
+                            m_b = re.sub(r'[^\d]', '', str(l_data.get('매입가', 0)))
+                            if m_b: target_bid = int(m_b)
+                            m_e = re.sub(r'[^\d]', '', str(l_data.get('외판수리', 0)))
+                            if m_e: target_ext = int(m_e)
                             
-                            # 차종 및 세부모델
-                            target_brand = str(src_row.get('제조사', '')).strip()
-                            target_car_name = str(src_row.get('차량명', src_row.get('차종', ''))).strip()
-                            for sub_col in ['세부 모델', '세부모델']:
-                                if sub_col in src_row and str(src_row.get(sub_col, '')).strip():
-                                    target_sub_model = str(src_row.get(sub_col, '')).strip()
-                                    break
+                            m_margin = re.search(r'마진:\s*([0-9,]+)\s*만', str(l_data.get('특이사항', '')))
+                            if m_margin:
+                                try: target_margin = int(m_margin.group(1).replace(',', ''))
+                                except Exception: pass
+
+                        # autoplus_inventory에서 보완 (엔카 URL 및 미흡한 스펙)
+                        if auto_inv_row is not None:
+                            if not target_sub_model:
+                                for sub_col in ['세부 모델', '세부모델']:
+                                    if sub_col in auto_inv_row and str(auto_inv_row.get(sub_col, '')).strip():
+                                        target_sub_model = str(auto_inv_row.get(sub_col, '')).strip()
+                                        break
+                            if target_mil == 0:
+                                raw_mil = str(auto_inv_row.get('주행거리', 0)).replace(',', '').strip()
+                                try:
+                                    m_val = int(float(raw_mil))
+                                    if m_val > 0: target_mil = m_val
+                                except Exception: pass
+                            if target_year == 0:
+                                reg_dt = str(auto_inv_row.get('최초등록일', '')).strip()
+                                if len(reg_dt) >= 4 and reg_dt[:4].isdigit():
+                                    target_year = int(reg_dt[:4])
+                            if not target_car_name:
+                                target_car_name = str(auto_inv_row.get('차량명', auto_inv_row.get('차종', ''))).strip()
+
+                        # 정산 테이블 데이터에서 실지출 변동사항 반영
+                        if not matched_stock.empty:
+                            st_r = matched_stock.iloc[0]
+                            if not target_car_name:
+                                target_car_name = str(st_r.get('차종', '')).strip()
+                            st_s = re.sub(r'[^\d]', '', str(st_r.get('판매가', 0)))
+                            if st_s and int(st_s) > 0: target_sell = int(st_s)
+                            st_b = re.sub(r'[^\d]', '', str(st_r.get('매입가', 0)))
+                            if st_b and int(st_b) > 0: target_bid = int(st_b)
+                            st_e = re.sub(r'[^\d]', '', str(st_r.get('외판수리', 0)))
+                            if st_e: target_ext = int(st_e)
 
                         eval_url = in_encar_url.strip() if (in_encar_url and in_encar_url.strip()) else saved_encar_url
 
@@ -380,34 +442,23 @@ def render_settlement_tab(SETTLEMENT_FILE="my_inventory_settlement.csv"):
                                 st.session_state['target_car_name'] = target_car_name
                             st.session_state['hd_full_name'] = f"{target_car_name} {target_sub_model}".strip()
 
-                            # 판매가, 외판수리비, 매입가, 마진, 매입경로 복원
-                            if src_row is not None:
-                                raw_sell = str(src_row.get('판매가', 0))
-                                m_sell = re.sub(r'[^\d]', '', raw_sell)
-                                if m_sell and int(m_sell) > 0:
-                                    st.session_state[f"sell_{new_k}"] = int(m_sell)
+                            # 판매가, 외판수리비, 매입가, 마진, 매입경로 복원 (장부 뼈대 + 정산 변동치)
+                            if target_sell > 0:
+                                st.session_state[f"sell_{new_k}"] = target_sell
 
-                                raw_ext = str(src_row.get('외판수리', 0))
-                                m_ext = re.sub(r'[^\d]', '', raw_ext)
-                                if m_ext:
-                                    st.session_state[f"ext_{new_k}"] = int(m_ext)
+                            if target_ext > 0:
+                                st.session_state[f"ext_{new_k}"] = target_ext
 
-                                raw_bid = str(src_row.get('매입가', 0))
-                                m_bid = re.sub(r'[^\d]', '', raw_bid)
-                                if m_bid and int(m_bid) > 0:
-                                    st.session_state[f"bid_{new_k}"] = int(m_bid)
-                                    st.session_state[f"user_final_bid_{new_k}"] = int(m_bid)
+                            if target_bid > 0:
+                                st.session_state[f"bid_{new_k}"] = target_bid
+                                st.session_state[f"user_final_bid_{new_k}"] = target_bid
 
-                                memo_raw = str(src_row.get('특이사항', ''))
-                                m_margin = re.search(r'마진:\s*([0-9,]+)\s*만', memo_raw)
-                                if m_margin:
-                                    try:
-                                        s_margin = int(m_margin.group(1).replace(',', ''))
-                                        st.session_state[f"margin_{new_k}"] = s_margin
-                                        st.session_state["margin_key"] = s_margin
-                                    except Exception:
-                                        pass
+                            if target_margin is not None:
+                                st.session_state[f"margin_{new_k}"] = target_margin
+                                st.session_state["margin_key"] = target_margin
 
+                            memo_raw = str(l_data.get('특이사항', '')) if l_data else ""
+                            if memo_raw:
                                 memo_clean = memo_raw
                                 for r_opt in ["셀프(기본)", "제로", "개인"]:
                                     if r_opt in memo_raw:
@@ -468,9 +519,9 @@ def render_settlement_tab(SETTLEMENT_FILE="my_inventory_settlement.csv"):
 
             st.caption("💡 30일/60일 경과 차량이나 마진주의 매물은 위 필터 버튼으로 빠르게 선별할 수 있습니다. 실제 판매 완료 시 맨 끝의 **[판매완료]**를 체크하세요.")
 
-            # 순차, 매입일, 차량번호, 차종, 판매가, 재고일, 매입가, 외판수리, 상품화, 헤딜수수료, 기본제경비, 공헌이익, 실수익, 수수료율, 판매수수료, 엔카시세, 판매완료
+            # 순차, 매입일, 차량번호, 차종, 연식, 주행거리, 판매가, 재고일, 매입가, 외판수리, 상품화, 헤딜수수료, 기본제경비, 공헌이익, 실수익, 수수료율, 판매수수료, 엔카시세, 판매완료
             view_cols = [
-                '순차', '매입일', '차량번호', '차종', '판매가', '재고일', '매입가', 
+                '순차', '매입일', '차량번호', '차종', '연식', '주행거리', '판매가', '재고일', '매입가', 
                 '외판수리', '상품화', '헤딜수수료', '기본제경비', '공헌이익', '실수익', 
                 '수수료율', '판매수수료', '엔카시세', '판매완료'
             ]
@@ -478,37 +529,59 @@ def render_settlement_tab(SETTLEMENT_FILE="my_inventory_settlement.csv"):
             # 에디터용 데이터프레임 구성 (판매완료 기본값 False, 엔카시세 링크 동적 생성)
             def _resolve_encar_market_link(r):
                 c_no = str(r.get('차량번호', '')).strip()
+                inv_name = ""
                 inv_sub = ""
                 inv_year = ""
                 inv_mil = 0
+
+                # 1. my_car_ledger.csv (장부 뼈대 데이터) 우선 조회
+                l_info = ledger_info_map.get(c_no, {})
+                if l_info:
+                    inv_name = str(l_info.get('차량명', '')).strip()
+                    inv_sub = str(l_info.get('세부모델', '')).strip()
+                    yr_cand = re.search(r'(\d{2,4})', str(l_info.get('연식', '')))
+                    if yr_cand:
+                        y_num = int(yr_cand.group(1))
+                        inv_year = str((2000 + y_num) if y_num < 100 else y_num)
+                    mil_cand = re.sub(r'[^\d]', '', str(l_info.get('주행거리', '')))
+                    if mil_cand:
+                        inv_mil = int(mil_cand)
+
+                # 2. autoplus_inventory.csv (재고 데이터) 보완
                 if os.path.exists("autoplus_inventory.csv") and c_no:
                     try:
                         raw_inv = pd.read_csv("autoplus_inventory.csv", encoding='utf-8-sig')
                         m_inv = raw_inv[raw_inv['차량번호'].astype(str).str.strip() == c_no]
                         if not m_inv.empty:
                             inv_row = m_inv.iloc[0]
-                            # 엔카 동급매물 팝업 직통 링크 (carid)
                             for col_k in ['E URL', '엔카주소', '엔카링크', '엔카URL']:
                                 if col_k in m_inv.columns:
                                     u = str(inv_row.get(col_k, '')).strip()
                                     m_id = re.search(r'(\d{7,9})', u)
                                     if m_id:
                                         return f"https://www.encar.com/dc/dc_carsearchpop.do?method=equalCar&carid={m_id.group(1)}"
-                            # 세부모델/연식/주행거리 추출 (fallback용)
-                            inv_sub = str(inv_row.get('세부 모델', '')).strip()
-                            reg_dt = str(inv_row.get('최초등록일', '')).strip()
-                            if len(reg_dt) >= 4 and reg_dt[:4].isdigit():
-                                inv_year = reg_dt[:4]
-                            try:
-                                inv_mil = int(float(str(inv_row.get('주행거리', 0)).replace(',', '')))
-                            except Exception:
-                                pass
+                            if not inv_sub:
+                                inv_sub = str(inv_row.get('세부 모델', '')).strip()
+                            if not inv_year:
+                                reg_dt = str(inv_row.get('최초등록일', '')).strip()
+                                if len(reg_dt) >= 4 and reg_dt[:4].isdigit():
+                                    inv_year = reg_dt[:4]
+                            if inv_mil == 0:
+                                try:
+                                    inv_mil = int(float(str(inv_row.get('주행거리', 0)).replace(',', '')))
+                                except Exception:
+                                    pass
                     except Exception:
                         pass
-                return generate_encar_market_url(r.get('차종', ''), sub_model=inv_sub, year=inv_year, mileage=inv_mil, car_number=c_no)
+
+                target_c_name = inv_name or r.get('차종', '')
+                return generate_encar_market_url(target_c_name, sub_model=inv_sub, year=inv_year, mileage=inv_mil, car_number=c_no)
 
             edit_stock_df = stock_df.copy()
             edit_stock_df['판매완료'] = False
+            # 장부에서 연식 및 주행거리 컬럼 매핑 (기준점 시각화)
+            edit_stock_df['연식'] = edit_stock_df['차량번호'].apply(lambda c: str(ledger_info_map.get(str(c).strip(), {}).get('연식', '')).strip() or '-')
+            edit_stock_df['주행거리'] = edit_stock_df['차량번호'].apply(lambda c: str(ledger_info_map.get(str(c).strip(), {}).get('주행거리', '')).strip() or '-')
             edit_stock_df['엔카시세'] = edit_stock_df.apply(_resolve_encar_market_link, axis=1)
 
             # 필터 적용
@@ -530,6 +603,8 @@ def render_settlement_tab(SETTLEMENT_FILE="my_inventory_settlement.csv"):
                 "매입일": st.column_config.TextColumn("매입일", width=65),
                 "차량번호": st.column_config.TextColumn("차량번호", width=95),
                 "차종": st.column_config.TextColumn("차종", width=160),
+                "연식": st.column_config.TextColumn("연식", width=55),
+                "주행거리": st.column_config.TextColumn("주행거리", width=95),
                 "판매가": st.column_config.NumberColumn("판매가", width=70, format="%d"),
                 "재고일": st.column_config.NumberColumn("재고일", width=55, format="%d일"),
                 "매입가": st.column_config.NumberColumn("매입가", width=70, format="%d"),
@@ -576,7 +651,7 @@ def render_settlement_tab(SETTLEMENT_FILE="my_inventory_settlement.csv"):
                     old_ext = current_view_df.at[idx, '외판수리']
                     new_ext = edited_df.at[idx, '외판수리']
 
-                    for c in [col for col in view_cols if col not in ['판매완료', '엔카시세']]:
+                    for c in [col for col in view_cols if col not in ['판매완료', '엔카시세', '연식', '주행거리']]:
                         st.session_state.my_settlement_data.loc[st.session_state.my_settlement_data['차량번호'].astype(str) == car_num, c] = edited_df.at[idx, c]
 
                     # 외판수 변경 시 상품화비용 판수 * 13만 동기화
@@ -585,7 +660,9 @@ def render_settlement_tab(SETTLEMENT_FILE="my_inventory_settlement.csv"):
 
                 # 손익 재계산 및 저장
                 st.session_state.my_settlement_data = recalc_settlement_df(st.session_state.my_settlement_data, auto_fee_rate)
-                st.session_state.my_settlement_data.to_csv(SETTLEMENT_FILE, index=False, encoding='utf-8-sig')
+                # 원본 CSV 저장 시에는 기존 컬럼만 안전하게 저장
+                save_cols = [col for col in st.session_state.my_settlement_data.columns if col not in ['연식', '주행거리', '판매완료', '엔카시세']]
+                st.session_state.my_settlement_data[save_cols].to_csv(SETTLEMENT_FILE, index=False, encoding='utf-8-sig')
 
                 if completed_car_num:
                     st.success(f"🎉 {completed_car_num} 차량이 판매완료 처리되어 [🎉 판매완료 정산 내역] 탭으로 이동되었습니다!")
@@ -620,22 +697,38 @@ def render_settlement_tab(SETTLEMENT_FILE="my_inventory_settlement.csv"):
                     day_badge = f"<span style='background:#7f1d1d; color:#fca5a5; padding:4px 12px; border-radius:12px; font-weight:bold;'>🚨 위험 - 장기재고 ({t_days}일차)</span>"
                     day_advice = "60일 초과 악성 장기재고입니다! 자금 회전을 위해 원가 근접 빠른 급매 정리를 강력 권장합니다."
 
-                # 연식/주행거리/세부모델 추출 (autoplus_inventory 우선 참조)
-                _inv_sub, _inv_year, _inv_mil = "", "", 0
+                # 연식/주행거리/세부모델 추출 (1순위: my_car_ledger 뼈대, 2순위: autoplus_inventory)
+                _inv_sub, _inv_year, _inv_mil, _inv_name = "", "", 0, ""
+                _l_info = ledger_info_map.get(selected_inspect_car, {})
+                if _l_info:
+                    _inv_name = str(_l_info.get('차량명', '')).strip()
+                    _inv_sub = str(_l_info.get('세부모델', '')).strip()
+                    _yr_cand = re.search(r'(\d{2,4})', str(_l_info.get('연식', '')))
+                    if _yr_cand:
+                        _y_num = int(_yr_cand.group(1))
+                        _inv_year = str((2000 + _y_num) if _y_num < 100 else _y_num)
+                    _mil_cand = re.sub(r'[^\d]', '', str(_l_info.get('주행거리', '')))
+                    if _mil_cand:
+                        _inv_mil = int(_mil_cand)
+
                 if os.path.exists("autoplus_inventory.csv"):
                     try:
                         _raw_inv = pd.read_csv("autoplus_inventory.csv", encoding='utf-8-sig')
                         _m_inv = _raw_inv[_raw_inv['차량번호'].astype(str).str.strip() == selected_inspect_car]
                         if not _m_inv.empty:
                             _ir = _m_inv.iloc[0]
-                            _inv_sub = str(_ir.get('세부 모델', '')).strip()
-                            _rd = str(_ir.get('최초등록일', '')).strip()
-                            if len(_rd) >= 4 and _rd[:4].isdigit(): _inv_year = _rd[:4]
-                            try: _inv_mil = int(float(str(_ir.get('주행거리', 0)).replace(',', '')))
-                            except: pass
+                            if not _inv_sub: _inv_sub = str(_ir.get('세부 모델', '')).strip()
+                            if not _inv_year:
+                                _rd = str(_ir.get('최초등록일', '')).strip()
+                                if len(_rd) >= 4 and _rd[:4].isdigit(): _inv_year = _rd[:4]
+                            if _inv_mil == 0:
+                                try: _inv_mil = int(float(str(_ir.get('주행거리', 0)).replace(',', '')))
+                                except: pass
                     except Exception:
                         pass
-                encar_live_url = generate_encar_market_url(t_name, sub_model=_inv_sub, year=_inv_year, mileage=_inv_mil, car_number=selected_inspect_car)
+
+                _target_inspect_name = _inv_name or t_name
+                encar_live_url = generate_encar_market_url(_target_inspect_name, sub_model=_inv_sub, year=_inv_year, mileage=_inv_mil, car_number=selected_inspect_car)
 
                 c_card1, c_card2 = st.columns([6.2, 3.8])
                 with c_card1:

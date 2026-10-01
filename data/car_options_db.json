@@ -9,11 +9,57 @@
   },
   "37다1840": {
     "options": [
-      "드라이브 와이즈",
-      "컴포트",
-      "스타일"
+      "기본형-컨비니언스",
+      "드라이브와이즈팩2",
+      "내비게이션"
     ],
-    "updated_at": "2026-09-30 13:59:16"
+    "updated_at": "2026-10-01 22:32:55",
+    "chaolma_data": {
+      "success": true,
+      "car_no": "37다1840",
+      "vin": "KNAMC81ABJS381083",
+      "maker": "기아",
+      "model_name": "카니발",
+      "model_detail_name": "올 뉴카니발",
+      "grade_name": "9인승 디젤",
+      "grade_detail_name": "프레스티지",
+      "trim_name": "프레스티지",
+      "model_year": "2018",
+      "reg_year": "2017",
+      "release_date": "2017-07-20",
+      "year_display": "17년식 (18년형)",
+      "color": "회색",
+      "fuel": "디젤",
+      "transmission": "오토",
+      "new_car_price": 37340000,
+      "base_car_price": 33800000,
+      "options": [
+        {
+          "name": "내비게이션",
+          "price": 850000,
+          "depreciated_price": 170000,
+          "rate": 0.2
+        },
+        {
+          "name": "드라이브와이즈팩2",
+          "price": 1690000,
+          "depreciated_price": 338000,
+          "rate": 0.2
+        },
+        {
+          "name": "기본형-컨비니언스",
+          "price": 1000000,
+          "depreciated_price": 200000,
+          "rate": 0.2
+        }
+      ],
+      "total_option_price": 3540000,
+      "total_depreciated_opt_price": 708000,
+      "depreciation_rate": 0.2,
+      "remain_rate": 0.0,
+      "option_memo": ""
+    },
+    "spec_desc": "신차정가(옵션 포함) : 3,734만원\n\n1) 기본형-컨비니언스 \n2) 드라이브와이즈팩2 \n3) 내비게이션 \n* 신차 추가옵션"
   },
   "20로8026": {
     "options": [
@@ -432,7 +478,7 @@
       "기본형"
     ],
     "spec_desc": "신차정가(옵션 포함) : 3,090만원\n\n1) 기본형 \n* 신차 추가옵션",
-    "updated_at": "2026-10-01 21:55:41",
+    "updated_at": "2026-10-01 22:30:57",
     "chaolma_data": {
       "success": true,
       "car_no": "39소4343",

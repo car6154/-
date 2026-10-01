@@ -124,13 +124,6 @@ class MasterMappingService:
             "aliases": ["올뉴카니발", "카니발yp"],
             "trims": {}
         },
-        "더 뉴 카니발": {
-            "brand": "기아",
-            "model_group": "카니발",
-            "encar_model": "더 뉴 카니발",
-            "aliases": ["더뉴카니발", "더뉴카니발yp", "카니발더뉴"],
-            "trims": {}
-        },
         "스포티지 5세대": {
             "brand": "기아",
             "model_group": "스포티지",
