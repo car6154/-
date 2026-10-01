@@ -938,6 +938,18 @@
           "updated_at": "2026-10-01 21:55:41"
         }
       }
+    },
+    "더 뉴 카니발": {
+      "brand": "기아",
+      "model_group": "카니발",
+      "encar_model": "더 뉴 카니발",
+      "aliases": [
+        "더뉴카니발",
+        "더뉴카니발yp",
+        "카니발더뉴"
+      ],
+      "trims": {},
+      "created_at": "2026-10-01"
     }
   },
   "normalized_models": {
@@ -1134,7 +1146,10 @@
     "올뉴k722디젤프레스티지": "올 뉴 K7",
     "카니발4세대디젤7인승노블레스": "카니발 4세대",
     "아반떼ad16gdi밸류플러스": "아반떼 AD",
-    "올뉴k724gdi프레스티지": "올 뉴 K7"
+    "올뉴k724gdi프레스티지": "올 뉴 K7",
+    "더뉴카니발": "더 뉴 카니발",
+    "더뉴카니발yp": "더 뉴 카니발",
+    "카니발더뉴": "더 뉴 카니발"
   },
   "car_links": {
     "12가3456": "https://www.encar.com/dc/dc_carsearchlist.do?carType=kor&searchType=model&TG.RType=auto#!%7B%22action%22%3A%22(And.Hidden.N._.(C.CarType.Y._.(C.Manufacturer.%ED%98%84%EB%8C%80._.(C.ModelGroup.%ED%88%AC%EC%8C%AC._.(C.Model.%ED%88%AC%EC%8C%AC%20(NX4)._.(C.BadgeGroup.%EA%B0%80%EC%86%94%EB%A6%B0%201600cc._.(C.Badge.1_.6%20%ED%84%B0%EB%B3%B4._.BadgeDetail.%EC%9D%B8%EC%8A%A4%ED%8D%BC%EB%A0%88%EC%9D%B4%EC%85%98.)))))))%22%7D",

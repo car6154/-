@@ -478,21 +478,34 @@ def render_settlement_tab(SETTLEMENT_FILE="my_inventory_settlement.csv"):
             # 에디터용 데이터프레임 구성 (판매완료 기본값 False, 엔카시세 링크 동적 생성)
             def _resolve_encar_market_link(r):
                 c_no = str(r.get('차량번호', '')).strip()
+                inv_sub = ""
+                inv_year = ""
+                inv_mil = 0
                 if os.path.exists("autoplus_inventory.csv") and c_no:
                     try:
-                        raw_inv = pd.read_csv("autoplus_inventory.csv")
+                        raw_inv = pd.read_csv("autoplus_inventory.csv", encoding='utf-8-sig')
                         m_inv = raw_inv[raw_inv['차량번호'].astype(str).str.strip() == c_no]
                         if not m_inv.empty:
+                            inv_row = m_inv.iloc[0]
+                            # 엔카 동급매물 팝업 직통 링크 (carid)
                             for col_k in ['E URL', '엔카주소', '엔카링크', '엔카URL']:
                                 if col_k in m_inv.columns:
-                                    u = str(m_inv.iloc[0].get(col_k, '')).strip()
+                                    u = str(inv_row.get(col_k, '')).strip()
                                     m_id = re.search(r'(\d{7,9})', u)
                                     if m_id:
-                                        # 💡 엔카 공식 동급매물/팔린매물 팝업 직통 링크
                                         return f"https://www.encar.com/dc/dc_carsearchpop.do?method=equalCar&carid={m_id.group(1)}"
+                            # 세부모델/연식/주행거리 추출 (fallback용)
+                            inv_sub = str(inv_row.get('세부 모델', '')).strip()
+                            reg_dt = str(inv_row.get('최초등록일', '')).strip()
+                            if len(reg_dt) >= 4 and reg_dt[:4].isdigit():
+                                inv_year = reg_dt[:4]
+                            try:
+                                inv_mil = int(float(str(inv_row.get('주행거리', 0)).replace(',', '')))
+                            except Exception:
+                                pass
                     except Exception:
                         pass
-                return generate_encar_market_url(r.get('차종', ''), car_number=c_no)
+                return generate_encar_market_url(r.get('차종', ''), sub_model=inv_sub, year=inv_year, mileage=inv_mil, car_number=c_no)
 
             edit_stock_df = stock_df.copy()
             edit_stock_df['판매완료'] = False
@@ -607,7 +620,22 @@ def render_settlement_tab(SETTLEMENT_FILE="my_inventory_settlement.csv"):
                     day_badge = f"<span style='background:#7f1d1d; color:#fca5a5; padding:4px 12px; border-radius:12px; font-weight:bold;'>🚨 위험 - 장기재고 ({t_days}일차)</span>"
                     day_advice = "60일 초과 악성 장기재고입니다! 자금 회전을 위해 원가 근접 빠른 급매 정리를 강력 권장합니다."
 
-                encar_live_url = generate_encar_market_url(t_name, car_number=selected_inspect_car)
+                # 연식/주행거리/세부모델 추출 (autoplus_inventory 우선 참조)
+                _inv_sub, _inv_year, _inv_mil = "", "", 0
+                if os.path.exists("autoplus_inventory.csv"):
+                    try:
+                        _raw_inv = pd.read_csv("autoplus_inventory.csv", encoding='utf-8-sig')
+                        _m_inv = _raw_inv[_raw_inv['차량번호'].astype(str).str.strip() == selected_inspect_car]
+                        if not _m_inv.empty:
+                            _ir = _m_inv.iloc[0]
+                            _inv_sub = str(_ir.get('세부 모델', '')).strip()
+                            _rd = str(_ir.get('최초등록일', '')).strip()
+                            if len(_rd) >= 4 and _rd[:4].isdigit(): _inv_year = _rd[:4]
+                            try: _inv_mil = int(float(str(_ir.get('주행거리', 0)).replace(',', '')))
+                            except: pass
+                    except Exception:
+                        pass
+                encar_live_url = generate_encar_market_url(t_name, sub_model=_inv_sub, year=_inv_year, mileage=_inv_mil, car_number=selected_inspect_car)
 
                 c_card1, c_card2 = st.columns([6.2, 3.8])
                 with c_card1:
