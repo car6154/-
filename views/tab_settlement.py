@@ -233,6 +233,7 @@ def render_settlement_tab(SETTLEMENT_FILE="my_inventory_settlement.csv"):
                 if st.button("🚀 메인 화면에서 동급 시세 분석", type="primary", use_container_width=True, key="btn_run_stock_analysis"):
                     with st.spinner("엔카 동급 매물 검색 쿼리 역생성 중..."):
                         target_search_url = ""
+                        target_brand = ""
                         target_car_name = ""
                         target_sub_model = ""
                         target_mil = 0
@@ -261,6 +262,7 @@ def render_settlement_tab(SETTLEMENT_FILE="my_inventory_settlement.csv"):
                                     target_year = (2000 + y_num) if y_num < 100 else y_num
                             
                             # 차종 및 세부모델
+                            target_brand = str(src_row.get('제조사', '')).strip()
                             target_car_name = str(src_row.get('차량명', src_row.get('차종', ''))).strip()
                             for sub_col in ['세부 모델', '세부모델']:
                                 if sub_col in src_row and str(src_row.get(sub_col, '')).strip():
