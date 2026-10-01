@@ -272,23 +272,22 @@ class Scraper:
             car_no = v_data.get("vehicleNo", "").strip()
             car_full_name = f"{mfg} {mg} {model} {grade}".strip()
             
-            # 동급 매물 검색용 Action 쿼리 구성 (Badge 세부등급 우선 매칭)
+            # 동급 매물 검색용 Action 쿼리 구성 (스마트 마스터 매핑 우선 연동)
+            grade_detail = cat.get("gradeDetailName", "").strip()
+            sub_combined = f"{grade} {grade_detail}".strip()
             action = f"(And.Hidden.N._.(C.CarType.Y._.(C.Manufacturer.{mfg}._.(C.ModelGroup.{mg}._.Model.{model}.))))"
-            if grade:
-                action_badge = f"(And.Hidden.N._.(C.CarType.Y._.(C.Manufacturer.{mfg}._.(C.ModelGroup.{mg}._.(C.Model.{model}._.Badge.{grade}.)))))"
-                # Badge 세부등급 쿼리를 최우선 사용 (단, API로 0대인 경우에만 전체 모델 fallback)
-                try:
-                    chk_url = f"https://api.encar.com/search/car/list/general?count=true&q={urllib.parse.quote(action_badge)}&sr=%7CModifiedDate%7C0%7C10"
-                    chk_res = session.get(chk_url, headers=headers, timeout=3).json()
-                    total_cnt = chk_res.get("Count", 0) or len(chk_res.get("SearchResults", []))
-                    if total_cnt > 0:
-                        action = action_badge
-                except Exception:
-                    # 에러 발생 시에도 동급 세부등급을 우선 적용
-                    action = action_badge
-            
-            # 검색창에서 인식 가능한 공식 엔카 데스크톱 URL 조립
             search_url = f'https://www.encar.com/dc/dc_carsearchlist.do?carType={car_type}&searchType=model&tgid=&cleanList=true#!{{"action":"{action}"}}'
+            try:
+                from services.master_mapping import MasterMappingService
+                smart_url = MasterMappingService.generate_smart_encar_url(model, sub_combined, form_year, mileage, car_number=car_no)
+                if smart_url and ("action=" in smart_url or "action%22" in smart_url or "%22action%22" in smart_url):
+                    search_url = smart_url
+                    unq = urllib.parse.unquote(smart_url)
+                    m_act = re.search(r'"action"\s*:\s*"([^"]+)"', unq)
+                    if m_act:
+                        action = m_act.group(1)
+            except Exception:
+                pass
             
             # 상세 사고 및 옵션도 함께 추출
             detail_info = Scraper.fetch_car_detail(session, car_id)
@@ -363,43 +362,62 @@ class Scraper:
                 cars_res = session.get(api_url, timeout=7)
                 if cars_res.status_code == 200:
                     cars = cars_res.json().get("SearchResults", [])
+                    # 💡 [다중 페이지 자동 수집] 1페이지(100대)가 꽉 찼을 경우 추가 페이지(2~3페이지) 연속 수집하여 누락 방지
+                    if len(cars) == 100:
+                        for p_start in [100, 200]:
+                            try:
+                                p_url = f"https://api.encar.com/search/car/list/general?count=false&q={safe_condition}&sr=%7CModifiedDate%7C{p_start}%7C100"
+                                p_res = session.get(p_url, timeout=5)
+                                if p_res.status_code == 200:
+                                    p_cars = p_res.json().get("SearchResults", [])
+                                    if p_cars:
+                                        cars.extend(p_cars)
+                                    if len(p_cars) < 100:
+                                        break
+                                else:
+                                    break
+                            except Exception:
+                                break
             except Exception:
                 cars = []
             
-            # 💡 [지능형 다단계 Fallback] 0건인 경우 단계별로 조건 완화 자동 재조회
+            # 💡 [정밀 구문 보정 Fallback]
+            # 절대로 차종 전체(ModelGroup)나 전체 등급(Model Only)으로 무차별 확대하지 않고,
+            # 특수문자/괄호/공백/BadgeDetail 오차만 미세 보정하여 동급 매물 원칙을 철저히 고수
             if not cars:
                 fallback_candidates = []
                 cur_c = condition
-                # 0순위: 제조사명 괄호 보정 (르노코리아(삼성) -> 르노코리아(삼성_))
+
+                # 1. 특수 제조사명 언더바 보정 (르노코리아(삼성) <-> 르노코리아(삼성_))
                 for orig_b, enc_b in [("르노코리아(삼성)", "르노코리아(삼성_)"), ("쉐보레(GM대우)", "쉐보레(GM대우_)"), ("KG모빌리티(쌍용)", "KG모빌리티(쌍용_)")]:
                     if orig_b in cur_c and enc_b not in cur_c:
-                        cur_c = cur_c.replace(orig_b, enc_b)
-                if cur_c != condition:
-                    fallback_candidates.append(cur_c)
+                        fallback_candidates.append(cur_c.replace(orig_b, enc_b))
+                    elif enc_b in cur_c and orig_b not in cur_c:
+                        fallback_candidates.append(cur_c.replace(enc_b, orig_b))
 
-                # 1순위: BadgeDetail 제거
-                if "BadgeDetail." in cur_c:
-                    c_nobd = re.sub(r'_\.BadgeDetail\.[^\.]+\.', '', cur_c)
-                    c_nobd = re.sub(r'\(\.BadgeDetail\.[^\.]+\.\)', '', c_nobd)
-                    fallback_candidates.append(c_nobd)
-                    
-                # 2순위: Badge / BadgeGroup 제거하고 Model까지만 유지
-                if "Badge." in cur_c or "BadgeGroup." in cur_c:
-                    m_model = re.search(r'\(C\.Manufacturer\.([^\.]+)\._\.\(C\.ModelGroup\.([^\.]+)\._\.Model\.([^\.]+)\.\)', cur_c)
-                    if m_model:
-                        brand_p, mg_p, model_p = m_model.group(1), m_model.group(2), m_model.group(3)
-                        bands = re.findall(r'_\.(?:Year|Mileage)\.range\([^\)]+\)\.', cur_c)
-                        band_str = "".join(bands)
-                        c_model_only = f"(And.Hidden.N._.(C.CarType.Y._.(C.Manufacturer.{brand_p}._.(C.ModelGroup.{mg_p}._.Model.{model_p}.))){band_str})"
-                        fallback_candidates.append(c_model_only)
+                # 2. 모델명 괄호 언더바 보정: (NX4) <-> (NX4_), (CN7) <-> (CN7_), (JA) <-> (JA_), (PD) <-> (PD_)
+                if re.search(r'\([A-Za-z0-9]+\)', cur_c):
+                    c_model_paren = re.sub(r'\(([A-Za-z0-9]+)\)', r'(\1_)', cur_c)
+                    if c_model_paren != cur_c and c_model_paren not in fallback_candidates:
+                        fallback_candidates.append(c_model_paren)
 
-                # 3순위: Model 제거하고 ModelGroup 단위로 확대
-                if "Model." in cur_c:
-                    fb_mg = re.sub(r'\._\.\(C\.ModelGroup\.([^\.]+)\._\.Model\.[^\.]+\.\)', r'._.ModelGroup.\1.', cur_c)
-                    fb_mg = re.sub(r'_\.\(C\.ModelGroup\.([^\.]+)\._\.Model\.[^\.]+\.\)', r'._.ModelGroup.\1.', fb_mg)
-                    fb_mg = re.sub(r'\._\.Model\.[^\.]+\.', r'', fb_mg)
-                    fb_mg = fb_mg.replace('.._.', '._.')
-                    fallback_candidates.append(fb_mg)
+                # 3. BadgeDetail 완화 (동일 모델/동일 트림의 Badge 레벨까지만 유지하여 검색)
+                if "BadgeDetail" in cur_c:
+                    c_no_detail = re.sub(r'_\.\(C\.Badge\.([^\.]+)\._\.BadgeDetail\.[^\.]+\.\)', r'._.Badge.\1.', cur_c)
+                    if c_no_detail != cur_c and c_no_detail not in fallback_candidates:
+                        fallback_candidates.append(c_no_detail)
+
+                # 4. BadgeGroup 공백 미세 보정 (예: '디젤 9인승' <-> '디젤 9 인승')
+                if "BadgeGroup." in cur_c:
+                    bg_m = re.search(r'BadgeGroup\.([^\.]+)\.', cur_c)
+                    if bg_m:
+                        orig_bg = bg_m.group(1)
+                        if re.search(r'\d인승', orig_bg):
+                            alt_bg = re.sub(r'(\d)인승', r'\1 인승', orig_bg)
+                            fallback_candidates.append(cur_c.replace(f"BadgeGroup.{orig_bg}.", f"BadgeGroup.{alt_bg}."))
+                        elif re.search(r'\d\s+인승', orig_bg):
+                            alt_bg = re.sub(r'(\d)\s+인승', r'\1인승', orig_bg)
+                            fallback_candidates.append(cur_c.replace(f"BadgeGroup.{orig_bg}.", f"BadgeGroup.{alt_bg}."))
 
                 for fb_cond in fallback_candidates:
                     try:
@@ -410,6 +428,21 @@ class Scraper:
                             fb_cars = fb_resp.json().get("SearchResults", [])
                             if fb_cars:
                                 cars = fb_cars
+                                if len(cars) == 100:
+                                    for p_start in [100, 200]:
+                                        try:
+                                            next_p_url = f"https://api.encar.com/search/car/list/general?count=false&q={fb_safe}&sr=%7CModifiedDate%7C{p_start}%7C100"
+                                            next_p_res = session.get(next_p_url, timeout=5)
+                                            if next_p_res.status_code == 200:
+                                                next_p_cars = next_p_res.json().get("SearchResults", [])
+                                                if next_p_cars:
+                                                    cars.extend(next_p_cars)
+                                                if len(next_p_cars) < 100:
+                                                    break
+                                            else:
+                                                break
+                                        except Exception:
+                                            break
                                 break
                     except Exception:
                         pass

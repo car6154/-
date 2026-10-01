@@ -64,11 +64,11 @@ def render_main_tab(
             elif 'scan_data' in st.session_state and not st.session_state.scan_data.empty and '차량명' in st.session_state.scan_data.columns:
                 bd_target_car = str(st.session_state.scan_data['차량명'].iloc[0])
                 bd_target_sub = str(st.session_state.scan_data['세부모델'].iloc[0]) if '세부모델' in st.session_state.scan_data.columns else ""
-        elif scan_src == "car_number":
-            # 🚗 차량번호 조회 모드: 차얼마 정보 1순위
+        elif scan_src in ["car_number", "auto_scan"]:
+            # 🚗 차량번호 조회 / 재고 역추적 모드: 차얼마 정보 1순위
             last_c = st.session_state.get('last_chaolma_data', {})
             if last_c and last_c.get('success'):
-                bd_target_car = last_c.get('model_name', '')
+                bd_target_car = last_c.get('model_detail_name', '') or last_c.get('model_name', '')
                 c_sub_sess = st.session_state.get('f_sub', '')
                 if c_sub_sess and c_sub_sess != "전체":
                     bd_target_sub = c_sub_sess
@@ -426,7 +426,27 @@ def render_main_tab(
         encar_max_price = int(valid_prices.max()) if not valid_prices.empty else 0
         encar_avg_price = int(valid_prices.mean()) if not valid_prices.empty else 0
 
-        st.markdown("### 🚘 엔카 실시간 소매 시세 요약")
+        # 엔카 실시간 검색 URL 산출 (세션 저장 URL > 디버그 URL > 마스터 매핑 기반 동적 생성)
+        cur_mil_eval = current_f_mil if current_f_mil else (l_mil or st.session_state.get('f_mil', 0))
+        encar_view_url = (
+            st.session_state.get('auto_encar_url')
+            or (st.session_state.get('debug_encar_scan') or {}).get('target_url')
+            or generate_encar_market_url(
+                bd_target_car,
+                bd_target_sub,
+                calc_year,
+                cur_mil_eval,
+                car_number=l_car_num
+            )
+            or "http://www.encar.com/dc/dc_carsearchlist.do?carType=kor"
+        )
+
+        col_hdr_left, col_hdr_right = st.columns([0.84, 0.16], vertical_alignment="center")
+        with col_hdr_left:
+            st.markdown("### 🚘 엔카 실시간 소매 시세 요약")
+        with col_hdr_right:
+            if encar_view_url:
+                st.link_button("🚗 엔카시세 ↗", encar_view_url, use_container_width=True, help="엔카 공식 실시간 검색 페이지로 이동하여 동급 매물을 직접 검증합니다.")
         st.markdown(f"""
         <div style='display: flex; gap: 12px; margin-top: 8px; margin-bottom: 8px;'>
             <div class='metric-card' style='flex: 1;'>

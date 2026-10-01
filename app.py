@@ -321,6 +321,21 @@ input[placeholder*="헤이딜러 URL"]:focus {
     color: #93c5fd !important;
     border-color: #60a5fa !important;
 }
+div[data-testid="stLinkButton"] a {
+    background-color: #201e1d !important;
+    color: #60a5fa !important;
+    border: 1px solid #3b3734 !important;
+    border-radius: 6px !important;
+    padding: 4px 10px !important;
+    font-size: 0.85rem !important;
+    font-weight: 600 !important;
+    transition: all 0.15s ease !important;
+}
+div[data-testid="stLinkButton"] a:hover {
+    background-color: #2d2926 !important;
+    color: #93c5fd !important;
+    border-color: #60a5fa !important;
+}
 /* ═══ Green Bid Card & Click Bridge ═══ */
 #green_bid_card {
     cursor: pointer !important;
@@ -438,6 +453,7 @@ if auto_url:
     s_text.text("⚡ 재고 차량 동급 매물 실시간 자동 스캔 중...")
     new_scan_df, msg = Scraper.run(auto_url, "", p_bar, s_text)
     if msg == "success":
+        st.session_state.scan_source = "auto_scan"
         # 기존 스캔 데이터 완전 교체
         st.session_state.scan_data = new_scan_df.drop_duplicates(subset=['_carid'], keep='last').reset_index(drop=True)
         if not new_scan_df.empty:
@@ -925,7 +941,7 @@ if run_heydealer:
 filtered_df = st.session_state.scan_data.copy()
 filtered_df = DataProcessor.standardize(filtered_df)
 
-is_url_mode = (st.session_state.get('scan_source') == "url")
+is_url_mode = (st.session_state.get('scan_source') in ["url", "car_number", "auto_scan"])
 current_f_year = ""
 
 # ═══════════════════════════════════════════
@@ -1041,7 +1057,7 @@ if btn_fetch_chaolma:
 
                 # 사이드바 및 빅데이터 필터 자동 주입
                 raw_maker = res.get("maker", "")
-                raw_model = res.get("model_name", "")
+                raw_model = res.get("model_detail_name", "") or res.get("model_name", "")
                 raw_grade = res.get("grade_name", "")
                 raw_trim = res.get("trim_name", "")
                 
@@ -1094,8 +1110,10 @@ if btn_fetch_chaolma:
                     raw_model, 
                     combined_sub or raw_trim or raw_grade, 
                     target_year, 
-                    cur_mil_val
+                    cur_mil_val,
+                    car_number=l_car_num
                 )
+                st.session_state.auto_encar_url = target_encar_url
                 scan_cnt = 0
                 st.session_state.debug_encar_scan = {
                     "time": datetime.now().strftime("%H:%M:%S"),

@@ -351,6 +351,17 @@ class MasterMappingService:
         return re.sub(r'\s+', ' ', val).strip()
 
     @classmethod
+    def _escape_encar_dsl_token(cls, token: str) -> str:
+        """엔카 DSL용 토큰 이스케이프 (숫자 소수점 1.6 -> 1_.6, 괄호 (NX4) -> (NX4_))"""
+        if not token:
+            return ""
+        # 1. 숫자 사이 소수점 이스케이프 (1.6 -> 1_.6, 2.0 -> 2_.0 등, 이미 이스케이프된 경우 보존)
+        token = re.sub(r'(\d)(?<!_\.)\.(\d)', r'\1_.\2', token)
+        # 2. 닫는 괄호 이스케이프 ( (NX4) -> (NX4_) ) 단, 이미 _) 형태인 경우는 유지
+        token = re.sub(r'(?<!_)\)', '_)', token)
+        return token
+
+    @classmethod
     def parse_encar_url(cls, url: str) -> dict:
         """
         엔카 URL (PC Action 문자열 또는 모바일 overview)에서 엔카 공식 카탈로그 계층 추출
@@ -481,8 +492,75 @@ class MasterMappingService:
             db = cls._load_db()
             return db.get("car_links", {}).get(c_num, "")
 
+    YEAR_GENERATION_RULES = {
+        "아반떼": [
+            (2023, 2030, "더 뉴 아반떼 (CN7)"),
+            (2020, 2023, "아반떼 (CN7)"),
+            (2018, 2020, "더 뉴 아반떼 AD"),
+            (2015, 2018, "아반떼 AD"),
+            (2010, 2015, "아반떼 MD"),
+        ],
+        "카니발": [
+            (2023, 2030, "더 뉴 카니발 4세대"),
+            (2020, 2023, "카니발 4세대"),
+            (2018, 2020, "더 뉴 카니발"),
+            (2014, 2018, "올 뉴 카니발"),
+            (2010, 2014, "카니발 R"),
+        ],
+        "쏘렌토": [
+            (2023, 2030, "더 뉴 쏘렌토 4세대"),
+            (2020, 2023, "쏘렌토 4세대"),
+            (2017, 2020, "더 뉴 쏘렌토"),
+            (2014, 2017, "올 뉴 쏘렌토"),
+            (2009, 2014, "뉴 쏘렌토 R"),
+        ],
+        "그랜저": [
+            (2022, 2030, "디 올 뉴 그랜저"),
+            (2019, 2022, "더 뉴 그랜저 IG"),
+            (2016, 2019, "그랜저 IG"),
+            (2011, 2016, "그랜저 HG"),
+        ],
+        "투싼": [
+            (2020, 2030, "투싼 (NX4)"),
+            (2018, 2020, "더 뉴 투싼"),
+            (2015, 2018, "올 뉴 투싼"),
+            (2009, 2015, "뉴 투싼 ix"),
+        ],
+        "스포티지": [
+            (2021, 2030, "디 올 뉴 스포티지"),
+            (2018, 2021, "스포티지 더 볼드"),
+            (2015, 2018, "The SUV 스포티지"),
+            (2010, 2015, "스포티지 R"),
+        ],
+        "K5": [
+            (2023, 2030, "더 뉴 K5 3세대"),
+            (2019, 2023, "K5 3세대"),
+            (2018, 2019, "더 뉴 K5 2세대"),
+            (2015, 2018, "K5 2세대"),
+            (2010, 2015, "K5"),
+        ],
+        "K7": [
+            (2019, 2022, "K7 프리미어"),
+            (2016, 2019, "올 뉴 K7"),
+            (2012, 2016, "더 뉴 K7"),
+            (2009, 2012, "K7"),
+        ],
+        "모닝": [
+            (2023, 2030, "더 뉴 모닝 3세대"),
+            (2020, 2023, "모닝 어반"),
+            (2017, 2020, "올 뉴 모닝 (JA)"),
+            (2015, 2017, "더 뉴 모닝"),
+            (2011, 2015, "올 뉴 모닝"),
+        ],
+        "레이": [
+            (2022, 2030, "더 뉴 기아 레이"),
+            (2017, 2022, "더 뉴 레이"),
+            (2011, 2017, "레이"),
+        ],
+    }
+
     @classmethod
-    def resolve_encar_model(cls, brand: str = "", car_name: str = "", sub_model: str = "") -> dict:
+    def resolve_encar_model(cls, brand: str = "", car_name: str = "", sub_model: str = "", year: any = "") -> dict:
         """
         차량명/세부모델을 기반으로 마스터 DB에서 공식 엔카 (Manufacturer, ModelGroup, Model) 추출
         반환: {'brand': ..., 'model_group': ..., 'encar_model': ..., 'matched_key': ...} or {}
@@ -490,6 +568,13 @@ class MasterMappingService:
         full_text = f"{car_name or ''} {sub_model or ''}".strip()
         if not full_text:
             return {}
+
+        parsed_y = 0
+        if year:
+            m_yr = re.search(r'(\d{2,4})', str(year))
+            if m_yr:
+                y_val = int(m_yr.group(1))
+                parsed_y = (y_val + 2000) if y_val < 100 else y_val
 
         with cls._lock:
             db = cls._load_db()
@@ -514,14 +599,33 @@ class MasterMappingService:
                             best_len = len(norm_cand)
                             matched_master_key = m_key
 
+            # 3. 연식 기반 세대 모델 자동 판별 (차종명이 '아반떼', '카니발' 등 대표 차종명만 들어왔을 때 세대 착오 방지)
+            if parsed_y:
+                for mg_k, gen_rules in cls.YEAR_GENERATION_RULES.items():
+                    if mg_k in c_norm or c_norm == mg_k:
+                        for y_min, y_max, target_model in gen_rules:
+                            if y_min <= parsed_y <= y_max:
+                                matched_master_key = target_model
+                                break
+                    if matched_master_key and matched_master_key in models:
+                        break
+
             if matched_master_key and matched_master_key in models:
                 m_info = models[matched_master_key]
+                enc_m = m_info.get("encar_model", "")
+                all_trims = {}
+                if enc_m:
+                    for other_v in models.values():
+                        if other_v.get("encar_model") == enc_m:
+                            all_trims.update(other_v.get("trims", {}))
+                if not all_trims:
+                    all_trims = m_info.get("trims", {})
                 return {
                     "brand": m_info.get("brand") or brand or "현대",
                     "model_group": m_info.get("model_group", ""),
-                    "encar_model": m_info.get("encar_model", ""),
+                    "encar_model": enc_m,
                     "matched_key": matched_master_key,
-                    "trims": m_info.get("trims", {})
+                    "trims": all_trims
                 }
 
             return {}
@@ -548,7 +652,7 @@ class MasterMappingService:
                 return direct_url
 
         # 2순위: 마스터 DB에서 모델 계층 확인
-        master_match = cls.resolve_encar_model("", car_name, sub_model)
+        master_match = cls.resolve_encar_model("", car_name, sub_model, year=year)
         if master_match and master_match.get("model_group"):
             f_brand = cls._clean_encar_token(master_match.get("brand", "현대"))
             f_mg = cls._clean_encar_token(master_match.get("model_group", ""))
@@ -582,9 +686,45 @@ class MasterMappingService:
             }
             mapped_brand = BRAND_ENCAR_MAP.get(f_brand, f_brand)
 
-            # 모델 코어 트리
-            if f_model:
-                core_tree = f"(C.CarType.Y._.(C.Manufacturer.{mapped_brand}._.(C.ModelGroup.{f_mg}._.Model.{f_model}.)))"
+            # 세부 등급(Trim) 매칭 시도
+            matched_trim = None
+            trims_dict = master_match.get("trims", {})
+            if sub_model and trims_dict:
+                clean_sub = re.sub(r'[\s/]+', '', str(sub_model)).lower()
+                for t_name, t_data in trims_dict.items():
+                    if re.sub(r'[\s/]+', '', str(t_name)).lower() == clean_sub:
+                        matched_trim = t_data
+                        break
+                if not matched_trim:
+                    tokens = [t for t in re.split(r'[\s/]+', str(sub_model).lower()) if len(t) >= 2]
+                    best_s = 0
+                    for t_name, t_data in trims_dict.items():
+                        tn_clean = str(t_name).lower()
+                        s = sum(1 for tok in tokens if tok in tn_clean)
+                        if s > best_s:
+                            best_s = s
+                            matched_trim = t_data
+                    if best_s < 1:
+                        matched_trim = None
+
+            # 모델 및 세부등급 코어 트리 조립
+            bg = matched_trim.get("badge_group", "") if matched_trim else ""
+            badge = matched_trim.get("badge", "") if matched_trim else ""
+            bd = matched_trim.get("badge_detail", "") if matched_trim else ""
+            
+            f_model_esc = cls._escape_encar_dsl_token(f_model)
+            bg_clean = cls._clean_encar_token(bg)
+            b_esc = cls._escape_encar_dsl_token(badge)
+            bd_esc = cls._escape_encar_dsl_token(bd)
+
+            if f_model_esc and bg_clean and b_esc and bd_esc:
+                core_tree = f"(C.CarType.Y._.(C.Manufacturer.{mapped_brand}._.(C.ModelGroup.{f_mg}._.(C.Model.{f_model_esc}._.(C.BadgeGroup.{bg_clean}._.(C.Badge.{b_esc}._.BadgeDetail.{bd_esc}.))))))"
+            elif f_model_esc and bg_clean and b_esc:
+                core_tree = f"(C.CarType.Y._.(C.Manufacturer.{mapped_brand}._.(C.ModelGroup.{f_mg}._.(C.Model.{f_model_esc}._.(C.BadgeGroup.{bg_clean}._.Badge.{b_esc}.)))))"
+            elif f_model_esc and b_esc:
+                core_tree = f"(C.CarType.Y._.(C.Manufacturer.{mapped_brand}._.(C.ModelGroup.{f_mg}._.(C.Model.{f_model_esc}._.Badge.{b_esc}.))))"
+            elif f_model_esc:
+                core_tree = f"(C.CarType.Y._.(C.Manufacturer.{mapped_brand}._.(C.ModelGroup.{f_mg}._.Model.{f_model_esc}.)))"
             else:
                 core_tree = f"(C.CarType.Y._.(C.Manufacturer.{mapped_brand}._.ModelGroup.{f_mg}.))"
 
@@ -594,12 +734,13 @@ class MasterMappingService:
             if parsed_year and parsed_year >= 2000:
                 action += f"_.Year.range({parsed_year - 1}01..{parsed_year + 1}12)."
 
-            # 주행거리 밴드 (±20,000km)
+            # 주행거리 밴드 (±20,000km, 헤이딜러 표준 산출)
             try:
                 mil_val = int(re.sub(r'[^\d]', '', str(mileage)))
-                if mil_val >= 50000 or (parsed_year and (2026 - parsed_year < 5) and mil_val > 5000):
-                    min_mil = max(0, ((mil_val - 20000) // 10000) * 10000)
-                    max_mil = ((mil_val + 20000 + 9999) // 10000) * 10000
+                if mil_val > 0:
+                    base_mil = int(round(mil_val, -4))
+                    min_mil = max(0, base_mil - 20000)
+                    max_mil = base_mil + 20000
                     action += f"_.Mileage.range({min_mil}..{max_mil})."
             except Exception:
                 pass
