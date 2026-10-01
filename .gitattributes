@@ -1,2 +1,3 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+my_car_ledger.csv merge=jpro_merge
+data/car_options_db.json merge=jpro_merge
+data/master_car_mapping.json merge=jpro_merge

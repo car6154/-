@@ -17,7 +17,8 @@ def render_ledger_tab(LEDGER_FILE='my_car_ledger.csv', SETTLEMENT_FILE='my_inven
             st.session_state._ledger_file_mtime = cur_mtime
             try:
                 st.session_state.my_ledger_data = pd.read_csv(LEDGER_FILE)
-                st.session_state.my_ledger_data['차량번호'] = st.session_state.my_ledger_data['차량번호'].astype(str)
+                st.session_state.my_ledger_data['차량번호'] = st.session_state.my_ledger_data['차량번호'].astype(str).str.strip()
+                st.session_state.my_ledger_data = st.session_state.my_ledger_data.drop_duplicates(subset=['차량번호'], keep='first')
                 if '옵션' in st.session_state.my_ledger_data.columns:
                     st.session_state.my_ledger_data['옵션'] = st.session_state.my_ledger_data['옵션'].fillna('').astype(str).replace('nan', '')
             except Exception:
@@ -31,7 +32,8 @@ def render_ledger_tab(LEDGER_FILE='my_car_ledger.csv', SETTLEMENT_FILE='my_inven
             if os.path.exists(LEDGER_FILE):
                 st.session_state._ledger_file_mtime = os.path.getmtime(LEDGER_FILE)
                 st.session_state.my_ledger_data = pd.read_csv(LEDGER_FILE)
-                st.session_state.my_ledger_data['차량번호'] = st.session_state.my_ledger_data['차량번호'].astype(str)
+                st.session_state.my_ledger_data['차량번호'] = st.session_state.my_ledger_data['차량번호'].astype(str).str.strip()
+                st.session_state.my_ledger_data = st.session_state.my_ledger_data.drop_duplicates(subset=['차량번호'], keep='first')
                 if '옵션' in st.session_state.my_ledger_data.columns:
                     st.session_state.my_ledger_data['옵션'] = st.session_state.my_ledger_data['옵션'].fillna('').astype(str).replace('nan', '')
                 st.rerun()
