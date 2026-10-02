@@ -558,5 +558,44 @@
       "option_memo": ""
     },
     "updated_at": "2026-10-02 08:59:22"
+  },
+  "48더1381": {
+    "options": [
+      "고급형-썬루프"
+    ],
+    "chaolma_data": {
+      "success": true,
+      "car_no": "48더1381",
+      "vin": "KNAHH812BBK383775",
+      "maker": "기아",
+      "model_name": "카렌스",
+      "model_detail_name": "뉴카렌스",
+      "grade_name": "2.0 LPI",
+      "grade_detail_name": "GLX 고급형",
+      "trim_name": "GLX 고급형",
+      "model_year": "2011",
+      "reg_year": "2011",
+      "release_date": "2011-10-17",
+      "year_display": "11년식",
+      "color": "회색",
+      "fuel": "LPG",
+      "transmission": "오토",
+      "new_car_price": 20070000,
+      "base_car_price": 19610000,
+      "options": [
+        {
+          "name": "고급형-썬루프",
+          "price": 460000,
+          "depreciated_price": 92000,
+          "rate": 0.2
+        }
+      ],
+      "total_option_price": 460000,
+      "total_depreciated_opt_price": 92000,
+      "depreciation_rate": 0.2,
+      "remain_rate": 0.0,
+      "option_memo": ""
+    },
+    "updated_at": "2026-10-02 09:09:36"
   }
 }
