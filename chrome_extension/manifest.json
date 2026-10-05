@@ -9,7 +9,12 @@
     "alarms"
   ],
   "host_permissions": [
-    "<all_urls>"
+    "https://*.heydealer.com/*",
+    "https://*.autoplus.co.kr/*",
+    "http://*.autoplus.co.kr/*",
+    "https://*.encar.com/*",
+    "http://127.0.0.1/*",
+    "http://localhost/*"
   ],
   "action": {
     "default_popup": "popup.html",

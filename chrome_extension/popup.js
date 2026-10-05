@@ -38,8 +38,15 @@ document.getElementById('syncBtn').addEventListener('click', async () => {
     try {
       const response = await fetch('http://localhost:8502/api/save_cookie', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ cookie: cookieStr, target: 'heydealer' })
+        headers: {
+          'Content-Type': 'application/json',
+          'X-JPRO-Token': 'jpro_sec_9981_live_auth'
+        },
+        body: JSON.stringify({
+          cookie: cookieStr,
+          target: 'heydealer',
+          secretToken: 'jpro_sec_9981_live_auth'
+        })
       });
 
       if (response.ok) {
@@ -159,8 +166,15 @@ document.getElementById('syncApBtn').addEventListener('click', async () => {
     try {
       const res = await fetch('http://localhost:8502/api/save_cookie', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ cookie: cookieStr, target: 'autoplus' })
+        headers: {
+          'Content-Type': 'application/json',
+          'X-JPRO-Token': 'jpro_sec_9981_live_auth'
+        },
+        body: JSON.stringify({
+          cookie: cookieStr,
+          target: 'autoplus',
+          secretToken: 'jpro_sec_9981_live_auth'
+        })
       });
 
       if (res.ok) {

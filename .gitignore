@@ -31,9 +31,28 @@ heydealer_cookie.txt
 # Temporary dump files & logs
 last_heydealer_detail.json
 data/catalog_crawl.log
+logs/
 *.log
+scratch/
+scratch_*.*
+debug_*.*
+sample_detail.json
+find_encar_option_source.py
+
+# Large documents & DBs
+RPMS_doc.pdf
+*.db
+data/*.db
+data/scratch_sonata.html
 
 # Backups
 *_backup.csv
 *.bak
 .system_generated/
+
+# Node.js & Frontend build
+node_modules/
+frontend/.session_cookie.json
+frontend/firebase-applet-config.json
+frontend/jproject_web.tar.gz
+frontend/.env*

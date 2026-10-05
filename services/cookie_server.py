@@ -9,6 +9,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 COOKIE_FILE = os.path.join(BASE_DIR, "encar_cookie.txt")
 AUTOPLUS_COOKIE_FILE = os.path.join(BASE_DIR, "autoplus_cookie.txt")
 
+COOKIE_SERVER_SECRET = os.getenv("COOKIE_SERVER_TOKEN", "jpro_sec_9981_live_auth")
+
 def set_env_variable(var_name: str, value: str):
     """안전하게 .env 파일의 환경변수를 갱신 (줄바꿈 오염, 파편 및 중복 방지)"""
     env_path = os.path.join(BASE_DIR, '.env')
@@ -54,17 +56,31 @@ class CookieReceiverHandler(BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header('Access-Control-Allow-Origin', '*')
         self.send_header('Access-Control-Allow-Methods', 'POST, OPTIONS')
-        self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type, X-JPRO-Token, X-Secret-Token')
         self.send_header('Content-Length', '0')
         self.end_headers()
 
     def do_POST(self):
         print(f"[CookieServer] Received POST to path: {self.path}", flush=True)
         if self.path.startswith('/api/save_cookie'):
+            header_token = self.headers.get('X-JPRO-Token') or self.headers.get('X-Secret-Token')
             content_length = int(self.headers.get('Content-Length', 0))
             post_data = self.rfile.read(content_length)
             try:
                 data = json.loads(post_data.decode('utf-8'))
+                body_token = data.get('secretToken') or data.get('token')
+
+                # 토큰 인증 검증
+                if header_token != COOKIE_SERVER_SECRET and body_token != COOKIE_SERVER_SECRET:
+                    print("[CookieServer] Unauthorized cookie save attempt rejected (403)", flush=True)
+                    self.send_response(403)
+                    self.send_header('Content-Type', 'application/json')
+                    res_bytes = json.dumps({"status": "error", "message": "Unauthorized"}).encode('utf-8')
+                    self.send_header('Content-Length', str(len(res_bytes)))
+                    self.end_headers()
+                    self.wfile.write(res_bytes)
+                    return
+
                 raw_cookie = data.get('cookie', '').strip()
                 target = data.get('target', 'heydealer').lower()
                 print(f"[CookieServer] Got {target} cookie of length: {len(raw_cookie)}", flush=True)

@@ -60,8 +60,15 @@ async function syncCookiesToLocalServer(force = false) {
 
     await fetch('http://localhost:8502/api/save_cookie', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ cookie: cookieStr, target: 'heydealer' })
+      headers: {
+        'Content-Type': 'application/json',
+        'X-JPRO-Token': 'jpro_sec_9981_live_auth'
+      },
+      body: JSON.stringify({
+        cookie: cookieStr,
+        target: 'heydealer',
+        secretToken: 'jpro_sec_9981_live_auth'
+      })
     });
     console.log('[J-PRO AutoSync] 헤이딜러 최신 로그인 쿠키 동기화 완료');
   } catch (e) {
@@ -111,8 +118,15 @@ async function syncAutoplusCookiesToLocalServer(force = false) {
 
     await fetch('http://localhost:8502/api/save_cookie', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ cookie: cookieStr, target: 'autoplus' })
+      headers: {
+        'Content-Type': 'application/json',
+        'X-JPRO-Token': 'jpro_sec_9981_live_auth'
+      },
+      body: JSON.stringify({
+        cookie: cookieStr,
+        target: 'autoplus',
+        secretToken: 'jpro_sec_9981_live_auth'
+      })
     });
     console.log('[J-PRO AutoSync] 오토플러스(차얼마) 로그인 세션 쿠키 동기화 완료');
   } catch (e) {
