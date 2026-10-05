@@ -989,7 +989,7 @@ def render_main_tab(
                     if not cand_l.startswith('http'):
                         cid = str(r.get('_carid', '')).strip()
                         if cid and cid != 'None':
-                            cand_l = f"http://www.encar.com/dc/dc_cardetailview.do?carid={cid}"
+                            cand_l = f"https://fem.encar.com/cars/detail/{cid}"
                     if cand_l.startswith('http'):
                         base_url = cand_l.split('#')[0]
                         return f"{base_url}#{c_title}"

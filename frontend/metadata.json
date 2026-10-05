@@ -1,0 +1,8 @@
+{
+  "name": "J-PRO Studio | 중고차 통합 원장 & 시세 분석 대시보드",
+  "description": "헤이딜러 및 엔카 경매 시세, 매입/매출 원장 관리, 외판 수리비 및 마진 실시간 계산을 지원하는 J-PRO 전용 모바일 & 데스크톱 통합 웹 대시보드",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

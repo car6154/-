@@ -481,7 +481,7 @@ class Scraper:
                     "연식": year_str, "주행거리": car.get("Mileage", 0),
                     "판매가": car.get("Price", 0), "성능일": "-", "재고": "-",
                     "사고유무": "-", "외장컬러": "-", "추가옵션": "-",
-                    "링크": f"http://www.encar.com/dc/dc_cardetailview.do?carid={car.get('Id', '')}",
+                    "링크": f"https://fem.encar.com/cars/detail/{car.get('Id', '')}",
                     "_carid": str(car.get('Id', ''))
                 })
             
@@ -612,7 +612,7 @@ class Scraper:
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36",
                 "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
                 "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
-                "Referer": f"https://www.encar.com/dc/dc_cardetailview.do?carid={carid}",
+                "Referer": f"https://fem.encar.com/cars/detail/{carid}",
             }
             if cookie_val:
                 headers["Cookie"] = cookie_val

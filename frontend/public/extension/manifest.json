@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "J-PRO 헤이딜러 세션 자동 동기화기",
+  "version": "1.1.0",
+  "description": "헤이딜러 딜러 세션을 J-PRO ERP 클라우드로 자동 동기화하고 매물 1초 가져오기 버튼을 제공합니다.",
+  "permissions": ["cookies", "storage", "tabs", "activeTab"],
+  "host_permissions": [
+    "https://*.heydealer.com/*",
+    "https://*.run.app/*",
+    "http://localhost:3000/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://dealer.heydealer.com/*", "https://*.heydealer.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "J-PRO 헤이딜러 세션 연동"
+  }
+}

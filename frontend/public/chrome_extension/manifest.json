@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "J-PRO 헤이딜러 & 차얼마 세션 쿠키 연동기",
+  "version": "1.2.0",
+  "description": "헤이딜러 및 차얼마 세션 쿠키를 J-PRO 클라우드 ERP에 원클릭 자동 동기화합니다.",
+  "permissions": [
+    "cookies",
+    "tabs",
+    "storage",
+    "clipboardWrite"
+  ],
+  "host_permissions": [
+    "https://*.heydealer.com/*",
+    "https://*.autoplus.co.kr/*",
+    "http://localhost/*",
+    "https://*.run.app/*",
+    "https://*/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "J-PRO 세션 쿠키 연동"
+  }
+}

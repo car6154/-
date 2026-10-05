@@ -39,9 +39,14 @@ class SoldOutTracker:
             print(f"[SoldOutTracker] Save error ({filepath}): {e}")
 
     @classmethod
-    def record_active_listings(cls, df):
+    def record_active_listings(cls, df, is_complete=True):
         """
-        검색 화면에 표출된 실시간 활성 매물들을 로컬 스냅샷에 기록 (IP 위험 0%)
+        검색 화면에 표출된 실시간 활성 매물들을 로컬 스냅샷에 기록
+        - AGENTS.md 3-3 규칙:
+          1. 수집이 오류 없이 끝까지 완료됨 (is_complete=True)
+          2. 연속 미발견 횟수(consecutive_misses) 추적 (1회 미발견 시 상태 유지, 횟수만 1 기록)
+          3. 연속 2회 이상 미발견 시 '판매완료 추정'으로 자동 전이
+          4. 다시 검색 노출 시 '판매중' 복귀 및 consecutive_misses = 0 초기화
         """
         if df is None or df.empty:
             return 0
@@ -50,18 +55,20 @@ class SoldOutTracker:
         now_str = datetime.now().strftime("%Y-%m-%d %H:%M")
         today_date_str = datetime.now().strftime("%Y-%m-%d")
         updated_count = 0
+        current_seen_cids = set()
 
         for _, row in df.iterrows():
             cid = str(row.get('_carid', '')).strip()
             if not cid or not cid.isdigit() or len(cid) < 6:
                 # 링크에서 carid 추출 시도
                 link = str(row.get('링크', ''))
-                m = re.search(r'carid=(\d+)', link)
+                m = re.search(r'(?:carid=|detail/)(\d+)', link)
                 if m:
                     cid = m.group(1)
                 else:
                     continue
 
+            current_seen_cids.add(cid)
             name = str(row.get('차량명', '')).strip()
             year = str(row.get('연식', '')).strip()
             
@@ -99,12 +106,15 @@ class SoldOutTracker:
                     "first_seen": today_date_str,
                     "first_seen_time": now_str,
                     "last_seen": today_date_str,
-                    "status": "active"
+                    "status": "판매중",
+                    "consecutive_misses": 0
                 }
                 updated_count += 1
             else:
                 item = snapshots[cid]
                 item["last_seen"] = today_date_str
+                item["status"] = "판매중"
+                item["consecutive_misses"] = 0
                 if prc_num > 0:
                     item["price"] = prc_num
                 if perf_date and not item.get("perf_date"):
@@ -112,11 +122,107 @@ class SoldOutTracker:
                 if inv_days and inv_days != '-':
                     item["inv_days"] = inv_days
 
+        # AGENTS.md 3-3: 수집이 오류 없이 정상 완료(is_complete=True)된 경우에만 연속 미발견 추적
+        if is_complete and current_seen_cids:
+            model_sample_names = [str(r.get('차량명', '')) for _, r in df.iterrows() if r.get('차량명')]
+            for s_cid, s_item in snapshots.items():
+                if s_cid in current_seen_cids:
+                    continue
+                s_name = s_item.get("name", "")
+                is_matching_scope = any(cls._is_same_model(s_name, m_name) for m_name in model_sample_names[:5])
+                if not is_matching_scope:
+                    continue
+
+                curr_status = s_item.get("status", "판매중")
+                if curr_status in ("판매중", "active"):
+                    misses = s_item.get("consecutive_misses", 0) + 1
+                    s_item["consecutive_misses"] = misses
+                    if misses >= 2:
+                        s_item["status"] = "판매완료 추정"
+                        s_item["estimated_sold_date"] = today_date_str
+                    updated_count += 1
+
         if updated_count > 0:
             cls._save_json(cls.SNAPSHOT_FILE, snapshots)
-            print(f"[SoldOutTracker] 신규 매물 스냅샷 {updated_count}건 저장 완료 (총 {len(snapshots):,}건 보관 중)")
+            print(f"[SoldOutTracker] 매물 스냅샷 갱신 완료 ({updated_count}건 변동, 총 {len(snapshots):,}건 보관 중)")
 
         return updated_count
+
+    @classmethod
+    def verify_car_status(cls, car_id: str):
+        """
+        엔카 공식 리드사이드 API를 통해 매물의 실제 판매완료/판매중 상태를 실측 확정 (AGENTS.md 3-3 준수)
+        - HTTP 404: '판매완료' 확정
+        - HTTP 200: '판매중' 확정 (consecutive_misses=0 초기화)
+        - HTTP 403, 429, 5xx, 타임아웃, 예외: '확인불가' (절대 판매완료 처리 금지)
+        """
+        import requests
+        cid = re.sub(r'\D', '', str(car_id))
+        if not cid:
+            return {"status": "확인불가", "carId": car_id, "detail": "유효하지 않은 차량 ID"}
+
+        api_url = f"https://api.encar.com/v1/readside/vehicle/{cid}"
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36",
+            "Referer": f"https://fem.encar.com/cars/detail/{cid}"
+        }
+
+        try:
+            res = requests.get(api_url, headers=headers, timeout=5)
+            status_code = res.status_code
+            snapshots = cls._load_json(cls.SNAPSHOT_FILE)
+            today_str = datetime.now().strftime("%Y-%m-%d")
+
+            if status_code == 404:
+                if cid in snapshots:
+                    snapshots[cid]["status"] = "판매완료"
+                    snapshots[cid]["verified_at"] = today_str
+                    snapshots[cid]["confirmed_sold_date"] = today_str
+                    cls._save_json(cls.SNAPSHOT_FILE, snapshots)
+                return {
+                    "status": "판매완료",
+                    "carId": cid,
+                    "statusCode": 404,
+                    "isSold": True,
+                    "verifiedAt": today_str
+                }
+            elif status_code == 200:
+                if cid in snapshots:
+                    snapshots[cid]["status"] = "판매중"
+                    snapshots[cid]["consecutive_misses"] = 0
+                    snapshots[cid]["verified_at"] = today_str
+                    cls._save_json(cls.SNAPSHOT_FILE, snapshots)
+                return {
+                    "status": "판매중",
+                    "carId": cid,
+                    "statusCode": 200,
+                    "isSold": False,
+                    "verifiedAt": today_str
+                }
+            elif status_code in (403, 429) or status_code >= 500:
+                return {
+                    "status": "확인불가",
+                    "carId": cid,
+                    "statusCode": status_code,
+                    "isSold": None,
+                    "detail": f"HTTP {status_code} 응답 수신"
+                }
+            else:
+                return {
+                    "status": "확인불가",
+                    "carId": cid,
+                    "statusCode": status_code,
+                    "isSold": None,
+                    "detail": f"비정형 응답 코드: {status_code}"
+                }
+        except Exception as e:
+            return {
+                "status": "확인불가",
+                "carId": cid,
+                "statusCode": 0,
+                "isSold": None,
+                "detail": f"네트워크/타임아웃 오류: {str(e)}"
+            }
 
     CORE_MODELS = [
         # 현대

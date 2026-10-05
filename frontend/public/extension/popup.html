@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { width: 300px; font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #0f1117; color: #fff; margin: 0; padding: 16px; }
+    h3 { margin: 0 0 8px 0; font-size: 14px; color: #cc9166; }
+    p { font-size: 11px; color: #8b8e9d; margin: 0 0 12px 0; line-height: 1.4; }
+    .btn { width: 100%; padding: 8px; background: #cc9166; color: #000; font-weight: bold; border: none; border-radius: 6px; cursor: pointer; font-size: 12px; }
+    .btn:hover { background: #b87d52; }
+    .status { margin-top: 10px; font-size: 11px; padding: 8px; border-radius: 6px; background: #161822; border: 1px solid #282a38; text-align: center; }
+    .success { color: #34d399; }
+    .error { color: #f87171; }
+  </style>
+</head>
+<body>
+  <h3>🚗 J-PRO 헤이딜러 세션 연동</h3>
+  <p>헤이딜러(dealer.heydealer.com)의 로그인 세션을 J-PRO ERP 클라우드로 1초 만에 전송합니다.</p>
+  <button id="syncBtn" class="btn">지금 즉시 세션 동기화</button>
+  <div id="status" class="status">대기 중...</div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
