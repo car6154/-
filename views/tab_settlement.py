@@ -243,6 +243,8 @@ def render_settlement_tab(SETTLEMENT_FILE="my_inventory_settlement.csv"):
                 except Exception:
                     pass
 
+            src_row = ledger_info_map.get(sel_c_no) or (auto_inv_row if auto_inv_row is not None else (matched_stock.iloc[0] if not matched_stock.empty else None))
+
             with sc_col2:
                 in_encar_url = st.text_input(
                     "엔카 매물 URL 또는 carid 입력:",
