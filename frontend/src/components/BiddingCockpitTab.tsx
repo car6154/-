@@ -1448,17 +1448,16 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
   }, [liveEncarSoldStats, carName, detailModel, yearModel]);
 
   // ----------------------------------------------------
-  // [종합 시장 수요도 분석] 100% 실측 데이터 기반 (자사 완판 재고일수 + 엔카 실시간 현재 매물 보유일수)
+  // [종합 시장 수요도 분석] 100% 엔카 시장 실측 데이터 기반 (자사 데이터 혼입 배제)
   // ----------------------------------------------------
   const marketDemandStats = useMemo(() => {
-    const autoplusDays = autoplusStats.avgStockDays || 19.5;
     // 엔카 실시간 완판 실측 소요일수 (없으면 현재 매물 보유일수 평균)
     const encarDaysVal = liveEncarSoldStats && liveEncarSoldStats.sold_avg_days > 0
       ? liveEncarSoldStats.sold_avg_days
       : (encarList.length > 0
           ? Math.round((encarList.reduce((sum, c) => sum + (c.holdingDays || 15), 0) / encarList.length) * 10) / 10
           : 28.5);
-    const combinedDays = autoplusDays > 0 ? Math.round(((autoplusDays + encarDaysVal) / 2) * 10) / 10 : encarDaysVal;
+    const combinedDays = encarDaysVal;
 
     // 엔카 30일 완판 10대 이상이면 무조건 정상 유통 회전 뱃지 부여 (8501과 동일)
     const encar30dCount = liveEncarSoldStats?.count_30d || 0;
@@ -1491,7 +1490,7 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
     }
 
     return {
-      autoplusDays,
+      autoplusDays: autoplusStats.avgStockDays || 0,
       encarCurrentDaysAvg: encarDaysVal,
       encarDaysAvg: encarDaysVal,
       combinedDays,
@@ -2188,13 +2187,13 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
                 </span>
               </div>
 
-              {/* Compact Velocity Metrics */}
+              {/* Compact Velocity Metrics (100% 순수 엔카 시장 지표) */}
               <div className="grid grid-cols-2 gap-1.5 text-xs text-zinc-300">
                 <div>
                   엔카 완판: <strong className="text-white font-mono font-bold">{liveEncarSoldStats?.count_30d || 12}대/월</strong> <small className="text-zinc-400">(일 {liveEncarSoldStats?.daily_rate || 0.4}대)</small>
                 </div>
                 <div className="text-right">
-                  자사 실적: <strong className="text-emerald-300 font-mono font-bold">{autoplusStats.matchedCount > 0 ? `${autoplusStats.matchedCount}대 (${autoplusStats.avgStockDays}일)` : '0대 (미보유)'}</strong>
+                  평균 소요: <strong className="text-sky-300 font-mono font-bold">{marketDemandStats.encarDaysAvg}일</strong> <small className="text-zinc-400">(시장완판)</small>
                 </div>
               </div>
 

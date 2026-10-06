@@ -1322,7 +1322,8 @@ class SalesDataAnalyzer:
             "aggressive_bid": aggressive_bid,
             "standard_bid": standard_bid,
             "defensive_bid": defensive_bid,
-            "sample_desc": sample_desc_text
+            "sample_desc": sample_desc_text,
+            "sample_df": matches
         }
 
     # 오토플러스 표기 -> 엔카(Encar) 공식 제조사 및 대표 모델그룹 매핑 데이터베이스
