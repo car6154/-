@@ -32,6 +32,8 @@ from sales_analysis import get_car_market_stats, generate_encar_market_url, Sale
 # 📦 Services & Views Modular Imports
 from services.cookie_server import get_current_hd_cookie, get_current_autoplus_cookie, start_cookie_server
 from services.heydealer_service import parse_heydealer_comps, parse_heydealer_options
+import services.data_processor
+importlib.reload(services.data_processor)
 from services.data_processor import DataProcessor
 from services.encar_service import Scraper
 from services.settlement_service import get_auto_fee_rate, recalc_settlement_df

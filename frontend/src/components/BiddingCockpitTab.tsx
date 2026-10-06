@@ -646,7 +646,7 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
         }
 
         // 엔카 전수 매물 자동 수집 연동
-        fetchEncarComparable({
+        const encarItems = await fetchEncarComparable({
           carName: resolvedCarName || carName,
           detailModel: resolvedGrade || detailModel,
           manufacturer: res.maker || manufacturer,
@@ -654,9 +654,10 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
           mileage: mileageKm
         });
 
+        const encarCountMsg = encarItems.length > 0 ? ` (엔카 동급 ${encarItems.length}대 연동)` : '';
         setSearchStatus({
           type: 'success',
-          message: `✅ [차얼마&엔카] ${no} ${res.maker} ${resolvedCarName} (${resolvedGrade}) 실서버 제원·순정옵션 연동 완료!`
+          message: `✅ [차얼마&엔카] ${no} ${res.maker} ${resolvedCarName} (${resolvedGrade}) 제원 및 시세 연동 완료!${encarCountMsg}`
         });
       } else {
         setSearchStatus({
@@ -847,9 +848,12 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
           if (!isNaN(m)) calculatedMil = m;
         }
 
+        setAiEstimateStep(`엔카 실시간 동급 매물 수집 중... [${cBrand} ${cName}]`);
+        let fetchedItems: any[] = [];
+
         if (directEncarUrl) {
           setEncarSourceUrl(directEncarUrl);
-          fetchEncarComparable({
+          fetchedItems = await fetchEncarComparable({
             url: directEncarUrl,
             carName: cName,
             detailModel: cGrade,
@@ -858,7 +862,7 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
             mileage: calculatedMil
           });
         } else if (cName) {
-          fetchEncarComparable({
+          fetchedItems = await fetchEncarComparable({
             carName: cName,
             detailModel: cGrade,
             manufacturer: cBrand,
@@ -867,9 +871,10 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
           });
         }
 
+        const countMsg = fetchedItems.length > 0 ? ` (동급 ${fetchedItems.length}대 연동)` : '';
         setSearchStatus({
           type: 'success',
-          message: `🎉 [헤이딜러 & 엔카 실시간 연동 완료] ${cNo} ${cName} (${(rawMil || 0).toLocaleString()}km${cAccident ? ` / ${cAccident}` : ''}) 및 엔카 동급 시세 전수 스캔 완료!`
+          message: `🎉 [헤이딜러 & 엔카 실시간 연동 완료] ${cNo} ${cName} (${(rawMil || 0).toLocaleString()}km${cAccident ? ` / ${cAccident}` : ''})${countMsg}`
         });
       } else {
         setSearchStatus({
@@ -886,7 +891,7 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
     } finally {
       setIsAiEstimating(false);
       setAiEstimateStep(null);
-      setTimeout(() => setSearchStatus(null), 8000);
+      setTimeout(() => setSearchStatus(null), 6000);
     }
   };
 
@@ -2603,6 +2608,17 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
               </div>
 
               <div className="overflow-x-auto max-h-[460px] overflow-y-auto border border-[#1c1d22] rounded-xl scrollbar-thin scrollbar-thumb-zinc-700">
+                {isEncarLoading ? (
+                  <div className="flex flex-col items-center justify-center min-h-[300px] space-y-3 py-12 bg-[#0e0f13]/80">
+                    <div className="w-8 h-8 border-3 border-blue-500/30 border-t-blue-400 rounded-full animate-spin" />
+                    <div className="text-xs font-bold text-white flex items-center gap-1.5">
+                      <span>🚗 엔카 실시간 동급 매물 정밀 크롤링 중...</span>
+                    </div>
+                    <div className="text-[11px] text-[#8b8e9d]">
+                      성능점검 기록부 및 추가옵션 전수 스캔 &amp; 2D 도면 연동 중
+                    </div>
+                  </div>
+                ) : (
                 <table className="w-full text-left text-xs text-[#c7c9d1]">
                   <thead className="bg-[#121317] sticky top-0 z-10 text-[11px] text-[#8b8e9d] uppercase border-b border-[#1c1d22]">
                     <tr>
@@ -2701,6 +2717,7 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
                     })}
                   </tbody>
                 </table>
+                )}
               </div>
             </div>
 

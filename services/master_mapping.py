@@ -36,7 +36,7 @@ class MasterMappingService:
         "그랜저 (GN7)": {
             "brand": "현대",
             "model_group": "그랜저",
-            "encar_model": "디 올 뉴 그랜저",
+            "encar_model": "그랜저 (GN7)",
             "aliases": ["디올뉴그랜저", "더올뉴그랜저", "그랜저gn7", "gn7", "신형그랜저"],
             "trims": {}
         },
@@ -136,6 +136,20 @@ class MasterMappingService:
             "model_group": "스포티지",
             "encar_model": "The SUV 스포티지",
             "aliases": ["thesuv스포티지", "스포티지4세대", "스포티지ql", "ql"],
+            "trims": {}
+        },
+        "더 뉴 레이": {
+            "brand": "기아",
+            "model_group": "레이",
+            "encar_model": "더 뉴 레이",
+            "aliases": ["더뉴레이", "더 뉴 레이", "더뉴기아레이"],
+            "trims": {}
+        },
+        "레이": {
+            "brand": "기아",
+            "model_group": "레이",
+            "encar_model": "레이",
+            "aliases": ["레이", "기아레이", "ray"],
             "trims": {}
         },
         "아반떼 (CN7)": {
@@ -558,6 +572,7 @@ class MasterMappingService:
         ],
         "레이": [
             (2017, 2030, "더 뉴 레이"),
+            (2011, 2017, "레이"),
         ],
     }
 

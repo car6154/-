@@ -148,24 +148,49 @@ class DataProcessor:
     @staticmethod
     def filter_strictly_by_submodel(df: pd.DataFrame, target_car_name: str = "", target_sub_model: str = "") -> pd.DataFrame:
         """
-        엔카 실시간 수집 데이터에서 세부모델/파생트림(스페셜, 에디션, N Line, 유종/배기량/구동방식 불일치 등)을
-        엄격하게 배제하여 정밀 비교군만 추출합니다. (8501과 3000 단일 공통 기준)
+        엔카 실시간 수집 데이터에서 차종(1차) 및 세부모델/파생트림(2차: 스페셜, 에디션, N Line, 유종/배기량/구동방식 불일치 등)을
+        엄격하게 격리하여 정밀 비교군만 추출합니다. (8501과 3000 단일 공통 기준 순수 함수)
         """
-        if df.empty or not target_sub_model or target_sub_model == "전체" or '세부모델' not in df.columns:
+        if df.empty or '세부모델' not in df.columns:
             return df
+            
+        cand_df = df.copy()
+
+        # 0. 🚗 1차 차종(Car Name) 엄격 일치 (레이 조회 시 프라이드, K5 등 타 차종 100% 원천 차단)
+        if target_car_name and target_car_name != "전체" and '차량명' in cand_df.columns:
+            target_name_clean = str(target_car_name).replace(" ", "").lower()
+            c_mask = cand_df['차량명'].astype(str).str.replace(" ", "").str.lower().str.contains(target_name_clean, na=False, regex=False)
+            if not c_mask.any():
+                # 핵심 대표 모델명으로 2차 매칭
+                core_models = ['그랜저', '싼타페', '아반떼', '쏘나타', '투싼', '팰리세이드', '스타리아', '스타렉스',
+                               'k3', 'k5', 'k7', 'k8', 'k9', '쏘렌토', '스포티지', '카니발', '모닝', '레이',
+                               'g70', 'g80', 'g90', 'gv70', 'gv80', 'gv60', '제네시스',
+                               '스파크', '말리부', '트레일블레이저', 'sm3', 'sm5', 'sm6', 'qm3', 'qm6', 'xm3',
+                               '티볼리', '코란도', '렉스턴', '토레스', '프라이드', 'i30', 'i40', '베뉴', '코나', '니로']
+                for kw in core_models:
+                    if kw in target_name_clean:
+                        c_mask = cand_df['차량명'].astype(str).str.replace(" ", "").str.lower().str.contains(kw, na=False, regex=False)
+                        if c_mask.any():
+                            break
+            if c_mask.any():
+                cand_df = cand_df[c_mask]
+
+        if not target_sub_model or target_sub_model == "전체" or cand_df.empty:
+            return cand_df.reset_index(drop=True)
         
         sub_raw = str(target_sub_model).strip()
         sub_clean = sub_raw.lower().replace(" ", "")
         sub_parts = [p for p in sub_raw.split() if len(p) >= 2]
         
-        encar_full_clean = (df['차량명'].astype(str) + " " + df['세부모델'].astype(str)).str.replace(" ", "").str.lower()
+        encar_full_clean = (cand_df['차량명'].astype(str) + " " + cand_df['세부모델'].astype(str)).str.replace(" ", "").str.lower()
         
-        all_matched = pd.Series(True, index=df.index)
+        all_matched = pd.Series(True, index=cand_df.index)
         for part in sub_parts:
             part_clean = part.replace(" ", "").lower()
             all_matched = all_matched & encar_full_clean.str.contains(part_clean, na=False, regex=False)
         
-        cand_df = df[all_matched] if all_matched.any() else df.copy()
+        if all_matched.any():
+            cand_df = cand_df[all_matched]
         
         # 1. 🚗 파생 바디/타입 배제
         BODY_TYPE_KEYWORDS = [
