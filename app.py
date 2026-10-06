@@ -73,6 +73,14 @@ except Exception:
 
 # 🍪 Chrome Extension 쿠키 수신 서버 시작 (포트 8502)
 start_cookie_server(port=8502)
+
+# 🚀 통합 백그라운드 서비스 자동 시작 (8000 FastAPI & 3000 React Frontend)
+try:
+    from services.service_manager import ServiceManager
+    ServiceManager.start_all_services()
+except Exception as e_srv:
+    print(f"[ServiceManager] 서비스 자동 기동 오류: {e_srv}")
+
 st.set_page_config(page_title="J-PRO Valuation System", page_icon="🏅", layout="wide")
 
 st.markdown('''
@@ -1326,100 +1334,11 @@ if st.session_state.f_sub not in f_sub_opts: st.session_state.f_sub = "전체"
 st.session_state.f_sub = st.sidebar.selectbox("세부모델", f_sub_opts, index=f_sub_opts.index(st.session_state.f_sub))
 
 if not is_url_mode and not filtered_df.empty and st.session_state.f_sub != "전체" and '세부모델' in filtered_df.columns: 
-    sub_raw = str(st.session_state.f_sub).strip()
-    sub_clean = sub_raw.lower().replace(" ", "")
-    sub_parts = [p for p in sub_raw.split() if len(p) >= 2]
-    
-    # 💡 엔카 데이터는 '살룬' 등이 세부모델이 아닌 차량명(Model)에 위치하므로 [차량명 + 세부모델] 통합 풀텍스트로 검색
-    encar_full_clean = (filtered_df['차량명'].astype(str) + " " + filtered_df['세부모델'].astype(str)).str.replace(" ", "").str.lower()
-    
-    all_matched = pd.Series(True, index=filtered_df.index)
-    for part in sub_parts:
-        part_clean = part.replace(" ", "").lower()
-        all_matched = all_matched & encar_full_clean.str.contains(part_clean, na=False, regex=False)
-    
-    cand_df = filtered_df[all_matched] if all_matched.any() else filtered_df.copy()
-    
-    # 1. 🚗 [파생 바디/타입(살룬, 왜건, 하이리무진, 밴, 칸, 크로스오버 등) 범용 상호 배제]
-    BODY_TYPE_KEYWORDS = [
-        '살룬', '왜건', '해치백', '하이리무진', '리무진', '밴', '카고', 
-        '쿠페', '컨버터블', '카브리올레', '로드스터', '그란쿠페', 
-        '칸', '크로스오버', '아웃도어'
-    ]
-    target_all_text = (str(st.session_state.get('f_name', '')) + " " + sub_raw).lower()
-    cand_full_clean = (cand_df['차량명'].astype(str) + " " + cand_df['세부모델'].astype(str)).str.replace(" ", "").str.lower()
-    
-    for b_kw in BODY_TYPE_KEYWORDS:
-        if b_kw in target_all_text:
-            # 타겟에 파생타입이 있으면 해당 키워드가 있는 매물만 엄격 필터링
-            has_b = cand_full_clean.str.contains(b_kw, na=False)
-            if has_b.any():
-                cand_df = cand_df[has_b]
-                cand_full_clean = (cand_df['차량명'].astype(str) + " " + cand_df['세부모델'].astype(str)).str.replace(" ", "").str.lower()
-        else:
-            # 타겟에 파생타입이 없는데 엔카 매물 풀에 파생매물이 섞여있다면 파생매물 자동 탈락
-            has_b = cand_full_clean.str.contains(b_kw, na=False)
-            if has_b.any() and (~has_b).any():
-                cand_df = cand_df[~has_b]
-                cand_full_clean = (cand_df['차량명'].astype(str) + " " + cand_df['세부모델'].astype(str)).str.replace(" ", "").str.lower()
-                
-    # 2. ⛽ [유종(디젤 vs 가솔린 vs LPG) 엄격 상호 배제]
-    diesel_kws = ['vgt', 'crdi', '디젤', 'diesel', 'dci', 'cdi', 'tdi', 'e-vgt']
-    gas_kws = ['gdi', '가솔린', 'gasoline', 'gde', 't-gdi', 'mpi', 'cvvl']
-    lpg_kws = ['lpi', 'lpg', 'lpe']
-    
-    is_q_diesel = any(k in sub_clean for k in diesel_kws)
-    is_q_gas = any(k in sub_clean for k in gas_kws)
-    is_q_lpg = any(k in sub_clean for k in lpg_kws)
-    
-    cand_full_clean = (cand_df['차량명'].astype(str) + " " + cand_df['세부모델'].astype(str)).str.replace(" ", "").str.lower()
-    if is_q_diesel:
-        bad_fuel = cand_full_clean.str.contains('gdi|가솔린|gde|lpi|lpg|lpe', na=False)
-        if (~bad_fuel).any():
-            cand_df = cand_df[~bad_fuel]
-    elif is_q_gas:
-        bad_fuel = cand_full_clean.str.contains('vgt|crdi|디젤|diesel|dci|cdi|tdi|lpi|lpg|lpe', na=False)
-        if (~bad_fuel).any():
-            cand_df = cand_df[~bad_fuel]
-    elif is_q_lpg:
-        lpg_mask = cand_full_clean.str.contains('lpi|lpg|lpe', na=False)
-        if lpg_mask.any():
-            cand_df = cand_df[lpg_mask]
-            
-    # 3. 🔍 [배기량(Displacement: 1.7 vs 2.0 등) 엄격 일치]
-    disp_m = re.search(r'(\d\.\d)', sub_raw)
-    if disp_m:
-        disp_val = disp_m.group(1)
-        cand_full_clean = (cand_df['차량명'].astype(str) + " " + cand_df['세부모델'].astype(str)).str.replace(" ", "").str.lower()
-        disp_mask = cand_full_clean.str.contains(disp_val, na=False)
-        if disp_mask.any():
-            cand_df = cand_df[disp_mask]
-    
-    # 4. ⚙️ [구동방식 (2WD vs 4WD/AWD)]
-    is_target_4wd = any(x in sub_clean for x in ['4wd', '4륜', 'awd'])
-    cand_sub_col = cand_df['세부모델'].astype(str)
-    if not is_target_4wd:
-        non_4wd = ~cand_sub_col.str.contains(r'4wd|4륜|awd', case=False, regex=True, na=False)
-        if non_4wd.any():
-            cand_df = cand_df[non_4wd]
-    else:
-        is_4wd = cand_sub_col.str.contains(r'4wd|4륜|awd', case=False, regex=True, na=False)
-        if is_4wd.any():
-            cand_df = cand_df[is_4wd]
-            
-    # 5. ✨ [스페셜/플러스/에디션/마스터 등 서브 키워드]
-    for sub_kw in ['스페셜', '플러스', '에디션', '마스터']:
-        if sub_kw not in sub_clean:
-            has_kw = cand_df['세부모델'].astype(str).str.contains(sub_kw, na=False)
-            if (~has_kw).any():
-                cand_df = cand_df[~has_kw]
-        else:
-            has_kw = cand_df['세부모델'].astype(str).str.contains(sub_kw, na=False)
-            if has_kw.any():
-                cand_df = cand_df[has_kw]
-                
-    if not cand_df.empty:
-        filtered_df = cand_df
+    filtered_df = DataProcessor.filter_strictly_by_submodel(
+        filtered_df,
+        target_car_name=st.session_state.get('f_name', ''),
+        target_sub_model=st.session_state.f_sub
+    )
 
 # 5. 연식 (시세분석용 연식, 0=전체)
 default_f_year = st.session_state.get('f_year', '')
@@ -1443,25 +1362,7 @@ f_year_num = st.sidebar.number_input(
 current_f_year = f"{f_year_num:02d}" if f_year_num > 0 else ""
 
 if not filtered_df.empty:
-    if "주행거리" in filtered_df.columns:
-        filtered_df["주행거리"] = pd.to_numeric(filtered_df["주행거리"], errors='coerce').fillna(0)
-    
-    def _parse_app_year(val):
-        m = re.search(r'(\d+)', str(val))
-        return int(m.group(1)) if m else 0
-
-    if "성능일" in filtered_df.columns and "연식" in filtered_df.columns:
-        filtered_df['_has_perf'] = filtered_df['성능일'].astype(str).apply(
-            lambda x: 1 if re.match(r'^\d{2}-\d{2}-\d{2}', str(x)) and str(x) not in ['미검사/사진', '⚠️미등록', '⚠️조회실패', '-'] else 0
-        )
-        filtered_df['_sort_perf'] = filtered_df['성능일'].astype(str).apply(
-            lambda x: x if re.match(r'^\d{2}-\d{2}-\d{2}', str(x)) and str(x) not in ['미검사/사진', '⚠️미등록', '⚠️조회실패', '-'] else '00-00-00'
-        )
-        filtered_df['_sort_year'] = filtered_df['연식'].apply(_parse_app_year)
-        filtered_df = filtered_df.sort_values(
-            by=['_has_perf', '_sort_year', '_sort_perf'],
-            ascending=[False, False, False]
-        ).drop(columns=['_has_perf', '_sort_perf', '_sort_year']).reset_index(drop=True)
+    filtered_df = DataProcessor.sort_by_perf_and_year(filtered_df)
 
 # 6. 주행거리 (km)
 default_mil_val = int(st.session_state.get(f"mil_{reset_idx}", st.session_state.get('user_target_mil', 0)))

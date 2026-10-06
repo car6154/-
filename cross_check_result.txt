@@ -1,0 +1,26 @@
+=== 8501 vs 3000 A-Z FULL CROSS-CHECK ===
+[A] Fees at 2000man: Self=25.0man, Zero=39.5man
+[C] Generated Encar URL: https://www.encar.com/dc/dc_carsearchlist.do?carType=kor&searchType=model&TG.RType=auto#!%7B%22action%22%3A%22%28And.Hidden.N._.%28C.CarType.Y._.%28C.Manufacturer.%ED%98%84%EB%8C%80._.%28C.ModelGroup.%ED%88%AC%EC%8B%BC._.%28C.Model.%ED%88%AC%EC%8B%BC%20%28NX4_%29._.%28C.BadgeGroup.%EA%B0%80%EC%86%94%EB%A6%B0%201600cc._.%28C.Badge.%EA%B0%80%EC%86%94%EB%A6%B0%201_.6%20%ED%84%B0%EB%B3%B4%202WD._.BadgeDetail.%EC%9D%B8%EC%8A%A4%ED%8D%BC%EB%A0%88%EC%9D%B4%EC%85%98.%29%29%29%29%29%29_.Year.range%28202001..202212%29._.Mileage.range%2830000..70000%29.%29%22%2C%22toggle%22%3A%7B%7D%2C%22layer%22%3A%22%22%2C%22sort%22%3A%22ModifiedDate%22%2C%22page%22%3A1%2C%22limit%22%3A50%7D
+[C] Scraped Raw Count: 26
+[C] After Dedupe: 24
+[C] After Strict Submodel Filter: 24
+[C] Stats: Min=2150, Max=2590, Mean=2349, Median=2340
+[C] Accident Gap: NoAccAvg=2424, AccAvg=2259, Gap=165
+
+[C - 8501 Sort: Perf -> Year -> Date] Top 5:
+  8501 #1: 22(22) | 2450.0man | checkDate=26-10-01 | acc=완전무사고
+  8501 #2: 22(22) | 2230.0man | checkDate=26-09-30 | acc=단순교환 [교환:3]
+  8501 #3: 22(22) | 2430.0man | checkDate=26-09-28 | acc=완전무사고
+  8501 #4: 22(23) | 2500.0man | checkDate=26-09-15 | acc=완전무사고
+  8501 #5: 22(22) | 2290.0man | checkDate=26-08-18 | acc=단순교환 [교환:2]
+
+[C - 3000 Sort: Option 2 (Price -> Year -> Perf)] Top 5:
+  3000 #1: 22(22) | 2150.0man | checkDate=26-03-31 | acc=사고 [교환:3 / 판금:1]
+  3000 #2: 20(21) | 2150.0man | checkDate=26-08-10 | acc=단순교환 [교환:1]
+  3000 #3: 22(22) | 2190.0man | checkDate=26-07-03 | acc=단순교환 [교환:5]
+  3000 #4: 22(22) | 2230.0man | checkDate=26-09-30 | acc=단순교환 [교환:3]
+  3000 #5: 21(21) | 2230.0man | checkDate=⚠️미등록 | acc=단순교환
+
+[D] Autoplus Stats (8501): total_count=10, avg_days=43.5, avg_sell_price=2280, profit=122.1
+
+[E] SoldOut Stats: has_data=False, count_30d=None, daily_rate=None, badge=None, latest_date=None, avg_mil=None

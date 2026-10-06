@@ -199,7 +199,7 @@ def render_main_tab(
                 <div class='metric-card' style='min-height: 72px; height: 72px; display: flex; align-items: center; box-sizing: border-box;'>
                     <div class='metric-icon'>⏱️</div>
                     <div class='metric-content' style='overflow: hidden;'>
-                        <h4 style='white-space: nowrap; text-overflow: ellipsis; overflow: hidden;'>소매 평균 재고일수</h4>
+                        <h4 style='white-space: nowrap; text-overflow: ellipsis; overflow: hidden;'>평균 판매기일</h4>
                         <h2 style='color: {bd_stats.get("turnover_color", "#4ade80")}; white-space: nowrap;'>{bd_stats.get("avg_days", 0)}일 <span style='font-size: 0.58em; color: #acafb9;'>({grade_sub_text})</span></h2>
                     </div>
                 </div>

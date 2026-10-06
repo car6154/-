@@ -1,23 +1,44 @@
 {
   "manifest_version": 3,
-  "name": "J-PRO 헤이딜러 & 차얼마 세션 쿠키 연동기",
-  "version": "1.2.0",
-  "description": "헤이딜러 및 차얼마 세션 쿠키를 J-PRO 클라우드 ERP에 원클릭 자동 동기화합니다.",
+  "name": "J-PRO 헤이딜러 & 차얼마 쿠키 자동연동기",
+  "version": "1.4",
+  "description": "헤이딜러 및 차얼마(오토플러스) 로그인 쿠키를 J-PRO 전산 프로그램으로 실시간 자동 전송합니다.",
   "permissions": [
     "cookies",
     "tabs",
+    "alarms",
     "storage",
-    "clipboardWrite"
+    "clipboardWrite",
+    "scripting"
   ],
   "host_permissions": [
-    "https://*.heydealer.com/*",
-    "https://*.autoplus.co.kr/*",
+    "*://*.heydealer.com/*",
+    "*://heydealer.com/*",
+    "*://*.autoplus.co.kr/*",
+    "*://autoplus.co.kr/*",
+    "*://*.encar.com/*",
+    "*://encar.com/*",
+    "http://127.0.0.1/*",
     "http://localhost/*",
-    "https://*.run.app/*",
-    "https://*/*"
+    "<all_urls>"
   ],
   "action": {
     "default_popup": "popup.html",
-    "default_title": "J-PRO 세션 쿠키 연동"
-  }
+    "default_title": "J-PRO 헤이딜러 & 차얼마 쿠키 연동"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.heydealer.com/*",
+        "*://heydealer.com/*",
+        "*://*.autoplus.co.kr/*",
+        "*://autoplus.co.kr/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    }
+  ]
 }

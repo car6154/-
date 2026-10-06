@@ -9,7 +9,34 @@ let lastAutoplusSyncTime = 0;
 let hdTimer = null;
 let apTimer = null;
 
-// ── 헤이딜러 쿠키 지연/후행 동기화 (페이지 로드 완료 시 최종 쿠키 유실 방지) ──
+async function broadcastToServer(cookieStr, target) {
+  const payload = {
+    cookie: cookieStr,
+    target: target,
+    secretToken: 'jpro_sec_9981_live_auth'
+  };
+
+  const endpoints = [
+    'http://localhost:8502/api/save_cookie',
+    'http://localhost:3000/api/save_cookie',
+    'http://localhost:8000/api/save_cookie'
+  ];
+
+  await Promise.allSettled(
+    endpoints.map(url =>
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-JPRO-Token': 'jpro_sec_9981_live_auth'
+        },
+        body: JSON.stringify(payload)
+      })
+    )
+  );
+}
+
+// ── 헤이딜러 쿠키 지연/후행 동기화 ──
 function requestHdSync(force = false, delayMs = 150) {
   if (hdTimer) clearTimeout(hdTimer);
   hdTimer = setTimeout(() => {
@@ -28,70 +55,66 @@ function requestApSync(force = false, delayMs = 150) {
 // ── 헤이딜러 쿠키 동기화 ──
 async function syncCookiesToLocalServer(force = false) {
   try {
-    const [cUrl1, cUrl2, cUrl3, cDom1, cDom2, cDom3] = await Promise.all([
-      chrome.cookies.getAll({ url: 'https://dealer.heydealer.com' }),
-      chrome.cookies.getAll({ url: 'https://heydealer.com' }),
-      chrome.cookies.getAll({ url: 'https://api.heydealer.com' }),
-      chrome.cookies.getAll({ domain: 'heydealer.com' }),
-      chrome.cookies.getAll({ domain: '.heydealer.com' }),
-      chrome.cookies.getAll({ domain: 'dealer.heydealer.com' })
+    const [byUrl1, byUrl2, byUrl3, byDomain1, byDomain2, byDomain3, byDomain4, all] = await Promise.all([
+      chrome.cookies.getAll({ url: 'https://dealer.heydealer.com' }).catch(() => []),
+      chrome.cookies.getAll({ url: 'https://api.heydealer.com' }).catch(() => []),
+      chrome.cookies.getAll({ url: 'https://heydealer.com' }).catch(() => []),
+      chrome.cookies.getAll({ domain: 'heydealer.com' }).catch(() => []),
+      chrome.cookies.getAll({ domain: '.heydealer.com' }).catch(() => []),
+      chrome.cookies.getAll({ domain: 'dealer.heydealer.com' }).catch(() => []),
+      chrome.cookies.getAll({ domain: 'api.heydealer.com' }).catch(() => []),
+      chrome.cookies.getAll({}).catch(() => [])
     ]);
-
+    const hdCookies = [
+      ...byUrl1,
+      ...byUrl2,
+      ...byUrl3,
+      ...byDomain1,
+      ...byDomain2,
+      ...byDomain3,
+      ...byDomain4,
+      ...all.filter(c => c && c.domain && (c.domain.includes('heydealer.com') || c.domain.includes('heydealer')))
+    ];
     const allMap = new Map();
-    [...cUrl1, ...cUrl2, ...cUrl3, ...cDom1, ...cDom2, ...cDom3].forEach(c => {
+    hdCookies.forEach(c => {
       if (c && c.name && c.value) {
         allMap.set(c.name, c.value);
       }
     });
 
     if (allMap.size === 0) return;
-
-    // 헤이딜러 로그인 인증의 핵심 키(sessionid) 존재 여부 검증
     if (!allMap.has('sessionid')) return;
 
     const cookieStr = Array.from(allMap.entries()).map(([k, v]) => `${k}=${v}`).join('; ');
     const now = Date.now();
 
-    // 동일 쿠키 중복 전송 방지 (동일 쿠키는 15초 이내 재전송 금지하여 무한 리로드 방지)
-    if (cookieStr === lastHdCookie && (now - lastHdSyncTime < 15000)) return;
+    if (!force && cookieStr === lastHdCookie && (now - lastHdSyncTime < 15000)) return;
 
     lastHdCookie = cookieStr;
     lastHdSyncTime = now;
 
-    await fetch('http://localhost:8502/api/save_cookie', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-JPRO-Token': 'jpro_sec_9981_live_auth'
-      },
-      body: JSON.stringify({
-        cookie: cookieStr,
-        target: 'heydealer',
-        secretToken: 'jpro_sec_9981_live_auth'
-      })
-    });
+    await broadcastToServer(cookieStr, 'heydealer');
     console.log('[J-PRO AutoSync] 헤이딜러 최신 로그인 쿠키 동기화 완료');
   } catch (e) {
-    // 로컬 서버 미실행 시 무시
+    // 무시
   }
 }
 
 // ── 오토플러스 (차얼마) 쿠키 동기화 ──
 async function syncAutoplusCookiesToLocalServer(force = false) {
   try {
-    const [cUrl1, cUrl2, cUrl3, cUrl4, cDom1, cDom2, cDom3, cDom4] = await Promise.all([
-      chrome.cookies.getAll({ url: 'https://purchase.autoplus.co.kr' }),
-      chrome.cookies.getAll({ url: 'http://purchase.autoplus.co.kr' }),
-      chrome.cookies.getAll({ url: 'https://purchase.autoplus.co.kr/purchase/PCVP010001' }),
-      chrome.cookies.getAll({ url: 'https://purchase.autoplus.co.kr/login/login.do' }),
-      chrome.cookies.getAll({ domain: 'purchase.autoplus.co.kr' }),
-      chrome.cookies.getAll({ domain: '.purchase.autoplus.co.kr' }),
-      chrome.cookies.getAll({ domain: 'autoplus.co.kr' }),
-      chrome.cookies.getAll({ domain: '.autoplus.co.kr' })
+    const [byUrl, byDomain, all] = await Promise.all([
+      chrome.cookies.getAll({ url: 'https://purchase.autoplus.co.kr' }).catch(() => []),
+      chrome.cookies.getAll({ domain: 'autoplus.co.kr' }).catch(() => []),
+      chrome.cookies.getAll({}).catch(() => [])
     ]);
-
+    const apCookies = [
+      ...byUrl,
+      ...byDomain,
+      ...all.filter(c => c && c.domain && (c.domain.includes('autoplus.co.kr') || c.domain.includes('autoplus')))
+    ];
     const allMap = new Map();
-    [...cUrl1, ...cUrl2, ...cUrl3, ...cUrl4, ...cDom1, ...cDom2, ...cDom3, ...cDom4].forEach(c => {
+    apCookies.forEach(c => {
       if (c && c.name && c.value) {
         allMap.set(c.name, c.value);
       }
@@ -99,7 +122,6 @@ async function syncAutoplusCookiesToLocalServer(force = false) {
 
     if (allMap.size === 0) return;
 
-    // 중요: JSESSIONID 또는 remember-me 로그인 세션 쿠키가 있어야만 전송
     const hasSession = Array.from(allMap.keys()).some(k => {
       const u = k.toUpperCase();
       return u === 'JSESSIONID' || u === 'REMEMBER-ME';
@@ -110,27 +132,15 @@ async function syncAutoplusCookiesToLocalServer(force = false) {
     const cookieStr = Array.from(allMap.entries()).map(([k, v]) => `${k}=${v}`).join('; ');
     const now = Date.now();
 
-    // 동일 쿠키 중복 전송 방지 (동일 쿠키는 15초 이내 재전송 금지)
-    if (cookieStr === lastAutoplusCookie && (now - lastAutoplusSyncTime < 15000)) return;
+    if (!force && cookieStr === lastAutoplusCookie && (now - lastAutoplusSyncTime < 15000)) return;
 
     lastAutoplusCookie = cookieStr;
     lastAutoplusSyncTime = now;
 
-    await fetch('http://localhost:8502/api/save_cookie', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-JPRO-Token': 'jpro_sec_9981_live_auth'
-      },
-      body: JSON.stringify({
-        cookie: cookieStr,
-        target: 'autoplus',
-        secretToken: 'jpro_sec_9981_live_auth'
-      })
-    });
+    await broadcastToServer(cookieStr, 'autoplus');
     console.log('[J-PRO AutoSync] 오토플러스(차얼마) 로그인 세션 쿠키 동기화 완료');
   } catch (e) {
-    // 로컬 서버 미실행 시 무시
+    // 무시
   }
 }
 
@@ -140,12 +150,12 @@ function syncAll(force = false) {
   requestApSync(force, 100);
 }
 
-// ── 1) Service Worker 시작 및 확장프로그램 기동 시 즉시 1회 동기화 ──
+// 1) Service Worker 시작 및 기동 시 1회 동기화
 syncAll(true);
 chrome.runtime.onStartup.addListener(() => syncAll(true));
 chrome.runtime.onInstalled.addListener(() => syncAll(true));
 
-// ── 2) 주기적 알람 동기화 (MV3 백그라운드 슬립 방지 및 주기적 갱신) ──
+// 2) 주기적 알람 동기화
 chrome.alarms.create('jpro-cookie-sync', { periodInMinutes: 1 });
 chrome.alarms.onAlarm.addListener((alarm) => {
   if (alarm.name === 'jpro-cookie-sync') {
@@ -153,7 +163,7 @@ chrome.alarms.onAlarm.addListener((alarm) => {
   }
 });
 
-// ── 3) 🚀 [content.js로부터 메시지 수신] 페이지가 열리거나 로드되거나 포커스될 때 즉시 동기화 ──
+// 3) content.js 메시지 수신 시 동기화
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   if (msg && msg.action === 'trigger_sync') {
     const url = msg.url || (sender && sender.tab && sender.tab.url) || '';
@@ -166,12 +176,10 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   }
 });
 
-// ── 4) 🚀 [새 창 / 새 탭 생성 감지] ──
-chrome.tabs.onCreated.addListener((tab) => {
-  syncAll(true);
-});
+// 4) 탭 생성 감지
+chrome.tabs.onCreated.addListener(() => syncAll(true));
 
-// ── 5) 🚀 [탭 URL 변경/네비게이션/SPA 페이지 이동 감지] ──
+// 5) 탭 URL 변경 감지
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   const url = tab.url || changeInfo.url || '';
   if (url.includes('heydealer.com')) {
@@ -181,7 +189,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   }
 });
 
-// ── 6) 🚀 [탭 전환/클릭 감지] 헤이딜러 창이나 탭을 보거나 클릭할 때 즉시 동기화 ──
+// 6) 탭 전환 감지
 chrome.tabs.onActivated.addListener(async (activeInfo) => {
   try {
     const tab = await chrome.tabs.get(activeInfo.tabId);
@@ -195,7 +203,7 @@ chrome.tabs.onActivated.addListener(async (activeInfo) => {
   } catch (e) {}
 });
 
-// ── 7) 🚀 [브라우저 윈도우 포커스 감지] ──
+// 7) 윈도우 포커스 감지
 chrome.windows.onFocusChanged.addListener(async (windowId) => {
   if (windowId === chrome.windows.WINDOW_ID_NONE) return;
   try {
@@ -210,7 +218,7 @@ chrome.windows.onFocusChanged.addListener(async (windowId) => {
   } catch (e) {}
 });
 
-// ── 8) 쿠키 실시간 변경 감지 ──
+// 8) 쿠키 실시간 변경 감지
 chrome.cookies.onChanged.addListener((changeInfo) => {
   const domain = changeInfo.cookie.domain || '';
   if (domain.includes('heydealer.com')) {

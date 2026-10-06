@@ -16,7 +16,7 @@ class MasterMappingService:
             "brand": "현대",
             "model_group": "투싼",
             "encar_model": "투싼 (NX4)",
-            "aliases": ["디올뉴투싼nx4", "디올뉴투싼", "투싼nx4", "투싼(nx4)", "신형투싼", "theallnewtucsonnx4"],
+            "aliases": ["디올뉴투싼nx4", "디올뉴투싼", "더올뉴투싼", "더올뉴투싼nx4", "더 올뉴투싼", "더 올 뉴 투싼", "더올뉴투싼(nx4)", "투싼nx4", "투싼(nx4)", "신형투싼", "theallnewtucsonnx4"],
             "trims": {}
         },
         "올 뉴 투싼": {
@@ -37,7 +37,7 @@ class MasterMappingService:
             "brand": "현대",
             "model_group": "그랜저",
             "encar_model": "디 올 뉴 그랜저",
-            "aliases": ["디올뉴그랜저", "그랜저gn7", "gn7", "신형그랜저"],
+            "aliases": ["디올뉴그랜저", "더올뉴그랜저", "그랜저gn7", "gn7", "신형그랜저"],
             "trims": {}
         },
         "더 뉴 그랜저 IG": {
@@ -283,7 +283,7 @@ class MasterMappingService:
 
     @classmethod
     def _load_db(cls) -> dict:
-        """DB 파일 로드 또는 시드로 초기화"""
+        """DB 파일 로드 또는 시드로 초기화 (시드의 최신 별칭 자동 병합)"""
         os.makedirs(os.path.dirname(cls.DB_PATH), exist_ok=True)
         if not os.path.exists(cls.DB_PATH):
             db = {
@@ -310,7 +310,31 @@ class MasterMappingService:
 
         try:
             with open(cls.DB_PATH, "r", encoding="utf-8") as f:
-                return json.load(f)
+                db = json.load(f)
+            
+            # 💡 기존 DB 파일에 시드의 최신 별칭/모델 정규화 자동 병합
+            models = db.setdefault("models", {})
+            norm_idx = db.setdefault("normalized_models", {})
+            for m_name, m_info in cls.SEED_MODELS.items():
+                if m_name not in models:
+                    models[m_name] = m_info.copy()
+                else:
+                    # 기존 모델 정보에 신규 별칭 보강
+                    existing_aliases = set(models[m_name].get("aliases", []))
+                    new_aliases = set(m_info.get("aliases", []))
+                    models[m_name]["aliases"] = list(existing_aliases | new_aliases)
+
+                norm = cls._normalize_key(m_name)
+                if norm:
+                    norm_idx[norm] = m_name
+                norm_encar = cls._normalize_key(m_info.get("encar_model", ""))
+                if norm_encar:
+                    norm_idx[norm_encar] = m_name
+                for a in m_info.get("aliases", []):
+                    norm_a = cls._normalize_key(a)
+                    if norm_a:
+                        norm_idx[norm_a] = m_name
+            return db
         except Exception as e:
             print(f"[MasterMapping] DB 로드 실패, 백업 후 초기화: {e}")
             return {
@@ -496,66 +520,44 @@ class MasterMappingService:
         "아반떼": [
             (2023, 2030, "더 뉴 아반떼 (CN7)"),
             (2020, 2023, "아반떼 (CN7)"),
-            (2018, 2020, "더 뉴 아반떼 AD"),
-            (2015, 2018, "아반떼 AD"),
-            (2010, 2015, "아반떼 MD"),
+            (2015, 2020, "아반떼 AD"),
         ],
         "카니발": [
             (2023, 2030, "더 뉴 카니발 4세대"),
             (2020, 2023, "카니발 4세대"),
-            (2018, 2020, "더 뉴 카니발"),
-            (2014, 2018, "올 뉴 카니발"),
-            (2010, 2014, "카니발 R"),
+            (2014, 2020, "올 뉴 카니발"),
         ],
         "쏘렌토": [
             (2023, 2030, "더 뉴 쏘렌토 4세대"),
             (2020, 2023, "쏘렌토 4세대"),
             (2017, 2020, "더 뉴 쏘렌토"),
             (2014, 2017, "올 뉴 쏘렌토"),
-            (2009, 2014, "뉴 쏘렌토 R"),
         ],
         "그랜저": [
-            (2022, 2030, "디 올 뉴 그랜저"),
+            (2022, 2030, "그랜저 (GN7)"),
             (2019, 2022, "더 뉴 그랜저 IG"),
             (2016, 2019, "그랜저 IG"),
             (2011, 2016, "그랜저 HG"),
         ],
         "투싼": [
-            (2020, 2030, "투싼 (NX4)"),
+            (2020, 2030, "디 올 뉴 투싼 (NX4)"),
             (2018, 2020, "더 뉴 투싼"),
             (2015, 2018, "올 뉴 투싼"),
-            (2009, 2015, "뉴 투싼 ix"),
         ],
         "스포티지": [
-            (2021, 2030, "디 올 뉴 스포티지"),
-            (2018, 2021, "스포티지 더 볼드"),
-            (2015, 2018, "The SUV 스포티지"),
-            (2010, 2015, "스포티지 R"),
+            (2021, 2030, "스포티지 5세대"),
+            (2015, 2021, "The SUV 스포티지"),
         ],
         "K5": [
             (2023, 2030, "더 뉴 K5 3세대"),
             (2019, 2023, "K5 3세대"),
-            (2018, 2019, "더 뉴 K5 2세대"),
-            (2015, 2018, "K5 2세대"),
-            (2010, 2015, "K5"),
-        ],
-        "K7": [
-            (2019, 2022, "K7 프리미어"),
-            (2016, 2019, "올 뉴 K7"),
-            (2012, 2016, "더 뉴 K7"),
-            (2009, 2012, "K7"),
         ],
         "모닝": [
-            (2023, 2030, "더 뉴 모닝 3세대"),
             (2020, 2023, "모닝 어반"),
             (2017, 2020, "올 뉴 모닝 (JA)"),
-            (2015, 2017, "더 뉴 모닝"),
-            (2011, 2015, "올 뉴 모닝"),
         ],
         "레이": [
-            (2022, 2030, "더 뉴 기아 레이"),
-            (2017, 2022, "더 뉴 레이"),
-            (2011, 2017, "레이"),
+            (2017, 2030, "더 뉴 레이"),
         ],
     }
 
@@ -648,7 +650,7 @@ class MasterMappingService:
         # 1순위: 등록된 차량번호 직통 URL 확인
         if car_number:
             direct_url = cls.get_car_link(car_number)
-            if direct_url and "action=" in direct_url:
+            if direct_url and any(k in direct_url for k in ["action=", "action%22", "%22action%22", '"action"']):
                 return direct_url
 
         # 2순위: 마스터 DB에서 모델 계층 확인

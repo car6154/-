@@ -508,7 +508,7 @@ def render_cockpit_view(
 
     c_q1, c_q2 = st.columns([5, 1.2])
     with c_q1:
-        default_quick = encar_url_target or "https://dealer.heydealer.com/cars/nqqkomjn"
+        default_quick = encar_url_target or ""
         quick_input = st.text_input("경매 URL 또는 차량번호", value=default_quick, placeholder="헤이딜러 차량 URL이나 엔카 URL을 입력하세요", label_visibility="collapsed", key="cockpit_quick_url_box")
     with c_q2:
         if st.button("🚀 실시간 쾌속 스캔", type="primary", use_container_width=True, key="cockpit_quick_run_btn"):
@@ -521,6 +521,34 @@ def render_cockpit_view(
                         try:
                             s = HeydealerScraper.build_session(c_val)
                             res = HeydealerScraper.fetch_car_detail(quick_input, session=s)
+                            
+                            # 헤이딜러 상세 정보 및 동급 낙찰가 세션 상태 동기화
+                            if res and res.get('detail'):
+                                try:
+                                    raw_det = res.get('detail', '')
+                                    if raw_det and raw_det.strip().startswith('{'):
+                                        d_json = json.loads(raw_det)
+                                        d_detail = d_json.get('detail', {})
+                                        st.session_state.hd_detail = d_detail
+                                        st.session_state.f_name = d_detail.get('model_part_name', '')
+                                        st.session_state.f_sub = d_detail.get('grade_part_name', '')
+                                        if d_detail.get('year'):
+                                            st.session_state.hd_target_year = int(d_detail.get('year'))
+                                        if d_detail.get('mileage'):
+                                            st.session_state.hd_target_mileage = int(d_detail.get('mileage'))
+                                except Exception:
+                                    pass
+
+                            if res and res.get('market_prices'):
+                                try:
+                                    mp_data = json.loads(res['market_prices'])
+                                    results = mp_data if isinstance(mp_data, list) else mp_data.get('results', [])
+                                    if results:
+                                        from services.heydealer_service import parse_heydealer_comps
+                                        st.session_state.hd_comp_df = parse_heydealer_comps(results)
+                                except Exception:
+                                    pass
+
                             e_url = res.get('encar_url', '')
                             if e_url:
                                 try:
@@ -540,6 +568,8 @@ def render_cockpit_view(
                                     st.session_state.scan_data = new_df
                                     st.session_state.auto_encar_url = e_url
                                     st.rerun()
+                            else:
+                                st.rerun()
                         except Exception as ex_q:
                             st.error(f"분석 실패: {ex_q}")
                 else:
@@ -680,7 +710,7 @@ def render_cockpit_view(
                     <span style='font-size: 20px; font-weight: 800; color: #4ade80;'>{ap_price:,}만</span>
                     <span style='font-size: 12px; color: #cc9166;'>마진 <b>+{ap_profit:,}만</b></span>
                 </div>
-                <div style='font-size: 11px; color: #64748b; margin-top: 2px;'>평균 재고 {ap_days}일 소화 ({autoplus_stats.get("turnover_grade", "보통")})</div>
+                <div style='font-size: 11px; color: #64748b; margin-top: 2px;'>평균 판매기일 {ap_days}일 소화 ({autoplus_stats.get("turnover_grade", "보통")})</div>
                 {yd_badge}
             </div>
             """, unsafe_allow_html=True)

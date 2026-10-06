@@ -106,8 +106,13 @@ async function startServer() {
       savedAutoplusCookie = trimmed;
       logEvent('COOKIE_SYNC', `[J-PRO] 차얼마(오토플러스) 쿠키 동기화 완료 (${trimmed.length}자)`);
     } else {
-      savedHeydealerCookie = trimmed;
-      logEvent('COOKIE_SYNC', `[J-PRO] 헤이딜러 쿠키 동기화 완료 (${trimmed.length}자)`);
+      // 헤이딜러: 기존에 sessionid가 유효한데 새로 들어온 쿠키에 sessionid가 없으면 덮어쓰기 방지
+      if (savedHeydealerCookie && savedHeydealerCookie.includes('sessionid=') && !trimmed.includes('sessionid=')) {
+        logEvent('COOKIE_SYNC', `[J-PRO] 기존 유효 sessionid 보존 (새 쿠키에 sessionid 누락됨: ${trimmed.length}자)`);
+      } else {
+        savedHeydealerCookie = trimmed;
+        logEvent('COOKIE_SYNC', `[J-PRO] 헤이딜러 쿠키 동기화 완료 (${trimmed.length}자)`);
+      }
     }
 
     saveCookiesToDisk();
@@ -139,7 +144,7 @@ async function startServer() {
     });
   });
 
-  // 3. 헤이딜러 실제 차량 API 프록시 (CORS 우회 및 토큰 주입)
+  // 3. 헤이딜러 실제 차량 API 프록시 (Python Engine 연동 & Node 백업 프록시)
   app.get('/api/heydealer/car/:hashId', async (req, res) => {
     const { hashId } = req.params;
     const authHeader = req.headers.authorization || '';
@@ -158,6 +163,23 @@ async function startServer() {
       return savedHeydealerCookie || '';
     })();
 
+    // [1단계 연동] Python FastAPI 백엔드 (8000) 우선 호출 (쿠키 로테이션/CSRF 헤더/20대 낙찰가 자동 결합 지원)
+    try {
+      const pyRes = await fetch(`http://127.0.0.1:8000/api/heydealer/car/${hashId}`, {
+        signal: AbortSignal.timeout(12000)
+      });
+      if (pyRes.ok) {
+        const pyData = await pyRes.json();
+        if (pyData?.success && pyData?.data) {
+          logEvent('HEYDEALER_IN', `[Python Engine] 헤이딜러 [${hashId}] 및 낙찰시세 20대 수집 완료`);
+          return res.json(pyData);
+        }
+      }
+    } catch (e: any) {
+      logEvent('HEYDEALER_WARN', `Python API 연결 대기, Node 프록시로 실행: ${e.message}`);
+    }
+
+    // [2단계 연동] Node 직접 프록시
     try {
       logEvent('HEYDEALER_OUT', `Requesting https://api.heydealer.com/v2/dealers/web/cars/${hashId}/`, {
         cookiePresent: Boolean(activeCookie),
@@ -178,51 +200,123 @@ async function startServer() {
         }
       });
 
-      const data = await hdRes.json();
-
-      logEvent('HEYDEALER_IN', `Response status ${hdRes.status}`, {
-        toast: data.toast_message || data.toast?.message,
-        hasCarNo: Boolean(data.car_no || data.plate_no),
-        model: data.model || data.full_name || data.display_car_name,
-      });
-
-      // 성공 시 로컬 캐시 덤프 저장 (오프라인/세션 만료 시 안정적인 테스트 보장)
-      if (hdRes.ok && data && (data.detail || data.car_no || data.full_name)) {
+      if (!hdRes.ok) {
+        // 인증 만료 시 로컬 캐시 폴백 확인
         try {
           const backupFile = path.resolve(process.cwd(), 'last_heydealer_detail.json');
-          fs.writeFileSync(backupFile, JSON.stringify(data, null, 2), 'utf8');
-        } catch (e) {}
-      }
-
-      // 헤이딜러에서 비로그인 차단 응답이 온 경우
-      if (!hdRes.ok || data.toast_message === '로그인 후 사용해주세요.' || data.toast?.message === '로그인 후 사용해주세요.') {
-        // 로컬 백업/캐시(last_heydealer_detail.json)가 있는 경우 자동 Fallback 지원
-        const backupFile = path.resolve(process.cwd(), 'last_heydealer_detail.json');
-        if (fs.existsSync(backupFile)) {
-          try {
+          if (fs.existsSync(backupFile)) {
             const backupData = JSON.parse(fs.readFileSync(backupFile, 'utf8'));
-            if (backupData && (backupData.hash_id === hashId || hashId.toLowerCase().includes('yoek') || !hashId || hashId === 'sample')) {
-              logEvent('HEYDEALER_IN', `[Fallback] 세션 만료로 인해 로컬 캐시(${backupData.hash_id})로 응답합니다.`);
-              return res.json({
-                success: true,
-                data: backupData,
-                isFallback: true
-              });
+            if (backupData && (backupData.hash_id === hashId || hashId === 'QrqzKqKn' || hashId === 'sample')) {
+              return res.json({ success: true, data: backupData, isFallback: true, cached: true });
             }
-          } catch (e) {}
-        }
+          }
+        } catch (e) {}
 
-        return res.status(401).json({
+        return res.status(hdRes.status).json({
           success: false,
-          errorType: 'LOGIN_REQUIRED',
-          message: '헤이딜러 로그인 세션이 없거나 만료되었습니다. 헤이딜러 딜러 페이지에서 쿠키를 전송하거나 샘플 ID(yoekjmGQ)를 입력해 보세요.',
-          raw: data
+          errorType: (hdRes.status === 401 || hdRes.status === 403) ? 'LOGIN_REQUIRED' : 'API_ERROR',
+          message: `헤이딜러 API 인증/응답 실패 (${hdRes.status})`
         });
       }
 
-      return res.status(hdRes.status).json({
+      const data = await hdRes.json();
+
+      // 20대 동급 낙찰가(market_prices) 추가 수집
+      let marketPricesData: any = null;
+      try {
+        let params: any = null;
+        const findParams = (obj: any) => {
+          if (params || !obj || typeof obj !== 'object') return;
+          if (obj.params && typeof obj.params === 'object' && (obj.params.model || obj.params.grade)) {
+            params = obj.params;
+            return;
+          }
+          if (obj.price_info && typeof obj.price_info === 'object' && obj.price_info.params) {
+            params = obj.price_info.params;
+            return;
+          }
+          for (const k of Object.keys(obj)) {
+            if (typeof obj[k] === 'object') findParams(obj[k]);
+          }
+        };
+        findParams(data);
+
+        if (!params) {
+          const det = data.detail || data;
+          const mId = det.model || det.model_id;
+          const gId = det.grade || det.grade_id;
+          const yVal = det.year;
+          if (mId && gId) {
+            params = {
+              model: mId,
+              grade: gId,
+              year: yVal ? [yVal - 1, yVal, yVal + 1] : []
+            };
+          }
+        }
+
+        if (params) {
+          const allMarketResults: any[] = [];
+          for (let pNum = 1; pNum <= 10; pNum++) {
+            const qParts = [`page=${pNum}`];
+            for (const [k, v] of Object.entries(params)) {
+              if (Array.isArray(v)) {
+                v.forEach((item) => qParts.push(`${k}=${encodeURIComponent(String(item))}`));
+              } else if (v !== undefined && v !== null) {
+                qParts.push(`${k}=${encodeURIComponent(String(v))}`);
+              }
+            }
+            if (!params.period) qParts.push('period=c');
+            if (!params.order) qParts.push('order=recent');
+
+            const mpUrl = `https://api.heydealer.com/v2/dealers/web/price/cars/?${qParts.join('&')}`;
+            const mpRes = await fetch(mpUrl, {
+              headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
+                'Accept': 'application/json, text/plain, */*',
+                'App-Os': 'pc',
+                'App-Type': 'dealer',
+                'App-Version': '1.9.0',
+                'Referer': `https://dealer.heydealer.com/cars/${hashId}/`,
+                'Origin': 'https://dealer.heydealer.com',
+                ...(authHeader ? { 'Authorization': authHeader as string } : {}),
+                ...(activeCookie ? { 'Cookie': activeCookie } : {}),
+              }
+            });
+
+            if (mpRes.ok) {
+              const pData: any = await mpRes.json();
+              const items = Array.isArray(pData) ? pData : (pData?.results || []);
+              if (!items.length) break;
+              allMarketResults.push(...items);
+              if (items.length < 20) break; // 마지막 페이지
+            } else {
+              break;
+            }
+          }
+
+          if (allMarketResults.length > 0) {
+            marketPricesData = { results: allMarketResults };
+            logEvent('HEYDEALER_IN', `market_prices fetched: ${allMarketResults.length} total comps`);
+          }
+        }
+      } catch (mpErr) {
+        console.warn('동급 낙찰시세 수집 예외:', mpErr);
+      }
+
+      const responsePayload = {
+        ...data,
+        market_prices: marketPricesData
+      };
+
+      // 캐시 파일 업데이트
+      try {
+        fs.writeFileSync(path.resolve(process.cwd(), 'last_heydealer_detail.json'), JSON.stringify(responsePayload, null, 2), 'utf8');
+      } catch (e) {}
+
+      return res.status(200).json({
         success: true,
-        data: data
+        data: responsePayload
       });
     } catch (err: any) {
       console.error('헤이딜러 프록시 호출 실패:', err);
@@ -231,13 +325,43 @@ async function startServer() {
         const backupFile = path.resolve(process.cwd(), 'last_heydealer_detail.json');
         if (fs.existsSync(backupFile)) {
           const backupData = JSON.parse(fs.readFileSync(backupFile, 'utf8'));
-          if (backupData && (backupData.hash_id === hashId || hashId.toLowerCase().includes('yoek') || hashId === 'sample')) {
-            return res.json({ success: true, data: backupData, isFallback: true });
+          if (backupData && (backupData.hash_id === hashId || hashId === 'QrqzKqKn' || hashId === 'sample')) {
+            return res.json({ success: true, data: backupData, isFallback: true, cached: true });
           }
         }
       } catch (e) {}
       return res.status(500).json({ success: false, errorType: 'NETWORK_ERROR', message: '헤이딜러 서버 통신 실패: ' + err.message });
     }
+  });
+
+  // 3-1. 자사(오토플러스) 실적 및 시장 수요도 통계 API (FastAPI 8000 브릿지)
+  app.get('/api/market_statistics', async (req, res) => {
+    try {
+      const q = new URLSearchParams(req.query as any).toString();
+      const pyRes = await fetch(`http://127.0.0.1:8000/api/market_statistics?${q}`);
+      if (pyRes.ok) {
+        const data = await pyRes.json();
+        return res.json(data);
+      }
+    } catch (e: any) {
+      console.warn('market_statistics FastAPI forward failed:', e.message);
+    }
+    return res.json({ success: false, data: { has_data: false, total_count: 0, sample_list: [] } });
+  });
+
+  // 3-2. 엔카 최근 완판(팔린매물) 실거래 스냅샷 통계 API (FastAPI 8000 브릿지)
+  app.get('/api/sold_out_cars', async (req, res) => {
+    try {
+      const q = new URLSearchParams(req.query as any).toString();
+      const pyRes = await fetch(`http://127.0.0.1:8000/api/sold_out_cars?${q}`);
+      if (pyRes.ok) {
+        const data = await pyRes.json();
+        return res.json(data);
+      }
+    } catch (e: any) {
+      console.warn('sold_out_cars FastAPI forward failed:', e.message);
+    }
+    return res.json({ success: false, sold_statistics: { has_data: false }, enriched_info: {} });
   });
 
   // 4. 엔카 실시간 동급 매물 및 시세 검색 API (URL 파싱 + 모델/연식/주행거리 자동 쿼리 빌더)
@@ -263,7 +387,7 @@ async function startServer() {
           year: yearVal,
           mileage: mileageVal
         }),
-        signal: AbortSignal.timeout(8000)
+        signal: AbortSignal.timeout(15000)
       });
       if (pyRes.ok) {
         const pyData = await pyRes.json();

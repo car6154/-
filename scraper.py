@@ -137,13 +137,14 @@ class HeydealerScraper:
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36"
         })
         # 쿠키 문자열을 파싱하여 세션에 등록
-        # api/dealer 두 도메인 모두에 쿠키 등록 (헤이딜러는 두 도메인 모두 사용)
-        for domain in ['api.heydealer.com', 'dealer.heydealer.com']:
+        # 모든 헤이딜러 서브도메인 등록 및 직접 Cookie 헤더 주입 (누락 차단)
+        for domain in ['api.heydealer.com', 'dealer.heydealer.com', '.heydealer.com', 'heydealer.com']:
             for item in cookie_str.split(';'):
                 item = item.strip()
                 if '=' in item:
                     k, v = item.split('=', 1)
                     session.cookies.set(k.strip(), v.strip(), domain=domain)
+        session.headers['Cookie'] = cookie_str.strip()
         # 초기 csrftoken 헤더 설정
         HeydealerScraper._sync_csrf_header(session)
         return session
@@ -257,37 +258,52 @@ class HeydealerScraper:
         return None  # 실패해도 전체 흐름에는 영향 없음
 
     @staticmethod
-    def fetch_market_prices(params_dict, session):
+    def fetch_market_prices(params_dict, session, max_pages=10):
         """
-        차량 상세 데이터의 price_info.params를 바탕으로 동급 낙찰시세를 가져옵니다.
-        엔드포인트: GET /v2/dealers/web/price/cars/?...
+        차량 상세 데이터의 price_info.params를 바탕으로 동급 낙찰시세를 전수(모든 페이지) 가져옵니다.
+        엔드포인트: GET /v2/dealers/web/price/cars/?page={page}...
         """
-        import urllib.parse
-        query_parts = ["page=1"]
-        for k, v in params_dict.items():
-            if isinstance(v, list):
-                for item in v:
-                    query_parts.append(f"{k}={urllib.parse.quote(str(item))}")
-            else:
-                query_parts.append(f"{k}={urllib.parse.quote(str(v))}")
+        import urllib.parse, json
+        all_results = []
         
-        if 'period' not in params_dict:
-            query_parts.append("period=c")
-        if 'order' not in params_dict:
-            query_parts.append("order=recent")
+        for page in range(1, max_pages + 1):
+            query_parts = [f"page={page}"]
+            for k, v in params_dict.items():
+                if isinstance(v, list):
+                    for item in v:
+                        query_parts.append(f"{k}={urllib.parse.quote(str(item))}")
+                else:
+                    query_parts.append(f"{k}={urllib.parse.quote(str(v))}")
             
-        query_string = "&".join(query_parts)
-        market_url = f"https://api.heydealer.com/v2/dealers/web/price/cars/?{query_string}"
-        HeydealerScraper._sync_csrf_header(session)
-        try:
-            resp = session.get(market_url, timeout=10)
+            if 'period' not in params_dict:
+                query_parts.append("period=c")
+            if 'order' not in params_dict:
+                query_parts.append("order=recent")
+                
+            query_string = "&".join(query_parts)
+            market_url = f"https://api.heydealer.com/v2/dealers/web/price/cars/?{query_string}"
             HeydealerScraper._sync_csrf_header(session)
-            if resp.status_code == 200:
-                return resp.text
-            else:
-                print(f"[헤이딜러] fetch_market_prices 응답 코드: {resp.status_code}, 내용: {resp.text[:100]}")
-        except Exception as e:
-            print(f"[헤이딜러] fetch_market_prices 예외: {e}")
+            try:
+                resp = session.get(market_url, timeout=10)
+                HeydealerScraper._sync_csrf_header(session)
+                if resp.status_code == 200:
+                    page_data = resp.json()
+                    items = page_data if isinstance(page_data, list) else page_data.get('results', [])
+                    if not items:
+                        break
+                    all_results.extend(items)
+                    # 1페이지당 기본 20건이므로 20건 미만이면 마지막 페이지임
+                    if len(items) < 20:
+                        break
+                else:
+                    print(f"[헤이딜러] fetch_market_prices (p.{page}) 응답 코드: {resp.status_code}")
+                    break
+            except Exception as e:
+                print(f"[헤이딜러] fetch_market_prices (p.{page}) 예외: {e}")
+                break
+
+        if all_results:
+            return json.dumps({"results": all_results}, ensure_ascii=False)
         return None
 
 
@@ -341,8 +357,18 @@ class HeydealerScraper:
             except Exception:
                 pass
 
-        if response.status_code in (401, 403):
-            raise Exception(f"인증 오류 ({response.status_code}): 세션이 만료되었거나 쿠키가 올바르지 않습니다. 다시 로그인 후 쿠키를 업데이트해 주세요.")
+        if response.status_code == 401:
+            raise Exception("인증 오류 (401): 세션이 만료되었거나 쿠키가 올바르지 않습니다. 다시 로그인 후 쿠키를 업데이트해 주세요.")
+        elif response.status_code == 403:
+            # 세션 자체가 만료된 것인지, 매물 접근 권한(마감) 문제인지 users/me 로 정확히 실측 판별
+            try:
+                me_resp = session.get('https://api.heydealer.com/v2/dealers/web/users/me/', timeout=4)
+                if me_resp.status_code == 200:
+                    raise Exception("해당 차량은 헤이딜러에서 이미 마감되었거나 열람 권한이 없는 매물입니다(403). 현재 진행 중인 다른 매물 URL을 입력해 주세요.")
+            except Exception as me_ex:
+                if "마감되었거나" in str(me_ex):
+                    raise me_ex
+            raise Exception("인증 오류 (403): 세션이 만료되었거나 쿠키가 올바르지 않습니다. 다시 로그인 후 쿠키를 업데이트해 주세요.")
         elif response.status_code == 404:
             raise Exception("해당 차량은 헤이딜러에서 이미 마감되었거나 존재하지 않는 매물입니다(404). 현재 진행 중인 다른 매물 URL을 입력해 주세요.")
         elif response.status_code != 200:
@@ -355,17 +381,8 @@ class HeydealerScraper:
             pass  # .env 저장 실패해도 요청 결과에는 영향 없음
 
         detail_json = response.text
-        market_prices_json = None
-
-        # 디버그용 덤프 저장
-        try:
-            with open("last_heydealer_detail.json", "w", encoding="utf-8") as f:
-                f.write(detail_json)
-        except Exception:
-            pass
-
-        # 낙찰 이력 데이터 자동 추가 요청 (실패해도 무시)
         auction_repairs_json = HeydealerScraper.fetch_auction_repairs(car_id, session)
+        market_prices_json = None
 
         # 동급 낙찰시세 자동 요청 + 엔카 URL 추출
         encar_url = None
@@ -406,6 +423,19 @@ class HeydealerScraper:
 
             if params:
                 market_prices_json = HeydealerScraper.fetch_market_prices(params, session)
+            
+            # 디버그용 통합 덤프 저장
+            try:
+                full_dump = dict(parsed)
+                if market_prices_json:
+                    try:
+                        full_dump['market_prices'] = json.loads(market_prices_json)
+                    except Exception:
+                        pass
+                with open("last_heydealer_detail.json", "w", encoding="utf-8") as f:
+                    json.dump(full_dump, f, ensure_ascii=False, indent=2)
+            except Exception:
+                pass
             
             # 재귀적으로 external_url (encar) 탐색
             def find_encar_url(obj):

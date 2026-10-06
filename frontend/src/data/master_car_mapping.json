@@ -6,11 +6,16 @@
       "model_group": "투싼",
       "encar_model": "투싼 (NX4_)",
       "aliases": [
-        "디올뉴투싼nx4",
+        "더올뉴투싼nx4",
         "디올뉴투싼",
+        "디올뉴투싼nx4",
+        "더 올뉴투싼",
         "투싼nx4",
-        "투싼(nx4)",
+        "더올뉴투싼",
+        "더올뉴투싼(nx4)",
         "신형투싼",
+        "더 올 뉴 투싼",
+        "투싼(nx4)",
         "theallnewtucsonnx4"
       ],
       "trims": {
@@ -18,7 +23,7 @@
           "badge_group": "가솔린 1600cc",
           "badge": "가솔린 1.6 터보 2WD",
           "badge_detail": "인스퍼레이션",
-          "updated_at": "2026-09-29 12:18:21"
+          "updated_at": "2026-10-06 10:05:59"
         },
         "가솔린 1.6 터보 2WD 프리미엄": {
           "badge_group": "가솔린 1600cc",
@@ -33,9 +38,9 @@
       "model_group": "투싼",
       "encar_model": "올 뉴 투싼",
       "aliases": [
-        "올뉴투싼",
         "올뉴투싼tl",
         "투싼tl",
+        "올뉴투싼",
         "투싼올뉴"
       ],
       "trims": {
@@ -67,10 +72,11 @@
       "model_group": "그랜저",
       "encar_model": "디 올 뉴 그랜저",
       "aliases": [
-        "디올뉴그랜저",
         "그랜저gn7",
+        "신형그랜저",
         "gn7",
-        "신형그랜저"
+        "디올뉴그랜저",
+        "더올뉴그랜저"
       ],
       "trims": {}
     },
@@ -79,8 +85,8 @@
       "model_group": "그랜저",
       "encar_model": "더 뉴 그랜저 IG",
       "aliases": [
-        "더뉴그랜저ig",
         "더뉴그랜저",
+        "더뉴그랜저ig",
         "그랜저ig더뉴"
       ],
       "trims": {
@@ -97,8 +103,8 @@
       "model_group": "그랜저",
       "encar_model": "그랜저 IG",
       "aliases": [
-        "그랜저ig",
-        "ig그랜저"
+        "ig그랜저",
+        "그랜저ig"
       ],
       "trims": {}
     },
@@ -108,8 +114,8 @@
       "encar_model": "그랜저 HG",
       "aliases": [
         "그랜저hg",
-        "hg그랜저",
         "hg240",
+        "hg그랜저",
         "hg300"
       ],
       "trims": {
@@ -126,10 +132,10 @@
       "model_group": "쏘렌토",
       "encar_model": "쏘렌토 4세대",
       "aliases": [
-        "쏘렌토4세대",
+        "신형쏘렌토",
         "쏘렌토mq4",
         "mq4",
-        "신형쏘렌토"
+        "쏘렌토4세대"
       ],
       "trims": {}
     },
@@ -138,9 +144,9 @@
       "model_group": "쏘렌토",
       "encar_model": "더 뉴 쏘렌토 4세대",
       "aliases": [
+        "더뉴mq4",
         "더뉴쏘렌토4세대",
-        "더뉴쏘렌토mq4",
-        "더뉴mq4"
+        "더뉴쏘렌토mq4"
       ],
       "trims": {}
     },
@@ -188,10 +194,10 @@
       "model_group": "K5",
       "encar_model": "K5 3세대",
       "aliases": [
-        "k53세대",
-        "k5dl3",
+        "신형k5",
         "dl3",
-        "신형k5"
+        "k53세대",
+        "k5dl3"
       ],
       "trims": {
         "2.0 가솔린 노블레스": {
@@ -213,8 +219,8 @@
       "model_group": "K5",
       "encar_model": "더 뉴 K5 3세대",
       "aliases": [
-        "더뉴k53세대",
-        "더뉴dl3"
+        "더뉴dl3",
+        "더뉴k53세대"
       ],
       "trims": {}
     },
@@ -224,9 +230,9 @@
       "encar_model": "카니발 4세대",
       "aliases": [
         "카니발4세대",
-        "카니발ka4",
         "ka4",
-        "신형카니발"
+        "신형카니발",
+        "카니발ka4"
       ],
       "trims": {
         "디젤 9인승 프레스티지": {
@@ -254,8 +260,8 @@
       "model_group": "카니발",
       "encar_model": "더 뉴 카니발 4세대",
       "aliases": [
-        "더뉴카니발4세대",
-        "더뉴ka4"
+        "더뉴ka4",
+        "더뉴카니발4세대"
       ],
       "trims": {}
     },
@@ -264,8 +270,8 @@
       "model_group": "카니발",
       "encar_model": "올 뉴 카니발",
       "aliases": [
-        "올뉴카니발",
-        "카니발yp"
+        "카니발yp",
+        "올뉴카니발"
       ],
       "trims": {
         "디젤 9인승 프레스티지": {
@@ -281,10 +287,10 @@
       "model_group": "스포티지",
       "encar_model": "스포티지 5세대",
       "aliases": [
+        "nq5",
         "스포티지5세대",
-        "디올뉴스포티지",
         "스포티지nq5",
-        "nq5"
+        "디올뉴스포티지"
       ],
       "trims": {}
     },
@@ -293,10 +299,10 @@
       "model_group": "스포티지",
       "encar_model": "The SUV 스포티지",
       "aliases": [
-        "thesuv스포티지",
-        "스포티지4세대",
         "스포티지ql",
-        "ql"
+        "ql",
+        "thesuv스포티지",
+        "스포티지4세대"
       ],
       "trims": {}
     },
@@ -305,11 +311,11 @@
       "model_group": "아반떼",
       "encar_model": "아반떼 (CN7)",
       "aliases": [
-        "아반떼cn7",
         "올뉴아반떼cn7",
         "올뉴아반떼(cn7)",
-        "cn7",
-        "신형아반떼"
+        "아반떼cn7",
+        "신형아반떼",
+        "cn7"
       ],
       "trims": {}
     },
@@ -318,8 +324,8 @@
       "model_group": "아반떼",
       "encar_model": "더 뉴 아반떼 (CN7)",
       "aliases": [
-        "더뉴아반떼cn7",
-        "더뉴cn7"
+        "더뉴cn7",
+        "더뉴아반떼cn7"
       ],
       "trims": {}
     },
@@ -336,7 +342,7 @@
           "badge_group": "가솔린 1600cc",
           "badge": "1.6 GDI 스마트",
           "badge_detail": "(세부등급 없음_)",
-          "updated_at": "2026-10-02 10:16:39"
+          "updated_at": "2026-10-04 15:02:53"
         },
         "1.6 GDI 밸류 플러스": {
           "badge_group": "가솔린 1600cc",
@@ -378,7 +384,7 @@
           "badge_group": "가솔린 1000cc",
           "badge": "터보 인스퍼레이션",
           "badge_detail": "",
-          "updated_at": "2026-10-02 11:08:08"
+          "updated_at": "2026-10-04 15:05:54"
         }
       }
     },
@@ -387,8 +393,8 @@
       "model_group": "레이",
       "encar_model": "더 뉴 레이",
       "aliases": [
-        "더뉴레이",
         "더뉴기아레이",
+        "더뉴레이",
         "올뉴레이"
       ],
       "trims": {
@@ -411,9 +417,9 @@
       "model_group": "QM6",
       "encar_model": "더 뉴 QM6",
       "aliases": [
+        "qm6더뉴",
         "더뉴qm6",
-        "뉴qm6",
-        "qm6더뉴"
+        "뉴qm6"
       ],
       "trims": {
         "2.0 LPe LE 2WD": {
@@ -429,11 +435,11 @@
       "model_group": "G80",
       "encar_model": "G80 (RG3)",
       "aliases": [
-        "디올뉴g80",
         "g80rg3",
-        "rg3",
+        "g80(rg3)",
         "신형g80",
-        "g80(rg3)"
+        "디올뉴g80",
+        "rg3"
       ],
       "trims": {}
     },
@@ -442,8 +448,8 @@
       "model_group": "GV70",
       "encar_model": "GV70",
       "aliases": [
-        "gv70",
-        "제네시스gv70"
+        "제네시스gv70",
+        "gv70"
       ],
       "trims": {}
     },
@@ -452,8 +458,8 @@
       "model_group": "GV80",
       "encar_model": "GV80",
       "aliases": [
-        "gv80",
-        "제네시스gv80"
+        "제네시스gv80",
+        "gv80"
       ],
       "trims": {}
     },
@@ -510,7 +516,7 @@
           "badge_group": "가솔린 1600cc",
           "badge": "LX 2WD",
           "badge_detail": "(세부등급 없음_)",
-          "updated_at": "2026-09-30 14:53:44"
+          "updated_at": "2026-10-04 14:31:08"
         },
         "가솔린 VX 2WD": {
           "badge_group": "가솔린 1600cc",
@@ -538,6 +544,12 @@
           "badge": "디젤 2.2 4WD",
           "badge_detail": "노블레스",
           "updated_at": "2026-09-29 17:38:59"
+        },
+        "HEV 1.6 2WD 노블레스": {
+          "badge_group": "가솔린 전기 1600cc",
+          "badge": "HEV 1.6 2WD",
+          "badge_detail": "노블레스",
+          "updated_at": "2026-10-03 18:11:27"
         }
       }
     },
@@ -582,7 +594,10 @@
       "model_group": "쏘나타",
       "encar_model": "쏘나타 뉴 라이즈",
       "created_at": "2026-09-29 15:07:07",
-      "aliases": [],
+      "aliases": [
+        "쏘나타뉴라이즈",
+        "뉴라이즈"
+      ],
       "trims": {
         "2.0 스마트": {
           "badge_group": "가솔린 2000cc",
@@ -624,7 +639,7 @@
           "badge_group": "가솔린 1000cc",
           "badge": "LT",
           "badge_detail": "기본형",
-          "updated_at": "2026-09-30 21:33:07"
+          "updated_at": "2026-10-04 15:10:14"
         }
       }
     },
@@ -639,7 +654,13 @@
           "badge_group": "가솔린 1000cc",
           "badge": "럭셔리 스포츠",
           "badge_detail": "",
-          "updated_at": "2026-09-29 15:42:40"
+          "updated_at": "2026-10-04 13:48:01"
+        },
+        "디럭스 트렌디": {
+          "badge_group": "가솔린 1000cc",
+          "badge": "디럭스 트렌디",
+          "badge_detail": "",
+          "updated_at": "2026-10-04 15:13:05"
         }
       }
     },
@@ -648,7 +669,11 @@
       "model_group": "싼타페",
       "encar_model": "싼타페 TM",
       "created_at": "2026-09-29 16:05:53",
-      "aliases": [],
+      "aliases": [
+        "tm싼타페",
+        "더뉴싼타페",
+        "싼타페tm"
+      ],
       "trims": {
         "디젤 2.2 2WD 프레스티지 (7인승)": {
           "badge_group": "디젤 2200cc",
@@ -711,7 +736,7 @@
           "badge_group": "가솔린 1000cc",
           "badge": "프레스티지",
           "badge_detail": "",
-          "updated_at": "2026-10-02 10:30:41"
+          "updated_at": "2026-10-04 14:29:25"
         },
         "밴 1인승 프레스티지 스페셜": {
           "badge_group": "가솔린 1000cc",
@@ -948,7 +973,13 @@
           "badge_group": "가솔린 2400cc",
           "badge": "2.4 GDI 프레스티지",
           "badge_detail": "",
-          "updated_at": "2026-10-01 21:55:41"
+          "updated_at": "2026-10-03 22:58:47"
+        },
+        "2.4 월드컵 에디션": {
+          "badge_group": "가솔린 2400cc",
+          "badge": "2.4 월드컵 에디션",
+          "badge_detail": "",
+          "updated_at": "2026-10-04 14:40:00"
         }
       }
     },
@@ -984,7 +1015,12 @@
       "model_group": "쏘나타",
       "encar_model": "쏘나타 (DN8_)",
       "created_at": "2026-10-02 10:35:59",
-      "aliases": [],
+      "aliases": [
+        "신형쏘나타",
+        "쏘나타(dn8)",
+        "쏘나타dn8",
+        "dn8"
+      ],
       "trims": {
         "2.0 가솔린 프리미엄 플러스": {
           "badge_group": "가솔린 2000cc",
@@ -993,6 +1029,148 @@
           "updated_at": "2026-10-02 10:35:59"
         }
       }
+    },
+    "올 뉴 모닝 (JA)": {
+      "brand": "기아",
+      "model_group": "모닝",
+      "encar_model": "올 뉴 모닝 (JA_)",
+      "created_at": "2026-10-02 18:47:51",
+      "aliases": [
+        "모닝ja",
+        "올뉴모닝",
+        "모닝(ja)",
+        "올뉴모닝ja"
+      ],
+      "trims": {
+        "럭셔리": {
+          "badge_group": "가솔린 1000cc",
+          "badge": "럭셔리",
+          "badge_detail": "",
+          "updated_at": "2026-10-04 15:14:57"
+        }
+      }
+    },
+    "엑센트(신형)": {
+      "brand": "현대",
+      "model_group": "엑센트",
+      "encar_model": "엑센트(신형_)",
+      "created_at": "2026-10-03 17:58:11",
+      "aliases": [],
+      "trims": {
+        "1.4 VVT 모던": {
+          "badge_group": "가솔린 1400cc",
+          "badge": "1.4 VVT 모던",
+          "badge_detail": "",
+          "updated_at": "2026-10-03 17:58:11"
+        }
+      }
+    },
+    "캐스퍼 일렉트릭": {
+      "brand": "현대",
+      "model_group": "캐스퍼",
+      "encar_model": "캐스퍼 일렉트릭",
+      "created_at": "2026-10-05 19:27:49",
+      "aliases": [],
+      "trims": {
+        "인스퍼레이션": {
+          "badge_group": "전기",
+          "badge": "인스퍼레이션",
+          "badge_detail": "",
+          "updated_at": "2026-10-05 19:27:49"
+        }
+      }
+    },
+    "말리부": {
+      "brand": "쉐보레(GM대우_)",
+      "model_group": "말리부",
+      "encar_model": "말리부",
+      "created_at": "2026-10-06 00:55:08",
+      "aliases": [],
+      "trims": {
+        "2.0 디젤 LT 프리미엄팩": {
+          "badge_group": "디젤 2000cc",
+          "badge": "2.0 디젤 LT 프리미엄팩",
+          "badge_detail": "",
+          "updated_at": "2026-10-06 00:55:08"
+        }
+      }
+    },
+    "코나": {
+      "brand": "현대",
+      "model_group": "코나",
+      "encar_model": "코나",
+      "created_at": "2026-10-06 02:36:30",
+      "aliases": [],
+      "trims": {
+        "1.6 터보 2WD 모던 팝": {
+          "badge_group": "가솔린 1600cc",
+          "badge": "1.6 터보 2WD",
+          "badge_detail": "모던 팝",
+          "updated_at": "2026-10-06 02:36:30"
+        }
+      }
+    },
+    "모닝 어반": {
+      "brand": "기아",
+      "model_group": "모닝",
+      "encar_model": "모닝 어반",
+      "aliases": [
+        "모닝어반"
+      ],
+      "trims": {}
+    },
+    "디 올 뉴 싼타페 (MX5)": {
+      "brand": "현대",
+      "model_group": "싼타페",
+      "encar_model": "디 올 뉴 싼타페",
+      "aliases": [
+        "디올뉴싼타페",
+        "싼타페mx5",
+        "mx5",
+        "신형싼타페"
+      ],
+      "trims": {}
+    },
+    "쏘나타 디 엣지": {
+      "brand": "현대",
+      "model_group": "쏘나타",
+      "encar_model": "쏘나타 디 엣지",
+      "aliases": [
+        "쏘나타디엣지",
+        "디엣지"
+      ],
+      "trims": {}
+    },
+    "LF 쏘나타": {
+      "brand": "현대",
+      "model_group": "쏘나타",
+      "encar_model": "LF 쏘나타",
+      "aliases": [
+        "lf쏘나타",
+        "lf소나타"
+      ],
+      "trims": {}
+    },
+    "아이오닉5": {
+      "brand": "현대",
+      "model_group": "아이오닉5",
+      "encar_model": "아이오닉5",
+      "aliases": [
+        "아이오닉5",
+        "더뉴아이오닉5"
+      ],
+      "trims": {}
+    },
+    "i30 (PD)": {
+      "brand": "현대",
+      "model_group": "i30",
+      "encar_model": "i30 (PD)",
+      "aliases": [
+        "i30pd",
+        "i30(pd)",
+        "i30nline"
+      ],
+      "trims": {}
     }
   },
   "normalized_models": {
@@ -1019,7 +1197,7 @@
     "hg그랜저": "그랜저 HG",
     "hg240": "그랜저 HG",
     "hg300": "그랜저 HG",
-    "쏘렌토4세대": "쏘렌토 4세대 (MQ4)",
+    "쏘렌토4세대": "쏘렌토 4세대",
     "쏘렌토mq4": "쏘렌토 4세대",
     "mq4": "쏘렌토 4세대",
     "신형쏘렌토": "쏘렌토 4세대",
@@ -1052,7 +1230,7 @@
     "스포티지ql": "The SUV 스포티지",
     "ql": "The SUV 스포티지",
     "아반떼cn7": "아반떼 (CN7)",
-    "올뉴아반떼cn7": "올 뉴 아반떼 (CN7)",
+    "올뉴아반떼cn7": "아반떼 (CN7)",
     "cn7": "아반떼 (CN7)",
     "신형아반떼": "아반떼 (CN7)",
     "더뉴아반떼cn7": "더 뉴 아반떼 (CN7)",
@@ -1063,7 +1241,7 @@
     "디에센셜": "캐스퍼",
     "인스퍼레이션캐스퍼": "캐스퍼",
     "더뉴레이": "더 뉴 레이",
-    "더뉴기아레이": "더 뉴 기아 레이",
+    "더뉴기아레이": "더 뉴 레이",
     "올뉴레이": "더 뉴 레이",
     "더뉴qm6": "더 뉴 QM6",
     "뉴qm6": "더 뉴 QM6",
@@ -1113,7 +1291,7 @@
     "스파크스파크slt": "스파크",
     "k5 3세대": "K5 3세대",
     "k53세대20가솔린노블레스": "K5 3세대",
-    "올뉴모닝": "올 뉴 모닝",
+    "올뉴모닝": "올 뉴 모닝 (JA)",
     "올 뉴 모닝": "올 뉴 모닝",
     "올뉴모닝럭셔리스포츠": "올 뉴 모닝",
     "아반떼 ad": "아반떼 AD",
@@ -1198,11 +1376,48 @@
     "올뉴크루즈14터보lt디럭스": "올 뉴 크루즈",
     "쏘나타dn8": "쏘나타 (DN8)",
     "쏘나타dn820가솔린프리미엄플러스": "쏘나타 (DN8)",
-    "더뉴기아레이밴1인승프레스티지스페셜": "더 뉴 기아 레이"
+    "더뉴기아레이밴1인승프레스티지스페셜": "더 뉴 기아 레이",
+    "올뉴모닝ja": "올 뉴 모닝 (JA)",
+    "올뉴모닝ja럭셔리": "올 뉴 모닝 (JA)",
+    "엑센트신형": "엑센트(신형)",
+    "엑센트신형14vvt모던": "엑센트(신형)",
+    "쏘렌토4세대mq4hev162wd노블레스": "쏘렌토 4세대 (MQ4)",
+    "올뉴k724월드컵에디션": "올 뉴 K7",
+    "올뉴모닝디럭스트렌디": "올 뉴 모닝",
+    "캐스퍼일렉트릭": "캐스퍼 일렉트릭",
+    "캐스퍼일렉트릭인스퍼레이션": "캐스퍼 일렉트릭",
+    "말리부": "말리부",
+    "말리부20디젤lt프리미엄팩": "말리부",
+    "코나": "코나",
+    "코나16터보2wd모던팝": "코나",
+    "더올뉴투싼": "디 올 뉴 투싼 (NX4)",
+    "더올뉴투싼nx4": "디 올 뉴 투싼 (NX4)",
+    "레이": "레이",
+    "더올뉴그랜저": "그랜저 (GN7)",
+    "모닝어반": "모닝 어반",
+    "모닝ja": "올 뉴 모닝 (JA)",
+    "디올뉴싼타페mx5": "디 올 뉴 싼타페 (MX5)",
+    "디올뉴싼타페": "디 올 뉴 싼타페 (MX5)",
+    "싼타페mx5": "디 올 뉴 싼타페 (MX5)",
+    "mx5": "디 올 뉴 싼타페 (MX5)",
+    "신형싼타페": "디 올 뉴 싼타페 (MX5)",
+    "더뉴싼타페": "싼타페 TM",
+    "tm싼타페": "싼타페 TM",
+    "쏘나타디엣지": "쏘나타 디 엣지",
+    "디엣지": "쏘나타 디 엣지",
+    "dn8": "쏘나타 (DN8)",
+    "신형쏘나타": "쏘나타 (DN8)",
+    "뉴라이즈": "쏘나타 뉴 라이즈",
+    "lf쏘나타": "LF 쏘나타",
+    "lf소나타": "LF 쏘나타",
+    "아이오닉5": "아이오닉5",
+    "더뉴아이오닉5": "아이오닉5",
+    "i30pd": "i30 (PD)",
+    "i30nline": "i30 (PD)"
   },
   "car_links": {
     "12가3456": "https://www.encar.com/dc/dc_carsearchlist.do?carType=kor&searchType=model&TG.RType=auto#!%7B%22action%22%3A%22(And.Hidden.N._.(C.CarType.Y._.(C.Manufacturer.%ED%98%84%EB%8C%80._.(C.ModelGroup.%ED%88%AC%EC%8C%AC._.(C.Model.%ED%88%AC%EC%8C%AC%20(NX4)._.(C.BadgeGroup.%EA%B0%80%EC%86%94%EB%A6%B0%201600cc._.(C.Badge.1_.6%20%ED%84%B0%EB%B3%B4._.BadgeDetail.%EC%9D%B8%EC%8A%A4%ED%8D%BC%EB%A0%88%EC%9D%B4%EC%85%98.)))))))%22%7D",
-    "155라7987": "https://www.encar.com/dc/dc_carsearchlist.do?carType=kor&searchType=model&TG.R=A#!%7B%22action%22%3A %22%28And.Hidden.N._.%28C.CarType.Y._.%28C.Manufacturer.%5Cud604%5Cub300._.%28C.ModelGroup.%5Cud22c%5Cuc2fc._.%28C.Model.%5Cud22c%5Cuc2fc %28NX4_%29._.%28C.BadgeGroup.%5Cuac00%5Cuc194%5Cub9b0 1600cc._.%28C.Badge.%5Cuac00%5Cuc194%5Cub9b0 1_.6 %5Cud130%5Cubcf4 2WD._.BadgeDetail.%5Cuc778%5Cuc2a4%5Cud37c%5Cub808%5Cuc774%5Cuc158.%29%29%29%29%29%29_.Year.range%28202001..202212%29._.Mileage.range%2820000..60000%29.%29%22%2C %22toggle%22%3A %7B%7D%2C %22layer%22%3A %22%22%2C %22sort%22%3A %22Mileage%22%2C %22page%22%3A 1%2C %22limit%22%3A 20%7D",
+    "155라7987": "https://www.encar.com/dc/dc_carsearchlist.do?carType=kor&searchType=model&TG.R=A#!%7B%22action%22%3A+%22%28And.Hidden.N._.%28C.CarType.Y._.%28C.Manufacturer.%5Cud604%5Cub300._.%28C.ModelGroup.%5Cud22c%5Cuc2fc._.%28C.Model.%5Cud22c%5Cuc2fc+%28NX4_%29._.%28C.BadgeGroup.%5Cuac00%5Cuc194%5Cub9b0+1600cc._.%28C.Badge.%5Cuac00%5Cuc194%5Cub9b0+1_.6+%5Cud130%5Cubcf4+2WD._.BadgeDetail.%5Cuc778%5Cuc2a4%5Cud37c%5Cub808%5Cuc774%5Cuc158.%29%29%29%29%29%29_.Year.range%28202001..202212%29._.Mileage.range%2820000..60000%29.%29%22%2C+%22toggle%22%3A+%7B%7D%2C+%22layer%22%3A+%22%22%2C+%22sort%22%3A+%22Mileage%22%2C+%22page%22%3A+1%2C+%22limit%22%3A+20%7D",
     "154루1029": "https://www.encar.com/dc/dc_carsearchlist.do?carType=kor&searchType=model&TG.R=A#!%7B%22action%22%3A %22%28And.Hidden.N._.%28C.CarType.Y._.%28C.Manufacturer.%5Cud604%5Cub300._.%28C.ModelGroup.%5Cud22c%5Cuc2fc._.%28C.Model.%5Cud22c%5Cuc2fc %28NX4_%29._.%28C.BadgeGroup.%5Cuac00%5Cuc194%5Cub9b0 1600cc._.%28C.Badge.%5Cuac00%5Cuc194%5Cub9b0 1_.6 %5Cud130%5Cubcf4 2WD._.BadgeDetail.%5Cud504%5Cub9ac%5Cubbf8%5Cuc5c4.%29%29%29%29%29%29_.Year.range%28202001..202212%29._.Mileage.range%2840000..80000%29.%29%22%2C %22toggle%22%3A %7B%7D%2C %22layer%22%3A %22%22%2C %22sort%22%3A %22Mileage%22%2C %22page%22%3A 1%2C %22limit%22%3A 20%7D",
     "31수9497": "https://www.encar.com/dc/dc_carsearchlist.do?carType=kor&searchType=model&TG.R=A#!%7B%22action%22%3A %22%28And.Hidden.N._.%28C.CarType.Y._.%28C.Manufacturer.%5Cud604%5Cub300._.%28C.ModelGroup.i40._.%28C.Model.i40._.%28C.BadgeGroup.%5Cuac00%5Cuc194%5Cub9b0 2000cc._.%28C.Badge.2_.0 GDi._.BadgeDetail.PYL.%29%29%29%29%29%29_.Year.range%28201301..201512%29._.Mileage.range%28120000..160000%29.%29%22%2C %22toggle%22%3A %7B%7D%2C %22layer%22%3A %22%22%2C %22sort%22%3A %22Mileage%22%2C %22page%22%3A 1%2C %22limit%22%3A 20%7D",
     "382무7079": "https://www.encar.com/dc/dc_carsearchlist.do?carType=kor&searchType=model&TG.R=A#!%7B%22action%22%3A %22%28And.Hidden.N._.%28C.CarType.Y._.%28C.Manufacturer.%5Cud604%5Cub300._.%28C.ModelGroup.%5Cuc544%5Cubc18%5Cub5bc._.%28C.Model.%5Cuc544%5Cubc18%5Cub5bc %28CN7_%29._.%28C.BadgeGroup.%5Cuac00%5Cuc194%5Cub9b0 1600cc._.%28C.Badge.1_.6._.BadgeDetail.%5Cuc2a4%5Cub9c8%5Cud2b8.%29%29%29%29%29%29_.Year.range%28202001..202212%29._.Mileage.range%28130000..170000%29.%29%22%2C %22toggle%22%3A %7B%7D%2C %22layer%22%3A %22%22%2C %22sort%22%3A %22Mileage%22%2C %22page%22%3A 1%2C %22limit%22%3A 20%7D",
@@ -1278,6 +1493,22 @@
     "286더6494": "https://www.encar.com/dc/dc_carsearchlist.do?carType=kor&searchType=model&TG.R=A#!%7B%22action%22%3A+%22%28And.Hidden.N._.%28C.CarType.Y._.%28C.Manufacturer.%5Cuae30%5Cuc544._.%28C.ModelGroup.%5Cub808%5Cuc774._.%28C.Model.%5Cub354+%5Cub274+%5Cuae30%5Cuc544+%5Cub808%5Cuc774._.%28C.BadgeGroup.%5Cuac00%5Cuc194%5Cub9b0+1000cc._.Badge.%5Cud504%5Cub808%5Cuc2a4%5Cud2f0%5Cuc9c0.%29%29%29%29%29_.Year.range%28202201..202412%29._.Mileage.range%280..40000%29.%29%22%2C+%22toggle%22%3A+%7B%7D%2C+%22layer%22%3A+%22%22%2C+%22sort%22%3A+%22Mileage%22%2C+%22page%22%3A+1%2C+%22limit%22%3A+20%7D",
     "153주9928": "https://www.encar.com/dc/dc_carsearchlist.do?carType=kor&searchType=model&TG.R=A#!%7B%22action%22%3A+%22%28And.Hidden.N._.%28C.CarType.Y._.%28C.Manufacturer.%5Cud604%5Cub300._.%28C.ModelGroup.%5Cuc3d8%5Cub098%5Cud0c0._.%28C.Model.%5Cuc3d8%5Cub098%5Cud0c0+%28DN8_%29._.%28C.BadgeGroup.%5Cuac00%5Cuc194%5Cub9b0+2000cc._.%28C.Badge.2_.0._.BadgeDetail.%5Cud504%5Cub9ac%5Cubbf8%5Cuc5c4+%5Cud50c%5Cub7ec%5Cuc2a4.%29%29%29%29%29%29_.Year.range%28202201..202412%29._.Mileage.range%2840000..80000%29.%29%22%2C+%22toggle%22%3A+%7B%7D%2C+%22layer%22%3A+%22%22%2C+%22sort%22%3A+%22Mileage%22%2C+%22page%22%3A+1%2C+%22limit%22%3A+20%7D",
     "389더4832": "https://www.encar.com/dc/dc_carsearchlist.do?carType=kor&searchType=model&TG.R=A#!%7B%22action%22%3A+%22%28And.Hidden.N._.%28C.CarType.Y._.%28C.Manufacturer.%5Cuae30%5Cuc544._.%28C.ModelGroup.%5Cub808%5Cuc774._.%28C.Model.%5Cub354+%5Cub274+%5Cuae30%5Cuc544+%5Cub808%5Cuc774._.%28C.BadgeGroup.%5Cuac00%5Cuc194%5Cub9b0+1000cc._.%28C.Badge.%5Cubc34._.BadgeDetail.1%5Cuc778%5Cuc2b9+%5Cud504%5Cub808%5Cuc2a4%5Cud2f0%5Cuc9c0+%5Cuc2a4%5Cud398%5Cuc15c.%29%29%29%29%29%29_.Year.range%28202201..202412%29._.Mileage.range%2840000..80000%29.%29%22%2C+%22toggle%22%3A+%7B%7D%2C+%22layer%22%3A+%22%22%2C+%22sort%22%3A+%22Mileage%22%2C+%22page%22%3A+1%2C+%22limit%22%3A+20%7D",
-    "149소7481": "https://www.encar.com/dc/dc_carsearchlist.do?carType=kor&searchType=model&TG.R=A#!%7B%22action%22%3A+%22%28And.Hidden.N._.%28C.CarType.Y._.%28C.Manufacturer.%5Cud604%5Cub300._.%28C.ModelGroup.%5Cuce90%5Cuc2a4%5Cud37c._.%28C.Model.%5Cuce90%5Cuc2a4%5Cud37c._.%28C.BadgeGroup.%5Cuac00%5Cuc194%5Cub9b0+1000cc._.Badge.%5Cud130%5Cubcf4+%5Cuc778%5Cuc2a4%5Cud37c%5Cub808%5Cuc774%5Cuc158.%29%29%29%29%29_.Year.range%28202201..202412%29._.Mileage.range%2820000..60000%29.%29%22%2C+%22toggle%22%3A+%7B%7D%2C+%22layer%22%3A+%22%22%2C+%22sort%22%3A+%22Mileage%22%2C+%22page%22%3A+1%2C+%22limit%22%3A+20%7D"
+    "149소7481": "https://www.encar.com/dc/dc_carsearchlist.do?carType=kor&searchType=model&TG.R=A#!%7B%22action%22%3A+%22%28And.Hidden.N._.%28C.CarType.Y._.%28C.Manufacturer.%5Cud604%5Cub300._.%28C.ModelGroup.%5Cuce90%5Cuc2a4%5Cud37c._.%28C.Model.%5Cuce90%5Cuc2a4%5Cud37c._.%28C.BadgeGroup.%5Cuac00%5Cuc194%5Cub9b0+1000cc._.Badge.%5Cud130%5Cubcf4+%5Cuc778%5Cuc2a4%5Cud37c%5Cub808%5Cuc774%5Cuc158.%29%29%29%29%29_.Year.range%28202201..202412%29._.Mileage.range%2820000..60000%29.%29%22%2C+%22toggle%22%3A+%7B%7D%2C+%22layer%22%3A+%22%22%2C+%22sort%22%3A+%22Mileage%22%2C+%22page%22%3A+1%2C+%22limit%22%3A+20%7D",
+    "240어8733": "https://www.encar.com/dc/dc_carsearchlist.do?carType=kor&searchType=model&TG.R=A#!%7B%22action%22%3A+%22%28And.Hidden.N._.%28C.CarType.Y._.%28C.Manufacturer.%5Cuae30%5Cuc544._.%28C.ModelGroup.%5Cubaa8%5Cub2dd._.%28C.Model.%5Cuc62c+%5Cub274+%5Cubaa8%5Cub2dd+%28JA_%29._.%28C.BadgeGroup.%5Cuac00%5Cuc194%5Cub9b0+1000cc._.Badge.%5Cub7ed%5Cuc154%5Cub9ac.%29%29%29%29%29_.Year.range%28201901..202112%29._.Mileage.range%280..40000%29.%29%22%2C+%22toggle%22%3A+%7B%7D%2C+%22layer%22%3A+%22%22%2C+%22sort%22%3A+%22Mileage%22%2C+%22page%22%3A+1%2C+%22limit%22%3A+20%7D",
+    "24버0923": "https://www.encar.com/dc/dc_carsearchlist.do?carType=kor&searchType=model&TG.R=A#!%7B%22action%22%3A+%22%28And.Hidden.N._.%28C.CarType.Y._.%28C.Manufacturer.%5Cud604%5Cub300._.%28C.ModelGroup.%5Cuc5d1%5Cuc13c%5Cud2b8._.%28C.Model.%5Cuc5d1%5Cuc13c%5Cud2b8%28%5Cuc2e0%5Cud615_%29._.%28C.BadgeGroup.%5Cuac00%5Cuc194%5Cub9b0+1400cc._.Badge.1_.4+VVT+%5Cubaa8%5Cub358.%29%29%29%29%29_.Year.range%28201501..201712%29._.Mileage.range%28120000..160000%29.%29%22%2C+%22toggle%22%3A+%7B%7D%2C+%22layer%22%3A+%22%22%2C+%22sort%22%3A+%22Mileage%22%2C+%22page%22%3A+1%2C+%22limit%22%3A+20%7D",
+    "167서2744": "https://www.encar.com/dc/dc_carsearchlist.do?carType=kor&searchType=model&TG.R=A#!%7B%22action%22%3A+%22%28And.Hidden.N._.%28C.CarType.Y._.%28C.Manufacturer.%5Cuae30%5Cuc544._.%28C.ModelGroup.%5Cuc3d8%5Cub80c%5Cud1a0._.%28C.Model.%5Cuc3d8%5Cub80c%5Cud1a0+4%5Cuc138%5Cub300._.%28C.BadgeGroup.%5Cuac00%5Cuc194%5Cub9b0%2B%5Cuc804%5Cuae30+1600cc._.%28C.Badge.HEV+1_.6+2WD._.BadgeDetail.%5Cub178%5Cube14%5Cub808%5Cuc2a4.%29%29%29%29%29%29_.Year.range%28202101..202312%29._.Mileage.range%28100000..140000%29.%29%22%2C+%22toggle%22%3A+%7B%7D%2C+%22layer%22%3A+%22%22%2C+%22sort%22%3A+%22Mileage%22%2C+%22page%22%3A+1%2C+%22limit%22%3A+20%7D",
+    "21고7570": "https://www.encar.com/dc/dc_carsearchlist.do?carType=kor&searchType=model&TG.R=A#!%7B%22action%22%3A+%22%28And.Hidden.N._.%28C.CarType.Y._.%28C.Manufacturer.%5Cuae30%5Cuc544._.%28C.ModelGroup.K7._.%28C.Model.%5Cuc62c+%5Cub274+K7._.%28C.BadgeGroup.%5Cuac00%5Cuc194%5Cub9b0+2400cc._.Badge.2_.4+GDI+%5Cud504%5Cub808%5Cuc2a4%5Cud2f0%5Cuc9c0.%29%29%29%29%29_.Year.range%28201601..201812%29._.Mileage.range%28130000..170000%29.%29%22%2C+%22toggle%22%3A+%7B%7D%2C+%22layer%22%3A+%22%22%2C+%22sort%22%3A+%22Mileage%22%2C+%22page%22%3A+1%2C+%22limit%22%3A+20%7D",
+    "132나2236": "https://www.encar.com/dc/dc_carsearchlist.do?carType=kor&searchType=model&TG.R=A#!%7B%22action%22%3A+%22%28And.Hidden.N._.%28C.CarType.Y._.%28C.Manufacturer.%5Cud604%5Cub300._.%28C.ModelGroup.%5Cuce90%5Cuc2a4%5Cud37c._.%28C.Model.%5Cuce90%5Cuc2a4%5Cud37c._.%28C.BadgeGroup.%5Cuac00%5Cuc194%5Cub9b0+1000cc._.Badge.%5Cud130%5Cubcf4+%5Cuc778%5Cuc2a4%5Cud37c%5Cub808%5Cuc774%5Cuc158.%29%29%29%29%29_.Year.range%28202201..202412%29._.Mileage.range%280..40000%29.%29%22%2C+%22toggle%22%3A+%7B%7D%2C+%22layer%22%3A+%22%22%2C+%22sort%22%3A+%22Mileage%22%2C+%22page%22%3A+1%2C+%22limit%22%3A+20%7D",
+    "26무4216": "https://www.encar.com/dc/dc_carsearchlist.do?carType=kor&searchType=model&TG.R=A#!%7B%22action%22%3A+%22%28And.Hidden.N._.%28C.CarType.Y._.%28C.Manufacturer.%5Cuae30%5Cuc544._.%28C.ModelGroup.%5Cubaa8%5Cub2dd._.%28C.Model.%5Cuc62c+%5Cub274+%5Cubaa8%5Cub2dd._.%28C.BadgeGroup.%5Cuac00%5Cuc194%5Cub9b0+1000cc._.Badge.%5Cub7ed%5Cuc154%5Cub9ac+%5Cuc2a4%5Cud3ec%5Cuce20.%29%29%29%29%29_.Year.range%28201401..201612%29._.Mileage.range%2850000..90000%29.%29%22%2C+%22toggle%22%3A+%7B%7D%2C+%22layer%22%3A+%22%22%2C+%22sort%22%3A+%22Mileage%22%2C+%22page%22%3A+1%2C+%22limit%22%3A+20%7D",
+    "65소0314": "https://www.encar.com/dc/dc_carsearchlist.do?carType=kor&searchType=model&TG.R=A#!%7B%22action%22%3A+%22%28And.Hidden.N._.%28C.CarType.Y._.%28C.Manufacturer.KG%5Cubaa8%5Cube4c%5Cub9ac%5Cud2f0%28%5Cuc30d%5Cuc6a9_%29._.%28C.ModelGroup.%5Cud2f0%5Cubcfc%5Cub9ac._.%28C.Model.%5Cud2f0%5Cubcfc%5Cub9ac._.%28C.BadgeGroup.%5Cuac00%5Cuc194%5Cub9b0+1600cc._.%28C.Badge.LX+2WD._.BadgeDetail.%28%5Cuc138%5Cubd80%5Cub4f1%5Cuae09+%5Cuc5c6%5Cuc74c_%29.%29%29%29%29%29%29_.Year.range%28201501..201712%29._.Mileage.range%2880000..120000%29.%29%22%2C+%22toggle%22%3A+%7B%7D%2C+%22layer%22%3A+%22%22%2C+%22sort%22%3A+%22Mileage%22%2C+%22page%22%3A+1%2C+%22limit%22%3A+20%7D",
+    "387수6735": "https://www.encar.com/dc/dc_carsearchlist.do?carType=kor&searchType=model&TG.R=A#!%7B%22action%22%3A+%22%28And.Hidden.N._.%28C.CarType.Y._.%28C.Manufacturer.%5Cuae30%5Cuc544._.%28C.ModelGroup.K7._.%28C.Model.%5Cuc62c+%5Cub274+K7._.%28C.BadgeGroup.%5Cuac00%5Cuc194%5Cub9b0+2400cc._.Badge.2_.4+%5Cuc6d4%5Cub4dc%5Cucef5+%5Cuc5d0%5Cub514%5Cuc158.%29%29%29%29%29_.Year.range%28201701..201912%29._.Mileage.range%2870000..110000%29.%29%22%2C+%22toggle%22%3A+%7B%7D%2C+%22layer%22%3A+%22%22%2C+%22sort%22%3A+%22Mileage%22%2C+%22page%22%3A+1%2C+%22limit%22%3A+20%7D",
+    "43노5327": "https://www.encar.com/dc/dc_carsearchlist.do?carType=kor&searchType=model&TG.R=A#!%7B%22action%22%3A+%22%28And.Hidden.N._.%28C.CarType.Y._.%28C.Manufacturer.%5Cud604%5Cub300._.%28C.ModelGroup.%5Cuc544%5Cubc18%5Cub5bc._.%28C.Model.%5Cuc544%5Cubc18%5Cub5bc+AD._.%28C.BadgeGroup.%5Cuac00%5Cuc194%5Cub9b0+1600cc._.%28C.Badge.1_.6+GDI+%5Cuc2a4%5Cub9c8%5Cud2b8._.BadgeDetail.%28%5Cuc138%5Cubd80%5Cub4f1%5Cuae09+%5Cuc5c6%5Cuc74c_%29.%29%29%29%29%29%29_.Year.range%28201701..201912%29._.Mileage.range%2880000..120000%29.%29%22%2C+%22toggle%22%3A+%7B%7D%2C+%22layer%22%3A+%22%22%2C+%22sort%22%3A+%22Mileage%22%2C+%22page%22%3A+1%2C+%22limit%22%3A+20%7D",
+    "221거6669": "https://www.encar.com/dc/dc_carsearchlist.do?carType=kor&searchType=model&TG.R=A#!%7B%22action%22%3A+%22%28And.Hidden.N._.%28C.CarType.Y._.%28C.Manufacturer.%5Cud604%5Cub300._.%28C.ModelGroup.%5Cuce90%5Cuc2a4%5Cud37c._.%28C.Model.%5Cuce90%5Cuc2a4%5Cud37c._.%28C.BadgeGroup.%5Cuac00%5Cuc194%5Cub9b0+1000cc._.Badge.%5Cud130%5Cubcf4+%5Cuc778%5Cuc2a4%5Cud37c%5Cub808%5Cuc774%5Cuc158.%29%29%29%29%29_.Year.range%28202201..202412%29._.Mileage.range%2810000..50000%29.%29%22%2C+%22toggle%22%3A+%7B%7D%2C+%22layer%22%3A+%22%22%2C+%22sort%22%3A+%22Mileage%22%2C+%22page%22%3A+1%2C+%22limit%22%3A+20%7D",
+    "34두3541": "https://www.encar.com/dc/dc_carsearchlist.do?carType=kor&searchType=model&TG.R=A#!%7B%22action%22%3A+%22%28And.Hidden.N._.%28C.CarType.Y._.%28C.Manufacturer.%5Cuc250%5Cubcf4%5Cub808%28GM%5Cub300%5Cuc6b0_%29._.%28C.ModelGroup.%5Cuc2a4%5Cud30c%5Cud06c._.%28C.Model.%5Cuc2a4%5Cud30c%5Cud06c._.%28C.BadgeGroup.%5Cuac00%5Cuc194%5Cub9b0+1000cc._.%28C.Badge.LT._.BadgeDetail.%5Cuae30%5Cubcf8%5Cud615.%29%29%29%29%29%29_.Year.range%28201301..201512%29._.Mileage.range%2890000..130000%29.%29%22%2C+%22toggle%22%3A+%7B%7D%2C+%22layer%22%3A+%22%22%2C+%22sort%22%3A+%22Mileage%22%2C+%22page%22%3A+1%2C+%22limit%22%3A+20%7D",
+    "19라8502": "https://www.encar.com/dc/dc_carsearchlist.do?carType=kor&searchType=model&TG.R=A#!%7B%22action%22%3A+%22%28And.Hidden.N._.%28C.CarType.Y._.%28C.Manufacturer.%5Cuae30%5Cuc544._.%28C.ModelGroup.%5Cubaa8%5Cub2dd._.%28C.Model.%5Cuc62c+%5Cub274+%5Cubaa8%5Cub2dd._.%28C.BadgeGroup.%5Cuac00%5Cuc194%5Cub9b0+1000cc._.Badge.%5Cub514%5Cub7ed%5Cuc2a4+%5Cud2b8%5Cub80c%5Cub514.%29%29%29%29%29_.Year.range%28201401..201612%29._.Mileage.range%2880000..120000%29.%29%22%2C+%22toggle%22%3A+%7B%7D%2C+%22layer%22%3A+%22%22%2C+%22sort%22%3A+%22Mileage%22%2C+%22page%22%3A+1%2C+%22limit%22%3A+20%7D",
+    "16러6692": "https://www.encar.com/dc/dc_carsearchlist.do?carType=kor&searchType=model&TG.R=A#!%7B%22action%22%3A+%22%28And.Hidden.N._.%28C.CarType.Y._.%28C.Manufacturer.%5Cuae30%5Cuc544._.%28C.ModelGroup.%5Cubaa8%5Cub2dd._.%28C.Model.%5Cuc62c+%5Cub274+%5Cubaa8%5Cub2dd+%28JA_%29._.%28C.BadgeGroup.%5Cuac00%5Cuc194%5Cub9b0+1000cc._.Badge.%5Cub7ed%5Cuc154%5Cub9ac.%29%29%29%29%29_.Year.range%28201701..201912%29._.Mileage.range%2830000..70000%29.%29%22%2C+%22toggle%22%3A+%7B%7D%2C+%22layer%22%3A+%22%22%2C+%22sort%22%3A+%22Mileage%22%2C+%22page%22%3A+1%2C+%22limit%22%3A+20%7D",
+    "01수9643": "https://www.encar.com/dc/dc_carsearchlist.do?carType=kor&searchType=model&TG.R=A#!%7B%22action%22%3A+%22%28And.Hidden.N._.%28C.CarType.Y._.%28C.Manufacturer.%5Cud604%5Cub300._.%28C.ModelGroup.%5Cuce90%5Cuc2a4%5Cud37c._.%28C.Model.%5Cuce90%5Cuc2a4%5Cud37c+%5Cuc77c%5Cub809%5Cud2b8%5Cub9ad._.%28C.BadgeGroup.%5Cuc804%5Cuae30._.Badge.%5Cuc778%5Cuc2a4%5Cud37c%5Cub808%5Cuc774%5Cuc158.%29%29%29%29%29_.Year.range%28202401..202612%29._.Mileage.range%280..40000%29.%29%22%2C+%22toggle%22%3A+%7B%7D%2C+%22layer%22%3A+%22%22%2C+%22sort%22%3A+%22Mileage%22%2C+%22page%22%3A+1%2C+%22limit%22%3A+20%7D",
+    "20부7722": "https://www.encar.com/dc/dc_carsearchlist.do?carType=kor&searchType=model&TG.R=A#!%7B%22action%22%3A+%22%28And.Hidden.N._.%28C.CarType.Y._.%28C.Manufacturer.%5Cuc250%5Cubcf4%5Cub808%28GM%5Cub300%5Cuc6b0_%29._.%28C.ModelGroup.%5Cub9d0%5Cub9ac%5Cubd80._.%28C.Model.%5Cub9d0%5Cub9ac%5Cubd80._.%28C.BadgeGroup.%5Cub514%5Cuc824+2000cc._.Badge.2_.0+%5Cub514%5Cuc824+LT+%5Cud504%5Cub9ac%5Cubbf8%5Cuc5c4%5Cud329.%29%29%29%29%29_.Year.range%28201401..201612%29._.Mileage.range%28100000..140000%29.%29%22%2C+%22toggle%22%3A+%7B%7D%2C+%22layer%22%3A+%22%22%2C+%22sort%22%3A+%22Mileage%22%2C+%22page%22%3A+1%2C+%22limit%22%3A+20%7D",
+    "63가2739": "https://www.encar.com/dc/dc_carsearchlist.do?carType=kor&searchType=model&TG.R=A#!%7B%22action%22%3A+%22%28And.Hidden.N._.%28C.CarType.Y._.%28C.Manufacturer.%5Cud604%5Cub300._.%28C.ModelGroup.%5Cucf54%5Cub098._.%28C.Model.%5Cucf54%5Cub098._.%28C.BadgeGroup.%5Cuac00%5Cuc194%5Cub9b0+1600cc._.%28C.Badge.1_.6+%5Cud130%5Cubcf4+2WD._.BadgeDetail.%5Cubaa8%5Cub358+%5Cud31d.%29%29%29%29%29%29_.Year.range%28201701..201912%29._.Mileage.range%2860000..100000%29.%29%22%2C+%22toggle%22%3A+%7B%7D%2C+%22layer%22%3A+%22%22%2C+%22sort%22%3A+%22Mileage%22%2C+%22page%22%3A+1%2C+%22limit%22%3A+20%7D"
   }
 }

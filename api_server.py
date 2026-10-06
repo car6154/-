@@ -17,6 +17,8 @@ from services.master_mapping import MasterMappingService
 from services.sold_out_tracker import SoldOutTracker
 from services.encar_service import Scraper
 from services.chaolma_service import ChaolmaService
+from services.git_sync_service import GitSyncService
+from services.data_processor import DataProcessor
 
 app = FastAPI(title="J-Project Local API Server", version="1.0.0")
 
@@ -80,6 +82,172 @@ def get_chaolma_car_info(car_no: str, mileage: Optional[int] = None):
         return res
     except Exception as e:
         return {"success": False, "message": f"차얼마 조회 오류: {str(e)}", "car_no": clean_no}
+
+
+class CookieSavePayload(BaseModel):
+    cookie: str
+    target: Optional[str] = "heydealer"
+    secretToken: Optional[str] = None
+
+@app.post("/api/save_cookie")
+def save_cookie_api(payload: CookieSavePayload):
+    from services.cookie_server import set_env_variable, save_cookie
+    target = (payload.target or "heydealer").lower()
+    raw_cookie = payload.cookie.strip()
+    if not raw_cookie:
+        return {"status": "error", "message": "Cookie is empty"}
+    
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    if target == "encar":
+        save_cookie(raw_cookie)
+        set_env_variable("ENCAR_COOKIE", raw_cookie)
+        os.environ["ENCAR_COOKIE"] = raw_cookie
+    elif target in ("autoplus", "chaolma"):
+        with open(os.path.join(base_dir, "autoplus_cookie.txt"), "w", encoding="utf-8") as f:
+            f.write(raw_cookie)
+        set_env_variable("AUTOPLUS_COOKIE", raw_cookie)
+        os.environ["AUTOPLUS_COOKIE"] = raw_cookie
+    else:
+        with open(os.path.join(base_dir, "heydealer_cookie.txt"), "w", encoding="utf-8") as f:
+            f.write(raw_cookie)
+        set_env_variable("HEYDEALER_COOKIE", raw_cookie)
+        os.environ["HEYDEALER_COOKIE"] = raw_cookie
+
+    return {"status": "ok", "message": f"{target} cookie saved successfully"}
+
+
+# ----------------------------------------------------
+# 0-1. 헤이딜러 실시간 차량 및 동급 낙찰시세 API (Python Scraper & Session 연동)
+# ----------------------------------------------------
+@app.get("/api/heydealer/car/{car_id}")
+def get_heydealer_car_data(car_id: str):
+    clean_id = car_id.strip()
+    match = re.search(r'/cars/([a-zA-Z0-9_-]+)', clean_id)
+    if match:
+        clean_id = match.group(1)
+    
+    from scraper import HeydealerScraper
+    from services.cookie_server import get_current_hd_cookie
+    
+    cookie_str = get_current_hd_cookie()
+    # 1. 라이브 헤이딜러 스크래퍼 호출 시도
+    if cookie_str:
+        try:
+            s = HeydealerScraper.build_session(cookie_str)
+            res = HeydealerScraper.fetch_car_detail(clean_id, session=s)
+            if res and res.get('detail'):
+                det_obj = json.loads(res['detail']) if isinstance(res['detail'], str) else res['detail']
+                mp_obj = json.loads(res['market_prices']) if res.get('market_prices') and isinstance(res['market_prices'], str) else res.get('market_prices')
+                rep_obj = json.loads(res['auction_repairs']) if res.get('auction_repairs') and isinstance(res['auction_repairs'], str) else res.get('auction_repairs')
+                
+                payload = {
+                    **det_obj,
+                    "market_prices": mp_obj,
+                    "auction_repairs": rep_obj,
+                    "encar_url": res.get("encar_url")
+                }
+                return {"success": True, "data": payload, "isLive": True}
+        except Exception as e:
+            print(f"[FastAPI] Heydealer live fetch failed ({clean_id}): {e}")
+            if "인증 오류 (401)" in str(e) or "403" in str(e):
+                pass  # 아래 캐시 파일 fallback 시도
+    
+    # 2. 로컬 캐시 last_heydealer_detail.json 백업 활용
+    try:
+        cache_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "last_heydealer_detail.json")
+        if os.path.exists(cache_path):
+            with open(cache_path, "r", encoding="utf-8") as f:
+                cached_data = json.load(f)
+                if cached_data:
+                    c_hid = cached_data.get('hash_id') or cached_data.get('detail', {}).get('detail_hash_id')
+                    if not clean_id or clean_id in ('sample', 'QrqzKqKn') or c_hid == clean_id:
+                        return {"success": True, "data": cached_data, "isFallback": True, "cached": True}
+    except Exception as e_c:
+        print(f"[FastAPI] Heydealer cache load error: {e_c}")
+
+    return {
+        "success": False,
+        "errorType": "LOGIN_REQUIRED",
+        "message": "헤이딜러 세션이 만료되었거나 쿠키가 없습니다. 딜러 로그인 후 상단 [세션 연동]에서 쿠키를 업데이트해주세요."
+    }
+
+
+# ----------------------------------------------------
+# 0-2. 자사(오토플러스) 실적 및 시장 수요도 통계 API (Streamlit 8501 100% 동일 로직)
+# ----------------------------------------------------
+@app.get("/api/market_statistics")
+def get_market_statistics(car_name: str, sub_model: Optional[str] = "", year: Optional[str] = "", current_retail: Optional[int] = 0):
+    try:
+        from sales_analysis import get_car_market_stats
+        stats = get_car_market_stats(car_name, sub_model or "", str(year or ""), current_retail or 0)
+        sample_df = stats.get("sample_df")
+        sample_list = []
+        if sample_df is not None and isinstance(sample_df, pd.DataFrame) and not sample_df.empty:
+            for _, r in sample_df.iterrows():
+                sample_list.append({
+                    "id": f"autoplus-{r.get('차량번호', _)}",
+                    "carNumber": str(r.get("차량번호", "")),
+                    "carName": str(r.get("차량명", "")),
+                    "subModel": str(r.get("세부모델", "")),
+                    "year": str(r.get("등록연도_num", "") or r.get("연식", "")),
+                    "mileage": int(r.get("주행거리_num", 0) or 0),
+                    "buyPrice": int(r.get("매입가", 0) or 0),
+                    "sellPrice": int(r.get("판매가_만원", 0) or 0),
+                    "realizedProfit": int(r.get("이익_만원", 0) or 0),
+                    "stockDays": int(r.get("경과일수_num", 0) or 0),
+                    "branch": str(r.get("지점", "")),
+                    "manager": str(r.get("담당자명", "")),
+                    "regDate": str(r.get("최초등록일", "")),
+                    "encarUrl": str(r.get("E URL", ""))
+                })
+        
+        cleaned_stats = {k: v for k, v in stats.items() if k != "sample_df"}
+        return {
+            "success": True,
+            "data": {
+                **cleaned_stats,
+                "sample_list": sample_list
+            }
+        }
+    except Exception as e:
+        print(f"[FastAPI] market_statistics error: {e}")
+        return {"success": False, "error": str(e)}
+
+
+# ----------------------------------------------------
+# 0-3. 엔카 최근 완판(팔린매물) 실거래 스냅샷 통계 API (Streamlit 8501 100% 동일 로직)
+# ----------------------------------------------------
+@app.get("/api/sold_out_cars")
+def get_sold_out_cars(car_name: str, year: Optional[str] = "", candidate_ids: Optional[str] = ""):
+    try:
+        from services.encar_service import Scraper
+        from services.sold_out_tracker import SoldOutTracker
+        
+        ids_list = [i.strip() for i in candidate_ids.split(",") if i.strip()] if candidate_ids else []
+        
+        sold_res = Scraper.fetch_sold_out_cars(
+            ids_list,
+            target_year=year or "",
+            expected_model=car_name or ""
+        )
+        
+        enriched = {}
+        if sold_res.get("has_data") and sold_res.get("cars_sample"):
+            enriched = SoldOutTracker.enrich_sold_cars(
+                sold_res["cars_sample"],
+                target_year=sold_res.get("target_year"),
+                expected_model=car_name or ""
+            )
+        
+        return {
+            "success": True,
+            "sold_statistics": sold_res,
+            "enriched_info": enriched
+        }
+    except Exception as e:
+        print(f"[FastAPI] sold_out_cars error: {e}")
+        return {"success": False, "error": str(e)}
+
 
 
 # ----------------------------------------------------
@@ -282,6 +450,11 @@ def save_car_to_ledger(req: CarLedgerCreateRequest):
             except: pass
         raise HTTPException(status_code=500, detail=f"장부 CSV 저장 실패: {str(e)}")
 
+    try:
+        GitSyncService.sync_push_async(f"auto: save ledger for {car_no}")
+    except Exception as e:
+        print(f"[api_server] Git sync push warning: {e}")
+
     return {
         "success": True,
         "message": f"차량 [{car_no}] 장부 영구 저장 완료",
@@ -378,6 +551,11 @@ def delete_car_from_ledger(car_key: str):
             except: pass
         raise HTTPException(status_code=500, detail=f"장부 CSV 삭제 반영 실패: {str(e)}")
 
+    try:
+        GitSyncService.sync_push_async(f"auto: delete ledger for {key}")
+    except Exception as e:
+        print(f"[api_server] Git sync push warning: {e}")
+
     return {
         "success": True,
         "message": f"차량 [{key}] 장부에서 삭제 완료 ({deleted_count}건)",
@@ -469,6 +647,11 @@ def update_car_in_ledger(car_key: str, req: CarLedgerUpdateRequest):
             try: os.remove(temp_path)
             except: pass
         raise HTTPException(status_code=500, detail=f"장부 CSV 수정 반영 실패: {str(e)}")
+
+    try:
+        GitSyncService.sync_push_async(f"auto: update ledger for {key}")
+    except Exception as e:
+        print(f"[api_server] Git sync push warning: {e}")
 
     return {
         "success": True,
@@ -656,6 +839,11 @@ def create_settlement_item(req: InventorySettlementCreateRequest):
             except: pass
         raise HTTPException(status_code=500, detail=f"정산 CSV 저장 실패: {str(e)}")
 
+    try:
+        GitSyncService.sync_push_async(f"auto: add settlement for {car_no}")
+    except Exception as e:
+        print(f"[api_server] Git sync push warning: {e}")
+
     return {
         "success": True,
         "message": f"차량 [{car_no}] 재고 정산 등록 완료",
@@ -769,6 +957,11 @@ def update_settlement_item(car_no: str, req: InventorySettlementUpdateRequest):
             except: pass
         raise HTTPException(status_code=500, detail=f"정산 CSV 수정 반영 실패: {str(e)}")
 
+    try:
+        GitSyncService.sync_push_async(f"auto: update settlement for {key}")
+    except Exception as e:
+        print(f"[api_server] Git sync push warning: {e}")
+
     return {
         "success": True,
         "message": f"차량 [{key}] 정산 데이터 수정 완료",
@@ -835,12 +1028,43 @@ def delete_settlement_item(car_no: str):
             except: pass
         raise HTTPException(status_code=500, detail=f"정산 CSV 삭제 반영 실패: {str(e)}")
 
+    try:
+        GitSyncService.sync_push_async(f"auto: delete settlement for {key}")
+    except Exception as e:
+        print(f"[api_server] Git sync push warning: {e}")
+
     return {
         "success": True,
         "message": f"차량 [{key}] 정산 데이터 삭제 완료",
         "deletedCount": deleted_count,
         "totalCount": len(new_rows)
     }
+
+
+# ----------------------------------------------------
+# 1-3. 깃허브 실시간 동기화 (Git Cloud Sync) API
+# ----------------------------------------------------
+@app.get("/api/git/status")
+def get_git_sync_status():
+    return {
+        "statusBadge": GitSyncService.get_status_badge(),
+        "isSyncing": GitSyncService._is_syncing,
+        "lastSyncTime": GitSyncService._last_sync_time.isoformat() if GitSyncService._last_sync_time else None,
+        "lastSyncStatus": GitSyncService._last_sync_status
+    }
+
+
+@app.post("/api/git/sync")
+def trigger_git_sync(action: str = "pull"):
+    if action == "pull":
+        ok, msg = GitSyncService.sync_pull()
+        return {"success": ok, "action": "pull", "message": msg}
+    elif action == "push":
+        GitSyncService.sync_push_async("manual: trigger push from web UI")
+        return {"success": True, "action": "push", "message": "백그라운드 동기화 푸시 요청됨"}
+    else:
+        raise HTTPException(status_code=400, detail=f"알 수 없는 동기화 액션: {action}")
+
 
 
 
@@ -859,151 +1083,157 @@ class EncarSearchRequest(BaseModel):
 @app.post("/api/encar/search")
 def search_encar_market(req: EncarSearchRequest):
     try:
-        session = requests.Session()
-        session.headers.update({
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
-            "Accept": "application/json, text/plain, */*",
-            "Origin": "https://fem.encar.com",
-            "Referer": "http://www.encar.com/"
-        })
-
         car_name = req.carName or "올 뉴 K7"
         detail_model = req.detailModel or "2.4 GDI 프레스티지"
         manufacturer = req.manufacturer or "기아"
         year_num = req.year or 17
         mileage_num = req.mileage or 149461
 
-        # 1. MasterMappingService를 통해 정확한 엔카 검색 액션 URL 생성
-        encar_action_url = MasterMappingService.generate_smart_encar_url(
-            car_name=car_name,
-            sub_model=detail_model,
-            year=year_num,
-            mileage=mileage_num
-        )
+        encar_url = req.url
+        if not encar_url or not str(encar_url).strip():
+            encar_url = MasterMappingService.generate_smart_encar_url(
+                car_name=car_name,
+                sub_model=detail_model,
+                year=year_num,
+                mileage=mileage_num
+            )
 
-        condition = ""
-        if encar_action_url and "#!" in encar_action_url:
-            try:
-                payload_str = urllib.parse.unquote(encar_action_url.split("#!")[1])
-                payload_obj = json.loads(payload_str)
-                condition = payload_obj.get("action", "")
-            except Exception:
-                condition = ""
+        df, msg = Scraper.run(encar_url, "")
+        if df.empty and req.url:
+            alt_url = MasterMappingService.generate_smart_encar_url(
+                car_name=car_name,
+                sub_model=detail_model,
+                year=year_num,
+                mileage=mileage_num
+            )
+            if alt_url and alt_url != encar_url:
+                df, msg = Scraper.run(alt_url, "")
+                if not df.empty:
+                    encar_url = alt_url
 
-        if not condition:
-            # Fallback condition
-            condition = f"(And.Hidden.N._.(C.CarType.Y._.(C.Manufacturer.{manufacturer}._.ModelGroup.{car_name}.)))"
+        if df.empty:
+            return {
+                "success": True,
+                "items": [],
+                "totalModelCount": 0,
+                "filteredCount": 0,
+                "directSearchUrl": encar_url or "",
+                "stats": {
+                    "avg": 0, "min": 0, "max": 0, "median": 0, "count": 0,
+                    "benchmarkPrice": 0, "minBand": 0, "maxBand": 0,
+                    "noAccAvg": 0, "accAvg": 0, "accGap": 0
+                }
+            }
 
-        safe_condition = urllib.parse.quote(condition)
-        api_url = f"https://api.encar.com/search/car/list/general?count=true&q={safe_condition}&sr=%7CModifiedDate%7C0%7C100"
+        # 1. 표준화 및 중복 제거
+        df = DataProcessor.standardize(df)
+        df = Scraper.dedupe_after_scan(df)
 
-        raw_cars = []
+        # 2. 세부모델/파생트림 엄격 정밀 필터링 (스페셜, 에디션, N Line 배제)
+        df = DataProcessor.filter_strictly_by_submodel(df, target_car_name=car_name, target_sub_model=detail_model)
+
+        # 3. 2번 정렬 기준 (가격 낮은순 -> 연식 최신순 -> 성능점검순)
+        df = DataProcessor.sort_by_price_year_perf(df)
+
+        # 스냅샷 자동 누적
         try:
-            res = session.get(api_url, timeout=7)
-            if res.status_code == 200:
-                raw_cars = res.json().get("SearchResults", [])
-        except Exception:
-            raw_cars = []
+            SoldOutTracker.record_active_listings(df)
+        except Exception as e:
+            print(f"[api_server] SoldOutTracker error: {e}")
 
-        # 1차 실패 시 연식/주행거리 제약을 완화한 모델 그룹 전체 검색 시도
-        if not raw_cars:
-            master_match = MasterMappingService.resolve_encar_model("", car_name, detail_model, year=year_num)
-            if master_match and master_match.get("model_group"):
-                f_brand = master_match.get("brand", manufacturer)
-                f_mg = master_match.get("model_group", "")
-                f_model = master_match.get("encar_model", "")
-                
-                alt_cond = f"(And.Hidden.N._.(C.CarType.Y._.(C.Manufacturer.{f_brand}._.(C.ModelGroup.{f_mg}._.Model.{f_model}.))))"
-                try:
-                    alt_res = session.get(f"https://api.encar.com/search/car/list/general?count=true&q={urllib.parse.quote(alt_cond)}&sr=%7CModifiedDate%7C0%7C100", timeout=7)
-                    if alt_res.status_code == 200:
-                        raw_cars = alt_res.json().get("SearchResults", [])
-                except Exception:
-                    pass
+        # 통계 및 AI 정밀 밸류에이션
+        bench_val = Scraper.get_benchmarked_valuation(
+            df,
+            target_mil=mileage_num,
+            target_accident="",
+            target_year=year_num
+        ) if not df.empty else {"has_data": False}
 
-        # 100대 도달 시 2페이지 추가 수집
-        if len(raw_cars) == 100:
-            try:
-                p2_url = f"https://api.encar.com/search/car/list/general?count=false&q={safe_condition}&sr=%7CModifiedDate%7C100%7C100"
-                p2_res = session.get(p2_url, timeout=5)
-                if p2_res.status_code == 200:
-                    p2_cars = p2_res.json().get("SearchResults", [])
-                    if p2_cars:
-                        raw_cars.extend(p2_cars)
-            except Exception:
-                pass
+        valid_prices = pd.to_numeric(df['판매가'], errors='coerce').dropna()
+        avg_price = int(valid_prices.mean()) if not valid_prices.empty else 0
+        min_price = int(valid_prices.min()) if not valid_prices.empty else 0
+        max_price = int(valid_prices.max()) if not valid_prices.empty else 0
+        median_price = int(valid_prices.median()) if not valid_prices.empty else 0
+
+        benchmark_price = bench_val.get("calc_individual_price", avg_price) if bench_val.get("has_data") else avg_price
+        min_band = bench_val.get("calc_min_price", int(benchmark_price * 0.94)) if bench_val.get("has_data") else min_price
+        max_band = bench_val.get("calc_max_price", int(benchmark_price * 1.08)) if bench_val.get("has_data") else max_price
+
+        # 사고/무사고 격차
+        is_no = df['사고유무'].astype(str).str.contains('무사고') if '사고유무' in df.columns else pd.Series(False, index=df.index)
+        p_num = pd.to_numeric(df['판매가'], errors='coerce')
+        no_acc_avg = int(p_num[is_no].mean()) if is_no.any() else 0
+        acc_avg = int(p_num[~is_no].mean()) if (~is_no).any() else 0
+        acc_gap = no_acc_avg - acc_avg if no_acc_avg > 0 and acc_avg > 0 else 0
 
         items = []
-        prices = []
-        df_rows = []
+        for _, row in df.iterrows():
+            cid = str(row.get('_carid', '')).strip()
+            price_val = _safe_int(row.get('판매가', 0))
+            mil_val = _safe_int(row.get('주행거리', 0))
+            
+            raw_hold = row.get('재고', 15)
+            hold_days = _safe_int(str(raw_hold).replace('일', '').strip(), 15)
 
-        for c in raw_cars:
-            cid = str(c.get("Id", "")).strip()
-            if not cid:
-                continue
+            c_name = str(row.get('차량명', ''))
+            s_model = str(row.get('세부모델', ''))
+            yr_str = str(row.get('연식', ''))
+            perf_d = str(row.get('성능일', '-'))
+            acc_str = str(row.get('사고유무', '-'))
+            col_str = str(row.get('외장컬러', '-'))
+            opt_s = str(row.get('추가옵션', '-'))
+            link_s = str(row.get('링크', f"https://fem.encar.com/cars/detail/{cid}"))
 
-            name = f"{c.get('Manufacturer', '')} {c.get('Model', '')} {c.get('Badge', '')}".strip()
-            year_str = str(c.get("Year", ""))
-            mil_val = _safe_int(c.get("Mileage", 0))
-            price_val = _safe_int(c.get("Price", 0))
-            photo = f"https://ci.encar.com/carpicture{c['Photos'][0]['location']}" if c.get("Photos") and len(c["Photos"]) > 0 else ""
-
-            detail_url = f"https://fem.encar.com/cars/detail/{cid}"
-
-            if price_val > 0:
-                prices.append(price_val)
-
-            item = {
+            items.append({
                 "id": cid,
-                "checkDate": datetime.now().strftime("%y-%m-%d"),
-                "holdingDays": 1,
-                "carName": name,
-                "modelName": c.get("Model", ""),
-                "subModel": c.get("Badge", ""),
-                "year": year_str,
+                "checkDate": perf_d,
+                "holdingDays": hold_days,
+                "carName": c_name,
+                "modelName": c_name,
+                "subModel": s_model,
+                "year": yr_str,
                 "mileage": mil_val,
                 "price": price_val,
-                "accidentType": "확인대기",
-                "color": "-",
-                "optionsText": "-",
+                "accidentType": acc_str,
+                "color": col_str,
+                "optionsText": opt_s,
                 "replaces": [],
                 "repairs": [],
-                "encarUrl": detail_url,
-                "photo": photo,
+                "encarUrl": link_s,
+                "photo": "",
                 "isLive": True,
                 "_carid": cid,
-                "차량명": name,
-                "연식": year_str,
+                "차량명": c_name,
+                "세부모델": s_model,
+                "연식": yr_str,
                 "주행거리": str(mil_val),
                 "판매가": str(price_val),
-                "링크": detail_url
-            }
-            items.append(item)
-            df_rows.append(item)
-
-        # 로컬 스냅샷 DB(data/encar_snapshots.json)에 자동 누적
-        if df_rows:
-            df = pd.DataFrame(df_rows)
-            try:
-                SoldOutTracker.record_active_listings(df)
-            except Exception as e:
-                print(f"[api_server] SoldOutTracker error: {e}")
-
-        avg_price = int(sum(prices) / len(prices)) if prices else 0
-        min_price = min(prices) if prices else 0
-        max_price = max(prices) if prices else 0
+                "링크": link_s,
+                "성능일": perf_d,
+                "재고": f"{hold_days}일",
+                "사고유무": acc_str,
+                "외장컬러": col_str,
+                "추가옵션": opt_s
+            })
 
         return {
             "success": True,
             "items": items,
             "totalModelCount": len(items),
             "filteredCount": len(items),
-            "directSearchUrl": encar_action_url or (f"https://fem.encar.com/cars/detail/{items[0]['id']}" if items else ""),
+            "directSearchUrl": encar_url or (items[0]['encarUrl'] if items else ""),
             "stats": {
                 "avg": avg_price,
                 "min": min_price,
                 "max": max_price,
-                "count": len(items)
+                "median": median_price,
+                "count": len(items),
+                "benchmarkPrice": benchmark_price,
+                "minBand": min_band,
+                "maxBand": max_band,
+                "noAccAvg": no_acc_avg,
+                "accAvg": acc_avg,
+                "accGap": acc_gap
             }
         }
     except Exception as e:
@@ -1075,24 +1305,66 @@ def get_encar_inspection(car_id: str):
             "Referer": f"https://fem.encar.com/cars/detail/{car_id}"
         })
 
-        # 1. 차량 기본 제원 및 옵션 조회
+        # 1. 차량 기본 제원 및 옵션/관리 정보 조회
         vehicle_id = car_id
         color = "미확인"
         vehicle_no = ""
-        options_text = "기본사양"
+        options_text = "기본 출고 사양 (추가옵션 없음)"
+        reg_date_str = ""
+        holding_days = 15
 
         try:
-            v_res = session.get(f"https://api.encar.com/v1/readside/vehicle/{car_id}", timeout=5)
+            v_res = session.get(f"https://api.encar.com/v1/readside/vehicle/{car_id}?include=MANAGE,OPTIONS,SPEC", timeout=5)
             if v_res.status_code == 200:
                 v_data = v_res.json()
-                if v_data.get("vehicleId"):
+                manage = v_data.get("manage") or {}
+                spec = v_data.get("spec") or {}
+                if manage.get("dummyVehicleId"):
+                    vehicle_id = str(manage.get("dummyVehicleId"))
+                elif v_data.get("vehicleId"):
                     vehicle_id = str(v_data["vehicleId"])
-                color = v_data.get("spec", {}).get("colorName") or "미확인"
+                color = spec.get("colorName") or "미확인"
                 vehicle_no = v_data.get("vehicleNo") or ""
-        except Exception:
-            pass
 
-        # 2. 성능점검 상세 조회
+                # 등록일시 및 재고일수
+                dt_raw = manage.get("firstAdvertisedDateTime") or manage.get("registDateTime") or ""
+                if dt_raw and len(dt_raw) >= 10:
+                    try:
+                        v_dt = datetime.strptime(dt_raw[:10], "%Y-%m-%d")
+                        diff = (datetime.now() - v_dt).days
+                        if diff >= 0:
+                            holding_days = max(1, diff)
+                            reg_date_str = v_dt.strftime("%y-%m-%d")
+                    except Exception:
+                        pass
+        except Exception as e:
+            print(f"[api_server] vehicle spec fetch error: {e}")
+
+        # 2. 추가 옵션 카탈로그 정밀 조회
+        try:
+            opt_names = []
+            o_res = session.get(f"https://api.encar.com/v1/readside/vehicles/car/{car_id}/options/choice", timeout=5)
+            if o_res.status_code != 200 and vehicle_id != car_id:
+                o_res = session.get(f"https://api.encar.com/v1/readside/vehicles/car/{vehicle_id}/options/choice", timeout=5)
+
+            if o_res.status_code == 200 and o_res.json():
+                catalog = o_res.json()
+                if isinstance(catalog, list):
+                    for opt in catalog:
+                        if isinstance(opt, dict):
+                            o_name = opt.get("optionName", "").strip()
+                            o_price = _safe_int(opt.get("price", 0))
+                            if o_name and "외장컬러" not in o_name:
+                                if o_price > 0:
+                                    opt_names.append(f"{o_name}({o_price}만)")
+                                else:
+                                    opt_names.append(o_name)
+            if opt_names:
+                options_text = " · ".join(opt_names)
+        except Exception as e:
+            print(f"[api_server] options fetch error: {e}")
+
+        # 3. 성능점검 상세 조회
         insp_url = f"https://api.encar.com/v1/readside/inspection/vehicle/{vehicle_id}"
         res = session.get(insp_url, timeout=5)
         if res.status_code != 200 and vehicle_id != car_id:
@@ -1104,7 +1376,7 @@ def get_encar_inspection(car_id: str):
         replace_names = []
         repair_names = []
         accident_type = "완전무사고"
-        inspection_date = "-"
+        inspection_date = reg_date_str or "-"
 
         if res.status_code == 200:
             ij = res.json()
@@ -1151,6 +1423,8 @@ def get_encar_inspection(car_id: str):
                 accident_type = f"단순판금({len(repair_names)}부위)"
             elif replaces and repairs:
                 accident_type = f"단순(교환{len(replace_names)}/판금{len(repair_names)})"
+        elif res.status_code == 404:
+            accident_type = "성능미등록(사진기록)"
 
         # 중복 제거
         replaces = list(dict.fromkeys(replaces))
@@ -1164,6 +1438,7 @@ def get_encar_inspection(car_id: str):
                 "vehicleNo": vehicle_no,
                 "inspectionDate": inspection_date,
                 "checkDate": inspection_date,
+                "holdingDays": holding_days,
                 "accidentType": accident_type,
                 "replaces": replaces,
                 "repairs": repairs,

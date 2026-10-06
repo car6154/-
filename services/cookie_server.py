@@ -117,6 +117,18 @@ class CookieReceiverHandler(BaseHTTPRequestHandler):
                         self.wfile.write(res_bytes)
                         return
 
+                    # 헤이딜러: 기존에 sessionid가 유효한데 새로 들어온 쿠키에 sessionid가 없으면 덮어쓰기 방지
+                    if target == 'heydealer' and curr_cookie and ('sessionid=' in curr_cookie) and ('sessionid=' not in cleaned_cookie):
+                        print("[CookieServer] Ignored incomplete heydealer cookie (missing sessionid while existing has sessionid)", flush=True)
+                        res_bytes = json.dumps({"status": "ok", "message": "Existing sessionid preserved"}).encode('utf-8')
+                        self.send_response(200)
+                        self.send_header('Content-Type', 'application/json')
+                        self.send_header('Content-Length', str(len(res_bytes)))
+                        self.send_header('Access-Control-Allow-Origin', '*')
+                        self.end_headers()
+                        self.wfile.write(res_bytes)
+                        return
+
                     set_env_variable(var_name, cleaned_cookie)
                     raw_cookie = cleaned_cookie
 
@@ -132,6 +144,12 @@ class CookieReceiverHandler(BaseHTTPRequestHandler):
                         except Exception:
                             pass
                     else:
+                        hd_file = os.path.join(BASE_DIR, 'heydealer_cookie.txt')
+                        try:
+                            with open(hd_file, 'w', encoding='utf-8') as f:
+                                f.write(raw_cookie)
+                        except Exception:
+                            pass
                         os.environ['HEYDEALER_COOKIE'] = raw_cookie
 
                     res_bytes = json.dumps({"status": "ok", "message": f"{target} Cookie saved"}).encode('utf-8')
@@ -175,7 +193,24 @@ def save_cookie(cookie_str):
     with open(COOKIE_FILE, "w", encoding="utf-8") as f:
         f.write(cookie_str)
 
+def save_hd_cookie(cookie_str):
+    hd_file = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'heydealer_cookie.txt')
+    with open(hd_file, "w", encoding="utf-8") as f:
+        f.write(cookie_str)
+    set_env_variable('HEYDEALER_COOKIE', cookie_str)
+    os.environ['HEYDEALER_COOKIE'] = cookie_str
+
 def get_current_hd_cookie():
+    hd_file = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'heydealer_cookie.txt')
+    if os.path.exists(hd_file):
+        try:
+            with open(hd_file, 'r', encoding='utf-8') as f:
+                val = f.read().strip()
+                if val and len(val) > 20:
+                    return val
+        except Exception:
+            pass
+
     try:
         env_f = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '.env')
         if os.path.exists(env_f):
@@ -186,7 +221,8 @@ def get_current_hd_cookie():
                         val = line.split('=', 1)[1].strip()
                         if val.startswith('"') and val.endswith('"'): val = val[1:-1]
                         elif val.startswith("'") and val.endswith("'"): val = val[1:-1]
-                        return val
+                        if val and len(val) > 20:
+                            return val
     except Exception:
         pass
     return os.getenv("HEYDEALER_COOKIE", "")

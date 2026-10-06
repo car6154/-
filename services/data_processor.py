@@ -144,3 +144,178 @@ class DataProcessor:
             ordered_df["링크"] = ordered_df["링크"].replace("", None)
             
         return ordered_df
+
+    @staticmethod
+    def filter_strictly_by_submodel(df: pd.DataFrame, target_car_name: str = "", target_sub_model: str = "") -> pd.DataFrame:
+        """
+        엔카 실시간 수집 데이터에서 세부모델/파생트림(스페셜, 에디션, N Line, 유종/배기량/구동방식 불일치 등)을
+        엄격하게 배제하여 정밀 비교군만 추출합니다. (8501과 3000 단일 공통 기준)
+        """
+        if df.empty or not target_sub_model or target_sub_model == "전체" or '세부모델' not in df.columns:
+            return df
+        
+        sub_raw = str(target_sub_model).strip()
+        sub_clean = sub_raw.lower().replace(" ", "")
+        sub_parts = [p for p in sub_raw.split() if len(p) >= 2]
+        
+        encar_full_clean = (df['차량명'].astype(str) + " " + df['세부모델'].astype(str)).str.replace(" ", "").str.lower()
+        
+        all_matched = pd.Series(True, index=df.index)
+        for part in sub_parts:
+            part_clean = part.replace(" ", "").lower()
+            all_matched = all_matched & encar_full_clean.str.contains(part_clean, na=False, regex=False)
+        
+        cand_df = df[all_matched] if all_matched.any() else df.copy()
+        
+        # 1. 🚗 파생 바디/타입 배제
+        BODY_TYPE_KEYWORDS = [
+            '살룬', '왜건', '해치백', '하이리무진', '리무진', '밴', '카고', 
+            '쿠페', '컨버터블', '카브리올레', '로드스터', '그란쿠페', 
+            '칸', '크로스오버', '아웃도어'
+        ]
+        target_all_text = (str(target_car_name or '') + " " + sub_raw).lower()
+        cand_full_clean = (cand_df['차량명'].astype(str) + " " + cand_df['세부모델'].astype(str)).str.replace(" ", "").str.lower()
+        
+        for b_kw in BODY_TYPE_KEYWORDS:
+            if b_kw in target_all_text:
+                has_b = cand_full_clean.str.contains(b_kw, na=False)
+                if has_b.any():
+                    cand_df = cand_df[has_b]
+                    cand_full_clean = (cand_df['차량명'].astype(str) + " " + cand_df['세부모델'].astype(str)).str.replace(" ", "").str.lower()
+            else:
+                has_b = cand_full_clean.str.contains(b_kw, na=False)
+                if has_b.any() and (~has_b).any():
+                    cand_df = cand_df[~has_b]
+                    cand_full_clean = (cand_df['차량명'].astype(str) + " " + cand_df['세부모델'].astype(str)).str.replace(" ", "").str.lower()
+                    
+        # 2. ⛽ 유종 엄격 상호 배제
+        diesel_kws = ['vgt', 'crdi', '디젤', 'diesel', 'dci', 'cdi', 'tdi', 'e-vgt']
+        gas_kws = ['gdi', '가솔린', 'gasoline', 'gde', 't-gdi', 'mpi', 'cvvl']
+        lpg_kws = ['lpi', 'lpg', 'lpe']
+        
+        is_q_diesel = any(k in sub_clean for k in diesel_kws)
+        is_q_gas = any(k in sub_clean for k in gas_kws)
+        is_q_lpg = any(k in sub_clean for k in lpg_kws)
+        
+        cand_full_clean = (cand_df['차량명'].astype(str) + " " + cand_df['세부모델'].astype(str)).str.replace(" ", "").str.lower()
+        if is_q_diesel:
+            bad_fuel = cand_full_clean.str.contains('gdi|가솔린|gde|lpi|lpg|lpe', na=False)
+            if (~bad_fuel).any():
+                cand_df = cand_df[~bad_fuel]
+        elif is_q_gas:
+            bad_fuel = cand_full_clean.str.contains('vgt|crdi|디젤|diesel|dci|cdi|tdi|lpi|lpg|lpe', na=False)
+            if (~bad_fuel).any():
+                cand_df = cand_df[~bad_fuel]
+        elif is_q_lpg:
+            lpg_mask = cand_full_clean.str.contains('lpi|lpg|lpe', na=False)
+            if lpg_mask.any():
+                cand_df = cand_df[lpg_mask]
+                
+        # 3. 🔍 배기량 엄격 일치
+        disp_m = re.search(r'(\d\.\d)', sub_raw)
+        if disp_m:
+            disp_val = disp_m.group(1)
+            cand_full_clean = (cand_df['차량명'].astype(str) + " " + cand_df['세부모델'].astype(str)).str.replace(" ", "").str.lower()
+            disp_mask = cand_full_clean.str.contains(disp_val, na=False)
+            if disp_mask.any():
+                cand_df = cand_df[disp_mask]
+        
+        # 4. ⚙️ 구동방식 (2WD vs 4WD/AWD)
+        is_target_4wd = any(x in sub_clean for x in ['4wd', '4륜', 'awd'])
+        cand_sub_col = cand_df['세부모델'].astype(str)
+        if not is_target_4wd:
+            non_4wd = ~cand_sub_col.str.contains(r'4wd|4륜|awd', case=False, regex=True, na=False)
+            if non_4wd.any():
+                cand_df = cand_df[non_4wd]
+        else:
+            is_4wd = cand_sub_col.str.contains(r'4wd|4륜|awd', case=False, regex=True, na=False)
+            if is_4wd.any():
+                cand_df = cand_df[is_4wd]
+                
+        # 5. ✨ 서브 키워드 (스페셜, 플러스, 에디션, 마스터, n line 등) 배제
+        for sub_kw in ['스페셜', '플러스', '에디션', '마스터', 'n line', 'nline']:
+            if sub_kw not in sub_clean:
+                has_kw = cand_df['세부모델'].astype(str).str.lower().str.contains(sub_kw, na=False)
+                if (~has_kw).any():
+                    cand_df = cand_df[~has_kw]
+            else:
+                has_kw = cand_df['세부모델'].astype(str).str.lower().str.contains(sub_kw, na=False)
+                if has_kw.any():
+                    cand_df = cand_df[has_kw]
+                    
+        return cand_df.reset_index(drop=True)
+
+    @staticmethod
+    def sort_by_price_year_perf(df: pd.DataFrame) -> pd.DataFrame:
+        """
+        사용자 승인 정렬 기준 (2번):
+        1. 가격 낮은순 (오름차순)
+        2. 연식 최신순 (내림차순)
+        3. 성능점검 완료 우선 및 점검일 최신순 (내림차순)
+        """
+        if df.empty:
+            return df
+        
+        res_df = df.copy()
+        if "판매가" in res_df.columns:
+            res_df["_sort_price"] = pd.to_numeric(res_df["판매가"], errors='coerce').fillna(999999)
+        else:
+            res_df["_sort_price"] = 999999
+
+        def _parse_year(val):
+            m = re.search(r'(\d+)', str(val))
+            return int(m.group(1)) if m else 0
+
+        res_df['_sort_year'] = res_df['연식'].apply(_parse_year) if "연식" in res_df.columns else 0
+        
+        if "성능일" in res_df.columns:
+            res_df['_has_perf'] = res_df['성능일'].astype(str).apply(
+                lambda x: 1 if re.match(r'^\d{2}-\d{2}-\d{2}', str(x)) and str(x) not in ['미검사/사진', '⚠️미등록', '⚠️조회실패', '-'] else 0
+            )
+            res_df['_sort_perf'] = res_df['성능일'].astype(str).apply(
+                lambda x: x if re.match(r'^\d{2}-\d{2}-\d{2}', str(x)) and str(x) not in ['미검사/사진', '⚠️미등록', '⚠️조회실패', '-'] else '00-00-00'
+            )
+        else:
+            res_df['_has_perf'] = 0
+            res_df['_sort_perf'] = '00-00-00'
+
+        res_df = res_df.sort_values(
+            by=['_sort_price', '_sort_year', '_has_perf', '_sort_perf'],
+            ascending=[True, False, False, False]
+        ).drop(columns=['_sort_price', '_sort_year', '_has_perf', '_sort_perf']).reset_index(drop=True)
+        
+        return res_df
+
+    @staticmethod
+    def sort_by_perf_and_year(df: pd.DataFrame) -> pd.DataFrame:
+        """
+        8501 콕핏 확정 정렬 기준:
+        1. 성능점검 등록 여부 (점검 완료 우선)
+        2. 연식 최신순 (내림차순)
+        3. 성능점검일 최신순 (내림차순)
+        """
+        if df.empty:
+            return df
+        
+        res_df = df.copy()
+        if "주행거리" in res_df.columns:
+            res_df["주행거리"] = pd.to_numeric(res_df["주행거리"], errors='coerce').fillna(0)
+            
+        def _parse_year(val):
+            m = re.search(r'(\d+)', str(val))
+            return int(m.group(1)) if m else 0
+
+        if "성능일" in res_df.columns and "연식" in res_df.columns:
+            res_df['_has_perf'] = res_df['성능일'].astype(str).apply(
+                lambda x: 1 if re.match(r'^\d{2}-\d{2}-\d{2}', str(x)) and str(x) not in ['미검사/사진', '⚠️미등록', '⚠️조회실패', '-'] else 0
+            )
+            res_df['_sort_perf'] = res_df['성능일'].astype(str).apply(
+                lambda x: x if re.match(r'^\d{2}-\d{2}-\d{2}', str(x)) and str(x) not in ['미검사/사진', '⚠️미등록', '⚠️조회실패', '-'] else '00-00-00'
+            )
+            res_df['_sort_year'] = res_df['연식'].apply(_parse_year)
+            res_df = res_df.sort_values(
+                by=['_has_perf', '_sort_year', '_sort_perf'],
+                ascending=[False, False, False]
+            ).drop(columns=['_has_perf', '_sort_perf', '_sort_year']).reset_index(drop=True)
+            
+        return res_df
