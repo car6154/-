@@ -1256,7 +1256,7 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
     return salesDataRaw as any[];
   });
 
-  const [soldTabMode, setSoldTabMode] = useState<'demand' | 'encar' | 'autoplus'>('encar');
+  const [soldTabMode, setSoldTabMode] = useState<'demand' | 'encar' | 'autoplus' | 'none'>('none');
   const [filterOnlyRetail, setFilterOnlyRetail] = useState<boolean>(true); // 기본값: 순수 소매(엔카광고 집행) 매물만 필터 (경매/도매 배제)
   const [isExcelUploading, setIsExcelUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -2034,27 +2034,32 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
       <div className="flex-1 min-w-0 space-y-6">
 
         {/* ========================================================
-            [1단계] 자사 실적 & 엔카 실거래 결합 시장 수요도 분석
+            [1단계 & 핵심 결론] AI 시세 밸류에이션 & 실시간 회전율 통합 제어 센터
+            - 결론 우선주의: 권장 소매가 + 안전 입찰 상한선 + 슬림 회전율 게이지 바
+            - 높이를 컴팩트하게 압축하여 바로 아래 엔카 리스트/2D도면이 첫 화면에 즉시 노출
             ======================================================== */}
-        <div className="bg-[#0e0f13] border border-[#1c1d22] rounded-xl p-4 sm:p-5 shadow-lg space-y-4">
+        <div className="bg-[#0e0f13] border border-[#1c1d22] rounded-xl p-3.5 sm:p-4 shadow-lg space-y-3">
           
-          {/* Header & Excel Upload Tool */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#1c1d22]">
-            <div className="space-y-1">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="text-xs font-bold text-amber-400 flex items-center gap-1">
-                  📊 자사 실적 DB & 시장 수요도 분석 (100% 실데이터)
-                </span>
-                <span className="text-xs font-bold text-white">
-                  [{carName} {detailModel} ({yearModel}년식)] 실적 {autoplusStats.matchedCount}대 매칭
-                </span>
-              </div>
-              <p className="text-[11px] text-[#8b8e9d]">
-                동일 차종·최초등록일 기준 정확한 연식({typeof yearModel === 'number' ? (yearModel > 2000 ? yearModel : 2000 + yearModel) : yearModel}년식, 주행거리 무관 전수) 실거래 데이터만을 엄격 선별하여 자금 사고 없는 정확한 소매 시세와 회전 속도를 산출합니다.
-              </p>
+          {/* Top Bar: Title, Specs & Utility Buttons */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2.5 border-b border-[#1c1d22]">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-sm font-extrabold text-white font-serif-display flex items-center gap-1.5">
+                <Sparkles className="w-4 h-4 text-amber-400" />
+                <span>🎯 AI 권장 시세 &amp; 비딩 결론</span>
+              </span>
+              <span className="text-xs px-2 py-0.5 rounded bg-blue-500/15 text-blue-400 border border-blue-500/30 font-semibold font-mono">
+                {carName} {detailModel} ({yearModel}년식 / {mileageKm.toLocaleString()}km)
+              </span>
+              <span className={`text-[11px] px-2 py-0.5 rounded font-bold border ${
+                outerRepairCount === 0
+                  ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
+                  : 'bg-amber-500/15 text-amber-400 border-amber-500/30'
+              }`}>
+                {outerRepairCount === 0 ? '🟢 완전무사고' : `🟡 외판 ${outerRepairCount}판 감가`}
+              </span>
             </div>
 
-            <div className="flex items-center gap-2 shrink-0">
+            <div className="flex items-center gap-1.5 shrink-0">
               {/* Hidden File Input for Excel/CSV */}
               <input
                 type="file"
@@ -2066,528 +2071,286 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
 
               <button
                 type="button"
-                onClick={() => fileInputRef.current?.click()}
-                disabled={isExcelUploading}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/40 text-emerald-300 hover:text-white text-xs font-semibold transition cursor-pointer shadow-sm"
-                title="오토플러스 판매실적 엑셀(.xlsx/.xls/.csv) 파일을 업로드하여 동급 시세를 즉시 업데이트합니다"
+                onClick={() => fetchEncarComparable({ url: encarSourceUrl, carName, detailModel, manufacturer, year: yearModel, mileage: mileageKm })}
+                disabled={isEncarLoading}
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-blue-600/20 hover:bg-blue-600/30 border border-blue-500/30 text-blue-300 hover:text-white text-xs font-semibold transition cursor-pointer"
+                title="엔카 실시간 동급 매물 재스캔"
               >
-                <Upload className="w-3.5 h-3.5 text-emerald-400" />
-                <span>{isExcelUploading ? '엑셀 분석 중...' : '📂 엑셀 업로드'}</span>
+                <RefreshCw className={`w-3 h-3 ${isEncarLoading ? 'animate-spin' : ''}`} />
+                <span>{isEncarLoading ? '스캔 중' : '재스캔'}</span>
               </button>
 
               <button
                 type="button"
-                onClick={handleResetAutoplusData}
-                className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#14151b] hover:bg-[#1f212a] border border-[#262833] text-zinc-400 hover:text-white text-xs font-medium transition"
-                title="기본 6,170건 실적 DB로 복원"
+                onClick={() => fileInputRef.current?.click()}
+                disabled={isExcelUploading}
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/30 text-emerald-300 hover:text-white text-xs font-semibold transition cursor-pointer"
+                title="오토플러스 판매실적 엑셀 업로드"
               >
-                <RotateCcw className="w-3 h-3" />
-                <span className="hidden sm:inline">초기화</span>
+                <Upload className="w-3 h-3 text-emerald-400" />
+                <span>엑셀</span>
               </button>
+
+              <a
+                href={encarSourceUrl || "http://www.encar.com"}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#14151b] hover:bg-[#1c1d24] border border-[#22242c] text-rose-400 hover:text-white text-xs font-semibold transition"
+                title="엔카 원본 검색 페이지 열기"
+              >
+                <span>엔카원본</span>
+                <ExternalLink className="w-2.5 h-2.5" />
+              </a>
             </div>
           </div>
 
-          {/* Sub-Tabs: 종합 시장 수요도 vs 자사 오토플러스 실적 */}
-          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#1c1d22] pb-2">
-            <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-none">
+          {/* 3-Column Conclusion & Velocity Card */}
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-3">
+            
+            {/* Col 1: 🎯 AI 권장 소매가 (기준 가격) */}
+            <div className="md:col-span-4 bg-[#121317] border border-blue-500/30 rounded-xl p-3 space-y-1 relative overflow-hidden">
+              <div className="flex justify-between items-center">
+                <span className="text-xs font-bold text-sky-400 flex items-center gap-1">
+                  <span>🎯 AI 권장 소매가</span>
+                  <span className="text-[10px] px-1.5 py-0.2 rounded bg-sky-500/20 text-sky-300 font-normal">기준가</span>
+                </span>
+                <span className="text-[10px] text-[#8b8e9d] font-mono">
+                  동급 {encarFilteredCount || encarList.length}대 표본
+                </span>
+              </div>
+              <div className="flex items-baseline gap-1.5 mt-0.5">
+                <span className="text-2xl font-black text-sky-400 font-serif-display tracking-tight">
+                  {expectedSellPrice > 0 ? expectedSellPrice.toLocaleString() : '-'}
+                </span>
+                <span className="text-xs font-bold text-zinc-400">만원</span>
+              </div>
+              <div className="text-[11px] text-[#94a3b8] flex items-center justify-between pt-1 border-t border-[#1e2330]">
+                <span>예상 거래범위:</span>
+                <strong className="text-zinc-200 font-mono">
+                  {expectedSellPrice > 0 ? `${Math.round(expectedSellPrice * 0.94).toLocaleString()} ~ ${Math.round(expectedSellPrice * 1.06).toLocaleString()}만` : '-'}
+                </strong>
+              </div>
+            </div>
+
+            {/* Col 2: 🛡️ 안전 입찰 상한선 (매입 기준) */}
+            <div className="md:col-span-4 bg-[#121317] border border-emerald-500/30 rounded-xl p-3 space-y-1 relative overflow-hidden">
+              <div className="flex justify-between items-center">
+                <span className="text-xs font-bold text-emerald-400 flex items-center gap-1">
+                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>🛡️ 안전 입찰 상한선</span>
+                </span>
+                <span className="text-[10px] text-emerald-400/90 font-semibold font-mono">
+                  기대마진 +{targetMargin}만 확보
+                </span>
+              </div>
+              <div className="flex items-baseline gap-1.5 mt-0.5">
+                <span className="text-2xl font-black text-emerald-400 font-serif-display tracking-tight">
+                  {safeBidCeiling > 0 ? safeBidCeiling.toLocaleString() : '-'}
+                </span>
+                <span className="text-xs font-bold text-zinc-400">만원 이하</span>
+              </div>
+              <div className="text-[10px] text-zinc-400 flex items-center justify-between pt-1 border-t border-[#1e2330]">
+                <span>공제: 수수료 {purchaseFeeCalculated}만 · 수리 {repairCostTotal}만 · 잡비 15만</span>
+              </div>
+            </div>
+
+            {/* Col 3: ⚡ 실시간 회전율 & 속도 게이지 바 */}
+            <div className="md:col-span-4 bg-[#121317] border border-[#232634] rounded-xl p-3 space-y-1.5 flex flex-col justify-between">
+              <div className="flex justify-between items-center text-xs">
+                <span className="font-bold text-amber-300 flex items-center gap-1">
+                  <Zap className="w-3.5 h-3.5 text-amber-400" />
+                  <span>⚡ 시장 회전율 &amp; 출고속도</span>
+                </span>
+                <span className="text-[10px] px-1.5 py-0.5 rounded font-bold" style={{ 
+                  color: liveEncarSoldStats?.velocity_color || '#38bdf8',
+                  backgroundColor: `${liveEncarSoldStats?.velocity_color || '#38bdf8'}15`,
+                  border: `1px solid ${liveEncarSoldStats?.velocity_color || '#38bdf8'}30`
+                }}>
+                  {liveEncarSoldStats?.velocity_badge || '보통출고'}
+                </span>
+              </div>
+
+              {/* Compact Velocity Metrics */}
+              <div className="grid grid-cols-2 gap-1 text-[11px] text-[#94a3b8]">
+                <div>
+                  엔카 완판: <strong className="text-white font-mono">{liveEncarSoldStats?.count_30d || 12}대/월</strong> <small className="text-zinc-500">(일 {liveEncarSoldStats?.daily_rate || 0.4}대)</small>
+                </div>
+                <div className="text-right">
+                  자사 재고: <strong className="text-emerald-400 font-mono">{autoplusStats.matchedCount > 0 ? `${autoplusStats.avgStockDays}일 완판` : '0대 (미보유)'}</strong>
+                </div>
+              </div>
+
+              {/* Visual Slim Gauge Bar */}
+              <div className="space-y-1">
+                <div className="h-2 w-full bg-[#1c1e28] rounded-full overflow-hidden flex">
+                  {/* Gauge indicator based on daily_rate */}
+                  <div 
+                    className="h-full bg-gradient-to-r from-emerald-500 via-sky-400 to-amber-400 transition-all duration-500 rounded-full"
+                    style={{ 
+                      width: `${Math.min(100, Math.max(25, ((liveEncarSoldStats?.count_30d || 12) / 30) * 100))}%` 
+                    }}
+                  />
+                </div>
+                <div className="flex justify-between items-center text-[9px] text-[#717482]">
+                  <span>느린회전</span>
+                  <span>정상유통 (표준입찰 권장)</span>
+                  <span className="text-emerald-400 font-semibold">쾌속회전</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Sub Navigation Bar for Data Transparency (선택적 펼침) */}
+          <div className="flex flex-wrap items-center justify-between gap-2 pt-1 border-t border-[#1c1d22]">
+            <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-none text-[11px]">
               <button
-                onClick={() => setSoldTabMode('demand')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition whitespace-nowrap cursor-pointer flex items-center gap-1.5 ${
+                onClick={() => setSoldTabMode(soldTabMode === 'demand' ? 'none' : 'demand')}
+                className={`px-2.5 py-1 rounded-lg font-semibold transition cursor-pointer flex items-center gap-1 ${
                   soldTabMode === 'demand'
                     ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
                     : 'text-[#8b8e9d] hover:text-white hover:bg-[#14151b]'
                 }`}
               >
-                <Zap className="w-3.5 h-3.5" />
-                <span>⚡ 종합 시장 수요도 & 회전 분석</span>
+                <span>📊 시세 전략 브리핑 {soldTabMode === 'demand' ? '▲' : '▼'}</span>
               </button>
 
               <button
-                onClick={() => setSoldTabMode('encar')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition whitespace-nowrap cursor-pointer flex items-center gap-1.5 ${
+                onClick={() => setSoldTabMode(soldTabMode === 'encar' ? 'none' : 'encar')}
+                className={`px-2.5 py-1 rounded-lg font-semibold transition cursor-pointer flex items-center gap-1 ${
                   soldTabMode === 'encar'
                     ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
                     : 'text-[#8b8e9d] hover:text-white hover:bg-[#14151b]'
                 }`}
               >
-                <Clock className="w-3.5 h-3.5" />
-                <span>🚗 엔카 최근 판매완료(팔린매물) ({encarSoldList.length}건)</span>
+                <span>🚗 엔카 팔린매물 ({encarSoldList.length}건) {soldTabMode === 'encar' ? '▲' : '▼'}</span>
               </button>
 
               <button
-                onClick={() => setSoldTabMode('autoplus')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition whitespace-nowrap cursor-pointer flex items-center gap-1.5 ${
+                onClick={() => setSoldTabMode(soldTabMode === 'autoplus' ? 'none' : 'autoplus')}
+                className={`px-2.5 py-1 rounded-lg font-semibold transition cursor-pointer flex items-center gap-1 ${
                   soldTabMode === 'autoplus'
                     ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
                     : 'text-[#8b8e9d] hover:text-white hover:bg-[#14151b]'
                 }`}
               >
-                <FileSpreadsheet className="w-3.5 h-3.5" />
-                <span>🏢 자사 오토플러스 실적 매물 ({matchedAutoplusList.length}대)</span>
+                <span>🏢 자사 실적 DB ({matchedAutoplusList.length}대) {soldTabMode === 'autoplus' ? '▲' : '▼'}</span>
               </button>
             </div>
 
-            {/* Retail vs Auction Filter Toggle */}
-            <button
-              onClick={() => setFilterOnlyRetail(!filterOnlyRetail)}
-              className={`px-2.5 py-1 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition border cursor-pointer ${
-                filterOnlyRetail
-                  ? 'bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
-                  : 'bg-zinc-800/60 hover:bg-zinc-800 text-zinc-400 border-zinc-700'
-              }`}
-              title="경매장 매각/도매/광고 미집행 차량을 배제하고 엔카 광고 집행된 순수 소매 완판 차량만 필터링합니다"
-            >
-              <span>{filterOnlyRetail ? '🟢 순수 소매 실적만 (경매/도매 제외)' : '⚪ 전체 실적 (경매/도매 포함)'}</span>
-            </button>
+            <div className="text-[11px] text-[#8b8e9d] flex items-center gap-2">
+              <span>호가: 최저 <strong className="text-sky-400 font-mono">{encarStats.min.toLocaleString()}만</strong> ~ 최고 <strong className="text-sky-400 font-mono">{encarStats.max.toLocaleString()}만</strong> (중앙 {encarStats.median.toLocaleString()}만)</span>
+            </div>
           </div>
 
-          {/* TAB 1: 종합 시장 수요도 & 전략 브리핑 */}
+          {/* Collapsible Detail Tab 1: AI 브리핑 */}
           {soldTabMode === 'demand' && (
-            <div className="space-y-4">
-              {/* 4 Metric Cards (자사 실적 보유 시만 노출, 0건이면 깔끔한 안내 캡션 노출) */}
-              {matchedAutoplusList.length > 0 ? (
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                  <div className="bg-[#121317] border border-[#1c1d22] rounded-xl p-3">
-                    <span className="text-[10px] text-[#8b8e9d] block">자사 평균 재고일수</span>
-                    <div className="flex items-baseline gap-1 mt-1">
-                      <span className="text-xl font-black text-white font-serif-display">{autoplusStats.avgStockDays}일</span>
-                      <span className="text-[10px] text-emerald-400 font-semibold">(자사 완판)</span>
-                    </div>
-                  </div>
-
-                  <div className="bg-[#121317] border border-[#1c1d22] rounded-xl p-3">
-                    <span className="text-[10px] text-[#8b8e9d] block">과거 평균 판매가</span>
-                    <div className="text-xl font-black text-white font-serif-display mt-1">
-                      {autoplusStats.avgPastSellPrice.toLocaleString()} 만원
-                    </div>
-                  </div>
-
-                  <div className="bg-[#121317] border border-[#1c1d22] rounded-xl p-3">
-                    <span className="text-[10px] text-[#8b8e9d] block">완판 평균 주행거리</span>
-                    <div className="text-xl font-black text-white font-serif-display mt-1">
-                      {autoplusStats.avgPastMileage.toLocaleString()} km
-                    </div>
-                  </div>
-
-                  <div className="bg-[#121317] border border-[#1c1d22] rounded-xl p-3">
-                    <span className="text-[10px] text-[#8b8e9d] block">과거 평균 실현마진</span>
-                    <div className="flex items-baseline gap-1 mt-1">
-                      <span className="text-xl font-black text-amber-400 font-serif-display">+{autoplusStats.avgMargin.toLocaleString()}만원</span>
-                      <span className="text-[10px] text-[#8b8e9d]">({autoplusStats.marginPct}%)</span>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <div className="p-3 bg-[#121317] border border-[#1c1d22] rounded-xl text-xs text-[#8b8e9d] leading-relaxed">
-                  💡 순수 내수 소매 완판 데이터 <strong className="text-zinc-300">6,170건</strong> 중 <strong className="text-white">[{carName} {detailModel}]</strong> 자사(오토플러스) 완판 실적은 현재 미보유(0건) 상태입니다. (엔카 실시간 완판 시장속도 및 시세 기반 분석 제공)
-                </div>
-              )}
-
-              {/* 💡 [8501 Streamlit 일치] AI 비딩 전략 브리핑 박스 */}
-              <div className="bg-[#121317] border border-[#2e3038] rounded-xl p-4 space-y-3">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                  <div className="flex items-center gap-2.5">
-                    <span className="text-sm font-bold text-[#cc9166]">💡 AI 비딩 전략 브리핑</span>
-                    <span className="text-xs px-2.5 py-0.5 rounded-full font-bold border border-emerald-500/30 text-emerald-400 bg-emerald-500/10">
-                      {marketDemandStats.demandBadge}
-                    </span>
-                  </div>
-
-                  <div className="flex items-center gap-2 flex-wrap text-xs">
-                    <span className="px-2.5 py-1 rounded-full bg-white/5 border border-[#2e3038] text-[#9194a1]">
-                      자사 재고: <strong className="text-emerald-400">0대</strong> (미보유)
-                    </span>
-                    <span className="px-2.5 py-1 rounded-full bg-white/5 border border-[#3b4252] text-[#94a3b8]">
-                      엔카 완판({yearModel}년식): <strong className="text-blue-400">{liveEncarSoldStats?.velocity_badge || '보통출고'}</strong> <small className="text-zinc-400">(최근30일 {liveEncarSoldStats?.count_30d || 12}대)</small>
-                    </span>
-                  </div>
-                </div>
-
-                <div className="p-3 bg-white/[0.03] border-l-4 border-emerald-400 rounded-lg text-xs text-[#e2e3e9] leading-relaxed space-y-1">
-                  <div>
-                    엔카 시장(월 {liveEncarSoldStats?.count_30d || 12}대 출고)에서 꾸준히 소화되는 정상 유통 차종입니다. <span className="text-emerald-400">(✨ 현재 자사 미보유 모델로 빠른 전시/판매 유리)</span>
-                  </div>
-                  <div className="text-emerald-400 font-bold">
-                    👉 표준 입찰 추천 (기본 기대마진 150~180만 원 확보)
-                  </div>
-                </div>
-
-                {/* ⚡ 엔카 실시간 소화 속도 문구 */}
-                <div className="pt-2 border-t border-dashed border-[#2e3038] text-xs text-[#cbd5e1] leading-relaxed">
-                  ⚡ <strong className="text-white">엔카 실시간 소화 속도 ({yearModel}년식 기준):</strong> 최근 30일간 <strong className="text-white">{liveEncarSoldStats?.count_30d || 12}대</strong> 완판 (일평균 <strong className="text-white">{liveEncarSoldStats?.daily_rate || 0.4}대</strong> 출고 / 완판 평균 주행거리 <strong className="text-white">{(liveEncarSoldStats?.avg_mileage || 141943).toLocaleString()}km</strong> / 최근 완판: <strong className="text-white">{liveEncarSoldStats?.latest_sold_date || '2026/10/01'}</strong>)
-                </div>
+            <div className="p-3 bg-[#121317] border border-[#2e3038] rounded-xl space-y-2 text-xs text-[#e2e3e9]">
+              <div className="flex justify-between items-center">
+                <span className="font-bold text-amber-400">💡 AI 비딩 전략 브리핑 상세</span>
+                <span className="text-[10px] text-zinc-400">최근 실거래 &amp; 6,170건 내수 빅데이터 기반</span>
               </div>
+              <p className="text-[11px] text-[#cbd5e1] leading-relaxed">
+                엔카 시장(월 {liveEncarSoldStats?.count_30d || 12}대 출고)에서 안정적으로 소화되는 차종입니다. 
+                예상 소매가 <strong className="text-sky-300 font-mono">{expectedSellPrice.toLocaleString()}만 원</strong> 기준, 기대마진 {targetMargin}만 원과 
+                제반비용(외판수리 {repairCostTotal}만 · 수수료 {purchaseFeeCalculated}만 · 제경비 15만)을 반영한 <strong className="text-emerald-400 underline">[안전 입찰 상한선: {safeBidCeiling.toLocaleString()}만 원]</strong> 이하 입찰을 권장합니다.
+              </p>
             </div>
           )}
 
-          {/* TAB 2: 자사 오토플러스 실적 매물 상세 테이블 */}
-          {soldTabMode === 'autoplus' && (
-            <div className="space-y-2">
-              <div className="flex flex-wrap items-center justify-between gap-1 text-xs text-[#8b8e9d]">
-                <div className="flex items-center gap-2">
-                  <span>
-                    선별 실적: <strong className="text-emerald-400">{matchedAutoplusList.length}대</strong>
-                    {filterOnlyRetail && <span className="text-[10px] text-emerald-400/80 ml-1.5">(엔카 광고 정상집행 순수 소매만 필터링됨)</span>}
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => setShowTrimColumn(!showTrimColumn)}
-                    className="text-[10px] px-2 py-0.5 rounded bg-[#1c1d22] hover:bg-[#262833] text-zinc-300 border border-[#2e313d] transition cursor-pointer"
-                  >
-                    <span>세부등급 {showTrimColumn ? '숨김' : '표시'}</span>
-                  </button>
-                </div>
-                <span className="text-[11px] text-[#717482]">실제 매입가/소매가/실현마진/재고일수 전수 기록</span>
-              </div>
-
-              {matchedAutoplusList.length > 0 ? (
-                <div className="overflow-x-auto max-h-72 overflow-y-auto border border-[#1c1d22] rounded-xl">
-                  <table className="w-full text-left text-xs text-[#c7c9d1]">
-                    <thead className="bg-[#121317] text-[11px] text-[#8b8e9d] sticky top-0 uppercase border-b border-[#1c1d22]">
-                      <tr>
-                        <th className="p-2.5">판매완료일</th>
-                        <th className="p-2.5">차량번호</th>
-                        <th className="p-2.5">차량명</th>
-                        {showTrimColumn && <th className="p-2.5">세부등급</th>}
-                        <th className="p-2.5 text-center">채널/엔카</th>
-                        <th className="p-2.5 text-center">연식</th>
-                        <th className="p-2.5 text-right">주행거리</th>
-                        <th className="p-2.5 text-right">매입가</th>
-                        <th className="p-2.5 text-right">판매가</th>
-                        <th className="p-2.5 text-right">실현마진</th>
-                        <th className="p-2.5 text-center">판매기일</th>
-                        <th className="p-2.5">지점/담당</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-[#1c1d22] bg-[#0a0b0e]">
-                      {matchedAutoplusList.map((item: any, idx: number) => {
-                        const buyP = Number(item.buyPrice) || 0;
-                        const sellP = Number(item.sellPrice) || 0;
-                        const profit = Number(item.realizedProfit) || (sellP - buyP);
-                        const days = Number(item.stockDays) || 0;
-                        const regYr = item.regDate ? item.regDate.substring(2, 4) : '20';
-                        const url = String(item.encarUrl || '').trim();
-                        const isRetailCar = url.includes('encar.com') && !url.toLowerCase().includes('javascript');
-
-                        return (
-                          <tr key={item.id || idx} className="hover:bg-[#14151c] transition">
-                            <td className="p-2.5 text-[11px] text-[#8b8e9d]">{item.regDate || '2024-00-00'}</td>
-                            <td className="p-2.5 font-mono text-white font-semibold">{item.plate}</td>
-                            <td className="p-2.5 font-medium text-white">{item.carName}</td>
-                            {showTrimColumn && (
-                              <td className="p-2.5 text-[11px] text-[#8b8e9d] whitespace-nowrap">{item.subModel || '-'}</td>
-                            )}
-                            <td className="p-2.5 text-center">
-                              {isRetailCar ? (
-                                <a
-                                  href={url}
-                                  target="_blank"
-                                  rel="noreferrer"
-                                  className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-blue-500/10 hover:bg-blue-500/20 text-blue-300 text-[10px] font-semibold border border-blue-500/20 transition"
-                                  title="엔카 광고 원본 열기"
-                                >
-                                  <span>소매</span>
-                                  <ExternalLink className="w-2.5 h-2.5" />
-                                </a>
-                              ) : (
-                                <span className="px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-400 text-[10px] font-medium">
-                                  경매/도매
-                                </span>
-                              )}
-                            </td>
-                            <td className="p-2.5 text-center text-blue-400 font-mono">{regYr}년식</td>
-                            <td className="p-2.5 text-right text-white font-mono">{(Number(item.mileage) || 0).toLocaleString()} km</td>
-                            <td className="p-2.5 text-right text-zinc-400 font-mono">{buyP ? `${buyP.toLocaleString()}만` : '-'}</td>
-                            <td className="p-2.5 text-right text-emerald-400 font-bold font-mono">{sellP ? `${sellP.toLocaleString()}만` : '-'}</td>
-                            <td className="p-2.5 text-right text-amber-400 font-bold font-mono">
-                              {profit > 0 ? `+${profit.toLocaleString()}만` : (profit ? `${profit.toLocaleString()}만` : '-')}
-                            </td>
-                            <td className="p-2.5 text-center">
-                              <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold ${
-                                days <= 15 ? 'bg-emerald-500/20 text-emerald-400' : (days <= 30 ? 'bg-blue-500/20 text-blue-300' : 'bg-amber-500/20 text-amber-300')
-                              }`}>
-                                {days}일
-                              </span>
-                            </td>
-                            <td className="p-2.5 text-[11px] text-[#8b8e9d]">{item.branch || '지점'} {item.manager ? `(${item.manager})` : ''}</td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </div>
-              ) : (
-                <div className="p-6 text-center bg-[#0a0b0e] rounded-xl border border-[#1c1d22] text-[#8b8e9d]">
-                  <p className="text-xs mb-1.5 font-medium text-amber-300">
-                    💡 순수 내수 소매 완판 데이터 6,170건 중 [{carName} {detailModel}] 자사(오토플러스) 완판 실적은 현재 미보유(0건) 상태입니다.
-                  </p>
-                  <p className="text-[11px] text-[#5e616e]">
-                    엔카 시장 빅데이터 및 실시간 시세 회귀 모델을 기준으로 시세 밸류에이션을 연동합니다. (상단 [📂 엑셀 업로드]로 추가 가능)
-                  </p>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* TAB 3: 엔카 최근 팔린매물 상세 테이블 */}
+          {/* Collapsible Detail Tab 2: 엔카 최근 팔린매물 */}
           {soldTabMode === 'encar' && (
-            <div className="space-y-3">
-              {liveEncarSoldStats && liveEncarSoldStats.has_data && (
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 p-3 bg-[#131d2e] border border-[#233249] rounded-xl text-xs">
-                  <div>
-                    <span className="text-[10px] text-[#94a3b8] block font-medium">⚡ 엔카 실시간 소진속도</span>
-                    <span className="font-extrabold text-sm" style={{ color: liveEncarSoldStats.velocity_color || '#38bdf8' }}>
-                      {liveEncarSoldStats.velocity_badge || '보통 출고'}
-                    </span>
-                  </div>
-                  <div>
-                    <span className="text-[10px] text-[#94a3b8] block font-medium">최근 30일 완판 소화량</span>
-                    <span className="font-bold text-white text-sm">
-                      월 {liveEncarSoldStats.count_30d}대 <span className="text-[11px] text-zinc-400 font-normal">(일 {liveEncarSoldStats.daily_rate}대)</span>
-                    </span>
-                  </div>
-                  <div>
-                    <span className="text-[10px] text-[#94a3b8] block font-medium">실측 완판 평균가</span>
-                    <span className="font-bold text-emerald-400 text-sm">
-                      {liveEncarSoldStats.sold_avg_price > 0 ? `${liveEncarSoldStats.sold_avg_price.toLocaleString()}만원` : '-'}
-                    </span>
-                  </div>
-                  <div>
-                    <span className="text-[10px] text-[#94a3b8] block font-medium">평균 완판 소요일수</span>
-                    <span className="font-bold text-amber-400 text-sm">
-                      {liveEncarSoldStats.sold_avg_days > 0 ? `${liveEncarSoldStats.sold_avg_days}일` : '-'}
-                    </span>
-                  </div>
-                </div>
-              )}
-
-              <div className="flex flex-wrap items-center justify-between gap-1 text-xs text-[#8b8e9d]">
-                <div className="flex items-center gap-1.5">
-                  <span>엔카(Encar) 시장 최근 판매완료(광고종료) 기록 (<strong className="text-blue-400">{encarSoldList.length}건</strong>)</span>
-                  {isEncarSoldLoading && <span className="text-[10px] text-blue-400 animate-pulse">실시간 조회 중...</span>}
-                </div>
-                <span className="text-[10px] text-amber-400/90 font-medium">※ 100% 실측 스냅샷 & 엔카 실거래 데이터 기반</span>
+            <div className="space-y-2 pt-1 border-t border-[#1c1d22]">
+              <div className="flex justify-between items-center text-xs text-[#8b8e9d]">
+                <span>엔카 최근 판매완료(광고종료) 기록 (<strong className="text-blue-400">{encarSoldList.length}건</strong>)</span>
+                <span className="text-[10px] text-amber-400/90 font-medium">※ 실측 스냅샷 기반</span>
               </div>
-
-              <div className="overflow-x-auto max-h-72 overflow-y-auto border border-[#1c1d22] rounded-xl">
+              <div className="overflow-x-auto max-h-56 overflow-y-auto border border-[#1c1d22] rounded-xl">
                 <table className="w-full text-left text-xs text-[#c7c9d1]">
                   <thead className="bg-[#121317] text-[11px] text-[#8b8e9d] sticky top-0 uppercase border-b border-[#1c1d22]">
                     <tr>
-                      <th className="p-2.5">광고종료(판매)일</th>
-                      <th className="p-2.5">차량명</th>
-                      {showTrimColumn && <th className="p-2.5">세부등급</th>}
-                      <th className="p-2.5">연식</th>
-                      <th className="p-2.5 text-right">주행거리</th>
-                      <th className="p-2.5 text-right">최종 광고게시가</th>
-                      <th className="p-2.5 text-center">판매기일</th>
-                      <th className="p-2.5">상태/사고</th>
-                      <th className="p-2.5 text-center">엔카 원본</th>
+                      <th className="p-2">판매완료일</th>
+                      <th className="p-2">차량명</th>
+                      {showTrimColumn && <th className="p-2">세부등급</th>}
+                      <th className="p-2">연식</th>
+                      <th className="p-2 text-right">주행거리</th>
+                      <th className="p-2 text-right">최종가격</th>
+                      <th className="p-2 text-center">판매기일</th>
+                      <th className="p-2">사고상태</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-[#1c1d22] bg-[#0a0b0e]">
                     {encarSoldList.map((s) => (
                       <tr key={s.id} className="hover:bg-[#14151c] transition">
-                        <td className="p-2.5 text-[11px] text-[#8b8e9d]">{s.soldDate}</td>
-                        <td className="p-2.5 text-white font-medium text-[11px]">{s.carName}</td>
-                        {showTrimColumn && <td className="p-2.5 text-[11px] text-[#8b8e9d] whitespace-nowrap">{s.subModel || '-'}</td>}
-                        <td className="p-2.5 text-[11px] text-blue-400">{s.year}</td>
-                        <td className="p-2.5 text-right text-[11px] text-white font-mono">{s.mileage > 0 ? `${s.mileage.toLocaleString()} km` : '-'}</td>
-                        <td className="p-2.5 text-right font-extrabold text-emerald-400 font-serif-display">
-                          {s.finalPrice > 0 ? `${s.finalPrice.toLocaleString()}만` : '-'}
+                        <td className="p-2 text-[11px] text-[#8b8e9d]">{s.soldDate}</td>
+                        <td className="p-2 text-white font-medium text-[11px]">{s.carName}</td>
+                        {showTrimColumn && <td className="p-2 text-[11px] text-[#8b8e9d]">{s.subModel || '-'}</td>}
+                        <td className="p-2 text-[11px] text-blue-400">{s.year}</td>
+                        <td className="p-2 text-right text-[11px] text-white font-mono">{s.mileage > 0 ? `${s.mileage.toLocaleString()} km` : '-'}</td>
+                        <td className="p-2 text-right font-bold text-emerald-400 font-mono">{s.finalPrice > 0 ? `${s.finalPrice.toLocaleString()}만` : '-'}</td>
+                        <td className="p-2 text-center text-[11px]">
+                          {s.daysTaken > 0 ? `${s.daysTaken}일` : '-'}
                         </td>
-                        <td className="p-2.5 text-center text-[11px]">
-                          {s.daysTaken > 0 ? (
-                            <span className={`px-2 py-0.5 rounded font-semibold ${
-                              s.daysTaken <= 20 ? 'bg-blue-500/15 text-blue-300' :
-                              s.daysTaken <= 40 ? 'bg-emerald-500/15 text-emerald-300' :
-                              s.daysTaken <= 60 ? 'bg-amber-500/15 text-amber-300' : 'bg-rose-500/15 text-rose-300'
-                            }`}>
-                              {s.daysTaken <= 20 ? `⚡ ${s.daysTaken}일 (빠른회전)` :
-                               s.daysTaken <= 40 ? `🟢 ${s.daysTaken}일 (정상재고)` :
-                               s.daysTaken <= 60 ? `🟡 ${s.daysTaken}일 (장기재고)` : `🔴 ${s.daysTaken}일 (악성재고)`}
-                            </span>
-                          ) : (
-                            <span className="text-[#717482]">-</span>
-                          )}
-                        </td>
-                        <td className="p-2.5 text-[11px] text-zinc-300">{s.accident || '-'}</td>
-                        <td className="p-2.5 text-center">
-                          <div className="flex items-center justify-center gap-1">
-                            <button
-                              type="button"
-                              onClick={() => handleOpenCarDetailModal(s, 'encar')}
-                              className="px-2 py-0.5 rounded bg-blue-950/40 hover:bg-blue-900/60 text-blue-300 text-[10px] font-semibold border border-blue-800/40 transition cursor-pointer"
-                              title="저장된 옵션·사고 스냅샷 상세 보기"
-                            >
-                              스냅샷
-                            </button>
-                            {s.encarUrl ? (
-                              <a
-                                href={s.encarUrl}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-[10px] border border-zinc-700 transition"
-                                title="엔카 모바일 상세페이지 (종료 매물)"
-                              >
-                                <ExternalLink className="w-2.5 h-2.5" />
-                              </a>
-                            ) : null}
-                          </div>
-                        </td>
+                        <td className="p-2 text-[11px] text-zinc-300">{s.accident || '-'}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
+            </div>
+          )}
 
-              {/* 투명하고 정직한 데이터 근거 안내문 */}
-              <div className="p-3 bg-[#0a0b0e] rounded-lg border border-[#1c1d22] text-[11px] text-[#8b8e9d] leading-relaxed flex items-start gap-2">
-                <Info className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
-                <div>
-                  <strong className="text-zinc-300 block mb-0.5">📌 엔카 팔린매물 데이터 기준 안내 (자금 사고 방지)</strong>
-                  엔카 시스템은 딜러와 개인 구매자 간의 비공개 현장 네고(최종 현금 영수 금액)를 외부에 공개하지 않습니다. 따라서 본 지표에 표기된 금액은 <strong>'광고 종료 직전 최종 등록 가격'</strong>이며, 판매기간은 <strong>'엔카 최초 등록일부터 광고 종료일까지의 실제 광고 게시 일수'</strong>를 집계한 시장 참고 지표입니다.
-                </div>
+          {/* Collapsible Detail Tab 3: 자사 실적 테이블 */}
+          {soldTabMode === 'autoplus' && (
+            <div className="space-y-2 pt-1 border-t border-[#1c1d22]">
+              <div className="flex justify-between items-center text-xs text-[#8b8e9d]">
+                <span>자사 실적 DB 매물 (<strong className="text-emerald-400">{matchedAutoplusList.length}대</strong>)</span>
+                <span className="text-[11px] text-[#717482]">매입가/소매가/실현마진 전수</span>
               </div>
+              {matchedAutoplusList.length > 0 ? (
+                <div className="overflow-x-auto max-h-56 overflow-y-auto border border-[#1c1d22] rounded-xl">
+                  <table className="w-full text-left text-xs text-[#c7c9d1]">
+                    <thead className="bg-[#121317] text-[11px] text-[#8b8e9d] sticky top-0 uppercase border-b border-[#1c1d22]">
+                      <tr>
+                        <th className="p-2">판매일</th>
+                        <th className="p-2">차량번호</th>
+                        <th className="p-2">차량명</th>
+                        <th className="p-2 text-right">매입가</th>
+                        <th className="p-2 text-right">판매가</th>
+                        <th className="p-2 text-right">마진</th>
+                        <th className="p-2 text-center">판매기일</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-[#1c1d22] bg-[#0a0b0e]">
+                      {matchedAutoplusList.map((item: any, idx: number) => (
+                        <tr key={item.id || idx} className="hover:bg-[#14151c]">
+                          <td className="p-2 text-[11px] text-[#8b8e9d]">{item.regDate || '-'}</td>
+                          <td className="p-2 font-mono text-white">{item.plate}</td>
+                          <td className="p-2 text-white">{item.carName}</td>
+                          <td className="p-2 text-right text-zinc-400 font-mono">{Number(item.buyPrice)?.toLocaleString() || '-'}만</td>
+                          <td className="p-2 text-right text-emerald-400 font-bold font-mono">{Number(item.sellPrice)?.toLocaleString() || '-'}만</td>
+                          <td className="p-2 text-right text-amber-400 font-bold font-mono">+{Number(item.realizedProfit)?.toLocaleString() || '-'}만</td>
+                          <td className="p-2 text-center">{item.stockDays || 0}일</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <div className="p-3 text-center bg-[#0a0b0e] rounded-xl border border-[#1c1d22] text-xs text-amber-300">
+                  자사(오토플러스) 완판 실적은 현재 미보유(0건) 상태입니다.
+                </div>
+              )}
             </div>
           )}
 
         </div>
 
         {/* ========================================================
-            [2단계] 동급매물 (엔카 실시간 소매 시세 요약 & 엔카 시세 리스트 + 2D 상태도)
+            [2단계] 동급매물 (엔카 실시간 시세 리스트 & 2D 상태도)
             ======================================================== */}
-        <div className="bg-[#0e0f13] border border-[#1c1d22] rounded-xl p-4 sm:p-5 shadow-lg space-y-5">
+        <div className="bg-[#0e0f13] border border-[#1c1d22] rounded-xl p-4 sm:p-5 shadow-lg space-y-4">
           
-          {/* Header */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-[#1c1d22]">
-            <div className="flex items-center gap-2">
-              <span className="text-base font-bold text-white font-serif-display flex items-center gap-1.5">
-                🚗 엔카 실시간 동급 소매 시세 (총 {encarTotalModelCount}대 중 유효 동급 {encarFilteredCount || encarList.length}대 전수 연동)
-              </span>
-              {isEncarLoading && (
-                <span className="text-[10px] px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 animate-pulse">
-                  엔카 실시간 스캔 중...
-                </span>
-              )}
-            </div>
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => fetchEncarComparable({ url: encarSourceUrl, carName, detailModel, manufacturer, year: yearModel, mileage: mileageKm })}
-                disabled={isEncarLoading}
-                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-blue-600/20 hover:bg-blue-600/30 border border-blue-500/30 text-blue-300 hover:text-white text-xs font-semibold transition cursor-pointer"
-              >
-                <span>🔄 실시간 재스캔</span>
-              </button>
-              <a
-                href={encarSourceUrl || "http://www.encar.com"}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#14151b] hover:bg-[#1c1d24] border border-[#22242c] text-rose-400 hover:text-white text-xs font-semibold transition"
-              >
-                <span>엔카 원본검색</span>
-                <ExternalLink className="w-3 h-3" />
-              </a>
-            </div>
-          </div>
-
-          {/* 4 Summary Metric Cards */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <div className="bg-[#121317] border border-[#1c1d22] rounded-xl p-3">
-              <div className="flex justify-between items-center">
-                <span className="text-[10px] text-[#8b8e9d] block">유효 동급 매물</span>
-                <span className="text-[9px] text-[#5e616e]">전체 {encarTotalModelCount}대</span>
-              </div>
-              <div className="text-xl font-black text-white font-serif-display mt-1">
-                {encarFilteredCount || encarList.length} 대
-              </div>
-            </div>
-
-            <div className="bg-[#121317] border border-[#1c1d22] rounded-xl p-3">
-              <span className="text-[10px] text-[#8b8e9d] block">최저가</span>
-              <div className="text-xl font-black text-blue-400 font-serif-display mt-1 flex items-center gap-1">
-                {encarStats.min.toLocaleString()} 만원 <span>⬇</span>
-              </div>
-            </div>
-
-            <div className="bg-[#121317] border border-[#1c1d22] rounded-xl p-3">
-              <span className="text-[10px] text-[#8b8e9d] block">최고가</span>
-              <div className="text-xl font-black text-blue-400 font-serif-display mt-1 flex items-center gap-1">
-                {encarStats.max.toLocaleString()} 만원 <span>⬆</span>
-              </div>
-            </div>
-
-            <div className="bg-[#121317] border border-[#1c1d22] rounded-xl p-3">
-              <div className="flex justify-between items-center">
-                <span className="text-[10px] text-[#8b8e9d] block">평균가 / 중앙값</span>
-                <span className="text-[9px] text-[#5e616e]">중앙 {encarStats.median.toLocaleString()}만</span>
-              </div>
-              <div className="text-xl font-black text-white font-serif-display mt-1">
-                {encarStats.avg.toLocaleString()} 만원
-              </div>
-            </div>
-          </div>
-
-          {/* AI Big Data Valuation Box */}
-          <div className="bg-[#121317] border border-[#1c1d22] rounded-xl p-4 space-y-3">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-              <span className="text-xs font-bold text-white flex items-center gap-1.5">
-                📋 실시간 소매 시세 & 빅데이터 밸류에이션
-              </span>
-              <div className="flex items-center gap-2">
-                <span className="text-xs text-[#8b8e9d]">정밀 소매가:</span>
-                <span className="text-sm font-extrabold text-blue-400 font-serif-display">
-                  {expectedSellPrice.toLocaleString()} 만원
-                </span>
-                <span className="text-xs text-[#717482]">({Math.round(expectedSellPrice * 0.94).toLocaleString()}~{Math.round(expectedSellPrice * 1.06).toLocaleString()}만)</span>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2 text-xs">
-              
-              {/* Left Val Col */}
-              <div className="p-3 bg-[#0e0f13] rounded-lg border border-[#1c1d22] space-y-1">
-                <div className="flex justify-between items-center">
-                  <span className="font-bold text-white flex items-center gap-1">
-                    📊 AI 빅데이터 적정 시세
-                  </span>
-                  <span className="text-[10px] px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-300 font-semibold">
-                    가치지수 108.0점
-                  </span>
-                </div>
-                <p className="text-[11px] text-[#8b8e9d]">
-                  • 적정 밴드: <strong className="text-white">{Math.round(expectedSellPrice * 0.94).toLocaleString()} ~ {Math.round(expectedSellPrice * 1.06).toLocaleString()}만 원</strong> (기준: {expectedSellPrice.toLocaleString()}만)
-                </p>
-                <p className="text-[11px] text-[#8b8e9d]">
-                  • 평가 스펙: 주행 {mileageKm.toLocaleString()}km / {outerRepairCount === 0 ? "완전무사고" : outerRepairCount + "판 판금 감가"} / 옵션: {optionsTag}
-                </p>
-              </div>
-
-              {/* Right Spread Col */}
-              <div className="p-3 bg-[#0e0f13] rounded-lg border border-[#1c1d22] space-y-1">
-                <div className="flex justify-between items-center">
-                  <span className="font-bold text-white flex items-center gap-1">
-                    🏷️ 시장 판매 호가 현황 ({encarFilteredCount || encarStats.count}대)
-                  </span>
-                  <span className="text-[10px] px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-300 font-semibold">
-                    유효 동급 표본
-                  </span>
-                </div>
-                <p className="text-[11px] text-[#8b8e9d]">
-                  • 시장 호가: 최저 {encarStats.min.toLocaleString()}만 ~ 최고 {encarStats.max.toLocaleString()}만 (평균 {encarStats.avg.toLocaleString()}만)
-                </p>
-                <p className="text-[11px] text-[#8b8e9d]">
-                  • 전체 등록 {encarTotalModelCount}대 중 연식(±1년)/주행거리(±5만km) 적격 동급 {encarFilteredCount || encarStats.count}대
-                </p>
-              </div>
-
-            </div>
-
-            <div className="p-2.5 bg-amber-500/10 rounded-lg border border-amber-500/20 text-xs text-amber-200">
-              💡 <strong>AI 입찰 가이드:</strong> 예상 소매가 {expectedSellPrice.toLocaleString()}만원(적정상한 {Math.round(expectedSellPrice * 1.06).toLocaleString()}만) 기준, 기대 마진({targetMargin}만) 확보를 위해 <strong className="text-white underline">[안전 입찰 상한선: {safeBidCeiling.toLocaleString()}만 원 이하]</strong> 매입을 권장합니다. (외판수리 {repairCostTotal}만 · 수수료 {purchaseFeeCalculated}만 · 제경비 {directExpense}만 감안)
-            </div>
-          </div>
-
           {/* Encar List + 2D Detail Layout */}
           <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 items-start">
             
@@ -2663,53 +2426,57 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
                               className="accent-blue-500 cursor-pointer"
                             />
                           </td>
-                          <td className="p-2 text-[11px] text-[#8b8e9d] whitespace-nowrap">{car.checkDate}</td>
-                          <td className="p-2 text-white font-semibold text-[11px] text-center whitespace-nowrap">{car.holdingDays}일</td>
-                          <td className="p-2 text-[11px] whitespace-nowrap">
+                          <td className="p-2.5 text-[11px] text-[#8b8e9d] font-mono whitespace-nowrap">{car.checkDate}</td>
+                          <td className="p-2.5 text-center whitespace-nowrap">
+                            <span className="px-1.5 py-0.5 rounded bg-[#1c1d24] text-amber-300 font-bold text-[11px] font-mono">
+                              {car.holdingDays}일
+                            </span>
+                          </td>
+                          <td className="p-2.5 text-xs whitespace-nowrap">
                             <a
                               href={`https://fem.encar.com/cars/detail/${String(car.id).replace(/\D/g, '')}`}
                               target="_blank"
                               rel="noopener noreferrer"
                               onClick={(e) => e.stopPropagation()}
-                              className="text-[#38bdf8] hover:text-[#7dd3fc] hover:underline font-bold text-[12px] whitespace-nowrap transition-colors"
+                              className="text-[#38bdf8] hover:text-[#7dd3fc] hover:underline font-extrabold text-xs whitespace-nowrap transition-colors"
                               title={`엔카 공식 상세페이지 새창 열기 (매물코드: ${car.id})`}
                             >
                               {car.modelName || car.carName}
                             </a>
                           </td>
                           {showTrimColumn && (
-                            <td className="p-2 text-[11px] text-[#c7c9d1] font-medium whitespace-nowrap">
+                            <td className="p-2.5 text-xs text-[#c7c9d1] font-medium whitespace-nowrap">
                               {car.subModel || '-'}
                             </td>
                           )}
-                          <td className="p-2 text-[11px] whitespace-nowrap">
-                            <span className={isTargetYear ? 'text-[#38bdf8] font-black' : 'text-[#e2e4ec]'}>
+                          <td className="p-2.5 text-xs whitespace-nowrap font-mono">
+                            <span className={isTargetYear ? 'text-sky-400 font-extrabold' : 'text-[#e2e4ec]'}>
                               {car.year}
                             </span>
                           </td>
-                          <td className="p-2 text-right text-[11px] text-white font-medium whitespace-nowrap">
+                          <td className="p-2.5 text-right text-xs text-white font-bold font-mono whitespace-nowrap">
                             {car.mileage.toLocaleString()}
                           </td>
-                          <td className="p-2 text-right font-extrabold text-[#f59e0b] font-serif-display text-[11px] whitespace-nowrap">
-                            💰 {car.price.toLocaleString()}만
+                          <td className="p-2.5 text-right font-black text-amber-400 font-mono text-xs whitespace-nowrap">
+                            {car.price.toLocaleString()}만
                           </td>
-                          <td className="p-2 text-[11px] whitespace-nowrap">
+                          <td className="p-2.5 text-xs whitespace-nowrap">
                             {car.accidentType.includes('완전무사고') ? (
-                              <span className="text-emerald-400 font-medium">🟢 완전무사고</span>
+                              <span className="text-emerald-400 font-semibold">🟢 완전무사고</span>
                             ) : car.accidentType.includes('사고') ? (
-                              <span className="text-rose-400 font-medium">🔴 {car.accidentType}</span>
+                              <span className="text-rose-400 font-semibold">🔴 {car.accidentType}</span>
                             ) : (
-                              <span className="text-amber-400 font-medium">🟡 {car.accidentType}</span>
+                              <span className="text-amber-400 font-semibold">🟡 {car.accidentType}</span>
                             )}
                           </td>
-                          <td className="p-2 text-[11px] text-white font-medium whitespace-nowrap">{car.color || '흰색'}</td>
-                          <td className="p-2 text-[11px] whitespace-nowrap">
+                          <td className="p-2.5 text-xs text-zinc-300 whitespace-nowrap">{car.color || '흰색'}</td>
+                          <td className="p-2.5 text-xs whitespace-nowrap">
                             {hasAddedOptions ? (
                               <span className="px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-300 font-bold border border-amber-500/30 text-[10px]">
-                                {car.optionsText.includes('개') ? car.optionsText.replace(/[^\d]/g, '') + '개 옵션' : '1개 옵션'}
+                                {car.optionsText.includes('개') ? car.optionsText.replace(/[^\d]/g, '') + '개' : '옵션유'}
                               </span>
                             ) : (
-                              <span className="text-[#717482]">없음</span>
+                              <span className="text-[#717482] text-[11px]">기본</span>
                             )}
                           </td>
                         </tr>
