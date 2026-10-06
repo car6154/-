@@ -216,8 +216,14 @@ class Scraper:
             return score
 
         df_copy['data_score'] = df_copy.apply(calculate_score, axis=1)
+        # 1. 고유 차량 ID (_carid) 기준 최우선 중복 제거
+        if '_carid' in df_copy.columns:
+            df_copy = df_copy.sort_values('data_score', ascending=False).drop_duplicates(
+                subset=['_carid'], keep='first'
+            )
+        # 2. 동일 실물 매물 (연식, 주행거리, 판매가) 기준 2차 중복 제거 (딜러 중복등록 및 재광고 방지)
         deduped = df_copy.sort_values('data_score', ascending=False).drop_duplicates(
-            subset=['차량명', '세부모델', '연식', '주행거리', '판매가'], keep='first'
+            subset=['차량명', '연식', '주행거리', '판매가'], keep='first'
         )
         deduped = deduped.drop(columns=['data_score']).reset_index(drop=True)
         return deduped

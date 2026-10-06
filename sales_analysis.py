@@ -529,6 +529,18 @@ class SalesDataAnalyzer:
                 else:
                     is_kona_os = True
 
+        # 9. 팰리세이드 (전기형 LX2 vs 페이스리프트 더뉴팰리세이드)
+        is_palisade = '팰리세이드' in full_query_text
+        is_palisade_new = False
+        is_palisade_old = False
+        if is_palisade:
+            if any(k in full_query_text for k in ['더뉴', '더뉴팰리세이드', '페이스리프트', 'fl']):
+                is_palisade_new = True
+            elif target_year and target_year >= 2023:
+                is_palisade_new = True
+            elif target_year and target_year <= 2021:
+                is_palisade_old = True
+
         # 2. 동의어/별칭 후보군 확장
         candidates = [c_clean]
         if is_k5_gen2:
@@ -567,6 +579,10 @@ class SalesDataAnalyzer:
             candidates.extend(["디올뉴코나", "더올뉴코나", "코나sx2", "코나2세대"])
         elif is_kona_os:
             candidates.extend(["더뉴코나", "코나"])
+        elif is_palisade_new:
+            candidates.extend(["더뉴팰리세이드", "더뉴팰리세이드lx2"])
+        elif is_palisade_old:
+            candidates.extend(["팰리세이드", "팰리세이드lx2"])
         elif is_sorento_r:
             candidates.extend(["쏘렌토r"])
         elif is_sorento_new_r:
@@ -693,6 +709,13 @@ class SalesDataAnalyzer:
             filtered_kn_os = sub_df[~sub_df['차량명_clean'].str.contains('디올뉴|더올뉴|sx2', na=False)]
             if not filtered_kn_os.empty: sub_df = filtered_kn_os
 
+        if is_palisade_new and not sub_df.empty:
+            filtered_pali_new = sub_df[sub_df['차량명_clean'].str.contains('더뉴팰리세이드|더뉴', na=False)]
+            if not filtered_pali_new.empty: sub_df = filtered_pali_new
+        elif is_palisade_old and not sub_df.empty:
+            filtered_pali_old = sub_df[~sub_df['차량명_clean'].str.contains('더뉴', na=False)]
+            if not filtered_pali_old.empty: sub_df = filtered_pali_old
+
         if is_grandeur_ig and not sub_df.empty:
             filtered_gig = sub_df[sub_df['차량명_clean'].str.contains('그랜저ig', na=False) & ~sub_df['차량명_clean'].str.contains('더뉴', na=False)]
             if not filtered_gig.empty: sub_df = filtered_gig
@@ -744,6 +767,10 @@ class SalesDataAnalyzer:
                 core_sub = core_sub[core_sub['차량명_clean'].str.contains('디올뉴|더올뉴|sx2', na=False)]
             elif is_kona_os:
                 core_sub = core_sub[~core_sub['차량명_clean'].str.contains('디올뉴|더올뉴|sx2', na=False)]
+            elif is_palisade_new:
+                core_sub = core_sub[core_sub['차량명_clean'].str.contains('더뉴팰리세이드|더뉴', na=False)]
+            elif is_palisade_old:
+                core_sub = core_sub[~core_sub['차량명_clean'].str.contains('더뉴', na=False)]
             elif is_grandeur_ig:
                 core_sub = core_sub[core_sub['차량명_clean'].str.contains('그랜저ig', na=False) & ~core_sub['차량명_clean'].str.contains('더뉴', na=False)]
             elif is_grandeur_new_ig:

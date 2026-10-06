@@ -443,6 +443,17 @@ def render_cockpit_view(
                         target_plate = d_detail.get('car_number', '') or d_detail.get('vehicle_number', '')
                     if not accident_summary:
                         accident_summary = d_detail.get('accident_repairs_summary_display', '') or d_detail.get('accident_display', '')
+                    
+                    # 🌟 헤이딜러 외판 판수 자동 계산 (범퍼 제외 외판 교환/판금 부위)
+                    repairs = d_detail.get('accident_repairs', []) or []
+                    non_bumper = [r for r in repairs if 'bumper' not in str(r.get('part', ''))]
+                    if non_bumper:
+                        st.session_state['hd_outer_count'] = len(non_bumper)
+                    elif accident_summary:
+                        if '무사고' in accident_summary and '교환' not in accident_summary:
+                            st.session_state['hd_outer_count'] = 0
+                        elif '단순교환' in accident_summary:
+                            st.session_state['hd_outer_count'] = 1
                     if not target_color:
                         target_color = d_detail.get('color', '')
                     if not target_options_list:
@@ -536,6 +547,18 @@ def render_cockpit_view(
                                             st.session_state.hd_target_year = int(d_detail.get('year'))
                                         if d_detail.get('mileage'):
                                             st.session_state.hd_target_mileage = int(d_detail.get('mileage'))
+                                        
+                                        # 🌟 실시간 외판 판수 자동 계산 (범퍼 제외 판금/교환 부위)
+                                        repairs = d_detail.get('accident_repairs', []) or []
+                                        non_bumper = [r for r in repairs if 'bumper' not in str(r.get('part', ''))]
+                                        acc_sum = d_detail.get('accident_repairs_summary_display', '') or d_detail.get('accident_display', '')
+                                        if non_bumper:
+                                            st.session_state['hd_outer_count'] = len(non_bumper)
+                                        elif acc_sum:
+                                            if '무사고' in acc_sum and '교환' not in acc_sum:
+                                                st.session_state['hd_outer_count'] = 0
+                                            elif '단순교환' in acc_sum:
+                                                st.session_state['hd_outer_count'] = 1
                                 except Exception:
                                     pass
 
@@ -868,7 +891,8 @@ def render_cockpit_view(
         with c_sub1:
             margin_target = st.number_input("목표 마진 (만)", min_value=0, max_value=1000, value=st.session_state.get('margin_key', 120), step=10, key="cockpit_margin_box")
         with c_sub2:
-            ext_repairs = st.number_input("판금 수리 (판)", min_value=0, max_value=20, value=int(st.session_state.get(f"ext_{reset_idx}", 0)), step=1, key="cockpit_ext_box")
+            default_ext = int(st.session_state.get('hd_outer_count', st.session_state.get(f"ext_{reset_idx}", 0)))
+            ext_repairs = st.number_input("판금 수리 (판)", min_value=0, max_value=20, value=default_ext, step=1, key="cockpit_ext_box")
 
         ext_cost = ext_repairs * 13
         selling_fee = int(bid_market_price * 0.007)

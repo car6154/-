@@ -2,11 +2,47 @@
 from datetime import datetime
 import pandas as pd
 
-def get_auto_fee_rate(volume):
-    if volume <= 12: return 0.10
-    elif volume <= 18: return 0.30
-    elif volume <= 31: return 0.40
-    else: return 0.50
+def get_auto_fee_rate(volume, is_loss=False):
+    """
+    2026년 4분기 한시적 영업정책(안) - 1-1) 매입 수수료율
+    - ~12대: 이익 10% / 손실 30%
+    - 13~16대: 이익 20% / 손실 30%
+    - 17~19대: 30%
+    - 20~31대: 40%
+    - 32대~: 50%
+    """
+    if volume <= 12:
+        return 0.30 if is_loss else 0.10
+    elif volume <= 16:
+        return 0.30 if is_loss else 0.20
+    elif volume <= 19:
+        return 0.30
+    elif volume <= 31:
+        return 0.40
+    else:
+        return 0.50
+
+def calculate_cumulative_incentive(fee_income, accumulated_loss=0):
+    """
+    2026년 4분기 - 1-2) 손실 누적 대상자 단계별 인센티브 정산 기준
+    - 매입 수수료 200만원 이하: 손실 금액을 차감하지 않고 전액 지급
+    - 매입 수수료 200만원 초과: 200만원까지는 전액 지급, 200만원 초과분에 대해서만 손실 전액 차감될 때까지 50% 차감 후 50% 지급
+    반환: (실지급액, 손실차감액, 잔여이월손실)
+    """
+    if accumulated_loss <= 0:
+        return fee_income, 0, 0
+
+    if fee_income <= 200:
+        return fee_income, 0, accumulated_loss
+
+    base_payout = 200
+    excess = fee_income - 200
+    deductible_capacity = excess * 0.5
+    actual_deduction = min(accumulated_loss, deductible_capacity)
+    net_payout = int(round(base_payout + (excess - actual_deduction)))
+    remaining_loss = int(round(accumulated_loss - actual_deduction))
+    return net_payout, int(round(actual_deduction)), remaining_loss
+
 
 def recalc_settlement_df(df, default_rate):
     if df.empty:
@@ -50,7 +86,11 @@ def recalc_settlement_df(df, default_rate):
             expenses = row.get('헤딜수수료', 0) + row.get('상품화', 0) + df.at[idx, '기본제경비'] + p_fee
             net_profit = int(round(vat_margin - expenses))
             df.at[idx, '공헌이익'] = net_profit
-            df.at[idx, '실수익'] = int(round(net_profit * curr_rate))
+            applied_rate = curr_rate
+            if net_profit < 0 and (curr_rate == default_rate or curr_rate <= 0):
+                applied_rate = get_auto_fee_rate(len(df), is_loss=True)
+                df.at[idx, '수수료율'] = applied_rate
+            df.at[idx, '실수익'] = int(round(net_profit * applied_rate))
         else:
             df.at[idx, '공헌이익'] = 0
             df.at[idx, '실수익'] = 0

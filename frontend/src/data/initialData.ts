@@ -1,9 +1,189 @@
-// Auto-generated initial data from real J-PRO project files
-import { CarLedgerItem, AuctionCarItem, DealerBidItem, InventorySettlementItem } from "@/types";
+// Auto-generated initial data from real J-PRO project files (my_car_ledger.csv 100% 1:1 sync)
+import { CarLedgerItem } from "@/types";
 
 export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
   {
-    "id": "car_0_149소7481",
+    "id": "car_0_01수9643",
+    "regDate": "26-10-05",
+    "carNumber": "01수9643",
+    "manufacturer": "현대",
+    "carName": "캐스퍼 일렉트릭",
+    "detailModel": "인스퍼레이션",
+    "year": "2025",
+    "mileage": "22,723 km",
+    "options": "현대 스마트센스 I, 컴포트, 17인치 알로이 휠",
+    "buyPrice": 2350,
+    "sellPrice": 2690,
+    "outerRepairs": 3,
+    "repairCost": 55,
+    "heydealerFee": 44.0,
+    "memo": "헤이딜러 진단: 골격(리어패널) 판금, 외판 2부위 교환, 1인신조",
+    "status": "매입대기"
+  },
+  {
+    "id": "car_1_16러6692",
+    "regDate": "26-10-04",
+    "carNumber": "16러6692",
+    "manufacturer": "기아",
+    "carName": "올 뉴 모닝 (JA)",
+    "detailModel": "럭셔리",
+    "year": "18",
+    "mileage": "50,900 km",
+    "options": "기본형-컨비니언스 / 내비게이션",
+    "buyPrice": 584,
+    "sellPrice": 770,
+    "outerRepairs": 2,
+    "repairCost": 26,
+    "heydealerFee": 19.0,
+    "memo": "[셀프(기본) / 마진: 121만]",
+    "status": "장부저장"
+  },
+  {
+    "id": "car_2_19라8502",
+    "regDate": "26-10-04",
+    "carNumber": "19라8502",
+    "manufacturer": "기아",
+    "carName": "올 뉴 모닝",
+    "detailModel": "디럭스 트렌디",
+    "year": "14",
+    "mileage": "102,259 km",
+    "options": "기본형-컨비니언스 / VSM",
+    "buyPrice": 144,
+    "sellPrice": 300,
+    "outerRepairs": 0,
+    "repairCost": 0,
+    "heydealerFee": 18.5,
+    "memo": "[셀프(기본) / 마진: 120만]",
+    "status": "장부저장"
+  },
+  {
+    "id": "car_3_34두3541",
+    "regDate": "26-10-04",
+    "carNumber": "34두3541",
+    "manufacturer": "쉐보레(GM대우)",
+    "carName": "스파크",
+    "detailModel": "LT 기본형",
+    "year": "14",
+    "mileage": "110,781 km",
+    "options": "",
+    "buyPrice": 63,
+    "sellPrice": 250,
+    "outerRepairs": 4,
+    "repairCost": 52,
+    "heydealerFee": 7.5,
+    "memo": "[셀프(기본) / 마진: 111만]",
+    "status": "장부저장"
+  },
+  {
+    "id": "car_4_221거6669",
+    "regDate": "26-10-04",
+    "carNumber": "221거6669",
+    "manufacturer": "현대",
+    "carName": "캐스퍼",
+    "detailModel": "1.0 터보 인스퍼레이션",
+    "year": "22",
+    "mileage": "25,800 km",
+    "options": "캐스퍼 액티브 Ⅱ / 액티브 플러스 / 선루프 / 스토리지",
+    "buyPrice": 1448,
+    "sellPrice": 1610,
+    "outerRepairs": 0,
+    "repairCost": 0,
+    "heydealerFee": 25.0,
+    "memo": "[셀프(기본) / 마진: 111만]",
+    "status": "장부저장"
+  },
+  {
+    "id": "car_5_43노5327",
+    "regDate": "26-10-04",
+    "carNumber": "43노5327",
+    "manufacturer": "현대",
+    "carName": "아반떼 AD",
+    "detailModel": "1.6 GDI 스마트",
+    "year": "17",
+    "mileage": "98,000 km",
+    "options": "하이패스 / 내비1 / 스마트키패키지1 / 스타일UP1",
+    "buyPrice": 708,
+    "sellPrice": 920,
+    "outerRepairs": 2,
+    "repairCost": 26,
+    "heydealerFee": 24.5,
+    "memo": "[셀프(기본) / 마진: 140만]",
+    "status": "장부저장"
+  },
+  {
+    "id": "car_6_387수6735",
+    "regDate": "26-10-04",
+    "carNumber": "387수6735",
+    "manufacturer": "기아",
+    "carName": "올 뉴 K7",
+    "detailModel": "2.4 월드컵 에디션",
+    "year": "18",
+    "mileage": "88,692 km",
+    "options": "기본형-서라운드뷰 / 컴포트3 / 19인치휠 / 선루프 / UVO",
+    "buyPrice": 995,
+    "sellPrice": 1240,
+    "outerRepairs": 2,
+    "repairCost": 26,
+    "heydealerFee": 24.5,
+    "memo": "[셀프(기본) / 마진: 171만]",
+    "status": "장부저장"
+  },
+  {
+    "id": "car_7_65소0314",
+    "regDate": "26-10-04",
+    "carNumber": "65소0314",
+    "manufacturer": "KG모빌리티(쌍용)",
+    "carName": "티볼리",
+    "detailModel": "가솔린 LX 2WD",
+    "year": "16",
+    "mileage": "105,000 km",
+    "options": "AVN 패키지 / 프리미엄씨트패키지 / 투톤",
+    "buyPrice": 462,
+    "sellPrice": 630,
+    "outerRepairs": 0,
+    "repairCost": 0,
+    "heydealerFee": 18.5,
+    "memo": "[셀프(기본) / 마진: 130만]",
+    "status": "장부저장"
+  },
+  {
+    "id": "car_8_378루9035",
+    "regDate": "26-10-04",
+    "carNumber": "378루9035",
+    "manufacturer": "기아",
+    "carName": "더 뉴 기아 레이",
+    "detailModel": "프레스티지",
+    "year": "23",
+    "mileage": "26,700 km",
+    "options": "기본형",
+    "buyPrice": 1309,
+    "sellPrice": 1470,
+    "outerRepairs": 0,
+    "repairCost": 0,
+    "heydealerFee": 25.0,
+    "memo": "[셀프(기본) / 마진: 111만]",
+    "status": "장부저장"
+  },
+  {
+    "id": "car_9_26무4216",
+    "regDate": "26-10-04",
+    "carNumber": "26무4216",
+    "manufacturer": "기아",
+    "carName": "올 뉴 모닝",
+    "detailModel": "럭셔리 스포츠",
+    "year": "14",
+    "mileage": "70,013 km",
+    "options": "기본형-컨비니언스 / 스포츠 / 스타일 / VSM",
+    "buyPrice": 333,
+    "sellPrice": 480,
+    "outerRepairs": 0,
+    "repairCost": 0,
+    "heydealerFee": 18.5,
+    "memo": "[셀프(기본) / 마진: 110만]",
+    "status": "장부저장"
+  },
+  {
+    "id": "car_10_149소7481",
     "regDate": "26-10-02",
     "carNumber": "149소7481",
     "manufacturer": "현대",
@@ -21,7 +201,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_1_389더4832",
+    "id": "car_11_389더4832",
     "regDate": "26-10-02",
     "carNumber": "389더4832",
     "manufacturer": "기아",
@@ -39,7 +219,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_2_153주9928",
+    "id": "car_12_153주9928",
     "regDate": "26-10-02",
     "carNumber": "153주9928",
     "manufacturer": "현대",
@@ -57,7 +237,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_3_286더6494",
+    "id": "car_13_286더6494",
     "regDate": "26-10-02",
     "carNumber": "286더6494",
     "manufacturer": "기아",
@@ -75,7 +255,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_4_01수7033",
+    "id": "car_14_01수7033",
     "regDate": "26-10-02",
     "carNumber": "01수7033",
     "manufacturer": "쉐보레(GM대우)",
@@ -93,7 +273,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_5_59러0515",
+    "id": "car_15_59러0515",
     "regDate": "26-10-02",
     "carNumber": "59러0515",
     "manufacturer": "현대",
@@ -111,7 +291,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_6_03루0297",
+    "id": "car_16_03루0297",
     "regDate": "26-10-02",
     "carNumber": "03루0297",
     "manufacturer": "기아",
@@ -129,7 +309,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_7_48더1381",
+    "id": "car_17_48더1381",
     "regDate": "26-10-02",
     "carNumber": "48더1381",
     "manufacturer": "기아",
@@ -147,7 +327,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_8_67누3318",
+    "id": "car_18_67누3318",
     "regDate": "26-10-02",
     "carNumber": "67누3318",
     "manufacturer": "기아",
@@ -165,7 +345,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_9_174오8807",
+    "id": "car_19_174오8807",
     "regDate": "26-10-01",
     "carNumber": "174오8807",
     "manufacturer": "기아",
@@ -183,7 +363,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_10_02너8765",
+    "id": "car_20_02너8765",
     "regDate": "26-10-01",
     "carNumber": "02너8765",
     "manufacturer": "현대",
@@ -201,7 +381,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_11_19수0917",
+    "id": "car_21_19수0917",
     "regDate": "26-09-30",
     "carNumber": "19수0917",
     "manufacturer": "기아",
@@ -219,7 +399,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_12_41러0197",
+    "id": "car_22_41러0197",
     "regDate": "26-09-30",
     "carNumber": "41러0197",
     "manufacturer": "KG모빌리티(쌍용)",
@@ -237,7 +417,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_13_55우1513",
+    "id": "car_23_55우1513",
     "regDate": "26-09-30",
     "carNumber": "55우1513",
     "manufacturer": "현대",
@@ -255,7 +435,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_14_113라9575",
+    "id": "car_24_113라9575",
     "regDate": "26-09-30",
     "carNumber": "113라9575",
     "manufacturer": "르노코리아(삼성)",
@@ -273,7 +453,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_15_324오3784",
+    "id": "car_25_324오3784",
     "regDate": "26-09-30",
     "carNumber": "324오3784",
     "manufacturer": "기아",
@@ -291,7 +471,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_16_39너0875",
+    "id": "car_26_39너0875",
     "regDate": "26-09-30",
     "carNumber": "39너0875",
     "manufacturer": "기아",
@@ -309,7 +489,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_17_312머3969",
+    "id": "car_27_312머3969",
     "regDate": "26-09-30",
     "carNumber": "312머3969",
     "manufacturer": "기아",
@@ -327,7 +507,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_18_56무4386",
+    "id": "car_28_56무4386",
     "regDate": "26-09-30",
     "carNumber": "56무4386",
     "manufacturer": "기아",
@@ -345,7 +525,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_19_65너2885",
+    "id": "car_29_65너2885",
     "regDate": "26-09-30",
     "carNumber": "65너2885",
     "manufacturer": "기아",
@@ -363,25 +543,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_20_378루9035",
-    "regDate": "26-09-30",
-    "carNumber": "378루9035",
-    "manufacturer": "기아",
-    "carName": "더 뉴 기아 레이",
-    "detailModel": "프레스티지",
-    "year": "23",
-    "mileage": "26,600 km",
-    "options": "기본형",
-    "buyPrice": 1134,
-    "sellPrice": 1320,
-    "outerRepairs": 2,
-    "repairCost": 26,
-    "heydealerFee": 25.0,
-    "memo": "[셀프(기본) / 마진: 111만]",
-    "status": "장부저장"
-  },
-  {
-    "id": "car_21_175노4328",
+    "id": "car_30_175노4328",
     "regDate": "26-09-30",
     "carNumber": "175노4328",
     "manufacturer": "르노코리아(삼성)",
@@ -399,7 +561,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_22_136너2184",
+    "id": "car_31_136너2184",
     "regDate": "26-09-30",
     "carNumber": "136너2184",
     "manufacturer": "쉐보레(GM대우)",
@@ -417,7 +579,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_23_264부1087",
+    "id": "car_32_264부1087",
     "regDate": "26-09-30",
     "carNumber": "264부1087",
     "manufacturer": "르노코리아(삼성)",
@@ -435,7 +597,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_24_112저4548",
+    "id": "car_33_112저4548",
     "regDate": "26-09-30",
     "carNumber": "112저4548",
     "manufacturer": "기아",
@@ -453,7 +615,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_25_113마5813",
+    "id": "car_34_113마5813",
     "regDate": "26-09-30",
     "carNumber": "113마5813",
     "manufacturer": "현대",
@@ -471,7 +633,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_26_30수4921",
+    "id": "car_35_30수4921",
     "regDate": "26-09-30",
     "carNumber": "30수4921",
     "manufacturer": "현대",
@@ -489,7 +651,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_27_45버0204",
+    "id": "car_36_45버0204",
     "regDate": "26-09-30",
     "carNumber": "45버0204",
     "manufacturer": "쉐보레(GM대우)",
@@ -507,7 +669,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_28_15거0188",
+    "id": "car_37_15거0188",
     "regDate": "26-09-30",
     "carNumber": "15거0188",
     "manufacturer": "현대",
@@ -525,7 +687,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_29_183누5967",
+    "id": "car_38_183누5967",
     "regDate": "26-09-30",
     "carNumber": "183누5967",
     "manufacturer": "현대",
@@ -543,7 +705,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_30_41소1115",
+    "id": "car_39_41소1115",
     "regDate": "26-09-30",
     "carNumber": "41소1115",
     "manufacturer": "현대",
@@ -561,7 +723,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_31_11오1315",
+    "id": "car_40_11오1315",
     "regDate": "26-09-30",
     "carNumber": "11오1315",
     "manufacturer": "현대",
@@ -579,7 +741,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_32_65가8938",
+    "id": "car_41_65가8938",
     "regDate": "26-09-30",
     "carNumber": "65가8938",
     "manufacturer": "기아",
@@ -597,7 +759,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_33_247수6464",
+    "id": "car_42_247수6464",
     "regDate": "26-09-30",
     "carNumber": "247수6464",
     "manufacturer": "기아",
@@ -615,7 +777,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_34_64우0174",
+    "id": "car_43_64우0174",
     "regDate": "26-09-30",
     "carNumber": "64우0174",
     "manufacturer": "쉐보레(GM대우)",
@@ -633,7 +795,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_35_07너0457",
+    "id": "car_44_07너0457",
     "regDate": "26-09-30",
     "carNumber": "07너0457",
     "manufacturer": "현대",
@@ -651,7 +813,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_36_54고3560",
+    "id": "car_45_54고3560",
     "regDate": "26-09-30",
     "carNumber": "54고3560",
     "manufacturer": "현대",
@@ -669,7 +831,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_37_170부1940",
+    "id": "car_46_170부1940",
     "regDate": "26-09-29",
     "carNumber": "170부1940",
     "manufacturer": "기아",
@@ -687,7 +849,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_38_08모3687",
+    "id": "car_47_08모3687",
     "regDate": "26-09-29",
     "carNumber": "08모3687",
     "manufacturer": "기아",
@@ -705,7 +867,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_39_145주2770",
+    "id": "car_48_145주2770",
     "regDate": "26-09-29",
     "carNumber": "145주2770",
     "manufacturer": "현대",
@@ -723,7 +885,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_40_169가9091",
+    "id": "car_49_169가9091",
     "regDate": "26-09-29",
     "carNumber": "169가9091",
     "manufacturer": "기아",
@@ -741,7 +903,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_41_240거8803",
+    "id": "car_50_240거8803",
     "regDate": "26-09-29",
     "carNumber": "240거8803",
     "manufacturer": "기아",
@@ -759,7 +921,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_42_380노1818",
+    "id": "car_51_380노1818",
     "regDate": "26-09-29",
     "carNumber": "380노1818",
     "manufacturer": "쉐보레(GM대우)",
@@ -777,7 +939,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_43_06가6332",
+    "id": "car_52_06가6332",
     "regDate": "26-09-29",
     "carNumber": "06가6332",
     "manufacturer": "현대",
@@ -795,7 +957,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_44_243더3991",
+    "id": "car_53_243더3991",
     "regDate": "26-09-29",
     "carNumber": "243더3991",
     "manufacturer": "현대",
@@ -813,7 +975,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_45_103도9552",
+    "id": "car_54_103도9552",
     "regDate": "26-09-29",
     "carNumber": "103도9552",
     "manufacturer": "현대",
@@ -831,7 +993,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_46_35도5467",
+    "id": "car_55_35도5467",
     "regDate": "26-09-29",
     "carNumber": "35도5467",
     "manufacturer": "현대",
@@ -849,7 +1011,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_47_21두0107",
+    "id": "car_56_21두0107",
     "regDate": "26-09-29",
     "carNumber": "21두0107",
     "manufacturer": "현대",
@@ -867,7 +1029,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_48_282마6086",
+    "id": "car_57_282마6086",
     "regDate": "26-09-29",
     "carNumber": "282마6086",
     "manufacturer": "기아",
@@ -885,7 +1047,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_49_49모1592",
+    "id": "car_58_49모1592",
     "regDate": "26-09-29",
     "carNumber": "49모1592",
     "manufacturer": "쉐보레(GM대우)",
@@ -903,7 +1065,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_50_145루6894",
+    "id": "car_59_145루6894",
     "regDate": "26-09-29",
     "carNumber": "145루6894",
     "manufacturer": "기아",
@@ -921,7 +1083,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_51_01머1871",
+    "id": "car_60_01머1871",
     "regDate": "26-09-29",
     "carNumber": "01머1871",
     "manufacturer": "기아",
@@ -939,7 +1101,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_52_126오3105",
+    "id": "car_61_126오3105",
     "regDate": "26-09-29",
     "carNumber": "126오3105",
     "manufacturer": "기아",
@@ -957,7 +1119,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_53_05다5582",
+    "id": "car_62_05다5582",
     "regDate": "26-09-29",
     "carNumber": "05다5582",
     "manufacturer": "현대",
@@ -975,7 +1137,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_54_253오3917",
+    "id": "car_63_253오3917",
     "regDate": "26-09-29",
     "carNumber": "253오3917",
     "manufacturer": "현대",
@@ -993,7 +1155,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_55_67모4411",
+    "id": "car_64_67모4411",
     "regDate": "26-09-29",
     "carNumber": "67모4411",
     "manufacturer": "현대",
@@ -1011,7 +1173,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_56_37다1840",
+    "id": "car_65_37다1840",
     "regDate": "26-09-29",
     "carNumber": "37다1840",
     "manufacturer": "기아",
@@ -1029,7 +1191,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "매입완료"
   },
   {
-    "id": "car_57_52마2627",
+    "id": "car_66_52마2627",
     "regDate": "26-09-29",
     "carNumber": "52마2627",
     "manufacturer": "르노코리아(삼성)",
@@ -1047,7 +1209,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_58_385부7579",
+    "id": "car_67_385부7579",
     "regDate": "26-09-29",
     "carNumber": "385부7579",
     "manufacturer": "기아",
@@ -1065,7 +1227,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_59_382무7079",
+    "id": "car_68_382무7079",
     "regDate": "26-09-29",
     "carNumber": "382무7079",
     "manufacturer": "현대",
@@ -1083,7 +1245,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_60_31수9497",
+    "id": "car_69_31수9497",
     "regDate": "26-09-29",
     "carNumber": "31수9497",
     "manufacturer": "현대",
@@ -1101,7 +1263,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_61_154루1029",
+    "id": "car_70_154루1029",
     "regDate": "26-09-29",
     "carNumber": "154루1029",
     "manufacturer": "현대",
@@ -1119,7 +1281,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_62_159모4997",
+    "id": "car_71_159모4997",
     "regDate": "26-09-29",
     "carNumber": "159모4997",
     "manufacturer": "현대",
@@ -1137,7 +1299,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_63_260라3671",
+    "id": "car_72_260라3671",
     "regDate": "26-09-29",
     "carNumber": "260라3671",
     "manufacturer": "현대",
@@ -1155,7 +1317,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_64_16주4799",
+    "id": "car_73_16주4799",
     "regDate": "26-09-29",
     "carNumber": "16주4799",
     "manufacturer": "현대",
@@ -1173,7 +1335,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_65_330나1285",
+    "id": "car_74_330나1285",
     "regDate": "26-09-28",
     "carNumber": "330나1285",
     "manufacturer": "르노코리아(삼성)",
@@ -1191,7 +1353,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_66_337너5231",
+    "id": "car_75_337너5231",
     "regDate": "26-09-28",
     "carNumber": "337너5231",
     "manufacturer": "기아",
@@ -1209,7 +1371,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_67_122다6616",
+    "id": "car_76_122다6616",
     "regDate": "26-09-28",
     "carNumber": "122다6616",
     "manufacturer": "기아",
@@ -1227,7 +1389,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_68_02더0350",
+    "id": "car_77_02더0350",
     "regDate": "26-09-28",
     "carNumber": "02더0350",
     "manufacturer": "기아",
@@ -1245,7 +1407,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_69_47오0217",
+    "id": "car_78_47오0217",
     "regDate": "26-09-28",
     "carNumber": "47오0217",
     "manufacturer": "현대",
@@ -1263,7 +1425,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_70_333무7706",
+    "id": "car_79_333무7706",
     "regDate": "26-09-28",
     "carNumber": "333무7706",
     "manufacturer": "현대",
@@ -1281,7 +1443,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_71_35러1686",
+    "id": "car_80_35러1686",
     "regDate": "26-09-28",
     "carNumber": "35러1686",
     "manufacturer": "현대",
@@ -1299,7 +1461,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_72_04조6564",
+    "id": "car_81_04조6564",
     "regDate": "26-09-28",
     "carNumber": "04조6564",
     "manufacturer": "기아",
@@ -1317,7 +1479,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_73_333조5146",
+    "id": "car_82_333조5146",
     "regDate": "26-09-28",
     "carNumber": "333조5146",
     "manufacturer": "현대",
@@ -1335,7 +1497,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_74_214서9284",
+    "id": "car_83_214서9284",
     "regDate": "26-09-28",
     "carNumber": "214서9284",
     "manufacturer": "KG모빌리티(쌍용)",
@@ -1353,7 +1515,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_75_339다5729",
+    "id": "car_84_339다5729",
     "regDate": "26-09-28",
     "carNumber": "339다5729",
     "manufacturer": "기아",
@@ -1371,7 +1533,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_76_144고1689",
+    "id": "car_85_144고1689",
     "regDate": "26-09-28",
     "carNumber": "144고1689",
     "manufacturer": "현대",
@@ -1389,7 +1551,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_77_63가8025",
+    "id": "car_86_63가8025",
     "regDate": "26-09-28",
     "carNumber": "63가8025",
     "manufacturer": "현대",
@@ -1407,7 +1569,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_78_20로8026",
+    "id": "car_87_20로8026",
     "regDate": "26-09-28",
     "carNumber": "20로8026",
     "manufacturer": "기아",
@@ -1425,7 +1587,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_79_155라7987",
+    "id": "car_88_155라7987",
     "regDate": "26-09-28",
     "carNumber": "155라7987",
     "manufacturer": "현대",
@@ -1443,7 +1605,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_80_82주4749",
+    "id": "car_89_82주4749",
     "regDate": "26-09-28",
     "carNumber": "82주4749",
     "manufacturer": "KG모빌리티(쌍용)",
@@ -1461,7 +1623,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_81_355너6028",
+    "id": "car_90_355너6028",
     "regDate": "26-09-28",
     "carNumber": "355너6028",
     "manufacturer": "현대",
@@ -1479,25 +1641,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_82_01수9643",
-    "regDate": "26-09-28",
-    "carNumber": "01수9643",
-    "manufacturer": "현대",
-    "carName": "캐스퍼일렉트릭",
-    "detailModel": "인스퍼레이션",
-    "year": "25",
-    "mileage": "22,723 km",
-    "options": "",
-    "buyPrice": 2620,
-    "sellPrice": 2800,
-    "outerRepairs": 0,
-    "repairCost": 0,
-    "heydealerFee": 25.0,
-    "memo": "[셀프(기본)]",
-    "status": "장부저장"
-  },
-  {
-    "id": "car_83_30서0962",
+    "id": "car_91_30서0962",
     "regDate": "26-09-28",
     "carNumber": "30서0962",
     "manufacturer": "기아",
@@ -1515,7 +1659,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_84_23소1080",
+    "id": "car_92_23소1080",
     "regDate": "26-09-21",
     "carNumber": "23소1080",
     "manufacturer": "제네시스",
@@ -1533,7 +1677,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_85_280부9126",
+    "id": "car_93_280부9126",
     "regDate": "26-09-21",
     "carNumber": "280부9126",
     "manufacturer": "기아",
@@ -1551,7 +1695,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_86_20나4793",
+    "id": "car_94_20나4793",
     "regDate": "26-09-18",
     "carNumber": "20나4793",
     "manufacturer": "현대",
@@ -1569,7 +1713,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_87_286러9279",
+    "id": "car_95_286러9279",
     "regDate": "26-09-18",
     "carNumber": "286러9279",
     "manufacturer": "쉐보레(GM대우)",
@@ -1587,7 +1731,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_88_343서3340",
+    "id": "car_96_343서3340",
     "regDate": "26-09-17",
     "carNumber": "343서3340",
     "manufacturer": "기아",
@@ -1605,7 +1749,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_89_25오2028",
+    "id": "car_97_25오2028",
     "regDate": "26-09-17",
     "carNumber": "25오2028",
     "manufacturer": "현대",
@@ -1623,7 +1767,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_90_210노9280",
+    "id": "car_98_210노9280",
     "regDate": "26-09-17",
     "carNumber": "210노9280",
     "manufacturer": "기아",
@@ -1641,7 +1785,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_91_137부1979",
+    "id": "car_99_137부1979",
     "regDate": "26-09-17",
     "carNumber": "137부1979",
     "manufacturer": "르노코리아(삼성)",
@@ -1659,7 +1803,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_92_209러7042",
+    "id": "car_100_209러7042",
     "regDate": "26-09-17",
     "carNumber": "209러7042",
     "manufacturer": "현대",
@@ -1677,7 +1821,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_93_183노6170",
+    "id": "car_101_183노6170",
     "regDate": "26-09-17",
     "carNumber": "183노6170",
     "manufacturer": "기아",
@@ -1695,7 +1839,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_94_241보9495",
+    "id": "car_102_241보9495",
     "regDate": "26-09-17",
     "carNumber": "241보9495",
     "manufacturer": "기아",
@@ -1713,7 +1857,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_95_159구3030",
+    "id": "car_103_159구3030",
     "regDate": "26-08-20",
     "carNumber": "159구3030",
     "manufacturer": "현대",
@@ -1731,7 +1875,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_96_297로2620",
+    "id": "car_104_297로2620",
     "regDate": "26-08-20",
     "carNumber": "297로2620",
     "manufacturer": "기아",
@@ -1749,7 +1893,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "매입완료"
   },
   {
-    "id": "car_97_51보3571",
+    "id": "car_105_51보3571",
     "regDate": "26-08-20",
     "carNumber": "51보3571",
     "manufacturer": "쉐보레(GM대우)",
@@ -1767,7 +1911,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_98_212두9557",
+    "id": "car_106_212두9557",
     "regDate": "26-08-20",
     "carNumber": "212두9557",
     "manufacturer": "쉐보레(GM대우)",
@@ -1785,7 +1929,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_99_53무0986",
+    "id": "car_107_53무0986",
     "regDate": "26-08-20",
     "carNumber": "53무0986",
     "manufacturer": "기아",
@@ -1803,7 +1947,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_100_101두2235",
+    "id": "car_108_101두2235",
     "regDate": "26-08-24",
     "carNumber": "101두2235",
     "manufacturer": "현대",
@@ -1821,7 +1965,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_101_374구6256",
+    "id": "car_109_374구6256",
     "regDate": "26-08-24",
     "carNumber": "374구6256",
     "manufacturer": "기아",
@@ -1839,7 +1983,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_102_121머5740",
+    "id": "car_110_121머5740",
     "regDate": "26-08-24",
     "carNumber": "121머5740",
     "manufacturer": "기아",
@@ -1857,7 +2001,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_103_203보6341",
+    "id": "car_111_203보6341",
     "regDate": "26-09-07",
     "carNumber": "203보6341",
     "manufacturer": "기아",
@@ -1875,7 +2019,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_104_176고8859",
+    "id": "car_112_176고8859",
     "regDate": "26-09-15",
     "carNumber": "176고8859",
     "manufacturer": "르노코리아(삼성)",
@@ -1893,7 +2037,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "매입완료"
   },
   {
-    "id": "car_105_278수5611",
+    "id": "car_113_278수5611",
     "regDate": "26-09-15",
     "carNumber": "278수5611",
     "manufacturer": "르노코리아(삼성)",
@@ -1911,7 +2055,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_106_338보6746",
+    "id": "car_114_338보6746",
     "regDate": "26-09-15",
     "carNumber": "338보6746",
     "manufacturer": "기아",
@@ -1929,7 +2073,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_107_338보6748",
+    "id": "car_115_338보6748",
     "regDate": "26-09-15",
     "carNumber": "338보6748",
     "manufacturer": "기아",
@@ -1947,7 +2091,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_108_338보6719",
+    "id": "car_116_338보6719",
     "regDate": "26-09-15",
     "carNumber": "338보6719",
     "manufacturer": "기아",
@@ -1965,7 +2109,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_109_66주0965",
+    "id": "car_117_66주0965",
     "regDate": "26-09-15",
     "carNumber": "66주0965",
     "manufacturer": "쉐보레(GM대우)",
@@ -1983,7 +2127,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_110_338보6712",
+    "id": "car_118_338보6712",
     "regDate": "26-09-15",
     "carNumber": "338보6712",
     "manufacturer": "기아",
@@ -2001,7 +2145,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_111_106우2792",
+    "id": "car_119_106우2792",
     "regDate": "26-09-15",
     "carNumber": "106우2792",
     "manufacturer": "기아",
@@ -2019,7 +2163,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_112_247무2148",
+    "id": "car_120_247무2148",
     "regDate": "26-09-15",
     "carNumber": "247무2148",
     "manufacturer": "기아",
@@ -2037,7 +2181,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_113_54마4216",
+    "id": "car_121_54마4216",
     "regDate": "26-09-15",
     "carNumber": "54마4216",
     "manufacturer": "기아",
@@ -2055,7 +2199,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_114_34누9851",
+    "id": "car_122_34누9851",
     "regDate": "26-09-15",
     "carNumber": "34누9851",
     "manufacturer": "르노코리아(삼성)",
@@ -2073,7 +2217,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_115_63고5358",
+    "id": "car_123_63고5358",
     "regDate": "26-09-15",
     "carNumber": "63고5358",
     "manufacturer": "KG모빌리티(쌍용)",
@@ -2091,7 +2235,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_116_42다3709",
+    "id": "car_124_42다3709",
     "regDate": "26-09-15",
     "carNumber": "42다3709",
     "manufacturer": "KG모빌리티(쌍용)",
@@ -2109,7 +2253,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_117_10나0210",
+    "id": "car_125_10나0210",
     "regDate": "26-09-15",
     "carNumber": "10나0210",
     "manufacturer": "기아",
@@ -2127,7 +2271,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_118_274다5720",
+    "id": "car_126_274다5720",
     "regDate": "26-09-15",
     "carNumber": "274다5720",
     "manufacturer": "현대",
@@ -2145,7 +2289,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_119_07거4393",
+    "id": "car_127_07거4393",
     "regDate": "26-09-15",
     "carNumber": "07거4393",
     "manufacturer": "현대",
@@ -2163,7 +2307,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_120_306더1535",
+    "id": "car_128_306더1535",
     "regDate": "26-09-15",
     "carNumber": "306더1535",
     "manufacturer": "기아",
@@ -2181,7 +2325,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_121_257구8594",
+    "id": "car_129_257구8594",
     "regDate": "26-09-15",
     "carNumber": "257구8594",
     "manufacturer": "현대",
@@ -2199,7 +2343,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_122_364오9445",
+    "id": "car_130_364오9445",
     "regDate": "26-09-15",
     "carNumber": "364오9445",
     "manufacturer": "현대",
@@ -2217,7 +2361,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_123_154러8867",
+    "id": "car_131_154러8867",
     "regDate": "26-09-15",
     "carNumber": "154러8867",
     "manufacturer": "기아",
@@ -2235,7 +2379,7 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "status": "장부저장"
   },
   {
-    "id": "car_124_33루6417",
+    "id": "car_132_33루6417",
     "regDate": "26-09-15",
     "carNumber": "33루6417",
     "manufacturer": "기아",
@@ -2251,338 +2395,5 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "heydealerFee": 0.0,
     "memo": "[셀프(기본)]",
     "status": "장부저장"
-  }
-];
-
-export const INITIAL_AUCTION_CARS: AuctionCarItem[] = [
-  {
-    "id": "auction_0",
-    "fullName": "스토닉 1.4 디럭스",
-    "mileage": 78395,
-    "approvedAt": "2026-09-05 13:26:32",
-    "mainImageUrl": "https://heydealer-api.s3.amazonaws.com/media/cars/image/2026/09/05/141475391_18b4b0ae-03e4-4ee6-ac38-02fe6246b604.jpeg"
-  },
-  {
-    "id": "auction_1",
-    "fullName": "디 올 뉴 팰리세이드 하이브리드 가솔린 터보 2.5 HEV 4WD 7인승 프레스티지",
-    "mileage": 278,
-    "approvedAt": "2026-09-05 13:26:23",
-    "mainImageUrl": "https://heydealer-api.s3.amazonaws.com/media/cars/image/2026/09/03/141212784_bb6ab0ba-efe8-48bd-a80f-0c85c426f0a8.JPEG"
-  },
-  {
-    "id": "auction_2",
-    "fullName": "봉고1톤 9 15MY 16각자 카고 장축 킹캡 디럭스 디젤 4WD M/T",
-    "mileage": 66839,
-    "approvedAt": "2026-09-05 13:26:20",
-    "mainImageUrl": null
-  },
-  {
-    "id": "auction_3",
-    "fullName": "K3 노블레스",
-    "mileage": 75874,
-    "approvedAt": "2026-09-05 13:26:18",
-    "mainImageUrl": null
-  },
-  {
-    "id": "auction_4",
-    "fullName": "디 올 뉴 스포티지 (NQ5) 가솔린 1.6 터보 2WD 시그니처 그래비티",
-    "mileage": 26898,
-    "approvedAt": "2026-09-05 13:26:16",
-    "mainImageUrl": "https://heydealer-api.s3.amazonaws.com/media/cars/image/2026/09/05/141500644_5cd7d7af-e2ab-4135-8464-931342b35611.JPEG"
-  },
-  {
-    "id": "auction_5",
-    "fullName": "티볼리 에어 가솔린 1.6 RX 2WD",
-    "mileage": 128035,
-    "approvedAt": "2026-09-05 13:26:13",
-    "mainImageUrl": "https://heydealer-api.s3.amazonaws.com/media/cars/image/2026/09/03/141212088_72cada1f-ad77-4e25-bce4-40038c12034c.JPEG"
-  },
-  {
-    "id": "auction_6",
-    "fullName": "디 올 뉴 팰리세이드 가솔린 터보 2.5 2WD 7인승 익스클루시브",
-    "mileage": 14132,
-    "approvedAt": "2026-09-05 13:26:12",
-    "mainImageUrl": "https://heydealer-api.s3.amazonaws.com/media/cars/image/2026/09/03/141212753_650234cb-15ce-403e-9e1c-cd3e39972509.jpeg"
-  },
-  {
-    "id": "auction_7",
-    "fullName": "뉴 모닝 SLX 고급형 블랙프리미엄",
-    "mileage": 66001,
-    "approvedAt": "2026-09-05 13:26:10",
-    "mainImageUrl": "https://heydealer-api.s3.amazonaws.com/media/cars/image/2026/09/05/141498370_80776846-d457-4672-a32e-95a2df640fe1.jpeg"
-  },
-  {
-    "id": "auction_8",
-    "fullName": "젠트라 X 1.2 SX",
-    "mileage": 214144,
-    "approvedAt": "2026-09-05 13:26:08",
-    "mainImageUrl": "https://heydealer-api.s3.amazonaws.com/media/cars/image/2026/09/05/141487811_0d6d6eb7-fb38-4059-8f3e-247b191da015.JPEG"
-  },
-  {
-    "id": "auction_9",
-    "fullName": "더 뉴 K5 3세대 2.0 가솔린 노블레스",
-    "mileage": 801,
-    "approvedAt": "2026-09-05 13:26:05",
-    "mainImageUrl": "https://heydealer-api.s3.amazonaws.com/media/cars/image/2026/09/05/141500518_79fbfcd9-1c5a-4cc9-811c-6ea0e31fb081.JPEG"
-  },
-  {
-    "id": "auction_10",
-    "fullName": "올 뉴 모닝 (JA) 럭셔리",
-    "mileage": 67492,
-    "approvedAt": "2026-09-05 13:26:00",
-    "mainImageUrl": "https://heydealer-api.s3.amazonaws.com/media/cars/image/2026/09/05/141498893_9fba5215-2b38-4942-a236-a6d5589f4f11.JPEG"
-  },
-  {
-    "id": "auction_11",
-    "fullName": "BMW 1시리즈 (F20) 118d 스포츠 5도어 F20",
-    "mileage": 126082,
-    "approvedAt": "2026-09-05 13:25:08",
-    "mainImageUrl": "https://heydealer-api.s3.amazonaws.com/media/cars/image/2026/09/05/141477584_b9ac55ac-0bb3-4570-b50b-01c33eeb70f4.JPEG"
-  },
-  {
-    "id": "auction_12",
-    "fullName": "뉴 SM5 플래티넘 1.6 TCE 기본형",
-    "mileage": 84769,
-    "approvedAt": "2026-09-05 13:25:06",
-    "mainImageUrl": "https://heydealer-api.s3.amazonaws.com/media/cars/image/2026/09/05/141499241_af0345b3-1a50-4256-9650-6ce65927b0b4.JPEG"
-  },
-  {
-    "id": "auction_13",
-    "fullName": "재규어 XE 20d 프레스티지",
-    "mileage": 224546,
-    "approvedAt": "2026-09-05 13:25:00",
-    "mainImageUrl": "https://heydealer-api.s3.amazonaws.com/media/cars/image/2026/09/05/141500265_d9d03dad-f108-4b1b-b8d2-3c401a48fa00.JPEG"
-  },
-  {
-    "id": "auction_14",
-    "fullName": "K8 2.5 가솔린 2WD 시그니처",
-    "mileage": 33053,
-    "approvedAt": "2026-09-05 13:24:06",
-    "mainImageUrl": "https://heydealer-api.s3.amazonaws.com/media/cars/image/2026/09/05/141496895_c75681cc-c329-4849-9832-a488d780fa34.JPEG"
-  },
-  {
-    "id": "auction_15",
-    "fullName": "맥스크루즈 디젤(e-VGT) 2.2 4WD 익스클루시브 스페셜 (7인승)",
-    "mileage": 141200,
-    "approvedAt": "2026-09-05 13:24:02",
-    "mainImageUrl": "https://heydealer-api.s3.amazonaws.com/media/cars/image/2026/09/05/141499463_6c9973bf-25ff-4868-b011-c3f99d3db130.JPEG"
-  },
-  {
-    "id": "auction_16",
-    "fullName": "말리부 2.0 LT 디럭스팩",
-    "mileage": 62823,
-    "approvedAt": "2026-09-05 13:24:00",
-    "mainImageUrl": "https://heydealer-api.s3.amazonaws.com/media/cars/image/2026/09/05/141500084_aa035004-64f0-4347-ac2f-6a91b6a36a52.JPEG"
-  },
-  {
-    "id": "auction_17",
-    "fullName": "테슬라 모델 Y 주니퍼 롱 레인지 AWD",
-    "mileage": 32000,
-    "approvedAt": "2026-09-05 13:23:27",
-    "mainImageUrl": "https://heydealer-api.s3.amazonaws.com/media/cars/image/2026/09/05/141453917_27d2489a-6ece-4647-a1a8-25b93d8a90af.JPEG"
-  },
-  {
-    "id": "auction_18",
-    "fullName": "랜드로버 디스커버리 스포츠 2.0 TD4 HSE 럭셔리",
-    "mileage": 108208,
-    "approvedAt": "2026-09-05 13:23:11",
-    "mainImageUrl": "https://heydealer-api.s3.amazonaws.com/media/cars/image/2026/09/05/141499389_93af7aa8-e32f-4a5a-a838-cfa6f8f372d0.JPEG"
-  },
-  {
-    "id": "auction_19",
-    "fullName": "SM6 2.0 LPe RE (장애인용)",
-    "mileage": 170100,
-    "approvedAt": "2026-09-05 13:23:09",
-    "mainImageUrl": "https://heydealer-api.s3.amazonaws.com/media/cars/image/2026/09/05/141499789_fd8212bf-853e-4d60-8dcf-4481bc3b3359.JPEG"
-  }
-];
-
-export const INITIAL_DEALER_BIDS: DealerBidItem[] = [
-  {
-    "price": 2659,
-    "location": "광주",
-    "modelPartName": "더 올 뉴 G80",
-    "dealerName": "한** 대표",
-    "createdAt": "2026-09-05 13:27:34"
-  },
-  {
-    "price": 275,
-    "location": "경기",
-    "modelPartName": "K3",
-    "dealerName": "송** 부장",
-    "createdAt": "2026-09-05 13:27:33"
-  },
-  {
-    "price": 2266,
-    "location": "경기",
-    "modelPartName": "더 뉴 아반떼 (CN7)",
-    "dealerName": "전** 대표",
-    "createdAt": "2026-09-05 13:27:31"
-  },
-  {
-    "price": 705,
-    "location": "경기",
-    "modelPartName": "쏘나타 뉴 라이즈",
-    "dealerName": "이** 팀장",
-    "createdAt": "2026-09-05 13:27:29"
-  },
-  {
-    "price": 1029,
-    "location": "광주",
-    "modelPartName": "아반떼 AD",
-    "dealerName": "김** 대표",
-    "createdAt": "2026-09-05 13:27:27"
-  },
-  {
-    "price": 1850,
-    "location": "경기",
-    "modelPartName": "봉고1.2톤 윙바디",
-    "dealerName": "노** 팀장",
-    "createdAt": "2026-09-05 13:27:27"
-  },
-  {
-    "price": 303,
-    "location": "경기",
-    "modelPartName": "포터II 디젤",
-    "dealerName": "박** 과장",
-    "createdAt": "2026-09-05 13:27:25"
-  },
-  {
-    "price": 1215,
-    "location": "경기",
-    "modelPartName": "그랜저 IG",
-    "dealerName": "윤** 팀장",
-    "createdAt": "2026-09-05 13:27:23"
-  },
-  {
-    "price": 4284,
-    "location": "경기",
-    "modelPartName": "GV70 FL",
-    "dealerName": "이** 과장",
-    "createdAt": "2026-09-05 13:27:22"
-  },
-  {
-    "price": 828,
-    "location": "경기",
-    "modelPartName": "포드 익스플로러",
-    "dealerName": "김* 팀장",
-    "createdAt": "2026-09-05 13:27:19"
-  },
-  {
-    "price": 1890,
-    "location": "서울",
-    "modelPartName": "더 뉴 기아 레이",
-    "dealerName": "김** 대표",
-    "createdAt": "2026-09-05 13:27:19"
-  },
-  {
-    "price": 900,
-    "location": "인천",
-    "modelPartName": "쏘나타 (DN8)",
-    "dealerName": "김** 팀장",
-    "createdAt": "2026-09-05 13:27:18"
-  },
-  {
-    "price": 9009,
-    "location": "인천",
-    "modelPartName": "아우디 Q7 (4M)",
-    "dealerName": "장** 대표",
-    "createdAt": "2026-09-05 13:27:16"
-  },
-  {
-    "price": 258,
-    "location": "경기",
-    "modelPartName": "폭스바겐 골프 7세대",
-    "dealerName": "최** 부장",
-    "createdAt": "2026-09-05 13:27:14"
-  },
-  {
-    "price": 161,
-    "location": "대전",
-    "modelPartName": "로체 이노베이션",
-    "dealerName": "김** 부대표",
-    "createdAt": "2026-09-05 13:27:12"
-  },
-  {
-    "price": 100,
-    "location": "서울",
-    "modelPartName": "포르테",
-    "dealerName": "우** 사원",
-    "createdAt": "2026-09-05 13:27:10"
-  },
-  {
-    "price": 1918,
-    "location": "경기",
-    "modelPartName": "더 뉴 아반떼 (CN7)",
-    "dealerName": "전** 대표",
-    "createdAt": "2026-09-05 13:27:10"
-  },
-  {
-    "price": 158,
-    "location": "경기",
-    "modelPartName": "스파크",
-    "dealerName": "강** 팀장",
-    "createdAt": "2026-09-05 13:27:09"
-  },
-  {
-    "price": 134,
-    "location": "경기",
-    "modelPartName": "K3",
-    "dealerName": "(************",
-    "createdAt": "2026-09-05 13:27:08"
-  },
-  {
-    "price": 233,
-    "location": "경기",
-    "modelPartName": "봉고1톤 카고",
-    "dealerName": "박** 과장",
-    "createdAt": "2026-09-05 13:27:06"
-  }
-];
-
-export const INITIAL_INVENTORY_SETTLEMENT: InventorySettlementItem[] = [
-  {
-    id: "inv_1",
-    order: 2,
-    buyDate: "10. 01",
-    status: "보유/상품화중",
-    carNumber: "37다1840",
-    carName: "기아 올뉴카니발 디젤 9인승 프레스티지",
-    sellPrice: 980,
-    stockDays: 1,
-    buyPrice: 654,
-    outerRepairs: 2,
-    repairCost: 26,
-    heydealerFee: 55,
-    baseExpenses: 15,
-    contributionMargin: 193,
-    netProfit: 19,
-    feeRate: 0.1,
-    salesCommission: 7,
-    finalProfit: 12,
-    isMine: true,
-    encarUrl: ""
-  },
-  {
-    id: "inv_2",
-    order: 1,
-    buyDate: "09. 07",
-    status: "판매완료",
-    carNumber: "297로2620",
-    carName: "기아 더뉴레이 시그니처",
-    sellPrice: 1190,
-    stockDays: 24,
-    buyPrice: 956,
-    outerRepairs: 5,
-    repairCost: 65,
-    heydealerFee: 0,
-    baseExpenses: 15,
-    contributionMargin: 125,
-    netProfit: 12,
-    feeRate: 0.1,
-    salesCommission: 8,
-    finalProfit: 4,
-    isMine: true,
-    encarUrl: "http://www.encar.com/dc/dc_cardetailview.do?pageid=dc_carsearch&listAdvType=normal&carid=42722039"
   }
 ];

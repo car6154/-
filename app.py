@@ -688,6 +688,21 @@ if run_heydealer:
                 hd_acc_summary = hd_detail_tmp.get('accident_repairs_summary_display', '') or hd_detail_tmp.get('accident_display', '')
                 if hd_acc_summary:
                     st.session_state.hd_target_accident = hd_acc_summary
+
+                # 🌟 헤이딜러 외판 판수 계산 (범퍼 제외 교환/판금 부위 수)
+                hd_repairs = hd_detail_tmp.get('accident_repairs') or []
+                non_bumper = [r for r in hd_repairs if 'bumper' not in str(r.get('part', '')).lower()]
+                if non_bumper:
+                    st.session_state.hd_outer_repairs = len(non_bumper)
+                elif hd_acc_summary:
+                    if '무사고' in hd_acc_summary and '교환' not in hd_acc_summary:
+                        st.session_state.hd_outer_repairs = 0
+                    elif '단순교환' in hd_acc_summary:
+                        st.session_state.hd_outer_repairs = 1
+                    else:
+                        st.session_state.hd_outer_repairs = 0
+                else:
+                    st.session_state.hd_outer_repairs = 0
                 
                 auction_repairs_json = result.get('auction_repairs') or ""
                 market_prices_json = result.get('market_prices') or ""
@@ -1564,7 +1579,8 @@ elif encar_opts:
     st.sidebar.markdown(card_html, unsafe_allow_html=True)
 
 l_sell_price = st.sidebar.number_input("판매가 (예상, 만원)", min_value=0, step=10, key=f"sell_{reset_idx}")
-l_ext_repair = st.sidebar.number_input("외판 수리 갯수", min_value=0, step=1, format="%d", key=f"ext_{reset_idx}")
+def_ext = int(st.session_state.get('hd_outer_repairs', 0))
+l_ext_repair = st.sidebar.number_input("외판 수리 갯수", min_value=0, step=1, value=def_ext, format="%d", key=f"ext_{reset_idx}")
 
 route_options = ["셀프(기본)", "제로", "개인"]
 cur_route = st.session_state.get("purchase_route", "셀프(기본)")

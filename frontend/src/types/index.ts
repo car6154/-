@@ -35,6 +35,7 @@ export interface InventorySettlementItem {
   netProfit: number;
   feeRate: number;
   salesCommission: number;
+  feeRateManual?: number;
   finalProfit: number;
   isMine: boolean;
   encarUrl?: string;

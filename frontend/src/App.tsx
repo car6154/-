@@ -365,23 +365,28 @@ export default function App() {
     }
   };
 
-  // Mark a car as sold in settlement
+  // Mark a car as sold in settlement (tab_settlement.py & settlement_service.py)
   const handleMarkSold = async (id: string, finalSellPrice?: number) => {
     const target = settlementItems.find(item => item.id === id);
     if (!target) return;
 
     const sell = finalSellPrice || target.sellPrice || 0;
     const buy = target.buyPrice || 0;
-    const vatMargin = sell > buy ? Math.round(((sell - buy) / 1.1) * 10) / 10 : 0;
-    const heyFeeTax = Math.round(target.heydealerFee * 1.1 * 10) / 10;
-    const comm = Math.round(sell * 0.003 * 10) / 10;
-    const contrib = Math.round((vatMargin - heyFeeTax - (target.repairCost || 0) - 15 - comm) * 10) / 10;
-    const myTake = Math.round(contrib * (target.feeRate || 0.1) * 10) / 10;
+    const vatMargin = sell > buy ? (sell - buy) / 1.1 : 0;
+    const baseExp = target.baseExpenses > 0 ? target.baseExpenses : 15;
+    const repCost = target.repairCost || 0;
+    const heyFee = target.heydealerFee || 0;
+    const salesComm = Math.round(sell * 0.007); // 판매가의 0.7%
+    const contrib = Math.round(vatMargin - (heyFee + repCost + baseExp + salesComm));
+    const rate = target.feeRateManual && target.feeRateManual > 0 ? target.feeRateManual : (target.feeRate || 0.10);
+    const myTake = Math.round(contrib * rate);
 
     const updatedItem = {
       ...target,
       status: '판매완료',
       sellPrice: sell,
+      baseExpenses: baseExp,
+      salesCommission: salesComm,
       contributionMargin: contrib,
       netProfit: myTake,
       finalProfit: myTake,
@@ -397,6 +402,7 @@ export default function App() {
         body: JSON.stringify({
           status: '판매완료',
           sellPrice: sell,
+          salesCommission: salesComm,
           contributionMargin: contrib,
           netProfit: myTake,
           finalProfit: myTake,
@@ -408,6 +414,8 @@ export default function App() {
     } catch (e) {
       console.warn('[J-PRO] 백엔드 정산 상태 갱신 경고:', e);
     }
+
+    setActiveTab('soldout');
   };
 
   // Confirm purchase from ledger into inventory settlement (tab_ledger.py workflow)
@@ -447,7 +455,7 @@ export default function App() {
     };
 
     setSettlementItems(prev => [newSettlementItem, ...prev]);
-    setCars(prev => prev.map(c => c.id === car.id ? { ...c, status: '보유중', buyPrice: actualBuyPrice || c.buyPrice } : c));
+    setCars(prev => prev.map(c => c.id === car.id ? { ...c, status: '매입완료', buyPrice: actualBuyPrice || c.buyPrice } : c));
 
     // 1. my_inventory_settlement.csv 에 영구 등록
     try {
@@ -475,12 +483,12 @@ export default function App() {
         }),
       });
 
-      // 2. my_car_ledger.csv 에도 보유중 상태 및 실제 매입가 갱신
+      // 2. my_car_ledger.csv 에도 매입완료 상태 및 실제 매입가 갱신
       await fetch(`http://127.0.0.1:8000/api/ledger/${encodeURIComponent(car.carNumber)}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          status: '보유중',
+          status: '매입완료',
           buyPrice: actualBuyPrice || car.buyPrice,
         }),
       });
@@ -492,6 +500,37 @@ export default function App() {
       console.warn('[J-PRO] 백엔드 정산 등록 경고:', e);
     }
 
+    setActiveTab('settlement');
+  };
+
+  // Delete car from ledger
+  const handleDeleteLedgerCar = async (carNumber: string) => {
+    setCars(prev => prev.filter(c => c.carNumber !== carNumber));
+    showToast(`🗑️ [${carNumber}] 차량이 장부에서 삭제되었습니다.`);
+    try {
+      await fetch(`http://127.0.0.1:8000/api/ledger/${encodeURIComponent(carNumber)}`, {
+        method: 'DELETE',
+      });
+    } catch (e) {
+      console.warn('[J-PRO] 백엔드 장부 삭제 요청:', e);
+    }
+  };
+
+  // Restore ledger from initial data / backup
+  const handleRestoreLedgerBackup = () => {
+    setCars(initialCars);
+    showToast('✅ 최근 백업 데이터로 장부가 복원되었습니다!');
+  };
+
+  // Restore sold car back to holding stock (tab_ledger.py restore workflow)
+  const handleRestoreToStock = (carNumber: string) => {
+    setSettlementItems(prev => prev.map(item => {
+      if (item.carNumber === carNumber) {
+        return { ...item, status: '보유/상품화중' };
+      }
+      return item;
+    }));
+    showToast(`↩️ [${carNumber}] 차량이 다시 보유재고 탭으로 복구되었습니다.`);
     setActiveTab('settlement');
   };
 
@@ -711,6 +750,8 @@ export default function App() {
             onUpdateStatus={handleUpdateStatus}
             onConfirmPurchase={handleConfirmPurchase}
             onAnalyzeInCockpit={handleAnalyzeInCockpit}
+            onDeleteCar={handleDeleteLedgerCar}
+            onRestoreBackup={handleRestoreLedgerBackup}
           />
         )}
 
@@ -727,6 +768,7 @@ export default function App() {
         {activeTab === 'soldout' && (
           <SoldOutSettlementTab
             completedList={settlementItems}
+            onRestoreToStock={handleRestoreToStock}
           />
         )}
 
@@ -739,7 +781,9 @@ export default function App() {
 
         {/* Tab 6: 📦 자사 보유 재고 (회사 1,266건 보유재고 참고 DB) */}
         {activeTab === 'inventory' && (
-          <CompanyInventoryTab />
+          <CompanyInventoryTab
+            onAnalyzeInCockpit={handleAnalyzePerformanceInCockpit}
+          />
         )}
       </main>
 

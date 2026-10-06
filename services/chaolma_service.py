@@ -11,6 +11,8 @@ import json
 import time
 from datetime import datetime
 from typing import Dict, Any, List, Optional
+import urllib.parse
+import xml.etree.ElementTree as ET
 import requests
 
 from services.cookie_server import get_current_autoplus_cookie
@@ -33,6 +35,8 @@ def norm_opt_name(s: str) -> str:
 class ChaolmaService:
     API_URL = "https://purchase.autoplus.co.kr/ajax/getCarMartData"
     HISTORY_URL = "https://purchase.autoplus.co.kr/ajax/getPurchaseInfoList"
+    CAR_HISTORY_URL = "https://purchase.autoplus.co.kr/ajax/getCarHistory"
+    ORIGIN_DOC_URL = "https://purchase.autoplus.co.kr/ajax/getCarOriginDocData"
 
     @classmethod
     def clear_cache(cls):
@@ -137,6 +141,22 @@ class ChaolmaService:
                 # 정상 데이터 파싱
                 parsed = cls.parse_carmart_json(car_data, car_no)
                 if parsed.get("success"):
+                    # 1. 카히스토리(보험이력) 자동 결합 조회
+                    try:
+                        ch_res = cls.fetch_car_history(car_no)
+                        if ch_res and ch_res.get("success"):
+                            parsed["car_history"] = ch_res
+                    except Exception:
+                        pass
+
+                    # 2. 국토부 자동차등록원부(압류·저당·구조변경·검사유효기간) 자동 결합 조회
+                    try:
+                        doc_res = cls.fetch_car_origin_doc(car_no)
+                        if doc_res and doc_res.get("success"):
+                            parsed["origin_doc"] = doc_res
+                    except Exception:
+                        pass
+
                     _CHAOLMA_CACHE[car_no] = {
                         "timestamp": now,
                         "data": parsed
@@ -444,3 +464,272 @@ class ChaolmaService:
             "depreciation_rate": rate,
             "age_years": round(age_years, 1)
         }
+
+    @classmethod
+    def parse_carhistory_xml(cls, xml_str: str, car_no: str) -> Dict[str, Any]:
+        """
+        오토플러스 getCarHistory 응답의 보험개발원 XML을 정형화된 JSON 딕셔너리로 변환
+        """
+        if not xml_str:
+            return {"success": False, "message": "카히스토리 XML 데이터가 없습니다."}
+
+        try:
+            # XML 파싱
+            root = ET.fromstring(xml_str.strip())
+
+            def get_text(tag: str, default: str = "") -> str:
+                el = root.find(tag)
+                return el.text.strip() if (el is not None and el.text) else default
+
+            def get_int(tag: str, default: int = 0) -> int:
+                val = get_text(tag)
+                try:
+                    return int(float(val))
+                except (ValueError, TypeError):
+                    return default
+
+            # 1. 소유자 변경 및 번호 변경
+            plate_change_count = get_int("r201", 0)
+            owner_changed_count = get_int("r204", 0)
+            is_single_owner = (owner_changed_count == 0)
+
+            # 2. 특수 용도 이력 (영업용, 관용, 대여/렌트)
+            is_business = (get_text("r301", "N") == "Y")
+            is_government = (get_text("r302", "N") == "Y")
+            has_rent_history = (get_text("r303", "N") == "Y")
+
+            # 3. 사고 건수 및 금액
+            # r401: 내차피해 건수, r402: 내차피해 총액
+            my_acc_count = get_int("r401", get_int("r501", 0))
+            my_acc_cost = get_int("r402", 0)
+            my_acc_cost_man = round(my_acc_cost / 10000)
+
+            # r403: 타차가해 건수, r404: 타차가해 총액
+            other_acc_count = get_int("r403", 0)
+            other_acc_cost = get_int("r404", 0)
+            other_acc_cost_man = round(other_acc_cost / 10000)
+
+            # r405: 전손, r407: 침수, r409: 도난
+            total_loss_count = get_int("r405", 0)
+            flooded_count = get_int("r407", 0)
+            stolen_count = get_int("r409", 0)
+
+            # 4. 보험 미가입 기간
+            uninsured_period = get_text("r511-01", "")
+
+            # 5. 주행거리 기록 (보험사/검사소)
+            mileage_records = []
+            r602 = root.find("r602")
+            if r602 is not None:
+                for e in r602.findall("e"):
+                    d = e.find("r602-01")
+                    src = e.find("r602-02")
+                    m = e.find("r602-03")
+                    if m is not None and m.text:
+                        try:
+                            mileage_records.append({
+                                "date": d.text.strip() if (d is not None and d.text) else "",
+                                "source": src.text.strip() if (src is not None and src.text) else "",
+                                "mileage": int(float(m.text.strip()))
+                            })
+                        except Exception:
+                            pass
+
+            # 6. 내차피해 상세 이력
+            accident_histories = []
+            r502 = root.find("r502")
+            if r502 is not None:
+                for e in r502.findall("e"):
+                    acc_date = e.find("r502-02")
+                    tot = e.find("r502-03")
+                    parts = e.find("r502-06")
+                    labor = e.find("r502-07")
+                    paint = e.find("r502-08")
+                    payout = e.find("r502-15")
+                    accident_histories.append({
+                        "date": acc_date.text.strip() if (acc_date is not None and acc_date.text) else "",
+                        "repair_cost": int(float(tot.text.strip())) if (tot is not None and tot.text) else 0,
+                        "parts_cost": int(float(parts.text.strip())) if (parts is not None and parts.text) else 0,
+                        "labor_cost": int(float(labor.text.strip())) if (labor is not None and labor.text) else 0,
+                        "paint_cost": int(float(paint.text.strip())) if (paint is not None and paint.text) else 0,
+                        "insurance_paid": int(float(payout.text.strip())) if (payout is not None and payout.text) else 0,
+                    })
+
+            # 최초등록일 포맷 (20110930 -> 2011-09-30)
+            raw_reg_date = get_text("r105", "")
+            formatted_reg_date = ""
+            if len(raw_reg_date) == 8:
+                formatted_reg_date = f"{raw_reg_date[:4]}-{raw_reg_date[4:6]}-{raw_reg_date[6:]}"
+
+            return {
+                "success": True,
+                "car_no": car_no or get_text("r002", ""),
+                "owner_changed_count": owner_changed_count,
+                "is_single_owner": is_single_owner,
+                "plate_change_count": plate_change_count,
+                "has_rent_history": has_rent_history,
+                "is_business": is_business,
+                "is_government": is_government,
+                "my_car_accident_count": my_acc_count,
+                "my_car_accident_cost": my_acc_cost,
+                "my_car_accident_cost_man": my_acc_cost_man,
+                "other_car_accident_count": other_acc_count,
+                "other_car_accident_cost": other_acc_cost,
+                "other_car_accident_cost_man": other_acc_cost_man,
+                "total_loss_count": total_loss_count,
+                "flooded_count": flooded_count,
+                "stolen_count": stolen_count,
+                "uninsured_period": uninsured_period,
+                "mileage_records": mileage_records,
+                "accident_histories": accident_histories,
+                "market_price_range": get_text("r701", ""),
+                "first_reg_date": formatted_reg_date or raw_reg_date
+            }
+        except Exception as e:
+            return {"success": False, "message": f"카히스토리 XML 파싱 오류: {str(e)}"}
+
+    @classmethod
+    def fetch_car_history(cls, car_no: str) -> Dict[str, Any]:
+        """
+        차얼마(오토플러스) getCarHistory API를 호출하여 보험개발원 카히스토리 원본을 실시간 조회
+        """
+        clean_no = str(car_no).replace(" ", "").strip()
+        if not clean_no:
+            return {"success": False, "message": "차량번호가 입력되지 않았습니다."}
+
+        cookie = cls.get_cookie()
+        if not cookie:
+            return {"success": False, "message": "차얼마 로그인 쿠키가 없습니다."}
+
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36",
+            "Cookie": cookie,
+            "X-Requested-With": "XMLHttpRequest",
+            "X-Ajax-call": "true",
+            "Referer": f"https://purchase.autoplus.co.kr/purchase/PCVP010001?brCd=00244&tsKey=&seriesNo=&carNumber={urllib.parse.quote(clean_no)}&carNavi=50000",
+            "Accept": "*/*",
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+        }
+
+        data_payload = {
+            "carNumber": clean_no
+        }
+
+        try:
+            resp = requests.post(cls.CAR_HISTORY_URL, data=data_payload, headers=headers, timeout=10)
+            resp_text = resp.content.decode("utf-8", errors="ignore")
+
+            # 로그인 만료 체크
+            if "/login/login.do" in resp_text or "frm-login" in resp_text or ("<title>차얼마" in resp_text and not resp_text.strip().startswith("{")):
+                return {
+                    "success": False,
+                    "message": "차얼마 로그인 세션이 만료되었습니다.",
+                    "need_login": True
+                }
+
+            if resp.status_code == 200:
+                try:
+                    res_json = json.loads(resp_text)
+                except Exception:
+                    return {"success": False, "message": "카히스토리 서버 응답 JSON 파싱 실패"}
+
+                header = res_json.get("header", {})
+                if not header.get("isSuccessful"):
+                    msg = res_json.get("msg") or header.get("resultMessage") or "카히스토리 조회 실패"
+                    return {"success": False, "message": f"카히스토리 조회 안내: {msg}"}
+
+                xml_data = res_json.get("data")
+                if not xml_data:
+                    return {"success": False, "message": "카히스토리 원본 데이터가 존재하지 않습니다."}
+
+                return cls.parse_carhistory_xml(xml_data, clean_no)
+            else:
+                return {"success": False, "message": f"카히스토리 서버 오류 (상태코드: {resp.status_code})"}
+        except requests.exceptions.Timeout:
+            return {"success": False, "message": "카히스토리 서버 응답 시간 초과 (10초)"}
+        except Exception as e:
+            return {"success": False, "message": f"카히스토리 조회 중 오류: {str(e)}"}
+
+    @classmethod
+    def fetch_car_origin_doc(cls, car_no: str) -> Dict[str, Any]:
+        """
+        차얼마(오토플러스) getCarOriginDocData API를 호출하여 국토교통부 자동차등록원부 원본 조회
+        - 압류 건수(SEIZR_CO), 저당 건수(MRTG_CO), 구조변경(STMD_CO), 정기검사 유효기간(INSPT_VALID_PD_ENDDE),
+          최종명의이전일(LAST_REGIST_DE), 검사소 주행거리(TRVL_DSTNC), 부활차 여부(RESRECT_AT) 등
+        """
+        clean_no = str(car_no).replace(" ", "").strip()
+        if not clean_no:
+            return {"success": False, "message": "차량번호가 입력되지 않았습니다."}
+
+        cookie = cls.get_cookie()
+        if not cookie:
+            return {"success": False, "message": "차얼마 로그인 쿠키가 없습니다."}
+
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36",
+            "Cookie": cookie,
+            "X-Requested-With": "XMLHttpRequest",
+            "X-Ajax-call": "true",
+            "Referer": f"https://purchase.autoplus.co.kr/purchase/PCVP010001?brCd=00244&tsKey=&seriesNo=&carNumber={urllib.parse.quote(clean_no)}&carNavi=50000",
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+        }
+
+        data_payload = {
+            "carNumber": clean_no
+        }
+
+        try:
+            resp = requests.post(cls.ORIGIN_DOC_URL, data=data_payload, headers=headers, timeout=10)
+            resp_text = resp.content.decode("utf-8", errors="ignore")
+
+            if "/login/login.do" in resp_text or "frm-login" in resp_text:
+                return {"success": False, "message": "차얼마 세션 만료", "need_login": True}
+
+            if resp.status_code == 200:
+                res_json = json.loads(resp_text)
+                header = res_json.get("header", {})
+                if not header.get("isSuccessful"):
+                    msg = res_json.get("msg") or header.get("resultMessage") or "등록원부 조회 실패"
+                    return {"success": False, "message": f"등록원부 조회 안내: {msg}"}
+
+                d = res_json.get("data")
+                if not d:
+                    return {"success": False, "message": "등록원부 데이터가 존재하지 않습니다."}
+
+                def to_int(v, default=0):
+                    try:
+                        return int(v) if v is not None else default
+                    except (ValueError, TypeError):
+                        return default
+
+                # 날짜 포맷팅 (20260923 -> 2026-09-23)
+                last_reg = str(d.get("LAST_REGIST_DE") or "").strip()
+                if len(last_reg) == 8 and last_reg.isdigit():
+                    last_reg = f"{last_reg[:4]}-{last_reg[4:6]}-{last_reg[6:]}"
+
+                return {
+                    "success": True,
+                    "car_no": clean_no,
+                    "seizure_count": to_int(d.get("SEIZR_CO"), 0),            # 압류 건수
+                    "mortgage_count": to_int(d.get("MRTG_CO"), 0),           # 저당 건수
+                    "tuning_count": to_int(d.get("STMD_CO"), 0),             # 구조변경 건수
+                    "inspection_valid_end": str(d.get("INSPT_VALID_PD_ENDDE") or "").strip(), # 정기검사 만료일
+                    "inspection_valid_start": str(d.get("INSPT_VALID_PD_BGNDE") or "").strip(),
+                    "last_regist_date": last_reg,                            # 최종 명의이전일
+                    "first_regist_date": str(d.get("FRST_REGIST_DE") or "").strip(), # 최초 등록일
+                    "inspection_mileage": to_int(d.get("TRVL_DSTNC"), 0),    # 검사소 실측 주행거리
+                    "is_resurrected": to_int(d.get("RESRECT_AT"), 0) > 0,    # 부활차 여부
+                    "is_cbu": to_int(d.get("CBU_AT"), 0) > 0,                # 수입완성차 여부
+                    "engine_type": str(d.get("MTRS_FOM_NM") or "").strip(),  # 엔진 형식 (예: D4HB)
+                    "car_form": str(d.get("FOM_NM") or "").strip(),          # 차량 형식 (예: YP9ABE-S-9)
+                    "seating_capacity": to_int(d.get("TKCAR_PSCAP_CO"), 0),  # 승차정원 (예: 7)
+                    "plate_issue_ext": str(d.get("EXTRL_NMPL_ISSU_YN") or "").strip(),
+                    "raw_doc": d
+                }
+            else:
+                return {"success": False, "message": f"등록원부 서버 오류 (상태코드: {resp.status_code})"}
+        except requests.exceptions.Timeout:
+            return {"success": False, "message": "등록원부 서버 응답 시간 초과 (10초)"}
+        except Exception as e:
+            return {"success": False, "message": f"등록원부 조회 중 오류: {str(e)}"}
+

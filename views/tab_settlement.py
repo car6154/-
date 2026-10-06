@@ -12,10 +12,11 @@ def render_settlement_tab(SETTLEMENT_FILE="my_inventory_settlement.csv"):
         st.markdown("### 💰 실전 재고 및 정산 관리 (현재 보유 차량)")
         st.caption("📋 매입 확정 후 현재 보유 중인 재고 차량의 원가와 손익을 관리합니다. 판매가 완료되면 표 맨 끝의 **[판매완료]**를 체크하여 이동하세요.")
 
-        # 1. 구간별 기본 수수료율 함수
-        def get_auto_fee_rate(volume):
-            if volume <= 12: return 0.10
-            elif volume <= 18: return 0.30
+        # 1. 구간별 기본 수수료율 함수 (2026년 4분기 공문 기준: 이익/손실 차등)
+        def get_auto_fee_rate(volume, is_loss=False):
+            if volume <= 12: return 0.30 if is_loss else 0.10
+            elif volume <= 16: return 0.30 if is_loss else 0.20
+            elif volume <= 19: return 0.30
             elif volume <= 31: return 0.40
             else: return 0.50
 
@@ -65,7 +66,11 @@ def render_settlement_tab(SETTLEMENT_FILE="my_inventory_settlement.csv"):
                     expenses = row.get('헤딜수수료', 0) + row.get('상품화', 0) + df.at[idx, '기본제경비'] + p_fee
                     net_profit = int(round(vat_margin - expenses))
                     df.at[idx, '공헌이익'] = net_profit
-                    df.at[idx, '실수익'] = int(round(net_profit * curr_rate))
+                    applied_rate = curr_rate
+                    if net_profit < 0 and (curr_rate == default_rate or curr_rate <= 0):
+                        applied_rate = get_auto_fee_rate(len(df), is_loss=True)
+                        df.at[idx, '수수료율'] = applied_rate
+                    df.at[idx, '실수익'] = int(round(net_profit * applied_rate))
                 else:
                     df.at[idx, '공헌이익'] = 0
                     df.at[idx, '실수익'] = 0
@@ -175,6 +180,11 @@ def render_settlement_tab(SETTLEMENT_FILE="my_inventory_settlement.csv"):
                     <h2 style='color: #38bdf8; font-weight:900;'>{total_bought_count:,} 대 <span style='font-size:0.55em; color:#94a3b8;'>({int(auto_fee_rate*100)}%)</span></h2>
                 </div>
             </div>
+        </div>
+        <div style='background: #1e1b4b; border: 1px solid #4338ca; border-radius: 8px; padding: 10px 14px; margin-bottom: 14px; font-size: 0.85em; color: #c7d2fe;'>
+            <b style='color:#a5b4fc;'>📢 2026년 4분기 매입사원 수수료 운영 기준 (2026.10.01 ~ 12.31):</b>
+            <span style='margin-left: 8px;'>• 요율: ~12대 (이익 10% / 손실 30%), <b>13~16대 (이익 20% / 손실 30%)</b>, 17~19대 (30%), 20~31대 (40%), 32대+ (50%)</span>
+            <span style='margin-left: 8px;'>• 손실 누적 차감: 매입 수수료 <b>200만 원 이하 전액 지급</b>(손실 미차감), 200만 원 초과분 50% 차감 후 지급</span>
         </div>
         """, unsafe_allow_html=True)
 

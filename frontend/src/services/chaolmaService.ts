@@ -10,6 +10,58 @@ export interface GenuineOption {
   rate?: number;
 }
 
+export interface ChaolmaCarHistory {
+  success: boolean;
+  car_no: string;
+  owner_changed_count: number;
+  is_single_owner: boolean;
+  plate_change_count: number;
+  has_rent_history: boolean;
+  is_business: boolean;
+  is_government: boolean;
+  my_car_accident_count: number;
+  my_car_accident_cost: number;
+  my_car_accident_cost_man: number;
+  other_car_accident_count: number;
+  other_car_accident_cost: number;
+  other_car_accident_cost_man: number;
+  total_loss_count: number;
+  flooded_count: number;
+  stolen_count: number;
+  uninsured_period?: string;
+  mileage_records?: { date: string; source: string; mileage: number }[];
+  accident_histories?: {
+    date: string;
+    repair_cost: number;
+    parts_cost: number;
+    labor_cost: number;
+    paint_cost: number;
+    insurance_paid: number;
+  }[];
+  market_price_range?: string;
+  first_reg_date?: string;
+}
+
+export interface ChaolmaOriginDoc {
+  success: boolean;
+  car_no: string;
+  seizure_count: number; // 압류 건수
+  mortgage_count: number; // 저당 건수
+  tuning_count: number; // 구조변경 건수
+  inspection_valid_end?: string; // 정기검사 만료일 (예: 2027-06-15)
+  inspection_valid_start?: string;
+  last_regist_date?: string; // 최종 명의이전일 (예: 2026-09-23)
+  first_regist_date?: string; // 최초 등록일 (예: 2017-06-16)
+  inspection_mileage?: number; // 검사소 실측 주행거리 (km)
+  is_resurrected?: boolean; // 부활차 여부
+  is_cbu?: boolean; // 수입완성차 여부
+  engine_type?: string; // 엔진 형식 (예: D4HB)
+  car_form?: string; // 차량 형식 (예: YP9ABE-S-9)
+  seating_capacity?: number; // 승차정원 (예: 7)
+  plate_issue_ext?: string;
+  raw_doc?: any;
+}
+
 export interface ChaolmaResult {
   success: boolean;
   message?: string;
@@ -31,6 +83,8 @@ export interface ChaolmaResult {
   remain_rate: number;
   age_years: number;
   options: GenuineOption[];
+  car_history?: ChaolmaCarHistory;
+  origin_doc?: ChaolmaOriginDoc;
 }
 
 export const DEFAULT_OPTION_PRICES: Record<string, number> = {
