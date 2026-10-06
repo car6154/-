@@ -1352,28 +1352,37 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
   };
 
   // ----------------------------------------------------
+  // ----------------------------------------------------
   // [1단계. 자사 오토플러스 실적 및 시장 수요도 - Streamlit 8501 100% 동일 API 연동]
   // ----------------------------------------------------
   const [liveMarketStats, setLiveMarketStats] = useState<any>(null);
 
+  const fetchMarketStats = useCallback(async (cName?: string, dModel?: string, yModel?: number) => {
+    const targetCName = cName || carName;
+    if (!targetCName) return;
+    const targetDModel = dModel !== undefined ? dModel : detailModel;
+    const targetYModel = yModel !== undefined ? yModel : yearModel;
+
+    try {
+      const fullYr = typeof targetYModel === 'number' 
+        ? (targetYModel > 0 ? (targetYModel > 2000 ? targetYModel : 2000 + targetYModel) : '')
+        : (targetYModel || '');
+      const res = await fetch(`/api/market_statistics?car_name=${encodeURIComponent(targetCName)}&sub_model=${encodeURIComponent(targetDModel || '')}&year=${encodeURIComponent(String(fullYr))}`);
+      if (res.ok) {
+        const json = await res.json();
+        if (json.success && json.data) {
+          setLiveMarketStats(json.data);
+        }
+      }
+    } catch (e) {
+      console.warn('Market stats fetch failed:', e);
+    }
+  }, [carName, detailModel, yearModel]);
+
   useEffect(() => {
     if (!carName) return;
-    const fetchMarketStats = async () => {
-      try {
-        const fullYr = typeof yearModel === 'number' ? (yearModel > 2000 ? yearModel : 2000 + yearModel) : yearModel;
-        const res = await fetch(`/api/market_statistics?car_name=${encodeURIComponent(carName)}&sub_model=${encodeURIComponent(detailModel || '')}&year=${fullYr}`);
-        if (res.ok) {
-          const json = await res.json();
-          if (json.success && json.data) {
-            setLiveMarketStats(json.data);
-          }
-        }
-      } catch (e) {
-        console.warn('Market stats fetch failed:', e);
-      }
-    };
-    fetchMarketStats();
-  }, [carName, detailModel, yearModel]);
+    fetchMarketStats(carName, detailModel, yearModel);
+  }, [carName, detailModel, yearModel, fetchMarketStats]);
 
   const matchedAutoplusList = useMemo(() => {
     if (liveMarketStats && Array.isArray(liveMarketStats.sample_list)) {
@@ -1600,71 +1609,77 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
     <div className="flex flex-col lg:flex-row gap-5 items-start w-full">
       
       {/* ========================================================
-          [좌측 고정 사이드바] 헤이딜러 URL/차량번호 입력 & 파라미터
+          [좌측 고정 사이드바] 헤이딜러 URL/차량번호 입력 & 파라미터 (고대비 & 확대)
           ======================================================== */}
-      <div className="w-full lg:w-[290px] xl:w-[310px] shrink-0 space-y-4 lg:sticky lg:top-4 self-start max-h-[calc(100vh-2rem)] overflow-y-auto scrollbar-thin scrollbar-thumb-zinc-700 pr-1">
-        <div className="bg-[#0e0f13] border border-[#1c1d22] rounded-xl p-4 shadow-xl space-y-4">
+      <div className="w-full lg:w-[320px] xl:w-[340px] shrink-0 space-y-4 lg:sticky lg:top-4 self-start max-h-[calc(100vh-2rem)] overflow-y-auto scrollbar-thin scrollbar-thumb-zinc-700 pr-1">
+        <div className="bg-[#0e0f13] border border-[#262833] rounded-xl p-4 shadow-xl space-y-4">
           
           {/* Logo */}
-          <div>
-            <div className="text-sm font-black text-blue-500 font-serif-display tracking-wider">
-              J-PRO
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="text-base font-black text-blue-400 font-serif-display tracking-wider">
+                J-PRO
+              </div>
+              <div className="text-[11px] text-zinc-300 uppercase tracking-wider font-bold">
+                AUTO VALUATION INTELLIGENCE
+              </div>
             </div>
-            <div className="text-[10px] text-[#717482] uppercase tracking-wider font-semibold">
-              AUTO VALUATION INTELLIGENCE
-            </div>
+            <span className="text-[10px] px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 font-bold border border-blue-500/30">
+              비딩 콕핏 v2
+            </span>
           </div>
 
           {/* URL Input */}
           <div className="space-y-1.5">
+            <label className="text-xs font-bold text-zinc-200 block">헤이딜러 매물 주소</label>
             <input
               type="text"
               placeholder="헤이딜러 URL 또는 ID 입력"
               value={heydealerUrl}
               onChange={(e) => setHeydealerUrl(e.target.value)}
-              className="w-full bg-[#121317] border border-[#22242c] rounded-lg px-2.5 py-1.5 text-xs text-white placeholder-[#515360] focus:outline-none focus:border-blue-500"
+              className="w-full bg-[#14151b] border border-[#2c2f3d] rounded-lg px-3 py-2 text-xs sm:text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-blue-500 font-mono"
             />
             {/* 헤이딜러 샘플 매물 빠른 선택 */}
-            <div className="flex items-center gap-1 overflow-x-auto py-0.5 scrollbar-none text-[10px]">
-              <span className="text-[#5e616e] shrink-0">샘플:</span>
+            <div className="flex items-center gap-1 overflow-x-auto py-0.5 scrollbar-none text-[11px]">
+              <span className="text-zinc-400 shrink-0 font-medium">샘플:</span>
               <button
                 type="button"
                 onClick={() => setHeydealerUrl('https://dealer.heydealer.com/cars/yoekjmGQ/')}
-                className="px-1.5 py-0.5 rounded bg-[#181a22] hover:bg-amber-600/30 text-amber-300 hover:text-white border border-[#262836] shrink-0 font-mono transition cursor-pointer"
+                className="px-2 py-0.5 rounded bg-[#1c1e28] hover:bg-amber-600/30 text-amber-300 hover:text-white border border-[#2c2f3d] shrink-0 font-mono transition cursor-pointer"
                 title="캐스퍼 일렉트릭 인스퍼레이션 샘플"
               >
                 yoekjmGQ (캐스퍼EV)
               </button>
             </div>
-            <div className="grid grid-cols-2 gap-1.5">
+            <div className="grid grid-cols-2 gap-2 pt-1">
               <button
                 type="button"
                 onClick={handleHeydealerAiEstimate}
                 disabled={isAiEstimating}
-                className="py-1.5 rounded-lg bg-gradient-to-r from-amber-600/30 to-[#cc9166]/40 hover:from-amber-600/50 hover:to-[#cc9166]/60 text-xs font-semibold text-white border border-[#cc9166]/50 transition cursor-pointer flex items-center justify-center gap-1 shadow-sm"
+                className="py-2 rounded-lg bg-gradient-to-r from-amber-600/40 to-[#cc9166]/50 hover:from-amber-600/60 hover:to-[#cc9166]/70 text-xs sm:text-sm font-bold text-white border border-[#cc9166]/60 transition cursor-pointer flex items-center justify-center gap-1.5 shadow-sm"
               >
-                {isAiEstimating ? <RefreshCw className="w-3 h-3 animate-spin text-[#cc9166]" /> : <Sparkles className="w-3 h-3 text-[#cc9166]" />}
+                {isAiEstimating ? <RefreshCw className="w-3.5 h-3.5 animate-spin text-amber-300" /> : <Sparkles className="w-3.5 h-3.5 text-amber-300" />}
                 <span>{isAiEstimating ? '산출 중...' : 'AI 견적 산출'}</span>
               </button>
               <button
                 type="button"
                 onClick={() => setIsQuickPasteOpen(true)}
-                className="py-1.5 rounded-lg bg-[#16171d] hover:bg-[#252836] text-xs font-semibold text-emerald-400 hover:text-emerald-300 border border-emerald-500/30 transition cursor-pointer flex items-center justify-center gap-1"
+                className="py-2 rounded-lg bg-[#1a1c24] hover:bg-[#252836] text-xs sm:text-sm font-bold text-emerald-300 hover:text-emerald-200 border border-emerald-500/40 transition cursor-pointer flex items-center justify-center gap-1"
                 title="헤이딜러/카카오톡 텍스트 복사 후 1초 자동 분석"
               >
-                <span>📋 텍스트 붙여넣기</span>
+                <span>📋 텍스트 분석</span>
               </button>
             </div>
           </div>
 
           {/* Car Number Search (차얼마 & 엔카 통합 조회) */}
-          <div className="space-y-1.5">
+          <div className="space-y-1.5 pt-1">
             <div className="flex items-center justify-between">
-              <label className="text-[11px] font-semibold text-[#8b8e9d] flex items-center gap-1">
+              <label className="text-xs font-bold text-zinc-200 flex items-center gap-1.5">
                 <span>차량번호 (필수)</span>
-                <span className="text-[9px] bg-blue-500/20 text-blue-400 px-1 py-0.5 rounded font-mono">차얼마&엔카</span>
+                <span className="text-[10px] bg-blue-500/25 text-blue-300 px-1.5 py-0.5 rounded font-mono font-bold">차얼마&amp;엔카</span>
               </label>
-              <span className="text-[10px] text-[#5e616e]">Enter로 즉시 조회</span>
+              <span className="text-[11px] text-zinc-400">Enter로 조회</span>
             </div>
             <div className="flex gap-1.5">
               <input
@@ -1675,22 +1690,22 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
                   if (e.key === 'Enter') handleLookupCarNumber();
                 }}
                 placeholder="예: 37다1840, 240어8733"
-                className="flex-1 bg-[#121317] border border-[#22242c] rounded-lg px-2.5 py-1.5 text-xs font-bold text-white placeholder-[#515360] focus:outline-none focus:border-blue-500 font-mono tracking-wider"
+                className="flex-1 bg-[#14151b] border border-[#2c2f3d] rounded-lg px-3 py-2 text-sm font-bold text-white placeholder-zinc-500 focus:outline-none focus:border-blue-500 font-mono tracking-wider"
               />
               <button
                 type="button"
                 onClick={() => handleLookupCarNumber()}
                 disabled={isSearchingCar}
-                className="px-3.5 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-xs font-bold text-white transition shadow-sm cursor-pointer flex items-center gap-1.5 shrink-0"
+                className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-xs sm:text-sm font-bold text-white transition shadow-sm cursor-pointer flex items-center gap-1.5 shrink-0"
               >
-                {isSearchingCar ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <Search className="w-3.5 h-3.5" />}
+                {isSearchingCar ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
                 <span>{isSearchingCar ? '조회중' : '조회'}</span>
               </button>
             </div>
 
             {/* 빠른 번호 선택 칩 */}
-            <div className="flex items-center gap-1 overflow-x-auto py-0.5 scrollbar-none text-[10px]">
-              <span className="text-[#5e616e] shrink-0">추천:</span>
+            <div className="flex items-center gap-1 overflow-x-auto py-1 scrollbar-none text-[11px]">
+              <span className="text-zinc-400 shrink-0 font-medium">추천:</span>
               {[
                 { no: '37다1840', name: '카니발' },
                 { no: '240어8733', name: '모닝' },
@@ -1705,7 +1720,7 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
                     setCarNumber(chip.no);
                     handleLookupCarNumber(chip.no);
                   }}
-                  className="px-1.5 py-0.5 rounded bg-[#181a22] hover:bg-blue-600/30 text-slate-300 hover:text-white border border-[#262836] shrink-0 font-mono transition cursor-pointer"
+                  className="px-2 py-0.5 rounded bg-[#1c1e28] hover:bg-blue-600/30 text-zinc-300 hover:text-white border border-[#2c2f3d] shrink-0 font-mono transition cursor-pointer"
                 >
                   {chip.no}
                 </button>
@@ -1713,20 +1728,20 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
             </div>
 
             {aiEstimateStep && (
-              <div className="text-[10px] text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2 py-1 rounded animate-pulse">
+              <div className="text-xs text-amber-300 bg-amber-500/15 border border-amber-500/30 px-2.5 py-1.5 rounded-lg animate-pulse font-medium">
                 {aiEstimateStep}
               </div>
             )}
             {searchStatus && (
               <div
-                className={`text-xs px-2.5 py-2 rounded-lg border leading-relaxed flex items-start gap-1.5 shadow-sm ${
+                className={`text-xs px-3 py-2 rounded-lg border leading-relaxed flex items-start gap-1.5 shadow-sm font-medium ${
                   searchStatus.type === 'error'
-                    ? 'text-rose-300 bg-rose-950/40 border-rose-500/40'
+                    ? 'text-rose-200 bg-rose-950/60 border-rose-500/50'
                     : searchStatus.type === 'warning'
-                    ? 'text-amber-300 bg-amber-950/40 border-amber-500/40'
+                    ? 'text-amber-200 bg-amber-950/60 border-amber-500/50'
                     : searchStatus.type === 'info'
-                    ? 'text-blue-300 bg-blue-950/40 border-blue-500/40'
-                    : 'text-emerald-300 bg-emerald-950/40 border-emerald-500/40'
+                    ? 'text-blue-200 bg-blue-950/60 border-blue-500/50'
+                    : 'text-emerald-200 bg-emerald-950/60 border-emerald-500/50'
                 }`}
               >
                 <span>{searchStatus.message}</span>
@@ -1735,15 +1750,15 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
           </div>
 
           {/* Form Fields */}
-          <div className="space-y-3 pt-2 border-t border-[#1c1d22] text-xs">
+          <div className="space-y-3.5 pt-2 border-t border-[#262833] text-xs">
             
             {/* Manufacturer */}
             <div>
-              <label className="text-[11px] text-[#8b8e9d] block mb-1">제조사/브랜드</label>
+              <label className="text-xs font-bold text-zinc-200 block mb-1">제조사/브랜드</label>
               <select
                 value={manufacturer}
                 onChange={(e) => setManufacturer(e.target.value)}
-                className="w-full bg-[#121317] border border-[#22242c] rounded-lg px-2.5 py-1.5 text-white font-medium text-xs focus:outline-none focus:border-blue-500"
+                className="w-full bg-[#14151b] border border-[#2c2f3d] rounded-lg px-3 py-2 text-white font-bold text-xs sm:text-sm focus:outline-none focus:border-blue-500"
               >
                 <option value="기아">기아</option>
                 <option value="현대">현대</option>
@@ -1761,8 +1776,8 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
             {/* Car Name */}
             <div>
               <div className="flex justify-between items-center mb-1">
-                <label className="text-[11px] text-[#8b8e9d]">차량명</label>
-                <span className="text-[10px] text-blue-400 font-mono">직접입력/추천</span>
+                <label className="text-xs font-bold text-zinc-200">차량명</label>
+                <span className="text-[11px] text-blue-400 font-mono font-medium">직접입력/추천</span>
               </div>
               <input
                 type="text"
@@ -1770,7 +1785,7 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
                 value={carName}
                 onChange={(e) => setCarName(e.target.value)}
                 placeholder="예: 올 뉴 카니발, 더 뉴 아반떼 AD"
-                className="w-full bg-[#121317] border border-[#22242c] rounded-lg px-2.5 py-1.5 text-white font-semibold text-xs focus:outline-none focus:border-blue-500"
+                className="w-full bg-[#14151b] border border-[#2c2f3d] rounded-lg px-3 py-2 text-white font-bold text-xs sm:text-sm focus:outline-none focus:border-blue-500"
               />
               <datalist id="cockpit-car-names">
                 <option value="올뉴모닝(JA)" />
@@ -1791,14 +1806,14 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
 
             {/* Detail Model */}
             <div>
-              <label className="text-[11px] text-[#8b8e9d] block mb-1">세부모델</label>
+              <label className="text-xs font-bold text-zinc-200 block mb-1">세부모델</label>
               <input
                 type="text"
                 list="cockpit-sub-models"
                 value={detailModel}
                 onChange={(e) => setDetailModel(e.target.value)}
                 placeholder="세부모델명 입력"
-                className="w-full bg-[#121317] border border-[#22242c] rounded-lg px-2.5 py-1.5 text-white text-xs focus:outline-none focus:border-blue-500"
+                className="w-full bg-[#14151b] border border-[#2c2f3d] rounded-lg px-3 py-2 text-white font-semibold text-xs sm:text-sm focus:outline-none focus:border-blue-500"
               />
               <datalist id="cockpit-sub-models">
                 <option value="럭셔리" />
@@ -1815,37 +1830,37 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
             </div>
 
             {/* Year */}
-            <div className="flex justify-between items-center">
-              <span className="text-[11px] text-[#8b8e9d]">연식(시세분석용, 0=전체)</span>
-              <div className="flex items-center gap-1">
+            <div className="flex justify-between items-center bg-[#14151b] p-2 rounded-lg border border-[#232634]">
+              <span className="text-xs font-bold text-zinc-200">연식 (0=전체)</span>
+              <div className="flex items-center gap-1.5">
                 <button
                   type="button"
                   onClick={() => setYearModel(yearModel - 1)}
-                  className="w-5 h-5 rounded bg-[#1c1d22] text-white font-bold"
+                  className="w-6 h-6 rounded bg-[#232634] hover:bg-[#323646] text-white font-bold transition cursor-pointer"
                 >-</button>
-                <span className="w-6 text-center font-bold text-white">{yearModel}</span>
+                <span className="w-8 text-center font-black text-white text-sm font-mono">{yearModel}</span>
                 <button
                   type="button"
                   onClick={() => setYearModel(yearModel + 1)}
-                  className="w-5 h-5 rounded bg-[#1c1d22] text-white font-bold"
+                  className="w-6 h-6 rounded bg-[#232634] hover:bg-[#323646] text-white font-bold transition cursor-pointer"
                 >+</button>
               </div>
             </div>
 
             {/* Mileage */}
-            <div className="flex justify-between items-center">
-              <span className="text-[11px] text-[#8b8e9d]">주행거리 (km)</span>
-              <div className="flex items-center gap-1">
+            <div className="flex justify-between items-center bg-[#14151b] p-2 rounded-lg border border-[#232634]">
+              <span className="text-xs font-bold text-zinc-200">주행거리 (km)</span>
+              <div className="flex items-center gap-1.5">
                 <button
                   type="button"
                   onClick={() => setMileageKm(Math.max(0, mileageKm - 1000))}
-                  className="w-5 h-5 rounded bg-[#1c1d22] text-white font-bold"
+                  className="w-6 h-6 rounded bg-[#232634] hover:bg-[#323646] text-white font-bold transition cursor-pointer"
                 >-</button>
-                <span className="w-16 text-center font-bold text-white text-[11px]">{mileageKm.toLocaleString()}</span>
+                <span className="w-20 text-center font-black text-white text-xs sm:text-sm font-mono">{mileageKm.toLocaleString()}</span>
                 <button
                   type="button"
                   onClick={() => setMileageKm(mileageKm + 1000)}
-                  className="w-5 h-5 rounded bg-[#1c1d22] text-white font-bold"
+                  className="w-6 h-6 rounded bg-[#232634] hover:bg-[#323646] text-white font-bold transition cursor-pointer"
                 >+</button>
               </div>
             </div>
@@ -1853,61 +1868,61 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
             {/* Options */}
             <div>
               <div className="flex justify-between items-center mb-1">
-                <span className="text-[11px] text-[#8b8e9d]">신차 추가 옵션</span>
-                <span className="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-semibold">장부연동</span>
+                <span className="text-xs font-bold text-zinc-200">추가 옵션</span>
+                <span className="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold">장부연동</span>
               </div>
               <input
                 type="text"
                 value={optionsTag}
                 onChange={(e) => setOptionsTag(e.target.value)}
                 placeholder="옵션 내역 (예: 스마트키·내비게이션)"
-                className="w-full bg-[#121317] border border-[#22242c] rounded-lg px-2.5 py-1.5 text-white text-[11px] font-medium focus:outline-none focus:border-blue-500"
+                className="w-full bg-[#14151b] border border-[#2c2f3d] rounded-lg px-3 py-2 text-white text-xs sm:text-sm font-medium focus:outline-none focus:border-blue-500"
               />
             </div>
 
             {/* Expected Sell Price */}
-            <div className="flex justify-between items-center">
-              <span className="text-[11px] text-[#8b8e9d]">판매가(예상, 만원)</span>
-              <div className="flex items-center gap-1">
+            <div className="flex justify-between items-center bg-[#14151b] p-2 rounded-lg border border-[#232634]">
+              <span className="text-xs font-bold text-zinc-200">예상 소매가 (만원)</span>
+              <div className="flex items-center gap-1.5">
                 <button
                   type="button"
                   onClick={() => setExpectedSellPrice(Math.max(0, expectedSellPrice - 10))}
-                  className="w-5 h-5 rounded bg-[#1c1d22] text-white font-bold"
+                  className="w-6 h-6 rounded bg-[#232634] hover:bg-[#323646] text-white font-bold transition cursor-pointer"
                 >-</button>
-                <span className="w-12 text-center font-bold text-white">{expectedSellPrice}</span>
+                <span className="w-14 text-center font-black text-sky-400 text-sm sm:text-base font-mono">{expectedSellPrice}</span>
                 <button
                   type="button"
                   onClick={() => setExpectedSellPrice(expectedSellPrice + 10)}
-                  className="w-5 h-5 rounded bg-[#1c1d22] text-white font-bold"
+                  className="w-6 h-6 rounded bg-[#232634] hover:bg-[#323646] text-white font-bold transition cursor-pointer"
                 >+</button>
               </div>
             </div>
 
             {/* Outer Repairs */}
-            <div className="flex justify-between items-center">
-              <span className="text-[11px] text-[#8b8e9d]">외판 수리 갯수</span>
-              <div className="flex items-center gap-1">
+            <div className="flex justify-between items-center bg-[#14151b] p-2 rounded-lg border border-[#232634]">
+              <span className="text-xs font-bold text-zinc-200">외판 수리 갯수</span>
+              <div className="flex items-center gap-1.5">
                 <button
                   type="button"
                   onClick={() => setOuterRepairCount(Math.max(0, outerRepairCount - 1))}
-                  className="w-5 h-5 rounded bg-[#1c1d22] text-white font-bold"
+                  className="w-6 h-6 rounded bg-[#232634] hover:bg-[#323646] text-white font-bold transition cursor-pointer"
                 >-</button>
-                <span className="w-6 text-center font-bold text-white">{outerRepairCount}</span>
+                <span className="w-8 text-center font-black text-white text-sm font-mono">{outerRepairCount}</span>
                 <button
                   type="button"
                   onClick={() => setOuterRepairCount(outerRepairCount + 1)}
-                  className="w-5 h-5 rounded bg-[#1c1d22] text-white font-bold"
+                  className="w-6 h-6 rounded bg-[#232634] hover:bg-[#323646] text-white font-bold transition cursor-pointer"
                 >+</button>
               </div>
             </div>
 
             {/* Auction Type */}
             <div>
-              <label className="text-[11px] text-[#8b8e9d] block mb-1">매입 경로</label>
+              <label className="text-xs font-bold text-zinc-200 block mb-1">매입 경로</label>
               <select
                 value={auctionType}
                 onChange={(e) => setAuctionType(e.target.value)}
-                className="w-full bg-[#121317] border border-[#22242c] rounded-lg px-2 py-1.5 text-white"
+                className="w-full bg-[#14151b] border border-[#2c2f3d] rounded-lg px-3 py-2 text-white font-bold text-xs sm:text-sm"
               >
                 <option value="셀프(기본)">셀프(기본)</option>
                 <option value="제로">제로</option>
@@ -1915,34 +1930,34 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
             </div>
 
             {/* Target Margin */}
-            <div className="flex justify-between items-center">
-              <span className="text-[11px] text-[#8b8e9d]">목표 마진(만원)</span>
-              <div className="flex items-center gap-1">
+            <div className="flex justify-between items-center bg-[#14151b] p-2 rounded-lg border border-[#232634]">
+              <span className="text-xs font-bold text-zinc-200">목표 마진 (만원)</span>
+              <div className="flex items-center gap-1.5">
                 <button
                   type="button"
                   onClick={() => setTargetMargin(Math.max(50, targetMargin - 10))}
-                  className="w-5 h-5 rounded bg-[#1c1d22] text-white font-bold"
+                  className="w-6 h-6 rounded bg-[#232634] hover:bg-[#323646] text-white font-bold transition cursor-pointer"
                 >-</button>
-                <span className="w-10 text-center font-bold text-emerald-400">{targetMargin}</span>
+                <span className="w-12 text-center font-black text-emerald-400 text-sm sm:text-base font-mono">{targetMargin}</span>
                 <button
                   type="button"
                   onClick={() => setTargetMargin(targetMargin + 10)}
-                  className="w-5 h-5 rounded bg-[#1c1d22] text-white font-bold"
+                  className="w-6 h-6 rounded bg-[#232634] hover:bg-[#323646] text-white font-bold transition cursor-pointer"
                 >+</button>
               </div>
             </div>
 
             {/* 🎯 가로 1행: [입찰가 수정 입력창] + [📋 복사 버튼] */}
             {expectedSellPrice > 0 && (
-              <div className="space-y-2 pt-1">
+              <div className="space-y-2.5 pt-1">
                 <div className="flex items-center gap-1.5">
                   <div className="flex-1">
-                    <label className="text-[10px] text-[#8b8e9d] block mb-0.5">최종 입찰가 (만원)</label>
+                    <label className="text-xs font-bold text-zinc-300 block mb-1">최종 입찰가 (만원)</label>
                     <input
                       type="number"
                       value={userBid}
                       onChange={(e) => setUserBid(Number(e.target.value) || 0)}
-                      className="w-full bg-[#121317] border border-emerald-500/50 rounded-lg px-2.5 py-1.5 text-emerald-400 font-extrabold text-base focus:outline-none focus:border-emerald-400"
+                      className="w-full bg-[#14151b] border border-emerald-500/60 rounded-lg px-3 py-2 text-emerald-400 font-black text-lg focus:outline-none focus:border-emerald-400 font-mono"
                     />
                   </div>
                   <button
@@ -1955,7 +1970,7 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
                       });
                       setTimeout(() => setSearchStatus(null), 2500);
                     }}
-                    className="self-end px-3 py-2 rounded-lg bg-[#1c1d22] hover:bg-[#252833] text-zinc-300 hover:text-white border border-[#2e313d] text-xs font-bold transition whitespace-nowrap cursor-pointer flex items-center gap-1"
+                    className="self-end px-3.5 py-2.5 rounded-lg bg-[#1f222e] hover:bg-[#2c3040] text-zinc-200 hover:text-white border border-[#35394a] text-xs sm:text-sm font-bold transition whitespace-nowrap cursor-pointer flex items-center gap-1"
                     title="클립보드에 복사"
                   >
                     <span>📋 복사</span>
@@ -1965,30 +1980,30 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
                 {/* 🏷️ 가로 2행: 권장매입가 및 실시간 마진 노출 (녹색 창 클릭 시 장부 즉시 저장) */}
                 <div 
                   onClick={handleSaveToLedger}
-                  className="bg-emerald-500/10 hover:bg-emerald-500/15 border border-emerald-500/35 hover:border-emerald-400/60 p-3 rounded-xl space-y-1.5 transition cursor-pointer shadow-md group"
+                  className="bg-emerald-500/15 hover:bg-emerald-500/20 border border-emerald-500/40 hover:border-emerald-400/70 p-3.5 rounded-xl space-y-2 transition cursor-pointer shadow-md group"
                   title="클릭 시 내 장부에 즉시 저장됩니다"
                 >
                   <div className="flex justify-between items-baseline">
-                    <div className="text-xs font-bold text-zinc-300">
+                    <div className="text-xs sm:text-sm font-bold text-zinc-200">
                       {userBid !== safeBidCeiling ? (
-                        <span>최종 매입가 <small className="text-zinc-500 font-normal">(권장 {safeBidCeiling.toLocaleString()}만)</small></span>
+                        <span>최종 매입가 <small className="text-zinc-400 font-normal">(권장 {safeBidCeiling.toLocaleString()}만)</small></span>
                       ) : (
-                        <span className="text-[#94a3b8]">권장 매입가</span>
+                        <span className="text-zinc-200">권장 매입가</span>
                       )}
                     </div>
-                    <div className="text-2xl font-black text-emerald-400 tracking-tight">
-                      {userBid.toLocaleString()} <span className="text-xs font-bold">만원</span>
+                    <div className="text-2xl sm:text-3xl font-black text-emerald-400 tracking-tight font-mono">
+                      {userBid.toLocaleString()} <span className="text-xs font-bold text-zinc-300">만원</span>
                     </div>
                   </div>
 
-                  <div className="flex justify-between items-center pt-1.5 border-t border-dashed border-emerald-500/20 text-xs">
-                    <span className="text-zinc-400 font-medium">예상마진</span>
-                    <span className="text-blue-400 font-extrabold text-sm">{Math.round(actualMargin).toLocaleString()}만원</span>
+                  <div className="flex justify-between items-center pt-2 border-t border-dashed border-emerald-500/30 text-xs sm:text-sm">
+                    <span className="text-zinc-300 font-semibold">예상마진</span>
+                    <span className="text-blue-400 font-black text-base font-mono">+{Math.round(actualMargin).toLocaleString()}만원</span>
                   </div>
 
-                  <div className="flex justify-between items-center text-[10px] text-zinc-500 pt-0.5">
-                    <span>수수료: {actualPurchaseFee}만 · 수리: {repairCostTotal}만 · 잡비: {directExpense}만</span>
-                    <span className="text-emerald-400 font-bold group-hover:underline">💾 누르면 저장</span>
+                  <div className="flex justify-between items-center text-[11px] text-zinc-400 pt-0.5">
+                    <span>수수료: {actualPurchaseFee}만 · 수리: {repairCostTotal}만 · 잡비: 15만</span>
+                    <span className="text-emerald-300 font-bold group-hover:underline">💾 클릭 저장</span>
                   </div>
                 </div>
               </div>
@@ -1996,13 +2011,13 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
 
             {/* Memo */}
             <div>
-              <label className="text-[11px] text-[#8b8e9d] block mb-1">특이사항 / 메모</label>
+              <label className="text-xs font-bold text-zinc-200 block mb-1">특이사항 / 메모</label>
               <input
                 type="text"
                 placeholder="특이사항 메모 입력"
                 value={memo}
                 onChange={(e) => setMemo(e.target.value)}
-                className="w-full bg-[#121317] border border-[#22242c] rounded-lg px-2 py-1.5 text-white text-xs"
+                className="w-full bg-[#14151b] border border-[#2c2f3d] rounded-lg px-3 py-2 text-white text-xs sm:text-sm font-medium"
               />
             </div>
 
@@ -2010,10 +2025,10 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
             <button
               type="button"
               onClick={handleSaveToLedger}
-              className={`w-full py-2.5 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-md cursor-pointer ${
+              className={`w-full py-3 rounded-lg text-xs sm:text-sm font-bold transition flex items-center justify-center gap-1.5 shadow-md cursor-pointer ${
                 savedSuccess
                   ? 'bg-emerald-600 text-white'
-                  : 'bg-[#1e2029] hover:bg-[#282a36] text-white border border-[#2b2d3a]'
+                  : 'bg-[#1f222e] hover:bg-[#2c3040] text-white border border-[#35394a]'
               }`}
             >
               {savedSuccess ? '✓ 저장 완료!' : '💾 내 장부 및 구글시트에 저장'}
@@ -2026,40 +2041,43 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
 
       {/* ========================================================
           [우측 메인 워크플로우 4대 시퀀스]
-          1. 자사 팔린매물 및 닷컴 동급 팔린매물
+          1. 자사 팔린매물 및 닷컴 동급 팔린매물 & 핵심 결론
           2. 동급매물 (엔카 시세 & 2D 상태도)
           3. 가격-주행거리 산점도
           4. 헤딜 낙찰시세
           ======================================================== */}
-      <div className="flex-1 min-w-0 space-y-6">
+      <div className="flex-1 min-w-0 space-y-4">
 
         {/* ========================================================
             [1단계 & 핵심 결론] AI 시세 밸류에이션 & 실시간 회전율 통합 제어 센터
-            - 결론 우선주의: 권장 소매가 + 안전 입찰 상한선 + 슬림 회전율 게이지 바
-            - 높이를 컴팩트하게 압축하여 바로 아래 엔카 리스트/2D도면이 첫 화면에 즉시 노출
             ======================================================== */}
-        <div className="bg-[#0e0f13] border border-[#1c1d22] rounded-xl p-3.5 sm:p-4 shadow-lg space-y-3">
+        <div className="bg-[#0e0f13] border border-[#262833] rounded-xl p-4 sm:p-5 shadow-lg space-y-3.5">
           
           {/* Top Bar: Title, Specs & Utility Buttons */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2.5 border-b border-[#1c1d22]">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-3 border-b border-[#232634]">
             <div className="flex flex-wrap items-center gap-2">
-              <span className="text-sm font-extrabold text-white font-serif-display flex items-center gap-1.5">
+              <span className="text-base font-black text-white font-serif-display flex items-center gap-1.5">
                 <Sparkles className="w-4 h-4 text-amber-400" />
                 <span>🎯 AI 권장 시세 &amp; 비딩 결론</span>
               </span>
-              <span className="text-xs px-2 py-0.5 rounded bg-blue-500/15 text-blue-400 border border-blue-500/30 font-semibold font-mono">
+              <span className="text-xs sm:text-sm px-2.5 py-0.5 rounded bg-blue-500/20 text-blue-300 border border-blue-500/35 font-bold font-mono">
                 {carName} {detailModel} ({yearModel}년식 / {mileageKm.toLocaleString()}km)
               </span>
-              <span className={`text-[11px] px-2 py-0.5 rounded font-bold border ${
+              <span className={`text-xs px-2.5 py-0.5 rounded font-bold border ${
                 outerRepairCount === 0
-                  ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
-                  : 'bg-amber-500/15 text-amber-400 border-amber-500/30'
+                  ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/35'
+                  : 'bg-amber-500/20 text-amber-300 border-amber-500/35'
               }`}>
                 {outerRepairCount === 0 ? '🟢 완전무사고' : `🟡 외판 ${outerRepairCount}판 감가`}
               </span>
+              {autoplusStats.matchedCount > 0 && (
+                <span className="text-xs px-2.5 py-0.5 rounded bg-emerald-500/25 text-emerald-300 border border-emerald-500/40 font-bold">
+                  🏢 자사 실적 {autoplusStats.matchedCount}대 매칭
+                </span>
+              )}
             </div>
 
-            <div className="flex items-center gap-1.5 shrink-0">
+            <div className="flex items-center gap-2 shrink-0">
               {/* Hidden File Input for Excel/CSV */}
               <input
                 type="file"
@@ -2073,10 +2091,10 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
                 type="button"
                 onClick={() => fetchEncarComparable({ url: encarSourceUrl, carName, detailModel, manufacturer, year: yearModel, mileage: mileageKm })}
                 disabled={isEncarLoading}
-                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-blue-600/20 hover:bg-blue-600/30 border border-blue-500/30 text-blue-300 hover:text-white text-xs font-semibold transition cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600/25 hover:bg-blue-600/40 border border-blue-500/40 text-blue-200 hover:text-white text-xs sm:text-sm font-bold transition cursor-pointer"
                 title="엔카 실시간 동급 매물 재스캔"
               >
-                <RefreshCw className={`w-3 h-3 ${isEncarLoading ? 'animate-spin' : ''}`} />
+                <RefreshCw className={`w-3.5 h-3.5 ${isEncarLoading ? 'animate-spin' : ''}`} />
                 <span>{isEncarLoading ? '스캔 중' : '재스캔'}</span>
               </button>
 
@@ -2084,10 +2102,10 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
                 disabled={isExcelUploading}
-                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/30 text-emerald-300 hover:text-white text-xs font-semibold transition cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600/25 hover:bg-emerald-600/40 border border-emerald-500/40 text-emerald-200 hover:text-white text-xs sm:text-sm font-bold transition cursor-pointer"
                 title="오토플러스 판매실적 엑셀 업로드"
               >
-                <Upload className="w-3 h-3 text-emerald-400" />
+                <Upload className="w-3.5 h-3.5 text-emerald-400" />
                 <span>엑셀</span>
               </button>
 
@@ -2095,95 +2113,94 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
                 href={encarSourceUrl || "http://www.encar.com"}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#14151b] hover:bg-[#1c1d24] border border-[#22242c] text-rose-400 hover:text-white text-xs font-semibold transition"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#181a24] hover:bg-[#242736] border border-[#2d3142] text-rose-300 hover:text-white text-xs sm:text-sm font-bold transition"
                 title="엔카 원본 검색 페이지 열기"
               >
                 <span>엔카원본</span>
-                <ExternalLink className="w-2.5 h-2.5" />
+                <ExternalLink className="w-3 h-3" />
               </a>
             </div>
           </div>
 
           {/* 3-Column Conclusion & Velocity Card */}
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-3.5">
             
             {/* Col 1: 🎯 AI 권장 소매가 (기준 가격) */}
-            <div className="md:col-span-4 bg-[#121317] border border-blue-500/30 rounded-xl p-3 space-y-1 relative overflow-hidden">
+            <div className="md:col-span-4 bg-[#14151b] border border-blue-500/40 rounded-xl p-3.5 space-y-1.5 relative overflow-hidden">
               <div className="flex justify-between items-center">
-                <span className="text-xs font-bold text-sky-400 flex items-center gap-1">
+                <span className="text-xs sm:text-sm font-bold text-sky-400 flex items-center gap-1.5">
                   <span>🎯 AI 권장 소매가</span>
-                  <span className="text-[10px] px-1.5 py-0.2 rounded bg-sky-500/20 text-sky-300 font-normal">기준가</span>
+                  <span className="text-[10px] px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300 font-bold">기준가</span>
                 </span>
-                <span className="text-[10px] text-[#8b8e9d] font-mono">
+                <span className="text-xs text-zinc-400 font-mono font-medium">
                   동급 {encarFilteredCount || encarList.length}대 표본
                 </span>
               </div>
-              <div className="flex items-baseline gap-1.5 mt-0.5">
-                <span className="text-2xl font-black text-sky-400 font-serif-display tracking-tight">
+              <div className="flex items-baseline gap-1.5 mt-1">
+                <span className="text-3xl font-black text-sky-400 font-serif-display tracking-tight font-mono">
                   {expectedSellPrice > 0 ? expectedSellPrice.toLocaleString() : '-'}
                 </span>
-                <span className="text-xs font-bold text-zinc-400">만원</span>
+                <span className="text-sm font-bold text-zinc-300">만원</span>
               </div>
-              <div className="text-[11px] text-[#94a3b8] flex items-center justify-between pt-1 border-t border-[#1e2330]">
+              <div className="text-xs text-zinc-300 flex items-center justify-between pt-1.5 border-t border-[#232634]">
                 <span>예상 거래범위:</span>
-                <strong className="text-zinc-200 font-mono">
+                <strong className="text-white font-mono font-bold">
                   {expectedSellPrice > 0 ? `${Math.round(expectedSellPrice * 0.94).toLocaleString()} ~ ${Math.round(expectedSellPrice * 1.06).toLocaleString()}만` : '-'}
                 </strong>
               </div>
             </div>
 
             {/* Col 2: 🛡️ 안전 입찰 상한선 (매입 기준) */}
-            <div className="md:col-span-4 bg-[#121317] border border-emerald-500/30 rounded-xl p-3 space-y-1 relative overflow-hidden">
+            <div className="md:col-span-4 bg-[#14151b] border border-emerald-500/40 rounded-xl p-3.5 space-y-1.5 relative overflow-hidden">
               <div className="flex justify-between items-center">
-                <span className="text-xs font-bold text-emerald-400 flex items-center gap-1">
-                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                <span className="text-xs sm:text-sm font-bold text-emerald-400 flex items-center gap-1.5">
+                  <ShieldCheck className="w-4 h-4 text-emerald-400" />
                   <span>🛡️ 안전 입찰 상한선</span>
                 </span>
-                <span className="text-[10px] text-emerald-400/90 font-semibold font-mono">
+                <span className="text-[11px] text-emerald-300 font-bold font-mono">
                   기대마진 +{targetMargin}만 확보
                 </span>
               </div>
-              <div className="flex items-baseline gap-1.5 mt-0.5">
-                <span className="text-2xl font-black text-emerald-400 font-serif-display tracking-tight">
+              <div className="flex items-baseline gap-1.5 mt-1">
+                <span className="text-3xl font-black text-emerald-400 font-serif-display tracking-tight font-mono">
                   {safeBidCeiling > 0 ? safeBidCeiling.toLocaleString() : '-'}
                 </span>
-                <span className="text-xs font-bold text-zinc-400">만원 이하</span>
+                <span className="text-sm font-bold text-zinc-300">만원 이하</span>
               </div>
-              <div className="text-[10px] text-zinc-400 flex items-center justify-between pt-1 border-t border-[#1e2330]">
+              <div className="text-xs text-zinc-300 flex items-center justify-between pt-1.5 border-t border-[#232634]">
                 <span>공제: 수수료 {purchaseFeeCalculated}만 · 수리 {repairCostTotal}만 · 잡비 15만</span>
               </div>
             </div>
 
             {/* Col 3: ⚡ 실시간 회전율 & 속도 게이지 바 */}
-            <div className="md:col-span-4 bg-[#121317] border border-[#232634] rounded-xl p-3 space-y-1.5 flex flex-col justify-between">
-              <div className="flex justify-between items-center text-xs">
-                <span className="font-bold text-amber-300 flex items-center gap-1">
-                  <Zap className="w-3.5 h-3.5 text-amber-400" />
-                  <span>⚡ 시장 회전율 &amp; 출고속도</span>
+            <div className="md:col-span-4 bg-[#14151b] border border-[#2d3142] rounded-xl p-3.5 space-y-2 flex flex-col justify-between">
+              <div className="flex justify-between items-center text-xs sm:text-sm">
+                <span className="font-bold text-amber-300 flex items-center gap-1.5">
+                  <Zap className="w-4 h-4 text-amber-400" />
+                  <span>⚡ 시장 회전율 &amp; 완판속도</span>
                 </span>
-                <span className="text-[10px] px-1.5 py-0.5 rounded font-bold" style={{ 
+                <span className="text-xs px-2 py-0.5 rounded font-bold" style={{ 
                   color: liveEncarSoldStats?.velocity_color || '#38bdf8',
-                  backgroundColor: `${liveEncarSoldStats?.velocity_color || '#38bdf8'}15`,
-                  border: `1px solid ${liveEncarSoldStats?.velocity_color || '#38bdf8'}30`
+                  backgroundColor: `${liveEncarSoldStats?.velocity_color || '#38bdf8'}20`,
+                  border: `1px solid ${liveEncarSoldStats?.velocity_color || '#38bdf8'}40`
                 }}>
                   {liveEncarSoldStats?.velocity_badge || '보통출고'}
                 </span>
               </div>
 
               {/* Compact Velocity Metrics */}
-              <div className="grid grid-cols-2 gap-1 text-[11px] text-[#94a3b8]">
+              <div className="grid grid-cols-2 gap-1.5 text-xs text-zinc-300">
                 <div>
-                  엔카 완판: <strong className="text-white font-mono">{liveEncarSoldStats?.count_30d || 12}대/월</strong> <small className="text-zinc-500">(일 {liveEncarSoldStats?.daily_rate || 0.4}대)</small>
+                  엔카 완판: <strong className="text-white font-mono font-bold">{liveEncarSoldStats?.count_30d || 12}대/월</strong> <small className="text-zinc-400">(일 {liveEncarSoldStats?.daily_rate || 0.4}대)</small>
                 </div>
                 <div className="text-right">
-                  자사 재고: <strong className="text-emerald-400 font-mono">{autoplusStats.matchedCount > 0 ? `${autoplusStats.avgStockDays}일 완판` : '0대 (미보유)'}</strong>
+                  자사 실적: <strong className="text-emerald-300 font-mono font-bold">{autoplusStats.matchedCount > 0 ? `${autoplusStats.matchedCount}대 (${autoplusStats.avgStockDays}일)` : '0대 (미보유)'}</strong>
                 </div>
               </div>
 
               {/* Visual Slim Gauge Bar */}
               <div className="space-y-1">
-                <div className="h-2 w-full bg-[#1c1e28] rounded-full overflow-hidden flex">
-                  {/* Gauge indicator based on daily_rate */}
+                <div className="h-2.5 w-full bg-[#1e212d] rounded-full overflow-hidden flex border border-[#2d3142]">
                   <div 
                     className="h-full bg-gradient-to-r from-emerald-500 via-sky-400 to-amber-400 transition-all duration-500 rounded-full"
                     style={{ 
@@ -2191,10 +2208,10 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
                     }}
                   />
                 </div>
-                <div className="flex justify-between items-center text-[9px] text-[#717482]">
+                <div className="flex justify-between items-center text-[10px] text-zinc-400">
                   <span>느린회전</span>
                   <span>정상유통 (표준입찰 권장)</span>
-                  <span className="text-emerald-400 font-semibold">쾌속회전</span>
+                  <span className="text-emerald-400 font-bold">쾌속회전</span>
                 </div>
               </div>
             </div>
@@ -2202,14 +2219,14 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
           </div>
 
           {/* Sub Navigation Bar for Data Transparency (선택적 펼침) */}
-          <div className="flex flex-wrap items-center justify-between gap-2 pt-1 border-t border-[#1c1d22]">
-            <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-none text-[11px]">
+          <div className="flex flex-wrap items-center justify-between gap-2 pt-1.5 border-t border-[#232634]">
+            <div className="flex items-center gap-2 overflow-x-auto scrollbar-none text-xs">
               <button
                 onClick={() => setSoldTabMode(soldTabMode === 'demand' ? 'none' : 'demand')}
-                className={`px-2.5 py-1 rounded-lg font-semibold transition cursor-pointer flex items-center gap-1 ${
+                className={`px-3 py-1.5 rounded-lg font-bold transition cursor-pointer flex items-center gap-1.5 ${
                   soldTabMode === 'demand'
-                    ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
-                    : 'text-[#8b8e9d] hover:text-white hover:bg-[#14151b]'
+                    ? 'bg-amber-500/25 text-amber-200 border border-amber-500/40'
+                    : 'text-zinc-300 hover:text-white hover:bg-[#181a24] border border-transparent'
                 }`}
               >
                 <span>📊 시세 전략 브리핑 {soldTabMode === 'demand' ? '▲' : '▼'}</span>
@@ -2217,10 +2234,10 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
 
               <button
                 onClick={() => setSoldTabMode(soldTabMode === 'encar' ? 'none' : 'encar')}
-                className={`px-2.5 py-1 rounded-lg font-semibold transition cursor-pointer flex items-center gap-1 ${
+                className={`px-3 py-1.5 rounded-lg font-bold transition cursor-pointer flex items-center gap-1.5 ${
                   soldTabMode === 'encar'
-                    ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
-                    : 'text-[#8b8e9d] hover:text-white hover:bg-[#14151b]'
+                    ? 'bg-blue-500/25 text-blue-200 border border-blue-500/40'
+                    : 'text-zinc-300 hover:text-white hover:bg-[#181a24] border border-transparent'
                 }`}
               >
                 <span>🚗 엔카 팔린매물 ({encarSoldList.length}건) {soldTabMode === 'encar' ? '▲' : '▼'}</span>
@@ -2228,29 +2245,29 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
 
               <button
                 onClick={() => setSoldTabMode(soldTabMode === 'autoplus' ? 'none' : 'autoplus')}
-                className={`px-2.5 py-1 rounded-lg font-semibold transition cursor-pointer flex items-center gap-1 ${
+                className={`px-3 py-1.5 rounded-lg font-bold transition cursor-pointer flex items-center gap-1.5 ${
                   soldTabMode === 'autoplus'
-                    ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
-                    : 'text-[#8b8e9d] hover:text-white hover:bg-[#14151b]'
+                    ? 'bg-emerald-500/25 text-emerald-200 border border-emerald-500/40'
+                    : 'text-zinc-300 hover:text-white hover:bg-[#181a24] border border-transparent'
                 }`}
               >
                 <span>🏢 자사 실적 DB ({matchedAutoplusList.length}대) {soldTabMode === 'autoplus' ? '▲' : '▼'}</span>
               </button>
             </div>
 
-            <div className="text-[11px] text-[#8b8e9d] flex items-center gap-2">
-              <span>호가: 최저 <strong className="text-sky-400 font-mono">{encarStats.min.toLocaleString()}만</strong> ~ 최고 <strong className="text-sky-400 font-mono">{encarStats.max.toLocaleString()}만</strong> (중앙 {encarStats.median.toLocaleString()}만)</span>
+            <div className="text-xs text-zinc-300 flex items-center gap-2">
+              <span>호가: 최저 <strong className="text-sky-400 font-mono font-bold">{encarStats.min.toLocaleString()}만</strong> ~ 최고 <strong className="text-sky-400 font-mono font-bold">{encarStats.max.toLocaleString()}만</strong> (중앙 {encarStats.median.toLocaleString()}만)</span>
             </div>
           </div>
 
           {/* Collapsible Detail Tab 1: AI 브리핑 */}
           {soldTabMode === 'demand' && (
-            <div className="p-3 bg-[#121317] border border-[#2e3038] rounded-xl space-y-2 text-xs text-[#e2e3e9]">
+            <div className="p-4 bg-[#14151b] border border-[#2d3142] rounded-xl space-y-2 text-xs sm:text-sm text-zinc-200">
               <div className="flex justify-between items-center">
-                <span className="font-bold text-amber-400">💡 AI 비딩 전략 브리핑 상세</span>
-                <span className="text-[10px] text-zinc-400">최근 실거래 &amp; 6,170건 내수 빅데이터 기반</span>
+                <span className="font-bold text-amber-300">💡 AI 비딩 전략 브리핑 상세</span>
+                <span className="text-xs text-zinc-400">최근 실거래 &amp; 6,170건 내수 빅데이터 기반</span>
               </div>
-              <p className="text-[11px] text-[#cbd5e1] leading-relaxed">
+              <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed">
                 엔카 시장(월 {liveEncarSoldStats?.count_30d || 12}대 출고)에서 안정적으로 소화되는 차종입니다. 
                 예상 소매가 <strong className="text-sky-300 font-mono">{expectedSellPrice.toLocaleString()}만 원</strong> 기준, 기대마진 {targetMargin}만 원과 
                 제반비용(외판수리 {repairCostTotal}만 · 수수료 {purchaseFeeCalculated}만 · 제경비 15만)을 반영한 <strong className="text-emerald-400 underline">[안전 입찰 상한선: {safeBidCeiling.toLocaleString()}만 원]</strong> 이하 입찰을 권장합니다.
@@ -2260,38 +2277,38 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
 
           {/* Collapsible Detail Tab 2: 엔카 최근 팔린매물 */}
           {soldTabMode === 'encar' && (
-            <div className="space-y-2 pt-1 border-t border-[#1c1d22]">
-              <div className="flex justify-between items-center text-xs text-[#8b8e9d]">
-                <span>엔카 최근 판매완료(광고종료) 기록 (<strong className="text-blue-400">{encarSoldList.length}건</strong>)</span>
-                <span className="text-[10px] text-amber-400/90 font-medium">※ 실측 스냅샷 기반</span>
+            <div className="space-y-2 pt-1 border-t border-[#232634]">
+              <div className="flex justify-between items-center text-xs sm:text-sm text-zinc-300">
+                <span>엔카 최근 판매완료(광고종료) 기록 (<strong className="text-blue-400 font-bold">{encarSoldList.length}건</strong>)</span>
+                <span className="text-xs text-amber-300 font-medium">※ 실측 스냅샷 기반</span>
               </div>
-              <div className="overflow-x-auto max-h-56 overflow-y-auto border border-[#1c1d22] rounded-xl">
-                <table className="w-full text-left text-xs text-[#c7c9d1]">
-                  <thead className="bg-[#121317] text-[11px] text-[#8b8e9d] sticky top-0 uppercase border-b border-[#1c1d22]">
+              <div className="overflow-x-auto max-h-64 overflow-y-auto border border-[#262833] rounded-xl">
+                <table className="w-full text-left text-xs sm:text-sm text-zinc-200">
+                  <thead className="bg-[#14151b] text-xs text-zinc-400 sticky top-0 uppercase border-b border-[#262833]">
                     <tr>
-                      <th className="p-2">판매완료일</th>
-                      <th className="p-2">차량명</th>
-                      {showTrimColumn && <th className="p-2">세부등급</th>}
-                      <th className="p-2">연식</th>
-                      <th className="p-2 text-right">주행거리</th>
-                      <th className="p-2 text-right">최종가격</th>
-                      <th className="p-2 text-center">판매기일</th>
-                      <th className="p-2">사고상태</th>
+                      <th className="p-2.5">판매완료일</th>
+                      <th className="p-2.5">차량명</th>
+                      {showTrimColumn && <th className="p-2.5">세부등급</th>}
+                      <th className="p-2.5">연식</th>
+                      <th className="p-2.5 text-right">주행거리</th>
+                      <th className="p-2.5 text-right">최종가격</th>
+                      <th className="p-2.5 text-center">판매기일</th>
+                      <th className="p-2.5">사고상태</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-[#1c1d22] bg-[#0a0b0e]">
+                  <tbody className="divide-y divide-[#232634] bg-[#0a0b0e]">
                     {encarSoldList.map((s) => (
                       <tr key={s.id} className="hover:bg-[#14151c] transition">
-                        <td className="p-2 text-[11px] text-[#8b8e9d]">{s.soldDate}</td>
-                        <td className="p-2 text-white font-medium text-[11px]">{s.carName}</td>
-                        {showTrimColumn && <td className="p-2 text-[11px] text-[#8b8e9d]">{s.subModel || '-'}</td>}
-                        <td className="p-2 text-[11px] text-blue-400">{s.year}</td>
-                        <td className="p-2 text-right text-[11px] text-white font-mono">{s.mileage > 0 ? `${s.mileage.toLocaleString()} km` : '-'}</td>
-                        <td className="p-2 text-right font-bold text-emerald-400 font-mono">{s.finalPrice > 0 ? `${s.finalPrice.toLocaleString()}만` : '-'}</td>
-                        <td className="p-2 text-center text-[11px]">
+                        <td className="p-2.5 text-xs text-zinc-400 font-mono">{s.soldDate}</td>
+                        <td className="p-2.5 text-white font-bold text-xs sm:text-sm">{s.carName}</td>
+                        {showTrimColumn && <td className="p-2.5 text-xs text-zinc-300">{s.subModel || '-'}</td>}
+                        <td className="p-2.5 text-xs text-blue-400 font-mono">{s.year}</td>
+                        <td className="p-2.5 text-right text-xs text-white font-mono">{s.mileage > 0 ? `${s.mileage.toLocaleString()} km` : '-'}</td>
+                        <td className="p-2.5 text-right font-bold text-emerald-400 font-mono">{s.finalPrice > 0 ? `${s.finalPrice.toLocaleString()}만` : '-'}</td>
+                        <td className="p-2.5 text-center text-xs font-mono">
                           {s.daysTaken > 0 ? `${s.daysTaken}일` : '-'}
                         </td>
-                        <td className="p-2 text-[11px] text-zinc-300">{s.accident || '-'}</td>
+                        <td className="p-2.5 text-xs text-zinc-300">{s.accident || '-'}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -2302,42 +2319,42 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
 
           {/* Collapsible Detail Tab 3: 자사 실적 테이블 */}
           {soldTabMode === 'autoplus' && (
-            <div className="space-y-2 pt-1 border-t border-[#1c1d22]">
-              <div className="flex justify-between items-center text-xs text-[#8b8e9d]">
-                <span>자사 실적 DB 매물 (<strong className="text-emerald-400">{matchedAutoplusList.length}대</strong>)</span>
-                <span className="text-[11px] text-[#717482]">매입가/소매가/실현마진 전수</span>
+            <div className="space-y-2 pt-1 border-t border-[#232634]">
+              <div className="flex justify-between items-center text-xs sm:text-sm text-zinc-300">
+                <span>자사 실적 DB 매물 (<strong className="text-emerald-400 font-bold">{matchedAutoplusList.length}대</strong>)</span>
+                <span className="text-xs text-zinc-400">매입가/소매가/실현마진 전수</span>
               </div>
               {matchedAutoplusList.length > 0 ? (
-                <div className="overflow-x-auto max-h-56 overflow-y-auto border border-[#1c1d22] rounded-xl">
-                  <table className="w-full text-left text-xs text-[#c7c9d1]">
-                    <thead className="bg-[#121317] text-[11px] text-[#8b8e9d] sticky top-0 uppercase border-b border-[#1c1d22]">
+                <div className="overflow-x-auto max-h-64 overflow-y-auto border border-[#262833] rounded-xl">
+                  <table className="w-full text-left text-xs sm:text-sm text-zinc-200">
+                    <thead className="bg-[#14151b] text-xs text-zinc-400 sticky top-0 uppercase border-b border-[#262833]">
                       <tr>
-                        <th className="p-2">판매일</th>
-                        <th className="p-2">차량번호</th>
-                        <th className="p-2">차량명</th>
-                        <th className="p-2 text-right">매입가</th>
-                        <th className="p-2 text-right">판매가</th>
-                        <th className="p-2 text-right">마진</th>
-                        <th className="p-2 text-center">판매기일</th>
+                        <th className="p-2.5">판매일</th>
+                        <th className="p-2.5">차량번호</th>
+                        <th className="p-2.5">차량명</th>
+                        <th className="p-2.5 text-right">매입가</th>
+                        <th className="p-2.5 text-right">판매가</th>
+                        <th className="p-2.5 text-right">마진</th>
+                        <th className="p-2.5 text-center">판매기일</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-[#1c1d22] bg-[#0a0b0e]">
+                    <tbody className="divide-y divide-[#232634] bg-[#0a0b0e]">
                       {matchedAutoplusList.map((item: any, idx: number) => (
                         <tr key={item.id || idx} className="hover:bg-[#14151c]">
-                          <td className="p-2 text-[11px] text-[#8b8e9d]">{item.regDate || '-'}</td>
-                          <td className="p-2 font-mono text-white">{item.plate}</td>
-                          <td className="p-2 text-white">{item.carName}</td>
-                          <td className="p-2 text-right text-zinc-400 font-mono">{Number(item.buyPrice)?.toLocaleString() || '-'}만</td>
-                          <td className="p-2 text-right text-emerald-400 font-bold font-mono">{Number(item.sellPrice)?.toLocaleString() || '-'}만</td>
-                          <td className="p-2 text-right text-amber-400 font-bold font-mono">+{Number(item.realizedProfit)?.toLocaleString() || '-'}만</td>
-                          <td className="p-2 text-center">{item.stockDays || 0}일</td>
+                          <td className="p-2.5 text-xs text-zinc-400 font-mono">{item.regDate || '-'}</td>
+                          <td className="p-2.5 font-mono text-white font-bold">{item.plate}</td>
+                          <td className="p-2.5 text-white font-semibold">{item.carName}</td>
+                          <td className="p-2.5 text-right text-zinc-400 font-mono">{Number(item.buyPrice)?.toLocaleString() || '-'}만</td>
+                          <td className="p-2.5 text-right text-emerald-400 font-bold font-mono">{Number(item.sellPrice)?.toLocaleString() || '-'}만</td>
+                          <td className="p-2.5 text-right text-amber-400 font-bold font-mono">+{Number(item.realizedProfit)?.toLocaleString() || '-'}만</td>
+                          <td className="p-2.5 text-center font-mono">{item.stockDays || 0}일</td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
                 </div>
               ) : (
-                <div className="p-3 text-center bg-[#0a0b0e] rounded-xl border border-[#1c1d22] text-xs text-amber-300">
+                <div className="p-4 text-center bg-[#0a0b0e] rounded-xl border border-[#262833] text-xs sm:text-sm text-amber-300 font-medium">
                   자사(오토플러스) 완판 실적은 현재 미보유(0건) 상태입니다.
                 </div>
               )}
@@ -2347,12 +2364,381 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
         </div>
 
         {/* ========================================================
-            [2단계] 동급매물 (엔카 실시간 시세 리스트 & 2D 상태도)
+            [2단계] 동급매물 (엔카 실시간 시세 리스트 & 2D 상태도) - 560px 고정 높이 & 풀필
             ======================================================== */}
-        <div className="bg-[#0e0f13] border border-[#1c1d22] rounded-xl p-4 sm:p-5 shadow-lg space-y-4">
+        <div className="bg-[#0e0f13] border border-[#262833] rounded-xl p-4 sm:p-5 shadow-lg space-y-3">
           
           {/* Encar List + 2D Detail Layout */}
-          <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 items-start">
+          <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 items-stretch">
+            
+            {/* Table (Left 7 cols) */}
+            <div className="xl:col-span-7 space-y-2 flex flex-col">
+              <div className="flex items-center justify-between text-xs sm:text-sm font-bold text-white px-1">
+                <span>📰 엔카 시세 리스트 (전체 {encarTotalModelCount}대 중 유효 동급 {encarFilteredCount || encarList.length}대 전수 분석)</span>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setShowTrimColumn(!showTrimColumn)}
+                    className="text-xs px-2.5 py-1 rounded bg-[#1c1e28] hover:bg-[#282c3c] text-zinc-200 border border-[#35394a] transition cursor-pointer font-bold"
+                  >
+                    <span>세부등급 {showTrimColumn ? '숨김' : '표시'}</span>
+                  </button>
+                  <span className="text-xs text-zinc-400 hidden sm:inline">행 클릭 시 2D 점검표 연동</span>
+                </div>
+              </div>
+
+              <div className="overflow-x-auto h-[560px] max-h-[560px] overflow-y-auto border border-[#262833] rounded-xl scrollbar-thin scrollbar-thumb-zinc-700 bg-[#0a0b0e] flex-1">
+                {isEncarLoading ? (
+                  <div className="flex flex-col items-center justify-center h-full space-y-3 py-12 bg-[#0e0f13]/80">
+                    <div className="w-9 h-9 border-3 border-blue-500/30 border-t-blue-400 rounded-full animate-spin" />
+                    <div className="text-sm font-bold text-white flex items-center gap-1.5">
+                      <span>🚗 엔카 실시간 동급 매물 정밀 크롤링 중...</span>
+                    </div>
+                    <div className="text-xs text-zinc-400">
+                      성능점검 기록부 및 추가옵션 전수 스캔 &amp; 2D 도면 연동 중
+                    </div>
+                  </div>
+                ) : (
+                <table className="w-full text-left text-xs sm:text-sm text-zinc-200">
+                  <thead className="bg-[#14151b] sticky top-0 z-10 text-xs text-zinc-300 font-bold uppercase border-b border-[#262833]">
+                    <tr>
+                      <th className="p-2.5 text-center w-9 bg-[#14151b] whitespace-nowrap">선택</th>
+                      <th className="p-2.5 bg-[#14151b] whitespace-nowrap w-[85px]">성능일</th>
+                      <th className="p-2.5 text-center bg-[#14151b] whitespace-nowrap w-[60px]">재고일수</th>
+                      <th className="p-2.5 bg-[#14151b] whitespace-nowrap w-[100px]">차량명</th>
+                      {showTrimColumn && <th className="p-2.5 bg-[#14151b] whitespace-nowrap w-[140px]">세부등급</th>}
+                      <th className="p-2.5 bg-[#14151b] whitespace-nowrap w-[80px]">연식</th>
+                      <th className="p-2.5 text-right bg-[#14151b] whitespace-nowrap w-[90px]">주행(km)</th>
+                      <th className="p-2.5 text-right bg-[#14151b] whitespace-nowrap w-[95px]">💰 가격</th>
+                      <th className="p-2.5 bg-[#14151b] whitespace-nowrap w-[120px]">사고유무</th>
+                      <th className="p-2.5 bg-[#14151b] whitespace-nowrap w-[70px]">색상</th>
+                      <th className="p-2.5 bg-[#14151b] whitespace-nowrap w-[85px]">옵션</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-[#232634]">
+                    {encarList.map((car) => {
+                      const isSelected = car.id === selectedEncarId;
+                      const targetYrStr = String(yearModel % 100).padStart(2, '0');
+                      const regYrMatch = String(car.year || '').match(/^\s*(\d{2})/);
+                      const isTargetYear = regYrMatch ? regYrMatch[1] === targetYrStr : false;
+                      const hasAddedOptions = car.optionsText && !car.optionsText.includes('추가 옵션 없음') && !car.optionsText.includes('기본');
+
+                      return (
+                        <tr
+                          key={car.id}
+                          onClick={() => handleSelectEncarCar(car.id)}
+                          className={`cursor-pointer transition ${
+                            isSelected
+                              ? 'bg-blue-600/30 text-white font-bold'
+                              : 'hover:bg-[#14151c]'
+                          }`}
+                        >
+                          <td className="p-2.5 text-center whitespace-nowrap">
+                            <input
+                              type="radio"
+                              name="encarSelect"
+                              checked={isSelected}
+                              onChange={() => handleSelectEncarCar(car.id)}
+                              className="accent-blue-500 cursor-pointer w-4 h-4"
+                            />
+                          </td>
+                          <td className="p-2.5 text-xs text-zinc-400 font-mono whitespace-nowrap">{car.checkDate}</td>
+                          <td className="p-2.5 text-center whitespace-nowrap">
+                            <span className="px-2 py-0.5 rounded bg-[#1c1e28] text-amber-300 font-bold text-xs font-mono">
+                              {car.holdingDays}일
+                            </span>
+                          </td>
+                          <td className="p-2.5 text-xs sm:text-sm whitespace-nowrap">
+                            <a
+                              href={`https://fem.encar.com/cars/detail/${String(car.id).replace(/\D/g, '')}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={(e) => e.stopPropagation()}
+                              className="text-sky-400 hover:text-sky-300 hover:underline font-extrabold text-xs sm:text-sm whitespace-nowrap transition-colors"
+                              title={`엔카 공식 상세페이지 새창 열기 (매물코드: ${car.id})`}
+                            >
+                              {car.modelName || car.carName}
+                            </a>
+                          </td>
+                          {showTrimColumn && (
+                            <td className="p-2.5 text-xs sm:text-sm text-zinc-300 font-medium whitespace-nowrap">
+                              {car.subModel || '-'}
+                            </td>
+                          )}
+                          <td className="p-2.5 text-xs sm:text-sm whitespace-nowrap font-mono">
+                            <span className={isTargetYear ? 'text-sky-400 font-black' : 'text-zinc-200 font-bold'}>
+                              {car.year}
+                            </span>
+                          </td>
+                          <td className="p-2.5 text-right text-xs sm:text-sm text-white font-bold font-mono whitespace-nowrap">
+                            {car.mileage.toLocaleString()}
+                          </td>
+                          <td className="p-2.5 text-right font-black text-amber-400 font-mono text-xs sm:text-sm whitespace-nowrap">
+                            {car.price.toLocaleString()}만
+                          </td>
+                          <td className="p-2.5 text-xs sm:text-sm whitespace-nowrap">
+                            {car.accidentType.includes('완전무사고') ? (
+                              <span className="text-emerald-400 font-bold">🟢 완전무사고</span>
+                            ) : car.accidentType.includes('사고') ? (
+                              <span className="text-rose-400 font-bold">🔴 {car.accidentType}</span>
+                            ) : (
+                              <span className="text-amber-400 font-bold">🟡 {car.accidentType}</span>
+                            )}
+                          </td>
+                          <td className="p-2.5 text-xs text-zinc-300 whitespace-nowrap">{car.color || '흰색'}</td>
+                          <td className="p-2.5 text-xs whitespace-nowrap">
+                            {hasAddedOptions ? (
+                              <span className="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold border border-amber-500/40 text-xs">
+                                {car.optionsText.includes('개') ? car.optionsText.replace(/[^\d]/g, '') + '개' : '옵션유'}
+                              </span>
+                            ) : (
+                              <span className="text-zinc-500 text-xs">기본</span>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+                )}
+              </div>
+            </div>
+
+            {/* Right: Detailed Inspection Card + 2D Car Diagram (Right 5 cols) - 560px 고정 높이 */}
+            <div className="xl:col-span-5 bg-[#14151b] border border-[#262833] rounded-xl p-4 sm:p-5 space-y-4 h-[560px] max-h-[560px] overflow-y-auto scrollbar-thin scrollbar-thumb-zinc-700 flex flex-col justify-between">
+              {!selectedEncar ? (
+                <div className="flex flex-col items-center justify-center h-full text-center space-y-3 py-12">
+                  <Car className="w-12 h-12 text-zinc-600" />
+                  <div className="text-sm font-bold text-zinc-300">선택된 실시간 매물이 없습니다</div>
+                  <div className="text-xs text-zinc-400 max-w-[240px] leading-relaxed">
+                    좌측 매물 목록에서 차량을 클릭하면 상세 사양 및 외판/골격 상태도가 표출됩니다.
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <div className="flex items-center justify-between pb-2 border-b border-[#262833]">
+                    <div className="flex items-center gap-1.5 text-sm font-bold text-white">
+                      <Eye className="w-4 h-4 text-blue-400" />
+                      <span>상세 사양 &amp; 성능점검</span>
+                    </div>
+                    <span className="text-xs text-zinc-400">
+                      {isInspectionLoading ? '⚡ 점검표 수신 중...' : '선택 차량 실시간 연동'}
+                    </span>
+                  </div>
+
+                  {/* Title & Badges */}
+                  <div className="space-y-2">
+                    <div className="text-base sm:text-lg font-black text-white">{selectedEncar.carName}</div>
+                    <div className="text-xs sm:text-sm text-zinc-300 font-semibold">{detailModel}</div>
+
+                    <div className="flex flex-wrap gap-1.5 pt-1 text-xs">
+                      <span className="px-2.5 py-1 rounded bg-[#1f222e] text-white font-bold font-mono">
+                        {selectedEncar.year}년식
+                      </span>
+                      <span className="px-2.5 py-1 rounded bg-[#1f222e] text-emerald-400 font-bold font-mono">
+                        {selectedEncar.mileage.toLocaleString()}km
+                      </span>
+                      <span className="px-2.5 py-1 rounded bg-[#1f222e] text-zinc-300 font-medium">
+                        🎨 {selectedEncar.color}
+                      </span>
+                      <span className="px-2.5 py-1 rounded bg-blue-500/20 text-blue-300 font-bold font-mono">
+                        📅 {selectedEncar.checkDate} ({selectedEncar.holdingDays}일 전)
+                      </span>
+                      <span className="px-2.5 py-1 rounded bg-amber-500/20 text-amber-300 font-bold border border-amber-500/40">
+                        ⚠️ {selectedEncar.accidentType}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Large Price Display */}
+                  <div className="text-3xl font-black text-amber-400 font-serif-display font-mono">
+                    {selectedEncar.price.toLocaleString()}만원
+                  </div>
+
+                  {/* Added Option Badge */}
+                  <div className="p-3 bg-amber-500/15 rounded-lg border border-amber-500/40 text-xs sm:text-sm text-amber-200 font-bold">
+                    {selectedEncar.optionsText}
+                  </div>
+
+                  {/* Target Car vs Selected Encar Direct Comparison Strip */}
+                  <div className="p-3 bg-[#0a0b0e] rounded-lg border border-[#262833] space-y-2 text-xs">
+                    <div className="flex items-center justify-between text-xs text-zinc-300 pb-1 border-b border-[#232634]">
+                      <span className="font-bold text-white">🎯 비딩 대상차량 대비 실시간 편차</span>
+                      <span className="text-blue-400 font-bold">재고 {selectedEncar.holdingDays}일차</span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2 text-xs">
+                      <div className="flex justify-between items-center bg-[#14151b] p-2 rounded border border-[#232634]">
+                        <span className="text-zinc-400 font-medium">가격차:</span>
+                        <strong className={selectedEncar.price >= expectedSellPrice ? 'text-rose-400 font-mono font-bold' : 'text-emerald-400 font-mono font-bold'}>
+                          {selectedEncar.price >= expectedSellPrice ? `+${(selectedEncar.price - expectedSellPrice).toLocaleString()}만` : `-${(expectedSellPrice - selectedEncar.price).toLocaleString()}만`}
+                        </strong>
+                      </div>
+                      <div className="flex justify-between items-center bg-[#14151b] p-2 rounded border border-[#232634]">
+                        <span className="text-zinc-400 font-medium">주행차:</span>
+                        <strong className={selectedEncar.mileage >= mileageKm ? 'text-amber-300 font-mono font-bold' : 'text-emerald-400 font-mono font-bold'}>
+                          {selectedEncar.mileage >= mileageKm ? `+${(selectedEncar.mileage - mileageKm).toLocaleString()}km` : `-${(mileageKm - selectedEncar.mileage).toLocaleString()}km`}
+                        </strong>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 2D Car Diagram (외판 및 주요골격 상태도) */}
+                  <div className="space-y-2 pt-2 border-t border-[#262833]">
+                    <div className="flex justify-between items-center text-xs sm:text-sm">
+                      <span className="font-bold text-white">외판 및 주요골격 상태도</span>
+                      <div className="flex items-center gap-2 text-xs">
+                        <span className="flex items-center gap-1 text-rose-400 font-bold">
+                          <span className="w-2.5 h-2.5 rounded bg-rose-500" /> 교환
+                        </span>
+                        <span className="flex items-center gap-1 text-amber-400 font-bold">
+                          <span className="w-2.5 h-2.5 rounded bg-amber-500" /> 판금
+                        </span>
+                        <span className="flex items-center gap-1 text-zinc-400 font-bold">
+                          <span className="w-2.5 h-2.5 rounded bg-[#2b2d38]" /> 정상
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* SVG Car Map */}
+                    <div className="p-3 bg-[#0a0b0e] rounded-xl border border-[#262833] flex items-center justify-center">
+                      {(() => {
+                        const getPartFill = (partCode: string) => {
+                          if (selectedEncar.replaces?.includes(partCode)) return '#ef4444';
+                          if (selectedEncar.repairs?.includes(partCode)) return '#f59e0b';
+                          return '#1a1c24';
+                        };
+                        const getPartTextColor = (partCode: string) => {
+                          if (selectedEncar.replaces?.includes(partCode) || selectedEncar.repairs?.includes(partCode)) {
+                            return '#ffffff';
+                          }
+                          return '#a1a5b8';
+                        };
+
+                        return (
+                          <svg className="w-full max-w-[320px] h-48" viewBox="0 0 300 185">
+                            {/* Left: 외판부위 (1·2랭크) */}
+                            <g transform="translate(10, 5)">
+                              <text x="59" y="12" fill="#a1a5b8" fontSize="9.5" fontWeight="bold" textAnchor="middle">외판 (1·2랭크)</text>
+
+                              {/* 라디에이터 서포트 */}
+                              <rect x="30" y="18" width="58" height="11" rx="2" fill={getPartFill('RADIATOR_SUPPORT')} stroke="#333644" strokeWidth="1" />
+                              <text x="59" y="26" fill={getPartTextColor('RADIATOR_SUPPORT')} fontSize="7" fontWeight="bold" textAnchor="middle">라디에이터</text>
+
+                              {/* 앞 휀더 좌/우 */}
+                              <rect x="5" y="32" width="22" height="28" rx="2" fill={getPartFill('FRONT_FENDER_LEFT')} stroke="#333644" strokeWidth="1" />
+                              <text x="16" y="48" fill={getPartTextColor('FRONT_FENDER_LEFT')} fontSize="7" fontWeight="bold" textAnchor="middle">앞휀더(좌)</text>
+
+                              <rect x="91" y="32" width="22" height="28" rx="2" fill={getPartFill('FRONT_FENDER_RIGHT')} stroke="#333644" strokeWidth="1" />
+                              <text x="102" y="48" fill={getPartTextColor('FRONT_FENDER_RIGHT')} fontSize="7" fontWeight="bold" textAnchor="middle">앞휀더(우)</text>
+
+                              {/* 후드 (본넷) */}
+                              <rect x="30" y="32" width="58" height="28" rx="2" fill={getPartFill('HOOD')} stroke="#333644" strokeWidth="1" />
+                              <text x="59" y="48" fill={getPartTextColor('HOOD')} fontSize="7.5" fontWeight="bold" textAnchor="middle">후드(본넷)</text>
+
+                              {/* 앞 도어 좌/우 */}
+                              <rect x="5" y="63" width="22" height="34" rx="2" fill={getPartFill('FRONT_DOOR_LEFT')} stroke="#333644" strokeWidth="1" />
+                              <text x="16" y="82" fill={getPartTextColor('FRONT_DOOR_LEFT')} fontSize="7" fontWeight="bold" textAnchor="middle">앞도어(좌)</text>
+
+                              <rect x="91" y="63" width="22" height="34" rx="2" fill={getPartFill('FRONT_DOOR_RIGHT')} stroke="#333644" strokeWidth="1" />
+                              <text x="102" y="82" fill={getPartTextColor('FRONT_DOOR_RIGHT')} fontSize="7" fontWeight="bold" textAnchor="middle">앞도어(우)</text>
+
+                              {/* 루프 패널 */}
+                              <rect x="30" y="63" width="58" height="70" rx="2" fill={getPartFill('ROOF')} stroke="#333644" strokeWidth="1" />
+                              <text x="59" y="100" fill={getPartTextColor('ROOF')} fontSize="8" fontWeight="bold" textAnchor="middle">루프패널</text>
+
+                              {/* 뒤 도어 좌/우 */}
+                              <rect x="5" y="100" width="22" height="33" rx="2" fill={getPartFill('REAR_DOOR_LEFT')} stroke="#333644" strokeWidth="1" />
+                              <text x="16" y="118" fill={getPartTextColor('REAR_DOOR_LEFT')} fontSize="7" fontWeight="bold" textAnchor="middle">뒤도어(좌)</text>
+
+                              <rect x="91" y="100" width="22" height="33" rx="2" fill={getPartFill('REAR_DOOR_RIGHT')} stroke="#333644" strokeWidth="1" />
+                              <text x="102" y="118" fill={getPartTextColor('REAR_DOOR_RIGHT')} fontSize="7" fontWeight="bold" textAnchor="middle">뒤도어(우)</text>
+
+                              {/* 쿼터 패널 (뒤 휀더) 좌/우 */}
+                              <rect x="5" y="136" width="22" height="28" rx="2" fill={getPartFill('QUARTER_PANEL_LEFT')} stroke="#333644" strokeWidth="1" />
+                              <text x="16" y="152" fill={getPartTextColor('QUARTER_PANEL_LEFT')} fontSize="7" fontWeight="bold" textAnchor="middle">쿼터(좌)</text>
+
+                              <rect x="91" y="136" width="22" height="28" rx="2" fill={getPartFill('QUARTER_PANEL_RIGHT')} stroke="#333644" strokeWidth="1" />
+                              <text x="102" y="152" fill={getPartTextColor('QUARTER_PANEL_RIGHT')} fontSize="7" fontWeight="bold" textAnchor="middle">쿼터(우)</text>
+
+                              {/* 트렁크 리드 */}
+                              <rect x="30" y="136" width="58" height="28" rx="2" fill={getPartFill('TRUNK_LID')} stroke="#333644" strokeWidth="1" />
+                              <text x="59" y="152" fill={getPartTextColor('TRUNK_LID')} fontSize="7.5" fontWeight="bold" textAnchor="middle">트렁크리드</text>
+                            </g>
+
+                            {/* Divider Line */}
+                            <line x1="145" y1="10" x2="145" y2="175" stroke="#22242e" strokeWidth="1" strokeDasharray="3,3" />
+
+                            {/* Right: 주요골격 (A·B·C랭크) */}
+                            <g transform="translate(160, 5)">
+                              <text x="59" y="12" fill="#a1a5b8" fontSize="9.5" fontWeight="bold" textAnchor="middle">주요골격 (사고)</text>
+
+                              {/* 프론트 패널 */}
+                              <rect x="25" y="18" width="68" height="11" rx="2" fill={getPartFill('FRONT_PANEL')} stroke="#333644" strokeWidth="1" />
+                              <text x="59" y="26" fill={getPartTextColor('FRONT_PANEL')} fontSize="7" fontWeight="bold" textAnchor="middle">프론트패널</text>
+
+                              {/* 크로스멤버 */}
+                              <rect x="30" y="32" width="58" height="9" rx="2" fill={getPartFill('CROSS_MEMBER')} stroke="#333644" strokeWidth="1" />
+                              <text x="59" y="39" fill={getPartTextColor('CROSS_MEMBER')} fontSize="6.5" fontWeight="bold" textAnchor="middle">크로스멤버</text>
+
+                              {/* 인사이드 패널 좌/우 */}
+                              <rect x="5" y="44" width="22" height="24" rx="2" fill={getPartFill('INSIDE_PANEL_LEFT')} stroke="#333644" strokeWidth="1" />
+                              <text x="16" y="58" fill={getPartTextColor('INSIDE_PANEL_LEFT')} fontSize="6.5" fontWeight="bold" textAnchor="middle">인사이드(좌)</text>
+
+                              <rect x="91" y="44" width="22" height="24" rx="2" fill={getPartFill('INSIDE_PANEL_RIGHT')} stroke="#333644" strokeWidth="1" />
+                              <text x="102" y="58" fill={getPartTextColor('INSIDE_PANEL_RIGHT')} fontSize="6.5" fontWeight="bold" textAnchor="middle">인사이드(우)</text>
+
+                              {/* 사이드 멤버 좌/우 */}
+                              <rect x="30" y="44" width="12" height="34" rx="2" fill={getPartFill('SIDE_MEMBER_FRONT_LEFT')} stroke="#333644" strokeWidth="1" />
+                              <text x="36" y="63" fill={getPartTextColor('SIDE_MEMBER_FRONT_LEFT')} fontSize="6" fontWeight="bold" textAnchor="middle">사이드</text>
+
+                              <rect x="76" y="44" width="12" height="34" rx="2" fill={getPartFill('SIDE_MEMBER_FRONT_RIGHT')} stroke="#333644" strokeWidth="1" />
+                              <text x="82" y="63" fill={getPartTextColor('SIDE_MEMBER_FRONT_RIGHT')} fontSize="6" fontWeight="bold" textAnchor="middle">사이드</text>
+
+                              {/* 휠하우스 좌/우 */}
+                              <rect x="5" y="71" width="22" height="24" rx="2" fill={getPartFill('WHEEL_HOUSE_FRONT_LEFT')} stroke="#333644" strokeWidth="1" />
+                              <text x="16" y="85" fill={getPartTextColor('WHEEL_HOUSE_FRONT_LEFT')} fontSize="6.5" fontWeight="bold" textAnchor="middle">휠하우스(좌)</text>
+
+                              <rect x="91" y="71" width="22" height="24" rx="2" fill={getPartFill('WHEEL_HOUSE_FRONT_RIGHT')} stroke="#333644" strokeWidth="1" />
+                              <text x="102" y="85" fill={getPartTextColor('WHEEL_HOUSE_FRONT_RIGHT')} fontSize="6.5" fontWeight="bold" textAnchor="middle">휠하우스(우)</text>
+
+                              {/* 필러 A/B/C 좌우 */}
+                              <rect x="30" y="81" width="14" height="16" rx="2" fill={getPartFill('PILLAR_A_LEFT')} stroke="#333644" strokeWidth="1" />
+                              <text x="37" y="92" fill={getPartTextColor('PILLAR_A_LEFT')} fontSize="6.5" fontWeight="bold" textAnchor="middle">A(좌)</text>
+
+                              <rect x="74" y="81" width="14" height="16" rx="2" fill={getPartFill('PILLAR_A_RIGHT')} stroke="#333644" strokeWidth="1" />
+                              <text x="81" y="92" fill={getPartTextColor('PILLAR_A_RIGHT')} fontSize="6.5" fontWeight="bold" textAnchor="middle">A(우)</text>
+
+                              <rect x="30" y="100" width="14" height="16" rx="2" fill={getPartFill('PILLAR_B_LEFT')} stroke="#333644" strokeWidth="1" />
+                              <text x="37" y="111" fill={getPartTextColor('PILLAR_B_LEFT')} fontSize="6.5" fontWeight="bold" textAnchor="middle">B(좌)</text>
+
+                              <rect x="74" y="100" width="14" height="16" rx="2" fill={getPartFill('PILLAR_B_RIGHT')} stroke="#333644" strokeWidth="1" />
+                              <text x="81" y="111" fill={getPartTextColor('PILLAR_B_RIGHT')} fontSize="6.5" fontWeight="bold" textAnchor="middle">B(우)</text>
+
+                              <rect x="30" y="119" width="14" height="16" rx="2" fill={getPartFill('PILLAR_C_LEFT')} stroke="#333644" strokeWidth="1" />
+                              <text x="37" y="130" fill={getPartTextColor('PILLAR_C_LEFT')} fontSize="6.5" fontWeight="bold" textAnchor="middle">C(좌)</text>
+
+                              <rect x="74" y="119" width="14" height="16" rx="2" fill={getPartFill('PILLAR_C_RIGHT')} stroke="#333644" strokeWidth="1" />
+                              <text x="81" y="130" fill={getPartTextColor('PILLAR_C_RIGHT')} fontSize="6.5" fontWeight="bold" textAnchor="middle">C(우)</text>
+
+                              {/* 플로어 패널 */}
+                              <rect x="47" y="85" width="24" height="46" rx="2" fill={getPartFill('FLOOR_PANEL')} stroke="#333644" strokeWidth="1" />
+                              <text x="59" y="110" fill={getPartTextColor('FLOOR_PANEL')} fontSize="7" fontWeight="bold" textAnchor="middle">플로어</text>
+
+                              {/* 트렁크 플로어 & 리어 패널 */}
+                              <rect x="25" y="138" width="68" height="14" rx="2" fill={getPartFill('TRUNK_FLOOR')} stroke="#333644" strokeWidth="1" />
+                              <text x="59" y="148" fill={getPartTextColor('TRUNK_FLOOR')} fontSize="6.5" fontWeight="bold" textAnchor="middle">트렁크플로어</text>
+
+                              <rect x="25" y="154" width="68" height="10" rx="2" fill={getPartFill('REAR_PANEL')} stroke="#333644" strokeWidth="1" />
+                              <text x="59" y="162" fill={getPartTextColor('REAR_PANEL')} fontSize="6.5" fontWeight="bold" textAnchor="middle">리어패널</text>
+                            </g>
+                          </svg>
+                        );
+                      })()}
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
             
             {/* Table (Left 7 cols) */}
             <div className="xl:col-span-7 space-y-2">
