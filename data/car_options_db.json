@@ -755,5 +755,41 @@
     ],
     "spec_desc": "신차정가(옵션 포함) : 1,435만원\n\n1) 기본형-컨비니언스 \n2) 내비게이션 \n* 신차 추가옵션",
     "updated_at": "2026-10-04 15:19:30"
+  },
+  "48고7266": {
+    "chaolma_data": {
+      "success": true,
+      "car_no": "48고7266",
+      "vin": "KMHSW81XBDU108380",
+      "maker": "현대",
+      "model_name": "싼타페",
+      "model_detail_name": "싼타페(DM)",
+      "grade_name": "디젤 R2.2 2WD",
+      "grade_detail_name": "프리미엄",
+      "trim_name": "프리미엄",
+      "model_year": "2013",
+      "reg_year": "2013",
+      "release_date": "2013-01-10",
+      "year_display": "13년식",
+      "color": "회색",
+      "fuel": "디젤",
+      "transmission": "오토",
+      "new_car_price": 30840000,
+      "base_car_price": 31210000,
+      "options": [],
+      "total_option_price": 0,
+      "total_depreciated_opt_price": 0,
+      "depreciation_rate": 0.2,
+      "remain_rate": 0.0,
+      "option_memo": ""
+    },
+    "updated_at": "2026-10-04 13:12:32"
+  },
+  "232머7470": {
+    "options": [
+      "캐스퍼 액티브 Ⅱ"
+    ],
+    "spec_desc": "신차정가(옵션 포함) : 1,780만원\n\n1) 캐스퍼 액티브 Ⅱ (90만원)\n* 신차 추가옵션",
+    "updated_at": "2026-10-04 13:19:39"
   }
 }
