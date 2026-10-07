@@ -1439,11 +1439,11 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
                 };
               });
 
-              // 차올마 순정옵션이 있으면 옵션태그에 원본 옵션 및 출고가액 결합
+              // 차올마 순정옵션이 있으면 옵션태그를 차올마 순정옵션(가격 포함)으로 정확히 교체 (중복 방지)
               if (chRes.options && chRes.options.length > 0) {
                 const optStr = chRes.options.map(o => `${o.name}(${Math.round((o.depreciated_price || o.price) / 10000)}만)`).join(' · ');
                 const totalOptMan = Math.round((chRes.total_option_price || 0) / 10000);
-                setOptionsTag(prev => prev ? `${prev} · ${optStr} [순정옵션총액: ${totalOptMan}만]` : `${optStr} [순정옵션총액: ${totalOptMan}만]`);
+                setOptionsTag(`${optStr} [순정옵션총액: ${totalOptMan}만]`);
               }
             }
           } catch (chErr) {
@@ -2695,14 +2695,20 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
               <div className="flex items-center gap-1.5">
                 <button
                   type="button"
-                  onClick={() => setYearModel(yearModel - 1)}
-                  className="w-6 h-6 rounded bg-[#232634] hover:bg-[#323646] text-white font-bold transition cursor-pointer"
+                  onClick={() => setYearModel(Math.max(0, yearModel - 1))}
+                  className="w-6 h-6 rounded bg-[#232634] hover:bg-[#323646] text-white font-bold transition cursor-pointer flex items-center justify-center text-xs"
                 >-</button>
-                <span className="w-8 text-center font-black text-white text-sm font-mono">{yearModel}</span>
+                <input
+                  type="number"
+                  value={yearModel === 0 ? '' : yearModel}
+                  onChange={(e) => setYearModel(Number(e.target.value) || 0)}
+                  placeholder="0"
+                  className="w-12 text-center bg-[#1e212b] border border-[#2a2d3d] focus:border-sky-400 rounded px-1 py-0.5 font-black text-white text-sm font-mono focus:outline-none"
+                />
                 <button
                   type="button"
                   onClick={() => setYearModel(yearModel + 1)}
-                  className="w-6 h-6 rounded bg-[#232634] hover:bg-[#323646] text-white font-bold transition cursor-pointer"
+                  className="w-6 h-6 rounded bg-[#232634] hover:bg-[#323646] text-white font-bold transition cursor-pointer flex items-center justify-center text-xs"
                 >+</button>
               </div>
             </div>
@@ -2714,13 +2720,22 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
                 <button
                   type="button"
                   onClick={() => setMileageKm(Math.max(0, mileageKm - 1000))}
-                  className="w-6 h-6 rounded bg-[#232634] hover:bg-[#323646] text-white font-bold transition cursor-pointer"
+                  className="w-6 h-6 rounded bg-[#232634] hover:bg-[#323646] text-white font-bold transition cursor-pointer flex items-center justify-center text-xs"
                 >-</button>
-                <span className="w-20 text-center font-black text-white text-xs sm:text-sm font-mono">{mileageKm.toLocaleString()}</span>
+                <input
+                  type="text"
+                  value={mileageKm === 0 ? '' : mileageKm.toLocaleString()}
+                  onChange={(e) => {
+                    const raw = e.target.value.replace(/[^\d]/g, '');
+                    setMileageKm(raw ? parseInt(raw, 10) : 0);
+                  }}
+                  placeholder="0"
+                  className="w-24 text-center bg-[#1e212b] border border-[#2a2d3d] focus:border-sky-400 rounded px-1.5 py-0.5 font-black text-white text-xs sm:text-sm font-mono focus:outline-none"
+                />
                 <button
                   type="button"
                   onClick={() => setMileageKm(mileageKm + 1000)}
-                  className="w-6 h-6 rounded bg-[#232634] hover:bg-[#323646] text-white font-bold transition cursor-pointer"
+                  className="w-6 h-6 rounded bg-[#232634] hover:bg-[#323646] text-white font-bold transition cursor-pointer flex items-center justify-center text-xs"
                 >+</button>
               </div>
             </div>
@@ -2804,9 +2819,9 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-1.5">
                   <span className="text-[11px] font-medium text-zinc-400">추가 옵션</span>
-                  {optionsTag && optionsTag.trim() && (
+                  {optionsTag && optionsTag.trim() && !optionsTag.includes('옵션 없음') && (
                     <span className="text-[10px] px-1.5 py-0.2 rounded bg-blue-500/15 text-blue-300 font-semibold border border-blue-500/30 font-mono">
-                      신차 옵션 {optionsTag.split(/[·,+,\/]/).filter(s => s.trim().length > 0).length}개
+                      신차 옵션 {optionsTag.replace(/\[[^\]]*\]/g, '').split(/[·,+,\/]/).filter(s => s.trim().length > 0 && !s.includes('옵션 없음') && !s.includes('기본')).length}개
                     </span>
                   )}
                 </div>
@@ -2879,13 +2894,19 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
                 <button
                   type="button"
                   onClick={() => setExpectedSellPrice(Math.max(0, expectedSellPrice - 10))}
-                  className="w-6 h-6 rounded bg-[#232634] hover:bg-[#323646] text-white font-bold transition cursor-pointer"
+                  className="w-6 h-6 rounded bg-[#232634] hover:bg-[#323646] text-white font-bold transition cursor-pointer flex items-center justify-center text-xs"
                 >-</button>
-                <span className="w-14 text-center font-black text-sky-400 text-sm sm:text-base font-mono">{expectedSellPrice}</span>
+                <input
+                  type="number"
+                  value={expectedSellPrice === 0 ? '' : expectedSellPrice}
+                  onChange={(e) => setExpectedSellPrice(Number(e.target.value) || 0)}
+                  placeholder="0"
+                  className="w-16 text-center bg-[#1e212b] border border-[#2a2d3d] focus:border-sky-400 rounded px-1 py-0.5 font-black text-sky-400 text-sm sm:text-base font-mono focus:outline-none"
+                />
                 <button
                   type="button"
                   onClick={() => setExpectedSellPrice(expectedSellPrice + 10)}
-                  className="w-6 h-6 rounded bg-[#232634] hover:bg-[#323646] text-white font-bold transition cursor-pointer"
+                  className="w-6 h-6 rounded bg-[#232634] hover:bg-[#323646] text-white font-bold transition cursor-pointer flex items-center justify-center text-xs"
                 >+</button>
               </div>
             </div>
@@ -2897,13 +2918,19 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
                 <button
                   type="button"
                   onClick={() => setOuterRepairCount(Math.max(0, outerRepairCount - 1))}
-                  className="w-6 h-6 rounded bg-[#232634] hover:bg-[#323646] text-white font-bold transition cursor-pointer"
+                  className="w-6 h-6 rounded bg-[#232634] hover:bg-[#323646] text-white font-bold transition cursor-pointer flex items-center justify-center text-xs"
                 >-</button>
-                <span className="w-8 text-center font-black text-white text-sm font-mono">{outerRepairCount}</span>
+                <input
+                  type="number"
+                  value={outerRepairCount}
+                  onChange={(e) => setOuterRepairCount(Math.max(0, Number(e.target.value) || 0))}
+                  min={0}
+                  className="w-12 text-center bg-[#1e212b] border border-[#2a2d3d] focus:border-sky-400 rounded px-1 py-0.5 font-black text-white text-sm font-mono focus:outline-none"
+                />
                 <button
                   type="button"
                   onClick={() => setOuterRepairCount(outerRepairCount + 1)}
-                  className="w-6 h-6 rounded bg-[#232634] hover:bg-[#323646] text-white font-bold transition cursor-pointer"
+                  className="w-6 h-6 rounded bg-[#232634] hover:bg-[#323646] text-white font-bold transition cursor-pointer flex items-center justify-center text-xs"
                 >+</button>
               </div>
             </div>
@@ -2927,14 +2954,20 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
               <div className="flex items-center gap-1.5">
                 <button
                   type="button"
-                  onClick={() => setTargetMargin(Math.max(50, targetMargin - 10))}
-                  className="w-6 h-6 rounded bg-[#232634] hover:bg-[#323646] text-white font-bold transition cursor-pointer"
+                  onClick={() => setTargetMargin(Math.max(0, targetMargin - 10))}
+                  className="w-6 h-6 rounded bg-[#232634] hover:bg-[#323646] text-white font-bold transition cursor-pointer flex items-center justify-center text-xs"
                 >-</button>
-                <span className="w-12 text-center font-black text-emerald-400 text-sm sm:text-base font-mono">{targetMargin}</span>
+                <input
+                  type="number"
+                  value={targetMargin === 0 ? '' : targetMargin}
+                  onChange={(e) => setTargetMargin(Number(e.target.value) || 0)}
+                  placeholder="0"
+                  className="w-14 text-center bg-[#1e212b] border border-[#2a2d3d] focus:border-emerald-400 rounded px-1 py-0.5 font-black text-emerald-400 text-sm sm:text-base font-mono focus:outline-none"
+                />
                 <button
                   type="button"
                   onClick={() => setTargetMargin(targetMargin + 10)}
-                  className="w-6 h-6 rounded bg-[#232634] hover:bg-[#323646] text-white font-bold transition cursor-pointer"
+                  className="w-6 h-6 rounded bg-[#232634] hover:bg-[#323646] text-white font-bold transition cursor-pointer flex items-center justify-center text-xs"
                 >+</button>
               </div>
             </div>
@@ -3325,7 +3358,7 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
                   {/* 칩 라인 (자사재고 + 엔카 완판 속도) */}
                   <div className="flex flex-wrap items-center gap-2 text-xs">
                     <span className="px-2.5 py-1 rounded bg-[#1e212b] border border-[#2a2d3d] text-zinc-300">
-                      자사재고: <strong className="text-white">1대</strong> (평균 {Math.round(liveMarketStats.avg_days || 30)}일 보유)
+                      자사재고: <strong className="text-white">{matchedAutoplusList.length > 0 ? `${matchedAutoplusList.length}대` : (autoplusStats.matchedCount > 0 ? `${autoplusStats.matchedCount}대` : '0대')}</strong> (평균 {Math.round(autoplusStats.avgStockDays || liveMarketStats.avg_days || 0)}일 보유)
                     </span>
                     {liveEncarSoldStats && liveEncarSoldStats.has_data && (
                       <span className="px-2.5 py-1 rounded bg-[#1e212b] border border-[#2a2d3d] text-zinc-300 flex items-center gap-1">
@@ -3419,17 +3452,28 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
 
             {/* 📋 [2] 실시간 소매 시세 & 빅데이터 밸류에이션 2분할 카드 (Streamlit 8501 완벽 일치) */}
             {(() => {
-              // Streamlit 8501 원본 100% 동일 정밀 소매가 및 옵션가치(+35만) 반영
-              const marketAvg = encarStats.avg > 0 ? encarStats.avg : 1507;
-              const hasPreset = expectedSellPrice > 0;
-              const retailPrice = hasPreset ? expectedSellPrice : (encarValuation?.individualPrice && encarValuation.individualPrice !== 1406 ? encarValuation.individualPrice : 1419);
-              const minValPrice = encarValuation?.minPrice && encarValuation.minPrice !== 1316 ? encarValuation.minPrice : (retailPrice === 1419 ? 1346 : Math.round(retailPrice * 0.94));
-              const maxValPrice = encarValuation?.maxPrice && encarValuation.maxPrice !== 1496 ? encarValuation.maxPrice : (retailPrice === 1419 ? 1504 : Math.round(retailPrice * 1.08));
-              const valScore = encarValuation?.score && encarValuation.score !== 96.1 ? encarValuation.score : 107.6;
+              // Streamlit 8501 원본 100% 동일 정밀 소매가 및 옵션가치(+35만) 반영 (이상치 방어 강화)
+              const marketAvg = encarStats.avg > 0 ? encarStats.avg : (encarList.length > 0 ? Math.round(encarList.reduce((a, b) => a + (b.price || 0), 0) / encarList.length) : 900);
+              const rawIndPrice = encarValuation?.individualPrice || 0;
+              const validIndPrice = (rawIndPrice > 0 && marketAvg > 0 && rawIndPrice < marketAvg * 1.6 && rawIndPrice > marketAvg * 0.4)
+                ? rawIndPrice
+                : (marketAvg > 0 ? marketAvg : 900);
+
+              const hasPreset = expectedSellPrice > 0 && (marketAvg <= 0 || (expectedSellPrice < marketAvg * 1.6 && expectedSellPrice > marketAvg * 0.4));
+              const retailPrice = hasPreset ? expectedSellPrice : validIndPrice;
+              const minValPrice = (encarValuation?.minPrice && encarValuation.minPrice < retailPrice * 1.1 && encarValuation.minPrice > retailPrice * 0.8)
+                ? encarValuation.minPrice
+                : Math.round(retailPrice * 0.94);
+              const maxValPrice = (encarValuation?.maxPrice && encarValuation.maxPrice > retailPrice * 0.9 && encarValuation.maxPrice < retailPrice * 1.2)
+                ? encarValuation.maxPrice
+                : Math.round(retailPrice * 1.06);
+              const valScore = (encarValuation?.score && encarValuation.score >= 50 && encarValuation.score <= 150) ? encarValuation.score : 100.0;
               const gapVal = marketAvg - retailPrice;
-              const gapPct = retailPrice > 0 ? ((gapVal / retailPrice) * 100).toFixed(1) : '6.2';
+              const gapPct = retailPrice > 0 ? ((gapVal / retailPrice) * 100).toFixed(1) : '0.0';
               const safeLimit = Math.max(0, retailPrice - targetMargin - 68);
-              const optCount = 6; // 신차 4개 + 기본 2개
+              const optCount = optionsTag && optionsTag.trim() && !optionsTag.includes('옵션 없음')
+                ? optionsTag.replace(/\[[^\]]*\]/g, '').split(/[·,+,\/]/).filter(s => s.trim().length > 0 && !s.includes('옵션 없음') && !s.includes('기본')).length
+                : 4;
 
               return (
                 <div className="bg-[#101218] border border-[#2a2d3d] rounded-xl p-4 space-y-3 shadow-lg">
@@ -3721,20 +3765,20 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
                     </div>
                   </div>
                 ) : (
-                <table className="w-full text-left text-xs sm:text-sm text-zinc-200">
-                  <thead className="bg-[#14151b] sticky top-0 z-10 text-xs text-zinc-300 font-bold uppercase border-b border-[#262833]">
+                <table className="w-full text-left text-[13px] text-zinc-200">
+                  <thead className="bg-[#14151b] sticky top-0 z-10 text-[12px] text-zinc-300 font-bold uppercase border-b border-[#262833]">
                     <tr>
-                      <th className="p-2.5 text-center w-9 bg-[#14151b] whitespace-nowrap">선택</th>
-                      <th className="p-2.5 bg-[#14151b] whitespace-nowrap w-[85px]">성능일</th>
-                      <th className="p-2.5 text-center bg-[#14151b] whitespace-nowrap w-[60px]">재고일수</th>
-                      <th className="p-2.5 bg-[#14151b] whitespace-nowrap w-[100px]">차량명</th>
-                      {showTrimColumn && <th className="p-2.5 bg-[#14151b] whitespace-nowrap w-[140px]">세부등급</th>}
-                      <th className="p-2.5 bg-[#14151b] whitespace-nowrap w-[80px]">연식</th>
-                      <th className="p-2.5 text-right bg-[#14151b] whitespace-nowrap w-[90px]">주행(km)</th>
-                      <th className="p-2.5 text-right bg-[#14151b] whitespace-nowrap w-[95px]">💰 가격</th>
-                      <th className="p-2.5 bg-[#14151b] whitespace-nowrap w-[120px]">사고유무</th>
-                      <th className="p-2.5 bg-[#14151b] whitespace-nowrap w-[70px]">색상</th>
-                      <th className="p-2.5 bg-[#14151b] whitespace-nowrap w-[85px]">옵션</th>
+                      <th className="py-2 px-2.5 text-center w-8 bg-[#14151b] whitespace-nowrap">선택</th>
+                      <th className="py-2 px-2.5 bg-[#14151b] whitespace-nowrap w-[80px]">성능일</th>
+                      <th className="py-2 px-2.5 text-center bg-[#14151b] whitespace-nowrap w-[60px]">재고일수</th>
+                      <th className="py-2 px-2.5 bg-[#14151b] whitespace-nowrap w-[95px]">차량명</th>
+                      {showTrimColumn && <th className="py-2 px-2.5 bg-[#14151b] whitespace-nowrap w-[130px]">세부등급</th>}
+                      <th className="py-2 px-2.5 bg-[#14151b] whitespace-nowrap w-[75px]">연식</th>
+                      <th className="py-2 px-2.5 text-right bg-[#14151b] whitespace-nowrap w-[90px]">주행(km)</th>
+                      <th className="py-2 px-2.5 text-right bg-[#14151b] whitespace-nowrap w-[90px]">💰 가격</th>
+                      <th className="py-2 px-2.5 bg-[#14151b] whitespace-nowrap w-[115px]">사고유무</th>
+                      <th className="py-2 px-2.5 bg-[#14151b] whitespace-nowrap w-[65px]">색상</th>
+                      <th className="py-2 px-2.5 bg-[#14151b] whitespace-nowrap w-[80px]">옵션</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-[#232634]">
@@ -3755,7 +3799,7 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
                               : 'hover:bg-[#14151c]'
                           }`}
                         >
-                          <td className="p-2.5 text-center whitespace-nowrap">
+                          <td className="py-2 px-2.5 text-center whitespace-nowrap">
                             <input
                               type="radio"
                               name="encarSelect"
@@ -3764,35 +3808,35 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
                               className="accent-blue-500 cursor-pointer w-4 h-4"
                             />
                           </td>
-                          <td className="p-2.5 text-xs text-zinc-400 font-mono whitespace-nowrap">{car.checkDate}</td>
-                          <td className="p-2.5 text-center whitespace-nowrap">
-                            <span className="px-2 py-0.5 rounded bg-[#1c1e28] text-amber-300 font-bold text-xs font-mono">
+                          <td className="py-2 px-2.5 text-[12px] text-zinc-400 font-mono whitespace-nowrap">{car.checkDate}</td>
+                          <td className="py-2 px-2.5 text-center whitespace-nowrap">
+                            <span className="px-2 py-0.5 rounded bg-[#1c1e28] text-amber-300 font-bold text-[12px] font-mono">
                               {car.holdingDays}일
                             </span>
                           </td>
-                          <td className="p-2.5 text-xs sm:text-sm whitespace-nowrap">
+                          <td className="py-2 px-2.5 text-[13px] whitespace-nowrap">
                             <a
                               href={`https://fem.encar.com/cars/detail/${String(car.id).replace(/\D/g, '')}`}
                               target="_blank"
                               rel="noopener noreferrer"
                               onClick={(e) => e.stopPropagation()}
-                              className="text-sky-400 hover:text-sky-300 hover:underline font-extrabold text-xs sm:text-sm whitespace-nowrap transition-colors"
+                              className="text-sky-400 hover:text-sky-300 hover:underline font-extrabold text-[13px] whitespace-nowrap transition-colors"
                               title={`엔카 공식 상세페이지 새창 열기 (매물코드: ${car.id})`}
                             >
                               {car.modelName || car.carName}
                             </a>
                           </td>
                           {showTrimColumn && (
-                            <td className="p-2.5 text-xs sm:text-sm text-zinc-300 font-medium whitespace-nowrap">
+                            <td className="py-2 px-2.5 text-[12px] text-zinc-300 font-medium whitespace-nowrap">
                               {car.subModel || '-'}
                             </td>
                           )}
-                          <td className="p-2.5 text-xs sm:text-sm whitespace-nowrap font-mono">
+                          <td className="py-2 px-2.5 text-[13px] whitespace-nowrap font-mono">
                             <span className={isTargetYear ? 'text-sky-400 font-black' : 'text-zinc-200 font-bold'}>
                               {car.year}
                             </span>
                           </td>
-                          <td className="p-2.5 text-right text-xs sm:text-sm text-white font-bold font-mono whitespace-nowrap">
+                          <td className="py-2 px-2.5 text-right text-[13px] text-white font-bold font-mono whitespace-nowrap">
                             <div>{car.mileage.toLocaleString()}</div>
                             {mileageKm > 0 && (() => {
                               const diffKm = car.mileage - mileageKm;
@@ -3804,10 +3848,10 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
                               );
                             })()}
                           </td>
-                          <td className="p-2.5 text-right font-black text-amber-400 font-mono text-xs sm:text-sm whitespace-nowrap">
+                          <td className="py-2 px-2.5 text-right font-black text-amber-400 font-mono text-[14px] whitespace-nowrap">
                             {car.price.toLocaleString()}만
                           </td>
-                          <td className="p-2.5 text-xs sm:text-sm whitespace-nowrap">
+                          <td className="py-2 px-2.5 text-[12px] whitespace-nowrap">
                             {car.accidentType.includes('완전무사고') ? (
                               <span className="text-emerald-400 font-bold">🟢 완전무사고</span>
                             ) : car.accidentType.includes('사고') ? (
@@ -3816,17 +3860,17 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
                               <span className="text-amber-400 font-bold">🟡 {car.accidentType}</span>
                             )}
                           </td>
-                          <td className="p-2.5 text-xs text-zinc-300 whitespace-nowrap">{car.color || '흰색'}</td>
-                          <td className="p-2.5 text-xs whitespace-nowrap">
+                          <td className="py-2 px-2.5 text-[12px] text-zinc-300 whitespace-nowrap">{car.color || '흰색'}</td>
+                          <td className="py-2 px-2.5 text-[12px] whitespace-nowrap">
                             {hasAddedOptions ? (
                               <span 
                                 title={car.optionsText}
-                                className="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold border border-amber-500/40 text-xs cursor-help hover:bg-amber-500/30 transition"
+                                className="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold border border-amber-500/40 text-[11px] cursor-help hover:bg-amber-500/30 transition"
                               >
                                 {car.optionsText.includes('개') ? car.optionsText.replace(/[^\d]/g, '') + '개' : '옵션유'}
                               </span>
                             ) : (
-                              <span title="기본 사양" className="text-zinc-500 text-xs">기본</span>
+                              <span title="기본 사양" className="text-zinc-500 text-[11px]">기본</span>
                             )}
                           </td>
                         </tr>

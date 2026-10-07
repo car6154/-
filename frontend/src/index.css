@@ -30,3 +30,15 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #2e3038;
 }
+
+/* Chrome, Safari, Edge, Opera에서 number input 스피너 화살표 제거 */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox에서 number input 스피너 화살표 제거 */
+input[type=number] {
+  -moz-appearance: textfield;
+}

@@ -1383,6 +1383,18 @@ async function startServer() {
     }
   });
 
+  // 9. 엔카 실시간 성능점검표 및 제원 로컬 백엔드(FastAPI 8000) 프록시
+  app.get('/api/encar/inspection/:carId', async (req, res) => {
+    const { carId } = req.params;
+    try {
+      const resp = await fetch(`http://127.0.0.1:8000/api/encar/inspection/${encodeURIComponent(carId)}`);
+      const data = await resp.json();
+      return res.status(resp.status).json(data);
+    } catch (e: any) {
+      return res.status(500).json({ success: false, message: 'FastAPI 백엔드(8000) 엔카 성능점검 통신 실패: ' + e.message });
+    }
+  });
+
   // Vite Dev Server Middleware 마운트
   if (process.env.NODE_ENV !== 'production') {
     const vite = await createViteServer({

@@ -954,16 +954,45 @@ class Scraper:
         if not target_rgsids:
             return {"has_data": False, "msg": "동급 매물 ID 없음"}
 
-        # 2. 대표 매물로 엔카 시세리포트 호출
+        # 💡 [실매물 코호트 통계] 현재 화면의 동급(타겟 연식) 매물 실제 통계 선계산
+        real_prices = pd.to_numeric(cand_df['판매가'], errors='coerce').dropna()
+        real_market_avg = int(real_prices.mean()) if not real_prices.empty else 0
+
+        # 동급 무사고 매물들의 평균가
+        is_no_acc_cand = cand_df['사고유무'].astype(str).str.contains('무사고') if '사고유무' in cand_df.columns else pd.Series(False, index=cand_df.index)
+        no_acc_cand_prices = pd.to_numeric(cand_df.loc[is_no_acc_cand, '판매가'], errors='coerce').dropna()
+        cohort_no_acc_avg = int(no_acc_cand_prices.mean()) if not no_acc_cand_prices.empty else real_market_avg
+        sample_count = len(no_acc_cand_prices) if not no_acc_cand_prices.empty else len(real_prices)
+
+        # 2. 대표 매물로 엔카 시세리포트 호출 (이상치 매물 자동 배제)
         benchmark_report = None
         for rid in target_rgsids[:5]:
             rep = Scraper.fetch_price_report(rid)
             if rep.get("has_data") and rep.get("individual_price", 0) > 0:
+                rep_ind = rep.get("individual_price", 0)
+                # 실매물 평균가가 존재할 때 1.7배 초과 또는 0.4배 미만인 이종 차종 리포트는 오염 배제
+                if cohort_no_acc_avg > 0 and (rep_ind > cohort_no_acc_avg * 1.7 or rep_ind < cohort_no_acc_avg * 0.4):
+                    continue
                 benchmark_report = rep
                 break
 
+        # 리포트가 없거나 오염된 경우 실매물 코호트 기준으로 대체 생성
         if not benchmark_report:
-            return {"has_data": False, "msg": "엔카 시세리포트 데이터 미제공 차종"}
+            if cohort_no_acc_avg > 0:
+                benchmark_report = {
+                    "has_data": True,
+                    "rgsid": target_rgsids[0] if target_rgsids else "",
+                    "min_price": int(cohort_no_acc_avg * 0.94),
+                    "individual_price": cohort_no_acc_avg,
+                    "max_price": int(cohort_no_acc_avg * 1.06),
+                    "std_100_price": cohort_no_acc_avg,
+                    "bad_ratio": 0.94,
+                    "good_ratio": 1.06,
+                    "base_mileage": 100000,
+                    "score": 100.0
+                }
+            else:
+                return {"has_data": False, "msg": "엔카 시세리포트 데이터 미제공 차종"}
 
         # 3. 엔카 표준 100점 기본가 및 상하한 밴드 계수 확보
         std_100_price = benchmark_report.get("std_100_price", 0)
@@ -987,31 +1016,18 @@ class Scraper:
                     calc_age = max(1, datetime.now().year - yr_val)
                 base_mil = calc_age * 15000
 
-        # 💡 [실매물 코호트 통계 및 시장 앵커링] 현재 화면의 동급(타겟 연식) 매물 실제 통계
-        real_prices = pd.to_numeric(cand_df['판매가'], errors='coerce').dropna()
-        real_market_avg = int(real_prices.mean()) if not real_prices.empty else std_100_price
-
-        # 동급 무사고 매물들의 평균가
-        is_no_acc_cand = cand_df['사고유무'].astype(str).str.contains('무사고') if '사고유무' in cand_df.columns else pd.Series(False, index=cand_df.index)
-        no_acc_cand_prices = pd.to_numeric(cand_df.loc[is_no_acc_cand, '판매가'], errors='coerce').dropna()
-        cohort_no_acc_avg = int(no_acc_cand_prices.mean()) if not no_acc_cand_prices.empty else real_market_avg
-        sample_count = len(no_acc_cand_prices) if not no_acc_cand_prices.empty else len(real_prices)
-
         # 💡 기준가(100점가) 앵커링:
-        # 표본이 3대 미만인 소수 표본 상황에서는 특정 매물의 급매/호가 왜곡을 방지하기 위해 엔카 공식 빅데이터(100점가)를 100% 신뢰.
-        # 표본이 3대 이상일 때만 표본 수에 비례하여 시장 평균가를 점진적으로 블렌딩.
-        if std_100_price > 0:
-            if sample_count >= 10 and cohort_no_acc_avg > 0:
+        if cohort_no_acc_avg > 0:
+            if std_100_price <= 0 or std_100_price > cohort_no_acc_avg * 1.6 or std_100_price < cohort_no_acc_avg * 0.5:
+                std_100_price = cohort_no_acc_avg
+            elif sample_count >= 10:
                 std_100_price = int(round(cohort_no_acc_avg * 0.6 + std_100_price * 0.4))
-            elif sample_count >= 5 and cohort_no_acc_avg > 0:
+            elif sample_count >= 5:
                 std_100_price = int(round(cohort_no_acc_avg * 0.4 + std_100_price * 0.6))
-            elif sample_count >= 3 and cohort_no_acc_avg > 0:
+            elif sample_count >= 3:
                 std_100_price = int(round(cohort_no_acc_avg * 0.2 + std_100_price * 0.8))
-            else:
-                # 표본 1~2대: 엔카 빅데이터 100점가 100% 유지!
-                pass
-        else:
-            std_100_price = cohort_no_acc_avg if cohort_no_acc_avg > 0 else real_market_avg
+        elif std_100_price <= 0:
+            std_100_price = real_market_avg
 
         # 4. 대상 차량 스펙 적용
         effective_mil = target_mil if target_mil > 0 else base_mil

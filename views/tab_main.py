@@ -725,10 +725,15 @@ def render_main_tab(
                         if p_list:
                             target_opt_new = sum(int(p) for p in p_list)
 
-                # 헤이딜러/엔카 스캔 옵션 명칭 및 점수 산정
+                # 헤이딜러/엔카 스캔 옵션 명칭 및 점수 산정 (순정 유료옵션 우선 집계)
                 hd_opts = st.session_state.get('hd_target_options', []) or []
                 encar_opts = st.session_state.get('encar_target_options', []) or []
-                all_target_opts = list(dict.fromkeys(hd_opts + encar_opts))
+                if target_opt_names:
+                    all_target_opts = target_opt_names
+                elif hd_opts:
+                    all_target_opts = hd_opts
+                else:
+                    all_target_opts = list(dict.fromkeys(encar_opts))
 
                 if all_target_opts:
                     target_score, target_opt_names = score_key_options(all_target_opts)
