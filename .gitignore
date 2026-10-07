@@ -19,6 +19,9 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+.venv/
+venv/
+ENV/
 
 # Environment variables & Machine-specific credentials
 .env
