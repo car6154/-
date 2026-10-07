@@ -145,6 +145,67 @@ class MasterMappingService:
             "aliases": ["더뉴레이", "더 뉴 레이", "더뉴기아레이"],
             "trims": {}
         },
+        "더 뉴 스파크": {
+            "brand": "쉐보레(GM대우_)",
+            "model_group": "스파크",
+            "encar_model": "더 뉴 스파크",
+            "aliases": ["더뉴스파크", "더 뉴 스파크", "thenewspark"],
+            "trims": {
+                "LT": {
+                    "badge_group": "가솔린 1000cc",
+                    "badge": "LT",
+                    "badge_detail": ""
+                },
+                "LT C-Tech": {
+                    "badge_group": "가솔린 1000cc",
+                    "badge": "LT",
+                    "badge_detail": ""
+                },
+                "프리미어": {
+                    "badge_group": "가솔린 1000cc",
+                    "badge": "프리미어",
+                    "badge_detail": ""
+                },
+                "LS": {
+                    "badge_group": "가솔린 1000cc",
+                    "badge": "LS",
+                    "badge_detail": ""
+                },
+                "LS 베이직": {
+                    "badge_group": "가솔린 1000cc",
+                    "badge": "LS 베이직",
+                    "badge_detail": ""
+                }
+            }
+        },
+        "더 넥스트 스파크": {
+            "brand": "쉐보레(GM대우_)",
+            "model_group": "스파크",
+            "encar_model": "더 넥스트 스파크",
+            "aliases": ["더넥스트스파크", "더 넥스트 스파크", "thenextspark"],
+            "trims": {
+                "LTZ": {
+                    "badge_group": "가솔린 1000cc",
+                    "badge": "LTZ",
+                    "badge_detail": ""
+                },
+                "LT Plus": {
+                    "badge_group": "가솔린 1000cc",
+                    "badge": "LT Plus",
+                    "badge_detail": ""
+                },
+                "LT": {
+                    "badge_group": "가솔린 1000cc",
+                    "badge": "LT",
+                    "badge_detail": ""
+                },
+                "LS": {
+                    "badge_group": "가솔린 1000cc",
+                    "badge": "LS",
+                    "badge_detail": ""
+                }
+            }
+        },
         "레이": {
             "brand": "기아",
             "model_group": "레이",
@@ -573,6 +634,11 @@ class MasterMappingService:
         "레이": [
             (2017, 2030, "더 뉴 레이"),
             (2011, 2017, "레이"),
+        ],
+        "스파크": [
+            (2018, 2024, "더 뉴 스파크"),
+            (2015, 2018, "더 넥스트 스파크"),
+            (2011, 2015, "스파크"),
         ],
     }
 

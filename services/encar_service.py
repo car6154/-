@@ -425,6 +425,19 @@ class Scraper:
                             alt_bg = re.sub(r'(\d)\s+인승', r'\1인승', orig_bg)
                             fallback_candidates.append(cur_c.replace(f"BadgeGroup.{orig_bg}.", f"BadgeGroup.{alt_bg}."))
 
+                # 5. 과도하게 좁은 Year/Mileage 범위 완화 (동일 모델/트림 조건은 100% 엄격 유지)
+                if "Mileage.range" in cur_c:
+                    c_no_mil = re.sub(r'_\.Mileage\.range\([^)]*\)\.', '', cur_c)
+                    if c_no_mil != cur_c and c_no_mil not in fallback_candidates:
+                        fallback_candidates.append(c_no_mil)
+                if "Year.range" in cur_c:
+                    c_no_yr = re.sub(r'_\.Year\.range\([^)]*\)\.', '', cur_c)
+                    if c_no_yr != cur_c and c_no_yr not in fallback_candidates:
+                        fallback_candidates.append(c_no_yr)
+                    c_no_both = re.sub(r'_\.(?:Year|Mileage)\.range\([^)]*\)\.', '', cur_c)
+                    if c_no_both != cur_c and c_no_both not in fallback_candidates:
+                        fallback_candidates.append(c_no_both)
+
                 for fb_cond in fallback_candidates:
                     try:
                         fb_safe = urllib.parse.quote(fb_cond)

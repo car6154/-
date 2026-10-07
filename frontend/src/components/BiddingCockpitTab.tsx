@@ -1675,8 +1675,9 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
       }
 
       const inspColor = insp.color || found.color;
-      const inspDate = insp.checkDate || (insp.inspectionDate ? String(insp.inspectionDate).slice(2, 10) : found.checkDate);
-      const inspAccident = insp.accidentType || (insp.accidentHistory ? (insp.accidentHistory === 'NONE' ? '완전무사고' : '유사고') : found.accidentType);
+      // 🌟 성능일자와 사고유무는 원본 크롤링 데이터(found.checkDate, found.accidentType)를 우선 보존하여 데이터 왜곡 방지
+      const inspDate = found.checkDate && found.checkDate !== '-' ? found.checkDate : (insp.checkDate || (insp.inspectionDate ? String(insp.inspectionDate).slice(2, 10) : found.checkDate));
+      const inspAccident = found.accidentType && found.accidentType !== '-' ? found.accidentType : (insp.accidentType || (insp.accidentHistory ? (insp.accidentHistory === 'NONE' ? '완전무사고' : '유사고') : found.accidentType));
       const inspOpts = insp.optionsText || (insp.options ? insp.options.join(' · ') : (insp.optionNames ? insp.optionNames.join(' · ') : found.optionsText));
 
       return {
@@ -3922,9 +3923,19 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
                       <span className="px-2.5 py-1 rounded bg-blue-500/20 text-blue-300 font-bold font-mono">
                         📅 {selectedEncar.checkDate} ({selectedEncar.holdingDays}일 전)
                       </span>
-                      <span className="px-2.5 py-1 rounded bg-amber-500/20 text-amber-300 font-bold border border-amber-500/40">
-                        ⚠️ {selectedEncar.accidentType}
-                      </span>
+                      {selectedEncar.accidentType.includes('완전무사고') || (selectedEncar.accidentType.includes('무사고') && !selectedEncar.accidentType.includes('사고')) ? (
+                        <span className="px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/40">
+                          🟢 {selectedEncar.accidentType}
+                        </span>
+                      ) : selectedEncar.accidentType.includes('사고') && !selectedEncar.accidentType.includes('무사고') ? (
+                        <span className="px-2.5 py-1 rounded bg-rose-500/20 text-rose-300 font-bold border border-rose-500/40">
+                          🔴 {selectedEncar.accidentType}
+                        </span>
+                      ) : (
+                        <span className="px-2.5 py-1 rounded bg-amber-500/20 text-amber-300 font-bold border border-amber-500/40">
+                          🟡 {selectedEncar.accidentType}
+                        </span>
+                      )}
                     </div>
                   </div>
 
