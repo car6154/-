@@ -854,7 +854,7 @@
     "first_seen_time": "2026-09-30 13:08",
     "last_seen": "2026-10-09",
     "status": "판매중",
-    "consecutive_misses": 0,
+    "consecutive_misses": 1,
     "estimated_sold_date": "2026-10-06"
   },
   "42721814": {
@@ -869,7 +869,7 @@
     "first_seen_time": "2026-09-30 13:08",
     "last_seen": "2026-10-09",
     "status": "판매중",
-    "consecutive_misses": 0,
+    "consecutive_misses": 1,
     "estimated_sold_date": "2026-10-06"
   },
   "42682739": {
@@ -884,7 +884,7 @@
     "first_seen_time": "2026-09-30 13:08",
     "last_seen": "2026-10-09",
     "status": "판매중",
-    "consecutive_misses": 0,
+    "consecutive_misses": 1,
     "estimated_sold_date": "2026-10-06"
   },
   "42023808": {
@@ -46799,6 +46799,76 @@
     "inv_days": "9",
     "first_seen": "2026-10-09",
     "first_seen_time": "2026-10-09 18:02",
+    "last_seen": "2026-10-09",
+    "status": "판매중",
+    "consecutive_misses": 1
+  },
+  "42695569": {
+    "carid": "42695569",
+    "name": "더뉴레이",
+    "year": "20(21)",
+    "mileage": 153610,
+    "price": 830,
+    "perf_date": "26-09-08",
+    "inv_days": "31",
+    "first_seen": "2026-10-09",
+    "first_seen_time": "2026-10-09 19:20",
+    "last_seen": "2026-10-09",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42740886": {
+    "carid": "42740886",
+    "name": "더뉴레이",
+    "year": "20(21)",
+    "mileage": 139046,
+    "price": 930,
+    "perf_date": "26-09-01",
+    "inv_days": "38",
+    "first_seen": "2026-10-09",
+    "first_seen_time": "2026-10-09 19:20",
+    "last_seen": "2026-10-09",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42708828": {
+    "carid": "42708828",
+    "name": "더뉴레이",
+    "year": "20(21)",
+    "mileage": 133125,
+    "price": 980,
+    "perf_date": "26-09-01",
+    "inv_days": "38",
+    "first_seen": "2026-10-09",
+    "first_seen_time": "2026-10-09 19:20",
+    "last_seen": "2026-10-09",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42038268": {
+    "carid": "42038268",
+    "name": "더뉴레이",
+    "year": "21(22)",
+    "mileage": 140760,
+    "price": 1030,
+    "perf_date": "",
+    "inv_days": "-",
+    "first_seen": "2026-10-09",
+    "first_seen_time": "2026-10-09 19:20",
+    "last_seen": "2026-10-09",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42059306": {
+    "carid": "42059306",
+    "name": "더뉴레이",
+    "year": "21(21)",
+    "mileage": 130958,
+    "price": 1100,
+    "perf_date": "26-05-19",
+    "inv_days": "143",
+    "first_seen": "2026-10-09",
+    "first_seen_time": "2026-10-09 19:20",
     "last_seen": "2026-10-09",
     "status": "판매중",
     "consecutive_misses": 0

@@ -1181,11 +1181,17 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
           mileage: mileageKm
         });
 
-        const encarCountMsg = encarItems.length > 0 ? ` (엔카 동급 ${encarItems.length}대 연동)` : '';
-        setSearchStatus({
-          type: 'success',
-          message: `✅ [차얼마&엔카] ${no} ${res.maker} ${resolvedCarName} (${resolvedGrade}) 제원 및 시세 연동 완료!${encarCountMsg}`
-        });
+        if (encarItems.length === 0) {
+          setSearchStatus({
+            type: 'warning',
+            message: `⚠️ 차얼마 제원은 연동됐으나 엔카 매물을 가져오지 못했습니다. (${no} ${resolvedCarName})`
+          });
+        } else {
+          setSearchStatus({
+            type: 'success',
+            message: `✅ [차얼마&엔카] ${no} ${res.maker} ${resolvedCarName} (${resolvedGrade}) 제원 및 시세 연동 완료! (엔카 동급 ${encarItems.length}대 연동)`
+          });
+        }
       } else {
         setSearchStatus({
           type: 'warning',
@@ -1200,7 +1206,6 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
       });
     } finally {
       setIsSearchingCar(false);
-      setTimeout(() => setSearchStatus(null), 6000);
     }
   };
 
