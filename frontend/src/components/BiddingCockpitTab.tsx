@@ -1188,10 +1188,6 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
             rawHistory: ch,
             originDoc: doc
           });
-
-          if (myCnt > 0 && outerRepairCount === 0) {
-            setOuterRepairCount(Math.min(myCnt, 3));
-          }
         }
 
         // 엔카 전수 매물 자동 수집 연동
