@@ -1536,7 +1536,6 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
     } finally {
       setIsAiEstimating(false);
       setAiEstimateStep(null);
-      setTimeout(() => setSearchStatus(null), 6000);
     }
   };
 
