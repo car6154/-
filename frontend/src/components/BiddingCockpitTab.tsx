@@ -820,7 +820,7 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
       const targetYr = options.year !== undefined ? options.year : yearModel;
       const targetMil = options.mileage !== undefined ? options.mileage : mileageKm;
       const targetOpt = optionsTag || '';
-      const targetAcc = accidentType || '';
+      const targetAcc = '';
 
       const res = await fetch('/api/encar/search', {
         method: 'POST',
