@@ -55,7 +55,7 @@ export interface RuleAssessmentResult {
     isPass: boolean;
   };
   mileageIntegrity: {
-    status: 'EXCELLENT' | 'NORMAL' | 'HIGH' | 'ROLLBACK_SUSPECT';
+    status: 'EXCELLENT' | 'NORMAL' | 'HIGH';
     label: string;
     details: string;
     isPass: boolean;
@@ -122,8 +122,6 @@ export function computeRuleBasedAssessment(input: VehicleAssessmentInput): RuleA
     accidentStatus = 'MINOR';
     accidentLabel = `🟡 단순 수리 (외판 ${outerCnt}부위 / 내차 ${myAccCnt}건 ${myAccCost}만)`;
     accidentDetails = '골격 이상 없는 단순 볼트 체결 외판 교환';
-    const outerAdj = Math.min(outerCnt * -20, -60);
-    adjustments.push({ item: '외판 단순수리', amountMan: outerAdj, reason: `외판 ${outerCnt}부위 감가` });
   } else {
     accidentStatus = 'PERFECT';
     accidentLabel = '🟢 완전 무사고 (성능·보험 클린)';
@@ -157,21 +155,12 @@ export function computeRuleBasedAssessment(input: VehicleAssessmentInput): RuleA
     ownerDetails = '정상 자가용 명의 변경 범위';
   }
 
-  // 4. 주행거리 무결성 판정 (계기판 꺾임/역주행 감지)
-  const maxRecordedMileage = Math.max(
-    input.inspectionMileage || 0,
-    input.lastHistoryMileage || 0
-  );
-  let mileageStatus: 'EXCELLENT' | 'NORMAL' | 'HIGH' | 'ROLLBACK_SUSPECT' = 'NORMAL';
+  // 4. 주행거리 무결성 판정
+  let mileageStatus: 'EXCELLENT' | 'NORMAL' | 'HIGH' = 'NORMAL';
   let mileageLabel = '🟢 정상 주행거리';
   let mileageDetails = '공식 기록과 일치하는 주행거리';
 
-  if (maxRecordedMileage > 0 && input.currentMileage > 0 && input.currentMileage < maxRecordedMileage - 500) {
-    mileageStatus = 'ROLLBACK_SUSPECT';
-    mileageLabel = `🚨 주행거리 역주행 의심! (${input.currentMileage.toLocaleString()}km < 기록치 ${maxRecordedMileage.toLocaleString()}km)`;
-    mileageDetails = '이전 공식 점검 기록치보다 현재 주행거리가 낮음 (계기판 교체/조작 확인 필수)';
-    adjustments.push({ item: '주행거리 의심', amountMan: -200, reason: '주행거리 역주행 의심 리스크' });
-  } else {
+  {
     const ageY = input.yearModel ? (new Date().getFullYear() - (input.yearModel > 2000 ? input.yearModel : input.yearModel + 2000)) : 5;
     const annualKm = ageY > 0 ? Math.round(input.currentMileage / ageY) : input.currentMileage;
     if (annualKm > 25000) {
@@ -224,7 +213,7 @@ export function computeRuleBasedAssessment(input: VehicleAssessmentInput): RuleA
   let gradeBadgeColor = '#10b981';
   let isEligible = true;
 
-  if (accidentStatus === 'FATAL' || mileageStatus === 'ROLLBACK_SUSPECT') {
+  if (accidentStatus === 'FATAL') {
     overallGrade = 'D';
     gradeName = 'D등급 (결격/위험)';
     gradeBadgeColor = '#f43f5e';
@@ -275,7 +264,7 @@ export function computeRuleBasedAssessment(input: VehicleAssessmentInput): RuleA
       status: mileageStatus,
       label: mileageLabel,
       details: mileageDetails,
-      isPass: mileageStatus !== 'ROLLBACK_SUSPECT'
+      isPass: true
     },
     inspectionValidity: {
       status: inspStatus,

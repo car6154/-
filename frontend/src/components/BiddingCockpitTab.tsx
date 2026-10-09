@@ -4774,6 +4774,7 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
         onClose={() => setShowCarHistoryModal(false)}
         carNumber={carNumber}
         carName={carName}
+        currentMileage={mileageKm}
         data={targetCarHistory}
       />
 

@@ -8,6 +8,7 @@ export interface CarHistoryDetailModalProps {
   onClose: () => void;
   carNumber: string;
   carName?: string;
+  currentMileage?: number;
   data: {
     ownerChangedCount: number;
     isSingleOwner: boolean;
@@ -35,6 +36,7 @@ export const CarHistoryDetailModal: React.FC<CarHistoryDetailModalProps> = ({
   onClose,
   carNumber,
   carName,
+  currentMileage,
   data
 }) => {
   if (!isOpen || !data) return null;
@@ -46,7 +48,7 @@ export const CarHistoryDetailModal: React.FC<CarHistoryDetailModalProps> = ({
 
   const assessment = computeRuleBasedAssessment({
     carNumber,
-    currentMileage: doc?.inspection_mileage || (mileages[0]?.mileage) || 50000,
+    currentMileage: currentMileage || (mileages[0]?.mileage) || doc?.inspection_mileage || 50000,
     ownerChangedCount: data.ownerChangedCount,
     isSingleOwner: data.isSingleOwner,
     hasRentHistory: data.hasRentHistory,
@@ -62,7 +64,7 @@ export const CarHistoryDetailModal: React.FC<CarHistoryDetailModalProps> = ({
     inspectionValidEnd: doc?.inspection_valid_end || data.inspectionValidUntil,
     inspectionMileage: doc?.inspection_mileage,
     lastHistoryMileage: mileages[0]?.mileage,
-    outerRepairCount: data.myCarAccidentCount > 0 ? 1 : 0
+    outerRepairCount: 0
   });
 
   return (
