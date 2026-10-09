@@ -1121,7 +1121,6 @@ def search_encar_market(req: EncarSearchRequest):
                 year=year_num,
                 mileage=mileage_num
             )
-        print(f"① 생성된 엔카 URL: {encar_url}")
 
         df, msg = Scraper.run(encar_url, "")
         if df.empty and req.url:
@@ -1135,7 +1134,6 @@ def search_encar_market(req: EncarSearchRequest):
                 df, msg = Scraper.run(alt_url, "")
                 if not df.empty:
                     encar_url = alt_url
-        print(f"② Scraper.run 반환 건수: {len(df) if not df.empty else 0}")
 
         if df.empty:
             return {
@@ -1157,7 +1155,6 @@ def search_encar_market(req: EncarSearchRequest):
 
         # 2. 세부모델/파생트림 엄격 정밀 필터링 (스페셜, 에디션, N Line 배제)
         df = DataProcessor.filter_strictly_by_submodel(df, target_car_name=car_name, target_sub_model=detail_model)
-        print(f"③ filter_strictly_by_submodel 통과 건수: {len(df) if not df.empty else 0}")
 
         # 3. 2번 정렬 기준 (가격 낮은순 -> 연식 최신순 -> 성능점검순)
         df = DataProcessor.sort_by_price_year_perf(df)
