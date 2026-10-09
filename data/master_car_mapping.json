@@ -7,8 +7,8 @@
       "encar_model": "투싼 (NX4_)",
       "aliases": [
         "투싼(nx4)",
-        "디올뉴투싼",
         "더올뉴투싼",
+        "디올뉴투싼",
         "더 올뉴투싼",
         "더올뉴투싼(nx4)",
         "투싼nx4",
@@ -334,8 +334,8 @@
       "model_group": "아반떼",
       "encar_model": "아반떼 AD",
       "aliases": [
-        "아반떼ad",
-        "ad아반떼"
+        "ad아반떼",
+        "아반떼ad"
       ],
       "trims": {
         "1.6 GDI 스마트": {
@@ -402,7 +402,7 @@
           "badge_group": "가솔린 1000cc",
           "badge": "시그니처",
           "badge_detail": "",
-          "updated_at": "2026-10-09 16:47:58"
+          "updated_at": "2026-10-09 17:21:21"
         },
         "프레스티지": {
           "badge_group": "가솔린 1000cc",
