@@ -499,9 +499,27 @@ class ChaolmaService:
             has_rent_history = (get_text("r303", "N") == "Y")
 
             # 3. 사고 건수 및 금액
-            # r401: 내차피해 건수, r402: 내차피해 총액
-            my_acc_count = get_int("r401", get_int("r501", 0))
-            my_acc_cost = get_int("r402", 0)
+            # 사용자 요청: 내차 피해 건수 = r401 + r501 합산
+            r401_count = get_int("r401", 0)
+            r501_count = get_int("r501", 0)
+            my_acc_count = r401_count + r501_count
+
+            r402_cost = get_int("r402", 0)
+            # 금액도 r402에 상대보험 금액(r502-01 == '2'인 r502-03 합계)을 합산
+            other_ins_cost = 0
+            r502 = root.find("r502")
+            if r502 is not None:
+                for e in r502.findall("e"):
+                    ins_type = e.find("r502-01")
+                    if ins_type is not None and ins_type.text == "2":
+                        tot = e.find("r502-03")
+                        if tot is not None and tot.text:
+                            try:
+                                other_ins_cost += int(float(tot.text.strip()))
+                            except Exception:
+                                pass
+
+            my_acc_cost = r402_cost + other_ins_cost
             my_acc_cost_man = round(my_acc_cost / 10000)
 
             # r403: 타차가해 건수, r404: 타차가해 총액

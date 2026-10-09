@@ -235,6 +235,8 @@ export async function queryChaolmaCar(carNo: string, mileage: number = 50000): P
             remain_rate: data.remain_rate || 0,
             age_years: data.age_years || 0,
             options: data.options || [],
+            car_history: data.car_history,
+            origin_doc: data.origin_doc,
           };
         } else if (data && data.message) {
           return {
