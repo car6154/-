@@ -768,6 +768,7 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
   const [encarSourceUrl, setEncarSourceUrl] = useState<string>('');
   const [showTrimColumn, setShowTrimColumn] = useState<boolean>(true);
   const activeRequestIdRef = useRef<number>(0);
+  const skipAutoFetchRef = useRef<boolean>(false);
 
   const fetchEncarSoldOut = useCallback(async (carIds: string[], expectedModel: string, targetYear: string) => {
     if (!carIds.length || !expectedModel) return;
@@ -889,6 +890,10 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
 
   // 사이드바 차량 조건 변경 시 실데이터 자동 수집 (차량이 있을 때만)
   useEffect(() => {
+    if (skipAutoFetchRef.current) {
+      skipAutoFetchRef.current = false;
+      return;
+    }
     if (!carName && !initialCarName) return;
     const timer = setTimeout(() => {
       fetchEncarComparable({
@@ -1094,6 +1099,7 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
       // 실제 차얼마(오토플러스 ERP) 서비스 호출
       const res = await queryChaolmaCar(no, mileageKm);
       if (res && res.success) {
+        skipAutoFetchRef.current = true;
         setCarNumber(no);
         if (res.maker) setManufacturer(res.maker);
         const resolvedCarName = res.model_detail_name || res.model_name || '';
@@ -1276,6 +1282,7 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
       const cComment = String(detail.car_description || detail.inspector_comment || '').trim();
 
       if (cNo || cName) {
+        skipAutoFetchRef.current = true;
         if (cNo) setCarNumber(cNo);
         setCarName(cName);
         if (cBrand) setManufacturer(cBrand);
