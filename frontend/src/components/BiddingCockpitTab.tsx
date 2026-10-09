@@ -651,6 +651,9 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
     baseMileage?: number;
   } | null>(null);
 
+  // 백엔드에서 반환하는 엔카 API 통계 정보 (optAdj, accAdj 등 포함)
+  const [backendEncarStats, setBackendEncarStats] = useState<any>(null);
+
   // 헤이딜러 실시간 동급 낙찰 데이터 및 선택 상태
   const [rawHeydealerComps, setRawHeydealerComps] = useState<any[]>([]);
   const [selectedHeydealerBidId, setSelectedHeydealerBidId] = useState<string | null>(null);
@@ -815,6 +818,8 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
       const targetMaker = options.manufacturer || manufacturer;
       const targetYr = options.year !== undefined ? options.year : yearModel;
       const targetMil = options.mileage !== undefined ? options.mileage : mileageKm;
+      const targetOpt = optionsTag || '';
+      const targetAcc = accidentType || '';
 
       const res = await fetch('/api/encar/search', {
         method: 'POST',
@@ -825,7 +830,9 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
           detailModel: targetDetail,
           manufacturer: targetMaker,
           year: targetYr,
-          mileage: targetMil
+          mileage: targetMil,
+          targetOptions: targetOpt,
+          targetAccident: targetAcc
         })
       });
       const data = await res.json();
@@ -844,6 +851,7 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
         if (data.valuation && data.valuation.hasData) {
           setEncarValuation(data.valuation);
         } else if (data.stats?.avg && data.stats.avg > 0) {
+          setBackendEncarStats(data.stats);
           const avgP = data.stats.avg;
           const benchP = data.stats.benchmarkPrice || avgP;
           const minP = data.stats.minBand || Math.round(benchP * 0.94);
@@ -1872,10 +1880,8 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
     const milSlope = -0.005; // 1만km당 약 50만원 감가
     const milAdj = Math.round(milDiff * milSlope);
 
-    // 옵션 보정: 선루프/스마트키 등
-    let optAdj = 0;
-    if (optionsTag.includes('선루프')) optAdj += 7;
-    if (optionsTag.includes('드라이브') || optionsTag.includes('스마트')) optAdj += 10;
+    // 옵션 보정: 엔카 API 산출된 정밀 옵션가치 보정 사용
+    let optAdj = backendEncarStats?.optAdj || 0;
 
     const aiWholesalePrice = Math.max(10, avgPrice + milAdj + optAdj);
 
@@ -1894,7 +1900,7 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
       optAdj,
       aiWholesalePrice
     };
-  }, [filteredHeydealerBids, mileageKm, optionsTag]);
+  }, [filteredHeydealerBids, mileageKm, optionsTag, backendEncarStats]);
 
   // 가격-주행거리 산점도 & 회귀 추세선 자동 스케일링 계산
   const scatterPlotData = useMemo(() => {

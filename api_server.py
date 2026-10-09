@@ -1100,6 +1100,8 @@ class EncarSearchRequest(BaseModel):
     manufacturer: Optional[str] = ""
     year: Optional[int] = 0
     mileage: Optional[int] = 0
+    targetOptions: Optional[str] = ""
+    targetAccident: Optional[str] = ""
 
 
 @app.post("/api/encar/search")
@@ -1163,12 +1165,89 @@ def search_encar_market(req: EncarSearchRequest):
         except Exception as e:
             print(f"[api_server] SoldOutTracker error: {e}")
 
+        # --- 옵션 감가(opt_adj) 로직 이관 ---
+        import re
+        import numpy as np
+        from datetime import datetime
+        
+        def extract_option_val(opt_str):
+            if not opt_str or str(opt_str) in ("없음", "-", "없음(구버전점검)", "⚠️조회실패", "코드매칭실패"):
+                return 0
+            prices = re.findall(r'\((\d+)\s*만(?:원)?\)', str(opt_str))
+            return sum(int(p) for p in prices) if prices else 0
+
+        KEY_OPT_WEIGHTS = {
+            '파노라마선루프': 90, '선루프': 70, 'HUD': 60, '헤드업': 60,
+            '어라운드뷰': 70, '서라운드뷰': 70, '모니터링': 60,
+            '드라이브와이즈': 80, '스마트센스': 80, '반자율': 70, 'ASCC': 70,
+            '통풍시트': 50, '전동트렁크': 40, '스마트테일게이트': 40,
+            '사운드': 40, '크렐': 40, '보스': 40, 'JBL': 40, '렉시콘': 40,
+            '컴포트': 70, '멀티미디어내비': 70, '내비게이션': 60, '내비': 60,
+            '익스테리어': 50, '스타일': 50, '플래티넘': 70, '빌트인캠': 40,
+            '시트패키지': 50, '파킹어시스트': 60
+        }
+
+        def score_key_options(opt_list_or_str):
+            text = " ".join(opt_list_or_str) if isinstance(opt_list_or_str, list) else str(opt_list_or_str)
+            matched_opts = []
+            score = 0
+            for k, w in KEY_OPT_WEIGHTS.items():
+                if k in text:
+                    norm_k = '선루프' if '선루프' in k else ('HUD' if k in ('HUD', '헤드업') else ('어라운드뷰' if '라운드뷰' in k or '모니터링' in k else ('주행보조' if k in ('드라이브와이즈', '스마트센스', '반자율', 'ASCC') else ('내비' if '내비' in k or '멀티미디어' in k else k))))
+                    if norm_k not in matched_opts:
+                        matched_opts.append(norm_k)
+                        score += w
+            return score, matched_opts
+
+        target_year_val = year_num if year_num > 0 else 2021
+        if target_year_val < 100:
+            target_year_val += 2000
+        curr_year = datetime.now().year
+        car_age = max(0, curr_year - target_year_val)
+
+        if car_age <= 1:
+            opt_ratio = 0.80
+        elif car_age <= 3:
+            opt_ratio = 0.50
+        elif car_age <= 5:
+            opt_ratio = 0.35
+        else:
+            opt_ratio = 0.20
+
+        no_acc_df = df[~df['무사고여부'].astype(str).str.contains('사고|교환|판금', regex=True)]
+        avg_opt_new = 0
+        avg_opt_score = 0
+        if not no_acc_df.empty and '추가옵션' in no_acc_df.columns:
+            opt_vals = no_acc_df['추가옵션'].apply(extract_option_val)
+            avg_opt_new = int(opt_vals.mean()) if not opt_vals.empty else 0
+            scores = [score_key_options(str(x))[0] for x in no_acc_df['추가옵션'].dropna()]
+            avg_opt_score = int(np.mean(scores)) if scores else 0
+
+        target_opts = req.targetOptions or ""
+        target_score, target_opt_names = score_key_options(target_opts)
+        
+        target_opt_new = extract_option_val(target_opts)
+        if target_opt_new == 0 and target_opts:
+            target_opt_new = int(target_score * 1.5) if target_score > 0 else (len(target_opts.split()) * 80)
+
+        opt_adj = 0
+        if target_opt_new > 0:
+            if avg_opt_new > 0 and avg_opt_new != target_opt_new:
+                opt_adj = int(round((target_opt_new - avg_opt_new) * opt_ratio))
+            else:
+                opt_adj = int(round(target_opt_new * opt_ratio * 0.7))
+        elif target_score != avg_opt_score and target_score > 0:
+            opt_adj = int(round((target_score - avg_opt_score) * opt_ratio))
+        elif target_opts:
+            opt_adj = int(round(len(target_opt_names) * 70 * opt_ratio))
+
         # 통계 및 AI 정밀 밸류에이션
         bench_val = Scraper.get_benchmarked_valuation(
             df,
             target_mil=mileage_num,
-            target_accident="",
-            target_year=year_num
+            target_accident=req.targetAccident or "",
+            target_year=year_num,
+            target_opt_adj=opt_adj
         ) if not df.empty else {"has_data": False}
 
         valid_prices = pd.to_numeric(df['판매가'], errors='coerce').dropna()
@@ -1187,6 +1266,16 @@ def search_encar_market(req: EncarSearchRequest):
         no_acc_avg = int(p_num[is_no].mean()) if is_no.any() else 0
         acc_avg = int(p_num[~is_no].mean()) if (~is_no).any() else 0
         acc_gap = no_acc_avg - acc_avg if no_acc_avg > 0 and acc_avg > 0 else 0
+
+        # 사고 감가(acc_adj) 로직 이관
+        market_gap = acc_gap if acc_gap > 0 else 80
+        market_gap = max(40, min(market_gap, 180))
+        acc_adj = 0
+        target_acc_status = req.targetAccident or ""
+        if "사고" in target_acc_status and "무사고" not in target_acc_status:
+            acc_adj = -int(round(market_gap))
+        elif "단순" in target_acc_status or "교환" in target_acc_status or "판금" in target_acc_status:
+            acc_adj = -int(round(market_gap * 0.4))
 
         items = []
         seen_ids = set()
@@ -1270,7 +1359,9 @@ def search_encar_market(req: EncarSearchRequest):
                 "maxBand": max_band,
                 "noAccAvg": no_acc_avg,
                 "accAvg": acc_avg,
-                "accGap": acc_gap
+                "accGap": acc_gap,
+                "optAdj": opt_adj,
+                "accAdj": acc_adj
             }
         }
     except Exception as e:
