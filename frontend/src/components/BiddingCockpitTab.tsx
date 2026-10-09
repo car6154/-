@@ -1510,11 +1510,17 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
           });
         }
 
-        const countMsg = fetchedItems.length > 0 ? ` (동급 ${fetchedItems.length}대 연동)` : '';
-        setSearchStatus({
-          type: 'success',
-          message: `🎉 [헤이딜러 & 엔카 실시간 연동 완료] ${cNo} ${cName} (${(rawMil || 0).toLocaleString()}km${cAccident ? ` / ${cAccident}` : ''})${countMsg}`
-        });
+        if (fetchedItems.length === 0) {
+          setSearchStatus({
+            type: 'warning',
+            message: `⚠️ 엔카 매물을 가져오지 못했습니다. (${cNo} ${cName})`
+          });
+        } else {
+          setSearchStatus({
+            type: 'success',
+            message: `🎉 [헤이딜러 & 엔카 실시간 연동 완료] ${cNo} ${cName} (${(rawMil || 0).toLocaleString()}km${cAccident ? ` / ${cAccident}` : ''}) (동급 ${fetchedItems.length}대 연동)`
+          });
+        }
       } else {
         setSearchStatus({
           type: 'warning',
