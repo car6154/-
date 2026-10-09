@@ -7908,12 +7908,12 @@
     "mileage": 66258,
     "price": 1150,
     "perf_date": "26-09-04",
-    "inv_days": "26",
+    "inv_days": "35",
     "first_seen": "2026-09-30",
     "first_seen_time": "2026-09-30 17:01",
-    "last_seen": "2026-09-30",
-    "status": "판매완료 추정",
-    "consecutive_misses": 2,
+    "last_seen": "2026-10-09",
+    "status": "판매중",
+    "consecutive_misses": 0,
     "estimated_sold_date": "2026-10-06"
   },
   "42572085": {
@@ -7936,14 +7936,14 @@
     "name": "더뉴레이",
     "year": "22(22)",
     "mileage": 67423,
-    "price": 1290,
+    "price": 1270,
     "perf_date": "26-08-10",
-    "inv_days": "51",
+    "inv_days": "60",
     "first_seen": "2026-09-30",
     "first_seen_time": "2026-09-30 17:01",
-    "last_seen": "2026-09-30",
-    "status": "판매완료 추정",
-    "consecutive_misses": 2,
+    "last_seen": "2026-10-09",
+    "status": "판매중",
+    "consecutive_misses": 0,
     "estimated_sold_date": "2026-10-06"
   },
   "42474111": {
@@ -8071,14 +8071,14 @@
     "name": "더뉴레이",
     "year": "21(21)",
     "mileage": 68801,
-    "price": 1150,
+    "price": 1140,
     "perf_date": "26-09-22",
-    "inv_days": "8",
+    "inv_days": "17",
     "first_seen": "2026-09-30",
     "first_seen_time": "2026-09-30 17:01",
-    "last_seen": "2026-09-30",
-    "status": "판매완료 추정",
-    "consecutive_misses": 2,
+    "last_seen": "2026-10-09",
+    "status": "판매중",
+    "consecutive_misses": 0,
     "estimated_sold_date": "2026-10-06"
   },
   "42750010": {
@@ -8103,12 +8103,12 @@
     "mileage": 64501,
     "price": 1190,
     "perf_date": "26-09-17",
-    "inv_days": "13",
+    "inv_days": "22",
     "first_seen": "2026-09-30",
     "first_seen_time": "2026-09-30 17:01",
-    "last_seen": "2026-09-30",
-    "status": "판매완료 추정",
-    "consecutive_misses": 2,
+    "last_seen": "2026-10-09",
+    "status": "판매중",
+    "consecutive_misses": 0,
     "estimated_sold_date": "2026-10-06"
   },
   "42753396": {
@@ -8131,14 +8131,14 @@
     "name": "더뉴레이",
     "year": "21(22)",
     "mileage": 61439,
-    "price": 1320,
+    "price": 1350,
     "perf_date": "26-09-11",
-    "inv_days": "19",
+    "inv_days": "28",
     "first_seen": "2026-09-30",
     "first_seen_time": "2026-09-30 17:01",
-    "last_seen": "2026-09-30",
-    "status": "판매완료 추정",
-    "consecutive_misses": 2,
+    "last_seen": "2026-10-09",
+    "status": "판매중",
+    "consecutive_misses": 0,
     "estimated_sold_date": "2026-10-06"
   },
   "42693057": {
@@ -8373,12 +8373,12 @@
     "mileage": 65913,
     "price": 1190,
     "perf_date": "26-06-15",
-    "inv_days": "107",
+    "inv_days": "116",
     "first_seen": "2026-09-30",
     "first_seen_time": "2026-09-30 17:01",
-    "last_seen": "2026-09-30",
-    "status": "판매완료 추정",
-    "consecutive_misses": 2,
+    "last_seen": "2026-10-09",
+    "status": "판매중",
+    "consecutive_misses": 0,
     "estimated_sold_date": "2026-10-06"
   },
   "42162654": {
@@ -8433,12 +8433,12 @@
     "mileage": 64608,
     "price": 1260,
     "perf_date": "26-03-24",
-    "inv_days": "190",
+    "inv_days": "79",
     "first_seen": "2026-09-30",
     "first_seen_time": "2026-09-30 17:01",
-    "last_seen": "2026-09-30",
-    "status": "판매완료 추정",
-    "consecutive_misses": 2,
+    "last_seen": "2026-10-09",
+    "status": "판매중",
+    "consecutive_misses": 0,
     "estimated_sold_date": "2026-10-06"
   },
   "42808171": {
@@ -8686,14 +8686,14 @@
     "name": "더뉴레이",
     "year": "22(22)",
     "mileage": 60461,
-    "price": 1330,
-    "perf_date": "",
-    "inv_days": "-",
+    "price": 1300,
+    "perf_date": "26-09-08",
+    "inv_days": "31",
     "first_seen": "2026-09-30",
     "first_seen_time": "2026-09-30 17:01",
-    "last_seen": "2026-09-30",
-    "status": "판매완료 추정",
-    "consecutive_misses": 2,
+    "last_seen": "2026-10-09",
+    "status": "판매중",
+    "consecutive_misses": 0,
     "estimated_sold_date": "2026-10-06"
   },
   "42648280": {
@@ -8716,14 +8716,14 @@
     "name": "더뉴레이",
     "year": "21(22)",
     "mileage": 61160,
-    "price": 1330,
+    "price": 1300,
     "perf_date": "",
     "inv_days": "-",
     "first_seen": "2026-09-30",
     "first_seen_time": "2026-09-30 17:01",
-    "last_seen": "2026-09-30",
-    "status": "판매완료 추정",
-    "consecutive_misses": 2,
+    "last_seen": "2026-10-09",
+    "status": "판매중",
+    "consecutive_misses": 0,
     "estimated_sold_date": "2026-10-06"
   },
   "42605191": {
@@ -43731,8 +43731,9 @@
     "first_seen": "2026-10-06",
     "first_seen_time": "2026-10-06 18:30",
     "last_seen": "2026-10-06",
-    "status": "판매중",
-    "consecutive_misses": 0
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-09"
   },
   "42536529": {
     "carid": "42536529",
@@ -43745,8 +43746,9 @@
     "first_seen": "2026-10-06",
     "first_seen_time": "2026-10-06 18:30",
     "last_seen": "2026-10-06",
-    "status": "판매중",
-    "consecutive_misses": 0
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-09"
   },
   "42510096": {
     "carid": "42510096",
@@ -43759,8 +43761,9 @@
     "first_seen": "2026-10-06",
     "first_seen_time": "2026-10-06 18:30",
     "last_seen": "2026-10-06",
-    "status": "판매중",
-    "consecutive_misses": 0
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-09"
   },
   "41529116": {
     "carid": "41529116",
@@ -43773,8 +43776,9 @@
     "first_seen": "2026-10-06",
     "first_seen_time": "2026-10-06 18:30",
     "last_seen": "2026-10-06",
-    "status": "판매중",
-    "consecutive_misses": 0
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-09"
   },
   "42841648": {
     "carid": "42841648",
@@ -43787,8 +43791,9 @@
     "first_seen": "2026-10-06",
     "first_seen_time": "2026-10-06 18:30",
     "last_seen": "2026-10-06",
-    "status": "판매중",
-    "consecutive_misses": 0
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-09"
   },
   "42465354": {
     "carid": "42465354",
@@ -43801,8 +43806,9 @@
     "first_seen": "2026-10-06",
     "first_seen_time": "2026-10-06 18:30",
     "last_seen": "2026-10-06",
-    "status": "판매중",
-    "consecutive_misses": 0
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-09"
   },
   "42662107": {
     "carid": "42662107",
@@ -43815,8 +43821,9 @@
     "first_seen": "2026-10-06",
     "first_seen_time": "2026-10-06 18:30",
     "last_seen": "2026-10-06",
-    "status": "판매중",
-    "consecutive_misses": 0
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-09"
   },
   "42788596": {
     "carid": "42788596",
@@ -43829,8 +43836,9 @@
     "first_seen": "2026-10-06",
     "first_seen_time": "2026-10-06 18:30",
     "last_seen": "2026-10-06",
-    "status": "판매중",
-    "consecutive_misses": 0
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-09"
   },
   "42773105": {
     "carid": "42773105",
@@ -43843,8 +43851,9 @@
     "first_seen": "2026-10-06",
     "first_seen_time": "2026-10-06 18:30",
     "last_seen": "2026-10-06",
-    "status": "판매중",
-    "consecutive_misses": 0
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-09"
   },
   "41913490": {
     "carid": "41913490",
@@ -43857,8 +43866,9 @@
     "first_seen": "2026-10-06",
     "first_seen_time": "2026-10-06 18:30",
     "last_seen": "2026-10-06",
-    "status": "판매중",
-    "consecutive_misses": 0
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-09"
   },
   "42799695": {
     "carid": "42799695",
@@ -43871,8 +43881,9 @@
     "first_seen": "2026-10-06",
     "first_seen_time": "2026-10-06 18:30",
     "last_seen": "2026-10-06",
-    "status": "판매중",
-    "consecutive_misses": 0
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-09"
   },
   "42429546": {
     "carid": "42429546",
@@ -43885,8 +43896,9 @@
     "first_seen": "2026-10-06",
     "first_seen_time": "2026-10-06 18:30",
     "last_seen": "2026-10-06",
-    "status": "판매중",
-    "consecutive_misses": 0
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-09"
   },
   "41697449": {
     "carid": "41697449",
@@ -43899,8 +43911,9 @@
     "first_seen": "2026-10-06",
     "first_seen_time": "2026-10-06 18:30",
     "last_seen": "2026-10-06",
-    "status": "판매중",
-    "consecutive_misses": 0
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-09"
   },
   "42618304": {
     "carid": "42618304",
@@ -43913,8 +43926,9 @@
     "first_seen": "2026-10-06",
     "first_seen_time": "2026-10-06 18:30",
     "last_seen": "2026-10-06",
-    "status": "판매중",
-    "consecutive_misses": 0
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-09"
   },
   "42168159": {
     "carid": "42168159",
@@ -43927,8 +43941,9 @@
     "first_seen": "2026-10-06",
     "first_seen_time": "2026-10-06 18:30",
     "last_seen": "2026-10-06",
-    "status": "판매중",
-    "consecutive_misses": 0
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-09"
   },
   "42179547": {
     "carid": "42179547",
@@ -43941,8 +43956,9 @@
     "first_seen": "2026-10-06",
     "first_seen_time": "2026-10-06 18:30",
     "last_seen": "2026-10-06",
-    "status": "판매중",
-    "consecutive_misses": 0
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-09"
   },
   "42729309": {
     "carid": "42729309",
@@ -43955,8 +43971,9 @@
     "first_seen": "2026-10-06",
     "first_seen_time": "2026-10-06 18:30",
     "last_seen": "2026-10-06",
-    "status": "판매중",
-    "consecutive_misses": 0
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-09"
   },
   "42790670": {
     "carid": "42790670",
@@ -43969,8 +43986,9 @@
     "first_seen": "2026-10-06",
     "first_seen_time": "2026-10-06 18:30",
     "last_seen": "2026-10-06",
-    "status": "판매중",
-    "consecutive_misses": 0
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-09"
   },
   "42569672": {
     "carid": "42569672",
@@ -43983,8 +44001,9 @@
     "first_seen": "2026-10-06",
     "first_seen_time": "2026-10-06 18:30",
     "last_seen": "2026-10-06",
-    "status": "판매중",
-    "consecutive_misses": 0
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-09"
   },
   "42841942": {
     "carid": "42841942",
@@ -43997,8 +44016,9 @@
     "first_seen": "2026-10-06",
     "first_seen_time": "2026-10-06 18:30",
     "last_seen": "2026-10-06",
-    "status": "판매중",
-    "consecutive_misses": 0
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-09"
   },
   "42509095": {
     "carid": "42509095",
@@ -44011,8 +44031,9 @@
     "first_seen": "2026-10-06",
     "first_seen_time": "2026-10-06 18:30",
     "last_seen": "2026-10-06",
-    "status": "판매중",
-    "consecutive_misses": 0
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-09"
   },
   "42090965": {
     "carid": "42090965",
@@ -45498,6 +45519,440 @@
     "first_seen": "2026-10-07",
     "first_seen_time": "2026-10-07 16:25",
     "last_seen": "2026-10-07",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42352396": {
+    "carid": "42352396",
+    "name": "더뉴레이",
+    "year": "21(22)",
+    "mileage": 75210,
+    "price": 950,
+    "perf_date": "26-07-03",
+    "inv_days": "98",
+    "first_seen": "2026-10-09",
+    "first_seen_time": "2026-10-09 16:38",
+    "last_seen": "2026-10-09",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42669485": {
+    "carid": "42669485",
+    "name": "더뉴레이",
+    "year": "21(21)",
+    "mileage": 92743,
+    "price": 1000,
+    "perf_date": "26-09-03",
+    "inv_days": "36",
+    "first_seen": "2026-10-09",
+    "first_seen_time": "2026-10-09 16:38",
+    "last_seen": "2026-10-09",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42712928": {
+    "carid": "42712928",
+    "name": "더뉴레이",
+    "year": "21(21)",
+    "mileage": 95935,
+    "price": 1020,
+    "perf_date": "26-09-10",
+    "inv_days": "29",
+    "first_seen": "2026-10-09",
+    "first_seen_time": "2026-10-09 16:38",
+    "last_seen": "2026-10-09",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42382511": {
+    "carid": "42382511",
+    "name": "더뉴레이",
+    "year": "21(21)",
+    "mileage": 70314,
+    "price": 1080,
+    "perf_date": "26-07-16",
+    "inv_days": "85",
+    "first_seen": "2026-10-09",
+    "first_seen_time": "2026-10-09 16:38",
+    "last_seen": "2026-10-09",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42698486": {
+    "carid": "42698486",
+    "name": "더뉴레이",
+    "year": "21(21)",
+    "mileage": 89597,
+    "price": 1080,
+    "perf_date": "26-05-26",
+    "inv_days": "136",
+    "first_seen": "2026-10-09",
+    "first_seen_time": "2026-10-09 16:38",
+    "last_seen": "2026-10-09",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42032389": {
+    "carid": "42032389",
+    "name": "더뉴레이",
+    "year": "21(21)",
+    "mileage": 99848,
+    "price": 1140,
+    "perf_date": "26-05-08",
+    "inv_days": "154",
+    "first_seen": "2026-10-09",
+    "first_seen_time": "2026-10-09 16:38",
+    "last_seen": "2026-10-09",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42862664": {
+    "carid": "42862664",
+    "name": "더뉴레이",
+    "year": "21(22)",
+    "mileage": 90436,
+    "price": 1150,
+    "perf_date": "26-10-01",
+    "inv_days": "8",
+    "first_seen": "2026-10-09",
+    "first_seen_time": "2026-10-09 16:38",
+    "last_seen": "2026-10-09",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "41937498": {
+    "carid": "41937498",
+    "name": "더뉴레이",
+    "year": "21(22)",
+    "mileage": 83662,
+    "price": 1150,
+    "perf_date": "26-09-02",
+    "inv_days": "37",
+    "first_seen": "2026-10-09",
+    "first_seen_time": "2026-10-09 16:38",
+    "last_seen": "2026-10-09",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42617648": {
+    "carid": "42617648",
+    "name": "더뉴레이",
+    "year": "21(22)",
+    "mileage": 86115,
+    "price": 1150,
+    "perf_date": "26-08-21",
+    "inv_days": "49",
+    "first_seen": "2026-10-09",
+    "first_seen_time": "2026-10-09 16:38",
+    "last_seen": "2026-10-09",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42781917": {
+    "carid": "42781917",
+    "name": "더뉴레이",
+    "year": "21(21)",
+    "mileage": 70441,
+    "price": 1150,
+    "perf_date": "26-08-18",
+    "inv_days": "52",
+    "first_seen": "2026-10-09",
+    "first_seen_time": "2026-10-09 16:38",
+    "last_seen": "2026-10-09",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42017796": {
+    "carid": "42017796",
+    "name": "더뉴레이",
+    "year": "21(21)",
+    "mileage": 75036,
+    "price": 1150,
+    "perf_date": "26-05-08",
+    "inv_days": "154",
+    "first_seen": "2026-10-09",
+    "first_seen_time": "2026-10-09 16:38",
+    "last_seen": "2026-10-09",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42618043": {
+    "carid": "42618043",
+    "name": "더뉴레이",
+    "year": "22(22)",
+    "mileage": 91885,
+    "price": 1180,
+    "perf_date": "26-08-24",
+    "inv_days": "46",
+    "first_seen": "2026-10-09",
+    "first_seen_time": "2026-10-09 16:38",
+    "last_seen": "2026-10-09",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42805961": {
+    "carid": "42805961",
+    "name": "더뉴레이",
+    "year": "21(22)",
+    "mileage": 81795,
+    "price": 1190,
+    "perf_date": "26-09-17",
+    "inv_days": "22",
+    "first_seen": "2026-10-09",
+    "first_seen_time": "2026-10-09 16:38",
+    "last_seen": "2026-10-09",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42751670": {
+    "carid": "42751670",
+    "name": "더뉴레이",
+    "year": "21(22)",
+    "mileage": 84007,
+    "price": 1190,
+    "perf_date": "26-09-14",
+    "inv_days": "25",
+    "first_seen": "2026-10-09",
+    "first_seen_time": "2026-10-09 16:38",
+    "last_seen": "2026-10-09",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42220575": {
+    "carid": "42220575",
+    "name": "더뉴레이",
+    "year": "21(21)",
+    "mileage": 89004,
+    "price": 1190,
+    "perf_date": "26-06-01",
+    "inv_days": "130",
+    "first_seen": "2026-10-09",
+    "first_seen_time": "2026-10-09 16:38",
+    "last_seen": "2026-10-09",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42818663": {
+    "carid": "42818663",
+    "name": "더뉴레이",
+    "year": "21(22)",
+    "mileage": 74850,
+    "price": 1220,
+    "perf_date": "26-09-30",
+    "inv_days": "9",
+    "first_seen": "2026-10-09",
+    "first_seen_time": "2026-10-09 16:38",
+    "last_seen": "2026-10-09",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42850933": {
+    "carid": "42850933",
+    "name": "더뉴레이",
+    "year": "22(22)",
+    "mileage": 82470,
+    "price": 1230,
+    "perf_date": "26-09-16",
+    "inv_days": "23",
+    "first_seen": "2026-10-09",
+    "first_seen_time": "2026-10-09 16:38",
+    "last_seen": "2026-10-09",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42760590": {
+    "carid": "42760590",
+    "name": "더뉴레이",
+    "year": "21(22)",
+    "mileage": 73730,
+    "price": 1230,
+    "perf_date": "26-09-18",
+    "inv_days": "21",
+    "first_seen": "2026-10-09",
+    "first_seen_time": "2026-10-09 16:38",
+    "last_seen": "2026-10-09",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42852131": {
+    "carid": "42852131",
+    "name": "더뉴레이",
+    "year": "21(22)",
+    "mileage": 76461,
+    "price": 1230,
+    "perf_date": "",
+    "inv_days": "-",
+    "first_seen": "2026-10-09",
+    "first_seen_time": "2026-10-09 16:38",
+    "last_seen": "2026-10-09",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42821075": {
+    "carid": "42821075",
+    "name": "더뉴레이",
+    "year": "21(21)",
+    "mileage": 65393,
+    "price": 1250,
+    "perf_date": "26-09-30",
+    "inv_days": "9",
+    "first_seen": "2026-10-09",
+    "first_seen_time": "2026-10-09 16:38",
+    "last_seen": "2026-10-09",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42827523": {
+    "carid": "42827523",
+    "name": "더뉴레이",
+    "year": "21(22)",
+    "mileage": 63947,
+    "price": 1250,
+    "perf_date": "26-09-16",
+    "inv_days": "23",
+    "first_seen": "2026-10-09",
+    "first_seen_time": "2026-10-09 16:38",
+    "last_seen": "2026-10-09",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42502751": {
+    "carid": "42502751",
+    "name": "더뉴레이",
+    "year": "21(21)",
+    "mileage": 75764,
+    "price": 1250,
+    "perf_date": "26-08-05",
+    "inv_days": "65",
+    "first_seen": "2026-10-09",
+    "first_seen_time": "2026-10-09 16:38",
+    "last_seen": "2026-10-09",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42692915": {
+    "carid": "42692915",
+    "name": "더뉴레이",
+    "year": "22(22)",
+    "mileage": 85250,
+    "price": 1260,
+    "perf_date": "26-09-03",
+    "inv_days": "36",
+    "first_seen": "2026-10-09",
+    "first_seen_time": "2026-10-09 16:38",
+    "last_seen": "2026-10-09",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42827047": {
+    "carid": "42827047",
+    "name": "더뉴레이",
+    "year": "21(21)",
+    "mileage": 61307,
+    "price": 1270,
+    "perf_date": "26-09-28",
+    "inv_days": "11",
+    "first_seen": "2026-10-09",
+    "first_seen_time": "2026-10-09 16:38",
+    "last_seen": "2026-10-09",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42798437": {
+    "carid": "42798437",
+    "name": "더뉴레이",
+    "year": "21(21)",
+    "mileage": 89559,
+    "price": 1290,
+    "perf_date": "",
+    "inv_days": "-",
+    "first_seen": "2026-10-09",
+    "first_seen_time": "2026-10-09 16:38",
+    "last_seen": "2026-10-09",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42850709": {
+    "carid": "42850709",
+    "name": "더뉴레이",
+    "year": "22(22)",
+    "mileage": 73918,
+    "price": 1320,
+    "perf_date": "26-10-01",
+    "inv_days": "8",
+    "first_seen": "2026-10-09",
+    "first_seen_time": "2026-10-09 16:38",
+    "last_seen": "2026-10-09",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42374220": {
+    "carid": "42374220",
+    "name": "더뉴레이",
+    "year": "21(22)",
+    "mileage": 71618,
+    "price": 1350,
+    "perf_date": "26-07-14",
+    "inv_days": "87",
+    "first_seen": "2026-10-09",
+    "first_seen_time": "2026-10-09 16:38",
+    "last_seen": "2026-10-09",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42594102": {
+    "carid": "42594102",
+    "name": "더뉴레이",
+    "year": "21(22)",
+    "mileage": 71620,
+    "price": 1350,
+    "perf_date": "26-07-14",
+    "inv_days": "87",
+    "first_seen": "2026-10-09",
+    "first_seen_time": "2026-10-09 16:38",
+    "last_seen": "2026-10-09",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42803319": {
+    "carid": "42803319",
+    "name": "더뉴레이",
+    "year": "22(22)",
+    "mileage": 75663,
+    "price": 1360,
+    "perf_date": "26-09-28",
+    "inv_days": "11",
+    "first_seen": "2026-10-09",
+    "first_seen_time": "2026-10-09 16:38",
+    "last_seen": "2026-10-09",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42801584": {
+    "carid": "42801584",
+    "name": "더뉴레이",
+    "year": "22(22)",
+    "mileage": 73644,
+    "price": 1380,
+    "perf_date": "26-09-28",
+    "inv_days": "11",
+    "first_seen": "2026-10-09",
+    "first_seen_time": "2026-10-09 16:38",
+    "last_seen": "2026-10-09",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "41892505": {
+    "carid": "41892505",
+    "name": "더뉴레이",
+    "year": "21(21)",
+    "mileage": 80119,
+    "price": 1380,
+    "perf_date": "26-04-13",
+    "inv_days": "179",
+    "first_seen": "2026-10-09",
+    "first_seen_time": "2026-10-09 16:38",
+    "last_seen": "2026-10-09",
     "status": "판매중",
     "consecutive_misses": 0
   }
