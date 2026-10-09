@@ -2039,15 +2039,15 @@ class SalesDataAnalyzer:
                 end_yr = parsed_year + 1
                 action += f"_.Year.range({start_yr}01..{end_yr}12)."
 
-            # 💡 주행거리 밴드 (기준 주행거리 ±20,000km, 만단위 라운딩)
+            # 💡 주행거리 밴드 (기준 주행거리 ±50,000km, 만단위 라운딩)
             # 단, 연식이 5년 이상 된 구형 차량에 4만km 이하의 기본값이 들어온 경우 과도한 1대 축소 방지
             try:
                 mil_val = int(mileage)
                 curr_y = 2026
                 is_old_car = parsed_year and (curr_y - parsed_year >= 5)
                 if mil_val >= 50000 or (not is_old_car and mil_val > 5000):
-                    min_mil = max(0, ((mil_val - 20000) // 10000) * 10000)
-                    max_mil = ((mil_val + 20000 + 9999) // 10000) * 10000
+                    min_mil = max(0, ((mil_val - 50000) // 10000) * 10000)
+                    max_mil = ((mil_val + 50000 + 9999) // 10000) * 10000
                     action += f"_.Mileage.range({min_mil}..{max_mil})."
             except Exception:
                 pass

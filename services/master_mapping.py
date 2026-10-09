@@ -817,13 +817,13 @@ class MasterMappingService:
             if parsed_year and parsed_year >= 2000:
                 action += f"_.Year.range({parsed_year - 1}01..{parsed_year + 1}12)."
 
-            # 주행거리 밴드 (±20,000km, 헤이딜러 표준 산출)
+            # 주행거리 밴드 (±50,000km, 헤이딜러 표준 산출)
             try:
                 mil_val = int(re.sub(r'[^\d]', '', str(mileage)))
                 if mil_val > 0:
                     base_mil = int(round(mil_val, -4))
-                    min_mil = max(0, base_mil - 20000)
-                    max_mil = base_mil + 20000
+                    min_mil = max(0, base_mil - 50000)
+                    max_mil = base_mil + 50000
                     action += f"_.Mileage.range({min_mil}..{max_mil})."
             except Exception:
                 pass
