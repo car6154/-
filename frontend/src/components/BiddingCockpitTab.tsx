@@ -3486,15 +3486,22 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
 
             {/* 📋 [2] 실시간 소매 시세 & 빅데이터 밸류에이션 2분할 카드 (Streamlit 8501 완벽 일치) */}
             {(() => {
-              // Streamlit 8501 원본 100% 동일 정밀 소매가 및 옵션가치(+35만) 반영 (이상치 방어 강화)
-              const marketAvg = encarStats.avg > 0 ? encarStats.avg : (encarList.length > 0 ? Math.round(encarList.reduce((a, b) => a + (b.price || 0), 0) / encarList.length) : 900);
+              const marketAvg = encarStats.avg > 0 
+                ? encarStats.avg 
+                : (encarList.length > 0 ? Math.round(encarList.reduce((a, b) => a + (b.price || 0), 0) / encarList.length) : 0);
               const rawIndPrice = encarValuation?.individualPrice || 0;
               const validIndPrice = (rawIndPrice > 0 && marketAvg > 0 && rawIndPrice < marketAvg * 1.6 && rawIndPrice > marketAvg * 0.4)
                 ? rawIndPrice
-                : (marketAvg > 0 ? marketAvg : 900);
+                : (marketAvg > 0 ? marketAvg : 0);
 
               const hasPreset = expectedSellPrice > 0 && (marketAvg <= 0 || (expectedSellPrice < marketAvg * 1.6 && expectedSellPrice > marketAvg * 0.4));
               const retailPrice = hasPreset ? expectedSellPrice : validIndPrice;
+
+              // 매물 또는 유효 소매가가 전혀 없는 경우 목업 렌더링 방지
+              if (retailPrice <= 0 || marketAvg <= 0 || (encarStats.count === 0 && encarList.length === 0)) {
+                return null;
+              }
+
               const minValPrice = (encarValuation?.minPrice && encarValuation.minPrice < retailPrice * 1.1 && encarValuation.minPrice > retailPrice * 0.8)
                 ? encarValuation.minPrice
                 : Math.round(retailPrice * 0.94);
@@ -3507,7 +3514,7 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
               const safeLimit = Math.max(0, retailPrice - targetMargin - 68);
               const optCount = optionsTag && optionsTag.trim() && !optionsTag.includes('옵션 없음')
                 ? optionsTag.replace(/\[[^\]]*\]/g, '').split(/[·,+,\/]/).filter(s => s.trim().length > 0 && !s.includes('옵션 없음') && !s.includes('기본')).length
-                : 4;
+                : 0;
 
               return (
                 <div className="bg-[#101218] border border-[#2a2d3d] rounded-xl p-4 space-y-3 shadow-lg">
@@ -3547,7 +3554,9 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
                         </div>
                         <div>
                           • 평가 스펙: 주행 <strong className="text-zinc-200 font-mono">{mileageKm.toLocaleString()}km</strong> / {outerRepairCount > 0 ? `외판 ${outerRepairCount}판 감가` : '완전무사고'}
-                          <span> / <strong className="text-sky-400 font-bold">추가옵션 {optCount}개 (+35만 반영)</strong></span>
+                          {optCount > 0 && (
+                            <span> / <strong className="text-sky-400 font-bold">추가옵션 {optCount}개 반영</strong></span>
+                          )}
                         </div>
                       </div>
                     </div>
