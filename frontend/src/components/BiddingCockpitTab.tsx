@@ -2411,13 +2411,11 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
   const directExpense = 15; // 기본제경비 15만
 
   // 5단계 규칙 기반 가감 총액 (만원)
-  const ruleAdjustmentAmount = useMemo(() => {
-    return applyRuleAdjustment ? currentAssessment.totalAdjustmentMan : 0;
-  }, [applyRuleAdjustment, currentAssessment.totalAdjustmentMan]);
+  const ruleAdjustmentAmount = 0;
 
   const firstTarget = useMemo(() => {
-    return expectedSellPrice - sellingFee - directExpense - repairCostTotal - targetMargin + ruleAdjustmentAmount;
-  }, [expectedSellPrice, sellingFee, directExpense, repairCostTotal, targetMargin, ruleAdjustmentAmount]);
+    return expectedSellPrice - sellingFee - directExpense - repairCostTotal - targetMargin;
+  }, [expectedSellPrice, sellingFee, directExpense, repairCostTotal, targetMargin]);
 
   // 헤이딜러 실측 수수료 구간표 계산 함수
   const calcPurchaseFee = useCallback((targetVal: number, route: string, isLight: boolean) => {
@@ -2465,8 +2463,8 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
   }, [calcPurchaseFee, userBid, auctionType, isLightCar]);
 
   const actualMargin = useMemo(() => {
-    return (expectedSellPrice + ruleAdjustmentAmount) - sellingFee - directExpense - repairCostTotal - actualPurchaseFee - userBid;
-  }, [expectedSellPrice, ruleAdjustmentAmount, sellingFee, directExpense, repairCostTotal, actualPurchaseFee, userBid]);
+    return expectedSellPrice - sellingFee - directExpense - repairCostTotal - actualPurchaseFee - userBid;
+  }, [expectedSellPrice, sellingFee, directExpense, repairCostTotal, actualPurchaseFee, userBid]);
 
   // 산점도 동적 축 범위 계산
   const scatterMinY = Math.max(0, Math.floor(Math.min(expectedSellPrice, encarStats.min) * 0.85 / 10) * 10);
@@ -2782,22 +2780,14 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
                 <div 
                   onClick={() => setShowCarHistoryModal(true)}
                   className="bg-[#0f172a]/70 hover:bg-[#0f172a]/95 border border-sky-500/35 hover:border-sky-400 rounded-lg p-2.5 space-y-1.5 text-xs shadow-md cursor-pointer transition group"
-                  title="클릭 시 5단계 규칙 기반 종합 판정 & 카히스토리 상세 리포트 열기"
+                  title="클릭 시 카히스토리 & 등록원부 상세 리포트 열기"
                 >
                   <div className="flex justify-between items-center border-b border-white/10 pb-1.5">
-                    <div className="flex items-center gap-1.5">
-                      <span className="font-bold text-sky-400 text-[11px] flex items-center gap-1">
-                        🛡️ 5단계 상태 판정
-                      </span>
-                      <span 
-                        className="px-1.5 py-0.2 rounded text-[10px] font-bold border"
-                        style={{ backgroundColor: `${assess.gradeBadgeColor}20`, color: assess.gradeBadgeColor, borderColor: `${assess.gradeBadgeColor}50` }}
-                      >
-                        {assess.gradeName}
-                      </span>
-                    </div>
+                    <span className="font-bold text-sky-400 text-[11px] flex items-center gap-1">
+                      📄 카히스토리 & 등록원부
+                    </span>
                     <span className="text-[10px] text-sky-300 font-bold bg-sky-500/20 group-hover:bg-sky-500/30 px-1.5 py-0.5 rounded border border-sky-400/40 flex items-center gap-0.5 transition">
-                      정밀리포트 ↗
+                      상세리포트 ↗
                     </span>
                   </div>
 
@@ -3006,63 +2996,7 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
               </div>
             </div>
 
-            {/* 🛡️ 5단계 규칙 가감 (상태 판정 엔진 연동) */}
-            <div className="bg-[#14151b] px-3 py-2 rounded-lg border border-[#232634] space-y-1.5">
-              <div className="flex justify-between items-center">
-                <span className="text-[11px] font-medium text-zinc-400 flex items-center gap-1">
-                  <span>🛡️ 5단계 규칙 가감</span>
-                  <span 
-                    className="px-1 py-0.2 rounded text-[9px] font-bold border"
-                    style={{ backgroundColor: `${currentAssessment.gradeBadgeColor}20`, color: currentAssessment.gradeBadgeColor, borderColor: `${currentAssessment.gradeBadgeColor}40` }}
-                  >
-                    {currentAssessment.overallGrade}급
-                  </span>
-                </span>
-                <label className="flex items-center gap-1.5 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={applyRuleAdjustment}
-                    onChange={(e) => setApplyRuleAdjustment(e.target.checked)}
-                    className="w-3.5 h-3.5 rounded bg-zinc-800 text-emerald-500 accent-emerald-500 cursor-pointer"
-                  />
-                  <span className={`text-[11px] font-bold font-mono ${
-                    currentAssessment.totalAdjustmentMan > 0 
-                      ? 'text-emerald-400' 
-                      : currentAssessment.totalAdjustmentMan < 0 
-                      ? 'text-rose-400' 
-                      : 'text-zinc-400'
-                  }`}>
-                    {applyRuleAdjustment 
-                      ? (currentAssessment.totalAdjustmentMan > 0 ? `+${currentAssessment.totalAdjustmentMan}만` : `${currentAssessment.totalAdjustmentMan}만`)
-                      : '미적용'}
-                  </span>
-                </label>
-              </div>
-              {applyRuleAdjustment && currentAssessment.ruleAdjustments.length > 0 && (
-                <div className="text-[10px] text-zinc-400 pt-0.5 border-t border-white/5 space-y-0.5">
-                  {currentAssessment.ruleAdjustments.map((adj, aIdx) => (
-                    <div key={aIdx} className="flex justify-between items-center">
-                      <span className="truncate max-w-[150px]">{adj.item}:</span>
-                      <span className={`font-mono font-bold ${adj.amountMan > 0 ? 'text-emerald-400' : adj.amountMan < 0 ? 'text-rose-400' : 'text-zinc-400'}`}>
-                        {adj.amountMan > 0 ? `+${adj.amountMan}만` : adj.amountMan < 0 ? `${adj.amountMan}만` : '0만'}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
 
-            {/* 🚨 D등급 결격 알림 배너 */}
-            {!currentAssessment.isEligibleForBidding && (
-              <div className="bg-rose-950/40 border border-rose-500/50 p-2.5 rounded-lg text-xs space-y-1 text-rose-200">
-                <div className="font-bold flex items-center gap-1 text-rose-400">
-                  <span>🚨 D등급 입찰 결격 알림</span>
-                </div>
-                <div className="text-[11px] text-rose-300 leading-snug">
-                  침수·전손 또는 주행거리 조작/역주행 의심 차량입니다. 원칙적 매입 불가 또는 극도로 보수적인 입찰이 필요합니다.
-                </div>
-              </div>
-            )}
 
             {/* 🎯 가로 1행: [입찰가 수정 입력창] + [📋 복사 버튼] */}
             {expectedSellPrice > 0 && (
@@ -3119,26 +3053,10 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
                   </div>
 
                   <div className="flex justify-between items-center text-[11px] text-zinc-400 pt-0.5">
-                    <span>수수료: {actualPurchaseFee}만 · 수리: {repairCostTotal}만 · 잡비: 15만{ruleAdjustmentAmount !== 0 ? ` · 규칙: ${ruleAdjustmentAmount > 0 ? `+${ruleAdjustmentAmount}` : ruleAdjustmentAmount}만` : ''}</span>
+                    <span>수수료: {actualPurchaseFee}만 · 수리: {repairCostTotal}만 · 잡비: 15만</span>
                     <span className="text-emerald-300 font-bold group-hover:underline">💾 클릭 저장</span>
                   </div>
                 </div>
-              </div>
-            )}
-
-            {/* 판매가 미입력 시 (Streamlit 8501과 100% 동일한 가이드 노출) */}
-            {expectedSellPrice <= 0 && (
-              <div className="bg-[#14151b] border border-[#232634] p-3 rounded-xl flex items-center justify-between text-xs text-zinc-400">
-                <span>💡 판매가 입력 시 권장 매입가가 계산됩니다.</span>
-                {encarValuation?.individualPrice && (
-                  <button
-                    type="button"
-                    onClick={() => setExpectedSellPrice(encarValuation.individualPrice)}
-                    className="text-[11px] px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/40 hover:bg-sky-500/30 font-bold cursor-pointer transition shrink-0 ml-2"
-                  >
-                    AI정밀가({encarValuation.individualPrice}만) 적용
-                  </button>
-                )}
               </div>
             )}
 
