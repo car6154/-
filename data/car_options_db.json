@@ -1090,9 +1090,9 @@
         "has_rent_history": false,
         "is_business": false,
         "is_government": false,
-        "my_car_accident_count": 6,
-        "my_car_accident_cost": 8121500,
-        "my_car_accident_cost_man": 812,
+        "my_car_accident_count": 12,
+        "my_car_accident_cost": 18560461,
+        "my_car_accident_cost_man": 1856,
         "other_car_accident_count": 0,
         "other_car_accident_cost": 0,
         "other_car_accident_cost_man": 0,
@@ -1228,7 +1228,7 @@
         }
       }
     },
-    "updated_at": "2026-10-07 16:30:08",
+    "updated_at": "2026-10-09 19:46:37",
     "spec_desc": "신차정가(옵션 포함) : 2,100만원\n\n1) 하이패스 (25만원)\n2) 내비1 (80만원)\n3) 스마트키패키지1 (45만원)\n4) 스타일UP1 (125만원)\n* 신차 추가옵션"
   },
   "132고3133": {
@@ -1239,5 +1239,177 @@
     ],
     "spec_desc": "신차정가(옵션 포함) : 1,785만원\n\n1) 오렌지포인트-컨비니언스 \n2) 내비게이션 \n3) 스타일 \n* 신차 추가옵션",
     "updated_at": "2026-10-09 17:21:21"
+  },
+  "24버2800": {
+    "chaolma_data": {
+      "success": true,
+      "car_no": "24버2800",
+      "vin": "",
+      "maker": "",
+      "model_name": "",
+      "model_detail_name": "",
+      "grade_name": "",
+      "grade_detail_name": "",
+      "trim_name": "",
+      "model_year": "2026",
+      "reg_year": "2026",
+      "release_date": "",
+      "year_display": "26년식",
+      "color": "",
+      "fuel": "",
+      "transmission": "오토",
+      "new_car_price": 0,
+      "base_car_price": 0,
+      "options": [],
+      "total_option_price": 0,
+      "total_depreciated_opt_price": 0,
+      "depreciation_rate": 0.8,
+      "remain_rate": 0.0,
+      "option_memo": "",
+      "car_history": {
+        "success": true,
+        "car_no": "24버2800",
+        "owner_changed_count": 3,
+        "is_single_owner": false,
+        "plate_change_count": 0,
+        "has_rent_history": false,
+        "is_business": false,
+        "is_government": false,
+        "my_car_accident_count": 9,
+        "my_car_accident_cost": 6137160,
+        "my_car_accident_cost_man": 614,
+        "other_car_accident_count": 1,
+        "other_car_accident_cost": 2475500,
+        "other_car_accident_cost_man": 248,
+        "total_loss_count": 0,
+        "flooded_count": 0,
+        "stolen_count": 0,
+        "uninsured_period": "2014년01월~2014년02월",
+        "mileage_records": [
+          {
+            "date": "20260206",
+            "source": "자동차보험회사",
+            "mileage": 147191
+          },
+          {
+            "date": "20250211",
+            "source": "자동차보험회사",
+            "mileage": 142018
+          },
+          {
+            "date": "20240212",
+            "source": "자동차보험회사",
+            "mileage": 138484
+          },
+          {
+            "date": "20230211",
+            "source": "자동차보험회사",
+            "mileage": 132648
+          },
+          {
+            "date": "20220214",
+            "source": "자동차보험회사",
+            "mileage": 126528
+          }
+        ],
+        "accident_histories": [
+          {
+            "date": "20180925",
+            "repair_cost": 1289810,
+            "parts_cost": 472200,
+            "labor_cost": 174650,
+            "paint_cost": 403370,
+            "insurance_paid": 1050220
+          },
+          {
+            "date": "20131127",
+            "repair_cost": 816000,
+            "parts_cost": 433000,
+            "labor_cost": 125000,
+            "paint_cost": 390000,
+            "insurance_paid": 948000
+          },
+          {
+            "date": "20131127",
+            "repair_cost": 5217000,
+            "parts_cost": 270500,
+            "labor_cost": 1490000,
+            "paint_cost": 715000,
+            "insurance_paid": 2475500
+          },
+          {
+            "date": "20120927",
+            "repair_cost": 1480000,
+            "parts_cost": 9600,
+            "labor_cost": 240380,
+            "paint_cost": 401500,
+            "insurance_paid": 651480
+          },
+          {
+            "date": "20100925",
+            "repair_cost": 731000,
+            "parts_cost": 0,
+            "labor_cost": 297250,
+            "paint_cost": 420400,
+            "insurance_paid": 717650
+          }
+        ],
+        "market_price_range": "330~462",
+        "first_reg_date": "2009-11-04"
+      },
+      "origin_doc": {
+        "success": true,
+        "car_no": "24버2800",
+        "seizure_count": 0,
+        "mortgage_count": 0,
+        "tuning_count": 0,
+        "inspection_valid_end": "2028-03-11",
+        "inspection_valid_start": "2026-03-12",
+        "last_regist_date": "2025-04-14",
+        "first_regist_date": "2009-11-04",
+        "inspection_mileage": 147195,
+        "is_resurrected": false,
+        "is_cbu": false,
+        "engine_type": "VQ37",
+        "car_form": "V36",
+        "seating_capacity": 5,
+        "plate_issue_ext": "N",
+        "raw_doc": {
+          "SEIZR_CO": 0,
+          "MTRS_FOM_NM": "VQ37",
+          "CTPRVN_CODE": 11,
+          "CNM": "INFINITI G37S",
+          "PRVNTC_NTICE_DE": "",
+          "LAST_REGIST_DE": 20250414,
+          "CNTC_RESULT_DTLS": "정상",
+          "PROCESS_IMPRTY_RESN_DTLS": "운행차량",
+          "FOM_NM": "V36",
+          "STMD_CO": 0,
+          "TRVL_DSTNC": 147195,
+          "TKCAR_PSCAP_CO": 5,
+          "COLOR_NM": "",
+          "SPMNNO": "02820000700031308",
+          "YBL_MD": 200911,
+          "PROCESS_IMPRTY_RESN_CODE": "00",
+          "FRST_REGIST_DE": "2009-11-04",
+          "MRTG_CO": 0,
+          "NMPL_CSDY_AT": "",
+          "RESRECT_AT": 0,
+          "CBU_AT": 0,
+          "PRYE": 2009,
+          "INSPT_VALID_PD_BGNDE": "2026-03-12",
+          "addDate": "2026-10-09 17:40:15.887",
+          "INSPT_VALID_PD_ENDDE": "2028-03-11",
+          "VHCTY_ASORT_NM": "승용 일반 대형",
+          "CNTC_RESULT_CODE": "MSG50000",
+          "VIN": "JNKCV61E59M401933",
+          "EXTRL_NMPL_ISSU_YN": "N",
+          "VHRNO": "24버2800",
+          "w_no": 160789300,
+          "NMPL_CSDY_REMNR_DE": ""
+        }
+      }
+    },
+    "updated_at": "2026-10-09 19:45:46"
   }
 }

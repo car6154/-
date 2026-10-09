@@ -704,7 +704,7 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
       tuningCount: targetCarHistory?.originDoc?.tuning_count,
       inspectionValidEnd: targetCarHistory?.originDoc?.inspection_valid_end || targetCarHistory?.inspectionValidUntil,
       inspectionMileage: targetCarHistory?.originDoc?.inspection_mileage,
-      lastHistoryMileage: targetCarHistory?.rawHistory?.mileages?.[0]?.mileage,
+      lastHistoryMileage: (targetCarHistory?.rawHistory as any)?.mileages?.[0]?.mileage,
       outerRepairCount: outerRepairCount,
       frameDamage: false
     });
@@ -803,6 +803,7 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
     manufacturer?: string;
     year?: number;
     mileage?: number;
+    carNumber?: string;
   }) => {
     const targetCarName = options.carName || carName;
     if (!targetCarName && !options.url) {
@@ -815,6 +816,7 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
     const reqId = ++activeRequestIdRef.current;
     setIsEncarLoading(true);
     try {
+      const targetCarNumber = options.carNumber !== undefined ? options.carNumber : (carNumber || '');
       const targetDetail = options.detailModel !== undefined ? options.detailModel : detailModel;
       const targetMaker = options.manufacturer || manufacturer;
       const targetYr = options.year !== undefined ? options.year : yearModel;
@@ -833,7 +835,8 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
           year: targetYr,
           mileage: targetMil,
           targetOptions: targetOpt,
-          targetAccident: targetAcc
+          targetAccident: targetAcc,
+          carNumber: targetCarNumber
         })
       });
       const data = await res.json();
@@ -886,7 +889,7 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
       }
     }
     return [];
-  }, [carName, detailModel, manufacturer, yearModel, mileageKm]);
+  }, [carName, detailModel, manufacturer, yearModel, mileageKm, carNumber]);
 
   // 사이드바 차량 조건 변경 시 실데이터 자동 수집 (차량이 있을 때만)
   useEffect(() => {
@@ -901,11 +904,12 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
         detailModel: detailModel,
         manufacturer: manufacturer,
         year: yearModel,
-        mileage: mileageKm
+        mileage: mileageKm,
+        carNumber: carNumber
       });
     }, 300);
     return () => clearTimeout(timer);
-  }, [carName, detailModel, manufacturer, yearModel, mileageKm]);
+  }, [carName, detailModel, manufacturer, yearModel, mileageKm, carNumber]);
 
   // 텍스트/복사 데이터 빠른 자동 분석 모달 상태
   const [isQuickPasteOpen, setIsQuickPasteOpen] = useState(false);
@@ -1085,7 +1089,19 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
   const handleLookupCarNumber = async (targetNo?: string) => {
     const no = (targetNo || carNumber).replace(/\s+/g, '').trim();
     if (!no) {
+      setSearchStatus({
+        type: 'warning',
+        message: '⚠️ 차량번호를 입력해주세요.'
+      });
       alert('차량번호를 입력해주세요.');
+      return;
+    }
+    if (!mileageKm || mileageKm <= 0) {
+      setSearchStatus({
+        type: 'warning',
+        message: '⚠️ 주행거리를 입력해주세요. (차얼마 조회 시 차량번호와 주행거리 필수)'
+      });
+      alert('주행거리를 입력해주세요. (차얼마 조회 시 차량번호와 주행거리 입력이 필수입니다)');
       return;
     }
 
@@ -1184,7 +1200,8 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
           detailModel: resolvedGrade || detailModel,
           manufacturer: res.maker || manufacturer,
           year: yr,
-          mileage: mileageKm
+          mileage: mileageKm,
+          carNumber: no
         });
 
         if (encarItems.length === 0) {
@@ -2739,7 +2756,9 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
 
             {/* Mileage */}
             <div className="flex justify-between items-center bg-[#14151b] px-3 py-2 rounded-lg border border-[#232634]">
-              <span className="text-[11px] font-medium text-zinc-400">주행거리 (km)</span>
+              <span className="text-[11px] font-medium text-zinc-400">
+                주행거리 <span className="text-amber-400 font-bold">(필수, km)</span>
+              </span>
               <div className="flex items-center gap-1.5">
                 <button
                   type="button"
@@ -3442,7 +3461,7 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
                 <div className="w-9 h-9 rounded-lg bg-blue-500/15 flex items-center justify-center text-lg shrink-0">🚙</div>
                 <div className="overflow-hidden">
                   <div className="text-[11px] text-zinc-400 font-medium">총 매물 수</div>
-                  <div className="text-base sm:text-lg font-black text-white font-mono">{encarStats.total || encarList.length} 대</div>
+                  <div className="text-base sm:text-lg font-black text-white font-mono">{encarStats.count || encarList.length} 대</div>
                 </div>
               </div>
               <div className="bg-[#14151b] border border-[#262833] rounded-xl p-3 flex items-center gap-3">

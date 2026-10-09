@@ -46001,7 +46001,8 @@
     "first_seen_time": "2026-10-07 16:25",
     "last_seen": "2026-10-09",
     "status": "판매중",
-    "consecutive_misses": 0
+    "consecutive_misses": 0,
+    "estimated_sold_date": "2026-10-09"
   },
   "42797991": {
     "carid": "42797991",
@@ -46015,7 +46016,8 @@
     "first_seen_time": "2026-10-07 16:25",
     "last_seen": "2026-10-09",
     "status": "판매중",
-    "consecutive_misses": 0
+    "consecutive_misses": 0,
+    "estimated_sold_date": "2026-10-09"
   },
   "42082973": {
     "carid": "42082973",
@@ -46895,5 +46897,19 @@
     "status": "판매완료 추정",
     "consecutive_misses": 2,
     "estimated_sold_date": "2026-10-09"
+  },
+  "42268969": {
+    "carid": "42268969",
+    "name": "더뉴스파크",
+    "year": "20(20)",
+    "mileage": 138931,
+    "price": 590,
+    "perf_date": "26-06-29",
+    "inv_days": "102",
+    "first_seen": "2026-10-09",
+    "first_seen_time": "2026-10-09 19:53",
+    "last_seen": "2026-10-09",
+    "status": "판매중",
+    "consecutive_misses": 1
   }
 }

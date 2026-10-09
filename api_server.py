@@ -1102,16 +1102,18 @@ class EncarSearchRequest(BaseModel):
     mileage: Optional[int] = 0
     targetOptions: Optional[str] = ""
     targetAccident: Optional[str] = ""
+    carNumber: Optional[str] = ""
 
 
 @app.post("/api/encar/search")
 def search_encar_market(req: EncarSearchRequest):
     try:
-        car_name = req.carName or "올 뉴 K7"
-        detail_model = req.detailModel or "2.4 GDI 프레스티지"
-        manufacturer = req.manufacturer or "기아"
-        year_num = req.year or 17
-        mileage_num = req.mileage or 149461
+        car_name = req.carName or ""
+        detail_model = req.detailModel or ""
+        manufacturer = req.manufacturer or ""
+        year_num = req.year or 0
+        mileage_num = req.mileage if req.mileage is not None else 0
+        car_no = req.carNumber or ""
 
         encar_url = req.url
         if not encar_url or not str(encar_url).strip():
@@ -1119,7 +1121,8 @@ def search_encar_market(req: EncarSearchRequest):
                 car_name=car_name,
                 sub_model=detail_model,
                 year=year_num,
-                mileage=mileage_num
+                mileage=mileage_num,
+                car_number=car_no
             )
 
         df, msg = Scraper.run(encar_url, "")
@@ -1128,7 +1131,8 @@ def search_encar_market(req: EncarSearchRequest):
                 car_name=car_name,
                 sub_model=detail_model,
                 year=year_num,
-                mileage=mileage_num
+                mileage=mileage_num,
+                car_number=car_no
             )
             if alt_url and alt_url != encar_url:
                 df, msg = Scraper.run(alt_url, "")
