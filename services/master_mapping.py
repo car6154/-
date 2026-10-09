@@ -728,11 +728,11 @@ class MasterMappingService:
         2순위: 마스터 DB 모델 계층 매칭 성공 시, 엔카 공식 데스크톱 Action URL 조립
         3순위: 마스터 DB 미등록 차종은 기존 SalesDataAnalyzer.generate_encar_url로 완벽 Fallback
         """
-        # 1순위: 등록된 차량번호 직통 URL 확인
-        if car_number:
-            direct_url = cls.get_car_link(car_number)
-            if direct_url and any(k in direct_url for k in ["action=", "action%22", "%22action%22", '"action"']):
-                return direct_url
+        # 1순위: 등록된 차량번호 직통 URL 확인 (주석 처리 - 항상 최신 필터로 새로 생성)
+        # if car_number:
+        #     direct_url = cls.get_car_link(car_number)
+        #     if direct_url and any(k in direct_url for k in ["action=", "action%22", "%22action%22", '"action"']):
+        #         return direct_url
 
         # 2순위: 마스터 DB에서 모델 계층 확인
         master_match = cls.resolve_encar_model("", car_name, sub_model, year=year)
