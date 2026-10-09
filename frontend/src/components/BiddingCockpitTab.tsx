@@ -1142,11 +1142,6 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
           setOptionsTag('추가 옵션 없음 (기본 출고 사양)');
         }
 
-        if (res.new_car_price > 0) {
-          const estRetail = Math.round((res.base_car_price * 0.45 + res.total_depreciated_opt_price * 0.7) / 10000);
-          if (estRetail > 500) setExpectedSellPrice(estRetail);
-        }
-
         if (res.new_car_price > 0 || res.vin || res.car_history) {
           const rawNewP = res.new_car_price || 0;
           const stdP = rawNewP > 10000 ? Math.round(rawNewP / 10000) : rawNewP;
