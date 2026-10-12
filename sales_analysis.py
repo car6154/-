@@ -137,15 +137,19 @@ class SalesDataAnalyzer:
         df_work['주행거리_num'] = pd.to_numeric(df_work['주행거리'].astype(str).str.replace(r'[^\d.]', '', regex=True), errors='coerce').fillna(0)
         df_work['등록연도_num'] = pd.to_numeric(df_work['최초등록일'].astype(str).str.extract(r'(\d{4})')[0], errors='coerce').fillna(0).astype(int)
 
-        # 예상매출이익: 원 단위 -> 만원 단위 변환 (예: 2,000,000원 -> 200만원)
-        profit_num = pd.to_numeric(df_work['예상매출이익'], errors='coerce').fillna(0)
-        df_work['이익_만원'] = profit_num.apply(lambda x: round(x / 10000, 1) if abs(x) >= 10000 else x)
-
         # 판매가 (할인적용가 우선, 없으면 지점판매가)
         sell_p = pd.to_numeric(df_work['할인적용가'], errors='coerce').fillna(0)
         sell_branch = pd.to_numeric(df_work['지점판매가'], errors='coerce').fillna(0)
         sell_final = np.where(sell_p > 0, sell_p, sell_branch)
         df_work['판매가_만원'] = pd.Series(sell_final).apply(lambda x: round(x / 10000, 1) if x >= 10000 else x)
+
+        # 예상매출이익: 원 단위 -> 만원 단위 변환 (예: 2,000,000원 -> 200만원)
+        profit_num = pd.to_numeric(df_work['예상매출이익'], errors='coerce').fillna(0)
+        # 🚨 [마진 왜곡 보정]: 원장의 예상매출이익이 0이어도 판매가와 매입가가 모두 존재하면 (판매가 - 매입가)로 실질 마진 계산
+        buy_raw = pd.to_numeric(df_work['매입가'], errors='coerce').fillna(0)
+        calc_profit = sell_final - buy_raw
+        profit_final = np.where((profit_num == 0) & (buy_raw > 0) & (sell_final > 0), calc_profit, profit_num)
+        df_work['이익_만원'] = pd.Series(profit_final).apply(lambda x: round(x / 10000, 1) if abs(x) >= 10000 else x)
 
         # 차량명 정규화 (검색 최적화: 괄호, 특수기호, 공백 제거 후 소문자화)
         df_work['차량명_clean'] = df_work['차량명'].astype(str).apply(lambda x: re.sub(r'[\(\)\[\]_\-\s]', '', str(x)).lower())
