@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from 'react';
-import { Warehouse, Search, AlertCircle, Clock, ExternalLink, Filter, MapPin, Sparkles } from 'lucide-react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { Warehouse, Search, AlertCircle, Clock, ExternalLink, Filter, MapPin, Sparkles, RefreshCw, CheckCircle2 } from 'lucide-react';
 import inventoryDataRaw from '../data/real_autoplus_inventory.json';
 
 export interface InventoryRecord {
@@ -21,6 +21,17 @@ export interface InventoryRecord {
   encarUrl?: string;
 }
 
+interface SyncStatusData {
+  status: string;
+  last_sync_time: string | null;
+  inventory_count: number;
+  total_inventory?: number;
+  sold_count: number;
+  total_sold?: number;
+  settlement_updated_count?: number;
+  message: string;
+}
+
 interface CompanyInventoryTabProps {
   onAnalyzeInCockpit?: (car: {
     carNumber: string;
@@ -40,6 +51,29 @@ export const CompanyInventoryTab: React.FC<CompanyInventoryTabProps> = ({ onAnal
   const [statusFilter, setStatusFilter] = useState('ALL');
   const [stockDaysFilter, setStockDaysFilter] = useState<'ALL' | 'NORMAL' | 'WARNING' | 'CRITICAL'>('ALL');
   const [scanInputCarNo, setScanInputCarNo] = useState('');
+  const [syncStatus, setSyncStatus] = useState<SyncStatusData | null>(null);
+  const [isSyncing, setIsSyncing] = useState<boolean>(false);
+
+  useEffect(() => {
+    fetch('http://localhost:8000/api/autoplus/sync_status')
+      .then(r => r.json())
+      .then(data => setSyncStatus(data))
+      .catch(() => {});
+  }, []);
+
+  const handleManualSync = async () => {
+    if (isSyncing) return;
+    setIsSyncing(true);
+    try {
+      const res = await fetch('http://localhost:8000/api/autoplus/sync_now', { method: 'POST' });
+      const data = await res.json();
+      setSyncStatus(data);
+    } catch (e) {
+      console.error('동기화 실패:', e);
+    } finally {
+      setIsSyncing(false);
+    }
+  };
 
   const inventoryCars = inventoryDataRaw as InventoryRecord[];
 
@@ -123,14 +157,58 @@ export const CompanyInventoryTab: React.FC<CompanyInventoryTabProps> = ({ onAnal
 
   return (
     <div className="space-y-4">
-      {/* 1. Header */}
-      <div className="border-b border-[#1f2433] pb-3">
-        <h2 className="text-lg font-bold text-slate-100 flex items-center gap-2">
-          <span>📦 자사 보유 재고 (판매중)</span>
-        </h2>
-        <p className="text-xs text-slate-400 mt-0.5">
-          실시간 자사 보유 매물 {totalCount.toLocaleString()}대의 경과일수, 매입원가, 판매가 및 시세 분석 연동
-        </p>
+      {/* 1. Header & Sync Bar */}
+      <div className="border-b border-[#1f2433] pb-3 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+        <div>
+          <h2 className="text-lg font-bold text-slate-100 flex items-center gap-2">
+            <span>📦 자사 보유 재고 (판매중)</span>
+          </h2>
+          <p className="text-xs text-slate-400 mt-0.5">
+            실시간 자사 보유 매물 {totalCount.toLocaleString()}대의 경과일수, 매입원가, 판매가 및 시세 분석 연동
+          </p>
+        </div>
+
+        {/* Sync Status Badge & Action */}
+        <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#141824] border border-[#23293d] text-xs">
+            <span className="relative flex h-2 w-2">
+              <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${syncStatus?.status === 'SUCCESS' ? 'bg-emerald-400' : 'bg-amber-400'}`}></span>
+              <span className={`relative inline-flex rounded-full h-2 w-2 ${syncStatus?.status === 'SUCCESS' ? 'bg-emerald-500' : 'bg-amber-500'}`}></span>
+            </span>
+            <div className="flex items-center gap-1.5 text-slate-300">
+              <span className="font-medium text-slate-200">오토플러스.Data 최신화:</span>
+              <span className="text-emerald-400 font-semibold">
+                {syncStatus?.last_sync_time
+                  ? new Date(syncStatus.last_sync_time).toLocaleString('ko-KR', {
+                      month: '2-digit',
+                      day: '2-digit',
+                      hour: '2-digit',
+                      minute: '2-digit'
+                    })
+                  : '대기 중'}
+              </span>
+              {syncStatus?.inventory_count ? (
+                <span className="text-slate-400 text-[11px] hidden sm:inline">
+                  (판매중 {syncStatus.inventory_count.toLocaleString()}대 / 판매완료 {syncStatus.sold_count?.toLocaleString()}대)
+                </span>
+              ) : null}
+            </div>
+          </div>
+
+          <button
+            onClick={handleManualSync}
+            disabled={isSyncing}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${
+              isSyncing
+                ? 'bg-slate-800 text-slate-400 border-slate-700 cursor-not-allowed'
+                : 'bg-emerald-600/20 text-emerald-300 border-emerald-500/30 hover:bg-emerald-600/30 hover:border-emerald-500/50'
+            }`}
+            title="오토플러스.Data에서 실시간 판매중/판매완료 데이터를 가져와 최신화합니다."
+          >
+            <RefreshCw className={`w-3.5 h-3.5 ${isSyncing ? 'animate-spin text-emerald-400' : ''}`} />
+            <span>{isSyncing ? '최신화 중...' : '지금 최신화'}</span>
+          </button>
+        </div>
       </div>
 
       {/* 2. Top Banner Stats */}

@@ -51,6 +51,8 @@ data/scratch_sonata.html
 # Backups
 *_backup.csv
 *.bak
+backups/
+.playwright-mcp/
 .system_generated/
 
 # Node.js & Frontend build

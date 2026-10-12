@@ -19,8 +19,16 @@ from services.encar_service import Scraper
 from services.chaolma_service import ChaolmaService
 from services.git_sync_service import GitSyncService
 from services.data_processor import DataProcessor
+from services.autoplus_sync_service import AutoplusSyncService, start_autoplus_scheduler
 
 app = FastAPI(title="J-Project Local API Server", version="1.0.0")
+
+@app.on_event("startup")
+def on_app_startup():
+    try:
+        start_autoplus_scheduler()
+    except Exception as e:
+        print(f"[api_server] Failed to start Autoplus sync scheduler: {e}", flush=True)
 
 origins = [
     "http://localhost:5173",
@@ -64,6 +72,19 @@ def _safe_float(val: Any, default: float = 0.0) -> float:
 @app.get("/api/health")
 def health_check():
     return {"status": "ok", "mode": "local_only"}
+
+
+# ----------------------------------------------------
+# 0-1. 오토플러스.Data 사내 데이터 자동 동기화 API
+# ----------------------------------------------------
+@app.get("/api/autoplus/sync_status")
+def get_autoplus_sync_status():
+    return AutoplusSyncService.get_status()
+
+
+@app.post("/api/autoplus/sync_now")
+def trigger_autoplus_sync():
+    return AutoplusSyncService.execute_sync()
 
 
 # ----------------------------------------------------
