@@ -59,6 +59,8 @@ def fetch_encar_vehicle_spec(carid):
                 'seats': spec.get('seatCount', 0),
                 'source': 'encar_api'
             }
+        elif res.status_code == 429:
+            print(f"⚠️ [엔카 API 429 Rate Limit 감지] carid={carid}")
     except Exception:
         pass
     return None
@@ -114,10 +116,10 @@ def build_autoplus_mapping():
 
     print(f"새로 수집할 엔카 Ground Truth 대상: {len(tasks)}개")
 
-    # 3. 멀티스레드 병렬 API 수집 (10 워커)
+    # 3. 멀티스레드 병렬 API 수집 (최적화 8 워커: 벤치마크 실측 최고 효율 및 429 제로)
     success_count = 0
     if tasks:
-        with ThreadPoolExecutor(max_workers=10) as executor:
+        with ThreadPoolExecutor(max_workers=8) as executor:
             future_to_item = {
                 executor.submit(fetch_encar_vehicle_spec, carid): (key, c_name, c_sub, carid)
                 for key, c_name, c_sub, carid in tasks

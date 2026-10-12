@@ -2533,8 +2533,8 @@
     "first_seen": "2026-09-30",
     "first_seen_time": "2026-09-30 14:04",
     "last_seen": "2026-10-12",
-    "status": "판매중",
-    "consecutive_misses": 1,
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
     "estimated_sold_date": "2026-10-12"
   },
   "42768235": {
