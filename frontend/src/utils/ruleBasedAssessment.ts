@@ -121,7 +121,15 @@ export function computeRuleBasedAssessment(input: VehicleAssessmentInput): RuleA
   } else if (outerCnt > 0 || myAccCnt > 0 || myAccCost > 0) {
     accidentStatus = 'MINOR';
     accidentLabel = `🟡 단순 수리 (외판 ${outerCnt}부위 / 내차 ${myAccCnt}건 ${myAccCost}만)`;
-    accidentDetails = '골격 이상 없는 단순 볼트 체결 외판 교환';
+    accidentDetails = '골격 이상 없는 단순 볼트 체결 외판 교환 및 보험 수리';
+    if (myAccCost > 0) {
+      const deduction = Math.max(5, Math.round(myAccCost * 0.07));
+      adjustments.push({
+        item: '보험사고 감가',
+        amountMan: -deduction,
+        reason: `내차 보험 피해 ${myAccCnt}건(${myAccCost}만 원) 7% 안전 감가`
+      });
+    }
   } else {
     accidentStatus = 'PERFECT';
     accidentLabel = '🟢 완전 무사고 (성능·보험 클린)';

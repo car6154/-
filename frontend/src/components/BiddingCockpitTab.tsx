@@ -3115,11 +3115,23 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
                 {carName} {detailModel} ({yearModel}년식 / {mileageKm.toLocaleString()}km)
               </span>
               <span className={`text-xs px-2.5 py-0.5 rounded font-bold border ${
-                outerRepairCount === 0
+                outerRepairCount === 0 && (!targetCarHistory || targetCarHistory.myCarAccidentCount === 0)
                   ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/35'
                   : 'bg-amber-500/20 text-amber-300 border-amber-500/35'
               }`}>
-                {outerRepairCount === 0 ? '🟢 완전무사고' : `🟡 외판 ${outerRepairCount}판 감가`}
+                {(() => {
+                  const hasHistoryAcc = targetCarHistory && targetCarHistory.myCarAccidentCount > 0;
+                  if (outerRepairCount === 0 && !hasHistoryAcc) {
+                    return '🟢 완전무사고 (보험·외판 클린)';
+                  }
+                  if (outerRepairCount > 0 && !hasHistoryAcc) {
+                    return `🟡 외판 ${outerRepairCount}판 감가`;
+                  }
+                  if (outerRepairCount === 0 && hasHistoryAcc) {
+                    return `🟡 보험 ${targetCarHistory.myCarAccidentCount}건(${targetCarHistory.myCarAccidentCost}만)`;
+                  }
+                  return `🟠 외판 ${outerRepairCount}판 / 보험 ${targetCarHistory?.myCarAccidentCount}건(${targetCarHistory?.myCarAccidentCost}만)`;
+                })()}
               </span>
               {autoplusStats.matchedCount > 0 && (
                 <span className="text-xs px-2.5 py-0.5 rounded bg-emerald-500/25 text-emerald-300 border border-emerald-500/40 font-bold">
@@ -3471,7 +3483,13 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
                           • 적정 밴드: <strong className="text-sky-400 font-mono">{minValPrice.toLocaleString()} ~ {maxValPrice.toLocaleString()}만 원</strong> (기준: <strong className="text-white font-mono">{retailPrice.toLocaleString()}만</strong>)
                         </div>
                         <div>
-                          • 평가 스펙: 주행 <strong className="text-zinc-200 font-mono">{mileageKm.toLocaleString()}km</strong> / {outerRepairCount > 0 ? `외판 ${outerRepairCount}판 감가` : '완전무사고'}
+                          • 평가 스펙: 주행 <strong className="text-zinc-200 font-mono">{mileageKm.toLocaleString()}km</strong> / {
+                            outerRepairCount > 0
+                              ? `외판 ${outerRepairCount}판 감가`
+                              : (targetCarHistory && targetCarHistory.myCarAccidentCount > 0
+                                  ? `보험 ${targetCarHistory.myCarAccidentCount}건(${targetCarHistory.myCarAccidentCost}만)`
+                                  : '완전무사고')
+                          }
                           {optCount > 0 && (
                             <span> / <strong className="text-sky-400 font-bold">추가옵션 {optCount}개 반영</strong></span>
                           )}
