@@ -2,6 +2,7 @@
 import os
 import re
 import json
+import datetime
 import threading
 from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
 
@@ -52,17 +53,53 @@ class CookieReceiverHandler(BaseHTTPRequestHandler):
         # 불필요한 콘솔 로그 방지
         pass
 
+    def _send_cors_headers(self):
+        origin = self.headers.get('Origin', '')
+        # http://localhost:3000, http://127.0.0.1:3000 등 요청 origin 허용 또는 *
+        allow_origin = origin if origin else '*'
+        self.send_header('Access-Control-Allow-Origin', allow_origin)
+        self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type, X-JPRO-Token, X-Secret-Token, Accept, Authorization')
+        self.send_header('Access-Control-Allow-Credentials', 'true')
+
     def do_OPTIONS(self):
-        self.send_response(200)
-        self.send_header('Access-Control-Allow-Origin', '*')
-        self.send_header('Access-Control-Allow-Methods', 'POST, OPTIONS')
-        self.send_header('Access-Control-Allow-Headers', 'Content-Type, X-JPRO-Token, X-Secret-Token')
+        self.send_response(204)
+        self._send_cors_headers()
+        self.send_header('Content-Length', '0')
+        self.end_headers()
+
+    def do_GET(self):
+        if self.path.startswith('/api/session/cookie') or self.path.startswith('/api/cookie') or self.path.startswith('/api/get_cookie'):
+            hd = get_current_hd_cookie()
+            ap = get_current_autoplus_cookie()
+            encar = get_current_encar_cookie()
+            res_data = {
+                "ok": True,
+                "hasCookie": bool(hd),
+                "heydealerCookie": hd or "",
+                "hasAutoplusCookie": bool(ap),
+                "autoplusCookie": ap or "",
+                "hasEncarCookie": bool(encar),
+                "encarCookie": encar or "",
+                "updatedAt": datetime.datetime.now().isoformat()
+            }
+            res_bytes = json.dumps(res_data, ensure_ascii=False).encode('utf-8')
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json; charset=utf-8')
+            self._send_cors_headers()
+            self.send_header('Content-Length', str(len(res_bytes)))
+            self.end_headers()
+            self.wfile.write(res_bytes)
+            return
+
+        self.send_response(404)
+        self._send_cors_headers()
         self.send_header('Content-Length', '0')
         self.end_headers()
 
     def do_POST(self):
         print(f"[CookieServer] Received POST to path: {self.path}", flush=True)
-        if self.path.startswith('/api/save_cookie'):
+        if self.path.startswith('/api/save_cookie') or self.path.startswith('/api/session/cookie'):
             header_token = self.headers.get('X-JPRO-Token') or self.headers.get('X-Secret-Token')
             content_length = int(self.headers.get('Content-Length', 0))
             post_data = self.rfile.read(content_length)
@@ -75,6 +112,7 @@ class CookieReceiverHandler(BaseHTTPRequestHandler):
                     print("[CookieServer] Unauthorized cookie save attempt rejected (403)", flush=True)
                     self.send_response(403)
                     self.send_header('Content-Type', 'application/json')
+                    self._send_cors_headers()
                     res_bytes = json.dumps({"status": "error", "message": "Unauthorized"}).encode('utf-8')
                     self.send_header('Content-Length', str(len(res_bytes)))
                     self.end_headers()
@@ -111,8 +149,8 @@ class CookieReceiverHandler(BaseHTTPRequestHandler):
                         res_bytes = json.dumps({"status": "ok", "message": f"{target} Cookie unchanged"}).encode('utf-8')
                         self.send_response(200)
                         self.send_header('Content-Type', 'application/json')
+                        self._send_cors_headers()
                         self.send_header('Content-Length', str(len(res_bytes)))
-                        self.send_header('Access-Control-Allow-Origin', '*')
                         self.end_headers()
                         self.wfile.write(res_bytes)
                         return
@@ -123,8 +161,8 @@ class CookieReceiverHandler(BaseHTTPRequestHandler):
                         res_bytes = json.dumps({"status": "ok", "message": "Existing sessionid preserved"}).encode('utf-8')
                         self.send_response(200)
                         self.send_header('Content-Type', 'application/json')
+                        self._send_cors_headers()
                         self.send_header('Content-Length', str(len(res_bytes)))
-                        self.send_header('Access-Control-Allow-Origin', '*')
                         self.end_headers()
                         self.wfile.write(res_bytes)
                         return
@@ -155,8 +193,8 @@ class CookieReceiverHandler(BaseHTTPRequestHandler):
                     res_bytes = json.dumps({"status": "ok", "message": f"{target} Cookie saved"}).encode('utf-8')
                     self.send_response(200)
                     self.send_header('Content-Type', 'application/json')
+                    self._send_cors_headers()
                     self.send_header('Content-Length', str(len(res_bytes)))
-                    self.send_header('Access-Control-Allow-Origin', '*')
                     self.end_headers()
                     self.wfile.write(res_bytes)
                     print(f"[CookieServer] Successfully saved {target} to .env and files", flush=True)
@@ -164,7 +202,7 @@ class CookieReceiverHandler(BaseHTTPRequestHandler):
             except Exception as ex:
                 print(f"[CookieServer] Error processing POST: {ex}", flush=True)
         self.send_response(400)
-        self.send_header('Access-Control-Allow-Origin', '*')
+        self._send_cors_headers()
         self.send_header('Content-Length', '0')
         self.end_headers()
 
@@ -174,7 +212,10 @@ def start_cookie_server(port=8502):
     global _COOKIE_SERVER
     if _COOKIE_SERVER is None:
         try:
-            server = ThreadingHTTPServer(('127.0.0.1', port), CookieReceiverHandler)
+            try:
+                server = ThreadingHTTPServer(('0.0.0.0', port), CookieReceiverHandler)
+            except Exception:
+                server = ThreadingHTTPServer(('127.0.0.1', port), CookieReceiverHandler)
             server.daemon_threads = True
             _COOKIE_SERVER = server
             t = threading.Thread(target=server.serve_forever, daemon=True, name="CookieReceiverThread")

@@ -1417,9 +1417,21 @@ async function startServer() {
   try {
     const companionApp = express();
     companionApp.use(express.json());
-    companionApp.post('/api/save_cookie', (req, res) => {
-      res.header('Access-Control-Allow-Origin', '*');
-      res.header('Access-Control-Allow-Headers', 'Content-Type, X-JPRO-Token, X-Secret-Token');
+
+    // CORS 전역 미들웨어: localhost:3000, 127.0.0.1:3000 등 프론트엔드 Origin 완벽 허용
+    companionApp.use((req, res, next) => {
+      const origin = req.headers.origin || '*';
+      res.header('Access-Control-Allow-Origin', origin);
+      res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+      res.header('Access-Control-Allow-Headers', 'Content-Type, X-JPRO-Token, X-Secret-Token, Accept, Authorization');
+      res.header('Access-Control-Allow-Credentials', 'true');
+      if (req.method === 'OPTIONS') {
+        return res.sendStatus(204);
+      }
+      next();
+    });
+
+    companionApp.post(['/api/save_cookie', '/api/session/cookie'], (req, res) => {
       const token = req.headers['x-jpro-token'] || req.headers['x-secret-token'] || req.body?.secretToken || req.body?.token;
       if (token !== 'jpro_sec_9981_live_auth') {
         return res.status(403).json({ error: '인증 토큰이 일치하지 않습니다.' });
@@ -1437,8 +1449,6 @@ async function startServer() {
       return res.json({ ok: true });
     });
     companionApp.get(['/api/session/cookie', '/api/cookie', '/api/get_cookie'], (req, res) => {
-      res.header('Access-Control-Allow-Origin', '*');
-      res.header('Access-Control-Allow-Headers', 'Content-Type, X-JPRO-Token, X-Secret-Token');
       return res.json({
         hasCookie: Boolean(savedHeydealerCookie),
         heydealerCookie: savedHeydealerCookie,
@@ -1448,9 +1458,6 @@ async function startServer() {
       });
     });
     companionApp.options(['/api/save_cookie', '/api/session/cookie'], (req, res) => {
-      res.header('Access-Control-Allow-Origin', '*');
-      res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-      res.header('Access-Control-Allow-Headers', 'Content-Type, X-JPRO-Token, X-Secret-Token');
       res.sendStatus(204);
     });
     companionApp.listen(8502, '0.0.0.0', () => {

@@ -4,6 +4,8 @@
 let lastHeydealerCookie = '';
 let lastAutoplusCookie = '';
 let isSyncing = false;
+let last8502CheckTime = 0;
+let consecutive8502Failures = 0;
 
 export interface CookieSyncStatus {
   hasHeydealer: boolean;
@@ -46,7 +48,7 @@ export async function uploadCookieToServer(cookie: string, target: 'heydealer' |
   }
 }
 
-// 2. 로컬 CookieServer(8502 포트)에서 최신 쿠키 자동 폴링 및 중계
+// 2. 로컬 CookieServer(8502 포트) 및 자체 백엔드에서 최신 쿠키 자동 동기화
 export async function checkAndRelayLocalCookies(): Promise<boolean> {
   if (isSyncing) return false;
   isSyncing = true;
@@ -54,18 +56,46 @@ export async function checkAndRelayLocalCookies(): Promise<boolean> {
   let localConnected = false;
   let newSync = false;
 
-  const ports = [8502, 3000];
-  const hosts = ['http://localhost', 'http://127.0.0.1'];
+  // 2-1. 프론트엔드 자체 백엔드(/api/session/cookie)와 1차 동기화 (Same-Origin - CORS 에러 원천 차단)
+  try {
+    const res = await fetch('/api/session/cookie', {
+      headers: { 'Accept': 'application/json' }
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (data.heydealerCookie && data.heydealerCookie !== lastHeydealerCookie) {
+        lastHeydealerCookie = data.heydealerCookie;
+        localStorage.setItem('jpro_heydealer_cookie', data.heydealerCookie);
+        newSync = true;
+      }
+      if (data.autoplusCookie && data.autoplusCookie !== lastAutoplusCookie) {
+        lastAutoplusCookie = data.autoplusCookie;
+        localStorage.setItem('jpro_autoplus_cookie', data.autoplusCookie);
+        newSync = true;
+      }
+    }
+  } catch (_) {
+    // 백엔드 미응답 시 조용히 통과
+  }
 
-  for (const host of hosts) {
-    for (const port of ports) {
-      if (port === 3000 && window.location.port === '3000') continue;
+  // 2-2. 로컬 8502 포트(Python/Companion Cookie Server) 점검
+  // 실패 이력이 있으면 30초 백오프 후 조용히 재시도하여 브라우저 콘솔 에러 누적 방지
+  const now = Date.now();
+  const shouldProbe8502 = consecutive8502Failures === 0 || (now - last8502CheckTime >= 30000);
+
+  if (shouldProbe8502) {
+    last8502CheckTime = now;
+    const currentHost = window.location.hostname || 'localhost';
+    const hosts = [currentHost, currentHost === 'localhost' ? '127.0.0.1' : 'localhost'];
+
+    for (const host of hosts) {
       try {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 1200);
 
-        const res = await fetch(`${host}:${port}/api/session/cookie`, {
+        const res = await fetch(`http://${host}:8502/api/session/cookie`, {
           signal: controller.signal,
+          mode: 'cors',
           headers: { 'Accept': 'application/json' }
         });
         clearTimeout(timeoutId);
@@ -73,6 +103,7 @@ export async function checkAndRelayLocalCookies(): Promise<boolean> {
         if (res.ok) {
           const data = await res.json();
           localConnected = true;
+          consecutive8502Failures = 0;
 
           // 헤이딜러 쿠키 변경 감지 시 자동 업로드
           if (data.heydealerCookie && data.heydealerCookie !== lastHeydealerCookie) {
@@ -93,10 +124,13 @@ export async function checkAndRelayLocalCookies(): Promise<boolean> {
           break;
         }
       } catch (_) {
-        // 로컬 포트 미기동 시 무시
+        // 로컬 포트 미기동 또는 일시 오류 시 조용히 무시 (콘솔 노이즈 방지)
       }
     }
-    if (localConnected) break;
+
+    if (!localConnected) {
+      consecutive8502Failures++;
+    }
   }
 
   // 로컬 스토리지에 저장된 쿠키가 서버에 없을 경우 복원
@@ -131,8 +165,8 @@ export function startContinuousCookieSync() {
   // 최초 1회 실행
   checkAndRelayLocalCookies();
 
-  // 10초마다 무중단 백그라운드 폴링 (IDE와 동일한 상시 최신 상태 유지)
-  const intervalId = setInterval(checkAndRelayLocalCookies, 10000);
+  // 30초마다 무중단 백그라운드 폴링 (불필요한 과도 폴링 방지 및 콘솔 부하 제거)
+  const intervalId = setInterval(checkAndRelayLocalCookies, 30000);
 
   // 창 활성화 / 탭 전환 시 즉시 동기화
   const handleVisibility = () => {
