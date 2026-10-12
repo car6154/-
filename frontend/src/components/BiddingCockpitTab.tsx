@@ -3072,25 +3072,6 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
               <span className="text-xs sm:text-sm px-2.5 py-0.5 rounded bg-blue-500/20 text-blue-300 border border-blue-500/35 font-bold font-mono">
                 {carName} {detailModel} ({yearModel}년식 / {mileageKm.toLocaleString()}km)
               </span>
-              <span className={`text-xs px-2.5 py-0.5 rounded font-bold border ${
-                outerRepairCount === 0 && (!targetCarHistory || targetCarHistory.myCarAccidentCount === 0)
-                  ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/35'
-                  : 'bg-amber-500/20 text-amber-300 border-amber-500/35'
-              }`}>
-                {(() => {
-                  const hasHistoryAcc = targetCarHistory && targetCarHistory.myCarAccidentCount > 0;
-                  if (outerRepairCount === 0 && !hasHistoryAcc) {
-                    return '🟢 완전무사고 (보험·외판 클린)';
-                  }
-                  if (outerRepairCount > 0 && !hasHistoryAcc) {
-                    return `🟡 외판 ${outerRepairCount}판 감가`;
-                  }
-                  if (outerRepairCount === 0 && hasHistoryAcc) {
-                    return `🟡 보험 ${targetCarHistory.myCarAccidentCount}건(${targetCarHistory.myCarAccidentCost}만)`;
-                  }
-                  return `🟠 외판 ${outerRepairCount}판 / 보험 ${targetCarHistory?.myCarAccidentCount}건(${targetCarHistory?.myCarAccidentCost}만)`;
-                })()}
-              </span>
               {autoplusStats.matchedCount > 0 && (
                 <span className="text-xs px-2.5 py-0.5 rounded bg-emerald-500/25 text-emerald-300 border border-emerald-500/40 font-bold">
                   🏢 자사 실적 {autoplusStats.matchedCount}대 매칭
@@ -3167,6 +3148,11 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
                 {/* 1. 사고 및 내차피해 */}
                 <span className={`px-2 py-0.5 rounded border ${currentAssessment.accidentDamage.isPass ? 'bg-emerald-500/10 text-emerald-300 border-emerald-500/30' : 'bg-rose-500/20 text-rose-300 border-rose-500/40 font-bold'}`}>
                   사고: {currentAssessment.accidentDamage.status === 'PERFECT' ? '무사고' : currentAssessment.accidentDamage.status === 'MINOR' ? '단순수리' : '골격/결격'}
+                  {outerRepairCount > 0 ? (
+                    <span className="ml-1 text-[10px] opacity-90 font-mono">
+                      (외판 {outerRepairCount}판)
+                    </span>
+                  ) : null}
                   {targetCarHistory && targetCarHistory.myCarAccidentCount > 0 ? (
                     <span className="ml-1 text-[10px] opacity-90 font-mono">
                       (내차 {targetCarHistory.myCarAccidentCount}건/{targetCarHistory.myCarAccidentCost}만)
