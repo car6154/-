@@ -1146,6 +1146,22 @@ def search_encar_market(req: EncarSearchRequest):
                 car_number=car_no
             )
 
+        # 유효한 상세 조건(action)이 없는 단순 전체 목록 URL일 경우 전수 국산차 덤프 차단 (빈 상태 반환)
+        if not encar_url or ("action" not in encar_url and "q=" not in encar_url):
+            return {
+                "success": False,
+                "message": "엔카 실시간 매물을 불러오지 못했습니다.",
+                "items": [],
+                "totalModelCount": 0,
+                "filteredCount": 0,
+                "directSearchUrl": encar_url or "",
+                "stats": {
+                    "avg": 0, "min": 0, "max": 0, "median": 0, "count": 0,
+                    "benchmarkPrice": 0, "minBand": 0, "maxBand": 0,
+                    "noAccAvg": 0, "accAvg": 0, "accGap": 0
+                }
+            }
+
         df, msg = Scraper.run(encar_url, "")
         if df.empty and req.url:
             alt_url = MasterMappingService.generate_smart_encar_url(
@@ -1155,14 +1171,15 @@ def search_encar_market(req: EncarSearchRequest):
                 mileage=mileage_num,
                 car_number=car_no
             )
-            if alt_url and alt_url != encar_url:
+            if alt_url and alt_url != encar_url and ("action" in alt_url or "q=" in alt_url):
                 df, msg = Scraper.run(alt_url, "")
                 if not df.empty:
                     encar_url = alt_url
 
         if df.empty:
             return {
-                "success": True,
+                "success": False,
+                "message": "엔카 실시간 매물을 불러오지 못했습니다.",
                 "items": [],
                 "totalModelCount": 0,
                 "filteredCount": 0,

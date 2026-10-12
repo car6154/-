@@ -765,6 +765,7 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
   const [encarTotalModelCount, setEncarTotalModelCount] = useState<number>(0);
   const [encarFilteredCount, setEncarFilteredCount] = useState<number>(0);
   const [isEncarLoading, setIsEncarLoading] = useState<boolean>(false);
+  const [encarErrorMessage, setEncarErrorMessage] = useState<string>('');
   const [encarSourceUrl, setEncarSourceUrl] = useState<string>('');
   const [showTrimColumn, setShowTrimColumn] = useState<boolean>(true);
   const activeRequestIdRef = useRef<number>(0);
@@ -815,6 +816,7 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
 
     const reqId = ++activeRequestIdRef.current;
     setIsEncarLoading(true);
+    setEncarErrorMessage('');
     try {
       const targetCarNumber = options.carNumber !== undefined ? options.carNumber : (carNumber || '');
       const targetDetail = options.detailModel !== undefined ? options.detailModel : detailModel;
@@ -843,7 +845,8 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
       
       if (reqId !== activeRequestIdRef.current) return [];
 
-      if (data.success && Array.isArray(data.items)) {
+      if (data.success && Array.isArray(data.items) && data.items.length > 0) {
+        setEncarErrorMessage('');
         setLiveEncarList(data.items);
         setEncarTotalModelCount(data.totalModelCount || data.items.length);
         setEncarFilteredCount(data.filteredCount || data.items.length);
@@ -880,9 +883,24 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
         }
 
         return data.items;
+      } else {
+        setLiveEncarList([]);
+        setEncarTotalModelCount(data.totalModelCount || 0);
+        setEncarFilteredCount(0);
+        setEncarValuation(null);
+        setEncarErrorMessage(data.message || '엔카 실시간 매물을 불러오지 못했습니다.');
+        if (data.directSearchUrl) {
+          setEncarSourceUrl(data.directSearchUrl);
+        }
+        return [];
       }
-    } catch (e) {
+    } catch (e: any) {
       console.warn('Encar fetch failed:', e);
+      setLiveEncarList([]);
+      setEncarTotalModelCount(0);
+      setEncarFilteredCount(0);
+      setEncarValuation(null);
+      setEncarErrorMessage('엔카 실시간 매물을 불러오지 못했습니다.');
     } finally {
       if (reqId === activeRequestIdRef.current) {
         setIsEncarLoading(false);
@@ -3716,6 +3734,29 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
                     <div className="text-xs text-zinc-400">
                       성능점검 기록부 및 추가옵션 전수 스캔 &amp; 2D 도면 연동 중
                     </div>
+                  </div>
+                ) : encarList.length === 0 ? (
+                  <div className="flex flex-col items-center justify-center h-full space-y-3 py-16 px-4 bg-[#0a0b0e] text-center">
+                    <div className="w-12 h-12 rounded-full bg-rose-500/10 flex items-center justify-center text-rose-400">
+                      <AlertTriangle className="w-6 h-6" />
+                    </div>
+                    <div className="text-sm font-bold text-rose-300">
+                      {encarErrorMessage || '엔카 실시간 매물을 불러오지 못했습니다.'}
+                    </div>
+                    <div className="text-xs text-zinc-400 max-w-[340px] leading-relaxed">
+                      현재 조건(차종/연식/주행거리)에 일치하는 등록 매물이 없거나 실시간 통신이 원활하지 않습니다.
+                    </div>
+                    {encarSourceUrl && (
+                      <a
+                        href={encarSourceUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 border border-blue-500/30 text-xs font-semibold transition mt-2 cursor-pointer"
+                      >
+                        <span>엔카 웹사이트에서 직접 조회하기</span>
+                        <ExternalLink className="w-3.5 h-3.5" />
+                      </a>
+                    )}
                   </div>
                 ) : (
                 <table className="w-full text-left text-[13px] text-zinc-200">

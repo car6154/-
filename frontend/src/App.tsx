@@ -518,7 +518,7 @@ export default function App() {
 
   // Restore ledger from initial data / backup
   const handleRestoreLedgerBackup = () => {
-    setCars(initialCars);
+    setCars(INITIAL_CAR_LEDGER);
     showToast('✅ 최근 백업 데이터로 장부가 복원되었습니다!');
   };
 

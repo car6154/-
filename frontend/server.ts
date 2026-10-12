@@ -400,102 +400,6 @@ async function startServer() {
       logEvent('ENCAR_WARN', `Python API 연결 대기/실패, Express 내부 로직으로 전환: ${e.message}`);
     }
 
-    // K7 실시간 엔카 실매물 (순수 2.4 GDI 프레스티지 + 차량번호 중복 제거 적용 -> 28대)
-    if (carName.toLowerCase().includes('k7') || rawUrl.includes('K7')) {
-      try {
-        const k7LivePath = path.join(process.cwd(), 'src/data/encar_k7_live_97.json');
-        if (fs.existsSync(k7LivePath)) {
-          const k7Cars = JSON.parse(fs.readFileSync(k7LivePath, 'utf8'));
-
-          // 1. 순수 '프레스티지' 트림만 1차 정밀 필터링
-          const prestigeOnly = k7Cars.filter((c: any) => (c.badge || '').includes('프레스티지'));
-
-          // 2. 차량번호(vehicleNo) 기준 중복 제거 Map
-          const vehicleMap = new Map();
-          prestigeOnly.forEach((c: any) => {
-            const vNo = c.vehicleNo || c.id;
-            if (!vehicleMap.has(vNo)) {
-              vehicleMap.set(vNo, c);
-            }
-          });
-
-          const dedupedCars = Array.from(vehicleMap.values());
-
-          const mapped = dedupedCars.map((c: any) => ({
-            id: c.id,
-            vehicleId: c.vehicleId || c.id,
-            vehicleNo: c.vehicleNo || '',
-            carName: `${c.model} ${c.badge}`,
-            modelName: c.model,
-            subModel: c.badge,
-            year: c.year,
-            mileage: c.mileage,
-            price: c.price,
-            accidentType: c.accidentType || c.acc,
-            color: c.color || '미확인',
-            optionsText: c.optionsText || c.opts || '-',
-            checkDate: c.checkDate || '-',
-            holdingDays: c.days,
-            replaces: c.replaces || [],
-            repairs: c.repairs || [],
-            encarUrl: c.encarUrl || `https://fem.encar.com/cars/detail/${String(c.id).replace(/\D/g, '')}`,
-            photo: c.photo || '',
-            isLive: c.isLive !== false,
-            crawledAt: c.crawledAt || new Date().toISOString().replace('T', ' ').slice(0, 19)
-          }));
-
-          // 사용자 정렬 규칙 적용: 1. 가격 오름차순 -> 2. 성능일자 내림차순(최신순) -> 3. 연식 내림차순
-          mapped.sort((a: any, b: any) => {
-            if (a.price !== b.price) {
-              return a.price - b.price;
-            }
-            const dateA = String(a.checkDate || '').replace(/\D/g, '');
-            const dateB = String(b.checkDate || '').replace(/\D/g, '');
-            if (dateA !== dateB) {
-              return dateB.localeCompare(dateA);
-            }
-            const yrA = parseInt(String(a.year || '').replace(/\D/g, '').slice(0, 2), 10) || 0;
-            const yrB = parseInt(String(b.year || '').replace(/\D/g, '').slice(0, 2), 10) || 0;
-            return yrB - yrA;
-          });
-
-          const prices = mapped.map((m: any) => m.price).sort((a: number, b: number) => a - b);
-          const min = prices[0] || 0;
-          const max = prices[prices.length - 1] || 0;
-          const avg = Math.round(prices.reduce((a: number, b: number) => a + b, 0) / (prices.length || 1));
-          const median = prices[Math.floor(prices.length / 2)] || 0;
-          const q1 = prices[Math.floor(prices.length * 0.25)] || 0;
-          const q3 = prices[Math.floor(prices.length * 0.75)] || 0;
-
-          // Image 1 (정답 캡쳐) 규격 URL: 2.4 GDI 프레스티지 + 2016년 1월~2018년 12월 + 13만~17만km
-          const image1ExactFilterUrl = 'https://www.encar.com/dc/dc_carsearchlist.do?carType=kor&searchType=model&TG.R=A#!%7B%22action%22%3A%22%28And.Hidden.N._.%28C.CarType.Y._.%28C.Manufacturer.%EA%B8%B0%EC%95%84._.%28C.ModelGroup.K7._.%28C.Model.%EC%98%AC%20%EB%89%B4%20K7._.%28C.BadgeGroup.%EA%B0%80%EC%86%94%EB%A6%B0%202400cc._.Badge.2_.4%20GDI%20%ED%94%84%EB%A0%88%EC%8A%A4%ED%8B%B0%EC%A7%80.%29%29%29%29%29%29_.Year.range%28201601..201812%29._.Mileage.range%28130000..170000%29.%29%22%2C%22toggle%22%3A%7B%7D%2C%22layer%22%3A%22%22%2C%22sort%22%3A%22ModifiedDate%22%2C%22page%22%3A1%2C%22limit%22%3A20%7D';
-
-          return res.json({
-            success: true,
-            count: mapped.length,
-            totalModelCount: mapped.length,
-            filteredCount: mapped.length,
-            stats: {
-              count: mapped.length,
-              totalModelCount: mapped.length,
-              filteredCount: mapped.length,
-              min,
-              max,
-              avg,
-              rawAvg: avg,
-              median,
-              q1,
-              q3,
-              iqr: q3 - q1
-            },
-            items: mapped,
-            directSearchUrl: rawUrl || image1ExactFilterUrl
-          });
-        }
-      } catch (err) {
-        console.error('Failed to load K7 live json:', err);
-      }
-    }
 
     try {
       let condition = '';
@@ -648,7 +552,15 @@ async function startServer() {
       }
 
       if (!condition) {
-        condition = '(And.Hidden.N._.CarType.Y.)';
+        return res.json({
+          success: false,
+          message: '엔카 실시간 매물을 불러오지 못했습니다.',
+          count: 0,
+          totalModelCount: 0,
+          filteredCount: 0,
+          items: [],
+          stats: { count: 0, min: 0, max: 0, avg: 0 }
+        });
       }
 
       // 주행거리 범위는 대표님 지침(±50,000km)을 엄격히 반영하여 검색
@@ -691,18 +603,20 @@ async function startServer() {
           fallbackCond = '(And.Hidden.N._.(C.CarType.Y._.(C.Manufacturer.기아._.ModelGroup.레이.)))';
         }
 
-        try {
-          const fallbackRes = await fetch(`https://api.encar.com/search/car/list/general?count=true&q=${encodeURIComponent(fallbackCond)}&sr=%7CModifiedDate%7C0%7C100`, {
-            headers: {
-              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-              'Referer': 'http://www.encar.com/',
-              'Accept': 'application/json'
+        if (fallbackCond) {
+          try {
+            const fallbackRes = await fetch(`https://api.encar.com/search/car/list/general?count=true&q=${encodeURIComponent(fallbackCond)}&sr=%7CModifiedDate%7C0%7C100`, {
+              headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+                'Referer': 'http://www.encar.com/',
+                'Accept': 'application/json'
+              }
+            });
+            if (fallbackRes.ok) {
+              firstData = await fallbackRes.json();
             }
-          });
-          if (fallbackRes.ok) {
-            firstData = await fallbackRes.json();
-          }
-        } catch (e) {}
+          } catch (e) {}
+        }
       }
 
       totalCount = firstData?.Count || 0;
@@ -741,40 +655,7 @@ async function startServer() {
         return true;
       });
 
-      // 만약 외부 엔카 API 응답이 없거나 비어있는 경우, 자사 7,493건 실적 DB에서 해당 차종의 순수 소매(엔카 등록) 매물로 즉시 바인딩!
-      if (rawCars.length === 0) {
-        try {
-          const soldPath = path.join(process.cwd(), 'src/data/real_autoplus_sold.json');
-          if (fs.existsSync(soldPath)) {
-            const soldData = JSON.parse(fs.readFileSync(soldPath, 'utf8'));
-            const nameLower = (carName || '').toLowerCase().replace(/[\s\-_]/g, '');
-            const matchingSold = soldData.filter((c: any) => {
-              const cn = (c.carName || '').toLowerCase().replace(/[\s\-_]/g, '');
-              const sm = (c.subModel || '').toLowerCase().replace(/[\s\-_]/g, '');
-              const isRetail = String(c.encarUrl || '').includes('encar.com') && !String(c.encarUrl || '').toLowerCase().includes('javascript');
-              const modelMatch = cn.includes(nameLower) || nameLower.includes(cn) || sm.includes(nameLower) ||
-                (nameLower.includes('k7') && (cn.includes('k7') || sm.includes('k7')));
-              return isRetail && modelMatch;
-            });
-            if (matchingSold.length > 0) {
-              rawCars = matchingSold.map((m: any, idx: number) => ({
-                Id: m.id ? m.id.replace(/[^\w]/g, '_') : `ap_${idx}`,
-                Model: m.carName,
-                Badge: m.subModel || '기본',
-                Year: m.regDate ? m.regDate.slice(0, 4) : String(yearVal || 2017),
-                FormYear: m.regDate ? m.regDate.slice(0, 4) : String(yearVal || 2017),
-                Mileage: m.mileage || mileageVal || 125000,
-                Price: m.sellPrice || 1235,
-                ModifiedDate: m.regDate || '2024-01-01',
-                Color: m.color || '흰색'
-              }));
-              totalCount = rawCars.length;
-            }
-          }
-        } catch (fbErr) {
-          console.error('Fallback autoplus DB load error:', fbErr);
-        }
-      }
+
 
       // 세부등급(Badge/Trim) 정밀 필터링 (동일 세부등급 우선 매칭)
       const badgeTrim = String(req.body?.detailModel || req.query.detailModel || '').trim();
@@ -791,9 +672,9 @@ async function startServer() {
       // 동일 세부등급 매물이 2대 이상 존재하면 해당 매물군을 최우선 시세 표본으로 채택, 아니면 동급 전체 채택
       const targetCars = (matchedBadgeCars.length >= 2) ? matchedBadgeCars : rawCars;
 
-      // 전체 차종 총 등록수(예: 97대)와 조건 필터링 유효 매물수(예: 65대)
-      const totalModelCount = totalCount || 97;
-      const filteredComparableCount = targetCars.length > 0 ? targetCars.length : (rawCars.length || 65);
+      // 전체 차종 총 등록수와 조건 필터링 유효 매물수 (더미/임의 기본값 금지)
+      const totalModelCount = totalCount || 0;
+      const filteredComparableCount = targetCars.length > 0 ? targetCars.length : (rawCars.length || 0);
 
       const targetPool = (targetCars.length > 0 ? targetCars : rawCars).filter((c: any) => c.Price && c.Price > 0);
       const topCars = targetPool.slice(0, 30);
@@ -1027,52 +908,58 @@ async function startServer() {
       const maxPrice = prices.length ? Math.max(...prices) : 0;
       const avgPrice = prices.length ? Math.round(prices.reduce((a: number, b: number) => a + b, 0) / prices.length) : 0;
 
-      // 8501 밸류에이션 공식과 100% 동일한 정밀 밸류에이션 연산
+      // 8501 밸류에이션 공식과 동일한 연산 (실제 매물이 있을 때만 산출)
       const baseMileage = 56000;
       const targetMileage = Number(mileageVal) || 63500;
-      const milDelta = Math.max(-8.0, minPrice > 0 ? ((baseMileage - targetMileage) / 10000.0) * 1.3 : -0.9);
+      const milDelta = Math.max(-8.0, minPrice > 0 ? ((baseMileage - targetMileage) / 10000.0) * 1.3 : 0);
       const accScoreDelta = -3.0; // 외판 단순교환/수리 2판 기준
-      const calcScore = Math.round((100.0 + milDelta + accScoreDelta) * 10) / 10; // 96.1점
-      const std100Price = 3400; // 엔카 표준 100점가
-      const preciseIndividualPrice = 3266; // 8501 실측 정밀 소매가
-      const preciseMinPrice = 3134; // 8501 실측 밴드 하한
-      const preciseMaxPrice = 3438; // 8501 실측 밴드 상한
-      const bubbleGap = avgPrice - preciseIndividualPrice; // +290만
-      const bubblePct = preciseIndividualPrice > 0 ? Math.round((bubbleGap / preciseIndividualPrice) * 1000) / 10 : 8.9;
+      const calcScore = mappedCars.length > 0 ? Math.round((100.0 + milDelta + accScoreDelta) * 10) / 10 : 0;
+      const preciseIndividualPrice = mappedCars.length > 0 && avgPrice > 0 ? Math.round(avgPrice * (calcScore / 100)) : 0;
+      const preciseMinPrice = minPrice > 0 ? minPrice : 0;
+      const preciseMaxPrice = maxPrice > 0 ? maxPrice : 0;
+      const bubbleGap = avgPrice > 0 && preciseIndividualPrice > 0 ? avgPrice - preciseIndividualPrice : 0;
+      const bubblePct = preciseIndividualPrice > 0 ? Math.round((bubbleGap / preciseIndividualPrice) * 1000) / 10 : 0;
 
       logEvent('ENCAR_IN', `Found ${mappedCars.length} Encar comparable cars (avg: ${avgPrice}만, preciseValuation: ${preciseIndividualPrice}만)`);
 
       return res.json({
-        success: true,
+        success: mappedCars.length > 0,
+        message: mappedCars.length === 0 ? '엔카 실시간 매물을 불러오지 못했습니다.' : undefined,
         count: filteredComparableCount || mappedCars.length,
-        totalModelCount: totalModelCount || 97,
-        filteredCount: filteredComparableCount || 65,
+        totalModelCount: totalModelCount,
+        filteredCount: filteredComparableCount,
         items: mappedCars,
         directSearchUrl: directSearchUrl || apiEncarUrl,
         stats: {
           count: mappedCars.length,
-          totalModelCount: totalModelCount || 97,
-          filteredCount: filteredComparableCount || 65,
+          totalModelCount: totalModelCount,
+          filteredCount: filteredComparableCount,
           min: minPrice,
           max: maxPrice,
           avg: avgPrice
         },
         valuation: {
-          hasData: true,
+          hasData: mappedCars.length > 0,
           individualPrice: preciseIndividualPrice,
           minPrice: preciseMinPrice,
           maxPrice: preciseMaxPrice,
           score: calcScore,
           bubbleGap: bubbleGap,
           bubblePct: bubblePct,
-          safeCeiling: 3048,
+          safeCeiling: 0,
           baseMileage: baseMileage
         }
       });
     } catch (err: any) {
       console.error('엔카 실시간 시세 조회 실패:', err);
       logEvent('ENCAR_ERR', `Encar Search Failed: ${err.message} | Stack: ${err.stack}`);
-      return res.status(500).json({ success: false, error: err.message, items: [], stats: { count: 0, min: 0, max: 0, avg: 0 } });
+      return res.status(500).json({
+        success: false,
+        error: err.message,
+        message: '엔카 실시간 매물을 불러오지 못했습니다.',
+        items: [],
+        stats: { count: 0, min: 0, max: 0, avg: 0 }
+      });
     }
   });
 
