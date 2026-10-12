@@ -499,27 +499,15 @@ class ChaolmaService:
             has_rent_history = (get_text("r303", "N") == "Y")
 
             # 3. 사고 건수 및 금액
-            # 사용자 요청: 내차 피해 건수 = r401 + r501 합산
+            # r401: 카히스토리 내차 피해 건수 공식 요약 (r501은 r502 상세목록 크기이므로 중복 합산 금지)
             r401_count = get_int("r401", 0)
             r501_count = get_int("r501", 0)
-            my_acc_count = r401_count + r501_count
+            my_acc_count = r401_count if r401_count > 0 else r501_count
 
+            # r402: 카히스토리 내차 피해 공식 보험금 지급총액 요약
+            # (주의: r502-03 총 수리비 견적을 여기에 또 합산하면 보험금+수리비 2배 중복 왜곡 발생)
             r402_cost = get_int("r402", 0)
-            # 금액도 r402에 상대보험 금액(r502-01 == '2'인 r502-03 합계)을 합산
-            other_ins_cost = 0
-            r502 = root.find("r502")
-            if r502 is not None:
-                for e in r502.findall("e"):
-                    ins_type = e.find("r502-01")
-                    if ins_type is not None and ins_type.text == "2":
-                        tot = e.find("r502-03")
-                        if tot is not None and tot.text:
-                            try:
-                                other_ins_cost += int(float(tot.text.strip()))
-                            except Exception:
-                                pass
-
-            my_acc_cost = r402_cost + other_ins_cost
+            my_acc_cost = r402_cost
             my_acc_cost_man = round(my_acc_cost / 10000)
 
             # r403: 타차가해 건수, r404: 타차가해 총액
@@ -573,6 +561,16 @@ class ChaolmaService:
                         "insurance_paid": int(float(payout.text.strip())) if (payout is not None and payout.text) else 0,
                     })
 
+            # 상세 이력 기반 fallback 보정 및 수리비 총액 산출
+            if my_acc_count == 0 and len(accident_histories) > 0:
+                my_acc_count = len(accident_histories)
+            if my_acc_cost == 0 and len(accident_histories) > 0:
+                calc_paid = sum(item.get("insurance_paid", 0) for item in accident_histories)
+                my_acc_cost = calc_paid if calc_paid > 0 else sum(item.get("repair_cost", 0) for item in accident_histories)
+                my_acc_cost_man = round(my_acc_cost / 10000)
+
+            total_repair_cost = sum(item.get("repair_cost", 0) for item in accident_histories)
+
             # 최초등록일 포맷 (20110930 -> 2011-09-30)
             raw_reg_date = get_text("r105", "")
             formatted_reg_date = ""
@@ -591,6 +589,7 @@ class ChaolmaService:
                 "my_car_accident_count": my_acc_count,
                 "my_car_accident_cost": my_acc_cost,
                 "my_car_accident_cost_man": my_acc_cost_man,
+                "total_repair_cost": total_repair_cost,
                 "other_car_accident_count": other_acc_count,
                 "other_car_accident_cost": other_acc_cost,
                 "other_car_accident_cost_man": other_acc_cost_man,
