@@ -22,7 +22,7 @@ BACKUP_DIR = os.path.join(BASE_DIR, "backups")
 STATUS_FILE = os.path.join(DATA_DIR, "autoplus_sync_status.json")
 
 INVENTORY_CSV = os.path.join(BASE_DIR, "autoplus_inventory.csv")
-SOLD_CSV = os.path.join(BASE_DIR, "20260813_sales_car_datalist.csv")
+SOLD_CSV = os.path.join(BASE_DIR, "sales_car_datalist.csv")
 SETTLEMENT_CSV = os.path.join(BASE_DIR, "my_inventory_settlement.csv")
 
 # 1. 판매중 헤더 (33개)

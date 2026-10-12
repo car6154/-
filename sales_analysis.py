@@ -14,9 +14,9 @@ import pandas as pd
 import numpy as np
 
 SALES_DATA_FILES = [
+    "sales_car_datalist.csv",
     "autoplus_inventory.csv",
-    "20260917_sales_car_datalist.csv",
-    "20260813_sales_car_datalist.csv"
+    "20260917_sales_car_datalist.csv"
 ]
 
 class SalesDataAnalyzer:
