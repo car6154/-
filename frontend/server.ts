@@ -273,6 +273,8 @@ async function startServer() {
 
     const detailModel = (req.body?.detailModel || req.query.detailModel) as string || '';
 
+    const carNumber = (req.body?.carNumber || req.query.carNumber) as string || '';
+
     // [3단계 연동] 로컬 파이썬 실시간 엔카 크롤러 & SoldOutTracker 스냅샷 자동 누적 연동 (엔드포인트 미구현 시 즉시 Express로 전환)
     try {
       const pyRes = await fetch('http://127.0.0.1:8000/api/encar/search', {
@@ -284,9 +286,10 @@ async function startServer() {
           detailModel,
           manufacturer,
           year: yearVal,
-          mileage: mileageVal
+          mileage: mileageVal,
+          carNumber
         }),
-        signal: AbortSignal.timeout(1000)
+        signal: AbortSignal.timeout(8000)
       });
       if (pyRes.ok) {
         const pyData = await pyRes.json();

@@ -13,7 +13,7 @@
       "드라이브와이즈팩2",
       "기본형-컨비니언스"
     ],
-    "updated_at": "2026-10-06 00:40:46",
+    "updated_at": "2026-10-12 17:04:37",
     "chaolma_data": {
       "success": true,
       "car_no": "37다1840",
@@ -57,7 +57,125 @@
       "total_depreciated_opt_price": 708000,
       "depreciation_rate": 0.2,
       "remain_rate": 0.0,
-      "option_memo": ""
+      "option_memo": "",
+      "car_history": {
+        "success": true,
+        "car_no": "37다1840",
+        "owner_changed_count": 1,
+        "is_single_owner": false,
+        "plate_change_count": 0,
+        "has_rent_history": false,
+        "is_business": false,
+        "is_government": false,
+        "my_car_accident_count": 2,
+        "my_car_accident_cost": 3054979,
+        "my_car_accident_cost_man": 305,
+        "total_repair_cost": 5735272,
+        "other_car_accident_count": 1,
+        "other_car_accident_cost": 1399714,
+        "other_car_accident_cost_man": 140,
+        "total_loss_count": 0,
+        "flooded_count": 0,
+        "stolen_count": 0,
+        "uninsured_period": "",
+        "mileage_records": [
+          {
+            "date": "20260112",
+            "source": "자동차보험회사",
+            "mileage": 125595
+          },
+          {
+            "date": "20250114",
+            "source": "자동차보험회사",
+            "mileage": 106810
+          },
+          {
+            "date": "20240130",
+            "source": "자동차보험회사",
+            "mileage": 94028
+          }
+        ],
+        "accident_histories": [
+          {
+            "date": "20241226",
+            "repair_cost": 2412400,
+            "parts_cost": 286161,
+            "labor_cost": 525800,
+            "paint_cost": 876029,
+            "insurance_paid": 1687990
+          },
+          {
+            "date": "20241218",
+            "repair_cost": 1203680,
+            "parts_cost": 500840,
+            "labor_cost": 453110,
+            "paint_cost": 413039,
+            "insurance_paid": 1366989
+          },
+          {
+            "date": "20201230",
+            "repair_cost": 2119192,
+            "parts_cost": 36720,
+            "labor_cost": 652160,
+            "paint_cost": 710834,
+            "insurance_paid": 1399714
+          }
+        ],
+        "market_price_range": "713~953",
+        "first_reg_date": "2017-07-20"
+      },
+      "origin_doc": {
+        "success": true,
+        "car_no": "37다1840",
+        "seizure_count": 0,
+        "mortgage_count": 0,
+        "tuning_count": 0,
+        "inspection_valid_end": "2027-07-19",
+        "inspection_valid_start": "2025-07-20",
+        "last_regist_date": "2026-10-02",
+        "first_regist_date": "2017-07-20",
+        "inspection_mileage": 134467,
+        "is_resurrected": false,
+        "is_cbu": false,
+        "engine_type": "D4HB",
+        "car_form": "YP9ABE-S-9",
+        "seating_capacity": 9,
+        "plate_issue_ext": "N",
+        "raw_doc": {
+          "SEIZR_CO": 0,
+          "MTRS_FOM_NM": "D4HB",
+          "CTPRVN_CODE": 41,
+          "CNM": "카니발",
+          "PRVNTC_NTICE_DE": "",
+          "LAST_REGIST_DE": 20261002,
+          "CNTC_RESULT_DTLS": "정상",
+          "PROCESS_IMPRTY_RESN_DTLS": "운행차량",
+          "FOM_NM": "YP9ABE-S-9",
+          "STMD_CO": 0,
+          "TRVL_DSTNC": 134467,
+          "TKCAR_PSCAP_CO": 9,
+          "COLOR_NM": "회색",
+          "SPMNNO": "A0110005601261317",
+          "YBL_MD": 201707,
+          "PROCESS_IMPRTY_RESN_CODE": "00",
+          "FRST_REGIST_DE": "2017-07-20",
+          "MRTG_CO": 0,
+          "NMPL_CSDY_AT": "",
+          "RESRECT_AT": 0,
+          "CBU_AT": 0,
+          "PRYE": 2018,
+          "INSPT_VALID_PD_BGNDE": "2025-07-20",
+          "addDate": "2026-10-07 09:18:02.103",
+          "INSPT_VALID_PD_ENDDE": "2027-07-19",
+          "VHCTY_ASORT_NM": "승용 기타 대형",
+          "CNTC_RESULT_CODE": "MSG50000",
+          "VIN": "KNAMC81ABJS381083",
+          "EXTRL_NMPL_ISSU_YN": "N",
+          "VHRNO": "37다1840",
+          "w_no": 160556067,
+          "NMPL_CSDY_REMNR_DE": ""
+        }
+      }
     },
     "spec_desc": "신차정가(옵션 포함) : 3,734만원\n\n1) 기본형-컨비니언스 \n2) 드라이브와이즈팩2 \n3) 내비게이션 \n* 신차 추가옵션"
   },
@@ -1238,7 +1356,7 @@
       "스타일"
     ],
     "spec_desc": "신차정가(옵션 포함) : 1,785만원\n\n1) 오렌지포인트-컨비니언스 \n2) 내비게이션 \n3) 스타일 \n* 신차 추가옵션",
-    "updated_at": "2026-10-09 17:21:21"
+    "updated_at": "2026-10-10 13:27:25"
   },
   "24버2800": {
     "chaolma_data": {
@@ -1411,5 +1529,380 @@
       }
     },
     "updated_at": "2026-10-09 19:45:46"
+  },
+  "67어7609": {
+    "options": [
+      "멀티미디 어패키지"
+    ],
+    "chaolma_data": {
+      "success": true,
+      "car_no": "67어7609",
+      "vin": "KMHLB41UGGU083966",
+      "maker": "현대",
+      "model_name": "i40",
+      "model_detail_name": "더 뉴 i40",
+      "grade_name": "살룬 1.7 VGT",
+      "grade_detail_name": "PYL",
+      "trim_name": "PYL",
+      "model_year": "2016",
+      "reg_year": "2016",
+      "release_date": "2016-03-11",
+      "year_display": "16년식",
+      "color": "흰색",
+      "fuel": "디젤",
+      "transmission": "오토",
+      "new_car_price": 29490000,
+      "base_car_price": 28560000,
+      "options": [
+        {
+          "name": "멀티미디 어패키지",
+          "price": 930000,
+          "depreciated_price": 186000,
+          "rate": 0.2
+        }
+      ],
+      "total_option_price": 930000,
+      "total_depreciated_opt_price": 186000,
+      "depreciation_rate": 0.2,
+      "remain_rate": 0.0,
+      "option_memo": "스타일 패키지 - 바이펑션 HID 헤드램프+스태틱 밴딩, LED 포그램프, 225/45R18 타이어 & 데카 스포크 알루미늄 휠, 헤어라인 인써트필름 가니쉬, 메탈 도어 스커프,반광 크롬 몰딩 * Dspec은 18인치 휠, 카본그레이가니쉬 기본 장착\r\n컴포트 패키지 - 운전석/동승석 통풍시트 + 동승석 전동시트, 후석 열선시트, 솔라글라스(앞면)\r\n컨비니언스 패키지 - 운전석 메모리 시트, 슈퍼비전 클러스터\r\n멀티미디어 패키지 - 7인치 스마트 내비게이션, 조향연동 후방카메라, 샤크타입 안테나\r\n인포테인먼트 패키지 - 7인치 스마트 내비게이션, 조향연동 후방카메라, 샤크타입 안테나, 블루링크 시스템, JBL 프리미엄 사운드\r\n러기지 패키지 - 러기지레일, 스마트 테일게이트\r\n브라운 패키지 - 시트 / 콘솔 암레스트 / 도어트림 컬러, 브론즈 웨이브 가니쉬\r\n\r\n■인테리어\r\n※ 가죽시트는 부분적으로 인조 가죽이 적용되어 있음\r\n※ Dspec은 그레이 투톤 인테리어만 적용됨.\r\n■ 썸머타이어\r\n※ 썸머타이어의 경우 미끄러운 노면에서는 그립력이 저하되므로, 안전운행을 위해 겨울철에는\r\n스노우 체인을 사용하거나 동절기용 타어어로 교체주행을 권장.\r\n※ 하이패스 시스템에는 장애인 통행료 자동할인 기능이 없음.\r\n■오디오 및 사운드 시스템\r\n※ JBL 프리미엄 사운드 시스템 (8 스피커) : 센터 스피커(4인치), 미드레인지 스피커(3인치),\r\n프론트 도어 스피커(6.5인치), 리어 도어 스피커(6.5인치), 서브우퍼(8인치), 외장앰프\r\n■멀티미디어 시스템\r\n※ 스마트 내비게이션 : 고해상도 7인치 터치스크린, 지상파 DMB, 라디오,\r\nMP3 & CD 재생 기능, TPEG 서비스(DMB 교통정보),\r\n음성인식 기능(오디오/내비게이션 연동), 블루투스 핸즈프리(오디오 스트리밍 기능 포함),\r\n위험지역 알림기능, 외장형 통합 안테나, 휴대용 메모리 동영상 재생기능, 3D시가 지도,\r\n외장 16GB SD 카드 적용, iPod 번들 케이블 사용 가능, 다국어 지원 기능(한국어/영어)",
+      "car_history": {
+        "success": true,
+        "car_no": "67어7609",
+        "owner_changed_count": 2,
+        "is_single_owner": false,
+        "plate_change_count": 0,
+        "has_rent_history": false,
+        "is_business": false,
+        "is_government": false,
+        "my_car_accident_count": 0,
+        "my_car_accident_cost": 0,
+        "my_car_accident_cost_man": 0,
+        "total_repair_cost": 0,
+        "other_car_accident_count": 0,
+        "other_car_accident_cost": 0,
+        "other_car_accident_cost_man": 0,
+        "total_loss_count": 0,
+        "flooded_count": 0,
+        "stolen_count": 0,
+        "uninsured_period": "2024년03월~2026년07월",
+        "mileage_records": [
+          {
+            "date": "20251216",
+            "source": "중고차쇼핑몰",
+            "mileage": 130187
+          },
+          {
+            "date": "20241207",
+            "source": "자동차보험회사",
+            "mileage": 108605
+          },
+          {
+            "date": "20240320",
+            "source": "자동차보험회사",
+            "mileage": 98772
+          },
+          {
+            "date": "20230306",
+            "source": "자동차보험회사",
+            "mileage": 85653
+          },
+          {
+            "date": "20220308",
+            "source": "자동차보험회사",
+            "mileage": 74367
+          }
+        ],
+        "accident_histories": [],
+        "market_price_range": "537~611",
+        "first_reg_date": "2016-03-11"
+      },
+      "origin_doc": {
+        "success": true,
+        "car_no": "67어7609",
+        "seizure_count": 0,
+        "mortgage_count": 0,
+        "tuning_count": 0,
+        "inspection_valid_end": "2028-03-10",
+        "inspection_valid_start": "2026-03-11",
+        "last_regist_date": "2026-08-03",
+        "first_regist_date": "2016-03-11",
+        "inspection_mileage": 130216,
+        "is_resurrected": false,
+        "is_cbu": false,
+        "engine_type": "D4FD",
+        "car_form": "VF4UBG-G",
+        "seating_capacity": 5,
+        "plate_issue_ext": "N",
+        "raw_doc": {
+          "SEIZR_CO": 0,
+          "MTRS_FOM_NM": "D4FD",
+          "CTPRVN_CODE": 11,
+          "CNM": "i40 Saloon",
+          "PRVNTC_NTICE_DE": "",
+          "LAST_REGIST_DE": 20260803,
+          "CNTC_RESULT_DTLS": "정상",
+          "PROCESS_IMPRTY_RESN_DTLS": "운행차량",
+          "FOM_NM": "VF4UBG-G",
+          "STMD_CO": 0,
+          "TRVL_DSTNC": 130216,
+          "TKCAR_PSCAP_CO": 5,
+          "COLOR_NM": "흰색",
+          "SPMNNO": "A0810009000811214",
+          "YBL_MD": 201510,
+          "PROCESS_IMPRTY_RESN_CODE": "00",
+          "FRST_REGIST_DE": "2016-03-11",
+          "MRTG_CO": 0,
+          "NMPL_CSDY_AT": "",
+          "RESRECT_AT": 0,
+          "CBU_AT": 0,
+          "PRYE": 2016,
+          "INSPT_VALID_PD_BGNDE": "2026-03-11",
+          "addDate": "2026-10-12 16:56:05.933",
+          "INSPT_VALID_PD_ENDDE": "2028-03-10",
+          "VHCTY_ASORT_NM": "승용 일반 중형",
+          "CNTC_RESULT_CODE": "MSG50000",
+          "VIN": "KMHLB41UGGU083966",
+          "EXTRL_NMPL_ISSU_YN": "N",
+          "VHRNO": "67어7609",
+          "w_no": 160963114,
+          "NMPL_CSDY_REMNR_DE": ""
+        }
+      }
+    },
+    "updated_at": "2026-10-12 16:56:58"
+  },
+  "37다1870": {
+    "options": [
+      "기본형-컨비니언스",
+      "드라이브와이즈",
+      "무릎에어백",
+      "내비게이션",
+      "버튼시동키",
+      "16인치휠",
+      "스타일"
+    ],
+    "chaolma_data": {
+      "success": true,
+      "car_no": "37다1870",
+      "vin": "KNAB3513BHT086616",
+      "maker": "기아",
+      "model_name": "모닝",
+      "model_detail_name": "올 뉴모닝(JA)",
+      "grade_name": "LPi",
+      "grade_detail_name": "럭셔리",
+      "trim_name": "럭셔리",
+      "model_year": "2017",
+      "reg_year": "2017",
+      "release_date": "2017-07-17",
+      "year_display": "17년식",
+      "color": "미색",
+      "fuel": "LPG",
+      "transmission": "수동",
+      "new_car_price": 16700000,
+      "base_car_price": 12500000,
+      "options": [
+        {
+          "name": "기본형-컨비니언스",
+          "price": 450000,
+          "depreciated_price": 90000,
+          "rate": 0.2
+        },
+        {
+          "name": "드라이브와이즈",
+          "price": 300000,
+          "depreciated_price": 60000,
+          "rate": 0.2
+        },
+        {
+          "name": "무릎에어백",
+          "price": 150000,
+          "depreciated_price": 30000,
+          "rate": 0.2
+        },
+        {
+          "name": "내비게이션",
+          "price": 750000,
+          "depreciated_price": 150000,
+          "rate": 0.2
+        },
+        {
+          "name": "버튼시동키",
+          "price": 350000,
+          "depreciated_price": 70000,
+          "rate": 0.2
+        },
+        {
+          "name": "16인치휠",
+          "price": 1700000,
+          "depreciated_price": 340000,
+          "rate": 0.2
+        },
+        {
+          "name": "스타일",
+          "price": 500000,
+          "depreciated_price": 100000,
+          "rate": 0.2
+        }
+      ],
+      "total_option_price": 4200000,
+      "total_depreciated_opt_price": 840000,
+      "depreciation_rate": 0.2,
+      "remain_rate": 0.0,
+      "option_memo": "스타일 - 프로젝션 헤드램프(LED DRL, LED 포지셔닝 램프, LED 방향지시등 포함), 프로젝션 안개등, LED 리피터 아웃사이드 미러,LED 리어콤비네이션 램프\r\n컨비니언스 - 히티드 스티어링 휠, 자동요금징수 시스템(ETCS), 풀오토 에어컨, 운전석 선바이저 뷰티 무드조명 & 대형 화장거울\r\n드라이브와이즈 - 긴급제동 보조시스템(AEB) [전방추돌 경보시스템(FCWS) 포함], 슈퍼비전 클러스터\r\n아트컬렉션 - 아트컬렉션 전용 범퍼(에어커튼 인테이크 칼라 가니쉬, 리어 디퓨저 칼라 가니쉬 포함), 칼라 라디에이터 그릴, 머플러 트윈팁,알로이 페달, 사이드실 칼라 가니쉬, 크롬 센터페시아 가니쉬",
+      "car_history": {
+        "success": true,
+        "car_no": "37다1870",
+        "owner_changed_count": 1,
+        "is_single_owner": false,
+        "plate_change_count": 0,
+        "has_rent_history": false,
+        "is_business": false,
+        "is_government": false,
+        "my_car_accident_count": 5,
+        "my_car_accident_cost": 2239770,
+        "my_car_accident_cost_man": 224,
+        "total_repair_cost": 2462614,
+        "other_car_accident_count": 1,
+        "other_car_accident_cost": 572334,
+        "other_car_accident_cost_man": 57,
+        "total_loss_count": 0,
+        "flooded_count": 0,
+        "stolen_count": 0,
+        "uninsured_period": "",
+        "mileage_records": [
+          {
+            "date": "20260220",
+            "source": "자동차보험회사",
+            "mileage": 122121
+          },
+          {
+            "date": "20250220",
+            "source": "자동차보험회사",
+            "mileage": 111174
+          },
+          {
+            "date": "20240226",
+            "source": "자동차보험회사",
+            "mileage": 100606
+          },
+          {
+            "date": "20230217",
+            "source": "자동차보험회사",
+            "mileage": 93722
+          },
+          {
+            "date": "20220304",
+            "source": "자동차보험회사",
+            "mileage": 86138
+          }
+        ],
+        "accident_histories": [
+          {
+            "date": "20250613",
+            "repair_cost": 370000,
+            "parts_cost": 0,
+            "labor_cost": 0,
+            "paint_cost": 0,
+            "insurance_paid": 0
+          },
+          {
+            "date": "20250613",
+            "repair_cost": 435214,
+            "parts_cost": 215175,
+            "labor_cost": 138080,
+            "paint_cost": 219079,
+            "insurance_paid": 572334
+          },
+          {
+            "date": "20210301",
+            "repair_cost": 630000,
+            "parts_cost": 509000,
+            "labor_cost": 254100,
+            "paint_cost": 0,
+            "insurance_paid": 763100
+          },
+          {
+            "date": "20190124",
+            "repair_cost": 513030,
+            "parts_cost": 249550,
+            "labor_cost": 48400,
+            "paint_cost": 158840,
+            "insurance_paid": 456790
+          },
+          {
+            "date": "20180804",
+            "repair_cost": 464370,
+            "parts_cost": 191260,
+            "labor_cost": 196690,
+            "paint_cost": 216930,
+            "insurance_paid": 604880
+          },
+          {
+            "date": "20180427",
+            "repair_cost": 50000,
+            "parts_cost": 0,
+            "labor_cost": 45000,
+            "paint_cost": 0,
+            "insurance_paid": 45000
+          }
+        ],
+        "market_price_range": "252~321",
+        "first_reg_date": "2017-07-17"
+      },
+      "origin_doc": {
+        "success": true,
+        "car_no": "37다1870",
+        "seizure_count": 0,
+        "mortgage_count": 0,
+        "tuning_count": 0,
+        "inspection_valid_end": "2027-07-16",
+        "inspection_valid_start": "2025-07-17",
+        "last_regist_date": "2022-03-04",
+        "first_regist_date": "2017-07-17",
+        "inspection_mileage": 115324,
+        "is_resurrected": false,
+        "is_cbu": false,
+        "engine_type": "L3LA",
+        "car_form": "JA53BA-S6",
+        "seating_capacity": 5,
+        "plate_issue_ext": "N",
+        "raw_doc": {
+          "SEIZR_CO": 0,
+          "MTRS_FOM_NM": "L3LA",
+          "CTPRVN_CODE": 11,
+          "CNM": "모닝",
+          "PRVNTC_NTICE_DE": "",
+          "LAST_REGIST_DE": 20220304,
+          "CNTC_RESULT_DTLS": "정상",
+          "PROCESS_IMPRTY_RESN_DTLS": "운행차량",
+          "FOM_NM": "JA53BA-S6",
+          "STMD_CO": 0,
+          "TRVL_DSTNC": 115324,
+          "TKCAR_PSCAP_CO": 5,
+          "COLOR_NM": "미색",
+          "SPMNNO": "A0110006200271417",
+          "YBL_MD": 201705,
+          "PROCESS_IMPRTY_RESN_CODE": "00",
+          "FRST_REGIST_DE": "2017-07-17",
+          "MRTG_CO": 0,
+          "NMPL_CSDY_AT": "",
+          "RESRECT_AT": 0,
+          "CBU_AT": 0,
+          "PRYE": 2017,
+          "INSPT_VALID_PD_BGNDE": "2025-07-17",
+          "addDate": "2026-10-12 17:03:01.277",
+          "INSPT_VALID_PD_ENDDE": "2027-07-16",
+          "VHCTY_ASORT_NM": "승용 일반 경형",
+          "CNTC_RESULT_CODE": "MSG50000",
+          "VIN": "KNAB3513BHT086616",
+          "EXTRL_NMPL_ISSU_YN": "N",
+          "VHRNO": "37다1870",
+          "w_no": 160964847,
+          "NMPL_CSDY_REMNR_DE": ""
+        }
+      }
+    },
+    "updated_at": "2026-10-12 17:03:02"
   }
 }

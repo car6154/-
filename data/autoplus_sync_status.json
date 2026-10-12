@@ -1,10 +1,8 @@
 {
-  "status": "SUCCESS",
-  "last_sync_time": "2026-10-12T13:25:13.615977",
-  "inventory_count": 1287,
-  "total_inventory": 9376,
-  "sold_count": 3610,
-  "total_sold": 3606,
-  "settlement_updated_count": 1,
-  "message": "동기화 완료: 판매중 1,287대 / 판매완료 3,610대"
+  "status": "FAILED",
+  "last_sync_time": "2026-10-12T16:15:52.547450",
+  "inventory_count": 0,
+  "sold_count": 0,
+  "settlement_updated_count": 0,
+  "message": "동기화 오류: Expecting value: line 1 column 1 (char 0)"
 }
