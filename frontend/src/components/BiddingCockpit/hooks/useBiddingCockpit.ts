@@ -1040,12 +1040,13 @@ export function useBiddingCockpit({
         seenIds.add(rawId);
       }
 
-      // 2. 실물 매물 (연식 2자리 + 주행거리 + 가격) 중복 제거 (딜러 중복등록 차단)
+      // 2. 실물 매물 (스트림릿 기준: 차량명 + 연식 + 주행거리 + 가격) 중복 제거 (딜러 중복등록 차단)
+      const carName = String(item.carName || item.modelName || '').trim();
       const yrMatch = String(item.year || '').match(/\d{2}/)?.[0] || '';
       const milVal = Number(item.mileage || 0);
       const priceVal = Number(item.price || 0);
       if (milVal > 0 && priceVal > 0) {
-        const specKey = `${yrMatch}_${milVal}_${priceVal}`;
+        const specKey = `${carName}_${yrMatch}_${milVal}_${priceVal}`;
         if (seenSpecs.has(specKey)) continue;
         seenSpecs.add(specKey);
       }

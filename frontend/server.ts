@@ -605,11 +605,13 @@ async function startServer() {
         }
       }
 
-      // 중복 제거 (ID 기준)
+      // 1. 유효 매물 1차 정제 및 ID 기준 중복 제거 (렌트/리스 제외)
       const seenIds = new Set<string>();
       let rawCars = allRawCars.filter((c: any) => {
         const id = String(c.Id || '');
         if (!id || seenIds.has(id)) return false;
+        const sellType = String(c.SellType || '');
+        if (sellType.includes('렌트') || sellType.includes('리스') || c.LeaseType) return false;
         seenIds.add(id);
         return true;
       });
@@ -689,19 +691,81 @@ async function startServer() {
         totalModelCount = rawCars.length;
       }
 
+      // [원칙 2: 스트림릿 8501 정답 기준과 100% 동일한 중복 제거 및 가격 이상치 정제 파이프라인]
+      // 2-1. 실물 매물 중복 제거 (스트림릿 Scraper.dedupe_after_scan 기준: 차량명 + 연식 + 주행거리 + 판매가)
+      const seenSpecs = new Set<string>();
+      const dedupedCars: any[] = [];
+      const carsWithPrice = validCars.filter((c: any) => c.Price && Number(c.Price) > 0);
+
+      // 정보 풍부도 높은 매물 우선 보존 (스트림릿 data_score 반영)
+      const sortedByDataRichness = [...carsWithPrice].sort((a: any, b: any) => {
+        const scoreA = (a.Photos?.length || 0) + (a.BadgeDetail ? 1 : 0);
+        const scoreB = (b.Photos?.length || 0) + (b.BadgeDetail ? 1 : 0);
+        return scoreB - scoreA;
+      });
+
+      for (const c of sortedByDataRichness) {
+        const modelStr = String(c.Model || '').trim();
+        const rawYear = String(c.Year || '');
+        const rawFormYear = String(c.FormYear || c.Year || '');
+        const yearStr = rawYear.length >= 4 
+          ? `${rawYear.slice(2, 4)}(${rawFormYear.length === 4 ? rawFormYear.slice(2) : rawFormYear})` 
+          : `${rawYear}(${rawFormYear})`;
+        const mileageNum = Number(c.Mileage) || 0;
+        const priceNum = Number(c.Price) || 0;
+
+        const specKey = `${modelStr}_${yearStr}_${mileageNum}_${priceNum}`;
+        if (seenSpecs.has(specKey)) continue;
+        seenSpecs.add(specKey);
+        dedupedCars.push(c);
+      }
+
+      const duplicateRemovedCount = carsWithPrice.length - dedupedCars.length;
+
+      // 2-2. 가격 이상치(Outlier) 제거 (스트림릿 DataProcessor.standardize 기준: 상하위 1% quantile 절사)
+      // 극단적 저가(허위/미끼/전손) 및 극단적 고가(딜러 호가 거품) 배제
+      let targetPool = dedupedCars;
+      let outlierRemovedCount = 0;
+
+      const quantile = (arr: number[], q: number): number => {
+        const sorted = [...arr].sort((a, b) => a - b);
+        const pos = (sorted.length - 1) * q;
+        const base = Math.floor(pos);
+        const rest = pos - base;
+        if (sorted[base + 1] !== undefined) {
+          return sorted[base] + rest * (sorted[base + 1] - sorted[base]);
+        }
+        return sorted[base];
+      };
+
+      const pricesArr = dedupedCars.map((c: any) => Number(c.Price) || 0).filter(p => p > 0);
+      if (pricesArr.length > 10) {
+        const lowBound = quantile(pricesArr, 0.01);
+        const highBound = quantile(pricesArr, 0.99);
+        const beforeOutlierCount = targetPool.length;
+        targetPool = dedupedCars.filter((c: any) => {
+          const p = Number(c.Price) || 0;
+          return p >= lowBound && p <= highBound;
+        });
+        outlierRemovedCount = beforeOutlierCount - targetPool.length;
+      }
+
       // [원칙 3: 제외된 매물 수와 사유 통계 객체 생성]
       const filterStats = {
         targetBadge: strictTargetBadge || '전체',
         totalModelCount: totalModelCount || rawCars.length,
         excludedByBadge: excludedByBadge,
-        validCount: validCars.length,
+        excludedByDuplicate: duplicateRemovedCount,
+        excludedByOutlier: outlierRemovedCount,
+        validCount: targetPool.length,
         filterMethod: usedBadgeApi ? 'API' : 'LOCAL',
-        reason: excludedByBadge > 0
-          ? `등급 불일치(11인승·하이리무진·타 트림 등)로 ${excludedByBadge}대 제외`
-          : '전체 매물이 기준 등급과 일치함'
+        reason: [
+          excludedByBadge > 0 ? `등급 불일치 ${excludedByBadge}대 제외` : '',
+          duplicateRemovedCount > 0 ? `중복 실물 매물 ${duplicateRemovedCount}대 제외` : '',
+          outlierRemovedCount > 0 ? `상하위 1% 가격 이상치 ${outlierRemovedCount}대 제외` : ''
+        ].filter(Boolean).join(', ') || '전체 매물이 기준과 일치함'
       };
 
-      const targetPool = validCars.filter((c: any) => c.Price && c.Price > 0);
       const filteredComparableCount = targetPool.length;
       const topCars = targetPool.slice(0, 30);
 
@@ -962,6 +1026,8 @@ async function startServer() {
           totalModelCount: totalModelCount,
           filteredCount: filteredComparableCount,
           excludedByBadge: filterStats.excludedByBadge,
+          excludedByDuplicate: filterStats.excludedByDuplicate,
+          excludedByOutlier: filterStats.excludedByOutlier,
           targetBadge: filterStats.targetBadge,
           min: minPrice,
           max: maxPrice,
