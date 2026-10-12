@@ -3,55 +3,22 @@ import { createServer as createViteServer } from 'vite';
 import path from 'path';
 import fs from 'fs';
 import http from 'http';
+import {
+  cookieRouter,
+  logEvent,
+  getSavedHeydealerCookie,
+  getSavedAutoplusCookie,
+  setSavedHeydealerCookie,
+  setSavedAutoplusCookie,
+  saveCookiesToDisk,
+  COOKIE_FILE,
+  HD_COOKIE_FILE,
+  AP_COOKIE_FILE,
+  LOG_FILE
+} from './server/routes/cookieRoutes';
+import { aiRouter } from './server/routes/aiRoutes';
 
-const COOKIE_FILE = path.resolve(process.cwd(), '.session_cookie.json');
-const HD_COOKIE_FILE = path.resolve(process.cwd(), 'heydealer_cookie.txt');
-const AP_COOKIE_FILE = path.resolve(process.cwd(), 'autoplus_cookie.txt');
-const LOG_FILE = path.resolve(process.cwd(), 'server.log');
-
-let savedHeydealerCookie = '';
-let savedAutoplusCookie = '';
-
-export function logEvent(type: string, message: string, details?: any) {
-  const line = `[${new Date().toISOString()}] [${type}] ${message} ${details ? JSON.stringify(details) : ''}\n`;
-  console.log(line.trim());
-  try {
-    fs.appendFileSync(LOG_FILE, line);
-  } catch (e) {}
-}
-
-// 1. 초기화 시 저장된 쿠키 복원 (JSON 파일 및 텍스트 파일)
-try {
-  if (fs.existsSync(COOKIE_FILE)) {
-    const data = JSON.parse(fs.readFileSync(COOKIE_FILE, 'utf8'));
-    savedHeydealerCookie = data.heydealer_cookie || data.cookie || '';
-    savedAutoplusCookie = data.autoplus_cookie || '';
-  }
-  if (!savedHeydealerCookie && fs.existsSync(HD_COOKIE_FILE)) {
-    savedHeydealerCookie = fs.readFileSync(HD_COOKIE_FILE, 'utf8').trim();
-  }
-  if (!savedAutoplusCookie && fs.existsSync(AP_COOKIE_FILE)) {
-    savedAutoplusCookie = fs.readFileSync(AP_COOKIE_FILE, 'utf8').trim();
-  }
-  logEvent('INIT', `저장된 세션 쿠키 복원 완료 - HD(${savedHeydealerCookie.length}B), AP(${savedAutoplusCookie.length}B)`);
-} catch (e) {
-  logEvent('WARN', '쿠키 복원 실패', e);
-}
-
-function saveCookiesToDisk() {
-  try {
-    fs.writeFileSync(COOKIE_FILE, JSON.stringify({
-      heydealer_cookie: savedHeydealerCookie,
-      autoplus_cookie: savedAutoplusCookie,
-      cookie: savedHeydealerCookie,
-      updatedAt: new Date().toISOString()
-    }, null, 2));
-    if (savedHeydealerCookie) fs.writeFileSync(HD_COOKIE_FILE, savedHeydealerCookie);
-    if (savedAutoplusCookie) fs.writeFileSync(AP_COOKIE_FILE, savedAutoplusCookie);
-  } catch (e) {
-    console.error('쿠키 파일 저장 오류:', e);
-  }
-}
+export { logEvent };
 
 async function startServer() {
   const app = express();
@@ -71,78 +38,10 @@ async function startServer() {
     next();
   });
 
-  // 시스템 실시간 로그 조회 API
-  app.get('/api/logs', (req, res) => {
-    try {
-      if (!fs.existsSync(LOG_FILE)) {
-        return res.json({ logs: ['로그 파일이 아직 비어있습니다.'] });
-      }
-      const content = fs.readFileSync(LOG_FILE, 'utf8');
-      const lines = content.trim().split('\n').slice(-150);
-      return res.json({ logs: lines });
-    } catch (err: any) {
-      return res.status(500).json({ error: err.message });
-    }
-  });
-
-  // 1. 크롬 확장프로그램 (기존/신규 모두 호환) 및 웹 UI 쿠키 저장 엔드포인트
-  app.post(['/api/session/cookie', '/api/save_cookie'], (req, res) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, x-secret-token');
-
-    const { cookie, target, secretToken } = req.body;
-    if (secretToken && secretToken !== 'jpro_sec_9981_live_auth') {
-      return res.status(403).json({ error: '인증 토큰이 일치하지 않습니다.' });
-    }
-
-    if (!cookie || typeof cookie !== 'string') {
-      return res.status(400).json({ error: '유효한 쿠키 문자열을 전달해주세요.' });
-    }
-
-    const trimmed = cookie.trim();
-    const targetType = (target || '').toLowerCase();
-
-    if (targetType.includes('autoplus') || targetType.includes('chaolma') || trimmed.includes('JSESSIONID') || trimmed.includes('remember-me')) {
-      savedAutoplusCookie = trimmed;
-      logEvent('COOKIE_SYNC', `[J-PRO] 차얼마(오토플러스) 쿠키 동기화 완료 (${trimmed.length}자)`);
-    } else {
-      // 헤이딜러: 기존에 sessionid가 유효한데 새로 들어온 쿠키에 sessionid가 없으면 덮어쓰기 방지
-      if (savedHeydealerCookie && savedHeydealerCookie.includes('sessionid=') && !trimmed.includes('sessionid=')) {
-        logEvent('COOKIE_SYNC', `[J-PRO] 기존 유효 sessionid 보존 (새 쿠키에 sessionid 누락됨: ${trimmed.length}자)`);
-      } else {
-        savedHeydealerCookie = trimmed;
-        logEvent('COOKIE_SYNC', `[J-PRO] 헤이딜러 쿠키 동기화 완료 (${trimmed.length}자)`);
-      }
-    }
-
-    saveCookiesToDisk();
-
-    return res.json({
-      success: true,
-      message: '세션 쿠키가 클라우드 금고에 안전하게 저장되었습니다.',
-      heydealerLength: savedHeydealerCookie.length,
-      autoplusLength: savedAutoplusCookie.length,
-    });
-  });
-
-  // CORS Preflight
-  app.options(['/api/session/cookie', '/api/save_cookie'], (req, res) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, x-secret-token');
-    res.sendStatus(204);
-  });
-
-  // 2. 현재 쿠키 상태 확인 API
-  app.get('/api/session/cookie', (req, res) => {
-    return res.json({
-      hasCookie: Boolean(savedHeydealerCookie),
-      cookieLength: savedHeydealerCookie.length,
-      hasAutoplusCookie: Boolean(savedAutoplusCookie),
-      autoplusCookieLength: savedAutoplusCookie.length,
-      heydealerCookie: savedHeydealerCookie ? savedHeydealerCookie.slice(0, 30) + '...' : '',
-    });
-  });
+  // 쿠키 세션 및 시스템 로그 라우터 마운트
+  app.use(cookieRouter);
+  // Gemini AI 및 백엔드 프록시 라우터 마운트
+  app.use(aiRouter);
 
   // 3. 헤이딜러 실제 차량 API 프록시 (Python Engine 연동 & Node 백업 프록시)
   app.get('/api/heydealer/car/:hashId', async (req, res) => {
@@ -160,7 +59,7 @@ async function startServer() {
           if (val) return val;
         }
       } catch (e) {}
-      return savedHeydealerCookie || '';
+      return getSavedHeydealerCookie() || '';
     })();
 
     // [1단계 연동] Python FastAPI 백엔드 (8000) 우선 호출 (쿠키 로테이션/CSRF 헤더/20대 낙찰가 자동 결합 지원)
@@ -1337,66 +1236,6 @@ async function startServer() {
     }
   });
 
-  // 6. Gemini AI 스마트 비딩 전략 & 견적 산출 API
-  app.post('/api/ai/estimate', async (req, res) => {
-    const { prompt, carData } = req.body;
-    try {
-      const apiKey = process.env.GEMINI_API_KEY || process.env.API_KEY || '';
-      if (!apiKey) {
-        return res.json({
-          success: true,
-          model: 'rule_engine',
-          estimate: '자사 평균 회전일 및 동급 엔카 시세 기준 표준 입찰을 추천합니다.'
-        });
-      }
-
-      const { GoogleGenAI } = await import('@google/genai');
-      const ai = new GoogleGenAI({ apiKey });
-      
-      const models = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash'];
-      let resultText = '';
-      let usedModel = '';
-
-      for (const m of models) {
-        try {
-          const response = await ai.models.generateContent({
-            model: m,
-            contents: prompt || `차량: ${JSON.stringify(carData || {})}\n동급 시세와 자사 마진 기반 최적의 비딩 전략과 매입 추천가를 간결하게 브리핑해주세요.`
-          });
-          if (response && response.text) {
-            resultText = response.text;
-            usedModel = m;
-            break;
-          }
-        } catch (e: any) {
-          console.warn(`Model ${m} failed, trying next...`, e.message);
-        }
-      }
-
-      return res.json({
-        success: true,
-        model: usedModel || 'gemini-flash',
-        estimate: resultText
-      });
-    } catch (err: any) {
-      console.error('Gemini AI 견적 실패:', err);
-      return res.status(500).json({ success: false, error: err.message });
-    }
-  });
-
-  // 8. 차얼마 API 로컬 백엔드(FastAPI 8000) 프록시
-  app.get('/api/chaolma/:carNo', async (req, res) => {
-    const { carNo } = req.params;
-    const mileage = req.query.mileage || 50000;
-    try {
-      const resp = await fetch(`http://127.0.0.1:8000/api/chaolma/${encodeURIComponent(carNo)}?mileage=${mileage}`);
-      const data = await resp.json();
-      return res.status(resp.status).json(data);
-    } catch (e: any) {
-      return res.status(500).json({ success: false, message: 'FastAPI 백엔드(8000) 통신 실패: ' + e.message });
-    }
-  });
-
   // 9. 엔카 실시간 성능점검표 및 제원 로컬 백엔드(FastAPI 8000) 프록시
   app.get('/api/encar/inspection/:carId', async (req, res) => {
     const { carId } = req.params;
@@ -1454,20 +1293,22 @@ async function startServer() {
       if (cookie) {
         const trimmed = cookie.trim();
         if (target === 'autoplus' || trimmed.includes('JSESSIONID')) {
-          savedAutoplusCookie = trimmed;
+          setSavedAutoplusCookie(trimmed);
         } else {
-          savedHeydealerCookie = trimmed;
+          setSavedHeydealerCookie(trimmed);
         }
         saveCookiesToDisk();
       }
       return res.json({ ok: true });
     });
     companionApp.get(['/api/session/cookie', '/api/cookie', '/api/get_cookie'], (req, res) => {
+      const hd = getSavedHeydealerCookie();
+      const ap = getSavedAutoplusCookie();
       return res.json({
-        hasCookie: Boolean(savedHeydealerCookie),
-        heydealerCookie: savedHeydealerCookie,
-        hasAutoplusCookie: Boolean(savedAutoplusCookie),
-        autoplusCookie: savedAutoplusCookie,
+        hasCookie: Boolean(hd),
+        heydealerCookie: hd,
+        hasAutoplusCookie: Boolean(ap),
+        autoplusCookie: ap,
         updatedAt: new Date().toISOString()
       });
     });
