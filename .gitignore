@@ -61,3 +61,4 @@ frontend/.session_cookie.json
 frontend/firebase-applet-config.json
 frontend/jproject_web.tar.gz
 frontend/.env*
+cloudflared.exe
