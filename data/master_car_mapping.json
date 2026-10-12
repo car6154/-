@@ -41,8 +41,10 @@
         "신형 투싼",
         "신형투싼",
         "올 뉴 투싼",
+        "올 뉴투싼",
         "올뉴투싼",
         "올뉴투싼tl",
+        "올투싼",
         "투싼",
         "투싼tl",
         "투싼올뉴"
@@ -57,8 +59,8 @@
         "디젤 1.7 2WD 모던": {
           "badge_group": "디젤 2WD",
           "badge": "디젤 1.7 2WD",
-          "badge_detail": "모던",
-          "updated_at": "2026-09-30 12:57:08"
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
         },
         "2.0 디젤 AWD 모던": {
           "badge_group": "디젤 2000cc",
@@ -71,6 +73,72 @@
           "badge": "가솔린 1.6 터보 2WD",
           "badge_detail": "",
           "updated_at": "2026-10-12 19:04:58"
+        },
+        "디젤 R2.0 2WD 모던": {
+          "badge_group": "디젤 2000cc",
+          "badge": "디젤 2.0 2WD",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "디젤 R2.0 2WD 스타일": {
+          "badge_group": "가솔린 2WD",
+          "badge": "스타일",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "가솔린 1.6 터보 2WD 모던피버": {
+          "badge_group": "가솔린 2WD",
+          "badge": "모던",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "디젤 R2.0 2WD 프리미엄": {
+          "badge_group": "가솔린 2WD",
+          "badge": "프리미엄",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "가솔린 1.6 터보 2WD 프리미엄": {
+          "badge_group": "가솔린 1600cc",
+          "badge": "가솔린 1.6 터보 2WD",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "디젤 1.7 2WD 모던피버": {
+          "badge_group": "디젤 2WD",
+          "badge": "디젤 1.7 2WD",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "디젤 R2.0 4WD 프리미엄": {
+          "badge_group": "가솔린 2WD",
+          "badge": "프리미엄",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "디젤 1.7 2WD 스타일": {
+          "badge_group": "디젤 2WD",
+          "badge": "디젤 1.7 2WD",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "디젤 R2.0 2WD 스타일스페셜": {
+          "badge_group": "가솔린 2WD",
+          "badge": "스타일",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "디젤 R2.0 2WD 모던스페셜": {
+          "badge_group": "가솔린 2WD",
+          "badge": "모던",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "디젤 1.7 2WD 프리미엄": {
+          "badge_group": "디젤 2WD",
+          "badge": "디젤 1.7 2WD",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
         }
       }
     },
@@ -79,9 +147,44 @@
       "model_group": "투싼",
       "encar_model": "더 뉴 투싼",
       "aliases": [
-        "더뉴투싼"
+        "더 뉴 투싼",
+        "더 뉴투싼",
+        "더뉴투싼",
+        "더투싼",
+        "투싼"
       ],
-      "trims": {}
+      "trims": {
+        "1.6 터보 2WD 프리미엄": {
+          "badge_group": "가솔린 2WD",
+          "badge": "프리미엄",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.6 터보 2WD 인스퍼레이션": {
+          "badge_group": "가솔린 2WD",
+          "badge": "인스퍼레이션",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.6 터보 2WD 모던": {
+          "badge_group": "가솔린 2WD",
+          "badge": "모던",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "2.0 디젤 2WD 모던": {
+          "badge_group": "가솔린 2WD",
+          "badge": "모던",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "2.0 디젤 2WD 프리미엄": {
+          "badge_group": "가솔린 2WD",
+          "badge": "프리미엄",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
     },
     "그랜저 (GN7)": {
       "brand": "현대",
@@ -826,10 +929,47 @@
       "model_group": "K5",
       "encar_model": "더 뉴 K5 3세대",
       "aliases": [
-        "더뉴k53세대",
-        "더뉴dl3"
+        "k5(dl3)",
+        "더 뉴 K5 3세대",
+        "더 뉴K5 DL3",
+        "더 뉴K5(DL3)",
+        "더k5(dl3)",
+        "더뉴dl3",
+        "더뉴k5(dl3)",
+        "더뉴k53세대"
       ],
-      "trims": {}
+      "trims": {
+        "1.6 가솔린 터보 프레스티지 베스트 셀렉션": {
+          "badge_group": "가솔린 1600cc",
+          "badge": "1.6 터보",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "2.0 가솔린 노블레스": {
+          "badge_group": "가솔린 2000cc",
+          "badge": "2.0",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.6 가솔린 터보 노블레스": {
+          "badge_group": "가솔린 1600cc",
+          "badge": "1.6 터보",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "2.0 LPI 렌터카 프레스티지": {
+          "badge_group": "LPG 2000cc",
+          "badge": "2.0 LPI 렌터카 프레스티지",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "2.0 가솔린 프레스티지": {
+          "badge_group": "가솔린 2000cc",
+          "badge": "2.0 가솔린 프레스티지",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
     },
     "카니발 4세대": {
       "brand": "기아",
@@ -924,12 +1064,18 @@
         "ka4",
         "더 뉴 카니발 4세대",
         "더 뉴카니발 KA4",
+        "더 뉴카니발 하이브리드 KA4",
+        "더 뉴카니발 하이브리드(KA4)",
         "더 뉴카니발(KA4)",
         "더뉴ka4",
         "더뉴카니발(ka4)",
         "더뉴카니발4세대",
         "더뉴카니발ka4",
-        "카니발(ka4)"
+        "더뉴카니발하이브리드(ka4)",
+        "더뉴카니발하이브리드ka4",
+        "더카니발하이브리드(ka4)",
+        "카니발(ka4)",
+        "카니발하이브리드(ka4)"
       ],
       "trims": {
         "하이리무진 7인승 가솔린 시그니처": {
@@ -937,6 +1083,36 @@
           "badge": "가솔린 7인승 하이리무진",
           "badge_detail": "",
           "updated_at": "2026-10-12 19:04:58"
+        },
+        "1.6 HEV 9인승 프레스티지": {
+          "badge_group": "전기",
+          "badge": "HEV 9인승 프레스티지",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.6 HEV 7인승 노블레스": {
+          "badge_group": "전기",
+          "badge": "1.6 HEV 7인승 노블레스",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.6 HEV 7인승 시그니처": {
+          "badge_group": "전기",
+          "badge": "1.6 HEV 7인승 시그니처",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.6 HEV 하이리무진 7인승 시그니처": {
+          "badge_group": "전기",
+          "badge": "1.6 HEV 하이리무진 7인승 시그니처",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.6 HEV 9인승 노블레스": {
+          "badge_group": "전기",
+          "badge": "1.6 HEV 9인승 노블레스",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
         }
       }
     },
@@ -945,8 +1121,12 @@
       "model_group": "카니발",
       "encar_model": "올 뉴 카니발",
       "aliases": [
-        "카니발yp",
-        "올뉴카니발"
+        "올 뉴 카니발",
+        "올 뉴카니발",
+        "올뉴카니발",
+        "올카니발",
+        "카니발",
+        "카니발yp"
       ],
       "trims": {
         "디젤 9인승 프레스티지": {
@@ -954,6 +1134,42 @@
           "badge": "9인승 프레스티지",
           "badge_detail": "",
           "updated_at": "2026-10-01 22:32:55"
+        },
+        "9인승 가솔린 노블레스": {
+          "badge_group": "디젤 9 인승",
+          "badge": "노블레스",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "9인승 디젤 노블레스": {
+          "badge_group": "디젤 11 인승",
+          "badge": "11인승 노블레스",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "7인승 리무진 가솔린 프레지던트": {
+          "badge_group": "디젤 11 인승",
+          "badge": "11인승 노블레스",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "9인승 디젤 프레스티지": {
+          "badge_group": "디젤 9 인승",
+          "badge": "프레스티지",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "7인승 리무진 디젤 프레지던트": {
+          "badge_group": "디젤 11 인승",
+          "badge": "11인승 노블레스",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "9인승 디젤 럭셔리": {
+          "badge_group": "디젤 11 인승",
+          "badge": "11인승 노블레스",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
         }
       }
     },
@@ -1826,13 +2042,32 @@
       "model_group": "K5",
       "encar_model": "더 뉴 K5 2세대",
       "created_at": "2026-09-30 11:05:51",
-      "aliases": [],
+      "aliases": [
+        "뉴 신형K5",
+        "뉴k5",
+        "뉴신형k5",
+        "더 뉴 K5 2세대",
+        "더뉴k52세대",
+        "신형k5"
+      ],
       "trims": {
         "2.0 가솔린 인텔리전트": {
           "badge_group": "가솔린 2000cc",
+          "badge": "2.0 가솔린 인텔리전트",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "2.0 가솔린 프레스티지": {
+          "badge_group": "가솔린 2000cc",
           "badge": "2.0",
-          "badge_detail": "인텔리전트",
-          "updated_at": "2026-09-30 11:05:51"
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "2.0 가솔린 노블레스": {
+          "badge_group": "가솔린 2000cc",
+          "badge": "2.0 가솔린 노블레스",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
         }
       }
     },
@@ -1841,13 +2076,42 @@
       "model_group": "투싼",
       "encar_model": "뉴 투싼 ix",
       "created_at": "2026-09-30 12:00:54",
-      "aliases": [],
+      "aliases": [
+        "뉴 투싼 ix",
+        "뉴투싼 ix",
+        "뉴투싼ix",
+        "투싼ix"
+      ],
       "trims": {
         "디젤(e-VGT) 2WD 스마트 스페셜": {
           "badge_group": "디젤 2WD",
           "badge": "디젤(e-VGT_) 2WD",
           "badge_detail": "스마트 스페셜",
           "updated_at": "2026-09-30 12:00:54"
+        },
+        "디젤 R2.0 2WD 모던": {
+          "badge_group": "디젤 2000cc",
+          "badge": "디젤(e-VGT) 2WD",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "디젤 R2.0 2WD 스마트 스페셜": {
+          "badge_group": "디젤 2000cc",
+          "badge": "디젤(e-VGT) 2WD",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "디젤 R2.0 2WD 프리미엄": {
+          "badge_group": "가솔린 2WD",
+          "badge": "프리미엄",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "디젤 R2.0 2WD 스마트": {
+          "badge_group": "디젤 2000cc",
+          "badge": "디젤 R2.0 2WD 스마트",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
         }
       }
     },
@@ -2292,11 +2556,60 @@
       "model_group": "카니발",
       "encar_model": "더 뉴 카니발",
       "aliases": [
+        "더 뉴 카니발",
+        "더 뉴카니발 YP",
+        "더 뉴카니발(YP)",
         "더뉴카니발",
+        "더뉴카니발(yp)",
         "더뉴카니발yp",
+        "더카니발(yp)",
+        "카니발(yp)",
         "카니발더뉴"
       ],
-      "trims": {},
+      "trims": {
+        "9인승 디젤 노블레스 스페셜": {
+          "badge_group": "디젤 9 인승",
+          "badge": "9인승 노블레스 스페셜",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "9인승 디젤 럭셔리": {
+          "badge_group": "디젤 9 인승",
+          "badge": "9인승 럭셔리",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "리무진 7인승 가솔린 프레지던트": {
+          "badge_group": "디젤 11 인승",
+          "badge": "11인승 디럭스",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "9인승 디젤 프레스티지": {
+          "badge_group": "디젤 11 인승",
+          "badge": "11인승 디럭스",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "리무진 7인승 디젤 프레지던트": {
+          "badge_group": "디젤 11 인승",
+          "badge": "11인승 디럭스",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "9인승 가솔린 노블레스": {
+          "badge_group": "디젤 11 인승",
+          "badge": "11인승 디럭스",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "리무진 7인승 디젤 VIP": {
+          "badge_group": "디젤 11 인승",
+          "badge": "11인승 디럭스",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      },
       "created_at": "2026-10-01"
     },
     "올 뉴 크루즈": {
@@ -2304,13 +2617,31 @@
       "model_group": "크루즈",
       "encar_model": "올 뉴 크루즈",
       "created_at": "2026-10-02 10:22:17",
-      "aliases": [],
+      "aliases": [
+        "올 뉴 크루즈",
+        "올 뉴크루즈",
+        "올뉴크루즈",
+        "올크루즈",
+        "크루즈"
+      ],
       "trims": {
         "1.4 터보 LT 디럭스": {
           "badge_group": "가솔린 1400cc",
           "badge": "1.4 터보 LT",
-          "badge_detail": "디럭스",
-          "updated_at": "2026-10-02 10:22:17"
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.4 터보 LTZ": {
+          "badge_group": "가솔린 1400cc",
+          "badge": "1.4 터보 LT",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.4 터보 LTZ 디럭스": {
+          "badge_group": "가솔린 1400cc",
+          "badge": "1.4 터보 LT",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
         }
       }
     },
@@ -2534,13 +2865,78 @@
       "model_group": "엑센트",
       "encar_model": "엑센트(신형_)",
       "created_at": "2026-10-03 17:58:11",
-      "aliases": [],
+      "aliases": [
+        "엑센트",
+        "엑센트 신형",
+        "엑센트(신형)",
+        "엑센트신형"
+      ],
       "trims": {
         "1.4 VVT 모던": {
           "badge_group": "가솔린 1400cc",
           "badge": "1.4 VVT 모던",
           "badge_detail": "",
-          "updated_at": "2026-10-03 17:58:11"
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.4 VVT 프리미엄": {
+          "badge_group": "가솔린 1400cc",
+          "badge": "1.4 VVT 프리미엄",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.4 VVT 프리미어": {
+          "badge_group": "가솔린 1400cc",
+          "badge": "1.4 VVT 모던",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.4 VVT 스마트": {
+          "badge_group": "가솔린 1400cc",
+          "badge": "1.4 VVT 스마트",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "위트 1.6 VGT 프리미엄": {
+          "badge_group": "가솔린 1400cc",
+          "badge": "1.4 VVT 럭셔리",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "위트 1.6 GDI 프리미엄": {
+          "badge_group": "가솔린 1600cc",
+          "badge": "1.6 GDI 프리미엄",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.6 VGT 프리미어": {
+          "badge_group": "가솔린 1400cc",
+          "badge": "1.4 VVT 모던",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "위트 1.6 VGT 모던": {
+          "badge_group": "가솔린 1400cc",
+          "badge": "1.4 VVT 모던",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.6 GDI 프리미엄": {
+          "badge_group": "가솔린 1600cc",
+          "badge": "1.6 GDI 프리미엄",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "위트 1.4 VVT 프리미어": {
+          "badge_group": "가솔린 1400cc",
+          "badge": "1.4 VVT 모던",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "위트 1.6 GDI 탑": {
+          "badge_group": "가솔린 1600cc",
+          "badge": "위트 1.6 GDI 탑",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
         }
       }
     },
@@ -2752,11 +3148,46 @@
       "model_group": "i30",
       "encar_model": "i30 (PD)",
       "aliases": [
+        "i30",
+        "i30 (PD)",
+        "i30 PD",
         "i30(pd)",
+        "i30nline",
         "i30pd",
-        "i30nline"
+        "i30pdi30"
       ],
-      "trims": {}
+      "trims": {
+        "1.6 터보 스포츠 프리미엄": {
+          "badge_group": "가솔린 1600cc",
+          "badge": "1.6 터보",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.4 터보 스마트": {
+          "badge_group": "가솔린 1400cc",
+          "badge": "1.4 터보",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.4 터보 스타일": {
+          "badge_group": "가솔린 1400cc",
+          "badge": "1.4 터보",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.4 터보 프리미엄": {
+          "badge_group": "가솔린 1400cc",
+          "badge": "1.4 터보",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.4 터보 모던": {
+          "badge_group": "가솔린 1400cc",
+          "badge": "1.4 터보",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
     },
     "더 뉴 팰리세이드": {
       "brand": "현대",
@@ -6956,6 +7387,2330 @@
           "badge": "디젤 2.0 2WD 노블레스",
           "badge_detail": "",
           "updated_at": "2026-10-12 19:04:58"
+        }
+      }
+    },
+    "QM3": {
+      "brand": "르노코리아(삼성)",
+      "model_group": "QM3",
+      "encar_model": "QM3",
+      "aliases": [
+        "QM3",
+        "qm3",
+        "qm3qm3"
+      ],
+      "trims": {
+        "LE": {
+          "badge_group": "가솔린 2WD",
+          "badge": "LE",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "RE": {
+          "badge_group": "가솔린 2WD",
+          "badge": "RE",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "RE 시그니처 소닉레드": {
+          "badge_group": "가솔린 2WD",
+          "badge": "RE",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "RE 시그니처 에투알 화이트바디": {
+          "badge_group": "가솔린 2WD",
+          "badge": "RE",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "더 뉴K5 하이브리드(DL3)": {
+      "brand": "기아",
+      "model_group": "K5",
+      "encar_model": "더 뉴 K5 하이브리드 3세대",
+      "aliases": [
+        "k5하이브리드(dl3)",
+        "더 뉴 K5 하이브리드 3세대",
+        "더 뉴K5 하이브리드 DL3",
+        "더 뉴K5 하이브리드(DL3)",
+        "더k5하이브리드(dl3)",
+        "더뉴k5하이브리드(dl3)",
+        "더뉴k5하이브리드3세대"
+      ],
+      "trims": {
+        "2.0 HEV 시그니처": {
+          "badge_group": "전기",
+          "badge": "2.0 HEV 시그니처",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "2.0 HEV 노블레스": {
+          "badge_group": "전기",
+          "badge": "2.0 HEV 노블레스",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "2.0 HEV 프레스티지": {
+          "badge_group": "전기",
+          "badge": "2.0 HEV 프레스티지",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "올 뉴코란도": {
+      "brand": "KG모빌리티(쌍용)",
+      "model_group": "코란도",
+      "encar_model": "뷰티풀 코란도",
+      "aliases": [
+        "뷰티풀 코란도",
+        "뷰티풀코란도",
+        "올 뉴코란도",
+        "올뉴코란도",
+        "올코란도",
+        "코란도"
+      ],
+      "trims": {
+        "1.5 가솔린 2WD C7": {
+          "badge_group": "가솔린 1500cc",
+          "badge": "1.5 가솔린 2WD C7",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.5 가솔린 2WD R 플러스": {
+          "badge_group": "가솔린 1500cc",
+          "badge": "1.5 가솔린 2WD R 플러스",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.6 디젤 2WD C5 플러스": {
+          "badge_group": "디젤 1600cc",
+          "badge": "1.6 디젤 2WD C5 플러스",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.5 가솔린 2WD C5": {
+          "badge_group": "가솔린 1500cc",
+          "badge": "1.5 가솔린 2WD C5",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.5 가솔린 AWD C7": {
+          "badge_group": "가솔린 1500cc",
+          "badge": "1.5 가솔린 AWD C7",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.5 가솔린 2WD C5 플러스": {
+          "badge_group": "가솔린 1500cc",
+          "badge": "1.5 가솔린 2WD C5 플러스",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "디 올뉴싼타페 하이브리드": {
+      "brand": "현대",
+      "model_group": "싼타페",
+      "encar_model": "디 올 뉴 싼타페 하이브리드",
+      "aliases": [
+        "디 올 뉴 싼타페 하이브리드",
+        "디 올뉴싼타페 하이브리드",
+        "디싼타페하이브리드",
+        "디올뉴싼타페하이브리드",
+        "디올싼타페하이브리드",
+        "싼타페하이브리드"
+      ],
+      "trims": {
+        "1.6 HEV 2WD 프레스티지 플러스": {
+          "badge_group": "전기 2WD",
+          "badge": "HEV 1.6 2WD",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.6 HEV 2WD 캘리그래피": {
+          "badge_group": "전기 2WD",
+          "badge": "1.6 HEV 2WD 캘리그래피",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.6 HEV 2WD 캘리그래피 블랙 잉크": {
+          "badge_group": "전기 2WD",
+          "badge": "1.6 HEV 2WD 캘리그래피 블랙 잉크",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.6 HEV 2WD 프레스티지": {
+          "badge_group": "전기 2WD",
+          "badge": "1.6 HEV 2WD 프레스티지",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.6 HEV AWD 프레스티지": {
+          "badge_group": "전기 4WD",
+          "badge": "1.6 HEV AWD 프레스티지",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.6 HEV 2WD 익스클루시브": {
+          "badge_group": "전기 2WD",
+          "badge": "1.6 HEV 2WD 익스클루시브",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "아이오닉 6": {
+      "brand": "현대",
+      "model_group": "아이오닉6",
+      "encar_model": "아이오닉6",
+      "aliases": [
+        "아이오닉 6",
+        "아이오닉6"
+      ],
+      "trims": {
+        "롱레인지 AWD 익스클루시브 플러스": {
+          "badge_group": "전기 4WD",
+          "badge": "롱레인지 AWD",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "롱레인지 2WD 익스클루시브 플러스": {
+          "badge_group": "가솔린 2WD",
+          "badge": "롱레인지",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "롱레인지 2WD 프레스티지": {
+          "badge_group": "가솔린 2WD",
+          "badge": "롱레인지",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "롱레인지 AWD 프레스티지": {
+          "badge_group": "가솔린 2WD",
+          "badge": "롱레인지",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "롱레인지 AWD 익스클루시브": {
+          "badge_group": "가솔린 2WD",
+          "badge": "롱레인지",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "올 뉴투싼": {
+      "brand": "현대",
+      "model_group": "투싼",
+      "encar_model": "올 뉴 투싼",
+      "aliases": [
+        "올 뉴 투싼",
+        "올 뉴투싼",
+        "올뉴투싼",
+        "올투싼",
+        "투싼"
+      ],
+      "trims": {
+        "디젤 R2.0 2WD 모던": {
+          "badge_group": "디젤 2000cc",
+          "badge": "디젤 2.0 2WD",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "디젤 R2.0 2WD 스타일": {
+          "badge_group": "가솔린 2WD",
+          "badge": "스타일",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "가솔린 1.6 터보 2WD 모던피버": {
+          "badge_group": "가솔린 2WD",
+          "badge": "모던",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "디젤 R2.0 2WD 프리미엄": {
+          "badge_group": "가솔린 2WD",
+          "badge": "프리미엄",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "가솔린 1.6 터보 2WD 프리미엄": {
+          "badge_group": "가솔린 1600cc",
+          "badge": "가솔린 1.6 터보 2WD",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "디젤 1.7 2WD 모던피버": {
+          "badge_group": "디젤 2WD",
+          "badge": "디젤 1.7 2WD",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "디젤 1.7 2WD 모던": {
+          "badge_group": "디젤 2WD",
+          "badge": "디젤 1.7 2WD",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "디젤 R2.0 4WD 프리미엄": {
+          "badge_group": "가솔린 2WD",
+          "badge": "프리미엄",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "디젤 1.7 2WD 스타일": {
+          "badge_group": "디젤 2WD",
+          "badge": "디젤 1.7 2WD",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "디젤 R2.0 2WD 스타일스페셜": {
+          "badge_group": "가솔린 2WD",
+          "badge": "스타일",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "디젤 R2.0 2WD 모던스페셜": {
+          "badge_group": "가솔린 2WD",
+          "badge": "모던",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "디젤 1.7 2WD 프리미엄": {
+          "badge_group": "디젤 2WD",
+          "badge": "디젤 1.7 2WD",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "EV9": {
+      "brand": "기아",
+      "model_group": "EV9",
+      "encar_model": "EV9",
+      "aliases": [
+        "EV9",
+        "ev9",
+        "ev9ev9"
+      ],
+      "trims": {
+        "롱레인지 4WD GT 라인": {
+          "badge_group": "전기 4WD",
+          "badge": "GT Line 4WD",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "롱레인지 4WD 어스": {
+          "badge_group": "전기",
+          "badge": "어스",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "더 뉴K5(DL3)": {
+      "brand": "기아",
+      "model_group": "K5",
+      "encar_model": "더 뉴 K5 3세대",
+      "aliases": [
+        "k5(dl3)",
+        "더 뉴 K5 3세대",
+        "더 뉴K5 DL3",
+        "더 뉴K5(DL3)",
+        "더k5(dl3)",
+        "더뉴k5(dl3)",
+        "더뉴k53세대"
+      ],
+      "trims": {
+        "1.6 가솔린 터보 프레스티지 베스트 셀렉션": {
+          "badge_group": "가솔린 1600cc",
+          "badge": "1.6 터보",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "2.0 가솔린 노블레스": {
+          "badge_group": "가솔린 2000cc",
+          "badge": "2.0",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.6 가솔린 터보 노블레스": {
+          "badge_group": "가솔린 1600cc",
+          "badge": "1.6 터보",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "2.0 LPI 렌터카 프레스티지": {
+          "badge_group": "LPG 2000cc",
+          "badge": "2.0 LPI 렌터카 프레스티지",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "2.0 가솔린 프레스티지": {
+          "badge_group": "가솔린 2000cc",
+          "badge": "2.0 가솔린 프레스티지",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "더 뉴카니발 하이브리드(KA4)": {
+      "brand": "기아",
+      "model_group": "카니발",
+      "encar_model": "더 뉴 카니발 4세대",
+      "aliases": [
+        "ka4",
+        "더 뉴 카니발 4세대",
+        "더 뉴카니발 하이브리드 KA4",
+        "더 뉴카니발 하이브리드(KA4)",
+        "더뉴카니발4세대",
+        "더뉴카니발하이브리드(ka4)",
+        "더뉴카니발하이브리드ka4",
+        "더카니발하이브리드(ka4)",
+        "카니발하이브리드(ka4)"
+      ],
+      "trims": {
+        "1.6 HEV 9인승 프레스티지": {
+          "badge_group": "전기",
+          "badge": "HEV 9인승 프레스티지",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.6 HEV 7인승 노블레스": {
+          "badge_group": "전기",
+          "badge": "1.6 HEV 7인승 노블레스",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.6 HEV 7인승 시그니처": {
+          "badge_group": "전기",
+          "badge": "1.6 HEV 7인승 시그니처",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.6 HEV 하이리무진 7인승 시그니처": {
+          "badge_group": "전기",
+          "badge": "1.6 HEV 하이리무진 7인승 시그니처",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.6 HEV 9인승 노블레스": {
+          "badge_group": "전기",
+          "badge": "1.6 HEV 9인승 노블레스",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "뉴 신형K5": {
+      "brand": "기아",
+      "model_group": "K5",
+      "encar_model": "더 뉴 K5 2세대",
+      "aliases": [
+        "뉴 신형K5",
+        "뉴k5",
+        "뉴신형k5",
+        "더 뉴 K5 2세대",
+        "더뉴k52세대",
+        "신형k5"
+      ],
+      "trims": {
+        "2.0 가솔린 프레스티지": {
+          "badge_group": "가솔린 2000cc",
+          "badge": "2.0",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "2.0 가솔린 노블레스": {
+          "badge_group": "가솔린 2000cc",
+          "badge": "2.0 가솔린 노블레스",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "2.0 가솔린 인텔리전트": {
+          "badge_group": "가솔린 2000cc",
+          "badge": "2.0 가솔린 인텔리전트",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "C클래스(4세대)": {
+      "brand": "벤츠",
+      "model_group": "C-클래스",
+      "encar_model": "C-클래스 W205",
+      "aliases": [
+        "C-클래스 W205",
+        "C클래스 4세대",
+        "C클래스(4세대)",
+        "c-클래스w205",
+        "c클래스(4세대)"
+      ],
+      "trims": {
+        "C220 d 아방가르드": {
+          "badge_group": "디젤 2200cc",
+          "badge": "C220 d 아방가르드",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "C200 아방가르드": {
+          "badge_group": "가솔린 2000cc",
+          "badge": "C200 아방가르드",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "C200": {
+          "badge_group": "가솔린 2000cc",
+          "badge": "C200",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "C220 CDI 블루텍 파노라믹 썬루프": {
+          "badge_group": "가솔린 2000cc",
+          "badge": "C220 CDI 블루텍 파노라믹 썬루프",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "C200 4매틱 AMG 라인": {
+          "badge_group": "가솔린 2000cc",
+          "badge": "C200 4매틱 AMG 라인",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "C200 AMG 라인": {
+          "badge_group": "가솔린 2000cc",
+          "badge": "C200 AMG 라인",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "뉴투싼 ix": {
+      "brand": "현대",
+      "model_group": "투싼",
+      "encar_model": "뉴 투싼 ix",
+      "aliases": [
+        "뉴 투싼 ix",
+        "뉴투싼 ix",
+        "뉴투싼ix",
+        "투싼ix"
+      ],
+      "trims": {
+        "디젤 R2.0 2WD 모던": {
+          "badge_group": "디젤 2000cc",
+          "badge": "디젤(e-VGT) 2WD",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "디젤 R2.0 2WD 스마트 스페셜": {
+          "badge_group": "디젤 2000cc",
+          "badge": "디젤(e-VGT) 2WD",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "디젤 R2.0 2WD 프리미엄": {
+          "badge_group": "가솔린 2WD",
+          "badge": "프리미엄",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "디젤 R2.0 2WD 스마트": {
+          "badge_group": "디젤 2000cc",
+          "badge": "디젤 R2.0 2WD 스마트",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "더 뉴카니발(YP)": {
+      "brand": "기아",
+      "model_group": "카니발",
+      "encar_model": "더 뉴 카니발",
+      "aliases": [
+        "더 뉴 카니발",
+        "더 뉴카니발 YP",
+        "더 뉴카니발(YP)",
+        "더뉴카니발",
+        "더뉴카니발(yp)",
+        "더카니발(yp)",
+        "카니발(yp)"
+      ],
+      "trims": {
+        "9인승 디젤 노블레스 스페셜": {
+          "badge_group": "디젤 9 인승",
+          "badge": "9인승 노블레스 스페셜",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "9인승 디젤 럭셔리": {
+          "badge_group": "디젤 9 인승",
+          "badge": "9인승 럭셔리",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "리무진 7인승 가솔린 프레지던트": {
+          "badge_group": "디젤 11 인승",
+          "badge": "11인승 디럭스",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "9인승 디젤 프레스티지": {
+          "badge_group": "디젤 11 인승",
+          "badge": "11인승 디럭스",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "리무진 7인승 디젤 프레지던트": {
+          "badge_group": "디젤 11 인승",
+          "badge": "11인승 디럭스",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "9인승 가솔린 노블레스": {
+          "badge_group": "디젤 11 인승",
+          "badge": "11인승 디럭스",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "리무진 7인승 디젤 VIP": {
+          "badge_group": "디젤 11 인승",
+          "badge": "11인승 디럭스",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "엑센트 신형": {
+      "brand": "현대",
+      "model_group": "엑센트",
+      "encar_model": "엑센트(신형)",
+      "aliases": [
+        "엑센트",
+        "엑센트 신형",
+        "엑센트(신형)",
+        "엑센트신형"
+      ],
+      "trims": {
+        "1.4 VVT 프리미엄": {
+          "badge_group": "가솔린 1400cc",
+          "badge": "1.4 VVT 프리미엄",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.4 VVT 프리미어": {
+          "badge_group": "가솔린 1400cc",
+          "badge": "1.4 VVT 모던",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.4 VVT 스마트": {
+          "badge_group": "가솔린 1400cc",
+          "badge": "1.4 VVT 스마트",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "위트 1.6 VGT 프리미엄": {
+          "badge_group": "가솔린 1400cc",
+          "badge": "1.4 VVT 럭셔리",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "위트 1.6 GDI 프리미엄": {
+          "badge_group": "가솔린 1600cc",
+          "badge": "1.6 GDI 프리미엄",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.6 VGT 프리미어": {
+          "badge_group": "가솔린 1400cc",
+          "badge": "1.4 VVT 모던",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "위트 1.6 VGT 모던": {
+          "badge_group": "가솔린 1400cc",
+          "badge": "1.4 VVT 모던",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.4 VVT 모던": {
+          "badge_group": "가솔린 1400cc",
+          "badge": "1.4 VVT 모던",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.6 GDI 프리미엄": {
+          "badge_group": "가솔린 1600cc",
+          "badge": "1.6 GDI 프리미엄",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "위트 1.4 VVT 프리미어": {
+          "badge_group": "가솔린 1400cc",
+          "badge": "1.4 VVT 모던",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "위트 1.6 GDI 탑": {
+          "badge_group": "가솔린 1600cc",
+          "badge": "위트 1.6 GDI 탑",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "뉴 QM3": {
+      "brand": "르노코리아(삼성)",
+      "model_group": "QM3",
+      "encar_model": "뉴QM3",
+      "aliases": [
+        "qm3",
+        "뉴 QM3",
+        "뉴QM3",
+        "뉴qm3",
+        "뉴qm3qm3"
+      ],
+      "trims": {
+        "1.5 dCi RE": {
+          "badge_group": "디젤 1600cc",
+          "badge": "RE",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.5 dCi RE 파노라믹": {
+          "badge_group": "가솔린 2WD",
+          "badge": "RE",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.5 dCi RE S에디션": {
+          "badge_group": "가솔린 2WD",
+          "badge": "RE",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.5 dCi RE 레드에디션": {
+          "badge_group": "가솔린 2WD",
+          "badge": "RE",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "더 뉴투싼": {
+      "brand": "현대",
+      "model_group": "투싼",
+      "encar_model": "더 뉴 투싼",
+      "aliases": [
+        "더 뉴 투싼",
+        "더 뉴투싼",
+        "더뉴투싼",
+        "더투싼",
+        "투싼"
+      ],
+      "trims": {
+        "1.6 터보 2WD 프리미엄": {
+          "badge_group": "가솔린 2WD",
+          "badge": "프리미엄",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.6 터보 2WD 인스퍼레이션": {
+          "badge_group": "가솔린 2WD",
+          "badge": "인스퍼레이션",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.6 터보 2WD 모던": {
+          "badge_group": "가솔린 2WD",
+          "badge": "모던",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "2.0 디젤 2WD 모던": {
+          "badge_group": "가솔린 2WD",
+          "badge": "모던",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "2.0 디젤 2WD 프리미엄": {
+          "badge_group": "가솔린 2WD",
+          "badge": "프리미엄",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "더 뉴K3": {
+      "brand": "기아",
+      "model_group": "K3",
+      "encar_model": "더 뉴 K3",
+      "aliases": [
+        "k3",
+        "더 뉴 K3",
+        "더 뉴K3",
+        "더k3",
+        "더뉴k3"
+      ],
+      "trims": {
+        "1.6 GDI 트렌디 스타일": {
+          "badge_group": "가솔린 1600cc",
+          "badge": "트렌디",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.6 디젤 트렌디": {
+          "badge_group": "가솔린 2WD",
+          "badge": "구분",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.6 GDI 프레스티지 스페셜": {
+          "badge_group": "가솔린 2WD",
+          "badge": "프레스티지",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.6 GDI 트렌디": {
+          "badge_group": "가솔린 2WD",
+          "badge": "구분",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.6 GDI 노블레스": {
+          "badge_group": "가솔린 2WD",
+          "badge": "구분",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.6 GDI 프레스티지": {
+          "badge_group": "가솔린 2WD",
+          "badge": "프레스티지",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "5시리즈(6세대)": {
+      "brand": "BMW",
+      "model_group": "5시리즈",
+      "encar_model": "5시리즈 (F10)",
+      "aliases": [
+        "5시리즈 (F10)",
+        "5시리즈 6세대",
+        "5시리즈(6세대)",
+        "5시리즈(f10)"
+      ],
+      "trims": {
+        "520d M 에어로다이나믹": {
+          "badge_group": "디젤 2000cc",
+          "badge": "520d M 에어로 다이나믹",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "528i 럭셔리": {
+          "badge_group": "가솔린 2000cc",
+          "badge": "528i 럭셔리",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "520d": {
+          "badge_group": "가솔린 2000cc",
+          "badge": "520d",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "520d 럭셔리": {
+          "badge_group": "가솔린 2000cc",
+          "badge": "520d 럭셔리",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "520d M 에어로다이나믹 프로": {
+          "badge_group": "가솔린 2000cc",
+          "badge": "520d M 에어로다이나믹 프로",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "528i xDrive 럭셔리라인 플러스": {
+          "badge_group": "가솔린 4WD",
+          "badge": "528i xDrive 럭셔리라인 플러스",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "A6(5세대)": {
+      "brand": "아우디",
+      "model_group": "A6",
+      "encar_model": "A6 (C8)",
+      "aliases": [
+        "A6 (C8)",
+        "A6 5세대",
+        "A6(5세대)",
+        "a6(5세대)",
+        "a6(c8)"
+      ],
+      "trims": {
+        "45 TFSI 프리미엄": {
+          "badge_group": "가솔린 2WD",
+          "badge": "45 TFSI 프리미엄",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "45 TFSI 콰트로 프리미엄": {
+          "badge_group": "가솔린 4WD",
+          "badge": "45 TFSI 콰트로 프리미엄",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "40 TDI": {
+          "badge_group": "디젤 2WD",
+          "badge": "40 TDI",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "아테온": {
+      "brand": "폭스바겐",
+      "model_group": "아테온",
+      "encar_model": "아테온",
+      "aliases": [
+        "아테온"
+      ],
+      "trims": {
+        "2.0 TDI 프레스티지": {
+          "badge_group": "디젤 2000cc",
+          "badge": "2.0 TDI 프레스티지",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "2.0 TDI 4모션 R 라인": {
+          "badge_group": "디젤 2000cc",
+          "badge": "2.0 TDI 4모션 R 라인",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "2.0 TDI 엘레강스 프리미엄": {
+          "badge_group": "디젤 2000cc",
+          "badge": "2.0 TDI 엘레강스 프리미엄",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "2.0 TDI 엘레강스 프레스티지": {
+          "badge_group": "디젤 2000cc",
+          "badge": "2.0 TDI 엘레강스 프레스티지",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "i30 PD": {
+      "brand": "현대",
+      "model_group": "i30",
+      "encar_model": "i30 (PD)",
+      "aliases": [
+        "i30",
+        "i30 (PD)",
+        "i30 PD",
+        "i30(pd)",
+        "i30pd",
+        "i30pdi30"
+      ],
+      "trims": {
+        "1.6 터보 스포츠 프리미엄": {
+          "badge_group": "가솔린 1600cc",
+          "badge": "1.6 터보",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.4 터보 스마트": {
+          "badge_group": "가솔린 1400cc",
+          "badge": "1.4 터보",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.4 터보 스타일": {
+          "badge_group": "가솔린 1400cc",
+          "badge": "1.4 터보",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.4 터보 프리미엄": {
+          "badge_group": "가솔린 1400cc",
+          "badge": "1.4 터보",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.4 터보 모던": {
+          "badge_group": "가솔린 1400cc",
+          "badge": "1.4 터보",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "G4 렉스턴": {
+      "brand": "KG모빌리티(쌍용)",
+      "model_group": "렉스턴",
+      "encar_model": "G4 렉스턴",
+      "aliases": [
+        "G4 렉스턴",
+        "g4렉스턴"
+      ],
+      "trims": {
+        "2.2 4WD 유라시아 에디션": {
+          "badge_group": "디젤 2200cc",
+          "badge": "디젤 2.2 4WD",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "2.2 4WD 헤리티지": {
+          "badge_group": "가솔린 2WD",
+          "badge": "구분",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "2.2 4WD 화이트 에디션": {
+          "badge_group": "가솔린 2WD",
+          "badge": "구분",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "2.2 4WD 프라임": {
+          "badge_group": "가솔린 2WD",
+          "badge": "구분",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "3시리즈(7세대)": {
+      "brand": "BMW",
+      "model_group": "3시리즈",
+      "encar_model": "3시리즈 (G20)",
+      "aliases": [
+        "3시리즈 (G20)",
+        "3시리즈 7세대",
+        "3시리즈(7세대)",
+        "3시리즈(g20)"
+      ],
+      "trims": {
+        "320i M 스포츠팩 블랙수트": {
+          "badge_group": "가솔린 2000cc",
+          "badge": "320i M 스포츠",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "320i M 스포츠팩": {
+          "badge_group": "가솔린 2WD",
+          "badge": "320i M 스포츠팩",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "그랑 콜레오스 하이브리드": {
+      "brand": "르노코리아(삼성)",
+      "model_group": "그랑 콜레오스",
+      "encar_model": "그랑 콜레오스",
+      "aliases": [
+        "그랑 콜레오스",
+        "그랑 콜레오스 하이브리드",
+        "그랑콜레오스",
+        "그랑콜레오스하이브리드"
+      ],
+      "trims": {
+        "1.5 HEV 아이코닉": {
+          "badge_group": "전기 2WD",
+          "badge": "1.5 E-TECH 아이코닉 2WD",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.5 HEV 에스프리 알핀": {
+          "badge_group": "전기",
+          "badge": "1.5 HEV 에스프리 알핀",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "디 올뉴싼타페": {
+      "brand": "현대",
+      "model_group": "싼타페",
+      "encar_model": "디 올 뉴 싼타페",
+      "aliases": [
+        "디 올 뉴 싼타페",
+        "디 올뉴싼타페",
+        "디싼타페",
+        "디올뉴싼타페",
+        "디올싼타페",
+        "싼타페"
+      ],
+      "trims": {
+        "가솔린 2.5 AWD 캘리그래피": {
+          "badge_group": "가솔린 2500cc",
+          "badge": "가솔린 2.5 AWD 캘리그래피",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "가솔린 2.5 2WD 프레스티지": {
+          "badge_group": "가솔린 2500cc",
+          "badge": "가솔린 2.5 2WD 프레스티지",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "가솔린 2.5 2WD 캘리그래피": {
+          "badge_group": "가솔린 2500cc",
+          "badge": "가솔린 2.5 2WD 캘리그래피",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "아이오닉 하이브리드": {
+      "brand": "현대",
+      "model_group": "아이오닉",
+      "encar_model": "아이오닉 하이브리드",
+      "aliases": [
+        "아이오닉 하이브리드",
+        "아이오닉하이브리드"
+      ],
+      "trims": {
+        "Q": {
+          "badge_group": "하이브리드",
+          "badge": "Q",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "N": {
+          "badge_group": "하이브리드",
+          "badge": "N",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "제네시스DH": {
+      "brand": "현대",
+      "model_group": "제네시스",
+      "encar_model": "제네시스 DH",
+      "aliases": [
+        "제네시스 DH",
+        "제네시스DH",
+        "제네시스dh"
+      ],
+      "trims": {
+        "G330 프리미엄": {
+          "badge_group": "가솔린 3300cc",
+          "badge": "G330 프리미엄",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "G330 AWD 프리미엄": {
+          "badge_group": "가솔린 3300cc",
+          "badge": "G330 프리미엄 AWD",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "G330 모던": {
+          "badge_group": "가솔린 3300cc",
+          "badge": "G330 모던",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "G330 AWD 모던": {
+          "badge_group": "가솔린 3300cc",
+          "badge": "G330 모던",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "G380 AWD 프레스티지": {
+          "badge_group": "가솔린 3300cc",
+          "badge": "G330 모던",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "더 뉴투싼 하이브리드": {
+      "brand": "현대",
+      "model_group": "투싼",
+      "encar_model": "더 뉴 투싼 하이브리드 (NX4)",
+      "aliases": [
+        "더 뉴 투싼 하이브리드 (NX4)",
+        "더 뉴투싼 하이브리드",
+        "더뉴투싼하이브리드",
+        "더뉴투싼하이브리드(nx4)",
+        "더투싼하이브리드",
+        "투싼하이브리드"
+      ],
+      "trims": {
+        "1.6 HEV 2WD 인스퍼레이션": {
+          "badge_group": "하이브리드",
+          "badge": "인스퍼레이션",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.6 HEV 2WD 프리미엄": {
+          "badge_group": "하이브리드",
+          "badge": "프리미엄",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.6 HEV N라인 2WD 인스퍼레이션": {
+          "badge_group": "하이브리드",
+          "badge": "인스퍼레이션",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "올 뉴렉스턴": {
+      "brand": "KG모빌리티(쌍용)",
+      "model_group": "렉스턴",
+      "encar_model": "올 뉴 렉스턴",
+      "aliases": [
+        "렉스턴",
+        "올 뉴 렉스턴",
+        "올 뉴렉스턴",
+        "올뉴렉스턴",
+        "올렉스턴"
+      ],
+      "trims": {
+        "2.2 4WD 프레스티지": {
+          "badge_group": "디젤 2200cc",
+          "badge": "디젤 2.2 4WD",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "2.2 2WD 프레스티지": {
+          "badge_group": "디젤 2200cc",
+          "badge": "디젤 2.2 2WD",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "2.2 4WD 더 블랙": {
+          "badge_group": "가솔린 2WD",
+          "badge": "구분",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "2.2 4WD 럭셔리": {
+          "badge_group": "가솔린 2WD",
+          "badge": "구분",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "2.2 4WD 마스터": {
+          "badge_group": "가솔린 2WD",
+          "badge": "구분",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "XC40": {
+      "brand": "볼보",
+      "model_group": "XC40",
+      "encar_model": "XC40",
+      "aliases": [
+        "XC40",
+        "xc40",
+        "xc40xc40"
+      ],
+      "trims": {
+        "2.0 B4 AWD 인스크립션": {
+          "badge_group": "가솔린 2000cc",
+          "badge": "B4 인스크립션",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "2.0 B4 AWD 울트라 브라이트": {
+          "badge_group": "가솔린 2000cc",
+          "badge": "2.0 B4 AWD 울트라 브라이트",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "2.0 T4 AWD 인스크립션": {
+          "badge_group": "가솔린 2000cc",
+          "badge": "2.0 T4 AWD 인스크립션",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "아르카나 하이브리드": {
+      "brand": "르노코리아(삼성)",
+      "model_group": "아르카나",
+      "encar_model": "아르카나",
+      "aliases": [
+        "아르카나",
+        "아르카나 하이브리드",
+        "아르카나하이브리드"
+      ],
+      "trims": {
+        "1.6 GTe E-테크 디자인 패키지": {
+          "badge_group": "전기",
+          "badge": "1.6 E-TECH 아이코닉 디자인 패키지",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.6 GTe 아이코닉": {
+          "badge_group": "전기",
+          "badge": "1.6 E-TECH 아이코닉",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "A클래스(4세대)": {
+      "brand": "벤츠",
+      "model_group": "A-클래스",
+      "encar_model": "A-클래스 W177",
+      "aliases": [
+        "A-클래스 W177",
+        "A클래스 4세대",
+        "A클래스(4세대)",
+        "a-클래스w177",
+        "a클래스(4세대)"
+      ],
+      "trims": {
+        "A250 4매틱 세단 A250 세단 4매틱": {
+          "badge_group": "가솔린 2500cc",
+          "badge": "A250 4매틱 세단 A250 세단 4매틱",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "A35 AMG 4매틱 세단": {
+          "badge_group": "가솔린 4WD",
+          "badge": "A35 AMG 4매틱 세단",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "A220 해치백": {
+          "badge_group": "가솔린 2000cc",
+          "badge": "A220 해치백",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "액티언(J120)": {
+      "brand": "KG모빌리티(쌍용)",
+      "model_group": "액티언",
+      "encar_model": "액티언 2세대",
+      "aliases": [
+        "j120",
+        "액티언 2세대",
+        "액티언 J120",
+        "액티언(J120)",
+        "액티언(j120)",
+        "액티언2세대",
+        "액티언j120"
+      ],
+      "trims": {
+        "1.5 T-GDI 2WD S9": {
+          "badge_group": "가솔린 1500cc",
+          "badge": "1.5 T-GDI 2WD S9",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.5 T-GDI 2WD S7": {
+          "badge_group": "가솔린 1500cc",
+          "badge": "1.5 T-GDI 2WD S7",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "캡쳐": {
+      "brand": "르노코리아(삼성)",
+      "model_group": "캡처",
+      "encar_model": "캡처",
+      "aliases": [
+        "캡처",
+        "캡쳐"
+      ],
+      "trims": {
+        "TCe 260 인텐스": {
+          "badge_group": "가솔린 2WD",
+          "badge": "TCe 260 인텐스",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "TCe 260 에디션 파리": {
+          "badge_group": "가솔린 2WD",
+          "badge": "TCe 260 에디션 파리",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "티구안(2세대)": {
+      "brand": "폭스바겐",
+      "model_group": "티구안",
+      "encar_model": "티구안 2세대",
+      "aliases": [
+        "티구안 2세대",
+        "티구안(2세대)",
+        "티구안2세대"
+      ],
+      "trims": {
+        "올스페이스 2.0 TSI 프레스티지": {
+          "badge_group": "가솔린 2000cc",
+          "badge": "2.0 TSI 프레스티지",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "2.0 TDI 프리미엄": {
+          "badge_group": "디젤 2000cc",
+          "badge": "2.0 TDI 프리미엄",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "2.0 TDI 프레스티지": {
+          "badge_group": "디젤 2000cc",
+          "badge": "2.0 TDI 프레스티지",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "스팅어": {
+      "brand": "기아",
+      "model_group": "스팅어",
+      "encar_model": "스팅어",
+      "aliases": [
+        "스팅어"
+      ],
+      "trims": {
+        "2.0 터보 AWD 플래티넘": {
+          "badge_group": "가솔린 2000cc",
+          "badge": "2.0 터보 2WD",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "2.0 터보 플래티넘": {
+          "badge_group": "가솔린 2000cc",
+          "badge": "2.0 터보 2WD",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "2.2 디젤 프라임": {
+          "badge_group": "가솔린 2000cc",
+          "badge": "2.0 터보 2WD",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "3.3 터보 AWD GT": {
+          "badge_group": "가솔린 3300cc",
+          "badge": "3.3 터보 AWD",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "더 뉴모하비": {
+      "brand": "기아",
+      "model_group": "모하비",
+      "encar_model": "더 뉴 모하비",
+      "aliases": [
+        "더 뉴 모하비",
+        "더 뉴모하비",
+        "더뉴모하비",
+        "더모하비",
+        "모하비"
+      ],
+      "trims": {
+        "디젤 4WD 프레지던트": {
+          "badge_group": "가솔린 2WD",
+          "badge": "구분",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "디젤 4WD VIP": {
+          "badge_group": "가솔린 2WD",
+          "badge": "구분",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "SM5 노바": {
+      "brand": "르노코리아(삼성)",
+      "model_group": "SM5",
+      "encar_model": "SM5 노바",
+      "aliases": [
+        "SM5 노바",
+        "sm5",
+        "sm5노바",
+        "sm5노바sm5"
+      ],
+      "trims": {
+        "클래식": {
+          "badge_group": "가솔린 2000cc",
+          "badge": "클래식",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "더 뉴맥스크루즈": {
+      "brand": "현대",
+      "model_group": "맥스크루즈",
+      "encar_model": "더 뉴 맥스크루즈",
+      "aliases": [
+        "더 뉴 맥스크루즈",
+        "더 뉴맥스크루즈",
+        "더뉴맥스크루즈",
+        "더맥스크루즈",
+        "맥스크루즈"
+      ],
+      "trims": {
+        "디젤 2.2 4WD 파이니스트 에디션": {
+          "badge_group": "디젤 2200cc",
+          "badge": "디젤 2.2 4WD",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "디젤 2.2 2WD 익스클루시브": {
+          "badge_group": "디젤 2WD",
+          "badge": "디젤 2.2 2WD",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "디젤 2.2 2WD 프레스티지": {
+          "badge_group": "디젤 2WD",
+          "badge": "디젤 2.2 2WD",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "디젤 2.2 4WD 익스클루시브 스페셜": {
+          "badge_group": "디젤 4WD",
+          "badge": "디젤 2.2 4WD",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "가솔린 3.3 2WD 익스클루시브": {
+          "badge_group": "가솔린 3300cc",
+          "badge": "가솔린 3.3 2WD",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "디젤 2.2 2WD 파이니스트 에디션": {
+          "badge_group": "디젤 2WD",
+          "badge": "디젤 2.2 2WD",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "컨트리맨(2세대)": {
+      "brand": "미니",
+      "model_group": "컨트리맨",
+      "encar_model": "쿠퍼 컨트리맨",
+      "aliases": [
+        "컨트리맨 2세대",
+        "컨트리맨(2세대)",
+        "쿠퍼 컨트리맨",
+        "쿠퍼컨트리맨"
+      ],
+      "trims": {
+        "1.5": {
+          "badge_group": "가솔린 1600cc",
+          "badge": "기본형",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.5 클래식": {
+          "badge_group": "가솔린 1600cc",
+          "badge": "클래식",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "2.0 D": {
+          "badge_group": "디젤 2000cc",
+          "badge": "2.0 D",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "2.0 S ALL4 클래식": {
+          "badge_group": "가솔린 2000cc",
+          "badge": "2.0 S ALL4 클래식",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.5 온라인 익스클루시브": {
+          "badge_group": "가솔린 1500cc",
+          "badge": "1.5 온라인 익스클루시브",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.5 하이트림": {
+          "badge_group": "가솔린 1500cc",
+          "badge": "1.5 하이트림",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "파사트 GT(8세대)": {
+      "brand": "폭스바겐",
+      "model_group": "파사트",
+      "encar_model": "파사트 GT(B8)",
+      "aliases": [
+        "파사트 GT 8세대",
+        "파사트 GT(8세대)",
+        "파사트 GT(B8)",
+        "파사트gt(8세대)",
+        "파사트gt(b8)"
+      ],
+      "trims": {
+        "2.0 TDI 프레스티지": {
+          "badge_group": "디젤 2000cc",
+          "badge": "2.0 TDI 프레스티지",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "2.0 TDI 프리미엄": {
+          "badge_group": "디젤 2000cc",
+          "badge": "2.0 TDI 프리미엄",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "클리오": {
+      "brand": "르노코리아(삼성)",
+      "model_group": "클리오",
+      "encar_model": "클리오",
+      "aliases": [
+        "클리오"
+      ],
+      "trims": {
+        "1.5 디젤 인텐스 파노라믹": {
+          "badge_group": "가솔린 2WD",
+          "badge": "인텐스",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.5 디젤 인텐스": {
+          "badge_group": "가솔린 2WD",
+          "badge": "인텐스",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.5 디젤 젠": {
+          "badge_group": "가솔린 2WD",
+          "badge": "젠",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "모델 3": {
+      "brand": "테슬라",
+      "model_group": "모델3",
+      "encar_model": "모델 3",
+      "aliases": [
+        "모델 3",
+        "모델3"
+      ],
+      "trims": {
+        "RWD 스탠다드 레인지 플러스": {
+          "badge_group": "전기 2WD",
+          "badge": "RWD 스탠다드 레인지 플러스",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "AWD 롱 레인지": {
+          "badge_group": "전기 4WD",
+          "badge": "AWD 롱 레인지",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "EV3": {
+      "brand": "기아",
+      "model_group": "EV3",
+      "encar_model": "EV3",
+      "aliases": [
+        "EV3",
+        "ev3",
+        "ev3ev3"
+      ],
+      "trims": {
+        "롱 레인지 에어": {
+          "badge_group": "전기 2WD",
+          "badge": "롱레인지 2WD",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "롱 레인지 어스": {
+          "badge_group": "전기",
+          "badge": "구분",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "스탠다드 어스": {
+          "badge_group": "전기",
+          "badge": "구분",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "모델 Y": {
+      "brand": "테슬라",
+      "model_group": "모델Y",
+      "encar_model": "모델 Y",
+      "aliases": [
+        "모델 Y",
+        "모델y"
+      ],
+      "trims": {
+        "AWD 롱 레인지": {
+          "badge_group": "전기 4WD",
+          "badge": "AWD 롱 레인지",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "RWD": {
+          "badge_group": "전기 2WD",
+          "badge": "RWD",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "아토 3": {
+      "brand": "BYD",
+      "model_group": "아토3",
+      "encar_model": "아토 3",
+      "aliases": [
+        "아토 3",
+        "아토3"
+      ],
+      "trims": {
+        "EV 플러스": {
+          "badge_group": "전기",
+          "badge": "EV 플러스",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "아르카나": {
+      "brand": "르노코리아(삼성)",
+      "model_group": "아르카나",
+      "encar_model": "아르카나",
+      "aliases": [
+        "아르카나"
+      ],
+      "trims": {
+        "1.6 GTe 아이코닉": {
+          "badge_group": "가솔린 1600cc",
+          "badge": "1.6 GTe 아이코닉",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.6 GTe 애볼루션": {
+          "badge_group": "가솔린 1600cc",
+          "badge": "1.6 GTe 아이코닉",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "알티마(5세대F/L)": {
+      "brand": "닛산",
+      "model_group": "알티마",
+      "encar_model": "뉴 알티마",
+      "aliases": [
+        "뉴 알티마",
+        "뉴알티마",
+        "알티마 5세대F/L",
+        "알티마(5세대F/L)",
+        "알티마(5세대f/l)"
+      ],
+      "trims": {
+        "2.5 SL": {
+          "badge_group": "가솔린 2500cc",
+          "badge": "2.5 SL",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "2.5 SL 스마트": {
+          "badge_group": "가솔린 2500cc",
+          "badge": "2.5 SL 스마트",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "그랑 콜레오스": {
+      "brand": "르노코리아(삼성)",
+      "model_group": "그랑 콜레오스",
+      "encar_model": "그랑 콜레오스",
+      "aliases": [
+        "그랑 콜레오스",
+        "그랑콜레오스"
+      ],
+      "trims": {
+        "2.0 터보 2WD 에스프리 알핀": {
+          "badge_group": "가솔린 2000cc",
+          "badge": "2.0 에스프리 알핀 2WD",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "2.0 터보 2WD 아이코닉": {
+          "badge_group": "가솔린 1500cc",
+          "badge": "1.5 E-TECH 아이코닉 2WD",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "2.0 터보 2WD 에스프리 알핀 누아르": {
+          "badge_group": "가솔린 1500cc",
+          "badge": "1.5 E-TECH 아이코닉 2WD",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "2.0 터보 4WD 에스프리 알핀": {
+          "badge_group": "가솔린 1500cc",
+          "badge": "1.5 E-TECH 아이코닉 2WD",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "1시리즈(3세대)": {
+      "brand": "BMW",
+      "model_group": "1시리즈",
+      "encar_model": "1시리즈 (F40)",
+      "aliases": [
+        "1시리즈 (F40)",
+        "1시리즈 3세대",
+        "1시리즈(3세대)",
+        "1시리즈(f40)"
+      ],
+      "trims": {
+        "120i M 스포츠": {
+          "badge_group": "가솔린 2000cc",
+          "badge": "120i M 스포츠",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "M135i xDrive": {
+          "badge_group": "가솔린 4WD",
+          "badge": "M135i xDrive",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "118d 조이 퍼스트 에디션": {
+          "badge_group": "가솔린 2WD",
+          "badge": "118d 조이 퍼스트 에디션",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "올 뉴크루즈": {
+      "brand": "쉐보레(GM대우)",
+      "model_group": "크루즈",
+      "encar_model": "올 뉴 크루즈",
+      "aliases": [
+        "올 뉴 크루즈",
+        "올 뉴크루즈",
+        "올뉴크루즈",
+        "올크루즈",
+        "크루즈"
+      ],
+      "trims": {
+        "1.4 터보 LTZ": {
+          "badge_group": "가솔린 1400cc",
+          "badge": "1.4 터보 LT",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.4 터보 LT 디럭스": {
+          "badge_group": "가솔린 1400cc",
+          "badge": "1.4 터보 LT",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.4 터보 LTZ 디럭스": {
+          "badge_group": "가솔린 1400cc",
+          "badge": "1.4 터보 LT",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "그란투리스모(GT) 5시리즈": {
+      "brand": "BMW",
+      "model_group": "5시리즈",
+      "encar_model": "그란투리스모 (GT)",
+      "aliases": [
+        "그란투리스모 (GT)",
+        "그란투리스모 GT  5시리즈",
+        "그란투리스모(GT) 5시리즈",
+        "그란투리스모(gt)",
+        "그란투리스모(gt)5시리즈"
+      ],
+      "trims": {
+        "GT 20d ED 에디션 럭셔리": {
+          "badge_group": "가솔린 2000cc",
+          "badge": "GT 20d ED 에디션 럭셔리",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "GT 30d xDrive 럭셔리": {
+          "badge_group": "가솔린 3000cc",
+          "badge": "GT 30d xDrive 럭셔리",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "에비에이터(2세대)": {
+      "brand": "링컨",
+      "model_group": "에비에이터",
+      "encar_model": "올-뉴 에비에이터",
+      "aliases": [
+        "에비에이터 2세대",
+        "에비에이터(2세대)",
+        "올-뉴 에비에이터",
+        "올-뉴에비에이터"
+      ],
+      "trims": {
+        "3.0 V6 AWD 블랙 라벨": {
+          "badge_group": "가솔린 3000cc",
+          "badge": "3.0 V6 AWD 블랙 라벨",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "3.0 V6 AWD 리저브": {
+          "badge_group": "가솔린 3000cc",
+          "badge": "3.0 V6 AWD 리저브",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "GLA클래스": {
+      "brand": "벤츠",
+      "model_group": "GLA-클래스",
+      "encar_model": "GLA-클래스",
+      "aliases": [
+        "GLA-클래스",
+        "GLA클래스",
+        "gla",
+        "gla-클래스",
+        "gla클래스",
+        "gla클래스gla"
+      ],
+      "trims": {
+        "GLA 220 GLA220": {
+          "badge_group": "가솔린 2000cc",
+          "badge": "GLA 220 GLA220",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "GLA 220 프리미엄": {
+          "badge_group": "가솔린 2000cc",
+          "badge": "GLA 220 프리미엄",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "GLB클래스": {
+      "brand": "벤츠",
+      "model_group": "GLB-클래스",
+      "encar_model": "GLB-클래스",
+      "aliases": [
+        "GLB-클래스",
+        "GLB클래스",
+        "glb",
+        "glb-클래스",
+        "glb클래스",
+        "glb클래스glb"
+      ],
+      "trims": {
+        "GLB 250 4매틱": {
+          "badge_group": "가솔린 2500cc",
+          "badge": "GLB 250 4매틱",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "GLB 220": {
+          "badge_group": "가솔린 2000cc",
+          "badge": "GLB 220",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "어코드(10세대)": {
+      "brand": "혼다",
+      "model_group": "어코드",
+      "encar_model": "어코드 10세대",
+      "aliases": [
+        "어코드 10세대",
+        "어코드(10세대)",
+        "어코드10세대"
+      ],
+      "trims": {
+        "2.0 하이브리드 투어링": {
+          "badge_group": "전기",
+          "badge": "2.0 하이브리드 투어링",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "2.0 터보 스포츠": {
+          "badge_group": "가솔린 2000cc",
+          "badge": "2.0 터보 스포츠",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "Q7(2세대)": {
+      "brand": "아우디",
+      "model_group": "Q7",
+      "encar_model": "Q7 (4M)",
+      "aliases": [
+        "Q7 (4M)",
+        "Q7 2세대",
+        "Q7(2세대)",
+        "q7(2세대)",
+        "q7(4m)"
+      ],
+      "trims": {
+        "55 TFSI 콰트로 프리미엄": {
+          "badge_group": "가솔린 4WD",
+          "badge": "55 TFSI 콰트로 프리미엄",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "45 TDI 콰트로 프리미엄": {
+          "badge_group": "디젤 4WD",
+          "badge": "45 TDI 콰트로 프리미엄",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "임팔라": {
+      "brand": "쉐보레(GM대우)",
+      "model_group": "임팔라",
+      "encar_model": "임팔라",
+      "aliases": [
+        "임팔라"
+      ],
+      "trims": {
+        "2.5 LT": {
+          "badge_group": "가솔린 2500cc",
+          "badge": "2.5 LT",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "2.5 LTZ": {
+          "badge_group": "가솔린 2500cc",
+          "badge": "2.5 LT",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "3.6 LTZ": {
+          "badge_group": "가솔린 2WD",
+          "badge": "3.6 LTZ",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "2.5 프리미어": {
+          "badge_group": "가솔린 2500cc",
+          "badge": "2.5 프리미어",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "뉴쏘렌토 R": {
+      "brand": "기아",
+      "model_group": "쏘렌토",
+      "encar_model": "뉴 쏘렌토 R",
+      "aliases": [
+        "뉴 쏘렌토 R",
+        "뉴쏘렌토 R",
+        "뉴쏘렌토r",
+        "쏘렌토r"
+      ],
+      "trims": {
+        "R2.0 2WD 트렌디": {
+          "badge_group": "가솔린 2WD",
+          "badge": "트렌디",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "R2.0 2WD 럭셔리": {
+          "badge_group": "가솔린 2WD",
+          "badge": "TLX 스페셜",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "R2.0 2WD 프레스티지": {
+          "badge_group": "가솔린 2WD",
+          "badge": "TLX 스페셜",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "R2.0 2WD 리미티드": {
+          "badge_group": "가솔린 2WD",
+          "badge": "구분",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "R2.0 2WD TLX 스페셜": {
+          "badge_group": "가솔린 2WD",
+          "badge": "TLX 스페셜",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "스토닉": {
+      "brand": "기아",
+      "model_group": "스토닉",
+      "encar_model": "스토닉",
+      "aliases": [
+        "스토닉"
+      ],
+      "trims": {
+        "1.4 가솔린 프레스티지": {
+          "badge_group": "가솔린 1400cc",
+          "badge": "1.4",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "U2 1.6 디젤 트렌디": {
+          "badge_group": "가솔린 2WD",
+          "badge": "트렌디",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "U2 1.6 디젤 프레스티지": {
+          "badge_group": "가솔린 2WD",
+          "badge": "프레스티지",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.4 가솔린 트렌디": {
+          "badge_group": "가솔린 1400cc",
+          "badge": "1.4",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "제타(7세대)": {
+      "brand": "폭스바겐",
+      "model_group": "제타",
+      "encar_model": "제타 (A7)",
+      "aliases": [
+        "제타 (A7)",
+        "제타 7세대",
+        "제타(7세대)",
+        "제타(a7)"
+      ],
+      "trims": {
+        "1.5 TSI 프레스티지": {
+          "badge_group": "가솔린 1500cc",
+          "badge": "1.5 TSI 프레스티지",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "1.4 TSI 프레스티지": {
+          "badge_group": "가솔린 1400cc",
+          "badge": "1.4 TSI 프레스티지",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "더 뉴K5": {
+      "brand": "기아",
+      "model_group": "K5",
+      "encar_model": "더 뉴 K5",
+      "aliases": [
+        "k5",
+        "더 뉴 K5",
+        "더 뉴K5",
+        "더k5",
+        "더뉴k5"
+      ],
+      "trims": {
+        "LPI 렌터카 프레스티지": {
+          "badge_group": "가솔린 2WD",
+          "badge": "프레스티지",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "2.0 CVVL 트렌디": {
+          "badge_group": "LPG 2WD",
+          "badge": "LPI 디럭스",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "2.0 CVVL 럭셔리": {
+          "badge_group": "가솔린 2WD",
+          "badge": "럭셔리",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "LPI 렌터카 노블레스": {
+          "badge_group": "가솔린 2WD",
+          "badge": "노블레스",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "2.0 터보 노블레스": {
+          "badge_group": "가솔린 2WD",
+          "badge": "노블레스",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "2.0 CVVL 노블레스": {
+          "badge_group": "가솔린 2WD",
+          "badge": "노블레스",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "올 뉴카니발": {
+      "brand": "기아",
+      "model_group": "카니발",
+      "encar_model": "올 뉴 카니발",
+      "aliases": [
+        "올 뉴 카니발",
+        "올 뉴카니발",
+        "올뉴카니발",
+        "올카니발",
+        "카니발"
+      ],
+      "trims": {
+        "9인승 가솔린 노블레스": {
+          "badge_group": "디젤 9 인승",
+          "badge": "노블레스",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "9인승 디젤 노블레스": {
+          "badge_group": "디젤 11 인승",
+          "badge": "11인승 노블레스",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "7인승 리무진 가솔린 프레지던트": {
+          "badge_group": "디젤 11 인승",
+          "badge": "11인승 노블레스",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "9인승 디젤 프레스티지": {
+          "badge_group": "디젤 9 인승",
+          "badge": "프레스티지",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "7인승 리무진 디젤 프레지던트": {
+          "badge_group": "디젤 11 인승",
+          "badge": "11인승 노블레스",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "9인승 디젤 럭셔리": {
+          "badge_group": "디젤 11 인승",
+          "badge": "11인승 노블레스",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "올 뉴프라이드": {
+      "brand": "기아",
+      "model_group": "프라이드",
+      "encar_model": "올 뉴 프라이드",
+      "aliases": [
+        "올 뉴 프라이드",
+        "올 뉴프라이드",
+        "올뉴프라이드",
+        "올프라이드",
+        "프라이드"
+      ],
+      "trims": {
+        "5도어 1.6 GDI 프레스티지 에코플러스": {
+          "badge_group": "가솔린 2WD",
+          "badge": "프레스티지",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "5도어 1.4 MPI 디럭스": {
+          "badge_group": "가솔린 1400cc",
+          "badge": "1.4 MPI 세단",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "5도어 1.6 GDI 프레스티지": {
+          "badge_group": "가솔린 2WD",
+          "badge": "프레스티지",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "4도어 1.4 MPI 디럭스": {
+          "badge_group": "가솔린 1400cc",
+          "badge": "1.4 MPI 세단",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "4도어 1.6 GDI 럭셔리": {
+          "badge_group": "가솔린 1400cc",
+          "badge": "1.4 MPI 세단",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        }
+      }
+    },
+    "봉고Ⅲ EV": {
+      "brand": "기아(아시아)",
+      "model_group": "봉고",
+      "encar_model": "더 뉴 봉고Ⅲ",
+      "aliases": [
+        "더 뉴 봉고Ⅲ",
+        "더뉴봉고ⅲ",
+        "봉고Ⅲ EV",
+        "봉고ⅲev"
+      ],
+      "trims": {
+        "카고 GLS": {
+          "badge_group": "전기",
+          "badge": "킹캡 EV",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
+        },
+        "윙바디 전동형": {
+          "badge_group": "전기",
+          "badge": "윙바디 전동형",
+          "badge_detail": "",
+          "updated_at": "2026-10-12 19:12:00"
         }
       }
     }
