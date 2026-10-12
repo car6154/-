@@ -764,6 +764,14 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
   const [isEncarSoldLoading, setIsEncarSoldLoading] = useState<boolean>(false);
   const [encarTotalModelCount, setEncarTotalModelCount] = useState<number>(0);
   const [encarFilteredCount, setEncarFilteredCount] = useState<number>(0);
+  const [encarFilterStats, setEncarFilterStats] = useState<{
+    targetBadge?: string;
+    totalModelCount?: number;
+    excludedByBadge?: number;
+    validCount?: number;
+    filterMethod?: string;
+    reason?: string;
+  } | null>(null);
   const [isEncarLoading, setIsEncarLoading] = useState<boolean>(false);
   const [encarErrorMessage, setEncarErrorMessage] = useState<string>('');
   const [encarSourceUrl, setEncarSourceUrl] = useState<string>('');
@@ -850,6 +858,7 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
         setLiveEncarList(data.items);
         setEncarTotalModelCount(data.totalModelCount || data.items.length);
         setEncarFilteredCount(data.filteredCount || data.items.length);
+        setEncarFilterStats(data.filterStats || null);
         if (data.directSearchUrl) {
           setEncarSourceUrl(data.directSearchUrl);
         } else if (options.url) {
@@ -887,6 +896,7 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
         setLiveEncarList([]);
         setEncarTotalModelCount(data.totalModelCount || 0);
         setEncarFilteredCount(0);
+        setEncarFilterStats(null);
         setEncarValuation(null);
         setEncarErrorMessage(data.message || '엔카 실시간 매물을 불러오지 못했습니다.');
         if (data.directSearchUrl) {
@@ -899,6 +909,7 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
       setLiveEncarList([]);
       setEncarTotalModelCount(0);
       setEncarFilteredCount(0);
+      setEncarFilterStats(null);
       setEncarValuation(null);
       setEncarErrorMessage('엔카 실시간 매물을 불러오지 못했습니다.');
     } finally {
@@ -1140,7 +1151,13 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
         if (res.maker) setManufacturer(res.maker);
         const resolvedCarName = res.model_detail_name || res.model_name || '';
         if (resolvedCarName) setCarName(resolvedCarName);
-        const resolvedGrade = res.grade_detail_name || res.grade_name || '';
+        const rawG = String(res.grade_name || '');
+        const rawGd = String(res.grade_detail_name || '');
+        const seatingMatch = rawG.match(/(\d+인승)/);
+        let resolvedGrade = rawGd || rawG || '';
+        if (seatingMatch && !resolvedGrade.includes(seatingMatch[1])) {
+          resolvedGrade = `${seatingMatch[1]} ${resolvedGrade}`.trim();
+        }
         if (resolvedGrade) setDetailModel(resolvedGrade);
 
         let yr = yearModel;
@@ -3723,6 +3740,35 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
                   <span className="text-xs text-amber-300/90 font-medium hidden sm:inline">👆 행 클릭 시 해당 비교 매물 점검표 열림</span>
                 </div>
               </div>
+
+              {/* [필터링 원칙 준수 안내 배너: 기준 등급 일치 매물만 포함, 제외 대수 및 사유 실시간 표시] */}
+              {encarFilterStats ? (
+                <div className="flex flex-wrap items-center justify-between gap-2 px-3 py-2 bg-gradient-to-r from-amber-500/10 via-indigo-500/10 to-transparent border border-amber-500/30 rounded-lg text-xs">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-extrabold border border-amber-500/40">
+                      🎯 기준 등급: {encarFilterStats.targetBadge || detailModel || '동급'}
+                    </span>
+                    <span className="text-zinc-300 text-xs">
+                      전체 <strong className="text-white font-mono">{encarFilterStats.totalModelCount || encarTotalModelCount}대</strong> 중
+                      {encarFilterStats.excludedByBadge && encarFilterStats.excludedByBadge > 0 ? (
+                        <> <strong className="text-amber-400 font-mono font-bold">등급 불일치로 {encarFilterStats.excludedByBadge.toLocaleString()}대 제외</strong> (하이리무진·타인승·타트림 배제) ➔</>
+                      ) : (
+                        <> 기준 등급 100% 일치 ➔</>
+                      )}
+                      {" "}최종 유효 표본 <strong className="text-emerald-400 font-mono font-bold">{encarFilterStats.validCount || encarList.length}대</strong>
+                    </span>
+                  </div>
+                  <span className="text-[11px] text-zinc-400 font-medium">
+                    ⚡ {encarFilterStats.filterMethod === 'API' ? '엔카 API 배지 필터 적용' : '로컬 엄격 일치 필터 적용'}
+                  </span>
+                </div>
+              ) : (
+                encarTotalModelCount > (encarFilteredCount || encarList.length) && (
+                  <div className="flex items-center gap-2 px-3 py-1.5 bg-amber-500/10 border border-amber-500/25 rounded-lg text-xs text-amber-300">
+                    <span>💡 필터링 기준: 등급 불일치로 {(encarTotalModelCount - (encarFilteredCount || encarList.length)).toLocaleString()}대 제외 ➔ 유효 {encarFilteredCount || encarList.length}대 표본 채택</span>
+                  </div>
+                )
+              )}
 
               <div className="overflow-x-auto h-[560px] max-h-[560px] overflow-y-auto border border-[#262833] rounded-xl scrollbar-thin scrollbar-thumb-zinc-700 bg-[#0a0b0e] flex-1">
                 {isEncarLoading ? (
