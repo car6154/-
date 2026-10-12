@@ -1643,15 +1643,11 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
   const [isInspectionLoading, setIsInspectionLoading] = useState<boolean>(false);
   const [isEncarSoldOpen, setIsEncarSoldOpen] = useState<boolean>(false);
 
+  // 🚨 [5순위 UX 혼동 방지]: 조회 차량과 비교 매물이 섞이지 않도록, 엔카 매물 로드 시 1위 매물 자동선택을 완전히 제거합니다.
+  // (사용자가 비교 매물 테이블의 행을 직접 클릭했을 때만 해당 매물의 상세 스펙 및 2D 점검표가 열립니다.)
   useEffect(() => {
-    if (encarList.length > 0) {
-      const firstId = encarList[0].id;
-      setSelectedEncarId(firstId);
-      handleSelectEncarCar(firstId);
-    } else {
-      setSelectedEncarId('');
-    }
-  }, [encarList]);
+    setSelectedEncarId('');
+  }, [carName, detailModel, yearModel, carNumber]);
 
   // 행 클릭 시 성능점검표 및 상세 옵션 즉시 호출
   const handleSelectEncarCar = async (carId: string) => {
@@ -1678,7 +1674,7 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
   };
 
   const selectedEncar: EncarItem | null = useMemo(() => {
-    const found = encarList.find(c => c.id === selectedEncarId) || (encarList.length > 0 ? encarList[0] : null);
+    const found = selectedEncarId ? (encarList.find(c => c.id === selectedEncarId) || null) : null;
     if (!found) {
       return null;
     }
@@ -2875,10 +2871,10 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
                     </span>
                   )}
                 </div>
-                {/* 🌟 Streamlit 8501 100% 동일: 비교차 선택 시 우세/공통 뱃지 연동 */}
+                {/* 🌟 비교차 선택 시에만 우세/공통 뱃지 연동, 미선택 시에는 조회차량 순정 표시 */}
                 {(() => {
                   if (!selectedEncar?.optionsText || selectedEncar.optionsText === '추가 옵션 없음' || !optionsTag || !optionsTag.trim()) {
-                    return <span className="text-[10px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-400 font-medium">장부연동</span>;
+                    return <span className="text-[10px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-400 font-medium border border-emerald-500/30">조회차량 순정</span>;
                   }
                   const compOpts = selectedEncar.optionsText.split(/[·,+,\/]/).map(o => o.replace(/\([^)]*\)/g, '').replace(/\[[^\]]*\]/g, '').trim()).filter(Boolean);
                   const tgtOpts = optionsTag.split(/[·,+,\/]/).map(o => o.replace(/\([^)]*\)/g, '').replace(/\[[^\]]*\]/g, '').trim()).filter(Boolean);
@@ -3729,9 +3725,24 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
         </div>
 
         {/* ========================================================
-            [2단계] 동급매물 (엔카 실시간 시세 리스트 & 2D 상태도) - 560px 고정 높이 & 풀필
+            [2단계] 시장 비교 매물 영역 (엔카 실시간 시세 리스트 & 비교 매물 2D 상태도)
             ======================================================== */}
-        <div className="bg-[#0e0f13] border border-[#262833] rounded-xl p-4 sm:p-5 shadow-lg space-y-3">
+        <div className="bg-[#0e0f13] border-2 border-amber-500/30 rounded-xl p-4 sm:p-5 shadow-xl space-y-4">
+          
+          {/* 비교 매물 영역 상단 명확한 구분 배너 */}
+          <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-[#262833] bg-amber-500/5 -mx-4 -mt-4 p-4 rounded-t-xl">
+            <div className="flex items-center gap-2">
+              <span className="px-2.5 py-1 rounded bg-amber-500/25 text-amber-300 font-black text-xs border border-amber-500/40 shadow-sm">
+                🔍 시장 비교 매물 영역
+              </span>
+              <span className="text-white font-bold text-sm sm:text-base">
+                엔카 실시간 등록 매물 리스트 ({encarFilteredCount || encarList.length}대)
+              </span>
+            </div>
+            <div className="text-xs text-zinc-400">
+              ⚠️ 아래 목록은 시장 시세 비교군이며, <strong className="text-sky-300">조회 차량({carNumber || carName || '타겟차량'})</strong>의 성능/점검 정보가 아닙니다.
+            </div>
+          </div>
           
           {/* Encar List + 2D Detail Layout */}
           <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 items-stretch">
@@ -3739,7 +3750,7 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
             {/* Table (Left 7 cols) */}
             <div className="xl:col-span-7 space-y-2 flex flex-col">
               <div className="flex items-center justify-between text-xs sm:text-sm font-bold text-white px-1">
-                <span>📰 엔카 시세 리스트 (전체 {encarTotalModelCount}대 중 유효 동급 {encarFilteredCount || encarList.length}대 전수 분석)</span>
+                <span>📰 엔카 동급 매물 (전체 {encarTotalModelCount}대 중 유효 {encarFilteredCount || encarList.length}대)</span>
                 <div className="flex items-center gap-2">
                   <button
                     type="button"
@@ -3748,7 +3759,7 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
                   >
                     <span>세부등급 {showTrimColumn ? '숨김' : '표시'}</span>
                   </button>
-                  <span className="text-xs text-zinc-400 hidden sm:inline">행 클릭 시 2D 점검표 연동</span>
+                  <span className="text-xs text-amber-300/90 font-medium hidden sm:inline">👆 행 클릭 시 해당 비교 매물 점검표 열림</span>
                 </div>
               </div>
 
@@ -3881,26 +3892,45 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
               </div>
             </div>
 
-            {/* Right: Detailed Inspection Card + 2D Car Diagram (Right 5 cols) - Streamlit 8501 100% 동일 자연 확장 (스크롤 없이 시원하게 늘어남) */}
+            {/* Right: Detailed Inspection Card + 2D Car Diagram (Right 5 cols) - 비교 매물 선택 시에만 표출 */}
             <div className="xl:col-span-5 bg-[#14151b] border border-[#262833] rounded-xl p-4 sm:p-5 space-y-4 h-auto flex flex-col justify-between">
               {!selectedEncar ? (
-                <div className="flex flex-col items-center justify-center h-full text-center space-y-3 py-12">
-                  <Car className="w-12 h-12 text-zinc-600" />
-                  <div className="text-sm font-bold text-zinc-300">선택된 실시간 매물이 없습니다</div>
-                  <div className="text-xs text-zinc-400 max-w-[240px] leading-relaxed">
-                    좌측 매물 목록에서 차량을 클릭하면 상세 사양 및 외판/골격 상태도가 표출됩니다.
+                <div className="flex flex-col items-center justify-center h-full text-center space-y-3 py-16 px-4 bg-[#0a0b0e] rounded-xl border border-dashed border-[#2a2d3d]">
+                  <div className="w-12 h-12 rounded-full bg-amber-500/10 flex items-center justify-center text-amber-400">
+                    <Car className="w-6 h-6" />
                   </div>
+                  <div className="text-sm font-bold text-white">비교 매물이 선택되지 않았습니다</div>
+                  <div className="text-xs text-zinc-400 max-w-[280px] leading-relaxed">
+                    좌측 <span className="text-amber-300 font-semibold">엔카 비교 매물 목록</span>에서 확인하고 싶은 차량의 행을 클릭하면, 해당 비교 매물의 <span className="text-sky-300 font-semibold">외판/골격 2D 상태도와 성능점검 기록부</span>가 여기에 표시됩니다.
+                  </div>
+                  {carNumber && (
+                    <div className="mt-2 px-3 py-1.5 rounded bg-[#161822] border border-[#282a3a] text-[11px] text-zinc-400">
+                      현재 조회 차량: <strong className="text-emerald-400 font-mono">{carNumber}</strong> ({carName} / {mileageKm.toLocaleString()}km)
+                    </div>
+                  )}
                 </div>
               ) : (
                 <>
                   <div className="flex items-center justify-between pb-2 border-b border-[#262833]">
-                    <div className="flex items-center gap-1.5 text-sm font-bold text-white">
-                      <Eye className="w-4 h-4 text-blue-400" />
-                      <span>상세 사양 &amp; 성능점검</span>
+                    <div className="flex items-center gap-2">
+                      <span className="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold text-[11px] border border-amber-500/30">
+                        엔카 비교 차량
+                      </span>
+                      <span className="text-sm font-bold text-white">비교 매물 상세 사양 &amp; 성능점검</span>
                     </div>
-                    <span className="text-xs text-zinc-400">
-                      {isInspectionLoading ? '⚡ 점검표 수신 중...' : '선택 차량 실시간 연동'}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs text-zinc-400 font-mono">
+                        {isInspectionLoading ? '⚡ 점검표 수신 중...' : `ID: ${selectedEncar.id}`}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setSelectedEncarId('')}
+                        className="text-[11px] px-2 py-0.5 rounded bg-[#232634] hover:bg-[#323646] text-zinc-300 hover:text-white font-medium transition cursor-pointer"
+                        title="비교 매물 선택 해제"
+                      >
+                        선택 해제 ✕
+                      </button>
+                    </div>
                   </div>
 
                   {/* Title & Badges */}
