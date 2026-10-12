@@ -52,6 +52,7 @@ data/scratch_sonata.html
 *_backup.csv
 *.bak
 backups/
+data/*.backup-*.json
 .playwright-mcp/
 .system_generated/
 
