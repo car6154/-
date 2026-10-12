@@ -1164,6 +1164,7 @@ class SalesDataAnalyzer:
     def get_market_stats(self, car_name, sub_model="", year="", current_retail=0):
         """차종별 회전율, 마진, 수요 통계 및 자사 재고 현황 산출 (경매 제외 순수 소매 완판 기준)"""
         matches = self.find_matches(car_name, sub_model, year)
+        auction_matches = self.find_matches(car_name, sub_model, year, target_df=getattr(self, 'auction_sales_df', None))
         inv_matches = self.find_inventory_matches(car_name, sub_model, year)
 
         # 현재 자사 보유재고(판매중/계약중) 현황 분석
@@ -1212,7 +1213,9 @@ class SalesDataAnalyzer:
                 "aggressive_bid": int(current_retail - 100) if current_retail > 100 else 0,
                 "standard_bid": int(current_retail - 180) if current_retail > 180 else 0,
                 "defensive_bid": int(current_retail - 280) if current_retail > 280 else 0,
-                "sample_desc": f"'{car_name}' 관련 최근 소매 완판 실적 데이터가 부족합니다."
+                "sample_desc": f"'{car_name}' 관련 최근 소매 완판 실적 데이터가 부족합니다.",
+                "sample_df": pd.DataFrame(),
+                "auction_sample_df": auction_matches
             }
 
         total_count = len(matches)
@@ -1354,7 +1357,8 @@ class SalesDataAnalyzer:
             "standard_bid": standard_bid,
             "defensive_bid": defensive_bid,
             "sample_desc": sample_desc_text,
-            "sample_df": matches
+            "sample_df": matches,
+            "auction_sample_df": auction_matches
         }
 
     # 오토플러스 표기 -> 엔카(Encar) 공식 제조사 및 대표 모델그룹 매핑 데이터베이스

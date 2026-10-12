@@ -61180,7 +61180,7 @@
     "first_seen_time": "2026-10-12 16:56",
     "last_seen": "2026-10-12",
     "status": "판매중",
-    "consecutive_misses": 0
+    "consecutive_misses": 1
   },
   "42851464": {
     "carid": "42851464",
@@ -61194,7 +61194,7 @@
     "first_seen_time": "2026-10-12 16:56",
     "last_seen": "2026-10-12",
     "status": "판매중",
-    "consecutive_misses": 0
+    "consecutive_misses": 1
   },
   "40879192": {
     "carid": "40879192",
@@ -61208,7 +61208,7 @@
     "first_seen_time": "2026-10-12 16:56",
     "last_seen": "2026-10-12",
     "status": "판매중",
-    "consecutive_misses": 0
+    "consecutive_misses": 1
   },
   "40420205": {
     "carid": "40420205",
@@ -61222,7 +61222,7 @@
     "first_seen_time": "2026-10-12 16:56",
     "last_seen": "2026-10-12",
     "status": "판매중",
-    "consecutive_misses": 0
+    "consecutive_misses": 1
   },
   "42880963": {
     "carid": "42880963",
@@ -62244,6 +62244,62 @@
     "inv_days": "0",
     "first_seen": "2026-10-12",
     "first_seen_time": "2026-10-12 17:58",
+    "last_seen": "2026-10-12",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42360854": {
+    "carid": "42360854",
+    "name": "i40살룬",
+    "year": "14(14)",
+    "mileage": 161015,
+    "price": 399,
+    "perf_date": "26-07-13",
+    "inv_days": "91",
+    "first_seen": "2026-10-12",
+    "first_seen_time": "2026-10-12 22:24",
+    "last_seen": "2026-10-12",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "41210041": {
+    "carid": "41210041",
+    "name": "i40살룬",
+    "year": "14(14)",
+    "mileage": 186847,
+    "price": 430,
+    "perf_date": "26-09-01",
+    "inv_days": "41",
+    "first_seen": "2026-10-12",
+    "first_seen_time": "2026-10-12 22:24",
+    "last_seen": "2026-10-12",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42822365": {
+    "carid": "42822365",
+    "name": "i40살룬",
+    "year": "13(14)",
+    "mileage": 109973,
+    "price": 659,
+    "perf_date": "26-09-23",
+    "inv_days": "19",
+    "first_seen": "2026-10-12",
+    "first_seen_time": "2026-10-12 22:24",
+    "last_seen": "2026-10-12",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42041955": {
+    "carid": "42041955",
+    "name": "i40살룬",
+    "year": "13(14)",
+    "mileage": 90668,
+    "price": 689,
+    "perf_date": "26-05-19",
+    "inv_days": "146",
+    "first_seen": "2026-10-12",
+    "first_seen_time": "2026-10-12 22:24",
     "last_seen": "2026-10-12",
     "status": "판매중",
     "consecutive_misses": 0

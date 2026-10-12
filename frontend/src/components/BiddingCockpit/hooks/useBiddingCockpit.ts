@@ -1386,7 +1386,7 @@ export function useBiddingCockpit({
     return salesDataRaw as any[];
   });
 
-  const [soldTabMode, setSoldTabMode] = useState<'demand' | 'encar' | 'autoplus' | 'none'>('none');
+  const [soldTabMode, setSoldTabMode] = useState<'encar' | 'autoplus' | 'wholesale' | 'none'>('none');
   const [filterOnlyRetail, setFilterOnlyRetail] = useState<boolean>(true); // 기본값: 순수 소매(엔카광고 집행) 매물만 필터 (경매/도매 배제)
   const [isExcelUploading, setIsExcelUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -1517,6 +1517,13 @@ export function useBiddingCockpit({
   const matchedAutoplusList = useMemo(() => {
     if (liveMarketStats && Array.isArray(liveMarketStats.sample_list)) {
       return liveMarketStats.sample_list;
+    }
+    return [];
+  }, [liveMarketStats]);
+
+  const matchedAuctionList = useMemo(() => {
+    if (liveMarketStats && Array.isArray(liveMarketStats.auction_sample_list)) {
+      return liveMarketStats.auction_sample_list;
     }
     return [];
   }, [liveMarketStats]);
@@ -1966,6 +1973,7 @@ export function useBiddingCockpit({
     encarYearStats,
     encarSoldList,
     matchedAutoplusList,
+    matchedAuctionList,
     encarList,
     soldTabMode,
     setSoldTabMode,

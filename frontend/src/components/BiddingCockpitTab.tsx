@@ -112,6 +112,7 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = (props) => {
           encarYearStats={cockpit.encarYearStats}
           encarSoldList={cockpit.encarSoldList}
           matchedAutoplusList={cockpit.matchedAutoplusList}
+          matchedAuctionList={cockpit.matchedAuctionList}
           encarList={cockpit.encarList}
           soldTabMode={cockpit.soldTabMode}
           setSoldTabMode={cockpit.setSoldTabMode}

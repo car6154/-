@@ -234,6 +234,7 @@ def get_market_statistics(car_name: str, sub_model: Optional[str] = "", year: Op
             for _, r in sample_df.iterrows():
                 sample_list.append({
                     "id": f"autoplus-{r.get('차량번호', _)}",
+                    "soldDate": str(r.get("최종수정일", "") or r.get("최초등록일", "") or "-"),
                     "carNumber": str(r.get("차량번호", "")),
                     "carName": str(r.get("차량명", "")),
                     "subModel": str(r.get("세부모델", "")),
@@ -248,13 +249,35 @@ def get_market_statistics(car_name: str, sub_model: Optional[str] = "", year: Op
                     "regDate": str(r.get("최초등록일", "")),
                     "encarUrl": str(r.get("E URL", ""))
                 })
+
+        auction_df = stats.get("auction_sample_df")
+        auction_sample_list = []
+        if auction_df is not None and isinstance(auction_df, pd.DataFrame) and not auction_df.empty:
+            for _, r in auction_df.iterrows():
+                auction_sample_list.append({
+                    "id": f"autoplus-auction-{r.get('차량번호', _)}",
+                    "soldDate": str(r.get("최종수정일", "") or r.get("최초등록일", "") or "-"),
+                    "carNumber": str(r.get("차량번호", "")),
+                    "carName": str(r.get("차량명", "")),
+                    "subModel": str(r.get("세부모델", "")),
+                    "year": str(r.get("등록연도_num", "") or r.get("연식", "")),
+                    "mileage": int(r.get("주행거리_num", 0) or 0),
+                    "buyPrice": int(r.get("매입가", 0) or 0),
+                    "sellPrice": int(r.get("판매가_만원", 0) or 0),
+                    "realizedProfit": int(r.get("이익_만원", 0) or 0),
+                    "stockDays": int(r.get("경과일수_num", 0) or 0),
+                    "branch": str(r.get("지점", "")),
+                    "manager": str(r.get("담당자명", "") or "도매출고"),
+                    "regDate": str(r.get("최초등록일", ""))
+                })
         
-        cleaned_stats = {k: v for k, v in stats.items() if k != "sample_df"}
+        cleaned_stats = {k: v for k, v in stats.items() if k not in ["sample_df", "auction_sample_df"]}
         return {
             "success": True,
             "data": {
                 **cleaned_stats,
-                "sample_list": sample_list
+                "sample_list": sample_list,
+                "auction_sample_list": auction_sample_list
             }
         }
     except Exception as e:
