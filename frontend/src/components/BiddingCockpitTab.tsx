@@ -2794,71 +2794,7 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
               </div>
             </div>
 
-            {/* 🌟 🏷️ 실차주 출고정보 & 보험사고 이력 (5단계 규칙 기반 종합 상태 판정 직결) */}
-            {targetCarHistory && (() => {
-              const assess = currentAssessment;
 
-              return (
-                <div 
-                  onClick={() => setShowCarHistoryModal(true)}
-                  className="bg-[#0f172a]/70 hover:bg-[#0f172a]/95 border border-sky-500/35 hover:border-sky-400 rounded-lg p-2.5 space-y-1.5 text-xs shadow-md cursor-pointer transition group"
-                  title="클릭 시 카히스토리 & 등록원부 상세 리포트 열기"
-                >
-                  <div className="flex justify-between items-center border-b border-white/10 pb-1.5">
-                    <span className="font-bold text-sky-400 text-[11px] flex items-center gap-1">
-                      📄 카히스토리 & 등록원부
-                    </span>
-                    <span className="text-[10px] text-sky-300 font-bold bg-sky-500/20 group-hover:bg-sky-500/30 px-1.5 py-0.5 rounded border border-sky-400/40 flex items-center gap-0.5 transition">
-                      상세리포트 ↗
-                    </span>
-                  </div>
-
-                  {targetCarHistory.standardNewCarPrice > 0 && (
-                    <div className="flex justify-between items-center text-[11px]">
-                      <span className="text-zinc-400 text-[10px]">신차 출고가</span>
-                      <span className="font-bold text-slate-100 text-[11px] font-mono">
-                        {targetCarHistory.standardNewCarPrice.toLocaleString()}만
-                        {targetCarHistory.totalOptionPrice ? (
-                          <span className="text-[10px] text-amber-300 font-semibold ml-1">
-                            (옵션 +{targetCarHistory.totalOptionPrice.toLocaleString()}만)
-                          </span>
-                        ) : null}
-                      </span>
-                    </div>
-                  )}
-
-                  <div className="flex justify-between items-center text-[11px]">
-                    <span className={targetCarHistory.isSingleOwner ? "text-emerald-400 font-bold" : "text-amber-400 font-semibold"}>
-                      {targetCarHistory.isSingleOwner ? "🟢 1인 신조 (소유변경 0회)" : `🟡 소유자 변경 ${targetCarHistory.ownerChangedCount}회`}
-                    </span>
-                    <span className="text-zinc-400 text-[10px]">
-                      {targetCarHistory.hasRentHistory ? "⚠️ 렌트이력 있음" : "용도이력 없음"}
-                    </span>
-                  </div>
-
-                  <div className="flex justify-between items-center text-[10px] text-zinc-300 bg-[#1e293b]/50 p-1.5 rounded border border-[#334155]/40 font-mono">
-                    <span>내차: <b className={targetCarHistory.myCarAccidentCount > 0 ? "text-rose-400" : "text-emerald-400"}>{targetCarHistory.myCarAccidentCount}건({targetCarHistory.myCarAccidentCost}만)</b></span>
-                    <span>타차: <b className="text-zinc-300">{targetCarHistory.otherCarAccidentCount}건({targetCarHistory.otherCarAccidentCost}만)</b></span>
-                    <span>침수/전손: <b className={targetCarHistory.floodedCount > 0 || targetCarHistory.totalLossCount > 0 ? "text-rose-400" : "text-emerald-400"}>{targetCarHistory.floodedCount + targetCarHistory.totalLossCount}건</b></span>
-                  </div>
-
-                  {targetCarHistory.originDoc && (
-                    <div className="flex justify-between items-center text-[10px] text-zinc-300 bg-[#0d1527] px-2 py-1 rounded border border-emerald-500/30 font-mono">
-                      <span>원부: <b className={targetCarHistory.originDoc.seizure_count > 0 || targetCarHistory.originDoc.mortgage_count > 0 ? "text-rose-400" : "text-emerald-400"}>
-                        {targetCarHistory.originDoc.seizure_count > 0 || targetCarHistory.originDoc.mortgage_count > 0 
-                          ? `압류${targetCarHistory.originDoc.seizure_count} 저당${targetCarHistory.originDoc.mortgage_count}` 
-                          : "압류/저당 0건 (클린)"}
-                      </b></span>
-                      <span>검사: <b className="text-sky-300">{targetCarHistory.originDoc.inspection_valid_end?.slice(2) || '-'}</b></span>
-                    </div>
-                  )}
-
-                  <div className="text-[10px] text-sky-400/80 text-center font-medium pt-0.5 group-hover:text-sky-300 transition flex items-center justify-center gap-1">
-                    <span>🔍 클릭하여 5대 검증 종합 리포트 큰 화면 열기</span>
-                  </div>
-                </div>
-              );
-            })()}
 
             {/* Options */}
             <div className="space-y-1.5">
@@ -3207,41 +3143,62 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
             </div>
           </div>
 
-          {/* 🛡️ 5단계 전체 규칙 기반 차량 상태 판정 종합 브리핑 바 (클릭 시 전용 대형 리포트 모달 오픈) */}
+          {/* 🛡️ 차량 상태 판정 및 원부·카히스토리 통합 브리핑 바 (클릭 시 전용 대형 리포트 모달 오픈) */}
           <div 
             onClick={() => setShowCarHistoryModal(true)}
             className="bg-[#121622] hover:bg-[#161c2d] border border-sky-500/35 hover:border-sky-400/60 rounded-xl p-3 flex flex-col md:flex-row md:items-center justify-between gap-3 shadow-md transition cursor-pointer group"
-            title="클릭 시 5단계 전체 규칙 판정 및 국토부 등록원부·카히스토리 상세 모달 열기"
+            title="클릭 시 국토부 등록원부 및 카히스토리 상세 모달 열기"
           >
             <div className="flex flex-wrap items-center gap-2">
-              <span className="text-xs font-bold text-sky-400 flex items-center gap-1.5">
-                <span>🛡️ 5단계 상태 판정</span>
-              </span>
               <span 
-                className="px-2.5 py-0.5 rounded-full text-xs font-black border"
+                className="px-2.5 py-0.5 rounded-full text-xs font-black border flex items-center gap-1"
                 style={{ 
                   backgroundColor: `${currentAssessment.gradeBadgeColor}20`, 
                   color: currentAssessment.gradeBadgeColor, 
                   borderColor: `${currentAssessment.gradeBadgeColor}50` 
                 }}
               >
-                {currentAssessment.gradeName}
+                <span>🛡️</span>
+                <span>{currentAssessment.gradeName}</span>
               </span>
               
-              {/* 5대 검증 태그 컴팩트 칩들 */}
-              <div className="flex flex-wrap items-center gap-1 text-[11px]">
-                <span className={`px-2 py-0.5 rounded border ${currentAssessment.legalRights.isPass ? 'bg-emerald-500/10 text-emerald-300 border-emerald-500/30' : 'bg-rose-500/20 text-rose-300 border-rose-500/40 font-bold'}`}>
-                  권리: {currentAssessment.legalRights.isPass ? '클린' : '하자'}
-                </span>
+              {/* 핵심 검증 태그 칩들: '5단계' 및 '주행' 제외, 실무 우선순위 반영 */}
+              <div className="flex flex-wrap items-center gap-1.5 text-[11px]">
+                {/* 1. 사고 및 내차피해 */}
                 <span className={`px-2 py-0.5 rounded border ${currentAssessment.accidentDamage.isPass ? 'bg-emerald-500/10 text-emerald-300 border-emerald-500/30' : 'bg-rose-500/20 text-rose-300 border-rose-500/40 font-bold'}`}>
                   사고: {currentAssessment.accidentDamage.status === 'PERFECT' ? '무사고' : currentAssessment.accidentDamage.status === 'MINOR' ? '단순수리' : '골격/결격'}
+                  {targetCarHistory && targetCarHistory.myCarAccidentCount > 0 ? (
+                    <span className="ml-1 text-[10px] opacity-90 font-mono">
+                      (내차 {targetCarHistory.myCarAccidentCount}건/{targetCarHistory.myCarAccidentCost}만)
+                    </span>
+                  ) : null}
                 </span>
+
+                {/* 2. 침수 / 전손 */}
+                <span className={`px-2 py-0.5 rounded border ${(!targetCarHistory || (targetCarHistory.floodedCount === 0 && targetCarHistory.totalLossCount === 0)) ? 'bg-emerald-500/10 text-emerald-300 border-emerald-500/30' : 'bg-rose-500/20 text-rose-300 border-rose-500/40 font-bold animate-pulse'}`}>
+                  침수·전손: {targetCarHistory && (targetCarHistory.floodedCount > 0 || targetCarHistory.totalLossCount > 0) 
+                    ? `🚨${targetCarHistory.floodedCount + targetCarHistory.totalLossCount}건` 
+                    : '0건'}
+                </span>
+
+                {/* 3. 용도 및 소유자 변경 */}
                 <span className={`px-2 py-0.5 rounded border ${currentAssessment.ownershipUsage.isPass ? 'bg-emerald-500/10 text-emerald-300 border-emerald-500/30' : 'bg-amber-500/20 text-amber-300 border-amber-500/40'}`}>
                   용도: {currentAssessment.ownershipUsage.status === 'SINGLE' ? '1인신조' : currentAssessment.ownershipUsage.status === 'RENT' ? '렌트이력' : '자가용'}
+                  {targetCarHistory && targetCarHistory.ownerChangedCount > 0 && !targetCarHistory.isSingleOwner ? (
+                    <span className="ml-1 text-[10px] opacity-90 font-mono">({targetCarHistory.ownerChangedCount}회 변경)</span>
+                  ) : null}
                 </span>
-                <span className={`px-2 py-0.5 rounded border ${currentAssessment.mileageIntegrity.isPass ? 'bg-emerald-500/10 text-emerald-300 border-emerald-500/30' : 'bg-rose-500/20 text-rose-300 border-rose-500/40 font-bold animate-pulse'}`}>
-                  주행: {currentAssessment.mileageIntegrity.status === 'ROLLBACK_SUSPECT' ? '🚨역주행의심' : currentAssessment.mileageIntegrity.status === 'EXCELLENT' ? '저주행' : '적정'}
+
+                {/* 4. 원부 (압류/저당) */}
+                <span className={`px-2 py-0.5 rounded border ${currentAssessment.legalRights.isPass ? 'bg-emerald-500/10 text-emerald-300 border-emerald-500/30' : 'bg-rose-500/20 text-rose-300 border-rose-500/40 font-bold'}`}>
+                  원부: {currentAssessment.legalRights.isPass 
+                    ? '클린' 
+                    : (targetCarHistory?.originDoc && (targetCarHistory.originDoc.seizure_count > 0 || targetCarHistory.originDoc.mortgage_count > 0)
+                        ? `압류${targetCarHistory.originDoc.seizure_count} 저당${targetCarHistory.originDoc.mortgage_count}`
+                        : '하자')}
                 </span>
+
+                {/* 5. 정기검사 */}
                 <span className={`px-2 py-0.5 rounded border ${currentAssessment.inspectionValidity.isPass ? 'bg-emerald-500/10 text-emerald-300 border-emerald-500/30' : 'bg-rose-500/20 text-rose-300 border-rose-500/40 font-bold'}`}>
                   검사: {currentAssessment.inspectionValidity.status === 'EXPIRED' ? '🚨만료' : currentAssessment.inspectionValidity.status === 'EXPIRING_SOON' ? '⚠️임박' : '유효'}
                 </span>
