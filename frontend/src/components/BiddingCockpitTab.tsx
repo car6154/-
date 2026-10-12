@@ -1106,6 +1106,8 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
     }
 
     setIsSearchingCar(true);
+    setExpectedSellPrice(0);
+    setEncarValuation(null);
     setSearchStatus({
       type: 'info',
       message: '🔍 차얼마 & 엔카 실시간 제원/옵션 스캔 중...'
@@ -2401,12 +2403,36 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
     });
   }, [encarList, yearModel]);
 
+  // 🎯 [실시간 AI 빅데이터 정밀 소매가] (Streamlit 8501 100% 동일)
+  const aiRetailPrice = useMemo(() => {
+    const marketAvg = encarStats.avg > 0 
+      ? encarStats.avg 
+      : (encarList.length > 0 ? Math.round(encarList.reduce((a, b) => a + (b.price || 0), 0) / encarList.length) : 0);
+    const rawIndPrice = encarValuation?.individualPrice || 0;
+    const validIndPrice = (rawIndPrice > 0 && marketAvg > 0 && rawIndPrice < marketAvg * 1.6 && rawIndPrice > marketAvg * 0.4)
+      ? rawIndPrice
+      : (marketAvg > 0 ? marketAvg : 0);
+    return validIndPrice;
+  }, [encarStats, encarList, encarValuation]);
+
+  // 🔄 AI 정밀 소매가가 계산되면 좌측 예상 소매가(expectedSellPrice) 자동 동기화
+  useEffect(() => {
+    if (aiRetailPrice > 0 && expectedSellPrice === 0) {
+      setExpectedSellPrice(aiRetailPrice);
+    }
+  }, [aiRetailPrice, expectedSellPrice]);
+
+  // 실시간 유효 소매가 (사용자 직접 입력값 우선, 없으면 AI 정밀 소매가)
+  const effectiveSellPrice = useMemo(() => {
+    return expectedSellPrice > 0 ? expectedSellPrice : aiRetailPrice;
+  }, [expectedSellPrice, aiRetailPrice]);
+
   // 💡 [8501 Streamlit 100% 동기화] 실시간 안전 입찰 상한가 & 제비용 & 헤이딜러 수수료 공식
   const isLightCar = useMemo(() => {
     return ['모닝', '레이', '스파크', '마티즈', '캐스퍼', '티코'].some(k => (carName || '').includes(k));
   }, [carName]);
 
-  const sellingFee = useMemo(() => Math.round(expectedSellPrice * 0.007 * 10) / 10, [expectedSellPrice]); // 판매수수료 0.7%
+  const sellingFee = useMemo(() => Math.round(effectiveSellPrice * 0.007 * 10) / 10, [effectiveSellPrice]); // 판매수수료 0.7%
   const repairCostTotal = outerRepairCount * 13; // 외판 판당 13만
   const directExpense = 15; // 기본제경비 15만
 
@@ -2414,8 +2440,8 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
   const ruleAdjustmentAmount = 0;
 
   const firstTarget = useMemo(() => {
-    return expectedSellPrice - sellingFee - directExpense - repairCostTotal - targetMargin;
-  }, [expectedSellPrice, sellingFee, directExpense, repairCostTotal, targetMargin]);
+    return effectiveSellPrice - sellingFee - directExpense - repairCostTotal - targetMargin;
+  }, [effectiveSellPrice, sellingFee, directExpense, repairCostTotal, targetMargin]);
 
   // 헤이딜러 실측 수수료 구간표 계산 함수
   const calcPurchaseFee = useCallback((targetVal: number, route: string, isLight: boolean) => {
@@ -2463,12 +2489,12 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
   }, [calcPurchaseFee, userBid, auctionType, isLightCar]);
 
   const actualMargin = useMemo(() => {
-    return expectedSellPrice - sellingFee - directExpense - repairCostTotal - actualPurchaseFee - userBid;
-  }, [expectedSellPrice, sellingFee, directExpense, repairCostTotal, actualPurchaseFee, userBid]);
+    return effectiveSellPrice - sellingFee - directExpense - repairCostTotal - actualPurchaseFee - userBid;
+  }, [effectiveSellPrice, sellingFee, directExpense, repairCostTotal, actualPurchaseFee, userBid]);
 
   // 산점도 동적 축 범위 계산
-  const scatterMinY = Math.max(0, Math.floor(Math.min(expectedSellPrice, encarStats.min) * 0.85 / 10) * 10);
-  const scatterMaxY = Math.ceil(Math.max(expectedSellPrice, encarStats.max) * 1.15 / 10) * 10;
+  const scatterMinY = Math.max(0, Math.floor(Math.min(effectiveSellPrice > 0 ? effectiveSellPrice : encarStats.min, encarStats.min) * 0.85 / 10) * 10);
+  const scatterMaxY = Math.ceil(Math.max(effectiveSellPrice, encarStats.max) * 1.15 / 10) * 10;
   const scatterRangeY = Math.max(10, scatterMaxY - scatterMinY);
   const scatterMaxX = Math.max(50000, Math.ceil(Math.max(mileageKm, ...encarList.map(c => c.mileage)) * 1.25 / 10000) * 10000);
 
@@ -3419,13 +3445,7 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
               const marketAvg = encarStats.avg > 0 
                 ? encarStats.avg 
                 : (encarList.length > 0 ? Math.round(encarList.reduce((a, b) => a + (b.price || 0), 0) / encarList.length) : 0);
-              const rawIndPrice = encarValuation?.individualPrice || 0;
-              const validIndPrice = (rawIndPrice > 0 && marketAvg > 0 && rawIndPrice < marketAvg * 1.6 && rawIndPrice > marketAvg * 0.4)
-                ? rawIndPrice
-                : (marketAvg > 0 ? marketAvg : 0);
-
-              const hasPreset = expectedSellPrice > 0 && (marketAvg <= 0 || (expectedSellPrice < marketAvg * 1.6 && expectedSellPrice > marketAvg * 0.4));
-              const retailPrice = hasPreset ? expectedSellPrice : validIndPrice;
+              const retailPrice = effectiveSellPrice;
 
               // 매물 또는 유효 소매가가 전혀 없는 경우 목업 렌더링 방지
               if (retailPrice <= 0 || marketAvg <= 0 || (encarStats.count === 0 && encarList.length === 0)) {
@@ -4289,9 +4309,9 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
 
               {/* 🎯 선택된 차량 산점도 강조 표시 (별 모양 및 외곽선 - Streamlit과 동일하게 선택된 엔카 차량의 실제 좌표에 렌더링) */}
               {(() => {
-                const targetCar = encarList.find(c => c.id === selectedEncarId) || encarList[0];
+                const targetCar = selectedEncarId ? encarList.find(c => c.id === selectedEncarId) : null;
                 const activeMil = targetCar ? targetCar.mileage : mileageKm;
-                const activePrice = targetCar ? targetCar.price : expectedSellPrice;
+                const activePrice = targetCar ? targetCar.price : effectiveSellPrice;
                 const activeName = targetCar ? targetCar.carName : (carName || '선택차량');
 
                 if (activeMil <= 0 || activePrice <= 0) return null;
@@ -4331,7 +4351,7 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = ({
             </svg>
           </div>
           <p className="text-[11px] text-[#717482] text-center">
-            💡 주행거리가 짧을수록 가격이 상승하는 자연스러운 감가 곡선(추세선) 대비, 선택 차량({carName} {expectedSellPrice}만)의 포지셔닝을 실시간 비교합니다.
+            💡 주행거리가 짧을수록 가격이 상승하는 자연스러운 감가 곡선(추세선) 대비, 선택 차량({carName || '선택 차량'}{effectiveSellPrice > 0 ? ` ${effectiveSellPrice.toLocaleString()}만` : ''})의 포지셔닝을 실시간 비교합니다.
           </p>
 
         </div>
