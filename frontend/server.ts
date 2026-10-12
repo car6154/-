@@ -263,6 +263,103 @@ async function startServer() {
     return res.json({ success: false, sold_statistics: { has_data: false }, enriched_info: {} });
   });
 
+  // [마스터 차량 매핑 DB 캐시 및 BadgeGroup 자동 매핑 엔진]
+  let masterCarDb: any = null;
+  try {
+    const possiblePaths = [
+      path.join(process.cwd(), '..', 'data', 'master_car_mapping.json'),
+      path.join(process.cwd(), 'data', 'master_car_mapping.json'),
+      path.resolve('c:/Users/car61/Desktop/제이프로젝트/data/master_car_mapping.json')
+    ];
+    for (const p of possiblePaths) {
+      if (fs.existsSync(p)) {
+        masterCarDb = JSON.parse(fs.readFileSync(p, 'utf-8'));
+        break;
+      }
+    }
+  } catch (_) {}
+
+  const resolveBadgeGroup = (carName: string, subModel: string, targetBadge: string): string => {
+    // 1. 마스터 DB에서 직접 탐색
+    if (masterCarDb?.models) {
+      const models = masterCarDb.models;
+      const targets = [subModel, carName];
+      for (const [mName, mInfo] of Object.entries<any>(models)) {
+        const matchModel = targets.some(t => t && (mName.includes(t) || t.includes(mName) || mInfo.encar_model?.includes(t) || t.includes(mInfo.encar_model)));
+        if (matchModel && mInfo.trims) {
+          // A. 정확한 트림명 일치
+          for (const [tName, tData] of Object.entries<any>(mInfo.trims)) {
+            if (tName === targetBadge || tData.badge === targetBadge) {
+              if (tData.badge_group) return tData.badge_group;
+            }
+          }
+          // B. 정규화 부분 일치
+          const cleanTarget = targetBadge.replace(/\s+/g, '').toLowerCase();
+          for (const [tName, tData] of Object.entries<any>(mInfo.trims)) {
+            const cleanTrim = tName.replace(/\s+/g, '').toLowerCase();
+            const cleanBadge = (tData.badge || '').replace(/\s+/g, '').toLowerCase();
+            if (cleanTrim.includes(cleanTarget) || cleanTarget.includes(cleanTrim) || cleanBadge === cleanTarget) {
+              if (tData.badge_group) return tData.badge_group;
+            }
+          }
+        }
+      }
+    }
+
+    // 2. 규칙 기반 지능형 추론 (카니발, 그랜저, 쏘나타 등)
+    const normCar = (carName + ' ' + subModel).toLowerCase().replace(/\s+/g, '');
+    const normBadge = targetBadge.toLowerCase().replace(/\s+/g, '');
+
+    if (normCar.includes('카니발')) {
+      const seatMatch = normBadge.match(/(\d+)인승/) || normCar.match(/(\d+)인승/);
+      const seats = seatMatch ? seatMatch[1] : '9';
+      const isGasoline = normBadge.includes('가솔린') || normCar.includes('가솔린') || normBadge.includes('3.3') || normBadge.includes('3.5');
+      const isHybrid = normBadge.includes('하이브리드');
+      if (isHybrid) return `하이브리드 ${seats}인승`;
+      if (isGasoline) return `가솔린 ${seats} 인승`;
+      return `디젤 ${seats} 인승`; // 엔카 공식: "디젤 9 인승", "디젤 11 인승", "디젤 7 인승"
+    }
+
+    if (normCar.includes('그랜저')) {
+      if (normBadge.includes('하이브리드')) return '하이브리드';
+      if (normBadge.includes('2.4') || normBadge.includes('240')) return '가솔린 2400cc';
+      if (normBadge.includes('2.5')) return '가솔린 2500cc';
+      if (normBadge.includes('3.0') || normBadge.includes('300')) return normBadge.includes('lpi') ? 'LPG 3000cc' : '가솔린 3000cc';
+      if (normBadge.includes('3.3') || normBadge.includes('330')) return '가솔린 3300cc';
+    }
+
+    if (normCar.includes('쏘나타')) {
+      if (normBadge.includes('하이브리드')) return '하이브리드';
+      if (normBadge.includes('1.6') || normBadge.includes('터보')) return '가솔린 1600cc';
+      if (normBadge.includes('2.0')) return normBadge.includes('lpi') ? 'LPG 2000cc' : '가솔린 2000cc';
+    }
+
+    if (normCar.includes('아반떼')) {
+      if (normBadge.includes('하이브리드')) return '하이브리드';
+      if (normBadge.includes('1.6')) return '가솔린 1600cc';
+      if (normBadge.includes('2.0') || normBadge.includes(' n')) return '가솔린 2000cc';
+    }
+
+    if (normCar.includes('k5')) {
+      if (normBadge.includes('하이브리드')) return '하이브리드';
+      if (normBadge.includes('1.6')) return '가솔린 1600cc';
+      if (normBadge.includes('2.0')) return '가솔린 2000cc';
+    }
+
+    if (normCar.includes('쏘렌토') || normCar.includes('싼타페')) {
+      if (normBadge.includes('하이브리드')) return '하이브리드';
+      if (normBadge.includes('2.0')) return '디젤 2000cc';
+      if (normBadge.includes('2.2')) return '디젤 2200cc';
+      if (normBadge.includes('2.5')) return '가솔린 2500cc';
+    }
+
+    if (normCar.includes('레이') || normCar.includes('캐스퍼') || normCar.includes('모닝') || normCar.includes('스파크')) {
+      return '가솔린 1000cc';
+    }
+
+    return '';
+  };
+
   // 4. 엔카 실시간 동급 매물 및 시세 검색 API (URL 파싱 + 모델/연식/주행거리 자동 쿼리 빌더)
   app.all('/api/encar/search', async (req, res) => {
     const rawUrl = (req.body?.url || req.query.url) as string || '';
@@ -421,12 +518,17 @@ async function startServer() {
           targetBadge = `${seatingMatch[1]} ${targetBadge}`.trim();
         }
 
-        // 엔카 계층 트리 구성 (모델 전용 vs 배지 포함)
+        // 2. detailModel에서 BadgeGroup 자동 매핑 (예: "9인승 프레스티지" -> "디젤 9 인승")
+        const targetBadgeGroup = resolveBadgeGroup(carName, subModel, targetBadge);
+
+        // 엔카 계층 트리 구성 (모델 전용 vs BadgeGroup/배지 포함 스트림릿 정답 규격)
         let coreTreeModelOnly = '';
         let coreTreeWithBadge = '';
         if (subModel) {
           coreTreeModelOnly = `(C.CarType.Y._.(C.Manufacturer.${brand}._.(C.ModelGroup.${modelGroup}._.Model.${subModel}.)))`;
-          if (targetBadge) {
+          if (targetBadge && targetBadgeGroup) {
+            coreTreeWithBadge = `(C.CarType.Y._.(C.Manufacturer.${brand}._.(C.ModelGroup.${modelGroup}._.(C.Model.${subModel}._.(C.BadgeGroup.${targetBadgeGroup}._.Badge.${targetBadge}.)))))`;
+          } else if (targetBadge) {
             coreTreeWithBadge = `(C.CarType.Y._.(C.Manufacturer.${brand}._.(C.ModelGroup.${modelGroup}._.(C.Model.${subModel}._.Badge.${targetBadge}.))))`;
           }
         } else {
@@ -439,21 +541,21 @@ async function startServer() {
           const fullYear = yearVal < 100 ? (2000 + yearVal) : yearVal;
           const startYr = fullYear - 1;
           const endYr = fullYear + 1;
-          specRanges.push(`Year.range(${startYr}01..${endYr}12).`);
+          specRanges.push(`Year.range(${startYr}01..${endYr}12)`);
         }
 
         // 주행거리 범위 필터: 대표님 지침 기준 ± 50,000km 전수 수집
         if (mileageVal > 0) {
           const minMil = Math.max(0, Math.floor((mileageVal - 50000) / 10000) * 10000);
           const maxMil = Math.ceil((mileageVal + 50000) / 10000) * 10000;
-          specRanges.push(`Mileage.range(${minMil}..${maxMil}).`);
+          specRanges.push(`Mileage.range(${minMil}..${maxMil})`);
         }
 
-        const specPart = specRanges.length > 0 ? `_.${specRanges.join('_.')}` : '';
+        const specPart = specRanges.length > 0 ? `_.${specRanges.join('._.')}.` : '';
         conditionModelOnly = `(And.Hidden.N._.${coreTreeModelOnly}${specPart})`;
         const conditionWithBadge = coreTreeWithBadge ? `(And.Hidden.N._.${coreTreeWithBadge}${specPart})` : '';
 
-        // 기본 condition은 targetBadge 쿼리 우선 설정
+        // 기본 condition은 BadgeGroup/targetBadge 쿼리 우선 설정
         condition = conditionWithBadge || conditionModelOnly;
 
         const payload = {
@@ -486,42 +588,65 @@ async function startServer() {
       let usedBadgeApi = false;
       const pageSize = 100;
 
-      // 1단계: targetBadge가 존재하면 엔카 API 쿼리에 Badge 직접 적용 시도
+      // 1단계: targetBadge / BadgeGroup이 존재하면 엔카 API 쿼리에 직접 적용 시도
       let activeQueryCondition = condition;
       if (condition.includes('Badge.') && condition.includes('Model.')) {
         try {
-          const badgeRes = await fetch(`https://api.encar.com/search/car/list/general?count=true&q=${encodeURIComponent(condition)}&sr=%7CModifiedDate%7C0%7C100`, {
+          let badgeRes = await fetch(`https://api.encar.com/search/car/list/general?count=true&q=${encodeURIComponent(condition)}&sr=%7CModifiedDate%7C0%7C100`, {
             headers: {
-              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
+              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
               'Referer': 'http://www.encar.com/',
-              'Accept': 'application/json'
+              'Accept': 'application/json, text/plain, */*'
             }
           });
+          if (badgeRes.status === 429) {
+            await new Promise(r => setTimeout(r, 1500));
+            badgeRes = await fetch(`https://api.encar.com/search/car/list/general?count=true&q=${encodeURIComponent(condition)}&sr=%7CModifiedDate%7C0%7C100`, {
+              headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'Referer': 'http://www.encar.com/',
+                'Accept': 'application/json, text/plain, */*'
+              }
+            });
+          }
           if (badgeRes.ok) {
             const badgeData = await badgeRes.json();
             if (badgeData?.Count && badgeData.Count > 0) {
               usedBadgeApi = true;
               totalCount = badgeData.Count;
               allRawCars = badgeData.SearchResults || [];
-              logEvent('ENCAR_OUT', `[Encar API] Badge 필터 적용 성공: ${totalCount}대 발견 (Badge: ${req.body?.detailModel || ''})`);
-
-              // 모델 전체 등록 대수(카운트만 경량 조회, sr=ModifiedDate|0|1)
-              try {
-                const countCond = conditionModelOnly || condition.replace(/\._\.Badge\.[^)]+\./g, '').replace(/Badge\.[^)]+\./g, '');
-                const mRes = await fetch(`https://api.encar.com/search/car/list/general?count=true&q=${encodeURIComponent(countCond)}&sr=%7CModifiedDate%7C0%7C1`, {
-                  headers: { 'User-Agent': 'Mozilla/5.0', 'Referer': 'http://www.encar.com/', 'Accept': 'application/json' }
-                });
-                if (mRes.ok) {
-                  const mData = await mRes.json();
-                  totalModelCount = mData.Count || totalCount;
-                }
-              } catch (_) {
-                totalModelCount = totalCount;
-              }
+              totalModelCount = totalCount;
+              logEvent('ENCAR_OUT', `[Encar API] Badge/BadgeGroup 필터 적용 성공: ${totalCount}대 발견 (Condition: ${condition.slice(0, 100)}...)`);
             }
           }
         } catch (e: any) {
           logEvent('ENCAR_WARN', `Badge API search failed, falling back to model-only search: ${e.message}`);
+        }
+
+        // 만약 BadgeGroup 포함 조건으로 0건인 경우, Badge 단독 조건으로 1회 안전 재시도
+        if (!usedBadgeApi && condition.includes('BadgeGroup.')) {
+          const fallbackBadgeCond = condition.replace(/\(C\.BadgeGroup\.[^._]+\._\./g, '').replace(/\.\)\)\)/g, '.))');
+          try {
+            const fbRes = await fetch(`https://api.encar.com/search/car/list/general?count=true&q=${encodeURIComponent(fallbackBadgeCond)}&sr=%7CModifiedDate%7C0%7C100`, {
+              headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
+                'Referer': 'http://www.encar.com/',
+                'Accept': 'application/json'
+              }
+            });
+            if (fbRes.ok) {
+              const fbData = await fbRes.json();
+              if (fbData?.Count && fbData.Count > 0) {
+                usedBadgeApi = true;
+                totalCount = fbData.Count;
+                allRawCars = fbData.SearchResults || [];
+                totalModelCount = totalCount;
+                condition = fallbackBadgeCond;
+                activeQueryCondition = fallbackBadgeCond;
+                logEvent('ENCAR_OUT', `[Encar API] Badge 단독 필터 적용 성공: ${totalCount}대 발견`);
+              }
+            }
+          } catch (_) {}
         }
       }
 
@@ -582,26 +707,36 @@ async function startServer() {
       }
 
       // 매물 수가 100대를 초과할 경우 잔여 페이지 전수 병렬 수집 (최대 1,000대 안전 보호)
+      // 매물 수가 100대를 초과할 경우 잔여 페이지 전수 수집 (최대 1,000대 안전 보호)
       if (totalCount > pageSize && totalCount <= 1000) {
         const remainingPages = Math.min(Math.ceil(totalCount / pageSize), 10);
-        const fetchPromises = [];
         for (let p = 1; p < remainingPages; p++) {
           const offset = p * pageSize;
-          fetchPromises.push(
-            fetch(`https://api.encar.com/search/car/list/general?count=false&q=${encodeURIComponent(activeQueryCondition)}&sr=%7CModifiedDate%7C${offset}%7C${pageSize}`, {
+          try {
+            let pRes = await fetch(`https://api.encar.com/search/car/list/general?count=false&q=${encodeURIComponent(activeQueryCondition)}&sr=%7CModifiedDate%7C${offset}%7C${pageSize}`, {
               headers: {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
                 'Referer': 'http://www.encar.com/',
-                'Accept': 'application/json'
+                'Accept': 'application/json, text/plain, */*'
               }
-            }).then(r => r.json()).catch(() => ({ SearchResults: [] }))
-          );
-        }
-        const pagesData = await Promise.all(fetchPromises);
-        for (const pd of pagesData) {
-          if (pd.SearchResults && Array.isArray(pd.SearchResults)) {
-            allRawCars = allRawCars.concat(pd.SearchResults);
-          }
+            });
+            if (pRes.status === 429) {
+              await new Promise(r => setTimeout(r, 1200));
+              pRes = await fetch(`https://api.encar.com/search/car/list/general?count=false&q=${encodeURIComponent(activeQueryCondition)}&sr=%7CModifiedDate%7C${offset}%7C${pageSize}`, {
+                headers: {
+                  'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                  'Referer': 'http://www.encar.com/',
+                  'Accept': 'application/json, text/plain, */*'
+                }
+              });
+            }
+            if (pRes.ok) {
+              const pd = await pRes.json();
+              if (pd.SearchResults && Array.isArray(pd.SearchResults)) {
+                allRawCars = allRawCars.concat(pd.SearchResults);
+              }
+            }
+          } catch (_) {}
         }
       }
 
@@ -681,10 +816,11 @@ async function startServer() {
       if (strictTargetBadge) {
         validCars = rawCars.filter((c: any) => isStrictMatch(c, strictTargetBadge));
         if (usedBadgeApi) {
-          // API 레벨에서 이미 배지로 수집되었으므로, 모델 전체 대수와의 차이가 제외 대수
-          excludedByBadge = Math.max(0, totalModelCount - validCars.length);
+          // BadgeGroup/Badge API로 이미 타겟 등급만 정밀 수집되었으므로 불필요한 제외 문구(727대 제외 등) 제거
+          excludedByBadge = 0;
+          totalModelCount = rawCars.length;
         } else {
-          // 로컬 필터링으로 걸러진 대수
+          // 로컬 필터링으로 걸러진 대수 (모델 전체에서 로컬로 제외했을 때만 노출)
           excludedByBadge = rawCars.length - validCars.length;
         }
       } else {
