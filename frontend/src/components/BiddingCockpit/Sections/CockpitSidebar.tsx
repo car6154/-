@@ -56,6 +56,7 @@ export interface CockpitSidebarProps {
   setMemo: (memo: string) => void;
   savedSuccess: boolean;
   handleSaveToLedger: () => void;
+  targetCatalog?: NewCarCatalogData | null;
 }
 
 export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
@@ -101,18 +102,20 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
   setMemo,
   savedSuccess,
   handleSaveToLedger,
+  targetCatalog: propTargetCatalog,
 }) => {
-  const [targetCatalog, setTargetCatalog] = useState<NewCarCatalogData | null>(null);
+  const [internalCatalog, setInternalCatalog] = useState<NewCarCatalogData | null>(null);
   const [compCatalog, setCompCatalog] = useState<NewCarCatalogData | null>(null);
+  const targetCatalog = propTargetCatalog !== undefined && propTargetCatalog !== null ? propTargetCatalog : internalCatalog;
 
   useEffect(() => {
     let isMounted = true;
     if (carName) {
       fetchNewCarCatalog(carName, yearModel ? String(yearModel) : undefined).then((cat) => {
-        if (isMounted) setTargetCatalog(cat);
+        if (isMounted) setInternalCatalog(cat);
       });
     } else {
-      setTargetCatalog(null);
+      setInternalCatalog(null);
     }
     return () => {
       isMounted = false;
@@ -469,7 +472,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
                       return (
                         <span
                           key={idx}
-                          title={hasComp ? detail.tooltipText : `[${opt}]\n조회 차량의 장착 순정 옵션입니다.`}
+                          title={detail.tooltipText || `[${opt}]\n조회 차량의 장착 순정 옵션입니다.`}
                           className="px-2 py-0.5 rounded bg-sky-500/20 border border-sky-400/60 text-sky-300 font-semibold text-[11px] flex items-center gap-1 cursor-help hover:brightness-110 transition"
                         >
                           <span className="text-sky-400 text-[10px]">{hasComp ? '✓' : '•'}</span>

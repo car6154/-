@@ -69,6 +69,7 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = (props) => {
         setMemo={cockpit.setMemo}
         savedSuccess={cockpit.savedSuccess}
         handleSaveToLedger={cockpit.handleSaveToLedger}
+        targetCatalog={cockpit.targetNewCarCatalog}
       />
 
       {/* ========================================================

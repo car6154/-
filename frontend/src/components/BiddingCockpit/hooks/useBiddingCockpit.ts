@@ -16,6 +16,7 @@ import {
   isOptionMatched,
   fetchNewCarCatalog,
   normalizeChaolmaOptions,
+  NewCarCatalogData,
 } from '@/services/biddingOptionCatalog';
 import salesDataRaw from '@/data/real_autoplus_sold.json';
 import { EncarItem, EncarSoldItem, EncarSoldStats, HeydealerBidItem, BiddingCockpitTabProps } from '../types';
@@ -197,6 +198,9 @@ export function useBiddingCockpit({
   // 자사 오토플러스 실적 및 시장 수요도 상태 (상단 호이스팅)
   const [liveMarketStats, setLiveMarketStats] = useState<any>(null);
 
+  // 🌟 공식 신차가격표 카탈로그 실시간 보관 상태 (옵션 툴팁 즉시 렌더링용)
+  const [targetNewCarCatalog, setTargetNewCarCatalog] = useState<NewCarCatalogData | null>(null);
+
   // 🧹 차량 변경/재조회 시 이전 차량 데이터 완전 초기화 (상태 잔류 및 가격 오염 방지)
   const resetCockpitState = useCallback((options?: { keepInputs?: boolean }) => {
     // 1. 헤이딜러 실시간 낙찰 데이터 및 선택 상태 완전 초기화
@@ -228,6 +232,7 @@ export function useBiddingCockpit({
     setCockpitModalCar(null);
     setOptionsTag('');
     setSearchStatus(null);
+    setTargetNewCarCatalog(null);
 
     // 5. 기본 입력 필드 (keepInputs가 false이거나 없을 때만 초기화)
     if (!options?.keepInputs) {
@@ -642,6 +647,7 @@ export function useBiddingCockpit({
 
         if (res.options && res.options.length > 0) {
           const cat = await fetchNewCarCatalog(res.model_detail_name || res.model_name || resolvedCarName || carName, yr ? String(yr) : undefined);
+          if (cat) setTargetNewCarCatalog(cat);
           const normalized = normalizeChaolmaOptions(res.options, cat);
           const optStr = normalized.map(o => `${o.standardName}(${o.standardPriceMan}만)`).join(' · ');
           const totalOptMan = normalized.reduce((acc, cur) => acc + cur.standardPriceMan, 0);
@@ -981,6 +987,7 @@ export function useBiddingCockpit({
               // 차올마 순정옵션이 있으면 옵션태그를 카탈로그 기준 표준 옵션명(출고가 포함)으로 정확히 교체 (중복 방지)
               if (chRes.options && chRes.options.length > 0) {
                 const cat = await fetchNewCarCatalog(chRes.model_detail_name || chRes.model_name || carData.car_name, (chRes as any).model_year || chRes.year);
+                if (cat) setTargetNewCarCatalog(cat);
                 const normalized = normalizeChaolmaOptions(chRes.options, cat);
                 const optStr = normalized.map(o => `${o.standardName}(${o.standardPriceMan}만)`).join(' · ');
                 const totalOptMan = normalized.reduce((acc, cur) => acc + cur.standardPriceMan, 0);
@@ -2103,5 +2110,8 @@ export function useBiddingCockpit({
     // 모달 상태
     cockpitModalCar,
     setCockpitModalCar,
+
+    // 신차 공식 카탈로그 상태
+    targetNewCarCatalog,
   };
 }

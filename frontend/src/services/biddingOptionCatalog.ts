@@ -849,10 +849,10 @@ export const getOptionMatchDetail = (
     p.matchKeywords.some(k => norm.includes(normalizeOpt(k)) && k.length >= 3)
   );
 
-  // 2. 내 차 공식 카탈로그 정보
-  const myCatalog = direction === 'target_vs_comp' ? targetCatalog : compCatalog;
-  const oppCatalog = direction === 'target_vs_comp' ? compCatalog : targetCatalog;
-  const officialInfo = findOfficialCatalogOption(cleanName, myCatalog);
+  // 2. 내 차 공식 카탈로그 정보 (상호 fallback 지원)
+  const myCatalog = (direction === 'target_vs_comp' ? targetCatalog : compCatalog) || (direction === 'target_vs_comp' ? compCatalog : targetCatalog);
+  const oppCatalog = (direction === 'target_vs_comp' ? compCatalog : targetCatalog) || (direction === 'target_vs_comp' ? targetCatalog : compCatalog);
+  const officialInfo = findOfficialCatalogOption(cleanName, myCatalog) || findOfficialCatalogOption(cleanName, oppCatalog);
 
   // 3. 상대 차량 옵션 목록과 대조하여 최적 매칭 대상 찾기
   let bestMatch: CatalogMatchResult | null = null;
@@ -898,7 +898,10 @@ export const getOptionMatchDetail = (
 
   if (direction === 'target_vs_comp') {
     // 내 차(사이드바) 기준
-    if (isMatched && confidence === 'exact') {
+    if (oppositeOpts.length === 0) {
+      lines.push('🟢 조회 차량 장착 순정 출고 사양');
+      lines.push('👉 시장 비교 매물 선택 시 대조 분석 활성화');
+    } else if (isMatched && confidence === 'exact') {
       lines.push(`✓ [공식 카탈로그 일치] 비교 차량 장착 확인됨 (${matchedOpposite})`);
       lines.push('👉 신차 공식 출고 사양 일치로 시세 동등');
     } else if (isMatched && confidence === 'fuzzy') {
