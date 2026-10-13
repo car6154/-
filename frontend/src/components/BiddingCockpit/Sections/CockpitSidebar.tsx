@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Sparkles,
   RefreshCw,
   Search,
 } from 'lucide-react';
-import { isOptionMatched, splitOptionString, getOptionMatchDetail } from '@/services/biddingOptionCatalog';
+import {
+  isOptionMatched,
+  splitOptionString,
+  getOptionMatchDetail,
+  fetchNewCarCatalog,
+  NewCarCatalogData
+} from '@/services/biddingOptionCatalog';
 import { EncarItem } from './ComparableEncarSection';
 
 export interface CockpitSidebarProps {
@@ -96,6 +102,37 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
   savedSuccess,
   handleSaveToLedger,
 }) => {
+  const [targetCatalog, setTargetCatalog] = useState<NewCarCatalogData | null>(null);
+  const [compCatalog, setCompCatalog] = useState<NewCarCatalogData | null>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    if (carName) {
+      fetchNewCarCatalog(carName, yearModel ? String(yearModel) : undefined).then((cat) => {
+        if (isMounted) setTargetCatalog(cat);
+      });
+    } else {
+      setTargetCatalog(null);
+    }
+    return () => {
+      isMounted = false;
+    };
+  }, [carName, yearModel]);
+
+  useEffect(() => {
+    let isMounted = true;
+    if (selectedEncar?.carName) {
+      fetchNewCarCatalog(selectedEncar.carName, selectedEncar.year ? String(selectedEncar.year) : undefined).then((cat) => {
+        if (isMounted) setCompCatalog(cat);
+      });
+    } else {
+      setCompCatalog(null);
+    }
+    return () => {
+      isMounted = false;
+    };
+  }, [selectedEncar?.carName, selectedEncar?.year]);
+
   return (
       <div className="w-full lg:w-[320px] xl:w-[340px] shrink-0 space-y-4 lg:sticky lg:top-4 self-start max-h-[calc(100vh-2rem)] overflow-y-auto scrollbar-thin scrollbar-thumb-zinc-700 pr-1">
         <div className="bg-[#0e0f13] border border-[#262833] rounded-xl p-4 shadow-xl space-y-4">
@@ -351,11 +388,15 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
                   if (compOpts.length === 0 || tgtOpts.length === 0) {
                     return <span className="text-[10px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-400 font-medium border border-emerald-500/30">조회차량 순정</span>;
                   }
-                  const winCount = tgtOpts.filter(to => !compOpts.some(co => isOptionMatched(co, to))).length;
+                  const matchDetails = tgtOpts.map(to => getOptionMatchDetail(to, compOpts, 'target_vs_comp', targetCatalog, compCatalog));
+                  const winCount = matchDetails.filter(d => !d.isMatched).length;
+                  const exactCount = matchDetails.filter(d => d.confidence === 'exact').length;
+                  const fuzzyCount = matchDetails.filter(d => d.confidence === 'fuzzy').length;
+
                   if (winCount > 0) {
                     return (
                       <span
-                        title={`비교 매물(${selectedEncar.carName}) 대비 내 차에만 있는 우세 옵션: ${winCount}개`}
+                        title={`비교 매물(${selectedEncar.carName}) 대비 내 차 우세/고유 옵션: ${winCount}개\n공식 일치: ${exactCount}개 / 추정 매칭: ${fuzzyCount}개`}
                         className="text-[10px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-400 font-bold border border-emerald-500 cursor-help"
                       >
                         🟢 우세 {winCount}개
@@ -364,7 +405,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
                   }
                   return (
                     <span
-                      title={`비교 매물(${selectedEncar.carName})과 핵심 옵션 동일 장착 (시세 동등)`}
+                      title={`비교 매물(${selectedEncar.carName})과 핵심 옵션 일치 (공식 일치: ${exactCount}개, 추정: ${fuzzyCount}개)`}
                       className="text-[10px] px-1.5 py-0.2 rounded bg-sky-500/20 text-sky-300 font-bold border border-sky-400/50 cursor-help"
                     >
                       🔵 공통 사양
@@ -373,7 +414,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
                 })()}
               </div>
 
-              {/* Parsed Option Chips (양방향 분해 매칭 + 마우스 호버 상세 툴팁) */}
+              {/* Parsed Option Chips (카탈로그 정밀 매칭 + 3단계 신뢰도 + 마우스 호버 상세 툴팁) */}
               {optionsTag && optionsTag.trim().length > 0 ? (
                 <div className="flex flex-wrap gap-1.5 py-1">
                   {(() => {
@@ -390,10 +431,10 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
                     }
 
                     return tgtOpts.map((opt, idx) => {
-                      const detail = getOptionMatchDetail(opt, compOpts, 'target_vs_comp');
+                      const detail = getOptionMatchDetail(opt, compOpts, 'target_vs_comp', targetCatalog, compCatalog);
 
                       if (hasComp && !detail.isMatched) {
-                        // 타겟 우세 옵션: 녹색 강조 (+ opt)
+                        // 타겟 우세/고유 옵션: 녹색 강조 (+ opt)
                         return (
                           <span
                             key={idx}
@@ -406,7 +447,21 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
                         );
                       }
 
-                      // 공통 옵션 또는 기본: 블루/하늘색 (✓ opt)
+                      if (hasComp && detail.confidence === 'fuzzy') {
+                        // 퍼지 추정 매칭: 주황/호박색 경고/주의 (~ opt)
+                        return (
+                          <span
+                            key={idx}
+                            title={detail.tooltipText}
+                            className="px-2 py-0.5 rounded bg-amber-500/20 border border-amber-500/60 text-amber-300 font-semibold text-[11px] flex items-center gap-1 cursor-help hover:brightness-110 transition"
+                          >
+                            <span className="text-amber-400 text-[10px] font-black">~</span>
+                            <span>{opt}</span>
+                          </span>
+                        );
+                      }
+
+                      // 공식 카탈로그 일치 또는 비교차 없음: 블루/하늘색 (✓ opt)
                       return (
                         <span
                           key={idx}

@@ -92,6 +92,105 @@ def health_check():
 
 
 # ----------------------------------------------------
+# 0-0. 신차가격표 카탈로그 조회 API (옵션 및 패키지 정밀 매칭용)
+# ----------------------------------------------------
+_newcar_catalog_cache = None
+_newcar_catalog_mtime = 0
+
+def _get_newcar_catalog():
+    global _newcar_catalog_cache, _newcar_catalog_mtime
+    cat_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "encar_newcar_catalog.json")
+    if not os.path.exists(cat_path):
+        return {}
+    mtime = os.path.getmtime(cat_path)
+    if _newcar_catalog_cache is None or mtime > _newcar_catalog_mtime:
+        try:
+            with open(cat_path, "r", encoding="utf-8") as f:
+                _newcar_catalog_cache = json.load(f)
+                _newcar_catalog_mtime = mtime
+        except Exception as e:
+            print(f"[api_server] 신차가격표 카탈로그 로드 실패: {e}")
+            _newcar_catalog_cache = {}
+    return _newcar_catalog_cache or {}
+
+
+@app.get("/api/newcar_catalog")
+def get_newcar_catalog_endpoint(car_name: str, year: Optional[str] = None):
+    """
+    차량명(예: 올 뉴 카니발)과 연식(예: 2017)으로 공식 신차 옵션 및 패키지 목록 조회
+    """
+    if not car_name:
+        return {"success": False, "message": "차량명을 입력해주세요."}
+
+    catalog = _get_newcar_catalog()
+    clean_name = re.sub(r'^(현대|기아|제네시스|쉐보레|르노코리아|르노삼성|KG모빌리티|쌍용)\s*', '', car_name).strip()
+    norm_input = re.sub(r'\s+', '', clean_name).lower()
+
+    # 1. 모델명 매칭
+    matched_key = None
+    if clean_name in catalog:
+        matched_key = clean_name
+    else:
+        for k in catalog.keys():
+            if re.sub(r'\s+', '', k).lower() == norm_input:
+                matched_key = k
+                break
+        if not matched_key:
+            for k in catalog.keys():
+                norm_k = re.sub(r'\s+', '', k).lower()
+                if norm_input in norm_k or norm_k in norm_input:
+                    matched_key = k
+                    break
+
+    if not matched_key:
+        return {"success": False, "message": f"'{car_name}' 모델을 카탈로그에서 찾을 수 없습니다."}
+
+    model_data = catalog[matched_key]
+
+    # 2. 연식 매칭
+    target_yr = None
+    if year:
+        m_yr = re.search(r'(20\d{2})', str(year))
+        if m_yr:
+            target_yr = m_yr.group(1)
+        else:
+            m_short = re.search(r'(\d{2})', str(year))
+            if m_short:
+                target_yr = f"20{m_short.group(1)}"
+            else:
+                target_yr = str(year).strip()
+
+    if target_yr and target_yr in model_data:
+        res = model_data[target_yr]
+        return {
+            "success": True,
+            "model": matched_key,
+            "year": target_yr,
+            "grades": res.get("grades", []),
+            "options": res.get("options", {}),
+            "packages": res.get("packages", {})
+        }
+
+    # 해당 연식이 없으면 등록된 최신 연식 폴백
+    all_yrs = sorted(list(model_data.keys()), reverse=True)
+    if all_yrs:
+        fallback_yr = all_yrs[0]
+        res = model_data[fallback_yr]
+        return {
+            "success": True,
+            "model": matched_key,
+            "year": fallback_yr,
+            "fallback": True,
+            "requested_year": year,
+            "grades": res.get("grades", []),
+            "options": res.get("options", {}),
+            "packages": res.get("packages", {})
+        }
+
+    return {"success": False, "message": f"'{matched_key}'의 연식 데이터를 찾을 수 없습니다."}
+
+
+# ----------------------------------------------------
 # 0-1. 오토플러스.Data 사내 데이터 자동 동기화 API
 # ----------------------------------------------------
 @app.get("/api/autoplus/sync_status")

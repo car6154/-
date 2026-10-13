@@ -432,6 +432,9 @@ export const computeBiGramJaccard = (strA: string, strB: string): number => {
   return union > 0 ? intersection / union : 0;
 };
 
+// 🌟 핵심 등급/스펙 수식어 목록 (한쪽에만 존재할 경우 동일 옵션으로 판정 금지)
+const SPEC_QUALIFIER_KEYWORDS = ['스마트', 'uvo', '유보', '어라운드뷰', 'avm', '서라운드뷰', 'svm', 'jbl', '크렐', 'krell', '보스', 'bose', '렉시콘', 'lexicon', '드라이브와이즈', '스마트센스'];
+
 // 🌟 전체적 정규화 옵션 매칭 판정 (전체 카탈로그 분해 + 바이그램 자카드 + 약어 동의어 매칭)
 export const isOptionMatched = (optA: string, optB: string): boolean => {
   if (!optA || !optB) return false;
@@ -449,14 +452,19 @@ export const isOptionMatched = (optA: string, optB: string): boolean => {
   const numsB = normB.match(/[1-9]/g);
   const hasConflictingVersion = numsA && numsB && numsA.join('') !== numsB.join('');
 
-  // 2. 부분 일치 (버전 충돌이 없을 때, 2글자 이상 키워드 상호 포함)
-  if (!hasConflictingVersion) {
+  // 🌟 핵심 등급/스펙 수식어 충돌 방지 (예: 일반 내비게이션 vs 스마트 내비게이션, uvo 내비게이션 등)
+  const hasConflictingQualifier = SPEC_QUALIFIER_KEYWORDS.some(kw =>
+    normA.includes(kw) !== normB.includes(kw)
+  );
+
+  // 2. 부분 일치 (버전 및 핵심 수식어 충돌이 없을 때만 2글자 이상 키워드 상호 포함)
+  if (!hasConflictingVersion && !hasConflictingQualifier) {
     if (normA.length >= 2 && normB.includes(normA)) return true;
     if (normB.length >= 2 && normA.includes(normB)) return true;
   }
 
   // 3. 영문 약어 및 동의어 전역 매핑 검사
-  if (!hasConflictingVersion) {
+  if (!hasConflictingVersion && !hasConflictingQualifier) {
     for (const group of CORE_EQUIVALENCE_GROUPS) {
       const hitA = group.some(g => normA.includes(g));
       const hitB = group.some(g => normB.includes(g));
@@ -471,20 +479,18 @@ export const isOptionMatched = (optA: string, optB: string): boolean => {
     const isPkgB = pkg.aliases.some(b => normB.includes(normalizeOpt(b))) || normB.includes(normalizeOpt(pkg.name));
 
     if (isPkgA && !isPkgB) {
-      // optA가 패키지 -> optB가 패키지 매칭 키워드나 품목에 포함되는지 검사
       const hit = pkg.matchKeywords.some(kw => normB.includes(normalizeOpt(kw)) || normalizeOpt(kw).includes(normB)) ||
                   pkg.items.some(it => normB.includes(normalizeOpt(it)) || normalizeOpt(it).includes(normB));
-      if (hit) return true;
+      if (hit && !hasConflictingQualifier) return true;
     } else if (isPkgB && !isPkgA) {
-      // optB가 패키지 -> optA가 패키지 매칭 키워드나 품목에 포함되는지 검사
       const hit = pkg.matchKeywords.some(kw => normA.includes(normalizeOpt(kw)) || normalizeOpt(kw).includes(normA)) ||
                   pkg.items.some(it => normA.includes(normalizeOpt(it)) || normalizeOpt(it).includes(normA));
-      if (hit) return true;
+      if (hit && !hasConflictingQualifier) return true;
     }
   }
 
   // 5. 문자 바이그램 자카드 유사도 (Jaccard Index >= 0.42)
-  if (!hasConflictingVersion) {
+  if (!hasConflictingVersion && !hasConflictingQualifier) {
     const jaccard = computeBiGramJaccard(normA, normB);
     if (jaccard >= 0.42) {
       return true;
@@ -533,28 +539,225 @@ export const splitOptionString = (optStr: string): string[] => {
     .filter(o => o.length > 0 && !['없음', '-', '기본'].includes(o));
 };
 
+// ═══════════════════════════════════════════════════════════════
+// 📚 신차가격표 카탈로그 기반 정밀 매칭 엔진
+// ═══════════════════════════════════════════════════════════════
+
+export interface NewCarCatalogData {
+  success: boolean;
+  model: string;
+  year: string;
+  fallback?: boolean;
+  grades: string[];
+  options: Record<string, { price: number | null; desc?: string }>;
+  packages: Record<string, string>;
+}
+
+// 프론트엔드 카탈로그 인메모리 캐시
+const newCarCatalogCache = new Map<string, Promise<NewCarCatalogData | null>>();
+
+/**
+ * 차량명과 연식으로 백엔드 신차가격표 카탈로그 조회
+ */
+export const fetchNewCarCatalog = async (carName: string, year?: string): Promise<NewCarCatalogData | null> => {
+  if (!carName || !carName.trim()) return null;
+  const cleanName = carName.trim();
+  const cleanYr = (year || '').trim();
+  const cacheKey = `${cleanName}__${cleanYr}`;
+
+  if (newCarCatalogCache.has(cacheKey)) {
+    return newCarCatalogCache.get(cacheKey)!;
+  }
+
+  const promise = (async () => {
+    try {
+      const url = `/api/newcar_catalog?car_name=${encodeURIComponent(cleanName)}&year=${encodeURIComponent(cleanYr)}`;
+      const res = await fetch(url);
+      if (!res.ok) return null;
+      const data = await res.json();
+      if (data && data.success) {
+        return data as NewCarCatalogData;
+      }
+      return null;
+    } catch {
+      return null;
+    }
+  })();
+
+  newCarCatalogCache.set(cacheKey, promise);
+  return promise;
+};
+
+export interface OfficialOptionMatch {
+  officialName: string;
+  price: number | null;
+  desc?: string;
+}
+
+/**
+ * 주어진 옵션명에서 카탈로그 내 공식 신차 옵션을 탐색
+ */
+export const findOfficialCatalogOption = (
+  optName: string,
+  catalog?: NewCarCatalogData | null
+): OfficialOptionMatch | null => {
+  if (!catalog || !catalog.options || Object.keys(catalog.options).length === 0) {
+    return null;
+  }
+
+  // 가격 표기 (예: (17만), (1,050,000원)) 제거 및 클리닝
+  const clean = optName
+    .replace(/\([0-9,]+(?:\s*만|\s*원)?\)/g, '')
+    .replace(/\[[^\]]*\]/g, '')
+    .trim();
+  const normClean = normalizeOpt(clean);
+  if (!normClean) return null;
+
+  // 1. 완전 일치 (정규화 후)
+  for (const [officialKey, val] of Object.entries(catalog.options)) {
+    const normOfficial = normalizeOpt(officialKey);
+    if (normOfficial === normClean) {
+      return { officialName: officialKey, price: val?.price ?? null, desc: val?.desc };
+    }
+  }
+
+  // 2. 핵심 수식어(스마트, uvo 등)가 일치하는 경우의 최적 공식 옵션 탐색
+  let bestCandidate: OfficialOptionMatch | null = null;
+  let bestScore = 0;
+
+  for (const [officialKey, val] of Object.entries(catalog.options)) {
+    const normOfficial = normalizeOpt(officialKey);
+
+    // 핵심 등급 수식어가 다르면 절대 매칭하지 않음 (오탐 방지)
+    const qualifierMismatch = SPEC_QUALIFIER_KEYWORDS.some(kw =>
+      normClean.includes(kw) !== normOfficial.includes(kw)
+    );
+    if (qualifierMismatch) continue;
+
+    // 버전 식별자 불일치 방지 (1 vs 2)
+    const numsA = normClean.match(/[1-9]/g);
+    const numsB = normOfficial.match(/[1-9]/g);
+    if (numsA && numsB && numsA.join('') !== numsB.join('')) continue;
+
+    const jaccard = computeBiGramJaccard(normClean, normOfficial);
+    if (jaccard > bestScore && jaccard >= 0.35) {
+      bestScore = jaccard;
+      bestCandidate = { officialName: officialKey, price: val?.price ?? null, desc: val?.desc };
+    }
+  }
+
+  return bestCandidate;
+};
+
+export type OptionMatchConfidence = 'exact' | 'fuzzy' | 'none';
+
+export interface CatalogMatchResult {
+  isMatched: boolean;
+  confidence: OptionMatchConfidence; // 'exact' (✓) | 'fuzzy' (~) | 'none' (+)
+  symbol: '✓' | '~' | '+';
+  matchedOppositeName?: string;
+  officialA?: OfficialOptionMatch | null;
+  officialB?: OfficialOptionMatch | null;
+  reason: string;
+}
+
+/**
+ * 카탈로그 대조 기반 두 옵션 간의 양방향 정밀 매칭 판정
+ */
+export const matchOptionWithCatalog = (
+  optA: string,
+  optB: string,
+  catalogA?: NewCarCatalogData | null,
+  catalogB?: NewCarCatalogData | null
+): CatalogMatchResult => {
+  const cleanA = optA.trim();
+  const cleanB = optB.trim();
+  if (!cleanA || !cleanB) {
+    return { isMatched: false, confidence: 'none', symbol: '+', reason: '옵션명 공백' };
+  }
+
+  const officialA = findOfficialCatalogOption(cleanA, catalogA);
+  const officialB = findOfficialCatalogOption(cleanB, catalogB);
+
+  // 1. 양쪽 모두 공식 카탈로그 옵션이 식별된 경우 (가장 엄격한 공식 대조)
+  if (officialA && officialB) {
+    // 공식 명칭이 완전히 일치하거나, 정규화된 공식 키가 일치하는 경우
+    if (normalizeOpt(officialA.officialName) === normalizeOpt(officialB.officialName)) {
+      return {
+        isMatched: true,
+        confidence: 'exact',
+        symbol: '✓',
+        matchedOppositeName: optB,
+        officialA,
+        officialB,
+        reason: `신차 공식 옵션 일치 [${officialA.officialName}]`
+      };
+    }
+
+    // 서로 다른 공식 옵션으로 확인된 경우 (예: 내비게이션 vs 스마트 내비게이션)
+    // -> 절대로 매칭하지 않음! (오탐 원천 차단)
+    return {
+      isMatched: false,
+      confidence: 'none',
+      symbol: '+',
+      officialA,
+      officialB,
+      reason: `상이한 신차 공식 옵션 (${officialA.officialName} ≠ ${officialB.officialName})`
+    };
+  }
+
+  // 2. 한쪽 또는 양쪽 모두 카탈로그 미등재(비공식)인 경우 -> 기존 퍼지 엔진으로 폴백
+  if (isOptionMatched(cleanA, cleanB)) {
+    return {
+      isMatched: true,
+      confidence: 'fuzzy',
+      symbol: '~',
+      matchedOppositeName: optB,
+      officialA,
+      officialB,
+      reason: '카탈로그 미등재 사양 퍼지 유사도 추정 매칭'
+    };
+  }
+
+  return {
+    isMatched: false,
+    confidence: 'none',
+    symbol: '+',
+    officialA,
+    officialB,
+    reason: '옵션 불일치'
+  };
+};
+
 export interface OptionMatchDetailResult {
   isMatched: boolean;
+  confidence: OptionMatchConfidence;
+  symbol: '✓' | '~' | '+';
   matchedOppositeName?: string;
   packageName?: string;
   packageItems?: string[];
+  officialOption?: OfficialOptionMatch | null;
   tooltipText: string;
 }
 
 /**
- * 양방향 옵션 매칭 판정 및 마우스 호버용 고정밀 툴팁 텍스트 생성
+ * 양방향 옵션 매칭 판정 및 마우스 호버용 고정밀 툴팁 텍스트 생성 (카탈로그 대조 연동)
  * @param optName 대상 옵션명
  * @param oppositeOpts 비교 상대 차량의 옵션 목록
  * @param direction 'target_vs_comp'(내 차 기준) | 'comp_vs_target'(비교차 기준)
+ * @param targetCatalog 대상 차량의 신차 카탈로그 (옵션)
+ * @param compCatalog 상대 차량의 신차 카탈로그 (옵션)
  */
 export const getOptionMatchDetail = (
   optName: string,
   oppositeOpts: string[],
-  direction: 'target_vs_comp' | 'comp_vs_target'
+  direction: 'target_vs_comp' | 'comp_vs_target',
+  targetCatalog?: NewCarCatalogData | null,
+  compCatalog?: NewCarCatalogData | null
 ): OptionMatchDetailResult => {
   const cleanName = optName.trim();
   if (!cleanName) {
-    return { isMatched: false, tooltipText: '' };
+    return { isMatched: false, confidence: 'none', symbol: '+', tooltipText: '' };
   }
 
   const norm = normalizeOpt(cleanName);
@@ -566,19 +769,46 @@ export const getOptionMatchDetail = (
     p.matchKeywords.some(k => norm.includes(normalizeOpt(k)) && k.length >= 3)
   );
 
-  // 2. 상대 차량 옵션 목록과 대조하여 매칭 대상 찾기
-  let matchedOpposite: string | undefined;
+  // 2. 내 차 공식 카탈로그 정보
+  const myCatalog = direction === 'target_vs_comp' ? targetCatalog : compCatalog;
+  const oppCatalog = direction === 'target_vs_comp' ? compCatalog : targetCatalog;
+  const officialInfo = findOfficialCatalogOption(cleanName, myCatalog);
+
+  // 3. 상대 차량 옵션 목록과 대조하여 최적 매칭 대상 찾기
+  let bestMatch: CatalogMatchResult | null = null;
   for (const opp of oppositeOpts) {
-    if (isOptionMatched(cleanName, opp)) {
-      matchedOpposite = opp;
-      break;
+    const matchRes = matchOptionWithCatalog(
+      cleanName,
+      opp,
+      myCatalog,
+      oppCatalog
+    );
+    if (matchRes.isMatched) {
+      if (!bestMatch || (bestMatch.confidence === 'fuzzy' && matchRes.confidence === 'exact')) {
+        bestMatch = matchRes;
+        if (bestMatch.confidence === 'exact') break;
+      }
     }
   }
 
-  const isMatched = Boolean(matchedOpposite);
+  const isMatched = Boolean(bestMatch?.isMatched);
+  const confidence: OptionMatchConfidence = bestMatch?.confidence || 'none';
+  const symbol: '✓' | '~' | '+' = bestMatch?.symbol || '+';
+  const matchedOpposite = bestMatch?.matchedOppositeName;
+
   const lines: string[] = [];
 
+  // 헤더
   lines.push(`[${cleanName}]`);
+
+  // 카탈로그 공식 정보가 있으면 표기
+  if (officialInfo) {
+    const priceStr = officialInfo.price ? `${officialInfo.price.toLocaleString()}원` : '출고가 미표기';
+    lines.push(`🏛️ 신차 공식 사양: ${officialInfo.officialName} (${priceStr})`);
+    if (officialInfo.desc && officialInfo.desc.length > 5) {
+      lines.push(`📄 사양 안내: ${officialInfo.desc}`);
+    }
+  }
 
   if (pkgDef) {
     lines.push(`📦 패키지 세부 구성: ${pkgDef.items.slice(0, 6).join(', ')}${pkgDef.items.length > 6 ? ' 외' : ''}`);
@@ -588,29 +818,38 @@ export const getOptionMatchDetail = (
 
   if (direction === 'target_vs_comp') {
     // 내 차(사이드바) 기준
-    if (isMatched) {
-      lines.push(`✓ 비교 차량 장착 확인됨 (${matchedOpposite})`);
-      lines.push('👉 공통 장착 사양으로 시세 동등');
+    if (isMatched && confidence === 'exact') {
+      lines.push(`✓ [공식 카탈로그 일치] 비교 차량 장착 확인됨 (${matchedOpposite})`);
+      lines.push('👉 신차 공식 출고 사양 일치로 시세 동등');
+    } else if (isMatched && confidence === 'fuzzy') {
+      lines.push(`~ [퍼지 추정 매칭] 비교 차량 유사 옵션 장착 추정 (${matchedOpposite})`);
+      lines.push('👉 공식 명칭 차이가 있어 세부 스펙 차이 가능성 (실사 확인 권장)');
     } else {
-      lines.push('🟢 비교 차량에는 미장착 (내 차 우세 사양!)');
+      lines.push('🟢 [내 차 고유 사양] 비교 차량에는 미장착 (+)');
       lines.push('👉 비교차 대비 시세 프리미엄 우세 요소');
     }
   } else {
     // 엔카 비교차(우측 카드) 기준
-    if (isMatched) {
-      lines.push(`✓ 기준 차량(내 차) 장착 확인됨 (${matchedOpposite})`);
-      lines.push('👉 공통 장착 사양으로 시세 동등');
+    if (isMatched && confidence === 'exact') {
+      lines.push(`✓ [공식 카탈로그 일치] 기준 차량(내 차) 장착 확인됨 (${matchedOpposite})`);
+      lines.push('👉 신차 공식 출고 사양 일치로 시세 동등');
+    } else if (isMatched && confidence === 'fuzzy') {
+      lines.push(`~ [퍼지 추정 매칭] 기준 차량(내 차) 유사 옵션 장착 추정 (${matchedOpposite})`);
+      lines.push('👉 공식 명칭 차이가 있어 세부 스펙 차이 가능성');
     } else {
-      lines.push('+ 기준 차량(내 차)에는 미장착된 비교차 전용 옵션');
+      lines.push('+ [비교차 전용 옵션] 기준 차량(내 차)에는 미장착');
       lines.push('👉 비교차 시세 상승 요인 (내 차에는 없음)');
     }
   }
 
   return {
     isMatched,
+    confidence,
+    symbol,
     matchedOppositeName: matchedOpposite,
     packageName: pkgDef?.name,
     packageItems: pkgDef?.items,
+    officialOption: officialInfo,
     tooltipText: lines.join('\n')
   };
 };

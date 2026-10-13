@@ -1,6 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AlertTriangle, ExternalLink, Car } from 'lucide-react';
-import { isOptionMatched, splitOptionString, getOptionMatchDetail } from '@/services/biddingOptionCatalog';
+import {
+  isOptionMatched,
+  splitOptionString,
+  getOptionMatchDetail,
+  fetchNewCarCatalog,
+  NewCarCatalogData
+} from '@/services/biddingOptionCatalog';
 import { CarDamageDiagram2D } from './CarDamageDiagram2D';
 
 export interface EncarItem {
@@ -73,6 +79,37 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
 }) => {
   const [internalShowTrim, setInternalShowTrim] = useState<boolean>(false);
   const showTrimColumn = externalShowTrimColumn !== undefined ? externalShowTrimColumn : internalShowTrim;
+
+  const [targetCatalog, setTargetCatalog] = useState<NewCarCatalogData | null>(null);
+  const [compCatalog, setCompCatalog] = useState<NewCarCatalogData | null>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    if (carName) {
+      fetchNewCarCatalog(carName, yearModel ? String(yearModel) : undefined).then((cat) => {
+        if (isMounted) setTargetCatalog(cat);
+      });
+    } else {
+      setTargetCatalog(null);
+    }
+    return () => {
+      isMounted = false;
+    };
+  }, [carName, yearModel]);
+
+  useEffect(() => {
+    let isMounted = true;
+    if (selectedEncar?.carName) {
+      fetchNewCarCatalog(selectedEncar.carName, selectedEncar.year ? String(selectedEncar.year) : undefined).then((cat) => {
+        if (isMounted) setCompCatalog(cat);
+      });
+    } else {
+      setCompCatalog(null);
+    }
+    return () => {
+      isMounted = false;
+    };
+  }, [selectedEncar?.carName, selectedEncar?.year]);
   const toggleTrim = onToggleTrimColumn || (() => setInternalShowTrim(prev => !prev));
 
   return (
@@ -274,19 +311,23 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                         <td className="py-2 px-2.5 text-[12px] whitespace-nowrap">
                           {hasAddedOptions ? (() => {
                             const targetOpts = splitOptionString(optionsTag || '');
-                            const compDetails = parsedCarOpts.map(o => getOptionMatchDetail(o, targetOpts, 'comp_vs_target'));
+                            const compDetails = parsedCarOpts.map(o => getOptionMatchDetail(o, targetOpts, 'comp_vs_target', targetCatalog, compCatalog));
+                            const exactCount = compDetails.filter(d => d.confidence === 'exact').length;
+                            const fuzzyCount = compDetails.filter(d => d.confidence === 'fuzzy').length;
                             const commonCount = compDetails.filter(d => d.isMatched).length;
                             const extraCount = parsedCarOpts.length - commonCount;
 
                             const tooltipLines = [
                               `[비교 차량 추가옵션 총 ${parsedCarOpts.length}개]`,
-                              ...parsedCarOpts.map(o => {
-                                const m = compDetails.find(d => isOptionMatched(o, d.matchedOppositeName || ''));
-                                return m?.isMatched ? `✓ ${o} (내 차와 공통)` : `+ ${o} (비교차 전용)`;
+                              ...compDetails.map((d, i) => {
+                                const o = parsedCarOpts[i];
+                                if (d.confidence === 'exact') return `✓ ${o} (신차 공식 일치: ${d.matchedOppositeName})`;
+                                if (d.confidence === 'fuzzy') return `~ ${o} (퍼지 추정 매칭: ${d.matchedOppositeName})`;
+                                return `+ ${o} (비교차 전용 옵션)`;
                               }),
                               '──────────────────────────────',
                               targetOpts.length > 0
-                                ? `내 차와 공통: ${commonCount}개 / 비교차 전용: ${extraCount}개`
+                                ? `공식 일치: ${exactCount}개 / 추정 매칭: ${fuzzyCount}개 / 비교차 전용: ${extraCount}개`
                                 : '내 차 옵션 정보 없음'
                             ];
 
@@ -295,7 +336,11 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                                 title={tooltipLines.join('\n')}
                                 className="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold border border-amber-500/40 text-[11px] cursor-help hover:bg-amber-500/30 transition inline-flex items-center gap-1"
                               >
-                                {commonCount > 0 && <span className="text-sky-400 text-[10px]">✓</span>}
+                                {exactCount > 0 ? (
+                                  <span className="text-sky-400 text-[10px]">✓</span>
+                                ) : fuzzyCount > 0 ? (
+                                  <span className="text-amber-400 text-[10px]">~</span>
+                                ) : null}
                                 <span>옵션 {parsedCarOpts.length}개</span>
                               </span>
                             );
@@ -406,21 +451,26 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
 
                 const targetOpts = splitOptionString(optionsTag || '');
 
-                const matchedOpts: { name: string; tooltip: string }[] = [];
-                const unmatchedOpts: { name: string; tooltip: string }[] = [];
+                const exactOpts: { name: string; tooltip: string; detail: any }[] = [];
+                const fuzzyOpts: { name: string; tooltip: string; detail: any }[] = [];
+                const extraOpts: { name: string; tooltip: string; detail: any }[] = [];
+
                 for (const opt of optItems) {
-                  const detail = getOptionMatchDetail(opt, targetOpts, 'comp_vs_target');
-                  if (detail.isMatched) {
-                    matchedOpts.push({ name: opt, tooltip: detail.tooltipText });
+                  const detail = getOptionMatchDetail(opt, targetOpts, 'comp_vs_target', targetCatalog, compCatalog);
+                  if (detail.confidence === 'exact') {
+                    exactOpts.push({ name: opt, tooltip: detail.tooltipText, detail });
+                  } else if (detail.confidence === 'fuzzy') {
+                    fuzzyOpts.push({ name: opt, tooltip: detail.tooltipText, detail });
                   } else {
-                    unmatchedOpts.push({ name: opt, tooltip: detail.tooltipText });
+                    extraOpts.push({ name: opt, tooltip: detail.tooltipText, detail });
                   }
                 }
 
-                // 공통 옵션(파랑 ✓)을 앞에 배치하고, 비교차에만 있는 추가 옵션(오렌지 +)을 뒤에 배치
+                // 공식 일치(하늘색 ✓) -> 퍼지 추정(주황색 ~) -> 비교차 전용(오렌지 +) 순 정렬
                 const sortedOptItems = [
-                  ...matchedOpts.map(item => ({ ...item, isMatched: true })),
-                  ...unmatchedOpts.map(item => ({ ...item, isMatched: false }))
+                  ...exactOpts,
+                  ...fuzzyOpts,
+                  ...extraOpts
                 ];
 
                 const displayOpts = sortedOptItems.slice(0, 8);
@@ -429,7 +479,7 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                 return (
                   <div className="flex flex-wrap gap-1.5 p-2 bg-[#0c0e14] rounded-lg border border-[#232634]">
                     {displayOpts.map((item, idx) => {
-                      if (item.isMatched) {
+                      if (item.detail.confidence === 'exact') {
                         return (
                           <span
                             key={idx}
@@ -437,6 +487,18 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                             className="px-2.5 py-1 rounded text-xs font-bold bg-sky-500/20 text-sky-300 border border-sky-400 shadow-[0_0_6px_rgba(14,165,233,0.2)] flex items-center gap-1 cursor-help hover:brightness-110 transition"
                           >
                             <span className="text-sky-400 font-black">✓</span>
+                            <span>{item.name}</span>
+                          </span>
+                        );
+                      }
+                      if (item.detail.confidence === 'fuzzy') {
+                        return (
+                          <span
+                            key={idx}
+                            title={item.tooltip}
+                            className="px-2.5 py-1 rounded text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/60 flex items-center gap-1 cursor-help hover:brightness-110 transition"
+                          >
+                            <span className="text-amber-400 font-black">~</span>
                             <span>{item.name}</span>
                           </span>
                         );
