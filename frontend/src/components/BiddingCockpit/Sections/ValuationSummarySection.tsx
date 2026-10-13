@@ -316,15 +316,7 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
                         {biddingVerdict.badge}
                       </span>
                     </div>
-                    {encarSoldList.length > 0 && (
-                      <button
-                        type="button"
-                        onClick={() => setSoldTabMode(soldTabMode === 'encar' ? 'none' : 'encar')}
-                        className="text-xs px-2.5 py-1 rounded-lg bg-blue-500/20 hover:bg-blue-500/30 text-blue-300 border border-blue-500/40 font-bold transition cursor-pointer flex items-center gap-1"
-                      >
-                        <span>🚗 엔카 팔린매물 {encarSoldList.length}건 상세 {soldTabMode === 'encar' ? '닫기 ▲' : '열기 ▼'}</span>
-                      </button>
-                    )}
+                    
                   </div>
 
                   {/* 엔카 완판 핵심 팩트 칩 3종 */}
@@ -353,6 +345,211 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
                   </div>
                 </div>
               )}
+
+              {/* Sub Navigation Bar for Data Transparency (3개 서브탭) */}
+              <div className="flex items-center gap-2 overflow-x-auto scrollbar-none text-xs pt-1 border-t border-[#232634]">
+                <button
+                  type="button"
+                  onClick={() => setSoldTabMode(soldTabMode === 'encar' ? 'none' : 'encar')}
+                  className={`px-3 py-1.5 rounded-lg font-bold transition cursor-pointer flex items-center gap-1.5 ${
+                    soldTabMode === 'encar'
+                      ? 'bg-blue-500/25 text-blue-200 border border-blue-500/40'
+                      : 'text-zinc-300 hover:text-white hover:bg-[#181a24] border border-transparent'
+                  }`}
+                >
+                  <span>🚗 엔카 팔린매물 ({encarSoldList.length}건) {soldTabMode === 'encar' ? '▲' : '▼'}</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setSoldTabMode(soldTabMode === 'autoplus' ? 'none' : 'autoplus')}
+                  className={`px-3 py-1.5 rounded-lg font-bold transition cursor-pointer flex items-center gap-1.5 ${
+                    soldTabMode === 'autoplus'
+                      ? 'bg-emerald-500/25 text-emerald-200 border border-emerald-500/40'
+                      : 'text-zinc-300 hover:text-white hover:bg-[#181a24] border border-transparent'
+                  }`}
+                >
+                  <span>🏢 자사 소매 실적 ({matchedAutoplusList.length}대) {soldTabMode === 'autoplus' ? '▲' : '▼'}</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setSoldTabMode(soldTabMode === 'wholesale' ? 'none' : 'wholesale')}
+                  className={`px-3 py-1.5 rounded-lg font-bold transition cursor-pointer flex items-center gap-1.5 ${
+                    soldTabMode === 'wholesale'
+                      ? 'bg-amber-500/25 text-amber-200 border border-amber-500/40'
+                      : 'text-zinc-300 hover:text-white hover:bg-[#181a24] border border-transparent'
+                  }`}
+                >
+                  <span>📦 자사 도매 실적 ({matchedAuctionList.length}대) {soldTabMode === 'wholesale' ? '▲' : '▼'}</span>
+                </button>
+              </div>
+
+          {/* Collapsible Detail Tab 1: 엔카 팔린매물 */}
+          {soldTabMode === 'encar' && (
+            <div className="space-y-2 pt-1 border-t border-[#232634]">
+              <div className="flex justify-between items-center text-xs sm:text-sm text-zinc-300">
+                <span>엔카 최근 판매완료(광고종료) 기록 (<strong className="text-blue-400 font-bold">{encarSoldList.length}건</strong>)</span>
+                <span className="text-xs text-amber-300 font-medium">※ 실측 스냅샷 기반</span>
+              </div>
+              <div className="overflow-x-auto max-h-64 overflow-y-auto border border-[#262833] rounded-xl">
+                <table className="w-full text-left text-xs sm:text-sm text-zinc-200">
+                  <thead className="bg-[#14151b] text-xs text-zinc-400 sticky top-0 uppercase border-b border-[#262833]">
+                    <tr>
+                      <th className="p-2.5">판매일자</th>
+                      <th className="p-2.5">차량번호</th>
+                      <th className="p-2.5">세부모델</th>
+                      <th className="p-2.5">연식</th>
+                      <th className="p-2.5 text-right">주행거리</th>
+                      <th className="p-2.5 text-right">매입가</th>
+                      <th className="p-2.5 text-right">소매 판매가</th>
+                      <th className="p-2.5 text-center">경과일수</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-[#232634] bg-[#0a0b0e]">
+                    {encarSoldList.map((s) => (
+                      <tr key={s.id} className="hover:bg-[#14151c] transition">
+                        <td className="p-2.5 text-xs text-zinc-400 font-mono">{s.soldDate || '-'}</td>
+                        <td className="p-2.5 text-xs text-sky-400 font-mono">
+                          {s.encarUrl ? (
+                            <a href={s.encarUrl} target="_blank" rel="noreferrer" className="hover:underline">
+                              {s.carId ? `ID:${s.carId}` : '-'}
+                            </a>
+                          ) : (
+                            s.carId ? `ID:${s.carId}` : '-'
+                          )}
+                        </td>
+                        <td className="p-2.5 text-white font-bold text-xs sm:text-sm">{s.subModel || s.carName || '-'}</td>
+                        <td className="p-2.5 text-xs text-blue-400 font-mono">{s.year ? `${s.year}년` : '-'}</td>
+                        <td className="p-2.5 text-right text-xs text-white font-mono">{s.mileage > 0 ? `${s.mileage.toLocaleString()}km` : '-'}</td>
+                        <td className="p-2.5 text-right text-xs text-zinc-500 font-mono">-</td>
+                        <td className="p-2.5 text-right font-bold text-emerald-400 font-mono">{s.finalPrice > 0 ? `${s.finalPrice.toLocaleString()}만` : '-'}</td>
+                        <td className="p-2.5 text-center text-xs font-mono">
+                          {s.daysTaken > 0 ? `${s.daysTaken}일` : '-'}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          {/* Collapsible Detail Tab 2: 자사 소매 실적 */}
+          {soldTabMode === 'autoplus' && (
+            <div className="space-y-2 pt-1 border-t border-[#232634]">
+              <div className="flex justify-between items-center text-xs sm:text-sm text-zinc-300">
+                <span>자사 소매 실적 DB 매물 (<strong className="text-emerald-400 font-bold">{matchedAutoplusList.length}대</strong>)</span>
+                <span className="text-xs text-zinc-400">엔카 광고 집행 순수 소매 완판 데이터</span>
+              </div>
+              {matchedAutoplusList.length > 0 ? (
+                <div className="overflow-x-auto max-h-64 overflow-y-auto border border-[#262833] rounded-xl">
+                  <table className="w-full text-left text-xs sm:text-sm text-zinc-200">
+                    <thead className="bg-[#14151b] text-xs text-zinc-400 sticky top-0 uppercase border-b border-[#262833]">
+                      <tr>
+                        <th className="p-2.5">판매일자</th>
+                        <th className="p-2.5">차량번호</th>
+                        <th className="p-2.5">세부모델</th>
+                        <th className="p-2.5">연식</th>
+                        <th className="p-2.5 text-right">주행거리</th>
+                        <th className="p-2.5 text-right">매입가</th>
+                        <th className="p-2.5 text-right">소매 판매가</th>
+                        <th className="p-2.5 text-center">경과일수</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-[#232634] bg-[#0a0b0e]">
+                      {matchedAutoplusList.map((item: any, idx: number) => {
+                        const rawBuy = Number(item.buyPrice);
+                        const buyMan = rawBuy ? (rawBuy >= 100000 ? Math.round(rawBuy / 10000) : Math.round(rawBuy)) : null;
+                        
+                        const rawSell = Number(item.sellPrice);
+                        const sellMan = rawSell ? (rawSell >= 100000 ? Math.round(rawSell / 10000) : Math.round(rawSell)) : null;
+
+                        return (
+                          <tr key={item.id || idx} className="hover:bg-[#14151c]">
+                            <td className="p-2.5 text-xs text-zinc-400 font-mono">{item.soldDate || item.regDate || '-'}</td>
+                            <td className="p-2.5 font-mono text-white font-bold">{item.carNumber || item.plate || '-'}</td>
+                            <td className="p-2.5 text-white font-semibold text-xs sm:text-sm">{item.subModel || item.carName || '-'}</td>
+                            <td className="p-2.5 text-xs text-blue-400 font-mono">{item.year ? `${item.year}년` : '-'}</td>
+                            <td className="p-2.5 text-right text-xs text-white font-mono">{item.mileage > 0 ? `${Number(item.mileage).toLocaleString()}km` : '-'}</td>
+                            <td className="p-2.5 text-right text-zinc-300 font-mono">
+                              {buyMan !== null ? `${buyMan.toLocaleString()}만` : '-'}
+                            </td>
+                            <td className="p-2.5 text-right text-emerald-400 font-bold font-mono">
+                              {sellMan !== null ? `${sellMan.toLocaleString()}만` : '-'}
+                            </td>
+                            <td className="p-2.5 text-center font-mono text-xs">{item.stockDays ? `${item.stockDays}일` : '0일'}</td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <div className="p-4 text-center bg-[#0a0b0e] rounded-xl border border-[#262833] text-xs sm:text-sm text-amber-300 font-medium">
+                  자사 소매 실적은 현재 미보유(0건) 상태입니다.
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Collapsible Detail Tab 3: 자사 도매 실적 */}
+          {soldTabMode === 'wholesale' && (
+            <div className="space-y-2 pt-1 border-t border-[#232634]">
+              <div className="flex justify-between items-center text-xs sm:text-sm text-zinc-300">
+                <span>자사 도매 실적 DB 매물 (<strong className="text-amber-400 font-bold">{matchedAuctionList.length}대</strong>)</span>
+                <span className="text-xs text-zinc-400">도매/경매 낙찰 출고 데이터 (도매 바닥 시세)</span>
+              </div>
+              {matchedAuctionList.length > 0 ? (
+                <div className="overflow-x-auto max-h-64 overflow-y-auto border border-[#262833] rounded-xl">
+                  <table className="w-full text-left text-xs sm:text-sm text-zinc-200">
+                    <thead className="bg-[#14151b] text-xs text-zinc-400 sticky top-0 uppercase border-b border-[#262833]">
+                      <tr>
+                        <th className="p-2.5">판매일자</th>
+                        <th className="p-2.5">차량번호</th>
+                        <th className="p-2.5">세부모델</th>
+                        <th className="p-2.5">연식</th>
+                        <th className="p-2.5 text-right">주행거리</th>
+                        <th className="p-2.5 text-right">매입가</th>
+                        <th className="p-2.5 text-right">도매 낙찰가</th>
+                        <th className="p-2.5 text-center">경과일수</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-[#232634] bg-[#0a0b0e]">
+                      {matchedAuctionList.map((item: any, idx: number) => {
+                        const rawBuy = Number(item.buyPrice);
+                        const buyMan = rawBuy ? (rawBuy >= 100000 ? Math.round(rawBuy / 10000) : Math.round(rawBuy)) : null;
+                        
+                        const rawSell = Number(item.sellPrice);
+                        const sellMan = rawSell ? (rawSell >= 100000 ? Math.round(rawSell / 10000) : Math.round(rawSell)) : null;
+
+                        return (
+                          <tr key={item.id || idx} className="hover:bg-[#14151c]">
+                            <td className="p-2.5 text-xs text-zinc-400 font-mono">{item.soldDate || item.regDate || '-'}</td>
+                            <td className="p-2.5 font-mono text-white font-bold">{item.carNumber || item.plate || '-'}</td>
+                            <td className="p-2.5 text-white font-semibold text-xs sm:text-sm">{item.subModel || item.carName || '-'}</td>
+                            <td className="p-2.5 text-xs text-blue-400 font-mono">{item.year ? `${item.year}년` : '-'}</td>
+                            <td className="p-2.5 text-right text-xs text-white font-mono">{item.mileage > 0 ? `${Number(item.mileage).toLocaleString()}km` : '-'}</td>
+                            <td className="p-2.5 text-right text-zinc-300 font-mono">
+                              {buyMan !== null ? `${buyMan.toLocaleString()}만` : '-'}
+                            </td>
+                            <td className="p-2.5 text-right text-amber-400 font-bold font-mono">
+                              {sellMan !== null ? `${sellMan.toLocaleString()}만` : '-'}
+                            </td>
+                            <td className="p-2.5 text-center font-mono text-xs">{item.stockDays ? `${item.stockDays}일` : '0일'}</td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <div className="p-4 text-center bg-[#0a0b0e] rounded-xl border border-[#262833] text-xs sm:text-sm text-amber-300 font-medium">
+                  자사 도매 실적은 현재 미보유(0건) 상태입니다.
+                </div>
+              )}
+            </div>
+          )}
             </div>
           )}
 
@@ -531,214 +728,7 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
             })()}
           </div>
 
-          {/* Sub Navigation Bar for Data Transparency (3개 서브탭) */}
-          <div className="flex flex-wrap items-center justify-between gap-2 pt-1.5 border-t border-[#232634]">
-            <div className="flex items-center gap-2 overflow-x-auto scrollbar-none text-xs">
-              <button
-                onClick={() => setSoldTabMode(soldTabMode === 'encar' ? 'none' : 'encar')}
-                className={`px-3 py-1.5 rounded-lg font-bold transition cursor-pointer flex items-center gap-1.5 ${
-                  soldTabMode === 'encar'
-                    ? 'bg-blue-500/25 text-blue-200 border border-blue-500/40'
-                    : 'text-zinc-300 hover:text-white hover:bg-[#181a24] border border-transparent'
-                }`}
-              >
-                <span>🚗 엔카 팔린매물 ({encarSoldList.length}건) {soldTabMode === 'encar' ? '▲' : '▼'}</span>
-              </button>
-
-              <button
-                onClick={() => setSoldTabMode(soldTabMode === 'autoplus' ? 'none' : 'autoplus')}
-                className={`px-3 py-1.5 rounded-lg font-bold transition cursor-pointer flex items-center gap-1.5 ${
-                  soldTabMode === 'autoplus'
-                    ? 'bg-emerald-500/25 text-emerald-200 border border-emerald-500/40'
-                    : 'text-zinc-300 hover:text-white hover:bg-[#181a24] border border-transparent'
-                }`}
-              >
-                <span>🏢 자사 소매 실적 ({matchedAutoplusList.length}대) {soldTabMode === 'autoplus' ? '▲' : '▼'}</span>
-              </button>
-
-              <button
-                onClick={() => setSoldTabMode(soldTabMode === 'wholesale' ? 'none' : 'wholesale')}
-                className={`px-3 py-1.5 rounded-lg font-bold transition cursor-pointer flex items-center gap-1.5 ${
-                  soldTabMode === 'wholesale'
-                    ? 'bg-amber-500/25 text-amber-200 border border-amber-500/40'
-                    : 'text-zinc-300 hover:text-white hover:bg-[#181a24] border border-transparent'
-                }`}
-              >
-                <span>📦 자사 도매 실적 ({matchedAuctionList.length}대) {soldTabMode === 'wholesale' ? '▲' : '▼'}</span>
-              </button>
-            </div>
-
-            <div className="text-xs text-zinc-300 flex items-center gap-2">
-              <span>호가: 최저 <strong className="text-sky-400 font-mono font-bold">{encarStats.min.toLocaleString()}만</strong> ~ 최고 <strong className="text-sky-400 font-mono font-bold">{encarStats.max.toLocaleString()}만</strong> (중앙 {encarStats.median.toLocaleString()}만)</span>
-            </div>
-          </div>
-
-          {/* Collapsible Detail Tab 1: 엔카 팔린매물 */}
-          {soldTabMode === 'encar' && (
-            <div className="space-y-2 pt-1 border-t border-[#232634]">
-              <div className="flex justify-between items-center text-xs sm:text-sm text-zinc-300">
-                <span>엔카 최근 판매완료(광고종료) 기록 (<strong className="text-blue-400 font-bold">{encarSoldList.length}건</strong>)</span>
-                <span className="text-xs text-amber-300 font-medium">※ 실측 스냅샷 기반</span>
-              </div>
-              <div className="overflow-x-auto max-h-64 overflow-y-auto border border-[#262833] rounded-xl">
-                <table className="w-full text-left text-xs sm:text-sm text-zinc-200">
-                  <thead className="bg-[#14151b] text-xs text-zinc-400 sticky top-0 uppercase border-b border-[#262833]">
-                    <tr>
-                      <th className="p-2.5">판매일자</th>
-                      <th className="p-2.5">차량번호</th>
-                      <th className="p-2.5">세부모델</th>
-                      <th className="p-2.5">연식</th>
-                      <th className="p-2.5 text-right">주행거리</th>
-                      <th className="p-2.5 text-right">매입가</th>
-                      <th className="p-2.5 text-right">소매 판매가</th>
-                      <th className="p-2.5 text-center">경과일수</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-[#232634] bg-[#0a0b0e]">
-                    {encarSoldList.map((s) => (
-                      <tr key={s.id} className="hover:bg-[#14151c] transition">
-                        <td className="p-2.5 text-xs text-zinc-400 font-mono">{s.soldDate || '-'}</td>
-                        <td className="p-2.5 text-xs text-sky-400 font-mono">
-                          {s.encarUrl ? (
-                            <a href={s.encarUrl} target="_blank" rel="noreferrer" className="hover:underline">
-                              {s.carId ? `ID:${s.carId}` : '-'}
-                            </a>
-                          ) : (
-                            s.carId ? `ID:${s.carId}` : '-'
-                          )}
-                        </td>
-                        <td className="p-2.5 text-white font-bold text-xs sm:text-sm">{s.subModel || s.carName || '-'}</td>
-                        <td className="p-2.5 text-xs text-blue-400 font-mono">{s.year ? `${s.year}년` : '-'}</td>
-                        <td className="p-2.5 text-right text-xs text-white font-mono">{s.mileage > 0 ? `${s.mileage.toLocaleString()}km` : '-'}</td>
-                        <td className="p-2.5 text-right text-xs text-zinc-500 font-mono">-</td>
-                        <td className="p-2.5 text-right font-bold text-emerald-400 font-mono">{s.finalPrice > 0 ? `${s.finalPrice.toLocaleString()}만` : '-'}</td>
-                        <td className="p-2.5 text-center text-xs font-mono">
-                          {s.daysTaken > 0 ? `${s.daysTaken}일` : '-'}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          )}
-
-          {/* Collapsible Detail Tab 2: 자사 소매 실적 */}
-          {soldTabMode === 'autoplus' && (
-            <div className="space-y-2 pt-1 border-t border-[#232634]">
-              <div className="flex justify-between items-center text-xs sm:text-sm text-zinc-300">
-                <span>자사 소매 실적 DB 매물 (<strong className="text-emerald-400 font-bold">{matchedAutoplusList.length}대</strong>)</span>
-                <span className="text-xs text-zinc-400">엔카 광고 집행 순수 소매 완판 데이터</span>
-              </div>
-              {matchedAutoplusList.length > 0 ? (
-                <div className="overflow-x-auto max-h-64 overflow-y-auto border border-[#262833] rounded-xl">
-                  <table className="w-full text-left text-xs sm:text-sm text-zinc-200">
-                    <thead className="bg-[#14151b] text-xs text-zinc-400 sticky top-0 uppercase border-b border-[#262833]">
-                      <tr>
-                        <th className="p-2.5">판매일자</th>
-                        <th className="p-2.5">차량번호</th>
-                        <th className="p-2.5">세부모델</th>
-                        <th className="p-2.5">연식</th>
-                        <th className="p-2.5 text-right">주행거리</th>
-                        <th className="p-2.5 text-right">매입가</th>
-                        <th className="p-2.5 text-right">소매 판매가</th>
-                        <th className="p-2.5 text-center">경과일수</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-[#232634] bg-[#0a0b0e]">
-                      {matchedAutoplusList.map((item: any, idx: number) => {
-                        const rawBuy = Number(item.buyPrice);
-                        const buyMan = rawBuy ? (rawBuy >= 100000 ? Math.round(rawBuy / 10000) : Math.round(rawBuy)) : null;
-                        
-                        const rawSell = Number(item.sellPrice);
-                        const sellMan = rawSell ? (rawSell >= 100000 ? Math.round(rawSell / 10000) : Math.round(rawSell)) : null;
-
-                        return (
-                          <tr key={item.id || idx} className="hover:bg-[#14151c]">
-                            <td className="p-2.5 text-xs text-zinc-400 font-mono">{item.soldDate || item.regDate || '-'}</td>
-                            <td className="p-2.5 font-mono text-white font-bold">{item.carNumber || item.plate || '-'}</td>
-                            <td className="p-2.5 text-white font-semibold text-xs sm:text-sm">{item.subModel || item.carName || '-'}</td>
-                            <td className="p-2.5 text-xs text-blue-400 font-mono">{item.year ? `${item.year}년` : '-'}</td>
-                            <td className="p-2.5 text-right text-xs text-white font-mono">{item.mileage > 0 ? `${Number(item.mileage).toLocaleString()}km` : '-'}</td>
-                            <td className="p-2.5 text-right text-zinc-300 font-mono">
-                              {buyMan !== null ? `${buyMan.toLocaleString()}만` : '-'}
-                            </td>
-                            <td className="p-2.5 text-right text-emerald-400 font-bold font-mono">
-                              {sellMan !== null ? `${sellMan.toLocaleString()}만` : '-'}
-                            </td>
-                            <td className="p-2.5 text-center font-mono text-xs">{item.stockDays ? `${item.stockDays}일` : '0일'}</td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </div>
-              ) : (
-                <div className="p-4 text-center bg-[#0a0b0e] rounded-xl border border-[#262833] text-xs sm:text-sm text-amber-300 font-medium">
-                  자사 소매 실적은 현재 미보유(0건) 상태입니다.
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Collapsible Detail Tab 3: 자사 도매 실적 */}
-          {soldTabMode === 'wholesale' && (
-            <div className="space-y-2 pt-1 border-t border-[#232634]">
-              <div className="flex justify-between items-center text-xs sm:text-sm text-zinc-300">
-                <span>자사 도매 실적 DB 매물 (<strong className="text-amber-400 font-bold">{matchedAuctionList.length}대</strong>)</span>
-                <span className="text-xs text-zinc-400">도매/경매 낙찰 출고 데이터 (도매 바닥 시세)</span>
-              </div>
-              {matchedAuctionList.length > 0 ? (
-                <div className="overflow-x-auto max-h-64 overflow-y-auto border border-[#262833] rounded-xl">
-                  <table className="w-full text-left text-xs sm:text-sm text-zinc-200">
-                    <thead className="bg-[#14151b] text-xs text-zinc-400 sticky top-0 uppercase border-b border-[#262833]">
-                      <tr>
-                        <th className="p-2.5">판매일자</th>
-                        <th className="p-2.5">차량번호</th>
-                        <th className="p-2.5">세부모델</th>
-                        <th className="p-2.5">연식</th>
-                        <th className="p-2.5 text-right">주행거리</th>
-                        <th className="p-2.5 text-right">매입가</th>
-                        <th className="p-2.5 text-right">도매 낙찰가</th>
-                        <th className="p-2.5 text-center">경과일수</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-[#232634] bg-[#0a0b0e]">
-                      {matchedAuctionList.map((item: any, idx: number) => {
-                        const rawBuy = Number(item.buyPrice);
-                        const buyMan = rawBuy ? (rawBuy >= 100000 ? Math.round(rawBuy / 10000) : Math.round(rawBuy)) : null;
-                        
-                        const rawSell = Number(item.sellPrice);
-                        const sellMan = rawSell ? (rawSell >= 100000 ? Math.round(rawSell / 10000) : Math.round(rawSell)) : null;
-
-                        return (
-                          <tr key={item.id || idx} className="hover:bg-[#14151c]">
-                            <td className="p-2.5 text-xs text-zinc-400 font-mono">{item.soldDate || item.regDate || '-'}</td>
-                            <td className="p-2.5 font-mono text-white font-bold">{item.carNumber || item.plate || '-'}</td>
-                            <td className="p-2.5 text-white font-semibold text-xs sm:text-sm">{item.subModel || item.carName || '-'}</td>
-                            <td className="p-2.5 text-xs text-blue-400 font-mono">{item.year ? `${item.year}년` : '-'}</td>
-                            <td className="p-2.5 text-right text-xs text-white font-mono">{item.mileage > 0 ? `${Number(item.mileage).toLocaleString()}km` : '-'}</td>
-                            <td className="p-2.5 text-right text-zinc-300 font-mono">
-                              {buyMan !== null ? `${buyMan.toLocaleString()}만` : '-'}
-                            </td>
-                            <td className="p-2.5 text-right text-amber-400 font-bold font-mono">
-                              {sellMan !== null ? `${sellMan.toLocaleString()}만` : '-'}
-                            </td>
-                            <td className="p-2.5 text-center font-mono text-xs">{item.stockDays ? `${item.stockDays}일` : '0일'}</td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </div>
-              ) : (
-                <div className="p-4 text-center bg-[#0a0b0e] rounded-xl border border-[#262833] text-xs sm:text-sm text-amber-300 font-medium">
-                  자사 도매 실적은 현재 미보유(0건) 상태입니다.
-                </div>
-              )}
-            </div>
-          )}
-
+          
         </div>
   );
 };
