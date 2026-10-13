@@ -9,11 +9,11 @@
   },
   "37다1840": {
     "options": [
-      "내비게이션",
-      "드라이브와이즈팩2",
-      "기본형-컨비니언스"
+      "내비게이션 (8인치, 후방카메라)",
+      "드라이브 와이즈 II",
+      "컨비니언스"
     ],
-    "updated_at": "2026-10-12 17:04:37",
+    "updated_at": "2026-10-14 02:23:09",
     "chaolma_data": {
       "success": true,
       "car_no": "37다1840",
@@ -177,7 +177,39 @@
         }
       }
     },
-    "spec_desc": "신차정가(옵션 포함) : 3,734만원\n\n1) 기본형-컨비니언스 \n2) 드라이브와이즈팩2 \n3) 내비게이션 \n* 신차 추가옵션"
+    "spec_desc": "신차정가(옵션 포함) : 3,734만원\n\n1) 기본형-컨비니언스 \n2) 드라이브와이즈팩2 \n3) 내비게이션 \n* 신차 추가옵션",
+    "normalized_options": [
+      {
+        "original_name": "내비게이션",
+        "original_price": 850000,
+        "depreciated_price": 170000,
+        "rate": 0.2,
+        "standard_name": "내비게이션 (8인치, 후방카메라)",
+        "standard_price_man": 85,
+        "is_catalog_matched": true,
+        "desc": ""
+      },
+      {
+        "original_name": "드라이브와이즈팩2",
+        "original_price": 1690000,
+        "depreciated_price": 338000,
+        "rate": 0.2,
+        "standard_name": "드라이브 와이즈 II",
+        "standard_price_man": 169,
+        "is_catalog_matched": true,
+        "desc": "스마트 크루즈 컨트롤, 긴급 제동 보조 시스템, 차선 이탈 경보시스템, 하이빔 어시스트(HID 적용시), 슈퍼비전 클러스터(7인치 TFT LCD)"
+      },
+      {
+        "original_name": "기본형-컨비니언스",
+        "original_price": 1000000,
+        "depreciated_price": 200000,
+        "rate": 0.2,
+        "standard_name": "컨비니언스",
+        "standard_price_man": 106,
+        "is_catalog_matched": true,
+        "desc": "HID 헤드램프, 스마트 테일게이트, 220V 인버터(200W), 충전용 USB 단자"
+      }
+    ]
   },
   "20로8026": {
     "options": [

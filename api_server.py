@@ -670,11 +670,16 @@ def search_encar_market(req: EncarSearchRequest):
         else:
             opt_ratio = 0.20
 
+        from services.option_package_service import calculate_catalog_option_value
+
         no_acc_df = df[~df['사고유무'].astype(str).str.contains('사고|교환|판금', regex=True)]
         avg_opt_new = 0
         avg_opt_score = 0
         if not no_acc_df.empty and '추가옵션' in no_acc_df.columns:
-            opt_vals = no_acc_df['추가옵션'].apply(extract_option_val)
+            def _get_opt_val(x):
+                val = calculate_catalog_option_value(str(x), car_name=car_name, year=str(target_year_val))
+                return val if val > 0 else extract_option_val(x)
+            opt_vals = no_acc_df['추가옵션'].apply(_get_opt_val)
             avg_opt_new = int(opt_vals.mean()) if not opt_vals.empty else 0
             scores = [score_key_options(str(x))[0] for x in no_acc_df['추가옵션'].dropna()]
             avg_opt_score = int(np.mean(scores)) if scores else 0
@@ -682,9 +687,12 @@ def search_encar_market(req: EncarSearchRequest):
         target_opts = req.targetOptions or ""
         target_score, target_opt_names = score_key_options(target_opts)
         
-        target_opt_new = extract_option_val(target_opts)
+        # 🌟 1순위: 공식 신차가격표 카탈로그 기반 옵션 출고가 산출 (37다1840 등 지원)
+        target_opt_new = calculate_catalog_option_value(target_opts, car_name=car_name, year=str(target_year_val))
         if target_opt_new == 0 and target_opts:
-            target_opt_new = int(target_score * 1.5) if target_score > 0 else (len(target_opts.split()) * 80)
+            target_opt_new = extract_option_val(target_opts)
+            if target_opt_new == 0:
+                target_opt_new = int(target_score * 1.5) if target_score > 0 else (len(target_opts.split()) * 80)
 
         opt_adj = 0
         if target_opt_new > 0:

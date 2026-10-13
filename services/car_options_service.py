@@ -78,6 +78,10 @@ class CarOptionsService:
             c_text = str(item).strip()
             if not c_text or c_text in ('없음', '-', '⚠️정보없음', '⚠️조회실패', '코드매칭실패', 'nan', 'None'):
                 continue
+            # 비표준 차얼마 접두어 정리 (기본형-, 고급형-, 디럭스형-)
+            c_text = re.sub(r'^(?:기본형|고급형|디럭스형)[-_ ]+', '', c_text).strip()
+            if not c_text:
+                continue
             # 중복 방지
             if c_text not in clean_list:
                 clean_list.append(c_text)
@@ -110,11 +114,27 @@ class CarOptionsService:
                 
             if chaolma_data and isinstance(chaolma_data, dict) and chaolma_data.get("success"):
                 entry["chaolma_data"] = chaolma_data
-                # 차얼마 데이터의 옵션 목록도 자동 반영
-                if not entry.get("options"):
-                    ch_opts = [o.get("name") for o in chaolma_data.get("options", []) if o.get("name")]
-                    if ch_opts:
-                        entry["options"] = cls.clean_option_list(ch_opts)
+                
+                # 카탈로그 기반 차얼마 옵션 정규화
+                try:
+                    from services.option_package_service import normalize_chaolma_options
+                    m_name = chaolma_data.get("model_detail_name") or chaolma_data.get("model_name") or ""
+                    m_year = str(chaolma_data.get("model_year") or chaolma_data.get("reg_year") or "")
+                    ch_raw_opts = chaolma_data.get("options", [])
+                    norm_opts = normalize_chaolma_options(ch_raw_opts, car_name=m_name, year=m_year)
+                    if norm_opts:
+                        entry["normalized_options"] = norm_opts
+                        # 표준화된 공식 옵션명 목록을 entry["options"]로 반영 (미설정 시 또는 갱신)
+                        std_names = [o["standard_name"] for o in norm_opts if o.get("standard_name")]
+                        if std_names:
+                            entry["options"] = cls.clean_option_list(std_names)
+                except Exception as e:
+                    print(f"[CarOptionsService] 차얼마 카탈로그 정규화 오류: {e}")
+                    # 실패 시 기존 방식으로 폴백
+                    if not entry.get("options"):
+                        ch_opts = [o.get("name") for o in chaolma_data.get("options", []) if o.get("name")]
+                        if ch_opts:
+                            entry["options"] = cls.clean_option_list(ch_opts)
                         
             entry["updated_at"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             db[c_num] = entry

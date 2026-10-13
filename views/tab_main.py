@@ -738,13 +738,18 @@ def render_main_tab(
                 if all_target_opts:
                     target_score, target_opt_names = score_key_options(all_target_opts)
                     if target_opt_new == 0:
-                        # 엔카 등에서 옵션 가격이 문자열에 포함되어 있는 경우 추출
-                        parsed_from_text = extract_option_val(" ".join(all_target_opts))
-                        if parsed_from_text > 0:
-                            target_opt_new = parsed_from_text
-                        else:
-                            # 가격 정보가 없는 경우 점수 및 옵션 갯수 기반 합리적 신차 원가 추정
-                            target_opt_new = int(target_score * 1.5) if target_score > 0 else (len(all_target_opts) * 80)
+                        from services.option_package_service import calculate_catalog_option_value
+                        c_name = st.session_state.get('hd_model_part_name', '') or current_car_name
+                        c_year = str(current_car_year or '')
+                        target_opt_new = calculate_catalog_option_value(all_target_opts, car_name=c_name, year=c_year)
+                        if target_opt_new == 0:
+                            # 엔카 등에서 옵션 가격이 문자열에 포함되어 있는 경우 추출
+                            parsed_from_text = extract_option_val(" ".join(all_target_opts))
+                            if parsed_from_text > 0:
+                                target_opt_new = parsed_from_text
+                            else:
+                                # 가격 정보가 없는 경우 점수 및 옵션 갯수 기반 합리적 신차 원가 추정
+                                target_opt_new = int(target_score * 1.5) if target_score > 0 else (len(all_target_opts) * 80)
                 else:
                     # fallback: 리스트에서 선택한 차량의 옵션 참조
                     active_selected = str(st.session_state.get('selected_car_id', '')).strip()
@@ -1841,6 +1846,13 @@ def render_main_tab(
                     hd_opts = st.session_state.get('hd_target_options', []) or []
                     encar_opts = st.session_state.get('encar_target_options', []) or []
                     all_target_opts = list(dict.fromkeys(hd_opts + encar_opts))
+                    
+                    if not hd_parsed_opt_price and all_target_opts:
+                        from services.option_package_service import calculate_catalog_option_value
+                        c_name = st.session_state.get('hd_model_part_name', '') or current_car_name
+                        c_year = str(current_car_year or '')
+                        hd_parsed_opt_price = calculate_catalog_option_value(all_target_opts, car_name=c_name, year=c_year)
+
                     if all_target_opts and '옵션리스트' in calc_hd_df.columns:
                         target_score, hd_target_opt_names = score_key_options(all_target_opts)
                         hd_scores = [score_key_options(opts)[0] for opts in calc_hd_df['옵션리스트'].dropna()]

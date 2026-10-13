@@ -10,6 +10,7 @@ import os
 import json
 import re
 import unicodedata
+from typing import Optional, Dict, Any, List, Tuple, Set
 
 CRAWLED_CATALOG_FILE = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "encar_newcar_catalog.json")
 _CRAWLED_CACHE = None
@@ -454,23 +455,301 @@ def normalize_opt_name(text: str) -> str:
     # 괄호 안의 가격 정보나 부가설명 제거: '컴포트 패키지 III (79만)' -> '컴포트 패키지 III'
     # 단, 전체가 괄호로 감싸진 경우('(캘리그래피)') 괄호만 벗겨서 알맹이 보존
     sub_t = re.sub(r'\(.*?\)', '', t).strip().lower()
+    sub_t = re.sub(r'\[.*?\]', '', sub_t).strip()
     if sub_t:
         t = sub_t
     else:
-        t = t.replace('(', '').replace(')', '').strip().lower()
+        t = t.replace('(', '').replace(')', '').replace('[', '').replace(']', '').strip().lower()
     # 공백 및 특수기호 제거
-    t = re.sub(r'[\s\-_/.]', '', t)
+    t = re.sub(r'[\s\-_/·+.]', '', t)
     # 로마숫자 통일 (끝자리 또는 패키지 키워드 뒤: iv->4, iii->3, ii->2, i->1)
     # 순수 영단어(drivewise, navigation 등) 파괴를 방지하기 위해 로마숫자 치환 안전 처리
     t = re.sub(r'iv$', '4', t)
     t = re.sub(r'iii$', '3', t)
     t = re.sub(r'ii$', '2', t)
     t = re.sub(r'i$', '1', t)
-    t = re.sub(r'(패키지|플러스|팩|센스|와이즈|컨트롤|어시스트)iv', r'\g<1>4', t)
-    t = re.sub(r'(패키지|플러스|팩|센스|와이즈|컨트롤|어시스트)iii', r'\g<1>3', t)
-    t = re.sub(r'(패키지|플러스|팩|센스|와이즈|컨트롤|어시스트)ii', r'\g<1>2', t)
-    t = re.sub(r'(패키지|플러스|팩|센스|와이즈|컨트롤|어시스트)i', r'\g<1>1', t)
+    t = re.sub(r'(패키지|플러스|팩|센스|와이즈|컨트롤|어시스트|액티브|컴포트|셀렉티브|스타일|세이프티)iv', r'\g<1>4', t)
+    t = re.sub(r'(패키지|플러스|팩|센스|와이즈|컨트롤|어시스트|액티브|컴포트|셀렉티브|스타일|세이프티)iii', r'\g<1>3', t)
+    t = re.sub(r'(패키지|플러스|팩|센스|와이즈|컨트롤|어시스트|액티브|컴포트|셀렉티브|스타일|세이프티)ii', r'\g<1>2', t)
+    t = re.sub(r'(패키지|플러스|팩|센스|와이즈|컨트롤|어시스트|액티브|컴포트|셀렉티브|스타일|세이프티)i', r'\g<1>1', t)
     return t
+
+
+def get_bigram_set(s: str) -> set:
+    """문자 바이그램(2글자 음절 단위 슬라이딩 윈도우) 집합 생성"""
+    if not s or len(s) < 2:
+        return set()
+    return {s[i:i+2] for i in range(len(s) - 1)}
+
+
+def compute_bigram_jaccard(s1: str, s2: str) -> float:
+    """바이그램 자카드 유사도 (Jaccard Index) 계산 (0.0 ~ 1.0)"""
+    if not s1 or not s2:
+        return 0.0
+    if s1 == s2:
+        return 1.0
+    set1 = get_bigram_set(s1)
+    set2 = get_bigram_set(s2)
+    if not set1 or not set2:
+        return 0.0
+    intersection = len(set1 & set2)
+    union = len(set1 | set2)
+    return intersection / union if union > 0 else 0.0
+
+
+# 🌟 핵심 등급/스펙 수식어 목록 (한쪽에만 존재할 경우 동일 옵션으로 판정 금지)
+SPEC_QUALIFIER_KEYWORDS = [
+    '스마트', 'uvo', '유보', '어라운드뷰', 'avm', '서라운드뷰', 'svm',
+    'jbl', '크렐', 'krell', '보스', 'bose', '렉시콘', 'lexicon',
+    '드라이브와이즈', '스마트센스'
+]
+
+
+def get_catalog_for_car(car_name: str, year: str = "") -> dict:
+    """
+    차종명과 연식으로 공식 엔카 신차가격표 DB에서 해당 스펙(options, packages 등) 추출
+    - car_name: '올 뉴 카니발', '카니발', '스파크' 등
+    - year: '2018', '17(18)' 등
+    """
+    crawled_db = load_crawled_catalog()
+    if not crawled_db or not car_name:
+        return {}
+
+    norm_target = normalize_opt_name(car_name)
+    best_model_key = None
+    for m_key in crawled_db.keys():
+        norm_m = normalize_opt_name(m_key)
+        if norm_m == norm_target or norm_m in norm_target or norm_target in norm_m:
+            best_model_key = m_key
+            break
+
+    if not best_model_key:
+        return {}
+
+    model_data = crawled_db[best_model_key]
+    yr_cands = extract_year_candidates(year)
+
+    target_yr = None
+    for y in yr_cands:
+        if y in model_data:
+            target_yr = y
+            break
+
+    if not target_yr and model_data:
+        target_yr = sorted(model_data.keys(), reverse=True)[0]
+
+    if not target_yr:
+        return {}
+
+    return model_data.get(target_yr, {})
+
+
+def find_official_catalog_option(opt_name: str, catalog_data_or_options: Any = None) -> Optional[dict]:
+    """
+    주어진 옵션명에서 카탈로그 내 공식 신차 옵션을 탐색 (프론트엔드 findOfficialCatalogOption과 동일)
+    반환값: {"official_name": str, "price": Optional[int], "desc": Optional[str]} 또는 None
+    """
+    if not opt_name or not str(opt_name).strip():
+        return None
+
+    if isinstance(catalog_data_or_options, dict):
+        if "options" in catalog_data_or_options:
+            options_dict = catalog_data_or_options.get("options", {})
+        else:
+            options_dict = catalog_data_or_options
+    else:
+        options_dict = {}
+
+    if not options_dict:
+        return None
+
+    clean = re.sub(r'\([0-9,]+(?:\s*만|\s*원)?\)', '', str(opt_name))
+    clean = re.sub(r'\[[^\]]*\]', '', clean).strip()
+    norm_clean = normalize_opt_name(clean)
+    if not norm_clean:
+        return None
+
+    # 1. 완전 일치 (정규화 후)
+    for official_key, val in options_dict.items():
+        norm_official = normalize_opt_name(official_key)
+        if norm_official == norm_clean:
+            price = val.get("price") if isinstance(val, dict) else None
+            desc = val.get("desc") if isinstance(val, dict) else (val if isinstance(val, str) else "")
+            return {"official_name": official_key, "price": price, "desc": desc}
+
+    # 2. 접두어(기본형-, 고급형-, 디럭스- 등) 제거 후 재탐색
+    clean_prefix = re.sub(r'^(?:기본형|고급형|스마트형|모던형|프리미엄형|디럭스형|최고급형)[-_ ]*', '', norm_clean)
+    clean_prefix = re.sub(r'팩(?=[0-9])', '', clean_prefix)
+    if clean_prefix and clean_prefix != norm_clean:
+        for official_key, val in options_dict.items():
+            norm_official = normalize_opt_name(official_key)
+            if norm_official == clean_prefix:
+                price = val.get("price") if isinstance(val, dict) else None
+                desc = val.get("desc") if isinstance(val, dict) else (val if isinstance(val, str) else "")
+                return {"official_name": official_key, "price": price, "desc": desc}
+
+    # 3. 바이그램 자카드 유사도 (>= 0.35) 기반 최적 후보 탐색 (수식어 & 버전 불일치 차단)
+    best_candidate = None
+    best_score = 0.0
+
+    for official_key, val in options_dict.items():
+        norm_official = normalize_opt_name(official_key)
+
+        # 핵심 등급 수식어가 한쪽에만 있으면 매칭 배제
+        mismatch = any((kw in norm_clean) != (kw in norm_official) for kw in SPEC_QUALIFIER_KEYWORDS)
+        if mismatch:
+            continue
+
+        # 버전 식별자 불일치 방지 (1 vs 2)
+        nums_a = re.findall(r'[1-9]', norm_clean)
+        nums_b = re.findall(r'[1-9]', norm_official)
+        if nums_a and nums_b and "".join(nums_a) != "".join(nums_b):
+            continue
+
+        jaccard = max(
+            compute_bigram_jaccard(norm_clean, norm_official),
+            compute_bigram_jaccard(clean_prefix, norm_official) if clean_prefix else 0.0
+        )
+        if jaccard > best_score and jaccard >= 0.35:
+            best_score = jaccard
+            price = val.get("price") if isinstance(val, dict) else None
+            desc = val.get("desc") if isinstance(val, dict) else (val if isinstance(val, str) else "")
+            best_candidate = {"official_name": official_key, "price": price, "desc": desc}
+
+    return best_candidate
+
+
+def normalize_chaolma_options(
+    chaolma_options: list,
+    catalog_data: dict = None,
+    car_name: str = "",
+    year: str = ""
+) -> list:
+    """
+    차얼마(오토플러스) 옵션 목록을 엔카 공식 신차가격표 카탈로그 기준으로 정규화
+    (프론트엔드 normalizeChaolmaOptions와 100% 동일)
+    """
+    if not chaolma_options or not isinstance(chaolma_options, list):
+        return []
+
+    if catalog_data is None and car_name:
+        catalog_data = get_catalog_for_car(car_name, year)
+
+    normalized_list = []
+    for opt in chaolma_options:
+        if isinstance(opt, dict):
+            raw_name = str(opt.get("name") or opt.get("option_name") or "").strip()
+            orig_price = int(opt.get("price") or 0)
+            dep_price = int(opt.get("depreciated_price") or 0)
+            rate = float(opt.get("rate") or 0.2)
+        elif isinstance(opt, str):
+            raw_name = str(opt).strip()
+            orig_price = 0
+            dep_price = 0
+            rate = 0.2
+        else:
+            continue
+
+        if not raw_name or raw_name in ('없음', '-', '⚠️정보없음', '⚠️조회실패', '코드매칭실패'):
+            continue
+
+        matched = find_official_catalog_option(raw_name, catalog_data)
+
+        standard_name = raw_name
+        standard_price_man = round(orig_price / 10000) if orig_price > 0 else round(dep_price / 10000)
+        is_catalog_matched = False
+        desc = ""
+
+        if matched:
+            standard_name = matched.get("official_name") or raw_name
+            m_price = matched.get("price")
+            if m_price and m_price > 0:
+                standard_price_man = round(m_price / 10000)
+            is_catalog_matched = True
+            desc = matched.get("desc") or ""
+        else:
+            # 매칭 실패 시 접두어만 제거
+            standard_name = re.sub(r'^(?:기본형|고급형|디럭스형)[-_ ]*', '', raw_name)
+
+        normalized_list.append({
+            "original_name": raw_name,
+            "original_price": orig_price,
+            "depreciated_price": dep_price,
+            "rate": rate,
+            "standard_name": standard_name,
+            "standard_price_man": standard_price_man,
+            "is_catalog_matched": is_catalog_matched,
+            "desc": desc
+        })
+
+    return normalized_list
+
+
+def calculate_catalog_option_value(
+    target_opts: Any,
+    car_name: str = "",
+    year: str = ""
+) -> int:
+    """
+    타겟 옵션(문자열 또는 리스트)의 카탈로그 기준 총 신차 출고가(만원) 산출
+    - 1순위: 카탈로그 공식 옵션 가격 매칭
+    - 2순위: 괄호 내 명시 가격 '(xx만)'
+    - 3순위: 차얼마 원본 가격
+    """
+    if not target_opts:
+        return 0
+
+    catalog_data = get_catalog_for_car(car_name, year) if car_name else None
+
+    # 리스트로 변환
+    if isinstance(target_opts, str):
+        # 쉼표, 슬래시 또는 개행 구분
+        raw_items = [x.strip() for x in re.split(r'[/,\n]+', target_opts) if x.strip()]
+    elif isinstance(target_opts, (list, tuple, set)):
+        raw_items = list(target_opts)
+    else:
+        return 0
+
+    total_val_man = 0
+    matched_catalog_keys = set()
+
+    for item in raw_items:
+        item_str = ""
+        explicit_price = 0
+        if isinstance(item, dict):
+            item_str = str(item.get("standard_name") or item.get("name") or "")
+            if item.get("standard_price_man"):
+                explicit_price = int(item["standard_price_man"])
+            elif item.get("price"):
+                explicit_price = int(item["price"]) // 10000 if int(item["price"]) >= 10000 else int(item["price"])
+        else:
+            item_str = str(item).strip()
+
+        if not item_str or item_str in ('없음', '-', '⚠️정보없음', '⚠️조회실패', '코드매칭실패'):
+            continue
+
+        # 괄호 안의 가격 추출
+        p_match = re.search(r'\((\d+)\s*만(?:원)?\)', item_str)
+        if p_match:
+            explicit_price = int(p_match.group(1))
+
+        # 카탈로그 매칭 시도
+        catalog_price_man = 0
+        if catalog_data:
+            matched = find_official_catalog_option(item_str, catalog_data)
+            if matched and matched.get("price"):
+                off_name = matched.get("official_name")
+                # 동일 카탈로그 옵션 중복 가산 방지
+                if off_name not in matched_catalog_keys:
+                    catalog_price_man = round(matched["price"] / 10000)
+                    matched_catalog_keys.add(off_name)
+
+        if catalog_price_man > 0:
+            total_val_man += catalog_price_man
+        elif explicit_price > 0:
+            total_val_man += explicit_price
+
+    return total_val_man
 
 
 def extract_keywords_from_description(desc: str) -> list:
