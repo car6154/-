@@ -624,7 +624,20 @@ export const findOfficialCatalogOption = (
     }
   }
 
-  // 2. 핵심 수식어(스마트, uvo 등)가 일치하는 경우의 최적 공식 옵션 탐색
+  // 2. 접두어(기본형-, 고급형-, 디럭스- 등) 제거 후 재탐색
+  const cleanPrefix = normClean
+    .replace(/^(?:기본형|고급형|스마트형|모던형|프리미엄형|디럭스형|최고급형)/, '')
+    .replace(/팩(?=[0-9])/i, '');
+  if (cleanPrefix && cleanPrefix !== normClean) {
+    for (const [officialKey, val] of Object.entries(catalog.options)) {
+      const normOfficial = normalizeOpt(officialKey);
+      if (normOfficial === cleanPrefix) {
+        return { officialName: officialKey, price: val?.price ?? null, desc: val?.desc };
+      }
+    }
+  }
+
+  // 3. 핵심 수식어(스마트, uvo 등)가 일치하는 경우의 최적 공식 옵션 탐색
   let bestCandidate: OfficialOptionMatch | null = null;
   let bestScore = 0;
 
@@ -642,7 +655,10 @@ export const findOfficialCatalogOption = (
     const numsB = normOfficial.match(/[1-9]/g);
     if (numsA && numsB && numsA.join('') !== numsB.join('')) continue;
 
-    const jaccard = computeBiGramJaccard(normClean, normOfficial);
+    const jaccard = Math.max(
+      computeBiGramJaccard(normClean, normOfficial),
+      cleanPrefix ? computeBiGramJaccard(cleanPrefix, normOfficial) : 0
+    );
     if (jaccard > bestScore && jaccard >= 0.35) {
       bestScore = jaccard;
       bestCandidate = { officialName: officialKey, price: val?.price ?? null, desc: val?.desc };
@@ -650,6 +666,67 @@ export const findOfficialCatalogOption = (
   }
 
   return bestCandidate;
+};
+
+export interface NormalizedChaolmaOption {
+  originalName: string;
+  originalPrice: number;
+  depreciatedPrice: number;
+  rate: number;
+  standardName: string;
+  standardPriceMan: number;
+  isCatalogMatched: boolean;
+  desc?: string;
+}
+
+/**
+ * 차얼마(오토플러스) 옵션 목록을 엔카 공식 신차가격표 카탈로그 기준으로 정규화
+ * - 차얼마 비표준명(예: 기본형-컨비니언스) -> 카탈로그 공식명(예: 컨비니언스)
+ * - 감가액(예: 20만) 대신 신차 출고가(예: 106만)로 통일
+ * - 차얼마 원본 데이터(감가액, 원본명)는 보존
+ */
+export const normalizeChaolmaOptions = (
+  chaolmaOptions: any[],
+  catalog?: NewCarCatalogData | null
+): NormalizedChaolmaOption[] => {
+  if (!chaolmaOptions || !Array.isArray(chaolmaOptions)) return [];
+
+  return chaolmaOptions.map((opt) => {
+    const rawName = String(opt?.name || opt?.option_name || '').trim();
+    const origPrice = Number(opt?.price) || 0;
+    const depPrice = Number(opt?.depreciated_price) || 0;
+    const rate = Number(opt?.rate) || 0.2;
+
+    const matched = findOfficialCatalogOption(rawName, catalog);
+
+    let standardName = rawName;
+    let standardPriceMan = origPrice > 0 ? Math.round(origPrice / 10000) : Math.round(depPrice / 10000);
+    let isCatalogMatched = false;
+    let desc = '';
+
+    if (matched) {
+      standardName = matched.officialName;
+      if (matched.price && matched.price > 0) {
+        standardPriceMan = Math.round(matched.price / 10000);
+      }
+      isCatalogMatched = true;
+      desc = matched.desc || '';
+    } else {
+      // 카탈로그 매칭 실패 시 접두어만 제거
+      standardName = rawName.replace(/^(?:기본형|고급형|디럭스형)[-_ ]*/, '');
+    }
+
+    return {
+      originalName: rawName,
+      originalPrice: origPrice,
+      depreciatedPrice: depPrice,
+      rate,
+      standardName,
+      standardPriceMan,
+      isCatalogMatched,
+      desc
+    };
+  });
 };
 
 export type OptionMatchConfidence = 'exact' | 'fuzzy' | 'none';

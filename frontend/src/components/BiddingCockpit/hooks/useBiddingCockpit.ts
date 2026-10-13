@@ -14,6 +14,8 @@ import {
   getBiGramSet,
   computeBiGramJaccard,
   isOptionMatched,
+  fetchNewCarCatalog,
+  normalizeChaolmaOptions,
 } from '@/services/biddingOptionCatalog';
 import salesDataRaw from '@/data/real_autoplus_sold.json';
 import { EncarItem, EncarSoldItem, EncarSoldStats, HeydealerBidItem, BiddingCockpitTabProps } from '../types';
@@ -584,8 +586,10 @@ export function useBiddingCockpit({
         setYearModel(yr);
 
         if (res.options && res.options.length > 0) {
-          const optStr = res.options.map(o => `${o.name}(${Math.round((o.depreciated_price || o.price) / 10000)}만)`).join(' · ');
-          const totalOptMan = Math.round((res.total_option_price || 0) / 10000);
+          const cat = await fetchNewCarCatalog(res.model_detail_name || res.model_name || targetName, yr ? String(yr) : undefined);
+          const normalized = normalizeChaolmaOptions(res.options, cat);
+          const optStr = normalized.map(o => `${o.standardName}(${o.standardPriceMan}만)`).join(' · ');
+          const totalOptMan = normalized.reduce((acc, cur) => acc + cur.standardPriceMan, 0);
           setOptionsTag(`${optStr} [옵션총액: ${totalOptMan}만]`);
         } else {
           setOptionsTag('추가 옵션 없음 (기본 출고 사양)');
@@ -916,10 +920,12 @@ export function useBiddingCockpit({
                 };
               });
 
-              // 차올마 순정옵션이 있으면 옵션태그를 차올마 순정옵션(가격 포함)으로 정확히 교체 (중복 방지)
+              // 차올마 순정옵션이 있으면 옵션태그를 카탈로그 기준 표준 옵션명(출고가 포함)으로 정확히 교체 (중복 방지)
               if (chRes.options && chRes.options.length > 0) {
-                const optStr = chRes.options.map(o => `${o.name}(${Math.round((o.depreciated_price || o.price) / 10000)}만)`).join(' · ');
-                const totalOptMan = Math.round((chRes.total_option_price || 0) / 10000);
+                const cat = await fetchNewCarCatalog(chRes.model_detail_name || chRes.model_name || carData.car_name, chRes.model_year);
+                const normalized = normalizeChaolmaOptions(chRes.options, cat);
+                const optStr = normalized.map(o => `${o.standardName}(${o.standardPriceMan}만)`).join(' · ');
+                const totalOptMan = normalized.reduce((acc, cur) => acc + cur.standardPriceMan, 0);
                 setOptionsTag(`${optStr} [순정옵션총액: ${totalOptMan}만]`);
               }
             }
@@ -1144,10 +1150,26 @@ export function useBiddingCockpit({
             if (name.includes('앞도어(우)') || name.includes('FRONT_DOOR_R')) parsedReplaces.push('FRONT_DOOR_R');
             if (name.includes('뒤도어(좌)') || name.includes('REAR_DOOR_L')) parsedReplaces.push('REAR_DOOR_L');
             if (name.includes('뒤도어(우)') || name.includes('REAR_DOOR_R')) parsedReplaces.push('REAR_DOOR_R');
+            if (name.includes('쿼터(좌)') || name.includes('QUARTER_L')) parsedReplaces.push('QUARTER_L');
+            if (name.includes('쿼터(우)') || name.includes('QUARTER_R')) parsedReplaces.push('QUARTER_R');
+            if (name.includes('사이드실(좌)') || name.includes('사이드실 패널(좌)') || name.includes('SIDE_SILL_L')) parsedReplaces.push('SIDE_SILL_L');
+            if (name.includes('사이드실(우)') || name.includes('사이드실 패널(우)') || name.includes('SIDE_SILL_R')) parsedReplaces.push('SIDE_SILL_R');
+            if (name.includes('루프') || name.includes('ROOF')) parsedReplaces.push('ROOF');
             if (name.includes('트렁크') || name.includes('TRUNK')) parsedReplaces.push('TRUNK');
           } else if (state.includes('판금') || state.includes('W') || state.includes('2')) {
             if (name.includes('후드')) parsedRepairs.push('HOOD');
+            if (name.includes('앞휀더(좌)') || name.includes('F_FENDER_L')) parsedRepairs.push('F_FENDER_L');
+            if (name.includes('앞휀더(우)') || name.includes('F_FENDER_R')) parsedRepairs.push('F_FENDER_R');
+            if (name.includes('앞도어(좌)') || name.includes('FRONT_DOOR_L')) parsedRepairs.push('FRONT_DOOR_L');
+            if (name.includes('앞도어(우)') || name.includes('FRONT_DOOR_R')) parsedRepairs.push('FRONT_DOOR_R');
+            if (name.includes('뒤도어(좌)') || name.includes('REAR_DOOR_L')) parsedRepairs.push('REAR_DOOR_L');
+            if (name.includes('뒤도어(우)') || name.includes('REAR_DOOR_R')) parsedRepairs.push('REAR_DOOR_R');
+            if (name.includes('쿼터(좌)') || name.includes('QUARTER_L')) parsedRepairs.push('QUARTER_L');
+            if (name.includes('쿼터(우)') || name.includes('QUARTER_R')) parsedRepairs.push('QUARTER_R');
+            if (name.includes('사이드실(좌)') || name.includes('사이드실 패널(좌)') || name.includes('SIDE_SILL_L')) parsedRepairs.push('SIDE_SILL_L');
+            if (name.includes('사이드실(우)') || name.includes('사이드실 패널(우)') || name.includes('SIDE_SILL_R')) parsedRepairs.push('SIDE_SILL_R');
             if (name.includes('루프') || name.includes('ROOF')) parsedRepairs.push('ROOF');
+            if (name.includes('트렁크') || name.includes('TRUNK')) parsedRepairs.push('TRUNK');
             if (name.includes('크로스멤버') || name.includes('CROSS_MEMBER')) parsedRepairs.push('CROSS_MEMBER');
           }
         });

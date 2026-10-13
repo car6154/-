@@ -494,6 +494,24 @@ def trigger_git_sync(action: str = "pull"):
         raise HTTPException(status_code=400, detail=f"알 수 없는 동기화 액션: {action}")
 
 
+@app.post("/api/server/restart_all")
+def restart_all_servers_endpoint():
+    """
+    J-PRO 3대 서버 (FastAPI 8000, Frontend 3000, Streamlit 8501) 원격 일괄 재가동
+    """
+    def _do_restart():
+        time.sleep(1.0)
+        bat_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "run_all.bat")
+        if os.path.exists(bat_path):
+            subprocess.Popen(["cmd.exe", "/c", bat_path], cwd=os.path.dirname(os.path.abspath(__file__)), shell=True)
+
+    threading.Thread(target=_do_restart, daemon=True).start()
+    return {
+        "success": True,
+        "message": "3대 서버(8000, 3000, 8501) 일괄 재가동 명령이 실행되었습니다. 약 5초 후 페이지를 새로고침하세요."
+    }
+
+
 
 
 

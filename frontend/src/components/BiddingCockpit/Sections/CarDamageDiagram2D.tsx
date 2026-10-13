@@ -51,10 +51,12 @@ export const CarDamageDiagram2D: React.FC<CarDamageDiagram2DProps> = ({ selected
     { code: 'HOOD', kw: ['후드', '보닛', '본넷', 'hood'], x: 55, y: 20, w: 110, h: 55, label: '후드', full: '후드(보닛)' },
     { code: 'F_FENDER_L', kw: ['앞휀더(좌)', '앞휀더좌', '프론트휀더(좌)', '프론트 휀더(좌)', 'front_fender_left', 'f_fender_l'], x: 15, y: 25, w: 35, h: 65, label: 'F휀', full: '프론트 휀더(좌)' },
     { code: 'F_FENDER_R', kw: ['앞휀더(우)', '앞휀더우', '프론트휀더(우)', '프론트 휀더(우)', 'front_fender_right', 'f_fender_r'], x: 170, y: 25, w: 35, h: 65, label: 'F휀', full: '프론트 휀더(우)' },
-    { code: 'FRONT_DOOR_L', kw: ['앞문(좌)', '앞문좌', '앞도어(좌)', 'front_door_left', 'front_door_l'], x: 10, y: 100, w: 40, h: 60, label: 'F도', full: '프론트 도어(좌)' },
-    { code: 'FRONT_DOOR_R', kw: ['앞문(우)', '앞문우', '앞도어(우)', 'front_door_right', 'front_door_r'], x: 170, y: 100, w: 40, h: 60, label: 'F도', full: '프론트 도어(우)' },
-    { code: 'REAR_DOOR_L', kw: ['뒤문(좌)', '뒷문(좌)', '뒤문좌', '뒷문좌', '뒤도어(좌)', 'rear_door_left', 'rear_door_l'], x: 10, y: 165, w: 40, h: 60, label: 'R도', full: '리어 도어(좌)' },
-    { code: 'REAR_DOOR_R', kw: ['뒤문(우)', '뒷문(우)', '뒤문우', '뒷문우', '뒤도어(우)', 'rear_door_right', 'rear_door_r'], x: 170, y: 165, w: 40, h: 60, label: 'R도', full: '리어 도어(우)' },
+    { code: 'SIDE_SILL_L', kw: ['사이드실(좌)', '사이드실좌', '사이드실패널(좌)', '사이드실 패널(좌)', 'side_sill_left', 'side_sill_l'], x: 3, y: 98, w: 9, h: 128, label: '실', full: '사이드실 패널(좌)' },
+    { code: 'FRONT_DOOR_L', kw: ['앞문(좌)', '앞문좌', '앞도어(좌)', 'front_door_left', 'front_door_l'], x: 14, y: 100, w: 38, h: 60, label: 'F도', full: '프론트 도어(좌)' },
+    { code: 'FRONT_DOOR_R', kw: ['앞문(우)', '앞문우', '앞도어(우)', 'front_door_right', 'front_door_r'], x: 168, y: 100, w: 38, h: 60, label: 'F도', full: '프론트 도어(우)' },
+    { code: 'SIDE_SILL_R', kw: ['사이드실(우)', '사이드실우', '사이드실패널(우)', '사이드실 패널(우)', 'side_sill_right', 'side_sill_r'], x: 208, y: 98, w: 9, h: 128, label: '실', full: '사이드실 패널(우)' },
+    { code: 'REAR_DOOR_L', kw: ['뒤문(좌)', '뒷문(좌)', '뒤문좌', '뒷문좌', '뒤도어(좌)', 'rear_door_left', 'rear_door_l'], x: 14, y: 165, w: 38, h: 60, label: 'R도', full: '리어 도어(좌)' },
+    { code: 'REAR_DOOR_R', kw: ['뒤문(우)', '뒷문(우)', '뒤문우', '뒷문우', '뒤도어(우)', 'rear_door_right', 'rear_door_r'], x: 168, y: 165, w: 38, h: 60, label: 'R도', full: '리어 도어(우)' },
     { code: 'QUARTER_L', kw: ['쿼터(좌)', '뒤휀더(좌)', '쿼터패널(좌)', 'quarter_panel_left', 'quarter_l'], x: 10, y: 230, w: 40, h: 60, label: '쿼터', full: '쿼터 패널(좌)' },
     { code: 'QUARTER_R', kw: ['쿼터(우)', '뒤휀더(우)', '쿼터패널(우)', 'quarter_panel_right', 'quarter_r'], x: 170, y: 230, w: 40, h: 60, label: '쿼터', full: '쿼터 패널(우)' },
     { code: 'ROOF', kw: ['루프', 'roof'], x: 55, y: 80, w: 110, h: 145, label: '루프', full: '루프 패널' },
@@ -108,7 +110,7 @@ export const CarDamageDiagram2D: React.FC<CarDamageDiagram2DProps> = ({ selected
                   <g key={i}>
                     <title>{p.full}</title>
                     <rect x={p.x} y={p.y} width={p.w} height={p.h} rx="6" fill={fill} stroke="#334155" strokeWidth="1.2" />
-                    <text x={p.x + p.w / 2} y={p.y + p.h / 2} textAnchor="middle" dominantBaseline="middle" fontSize="10" fontWeight="bold" fill="#ffffff">
+                    <text x={p.x + p.w / 2} y={p.y + p.h / 2} textAnchor="middle" dominantBaseline="middle" fontSize={p.w < 15 ? 7.5 : 10} fontWeight="bold" fill="#ffffff">
                       {p.label}
                     </text>
                   </g>

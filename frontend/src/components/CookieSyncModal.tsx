@@ -137,6 +137,32 @@ export const CookieSyncModal: React.FC<CookieSyncModalProps> = ({
     }
   };
 
+  // 3대 서버 일괄 재가동 (FastAPI 8000, Frontend 3000, Streamlit 8501)
+  const [isRestartingServers, setIsRestartingServers] = useState(false);
+  const handleRestartAllServers = async () => {
+    if (!confirm('🔄 J-PRO 3대 서버(FastAPI 8000 / Frontend 3000 / Streamlit 8501)를 일괄 재가동하시겠습니까?\n\n약 5~8초 동안 서버가 완전히 재기동되며, 완료 후 브라우저가 자동 새로고침됩니다.')) {
+      return;
+    }
+    setIsRestartingServers(true);
+    setGitActionResult(null);
+    try {
+      const res = await fetch('/api/server/restart_all', { method: 'POST' });
+      const data = await res.json();
+      if (data.success) {
+        setGitActionResult(`🔄 서버 재가동 프로세스 시작됨! 6초 후 화면이 자동 새로고침됩니다.`);
+        setTimeout(() => {
+          window.location.reload();
+        }, 6000);
+      } else {
+        setGitActionResult(`❌ 재가동 실패: ${data.message || '오류 발생'}`);
+      }
+    } catch (e: any) {
+      setGitActionResult(`❌ 서버 통신 오류: ${e.message}`);
+    } finally {
+      setTimeout(() => setIsRestartingServers(false), 6000);
+    }
+  };
+
   // 클립보드 쿠키 읽어오기
   const handlePasteClipboard = async () => {
     try {
@@ -284,6 +310,16 @@ export const CookieSyncModal: React.FC<CookieSyncModalProps> = ({
                 className="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium text-xs flex items-center gap-1.5 transition border border-slate-700 disabled:opacity-50"
               >
                 <span>일반 Pull</span>
+              </button>
+
+              <button
+                onClick={handleRestartAllServers}
+                disabled={isRestartingServers || isGitActionRunning}
+                className="px-3.5 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs flex items-center gap-1.5 transition shadow-sm disabled:opacity-50"
+                title="FastAPI(8000), Frontend(3000), Streamlit(8501) 3대 서버를 완전히 껐다 켭니다"
+              >
+                <RefreshCw className={`w-3.5 h-3.5 ${isRestartingServers ? 'animate-spin' : ''}`} />
+                <span>🔄 3대 서버 일괄 재가동</span>
               </button>
 
               <button
