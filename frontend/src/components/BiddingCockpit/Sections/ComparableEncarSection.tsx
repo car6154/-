@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { AlertTriangle, ExternalLink, Car } from 'lucide-react';
 import {
   isOptionMatched,
@@ -24,6 +24,14 @@ export interface EncarItem {
   optionsText?: string;
   [key: string]: any;
 }
+
+export type EncarSortOption =
+  | 'price_asc'
+  | 'price_desc'
+  | 'recent_reg'
+  | 'year_desc'
+  | 'mileage_asc'
+  | 'complex';
 
 export interface EncarFilterStats {
   targetBadge?: string;
@@ -79,6 +87,65 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
 }) => {
   const [internalShowTrim, setInternalShowTrim] = useState<boolean>(false);
   const showTrimColumn = externalShowTrimColumn !== undefined ? externalShowTrimColumn : internalShowTrim;
+  const [sortOption, setSortOption] = useState<EncarSortOption>('price_asc');
+
+  const sortedEncarList = useMemo(() => {
+    if (!encarList || encarList.length === 0) return [];
+    const list = [...encarList];
+
+    const parseYearNum = (y: any): number => {
+      if (typeof y === 'number') return y < 100 ? 2000 + y : y;
+      const str = String(y || '').trim();
+      const m = str.match(/(?:20)?(\d{2})/);
+      return m ? Number('20' + m[1]) : 0;
+    };
+
+    const getValidDateStr = (item: EncarItem): string => {
+      const d = item.checkDate || item.registrationDate || item.regDate || '';
+      return String(d).replace(/[^\d]/g, '');
+    };
+
+    switch (sortOption) {
+      case 'price_asc':
+        return list.sort((a, b) => (Number(a.price) || 0) - (Number(b.price) || 0));
+      case 'price_desc':
+        return list.sort((a, b) => (Number(b.price) || 0) - (Number(a.price) || 0));
+      case 'recent_reg':
+        return list.sort((a, b) => {
+          const dateA = getValidDateStr(a);
+          const dateB = getValidDateStr(b);
+          if (dateA !== dateB) return dateB.localeCompare(dateA);
+          return (Number(a.price) || 0) - (Number(b.price) || 0);
+        });
+      case 'year_desc':
+        return list.sort((a, b) => {
+          const yrDiff = parseYearNum(b.year) - parseYearNum(a.year);
+          if (yrDiff !== 0) return yrDiff;
+          return (Number(a.price) || 0) - (Number(b.price) || 0);
+        });
+      case 'mileage_asc':
+        return list.sort((a, b) => {
+          const milA = Number(a.mileage ?? a.km ?? 0);
+          const milB = Number(b.mileage ?? b.km ?? 0);
+          if (milA !== milB) return milA - milB;
+          return (Number(a.price) || 0) - (Number(b.price) || 0);
+        });
+      case 'complex':
+        return list.sort((a, b) => {
+          // 1차: 성능일/등록일 최신순 (내림차순)
+          const dateA = getValidDateStr(a);
+          const dateB = getValidDateStr(b);
+          if (dateA !== dateB) return dateB.localeCompare(dateA);
+          // 2차: 가격 낮은 순 (오름차순)
+          const priceDiff = (Number(a.price) || 0) - (Number(b.price) || 0);
+          if (priceDiff !== 0) return priceDiff;
+          // 3차: 연식 최신순 (내림차순)
+          return parseYearNum(b.year) - parseYearNum(a.year);
+        });
+      default:
+        return list;
+    }
+  }, [encarList, sortOption]);
 
   const [targetCatalog, setTargetCatalog] = useState<NewCarCatalogData | null>(null);
   const [compCatalog, setCompCatalog] = useState<NewCarCatalogData | null>(null);
@@ -136,6 +203,21 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
           <div className="flex items-center justify-between text-xs sm:text-sm font-bold text-white px-1">
             <span>📰 엔카 동급 매물 (전체 {encarTotalModelCount}대 중 유효 {encarFilteredCount || encarList.length}대)</span>
             <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5">
+                <span className="text-[11px] text-zinc-400 font-medium hidden sm:inline">정렬:</span>
+                <select
+                  value={sortOption}
+                  onChange={(e) => setSortOption(e.target.value as EncarSortOption)}
+                  className="text-xs px-2.5 py-1 rounded bg-[#1c1e28] hover:bg-[#282c3c] text-zinc-200 border border-[#35394a] transition cursor-pointer font-bold focus:outline-none focus:border-amber-400"
+                >
+                  <option value="price_asc">가격 낮은 순</option>
+                  <option value="price_desc">가격 높은 순</option>
+                  <option value="recent_reg">최신 등록순</option>
+                  <option value="year_desc">연식 신순</option>
+                  <option value="mileage_asc">주행거리 적은 순</option>
+                  <option value="complex">복합 정렬</option>
+                </select>
+              </div>
               <button
                 type="button"
                 onClick={toggleTrim}
@@ -228,7 +310,7 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-[#232634]">
-                  {encarList.map((car) => {
+                  {sortedEncarList.map((car) => {
                     const isSelected = car.id === selectedEncarId;
                     const targetYrStr = String(yearModel % 100).padStart(2, '0');
                     const regYrMatch = String(car.year || '').match(/^\s*(\d{2})/);
