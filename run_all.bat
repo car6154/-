@@ -13,10 +13,16 @@ if exist "C:\Program Files\nodejs" (
 
 echo ========================================================
 echo   [J-PRO] 3 Servers Integrated Launcher
-echo   - Port 8000 : FastAPI Backend
-echo   - Port 3000 : React Frontend Web
-echo   - Port 8501 : Streamlit Dashboard
+echo   - Port 8000 : FastAPI Backend (0.0.0.0)
+echo   - Port 3000 : React Frontend Web (0.0.0.0)
+echo   - Port 8501 : Streamlit Dashboard (0.0.0.0)
 echo ========================================================
+
+REM -1. 기존 J-PRO 서버 창 안전 종료 (중복 실행 방지)
+taskkill /f /fi "WINDOWTITLE eq JPRO_FastAPI_8000*" > nul 2>&1
+taskkill /f /fi "WINDOWTITLE eq JPRO_Frontend_3000*" > nul 2>&1
+taskkill /f /fi "WINDOWTITLE eq JPRO_Streamlit_8501*" > nul 2>&1
+timeout /t 2 /nobreak > nul
 
 REM 0. Tailscale 수신 파일(다운로드 폴더) 자동 배치
 if exist "%USERPROFILE%\Downloads\firebase-applet-config.json" (
