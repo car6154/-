@@ -117,10 +117,10 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
 
           {/* URL Input */}
           <div className="space-y-1.5">
-            <label className="text-xs font-bold text-zinc-200 block">헤이딜러 매물 주소</label>
+            <label className="text-xs font-bold text-zinc-200 block">매물 주소</label>
             <input
               type="text"
-              placeholder="헤이딜러 URL 또는 ID 입력"
+              placeholder="매물 URL 또는 ID 입력"
               value={heydealerUrl}
               onChange={(e) => setHeydealerUrl(e.target.value)}
               className="w-full bg-[#14151b] border border-[#2c2f3d] rounded-lg px-3 py-2 text-xs sm:text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-blue-500 font-mono"
@@ -149,10 +149,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
           {/* Car Number Search (차얼마 & 엔카 통합 조회) */}
           <div className="space-y-1.5 pt-1">
             <div className="flex items-center justify-between">
-              <label className="text-xs font-bold text-zinc-200 flex items-center gap-1.5">
-                <span>차량번호 (필수)</span>
-                <span className="text-[10px] bg-blue-500/25 text-blue-300 px-1.5 py-0.5 rounded font-mono font-bold">차얼마&amp;엔카</span>
-              </label>
+              <label className="text-xs font-bold text-zinc-200 block">차량번호 (필수)</label>
               <span className="text-[11px] text-zinc-400">Enter로 조회</span>
             </div>
             <div className="flex gap-1.5">
