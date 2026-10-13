@@ -877,10 +877,24 @@ PART_CODE_MAP = {
     'REAR_DOOR_LEFT': 'REAR_DOOR_L', 'REAR_DOOR_L': 'REAR_DOOR_L', 'DOOR_RL': 'REAR_DOOR_L',
     'REAR_DOOR_RIGHT': 'REAR_DOOR_R', 'REAR_DOOR_R': 'REAR_DOOR_R', 'DOOR_RR': 'REAR_DOOR_R',
     'TRUNK': 'TRUNK', 'TRUNK_LID': 'TRUNK',
+    'TRUNK_FLOOR': 'TRUNK_FLOOR',
+    'REAR_PANEL': 'REAR_PANEL',
     'QUARTER_LEFT': 'QUARTER_L', 'QUARTER_L': 'QUARTER_L',
     'QUARTER_RIGHT': 'QUARTER_R', 'QUARTER_R': 'QUARTER_R',
     'ROOF': 'ROOF',
     'RADIATOR': 'RADIATOR_SUPPORT', 'RADIATOR_SUPPORT': 'RADIATOR_SUPPORT',
+    # 엔카 국토부 표준 부위 코드 (P-Code)
+    'P010': 'HOOD', 'P021': 'F_FENDER_L', 'P022': 'F_FENDER_R',
+    'P031': 'FRONT_DOOR_L', 'P032': 'FRONT_DOOR_R',
+    'P033': 'REAR_DOOR_L', 'P034': 'REAR_DOOR_R',
+    'P040': 'TRUNK', 'P041': 'TRUNK',
+    'P061': 'QUARTER_L', 'P062': 'QUARTER_R',
+    'P070': 'ROOF', 'P081': 'SIDE_SILL_L', 'P082': 'SIDE_SILL_R',
+    'P101': 'FRONT_SIDE_MEMBER_L', 'P102': 'FRONT_SIDE_MEMBER_R',
+    'P111': 'FRONT_WHEEL_HOUSE_L', 'P112': 'FRONT_WHEEL_HOUSE_R',
+    'P120': 'CROSS_MEMBER', 'P131': 'INSIDE_PANEL_L', 'P132': 'INSIDE_PANEL_R',
+    'P141': 'SIDE_MEMBER_REAR_L', 'P142': 'SIDE_MEMBER_REAR_R',
+    'P150': 'TRUNK_FLOOR', 'P160': 'REAR_PANEL', 'P181': 'REAR_PANEL',
 }
 
 
@@ -890,9 +904,10 @@ def _resolve_part_code(title: str) -> Optional[str]:
     raw_upper = title.strip().upper()
     if raw_upper in PART_CODE_MAP:
         return PART_CODE_MAP[raw_upper]
-    for k, v in PART_CODE_MAP.items():
+    # 긴 키워드(더 구체적인 명칭, 예: '트렁크 플로어' > '트렁크') 우선 순회로 부분일치 가로채기 방지
+    for k in sorted(PART_CODE_MAP.keys(), key=len, reverse=True):
         if k in title or k.upper() in raw_upper:
-            return v
+            return PART_CODE_MAP[k]
     return None
 
 
