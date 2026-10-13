@@ -188,6 +188,57 @@ export function useBiddingCockpit({
   const activeRequestIdRef = useRef<number>(0);
   const skipAutoFetchRef = useRef<boolean>(false);
 
+  // 선택된 엔카 매물 및 실시간 성능점검표 연동 상태 (상단 호이스팅)
+  const [selectedEncarId, setSelectedEncarId] = useState<string>('');
+  const [selectedInspectionMap, setSelectedInspectionMap] = useState<Record<string, any>>({});
+  const [isInspectionLoading, setIsInspectionLoading] = useState<boolean>(false);
+  const [isEncarSoldOpen, setIsEncarSoldOpen] = useState<boolean>(false);
+
+  // 자사 오토플러스 실적 및 시장 수요도 상태 (상단 호이스팅)
+  const [liveMarketStats, setLiveMarketStats] = useState<any>(null);
+
+  // 🧹 차량 변경/재조회 시 이전 차량 데이터 완전 초기화 (상태 잔류 및 가격 오염 방지)
+  const resetCockpitState = useCallback((options?: { keepInputs?: boolean }) => {
+    // 1. 헤이딜러 실시간 낙찰 데이터 및 선택 상태 완전 초기화
+    setRawHeydealerComps([]);
+    setSelectedHeydealerBidId(null);
+    setSelectedHeydealerGradeFilter('ALL');
+
+    // 2. 가격 계산 및 밸류에이션 상태 초기화
+    setExpectedSellPrice(0);
+    setEncarValuation(null);
+    setBackendEncarStats(null);
+    setOuterRepairCount(0);
+    setMemo('');
+
+    // 3. 엔카 실시간 매물 및 통계 초기화
+    setLiveEncarList([]);
+    setSelectedEncarId('');
+    setSelectedInspectionMap({});
+    setLiveEncarSoldStats(null);
+    setEncarTotalModelCount(0);
+    setEncarFilteredCount(0);
+    setEncarFilterStats(null);
+    setEncarErrorMessage('');
+    setEncarSourceUrl('');
+
+    // 4. 차량 원부 / 카히스토리 / 모달 상태 초기화
+    setTargetCarHistory(null);
+    setLiveMarketStats(null);
+    setCockpitModalCar(null);
+    setOptionsTag('');
+    setSearchStatus(null);
+
+    // 5. 기본 입력 필드 (keepInputs가 false이거나 없을 때만 초기화)
+    if (!options?.keepInputs) {
+      setManufacturer('');
+      setCarName('');
+      setDetailModel('');
+      setYearModel(0);
+      setMileageKm(0);
+    }
+  }, []);
+
   const fetchEncarSoldOut = useCallback(async (carIds: string[], expectedModel: string, targetYear: string) => {
     if (!carIds.length || !expectedModel) return;
     setIsEncarSoldLoading(true);
@@ -361,6 +412,9 @@ export function useBiddingCockpit({
   const handleQuickParseText = () => {
     if (!quickPasteText.trim()) return;
     const raw = quickPasteText;
+
+    // 🧹 텍스트 빠른 분석 시 이전 차량 상태 즉시 완전 리셋
+    resetCockpitState({ keepInputs: false });
     
     // 1. 차량번호 추출 (예: 12가1234, 123가1234)
     const carNoMatch = raw.match(/(\d{2,3}[가-힣]\s*\d{4})/);
@@ -548,9 +602,10 @@ export function useBiddingCockpit({
       return;
     }
 
+    // 🧹 새 차량번호 조회 시 이전 차량의 헤이딜러 낙찰/엔카 매물/밸류에이션 즉시 리셋 (입력 필드는 유지)
+    resetCockpitState({ keepInputs: true });
+
     setIsSearchingCar(true);
-    setExpectedSellPrice(0);
-    setEncarValuation(null);
     setSearchStatus({
       type: 'info',
       message: '🔍 차얼마 & 엔카 실시간 제원/옵션 스캔 중...'
@@ -685,6 +740,9 @@ export function useBiddingCockpit({
       });
       return;
     }
+
+    // 🧹 새 헤이딜러 URL 조회 시 이전 차량의 모든 상태 즉시 완전 리셋
+    resetCockpitState({ keepInputs: false });
 
     setIsAiEstimating(true);
     setAiEstimateStep('헤이딜러 딜러 전용 API 연결 중...');
@@ -1091,11 +1149,7 @@ export function useBiddingCockpit({
     });
   }, [liveEncarList, carName, detailModel, expectedSellPrice, yearModel, mileageKm, optionsTag]);
 
-  // 선택된 엔카 매물 및 실시간 성능점검표 연동
-  const [selectedEncarId, setSelectedEncarId] = useState<string>('');
-  const [selectedInspectionMap, setSelectedInspectionMap] = useState<Record<string, any>>({});
-  const [isInspectionLoading, setIsInspectionLoading] = useState<boolean>(false);
-  const [isEncarSoldOpen, setIsEncarSoldOpen] = useState<boolean>(false);
+  // (selectedEncarId, selectedInspectionMap, isInspectionLoading, isEncarSoldOpen 상태는 호이스팅 방지를 위해 상단 배치됨)
 
   // 🚨 [5순위 UX 혼동 방지]: 조회 차량과 비교 매물이 섞이지 않도록, 엔카 매물 로드 시 1위 매물 자동선택을 완전히 제거합니다.
   // (사용자가 비교 매물 테이블의 행을 직접 클릭했을 때만 해당 매물의 상세 스펙 및 2D 점검표가 열립니다.)
@@ -1542,8 +1596,7 @@ export function useBiddingCockpit({
   // ----------------------------------------------------
   // ----------------------------------------------------
   // [1단계. 자사 오토플러스 실적 및 시장 수요도 - Streamlit 8501 100% 동일 API 연동]
-  // ----------------------------------------------------
-  const [liveMarketStats, setLiveMarketStats] = useState<any>(null);
+  // (liveMarketStats 상태는 호이스팅 방지를 위해 상단 배치됨)
 
   const fetchMarketStats = useCallback(async (cName?: string, dModel?: string, yModel?: number) => {
     const targetCName = cName || carName;
@@ -1783,7 +1836,7 @@ export function useBiddingCockpit({
 
   // 엔카 동급 매물 통계 (최저가, 최고가, 평균가, 중앙값, 매물수 - Streamlit 8501 int(mean) 방식 100% 동일)
   const encarStats = useMemo(() => {
-    if (!encarList.length) return { count: 0, min: expectedSellPrice, max: expectedSellPrice, avg: expectedSellPrice, median: expectedSellPrice };
+    if (!encarList.length) return { count: 0, min: 0, max: 0, avg: 0, median: 0 };
     const prices = [...encarList.map(c => c.price)].sort((a, b) => a - b);
     const min = prices[0];
     const max = prices[prices.length - 1];
@@ -1792,7 +1845,7 @@ export function useBiddingCockpit({
     const midIdx = Math.floor(prices.length / 2);
     const median = prices.length % 2 === 0 ? Math.round((prices[midIdx - 1] + prices[midIdx]) / 2) : prices[midIdx];
     return { count: encarList.length, min, max, avg, median };
-  }, [encarList, expectedSellPrice]);
+  }, [encarList]);
 
   // 연식별 호가 평균 및 대수 (Streamlit tab_main.py L500-L525 100% 동일 구현 - 9대 전수 집계)
   const encarYearStats = useMemo(() => {
@@ -1950,6 +2003,7 @@ export function useBiddingCockpit({
     isAiEstimating,
     setIsAiEstimating,
     handleHeydealerAiEstimate,
+    resetCockpitState,
     isQuickPasteOpen,
     setIsQuickPasteOpen,
     quickPasteText,
