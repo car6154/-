@@ -258,7 +258,12 @@ export function useBiddingCockpit({
       });
       const data = await res.json();
       
-      if (reqId !== activeRequestIdRef.current) return [];
+      if (reqId !== activeRequestIdRef.current) {
+        // 이미 새로운 요청이 트리거되었더라도 현재 요청에 유효한 매물이 있으면 버리지 않고 정상 처리
+        if (!data.success || !Array.isArray(data.items) || data.items.length === 0) {
+          return [];
+        }
+      }
 
       if (data.success && Array.isArray(data.items) && data.items.length > 0) {
         setEncarErrorMessage('');
@@ -329,7 +334,7 @@ export function useBiddingCockpit({
 
   // 사이드바 차량 조건 변경 시 실데이터 자동 수집 (차량이 있을 때만)
   useEffect(() => {
-    if (skipAutoFetchRef.current) {
+    if (skipAutoFetchRef.current || isSearchingCar) {
       skipAutoFetchRef.current = false;
       return;
     }

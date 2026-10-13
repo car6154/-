@@ -386,7 +386,7 @@ async function startServer() {
           mileage: mileageVal,
           carNumber
         }),
-        signal: AbortSignal.timeout(8000)
+        signal: AbortSignal.timeout(30000)
       });
       if (pyRes.ok) {
         const pyData = await pyRes.json();
@@ -506,9 +506,27 @@ async function startServer() {
           modelGroup = '캐스퍼';
           subModel = '캐스퍼';
         } else if (nameLower.includes('qm6')) {
-          brand = '르노코리아';
+          brand = '르노코리아(삼성_)';
           modelGroup = 'QM6';
           subModel = '더 뉴 QM6';
+        } else if (nameLower.includes('스파크')) {
+          brand = '쉐보레(GM대우_)';
+          modelGroup = '스파크';
+          if (nameLower.includes('더뉴스파크') || (yearVal >= 18 && yearVal <= 24)) {
+            subModel = '더 뉴 스파크';
+          } else if (nameLower.includes('더넥스트스파크') || (yearVal >= 15 && yearVal < 18)) {
+            subModel = '더 넥스트 스파크';
+          } else {
+            subModel = '스파크';
+          }
+        }
+
+        if (brand === '쉐보레' || brand === '쉐보레(대우)' || brand === '쉐보레(GM대우)') {
+          brand = '쉐보레(GM대우_)';
+        } else if (brand === '르노코리아' || brand === '르노' || brand === '르노코리아(삼성)') {
+          brand = '르노코리아(삼성_)';
+        } else if (brand === '쌍용' || brand === 'KG모빌리티' || brand === 'KGM') {
+          brand = 'KG모빌리티(쌍용_)';
         }
 
         // 1. 기준 등급(targetBadge) 및 인승 결합 추출 (원칙 1: 조회 차량 등급과 정확히 일치)
