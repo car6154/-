@@ -851,7 +851,7 @@ async function startServer() {
       if (strictTargetBadge) {
         validCars = rawCars.filter((c: any) => isStrictMatch(c, strictTargetBadge));
         if (usedBadgeApi) {
-          // BadgeGroup/Badge API로 이미 타겟 등급만 정밀 수집되었으므로 불필요한 제외 문구(727대 제외 등) 제거
+          // BadgeGroup/Badge API로 이미 타겟 등급만 정밀 수집되었으므로 불필요한 제외 문구 제거
           excludedByBadge = 0;
           totalModelCount = rawCars.length;
         } else {
@@ -860,6 +860,17 @@ async function startServer() {
         }
       } else {
         totalModelCount = rawCars.length;
+      }
+
+      // [원칙 1-1: 주행거리 2차 엄격 필터 - 기준 주행거리 ±30,000km 범위를 벗어나는 매물 원천 차단]
+      if (mileageVal > 0) {
+        const allowedMinMil = Math.max(0, mileageVal - 30000);
+        const allowedMaxMil = mileageVal + 30000;
+        validCars = validCars.filter((c: any) => {
+          const mil = Number(c.Mileage) || 0;
+          if (mil <= 0) return true; // 주행거리 미상 매물은 보존
+          return mil >= allowedMinMil && mil <= allowedMaxMil;
+        });
       }
 
       // [원칙 2: 스트림릿 8501 정답 기준과 100% 동일한 중복 제거 및 가격 이상치 정제 파이프라인]
