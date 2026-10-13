@@ -506,12 +506,20 @@ def restart_all_servers_endpoint():
         time.sleep(1.0)
         bat_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "run_all.bat")
         if os.path.exists(bat_path):
-            subprocess.Popen(["cmd.exe", "/c", bat_path], cwd=os.path.dirname(os.path.abspath(__file__)), shell=True)
+            # 부모 프로세스(8000번)가 taskkill로 종료되어도 run_all.bat이 정상 독립 실행되도록 start 명령어와 분리 플래그 적용
+            CREATE_NEW_CONSOLE = 0x00000010
+            CREATE_NEW_PROCESS_GROUP = 0x00000200
+            subprocess.Popen(
+                ["cmd.exe", "/c", "start", "", bat_path],
+                cwd=os.path.dirname(os.path.abspath(__file__)),
+                creationflags=CREATE_NEW_CONSOLE | CREATE_NEW_PROCESS_GROUP,
+                shell=True
+            )
 
     threading.Thread(target=_do_restart, daemon=True).start()
     return {
         "success": True,
-        "message": "3대 서버(8000, 3000, 8501) 일괄 재가동 명령이 실행되었습니다. 약 5초 후 페이지를 새로고침하세요."
+        "message": "3대 서버(8000, 3000, 8501) 일괄 재가동 명령이 실행되었습니다. 약 5~8초 후 페이지를 새로고침하세요."
     }
 
 
