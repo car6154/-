@@ -101,7 +101,9 @@ async function broadcastCookieToServers(cookieStr, target) {
     'http://localhost:8502/api/save_cookie',
     'http://localhost:3000/api/save_cookie',
     'http://localhost:3000/api/session/cookie',
-    'http://localhost:8000/api/save_cookie'
+    'http://localhost:8000/api/save_cookie',
+    'http://100.95.238.123:8502/api/save_cookie',
+    'http://100.95.238.123:8000/api/save_cookie'
   ];
 
   const results = await Promise.allSettled(

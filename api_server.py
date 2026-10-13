@@ -34,6 +34,11 @@ def on_app_startup():
         start_autoplus_scheduler()
     except Exception as e:
         print(f"[api_server] Failed to start Autoplus sync scheduler: {e}", flush=True)
+    try:
+        from scraper import HeydealerScraper
+        HeydealerScraper.start_keepalive_manager()
+    except Exception as e:
+        print(f"[api_server] Failed to start Heydealer keep-alive manager: {e}", flush=True)
 
 origins = [
     "http://localhost:5173",
@@ -160,6 +165,11 @@ def save_cookie_api(payload: CookieSavePayload):
             f.write(raw_cookie)
         set_env_variable("HEYDEALER_COOKIE", raw_cookie)
         os.environ["HEYDEALER_COOKIE"] = raw_cookie
+        try:
+            from scraper import HeydealerScraper
+            HeydealerScraper.reload_session_from_saved_cookie()
+        except Exception:
+            pass
 
     return {"status": "ok", "message": f"{target} cookie saved successfully"}
 

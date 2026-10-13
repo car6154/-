@@ -166,44 +166,147 @@ class HeydealerScraper:
 
     _keepalive_started = False
     _keepalive_session = None
+    _keepalive_active = False
+    _last_cookie_content = ""
+    _keepalive_lock = None
+
+    @classmethod
+    def _get_lock(cls):
+        import threading
+        if cls._keepalive_lock is None:
+            cls._keepalive_lock = threading.Lock()
+        return cls._keepalive_lock
 
     @staticmethod
-    def start_keepalive_worker(session):
+    def get_saved_heydealer_cookie():
+        """heydealer_cookie.txt 또는 .env에서 헤이딜러 쿠키 문자열을 안전하게 조회합니다."""
+        import os
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        cookie_file = os.path.join(base_dir, "heydealer_cookie.txt")
+        if os.path.exists(cookie_file):
+            try:
+                with open(cookie_file, "r", encoding="utf-8") as f:
+                    content = f.read().strip()
+                if content:
+                    return content
+            except Exception:
+                pass
+        
+        env_cookie = os.getenv("HEYDEALER_COOKIE", "").strip()
+        if env_cookie:
+            return env_cookie
+            
+        env_file = os.path.join(base_dir, ".env")
+        if os.path.exists(env_file):
+            try:
+                with open(env_file, "r", encoding="utf-8-sig") as f:
+                    for line in f:
+                        if line.startswith("HEYDEALER_COOKIE="):
+                            return line.split("=", 1)[1].strip().strip('"').strip("'")
+            except Exception:
+                pass
+        return ""
+
+    @staticmethod
+    def reload_session_from_saved_cookie():
         """
-        봇 의심을 피하기 위해 불규칙한 랜덤 주기(5~8분)로 가벼운 핑을 보내
-        헤이딜러 세션이 유휴 상태로 만료되는 것을 방지하고 최신 쿠키를 유지합니다.
+        저장된 쿠키 파일을 읽어 세션을 자동 구성 또는 갱신합니다.
+        쿠키가 없으면 False를 반환하며 에러를 발생시키지 않고 조용히 대기합니다.
+        """
+        raw_cookie = HeydealerScraper.get_saved_heydealer_cookie()
+        if not raw_cookie:
+            return False
+
+        with HeydealerScraper._get_lock():
+            if (raw_cookie == HeydealerScraper._last_cookie_content and 
+                    HeydealerScraper._keepalive_session and 
+                    HeydealerScraper._keepalive_active):
+                return True
+            try:
+                sess = HeydealerScraper.build_session(raw_cookie)
+                HeydealerScraper._keepalive_session = sess
+                HeydealerScraper._last_cookie_content = raw_cookie
+                HeydealerScraper._keepalive_active = True
+                print("[HeydealerKeepAlive] 헤이딜러 세션이 쿠키 파일로부터 정상 로드/활성화되었습니다.", flush=True)
+                return True
+            except Exception as e:
+                print(f"[HeydealerKeepAlive] 헤이딜러 세션 생성 오류: {e}", flush=True)
+                return False
+
+    @staticmethod
+    def start_keepalive_manager():
+        """
+        FastAPI 백엔드 startup 시 시작되는 24시간 헤이딜러 무인 세션 매니저.
+        - 쿠키 파일이 비어있으면 조용히 대기 (에러 폭탄 금지)
+        - 401/403 감지 시 즉시 핑 중단하고 안전 대기
+        - 새 쿠키가 감지되면 자동으로 세션 재개
         """
         import threading, time, random
 
-        HeydealerScraper._keepalive_session = session
         if HeydealerScraper._keepalive_started:
+            # 이미 매니저가 기동 중이면 세션 로드만 재시도
+            HeydealerScraper.reload_session_from_saved_cookie()
             return
         HeydealerScraper._keepalive_started = True
 
-        def _worker():
+        def _manager_worker():
+            print("[HeydealerKeepAlive] 백그라운드 세션 감시 및 유지 매니저 가동 완료", flush=True)
+            # 최초 기동 시 세션 로드 시도
+            HeydealerScraper.reload_session_from_saved_cookie()
+
             while True:
-                # 5분(300초) ~ 8분(480초) 사이의 무작위 간격으로 자연스러운 브라우징 시뮬레이션
+                # 1. 비활성 상태 (쿠키 없음 또는 401/403 차단 감지)
+                if not HeydealerScraper._keepalive_active:
+                    time.sleep(15)
+                    # 새 쿠키가 파일로 들어왔는지 체크하여 자동 복구
+                    HeydealerScraper.reload_session_from_saved_cookie()
+                    continue
+
+                # 2. 활성 상태: 5~8분(300~480초) 사이 무작위 주기로 핑 전송 대기
                 sleep_sec = random.randint(300, 480)
-                time.sleep(sleep_sec)
+                for _ in range(sleep_sec // 15):
+                    time.sleep(15)
+                    # 수면 중에도 새 쿠키 파일이 갱신되었는지 확인
+                    curr_cookie = HeydealerScraper.get_saved_heydealer_cookie()
+                    if curr_cookie and curr_cookie != HeydealerScraper._last_cookie_content:
+                        HeydealerScraper.reload_session_from_saved_cookie()
+                        break
+                    if not HeydealerScraper._keepalive_active:
+                        break
+
+                if not HeydealerScraper._keepalive_active:
+                    continue
 
                 cur_sess = HeydealerScraper._keepalive_session
                 if not cur_sess:
                     continue
 
                 try:
-                    # 사람이 탭을 켜두었을 때 발생하는 가벼운 정적/메인 요청
                     HeydealerScraper._sync_csrf_header(cur_sess)
                     resp = cur_sess.get("https://dealer.heydealer.com/", timeout=10)
                     HeydealerScraper._sync_csrf_header(cur_sess)
 
-                    # 서버에서 갱신된 쿠키가 있으면 .env에 자동 동기화
                     if resp.status_code == 200:
                         HeydealerScraper.save_session_to_env(cur_sess)
+                    elif resp.status_code in (401, 403):
+                        # 401 Unauthorized 또는 403 Forbidden 감지 시 즉시 안전 중단
+                        print(f"[HeydealerKeepAlive] 인증 만료 또는 제한(HTTP {resp.status_code}) 감지! 계정 보호를 위해 핑 전송을 즉시 중단하고 새 쿠키 입력을 대기합니다.", flush=True)
+                        with HeydealerScraper._get_lock():
+                            HeydealerScraper._keepalive_active = False
                 except Exception:
                     pass
 
-        t = threading.Thread(target=_worker, daemon=True, name="HeydealerKeepAliveThread")
+        t = threading.Thread(target=_manager_worker, daemon=True, name="HeydealerKeepAliveManager")
         t.start()
+
+    @staticmethod
+    def start_keepalive_worker(session=None):
+        """기존 코드 호환용 래퍼: 세션이 주어지면 등록 후 매니저 기동"""
+        if session:
+            with HeydealerScraper._get_lock():
+                HeydealerScraper._keepalive_session = session
+                HeydealerScraper._keepalive_active = True
+        HeydealerScraper.start_keepalive_manager()
 
     @staticmethod
     def save_session_to_env(session, env_path=None):
