@@ -562,10 +562,10 @@ async function startServer() {
           specRanges.push(`Year.range(${startYr}01..${endYr}12)`);
         }
 
-        // 주행거리 범위 필터: 대표님 지침 기준 ± 50,000km 전수 수집
+        // 주행거리 범위 필터: 제이 님 지침 기준 ± 30,000km 정밀 수집
         if (mileageVal > 0) {
-          const minMil = Math.max(0, Math.floor((mileageVal - 50000) / 10000) * 10000);
-          const maxMil = Math.ceil((mileageVal + 50000) / 10000) * 10000;
+          const minMil = Math.max(0, Math.floor((mileageVal - 30000) / 10000) * 10000);
+          const maxMil = Math.ceil((mileageVal + 30000) / 10000) * 10000;
           specRanges.push(`Mileage.range(${minMil}..${maxMil})`);
         }
 

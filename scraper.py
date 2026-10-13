@@ -361,9 +361,9 @@ class HeydealerScraper:
         return None  # 실패해도 전체 흐름에는 영향 없음
 
     @staticmethod
-    def fetch_market_prices(params_dict, session, max_pages=10):
+    def fetch_market_prices(params_dict, session, max_pages=1):
         """
-        차량 상세 데이터의 price_info.params를 바탕으로 동급 낙찰시세를 전수(모든 페이지) 가져옵니다.
+        차량 상세 데이터의 price_info.params를 바탕으로 동급 낙찰시세를 가져옵니다 (기본 1페이지, 최신 20대 쾌속 수집).
         엔드포인트: GET /v2/dealers/web/price/cars/?page={page}...
         """
         import urllib.parse, json
@@ -525,7 +525,7 @@ class HeydealerScraper:
                     }
 
             if params:
-                market_prices_json = HeydealerScraper.fetch_market_prices(params, session)
+                market_prices_json = HeydealerScraper.fetch_market_prices(params, session, max_pages=1)
             
             # 디버그용 통합 덤프 저장
             try:
