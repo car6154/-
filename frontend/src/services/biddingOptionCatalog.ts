@@ -505,8 +505,11 @@ export const isOptionMatched = (optA: string, optB: string): boolean => {
  */
 export const splitOptionString = (optStr: string): string[] => {
   if (!optStr) return [];
-  const str = String(optStr).trim();
-  if (!str || ['없음', '-', '없음(구버전점검)', '⚠️조회실패', '코드매칭실패', '기본'].includes(str)) {
+  // [옵션총액: 354만], [순정옵션총액: ...] 등 메타 태그 사전 분리/제거
+  const cleanedStr = String(optStr)
+    .replace(/\[(?:순정)?옵션총액[^\]]*\]/gi, '')
+    .trim();
+  if (!cleanedStr || ['없음', '-', '없음(구버전점검)', '⚠️조회실패', '코드매칭실패', '기본'].includes(cleanedStr)) {
     return [];
   }
 
@@ -514,8 +517,8 @@ export const splitOptionString = (optStr: string): string[] => {
   let current = '';
   let depth = 0;
 
-  for (let i = 0; i < str.length; i++) {
-    const ch = str[i];
+  for (let i = 0; i < cleanedStr.length; i++) {
+    const ch = cleanedStr[i];
     if (ch === '(' || ch === '[' || ch === '{') {
       depth++;
       current += ch;
@@ -535,7 +538,7 @@ export const splitOptionString = (optStr: string): string[] => {
   if (lastTrimmed) results.push(lastTrimmed);
 
   return results
-    .map(o => o.trim())
+    .map(o => o.replace(/\[(?:순정)?옵션총액[^\]]*\]/gi, '').trim())
     .filter(o => o.length > 0 && !['없음', '-', '기본'].includes(o));
 };
 

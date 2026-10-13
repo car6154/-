@@ -372,11 +372,15 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-1.5">
                   <span className="text-[11px] font-medium text-zinc-400">추가 옵션</span>
-                  {optionsTag && optionsTag.trim() && !optionsTag.includes('옵션 없음') && (
-                    <span className="text-[10px] px-1.5 py-0.2 rounded bg-blue-500/15 text-blue-300 font-semibold border border-blue-500/30 font-mono">
-                      신차 옵션 {optionsTag.replace(/\[[^\]]*\]/g, '').split(/[·,+,\/]/).filter(s => s.trim().length > 0 && !s.includes('옵션 없음') && !s.includes('기본')).length}개
-                    </span>
-                  )}
+                  {optionsTag && optionsTag.trim() && !optionsTag.includes('옵션 없음') && (() => {
+                    const optCount = splitOptionString(optionsTag).length;
+                    const totalMatch = optionsTag.match(/\[(?:순정)?옵션총액:?\s*([0-9,]+만?)\]/);
+                    return (
+                      <span className="text-[10px] px-1.5 py-0.2 rounded bg-blue-500/15 text-blue-300 font-semibold border border-blue-500/30 font-mono">
+                        신차 옵션 {optCount}개{totalMatch ? ` (총 ${totalMatch[1]})` : ''}
+                      </span>
+                    );
+                  })()}
                 </div>
                 {/* 🌟 비교차 선택 시에만 우세/공통 뱃지 연동, 미선택 시에는 조회차량 순정 표시 */}
                 {(() => {
