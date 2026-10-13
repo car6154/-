@@ -13,6 +13,8 @@ export interface BiddingCockpitTabProps {
 export interface EncarItem {
   id: string;
   checkDate: string;
+  inspectionDate?: string;
+  registrationDate?: string;
   holdingDays: number;
   carName: string;
   modelName?: string;
@@ -25,6 +27,9 @@ export interface EncarItem {
   optionsText: string;
   replaces: string[];
   repairs: string[];
+  replaceNames?: string[];
+  repairNames?: string[];
+  damageData?: Record<string, string>;
   encarUrl?: string;
   photo?: string;
   isLive?: boolean;

@@ -1017,21 +1017,31 @@ async function startServer() {
 
         // 1. 등록일 및 재고일수
         const registDateStr = veh?.manage?.registDateTime || c.ModifiedDate;
-        const registDate = registDateStr ? new Date(registDateStr) : new Date();
-        const holdingDays = Math.max(1, Math.floor((Date.now() - registDate.getTime()) / 86400000));
+        let registrationDate = '-';
+        let registDateObj: Date | null = null;
+        if (registDateStr) {
+          registDateObj = new Date(registDateStr);
+          if (!isNaN(registDateObj.getTime())) {
+            const y = registDateObj.getFullYear();
+            const m = String(registDateObj.getMonth() + 1).padStart(2, '0');
+            const d = String(registDateObj.getDate()).padStart(2, '0');
+            registrationDate = `${String(y).slice(2, 4)}-${m}-${d}`;
+          }
+        }
+        const holdingDays = registDateObj && !isNaN(registDateObj.getTime())
+          ? Math.max(1, Math.floor((Date.now() - registDateObj.getTime()) / 86400000))
+          : 15;
 
-        // 2. 성능점검일자
-        let checkDate = '';
-        const issueRaw = insp?.master?.detail?.issueDate || insp?.master?.registrationDate;
+        // 2. 성능점검일자 (순수 issueDate 기준, 등록일 임의 대체 금지)
+        let inspectionDate = '-';
+        const issueRaw = insp?.master?.detail?.issueDate;
         if (issueRaw) {
           const clean = String(issueRaw).replace(/[^\d]/g, '');
           if (clean.length >= 8) {
-            checkDate = `${clean.slice(2, 4)}-${clean.slice(4, 6)}-${clean.slice(6, 8)}`;
+            inspectionDate = `${clean.slice(2, 4)}-${clean.slice(4, 6)}-${clean.slice(6, 8)}`;
           }
         }
-        if (!checkDate) {
-          checkDate = registDate.toISOString().slice(2, 10);
-        }
+        const checkDate = inspectionDate !== '-' ? inspectionDate : registrationDate;
 
         // 3. 교환/판금 부위 및 사고유무 판별 (8501 PART_COORDS와 100% 동일하게 매핑)
         const damageData: Record<string, string> = {};
@@ -1111,17 +1121,31 @@ async function startServer() {
           });
         }
 
-        let accidentStr = '● 완전무사고';
-        if (replaces.length > 0 && repairs.length > 0) {
-          accidentStr = `▲ 단순교환 (교환 ${replaces.length} / 판금 ${repairs.length})`;
-        } else if (replaces.length > 0) {
-          accidentStr = replaces.length > 3 ? `■ 사고 (교환 ${replaces.length})` : `▲ 단순교환 (교환 ${replaces.length})`;
-        } else if (repairs.length > 0) {
-          accidentStr = `▲ 단순판금 (판금 ${repairs.length})`;
-        } else if (insp?.master?.accdient) {
-          accidentStr = '■ 유사고';
-        } else if (insp?.master?.simpleRepair) {
-          accidentStr = '▲ 단순교환 (교환 1)';
+        let accidentStr = '-';
+        if (insp?.master) {
+          if (replaces.length > 0 && repairs.length > 0) {
+            accidentStr = `▲ 단순(교환/판금) [교환:${replaces.length} / 판금:${repairs.length}]`;
+          } else if (replaces.length > 0) {
+            accidentStr = replaces.length > 3 ? `■ 사고 (교환 ${replaces.length})` : `▲ 단순교환 (교환 ${replaces.length})`;
+          } else if (repairs.length > 0) {
+            accidentStr = `▲ 단순판금 (판금 ${repairs.length})`;
+          } else if (insp.master.accdient) {
+            accidentStr = '■ 사고';
+          } else if (insp.master.simpleRepair) {
+            accidentStr = '▲ 단순교환';
+          } else if (insp.master.accdient === false && insp.master.simpleRepair === false) {
+            accidentStr = '● 완전무사고';
+          } else {
+            accidentStr = '정보없음';
+          }
+        } else if (diag) {
+          if (replaces.length > 0 && repairs.length > 0) {
+            accidentStr = `▲ 단순(교환/판금) [교환:${replaces.length} / 판금:${repairs.length}]`;
+          } else if (replaces.length > 0) {
+            accidentStr = replaces.length > 3 ? `■ 사고 (교환 ${replaces.length})` : `▲ 단순교환 (교환 ${replaces.length})`;
+          } else if (repairs.length > 0) {
+            accidentStr = `▲ 단순판금 (판금 ${repairs.length})`;
+          }
         }
 
         // 4. 색상
@@ -1164,6 +1188,8 @@ async function startServer() {
           color: color,
           optionsText: optionsText,
           checkDate: checkDate,
+          inspectionDate: inspectionDate,
+          registrationDate: registrationDate,
           holdingDays: holdingDays,
           replaces: replaces,
           repairs: repairs,
@@ -1359,37 +1385,47 @@ async function startServer() {
       // 실측 색상
       const color = vehicleData?.spec?.colorName || '미확인';
 
-      // 실측 성능점검일자 (issueDate 우선)
+      // 실측 성능점검일자 및 등록일자 분리
       let inspectionDate = '-';
-      let accidentType = '완전무사고';
+      let registrationDate = '-';
+      let accidentType = '미확인';
       const parsedReplaces: string[] = [];
       const parsedRepairs: string[] = [];
+      const replaceNames: string[] = [];
+      const repairNames: string[] = [];
 
       if (inspectData?.master) {
-        const rawDate = inspectData.master.detail?.issueDate || (inspectData.master.registrationDate || '').slice(0, 10).replace(/-/g, '');
-        if (rawDate && rawDate.length >= 8) {
-          inspectionDate = `${rawDate.slice(2, 4)}-${rawDate.slice(4, 6)}-${rawDate.slice(6, 8)}`;
+        const rawIssueDate = inspectData.master.detail?.issueDate;
+        if (rawIssueDate && String(rawIssueDate).length >= 8) {
+          const s = String(rawIssueDate).replace(/[^\d]/g, '');
+          inspectionDate = `${s.slice(2, 4)}-${s.slice(4, 6)}-${s.slice(6, 8)}`;
         }
-        if (inspectData.master.accdient) {
-          accidentType = '유사고';
-        } else if (inspectData.master.simpleRepair) {
-          accidentType = '단순교환';
-        } else {
-          accidentType = '완전무사고';
+        const rawRegDate = inspectData.master.registrationDate || vehicleData?.manage?.registDateTime;
+        if (rawRegDate) {
+          const d = new Date(rawRegDate);
+          if (!isNaN(d.getTime())) {
+            const y = d.getFullYear();
+            const m = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            registrationDate = `${String(y).slice(2, 4)}-${m}-${day}`;
+          }
         }
 
-        const outers = inspectData.outers || [];
-        for (const o of outers) {
-          const title = o.type?.title || '';
-          const stList = (o.statusTypes || []).map((s: any) => s.code);
+        const outers = (inspectData.outers || []).concat(inspectData.master.outers || []);
+        const inners = (inspectData.inners || []).concat(inspectData.master.inners || []);
+        const allInspectionParts = [...outers, ...inners];
+
+        for (const o of allInspectionParts) {
+          const title = String(o.type?.title || o.name || '').trim();
+          const stList = (o.statusTypes || []).map((s: any) => String(s.code || '').toUpperCase());
           let mappedPart = '';
           if (title.includes('후드') || title.includes('본넷')) mappedPart = 'HOOD';
-          else if (title.includes('앞휀더(좌)') || title.includes('프론트 휀더(좌)')) mappedPart = 'F_FENDER_L';
-          else if (title.includes('앞휀더(우)') || title.includes('프론트 휀더(우)')) mappedPart = 'F_FENDER_R';
-          else if (title.includes('앞도어(좌)') || title.includes('프론트 도어(좌)')) mappedPart = 'FRONT_DOOR_L';
-          else if (title.includes('앞도어(우)') || title.includes('프론트 도어(우)')) mappedPart = 'FRONT_DOOR_R';
-          else if (title.includes('뒤도어(좌)') || title.includes('리어 도어(좌)')) mappedPart = 'REAR_DOOR_L';
-          else if (title.includes('뒤도어(우)') || title.includes('리어 도어(우)')) mappedPart = 'REAR_DOOR_R';
+          else if (title.includes('앞휀더(좌)') || title.includes('프론트 휀더(좌)') || title.includes('프론트휀더(좌)')) mappedPart = 'F_FENDER_L';
+          else if (title.includes('앞휀더(우)') || title.includes('프론트 휀더(우)') || title.includes('프론트휀더(우)')) mappedPart = 'F_FENDER_R';
+          else if (title.includes('앞도어(좌)') || title.includes('프론트 도어(좌)') || title.includes('프론트도어(좌)')) mappedPart = 'FRONT_DOOR_L';
+          else if (title.includes('앞도어(우)') || title.includes('프론트 도어(우)') || title.includes('프론트도어(우)')) mappedPart = 'FRONT_DOOR_R';
+          else if (title.includes('뒤도어(좌)') || title.includes('리어 도어(좌)') || title.includes('리어도어(좌)')) mappedPart = 'REAR_DOOR_L';
+          else if (title.includes('뒤도어(우)') || title.includes('리어 도어(우)') || title.includes('리어도어(우)')) mappedPart = 'REAR_DOOR_R';
           else if (title.includes('트렁크')) mappedPart = 'TRUNK';
           else if (title.includes('쿼터') && title.includes('우')) mappedPart = 'QUARTER_R';
           else if (title.includes('쿼터') && title.includes('좌')) mappedPart = 'QUARTER_L';
@@ -1400,18 +1436,50 @@ async function startServer() {
           else if (title.includes('인사이드') && title.includes('좌')) mappedPart = 'INSIDE_PANEL_L';
           else if (title.includes('인사이드') && title.includes('우')) mappedPart = 'INSIDE_PANEL_R';
           else if (title.includes('크로스')) mappedPart = 'CROSS_MEMBER';
-          else if (title.includes('프론트 패널')) mappedPart = 'FRONT_PANEL';
+          else if (title.includes('프론트 패널') || title.includes('프론트패널')) mappedPart = 'FRONT_PANEL';
           else if (title.includes('사이드 멤버') && title.includes('좌')) mappedPart = 'FRONT_SIDE_MEMBER_L';
           else if (title.includes('사이드 멤버') && title.includes('우')) mappedPart = 'FRONT_SIDE_MEMBER_R';
           else if (title.includes('휠하우스') && title.includes('좌')) mappedPart = 'FRONT_WHEEL_HOUSE_L';
           else if (title.includes('휠하우스') && title.includes('우')) mappedPart = 'FRONT_WHEEL_HOUSE_R';
-          else if (title.includes('리어 패널')) mappedPart = 'REAR_PANEL';
-          else if (title.includes('트렁크 플로어')) mappedPart = 'TRUNK_FLOOR';
+          else if (title.includes('리어 패널') || title.includes('리어패널')) mappedPart = 'REAR_PANEL';
+          else if (title.includes('트렁크 플로어') || title.includes('트렁크플로어')) mappedPart = 'TRUNK_FLOOR';
+          else if (title.includes('A필러') && title.includes('좌')) mappedPart = 'A_PILLAR_L';
+          else if (title.includes('A필러') && title.includes('우')) mappedPart = 'A_PILLAR_R';
+          else if (title.includes('B필러') && title.includes('좌')) mappedPart = 'B_PILLAR_L';
+          else if (title.includes('B필러') && title.includes('우')) mappedPart = 'B_PILLAR_R';
+          else if (title.includes('C필러') && title.includes('좌')) mappedPart = 'C_PILLAR_L';
+          else if (title.includes('C필러') && title.includes('우')) mappedPart = 'C_PILLAR_R';
+          else if (title.includes('대쉬') || title.includes('대시')) mappedPart = 'DASH_PANEL';
+          else if (title.includes('플로어')) mappedPart = 'FLOOR_PANEL';
 
-          if (mappedPart) {
-            if (stList.includes('X')) parsedReplaces.push(mappedPart);
-            else if (stList.includes('W') || stList.includes('A') || stList.includes('C')) parsedRepairs.push(mappedPart);
+          if (stList.includes('X')) {
+            if (mappedPart) parsedReplaces.push(mappedPart);
+            replaceNames.push(title);
+          } else if (stList.some((s: string) => ['W', 'A', 'C', 'U', 'T'].includes(s))) {
+            if (mappedPart) parsedRepairs.push(mappedPart);
+            repairNames.push(title);
           }
+        }
+
+        // 사고유무 정밀 판정: X 또는 W 마크가 1개라도 있으면 '완전무사고' 원천 배제
+        const hasMajorAccident = Boolean(inspectData.master.accdient);
+        const uniqueReplaceNames = Array.from(new Set(replaceNames));
+        const uniqueRepairNames = Array.from(new Set(repairNames));
+
+        if (hasMajorAccident) {
+          accidentType = `■ 사고 [교환:${uniqueReplaceNames.length} / 판금:${uniqueRepairNames.length}]`;
+        } else if (uniqueReplaceNames.length > 0 && uniqueRepairNames.length > 0) {
+          accidentType = `▲ 단순(교환/판금) [교환:${uniqueReplaceNames.length} / 판금:${uniqueRepairNames.length}]`;
+        } else if (uniqueReplaceNames.length > 0) {
+          accidentType = uniqueReplaceNames.length > 3 ? `■ 사고 (교환 ${uniqueReplaceNames.length})` : `▲ 단순교환 (교환 ${uniqueReplaceNames.length})`;
+        } else if (uniqueRepairNames.length > 0) {
+          accidentType = `▲ 단순판금 (판금 ${uniqueRepairNames.length})`;
+        } else if (inspectData.master.simpleRepair) {
+          accidentType = '▲ 단순교환';
+        } else if (inspectData.master.accdient === false && inspectData.master.simpleRepair === false) {
+          accidentType = '● 완전무사고';
+        } else {
+          accidentType = '정보없음';
         }
       }
 
@@ -1453,11 +1521,14 @@ async function startServer() {
           vehicleNo: vehicleData?.vehicleNo || '',
           inspectionDate,
           checkDate: inspectionDate,
+          registrationDate,
           accidentType,
           optionsText,
           choiceOptionsText,
           replaces: Array.from(new Set(parsedReplaces)),
           repairs: Array.from(new Set(parsedRepairs)),
+          replaceNames: Array.from(new Set(replaceNames)),
+          repairNames: Array.from(new Set(repairNames)),
           rawVehicle: vehicleData
         }
       });

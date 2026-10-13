@@ -413,10 +413,21 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                   <span className="px-2.5 py-1 rounded bg-[#1f222e] text-zinc-300 font-medium">
                     ⚫ {selectedEncar.color || '색상'}
                   </span>
-                  <span className="px-2.5 py-1 rounded bg-blue-500/20 text-blue-300 font-bold font-mono">
-                    📅 {selectedEncar.checkDate} ({selectedEncar.holdingDays}일 전)
-                  </span>
-                  {selectedEncar.accidentType.includes('완전무사고') || (selectedEncar.accidentType.includes('무사고') && !selectedEncar.accidentType.includes('사고')) ? (
+                  {selectedEncar.inspectionDate && selectedEncar.inspectionDate !== '-' && (
+                    <span className="px-2.5 py-1 rounded bg-blue-500/20 text-blue-300 font-bold font-mono" title="법정 성능점검일자">
+                      📋 점검: {selectedEncar.inspectionDate}
+                    </span>
+                  )}
+                  {selectedEncar.registrationDate && selectedEncar.registrationDate !== '-' ? (
+                    <span className="px-2.5 py-1 rounded bg-indigo-500/20 text-indigo-300 font-bold font-mono" title="엔카 최초 매물등록일자">
+                      📅 등록: {selectedEncar.registrationDate} ({selectedEncar.holdingDays}일 전)
+                    </span>
+                  ) : (
+                    <span className="px-2.5 py-1 rounded bg-blue-500/20 text-blue-300 font-bold font-mono">
+                      📅 {selectedEncar.checkDate} ({selectedEncar.holdingDays}일 전)
+                    </span>
+                  )}
+                  {selectedEncar.accidentType.includes('완전무사고') && !selectedEncar.accidentType.includes('교환') && !selectedEncar.accidentType.includes('판금') ? (
                     <span className="px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/40">
                       🟢 {selectedEncar.accidentType}
                     </span>

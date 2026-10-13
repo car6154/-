@@ -56,6 +56,7 @@ class Scraper:
         real_id = str(c_id)
         applied_codes = []
         regist_dt = ""
+        reg_date_str = "-"
         
         if v_resp["status"] == 200 and v_resp["json"]:
             manage = v_resp["json"].get("manage") or {}
@@ -80,6 +81,13 @@ class Scraper:
             issue_date = detail.get("issueDate", "")
             if issue_date and len(issue_date) >= 8:
                 perf_date = f"{issue_date[2:4]}-{issue_date[4:6]}-{issue_date[6:8]}"
+            
+            if regist_dt:
+                clean_reg = str(regist_dt)[:10].replace("-", "")
+                if len(clean_reg) >= 8:
+                    reg_date_str = f"{clean_reg[2:4]}-{clean_reg[4:6]}-{clean_reg[6:8]}"
+                    inv_days = Scraper.calculate_inventory_days(reg_date_str)
+            elif perf_date and perf_date not in ["⚠️미등록", "미검사/사진"]:
                 inv_days = Scraper.calculate_inventory_days(perf_date)
 
             acc = master.get("accdient")
@@ -197,6 +205,7 @@ class Scraper:
 
         return {
             "성능일": perf_date,
+            "등록일": reg_date_str,
             "재고": inv_days,
             "사고유무": accident_status,
             "외장컬러": color,
