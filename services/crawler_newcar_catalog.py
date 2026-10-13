@@ -177,49 +177,86 @@ class EncarNewCarCrawler:
                     grades.add(txt)
 
         # 2. 추가옵션 리스트 (▶ 화살표 및 li.goods / p.option / choice) 추출
+        opt_regex = r'^[▶►▶︎●•*※]?\s*([가-힣A-Za-z0-9\sⅠⅡⅢⅣIViv\+\&\(\)\/\,\:\.\-\~]+?)(?:\s*:\s*|\s+)([0-9,]+(?:\s*원)?)$'
         for opt_elem in soup.find_all(['li', 'p', 'td']):
             cls = " ".join(opt_elem.get('class', [])).lower()
             if 'goods' in cls or 'option' in cls or 'choice' in cls:
-                text_lines = opt_elem.decode_contents().replace('<br>', '\n').replace('<br/>', '\n').split('\n')
-                for line in text_lines:
-                    clean = html.unescape(re.sub(r'<[^>]+>', '', line)).strip()
+                content = opt_elem.decode_contents()
+                content = re.sub(r'<br\s*/?>', '\n', content, flags=re.I)
+                raw_lines = content.split('\n')
+
+                # ▶ 기호 기준 블록 단위 묶기 (여러 줄로 개행된 복합 옵션 대응)
+                blocks = []
+                curr_block = ""
+                for rl in raw_lines:
+                    clean_line = html.unescape(re.sub(r'<[^>]+>', '', rl)).strip()
+                    if not clean_line:
+                        continue
+                    if re.match(r'^[▶►▶︎●•*※]', clean_line):
+                        if curr_block:
+                            blocks.append(curr_block)
+                        curr_block = clean_line
+                    else:
+                        if curr_block:
+                            curr_block += " " + clean_line
+                        else:
+                            curr_block = clean_line
+                if curr_block:
+                    blocks.append(curr_block)
+
+                for line in blocks:
+                    clean = re.sub(r'\s+', ' ', line).strip()
                     if not clean:
                         continue
-                    m_opt = re.search(r'^[▶►▶︎●•*※]?\s*([가-힣A-Za-z0-9\sⅠⅡⅢⅣIViv\+\&\(\)\/]+?)\s+([0-9,]+(?:\s*원)?)$', clean)
+                    m_opt = re.search(opt_regex, clean)
                     if m_opt:
                         opt_name = m_opt.group(1).strip()
                         price_str = m_opt.group(2).strip()
                         price = int(re.sub(r'[^\d]', '', price_str)) if re.sub(r'[^\d]', '', price_str) else None
                         if opt_name and len(opt_name) > 1 and price:
-                            if not any(k in opt_name for k in ['컬러', '외장', '내장', '기본사양', '합계', '소계']):
+                            is_excluded = any(k in opt_name for k in ['외장컬러', '외장 색상', '내장컬러', '내장 색상', '외장칼라', '내장칼라', '기본사양', '합계', '소계'])
+                            if not is_excluded and ('외장' in opt_name or '내장' in opt_name or '컬러' in opt_name):
+                                if not ('외장앰프' in opt_name):
+                                    is_excluded = True
+                            if not is_excluded:
                                 result["options"][opt_name] = {"price": price}
 
-        # 3. 패키지 세부 구성 품목 추출 (■, ●, •, - 연결형)
-        lines = html_text.replace('<br>', '\n').replace('<BR>', '\n').replace('<br/>', '\n').splitlines()
+        # 3. 패키지 세부 구성 품목 추출 (■, ●, •, -, : 연결형)
+        # script, style, noscript 태그 제거하여 인라인 JS 코드 노이즈 방지
+        for s in soup(['script', 'style', 'head', 'noscript']):
+            s.decompose()
+
+        cleaned_html = str(soup)
+        lines = cleaned_html.replace('<br>', '\n').replace('<BR>', '\n').replace('<br/>', '\n').splitlines()
+        EXCLUDE_PKG_NAMES = [
+            '사양', '파워트레인', '외장컬러', '기본사양', '공통', '참고', '품목', '선택', '주의',
+            '안전', '외관', '내장', '시트', '편의', '멀티미디어', '엔진', '변속기', '보증'
+        ]
+
         for line in lines:
             clean = html.unescape(re.sub(r'<[^>]+>', '', line)).strip()
-            if not clean or '차량DB' in clean or '신차가격표' in clean or '가격 및 사양' in clean:
+            if not clean or any(k in clean for k in ['차량DB', '신차가격표', '가격 및 사양', 'javascript', 'gtm', 'function']):
                 continue
 
-            # 3-1. "■ 패키지명 - 세부설명" 또는 "● 패키지명 - 세부설명"
-            m1 = re.match(r'^[■●•*※]\s*([^\n\-—:]{2,30}?)\s*[-—:]\s*(.+)$', clean)
+            # 3-1. "■/●/•/-/※ 패키지명 -/: 세부설명"
+            m1 = re.match(r'^[■●•*※\-\—]?\s*([가-힣A-Za-z0-9\sⅠⅡⅢⅣIViv\+\(\)]{2,25}?)\s*[-—:]\s*(.+)$', clean)
             if m1:
                 p_name = m1.group(1).replace("&nbsp;", " ").strip()
                 p_desc = m1.group(2).replace("&nbsp;", " ").strip()
-                if len(p_name) > 1 and len(p_desc) > 3:
-                    if not any(k in p_name for k in ['사양', '파워트레인', '외장컬러', '기본사양', '공통', '참고']):
+                if len(p_name) > 1 and len(p_desc) > 5:
+                    if not any(k in p_name for k in EXCLUDE_PKG_NAMES):
                         result["packages"][p_name] = p_desc
                         if p_name not in result["options"]:
                             result["options"][p_name] = {"price": None}
                 continue
 
             # 3-2. "패키지명 - 세부설명"
-            m2 = re.match(r'^([가-힣A-Za-z0-9\sⅠⅡⅢⅣIViv\+\(\)]{2,25})\s*[-—]\s*([가-힣A-Za-z0-9].{5,})$', clean)
+            m2 = re.match(r'^([가-힣A-Za-z0-9\sⅠⅡⅢⅣIViv\+\(\)]{2,25})\s*[-—:]\s*([가-힣A-Za-z0-9].{5,})$', clean)
             if m2:
                 p_name = m2.group(1).replace("&nbsp;", " ").strip()
                 p_desc = m2.group(2).replace("&nbsp;", " ").strip()
                 if len(p_name) > 1 and len(p_desc) > 5:
-                    if not any(k in p_name for k in ['사양', '파워트레인', '외장컬러', '기본사양', '공통', '품목', '선택', '주의']):
+                    if not any(k in p_name for k in EXCLUDE_PKG_NAMES):
                         if p_name not in result["packages"] or len(p_desc) > len(result["packages"][p_name]):
                             result["packages"][p_name] = p_desc
                             if p_name not in result["options"]:
