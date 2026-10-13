@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { AlertTriangle, ExternalLink, Car } from 'lucide-react';
-import { isOptionMatched } from '@/services/biddingOptionCatalog';
+import { isOptionMatched, splitOptionString, getOptionMatchDetail } from '@/services/biddingOptionCatalog';
 import { CarDamageDiagram2D } from './CarDamageDiagram2D';
 
 export interface EncarItem {
@@ -196,7 +196,8 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                     const targetYrStr = String(yearModel % 100).padStart(2, '0');
                     const regYrMatch = String(car.year || '').match(/^\s*(\d{2})/);
                     const isTargetYear = regYrMatch ? regYrMatch[1] === targetYrStr : false;
-                    const hasAddedOptions = car.optionsText && !car.optionsText.includes('추가 옵션 없음') && !car.optionsText.includes('기본');
+                    const parsedCarOpts = splitOptionString(car.optionsText || '');
+                    const hasAddedOptions = parsedCarOpts.length > 0;
 
                     return (
                       <tr
@@ -271,15 +272,35 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                         </td>
                         <td className="py-2 px-2.5 text-[12px] text-zinc-300 whitespace-nowrap">{car.color || '흰색'}</td>
                         <td className="py-2 px-2.5 text-[12px] whitespace-nowrap">
-                          {hasAddedOptions ? (
-                            <span 
-                              title={car.optionsText}
-                              className="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold border border-amber-500/40 text-[11px] cursor-help hover:bg-amber-500/30 transition"
-                            >
-                              {car.optionsText?.includes('개') ? car.optionsText.replace(/[^\d]/g, '') + '개' : '옵션유'}
-                            </span>
-                          ) : (
-                            <span title="기본 사양" className="text-zinc-500 text-[11px]">기본</span>
+                          {hasAddedOptions ? (() => {
+                            const targetOpts = splitOptionString(optionsTag || '');
+                            const compDetails = parsedCarOpts.map(o => getOptionMatchDetail(o, targetOpts, 'comp_vs_target'));
+                            const commonCount = compDetails.filter(d => d.isMatched).length;
+                            const extraCount = parsedCarOpts.length - commonCount;
+
+                            const tooltipLines = [
+                              `[비교 차량 추가옵션 총 ${parsedCarOpts.length}개]`,
+                              ...parsedCarOpts.map(o => {
+                                const m = compDetails.find(d => isOptionMatched(o, d.matchedOppositeName || ''));
+                                return m?.isMatched ? `✓ ${o} (내 차와 공통)` : `+ ${o} (비교차 전용)`;
+                              }),
+                              '──────────────────────────────',
+                              targetOpts.length > 0
+                                ? `내 차와 공통: ${commonCount}개 / 비교차 전용: ${extraCount}개`
+                                : '내 차 옵션 정보 없음'
+                            ];
+
+                            return (
+                              <span 
+                                title={tooltipLines.join('\n')}
+                                className="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold border border-amber-500/40 text-[11px] cursor-help hover:bg-amber-500/30 transition inline-flex items-center gap-1"
+                              >
+                                {commonCount > 0 && <span className="text-sky-400 text-[10px]">✓</span>}
+                                <span>옵션 {parsedCarOpts.length}개</span>
+                              </span>
+                            );
+                          })() : (
+                            <span title="기본 출고 사양 (추가옵션 없음)" className="text-zinc-500 text-[11px] cursor-help">기본</span>
                           )}
                         </td>
                       </tr>
@@ -373,18 +394,7 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
 
               {/* Parsed Individual Option Badges */}
               {(() => {
-                if (!selectedEncar.optionsText || selectedEncar.optionsText === '추가 옵션 없음') {
-                  return (
-                    <div className="p-2 bg-[#0c0e14] rounded-lg border border-[#232634] text-xs text-zinc-500 italic">
-                      추가옵션 없음 또는 기본 트림 사양
-                    </div>
-                  );
-                }
-
-                const optItems = selectedEncar.optionsText
-                  .split(/[·,+,\/]/)
-                  .map(opt => opt.replace(/\([^)]*\)/g, '').replace(/\[[^\]]*\]/g, '').trim())
-                  .filter(Boolean);
+                const optItems = splitOptionString(selectedEncar.optionsText || '');
 
                 if (optItems.length === 0) {
                   return (
@@ -394,24 +404,23 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                   );
                 }
 
-                const targetOpts = (optionsTag && optionsTag.trim())
-                  ? optionsTag.split(/[·,+,\/]/).map(o => o.replace(/\([^)]*\)/g, '').replace(/\[[^\]]*\]/g, '').trim()).filter(Boolean)
-                  : [];
+                const targetOpts = splitOptionString(optionsTag || '');
 
-                const matchedOpts: string[] = [];
-                const unmatchedOpts: string[] = [];
+                const matchedOpts: { name: string; tooltip: string }[] = [];
+                const unmatchedOpts: { name: string; tooltip: string }[] = [];
                 for (const opt of optItems) {
-                  if (targetOpts.length > 0 && targetOpts.some(tgt => isOptionMatched(tgt, opt))) {
-                    matchedOpts.push(opt);
+                  const detail = getOptionMatchDetail(opt, targetOpts, 'comp_vs_target');
+                  if (detail.isMatched) {
+                    matchedOpts.push({ name: opt, tooltip: detail.tooltipText });
                   } else {
-                    unmatchedOpts.push(opt);
+                    unmatchedOpts.push({ name: opt, tooltip: detail.tooltipText });
                   }
                 }
 
                 // 공통 옵션(파랑 ✓)을 앞에 배치하고, 비교차에만 있는 추가 옵션(오렌지 +)을 뒤에 배치
-                const sortedOptItems: { name: string; isMatched: boolean }[] = [
-                  ...matchedOpts.map(name => ({ name, isMatched: true })),
-                  ...unmatchedOpts.map(name => ({ name, isMatched: false }))
+                const sortedOptItems = [
+                  ...matchedOpts.map(item => ({ ...item, isMatched: true })),
+                  ...unmatchedOpts.map(item => ({ ...item, isMatched: false }))
                 ];
 
                 const displayOpts = sortedOptItems.slice(0, 8);
@@ -424,7 +433,8 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                         return (
                           <span
                             key={idx}
-                            className="px-2.5 py-1 rounded text-xs font-bold bg-sky-500/20 text-sky-300 border border-sky-400 shadow-[0_0_6px_rgba(14,165,233,0.2)] flex items-center gap-1 cursor-pointer"
+                            title={item.tooltip}
+                            className="px-2.5 py-1 rounded text-xs font-bold bg-sky-500/20 text-sky-300 border border-sky-400 shadow-[0_0_6px_rgba(14,165,233,0.2)] flex items-center gap-1 cursor-help hover:brightness-110 transition"
                           >
                             <span className="text-sky-400 font-black">✓</span>
                             <span>{item.name}</span>
@@ -434,7 +444,8 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                       return (
                         <span
                           key={idx}
-                          className="px-2.5 py-1 rounded text-xs font-bold bg-orange-500/20 text-orange-400 border border-orange-500/60 flex items-center gap-1 cursor-pointer"
+                          title={item.tooltip}
+                          className="px-2.5 py-1 rounded text-xs font-bold bg-orange-500/20 text-orange-400 border border-orange-500/60 flex items-center gap-1 cursor-help hover:brightness-110 transition"
                         >
                           <span className="text-orange-400 font-black">+</span>
                           <span>{item.name}</span>
@@ -443,7 +454,7 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                     })}
                     {overflowCount > 0 && (
                       <span
-                        className="px-2 py-1 rounded text-xs font-medium bg-[#1e222d] text-slate-400 border border-[#2e384d] cursor-pointer"
+                        className="px-2 py-1 rounded text-xs font-medium bg-[#1e222d] text-slate-400 border border-[#2e384d] cursor-help hover:brightness-110 transition"
                         title={`추가 옵션:\n${sortedOptItems.slice(8).map(o => `- ${o.name}`).join('\n')}`}
                       >
                         +{overflowCount}

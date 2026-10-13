@@ -493,3 +493,124 @@ export const isOptionMatched = (optA: string, optB: string): boolean => {
 
   return false;
 };
+
+/**
+ * 괄호 안의 쉼표나 상세 설명을 보존하면서 개별 옵션 단위로 안전하게 분리하는 스마트 파서
+ */
+export const splitOptionString = (optStr: string): string[] => {
+  if (!optStr) return [];
+  const str = String(optStr).trim();
+  if (!str || ['없음', '-', '없음(구버전점검)', '⚠️조회실패', '코드매칭실패', '기본'].includes(str)) {
+    return [];
+  }
+
+  const results: string[] = [];
+  let current = '';
+  let depth = 0;
+
+  for (let i = 0; i < str.length; i++) {
+    const ch = str[i];
+    if (ch === '(' || ch === '[' || ch === '{') {
+      depth++;
+      current += ch;
+    } else if (ch === ')' || ch === ']' || ch === '}') {
+      depth = Math.max(0, depth - 1);
+      current += ch;
+    } else if (depth === 0 && (ch === '/' || ch === '·' || ch === '\n' || ch === ',')) {
+      const trimmed = current.trim();
+      if (trimmed) results.push(trimmed);
+      current = '';
+    } else {
+      current += ch;
+    }
+  }
+
+  const lastTrimmed = current.trim();
+  if (lastTrimmed) results.push(lastTrimmed);
+
+  return results
+    .map(o => o.trim())
+    .filter(o => o.length > 0 && !['없음', '-', '기본'].includes(o));
+};
+
+export interface OptionMatchDetailResult {
+  isMatched: boolean;
+  matchedOppositeName?: string;
+  packageName?: string;
+  packageItems?: string[];
+  tooltipText: string;
+}
+
+/**
+ * 양방향 옵션 매칭 판정 및 마우스 호버용 고정밀 툴팁 텍스트 생성
+ * @param optName 대상 옵션명
+ * @param oppositeOpts 비교 상대 차량의 옵션 목록
+ * @param direction 'target_vs_comp'(내 차 기준) | 'comp_vs_target'(비교차 기준)
+ */
+export const getOptionMatchDetail = (
+  optName: string,
+  oppositeOpts: string[],
+  direction: 'target_vs_comp' | 'comp_vs_target'
+): OptionMatchDetailResult => {
+  const cleanName = optName.trim();
+  if (!cleanName) {
+    return { isMatched: false, tooltipText: '' };
+  }
+
+  const norm = normalizeOpt(cleanName);
+
+  // 1. 패키지 마스터 카탈로그에서 매칭되는 패키지 정의 탐색
+  const pkgDef = MASTER_PACKAGE_CATALOG.find(p =>
+    p.aliases.some(a => norm.includes(normalizeOpt(a))) ||
+    norm.includes(normalizeOpt(p.name)) ||
+    p.matchKeywords.some(k => norm.includes(normalizeOpt(k)) && k.length >= 3)
+  );
+
+  // 2. 상대 차량 옵션 목록과 대조하여 매칭 대상 찾기
+  let matchedOpposite: string | undefined;
+  for (const opp of oppositeOpts) {
+    if (isOptionMatched(cleanName, opp)) {
+      matchedOpposite = opp;
+      break;
+    }
+  }
+
+  const isMatched = Boolean(matchedOpposite);
+  const lines: string[] = [];
+
+  lines.push(`[${cleanName}]`);
+
+  if (pkgDef) {
+    lines.push(`📦 패키지 세부 구성: ${pkgDef.items.slice(0, 6).join(', ')}${pkgDef.items.length > 6 ? ' 외' : ''}`);
+  }
+
+  lines.push('──────────────────────────────');
+
+  if (direction === 'target_vs_comp') {
+    // 내 차(사이드바) 기준
+    if (isMatched) {
+      lines.push(`✓ 비교 차량 장착 확인됨 (${matchedOpposite})`);
+      lines.push('👉 공통 장착 사양으로 시세 동등');
+    } else {
+      lines.push('🟢 비교 차량에는 미장착 (내 차 우세 사양!)');
+      lines.push('👉 비교차 대비 시세 프리미엄 우세 요소');
+    }
+  } else {
+    // 엔카 비교차(우측 카드) 기준
+    if (isMatched) {
+      lines.push(`✓ 기준 차량(내 차) 장착 확인됨 (${matchedOpposite})`);
+      lines.push('👉 공통 장착 사양으로 시세 동등');
+    } else {
+      lines.push('+ 기준 차량(내 차)에는 미장착된 비교차 전용 옵션');
+      lines.push('👉 비교차 시세 상승 요인 (내 차에는 없음)');
+    }
+  }
+
+  return {
+    isMatched,
+    matchedOppositeName: matchedOpposite,
+    packageName: pkgDef?.name,
+    packageItems: pkgDef?.items,
+    tooltipText: lines.join('\n')
+  };
+};

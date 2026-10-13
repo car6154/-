@@ -4,7 +4,7 @@ import {
   RefreshCw,
   Search,
 } from 'lucide-react';
-import { isOptionMatched } from '@/services/biddingOptionCatalog';
+import { isOptionMatched, splitOptionString, getOptionMatchDetail } from '@/services/biddingOptionCatalog';
 import { EncarItem } from './ComparableEncarSection';
 
 export interface CockpitSidebarProps {
@@ -343,42 +343,65 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
                 </div>
                 {/* 🌟 비교차 선택 시에만 우세/공통 뱃지 연동, 미선택 시에는 조회차량 순정 표시 */}
                 {(() => {
-                  if (!selectedEncar?.optionsText || selectedEncar.optionsText === '추가 옵션 없음' || !optionsTag || !optionsTag.trim()) {
+                  if (!selectedEncar?.optionsText || !optionsTag || !optionsTag.trim()) {
                     return <span className="text-[10px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-400 font-medium border border-emerald-500/30">조회차량 순정</span>;
                   }
-                  const compOpts = selectedEncar.optionsText.split(/[·,+,\/]/).map(o => o.replace(/\([^)]*\)/g, '').replace(/\[[^\]]*\]/g, '').trim()).filter(Boolean);
-                  const tgtOpts = optionsTag.split(/[·,+,\/]/).map(o => o.replace(/\([^)]*\)/g, '').replace(/\[[^\]]*\]/g, '').trim()).filter(Boolean);
+                  const compOpts = splitOptionString(selectedEncar.optionsText);
+                  const tgtOpts = splitOptionString(optionsTag);
+                  if (compOpts.length === 0 || tgtOpts.length === 0) {
+                    return <span className="text-[10px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-400 font-medium border border-emerald-500/30">조회차량 순정</span>;
+                  }
                   const winCount = tgtOpts.filter(to => !compOpts.some(co => isOptionMatched(co, to))).length;
                   if (winCount > 0) {
-                    return <span className="text-[10px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-400 font-bold border border-emerald-500">🟢 우세 {winCount}개</span>;
+                    return (
+                      <span
+                        title={`비교 매물(${selectedEncar.carName}) 대비 내 차에만 있는 우세 옵션: ${winCount}개`}
+                        className="text-[10px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-400 font-bold border border-emerald-500 cursor-help"
+                      >
+                        🟢 우세 {winCount}개
+                      </span>
+                    );
                   }
-                  return <span className="text-[10px] px-1.5 py-0.2 rounded bg-sky-500/20 text-sky-300 font-bold border border-sky-400/50">🔵 공통 사양</span>;
+                  return (
+                    <span
+                      title={`비교 매물(${selectedEncar.carName})과 핵심 옵션 동일 장착 (시세 동등)`}
+                      className="text-[10px] px-1.5 py-0.2 rounded bg-sky-500/20 text-sky-300 font-bold border border-sky-400/50 cursor-help"
+                    >
+                      🔵 공통 사양
+                    </span>
+                  );
                 })()}
               </div>
 
-              {/* Parsed Option Chips (Streamlit 8501 100% 동일 양방향 매칭 뱃지) */}
+              {/* Parsed Option Chips (양방향 분해 매칭 + 마우스 호버 상세 툴팁) */}
               {optionsTag && optionsTag.trim().length > 0 ? (
                 <div className="flex flex-wrap gap-1.5 py-1">
                   {(() => {
-                    const compOpts = (selectedEncar?.optionsText && selectedEncar.optionsText !== '추가 옵션 없음')
-                      ? selectedEncar.optionsText.split(/[·,+,\/]/).map(o => o.replace(/\([^)]*\)/g, '').replace(/\[[^\]]*\]/g, '').trim()).filter(Boolean)
-                      : [];
+                    const compOpts = splitOptionString(selectedEncar?.optionsText || '');
                     const hasComp = compOpts.length > 0;
+                    const tgtOpts = splitOptionString(optionsTag);
 
-                    return optionsTag.split(/[·,+,\/]/).map((opt, idx) => {
-                      const clean = opt.replace(/\([^)]*\)/g, '').replace(/\[[^\]]*\]/g, '').trim();
-                      if (!clean) return null;
-                      const isMatchedInComp = hasComp && compOpts.some(co => isOptionMatched(co, clean));
+                    if (tgtOpts.length === 0) {
+                      return (
+                        <div className="text-[11px] text-zinc-500 py-1 italic">
+                          추가 옵션 없음 (기본 출고 사양)
+                        </div>
+                      );
+                    }
 
-                      if (hasComp && !isMatchedInComp) {
+                    return tgtOpts.map((opt, idx) => {
+                      const detail = getOptionMatchDetail(opt, compOpts, 'target_vs_comp');
+
+                      if (hasComp && !detail.isMatched) {
                         // 타겟 우세 옵션: 녹색 강조 (+ opt)
                         return (
                           <span
                             key={idx}
-                            className="px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-500 text-emerald-400 font-bold text-[11px] flex items-center gap-1 shadow-[0_0_6px_rgba(34,197,94,0.25)]"
+                            title={detail.tooltipText}
+                            className="px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-500 text-emerald-400 font-bold text-[11px] flex items-center gap-1 shadow-[0_0_6px_rgba(34,197,94,0.25)] cursor-help hover:brightness-110 transition"
                           >
                             <span className="text-emerald-400 text-[10px] font-black">+</span>
-                            <span>{clean}</span>
+                            <span>{opt}</span>
                           </span>
                         );
                       }
@@ -387,10 +410,11 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
                       return (
                         <span
                           key={idx}
-                          className="px-2 py-0.5 rounded bg-sky-500/20 border border-sky-400/60 text-sky-300 font-semibold text-[11px] flex items-center gap-1"
+                          title={hasComp ? detail.tooltipText : `[${opt}]\n조회 차량의 장착 순정 옵션입니다.`}
+                          className="px-2 py-0.5 rounded bg-sky-500/20 border border-sky-400/60 text-sky-300 font-semibold text-[11px] flex items-center gap-1 cursor-help hover:brightness-110 transition"
                         >
-                          <span className="text-sky-400 text-[10px]">✓</span>
-                          <span>{clean}</span>
+                          <span className="text-sky-400 text-[10px]">{hasComp ? '✓' : '•'}</span>
+                          <span>{opt}</span>
                         </span>
                       );
                     });
