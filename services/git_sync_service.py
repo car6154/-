@@ -57,6 +57,35 @@ class GitSyncService:
                 return False, str(e)
 
     @classmethod
+    def sync_force_pull(cls, timeout: int = 15) -> tuple[bool, str]:
+        """깃허브 origin/main으로 강제 리셋 및 동기화 (머지 충돌 100% 즉시 해결)"""
+        if not cls.is_git_repo():
+            return False, "Git 저장소가 아닙니다."
+            
+        with cls._lock:
+            try:
+                subprocess.run(["git", "fetch", "origin", "main"], capture_output=True, text=True, timeout=10)
+                res = subprocess.run(
+                    ["git", "reset", "--hard", "origin/main"],
+                    capture_output=True,
+                    text=True,
+                    encoding="utf-8",
+                    errors="ignore",
+                    timeout=timeout
+                )
+                cls._last_sync_time = datetime.now()
+                if res.returncode == 0:
+                    cls._last_sync_status = "강제 리셋 동기화 성공"
+                    return True, res.stdout.strip()
+                else:
+                    err_msg = res.stderr.strip() or res.stdout.strip()
+                    cls._last_sync_status = f"강제 동기화 실패: {err_msg[:50]}"
+                    return False, err_msg
+            except Exception as e:
+                cls._last_sync_status = f"강제 동기화 에러: {str(e)[:50]}"
+                return False, str(e)
+
+    @classmethod
     def _execute_push(cls, commit_msg: str, target_files: list[str]):
         """백그라운드 스레드에서 실행되는 commit & push"""
         with cls._lock:

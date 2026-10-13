@@ -43,6 +43,23 @@ async function startServer() {
   // Gemini AI 및 백엔드 프록시 라우터 마운트
   app.use(aiRouter);
 
+  // 2-1. Git 동기화 및 원격 복구 프록시 (Python 백엔드 8000 직결)
+  app.all('/api/git/*', async (req, res) => {
+    try {
+      const targetUrl = `http://127.0.0.1:8000${req.originalUrl}`;
+      const pyRes = await fetch(targetUrl, {
+        method: req.method,
+        headers: { 'Content-Type': 'application/json' },
+        body: req.method !== 'GET' && req.method !== 'HEAD' ? JSON.stringify(req.body) : undefined,
+        signal: AbortSignal.timeout(20000)
+      });
+      const data = await pyRes.json();
+      return res.status(pyRes.status).json(data);
+    } catch (e: any) {
+      return res.status(500).json({ error: `Git 동기화 프록시 실패: ${e.message}` });
+    }
+  });
+
   // 3. 헤이딜러 실제 차량 API 프록시 (Python Engine 연동 & Node 백업 프록시)
   app.get('/api/heydealer/car/:hashId', async (req, res) => {
     const { hashId } = req.params;

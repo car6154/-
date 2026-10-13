@@ -1,13 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Search, Car, Cloud, Key, ChevronDown, Check } from 'lucide-react';
+import { Car, Cloud, Key, ChevronDown, Check } from 'lucide-react';
 
 export type AppTab = 'cockpit' | 'ledger' | 'settlement' | 'soldout' | 'performance' | 'inventory';
 
 interface HeaderProps {
   activeTab: AppTab;
   setActiveTab: (tab: AppTab) => void;
-  searchQuery: string;
-  setSearchQuery: (q: string) => void;
+  searchQuery?: string;
+  setSearchQuery?: (q: string) => void;
   totalCarsCount: number;
   totalBuyAmount: number;
   avgMargin: number;
@@ -23,23 +23,14 @@ interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({
   activeTab,
   setActiveTab,
-  searchQuery,
-  setSearchQuery,
   totalCarsCount,
   onOpenDriveModal,
   onOpenCookieModal,
   onPasteClipboardCookie,
   cookieStatus,
 }) => {
-  const [copiedLink, setCopiedLink] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-
-  const handleCopyLink = () => {
-    navigator.clipboard.writeText('https://tinyurl.com/jpro-live');
-    setCopiedLink(true);
-    setTimeout(() => setCopiedLink(false), 2500);
-  };
 
   // Click outside to close dropdown
   useEffect(() => {
@@ -139,42 +130,8 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
         </div>
 
-        {/* Right: Search & Action Tools */}
+        {/* Right: Action Tools */}
         <div className="flex items-center gap-2 ml-auto">
-          {/* Search Box */}
-          <div className="relative w-36 sm:w-48">
-            <Search className="w-3.5 h-3.5 text-[#9194a1] absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-            <input
-              type="text"
-              placeholder="차량/모델 검색..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-7 pr-2.5 py-1 text-xs bg-[#121317] border border-[#1c1d22] rounded-lg text-white placeholder-[#5e616e] focus:outline-none focus:border-[#cc9166] transition"
-            />
-            {searchQuery && (
-              <button
-                onClick={() => setSearchQuery('')}
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-[#9194a1] hover:text-white"
-              >
-                ✕
-              </button>
-            )}
-          </div>
-
-          <button
-            onClick={handleCopyLink}
-            className={`px-2 py-1 rounded-lg text-xs font-medium flex items-center gap-1 transition shrink-0 ${
-              copiedLink
-                ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
-                : 'bg-purple-500/10 hover:bg-purple-500/20 text-purple-300 border border-purple-500/30'
-            }`}
-            title="대표님 전용 단축 주소 복사"
-          >
-            <span>{copiedLink ? '✓' : '🔗'}</span>
-            <span className="hidden md:inline font-mono">
-              {copiedLink ? '복사됨!' : '주소'}
-            </span>
-          </button>
 
           <button
             onClick={onOpenDriveModal}

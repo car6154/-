@@ -181,6 +181,31 @@ def save_cookie_api(payload: CookieSavePayload):
     return {"status": "ok", "message": f"{target} cookie saved successfully"}
 
 
+@app.get("/api/cookie/status")
+def get_all_cookies_status():
+    from services.cookie_server import get_current_encar_cookie, get_current_hd_cookie, get_current_autoplus_cookie
+    hd_c = get_current_hd_cookie()
+    ap_c = get_current_autoplus_cookie()
+    ec_c = get_current_encar_cookie()
+    return {
+        "heydealer": {
+            "active": bool(hd_c and len(hd_c) > 20 and "sessionid=" in hd_c),
+            "present": bool(hd_c and len(hd_c) > 10),
+            "length": len(hd_c) if hd_c else 0
+        },
+        "autoplus": {
+            "active": bool(ap_c and len(ap_c) > 20),
+            "present": bool(ap_c and len(ap_c) > 10),
+            "length": len(ap_c) if ap_c else 0
+        },
+        "encar": {
+            "active": bool(ec_c and len(ec_c) > 20),
+            "present": bool(ec_c and len(ec_c) > 10),
+            "length": len(ec_c) if ec_c else 0
+        }
+    }
+
+
 # ----------------------------------------------------
 # 0-1. 헤이딜러 실시간 차량 및 동급 낙찰시세 API (Python Scraper & Session 연동)
 # ----------------------------------------------------
@@ -360,6 +385,9 @@ def trigger_git_sync(action: str = "pull"):
     if action == "pull":
         ok, msg = GitSyncService.sync_pull()
         return {"success": ok, "action": "pull", "message": msg}
+    elif action == "force_pull":
+        ok, msg = GitSyncService.sync_force_pull()
+        return {"success": ok, "action": "force_pull", "message": msg}
     elif action == "push":
         GitSyncService.sync_push_async("manual: trigger push from web UI")
         return {"success": True, "action": "push", "message": "백그라운드 동기화 푸시 요청됨"}
