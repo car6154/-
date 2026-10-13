@@ -666,10 +666,17 @@ export default function App() {
     try {
       if (navigator.clipboard && navigator.clipboard.readText) {
         const text = await navigator.clipboard.readText();
-        if (text && text.trim().length > 10) {
-          const ok = await handleUpdateCookie(text.trim());
+        const trimmed = text ? text.trim() : '';
+        const isCookiePattern = 
+          trimmed.includes('sessionid=') || 
+          trimmed.includes('csrftoken=') || 
+          trimmed.includes('JSESSIONID=') || 
+          trimmed.includes('remember-me=');
+
+        if (isCookiePattern) {
+          const ok = await handleUpdateCookie(trimmed);
           if (ok) {
-            showToast('🟢 클립보드에서 복사된 헤이딜러 세션 쿠키가 즉시 적용되었습니다!');
+            showToast('🟢 클립보드에서 복사된 세션 쿠키가 즉시 적용되었습니다!');
             return;
           }
         }
@@ -677,7 +684,7 @@ export default function App() {
     } catch (e) {
       console.warn('Clipboard read permission skipped, opening modal:', e);
     }
-    // 클립보드 접근이 차단된 경우 모달 오픈
+    // 클립보드에 쿠키가 없거나 접근이 제한된 경우 수동 등록 모달 오픈
     setIsCookieModalOpen(true);
   };
 

@@ -53,6 +53,9 @@ export const CookieSyncModal: React.FC<CookieSyncModalProps> = ({
   const [serverLogs, setServerLogs] = useState<string[]>([]);
   const [isLoadingLogs, setIsLoadingLogs] = useState(false);
 
+  // 3대 서버 일괄 재가동 상태
+  const [isRestartingServers, setIsRestartingServers] = useState(false);
+
   const secretToken = 'jpro_sec_9981_live_auth';
 
   // 모달 열릴 때 상태 조회
@@ -138,7 +141,6 @@ export const CookieSyncModal: React.FC<CookieSyncModalProps> = ({
   };
 
   // 3대 서버 일괄 재가동 (FastAPI 8000, Frontend 3000, Streamlit 8501)
-  const [isRestartingServers, setIsRestartingServers] = useState(false);
   const handleRestartAllServers = async () => {
     if (!confirm('🔄 J-PRO 3대 서버(FastAPI 8000 / Frontend 3000 / Streamlit 8501)를 일괄 재가동하시겠습니까?\n\n약 5~8초 동안 서버가 완전히 재기동되며, 완료 후 브라우저가 자동 새로고침됩니다.')) {
       return;
@@ -239,8 +241,14 @@ export const CookieSyncModal: React.FC<CookieSyncModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-      <div className="bg-[#10131B] border border-slate-800 rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh]">
+    <div
+      onClick={onClose}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-in fade-in duration-200"
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="bg-[#10131B] border border-slate-800 rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh]"
+      >
         
         {/* Header */}
         <div className="px-6 py-4 border-b border-slate-800 flex items-center justify-between bg-slate-900/70">
