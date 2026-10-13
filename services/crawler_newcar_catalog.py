@@ -276,11 +276,12 @@ class EncarNewCarCrawler:
     def crawl_model_year(self, mfg_cd: str, mfg_name: str, model_name: str, mdlgroup_cd: str, mdl_cd: str, year: str) -> bool:
         """특정 모델의 단일 연식 신차가격표 수집"""
         clean_model_key = model_name.strip()
-        # 이미 수집되어 있고 내용이 있으면 건너뛰기
+        # 이미 5개 이상의 옵션이 온전히 수집되어 있으면 건너뛰기 (불완전/빈 데이터는 재수집)
         if clean_model_key in self.catalog_data and year in self.catalog_data[clean_model_key]:
             existing_val = self.catalog_data[clean_model_key][year]
-            if isinstance(existing_val, dict) and ("options" in existing_val or "packages" in existing_val):
-                if len(existing_val.get("options", {})) > 0 or len(existing_val.get("packages", {})) > 0:
+            if isinstance(existing_val, dict):
+                opts_cnt = len(existing_val.get("options", {}))
+                if opts_cnt >= 5:
                     return True
 
         if not self.access_token or time.time() > self.token_expiry_time:
@@ -322,6 +323,10 @@ class EncarNewCarCrawler:
                 else:
                     self.log(f"  [확인완료] {mfg_name} {clean_model_key} ({year}년형) -> 신차가격표 준비중/미등록")
                 return True
+            elif r.status_code in (403, 429):
+                self.log(f"🚨 [차단발생] HTTP {r.status_code} 감지! 전체 수집을 즉시 중단합니다.")
+                self.blocked = True
+                return False
             else:
                 self.log(f"  [응답오류] {clean_model_key} ({year}년형) -> HTTP {r.status_code}")
         except Exception as e:
@@ -332,12 +337,16 @@ class EncarNewCarCrawler:
     def run(self):
         self.log("🚀 국산차 전 차종 연식별 신차 옵션 패키지 일괄 수집을 시작합니다.")
         self.refresh_access_token()
+        self.blocked = False
         
         total_models = 0
         total_years = 0
         saved_count = 0
+        req_count = 0
 
         for mfg in TARGET_MFGS:
+            if self.blocked:
+                break
             mfg_cd = mfg["code"]
             mfg_name = mfg["name"]
             self.log(f"\n==========================================")
@@ -346,6 +355,8 @@ class EncarNewCarCrawler:
 
             mdlgroups = self.get_model_groups(mfg_cd)
             for mg in mdlgroups:
+                if self.blocked:
+                    break
                 mg_name = mg.get("name", "").strip()
                 mg_cd = mg.get("abbreviation", "").strip()
                 if not mg_name or not mg_cd:
@@ -353,6 +364,8 @@ class EncarNewCarCrawler:
 
                 models = self.get_models(mfg_cd, mg_cd)
                 for mdl in models:
+                    if self.blocked:
+                        break
                     mdl_name = mdl.get("name", "").strip()
                     mdl_cd = mdl.get("abbreviation", "").strip()
                     if not mdl_name or not mdl_cd:
@@ -372,7 +385,16 @@ class EncarNewCarCrawler:
                     self.log(f"▶ [{mfg_name}] {full_car_name} (연식 {len(years)}개: {years[0]}~{years[-1]})")
 
                     for yr in years:
+                        if self.blocked:
+                            break
                         total_years += 1
+                        
+                        # 이미 5개 이상 온전히 수집된 항목인지 먼저 확인 (불필요한 sleep 및 요청 방지)
+                        existing_val = self.catalog_data.get(full_car_name, {}).get(yr)
+                        if isinstance(existing_val, dict) and len(existing_val.get("options", {})) >= 5:
+                            continue
+
+                        req_count += 1
                         success = self.crawl_model_year(mfg_cd, mfg_name, full_car_name, mg_cd, mdl_cd, yr)
                         
                         # 주기적 저장 (매 5건마다 디스크 동기화)
@@ -380,16 +402,24 @@ class EncarNewCarCrawler:
                         if saved_count % 5 == 0:
                             self._save_catalog()
 
-                        # 안전 딜레이 (0.6초 ~ 1.2초)
-                        time.sleep(random.uniform(0.6, 1.2))
+                        # 100개 처리마다 60초 휴식 (토큰 버킷 차단 방지)
+                        if req_count % 100 == 0:
+                            self.log(f"☕ [휴식] {req_count}개 요청 처리 완료. 토큰 버킷 보호를 위해 60초 대기...")
+                            time.sleep(60)
+                        else:
+                            # 안전 딜레이 (1.0초 ~ 2.0초)
+                            time.sleep(random.uniform(1.0, 2.0))
 
             # 제조사 완료 시마다 저장
             self._save_catalog()
 
         # 최종 저장
         self._save_catalog()
-        self.log(f"\n🎉 모든 수집이 완료되었습니다!")
-        self.log(f"총 모델 수: {total_models}개 | 총 연식 페이지: {total_years}개")
+        if self.blocked:
+            self.log(f"\n🚨 차단 발생으로 인해 수집이 중단되었습니다. (처리 요청: {req_count}개)")
+        else:
+            self.log(f"\n🎉 모든 수집이 완료되었습니다!")
+        self.log(f"총 모델 수: {total_models}개 | 총 연식 페이지: {total_years}개 | 실행된 요청 수: {req_count}개")
         self.log(f"저장된 파일: {OUTPUT_FILE}")
 
 if __name__ == "__main__":
