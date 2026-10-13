@@ -314,10 +314,10 @@ class DataProcessor:
     @staticmethod
     def sort_by_perf_and_year(df: pd.DataFrame) -> pd.DataFrame:
         """
-        8501 콕핏 확정 정렬 기준:
-        1. 성능점검 등록 여부 (점검 완료 우선)
-        2. 연식 최신순 (내림차순)
-        3. 성능점검일 최신순 (내림차순)
+        8501 스트림릿 확정 정렬 기준:
+        1. 성능점검일 최신순 (점검 완료 우선, 내림차순)
+        2. 가격 낮은순 (오름차순)
+        3. 연식 최신순 (내림차순)
         """
         if df.empty:
             return df
@@ -330,17 +330,33 @@ class DataProcessor:
             m = re.search(r'(\d+)', str(val))
             return int(m.group(1)) if m else 0
 
-        if "성능일" in res_df.columns and "연식" in res_df.columns:
+        # 1. 성능일 파싱
+        if "성능일" in res_df.columns:
             res_df['_has_perf'] = res_df['성능일'].astype(str).apply(
                 lambda x: 1 if re.match(r'^\d{2}-\d{2}-\d{2}', str(x)) and str(x) not in ['미검사/사진', '⚠️미등록', '⚠️조회실패', '-'] else 0
             )
             res_df['_sort_perf'] = res_df['성능일'].astype(str).apply(
                 lambda x: x if re.match(r'^\d{2}-\d{2}-\d{2}', str(x)) and str(x) not in ['미검사/사진', '⚠️미등록', '⚠️조회실패', '-'] else '00-00-00'
             )
-            res_df['_sort_year'] = res_df['연식'].apply(_parse_year)
-            res_df = res_df.sort_values(
-                by=['_has_perf', '_sort_year', '_sort_perf'],
-                ascending=[False, False, False]
-            ).drop(columns=['_has_perf', '_sort_perf', '_sort_year']).reset_index(drop=True)
+        else:
+            res_df['_has_perf'] = 0
+            res_df['_sort_perf'] = '00-00-00'
+
+        # 2. 가격 파싱 (낮은순, 결측치는 999999로 뒤로)
+        if "판매가" in res_df.columns:
+            res_df["_sort_price"] = pd.to_numeric(res_df["판매가"], errors='coerce').fillna(999999)
+        elif "가격" in res_df.columns:
+            res_df["_sort_price"] = pd.to_numeric(res_df["가격"], errors='coerce').fillna(999999)
+        else:
+            res_df["_sort_price"] = 999999
+
+        # 3. 연식 파싱 (최신순)
+        res_df['_sort_year'] = res_df['연식'].apply(_parse_year) if "연식" in res_df.columns else 0
+
+        # 정렬: 성능일 최신순 -> 가격 낮은순 -> 연식 최신순
+        res_df = res_df.sort_values(
+            by=['_has_perf', '_sort_perf', '_sort_price', '_sort_year'],
+            ascending=[False, False, True, False]
+        ).drop(columns=['_has_perf', '_sort_perf', '_sort_price', '_sort_year']).reset_index(drop=True)
             
         return res_df
