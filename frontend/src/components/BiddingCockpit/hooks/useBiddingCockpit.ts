@@ -1658,39 +1658,21 @@ export function useBiddingCockpit({
     let recommendation = "표준 입찰 추천 (기본 기대마진 150~180만 원 확보)";
 
     if (encar30d >= 15) {
-      if (!hasAutoplus || bdCnt < 3) {
-        badge = "⚡ 시장 초고속 완판 (적극 매입)";
-        badgeColor = "#38bdf8";
-        if (!hasAutoplus) {
-          mainText = `엔카 시장에서 최근 30일간 <b>${encar30d}대</b>가 완판되는 초인기 차종입니다. (자사 소매 실적은 미보유 상태이나 전체 시장의 강력한 소화력을 바탕으로 <b>[적극적 표준 입찰]</b> 권장)`;
-        } else {
-          mainText = `엔카 시장에서 최근 30일간 <b>${encar30d}대</b>가 완판되는 초인기 차종입니다. 과거 자사 1건 기록(${Math.round(bdDays)}일)은 소수 표본 특수 사례로, 전체 시장의 높은 소화력을 우선 반영하여 <b>[적극적 표준 입찰]</b>을 권장합니다.`;
-        }
-        recommendation = "기본 기대마진 140~170만 원 확보 (빠른 회전으로 현금화 유리)";
-      } else if (bdDays <= 40) {
-        badge = "🔥 자사·시장 동반 쾌속회전 (공격 입찰)";
-        badgeColor = "#38bdf8";
-        mainText = `자사 평균 ${Math.round(bdDays)}일 및 엔카 월 ${encar30d}대 완판으로 회전이 극도로 빠릅니다.`;
-        recommendation = "공격적 입찰 추천 (마진 100~130만 원으로 매입 성공률 극대화)";
-      } else {
-        badge = "⚖️ 시장 인기 대비 자사 장기화 (신중 표준 입찰)";
-        badgeColor = "#facc15";
-        mainText = `엔카 시장(월 ${encar30d}대) 소화는 빠르나 과거 자사 평균 재고일(${Math.round(bdDays)}일)이 길었습니다.`;
-        recommendation = "안전마진 180~220만 원 확보 후 입찰 권장";
-      }
+      badge = "⚡ 시장 초고속 완판 (적극 매입)";
+      badgeColor = "#38bdf8";
+      mainText = `엔카 시장에서 최근 30일간 <b>${encar30d}대</b>가 완판(일평균 ${(encar30d / 30).toFixed(1)}대 출고)되는 초인기 차종으로 회전이 매우 빠릅니다.`;
+      recommendation = "적극 입찰 권장 (기본 기대마진 140~170만 원 확보, 빠른 회전으로 현금화 유리)";
     } else if (encar30d >= 8) {
-      if (!hasAutoplus || bdCnt < 3 || bdDays <= 40) {
-        badge = "🟢 정상 유통 회전 (표준 입찰)";
-        badgeColor = "#4ade80";
-        mainText = `엔카 시장(월 ${encar30d}대 출고)에서 꾸준히 소화되는 정상 유통 차종입니다.`;
-        recommendation = "표준 입찰 추천 (기본 기대마진 150~180만 원 확보)";
-      } else {
-        badge = "🟡 재고 장기화 주의 (신중 입찰)";
-        badgeColor = "#facc15";
-        mainText = `엔카 소화는 정상이나 자사 평균 재고일(${Math.round(bdDays)}일)이 길어 마진 방어가 필요합니다.`;
-        recommendation = "신중 입찰 권장 (안전마진 200~250만 원 이상 확보)";
-      }
-    } else if (hasAutoplus) {
+      badge = "🟢 정상 유통 회전 (표준 입찰)";
+      badgeColor = "#4ade80";
+      mainText = `엔카 시장에서 최근 30일간 <b>${encar30d}대</b>가 완판되는 정상 유통 차종입니다.`;
+      recommendation = "표준 입찰 권장 (기본 기대마진 150~180만 원 확보)";
+    } else if (encar30d > 0) {
+      badge = "🟡 소화 속도 완만 (신중 입찰)";
+      badgeColor = "#facc15";
+      mainText = `엔카 시장 최근 30일 완판이 <b>${encar30d}대</b>로 유통 속도가 완만합니다.`;
+      recommendation = "신중 입찰 권장 (안전마진 180~220만 원 이상 확보 후 입찰)";
+    } else if (hasAutoplus && bdCnt >= 3) {
       if (bdDays <= 20 && bdCnt >= 3) {
         badge = "⚡ 빠른 회전 (공격 입찰)";
         badgeColor = "#38bdf8";
