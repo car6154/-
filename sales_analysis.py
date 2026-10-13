@@ -185,9 +185,9 @@ class SalesDataAnalyzer:
         # --- 기아 ---
         "신형카니발": ["신형카니발", "카니발4세대", "카니발ka4", "디올뉴카니발", "더올뉴카니발"],
         "카니발4세대": ["신형카니발", "카니발4세대", "카니발ka4", "디올뉴카니발", "더올뉴카니발"],
-        "더뉴카니발4세대": ["더뉴카니발4세대", "더뉴카니발(ka4)", "카니발4세대", "카니발ka4"],
-        "더뉴카니발": ["더뉴카니발", "더뉴카니발(yp)", "카니발yp"],
-        "올뉴카니발": ["올뉴카니발", "카니발yp"],
+        "더뉴카니발4세대": ["더뉴카니발4세대", "더뉴카니발(ka4)", "더뉴카니발ka4"],
+        "더뉴카니발": ["더뉴카니발", "더뉴카니발(yp)", "더뉴카니발yp"],
+        "올뉴카니발": ["올뉴카니발", "올뉴카니발(yp)", "올뉴카니발yp"],
         "신형쏘렌토": ["신형쏘렌토", "신형쏘렌토(mq4)", "쏘렌토4세대", "쏘렌토mq4", "디올뉴쏘렌토", "더올뉴쏘렌토"],
         "쏘렌토4세대": ["신형쏘렌토", "신형쏘렌토(mq4)", "쏘렌토4세대", "쏘렌토mq4", "디올뉴쏘렌토", "더올뉴쏘렌토"],
         "더뉴쏘렌토4세대": ["더뉴쏘렌토(mq4)", "더뉴쏘렌토4세대", "신형쏘렌토", "쏘렌토mq4"],
@@ -382,20 +382,32 @@ class SalesDataAnalyzer:
                 elif target_year >= 2020:
                     is_k5_gen3 = True
 
-        # 2. 카니발 (3세대 YP 올뉴/더뉴 vs 4세대 KA4)
+        # 2. 카니발 (올뉴카니발 YP전기 vs 더뉴카니발 YP후기 vs 카니발 4세대 KA4 vs 더뉴카니발 4세대)
         is_carnival = '카니발' in full_query_text
+        is_carnival_gen4_fl = False
         is_carnival_gen4 = False
-        is_carnival_old = False
+        is_carnival_the_new = False
+        is_carnival_all_new = False
         if is_carnival:
-            if any(k in full_query_text for k in ['4세대', 'ka4']):
+            # 1순위: 명시적 세대명 및 섀시코드
+            if '더뉴' in full_query_text and any(k in full_query_text for k in ['4세대', 'ka4']):
+                is_carnival_gen4_fl = True
+            elif any(k in full_query_text for k in ['4세대', 'ka4', '신형카니발', '디올뉴카니발', '더올뉴카니발']):
                 is_carnival_gen4 = True
-            elif any(k in full_query_text for k in ['3세대', 'yp', '올뉴', '더뉴']):
-                is_carnival_old = True
+            elif '더뉴' in full_query_text:
+                is_carnival_the_new = True
+            elif '올뉴' in full_query_text:
+                is_carnival_all_new = True
+            # 2순위: 연식 기반 분기
             elif target_year:
-                if target_year >= 2021:
+                if target_year >= 2024:
+                    is_carnival_gen4_fl = True
+                elif target_year >= 2021:
                     is_carnival_gen4 = True
-                elif target_year <= 2020:
-                    is_carnival_old = True
+                elif target_year >= 2018:
+                    is_carnival_the_new = True
+                elif target_year >= 2014:
+                    is_carnival_all_new = True
 
         # 3. 쏘렌토 (2세대 전기 쏘렌토R vs 2세대 후기 뉴쏘렌토R vs 3세대 UM 올뉴/더뉴 vs 4세대 MQ4)
         is_sorento = '쏘렌토' in full_query_text
@@ -547,7 +559,15 @@ class SalesDataAnalyzer:
 
         # 2. 동의어/별칭 후보군 확장
         candidates = [c_clean]
-        if is_k5_gen2:
+        if is_carnival_gen4_fl:
+            candidates.extend(["더뉴카니발4세대", "더뉴카니발(ka4)", "더뉴카니발ka4"])
+        elif is_carnival_gen4:
+            candidates.extend(["신형카니발", "카니발4세대", "카니발ka4", "디올뉴카니발", "더올뉴카니발"])
+        elif is_carnival_the_new:
+            candidates.extend(["더뉴카니발", "더뉴카니발(yp)", "더뉴카니발yp"])
+        elif is_carnival_all_new:
+            candidates.extend(["올뉴카니발", "올뉴카니발(yp)", "올뉴카니발yp"])
+        elif is_k5_gen2:
             candidates.extend(["신형k5", "뉴신형k5", "k52세대"])
         elif is_k5_gen3:
             candidates.extend(["신형k5(dl3)", "더뉴k5(dl3)", "k53세대", "k5dl3", "디올뉴k5"])
@@ -602,6 +622,14 @@ class SalesDataAnalyzer:
             if (k in c_clean or c_clean in k) and not (is_k5_gen2 and 'dl3' in k) and not (is_k5_gen3 and k in ('k52세대', '신형k5')):
                 if is_sorento_r and ('뉴' in k or '올뉴' in k or '더뉴' in k or 'mq4' in k):
                     continue
+                if is_carnival_all_new and ('더뉴' in k or '4세대' in k or 'ka4' in k):
+                    continue
+                if is_carnival_the_new and ('올뉴' in k or '4세대' in k or 'ka4' in k):
+                    continue
+                if is_carnival_gen4 and ('올뉴' in k or '더뉴' in k or 'yp' in k):
+                    continue
+                if is_carnival_gen4_fl and ('올뉴' in k or 'yp' in k or k in ('신형카니발', '카니발4세대', '카니발ka4')):
+                    continue
                 if is_tucson_nx4 and k in ('신형투싼', '올뉴투싼', '투싼tl', '더뉴투싼'):
                     continue
                 if is_tucson_tl and k in ('디올뉴투싼', '더올뉴투싼', '투싼nx4'):
@@ -652,12 +680,18 @@ class SalesDataAnalyzer:
             if not filtered_k5_g3.empty:
                 sub_df = filtered_k5_g3
 
-        if is_carnival_gen4 and not sub_df.empty:
-            filtered_c4 = sub_df[sub_df['차량명_clean'].str.contains('4세대|ka4', na=False)]
+        if is_carnival_gen4_fl and not sub_df.empty:
+            filtered_c4_fl = sub_df[sub_df['차량명_clean'].str.contains('더뉴', na=False) & sub_df['차량명_clean'].str.contains('4세대|ka4', na=False)]
+            if not filtered_c4_fl.empty: sub_df = filtered_c4_fl
+        elif is_carnival_gen4 and not sub_df.empty:
+            filtered_c4 = sub_df[sub_df['차량명_clean'].str.contains('4세대|ka4', na=False) & ~sub_df['차량명_clean'].str.contains('더뉴', na=False)]
             if not filtered_c4.empty: sub_df = filtered_c4
-        elif is_carnival_old and not sub_df.empty:
-            filtered_co = sub_df[~sub_df['차량명_clean'].str.contains('4세대|ka4', na=False)]
-            if not filtered_co.empty: sub_df = filtered_co
+        elif is_carnival_the_new and not sub_df.empty:
+            filtered_ctn = sub_df[sub_df['차량명_clean'].str.contains('더뉴', na=False) & ~sub_df['차량명_clean'].str.contains('4세대|ka4|올뉴', na=False)]
+            sub_df = filtered_ctn
+        elif is_carnival_all_new and not sub_df.empty:
+            filtered_can = sub_df[sub_df['차량명_clean'].str.contains('올뉴', na=False) & ~sub_df['차량명_clean'].str.contains('4세대|ka4|더뉴', na=False)]
+            sub_df = filtered_can
 
         if is_sorento_r and not sub_df.empty:
             # 쏘렌토 R (2009~2012) 검색 시 뉴쏘렌토R, 올뉴, 더뉴, 4세대 절대 배제
@@ -741,6 +775,14 @@ class SalesDataAnalyzer:
                 core_sub = core_sub[~core_sub['차량명_clean'].str.contains('dl3', na=False)]
             elif is_k5_gen3:
                 core_sub = core_sub[core_sub['차량명_clean'].str.contains('dl3', na=False)]
+            elif is_carnival_all_new:
+                core_sub = core_sub[core_sub['차량명_clean'].str.contains('올뉴', na=False) & ~core_sub['차량명_clean'].str.contains('4세대|ka4|더뉴', na=False)]
+            elif is_carnival_the_new:
+                core_sub = core_sub[core_sub['차량명_clean'].str.contains('더뉴', na=False) & ~core_sub['차량명_clean'].str.contains('4세대|ka4|올뉴', na=False)]
+            elif is_carnival_gen4:
+                core_sub = core_sub[core_sub['차량명_clean'].str.contains('4세대|ka4', na=False) & ~core_sub['차량명_clean'].str.contains('더뉴', na=False)]
+            elif is_carnival_gen4_fl:
+                core_sub = core_sub[core_sub['차량명_clean'].str.contains('더뉴', na=False) & core_sub['차량명_clean'].str.contains('4세대|ka4', na=False)]
             elif is_sorento_new_r:
                 core_sub = core_sub[core_sub['차량명_clean'].str.contains('뉴쏘렌토', na=False)]
             elif is_sorento_um:
