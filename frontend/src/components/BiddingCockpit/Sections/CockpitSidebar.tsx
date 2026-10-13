@@ -125,18 +125,6 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
               onChange={(e) => setHeydealerUrl(e.target.value)}
               className="w-full bg-[#14151b] border border-[#2c2f3d] rounded-lg px-3 py-2 text-xs sm:text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-blue-500 font-mono"
             />
-            {/* 헤이딜러 샘플 매물 빠른 선택 */}
-            <div className="flex items-center gap-1 overflow-x-auto py-0.5 scrollbar-none text-[11px]">
-              <span className="text-zinc-400 shrink-0 font-medium">샘플:</span>
-              <button
-                type="button"
-                onClick={() => setHeydealerUrl('https://dealer.heydealer.com/cars/yoekjmGQ/')}
-                className="px-2 py-0.5 rounded bg-[#1c1e28] hover:bg-amber-600/30 text-amber-300 hover:text-white border border-[#2c2f3d] shrink-0 font-mono transition cursor-pointer"
-                title="캐스퍼 일렉트릭 인스퍼레이션 샘플"
-              >
-                yoekjmGQ (캐스퍼EV)
-              </button>
-            </div>
             <div className="grid grid-cols-2 gap-2 pt-1">
               <button
                 type="button"
@@ -189,29 +177,6 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
               </button>
             </div>
 
-            {/* 빠른 번호 선택 칩 */}
-            <div className="flex items-center gap-1 overflow-x-auto py-1 scrollbar-none text-[11px]">
-              <span className="text-zinc-400 shrink-0 font-medium">추천:</span>
-              {[
-                { no: '37다1840', name: '카니발' },
-                { no: '240어8733', name: '모닝' },
-                { no: '299마3212', name: '아반떼' },
-                { no: '297로2620', name: '레이' },
-                { no: '149소7481', name: '캐스퍼' }
-              ].map(chip => (
-                <button
-                  key={chip.no}
-                  type="button"
-                  onClick={() => {
-                    setCarNumber(chip.no);
-                    handleLookupCarNumber(chip.no);
-                  }}
-                  className="px-2 py-0.5 rounded bg-[#1c1e28] hover:bg-blue-600/30 text-zinc-300 hover:text-white border border-[#2c2f3d] shrink-0 font-mono transition cursor-pointer"
-                >
-                  {chip.no}
-                </button>
-              ))}
-            </div>
 
             {aiEstimateStep && (
               <div className="text-xs text-amber-300 bg-amber-500/15 border border-amber-500/30 px-2.5 py-1.5 rounded-lg animate-pulse font-medium">
@@ -261,10 +226,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
 
             {/* Car Name */}
             <div>
-              <div className="flex justify-between items-center mb-1">
-                <label className="text-[11px] font-medium text-zinc-400">차량명</label>
-                <span className="text-[10px] text-blue-400 font-mono font-medium">직접입력/추천</span>
-              </div>
+              <label className="text-[11px] font-medium text-zinc-400 block mb-1">차량명</label>
               <input
                 type="text"
                 list="cockpit-car-names"
