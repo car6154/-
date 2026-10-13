@@ -316,7 +316,7 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
                         {biddingVerdict.badge}
                       </span>
                     </div>
-                    
+
                   </div>
 
                   {/* 엔카 완판 핵심 팩트 칩 3종 */}
@@ -550,6 +550,7 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
               )}
             </div>
           )}
+
             </div>
           )}
 
@@ -727,8 +728,6 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
               );
             })()}
           </div>
-
-          
         </div>
   );
 };
