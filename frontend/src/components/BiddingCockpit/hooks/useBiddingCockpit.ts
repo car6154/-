@@ -1071,6 +1071,8 @@ export function useBiddingCockpit({
             url: directEncarUrl,
             carName: cName,
             detailModel: cGrade,
+            gradeName: rawGradeNameRef.current,
+            gradeDetailName: rawGradeDetailNameRef.current,
             manufacturer: cBrand,
             year: calculatedYear,
             mileage: calculatedMil
@@ -1079,6 +1081,8 @@ export function useBiddingCockpit({
           fetchedItems = await fetchEncarComparable({
             carName: cName,
             detailModel: cGrade,
+            gradeName: rawGradeNameRef.current,
+            gradeDetailName: rawGradeDetailNameRef.current,
             manufacturer: cBrand,
             year: calculatedYear,
             mileage: calculatedMil
