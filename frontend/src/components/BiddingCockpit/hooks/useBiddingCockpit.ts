@@ -2087,7 +2087,6 @@ export function useBiddingCockpit({
     actualMargin,
     actualPurchaseFee,
     repairCostTotal,
-    purchaseFeeCalculated,
     memo,
     setMemo,
     savedSuccess,
