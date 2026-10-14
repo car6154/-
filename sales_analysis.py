@@ -947,17 +947,22 @@ class SalesDataAnalyzer:
                     empty_df.attrs['year_diff_note'] = ""
                     return empty_df
             else:
-                non_t_mask = ~fuel_filtered.apply(lambda r: check_is_turbo(r['차량명']) or check_is_turbo(r['세부모델']), axis=1)
-                if non_t_mask.any():
-                    fuel_filtered = fuel_filtered[non_t_mask]
+                # 🚨 주의: 전체가 터보 전용 차종(예: 신형 G90 RS4 등)이거나, 터보 제외 시 데이터가 0건이 되는 경우
+                # 쿼리에 자연흡기(NA, 3.8 등)를 명시하지 않았다면 터보를 강제 제외하지 않음!
+                is_all_turbo_model = any(k in c_clean for k in ['신형g90', 'g90rs4', '디올뉴g90', 'g90'])
+                if not is_all_turbo_model:
+                    non_t_mask = ~fuel_filtered.apply(lambda r: check_is_turbo(r['차량명']) or check_is_turbo(r['세부모델']), axis=1)
+                    if non_t_mask.any():
+                        fuel_filtered = fuel_filtered[non_t_mask]
 
             # 1-2. 구동방식 (2WD vs 4WD/AWD) 엄격 분리
             is_query_4wd = any(k in query_clean_all for k in ['4wd', 'awd', '4륜'])
+            is_query_2wd = any(k in query_clean_all for k in ['2wd', '2륜'])
             if is_query_4wd:
                 wd_mask = fuel_filtered['세부모델_clean'].str.contains('4wd|awd|4륜', na=False) | fuel_filtered['차량명_clean'].str.contains('4wd|awd|4륜', na=False)
                 if wd_mask.any():
                     fuel_filtered = fuel_filtered[wd_mask]
-            else:
+            elif is_query_2wd:
                 non_wd_mask = ~fuel_filtered['세부모델_clean'].str.contains('4wd|awd|4륜', na=False) & ~fuel_filtered['차량명_clean'].str.contains('4wd|awd|4륜', na=False)
                 if non_wd_mask.any():
                     fuel_filtered = fuel_filtered[non_wd_mask]

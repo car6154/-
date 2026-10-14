@@ -421,6 +421,30 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
                 })()}
               </div>
 
+              {/* 🎨 옵션 색상 범례 안내 (비교차 선택 시 자동 전환) */}
+              {optionsTag && optionsTag.trim().length > 0 && (
+                <div className="flex items-center gap-2 text-[10px] text-zinc-400 bg-zinc-900/60 px-2 py-0.5 rounded border border-zinc-800">
+                  <span className="text-zinc-500 font-medium">범례:</span>
+                  {selectedEncar?.optionsText ? (
+                    <>
+                      <span className="flex items-center gap-1 text-emerald-400 font-semibold" title="비교차에는 없고 내 차에만 있는 고유/우세 옵션">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>내차우세(+)
+                      </span>
+                      <span className="flex items-center gap-1 text-amber-400 font-semibold" title="공식 명칭 차이로 스펙 유사로 추정 매칭된 옵션">
+                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>추정(~)
+                      </span>
+                      <span className="flex items-center gap-1 text-sky-400 font-semibold" title="비교차와 내 차 모두 동일하게 장착된 공통 옵션">
+                        <span className="w-1.5 h-1.5 rounded-full bg-sky-400"></span>공통(✓)
+                      </span>
+                    </>
+                  ) : (
+                    <span className="text-sky-300 flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-sky-400"></span>장착 순정 옵션 (비교 매물 클릭 시 우세 대조)
+                    </span>
+                  )}
+                </div>
+              )}
+
               {/* Parsed Option Chips (카탈로그 정밀 매칭 + 3단계 신뢰도 + 마우스 호버 상세 툴팁) */}
               {optionsTag && optionsTag.trim().length > 0 ? (
                 <div className="flex flex-wrap gap-1.5 py-1">

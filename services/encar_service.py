@@ -744,9 +744,14 @@ class Scraper:
                 if expected_model:
                     exp_clean = re.sub(r'[^가-힣a-zA-Z0-9]', '', str(expected_model)).lower()
                     first_name_clean = re.sub(r'[^가-힣a-zA-Z0-9]', '', parsed_cars[0]['name']).lower()
+                    
+                    # '신형', '올뉴', '더뉴', '디올뉴', '더올뉴', '뉴' 등 접두 수식어 및 브랜드 제거하여 핵심 차명 추출
+                    core_exp = re.sub(r'^(제네시스|현대|기아|쉐보레|르노코리아|르노삼성|쌍용|kg모빌리티|벤츠|bmw|아우디|폭스바겐)?(신형|디올뉴|더올뉴|올뉴|더뉴|뉴|allnew|thenew)?', '', exp_clean).strip()
+                    
                     matched_exp = False
-                    for part in [exp_clean[-4:], exp_clean[:4], exp_clean]:
-                        if part and (part in first_name_clean or first_name_clean in part):
+                    check_parts = [p for p in [core_exp, exp_clean, exp_clean[-4:], exp_clean[:4]] if p and len(p) >= 2]
+                    for part in check_parts:
+                        if part in first_name_clean or first_name_clean in part:
                             matched_exp = True
                             break
                     if not matched_exp and len(exp_clean) >= 2:

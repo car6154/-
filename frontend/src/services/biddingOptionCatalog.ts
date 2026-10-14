@@ -168,9 +168,77 @@ export interface MasterPackageDef {
   aliases: string[];
   items: string[];
   matchKeywords: string[];
+  subPackages?: {
+    name: string;
+    price?: number;
+    items: string[];
+  }[];
 }
 
 export const MASTER_PACKAGE_CATALOG: MasterPackageDef[] = [
+  // ── 제네시스 (Genesis) ──
+  {
+    id: 'genesis_g90_premium_collection',
+    name: '프리미엄 컬렉션',
+    brand: '제네시스',
+    aliases: [
+      '프리미엄컬렉션', '프리미엄컬렉션+이지클로즈', '프리미엄컬렉션이지클로즈',
+      '프리미엄콜렉션', 'g90프리미엄컬렉션', 'g90프리미엄콜렉션'
+    ],
+    items: [
+      '헤드업 디스플레이(HUD)', '지능형 헤드램프(IFS)',
+      '1열 에르고 릴렉싱 시트(마사지/볼스터)', '고스트 도어 클로징',
+      '서라운드 뷰 모니터(SVM)', '후측방 모니터(BVM)', '원격 스마트 주차 보조',
+      '뒷좌석 16-way 전동 시트', '뒷좌석 통풍 시트', 'VIP석 레그레스트'
+    ],
+    subPackages: [
+      {
+        name: '하이테크 패키지',
+        price: 2000000,
+        items: ['헤드업 디스플레이(HUD)', '지능형 헤드램프(IFS)']
+      },
+      {
+        name: '컨비니언스 패키지',
+        price: 3500000,
+        items: ['1열 에르고 릴렉싱 시트(마사지/볼스터)', '고스트 도어 클로징(소프트 압축도어)', '무드 큐레이터']
+      },
+      {
+        name: '드라이빙 어시스턴스 패키지',
+        price: 2500000,
+        items: ['서라운드 뷰 모니터(SVM)', '후측방 모니터(BVM)', '원격 스마트 주차 보조', '증강현실 내비게이션', '앞좌석 프리 액티브 시트벨트']
+      },
+      {
+        name: '뒷좌석 컴포트 패키지 I',
+        price: 3500000,
+        items: ['뒷좌석 16-way 전동 시트', '뒷좌석 통풍 시트', 'VIP석 레그레스트']
+      }
+    ],
+    matchKeywords: ['프리미엄컬렉션', '프리미엄컬렉션+이지클로즈', '프리미엄콜렉션', '하이테크', '컨비니언스', '드라이빙어시스턴스', '뒷좌석컴포트']
+  },
+  {
+    id: 'genesis_g90_easy_close',
+    name: '이지 클로즈 시스템',
+    brand: '제네시스',
+    aliases: ['이지클로즈', '이지클로즈시스템', '이지클로징', '전동도어', '파워도어'],
+    items: ['버튼 조작 및 브레이크 페달 연동 전동 도어 자동 닫힘', '소프트 파워 클로징'],
+    matchKeywords: ['이지클로즈', '이지클로징', '자동도어', '전동도어']
+  },
+  {
+    id: 'genesis_g90_suspension_rws',
+    name: '멀티 챔버 에어 서스펜션 + 능동형 후륜 조향(RWS)',
+    brand: '제네시스',
+    aliases: ['멀티챔버에어서스펜션+능동형후륜조향', '멀티챔버에어서스펜션', '능동형후륜조향', '에어서스펜션', '후륜조향', 'rws', '에어서스'],
+    items: ['멀티 챔버 에어 서스펜션(주행 모드별 차고 자동 조절 및 승차감 극대화)', '능동형 후륜 조향(RWS, 최대 4.0도 회전반경 단축 및 고속 안정성)'],
+    matchKeywords: ['에어서스', '에어서스펜션', '후륜조향', 'rws', '멀티챔버']
+  },
+  {
+    id: 'genesis_popular_collection',
+    name: '파퓰러 컬렉션',
+    brand: '제네시스',
+    aliases: ['파퓰러컬렉션', '파퓰러컬렉션1', '파퓰러컬렉션2', '파퓰러컬렉션i', '파퓰러컬렉션ii', '파퓰러패키지', 'popularcollection'],
+    items: ['헤드업 디스플레이', '하이테크 패키지', '드라이빙 어시스턴스 패키지 I', '2열 컴포트 패키지'],
+    matchKeywords: ['파퓰러', '파퓰러컬렉션', '파퓰러패키지']
+  },
   // ── 현대자동차 (Hyundai) ──
   {
     id: 'hyundai_smart_sense',
@@ -502,16 +570,23 @@ export const isOptionMatched = (optA: string, optB: string): boolean => {
 
 /**
  * 괄호 안의 쉼표나 상세 설명을 보존하면서 개별 옵션 단위로 안전하게 분리하는 스마트 파서
+ * - 타이어 규격(245/45R20, 275/40R20 등)의 슬래시(/) 및 쉼표(,) 쪼개짐 방지 보존
  */
 export const splitOptionString = (optStr: string): string[] => {
   if (!optStr) return [];
   // [옵션총액: 354만], [순정옵션총액: ...] 등 메타 태그 사전 분리/제거
-  const cleanedStr = String(optStr)
+  let cleanedStr = String(optStr)
     .replace(/\[(?:순정)?옵션총액[^\]]*\]/gi, '')
     .trim();
   if (!cleanedStr || ['없음', '-', '없음(구버전점검)', '⚠️조회실패', '코드매칭실패', '기본'].includes(cleanedStr)) {
     return [];
   }
+
+  // 🚗 [타이어 규격 보존 전처리]
+  // 예: "245/45R20(앞), 275/40R20(뒤) 미쉐린 타이어 & 다이아몬드 컷팅 휠(100만)"
+  // 슬래시(/)와 앞뒤 타이어 사이 쉼표(,)가 분해기로 쪼개져 "+ 245", "+ 275" 등 파편화되는 버그 방지
+  cleanedStr = cleanedStr.replace(/(\d{3})\/(\d{2}[a-zA-Z]?\d{2})/g, '$1__SLASH__$2');
+  cleanedStr = cleanedStr.replace(/(\([앞전뒤후]\))\s*,\s*(\d{3}__SLASH__)/g, '$1__COMMA__$2');
 
   const results: string[] = [];
   let current = '';
@@ -538,7 +613,7 @@ export const splitOptionString = (optStr: string): string[] => {
   if (lastTrimmed) results.push(lastTrimmed);
 
   return results
-    .map(o => o.replace(/\[(?:순정)?옵션총액[^\]]*\]/gi, '').trim())
+    .map(o => o.replace(/__SLASH__/g, '/').replace(/__COMMA__/g, ', ').replace(/\[(?:순정)?옵션총액[^\]]*\]/gi, '').trim())
     .filter(o => o.length > 0 && !['없음', '-', '기본'].includes(o));
 };
 
@@ -890,8 +965,18 @@ export const getOptionMatchDetail = (
     }
   }
 
+  // 📦 2단계 계층 패키지 언패킹 (1차 하위 패키지 -> 2차 세부 기능)
   if (pkgDef) {
-    lines.push(`📦 패키지 세부 구성: ${pkgDef.items.slice(0, 6).join(', ')}${pkgDef.items.length > 6 ? ' 외' : ''}`);
+    if (pkgDef.subPackages && pkgDef.subPackages.length > 0) {
+      lines.push('📦 [2중 포장 패키지 통합 사양]');
+      pkgDef.subPackages.forEach((sp, idx) => {
+        const pStr = sp.price ? ` (${(sp.price / 10000).toLocaleString()}만)` : '';
+        lines.push(`  ${idx + 1}. ${sp.name}${pStr}`);
+        lines.push(`     • ${sp.items.join(', ')}`);
+      });
+    } else {
+      lines.push(`📦 패키지 세부 구성: ${pkgDef.items.slice(0, 6).join(', ')}${pkgDef.items.length > 6 ? ' 외' : ''}`);
+    }
   }
 
   lines.push('──────────────────────────────');
