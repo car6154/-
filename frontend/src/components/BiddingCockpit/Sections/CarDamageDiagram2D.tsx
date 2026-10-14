@@ -135,13 +135,13 @@ export const CarDamageDiagram2D: React.FC<CarDamageDiagram2DProps> = ({ selected
         </div>
       </div>
 
-      {/* Dual SVG Container (외판 + 주요골격 2개 나란히 배치) */}
-      <div className="p-3 bg-[#0b1120] rounded-xl border border-[#1e293b] flex flex-col gap-2.5">
-        <div className="flex justify-around items-center w-full gap-3">
+      {/* Dual SVG Container (외판 + 주요골격 아담하고 컴팩트하게 정렬) */}
+      <div className="p-2.5 bg-[#0b1120] rounded-xl border border-[#1e293b] flex flex-col gap-2">
+        <div className="flex justify-around items-center w-full gap-2">
           {/* Outer Panel SVG */}
           <div className="text-center flex-1">
-            <div className="text-xs font-bold text-zinc-400 mb-1">외판 (1랭크/2랭크)</div>
-            <svg viewBox="0 0 220 340" className="w-full max-w-[150px] mx-auto">
+            <div className="text-[11px] font-bold text-zinc-400 mb-0.5">외판 (1랭크/2랭크)</div>
+            <svg viewBox="0 0 220 340" className="w-full max-w-[125px] mx-auto">
               <rect x="15" y="10" width="190" height="320" rx="18" fill="#0f172a" stroke="#334155" strokeWidth="1.2" />
               {outerParts.map((p, i) => {
                 const fill = checkStatus(p);
@@ -160,8 +160,8 @@ export const CarDamageDiagram2D: React.FC<CarDamageDiagram2DProps> = ({ selected
 
           {/* Inner Structure SVG */}
           <div className="text-center flex-1">
-            <div className="text-xs font-bold text-zinc-400 mb-1">주요골격 (차체구조)</div>
-            <svg viewBox="0 0 220 340" className="w-full max-w-[150px] mx-auto">
+            <div className="text-[11px] font-bold text-zinc-400 mb-0.5">주요골격 (차체구조)</div>
+            <svg viewBox="0 0 220 340" className="w-full max-w-[125px] mx-auto">
               <rect x="15" y="10" width="190" height="320" rx="18" fill="#0f172a" stroke="#334155" strokeWidth="1.2" />
               {innerParts.map((p, i) => {
                 const fill = checkStatus(p);
