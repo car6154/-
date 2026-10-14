@@ -586,6 +586,15 @@ def search_encar_market(req: EncarSearchRequest):
         else:
             detail_model = req.detailModel or ""
 
+        print(f"\n==================================================", flush=True)
+        print(f"🔥 [엔카검색 요청 수신]", flush=True)
+        print(f"   carName = '{car_name}'", flush=True)
+        print(f"   gradeName = '{raw_g}'", flush=True)
+        print(f"   gradeDetailName = '{raw_gd}'", flush=True)
+        print(f"   req.detailModel = '{req.detailModel}'", flush=True)
+        print(f"   => 최종 결합 detail_model = '{detail_model}'", flush=True)
+        print(f"==================================================\n", flush=True)
+
         manufacturer = req.manufacturer or ""
         year_num = req.year or 0
         mileage_num = req.mileage if req.mileage is not None else 0
@@ -652,6 +661,7 @@ def search_encar_market(req: EncarSearchRequest):
 
         # 2. 세부모델/파생트림 엄격 정밀 필터링 (스페셜, 에디션, N Line 배제)
         df = DataProcessor.filter_strictly_by_submodel(df, target_car_name=car_name, target_sub_model=detail_model)
+        print(f"   => [필터링 결과] 최종 반환 매물: {len(df)}대 (target_sub_model='{detail_model}')\n", flush=True)
 
         # 3. 2번 정렬 기준 (가격 낮은순 -> 연식 최신순 -> 성능점검순)
         df = DataProcessor.sort_by_price_year_perf(df)
