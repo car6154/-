@@ -426,6 +426,8 @@ export function useBiddingCockpit({
       fetchEncarComparable({
         carName: carName || initialCarName,
         detailModel: detailModel,
+        gradeName: rawGradeNameRef.current,
+        gradeDetailName: rawGradeDetailNameRef.current,
         manufacturer: manufacturer,
         year: yearModel,
         mileage: mileageKm,
