@@ -37,6 +37,9 @@ export interface ChaolmaCarHistory {
     labor_cost: number;
     paint_cost: number;
     insurance_paid: number;
+    acc_type?: 'my' | 'other';
+    acc_type_label?: string;
+    repair_details?: string;
   }[];
   market_price_range?: string;
   first_reg_date?: string;

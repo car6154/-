@@ -541,7 +541,7 @@ class ChaolmaService:
                         except Exception:
                             pass
 
-            # 6. 내차피해 상세 이력
+            # 6. 내차피해/타차가해 상세 수리비 이력 분해
             accident_histories = []
             r502 = root.find("r502")
             if r502 is not None:
@@ -552,6 +552,23 @@ class ChaolmaService:
                     labor = e.find("r502-07")
                     paint = e.find("r502-08")
                     payout = e.find("r502-15")
+                    cat_code = e.find("r502-01")
+                    my_ins = e.find("r502-09")
+                    oth_ins = e.find("r502-10")
+                    oth_payout = e.find("r502-14")
+                    part_desc = e.find("r502-16")
+
+                    cat_val = cat_code.text.strip() if (cat_code is not None and cat_code.text) else ""
+                    my_ins_val = int(float(my_ins.text.strip())) if (my_ins is not None and my_ins.text) else 0
+                    oth_ins_val = int(float(oth_ins.text.strip())) if (oth_ins is not None and oth_ins.text) else 0
+                    oth_payout_val = int(float(oth_payout.text.strip())) if (oth_payout is not None and oth_payout.text) else 0
+                    repair_details = part_desc.text.strip() if (part_desc is not None and part_desc.text) else ""
+
+                    # 판정: r502-01이 '3'이거나, 상대보험 지급액이 있고 내차보험 지급액이 0인 경우 '타차가해'
+                    is_other = (cat_val == "3") or (oth_ins_val > 0 and my_ins_val == 0) or (oth_payout_val > 0 and my_ins_val == 0)
+                    acc_type = "other" if is_other else "my"
+                    acc_type_label = "타차가해" if is_other else "내차피해"
+
                     accident_histories.append({
                         "date": acc_date.text.strip() if (acc_date is not None and acc_date.text) else "",
                         "repair_cost": int(float(tot.text.strip())) if (tot is not None and tot.text) else 0,
@@ -559,6 +576,9 @@ class ChaolmaService:
                         "labor_cost": int(float(labor.text.strip())) if (labor is not None and labor.text) else 0,
                         "paint_cost": int(float(paint.text.strip())) if (paint is not None and paint.text) else 0,
                         "insurance_paid": int(float(payout.text.strip())) if (payout is not None and payout.text) else 0,
+                        "acc_type": acc_type,
+                        "acc_type_label": acc_type_label,
+                        "repair_details": repair_details,
                     })
 
             # 상세 이력 기반 fallback 보정 및 수리비 총액 산출
