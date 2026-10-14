@@ -1053,17 +1053,18 @@ if st.session_state.get('should_scroll_top'):
     st.session_state.should_scroll_top = False
 
 # 1. 차량번호 (필수) + 조회 버튼
-default_car_num = st.session_state.get(f"car_num_{reset_idx}", "")
+if f"car_num_{reset_idx}" not in st.session_state:
+    st.session_state[f"car_num_{reset_idx}"] = ""
 st.sidebar.markdown("<div style='font-size: 0.82rem; font-weight: 600; margin-bottom: 2px; color: #e2e3e9;'>차량번호 (필수)</div>", unsafe_allow_html=True)
 col_cnum, col_cbtn = st.sidebar.columns([3.0, 1.2])
 with col_cnum:
-    l_car_num = st.text_input(
+    raw_car_num = st.text_input(
         "차량번호 (필수)",
-        value=default_car_num,
         key=f"car_num_{reset_idx}",
         label_visibility="collapsed",
         placeholder="예: 12수1496"
-    ).replace(" ", "").strip()
+    )
+    l_car_num = (raw_car_num or "").replace(" ", "").strip()
 with col_cbtn:
     btn_fetch_chaolma = st.button("조회", key=f"btn_chaolma_{reset_idx}", use_container_width=True, help="차얼마 신차 출고가 & 순정옵션 조회")
 
