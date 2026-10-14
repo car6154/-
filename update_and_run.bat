@@ -13,10 +13,8 @@ taskkill /f /im node.exe > nul 2>&1
 taskkill /f /im streamlit.exe > nul 2>&1
 
 echo 2. GitHub 최신 코드 다운로드 중 (git pull)...
-git pull origin main
-if %errorlevel% neq 0 (
-    git pull
-)
+git fetch origin main
+git reset --hard origin/main
 
 echo.
 echo 3. 서버 재시작...
