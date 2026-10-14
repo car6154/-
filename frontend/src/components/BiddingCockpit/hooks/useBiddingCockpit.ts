@@ -44,7 +44,22 @@ export function useBiddingCockpit({
   const [expectedSellPrice, setExpectedSellPrice] = useState<number>(0);
   const [outerRepairCount, setOuterRepairCount] = useState<number>(0);
   const [auctionType, setAuctionType] = useState('셀프(기본)');
-  const [targetMargin, setTargetMargin] = useState<number>(150);
+  const [targetMargin, setTargetMargin] = useState<number>(() => {
+    try {
+      const saved = localStorage.getItem('jpro_target_margin');
+      if (saved !== null) {
+        const parsed = Number(saved);
+        if (!isNaN(parsed) && parsed >= 0) return parsed;
+      }
+    } catch (e) {}
+    return 150;
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('jpro_target_margin', String(targetMargin));
+    } catch (e) {}
+  }, [targetMargin]);
   const [memo, setMemo] = useState('');
   const [savedSuccess, setSavedSuccess] = useState(false);
 
@@ -1965,13 +1980,11 @@ export function useBiddingCockpit({
     return 0; // 개인 직접입력 등
   }, []);
 
-  const purchaseFeeCalculated = useMemo(() => {
-    return calcPurchaseFee(firstTarget, auctionType, isLightCar);
-  }, [calcPurchaseFee, firstTarget, auctionType, isLightCar]);
-
+  // 💡 [Streamlit 8501 views/tab_main.py:822 100% 동일] 안전 입찰 상한가 = max(0, b_ind - 180)
   const safeBidCeiling = useMemo(() => {
-    return Math.max(0, Math.floor(firstTarget - purchaseFeeCalculated));
-  }, [firstTarget, purchaseFeeCalculated]);
+    const basePrice = effectiveSellPrice > 0 ? effectiveSellPrice : aiRetailPrice;
+    return Math.max(0, Math.floor(basePrice - 180));
+  }, [effectiveSellPrice, aiRetailPrice]);
 
   // 사용자가 직접 수정한 입찰가 (기본값: safeBidCeiling)
   const [userBid, setUserBid] = useState<number>(safeBidCeiling);
