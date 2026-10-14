@@ -132,7 +132,8 @@ export const CookieSyncModal: React.FC<CookieSyncModalProps> = ({
       const res = await fetch('/api/auth/quick_login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ target })
+        body: JSON.stringify({ target }),
+        signal: AbortSignal.timeout(30000)
       });
       const data = await res.json();
       if (data.success) {
@@ -161,7 +162,7 @@ export const CookieSyncModal: React.FC<CookieSyncModalProps> = ({
     }
   };
 
-  // 계정 1회 저장
+  // 계정 1회 저장 (8초 타임아웃 및 무한 대기 원천 차단)
   const handleSaveCredentials = async () => {
     if (!credIdInput.trim() || !credPwInput.trim()) {
       alert('아이디와 비밀번호를 모두 입력해주세요.');
@@ -176,7 +177,8 @@ export const CookieSyncModal: React.FC<CookieSyncModalProps> = ({
           platform: activeCookieTab,
           userId: credIdInput.trim(),
           userPw: credPwInput.trim(),
-        })
+        }),
+        signal: AbortSignal.timeout(8000)
       });
       const data = await res.json();
       if (data.success) {
@@ -186,10 +188,10 @@ export const CookieSyncModal: React.FC<CookieSyncModalProps> = ({
         setShowCredModal(false);
         fetchCredentialStatus();
       } else {
-        alert(`저장 실패: ${data.message}`);
+        alert(`저장 실패: ${data.message || '서버 오류'}`);
       }
     } catch (e: any) {
-      alert(`오류 발생: ${e.message}`);
+      alert(`계정 저장 오류: ${e.message}`);
     } finally {
       setIsSavingCred(false);
     }

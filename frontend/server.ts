@@ -60,6 +60,47 @@ async function startServer() {
     }
   });
 
+  // 2-2. 자동 로그인 및 계정 관리 프록시 (Python 백엔드 8000 직결 & Node .env 직접 보관 폴백)
+  app.all('/api/auth/*', async (req, res) => {
+    try {
+      const targetUrl = `http://127.0.0.1:8000${req.originalUrl}`;
+      const pyRes = await fetch(targetUrl, {
+        method: req.method,
+        headers: { 'Content-Type': 'application/json' },
+        body: req.method !== 'GET' && req.method !== 'HEAD' ? JSON.stringify(req.body) : undefined,
+        signal: AbortSignal.timeout(35000)
+      });
+      const data = await pyRes.json();
+      return res.status(pyRes.status).json(data);
+    } catch (e: any) {
+      // 만약 계정 저장 요청인데 Python 8000 연결이 지연되면 Node에서 직접 .env에 저장 (0.01초 폴백)
+      if (req.path === '/api/auth/credentials' && req.method === 'POST') {
+        try {
+          const { platform, userId, userPw } = req.body || {};
+          const envPath = path.resolve(__dirname, '../.env');
+          const prefix = (platform || '').toLowerCase().includes('auto') ? 'AUTOPLUS' : 'HEYDEALER';
+          let content = fs.existsSync(envPath) ? fs.readFileSync(envPath, 'utf8') : '';
+          
+          const updateOrAppend = (key: string, val: string) => {
+            const regex = new RegExp(`^${key}=.*$`, 'm');
+            if (regex.test(content)) {
+              content = content.replace(regex, `${key}="${val}"`);
+            } else {
+              content += (content.endsWith('\n') || !content ? '' : '\n') + `${key}="${val}"\n`;
+            }
+          };
+          updateOrAppend(`${prefix}_ID`, (userId || '').trim());
+          updateOrAppend(`${prefix}_PW`, (userPw || '').trim());
+          fs.writeFileSync(envPath, content, 'utf8');
+          return res.json({ success: true, message: `${prefix} 계정 정보가 .env에 안전하게 저장되었습니다.` });
+        } catch (err: any) {
+          return res.status(500).json({ success: false, message: `계정 저장 실패: ${err.message}` });
+        }
+      }
+      return res.status(500).json({ success: false, message: `자동 로그인 프록시 실패: ${e.message}` });
+    }
+  });
+
   // 3. 헤이딜러 실제 차량 API 프록시 (Python Engine 연동 & Node 백업 프록시)
   app.get('/api/heydealer/car/:hashId', async (req, res) => {
     const { hashId } = req.params;
