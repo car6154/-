@@ -302,9 +302,11 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
                   </div>
                 </div>
               </div>
+            </div>
+          )}
 
-              {/* ⚡ AI 종합 비딩 전략 판정 브리핑 박스 (엔카 팔린매물 실거래 기반 간소화) */}
-              {biddingVerdict && (
+          {/* ⚡ AI 종합 비딩 전략 판정 브리핑 박스 (엔카 팔린매물 실거래 기반 간소화) */}
+          {biddingVerdict && (
                 <div className="bg-[#161722] border-2 border-amber-500/50 rounded-xl p-3.5 space-y-2.5 shadow-lg">
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <div className="flex items-center gap-2">
@@ -548,9 +550,6 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
                   자사 도매 실적은 현재 미보유(0건) 상태입니다.
                 </div>
               )}
-            </div>
-          )}
-
             </div>
           )}
 
