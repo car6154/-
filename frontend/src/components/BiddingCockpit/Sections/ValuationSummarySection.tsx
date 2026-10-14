@@ -455,40 +455,51 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
                 <span className="text-xs text-amber-300 font-medium">※ 실측 스냅샷 기반</span>
               </div>
               {encarSoldList.length > 0 ? (
-                <div className="overflow-x-auto max-h-64 overflow-y-auto border border-[#262833] rounded-xl">
+                <div className="overflow-x-auto max-h-72 overflow-y-auto border border-[#262833] rounded-xl">
                   <table className="w-full text-left text-xs sm:text-sm text-zinc-200">
                     <thead className="bg-[#14151b] text-xs text-zinc-400 sticky top-0 uppercase border-b border-[#262833]">
                       <tr>
-                        <th className="p-2.5">판매일자</th>
-                        <th className="p-2.5">차량번호</th>
-                        <th className="p-2.5">세부모델</th>
-                        <th className="p-2.5">연식</th>
+                        <th className="p-2.5">차량정보</th>
+                        <th className="p-2.5 text-center">연식(년/월)</th>
                         <th className="p-2.5 text-right">주행거리</th>
-                        <th className="p-2.5 text-right">매입가</th>
+                        <th className="p-2.5 text-center">판매구분</th>
                         <th className="p-2.5 text-right">소매 판매가</th>
-                        <th className="p-2.5 text-center">경과일수</th>
+                        <th className="p-2.5 text-right">판매일</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-[#232634] bg-[#0a0b0e]">
                       {encarSoldList.map((s) => (
                         <tr key={s.id} className="hover:bg-[#14151c] transition">
-                          <td className="p-2.5 text-xs text-zinc-400 font-mono">{s.soldDate || '-'}</td>
-                          <td className="p-2.5 text-xs text-sky-400 font-mono">
+                          <td className="p-2.5 text-white font-bold text-xs sm:text-sm">
                             {s.encarUrl ? (
-                              <a href={s.encarUrl} target="_blank" rel="noreferrer" className="hover:underline">
-                                {s.carId ? `ID:${s.carId}` : '-'}
+                              <a
+                                href={s.encarUrl}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="hover:text-blue-400 hover:underline inline-flex items-center gap-1.5"
+                                title="엔카 원본 상세페이지 보기"
+                              >
+                                <span>{s.carName || s.subModel || '차량정보 없음'}</span>
+                                <ExternalLink className="w-3 h-3 text-zinc-500 hover:text-blue-400 shrink-0 inline" />
                               </a>
                             ) : (
-                              s.carId ? `ID:${s.carId}` : '-'
+                              <span>{s.carName || s.subModel || '차량정보 없음'}</span>
                             )}
                           </td>
-                          <td className="p-2.5 text-white font-bold text-xs sm:text-sm">{s.subModel || s.carName || '-'}</td>
-                          <td className="p-2.5 text-xs text-blue-400 font-mono">{s.year ? `${s.year}년` : '-'}</td>
-                          <td className="p-2.5 text-right text-xs text-white font-mono">{s.mileage > 0 ? `${s.mileage.toLocaleString()}km` : '-'}</td>
-                          <td className="p-2.5 text-right text-xs text-zinc-500 font-mono">-</td>
-                          <td className="p-2.5 text-right font-bold text-emerald-400 font-mono">{s.finalPrice > 0 ? `${s.finalPrice.toLocaleString()}만` : '-'}</td>
-                          <td className="p-2.5 text-center text-xs font-mono">
-                            {s.daysTaken > 0 ? `${s.daysTaken}일` : '-'}
+                          <td className="p-2.5 text-center text-xs text-blue-400 font-mono">
+                            {s.year ? (s.year.includes('식') || s.year.includes('년') ? s.year : `${s.year}년`) : '-'}
+                          </td>
+                          <td className="p-2.5 text-right text-xs text-white font-mono">
+                            {s.mileage > 0 ? `${s.mileage.toLocaleString()}km` : '-'}
+                          </td>
+                          <td className="p-2.5 text-center text-xs text-zinc-400 font-mono">
+                            {s.saleType || '-'}
+                          </td>
+                          <td className="p-2.5 text-right font-bold text-emerald-400 font-mono">
+                            {s.finalPrice > 0 ? `${s.finalPrice.toLocaleString()}만` : '-'}
+                          </td>
+                          <td className="p-2.5 text-right text-xs text-zinc-400 font-mono">
+                            {s.soldDate || '-'}
                           </td>
                         </tr>
                       ))}
@@ -510,6 +521,47 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
                 <span>자사 소매 실적 DB 매물 (<strong className="text-emerald-400 font-bold">{matchedAutoplusList.length}대</strong>)</span>
                 <span className="text-xs text-zinc-400">엔카 광고 집행 순수 소매 완판 데이터</span>
               </div>
+
+              {/* 자사 DB 필터 조건 투명 공개 박스 */}
+              <div className="bg-[#12131b] border border-[#232634] rounded-xl p-3 text-xs space-y-2">
+                <div className="flex items-center justify-between text-zinc-300 border-b border-[#202230] pb-2">
+                  <div className="flex items-center gap-1.5 font-bold text-emerald-400">
+                    <span>🔍</span>
+                    <span>자사 원장(2,964건) 매칭 필터 기준</span>
+                  </div>
+                  <span className="text-[11px] text-zinc-400">
+                    매칭 결과: <strong className={matchedAutoplusList.length > 0 ? "text-emerald-400" : "text-amber-400"}>{matchedAutoplusList.length}대</strong>
+                  </span>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-zinc-300">
+                  <div className="bg-[#0b0c10] p-2 rounded-lg border border-[#1d202d]">
+                    <div className="text-[10px] text-zinc-500">조회 차종</div>
+                    <div className="font-bold text-white truncate" title={carName}>{carName || '-'}</div>
+                  </div>
+                  <div className="bg-[#0b0c10] p-2 rounded-lg border border-[#1d202d]">
+                    <div className="text-[10px] text-zinc-500">세부 모델/트림</div>
+                    <div className="font-bold text-emerald-400 truncate" title={detailModel}>{detailModel || '기본형 (전체)'}</div>
+                  </div>
+                  <div className="bg-[#0b0c10] p-2 rounded-lg border border-[#1d202d]">
+                    <div className="text-[10px] text-zinc-500">연식 대역 (±1년)</div>
+                    <div className="font-bold text-blue-400 font-mono">
+                      {yearModel ? `${Number(yearModel) - 1}년 ~ ${Number(yearModel) + 1}년` : '연식 전체'}
+                    </div>
+                  </div>
+                  <div className="bg-[#0b0c10] p-2 rounded-lg border border-[#1d202d]">
+                    <div className="text-[10px] text-zinc-500">매칭 판정</div>
+                    <div className="font-bold text-amber-300 truncate font-mono">
+                      {liveMarketStats?.matched_tier || (matchedAutoplusList.length > 0 ? '정밀 매칭' : '매칭 실적 없음')}
+                    </div>
+                  </div>
+                </div>
+                {liveMarketStats?.year_diff_note && (
+                  <div className="text-[11px] text-amber-300 bg-amber-500/10 p-2 rounded border border-amber-500/20">
+                    ℹ️ {liveMarketStats.year_diff_note}
+                  </div>
+                )}
+              </div>
+
               {matchedAutoplusList.length > 0 ? (
                 <div className="overflow-x-auto max-h-64 overflow-y-auto border border-[#262833] rounded-xl">
                   <table className="w-full text-left text-xs sm:text-sm text-zinc-200">
@@ -554,8 +606,20 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
                   </table>
                 </div>
               ) : (
-                <div className="p-4 text-center bg-[#0a0b0e] rounded-xl border border-[#262833] text-xs sm:text-sm text-amber-300 font-medium">
-                  자사 소매 실적은 현재 미보유(0건) 상태입니다.
+                <div className="p-4 text-center bg-[#0a0b0e] rounded-xl border border-[#262833] text-xs sm:text-sm space-y-1.5">
+                  <div className="text-amber-400 font-bold flex items-center justify-center gap-1.5">
+                    <span>⚠️</span>
+                    <span>자사 소매 실적 0건 (필터 조건 매칭 매물 없음)</span>
+                  </div>
+                  <div className="text-zinc-400 text-xs leading-relaxed max-w-lg mx-auto">
+                    자사 전체 정산 원장(2,964건) 중 차종 <strong className="text-zinc-200">[{carName}]</strong>, 
+                    세부모델 <strong className="text-zinc-200">[{detailModel || '기본형'}]</strong>, 
+                    연식 대역 <strong className="text-zinc-200">[{yearModel ? `${Number(yearModel) - 1}~${Number(yearModel) + 1}년` : '전체'}]</strong> 
+                    조건과 100% 일치하는 소매 완판 매물이 없습니다.
+                  </div>
+                  <div className="text-[11px] text-zinc-500 pt-1">
+                    💡 팁: 해당 세부모델의 과거 자사 소매 실적이 없으므로, 상단 <strong className="text-blue-400">엔카 팔린매물 ({encarSoldList.length}건)</strong>의 시장 실거래 시세를 표준으로 참고하세요.
+                  </div>
                 </div>
               )}
             </div>
@@ -568,6 +632,42 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
                 <span>자사 도매 실적 DB 매물 (<strong className="text-amber-400 font-bold">{matchedAuctionList.length}대</strong>)</span>
                 <span className="text-xs text-zinc-400">도매/경매 낙찰 출고 데이터 (도매 바닥 시세)</span>
               </div>
+
+              {/* 자사 도매 필터 조건 투명 공개 박스 */}
+              <div className="bg-[#12131b] border border-[#232634] rounded-xl p-3 text-xs space-y-2">
+                <div className="flex items-center justify-between text-zinc-300 border-b border-[#202230] pb-2">
+                  <div className="flex items-center gap-1.5 font-bold text-amber-400">
+                    <span>🔍</span>
+                    <span>자사 경매/도매 원장 매칭 필터 기준</span>
+                  </div>
+                  <span className="text-[11px] text-zinc-400">
+                    매칭 결과: <strong className={matchedAuctionList.length > 0 ? "text-emerald-400" : "text-amber-400"}>{matchedAuctionList.length}대</strong>
+                  </span>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-zinc-300">
+                  <div className="bg-[#0b0c10] p-2 rounded-lg border border-[#1d202d]">
+                    <div className="text-[10px] text-zinc-500">조회 차종</div>
+                    <div className="font-bold text-white truncate" title={carName}>{carName || '-'}</div>
+                  </div>
+                  <div className="bg-[#0b0c10] p-2 rounded-lg border border-[#1d202d]">
+                    <div className="text-[10px] text-zinc-500">세부 모델/트림</div>
+                    <div className="font-bold text-amber-400 truncate" title={detailModel}>{detailModel || '기본형 (전체)'}</div>
+                  </div>
+                  <div className="bg-[#0b0c10] p-2 rounded-lg border border-[#1d202d]">
+                    <div className="text-[10px] text-zinc-500">연식 대역 (±1년)</div>
+                    <div className="font-bold text-blue-400 font-mono">
+                      {yearModel ? `${Number(yearModel) - 1}년 ~ ${Number(yearModel) + 1}년` : '연식 전체'}
+                    </div>
+                  </div>
+                  <div className="bg-[#0b0c10] p-2 rounded-lg border border-[#1d202d]">
+                    <div className="text-[10px] text-zinc-500">매칭 판정</div>
+                    <div className="font-bold text-amber-300 truncate font-mono">
+                      {liveMarketStats?.matched_tier || (matchedAuctionList.length > 0 ? '정밀 매칭' : '매칭 실적 없음')}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               {matchedAuctionList.length > 0 ? (
                 <div className="overflow-x-auto max-h-64 overflow-y-auto border border-[#262833] rounded-xl">
                   <table className="w-full text-left text-xs sm:text-sm text-zinc-200">
@@ -612,8 +712,17 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
                   </table>
                 </div>
               ) : (
-                <div className="p-4 text-center bg-[#0a0b0e] rounded-xl border border-[#262833] text-xs sm:text-sm text-amber-300 font-medium">
-                  자사 도매 실적은 현재 미보유(0건) 상태입니다.
+                <div className="p-4 text-center bg-[#0a0b0e] rounded-xl border border-[#262833] text-xs sm:text-sm space-y-1.5">
+                  <div className="text-amber-400 font-bold flex items-center justify-center gap-1.5">
+                    <span>⚠️</span>
+                    <span>자사 도매 실적 0건 (필터 조건 매칭 매물 없음)</span>
+                  </div>
+                  <div className="text-zinc-400 text-xs leading-relaxed max-w-lg mx-auto">
+                    자사 경매/도매 원장 중 차종 <strong className="text-zinc-200">[{carName}]</strong>, 
+                    세부모델 <strong className="text-zinc-200">[{detailModel || '기본형'}]</strong>, 
+                    연식 대역 <strong className="text-zinc-200">[{yearModel ? `${Number(yearModel) - 1}~${Number(yearModel) + 1}년` : '전체'}]</strong> 
+                    조건의 출고 이력이 없습니다.
+                  </div>
                 </div>
               )}
             </div>

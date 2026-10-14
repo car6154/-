@@ -47,6 +47,7 @@ export interface EncarSoldItem {
   soldDate: string;
   accident: string;
   encarUrl?: string;
+  saleType?: string;
 }
 
 export interface EncarSoldStats {

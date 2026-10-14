@@ -1683,18 +1683,20 @@ export function useBiddingCockpit({
         const directUrl = c.encarUrl || (cleanId ? `https://fem.encar.com/cars/detail/${cleanId}` : '');
         const milNum = Number(c.mileage || c.km_num || 0);
         const pNum = Number(c.price || c.finalPrice || c.soldPrice || 0);
+        const fullCarName = c.name || c.carName || `${carName} ${detailModel}`.trim();
         return {
           id: cleanId ? `enc-sold-${cleanId}` : `es-${idx}`,
           carId: cleanId,
-          carName: c.name || c.carName || carName,
-          subModel: c.subModel || c.badge || detailModel,
+          carName: fullCarName,
+          subModel: c.subModel || c.badge || '',
           year: String(c.year || yearModel),
           mileage: milNum,
           finalPrice: pNum,
           daysTaken: Number(c.holding_days || c.daysTaken || 0),
           soldDate: String(c.sold_date || c.soldDate || liveEncarSoldStats.latest_sold_date || '-'),
           accident: String(c.accident || c.accidentType || '미확인'),
-          encarUrl: directUrl
+          encarUrl: directUrl,
+          saleType: c.saleType || c.category || c.badge || '-'
         };
       });
     }
