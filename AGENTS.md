@@ -17,6 +17,12 @@
 # 프로젝트 맥락
 - 백엔드 및 데이터 파이프라인: Python (FastAPI + Streamlit: `app.py`, `services/*`).
 - 프론트엔드: React (Vite + TypeScript: `frontend/src/*`, `BiddingCockpitTab.tsx` 등).
+- **실행 환경 및 머신 구분 (매우 중요)**:
+  - **개발용 메인 PC**: `C:\Users\car61\Desktop\제이프로젝트` (코드 편집, Git 커밋/푸시 전용)
+  - **실제 서버 구동 머신 (jpro 노트북)**:
+    - 호스트명: `jpro` (Tailscale IP: `100.95.238.123`)
+    - **프로젝트 실제 경로**: `C:\jpro` (절대 `Desktop\제이프로젝트`가 아님!)
+    - 서버 갱신/실행 명령어 안내 시 반드시 `cd /d C:\jpro && ...` 형태로 제공한다.
 - 서비스 로직 기준 파일: `services/encar_service.py`, `services/sold_out_tracker.py`, `services/data_processor.py` 등.
 - `chrome_extension/`은 별도 크롬 확장이며 쿠키 수집 등에 쓰인다. 요청 없이 수정하지 않는다.
 - 시세 산출 기준(감가율, 이상치, 비교군)은 사용자가 정한 규칙만 적용하고 임의 추정하지 않는다.
