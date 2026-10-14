@@ -87,7 +87,7 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
 }) => {
   const [internalShowTrim, setInternalShowTrim] = useState<boolean>(false);
   const showTrimColumn = externalShowTrimColumn !== undefined ? externalShowTrimColumn : internalShowTrim;
-  const [sortOption, setSortOption] = useState<EncarSortOption>('price_asc');
+  const [sortOption, setSortOption] = useState<EncarSortOption>('complex');
 
   const sortedEncarList = useMemo(() => {
     if (!encarList || encarList.length === 0) return [];

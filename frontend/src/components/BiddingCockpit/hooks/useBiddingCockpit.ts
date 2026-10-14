@@ -185,9 +185,11 @@ export function useBiddingCockpit({
   const [isEncarLoading, setIsEncarLoading] = useState<boolean>(false);
   const [encarErrorMessage, setEncarErrorMessage] = useState<string>('');
   const [encarSourceUrl, setEncarSourceUrl] = useState<string>('');
-  const [showTrimColumn, setShowTrimColumn] = useState<boolean>(true);
+  const [showTrimColumn, setShowTrimColumn] = useState<boolean>(false);
   const activeRequestIdRef = useRef<number>(0);
   const skipAutoFetchRef = useRef<boolean>(false);
+  const rawGradeNameRef = useRef<string>('');
+  const rawGradeDetailNameRef = useRef<string>('');
 
   // 선택된 엔카 매물 및 실시간 성능점검표 연동 상태 (상단 호이스팅)
   const [selectedEncarId, setSelectedEncarId] = useState<string>('');
@@ -241,6 +243,8 @@ export function useBiddingCockpit({
       setDetailModel('');
       setYearModel(0);
       setMileageKm(0);
+      rawGradeNameRef.current = '';
+      rawGradeDetailNameRef.current = '';
     }
   }, []);
 
@@ -274,6 +278,8 @@ export function useBiddingCockpit({
     url?: string;
     carName?: string;
     detailModel?: string;
+    gradeName?: string;
+    gradeDetailName?: string;
     manufacturer?: string;
     year?: number;
     mileage?: number;
@@ -293,6 +299,8 @@ export function useBiddingCockpit({
     try {
       const targetCarNumber = options.carNumber !== undefined ? options.carNumber : (carNumber || '');
       const targetDetail = options.detailModel !== undefined ? options.detailModel : detailModel;
+      const targetGradeName = options.gradeName !== undefined ? options.gradeName : rawGradeNameRef.current;
+      const targetGradeDetail = options.gradeDetailName !== undefined ? options.gradeDetailName : rawGradeDetailNameRef.current;
       const targetMaker = options.manufacturer || manufacturer;
       const targetYr = options.year !== undefined ? options.year : yearModel;
       const targetMil = options.mileage !== undefined ? options.mileage : mileageKm;
@@ -306,6 +314,8 @@ export function useBiddingCockpit({
           url: options.url || '',
           carName: targetCarName,
           detailModel: targetDetail,
+          gradeName: targetGradeName,
+          gradeDetailName: targetGradeDetail,
           manufacturer: targetMaker,
           year: targetYr,
           mileage: targetMil,
@@ -627,6 +637,10 @@ export function useBiddingCockpit({
         if (resolvedCarName) setCarName(resolvedCarName);
         const rawG = String(res.grade_name || '');
         const rawGd = String(res.grade_detail_name || '');
+        rawGradeNameRef.current = rawG;
+        rawGradeDetailNameRef.current = rawGd;
+
+        // 화면 표시용 결합은 기존 방식 유지
         const seatingMatch = rawG.match(/(\d+인승)/);
         let resolvedGrade = rawGd || rawG || '';
         if (seatingMatch && !resolvedGrade.includes(seatingMatch[1])) {
@@ -699,10 +713,12 @@ export function useBiddingCockpit({
           });
         }
 
-        // 엔카 전수 매물 자동 수집 연동
+        // 엔카 전수 매물 자동 수집 연동 (차얼마 원본 grade_name, grade_detail_name을 백엔드로 가공 없이 그대로 전달)
         const encarItems = await fetchEncarComparable({
           carName: resolvedCarName || carName,
           detailModel: resolvedGrade || detailModel,
+          gradeName: rawG,
+          gradeDetailName: rawGd,
           manufacturer: res.maker || manufacturer,
           year: yr,
           mileage: mileageKm,
@@ -926,6 +942,8 @@ export function useBiddingCockpit({
           try {
             const chRes = await queryChaolmaCar(cNo, rawMil || 50000);
             if (chRes && chRes.success) {
+              if (chRes.grade_name) rawGradeNameRef.current = String(chRes.grade_name);
+              if (chRes.grade_detail_name) rawGradeDetailNameRef.current = String(chRes.grade_detail_name);
               const rawNewP = chRes.new_car_price || 0;
               const stdP = rawNewP > 10000 ? Math.round(rawNewP / 10000) : rawNewP;
               const rawBaseP = chRes.base_car_price || 0;

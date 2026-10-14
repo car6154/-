@@ -560,6 +560,8 @@ class EncarSearchRequest(BaseModel):
     url: Optional[str] = ""
     carName: Optional[str] = ""
     detailModel: Optional[str] = ""
+    gradeName: Optional[str] = ""
+    gradeDetailName: Optional[str] = ""
     manufacturer: Optional[str] = ""
     year: Optional[int] = 0
     mileage: Optional[int] = 0
@@ -572,7 +574,18 @@ class EncarSearchRequest(BaseModel):
 def search_encar_market(req: EncarSearchRequest):
     try:
         car_name = req.carName or ""
-        detail_model = req.detailModel or ""
+        raw_g = (req.gradeName or "").strip()
+        raw_gd = (req.gradeDetailName or "").strip()
+
+        # 등급 결합 (단일 진실 공급원: 백엔드가 조립, dedup 필수, 누락 시 기존 detailModel 폴백)
+        if raw_g:
+            if raw_gd and raw_gd not in raw_g:
+                detail_model = f"{raw_g} {raw_gd}".strip()
+            else:
+                detail_model = raw_g
+        else:
+            detail_model = req.detailModel or ""
+
         manufacturer = req.manufacturer or ""
         year_num = req.year or 0
         mileage_num = req.mileage if req.mileage is not None else 0
