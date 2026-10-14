@@ -128,9 +128,10 @@ class AutoplusSyncService:
             "platform": "all"
         }
         resp = requests.post(url, headers=headers, json=param, timeout=30)
-        if resp.status_code != 200:
-            raise RuntimeError(f"HTTP {resp.status_code}: 판매중 차량 조회 실패")
-        data = resp.json()
+        try:
+            data = resp.json()
+        except Exception:
+            raise RuntimeError("오토플러스 로그인 세션이 만료되었습니다. 쿠키를 갱신해 주세요.")
         excel_data = data.get("excel_data", [])
         rows = []
         for d in excel_data:
@@ -187,9 +188,10 @@ class AutoplusSyncService:
             "date02": today.strftime("%Y-%m-%d")
         }
         resp = requests.post(url, headers=headers, json=param, timeout=40)
-        if resp.status_code != 200:
-            raise RuntimeError(f"HTTP {resp.status_code}: 판매완료 차량 조회 실패")
-        data = resp.json()
+        try:
+            data = resp.json()
+        except Exception:
+            raise RuntimeError("오토플러스 로그인 세션이 만료되었습니다. 쿠키를 갱신해 주세요.")
         excel_data = data.get("excel_data", [])
         rows = []
         for d in excel_data:
