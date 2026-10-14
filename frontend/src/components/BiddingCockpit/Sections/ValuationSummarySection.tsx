@@ -161,59 +161,59 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
           {/* 🎯 핵심 3대 지표 카드: [AI 권장 입찰 상한가] | [예상 소매 판매가] | [목표 기대 마진] */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {/* 1. 권장 입찰 상한가 */}
-            <div className="bg-gradient-to-br from-[#0c1a14] to-[#12241b] border-2 border-emerald-500/60 rounded-xl p-3.5 shadow-md flex items-center justify-between">
-              <div>
-                <div className="text-[11px] font-bold text-emerald-400/90 flex items-center gap-1">
-                  <span>🎯</span>
+            <div className="bg-gradient-to-br from-[#0c1a14] via-[#102119] to-[#0e1c15] border border-emerald-500/50 rounded-xl p-3.5 shadow-md flex items-center justify-between">
+              <div className="space-y-0.5">
+                <div className="text-[11px] font-bold text-emerald-400 flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                   <span>AI 권장 입찰 상한가</span>
                 </div>
-                <div className="text-xl sm:text-2xl font-black text-emerald-400 font-mono tracking-tight pt-1">
+                <div className="text-xl sm:text-2xl font-black text-emerald-400 font-mono tracking-tight">
                   {safeBidCeiling > 0 ? `${safeBidCeiling.toLocaleString()}만원` : '-'}
                 </div>
-                <div className="text-[10px] text-zinc-400 font-medium pt-0.5">
+                <div className="text-[11px] text-zinc-400 font-medium">
                   안전마진 및 부대비용 반영 권장가
                 </div>
               </div>
-              <div className="w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-xl shrink-0">
+              <div className="w-11 h-11 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-xl shrink-0 shadow-inner">
                 🛡️
               </div>
             </div>
 
             {/* 2. 예상 소매 판매가 */}
-            <div className="bg-gradient-to-br from-[#0e1626] to-[#141f36] border border-sky-500/50 rounded-xl p-3.5 shadow-md flex items-center justify-between">
-              <div>
-                <div className="text-[11px] font-bold text-sky-400/90 flex items-center gap-1">
-                  <span>🏷️</span>
+            <div className="bg-gradient-to-br from-[#0e1726] via-[#121f33] to-[#0f192b] border border-sky-500/50 rounded-xl p-3.5 shadow-md flex items-center justify-between">
+              <div className="space-y-0.5">
+                <div className="text-[11px] font-bold text-sky-400 flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-sky-400" />
                   <span>예상 소매 판매가</span>
                 </div>
-                <div className="text-xl sm:text-2xl font-black text-sky-300 font-mono tracking-tight pt-1">
+                <div className="text-xl sm:text-2xl font-black text-sky-300 font-mono tracking-tight">
                   {(effectiveSellPrice || expectedSellPrice) > 0 ? `${(effectiveSellPrice || expectedSellPrice).toLocaleString()}만원` : '-'}
                 </div>
-                <div className="text-[10px] text-zinc-400 font-medium pt-0.5">
+                <div className="text-[11px] text-zinc-400 font-medium">
                   엔카 동급 매물 및 자사 실거래 기준
                 </div>
               </div>
-              <div className="w-10 h-10 rounded-xl bg-sky-500/20 border border-sky-500/40 flex items-center justify-center text-xl shrink-0">
-                🚗
+              <div className="w-11 h-11 rounded-xl bg-sky-500/15 border border-sky-500/30 flex items-center justify-center text-xl shrink-0 shadow-inner">
+                🏷️
               </div>
             </div>
 
             {/* 3. 목표 기대 마진 */}
-            <div className="bg-gradient-to-br from-[#1f160e] to-[#2d1f14] border border-amber-500/50 rounded-xl p-3.5 shadow-md flex items-center justify-between">
-              <div>
-                <div className="text-[11px] font-bold text-amber-400/90 flex items-center gap-1">
-                  <span>💰</span>
+            <div className="bg-gradient-to-br from-[#1c140c] via-[#241a10] to-[#1e150d] border border-amber-500/50 rounded-xl p-3.5 shadow-md flex items-center justify-between">
+              <div className="space-y-0.5">
+                <div className="text-[11px] font-bold text-amber-400 flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
                   <span>목표 기대 순마진</span>
                 </div>
-                <div className="text-xl sm:text-2xl font-black text-amber-400 font-mono tracking-tight pt-1">
+                <div className="text-xl sm:text-2xl font-black text-amber-400 font-mono tracking-tight">
                   {targetMargin > 0 ? `+${targetMargin.toLocaleString()}만원` : '-'}
                 </div>
-                <div className="text-[10px] text-zinc-400 font-medium pt-0.5">
-                  수수료({purchaseFeeCalculated || 0}만)·수리비({repairCostTotal || 0}만) 반영 후
+                <div className="text-[11px] text-zinc-400 font-medium">
+                  수수료({purchaseFeeCalculated || 0}만)·수리비({repairCostTotal || 0}만) 차감 후
                 </div>
               </div>
-              <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-xl shrink-0">
-                📈
+              <div className="w-11 h-11 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-xl shrink-0 shadow-inner">
+                💰
               </div>
             </div>
           </div>
@@ -320,44 +320,49 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
                 </span>
               </div>
 
-              {/* 4대 핵심 KPI 카드 (Streamlit 8501 완벽 일치 컴팩트 카드) */}
+              {/* 4대 핵심 KPI 카드 (통일된 디자인 시스템 & 줄바꿈 깨짐 완전 방지) */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-                <div className="bg-[#121319] border border-[#262835] rounded-xl p-3 flex items-center gap-3 shadow-sm">
+                <div className="bg-[#121319] border border-[#262835] rounded-xl p-3 flex items-center gap-3 shadow-sm min-h-[68px]">
                   <div className="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-center text-lg shrink-0">⏱️</div>
-                  <div>
-                    <div className="text-[11px] text-slate-400 font-medium">평균 판매기일</div>
-                    <div className="text-base sm:text-lg font-bold" style={{ color: liveMarketStats.turnover_color || '#4ade80' }}>
-                      {liveMarketStats.avg_days || 0}일 <span className="text-xs text-slate-400 font-normal">({liveMarketStats.turnover_grade || '정상 회전'})</span>
+                  <div className="min-w-0 flex-1">
+                    <div className="text-[11px] text-zinc-400 font-medium">평균 판매소요</div>
+                    <div className="flex items-baseline gap-1.5 flex-wrap">
+                      <span className="text-base sm:text-lg font-bold font-mono text-emerald-400">
+                        {liveMarketStats.avg_days || 0}일
+                      </span>
+                      <span className="text-[10px] px-1.5 py-0.2 rounded bg-zinc-800 text-zinc-300 font-medium truncate max-w-[90px]" title={liveMarketStats.turnover_grade || '정상 유통'}>
+                        {liveMarketStats.turnover_grade ? String(liveMarketStats.turnover_grade).split('(')[0].trim() : '정상 회전'}
+                      </span>
                     </div>
                   </div>
                 </div>
 
-                <div className="bg-[#121319] border border-[#262835] rounded-xl p-3 flex items-center gap-3 shadow-sm">
+                <div className="bg-[#121319] border border-[#262835] rounded-xl p-3 flex items-center gap-3 shadow-sm min-h-[68px]">
                   <div className="w-9 h-9 rounded-lg bg-slate-800/60 border border-slate-700/50 flex items-center justify-center text-lg shrink-0">🏷️</div>
-                  <div>
-                    <div className="text-[11px] text-slate-400 font-medium">과거 평균 판매가</div>
+                  <div className="min-w-0 flex-1">
+                    <div className="text-[11px] text-zinc-400 font-medium">과거 평균 판매가</div>
                     <div className="text-base sm:text-lg font-bold text-slate-100 font-mono">
                       {Number(liveMarketStats.avg_sell_price || 0).toLocaleString()}만원
                     </div>
                   </div>
                 </div>
 
-                <div className="bg-[#121319] border border-[#262835] rounded-xl p-3 flex items-center gap-3 shadow-sm">
+                <div className="bg-[#121319] border border-[#262835] rounded-xl p-3 flex items-center gap-3 shadow-sm min-h-[68px]">
                   <div className="w-9 h-9 rounded-lg bg-slate-800/60 border border-slate-700/50 flex items-center justify-center text-lg shrink-0">🛣️</div>
-                  <div>
-                    <div className="text-[11px] text-slate-400 font-medium">완판 평균 주행거리</div>
-                    <div className="text-base sm:text-lg font-bold text-slate-300 font-mono">
+                  <div className="min-w-0 flex-1">
+                    <div className="text-[11px] text-zinc-400 font-medium">완판 평균 주행거리</div>
+                    <div className="text-base sm:text-lg font-bold text-slate-200 font-mono">
                       {Number(liveMarketStats.avg_mileage || 0).toLocaleString()}km
                     </div>
                   </div>
                 </div>
 
-                <div className="bg-[#121319] border border-[#262835] rounded-xl p-3 flex items-center gap-3 shadow-sm">
+                <div className="bg-[#121319] border border-[#262835] rounded-xl p-3 flex items-center gap-3 shadow-sm min-h-[68px]">
                   <div className="w-9 h-9 rounded-lg bg-amber-500/10 border border-amber-500/25 flex items-center justify-center text-lg shrink-0">💰</div>
-                  <div>
-                    <div className="text-[11px] text-slate-400 font-medium">과거 평균 실현마진</div>
-                    <div className="text-base sm:text-lg font-bold text-[#cc9166] font-mono">
-                      +{Number(liveMarketStats.avg_profit || 0).toLocaleString()}만원 <span className="text-xs text-slate-400 font-normal">({liveMarketStats.profit_rate || 0}%)</span>
+                  <div className="min-w-0 flex-1">
+                    <div className="text-[11px] text-zinc-400 font-medium">과거 평균 실현마진</div>
+                    <div className="text-base sm:text-lg font-bold text-amber-300 font-mono">
+                      +{Number(liveMarketStats.avg_profit || 0).toLocaleString()}만원 <span className="text-[11px] text-zinc-400 font-normal">({liveMarketStats.profit_rate || 0}%)</span>
                     </div>
                   </div>
                 </div>
@@ -365,48 +370,47 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
             </div>
           )}
 
-          {/* ⚡ AI 종합 비딩 전략 판정 브리핑 박스 (엔카 팔린매물 실거래 기반 간소화) */}
+          {/* ⚡ AI 종합 비딩 전략 판정 브리핑 박스 */}
           {biddingVerdict && (
-                <div className="bg-[#161722] border-2 border-amber-500/50 rounded-xl p-3.5 space-y-2.5 shadow-lg">
-                  <div className="flex flex-wrap items-center justify-between gap-2">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs sm:text-sm font-black text-amber-300 flex items-center gap-1.5">
-                        <Zap className="w-4 h-4 text-amber-400" />
-                        <span>⚡ AI 비딩 전략 브리핑</span>
-                      </span>
-                      <span className="px-2.5 py-0.5 rounded-full text-xs font-bold" style={{ backgroundColor: `${biddingVerdict.badgeColor}25`, color: biddingVerdict.badgeColor, border: `1px solid ${biddingVerdict.badgeColor}` }}>
-                        {biddingVerdict.badge}
-                      </span>
-                    </div>
+            <div className="bg-[#141722] border border-amber-500/40 rounded-xl p-3.5 space-y-2.5 shadow-md">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div className="flex items-center gap-2">
+                  <span className="text-xs sm:text-sm font-black text-amber-300 flex items-center gap-1.5">
+                    <Zap className="w-4 h-4 text-amber-400" />
+                    <span>AI 비딩 전략 브리핑</span>
+                  </span>
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-bold" style={{ backgroundColor: `${biddingVerdict.badgeColor}25`, color: biddingVerdict.badgeColor, border: `1px solid ${biddingVerdict.badgeColor}` }}>
+                    {biddingVerdict.badge}
+                  </span>
+                </div>
+              </div>
 
-                  </div>
-
-                  {/* 엔카 완판 핵심 팩트 칩 3종 */}
-                  {liveEncarSoldStats && liveEncarSoldStats.has_data && (
-                    <div className="flex flex-wrap items-center gap-1.5 text-xs pt-0.5">
-                      <span className="px-2.5 py-1 rounded bg-[#1e212b] border border-[#2a2d3d] text-zinc-200">
-                        🔥 <strong>최근 30일 완판: {liveEncarSoldStats.count_30d}대</strong> (일평균 {liveEncarSoldStats.daily_rate}대 출고)
-                      </span>
-                      {Number(liveEncarSoldStats.sold_avg_price || 0) > 0 && (
-                        <span className="px-2.5 py-1 rounded bg-[#1e212b] border border-[#2a2d3d] text-zinc-200">
-                          🏷️ 완판 평균가: <strong className="text-amber-300 font-mono">{Number(liveEncarSoldStats.sold_avg_price).toLocaleString()}만원</strong>
-                        </span>
-                      )}
-                      <span className="px-2.5 py-1 rounded bg-[#1e212b] border border-[#2a2d3d] text-zinc-200">
-                        ⏱️ 평균 완판소요: <strong className="text-emerald-400 font-mono">{liveEncarSoldStats.sold_avg_days || 28}일</strong>
-                      </span>
-                    </div>
+              {/* 엔카 완판 핵심 팩트 칩 3종 */}
+              {liveEncarSoldStats && liveEncarSoldStats.has_data && (
+                <div className="flex flex-wrap items-center gap-2 text-xs pt-0.5">
+                  <span className="px-2.5 py-1 rounded-lg bg-[#1a1d2b] border border-[#2b3044] text-zinc-200">
+                    🔥 <strong>최근 30일 완판: {liveEncarSoldStats.count_30d}대</strong> (일평균 {liveEncarSoldStats.daily_rate}대 출고)
+                  </span>
+                  {Number(liveEncarSoldStats.sold_avg_price || 0) > 0 && (
+                    <span className="px-2.5 py-1 rounded-lg bg-[#1a1d2b] border border-[#2b3044] text-zinc-200">
+                      🏷️ 완판 평균가: <strong className="text-amber-300 font-mono">{Number(liveEncarSoldStats.sold_avg_price).toLocaleString()}만원</strong>
+                    </span>
                   )}
-
-                  <div className="text-xs sm:text-sm text-slate-200 space-y-1 leading-relaxed pt-0.5">
-                    <p dangerouslySetInnerHTML={{ __html: biddingVerdict.mainText }} />
-                    <p className="text-amber-300 font-bold flex items-center gap-1">
-                      <span>👉</span>
-                      <span>{biddingVerdict.recommendation}</span>
-                    </p>
-                  </div>
+                  <span className="px-2.5 py-1 rounded-lg bg-[#1a1d2b] border border-[#2b3044] text-zinc-200">
+                    ⏱️ 평균 완판소요: <strong className="text-emerald-400 font-mono">{liveEncarSoldStats.sold_avg_days || 28}일</strong>
+                  </span>
                 </div>
               )}
+
+              <div className="text-xs sm:text-sm text-slate-200 space-y-1.5 leading-relaxed pt-0.5">
+                <p dangerouslySetInnerHTML={{ __html: biddingVerdict.mainText }} />
+                <p className="text-amber-300 font-bold flex items-center gap-1.5 pt-0.5">
+                  <span>👉</span>
+                  <span>{biddingVerdict.recommendation}</span>
+                </p>
+              </div>
+            </div>
+          )}
 
               {/* Sub Navigation Bar for Data Transparency (3개 서브탭) */}
               <div className="flex items-center gap-2 overflow-x-auto scrollbar-none text-xs pt-1 border-t border-[#232634]">
@@ -748,45 +752,45 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
               )}
             </div>
 
-            {/* 4 Metrics Bar */}
+            {/* 4 Metrics Bar - 상단 자사 카드와 100% 동일한 디자인 시스템 적용 */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-              <div className="bg-[#14151b] border border-[#262833] rounded-xl p-3 flex items-center gap-3">
-                <div className="w-9 h-9 rounded-lg bg-blue-500/15 flex items-center justify-center text-lg shrink-0">🚙</div>
-                <div className="overflow-hidden">
+              <div className="bg-[#121319] border border-[#262835] rounded-xl p-3 flex items-center gap-3 shadow-sm min-h-[66px]">
+                <div className="w-9 h-9 rounded-lg bg-blue-500/10 border border-blue-500/25 flex items-center justify-center text-lg shrink-0">🚙</div>
+                <div className="min-w-0 flex-1">
                   <div className="text-[11px] text-zinc-400 font-medium">총 매물 수</div>
-                  <div className="text-base sm:text-lg font-black text-white font-mono">{encarStats.count || encarList.length} 대</div>
+                  <div className="text-base sm:text-lg font-bold text-white font-mono">{encarStats.count || encarList.length}대</div>
                 </div>
               </div>
-              <div className="bg-[#14151b] border border-[#262833] rounded-xl p-3 flex items-center gap-3">
-                <div className="w-9 h-9 rounded-lg bg-emerald-500/15 flex items-center justify-center text-lg shrink-0">⬇️</div>
-                <div className="overflow-hidden">
+              <div className="bg-[#121319] border border-[#262835] rounded-xl p-3 flex items-center gap-3 shadow-sm min-h-[66px]">
+                <div className="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-center text-lg shrink-0">⬇️</div>
+                <div className="min-w-0 flex-1">
                   <div className="text-[11px] text-zinc-400 font-medium">최저가</div>
-                  <div className="text-base sm:text-lg font-black text-zinc-200 font-mono">
-                    {encarStats.min > 0 ? encarStats.min.toLocaleString() : '-'} <span className="text-xs text-zinc-400 font-normal">만원 ⬇️</span>
+                  <div className="text-base sm:text-lg font-bold text-emerald-400 font-mono">
+                    {encarStats.min > 0 ? `${encarStats.min.toLocaleString()}만원` : '-'}
                   </div>
                 </div>
               </div>
-              <div className="bg-[#14151b] border border-[#262833] rounded-xl p-3 flex items-center gap-3">
-                <div className="w-9 h-9 rounded-lg bg-rose-500/15 flex items-center justify-center text-lg shrink-0">⬆️</div>
-                <div className="overflow-hidden">
+              <div className="bg-[#121319] border border-[#262835] rounded-xl p-3 flex items-center gap-3 shadow-sm min-h-[66px]">
+                <div className="w-9 h-9 rounded-lg bg-rose-500/10 border border-rose-500/25 flex items-center justify-center text-lg shrink-0">⬆️</div>
+                <div className="min-w-0 flex-1">
                   <div className="text-[11px] text-zinc-400 font-medium">최고가</div>
-                  <div className="text-base sm:text-lg font-black text-zinc-100 font-mono">
-                    {encarStats.max > 0 ? encarStats.max.toLocaleString() : '-'} <span className="text-xs text-zinc-400 font-normal">만원 ⬆️</span>
+                  <div className="text-base sm:text-lg font-bold text-rose-400 font-mono">
+                    {encarStats.max > 0 ? `${encarStats.max.toLocaleString()}만원` : '-'}
                   </div>
                 </div>
               </div>
-              <div className="bg-[#14151b] border border-[#262833] rounded-xl p-3 flex items-center gap-3">
-                <div className="w-9 h-9 rounded-lg bg-amber-500/15 flex items-center justify-center text-lg shrink-0">📊</div>
-                <div className="overflow-hidden">
+              <div className="bg-[#121319] border border-[#262835] rounded-xl p-3 flex items-center gap-3 shadow-sm min-h-[66px]">
+                <div className="w-9 h-9 rounded-lg bg-amber-500/10 border border-amber-500/25 flex items-center justify-center text-lg shrink-0">📊</div>
+                <div className="min-w-0 flex-1">
                   <div className="text-[11px] text-zinc-400 font-medium">평균가</div>
-                  <div className="text-base sm:text-lg font-black text-[#cc9166] font-mono">
-                    {encarStats.avg > 0 ? encarStats.avg.toLocaleString() : '-'} <span className="text-xs text-zinc-400 font-normal">만원</span>
+                  <div className="text-base sm:text-lg font-bold text-amber-300 font-mono">
+                    {encarStats.avg > 0 ? `${encarStats.avg.toLocaleString()}만원` : '-'}
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* 📋 [2] 실시간 소매 시세 & 빅데이터 밸류에이션 2분할 카드 (Streamlit 8501 완벽 일치) */}
+            {/* 📋 [2] 실시간 소매 시세 & 빅데이터 밸류에이션 2분할 카드 */}
             {(() => {
               const marketAvg = encarStats.avg > 0 
                 ? encarStats.avg 
@@ -807,20 +811,19 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
               const valScore = (encarValuation?.score && encarValuation.score >= 50 && encarValuation.score <= 150) ? encarValuation.score : 100.0;
               const gapVal = marketAvg - retailPrice;
               const gapPct = retailPrice > 0 ? ((gapVal / retailPrice) * 100).toFixed(1) : '0.0';
-              const safeLimit = Math.max(0, retailPrice - targetMargin - 68);
               const optCount = optionsTag && optionsTag.trim() && !optionsTag.includes('옵션 없음')
                 ? optionsTag.replace(/\[[^\]]*\]/g, '').split(/[·,+,\/]/).filter((s: string) => s.trim().length > 0 && !s.includes('옵션 없음') && !s.includes('기본')).length
                 : 0;
 
               return (
-                <div className="bg-[#101218] border border-[#2a2d3d] rounded-xl p-4 space-y-3 shadow-lg">
+                <div className="bg-[#121319] border border-[#2a2d3d] rounded-xl p-4 space-y-3 shadow-lg">
                   <div className="flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-[#232634]">
-                    <div className="flex items-center gap-2 font-bold text-[#cc9166] text-sm sm:text-base">
+                    <div className="flex items-center gap-2 font-bold text-amber-300 text-sm sm:text-base">
                       <span>📋</span>
                       <span>실시간 소매 시세 &amp; 빅데이터 밸류에이션</span>
                     </div>
                     {retailPrice > 0 && (
-                      <div className="px-3 py-1 rounded-lg bg-[#1e293b] border border-[#0284c7] text-sky-400 font-bold text-xs sm:text-sm flex items-center gap-1.5 shadow-sm">
+                      <div className="px-3 py-1 rounded-lg bg-[#1a2234] border border-sky-500/50 text-sky-300 font-bold text-xs sm:text-sm flex items-center gap-1.5 shadow-sm">
                         <span>🎯 정밀 소매가:</span>
                         <strong className="text-white text-sm sm:text-base font-mono">{retailPrice.toLocaleString()}</strong>
                         <span className="text-xs text-zinc-300">만원</span>
@@ -834,70 +837,82 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
                   {/* 2-Column Split Details */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {/* Left Card: AI 빅데이터 적정 시세 */}
-                    <div className="bg-[#0c0e14] p-3.5 rounded-lg border-l-4 border-sky-400 border-t border-r border-b border-[#232634] space-y-2">
+                    <div className="bg-[#151824] p-3.5 rounded-xl border border-sky-500/30 space-y-2.5 shadow-sm">
                       <div className="flex justify-between items-center">
-                        <span className="text-xs sm:text-sm font-bold text-sky-400 flex items-center gap-1">
+                        <span className="text-xs sm:text-sm font-bold text-sky-400 flex items-center gap-1.5">
                           <span>📊</span>
                           <span>AI 빅데이터 적정 시세</span>
                         </span>
-                        <span className="text-[10px] px-2 py-0.5 rounded bg-[#0369a1] text-white font-bold font-mono">
+                        <span className="text-[11px] px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/40 font-bold font-mono">
                           가치지수 {valScore}점
                         </span>
                       </div>
-                      <div className="text-xs text-zinc-300 space-y-1 leading-relaxed">
-                        <div>
-                          • 적정 밴드: <strong className="text-sky-400 font-mono">{minValPrice.toLocaleString()} ~ {maxValPrice.toLocaleString()}만 원</strong> (기준: <strong className="text-white font-mono">{retailPrice.toLocaleString()}만</strong>)
+                      <div className="text-xs space-y-1.5 leading-relaxed">
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-zinc-400 font-medium shrink-0">• 적정 밴드:</span>
+                          <strong className="text-sky-400 font-mono font-bold">{minValPrice.toLocaleString()} ~ {maxValPrice.toLocaleString()}만원</strong>
+                          <span className="text-zinc-400 text-[11px] font-mono">(기준: {retailPrice.toLocaleString()}만)</span>
                         </div>
-                        <div>
-                          • 평가 스펙: 주행 <strong className="text-zinc-200 font-mono">{mileageKm.toLocaleString()}km</strong> / {
-                            outerRepairCount > 0
+                        <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
+                          <span className="text-zinc-400 font-medium shrink-0">• 평가 스펙:</span>
+                          <span className="px-2 py-0.5 rounded bg-[#1f2436] text-zinc-200 font-mono text-[11px]">
+                            주행 {mileageKm.toLocaleString()}km
+                          </span>
+                          <span className="px-2 py-0.5 rounded bg-[#1f2436] text-zinc-200 text-[11px]">
+                            {outerRepairCount > 0
                               ? `외판 ${outerRepairCount}판 감가`
                               : (targetCarHistory && targetCarHistory.myCarAccidentCount > 0
                                   ? `보험 ${targetCarHistory.myCarAccidentCount}건(${targetCarHistory.myCarAccidentCost}만)`
-                                  : '완전무사고')
-                          }
+                                  : '완전무사고')}
+                          </span>
                           {optCount > 0 && (
-                            <span> / <strong className="text-sky-400 font-bold">추가옵션 {optCount}개 반영</strong></span>
+                            <span className="px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30 font-bold text-[11px]">
+                              추가옵션 {optCount}개 반영
+                            </span>
                           )}
                         </div>
                       </div>
                     </div>
 
                     {/* Right Card: 시장 판매 호가 현황 */}
-                    <div className="bg-[#0c0e14] p-3.5 rounded-lg border-l-4 border-amber-500 border-t border-r border-b border-[#232634] space-y-2">
+                    <div className="bg-[#151824] p-3.5 rounded-xl border border-amber-500/30 space-y-2.5 shadow-sm">
                       <div className="flex justify-between items-center">
-                        <span className="text-xs sm:text-sm font-bold text-amber-400 flex items-center gap-1">
+                        <span className="text-xs sm:text-sm font-bold text-amber-400 flex items-center gap-1.5">
                           <span>🏷️</span>
                           <span>시장 판매 호가 현황 ({encarStats.count || encarList.length}대)</span>
                         </span>
-                        <span className="text-[10px] font-bold font-mono text-amber-400">
-                          호가 괴리: {gapVal >= 0 ? `+${gapVal.toLocaleString()}` : `${gapVal.toLocaleString()}`}만 ({gapVal >= 0 ? `+${gapPct}` : `${gapPct}`}%)
+                        <span className="text-[11px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 font-bold font-mono">
+                          호가 괴리: {gapVal >= 0 ? `+${gapVal.toLocaleString()}` : `${gapVal.toLocaleString()}`}만원 ({gapVal >= 0 ? `+${gapPct}` : `${gapPct}`}%)
                         </span>
                       </div>
-                      <div className="text-xs text-zinc-300 space-y-1 leading-relaxed">
-                        <div>
-                          • 시장 호가: 최저 <strong className="text-white font-mono">{encarStats.min > 0 ? encarStats.min.toLocaleString() : '-'}만</strong> ~ 최고 <strong className="text-white font-mono">{encarStats.max > 0 ? encarStats.max.toLocaleString() : '-'}만</strong> (평균 <strong className="text-amber-300 font-mono">{marketAvg > 0 ? marketAvg.toLocaleString() : '-'}만</strong>)
+                      <div className="text-xs space-y-1.5 leading-relaxed">
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-zinc-400 font-medium shrink-0">• 시장 호가:</span>
+                          <span className="text-zinc-300">최저 <strong className="text-white font-mono">{encarStats.min > 0 ? encarStats.min.toLocaleString() : '-'}만</strong> ~ 최고 <strong className="text-white font-mono">{encarStats.max > 0 ? encarStats.max.toLocaleString() : '-'}만</strong></span>
+                          <span className="text-amber-300 font-mono font-bold">(평균 {marketAvg > 0 ? marketAvg.toLocaleString() : '-'}만원)</span>
                         </div>
-                        <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
-                          <span>• </span>
+                        <div className="flex flex-wrap items-center gap-1 pt-0.5">
+                          <span className="text-zinc-400 font-medium shrink-0">• 연식 분포:</span>
                           {encarYearStats.length > 0 ? (
-                            encarYearStats.map((st, sIdx) => (
-                              <React.Fragment key={st.year}>
-                                {sIdx > 0 && <span className="text-zinc-500">/</span>}
-                                <span className={st.isTarget ? 'text-sky-300 font-bold' : 'text-zinc-300'}>
-                                  {st.year}년 <strong className="font-mono">{st.avg.toLocaleString()}만</strong>
-                                  <span className="text-zinc-400 text-[11px]">({st.count}대)</span>
-                                </span>
-                              </React.Fragment>
+                            encarYearStats.map((st) => (
+                              <span 
+                                key={st.year}
+                                className={`px-2 py-0.5 rounded text-[11px] font-mono ${
+                                  st.isTarget 
+                                    ? 'bg-sky-500/20 text-sky-300 border border-sky-500/40 font-bold' 
+                                    : 'bg-[#1f2436] text-zinc-300'
+                                }`}
+                              >
+                                {st.year}년 {st.avg.toLocaleString()}만 <span className="opacity-80">({st.count}대)</span>
+                              </span>
                             ))
                           ) : (
-                            <span className="text-zinc-400">연식별 데이터 집계 중</span>
+                            <span className="text-zinc-400 text-[11px]">연식별 데이터 집계 중</span>
                           )}
                         </div>
                       </div>
                     </div>
                   </div>
-
                 </div>
               );
             })()}
