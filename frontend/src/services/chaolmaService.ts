@@ -215,7 +215,6 @@ export async function queryChaolmaCar(carNo: string, mileage: number = 50000): P
   }
 
   const urls = [
-    `http://127.0.0.1:8000/api/chaolma/${encodeURIComponent(cleanCarNo)}?mileage=${mileage}`,
     `/api/chaolma/${encodeURIComponent(cleanCarNo)}?mileage=${mileage}`
   ];
 
