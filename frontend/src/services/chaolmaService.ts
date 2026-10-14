@@ -241,7 +241,7 @@ export async function queryChaolmaCar(carNo: string, mileage: number = 50000): P
             maker: data.maker,
             model_name: data.model_detail_name || data.model_name,
             model_detail_name: data.model_detail_name,
-            grade_name: combinedGrade,
+            grade_name: data.grade_name,
             grade_detail_name: data.grade_detail_name,
             trim_name: data.trim_name,
             year: data.year_display || data.model_year || data.reg_year,
