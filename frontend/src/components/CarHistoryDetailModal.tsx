@@ -3,6 +3,7 @@ import { X, ShieldAlert, ShieldCheck, Car, Calendar, AlertTriangle, FileText, Ch
 import type { ChaolmaCarHistory, ChaolmaOriginDoc } from '@/services/chaolmaService';
 import { computeRuleBasedAssessment } from '@/utils/ruleBasedAssessment';
 import { CarDamageDiagram2D } from './BiddingCockpit/Sections/CarDamageDiagram2D';
+import { AutoplusDamageDiagram } from './AutoplusDamageDiagram';
 
 export interface CarHistoryDetailModalProps {
   isOpen: boolean;
@@ -85,7 +86,6 @@ export const CarHistoryDetailModal: React.FC<CarHistoryDetailModalProps> = ({
   data
 }) => {
   // 자동차 전개도 탭 상태 (기본값: 접힘)
-  const [selectedAccidentIdx, setSelectedAccidentIdx] = useState<number>(0);
   const [isDiagramTabOpen, setIsDiagramTabOpen] = useState<boolean>(false);
 
   const raw = data?.rawHistory;
@@ -93,18 +93,16 @@ export const CarHistoryDetailModal: React.FC<CarHistoryDetailModalProps> = ({
   const accidents = useMemo(() => raw?.accident_histories || [], [raw]);
   const mileages = useMemo(() => raw?.mileage_records || [], [raw]);
 
-  // 수리부위 상세(repair_details)가 존재하는 사고 목록 필터링
-  const accidentsWithDetails = useMemo(() => {
-    return accidents.filter(a => Boolean(a.repair_details && typeof a.repair_details === 'string' && a.repair_details.trim().length > 0));
-  }, [accidents]);
-
-  const hasDiagramData = accidentsWithDetails.length > 0;
-  const safeAccidentIdx = selectedAccidentIdx < accidentsWithDetails.length ? selectedAccidentIdx : 0;
-  const currentDiagramAccident = accidentsWithDetails[safeAccidentIdx] || null;
-
-  const activeDiagramData = useMemo(() => {
-    return parseRepairDetailsToDiagram(currentDiagramAccident?.repair_details);
-  }, [currentDiagramAccident]);
+  // 탈착/도장 코드 또는 수리부위 상세(repair_details) 존재 여부 판정
+  const hasDiagramData = useMemo(() => {
+    if (!raw) return false;
+    if ((raw.total_dismantle_count || 0) > 0 || (raw.total_paint_count || 0) > 0) return true;
+    return accidents.some(a => 
+      Boolean((a.dismantle_codes && a.dismantle_codes.trim()) || 
+              (a.paint_codes && a.paint_codes.trim()) || 
+              (a.repair_details && a.repair_details.trim()))
+    );
+  }, [raw, accidents]);
 
   const assessment = useMemo(() => {
     if (!data) return null;
@@ -534,11 +532,25 @@ export const CarHistoryDetailModal: React.FC<CarHistoryDetailModalProps> = ({
             >
               <div className="flex items-center gap-2">
                 <Car className={`w-4 h-4 ${hasDiagramData ? 'text-indigo-400' : 'text-zinc-500'}`} />
-                <span className="text-sm font-bold text-white">자동차 전개도 & 일자별 수리부위 상세</span>
+                <span className="text-sm font-bold text-white">자동차 전개도 &amp; 일자별 수리부위 상세</span>
                 {hasDiagramData ? (
-                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 font-mono">
-                    {accidentsWithDetails.length}건 데이터 보유
-                  </span>
+                  <div className="flex items-center gap-1.5">
+                    {(raw?.total_dismantle_count || 0) > 0 && (
+                      <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-sky-500/20 text-sky-300 border border-sky-500/30 font-mono">
+                        탈착 {raw?.total_dismantle_count}건
+                      </span>
+                    )}
+                    {(raw?.total_paint_count || 0) > 0 && (
+                      <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30 font-mono">
+                        도장 {raw?.total_paint_count}건
+                      </span>
+                    )}
+                    {(!raw?.total_dismantle_count && !raw?.total_paint_count) && (
+                      <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 font-mono">
+                        데이터 보유
+                      </span>
+                    )}
+                  </div>
                 ) : (
                   <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-zinc-800 text-zinc-400 border border-zinc-700">
                     정보 없음
@@ -557,107 +569,10 @@ export const CarHistoryDetailModal: React.FC<CarHistoryDetailModalProps> = ({
               </div>
             </button>
 
-            {/* 펼쳐졌을 때의 전개도 및 상세 내용 */}
+            {/* 펼쳐졌을 때의 전개도 및 상세 내용 (오토플러스 원본 1:1) */}
             {hasDiagramData && isDiagramTabOpen && (
-              <div className="border-t border-[#262838]">
-                {/* 상단 툴바: 사고일자 드롭다운 및 범례 */}
-                <div className="flex flex-wrap items-center justify-between gap-3 p-3 bg-[#11131c] border-b border-[#262838]">
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs font-semibold text-zinc-300">사고일자 선택:</span>
-                    <select
-                      value={safeAccidentIdx}
-                      onChange={(e) => setSelectedAccidentIdx(Number(e.target.value))}
-                      className="bg-[#181b26] border border-[#2e3245] text-white text-xs rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-indigo-500 font-mono cursor-pointer"
-                    >
-                      {accidentsWithDetails.map((acc, idx) => {
-                        const dateStr = acc.date && typeof acc.date === 'string' && acc.date.length >= 8
-                          ? `${acc.date.slice(0, 4)}-${acc.date.slice(4, 6)}-${acc.date.slice(6)}`
-                          : (acc.date || `사고 ${idx + 1}`);
-                        const label = acc.acc_type === 'other' ? '타차가해' : '내차피해';
-                        const partsCount = parseRepairDetailsToDiagram(acc.repair_details).items.length;
-                        const costMan = acc.repair_cost ? Math.round(Number(acc.repair_cost) / 10000).toLocaleString() : '미상';
-                        return (
-                          <option key={idx} value={idx}>
-                            [{label}] {dateStr} ({partsCount}개 부품 / {costMan}만원)
-                          </option>
-                        );
-                      })}
-                    </select>
-                  </div>
-                  <div className="flex items-center gap-3 text-[11px] font-sans">
-                    <span className="flex items-center gap-1 text-zinc-400">
-                      <span className="w-2.5 h-2.5 rounded-full bg-[#ef4444] inline-block" /> 교환(X)
-                    </span>
-                    <span className="flex items-center gap-1 text-zinc-400">
-                      <span className="w-2.5 h-2.5 rounded-full bg-[#f97316] inline-block" /> 판금/용접(W)
-                    </span>
-                    <span className="flex items-center gap-1 text-zinc-400">
-                      <span className="w-2.5 h-2.5 rounded-full bg-sky-400 inline-block" /> 도장
-                    </span>
-                    <span className="flex items-center gap-1 text-zinc-400">
-                      <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block" /> 탈착
-                    </span>
-                  </div>
-                </div>
-
-                {/* 전개도 + 부품 상세 2단 레이아웃 */}
-                <div className="p-4 grid grid-cols-1 md:grid-cols-12 gap-4 bg-[#13151f]">
-                  {/* 좌측 2D 차체 전개도 다이어그램 */}
-                  <div className="md:col-span-7 bg-[#0b0c12] border border-[#262838] rounded-xl p-4 flex flex-col items-center justify-center">
-                    <div className="w-full flex items-center justify-between mb-2">
-                      <span className="text-xs font-bold text-zinc-300 flex items-center gap-1.5">
-                        <Car className="w-4 h-4 text-indigo-400" />
-                        차체 외판/골격 교환·판금 전개도
-                      </span>
-                      {currentDiagramAccident && (
-                        <span className="text-[11px] text-zinc-400 font-mono">
-                          {currentDiagramAccident.acc_type === 'other' ? '타차가해' : '내차피해'} ({currentDiagramAccident.date ? `${currentDiagramAccident.date.slice(0, 4)}-${currentDiagramAccident.date.slice(4, 6)}-${currentDiagramAccident.date.slice(6)}` : '-'})
-                        </span>
-                      )}
-                    </div>
-                    <div className="w-full flex justify-center py-2">
-                      <CarDamageDiagram2D selectedEncar={activeDiagramData.selectedEncar} />
-                    </div>
-                  </div>
-
-                  {/* 우측 수리 부품 상세 목록 */}
-                  <div className="md:col-span-5 bg-[#0b0c12] border border-[#262838] rounded-xl p-4 flex flex-col">
-                    <div className="flex items-center justify-between mb-3 pb-2 border-b border-[#262838]">
-                      <span className="text-xs font-bold text-zinc-300">
-                        수리부위 상세 부품 ({activeDiagramData.items.length}개)
-                      </span>
-                      <span className="text-[10px] text-zinc-500">보험개발원 전산</span>
-                    </div>
-
-                    <div className="flex-1 overflow-y-auto max-h-[300px] space-y-1.5 pr-1">
-                      {activeDiagramData.items.length > 0 ? (
-                        activeDiagramData.items.map((item, i) => {
-                          let badgeClass = 'bg-zinc-800 text-zinc-300 border-zinc-700';
-                          if (item.action === '교환') badgeClass = 'bg-rose-500/20 text-rose-300 border-rose-500/40';
-                          else if (item.action === '판금') badgeClass = 'bg-amber-500/20 text-amber-300 border-amber-500/40';
-                          else if (item.action === '도장') badgeClass = 'bg-sky-500/20 text-sky-300 border-sky-500/40';
-                          else if (item.action === '탈착') badgeClass = 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40';
-
-                          return (
-                            <div
-                              key={i}
-                              className="flex items-center justify-between p-2 rounded-lg bg-[#141622] border border-[#222533] text-xs hover:border-[#35394d] transition"
-                            >
-                              <span className="text-zinc-200 font-medium">{item.name}</span>
-                              <span className={`px-2 py-0.5 rounded text-[10px] font-bold border ${badgeClass}`}>
-                                {item.action}
-                              </span>
-                            </div>
-                          );
-                        })
-                      ) : (
-                        <div className="h-full flex items-center justify-center text-xs text-zinc-500 py-8">
-                          기록된 세부 부품 정보가 없습니다.
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
+              <div className="p-4 border-t border-[#262838] bg-[#0c0d14]">
+                <AutoplusDamageDiagram history={raw} />
               </div>
             )}
           </div>

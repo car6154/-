@@ -541,7 +541,19 @@ class ChaolmaService:
                         except Exception:
                             pass
 
-            # 6. 내차피해/타차가해 상세 수리비 이력 분해
+            # 6. 내차피해/타차가해 상세 수리비 이력 분해 및 탈착(r502-20)/도장(r502-21) 부위 매핑
+            CARMAP_PARTS_DICT = {
+                "01": "앞범퍼", "02": "뒤범퍼", "03": "보닛", "04": "트렁크리드",
+                "05": "백도어", "06": "앞도어(좌)", "07": "앞도어(우)", "08": "뒷도어(좌)",
+                "09": "뒷도어(우)", "10": "앞펜더(좌)", "11": "앞펜더(우)", "12": "뒤펜더(좌)",
+                "13": "뒤펜더(우)", "14": "앞유리", "15": "선루프", "16": "루프",
+                "17": "슬라이딩도어(좌)", "18": "슬라이딩도어(우)", "19": "뒷유리",
+                "20": "라디에이터 그릴", "21": "헤드램프(좌)", "22": "헤드램프(우)",
+                "23": "리어컴비네이션램프(좌)", "24": "리어컴비네이션램프(우)",
+                "25": "사이드스텝(좌)", "26": "사이드스텝(우)", "27": "센터필러(좌)",
+                "28": "센터필러(우)"
+            }
+
             accident_histories = []
             r502 = root.find("r502")
             if r502 is not None:
@@ -557,12 +569,19 @@ class ChaolmaService:
                     oth_ins = e.find("r502-10")
                     oth_payout = e.find("r502-14")
                     part_desc = e.find("r502-16")
+                    dismantle_tag = e.find("r502-20")
+                    paint_tag = e.find("r502-21")
 
                     cat_val = cat_code.text.strip() if (cat_code is not None and cat_code.text) else ""
                     my_ins_val = int(float(my_ins.text.strip())) if (my_ins is not None and my_ins.text) else 0
                     oth_ins_val = int(float(oth_ins.text.strip())) if (oth_ins is not None and oth_ins.text) else 0
                     oth_payout_val = int(float(oth_payout.text.strip())) if (oth_payout is not None and oth_payout.text) else 0
                     repair_details = part_desc.text.strip() if (part_desc is not None and part_desc.text) else ""
+                    dismantle_codes = dismantle_tag.text.strip() if (dismantle_tag is not None and dismantle_tag.text) else ""
+                    paint_codes = paint_tag.text.strip() if (paint_tag is not None and paint_tag.text) else ""
+
+                    dismantle_parts = [CARMAP_PARTS_DICT.get(c.strip(), c.strip()) for c in dismantle_codes.split(",") if c.strip()]
+                    paint_parts = [CARMAP_PARTS_DICT.get(c.strip(), c.strip()) for c in paint_codes.split(",") if c.strip()]
 
                     # 판정: r502-01이 '3'이거나, 상대보험 지급액이 있고 내차보험 지급액이 0인 경우 '타차가해'
                     is_other = (cat_val == "3") or (oth_ins_val > 0 and my_ins_val == 0) or (oth_payout_val > 0 and my_ins_val == 0)
@@ -579,6 +598,10 @@ class ChaolmaService:
                         "acc_type": acc_type,
                         "acc_type_label": acc_type_label,
                         "repair_details": repair_details,
+                        "dismantle_codes": dismantle_codes,
+                        "paint_codes": paint_codes,
+                        "dismantle_parts": dismantle_parts,
+                        "paint_parts": paint_parts,
                     })
 
             # 상세 이력 기반 fallback 보정 및 수리비 총액 산출
@@ -590,6 +613,8 @@ class ChaolmaService:
                 my_acc_cost_man = round(my_acc_cost / 10000)
 
             total_repair_cost = sum(item.get("repair_cost", 0) for item in accident_histories)
+            total_dismantle_count = sum(len(item.get("dismantle_parts", [])) for item in accident_histories)
+            total_paint_count = sum(len(item.get("paint_parts", [])) for item in accident_histories)
 
             # 최초등록일 포맷 (20110930 -> 2011-09-30)
             raw_reg_date = get_text("r105", "")
@@ -610,6 +635,8 @@ class ChaolmaService:
                 "my_car_accident_cost": my_acc_cost,
                 "my_car_accident_cost_man": my_acc_cost_man,
                 "total_repair_cost": total_repair_cost,
+                "total_dismantle_count": total_dismantle_count,
+                "total_paint_count": total_paint_count,
                 "other_car_accident_count": other_acc_count,
                 "other_car_accident_cost": other_acc_cost,
                 "other_car_accident_cost_man": other_acc_cost_man,

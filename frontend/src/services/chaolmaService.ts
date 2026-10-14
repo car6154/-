@@ -28,6 +28,9 @@ export interface ChaolmaCarHistory {
   total_loss_count: number;
   flooded_count: number;
   stolen_count: number;
+  total_repair_cost?: number;
+  total_dismantle_count?: number;
+  total_paint_count?: number;
   uninsured_period?: string;
   mileage_records?: { date: string; source: string; mileage: number }[];
   accident_histories?: {
@@ -40,6 +43,10 @@ export interface ChaolmaCarHistory {
     acc_type?: 'my' | 'other';
     acc_type_label?: string;
     repair_details?: string;
+    dismantle_codes?: string;
+    paint_codes?: string;
+    dismantle_parts?: string[];
+    paint_parts?: string[];
   }[];
   market_price_range?: string;
   first_reg_date?: string;
