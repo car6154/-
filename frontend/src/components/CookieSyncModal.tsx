@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { 
   X, Key, ShieldCheck, Copy, Check, RefreshCw, 
   Terminal, ChevronDown, ChevronUp, AlertTriangle, 
-  CheckCircle2, Download, ExternalLink, Cpu
+  CheckCircle2, Download, ExternalLink, Cpu,
+  Zap, Settings, Shield
 } from 'lucide-react';
 
 interface CookieSyncModalProps {
@@ -24,6 +25,20 @@ export const CookieSyncModal: React.FC<CookieSyncModalProps> = ({
   const [manualCookie, setManualCookie] = useState('');
   const [isSaving, setIsSaving] = useState(false);
   const [saveResult, setSaveResult] = useState<{ success: boolean; text: string } | null>(null);
+
+  // ⚡ 원클릭 자동 로그인 상태
+  const [isAutoLoggingIn, setIsAutoLoggingIn] = useState(false);
+  const [autoLoginTarget, setAutoLoginTarget] = useState<'heydealer' | 'autoplus' | null>(null);
+  const [credentialStatus, setCredentialStatus] = useState<{
+    hasAutoplusCredentials?: boolean;
+    hasHeydealerCredentials?: boolean;
+    autoplusMaskedId?: string;
+    heydealerMaskedId?: string;
+  }>({});
+  const [showCredModal, setShowCredModal] = useState(false);
+  const [credIdInput, setCredIdInput] = useState('');
+  const [credPwInput, setCredPwInput] = useState('');
+  const [isSavingCred, setIsSavingCred] = useState(false);
 
   // Git 동기화 & 원격 복구 상태
   const [gitStatus, setGitStatus] = useState<string>('조회 중...');
@@ -63,6 +78,7 @@ export const CookieSyncModal: React.FC<CookieSyncModalProps> = ({
     if (!isOpen) return;
     fetchGitStatus();
     fetchCookieStatus();
+    fetchCredentialStatus();
   }, [isOpen]);
 
   const fetchGitStatus = async () => {
@@ -93,6 +109,90 @@ export const CookieSyncModal: React.FC<CookieSyncModalProps> = ({
         });
       }
     } catch {}
+  };
+
+  const fetchCredentialStatus = async () => {
+    try {
+      const res = await fetch('/api/auth/credentials/status');
+      if (res.ok) {
+        const d = await res.json();
+        setCredentialStatus(d);
+      }
+    } catch {}
+  };
+
+  // ⚡ 원클릭 자동 로그인 실행 (토큰 소모 0개)
+  const handleQuickAutoLogin = async (target: 'heydealer' | 'autoplus') => {
+    setIsAutoLoggingIn(true);
+    setAutoLoginTarget(target);
+    setSaveResult(null);
+
+    const targetName = target === 'heydealer' ? '헤이딜러' : '차얼마 (오토플러스)';
+    try {
+      const res = await fetch('/api/auth/quick_login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ target })
+      });
+      const data = await res.json();
+      if (data.success) {
+        setSaveResult({
+          success: true,
+          text: `⚡ ${data.message || `${targetName} 자동 로그인 및 쿠키 최신화 성공!`}`
+        });
+        fetchCookieStatus();
+      } else {
+        setSaveResult({
+          success: false,
+          text: `❌ ${data.message || `${targetName} 자동 로그인 실패`}`
+        });
+        if (data.need_credentials) {
+          setShowCredModal(true);
+        }
+      }
+    } catch (err: any) {
+      setSaveResult({
+        success: false,
+        text: `❌ 통신 오류: ${err.message}`
+      });
+    } finally {
+      setIsAutoLoggingIn(false);
+      setAutoLoginTarget(null);
+    }
+  };
+
+  // 계정 1회 저장
+  const handleSaveCredentials = async () => {
+    if (!credIdInput.trim() || !credPwInput.trim()) {
+      alert('아이디와 비밀번호를 모두 입력해주세요.');
+      return;
+    }
+    setIsSavingCred(true);
+    try {
+      const res = await fetch('/api/auth/credentials', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          platform: activeCookieTab,
+          userId: credIdInput.trim(),
+          userPw: credPwInput.trim(),
+        })
+      });
+      const data = await res.json();
+      if (data.success) {
+        alert(data.message || '계정 정보가 안전하게 저장되었습니다.');
+        setCredIdInput('');
+        setCredPwInput('');
+        setShowCredModal(false);
+        fetchCredentialStatus();
+      } else {
+        alert(`저장 실패: ${data.message}`);
+      }
+    } catch (e: any) {
+      alert(`오류 발생: ${e.message}`);
+    } finally {
+      setIsSavingCred(false);
+    }
   };
 
   if (!isOpen) return null;
@@ -347,11 +447,12 @@ export const CookieSyncModal: React.FC<CookieSyncModalProps> = ({
           </div>
 
           {/* SECTION 2: 3대 플랫폼 세션 쿠키 관리 */}
+          {/* SECTION 2: 3대 플랫폼 세션 쿠키 관리 & ⚡ 원클릭 자동 갱신 */}
           <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800 space-y-3">
             <div className="flex items-center justify-between">
               <h4 className="text-xs font-bold text-slate-200 tracking-wide flex items-center gap-1.5">
                 <Key className="w-4 h-4 text-amber-400" />
-                3사 플랫폼 세션 쿠키 수동 등록
+                3사 플랫폼 세션 쿠키 관리 &amp; ⚡ 원클릭 자동 갱신
               </h4>
               <button
                 onClick={handlePasteClipboard}
@@ -361,75 +462,181 @@ export const CookieSyncModal: React.FC<CookieSyncModalProps> = ({
               </button>
             </div>
 
-            {/* Platform Tabs */}
-            <div className="flex items-center gap-2 border-b border-slate-800 pb-2">
-              <button
-                onClick={() => { setActiveCookieTab('heydealer'); setSaveResult(null); }}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition ${
-                  activeCookieTab === 'heydealer'
-                    ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
-                }`}
-              >
-                <span>헤이딜러</span>
-                <span className={`w-2 h-2 rounded-full ${cookieInfo.hasHeydealer ? 'bg-emerald-400' : 'bg-rose-400'}`} />
-              </button>
+            {/* Platform Tabs & Quick Action Buttons */}
+            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-2">
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => { setActiveCookieTab('heydealer'); setSaveResult(null); }}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition ${
+                    activeCookieTab === 'heydealer'
+                      ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
+                      : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
+                  }`}
+                >
+                  <span>헤이딜러</span>
+                  <span className={`w-2 h-2 rounded-full ${cookieInfo.hasHeydealer ? 'bg-emerald-400' : 'bg-rose-400'}`} />
+                </button>
 
-              <button
-                onClick={() => { setActiveCookieTab('autoplus'); setSaveResult(null); }}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition ${
-                  activeCookieTab === 'autoplus'
-                    ? 'bg-blue-500/20 text-blue-300 border border-blue-500/40'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
-                }`}
-              >
-                <span>차얼마 (오토플러스)</span>
-                <span className={`w-2 h-2 rounded-full ${cookieInfo.hasAutoplus ? 'bg-emerald-400' : 'bg-slate-500'}`} />
-              </button>
+                <button
+                  onClick={() => { setActiveCookieTab('autoplus'); setSaveResult(null); }}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition ${
+                    activeCookieTab === 'autoplus'
+                      ? 'bg-blue-500/20 text-blue-300 border border-blue-500/40'
+                      : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
+                  }`}
+                >
+                  <span>차얼마 (오토플러스)</span>
+                  <span className={`w-2 h-2 rounded-full ${cookieInfo.hasAutoplus ? 'bg-emerald-400' : 'bg-slate-500'}`} />
+                </button>
 
-              <button
-                onClick={() => { setActiveCookieTab('encar'); setSaveResult(null); }}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition ${
-                  activeCookieTab === 'encar'
-                    ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
-                }`}
-              >
-                <span>엔카 (상세스펙)</span>
-                <span className="w-2 h-2 rounded-full bg-emerald-400" />
-              </button>
+                <button
+                  onClick={() => { setActiveCookieTab('encar'); setSaveResult(null); }}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition ${
+                    activeCookieTab === 'encar'
+                      ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40'
+                      : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
+                  }`}
+                >
+                  <span>엔카 (상세스펙)</span>
+                  <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                </button>
+              </div>
+
+              {/* ⚡ 선택된 플랫폼 원클릭 퀵 버튼 */}
+              {activeCookieTab !== 'encar' && (
+                <div className="flex items-center gap-1.5">
+                  <button
+                    onClick={() => setShowCredModal(!showCredModal)}
+                    className="px-2 py-1 text-[11px] text-slate-400 hover:text-slate-200 hover:bg-slate-800 rounded-md transition flex items-center gap-1 border border-slate-700/60"
+                    title="자동 로그인용 아이디/비밀번호 설정"
+                  >
+                    <Settings className="w-3 h-3 text-slate-400" />
+                    <span>
+                      {activeCookieTab === 'heydealer'
+                        ? (credentialStatus.hasHeydealerCredentials ? `계정: ${credentialStatus.heydealerMaskedId}` : '계정 등록')
+                        : (credentialStatus.hasAutoplusCredentials ? `계정: ${credentialStatus.autoplusMaskedId}` : '계정 등록')}
+                    </span>
+                  </button>
+
+                  <button
+                    onClick={() => handleQuickAutoLogin(activeCookieTab)}
+                    disabled={isAutoLoggingIn}
+                    className="px-3 py-1 rounded-md bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 transition shadow shadow-emerald-900/40 disabled:opacity-50"
+                  >
+                    <Zap className={`w-3.5 h-3.5 ${isAutoLoggingIn && autoLoginTarget === activeCookieTab ? 'animate-bounce text-amber-300' : 'text-amber-300'}`} />
+                    <span>
+                      {isAutoLoggingIn && autoLoginTarget === activeCookieTab
+                        ? '로그인 처리 중 (약 3초)...'
+                        : `${activeCookieTab === 'heydealer' ? '헤이딜러' : '차얼마'} ⚡ 자동 로그인`}
+                    </span>
+                  </button>
+                </div>
+              )}
             </div>
 
-            {/* Input Form */}
-            <div className="space-y-2">
-              <textarea
-                rows={3}
-                value={manualCookie}
-                onChange={(e) => setManualCookie(e.target.value)}
-                placeholder={
-                  activeCookieTab === 'heydealer'
-                    ? '헤이딜러 로그인 쿠키 문자열 또는 csrftoken을 붙여넣으세요...'
-                    : activeCookieTab === 'autoplus'
-                    ? '차얼마/오토플러스 로그인 쿠키(JSESSIONID 등)를 붙여넣으세요...'
-                    : '엔카 로그인 쿠키 문자열을 붙여넣으세요...'
-                }
-                className="w-full px-3 py-2 rounded-lg bg-black/40 border border-slate-800 text-xs text-slate-200 placeholder-slate-600 focus:outline-none focus:border-amber-500 font-mono"
-              />
+            {/* ⚡ 원클릭 전용 메인 액션 카드 (엔카 제외) */}
+            {activeCookieTab !== 'encar' && (
+              <div className="p-3 bg-gradient-to-r from-blue-950/30 to-indigo-950/20 rounded-lg border border-blue-500/20 space-y-2">
+                <div className="flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <div className="text-xs font-bold text-blue-200 flex items-center gap-1.5">
+                      <Zap className="w-4 h-4 text-amber-400" />
+                      <span>{activeCookieTab === 'heydealer' ? '헤이딜러' : '차얼마'} 원클릭 자동 로그인 &amp; 세션 갱신</span>
+                    </div>
+                    <p className="text-[11px] text-slate-400">
+                      노트북에서 브라우저가 자동 로그인 후 세션 쿠키를 3초 만에 갱신합니다. (AI 토큰 소모 0개)
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => handleQuickAutoLogin(activeCookieTab)}
+                    disabled={isAutoLoggingIn}
+                    className="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 transition shadow-lg shadow-emerald-900/40 disabled:opacity-50 whitespace-nowrap"
+                  >
+                    <Zap className={`w-4 h-4 ${isAutoLoggingIn && autoLoginTarget === activeCookieTab ? 'animate-spin text-amber-300' : 'text-amber-300'}`} />
+                    <span>
+                      {isAutoLoggingIn && autoLoginTarget === activeCookieTab
+                        ? '자동 로그인 중...'
+                        : `[${activeCookieTab === 'heydealer' ? '헤이딜러' : '차얼마'}] 지금 갱신하기`}
+                    </span>
+                  </button>
+                </div>
 
-              <div className="flex items-center justify-between">
-                <span className="text-[11px] text-slate-500">
+                {/* 계정 등록 폼 (토글) */}
+                {showCredModal && (
+                  <div className="mt-2 pt-2 border-t border-blue-500/20 space-y-2 bg-black/40 p-2.5 rounded-md">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[11px] font-bold text-amber-300 flex items-center gap-1">
+                        <Shield className="w-3 h-3" />
+                        {activeCookieTab === 'heydealer' ? '헤이딜러' : '차얼마'} 자동 로그인 계정 등록 (.env 로컬 금고 보관)
+                      </span>
+                      <button onClick={() => setShowCredModal(false)} className="text-slate-500 hover:text-slate-300 text-[11px]">✕ 닫기</button>
+                    </div>
+                    <p className="text-[11px] text-slate-400">
+                      * 계정 정보는 외부로 유출되지 않고 노트북 로컬(.env)에만 안전하게 1회 보관됩니다.
+                    </p>
+                    <div className="grid grid-cols-2 gap-2">
+                      <input
+                        type="text"
+                        placeholder="아이디"
+                        value={credIdInput}
+                        onChange={(e) => setCredIdInput(e.target.value)}
+                        className="px-2.5 py-1.5 bg-slate-900 border border-slate-700 rounded text-xs text-slate-200 focus:outline-none focus:border-amber-500"
+                      />
+                      <input
+                        type="password"
+                        placeholder="비밀번호"
+                        value={credPwInput}
+                        onChange={(e) => setCredPwInput(e.target.value)}
+                        className="px-2.5 py-1.5 bg-slate-900 border border-slate-700 rounded text-xs text-slate-200 focus:outline-none focus:border-amber-500"
+                      />
+                    </div>
+                    <div className="flex justify-end">
+                      <button
+                        onClick={handleSaveCredentials}
+                        disabled={isSavingCred}
+                        className="px-3 py-1 bg-amber-600 hover:bg-amber-500 text-white rounded text-xs font-semibold transition"
+                      >
+                        {isSavingCred ? '저장 중...' : '계정 정보 1회 안전 저장'}
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* 수동 등록 Form (보조용) */}
+            <div className="space-y-2 pt-1">
+              <div className="text-[11px] text-slate-400 flex items-center justify-between">
+                <span>또는 기존 수동 쿠키 직접 붙여넣기:</span>
+                <span className="text-slate-500">
                   {activeCookieTab === 'heydealer' && `현재 등록: ${cookieInfo.heydealerLen}자`}
                   {activeCookieTab === 'autoplus' && `현재 등록: ${cookieInfo.autoplusLen}자`}
                   {activeCookieTab === 'encar' && '실시간 자동 회전 중'}
                 </span>
+              </div>
 
+              <textarea
+                rows={2}
+                value={manualCookie}
+                onChange={(e) => setManualCookie(e.target.value)}
+                placeholder={
+                  activeCookieTab === 'heydealer'
+                    ? '헤이딜러 로그인 쿠키 문자열 또는 csrftoken을 직접 붙여넣으실 수도 있습니다...'
+                    : activeCookieTab === 'autoplus'
+                    ? '차얼마/오토플러스 로그인 쿠키를 직접 붙여넣으실 수도 있습니다...'
+                    : '엔카 로그인 쿠키 문자열을 붙여넣으세요...'
+                }
+                className="w-full px-3 py-1.5 rounded-lg bg-black/40 border border-slate-800 text-xs text-slate-200 placeholder-slate-600 focus:outline-none focus:border-amber-500 font-mono"
+              />
+
+              <div className="flex items-center justify-end">
                 <button
                   onClick={handleSaveCookie}
                   disabled={isSaving || !manualCookie.trim()}
-                  className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-medium text-xs flex items-center gap-1.5 transition disabled:opacity-40"
+                  className="px-3.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium text-xs flex items-center gap-1.5 transition disabled:opacity-40 border border-slate-700"
                 >
-                  <RefreshCw className={`w-3.5 h-3.5 ${isSaving ? 'animate-spin' : ''}`} />
-                  {isSaving ? '검증 및 저장 중...' : '클라우드 금고에 저장'}
+                  <RefreshCw className={`w-3 h-3 ${isSaving ? 'animate-spin' : ''}`} />
+                  {isSaving ? '저장 중...' : '수동 쿠키 저장'}
                 </button>
               </div>
 

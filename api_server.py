@@ -283,6 +283,34 @@ def save_cookie_api(payload: CookieSavePayload):
     return {"status": "ok", "message": f"{target} cookie saved successfully"}
 
 
+class QuickLoginPayload(BaseModel):
+    target: str = "autoplus"
+
+
+class PlatformCredentialsPayload(BaseModel):
+    platform: str
+    userId: str
+    userPw: str
+
+
+@app.post("/api/auth/quick_login")
+def quick_login_api(payload: QuickLoginPayload):
+    from services.auto_login_service import perform_auto_login
+    return perform_auto_login(payload.target)
+
+
+@app.post("/api/auth/credentials")
+def save_credentials_api(payload: PlatformCredentialsPayload):
+    from services.auto_login_service import save_platform_credentials
+    return save_platform_credentials(payload.platform, payload.userId, payload.userPw)
+
+
+@app.get("/api/auth/credentials/status")
+def get_credentials_status_api():
+    from services.auto_login_service import get_credential_status
+    return get_credential_status()
+
+
 @app.get("/api/cookie/status")
 def get_all_cookies_status():
     from services.cookie_server import get_current_encar_cookie, get_current_hd_cookie, get_current_autoplus_cookie
