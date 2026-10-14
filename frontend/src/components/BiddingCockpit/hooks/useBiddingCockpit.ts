@@ -417,7 +417,8 @@ export function useBiddingCockpit({
 
   // 사이드바 차량 조건 변경 시 실데이터 자동 수집 (차량이 있을 때만)
   useEffect(() => {
-    if (skipAutoFetchRef.current || isSearchingCar) {
+    if (isSearchingCar) return;
+    if (skipAutoFetchRef.current) {
       skipAutoFetchRef.current = false;
       return;
     }
@@ -742,6 +743,7 @@ export function useBiddingCockpit({
           carNumber: no
         });
 
+        skipAutoFetchRef.current = true;
         if (encarItems.length === 0) {
           setSearchStatus({
             type: 'warning',
@@ -750,7 +752,7 @@ export function useBiddingCockpit({
         } else {
           setSearchStatus({
             type: 'success',
-            message: `✅ [차얼마&엔카] ${no} ${res.maker} ${resolvedCarName} (${resolvedGrade}) 제원 및 시세 연동 완료! (엔카 동급 ${encarItems.length}대 연동)`
+            message: `✅ [차얼마&엔카] ${no} ${res.maker} ${resolvedCarName} [${rawG || resolvedGrade}] 제원 및 시세 연동 완료! (엔카 동급 ${encarItems.length}대 연동)`
           });
         }
       } else {
