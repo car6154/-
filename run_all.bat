@@ -18,6 +18,10 @@ echo   - Port 3000 : React Frontend Web (0.0.0.0)
 echo   - Port 8501 : Streamlit Dashboard (0.0.0.0)
 echo ========================================================
 
+echo [0/3] GitHub 최신 코드 동기화 중...
+git fetch origin main > nul 2>&1
+git reset --hard origin/main > nul 2>&1
+
 echo [1/3] 기존 서버 프로세스 및 포트(8000, 3000, 8501) 완전 정리 중...
 
 REM -1. 기존 포트 8000, 3000, 8501 점유 프로세스(PID) 강제 종료
