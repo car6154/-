@@ -34,7 +34,7 @@ export interface CarHistoryDetailModalProps {
 
 // 카히스토리 수리부위 상세 문자열(r502-16) 파서 -> CarDamageDiagram2D 연동 포맷 변환
 function parseRepairDetailsToDiagram(repairDetailsStr?: string) {
-  if (!repairDetailsStr || !repairDetailsStr.trim()) {
+  if (!repairDetailsStr || typeof repairDetailsStr !== 'string' || !repairDetailsStr.trim()) {
     return { selectedEncar: null, items: [] };
   }
   const parts = repairDetailsStr.split(',').map(s => s.trim()).filter(Boolean);
@@ -44,13 +44,14 @@ function parseRepairDetailsToDiagram(repairDetailsStr?: string) {
   const items: { name: string; action: '교환' | '판금' | '도장' | '탈착' | '기타'; raw: string }[] = [];
 
   for (const p of parts) {
+    if (!p) continue;
     let action: '교환' | '판금' | '도장' | '탈착' | '기타' = '기타';
     if (p.includes('교환')) action = '교환';
     else if (p.includes('판금') || p.includes('용접')) action = '판금';
     else if (p.includes('도장')) action = '도장';
     else if (p.includes('탈착')) action = '탈착';
 
-    const cleanName = p.replace(/\((교환|판금|용접|도장|탈착)\)/g, '').trim();
+    const cleanName = p.replace(/\((교환|판금|용접|도장|탈착)\)/g, '').trim() || p;
 
     if (action === '교환') {
       replaces.push(cleanName);
@@ -65,13 +66,13 @@ function parseRepairDetailsToDiagram(repairDetailsStr?: string) {
 
   return {
     selectedEncar: {
-      replaces,
-      repairs,
-      damageData,
-      replaceNames: replaces,
-      repairNames: repairs,
+      replaces: replaces || [],
+      repairs: repairs || [],
+      damageData: damageData || {},
+      replaceNames: replaces || [],
+      repairNames: repairs || [],
     },
-    items
+    items: items || []
   };
 }
 
@@ -87,45 +88,50 @@ export const CarHistoryDetailModal: React.FC<CarHistoryDetailModalProps> = ({
   const [selectedAccidentIdx, setSelectedAccidentIdx] = useState<number>(0);
   const [isDiagramTabOpen, setIsDiagramTabOpen] = useState<boolean>(false);
 
-  if (!isOpen || !data) return null;
-
-  const raw = data.rawHistory;
-  const doc = data.originDoc;
-  const accidents = raw?.accident_histories || [];
-  const mileages = raw?.mileage_records || [];
+  const raw = data?.rawHistory;
+  const doc = data?.originDoc;
+  const accidents = useMemo(() => raw?.accident_histories || [], [raw]);
+  const mileages = useMemo(() => raw?.mileage_records || [], [raw]);
 
   // 수리부위 상세(repair_details)가 존재하는 사고 목록 필터링
   const accidentsWithDetails = useMemo(() => {
-    return accidents.filter(a => Boolean(a.repair_details && a.repair_details.trim().length > 0));
+    return accidents.filter(a => Boolean(a.repair_details && typeof a.repair_details === 'string' && a.repair_details.trim().length > 0));
   }, [accidents]);
 
   const hasDiagramData = accidentsWithDetails.length > 0;
   const safeAccidentIdx = selectedAccidentIdx < accidentsWithDetails.length ? selectedAccidentIdx : 0;
   const currentDiagramAccident = accidentsWithDetails[safeAccidentIdx] || null;
+
   const activeDiagramData = useMemo(() => {
     return parseRepairDetailsToDiagram(currentDiagramAccident?.repair_details);
   }, [currentDiagramAccident]);
 
-  const assessment = computeRuleBasedAssessment({
-    carNumber,
-    currentMileage: currentMileage || (mileages[0]?.mileage) || doc?.inspection_mileage || 50000,
-    ownerChangedCount: data.ownerChangedCount,
-    isSingleOwner: data.isSingleOwner,
-    hasRentHistory: data.hasRentHistory,
-    myCarAccidentCount: data.myCarAccidentCount,
-    myCarAccidentCostMan: data.myCarAccidentCost,
-    otherCarAccidentCount: data.otherCarAccidentCount,
-    totalLossCount: data.totalLossCount,
-    floodedCount: data.floodedCount,
-    stolenCount: data.stolenCount,
-    seizureCount: doc?.seizure_count,
-    mortgageCount: doc?.mortgage_count,
-    tuningCount: doc?.tuning_count,
-    inspectionValidEnd: doc?.inspection_valid_end || data.inspectionValidUntil,
-    inspectionMileage: doc?.inspection_mileage,
-    lastHistoryMileage: mileages[0]?.mileage,
-    outerRepairCount: 0
-  });
+  const assessment = useMemo(() => {
+    if (!data) return null;
+    return computeRuleBasedAssessment({
+      carNumber,
+      currentMileage: currentMileage || (mileages[0]?.mileage) || doc?.inspection_mileage || 50000,
+      ownerChangedCount: data.ownerChangedCount,
+      isSingleOwner: data.isSingleOwner,
+      hasRentHistory: data.hasRentHistory,
+      myCarAccidentCount: data.myCarAccidentCount,
+      myCarAccidentCostMan: data.myCarAccidentCost,
+      otherCarAccidentCount: data.otherCarAccidentCount,
+      totalLossCount: data.totalLossCount,
+      floodedCount: data.floodedCount,
+      stolenCount: data.stolenCount,
+      seizureCount: doc?.seizure_count,
+      mortgageCount: doc?.mortgage_count,
+      tuningCount: doc?.tuning_count,
+      inspectionValidEnd: doc?.inspection_valid_end || data.inspectionValidUntil,
+      inspectionMileage: doc?.inspection_mileage,
+      lastHistoryMileage: mileages[0]?.mileage,
+      outerRepairCount: 0
+    });
+  }, [data, carNumber, currentMileage, mileages, doc]);
+
+  // 🌟 모든 Hook 호출이 완료된 후 Early Return 실행 (React Rules of Hooks 준수)
+  if (!isOpen || !data || !assessment) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
@@ -483,22 +489,24 @@ export const CarHistoryDetailModal: React.FC<CarHistoryDetailModalProps> = ({
                             )}
                           </td>
                           <td className="p-2.5 text-zinc-300 font-bold">
-                            {acc.date ? `${acc.date.slice(0, 4)}-${acc.date.slice(4, 6)}-${acc.date.slice(6)}` : '-'}
+                            {acc.date && typeof acc.date === 'string' && acc.date.length >= 8 
+                              ? `${acc.date.slice(0, 4)}-${acc.date.slice(4, 6)}-${acc.date.slice(6)}` 
+                              : (acc.date || '-')}
                           </td>
                           <td className="p-2.5 text-right font-bold text-white">
-                            {acc.repair_cost ? `${acc.repair_cost.toLocaleString()}원` : '-'}
+                            {typeof acc.repair_cost === 'number' ? `${acc.repair_cost.toLocaleString()}원` : '-'}
                           </td>
                           <td className="p-2.5 text-right text-zinc-300">
-                            {acc.parts_cost ? `${acc.parts_cost.toLocaleString()}원` : '-'}
+                            {typeof acc.parts_cost === 'number' ? `${acc.parts_cost.toLocaleString()}원` : '-'}
                           </td>
                           <td className="p-2.5 text-right text-zinc-300">
-                            {acc.labor_cost ? `${acc.labor_cost.toLocaleString()}원` : '-'}
+                            {typeof acc.labor_cost === 'number' ? `${acc.labor_cost.toLocaleString()}원` : '-'}
                           </td>
                           <td className="p-2.5 text-right text-zinc-300">
-                            {acc.paint_cost ? `${acc.paint_cost.toLocaleString()}원` : '-'}
+                            {typeof acc.paint_cost === 'number' ? `${acc.paint_cost.toLocaleString()}원` : '-'}
                           </td>
                           <td className={`p-2.5 text-right font-bold ${isOther ? 'text-amber-400 bg-amber-500/5' : 'text-rose-400 bg-rose-500/5'}`}>
-                            {acc.insurance_paid ? `${acc.insurance_paid.toLocaleString()}원` : '-'}
+                            {typeof acc.insurance_paid === 'number' ? `${acc.insurance_paid.toLocaleString()}원` : '-'}
                           </td>
                         </tr>
                       );
@@ -562,12 +570,15 @@ export const CarHistoryDetailModal: React.FC<CarHistoryDetailModalProps> = ({
                       className="bg-[#181b26] border border-[#2e3245] text-white text-xs rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-indigo-500 font-mono cursor-pointer"
                     >
                       {accidentsWithDetails.map((acc, idx) => {
-                        const dateStr = acc.date ? `${acc.date.slice(0, 4)}-${acc.date.slice(4, 6)}-${acc.date.slice(6)}` : `사고 ${idx + 1}`;
+                        const dateStr = acc.date && typeof acc.date === 'string' && acc.date.length >= 8
+                          ? `${acc.date.slice(0, 4)}-${acc.date.slice(4, 6)}-${acc.date.slice(6)}`
+                          : (acc.date || `사고 ${idx + 1}`);
                         const label = acc.acc_type === 'other' ? '타차가해' : '내차피해';
                         const partsCount = parseRepairDetailsToDiagram(acc.repair_details).items.length;
+                        const costMan = acc.repair_cost ? Math.round(Number(acc.repair_cost) / 10000).toLocaleString() : '미상';
                         return (
                           <option key={idx} value={idx}>
-                            [{label}] {dateStr} ({partsCount}개 부품 / {acc.repair_cost ? `${(acc.repair_cost / 10000).toFixed(0)}만원` : '수리비미상'})
+                            [{label}] {dateStr} ({partsCount}개 부품 / {costMan}만원)
                           </option>
                         );
                       })}
