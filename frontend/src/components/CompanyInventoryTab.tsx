@@ -55,7 +55,7 @@ export const CompanyInventoryTab: React.FC<CompanyInventoryTabProps> = ({ onAnal
   const [isSyncing, setIsSyncing] = useState<boolean>(false);
 
   useEffect(() => {
-    fetch('http://localhost:8000/api/autoplus/sync_status')
+    fetch('/api/autoplus/sync_status')
       .then(r => r.json())
       .then(data => setSyncStatus(data))
       .catch(() => {});
@@ -65,7 +65,7 @@ export const CompanyInventoryTab: React.FC<CompanyInventoryTabProps> = ({ onAnal
     if (isSyncing) return;
     setIsSyncing(true);
     try {
-      const res = await fetch('http://localhost:8000/api/autoplus/sync_now', { method: 'POST' });
+      const res = await fetch('/api/autoplus/sync_now', { method: 'POST' });
       const data = await res.json();
       setSyncStatus(data);
     } catch (e) {

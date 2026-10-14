@@ -586,6 +586,13 @@ def search_encar_market(req: EncarSearchRequest):
         else:
             detail_model = req.detailModel or ""
 
+        try:
+            os.makedirs("data", exist_ok=True)
+            with open("data/encar_debug.log", "a", encoding="utf-8") as f_dbg:
+                f_dbg.write(f"[{datetime.now().strftime('%H:%M:%S')}] carName='{car_name}' | gradeName='{raw_g}' | gradeDetailName='{raw_gd}' | detailModel='{req.detailModel}' => 결합='{detail_model}'\n")
+        except Exception:
+            pass
+
         print(f"\n==================================================", flush=True)
         print(f"🔥 [엔카검색 요청 수신]", flush=True)
         print(f"   carName = '{car_name}'", flush=True)
@@ -662,6 +669,11 @@ def search_encar_market(req: EncarSearchRequest):
         # 2. 세부모델/파생트림 엄격 정밀 필터링 (스페셜, 에디션, N Line 배제)
         df = DataProcessor.filter_strictly_by_submodel(df, target_car_name=car_name, target_sub_model=detail_model)
         print(f"   => [필터링 결과] 최종 반환 매물: {len(df)}대 (target_sub_model='{detail_model}')\n", flush=True)
+        try:
+            with open("data/encar_debug.log", "a", encoding="utf-8") as f_dbg:
+                f_dbg.write(f"   => 최종 필터링 결과: {len(df)}대 (target_sub_model='{detail_model}')\n\n")
+        except Exception:
+            pass
 
         # 3. 2번 정렬 기준 (가격 낮은순 -> 연식 최신순 -> 성능점검순)
         df = DataProcessor.sort_by_price_year_perf(df)

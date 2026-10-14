@@ -38,10 +38,10 @@ export default function App() {
     return INITIAL_CAR_LEDGER;
   });
 
-  // 로컬 FastAPI 백엔드(http://127.0.0.1:8000/api/ledger)에서 진짜 my_car_ledger.csv 데이터 로드
+  // 로컬 FastAPI 백엔드(/api/ledger)에서 진짜 my_car_ledger.csv 데이터 로드
   useEffect(() => {
     let isMounted = true;
-    fetch('http://127.0.0.1:8000/api/ledger')
+    fetch('/api/ledger')
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
         return res.json();
@@ -94,10 +94,10 @@ export default function App() {
     }
   }, [settlementItems]);
 
-  // 로컬 FastAPI 백엔드(http://127.0.0.1:8000/api/settlement)에서 진짜 my_inventory_settlement.csv 데이터 로드
+  // 로컬 FastAPI 백엔드(/api/settlement)에서 진짜 my_inventory_settlement.csv 데이터 로드
   useEffect(() => {
     let isMounted = true;
-    fetch('http://127.0.0.1:8000/api/settlement')
+    fetch('/api/settlement')
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
         return res.json();
@@ -229,7 +229,7 @@ export default function App() {
     const target = cars.find(c => c.id === id);
     const key = target?.carNumber || id;
     try {
-      await fetch(`http://127.0.0.1:8000/api/ledger/${encodeURIComponent(key)}`, {
+      await fetch(`/api/ledger/${encodeURIComponent(key)}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: newStatus }),
@@ -243,7 +243,7 @@ export default function App() {
     setCars(prev => prev.map(c => (c.id === updatedCar.id ? updatedCar : c)));
     const key = updatedCar.carNumber || updatedCar.id;
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/ledger/${encodeURIComponent(key)}`, {
+      const res = await fetch(`/api/ledger/${encodeURIComponent(key)}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -276,7 +276,7 @@ export default function App() {
     const key = target?.carNumber || id;
     setCars(prev => prev.filter(c => c.id !== id));
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/ledger/${encodeURIComponent(key)}`, {
+      const res = await fetch(`/api/ledger/${encodeURIComponent(key)}`, {
         method: 'DELETE',
       });
       if (res.ok) {
@@ -308,7 +308,7 @@ export default function App() {
 
     // 2. 파이썬 로컬 백엔드를 통해 실제 my_car_ledger.csv 파일에 영구 기록
     try {
-      const ledgerRes = await fetch('http://127.0.0.1:8000/api/ledger', {
+      const ledgerRes = await fetch('/api/ledger', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -396,7 +396,7 @@ export default function App() {
 
     // 백엔드 my_inventory_settlement.csv에 판매완료 및 정산 결과 영구 반영
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/settlement/${encodeURIComponent(target.carNumber)}`, {
+      const res = await fetch(`/api/settlement/${encodeURIComponent(target.carNumber)}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -459,7 +459,7 @@ export default function App() {
 
     // 1. my_inventory_settlement.csv 에 영구 등록
     try {
-      const settleRes = await fetch('http://127.0.0.1:8000/api/settlement', {
+      const settleRes = await fetch('/api/settlement', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -484,7 +484,7 @@ export default function App() {
       });
 
       // 2. my_car_ledger.csv 에도 매입완료 상태 및 실제 매입가 갱신
-      await fetch(`http://127.0.0.1:8000/api/ledger/${encodeURIComponent(car.carNumber)}`, {
+      await fetch(`/api/ledger/${encodeURIComponent(car.carNumber)}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -508,7 +508,7 @@ export default function App() {
     setCars(prev => prev.filter(c => c.carNumber !== carNumber));
     showToast(`🗑️ [${carNumber}] 차량이 장부에서 삭제되었습니다.`);
     try {
-      await fetch(`http://127.0.0.1:8000/api/ledger/${encodeURIComponent(carNumber)}`, {
+      await fetch(`/api/ledger/${encodeURIComponent(carNumber)}`, {
         method: 'DELETE',
       });
     } catch (e) {
