@@ -35,5 +35,5 @@ taskkill /f /fi "WINDOWTITLE eq *Shopping*" > nul 2>&1
 
 echo.
 echo All Python, Node, and J-PRO servers have been terminated cleanly.
-timeout /t 2 /nobreak > nul
+ping 127.0.0.1 -n 3 > nul
 exit
