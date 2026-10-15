@@ -224,8 +224,8 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 items-stretch">
         {/* Table (Left 7 cols) */}
         <div className="xl:col-span-7 space-y-2 flex flex-col">
-          <div className="flex items-center justify-between text-xs sm:text-sm font-bold text-white px-1">
-            <span className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm font-bold text-white px-1">
+            <span className="flex items-center gap-2 shrink-0">
               <span>📰 엔카 동급 매물 (전체 {encarTotalModelCount}대 중 유효 {encarFilteredCount || encarList.length}대)</span>
               {companyCount > 0 && (
                 <span className="px-1.5 py-0.5 rounded text-[11px] font-black bg-indigo-500/30 text-indigo-200 border border-indigo-400/50">
@@ -233,9 +233,9 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                 </span>
               )}
             </span>
-            <div className="flex items-center gap-2">
-              <div className="flex items-center gap-1.5">
-                <span className="text-[11px] text-zinc-400 font-medium hidden sm:inline">정렬:</span>
+            <div className="flex items-center gap-2 flex-wrap">
+              <div className="flex items-center gap-1.5 shrink-0">
+                <span className="text-[11px] text-zinc-400 font-medium hidden sm:inline whitespace-nowrap">정렬:</span>
                 <select
                   value={sortOption}
                   onChange={(e) => setSortOption(e.target.value as EncarSortOption)}
@@ -544,9 +544,15 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
             <>
               <div className="flex items-center justify-between pb-2 border-b border-[#262833]">
                 <div className="flex items-center gap-2">
-                  <span className="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold text-[11px] border border-amber-500/30">
-                    엔카 비교 차량
-                  </span>
+                  {isCompanyCarItem(selectedEncar) ? (
+                    <span className="px-2 py-0.5 rounded bg-indigo-500/30 text-indigo-200 font-black text-[11px] border border-indigo-400/50 shadow-sm flex items-center gap-1">
+                      <span>🏢 자사 보유 광고 매물</span>
+                    </span>
+                  ) : (
+                    <span className="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold text-[11px] border border-amber-500/30">
+                      엔카 비교 차량
+                    </span>
+                  )}
                   <span className="text-sm font-bold text-white">비교 매물 상세 사양 &amp; 성능점검</span>
                 </div>
                 <div className="flex items-center gap-2">

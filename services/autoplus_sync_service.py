@@ -24,6 +24,7 @@ STATUS_FILE = os.path.join(DATA_DIR, "autoplus_sync_status.json")
 INVENTORY_CSV = os.path.join(BASE_DIR, "autoplus_inventory.csv")
 SOLD_CSV = os.path.join(BASE_DIR, "sales_car_datalist.csv")
 SETTLEMENT_CSV = os.path.join(BASE_DIR, "my_inventory_settlement.csv")
+LEDGER_CSV = os.path.join(BASE_DIR, "my_car_ledger.csv")
 
 # 1. 판매중 헤더 (33개)
 SELLING_HEADERS = [
@@ -493,7 +494,7 @@ class AutoplusSyncService:
             return cls._carid_cache
 
         mapping: Dict[str, str] = {}
-        target_csvs = [SETTLEMENT_CSV, INVENTORY_CSV]
+        target_csvs = [SETTLEMENT_CSV, INVENTORY_CSV, LEDGER_CSV]
 
         for p in target_csvs:
             if not os.path.exists(p):
