@@ -14,6 +14,51 @@ router = APIRouter(prefix="/api/settlement", tags=["settlement"])
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SETTLEMENT_CSV_PATH = str(BASE_DIR / "my_inventory_settlement.csv")
+LEDGER_CSV_PATH = str(BASE_DIR / "my_car_ledger.csv")
+
+
+def sync_ledger_with_settlement(car_no: str, outer: Optional[Any] = None, repair: Optional[Any] = None, fee: Optional[Any] = None, buy_p: Optional[Any] = None, sell_p: Optional[Any] = None):
+    """정산표에서 수정한 외판/상품화/수수료/가격을 장부(my_car_ledger.csv)에도 1:1 동기화하여 재연동 시 덮어쓰기 영구 방지"""
+    if not os.path.exists(LEDGER_CSV_PATH) or not car_no:
+        return
+    try:
+        l_rows = []
+        l_header = []
+        with open(LEDGER_CSV_PATH, "r", encoding="utf-8-sig", newline="") as f:
+            reader = csv.reader(f)
+            l_header = next(reader, [])
+            l_rows = list(reader)
+        if not l_header:
+            return
+
+        l_h_map = {col.strip(): i for i, col in enumerate(l_header)}
+        c_idx = l_h_map.get("차량번호", 1)
+        updated = False
+
+        for r in l_rows:
+            if len(r) > c_idx and r[c_idx].strip() == car_no:
+                def set_l_col(c_name: str, val: Any):
+                    pos = l_h_map.get(c_name)
+                    if pos is not None and val is not None:
+                        while len(r) <= pos: r.append("")
+                        r[pos] = str(val).strip()
+
+                if outer is not None: set_l_col("외판수리", outer)
+                if repair is not None: set_l_col("외판수리비", repair)
+                if fee is not None: set_l_col("헤딜수수료", fee)
+                if buy_p is not None: set_l_col("매입가", buy_p)
+                if sell_p is not None: set_l_col("판매가", sell_p)
+                updated = True
+
+        if updated:
+            tmp_l = f"{LEDGER_CSV_PATH}.tmp"
+            with open(tmp_l, "w", encoding="utf-8-sig", newline="") as f:
+                writer = csv.writer(f)
+                writer.writerow(l_header)
+                writer.writerows(l_rows)
+            os.replace(tmp_l, LEDGER_CSV_PATH)
+    except Exception as e:
+        print(f"[settlement_router] 장부 동기화 경고: {e}")
 
 
 def _safe_int(val: Any, default: int = 0) -> int:
@@ -85,7 +130,7 @@ def get_inventory_settlement():
                     "buyPrice": _safe_int(get_val("매입가")),
                     "outerRepairs": _safe_int(get_val("외판수리")),
                     "repairCost": _safe_int(get_val("상품화")),
-                    "heydealerFee": _safe_int(get_val("헤딜수수료")),
+                    "heydealerFee": _safe_float(get_val("헤딜수수료")),
                     "baseExpenses": _safe_int(get_val("기본제경비"), 15),
                     "contributionMargin": _safe_float(get_val("공헌이익")),
                     "netProfit": _safe_float(get_val("실수익")),
@@ -332,6 +377,16 @@ def update_settlement_item(car_no: str, req: InventorySettlementUpdateRequest):
             try: os.remove(temp_path)
             except: pass
         raise HTTPException(status_code=500, detail=f"정산 CSV 수정 반영 실패: {str(e)}")
+
+    # 2. 장부(my_car_ledger.csv)에도 동일하게 외판/수리비/수수료/매입가/판매가 동기화
+    sync_ledger_with_settlement(
+        key,
+        outer=req.outerRepairs,
+        repair=req.repairCost,
+        fee=req.heydealerFee,
+        buy_p=req.buyPrice,
+        sell_p=req.sellPrice
+    )
 
     try:
         GitSyncService.sync_push_async(f"auto: update settlement for {key}")

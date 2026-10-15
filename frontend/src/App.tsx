@@ -452,6 +452,7 @@ export default function App() {
 
       if (res.ok) {
         showToast(`💾 [${updatedItem.carNumber}] 정산 정보가 my_inventory_settlement.csv에 안전하게 저장되었습니다.`);
+        await refreshSettlement();
       } else {
         const err = await res.json().catch(() => ({}));
         showToast(`⚠️ 저장 실패: ${err.detail || err.message || '서버 오류'}`);
