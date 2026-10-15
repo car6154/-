@@ -551,7 +551,7 @@ def restart_all_servers_endpoint():
             CREATE_NEW_CONSOLE = 0x00000010
             CREATE_NEW_PROCESS_GROUP = 0x00000200
             subprocess.Popen(
-                ["cmd.exe", "/c", "start", "", bat_path],
+                f'cmd.exe /c start "JPRO_Launcher" "{bat_path}"',
                 cwd=os.path.dirname(os.path.abspath(__file__)),
                 creationflags=CREATE_NEW_CONSOLE | CREATE_NEW_PROCESS_GROUP,
                 shell=True

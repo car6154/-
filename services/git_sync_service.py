@@ -50,6 +50,13 @@ class GitSyncService:
                 cls._last_sync_time = datetime.now()
                 if res.returncode == 0:
                     cls._last_sync_status = "강제 리셋 동기화 성공"
+                    try:
+                        base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+                        api_file = os.path.join(base_dir, "api_server.py")
+                        if os.path.exists(api_file):
+                            os.utime(api_file, None)
+                    except Exception:
+                        pass
                     return True, res.stdout.strip()
                 else:
                     err_msg = res.stderr.strip() or res.stdout.strip()
