@@ -317,7 +317,7 @@ class AutoplusAdminService:
                     reader = csv.DictReader(f)
                     for r in reader:
                         cno = str(r.get("차량번호", "")).replace(" ", "").strip()
-                        if not cno: continue
+                        if not cno or cno in res: continue
                         outer = _safe_int(r.get("외판수리", 0))
                         rep = _safe_int(r.get("외판수리비", 0))
                         fee = _safe_float(r.get("헤딜수수료", 0))
