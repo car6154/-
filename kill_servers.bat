@@ -12,15 +12,15 @@ echo ========================================================
 REM 1. 포트 8000, 3000, 8501 점유 프로세스(PID) 강제 종료
 for /f "tokens=5" %%a in ('netstat -ano -p tcp ^| findstr ":8000 "') do (
     echo [Kill] Port 8000 (PID: %%a)
-    taskkill /f /pid %%a > nul 2>&1
+    taskkill /f /t /pid %%a > nul 2>&1
 )
 for /f "tokens=5" %%a in ('netstat -ano -p tcp ^| findstr ":3000 "') do (
     echo [Kill] Port 3000 (PID: %%a)
-    taskkill /f /pid %%a > nul 2>&1
+    taskkill /f /t /pid %%a > nul 2>&1
 )
 for /f "tokens=5" %%a in ('netstat -ano -p tcp ^| findstr ":8501 "') do (
     echo [Kill] Port 8501 (PID: %%a)
-    taskkill /f /pid %%a > nul 2>&1
+    taskkill /f /t /pid %%a > nul 2>&1
 )
 
 REM 2. 관련 모든 CMD 창 종료

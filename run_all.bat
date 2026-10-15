@@ -26,13 +26,13 @@ echo [1/3] 기존 서버 프로세스 및 포트(8000, 3000, 8501) 완전 정리
 
 REM -1. 기존 포트 8000, 3000, 8501 점유 프로세스(PID) 강제 종료
 for /f "tokens=5" %%a in ('netstat -ano -p tcp ^| findstr ":8000 "') do (
-    taskkill /f /pid %%a > nul 2>&1
+    taskkill /f /t /pid %%a > nul 2>&1
 )
 for /f "tokens=5" %%a in ('netstat -ano -p tcp ^| findstr ":3000 "') do (
-    taskkill /f /pid %%a > nul 2>&1
+    taskkill /f /t /pid %%a > nul 2>&1
 )
 for /f "tokens=5" %%a in ('netstat -ano -p tcp ^| findstr ":8501 "') do (
-    taskkill /f /pid %%a > nul 2>&1
+    taskkill /f /t /pid %%a > nul 2>&1
 )
 
 REM -2. 기존 잔여 JPRO 창 및 콘솔 안전 종료 (중복 창 방지)
