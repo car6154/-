@@ -389,3 +389,108 @@ class AutoplusAdminService:
             print(f"[AutoplusAdminService] 정산표 저장 오류: {e}")
 
         return {"added": added_count, "updated": updated_count}
+
+    @classmethod
+    def parse_sppol10001_html(cls, html_content: str) -> List[Dict[str, Any]]:
+        """admin.autoplus.co.kr/spot/syspo/SPPOL10001 HTML 파싱"""
+        cars = []
+        if not html_content:
+            return cars
+
+        tr_matches = re.findall(r"<tr[^>]*>(.*?)</tr>", html_content, re.DOTALL | re.IGNORECASE)
+        for tr in tr_matches:
+            m_car = re.search(r"\b(\d{2,3}[가-힣]\s*\d{4})\b", tr)
+            if not m_car:
+                continue
+            car_no = m_car.group(1).replace(" ", "")
+
+            m_pid = re.search(r"\b(C\d{11})\b", tr)
+            pid = m_pid.group(1) if m_pid else ""
+
+            dates = re.findall(r"\b(20\d{2}[-/.]\d{1,2}[-/.]\d{1,2})\b", tr)
+            transfer_date = dates[-1] if dates else ""
+            bill_date = dates[0] if len(dates) > 1 else transfer_date
+
+            raw_nums = re.findall(r"\b\d{1,3}(?:,\d{3}){2,}\b", tr)
+            buy_price = 0
+            for rn in raw_nums:
+                val = int(rn.replace(",", ""))
+                if val >= 1000000:
+                    buy_price = val
+                    break
+
+            m_year = re.search(r"\b(201\d|202\d)\b", tr)
+            model_year = m_year.group(1) if m_year else ""
+
+            tds = re.findall(r"<td[^>]*>(.*?)</td>", tr, re.DOTALL | re.IGNORECASE)
+            car_name = ""
+            for td in tds:
+                clean_td = re.sub(r"<[^>]+>", "", td).strip()
+                if re.search(r"(현대|기아|제네시스|쉐보레|르노|쌍용|KGM|BMW|벤츠|아우디|볼보|폭스바겐|포르쉐|렉서스|카니발|아반떼|투싼|캐스퍼|쏘렌토|그랜저|스포티지)", clean_td):
+                    car_name = clean_td
+                    break
+
+            scrap_deduction = 0
+            m_scrap = re.findall(r"\b(\d{1,3}(?:,\d{3})+)\b", tr)
+            for ms in m_scrap:
+                val = int(ms.replace(",", ""))
+                if 100000 <= val < 10000000 and val != buy_price:
+                    scrap_deduction = val
+
+            cars.append({
+                "carNumber": car_no,
+                "carName": car_name,
+                "modelYear": model_year,
+                "buyPrice": buy_price,
+                "transferDate": transfer_date,
+                "billDate": bill_date,
+                "pid": pid,
+                "scrapDeduction": scrap_deduction
+            })
+
+        return cars
+
+    @classmethod
+    def fetch_and_sync_backend(cls) -> Dict[str, Any]:
+        """백엔드에 저장된 쿠키로 admin.autoplus.co.kr 매입 데이터 직접 호출 및 동기화"""
+        cookie_file = os.path.join(BASE_DIR, "autoplus_cookie.txt")
+        if not os.path.exists(cookie_file):
+            return {"success": False, "message": "오토플러스 쿠키 파일이 없습니다.", "syncedCount": 0}
+
+        try:
+            with open(cookie_file, "r", encoding="utf-8") as f:
+                cookie = f.read().strip()
+        except Exception as e:
+            return {"success": False, "message": f"쿠키 읽기 오류: {e}", "syncedCount": 0}
+
+        if not cookie:
+            return {"success": False, "message": "오토플러스 쿠키가 비어 있습니다.", "syncedCount": 0}
+
+        url = "https://admin.autoplus.co.kr/spot/syspo/SPPOL10001"
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            "Referer": "https://admin.autoplus.co.kr/spot/syspo/SPPOL10001",
+            "Cookie": cookie
+        }
+
+        try:
+            import requests
+            resp = requests.get(url, headers=headers, timeout=15, allow_redirects=False)
+            if resp.status_code == 302 or "login" in resp.headers.get("Location", "").lower():
+                return {
+                    "success": False,
+                    "message": "high A+ 로그인 세션이 만료되었습니다. 크롬 브라우저에서 재로그인이 필요합니다.",
+                    "syncedCount": 0
+                }
+
+            if resp.status_code != 200:
+                return {"success": False, "message": f"high A+ 응답 오류: HTTP {resp.status_code}", "syncedCount": 0}
+
+            cars = cls.parse_sppol10001_html(resp.text)
+            if not cars:
+                return {"success": True, "message": "조회된 매입 차량이 없거나 파싱되지 않았습니다.", "syncedCount": 0}
+
+            return cls.process_highplus_buy_data(cars)
+        except Exception as e:
+            return {"success": False, "message": f"백엔드 매입연동 호출 실패: {str(e)}", "syncedCount": 0}
+

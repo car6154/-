@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { INITIAL_CAR_LEDGER } from '@/data/initialData';
 import { INITIAL_SETTLEMENT_ITEMS } from '@/data/settlementSeedData';
 import { CarLedgerItem, InventorySettlementItem, CockpitPresetData } from '@/types';
@@ -94,27 +94,25 @@ export default function App() {
     }
   }, [settlementItems]);
 
-  // 로컬 FastAPI 백엔드(/api/settlement)에서 진짜 my_inventory_settlement.csv 데이터 로드
-  useEffect(() => {
-    let isMounted = true;
-    fetch('/api/settlement')
-      .then((res) => {
-        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-        return res.json();
-      })
-      .then((data) => {
-        if (isMounted && Array.isArray(data) && data.length > 0) {
+  // 로컬 FastAPI 백엔드(/api/settlement)에서 진짜 my_inventory_settlement.csv 데이터 로드 및 새로고침
+  const refreshSettlement = useCallback(async () => {
+    try {
+      const res = await fetch('/api/settlement');
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data) && data.length > 0) {
           console.log(`[J-PRO] 로컬 my_inventory_settlement.csv 정산 ${data.length}건 동기화 완료`);
           setSettlementItems(data);
         }
-      })
-      .catch((err) => {
-        console.warn('[J-PRO] 백엔드 정산 API 미응답 (localStorage/기본값 유지):', err.message);
-      });
-    return () => {
-      isMounted = false;
-    };
+      }
+    } catch (err: any) {
+      console.warn('[J-PRO] 백엔드 정산 API 미응답 (localStorage/기본값 유지):', err.message);
+    }
   }, []);
+
+  useEffect(() => {
+    refreshSettlement();
+  }, [refreshSettlement]);
 
   // Privacy Unlock State (장부/정산/재고 숨김 모드)
   const [isPrivateUnlocked, setIsPrivateUnlocked] = useState<boolean>(() => {
@@ -815,6 +813,7 @@ export default function App() {
             onMarkSold={handleMarkSold}
             onAnalyzeInCockpit={handleAnalyzeSettlementInCockpit}
             onUpdateItem={handleUpdateSettlementItem}
+            onRefresh={refreshSettlement}
           />
         )}
 

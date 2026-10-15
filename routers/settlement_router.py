@@ -440,4 +440,17 @@ def get_highplus_status():
     return AutoplusAdminService.get_last_sync_status()
 
 
+@router.post("/trigger_highplus_sync")
+def trigger_highplus_sync():
+    """사용자가 '매입연동' 버튼을 누르면 백엔드 쿠키로 즉시 동기화 시도"""
+    from services.autoplus_admin_service import AutoplusAdminService
+    res = AutoplusAdminService.fetch_and_sync_backend()
+    status = AutoplusAdminService.get_last_sync_status()
+    return {
+        "syncResult": res,
+        "status": status
+    }
+
+
+
 

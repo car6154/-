@@ -35,7 +35,10 @@
         "*://*.heydealer.com/*",
         "*://heydealer.com/*",
         "*://*.autoplus.co.kr/*",
-        "*://autoplus.co.kr/*"
+        "*://autoplus.co.kr/*",
+        "http://localhost/*",
+        "http://127.0.0.1/*",
+        "http://100.95.238.123/*"
       ],
       "js": ["content.js"],
       "run_at": "document_start"

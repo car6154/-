@@ -193,5 +193,15 @@
     setTimeout(scanHighplusBuyData, 1200);
     setInterval(scanHighplusBuyData, 5000);
   }
+
+  // 제이프로 웹앱에서 [매입연동] 버튼 클릭 시 백그라운드 수집 즉시 실행 브릿지
+  window.addEventListener('message', (event) => {
+    if (event.data && event.data.type === 'JPRO_TRIGGER_HIGHPLUS_BUY_SYNC') {
+      try {
+        chrome.runtime.sendMessage({ action: 'trigger_highplus_buy_sync' });
+      } catch (e) {}
+    }
+  });
 })();
+
 
