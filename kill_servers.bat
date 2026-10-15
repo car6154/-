@@ -25,6 +25,10 @@ for /f "tokens=5" %%a in ('netstat -ano -p tcp ^| findstr ":8501 "') do (
     echo [Kill] Port 8501 (PID: %%a)
     taskkill /f /t /pid %%a > nul 2>&1
 )
+for /f "tokens=5" %%a in ('netstat -ano -p tcp ^| findstr ":8502 "') do (
+    echo [Kill] Port 8502 (PID: %%a)
+    taskkill /f /t /pid %%a > nul 2>&1
+)
 
 REM 2. 관련 모든 CMD 창 종료
 taskkill /f /fi "WINDOWTITLE eq JPRO_*" > nul 2>&1

@@ -37,6 +37,9 @@ for /f "tokens=5" %%a in ('netstat -ano -p tcp ^| findstr ":3000 "') do (
 for /f "tokens=5" %%a in ('netstat -ano -p tcp ^| findstr ":8501 "') do (
     taskkill /f /t /pid %%a > nul 2>&1
 )
+for /f "tokens=5" %%a in ('netstat -ano -p tcp ^| findstr ":8502 "') do (
+    taskkill /f /t /pid %%a > nul 2>&1
+)
 
 REM -2. 기존 잔여 JPRO 창 및 콘솔 안전 종료 (중복 창 방지)
 taskkill /f /fi "WINDOWTITLE eq JPRO_*" > nul 2>&1
