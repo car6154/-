@@ -60,7 +60,40 @@ async function startServer() {
     }
   });
 
-  // 2-1. Git 동기화 및 원격 복구 프록시 (Python 백엔드 8000 직결)
+  // 2-0-1. 오토플러스 / 사내 차량 데이터 API 프록시 (Python 백엔드 8000 직결)
+  app.all('/api/autoplus*', async (req, res) => {
+    try {
+      const targetUrl = `http://127.0.0.1:8000${req.originalUrl}`;
+      const pyRes = await fetch(targetUrl, {
+        method: req.method,
+        headers: { 'Content-Type': 'application/json' },
+        body: req.method !== 'GET' && req.method !== 'HEAD' ? JSON.stringify(req.body) : undefined,
+        signal: AbortSignal.timeout(15000)
+      });
+      const data = await pyRes.json();
+      return res.status(pyRes.status).json(data);
+    } catch (e: any) {
+      return res.status(500).json({ error: `오토플러스 API 프록시 실패: ${e.message}` });
+    }
+  });
+
+  // 2-0-2. 서버 제어 API 프록시 (Python 백엔드 8000 직결)
+  app.all('/api/server/*', async (req, res) => {
+    try {
+      const targetUrl = `http://127.0.0.1:8000${req.originalUrl}`;
+      const pyRes = await fetch(targetUrl, {
+        method: req.method,
+        headers: { 'Content-Type': 'application/json' },
+        body: req.method !== 'GET' && req.method !== 'HEAD' ? JSON.stringify(req.body) : undefined,
+        signal: AbortSignal.timeout(15000)
+      });
+      const data = await pyRes.json();
+      return res.status(pyRes.status).json(data);
+    } catch (e: any) {
+      return res.status(500).json({ error: `서버 제어 API 프록시 실패: ${e.message}` });
+    }
+  });
+
   app.all('/api/git/*', async (req, res) => {
     try {
       const targetUrl = `http://127.0.0.1:8000${req.originalUrl}`;
