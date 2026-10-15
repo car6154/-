@@ -478,26 +478,28 @@ class AutoplusSyncService:
             return cls._carid_cache
 
         mapping: Dict[str, str] = {}
-        if not os.path.exists(INVENTORY_CSV):
-            return mapping
+        target_csvs = [SETTLEMENT_CSV, INVENTORY_CSV]
 
-        for enc in ['utf-8-sig', 'utf-8', 'cp949', 'euc-kr']:
-            try:
-                with open(INVENTORY_CSV, 'r', encoding=enc) as f:
-                    reader = csv.DictReader(f)
-                    for r in reader:
-                        plate = str(r.get('차량번호', '')).replace(' ', '').strip()
-                        url = str(r.get('E URL', '')).strip()
-                        if url:
-                            m = re.search(r'carid=(\d+)', url) or re.search(r'/cars/detail/(\d+)', url)
-                            if m:
-                                cid = m.group(1)
-                                if plate:
-                                    mapping[plate] = cid
-                                mapping[cid] = cid
-                break
-            except Exception:
+        for p in target_csvs:
+            if not os.path.exists(p):
                 continue
+            for enc in ['utf-8-sig', 'utf-8', 'cp949', 'euc-kr']:
+                try:
+                    with open(p, 'r', encoding=enc) as f:
+                        reader = csv.DictReader(f)
+                        for r in reader:
+                            plate = str(r.get('차량번호', '')).replace(' ', '').strip()
+                            url = str(r.get('엔카URL', '') or r.get('E URL', '')).strip()
+                            if url:
+                                m = re.search(r'carid=(\d+)', url) or re.search(r'/cars/detail/(\d+)', url)
+                                if m:
+                                    cid = m.group(1)
+                                    if plate:
+                                        mapping[plate] = cid
+                                    mapping[cid] = cid
+                    break
+                except Exception:
+                    continue
 
         cls._carid_cache = mapping
         cls._carid_cache_time = now
