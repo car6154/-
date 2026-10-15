@@ -276,9 +276,11 @@ class AutoplusSyncService:
             if len(r) >= 30:
                 plate = str(r[1]).strip()
                 if plate:
+                    # 광고가 (할인적용가 우선, 없으면 지점판매가)
+                    adv_price = str(r[21]).strip() if len(r) > 21 and str(r[21]).strip() and str(r[21]).strip() != '0' else str(r[19]).strip()
                     selling_map[plate] = {
                         "status": str(r[8]).strip() or "판매중",
-                        "price": str(r[19]).strip(),          # 지점판매가
+                        "price": adv_price,
                         "stock_days": str(r[11]).strip(),     # 경과일수
                         "encar_url": str(r[28]).strip()       # E URL
                     }
