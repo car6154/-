@@ -442,13 +442,15 @@ def get_highplus_status():
 
 @router.post("/trigger_highplus_sync")
 def trigger_highplus_sync():
-    """사용자가 '매입연동' 버튼을 누르면 백엔드 쿠키로 즉시 동기화 시도"""
+    """사용자가 '매입연동' 버튼을 누르면 백엔드 쿠키로 즉시 동기화 시도 및 9월 이전 데이터 정리"""
     from services.autoplus_admin_service import AutoplusAdminService
+    cleaned = AutoplusAdminService.clean_pre_september_inventory()
     res = AutoplusAdminService.fetch_and_sync_backend()
     status = AutoplusAdminService.get_last_sync_status()
     return {
         "syncResult": res,
-        "status": status
+        "status": status,
+        "cleanedCount": cleaned
     }
 
 

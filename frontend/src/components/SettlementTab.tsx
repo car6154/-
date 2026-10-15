@@ -74,8 +74,24 @@ export const SettlementTab: React.FC<SettlementTabProps> = ({
     return 0.50;
   };
 
-  const totalBoughtCount = settlementList.length;
-  const autoFeeRate = getAutoFeeRate(totalBoughtCount);
+  // 현재 월 (기본값: 오늘 날짜 기준 월, 예: 10월)
+  const currentMonth = useMemo(() => new Date().getMonth() + 1, []);
+
+  // 당월(해당 월) 매입 대수 계산 (전체 누적이 아닌 당월 매입 기준)
+  const monthlyBoughtCount = useMemo(() => {
+    return settlementList.filter(item => {
+      const bDate = (item.buyDate || '').trim();
+      // '10. 15', '10.08', '2026-10-13', '10/01' 등에서 월(Month) 추출
+      const m = bDate.match(/(?:20\d{2}[-/.])?0?(\d{1,2})[-/.]/);
+      if (m) {
+        return parseInt(m[1], 10) === currentMonth;
+      }
+      return false;
+    }).length;
+  }, [settlementList, currentMonth]);
+
+  // 당월 매입대수 기준으로 수수료율 자동 산정
+  const autoFeeRate = getAutoFeeRate(monthlyBoughtCount);
 
   // 2. 보유 재고 vs 완료 재고 분리 (tab_settlement.py L103-L108)
   const stockItems = useMemo(() => {
@@ -121,7 +137,7 @@ export const SettlementTab: React.FC<SettlementTabProps> = ({
 
         // 손실 발생 시 손실 요율 자동 적용 (사용자 수동 입력값이 없는 경우)
         if (contributionMargin < 0 && (!item.feeRateManual || item.feeRateManual <= 0)) {
-          finalFeeRate = getAutoFeeRate(totalBoughtCount, true);
+          finalFeeRate = getAutoFeeRate(monthlyBoughtCount, true);
         }
         netProfit = Math.round(contributionMargin * finalFeeRate);
       }
@@ -137,7 +153,7 @@ export const SettlementTab: React.FC<SettlementTabProps> = ({
         netProfit,
       };
     });
-  }, [stockItems, autoFeeRate]);
+  }, [stockItems, autoFeeRate, monthlyBoughtCount]);
 
   // 4. 상단 핵심 현황 대시보드 지표 (tab_settlement.py L107-L127)
   const stockCount = calculatedStockItems.length;
@@ -417,15 +433,15 @@ export const SettlementTab: React.FC<SettlementTabProps> = ({
           </div>
         </div>
 
-        {/* 총 매입 대수 (인센티브) */}
+        {/* 당월 매입 대수 (인센티브) */}
         <div className="bg-[#12151e] border border-sky-600 rounded-xl p-3 flex items-center gap-3 shadow-sm">
           <div className="w-9 h-9 rounded-lg bg-sky-950 border border-sky-700 flex items-center justify-center text-base">
             📦
           </div>
           <div>
-            <div className="text-[11px] text-sky-400 font-medium">총 매입 대수</div>
+            <div className="text-[11px] text-sky-400 font-medium">당월 매입 대수 ({currentMonth}월)</div>
             <div className="text-base font-bold text-sky-400">
-              {totalBoughtCount}대 <span className="text-xs text-slate-400">({Math.round(autoFeeRate * 100)}%)</span>
+              {monthlyBoughtCount}대 <span className="text-xs text-slate-400">({Math.round(autoFeeRate * 100)}%)</span>
             </div>
           </div>
         </div>

@@ -224,6 +224,19 @@ async function fetchHighplusBuyDataInBackground() {
       const transferDate = dates.length > 0 ? dates[dates.length - 1] : '';
       const billDate = dates.length > 1 ? dates[0] : transferDate;
 
+      // 2026년 9월 이전 매입건 제외 (2026-09-01 이후만 수집)
+      const targetDate = transferDate || billDate;
+      if (targetDate) {
+        const ymMatch = targetDate.match(/(\d{4})[-/.](\d{1,2})/);
+        if (ymMatch) {
+          const y = parseInt(ymMatch[1], 10);
+          const m = parseInt(ymMatch[2], 10);
+          if (y < 2026 || (y === 2026 && m < 9)) {
+            continue;
+          }
+        }
+      }
+
       const numMatches = tr.match(/\b\d{1,3}(?:,\d{3}){2,}\b/g) || [];
       let buyPrice = 0;
       for (const nm of numMatches) {

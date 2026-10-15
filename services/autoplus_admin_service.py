@@ -138,15 +138,28 @@ class AutoplusAdminService:
                 m = re.search(r"(\d{4})[^\d]?(\d{1,2})[^\d]?(\d{1,2})", raw_date)
                 if m:
                     y, mm, dd = int(m.group(1)), int(m.group(2)), int(m.group(3))
+                    # 2026년 9월 1일 이전 매입건은 동기화에서 제외
+                    if y < 2026 or (y == 2026 and mm < 9):
+                        continue
                     buy_date_disp = f"{mm:02d}. {dd:02d}"
                     try:
                         d_obj = date(y, mm, dd)
                         stock_days = max(0, (date.today() - d_obj).days)
                     except:
                         pass
+                else:
+                    # '09. 07', '10. 15' 형태일 경우
+                    m_short = re.search(r"^0?(\d{1,2})[^\d]?(\d{1,2})", raw_date)
+                    if m_short:
+                        s_mm = int(m_short.group(1))
+                        if s_mm < 9:
+                            continue
+                        buy_date_disp = raw_date
+            else:
+                continue # 날짜가 아예 없으면 스킵
 
             if not buy_date_disp:
-                buy_date_disp = datetime.now().strftime("%m. %d")
+                continue
 
             cleaned_cars.append({
                 "carNumber": car_no,
@@ -298,10 +311,20 @@ class AutoplusAdminService:
         updated_count = 0
         new_rows = []
 
-        # 1) 기존 행 갱신
+        # 1) 기존 행 갱신 (단, 2026년 9월 이전 과거 건은 필터링하여 자동 제거)
+        date_idx = h_map.get("매입일", 1)
         for r in rows:
             if len(r) > car_no_idx:
                 c_no = r[car_no_idx].strip()
+                b_date = r[date_idx].strip() if len(r) > date_idx else ""
+
+                # 2026년 9월 이전 매입건(04., 05., 06., 07., 08. 등) 필터링
+                m_d = re.search(r"(?:20\d{2}[-/.])?0?(\d{1,2})[-/.]", b_date)
+                if m_d:
+                    m_val = int(m_d.group(1))
+                    if m_val < 9:
+                        continue  # 9월 이전 과거 데이터 제거
+
                 existing_cars.add(c_no)
                 if c_no in cars_by_no:
                     c_info = cars_by_no[c_no]
@@ -411,6 +434,15 @@ class AutoplusAdminService:
             transfer_date = dates[-1] if dates else ""
             bill_date = dates[0] if len(dates) > 1 else transfer_date
 
+            # 2026년 9월 이전 매입건 제외
+            target_date = transfer_date or bill_date
+            if target_date:
+                m_ym = re.search(r"(\d{4})[-/.](\d{1,2})", target_date)
+                if m_ym:
+                    y, mm = int(m_ym.group(1)), int(m_ym.group(2))
+                    if y < 2026 or (y == 2026 and mm < 9):
+                        continue
+
             raw_nums = re.findall(r"\b\d{1,3}(?:,\d{3}){2,}\b", tr)
             buy_price = 0
             for rn in raw_nums:
@@ -451,8 +483,53 @@ class AutoplusAdminService:
         return cars
 
     @classmethod
+    def clean_pre_september_inventory(cls) -> int:
+        """2026년 9월 1일 이전 과거 매입 데이터 정리 (보유재고 정산표 정화)"""
+        if not os.path.exists(SETTLEMENT_CSV):
+            return 0
+        cls.backup_file(SETTLEMENT_CSV)
+        header = []
+        clean_rows = []
+        removed_count = 0
+        for enc in ['utf-8-sig', 'utf-8', 'cp949']:
+            try:
+                with open(SETTLEMENT_CSV, 'r', encoding=enc) as f:
+                    reader = csv.reader(f)
+                    header = next(reader, [])
+                    h_map = {col.strip(): i for i, col in enumerate(header)}
+                    date_idx = h_map.get("매입일", 1)
+                    for r in reader:
+                        if not r: continue
+                        b_date = r[date_idx].strip() if len(r) > date_idx else ""
+                        m_d = re.search(r"(?:20\d{2}[-/.])?0?(\d{1,2})[-/.]", b_date)
+                        if m_d:
+                            m_val = int(m_d.group(1))
+                            if m_val < 9:
+                                removed_count += 1
+                                continue
+                        clean_rows.append(r)
+                break
+            except Exception:
+                continue
+
+        if header and removed_count > 0:
+            temp_path = f"{SETTLEMENT_CSV}.tmp"
+            try:
+                with open(temp_path, "w", encoding="utf-8-sig", newline="") as f:
+                    writer = csv.writer(f)
+                    writer.writerow(header)
+                    writer.writerows(clean_rows)
+                os.replace(temp_path, SETTLEMENT_CSV)
+                print(f"[AutoplusAdminService] 9월 이전 과거 매입 데이터 {removed_count}건 정산표에서 정리 완료", flush=True)
+            except Exception as e:
+                if os.path.exists(temp_path): os.remove(temp_path)
+                print(f"[AutoplusAdminService] 9월 이전 정리 저장 오류: {e}")
+        return removed_count
+
+    @classmethod
     def fetch_and_sync_backend(cls) -> Dict[str, Any]:
         """백엔드에 저장된 쿠키로 admin.autoplus.co.kr 매입 데이터 직접 호출 및 동기화"""
+        cls.clean_pre_september_inventory()
         cookie_file = os.path.join(BASE_DIR, "autoplus_cookie.txt")
         if not os.path.exists(cookie_file):
             return {"success": False, "message": "오토플러스 쿠키 파일이 없습니다.", "syncedCount": 0}
