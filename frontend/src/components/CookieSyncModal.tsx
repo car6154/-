@@ -199,44 +199,21 @@ export const CookieSyncModal: React.FC<CookieSyncModalProps> = ({
 
   if (!isOpen) return null;
 
-  // 원격 강제 동기화 (Force Pull - 머지 충돌 0초 강제 해결)
-  const handleForcePull = async () => {
-    if (!confirm('⚡ 노트북 서버를 GitHub 최신 커밋으로 즉시 강제 동기화(Reset & Pull)하시겠습니까?\n\n이전에 발생한 머지 충돌이 100% 자동 해소됩니다.')) {
-      return;
-    }
+  // 최신 코드 동기화 (1순위 메인 PC 원본 기준 즉시 100% 동기화)
+  const handleSyncLatestCode = async () => {
     setIsGitActionRunning(true);
     setGitActionResult(null);
     try {
       const res = await fetch('/api/git/sync?action=force_pull', { method: 'POST' });
       const data = await res.json();
       if (data.success) {
-        setGitActionResult(`✅ 원격 강제 동기화 성공! (${data.message?.slice(0, 50) || '최신 반영됨'})`);
+        setGitActionResult(`✅ 메인 PC 최신 동기화 성공! (${data.message?.slice(0, 50) || '최신 반영됨'})`);
         fetchGitStatus();
       } else {
         setGitActionResult(`❌ 동기화 실패: ${data.message || '오류 발생'}`);
       }
     } catch (e: any) {
       setGitActionResult(`❌ 서버 통신 오류: ${e.message}`);
-    } finally {
-      setIsGitActionRunning(false);
-    }
-  };
-
-  // 일반 Git Pull
-  const handleNormalPull = async () => {
-    setIsGitActionRunning(true);
-    setGitActionResult(null);
-    try {
-      const res = await fetch('/api/git/sync?action=pull', { method: 'POST' });
-      const data = await res.json();
-      if (data.success) {
-        setGitActionResult(`✅ Git Pull 완료: ${data.message}`);
-        fetchGitStatus();
-      } else {
-        setGitActionResult(`⚠️ Pull 거절됨 (충돌 감지): 옆의 [강제 동기화]를 눌러주세요.`);
-      }
-    } catch (e: any) {
-      setGitActionResult(`❌ 통신 실패: ${e.message}`);
     } finally {
       setIsGitActionRunning(false);
     }
@@ -400,26 +377,18 @@ export const CookieSyncModal: React.FC<CookieSyncModalProps> = ({
             </div>
 
             <p className="text-xs text-slate-400 leading-relaxed">
-              외부에서 코드 갱신이 멈추거나 충돌 발생 시, 아래 버튼 하나로 노트북 서버를 100% 최신 상태로 강제 복구합니다.
+              개발 메인 PC에서 수정한 최신 코드와 정산 데이터를 버튼 클릭 한 번으로 노트북 서버에 100% 일치시킵니다 (1순위 메인 PC 자동 우선).
             </p>
 
             <div className="flex flex-wrap items-center gap-2 pt-1">
               <button
-                onClick={handleForcePull}
+                onClick={handleSyncLatestCode}
                 disabled={isGitActionRunning}
-                className="px-3.5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 transition shadow-sm disabled:opacity-50"
-                title="Git 충돌을 강제 취소하고 origin/main 최신 코드로 즉시 복구합니다"
+                className="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 transition shadow-sm disabled:opacity-50"
+                title="1순위 메인 PC 원본 기준으로 노트북 서버를 100% 최신 상태로 즉시 동기화합니다"
               >
                 <RefreshCw className={`w-3.5 h-3.5 ${isGitActionRunning ? 'animate-spin' : ''}`} />
-                <span>⚡ 원격 강제 동기화 (Force Pull)</span>
-              </button>
-
-              <button
-                onClick={handleNormalPull}
-                disabled={isGitActionRunning}
-                className="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium text-xs flex items-center gap-1.5 transition border border-slate-700 disabled:opacity-50"
-              >
-                <span>일반 Pull</span>
+                <span>⚡ 메인 PC 최신 동기화</span>
               </button>
 
               <button

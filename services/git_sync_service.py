@@ -25,36 +25,10 @@ class GitSyncService:
         return os.path.exists(".git")
 
     @classmethod
-    def sync_pull(cls, timeout: int = 10) -> tuple[bool, str]:
-        """깃허브 원격(origin/main)에서 최신 데이터를 받아와 로컬과 병합"""
-        if not cls.is_git_repo():
-            return False, "Git 저장소가 아닙니다."
-            
-        with cls._lock:
-            try:
-                # 1. pull 실행 (merge_ledger.py 스마트 머지 드라이버가 자동 병합)
-                res = subprocess.run(
-                    ["git", "pull", "origin", "main"],
-                    capture_output=True,
-                    text=True,
-                    encoding="utf-8",
-                    errors="ignore",
-                    timeout=timeout
-                )
-                cls._last_sync_time = datetime.now()
-                if res.returncode == 0:
-                    cls._last_sync_status = "Pull 성공"
-                    return True, res.stdout.strip()
-                else:
-                    err_msg = res.stderr.strip() or res.stdout.strip()
-                    cls._last_sync_status = f"Pull 실패: {err_msg[:50]}"
-                    return False, err_msg
-            except subprocess.TimeoutExpired:
-                cls._last_sync_status = "Pull 타임아웃"
-                return False, "원격 저장소 응답 지연(타임아웃)"
-            except Exception as e:
-                cls._last_sync_status = f"Pull 에러: {str(e)[:50]}"
-                return False, str(e)
+    def sync_pull(cls, timeout: int = 15) -> tuple[bool, str]:
+        """깃허브 원격(origin/main)에서 최신 데이터를 받아와 동기화 (메인 PC 1순위 강제 적용)"""
+        # 제이님 규칙: 1순위 메인 PC, 2순위 서버 PC -> 충돌 없이 항상 메인 PC 원본으로 100% 일치
+        return cls.sync_force_pull(timeout=timeout)
 
     @classmethod
     def sync_force_pull(cls, timeout: int = 15) -> tuple[bool, str]:
