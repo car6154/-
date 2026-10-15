@@ -91,12 +91,38 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
   onUploadExcel,
   onOpenHistoryModal,
 }) => {
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  // 🏢 [KCAR] 실시간 공식 검색 필터 URL 동적 생성 (모델명 + 연식 ±1년 + 주행거리 ±3만km)
+  const kcarUrl = React.useMemo(() => {
+    const cond: Record<string, any> = {};
+    const searchText = (carName || '').trim();
+    if (searchText) {
+      cond.wr_txt_idx = searchText;
+    }
+
+    if (yearModel && Number(yearModel) > 0) {
+      const yVal = Number(yearModel);
+      const kcarYear = yVal < 100 ? 2000 + yVal : yVal;
+      cond.wr_gt_mfg_dt = `${kcarYear - 1}01`;
+      cond.wr_lt_mfg_dt = `${kcarYear + 1}12`;
+    }
+
+    if (mileageKm && Number(mileageKm) > 0) {
+      const milVal = Number(mileageKm);
+      const roundedMil = Math.round(milVal / 10000) * 10000;
+      cond.wr_gt_milg = Math.max(0, roundedMil - 30000);
+      cond.wr_lt_milg = roundedMil + 30000;
+    }
+
+    if (Object.keys(cond).length > 0) {
+      return `https://www.kcar.com/bc/search?searchCond=${encodeURIComponent(JSON.stringify(cond))}`;
+    }
+    return 'https://www.kcar.com/bc/search';
+  }, [carName, yearModel, mileageKm]);
 
   return (
         <div className="bg-[#0e0f13] border border-[#262833] rounded-xl p-4 sm:p-5 shadow-lg space-y-3.5">
           
-          {/* Top Bar: Title, Specs & Utility Buttons */}
+          {/* Top Bar: Title, Specs */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-3 border-b border-[#232634]">
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-base font-black text-white font-serif-display flex items-center gap-1.5">
@@ -111,50 +137,6 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
                   🏢 자사 실적 {autoplusStats.matchedCount}대 매칭
                 </span>
               )}
-            </div>
-
-            <div className="flex items-center gap-2 shrink-0">
-              {/* Hidden File Input for Excel/CSV */}
-              <input
-                type="file"
-                ref={fileInputRef}
-                onChange={onUploadExcel}
-                accept=".xlsx, .xls, .csv"
-                className="hidden"
-              />
-
-              <button
-                type="button"
-                onClick={onRescanEncar}
-                disabled={isEncarLoading}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600/25 hover:bg-blue-600/40 border border-blue-500/40 text-blue-200 hover:text-white text-xs sm:text-sm font-bold transition cursor-pointer"
-                title="엔카 실시간 동급 매물 재스캔"
-              >
-                <RefreshCw className={`w-3.5 h-3.5 ${isEncarLoading ? 'animate-spin' : ''}`} />
-                <span>{isEncarLoading ? '스캔 중' : '재스캔'}</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => fileInputRef.current?.click()}
-                disabled={isExcelUploading}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600/25 hover:bg-emerald-600/40 border border-emerald-500/40 text-emerald-200 hover:text-white text-xs sm:text-sm font-bold transition cursor-pointer"
-                title="오토플러스 판매실적 엑셀 업로드"
-              >
-                <Upload className="w-3.5 h-3.5 text-emerald-400" />
-                <span>엑셀</span>
-              </button>
-
-              <a
-                href={encarSourceUrl || "http://www.encar.com"}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#181a24] hover:bg-[#242736] border border-[#2d3142] text-rose-300 hover:text-white text-xs sm:text-sm font-bold transition"
-                title="엔카 원본 검색 페이지 열기"
-              >
-                <span>엔카원본</span>
-                <ExternalLink className="w-3 h-3" />
-              </a>
             </div>
           </div>
 
@@ -733,17 +715,28 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
                 <span>🚘</span>
                 <span>엔카 실시간 소매 시세 요약</span>
               </div>
-              {encarSourceUrl && (
+              <div className="flex items-center gap-2">
+                {encarSourceUrl && (
+                  <a
+                    href={encarSourceUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-xs px-2.5 py-1 rounded bg-[#1e293b] hover:bg-blue-600/30 text-sky-400 hover:text-white border border-sky-500/30 font-bold transition flex items-center gap-1"
+                    title="엔카 공식 실시간 검색 페이지 새창 열기"
+                  >
+                    <span>🚗 엔카시세 ↗</span>
+                  </a>
+                )}
                 <a
-                  href={encarSourceUrl}
+                  href={kcarUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="text-xs px-2.5 py-1 rounded bg-[#1e293b] hover:bg-blue-600/30 text-sky-400 hover:text-white border border-sky-500/30 font-bold transition flex items-center gap-1"
-                  title="엔카 공식 실시간 검색 페이지 새창 열기"
+                  className="text-xs px-2.5 py-1 rounded bg-[#1e293b] hover:bg-rose-600/30 text-rose-300 hover:text-white border border-rose-500/30 font-bold transition flex items-center gap-1"
+                  title="KCAR 직영점 동일 조건(연식±1년/주행거리±3만km) 매물 검색 새창 열기"
                 >
-                  <span>🚗 엔카시세 ↗</span>
+                  <span>🏢 KCAR ↗</span>
                 </a>
-              )}
+              </div>
             </div>
 
             {/* 4 Metrics Bar - 슬림 템플릿 적용 */}
