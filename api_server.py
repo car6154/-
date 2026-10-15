@@ -214,6 +214,11 @@ def trigger_autoplus_sync():
     return AutoplusSyncService.execute_sync()
 
 
+@app.get("/api/autoplus/company_carids")
+def get_company_carids():
+    return AutoplusSyncService.get_company_carid_map()
+
+
 # ----------------------------------------------------
 # 0. 차얼마 API (오토플러스 ERP 실시간 제원 및 옵션 조회)
 # ----------------------------------------------------
@@ -812,6 +817,12 @@ def search_encar_market(req: EncarSearchRequest):
         elif "단순" in target_acc_status or "교환" in target_acc_status or "판금" in target_acc_status:
             acc_adj = -int(round(market_gap * 0.4))
 
+        from services.autoplus_sync_service import AutoplusSyncService
+        try:
+            company_car_map = AutoplusSyncService.get_company_carid_map()
+        except Exception:
+            company_car_map = {}
+
         items = []
         seen_ids = set()
         seen_specs = set()
@@ -844,6 +855,7 @@ def search_encar_market(req: EncarSearchRequest):
             col_str = str(row.get('외장컬러', '-'))
             opt_s = str(row.get('추가옵션', '-'))
             link_s = str(row.get('링크', f"https://fem.encar.com/cars/detail/{cid}"))
+            is_company = bool(cid and cid in company_car_map)
 
             items.append({
                 "id": cid,
@@ -863,6 +875,7 @@ def search_encar_market(req: EncarSearchRequest):
                 "encarUrl": link_s,
                 "photo": "",
                 "isLive": True,
+                "isCompanyCar": is_company,
                 "_carid": cid,
                 "차량명": c_name,
                 "세부모델": s_model,

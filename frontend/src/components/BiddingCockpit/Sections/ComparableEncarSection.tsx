@@ -346,15 +346,19 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                       return { text: `🟡 ${rawType.slice(0, 6)}`, style: 'text-amber-400 font-bold' };
                     };
                     const accInfo = formatAccident(car.accidentType);
+                    const isCompany = !!car.isCompanyCar;
 
                     return (
                       <tr
                         key={car.id}
                         onClick={() => onSelectEncar(car.id)}
+                        title={isCompany ? "자사(오토플러스/리본카) 보유 광고 매물" : undefined}
                         className={`cursor-pointer transition ${
                           isSelected
                             ? 'bg-blue-600/30 text-white font-bold'
-                            : 'hover:bg-[#14151c]'
+                            : isCompany
+                              ? 'bg-indigo-950/40 hover:bg-indigo-900/45 text-indigo-100'
+                              : 'hover:bg-[#14151c]'
                         }`}
                       >
                         <td className="py-1.5 px-1 text-center whitespace-nowrap">
@@ -386,8 +390,10 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                             target="_blank"
                             rel="noopener noreferrer"
                             onClick={(e) => e.stopPropagation()}
-                            className="text-sky-400 hover:text-sky-300 hover:underline font-bold text-[12px] whitespace-nowrap transition-colors"
-                            title={`엔카 공식 상세페이지 새창 열기 (매물코드: ${car.id})`}
+                            className={`hover:underline font-bold text-[12px] whitespace-nowrap transition-colors ${
+                              isCompany ? 'text-indigo-300 hover:text-indigo-200' : 'text-sky-400 hover:text-sky-300'
+                            }`}
+                            title={isCompany ? `자사 매물 엔카 바로가기 (매물코드: ${car.id})` : `엔카 공식 상세페이지 새창 열기 (매물코드: ${car.id})`}
                           >
                             {car.modelName || car.carName}
                           </a>

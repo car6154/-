@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { InventorySettlementItem } from '@/types';
 import {
   Car,
@@ -44,6 +44,34 @@ export const SettlementTab: React.FC<SettlementTabProps> = ({
   onUpdateItem,
   onRefresh,
 }) => {
+  // 자사 차량 carid 매핑 맵
+  const [companyCarIdMap, setCompanyCarIdMap] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    fetch('/api/autoplus/company_carids')
+      .then(r => r.json())
+      .then(data => {
+        if (data && typeof data === 'object') {
+          setCompanyCarIdMap(data);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  const getEncarDetailLink = (carNo: string, encarUrl?: string): string | null => {
+    if (encarUrl) {
+      const m = encarUrl.match(/carid=(\d+)/) || encarUrl.match(/\/cars\/detail\/(\d+)/);
+      if (m) return `https://fem.encar.com/cars/detail/${m[1]}`;
+      if (encarUrl.startsWith('http')) return encarUrl;
+    }
+    const cleanNo = (carNo || '').replace(/\s+/g, '');
+    const matchedId = companyCarIdMap[cleanNo];
+    if (matchedId) {
+      return `https://fem.encar.com/cars/detail/${matchedId}`;
+    }
+    return null;
+  };
+
   // tab_settlement.py states
   const [filterMode, setFilterMode] = useState<'all' | '30plus' | '60plus' | 'margin_risk'>('all');
   const [selectedStockCarNum, setSelectedStockCarNum] = useState<string>('');
@@ -639,7 +667,24 @@ export const SettlementTab: React.FC<SettlementTabProps> = ({
                         {item.carNumber}
                       </td>
                       <td className="py-2.5 px-3 font-semibold text-slate-200 max-w-xs truncate" title={item.carName}>
-                        {item.carName}
+                        {(() => {
+                          const link = getEncarDetailLink(item.carNumber, item.encarUrl);
+                          if (link) {
+                            return (
+                              <a
+                                href={link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-sky-400 hover:text-sky-300 hover:underline flex items-center gap-1 group font-bold"
+                                title={`엔카 매물 상세페이지 새창 열기 (${item.carName})`}
+                              >
+                                <span className="truncate">{item.carName}</span>
+                                <ExternalLink className="w-3 h-3 opacity-60 group-hover:opacity-100 shrink-0 text-sky-400" />
+                              </a>
+                            );
+                          }
+                          return item.carName;
+                        })()}
                       </td>
                       <td className="py-2.5 px-2 text-center whitespace-nowrap">
                         <span className="text-[11px] font-bold text-slate-400 font-mono">

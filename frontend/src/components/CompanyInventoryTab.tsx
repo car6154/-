@@ -61,6 +61,14 @@ export const CompanyInventoryTab: React.FC<CompanyInventoryTabProps> = ({ onAnal
       .catch(() => {});
   }, []);
 
+  const getCarDetailLink = (encarUrl?: string): string | null => {
+    if (!encarUrl || encarUrl === 'javascript:;') return null;
+    const m = encarUrl.match(/carid=(\d+)/) || encarUrl.match(/\/cars\/detail\/(\d+)/);
+    if (m) return `https://fem.encar.com/cars/detail/${m[1]}`;
+    if (encarUrl.startsWith('http')) return encarUrl;
+    return null;
+  };
+
   const handleManualSync = async () => {
     if (isSyncing) return;
     setIsSyncing(true);
@@ -427,7 +435,24 @@ export const CompanyInventoryTab: React.FC<CompanyInventoryTabProps> = ({ onAnal
                   <tr key={car.id} className="hover:bg-[#151824] transition">
                     <td className="py-2.5 px-3">
                       <div className="font-bold text-white">{car.plate}</div>
-                      <div className="text-[11px] text-slate-400">{car.carName}</div>
+                      {(() => {
+                        const link = getCarDetailLink(car.encarUrl);
+                        if (link) {
+                          return (
+                            <a
+                              href={link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-[11px] text-sky-400 hover:text-sky-300 hover:underline flex items-center gap-1 group font-medium"
+                              title={`엔카 매물 상세페이지 새창 열기 (${car.carName})`}
+                            >
+                              <span className="truncate">{car.carName}</span>
+                              <ExternalLink className="w-2.5 h-2.5 opacity-60 group-hover:opacity-100 shrink-0 text-sky-400" />
+                            </a>
+                          );
+                        }
+                        return <div className="text-[11px] text-slate-400">{car.carName}</div>;
+                      })()}
                     </td>
                     <td className="py-2.5 px-3 text-slate-300">
                       <div>{car.subModel}</div>

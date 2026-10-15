@@ -466,6 +466,43 @@ class AutoplusSyncService:
         except Exception as e:
             print(f"[AutoplusSync] JSON 갱신 실패: {e}", flush=True)
 
+    _carid_cache: Dict[str, str] = {}
+    _carid_cache_time: float = 0.0
+
+    @classmethod
+    def get_company_carid_map(cls) -> Dict[str, str]:
+        """자사 보유 차량의 차량번호 -> carid 및 전체 carid 맵 로드 (5분 메모리 캐시)"""
+        import time, re
+        now = time.time()
+        if cls._carid_cache and (now - cls._carid_cache_time < 300):
+            return cls._carid_cache
+
+        mapping: Dict[str, str] = {}
+        if not os.path.exists(INVENTORY_CSV):
+            return mapping
+
+        for enc in ['utf-8-sig', 'utf-8', 'cp949', 'euc-kr']:
+            try:
+                with open(INVENTORY_CSV, 'r', encoding=enc) as f:
+                    reader = csv.DictReader(f)
+                    for r in reader:
+                        plate = str(r.get('차량번호', '')).replace(' ', '').strip()
+                        url = str(r.get('E URL', '')).strip()
+                        if url:
+                            m = re.search(r'carid=(\d+)', url) or re.search(r'/cars/detail/(\d+)', url)
+                            if m:
+                                cid = m.group(1)
+                                if plate:
+                                    mapping[plate] = cid
+                                mapping[cid] = cid
+                break
+            except Exception:
+                continue
+
+        cls._carid_cache = mapping
+        cls._carid_cache_time = now
+        return mapping
+
 
 def start_autoplus_scheduler():
     """서버 구동 시 1회 즉시 실행 + 하루 1회(24시간) 주기 백그라운드 스레드 가동"""
