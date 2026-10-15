@@ -1,4 +1,12 @@
 # api_server.py
+import sys
+if sys.platform == 'win32':
+    try:
+        sys.stdout.reconfigure(encoding='utf-8')
+        sys.stderr.reconfigure(encoding='utf-8')
+    except Exception:
+        pass
+
 import os
 import re
 import csv
@@ -594,7 +602,7 @@ def search_encar_market(req: EncarSearchRequest):
             pass
 
         print(f"\n==================================================", flush=True)
-        print(f"🔥 [엔카검색 요청 수신]", flush=True)
+        print(f"[엔카검색 요청 수신]", flush=True)
         print(f"   carName = '{car_name}'", flush=True)
         print(f"   gradeName = '{raw_g}'", flush=True)
         print(f"   gradeDetailName = '{raw_gd}'", flush=True)

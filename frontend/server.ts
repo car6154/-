@@ -427,6 +427,8 @@ async function startServer() {
     const mileageVal = Number(req.body?.mileage || req.query.mileage) || 0;
 
     const detailModel = (req.body?.detailModel || req.query.detailModel) as string || '';
+    const gradeName = (req.body?.gradeName || req.query.gradeName) as string || '';
+    const gradeDetailName = (req.body?.gradeDetailName || req.query.gradeDetailName) as string || '';
 
     const carNumber = (req.body?.carNumber || req.query.carNumber) as string || '';
 
@@ -439,6 +441,8 @@ async function startServer() {
           url: rawUrl,
           carName,
           detailModel,
+          gradeName,
+          gradeDetailName,
           manufacturer,
           year: yearVal,
           mileage: mileageVal,
@@ -828,7 +832,14 @@ async function startServer() {
       });
 
       // [원칙 1: 조회 차량의 등급(배지)과 정확히 일치하는 매물만 포함, 하이리무진/타인승/타트림 무조건 제외]
-      const targetDetail = String(req.body?.detailModel || req.query.detailModel || '').trim();
+      let targetDetail = String(req.body?.detailModel || req.query.detailModel || '').trim();
+      if (gradeName) {
+        if (gradeDetailName && !gradeName.includes(gradeDetailName)) {
+          targetDetail = `${gradeName} ${gradeDetailName}`.trim();
+        } else {
+          targetDetail = gradeName;
+        }
+      }
       const targetSeatingMatch = (carName + ' ' + (req.body?.model || '')).match(/(\d+인승)/);
       let strictTargetBadge = targetDetail;
       if (targetSeatingMatch && strictTargetBadge && !strictTargetBadge.includes(targetSeatingMatch[1])) {
