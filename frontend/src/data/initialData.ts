@@ -12,13 +12,13 @@ export const INITIAL_CAR_LEDGER: CarLedgerItem[] = [
     "year": "2025",
     "mileage": "22,723 km",
     "options": "현대 스마트센스 I, 컴포트, 17인치 알로이 휠",
-    "buyPrice": 2350,
-    "sellPrice": 2690,
+    "buyPrice": 2520,
+    "sellPrice": 2770,
     "outerRepairs": 3,
     "repairCost": 55,
-    "heydealerFee": 44.0,
+    "heydealerFee": 25.0,
     "memo": "헤이딜러 진단: 골격(리어패널) 판금, 외판 2부위 교환, 1인신조",
-    "status": "매입대기"
+    "status": "매입확정"
   },
   {
     "id": "car_1_16러6692",

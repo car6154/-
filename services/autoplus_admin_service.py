@@ -45,6 +45,31 @@ def _safe_float(val: Any, default: float = 0.0) -> float:
         return default
 
 
+def calculate_heydealer_fee(buy_price_man: float, purchase_type: str = "셀프(기본)", is_light: bool = False) -> float:
+    """
+    헤이딜러 실측 수수료 구간표 자동 계산기
+    - 셀프(기본): <=100만: 7.5만 / <=500만: 18.5만 / <=1000만: (경차 19.0만 / 일반 24.5만) / <=3000만: 25.0만 / >3000만: 36.0만
+    - 제로: <=100만: 14만 / <=500만: 30만 / <=1000만: (경차 30.5만 / 일반 36.5만) / <=1500만: 36.5만 / <=3000만: 39.5만 / <=4000만: 47.5만 / >4000만: 50.5만
+    """
+    p = float(buy_price_man or 0)
+    p_type = str(purchase_type or "")
+    if "제로" in p_type:
+        if p <= 100: return 14.0
+        if p <= 500: return 30.0
+        if p <= 1000: return 30.5 if is_light else 36.5
+        if p <= 1500: return 36.5
+        if p <= 3000: return 39.5
+        if p <= 4000: return 47.5
+        return 50.5
+    elif "셀프" in p_type or "헤이딜러" in p_type or not p_type:
+        if p <= 100: return 7.5
+        if p <= 500: return 18.5
+        if p <= 1000: return 19.0 if is_light else 24.5
+        if p <= 3000: return 25.0
+        return 36.0
+    return 0.0
+
+
 class AutoplusAdminService:
     @classmethod
     def get_last_sync_status(cls) -> Dict[str, Any]:
@@ -381,8 +406,14 @@ class AutoplusAdminService:
                     if l_info["repairCost"] > 0 or _safe_int(r[h_map.get("상품화", 9)]) == 0:
                         rep = l_info["repairCost"] if l_info["repairCost"] > 0 else (l_info["outer"] * 13)
                         update_val("상품화", rep)
-                    if l_info["fee"] > 0 and _safe_float(r[h_map.get("헤딜수수료", 10)]) == 0:
-                        update_val("헤딜수수료", l_info["fee"])
+                    # 수수료: 44.0 등 장부 오류값 배제 및 자동 계산기 적용
+                    raw_l_fee = l_info["fee"]
+                    b_p = _safe_float(r[h_map.get("매입가", 7)])
+                    c_fee = calculate_heydealer_fee(b_p, "셀프(기본)")
+                    fee_to_set = raw_l_fee if raw_l_fee in [55.0, 54.5] else (c_fee if c_fee > 0 else raw_l_fee)
+                    cur_fee = _safe_float(r[h_map.get("헤딜수수료", 10)]) if len(r) > 10 else 0
+                    if fee_to_set > 0 and (cur_fee == 0 or cur_fee == 44.0):
+                        update_val("헤딜수수료", fee_to_set)
                     if l_info["carName"] and not r[h_map.get("차종", 4)]:
                         update_val("차종", l_info["carName"])
 
@@ -412,7 +443,18 @@ class AutoplusAdminService:
                 l_info = ledger_map.get(c_no, {})
                 outer = l_info.get("outer", 0)
                 rep_cost = l_info.get("repairCost", 0) or (outer * 13 if outer > 0 else 0)
-                fee = c_info["heydealerFee"] if c_info["heydealerFee"] > 0 else l_info.get("fee", 0)
+                
+                # 수수료 결정 (high A+ 기타비용 우선 -> 특수대행료 55만 -> 헤이딜러 표준구간표 계산기)
+                raw_l_fee = l_info.get("fee", 0)
+                calc_fee = calculate_heydealer_fee(c_info["buyPrice"], c_info.get("purchaseType", "셀프(기본)"))
+                if c_info["heydealerFee"] > 0:
+                    fee = c_info["heydealerFee"]
+                elif raw_l_fee in [55.0, 54.5]:
+                    fee = raw_l_fee
+                elif calc_fee > 0:
+                    fee = calc_fee
+                else:
+                    fee = raw_l_fee
                 car_name = c_info["carName"] or l_info.get("carName", "")
 
                 set_new("순차", "0")
@@ -583,9 +625,15 @@ class AutoplusAdminService:
                                     while len(r) <= p_rep: r.append("")
                                     r[p_rep] = str(rep)
 
-                            if p_fee is not None and l_info["fee"] > 0 and (_safe_float(r[p_fee]) == 0 if len(r) > p_fee else True):
-                                while len(r) <= p_fee: r.append("")
-                                r[p_fee] = str(l_info["fee"])
+                            if p_fee is not None:
+                                cur_f = _safe_float(r[p_fee]) if len(r) > p_fee else 0
+                                raw_l_fee = l_info["fee"]
+                                b_p = _safe_float(r[h_map.get("매입가", 7)]) if h_map.get("매입가") is not None and len(r) > h_map.get("매입가", 7) else 0
+                                calc_fee = calculate_heydealer_fee(b_p, "셀프(기본)")
+                                f_val = raw_l_fee if raw_l_fee in [55.0, 54.5] else (calc_fee if calc_fee > 0 else raw_l_fee)
+                                if f_val > 0 and (cur_f == 0 or cur_f == 44.0):
+                                    while len(r) <= p_fee: r.append("")
+                                    r[p_fee] = str(f_val)
 
                             if p_name is not None and l_info["carName"] and (not r[p_name] if len(r) > p_name else True):
                                 while len(r) <= p_name: r.append("")
