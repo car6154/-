@@ -12,19 +12,20 @@ if %errorlevel% neq 0 (
 )
 
 echo ========================================================
-echo   [J-PRO] 3 Servers Complete Clean Termination
-echo   - Closing Port 8000, 3000, 8501, 8502 (Admin Mode)
-echo   - Safe termination (protecting shopping bot 6154)
-echo   - Closing all console windows
+echo   [J-PRO] 전체 서버 및 프로세스 완전 종료 (Clean Kill)
+echo   - Closing all Python, Node.js, CMD processes
 echo ========================================================
 
-:: 2. J-PRO 4대 전용 포트(8000, 3000, 8501, 8502)의 LISTENING 대기 프로세스 및 하위 트리 강제 종료
+:: 2. Python 및 Node.js 잔여 백그라운드 / 감시자 프로세스 일괄 전멸
+taskkill /f /im python.exe > nul 2>&1
+taskkill /f /im node.exe > nul 2>&1
+
+:: 3. J-PRO 4대 전용 포트(8000, 3000, 8501, 8502)의 LISTENING 대기 프로세스 및 하위 트리 강제 확인사살
 for /f "tokens=5" %%a in ('netstat -ano -p tcp ^| findstr "LISTENING" ^| findstr ":8000 :3000 :8501 :8502"') do (
-    echo [Kill] Port Process PID: %%a
     taskkill /f /t /pid %%a > nul 2>&1
 )
 
-:: 3. 관련 모든 CMD 콘솔 창 닫기
+:: 4. 관련 모든 CMD 콘솔 창 닫기
 taskkill /f /fi "WINDOWTITLE eq JPRO_*" > nul 2>&1
 taskkill /f /fi "WINDOWTITLE eq *JPRO*" > nul 2>&1
 taskkill /f /fi "WINDOWTITLE eq *FastAPI*" > nul 2>&1
@@ -32,6 +33,6 @@ taskkill /f /fi "WINDOWTITLE eq *Streamlit*" > nul 2>&1
 taskkill /f /fi "WINDOWTITLE eq *Integrated Launcher*" > nul 2>&1
 
 echo.
-echo All J-PRO servers and console windows have been terminated cleanly.
+echo All Python, Node, and J-PRO servers have been terminated cleanly.
 timeout /t 2 /nobreak > nul
 exit

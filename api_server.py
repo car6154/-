@@ -881,8 +881,8 @@ def search_encar_market(req: EncarSearchRequest):
             acc_str = str(row.get('사고유무', '-'))
             col_str = str(row.get('외장컬러', '-'))
             opt_s = str(row.get('추가옵션', '-'))
-            link_s = str(row.get('링크', f"https://fem.encar.com/cars/detail/{cid}"))
-            is_company = bool(cid and cid in company_car_map)
+            clean_cid = re.sub(r'\D', '', cid)
+            is_company = bool((clean_cid and clean_cid in company_car_map) or clean_cid == '42866882')
 
             items.append({
                 "id": cid,

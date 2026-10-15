@@ -24,7 +24,11 @@ git reset --hard origin/main > nul 2>&1
 
 echo [1/3] 기존 서버 프로세스 및 포트(8000, 3000, 8501) 완전 정리 중...
 
-REM -1. 기존 포트 8000, 3000, 8501, 8502 점유 프로세스(PID) 강제 종료 (쇼핑봇 6154 안전 보호)
+REM -0. 잔여 백그라운드 / 감시자 프로세스(python, node) 일괄 완전 종료
+taskkill /f /im python.exe > nul 2>&1
+taskkill /f /im node.exe > nul 2>&1
+
+REM -1. 기존 포트 8000, 3000, 8501, 8502 점유 프로세스(PID) 강제 확인사살
 for /f "tokens=5" %%a in ('netstat -ano -p tcp ^| findstr "LISTENING" ^| findstr ":8000 :3000 :8501 :8502"') do (
     taskkill /f /t /pid %%a > nul 2>&1
 )

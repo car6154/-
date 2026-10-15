@@ -9,6 +9,7 @@ echo ========================================================
 echo.
 
 echo 1. 기존 서버 프로세스 종료 중...
+taskkill /f /im python.exe > nul 2>&1
 taskkill /f /im node.exe > nul 2>&1
 taskkill /f /im streamlit.exe > nul 2>&1
 
