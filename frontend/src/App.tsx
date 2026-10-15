@@ -418,6 +418,52 @@ export default function App() {
     setActiveTab('soldout');
   };
 
+  // 실전 재고 정산표 항목 수정 및 my_inventory_settlement.csv 영구 반영
+  const handleUpdateSettlementItem = async (updatedItem: InventorySettlementItem) => {
+    // 1. 프론트엔드 상태 즉각 반영 (낙관적 UI 업데이트)
+    setSettlementItems(prev =>
+      prev.map(item => (item.id === updatedItem.id || item.carNumber === updatedItem.carNumber ? updatedItem : item))
+    );
+
+    // 2. 백엔드 PUT /api/settlement/{carNumber} 영구 저장
+    try {
+      const res = await fetch(`/api/settlement/${encodeURIComponent(updatedItem.carNumber)}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          buyDate: updatedItem.buyDate,
+          status: updatedItem.status,
+          carNumber: updatedItem.carNumber,
+          carName: updatedItem.carName,
+          sellPrice: updatedItem.sellPrice,
+          stockDays: updatedItem.stockDays,
+          buyPrice: updatedItem.buyPrice,
+          outerRepairs: updatedItem.outerRepairs,
+          repairCost: updatedItem.repairCost,
+          heydealerFee: updatedItem.heydealerFee,
+          baseExpenses: updatedItem.baseExpenses,
+          contributionMargin: updatedItem.contributionMargin,
+          netProfit: updatedItem.netProfit,
+          feeRate: updatedItem.feeRate,
+          salesCommission: updatedItem.salesCommission,
+          finalProfit: updatedItem.finalProfit,
+          isMine: updatedItem.isMine,
+          encarUrl: updatedItem.encarUrl,
+        }),
+      });
+
+      if (res.ok) {
+        showToast(`💾 [${updatedItem.carNumber}] 정산 정보가 my_inventory_settlement.csv에 안전하게 저장되었습니다.`);
+      } else {
+        const err = await res.json().catch(() => ({}));
+        showToast(`⚠️ 저장 실패: ${err.detail || err.message || '서버 오류'}`);
+      }
+    } catch (e: any) {
+      console.warn('[J-PRO] 정산 수정 저장 오류:', e);
+      showToast(`⚠️ 정산 수정 통신 오류: ${e.message}`);
+    }
+  };
+
   // Confirm purchase from ledger into inventory settlement (tab_ledger.py workflow)
   const handleConfirmPurchase = async (car: CarLedgerItem, actualBuyPrice: number) => {
     const alreadyExists = settlementItems.some(s => s.carNumber === car.carNumber);
@@ -768,6 +814,7 @@ export default function App() {
             settlementList={settlementItems}
             onMarkSold={handleMarkSold}
             onAnalyzeInCockpit={handleAnalyzeSettlementInCockpit}
+            onUpdateItem={handleUpdateSettlementItem}
           />
         )}
 
