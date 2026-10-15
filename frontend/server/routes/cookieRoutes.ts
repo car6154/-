@@ -115,6 +115,23 @@ cookieRouter.post(['/api/session/cookie', '/api/save_cookie'], (req, res) => {
 
   saveCookiesToDisk();
 
+  // 🔗 Python 백엔드(8000)로 쿠키 동시 전달 및 AutoplusSyncService.execute_sync() 트리거
+  try {
+    fetch('http://127.0.0.1:8000/api/save_cookie', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-JPRO-Token': 'jpro_sec_9981_live_auth'
+      },
+      body: JSON.stringify({
+        cookie: trimmed,
+        target: targetType.includes('autoplus') || targetType.includes('chaolma') ? 'autoplus' : (targetType || 'heydealer'),
+        secretToken: 'jpro_sec_9981_live_auth'
+      }),
+      signal: AbortSignal.timeout(3000)
+    }).catch(() => {});
+  } catch (_) {}
+
   return res.json({
     success: true,
     message: '세션 쿠키가 클라우드 금고에 안전하게 저장되었습니다.',

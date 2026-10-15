@@ -265,23 +265,40 @@ class CookieSavePayload(BaseModel):
     secretToken: Optional[str] = None
 
 @app.post("/api/save_cookie")
+@app.post("/api/session/cookie")
 def save_cookie_api(payload: CookieSavePayload):
     from services.cookie_server import set_env_variable, save_cookie
-    target = (payload.target or "heydealer").lower()
+    target = (payload.target or "").lower()
     raw_cookie = payload.cookie.strip()
     if not raw_cookie:
         return {"status": "error", "message": "Cookie is empty"}
     
+    # 타겟 자동 추론 보강
+    if not target or target == "unknown":
+        if "JSESSIONID" in raw_cookie.upper() or "remember-me" in raw_cookie:
+            target = "autoplus"
+        elif "sessionid=" in raw_cookie:
+            target = "heydealer"
+        else:
+            target = "autoplus" if "autoplus" in raw_cookie else "heydealer"
+
     base_dir = os.path.dirname(os.path.abspath(__file__))
     if target == "encar":
         save_cookie(raw_cookie)
         set_env_variable("ENCAR_COOKIE", raw_cookie)
         os.environ["ENCAR_COOKIE"] = raw_cookie
-    elif target in ("autoplus", "chaolma"):
+        print(f"[CookieReceive] 엔카 쿠키 {len(raw_cookie)}자 갱신 완료", flush=True)
+    elif target in ("autoplus", "chaolma") or "auto" in target or "chao" in target:
         with open(os.path.join(base_dir, "autoplus_cookie.txt"), "w", encoding="utf-8") as f:
             f.write(raw_cookie)
         set_env_variable("AUTOPLUS_COOKIE", raw_cookie)
         os.environ["AUTOPLUS_COOKIE"] = raw_cookie
+        try:
+            from services.chaolma_service import ChaolmaService
+            ChaolmaService.clear_cache()
+        except Exception:
+            pass
+        print(f"[CookieReceive] 차얼마/오토플러스 쿠키 {len(raw_cookie)}자 갱신 완료. 백그라운드 동기화(execute_sync) 즉시 트리거!", flush=True)
         # [자동화] 제이님이 오플에 로그인하여 새 쿠키가 들어온 즉시 백그라운드 실시간 재고 및 정산 동기화 1회 자동 실행
         import threading
         def _bg_sync():
@@ -301,6 +318,7 @@ def save_cookie_api(payload: CookieSavePayload):
             HeydealerScraper.reload_session_from_saved_cookie()
         except Exception:
             pass
+        print(f"[CookieReceive] 헤이딜러 쿠키 {len(raw_cookie)}자 갱신 완료", flush=True)
 
     return {"status": "ok", "message": f"{target} cookie saved successfully"}
 

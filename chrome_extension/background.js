@@ -18,10 +18,14 @@ async function broadcastToServer(cookieStr, target) {
 
   const endpoints = [
     'http://localhost:8502/api/save_cookie',
+    'http://localhost:8502/api/session/cookie',
     'http://localhost:3000/api/save_cookie',
+    'http://localhost:3000/api/session/cookie',
     'http://localhost:8000/api/save_cookie',
+    'http://localhost:8000/api/session/cookie',
     'http://100.95.238.123:8502/api/save_cookie',
-    'http://100.95.238.123:8000/api/save_cookie'
+    'http://100.95.238.123:8000/api/save_cookie',
+    'http://100.95.238.123:8000/api/session/cookie'
   ];
 
   await Promise.allSettled(

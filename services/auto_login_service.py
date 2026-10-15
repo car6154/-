@@ -160,17 +160,23 @@ def login_heydealer() -> Dict[str, Any]:
             "need_credentials": True,
         }
 
+    print(f"[HeydealerAutoLogin] 1/5: 헤이딜러 자동 로그인 시작 (ID: {user_id[:3]}***)", flush=True)
+
     try:
         from playwright.sync_api import sync_playwright
     except ImportError:
+        print("[HeydealerAutoLogin] ❌ 실패: playwright 미설치", flush=True)
         return {"success": False, "message": "playwright 패키지가 설치되지 않았습니다."}
 
     try:
+        import requests
         with sync_playwright() as p:
+            print("[HeydealerAutoLogin] 2/5: Chromium 브라우저 기동 및 dealer.heydealer.com 접속 중...", flush=True)
             browser = p.chromium.launch(headless=True)
             page = browser.new_page()
 
             page.goto("https://dealer.heydealer.com", timeout=20000)
+            print("[HeydealerAutoLogin] 3/5: 로그인 폼 입력 및 로그인 버튼 클릭...", flush=True)
             page.fill('input[name="username"]', user_id)
             page.fill('input[name="password"]', user_pw)
 
@@ -180,20 +186,80 @@ def login_heydealer() -> Dict[str, Any]:
             # 로그인 처리 및 리다이렉트 대기
             page.wait_for_timeout(4000)
 
+            curr_url = page.url
+            page_text = ""
+            try:
+                page_text = page.inner_text("body", timeout=3000)
+            except Exception:
+                pass
+
+            print(f"[HeydealerAutoLogin] 4/5: 로그인 후 이동 URL: {curr_url}", flush=True)
+
+            # 1. 2차 인증 / OTP 감지
+            if any(k in page_text for k in ["인증번호", "2차 인증", "OTP", "인증 코드", "보안문자"]) or any(k in curr_url for k in ["verify", "otp", "auth/2step"]):
+                print("[HeydealerAutoLogin] ⚠️ 2차 인증(OTP/SMS) 단계 감지됨. 자동 진행 불가.", flush=True)
+                browser.close()
+                return {
+                    "success": False,
+                    "need_otp": True,
+                    "message": "헤이딜러 2차 인증(OTP/알림톡/SMS)이 필요합니다. 크롬 브라우저에서 직접 로그인 후 크롬 확장의 [헤이딜러 쿠키 전송] 버튼을 눌러주세요.",
+                }
+
+            # 2. 로그인 실패 에러 문구 감지
+            if any(k in page_text for k in ["아이디 또는 비밀번호", "일치하지 않습니다", "비밀번호를 확인", "계정 정보를 확인"]):
+                print("[HeydealerAutoLogin] ❌ 로그인 실패 (아이디/비밀번호 불일치)", flush=True)
+                browser.close()
+                return {
+                    "success": False,
+                    "message": "헤이딜러 로그인 실패: 아이디 또는 비밀번호가 올바르지 않습니다. [계정 설정]을 다시 확인해주세요.",
+                }
+
+            # 3. 로그인 페이지 이탈 여부 검증
+            if "login" in curr_url.lower() and not any(k in curr_url.lower() for k in ["cars", "app", "home", "main"]):
+                print(f"[HeydealerAutoLogin] ❌ 로그인 페이지 벗어나지 못함 (URL: {curr_url})", flush=True)
+                browser.close()
+                return {
+                    "success": False,
+                    "message": f"헤이딜러 로그인 실패 (로그인 페이지를 벗어나지 못했습니다. URL: {curr_url})",
+                }
+
             cookies = page.context.cookies()
             browser.close()
 
             cookie_dict = {c["name"]: c["value"] for c in cookies if "heydealer.com" in c.get("domain", "")}
 
-            # sessionid 세션 검증
+            # sessionid 세션 존재 검증
             if "sessionid" not in cookie_dict:
+                print("[HeydealerAutoLogin] ❌ sessionid 쿠키 누락", flush=True)
                 return {
                     "success": False,
-                    "message": "헤이딜러 로그인 후 sessionid를 찾지 못했습니다. 아이디/비밀번호 또는 2차 인증 여부를 확인해주세요.",
+                    "message": "헤이딜러 로그인 후 sessionid 쿠키를 획득하지 못했습니다. (2차 인증 필요 또는 로그인 차단)",
                 }
 
             cookie_str = "; ".join([f"{k}={v}" for k, v in cookie_dict.items()])
+
+            # 4. 실제 헤이딜러 API 실측 ping 검증 (가짜 성공 원천 차단)
+            print("[HeydealerAutoLogin] 5/5: 획득 세션으로 헤이딜러 실제 API 호출 실측 검증 중...", flush=True)
+            try:
+                ping_resp = requests.get(
+                    "https://api.heydealer.com/v2/dealers/web/users/me/",
+                    headers={
+                        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+                        "Cookie": cookie_str
+                    },
+                    timeout=5
+                )
+                if ping_resp.status_code != 200:
+                    print(f"[HeydealerAutoLogin] ❌ 가짜 세션 감지 (API Ping HTTP {ping_resp.status_code})", flush=True)
+                    return {
+                        "success": False,
+                        "message": f"헤이딜러 세션 검증 실패 (API 응답코드: {ping_resp.status_code}). 2차 인증(OTP)이 완료되지 않은 미승인 세션입니다. 크롬 확장으로 직접 로그인 후 연동해주세요.",
+                    }
+            except Exception as pe:
+                print(f"[HeydealerAutoLogin] ⚠️ 실측 검증 요청 경고: {pe}", flush=True)
+
             save_cookie(cookie_str)
+            print(f"[HeydealerAutoLogin] ✅ 헤이딜러 로그인 및 세션 검증 완전 성공! ({len(cookie_str)}자)", flush=True)
 
             return {
                 "success": True,
@@ -203,6 +269,7 @@ def login_heydealer() -> Dict[str, Any]:
             }
 
     except Exception as e:
+        print(f"[HeydealerAutoLogin] ❌ 실행 중 예외 발생: {e}", flush=True)
         return {"success": False, "message": f"헤이딜러 자동 로그인 오류 발생: {str(e)}"}
 
 
