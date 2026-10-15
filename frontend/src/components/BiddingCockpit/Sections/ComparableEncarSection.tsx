@@ -357,11 +357,13 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                           isSelected
                             ? 'bg-blue-600/30 text-white font-bold'
                             : isCompany
-                              ? 'bg-indigo-950/40 hover:bg-indigo-900/45 text-indigo-100'
+                              ? 'bg-indigo-900/45 hover:bg-indigo-900/60 text-indigo-100'
                               : 'hover:bg-[#14151c]'
                         }`}
                       >
-                        <td className="py-1.5 px-1 text-center whitespace-nowrap">
+                        <td className={`py-1.5 px-1 text-center whitespace-nowrap ${
+                          isCompany ? 'border-l-2 border-indigo-400/70' : ''
+                        }`}>
                           <input
                             type="radio"
                             name="encarSelect"
