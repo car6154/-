@@ -33,12 +33,11 @@ for /f "tokens=5" %%a in ('netstat -ano -p tcp ^| findstr "LISTENING" ^| findstr
     taskkill /f /t /pid %%a > nul 2>&1
 )
 
-REM -2. 기존 잔여 JPRO 창 및 콘솔 안전 종료 (중복 창 방지)
-taskkill /f /fi "WINDOWTITLE eq JPRO_*" > nul 2>&1
-taskkill /f /fi "WINDOWTITLE eq *JPRO*" > nul 2>&1
-taskkill /f /fi "WINDOWTITLE eq *FastAPI*" > nul 2>&1
-taskkill /f /fi "WINDOWTITLE eq *Streamlit*" > nul 2>&1
-taskkill /f /fi "WINDOWTITLE eq *Integrated Launcher*" > nul 2>&1
+REM -2. 기존 잔여 서버 콘솔 창 닫기 (자기 자신 Launcher 창은 보호)
+taskkill /f /fi "WINDOWTITLE eq JPRO_FastAPI_*" > nul 2>&1
+taskkill /f /fi "WINDOWTITLE eq JPRO_Frontend_*" > nul 2>&1
+taskkill /f /fi "WINDOWTITLE eq JPRO_Streamlit_*" > nul 2>&1
+taskkill /f /fi "WINDOWTITLE eq AI_Shopping_Bot*" > nul 2>&1
 timeout /t 1 /nobreak > nul
 
 REM 0. Tailscale 수신 파일(다운로드 폴더) 자동 배치
