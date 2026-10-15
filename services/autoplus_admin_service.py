@@ -279,8 +279,43 @@ class AutoplusAdminService:
         if not os.path.exists(SETTLEMENT_CSV):
             return {"added": 0, "updated": 0}
 
+    @classmethod
+    def _load_ledger_info_map(cls) -> Dict[str, Dict[str, Any]]:
+        """my_car_ledger.csv에서 차량번호별 외판수리, 상품화, 차종, 헤딜수수료 로드"""
+        res = {}
+        if not os.path.exists(LEDGER_CSV):
+            return res
+        for enc in ['utf-8-sig', 'utf-8', 'cp949']:
+            try:
+                with open(LEDGER_CSV, "r", encoding=enc) as f:
+                    reader = csv.DictReader(f)
+                    for r in reader:
+                        cno = str(r.get("차량번호", "")).replace(" ", "").strip()
+                        if not cno: continue
+                        outer = _safe_int(r.get("외판수리", 0))
+                        rep = _safe_int(r.get("외판수리비", 0))
+                        fee = _safe_float(r.get("헤딜수수료", 0))
+                        m_name = f"{r.get('제조사', '')} {r.get('차량명', '')} {r.get('세부모델', '')}".strip()
+                        res[cno] = {
+                            "outer": outer,
+                            "repairCost": rep,
+                            "fee": fee,
+                            "carName": m_name
+                        }
+                break
+            except Exception:
+                continue
+        return res
+
+    @classmethod
+    def _sync_inventory_settlement_csv(cls, cleaned_cars: List[Dict[str, Any]]) -> Dict[str, int]:
+        """실전 재고 정산표(my_inventory_settlement.csv) 동기화 (외판은 장부 기준 보존, 매입가/수수료만 반영)"""
+        if not os.path.exists(SETTLEMENT_CSV):
+            return {"added": 0, "updated": 0}
+
         cls.backup_file(SETTLEMENT_CSV)
         cars_by_no = {c["carNumber"]: c for c in cleaned_cars}
+        ledger_map = cls._load_ledger_info_map()
 
         header = [
             '순차', '매입일', '상태', '차량번호', '차종', '판매가', '재고일', '매입가',
@@ -306,86 +341,90 @@ class AutoplusAdminService:
 
         h_map = {col.strip(): i for i, col in enumerate(header)}
         car_no_idx = h_map.get("차량번호", 3)
+        date_idx = h_map.get("매입일", 1)
 
         existing_cars = set()
         updated_count = 0
         new_rows = []
 
-        # 1) 기존 행 갱신 (단, 2026년 9월 이전 과거 건은 필터링하여 자동 제거)
-        date_idx = h_map.get("매입일", 1)
+        # 1) 기존 행 갱신 (없는 차량 0453, 9940 및 9월 이전 과거 건 제거, 외판은 장부에서 복구)
         for r in rows:
             if len(r) > car_no_idx:
                 c_no = r[car_no_idx].strip()
                 b_date = r[date_idx].strip() if len(r) > date_idx else ""
 
-                # 2026년 9월 이전 매입건(04., 05., 06., 07., 08. 등) 필터링
+                # 없는 차량 및 더미 제거
+                if c_no in ['304소0453', '211두9940']:
+                    continue
+
+                # 2026년 9월 이전 매입건(04., 05., 06., 07., 08. 등) 필터링 제거
                 m_d = re.search(r"(?:20\d{2}[-/.])?0?(\d{1,2})[-/.]", b_date)
                 if m_d:
                     m_val = int(m_d.group(1))
                     if m_val < 9:
-                        continue  # 9월 이전 과거 데이터 제거
+                        continue
 
                 existing_cars.add(c_no)
+
+                def update_val(col_name: str, new_val: Any):
+                    pos = h_map.get(col_name)
+                    if pos is not None and new_val is not None:
+                        while len(r) <= pos: r.append("")
+                        r[pos] = str(new_val).strip()
+
+                # 외판 및 상품화: 장부(my_car_ledger.csv)에서 무조건 복구!
+                if c_no in ledger_map:
+                    l_info = ledger_map[c_no]
+                    if l_info["outer"] > 0 or _safe_int(r[h_map.get("외판수리", 8)]) == 0:
+                        update_val("외판수리", l_info["outer"])
+                    if l_info["repairCost"] > 0 or _safe_int(r[h_map.get("상품화", 9)]) == 0:
+                        rep = l_info["repairCost"] if l_info["repairCost"] > 0 else (l_info["outer"] * 13)
+                        update_val("상품화", rep)
+                    if l_info["fee"] > 0 and _safe_float(r[h_map.get("헤딜수수료", 10)]) == 0:
+                        update_val("헤딜수수료", l_info["fee"])
+                    if l_info["carName"] and not r[h_map.get("차종", 4)]:
+                        update_val("차종", l_info["carName"])
+
+                # high A+에서는 매입가와 기타비용(수수료)만 반영 (외판은 건드리지 않음!)
                 if c_no in cars_by_no:
                     c_info = cars_by_no[c_no]
-                    def update_val(col_name: str, new_val: Any):
-                        pos = h_map.get(col_name)
-                        if pos is not None and new_val is not None:
-                            while len(r) <= pos: r.append("")
-                            r[pos] = str(new_val).strip()
-
-                    # 매입가
                     if c_info["buyPrice"] > 0:
                         update_val("매입가", c_info["buyPrice"])
-                    # 매입일
                     if c_info["buyDate"]:
                         update_val("매입일", c_info["buyDate"])
-                    # 외판 (0보다 크면)
-                    if c_info["outerRepairs"] > 0:
-                        update_val("외판수리", c_info["outerRepairs"])
-                        # 상품화 비용이 비어있으면 판수*13 제안
-                        pos_rep = h_map.get("상품화")
-                        if pos_rep and (not r[pos_rep] or _safe_int(r[pos_rep]) == 0):
-                            update_val("상품화", c_info["outerRepairs"] * 13)
-                    # 수수료 (헤딜+영업사원 수수료)
                     if c_info["heydealerFee"] > 0:
                         update_val("헤딜수수료", c_info["heydealerFee"])
-                    # 상품화비용 직접 명시 건
-                    if c_info["repairCost"] > 0:
-                        update_val("상품화", c_info["repairCost"])
-
                     updated_count += 1
-            new_rows.append(r)
 
-        # 2) 신규 차량 추가 (Upsert 최상단 삽입)
+                new_rows.append(r)
+
+        # 2) 신규 차량 추가 (Upsert)
         added_count = 0
-        max_order = 0
-        for r in new_rows:
-            if len(r) > 0:
-                max_order = max(max_order, _safe_int(r[0]))
-
         for c_no, c_info in cars_by_no.items():
-            if c_no not in existing_cars:
-                max_order += 1
+            if c_no not in existing_cars and c_no not in ['304소0453', '211두9940']:
                 row_new = [""] * len(header)
                 def set_new(col_name: str, val: Any):
                     pos = h_map.get(col_name)
                     if pos is not None:
                         row_new[pos] = str(val if val is not None else "").strip()
 
-                rep_cost = c_info["repairCost"] if c_info["repairCost"] > 0 else (c_info["outerRepairs"] * 13 if c_info["outerRepairs"] > 0 else 0)
+                l_info = ledger_map.get(c_no, {})
+                outer = l_info.get("outer", 0)
+                rep_cost = l_info.get("repairCost", 0) or (outer * 13 if outer > 0 else 0)
+                fee = c_info["heydealerFee"] if c_info["heydealerFee"] > 0 else l_info.get("fee", 0)
+                car_name = c_info["carName"] or l_info.get("carName", "")
 
-                set_new("순차", str(max_order))
+                set_new("순차", "0")
                 set_new("매입일", c_info["buyDate"])
                 set_new("상태", "보유/상품화중")
                 set_new("차량번호", c_no)
-                set_new("차종", c_info["carName"])
+                set_new("차종", car_name)
                 set_new("판매가", "0")
                 set_new("재고일", str(c_info["stockDays"]))
                 set_new("매입가", str(c_info["buyPrice"]))
-                set_new("외판수리", str(c_info["outerRepairs"]))
+                set_new("외판수리", str(outer))
                 set_new("상품화", str(rep_cost))
-                set_new("헤딜수수료", str(c_info["heydealerFee"]))
+                set_new("헤딜수수료", str(fee))
                 set_new("기본제경비", "15")
                 set_new("공헌이익", "0")
                 set_new("실수익", "0")
@@ -399,6 +438,11 @@ class AutoplusAdminService:
                 new_rows.insert(0, row_new)
                 added_count += 1
 
+        # 3) 순차를 1부터 위에서부터 깔끔하게 재부여 (1, 2, 3, 4, 5...)
+        for idx, row in enumerate(new_rows):
+            if len(row) > 0:
+                row[0] = str(idx + 1)
+
         # 원자적 파일 교체
         temp_path = f"{SETTLEMENT_CSV}.tmp"
         try:
@@ -408,9 +452,10 @@ class AutoplusAdminService:
                 writer.writerows(new_rows)
             os.replace(temp_path, SETTLEMENT_CSV)
         except Exception as e:
-            if os.path.exists(temp_path): os.remove(temp_path)
+            if os.path.exists(temp_path):
+                try: os.remove(temp_path)
+                except: pass
             print(f"[AutoplusAdminService] 정산표 저장 오류: {e}")
-
         return {"added": added_count, "updated": updated_count}
 
     @classmethod
@@ -484,13 +529,15 @@ class AutoplusAdminService:
 
     @classmethod
     def clean_pre_september_inventory(cls) -> int:
-        """2026년 9월 1일 이전 과거 매입 데이터 정리 (보유재고 정산표 정화)"""
+        """2026년 9월 1일 이전 과거 데이터 및 없는 차량 정리, 외판 복구, 순차 1부터 재부여"""
         if not os.path.exists(SETTLEMENT_CSV):
             return 0
         cls.backup_file(SETTLEMENT_CSV)
         header = []
         clean_rows = []
         removed_count = 0
+        ledger_map = cls._load_ledger_info_map()
+
         for enc in ['utf-8-sig', 'utf-8', 'cp949']:
             try:
                 with open(SETTLEMENT_CSV, 'r', encoding=enc) as f:
@@ -498,8 +545,17 @@ class AutoplusAdminService:
                     header = next(reader, [])
                     h_map = {col.strip(): i for i, col in enumerate(header)}
                     date_idx = h_map.get("매입일", 1)
+                    car_no_idx = h_map.get("차량번호", 3)
                     for r in reader:
-                        if not r: continue
+                        if not r or not any(field.strip() for field in r): continue
+                        c_no = r[car_no_idx].strip() if len(r) > car_no_idx else ""
+
+                        # 1. 없는 차량 제거
+                        if c_no in ['304소0453', '211두9940']:
+                            removed_count += 1
+                            continue
+
+                        # 2. 9월 이전 매입건 제거
                         b_date = r[date_idx].strip() if len(r) > date_idx else ""
                         m_d = re.search(r"(?:20\d{2}[-/.])?0?(\d{1,2})[-/.]", b_date)
                         if m_d:
@@ -507,23 +563,54 @@ class AutoplusAdminService:
                             if m_val < 9:
                                 removed_count += 1
                                 continue
+
+                        # 3. 외판/상품화 복구 (장부 기준)
+                        if c_no in ledger_map:
+                            l_info = ledger_map[c_no]
+                            p_out = h_map.get("외판수리")
+                            p_rep = h_map.get("상품화")
+                            p_fee = h_map.get("헤딜수수료")
+                            p_name = h_map.get("차종")
+
+                            if p_out is not None and l_info["outer"] > 0:
+                                while len(r) <= p_out: r.append("")
+                                r[p_out] = str(l_info["outer"])
+
+                            if p_rep is not None:
+                                rep = l_info["repairCost"] if l_info["repairCost"] > 0 else (l_info["outer"] * 13)
+                                if rep > 0:
+                                    while len(r) <= p_rep: r.append("")
+                                    r[p_rep] = str(rep)
+
+                            if p_fee is not None and l_info["fee"] > 0 and (_safe_float(r[p_fee]) == 0 if len(r) > p_fee else True):
+                                while len(r) <= p_fee: r.append("")
+                                r[p_fee] = str(l_info["fee"])
+
+                            if p_name is not None and l_info["carName"] and (not r[p_name] if len(r) > p_name else True):
+                                while len(r) <= p_name: r.append("")
+                                r[p_name] = l_info["carName"]
+
                         clean_rows.append(r)
                 break
             except Exception:
                 continue
 
-        if header and removed_count > 0:
-            temp_path = f"{SETTLEMENT_CSV}.tmp"
-            try:
-                with open(temp_path, "w", encoding="utf-8-sig", newline="") as f:
-                    writer = csv.writer(f)
-                    writer.writerow(header)
-                    writer.writerows(clean_rows)
-                os.replace(temp_path, SETTLEMENT_CSV)
-                print(f"[AutoplusAdminService] 9월 이전 과거 매입 데이터 {removed_count}건 정산표에서 정리 완료", flush=True)
-            except Exception as e:
-                if os.path.exists(temp_path): os.remove(temp_path)
-                print(f"[AutoplusAdminService] 9월 이전 정리 저장 오류: {e}")
+        # 4. 순차를 1부터 위에서부터 차례대로 재부여 (1, 2, 3, 4, 5...)
+        for idx, row in enumerate(clean_rows):
+            if len(row) > 0:
+                row[0] = str(idx + 1)
+
+        temp_path = f"{SETTLEMENT_CSV}.tmp"
+        try:
+            with open(temp_path, "w", encoding="utf-8-sig", newline="") as f:
+                writer = csv.writer(f)
+                writer.writerow(header)
+                writer.writerows(clean_rows)
+            os.replace(temp_path, SETTLEMENT_CSV)
+            print(f"[AutoplusAdminService] 정산표 정리 완료 (제외: {removed_count}건, 남은 대수: {len(clean_rows)}대, 외판 복구 완료)", flush=True)
+        except Exception as e:
+            if os.path.exists(temp_path): os.remove(temp_path)
+            print(f"[AutoplusAdminService] 9월 이전 정리 저장 오류: {e}")
         return removed_count
 
     @classmethod
