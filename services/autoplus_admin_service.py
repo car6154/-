@@ -496,6 +496,12 @@ class AutoplusAdminService:
                 writer.writerow(header)
                 writer.writerows(new_rows)
             os.replace(temp_path, SETTLEMENT_CSV)
+            # [자동화 파이프라인] 매입 연동 완료 즉시 오플 전사 재고의 판매가, 재고일, 엔카URL을 100% 자동 매칭
+            try:
+                from services.autoplus_sync_service import AutoplusSyncService
+                AutoplusSyncService._sync_settlement_ledger()
+            except Exception as se:
+                print(f"[AutoplusAdminService] 오플 재고 자동 매칭 연동 경고: {se}", flush=True)
         except Exception as e:
             if os.path.exists(temp_path):
                 try: os.remove(temp_path)

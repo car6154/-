@@ -261,14 +261,29 @@ class AutoplusSyncService:
         return len(existing_data)
 
     @classmethod
-    def _sync_settlement_ledger(cls, selling_rows: List[List[Any]]) -> int:
+    def _sync_settlement_ledger(cls, selling_rows: Optional[List[List[Any]]] = None) -> int:
         """
         제이님의 개인 정산 파일(my_inventory_settlement.csv) 동기화
         - 외판수리, 상품화, 헤딜수수료, 공헌이익, 실수익, 내꺼 등 커스텀 정산 필드는 100% 보존
         - 차량번호가 일치하는 건의 상태, 판매가, 재고일, 엔카URL을 최신값으로 업데이트
+        - selling_rows가 주어지지 않으면 디스크의 autoplus_inventory.csv에서 자동 로드
         """
         if not os.path.exists(SETTLEMENT_CSV):
             return 0
+
+        # selling_rows가 없으면 디스크의 autoplus_inventory.csv에서 로드
+        if selling_rows is None:
+            selling_rows = []
+            if os.path.exists(INVENTORY_CSV):
+                for enc in ['utf-8-sig', 'utf-8', 'cp949', 'euc-kr']:
+                    try:
+                        with open(INVENTORY_CSV, 'r', encoding=enc) as f:
+                            reader = csv.reader(f)
+                            next(reader, None)
+                            selling_rows = [r for r in reader if r]
+                        break
+                    except Exception:
+                        continue
 
         # 판매중 차량 맵: plate -> dict
         selling_map = {}

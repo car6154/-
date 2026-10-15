@@ -499,13 +499,22 @@ def get_highplus_status():
 def trigger_highplus_sync():
     """사용자가 '매입연동' 버튼을 누르면 백엔드 쿠키로 즉시 동기화 시도 및 9월 이전 데이터 정리"""
     from services.autoplus_admin_service import AutoplusAdminService
+    from services.autoplus_sync_service import AutoplusSyncService
     cleaned = AutoplusAdminService.clean_pre_september_inventory()
     res = AutoplusAdminService.fetch_and_sync_backend()
     status = AutoplusAdminService.get_last_sync_status()
+    # [원스톱 자동화] 매입 연동 후 오플 판매재고 및 엔카URL 동기화 시도
+    ap_sync_res = {}
+    try:
+        ap_sync_res = AutoplusSyncService.execute_sync()
+    except Exception as e:
+        ap_sync_res = {"status": "ERROR", "message": str(e)}
+
     return {
         "syncResult": res,
         "status": status,
-        "cleanedCount": cleaned
+        "cleanedCount": cleaned,
+        "autoplusSyncResult": ap_sync_res
     }
 
 
