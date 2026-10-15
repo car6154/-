@@ -14,6 +14,7 @@ interface HeaderProps {
   onOpenAddModal?: () => void;
   onOpenDriveModal: () => void;
   onOpenCookieModal: () => void;
+  onOpenExtensionModal?: () => void;
   onPasteClipboardCookie?: () => void;
   cookieStatus: 'active' | 'expired' | 'missing';
   isPrivateUnlocked?: boolean;
@@ -26,6 +27,7 @@ export const Header: React.FC<HeaderProps> = ({
   totalCarsCount,
   onOpenDriveModal,
   onOpenCookieModal,
+  onOpenExtensionModal,
   onPasteClipboardCookie,
   cookieStatus,
 }) => {
@@ -141,6 +143,17 @@ export const Header: React.FC<HeaderProps> = ({
             <Cloud className="w-3.5 h-3.5" />
             <span className="hidden md:inline">Drive</span>
           </button>
+
+          {onOpenExtensionModal && (
+            <button
+              onClick={onOpenExtensionModal}
+              className="px-2 py-1 rounded-lg bg-sky-500/10 hover:bg-sky-500/20 text-sky-300 border border-sky-500/30 text-xs font-semibold flex items-center gap-1 transition shadow-sm shrink-0"
+              title="크롬 확장프로그램 10초 설치 및 다운로드 가이드"
+            >
+              <span>🧩</span>
+              <span className="hidden md:inline">확장</span>
+            </button>
+          )}
 
           {onPasteClipboardCookie && (
             <button

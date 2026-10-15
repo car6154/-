@@ -89,6 +89,30 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
   const showTrimColumn = externalShowTrimColumn !== undefined ? externalShowTrimColumn : internalShowTrim;
   const [sortOption, setSortOption] = useState<EncarSortOption>('complex');
 
+  // 자사 차량 매핑 맵 연동 (백엔드 캐시와 동기화하여 100% 자사 매물 식별)
+  const [companyCarIdMap, setCompanyCarIdMap] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    fetch('/api/autoplus/company_carids')
+      .then(r => r.json())
+      .then(data => {
+        if (data && typeof data === 'object') {
+          setCompanyCarIdMap(data);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  const isCompanyCarItem = (car: EncarItem): boolean => {
+    if (car.isCompanyCar) return true;
+    const cleanId = String(car.id || car._carid || '').replace(/\D/g, '');
+    return !!(cleanId && companyCarIdMap[cleanId]);
+  };
+
+  const companyCount = useMemo(() => {
+    return (encarList || []).filter(isCompanyCarItem).length;
+  }, [encarList, companyCarIdMap]);
+
   const sortedEncarList = useMemo(() => {
     if (!encarList || encarList.length === 0) return [];
     const list = [...encarList];
@@ -201,7 +225,14 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
         {/* Table (Left 7 cols) */}
         <div className="xl:col-span-7 space-y-2 flex flex-col">
           <div className="flex items-center justify-between text-xs sm:text-sm font-bold text-white px-1">
-            <span>📰 엔카 동급 매물 (전체 {encarTotalModelCount}대 중 유효 {encarFilteredCount || encarList.length}대)</span>
+            <span className="flex items-center gap-2">
+              <span>📰 엔카 동급 매물 (전체 {encarTotalModelCount}대 중 유효 {encarFilteredCount || encarList.length}대)</span>
+              {companyCount > 0 && (
+                <span className="px-1.5 py-0.5 rounded text-[11px] font-black bg-indigo-500/30 text-indigo-200 border border-indigo-400/50">
+                  자사 {companyCount}대
+                </span>
+              )}
+            </span>
             <div className="flex items-center gap-2">
               <div className="flex items-center gap-1.5">
                 <span className="text-[11px] text-zinc-400 font-medium hidden sm:inline">정렬:</span>
@@ -346,7 +377,7 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                       return { text: `🟡 ${rawType.slice(0, 6)}`, style: 'text-amber-400 font-bold' };
                     };
                     const accInfo = formatAccident(car.accidentType);
-                    const isCompany = !!car.isCompanyCar;
+                    const isCompany = isCompanyCarItem(car);
 
                     return (
                       <tr
@@ -387,18 +418,28 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                           </span>
                         </td>
                         <td className="py-1.5 px-1.5 text-[12px] whitespace-nowrap">
-                          <a
-                            href={`https://fem.encar.com/cars/detail/${String(car.id).replace(/\D/g, '')}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            onClick={(e) => e.stopPropagation()}
-                            className={`hover:underline font-bold text-[12px] whitespace-nowrap transition-colors ${
-                              isCompany ? 'text-indigo-300 hover:text-indigo-200' : 'text-sky-400 hover:text-sky-300'
-                            }`}
-                            title={isCompany ? `자사 매물 엔카 바로가기 (매물코드: ${car.id})` : `엔카 공식 상세페이지 새창 열기 (매물코드: ${car.id})`}
-                          >
-                            {car.modelName || car.carName}
-                          </a>
+                          <div className="flex items-center gap-1.5">
+                            {isCompany && (
+                              <span
+                                className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-black bg-indigo-500/30 text-indigo-200 border border-indigo-400/50 shadow-sm shrink-0"
+                                title="자사(오토플러스/리본카) 보유 및 엔카 광고 등록 매물"
+                              >
+                                자사
+                              </span>
+                            )}
+                            <a
+                              href={`https://fem.encar.com/cars/detail/${String(car.id).replace(/\D/g, '')}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={(e) => e.stopPropagation()}
+                              className={`hover:underline font-bold text-[12px] whitespace-nowrap transition-colors ${
+                                isCompany ? 'text-indigo-300 hover:text-indigo-200' : 'text-sky-400 hover:text-sky-300'
+                              }`}
+                              title={isCompany ? `자사 매물 엔카 바로가기 (매물코드: ${car.id})` : `엔카 공식 상세페이지 새창 열기 (매물코드: ${car.id})`}
+                            >
+                              {car.modelName || car.carName}
+                            </a>
+                          </div>
                         </td>
                         {showTrimColumn && (
                           <td className="py-1.5 px-1.5 text-[11px] text-zinc-300 font-medium whitespace-nowrap">

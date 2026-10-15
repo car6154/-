@@ -18,6 +18,7 @@ import { CarDetailModal } from '@/components/CarDetailModal';
 import { AddCarModal } from '@/components/AddCarModal';
 import { DriveModal } from '@/components/DriveModal';
 import { CookieSyncModal } from '@/components/CookieSyncModal';
+import { ExtensionInstallModal } from '@/components/ExtensionInstallModal';
 import { MobileNav } from '@/components/MobileNav';
 import { RefreshCw, Cloud, ShieldCheck, CheckCircle2 } from 'lucide-react';
 import { sendCarToGoogleSheet } from '@/services/googleSheetService';
@@ -128,6 +129,7 @@ export default function App() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isDriveModalOpen, setIsDriveModalOpen] = useState(false);
   const [isCookieModalOpen, setIsCookieModalOpen] = useState(false);
+  const [isExtensionModalOpen, setIsExtensionModalOpen] = useState(false);
 
   // Cookie status state
   const [cookieStatus, setCookieStatus] = useState<'active' | 'expired' | 'missing'>('missing');
@@ -770,6 +772,7 @@ export default function App() {
         onOpenAddModal={() => setIsAddModalOpen(true)}
         onOpenDriveModal={() => setIsDriveModalOpen(true)}
         onOpenCookieModal={() => setIsCookieModalOpen(true)}
+        onOpenExtensionModal={() => setIsExtensionModalOpen(true)}
         onPasteClipboardCookie={handlePasteClipboardCookie}
         cookieStatus={cookieStatus}
         isPrivateUnlocked={isPrivateUnlocked}
@@ -901,6 +904,11 @@ export default function App() {
         onClose={() => setIsCookieModalOpen(false)}
         cookieStatus={cookieStatus}
         onUpdateCookie={handleUpdateCookie}
+      />
+
+      <ExtensionInstallModal
+        isOpen={isExtensionModalOpen}
+        onClose={() => setIsExtensionModalOpen(false)}
       />
 
       {/* Mobile Bottom Navigation Bar */}
