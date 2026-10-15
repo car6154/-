@@ -161,12 +161,11 @@ export default function App() {
   // Cockpit Preset state (장부/재고 역추적 시세 분석용)
   const [cockpitPreset, setCockpitPreset] = useState<CockpitPresetData | null>(null);
 
-  // 🔗 URL 파라미터 딥링크 파싱 (예: ?tab=cockpit&car=37다1840)
+  // 🔗 URL 파라미터 딥링크 파싱 (탭 전환만 유지, 차량번호 자동 주입 제거)
   useEffect(() => {
     try {
       const params = new URLSearchParams(window.location.search);
       const tabParam = params.get('tab') as AppTab | null;
-      const carParam = params.get('car');
       const hashIdParam = params.get('hashId');
       const titleParam = params.get('title');
 
@@ -181,33 +180,30 @@ export default function App() {
           memo: ''
         });
         showToast(`⚡ 헤이딜러 매물 [${titleParam ? decodeURIComponent(titleParam) : hashIdParam}] 콕핏 연동 완료!`);
-      } else if (carParam) {
-        setCockpitPreset({
-          carNumber: carParam,
-          memo: ''
-        });
-        showToast(`🔗 차량번호 [${carParam}] 콕핏 연동 완료`);
+      }
+
+      // 주소창에 남아있는 잔여 car 파라미터 완전 삭제 (새로고침 시 디폴트 값 채움 방지)
+      const url = new URL(window.location.href);
+      if (url.searchParams.has('car')) {
+        url.searchParams.delete('car');
+        window.history.replaceState({}, '', url.toString());
       }
     } catch (e) {
       console.error(e);
     }
   }, []);
 
-  // 🔗 현재 탭 및 차량 상태를 브라우저 URL에 실시간 반영 (새로고침/공유 시 유지)
+  // 🔗 현재 활성 탭만 브라우저 URL에 반영 (차량번호는 URL에 보존하지 않음)
   useEffect(() => {
     try {
       const url = new URL(window.location.href);
       url.searchParams.set('tab', activeTab);
-      if (cockpitPreset?.carNumber) {
-        url.searchParams.set('car', cockpitPreset.carNumber);
-      } else {
-        url.searchParams.delete('car');
-      }
+      url.searchParams.delete('car');
       window.history.replaceState({}, '', url.toString());
     } catch (e) {
       console.error(e);
     }
-  }, [activeTab, cockpitPreset]);
+  }, [activeTab]);
 
   // KPI calculations
   const totalCarsCount = cars.length;
