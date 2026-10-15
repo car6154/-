@@ -9,7 +9,10 @@ echo   - Closing Port 8000, 3000, 8501
 echo   - Closing all console windows
 echo ========================================================
 
-REM 1. 포트 8000, 3000, 8501 점유 프로세스(PID) 강제 종료
+REM 1. 쇼핑봇(6154)을 제외한 J-PRO 프로세스(부모 uvicorn, 워커, vite, streamlit, 포트) 정밀 종료
+powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0scripts\kill_jpro_servers.ps1"
+
+REM 2. 포트 8000, 3000, 8501 잔여 점유 프로세스(PID) 2차 강제 종료
 for /f "tokens=5" %%a in ('netstat -ano -p tcp ^| findstr ":8000 "') do (
     echo [Kill] Port 8000 (PID: %%a)
     taskkill /f /t /pid %%a > nul 2>&1
