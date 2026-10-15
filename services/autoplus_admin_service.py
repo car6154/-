@@ -398,12 +398,14 @@ class AutoplusAdminService:
                         while len(r) <= pos: r.append("")
                         r[pos] = str(new_val).strip()
 
-                # 외판 및 상품화: 장부(my_car_ledger.csv)에서 무조건 복구!
+                # 외판 및 상품화: 사용자가 수정한 실제 외판값을 100% 영구 보존! (최초 1회만 장부값 가져옴)
                 if c_no in ledger_map:
                     l_info = ledger_map[c_no]
-                    if l_info["outer"] > 0 or _safe_int(r[h_map.get("외판수리", 8)]) == 0:
+                    cur_outer_str = r[h_map.get("외판수리", 8)].strip() if len(r) > h_map.get("외판수리", 8) else ""
+                    cur_rep_str = r[h_map.get("상품화", 9)].strip() if len(r) > h_map.get("상품화", 9) else ""
+                    if cur_outer_str == "" and l_info["outer"] > 0:
                         update_val("외판수리", l_info["outer"])
-                    if l_info["repairCost"] > 0 or _safe_int(r[h_map.get("상품화", 9)]) == 0:
+                    if cur_rep_str == "" and (l_info["repairCost"] > 0 or l_info["outer"] > 0):
                         rep = l_info["repairCost"] if l_info["repairCost"] > 0 else (l_info["outer"] * 13)
                         update_val("상품화", rep)
                     # 수수료: 44.0 등 장부 오류값 배제 및 자동 계산기 적용
@@ -615,11 +617,15 @@ class AutoplusAdminService:
                             p_fee = h_map.get("헤딜수수료")
                             p_name = h_map.get("차종")
 
-                            if p_out is not None and l_info["outer"] > 0:
+                            # 외판/상품화: 사용자가 정산표에서 수정한 실측값을 100% 보존 (비어있을 때만 최초 1회 세팅)
+                            cur_out_s = r[p_out].strip() if p_out is not None and len(r) > p_out else ""
+                            cur_rep_s = r[p_rep].strip() if p_rep is not None and len(r) > p_rep else ""
+
+                            if p_out is not None and cur_out_s == "" and l_info["outer"] > 0:
                                 while len(r) <= p_out: r.append("")
                                 r[p_out] = str(l_info["outer"])
 
-                            if p_rep is not None:
+                            if p_rep is not None and cur_rep_s == "":
                                 rep = l_info["repairCost"] if l_info["repairCost"] > 0 else (l_info["outer"] * 13)
                                 if rep > 0:
                                     while len(r) <= p_rep: r.append("")
