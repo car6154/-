@@ -675,11 +675,10 @@ export const SettlementTab: React.FC<SettlementTabProps> = ({
                                 href={link}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-sky-400 hover:text-sky-300 hover:underline flex items-center gap-1 group font-bold"
+                                className="text-sky-400 hover:text-sky-300 hover:underline font-bold"
                                 title={`엔카 매물 상세페이지 새창 열기 (${item.carName})`}
                               >
-                                <span className="truncate">{item.carName}</span>
-                                <ExternalLink className="w-3 h-3 opacity-60 group-hover:opacity-100 shrink-0 text-sky-400" />
+                                {item.carName}
                               </a>
                             );
                           }
@@ -851,7 +850,24 @@ export const SettlementTab: React.FC<SettlementTabProps> = ({
                       {item.carNumber}
                     </td>
                     <td className="py-2.5 px-3 font-semibold text-slate-200 max-w-xs truncate">
-                      {item.carName}
+                      {(() => {
+                        const link = getEncarDetailLink(item.carNumber, item.encarUrl);
+                        if (link) {
+                          return (
+                            <a
+                              href={link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={(e) => e.stopPropagation()}
+                              className="text-sky-400 hover:text-sky-300 hover:underline font-bold"
+                              title={`엔카 매물 상세페이지 새창 열기 (${item.carName})`}
+                            >
+                              {item.carName}
+                            </a>
+                          );
+                        }
+                        return item.carName;
+                      })()}
                     </td>
                     <td className="py-2.5 px-2 text-center whitespace-nowrap">
                       <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${isOver60
