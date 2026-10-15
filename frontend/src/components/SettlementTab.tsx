@@ -13,7 +13,8 @@ import {
   Check,
   Edit2,
   X,
-  Save
+  Save,
+  RefreshCw
 } from 'lucide-react';
 
 interface SettlementTabProps {
@@ -44,6 +45,9 @@ export const SettlementTab: React.FC<SettlementTabProps> = ({
   // tab_settlement.py states
   const [filterMode, setFilterMode] = useState<'all' | '30plus' | '60plus' | 'margin_risk'>('all');
   const [selectedStockCarNum, setSelectedStockCarNum] = useState<string>('');
+
+  // 매입연동 상태
+  const [syncLoading, setSyncLoading] = useState(false);
 
   // 인라인 편집 상태
   const [editingCarNumber, setEditingCarNumber] = useState<string | null>(null);
@@ -276,6 +280,31 @@ export const SettlementTab: React.FC<SettlementTabProps> = ({
     return { contrib, net };
   }, [editForm]);
 
+  // high A+ 매입연동 상태 확인 핸들러
+  const handleCheckSyncStatus = async () => {
+    setSyncLoading(true);
+    try {
+      const res = await fetch('/api/settlement/highplus_status');
+      if (res.ok) {
+        const data = await res.json();
+        const timeStr = data.last_sync_time || '이력 없음';
+        const total = data.total_synced_cars || 0;
+        const added = data.new_inventory_added || 0;
+        const updated = data.inventory_updated || 0;
+        alert(
+          `[high A+ 매입연동 현황]\n\n` +
+          `• 최근 연동시간: ${timeStr}\n` +
+          `• 감지된 차량: ${total}대 (신규 재고추가: ${added}대, 갱신: ${updated}대)\n\n` +
+          `💡 크롬 브라우저에서 high A+ 매입 화면(SPPOL10001) 또는 매입등록에 접속하면 크롬 확장 프로그램이 실시간으로 장부와 재고에 매입 데이터를 자동 땡겨옵니다.`
+        );
+      }
+    } catch (e: any) {
+      alert(`매입연동 상태 조회 오류: ${e.message}`);
+    } finally {
+      setSyncLoading(false);
+    }
+  };
+
   return (
     <div className="space-y-4">
       {/* 1. Header & Title */}
@@ -448,8 +477,21 @@ export const SettlementTab: React.FC<SettlementTabProps> = ({
           </span>
         </div>
 
-        {/* Filter Radio Buttons */}
-        <div className="flex flex-wrap items-center gap-1.5 bg-[#181b24] p-1 rounded-lg border border-[#282c3c] text-xs">
+        <div className="flex flex-wrap items-center gap-2">
+          {/* high A+ 매입연동 버튼 */}
+          <button
+            type="button"
+            onClick={handleCheckSyncStatus}
+            disabled={syncLoading}
+            className="px-2.5 py-1.5 rounded-lg bg-emerald-950/40 hover:bg-emerald-900/60 border border-emerald-600/50 text-emerald-300 font-bold text-xs flex items-center gap-1.5 transition shadow-sm"
+            title="high A+ 매입 전산 자동 연동 현황 확인"
+          >
+            <RefreshCw className={`w-3.5 h-3.5 ${syncLoading ? 'animate-spin' : ''}`} />
+            <span>매입연동</span>
+          </button>
+
+          {/* Filter Radio Buttons */}
+          <div className="flex flex-wrap items-center gap-1.5 bg-[#181b24] p-1 rounded-lg border border-[#282c3c] text-xs">
           <button
             type="button"
             onClick={() => setFilterMode('all')}
@@ -492,6 +534,7 @@ export const SettlementTab: React.FC<SettlementTabProps> = ({
           </button>
         </div>
       </div>
+    </div>
 
       {/* 5. Main Inventory Settlement Table (tab_settlement.py L524-L633) */}
       <div className="bg-[#0f1117] border border-[#232733] rounded-xl overflow-hidden shadow-xl">

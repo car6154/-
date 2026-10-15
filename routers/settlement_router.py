@@ -417,3 +417,27 @@ def delete_settlement_item(car_no: str):
     }
 
 
+# ----------------------------------------------------
+# 3. high A+ 매입연동 API (admin.autoplus.co.kr 실시간 땡겨오기)
+# ----------------------------------------------------
+class HighplusBuySyncRequest(BaseModel):
+    cars: List[Dict[str, Any]]
+
+
+@router.post("/sync_highplus_buy")
+def sync_highplus_buy(req: HighplusBuySyncRequest):
+    try:
+        from services.autoplus_admin_service import AutoplusAdminService
+        res = AutoplusAdminService.process_highplus_buy_data(req.cars)
+        return res
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"매입연동 처리 오류: {str(e)}")
+
+
+@router.get("/highplus_status")
+def get_highplus_status():
+    from services.autoplus_admin_service import AutoplusAdminService
+    return AutoplusAdminService.get_last_sync_status()
+
+
+

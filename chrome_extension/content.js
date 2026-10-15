@@ -45,4 +45,153 @@
       notifySync('user_interaction');
     }
   }, { once: true, passive: true });
+
+  // ── 6. high A+ (admin.autoplus.co.kr) 매입 데이터 실시간 자동 감지 & 백엔드 전송 ──
+  if (window.location.hostname.includes('admin.autoplus.co.kr')) {
+    let lastScanSignature = "";
+
+    function scanHighplusBuyData() {
+      try {
+        const foundCars = [];
+        const CAR_NO_REGEX = /\b\d{2,3}[가-힣]\s*\d{4}\b/;
+        const PID_REGEX = /\bC26\d{9}\b/;
+        const DATE_REGEX = /\b202\d[-.]\d{1,2}[-.]\d{1,2}\b/;
+
+        // A) 매입조회 (SPPOL10001) 목록 테이블 스캔
+        const rows = document.querySelectorAll('table tr, .grid tr');
+        rows.forEach(tr => {
+          const cells = Array.from(tr.querySelectorAll('td, th'));
+          if (cells.length < 5) return;
+
+          const rowText = tr.innerText || "";
+          const carMatch = rowText.match(CAR_NO_REGEX);
+          if (!carMatch) return;
+
+          const carNo = carMatch[0].replace(/\s+/g, '');
+          
+          // 각 셀 텍스트 분석
+          let carName = "";
+          let modelYear = "";
+          let buyPrice = 0;
+          let transferDate = "";
+          let purchaseType = "";
+          let pid = "";
+          let scrapDeduction = 0;
+
+          const pidMatch = rowText.match(PID_REGEX);
+          if (pidMatch) pid = pidMatch[0];
+
+          const dateMatches = rowText.match(new RegExp(DATE_REGEX, 'g')) || [];
+          if (dateMatches.length > 0) {
+            transferDate = dateMatches[dateMatches.length - 1]; // 마지막 날짜가 보통 이전일자
+          }
+
+          cells.forEach((cell, idx) => {
+            const txt = (cell.innerText || "").trim();
+            // 연식 (2015~2027)
+            if (!modelYear && /^(201\d|202\d)$/.test(txt)) {
+              modelYear = txt;
+            }
+            // 차명 (현대, 기아, 제네시스, 쉐보레, 르노, 쌍용, BMW, 벤츠 등이 포함된 셀)
+            if (!carName && /(현대|기아|제네시스|쉐보레|르노|쌍용|KGM|BMW|벤츠|아우디|볼보|폭스바겐|포르쉐|렉서스|토요타|미니|랜드로버|테슬라)/.test(txt)) {
+              carName = txt.replace(/\n+/g, ' ');
+            }
+            // 매입유형 (헤이딜러, 경매, 플랫폼 등)
+            if (!purchaseType && /(헤이딜러|엔카|KB|플랫폼|현물|공판|대행)/.test(txt)) {
+              purchaseType = txt;
+            }
+            // 금액 (백만 원 이상: \d{1,3}(,\d{3}){2})
+            if (/^\d{1,3}(,\d{3}){2,}$/.test(txt)) {
+              const num = parseInt(txt.replace(/,/g, ''), 10);
+              if (num >= 1000000 && buyPrice === 0) {
+                buyPrice = num;
+              }
+            }
+            // 폐자원공제액 (십만~수백만 원 단위 공제액)
+            if (/폐자원/.test(txt) || (idx === 16 && /^\d{1,3}(,\d{3})+$/.test(txt))) {
+              const num = parseInt(txt.replace(/,/g, ''), 10);
+              if (num > 0) scrapDeduction = num;
+            }
+          });
+
+          if (carNo) {
+            foundCars.push({
+              carNumber: carNo,
+              carName: carName,
+              modelYear: modelYear,
+              buyPrice: buyPrice,
+              transferDate: transferDate,
+              purchaseType: purchaseType,
+              pid: pid,
+              scrapDeduction: scrapDeduction
+            });
+          }
+        });
+
+        // B) 매입등록(일반) 단건 상세 화면 스캔 (외판 판수 및 기타비용 545,000 등)
+        const bodyText = document.body.innerText || "";
+        const singleCarMatch = bodyText.match(CAR_NO_REGEX);
+        if (singleCarMatch) {
+          const sCarNo = singleCarMatch[0].replace(/\s+/g, '');
+          let etcFee = 0;
+          let outerRepairs = 0;
+          let repairCost = 0;
+
+          // 기타비용 (낙찰/소개수수료)
+          const etcFeeInput = document.querySelector('input[name*="etc"], input[id*="etc"], input[name*="fee"]');
+          if (etcFeeInput && etcFeeInput.value) {
+            etcFee = parseInt(etcFeeInput.value.replace(/[^\d]/g, ''), 10) || 0;
+          } else {
+            const mEtc = bodyText.match(/기타비용[^\d]*([\d,]{4,})/);
+            if (mEtc) etcFee = parseInt(mEtc[1].replace(/,/g, ''), 10) || 0;
+          }
+
+          // 외판 판수
+          const outerInput = document.querySelector('input[name*="out"], input[id*="out"], input[name*="pan"]');
+          if (outerInput && outerInput.value) {
+            outerRepairs = parseInt(outerInput.value.replace(/[^\d]/g, ''), 10) || 0;
+          } else {
+            const mOut = bodyText.match(/외판[^\d]*(\d{1,2})/);
+            if (mOut) outerRepairs = parseInt(mOut[1], 10) || 0;
+          }
+
+          if (etcFee > 0 || outerRepairs > 0) {
+            const existing = foundCars.find(c => c.carNumber === sCarNo);
+            if (existing) {
+              if (etcFee > 0) existing.etcFee = etcFee;
+              if (outerRepairs > 0) existing.outerRepairs = outerRepairs;
+            } else {
+              foundCars.push({
+                carNumber: sCarNo,
+                etcFee: etcFee,
+                outerRepairs: outerRepairs
+              });
+            }
+          }
+        }
+
+        if (foundCars.length > 0) {
+          const sig = JSON.stringify(foundCars);
+          if (sig !== lastScanSignature) {
+            lastScanSignature = sig;
+            chrome.runtime.sendMessage({
+              action: 'sync_highplus_buy_data',
+              data: foundCars
+            }, (res) => {
+              if (res && res.status === 'ok') {
+                console.log(`[J-PRO AutoSync] high A+ 매입 데이터 ${foundCars.length}대 자동 전송 완료`);
+              }
+            });
+          }
+        }
+      } catch (err) {
+        // 무시
+      }
+    }
+
+    // 1초 뒤 1차 스캔, DOM 변경 시 재스캔
+    setTimeout(scanHighplusBuyData, 1200);
+    setInterval(scanHighplusBuyData, 5000);
+  }
 })();
+

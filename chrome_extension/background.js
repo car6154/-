@@ -102,16 +102,18 @@ async function syncCookiesToLocalServer(force = false) {
   }
 }
 
-// ── 오토플러스 (차얼마) 쿠키 동기화 ──
+// ── 오토플러스 (차얼마 & high A+) 쿠키 동기화 ──
 async function syncAutoplusCookiesToLocalServer(force = false) {
   try {
-    const [byUrl, byDomain, all] = await Promise.all([
+    const [byUrl1, byUrl2, byDomain, all] = await Promise.all([
       chrome.cookies.getAll({ url: 'https://purchase.autoplus.co.kr' }).catch(() => []),
+      chrome.cookies.getAll({ url: 'https://admin.autoplus.co.kr' }).catch(() => []),
       chrome.cookies.getAll({ domain: 'autoplus.co.kr' }).catch(() => []),
       chrome.cookies.getAll({}).catch(() => [])
     ]);
     const apCookies = [
-      ...byUrl,
+      ...byUrl1,
+      ...byUrl2,
       ...byDomain,
       ...all.filter(c => c && c.domain && (c.domain.includes('autoplus.co.kr') || c.domain.includes('autoplus')))
     ];
@@ -140,10 +142,34 @@ async function syncAutoplusCookiesToLocalServer(force = false) {
     lastAutoplusSyncTime = now;
 
     await broadcastToServer(cookieStr, 'autoplus');
-    console.log('[J-PRO AutoSync] 오토플러스(차얼마) 로그인 세션 쿠키 동기화 완료');
+    console.log('[J-PRO AutoSync] 오토플러스(차얼마 & high A+) 로그인 세션 쿠키 동기화 완료');
   } catch (e) {
     // 무시
   }
+}
+
+// ── high A+ 매입 데이터 백엔드 브로드캐스트 ──
+async function broadcastHighplusBuyData(cars) {
+  if (!cars || !cars.length) return;
+  const payload = { cars };
+  const endpoints = [
+    'http://localhost:3000/api/settlement/sync_highplus_buy',
+    'http://localhost:8000/api/settlement/sync_highplus_buy',
+    'http://100.95.238.123:8000/api/settlement/sync_highplus_buy'
+  ];
+  await Promise.allSettled(
+    endpoints.map(url =>
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-JPRO-Token': 'jpro_sec_9981_live_auth'
+        },
+        body: JSON.stringify(payload)
+      })
+    )
+  );
+  console.log(`[J-PRO AutoSync] high A+ 매입 데이터 ${cars.length}건 제이프로 백엔드 동기화 완료`);
 }
 
 // ── 전체 동기화 ──
@@ -175,6 +201,13 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
       requestApSync(true, 100);
     }
     sendResponse({ status: 'ok' });
+  } else if (msg && msg.action === 'sync_highplus_buy_data') {
+    broadcastHighplusBuyData(msg.data).then(() => {
+      sendResponse({ status: 'ok', count: msg.data ? msg.data.length : 0 });
+    }).catch(e => {
+      sendResponse({ status: 'error', message: e.message });
+    });
+    return true; // 비동기 응답 처리
   }
 });
 
