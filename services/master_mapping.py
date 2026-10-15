@@ -796,6 +796,16 @@ class MasterMappingService:
             badge = matched_trim.get("badge", "") if matched_trim else ""
             bd = matched_trim.get("badge_detail", "") if matched_trim else ""
             
+            # 올 뉴 카니발 전용 보정: 엔카에 BadgeGroup이 없고 등급명이 '9인승 프레스티지' 형태임
+            if f_model == '올 뉴 카니발' and bg:
+                seat_match = re.search(r'(\d+)\s*인승', bg)
+                if seat_match:
+                    seat_token = f"{seat_match.group(1)}인승"
+                    if seat_token not in badge:
+                        badge = f"{seat_token} {badge}".strip()
+                    bg = ""
+                    bd = ""
+
             f_model_esc = cls._escape_encar_dsl_token(f_model)
             bg_clean = cls._clean_encar_token(bg)
             b_esc = cls._escape_encar_dsl_token(badge)

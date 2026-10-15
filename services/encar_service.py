@@ -448,6 +448,20 @@ class Scraper:
                     if c_no_both != cur_c and c_no_both not in fallback_candidates:
                         fallback_candidates.append(c_no_both)
 
+                # 6. BadgeGroup 인승 토큰을 Badge로 병합 (BadgeGroup이 없고 Badge에 인승이 포함된 차종 보정)
+                # 예: (C.BadgeGroup.디젤 9인승._.Badge.프레스티지.) → (C.Badge.9인승 프레스티지.)
+                bg_badge_pattern = r'\(C\.BadgeGroup\.([^\.]+)\._\.Badge\.([^\.]+)\.\)'
+                m_bg_b = re.search(bg_badge_pattern, cur_c)
+                if m_bg_b:
+                    bg_val, b_val = m_bg_b.group(1), m_bg_b.group(2)
+                    seat_m = re.search(r'(\d+)\s*인승', bg_val)
+                    if seat_m:
+                        seat_tok = f"{seat_m.group(1)}인승"
+                        merged_badge = f"{seat_tok} {b_val}".strip() if seat_tok not in b_val else b_val
+                        c_merged = re.sub(bg_badge_pattern, f'(C.Badge.{merged_badge}.)', cur_c)
+                        if c_merged != cur_c and c_merged not in fallback_candidates:
+                            fallback_candidates.append(c_merged)
+
                 for fb_cond in fallback_candidates:
                     try:
                         fb_safe = urllib.parse.quote(fb_cond)
