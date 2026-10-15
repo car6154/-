@@ -51,6 +51,8 @@ async function getHeydealerCookies() {
 async function getAutoplusCookies() {
   const queryPromises = [
     chrome.cookies.getAll({ url: 'https://purchase.autoplus.co.kr' }).catch(() => []),
+    chrome.cookies.getAll({ url: 'https://data.autoplus.co.kr' }).catch(() => []),
+    chrome.cookies.getAll({ url: 'https://admin.autoplus.co.kr' }).catch(() => []),
     chrome.cookies.getAll({ domain: 'autoplus.co.kr' }).catch(() => []),
     chrome.cookies.getAll({ domain: '.autoplus.co.kr' }).catch(() => []),
     chrome.cookies.getAll({ domain: 'purchase.autoplus.co.kr' }).catch(() => []),

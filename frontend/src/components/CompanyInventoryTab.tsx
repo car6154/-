@@ -179,28 +179,46 @@ export const CompanyInventoryTab: React.FC<CompanyInventoryTabProps> = ({ onAnal
         {/* Sync Status Badge & Action */}
         <div className="flex items-center gap-2.5">
           <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#141824] border border-[#23293d] text-xs">
-            <span className="relative flex h-2 w-2">
-              <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${syncStatus?.status === 'SUCCESS' ? 'bg-emerald-400' : 'bg-amber-400'}`}></span>
-              <span className={`relative inline-flex rounded-full h-2 w-2 ${syncStatus?.status === 'SUCCESS' ? 'bg-emerald-500' : 'bg-amber-500'}`}></span>
-            </span>
-            <div className="flex items-center gap-1.5 text-slate-300">
-              <span className="font-medium text-slate-200">오토플러스.Data 최신화:</span>
-              <span className="text-emerald-400 font-semibold">
-                {syncStatus?.last_sync_time
-                  ? new Date(syncStatus.last_sync_time).toLocaleString('ko-KR', {
-                      month: '2-digit',
-                      day: '2-digit',
-                      hour: '2-digit',
-                      minute: '2-digit'
-                    })
-                  : '대기 중'}
-              </span>
-              {syncStatus?.inventory_count ? (
-                <span className="text-slate-400 text-[11px] hidden sm:inline">
-                  (판매중 {syncStatus.inventory_count.toLocaleString()}대 / 판매완료 {syncStatus.sold_count?.toLocaleString()}대)
-                </span>
-              ) : null}
-            </div>
+            {(() => {
+              const isSuccess = syncStatus?.status === 'SUCCESS';
+              const isFailed = syncStatus?.status === 'FAILED';
+              return (
+                <>
+                  <span className="relative flex h-2 w-2">
+                    <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${isSuccess ? 'bg-emerald-400' : isFailed ? 'bg-amber-400' : 'bg-slate-400'}`}></span>
+                    <span className={`relative inline-flex rounded-full h-2 w-2 ${isSuccess ? 'bg-emerald-500' : isFailed ? 'bg-amber-500' : 'bg-slate-500'}`}></span>
+                  </span>
+                  <div className="flex items-center gap-1.5 text-slate-300">
+                    <span className="font-medium text-slate-200">오토플러스.Data:</span>
+                    {isSuccess ? (
+                      <>
+                        <span className="text-emerald-400 font-semibold">
+                          최신화 완료: {new Date(syncStatus.last_sync_time!).toLocaleString('ko-KR', {
+                            month: '2-digit',
+                            day: '2-digit',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                          })}
+                        </span>
+                        {syncStatus?.inventory_count ? (
+                          <span className="text-slate-400 text-[11px] hidden sm:inline">
+                            (판매중 {syncStatus.inventory_count.toLocaleString()}대 / 판매완료 {syncStatus.sold_count?.toLocaleString()}대)
+                          </span>
+                        ) : null}
+                      </>
+                    ) : isFailed ? (
+                      <span className="text-amber-400 font-semibold">
+                        세션 만료 (크롬 로그인 시 자동 갱신)
+                      </span>
+                    ) : (
+                      <span className="text-slate-400 font-medium">
+                        대기 중 (크롬 로그인 대기)
+                      </span>
+                    )}
+                  </div>
+                </>
+              );
+            })()}
           </div>
 
           <button

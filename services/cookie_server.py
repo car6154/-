@@ -181,6 +181,15 @@ class CookieReceiverHandler(BaseHTTPRequestHandler):
                             ChaolmaService.clear_cache()
                         except Exception:
                             pass
+                        # [자동화] 제이님이 오플에 로그인하여 새 쿠키가 들어온 즉시 백그라운드 실시간 재고 및 정산 동기화 1회 자동 실행
+                        import threading
+                        def _bg_sync_cs():
+                            try:
+                                from services.autoplus_sync_service import AutoplusSyncService
+                                AutoplusSyncService.execute_sync()
+                            except Exception as se:
+                                print(f"[CookieServer] 오플 자동 동기화 오류: {se}", flush=True)
+                        threading.Thread(target=_bg_sync_cs, daemon=True).start()
                     else:
                         hd_file = os.path.join(BASE_DIR, 'heydealer_cookie.txt')
                         try:

@@ -105,15 +105,17 @@ async function syncCookiesToLocalServer(force = false) {
 // ── 오토플러스 (차얼마 & high A+) 쿠키 동기화 ──
 async function syncAutoplusCookiesToLocalServer(force = false) {
   try {
-    const [byUrl1, byUrl2, byDomain, all] = await Promise.all([
+    const [byUrl1, byUrl2, byUrl3, byDomain, all] = await Promise.all([
       chrome.cookies.getAll({ url: 'https://purchase.autoplus.co.kr' }).catch(() => []),
       chrome.cookies.getAll({ url: 'https://admin.autoplus.co.kr' }).catch(() => []),
+      chrome.cookies.getAll({ url: 'https://data.autoplus.co.kr' }).catch(() => []),
       chrome.cookies.getAll({ domain: 'autoplus.co.kr' }).catch(() => []),
       chrome.cookies.getAll({}).catch(() => [])
     ]);
     const apCookies = [
       ...byUrl1,
       ...byUrl2,
+      ...byUrl3,
       ...byDomain,
       ...all.filter(c => c && c.domain && (c.domain.includes('autoplus.co.kr') || c.domain.includes('autoplus')))
     ];

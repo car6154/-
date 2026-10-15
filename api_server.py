@@ -282,6 +282,15 @@ def save_cookie_api(payload: CookieSavePayload):
             f.write(raw_cookie)
         set_env_variable("AUTOPLUS_COOKIE", raw_cookie)
         os.environ["AUTOPLUS_COOKIE"] = raw_cookie
+        # [자동화] 제이님이 오플에 로그인하여 새 쿠키가 들어온 즉시 백그라운드 실시간 재고 및 정산 동기화 1회 자동 실행
+        import threading
+        def _bg_sync():
+            try:
+                from services.autoplus_sync_service import AutoplusSyncService
+                AutoplusSyncService.execute_sync()
+            except Exception as se:
+                print(f"[CookieReceive] 오플 자동 동기화 오류: {se}", flush=True)
+        threading.Thread(target=_bg_sync, daemon=True).start()
     else:
         with open(os.path.join(base_dir, "heydealer_cookie.txt"), "w", encoding="utf-8") as f:
             f.write(raw_cookie)
