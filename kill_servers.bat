@@ -31,6 +31,7 @@ taskkill /f /fi "WINDOWTITLE eq *JPRO*" > nul 2>&1
 taskkill /f /fi "WINDOWTITLE eq *FastAPI*" > nul 2>&1
 taskkill /f /fi "WINDOWTITLE eq *Streamlit*" > nul 2>&1
 taskkill /f /fi "WINDOWTITLE eq *Integrated Launcher*" > nul 2>&1
+taskkill /f /fi "WINDOWTITLE eq *Shopping*" > nul 2>&1
 
 echo.
 echo All Python, Node, and J-PRO servers have been terminated cleanly.

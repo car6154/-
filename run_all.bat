@@ -66,6 +66,12 @@ start "JPRO_Frontend_3000" cmd.exe /c "cd /d "%~dp0frontend" & npm run dev -- --
 REM 3. Port 8501 Streamlit Dashboard (외부 접속 0.0.0.0 및 이메일 프롬프트 스킵)
 start "JPRO_Streamlit_8501" cmd.exe /c "cd /d "%~dp0" & .venv\Scripts\python.exe -m streamlit run app.py --server.port 8501 --server.address 0.0.0.0 --browser.gatherUsageStats false"
 
-echo [3/3] 3대 서버 가동 완료. 런처 창을 닫습니다.
+REM 4. 쇼핑봇 자동 연동 가동 (C:\ai_shopping_bot\run_web.bat 존재 시 동시 가동)
+if exist "C:\ai_shopping_bot\run_web.bat" (
+    echo [*] ai_shopping_bot 동시 가동 중...
+    start "AI_Shopping_Bot" cmd.exe /c "cd /d C:\ai_shopping_bot & run_web.bat"
+)
+
+echo [3/3] 서버 가동 완료. 런처 창을 닫습니다.
 timeout /t 2 /nobreak > nul
 exit
