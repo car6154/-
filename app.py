@@ -597,12 +597,41 @@ if base_name:
     else:
         kcar_search_text = model_str
 
+# KCar 검색 조건 (모델명 텍스트 + 연식 ±1년 + 주행거리 ±3만km 엔카 동급 밴드)
+cond = {}
 if kcar_search_text:
-    cond = {"wr_txt_idx": kcar_search_text}
-    cond_str = json.dumps(cond, separators=(',', ':'))
+    cond["wr_txt_idx"] = kcar_search_text
+
+# 1. 연식 밴드 (±1년, generate_smart_encar_url과 동일 기준)
+raw_year = st.session_state.get('f_year', '')
+if raw_year:
+    try:
+        y_val = int(float(str(raw_year).strip()))
+        if y_val > 0:
+            kcar_year = 2000 + y_val if y_val < 100 else y_val
+            cond["wr_gt_mfg_dt"] = f"{kcar_year - 1}01"
+            cond["wr_lt_mfg_dt"] = f"{kcar_year + 1}12"
+    except Exception:
+        pass
+
+# 2. 주행거리 밴드 (±30,000km, 엔카와 동일 기준)
+raw_mil = st.session_state.get('f_mil', 0) or st.session_state.get('user_target_mil', 0)
+if raw_mil:
+    try:
+        mil_val = int(float(str(raw_mil).replace(',', '').strip()))
+        if mil_val > 0:
+            rounded_mil = int(round(mil_val / 10000.0) * 10000)
+            cond["wr_gt_milg"] = max(0, rounded_mil - 30000)
+            cond["wr_lt_milg"] = rounded_mil + 30000
+    except Exception:
+        pass
+
+if cond:
+    cond_str = json.dumps(cond, separators=(',', ':'), ensure_ascii=False)
     kcar_url = f"https://www.kcar.com/bc/search?searchCond={urllib.parse.quote(cond_str)}"
 else:
     kcar_url = "https://www.kcar.com/bc/search"
+
 
 # 🚀 URL 바로 밑에 [AI 견적 산출]과 [KCAR] 버튼 직관적 배치!
 col_ai_btn, col_kcar_btn = st.sidebar.columns([2.3, 1])
