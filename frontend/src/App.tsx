@@ -178,15 +178,15 @@ export default function App() {
         setActiveTab('cockpit');
         setCockpitPreset({
           carName: titleParam ? decodeURIComponent(titleParam) : '',
-          memo: `[헤이딜러 1초 연동 매물: ${hashIdParam || ''}]`
+          memo: ''
         });
         showToast(`⚡ 헤이딜러 매물 [${titleParam ? decodeURIComponent(titleParam) : hashIdParam}] 콕핏 연동 완료!`);
       } else if (carParam) {
         setCockpitPreset({
           carNumber: carParam,
-          memo: `[URL 직통 딥링크 조회: ${carParam}]`
+          memo: ''
         });
-        showToast(`🔗 URL 직통 파라미터 [${carParam}] 시세 분석 콕핏으로 연동되었습니다.`);
+        showToast(`🔗 차량번호 [${carParam}] 콕핏 연동 완료`);
       }
     } catch (e) {
       console.error(e);
