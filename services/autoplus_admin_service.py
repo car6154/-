@@ -278,6 +278,7 @@ class AutoplusAdminService:
         """my_inventory_settlement.csv에 보유 재고로 안전하게 Upsert"""
         if not os.path.exists(SETTLEMENT_CSV):
             return {"added": 0, "updated": 0}
+        return cls._sync_inventory_settlement_csv(cleaned_cars)
 
     @classmethod
     def _load_ledger_info_map(cls) -> Dict[str, Dict[str, Any]]:

@@ -100,10 +100,11 @@
             if (!purchaseType && /(헤이딜러|엔카|KB|플랫폼|현물|공판|대행)/.test(txt)) {
               purchaseType = txt;
             }
-            // 금액 (백만 원 이상: \d{1,3}(,\d{3}){2})
-            if (/^\d{1,3}(,\d{3}){2,}$/.test(txt)) {
-              const num = parseInt(txt.replace(/,/g, ''), 10);
-              if (num >= 1000000 && buyPrice === 0) {
+            // 금액 (백만 원 이상: 1,000,000 ~ 500,000,000)
+            const cleanNumStr = txt.replace(/[^\d]/g, '');
+            if (cleanNumStr.length >= 7 && cleanNumStr.length <= 9) {
+              const num = parseInt(cleanNumStr, 10);
+              if (num >= 1000000 && num <= 500000000 && buyPrice === 0) {
                 buyPrice = num;
               }
             }
