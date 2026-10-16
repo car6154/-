@@ -281,14 +281,21 @@
             const sig = JSON.stringify(cars);
             if (sig !== lastScanSignature) {
               lastScanSignature = sig;
-              chrome.runtime.sendMessage({
-                action: 'sync_highplus_buy_data',
-                data: cars
-              }, (res) => {
-                if (res && res.status === 'ok') {
-                  console.log(`[J-PRO AutoSync] high A+ 매입 데이터 ${cars.length}대 자동 전송 완료`);
+              try {
+                if (chrome.runtime && chrome.runtime.id && chrome.runtime.sendMessage) {
+                  chrome.runtime.sendMessage({
+                    action: 'sync_highplus_buy_data',
+                    data: cars
+                  }, (res) => {
+                    if (chrome.runtime.lastError) return;
+                    if (res && res.status === 'ok') {
+                      console.log(`[J-PRO AutoSync] high A+ 매입 데이터 ${cars.length}대 자동 전송 완료`);
+                    }
+                  });
                 }
-              });
+              } catch (e) {
+                // 확장 프로그램 재로드 시 context invalidated 조용히 무시
+              }
             }
           }
         }
@@ -308,7 +315,11 @@
   window.addEventListener('message', (event) => {
     if (event.data && event.data.type === 'JPRO_TRIGGER_HIGHPLUS_BUY_SYNC') {
       try {
-        chrome.runtime.sendMessage({ action: 'trigger_highplus_buy_sync' });
+        if (chrome.runtime && chrome.runtime.id && chrome.runtime.sendMessage) {
+          chrome.runtime.sendMessage({ action: 'trigger_highplus_buy_sync' }, () => {
+            if (chrome.runtime.lastError) {}
+          });
+        }
       } catch (e) {}
     }
   });
