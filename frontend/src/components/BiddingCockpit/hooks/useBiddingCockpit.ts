@@ -1982,10 +1982,6 @@ export function useBiddingCockpit({
   // 5단계 규칙 기반 가감 총액 (만원)
   const ruleAdjustmentAmount = 0;
 
-  const firstTarget = useMemo(() => {
-    return effectiveSellPrice - sellingFee - directExpense - repairCostTotal - targetMargin;
-  }, [effectiveSellPrice, sellingFee, directExpense, repairCostTotal, targetMargin]);
-
   // 헤이딜러 실측 수수료 구간표 계산 함수
   const calcPurchaseFee = useCallback((targetVal: number, route: string, isLight: boolean) => {
     if (route === '셀프(기본)') {
@@ -2006,11 +2002,24 @@ export function useBiddingCockpit({
     return 0; // 개인 직접입력 등
   }, []);
 
-  // 💡 [Streamlit 8501 views/tab_main.py:822 100% 동일] 안전 입찰 상한가 = max(0, b_ind - 180)
+  // 💡 실시간 권장 매입가 (예상 소매가 - 판매수수료 0.7% - 외판수리비 판당 13만 - 잡비 15만 - 매입수수료 - 목표마진)
   const safeBidCeiling = useMemo(() => {
     const basePrice = effectiveSellPrice > 0 ? effectiveSellPrice : aiRetailPrice;
-    return Math.max(0, Math.floor(basePrice - 180));
-  }, [effectiveSellPrice, aiRetailPrice]);
+    if (basePrice <= 0) return 0;
+
+    const sFee = Math.round(basePrice * 0.007 * 10) / 10;
+    const repCost = outerRepairCount * 13;
+    const dExpense = 15;
+    const fixedDeductions = sFee + dExpense + repCost + targetMargin;
+
+    // 매입수수료는 매입가 구간에 따라 달라지므로(순환 참조) 초기 추정값에서 3회 반복 계산으로 수렴
+    let estBid = Math.max(0, basePrice - 180);
+    for (let i = 0; i < 3; i++) {
+      const pFee = calcPurchaseFee(estBid, auctionType, isLightCar);
+      estBid = Math.max(0, Math.floor(basePrice - fixedDeductions - pFee));
+    }
+    return estBid;
+  }, [effectiveSellPrice, aiRetailPrice, outerRepairCount, targetMargin, auctionType, isLightCar, calcPurchaseFee]);
 
   // 사용자가 직접 수정한 입찰가 (기본값: safeBidCeiling)
   const [userBid, setUserBid] = useState<number>(safeBidCeiling);
