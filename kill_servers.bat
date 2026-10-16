@@ -3,14 +3,6 @@ setlocal
 cd /d "%~dp0"
 title J-PRO Clean Termination
 
-:: 1. 관리자 권한 확인 및 자동 승격 (액세스 거부 원천 방지)
-net session >nul 2>&1
-if %errorlevel% neq 0 (
-    echo [J-PRO] 관리자 권한으로 자동 승격 실행 중...
-    powershell -NoProfile -Command "Start-Process cmd.exe -ArgumentList '/c \"\"%~f0\"\"' -Verb RunAs"
-    exit /b
-)
-
 echo ========================================================
 echo   [J-PRO] 전체 서버 및 프로세스 완전 종료 (Clean Kill)
 echo   - Closing all Python, Node.js, CMD processes
