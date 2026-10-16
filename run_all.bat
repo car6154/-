@@ -72,6 +72,13 @@ if exist "C:\ai_shopping_bot\run_web.bat" (
     start "Shopping_Web_6154" cmd.exe /c "cd /d C:\ai_shopping_bot & run_web.bat"
 )
 
+REM 5. 24시간 무인 자동 부활 감시자 (Watchdog) 가동
+tasklist /fi "WINDOWTITLE eq JPRO_Watchdog*" 2>nul | findstr /i "cmd.exe" > nul 2>&1
+if %errorlevel% neq 0 (
+    echo [*] 24시간 자동 부활 감시자 가동 중...
+    start "JPRO_Watchdog" /min cmd.exe /c "cd /d "%~dp0" & watchdog.bat"
+)
+
 echo [3/3] 서버 가동 완료. 런처 창을 닫습니다.
 ping 127.0.0.1 -n 3 > nul
 exit
