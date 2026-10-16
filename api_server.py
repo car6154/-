@@ -1325,5 +1325,5 @@ def get_encar_soldout_stats(req: EncarSoldOutRequest):
 
 
 if __name__ == "__main__":
-    uvicorn.run("api_server:app", host="127.0.0.1", port=8000, reload=True)
+    uvicorn.run("api_server:app", host="0.0.0.0", port=8000, reload=True, timeout_graceful_shutdown=1)
 

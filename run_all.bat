@@ -65,8 +65,8 @@ if exist "%USERPROFILE%\Downloads\autoplus_cookie.txt" (
 
 echo [2/3] 3대 서버 신규 가동 중...
 
-REM 1. Port 8000 FastAPI Backend (외부 접속 0.0.0.0 허용 및 소스 변경 자동 리로드)
-start "JPRO_FastAPI_8000" cmd.exe /c "cd /d "%~dp0" & .venv\Scripts\python.exe -m uvicorn api_server:app --host 0.0.0.0 --port 8000 --reload"
+REM 1. Port 8000 FastAPI Backend (외부 접속 0.0.0.0 허용 및 소스 변경 자동 리로드, 셧다운 행 방지)
+start "JPRO_FastAPI_8000" cmd.exe /c "cd /d "%~dp0" & .venv\Scripts\python.exe -m uvicorn api_server:app --host 0.0.0.0 --port 8000 --reload --timeout-graceful-shutdown 1"
 
 REM 2. Port 3000 Frontend Dev Server (외부 접속 0.0.0.0 허용)
 start "JPRO_Frontend_3000" cmd.exe /c "cd /d "%~dp0frontend" & npm run dev -- --host 0.0.0.0"
