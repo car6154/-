@@ -210,17 +210,33 @@ export const CookieSyncModal: React.FC<CookieSyncModalProps> = ({
       const res = await fetch('/api/server/restart_all', { method: 'POST' });
       const data = await res.json();
       if (data.success) {
-        setGitActionResult(`⚡ 최신 업데이트 & 쇼핑봇 포함 재가동 시작됨! 8초 후 자동 새로고침됩니다.`);
-        setTimeout(() => {
-          window.location.reload();
-        }, 8000);
+        setGitActionResult(`⚡ 최신 코드 업데이트 및 서버 일괄 재가동 중... (서버 부활 감지 대기)`);
+        
+        // 3초 대기 후 백엔드와 프론트엔드가 살아날 때까지 폴링 후 새로고침
+        let retries = 0;
+        const checkInterval = setInterval(async () => {
+          retries++;
+          try {
+            const hRes = await fetch('/api/health', { signal: AbortSignal.timeout(2000) });
+            if (hRes.ok) {
+              clearInterval(checkInterval);
+              setGitActionResult(`✅ 서버 정상 재가동 확인! 즉시 화면을 새로고침합니다.`);
+              setTimeout(() => window.location.reload(), 1000);
+            }
+          } catch (_) {
+            if (retries > 30) { // 30초 초과 시 강제 새로고침
+              clearInterval(checkInterval);
+              window.location.reload();
+            }
+          }
+        }, 1500);
       } else {
         setGitActionResult(`❌ 재가동 실패: ${data.message || '오류 발생'}`);
+        setIsRestartingServers(false);
       }
     } catch (e: any) {
       setGitActionResult(`❌ 서버 통신 오류: ${e.message}`);
-    } finally {
-      setTimeout(() => setIsRestartingServers(false), 8000);
+      setIsRestartingServers(false);
     }
   };
 
