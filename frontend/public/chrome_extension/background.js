@@ -18,10 +18,14 @@ async function broadcastToServer(cookieStr, target) {
 
   const endpoints = [
     'http://localhost:8502/api/save_cookie',
+    'http://localhost:8502/api/session/cookie',
     'http://localhost:3000/api/save_cookie',
+    'http://localhost:3000/api/session/cookie',
     'http://localhost:8000/api/save_cookie',
+    'http://localhost:8000/api/session/cookie',
     'http://100.95.238.123:8502/api/save_cookie',
-    'http://100.95.238.123:8000/api/save_cookie'
+    'http://100.95.238.123:8000/api/save_cookie',
+    'http://100.95.238.123:8000/api/session/cookie'
   ];
 
   await Promise.allSettled(
@@ -102,16 +106,20 @@ async function syncCookiesToLocalServer(force = false) {
   }
 }
 
-// ── 오토플러스 (차얼마) 쿠키 동기화 ──
+// ── 오토플러스 (차얼마 & high A+) 쿠키 동기화 ──
 async function syncAutoplusCookiesToLocalServer(force = false) {
   try {
-    const [byUrl, byDomain, all] = await Promise.all([
+    const [byUrl1, byUrl2, byUrl3, byDomain, all] = await Promise.all([
       chrome.cookies.getAll({ url: 'https://purchase.autoplus.co.kr' }).catch(() => []),
+      chrome.cookies.getAll({ url: 'https://admin.autoplus.co.kr' }).catch(() => []),
+      chrome.cookies.getAll({ url: 'https://data.autoplus.co.kr' }).catch(() => []),
       chrome.cookies.getAll({ domain: 'autoplus.co.kr' }).catch(() => []),
       chrome.cookies.getAll({}).catch(() => [])
     ]);
     const apCookies = [
-      ...byUrl,
+      ...byUrl1,
+      ...byUrl2,
+      ...byUrl3,
       ...byDomain,
       ...all.filter(c => c && c.domain && (c.domain.includes('autoplus.co.kr') || c.domain.includes('autoplus')))
     ];
@@ -140,9 +148,164 @@ async function syncAutoplusCookiesToLocalServer(force = false) {
     lastAutoplusSyncTime = now;
 
     await broadcastToServer(cookieStr, 'autoplus');
-    console.log('[J-PRO AutoSync] 오토플러스(차얼마) 로그인 세션 쿠키 동기화 완료');
+    console.log('[J-PRO AutoSync] 오토플러스(차얼마 & high A+) 로그인 세션 쿠키 동기화 완료');
   } catch (e) {
     // 무시
+  }
+}
+
+// ── high A+ 매입 데이터 백엔드 브로드캐스트 ──
+async function broadcastHighplusBuyData(cars) {
+  if (!cars || !cars.length) return;
+  const payload = { cars };
+  const endpoints = [
+    'http://localhost:3000/api/settlement/sync_highplus_buy',
+    'http://localhost:8000/api/settlement/sync_highplus_buy',
+    'http://100.95.238.123:8000/api/settlement/sync_highplus_buy'
+  ];
+  await Promise.allSettled(
+    endpoints.map(url =>
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-JPRO-Token': 'jpro_sec_9981_live_auth'
+        },
+        body: JSON.stringify(payload)
+      })
+    )
+  );
+  console.log(`[J-PRO AutoSync] high A+ 매입 데이터 ${cars.length}건 제이프로 백엔드 동기화 완료`);
+}
+
+// ── high A+ 매입 데이터 백그라운드 자동 수집 (화면 안 열어도 무인 실행) ──
+let isFetchingHighplus = false;
+async function fetchHighplusBuyDataInBackground() {
+  if (isFetchingHighplus) return;
+  isFetchingHighplus = true;
+
+  try {
+    const adminCookies = await chrome.cookies.getAll({ domain: 'admin.autoplus.co.kr' }).catch(() => []);
+    const hasJSession = adminCookies.some(c => c && c.name && c.name.toUpperCase().includes('SESSION'));
+    if (!hasJSession) {
+      isFetchingHighplus = false;
+      return;
+    }
+
+    const resp = await fetch('https://admin.autoplus.co.kr/spot/syspo/SPPOL10001', {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'X-Requested-With': 'XMLHttpRequest'
+      }
+    });
+
+    if (!resp.ok) {
+      isFetchingHighplus = false;
+      return;
+    }
+
+    const html = await resp.text();
+    if (!html || html.includes('login/login.do')) {
+      isFetchingHighplus = false;
+      return;
+    }
+
+    const foundCars = [];
+    const CAR_NO_REGEX = /\b\d{2,3}[가-힣]\s*\d{4}\b/;
+    const PID_REGEX = /\bC\d{11}\b/;
+    const DATE_REGEX = /\b20\d{2}[-/.]\d{1,2}[-/.]\d{1,2}\b/;
+
+    const trMatches = html.match(/<tr[^>]*>[\s\S]*?<\/tr>/gi) || [];
+    for (const tr of trMatches) {
+      const carMatch = tr.match(CAR_NO_REGEX);
+      if (!carMatch) continue;
+      const carNo = carMatch[0].replace(/\s+/g, '');
+
+      const pidMatch = tr.match(PID_REGEX);
+      const pid = pidMatch ? pidMatch[0] : '';
+
+      const dates = tr.match(new RegExp(DATE_REGEX, 'g')) || [];
+      const transferDate = dates.length > 0 ? dates[dates.length - 1] : '';
+      const billDate = dates.length > 1 ? dates[0] : transferDate;
+
+      // 2026년 9월 이전 매입건 제외 (2026-09-01 이후만 수집)
+      const targetDate = transferDate || billDate;
+      if (targetDate) {
+        const ymMatch = targetDate.match(/(\d{4})[-/.](\d{1,2})/);
+        if (ymMatch) {
+          const y = parseInt(ymMatch[1], 10);
+          const m = parseInt(ymMatch[2], 10);
+          if (y < 2026 || (y === 2026 && m < 9)) {
+            continue;
+          }
+        }
+      }
+
+      const numMatches = tr.match(/\b\d{1,3}(?:,\d{3}){2,}\b/g) || [];
+      let buyPrice = 0;
+      for (const nm of numMatches) {
+        const val = parseInt(nm.replace(/,/g, ''), 10);
+        if (val >= 1000000) {
+          buyPrice = val;
+          break;
+        }
+      }
+
+      const yearMatch = tr.match(/\b(201\d|202\d)\b/);
+      const modelYear = yearMatch ? yearMatch[1] : '';
+
+      let scrapDeduction = 0;
+      const allNums = tr.match(/\b\d{1,3}(?:,\d{3})+\b/g) || [];
+      for (const an of allNums) {
+        const val = parseInt(an.replace(/,/g, ''), 10);
+        if (val >= 100000 && val < 10000000 && val !== buyPrice) {
+          scrapDeduction = val;
+          break;
+        }
+      }
+
+      const cleanTr = tr.replace(/<[^>]+>/g, ' ');
+      const nameMatch = cleanTr.match(/(현대|기아|제네시스|쉐보레|르노|쌍용|KGM|BMW|벤츠|아우디|볼보|폭스바겐|포르쉐|렉서스|카니발|아반떼|투싼|캐스퍼|쏘렌토|그랜저|스포티지)[^\n\r\t,]{2,30}/);
+      const carName = nameMatch ? nameMatch[0].trim() : '';
+
+      foundCars.push({
+        carNumber: carNo,
+        carName: carName,
+        modelYear: modelYear,
+        buyPrice: buyPrice,
+        transferDate: transferDate,
+        billDate: billDate,
+        pid: pid,
+        scrapDeduction: scrapDeduction
+      });
+    }
+
+    for (const car of foundCars) {
+      try {
+        const detailResp = await fetch(`https://admin.autoplus.co.kr/spot/syspo/SPPOL10002?carNo=${encodeURIComponent(car.carNumber)}`, {
+          credentials: 'include'
+        }).catch(() => null);
+        if (detailResp && detailResp.ok) {
+          const detailHtml = await detailResp.text();
+          const mEtc = detailHtml.match(/기타비용[^\d]*([\d,]{4,})/);
+          if (mEtc) car.etcFee = parseInt(mEtc[1].replace(/,/g, ''), 10) || 0;
+
+          const mOut = detailHtml.match(/외판[^\d]*(\d{1,2})/);
+          if (mOut) car.outerRepairs = parseInt(mOut[1], 10) || 0;
+        }
+      } catch (err) {}
+    }
+
+    if (foundCars.length > 0) {
+      await broadcastHighplusBuyData(foundCars);
+      console.log(`[J-PRO AutoSync] 백그라운드 high A+ 매입 데이터 ${foundCars.length}건 무인 자동 동기화 성공`);
+    }
+  } catch (e) {
+    console.error('[J-PRO AutoSync] high A+ 백그라운드 fetch 에러:', e);
+  } finally {
+    isFetchingHighplus = false;
   }
 }
 
@@ -154,18 +317,28 @@ function syncAll(force = false) {
 
 // 1) Service Worker 시작 및 기동 시 1회 동기화
 syncAll(true);
-chrome.runtime.onStartup.addListener(() => syncAll(true));
-chrome.runtime.onInstalled.addListener(() => syncAll(true));
+chrome.runtime.onStartup.addListener(() => {
+  syncAll(true);
+  setTimeout(fetchHighplusBuyDataInBackground, 4000);
+});
+chrome.runtime.onInstalled.addListener(() => {
+  syncAll(true);
+  setTimeout(fetchHighplusBuyDataInBackground, 4000);
+});
 
-// 2) 주기적 알람 동기화
+// 2) 주기적 알람 동기화 (쿠키: 1분 주기, 매입데이터: 5분 주기)
 chrome.alarms.create('jpro-cookie-sync', { periodInMinutes: 1 });
+chrome.alarms.create('jpro-highplus-buy-sync', { periodInMinutes: 5 });
+
 chrome.alarms.onAlarm.addListener((alarm) => {
   if (alarm.name === 'jpro-cookie-sync') {
     syncAll(false);
+  } else if (alarm.name === 'jpro-highplus-buy-sync') {
+    fetchHighplusBuyDataInBackground();
   }
 });
 
-// 3) content.js 메시지 수신 시 동기화
+// 3) content.js 및 외부 메시지 수신 시 동기화
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   if (msg && msg.action === 'trigger_sync') {
     const url = msg.url || (sender && sender.tab && sender.tab.url) || '';
@@ -175,8 +348,23 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
       requestApSync(true, 100);
     }
     sendResponse({ status: 'ok' });
+  } else if (msg && msg.action === 'sync_highplus_buy_data') {
+    broadcastHighplusBuyData(msg.data).then(() => {
+      sendResponse({ status: 'ok', count: msg.data ? msg.data.length : 0 });
+    }).catch(e => {
+      sendResponse({ status: 'error', message: e.message });
+    });
+    return true; // 비동기 응답 처리
+  } else if (msg && msg.action === 'trigger_highplus_buy_sync') {
+    fetchHighplusBuyDataInBackground().then(() => {
+      sendResponse({ status: 'ok' });
+    }).catch(e => {
+      sendResponse({ status: 'error', message: e.message });
+    });
+    return true;
   }
 });
+
 
 // 4) 탭 생성 감지
 chrome.tabs.onCreated.addListener(() => syncAll(true));

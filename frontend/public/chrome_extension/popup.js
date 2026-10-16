@@ -51,6 +51,8 @@ async function getHeydealerCookies() {
 async function getAutoplusCookies() {
   const queryPromises = [
     chrome.cookies.getAll({ url: 'https://purchase.autoplus.co.kr' }).catch(() => []),
+    chrome.cookies.getAll({ url: 'https://data.autoplus.co.kr' }).catch(() => []),
+    chrome.cookies.getAll({ url: 'https://admin.autoplus.co.kr' }).catch(() => []),
     chrome.cookies.getAll({ domain: 'autoplus.co.kr' }).catch(() => []),
     chrome.cookies.getAll({ domain: '.autoplus.co.kr' }).catch(() => []),
     chrome.cookies.getAll({ domain: 'purchase.autoplus.co.kr' }).catch(() => []),
@@ -99,11 +101,14 @@ async function broadcastCookieToServers(cookieStr, target) {
 
   const endpoints = [
     'http://localhost:8502/api/save_cookie',
+    'http://localhost:8502/api/session/cookie',
     'http://localhost:3000/api/save_cookie',
     'http://localhost:3000/api/session/cookie',
     'http://localhost:8000/api/save_cookie',
+    'http://localhost:8000/api/session/cookie',
     'http://100.95.238.123:8502/api/save_cookie',
-    'http://100.95.238.123:8000/api/save_cookie'
+    'http://100.95.238.123:8000/api/save_cookie',
+    'http://100.95.238.123:8000/api/session/cookie'
   ];
 
   const results = await Promise.allSettled(
