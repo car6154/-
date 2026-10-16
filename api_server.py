@@ -34,7 +34,17 @@ from services.autoplus_sync_service import AutoplusSyncService, start_autoplus_s
 from routers.ledger_router import router as ledger_router
 from routers.settlement_router import router as settlement_router
 
+from fastapi.middleware.cors import CORSMiddleware
+
 app = FastAPI(title="J-Project Local API Server", version="1.0.0")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 app.include_router(ledger_router)
 app.include_router(settlement_router)

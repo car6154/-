@@ -25,21 +25,32 @@ async function broadcastToServer(cookieStr, target) {
     'http://localhost:8000/api/session/cookie',
     'http://100.95.238.123:8502/api/save_cookie',
     'http://100.95.238.123:8000/api/save_cookie',
-    'http://100.95.238.123:8000/api/session/cookie'
+    'http://100.95.238.123:8000/api/session/cookie',
+    'http://jpro:8000/api/save_cookie',
+    'http://jpro:8000/api/session/cookie',
+    'http://jpro:3000/api/save_cookie',
+    'http://jpro:3000/api/session/cookie'
   ];
 
-  await Promise.allSettled(
-    endpoints.map(url =>
-      fetch(url, {
+  const results = await Promise.allSettled(
+    endpoints.map(async url => {
+      const resp = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'X-JPRO-Token': 'jpro_sec_9981_live_auth'
         },
         body: JSON.stringify(payload)
-      })
-    )
+      });
+      return { url, ok: resp.ok, status: resp.status };
+    })
   );
+
+  results.forEach(r => {
+    if (r.status === 'fulfilled' && r.value.ok) {
+      console.log(`[J-PRO AutoSync] 쿠키 전송 성공: ${r.value.url} (HTTP ${r.value.status})`);
+    }
+  });
 }
 
 // ── 헤이딜러 쿠키 지연/후행 동기화 ──
