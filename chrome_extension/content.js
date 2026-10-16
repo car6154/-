@@ -115,6 +115,25 @@
             }
           });
 
+          let manager = "";
+          if (rowText.includes("김재현")) {
+            manager = "김재현";
+          } else {
+            for (const cell of cells) {
+              const txt = (cell.innerText || "").trim();
+              if (/^[가-힣]{2,4}$/.test(txt) && !/(조회|수정|완료|진행|대기|현물|공판|대행|법인|개인|과세|면세|간이|승인|반려|결재|취소|경매|일반)/.test(txt)) {
+                manager = txt;
+                break;
+              }
+            }
+            if (!manager) {
+              const mgrInput = document.querySelector('input[name*="Charge"], input[name*="Emp"], input[name*="User"], input[id*="Charge"], input[id*="Emp"], input[id*="User"]');
+              if (mgrInput && mgrInput.value) {
+                manager = mgrInput.value.trim();
+              }
+            }
+          }
+
           if (carNo) {
             foundCars.push({
               carNumber: carNo,
@@ -124,7 +143,8 @@
               transferDate: transferDate,
               purchaseType: purchaseType,
               pid: pid,
-              scrapDeduction: scrapDeduction
+              scrapDeduction: scrapDeduction,
+              manager: manager
             });
           }
         });

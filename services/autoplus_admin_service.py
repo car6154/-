@@ -24,8 +24,7 @@ LEDGER_CSV = os.path.join(BASE_DIR, "my_car_ledger.csv")
 SETTLEMENT_CSV = os.path.join(BASE_DIR, "my_inventory_settlement.csv")
 STATUS_FILE = os.path.join(DATA_DIR, "highplus_buy_status.json")
 
-# 김재현 대표님 본인 보유 차량 5대 + 판매완료 1대 (전사 타인 매입 데이터 유입 및 정산표 오염 방지)
-VALID_JAY_CARS = {'01수9643', '43노5327', '337너5231', '155라7987', '37다1840', '297로2620'}
+MANAGER = "김재현"
 
 
 def _safe_int(val: Any, default: int = 0) -> int:
@@ -143,14 +142,18 @@ class AutoplusAdminService:
         if not buy_cars or not isinstance(buy_cars, list):
             return {"success": False, "message": "전송된 매입 데이터가 없습니다.", "syncedCount": 0}
 
+        ledger_cars = cls._load_valid_ledger_cars()
+
         cleaned_cars = []
         for c in buy_cars:
             car_no = str(c.get("carNumber", "")).replace(" ", "").strip()
             if not car_no or len(car_no) < 6:
                 continue
 
-            # 전사 타인 매입 데이터 유입 및 정산표 오염 방지 (제이님 본인 차량만 허용)
-            if car_no not in VALID_JAY_CARS:
+            mgr = str(c.get("manager", "")).strip()
+            if mgr and mgr != MANAGER:
+                continue
+            if car_no not in ledger_cars:
                 continue
 
             # 금액 만원 단위 정규화
@@ -313,6 +316,44 @@ class AutoplusAdminService:
         return cls._sync_inventory_settlement_csv(cleaned_cars)
 
     @classmethod
+    def _load_valid_ledger_cars(cls) -> set:
+        """my_car_ledger.csv에서 2026-09-01 이후 매입/등록된 차량번호 집합 로드"""
+        ledger_cars = set()
+        if not os.path.exists(LEDGER_CSV):
+            return ledger_cars
+        for enc in ['utf-8-sig', 'utf-8', 'cp949']:
+            try:
+                with open(LEDGER_CSV, "r", encoding=enc) as f:
+                    reader = csv.reader(f)
+                    header = next(reader, [])
+                    h_map = {col.strip(): i for i, col in enumerate(header)}
+                    c_idx = h_map.get("차량번호")
+                    d_idx = h_map.get("매입일") if h_map.get("매입일") is not None else h_map.get("등록일")
+                    if c_idx is None:
+                        continue
+                    for r in reader:
+                        if not r or len(r) <= c_idx:
+                            continue
+                        c_no = str(r[c_idx]).replace(" ", "").strip()
+                        if not c_no:
+                            continue
+                        if d_idx is not None and len(r) > d_idx:
+                            raw_date = str(r[d_idx]).strip()
+                            m_d = re.search(r"(\d{2,4})[-/.]0?(\d{1,2})", raw_date)
+                            if m_d:
+                                y = int(m_d.group(1))
+                                if y < 100:
+                                    y += 2000
+                                mm = int(m_d.group(2))
+                                if y < 2026 or (y == 2026 and mm < 9):
+                                    continue
+                        ledger_cars.add(c_no)
+                break
+            except Exception:
+                continue
+        return ledger_cars
+
+    @classmethod
     def _load_ledger_info_map(cls) -> Dict[str, Dict[str, Any]]:
         """my_car_ledger.csv에서 차량번호별 외판수리, 상품화, 차종, 헤딜수수료 로드"""
         res = {}
@@ -349,6 +390,7 @@ class AutoplusAdminService:
         cls.backup_file(SETTLEMENT_CSV)
         cars_by_no = {c["carNumber"]: c for c in cleaned_cars}
         ledger_map = cls._load_ledger_info_map()
+        ledger_cars = cls._load_valid_ledger_cars()
 
         header = [
             '순차', '매입일', '상태', '차량번호', '차종', '판매가', '재고일', '매입가',
@@ -386,8 +428,8 @@ class AutoplusAdminService:
                 c_no = r[car_no_idx].strip()
                 b_date = r[date_idx].strip() if len(r) > date_idx else ""
 
-                # 없는 차량 및 더미 제거
-                if c_no in ['304소0453', '211두9940']:
+                # 없는 차량 및 타인 차량 제거 (매입장부 기준)
+                if c_no and c_no not in ledger_cars:
                     continue
 
                 # 2026년 9월 이전 매입건(04., 05., 06., 07., 08. 등) 필터링 제거
@@ -442,7 +484,7 @@ class AutoplusAdminService:
         # 2) 신규 차량 추가 (Upsert)
         added_count = 0
         for c_no, c_info in cars_by_no.items():
-            if c_no not in existing_cars and c_no not in ['304소0453', '211두9940']:
+            if c_no not in existing_cars:
                 row_new = [""] * len(header)
                 def set_new(col_name: str, val: Any):
                     pos = h_map.get(col_name)
@@ -595,6 +637,7 @@ class AutoplusAdminService:
         clean_rows = []
         removed_count = 0
         ledger_map = cls._load_ledger_info_map()
+        ledger_cars = cls._load_valid_ledger_cars()
 
         for enc in ['utf-8-sig', 'utf-8', 'cp949']:
             try:
@@ -608,10 +651,8 @@ class AutoplusAdminService:
                         if not r or not any(field.strip() for field in r): continue
                         c_no = r[car_no_idx].strip() if len(r) > car_no_idx else ""
 
-                        # 1. 없는 차량 및 전사 타인 차량(잘못 인입된 차량) 제거
-                        # 제이님 실제 보유 5대(01수9643, 43노5327, 337너5231, 155라7987, 37다1840) 및 판매완료(297로2620 등)만 보존
-                        VALID_JAY_CARS = {'01수9643', '43노5327', '337너5231', '155라7987', '37다1840', '297로2620'}
-                        if c_no in ['304소0453', '211두9940'] or (c_no and c_no not in VALID_JAY_CARS):
+                        # 1. 없는 차량 및 전사 타인 차량 제거 (매입장부 기준)
+                        if c_no and c_no not in ledger_cars:
                             removed_count += 1
                             continue
 
