@@ -229,6 +229,16 @@
               }
             }
 
+            // poId 추출: input[name="poIdList"] 또는 cells[2]의 SPPOR20001 링크 파라미터
+            let poId = "";
+            const poInp = tr.querySelector('input[name*="poId"]');
+            if (poInp && poInp.value) {
+              poId = poInp.value.trim();
+            } else if (cells[2]) {
+              const mPo = (cells[2].innerHTML || "").match(/poId=(\d+)/);
+              if (mPo) poId = mPo[1];
+            }
+
             if (carNo) {
               foundCars.push({
                 carNumber: carNo,
@@ -239,6 +249,7 @@
                 transferDate: transferDate,
                 purchaseType: purchaseType,
                 pid: pid,
+                poId: poId,
                 scrapDeduction: scrapDeduction,
                 manager: manager
               });
@@ -246,89 +257,48 @@
           });
         });
 
-        // B) 매입등록(일반) 단건 상세 화면 및 폼 입력 요소 정밀 스캔
-        const bodyText = document.body.innerText || "";
-        const allCarMatches = bodyText.match(new RegExp(CAR_NO_REGEX, 'g')) || [];
-        for (const rawCarMatch of allCarMatches) {
-          const sCarNo = rawCarMatch.replace(/\s+/g, '');
-          let formBuyPrice = 0;
-          let formEtcFee = 0;
-          let formOuterRepairs = 0;
-
-          // 1. input 요소 직접 전수 탐색 (name, id, title, 부모 텍스트 기반)
-          const allInputs = document.querySelectorAll('input');
-          allInputs.forEach(inp => {
-            const valClean = (inp.value || "").replace(/[^\d]/g, '');
-            if (!valClean) return;
-            const valNum = parseInt(valClean, 10);
-
-            // 주변 부모나 형제 요소 텍스트
-            const pText = (inp.closest('tr, td, div, dl')?.innerText || "").replace(/\s+/g, '');
-
-            // 기타비용 (545,000 등 소개/낙찰수수료)
-            if (/기타비용|소개수수료|낙찰수수료/.test(pText) || /etc|fee/.test(inp.name || inp.id)) {
-              if (valNum >= 10000 && valNum <= 50000000) {
-                formEtcFee = valNum;
-              }
+        // B) 매입등록 상세 화면(SPPOR20001) 백그라운드 자동 조회 (기타비용 545,000 및 외판 정밀 추출)
+        async function enrichCarDetails(cars) {
+          for (const car of cars) {
+            if (car.poId && (!car.etcFee || car.etcFee === 0)) {
+              try {
+                const detailUrl = `https://admin.autoplus.co.kr/spot/syspo/SPPOR20001?poId=${car.poId}&vw=1&showGbn=H`;
+                const resp = await fetch(detailUrl, { credentials: 'include' });
+                if (resp.ok) {
+                  const html = await resp.text();
+                  // 1) 기타비용 (545,000 등)
+                  const mEtc = html.match(/기타비용[^\d]*([\d,]{4,})/);
+                  if (mEtc) {
+                    const parsedFee = parseInt(mEtc[1].replace(/,/g, ''), 10);
+                    if (parsedFee > 0) car.etcFee = parsedFee;
+                  }
+                  // 2) 외판 판수
+                  const mOut = html.match(/외판[^\d]*(\d{1,2})/);
+                  if (mOut) {
+                    car.outerRepairs = parseInt(mOut[1], 10) || 0;
+                  }
+                }
+              } catch (e) {}
             }
+          }
 
-            // 최종매입가
-            if (/최종매입가|실매입가/.test(pText) || /buy|pur/.test(inp.name || inp.id)) {
-              if (valNum >= 1000000 && valNum <= 500000000) {
-                formBuyPrice = valNum;
-              }
+          if (cars.length > 0) {
+            const sig = JSON.stringify(cars);
+            if (sig !== lastScanSignature) {
+              lastScanSignature = sig;
+              chrome.runtime.sendMessage({
+                action: 'sync_highplus_buy_data',
+                data: cars
+              }, (res) => {
+                if (res && res.status === 'ok') {
+                  console.log(`[J-PRO AutoSync] high A+ 매입 데이터 ${cars.length}대 자동 전송 완료`);
+                }
+              });
             }
-          });
-
-          // 2. 텍스트 정규식 fallback
-          if (formEtcFee === 0) {
-            const mEtc = bodyText.match(/(?:기타비용|낙찰\/소개수수료)[^\d]*([\d,]{4,})/);
-            if (mEtc) formEtcFee = parseInt(mEtc[1].replace(/,/g, ''), 10) || 0;
-          }
-          if (formBuyPrice === 0) {
-            const mBuy = bodyText.match(/최종매입가[^\d]*([\d,]{6,})/);
-            if (mBuy) formBuyPrice = parseInt(mBuy[1].replace(/,/g, ''), 10) || 0;
-          }
-
-          // 3. 외판 판수
-          const outerInput = document.querySelector('input[name*="out"], input[id*="out"], input[name*="pan"]');
-          if (outerInput && outerInput.value) {
-            formOuterRepairs = parseInt(outerInput.value.replace(/[^\d]/g, ''), 10) || 0;
-          } else {
-            const mOut = bodyText.match(/외판[^\d]*(\d{1,2})/);
-            if (mOut) formOuterRepairs = parseInt(mOut[1], 10) || 0;
-          }
-
-          // 목록에서 찾은 차량과 병합하거나 신규 추가
-          const targetCar = foundCars.find(c => c.carNumber === sCarNo);
-          if (targetCar) {
-            if (formBuyPrice > 0) targetCar.buyPrice = formBuyPrice;
-            if (formEtcFee > 0) targetCar.etcFee = formEtcFee;
-            if (formOuterRepairs > 0) targetCar.outerRepairs = formOuterRepairs;
-          } else if (formBuyPrice > 0 || formEtcFee > 0 || formOuterRepairs > 0) {
-            foundCars.push({
-              carNumber: sCarNo,
-              buyPrice: formBuyPrice,
-              etcFee: formEtcFee,
-              outerRepairs: formOuterRepairs
-            });
           }
         }
 
-        if (foundCars.length > 0) {
-          const sig = JSON.stringify(foundCars);
-          if (sig !== lastScanSignature) {
-            lastScanSignature = sig;
-            chrome.runtime.sendMessage({
-              action: 'sync_highplus_buy_data',
-              data: foundCars
-            }, (res) => {
-              if (res && res.status === 'ok') {
-                console.log(`[J-PRO AutoSync] high A+ 매입 데이터 ${foundCars.length}대 자동 전송 완료`);
-              }
-            });
-          }
-        }
+        enrichCarDetails(foundCars);
       } catch (err) {
         // 무시
       }
