@@ -514,6 +514,10 @@ export function useBiddingCockpit({
   useEffect(() => {
     if (!preset) return;
 
+    // 🧹 이전 조회의 낡은(stale) 등급 ref 리셋 (엉뚱한 등급 조건 검색 방지)
+    rawGradeNameRef.current = '';
+    rawGradeDetailNameRef.current = '';
+
     if (preset.carNumber) {
       setCarNumber(preset.carNumber);
     }
@@ -544,9 +548,13 @@ export function useBiddingCockpit({
       if (y > 2000) y -= 2000;
       if (!isNaN(y) && y > 0) setYearModel(y);
     }
+    let parsedMileage = 0;
     if (preset.mileage !== undefined) {
       let m = typeof preset.mileage === 'number' ? preset.mileage : parseInt(String(preset.mileage).replace(/[^\d]/g, ''), 10);
-      if (!isNaN(m) && m > 0) setMileageKm(m);
+      if (!isNaN(m) && m > 0) {
+        parsedMileage = m;
+        setMileageKm(m);
+      }
     }
     if (preset.sellPrice && preset.sellPrice > 0) {
       setExpectedSellPrice(preset.sellPrice);
@@ -565,6 +573,11 @@ export function useBiddingCockpit({
     }
     if (preset.auctionType) {
       setAuctionType(preset.auctionType);
+    }
+
+    // ⚡ 장부/재고 preset 진입 시 차얼마 확정 데이터(grade_name/grade_detail_name) 자동 수신
+    if (preset.carNumber) {
+      handleLookupCarNumber(preset.carNumber, parsedMileage, true);
     }
 
     setSearchStatus({
@@ -616,22 +629,27 @@ export function useBiddingCockpit({
   }, [presetCarName, presetSellPrice, preset]);
 
   // 2. 차량번호 [조회] 실제 실행 핸들러 (차얼마 & 엔카 실시간 제원 및 옵션 완벽 연동)
-  const handleLookupCarNumber = async (targetNo?: string) => {
+  const handleLookupCarNumber = async (targetNo?: string, overrideMileage?: number, silent?: boolean) => {
     const no = (targetNo || carNumber).replace(/\s+/g, '').trim();
     if (!no) {
-      setSearchStatus({
-        type: 'warning',
-        message: '⚠️ 차량번호를 입력해주세요.'
-      });
-      alert('차량번호를 입력해주세요.');
+      if (!silent) {
+        setSearchStatus({
+          type: 'warning',
+          message: '⚠️ 차량번호를 입력해주세요.'
+        });
+        alert('차량번호를 입력해주세요.');
+      }
       return;
     }
-    if (!mileageKm || mileageKm <= 0) {
-      setSearchStatus({
-        type: 'warning',
-        message: '⚠️ 주행거리를 입력해주세요. (차얼마 조회 시 차량번호와 주행거리 필수)'
-      });
-      alert('주행거리를 입력해주세요. (차얼마 조회 시 차량번호와 주행거리 입력이 필수입니다)');
+    const effectiveMileage = (overrideMileage !== undefined && overrideMileage > 0) ? overrideMileage : mileageKm;
+    if (!effectiveMileage || effectiveMileage <= 0) {
+      if (!silent) {
+        setSearchStatus({
+          type: 'warning',
+          message: '⚠️ 주행거리를 입력해주세요. (차얼마 조회 시 차량번호와 주행거리 필수)'
+        });
+        alert('주행거리를 입력해주세요. (차얼마 조회 시 차량번호와 주행거리 입력이 필수입니다)');
+      }
       return;
     }
 
@@ -646,7 +664,7 @@ export function useBiddingCockpit({
 
     try {
       // 실제 차얼마(오토플러스 ERP) 서비스 호출
-      const res = await queryChaolmaCar(no, mileageKm);
+      const res = await queryChaolmaCar(no, effectiveMileage);
       if (res && res.success) {
         skipAutoFetchRef.current = true;
         setCarNumber(no);
