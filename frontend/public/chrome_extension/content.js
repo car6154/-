@@ -216,16 +216,24 @@
           );
         }
 
-        // 백그라운드 세부 기타비용 fetch (비동기 병렬 실행)
+        // 백그라운드 세부 기타비용 fetch (오토플러스 getSysPo.do poAddExt 실측치)
         for (const car of foundCars) {
-          if (car.poId && (!car.etcFee || car.etcFee === 0)) {
-            const detailUrl = `https://admin.autoplus.co.kr/spot/syspo/SPPOR20001?poId=${car.poId}&vw=1&showGbn=H`;
-            fetch(detailUrl, { credentials: 'include' })
-              .then(r => r.ok ? r.text() : '')
-              .then(html => {
-                if (!html) return;
-                const parsedFee = extractEtcFeeFromHtml(html);
-                if (parsedFee > 0 && car.etcFee !== parsedFee) {
+          if (car.poId && car.etcFee === undefined) {
+            fetch('https://admin.autoplus.co.kr/spot/syspo/getSysPo.do', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                'X-Ajax-call': 'true'
+              },
+              body: `poId=${encodeURIComponent(car.poId)}`,
+              credentials: 'include'
+            })
+              .then(r => r.ok ? r.json() : null)
+              .then(res => {
+                if (!res || !res.data) return;
+                const ext = res.data.poAddExt;
+                const parsedFee = (ext !== null && ext !== undefined && String(ext).trim() !== '') ? parseInt(String(ext).replace(/[^\d]/g, ''), 10) : 0;
+                if (car.etcFee !== parsedFee) {
                   car.etcFee = parsedFee;
                   if (isContextAlive()) {
                     chrome.runtime.sendMessage({ action: 'sync_highplus_buy_data', data: [car] });

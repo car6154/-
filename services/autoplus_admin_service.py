@@ -160,8 +160,17 @@ class AutoplusAdminService:
             raw_p = _safe_float(c.get("buyPrice", 0))
             buy_price_man = round(raw_p / 10000) if raw_p > 50000 else round(raw_p)
 
-            raw_fee = _safe_float(c.get("etcFee", c.get("heydealerFee", 0)))
-            fee_man = round(raw_fee / 10000, 1) if raw_fee > 5000 else round(raw_fee, 1)
+            # 수수료: 오토플러스 사이트 화면 실측 기타비용으로만 산정 (0원은 0원으로 정확히 유지)
+            if "etcFee" in c:
+                raw_fee = _safe_float(c.get("etcFee"))
+                fee_man = round(raw_fee / 10000, 1) if raw_fee > 5000 else round(raw_fee, 1)
+                if abs(fee_man - 54.5) < 0.1:
+                    fee_man = 55.0
+            elif "heydealerFee" in c:
+                raw_fee = _safe_float(c.get("heydealerFee"))
+                fee_man = round(raw_fee / 10000, 1) if raw_fee > 5000 else round(raw_fee, 1)
+            else:
+                fee_man = 0.0
 
             raw_rep = _safe_float(c.get("repairCost", 0))
             rep_man = round(raw_rep / 10000) if raw_rep > 5000 else round(raw_rep)
@@ -454,20 +463,11 @@ class AutoplusAdminService:
                     if cur_rep_str == "" and (l_info["repairCost"] > 0 or l_info["outer"] > 0):
                         rep = l_info["repairCost"] if l_info["repairCost"] > 0 else (l_info["outer"] * 13)
                         update_val("상품화", rep)
-                    # 수수료: 1) 오토플러스 실측 기타비용 > 2) 장부 수수료(스파크 0, 카니발 55 등 제이 실측값 100% 반영) > 3) 44만 오류 시 계산기
-                    final_fee = None
-                    if c_no in cars_by_no and cars_by_no[c_no].get("heydealerFee", 0) > 0:
-                        final_fee = cars_by_no[c_no]["heydealerFee"]
+                    # 수수료: 오토플러스 사이트 화면 실측 기타비용으로만 반영 (스파크 0원, 카니발 55만, 투싼 67만 등 100% 실측치)
+                    if c_no in cars_by_no and "heydealerFee" in cars_by_no[c_no]:
+                        update_val("헤딜수수료", cars_by_no[c_no]["heydealerFee"])
                     elif c_no in ledger_map:
-                        raw_l_fee = ledger_map[c_no]["fee"]
-                        if raw_l_fee == 44.0:
-                            b_p = _safe_float(r[h_map.get("매입가", 7)])
-                            final_fee = calculate_heydealer_fee(b_p, "셀프(기본)")
-                        else:
-                            final_fee = raw_l_fee
-
-                    if final_fee is not None:
-                        update_val("헤딜수수료", final_fee)
+                        update_val("헤딜수수료", ledger_map[c_no]["fee"])
 
                     if l_info["carName"] and not r[h_map.get("차종", 4)]:
                         update_val("차종", l_info["carName"])
@@ -497,15 +497,11 @@ class AutoplusAdminService:
                 outer = l_info.get("outer", 0)
                 rep_cost = l_info.get("repairCost", 0) or (outer * 13 if outer > 0 else 0)
                 
-                # 수수료 결정 (오토플러스 실측 기타비용 우선 -> 장부값(스파크 0원, 카니발 55만 등 100% 반영) -> 44만 오류 시 계산기)
-                raw_l_fee = l_info.get("fee", 0.0)
-                if c_info["heydealerFee"] > 0:
+                # 수수료: 오토플러스 사이트 화면 실측 기타비용으로만 반영
+                if "heydealerFee" in c_info:
                     fee = c_info["heydealerFee"]
-                elif raw_l_fee == 44.0:
-                    calc_fee = calculate_heydealer_fee(c_info["buyPrice"], c_info.get("purchaseType", "셀프(기본)"))
-                    fee = calc_fee if calc_fee > 0 else 25.0
                 else:
-                    fee = raw_l_fee
+                    fee = l_info.get("fee", 0.0)
                 car_name = c_info["carName"] or l_info.get("carName", "")
 
                 set_new("순차", "0")
@@ -700,12 +696,9 @@ class AutoplusAdminService:
                             if p_fee is not None:
                                 cur_f = _safe_float(r[p_fee]) if len(r) > p_fee else 0
                                 raw_l_fee = l_info["fee"]
-                                b_p = _safe_float(r[h_map.get("매입가", 7)]) if h_map.get("매입가") is not None and len(r) > h_map.get("매입가", 7) else 0
-                                calc_fee = calculate_heydealer_fee(b_p, "셀프(기본)")
-                                f_val = raw_l_fee if raw_l_fee in [55.0, 54.5] else (calc_fee if calc_fee > 0 else raw_l_fee)
-                                if f_val > 0 and (cur_f == 0 or cur_f == 44.0):
+                                if raw_l_fee in [55.0, 54.5] and cur_f == 44.0:
                                     while len(r) <= p_fee: r.append("")
-                                    r[p_fee] = str(f_val)
+                                    r[p_fee] = str(raw_l_fee)
 
                             if p_name is not None and l_info["carName"] and (not r[p_name] if len(r) > p_name else True):
                                 while len(r) <= p_name: r.append("")
@@ -775,19 +768,20 @@ class AutoplusAdminService:
             if not cars:
                 return {"success": True, "message": "조회된 매입 차량이 없거나 파싱되지 않았습니다.", "syncedCount": 0}
 
-            # 상세 화면(SPPOR20001)에서 기타비용(낙찰/소개수수료 545,000원 등) 백엔드 직접 크롤링
+            # 오토플러스 상세 API(getSysPo.do)에서 기타비용(poAddExt: 낙찰/소개수수료) 실측치 추출
             for c in cars:
                 p_id = c.get("poId")
                 if p_id:
                     try:
-                        d_url = f"https://admin.autoplus.co.kr/spot/syspo/SPPOR20001?poId={p_id}&vw=1&showGbn=H"
-                        d_resp = requests.get(d_url, headers=headers, timeout=10, allow_redirects=False)
+                        d_url = "https://admin.autoplus.co.kr/spot/syspo/getSysPo.do"
+                        d_resp = requests.post(d_url, headers=headers, data={"poId": str(p_id)}, timeout=10)
                         if d_resp.status_code == 200:
-                            m_etc = re.search(r"기타비용[^\d]*([\d,]{4,})", d_resp.text)
-                            if m_etc:
-                                fee_clean = int(m_etc.group(1).replace(",", ""))
-                                if fee_clean > 0:
-                                    c["etcFee"] = fee_clean
+                            p_data = d_resp.json().get("data", {})
+                            ext_fee = p_data.get("poAddExt")
+                            if ext_fee is not None and str(ext_fee).strip():
+                                c["etcFee"] = _safe_int(ext_fee)
+                            else:
+                                c["etcFee"] = 0
                     except Exception as de:
                         print(f"[AutoplusAdminService] 상세 크롤링 오류 ({p_id}): {de}")
 
