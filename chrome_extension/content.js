@@ -248,61 +248,49 @@
 
         // B) 매입등록(일반) 단건 상세 화면 및 폼 입력 요소 정밀 스캔
         const bodyText = document.body.innerText || "";
-        const singleCarMatch = bodyText.match(CAR_NO_REGEX);
-        if (singleCarMatch) {
-          const sCarNo = singleCarMatch[0].replace(/\s+/g, '');
+        const allCarMatches = bodyText.match(new RegExp(CAR_NO_REGEX, 'g')) || [];
+        for (const rawCarMatch of allCarMatches) {
+          const sCarNo = rawCarMatch.replace(/\s+/g, '');
           let formBuyPrice = 0;
           let formEtcFee = 0;
           let formOuterRepairs = 0;
 
-          // 1. 라벨 탐색 헬퍼: 텍스트를 포함하는 요소(th, td, label, div, p, span 등) 바로 옆의 input이나 텍스트 찾기
-          function extractValueByLabel(labelPattern) {
-            const allElements = document.querySelectorAll('th, td, label, div, dt, span, b, strong');
-            for (const el of allElements) {
-              const t = (el.innerText || "").replace(/\s+/g, '');
-              if (labelPattern.test(t)) {
-                // (1) 같은 부모 또는 다음 형제 요소에서 input 검색
-                let nextEl = el.nextElementSibling;
-                if (nextEl) {
-                  const inp = nextEl.tagName === 'INPUT' ? nextEl : nextEl.querySelector('input');
-                  if (inp && (inp.value || inp.placeholder)) {
-                    const clean = (inp.value || inp.placeholder).replace(/[^\d]/g, '');
-                    if (clean) return parseInt(clean, 10);
-                  }
-                  const txtClean = (nextEl.innerText || "").replace(/[^\d]/g, '');
-                  if (txtClean) return parseInt(txtClean, 10);
-                }
-                // (2) 부모 tr이나 div 컨테이너에서 input 검색
-                const parentRow = el.closest('tr, .row, .form-group, dl, div');
-                if (parentRow) {
-                  const inputs = parentRow.querySelectorAll('input');
-                  for (const inp of inputs) {
-                    if (inp && inp.value) {
-                      const clean = inp.value.replace(/[^\d]/g, '');
-                      if (clean) return parseInt(clean, 10);
-                    }
-                  }
-                }
+          // 1. input 요소 직접 전수 탐색 (name, id, title, 부모 텍스트 기반)
+          const allInputs = document.querySelectorAll('input');
+          allInputs.forEach(inp => {
+            const valClean = (inp.value || "").replace(/[^\d]/g, '');
+            if (!valClean) return;
+            const valNum = parseInt(valClean, 10);
+
+            // 주변 부모나 형제 요소 텍스트
+            const pText = (inp.closest('tr, td, div, dl')?.innerText || "").replace(/\s+/g, '');
+
+            // 기타비용 (545,000 등 소개/낙찰수수료)
+            if (/기타비용|소개수수료|낙찰수수료/.test(pText) || /etc|fee/.test(inp.name || inp.id)) {
+              if (valNum >= 10000 && valNum <= 50000000) {
+                formEtcFee = valNum;
               }
             }
-            return 0;
-          }
 
-          // 1) 최종매입가 추출 (스크린샷 정확 일치: '최종매입가')
-          formBuyPrice = extractValueByLabel(/(최종매입가|실매입가|매입가)/);
+            // 최종매입가
+            if (/최종매입가|실매입가/.test(pText) || /buy|pur/.test(inp.name || inp.id)) {
+              if (valNum >= 1000000 && valNum <= 500000000) {
+                formBuyPrice = valNum;
+              }
+            }
+          });
+
+          // 2. 텍스트 정규식 fallback
+          if (formEtcFee === 0) {
+            const mEtc = bodyText.match(/(?:기타비용|낙찰\/소개수수료)[^\d]*([\d,]{4,})/);
+            if (mEtc) formEtcFee = parseInt(mEtc[1].replace(/,/g, ''), 10) || 0;
+          }
           if (formBuyPrice === 0) {
             const mBuy = bodyText.match(/최종매입가[^\d]*([\d,]{6,})/);
             if (mBuy) formBuyPrice = parseInt(mBuy[1].replace(/,/g, ''), 10) || 0;
           }
 
-          // 2) 기타비용 (낙찰/소개수수료) 추출 (스크린샷 정확 일치: '기타비용(낙찰/소개수수료)')
-          formEtcFee = extractValueByLabel(/(기타비용|낙찰\/소개수수료|소개수수료|낙찰수수료)/);
-          if (formEtcFee === 0) {
-            const mEtc = bodyText.match(/(?:기타비용|낙찰\/소개수수료)[^\d]*([\d,]{4,})/);
-            if (mEtc) formEtcFee = parseInt(mEtc[1].replace(/,/g, ''), 10) || 0;
-          }
-
-          // 3) 외판 판수 추출
+          // 3. 외판 판수
           const outerInput = document.querySelector('input[name*="out"], input[id*="out"], input[name*="pan"]');
           if (outerInput && outerInput.value) {
             formOuterRepairs = parseInt(outerInput.value.replace(/[^\d]/g, ''), 10) || 0;
