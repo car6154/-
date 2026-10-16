@@ -234,45 +234,84 @@
           });
         });
 
-        // B) 매입등록(일반) 단건 상세 화면 스캔 (외판 판수 및 기타비용 545,000 등)
+        // B) 매입등록(일반) 단건 상세 화면 및 폼 입력 요소 정밀 스캔
         const bodyText = document.body.innerText || "";
         const singleCarMatch = bodyText.match(CAR_NO_REGEX);
         if (singleCarMatch) {
           const sCarNo = singleCarMatch[0].replace(/\s+/g, '');
-          let etcFee = 0;
-          let outerRepairs = 0;
-          let repairCost = 0;
+          let formBuyPrice = 0;
+          let formEtcFee = 0;
+          let formOuterRepairs = 0;
 
-          // 기타비용 (낙찰/소개수수료)
-          const etcFeeInput = document.querySelector('input[name*="etc"], input[id*="etc"], input[name*="fee"]');
-          if (etcFeeInput && etcFeeInput.value) {
-            etcFee = parseInt(etcFeeInput.value.replace(/[^\d]/g, ''), 10) || 0;
-          } else {
-            const mEtc = bodyText.match(/기타비용[^\d]*([\d,]{4,})/);
-            if (mEtc) etcFee = parseInt(mEtc[1].replace(/,/g, ''), 10) || 0;
+          // 1. 라벨 탐색 헬퍼: 텍스트를 포함하는 요소(th, td, label, div, p, span 등) 바로 옆의 input이나 텍스트 찾기
+          function extractValueByLabel(labelPattern) {
+            const allElements = document.querySelectorAll('th, td, label, div, dt, span, b, strong');
+            for (const el of allElements) {
+              const t = (el.innerText || "").replace(/\s+/g, '');
+              if (labelPattern.test(t)) {
+                // (1) 같은 부모 또는 다음 형제 요소에서 input 검색
+                let nextEl = el.nextElementSibling;
+                if (nextEl) {
+                  const inp = nextEl.tagName === 'INPUT' ? nextEl : nextEl.querySelector('input');
+                  if (inp && (inp.value || inp.placeholder)) {
+                    const clean = (inp.value || inp.placeholder).replace(/[^\d]/g, '');
+                    if (clean) return parseInt(clean, 10);
+                  }
+                  const txtClean = (nextEl.innerText || "").replace(/[^\d]/g, '');
+                  if (txtClean) return parseInt(txtClean, 10);
+                }
+                // (2) 부모 tr이나 div 컨테이너에서 input 검색
+                const parentRow = el.closest('tr, .row, .form-group, dl, div');
+                if (parentRow) {
+                  const inputs = parentRow.querySelectorAll('input');
+                  for (const inp of inputs) {
+                    if (inp && inp.value) {
+                      const clean = inp.value.replace(/[^\d]/g, '');
+                      if (clean) return parseInt(clean, 10);
+                    }
+                  }
+                }
+              }
+            }
+            return 0;
           }
 
-          // 외판 판수
+          // 1) 최종매입가 추출 (스크린샷 정확 일치: '최종매입가')
+          formBuyPrice = extractValueByLabel(/(최종매입가|실매입가|매입가)/);
+          if (formBuyPrice === 0) {
+            const mBuy = bodyText.match(/최종매입가[^\d]*([\d,]{6,})/);
+            if (mBuy) formBuyPrice = parseInt(mBuy[1].replace(/,/g, ''), 10) || 0;
+          }
+
+          // 2) 기타비용 (낙찰/소개수수료) 추출 (스크린샷 정확 일치: '기타비용(낙찰/소개수수료)')
+          formEtcFee = extractValueByLabel(/(기타비용|낙찰\/소개수수료|소개수수료|낙찰수수료)/);
+          if (formEtcFee === 0) {
+            const mEtc = bodyText.match(/(?:기타비용|낙찰\/소개수수료)[^\d]*([\d,]{4,})/);
+            if (mEtc) formEtcFee = parseInt(mEtc[1].replace(/,/g, ''), 10) || 0;
+          }
+
+          // 3) 외판 판수 추출
           const outerInput = document.querySelector('input[name*="out"], input[id*="out"], input[name*="pan"]');
           if (outerInput && outerInput.value) {
-            outerRepairs = parseInt(outerInput.value.replace(/[^\d]/g, ''), 10) || 0;
+            formOuterRepairs = parseInt(outerInput.value.replace(/[^\d]/g, ''), 10) || 0;
           } else {
             const mOut = bodyText.match(/외판[^\d]*(\d{1,2})/);
-            if (mOut) outerRepairs = parseInt(mOut[1], 10) || 0;
+            if (mOut) formOuterRepairs = parseInt(mOut[1], 10) || 0;
           }
 
-          if (etcFee > 0 || outerRepairs > 0) {
-            const existing = foundCars.find(c => c.carNumber === sCarNo);
-            if (existing) {
-              if (etcFee > 0) existing.etcFee = etcFee;
-              if (outerRepairs > 0) existing.outerRepairs = outerRepairs;
-            } else {
-              foundCars.push({
-                carNumber: sCarNo,
-                etcFee: etcFee,
-                outerRepairs: outerRepairs
-              });
-            }
+          // 목록에서 찾은 차량과 병합하거나 신규 추가
+          const targetCar = foundCars.find(c => c.carNumber === sCarNo);
+          if (targetCar) {
+            if (formBuyPrice > 0) targetCar.buyPrice = formBuyPrice;
+            if (formEtcFee > 0) targetCar.etcFee = formEtcFee;
+            if (formOuterRepairs > 0) targetCar.outerRepairs = formOuterRepairs;
+          } else if (formBuyPrice > 0 || formEtcFee > 0 || formOuterRepairs > 0) {
+            foundCars.push({
+              carNumber: sCarNo,
+              buyPrice: formBuyPrice,
+              etcFee: formEtcFee,
+              outerRepairs: formOuterRepairs
+            });
           }
         }
 
