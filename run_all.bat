@@ -3,6 +3,14 @@ setlocal
 cd /d "%~dp0"
 title J-PRO Integrated Launcher
 
+:: 1. 관리자 권한 확인 및 자동 승격
+net session >nul 2>&1
+if %errorlevel% neq 0 (
+    echo [J-PRO] 관리자 권한으로 자동 승격 실행 중...
+    powershell -NoProfile -Command "Start-Process cmd.exe -ArgumentList '/c \"\"%~f0\"\"' -Verb RunAs"
+    exit /b
+)
+
 REM Node.js 공식 경로 최우선 설정 (Antigravity IDE 임시 경로 충돌 방지 및 표준 설치 경로 지원)
 if exist "%LOCALAPPDATA%\Programs\nodejs" (
     set "PATH=%LOCALAPPDATA%\Programs\nodejs;%PATH%"
