@@ -272,11 +272,6 @@
                     const parsedFee = parseInt(mEtc[1].replace(/,/g, ''), 10);
                     if (parsedFee > 0) car.etcFee = parsedFee;
                   }
-                  // 2) 외판 판수
-                  const mOut = html.match(/외판[^\d]*(\d{1,2})/);
-                  if (mOut) {
-                    car.outerRepairs = parseInt(mOut[1], 10) || 0;
-                  }
                 }
               } catch (e) {}
             }

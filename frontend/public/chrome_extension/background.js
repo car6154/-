@@ -291,9 +291,6 @@ async function fetchHighplusBuyDataInBackground() {
           const detailHtml = await detailResp.text();
           const mEtc = detailHtml.match(/기타비용[^\d]*([\d,]{4,})/);
           if (mEtc) car.etcFee = parseInt(mEtc[1].replace(/,/g, ''), 10) || 0;
-
-          const mOut = detailHtml.match(/외판[^\d]*(\d{1,2})/);
-          if (mOut) car.outerRepairs = parseInt(mOut[1], 10) || 0;
         }
       } catch (err) {}
     }
