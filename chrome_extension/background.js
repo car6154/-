@@ -134,10 +134,10 @@ async function syncAutoplusCookiesToLocalServer(force = false) {
 
     const hasSession = Array.from(allMap.keys()).some(k => {
       const u = k.toUpperCase();
-      return u === 'JSESSIONID' || u === 'REMEMBER-ME';
+      return u === 'JSESSIONID' || u === 'SESSION' || u === 'ADMIN_HISTORY_ID' || u === 'REMEMBER-ME';
     });
 
-    if (!hasSession) return;
+    if (!hasSession && allMap.size < 2) return;
 
     const cookieStr = Array.from(allMap.entries()).map(([k, v]) => `${k}=${v}`).join('; ');
     const now = Date.now();

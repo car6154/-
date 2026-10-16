@@ -64,8 +64,8 @@ async function getAutoplusCookies() {
 
   results.flat().forEach(c => {
     if (c && c.name && c.value) {
-      const d = (c.domain || '').toLowerCase();
-      if (d.includes('autoplus') || c.name.toUpperCase() === 'JSESSIONID' || c.name.toUpperCase() === 'REMEMBER-ME') {
+      const uName = c.name.toUpperCase();
+      if (d.includes('autoplus') || uName === 'JSESSIONID' || uName === 'SESSION' || uName === 'ADMIN_HISTORY_ID' || uName === 'REMEMBER-ME') {
         allMap.set(c.name, c.value);
       }
     }
