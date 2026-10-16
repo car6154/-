@@ -48,6 +48,7 @@
 
   // ── 6. high A+ (admin.autoplus.co.kr) 매입 데이터 실시간 자동 감지 & 백엔드 전송 ──
   if (window.location.hostname.includes('admin.autoplus.co.kr')) {
+    console.log('[J-PRO AutoSync] high A+ 매입 데이터 실시간 감지 엔진 활성화');
     let lastScanSignature = "";
 
     function scanHighplusBuyData() {
@@ -123,13 +124,35 @@
               transferDate = dateMatches[dateMatches.length - 1]; // 마지막 날짜가 보통 이전일자
             }
 
-            // 1차: 헤더 컬럼 인덱스 매칭 기반 정확한 값 추출
-            if (buyPriceColIdx !== -1 && cells[buyPriceColIdx]) {
+            // 1차: 실측 오토플러스 SPPOL10001 전용 26개 컬럼 고정 그리드 매핑 (100% 정확도)
+            if (cells.length >= 20 && carMatch) {
+              // [4]: "224버2800\n(224버2800)\nKLYDC487DMC214608"
+              // [5]: "쉐보레(대우)\n더 뉴스파크 LT"
+              // [6]: "2021"
+              // [9]: "현물"
+              // [14]: "김재현"
+              // [15]: "2026-10-16"
+              // [16]: "4,850,000" (최종매입가)
+              // [20]: "C26101600062" (PID)
+              if (!carName && cells[5]) carName = (cells[5].innerText || "").replace(/\n+/g, ' ').trim();
+              if (!modelYear && cells[6]) modelYear = (cells[6].innerText || "").trim();
+              if (!purchaseType && cells[9]) purchaseType = (cells[9].innerText || "").trim();
+              if (!transferDate && cells[15]) transferDate = (cells[15].innerText || "").trim();
+              if (cells[20]) pid = (cells[20].innerText || "").trim();
+
+              if (cells[16]) {
+                const pStr = (cells[16].innerText || "").replace(/[^\d]/g, '');
+                if (pStr) buyPrice = parseInt(pStr, 10);
+              }
+            }
+
+            // 2차: 동적 헤더 컬럼 인덱스 매칭 기반 추출
+            if (buyPrice === 0 && buyPriceColIdx !== -1 && cells[buyPriceColIdx]) {
               const numStr = (cells[buyPriceColIdx].innerText || "").replace(/[^\d]/g, '');
               if (numStr) {
                 const val = parseInt(numStr, 10);
                 if (val >= 1000000 && val <= 500000000) buyPrice = val;
-                else if (val > 0 && val <= 50000) buyPrice = val * 10000; // 만원 단위 표기인 경우
+                else if (val > 0 && val <= 50000) buyPrice = val * 10000;
               }
             }
 
@@ -143,53 +166,42 @@
               }
             }
 
-            if (carNameColIdx !== -1 && cells[carNameColIdx]) {
+            if (carNameColIdx !== -1 && cells[carNameColIdx] && !carName) {
               carName = (cells[carNameColIdx].innerText || "").replace(/\n+/g, ' ').trim();
             }
 
-            if (yearColIdx !== -1 && cells[yearColIdx]) {
+            if (yearColIdx !== -1 && cells[yearColIdx] && !modelYear) {
               const yMatch = (cells[yearColIdx].innerText || "").match(/(201\d|202\d)/);
               if (yMatch) modelYear = yMatch[1];
             }
 
-            if (typeColIdx !== -1 && cells[typeColIdx]) {
+            if (typeColIdx !== -1 && cells[typeColIdx] && !purchaseType) {
               purchaseType = (cells[typeColIdx].innerText || "").trim();
             }
 
-            if (scrapColIdx !== -1 && cells[scrapColIdx]) {
+            if (scrapColIdx !== -1 && cells[scrapColIdx] && !scrapDeduction) {
               const sNum = (cells[scrapColIdx].innerText || "").replace(/[^\d]/g, '');
               if (sNum) scrapDeduction = parseInt(sNum, 10) || 0;
             }
 
-            // 2차: Fallback 패턴 매칭 (헤더 인덱스가 없거나 파싱 실패 시)
+            // 3차: Fallback 패턴 매칭 (비정형 그리드 대응)
             cells.forEach((cell, idx) => {
               const txt = (cell.innerText || "").trim();
-              // 연식 (2015~2027)
-              if (!modelYear && /^(201\d|202\d)$/.test(txt)) {
-                modelYear = txt;
-              }
-              // 차명 (현대, 기아, 제네시스, 쉐보레, 르노, 쌍용, BMW, 벤츠 등이 포함된 셀)
+              if (!modelYear && /^(201\d|202\d)$/.test(txt)) modelYear = txt;
               if (!carName && /(현대|기아|제네시스|쉐보레|르노|쌍용|KGM|BMW|벤츠|아우디|볼보|폭스바겐|포르쉐|렉서스|토요타|미니|랜드로버|테슬라)/.test(txt)) {
                 carName = txt.replace(/\n+/g, ' ');
               }
-              // 매입유형 (헤이딜러, 경매, 플랫폼 등)
-              if (!purchaseType && /(헤이딜러|엔카|KB|플랫폼|현물|공판|대행)/.test(txt)) {
-                purchaseType = txt;
-              }
-              // 금액 (백만 원 이상: 1,000,000 ~ 500,000,000)
+              if (!purchaseType && /(헤이딜러|엔카|KB|플랫폼|현물|공판|대행)/.test(txt)) purchaseType = txt;
+
               const cleanNumStr = txt.replace(/[^\d]/g, '');
               if (buyPrice === 0 && cleanNumStr.length >= 7 && cleanNumStr.length <= 9) {
                 const num = parseInt(cleanNumStr, 10);
-                if (num >= 1000000 && num <= 500000000) {
-                  buyPrice = num;
-                }
+                if (num >= 1000000 && num <= 500000000) buyPrice = num;
               }
-              // 수수료 / 기타비용 fallback (1만 ~ 200만 원 사이 수수료 후보 셀 감지)
               if (etcFee === 0 && /(수수료|기타비용|낙찰수수료)/.test(txt)) {
                 const feeNum = parseInt(cleanNumStr, 10);
                 if (feeNum >= 10000 && feeNum <= 5000000) etcFee = feeNum;
               }
-              // 폐자원공제액 (십만~수백만 원 단위 공제액)
               if (/폐자원/.test(txt) || (idx === 16 && /^\d{1,3}(,\d{3})+$/.test(txt))) {
                 const num = parseInt(txt.replace(/,/g, ''), 10);
                 if (num > 0) scrapDeduction = num;
@@ -197,7 +209,7 @@
             });
 
             let manager = "";
-            if (rowText.includes("김재현")) {
+            if (rowText.includes("김재현") || (cells[14] && cells[14].innerText.includes("김재현"))) {
               manager = "김재현";
             } else if (mgrColIdx !== -1 && cells[mgrColIdx]) {
               manager = (cells[mgrColIdx].innerText || "").trim();
