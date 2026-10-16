@@ -17,9 +17,10 @@ for /f "tokens=5" %%a in ('netstat -ano -p tcp ^| findstr "LISTENING" ^| findstr
     taskkill /f /t /pid %%a > nul 2>&1
 )
 
-:: 4. 관련 모든 CMD 콘솔 창 닫기
-taskkill /f /fi "WINDOWTITLE eq JPRO_*" > nul 2>&1
-taskkill /f /fi "WINDOWTITLE eq *JPRO*" > nul 2>&1
+:: 4. 관련 서버 콘솔 창 닫기 (JPRO_Watchdog 감시자는 보호)
+taskkill /f /fi "WINDOWTITLE eq JPRO_FastAPI_*" > nul 2>&1
+taskkill /f /fi "WINDOWTITLE eq JPRO_Frontend_*" > nul 2>&1
+taskkill /f /fi "WINDOWTITLE eq JPRO_Streamlit_*" > nul 2>&1
 taskkill /f /fi "WINDOWTITLE eq *FastAPI*" > nul 2>&1
 taskkill /f /fi "WINDOWTITLE eq *Streamlit*" > nul 2>&1
 taskkill /f /fi "WINDOWTITLE eq *Integrated Launcher*" > nul 2>&1

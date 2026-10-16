@@ -600,7 +600,9 @@ def kill_all_servers_endpoint():
     def _do_kill():
         time.sleep(0.5)
         subprocess.run('taskkill /f /im node.exe', shell=True, capture_output=True)
-        subprocess.run('taskkill /f /fi "WINDOWTITLE eq JPRO_*"', shell=True, capture_output=True)
+        subprocess.run('taskkill /f /fi "WINDOWTITLE eq JPRO_FastAPI_*"', shell=True, capture_output=True)
+        subprocess.run('taskkill /f /fi "WINDOWTITLE eq JPRO_Frontend_*"', shell=True, capture_output=True)
+        subprocess.run('taskkill /f /fi "WINDOWTITLE eq JPRO_Streamlit_*"', shell=True, capture_output=True)
         subprocess.run('taskkill /f /fi "WINDOWTITLE eq Shopping_Web_6154*"', shell=True, capture_output=True)
         subprocess.run('taskkill /f /fi "WINDOWTITLE eq AI_Shopping_Bot*"', shell=True, capture_output=True)
         bat_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "kill_servers.bat")
