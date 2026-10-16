@@ -226,6 +226,9 @@ async function fetchHighplusBuyDataInBackground() {
       const pidMatch = tr.match(PID_REGEX);
       const pid = pidMatch ? pidMatch[0] : '';
 
+      const poMatch = tr.match(/poId=(\d+)/i) || tr.match(/poIdList['"\s:=]+(\d+)/i);
+      const poId = poMatch ? poMatch[1] : '';
+
       const dates = tr.match(new RegExp(DATE_REGEX, 'g')) || [];
       const transferDate = dates.length > 0 ? dates[dates.length - 1] : '';
       const billDate = dates.length > 1 ? dates[0] : transferDate;
@@ -278,21 +281,24 @@ async function fetchHighplusBuyDataInBackground() {
         transferDate: transferDate,
         billDate: billDate,
         pid: pid,
+        poId: poId,
         scrapDeduction: scrapDeduction
       });
     }
 
     for (const car of foundCars) {
-      try {
-        const detailResp = await fetch(`https://admin.autoplus.co.kr/spot/syspo/SPPOL10002?carNo=${encodeURIComponent(car.carNumber)}`, {
-          credentials: 'include'
-        }).catch(() => null);
-        if (detailResp && detailResp.ok) {
-          const detailHtml = await detailResp.text();
-          const mEtc = detailHtml.match(/기타비용[^\d]*([\d,]{4,})/);
-          if (mEtc) car.etcFee = parseInt(mEtc[1].replace(/,/g, ''), 10) || 0;
-        }
-      } catch (err) {}
+      if (car.poId) {
+        try {
+          const detailResp = await fetch(`https://admin.autoplus.co.kr/spot/syspo/SPPOR20001?poId=${car.poId}&vw=1&showGbn=H`, {
+            credentials: 'include'
+          }).catch(() => null);
+          if (detailResp && detailResp.ok) {
+            const detailHtml = await detailResp.text();
+            const mEtc = detailHtml.match(/기타비용[^\d]*([\d,]{4,})/);
+            if (mEtc) car.etcFee = parseInt(mEtc[1].replace(/,/g, ''), 10) || 0;
+          }
+        } catch (err) {}
+      }
     }
 
     if (foundCars.length > 0) {
