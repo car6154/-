@@ -185,9 +185,13 @@ async function fetchHighplusBuyDataInBackground() {
   isFetchingHighplus = true;
 
   try {
-    const adminCookies = await chrome.cookies.getAll({ domain: 'admin.autoplus.co.kr' }).catch(() => []);
-    const hasJSession = adminCookies.some(c => c && c.name && c.name.toUpperCase().includes('SESSION'));
-    if (!hasJSession) {
+    const [byUrl, byDomain] = await Promise.all([
+      chrome.cookies.getAll({ url: 'https://admin.autoplus.co.kr' }).catch(() => []),
+      chrome.cookies.getAll({ domain: 'autoplus.co.kr' }).catch(() => [])
+    ]);
+    const adminCookies = [...byUrl, ...byDomain];
+    const hasSession = adminCookies.some(c => c && c.name && (c.name.toUpperCase().includes('SESSION') || c.name.toUpperCase().includes('REMEMBER')));
+    if (!hasSession && adminCookies.length === 0) {
       isFetchingHighplus = false;
       return;
     }

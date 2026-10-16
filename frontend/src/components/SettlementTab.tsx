@@ -335,24 +335,17 @@ export const SettlementTab: React.FC<SettlementTabProps> = ({
         window.postMessage({ type: 'JPRO_TRIGGER_HIGHPLUS_BUY_SYNC' }, '*');
       } catch (err) {}
 
-      // 2. 백엔드 자체 동기화 및 최신 상태 조회
-      let data: any = {};
+      let syncData: any = {};
       try {
         const res = await fetch('/api/settlement/trigger_highplus_sync', { method: 'POST' });
         if (res.ok) {
-          data = await res.json();
+          syncData = await res.json();
         }
       } catch (err) {}
 
-      if (!data || !data.status) {
-        const fallbackRes = await fetch('/api/settlement/highplus_status');
-        if (fallbackRes.ok) {
-          data = { status: await fallbackRes.json() };
-        }
-      }
-
-      const st = (data && data.status) || {};
-      const timeStr = st.last_sync_time || '방금 전';
+      const syncResult = (syncData && syncData.syncResult) || {};
+      const st = (syncData && syncData.status) || {};
+      const timeStr = st.last_sync_time || new Date().toLocaleTimeString('ko-KR');
       const total = st.total_synced_cars || 0;
       const added = st.new_inventory_added || 0;
       const updated = st.inventory_updated || 0;
@@ -362,14 +355,23 @@ export const SettlementTab: React.FC<SettlementTabProps> = ({
         await onRefresh();
       }
 
-      alert(
-        `[high A+ 매입 무인 연동 결과]\n\n` +
-        `• 연동 시간: ${timeStr}\n` +
-        `• 감지된 매입차량: ${total}대\n` +
-        `• 신규 재고 등록: ${added}대\n` +
-        `• 기존 재고 갱신: ${updated}대\n\n` +
-        `✅ high A+ 화면을 직접 열지 않아도, 오토플러스 로그인 세션으로 백그라운드에서 실시간 매입 데이터(매입가, 수수료 등)가 장부 및 재고로 자동 연동되었습니다.`
-      );
+      if (syncResult && syncResult.success === false) {
+        alert(
+          `[high A+ 매입 연동 알림]\n\n` +
+          `• 상태: ${syncResult.message || '세션 만료 또는 데이터 없음'}\n` +
+          `• 이전 성공 시점: ${st.last_sync_time || '없음'}\n\n` +
+          `💡 오토플러스(admin.autoplus.co.kr) 로그인 탭이 열려있는지 확인하거나, 페이지를 새로고침한 뒤 다시 눌러주세요.`
+        );
+      } else {
+        alert(
+          `[high A+ 매입 무인 연동 결과]\n\n` +
+          `• 연동 시간: ${timeStr}\n` +
+          `• 감지된 매입차량: ${total}대\n` +
+          `• 신규 재고 등록: ${added}대\n` +
+          `• 기존 재고 갱신: ${updated}대\n\n` +
+          `✅ high A+ 화면을 직접 열지 않아도, 오토플러스 로그인 세션으로 실시간 매입 데이터(매입가, 수수료 등)가 장부 및 재고로 자동 연동되었습니다.`
+        );
+      }
     } catch (e: any) {
       alert(`매입연동 오류: ${e.message}`);
     } finally {
