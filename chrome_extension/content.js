@@ -52,8 +52,21 @@
   if (window.location.hostname.includes('admin.autoplus.co.kr')) {
     console.log('[J-PRO AutoSync] high A+ 매입 데이터 실시간 감지 엔진 활성화');
     let lastScanSignature = "";
+    let scanTimer = null;
+
+    function isContextAlive() {
+      try {
+        return !!(chrome.runtime && chrome.runtime.id);
+      } catch (e) {
+        return false;
+      }
+    }
 
     function scanHighplusBuyData() {
+      if (!isContextAlive()) {
+        if (scanTimer) clearInterval(scanTimer);
+        return;
+      }
       try {
         const foundCars = [];
         const CAR_NO_REGEX = /\b\d{2,3}[가-힣]\s*\d{4}\b/;
@@ -307,7 +320,7 @@
 
     // 1초 뒤 1차 스캔, DOM 변경 시 재스캔
     setTimeout(scanHighplusBuyData, 1200);
-    setInterval(scanHighplusBuyData, 5000);
+    scanTimer = setInterval(scanHighplusBuyData, 5000);
   }
 
   // 제이프로 웹앱에서 [매입연동] 버튼 클릭 시 백그라운드 수집 즉시 실행 브릿지
