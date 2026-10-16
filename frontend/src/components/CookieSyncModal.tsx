@@ -199,29 +199,9 @@ export const CookieSyncModal: React.FC<CookieSyncModalProps> = ({
 
   if (!isOpen) return null;
 
-  // 최신 코드 동기화 (1순위 메인 PC 원본 기준 즉시 100% 동기화)
-  const handleSyncLatestCode = async () => {
-    setIsGitActionRunning(true);
-    setGitActionResult(null);
-    try {
-      const res = await fetch('/api/git/sync?action=force_pull', { method: 'POST' });
-      const data = await res.json();
-      if (data.success) {
-        setGitActionResult(`✅ 메인 PC 최신 동기화 성공! (${data.message?.slice(0, 50) || '최신 반영됨'})`);
-        fetchGitStatus();
-      } else {
-        setGitActionResult(`❌ 동기화 실패: ${data.message || '오류 발생'}`);
-      }
-    } catch (e: any) {
-      setGitActionResult(`❌ 서버 통신 오류: ${e.message}`);
-    } finally {
-      setIsGitActionRunning(false);
-    }
-  };
-
-  // 3대 서버 일괄 재가동 (FastAPI 8000, Frontend 3000, Streamlit 8501)
-  const handleRestartAllServers = async () => {
-    if (!confirm('🔄 J-PRO 3대 서버(FastAPI 8000 / Frontend 3000 / Streamlit 8501)를 일괄 재가동하시겠습니까?\n\n약 5~8초 동안 서버가 완전히 재기동되며, 완료 후 브라우저가 자동 새로고침됩니다.')) {
+  // 1. 최신 업데이트 & 일괄 재가동 (update_and_run.bat)
+  const handleUpdateAndRestart = async () => {
+    if (!confirm('⚡ GitHub 최신 코드를 내려받고, 쇼핑봇 포함 3대 서버를 일괄 재가동하시겠습니까?\n\n약 8~10초 후 서버가 완전히 새로 시작되며 브라우저가 자동 새로고침됩니다.')) {
       return;
     }
     setIsRestartingServers(true);
@@ -230,17 +210,39 @@ export const CookieSyncModal: React.FC<CookieSyncModalProps> = ({
       const res = await fetch('/api/server/restart_all', { method: 'POST' });
       const data = await res.json();
       if (data.success) {
-        setGitActionResult(`🔄 서버 재가동 프로세스 시작됨! 6초 후 화면이 자동 새로고침됩니다.`);
+        setGitActionResult(`⚡ 최신 업데이트 & 쇼핑봇 포함 재가동 시작됨! 8초 후 자동 새로고침됩니다.`);
         setTimeout(() => {
           window.location.reload();
-        }, 6000);
+        }, 8000);
       } else {
         setGitActionResult(`❌ 재가동 실패: ${data.message || '오류 발생'}`);
       }
     } catch (e: any) {
       setGitActionResult(`❌ 서버 통신 오류: ${e.message}`);
     } finally {
-      setTimeout(() => setIsRestartingServers(false), 6000);
+      setTimeout(() => setIsRestartingServers(false), 8000);
+    }
+  };
+
+  // 2. 서버 일괄 완전 종료 (kill_servers.bat)
+  const handleKillAllServers = async () => {
+    if (!confirm('🛑 주의: J-PRO 및 쇼핑봇을 포함한 모든 서버를 완전히 종료하시겠습니까?\n\n종료 후에는 노트북에서 run_all.bat을 직접 실행해야 다시 켜집니다.')) {
+      return;
+    }
+    setIsGitActionRunning(true);
+    setGitActionResult(null);
+    try {
+      const res = await fetch('/api/server/kill_all', { method: 'POST' });
+      const data = await res.json();
+      if (data.success) {
+        setGitActionResult(`🛑 모든 서버 프로세스가 종료되었습니다.`);
+      } else {
+        setGitActionResult(`❌ 종료 실패: ${data.message || '오류 발생'}`);
+      }
+    } catch (e: any) {
+      setGitActionResult(`❌ 서버 통신 오류: ${e.message}`);
+    } finally {
+      setIsGitActionRunning(false);
     }
   };
 
@@ -382,23 +384,22 @@ export const CookieSyncModal: React.FC<CookieSyncModalProps> = ({
 
             <div className="flex flex-wrap items-center gap-2 pt-1">
               <button
-                onClick={handleSyncLatestCode}
-                disabled={isGitActionRunning}
+                onClick={handleUpdateAndRestart}
+                disabled={isRestartingServers || isGitActionRunning}
                 className="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 transition shadow-sm disabled:opacity-50"
-                title="1순위 메인 PC 원본 기준으로 노트북 서버를 100% 최신 상태로 즉시 동기화합니다"
+                title="GitHub 최신 코드를 다운로드하고 쇼핑봇 포함 모든 서버(8000, 3000, 8501)를 일괄 재가동합니다 (update_and_run.bat)"
               >
-                <RefreshCw className={`w-3.5 h-3.5 ${isGitActionRunning ? 'animate-spin' : ''}`} />
-                <span>⚡ 메인 PC 최신 동기화</span>
+                <RefreshCw className={`w-3.5 h-3.5 ${isRestartingServers ? 'animate-spin' : ''}`} />
+                <span>⚡ 최신 업데이트 &amp; 재가동</span>
               </button>
 
               <button
-                onClick={handleRestartAllServers}
+                onClick={handleKillAllServers}
                 disabled={isRestartingServers || isGitActionRunning}
-                className="px-3.5 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs flex items-center gap-1.5 transition shadow-sm disabled:opacity-50"
-                title="FastAPI(8000), Frontend(3000), Streamlit(8501) 3대 서버를 완전히 껐다 켭니다"
+                className="px-3.5 py-2 rounded-lg bg-rose-700 hover:bg-rose-600 text-white font-bold text-xs flex items-center gap-1.5 transition shadow-sm disabled:opacity-50"
+                title="모든 Python, Node, 쇼핑봇 프로세스를 완전 종료합니다 (kill_servers.bat)"
               >
-                <RefreshCw className={`w-3.5 h-3.5 ${isRestartingServers ? 'animate-spin' : ''}`} />
-                <span>🔄 3대 서버 일괄 재가동</span>
+                <span>🛑 서버 일괄 종료</span>
               </button>
 
               <button

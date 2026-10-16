@@ -57,13 +57,13 @@ if exist "%USERPROFILE%\Downloads\autoplus_cookie.txt" (
 echo [2/3] 3대 서버 신규 가동 중...
 
 REM 1. Port 8000 FastAPI Backend (외부 접속 0.0.0.0 허용 및 소스 변경 자동 리로드)
-start "JPRO_FastAPI_8000" cmd.exe /k "cd /d "%~dp0" && .venv\Scripts\python.exe -m uvicorn api_server:app --host 0.0.0.0 --port 8000 --reload"
+start "JPRO_FastAPI_8000" cmd.exe /k "%~dp0.venv\Scripts\python.exe -m uvicorn api_server:app --host 0.0.0.0 --port 8000 --reload"
 
 REM 2. Port 3000 Frontend Dev Server (외부 접속 0.0.0.0 허용)
-start "JPRO_Frontend_3000" cmd.exe /k "cd /d "%~dp0frontend" && npm run dev -- --host 0.0.0.0"
+start "JPRO_Frontend_3000" cmd.exe /k "cd /d %~dp0frontend && npm run dev -- --host 0.0.0.0"
 
 REM 3. Port 8501 Streamlit Dashboard (외부 접속 0.0.0.0 및 이메일 프롬프트 스킵)
-start "JPRO_Streamlit_8501" cmd.exe /k "cd /d "%~dp0" && .venv\Scripts\python.exe -m streamlit run app.py --server.port 8501 --server.address 0.0.0.0 --browser.gatherUsageStats false"
+start "JPRO_Streamlit_8501" cmd.exe /k "%~dp0.venv\Scripts\python.exe -m streamlit run app.py --server.port 8501 --server.address 0.0.0.0 --browser.gatherUsageStats false"
 
 REM 4. 쇼핑봇 자동 연동 가동 (C:\ai_shopping_bot\run_web.bat 존재 시 동시 가동)
 if exist "C:\ai_shopping_bot\run_web.bat" (

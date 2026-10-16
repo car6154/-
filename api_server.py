@@ -568,17 +568,18 @@ def trigger_git_sync(action: str = "pull"):
 @app.post("/api/server/restart_all")
 def restart_all_servers_endpoint():
     """
-    J-PRO 3대 서버 (FastAPI 8000, Frontend 3000, Streamlit 8501) 원격 일괄 재가동
+    GitHub 최신 코드 업데이트(git pull) + 3대 서버 및 쇼핑봇 일괄 재가동 (update_and_run.bat)
     """
     def _do_restart():
         time.sleep(1.0)
-        bat_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "run_all.bat")
+        bat_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "update_and_run.bat")
+        if not os.path.exists(bat_path):
+            bat_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "run_all.bat")
         if os.path.exists(bat_path):
-            # 부모 프로세스(8000번)가 taskkill로 종료되어도 run_all.bat이 정상 독립 실행되도록 start 명령어와 분리 플래그 적용
             CREATE_NEW_CONSOLE = 0x00000010
             CREATE_NEW_PROCESS_GROUP = 0x00000200
             subprocess.Popen(
-                f'cmd.exe /c start "JPRO_Launcher" "{bat_path}"',
+                f'cmd.exe /c start "JPRO_Updater" "{bat_path}"',
                 cwd=os.path.dirname(os.path.abspath(__file__)),
                 creationflags=CREATE_NEW_CONSOLE | CREATE_NEW_PROCESS_GROUP,
                 shell=True
@@ -587,7 +588,32 @@ def restart_all_servers_endpoint():
     threading.Thread(target=_do_restart, daemon=True).start()
     return {
         "success": True,
-        "message": "3대 서버(8000, 3000, 8501) 일괄 재가동 명령이 실행되었습니다. 약 5~8초 후 페이지를 새로고침하세요."
+        "message": "⚡ 최신 업데이트 & 쇼핑봇 포함 서버 일괄 재가동이 시작되었습니다. 약 8~10초 후 페이지를 새로고침하세요."
+    }
+
+
+@app.post("/api/server/kill_all")
+def kill_all_servers_endpoint():
+    """
+    전체 서버 및 프로세스 완전 종료 (kill_servers.bat)
+    """
+    def _do_kill():
+        time.sleep(0.5)
+        bat_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "kill_servers.bat")
+        if os.path.exists(bat_path):
+            CREATE_NEW_CONSOLE = 0x00000010
+            CREATE_NEW_PROCESS_GROUP = 0x00000200
+            subprocess.Popen(
+                f'cmd.exe /c start "JPRO_Killer" "{bat_path}"',
+                cwd=os.path.dirname(os.path.abspath(__file__)),
+                creationflags=CREATE_NEW_CONSOLE | CREATE_NEW_PROCESS_GROUP,
+                shell=True
+            )
+
+    threading.Thread(target=_do_kill, daemon=True).start()
+    return {
+        "success": True,
+        "message": "🛑 J-PRO 및 쇼핑봇 모든 서버가 완전히 종료됩니다."
     }
 
 
