@@ -599,16 +599,14 @@ def kill_all_servers_endpoint():
     """
     def _do_kill():
         time.sleep(0.5)
+        subprocess.run('taskkill /f /im node.exe', shell=True, capture_output=True)
+        subprocess.run('taskkill /f /fi "WINDOWTITLE eq JPRO_*"', shell=True, capture_output=True)
+        subprocess.run('taskkill /f /fi "WINDOWTITLE eq Shopping_Web_6154*"', shell=True, capture_output=True)
+        subprocess.run('taskkill /f /fi "WINDOWTITLE eq AI_Shopping_Bot*"', shell=True, capture_output=True)
         bat_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "kill_servers.bat")
         if os.path.exists(bat_path):
-            CREATE_NEW_CONSOLE = 0x00000010
-            CREATE_NEW_PROCESS_GROUP = 0x00000200
-            subprocess.Popen(
-                f'cmd.exe /c start "JPRO_Killer" "{bat_path}"',
-                cwd=os.path.dirname(os.path.abspath(__file__)),
-                creationflags=CREATE_NEW_CONSOLE | CREATE_NEW_PROCESS_GROUP,
-                shell=True
-            )
+            subprocess.run(f'cmd.exe /c "{bat_path}"', shell=True, capture_output=True)
+        subprocess.run('taskkill /f /im python.exe', shell=True, capture_output=True)
 
     threading.Thread(target=_do_kill, daemon=True).start()
     return {
