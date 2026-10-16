@@ -15,64 +15,28 @@
     } catch (e) {}
   }
 
-  function syncCookieDirectly(target) {
-    try {
-      const cStr = document.cookie || '';
-      if (cStr && (cStr.includes('JSESSIONID') || cStr.includes('sessionid') || cStr.includes('remember-me') || target === 'autoplus')) {
-        const payload = JSON.stringify({
-          cookie: cStr,
-          target: target,
-          secretToken: 'jpro_sec_9981_live_auth'
-        });
-        const backendUrls = [
-          'http://localhost:8000/api/save_cookie',
-          'http://100.95.238.123:8000/api/save_cookie',
-          'http://localhost:3000/api/save_cookie'
-        ];
-        backendUrls.forEach(url => {
-          try {
-            fetch(url, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'X-JPRO-Token': 'jpro_sec_9981_live_auth'
-              },
-              body: payload
-            }).catch(() => {});
-          } catch (e) {}
-        });
-      }
-    } catch (e) {}
-  }
-
   // 1. 페이지 시작 즉시 트리거 (새 창/새 탭 열리자마자 1차 동기화)
   notifySync('page_start');
-  if (window.location.hostname.includes('autoplus.co.kr')) syncCookieDirectly('autoplus');
-  if (window.location.hostname.includes('heydealer.com')) syncCookieDirectly('heydealer');
 
   // 2. DOM 로드 완료 시 (서버 Set-Cookie 및 토큰 반영 시점)
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
       notifySync('dom_ready');
-      if (window.location.hostname.includes('autoplus.co.kr')) syncCookieDirectly('autoplus');
     });
   } else {
     notifySync('dom_ready');
-    if (window.location.hostname.includes('autoplus.co.kr')) syncCookieDirectly('autoplus');
   }
 
   // 3. 페이지 완전 로딩 후 (비동기 API 요청 완료 후 쿠키 안정화 시점)
   window.addEventListener('load', () => {
     setTimeout(() => {
       notifySync('window_load');
-      if (window.location.hostname.includes('autoplus.co.kr')) syncCookieDirectly('autoplus');
     }, 200);
   });
 
   // 4. 창/탭 포커스 시 (다른 창에서 이 창으로 돌아올 때 즉시 동기화)
   window.addEventListener('focus', () => {
     notifySync('window_focus');
-    if (window.location.hostname.includes('autoplus.co.kr')) syncCookieDirectly('autoplus');
   });
 
   // 5. 사용자가 화면을 클릭하거나 키를 누를 때 1회 동기화 (최신 활성 세션 보장)
@@ -81,7 +45,6 @@
     if (!userInteracted) {
       userInteracted = true;
       notifySync('user_interaction');
-      if (window.location.hostname.includes('autoplus.co.kr')) syncCookieDirectly('autoplus');
     }
   }, { once: true, passive: true });
 
@@ -321,26 +284,17 @@
             if (sig !== lastScanSignature) {
               lastScanSignature = sig;
 
-              // 백엔드로 직접 HTTP POST 전송 (확장 프로그램 백그라운드나 컨텍스트 만료 에러 없이 100% 동작)
-              const payload = JSON.stringify({ cars });
-              const backendUrls = [
-                'http://localhost:8000/api/settlement/sync_highplus_buy',
-                'http://100.95.238.123:8000/api/settlement/sync_highplus_buy',
-                'http://localhost:3000/api/settlement/sync_highplus_buy'
-              ];
-              backendUrls.forEach(url => {
-                try {
-                  fetch(url, {
-                    method: 'POST',
-                    headers: {
-                      'Content-Type': 'application/json',
-                      'X-JPRO-Token': 'jpro_sec_9981_live_auth'
-                    },
-                    body: payload
-                  }).catch(() => {});
-                } catch (e) {}
-              });
-              console.log(`[J-PRO AutoSync] high A+ 매입 데이터 ${cars.length}대 실시간 자동 전송 완료`);
+              try {
+                if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.id && chrome.runtime.sendMessage) {
+                  chrome.runtime.sendMessage({
+                    action: 'sync_highplus_buy_data',
+                    data: cars
+                  }, () => {
+                    if (chrome.runtime.lastError) {}
+                  });
+                }
+              } catch (e) {}
+              console.log(`[J-PRO AutoSync] high A+ 매입 데이터 ${cars.length}대 백그라운드 전송 완료`);
             }
           }
         }
