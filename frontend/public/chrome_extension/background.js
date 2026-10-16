@@ -273,6 +273,8 @@ async function fetchHighplusBuyDataInBackground() {
       const nameMatch = cleanTr.match(/(현대|기아|제네시스|쉐보레|르노|쌍용|KGM|BMW|벤츠|아우디|볼보|폭스바겐|포르쉐|렉서스|카니발|아반떼|투싼|캐스퍼|쏘렌토|그랜저|스포티지)[^\n\r\t,]{2,30}/);
       const carName = nameMatch ? nameMatch[0].trim() : '';
 
+      const manager = tr.includes("김재현") ? "김재현" : "";
+
       foundCars.push({
         carNumber: carNo,
         carName: carName,
@@ -282,6 +284,7 @@ async function fetchHighplusBuyDataInBackground() {
         billDate: billDate,
         pid: pid,
         poId: poId,
+        manager: manager,
         scrapDeduction: scrapDeduction
       });
     }

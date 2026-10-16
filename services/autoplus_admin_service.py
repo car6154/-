@@ -575,6 +575,9 @@ class AutoplusAdminService:
             m_pid = re.search(r"\b(C\d{11})\b", tr)
             pid = m_pid.group(1) if m_pid else ""
 
+            m_po = re.search(r"poId=(\d+)", tr, re.IGNORECASE) or re.search(r"poIdList['\"\s:=]+(\d+)", tr, re.IGNORECASE)
+            po_id = m_po.group(1) if m_po else ""
+
             dates = re.findall(r"\b(20\d{2}[-/.]\d{1,2}[-/.]\d{1,2})\b", tr)
             transfer_date = dates[-1] if dates else ""
             bill_date = dates[0] if len(dates) > 1 else transfer_date
@@ -607,6 +610,11 @@ class AutoplusAdminService:
                     car_name = clean_td
                     break
 
+            # 담당자 매칭 (김재현 등)
+            manager = ""
+            if "김재현" in tr:
+                manager = "김재현"
+
             scrap_deduction = 0
             m_scrap = re.findall(r"\b(\d{1,3}(?:,\d{3})+)\b", tr)
             for ms in m_scrap:
@@ -622,6 +630,8 @@ class AutoplusAdminService:
                 "transferDate": transfer_date,
                 "billDate": bill_date,
                 "pid": pid,
+                "poId": po_id,
+                "manager": manager,
                 "scrapDeduction": scrap_deduction
             })
 
@@ -764,6 +774,22 @@ class AutoplusAdminService:
             cars = cls.parse_sppol10001_html(resp.text)
             if not cars:
                 return {"success": True, "message": "조회된 매입 차량이 없거나 파싱되지 않았습니다.", "syncedCount": 0}
+
+            # 상세 화면(SPPOR20001)에서 기타비용(낙찰/소개수수료 545,000원 등) 백엔드 직접 크롤링
+            for c in cars:
+                p_id = c.get("poId")
+                if p_id:
+                    try:
+                        d_url = f"https://admin.autoplus.co.kr/spot/syspo/SPPOR20001?poId={p_id}&vw=1&showGbn=H"
+                        d_resp = requests.get(d_url, headers=headers, timeout=10, allow_redirects=False)
+                        if d_resp.status_code == 200:
+                            m_etc = re.search(r"기타비용[^\d]*([\d,]{4,})", d_resp.text)
+                            if m_etc:
+                                fee_clean = int(m_etc.group(1).replace(",", ""))
+                                if fee_clean > 0:
+                                    c["etcFee"] = fee_clean
+                    except Exception as de:
+                        print(f"[AutoplusAdminService] 상세 크롤링 오류 ({p_id}): {de}")
 
             return cls.process_highplus_buy_data(cars)
         except Exception as e:
