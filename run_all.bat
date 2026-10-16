@@ -19,8 +19,16 @@ echo   - Port 8501 : Streamlit Dashboard (0.0.0.0)
 echo ========================================================
 
 echo [0/3] GitHub 최신 코드 동기화 중...
+git stash push -u -m "auto-stash" > nul 2>&1
 git fetch origin main > nul 2>&1
-git reset --hard origin/main > nul 2>&1
+git merge --ff-only origin/main > nul 2>&1
+if %errorlevel% neq 0 (
+    echo [경고] 로컬 변경사항으로 인해 최신 코드 병합(ff-only)에 실패했습니다.
+    echo [경고] 로컬 작업을 복원하고 실행을 중단합니다.
+    git stash pop > nul 2>&1
+    exit /b 1
+)
+git stash pop > nul 2>&1
 
 echo [1/3] 기존 서버 프로세스 및 포트(8000, 3000, 8501) 완전 정리 중...
 
