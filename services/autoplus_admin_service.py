@@ -24,6 +24,9 @@ LEDGER_CSV = os.path.join(BASE_DIR, "my_car_ledger.csv")
 SETTLEMENT_CSV = os.path.join(BASE_DIR, "my_inventory_settlement.csv")
 STATUS_FILE = os.path.join(DATA_DIR, "highplus_buy_status.json")
 
+# 김재현 대표님 본인 보유 차량 5대 + 판매완료 1대 (전사 타인 매입 데이터 유입 및 정산표 오염 방지)
+VALID_JAY_CARS = {'01수9643', '43노5327', '337너5231', '155라7987', '37다1840', '297로2620'}
+
 
 def _safe_int(val: Any, default: int = 0) -> int:
     if val is None:
@@ -144,6 +147,10 @@ class AutoplusAdminService:
         for c in buy_cars:
             car_no = str(c.get("carNumber", "")).replace(" ", "").strip()
             if not car_no or len(car_no) < 6:
+                continue
+
+            # 전사 타인 매입 데이터 유입 및 정산표 오염 방지 (제이님 본인 차량만 허용)
+            if car_no not in VALID_JAY_CARS:
                 continue
 
             # 금액 만원 단위 정규화
@@ -601,8 +608,10 @@ class AutoplusAdminService:
                         if not r or not any(field.strip() for field in r): continue
                         c_no = r[car_no_idx].strip() if len(r) > car_no_idx else ""
 
-                        # 1. 없는 차량 제거
-                        if c_no in ['304소0453', '211두9940']:
+                        # 1. 없는 차량 및 전사 타인 차량(잘못 인입된 차량) 제거
+                        # 제이님 실제 보유 5대(01수9643, 43노5327, 337너5231, 155라7987, 37다1840) 및 판매완료(297로2620 등)만 보존
+                        VALID_JAY_CARS = {'01수9643', '43노5327', '337너5231', '155라7987', '37다1840', '297로2620'}
+                        if c_no in ['304소0453', '211두9940'] or (c_no and c_no not in VALID_JAY_CARS):
                             removed_count += 1
                             continue
 
