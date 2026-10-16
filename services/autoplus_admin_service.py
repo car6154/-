@@ -317,7 +317,7 @@ class AutoplusAdminService:
 
     @classmethod
     def _load_valid_ledger_cars(cls) -> set:
-        """my_car_ledger.csv에서 2026-08-01 이후 매입/등록되었거나 매입완료/확정된 차량번호 집합 로드"""
+        """my_car_ledger.csv에 있는 전체 차량번호 집합 (날짜 무관)"""
         ledger_cars = set()
         if not os.path.exists(LEDGER_CSV):
             return ledger_cars
@@ -328,8 +328,6 @@ class AutoplusAdminService:
                     header = next(reader, [])
                     h_map = {col.strip(): i for i, col in enumerate(header)}
                     c_idx = h_map.get("차량번호")
-                    d_idx = h_map.get("매입일") if h_map.get("매입일") is not None else h_map.get("등록일")
-                    s_idx = h_map.get("상태")
                     if c_idx is None:
                         continue
                     for r in reader:
@@ -338,22 +336,6 @@ class AutoplusAdminService:
                         c_no = str(r[c_idx]).replace(" ", "").strip()
                         if not c_no:
                             continue
-                        # 이미 매입완료/확정 상태인 차량은 날짜와 무관하게 무조건 포함
-                        if s_idx is not None and len(r) > s_idx:
-                            st = str(r[s_idx]).strip()
-                            if "매입" in st or "완료" in st or "확정" in st:
-                                ledger_cars.add(c_no)
-                                continue
-                        if d_idx is not None and len(r) > d_idx:
-                            raw_date = str(r[d_idx]).strip()
-                            m_d = re.search(r"(\d{2,4})[-/.]0?(\d{1,2})", raw_date)
-                            if m_d:
-                                y = int(m_d.group(1))
-                                if y < 100:
-                                    y += 2000
-                                mm = int(m_d.group(2))
-                                if y < 2026 or (y == 2026 and mm < 8):
-                                    continue
                         ledger_cars.add(c_no)
                 break
             except Exception:
@@ -443,8 +425,8 @@ class AutoplusAdminService:
                     new_rows.append(r)
                     continue
 
-                # 없는 차량 및 타인 차량 제거 (매입장부 기준, 단 화면에서 감지된 차량은 제외하지 않음)
-                if c_no and c_no not in ledger_cars and c_no not in cars_by_no:
+                # 없는 차량 및 타인 차량 제거 (매입장부 기준 안전장치)
+                if ledger_cars and c_no and c_no not in ledger_cars:
                     continue
 
                 # 2026년 8월 이전 과거 매입건 필터링 (화면 감지 차량 제외)
@@ -676,8 +658,8 @@ class AutoplusAdminService:
                         if not r or not any(field.strip() for field in r): continue
                         c_no = r[car_no_idx].strip() if len(r) > car_no_idx else ""
 
-                        # 1. 없는 차량 및 전사 타인 차량 제거 (매입장부 기준)
-                        if c_no and c_no not in ledger_cars:
+                        # 1. 없는 차량 및 전사 타인 차량 제거 (매입장부 기준 안전장치)
+                        if ledger_cars and c_no and c_no not in ledger_cars:
                             removed_count += 1
                             continue
 
