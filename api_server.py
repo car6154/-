@@ -54,7 +54,7 @@ def on_app_startup():
         # 노트북 서버(C:\jpro) 환경인 경우에만 24시간 무인 Git auto-pull 파수꾼 가동
         is_server_env = os.path.abspath(__file__).lower().startswith("c:\\jpro")
         if is_server_env:
-            GitSyncService.start_auto_pull_daemon(interval_sec=60, cooldown_sec=30)
+            GitSyncService.start_auto_pull_daemon(interval_sec=10, cooldown_sec=10)
     except Exception as e:
         print(f"[api_server] Failed to start Git auto pull daemon: {e}", flush=True)
 
