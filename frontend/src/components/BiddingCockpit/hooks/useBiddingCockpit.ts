@@ -514,77 +514,85 @@ export function useBiddingCockpit({
   useEffect(() => {
     if (!preset) return;
 
-    // 🧹 이전 조회의 낡은(stale) 등급 ref 리셋 (엉뚱한 등급 조건 검색 방지)
-    rawGradeNameRef.current = '';
-    rawGradeDetailNameRef.current = '';
+    (async () => {
+      // d. 기존의 낡은 ref 리셋 (a 단계 전에 유지)
+      rawGradeNameRef.current = '';
+      rawGradeDetailNameRef.current = '';
 
-    if (preset.carNumber) {
-      setCarNumber(preset.carNumber);
-    }
-    if (preset.manufacturer) {
-      setManufacturer(preset.manufacturer);
-    }
-    if (preset.carName) {
-      setCarName(preset.carName);
-      if (!preset.manufacturer) {
-        if (preset.carName.includes('아반떼') || preset.carName.includes('쏘나타') || preset.carName.includes('그랜저') || preset.carName.includes('캐스퍼')) {
-          setManufacturer('현대');
-        } else if (preset.carName.includes('기아') || preset.carName.includes('모닝') || preset.carName.includes('레이') || preset.carName.includes('카니발') || preset.carName.includes('K5')) {
-          setManufacturer('기아');
-        } else if (preset.carName.includes('르노') || preset.carName.includes('SM') || preset.carName.includes('QM')) {
-          setManufacturer('르노코리아');
-        } else if (preset.carName.includes('KG') || preset.carName.includes('쌍용')) {
-          setManufacturer('KG모빌리티');
-        } else if (preset.carName.includes('제네시스') || preset.carName.includes('G80')) {
-          setManufacturer('제네시스');
+      // a. preset의 기본 정보부터 적용: setCarNumber, setManufacturer, setCarName, setDetailModel, setYearModel, setMileageKm (조회 실패 시에도 화면에 표시되도록)
+      if (preset.carNumber) {
+        setCarNumber(preset.carNumber);
+      }
+      if (preset.manufacturer) {
+        setManufacturer(preset.manufacturer);
+      }
+      if (preset.carName) {
+        setCarName(preset.carName);
+        if (!preset.manufacturer) {
+          if (preset.carName.includes('아반떼') || preset.carName.includes('쏘나타') || preset.carName.includes('그랜저') || preset.carName.includes('캐스퍼')) {
+            setManufacturer('현대');
+          } else if (preset.carName.includes('기아') || preset.carName.includes('모닝') || preset.carName.includes('레이') || preset.carName.includes('카니발') || preset.carName.includes('K5')) {
+            setManufacturer('기아');
+          } else if (preset.carName.includes('르노') || preset.carName.includes('SM') || preset.carName.includes('QM')) {
+            setManufacturer('르노코리아');
+          } else if (preset.carName.includes('KG') || preset.carName.includes('쌍용')) {
+            setManufacturer('KG모빌리티');
+          } else if (preset.carName.includes('제네시스') || preset.carName.includes('G80')) {
+            setManufacturer('제네시스');
+          }
         }
       }
-    }
-    if (preset.detailModel) {
-      setDetailModel(preset.detailModel);
-    }
-    if (preset.year !== undefined) {
-      let y = typeof preset.year === 'number' ? preset.year : parseInt(String(preset.year).replace(/[^\d]/g, ''), 10);
-      if (y > 2000) y -= 2000;
-      if (!isNaN(y) && y > 0) setYearModel(y);
-    }
-    let parsedMileage = 0;
-    if (preset.mileage !== undefined) {
-      let m = typeof preset.mileage === 'number' ? preset.mileage : parseInt(String(preset.mileage).replace(/[^\d]/g, ''), 10);
-      if (!isNaN(m) && m > 0) {
-        parsedMileage = m;
-        setMileageKm(m);
+      if (preset.detailModel) {
+        setDetailModel(preset.detailModel);
       }
-    }
-    if (preset.sellPrice && preset.sellPrice > 0) {
-      setExpectedSellPrice(preset.sellPrice);
-    }
-    if (typeof preset.outerRepairs === 'number') {
-      setOuterRepairCount(preset.outerRepairs);
-    }
-    if (preset.options) {
-      setOptionsTag(preset.options);
-    }
-    if (preset.memo) {
-      setMemo(preset.memo);
-    }
-    if (preset.targetMargin) {
-      setTargetMargin(preset.targetMargin);
-    }
-    if (preset.auctionType) {
-      setAuctionType(preset.auctionType);
-    }
+      if (preset.year !== undefined) {
+        let y = typeof preset.year === 'number' ? preset.year : parseInt(String(preset.year).replace(/[^\d]/g, ''), 10);
+        if (y > 2000) y -= 2000;
+        if (!isNaN(y) && y > 0) setYearModel(y);
+      }
+      let parsedMileage = 0;
+      if (preset.mileage !== undefined) {
+        let m = typeof preset.mileage === 'number' ? preset.mileage : parseInt(String(preset.mileage).replace(/[^\d]/g, ''), 10);
+        if (!isNaN(m) && m > 0) {
+          parsedMileage = m;
+          setMileageKm(m);
+        }
+      }
+      if (preset.options) {
+        setOptionsTag(preset.options);
+      }
 
-    // ⚡ 장부/재고 preset 진입 시 차얼마 확정 데이터(grade_name/grade_detail_name) 자동 수신
-    if (preset.carNumber) {
-      handleLookupCarNumber(preset.carNumber, parsedMileage, true);
-    }
+      // b. await handleLookupCarNumber(preset.carNumber, parsedMileage, true) — 정상 조회와 완전히 동일한 경로. 성공 시 차얼마 확정 데이터로 덮어씀.
+      if (preset.carNumber) {
+        await handleLookupCarNumber(preset.carNumber, parsedMileage, true);
+      }
 
-    setSearchStatus({
-      type: 'success',
-      message: `✅ [${preset.carNumber || preset.carName}] 장부·재고 역추적 시세 필터 100% 자동 채움 완료!`
-    });
-    setTimeout(() => setSearchStatus(null), 4000);
+      // c. 조회 완료 후 장부 추가 데이터만 덮어쓰기: preset.sellPrice>0 → setExpectedSellPrice, preset.outerRepairs → setOuterRepairCount, preset.buyPrice>0 → setUserBid(최종 입찰가 칸), preset.memo → setMemo, preset.targetMargin → setTargetMargin, preset.auctionType → setAuctionType.
+      if (preset.sellPrice && preset.sellPrice > 0) {
+        setExpectedSellPrice(preset.sellPrice);
+      }
+      if (typeof preset.outerRepairs === 'number') {
+        setOuterRepairCount(preset.outerRepairs);
+      }
+      if (preset.buyPrice && preset.buyPrice > 0) {
+        setUserBid(preset.buyPrice);
+      }
+      if (preset.memo) {
+        setMemo(preset.memo);
+      }
+      if (preset.targetMargin) {
+        setTargetMargin(preset.targetMargin);
+      }
+      if (preset.auctionType) {
+        setAuctionType(preset.auctionType);
+      }
+
+      setSearchStatus({
+        type: 'success',
+        message: `✅ [${preset.carNumber || preset.carName}] 장부·재고 역추적 시세 필터 100% 자동 채움 완료!`
+      });
+      setTimeout(() => setSearchStatus(null), 4000);
+    })();
   }, [preset]);
 
   // 구형 호환: presetCarName / presetSellPrice만 들어올 때
@@ -757,7 +765,7 @@ export function useBiddingCockpit({
           gradeDetailName: rawGd,
           manufacturer: res.maker || manufacturer,
           year: yr,
-          mileage: mileageKm,
+          mileage: effectiveMileage,
           carNumber: no
         });
 
