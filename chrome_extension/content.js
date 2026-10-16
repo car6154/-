@@ -115,213 +115,126 @@
         const carMap = new Map(); // 차량번호 기준 중복 방지
         const CAR_NO_REGEX = /\b\d{2,3}[가-힣]\s*\d{4}\b/;
         const PID_REGEX = /\bC26\d{9}\b/;
-        const DATE_REGEX = /\b202\d[-.]\d{1,2}[-.]\d{1,2}\b/;
+        const DATE_REGEX = /\b202\d[-.]\d{1,2}[-.]\d{1,2}\b/g;
 
-        const tables = document.querySelectorAll('table');
-        tables.forEach(table => {
-          let buyPriceColIdx = -1;
-          let etcFeeColIdx = -1;
-          let carNoColIdx = -1;
-          let carNameColIdx = -1;
-          let yearColIdx = -1;
-          let scrapColIdx = -1;
-          let typeColIdx = -1;
-          let mgrColIdx = -1;
+        // 1차 최우선 스캔: 화면 내 전체 행(tr)에서 김재현 매입 차량 1:1 직접 매칭
+        const allRows = Array.from(document.querySelectorAll('tr'));
+        for (const tr of allRows) {
+          const rowText = tr.innerText || "";
+          const carMatch = rowText.match(CAR_NO_REGEX);
+          if (!carMatch) continue;
 
-          const headerRows = table.querySelectorAll('thead tr, tr');
-          for (const hRow of headerRows) {
-            const ths = hRow.querySelectorAll('th, td');
-            if (ths.length >= 5) {
-              ths.forEach((th, idx) => {
-                const title = (th.innerText || "").replace(/\s+/g, '');
-                if (/^(매입가|실매입가|매입금액|낙찰가|취득가|최종매입가)$/.test(title)) buyPriceColIdx = idx;
-                else if (buyPriceColIdx === -1 && /(매입가|실매입|낙찰가)/.test(title)) buyPriceColIdx = idx;
+          // 김재현 담당자 우선 필터
+          const isKim = rowText.includes("김재현");
+          if (!isKim) continue;
 
-                if (/^(수수료|기타비용|낙찰수수료|헤딜수수료|플랫폼수수료|부대비용)$/.test(title)) etcFeeColIdx = idx;
-                else if (etcFeeColIdx === -1 && /(기타비용|수수료|부대비)/.test(title)) etcFeeColIdx = idx;
+          const carNo = carMatch[0].replace(/\s+/g, '');
+          const cells = Array.from(tr.querySelectorAll('td, th'));
 
-                if (/(차량번호|차번)/.test(title)) carNoColIdx = idx;
-                if (/(차량명|차종|모델명)/.test(title)) carNameColIdx = idx;
-                if (/^(연식|년식)$/.test(title)) yearColIdx = idx;
-                if (/폐자원/.test(title)) scrapColIdx = idx;
-                if (/(매입구분|매입유형|구분)/.test(title)) typeColIdx = idx;
-                if (/(담당자|매니저|담당)/.test(title)) mgrColIdx = idx;
-              });
-              if (buyPriceColIdx !== -1 || carNoColIdx !== -1) break;
+          let carName = "";
+          let modelYear = "";
+          let buyPrice = 0;
+          let etcFee = 0;
+          let transferDate = "";
+          let purchaseType = "";
+          let pid = "";
+          let scrapDeduction = 0;
+
+          const pidMatch = rowText.match(PID_REGEX);
+          if (pidMatch) pid = pidMatch[0];
+
+          const dateMatches = rowText.match(DATE_REGEX) || [];
+          if (dateMatches.length > 0) {
+            transferDate = dateMatches[dateMatches.length - 1];
+          }
+
+          // 오토플러스 SPPOL10001 컬럼 매핑
+          if (cells[5]) carName = (cells[5].innerText || "").replace(/\n+/g, ' ').trim();
+          if (cells[6]) modelYear = (cells[6].innerText || "").trim();
+          if (cells[9]) purchaseType = (cells[9].innerText || "").trim();
+          if (cells[15] && !transferDate) transferDate = (cells[15].innerText || "").trim();
+          if (cells[20] && !pid) pid = (cells[20].innerText || "").trim();
+
+          if (cells[16]) {
+            const pStr = (cells[16].innerText || "").replace(/[^\d]/g, '');
+            if (pStr) {
+              const pVal = parseInt(pStr, 10);
+              if (pVal >= 1000000 && pVal <= 500000000) buyPrice = pVal;
             }
           }
 
-          const rows = table.querySelectorAll('tbody tr, tr');
-          rows.forEach(tr => {
-            // 하위 테이블을 감싼 외부 레이아웃 tr은 제외
-            if (tr.querySelector('table')) return;
-
-            const cells = Array.from(tr.querySelectorAll('td'));
-            if (cells.length < 5) return;
-
-            const rowText = tr.innerText || "";
-            const carMatch = rowText.match(CAR_NO_REGEX);
-            if (!carMatch) return;
-
-            const carNo = carMatch[0].replace(/\s+/g, '');
-            let carName = "";
-            let modelYear = "";
-            let buyPrice = 0;
-            let etcFee = 0;
-            let transferDate = "";
-            let purchaseType = "";
-            let pid = "";
-            let scrapDeduction = 0;
-
-            const pidMatch = rowText.match(PID_REGEX);
-            if (pidMatch) pid = pidMatch[0];
-
-            const dateMatches = rowText.match(new RegExp(DATE_REGEX, 'g')) || [];
-            if (dateMatches.length > 0) {
-              transferDate = dateMatches[dateMatches.length - 1];
-            }
-
-            // 1차: 실측 오토플러스 SPPOL10001 전용 고정 그리드 매핑
-            if (cells.length >= 20) {
-              if (cells[5]) carName = (cells[5].innerText || "").replace(/\n+/g, ' ').trim();
-              if (cells[6]) modelYear = (cells[6].innerText || "").trim();
-              if (cells[9]) purchaseType = (cells[9].innerText || "").trim();
-              if (cells[15]) transferDate = (cells[15].innerText || "").trim();
-              if (cells[20]) pid = (cells[20].innerText || "").trim();
-
-              if (cells[16]) {
-                const pStr = (cells[16].innerText || "").replace(/[^\d]/g, '');
-                if (pStr) buyPrice = parseInt(pStr, 10);
+          // Fallback: 금액 추출
+          if (buyPrice === 0) {
+            const numMatches = rowText.match(/\b\d{1,3}(?:,\d{3}){2,}\b/g) || [];
+            for (const nm of numMatches) {
+              const val = parseInt(nm.replace(/,/g, ''), 10);
+              if (val >= 1000000 && val <= 500000000) {
+                buyPrice = val;
+                break;
               }
             }
+          }
 
-            // 2차: 동적 헤더 컬럼 인덱스 기반 추출
-            if (buyPrice === 0 && buyPriceColIdx !== -1 && cells[buyPriceColIdx]) {
-              const numStr = (cells[buyPriceColIdx].innerText || "").replace(/[^\d]/g, '');
-              if (numStr) {
-                const val = parseInt(numStr, 10);
-                if (val >= 1000000 && val <= 500000000) buyPrice = val;
-                else if (val > 0 && val <= 50000) buyPrice = val * 10000;
-              }
-            }
+          let poId = "";
+          const poInp = tr.querySelector('input[name*="poId"]');
+          if (poInp && poInp.value) {
+            poId = poInp.value.trim();
+          } else {
+            const mPo = (tr.innerHTML || "").match(/poId=(\d+)/);
+            if (mPo) poId = mPo[1];
+          }
 
-            if (etcFeeColIdx !== -1 && cells[etcFeeColIdx]) {
-              const numStr = (cells[etcFeeColIdx].innerText || "").replace(/[^\d]/g, '');
-              if (numStr) {
-                const val = parseInt(numStr, 10);
-                if (val > 0 && val < 50000000) etcFee = val > 5000 ? val : val * 10000;
-              }
-            }
-
-            if (carNameColIdx !== -1 && cells[carNameColIdx] && !carName) {
-              carName = (cells[carNameColIdx].innerText || "").replace(/\n+/g, ' ').trim();
-            }
-            if (yearColIdx !== -1 && cells[yearColIdx] && !modelYear) {
-              const yMatch = (cells[yearColIdx].innerText || "").match(/(201\d|202\d)/);
-              if (yMatch) modelYear = yMatch[1];
-            }
-            if (typeColIdx !== -1 && cells[typeColIdx] && !purchaseType) {
-              purchaseType = (cells[typeColIdx].innerText || "").trim();
-            }
-            if (scrapColIdx !== -1 && cells[scrapColIdx] && !scrapDeduction) {
-              const sNum = (cells[scrapColIdx].innerText || "").replace(/[^\d]/g, '');
-              if (sNum) scrapDeduction = parseInt(sNum, 10) || 0;
-            }
-
-            // 3차: Fallback 패턴 매칭 (수정: idx === 16을 scrapDeduction으로 오인하던 버그 제거)
-            cells.forEach((cell) => {
-              const txt = (cell.innerText || "").trim();
-              if (!modelYear && /^(201\d|202\d)$/.test(txt)) modelYear = txt;
-              if (!carName && /(현대|기아|제네시스|쉐보레|르노|쌍용|KGM|BMW|벤츠|아우디|볼보|폭스바겐|포르쉐|렉서스|토요타|미니|랜드로버|테슬라)/.test(txt)) {
-                carName = txt.replace(/\n+/g, ' ');
-              }
-              if (!purchaseType && /(헤이딜러|엔카|KB|플랫폼|현물|공판|대행)/.test(txt)) purchaseType = txt;
-
-              const cleanNumStr = txt.replace(/[^\d]/g, '');
-              if (buyPrice === 0 && cleanNumStr.length >= 7 && cleanNumStr.length <= 9) {
-                const num = parseInt(cleanNumStr, 10);
-                if (num >= 1000000 && num <= 500000000) buyPrice = num;
-              }
-              if (etcFee === 0 && /(수수료|기타비용|낙찰수수료)/.test(txt)) {
-                const feeNum = parseInt(cleanNumStr, 10);
-                if (feeNum >= 10000 && feeNum <= 5000000) etcFee = feeNum;
-              }
-              if (!scrapDeduction && /폐자원/.test(txt)) {
-                const num = parseInt(cleanNumStr, 10);
-                if (num > 0) scrapDeduction = num;
-              }
-            });
-
-            let manager = "";
-            if (rowText.includes("김재현") || (cells[14] && cells[14].innerText.includes("김재현"))) {
-              manager = "김재현";
-            } else if (mgrColIdx !== -1 && cells[mgrColIdx]) {
-              manager = (cells[mgrColIdx].innerText || "").trim();
-            }
-
-            let poId = "";
-            const poInp = tr.querySelector('input[name*="poId"]');
-            if (poInp && poInp.value) {
-              poId = poInp.value.trim();
-            } else {
-              const mPo = (tr.innerHTML || "").match(/poId=(\d+)/);
-              if (mPo) poId = mPo[1];
-            }
-
-            if (carNo) {
-              carMap.set(carNo, {
-                carNumber: carNo,
-                carName,
-                modelYear,
-                buyPrice,
-                etcFee,
-                transferDate,
-                purchaseType,
-                pid,
-                poId,
-                scrapDeduction,
-                manager
-              });
-            }
+          carMap.set(carNo, {
+            carNumber: carNo,
+            carName,
+            modelYear,
+            buyPrice,
+            etcFee,
+            transferDate,
+            purchaseType,
+            pid,
+            poId,
+            scrapDeduction,
+            manager: "김재현"
           });
-        });
-
-        const foundCars = Array.from(carMap.values());
-
-        async function enrichCarDetails(cars) {
-          if (!cars.length) return;
-          for (const car of cars) {
-            if (car.poId && (!car.etcFee || car.etcFee === 0)) {
-              try {
-                const detailUrl = `https://admin.autoplus.co.kr/spot/syspo/SPPOR20001?poId=${car.poId}&vw=1&showGbn=H`;
-                const resp = await fetch(detailUrl, { credentials: 'include' });
-                if (resp.ok) {
-                  const html = await resp.text();
-                  const parsedFee = extractEtcFeeFromHtml(html);
-                  if (parsedFee > 0) car.etcFee = parsedFee;
-                }
-              } catch (e) {}
-            }
-          }
-
-          const sig = JSON.stringify(cars);
-          if (sig !== lastScanSignature && isContextAlive()) {
-            chrome.runtime.sendMessage(
-              { action: 'sync_highplus_buy_data', data: cars },
-              (response) => {
-                // 중요: 백엔드 전송이 실제로 성공했을 때만 서명을 잠금
-                if (!chrome.runtime.lastError && response && response.synced) {
-                  lastScanSignature = sig;
-                  console.log(`[J-PRO AutoSync] high A+ 매입 데이터 ${cars.length}대 백엔드 동기화 성공`);
-                } else {
-                  console.warn('[J-PRO AutoSync] 백엔드 전송 미완료 - 다음 주기에 재시도합니다.');
-                }
-              }
-            );
-          }
         }
 
-        enrichCarDetails(foundCars);
+        const foundCars = Array.from(carMap.values());
+        if (!foundCars.length) return;
+
+        // 서명 검사: 데이터 변경 시 백엔드 즉시 전송
+        const sig = JSON.stringify(foundCars.map(c => ({ no: c.carNumber, p: c.buyPrice, d: c.transferDate })));
+        if (sig !== lastScanSignature && isContextAlive()) {
+          chrome.runtime.sendMessage(
+            { action: 'sync_highplus_buy_data', data: foundCars },
+            (response) => {
+              if (!chrome.runtime.lastError && response && response.synced) {
+                lastScanSignature = sig;
+                console.log(`[J-PRO AutoSync] high A+ 매입 데이터 ${foundCars.length}대 백엔드 무인 동기화 성공`);
+              }
+            }
+          );
+        }
+
+        // 백그라운드 세부 기타비용 fetch (비동기 병렬 실행)
+        for (const car of foundCars) {
+          if (car.poId && (!car.etcFee || car.etcFee === 0)) {
+            const detailUrl = `https://admin.autoplus.co.kr/spot/syspo/SPPOR20001?poId=${car.poId}&vw=1&showGbn=H`;
+            fetch(detailUrl, { credentials: 'include' })
+              .then(r => r.ok ? r.text() : '')
+              .then(html => {
+                if (!html) return;
+                const parsedFee = extractEtcFeeFromHtml(html);
+                if (parsedFee > 0 && car.etcFee !== parsedFee) {
+                  car.etcFee = parsedFee;
+                  if (isContextAlive()) {
+                    chrome.runtime.sendMessage({ action: 'sync_highplus_buy_data', data: [car] });
+                  }
+                }
+              })
+              .catch(() => {});
+          }
+        }
       } catch (err) {}
     }
 

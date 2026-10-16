@@ -173,8 +173,8 @@ class AutoplusAdminService:
                 m = re.search(r"(\d{4})[^\d]?(\d{1,2})[^\d]?(\d{1,2})", raw_date)
                 if m:
                     y, mm, dd = int(m.group(1)), int(m.group(2)), int(m.group(3))
-                    # 2026년 9월 1일 이전 매입건은 동기화에서 제외
-                    if y < 2026 or (y == 2026 and mm < 9):
+                    # 2026년 8월 1일 이전 매입건은 동기화에서 제외 (8월 매입건 허용)
+                    if y < 2026 or (y == 2026 and mm < 8):
                         continue
                     buy_date_disp = f"{mm:02d}. {dd:02d}"
                     try:
@@ -183,11 +183,11 @@ class AutoplusAdminService:
                     except:
                         pass
                 else:
-                    # '09. 07', '10. 15' 형태일 경우
+                    # '08. 20', '09. 07', '10. 15' 형태일 경우
                     m_short = re.search(r"^0?(\d{1,2})[^\d]?(\d{1,2})", raw_date)
                     if m_short:
                         s_mm = int(m_short.group(1))
-                        if s_mm < 9:
+                        if s_mm < 8:
                             continue
                         buy_date_disp = raw_date
             else:
@@ -317,7 +317,7 @@ class AutoplusAdminService:
 
     @classmethod
     def _load_valid_ledger_cars(cls) -> set:
-        """my_car_ledger.csv에서 2026-09-01 이후 매입/등록된 차량번호 집합 로드"""
+        """my_car_ledger.csv에서 2026-08-01 이후 매입/등록되었거나 매입완료/확정된 차량번호 집합 로드"""
         ledger_cars = set()
         if not os.path.exists(LEDGER_CSV):
             return ledger_cars
@@ -329,6 +329,7 @@ class AutoplusAdminService:
                     h_map = {col.strip(): i for i, col in enumerate(header)}
                     c_idx = h_map.get("차량번호")
                     d_idx = h_map.get("매입일") if h_map.get("매입일") is not None else h_map.get("등록일")
+                    s_idx = h_map.get("상태")
                     if c_idx is None:
                         continue
                     for r in reader:
@@ -337,6 +338,12 @@ class AutoplusAdminService:
                         c_no = str(r[c_idx]).replace(" ", "").strip()
                         if not c_no:
                             continue
+                        # 이미 매입완료/확정 상태인 차량은 날짜와 무관하게 무조건 포함
+                        if s_idx is not None and len(r) > s_idx:
+                            st = str(r[s_idx]).strip()
+                            if "매입" in st or "완료" in st or "확정" in st:
+                                ledger_cars.add(c_no)
+                                continue
                         if d_idx is not None and len(r) > d_idx:
                             raw_date = str(r[d_idx]).strip()
                             m_d = re.search(r"(\d{2,4})[-/.]0?(\d{1,2})", raw_date)
@@ -345,7 +352,7 @@ class AutoplusAdminService:
                                 if y < 100:
                                     y += 2000
                                 mm = int(m_d.group(2))
-                                if y < 2026 or (y == 2026 and mm < 9):
+                                if y < 2026 or (y == 2026 and mm < 8):
                                     continue
                         ledger_cars.add(c_no)
                 break
@@ -417,26 +424,34 @@ class AutoplusAdminService:
         h_map = {col.strip(): i for i, col in enumerate(header)}
         car_no_idx = h_map.get("차량번호", 3)
         date_idx = h_map.get("매입일", 1)
+        status_idx = h_map.get("상태", 2)
 
         existing_cars = set()
         updated_count = 0
         new_rows = []
 
-        # 1) 기존 행 갱신 (없는 차량 0453, 9940 및 9월 이전 과거 건 제거, 외판은 장부에서 복구)
+        # 1) 기존 행 갱신 (없는 차량 0453, 9940 및 과거 건 제거, 외판은 장부에서 복구)
         for r in rows:
             if len(r) > car_no_idx:
                 c_no = r[car_no_idx].strip()
                 b_date = r[date_idx].strip() if len(r) > date_idx else ""
+                status_val = r[status_idx].strip() if status_idx is not None and len(r) > status_idx else ""
 
-                # 없는 차량 및 타인 차량 제거 (매입장부 기준)
-                if c_no and c_no not in ledger_cars:
+                # [핵심] 이미 판매완료된 차량은 영구 보존! (판매정산 탭 데이터 보존)
+                if "판매완료" in status_val:
+                    existing_cars.add(c_no)
+                    new_rows.append(r)
                     continue
 
-                # 2026년 9월 이전 매입건(04., 05., 06., 07., 08. 등) 필터링 제거
+                # 없는 차량 및 타인 차량 제거 (매입장부 기준, 단 화면에서 감지된 차량은 제외하지 않음)
+                if c_no and c_no not in ledger_cars and c_no not in cars_by_no:
+                    continue
+
+                # 2026년 8월 이전 과거 매입건 필터링 (화면 감지 차량 제외)
                 m_d = re.search(r"(?:20\d{2}[-/.])?0?(\d{1,2})[-/.]", b_date)
-                if m_d:
+                if m_d and c_no not in cars_by_no:
                     m_val = int(m_d.group(1))
-                    if m_val < 9:
+                    if m_val < 8:
                         continue
 
                 existing_cars.add(c_no)

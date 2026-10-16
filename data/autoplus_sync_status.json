@@ -1,8 +1,8 @@
 {
   "status": "FAILED",
-  "last_sync_time": "2026-10-13T20:11:30.181402",
+  "last_sync_time": "2026-10-16T18:16:39.045962",
   "inventory_count": 0,
   "sold_count": 0,
   "settlement_updated_count": 0,
-  "message": "동기화 오류: Expecting value: line 1 column 1 (char 0)"
+  "message": "동기화 오류: 오토플러스 로그인 세션이 만료되었습니다. 쿠키를 갱신해 주세요."
 }
