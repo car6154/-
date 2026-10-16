@@ -243,7 +243,8 @@ def save_car_to_ledger(req: CarLedgerCreateRequest):
         "message": f"차량 [{car_no}] 장부 영구 저장 완료",
         "carNumber": car_no,
         "totalCount": len(filtered_rows),
-        "regDate": reg_date
+        "regDate": reg_date,
+        "syncStatus": GitSyncService._last_sync_status
     }
 
 
@@ -343,7 +344,8 @@ def delete_car_from_ledger(car_key: str):
         "success": True,
         "message": f"차량 [{key}] 장부에서 삭제 완료 ({deleted_count}건)",
         "deletedCount": deleted_count,
-        "totalCount": len(new_rows)
+        "totalCount": len(new_rows),
+        "syncStatus": GitSyncService._last_sync_status
     }
 
 
@@ -439,6 +441,8 @@ def update_car_in_ledger(car_key: str, req: CarLedgerUpdateRequest):
     return {
         "success": True,
         "message": f"차량 [{key}] 장부 수정 완료",
-        "updatedCount": updated_count
+        "updatedCount": updated_count,
+        "syncStatus": GitSyncService._last_sync_status
     }
+
 

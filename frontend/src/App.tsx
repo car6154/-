@@ -328,7 +328,8 @@ export default function App() {
 
       if (ledgerRes.ok) {
         const resJson = await ledgerRes.json();
-        showToast(`✅ [${newCarData.carNumber}] my_car_ledger.csv 영구 저장 완료! (총 ${resJson.totalCount}대)`);
+        const syncWarn = resJson.syncStatus && resJson.syncStatus.includes('실패') ? ' (⚠️ 동기화 실패)' : '';
+        showToast(`✅ [${newCarData.carNumber}] my_car_ledger.csv 영구 저장 완료!${syncWarn} (총 ${resJson.totalCount}대)`);
       } else {
         showToast(`✅ [${newCarData.carNumber}] 브라우저 장부 저장 완료`);
       }

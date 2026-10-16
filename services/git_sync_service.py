@@ -14,8 +14,6 @@ class GitSyncService:
     _last_sync_status = "대기"
 
     SYNC_FILES = [
-        "my_car_ledger.csv",
-        "my_inventory_settlement.csv",
         "data/car_options_db.json",
         "data/master_car_mapping.json"
     ]
@@ -95,9 +93,11 @@ class GitSyncService:
                 if p_res.returncode == 0:
                     cls._last_sync_status = "Push 성공"
                 else:
-                    cls._last_sync_status = "Push 실패"
+                    err_detail = p_res.stderr.strip() or p_res.stdout.strip()
+                    logger.error(f"[GitSyncService] GitHub push 실패 (exit {p_res.returncode}): {err_detail}")
+                    cls._last_sync_status = f"Push 실패: {err_detail[:100]}"
             except Exception as e:
-                logger.error(f"Git auto push error: {e}")
+                logger.error(f"[GitSyncService] Git auto push error: {e}")
                 cls._last_sync_status = f"Push 에러: {e}"
             finally:
                 cls._is_syncing = False
