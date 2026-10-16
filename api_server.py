@@ -19,7 +19,7 @@ from typing import List, Dict, Any, Optional
 from datetime import datetime
 from pydantic import BaseModel
 import requests
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 import pandas as pd
 import uvicorn
@@ -34,8 +34,6 @@ from services.autoplus_sync_service import AutoplusSyncService, start_autoplus_s
 from routers.ledger_router import router as ledger_router
 from routers.settlement_router import router as settlement_router
 
-from fastapi.middleware.cors import CORSMiddleware
-
 app = FastAPI(title="J-Project Local API Server", version="1.0.0")
 
 app.add_middleware(
@@ -45,6 +43,30 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.middleware("http")
+async def cors_and_pna_preflight_middleware(request: Request, call_next):
+    origin = request.headers.get("origin") or "*"
+    req_headers = request.headers.get("access-control-request-headers") or "Content-Type, X-JPRO-Token, Authorization"
+
+    # 모든 OPTIONS 사전 요청을 라우터 도달 전에 200 OK로 즉시 처리 (405 원천 차단)
+    if request.method == "OPTIONS":
+        return Response(
+            status_code=200,
+            headers={
+                "Access-Control-Allow-Origin": origin,
+                "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS, PATCH",
+                "Access-Control-Allow-Headers": req_headers,
+                "Access-Control-Allow-Credentials": "true",
+                "Access-Control-Allow-Private-Network": "true",
+            },
+        )
+
+    response = await call_next(request)
+    response.headers["Access-Control-Allow-Origin"] = origin
+    response.headers["Access-Control-Allow-Credentials"] = "true"
+    response.headers["Access-Control-Allow-Private-Network"] = "true"
+    return response
 
 app.include_router(ledger_router)
 app.include_router(settlement_router)

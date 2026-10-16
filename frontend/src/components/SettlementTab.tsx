@@ -330,11 +330,13 @@ export const SettlementTab: React.FC<SettlementTabProps> = ({
   const handleCheckSyncStatus = async () => {
     setSyncLoading(true);
     try {
-      // 1. 크롬 확장에 백그라운드 매입 수집 즉시 실행 신호 발송
+      // 1. 크롬 확장에 즉시 수집 트리거 발송 후 브라우저 탭 스캔 완료 대기 (1.5초)
       try {
         window.postMessage({ type: 'JPRO_TRIGGER_HIGHPLUS_BUY_SYNC' }, '*');
       } catch (err) {}
+      await new Promise(resolve => setTimeout(resolve, 1500));
 
+      // 2. 백엔드 동기화 상태 및 크롤링 트리거 확인
       let syncData: any = {};
       try {
         const res = await fetch('/api/settlement/trigger_highplus_sync', { method: 'POST' });
@@ -355,21 +357,22 @@ export const SettlementTab: React.FC<SettlementTabProps> = ({
         await onRefresh();
       }
 
-      if (syncResult && syncResult.success === false) {
-        alert(
-          `[high A+ 매입 연동 알림]\n\n` +
-          `• 상태: ${syncResult.message || '세션 만료 또는 데이터 없음'}\n` +
-          `• 이전 성공 시점: ${st.last_sync_time || '없음'}\n\n` +
-          `💡 오토플러스(admin.autoplus.co.kr) 로그인 탭이 열려있는지 확인하거나, 페이지를 새로고침한 뒤 다시 눌러주세요.`
-        );
-      } else {
+      // 브라우저 확장(경로 A)을 통해 차량이 정상 감지된 상태라면 성공 알림 표시
+      if ((syncResult && syncResult.success !== false) || (st.total_synced_cars && st.total_synced_cars > 0)) {
         alert(
           `[high A+ 매입 무인 연동 결과]\n\n` +
           `• 연동 시간: ${timeStr}\n` +
           `• 감지된 매입차량: ${total}대\n` +
           `• 신규 재고 등록: ${added}대\n` +
           `• 기존 재고 갱신: ${updated}대\n\n` +
-          `✅ high A+ 화면을 직접 열지 않아도, 오토플러스 로그인 세션으로 실시간 매입 데이터(매입가, 수수료 등)가 장부 및 재고로 자동 연동되었습니다.`
+          `✅ high A+ 화면의 실시간 매입 데이터(매입가, 수수료 등)가 장부 및 재고로 정상 연동되었습니다.`
+        );
+      } else {
+        alert(
+          `[high A+ 매입 연동 알림]\n\n` +
+          `• 상태: ${syncResult.message || '세션 만료 또는 데이터 없음'}\n` +
+          `• 이전 성공 시점: ${st.last_sync_time || '없음'}\n\n` +
+          `💡 오토플러스(admin.autoplus.co.kr) 로그인 탭이 열려있는지 확인하거나, 페이지를 새로고침한 뒤 다시 눌러주세요.`
         );
       }
     } catch (e: any) {

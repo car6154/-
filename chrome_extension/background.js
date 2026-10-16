@@ -9,32 +9,20 @@ let lastAutoplusSyncTime = 0;
 let hdTimer = null;
 let apTimer = null;
 
-async function broadcastToServer(cookieStr, target) {
-  const payload = {
-    cookie: cookieStr,
-    target: target,
-    secretToken: 'jpro_sec_9981_live_auth'
-  };
-
-  const endpoints = [
-    'http://localhost:8502/api/save_cookie',
-    'http://localhost:8502/api/session/cookie',
-    'http://localhost:3000/api/save_cookie',
-    'http://localhost:3000/api/session/cookie',
-    'http://localhost:8000/api/save_cookie',
-    'http://localhost:8000/api/session/cookie',
-    'http://100.95.238.123:8502/api/save_cookie',
-    'http://100.95.238.123:8000/api/save_cookie',
-    'http://100.95.238.123:8000/api/session/cookie',
-    'http://jpro:8000/api/save_cookie',
-    'http://jpro:8000/api/session/cookie',
-    'http://jpro:3000/api/save_cookie',
-    'http://jpro:3000/api/session/cookie'
+// 공통 백엔드 전송 헬퍼 (:3000 프록시 우선 시도 + HTTP 200 검증)
+async function postToJproBackend(path, payload) {
+  const bases = [
+    'http://jpro:3000',
+    'http://100.95.238.123:3000',
+    'http://100.95.238.123:8000',
+    'http://jpro:8000',
+    'http://localhost:8000',
+    'http://localhost:3000'
   ];
 
-  const results = await Promise.allSettled(
-    endpoints.map(async url => {
-      const resp = await fetch(url, {
+  for (const base of bases) {
+    try {
+      const res = await fetch(`${base}${path}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -42,14 +30,23 @@ async function broadcastToServer(cookieStr, target) {
         },
         body: JSON.stringify(payload)
       });
-      return { url, ok: resp.ok, status: resp.status };
-    })
-  );
-
-  results.forEach(r => {
-    if (r.status === 'fulfilled' && r.value.ok) {
-      console.log(`[J-PRO AutoSync] 쿠키 전송 성공: ${r.value.url} (HTTP ${r.value.status})`);
+      if (res.ok) {
+        return true;
+      }
+      console.warn(`[J-PRO AutoSync] 응답 실패 (${base}${path}): HTTP ${res.status}`);
+    } catch (err) {
+      // 연결 불가 호스트는 다음 후보로 넘어감
     }
+  }
+  console.error(`[J-PRO AutoSync] 모든 백엔드 엔드포인트 전송 실패: ${path}`);
+  return false;
+}
+
+async function broadcastToServer(cookieStr, target) {
+  return await postToJproBackend('/api/save_cookie', {
+    cookie: cookieStr,
+    target: target,
+    secretToken: 'jpro_sec_9981_live_auth'
   });
 }
 
@@ -120,73 +117,66 @@ async function syncCookiesToLocalServer(force = false) {
 // ── 오토플러스 (차얼마 & high A+) 쿠키 동기화 ──
 async function syncAutoplusCookiesToLocalServer(force = false) {
   try {
-    const [byUrl1, byUrl2, byUrl3, byDomain, all] = await Promise.all([
-      chrome.cookies.getAll({ url: 'https://purchase.autoplus.co.kr' }).catch(() => []),
+    const [byUrl, byDomain, all] = await Promise.all([
       chrome.cookies.getAll({ url: 'https://admin.autoplus.co.kr' }).catch(() => []),
-      chrome.cookies.getAll({ url: 'https://data.autoplus.co.kr' }).catch(() => []),
       chrome.cookies.getAll({ domain: 'autoplus.co.kr' }).catch(() => []),
       chrome.cookies.getAll({}).catch(() => [])
     ]);
+
+    // 중요: byUrl(https://admin.autoplus.co.kr)을 마지막에 배치하여 정확한 SESSION 쿠키가 덮어써지지 않도록 보장
     const apCookies = [
-      ...byUrl1,
-      ...byUrl2,
-      ...byUrl3,
+      ...all.filter(c => c && c.domain && c.domain.includes('autoplus')),
       ...byDomain,
-      ...all.filter(c => c && c.domain && (c.domain.includes('autoplus.co.kr') || c.domain.includes('autoplus')))
+      ...byUrl
     ];
     const allMap = new Map();
-    apCookies.forEach(c => {
-      if (c && c.name && c.value) {
-        allMap.set(c.name, c.value);
-      }
-    });
-
-    if (allMap.size === 0) return;
+    apCookies.forEach(c => { if (c && c.name && c.value) allMap.set(c.name, c.value); });
 
     const hasSession = Array.from(allMap.keys()).some(k => {
       const u = k.toUpperCase();
       return u === 'JSESSIONID' || u === 'SESSION' || u === 'ADMIN_HISTORY_ID' || u === 'REMEMBER-ME';
     });
-
-    if (!hasSession && allMap.size < 2) return;
+    if (!hasSession) return false;
 
     const cookieStr = Array.from(allMap.entries()).map(([k, v]) => `${k}=${v}`).join('; ');
     const now = Date.now();
+    if (!force && cookieStr === lastAutoplusCookie && (now - lastAutoplusSyncTime < 15000)) {
+      return true;
+    }
 
-    if (!force && cookieStr === lastAutoplusCookie && (now - lastAutoplusSyncTime < 15000)) return;
-
-    lastAutoplusCookie = cookieStr;
-    lastAutoplusSyncTime = now;
-
-    await broadcastToServer(cookieStr, 'autoplus');
-    console.log('[J-PRO AutoSync] 오토플러스(차얼마 & high A+) 로그인 세션 쿠키 동기화 완료');
+    const ok = await broadcastToServer(cookieStr, 'autoplus');
+    if (ok) {
+      // 실제 서버 저장이 성공(HTTP 200)했을 때만 캐시 갱신
+      lastAutoplusCookie = cookieStr;
+      lastAutoplusSyncTime = now;
+      console.log('[J-PRO AutoSync] 오토플러스 로그인 세션 쿠키 동기화 완료');
+    }
+    return ok;
   } catch (e) {
-    // 무시
+    return false;
   }
 }
 
 // ── high A+ 매입 데이터 백엔드 브로드캐스트 ──
 async function broadcastHighplusBuyData(cars) {
-  if (!cars || !cars.length) return;
-  const payload = { cars };
-  const endpoints = [
-    'http://localhost:3000/api/settlement/sync_highplus_buy',
-    'http://localhost:8000/api/settlement/sync_highplus_buy',
-    'http://100.95.238.123:8000/api/settlement/sync_highplus_buy'
-  ];
-  await Promise.allSettled(
-    endpoints.map(url =>
-      fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-JPRO-Token': 'jpro_sec_9981_live_auth'
-        },
-        body: JSON.stringify(payload)
-      })
-    )
-  );
-  console.log(`[J-PRO AutoSync] high A+ 매입 데이터 ${cars.length}건 제이프로 백엔드 동기화 완료`);
+  if (!cars || !cars.length) return false;
+  return await postToJproBackend('/api/settlement/sync_highplus_buy', { cars });
+}
+
+// 열려 있는 오토플러스 탭에 content.js를 재주입/실행 (Extension context invalidated 방지)
+async function triggerActiveAutoplusTabScan() {
+  await syncAutoplusCookiesToLocalServer(true);
+  const tabs = await chrome.tabs.query({ url: '*://*.autoplus.co.kr/*' });
+  for (const tab of tabs) {
+    if (tab.id) {
+      try {
+        await chrome.scripting.executeScript({
+          target: { tabId: tab.id, allFrames: true },
+          files: ['content.js']
+        });
+      } catch (e) {}
+    }
+  }
 }
 
 // ── high A+ 매입 데이터 백그라운드 자동 수집 (화면 안 열어도 무인 실행) ──
@@ -370,17 +360,18 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     }
     sendResponse({ status: 'ok' });
   } else if (msg && msg.action === 'sync_highplus_buy_data') {
-    broadcastHighplusBuyData(msg.data).then(() => {
-      sendResponse({ status: 'ok', count: msg.data ? msg.data.length : 0 });
-    }).catch(e => {
-      sendResponse({ status: 'error', message: e.message });
-    });
-    return true; // 비동기 응답 처리
+    broadcastHighplusBuyData(msg.data).then(ok => sendResponse({ status: ok ? 'ok' : 'error', synced: ok }));
+    return true; // 비동기 sendResponse 유지
+  } else if (msg && msg.action === 'trigger_highplus_buy_sync_from_tab') {
+    triggerActiveAutoplusTabScan().then(() => sendResponse({ status: 'ok' }));
+    return true;
   } else if (msg && msg.action === 'trigger_highplus_buy_sync') {
-    fetchHighplusBuyDataInBackground().then(() => {
-      sendResponse({ status: 'ok' });
-    }).catch(e => {
-      sendResponse({ status: 'error', message: e.message });
+    triggerActiveAutoplusTabScan().then(() => {
+      fetchHighplusBuyDataInBackground().then(() => {
+        sendResponse({ status: 'ok' });
+      }).catch(e => {
+        sendResponse({ status: 'error', message: e.message });
+      });
     });
     return true;
   }

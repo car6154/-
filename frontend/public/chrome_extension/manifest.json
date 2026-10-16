@@ -38,10 +38,11 @@
         "*://autoplus.co.kr/*",
         "http://localhost/*",
         "http://127.0.0.1/*",
-        "http://100.95.238.123/*"
+        "http://100.95.238.123/*",
+        "http://jpro/*"
       ],
       "js": ["content.js"],
-      "run_at": "document_start",
+      "run_at": "document_idle",
       "all_frames": true
     }
   ]
