@@ -783,8 +783,8 @@ class AutoplusAdminService:
                 # _userId나 _userPw가 포함된 로그인 폼 제외
                 if f.find("input", {"name": re.compile(r"(_userId|_userPw)", re.I)}):
                     continue
-                # returnDtSt(반납일자) 필드가 있는 폼 선택
-                if f.find(["input", "select"], {"name": re.compile(r"^returnDtSt$", re.I)}) or f.find(["input", "select"], {"name": re.compile(r"returnDt", re.I)}):
+                # searchReturnDtSt 또는 returnDtSt(반납일자) 필드가 있는 폼 선택
+                if f.find(["input", "select"], {"name": re.compile(r"^(searchReturnDtSt|returnDtSt)$", re.I)}) or f.find(["input", "select"], {"name": re.compile(r"returnDt", re.I)}):
                     target_form = f
                     break
 
@@ -830,16 +830,21 @@ class AutoplusAdminService:
             print(f"[AutoplusAdminService][DEBUG] 1. 검색 Form 발견: {bool(target_form)} (전체 {len(forms)}개 중 로그인폼 제외) | action_url={action_url} | method={method}", flush=True)
             print(f"[AutoplusAdminService][DEBUG] 1-1. 선택된 Form HTML 전체:\n{str(target_form)}", flush=True)
 
-            # 3. 검색조건 적용: 날짜만 설정 (담당자 추측 로직 삭제, 백엔드 파싱 단계에서 필터링)
+            # 3. 검색조건 적용: 실측 필드명(searchReturnDtSt, searchPurManagerNm 등) 설정
             for k in list(form_data.keys()):
-                if re.search(r"^(returnDtSt|purchaseDtSt)$", k, re.I):
+                if re.search(r"^(searchReturnDtSt|returnDtSt|searchPurchaseDtSt|purchaseDtSt)$", k, re.I):
                     form_data[k] = "2026-09-01"
-                elif re.search(r"^(returnDtEd|purchaseDtEd)$", k, re.I):
+                elif re.search(r"^(searchReturnDtEd|returnDtEd|searchPurchaseDtEd|purchaseDtEd)$", k, re.I):
                     form_data[k] = ""
+                elif re.search(r"^(searchPurManagerNm|purManagerNm)$", k, re.I):
+                    form_data[k] = "김재현"
 
-            if "returnDtSt" not in form_data and "purchaseDtSt" not in form_data:
-                form_data["returnDtSt"] = "2026-09-01"
-                form_data["returnDtEd"] = ""
+            # 폼에 필드가 없는 경우에도 핵심 검색 인자 보장
+            if "searchReturnDtSt" not in form_data and "returnDtSt" not in form_data:
+                form_data["searchReturnDtSt"] = "2026-09-01"
+                form_data["searchReturnDtEd"] = ""
+            if "searchPurManagerNm" not in form_data and "purManagerNm" not in form_data:
+                form_data["searchPurManagerNm"] = "김재현"
 
             # 페이지 파라미터 확인
             for k in form_data.keys():
