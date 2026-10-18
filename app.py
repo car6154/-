@@ -948,7 +948,182 @@ KCAR_MODEL_GROUP_MAP = {
 }
 
 
-def resolve_kcar_model_codes(raw_base_name: str, brand_hint: str = ""):
+from services.kcar_grade_data import KCAR_GRADE_TREE
+
+
+def resolve_kcar_grade_codes(m_cd: str, grp_cd: str, mod_cd: str, sub_model: str = "", raw_car_name: str = ""):
+    """(m_cd, grp_cd, mod_cd) 모델 내에서 sub_model에 부합하는 (grd_cd, grd_dtl_cd) 반환."""
+    if not sub_model or str(sub_model).strip() in ("", "전체", "-"):
+        return "", ""
+
+    m_key = f"{m_cd},{grp_cd},{mod_cd}"
+    grd_map = KCAR_GRADE_TREE.get(m_key)
+    if not grd_map:
+        return "", ""
+
+    def _norm(s: str) -> str:
+        return re.sub(r'[\s\(\)\-_\/]+', '', str(s)).upper()
+
+    sub_str = str(sub_model).strip()
+    combined_src = f"{raw_car_name} {sub_str}".strip()
+    comb_norm = _norm(combined_src)
+
+    has_turbo = ("터보" in comb_norm) or bool(re.search(r'\d\.\d\s*T(?![A-Z])', combined_src.upper()))
+    has_van = ("밴" in comb_norm) or ("카고" in comb_norm)
+    has_lpg = ("LPG" in comb_norm) or ("LPI" in comb_norm) or ("LPE" in comb_norm)
+    has_diesel = ("디젤" in comb_norm) or ("VGT" in comb_norm) or ("TDI" in comb_norm) or ("CDI" in comb_norm) or bool(re.search(r'\d\.\d\s*D(?![A-Z])', combined_src.upper()))
+    has_gasoline = ("가솔린" in comb_norm) or ("GDI" in comb_norm) or ("GDE" in comb_norm) or ("GTE" in comb_norm) or ("MPI" in comb_norm) or ("휘발유" in comb_norm)
+
+    has_4wd = ("4WD" in comb_norm) or ("AWD" in comb_norm) or ("4MATIC" in comb_norm) or ("XDRIVE" in comb_norm) or ("QUATTRO" in comb_norm)
+    has_2wd = ("2WD" in comb_norm) or ("FF" in comb_norm)
+
+    seat_m = re.search(r'(\d+)\s*인승', combined_src)
+    target_seat = f"{seat_m.group(1)}인승" if seat_m else ""
+
+    disp_m = re.findall(r'(\d\.\d)', combined_src)
+    if not disp_m:
+        m_hg = re.search(r'(?:HG|TG|IG|K7|K5|SM[3567])\s*(\d)(\d)0', comb_norm)
+        if m_hg:
+            disp_m = [f"{m_hg.group(1)}.{m_hg.group(2)}"]
+    target_disp = disp_m[0] if disp_m else ""
+
+    special_keywords = ["하이리무진", "아웃도어", "캠핑", "특장", "택시", "장애인", "렌터카", "수출", "운전교습", "어린이", "킨더", "구급", "휠체어", "N라인", "NLINE", "GT"]
+
+    non_van_grds = [k for k in grd_map.keys() if "밴" not in _norm(k) and "카고" not in _norm(k)] or list(grd_map.keys())
+    turbo_flags = [("터보" in _norm(k) or bool(re.search(r'\d\.\d\s*T(?![A-Z])', k.upper()))) for k in non_van_grds]
+    has_both_turbo_and_na = any(turbo_flags) and not all(turbo_flags)
+
+    spec_ignore = {
+        "가솔린", "디젤", "전기", "EV", "하이브리드", "HEV", "LPG", "LPI", "LPE",
+        "2WD", "4WD", "AWD", "FF", "FR", "터보", "일반인판매용", "일반판매용", "일반인",
+        "롱레인지", "스탠다드"
+    }
+    extra_suffixes = ["스페셜", "플러스", "PLUS", "스포츠", "베이직", "라이트", "초이스", "어드밴스", "프리미어", "익스트림", "TUIX", "살롱"]
+
+    best_grd_cd = ""
+    best_dtl_cd = ""
+    best_score = -999
+
+    for grd_nm, g_obj in grd_map.items():
+        grd_cd = g_obj["cd"]
+        dtl_map = g_obj.get("dtl", {})
+        g_norm = _norm(grd_nm)
+
+        g_is_van = ("밴" in g_norm) or ("카고" in g_norm)
+        if has_van != g_is_van:
+            continue
+
+        g_is_turbo = ("터보" in g_norm) or bool(re.search(r'\d\.\d\s*T(?![A-Z])', grd_nm.upper()))
+        if has_both_turbo_and_na and (has_turbo != g_is_turbo):
+            continue
+
+        g_seat_m = re.search(r'(\d+)\s*인승', grd_nm)
+        g_seat = f"{g_seat_m.group(1)}인승" if g_seat_m else ""
+        if target_seat and g_seat and target_seat != g_seat:
+            continue
+
+        g_disp_m = re.findall(r'(\d\.\d)', grd_nm)
+        g_disp = g_disp_m[0] if g_disp_m else ""
+        if target_disp and g_disp and target_disp != g_disp:
+            continue
+
+        g_is_lpg = ("LPG" in g_norm) or ("LPI" in g_norm) or ("LPE" in g_norm)
+        g_is_diesel = ("디젤" in g_norm) or ("VGT" in g_norm) or ("TDI" in g_norm)
+        g_is_gas = ("가솔린" in g_norm) or ("GDI" in g_norm) or ("GDE" in g_norm) or ("GTE" in g_norm) or ("MPI" in g_norm) or ("VVT" in g_norm)
+
+        if has_lpg and not g_is_lpg and (g_is_diesel or g_is_gas):
+            continue
+        if not has_lpg and g_is_lpg:
+            continue
+        if has_diesel and g_is_gas:
+            continue
+        if has_gasoline and g_is_diesel:
+            continue
+        if not has_gasoline and g_is_gas and any(not ("가솔린" in _norm(k)) for k in grd_map.keys()):
+            if has_diesel or any("9인승" in k or "11인승" in k for k in grd_map.keys()):
+                continue
+
+        g_is_4wd = ("4WD" in g_norm) or ("AWD" in g_norm)
+        g_is_2wd = ("2WD" in g_norm)
+        if has_4wd and g_is_2wd:
+            continue
+        if has_2wd and g_is_4wd:
+            continue
+        if not has_4wd and not has_2wd and (g_is_4wd or g_is_2wd):
+            continue
+
+        skip_special = False
+        for sp in special_keywords:
+            sp_n = _norm(sp)
+            if sp_n in g_norm and sp_n not in comb_norm:
+                skip_special = True
+                break
+        if skip_special:
+            continue
+        if "리무진" in g_norm and "하이리무진" not in g_norm and "리무진" not in comb_norm:
+            continue
+
+        score = 0
+        if len(grd_map) == 1:
+            score += 5
+        if target_disp and g_disp == target_disp:
+            score += 10
+        if target_seat and g_seat == target_seat:
+            score += 10
+        if has_turbo and g_is_turbo:
+            score += 8
+        if has_2wd and g_is_2wd:
+            score += 6
+        if has_4wd and g_is_4wd:
+            score += 6
+        if has_diesel and g_is_diesel:
+            score += 5
+        if has_gasoline and g_is_gas:
+            score += 5
+        if has_lpg and g_is_lpg:
+            score += 5
+        if "일반" in g_norm:
+            score += 2
+
+        grd_tokens = [_norm(t) for t in re.split(r'[\s\(\)\/\-]+', grd_nm) if _norm(t) and _norm(t) not in spec_ignore]
+        non_spec_tokens = [t for t in grd_tokens if not re.match(r'^(\d+\.\d+T?|\d+인승|GDI|GDE|GTE|VGT|EVGT|VVT|MPI|LPE|TDI)$', t)]
+        if non_spec_tokens:
+            if all(t in comb_norm for t in non_spec_tokens):
+                bad_suffix = False
+                for ex in extra_suffixes:
+                    if ex in g_norm and ex not in comb_norm:
+                        bad_suffix = True
+                        break
+                if bad_suffix:
+                    continue
+                score += 20 + sum(len(t) for t in non_spec_tokens)
+            else:
+                continue
+
+        matched_dtl_cd = ""
+        dtl_best_len = 0
+        if dtl_map:
+            for d_nm, d_cd in dtl_map.items():
+                d_norm = _norm(d_nm)
+                if not d_norm:
+                    continue
+                if d_norm in comb_norm:
+                    if len(d_norm) > dtl_best_len:
+                        dtl_best_len = len(d_norm)
+                        matched_dtl_cd = d_cd
+
+        total_score = score + (15 + dtl_best_len if matched_dtl_cd else 0)
+        if total_score > best_score:
+            best_score = total_score
+            best_grd_cd = grd_cd
+            best_dtl_cd = matched_dtl_cd
+
+    if best_score <= 0 and not best_dtl_cd:
+        return "", ""
+    return best_grd_cd, best_dtl_cd
+
+
+def resolve_kcar_model_codes(raw_base_name: str, brand_hint: str = "", sub_model: str = ""):
     """base_name에서 제조사와 모델명을 추출하여 K-Car (mnuftr_cd, model_grp_cd, model_cd) 반환. 매핑 없으면 None."""
     if not raw_base_name or not str(raw_base_name).strip():
         return None
@@ -970,11 +1145,14 @@ def resolve_kcar_model_codes(raw_base_name: str, brand_hint: str = ""):
                 break
 
     def _norm(s: str) -> str:
-        return re.sub(r'[\s\(\)\-_]+', '', s).upper()
+        return re.sub(r'[\s\(\)\-_\/]+', '', str(s)).upper()
 
     norm_text = _norm(text)
     if not norm_text:
         return None
+
+    sub_norm = _norm(sub_model)
+    is_hev_sub = ("HEV" in sub_norm or "하이브리드" in sub_norm) and ("하이브리드" not in norm_text)
 
     # 2. 괄호 포함 원문 및 괄호 제거 텍스트 기준 최장 일치(Longest Prefix Match) 탐색
     candidates = []
@@ -988,6 +1166,10 @@ def resolve_kcar_model_codes(raw_base_name: str, brand_hint: str = ""):
             nm = _norm(m_name)
             if nm and (norm_text == nm or norm_text.startswith(nm)):
                 candidates.append((len(nm), m_cd, grp_cd, mod_cd))
+            elif is_hev_sub and "하이브리드" in nm:
+                nm_no_hev = nm.replace("하이브리드", "")
+                if nm_no_hev and (norm_text == nm_no_hev or norm_text.startswith(nm_no_hev)):
+                    candidates.append((len(nm) + 10, m_cd, grp_cd, mod_cd))
 
     if candidates:
         candidates.sort(key=lambda x: x[0], reverse=True)
@@ -1014,7 +1196,8 @@ elif hd_model:
 elif hd_full:
     base_name = hd_full
 
-kcar_codes = resolve_kcar_model_codes(base_name, f_brand_hint) if base_name else None
+sub_raw = f_sub if (f_sub and f_sub != "전체") else hd_grade
+kcar_codes = resolve_kcar_model_codes(base_name, f_brand_hint, sub_raw) if base_name else None
 
 if base_name and not kcar_codes:
     clean_name = re.sub(r'\(.*?\)', '', base_name).strip()
@@ -1023,7 +1206,6 @@ if base_name and not kcar_codes:
     m_core = re.search(r'^(뉴\s*[^0-9]+|더\s*뉴\s*[^0-9]+|올\s*뉴\s*[^0-9]+|[가-힣A-Za-z0-9\s]+?)(?=\s+\d+\.\d+|\s+가솔린|\s+디젤|\s+하이브리드|\s+LPG|\s+EV|$)', clean_name)
     model_str = m_core.group(1).strip() if (m_core and m_core.group(1).strip()) else (clean_name.split()[0] if clean_name.split() else clean_name)
     
-    sub_raw = f_sub if (f_sub and f_sub != "전체") else hd_grade
     trim_words = []
     if sub_raw:
         s_clean = str(sub_raw).replace(" ", "")
@@ -1050,6 +1232,11 @@ if kcar_codes:
     cond["wr_eq_mnuftr_cd"] = kcar_codes[0]
     cond["wr_eq_model_grp_cd"] = kcar_codes[1]
     cond["wr_eq_model_cd"] = kcar_codes[2]
+    grd_cd, grd_dtl_cd = resolve_kcar_grade_codes(kcar_codes[0], kcar_codes[1], kcar_codes[2], sub_raw, base_name)
+    if grd_cd:
+        cond["wr_eq_grd_cd"] = grd_cd
+        if grd_dtl_cd:
+            cond["wr_eq_grd_dtl_cd"] = grd_dtl_cd
 elif kcar_search_text:
     cond["wr_txt_idx"] = kcar_search_text
     cond["wr_in_model_nm"] = kcar_search_text

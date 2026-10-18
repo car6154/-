@@ -505,12 +505,229 @@ export const KCAR_MODEL_GROUPS: KcarModelGroupEntry[] = [
   { mnuftrCd: '087', modelGrpCd: '005', models: { '사이버트럭': '007' } },
 ];
 
-const normalizeModelKey = (s: string): string => s.replace(/[\s()\-_]+/g, '').toUpperCase();
+import { KCAR_GRADE_TREE } from './kcarGradeData';
+
+const normalizeModelKey = (s: string): string => s.replace(/[\s()\-_/]+/g, '').toUpperCase();
+
+export function resolveKcarGradeCodes(
+  mnuftrCd: string,
+  modelGrpCd: string,
+  modelCd: string,
+  subModel: string = '',
+  rawCarName: string = ''
+): { grdCd?: string; grdDtlCd?: string } {
+  if (!subModel || !subModel.trim() || subModel.trim() === '전체' || subModel.trim() === '-') {
+    return {};
+  }
+
+  const mKey = `${mnuftrCd},${modelGrpCd},${modelCd}`;
+  const grdMap = KCAR_GRADE_TREE[mKey];
+  if (!grdMap) return {};
+
+  const subStr = subModel.trim();
+  const combinedSrc = `${rawCarName} ${subStr}`.trim();
+  const combNorm = normalizeModelKey(combinedSrc);
+
+  const hasTurbo = combNorm.includes('터보') || /\d\.\d\s*T(?![A-Z])/i.test(combinedSrc);
+  const hasVan = combNorm.includes('밴') || combNorm.includes('카고');
+  const hasLpg = combNorm.includes('LPG') || combNorm.includes('LPI') || combNorm.includes('LPE');
+  const hasDiesel =
+    combNorm.includes('디젤') ||
+    combNorm.includes('VGT') ||
+    combNorm.includes('TDI') ||
+    combNorm.includes('CDI') ||
+    /\d\.\d\s*D(?![A-Z])/i.test(combinedSrc);
+  const hasGasoline =
+    combNorm.includes('가솔린') ||
+    combNorm.includes('GDI') ||
+    combNorm.includes('GDE') ||
+    combNorm.includes('GTE') ||
+    combNorm.includes('MPI') ||
+    combNorm.includes('휘발유');
+
+  const has4wd =
+    combNorm.includes('4WD') ||
+    combNorm.includes('AWD') ||
+    combNorm.includes('4MATIC') ||
+    combNorm.includes('XDRIVE') ||
+    combNorm.includes('QUATTRO');
+  const has2wd = combNorm.includes('2WD') || combNorm.includes('FF');
+
+  const seatM = combinedSrc.match(/(\d+)\s*인승/);
+  const targetSeat = seatM ? `${seatM[1]}인승` : '';
+
+  let dispMatches = combinedSrc.match(/(\d\.\d)/g) || [];
+  if (dispMatches.length === 0) {
+    const mHg = combNorm.match(/(?:HG|TG|IG|K7|K5|SM[3567])\s*(\d)(\d)0/);
+    if (mHg) dispMatches = [`${mHg[1]}.${mHg[2]}`];
+  }
+  const targetDisp = dispMatches[0] || '';
+
+  const specialKeywords = [
+    '하이리무진', '아웃도어', '캠핑', '특장', '택시', '장애인',
+    '렌터카', '수출', '운전교습', '어린이', '킨더', '구급', '휠체어',
+    'N라인', 'NLINE', 'GT',
+  ];
+
+  const allGrdKeys = Object.keys(grdMap);
+  const nonVanGrds = allGrdKeys.filter(k => {
+    const nk = normalizeModelKey(k);
+    return !nk.includes('밴') && !nk.includes('카고');
+  });
+  const baseGrds = nonVanGrds.length > 0 ? nonVanGrds : allGrdKeys;
+  const turboFlags = baseGrds.map(
+    k => normalizeModelKey(k).includes('터보') || /\d\.\d\s*T(?![A-Z])/i.test(k)
+  );
+  const hasBothTurboAndNa = turboFlags.some(Boolean) && !turboFlags.every(Boolean);
+
+  const specIgnore = new Set([
+    '가솔린', '디젤', '전기', 'EV', '하이브리드', 'HEV', 'LPG', 'LPI', 'LPE',
+    '2WD', '4WD', 'AWD', 'FF', 'FR', '터보', '일반인판매용', '일반판매용', '일반인',
+    '롱레인지', '스탠다드',
+  ]);
+  const extraSuffixes = [
+    '스페셜', '플러스', 'PLUS', '스포츠', '베이직', '라이트',
+    '초이스', '어드밴스', '프리미어', '익스트림', 'TUIX', '살롱',
+  ];
+
+  let bestGrdCd = '';
+  let bestDtlCd = '';
+  let bestScore = -999;
+
+  for (const [grdNm, gObj] of Object.entries(grdMap)) {
+    const grdCd = gObj.cd;
+    const dtlMap = gObj.dtl || {};
+    const gNorm = normalizeModelKey(grdNm);
+
+    // (A) 밴/카고 분리
+    const gIsVan = gNorm.includes('밴') || gNorm.includes('카고');
+    if (hasVan !== gIsVan) continue;
+
+    // (B) 터보 분리
+    const gIsTurbo = gNorm.includes('터보') || /\d\.\d\s*T(?![A-Z])/i.test(grdNm);
+    if (hasBothTurboAndNa && hasTurbo !== gIsTurbo) continue;
+
+    // (C) 인승 분리
+    const gSeatM = grdNm.match(/(\d+)\s*인승/);
+    const gSeat = gSeatM ? `${gSeatM[1]}인승` : '';
+    if (targetSeat && gSeat && targetSeat !== gSeat) continue;
+
+    // (D) 배기량 분리
+    const gDispM = grdNm.match(/(\d\.\d)/);
+    const gDisp = gDispM ? gDispM[1] : '';
+    if (targetDisp && gDisp && targetDisp !== gDisp) continue;
+
+    // (E) 유종 분리
+    const gIsLpg = gNorm.includes('LPG') || gNorm.includes('LPI') || gNorm.includes('LPE');
+    const gIsDiesel = gNorm.includes('디젤') || gNorm.includes('VGT') || gNorm.includes('TDI');
+    const gIsGas =
+      gNorm.includes('가솔린') ||
+      gNorm.includes('GDI') ||
+      gNorm.includes('GDE') ||
+      gNorm.includes('GTE') ||
+      gNorm.includes('MPI') ||
+      gNorm.includes('VVT');
+
+    if (hasLpg && !gIsLpg && (gIsDiesel || gIsGas)) continue;
+    if (!hasLpg && gIsLpg) continue;
+    if (hasDiesel && gIsGas) continue;
+    if (hasGasoline && gIsDiesel) continue;
+    if (!hasGasoline && gIsGas && allGrdKeys.some(k => !normalizeModelKey(k).includes('가솔린'))) {
+      if (hasDiesel || allGrdKeys.some(k => k.includes('9인승') || k.includes('11인승'))) {
+        continue;
+      }
+    }
+
+    // (F) 구동계 분리
+    const gIs4wd = gNorm.includes('4WD') || gNorm.includes('AWD');
+    const gIs2wd = gNorm.includes('2WD');
+    if (has4wd && gIs2wd) continue;
+    if (has2wd && gIs4wd) continue;
+    if (!has4wd && !has2wd && (gIs4wd || gIs2wd)) continue;
+
+    // (G) 특수 파생 키워드 검증
+    let skipSpecial = false;
+    for (const sp of specialKeywords) {
+      const spN = normalizeModelKey(sp);
+      if (gNorm.includes(spN) && !combNorm.includes(spN)) {
+        skipSpecial = true;
+        break;
+      }
+    }
+    if (skipSpecial) continue;
+    if (gNorm.includes('리무진') && !gNorm.includes('하이리무진') && !combNorm.includes('리무진')) {
+      continue;
+    }
+
+    let score = 0;
+    if (allGrdKeys.length === 1) score += 5;
+    if (targetDisp && gDisp === targetDisp) score += 10;
+    if (targetSeat && gSeat === targetSeat) score += 10;
+    if (hasTurbo && gIsTurbo) score += 8;
+    if (has2wd && gIs2wd) score += 6;
+    if (has4wd && gIs4wd) score += 6;
+    if (hasDiesel && gIsDiesel) score += 5;
+    if (hasGasoline && gIsGas) score += 5;
+    if (hasLpg && gIsLpg) score += 5;
+    if (gNorm.includes('일반')) score += 2;
+
+    const grdTokens = grdNm
+      .split(/[\s()/\-]+/)
+      .map(t => normalizeModelKey(t))
+      .filter(t => t && !specIgnore.has(t));
+    const nonSpecTokens = grdTokens.filter(
+      t => !/^(\d+\.\d+T?|\d+인승|GDI|GDE|GTE|VGT|EVGT|VVT|MPI|LPE|TDI)$/.test(t)
+    );
+
+    if (nonSpecTokens.length > 0) {
+      if (nonSpecTokens.every(t => combNorm.includes(t))) {
+        let badSuffix = false;
+        for (const ex of extraSuffixes) {
+          if (gNorm.includes(ex) && !combNorm.includes(ex)) {
+            badSuffix = true;
+            break;
+          }
+        }
+        if (badSuffix) continue;
+        score += 20 + nonSpecTokens.reduce((acc, t) => acc + t.length, 0);
+      } else {
+        continue;
+      }
+    }
+
+    let matchedDtlCd = '';
+    let dtlBestLen = 0;
+    for (const [dNm, dCd] of Object.entries(dtlMap)) {
+      const dNorm = normalizeModelKey(dNm);
+      if (!dNorm) continue;
+      if (combNorm.includes(dNorm)) {
+        if (dNorm.length > dtlBestLen) {
+          dtlBestLen = dNorm.length;
+          matchedDtlCd = dCd;
+        }
+      }
+    }
+
+    const totalScore = score + (matchedDtlCd ? 15 + dtlBestLen : 0);
+    if (totalScore > bestScore) {
+      bestScore = totalScore;
+      bestGrdCd = grdCd;
+      bestDtlCd = matchedDtlCd;
+    }
+  }
+
+  if (bestScore <= 0 && !bestDtlCd) return {};
+  return {
+    grdCd: bestGrdCd || undefined,
+    grdDtlCd: bestDtlCd || undefined,
+  };
+}
 
 export function resolveKcarModelCodes(
   rawBaseName: string,
-  brandHint: string = ''
-): { mnuftrCd: string; modelGrpCd: string; modelCd: string } | null {
+  brandHint: string = '',
+  subModel: string = ''
+): { mnuftrCd: string; modelGrpCd: string; modelCd: string; grdCd?: string; grdDtlCd?: string } | null {
   if (!rawBaseName || !rawBaseName.trim()) return null;
 
   let text = rawBaseName.trim();
@@ -538,6 +755,10 @@ export function resolveKcarModelCodes(
   const normText = normalizeModelKey(text);
   if (!normText) return null;
 
+  const subNorm = normalizeModelKey(subModel || '');
+  const isHevSub =
+    (subNorm.includes('HEV') || subNorm.includes('하이브리드')) && !normText.includes('하이브리드');
+
   const candidates: Array<{ len: number; mnuftrCd: string; modelGrpCd: string; modelCd: string }> = [];
   for (const grp of KCAR_MODEL_GROUPS) {
     if (detectedMnuftrCd && grp.mnuftrCd !== detectedMnuftrCd) continue;
@@ -551,6 +772,16 @@ export function resolveKcarModelCodes(
           modelGrpCd: grp.modelGrpCd,
           modelCd: modCd,
         });
+      } else if (isHevSub && nm.includes('하이브리드')) {
+        const nmNoHev = nm.replace('하이브리드', '');
+        if (nmNoHev && (normText === nmNoHev || normText.startsWith(nmNoHev))) {
+          candidates.push({
+            len: nm.length + 10,
+            mnuftrCd: grp.mnuftrCd,
+            modelGrpCd: grp.modelGrpCd,
+            modelCd: modCd,
+          });
+        }
       }
     }
   }
@@ -558,10 +789,12 @@ export function resolveKcarModelCodes(
   if (candidates.length > 0) {
     candidates.sort((a, b) => b.len - a.len);
     const best = candidates[0];
+    const grdRes = resolveKcarGradeCodes(best.mnuftrCd, best.modelGrpCd, best.modelCd, subModel, rawBaseName);
     return {
       mnuftrCd: best.mnuftrCd,
       modelGrpCd: best.modelGrpCd,
       modelCd: best.modelCd,
+      ...grdRes,
     };
   }
 
@@ -570,18 +803,26 @@ export function resolveKcarModelCodes(
 
 export function buildKcarSearchUrl(params: {
   carName: string;
+  detailModel?: string;
   manufacturer?: string;
   yearModel?: number | string;
   mileageKm?: number | string;
 }): string {
   const cond: Record<string, any> = {};
   const searchText = (params.carName || '').trim();
-  const codes = searchText ? resolveKcarModelCodes(searchText, params.manufacturer || '') : null;
+  const subText = (params.detailModel || '').trim();
+  const codes = searchText ? resolveKcarModelCodes(searchText, params.manufacturer || '', subText) : null;
 
   if (codes) {
     cond.wr_eq_mnuftr_cd = codes.mnuftrCd;
     cond.wr_eq_model_grp_cd = codes.modelGrpCd;
     cond.wr_eq_model_cd = codes.modelCd;
+    if (codes.grdCd) {
+      cond.wr_eq_grd_cd = codes.grdCd;
+      if (codes.grdDtlCd) {
+        cond.wr_eq_grd_dtl_cd = codes.grdDtlCd;
+      }
+    }
   } else if (searchText) {
     cond.wr_txt_idx = searchText;
     cond.wr_in_model_nm = searchText;

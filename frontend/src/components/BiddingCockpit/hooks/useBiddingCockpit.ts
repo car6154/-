@@ -603,16 +603,24 @@ export function useBiddingCockpit({
         if (res.maker) setManufacturer(res.maker);
         const resolvedCarName = res.model_detail_name || res.model_name || '';
         if (resolvedCarName) setCarName(resolvedCarName);
-        const rawG = String(res.grade_name || '');
-        const rawGd = String(res.grade_detail_name || '');
+        const rawG = String(res.grade_name || '').trim();
+        const rawGd = String(res.grade_detail_name || '').trim();
         rawGradeNameRef.current = rawG;
         rawGradeDetailNameRef.current = rawGd;
 
-        // 화면 표시용 결합은 기존 방식 유지
-        const seatingMatch = rawG.match(/(\d+인승)/);
-        let resolvedGrade = rawGd || rawG || '';
-        if (seatingMatch && !resolvedGrade.includes(seatingMatch[1])) {
-          resolvedGrade = `${seatingMatch[1]} ${resolvedGrade}`.trim();
+        // 💡 유종/배기량(rawG: 예 '가솔린 1.0 터보')과 세부트림(rawGd: 예 '인스퍼레이션')을 온전히 결합 (app.py:1605-1616 동일)
+        let resolvedGrade = '';
+        if (rawG && rawGd) {
+          if (rawGd.includes(rawG)) {
+            resolvedGrade = rawGd;
+          } else {
+            const gParts = rawG.split(/\s+/).filter(p => p && !rawGd.includes(p));
+            resolvedGrade = gParts.length > 0 ? `${gParts.join(' ')} ${rawGd}`.trim() : `${rawG} ${rawGd}`.trim();
+          }
+        } else if (rawGd) {
+          resolvedGrade = rawGd;
+        } else {
+          resolvedGrade = rawG;
         }
         if (resolvedGrade) setDetailModel(resolvedGrade);
 

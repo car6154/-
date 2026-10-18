@@ -82,15 +82,16 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
   onRescanEncar,
   onOpenHistoryModal,
 }) => {
-  // 🏢 [KCAR] 실시간 공식 검색 필터 URL 동적 생성 (사이드바 필터 기준: 제조사/모델 코드 우선 매핑 + 연식 ±1년 + 주행거리 ±3만km)
+  // 🏢 [KCAR] 실시간 공식 검색 필터 URL 동적 생성 (사이드바 필터 기준: 제조사/모델/등급 코드 우선 매핑 + 연식 ±1년 + 주행거리 ±3만km)
   const kcarUrl = React.useMemo(() => {
     return buildKcarSearchUrl({
       carName,
+      detailModel,
       manufacturer,
       yearModel,
       mileageKm,
     });
-  }, [carName, manufacturer, yearModel, mileageKm]);
+  }, [carName, detailModel, manufacturer, yearModel, mileageKm]);
 
   return (
         <div className="bg-[#0e0f13] border border-[#262833] rounded-xl p-4 sm:p-5 shadow-lg space-y-3.5">
