@@ -327,6 +327,14 @@ def save_cookie_api(payload: CookieSavePayload):
         os.environ["HIGH_COOKIE"] = raw_cookie
         print(f"[CookieReceive] 하이오플(모바일) 쿠키 {len(raw_cookie)}자 갱신 완료 (high_cookie.txt)", flush=True)
     elif target in ("autoplus", "chaolma", "autoplus_admin") or "auto" in target:
+        from services.cookie_server import get_current_autoplus_cookie
+        curr_cookie = get_current_autoplus_cookie()
+        curr_has_session = curr_cookie and (('JSESSIONID' in curr_cookie.upper()) or ('REMEMBER-ME' in curr_cookie.upper()))
+        new_has_session = ('JSESSIONID' in raw_cookie.upper()) or ('REMEMBER-ME' in raw_cookie.upper())
+        if curr_has_session and not new_has_session:
+            print(f"[CookieReceive] 차얼마 세션 보호: 유효 JSESSIONID 보존 (새 쿠키 세션키 누락, {len(raw_cookie)}자)", flush=True)
+            return {"status": "ok", "message": "Existing chaolma session preserved"}
+
         with open(os.path.join(base_dir, "autoplus_cookie.txt"), "w", encoding="utf-8") as f:
             f.write(raw_cookie)
         set_env_variable("AUTOPLUS_COOKIE", raw_cookie)
@@ -338,6 +346,12 @@ def save_cookie_api(payload: CookieSavePayload):
             pass
         print(f"[CookieReceive] 차얼마/오토플러스 쿠키 {len(raw_cookie)}자 갱신 완료 (autoplus_cookie.txt)", flush=True)
     else:
+        from services.cookie_server import get_current_hd_cookie
+        curr_hd = get_current_hd_cookie()
+        if curr_hd and ('sessionid=' in curr_hd) and ('sessionid=' not in raw_cookie):
+            print(f"[CookieReceive] 헤이딜러 세션 보호: 유효 sessionid 보존 (새 쿠키 sessionid 누락, {len(raw_cookie)}자)", flush=True)
+            return {"status": "ok", "message": "Existing heydealer session preserved"}
+
         with open(os.path.join(base_dir, "heydealer_cookie.txt"), "w", encoding="utf-8") as f:
             f.write(raw_cookie)
         set_env_variable("HEYDEALER_COOKIE", raw_cookie)

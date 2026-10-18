@@ -119,9 +119,15 @@ cookieRouter.post(['/api/session/cookie', '/api/save_cookie'], (req, res) => {
   if (targetType === 'autoplus_high' || targetType.includes('high')) {
     savedHighCookie = trimmed;
     logEvent('COOKIE_SYNC', `[J-PRO] 하이오플(모바일) 쿠키 동기화 완료 (${trimmed.length}자)`);
-  } else if (targetType === 'chaolma' || targetType === 'autoplus' || targetType === 'autoplus_admin' || targetType.includes('autoplus') || trimmed.includes('JSESSIONID') || trimmed.includes('remember-me')) {
-    savedAutoplusCookie = trimmed;
-    logEvent('COOKIE_SYNC', `[J-PRO] 오토플러스 차얼마 쿠키 동기화 완료 (${trimmed.length}자)`);
+  } else if (targetType === 'chaolma' || targetType === 'autoplus' || targetType === 'autoplus_admin' || targetType.includes('autoplus')) {
+    const currHasSession = savedAutoplusCookie.toUpperCase().includes('JSESSIONID') || savedAutoplusCookie.toUpperCase().includes('REMEMBER-ME');
+    const newHasSession = trimmed.toUpperCase().includes('JSESSIONID') || trimmed.toUpperCase().includes('REMEMBER-ME');
+    if (currHasSession && !newHasSession) {
+      logEvent('COOKIE_SYNC', `[J-PRO] 차얼마 세션 보호: 유효 JSESSIONID 보존 (새 쿠키 세션키 누락: ${trimmed.length}자)`);
+    } else {
+      savedAutoplusCookie = trimmed;
+      logEvent('COOKIE_SYNC', `[J-PRO] 오토플러스 차얼마 쿠키 동기화 완료 (${trimmed.length}자)`);
+    }
   } else {
     // 헤이딜러: 기존에 sessionid가 유효한데 새로 들어온 쿠키에 sessionid가 없으면 덮어쓰기 방지
     if (savedHeydealerCookie && savedHeydealerCookie.includes('sessionid=') && !trimmed.includes('sessionid=')) {

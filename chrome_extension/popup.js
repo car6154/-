@@ -223,12 +223,22 @@ document.getElementById('syncApBtn').addEventListener('click', async () => {
     }
 
     const cookieStr = Array.from(allMap.entries()).map(([k, v]) => `${k}=${v}`).join('; ');
+    const upperStr = cookieStr.toUpperCase();
+    const hasSession = upperStr.includes('JSESSIONID') || upperStr.includes('REMEMBER-ME');
+
     try { await navigator.clipboard.writeText(cookieStr); } catch (_) {}
+
+    if (!hasSession) {
+      statusDiv.innerHTML = `⚠️ <b>주의: 차얼마 로그인 세션(JSESSIONID) 없음</b><br><span style="font-size:11px;color:#fbbf24;">현재 비로그인 찌꺼기 쿠키만 감지됨. purchase.autoplus.co.kr 로그인 필요</span>`;
+      statusDiv.className = 'error';
+      btn.disabled = false;
+      return;
+    }
 
     statusDiv.textContent = 'J-PRO 전산 프로그램으로 전송 중...';
     await broadcastCookieToServers(cookieStr, 'autoplus');
 
-    statusDiv.textContent = `✅ 차얼마 쿠키 (${cookieStr.length}자) 연동 완료!`;
+    statusDiv.textContent = `✅ 차얼마 세션 쿠키 (${cookieStr.length}자) 연동 완료!`;
     statusDiv.className = 'success';
   } catch (e) {
     statusDiv.textContent = '❌ 오류: ' + e.message;

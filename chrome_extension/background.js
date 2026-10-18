@@ -139,6 +139,13 @@ async function syncChaolmaCookies(force = false) {
     const cookieStr = Array.from(cookieMap.entries()).map(([k, v]) => `${k}=${v}`).join('; ');
     if (!cookieStr) return false;
 
+    // 차얼마 필수 로그인 세션 키(JSESSIONID 또는 remember-me)가 없으면 전송 절대 차단 (깡통 쿠키로 정상 세션 덮어쓰기 방지)
+    const upperStr = cookieStr.toUpperCase();
+    const hasSessionKey = upperStr.includes('JSESSIONID') || upperStr.includes('REMEMBER-ME');
+    if (!hasSessionKey || cookieStr.length < 50) {
+      return false;
+    }
+
     const now = Date.now();
     if (!force && cookieStr === lastChaeolmaCookie && (now - lastChaeolmaSyncTime < 15000)) {
       return true;

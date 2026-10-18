@@ -174,6 +174,21 @@ class CookieReceiverHandler(BaseHTTPRequestHandler):
                         self.wfile.write(res_bytes)
                         return
 
+                    # 차얼마: 기존에 JSESSIONID 또는 remember-me가 유효한데 새로 들어온 쿠키에 해당 세션키가 없으면 덮어쓰기 방지
+                    if target in ('autoplus', 'chaolma', 'autoplus_admin') and curr_cookie:
+                        curr_has_session = ('JSESSIONID' in curr_cookie.upper()) or ('REMEMBER-ME' in curr_cookie.upper())
+                        new_has_session = ('JSESSIONID' in cleaned_cookie.upper()) or ('REMEMBER-ME' in cleaned_cookie.upper())
+                        if curr_has_session and not new_has_session:
+                            print(f"[CookieServer] Ignored incomplete chaolma cookie (missing JSESSIONID/remember-me while existing has it, new len: {len(cleaned_cookie)})", flush=True)
+                            res_bytes = json.dumps({"status": "ok", "message": "Existing chaolma session preserved"}).encode('utf-8')
+                            self.send_response(200)
+                            self.send_header('Content-Type', 'application/json')
+                            self._send_cors_headers()
+                            self.send_header('Content-Length', str(len(res_bytes)))
+                            self.end_headers()
+                            self.wfile.write(res_bytes)
+                            return
+
                     set_env_variable(var_name, cleaned_cookie)
                     raw_cookie = cleaned_cookie
 
