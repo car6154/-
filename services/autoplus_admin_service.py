@@ -197,11 +197,7 @@ class AutoplusAdminService:
                         if s_mm < 8:
                             continue
                         buy_date_disp = raw_date
-            else:
-                continue # 날짜가 아예 없으면 스킵
-
-            if not buy_date_disp:
-                continue
+            # 날짜가 없어도 etcFee 및 매입가 갱신을 위해 차량을 버리지 않고 계속 진행
 
             cleaned_cars.append({
                 "carNumber": car_no,
@@ -481,10 +477,12 @@ class AutoplusAdminService:
 
                 new_rows.append(r)
 
-        # 2) 신규 차량 추가 (Upsert)
+        # 2) 신규 차량 추가 (Upsert: 신규 차량 등록 시에만 날짜 필수로 유지)
         added_count = 0
         for c_no, c_info in cars_by_no.items():
             if c_no not in existing_cars:
+                if not c_info.get("buyDate"):
+                    continue
                 row_new = [""] * len(header)
                 def set_new(col_name: str, val: Any):
                     pos = h_map.get(col_name)
