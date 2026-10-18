@@ -113,20 +113,19 @@
       }
       try {
         const carMap = new Map(); // 차량번호 기준 중복 방지
-        const CAR_NO_REGEX = /\b\d{2,3}[가-힣]\s*\d{4}\b/;
-        const PID_REGEX = /\bC26\d{9}\b/;
-        const DATE_REGEX = /\b202\d[-.]\d{1,2}[-.]\d{1,2}\b/g;
+        const CAR_NO_REGEX = /\d{2,3}[가-힣]\s*\d{4}/;
+        const PID_REGEX = /\bC\d{11}\b/;
+        const DATE_REGEX = /\b202\d[-/.]\d{1,2}[-/.]\d{1,2}\b/g;
 
-        // 1차 최우선 스캔: 화면 내 전체 행(tr)에서 김재현 매입 차량 1:1 직접 매칭
+        // 1차 최우선 스캔: 화면 내 전체 행(tr)에서 매입 차량 1:1 직접 매칭
         const allRows = Array.from(document.querySelectorAll('tr'));
         for (const tr of allRows) {
           const rowText = tr.innerText || "";
           const carMatch = rowText.match(CAR_NO_REGEX);
           if (!carMatch) continue;
 
-          // 김재현 담당자 우선 필터
-          const isKim = rowText.includes("김재현");
-          if (!isKim) continue;
+          // 헤더/라벨 행 제외 (차량번호 텍스트 자체인 경우)
+          if (rowText.includes("차량번호") && !/\d{4}/.test(carMatch[0])) continue;
 
           const carNo = carMatch[0].replace(/\s+/g, '');
           const cells = Array.from(tr.querySelectorAll('td, th'));
@@ -154,6 +153,17 @@
           if (cells[9]) purchaseType = (cells[9].innerText || "").trim();
           if (cells[15] && !transferDate) transferDate = (cells[15].innerText || "").trim();
           if (cells[20] && !pid) pid = (cells[20].innerText || "").trim();
+
+          // Fallback: 차량명 추출
+          if (!carName) {
+            for (const cell of cells) {
+              const txt = (cell.innerText || "").replace(/\n+/g, ' ').trim();
+              if (/(현대|기아|제네시스|쉐보레|르노|쌍용|KGM|BMW|벤츠|아우디|볼보|폭스바겐|포르쉐|렉서스|카니발|아반떼|투싼|캐스퍼|쏘렌토|그랜저|스포티지|레이|모닝|스파크)/.test(txt)) {
+                carName = txt;
+                break;
+              }
+            }
+          }
 
           if (cells[16]) {
             const pStr = (cells[16].innerText || "").replace(/[^\d]/g, '');
@@ -200,6 +210,7 @@
         }
 
         const foundCars = Array.from(carMap.values());
+        console.log(`[J-PRO Scan] 감지된 차량: ${foundCars.length}대`, foundCars.map(c => c.carNumber));
         if (!foundCars.length) return;
 
         // 서명 검사: 데이터 변경 시 백엔드 즉시 전송
