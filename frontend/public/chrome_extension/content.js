@@ -57,11 +57,14 @@
   ) {
     window.addEventListener('message', (event) => {
       if (event.data && event.data.type === 'JPRO_TRIGGER_HIGHPLUS_BUY_SYNC') {
+        console.log('[J-PRO Bridge] 웹앱 매입연동 클릭 감지 -> background로 전송');
         try {
           if (chrome?.runtime?.id) {
-            chrome.runtime.sendMessage({ action: 'trigger_highplus_buy_sync_from_tab' });
+            chrome.runtime.sendMessage({ action: 'triggerActiveAutoplusTabScan' });
           }
-        } catch (e) {}
+        } catch (e) {
+          console.warn('[J-PRO Bridge] background 메시지 전송 실패:', e.message);
+        }
       }
     });
   }

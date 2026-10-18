@@ -435,7 +435,8 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   } else if (msg && msg.action === 'sync_highplus_buy_data') {
     broadcastHighplusBuyData(msg.data).then(ok => sendResponse({ status: ok ? 'ok' : 'error', synced: ok }));
     return true; // 비동기 sendResponse 유지
-  } else if (msg && msg.action === 'trigger_highplus_buy_sync_from_tab') {
+  } else if (msg && (msg.action === 'triggerActiveAutoplusTabScan' || msg.action === 'trigger_highplus_buy_sync_from_tab')) {
+    console.log('[J-PRO Background] triggerActiveAutoplusTabScan 수신! SPPOL10001 탭 생성 및 자동 검색 시작');
     triggerActiveAutoplusTabScan().then(() => sendResponse({ status: 'ok' }));
     return true;
   } else if (msg && msg.action === 'trigger_highplus_buy_sync') {
