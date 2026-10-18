@@ -183,7 +183,7 @@ async function broadcastHighplusBuyData(cars) {
   return await postToJproBackend('/api/settlement/sync_highplus_buy', { cars });
 }
 
-// 열려 있는 오토플러스 탭에 content.js를 재주입/실행 (Extension context invalidated 방지)
+// 열려 있는 오토플러스 탭에 content.js를 재주입/실행하고 스캔 신호 전송
 async function triggerActiveAutoplusTabScan() {
   await syncAdminCookies(true);
   await syncDataCookies(true);
@@ -191,10 +191,17 @@ async function triggerActiveAutoplusTabScan() {
   for (const tab of tabs) {
     if (tab.id) {
       try {
+        // 1. 이미 content.js가 살아있는 경우 즉시 메시지 전달
+        chrome.tabs.sendMessage(tab.id, { action: 'triggerActiveAutoplusTabScan' }).catch(() => {});
+        // 2. 컨텍스트 갱신을 위해 executeScript 재주입
         await chrome.scripting.executeScript({
           target: { tabId: tab.id, allFrames: true },
           files: ['content.js']
         });
+        // 3. 재주입 직후 스캔 신호 재전송
+        setTimeout(() => {
+          chrome.tabs.sendMessage(tab.id, { action: 'triggerActiveAutoplusTabScan' }).catch(() => {});
+        }, 100);
       } catch (e) {}
     }
   }

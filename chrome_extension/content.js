@@ -216,21 +216,7 @@
         console.log(`[J-PRO Scan] 감지된 차량: ${foundCars.length}대`, foundCars.map(c => c.carNumber));
         if (!foundCars.length) return;
 
-        // 서명 검사: 데이터 변경 시 백엔드 즉시 전송
-        const sig = JSON.stringify(foundCars.map(c => ({ no: c.carNumber, p: c.buyPrice, d: c.transferDate })));
-        if (sig !== lastScanSignature && isContextAlive()) {
-          chrome.runtime.sendMessage(
-            { action: 'sync_highplus_buy_data', data: foundCars },
-            (response) => {
-              if (!chrome.runtime.lastError && response && response.synced) {
-                lastScanSignature = sig;
-                console.log(`[J-PRO AutoSync] high A+ 매입 데이터 ${foundCars.length}대 백엔드 무인 동기화 성공`);
-              }
-            }
-          );
-        }
-
-        // 백그라운드 세부 기타비용 fetch (오토플러스 getSysPo.do poAddExt 실측치)
+        // 300ms 디바운스 일괄 전송 (getSysPo.do 수수료 추출과 함께 7대 1회 전송)
         let etcFeeSuccessCount = 0;
         let pendingFetches = 0;
         let debounceTimer = null;
@@ -245,6 +231,9 @@
             }
           }, delay);
         }
+
+        // 기본 디바운스 예약 (fetch 지연되더라도 1회 전송 보장)
+        scheduleDebouncedBatchSync(500);
 
         for (const car of foundCars) {
           const carNo = car.carNumber;
@@ -320,8 +309,20 @@
       } catch (err) {}
     }
 
-    setTimeout(scanHighplusBuyData, 800);
-    window.__jproAutoplusScanTimer = setInterval(scanHighplusBuyData, 5000);
+    // ── [매입연동] 버튼 클릭 신호(triggerActiveAutoplusTabScan) 수신 시에만 1회 스캔 실행 ──
+    if (chrome && chrome.runtime && chrome.runtime.onMessage) {
+      chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+        if (msg && (msg.action === 'triggerActiveAutoplusTabScan' || msg.action === 'trigger_scan')) {
+          console.log('[J-PRO Scan] [매입연동] 버튼 신호(triggerActiveAutoplusTabScan) 수신 -> 스캔 실행');
+          scanHighplusBuyData();
+          sendResponse({ status: 'ok' });
+        }
+      });
+    }
+
+    // ── 페이지 로드 시 자동 스캔 코드는 비활성화 (매입연동 버튼 누를 때만 실행) ──
+    // setTimeout(scanHighplusBuyData, 800);
+    // window.__jproAutoplusScanTimer = setInterval(scanHighplusBuyData, 5000);
   }
 })();
 
