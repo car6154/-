@@ -301,11 +301,27 @@ class MobilePurchaseService:
 
                 transfer_date = str(data.get("pcsDt") or data.get("returnDt") or data.get("transferDate") or "").strip() or None
 
+                raw_target_sale = data.get("targetSaleAmt") or data.get("saleAmt")
+                target_sale_amt = None
+                if raw_target_sale is not None and str(raw_target_sale).strip() != "" and str(raw_target_sale).strip().lower() != "null":
+                    try:
+                        target_sale_amt = int(str(raw_target_sale).replace(",", ""))
+                    except (ValueError, TypeError):
+                        target_sale_amt = None
+
+                ap_car_id = data.get("apCarId") or data.get("carId") or None
+                if ap_car_id is not None:
+                    ap_car_id = str(ap_car_id).strip()
+                    if ap_car_id.lower() in ("", "null", "none"):
+                        ap_car_id = None
+
                 car_dict = {
                     "pcsId": pcs_id,
                     "carNumber": car_no,
                     "carName": car_name,
                     "buyPrice": buy_price,
+                    "targetSaleAmt": target_sale_amt,
+                    "apCarId": ap_car_id,
                     "etcAmt": etc_amt,
                     "transferDate": transfer_date,
                     "manager": manager_name or "김재현",
@@ -313,7 +329,7 @@ class MobilePurchaseService:
                     "raw": data
                 }
                 detailed_cars.append(car_dict)
-                print(f"[MobilePurchaseService] pcs_id {pcs_id}: 차량={car_no}, etcAmt={etc_amt}, buyPrice={buy_price}, 매니저={manager_name}({manager_id})", flush=True)
+                print(f"[MobilePurchaseService] pcs_id {pcs_id}: 차량={car_no}, etcAmt={etc_amt}, buyPrice={buy_price}, targetSaleAmt={target_sale_amt}, apCarId={ap_car_id}, 매니저={manager_name}({manager_id})", flush=True)
             except Exception as e:
                 logger.error(f"[MobilePurchaseService] pcs_id {pcs_id} 상세 호출 예외: {e}")
 

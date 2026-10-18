@@ -188,6 +188,16 @@ class AutoplusAdminService:
                     has_explicit_buy_price = True
             buy_price_man = round(raw_p / 10000) if raw_p > 50000 else round(raw_p)
 
+            # 판매가 정규화 (targetSaleAmt / salePrice: 있으면 API 값 우선, null이면 기존값 유지)
+            has_explicit_sale_price = False
+            raw_s = 0
+            sale_val_input = c.get("salePrice") if c.get("salePrice") is not None else c.get("targetSaleAmt")
+            if sale_val_input is not None and str(sale_val_input).strip() != "" and str(sale_val_input).strip().lower() != "null":
+                raw_s = _safe_float(sale_val_input)
+                if raw_s > 0:
+                    has_explicit_sale_price = True
+            sale_price_man = round(raw_s / 10000) if raw_s > 50000 else round(raw_s)
+
             # 수수료: API 호출 성공 시 etcAmt가 null/empty면 0원 설정, etcAmt > 0이면 API 값 사용
             # API 호출 실패 시에만 has_explicit_fee = False로 기존값 유지
             api_success = c.get("api_success")
@@ -235,6 +245,8 @@ class AutoplusAdminService:
                         buy_date_disp = raw_date
             # 날짜가 없어도 etcFee 및 매입가 갱신을 위해 차량을 버리지 않고 계속 진행 (10-18-12 규칙 유지)
 
+            ap_car_id = str(c.get("apCarId") or "").strip() or None
+
             cleaned_cars.append({
                 "carNumber": car_no,
                 "carName": str(c.get("carName", "")).strip(),
@@ -242,6 +254,10 @@ class AutoplusAdminService:
                 "buyPrice": buy_price_man,
                 "raw_buy_price": raw_p,
                 "has_explicit_buy_price": has_explicit_buy_price,
+                "salePrice": sale_price_man,
+                "raw_sale_price": raw_s,
+                "has_explicit_sale_price": has_explicit_sale_price,
+                "apCarId": ap_car_id,
                 "buyDate": buy_date_disp,
                 "stockDays": stock_days,
                 "outerRepairs": _safe_int(c.get("outerRepairs", 0)),
@@ -518,11 +534,19 @@ class AutoplusAdminService:
                         update_val("차종", l_info["carName"])
 
                 # 매입가: API finalPcsAmt가 있으면 → API 값 사용. null이면 → 기존값 유지
+                # 판매가: API targetSaleAmt가 있으면 → API 값 사용. null이면 → 기존값 유지
                 if c_no in cars_by_no:
                     c_info = cars_by_no[c_no]
                     if c_info.get("has_explicit_buy_price") and c_info["buyPrice"] > 0:
                         update_val("매입가", c_info["buyPrice"])
                         print(f"[AutoplusAdminService] 매입가 API 반영: 차량={c_no}, 매입가={c_info['buyPrice']}만원 (원단위={c_info.get('raw_buy_price')})", flush=True)
+
+                    if c_info.get("has_explicit_sale_price") and c_info["salePrice"] > 0:
+                        update_val("판매가", c_info["salePrice"])
+                        print(f"[AutoplusAdminService] 판매가 API 반영: 차량={c_no}, 판매가={c_info['salePrice']}만원 (원단위={c_info.get('raw_sale_price')}, apCarId={c_info.get('apCarId')})", flush=True)
+                    elif c_info.get("apCarId"):
+                        print(f"[AutoplusAdminService] 판매가 기존 유지: 차량={c_no}, apCarId={c_info.get('apCarId')}", flush=True)
+
                     if c_info["buyDate"]:
                         update_val("매입일", c_info["buyDate"])
                     updated_count += 1
@@ -554,12 +578,14 @@ class AutoplusAdminService:
                     fee = l_info.get("fee", 0.0)
                 car_name = c_info["carName"] or l_info.get("carName", "")
 
+                sale_val = str(c_info["salePrice"]) if c_info.get("has_explicit_sale_price") and c_info["salePrice"] > 0 else "0"
+
                 set_new("순차", "0")
                 set_new("매입일", c_info["buyDate"])
                 set_new("상태", "보유/상품화중")
                 set_new("차량번호", c_no)
                 set_new("차종", car_name)
-                set_new("판매가", "0")
+                set_new("판매가", sale_val)
                 set_new("재고일", str(c_info["stockDays"]))
                 set_new("매입가", str(c_info["buyPrice"]))
                 set_new("외판수리", str(outer))

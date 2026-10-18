@@ -522,12 +522,14 @@ def sync_highplus_buy(req: Optional[HighplusBuySyncRequest] = None):
                     "carNumber": c_no,
                     "carName": c.get("carName"),
                     "buyPrice": buy_price,
+                    "salePrice": c.get("targetSaleAmt"),
+                    "apCarId": c.get("apCarId"),
                     "etcFee": etc_amt,
                     "transferDate": t_date,
                     "manager": "김재현",
                     "api_success": True
                 })
-                print(f"[SettlementRouter] 6대 상세 매입 조회: 차량={c_no}, etcAmt={etc_amt}, buyPrice={buy_price}", flush=True)
+                print(f"[SettlementRouter] 6대 상세 매입 조회: 차량={c_no}, etcAmt={etc_amt}, buyPrice={buy_price}, targetSaleAmt={c.get('targetSaleAmt')}, apCarId={c.get('apCarId')}", flush=True)
 
             print(f"[SettlementRouter] 6대 상세 API 조회 완료: 총 {len(cars_to_process)}대 수집", flush=True)
 
@@ -541,6 +543,8 @@ def sync_highplus_buy(req: Optional[HighplusBuySyncRequest] = None):
                             "carNumber": c.get("carNumber"),
                             "carName": c.get("carName"),
                             "buyPrice": c.get("buyPrice"),
+                            "salePrice": c.get("targetSaleAmt"),
+                            "apCarId": c.get("apCarId"),
                             "etcFee": c.get("etcAmt"),
                             "transferDate": c.get("transferDate"),
                             "manager": "김재현",
