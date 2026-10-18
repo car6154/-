@@ -554,8 +554,6 @@ def sync_highplus_buy(req: Optional[HighplusBuySyncRequest] = None):
                 res["data"] = {}
             res["data"]["cars_in_api"] = [c.get("carNumber") for c in cars_to_process]
             res["data"]["has_155_in_api"] = any(c.get("carNumber") == "155라7987" for c in cars_to_process)
-            res["data"]["excluded_sold_count"] = len(excluded_sold_cars)
-            res["data"]["raw_297_info"] = raw_297_info
 
         # ── 상태 파일 (data/highplus_buy_status.json)에 실시간 연동 시간 및 결과 기록 ──
         now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -572,8 +570,6 @@ def sync_highplus_buy(req: Optional[HighplusBuySyncRequest] = None):
             "total_synced_cars": total_cars,
             "cars_in_api": [c.get("carNumber") for c in cars_to_process],
             "has_155_in_api": any(c.get("carNumber") == "155라7987" for c in cars_to_process),
-            "excluded_sold_count": len(excluded_sold_cars),
-            "raw_297_info": raw_297_info,
             "new_inventory_added": new_added,
             "inventory_updated": updated_inv,
             "ledger_updated": updated_led,
