@@ -727,7 +727,7 @@ class AutoplusAdminService:
 
     @classmethod
     def fetch_and_sync_backend(cls) -> Dict[str, Any]:
-        """백엔드에 저장된 쿠키로 admin.autoplus.co.kr 매입 데이터 직접 호출 및 동기화"""
+        """백엔드에 저장된 쿠키로 admin.autoplus.co.kr 매입 데이터 검색 form 직접 호출 및 자동 동기화"""
         cls.clean_pre_september_inventory()
         cookie_file = os.path.join(BASE_DIR, "autoplus_cookie.txt")
         if not os.path.exists(cookie_file):
@@ -751,6 +751,10 @@ class AutoplusAdminService:
 
         try:
             import requests
+            import urllib.parse
+            from bs4 import BeautifulSoup
+
+            # 1. 초기 SPPOL10001 페이지 조회 (검색 form 구조 및 세션 확인)
             resp = requests.get(url, headers=headers, timeout=15, allow_redirects=False)
             if resp.status_code == 302 or "login" in resp.headers.get("Location", "").lower():
                 return {
@@ -762,11 +766,155 @@ class AutoplusAdminService:
             if resp.status_code != 200:
                 return {"success": False, "message": f"high A+ 응답 오류: HTTP {resp.status_code}", "syncedCount": 0}
 
-            cars = cls.parse_sppol10001_html(resp.text)
+            # 2. HTML 내 검색 form 파싱 및 동적 파라미터 조합
+            soup = BeautifulSoup(resp.text, "html.parser")
+            target_form = None
+            forms = soup.find_all("form")
+            for f in forms:
+                f_act = str(f.get("action", "")).lower()
+                f_id = str(f.get("id", "")).lower()
+                f_name = str(f.get("name", "")).lower()
+                if "sppol10001" in f_act or "search" in f_id or "search" in f_name or f.find("input", {"name": re.compile(r"Manager|User|Charge|Emp|Return|Purchase", re.I)}):
+                    target_form = f
+                    break
+            if not target_form and forms:
+                target_form = forms[0]
+
+            form_data = {}
+            action_url = url
+            method = "POST"
+            page_param_name = "pageIndex"
+
+            if target_form:
+                act = target_form.get("action")
+                if act:
+                    action_url = urllib.parse.urljoin(url, act)
+                method = (target_form.get("method") or "POST").upper()
+
+                # form 내의 모든 input, select 수집 (사이트 기본값 유지)
+                for inp in target_form.find_all(["input", "select", "textarea"]):
+                    name = inp.get("name")
+                    if not name:
+                        continue
+                    if inp.name == "select":
+                        sel_opt = inp.find("option", selected=True) or inp.find("option")
+                        val = sel_opt.get("value", "") if sel_opt else ""
+                    elif inp.get("type", "").lower() in ["checkbox", "radio"]:
+                        if inp.get("checked"):
+                            val = inp.get("value", "on")
+                        else:
+                            continue
+                    else:
+                        val = inp.get("value", "")
+                    form_data[name] = str(val).strip()
+
+            # 3. 검색조건 적용: 담당자=김재현, 반납일자 시작=2026-09-01 (종료일 비움)
+            # 담당자 필드 감지 및 설정
+            mgr_set = False
+            for k in list(form_data.keys()):
+                if re.search(r"(Manager|Charge|Emp|User)", k, re.I) and not re.search(r"(dept|team|id|code|grp)", k, re.I):
+                    form_data[k] = "김재현"
+                    mgr_set = True
+                elif form_data[k] == "김재현":
+                    form_data[k] = "김재현"
+                    mgr_set = True
+            if not mgr_set:
+                form_data["purManagerNm"] = "김재현"
+
+            # 반납일자 필드 감지 및 설정 (시작=2026-09-01, 종료="")
+            dt_set = False
+            for k in list(form_data.keys()):
+                if re.search(r"(return.*(?:st|from|start)|pur.*(?:st|from|start))", k, re.I):
+                    form_data[k] = "2026-09-01"
+                    dt_set = True
+                elif re.search(r"(return.*(?:ed|to|end)|pur.*(?:ed|to|end))", k, re.I):
+                    form_data[k] = ""
+            if not dt_set:
+                form_data["returnDtSt"] = "2026-09-01"
+                form_data["returnDtEd"] = ""
+                form_data["purchaseDtSt"] = "2026-09-01"
+                form_data["purchaseDtEd"] = ""
+
+            # 페이지 파라미터 확인
+            for k in form_data.keys():
+                if re.search(r"^(pageIndex|pageNo|page|cPage|currentPage)$", k, re.I):
+                    page_param_name = k
+                    break
+
+            form_data[page_param_name] = "1"
+
+            # 4. 사이트 검색 form 요청 전송 (1페이지)
+            search_headers = dict(headers)
+            search_headers["Referer"] = url
+            if method == "POST":
+                search_headers["Content-Type"] = "application/x-www-form-urlencoded"
+                search_resp = requests.post(action_url, headers=search_headers, data=form_data, timeout=15, allow_redirects=False)
+            else:
+                search_resp = requests.get(action_url, headers=search_headers, params=form_data, timeout=15, allow_redirects=False)
+
+            if search_resp.status_code == 302 or "login" in search_resp.headers.get("Location", "").lower():
+                return {
+                    "success": False,
+                    "message": "high A+ 로그인 세션이 만료되었습니다. 크롬 브라우저에서 재로그인이 필요합니다.",
+                    "syncedCount": 0
+                }
+
+            if search_resp.status_code != 200:
+                return {"success": False, "message": f"high A+ 검색 요청 오류: HTTP {search_resp.status_code}", "syncedCount": 0}
+
+            # 1페이지 파싱
+            first_cars = cls.parse_sppol10001_html(search_resp.text)
+            all_cars = {c["carNumber"]: c for c in first_cars}
+
+            # 5. 검색 결과 '총 N건' 파싱 및 전 페이지 순회 수집
+            total_count = len(all_cars)
+            m_total = re.search(r"총\s*(?:<[^>]+>)?\s*([0-9,]+)\s*(?:<[^>]+>)?\s*건", search_resp.text)
+            if not m_total:
+                m_total = re.search(r"전체\s*(?:<[^>]+>)?\s*([0-9,]+)\s*(?:<[^>]+>)?\s*건", search_resp.text)
+            if m_total:
+                try:
+                    total_count = int(m_total.group(1).replace(",", ""))
+                except:
+                    pass
+
+            page_size = max(len(first_cars), 10)
+            if total_count > len(all_cars):
+                total_pages = (total_count + page_size - 1) // page_size
+                total_pages = min(total_pages, 20)
+
+                for p in range(2, total_pages + 1):
+                    p_data = dict(form_data)
+                    p_data[page_param_name] = str(p)
+                    if "start" in p_data:
+                        p_data["start"] = str((p - 1) * page_size)
+
+                    try:
+                        if method == "POST":
+                            p_resp = requests.post(action_url, headers=search_headers, data=p_data, timeout=10, allow_redirects=False)
+                        else:
+                            p_resp = requests.get(action_url, headers=search_headers, params=p_data, timeout=10, allow_redirects=False)
+
+                        if p_resp.status_code == 200:
+                            p_cars = cls.parse_sppol10001_html(p_resp.text)
+                            if not p_cars:
+                                break
+                            new_found = False
+                            for pc in p_cars:
+                                c_num = pc["carNumber"]
+                                if c_num not in all_cars:
+                                    all_cars[c_num] = pc
+                                    new_found = True
+                            if not new_found:
+                                break
+                    except Exception as pe:
+                        print(f"[AutoplusAdminService] {p}페이지 수집 오류: {pe}")
+                        break
+
+            cars = list(all_cars.values())
             if not cars:
                 return {"success": True, "message": "조회된 매입 차량이 없거나 파싱되지 않았습니다.", "syncedCount": 0}
 
-            # 오토플러스 상세 API(getSysPo.do)에서 기타비용(poAddExt: 낙찰/소개수수료) 실측치 추출
+            # 6. 오토플러스 상세 API(getSysPo.do)에서 기타비용(poAddExt: 낙찰/소개수수료) 실측치 추출
             for c in cars:
                 p_id = c.get("poId")
                 if p_id:
