@@ -114,31 +114,28 @@ async function syncCookiesToLocalServer(force = false) {
   }
 }
 
-// ── 오토플러스 (차얼마 & high A+) 쿠키 동기화 ──
+// ── 오토플러스 어드민 (high A+) 쿠키 동기화 ──
 async function syncAutoplusCookiesToLocalServer(force = false) {
   try {
-    const [byUrl, byDomain, all] = await Promise.all([
-      chrome.cookies.getAll({ url: 'https://admin.autoplus.co.kr' }).catch(() => []),
-      chrome.cookies.getAll({ domain: 'autoplus.co.kr' }).catch(() => []),
-      chrome.cookies.getAll({}).catch(() => [])
-    ]);
+    // 서브도메인 오염 방지: domain 전체 수집 및 타 서브도메인 Map 합치기를 전면 배제하고,
+    // 오직 https://admin.autoplus.co.kr URL의 순수 어드민 세션 쿠키만 단독 추출
+    const adminCookies = await chrome.cookies.getAll({ url: 'https://admin.autoplus.co.kr' }).catch(() => []);
+    if (!adminCookies || adminCookies.length === 0) return false;
 
-    // 중요: byUrl(https://admin.autoplus.co.kr)을 마지막에 배치하여 정확한 SESSION 쿠키가 덮어써지지 않도록 보장
-    const apCookies = [
-      ...all.filter(c => c && c.domain && c.domain.includes('autoplus')),
-      ...byDomain,
-      ...byUrl
-    ];
-    const allMap = new Map();
-    apCookies.forEach(c => { if (c && c.name && c.value) allMap.set(c.name, c.value); });
-
-    const hasSession = Array.from(allMap.keys()).some(k => {
-      const u = k.toUpperCase();
+    const hasSession = adminCookies.some(c => {
+      const u = (c.name || '').toUpperCase();
       return u === 'JSESSIONID' || u === 'SESSION' || u === 'ADMIN_HISTORY_ID' || u === 'REMEMBER-ME';
     });
     if (!hasSession) return false;
 
-    const cookieStr = Array.from(allMap.entries()).map(([k, v]) => `${k}=${v}`).join('; ');
+    // admin.autoplus.co.kr 쿠키만 name=value 쌍으로 직렬화
+    const cookieStr = adminCookies
+      .filter(c => c && c.name && c.value)
+      .map(c => `${c.name}=${c.value}`)
+      .join('; ');
+
+    if (!cookieStr) return false;
+
     const now = Date.now();
     if (!force && cookieStr === lastAutoplusCookie && (now - lastAutoplusSyncTime < 15000)) {
       return true;
@@ -149,7 +146,7 @@ async function syncAutoplusCookiesToLocalServer(force = false) {
       // 실제 서버 저장이 성공(HTTP 200)했을 때만 캐시 갱신
       lastAutoplusCookie = cookieStr;
       lastAutoplusSyncTime = now;
-      console.log('[J-PRO AutoSync] 오토플러스 로그인 세션 쿠키 동기화 완료');
+      console.log('[J-PRO AutoSync] 오토플러스 어드민 순수 세션 쿠키 동기화 완료');
     }
     return ok;
   } catch (e) {
