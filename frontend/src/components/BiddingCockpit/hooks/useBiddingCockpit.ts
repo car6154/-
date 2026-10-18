@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import * as XLSX from 'xlsx';
-import { ComparableSaleItem, CarLedgerItem, CockpitPresetData } from '@/types';
+import { CarLedgerItem } from '@/types';
 import { queryChaolmaCar, type ChaolmaCarHistory, type ChaolmaOriginDoc } from '@/services/chaolmaService';
 import { computeRuleBasedAssessment } from '@/utils/ruleBasedAssessment';
 import {
@@ -8,17 +8,10 @@ import {
   HD_REPAIR_MAP,
   formatHdRelativeDate,
   parseHeydealerOptions,
-  MASTER_PACKAGE_CATALOG,
-  CORE_EQUIVALENCE_GROUPS,
-  normalizeOpt,
-  getBiGramSet,
-  computeBiGramJaccard,
-  isOptionMatched,
   fetchNewCarCatalog,
   normalizeChaolmaOptions,
   NewCarCatalogData,
 } from '@/services/biddingOptionCatalog';
-import salesDataRaw from '@/data/real_autoplus_sold.json';
 import { EncarItem, EncarSoldItem, EncarSoldStats, HeydealerBidItem, BiddingCockpitTabProps } from '../types';
 
 export function useBiddingCockpit({
@@ -135,9 +128,6 @@ export function useBiddingCockpit({
     });
   }, [carNumber, yearModel, mileageKm, targetCarHistory, outerRepairCount]);
 
-  // 5단계 규칙 가감(규칙 가산/감가) 입찰가 적용 여부 (기본값: true)
-  const [applyRuleAdjustment, setApplyRuleAdjustment] = useState<boolean>(true);
-
   // 실행 및 연동 상태값
   const [isSearchingCar, setIsSearchingCar] = useState(false);
   const [isAiEstimating, setIsAiEstimating] = useState(false);
@@ -147,46 +137,11 @@ export function useBiddingCockpit({
   // CarDetailModal 연동 상태 및 데이터 매핑
   const [cockpitModalCar, setCockpitModalCar] = useState<CarLedgerItem | null>(null);
 
-  const handleOpenCarDetailModal = useCallback((car: any, type: 'encar' | 'autoplus') => {
-    const cleanId = String(car.id || car.carid || car.carId || '').replace(/[^\d]/g, '');
-    const directUrl = car.encarUrl || (cleanId.length >= 7 ? `https://fem.encar.com/cars/detail/${cleanId}` : '');
-    
-    const replacesCount = car.replaces?.length || 0;
-    const repairsCount = car.repairs?.length || 0;
-    const totalPanels = replacesCount + repairsCount || car.outerRepairs || 0;
-    const repairCostVal = totalPanels * 13 || Number(car.repairCost) || 0;
-
-    const sellPriceVal = Number(car.price || car.sellPrice || car.finalPrice || expectedSellPrice || 0);
-    const buyPriceVal = Number(car.buyPrice || Math.round(sellPriceVal * 0.88));
-
-    const ledgerItem: CarLedgerItem = {
-      id: car.id || `car-${Date.now()}`,
-      carNumber: car.plate || (cleanId ? `엔카 #${cleanId}` : '미등록'),
-      manufacturer: car.manufacturer || manufacturer || '-',
-      carName: car.modelName || car.carName || carName || '-',
-      detailModel: car.subModel || car.badge || detailModel || '',
-      year: String(car.year || yearModel || '-'),
-      mileage: typeof car.mileage === 'number' ? `${car.mileage.toLocaleString()}km` : String(car.mileage || '0km'),
-      buyPrice: buyPriceVal,
-      sellPrice: sellPriceVal,
-      outerRepairs: totalPanels,
-      repairCost: repairCostVal,
-      heydealerFee: 33,
-      status: '매입대기',
-      regDate: car.checkDate || car.regDate || car.soldDate || new Date().toISOString().slice(0, 10),
-      memo: `[${type === 'encar' ? '엔카 실시간 동급매물' : '자사 완판 실거래'}]\n• 엔카 상세페이지: ${directUrl}\n• 성능/사고: ${car.accidentType || car.accident || '완전무사고'}\n• 장착옵션: ${car.optionsText || car.opts || car.options || '기본사양'}\n• 소요/보유일수: ${car.holdingDays || car.daysTaken || car.stockDays || 0}일`,
-      options: car.optionsText || car.opts || car.options || ''
-    };
-
-    setCockpitModalCar(ledgerItem);
-  }, [manufacturer, carName, detailModel, yearModel, expectedSellPrice]);
-
   // ----------------------------------------------------
   // [엔카 실시간 동급 시세 상태 및 함수 (호이스팅 방지 상단 배치)]
   // ----------------------------------------------------
   const [liveEncarList, setLiveEncarList] = useState<EncarItem[]>([]);
   const [liveEncarSoldStats, setLiveEncarSoldStats] = useState<EncarSoldStats | null>(null);
-  const [isEncarSoldLoading, setIsEncarSoldLoading] = useState<boolean>(false);
   const [encarTotalModelCount, setEncarTotalModelCount] = useState<number>(0);
   const [encarFilteredCount, setEncarFilteredCount] = useState<number>(0);
   const [encarFilterStats, setEncarFilterStats] = useState<{
@@ -211,7 +166,6 @@ export function useBiddingCockpit({
   const [selectedEncarId, setSelectedEncarId] = useState<string>('');
   const [selectedInspectionMap, setSelectedInspectionMap] = useState<Record<string, any>>({});
   const [isInspectionLoading, setIsInspectionLoading] = useState<boolean>(false);
-  const [isEncarSoldOpen, setIsEncarSoldOpen] = useState<boolean>(false);
 
   // 자사 오토플러스 실적 및 시장 수요도 상태 (상단 호이스팅)
   const [liveMarketStats, setLiveMarketStats] = useState<any>(null);
@@ -267,7 +221,6 @@ export function useBiddingCockpit({
 
   const fetchEncarSoldOut = useCallback(async (carIds: string[], expectedModel: string, targetYear: string) => {
     if (!carIds.length || !expectedModel) return;
-    setIsEncarSoldLoading(true);
     try {
       const res = await fetch('/api/encar/soldout', {
         method: 'POST',
@@ -286,8 +239,6 @@ export function useBiddingCockpit({
       }
     } catch (e) {
       console.warn('Encar soldout fetch failed:', e);
-    } finally {
-      setIsEncarSoldLoading(false);
     }
   }, []);
 
@@ -875,8 +826,6 @@ export function useBiddingCockpit({
       const rawMil = Number(detail.mileage) || Number(carData.mileage) || Number(detail.vehicle_information?.mileage) || 0;
       const cAccident = String(detail.accident_repairs_summary_display || detail.accident_repairs_summary || detail.accident_description || '').trim();
       const cDesiredPrice = Number(auction.desired_price) || 0;
-      const cNewPrice = Number(detail.standard_new_car_price) || 0;
-      const cComment = String(detail.car_description || detail.inspector_comment || '').trim();
 
       if (cNo || cName) {
         skipAutoFetchRef.current = true;
@@ -1155,17 +1104,6 @@ export function useBiddingCockpit({
       setIsAiEstimating(false);
       setAiEstimateStep(null);
     }
-  };
-
-  // 4. [KCAR] 시세 벤치마크 실행 핸들러
-  const handleKcarComparison = () => {
-    const kcarPrice = Math.round(expectedSellPrice * 1.04);
-    setMemo(`[KCAR 홈서비스 평균: ${kcarPrice}만 (소매가 대비 +4% 안정권)]`);
-    setSearchStatus({
-      type: 'info',
-      message: `🏢 KCAR 직영점 동일 조건 매물 시세(${kcarPrice}만) 연동 완료!`
-    });
-    setTimeout(() => setSearchStatus(null), 4000);
   };
 
   // ----------------------------------------------------
@@ -1570,21 +1508,7 @@ export function useBiddingCockpit({
   // ----------------------------------------------------
   // [1단계. 오토플러스 실적 DB & 엑셀 업로드 상태]
   // ----------------------------------------------------
-  const [customSalesData, setCustomSalesData] = useState<any[]>(() => {
-    try {
-      const saved = localStorage.getItem('jpro_custom_autoplus_sales');
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
-      }
-    } catch (e) {
-      console.warn('Failed to load custom sales data:', e);
-    }
-    return salesDataRaw as any[];
-  });
-
   const [soldTabMode, setSoldTabMode] = useState<'encar' | 'autoplus' | 'wholesale' | 'none'>('none');
-  const [filterOnlyRetail, setFilterOnlyRetail] = useState<boolean>(true); // 기본값: 순수 소매(엔카광고 집행) 매물만 필터 (경매/도매 배제)
   const [isExcelUploading, setIsExcelUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -1640,7 +1564,6 @@ export function useBiddingCockpit({
             };
           });
 
-          setCustomSalesData(parsedList);
           try {
             localStorage.setItem('jpro_custom_autoplus_sales', JSON.stringify(parsedList.slice(0, 10000)));
           } catch (storageErr) {
@@ -1668,17 +1591,6 @@ export function useBiddingCockpit({
     reader.readAsBinaryString(file);
   };
 
-  const handleResetAutoplusData = () => {
-    localStorage.removeItem('jpro_custom_autoplus_sales');
-    setCustomSalesData(salesDataRaw as any[]);
-    setSearchStatus({
-      type: 'info',
-      message: '🔄 오토플러스 판매실적 DB를 기본 6,170건 표준 데이터로 복원했습니다.'
-    });
-    setTimeout(() => setSearchStatus(null), 4000);
-  };
-
-  // ----------------------------------------------------
   // ----------------------------------------------------
   // [1단계. 자사 오토플러스 실적 및 시장 수요도 - Streamlit 8501 100% 동일 API 연동]
   // (liveMarketStats 상태는 호이스팅 방지를 위해 상단 배치됨)
@@ -1782,61 +1694,6 @@ export function useBiddingCockpit({
     return [];
   }, [liveEncarSoldStats, carName, detailModel, yearModel]);
 
-  // ----------------------------------------------------
-  // [종합 시장 수요도 분석] 100% 엔카 시장 실측 데이터 기반 (자사 데이터 혼입 배제)
-  // ----------------------------------------------------
-  const marketDemandStats = useMemo(() => {
-    // 엔카 실시간 완판 실측 소요일수 (없으면 현재 매물 보유일수 평균)
-    const encarDaysVal = liveEncarSoldStats && liveEncarSoldStats.sold_avg_days > 0
-      ? liveEncarSoldStats.sold_avg_days
-      : (encarList.length > 0
-          ? Math.round((encarList.reduce((sum, c) => sum + (c.holdingDays || 15), 0) / encarList.length) * 10) / 10
-          : 28.5);
-    const combinedDays = encarDaysVal;
-
-    // 엔카 30일 완판 10대 이상이면 무조건 정상 유통 회전 뱃지 부여 (8501과 동일)
-    const encar30dCount = liveEncarSoldStats?.count_30d || 0;
-
-    let demandLevel: 'HOT' | 'FAST' | 'NORMAL' | 'SLOW' = 'NORMAL';
-    let demandBadge = '🟢 정상 유통 회전 (표준 입찰)';
-    let demandColor = 'text-emerald-400 bg-emerald-500/10 border-emerald-500/30';
-    let advice = '✅ 엔카 월 10대 이상 꾸준한 완판 소화 중! 표준 입찰 상한선 준수 시 2~3주 내 안정적 소매 매도 가능';
-
-    if (encar30dCount >= 10 || (liveEncarSoldStats?.velocity_badge && !liveEncarSoldStats.velocity_badge.includes('주의'))) {
-      demandLevel = 'FAST';
-      demandBadge = '🟢 정상 유통 회전 (표준 입찰)';
-      demandColor = 'text-emerald-400 bg-emerald-500/10 border-emerald-500/30';
-      advice = '✅ 엔카 최근 30일 내 10대 이상 꾸준한 완판 소화 중! 표준 입찰 상한선 준수 시 2~3주 내 안정적 소매 매도 가능';
-    } else if (combinedDays <= 18) {
-      demandLevel = 'HOT';
-      demandBadge = liveEncarSoldStats?.velocity_badge ? `🔥 ${liveEncarSoldStats.velocity_badge}` : '🔥 초고속 회전 (인기 폭발)';
-      demandColor = 'text-rose-400 bg-rose-500/10 border-rose-500/30';
-      advice = '⚡ 시장 수요 극상! 마진을 10~20만 원 좁히더라도 공격적 상한가 비딩 권장 (빠른 당일/주간 완판 예상)';
-    } else if (combinedDays <= 35) {
-      demandLevel = 'NORMAL';
-      demandBadge = '🟢 정상 유통 회전 (표준 입찰)';
-      demandColor = 'text-emerald-400 bg-emerald-500/10 border-emerald-500/30';
-      advice = '👉 일반 소매 사이클(3~4주). 표준 안전 입찰 상한선 준수 권장';
-    } else {
-      demandLevel = 'SLOW';
-      demandBadge = '⚠️ 장기재고 주의 (수요 침체)';
-      demandColor = 'text-amber-400 bg-amber-500/10 border-amber-500/30';
-      advice = '⚠️ 회전 속도 둔화 차종. 매입 후 감가 리스크 대비 보수적 안전마진 책정 권장';
-    }
-
-    return {
-      autoplusDays: autoplusStats.avgStockDays || 0,
-      encarCurrentDaysAvg: encarDaysVal,
-      encarDaysAvg: encarDaysVal,
-      combinedDays,
-      demandLevel,
-      demandBadge,
-      demandColor,
-      advice,
-      totalSoldSamples: matchedAutoplusList.length
-    };
-  }, [liveEncarSoldStats, autoplusStats, encarList, matchedAutoplusList]);
-
   // 🎯 AI 종합 비딩 전략 판정 (Streamlit tab_main.py L241-L305 100% 동일 구현)
   const biddingVerdict = useMemo(() => {
     if (!carName) return null;
@@ -1891,35 +1748,6 @@ export function useBiddingCockpit({
 
     return { badge, badgeColor, mainText, recommendation };
   }, [carName, autoplusStats, liveEncarSoldStats]);
-
-  // 🔄 옵션 양방향 추가/제거 토글 함수 (사이드바 <-> 매물 상세 100% 동기화)
-  const handleToggleOption = (rawOptionName: string) => {
-    const cleanName = rawOptionName.replace(/\([^)]*\)/g, '').replace(/\[[^\]]*\]/g, '').trim();
-    if (!cleanName) return;
-
-    const currentParts = optionsTag
-      .split(/[·,+,\/]/)
-      .map(s => s.trim())
-      .filter(s => s.length > 0 && !s.includes('옵션 없음') && !s.includes('기본 출고 사양'));
-
-    const existsIdx = currentParts.findIndex(p => {
-      const pClean = p.replace(/\([^)]*\)/g, '').replace(/\[[^\]]*\]/g, '').trim();
-      return pClean === cleanName || pClean.includes(cleanName) || cleanName.includes(pClean);
-    });
-
-    if (existsIdx >= 0) {
-      currentParts.splice(existsIdx, 1);
-    } else {
-      currentParts.push(cleanName);
-    }
-
-    if (currentParts.length === 0) {
-      setOptionsTag('');
-    } else {
-      setOptionsTag(currentParts.join(' · '));
-    }
-  };
-
 
   // 엔카 동급 매물 통계 (최저가, 최고가, 평균가, 중앙값, 매물수 - Streamlit 8501 int(mean) 방식 100% 동일)
   const encarStats = useMemo(() => {
@@ -2002,9 +1830,6 @@ export function useBiddingCockpit({
   const repairCostTotal = outerRepairCount * 13; // 외판 판당 13만
   const directExpense = 15; // 기본제경비 15만
 
-  // 5단계 규칙 기반 가감 총액 (만원)
-  const ruleAdjustmentAmount = 0;
-
   // 헤이딜러 실측 수수료 구간표 계산 함수
   const calcPurchaseFee = useCallback((targetVal: number, route: string, isLight: boolean) => {
     if (route === '셀프(기본)') {
@@ -2082,12 +1907,6 @@ export function useBiddingCockpit({
   const actualMargin = useMemo(() => {
     return expectedSellPrice - sellingFee - directExpense - repairCostTotal - actualPurchaseFee - userBid;
   }, [expectedSellPrice, sellingFee, directExpense, repairCostTotal, actualPurchaseFee, userBid]);
-
-  // 산점도 동적 축 범위 계산
-  const scatterMinY = Math.max(0, Math.floor(Math.min(effectiveSellPrice > 0 ? effectiveSellPrice : encarStats.min, encarStats.min) * 0.85 / 10) * 10);
-  const scatterMaxY = Math.ceil(Math.max(effectiveSellPrice, encarStats.max) * 1.15 / 10) * 10;
-  const scatterRangeY = Math.max(10, scatterMaxY - scatterMinY);
-  const scatterMaxX = Math.max(50000, Math.ceil(Math.max(mileageKm, ...encarList.map(c => c.mileage)) * 1.25 / 10000) * 10000);
 
   // 저장 핸들러 (실제 계산된 안전 입찰 상한가 및 수정 입찰가로 원장에 실시간 반영!)
   const handleSaveToLedger = () => {

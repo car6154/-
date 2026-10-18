@@ -2,12 +2,8 @@
 import os
 import re
 import json
-import math
-import time
-from datetime import datetime
 import streamlit as st
 import pandas as pd
-import numpy as np
 import requests
 
 from services.encar_service import Scraper

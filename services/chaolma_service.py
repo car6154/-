@@ -5,7 +5,6 @@
 - 연식별 옵션 잔존가치(80% / 50% / 35% / 20%) 자동 계산
 """
 
-import os
 import re
 import json
 import time

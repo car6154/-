@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { ChevronDown, ChevronUp, X, Wrench, Paintbrush, AlertCircle } from 'lucide-react';
+import { ChevronDown, ChevronUp, X, Wrench, AlertCircle } from 'lucide-react';
 import type { ChaolmaCarHistory } from '@/services/chaolmaService';
 
 export interface AutoplusDamageDiagramProps {
@@ -222,7 +222,6 @@ export const AutoplusDamageDiagram: React.FC<AutoplusDamageDiagramProps> = ({ hi
             if (!state) return null;
 
             const name = CARMAP_NAMES[code] || `부위 ${code}`;
-            const isType01 = state === 'repair-type01'; // 탈착 (파랑)
             const isType02 = state === 'repair-type02'; // 도장 (빨강)
             const isType03 = state === 'repair-type03'; // 탈착+도장 (초록)
 

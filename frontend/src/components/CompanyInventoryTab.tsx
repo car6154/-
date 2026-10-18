@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { Warehouse, Search, AlertCircle, Clock, ExternalLink, Filter, MapPin, Sparkles, RefreshCw, CheckCircle2 } from 'lucide-react';
+import { Warehouse, Search, AlertCircle, Clock, ExternalLink, Filter, MapPin, RefreshCw } from 'lucide-react';
 import inventoryDataRaw from '../data/real_autoplus_inventory.json';
 
 export interface InventoryRecord {

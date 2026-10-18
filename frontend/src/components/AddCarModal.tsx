@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { CarLedgerItem } from '@/types';
-import { X, PlusCircle, Wrench, DollarSign, Car } from 'lucide-react';
+import { X, PlusCircle } from 'lucide-react';
 
 interface AddCarModalProps {
   isOpen: boolean;
@@ -28,7 +28,7 @@ export const AddCarModal: React.FC<AddCarModalProps> = ({
   const [repairCost, setRepairCost] = useState(13);
   const [heydealerFee, setHeydealerFee] = useState(25.0);
   const [memo, setMemo] = useState('[셀프(기본) / 마진: 120만]');
-  const [status, setStatus] = useState('장부저장');
+  const [status] = useState('장부저장');
 
   const margin = sellPrice - buyPrice - repairCost - heydealerFee;
 

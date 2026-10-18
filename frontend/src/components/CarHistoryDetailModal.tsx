@@ -1,8 +1,7 @@
 import React, { useState, useMemo } from 'react';
-import { X, ShieldAlert, ShieldCheck, Car, Calendar, AlertTriangle, FileText, CheckCircle2, Gauge, ExternalLink, Scale, Check, Shield, ChevronDown, ChevronUp } from 'lucide-react';
+import { X, ShieldAlert, ShieldCheck, Car, AlertTriangle, FileText, CheckCircle2, Gauge, Scale, ChevronDown, ChevronUp } from 'lucide-react';
 import type { ChaolmaCarHistory, ChaolmaOriginDoc } from '@/services/chaolmaService';
 import { computeRuleBasedAssessment } from '@/utils/ruleBasedAssessment';
-import { CarDamageDiagram2D } from './BiddingCockpit/Sections/CarDamageDiagram2D';
 import { AutoplusDamageDiagram } from './AutoplusDamageDiagram';
 
 export interface CarHistoryDetailModalProps {
@@ -31,50 +30,6 @@ export interface CarHistoryDetailModalProps {
     rawHistory?: ChaolmaCarHistory;
     originDoc?: ChaolmaOriginDoc;
   } | null;
-}
-
-// 카히스토리 수리부위 상세 문자열(r502-16) 파서 -> CarDamageDiagram2D 연동 포맷 변환
-function parseRepairDetailsToDiagram(repairDetailsStr?: string) {
-  if (!repairDetailsStr || typeof repairDetailsStr !== 'string' || !repairDetailsStr.trim()) {
-    return { selectedEncar: null, items: [] };
-  }
-  const parts = repairDetailsStr.split(',').map(s => s.trim()).filter(Boolean);
-  const replaces: string[] = [];
-  const repairs: string[] = [];
-  const damageData: Record<string, string> = {};
-  const items: { name: string; action: '교환' | '판금' | '도장' | '탈착' | '기타'; raw: string }[] = [];
-
-  for (const p of parts) {
-    if (!p) continue;
-    let action: '교환' | '판금' | '도장' | '탈착' | '기타' = '기타';
-    if (p.includes('교환')) action = '교환';
-    else if (p.includes('판금') || p.includes('용접')) action = '판금';
-    else if (p.includes('도장')) action = '도장';
-    else if (p.includes('탈착')) action = '탈착';
-
-    const cleanName = p.replace(/\((교환|판금|용접|도장|탈착)\)/g, '').trim() || p;
-
-    if (action === '교환') {
-      replaces.push(cleanName);
-      damageData[cleanName] = '교환';
-    } else if (action === '판금') {
-      repairs.push(cleanName);
-      damageData[cleanName] = '판금';
-    }
-
-    items.push({ name: cleanName, action, raw: p });
-  }
-
-  return {
-    selectedEncar: {
-      replaces: replaces || [],
-      repairs: repairs || [],
-      damageData: damageData || {},
-      replaceNames: replaces || [],
-      repairNames: repairs || [],
-    },
-    items: items || []
-  };
 }
 
 export const CarHistoryDetailModal: React.FC<CarHistoryDetailModalProps> = ({

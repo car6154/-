@@ -7,8 +7,7 @@
 """
 
 import os
-import time
-from typing import Dict, Any, Optional
+from typing import Dict, Any
 from services.cookie_server import save_cookie, save_autoplus_cookie, set_env_variable
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

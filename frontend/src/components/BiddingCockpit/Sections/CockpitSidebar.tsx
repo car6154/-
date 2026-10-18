@@ -5,7 +5,6 @@ import {
   Search,
 } from 'lucide-react';
 import {
-  isOptionMatched,
   splitOptionString,
   getOptionMatchDetail,
   fetchNewCarCatalog,

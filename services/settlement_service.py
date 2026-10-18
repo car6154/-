@@ -1,6 +1,5 @@
 # services/settlement_service.py
 from datetime import datetime
-import pandas as pd
 
 def get_auto_fee_rate(volume, is_loss=False):
     """

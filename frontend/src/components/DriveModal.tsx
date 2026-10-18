@@ -10,14 +10,12 @@ import {
   Database,
   Upload,
   FileSpreadsheet,
-  ShieldCheck,
   Check
 } from 'lucide-react';
 import { 
   initAuth, 
   googleSignIn, 
   logout, 
-  uploadFileToDrive, 
   uploadGoogleSheetToDrive,
   formatCarsToGoogleSheetCSV 
 } from '../services/driveService';
@@ -129,33 +127,6 @@ export const DriveModal: React.FC<DriveModalProps> = ({
       setUploadSuccessLink(res.webViewLink || `https://drive.google.com/file/d/${res.id}/view`);
     } catch (err: any) {
       setErrorMsg(err.message || 'Google 스프레드시트 생성 중 오류가 발생했습니다.');
-    } finally {
-      setIsUploading(false);
-    }
-  };
-
-  // Google Drive에 전체 원장 JSON 백업 파일 업로드
-  const handleUploadLedgerJsonToDrive = async () => {
-    setIsUploading(true);
-    setErrorMsg(null);
-    setUploadSuccessLink(null);
-
-    try {
-      const todayStr = new Date().toISOString().slice(0, 10);
-      const fileName = `JPRO_차량원장_정산_백업_${todayStr}.json`;
-      const backupPayload = JSON.stringify({
-        version: '3.0',
-        exportedAt: new Date().toISOString(),
-        totalCars: cars.length,
-        totalSettlement: settlementItems.length,
-        cars,
-        settlementItems
-      }, null, 2);
-
-      const res = await uploadFileToDrive(fileName, backupPayload, 'application/json');
-      setUploadSuccessLink(res.webViewLink || `https://drive.google.com/file/d/${res.id}/view`);
-    } catch (err: any) {
-      setErrorMsg(err.message || 'Google Drive 업로드 중 오류가 발생했습니다.');
     } finally {
       setIsUploading(false);
     }

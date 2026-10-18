@@ -1,8 +1,6 @@
 # views/tab_main.py
-import os
 import re
 import json
-import math
 from datetime import datetime
 import requests
 import numpy as np
@@ -13,9 +11,7 @@ import plotly.graph_objects as go
 from sales_analysis import get_car_market_stats, generate_encar_market_url, SalesDataAnalyzer, is_target_option_matched, get_current_target_options
 from services.encar_service import Scraper
 from services.sold_out_tracker import SoldOutTracker
-from services.chaolma_service import ChaolmaService
 from services.option_package_service import build_option_tooltip
-from views.components.chaolma_card import render_chaolma_section, render_chaolma_card_ui
 
 def render_main_tab(
     filtered_df=None,

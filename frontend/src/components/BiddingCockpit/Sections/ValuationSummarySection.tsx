@@ -1,16 +1,8 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import {
   Sparkles,
-  RefreshCw,
-  Upload,
   ExternalLink,
-  ShieldCheck,
-  TrendingUp,
-  Flame,
   Zap,
-  BarChart3,
-  Clock,
-  ArrowRight,
 } from 'lucide-react';
 import { EncarItem } from './ComparableEncarSection';
 

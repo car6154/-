@@ -8,21 +8,11 @@ import {
 
   Search,
 
-  CheckCircle2,
-
-  Clock,
-
-  Car,
-
   Trash2,
 
   RotateCcw,
 
-  Sparkles,
-
   ExternalLink,
-
-  ChevronRight
 
 } from 'lucide-react';
 
@@ -95,11 +85,7 @@ export const LedgerTab: React.FC<LedgerTabProps> = ({
 
   // tab_ledger.py states
 
-  const [internalSearch, setInternalSearch] = useState<string>('');
-
-  const [statusFilter, setStatusFilter] = useState<'전체' | '진행중 (미확정)' | '매입완료'>('전체');
-
-  const [pageSizeSel, setPageSizeSel] = useState<string>('전체 보기');
+  const [pageSizeSel] = useState<string>('전체 보기');
 
   const [currentPage, setCurrentPage] = useState<number>(1);
 
@@ -184,20 +170,6 @@ export const LedgerTab: React.FC<LedgerTabProps> = ({
     }
 
   }, [currentSelectedCar]);
-
-
-
-  // Overall KPI statistics (tab_ledger.py L349-L379)
-
-  const totalLedgerCount = cars.length;
-
-  const completedCount = useMemo(() => {
-
-    return cars.filter(c => c.status === '매입완료').length;
-
-  }, [cars]);
-
-  const pendingCount = totalLedgerCount - completedCount;
 
 
 

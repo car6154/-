@@ -2,11 +2,9 @@ import os
 import csv
 import json
 import shutil
-import re
 import urllib.parse
 from datetime import datetime
 from typing import List, Dict, Any, Optional
-from pathlib import Path
 from fastapi import APIRouter, HTTPException, Response
 from pydantic import BaseModel
 from services.git_sync_service import GitSyncService

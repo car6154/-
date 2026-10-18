@@ -14,7 +14,6 @@ import os
 import sys
 import re
 import json
-import time
 import requests
 import pandas as pd
 from concurrent.futures import ThreadPoolExecutor, as_completed

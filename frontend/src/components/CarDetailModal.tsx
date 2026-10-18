@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { CarLedgerItem } from '@/types';
-import { X, Wrench, DollarSign, Check, Trash2, Tag, Calendar, ShieldAlert, ExternalLink } from 'lucide-react';
+import { X, Check, Trash2, Tag, ExternalLink } from 'lucide-react';
 
 interface CarDetailModalProps {
   car: CarLedgerItem | null;

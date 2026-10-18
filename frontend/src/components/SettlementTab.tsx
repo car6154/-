@@ -1,15 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { InventorySettlementItem } from '@/types';
 import {
-  Car,
-  Clock,
-  AlertTriangle,
-  TrendingDown,
-  Coins,
-  PackageCheck,
-  Search,
-  ExternalLink,
-  CheckCircle2,
   Check,
   Edit2,
   X,

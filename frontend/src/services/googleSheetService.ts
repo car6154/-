@@ -32,7 +32,7 @@ export interface GoogleSheetCarPayload {
 export async function sendCarToGoogleSheet(payload: GoogleSheetCarPayload): Promise<{ success: boolean; message: string }> {
   try {
     // navigator.sendBeacon 또는 no-cors fetch로 Google Apps Script CORS 우회 전송
-    const response = await fetch(JPRO_GOOGLE_SHEET_WEBHOOK_URL, {
+    await fetch(JPRO_GOOGLE_SHEET_WEBHOOK_URL, {
       method: "POST",
       mode: "no-cors", // Google Apps Script Webhook은 302 리다이렉트되므로 no-cors가 표준
       headers: {

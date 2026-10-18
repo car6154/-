@@ -2,9 +2,7 @@
 import os
 import re
 import json
-import time
 from datetime import datetime
-import pandas as pd
 
 class SoldOutTracker:
     """

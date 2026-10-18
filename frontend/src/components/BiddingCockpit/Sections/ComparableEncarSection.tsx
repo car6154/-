@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { AlertTriangle, ExternalLink, Car } from 'lucide-react';
 import {
-  isOptionMatched,
   splitOptionString,
   getOptionMatchDetail,
   fetchNewCarCatalog,

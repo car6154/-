@@ -5,7 +5,7 @@ import math
 from datetime import datetime
 import pandas as pd
 import streamlit as st
-from services.settlement_service import get_auto_fee_rate, recalc_settlement_df
+from services.settlement_service import recalc_settlement_df
 from services.encar_service import Scraper
 from sales_analysis import SalesDataAnalyzer
 

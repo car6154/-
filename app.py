@@ -2,7 +2,6 @@ import os
 import re
 import json
 import time
-import random
 import math
 import importlib
 from datetime import datetime
@@ -12,7 +11,6 @@ import requests
 import urllib.parse
 import streamlit as st
 import streamlit.components.v1 as components
-import plotly.graph_objects as go
 from dotenv import load_dotenv
 
 # python app.py 직접 실행 시 브라우저 및 Streamlit 웹 서버 자동 실행
@@ -23,10 +21,10 @@ if not st.runtime.exists():
     sys.argv = ["streamlit", "run", __file__]
     sys.exit(stcli.main())
 
-from heydealer_ai import extract_car_data_for_ai, get_gemini_estimate
+from heydealer_ai import extract_car_data_for_ai
 from scraper import HeydealerScraper
 import sales_analysis
-from sales_analysis import get_car_market_stats, generate_encar_market_url, SalesDataAnalyzer
+from sales_analysis import generate_encar_market_url, SalesDataAnalyzer
 
 # ==========================================
 # 📦 Services & Views Modular Imports
@@ -36,9 +34,7 @@ import services.data_processor
 importlib.reload(services.data_processor)
 from services.data_processor import DataProcessor
 from services.encar_service import Scraper
-from services.settlement_service import get_auto_fee_rate, recalc_settlement_df
 from services.chaolma_service import ChaolmaService
-from views.components.chaolma_card import render_chaolma_card_ui
 
 import views.tab_main
 importlib.reload(views.tab_main)

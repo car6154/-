@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { INITIAL_CAR_LEDGER } from '@/data/initialData';
 import { INITIAL_SETTLEMENT_ITEMS } from '@/data/settlementSeedData';
 import { CarLedgerItem, InventorySettlementItem, CockpitPresetData } from '@/types';
@@ -22,7 +22,7 @@ import { ExtensionInstallModal } from '@/components/ExtensionInstallModal';
 import { MobileNav } from '@/components/MobileNav';
 import { RefreshCw, Cloud, ShieldCheck, CheckCircle2 } from 'lucide-react';
 import { sendCarToGoogleSheet } from '@/services/googleSheetService';
-import { startContinuousCookieSync, subscribeCookieSync, uploadCookieToServer } from '@/services/cookieBridge';
+import { startContinuousCookieSync, subscribeCookieSync } from '@/services/cookieBridge';
 
 export default function App() {
   // 1. Persistence for cars ledger (Real Python backend my_car_ledger.csv & fallback)

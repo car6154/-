@@ -10,7 +10,7 @@ import os
 import json
 import re
 import unicodedata
-from typing import Optional, Dict, Any, List, Tuple, Set
+from typing import Optional, Any
 
 CRAWLED_CATALOG_FILE = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "encar_newcar_catalog.json")
 _CRAWLED_CACHE = None

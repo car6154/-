@@ -1,12 +1,7 @@
 import React, { useState } from 'react';
 import { InventorySettlementItem } from '@/types';
 import { 
-  Trophy, 
-  TrendingUp, 
-  DollarSign, 
-  Coins, 
   RotateCcw, 
-  ExternalLink 
 } from 'lucide-react';
 
 interface SoldOutSettlementTabProps {

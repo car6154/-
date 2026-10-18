@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { 
   X, Key, ShieldCheck, Copy, Check, RefreshCw, 
-  Terminal, ChevronDown, ChevronUp, AlertTriangle, 
-  CheckCircle2, Download, ExternalLink, Cpu,
+  Terminal, ChevronDown, ChevronUp, 
+  Download, Cpu,
   Zap, Settings, Shield
 } from 'lucide-react';
 
