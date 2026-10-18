@@ -233,6 +233,18 @@
         // 백그라운드 세부 기타비용 fetch (오토플러스 getSysPo.do poAddExt 실측치)
         let etcFeeSuccessCount = 0;
         let pendingFetches = 0;
+        let debounceTimer = null;
+
+        function scheduleDebouncedBatchSync(delay = 300) {
+          if (debounceTimer) clearTimeout(debounceTimer);
+          debounceTimer = setTimeout(() => {
+            if (isContextAlive()) {
+              const currentCars = Array.from(carMap.values());
+              console.log(`[J-PRO AutoSync] 300ms 디바운스 완료 -> 매입 데이터 ${currentCars.length}대 1회 일괄 전송`);
+              chrome.runtime.sendMessage({ action: 'sync_highplus_buy_data', data: currentCars });
+            }
+          }, delay);
+        }
 
         for (const car of foundCars) {
           const carNo = car.carNumber;
@@ -288,9 +300,7 @@
                 etcFeeSuccessCount++;
                 if (car.etcFee !== parsedFee) {
                   car.etcFee = parsedFee;
-                  if (isContextAlive()) {
-                    chrome.runtime.sendMessage({ action: 'sync_highplus_buy_data', data: [car] });
-                  }
+                  scheduleDebouncedBatchSync(300);
                 }
               }
             })
@@ -301,6 +311,9 @@
               pendingFetches--;
               if (pendingFetches === 0) {
                 console.log(`[J-PRO etcFee] 기타비용 추출 집계: 성공 ${etcFeeSuccessCount}대 / 전체 ${foundCars.length}대`);
+                if (etcFeeSuccessCount > 0) {
+                  scheduleDebouncedBatchSync(50);
+                }
               }
             });
         }

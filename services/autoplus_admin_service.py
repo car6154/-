@@ -12,6 +12,9 @@ import csv
 import json
 import shutil
 import re
+import threading
+import uuid
+import time
 from datetime import datetime, date
 from typing import Dict, Any, List, Optional
 from services.git_sync_service import GitSyncService
@@ -25,6 +28,26 @@ SETTLEMENT_CSV = os.path.join(BASE_DIR, "my_inventory_settlement.csv")
 STATUS_FILE = os.path.join(DATA_DIR, "highplus_buy_status.json")
 
 MANAGER = "김재현"
+
+_FILE_LOCK = threading.Lock()
+
+
+def _safe_atomic_replace(temp_path: str, target_path: str, max_retries: int = 3):
+    """Windows 파일 락(WinError 32, WinError 5) 대응 최대 3회 재시도 원자적 파일 교체"""
+    for attempt in range(max_retries):
+        try:
+            os.replace(temp_path, target_path)
+            return True
+        except Exception as e:
+            if attempt < max_retries - 1:
+                time.sleep(0.1 * (attempt + 1))
+            else:
+                if os.path.exists(temp_path):
+                    try:
+                        os.remove(temp_path)
+                    except Exception:
+                        pass
+                raise e
 
 
 def _safe_int(val: Any, default: int = 0) -> int:
@@ -253,63 +276,66 @@ class AutoplusAdminService:
         if not os.path.exists(LEDGER_CSV):
             return 0
 
-        cls.backup_file(LEDGER_CSV)
-        cars_by_no = {c["carNumber"]: c for c in cleaned_cars}
-        updated_count = 0
+        with _FILE_LOCK:
+            cls.backup_file(LEDGER_CSV)
+            cars_by_no = {c["carNumber"]: c for c in cleaned_cars}
+            updated_count = 0
 
-        encodings = ['utf-8-sig', 'utf-8', 'cp949']
-        header = []
-        rows = []
+            encodings = ['utf-8-sig', 'utf-8', 'cp949']
+            header = []
+            rows = []
 
-        for enc in encodings:
-            try:
-                with open(LEDGER_CSV, "r", encoding=enc, newline="") as f:
-                    reader = csv.reader(f)
-                    header = next(reader)
-                    for r in reader:
-                        if r:
-                            rows.append(r)
-                break
-            except Exception:
-                continue
+            for enc in encodings:
+                try:
+                    with open(LEDGER_CSV, "r", encoding=enc, newline="") as f:
+                        reader = csv.reader(f)
+                        header = next(reader)
+                        for r in reader:
+                            if r:
+                                rows.append(r)
+                    break
+                except Exception:
+                    continue
 
-        if not header:
-            return 0
+            if not header:
+                return 0
 
-        h_map = {col.strip(): i for i, col in enumerate(header)}
-        car_no_idx = h_map.get("차량번호")
-        status_idx = h_map.get("상태")
-        buy_p_idx = h_map.get("실매입가") or h_map.get("매입가")
+            h_map = {col.strip(): i for i, col in enumerate(header)}
+            car_no_idx = h_map.get("차량번호")
+            status_idx = h_map.get("상태")
+            buy_p_idx = h_map.get("실매입가") or h_map.get("매입가")
 
-        if car_no_idx is None or status_idx is None:
-            return 0
+            if car_no_idx is None or status_idx is None:
+                return 0
 
-        new_rows = []
-        for r in rows:
-            if len(r) > car_no_idx:
-                c_no = r[car_no_idx].strip()
-                if c_no in cars_by_no:
-                    c_info = cars_by_no[c_no]
-                    # 상태 매입확정으로 전환
-                    r[status_idx] = "매입확정"
-                    if buy_p_idx is not None and len(r) > buy_p_idx and c_info["buyPrice"] > 0:
-                        r[buy_p_idx] = str(c_info["buyPrice"])
-                    updated_count += 1
-            new_rows.append(r)
+            new_rows = []
+            for r in rows:
+                if len(r) > car_no_idx:
+                    c_no = r[car_no_idx].strip()
+                    if c_no in cars_by_no:
+                        c_info = cars_by_no[c_no]
+                        # 상태 매입확정으로 전환
+                        r[status_idx] = "매입확정"
+                        if buy_p_idx is not None and len(r) > buy_p_idx and c_info["buyPrice"] > 0:
+                            r[buy_p_idx] = str(c_info["buyPrice"])
+                        updated_count += 1
+                new_rows.append(r)
 
-        if updated_count > 0:
-            temp_path = f"{LEDGER_CSV}.tmp"
-            try:
-                with open(temp_path, "w", encoding="utf-8-sig", newline="") as f:
-                    writer = csv.writer(f)
-                    writer.writerow(header)
-                    writer.writerows(new_rows)
-                os.replace(temp_path, LEDGER_CSV)
-            except Exception as e:
-                if os.path.exists(temp_path): os.remove(temp_path)
-                print(f"[AutoplusAdminService] 장부 저장 오류: {e}")
+            if updated_count > 0:
+                temp_path = f"{LEDGER_CSV}.{uuid.uuid4().hex[:8]}.tmp"
+                try:
+                    with open(temp_path, "w", encoding="utf-8-sig", newline="") as f:
+                        writer = csv.writer(f)
+                        writer.writerow(header)
+                        writer.writerows(new_rows)
+                    _safe_atomic_replace(temp_path, LEDGER_CSV)
+                except Exception as e:
+                    if os.path.exists(temp_path):
+                        try: os.remove(temp_path)
+                        except: pass
+                    print(f"[AutoplusAdminService] 장부 저장 오류: {e}")
 
-        return updated_count
+            return updated_count
 
     @classmethod
     def _sync_settlement_inventory(cls, cleaned_cars: List[Dict[str, Any]]) -> Dict[str, int]:
@@ -379,10 +405,11 @@ class AutoplusAdminService:
         if not os.path.exists(SETTLEMENT_CSV):
             return {"added": 0, "updated": 0}
 
-        cls.backup_file(SETTLEMENT_CSV)
-        cars_by_no = {c["carNumber"]: c for c in cleaned_cars}
-        ledger_map = cls._load_ledger_info_map()
-        ledger_cars = cls._load_valid_ledger_cars()
+        with _FILE_LOCK:
+            cls.backup_file(SETTLEMENT_CSV)
+            cars_by_no = {c["carNumber"]: c for c in cleaned_cars}
+            ledger_map = cls._load_ledger_info_map()
+            ledger_cars = cls._load_valid_ledger_cars()
 
         header = [
             '순차', '매입일', '상태', '차량번호', '차종', '판매가', '재고일', '매입가',
@@ -529,26 +556,26 @@ class AutoplusAdminService:
             if len(row) > 0:
                 row[0] = str(idx + 1)
 
-        # 원자적 파일 교체
-        temp_path = f"{SETTLEMENT_CSV}.tmp"
-        try:
-            with open(temp_path, "w", encoding="utf-8-sig", newline="") as f:
-                writer = csv.writer(f)
-                writer.writerow(header)
-                writer.writerows(new_rows)
-            os.replace(temp_path, SETTLEMENT_CSV)
-            # [자동화 파이프라인] 매입 연동 완료 즉시 오플 전사 재고의 판매가, 재고일, 엔카URL을 100% 자동 매칭
+            # 원자적 파일 교체
+            temp_path = f"{SETTLEMENT_CSV}.{uuid.uuid4().hex[:8]}.tmp"
             try:
-                from services.autoplus_sync_service import AutoplusSyncService
-                AutoplusSyncService._sync_settlement_ledger()
-            except Exception as se:
-                print(f"[AutoplusAdminService] 오플 재고 자동 매칭 연동 경고: {se}", flush=True)
-        except Exception as e:
-            if os.path.exists(temp_path):
-                try: os.remove(temp_path)
-                except: pass
-            print(f"[AutoplusAdminService] 정산표 저장 오류: {e}")
-        return {"added": added_count, "updated": updated_count}
+                with open(temp_path, "w", encoding="utf-8-sig", newline="") as f:
+                    writer = csv.writer(f)
+                    writer.writerow(header)
+                    writer.writerows(new_rows)
+                _safe_atomic_replace(temp_path, SETTLEMENT_CSV)
+                # [자동화 파이프라인] 매입 연동 완료 즉시 오플 전사 재고의 판매가, 재고일, 엔카URL을 100% 자동 매칭
+                try:
+                    from services.autoplus_sync_service import AutoplusSyncService
+                    AutoplusSyncService._sync_settlement_ledger()
+                except Exception as se:
+                    print(f"[AutoplusAdminService] 오플 재고 자동 매칭 연동 경고: {se}", flush=True)
+            except Exception as e:
+                if os.path.exists(temp_path):
+                    try: os.remove(temp_path)
+                    except: pass
+                print(f"[AutoplusAdminService] 정산표 저장 오류: {e}")
+            return {"added": added_count, "updated": updated_count}
 
     @classmethod
     def parse_sppol10001_html(cls, html_content: str) -> List[Dict[str, Any]]:
