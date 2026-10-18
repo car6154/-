@@ -859,11 +859,11 @@ export const LedgerTab: React.FC<LedgerTabProps> = ({
 
       {/* 5. Responsive Ledger Table (tab_ledger.py L426-L531) */}
 
-      <div className="bg-[#0f1117] border border-[#232733] rounded-xl overflow-hidden">
+      <div className="bg-[#0f1117] border border-[#232733] rounded-xl max-h-[580px] overflow-y-auto scrollbar-thin scrollbar-thumb-zinc-700 relative">
 
-        {/* Header */}
+        {/* Header (Sticky Top) */}
 
-        <div className="hidden md:grid grid-cols-[80px_110px_80px_minmax(120px,1fr)_120px_56px_96px_60px_90px_90px_80px_140px] items-center gap-2 bg-[#181b24] px-3 py-2.5 border-b border-[#282c3c] border-l-4 border-l-transparent text-[11px] font-bold text-slate-400">
+        <div className="hidden md:grid grid-cols-[80px_110px_80px_minmax(120px,1fr)_120px_56px_96px_60px_90px_90px_80px_140px] items-center gap-2 bg-[#181b24] px-3 py-2.5 border-b border-[#282c3c] border-l-4 border-l-transparent text-[11px] font-bold text-slate-400 sticky top-0 z-10 shadow-md">
 
           <div>📅 등록일</div>
 
