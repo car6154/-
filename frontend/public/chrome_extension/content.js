@@ -216,21 +216,7 @@
         console.log(`[J-PRO Scan] 감지된 차량: ${foundCars.length}대`, foundCars.map(c => c.carNumber));
         if (!foundCars.length) return;
 
-        // 서명 검사: 데이터 변경 시 백엔드 즉시 전송
-        const sig = JSON.stringify(foundCars.map(c => ({ no: c.carNumber, p: c.buyPrice, d: c.transferDate })));
-        if (sig !== lastScanSignature && isContextAlive()) {
-          chrome.runtime.sendMessage(
-            { action: 'sync_highplus_buy_data', data: foundCars },
-            (response) => {
-              if (!chrome.runtime.lastError && response && response.synced) {
-                lastScanSignature = sig;
-                console.log(`[J-PRO AutoSync] high A+ 매입 데이터 ${foundCars.length}대 백엔드 무인 동기화 성공`);
-              }
-            }
-          );
-        }
-
-        // 백그라운드 세부 기타비용 fetch (오토플러스 getSysPo.do poAddExt 실측치)
+        // 300ms 디바운스 일괄 전송 (getSysPo.do 수수료 추출과 함께 7대 1회 전송)
         let etcFeeSuccessCount = 0;
         let pendingFetches = 0;
         let debounceTimer = null;
@@ -245,6 +231,9 @@
             }
           }, delay);
         }
+
+        // 기본 디바운스 예약 (fetch 지연되더라도 1회 전송 보장)
+        scheduleDebouncedBatchSync(500);
 
         for (const car of foundCars) {
           const carNo = car.carNumber;
@@ -320,8 +309,101 @@
       } catch (err) {}
     }
 
-    setTimeout(scanHighplusBuyData, 800);
-    window.__jproAutoplusScanTimer = setInterval(scanHighplusBuyData, 5000);
+    // ── 8. SPPOL10001 자동 검색 & 스마트 스캔 로직 ──
+    function isAlreadySearched() {
+      const CAR_NO_REGEX = /\d{2,3}[가-힣]\s*\d{4}/;
+      const rows = Array.from(document.querySelectorAll('tr')).filter(tr => {
+        const txt = tr.innerText || "";
+        return CAR_NO_REGEX.test(txt) && !txt.includes("차량번호");
+      });
+      const mgrInput = document.querySelector('#searchPurManagerNm, input[name="searchPurManagerNm"]');
+      const isMgrMatch = mgrInput ? mgrInput.value.includes('김재현') : true;
+      return rows.length >= 1 && isMgrMatch;
+    }
+
+    function executeAutoSearchAndScan() {
+      // 3. 이미 검색된 상태(차량 목록 표시 중)면 검색을 건너뛰고 바로 스캔
+      if (isAlreadySearched()) {
+        console.log('[J-PRO AutoSearch] 이미 검색 결과가 로드되어 있습니다. 검색 생략 후 즉시 스캔 실행');
+        scanHighplusBuyData();
+        return;
+      }
+
+      const dtInput = document.querySelector('#searchReturnDtSt, input[name="searchReturnDtSt"]');
+      const mgrInput = document.querySelector('#searchPurManagerNm, input[name="searchPurManagerNm"]');
+
+      if (dtInput) {
+        dtInput.value = '2026-09-01';
+        dtInput.dispatchEvent(new Event('input', { bubbles: true }));
+        dtInput.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+
+      if (mgrInput) {
+        mgrInput.value = '김재현';
+        mgrInput.dispatchEvent(new Event('input', { bubbles: true }));
+        mgrInput.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+
+      // 검색(조회) 버튼 탐색
+      const searchBtn = Array.from(document.querySelectorAll('button, a, input[type="button"], input[type="submit"]')).find(el => {
+        const txt = (el.innerText || el.value || '').trim();
+        const onclick = el.getAttribute('onclick') || '';
+        return (txt === '조회' || txt === '검색') || /search|조회|검색/i.test(onclick) || (el.id && el.id.toLowerCase().includes('search'));
+      });
+
+      // 무한 클릭 방지 sessionStorage 플래그 저장
+      sessionStorage.setItem('jpro_auto_searched', 'true');
+
+      if (searchBtn) {
+        console.log('[J-PRO AutoSearch] 검색조건(2026-09-01, 김재현) 자동 입력 완료 -> 검색 버튼 자동 클릭');
+        searchBtn.click();
+      } else {
+        const form = document.querySelector('form[name*="search"], form[action*="SPPOL10001"], form');
+        if (form) {
+          console.log('[J-PRO AutoSearch] 검색 버튼 미발견 -> form.submit() 실행');
+          form.submit();
+        } else {
+          console.warn('[J-PRO AutoSearch] 검색 버튼/폼 미발견 -> 1초 대기 후 직접 스캔');
+          setTimeout(scanHighplusBuyData, 1000);
+          return;
+        }
+      }
+
+      // AJAX 페이지 업데이트(리로드 없는 경우) 대비 DOM 관찰
+      let ajaxTriggered = false;
+      const observer = new MutationObserver(() => {
+        if (!ajaxTriggered && isAlreadySearched()) {
+          ajaxTriggered = true;
+          observer.disconnect();
+          console.log('[J-PRO AutoSearch] AJAX 검색 결과 로드 감지 -> 자동 스캔 실행');
+          setTimeout(scanHighplusBuyData, 600);
+        }
+      });
+      observer.observe(document.body, { childList: true, subtree: true });
+      setTimeout(() => observer.disconnect(), 6000);
+    }
+
+    // ── 9. 페이지 로드/새로고침 시 플래그 확인 (자동 검색으로 리로드된 경우 자동 스캔 1회 실행) ──
+    if (sessionStorage.getItem('jpro_auto_searched') === 'true') {
+      sessionStorage.removeItem('jpro_auto_searched'); // 1회성 소진
+      console.log('[J-PRO AutoSearch] 자동 검색 후 결과 페이지 로드 감지 -> 결과 자동 스캔 실행');
+      setTimeout(scanHighplusBuyData, 800);
+    }
+
+    // ── 10. [매입연동] 버튼 클릭 신호(triggerActiveAutoplusTabScan) 수신 시 실행 ──
+    if (chrome && chrome.runtime && chrome.runtime.onMessage) {
+      chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+        if (msg && (msg.action === 'triggerActiveAutoplusTabScan' || msg.action === 'trigger_scan')) {
+          console.log('[J-PRO Scan] [매입연동] 버튼 신호 수신 -> 스마트 검색 & 스캔 파이프라인 가동');
+          executeAutoSearchAndScan();
+          sendResponse({ status: 'ok' });
+        }
+      });
+    }
+
+    // ── 일반 페이지 로드 시 무조건 자동 스캔은 영구 비활성화 ──
+    // setTimeout(scanHighplusBuyData, 800);
+    // window.__jproAutoplusScanTimer = setInterval(scanHighplusBuyData, 5000);
   }
 })();
 
