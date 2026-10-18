@@ -134,7 +134,7 @@
           let carName = "";
           let modelYear = "";
           let buyPrice = 0;
-          let etcFee = 0;
+          let etcFee;
           let transferDate = "";
           let purchaseType = "";
           let pid = "";

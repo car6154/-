@@ -161,11 +161,9 @@ class AutoplusAdminService:
             buy_price_man = round(raw_p / 10000) if raw_p > 50000 else round(raw_p)
 
             # 수수료: 오토플러스 사이트 화면 실측 기타비용으로만 산정 (0원은 0원으로 정확히 유지)
-            if "etcFee" in c:
+            if _safe_float(c.get("etcFee", 0)) > 0:
                 raw_fee = _safe_float(c.get("etcFee"))
                 fee_man = round(raw_fee / 10000, 1) if raw_fee > 5000 else round(raw_fee, 1)
-                if abs(fee_man - 54.5) < 0.1:
-                    fee_man = 55.0
             elif "heydealerFee" in c:
                 raw_fee = _safe_float(c.get("heydealerFee"))
                 fee_man = round(raw_fee / 10000, 1) if raw_fee > 5000 else round(raw_fee, 1)
@@ -464,7 +462,7 @@ class AutoplusAdminService:
                         rep = l_info["repairCost"] if l_info["repairCost"] > 0 else (l_info["outer"] * 13)
                         update_val("상품화", rep)
                     # 수수료: 오토플러스 사이트 화면 실측 기타비용으로만 반영 (스파크 0원, 카니발 55만, 투싼 67만 등 100% 실측치)
-                    if c_no in cars_by_no and "heydealerFee" in cars_by_no[c_no]:
+                    if c_no in cars_by_no and cars_by_no[c_no].get("heydealerFee", 0) > 0:
                         update_val("헤딜수수료", cars_by_no[c_no]["heydealerFee"])
                     elif c_no in ledger_map:
                         update_val("헤딜수수료", ledger_map[c_no]["fee"])
@@ -498,7 +496,7 @@ class AutoplusAdminService:
                 rep_cost = l_info.get("repairCost", 0) or (outer * 13 if outer > 0 else 0)
                 
                 # 수수료: 오토플러스 사이트 화면 실측 기타비용으로만 반영
-                if "heydealerFee" in c_info:
+                if c_info.get("heydealerFee", 0) > 0:
                     fee = c_info["heydealerFee"]
                 else:
                     fee = l_info.get("fee", 0.0)
@@ -780,8 +778,6 @@ class AutoplusAdminService:
                             ext_fee = p_data.get("poAddExt")
                             if ext_fee is not None and str(ext_fee).strip():
                                 c["etcFee"] = _safe_int(ext_fee)
-                            else:
-                                c["etcFee"] = 0
                     except Exception as de:
                         print(f"[AutoplusAdminService] 상세 크롤링 오류 ({p_id}): {de}")
 
