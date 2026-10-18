@@ -32,11 +32,7 @@ if %errorlevel% neq 0 (
 
 echo [1/3] 기존 서버 프로세스 및 포트(8000, 3000, 8501) 완전 정리 중...
 
-REM -0. 락 파일 관리 (수동정지 락 해제 및 부팅 락 설정 -> 워치도그 간섭 원천 차단)
-if exist "%~dp0server_paused.lock" del /f /q "%~dp0server_paused.lock" > nul 2>&1
-echo booting > "%~dp0server_booting.lock"
-
-REM -1. 잔여 백그라운드 프로세스(python, node) 일괄 종료 (JPRO_Watchdog 감시자는 보호)
+REM -0. 잔여 백그라운드 / 감시자 프로세스(python, node) 일괄 완전 종료
 taskkill /f /im python.exe > nul 2>&1
 taskkill /f /im node.exe > nul 2>&1
 
@@ -91,9 +87,6 @@ if %errorlevel% neq 0 (
     start "JPRO_Watchdog" /min cmd.exe /c "cd /d "%~dp0" & watchdog.bat"
 )
 
-REM 6. 부팅 완료 후 부팅 락 해제 (이제부터 워치도그 정상 감시 개시)
-if exist "%~dp0server_booting.lock" del /f /q "%~dp0server_booting.lock" > nul 2>&1
-
-echo [3/3] 서버 가동 완료 (Watchdog 정상 감시 활성화). 런처 창을 닫습니다.
+echo [3/3] 서버 가동 완료. 런처 창을 닫습니다.
 ping 127.0.0.1 -n 3 > nul
 exit
