@@ -378,19 +378,53 @@
           mgrInput.dispatchEvent(new Event('input', { bubbles: true }));
           mgrInput.dispatchEvent(new Event('change', { bubbles: true }));
           inputFilled = true;
+
+          // 1단계: 담당자 입력창에서 Enter 키 이벤트 3종(keydown, keypress, keyup) 발송
+          ['keydown', 'keypress', 'keyup'].forEach(eventType => {
+            mgrInput.dispatchEvent(new KeyboardEvent(eventType, {
+              key: 'Enter',
+              code: 'Enter',
+              keyCode: 13,
+              which: 13,
+              bubbles: true,
+              cancelable: true
+            }));
+          });
         }
 
-        // 검색(조회) 버튼 탐색
-        const searchBtn = Array.from(doc.querySelectorAll('button, a, input[type="button"], input[type="submit"]')).find(el => {
+        // 2단계: 검색(조회) 버튼 정밀 탐색 (button, a, input, span, div, [role="button"])
+        const candidates = Array.from(doc.querySelectorAll('button, a, input[type="button"], input[type="submit"], [role="button"], span, div, p'));
+        const searchBtn = candidates.find(el => {
           const txt = (el.innerText || el.value || '').trim();
           const onclick = el.getAttribute('onclick') || '';
-          return (txt === '조회' || txt === '검색') || /search|조회|검색/i.test(onclick) || (el.id && el.id.toLowerCase().includes('search'));
+          const id = (el.id || '').toLowerCase();
+          const cls = (el.className || '').toString().toLowerCase();
+
+          // '검색 초기화' 버튼 배제
+          if (txt.includes('초기화')) return false;
+
+          const isMatchText = (txt === '검색' || txt === '조회' || txt === '조 회' || txt === '검 색');
+          const isMatchAttr = /fn_search|fnSearch|search|조회|검색/i.test(onclick) || id.includes('search') || cls.includes('btn_search') || cls.includes('btn-search');
+
+          return isMatchText || isMatchAttr;
         });
 
         if (searchBtn) {
-          console.log('[J-PRO AutoSearch] 검색조건(2026-09-01, 김재현) 자동 입력 완료 -> 검색 버튼 자동 클릭');
+          console.log('[J-PRO AutoSearch] 검색 버튼 발견:', searchBtn.tagName, searchBtn.className, searchBtn.innerText);
           sessionStorage.setItem('jpro_auto_searched', 'true');
+
+          // (1) 네이티브 click
           searchBtn.click();
+
+          // (2) MouseEvent 발송
+          const mouseEvt = new MouseEvent('click', { bubbles: true, cancelable: true, view: window });
+          searchBtn.dispatchEvent(mouseEvt);
+
+          // (3) 부모 요소 클릭 (a 태그 내 span 구조 대응)
+          if (searchBtn.parentElement && searchBtn.parentElement !== doc.body) {
+            searchBtn.parentElement.click();
+            searchBtn.parentElement.dispatchEvent(mouseEvt);
+          }
           clickedBtn = true;
           break;
         } else {
@@ -403,6 +437,22 @@
             break;
           }
         }
+
+        // 3단계: 페이지 스크립트 전역 검색 함수(fn_search 등) 직접 호출 시도
+        try {
+          const scriptEl = doc.createElement('script');
+          scriptEl.textContent = `
+            (function() {
+              if (typeof fn_search === 'function') { fn_search(); }
+              else if (typeof fnSearch === 'function') { fnSearch(); }
+              else if (typeof doSearch === 'function') { doSearch(); }
+              else if (typeof search === 'function') { search(); }
+              else if (typeof goSearch === 'function') { goSearch(); }
+            })();
+          `;
+          (doc.head || doc.body).appendChild(scriptEl);
+          scriptEl.remove();
+        } catch (e) {}
       }
 
       if (!clickedBtn && !inputFilled) {
