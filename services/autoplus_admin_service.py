@@ -183,15 +183,19 @@ class AutoplusAdminService:
             raw_p = _safe_float(c.get("buyPrice", 0))
             buy_price_man = round(raw_p / 10000) if raw_p > 50000 else round(raw_p)
 
-            # 수수료: 오토플러스 사이트 화면 실측 기타비용으로만 산정 (0원은 0원으로 정확히 유지)
-            if _safe_float(c.get("etcFee", 0)) > 0:
+            # 수수료: 오토플러스 사이트/모바일 실측 기타비용으로만 산정 (비어있으면 기존값 유지, 반올림 없음)
+            has_explicit_fee = False
+            fee_man = 0.0
+            if c.get("etcFee") is not None and str(c.get("etcFee")).strip() != "":
                 raw_fee = _safe_float(c.get("etcFee"))
-                fee_man = round(raw_fee / 10000, 1) if raw_fee > 5000 else round(raw_fee, 1)
-            elif "heydealerFee" in c:
+                if raw_fee > 0:
+                    fee_man = (raw_fee / 10000.0) if raw_fee > 5000 else raw_fee
+                    has_explicit_fee = True
+            elif "heydealerFee" in c and c.get("heydealerFee") is not None and str(c.get("heydealerFee")).strip() != "":
                 raw_fee = _safe_float(c.get("heydealerFee"))
-                fee_man = round(raw_fee / 10000, 1) if raw_fee > 5000 else round(raw_fee, 1)
-            else:
-                fee_man = 0.0
+                if raw_fee > 0:
+                    fee_man = (raw_fee / 10000.0) if raw_fee > 5000 else raw_fee
+                    has_explicit_fee = True
 
             raw_rep = _safe_float(c.get("repairCost", 0))
             rep_man = round(raw_rep / 10000) if raw_rep > 5000 else round(raw_rep)
@@ -232,6 +236,7 @@ class AutoplusAdminService:
                 "outerRepairs": _safe_int(c.get("outerRepairs", 0)),
                 "repairCost": rep_man,
                 "heydealerFee": fee_man,
+                "has_explicit_fee": has_explicit_fee,
                 "purchaseType": str(c.get("purchaseType", "")).strip(),
                 "pid": str(c.get("pid", "")).strip(),
                 "scrapDeduction": _safe_int(c.get("scrapDeduction", 0))
@@ -484,11 +489,16 @@ class AutoplusAdminService:
                     if cur_rep_str == "" and (l_info["repairCost"] > 0 or l_info["outer"] > 0):
                         rep = l_info["repairCost"] if l_info["repairCost"] > 0 else (l_info["outer"] * 13)
                         update_val("상품화", rep)
-                    # 수수료: 오토플러스 사이트 화면 실측 기타비용으로만 반영 (스파크 0원, 카니발 55만, 투싼 67만 등 100% 실측치)
-                    if c_no in cars_by_no and cars_by_no[c_no].get("heydealerFee", 0) > 0:
-                        update_val("헤딜수수료", cars_by_no[c_no]["heydealerFee"])
-                    elif c_no in ledger_map:
-                        update_val("헤딜수수료", ledger_map[c_no]["fee"])
+                    # 수수료: 오토플러스 사이트/모바일 실측 기타비용 반영 (비어있으면 기존값 유지, 반올림 없음)
+                    if c_no in cars_by_no and cars_by_no[c_no].get("has_explicit_fee") and cars_by_no[c_no].get("heydealerFee", 0) > 0:
+                        fee_v = cars_by_no[c_no]["heydealerFee"]
+                        fee_s = str(int(fee_v)) if fee_v == int(fee_v) else str(fee_v)
+                        update_val("헤딜수수료", fee_s)
+                    elif c_no in ledger_map and not cars_by_no.get(c_no, {}).get("has_explicit_fee"):
+                        fee_l = ledger_map[c_no]["fee"]
+                        if fee_l > 0:
+                            fee_ls = str(int(fee_l)) if fee_l == int(fee_l) else str(fee_l)
+                            update_val("헤딜수수료", fee_ls)
 
                     if l_info["carName"] and not r[h_map.get("차종", 4)]:
                         update_val("차종", l_info["carName"])

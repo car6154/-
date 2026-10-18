@@ -497,19 +497,47 @@ def delete_settlement_item(car_no: str):
 # 3. high A+ 매입연동 API (admin.autoplus.co.kr 실시간 땡겨오기)
 # ----------------------------------------------------
 class HighplusBuySyncRequest(BaseModel):
-    cars: List[Dict[str, Any]]
+    cars: Optional[List[Dict[str, Any]]] = None
 
 
 @router.post("/sync_highplus_buy")
-def sync_highplus_buy(req: HighplusBuySyncRequest):
+def sync_highplus_buy(req: Optional[HighplusBuySyncRequest] = None):
     try:
         from services.autoplus_admin_service import AutoplusAdminService
-        res = AutoplusAdminService.process_highplus_buy_data(req.cars)
+        from services.mobile_purchase_service import MobilePurchaseService
+
+        # 1. 모바일 API (https://high.autoplus.co.kr/admin/v1/purchases/estimates) 직접 호출
+        mobile_res = MobilePurchaseService.get_purchase_list(manager="kimjh1202", start_date="2026-09-01")
+        cars_to_process = []
+
+        if mobile_res.get("success") and mobile_res.get("cars"):
+            for c in mobile_res["cars"]:
+                # 김재현 담당 차량 필터링
+                mgr = str(c.get("manager") or c.get("raw", {}).get("pcsManagerId") or c.get("raw", {}).get("managerNm") or "").strip()
+                if mgr and ("kimjh" not in mgr.lower() and "김재현" not in mgr):
+                    continue
+
+                cars_to_process.append({
+                    "carNumber": c.get("carNumber"),
+                    "carName": c.get("carName"),
+                    "buyPrice": c.get("buyPrice"),
+                    "etcFee": c.get("etcAmt"),
+                    "transferDate": c.get("transferDate"),
+                    "manager": "김재현"
+                })
+            print(f"[SettlementRouter] 모바일 API에서 김재현 담당 차량 {len(cars_to_process)}대 추출 완료", flush=True)
+
+        # 2. 모바일 API 실패 또는 데이터 없을 시 확장프로그램 전달 데이터 fallback
+        if not cars_to_process and req and req.cars:
+            cars_to_process = req.cars
+            print(f"[SettlementRouter] 모바일 API 미응답 -> 확장프로그램 {len(cars_to_process)}대 fallback 사용", flush=True)
+
+        res = AutoplusAdminService.process_highplus_buy_data(cars_to_process)
 
         # ── 상태 파일 (data/highplus_buy_status.json)에 실시간 연동 시간 및 결과 기록 ──
         now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         st_data = res.get("data", {}) if isinstance(res, dict) else {}
-        total_cars = st_data.get("total_synced_cars", len(req.cars))
+        total_cars = st_data.get("total_synced_cars", len(cars_to_process))
         new_added = st_data.get("new_inventory_added", 0)
         updated_inv = st_data.get("inventory_updated", 0)
         updated_led = st_data.get("ledger_updated", 0)
