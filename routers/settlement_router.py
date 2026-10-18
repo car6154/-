@@ -1,5 +1,6 @@
 import os
 import csv
+import json
 import shutil
 import re
 import urllib.parse
@@ -15,6 +16,7 @@ router = APIRouter(prefix="/api/settlement", tags=["settlement"])
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SETTLEMENT_CSV_PATH = os.path.join(BASE_DIR, "my_inventory_settlement.csv")
 LEDGER_CSV_PATH = os.path.join(BASE_DIR, "my_car_ledger.csv")
+STATUS_FILE_PATH = os.path.join(BASE_DIR, "data", "highplus_buy_status.json")
 
 
 def sync_ledger_with_settlement(car_no: str, outer: Optional[Any] = None, repair: Optional[Any] = None, fee: Optional[Any] = None, buy_p: Optional[Any] = None, sell_p: Optional[Any] = None):
@@ -503,13 +505,48 @@ def sync_highplus_buy(req: HighplusBuySyncRequest):
     try:
         from services.autoplus_admin_service import AutoplusAdminService
         res = AutoplusAdminService.process_highplus_buy_data(req.cars)
+
+        # ── 상태 파일 (data/highplus_buy_status.json)에 실시간 연동 시간 및 결과 기록 ──
+        now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        st_data = res.get("data", {}) if isinstance(res, dict) else {}
+        total_cars = st_data.get("total_synced_cars", len(req.cars))
+        new_added = st_data.get("new_inventory_added", 0)
+        updated_inv = st_data.get("inventory_updated", 0)
+        updated_led = st_data.get("ledger_updated", 0)
+        msg_str = st_data.get("message") or f"매입연동 완료: {total_cars}대 감지 (신규 {new_added}대, 갱신 {updated_inv}대, 장부승격 {updated_led}대)"
+
+        status_record = {
+            "status": "SUCCESS" if res.get("success", True) else "FAIL",
+            "last_sync_time": now_str,
+            "total_synced_cars": total_cars,
+            "new_inventory_added": new_added,
+            "inventory_updated": updated_inv,
+            "ledger_updated": updated_led,
+            "message": msg_str
+        }
+
+        try:
+            os.makedirs(os.path.dirname(STATUS_FILE_PATH), exist_ok=True)
+            with open(STATUS_FILE_PATH, "w", encoding="utf-8") as f:
+                json.dump(status_record, f, ensure_ascii=False, indent=2)
+            print(f"[SettlementRouter][DEBUG] highplus_buy_status.json 갱신 완료: {now_str} | 감지 {total_cars}대, 갱신 {updated_inv}대", flush=True)
+        except Exception as se:
+            print(f"[SettlementRouter][WARN] highplus_buy_status.json 저장 실패: {se}", flush=True)
+
         return res
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"매입연동 처리 오류: {str(e)}")
 
 
 @router.get("/highplus_status")
-def get_highplus_status():
+def get_highplus_status(response: Response):
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    if os.path.exists(STATUS_FILE_PATH):
+        try:
+            with open(STATUS_FILE_PATH, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            pass
     from services.autoplus_admin_service import AutoplusAdminService
     return AutoplusAdminService.get_last_sync_status()
 
