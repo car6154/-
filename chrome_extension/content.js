@@ -186,11 +186,14 @@
           }
 
           let poId = "";
-          const poInp = tr.querySelector('input[name*="poId"]');
-          if (poInp && poInp.value) {
+          const poInp = tr.querySelector('input[name*="poId"], input[name*="poIdList"], input[name*="chk"], input[type="checkbox"]');
+          if (poInp && poInp.value && /^\d+$/.test(poInp.value.trim())) {
             poId = poInp.value.trim();
           } else {
-            const mPo = (tr.innerHTML || "").match(/poId=(\d+)/);
+            const mPo = (tr.innerHTML || "").match(/poId[=:\s'"]+(\d+)/i) ||
+                        (tr.innerHTML || "").match(/poIdList[=:\s'"]+(\d+)/i) ||
+                        (tr.innerHTML || "").match(/fn_detail\(['"]?(\d+)/i) ||
+                        (tr.innerHTML || "").match(/goDetail\(['"]?(\d+)/i);
             if (mPo) poId = mPo[1];
           }
 
@@ -228,31 +231,78 @@
         }
 
         // 백그라운드 세부 기타비용 fetch (오토플러스 getSysPo.do poAddExt 실측치)
+        let etcFeeSuccessCount = 0;
+        let pendingFetches = 0;
+
         for (const car of foundCars) {
-          if (car.poId && car.etcFee === undefined) {
-            fetch('https://admin.autoplus.co.kr/spot/syspo/getSysPo.do', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-                'X-Ajax-call': 'true'
-              },
-              body: `poId=${encodeURIComponent(car.poId)}`,
-              credentials: 'include'
-            })
-              .then(r => r.ok ? r.json() : null)
-              .then(res => {
-                if (!res || !res.data) return;
-                const ext = res.data.poAddExt;
-                const parsedFee = (ext !== null && ext !== undefined && String(ext).trim() !== '') ? parseInt(String(ext).replace(/[^\d]/g, ''), 10) : 0;
+          const carNo = car.carNumber;
+          if (!car.poId) {
+            console.warn(`[J-PRO etcFee] 차량번호: ${carNo} | poId 없음 (추출 실패)`);
+            continue;
+          }
+
+          if (car.etcFee !== undefined && car.etcFee > 0) {
+            etcFeeSuccessCount++;
+            continue;
+          }
+
+          pendingFetches++;
+          fetch('https://admin.autoplus.co.kr/spot/syspo/getSysPo.do', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+              'X-Ajax-call': 'true'
+            },
+            body: `poId=${encodeURIComponent(car.poId)}`,
+            credentials: 'include'
+          })
+            .then(async (r) => {
+              const responseStatus = r.status;
+              const rawText = await r.text();
+              let parsedFee = 0;
+              let parseDetail = "";
+
+              // 1. JSON 응답 파싱 시도 (poAddExt 필드)
+              try {
+                const res = JSON.parse(rawText);
+                if (res && res.data) {
+                  const ext = res.data.poAddExt;
+                  if (ext !== null && ext !== undefined && String(ext).trim() !== '') {
+                    parsedFee = parseInt(String(ext).replace(/[^\d]/g, ''), 10) || 0;
+                    parseDetail = `JSON(poAddExt=${ext})`;
+                  } else {
+                    parseDetail = "JSON(poAddExt 비어있음)";
+                  }
+                } else {
+                  parseDetail = "JSON(res.data 없음)";
+                }
+              } catch (_) {
+                // 2. HTML 응답 Fallback 파싱 시도
+                parsedFee = extractEtcFeeFromHtml(rawText);
+                parseDetail = parsedFee > 0 ? "HTML Fallback 파싱" : "HTML 파싱 실패";
+              }
+
+              console.log('[J-PRO etcFee] 차량번호:', carNo, '응답:', responseStatus, 'etcFee:', parsedFee, `(${parseDetail}, poId: ${car.poId})`);
+
+              if (parsedFee > 0) {
+                etcFeeSuccessCount++;
                 if (car.etcFee !== parsedFee) {
                   car.etcFee = parsedFee;
                   if (isContextAlive()) {
                     chrome.runtime.sendMessage({ action: 'sync_highplus_buy_data', data: [car] });
                   }
                 }
-              })
-              .catch(() => {});
-          }
+              }
+            })
+            .catch((err) => {
+              console.error('[J-PRO etcFee] 차량번호:', carNo, '호출 실패:', err.message);
+            })
+            .finally(() => {
+              pendingFetches--;
+              if (pendingFetches === 0) {
+                console.log(`[J-PRO etcFee] 기타비용 추출 집계: 성공 ${etcFeeSuccessCount}대 / 전체 ${foundCars.length}대`);
+              }
+            });
         }
       } catch (err) {}
     }
