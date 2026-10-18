@@ -32,7 +32,8 @@ if %errorlevel% neq 0 (
 
 echo [1/3] 기존 서버 프로세스 및 포트(8000, 3000, 8501) 완전 정리 중...
 
-REM -0. 잔여 백그라운드 / 감시자 프로세스(python, node) 일괄 완전 종료
+REM -0. 잔여 백그라운드 / 감시자 프로세스(Watchdog, python, node) 일괄 완전 종료 (기동 중 간섭 원천 차단)
+taskkill /f /fi "WINDOWTITLE eq JPRO_Watchdog*" > nul 2>&1
 taskkill /f /im python.exe > nul 2>&1
 taskkill /f /im node.exe > nul 2>&1
 
