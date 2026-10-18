@@ -98,7 +98,7 @@ export default function App() {
   // 로컬 FastAPI 백엔드(/api/settlement)에서 진짜 my_inventory_settlement.csv 데이터 로드 및 새로고침
   const refreshSettlement = useCallback(async () => {
     try {
-      const res = await fetch('/api/settlement');
+      const res = await fetch('/api/settlement', { cache: 'no-store' });
       if (res.ok) {
         const data = await res.json();
         if (Array.isArray(data) && data.length > 0) {

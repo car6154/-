@@ -556,26 +556,29 @@ class AutoplusAdminService:
             if len(row) > 0:
                 row[0] = str(idx + 1)
 
-            # 원자적 파일 교체
-            temp_path = f"{SETTLEMENT_CSV}.{uuid.uuid4().hex[:8]}.tmp"
+        # 원자적 파일 교체
+        abs_csv_path = os.path.abspath(SETTLEMENT_CSV)
+        temp_path = f"{SETTLEMENT_CSV}.{uuid.uuid4().hex[:8]}.tmp"
+        try:
+            with open(temp_path, "w", encoding="utf-8-sig", newline="") as f:
+                writer = csv.writer(f)
+                writer.writerow(header)
+                writer.writerows(new_rows)
+            _safe_atomic_replace(temp_path, SETTLEMENT_CSV)
+            target_fee = cars_by_no.get("155라7987", {}).get("heydealerFee")
+            print(f"[AutoplusAdminService][DEBUG] 정산표 저장 완료 | 대상: {abs_csv_path} | 신규={added_count}, 갱신={updated_count} | 155라7987 수수료={target_fee}", flush=True)
+            # [자동화 파이프라인] 매입 연동 완료 즉시 오플 전사 재고의 판매가, 재고일, 엔카URL을 100% 자동 매칭
             try:
-                with open(temp_path, "w", encoding="utf-8-sig", newline="") as f:
-                    writer = csv.writer(f)
-                    writer.writerow(header)
-                    writer.writerows(new_rows)
-                _safe_atomic_replace(temp_path, SETTLEMENT_CSV)
-                # [자동화 파이프라인] 매입 연동 완료 즉시 오플 전사 재고의 판매가, 재고일, 엔카URL을 100% 자동 매칭
-                try:
-                    from services.autoplus_sync_service import AutoplusSyncService
-                    AutoplusSyncService._sync_settlement_ledger()
-                except Exception as se:
-                    print(f"[AutoplusAdminService] 오플 재고 자동 매칭 연동 경고: {se}", flush=True)
-            except Exception as e:
-                if os.path.exists(temp_path):
-                    try: os.remove(temp_path)
-                    except: pass
-                print(f"[AutoplusAdminService] 정산표 저장 오류: {e}")
-            return {"added": added_count, "updated": updated_count}
+                from services.autoplus_sync_service import AutoplusSyncService
+                AutoplusSyncService._sync_settlement_ledger()
+            except Exception as se:
+                print(f"[AutoplusAdminService] 오플 재고 자동 매칭 연동 경고: {se}", flush=True)
+        except Exception as e:
+            if os.path.exists(temp_path):
+                try: os.remove(temp_path)
+                except: pass
+            print(f"[AutoplusAdminService] 정산표 저장 오류: {e}", flush=True)
+        return {"added": added_count, "updated": updated_count}
 
     @classmethod
     def parse_sppol10001_html(cls, html_content: str) -> List[Dict[str, Any]]:

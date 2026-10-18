@@ -6,15 +6,15 @@ import urllib.parse
 from datetime import datetime
 from typing import List, Dict, Any, Optional
 from pathlib import Path
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Response
 from pydantic import BaseModel
 from services.git_sync_service import GitSyncService
 
 router = APIRouter(prefix="/api/settlement", tags=["settlement"])
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-SETTLEMENT_CSV_PATH = str(BASE_DIR / "my_inventory_settlement.csv")
-LEDGER_CSV_PATH = str(BASE_DIR / "my_car_ledger.csv")
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SETTLEMENT_CSV_PATH = os.path.join(BASE_DIR, "my_inventory_settlement.csv")
+LEDGER_CSV_PATH = os.path.join(BASE_DIR, "my_car_ledger.csv")
 
 
 def sync_ledger_with_settlement(car_no: str, outer: Optional[Any] = None, repair: Optional[Any] = None, fee: Optional[Any] = None, buy_p: Optional[Any] = None, sell_p: Optional[Any] = None):
@@ -91,17 +91,31 @@ SETTLEMENT_HEADER = [
 
 
 @router.get("", response_model=List[Dict[str, Any]])
-def get_inventory_settlement():
-    if not os.path.exists(SETTLEMENT_CSV_PATH):
+def get_inventory_settlement(response: Response):
+    # 브라우저/프록시 캐시 방지 헤더 설정 (최신 데이터 즉시 반영 보장)
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+
+    abs_path = os.path.abspath(SETTLEMENT_CSV_PATH)
+    exists = os.path.exists(abs_path)
+    file_size = os.path.getsize(abs_path) if exists else 0
+    mtime_str = datetime.fromtimestamp(os.path.getmtime(abs_path)).strftime('%Y-%m-%d %H:%M:%S') if exists else "N/A"
+
+    print(f"[SettlementRouter][DEBUG] GET /api/settlement 호출 | 대상 파일: {abs_path} | 존재: {exists} | 크기: {file_size}B | 수정시각: {mtime_str}", flush=True)
+
+    if not exists:
+        print(f"[SettlementRouter][WARN] {abs_path} 파일이 존재하지 않아 빈 배열 반환", flush=True)
         return []
 
     items = []
     try:
-        with open(SETTLEMENT_CSV_PATH, "r", encoding="utf-8-sig", newline="") as f:
+        with open(abs_path, "r", encoding="utf-8-sig", newline="") as f:
             reader = csv.reader(f)
             try:
                 header = next(reader)
             except StopIteration:
+                print(f"[SettlementRouter][WARN] {abs_path} 파일이 비어있음", flush=True)
                 return []
 
             h_map = {col.strip(): i for i, col in enumerate(header)}
@@ -143,8 +157,13 @@ def get_inventory_settlement():
                 }
                 items.append(item)
 
+        target_sample = next((it for it in items if it.get("carNumber") == "155라7987"), None)
+        sample_log = f"155라7987: 수수료={target_sample.get('heydealerFee')}, 매입가={target_sample.get('buyPrice')}" if target_sample else "155라7987 미포함"
+        print(f"[SettlementRouter][DEBUG] GET /api/settlement 완료 | 총 {len(items)}건 반환 | {sample_log}", flush=True)
+
         return items
     except Exception as e:
+        print(f"[SettlementRouter][ERROR] 정산 CSV 파싱 오류: {str(e)}", flush=True)
         raise HTTPException(status_code=500, detail=f"정산 CSV 파싱 오류: {str(e)}")
 
 
