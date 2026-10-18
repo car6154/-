@@ -17,8 +17,7 @@ for /f "tokens=5" %%a in ('netstat -ano -p tcp ^| findstr "LISTENING" ^| findstr
     taskkill /f /t /pid %%a > nul 2>&1
 )
 
-:: 4. 관련 서버 콘솔 창 닫기 (감시자 Watchdog 포함 완전 전멸)
-taskkill /f /fi "WINDOWTITLE eq JPRO_Watchdog*" > nul 2>&1
+:: 4. 관련 서버 콘솔 창 닫기 (JPRO_Watchdog 감시자는 보호)
 taskkill /f /fi "WINDOWTITLE eq JPRO_FastAPI_*" > nul 2>&1
 taskkill /f /fi "WINDOWTITLE eq JPRO_Frontend_*" > nul 2>&1
 taskkill /f /fi "WINDOWTITLE eq JPRO_Streamlit_*" > nul 2>&1
@@ -27,7 +26,12 @@ taskkill /f /fi "WINDOWTITLE eq *Streamlit*" > nul 2>&1
 taskkill /f /fi "WINDOWTITLE eq *Integrated Launcher*" > nul 2>&1
 taskkill /f /fi "WINDOWTITLE eq *Shopping*" > nul 2>&1
 
+:: 5. 수동 종료 락 플래그 생성 (워치도그의 자동 재기동 일시 중지)
+echo manual_kill > "%~dp0server_paused.lock"
+if exist "%~dp0server_booting.lock" del /f /q "%~dp0server_booting.lock" > nul 2>&1
+
 echo.
 echo All Python, Node, and J-PRO servers have been terminated cleanly.
+echo [Watchdog] server_paused.lock 생성 완료 (자동 재기동 일시 중지됨).
 ping 127.0.0.1 -n 3 > nul
 exit

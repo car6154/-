@@ -36,6 +36,7 @@ last_heydealer_detail.json
 data/catalog_crawl.log
 logs/
 *.log
+*.lock
 scratch/
 scratch_*.*
 debug_*.*
