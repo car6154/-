@@ -203,13 +203,10 @@ class AutoplusAdminService:
             raw_date = str(c.get("transferDate") or c.get("billDate") or "").strip()
             buy_date_disp = ""
             stock_days = 0
-            if raw_date:
+            if raw_date and raw_date.lower() not in ("none", "null"):
                 m = re.search(r"(\d{4})[^\d]?(\d{1,2})[^\d]?(\d{1,2})", raw_date)
                 if m:
                     y, mm, dd = int(m.group(1)), int(m.group(2)), int(m.group(3))
-                    # 2026년 8월 1일 이전 매입건은 동기화에서 제외 (8월 매입건 허용)
-                    if y < 2026 or (y == 2026 and mm < 8):
-                        continue
                     buy_date_disp = f"{mm:02d}. {dd:02d}"
                     try:
                         d_obj = date(y, mm, dd)
@@ -220,11 +217,8 @@ class AutoplusAdminService:
                     # '08. 20', '09. 07', '10. 15' 형태일 경우
                     m_short = re.search(r"^0?(\d{1,2})[^\d]?(\d{1,2})", raw_date)
                     if m_short:
-                        s_mm = int(m_short.group(1))
-                        if s_mm < 8:
-                            continue
                         buy_date_disp = raw_date
-            # 날짜가 없어도 etcFee 및 매입가 갱신을 위해 차량을 버리지 않고 계속 진행
+            # 날짜가 없어도 etcFee 및 매입가 갱신을 위해 차량을 버리지 않고 계속 진행 (10-18-12 규칙 유지)
 
             cleaned_cars.append({
                 "carNumber": car_no,

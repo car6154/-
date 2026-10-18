@@ -506,8 +506,8 @@ def sync_highplus_buy(req: Optional[HighplusBuySyncRequest] = None):
         from services.autoplus_admin_service import AutoplusAdminService
         from services.mobile_purchase_service import MobilePurchaseService
 
-        # 1. 모바일 API (https://high.autoplus.co.kr/admin/v1/purchases/estimates) 직접 호출
-        mobile_res = MobilePurchaseService.get_purchase_list(manager="kimjh1202", start_date="2026-09-01")
+        # 1. 모바일 API (https://high.autoplus.co.kr/admin/v1/purchases/estimates) 직접 호출 (날짜 파라미터 없음)
+        mobile_res = MobilePurchaseService.get_purchase_list(manager="kimjh1202")
         cars_to_process = []
 
         if mobile_res.get("success") and mobile_res.get("cars"):
@@ -525,7 +525,10 @@ def sync_highplus_buy(req: Optional[HighplusBuySyncRequest] = None):
                     "transferDate": c.get("transferDate"),
                     "manager": "김재현"
                 })
-            print(f"[SettlementRouter] 모바일 API에서 김재현 담당 차량 {len(cars_to_process)}대 추출 완료", flush=True)
+
+            has_155 = any(c.get("carNumber") == "155라7987" for c in cars_to_process)
+            car_list_str = ", ".join([f"{c.get('carNumber')}(etcFee={c.get('etcFee')})" for c in cars_to_process])
+            print(f"[SettlementRouter] 모바일 API에서 김재현 담당 차량 총 {len(cars_to_process)}대 추출 완료 (155라7987 포함 여부: {has_155}) | 차량목록: [{car_list_str}]", flush=True)
 
         # 2. 모바일 API 실패 또는 데이터 없을 시 확장프로그램 전달 데이터 fallback
         if not cars_to_process and req and req.cars:
@@ -533,6 +536,11 @@ def sync_highplus_buy(req: Optional[HighplusBuySyncRequest] = None):
             print(f"[SettlementRouter] 모바일 API 미응답 -> 확장프로그램 {len(cars_to_process)}대 fallback 사용", flush=True)
 
         res = AutoplusAdminService.process_highplus_buy_data(cars_to_process)
+        if isinstance(res, dict):
+            if "data" not in res:
+                res["data"] = {}
+            res["data"]["cars_in_api"] = [c.get("carNumber") for c in cars_to_process]
+            res["data"]["has_155_in_api"] = any(c.get("carNumber") == "155라7987" for c in cars_to_process)
 
         # ── 상태 파일 (data/highplus_buy_status.json)에 실시간 연동 시간 및 결과 기록 ──
         now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -547,6 +555,8 @@ def sync_highplus_buy(req: Optional[HighplusBuySyncRequest] = None):
             "status": "SUCCESS" if res.get("success", True) else "FAIL",
             "last_sync_time": now_str,
             "total_synced_cars": total_cars,
+            "cars_in_api": [c.get("carNumber") for c in cars_to_process],
+            "has_155_in_api": any(c.get("carNumber") == "155라7987" for c in cars_to_process),
             "new_inventory_added": new_added,
             "inventory_updated": updated_inv,
             "ledger_updated": updated_led,

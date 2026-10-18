@@ -53,12 +53,14 @@ class MobilePurchaseService:
     def get_purchase_list(
         cls,
         manager: str = "kimjh1202",
-        start_date: str = "2026-09-01",
+        start_date: Optional[str] = None,
         page: int = 1,
-        size: int = 20
+        size: int = 50
     ) -> Dict[str, Any]:
         """
         하이오플 매입 차량 목록 API 호출 및 정형화된 데이터 반환
+        - 날짜 파라미터 없이 담당자(pcsManagerId)만으로 필터링
+        - transferDate가 None이어도 carNumber와 etcAmt가 있으면 유효한 차량으로 처리
         반환:
         {
             "success": bool,
@@ -89,9 +91,9 @@ class MobilePurchaseService:
             "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7"
         }
 
+        # 날짜 파라미터 없이 담당자만으로 필터링
         params = {
             "pcsManagerId": manager,
-            "startDate": start_date,
             "page": page,
             "size": size
         }
@@ -164,12 +166,17 @@ class MobilePurchaseService:
                     except (ValueError, TypeError):
                         etc_amt = 0
 
-                transfer_date = (
+                raw_td = (
                     item.get("pcsDt") or
                     item.get("returnDt") or
                     item.get("regDt") or
-                    item.get("transferDate") or ""
-                ).strip()
+                    item.get("transferDate")
+                )
+                transfer_date = str(raw_td).strip() if raw_td else None
+
+                # transferDate가 None이어도 carNumber가 있으면 유효한 차량으로 처리
+                if not car_no:
+                    continue
 
                 parsed_cars.append({
                     "carNumber": car_no,
