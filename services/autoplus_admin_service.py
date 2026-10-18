@@ -188,15 +188,29 @@ class AutoplusAdminService:
                     has_explicit_buy_price = True
             buy_price_man = round(raw_p / 10000) if raw_p > 50000 else round(raw_p)
 
-            # 수수료: API etcAmt가 있으면 → API 값 사용. null이면 → 기존값 유지 (반올림 없음)
+            # 수수료: API 호출 성공 시 etcAmt가 null/empty면 0원 설정, etcAmt > 0이면 API 값 사용
+            # API 호출 실패 시에만 has_explicit_fee = False로 기존값 유지
+            api_success = c.get("api_success")
+            if api_success is None:
+                api_success = ("etcFee" in c or "etcAmt" in c)
+
             has_explicit_fee = False
             fee_man = 0.0
-            raw_fee_val = c.get("etcFee") if c.get("etcFee") is not None else c.get("heydealerFee")
-            if raw_fee_val is not None and str(raw_fee_val).strip() != "" and str(raw_fee_val).strip().lower() != "null":
-                raw_fee = _safe_float(raw_fee_val)
-                if raw_fee > 0:
-                    fee_man = (raw_fee / 10000.0) if raw_fee > 5000 else raw_fee
-                    has_explicit_fee = True
+            if api_success:
+                raw_fee_val = c.get("etcFee") if c.get("etcFee") is not None else c.get("heydealerFee")
+                if raw_fee_val is not None and str(raw_fee_val).strip() != "" and str(raw_fee_val).strip().lower() != "null":
+                    raw_fee = _safe_float(raw_fee_val)
+                    if raw_fee > 0:
+                        fee_man = (raw_fee / 10000.0) if raw_fee > 5000 else raw_fee
+                    else:
+                        fee_man = 0.0
+                else:
+                    # API 호출 성공 + etcAmt가 null/empty/None -> 0원으로 설정
+                    fee_man = 0.0
+                has_explicit_fee = True
+            else:
+                # API 호출 실패 -> 기존값 유지
+                has_explicit_fee = False
 
             raw_rep = _safe_float(c.get("repairCost", 0))
             rep_man = round(raw_rep / 10000) if raw_rep > 5000 else round(raw_rep)
@@ -486,9 +500,9 @@ class AutoplusAdminService:
                     if cur_rep_str == "" and (l_info["repairCost"] > 0 or l_info["outer"] > 0):
                         rep = l_info["repairCost"] if l_info["repairCost"] > 0 else (l_info["outer"] * 13)
                         update_val("상품화", rep)
-                    # 수수료: API etcAmt가 있으면 → API 값 사용. null이면 → 기존값 유지 (반올림 없음)
-                    if c_no in cars_by_no and cars_by_no[c_no].get("has_explicit_fee") and cars_by_no[c_no].get("heydealerFee", 0) > 0:
-                        fee_v = cars_by_no[c_no]["heydealerFee"]
+                    # 수수료: API 호출 성공 시(has_explicit_fee=True) → API 값(0원 또는 실측치) 반영. 실패 시 기존값 유지
+                    if c_no in cars_by_no and cars_by_no[c_no].get("has_explicit_fee"):
+                        fee_v = cars_by_no[c_no].get("heydealerFee", 0.0)
                         fee_s = str(int(fee_v)) if fee_v == int(fee_v) else str(fee_v)
                         update_val("헤딜수수료", fee_s)
                         print(f"[AutoplusAdminService] 헤딜수수료 API 반영: 차량={c_no}, 수수료={fee_s}만원", flush=True)
@@ -531,8 +545,10 @@ class AutoplusAdminService:
                 outer = l_info.get("outer", 0)
                 rep_cost = l_info.get("repairCost", 0) or (outer * 13 if outer > 0 else 0)
                 
-                # 수수료: 오토플러스 사이트 화면 실측 기타비용으로만 반영
-                if c_info.get("heydealerFee", 0) > 0:
+                # 수수료: API 호출 성공 시(has_explicit_fee=True) → API 값(0원 또는 실측치) 반영
+                if c_info.get("has_explicit_fee"):
+                    fee = c_info.get("heydealerFee", 0.0)
+                elif c_info.get("heydealerFee", 0) > 0:
                     fee = c_info["heydealerFee"]
                 else:
                     fee = l_info.get("fee", 0.0)

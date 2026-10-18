@@ -524,7 +524,8 @@ def sync_highplus_buy(req: Optional[HighplusBuySyncRequest] = None):
                     "buyPrice": buy_price,
                     "etcFee": etc_amt,
                     "transferDate": t_date,
-                    "manager": "김재현"
+                    "manager": "김재현",
+                    "api_success": True
                 })
                 print(f"[SettlementRouter] 6대 상세 매입 조회: 차량={c_no}, etcAmt={etc_amt}, buyPrice={buy_price}", flush=True)
 
@@ -542,7 +543,8 @@ def sync_highplus_buy(req: Optional[HighplusBuySyncRequest] = None):
                             "buyPrice": c.get("buyPrice"),
                             "etcFee": c.get("etcAmt"),
                             "transferDate": c.get("transferDate"),
-                            "manager": "김재현"
+                            "manager": "김재현",
+                            "api_success": True
                         })
             elif req and req.cars:
                 cars_to_process = req.cars
