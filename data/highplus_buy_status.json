@@ -1,9 +1,9 @@
 {
   "status": "SUCCESS",
-  "last_sync_time": "2026-10-16 20:01:35",
-  "total_synced_cars": 7,
+  "last_sync_time": "2026-10-18 20:31:02",
+  "total_synced_cars": 1,
   "new_inventory_added": 0,
-  "inventory_updated": 6,
-  "ledger_updated": 8,
-  "message": "매입연동 완료: 7대 감지 (신규 0대, 갱신 6대, 장부승격 8대)"
+  "inventory_updated": 1,
+  "ledger_updated": 1,
+  "message": "매입연동 완료: 1대 감지 (신규 0대, 갱신 1대, 장부승격 1대)"
 }

@@ -48,26 +48,19 @@
     }
   }, { once: true, passive: true });
 
-  // ── 6. J-PRO 웹앱(jpro:3000 등)에서 [매입연동] 클릭 시 postMessage를 받아 background.js로 전달 ──
-  if (
-    window.location.hostname === 'jpro' ||
-    window.location.hostname === 'localhost' ||
-    window.location.hostname === '127.0.0.1' ||
-    window.location.hostname === '100.95.238.123'
-  ) {
-    window.addEventListener('message', (event) => {
-      if (event.data && event.data.type === 'JPRO_TRIGGER_HIGHPLUS_BUY_SYNC') {
-        console.log('[J-PRO Bridge] 웹앱 매입연동 클릭 감지 -> background로 전송');
-        try {
-          if (chrome?.runtime?.id) {
-            chrome.runtime.sendMessage({ action: 'triggerActiveAutoplusTabScan' });
-          }
-        } catch (e) {
-          console.warn('[J-PRO Bridge] background 메시지 전송 실패:', e.message);
-        }
-      }
-    });
-  }
+  // ── 6. J-PRO 웹앱 매입연동 브릿지 (모바일 API 직접 호출 방식으로 대체되어 비활성화) ──
+  // if (
+  //   window.location.hostname === 'jpro' ||
+  //   window.location.hostname === 'localhost' ||
+  //   window.location.hostname === '127.0.0.1' ||
+  //   window.location.hostname === '100.95.238.123'
+  // ) {
+  //   window.addEventListener('message', (event) => {
+  //     if (event.data && event.data.type === 'JPRO_TRIGGER_HIGHPLUS_BUY_SYNC') {
+  //       try { if (chrome?.runtime?.id) chrome.runtime.sendMessage({ action: 'triggerActiveAutoplusTabScan' }); } catch (e) {}
+  //     }
+  //   });
+  // }
 
   // ── 7. 오토플러스 어드민 (admin.autoplus.co.kr) 매입 데이터 실시간 스캔 & 백엔드 전송 ──
   if (window.location.hostname.includes('admin.autoplus.co.kr')) {

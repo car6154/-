@@ -326,53 +326,51 @@ export const SettlementTab: React.FC<SettlementTabProps> = ({
     return { contrib, net };
   }, [editForm]);
 
-  // high A+ 매입 무인 자동연동 실행 및 새로고침 핸들러
+  // high A+ 모바일 API 직접 호출 및 화면 새로고침 핸들러
   const handleCheckSyncStatus = async () => {
     setSyncLoading(true);
     try {
-      // 1. 크롬 확장에 즉시 수집 트리거 발송 후 브라우저 탭 스캔 완료 대기 (4.5초)
-      try {
-        window.postMessage({ type: 'JPRO_TRIGGER_HIGHPLUS_BUY_SYNC' }, '*');
-      } catch (err) {}
-      await new Promise(resolve => setTimeout(resolve, 4500));
+      // 1. 모바일 API 백엔드 직접 호출 (/api/settlement/sync_highplus_buy)
+      const res = await fetch('/api/settlement/sync_highplus_buy', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({})
+      });
 
-      // 2. 백엔드 동기화 상태 및 크롤링 트리거 확인
       let syncData: any = {};
-      try {
-        const res = await fetch('/api/settlement/trigger_highplus_sync', { method: 'POST' });
-        if (res.ok) {
-          syncData = await res.json();
-        }
-      } catch (err) {}
+      if (res.ok) {
+        syncData = await res.json();
+      } else {
+        const errText = await res.text().catch(() => '');
+        throw new Error(`서버 응답 오류 (HTTP ${res.status}): ${errText}`);
+      }
 
-      const syncResult = (syncData && syncData.syncResult) || {};
-      const st = (syncData && syncData.status) || {};
+      // 2. 화면 데이터 즉시 새로고침 (/api/settlement 재조회)
+      if (onRefresh) {
+        await onRefresh();
+      }
+
+      const st = (syncData && syncData.data) || {};
       const timeStr = st.last_sync_time || new Date().toLocaleTimeString('ko-KR');
       const total = st.total_synced_cars || 0;
       const added = st.new_inventory_added || 0;
       const updated = st.inventory_updated || 0;
 
-      // 3. 화면 데이터 즉시 새로고침
-      if (onRefresh) {
-        await onRefresh();
-      }
-
-      // 브라우저 확장(경로 A)을 통해 차량이 정상 감지된 상태라면 성공 알림 표시
-      if ((syncResult && syncResult.success !== false) || (st.total_synced_cars && st.total_synced_cars > 0)) {
+      if (syncData.success !== false) {
         alert(
-          `[high A+ 매입 무인 연동 결과]\n\n` +
+          `[high A+ 매입 모바일 API 연동 결과]\n\n` +
           `• 연동 시간: ${timeStr}\n` +
           `• 감지된 매입차량: ${total}대\n` +
           `• 신규 재고 등록: ${added}대\n` +
           `• 기존 재고 갱신: ${updated}대\n\n` +
-          `✅ high A+ 화면의 실시간 매입 데이터(매입가, 수수료 등)가 장부 및 재고로 정상 연동되었습니다.`
+          `✅ 모바일 API를 통해 실시간 매입 데이터(매입가, 수수료 등)가 장부 및 재고로 정상 연동되었습니다.`
         );
       } else {
         alert(
           `[high A+ 매입 연동 알림]\n\n` +
-          `• 상태: ${syncResult.message || '세션 만료 또는 데이터 없음'}\n` +
+          `• 상태: ${syncData.message || '세션 만료 또는 데이터 없음'}\n` +
           `• 이전 성공 시점: ${st.last_sync_time || '없음'}\n\n` +
-          `💡 오토플러스(admin.autoplus.co.kr) 로그인 탭이 열려있는지 확인하거나, 페이지를 새로고침한 뒤 다시 눌러주세요.`
+          `💡 high_cookie.txt 쿠키를 확인하거나, high.autoplus.co.kr 로그인 상태를 점검해 주세요.`
         );
       }
     } catch (e: any) {
