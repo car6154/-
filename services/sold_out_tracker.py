@@ -33,6 +33,11 @@ class SoldOutTracker:
             if os.path.exists(filepath):
                 os.remove(filepath)
             os.rename(temp_path, filepath)
+            try:
+                from services.gdrive_backup_service import GDriveBackupService
+                GDriveBackupService.on_file_changed("snapshots", source="sold_out_tracker")
+            except Exception:
+                pass
         except Exception as e:
             print(f"[SoldOutTracker] Save error ({filepath}): {e}")
 

@@ -235,6 +235,12 @@ def save_car_to_ledger(req: CarLedgerCreateRequest):
         raise HTTPException(status_code=500, detail=f"장부 CSV 저장 실패: {str(e)}")
 
     try:
+        from services.gdrive_backup_service import GDriveBackupService
+        GDriveBackupService.on_file_changed("ledger", source=f"save_{car_no}")
+    except Exception as e:
+        print(f"[ledger_router] GDrive backup trigger warning: {e}")
+
+    try:
         GitSyncService.sync_push_async(f"auto: save ledger for {car_no}")
     except Exception as e:
         print(f"[api_server] Git sync push warning: {e}")
@@ -337,6 +343,12 @@ def delete_car_from_ledger(car_key: str):
         raise HTTPException(status_code=500, detail=f"장부 CSV 삭제 반영 실패: {str(e)}")
 
     try:
+        from services.gdrive_backup_service import GDriveBackupService
+        GDriveBackupService.on_file_changed("ledger", source=f"delete_{key}")
+    except Exception as e:
+        print(f"[ledger_router] GDrive backup trigger warning: {e}")
+
+    try:
         GitSyncService.sync_push_async(f"auto: delete ledger for {key}")
     except Exception as e:
         print(f"[api_server] Git sync push warning: {e}")
@@ -433,6 +445,12 @@ def update_car_in_ledger(car_key: str, req: CarLedgerUpdateRequest):
             try: os.remove(temp_path)
             except: pass
         raise HTTPException(status_code=500, detail=f"장부 CSV 수정 반영 실패: {str(e)}")
+
+    try:
+        from services.gdrive_backup_service import GDriveBackupService
+        GDriveBackupService.on_file_changed("ledger", source=f"update_{key}")
+    except Exception as e:
+        print(f"[ledger_router] GDrive backup trigger warning: {e}")
 
     try:
         GitSyncService.sync_push_async(f"auto: update ledger for {key}")

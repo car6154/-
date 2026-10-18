@@ -278,6 +278,12 @@ def create_settlement_item(req: InventorySettlementCreateRequest):
         raise HTTPException(status_code=500, detail=f"정산 CSV 저장 실패: {str(e)}")
 
     try:
+        from services.gdrive_backup_service import GDriveBackupService
+        GDriveBackupService.on_file_changed("settlement", source=f"add_{car_no}")
+    except Exception as e:
+        print(f"[settlement_router] GDrive backup trigger warning: {e}")
+
+    try:
         GitSyncService.sync_push_async(f"auto: add settlement for {car_no}")
     except Exception as e:
         print(f"[api_server] Git sync push warning: {e}")
@@ -406,6 +412,12 @@ def update_settlement_item(car_no: str, req: InventorySettlementUpdateRequest):
     )
 
     try:
+        from services.gdrive_backup_service import GDriveBackupService
+        GDriveBackupService.on_file_changed("settlement", source=f"update_{key}")
+    except Exception as e:
+        print(f"[settlement_router] GDrive backup trigger warning: {e}")
+
+    try:
         GitSyncService.sync_push_async(f"auto: update settlement for {key}")
     except Exception as e:
         print(f"[api_server] Git sync push warning: {e}")
@@ -475,6 +487,12 @@ def delete_settlement_item(car_no: str):
             try: os.remove(temp_path)
             except: pass
         raise HTTPException(status_code=500, detail=f"정산 CSV 삭제 반영 실패: {str(e)}")
+
+    try:
+        from services.gdrive_backup_service import GDriveBackupService
+        GDriveBackupService.on_file_changed("settlement", source=f"delete_{key}")
+    except Exception as e:
+        print(f"[settlement_router] GDrive backup trigger warning: {e}")
 
     try:
         GitSyncService.sync_push_async(f"auto: delete settlement for {key}")

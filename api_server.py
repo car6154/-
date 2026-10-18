@@ -79,9 +79,9 @@ def on_app_startup():
     except Exception as e:
         print(f"[api_server] Failed to start Autoplus sync scheduler: {e}", flush=True)
     try:
-        GDriveBackupService.start_periodic_sync(interval_sec=1800)
+        GDriveBackupService.start_realtime_watcher()
     except Exception as e:
-        print(f"[api_server] Failed to start GDrive backup scheduler: {e}", flush=True)
+        print(f"[api_server] Failed to start GDrive realtime watcher: {e}", flush=True)
     try:
         from scraper import HeydealerScraper
         HeydealerScraper.start_keepalive_manager()

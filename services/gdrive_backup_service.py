@@ -29,24 +29,37 @@ LEDGER_SIDEBAR_HEADERS = [
 ]
 
 
+DEBOUNCE_DELAY_SECONDS = 30.0
+
+
 class GDriveBackupService:
     """
-    J-PRO_DB 구글 스프레드시트 & 구글드라이브 백엔드 자동 백업 서비스
+    J-PRO_DB 구글 스프레드시트 & 구글드라이브 백엔드 실시간 자동 백업 서비스
     - 인증: OAuth2 Refresh Token (.env: GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REFRESH_TOKEN)
             및 Google Apps Script Webhook 폴백 지원
     - 대상: 기존 'J-PRO_DB' 스프레드시트 (매입장부 15컬럼 전체, 재고정산 20컬럼, 엔카스냅샷 요약)
             + 드라이브 원본 파일(encar_snapshots.json) 동기화
+    - 실시간 동기화:
+      * my_car_ledger.csv 변경 -> 즉시 백업
+      * my_inventory_settlement.csv 변경 -> 즉시 백업
+      * data/encar_snapshots.json 변경 -> 30초 디바운스(Debounce) 후 백업 (크롤링 중 다중 변경 1회 취합)
     """
 
     _lock = threading.Lock()
     _is_syncing = False
-    _scheduler_started = False
+    _watcher_started = False
     _last_sync_time: Optional[datetime] = None
     _last_sync_status: str = "대기"
     _spreadsheet_id: Optional[str] = None
     _access_token: Optional[str] = None
     _token_expiry: float = 0.0
     _last_mtimes: Dict[str, float] = {}
+
+    # 스냅샷 디바운스(Debounce) 제어 타이머
+    _snapshot_timer: Optional[threading.Timer] = None
+    _snapshot_timer_lock = threading.Lock()
+    _last_snapshot_trigger_time: Optional[datetime] = None
+    _debounce_seconds: float = DEBOUNCE_DELAY_SECONDS
 
     @classmethod
     def _load_env_vars(cls) -> Dict[str, str]:
@@ -433,56 +446,139 @@ class GDriveBackupService:
         t.start()
 
     @classmethod
-    def _check_files_changed(cls) -> Tuple[bool, bool]:
-        """파일 변경 여부 감지: (csv_changed, snapshots_changed) 반환"""
-        csv_changed = False
-        snap_changed = False
+    def on_file_changed(cls, file_type: str, source: str = "direct"):
+        """
+        파일 변경 시 실시간 동기화 격발
+        - ledger, settlement: 즉시 백업 실행
+        - snapshots: 30초 Debounce 타이머 적용 (연속 변경 1회 취합)
+        """
+        if file_type in ("ledger", "settlement"):
+            logger.info(f"[GDriveBackup] {file_type} 변경 감지 ({source}): 즉시 실시간 백업 격발")
+            cls.sync_all_async(reason=f"realtime_{file_type}_{source}", include_snapshots=False)
+        elif file_type == "snapshots":
+            with cls._snapshot_timer_lock:
+                if cls._snapshot_timer is not None:
+                    cls._snapshot_timer.cancel()
+                    cls._snapshot_timer = None
+                cls._last_snapshot_trigger_time = datetime.now()
+                cls._snapshot_timer = threading.Timer(
+                    cls._debounce_seconds,
+                    cls._on_snapshot_debounce_timeout,
+                    args=(source,)
+                )
+                cls._snapshot_timer.daemon = True
+                cls._snapshot_timer.start()
+                logger.info(
+                    f"[GDriveBackup] snapshots.json 변경 감지 ({source}): "
+                    f"{cls._debounce_seconds}초 디바운스 대기 시작"
+                )
+
+    @classmethod
+    def _on_snapshot_debounce_timeout(cls, source: str = "debounce"):
+        """30초 디바운스 만료 시 스냅샷 포함 전체 실시간 백업 격발"""
+        with cls._snapshot_timer_lock:
+            cls._snapshot_timer = None
+        logger.info(f"[GDriveBackup] snapshots.json 디바운스 만료: 스냅샷 포함 전체 실시간 백업 시작 ({source})")
+        cls.sync_all_async(reason=f"realtime_snapshots_debounced_{source}", include_snapshots=True)
+
+    @classmethod
+    def start_realtime_watcher(cls):
+        """
+        모든 파일 변경을 1초 이내에 감지하는 완전 실시간 감시 엔진
+        - my_car_ledger.csv: 즉시 백업
+        - my_inventory_settlement.csv: 즉시 백업
+        - data/encar_snapshots.json: 30초 디바운스 후 백업
+        """
+        if cls._watcher_started:
+            return
+        cls._watcher_started = True
+
+        # 초기 mtime 기록
         for key, p in [
             ("ledger", LEDGER_CSV_PATH),
             ("settlement", SETTLEMENT_CSV_PATH),
             ("snapshots", SNAPSHOTS_JSON_PATH),
         ]:
             if p.exists():
-                mtime = p.stat().st_mtime
-                prev = cls._last_mtimes.get(key, 0.0)
-                if mtime > prev:
-                    cls._last_mtimes[key] = mtime
-                    if key == "snapshots":
-                        snap_changed = True
-                    else:
-                        csv_changed = True
-        return csv_changed, snap_changed
+                try:
+                    cls._last_mtimes[key] = p.stat().st_mtime
+                except Exception:
+                    pass
+
+        # 1. 초경량 mtime 실시간 폴러 (1초 주기, 데몬 스레드)
+        def _mtime_poll_loop():
+            while True:
+                try:
+                    for key, p in [
+                        ("ledger", LEDGER_CSV_PATH),
+                        ("settlement", SETTLEMENT_CSV_PATH),
+                        ("snapshots", SNAPSHOTS_JSON_PATH),
+                    ]:
+                        if p.exists():
+                            mtime = p.stat().st_mtime
+                            prev = cls._last_mtimes.get(key, 0.0)
+                            if mtime > prev:
+                                cls._last_mtimes[key] = mtime
+                                cls.on_file_changed(key, source="watcher")
+                except Exception as e:
+                    logger.warning(f"[GDriveBackup] 실시간 감시 루프 경고: {e}")
+                time.sleep(1.0)
+
+        t_poll = threading.Thread(target=_mtime_poll_loop, daemon=True, name="JPRO_GDriveRealtimeWatcher")
+        t_poll.start()
+
+        # 2. Watchdog 이벤트 리스너 병행 가동 (지원 시)
+        try:
+            from watchdog.observers import Observer
+            from watchdog.events import FileSystemEventHandler
+
+            class _RealtimeHandler(FileSystemEventHandler):
+                def on_any_event(self, event):
+                    src = os.path.normpath(str(event.src_path)).lower()
+                    if src.endswith("my_car_ledger.csv"):
+                        cls.on_file_changed("ledger", source="watchdog")
+                    elif src.endswith("my_inventory_settlement.csv"):
+                        cls.on_file_changed("settlement", source="watchdog")
+                    elif src.endswith("encar_snapshots.json"):
+                        cls.on_file_changed("snapshots", source="watchdog")
+
+            observer = Observer()
+            observer.schedule(_RealtimeHandler(), str(BASE_DIR), recursive=False)
+            data_dir = BASE_DIR / "data"
+            if data_dir.exists():
+                observer.schedule(_RealtimeHandler(), str(data_dir), recursive=False)
+            observer.daemon = True
+            observer.start()
+            print("[GDriveBackup] Watchdog 실시간 이벤트 감시자 등록 완료", flush=True)
+        except Exception as e:
+            logger.info(f"[GDriveBackup] Watchdog 생략 (1초 초경량 mtime 감시자 동작): {e}")
+
+        print("[GDriveBackup] J-PRO_DB 완전 실시간 동기화 엔진 가동 완료 (30분 주기 스케줄러 제거됨)", flush=True)
 
     @classmethod
     def start_periodic_sync(cls, interval_sec: int = 1800):
-        """백엔드 기동 시 주기적으로(기본 30분) 파일 변경을 감지하여 J-PRO_DB에 자동 백업"""
-        if cls._scheduler_started:
-            return
-        cls._scheduler_started = True
-
-        def _loop():
-            # 초기 기동 15초 후 첫 동기화 체크
-            time.sleep(15)
-            while True:
-                try:
-                    csv_changed, snap_changed = cls._check_files_changed()
-                    if csv_changed or snap_changed:
-                        cls.sync_now(reason="periodic_scheduler", include_snapshots=snap_changed)
-                except Exception as e:
-                    logger.warning(f"[GDriveBackup] 스케줄러 루프 경고: {e}")
-                time.sleep(interval_sec)
-
-        t = threading.Thread(target=_loop, daemon=True, name="JPRO_GDriveBackupScheduler")
-        t.start()
-        print(f"[GDriveBackup] J-PRO_DB 자동 백업 스케줄러 기동 완료 (주기: {interval_sec}초)", flush=True)
+        """기존 30분 주기 스케줄러 폐지 -> 100% 완전 실시간 감시 엔진으로 즉시 대체"""
+        cls.start_realtime_watcher()
 
     @classmethod
     def get_status(cls) -> Dict[str, Any]:
+        now = datetime.now()
+        timer_pending = cls._snapshot_timer is not None
+        remaining_debounce = 0.0
+        if timer_pending and cls._last_snapshot_trigger_time:
+            elapsed = (now - cls._last_snapshot_trigger_time).total_seconds()
+            remaining_debounce = max(0.0, cls._debounce_seconds - elapsed)
+
         return {
+            "mode": "realtime_sync",
             "hasRefreshToken": cls.has_refresh_token(),
             "spreadsheetName": "J-PRO_DB",
             "spreadsheetId": cls._spreadsheet_id,
             "isSyncing": cls._is_syncing,
+            "watcherStarted": cls._watcher_started,
+            "debounceSeconds": cls._debounce_seconds,
+            "snapshotTimerPending": timer_pending,
+            "remainingDebounceSeconds": round(remaining_debounce, 1) if timer_pending else 0.0,
             "lastSyncTime": cls._last_sync_time.strftime("%Y-%m-%d %H:%M:%S") if cls._last_sync_time else None,
             "lastSyncStatus": cls._last_sync_status,
             "targetFiles": [
