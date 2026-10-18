@@ -557,12 +557,18 @@ class AutoplusAdminService:
         """admin.autoplus.co.kr/spot/syspo/SPPOL10001 HTML 파싱"""
         cars = []
         if not html_content:
+            print("[AutoplusAdminService][DEBUG] 4. 차량 행 파싱: HTML 본문이 비어 있습니다.", flush=True)
             return cars
 
         tr_matches = re.findall(r"<tr[^>]*>(.*?)</tr>", html_content, re.DOTALL | re.IGNORECASE)
+        skip_no_car = 0
+        skip_pre_sep = 0
+        skip_reasons = []
+
         for tr in tr_matches:
             m_car = re.search(r"\b(\d{2,3}[가-힣]\s*\d{4})\b", tr)
             if not m_car:
+                skip_no_car += 1
                 continue
             car_no = m_car.group(1).replace(" ", "")
 
@@ -583,6 +589,8 @@ class AutoplusAdminService:
                 if m_ym:
                     y, mm = int(m_ym.group(1)), int(m_ym.group(2))
                     if y < 2026 or (y == 2026 and mm < 9):
+                        skip_pre_sep += 1
+                        skip_reasons.append(f"{car_no}(날짜: {target_date} < 2026-09)")
                         continue
 
             raw_nums = re.findall(r"\b\d{1,3}(?:,\d{3}){2,}\b", tr)
@@ -629,6 +637,7 @@ class AutoplusAdminService:
                 "scrapDeduction": scrap_deduction
             })
 
+        print(f"[AutoplusAdminService][DEBUG] 4. 차량 행 파싱 결과: 총 tr={len(tr_matches)}개 | 차량번호 미매칭={skip_no_car}개(헤더/빈행) | 9월이전 건너뜀={skip_pre_sep}개 ({', '.join(skip_reasons[:5]) if skip_reasons else '없음'}) | 최종 추출 성공={len(cars)}대", flush=True)
         return cars
 
     @classmethod
@@ -808,6 +817,8 @@ class AutoplusAdminService:
                         val = inp.get("value", "")
                     form_data[name] = str(val).strip()
 
+            print(f"[AutoplusAdminService][DEBUG] 1. 검색 Form 발견: {bool(target_form)} (발견된 폼 {len(forms)}개) | action_url={action_url} | method={method}", flush=True)
+
             # 3. 검색조건 적용: 담당자=김재현, 반납일자 시작=2026-09-01 (종료일 비움)
             # 담당자 필드 감지 및 설정
             mgr_set = False
@@ -843,6 +854,8 @@ class AutoplusAdminService:
 
             form_data[page_param_name] = "1"
 
+            print(f"[AutoplusAdminService][DEBUG] 2. 전송 파라미터 전체 ({method}): {form_data}", flush=True)
+
             # 4. 사이트 검색 form 요청 전송 (1페이지)
             search_headers = dict(headers)
             search_headers["Referer"] = url
@@ -852,7 +865,10 @@ class AutoplusAdminService:
             else:
                 search_resp = requests.get(action_url, headers=search_headers, params=form_data, timeout=15, allow_redirects=False)
 
+            print(f"[AutoplusAdminService][DEBUG] 3. 검색 응답 HTTP 상태코드: {search_resp.status_code} (Location={search_resp.headers.get('Location')}) | 본문 크기: {len(search_resp.text)}자", flush=True)
+
             if search_resp.status_code == 302 or "login" in search_resp.headers.get("Location", "").lower():
+                print(f"[AutoplusAdminService][DEBUG] 세션 만료 302 리다이렉트 발생: Location={search_resp.headers.get('Location')}", flush=True)
                 return {
                     "success": False,
                     "message": "high A+ 로그인 세션이 만료되었습니다. 크롬 브라우저에서 재로그인이 필요합니다.",
@@ -876,6 +892,8 @@ class AutoplusAdminService:
                     total_count = int(m_total.group(1).replace(",", ""))
                 except:
                     pass
+
+            print(f"[AutoplusAdminService][DEBUG] 3. '총 N건' 파싱 결과: {m_total.group(0) if m_total else '매칭 안 됨'} -> total_count={total_count} (1페이지 수집: {len(first_cars)}대)", flush=True)
 
             page_size = max(len(first_cars), 10)
             if total_count > len(all_cars):
