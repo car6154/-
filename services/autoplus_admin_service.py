@@ -780,14 +780,24 @@ class AutoplusAdminService:
             target_form = None
             forms = soup.find_all("form")
             for f in forms:
-                f_act = str(f.get("action", "")).lower()
-                f_id = str(f.get("id", "")).lower()
-                f_name = str(f.get("name", "")).lower()
-                if "sppol10001" in f_act or "search" in f_id or "search" in f_name or f.find("input", {"name": re.compile(r"Manager|User|Charge|Emp|Return|Purchase", re.I)}):
+                # _userId나 _userPw가 포함된 로그인 폼 제외
+                if f.find("input", {"name": re.compile(r"(_userId|_userPw)", re.I)}):
+                    continue
+                # returnDtSt(반납일자) 필드가 있는 폼 선택
+                if f.find(["input", "select"], {"name": re.compile(r"^returnDtSt$", re.I)}) or f.find(["input", "select"], {"name": re.compile(r"returnDt", re.I)}):
                     target_form = f
                     break
-            if not target_form and forms:
-                target_form = forms[0]
+
+            if not target_form:
+                for f in forms:
+                    if f.find("input", {"name": re.compile(r"(_userId|_userPw)", re.I)}):
+                        continue
+                    f_act = str(f.get("action", "")).lower()
+                    f_id = str(f.get("id", "")).lower()
+                    f_name = str(f.get("name", "")).lower()
+                    if "sppol10001" in f_act or "search" in f_id or "search" in f_name:
+                        target_form = f
+                        break
 
             form_data = {}
             action_url = url
@@ -817,34 +827,19 @@ class AutoplusAdminService:
                         val = inp.get("value", "")
                     form_data[name] = str(val).strip()
 
-            print(f"[AutoplusAdminService][DEBUG] 1. 검색 Form 발견: {bool(target_form)} (발견된 폼 {len(forms)}개) | action_url={action_url} | method={method}", flush=True)
+            print(f"[AutoplusAdminService][DEBUG] 1. 검색 Form 발견: {bool(target_form)} (전체 {len(forms)}개 중 로그인폼 제외) | action_url={action_url} | method={method}", flush=True)
+            print(f"[AutoplusAdminService][DEBUG] 1-1. 선택된 Form HTML 전체:\n{str(target_form)}", flush=True)
 
-            # 3. 검색조건 적용: 담당자=김재현, 반납일자 시작=2026-09-01 (종료일 비움)
-            # 담당자 필드 감지 및 설정
-            mgr_set = False
+            # 3. 검색조건 적용: 날짜만 설정 (담당자 추측 로직 삭제, 백엔드 파싱 단계에서 필터링)
             for k in list(form_data.keys()):
-                if re.search(r"(Manager|Charge|Emp|User)", k, re.I) and not re.search(r"(dept|team|id|code|grp)", k, re.I):
-                    form_data[k] = "김재현"
-                    mgr_set = True
-                elif form_data[k] == "김재현":
-                    form_data[k] = "김재현"
-                    mgr_set = True
-            if not mgr_set:
-                form_data["purManagerNm"] = "김재현"
-
-            # 반납일자 필드 감지 및 설정 (시작=2026-09-01, 종료="")
-            dt_set = False
-            for k in list(form_data.keys()):
-                if re.search(r"(return.*(?:st|from|start)|pur.*(?:st|from|start))", k, re.I):
+                if re.search(r"^(returnDtSt|purchaseDtSt)$", k, re.I):
                     form_data[k] = "2026-09-01"
-                    dt_set = True
-                elif re.search(r"(return.*(?:ed|to|end)|pur.*(?:ed|to|end))", k, re.I):
+                elif re.search(r"^(returnDtEd|purchaseDtEd)$", k, re.I):
                     form_data[k] = ""
-            if not dt_set:
+
+            if "returnDtSt" not in form_data and "purchaseDtSt" not in form_data:
                 form_data["returnDtSt"] = "2026-09-01"
                 form_data["returnDtEd"] = ""
-                form_data["purchaseDtSt"] = "2026-09-01"
-                form_data["purchaseDtEd"] = ""
 
             # 페이지 파라미터 확인
             for k in form_data.keys():
