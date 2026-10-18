@@ -201,11 +201,11 @@ export const LedgerTab: React.FC<LedgerTabProps> = ({
 
 
 
-  // Filtered list (tab_ledger.py L390-L406) - internalSearch 우선 및 공백 무시
+  // Filtered list (상단 차량번호/차종 검색창 및 공백 무시 연동)
 
   const filteredCars = useMemo(() => {
 
-    const rawQ = internalSearch.trim() || externalSearchQuery.trim();
+    const rawQ = topSearchQuery.trim() || externalSearchQuery.trim();
 
     const q = rawQ.toLowerCase();
 
@@ -214,8 +214,6 @@ export const LedgerTab: React.FC<LedgerTabProps> = ({
 
 
     return cars.filter((car) => {
-
-      // 1. Search Query
 
       if (cleanQ) {
 
@@ -255,25 +253,11 @@ export const LedgerTab: React.FC<LedgerTabProps> = ({
 
 
 
-      // 2. Status Filter
-
-      if (statusFilter === '진행중 (미확정)') {
-
-        if (car.status === '매입완료') return false;
-
-      } else if (statusFilter === '매입완료') {
-
-        if (car.status !== '매입완료') return false;
-
-      }
-
-
-
       return true;
 
     });
 
-  }, [cars, externalSearchQuery, internalSearch, statusFilter]);
+  }, [cars, externalSearchQuery, topSearchQuery]);
 
 
 
@@ -426,6 +410,36 @@ export const LedgerTab: React.FC<LedgerTabProps> = ({
             💡 낙찰/매입된 차량의 [🚀 매입 확정]을 누르면 `💰 실전 재고 및 정산 관리` 탭으로 이동하여 실제 판매 및 내 실수익을 정산합니다.
 
           </p>
+
+        </div>
+
+
+
+        {/* Right side: Count & CSV Download */}
+
+        <div className="flex items-center gap-2 self-start sm:self-auto shrink-0">
+
+          <span className="text-xs text-slate-400">
+
+            검색 결과: <strong className="text-white font-bold">{filteredCars.length}</strong>대
+
+          </span>
+
+          <button
+
+            onClick={handleExportCSV}
+
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#181b24] hover:bg-[#222634] border border-[#282c3c] text-white text-xs font-semibold transition"
+
+            title="장부 전체 CSV 다운로드"
+
+          >
+
+            <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-400" />
+
+            <span>CSV 다운로드</span>
+
+          </button>
 
         </div>
 
@@ -665,139 +679,13 @@ export const LedgerTab: React.FC<LedgerTabProps> = ({
 
 
 
-      {/* 3. Real-time Search & Filter Toolbar (tab_ledger.py L381-L424) */}
+      {/* 3. Responsive Ledger Table (tab_ledger.py L426-L531) */}
 
-      <div className="bg-[#0f1117] border border-[#232733] p-3 rounded-xl flex flex-wrap items-center justify-between gap-3">
-
-        <div className="flex flex-wrap items-center gap-2.5 flex-1 min-w-[280px]">
-
-          {/* Search Input */}
-
-          <div className="relative flex-1 min-w-[200px]">
-
-            <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
-
-            <input
-
-              type="text"
-
-              value={internalSearch}
-
-              onChange={(e) => {
-
-                setInternalSearch(e.target.value);
-
-                setCurrentPage(1);
-
-              }}
-
-              placeholder="🔍 실시간 검색 (차량번호 / 차종 / 특이사항)..."
-
-              className="w-full bg-[#181b24] border border-[#282c3c] rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
-
-            />
-
-          </div>
-
-
-
-          {/* Status Filter */}
-
-          <select
-
-            value={statusFilter}
-
-            onChange={(e) => {
-
-              setStatusFilter(e.target.value as any);
-
-              setCurrentPage(1);
-
-            }}
-
-            className="bg-[#181b24] border border-[#282c3c] rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-blue-500"
-
-          >
-
-            <option value="전체">상태: 전체</option>
-
-            <option value="진행중 (미확정)">진행중 (미확정)</option>
-
-            <option value="매입완료">매입완료</option>
-
-          </select>
-
-
-
-          {/* Page Size Selector */}
-
-          <select
-
-            value={pageSizeSel}
-
-            onChange={(e) => {
-
-              setPageSizeSel(e.target.value);
-
-              setCurrentPage(1);
-
-            }}
-
-            className="bg-[#181b24] border border-[#282c3c] rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-blue-500"
-
-          >
-
-            <option value="전체 보기">전체 보기</option>
-
-            <option value="50개씩 보기">50개씩 보기</option>
-
-            <option value="30개씩 보기">30개씩 보기</option>
-
-            <option value="100개씩 보기">100개씩 보기</option>
-
-          </select>
-
-        </div>
-
-
-
-        {/* Counter and CSV Download */}
-
-        <div className="flex items-center gap-2">
-
-          <span className="text-xs text-slate-400">
-
-            검색 결과: <strong className="text-white font-bold">{filteredCars.length}</strong>대
-
-          </span>
-
-          <button
-
-            onClick={handleExportCSV}
-
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#181b24] hover:bg-[#222634] border border-[#282c3c] text-white text-xs font-semibold transition"
-
-          >
-
-            <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-400" />
-
-            <span>CSV 다운로드</span>
-
-          </button>
-
-        </div>
-
-      </div>
-
-
-
-      {/* 4. Responsive Ledger Table (tab_ledger.py L426-L531) */}
-
-      <div className="bg-[#0f1117] border border-[#232733] rounded-xl max-h-[660px] overflow-y-auto scrollbar-thin scrollbar-thumb-zinc-700 relative">
+      <div className="bg-[#0f1117] border border-[#232733] rounded-xl max-h-[720px] overflow-y-auto scrollbar-thin scrollbar-thumb-zinc-700 relative">
 
         {/* Header (Sticky Top) */}
 
-        <div className="hidden md:grid grid-cols-[80px_110px_80px_minmax(120px,1fr)_120px_56px_96px_60px_90px_90px_80px_140px] items-center gap-2 bg-[#181b24] px-3 py-2.5 border-b border-[#282c3c] border-l-4 border-l-transparent text-[11px] font-bold text-slate-400 sticky top-0 z-10 shadow-md">
+        <div className="hidden md:grid grid-cols-[80px_110px_80px_minmax(120px,1fr)_120px_56px_96px_60px_90px_90px_80px_105px] items-center gap-2 bg-[#181b24] px-3 py-2.5 border-b border-[#282c3c] border-l-4 border-l-transparent text-[11px] font-bold text-slate-400 sticky top-0 z-10 shadow-md">
 
           <div>📅 등록일</div>
 
@@ -873,7 +761,7 @@ export const LedgerTab: React.FC<LedgerTabProps> = ({
 
                 {/* Desktop layout: Exact 12-column Grid matching Header */}
 
-                <div className="hidden md:grid grid-cols-[80px_110px_80px_minmax(120px,1fr)_120px_56px_96px_60px_90px_90px_80px_140px] items-center gap-2 w-full">
+                <div className="hidden md:grid grid-cols-[80px_110px_80px_minmax(120px,1fr)_120px_56px_96px_60px_90px_90px_80px_105px] items-center gap-2 w-full">
 
                   {/* 1. 등록일 */}
 
@@ -981,7 +869,7 @@ export const LedgerTab: React.FC<LedgerTabProps> = ({
 
                   </div>
 
-                  {/* 12. 선택/관리 버튼군 */}
+                  {/* 12. 선택/시세 버튼군 (삭제 버튼 제거로 오작동 방지) */}
 
                   <div className="flex items-center justify-center gap-1" onClick={(e) => e.stopPropagation()}>
 
@@ -997,7 +885,7 @@ export const LedgerTab: React.FC<LedgerTabProps> = ({
 
                       }}
 
-                      className={`px-2 py-1 rounded text-[11px] font-bold transition ${
+                      className={`px-2.5 py-1 rounded text-[11px] font-bold transition ${
 
                         isSelected
 
@@ -1028,38 +916,6 @@ export const LedgerTab: React.FC<LedgerTabProps> = ({
                       >
 
                         시세
-
-                      </button>
-
-                    )}
-
-                    {onDeleteCar && (
-
-                      <button
-
-                        type="button"
-
-                        onClick={(e) => {
-
-                          e.stopPropagation();
-
-                          if (window.confirm(`정말 [${car.carNumber}] (${car.carName || ''}) 차량을 장부에서 삭제하시겠습니까?`)) {
-
-                            onDeleteCar(car.carNumber);
-
-                          }
-
-                        }}
-
-                        className="px-1.5 py-1 rounded bg-rose-950/60 hover:bg-rose-900 border border-rose-800/60 text-rose-300 text-[11px] font-medium transition flex items-center gap-0.5 cursor-pointer"
-
-                        title="장부에서 삭제"
-
-                      >
-
-                        <Trash2 className="w-3 h-3" />
-
-                        <span>삭제</span>
 
                       </button>
 
@@ -1208,38 +1064,6 @@ export const LedgerTab: React.FC<LedgerTabProps> = ({
                       >
 
                         시세
-
-                      </button>
-
-                    )}
-
-                    {onDeleteCar && (
-
-                      <button
-
-                        type="button"
-
-                        onClick={(e) => {
-
-                          e.stopPropagation();
-
-                          if (window.confirm(`정말 [${car.carNumber}] (${car.carName || ''}) 차량을 장부에서 삭제하시겠습니까?`)) {
-
-                            onDeleteCar(car.carNumber);
-
-                          }
-
-                        }}
-
-                        className="px-2 py-1 rounded bg-rose-950/60 hover:bg-rose-900 border border-rose-800/60 text-rose-300 text-[11px] font-medium transition flex items-center gap-1 cursor-pointer"
-
-                        title="장부에서 삭제"
-
-                      >
-
-                        <Trash2 className="w-3 h-3" />
-
-                        <span>삭제</span>
 
                       </button>
 
