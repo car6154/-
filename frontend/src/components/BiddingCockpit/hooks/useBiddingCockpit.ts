@@ -562,20 +562,23 @@ export function useBiddingCockpit({
         setOptionsTag(preset.options);
       }
 
-      // b. await handleLookupCarNumber(preset.carNumber, parsedMileage, true) — 정상 조회와 완전히 동일한 경로. 성공 시 차얼마 확정 데이터로 덮어씀.
+      // b. await handleLookupCarNumber(preset.carNumber, parsedMileage, true) — 정상 조회와 완전히 동일한 경로. 성공 시 실시간 차얼마·엔카 산출 시세 그대로 유지.
+      let lookupSucceeded = false;
       if (preset.carNumber) {
-        await handleLookupCarNumber(preset.carNumber, parsedMileage, true);
+        lookupSucceeded = Boolean(await handleLookupCarNumber(preset.carNumber, parsedMileage, true));
       }
 
-      // c. 조회 완료 후 장부 추가 데이터만 덮어쓰기: preset.sellPrice>0 → setExpectedSellPrice, preset.outerRepairs → setOuterRepairCount, preset.buyPrice>0 → setUserBid(최종 입찰가 칸), preset.memo → setMemo, preset.targetMargin → setTargetMargin, preset.auctionType → setAuctionType.
-      if (preset.sellPrice && preset.sellPrice > 0) {
-        setExpectedSellPrice(preset.sellPrice);
-      }
-      if (typeof preset.outerRepairs === 'number') {
-        setOuterRepairCount(preset.outerRepairs);
-      }
-      if (preset.buyPrice && preset.buyPrice > 0) {
-        setUserBid(preset.buyPrice);
+      // c. 실시간 조회 실패(또는 차량번호 미존재) 시에만 과거 장부 가격/판수를 폴백으로 세팅하고, 성공 시에는 실시간 AI 산출 시세(1번 정상조회값)를 그대로 유지
+      if (!lookupSucceeded) {
+        if (preset.sellPrice && preset.sellPrice > 0) {
+          setExpectedSellPrice(preset.sellPrice);
+        }
+        if (typeof preset.outerRepairs === 'number') {
+          setOuterRepairCount(preset.outerRepairs);
+        }
+        if (preset.buyPrice && preset.buyPrice > 0) {
+          setUserBid(preset.buyPrice);
+        }
       }
       if (preset.memo) {
         setMemo(preset.memo);
@@ -757,6 +760,9 @@ export function useBiddingCockpit({
           });
         }
 
+        // 자사 소매/도매 실적 통계도 즉시 연동 (동일 차종 재조회 시 resetCockpitState로 초기화된 상태 복구 보장)
+        fetchMarketStats(resolvedCarName || carName, resolvedGrade || detailModel, yr);
+
         // 엔카 전수 매물 자동 수집 연동 (차얼마 원본 grade_name, grade_detail_name을 백엔드로 가공 없이 그대로 전달)
         const encarItems = await fetchEncarComparable({
           carName: resolvedCarName || carName,
@@ -781,11 +787,13 @@ export function useBiddingCockpit({
             message: `✅ [차얼마&엔카] ${no} ${res.maker} ${resolvedCarName} [${rawG || resolvedGrade}] 제원 및 시세 연동 완료! (엔카 동급 ${encarItems.length}대 연동)`
           });
         }
+        return true;
       } else {
         setSearchStatus({
           type: 'warning',
           message: `⚠️ [${no}] ${res?.message || '차얼마 데이터 조회 실패 또는 미등록 차량'}`
         });
+        return false;
       }
     } catch (err: any) {
       console.error('차량 조회 오류:', err);
@@ -793,6 +801,7 @@ export function useBiddingCockpit({
         type: 'error',
         message: `❌ [${no}] 차량 조회 중 오류가 발생했습니다: ${err?.message || err}`
       });
+      return false;
     } finally {
       setIsSearchingCar(false);
     }
