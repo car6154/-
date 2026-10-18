@@ -109,6 +109,19 @@
       return 0;
     }
 
+    function getTargetDocs() {
+      const docs = [document];
+      try {
+        const iframes = document.querySelectorAll('iframe, frame');
+        for (const ifr of iframes) {
+          try {
+            if (ifr.contentDocument) docs.push(ifr.contentDocument);
+          } catch (e) {}
+        }
+      } catch (e) {}
+      return docs;
+    }
+
     function scanHighplusBuyData() {
       if (!isContextAlive()) {
         if (window.__jproAutoplusScanTimer) clearInterval(window.__jproAutoplusScanTimer);
@@ -120,8 +133,9 @@
         const PID_REGEX = /\bC\d{11}\b/;
         const DATE_REGEX = /\b202\d[-/.]\d{1,2}[-/.]\d{1,2}\b/g;
 
-        // 1차 최우선 스캔: 화면 내 전체 행(tr)에서 매입 차량 1:1 직접 매칭
-        const allRows = Array.from(document.querySelectorAll('tr'));
+        // 1차 최우선 스캔: 화면 및 iframe 내 전체 행(tr)에서 매입 차량 1:1 직접 매칭
+        const targetDocs = getTargetDocs();
+        const allRows = targetDocs.flatMap(doc => Array.from(doc.querySelectorAll('tr')));
         for (const tr of allRows) {
           const rowText = tr.innerText || "";
           const carMatch = rowText.match(CAR_NO_REGEX);
@@ -315,13 +329,25 @@
     // ── 8. SPPOL10001 자동 검색 & 스마트 스캔 로직 ──
     function isAlreadySearched() {
       const CAR_NO_REGEX = /\d{2,3}[가-힣]\s*\d{4}/;
-      const rows = Array.from(document.querySelectorAll('tr')).filter(tr => {
-        const txt = tr.innerText || "";
-        return CAR_NO_REGEX.test(txt) && !txt.includes("차량번호");
-      });
-      const mgrInput = document.querySelector('#searchPurManagerNm, input[name="searchPurManagerNm"]');
-      const isMgrMatch = mgrInput ? mgrInput.value.includes('김재현') : true;
-      return rows.length >= 1 && isMgrMatch;
+      const targetDocs = getTargetDocs();
+      let totalFound = 0;
+      let isMgrMatch = false;
+      let hasMgrInput = false;
+
+      for (const doc of targetDocs) {
+        const rows = Array.from(doc.querySelectorAll('tr')).filter(tr => {
+          const txt = tr.innerText || "";
+          return CAR_NO_REGEX.test(txt) && !txt.includes("차량번호");
+        });
+        totalFound += rows.length;
+
+        const mgrInput = doc.querySelector('#searchPurManagerNm, input[name="searchPurManagerNm"]');
+        if (mgrInput) {
+          hasMgrInput = true;
+          if (mgrInput.value.includes('김재현')) isMgrMatch = true;
+        }
+      }
+      return totalFound >= 1 && (!hasMgrInput || isMgrMatch);
     }
 
     function executeAutoSearchAndScan() {
@@ -332,58 +358,74 @@
         return;
       }
 
-      const dtInput = document.querySelector('#searchReturnDtSt, input[name="searchReturnDtSt"]');
-      const mgrInput = document.querySelector('#searchPurManagerNm, input[name="searchPurManagerNm"]');
+      const targetDocs = getTargetDocs();
+      let inputFilled = false;
+      let clickedBtn = false;
 
-      if (dtInput) {
-        dtInput.value = '2026-09-01';
-        dtInput.dispatchEvent(new Event('input', { bubbles: true }));
-        dtInput.dispatchEvent(new Event('change', { bubbles: true }));
-      }
+      for (const doc of targetDocs) {
+        const dtInput = doc.querySelector('#searchReturnDtSt, input[name="searchReturnDtSt"]');
+        const mgrInput = doc.querySelector('#searchPurManagerNm, input[name="searchPurManagerNm"]');
 
-      if (mgrInput) {
-        mgrInput.value = '김재현';
-        mgrInput.dispatchEvent(new Event('input', { bubbles: true }));
-        mgrInput.dispatchEvent(new Event('change', { bubbles: true }));
-      }
-
-      // 검색(조회) 버튼 탐색
-      const searchBtn = Array.from(document.querySelectorAll('button, a, input[type="button"], input[type="submit"]')).find(el => {
-        const txt = (el.innerText || el.value || '').trim();
-        const onclick = el.getAttribute('onclick') || '';
-        return (txt === '조회' || txt === '검색') || /search|조회|검색/i.test(onclick) || (el.id && el.id.toLowerCase().includes('search'));
-      });
-
-      // 무한 클릭 방지 sessionStorage 플래그 저장
-      sessionStorage.setItem('jpro_auto_searched', 'true');
-
-      if (searchBtn) {
-        console.log('[J-PRO AutoSearch] 검색조건(2026-09-01, 김재현) 자동 입력 완료 -> 검색 버튼 자동 클릭');
-        searchBtn.click();
-      } else {
-        const form = document.querySelector('form[name*="search"], form[action*="SPPOL10001"], form');
-        if (form) {
-          console.log('[J-PRO AutoSearch] 검색 버튼 미발견 -> form.submit() 실행');
-          form.submit();
-        } else {
-          console.warn('[J-PRO AutoSearch] 검색 버튼/폼 미발견 -> 1초 대기 후 직접 스캔');
-          setTimeout(scanHighplusBuyData, 1000);
-          return;
+        if (dtInput) {
+          dtInput.value = '2026-09-01';
+          dtInput.dispatchEvent(new Event('input', { bubbles: true }));
+          dtInput.dispatchEvent(new Event('change', { bubbles: true }));
+          inputFilled = true;
         }
+
+        if (mgrInput) {
+          mgrInput.value = '김재현';
+          mgrInput.dispatchEvent(new Event('input', { bubbles: true }));
+          mgrInput.dispatchEvent(new Event('change', { bubbles: true }));
+          inputFilled = true;
+        }
+
+        // 검색(조회) 버튼 탐색
+        const searchBtn = Array.from(doc.querySelectorAll('button, a, input[type="button"], input[type="submit"]')).find(el => {
+          const txt = (el.innerText || el.value || '').trim();
+          const onclick = el.getAttribute('onclick') || '';
+          return (txt === '조회' || txt === '검색') || /search|조회|검색/i.test(onclick) || (el.id && el.id.toLowerCase().includes('search'));
+        });
+
+        if (searchBtn) {
+          console.log('[J-PRO AutoSearch] 검색조건(2026-09-01, 김재현) 자동 입력 완료 -> 검색 버튼 자동 클릭');
+          sessionStorage.setItem('jpro_auto_searched', 'true');
+          searchBtn.click();
+          clickedBtn = true;
+          break;
+        } else {
+          const form = doc.querySelector('form[name*="search"], form[action*="SPPOL10001"], form');
+          if (form) {
+            console.log('[J-PRO AutoSearch] 검색 버튼 미발견 -> form.submit() 실행');
+            sessionStorage.setItem('jpro_auto_searched', 'true');
+            form.submit();
+            clickedBtn = true;
+            break;
+          }
+        }
+      }
+
+      if (!clickedBtn && !inputFilled) {
+        console.warn('[J-PRO AutoSearch] 검색 입력칸/버튼 미발견 -> 1초 대기 후 직접 스캔');
+        setTimeout(scanHighplusBuyData, 1000);
+        return;
       }
 
       // AJAX 페이지 업데이트(리로드 없는 경우) 대비 DOM 관찰
       let ajaxTriggered = false;
-      const observer = new MutationObserver(() => {
-        if (!ajaxTriggered && isAlreadySearched()) {
-          ajaxTriggered = true;
-          observer.disconnect();
-          console.log('[J-PRO AutoSearch] AJAX 검색 결과 로드 감지 -> 자동 스캔 실행');
-          setTimeout(scanHighplusBuyData, 600);
-        }
-      });
-      observer.observe(document.body, { childList: true, subtree: true });
-      setTimeout(() => observer.disconnect(), 6000);
+      for (const doc of targetDocs) {
+        if (!doc.body) continue;
+        const observer = new MutationObserver(() => {
+          if (!ajaxTriggered && isAlreadySearched()) {
+            ajaxTriggered = true;
+            observer.disconnect();
+            console.log('[J-PRO AutoSearch] AJAX 검색 결과 로드 감지 -> 자동 스캔 실행');
+            setTimeout(scanHighplusBuyData, 600);
+          }
+        });
+        observer.observe(doc.body, { childList: true, subtree: true });
+        setTimeout(() => observer.disconnect(), 6000);
+      }
     }
 
     // ── 9. 페이지 로드/새로고침 시 플래그 확인 (자동 검색으로 리로드된 경우 자동 스캔 1회 실행) ──
@@ -393,16 +435,25 @@
       setTimeout(scanHighplusBuyData, 800);
     }
 
-    // ── 10. [매입연동] 버튼 클릭 신호(triggerActiveAutoplusTabScan) 수신 시 실행 ──
+    // ── 10. [매입연동] 버튼 클릭 신호 수신 시 실행 ──
+    // A) chrome.runtime.onMessage 수신 (top frame 및 지원 frame)
     if (chrome && chrome.runtime && chrome.runtime.onMessage) {
       chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
         if (msg && (msg.action === 'triggerActiveAutoplusTabScan' || msg.action === 'trigger_scan')) {
-          console.log('[J-PRO Scan] [매입연동] 버튼 신호 수신 -> 스마트 검색 & 스캔 파이프라인 가동');
+          console.log('[J-PRO Scan] [매입연동] runtime 메시지 수신 -> 스마트 검색 & 스캔 파이프라인 가동');
           executeAutoSearchAndScan();
           sendResponse({ status: 'ok' });
         }
       });
     }
+
+    // B) iframe 내부 직접 침투 신호 (background.js의 executeScript postMessage) 수신
+    window.addEventListener('message', (event) => {
+      if (event.data && event.data.type === 'JPRO_TRIGGER_INTERNAL_SCAN') {
+        console.log('[J-PRO Scan] [매입연동] iframe 내부 침투 신호 수신 -> 스마트 검색 & 스캔 파이프라인 가동');
+        executeAutoSearchAndScan();
+      }
+    });
 
     // ── 일반 페이지 로드 시 무조건 자동 스캔은 영구 비활성화 ──
     // setTimeout(scanHighplusBuyData, 800);

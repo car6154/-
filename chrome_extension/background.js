@@ -192,24 +192,45 @@ async function triggerActiveAutoplusTabScan() {
 
   async function triggerTab(tabId) {
     try {
+      // 1. chrome.tabs.sendMessage 전송
       chrome.tabs.sendMessage(tabId, { action: 'triggerActiveAutoplusTabScan' }).catch(() => {});
+
+      // 2. content.js 최신 스크립트 전 프레임(allFrames: true) 주입
       await chrome.scripting.executeScript({
         target: { tabId: tabId, allFrames: true },
         files: ['content.js']
-      });
-      setTimeout(() => {
+      }).catch(() => {});
+
+      // 3. [핵심] iframe 내부까지 100% 신호 직접 침투 (allFrames: true)
+      await chrome.scripting.executeScript({
+        target: { tabId: tabId, allFrames: true },
+        func: () => {
+          window.postMessage({ type: 'JPRO_TRIGGER_INTERNAL_SCAN' }, '*');
+        }
+      }).catch(() => {});
+
+      setTimeout(async () => {
         chrome.tabs.sendMessage(tabId, { action: 'triggerActiveAutoplusTabScan' }).catch(() => {});
-      }, 150);
+        await chrome.scripting.executeScript({
+          target: { tabId: tabId, allFrames: true },
+          func: () => {
+            window.postMessage({ type: 'JPRO_TRIGGER_INTERNAL_SCAN' }, '*');
+          }
+        }).catch(() => {});
+      }, 300);
     } catch (e) {
       console.warn('[J-PRO AutoScan] 탭 스크립트 트리거 예외:', e.message);
     }
   }
 
-  // 1. 이미 열려 있는 SPPOL10001 탭이 있는지 확인
-  const existingTabs = await chrome.tabs.query({ url: '*://admin.autoplus.co.kr/spot/syspo/SPPOL10001*' });
-  if (existingTabs && existingTabs.length > 0 && existingTabs[0].id) {
-    console.log(`[J-PRO AutoScan] 기존 SPPOL10001 탭(ID: ${existingTabs[0].id}) 발견 -> 즉시 스캔 신호 전송`);
-    await triggerTab(existingTabs[0].id);
+  // 1. 이미 열려 있는 SPPOL10001 탭이 있는지 확인 (대소문자/title 유연 검색)
+  const allApTabs = await chrome.tabs.query({ url: '*://admin.autoplus.co.kr/*' }).catch(() => []);
+  const existingTab = allApTabs.find(t => t.url && t.url.toLowerCase().includes('sppol10001')) ||
+                      allApTabs.find(t => t.title && t.title.includes('매입조회'));
+
+  if (existingTab && existingTab.id) {
+    console.log(`[J-PRO AutoScan] 기존 SPPOL10001 탭(ID: ${existingTab.id}) 발견 -> 즉시 전 프레임 스캔 신호 전송`);
+    await triggerTab(existingTab.id);
     return;
   }
 
@@ -240,10 +261,9 @@ async function triggerActiveAutoplusTabScan() {
           clearTimeout(timeoutTimer);
           chrome.tabs.onUpdated.removeListener(onTabUpdated);
           console.log(`[J-PRO AutoScan] 새 SPPOL10001 탭(ID: ${tabId}) 로드 완료 -> 자동 검색 파이프라인 가동`);
-          // DOM 렌더링 안정화를 위해 300ms 후 트리거
           setTimeout(() => {
             triggerTab(targetTabId).then(resolve);
-          }, 300);
+          }, 400);
         }
       }
     }

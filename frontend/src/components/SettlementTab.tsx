@@ -330,11 +330,11 @@ export const SettlementTab: React.FC<SettlementTabProps> = ({
   const handleCheckSyncStatus = async () => {
     setSyncLoading(true);
     try {
-      // 1. 크롬 확장에 즉시 수집 트리거 발송 후 브라우저 탭 스캔 완료 대기 (1.5초)
+      // 1. 크롬 확장에 즉시 수집 트리거 발송 후 브라우저 탭 스캔 완료 대기 (4.5초)
       try {
         window.postMessage({ type: 'JPRO_TRIGGER_HIGHPLUS_BUY_SYNC' }, '*');
       } catch (err) {}
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      await new Promise(resolve => setTimeout(resolve, 4500));
 
       // 2. 백엔드 동기화 상태 및 크롤링 트리거 확인
       let syncData: any = {};
