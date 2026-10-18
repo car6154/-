@@ -1132,6 +1132,38 @@ export const LedgerTab: React.FC<LedgerTabProps> = ({
 
                   )}
 
+                  {onDeleteCar && (
+
+                    <button
+
+                      type="button"
+
+                      onClick={(e) => {
+
+                        e.stopPropagation();
+
+                        if (window.confirm(`정말 [${car.carNumber}] (${car.carName || ''}) 차량을 장부에서 삭제하시겠습니까?`)) {
+
+                          onDeleteCar(car.carNumber);
+
+                        }
+
+                      }}
+
+                      className="px-2 py-1 rounded bg-rose-950/60 hover:bg-rose-900 border border-rose-800/60 text-rose-300 text-[11px] font-medium transition flex items-center gap-1 cursor-pointer"
+
+                      title="장부에서 삭제"
+
+                    >
+
+                      <Trash2 className="w-3 h-3" />
+
+                      <span>삭제</span>
+
+                    </button>
+
+                  )}
+
                 </div>
 
               </div>

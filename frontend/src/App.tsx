@@ -552,9 +552,24 @@ export default function App() {
     setCars(prev => prev.filter(c => c.carNumber !== carNumber));
     showToast(`🗑️ [${carNumber}] 차량이 장부에서 삭제되었습니다.`);
     try {
-      await fetch(`/api/ledger/${encodeURIComponent(carNumber)}`, {
+      const res = await fetch(`/api/ledger/${encodeURIComponent(carNumber)}`, {
         method: 'DELETE',
       });
+      if (res.ok) {
+        // 장부 목록 최신 재동기화
+        const ledgerRes = await fetch('/api/ledger');
+        if (ledgerRes.ok) {
+          const ledgerData = await ledgerRes.json();
+          if (Array.isArray(ledgerData)) {
+            setCars(ledgerData);
+          }
+        }
+        // 정산표 목록 새로고침
+        refreshSettlement();
+      } else {
+        const errJson = await res.json().catch(() => ({}));
+        showToast(`⚠️ 삭제 오류: ${errJson.detail || errJson.message || '삭제 실패'}`);
+      }
     } catch (e) {
       console.warn('[J-PRO] 백엔드 장부 삭제 요청:', e);
     }
