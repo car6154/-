@@ -8,6 +8,9 @@ echo   [J-PRO] 전체 서버 및 프로세스 완전 종료 (Clean Kill)
 echo   - Closing all Python, Node.js, CMD processes
 echo ========================================================
 
+:: 1. 24시간 감시자(JPRO_Watchdog) 최우선 종료 (종료 도중 자동 부활 팀킬 원천 차단)
+taskkill /f /fi "WINDOWTITLE eq JPRO_Watchdog*" > nul 2>&1
+
 :: 2. Python 및 Node.js 잔여 백그라운드 / 감시자 프로세스 일괄 전멸
 taskkill /f /im python.exe > nul 2>&1
 taskkill /f /im node.exe > nul 2>&1
@@ -17,7 +20,7 @@ for /f "tokens=5" %%a in ('netstat -ano -p tcp ^| findstr "LISTENING" ^| findstr
     taskkill /f /t /pid %%a > nul 2>&1
 )
 
-:: 4. 관련 서버 콘솔 창 닫기 (JPRO_Watchdog 감시자는 보호)
+:: 4. 관련 서버 콘솔 창 닫기
 taskkill /f /fi "WINDOWTITLE eq JPRO_FastAPI_*" > nul 2>&1
 taskkill /f /fi "WINDOWTITLE eq JPRO_Frontend_*" > nul 2>&1
 taskkill /f /fi "WINDOWTITLE eq JPRO_Streamlit_*" > nul 2>&1

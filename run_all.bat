@@ -18,6 +18,9 @@ echo   - Port 3000 : React Frontend Web (0.0.0.0)
 echo   - Port 8501 : Streamlit Dashboard (0.0.0.0)
 echo ========================================================
 
+REM 00. 재기동 도중 Watchdog 오폭(중복 실행 팀킬) 방지를 위해 기존 Watchdog 최우선 종료
+taskkill /f /fi "WINDOWTITLE eq JPRO_Watchdog*" > nul 2>&1
+
 echo [0/3] GitHub 최신 코드 동기화 중...
 git stash push -u -m "auto-stash" > nul 2>&1
 git fetch origin main > nul 2>&1
@@ -32,7 +35,8 @@ if %errorlevel% neq 0 (
 
 echo [1/3] 기존 서버 프로세스 및 포트(8000, 3000, 8501) 완전 정리 중...
 
-REM -0. 잔여 백그라운드 / 감시자 프로세스(python, node) 일괄 완전 종료
+REM -0. 잔여 감시자 및 백그라운드 프로세스(python, node) 일괄 완전 종료
+taskkill /f /fi "WINDOWTITLE eq JPRO_Watchdog*" > nul 2>&1
 taskkill /f /im python.exe > nul 2>&1
 taskkill /f /im node.exe > nul 2>&1
 

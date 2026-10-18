@@ -8,7 +8,8 @@ echo   [J-PRO] 최신 코드 업데이트 및 통합 서버 재시작
 echo ========================================================
 echo.
 
-echo 1. 기존 서버 프로세스 종료 중...
+echo 1. 기존 감시자 및 서버 프로세스 종료 중...
+taskkill /f /fi "WINDOWTITLE eq JPRO_Watchdog*" > nul 2>&1
 taskkill /f /im python.exe > nul 2>&1
 taskkill /f /im node.exe > nul 2>&1
 taskkill /f /im streamlit.exe > nul 2>&1
