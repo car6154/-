@@ -681,7 +681,7 @@ export const LedgerTab: React.FC<LedgerTabProps> = ({
 
       {/* 3. Responsive Ledger Table (tab_ledger.py L426-L531) */}
 
-      <div className="bg-[#0f1117] border border-[#232733] rounded-xl max-h-[720px] overflow-y-auto scrollbar-thin scrollbar-thumb-zinc-700 relative">
+      <div className="bg-[#0f1117] border border-[#232733] rounded-xl max-h-[840px] overflow-y-auto scrollbar-thin scrollbar-thumb-zinc-700 relative">
 
         {/* Header (Sticky Top) */}
 
