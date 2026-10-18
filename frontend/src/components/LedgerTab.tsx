@@ -665,73 +665,7 @@ export const LedgerTab: React.FC<LedgerTabProps> = ({
 
 
 
-      {/* 3. Core Status KPI Dashboard (tab_ledger.py L355-L379) */}
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-
-        <div className="bg-[#12151e] border border-[#232733] rounded-xl p-3.5 flex items-center gap-3.5 shadow-sm">
-
-          <div className="w-10 h-10 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-lg">
-
-            📋
-
-          </div>
-
-          <div>
-
-            <div className="text-xs text-slate-400 font-medium">총 등록 장부</div>
-
-            <div className="text-lg font-bold text-white mt-0.5">{totalLedgerCount.toLocaleString()} 대</div>
-
-          </div>
-
-        </div>
-
-
-
-        <div className="bg-[#12151e] border border-[#232733] rounded-xl p-3.5 flex items-center gap-3.5 shadow-sm">
-
-          <div className="w-10 h-10 rounded-lg bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-lg">
-
-            ⏳
-
-          </div>
-
-          <div>
-
-            <div className="text-xs text-slate-400 font-medium">진행 중 (미확정)</div>
-
-            <div className="text-lg font-bold text-sky-400 mt-0.5">{pendingCount.toLocaleString()} 대</div>
-
-          </div>
-
-        </div>
-
-
-
-        <div className="bg-[#12151e] border border-[#232733] rounded-xl p-3.5 flex items-center gap-3.5 shadow-sm">
-
-          <div className="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-lg">
-
-            ✅
-
-          </div>
-
-          <div>
-
-            <div className="text-xs text-slate-400 font-medium">매입 확정 완료</div>
-
-            <div className="text-lg font-bold text-emerald-400 mt-0.5">{completedCount.toLocaleString()} 대</div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-
-      {/* 4. Real-time Search & Filter Toolbar (tab_ledger.py L381-L424) */}
+      {/* 3. Real-time Search & Filter Toolbar (tab_ledger.py L381-L424) */}
 
       <div className="bg-[#0f1117] border border-[#232733] p-3 rounded-xl flex flex-wrap items-center justify-between gap-3">
 
@@ -857,9 +791,9 @@ export const LedgerTab: React.FC<LedgerTabProps> = ({
 
 
 
-      {/* 5. Responsive Ledger Table (tab_ledger.py L426-L531) */}
+      {/* 4. Responsive Ledger Table (tab_ledger.py L426-L531) */}
 
-      <div className="bg-[#0f1117] border border-[#232733] rounded-xl max-h-[580px] overflow-y-auto scrollbar-thin scrollbar-thumb-zinc-700 relative">
+      <div className="bg-[#0f1117] border border-[#232733] rounded-xl max-h-[660px] overflow-y-auto scrollbar-thin scrollbar-thumb-zinc-700 relative">
 
         {/* Header (Sticky Top) */}
 
