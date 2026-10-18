@@ -340,6 +340,12 @@ def save_cookie_api(payload: CookieSavePayload):
             except Exception as se:
                 print(f"[CookieReceive] 오플 데이터 자동 동기화 오류: {se}", flush=True)
         threading.Thread(target=_bg_sync, daemon=True).start()
+    elif target in ("high", "autoplus_high", "high_cookie") or "high" in target:
+        with open(os.path.join(base_dir, "high_cookie.txt"), "w", encoding="utf-8") as f:
+            f.write(raw_cookie)
+        set_env_variable("HIGH_COOKIE", raw_cookie)
+        os.environ["HIGH_COOKIE"] = raw_cookie
+        print(f"[CookieReceive] 하이오플(모바일) 쿠키 {len(raw_cookie)}자 갱신 완료 (high_cookie.txt)", flush=True)
     elif target in ("autoplus", "autoplus_admin") or "auto" in target:
         with open(os.path.join(base_dir, "autoplus_cookie.txt"), "w", encoding="utf-8") as f:
             f.write(raw_cookie)

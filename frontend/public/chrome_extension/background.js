@@ -7,6 +7,8 @@ let lastAdminCookie = "";
 let lastAdminSyncTime = 0;
 let lastDataCookie = "";
 let lastDataSyncTime = 0;
+let lastHighCookie = "";
+let lastHighSyncTime = 0;
 
 let hdTimer = null;
 let apTimer = null;
@@ -60,12 +62,13 @@ function requestHdSync(force = false, delayMs = 150) {
   }, delayMs);
 }
 
-// ── 오토플러스 쿠키 지연/후행 동기화 (어드민 & 데이터 각각 전송) ──
+// ── 오토플러스 쿠키 지연/후행 동기화 (어드민, 차얼마데이터, 하이오플모바일 각각 전송) ──
 function requestApSync(force = false, delayMs = 150) {
   if (apTimer) clearTimeout(apTimer);
   apTimer = setTimeout(() => {
     syncAdminCookies(force);
     syncDataCookies(force);
+    syncHighCookies(force);
   }, delayMs);
 }
 
@@ -177,6 +180,40 @@ async function syncDataCookies(force = false) {
   }
 }
 
+// ── 하이오플 모바일 쿠키 동기화 (high.autoplus.co.kr 전용 -> high_cookie.txt) ──
+async function syncHighCookies(force = false) {
+  try {
+    const [byUrl, byDomain] = await Promise.all([
+      chrome.cookies.getAll({ url: 'https://high.autoplus.co.kr' }).catch(() => []),
+      chrome.cookies.getAll({ domain: 'high.autoplus.co.kr' }).catch(() => [])
+    ]);
+    const highCookies = [...byUrl, ...byDomain];
+    if (!highCookies || highCookies.length === 0) return false;
+
+    const cookieMap = new Map();
+    highCookies.forEach(c => {
+      if (c && c.name && c.value) cookieMap.set(c.name, c.value);
+    });
+    const cookieStr = Array.from(cookieMap.entries()).map(([k, v]) => `${k}=${v}`).join('; ');
+    if (!cookieStr) return false;
+
+    const now = Date.now();
+    if (!force && cookieStr === lastHighCookie && (now - lastHighSyncTime < 15000)) {
+      return true;
+    }
+
+    const ok = await broadcastToServer(cookieStr, 'autoplus_high');
+    if (ok) {
+      lastHighCookie = cookieStr;
+      lastHighSyncTime = now;
+      console.log('[J-PRO AutoSync] 하이오플(모바일) 쿠키 동기화 완료');
+    }
+    return ok;
+  } catch (e) {
+    return false;
+  }
+}
+
 // ── high A+ 매입 데이터 백엔드 브로드캐스트 ──
 async function broadcastHighplusBuyData(cars) {
   if (!cars || !cars.length) return false;
@@ -187,6 +224,7 @@ async function broadcastHighplusBuyData(cars) {
 async function triggerActiveAutoplusTabScan() {
   await syncAdminCookies(true);
   await syncDataCookies(true);
+  await syncHighCookies(true);
 
   const SPPOL_URL = 'https://admin.autoplus.co.kr/spot/syspo/SPPOL10001';
 

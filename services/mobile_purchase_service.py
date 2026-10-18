@@ -13,22 +13,40 @@ import requests
 logger = logging.getLogger(__name__)
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-COOKIE_FILE_PATH = os.path.join(BASE_DIR, "autoplus_cookie.txt")
+HIGH_COOKIE_FILE_PATH = os.path.join(BASE_DIR, "high_cookie.txt")
+AUTOPLUS_COOKIE_FILE_PATH = os.path.join(BASE_DIR, "autoplus_cookie.txt")
 API_URL = "https://high.autoplus.co.kr/admin/v1/purchases/estimates"
 
 
 class MobilePurchaseService:
     @staticmethod
     def get_cookie() -> str:
-        """autoplus_cookie.txt 또는 환경변수에서 쿠키 로드"""
-        if os.path.exists(COOKIE_FILE_PATH):
+        """high_cookie.txt (1순위) 또는 autoplus_cookie.txt / 환경변수에서 쿠키 로드"""
+        # 1. high.autoplus.co.kr 전용 쿠키 파일 우선
+        if os.path.exists(HIGH_COOKIE_FILE_PATH):
             try:
-                with open(COOKIE_FILE_PATH, "r", encoding="utf-8") as f:
+                with open(HIGH_COOKIE_FILE_PATH, "r", encoding="utf-8") as f:
                     content = f.read().strip()
                     if content:
                         return content
             except Exception as e:
-                logger.warning(f"[MobilePurchaseService] 쿠키 파일 읽기 실패: {e}")
+                logger.warning(f"[MobilePurchaseService] high_cookie.txt 읽기 실패: {e}")
+
+        # 2. HIGH_COOKIE 환경변수
+        env_high = os.environ.get("HIGH_COOKIE", "").strip()
+        if env_high:
+            return env_high
+
+        # 3. fallback: 기존 autoplus_cookie.txt
+        if os.path.exists(AUTOPLUS_COOKIE_FILE_PATH):
+            try:
+                with open(AUTOPLUS_COOKIE_FILE_PATH, "r", encoding="utf-8") as f:
+                    content = f.read().strip()
+                    if content:
+                        return content
+            except Exception as e:
+                logger.warning(f"[MobilePurchaseService] autoplus_cookie.txt 읽기 실패: {e}")
+
         return os.environ.get("AUTOPLUS_COOKIE", "").strip()
 
     @classmethod
