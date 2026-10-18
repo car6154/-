@@ -178,6 +178,25 @@ class MobilePurchaseService:
                 if not car_no:
                     continue
 
+                # 판매 완료 여부 판정 (soldYn, status, saleStatus 등)
+                sold_yn = (
+                    item.get("soldYn") or
+                    item.get("sold_yn") or
+                    item.get("isSold") or
+                    item.get("saleYn") or ""
+                )
+                sold_yn_str = str(sold_yn).strip().upper() if sold_yn is not None else ""
+
+                status_val = str(
+                    item.get("status") or
+                    item.get("statusNm") or
+                    item.get("saleStatus") or
+                    item.get("pcsStatus") or
+                    item.get("carStatus") or ""
+                ).strip()
+
+                is_sold = (sold_yn_str in ("Y", "YES", "TRUE", "1")) or ("완료" in status_val or status_val == "판매완료")
+
                 parsed_cars.append({
                     "carNumber": car_no,
                     "carName": car_name,
@@ -185,6 +204,9 @@ class MobilePurchaseService:
                     "etcAmt": etc_amt,
                     "transferDate": transfer_date,
                     "manager": manager,
+                    "soldYn": sold_yn_str,
+                    "status": status_val,
+                    "isSold": is_sold,
                     "raw": item
                 })
 
