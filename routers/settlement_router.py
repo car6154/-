@@ -506,58 +506,47 @@ def sync_highplus_buy(req: Optional[HighplusBuySyncRequest] = None):
         from services.autoplus_admin_service import AutoplusAdminService
         from services.mobile_purchase_service import MobilePurchaseService
 
-        # 1. 모바일 API (https://high.autoplus.co.kr/admin/v1/purchases/estimates) 직접 호출 (날짜 파라미터 없음)
-        mobile_res = MobilePurchaseService.get_purchase_list(manager="kimjh1202")
+        # 1. 6대 pcsNo로 상세 API 직접 호출하여 etcAmt 및 매입 정보 조회 (목록 API 필터 우회)
+        from services.mobile_purchase_service import KNOWN_PCS_IDS
+        detail_res = MobilePurchaseService.get_purchase_details(KNOWN_PCS_IDS)
         cars_to_process = []
-        excluded_sold_cars = []
-        raw_297_info = None
 
-        if mobile_res.get("success") and mobile_res.get("cars"):
-            for c in mobile_res["cars"]:
+        if detail_res.get("success") and detail_res.get("cars"):
+            for c in detail_res["cars"]:
                 c_no = c.get("carNumber")
-                if c_no == "297로2620":
-                    raw_297_info = {
-                        "carNumber": c_no,
-                        "soldYn": c.get("soldYn"),
-                        "status": c.get("status"),
-                        "isSold": c.get("isSold"),
-                        "raw": c.get("raw")
-                    }
-
-                # 김재현 담당 차량 필터링
-                mgr = str(c.get("manager") or c.get("raw", {}).get("pcsManagerId") or c.get("raw", {}).get("managerNm") or "").strip()
-                if mgr and ("kimjh" not in mgr.lower() and "김재현" not in mgr):
-                    continue
-
-                # 판매 완료된 차량 제외 (isSold가 True인 차량은 cars_to_process에서 제외)
-                if c.get("isSold"):
-                    excluded_sold_cars.append(c)
-                    print(f"[SettlementRouter] 판매완료 차량 제외: {c_no} (soldYn={c.get('soldYn')}, status={c.get('status')})", flush=True)
-                    continue
+                etc_amt = c.get("etcAmt")
+                buy_price = c.get("buyPrice")
+                t_date = c.get("transferDate")
 
                 cars_to_process.append({
                     "carNumber": c_no,
                     "carName": c.get("carName"),
-                    "buyPrice": c.get("buyPrice"),
-                    "etcFee": c.get("etcAmt"),
-                    "transferDate": c.get("transferDate"),
+                    "buyPrice": buy_price,
+                    "etcFee": etc_amt,
+                    "transferDate": t_date,
                     "manager": "김재현"
                 })
+                print(f"[SettlementRouter] 6대 상세 매입 조회: 차량={c_no}, etcAmt={etc_amt}, buyPrice={buy_price}", flush=True)
 
-            print(f"[SettlementRouter] 판매완료 차량 제외: {len(excluded_sold_cars)}대", flush=True)
-            if raw_297_info:
-                print(f"[SettlementRouter] 297로2620 API 원본 데이터: soldYn={raw_297_info.get('soldYn')}, status={raw_297_info.get('status')}, isSold={raw_297_info.get('isSold')}", flush=True)
-            else:
-                print(f"[SettlementRouter] 297로2620: 모바일 API 반환 목록에 미포함", flush=True)
+            print(f"[SettlementRouter] 6대 상세 API 조회 완료: 총 {len(cars_to_process)}대 수집", flush=True)
 
-            has_155 = any(c.get("carNumber") == "155라7987" for c in cars_to_process)
-            car_list_str = ", ".join([f"{c.get('carNumber')}(etcFee={c.get('etcFee')})" for c in cars_to_process])
-            print(f"[SettlementRouter] 현 재고 반영 대상 총 {len(cars_to_process)}대 (155라7987 포함: {has_155}) | 차량목록: [{car_list_str}]", flush=True)
-
-        # 2. 모바일 API 실패 또는 데이터 없을 시 확장프로그램 전달 데이터 fallback
-        if not cars_to_process and req and req.cars:
-            cars_to_process = req.cars
-            print(f"[SettlementRouter] 모바일 API 미응답 -> 확장프로그램 {len(cars_to_process)}대 fallback 사용", flush=True)
+        # 2. 상세 API 실패 시 목록 API 또는 확장프로그램 fallback
+        if not cars_to_process:
+            fallback_res = MobilePurchaseService.get_purchase_list(manager="kimjh1202")
+            if fallback_res.get("success") and fallback_res.get("cars"):
+                for c in fallback_res["cars"]:
+                    if not c.get("isSold"):
+                        cars_to_process.append({
+                            "carNumber": c.get("carNumber"),
+                            "carName": c.get("carName"),
+                            "buyPrice": c.get("buyPrice"),
+                            "etcFee": c.get("etcAmt"),
+                            "transferDate": c.get("transferDate"),
+                            "manager": "김재현"
+                        })
+            elif req and req.cars:
+                cars_to_process = req.cars
+                print(f"[SettlementRouter] 모바일 API 미응답 -> 확장프로그램 {len(cars_to_process)}대 fallback 사용", flush=True)
 
         res = AutoplusAdminService.process_highplus_buy_data(cars_to_process)
         if isinstance(res, dict):

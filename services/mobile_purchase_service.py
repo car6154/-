@@ -16,6 +16,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 HIGH_COOKIE_FILE_PATH = os.path.join(BASE_DIR, "high_cookie.txt")
 AUTOPLUS_COOKIE_FILE_PATH = os.path.join(BASE_DIR, "autoplus_cookie.txt")
 API_URL = "https://high.autoplus.co.kr/admin/v1/purchases/estimates"
+KNOWN_PCS_IDS = [4058, 4017, 4108, 4261, 4100, 4078]
+# 4058: 155라7987, 4017: 37다1840, 4108: 01수9643, 4261: 224버2800, 4100: 43노5327, 4078: 337너5231
 
 
 class MobilePurchaseService:
@@ -230,3 +232,95 @@ class MobilePurchaseService:
                 "has_etc_amt": False,
                 "message": f"요청 예외: {str(e)}"
             }
+
+    @classmethod
+    def get_purchase_details(cls, pcs_ids: Optional[List[int]] = None) -> Dict[str, Any]:
+        """
+        상세 API (GET /admin/v1/purchases/estimates/{id})를 직접 호출하여
+        각 차량의 carNumber, etcAmt, finalPcsAmt, pcsManagerName 추출
+        - pcsManagerId가 kimjh1202인지 확인
+        """
+        if pcs_ids is None:
+            pcs_ids = KNOWN_PCS_IDS
+
+        cookie_str = cls.get_cookie()
+        if not cookie_str:
+            return {
+                "success": False,
+                "status_code": 0,
+                "cars": [],
+                "message": "오토플러스 쿠키가 설정되지 않았습니다."
+            }
+
+        headers = {
+            "Cookie": cookie_str,
+            "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148",
+            "Referer": "https://high.autoplus.co.kr/",
+            "Origin": "https://high.autoplus.co.kr",
+            "Accept": "application/json, text/plain, */*",
+            "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7"
+        }
+
+        detailed_cars = []
+        for pcs_id in pcs_ids:
+            url = f"{API_URL}/{pcs_id}"
+            try:
+                resp = requests.get(url, headers=headers, timeout=10)
+                if resp.status_code != 200:
+                    logger.warning(f"[MobilePurchaseService] pcs_id {pcs_id} 상세 조회 실패 HTTP {resp.status_code}")
+                    continue
+
+                res_json = resp.json()
+                data = res_json.get("data") if isinstance(res_json, dict) and "data" in res_json else res_json
+                if not isinstance(data, dict):
+                    continue
+
+                # pcsManagerId 확인 (kimjh1202)
+                manager_id = str(data.get("pcsManagerId") or data.get("managerId") or "").strip()
+                manager_name = str(data.get("pcsManagerName") or data.get("managerNm") or data.get("managerName") or "").strip()
+                if manager_id and "kimjh" not in manager_id.lower() and "김재현" not in manager_name:
+                    logger.info(f"[MobilePurchaseService] pcs_id {pcs_id} 담당자 불일치 ({manager_id}, {manager_name}) -> 제외")
+                    continue
+
+                car_no = str(data.get("carNumber") or data.get("carNo") or "").replace(" ", "").strip()
+                car_name = str(data.get("carName") or data.get("modelNm") or "").strip()
+
+                buy_price = data.get("finalPcsAmt") or data.get("pcsAmt") or data.get("buyPrice") or 0
+                try:
+                    buy_price = int(str(buy_price).replace(",", ""))
+                except (ValueError, TypeError):
+                    buy_price = 0
+
+                raw_etc = data.get("etcAmt")
+                etc_amt = None
+                if raw_etc is not None and str(raw_etc).strip() != "" and str(raw_etc).strip().lower() != "null":
+                    try:
+                        etc_amt = int(str(raw_etc).replace(",", ""))
+                    except (ValueError, TypeError):
+                        etc_amt = None
+
+                transfer_date = str(data.get("pcsDt") or data.get("returnDt") or data.get("transferDate") or "").strip() or None
+
+                car_dict = {
+                    "pcsId": pcs_id,
+                    "carNumber": car_no,
+                    "carName": car_name,
+                    "buyPrice": buy_price,
+                    "etcAmt": etc_amt,
+                    "transferDate": transfer_date,
+                    "manager": manager_name or "김재현",
+                    "managerId": manager_id,
+                    "raw": data
+                }
+                detailed_cars.append(car_dict)
+                print(f"[MobilePurchaseService] pcs_id {pcs_id}: 차량={car_no}, etcAmt={etc_amt}, buyPrice={buy_price}, 매니저={manager_name}({manager_id})", flush=True)
+            except Exception as e:
+                logger.error(f"[MobilePurchaseService] pcs_id {pcs_id} 상세 호출 예외: {e}")
+
+        return {
+            "success": True if detailed_cars else False,
+            "status_code": 200,
+            "cars": detailed_cars,
+            "total_count": len(detailed_cars),
+            "message": f"성공적으로 {len(detailed_cars)}대 차량 상세 정보를 조회했습니다."
+        }
