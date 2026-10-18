@@ -128,9 +128,11 @@ class AutoplusSyncService:
             "carType": "",
             "platform": "all"
         }
-        resp = requests.post(url, headers=headers, json=param, timeout=30)
         try:
+            resp = requests.post(url, headers=headers, json=param, timeout=30)
             data = resp.json()
+        except requests.RequestException as e:
+            raise RuntimeError(f"오토플러스 재고 서버 통신 오류: {e}")
         except Exception:
             raise RuntimeError("오토플러스 로그인 세션이 만료되었습니다. 쿠키를 갱신해 주세요.")
         excel_data = data.get("excel_data", [])
@@ -188,9 +190,11 @@ class AutoplusSyncService:
             "date01": start_date.strftime("%Y-%m-%d"),
             "date02": today.strftime("%Y-%m-%d")
         }
-        resp = requests.post(url, headers=headers, json=param, timeout=40)
         try:
+            resp = requests.post(url, headers=headers, json=param, timeout=40)
             data = resp.json()
+        except requests.RequestException as e:
+            raise RuntimeError(f"오토플러스 판매완료 서버 통신 오류: {e}")
         except Exception:
             raise RuntimeError("오토플러스 로그인 세션이 만료되었습니다. 쿠키를 갱신해 주세요.")
         excel_data = data.get("excel_data", [])

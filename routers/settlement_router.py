@@ -157,9 +157,7 @@ def get_inventory_settlement(response: Response):
                 }
                 items.append(item)
 
-        target_sample = next((it for it in items if it.get("carNumber") == "155라7987"), None)
-        sample_log = f"155라7987: 수수료={target_sample.get('heydealerFee')}, 매입가={target_sample.get('buyPrice')}" if target_sample else "155라7987 미포함"
-        print(f"[SettlementRouter][DEBUG] GET /api/settlement 완료 | 총 {len(items)}건 반환 | {sample_log}", flush=True)
+        print(f"[SettlementRouter][DEBUG] GET /api/settlement 완료 | 총 {len(items)}건 반환", flush=True)
 
         return items
     except Exception as e:

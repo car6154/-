@@ -618,8 +618,7 @@ class AutoplusAdminService:
                 writer.writerow(header)
                 writer.writerows(new_rows)
             _safe_atomic_replace(temp_path, SETTLEMENT_CSV)
-            target_fee = cars_by_no.get("155라7987", {}).get("heydealerFee")
-            print(f"[AutoplusAdminService][DEBUG] 정산표 저장 완료 | 대상: {abs_csv_path} | 신규={added_count}, 갱신={updated_count} | 155라7987 수수료={target_fee}", flush=True)
+            print(f"[AutoplusAdminService][DEBUG] 정산표 저장 완료 | 대상: {abs_csv_path} | 신규={added_count}, 갱신={updated_count}", flush=True)
             # [자동화 파이프라인] 매입 연동 완료 즉시 오플 전사 재고의 판매가, 재고일, 엔카URL을 100% 자동 매칭
             try:
                 from services.autoplus_sync_service import AutoplusSyncService

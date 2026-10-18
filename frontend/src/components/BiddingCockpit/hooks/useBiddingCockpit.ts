@@ -1,5 +1,4 @@
-import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
-import * as XLSX from 'xlsx';
+import { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import { CarLedgerItem } from '@/types';
 import { queryChaolmaCar, type ChaolmaCarHistory, type ChaolmaOriginDoc } from '@/services/chaolmaService';
 import { computeRuleBasedAssessment } from '@/utils/ruleBasedAssessment';
@@ -551,41 +550,10 @@ export function useBiddingCockpit({
     })();
   }, [preset]);
 
-  // 구형 호환: presetCarName / presetSellPrice만 들어올 때
+  // 구형 호환: presetCarName / presetSellPrice만 들어올 때 (임의 더미 제원 강제 주입 금지)
   useEffect(() => {
     if (presetCarName && !preset) {
       setCarName(presetCarName);
-      if (presetCarName.includes('아반떼')) {
-        setManufacturer('현대');
-        setDetailModel('1.6 가솔린 스마트');
-        setYearModel(19);
-        setMileageKm(54000);
-        setExpectedSellPrice(1380);
-        setOptionsTag('+스마트센스·내비게이션');
-      } else if (presetCarName.includes('카니발')) {
-        setManufacturer('기아');
-        setDetailModel('디젤 9인승 프레스티지');
-        setYearModel(18);
-        setMileageKm(98000);
-        setExpectedSellPrice(980);
-        setOptionsTag('+파워슬라이딩도어·내비게이션');
-        setOuterRepairCount(2);
-      } else if (presetCarName.includes('레이')) {
-        setManufacturer('기아');
-        setDetailModel('시그니처');
-        setYearModel(21);
-        setMileageKm(38000);
-        setExpectedSellPrice(1190);
-        setOptionsTag('+드라이브와이즈·스타일');
-        setOuterRepairCount(1);
-      } else if (presetCarName.includes('쏘나타')) {
-        setManufacturer('현대');
-        setDetailModel('2.0 가솔린 프리미엄');
-        setYearModel(20);
-        setMileageKm(45000);
-        setExpectedSellPrice(1850);
-        setOptionsTag('+현대스마트센스·컴포트');
-      }
     }
     if (presetSellPrice && presetSellPrice > 0 && !preset) {
       setExpectedSellPrice(presetSellPrice);
@@ -1506,90 +1474,9 @@ export function useBiddingCockpit({
   // S6: scatterPlotData useMemo 및 SVG 렌더링은 ScatterPlotSection 컴포넌트 내부로 캡슐화 이전됨
 
   // ----------------------------------------------------
-  // [1단계. 오토플러스 실적 DB & 엑셀 업로드 상태]
+  // [1단계. 오토플러스 실적 DB & 탭 상태]
   // ----------------------------------------------------
   const [soldTabMode, setSoldTabMode] = useState<'encar' | 'autoplus' | 'wholesale' | 'none'>('none');
-  const [isExcelUploading, setIsExcelUploading] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  // 엑셀(.xlsx/.xls/.csv) 파일 파싱 및 즉시 반영
-  const handleUploadAutoplusExcel = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    setIsExcelUploading(true);
-    const reader = new FileReader();
-
-    reader.onload = (evt) => {
-      try {
-        const bstr = evt.target?.result;
-        const wb = XLSX.read(bstr, { type: 'binary' });
-        const wsname = wb.SheetNames[0];
-        const ws = wb.Sheets[wsname];
-        const rows: any[] = XLSX.utils.sheet_to_json(ws);
-
-        if (rows && rows.length > 0) {
-          const parsedList = rows.map((r, idx) => {
-            const plate = String(r['차량번호'] || r['차량 번호'] || r['차번'] || r['plate'] || `AP-${idx}`);
-            const cName = String(r['차명'] || r['차량명'] || r['모델'] || r['차종'] || r['carName'] || '');
-            const sub = String(r['세부모델'] || r['세부차명'] || r['등급'] || r['subModel'] || '');
-            const col = String(r['색상'] || r['외장색상'] || r['color'] || '기본');
-            const mil = Number(String(r['주행거리'] || r['주행'] || r['mileage'] || 0).replace(/[^\d]/g, '')) || 0;
-            const regD = String(r['최초등록일'] || r['등록일'] || r['연식'] || r['regDate'] || '2020');
-            const stock = Number(String(r['재고일수'] || r['보유일수'] || r['재고일'] || r['stockDays'] || 15).replace(/[^\d]/g, '')) || 15;
-            const bPrice = Number(String(r['매입가'] || r['원가'] || r['입고가'] || r['buyPrice'] || 0).replace(/[^\d]/g, '')) || 0;
-            const sPrice = Number(String(r['판매가'] || r['소매가'] || r['매도가'] || r['sellPrice'] || 0).replace(/[^\d]/g, '')) || 0;
-            const newP = Number(String(r['신차가'] || r['신차가격'] || r['newCarPrice'] || 0).replace(/[^\d]/g, '')) || 0;
-            const profit = sPrice && bPrice ? (sPrice - bPrice) : (Number(String(r['실현마진'] || r['마진'] || r['손익'] || r['realizedProfit'] || 0).replace(/[^\d]/g, '')) || 0);
-            const br = String(r['지점'] || r['전시장'] || r['매장'] || r['branch'] || '본점');
-            const mgr = String(r['담당자'] || r['판매자'] || r['manager'] || '영업부');
-
-            return {
-              id: `custom_${idx}_${plate}`,
-              plate,
-              carName: cName,
-              subModel: sub,
-              color: col,
-              mileage: mil,
-              regDate: regD,
-              stockDays: stock,
-              buyPrice: bPrice,
-              sellPrice: sPrice,
-              newCarPrice: newP,
-              realizedProfit: profit,
-              status: '판매완료',
-              branch: br,
-              manager: mgr,
-              encarUrl: ''
-            };
-          });
-
-          try {
-            localStorage.setItem('jpro_custom_autoplus_sales', JSON.stringify(parsedList.slice(0, 10000)));
-          } catch (storageErr) {
-            console.warn('LocalStorage limit exceeded:', storageErr);
-          }
-
-          setSearchStatus({
-            type: 'success',
-            message: `🎉 [오토플러스 엑셀 연동 성공] 총 ${parsedList.length.toLocaleString()}건의 실적 데이터를 성공적으로 로드하여 동급 시세 분석에 즉시 반영했습니다!`
-          });
-        }
-      } catch (err: any) {
-        console.error('엑셀 파싱 실패:', err);
-        setSearchStatus({
-          type: 'error',
-          message: '❌ 엑셀 파일 형식을 읽지 못했습니다. .xlsx 또는 .csv 표준 양식을 확인해주세요.'
-        });
-      } finally {
-        setIsExcelUploading(false);
-        if (fileInputRef.current) fileInputRef.current.value = '';
-        setTimeout(() => setSearchStatus(null), 6000);
-      }
-    };
-
-    reader.readAsBinaryString(file);
-  };
 
   // ----------------------------------------------------
   // [1단계. 자사 오토플러스 실적 및 시장 수요도 - Streamlit 8501 100% 동일 API 연동]
@@ -1991,7 +1878,6 @@ export function useBiddingCockpit({
     // 밸류에이션 요약 섹션 관련
     biddingVerdict,
     isEncarLoading,
-    isExcelUploading,
     encarSourceUrl,
     autoplusStats,
     currentAssessment,
@@ -2010,7 +1896,6 @@ export function useBiddingCockpit({
     showTrimColumn,
     setShowTrimColumn,
     fetchEncarComparable,
-    handleUploadAutoplusExcel,
     showCarHistoryModal,
     setShowCarHistoryModal,
 

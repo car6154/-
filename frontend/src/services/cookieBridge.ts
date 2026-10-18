@@ -28,6 +28,8 @@ function notifyListeners(status: CookieSyncStatus) {
   listeners.forEach(cb => cb(status));
 }
 
+export const JPRO_COOKIE_SECRET_TOKEN = 'jpro_sec_9981_live_auth';
+
 // 1. 클라우드 서버에 쿠키 업로드/동기화
 export async function uploadCookieToServer(cookie: string, target: 'heydealer' | 'autoplus'): Promise<boolean> {
   try {
@@ -37,7 +39,7 @@ export async function uploadCookieToServer(cookie: string, target: 'heydealer' |
       body: JSON.stringify({
         cookie,
         target,
-        secretToken: 'jpro_sec_9981_live_auth'
+        secretToken: JPRO_COOKIE_SECRET_TOKEN
       })
     });
     const data = await res.json();

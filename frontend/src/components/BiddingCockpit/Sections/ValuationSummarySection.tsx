@@ -19,13 +19,11 @@ export interface ValuationSummarySectionProps {
   aiSafeBidCeiling?: number;
   targetMargin: number;
   repairCostTotal: number;
-  purchaseFeeCalculated: number;
   safeBidCeiling: number;
   optionsTag?: string;
   outerRepairCount?: number;
   biddingVerdict?: any;
   isEncarLoading: boolean;
-  isExcelUploading: boolean;
   encarSourceUrl?: string;
   autoplusStats: { matchedCount: number; [key: string]: any };
   currentAssessment: any;
@@ -43,7 +41,6 @@ export interface ValuationSummarySectionProps {
   setSoldTabMode: (mode: 'none' | 'encar' | 'autoplus' | 'wholesale') => void;
   showTrimColumn: boolean;
   onRescanEncar: () => void;
-  onUploadExcel: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onOpenHistoryModal: () => void;
 }
 
@@ -60,13 +57,11 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
   aiSafeBidCeiling = 0,
   targetMargin,
   repairCostTotal,
-  purchaseFeeCalculated,
   safeBidCeiling,
   optionsTag,
   outerRepairCount = 0,
   biddingVerdict,
   isEncarLoading,
-  isExcelUploading,
   encarSourceUrl,
   autoplusStats,
   currentAssessment,
@@ -84,7 +79,6 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
   setSoldTabMode,
   showTrimColumn,
   onRescanEncar,
-  onUploadExcel,
   onOpenHistoryModal,
 }) => {
   // 🏢 [KCAR] 실시간 공식 검색 필터 URL 동적 생성 (모델명 + 연식 ±1년 + 주행거리 ±3만km)

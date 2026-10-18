@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useEffect, useMemo, useCallback, lazy, Suspense } from 'react';
 import { INITIAL_CAR_LEDGER } from '@/data/initialData';
 import { INITIAL_SETTLEMENT_ITEMS } from '@/data/settlementSeedData';
 import { CarLedgerItem, InventorySettlementItem, CockpitPresetData } from '@/types';
@@ -12,8 +12,6 @@ import { LedgerTab } from '@/components/LedgerTab';
 import { BiddingCockpitTab } from '@/components/BiddingCockpitTab';
 import { SettlementTab } from '@/components/SettlementTab';
 import { SoldOutSettlementTab } from '@/components/SoldOutSettlementTab';
-import { CompanyPerformanceTab } from '@/components/CompanyPerformanceTab';
-import { CompanyInventoryTab } from '@/components/CompanyInventoryTab';
 import { CarDetailModal } from '@/components/CarDetailModal';
 import { AddCarModal } from '@/components/AddCarModal';
 import { DriveModal } from '@/components/DriveModal';
@@ -22,7 +20,36 @@ import { ExtensionInstallModal } from '@/components/ExtensionInstallModal';
 import { MobileNav } from '@/components/MobileNav';
 import { RefreshCw, Cloud, ShieldCheck, CheckCircle2 } from 'lucide-react';
 import { sendCarToGoogleSheet } from '@/services/googleSheetService';
-import { startContinuousCookieSync, subscribeCookieSync } from '@/services/cookieBridge';
+import { startContinuousCookieSync, subscribeCookieSync, JPRO_COOKIE_SECRET_TOKEN } from '@/services/cookieBridge';
+
+const CompanyPerformanceTab = lazy(() =>
+  import('@/components/CompanyPerformanceTab').then((m) => ({ default: m.CompanyPerformanceTab }))
+);
+const CompanyInventoryTab = lazy(() =>
+  import('@/components/CompanyInventoryTab').then((m) => ({ default: m.CompanyInventoryTab }))
+);
+
+function inferBrandFromCarName(carName: string): string {
+  if (
+    carName.includes('기아') ||
+    carName.includes('카니발') ||
+    carName.includes('레이') ||
+    carName.includes('모닝') ||
+    carName.includes('K5')
+  ) {
+    return '기아';
+  }
+  if (carName.includes('르노') || carName.includes('SM') || carName.includes('QM')) {
+    return '르노코리아';
+  }
+  if (carName.includes('KG') || carName.includes('쌍용')) {
+    return 'KG모빌리티';
+  }
+  if (carName.includes('제네시스') || carName.includes('G80')) {
+    return '제네시스';
+  }
+  return '현대';
+}
 
 export default function App() {
   // 1. Persistence for cars ledger (Real Python backend my_car_ledger.csv & fallback)
@@ -629,16 +656,7 @@ export default function App() {
 
   // Jump to cockpit for instant market comparison with full settlement inventory details
   const handleAnalyzeSettlementInCockpit = (item: InventorySettlementItem) => {
-    let brand = '현대';
-    if (item.carName.includes('기아') || item.carName.includes('카니발') || item.carName.includes('레이') || item.carName.includes('모닝') || item.carName.includes('K5')) {
-      brand = '기아';
-    } else if (item.carName.includes('르노') || item.carName.includes('SM') || item.carName.includes('QM')) {
-      brand = '르노코리아';
-    } else if (item.carName.includes('KG') || item.carName.includes('쌍용')) {
-      brand = 'KG모빌리티';
-    } else if (item.carName.includes('제네시스') || item.carName.includes('G80')) {
-      brand = '제네시스';
-    }
+    const brand = inferBrandFromCarName(item.carName);
 
     setCockpitPreset({
       carNumber: item.carNumber,
@@ -660,16 +678,7 @@ export default function App() {
 
   // Jump to cockpit for instant market comparison from company performance DB
   const handleAnalyzePerformanceInCockpit = (record: any) => {
-    let brand = '현대';
-    if (record.carName.includes('기아') || record.carName.includes('카니발') || record.carName.includes('레이') || record.carName.includes('모닝') || record.carName.includes('K5')) {
-      brand = '기아';
-    } else if (record.carName.includes('르노') || record.carName.includes('SM') || record.carName.includes('QM')) {
-      brand = '르노코리아';
-    } else if (record.carName.includes('KG') || record.carName.includes('쌍용')) {
-      brand = 'KG모빌리티';
-    } else if (record.carName.includes('제네시스') || record.carName.includes('G80')) {
-      brand = '제네시스';
-    }
+    const brand = inferBrandFromCarName(record.carName || '');
 
     setCockpitPreset({
       carNumber: record.plate,
@@ -708,7 +717,7 @@ export default function App() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           cookie: newCookie,
-          secretToken: 'jpro_sec_9981_live_auth'
+          secretToken: JPRO_COOKIE_SECRET_TOKEN
         })
       });
 
@@ -843,16 +852,20 @@ export default function App() {
 
         {/* Tab 5: 📈 자사 판매 실적 (회사 7,493건 완판 실적 참고 DB) */}
         {activeTab === 'performance' && (
-          <CompanyPerformanceTab
-            onAnalyzeInCockpit={handleAnalyzePerformanceInCockpit}
-          />
+          <Suspense fallback={<div className="p-8 text-center text-sm text-[#8b8e9d]">자사 판매 실적 DB 로딩 중...</div>}>
+            <CompanyPerformanceTab
+              onAnalyzeInCockpit={handleAnalyzePerformanceInCockpit}
+            />
+          </Suspense>
         )}
 
         {/* Tab 6: 📦 자사 보유 재고 (회사 1,266건 보유재고 참고 DB) */}
         {activeTab === 'inventory' && (
-          <CompanyInventoryTab
-            onAnalyzeInCockpit={handleAnalyzePerformanceInCockpit}
-          />
+          <Suspense fallback={<div className="p-8 text-center text-sm text-[#8b8e9d]">자사 보유 재고 DB 로딩 중...</div>}>
+            <CompanyInventoryTab
+              onAnalyzeInCockpit={handleAnalyzePerformanceInCockpit}
+            />
+          </Suspense>
         )}
       </main>
 

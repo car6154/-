@@ -436,7 +436,10 @@ class HeydealerScraper:
         # 요청 직전에 csrftoken 헤더를 최신 쿠키와 동기화 (로테이션 대응 핵심)
         HeydealerScraper._sync_csrf_header(session)
         
-        response = session.get(api_url)
+        try:
+            response = session.get(api_url, timeout=10)
+        except requests.RequestException as e:
+            raise Exception(f"헤이딜러 서버 연결 오류가 발생했습니다: {e}")
 
         # 응답 후에도 혹시 Set-Cookie로 csrftoken이 바뀌었으면 즉시 동기화
         HeydealerScraper._sync_csrf_header(session)
