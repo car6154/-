@@ -1007,10 +1007,10 @@ hd_grade = st.session_state.get('hd_grade_part_name', '')
 hd_full = st.session_state.get('hd_full_name', '')
 
 base_name = ""
-if hd_model:
-    base_name = hd_model
-elif f_name != "전체":
+if f_name and f_name != "전체":
     base_name = str(f_name)
+elif hd_model:
+    base_name = hd_model
 elif hd_full:
     base_name = hd_full
 
@@ -1023,7 +1023,7 @@ if base_name and not kcar_codes:
     m_core = re.search(r'^(뉴\s*[^0-9]+|더\s*뉴\s*[^0-9]+|올\s*뉴\s*[^0-9]+|[가-힣A-Za-z0-9\s]+?)(?=\s+\d+\.\d+|\s+가솔린|\s+디젤|\s+하이브리드|\s+LPG|\s+EV|$)', clean_name)
     model_str = m_core.group(1).strip() if (m_core and m_core.group(1).strip()) else (clean_name.split()[0] if clean_name.split() else clean_name)
     
-    sub_raw = hd_grade if hd_grade else (f_sub if f_sub != "전체" else "")
+    sub_raw = f_sub if (f_sub and f_sub != "전체") else hd_grade
     trim_words = []
     if sub_raw:
         s_clean = str(sub_raw).replace(" ", "")
@@ -1052,6 +1052,7 @@ if kcar_codes:
     cond["wr_eq_model_cd"] = kcar_codes[2]
 elif kcar_search_text:
     cond["wr_txt_idx"] = kcar_search_text
+    cond["wr_in_model_nm"] = kcar_search_text
 
 # 1. 연식 밴드 (±1년, generate_smart_encar_url과 동일 기준)
 raw_year = st.session_state.get('f_year', '')

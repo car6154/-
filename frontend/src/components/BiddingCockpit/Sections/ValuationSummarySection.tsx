@@ -5,6 +5,7 @@ import {
   Zap,
 } from 'lucide-react';
 import { EncarItem } from './ComparableEncarSection';
+import { buildKcarSearchUrl } from '../../../utils/kcarUrl';
 
 export interface ValuationSummarySectionProps {
   carName: string;
@@ -81,33 +82,15 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
   onRescanEncar,
   onOpenHistoryModal,
 }) => {
-  // 🏢 [KCAR] 실시간 공식 검색 필터 URL 동적 생성 (모델명 + 연식 ±1년 + 주행거리 ±3만km)
+  // 🏢 [KCAR] 실시간 공식 검색 필터 URL 동적 생성 (사이드바 필터 기준: 제조사/모델 코드 우선 매핑 + 연식 ±1년 + 주행거리 ±3만km)
   const kcarUrl = React.useMemo(() => {
-    const cond: Record<string, any> = {};
-    const searchText = (carName || '').trim();
-    if (searchText) {
-      cond.wr_txt_idx = searchText;
-    }
-
-    if (yearModel && Number(yearModel) > 0) {
-      const yVal = Number(yearModel);
-      const kcarYear = yVal < 100 ? 2000 + yVal : yVal;
-      cond.wr_gt_mfg_dt = `${kcarYear - 1}01`;
-      cond.wr_lt_mfg_dt = `${kcarYear + 1}12`;
-    }
-
-    if (mileageKm && Number(mileageKm) > 0) {
-      const milVal = Number(mileageKm);
-      const roundedMil = Math.round(milVal / 10000) * 10000;
-      cond.wr_gt_milg = Math.max(0, roundedMil - 30000);
-      cond.wr_lt_milg = roundedMil + 30000;
-    }
-
-    if (Object.keys(cond).length > 0) {
-      return `https://www.kcar.com/bc/search?searchCond=${encodeURIComponent(JSON.stringify(cond))}`;
-    }
-    return 'https://www.kcar.com/bc/search';
-  }, [carName, yearModel, mileageKm]);
+    return buildKcarSearchUrl({
+      carName,
+      manufacturer,
+      yearModel,
+      mileageKm,
+    });
+  }, [carName, manufacturer, yearModel, mileageKm]);
 
   return (
         <div className="bg-[#0e0f13] border border-[#262833] rounded-xl p-4 sm:p-5 shadow-lg space-y-3.5">
