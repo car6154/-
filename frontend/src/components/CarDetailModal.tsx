@@ -17,6 +17,7 @@ export const CarDetailModal: React.FC<CarDetailModalProps> = ({
 }) => {
   if (!car) return null;
 
+  const [mileage, setMileage] = useState(car.mileage || '');
   const [buyPrice, setBuyPrice] = useState(car.buyPrice);
   const [sellPrice, setSellPrice] = useState(car.sellPrice);
   const [outerRepairs, setOuterRepairs] = useState(car.outerRepairs);
@@ -27,6 +28,7 @@ export const CarDetailModal: React.FC<CarDetailModalProps> = ({
 
   useEffect(() => {
     if (car) {
+      setMileage(car.mileage || '');
       setBuyPrice(car.buyPrice);
       setSellPrice(car.sellPrice);
       setOuterRepairs(car.outerRepairs);
@@ -47,9 +49,19 @@ export const CarDetailModal: React.FC<CarDetailModalProps> = ({
 
   const margin = sellPrice - buyPrice - repairCost - heydealerFee;
 
+  const normalizeMileage = (raw: string): string => {
+    const trimmed = String(raw || '').trim();
+    const digitsOnly = trimmed.replace(/[,kmKM\s]/g, '');
+    if (digitsOnly && /^\d+$/.test(digitsOnly)) {
+      return `${Number(digitsOnly).toLocaleString()} km`;
+    }
+    return trimmed;
+  };
+
   const handleSave = () => {
     onUpdate({
       ...car,
+      mileage: normalizeMileage(mileage),
       buyPrice,
       sellPrice,
       outerRepairs,
@@ -94,7 +106,7 @@ export const CarDetailModal: React.FC<CarDetailModalProps> = ({
               )}
             </div>
             <p className="text-xs text-[#9194a1] mt-0.5">
-              {car.manufacturer} {car.carName} {car.detailModel} ({car.year}년식 · {car.mileage})
+              {car.manufacturer} {car.carName} {car.detailModel} ({car.year}년식 · {mileage || car.mileage})
             </p>
           </div>
 
@@ -129,7 +141,19 @@ export const CarDetailModal: React.FC<CarDetailModalProps> = ({
             </div>
           )}
 
-          {/* Pricing Grid */}
+          {/* Mileage & Pricing Grid */}
+          <div>
+            <label className="block text-[11px] text-[#9194a1] mb-1">주행거리 (km)</label>
+            <input
+              type="text"
+              value={mileage}
+              onChange={(e) => setMileage(e.target.value)}
+              onBlur={() => setMileage(normalizeMileage(mileage))}
+              placeholder="예: 44,000 km"
+              className="w-full bg-[#121317] border border-[#1c1d22] rounded-lg px-3 py-2 text-sm font-semibold text-cyan-400 focus:outline-none focus:border-[#cc9166]"
+            />
+          </div>
+
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="block text-[11px] text-[#9194a1] mb-1">매입가 (만원)</label>

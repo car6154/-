@@ -1,0 +1,101 @@
+name: J-PRO CI Gate
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  quality-gate:
+    name: Syntax, Type & Security Audit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 1. Block tracked CSV and secret files
+        run: |
+          TRACKED=$(git ls-files "*.csv" "*cookie*.txt" ".env*")
+          if [ -n "$TRACKED" ]; then
+            echo "❌ ERROR: Sensitive CSV/cookie/.env files are tracked in git:"
+            echo "$TRACKED"
+            exit 1
+          fi
+          echo "✅ Zero CSV/cookie/.env files tracked in git."
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 2. Python Syntax Check (py_compile)
+        run: |
+          python - << 'EOF'
+          import subprocess, py_compile, sys
+
+          py_files = subprocess.check_output(['git', 'ls-files', '*.py'], text=True).splitlines()
+          errors = []
+          for f in py_files:
+              try:
+                  py_compile.compile(f, doraise=True)
+              except Exception as e:
+                  errors.append(f"{f}: {e}")
+          if errors:
+              for err in errors:
+                  print(f"❌ {err}")
+              sys.exit(1)
+          print(f"✅ All {len(py_files)} Python files passed py_compile.")
+          EOF
+
+      - name: 3. Hardcoded Car Plate / Encar ID Guard
+        run: |
+          python - << 'EOF'
+          import subprocess, re, sys
+
+          files = subprocess.check_output(['git', 'ls-files', '*.py', '*.ts', '*.tsx'], text=True).splitlines()
+          plate_pat = re.compile(r'\d{2,3}[가-하거-허고-호구-후그-흐기-히바사아자배]\d{4}')
+          allow_files = {
+              'frontend/src/components/BiddingCockpit/Sections/QuickPasteModal.tsx',
+              'routers/settlement_router.py',
+              'services/autoplus_admin_service.py',
+          }
+          violations = []
+
+          for f in files:
+              if f.startswith('frontend/src/data/') or f in allow_files:
+                  continue
+              try:
+                  lines = open(f, encoding='utf-8').read().splitlines()
+              except Exception:
+                  continue
+              for idx, line in enumerate(lines, 1):
+                  s = line.strip()
+                  if s.startswith('#') or s.startswith('//') or s.startswith('*') or 'placeholder' in s or '예:' in s:
+                      continue
+                  if '42866882' in s:
+                      violations.append(f"{f}:{idx} [Hardcoded Encar ID 42866882]: {s[:100]}")
+                  m = plate_pat.findall(s)
+                  if m:
+                      violations.append(f"{f}:{idx} [Hardcoded Plate {m}]: {s[:100]}")
+
+          if violations:
+              for v in violations:
+                  print(f"❌ {v}")
+              sys.exit(1)
+          print("✅ Zero hardcoded plate numbers or Encar IDs found in logic files.")
+          EOF
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: 4. TypeScript Compile & Type Check (tsc --noEmit)
+        working-directory: frontend
+        run: |
+          npm ci
+          npx tsc --noEmit

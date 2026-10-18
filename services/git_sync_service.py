@@ -104,7 +104,13 @@ class GitSyncService:
 
     @classmethod
     def sync_push_async(cls, commit_msg: str = "auto: sync ledger & settlement data", target_files: list[str] = None):
-        """UI 블로킹 없이 백그라운드 스레드에서 자동 커밋 및 푸시 실행"""
+        """UI 블로킹 없이 백그라운드 스레드에서 자동 커밋·푸시 및 구글드라이브 J-PRO_DB 백업 실행"""
+        try:
+            from services.gdrive_backup_service import GDriveBackupService
+            GDriveBackupService.sync_all_async(reason=commit_msg, include_snapshots=False)
+        except Exception as e:
+            logger.warning(f"[GitSyncService] GDrive backup trigger warning: {e}")
+
         if not cls.is_git_repo():
             return
             

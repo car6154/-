@@ -29,6 +29,7 @@ from services.sold_out_tracker import SoldOutTracker
 from services.encar_service import Scraper
 from services.chaolma_service import ChaolmaService
 from services.git_sync_service import GitSyncService
+from services.gdrive_backup_service import GDriveBackupService
 from services.data_processor import DataProcessor
 from services.autoplus_sync_service import AutoplusSyncService, start_autoplus_scheduler
 from routers.ledger_router import router as ledger_router
@@ -77,6 +78,10 @@ def on_app_startup():
         start_autoplus_scheduler()
     except Exception as e:
         print(f"[api_server] Failed to start Autoplus sync scheduler: {e}", flush=True)
+    try:
+        GDriveBackupService.start_periodic_sync(interval_sec=1800)
+    except Exception as e:
+        print(f"[api_server] Failed to start GDrive backup scheduler: {e}", flush=True)
     try:
         from scraper import HeydealerScraper
         HeydealerScraper.start_keepalive_manager()
@@ -952,7 +957,7 @@ def search_encar_market(req: EncarSearchRequest):
             opt_s = str(row.get('추가옵션', '-'))
             link_s = str(row.get('링크', f"https://fem.encar.com/cars/detail/{cid}"))
             clean_cid = re.sub(r'\D', '', cid)
-            is_company = bool((clean_cid and clean_cid in company_car_map) or clean_cid == '42866882')
+            is_company = bool(clean_cid and clean_cid in company_car_map)
 
             items.append({
                 "id": cid,
@@ -1369,6 +1374,18 @@ def get_encar_soldout_stats(req: EncarSoldOutRequest):
         return {"success": False, "error": str(e), "data": {"has_data": False}}
 
 
+@app.get("/api/gdrive/status")
+def get_gdrive_backup_status():
+    return {"success": True, **GDriveBackupService.get_status()}
+
+
+@app.post("/api/gdrive/sync")
+def trigger_gdrive_backup_sync(includeSnapshots: bool = True):
+    ok, msg = GDriveBackupService.sync_now(reason="api_manual", include_snapshots=includeSnapshots)
+    return {"success": ok, "message": msg, **GDriveBackupService.get_status()}
+
+
 if __name__ == "__main__":
     uvicorn.run("api_server:app", host="0.0.0.0", port=8000, reload=True, timeout_graceful_shutdown=1)
+
 

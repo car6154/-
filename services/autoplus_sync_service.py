@@ -456,7 +456,7 @@ class AutoplusSyncService:
                         reader = csv.DictReader(f)
                         for r in reader:
                             plate = str(r.get('차량번호', '')).replace(' ', '').strip()
-                            url = str(r.get('엔카URL', '') or r.get('E URL', '')).strip()
+                            url = str(r.get('엔카URL', '') or r.get('E URL', '') or r.get('특이사항', '')).strip()
                             if url:
                                 m = re.search(r'carid=(\d+)', url) or re.search(r'/cars/detail/(\d+)', url)
                                 if m:

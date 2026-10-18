@@ -112,21 +112,25 @@ export const DriveModal: React.FC<DriveModalProps> = ({
     setUploadSuccessLink(null);
   };
 
-  // Google Drive에 진짜 구글 스프레드시트(.gsheet) 문서로 백업 업로드
+  // Google Drive 기존 J-PRO_DB 스프레드시트에 15컬럼 전체 동기화 백업
   const handleUploadGoogleSheet = async () => {
     setIsUploading(true);
     setErrorMsg(null);
     setUploadSuccessLink(null);
 
     try {
-      const todayStr = new Date().toISOString().slice(0, 10);
-      const sheetTitle = `JPRO_차량원장_구글스프레드시트_${todayStr}`;
+      // 1. 백엔드 자동 백업(/api/gdrive/sync) 우선 호출
+      try {
+        await fetch('/api/gdrive/sync', { method: 'POST' });
+      } catch {}
+
+      const sheetTitle = 'J-PRO_DB';
       const csvContent = formatCarsToGoogleSheetCSV(cars);
 
       const res = await uploadGoogleSheetToDrive(sheetTitle, csvContent);
       setUploadSuccessLink(res.webViewLink || `https://drive.google.com/file/d/${res.id}/view`);
     } catch (err: any) {
-      setErrorMsg(err.message || 'Google 스프레드시트 생성 중 오류가 발생했습니다.');
+      setErrorMsg(err.message || 'J-PRO_DB 스프레드시트 동기화 중 오류가 발생했습니다.');
     } finally {
       setIsUploading(false);
     }
