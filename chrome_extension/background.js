@@ -183,28 +183,73 @@ async function broadcastHighplusBuyData(cars) {
   return await postToJproBackend('/api/settlement/sync_highplus_buy', { cars });
 }
 
-// 열려 있는 오토플러스 탭에 content.js를 재주입/실행하고 스캔 신호 전송
+// ── SPPOL10001 매입조회 탭 대상 자동 검색 & 스캔 트리거 (탭 없으면 자동 생성 후 대기) ──
 async function triggerActiveAutoplusTabScan() {
   await syncAdminCookies(true);
   await syncDataCookies(true);
-  const tabs = await chrome.tabs.query({ url: '*://*.autoplus.co.kr/*' });
-  for (const tab of tabs) {
-    if (tab.id) {
-      try {
-        // 1. 이미 content.js가 살아있는 경우 즉시 메시지 전달
-        chrome.tabs.sendMessage(tab.id, { action: 'triggerActiveAutoplusTabScan' }).catch(() => {});
-        // 2. 컨텍스트 갱신을 위해 executeScript 재주입
-        await chrome.scripting.executeScript({
-          target: { tabId: tab.id, allFrames: true },
-          files: ['content.js']
-        });
-        // 3. 재주입 직후 스캔 신호 재전송
-        setTimeout(() => {
-          chrome.tabs.sendMessage(tab.id, { action: 'triggerActiveAutoplusTabScan' }).catch(() => {});
-        }, 100);
-      } catch (e) {}
+
+  const SPPOL_URL = 'https://admin.autoplus.co.kr/spot/syspo/SPPOL10001';
+
+  async function triggerTab(tabId) {
+    try {
+      chrome.tabs.sendMessage(tabId, { action: 'triggerActiveAutoplusTabScan' }).catch(() => {});
+      await chrome.scripting.executeScript({
+        target: { tabId: tabId, allFrames: true },
+        files: ['content.js']
+      });
+      setTimeout(() => {
+        chrome.tabs.sendMessage(tabId, { action: 'triggerActiveAutoplusTabScan' }).catch(() => {});
+      }, 150);
+    } catch (e) {
+      console.warn('[J-PRO AutoScan] 탭 스크립트 트리거 예외:', e.message);
     }
   }
+
+  // 1. 이미 열려 있는 SPPOL10001 탭이 있는지 확인
+  const existingTabs = await chrome.tabs.query({ url: '*://admin.autoplus.co.kr/spot/syspo/SPPOL10001*' });
+  if (existingTabs && existingTabs.length > 0 && existingTabs[0].id) {
+    console.log(`[J-PRO AutoScan] 기존 SPPOL10001 탭(ID: ${existingTabs[0].id}) 발견 -> 즉시 스캔 신호 전송`);
+    await triggerTab(existingTabs[0].id);
+    return;
+  }
+
+  // 2. 없으면 백그라운드에서 SPPOL10001 탭 자동 생성
+  console.log('[J-PRO AutoScan] 열린 SPPOL10001 탭 없음 -> 탭 자동 생성 후 로드 대기');
+  const newTab = await chrome.tabs.create({ url: SPPOL_URL, active: false });
+  if (!newTab || !newTab.id) return;
+
+  const targetTabId = newTab.id;
+
+  // 3. 탭 로드 완료 대기 (chrome.tabs.onUpdated)
+  return new Promise((resolve) => {
+    let resolved = false;
+
+    const timeoutTimer = setTimeout(() => {
+      if (!resolved) {
+        resolved = true;
+        chrome.tabs.onUpdated.removeListener(onTabUpdated);
+        console.warn('[J-PRO AutoScan] 탭 로드 15초 타임아웃 -> 강제 트리거 시도');
+        triggerTab(targetTabId).then(resolve);
+      }
+    }, 15000);
+
+    function onTabUpdated(tabId, changeInfo, tab) {
+      if (tabId === targetTabId && changeInfo.status === 'complete') {
+        if (!resolved) {
+          resolved = true;
+          clearTimeout(timeoutTimer);
+          chrome.tabs.onUpdated.removeListener(onTabUpdated);
+          console.log(`[J-PRO AutoScan] 새 SPPOL10001 탭(ID: ${tabId}) 로드 완료 -> 자동 검색 파이프라인 가동`);
+          // DOM 렌더링 안정화를 위해 300ms 후 트리거
+          setTimeout(() => {
+            triggerTab(targetTabId).then(resolve);
+          }, 300);
+        }
+      }
+    }
+
+    chrome.tabs.onUpdated.addListener(onTabUpdated);
+  });
 }
 
 // ── high A+ 매입 데이터 백그라운드 자동 수집 (화면 안 열어도 무인 실행) ──
