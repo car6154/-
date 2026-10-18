@@ -863,31 +863,31 @@ export const LedgerTab: React.FC<LedgerTabProps> = ({
 
         {/* Header */}
 
-        <div className="hidden md:flex items-center bg-[#181b24] px-3 py-2.5 border-b border-[#282c3c] text-[11px] font-bold text-slate-400">
+        <div className="hidden md:grid grid-cols-[80px_110px_80px_minmax(120px,1fr)_120px_56px_96px_60px_90px_90px_80px_140px] items-center gap-2 bg-[#181b24] px-3 py-2.5 border-b border-[#282c3c] border-l-4 border-l-transparent text-[11px] font-bold text-slate-400">
 
-          <div className="w-20">📅 등록일</div>
+          <div>📅 등록일</div>
 
-          <div className="w-28">🚘 차량번호</div>
+          <div>🚘 차량번호</div>
 
-          <div className="w-20">🏭 제조사</div>
+          <div>🏭 제조사</div>
 
-          <div className="flex-1 min-w-[120px]">🚗 차량명</div>
+          <div className="min-w-0 truncate">🚗 차량명</div>
 
-          <div className="w-32">🏷️ 세부모델</div>
+          <div className="min-w-0 truncate">🏷️ 세부모델</div>
 
-          <div className="w-14 text-center">연식</div>
+          <div className="text-center">연식</div>
 
-          <div className="w-24 text-right">주행거리</div>
+          <div className="text-right">주행거리</div>
 
-          <div className="w-16 text-center">외판</div>
+          <div className="text-center">외판</div>
 
-          <div className="w-24 text-right">매입가</div>
+          <div className="text-right">매입가</div>
 
-          <div className="w-24 text-right">판매가</div>
+          <div className="text-right">판매가</div>
 
-          <div className="w-20 text-center">상태</div>
+          <div className="text-center">상태</div>
 
-          <div className="w-24 text-center">선택/관리</div>
+          <div className="text-center">선택/관리</div>
 
         </div>
 
@@ -925,70 +925,111 @@ export const LedgerTab: React.FC<LedgerTabProps> = ({
 
                 }}
 
-                className={`p-3 md:py-2.5 md:px-3 flex flex-col md:flex-row md:items-center justify-between gap-2 text-xs transition cursor-pointer ${
+                className={`p-3 md:py-2.5 md:px-3 text-xs transition cursor-pointer border-l-4 ${
 
                   isSelected
 
-                    ? 'bg-[#1d233a] border-l-4 border-l-blue-500'
+                    ? 'bg-[#1d233a] border-l-blue-500'
 
-                    : 'bg-[#12151e] hover:bg-[#1a1e2b]'
+                    : 'bg-[#12151e] hover:bg-[#1a1e2b] border-l-transparent'
 
                 }`}
 
               >
 
-                {/* Desktop layout */}
+                {/* Desktop layout: Exact 12-column Grid matching Header */}
 
-                <div className="hidden md:flex items-center flex-1 gap-2">
+                <div className="hidden md:grid grid-cols-[80px_110px_80px_minmax(120px,1fr)_120px_56px_96px_60px_90px_90px_80px_140px] items-center gap-2 w-full">
 
-                  <div className="w-20 text-slate-400 text-[11px] whitespace-nowrap">{car.regDate}</div>
+                  {/* 1. 등록일 */}
 
-                  <div className={`w-28 font-bold whitespace-nowrap ${isSelected ? 'text-blue-400' : 'text-white'}`}>
+                  <div className="text-slate-400 text-[11px] whitespace-nowrap">{car.regDate}</div>
+
+                  {/* 2. 차량번호 */}
+
+                  <div className={`font-bold whitespace-nowrap ${isSelected ? 'text-blue-400' : 'text-white'}`}>
 
                     {car.carNumber}
 
                   </div>
 
-                  <div className="w-20 text-slate-300 truncate">{car.manufacturer}</div>
+                  {/* 3. 제조사 */}
 
-                  <div className="flex-1 min-w-[120px] font-semibold text-slate-100 truncate">{(() => {
+                  <div className="text-slate-300 truncate">{car.manufacturer}</div>
+
+                  {/* 4. 차량명 */}
+
+                  <div className="min-w-0 font-semibold text-slate-100 truncate">{(() => {
+
                       const link = getEncarDetailLink(car.carNumber);
+
                       if (link) {
+
                         return (
+
                           <a
+
                             href={link}
+
                             target="_blank"
+
                             rel="noopener noreferrer"
+
                             onClick={(e) => e.stopPropagation()}
+
                             className="text-sky-400 hover:text-sky-300 hover:underline flex items-center gap-1 group font-bold"
+
                             title={`엔카 매물 상세페이지 새창 열기 (${car.carName})`}
+
                           >
+
                             <span className="truncate">{car.carName}</span>
+
                             <ExternalLink className="w-3 h-3 opacity-60 group-hover:opacity-100 shrink-0 text-sky-400" />
+
                           </a>
+
                         );
+
                       }
+
                       return car.carName;
+
                     })()}
+
                   </div>
 
-                  <div className="w-32 text-slate-400 text-[11px] truncate">{car.detailModel}</div>
+                  {/* 5. 세부모델 */}
 
-                  <div className="w-14 text-center text-slate-400">{car.year}년</div>
+                  <div className="text-slate-400 text-[11px] truncate">{car.detailModel}</div>
 
-                  <div className="w-24 text-right font-medium text-slate-200">{car.mileage}</div>
+                  {/* 6. 연식 */}
 
-                  <div className="w-16 text-center text-amber-400 font-semibold">{extText}</div>
+                  <div className="text-center text-slate-400">{car.year}년</div>
 
-                  <div className="w-24 text-right font-bold text-emerald-400">{buyPriceText}</div>
+                  {/* 7. 주행거리 */}
 
-                  <div className="w-24 text-right font-bold text-sky-400">{sellPriceText}</div>
+                  <div className="text-right font-medium text-slate-200">{car.mileage}</div>
 
-                  <div className="w-20 text-center">
+                  {/* 8. 외판 */}
+
+                  <div className="text-center text-amber-400 font-semibold">{extText}</div>
+
+                  {/* 9. 매입가 */}
+
+                  <div className="text-right font-bold text-emerald-400">{buyPriceText}</div>
+
+                  {/* 10. 판매가 */}
+
+                  <div className="text-right font-bold text-sky-400">{sellPriceText}</div>
+
+                  {/* 11. 상태 */}
+
+                  <div className="text-center">
 
                     <span
 
-                      className={`text-[10px] px-2 py-0.5 rounded font-semibold ${
+                      className={`text-[10px] px-2 py-0.5 rounded font-semibold inline-block ${
 
                         isCompleted
 
@@ -1006,163 +1047,271 @@ export const LedgerTab: React.FC<LedgerTabProps> = ({
 
                   </div>
 
+                  {/* 12. 선택/관리 버튼군 */}
+
+                  <div className="flex items-center justify-center gap-1" onClick={(e) => e.stopPropagation()}>
+
+                    <button
+
+                      type="button"
+
+                      onClick={() => {
+
+                        setSelectedCarNum(car.carNumber);
+
+                        onSelectCar(car);
+
+                      }}
+
+                      className={`px-2 py-1 rounded text-[11px] font-bold transition ${
+
+                        isSelected
+
+                          ? 'bg-blue-600 text-white shadow-sm'
+
+                          : 'bg-[#1e2230] hover:bg-[#2a2f42] text-slate-300'
+
+                      }`}
+
+                    >
+
+                      {isSelected ? '✅ 선택됨' : '👉 선택'}
+
+                    </button>
+
+                    {onAnalyzeInCockpit && (
+
+                      <button
+
+                        type="button"
+
+                        onClick={() => onAnalyzeInCockpit(car)}
+
+                        className="px-2 py-1 rounded bg-[#1e2230] hover:bg-[#2a2f42] text-slate-300 text-[11px] font-medium"
+
+                        title="동급 매물 시세 분석"
+
+                      >
+
+                        시세
+
+                      </button>
+
+                    )}
+
+                    {onDeleteCar && (
+
+                      <button
+
+                        type="button"
+
+                        onClick={(e) => {
+
+                          e.stopPropagation();
+
+                          if (window.confirm(`정말 [${car.carNumber}] (${car.carName || ''}) 차량을 장부에서 삭제하시겠습니까?`)) {
+
+                            onDeleteCar(car.carNumber);
+
+                          }
+
+                        }}
+
+                        className="px-1.5 py-1 rounded bg-rose-950/60 hover:bg-rose-900 border border-rose-800/60 text-rose-300 text-[11px] font-medium transition flex items-center gap-0.5 cursor-pointer"
+
+                        title="장부에서 삭제"
+
+                      >
+
+                        <Trash2 className="w-3 h-3" />
+
+                        <span>삭제</span>
+
+                      </button>
+
+                    )}
+
+                  </div>
+
                 </div>
 
 
 
                 {/* Mobile Card Layout */}
 
-                <div className="flex md:hidden flex-col gap-1.5">
+                <div className="flex md:hidden flex-col gap-2">
 
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-col gap-1.5">
 
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center justify-between">
 
-                      <span className="font-bold text-sm text-white">{car.carNumber}</span>
+                      <div className="flex items-center gap-2">
 
-                      {(() => {
-                        const link = getEncarDetailLink(car.carNumber);
-                        if (link) {
-                          return (
-                            <a
-                              href={link}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              onClick={(e) => e.stopPropagation()}
-                              className="text-[11px] text-sky-400 hover:text-sky-300 hover:underline flex items-center gap-1 font-bold"
-                              title={`엔카 매물 상세페이지 새창 열기 (${car.carName})`}
-                            >
-                              <span>{car.manufacturer} {car.carName}</span>
-                              <ExternalLink className="w-2.5 h-2.5 opacity-60 shrink-0 text-sky-400" />
-                            </a>
-                          );
-                        }
-                        return <span className="text-[11px] text-slate-400">{car.manufacturer} {car.carName}</span>;
-                      })()}
+                        <span className="font-bold text-sm text-white">{car.carNumber}</span>
+
+                        {(() => {
+
+                          const link = getEncarDetailLink(car.carNumber);
+
+                          if (link) {
+
+                            return (
+
+                              <a
+
+                                href={link}
+
+                                target="_blank"
+
+                                rel="noopener noreferrer"
+
+                                onClick={(e) => e.stopPropagation()}
+
+                                className="text-[11px] text-sky-400 hover:text-sky-300 hover:underline flex items-center gap-1 font-bold"
+
+                                title={`엔카 매물 상세페이지 새창 열기 (${car.carName})`}
+
+                              >
+
+                                <span>{car.manufacturer} {car.carName}</span>
+
+                                <ExternalLink className="w-2.5 h-2.5 opacity-60 shrink-0 text-sky-400" />
+
+                              </a>
+
+                            );
+
+                          }
+
+                          return <span className="text-[11px] text-slate-400">{car.manufacturer} {car.carName}</span>;
+
+                        })()}
+
+                      </div>
+
+                      <span
+
+                        className={`text-[10px] px-2 py-0.5 rounded font-semibold ${
+
+                          isCompleted
+
+                            ? 'bg-emerald-950 text-emerald-400'
+
+                            : 'bg-slate-800 text-slate-300'
+
+                        }`}
+
+                      >
+
+                        {car.status || '보유중'}
+
+                      </span>
 
                     </div>
 
-                    <span
+                    <div className="flex items-center gap-3 text-[11px] text-slate-400">
 
-                      className={`text-[10px] px-2 py-0.5 rounded font-semibold ${
+                      <span>{car.year}년</span>
 
-                        isCompleted
+                      <span>{car.mileage}</span>
 
-                          ? 'bg-emerald-950 text-emerald-400'
+                      <span className="text-amber-400">외판 {extText}</span>
 
-                          : 'bg-slate-800 text-slate-300'
+                      <span className="text-emerald-400 font-semibold">매입 {buyPriceText}</span>
+
+                      <span className="text-sky-400 font-semibold">판매 {sellPriceText}</span>
+
+                    </div>
+
+                  </div>
+
+
+
+                  {/* Mobile Action Buttons */}
+
+                  <div className="flex items-center justify-end gap-1.5 pt-1 border-t border-[#1a1d27]" onClick={(e) => e.stopPropagation()}>
+
+                    <button
+
+                      type="button"
+
+                      onClick={() => {
+
+                        setSelectedCarNum(car.carNumber);
+
+                        onSelectCar(car);
+
+                      }}
+
+                      className={`px-2.5 py-1 rounded text-[11px] font-bold transition ${
+
+                        isSelected
+
+                          ? 'bg-blue-600 text-white shadow-sm'
+
+                          : 'bg-[#1e2230] hover:bg-[#2a2f42] text-slate-300'
 
                       }`}
 
                     >
 
-                      {car.status || '보유중'}
-
-                    </span>
-
-                  </div>
-
-                  <div className="flex items-center gap-3 text-[11px] text-slate-400">
-
-                    <span>{car.year}년</span>
-
-                    <span>{car.mileage}</span>
-
-                    <span className="text-amber-400">외판 {extText}</span>
-
-                    <span className="text-emerald-400 font-semibold">매입 {buyPriceText}</span>
-
-                    <span className="text-sky-400 font-semibold">판매 {sellPriceText}</span>
-
-                  </div>
-
-                </div>
-
-
-
-                {/* Action Buttons */}
-
-                <div className="flex items-center justify-end gap-1.5 shrink-0" onClick={(e) => e.stopPropagation()}>
-
-                  <button
-
-                    type="button"
-
-                    onClick={() => {
-
-                      setSelectedCarNum(car.carNumber);
-
-                      onSelectCar(car);
-
-                    }}
-
-                    className={`px-2.5 py-1 rounded text-[11px] font-bold transition ${
-
-                      isSelected
-
-                        ? 'bg-blue-600 text-white shadow-sm'
-
-                        : 'bg-[#1e2230] hover:bg-[#2a2f42] text-slate-300'
-
-                    }`}
-
-                  >
-
-                    {isSelected ? '✅ 선택됨' : '👉 선택'}
-
-                  </button>
-
-                  {onAnalyzeInCockpit && (
-
-                    <button
-
-                      type="button"
-
-                      onClick={() => onAnalyzeInCockpit(car)}
-
-                      className="px-2 py-1 rounded bg-[#1e2230] hover:bg-[#2a2f42] text-slate-300 text-[11px] font-medium"
-
-                      title="동급 매물 시세 분석"
-
-                    >
-
-                      시세
+                      {isSelected ? '✅ 선택됨' : '👉 선택'}
 
                     </button>
 
-                  )}
+                    {onAnalyzeInCockpit && (
 
-                  {onDeleteCar && (
+                      <button
 
-                    <button
+                        type="button"
 
-                      type="button"
+                        onClick={() => onAnalyzeInCockpit(car)}
 
-                      onClick={(e) => {
+                        className="px-2 py-1 rounded bg-[#1e2230] hover:bg-[#2a2f42] text-slate-300 text-[11px] font-medium"
 
-                        e.stopPropagation();
+                        title="동급 매물 시세 분석"
 
-                        if (window.confirm(`정말 [${car.carNumber}] (${car.carName || ''}) 차량을 장부에서 삭제하시겠습니까?`)) {
+                      >
 
-                          onDeleteCar(car.carNumber);
+                        시세
 
-                        }
+                      </button>
 
-                      }}
+                    )}
 
-                      className="px-2 py-1 rounded bg-rose-950/60 hover:bg-rose-900 border border-rose-800/60 text-rose-300 text-[11px] font-medium transition flex items-center gap-1 cursor-pointer"
+                    {onDeleteCar && (
 
-                      title="장부에서 삭제"
+                      <button
 
-                    >
+                        type="button"
 
-                      <Trash2 className="w-3 h-3" />
+                        onClick={(e) => {
 
-                      <span>삭제</span>
+                          e.stopPropagation();
 
-                    </button>
+                          if (window.confirm(`정말 [${car.carNumber}] (${car.carName || ''}) 차량을 장부에서 삭제하시겠습니까?`)) {
 
-                  )}
+                            onDeleteCar(car.carNumber);
+
+                          }
+
+                        }}
+
+                        className="px-2 py-1 rounded bg-rose-950/60 hover:bg-rose-900 border border-rose-800/60 text-rose-300 text-[11px] font-medium transition flex items-center gap-1 cursor-pointer"
+
+                        title="장부에서 삭제"
+
+                      >
+
+                        <Trash2 className="w-3 h-3" />
+
+                        <span>삭제</span>
+
+                      </button>
+
+                    )}
+
+                  </div>
 
                 </div>
 
