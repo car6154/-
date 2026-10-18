@@ -205,6 +205,7 @@ export function useBiddingCockpit({
   const skipAutoFetchRef = useRef<boolean>(false);
   const rawGradeNameRef = useRef<string>('');
   const rawGradeDetailNameRef = useRef<string>('');
+  const prevAiRetailPriceRef = useRef<number>(0);
 
   // 선택된 엔카 매물 및 실시간 성능점검표 연동 상태 (상단 호이스팅)
   const [selectedEncarId, setSelectedEncarId] = useState<string>('');
@@ -226,6 +227,7 @@ export function useBiddingCockpit({
     setSelectedHeydealerGradeFilter('ALL');
 
     // 2. 가격 계산 및 밸류에이션 상태 초기화
+    prevAiRetailPriceRef.current = 0;
     setExpectedSellPrice(0);
     setEncarValuation(null);
     setBackendEncarStats(null);
@@ -1975,12 +1977,16 @@ export function useBiddingCockpit({
     return validIndPrice;
   }, [encarStats, encarList, encarValuation]);
 
-  // 🔄 AI 정밀 소매가가 계산되면 좌측 예상 소매가(expectedSellPrice) 자동 동기화
+  // 🔄 AI 정밀 소매가가 새로 산출(변경)될 때만 좌측 예상 소매가(expectedSellPrice) 초기값 세팅
+  // (사용자가 사이드바에서 값을 지워 0으로 만들거나 직접 수정할 때는 강제 덮어쓰기 금지)
   useEffect(() => {
-    if (aiRetailPrice > 0 && expectedSellPrice === 0) {
-      setExpectedSellPrice(aiRetailPrice);
+    if (aiRetailPrice !== prevAiRetailPriceRef.current) {
+      prevAiRetailPriceRef.current = aiRetailPrice;
+      if (aiRetailPrice > 0) {
+        setExpectedSellPrice(aiRetailPrice);
+      }
     }
-  }, [aiRetailPrice, expectedSellPrice]);
+  }, [aiRetailPrice]);
 
   // 실시간 유효 소매가 (사용자 직접 입력값 우선, 없으면 AI 정밀 소매가)
   const effectiveSellPrice = useMemo(() => {
@@ -1992,7 +1998,7 @@ export function useBiddingCockpit({
     return ['모닝', '레이', '스파크', '마티즈', '캐스퍼', '티코'].some(k => (carName || '').includes(k));
   }, [carName]);
 
-  const sellingFee = useMemo(() => Math.round(effectiveSellPrice * 0.007 * 10) / 10, [effectiveSellPrice]); // 판매수수료 0.7%
+  const sellingFee = useMemo(() => Math.round(expectedSellPrice * 0.007 * 10) / 10, [expectedSellPrice]); // 판매수수료 0.7% (사이드바 입력 판매가 기준)
   const repairCostTotal = outerRepairCount * 13; // 외판 판당 13만
   const directExpense = 15; // 기본제경비 15만
 
@@ -2019,9 +2025,9 @@ export function useBiddingCockpit({
     return 0; // 개인 직접입력 등
   }, []);
 
-  // 💡 실시간 권장 매입가 (예상 소매가 - 판매수수료 0.7% - 외판수리비 판당 13만 - 잡비 15만 - 매입수수료 - 목표마진)
+  // 💡 사이드바 시뮬레이션 권장 매입가 (사이드바 예상 소매가 기준)
   const safeBidCeiling = useMemo(() => {
-    const basePrice = effectiveSellPrice > 0 ? effectiveSellPrice : aiRetailPrice;
+    const basePrice = expectedSellPrice;
     if (basePrice <= 0) return 0;
 
     const sFee = Math.round(basePrice * 0.007 * 10) / 10;
@@ -2036,7 +2042,25 @@ export function useBiddingCockpit({
       estBid = Math.max(0, Math.floor(basePrice - fixedDeductions - pFee));
     }
     return estBid;
-  }, [effectiveSellPrice, aiRetailPrice, outerRepairCount, targetMargin, auctionType, isLightCar, calcPurchaseFee]);
+  }, [expectedSellPrice, outerRepairCount, targetMargin, auctionType, isLightCar, calcPurchaseFee]);
+
+  // 💡 우측 메인 상단 고정 권장 매입가 (AI 정밀 소매가 aiRetailPrice 기준, 사이드바 판매가 변경과 독립)
+  const aiSafeBidCeiling = useMemo(() => {
+    const basePrice = aiRetailPrice;
+    if (basePrice <= 0) return 0;
+
+    const sFee = Math.round(basePrice * 0.007 * 10) / 10;
+    const repCost = outerRepairCount * 13;
+    const dExpense = 15;
+    const fixedDeductions = sFee + dExpense + repCost + targetMargin;
+
+    let estBid = Math.max(0, basePrice - 180);
+    for (let i = 0; i < 3; i++) {
+      const pFee = calcPurchaseFee(estBid, auctionType, isLightCar);
+      estBid = Math.max(0, Math.floor(basePrice - fixedDeductions - pFee));
+    }
+    return estBid;
+  }, [aiRetailPrice, outerRepairCount, targetMargin, auctionType, isLightCar, calcPurchaseFee]);
 
   // 사용자가 직접 수정한 입찰가 (기본값: safeBidCeiling)
   const [userBid, setUserBid] = useState<number>(safeBidCeiling);
@@ -2056,8 +2080,8 @@ export function useBiddingCockpit({
   }, [calcPurchaseFee, userBid, auctionType, isLightCar]);
 
   const actualMargin = useMemo(() => {
-    return effectiveSellPrice - sellingFee - directExpense - repairCostTotal - actualPurchaseFee - userBid;
-  }, [effectiveSellPrice, sellingFee, directExpense, repairCostTotal, actualPurchaseFee, userBid]);
+    return expectedSellPrice - sellingFee - directExpense - repairCostTotal - actualPurchaseFee - userBid;
+  }, [expectedSellPrice, sellingFee, directExpense, repairCostTotal, actualPurchaseFee, userBid]);
 
   // 산점도 동적 축 범위 계산
   const scatterMinY = Math.max(0, Math.floor(Math.min(effectiveSellPrice > 0 ? effectiveSellPrice : encarStats.min, encarStats.min) * 0.85 / 10) * 10);
@@ -2125,6 +2149,8 @@ export function useBiddingCockpit({
     expectedSellPrice,
     setExpectedSellPrice,
     effectiveSellPrice,
+    aiRetailPrice,
+    aiSafeBidCeiling,
     outerRepairCount,
     setOuterRepairCount,
     auctionType,

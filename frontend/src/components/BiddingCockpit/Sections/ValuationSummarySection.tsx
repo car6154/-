@@ -23,6 +23,8 @@ export interface ValuationSummarySectionProps {
   mileageKm: number;
   expectedSellPrice: number;
   effectiveSellPrice: number;
+  aiRetailPrice?: number;
+  aiSafeBidCeiling?: number;
   targetMargin: number;
   repairCostTotal: number;
   purchaseFeeCalculated: number;
@@ -62,6 +64,8 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
   mileageKm,
   expectedSellPrice,
   effectiveSellPrice,
+  aiRetailPrice = 0,
+  aiSafeBidCeiling = 0,
   targetMargin,
   repairCostTotal,
   purchaseFeeCalculated,
@@ -140,7 +144,7 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
             </div>
           </div>
 
-          {/* 🎯 핵심 3대 지표 카드: [매입가] | [판매가] | [이익금] */}
+          {/* 🎯 핵심 3대 지표 카드: [매입가] | [판매가] | [이익금] (우측 메인 상단은 순수 AI 정밀 소매가 기준으로 고정) */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
             {/* 1. 매입가 */}
             <div className="bg-gradient-to-br from-[#0c1a14] via-[#102119] to-[#0e1c15] border border-emerald-500/40 rounded-xl px-3 py-2 sm:px-3.5 sm:py-2.5 shadow-sm flex items-center justify-between min-h-[56px]">
@@ -151,7 +155,7 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
                   <span className="text-[10px] text-zinc-400 font-normal hidden sm:inline">(안전마진 반영 권장가)</span>
                 </div>
                 <div className="text-lg sm:text-xl font-black text-emerald-400 font-mono tracking-tight leading-none">
-                  {safeBidCeiling > 0 ? `${safeBidCeiling.toLocaleString()}만원` : '-'}
+                  {(aiSafeBidCeiling || safeBidCeiling) > 0 ? `${(aiSafeBidCeiling || safeBidCeiling).toLocaleString()}만원` : '-'}
                 </div>
               </div>
               <div className="w-8 h-8 rounded-lg bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-base shrink-0">
@@ -168,7 +172,7 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
                   <span className="text-[10px] text-zinc-400 font-normal hidden sm:inline">(엔카 동급 및 자사실거래)</span>
                 </div>
                 <div className="text-lg sm:text-xl font-black text-sky-300 font-mono tracking-tight leading-none">
-                  {(effectiveSellPrice || expectedSellPrice) > 0 ? `${(effectiveSellPrice || expectedSellPrice).toLocaleString()}만원` : '-'}
+                  {aiRetailPrice > 0 ? `${aiRetailPrice.toLocaleString()}만원` : '-'}
                 </div>
               </div>
               <div className="w-8 h-8 rounded-lg bg-sky-500/15 border border-sky-500/30 flex items-center justify-center text-base shrink-0">
@@ -782,7 +786,7 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
               const marketAvg = encarStats.avg > 0 
                 ? encarStats.avg 
                 : (encarList.length > 0 ? Math.round(encarList.reduce((a, b) => a + (b.price || 0), 0) / encarList.length) : 0);
-              const retailPrice = effectiveSellPrice;
+              const retailPrice = aiRetailPrice;
 
               // 매물 또는 유효 소매가가 전혀 없는 경우 목업 렌더링 방지
               if (retailPrice <= 0 || marketAvg <= 0 || (encarStats.count === 0 && encarList.length === 0)) {
