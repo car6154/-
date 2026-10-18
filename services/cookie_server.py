@@ -9,6 +9,7 @@ from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 COOKIE_FILE = os.path.join(BASE_DIR, "encar_cookie.txt")
 AUTOPLUS_COOKIE_FILE = os.path.join(BASE_DIR, "autoplus_cookie.txt")
+AUTOPLUS_DATA_COOKIE_FILE = os.path.join(BASE_DIR, "autoplus_data_cookie.txt")
 
 COOKIE_SERVER_SECRET = os.getenv("COOKIE_SERVER_TOKEN", "jpro_sec_9981_live_auth")
 
@@ -72,6 +73,7 @@ class CookieReceiverHandler(BaseHTTPRequestHandler):
         if self.path.startswith('/api/session/cookie') or self.path.startswith('/api/cookie') or self.path.startswith('/api/get_cookie'):
             hd = get_current_hd_cookie()
             ap = get_current_autoplus_cookie()
+            ap_data = get_current_autoplus_data_cookie()
             encar = get_current_encar_cookie()
             res_data = {
                 "ok": True,
@@ -79,6 +81,8 @@ class CookieReceiverHandler(BaseHTTPRequestHandler):
                 "heydealerCookie": hd or "",
                 "hasAutoplusCookie": bool(ap),
                 "autoplusCookie": ap or "",
+                "hasAutoplusDataCookie": bool(ap_data),
+                "autoplusDataCookie": ap_data or "",
                 "hasEncarCookie": bool(encar),
                 "encarCookie": encar or "",
                 "updatedAt": datetime.datetime.now().isoformat()
@@ -137,7 +141,10 @@ class CookieReceiverHandler(BaseHTTPRequestHandler):
                     if target == 'encar':
                         var_name = 'ENCAR_COOKIE'
                         curr_cookie = get_current_encar_cookie()
-                    elif target == 'autoplus':
+                    elif target in ('autoplus_data', 'chaolma'):
+                        var_name = 'AUTOPLUS_DATA_COOKIE'
+                        curr_cookie = get_current_autoplus_data_cookie()
+                    elif target in ('autoplus', 'autoplus_admin'):
                         var_name = 'AUTOPLUS_COOKIE'
                         curr_cookie = get_current_autoplus_cookie()
                     else:
@@ -173,23 +180,26 @@ class CookieReceiverHandler(BaseHTTPRequestHandler):
                     if target == 'encar':
                         save_cookie(raw_cookie)
                         os.environ['ENCAR_COOKIE'] = raw_cookie
-                    elif target == 'autoplus':
-                        save_autoplus_cookie(raw_cookie)
-                        os.environ['AUTOPLUS_COOKIE'] = raw_cookie
+                    elif target in ('autoplus_data', 'chaolma'):
+                        save_autoplus_data_cookie(raw_cookie)
+                        os.environ['AUTOPLUS_DATA_COOKIE'] = raw_cookie
                         try:
                             from services.chaolma_service import ChaolmaService
                             ChaolmaService.clear_cache()
                         except Exception:
                             pass
-                        # [자동화] 제이님이 오플에 로그인하여 새 쿠키가 들어온 즉시 백그라운드 실시간 재고 및 정산 동기화 1회 자동 실행
+                        # [자동화] 차얼마(데이터) 새 쿠키가 들어온 즉시 백그라운드 실시간 재고 및 정산 동기화 1회 자동 실행
                         import threading
                         def _bg_sync_cs():
                             try:
                                 from services.autoplus_sync_service import AutoplusSyncService
                                 AutoplusSyncService.execute_sync()
                             except Exception as se:
-                                print(f"[CookieServer] 오플 자동 동기화 오류: {se}", flush=True)
+                                print(f"[CookieServer] 오플 데이터 자동 동기화 오류: {se}", flush=True)
                         threading.Thread(target=_bg_sync_cs, daemon=True).start()
+                    elif target in ('autoplus', 'autoplus_admin'):
+                        save_autoplus_cookie(raw_cookie)
+                        os.environ['AUTOPLUS_COOKIE'] = raw_cookie
                     else:
                         hd_file = os.path.join(BASE_DIR, 'heydealer_cookie.txt')
                         try:
@@ -333,4 +343,41 @@ def get_current_autoplus_cookie():
     except Exception:
         pass
     return os.getenv("AUTOPLUS_COOKIE", "")
+
+def load_autoplus_data_cookie():
+    if os.path.exists(AUTOPLUS_DATA_COOKIE_FILE):
+        try:
+            with open(AUTOPLUS_DATA_COOKIE_FILE, "r", encoding="utf-8") as f:
+                return f.read().strip()
+        except:
+            pass
+    return ""
+
+def save_autoplus_data_cookie(cookie_str):
+    try:
+        with open(AUTOPLUS_DATA_COOKIE_FILE, "w", encoding="utf-8") as f:
+            f.write(cookie_str)
+        os.environ['AUTOPLUS_DATA_COOKIE'] = cookie_str
+    except:
+        pass
+
+def get_current_autoplus_data_cookie():
+    c = load_autoplus_data_cookie()
+    if c:
+        return c
+    try:
+        env_f = os.path.join(BASE_DIR, '.env')
+        if os.path.exists(env_f):
+            with open(env_f, 'r', encoding='utf-8-sig') as f:
+                for line in f:
+                    line = line.strip()
+                    if line.startswith('AUTOPLUS_DATA_COOKIE='):
+                        val = line.split('=', 1)[1].strip()
+                        if val.startswith('"') and val.endswith('"'): val = val[1:-1]
+                        elif val.startswith("'") and val.endswith("'"): val = val[1:-1]
+                        return val
+    except Exception:
+        pass
+    return os.getenv("AUTOPLUS_DATA_COOKIE", "")
+
 

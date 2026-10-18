@@ -3,8 +3,10 @@
 
 let lastHdCookie = "";
 let lastHdSyncTime = 0;
-let lastAutoplusCookie = "";
-let lastAutoplusSyncTime = 0;
+let lastAdminCookie = "";
+let lastAdminSyncTime = 0;
+let lastDataCookie = "";
+let lastDataSyncTime = 0;
 
 let hdTimer = null;
 let apTimer = null;
@@ -58,11 +60,12 @@ function requestHdSync(force = false, delayMs = 150) {
   }, delayMs);
 }
 
-// ── 오토플러스 쿠키 지연/후행 동기화 ──
+// ── 오토플러스 쿠키 지연/후행 동기화 (어드민 & 데이터 각각 전송) ──
 function requestApSync(force = false, delayMs = 150) {
   if (apTimer) clearTimeout(apTimer);
   apTimer = setTimeout(() => {
-    syncAutoplusCookiesToLocalServer(force);
+    syncAdminCookies(force);
+    syncDataCookies(force);
   }, delayMs);
 }
 
@@ -114,47 +117,59 @@ async function syncCookiesToLocalServer(force = false) {
   }
 }
 
-// ── 오토플러스 어드민 및 서브도메인 쿠키 동기화 (어드민 최우선 합치기) ──
-async function syncAutoplusCookiesToLocalServer(force = false) {
+// ── 오토플러스 어드민 쿠키 동기화 (admin.autoplus.co.kr 전용 -> autoplus_cookie.txt) ──
+async function syncAdminCookies(force = false) {
   try {
-    const [adminCookies, all] = await Promise.all([
-      chrome.cookies.getAll({ url: 'https://admin.autoplus.co.kr' }).catch(() => []),
-      chrome.cookies.getAll({}).catch(() => [])
-    ]);
+    const adminCookies = await chrome.cookies.getAll({ url: 'https://admin.autoplus.co.kr' }).catch(() => []);
+    if (!adminCookies || adminCookies.length === 0) return false;
 
-    // hasSession 체크는 순수 어드민 쿠키 기준
-    const hasSession = adminCookies.some(c => {
-      const u = (c.name || '').toUpperCase();
-      return u === 'JSESSIONID' || u === 'SESSION' || u === 'ADMIN_HISTORY_ID' || u === 'REMEMBER-ME';
-    });
-    if (!hasSession && adminCookies.length === 0) return false;
-
-    // 1) 기타 서브도메인 쿠키 먼저 추가
-    const allMap = new Map();
-    const otherCookies = all.filter(c => c && c.domain && c.domain.includes('autoplus'));
-    otherCookies.forEach(c => {
-      if (c && c.name && c.value) allMap.set(c.name, c.value);
-    });
-
-    // 2) 어드민 쿠키를 마지막에 덮어쓰기 (어드민 최우선)
+    const cookieMap = new Map();
     adminCookies.forEach(c => {
-      if (c && c.name && c.value) allMap.set(c.name, c.value);
+      if (c && c.name && c.value) cookieMap.set(c.name, c.value);
     });
-
-    const cookieStr = Array.from(allMap.entries()).map(([k, v]) => `${k}=${v}`).join('; ');
+    const cookieStr = Array.from(cookieMap.entries()).map(([k, v]) => `${k}=${v}`).join('; ');
     if (!cookieStr) return false;
 
     const now = Date.now();
-    if (!force && cookieStr === lastAutoplusCookie && (now - lastAutoplusSyncTime < 15000)) {
+    if (!force && cookieStr === lastAdminCookie && (now - lastAdminSyncTime < 15000)) {
       return true;
     }
 
-    const ok = await broadcastToServer(cookieStr, 'autoplus');
+    const ok = await broadcastToServer(cookieStr, 'autoplus_admin');
     if (ok) {
-      // 실제 서버 저장이 성공(HTTP 200)했을 때만 캐시 갱신
-      lastAutoplusCookie = cookieStr;
-      lastAutoplusSyncTime = now;
-      console.log('[J-PRO AutoSync] 오토플러스 어드민 최우선 쿠키 합치기 동기화 완료');
+      lastAdminCookie = cookieStr;
+      lastAdminSyncTime = now;
+      console.log('[J-PRO AutoSync] 오토플러스 어드민 쿠키 동기화 완료');
+    }
+    return ok;
+  } catch (e) {
+    return false;
+  }
+}
+
+// ── 오토플러스 차얼마(데이터) 쿠키 동기화 (data.autoplus.co.kr 전용 -> autoplus_data_cookie.txt) ──
+async function syncDataCookies(force = false) {
+  try {
+    const dataCookies = await chrome.cookies.getAll({ url: 'https://data.autoplus.co.kr' }).catch(() => []);
+    if (!dataCookies || dataCookies.length === 0) return false;
+
+    const cookieMap = new Map();
+    dataCookies.forEach(c => {
+      if (c && c.name && c.value) cookieMap.set(c.name, c.value);
+    });
+    const cookieStr = Array.from(cookieMap.entries()).map(([k, v]) => `${k}=${v}`).join('; ');
+    if (!cookieStr) return false;
+
+    const now = Date.now();
+    if (!force && cookieStr === lastDataCookie && (now - lastDataSyncTime < 15000)) {
+      return true;
+    }
+
+    const ok = await broadcastToServer(cookieStr, 'autoplus_data');
+    if (ok) {
+      lastDataCookie = cookieStr;
+      lastDataSyncTime = now;
+      console.log('[J-PRO AutoSync] 오토플러스 차얼마(데이터) 쿠키 동기화 완료');
     }
     return ok;
   } catch (e) {
@@ -170,7 +185,8 @@ async function broadcastHighplusBuyData(cars) {
 
 // 열려 있는 오토플러스 탭에 content.js를 재주입/실행 (Extension context invalidated 방지)
 async function triggerActiveAutoplusTabScan() {
-  await syncAutoplusCookiesToLocalServer(true);
+  await syncAdminCookies(true);
+  await syncDataCookies(true);
   const tabs = await chrome.tabs.query({ url: '*://*.autoplus.co.kr/*' });
   for (const tab of tabs) {
     if (tab.id) {

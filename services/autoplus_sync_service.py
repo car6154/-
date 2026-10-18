@@ -363,8 +363,18 @@ class AutoplusSyncService:
         with cls._lock:
             cls._is_running = True
             try:
-                from services.cookie_server import get_current_autoplus_cookie
-                cookie = get_current_autoplus_cookie()
+                cookie_file = os.path.join(BASE_DIR, "autoplus_data_cookie.txt")
+                cookie = ""
+                if os.path.exists(cookie_file):
+                    try:
+                        with open(cookie_file, "r", encoding="utf-8") as f:
+                            cookie = f.read().strip()
+                    except Exception:
+                        pass
+                if not cookie:
+                    from services.cookie_server import get_current_autoplus_data_cookie
+                    cookie = get_current_autoplus_data_cookie()
+
                 if not cookie:
                     res = {
                         "status": "COOKIE_EXPIRED",
@@ -372,7 +382,7 @@ class AutoplusSyncService:
                         "inventory_count": 0,
                         "sold_count": 0,
                         "settlement_updated_count": 0,
-                        "message": "오토플러스 로그인 세션 쿠키가 없습니다. 브라우저에서 로그인해 주세요."
+                        "message": "오토플러스 차얼마(데이터) 세션 쿠키가 없습니다. 브라우저에서 data.autoplus.co.kr에 로그인해 주세요."
                     }
                     cls._save_status(res)
                     return res
