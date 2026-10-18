@@ -361,80 +361,17 @@ class AutoplusSyncService:
             return {"status": "IN_PROGRESS", "message": "이미 동기화가 진행 중입니다."}
 
         with cls._lock:
-            cls._is_running = True
-            try:
-                cookie_file = os.path.join(BASE_DIR, "autoplus_data_cookie.txt")
-                cookie = ""
-                if os.path.exists(cookie_file):
-                    try:
-                        with open(cookie_file, "r", encoding="utf-8") as f:
-                            cookie = f.read().strip()
-                    except Exception:
-                        pass
-                if not cookie:
-                    from services.cookie_server import get_current_autoplus_data_cookie
-                    cookie = get_current_autoplus_data_cookie()
-
-                if not cookie:
-                    res = {
-                        "status": "COOKIE_EXPIRED",
-                        "last_sync_time": datetime.datetime.now().isoformat(),
-                        "inventory_count": 0,
-                        "sold_count": 0,
-                        "settlement_updated_count": 0,
-                        "message": "오토플러스 차얼마(데이터) 세션 쿠키가 없습니다. 브라우저에서 data.autoplus.co.kr에 로그인해 주세요."
-                    }
-                    cls._save_status(res)
-                    return res
-
-                print("[AutoplusSync] 자사 데이터 동기화 시작...", flush=True)
-
-                # 1. 판매중 차량 수신 및 upsert
-                selling_rows = cls.fetch_selling_cars(cookie)
-                inv_total = cls._upsert_csv(INVENTORY_CSV, SELLING_HEADERS, selling_rows, key_idx=1)
-                print(f"[AutoplusSync] 판매중 차량 {len(selling_rows)}대 수신 완료 (누적 {inv_total}대)", flush=True)
-
-                # 2. 판매완료 차량 수신 및 upsert
-                sold_rows = cls.fetch_sold_cars(cookie, days=95)
-                sold_total = cls._upsert_csv(SOLD_CSV, SOLD_HEADERS, sold_rows, key_idx=1)
-                print(f"[AutoplusSync] 판매완료 차량 {len(sold_rows)}대 수신 완료 (누적 {sold_total}대)", flush=True)
-
-                # 3. 제이님 개인 정산 장부 최신화 (스키마 및 수기 항목 100% 보존)
-                settlement_upd = cls._sync_settlement_ledger(selling_rows)
-                print(f"[AutoplusSync] 개인 정산 장부 매칭 갱신: {settlement_upd}건", flush=True)
-
-                # 4. 프론트엔드 캐시 JSON(real_autoplus_inventory.json) 갱신
-                cls._update_frontend_json(selling_rows)
-
-                res = {
-                    "status": "SUCCESS",
-                    "last_sync_time": datetime.datetime.now().isoformat(),
-                    "inventory_count": len(selling_rows),
-                    "total_inventory": inv_total,
-                    "sold_count": len(sold_rows),
-                    "total_sold": sold_total,
-                    "settlement_updated_count": settlement_upd,
-                    "message": f"동기화 완료: 판매중 {len(selling_rows):,}대 / 판매완료 {len(sold_rows):,}대"
-                }
-                cls._save_status(res)
-                print(f"[AutoplusSync] {res['message']}", flush=True)
-                return res
-
-            except Exception as ex:
-                err_msg = str(ex)
-                print(f"[AutoplusSync] 동기화 실패: {err_msg}", flush=True)
-                res = {
-                    "status": "FAILED",
-                    "last_sync_time": datetime.datetime.now().isoformat(),
-                    "inventory_count": 0,
-                    "sold_count": 0,
-                    "settlement_updated_count": 0,
-                    "message": f"동기화 오류: {err_msg}"
-                }
-                cls._save_status(res)
-                return res
-            finally:
-                cls._is_running = False
+            # data/admin 도메인 동기화 비활성화 (high.autoplus.co.kr 모바일 API 전용 연동 사용)
+            res = {
+                "status": "DISABLED",
+                "last_sync_time": datetime.datetime.now().isoformat(),
+                "inventory_count": 0,
+                "sold_count": 0,
+                "settlement_updated_count": 0,
+                "message": "Autoplus data/admin 도메인 동기화가 비활성화되었습니다. (모바일 API high.autoplus.co.kr 전용 연동 사용)"
+            }
+            cls._save_status(res)
+            return res
 
     @classmethod
     def _update_frontend_json(cls, selling_rows: List[List[Any]]):
@@ -533,25 +470,5 @@ class AutoplusSyncService:
 
 
 def start_autoplus_scheduler():
-    """서버 구동 시 1회 즉시 실행 + 하루 1회(24시간) 주기 백그라운드 스레드 가동"""
-    def _run_loop():
-        # 1. 서버 구동 시 즉시 1회 실행
-        try:
-            print("[AutoplusSync] 서버 기동 초기 동기화 트리거", flush=True)
-            AutoplusSyncService.execute_sync()
-        except Exception as e:
-            print(f"[AutoplusSync] 초기 동기화 실패: {e}", flush=True)
-
-        # 2. 24시간 주기 실행
-        import time
-        while True:
-            time.sleep(24 * 3600)  # 24시간 대기
-            try:
-                print("[AutoplusSync] 24시간 주기 정기 동기화 트리거", flush=True)
-                AutoplusSyncService.execute_sync()
-            except Exception as e:
-                print(f"[AutoplusSync] 정기 동기화 실패: {e}", flush=True)
-
-    t = threading.Thread(target=_run_loop, daemon=True, name="AutoplusDataSyncScheduler")
-    t.start()
-    print("[AutoplusSync] 24시간 자동 동기화 스케줄러 등록 완료", flush=True)
+    """data/admin 도메인 동기화 비활성화로 스케줄러 미가동"""
+    print("[AutoplusSync] data/admin 도메인 동기화 비활성화됨 (high.autoplus.co.kr 모바일 API 전용 연동)", flush=True)

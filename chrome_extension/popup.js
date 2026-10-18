@@ -51,12 +51,9 @@ async function getHeydealerCookies() {
 async function getAutoplusCookies() {
   const queryPromises = [
     chrome.cookies.getAll({ url: 'https://purchase.autoplus.co.kr' }).catch(() => []),
-    chrome.cookies.getAll({ url: 'https://data.autoplus.co.kr' }).catch(() => []),
-    chrome.cookies.getAll({ url: 'https://admin.autoplus.co.kr' }).catch(() => []),
-    chrome.cookies.getAll({ domain: 'autoplus.co.kr' }).catch(() => []),
-    chrome.cookies.getAll({ domain: '.autoplus.co.kr' }).catch(() => []),
     chrome.cookies.getAll({ domain: 'purchase.autoplus.co.kr' }).catch(() => []),
-    chrome.cookies.getAll({}).catch(() => [])
+    chrome.cookies.getAll({ domain: 'autoplus.co.kr' }).catch(() => []),
+    chrome.cookies.getAll({ domain: '.autoplus.co.kr' }).catch(() => [])
   ];
 
   const results = await Promise.all(queryPromises);
@@ -65,8 +62,10 @@ async function getAutoplusCookies() {
   results.flat().forEach(c => {
     if (c && c.name && c.value) {
       const d = (c.domain || '').toLowerCase();
+      // data.autoplus.co.kr 및 admin.autoplus.co.kr는 완전 제외
+      if (d.includes('admin.') || d.includes('data.')) return;
       const uName = c.name.toUpperCase();
-      if (d.includes('autoplus') || uName === 'JSESSIONID' || uName === 'SESSION' || uName === 'ADMIN_HISTORY_ID' || uName === 'REMEMBER-ME') {
+      if (d.includes('purchase.autoplus.co.kr') || d === 'autoplus.co.kr' || d === '.autoplus.co.kr' || uName === 'JSESSIONID' || uName === 'SESSION' || uName === 'REMEMBER-ME') {
         allMap.set(c.name, c.value);
       }
     }
@@ -74,7 +73,7 @@ async function getAutoplusCookies() {
 
   try {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-    if (tab && tab.id && tab.url && tab.url.includes('autoplus.co.kr')) {
+    if (tab && tab.id && tab.url && tab.url.includes('purchase.autoplus.co.kr')) {
       const [res] = await chrome.scripting.executeScript({
         target: { tabId: tab.id },
         func: () => document.cookie

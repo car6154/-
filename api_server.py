@@ -320,38 +320,23 @@ def save_cookie_api(payload: CookieSavePayload):
         set_env_variable("ENCAR_COOKIE", raw_cookie)
         os.environ["ENCAR_COOKIE"] = raw_cookie
         print(f"[CookieReceive] 엔카 쿠키 {len(raw_cookie)}자 갱신 완료", flush=True)
-    elif target in ("autoplus_data", "chaolma"):
-        with open(os.path.join(base_dir, "autoplus_data_cookie.txt"), "w", encoding="utf-8") as f:
-            f.write(raw_cookie)
-        set_env_variable("AUTOPLUS_DATA_COOKIE", raw_cookie)
-        os.environ["AUTOPLUS_DATA_COOKIE"] = raw_cookie
-        try:
-            from services.chaolma_service import ChaolmaService
-            ChaolmaService.clear_cache()
-        except Exception:
-            pass
-        print(f"[CookieReceive] 오토플러스 차얼마(데이터) 쿠키 {len(raw_cookie)}자 갱신 완료. 백그라운드 동기화(execute_sync) 즉시 트리거!", flush=True)
-        # [자동화] 차얼마에 로그인하여 새 쿠키가 들어온 즉시 백그라운드 실시간 재고 및 정산 동기화 1회 자동 실행
-        import threading
-        def _bg_sync():
-            try:
-                from services.autoplus_sync_service import AutoplusSyncService
-                AutoplusSyncService.execute_sync()
-            except Exception as se:
-                print(f"[CookieReceive] 오플 데이터 자동 동기화 오류: {se}", flush=True)
-        threading.Thread(target=_bg_sync, daemon=True).start()
     elif target in ("high", "autoplus_high", "high_cookie") or "high" in target:
         with open(os.path.join(base_dir, "high_cookie.txt"), "w", encoding="utf-8") as f:
             f.write(raw_cookie)
         set_env_variable("HIGH_COOKIE", raw_cookie)
         os.environ["HIGH_COOKIE"] = raw_cookie
         print(f"[CookieReceive] 하이오플(모바일) 쿠키 {len(raw_cookie)}자 갱신 완료 (high_cookie.txt)", flush=True)
-    elif target in ("autoplus", "autoplus_admin") or "auto" in target:
+    elif target in ("autoplus", "chaolma", "autoplus_admin") or "auto" in target:
         with open(os.path.join(base_dir, "autoplus_cookie.txt"), "w", encoding="utf-8") as f:
             f.write(raw_cookie)
         set_env_variable("AUTOPLUS_COOKIE", raw_cookie)
         os.environ["AUTOPLUS_COOKIE"] = raw_cookie
-        print(f"[CookieReceive] 오토플러스 어드민 쿠키 {len(raw_cookie)}자 갱신 완료", flush=True)
+        try:
+            from services.chaolma_service import ChaolmaService
+            ChaolmaService.clear_cache()
+        except Exception:
+            pass
+        print(f"[CookieReceive] 차얼마/오토플러스 쿠키 {len(raw_cookie)}자 갱신 완료 (autoplus_cookie.txt)", flush=True)
     else:
         with open(os.path.join(base_dir, "heydealer_cookie.txt"), "w", encoding="utf-8") as f:
             f.write(raw_cookie)

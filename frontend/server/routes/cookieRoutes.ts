@@ -5,12 +5,12 @@ import fs from 'fs';
 export const COOKIE_FILE = path.resolve(process.cwd(), '.session_cookie.json');
 export const HD_COOKIE_FILE = path.resolve(process.cwd(), 'heydealer_cookie.txt');
 export const AP_COOKIE_FILE = path.resolve(process.cwd(), 'autoplus_cookie.txt');
-export const AP_DATA_COOKIE_FILE = path.resolve(process.cwd(), 'autoplus_data_cookie.txt');
+export const HIGH_COOKIE_FILE = path.resolve(process.cwd(), 'high_cookie.txt');
 export const LOG_FILE = path.resolve(process.cwd(), 'server.log');
 
 let savedHeydealerCookie = '';
 let savedAutoplusCookie = '';
-let savedAutoplusDataCookie = '';
+let savedHighCookie = '';
 
 export function getSavedHeydealerCookie() {
   return savedHeydealerCookie;
@@ -20,8 +20,8 @@ export function getSavedAutoplusCookie() {
   return savedAutoplusCookie;
 }
 
-export function getSavedAutoplusDataCookie() {
-  return savedAutoplusDataCookie;
+export function getSavedHighCookie() {
+  return savedHighCookie;
 }
 
 export function setSavedHeydealerCookie(val: string) {
@@ -32,8 +32,8 @@ export function setSavedAutoplusCookie(val: string) {
   savedAutoplusCookie = val;
 }
 
-export function setSavedAutoplusDataCookie(val: string) {
-  savedAutoplusDataCookie = val;
+export function setSavedHighCookie(val: string) {
+  savedHighCookie = val;
 }
 
 export function logEvent(type: string, message: string, details?: any) {
@@ -50,7 +50,7 @@ try {
     const data = JSON.parse(fs.readFileSync(COOKIE_FILE, 'utf8'));
     savedHeydealerCookie = data.heydealer_cookie || data.cookie || '';
     savedAutoplusCookie = data.autoplus_cookie || '';
-    savedAutoplusDataCookie = data.autoplus_data_cookie || '';
+    savedHighCookie = data.high_cookie || '';
   }
   if (!savedHeydealerCookie && fs.existsSync(HD_COOKIE_FILE)) {
     savedHeydealerCookie = fs.readFileSync(HD_COOKIE_FILE, 'utf8').trim();
@@ -58,10 +58,10 @@ try {
   if (!savedAutoplusCookie && fs.existsSync(AP_COOKIE_FILE)) {
     savedAutoplusCookie = fs.readFileSync(AP_COOKIE_FILE, 'utf8').trim();
   }
-  if (!savedAutoplusDataCookie && fs.existsSync(AP_DATA_COOKIE_FILE)) {
-    savedAutoplusDataCookie = fs.readFileSync(AP_DATA_COOKIE_FILE, 'utf8').trim();
+  if (!savedHighCookie && fs.existsSync(HIGH_COOKIE_FILE)) {
+    savedHighCookie = fs.readFileSync(HIGH_COOKIE_FILE, 'utf8').trim();
   }
-  logEvent('INIT', `저장된 세션 쿠키 복원 완료 - HD(${savedHeydealerCookie.length}B), AP_Admin(${savedAutoplusCookie.length}B), AP_Data(${savedAutoplusDataCookie.length}B)`);
+  logEvent('INIT', `저장된 세션 쿠키 복원 완료 - HD(${savedHeydealerCookie.length}B), AP_Chaolma(${savedAutoplusCookie.length}B), High_Mobile(${savedHighCookie.length}B)`);
 } catch (e) {
   logEvent('WARN', '쿠키 복원 실패', e);
 }
@@ -71,13 +71,13 @@ export function saveCookiesToDisk() {
     fs.writeFileSync(COOKIE_FILE, JSON.stringify({
       heydealer_cookie: savedHeydealerCookie,
       autoplus_cookie: savedAutoplusCookie,
-      autoplus_data_cookie: savedAutoplusDataCookie,
+      high_cookie: savedHighCookie,
       cookie: savedHeydealerCookie,
       updatedAt: new Date().toISOString()
     }, null, 2));
     if (savedHeydealerCookie) fs.writeFileSync(HD_COOKIE_FILE, savedHeydealerCookie);
     if (savedAutoplusCookie) fs.writeFileSync(AP_COOKIE_FILE, savedAutoplusCookie);
-    if (savedAutoplusDataCookie) fs.writeFileSync(AP_DATA_COOKIE_FILE, savedAutoplusDataCookie);
+    if (savedHighCookie) fs.writeFileSync(HIGH_COOKIE_FILE, savedHighCookie);
   } catch (e) {
     console.error('쿠키 파일 저장 오류:', e);
   }
@@ -116,12 +116,12 @@ cookieRouter.post(['/api/session/cookie', '/api/save_cookie'], (req, res) => {
   const trimmed = cookie.trim();
   const targetType = (target || '').toLowerCase();
 
-  if (targetType === 'autoplus_data' || targetType === 'chaolma') {
-    savedAutoplusDataCookie = trimmed;
-    logEvent('COOKIE_SYNC', `[J-PRO] 오토플러스 차얼마(데이터) 쿠키 동기화 완료 (${trimmed.length}자)`);
-  } else if (targetType === 'autoplus_admin' || targetType.includes('autoplus') || trimmed.includes('JSESSIONID') || trimmed.includes('remember-me')) {
+  if (targetType === 'autoplus_high' || targetType.includes('high')) {
+    savedHighCookie = trimmed;
+    logEvent('COOKIE_SYNC', `[J-PRO] 하이오플(모바일) 쿠키 동기화 완료 (${trimmed.length}자)`);
+  } else if (targetType === 'chaolma' || targetType === 'autoplus' || targetType === 'autoplus_admin' || targetType.includes('autoplus') || trimmed.includes('JSESSIONID') || trimmed.includes('remember-me')) {
     savedAutoplusCookie = trimmed;
-    logEvent('COOKIE_SYNC', `[J-PRO] 오토플러스 어드민 쿠키 동기화 완료 (${trimmed.length}자)`);
+    logEvent('COOKIE_SYNC', `[J-PRO] 오토플러스 차얼마 쿠키 동기화 완료 (${trimmed.length}자)`);
   } else {
     // 헤이딜러: 기존에 sessionid가 유효한데 새로 들어온 쿠키에 sessionid가 없으면 덮어쓰기 방지
     if (savedHeydealerCookie && savedHeydealerCookie.includes('sessionid=') && !trimmed.includes('sessionid=')) {
@@ -134,7 +134,7 @@ cookieRouter.post(['/api/session/cookie', '/api/save_cookie'], (req, res) => {
 
   saveCookiesToDisk();
 
-  // 🔗 Python 백엔드(8000)로 쿠키 동시 전달 및 AutoplusSyncService.execute_sync() 트리거
+  // 🔗 Python 백엔드(8000)로 쿠키 동시 전달
   try {
     fetch('http://127.0.0.1:8000/api/save_cookie', {
       method: 'POST',
@@ -156,7 +156,7 @@ cookieRouter.post(['/api/session/cookie', '/api/save_cookie'], (req, res) => {
     message: '세션 쿠키가 클라우드 금고에 안전하게 저장되었습니다.',
     heydealerLength: savedHeydealerCookie.length,
     autoplusLength: savedAutoplusCookie.length,
-    autoplusDataLength: savedAutoplusDataCookie.length,
+    highLength: savedHighCookie.length,
   });
 });
 
@@ -175,6 +175,8 @@ cookieRouter.get('/api/session/cookie', (req, res) => {
     cookieLength: savedHeydealerCookie.length,
     hasAutoplusCookie: Boolean(savedAutoplusCookie),
     autoplusCookieLength: savedAutoplusCookie.length,
+    hasHighCookie: Boolean(savedHighCookie),
+    highCookieLength: savedHighCookie.length,
     heydealerCookie: savedHeydealerCookie ? savedHeydealerCookie.slice(0, 30) + '...' : '',
   });
 });
