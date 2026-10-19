@@ -83,5 +83,5 @@ jobs:
       - name: 4. TypeScript Compile & Type Check (tsc --noEmit)
         working-directory: frontend
         run: |
-          npm ci
+          npm ci --legacy-peer-deps
           npx tsc --noEmit
