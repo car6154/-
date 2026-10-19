@@ -43,6 +43,23 @@ async function startServer() {
   // Gemini AI 및 백엔드 프록시 라우터 마운트
   app.use(aiRouter);
 
+  // 2-0-0. 매입 장부 관리 API 프록시 (Python 백엔드 8000 직결)
+  app.all('/api/ledger*', async (req, res) => {
+    try {
+      const targetUrl = `http://127.0.0.1:8000${req.originalUrl}`;
+      const pyRes = await fetch(targetUrl, {
+        method: req.method,
+        headers: { 'Content-Type': 'application/json' },
+        body: req.method !== 'GET' && req.method !== 'HEAD' ? JSON.stringify(req.body) : undefined,
+        signal: AbortSignal.timeout(15000)
+      });
+      const data = await pyRes.json();
+      return res.status(pyRes.status).json(data);
+    } catch (e: any) {
+      return res.status(500).json({ error: `장부 API 프록시 실패: ${e.message}` });
+    }
+  });
+
   // 2-0. 실전 재고 및 정산 관리 프록시 (Python 백엔드 8000 직결)
   app.all('/api/settlement*', async (req, res) => {
     try {
