@@ -5359,25 +5359,25 @@
       ],
       "trims": {
         "2.0 HEV 노블레스": {
-          "badge_group": "전기",
+          "badge_group": "",
           "badge": "노블레스",
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:50"
         },
         "2.0 HEV 프레스티지": {
-          "badge_group": "전기",
+          "badge_group": "",
           "badge": "프레스티지",
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:50"
         },
         "2.0 HEV 트렌디": {
-          "badge_group": "전기",
+          "badge_group": "",
           "badge": "트렌디",
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         },
         "2.0 HEV 시그니처": {
-          "badge_group": "전기",
+          "badge_group": "",
           "badge": "시그니처",
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:50"
@@ -7490,19 +7490,19 @@
       ],
       "trims": {
         "2.0 HEV 시그니처": {
-          "badge_group": "전기",
+          "badge_group": "",
           "badge": "시그니처",
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:50"
         },
         "2.0 HEV 노블레스": {
-          "badge_group": "전기",
+          "badge_group": "",
           "badge": "노블레스",
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:50"
         },
         "2.0 HEV 프레스티지": {
-          "badge_group": "전기",
+          "badge_group": "",
           "badge": "프레스티지",
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:50"

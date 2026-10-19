@@ -1012,6 +1012,13 @@ class MasterMappingService:
                     bg = ""
                     bd = ""
 
+            # 💡 [하이브리드/전기차 모델 방어 로직]
+            # 엔카는 '하이브리드' 또는 'EV' 모델 계층(K5 하이브리드, 쏘나타 하이브리드, 그랜저 하이브리드 등)에서
+            # 별도의 BadgeGroup(연료/배기량)이 존재하지 않고 Model -> Badge 직결 구조를 취함.
+            # 마스터 DB의 badge_group이 '전기', '하이브리드' 등 엔카에 존재하지 않는 그룹인 경우 생략하여 Badge 단독 검색으로 전환
+            if ("하이브리드" in f_model or "EV" in f_model or "전기차" in f_model) and bg in ["전기", "하이브리드", "전기 2WD", "전기 4WD"]:
+                bg = ""
+
             f_model_esc = cls._escape_encar_dsl_token(f_model)
             bg_clean = cls._clean_encar_token(bg)
             b_esc = cls._escape_encar_dsl_token(badge)
