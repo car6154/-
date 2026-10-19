@@ -673,7 +673,21 @@ export interface OfficialOptionMatch {
 }
 
 /**
- * 주어진 옵션명에서 카탈로그 내 공식 신차 옵션을 탐색
+ * 옵션명에서 가격 표기 (예: (17만), (1,050,000원), [354만] 등)를 분리 제거하는 헬퍼
+ */
+export const stripOptionPriceText = (optName: string): string => {
+  if (!optName) return '';
+  return optName
+    .replace(/\([0-9,]+(?:\s*만|\s*원)?\)/g, '')
+    .replace(/\[[^\]]*\]/g, '')
+    .trim();
+};
+
+/**
+ * 주어진 옵션명에서 카탈로그 내 공식 신차 옵션을 정밀 탐색
+ * - 띄어쓰기/특수문자 무시 완전 매칭
+ * - 복합명(예: 스타일옵션-브라운선택가능-컴포트) 하이픈 역방향 분해 매칭
+ * - 괄호 및 부가설명(& 7스피커...) 분리 매칭
  */
 export const findOfficialCatalogOption = (
   optName: string,
@@ -683,11 +697,8 @@ export const findOfficialCatalogOption = (
     return null;
   }
 
-  // 가격 표기 (예: (17만), (1,050,000원)) 제거 및 클리닝
-  const clean = optName
-    .replace(/\([0-9,]+(?:\s*만|\s*원)?\)/g, '')
-    .replace(/\[[^\]]*\]/g, '')
-    .trim();
+  // 가격 표기 제거 및 기본 클리닝
+  const clean = stripOptionPriceText(optName);
   const normClean = normalizeOpt(clean);
   if (!normClean) return null;
 
@@ -699,7 +710,37 @@ export const findOfficialCatalogOption = (
     }
   }
 
-  // 2. 접두어(기본형-, 고급형-, 디럭스- 등) 제거 후 재탐색
+  // 2. 하이픈(-) 복합명 분해 역방향 탐색 (예: 스타일옵션-브라운선택가능-컴포트 -> 컴포트)
+  if (clean.includes('-')) {
+    const tokens = clean.split('-').map(t => t.trim()).filter(Boolean);
+    // 보통 핵심 옵션명은 맨 뒤나 뒤쪽에 위치하므로 역방향으로 우선 검사
+    for (const tok of [...tokens].reverse()) {
+      const normTok = normalizeOpt(tok);
+      if (!normTok || normTok.length < 2) continue;
+      for (const [officialKey, val] of Object.entries(catalog.options)) {
+        const normOfficial = normalizeOpt(officialKey);
+        if (normOfficial === normTok) {
+          return { officialName: officialKey, price: val?.price ?? null, desc: val?.desc };
+        }
+      }
+    }
+  }
+
+  // 3. 괄호 부가설명 및 복합 기호(&, +) 분해 탐색
+  // 예: "내비게이션(7인치, 후방카메라) & 7스피커(외장앰프)" -> "내비게이션"
+  const cleanWithoutParen = clean.replace(/\(.*?\)/g, '').trim();
+  const mainToken = cleanWithoutParen.split(/[&+]/)[0].trim();
+  const normMain = normalizeOpt(mainToken);
+  if (normMain && normMain !== normClean && normMain.length >= 2) {
+    for (const [officialKey, val] of Object.entries(catalog.options)) {
+      const normOfficial = normalizeOpt(officialKey);
+      if (normOfficial === normMain) {
+        return { officialName: officialKey, price: val?.price ?? null, desc: val?.desc };
+      }
+    }
+  }
+
+  // 4. 접두어(기본형-, 고급형-, 디럭스- 등) 제거 후 재탐색
   const cleanPrefix = normClean
     .replace(/^(?:기본형|고급형|스마트형|모던형|프리미엄형|디럭스형|최고급형)/, '')
     .replace(/팩(?=[0-9])/i, '');
@@ -712,7 +753,7 @@ export const findOfficialCatalogOption = (
     }
   }
 
-  // 3. 핵심 수식어(스마트, uvo 등)가 일치하는 경우의 최적 공식 옵션 탐색
+  // 5. 핵심 수식어(스마트, uvo 등)가 일치하는 경우의 최적 공식 옵션 탐색
   let bestCandidate: OfficialOptionMatch | null = null;
   let bestScore = 0;
 
@@ -732,7 +773,8 @@ export const findOfficialCatalogOption = (
 
     const jaccard = Math.max(
       computeBiGramJaccard(normClean, normOfficial),
-      cleanPrefix ? computeBiGramJaccard(cleanPrefix, normOfficial) : 0
+      cleanPrefix ? computeBiGramJaccard(cleanPrefix, normOfficial) : 0,
+      normMain ? computeBiGramJaccard(normMain, normOfficial) : 0
     );
     if (jaccard > bestScore && jaccard >= 0.35) {
       bestScore = jaccard;
@@ -756,9 +798,9 @@ export interface NormalizedChaolmaOption {
 
 /**
  * 차얼마(오토플러스) 옵션 목록을 엔카 공식 신차가격표 카탈로그 기준으로 정규화
- * - 차얼마 비표준명(예: 기본형-컨비니언스) -> 카탈로그 공식명(예: 컨비니언스)
- * - 감가액(예: 20만) 대신 신차 출고가(예: 106만)로 통일
- * - 차얼마 원본 데이터(감가액, 원본명)는 보존
+ * - 차얼마 비표준 복합명(예: 스타일옵션-브라운선택가능-컴포트) -> 카탈로그 공식명(예: 컴포트)
+ * - 띄어쓰기 통일: 드라이브와이즈 -> 드라이브 와이즈
+ * - 차얼마 원본 출고가 및 감가액 보존
  */
 export const normalizeChaolmaOptions = (
   chaolmaOptions: any[],
@@ -781,14 +823,16 @@ export const normalizeChaolmaOptions = (
 
     if (matched) {
       standardName = matched.officialName;
-      if (matched.price && matched.price > 0) {
-        standardPriceMan = Math.round(matched.price / 10000);
-      }
       isCatalogMatched = true;
       desc = matched.desc || '';
     } else {
-      // 카탈로그 매칭 실패 시 접두어만 제거
-      standardName = rawName.replace(/^(?:기본형|고급형|디럭스형)[-_ ]*/, '');
+      // 카탈로그 매칭 실패 시에도 복합명 하이픈 뒤쪽 추출 및 접두어 제거
+      let fallbackName = rawName;
+      if (fallbackName.includes('-')) {
+        const tokens = fallbackName.split('-').map(t => t.trim()).filter(Boolean);
+        fallbackName = tokens[tokens.length - 1];
+      }
+      standardName = fallbackName.replace(/^(?:기본형|고급형|디럭스형)[-_ ]*/, '');
     }
 
     return {
@@ -818,6 +862,8 @@ export interface CatalogMatchResult {
 
 /**
  * 카탈로그 대조 기반 두 옵션 간의 양방향 정밀 매칭 판정
+ * - 가격 텍스트(예: (89만), (70만))는 매칭 판정에서 완전히 분리/배제
+ * - 순수 옵션명 키 기준으로 1:1 대조 수행
  */
 export const matchOptionWithCatalog = (
   optA: string,
@@ -825,8 +871,9 @@ export const matchOptionWithCatalog = (
   catalogA?: NewCarCatalogData | null,
   catalogB?: NewCarCatalogData | null
 ): CatalogMatchResult => {
-  const cleanA = optA.trim();
-  const cleanB = optB.trim();
+  // 1. 가격 표기를 분리 제거한 순수 옵션명 추출
+  const cleanA = stripOptionPriceText(optA);
+  const cleanB = stripOptionPriceText(optB);
   if (!cleanA || !cleanB) {
     return { isMatched: false, confidence: 'none', symbol: '+', reason: '옵션명 공백' };
   }
@@ -850,7 +897,6 @@ export const matchOptionWithCatalog = (
     }
 
     // 서로 다른 공식 옵션으로 확인된 경우 (예: 내비게이션 vs 스마트 내비게이션)
-    // -> 절대로 매칭하지 않음! (오탐 원천 차단)
     return {
       isMatched: false,
       confidence: 'none',
@@ -861,7 +907,47 @@ export const matchOptionWithCatalog = (
     };
   }
 
-  // 2. 한쪽 또는 양쪽 모두 카탈로그 미등재(비공식)인 경우 -> 기존 퍼지 엔진으로 폴백
+  // 2. 한쪽만 공식 카탈로그가 잡혔으나, 상대방 순수 이름 정규화와 일치하는 경우 (준공식 일치)
+  if (officialA && !officialB) {
+    if (normalizeOpt(officialA.officialName) === normalizeOpt(cleanB)) {
+      return {
+        isMatched: true,
+        confidence: 'exact',
+        symbol: '✓',
+        matchedOppositeName: optB,
+        officialA,
+        officialB,
+        reason: `신차 공식 옵션 일치 [${officialA.officialName}]`
+      };
+    }
+  } else if (!officialA && officialB) {
+    if (normalizeOpt(cleanA) === normalizeOpt(officialB.officialName)) {
+      return {
+        isMatched: true,
+        confidence: 'exact',
+        symbol: '✓',
+        matchedOppositeName: optB,
+        officialA,
+        officialB,
+        reason: `신차 공식 옵션 일치 [${officialB.officialName}]`
+      };
+    }
+  }
+
+  // 3. 순수 이름 기준 직접 정규화 일치 검사 (띄어쓰기/특수문자 무시)
+  if (normalizeOpt(cleanA) === normalizeOpt(cleanB)) {
+    return {
+      isMatched: true,
+      confidence: 'exact',
+      symbol: '✓',
+      matchedOppositeName: optB,
+      officialA,
+      officialB,
+      reason: `옵션 명칭 정규화 일치 [${cleanA}]`
+    };
+  }
+
+  // 4. 기존 퍼지 엔진으로 폴백 (동의어 그룹, 패키지 분해, Jaccard 유사도)
   if (isOptionMatched(cleanA, cleanB)) {
     return {
       isMatched: true,
