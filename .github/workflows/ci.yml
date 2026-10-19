@@ -32,22 +32,8 @@ jobs:
 
       - name: 2. Python Syntax Check (py_compile)
         run: |
-          python - << 'EOF'
-          import subprocess, py_compile, sys
-
-          py_files = subprocess.check_output(['git', 'ls-files', '*.py'], text=True).splitlines()
-          errors = []
-          for f in py_files:
-              try:
-                  py_compile.compile(f, doraise=True)
-              except Exception as e:
-                  errors.append(f"{f}: {e}")
-          if errors:
-              for err in errors:
-                  print(f"❌ {err}")
-              sys.exit(1)
-          print(f"✅ All {len(py_files)} Python files passed py_compile.")
-          EOF
+          python -m py_compile $(git ls-files "*.py")
+          echo "All Python files passed py_compile."
 
       - name: 3. Hardcoded Car Plate / Encar ID Guard
         run: |
