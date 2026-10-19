@@ -10,6 +10,7 @@ import {
   fetchNewCarCatalog,
   NewCarCatalogData
 } from '@/services/biddingOptionCatalog';
+import { copyToClipboard } from '@/utils/clipboard';
 import { EncarItem } from './ComparableEncarSection';
 
 export interface CockpitSidebarProps {
@@ -614,12 +615,19 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
                   </div>
                   <button
                     type="button"
-                    onClick={() => {
-                      navigator.clipboard.writeText(String(userBid));
-                      setSearchStatus({
-                        type: 'success',
-                        message: `📋 입찰가 ${userBid.toLocaleString()}만원 클립보드 복사 완료!`
-                      });
+                    onClick={async () => {
+                      const success = await copyToClipboard(String(userBid));
+                      if (success) {
+                        setSearchStatus({
+                          type: 'success',
+                          message: `📋 입찰가 ${userBid.toLocaleString()}만원 클립보드 복사 완료!`
+                        });
+                      } else {
+                        setSearchStatus({
+                          type: 'error',
+                          message: `❌ 클립보드 복사 실패: 브라우저 권한을 확인해주세요.`
+                        });
+                      }
                       setTimeout(() => setSearchStatus(null), 2500);
                     }}
                     className="self-end px-3.5 py-2.5 rounded-lg bg-[#1f222e] hover:bg-[#2c3040] text-zinc-200 hover:text-white border border-[#35394a] text-xs sm:text-sm font-bold transition whitespace-nowrap cursor-pointer flex items-center gap-1"

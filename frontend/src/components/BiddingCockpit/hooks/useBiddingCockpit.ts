@@ -11,6 +11,7 @@ import {
   normalizeChaolmaOptions,
   NewCarCatalogData,
 } from '@/services/biddingOptionCatalog';
+import { copyToClipboard } from '@/utils/clipboard';
 import { EncarItem, EncarSoldItem, EncarSoldStats, HeydealerBidItem, BiddingCockpitTabProps } from '../types';
 
 export function useBiddingCockpit({
@@ -447,9 +448,12 @@ export function useBiddingCockpit({
     else if (raw.includes('투싼')) { setManufacturer('현대'); setCarName('투싼 (NX4)'); }
     else if (raw.includes('토레스')) { setManufacturer('KG모빌리티'); setCarName('토레스'); }
 
-    // 6. 판금/교환
-    const repairMatch = raw.match(/(?:판금|교환)\s*(\d+)\s*건/);
-    if (repairMatch) {
+    // 6. 판금/교환/외판 수리 판수 정밀 감지 (예: '외판: 4판', '외판 4판', '판금 2건', '교환 1건')
+    const outerMatch = raw.match(/외판\s*[:：]?\s*(\d+)\s*판?/i);
+    const repairMatch = raw.match(/(?:판금|교환)\s*(\d+)\s*(?:건|판)/i);
+    if (outerMatch) {
+      setOuterRepairCount(parseInt(outerMatch[1], 10));
+    } else if (repairMatch) {
       setOuterRepairCount(parseInt(repairMatch[1], 10));
     } else if (raw.includes('무사고') || raw.includes('완전무사고')) {
       setOuterRepairCount(0);
@@ -847,23 +851,61 @@ export function useBiddingCockpit({
           setTargetMargin(120);
         }
 
-        // 외판/사고 요약 자동 감지 (범퍼 제외 실 외판 교환/판금 부위 정밀 집계)
-        const repairsList = (detail.accident_repairs && Array.isArray(detail.accident_repairs))
-          ? detail.accident_repairs
-          : (Array.isArray(carData.accident_repairs) ? carData.accident_repairs : (Array.isArray(resJson.data?.accident_repairs) ? resJson.data.accident_repairs : []));
+        // 외판/사고 요약 자동 감지 (헤이딜러 실측 외판 수리 판수 연동)
+        // 1순위: condition_data.basic 에서 type: 'outer_panel_scratch' / label: '외판' 파싱 (예: "2판", "4판")
+        let detectedOuterCount: number | null = null;
+        const conditionData = detail.condition_data || carData.condition_data || resJson.data?.condition_data;
+        if (conditionData?.basic && Array.isArray(conditionData.basic)) {
+          const outerItem = conditionData.basic.find((item: any) =>
+            item.type === 'outer_panel_scratch' || String(item.label || '').includes('외판')
+          );
+          if (outerItem) {
+            const rawText = String(outerItem.text || outerItem.text_html || '');
+            const m = rawText.match(/(\d+)\s*판?/);
+            if (m) {
+              detectedOuterCount = parseInt(m[1], 10);
+            } else if (rawText.includes('없음') || rawText.includes('양호')) {
+              detectedOuterCount = 0;
+            }
+          }
+        }
 
-        if (repairsList.length > 0) {
-          const nonBumper = repairsList.filter((r: any) => {
-            const p = String(r.part || r.name || '').toLowerCase();
-            return !p.includes('bumper') && !p.includes('범퍼');
-          });
-          setOuterRepairCount(nonBumper.length);
-        } else if (cAccident.includes('무사고') && !cAccident.includes('교환')) {
-          setOuterRepairCount(0);
-        } else if (cAccident.includes('단순교환')) {
-          setOuterRepairCount(1);
-        } else if (cAccident.includes('유사고') || cAccident.includes('사고')) {
-          setOuterRepairCount(3);
+        // 2순위: condition_description 또는 car_description 텍스트에서 '외판 : N판' 파싱
+        if (detectedOuterCount === null) {
+          const condDesc = String(
+            detail.condition_description ||
+            carData.condition_description ||
+            detail.car_description ||
+            carData.car_description ||
+            ''
+          );
+          const outerTextMatch = condDesc.match(/외판\s*[:：]?\s*(\d+)\s*판?/i);
+          if (outerTextMatch) {
+            detectedOuterCount = parseInt(outerTextMatch[1], 10);
+          }
+        }
+
+        // 3순위: accident_repairs 목록 (범퍼 제외 실 외판 부위 집계)
+        if (detectedOuterCount !== null) {
+          setOuterRepairCount(detectedOuterCount);
+        } else {
+          const repairsList = (detail.accident_repairs && Array.isArray(detail.accident_repairs))
+            ? detail.accident_repairs
+            : (Array.isArray(carData.accident_repairs) ? carData.accident_repairs : (Array.isArray(resJson.data?.accident_repairs) ? resJson.data.accident_repairs : []));
+
+          if (repairsList.length > 0) {
+            const nonBumper = repairsList.filter((r: any) => {
+              const p = String(r.part || r.name || '').toLowerCase();
+              return !p.includes('bumper') && !p.includes('범퍼');
+            });
+            setOuterRepairCount(nonBumper.length);
+          } else if (cAccident.includes('무사고') && !cAccident.includes('교환')) {
+            setOuterRepairCount(0);
+          } else if (cAccident.includes('단순교환')) {
+            setOuterRepairCount(1);
+          } else if (cAccident.includes('유사고') || cAccident.includes('사고')) {
+            setOuterRepairCount(3);
+          }
         }
 
         // 경매방식 자동 감지
@@ -1803,8 +1845,9 @@ export function useBiddingCockpit({
     return expectedSellPrice - sellingFee - directExpense - repairCostTotal - actualPurchaseFee - userBid;
   }, [expectedSellPrice, sellingFee, directExpense, repairCostTotal, actualPurchaseFee, userBid]);
 
-  // 저장 핸들러 (실제 계산된 안전 입찰 상한가 및 수정 입찰가로 원장에 실시간 반영!)
-  const handleSaveToLedger = () => {
+  // 저장 핸들러 (실제 계산된 안전 입찰 상한가 및 수정 입찰가로 원장에 실시간 반영 + 클립보드 자동 복사!)
+  const handleSaveToLedger = async () => {
+    const finalBid = userBid > 0 ? userBid : safeBidCeiling;
     onSaveToLedger({
       carNumber,
       manufacturer,
@@ -1813,7 +1856,7 @@ export function useBiddingCockpit({
       year: yearModel.toString(),
       mileage: `${mileageKm.toLocaleString()} km`,
       options: optionsTag,
-      buyPrice: userBid > 0 ? userBid : safeBidCeiling, // 실제 입찰가
+      buyPrice: finalBid, // 실제 입찰가
       sellPrice: expectedSellPrice,
       outerRepairs: outerRepairCount,
       repairCost: repairCostTotal,
@@ -1821,6 +1864,17 @@ export function useBiddingCockpit({
       memo: `[헤이딜러 ${auctionType} / 마진: ${Math.round(actualMargin)}만 / 예상소매: ${expectedSellPrice}만 / 권장상한: ${safeBidCeiling}만] ${memo}`,
       status: '장부저장'
     });
+
+    // 제이 워크플로우: 저장 후 헤이딜러에 바로 붙여넣기할 수 있도록 최종 입찰가 자동 복사
+    if (finalBid > 0) {
+      await copyToClipboard(String(finalBid));
+      setSearchStatus({
+        type: 'success',
+        message: `💾 장부 저장 완료 & 최종 입찰가(${finalBid.toLocaleString()}만원) 자동 복사되었습니다!`
+      });
+      setTimeout(() => setSearchStatus(null), 3000);
+    }
+
     setSavedSuccess(true);
     setTimeout(() => setSavedSuccess(false), 2500);
   };
