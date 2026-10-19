@@ -61,6 +61,9 @@ def extract_car_data_for_ai(json_payload, retail_avg=0, retail_no_acc_avg=0, ret
     else:
         retail_result_block = None
 
+    default_retail_block = "금액: [산출된 금액]\n산출 근거: [간단한 산출 근거]"
+    chosen_retail_block = retail_result_block if retail_result_block else default_retail_block
+
     # 7. AI에게 보낼 프롬프트 (풀 텍스트 - AI만 봄)
     ai_prompt = f"""[타겟 차량]
 - {car_name} / {year}년식 / {mileage:,}km
@@ -93,7 +96,7 @@ def extract_car_data_for_ai(json_payload, retail_avg=0, retail_no_acc_avg=0, ret
 {f'- 아래 예상 소매가 섹션은 이미 확정되었으므로, 아래 내용을 그대로 복사하여 출력하세요.' if retail_result_block else ''}
 
 [출력 형식 - 아래 형식만 정확히 출력하세요. 섹션 제목([예상 소매가], [최종 매입 제시가] 등)은 출력하지 마세요.]
-{retail_result_block if retail_result_block else '''금액: [산출된 금액]\n산출 근거: [간단한 산출 근거]'''}
+{chosen_retail_block}
 
 금액: [최종 매입 제시가]
 산출 근거:

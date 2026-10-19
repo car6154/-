@@ -2637,7 +2637,9 @@ with h_col1:
     with st.expander(f"🔑 세션 쿠키 ({hd_badge_text} | {ap_badge_text})", expanded=False):
         c_sk1, c_sk2 = st.columns([3, 1.2])
         with c_sk1:
-            st.markdown(f"<div style='font-size:0.75rem; margin-top:2px;'><b>헤이딜러</b>: {'<span style=\"color:#4ade80;\">정상</span>' if hd_ok else '<span style=\"color:#f87171;\">미등록/만료</span>'}&nbsp;&nbsp;|&nbsp;&nbsp;<b>차얼마</b>: {'<span style=\"color:#4ade80;\">정상</span>' if ap_ok else '<span style=\"color:#f87171;\">미등록/만료</span>'}</div>", unsafe_allow_html=True)
+            hd_status_html = '<span style="color:#4ade80;">정상</span>' if hd_ok else '<span style="color:#f87171;">미등록/만료</span>'
+            ap_status_html = '<span style="color:#4ade80;">정상</span>' if ap_ok else '<span style="color:#f87171;">미등록/만료</span>'
+            st.markdown(f"<div style='font-size:0.75rem; margin-top:2px;'><b>헤이딜러</b>: {hd_status_html}&nbsp;&nbsp;|&nbsp;&nbsp;<b>차얼마</b>: {ap_status_html}</div>", unsafe_allow_html=True)
         with c_sk2:
             if st.button("🔄 동기화", key="top_sync_cookie_btn", use_container_width=True):
                 live_cookie = get_current_hd_cookie()
