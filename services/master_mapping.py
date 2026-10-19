@@ -345,6 +345,132 @@ class MasterMappingService:
             "encar_model": "GV80",
             "aliases": ["gv80", "제네시스gv80"],
             "trims": {}
+        },
+        "더 뉴 K3 2세대": {
+            "brand": "기아",
+            "model_group": "K3",
+            "encar_model": "더 뉴 K3 2세대",
+            "aliases": ["더뉴k32세대", "더뉴k3", "k32세대", "신형k3"],
+            "trims": {}
+        },
+        "올 뉴 K3": {
+            "brand": "기아",
+            "model_group": "K3",
+            "encar_model": "올 뉴 K3",
+            "aliases": ["올뉴k3", "k3올뉴", "올뉴k3bd", "k3bd"],
+            "trims": {}
+        },
+        "K3": {
+            "brand": "기아",
+            "model_group": "K3",
+            "encar_model": "K3",
+            "aliases": ["k3", "기아k3"],
+            "trims": {}
+        },
+        "K8": {
+            "brand": "기아",
+            "model_group": "K8",
+            "encar_model": "K8",
+            "aliases": ["k8", "기아k8"],
+            "trims": {}
+        },
+        "셀토스": {
+            "brand": "기아",
+            "model_group": "셀토스",
+            "encar_model": "셀토스",
+            "aliases": ["셀토스", "기아셀토스", "더뉴셀토스"],
+            "trims": {}
+        },
+        "더 뉴 말리부": {
+            "brand": "쉐보레(GM대우_)",
+            "model_group": "말리부",
+            "encar_model": "더 뉴 말리부",
+            "aliases": ["더뉴말리부", "말리부더뉴"],
+            "trims": {}
+        },
+        "올 뉴 말리부": {
+            "brand": "쉐보레(GM대우_)",
+            "model_group": "말리부",
+            "encar_model": "올 뉴 말리부",
+            "aliases": ["올뉴말리부", "말리부올뉴"],
+            "trims": {}
+        },
+        "말리부": {
+            "brand": "쉐보레(GM대우_)",
+            "model_group": "말리부",
+            "encar_model": "말리부",
+            "aliases": ["말리부", "쉐보레말리부"],
+            "trims": {}
+        },
+        "디 올 뉴 싼타페 (MX5)": {
+            "brand": "현대",
+            "model_group": "싼타페",
+            "encar_model": "디 올 뉴 싼타페",
+            "aliases": ["디올뉴싼타페", "싼타페mx5", "mx5", "신형싼타페"],
+            "trims": {}
+        },
+        "더 뉴 싼타페": {
+            "brand": "현대",
+            "model_group": "싼타페",
+            "encar_model": "더 뉴 싼타페",
+            "aliases": ["더뉴싼타페", "더뉴싼타페tm"],
+            "trims": {}
+        },
+        "싼타페 더 프라임": {
+            "brand": "현대",
+            "model_group": "싼타페",
+            "encar_model": "싼타페 더 프라임",
+            "aliases": ["싼타페더프라임", "더프라임"],
+            "trims": {}
+        },
+        "싼타페 DM": {
+            "brand": "현대",
+            "model_group": "싼타페",
+            "encar_model": "싼타페 DM",
+            "aliases": ["싼타페dm", "싼타페(dm)"],
+            "trims": {}
+        },
+        "베리 뉴 티볼리": {
+            "brand": "KG모빌리티(쌍용_)",
+            "model_group": "티볼리",
+            "encar_model": "베리 뉴 티볼리",
+            "aliases": ["베리뉴티볼리", "더뉴티볼리"],
+            "trims": {}
+        },
+        "티볼리 아머": {
+            "brand": "KG모빌리티(쌍용_)",
+            "model_group": "티볼리",
+            "encar_model": "티볼리 아머",
+            "aliases": ["티볼리아머"],
+            "trims": {}
+        },
+        "티볼리": {
+            "brand": "KG모빌리티(쌍용_)",
+            "model_group": "티볼리",
+            "encar_model": "티볼리",
+            "aliases": ["티볼리", "쌍용티볼리"],
+            "trims": {}
+        },
+        "QM6": {
+            "brand": "르노코리아(삼성_)",
+            "model_group": "QM6",
+            "encar_model": "QM6",
+            "aliases": ["qm6", "르노qm6"],
+            "trims": {}
+        },
+        "스파크": {
+            "brand": "쉐보레(GM대우_)",
+            "model_group": "스파크",
+            "encar_model": "스파크",
+            "aliases": ["스파크", "마티즈크리에이티브"],
+            "trims": {}
+        },
+        "올 뉴 모닝": {
+            "brand": "기아",
+            "model_group": "모닝",
+            "encar_model": "올 뉴 모닝",
+            "aliases": ["올뉴모닝", "모닝올뉴"],
+            "trims": {}
         }
     }
 
@@ -409,6 +535,20 @@ class MasterMappingService:
                     norm_a = cls._normalize_key(a)
                     if norm_a:
                         norm_idx[norm_a] = m_name
+
+            # 💡 DB에 등록된 전체 models에 대해서도 정규화 인덱스 누락 원천 방지
+            for m_name, m_info in models.items():
+                norm = cls._normalize_key(m_name)
+                if norm and norm not in norm_idx:
+                    norm_idx[norm] = m_name
+                norm_encar = cls._normalize_key(m_info.get("encar_model", ""))
+                if norm_encar and norm_encar not in norm_idx:
+                    norm_idx[norm_encar] = m_name
+                for a in m_info.get("aliases", []):
+                    norm_a = cls._normalize_key(a)
+                    if norm_a and norm_a not in norm_idx:
+                        norm_idx[norm_a] = m_name
+
             return db
         except Exception as e:
             print(f"[MasterMapping] DB 로드 실패, 백업 후 초기화: {e}")
@@ -627,9 +767,43 @@ class MasterMappingService:
             (2023, 2030, "더 뉴 K5 3세대"),
             (2019, 2023, "K5 3세대"),
         ],
+        "쏘나타": [
+            (2023, 2030, "쏘나타 디 엣지"),
+            (2019, 2023, "쏘나타 (DN8)"),
+            (2017, 2019, "쏘나타 뉴 라이즈"),
+            (2014, 2017, "LF 쏘나타"),
+        ],
+        "K3": [
+            (2021, 2025, "더 뉴 K3 2세대"),
+            (2018, 2021, "올 뉴 K3"),
+            (2012, 2018, "K3"),
+        ],
+        "QM6": [
+            (2023, 2025, "더 뉴 QM6"),
+            (2019, 2023, "더 뉴 QM6"),
+            (2016, 2019, "QM6"),
+        ],
+        "티볼리": [
+            (2019, 2025, "베리 뉴 티볼리"),
+            (2017, 2019, "티볼리 아머"),
+            (2015, 2017, "티볼리"),
+        ],
+        "말리부": [
+            (2018, 2023, "더 뉴 말리부"),
+            (2016, 2018, "올 뉴 말리부"),
+            (2011, 2016, "말리부"),
+        ],
+        "싼타페": [
+            (2023, 2025, "디 올 뉴 싼타페 (MX5)"),
+            (2020, 2023, "더 뉴 싼타페"),
+            (2018, 2020, "싼타페 TM"),
+            (2015, 2018, "싼타페 더 프라임"),
+            (2012, 2015, "싼타페 DM"),
+        ],
         "모닝": [
-            (2020, 2023, "모닝 어반"),
+            (2020, 2025, "모닝 어반"),
             (2017, 2020, "올 뉴 모닝 (JA)"),
+            (2011, 2017, "올 뉴 모닝"),
         ],
         "레이": [
             (2017, 2030, "더 뉴 레이"),
@@ -664,34 +838,66 @@ class MasterMappingService:
             models = db.get("models", {})
             norm_idx = db.get("normalized_models", {})
 
-            # 1. 정규화 키 일치 탐색 (차량명 단독 ➔ 전체 텍스트 순)
             c_norm = cls._normalize_key(car_name)
             f_norm = cls._normalize_key(full_text)
 
             matched_master_key = None
-            if c_norm in norm_idx:
-                matched_master_key = norm_idx[c_norm]
-            elif f_norm in norm_idx:
-                matched_master_key = norm_idx[f_norm]
-            else:
-                # 2. 부분 일치 탐색 (긴 패턴 우선)
-                best_len = 0
-                for norm_cand, m_key in norm_idx.items():
-                    if norm_cand in f_norm or f_norm in norm_cand:
-                        if len(norm_cand) > best_len:
-                            best_len = len(norm_cand)
-                            matched_master_key = m_key
 
-            # 3. 연식 기반 세대 모델 자동 판별 (차종명이 '아반떼', '카니발' 등 대표 차종명만 들어왔을 때 세대 착오 방지)
-            if parsed_y:
+            # 1. 차량명 단독 일치 탐색
+            # 단, '아반떼', '투싼', '스파크', 'k3' 등 순수 대표 차종명이고 연식(parsed_y)이 있으면 연식 세대 규칙에 우선권 부여
+            pure_model_group = False
+            for mg_k in cls.YEAR_GENERATION_RULES.keys():
+                if c_norm == cls._normalize_key(mg_k):
+                    pure_model_group = True
+                    break
+
+            if c_norm in norm_idx and not (pure_model_group and parsed_y):
+                matched_master_key = norm_idx[c_norm]
+
+            # 2. 연식 기반 세대 모델 자동 판별 (버그 3 수정: 부분 일치보다 먼저 실행)
+            if not matched_master_key and parsed_y:
                 for mg_k, gen_rules in cls.YEAR_GENERATION_RULES.items():
-                    if mg_k in c_norm or c_norm == mg_k:
+                    norm_mg = cls._normalize_key(mg_k)
+                    # c_norm과 정확히 일치하거나 의미 있는 어절로 포함되는 경우
+                    if norm_mg == c_norm or (norm_mg in c_norm and len(norm_mg) >= 2):
                         for y_min, y_max, target_model in gen_rules:
                             if y_min <= parsed_y <= y_max:
                                 matched_master_key = target_model
                                 break
+                    # 💡 버그 2 수정: 이번 mg_k에서 실제 target_model을 매칭했을 때만 루프 탈출
                     if matched_master_key and matched_master_key in models:
                         break
+
+            # 3. 전체 텍스트(차량명+세부모델) 완전 일치 탐색
+            if not matched_master_key:
+                if f_norm in norm_idx:
+                    matched_master_key = norm_idx[f_norm]
+                elif c_norm in norm_idx:
+                    matched_master_key = norm_idx[c_norm]
+
+            # 4. 어절(단어 경계) 단위 부분 일치 탐색 (버그 1 수정: 트림명 내부 음절 오매칭 원천 차단)
+            if not matched_master_key:
+                words = [w for w in re.split(r'[\s\(\)\[\]\-_,./]+', str(car_name)) if len(w) >= 2]
+                TRIM_STOPWORDS = {
+                    '인스퍼레이션', '프리미엄', '노블레스', '시그니처', '프레스티지',
+                    '익스클루시브', '캘리그래피', '트렌디', '스마트', '모던', '디럭스',
+                    '럭셔리', '스타일', '가솔린', '디젤', '하이브리드', '터보'
+                }
+                best_len = 0
+                for w in words:
+                    w_norm = cls._normalize_key(w)
+                    if w_norm in TRIM_STOPWORDS:
+                        continue
+                    if w_norm in norm_idx and w_norm not in TRIM_STOPWORDS:
+                        matched_master_key = norm_idx[w_norm]
+                        break
+                    for norm_cand, m_key in norm_idx.items():
+                        if norm_cand in TRIM_STOPWORDS:
+                            continue
+                        if norm_cand == w_norm:
+                            if len(norm_cand) > best_len:
+                                best_len = len(norm_cand)
+                                matched_master_key = m_key
 
             if matched_master_key and matched_master_key in models:
                 m_info = models[matched_master_key]

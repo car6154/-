@@ -35,7 +35,12 @@ jobs:
           python -m py_compile $(git ls-files "*.py")
           echo "All Python files passed py_compile."
 
-      - name: 3. Hardcoded Car Plate / Encar ID Guard
+      - name: 3. Model Name Normalization Regression Test (15 Core Domestic Cars)
+        run: |
+          python tests/test_model_mapping.py
+          echo "All 15 domestic car model normalization regression tests passed."
+
+      - name: 4. Hardcoded Car Plate / Encar ID Guard
         run: |
           python - << 'EOF'
           import subprocess, re, sys
@@ -80,7 +85,7 @@ jobs:
           cache: 'npm'
           cache-dependency-path: frontend/package-lock.json
 
-      - name: 4. TypeScript Compile & Type Check (tsc --noEmit)
+      - name: 5. TypeScript Compile & Type Check (tsc --noEmit)
         working-directory: frontend
         run: |
           if [ ! -f "firebase-applet-config.json" ]; then
