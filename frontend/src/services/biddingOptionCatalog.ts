@@ -213,7 +213,7 @@ export const MASTER_PACKAGE_CATALOG: MasterPackageDef[] = [
         items: ['뒷좌석 16-way 전동 시트', '뒷좌석 통풍 시트', 'VIP석 레그레스트']
       }
     ],
-    matchKeywords: ['프리미엄컬렉션', '프리미엄컬렉션+이지클로즈', '프리미엄콜렉션', '하이테크', '컨비니언스', '드라이빙어시스턴스', '뒷좌석컴포트']
+    matchKeywords: ['프리미엄컬렉션', '프리미엄컬렉션+이지클로즈', '프리미엄콜렉션']
   },
   {
     id: 'genesis_g90_easy_close',
@@ -956,17 +956,15 @@ export const getOptionMatchDetail = (
   // 헤더
   lines.push(`[${cleanName}]`);
 
-  // 카탈로그 공식 정보가 있으면 표기
+  // 카탈로그 공식 정보가 있으면 단독 표기 (오매칭 및 350만 패키지 혼재 방지)
   if (officialInfo) {
     const priceStr = officialInfo.price ? `${officialInfo.price.toLocaleString()}원` : '출고가 미표기';
     lines.push(`🏛️ 신차 공식 사양: ${officialInfo.officialName} (${priceStr})`);
     if (officialInfo.desc && officialInfo.desc.length > 5) {
       lines.push(`📄 사양 안내: ${officialInfo.desc}`);
     }
-  }
-
-  // 📦 2단계 계층 패키지 언패킹 (1차 하위 패키지 -> 2차 세부 기능)
-  if (pkgDef) {
+  } else if (pkgDef) {
+    // 공식 카탈로그에 없는 복합 패키지일 때만 패키지 정의 표시
     if (pkgDef.subPackages && pkgDef.subPackages.length > 0) {
       lines.push('📦 [2중 포장 패키지 통합 사양]');
       pkgDef.subPackages.forEach((sp, idx) => {
