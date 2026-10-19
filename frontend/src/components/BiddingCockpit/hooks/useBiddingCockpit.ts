@@ -524,21 +524,33 @@ export function useBiddingCockpit({
         lookupSucceeded = Boolean(await handleLookupCarNumber(preset.carNumber, parsedMileage, true));
       }
 
-      // c. 실시간 조회 실패(또는 차량번호 미존재) 시에만 과거 장부 가격/판수를 폴백으로 세팅하고, 성공 시에는 실시간 AI 산출 시세(1번 정상조회값)를 그대로 유지
+      // c. 실시간 조회 실패(또는 차량번호 미존재) 시에만 과거 장부 가격을 폴백으로 세팅하고, 성공 시에는 실시간 AI 산출 시세를 유지
       if (!lookupSucceeded) {
         if (preset.sellPrice && preset.sellPrice > 0) {
           setExpectedSellPrice(preset.sellPrice);
-        }
-        if (typeof preset.outerRepairs === 'number') {
-          setOuterRepairCount(preset.outerRepairs);
         }
         if (preset.buyPrice && preset.buyPrice > 0) {
           setUserBid(preset.buyPrice);
         }
       }
-      if (preset.memo) {
-        setMemo(preset.memo);
+
+      // d. 외판 수리 판수: 장부/역추적 프리셋의 외판 수리 개수를 최우선 자동 입력
+      if (typeof preset.outerRepairs === 'number') {
+        setOuterRepairCount(preset.outerRepairs);
       }
+
+      // e. 특이사항: 조회된 차량의 특이사항 메모 자동 입력 (기존 수동 입력값이 있으면 유지)
+      if (preset.memo) {
+        setMemo((prevMemo) => {
+          const trimmedPrev = (prevMemo || '').trim();
+          // 기존에 사용자가 직접 타이핑한 유의미한 수동 입력값이 있으면 덮어쓰지 않고 유지
+          if (trimmedPrev && !trimmedPrev.startsWith('[장부 역추적') && !trimmedPrev.startsWith('[재고 역추적') && !trimmedPrev.startsWith('[실적DB') && !trimmedPrev.startsWith('[헤이딜러')) {
+            return prevMemo;
+          }
+          return preset.memo || prevMemo;
+        });
+      }
+
       if (preset.targetMargin) {
         setTargetMargin(preset.targetMargin);
       }

@@ -639,6 +639,10 @@ export default function App() {
       parsedMileage = parseInt(milClean, 10);
     }
 
+    const parsedOuter = typeof car.outerRepairs === 'number'
+      ? car.outerRepairs
+      : (parseInt(String(car.outerRepairs || 0), 10) || 0);
+
     setCockpitPreset({
       carNumber: car.carNumber,
       manufacturer: car.manufacturer,
@@ -648,7 +652,7 @@ export default function App() {
       mileage: parsedMileage,
       sellPrice: car.sellPrice,
       buyPrice: car.buyPrice,
-      outerRepairs: car.outerRepairs || 0,
+      outerRepairs: parsedOuter,
       options: car.options || '+기본형',
       memo: car.memo || `[장부 역추적 / 매입가: ${car.buyPrice}만 / 예상소매: ${car.sellPrice}만]`,
       targetMargin: 120,
@@ -682,22 +686,27 @@ export default function App() {
   // Jump to cockpit for instant market comparison from company performance DB
   const handleAnalyzePerformanceInCockpit = (record: any) => {
     const brand = inferBrandFromCarName(record.carName || '');
+    const parsedOuter = typeof record.outerRepairs === 'number'
+      ? record.outerRepairs
+      : (parseInt(String(record.outerRepairs || 0), 10) || 0);
+
+    const memoText = record.memo || record.note || (record.regDate ? `[실적DB 역추적 / 판매일: ${record.regDate} / ${record.stockDays || 0}일 완판]` : '');
 
     setCockpitPreset({
-      carNumber: record.plate,
+      carNumber: record.plate || record.carNumber,
       manufacturer: brand,
       carName: record.carName,
-      detailModel: record.subModel,
-      year: 20,
+      detailModel: record.subModel || record.detailModel,
+      year: record.year || 20,
       mileage: record.mileage || 40000,
       sellPrice: record.sellPrice || 1400,
       buyPrice: record.buyPrice || 1200,
-      outerRepairs: 0,
+      outerRepairs: parsedOuter,
       options: '+순정옵션',
-      memo: `[실적DB 역추적 / 판매일: ${record.regDate} / ${record.stockDays}일 완판]`,
+      memo: memoText,
       targetMargin: 120,
     });
-    showToast(`📈 [${record.plate} ${record.carName}] 사이드바 필터 및 실시간 역추적 시세 연동 완료!`);
+    showToast(`📈 [${record.plate || record.carNumber} ${record.carName}] 사이드바 필터 및 실시간 역추적 시세 연동 완료!`);
     setActiveTab('cockpit');
   };
 

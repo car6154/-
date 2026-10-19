@@ -42,6 +42,8 @@ interface CompanyInventoryTabProps {
     mileage: number;
     sellPrice?: number;
     buyPrice?: number;
+    outerRepairs?: number;
+    memo?: string;
   }) => void;
 }
 
@@ -159,6 +161,8 @@ export const CompanyInventoryTab: React.FC<CompanyInventoryTabProps> = ({ onAnal
         mileage: target.mileage,
         sellPrice: target.sellPrice,
         buyPrice: target.buyPrice,
+        outerRepairs: (target as any).outerRepairs !== undefined ? Number((target as any).outerRepairs) : 0,
+        memo: (target as any).memo || (target as any).note || '',
       });
     }
   };
@@ -536,6 +540,8 @@ export const CompanyInventoryTab: React.FC<CompanyInventoryTabProps> = ({ onAnal
                                 mileage: car.mileage,
                                 sellPrice: car.sellPrice,
                                 buyPrice: car.buyPrice,
+                                outerRepairs: (car as any).outerRepairs !== undefined ? Number((car as any).outerRepairs) : 0,
+                                memo: (car as any).memo || (car as any).note || '',
                               });
                             }}
                             className="px-2 py-1 rounded bg-[#1e2230] hover:bg-[#282d3e] text-slate-300 border border-slate-700 text-[10px] font-semibold transition"
