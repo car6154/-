@@ -542,38 +542,34 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
             </div>
           ) : (
             <>
-              <div className="flex items-center justify-between pb-2 border-b border-[#262833]">
-                <div className="flex items-center gap-2">
-                  {isCompanyCarItem(selectedEncar) ? (
-                    <span className="px-2 py-0.5 rounded bg-indigo-500/30 text-indigo-200 font-black text-[11px] border border-indigo-400/50 shadow-sm flex items-center gap-1">
-                      <span>🏢 자사 보유 광고 매물</span>
-                    </span>
-                  ) : (
-                    <span className="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold text-[11px] border border-amber-500/30">
-                      엔카 비교 차량
-                    </span>
-                  )}
-                  <span className="text-sm font-bold text-white">비교 매물 상세 사양 &amp; 성능점검</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-xs text-zinc-400 font-mono">
-                    {isInspectionLoading ? '⚡ 점검표 수신 중...' : `ID: ${selectedEncar.id}`}
-                  </span>
+              {/* Title & Badges */}
+              <div className="space-y-1.5">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      <span className="text-base sm:text-lg font-black text-white">{selectedEncar.carName}</span>
+                      {isCompanyCarItem(selectedEncar) && (
+                        <span className="px-1.5 py-0.5 rounded bg-indigo-500/30 text-indigo-200 font-black text-[10px] border border-indigo-400/50">
+                          🏢 자사 매물
+                        </span>
+                      )}
+                      {isInspectionLoading && (
+                        <span className="text-[11px] text-amber-400 font-mono animate-pulse">
+                          ⚡ 점검표 수신 중...
+                        </span>
+                      )}
+                    </div>
+                    <div className="text-xs sm:text-sm text-zinc-300 font-semibold">{selectedEncar.subModel || detailModel}</div>
+                  </div>
                   <button
                     type="button"
                     onClick={() => onSelectEncar('')}
-                    className="text-[11px] px-2 py-0.5 rounded bg-[#232634] hover:bg-[#323646] text-zinc-300 hover:text-white font-medium transition cursor-pointer"
+                    className="text-[11px] px-2 py-1 rounded bg-[#232634] hover:bg-[#323646] text-zinc-300 hover:text-white font-medium transition cursor-pointer shrink-0"
                     title="비교 매물 선택 해제"
                   >
                     선택 해제 ✕
                   </button>
                 </div>
-              </div>
-
-              {/* Title & Badges */}
-              <div className="space-y-1.5">
-                <div className="text-base sm:text-lg font-black text-white">{selectedEncar.carName}</div>
-                <div className="text-xs sm:text-sm text-zinc-300 font-semibold">{selectedEncar.subModel || detailModel}</div>
 
                 <div className="flex flex-wrap gap-1.5 pt-0.5 text-xs">
                   <span className="px-2.5 py-1 rounded bg-[#1f222e] text-white font-bold font-mono">
@@ -613,6 +609,33 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                     </span>
                   )}
                 </div>
+
+                {/* 사고 내역 텍스트 (스크롤 없이 한눈에 확인하도록 배지 바로 아래로 이동) */}
+                {(() => {
+                  const repList = ((selectedEncar?.replaceNames && selectedEncar.replaceNames.length > 0) ? selectedEncar.replaceNames : selectedEncar?.replaces) || [];
+                  const fixList = ((selectedEncar?.repairNames && selectedEncar.repairNames.length > 0) ? selectedEncar.repairNames : selectedEncar?.repairs) || [];
+                  const hasRep = repList.length > 0;
+                  const hasFix = fixList.length > 0;
+
+                  if (!hasRep && !hasFix) return null;
+
+                  return (
+                    <div className="pt-1.5 pb-0.5 text-xs flex flex-col gap-1">
+                      {hasRep && (
+                        <div className="text-rose-400 font-medium flex items-start gap-1">
+                          <span className="font-bold shrink-0">🔴 교환(X):</span>
+                          <span className="font-semibold text-rose-300">{repList.join(', ')}</span>
+                        </div>
+                      )}
+                      {hasFix && (
+                        <div className="text-amber-400 font-medium flex items-start gap-1">
+                          <span className="font-bold shrink-0">🟡 판금/용접(W):</span>
+                          <span className="font-semibold text-amber-300">{fixList.join(', ')}</span>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })()}
               </div>
 
               {/* Large Price Display */}

@@ -115,9 +115,6 @@ export const CarDamageDiagram2D: React.FC<CarDamageDiagram2DProps> = ({ selected
     { code: 'REAR_PANEL', kw: ['리어패널', '리어 패널', '뒤패널', 'rear_panel', 'p160', 'p181'], exclude: ['프론트', '앞', 'front'], x: 55, y: 292, w: 110, h: 20, label: '리어패널', full: '리어 패널' }
   ];
 
-  const hasReplaces = (selectedEncar?.replaces?.length > 0) || (selectedEncar?.replaceNames?.length > 0);
-  const hasRepairs = (selectedEncar?.repairs?.length > 0) || (selectedEncar?.repairNames?.length > 0);
-
   return (
     <div className="space-y-2 pt-2 border-t border-[#262833]">
       <div className="flex justify-between items-center text-xs sm:text-sm">
@@ -177,37 +174,6 @@ export const CarDamageDiagram2D: React.FC<CarDamageDiagram2DProps> = ({ selected
               })}
             </svg>
           </div>
-        </div>
-
-        {/* Accident Details Text List */}
-        <div className="pt-2 text-xs border-t border-[#1e293b] flex flex-col gap-1 px-1">
-          {hasReplaces && (
-            <div className="text-rose-400 font-medium flex items-start gap-1">
-              <span className="font-bold shrink-0">🔴 교환(X):</span>
-              <span>
-                {(selectedEncar?.replaceNames?.length > 0
-                  ? selectedEncar.replaceNames
-                  : selectedEncar.replaces
-                ).join(', ')}
-              </span>
-            </div>
-          )}
-          {hasRepairs && (
-            <div className="text-amber-400 font-medium flex items-start gap-1">
-              <span className="font-bold shrink-0">🟡 판금/용접(W):</span>
-              <span>
-                {(selectedEncar?.repairNames?.length > 0
-                  ? selectedEncar.repairNames
-                  : selectedEncar.repairs
-                ).join(', ')}
-              </span>
-            </div>
-          )}
-          {!hasReplaces && !hasRepairs && (
-            <div className="text-emerald-400 font-medium flex items-center gap-1">
-              <span>🟢 교환/판금 없는 완전무사고 매물입니다.</span>
-            </div>
-          )}
         </div>
       </div>
     </div>
