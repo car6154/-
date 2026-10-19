@@ -38,6 +38,7 @@ logs/
 *.log
 *.lock
 scratch/
+scratch/**
 scratch_*.*
 debug_*.*
 sample_detail.json
