@@ -12,7 +12,7 @@ import {
   NewCarCatalogData,
 } from '@/services/biddingOptionCatalog';
 import { copyToClipboard } from '@/utils/clipboard';
-import { EncarItem, EncarSoldItem, EncarSoldStats, HeydealerBidItem, BiddingCockpitTabProps } from '../types';
+import { EncarItem, EncarSoldItem, EncarSoldStats, HeydealerBidItem, BiddingCockpitTabProps, KcarMarketStats } from '../types';
 
 export function useBiddingCockpit({
   initialCarName,
@@ -173,6 +173,10 @@ export function useBiddingCockpit({
   // 🌟 공식 신차가격표 카탈로그 실시간 보관 상태 (옵션 툴팁 즉시 렌더링용)
   const [targetNewCarCatalog, setTargetNewCarCatalog] = useState<NewCarCatalogData | null>(null);
 
+  // 🏢 K-Car 직영 실시간 시세 및 매물 상태
+  const [kcarStats, setKcarStats] = useState<KcarMarketStats | null>(null);
+  const [isKcarLoading, setIsKcarLoading] = useState<boolean>(false);
+
   // 🧹 차량 변경/재조회 시 이전 차량 데이터 완전 초기화 (상태 잔류 및 가격 오염 방지)
   const resetCockpitState = useCallback((options?: { keepInputs?: boolean }) => {
     // 1. 헤이딜러 실시간 낙찰 데이터 및 선택 상태 완전 초기화
@@ -198,6 +202,9 @@ export function useBiddingCockpit({
     setEncarFilterStats(null);
     setEncarErrorMessage('');
     setEncarSourceUrl('');
+
+    // 3-1. K-Car 실시간 시세 및 통계 초기화
+    setKcarStats(null);
 
     // 4. 차량 원부 / 카히스토리 / 모달 상태 초기화
     setTargetCarHistory(null);
@@ -368,6 +375,54 @@ export function useBiddingCockpit({
     return [];
   }, [carName, detailModel, manufacturer, yearModel, mileageKm, carNumber]);
 
+  // 🏢 K-Car 직영 실시간 시세 및 통계 비동기 수집
+  const fetchKcarMarket = useCallback(async (options?: {
+    carName?: string;
+    detailModel?: string;
+    gradeName?: string;
+    gradeDetailName?: string;
+    manufacturer?: string;
+    year?: number;
+    mileage?: number;
+  }) => {
+    const targetCarName = options?.carName || carName;
+    if (!targetCarName) {
+      setKcarStats(null);
+      return;
+    }
+    setIsKcarLoading(true);
+    try {
+      const targetDetail = options?.detailModel !== undefined ? options.detailModel : detailModel;
+      const targetGradeName = options?.gradeName !== undefined ? options.gradeName : rawGradeNameRef.current;
+      const targetGradeDetail = options?.gradeDetailName !== undefined ? options.gradeDetailName : rawGradeDetailNameRef.current;
+      const targetMaker = options?.manufacturer || manufacturer;
+      const targetYr = options?.year !== undefined ? options.year : yearModel;
+      const targetMil = options?.mileage !== undefined ? options.mileage : mileageKm;
+
+      const res = await fetch('/api/kcar/market', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          carName: targetCarName,
+          detailModel: targetDetail,
+          gradeName: targetGradeName,
+          gradeDetailName: targetGradeDetail,
+          manufacturer: targetMaker,
+          year: targetYr,
+          mileage: targetMil,
+        }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setKcarStats(data);
+      }
+    } catch (e) {
+      console.warn('[useBiddingCockpit] fetchKcarMarket failed:', e);
+    } finally {
+      setIsKcarLoading(false);
+    }
+  }, [carName, detailModel, manufacturer, yearModel, mileageKm]);
+
   // 사이드바 차량 조건 변경 시 실데이터 자동 수집 (차량이 있을 때만)
   useEffect(() => {
     if (isSearchingCar) return;
@@ -387,9 +442,18 @@ export function useBiddingCockpit({
         mileage: mileageKm,
         carNumber: carNumber
       });
+      fetchKcarMarket({
+        carName: carName || initialCarName,
+        detailModel: detailModel,
+        gradeName: rawGradeNameRef.current,
+        gradeDetailName: rawGradeDetailNameRef.current,
+        manufacturer: manufacturer,
+        year: yearModel,
+        mileage: mileageKm,
+      });
     }, 300);
     return () => clearTimeout(timer);
-  }, [carName, detailModel, manufacturer, yearModel, mileageKm, carNumber]);
+  }, [carName, detailModel, manufacturer, yearModel, mileageKm, carNumber, fetchEncarComparable, fetchKcarMarket]);
 
   // 텍스트/복사 데이터 빠른 자동 분석 모달 상태
   const [isQuickPasteOpen, setIsQuickPasteOpen] = useState(false);
@@ -718,6 +782,16 @@ export function useBiddingCockpit({
           year: yr,
           mileage: effectiveMileage,
           carNumber: no
+        });
+
+        fetchKcarMarket({
+          carName: resolvedCarName || carName,
+          detailModel: resolvedGrade || detailModel,
+          gradeName: rawG,
+          gradeDetailName: rawGd,
+          manufacturer: res.maker || manufacturer,
+          year: yr,
+          mileage: effectiveMileage,
         });
 
         skipAutoFetchRef.current = true;
@@ -1106,6 +1180,16 @@ export function useBiddingCockpit({
             mileage: calculatedMil
           });
         }
+
+        fetchKcarMarket({
+          carName: cName,
+          detailModel: cGrade,
+          gradeName: rawGradeNameRef.current,
+          gradeDetailName: rawGradeDetailNameRef.current,
+          manufacturer: cBrand,
+          year: calculatedYear,
+          mileage: calculatedMil,
+        });
 
         if (fetchedItems.length === 0) {
           setSearchStatus({
@@ -1972,6 +2056,11 @@ export function useBiddingCockpit({
     fetchEncarComparable,
     showCarHistoryModal,
     setShowCarHistoryModal,
+
+    // K-Car 직영 시세 통계
+    kcarStats,
+    isKcarLoading,
+    fetchKcarMarket,
 
     // 시장 비교 매물 (엔카)
     encarTotalModelCount,

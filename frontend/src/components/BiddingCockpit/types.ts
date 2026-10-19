@@ -83,3 +83,48 @@ export interface HeydealerBidItem {
   keyOptions: string[];
   link?: string;
 }
+
+export interface KcarCarItem {
+  carCd: string;
+  carName: string;
+  price: number;
+  mileage: number;
+  year: number;
+  fullYear: string;
+  grade: string;
+  gradeDetail: string;
+  center: string;
+  color: string;
+  accident: string;
+  detailUrl: string;
+}
+
+export interface KcarPriceBin {
+  label: string;
+  min: number;
+  max: number;
+  count: number;
+  ratio: number;
+}
+
+export interface KcarYearStat {
+  year: number;
+  avg: number;
+  count: number;
+  isTarget: boolean;
+}
+
+export interface KcarMarketStats {
+  success: boolean;
+  count: number;
+  min: number;
+  max: number;
+  avg: number;
+  median: number;
+  yearStats: KcarYearStat[];
+  priceBins: KcarPriceBin[];
+  cars: KcarCarItem[];
+  modelName: string;
+  searchUrl: string;
+  message?: string;
+}

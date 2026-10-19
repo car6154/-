@@ -3,9 +3,11 @@ import {
   Sparkles,
   ExternalLink,
   Zap,
+  RotateCw,
 } from 'lucide-react';
 import { EncarItem } from './ComparableEncarSection';
 import { buildKcarSearchUrl } from '../../../utils/kcarUrl';
+import { KcarMarketStats } from '../types';
 
 export interface ValuationSummarySectionProps {
   carName: string;
@@ -43,6 +45,9 @@ export interface ValuationSummarySectionProps {
   showTrimColumn: boolean;
   onRescanEncar: () => void;
   onOpenHistoryModal: () => void;
+  kcarStats?: KcarMarketStats | null;
+  isKcarLoading?: boolean;
+  onRescanKcar?: () => void;
 }
 
 export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = ({
@@ -81,6 +86,9 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
   showTrimColumn,
   onRescanEncar,
   onOpenHistoryModal,
+  kcarStats,
+  isKcarLoading = false,
+  onRescanKcar,
 }) => {
   // 🏢 [KCAR] 실시간 공식 검색 필터 URL 동적 생성 (사이드바 필터 기준: 제조사/모델/등급 코드 우선 매핑 + 연식 ±1년 + 주행거리 ±3만km)
   const kcarUrl = React.useMemo(() => {
@@ -92,6 +100,40 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
       mileageKm,
     });
   }, [carName, detailModel, manufacturer, yearModel, mileageKm]);
+
+  // 🚗 엔카 매물 가격 분포 (4개 구간) 동적 산출 (K-Car와 100% 대칭)
+  const encarPriceBins = React.useMemo(() => {
+    if (!encarList.length) return [];
+    const prices = encarList.map(c => Number(c.price) || 0).filter(p => p > 0).sort((a, b) => a - b);
+    if (!prices.length) return [];
+    const minP = prices[0];
+    const maxP = prices[prices.length - 1];
+    const count = prices.length;
+    if (count >= 3 && maxP > minP) {
+      const span = maxP - minP;
+      const rawStep = span / 4;
+      const binStep = Math.max(50, Math.round(rawStep / 50) * 50);
+      const bins: Array<{ label: string; min: number; max: number; count: number; ratio: number }> = [];
+      let curr = minP;
+      for (let i = 0; i < 4; i++) {
+        const isLast = (i === 3);
+        const nextLimit = isLast ? maxP + 1 : curr + binStep;
+        const bCnt = prices.filter(p => isLast ? (p >= curr && p <= maxP) : (p >= curr && p < nextLimit)).length;
+        const ratio = count > 0 ? Math.round((bCnt / count) * 100) : 0;
+        bins.push({
+          label: isLast ? `${curr.toLocaleString()}~${maxP.toLocaleString()}만` : `${curr.toLocaleString()}~${nextLimit.toLocaleString()}만`,
+          min: curr,
+          max: isLast ? maxP : nextLimit,
+          count: bCnt,
+          ratio
+        });
+        curr = nextLimit;
+        if (curr > maxP) break;
+      }
+      return bins;
+    }
+    return [{ label: `${minP.toLocaleString()}~${maxP.toLocaleString()}만`, min: minP, max: maxP, count, ratio: 100 }];
+  }, [encarList]);
 
   return (
         <div className="bg-[#0e0f13] border border-[#262833] rounded-xl p-4 sm:p-5 shadow-lg space-y-3.5">
@@ -682,209 +724,344 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
             </div>
           )}
 
-          {/* 🚘 [1] 엔카 실시간 소매 시세 요약 4대 지표 바 (리스트 바로 위 배치로 가독성 극대화) */}
+          {/* 📊 [소매 시세 분석 영역] 엔카 시세카드 vs K-Car 직영 시세카드 (2열 나란히 대칭 배치) */}
           <div className="space-y-3 pt-1">
-            <div className="flex items-center justify-between">
-              <div className="text-sm sm:text-base font-black text-white flex items-center gap-2">
-                <span>🚘</span>
-                <span>엔카 실시간 소매 시세 요약</span>
-              </div>
+            {/* 상단 섹션 헤더 및 AI 정밀 소매가 칩 */}
+            <div className="flex flex-wrap items-center justify-between gap-2">
               <div className="flex items-center gap-2">
-                {encarSourceUrl && (
-                  <a
-                    href={encarSourceUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-xs px-2.5 py-1 rounded bg-[#1e293b] hover:bg-blue-600/30 text-sky-400 hover:text-white border border-sky-500/30 font-bold transition flex items-center gap-1"
-                    title="엔카 공식 실시간 검색 페이지 새창 열기"
-                  >
-                    <span>🚗 엔카시세 ↗</span>
-                  </a>
-                )}
-                <a
-                  href={kcarUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-xs px-2.5 py-1 rounded bg-[#1e293b] hover:bg-rose-600/30 text-rose-300 hover:text-white border border-rose-500/30 font-bold transition flex items-center gap-1"
-                  title="KCAR 직영점 동일 조건(연식±1년/주행거리±3만km) 매물 검색 새창 열기"
-                >
-                  <span>🏢 KCAR ↗</span>
-                </a>
+                <span className="text-sm sm:text-base font-black text-white flex items-center gap-1.5">
+                  <span>📊</span>
+                  <span>플랫폼별 실시간 소매 시세 비교</span>
+                </span>
+                <span className="text-xs text-zinc-400 font-normal hidden sm:inline">
+                  (엔카 전체 시장 호가 vs K-Car 직영 인증 실매물)
+                </span>
               </div>
+              {aiRetailPrice > 0 && (
+                <div className="px-2.5 py-0.5 rounded-lg bg-[#141d2e] border border-sky-500/40 text-sky-300 font-bold text-xs sm:text-sm flex items-center gap-1.5 shadow-sm">
+                  <span>🎯 AI 권장 소매가:</span>
+                  <strong className="text-white text-sm sm:text-base font-mono">{aiRetailPrice.toLocaleString()}</strong>
+                  <span className="text-xs text-zinc-300">만원</span>
+                  {encarValuation?.minPrice && encarValuation?.maxPrice && (
+                    <span className="text-[11px] text-zinc-400 font-normal font-mono">
+                      (적정밴드 {encarValuation.minPrice.toLocaleString()}~{encarValuation.maxPrice.toLocaleString()}만)
+                    </span>
+                  )}
+                </div>
+              )}
             </div>
 
-            {/* 4 Metrics Bar - 슬림 템플릿 적용 */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-              <div className="bg-[#121319] border border-[#262835] rounded-xl px-2.5 py-1.5 flex items-center gap-2.5 shadow-sm min-h-[52px]">
-                <div className="w-7 h-7 rounded-md bg-blue-500/10 border border-blue-500/25 flex items-center justify-center text-sm shrink-0">🚙</div>
-                <div className="min-w-0 flex-1">
-                  <div className="text-[10px] text-zinc-400 font-medium">총 매물 수</div>
-                  <div className="text-sm sm:text-base font-bold text-white font-mono">{encarStats.count || encarList.length}대</div>
-                </div>
-              </div>
-              <div className="bg-[#121319] border border-[#262835] rounded-xl px-2.5 py-1.5 flex items-center gap-2.5 shadow-sm min-h-[52px]">
-                <div className="w-7 h-7 rounded-md bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-center text-sm shrink-0">⬇️</div>
-                <div className="min-w-0 flex-1">
-                  <div className="text-[10px] text-zinc-400 font-medium">최저가</div>
-                  <div className="text-sm sm:text-base font-bold text-emerald-400 font-mono">
-                    {encarStats.min > 0 ? `${encarStats.min.toLocaleString()}만원` : '-'}
-                  </div>
-                </div>
-              </div>
-              <div className="bg-[#121319] border border-[#262835] rounded-xl px-2.5 py-1.5 flex items-center gap-2.5 shadow-sm min-h-[52px]">
-                <div className="w-7 h-7 rounded-md bg-rose-500/10 border border-rose-500/25 flex items-center justify-center text-sm shrink-0">⬆️</div>
-                <div className="min-w-0 flex-1">
-                  <div className="text-[10px] text-zinc-400 font-medium">최고가</div>
-                  <div className="text-sm sm:text-base font-bold text-rose-400 font-mono">
-                    {encarStats.max > 0 ? `${encarStats.max.toLocaleString()}만원` : '-'}
-                  </div>
-                </div>
-              </div>
-              <div className="bg-[#121319] border border-[#262835] rounded-xl px-2.5 py-1.5 flex items-center gap-2.5 shadow-sm min-h-[52px]">
-                <div className="w-7 h-7 rounded-md bg-amber-500/10 border border-amber-500/25 flex items-center justify-center text-sm shrink-0">📊</div>
-                <div className="min-w-0 flex-1">
-                  <div className="text-[10px] text-zinc-400 font-medium">평균가</div>
-                  <div className="text-sm sm:text-base font-bold text-amber-300 font-mono">
-                    {encarStats.avg > 0 ? `${encarStats.avg.toLocaleString()}만원` : '-'}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* 📋 [2] 실시간 소매 시세 & 빅데이터 밸류에이션 2분할 카드 (핵심 수치 가독성 극대화) */}
-            {(() => {
-              const marketAvg = encarStats.avg > 0 
-                ? encarStats.avg 
-                : (encarList.length > 0 ? Math.round(encarList.reduce((a, b) => a + (b.price || 0), 0) / encarList.length) : 0);
-              const retailPrice = aiRetailPrice;
-
-              // 매물 또는 유효 소매가가 전혀 없는 경우 목업 렌더링 방지
-              if (retailPrice <= 0 || marketAvg <= 0 || (encarStats.count === 0 && encarList.length === 0)) {
-                return null;
-              }
-
-              const minValPrice = (encarValuation?.minPrice && encarValuation.minPrice < retailPrice * 1.1 && encarValuation.minPrice > retailPrice * 0.8)
-                ? encarValuation.minPrice
-                : Math.round(retailPrice * 0.94);
-              const maxValPrice = (encarValuation?.maxPrice && encarValuation.maxPrice > retailPrice * 0.9 && encarValuation.maxPrice < retailPrice * 1.2)
-                ? encarValuation.maxPrice
-                : Math.round(retailPrice * 1.06);
-              const valScore = (encarValuation?.score && encarValuation.score >= 50 && encarValuation.score <= 150) ? encarValuation.score : 100.0;
-              const gapVal = marketAvg - retailPrice;
-              const gapPct = retailPrice > 0 ? ((gapVal / retailPrice) * 100).toFixed(1) : '0.0';
-              const optCount = optionsTag && optionsTag.trim() && !optionsTag.includes('옵션 없음')
-                ? optionsTag.replace(/\[[^\]]*\]/g, '').split(/[·,+,\/]/).filter((s: string) => s.trim().length > 0 && !s.includes('옵션 없음') && !s.includes('기본')).length
-                : 0;
-
-              return (
-                <div className="bg-[#121319] border border-[#2a2d3d] rounded-xl p-3.5 space-y-2.5 shadow-md">
-                  <div className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-[#232634]">
-                    <div className="flex items-center gap-2 font-bold text-amber-300 text-sm sm:text-base">
-                      <span>📋</span>
-                      <span>실시간 소매 시세 &amp; 빅데이터 밸류에이션</span>
+            {/* 2열 나란히 대칭 시세 카드 그리드 */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3.5">
+              {/* =======================================================
+                  [CARD 1] 🚗 엔카 실시간 소매 시세 카드
+                  ======================================================= */}
+              <div className="bg-gradient-to-b from-[#111622] to-[#0d1017] border border-sky-500/35 rounded-xl p-3.5 space-y-3 shadow-md flex flex-col justify-between">
+                <div className="space-y-2.5">
+                  {/* 카드 헤더 */}
+                  <div className="flex items-center justify-between pb-2 border-b border-[#202738]">
+                    <div className="flex items-center gap-2">
+                      <span className="px-2 py-0.5 rounded bg-blue-500/20 text-sky-300 border border-blue-500/40 text-xs font-black flex items-center gap-1">
+                        <span>🚗</span>
+                        <span>엔카 소매 시세</span>
+                      </span>
+                      <span className="text-xs font-mono font-bold text-white">
+                        총 <strong className="text-sky-400 font-bold">{encarStats.count || encarList.length}</strong>대
+                      </span>
                     </div>
-                    {retailPrice > 0 && (
-                      <div className="px-2.5 py-0.5 rounded-lg bg-[#1a2234] border border-sky-500/50 text-sky-300 font-bold text-xs sm:text-sm flex items-center gap-1.5 shadow-sm">
-                        <span>🎯 정밀 소매가:</span>
-                        <strong className="text-white text-sm sm:text-base font-mono">{retailPrice.toLocaleString()}</strong>
-                        <span className="text-xs text-zinc-300">만원</span>
-                        <span className="text-[11px] text-zinc-400 font-normal font-mono">
-                          ({minValPrice.toLocaleString()}~{maxValPrice.toLocaleString()}만)
+                    <div className="flex items-center gap-1.5">
+                      {onRescanEncar && (
+                        <button
+                          type="button"
+                          onClick={onRescanEncar}
+                          disabled={isEncarLoading}
+                          className="text-[11px] px-2 py-0.5 rounded bg-[#1a2336] hover:bg-[#22304d] text-zinc-300 hover:text-white border border-[#2d3a54] transition flex items-center gap-1 cursor-pointer disabled:opacity-50"
+                          title="엔카 실시간 시세 재조회"
+                        >
+                          <RotateCw className={`w-3 h-3 ${isEncarLoading ? 'animate-spin text-sky-400' : ''}`} />
+                          <span>새로고침</span>
+                        </button>
+                      )}
+                      {encarSourceUrl && (
+                        <a
+                          href={encarSourceUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-[11px] px-2 py-0.5 rounded bg-blue-500/15 hover:bg-blue-500/30 text-sky-300 hover:text-white border border-blue-500/35 font-bold transition flex items-center gap-1"
+                          title="엔카 공식 검색 바로가기"
+                        >
+                          <span>엔카 바로가기</span>
+                          <ExternalLink className="w-3 h-3" />
+                        </a>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* 1. 최저가 / 최고가 / 평균가 메인 요약 바 */}
+                  <div className="bg-[#090b10] border border-[#1e2538] rounded-lg p-2.5 space-y-1.5">
+                    <div className="flex items-baseline justify-between">
+                      <span className="text-xs text-zinc-400 font-medium">평균 판매 호가</span>
+                      <div className="flex items-baseline gap-1">
+                        <span className="text-xl sm:text-2xl font-black font-mono text-sky-300 tracking-tight">
+                          {encarStats.avg > 0 ? `${encarStats.avg.toLocaleString()}` : '-'}
                         </span>
+                        <span className="text-xs text-sky-400 font-bold">만원</span>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-3 gap-1 pt-1 border-t border-[#1a1f2c] text-center text-xs">
+                      <div className="bg-[#121622] rounded py-1 px-1.5">
+                        <div className="text-[10px] text-zinc-400">⬇️ 최저가</div>
+                        <div className="font-mono font-bold text-emerald-400 truncate">
+                          {encarStats.min > 0 ? `${encarStats.min.toLocaleString()}만` : '-'}
+                        </div>
+                      </div>
+                      <div className="bg-[#121622] rounded py-1 px-1.5">
+                        <div className="text-[10px] text-zinc-400">🎯 중간값</div>
+                        <div className="font-mono font-bold text-zinc-200 truncate">
+                          {encarStats.median > 0 ? `${encarStats.median.toLocaleString()}만` : '-'}
+                        </div>
+                      </div>
+                      <div className="bg-[#121622] rounded py-1 px-1.5">
+                        <div className="text-[10px] text-zinc-400">⬆️ 최고가</div>
+                        <div className="font-mono font-bold text-rose-400 truncate">
+                          {encarStats.max > 0 ? `${encarStats.max.toLocaleString()}만` : '-'}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 2. 가격 분포 (구간별 미니 바 차트) */}
+                  <div className="space-y-1.5">
+                    <div className="flex items-center justify-between text-xs text-zinc-400">
+                      <span className="font-bold text-zinc-300 flex items-center gap-1">
+                        <span>📊</span>
+                        <span>가격 분포 (구간별 건수)</span>
+                      </span>
+                      <span className="text-[10px] font-mono text-zinc-400">총 {encarStats.count || encarList.length}대</span>
+                    </div>
+                    {encarPriceBins.length > 0 ? (
+                      <div className="space-y-1 bg-[#090b10] border border-[#1a202f] rounded-lg p-2 text-xs">
+                        {encarPriceBins.map((bin, idx) => (
+                          <div key={idx} className="flex items-center gap-2 text-[11px]">
+                            <span className="w-24 shrink-0 font-mono text-zinc-300 text-right truncate" title={bin.label}>
+                              {bin.label}
+                            </span>
+                            <div className="flex-1 bg-zinc-800/80 rounded-full h-2.5 overflow-hidden flex items-center">
+                              <div
+                                className="bg-sky-500 h-full rounded-full transition-all duration-500"
+                                style={{ width: `${Math.max(bin.ratio, 4)}%` }}
+                              />
+                            </div>
+                            <span className="w-14 shrink-0 font-mono text-right text-zinc-300">
+                              <strong className="text-white font-bold">{bin.count}대</strong> ({bin.ratio}%)
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="text-center py-2 text-xs text-zinc-400 bg-[#090b10] rounded-lg border border-[#1a202f]">
+                        매물 가격 데이터 집계 중
                       </div>
                     )}
                   </div>
 
-                  {/* 2-Column Split Details */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
-                    {/* Left Card: AI 빅데이터 적정 시세 */}
-                    <div className="bg-[#151824] p-3 rounded-xl border border-sky-500/30 space-y-2 shadow-sm">
-                      <div className="flex justify-between items-center">
-                        <span className="text-xs sm:text-sm font-bold text-sky-400 flex items-center gap-1.5">
-                          <span>📊</span>
-                          <span>AI 빅데이터 적정 시세</span>
+                  {/* 3. 연식별 평균가 */}
+                  <div className="space-y-1.5">
+                    <div className="text-xs font-bold text-zinc-300 flex items-center gap-1">
+                      <span>📅</span>
+                      <span>연식별 평균가</span>
+                    </div>
+                    <div className="flex flex-wrap gap-1 text-xs">
+                      {encarYearStats.length > 0 ? (
+                        encarYearStats.map((st) => (
+                          <span
+                            key={st.year}
+                            className={`px-2 py-0.5 rounded text-[11px] font-mono flex items-center gap-1 ${
+                              st.isTarget
+                                ? 'bg-sky-500/20 text-sky-300 border border-sky-500/40 font-bold'
+                                : 'bg-[#151926] text-zinc-300 border border-[#20283d]'
+                            }`}
+                          >
+                            <span>{st.year}년</span>
+                            <strong className="text-white">{st.avg.toLocaleString()}만</strong>
+                            <span className="text-zinc-400 text-[10px]">({st.count}대)</span>
+                            {st.isTarget && <span className="text-[10px] text-amber-300">🎯</span>}
+                          </span>
+                        ))
+                      ) : (
+                        <span className="text-zinc-400 text-xs">연식 통계 데이터 없음</span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* =======================================================
+                  [CARD 2] 🏢 K-Car 직영 소매 시세 카드
+                  ======================================================= */}
+              <div className="bg-gradient-to-b from-[#1c1216] to-[#120d11] border border-rose-500/35 rounded-xl p-3.5 space-y-3 shadow-md flex flex-col justify-between">
+                <div className="space-y-2.5">
+                  {/* 카드 헤더 */}
+                  <div className="flex items-center justify-between pb-2 border-b border-[#331c26]">
+                    <div className="flex items-center gap-2">
+                      <span className="px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/40 text-xs font-black flex items-center gap-1">
+                        <span>🏢</span>
+                        <span>K-Car 직영 시세</span>
+                      </span>
+                      <span className="text-xs font-mono font-bold text-white">
+                        총 <strong className="text-rose-400 font-bold">{kcarStats?.count || 0}</strong>대
+                      </span>
+                      {kcarStats?.modelName && (
+                        <span className="text-[10px] px-1.5 py-0.2 rounded bg-zinc-800 text-zinc-300 hidden sm:inline">
+                          {kcarStats.modelName}
                         </span>
-                        <span className="text-[11px] px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/40 font-bold font-mono">
-                          가치지수 {valScore}점
-                        </span>
-                      </div>
-                      <div className="space-y-1.5">
-                        {/* 굵고 선명한 적정 밴드 메인 수치 */}
-                        <div className="flex items-baseline gap-2 flex-wrap">
-                          <span className="text-xs text-zinc-400 font-semibold shrink-0">적정 밴드:</span>
-                          <span className="text-base sm:text-lg font-black font-mono text-sky-300 tracking-tight">
-                            {minValPrice.toLocaleString()} ~ {maxValPrice.toLocaleString()}만원
-                          </span>
-                          <span className="text-xs text-zinc-400 font-mono">(기준 {retailPrice.toLocaleString()}만)</span>
-                        </div>
-                        <div className="flex flex-wrap items-center gap-1.5 text-xs pt-0.5">
-                          <span className="text-zinc-400 shrink-0 text-[11px]">반영 스펙:</span>
-                          <span className="px-2 py-0.5 rounded bg-[#1f2436] text-zinc-200 font-mono text-[11px]">
-                            주행 {mileageKm.toLocaleString()}km
-                          </span>
-                          <span className="px-2 py-0.5 rounded bg-[#1f2436] text-zinc-200 text-[11px]">
-                            {outerRepairCount > 0
-                              ? `외판 ${outerRepairCount}판 감가`
-                              : (targetCarHistory && targetCarHistory.myCarAccidentCount > 0
-                                  ? `보험 ${targetCarHistory.myCarAccidentCount}건(${targetCarHistory.myCarAccidentCost}만)`
-                                  : '완전무사고')}
-                          </span>
-                          {optCount > 0 && (
-                            <span className="px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30 font-bold text-[11px]">
-                              추가옵션 {optCount}개
+                      )}
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      {onRescanKcar && (
+                        <button
+                          type="button"
+                          onClick={onRescanKcar}
+                          disabled={isKcarLoading}
+                          className="text-[11px] px-2 py-0.5 rounded bg-[#2b1822] hover:bg-[#3d1f2f] text-zinc-300 hover:text-white border border-[#4a2436] transition flex items-center gap-1 cursor-pointer disabled:opacity-50"
+                          title="K-Car 직영 시세 재조회"
+                        >
+                          <RotateCw className={`w-3 h-3 ${isKcarLoading ? 'animate-spin text-rose-400' : ''}`} />
+                          <span>새로고침</span>
+                        </button>
+                      )}
+                      <a
+                        href={kcarStats?.searchUrl || kcarUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-[11px] px-2 py-0.5 rounded bg-rose-500/15 hover:bg-rose-500/30 text-rose-300 hover:text-white border border-rose-500/35 font-bold transition flex items-center gap-1"
+                        title="K-Car 공식 직영점 검색 바로가기"
+                      >
+                        <span>K-Car 바로가기</span>
+                        <ExternalLink className="w-3 h-3" />
+                      </a>
+                    </div>
+                  </div>
+
+                  {/* 1. 최저가 / 최고가 / 평균가 메인 요약 바 */}
+                  <div className="bg-[#0b080a] border border-[#2b1822] rounded-lg p-2.5 space-y-1.5">
+                    <div className="flex items-baseline justify-between">
+                      <span className="text-xs text-zinc-400 font-medium">직영 평균 판매가</span>
+                      <div className="flex items-baseline gap-1">
+                        {isKcarLoading ? (
+                          <span className="text-sm text-zinc-400 animate-pulse">K-Car 직영 시세 조회 중...</span>
+                        ) : (
+                          <>
+                            <span className="text-xl sm:text-2xl font-black font-mono text-rose-300 tracking-tight">
+                              {kcarStats && kcarStats.avg > 0 ? `${kcarStats.avg.toLocaleString()}` : '-'}
                             </span>
-                          )}
-                        </div>
+                            <span className="text-xs text-rose-400 font-bold">만원</span>
+                          </>
+                        )}
                       </div>
                     </div>
-
-                    {/* Right Card: 시장 판매 호가 현황 */}
-                    <div className="bg-[#151824] p-3 rounded-xl border border-amber-500/30 space-y-2 shadow-sm">
-                      <div className="flex justify-between items-center">
-                        <span className="text-xs sm:text-sm font-bold text-amber-400 flex items-center gap-1.5">
-                          <span>🏷️</span>
-                          <span>시장 판매 호가 현황 ({encarStats.count || encarList.length}대)</span>
-                        </span>
-                        <span className="text-[11px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 font-bold font-mono">
-                          호가 괴리: {gapVal >= 0 ? `+${gapVal.toLocaleString()}` : `${gapVal.toLocaleString()}`}만 ({gapVal >= 0 ? `+${gapPct}` : `${gapPct}`}%)
-                        </span>
-                      </div>
-                      <div className="space-y-1.5">
-                        {/* 굵고 선명한 시장 호가 메인 수치 */}
-                        <div className="flex items-baseline gap-2 flex-wrap">
-                          <span className="text-xs text-zinc-400 font-semibold shrink-0">시장 평균:</span>
-                          <span className="text-base sm:text-lg font-black font-mono text-amber-300 tracking-tight">
-                            {marketAvg > 0 ? `${marketAvg.toLocaleString()}만원` : '-'}
-                          </span>
-                          <span className="text-xs text-zinc-400 font-mono">
-                            (최저 {encarStats.min > 0 ? encarStats.min.toLocaleString() : '-'}만 ~ 최고 {encarStats.max > 0 ? encarStats.max.toLocaleString() : '-'}만)
-                          </span>
+                    <div className="grid grid-cols-3 gap-1 pt-1 border-t border-[#23141c] text-center text-xs">
+                      <div className="bg-[#170e13] rounded py-1 px-1.5">
+                        <div className="text-[10px] text-zinc-400">⬇️ 최저가</div>
+                        <div className="font-mono font-bold text-emerald-400 truncate">
+                          {kcarStats && kcarStats.min > 0 ? `${kcarStats.min.toLocaleString()}만` : '-'}
                         </div>
-                        <div className="flex flex-wrap items-center gap-1 text-xs pt-0.5">
-                          <span className="text-zinc-400 shrink-0 text-[11px]">연식 분포:</span>
-                          {encarYearStats.length > 0 ? (
-                            encarYearStats.map((st) => (
-                              <span 
-                                key={st.year}
-                                className={`px-2 py-0.5 rounded text-[11px] font-mono ${
-                                  st.isTarget 
-                                    ? 'bg-sky-500/20 text-sky-300 border border-sky-500/40 font-bold' 
-                                    : 'bg-[#1f2436] text-zinc-300'
-                                }`}
-                              >
-                                {st.year}년 {st.avg.toLocaleString()}만 <span className="opacity-80">({st.count}대)</span>
-                              </span>
-                            ))
-                          ) : (
-                            <span className="text-zinc-400 text-[11px]">집계 중</span>
-                          )}
+                      </div>
+                      <div className="bg-[#170e13] rounded py-1 px-1.5">
+                        <div className="text-[10px] text-zinc-400">🎯 중간값</div>
+                        <div className="font-mono font-bold text-zinc-200 truncate">
+                          {kcarStats && kcarStats.median > 0 ? `${kcarStats.median.toLocaleString()}만` : '-'}
+                        </div>
+                      </div>
+                      <div className="bg-[#170e13] rounded py-1 px-1.5">
+                        <div className="text-[10px] text-zinc-400">⬆️ 최고가</div>
+                        <div className="font-mono font-bold text-rose-400 truncate">
+                          {kcarStats && kcarStats.max > 0 ? `${kcarStats.max.toLocaleString()}만` : '-'}
                         </div>
                       </div>
                     </div>
                   </div>
+
+                  {/* 2. 가격 분포 (구간별 미니 바 차트) */}
+                  <div className="space-y-1.5">
+                    <div className="flex items-center justify-between text-xs text-zinc-400">
+                      <span className="font-bold text-zinc-300 flex items-center gap-1">
+                        <span>📊</span>
+                        <span>가격 분포 (구간별 건수)</span>
+                      </span>
+                      <span className="text-[10px] font-mono text-zinc-400">
+                        총 {kcarStats?.count || 0}대
+                      </span>
+                    </div>
+                    {kcarStats?.priceBins && kcarStats.priceBins.length > 0 ? (
+                      <div className="space-y-1 bg-[#0b080a] border border-[#2b1822] rounded-lg p-2 text-xs">
+                        {kcarStats.priceBins.map((bin, idx) => (
+                          <div key={idx} className="flex items-center gap-2 text-[11px]">
+                            <span className="w-24 shrink-0 font-mono text-zinc-300 text-right truncate" title={bin.label}>
+                              {bin.label}
+                            </span>
+                            <div className="flex-1 bg-zinc-800/80 rounded-full h-2.5 overflow-hidden flex items-center">
+                              <div
+                                className="bg-rose-500 h-full rounded-full transition-all duration-500"
+                                style={{ width: `${Math.max(bin.ratio, 4)}%` }}
+                              />
+                            </div>
+                            <span className="w-14 shrink-0 font-mono text-right text-zinc-300">
+                              <strong className="text-white font-bold">{bin.count}대</strong> ({bin.ratio}%)
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="text-center py-2 text-xs text-zinc-400 bg-[#0b080a] rounded-lg border border-[#2b1822]">
+                        {isKcarLoading ? 'K-Car 직영 매물 시세 분석 중...' : '직영 매물 가격 데이터 없음'}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* 3. 연식별 평균가 */}
+                  <div className="space-y-1.5">
+                    <div className="text-xs font-bold text-zinc-300 flex items-center gap-1">
+                      <span>📅</span>
+                      <span>연식별 평균가</span>
+                    </div>
+                    <div className="flex flex-wrap gap-1 text-xs">
+                      {kcarStats?.yearStats && kcarStats.yearStats.length > 0 ? (
+                        kcarStats.yearStats.map((st) => (
+                          <span
+                            key={st.year}
+                            className={`px-2 py-0.5 rounded text-[11px] font-mono flex items-center gap-1 ${
+                              st.isTarget
+                                ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40 font-bold'
+                                : 'bg-[#1b1016] text-zinc-300 border border-[#2d1823]'
+                            }`}
+                          >
+                            <span>{st.year}년</span>
+                            <strong className="text-white">{st.avg.toLocaleString()}만</strong>
+                            <span className="text-zinc-400 text-[10px]">({st.count}대)</span>
+                            {st.isTarget && <span className="text-[10px] text-amber-300">🎯</span>}
+                          </span>
+                        ))
+                      ) : (
+                        <span className="text-zinc-400 text-xs">
+                          {isKcarLoading ? '연식 통계 집계 중...' : '연식 통계 데이터 없음'}
+                        </span>
+                      )}
+                    </div>
+                  </div>
                 </div>
-              );
-            })()}
+
+                {/* K-Car 직영 매물 팁 안내 바 */}
+                <div className="pt-2 border-t border-[#26141e] text-[10px] text-zinc-400 flex items-center justify-between">
+                  <span>🛡️ K-Car는 100% 직영 진단 및 환불책임보증 매물 기준</span>
+                  {kcarStats && kcarStats.cars && kcarStats.cars.length > 0 && (
+                    <span className="text-rose-300 font-mono">
+                      (최신 등록 매물 {kcarStats.cars.length}건 확인)
+                    </span>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
   );

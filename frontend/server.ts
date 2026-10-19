@@ -1429,6 +1429,53 @@ async function startServer() {
     }
   });
 
+  // 5-0-1. K-Car 직영 매물 검색 및 실시간 소매 시세 분석 API (로컬 Python 백엔드 연동)
+  app.all('/api/kcar/market', async (req, res) => {
+    try {
+      const carName = (req.body?.carName || req.query.carName || '') as string;
+      const detailModel = (req.body?.detailModel || req.query.detailModel || '') as string;
+      const gradeName = (req.body?.gradeName || req.query.gradeName || '') as string;
+      const gradeDetailName = (req.body?.gradeDetailName || req.query.gradeDetailName || '') as string;
+      const manufacturer = (req.body?.manufacturer || req.query.manufacturer || '') as string;
+      const year = Number(req.body?.year || req.query.year || 0);
+      const mileage = Number(req.body?.mileage || req.query.mileage || 0);
+
+      const pyRes = await fetch('http://127.0.0.1:8000/api/kcar/market', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          carName,
+          detailModel,
+          gradeName,
+          gradeDetailName,
+          manufacturer,
+          year,
+          mileage
+        }),
+        signal: AbortSignal.timeout(10000)
+      });
+      if (pyRes.ok) {
+        const data = await pyRes.json();
+        return res.json(data);
+      }
+      return res.status(pyRes.status).json({ success: false, message: 'Python K-Car API 반환 실패' });
+    } catch (err: any) {
+      console.warn('K-Car 시세 API 연동 실패:', err.message);
+      return res.json({
+        success: false,
+        count: 0,
+        min: 0,
+        max: 0,
+        avg: 0,
+        median: 0,
+        yearStats: [],
+        priceBins: [],
+        cars: [],
+        message: err.message
+      });
+    }
+  });
+
   // 5-1. 엔카 특정 매물 성능점검표 상세 조회 API
   app.get('/api/encar/inspection/:carId', async (req, res) => {
     const { carId } = req.params;

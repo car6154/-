@@ -128,6 +128,15 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = (props) => {
             mileage: cockpit.mileageKm,
           })}
           onOpenHistoryModal={() => cockpit.setShowCarHistoryModal(true)}
+          kcarStats={cockpit.kcarStats}
+          isKcarLoading={cockpit.isKcarLoading}
+          onRescanKcar={() => cockpit.fetchKcarMarket({
+            carName: cockpit.carName,
+            detailModel: cockpit.detailModel,
+            manufacturer: cockpit.manufacturer,
+            year: cockpit.yearModel,
+            mileage: cockpit.mileageKm,
+          })}
         />
 
         {/* ========================================================

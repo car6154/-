@@ -1027,6 +1027,71 @@ def verify_encar_car_status(car_id: str):
 
 
 # ----------------------------------------------------
+# 2-2. K-Car 직영 매물 검색 및 실시간 소매 시세 API
+# ----------------------------------------------------
+class KcarMarketRequest(BaseModel):
+    carName: Optional[str] = ""
+    detailModel: Optional[str] = ""
+    gradeName: Optional[str] = ""
+    gradeDetailName: Optional[str] = ""
+    manufacturer: Optional[str] = ""
+    year: Optional[int] = 0
+    mileage: Optional[int] = 0
+
+
+@app.post("/api/kcar/market")
+def get_kcar_market_stats_post(req: KcarMarketRequest):
+    try:
+        from services.kcar_service import fetch_kcar_market_stats
+        raw_g = (req.gradeName or "").strip()
+        raw_gd = (req.gradeDetailName or "").strip()
+        if raw_g:
+            detail_model = f"{raw_g} {raw_gd}".strip() if (raw_gd and raw_gd not in raw_g) else raw_g
+        else:
+            detail_model = req.detailModel or ""
+
+        return fetch_kcar_market_stats(
+            car_name=req.carName or "",
+            year=req.year or 0,
+            detail_model=detail_model,
+            mileage=req.mileage or 0,
+            manufacturer=req.manufacturer or ""
+        )
+    except Exception as e:
+        return {"success": False, "error": str(e), "count": 0, "cars": [], "yearStats": [], "priceBins": []}
+
+
+@app.get("/api/kcar/market")
+def get_kcar_market_stats_get(
+    carName: str = "",
+    detailModel: str = "",
+    gradeName: str = "",
+    gradeDetailName: str = "",
+    manufacturer: str = "",
+    year: int = 0,
+    mileage: int = 0
+):
+    try:
+        from services.kcar_service import fetch_kcar_market_stats
+        raw_g = (gradeName or "").strip()
+        raw_gd = (gradeDetailName or "").strip()
+        if raw_g:
+            d_model = f"{raw_g} {raw_gd}".strip() if (raw_gd and raw_gd not in raw_g) else raw_g
+        else:
+            d_model = detailModel or ""
+
+        return fetch_kcar_market_stats(
+            car_name=carName,
+            year=year,
+            detail_model=d_model,
+            mileage=mileage,
+            manufacturer=manufacturer
+        )
+    except Exception as e:
+        return {"success": False, "error": str(e), "count": 0, "cars": [], "yearStats": [], "priceBins": []}
+
+
+# ----------------------------------------------------
 # 3. 엔카 성능점검 / 2D 사고도면 조회 API
 # ----------------------------------------------------
 # 3. 엔카 성능점검 / 2D 사고도면 조회 API
