@@ -83,5 +83,8 @@ jobs:
       - name: 4. TypeScript Compile & Type Check (tsc --noEmit)
         working-directory: frontend
         run: |
+          if [ ! -f "firebase-applet-config.json" ]; then
+            echo '{}' > firebase-applet-config.json
+          fi
           npm ci --legacy-peer-deps
           npx tsc --noEmit
