@@ -763,6 +763,24 @@ def build_kcar_web_url(car_name: str, year: int = 0, detail_model: str = "", mil
     return "https://www.kcar.com/bc/search"
 
 
+def extract_kcar_trim_keyword(detail_model: str) -> str:
+    """세부모델/등급 문자열에서 K-Car 검색에 유효한 핵심 트림 키워드 추출"""
+    if not detail_model:
+        return ""
+    TRIM_PATTERNS = [
+        "캘리그래피", "인스퍼레이션", "익스클루시브", "르블랑", "프리미엄", "모던", "스마트",
+        "시그니처", "노블레스", "프레스티지", "트렌디", "스타일", "럭셔리", "디럭스",
+        "스페셜", "그래비티", "하이테크", "마스터즈", "패밀리"
+    ]
+    for kw in TRIM_PATTERNS:
+        if kw in detail_model:
+            return kw
+    tokens = [t.strip() for t in detail_model.split() if len(t.strip()) >= 2]
+    if tokens:
+        return tokens[-1]
+    return ""
+
+
 def fetch_kcar_market_stats(
     car_name: str,
     year: int = 0,
@@ -808,14 +826,32 @@ def fetch_kcar_market_stats(
 
     m_cd, grp_cd, mod_cd = codes
 
-    # K-Car 직영 검색 API 파라미터 구성 (최대 100대 전수 취득)
-    param = {
+    # K-Car 직영 검색 API 파라미터 구성 (최대 100대)
+    param: Dict[str, Any] = {
         "wr_eq_mnuftr_cd": m_cd,
         "wr_eq_model_grp_cd": grp_cd,
         "wr_eq_model_cd": mod_cd,
         "pageno": 1,
         "limit": 100
     }
+
+    # a) 연식 파라미터 (wr_gt_mfg_dt, wr_lt_mfg_dt)
+    if year and year > 0:
+        k_yr = 2000 + year if year < 100 else year
+        param["wr_gt_mfg_dt"] = f"{k_yr}01"
+        param["wr_lt_mfg_dt"] = f"{k_yr}12"
+
+    # b) 세부등급 트림 키워드 (wr_txt_idx)
+    trim_kw = extract_kcar_trim_keyword(detail_model)
+    if trim_kw:
+        param["wr_txt_idx"] = trim_kw
+
+    # c) 주행거리 파라미터 (wr_gt_milg, wr_lt_milg: ±3만km)
+    if mileage and mileage > 0:
+        param["wr_gt_milg"] = max(0, mileage - 30000)
+        param["wr_lt_milg"] = mileage + 30000
+
+    print(f"[K-Car API 요청] car_name='{car_name}', year={year}, detail_model='{detail_model}', mileage={mileage} => param = {param}", flush=True)
 
     enc_val = encrypt_kcar_payload(param)
     req_body = json.dumps({"enc": enc_val}).encode('utf-8')
@@ -841,10 +877,57 @@ def fetch_kcar_market_stats(
         empty_res["message"] = "현재 판매 중인 K-Car 직영 매물이 없습니다."
         return empty_res
 
+    # d) 백엔드 2단계 정밀 후처리 필터 (엔카 filter_strictly_by_submodel 대칭 로직)
+    # - 엔진 배기량 (예: 2.0 요청 시 1.6터보 배제 등)
+    # - 유종 상호 배제 (가솔린 요청 시 디젤/LPi/하이브리드 배제 등)
+    # - 트림 엄격 일치 (노블레스 요청 시 트렌디/프레스티지 등 배제)
+    sub_raw = str(detail_model or "").strip()
+    sub_clean = sub_raw.lower().replace(" ", "")
+
+    disp_m = re.search(r'(\d\.\d)', sub_raw)
+    disp_val = disp_m.group(1) if disp_m else ""
+
+    is_q_turbo = '터보' in sub_clean or 'turbo' in sub_clean
+    is_q_diesel = any(k in sub_clean for k in ['디젤', 'diesel', 'crdi', 'vgt'])
+    is_q_gas = any(k in sub_clean for k in ['가솔린', 'gasoline', 'gdi', 'cvvl'])
+    is_q_lpg = any(k in sub_clean for k in ['lpi', 'lpg'])
+
+    filtered_rows = []
+    for r in rows:
+        car_whl_nm = str(r.get('carWhlNm') or r.get('modelNm') or '')
+        grd_nm = str(r.get('grdNm') or '')
+        grd_dtl_nm = str(r.get('grdDtlNm') or '')
+        row_full = f"{car_whl_nm} {grd_nm} {grd_dtl_nm}".lower().replace(" ", "")
+
+        # 1. 트림 키워드 엄격 일치
+        if trim_kw and trim_kw.lower() not in row_full:
+            continue
+
+        # 2. 배기량 엄격 일치 (요청에 2.0 등 배기량이 명시된 경우)
+        if disp_val and disp_val not in row_full:
+            continue
+
+        # 3. 터보 엄격 일치 (요청에 배기량이 명시되어 있고 '터보'가 없으면 터보 배제)
+        if not is_q_turbo and disp_val and ('터보' in row_full or 'turbo' in row_full):
+            if '터보' not in car_name:
+                continue
+        elif is_q_turbo and ('터보' not in row_full and 'turbo' not in row_full):
+            continue
+
+        # 4. 유종 상호 배제
+        if is_q_diesel and not any(k in row_full for k in ['디젤', 'crdi', 'vgt']):
+            continue
+        if is_q_lpg and not any(k in row_full for k in ['lpi', 'lpg']):
+            continue
+
+        filtered_rows.append(r)
+
+    target_rows = filtered_rows if filtered_rows else rows
+
     # 매물 유효 데이터 추출
     valid_cars = []
     prices = []
-    for r in rows:
+    for r in target_rows:
         try:
             prc = int(r.get('prc') or 0)
             if prc <= 0:
