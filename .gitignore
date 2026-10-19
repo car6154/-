@@ -64,6 +64,7 @@ frontend/firebase-applet-config.json
 frontend/jproject_web.tar.gz
 frontend/.env*
 cloudflared.exe
+.stitch.json
 
 # Business Ledger & Inventory Data (Local only, untracked)
 my_car_ledger.csv

@@ -209,14 +209,15 @@ export const AddCarModal: React.FC<AddCarModalProps> = ({
             </div>
           </div>
 
-          <div className="grid grid-cols-3 gap-2">
+          {/* Repairs & Fees (외판수리, 외판수리비, 헤딜수수료, 기타비용 분리 명시) */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
             <div>
               <label className="block text-[11px] text-[#9194a1] mb-1">외판수리 (판)</label>
               <input
                 type="number"
                 value={outerRepairs}
                 onChange={(e) => handlePanelsChange(Number(e.target.value))}
-                className="w-full bg-[#121317] border border-[#1c1d22] rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-[#cc9166]"
+                className="w-full bg-[#121317] border border-[#1c1d22] rounded-lg px-2.5 py-2 text-xs text-white focus:outline-none focus:border-[#cc9166]"
               />
             </div>
 
@@ -226,18 +227,35 @@ export const AddCarModal: React.FC<AddCarModalProps> = ({
                 type="number"
                 value={repairCost}
                 onChange={(e) => setRepairCost(Number(e.target.value))}
-                className="w-full bg-[#121317] border border-[#1c1d22] rounded-lg px-3 py-2 text-xs text-amber-300 focus:outline-none focus:border-[#cc9166]"
+                className="w-full bg-[#121317] border border-[#1c1d22] rounded-lg px-2.5 py-2 text-xs text-amber-300 focus:outline-none focus:border-[#cc9166]"
               />
             </div>
 
             <div>
-              <label className="block text-[11px] text-[#9194a1] mb-1">헤딜수수료</label>
+              <div className="flex items-center justify-between mb-1">
+                <label className="block text-[11px] text-emerald-400 font-bold">헤딜수수료</label>
+                <span className="text-[10px] text-emerald-500/80">자동표시</span>
+              </div>
               <input
                 type="number"
-                step="0.5"
-                value={heydealerFee}
-                onChange={(e) => setHeydealerFee(Number(e.target.value))}
-                className="w-full bg-[#121317] border border-[#1c1d22] rounded-lg px-3 py-2 text-xs text-[#c7c9d1] focus:outline-none focus:border-[#cc9166]"
+                step="any"
+                value={heydealerFee || ''}
+                placeholder="0"
+                onChange={(e) => setHeydealerFee(parseFloat(e.target.value) || 0)}
+                className="w-full bg-[#121317] border border-emerald-500/60 rounded-lg px-2.5 py-2 text-xs text-emerald-400 font-bold font-mono focus:outline-none focus:border-emerald-400"
+                title="매입연동으로 가져온 헤이딜러 수수료입니다. (값 있으면 자동표시, 없으면 0원 또는 빈칸)"
+              />
+            </div>
+
+            <div>
+              <label className="block text-[11px] text-[#9194a1] mb-1">기타비용 (만원)</label>
+              <input
+                type="number"
+                step="any"
+                defaultValue={15}
+                placeholder="15"
+                className="w-full bg-[#121317] border border-[#1c1d22] rounded-lg px-2.5 py-2 text-xs text-zinc-300 focus:outline-none focus:border-[#cc9166]"
+                title="등록/탁송 등 기본 제경비 (헤딜수수료와 명확히 분리)"
               />
             </div>
           </div>

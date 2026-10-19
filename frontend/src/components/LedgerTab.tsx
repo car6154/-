@@ -28,7 +28,7 @@ interface LedgerTabProps {
 
   onUpdateStatus: (id: string, newStatus: string) => void;
 
-  onConfirmPurchase?: (car: CarLedgerItem, actualBuyPrice: number) => void;
+  onConfirmPurchase?: (car: CarLedgerItem, actualBuyPrice: number, actualFee?: number) => void;
 
   onAnalyzeInCockpit?: (car: CarLedgerItem) => void;
 
@@ -156,19 +156,14 @@ export const LedgerTab: React.FC<LedgerTabProps> = ({
 
 
   const [actualBuyPrice, setActualBuyPrice] = useState<number>(currentSelectedCar?.buyPrice || 0);
+  const [confirmHeydealerFee, setConfirmHeydealerFee] = useState<number>(currentSelectedCar?.heydealerFee ?? 0);
 
-
-
-  // Sync actual buy price when selection changes
-
+  // Sync actual buy price and heydealer fee when selection changes
   React.useEffect(() => {
-
     if (currentSelectedCar) {
-
       setActualBuyPrice(currentSelectedCar.buyPrice || 0);
-
+      setConfirmHeydealerFee(currentSelectedCar.heydealerFee ?? 0);
     }
-
   }, [currentSelectedCar]);
 
 
@@ -423,7 +418,7 @@ export const LedgerTab: React.FC<LedgerTabProps> = ({
 
       <div className="bg-[#12151e] border border-[#232733] p-4 rounded-xl shadow-lg">
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 items-end">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 items-end">
 
           <div>
 
@@ -553,6 +548,48 @@ export const LedgerTab: React.FC<LedgerTabProps> = ({
 
           <div>
 
+            <div className="flex items-center justify-between mb-1">
+
+              <label className="text-xs font-semibold text-emerald-400">
+
+                헤딜수수료 (만원):
+
+              </label>
+
+              <span className="text-[10px] text-emerald-500/80">
+
+                {confirmHeydealerFee > 0 ? '매입연동 자동반영' : '0원/빈칸'}
+
+              </span>
+
+            </div>
+
+            <input
+
+              type="number"
+
+              step="any"
+
+              min="0"
+
+              value={confirmHeydealerFee || ''}
+
+              onChange={(e) => setConfirmHeydealerFee(parseFloat(e.target.value) || 0)}
+
+              placeholder="0"
+
+              className="w-full bg-[#0a0b0e] border border-emerald-500/60 rounded-lg px-2.5 py-2 text-xs text-emerald-400 font-bold font-mono focus:outline-none focus:border-emerald-400"
+
+              title="매입연동으로 가져온 헤이딜러 수수료가 자동 입력됩니다. 필요 시 직접 수정 가능합니다."
+
+            />
+
+          </div>
+
+
+
+          <div>
+
             <button
 
               type="button"
@@ -561,7 +598,7 @@ export const LedgerTab: React.FC<LedgerTabProps> = ({
 
                 if (currentSelectedCar && onConfirmPurchase) {
 
-                  onConfirmPurchase(currentSelectedCar, actualBuyPrice);
+                  onConfirmPurchase(currentSelectedCar, actualBuyPrice, confirmHeydealerFee);
 
                 }
 

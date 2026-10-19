@@ -66,7 +66,7 @@ def render_ledger_tab(LEDGER_FILE='my_car_ledger.csv', SETTLEMENT_FILE='my_inven
                 st.session_state['selected_ledger_car'] = current_sel_car
             default_box_idx = c_num_list.index(current_sel_car)
 
-            buy_col1, buy_col2, buy_col3, buy_col4 = st.columns([2.5, 1.8, 1.8, 2.4])
+            buy_col1, buy_col2, buy_col3, buy_col4, buy_col5 = st.columns([2.2, 1.5, 1.5, 1.5, 2.0])
             with buy_col1:
                 sel_buy_car = st.selectbox(
                     "📦 차량번호 선택:", 
@@ -82,12 +82,28 @@ def render_ledger_tab(LEDGER_FILE='my_car_ledger.csv', SETTLEMENT_FILE='my_inven
                 # 선택한 차량의 기본 정보 조회
                 matched_rows = disp_ledger_df[disp_ledger_df['차량번호'] == current_sel_car]
                 default_buy_price = 0
+                default_h_fee = 0.0
                 if not matched_rows.empty:
                     p_val = matched_rows.iloc[0].get('매입가', 0)
                     try: default_buy_price = int(float(p_val)) if p_val and str(p_val).strip() else 0
                     except: default_buy_price = 0
+                    h_val = matched_rows.iloc[0].get('헤딜수수료', 0)
+                    try: default_h_fee = float(h_val) if h_val and str(h_val).strip() else 0.0
+                    except: default_h_fee = 0.0
                 actual_buy_price = st.number_input("실제 낙찰/매입가 (만원):", min_value=0, value=default_buy_price, step=10, key=f"act_buy_price_{current_sel_car}")
+
             with buy_col3:
+                actual_heydealer_fee = st.number_input(
+                    "헤딜수수료 (만원):", 
+                    min_value=0.0, 
+                    value=default_h_fee, 
+                    step=0.5, 
+                    format="%.1f", 
+                    key=f"act_h_fee_{current_sel_car}",
+                    help="매입연동으로 수신된 헤이딜러 수수료가 자동 표시됩니다. (기타비용과 분리)"
+                )
+
+            with buy_col4:
                 st.write("")
                 st.write("")
                 if st.button("🚀 매입 확정", use_container_width=True, type="primary"):
@@ -121,9 +137,7 @@ def render_ledger_tab(LEDGER_FILE='my_car_ledger.csv', SETTLEMENT_FILE='my_inven
                             try: ext_c_num = int(float(ext_c)) if ext_c else (ext_count_num * 13)
                             except: ext_c_num = (ext_count_num * 13)
 
-                            h_fee = t_row.get('헤딜수수료', 0)
-                            try: h_fee_num = int(float(h_fee)) if h_fee else 0
-                            except: h_fee_num = 0
+                            h_fee_num = actual_heydealer_fee
 
                             new_settle_item = {
                                 '순차': seq_num,

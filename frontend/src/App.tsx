@@ -490,7 +490,7 @@ export default function App() {
   };
 
   // Confirm purchase from ledger into inventory settlement (tab_ledger.py workflow)
-  const handleConfirmPurchase = async (car: CarLedgerItem, actualBuyPrice: number) => {
+  const handleConfirmPurchase = async (car: CarLedgerItem, actualBuyPrice: number, actualFee?: number) => {
     const alreadyExists = settlementItems.some(s => s.carNumber === car.carNumber);
     if (alreadyExists) {
       showToast(`⚠️ [${car.carNumber}] 이미 재고 및 정산 관리에 등록된 차량입니다.`);
@@ -502,6 +502,8 @@ export default function App() {
     const mm = String(today.getMonth() + 1).padStart(2, '0');
     const dd = String(today.getDate()).padStart(2, '0');
     const buyDate = `${mm}. ${dd}`;
+
+    const effectiveFee = (actualFee !== undefined && actualFee >= 0) ? actualFee : (car.heydealerFee || 0);
 
     const newSettlementItem: InventorySettlementItem = {
       id: `settle_${car.carNumber}`,
@@ -515,7 +517,7 @@ export default function App() {
       buyPrice: actualBuyPrice || car.buyPrice,
       outerRepairs: car.outerRepairs,
       repairCost: car.repairCost,
-      heydealerFee: car.heydealerFee,
+      heydealerFee: effectiveFee,
       baseExpenses: 15,
       contributionMargin: 0,
       netProfit: 0,
@@ -526,7 +528,7 @@ export default function App() {
     };
 
     setSettlementItems(prev => [newSettlementItem, ...prev]);
-    setCars(prev => prev.map(c => c.id === car.id ? { ...c, status: '매입완료', buyPrice: actualBuyPrice || c.buyPrice } : c));
+    setCars(prev => prev.map(c => c.id === car.id ? { ...c, status: '매입완료', buyPrice: actualBuyPrice || c.buyPrice, heydealerFee: effectiveFee } : c));
 
     // 1. my_inventory_settlement.csv 에 영구 등록
     try {
@@ -543,7 +545,7 @@ export default function App() {
           buyPrice: actualBuyPrice || car.buyPrice,
           outerRepairs: car.outerRepairs,
           repairCost: car.repairCost,
-          heydealerFee: car.heydealerFee,
+          heydealerFee: effectiveFee,
           baseExpenses: 15,
           contributionMargin: 0,
           netProfit: 0,
@@ -554,13 +556,14 @@ export default function App() {
         }),
       });
 
-      // 2. my_car_ledger.csv 에도 매입완료 상태 및 실제 매입가 갱신
+      // 2. my_car_ledger.csv 에도 매입완료 상태 및 실제 매입가, 헤딜수수료 갱신
       await fetch(`/api/ledger/${encodeURIComponent(car.carNumber)}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           status: '매입완료',
           buyPrice: actualBuyPrice || car.buyPrice,
+          heydealerFee: effectiveFee,
         }),
       });
 
