@@ -304,8 +304,8 @@ class TestOCRParser(unittest.TestCase):
         self.assertEqual(result["document_type"], "SEAL")
         fields = result["fields"]
         self.assertEqual(fields["resident_number"], "900101-1234567")
-        # 실패 재현 대상 1: 성명이 공란이 아니라 신청인 머리줄에서 '홍길동'으로 추출되어야 함
-        self.assertEqual(fields["name"], "홍길동")
+        # 검증: 신청인은 대리 발급 신청인이므로 차주 본인 성명으로 추출하지 않고 빈 값("")이어야 함
+        self.assertEqual(fields["name"], "")
         # 실패 재현 대상 2: 주소가 공란이 아니라 '테헤란로 123'으로 추출되어야 함
         self.assertIn("테헤란로 123", fields["base_address"])
         self.assertIn("101동 101호", fields["detail_address"])

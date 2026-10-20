@@ -199,7 +199,7 @@ export default function App() {
       const hashIdParam = params.get('hashId');
       const titleParam = params.get('title');
 
-      if (tabParam && ['cockpit', 'ledger', 'settlement', 'soldout', 'performance', 'inventory'].includes(tabParam)) {
+      if (tabParam && ['cockpit', 'ledger', 'settlement', 'soldout', 'performance', 'inventory', 'ocr'].includes(tabParam)) {
         setActiveTab(tabParam);
       }
 

@@ -148,15 +148,15 @@ export const VendorOcrTab: React.FC = () => {
             holder: acc.holder || '',
           });
 
-          // 필드 채우기
+          // 필드 채우기 (해당 서류 고유 필드만 반영, 다른 서류 필드 교차 폴백 절대 금지)
           const f = result.fields || {};
           setFormFields({
             business_number: f.business_number || '',
             company_name: f.company_name || '',
-            representative_name: f.representative_name || f.name || f.owner_name || '',
+            representative_name: f.representative_name || '',
             business_type: f.business_type || '',
             business_item: f.business_item || '',
-            name: f.name || f.owner_name || f.representative_name || '',
+            name: f.name || f.owner_name || '',
             resident_number: f.resident_number || '',
             base_address: f.base_address || '',
             detail_address: f.detail_address || '',
@@ -181,8 +181,22 @@ export const VendorOcrTab: React.FC = () => {
 
   // 파일 선택 및 업로드 핸들러
   const handleFileSelect = async (selectedFile: File) => {
+    // 1. HEIC / HEIF 사전 차단 검사 (인트라넷 첨부 미지원 및 분석 불가 안내)
+    const lowerName = (selectedFile.name || '').toLowerCase();
+    if (lowerName.endsWith('.heic') || lowerName.endsWith('.heif')) {
+      setFile(selectedFile);
+      setStatus('FAILED');
+      setErrorMsg('HEIC는 인트라넷 첨부도 지원되지 않으니 JPG로 올려 주세요.');
+      // 기존 계좌 텍스트(accountText) 및 입력값은 그대로 보존
+      return;
+    }
+
     setFile(selectedFile);
-    setPreviewUrl(URL.createObjectURL(selectedFile));
+    try {
+      setPreviewUrl(URL.createObjectURL(selectedFile));
+    } catch {
+      setPreviewUrl(null);
+    }
     setStatus('UPLOADING');
     setErrorMsg(null);
     setElapsedTimer(0);
@@ -192,7 +206,8 @@ export const VendorOcrTab: React.FC = () => {
     setDocLabel('');
     setActualElapsed(null);
     setAccountSaveStatus('IDLE');
-    // 새 업로드 시작 시 이전 결과 필드 전부 초기화
+
+    // 새 업로드 시작 시 이전 서류 필드만 초기화 (계좌 텍스트는 보존)
     setFormFields({
       business_number: '',
       company_name: '',
@@ -377,6 +392,7 @@ export const VendorOcrTab: React.FC = () => {
               <span>서류 사진 업로드</span>
               {status !== 'IDLE' && (
                 <button
+                  type="button"
                   onClick={resetAll}
                   className="text-xs text-[#9194a1] hover:text-white flex items-center gap-1 transition"
                 >
@@ -456,7 +472,7 @@ export const VendorOcrTab: React.FC = () => {
             <input
               ref={fileInputRef}
               type="file"
-              accept="image/*"
+              accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png"
               className="hidden"
               onChange={(e) => {
                 if (e.target.files?.[0]) handleFileSelect(e.target.files[0]);
@@ -465,7 +481,7 @@ export const VendorOcrTab: React.FC = () => {
             <input
               ref={cameraInputRef}
               type="file"
-              accept="image/*"
+              accept="image/jpeg,image/png"
               capture="environment"
               className="hidden"
               onChange={(e) => {

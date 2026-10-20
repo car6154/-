@@ -397,26 +397,66 @@ class OCRService:
         resident_num = cls.extract_resident_number(owner_texts)
         raw_address = ""
 
-        # 2. 성명 탐색 (1순위: "신청인" 머리줄 패턴)
-        for t in owner_texts:
-            m_applicant = re.search(r'신청인\s*[:：]?\s*([가-힣]{2,5})', t)
-            if m_applicant:
-                name = m_applicant.group(1).strip()
-                break
+        # 2. 성명 탐색 (본인 표 내 "성명" 라벨 및 인접 토큰 정밀 탐색)
+        # ※ 신청인(대리인) 및 담당자(공무원)는 차주 본인이 아니므로 절대 성명 후보로 채택하지 않음!
+        SEAL_EXCLUDE_WORDS = {
+            "인감", "증명서", "인감증명서", "주민등록", "주민", "등록", "번호",
+            "본인", "대리인", "성명", "성", "명", "한자", "국적", "주소",
+            "위조식별", "발급사실", "확인용", "신청인", "담당자", "위조", "식별"
+        }
 
-        # 성명 2순위: 본인 표 내 "성 명" / "성명" 라벨 탐색
+        # 2-1. 인라인 패턴: "성명 : 홍길동"
+        for t in owner_texts:
+            t_clean = t.strip()
+            if "신청인" in t_clean or "담당자" in t_clean:
+                continue
+            m = re.search(r'^성\s*명\s*[:\s]+([가-힣]{2,5})', t_clean)
+            if m:
+                cand = m.group(1).strip()
+                if cand not in SEAL_EXCLUDE_WORDS:
+                    name = cand
+                    break
+
+        # 2-2. 성명 / (한자) 라벨 주변 탐색 (앞 2칸 ~ 뒤 2칸)
         if not name:
+            anchor_indices = []
             for i, t in enumerate(owner_texts):
                 t_clean = t.strip()
-                if t_clean in ("성 명", "성명", "성  명"):
-                    if i + 1 < len(owner_texts):
-                        m_name = re.search(r'^([가-힣]{2,5})\b', owner_texts[i + 1].strip())
-                        if m_name and m_name.group(1) not in ("인", "감", "인감"):
-                            name = m_name.group(1).strip()
+                if t_clean in ("성명", "성 명", "성  명") or "한자" in t_clean:
+                    anchor_indices.append(i)
+                elif t_clean == "성" and i + 1 < len(owner_texts) and owner_texts[i + 1].strip() == "명":
+                    anchor_indices.append(i)
+
+            for a_idx in anchor_indices:
+                for offset in [-1, -2, 1, 2, 3]:
+                    cand_idx = a_idx + offset
+                    if 0 <= cand_idx < len(owner_texts):
+                        parent_line = owner_texts[cand_idx]
+                        if "신청인" in parent_line or "담당자" in parent_line:
+                            continue
+                        cand = parent_line.strip()
+                        if re.match(r'^[가-힣]{2,5}$', cand) and cand not in SEAL_EXCLUDE_WORDS:
+                            name = cand
                             break
-                elif re.search(r'^성\s*명\s*[:\s]+([가-힣]{2,5})', t_clean):
-                    name = re.search(r'^성\s*명\s*[:\s]+([가-힣]{2,5})', t_clean).group(1).strip()
+                if name:
                     break
+
+        # 2-3. 폴백: 본인 영역 중 주민번호 뒷자리 이후 ~ 주소 라벨 이전 사이의 순수 한글 이름
+        if not name:
+            start_search = False
+            for t in owner_texts:
+                t_clean = t.strip()
+                if re.search(r'\d{6}', t_clean):
+                    start_search = True
+                    continue
+                if start_search:
+                    if "주소" in t_clean or any(city in t_clean for city in ["시", "도", "구", "군"]):
+                        break
+                    if "신청인" in t_clean or "담당자" in t_clean:
+                        continue
+                    if re.match(r'^[가-힣]{2,5}$', t_clean) and t_clean not in SEAL_EXCLUDE_WORDS:
+                        name = t_clean
+                        break
 
         # 3. 주소 탐색 (owner_texts 안에서 주소 형태 라인 직접 채택)
         for t in owner_texts:
