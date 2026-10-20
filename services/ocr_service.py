@@ -353,19 +353,32 @@ class OCRService:
         """
         인감증명서 필드 추출:
         성명, 주민등록번호, 주소
+
+        본인 영역 가드:
+        성명·주민등록번호·주소 후보 탐색을 "매수자"·"용도"·"매도용" 중 하나라도 포함된 첫 라인의 이전까지로 제한합니다.
+        그 이후 라인은 본인 필드 추출에 절대 쓰지 않습니다.
         """
+        # 본인 영역 가드: "매수자", "용도", "매도용" 중 하나라도 포함된 첫 라인 이전까지만 탐색
+        cutoff_idx = len(texts)
+        for i, t in enumerate(texts):
+            if any(guard_word in t for guard_word in ("매수자", "용도", "매도용")):
+                cutoff_idx = i
+                break
+
+        owner_texts = texts[:cutoff_idx]
+
         name = ""
-        resident_num = cls.extract_resident_number(texts)
+        resident_num = cls.extract_resident_number(owner_texts)
         raw_address = ""
 
-        for i, t in enumerate(texts):
+        for i, t in enumerate(owner_texts):
             t_clean = t.strip()
 
             # 성명: "성 명" 레이블 다음 블록에 이름 위치
             if not name:
                 if t_clean in ("성 명", "성명", "성  명"):
-                    if i + 1 < len(texts):
-                        m_name = re.search(r'^([가-힣]{2,5})\b', texts[i + 1].strip())
+                    if i + 1 < len(owner_texts):
+                        m_name = re.search(r'^([가-힣]{2,5})\b', owner_texts[i + 1].strip())
                         if m_name:
                             name = m_name.group(1).strip()
                 elif re.search(r'^성\s*명\s*[:\s]+([가-힣]{2,5})', t_clean):
@@ -373,8 +386,8 @@ class OCRService:
 
             # 주소: "주소" 레이블 다음 블록의 시/도 주소
             if not raw_address:
-                if t_clean == "주소" and i + 1 < len(texts):
-                    candidate = texts[i + 1].strip()
+                if t_clean == "주소" and i + 1 < len(owner_texts):
+                    candidate = owner_texts[i + 1].strip()
                     if any(city in candidate for city in ["시", "도", "구", "군", "로", "길"]):
                         raw_address = candidate
                 elif re.search(r'^주\s*소\s*[:\s]+(.+)', t_clean):

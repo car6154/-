@@ -174,6 +174,52 @@ class TestOCRParser(unittest.TestCase):
         self.assertIn("테헤란로 123", fields["base_address"])
         self.assertIn("101동101호", fields["detail_address"])
 
+    def test_seal_certificate_with_buyer_guard(self):
+        """인감증명서 중단 매수자(법인) 블록이 존재해도 상단 본인 정보만 추출되는지 검증"""
+        texts_with_buyer = [
+            "인감증명서",
+            "인감증명법 시행령",
+            "성 명",
+            "홍길동",
+            "주민등록번호",
+            "900101-1234567",
+            "주소",
+            "서울특별시 강남구 테헤란로 123, 101동 101호",
+            "용도",
+            "자동차 매도용",
+            "매수자",
+            "성명(법인명) : 더미모터스(주)",
+            "주민(법인)등록번호 : 110111-1234567",
+            "주소 : 서울특별시 영등포구 여의대로 108"
+        ]
+        result = OCRService.parse_document({"texts": texts_with_buyer, "elapsed_sec": 0.5})
+        self.assertEqual(result["document_type"], "SEAL")
+        fields = result["fields"]
+        self.assertEqual(fields["name"], "홍길동")
+        self.assertEqual(fields["resident_number"], "900101-1234567")
+        self.assertIn("테헤란로 123", fields["base_address"])
+        # 매수자(더미모터스, 여의대로 108) 정보로 오염되지 않았는지 단언
+        self.assertNotIn("더미모터스", fields["name"])
+        self.assertNotIn("여의대로", fields["address"])
+
+    def test_exif_orientation_preprocessing(self):
+        """합성 이미지에 EXIF Orientation=6(90도 회전) 태그를 부착해 전처리가 치수를 바로잡는지 검증"""
+        import io
+        from PIL import Image
+        from services.ocr_worker import preprocess_image_orientation
+
+        im = Image.new("RGB", (400, 200), color="white")
+        exif = im.getexif()
+        exif[0x0112] = 6  # 90도 CW 회전 태그
+        buf = io.BytesIO()
+        im.save(buf, format="JPEG", exif=exif)
+        buf.seek(0)
+
+        with Image.open(buf) as loaded_img:
+            self.assertEqual(loaded_img.size, (400, 200))
+            fixed_img = preprocess_image_orientation(loaded_img)
+            self.assertEqual(fixed_img.size, (200, 400))
+
 
 if __name__ == "__main__":
     unittest.main()
