@@ -1,12 +1,15 @@
 """
 services/ocr_service.py
 J-PRO 거래처 OCR 비즈니스 서비스 및 문서 파서.
-FastAPI 본체 환경에서 동작하며, PaddleOCR 워커를 격리된 .venv_ocr_spike 가상환경으로 호출합니다.
+FastAPI 본체 환경에서 동작하며, RapidOCR + OpenVINO 상주 워커를 격리된 .venv_ocr_spike 가상환경에서 싱글턴으로 관리합니다.
 """
 import os
 import sys
 import re
 import json
+import uuid
+import queue
+import threading
 import subprocess
 import shutil
 from typing import Dict, Any, List, Optional, Tuple
@@ -18,22 +21,21 @@ TEMP_OCR_DIR = os.path.join(PROJECT_ROOT, "data", "temp_ocr")
 
 
 class OCRService:
+    # 상주 워커 싱글턴 상태 관리
+    _worker_proc: Optional[subprocess.Popen] = None
+    _worker_lock: threading.Lock = threading.Lock()
+    _worker_queue: Optional[queue.Queue] = None
+    _WORKER_TIMEOUT: float = 180.0
+
     @staticmethod
     def ensure_temp_dir():
         if not os.path.exists(TEMP_OCR_DIR):
             os.makedirs(TEMP_OCR_DIR, exist_ok=True)
 
     @classmethod
-    def execute_ocr_subprocess(cls, image_path: str) -> Dict[str, Any]:
-        """
-        .venv_ocr_spike 가상환경의 python.exe를 사용해 ocr_worker.py를 실행하고 결과 JSON을 반환합니다.
-        """
-        cls.ensure_temp_dir()
-        
-        # 가상환경 python 존재 여부 검증
+    def _get_python_exec(cls) -> str:
         python_exec = OCR_VENV_PYTHON
         if not os.path.exists(python_exec):
-            # 혹시 리눅스/맥 환경이거나 경로 차이가 있을 때 대비
             alt_python = os.path.join(PROJECT_ROOT, ".venv_ocr_spike", "bin", "python")
             if os.path.exists(alt_python):
                 python_exec = alt_python
@@ -42,39 +44,135 @@ class OCRService:
                     f"OCR 전용 가상환경 Python을 찾을 수 없습니다: {OCR_VENV_PYTHON}. "
                     "Phase 0 스파이크 가상환경(.venv_ocr_spike)이 생성되어 있는지 확인하세요."
                 )
+        return python_exec
 
-        base_name = os.path.splitext(os.path.basename(image_path))[0]
-        output_json = os.path.join(TEMP_OCR_DIR, f"{base_name}_result.json")
-
-        cmd = [
-            python_exec,
-            OCR_WORKER_SCRIPT,
-            "--input", image_path,
-            "--output", output_json,
-        ]
-
-        # subprocess 실행 (타임아웃 90초 설정)
-        proc = subprocess.run(cmd, capture_output=True, text=True, timeout=90)
-        
-        if not os.path.exists(output_json):
-            stderr_msg = proc.stderr.strip() if proc.stderr else proc.stdout.strip()
-            raise RuntimeError(f"OCR 워커 실행 실패 (결과 JSON 미생성): {stderr_msg}")
-
-        try:
-            with open(output_json, "r", encoding="utf-8") as f:
-                worker_result = json.load(f)
-        finally:
-            if os.path.exists(output_json):
+    @classmethod
+    def _kill_worker(cls):
+        """기존 워커 프로세스를 안전하게 종료하고 리소스를 해제합니다."""
+        if cls._worker_proc is not None:
+            try:
+                if cls._worker_proc.poll() is None:
+                    cls._worker_proc.terminate()
+                    cls._worker_proc.wait(timeout=3)
+            except Exception:
                 try:
-                    os.remove(output_json)
+                    cls._worker_proc.kill()
                 except Exception:
                     pass
+            finally:
+                cls._worker_proc = None
+                cls._worker_queue = None
 
-        if not worker_result.get("success"):
-            err = worker_result.get("error", "Unknown worker error")
-            raise RuntimeError(f"OCR 처리 중 오류 발생: {err}")
+    @classmethod
+    def _ensure_worker_running(cls):
+        """상주 워커 프로세스가 실행 중인지 확인하고, 미실행 또는 사망 시 새로 기동합니다."""
+        if cls._worker_proc is not None and cls._worker_proc.poll() is None and cls._worker_queue is not None:
+            return
 
-        return worker_result
+        cls._kill_worker()
+        python_exec = cls._get_python_exec()
+        cmd = [python_exec, OCR_WORKER_SCRIPT, "--serve"]
+
+        env = os.environ.copy()
+        env["PYTHONIOENCODING"] = "utf-8"
+
+        proc = subprocess.Popen(
+            cmd,
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.DEVNULL,
+            text=True,
+            bufsize=1,
+            encoding="utf-8",
+            env=env,
+        )
+
+        out_queue: queue.Queue = queue.Queue()
+
+        def _reader_thread(p: subprocess.Popen, q: queue.Queue):
+            try:
+                for line in iter(p.stdout.readline, ''):
+                    if line:
+                        q.put(line.strip())
+            except Exception:
+                pass
+            finally:
+                q.put(None)  # EOF 신호
+
+        t = threading.Thread(target=_reader_thread, args=(proc, out_queue), daemon=True)
+        t.start()
+
+        # 기동 완료 신호({"status": "READY"}) 대기 (최대 180초)
+        try:
+            init_line = out_queue.get(timeout=cls._WORKER_TIMEOUT)
+            if not init_line:
+                raise RuntimeError("워커가 초기 신호 없이 종료되었습니다.")
+            init_data = json.loads(init_line)
+            if init_data.get("status") != "READY":
+                raise RuntimeError(f"워커 준비 신호 불일치: {init_line}")
+        except Exception as e:
+            try:
+                proc.kill()
+            except Exception:
+                pass
+            raise RuntimeError(f"RapidOCR 상주 워커 기동 실패: {str(e)}")
+
+        cls._worker_proc = proc
+        cls._worker_queue = out_queue
+
+    @classmethod
+    def execute_ocr_subprocess(cls, image_path: str) -> Dict[str, Any]:
+        """
+        상주 워커 싱글턴 프로세스에 stdin JSON 라인으로 요청을 보내고 stdout 결과를 수신합니다.
+        스레드 락으로 직렬화하며, 워커 사망 시 1회 자동 재기동합니다. (타임아웃 180초)
+        """
+        cls.ensure_temp_dir()
+
+        if not os.path.exists(image_path):
+            raise FileNotFoundError(f"입력 이미지 파일이 존재하지 않습니다: {image_path}")
+
+        abs_image_path = os.path.abspath(image_path)
+
+        with cls._worker_lock:
+            # 최대 2회 시도 (1차 실패 시 워커 재기동 후 2차 재시도)
+            last_err = None
+            for attempt in range(2):
+                try:
+                    cls._ensure_worker_running()
+                    assert cls._worker_proc is not None and cls._worker_queue is not None
+
+                    req_id = str(uuid.uuid4())
+                    req = {
+                        "req_id": req_id,
+                        "image_path": abs_image_path,
+                    }
+
+                    # 요청 전송
+                    cls._worker_proc.stdin.write(json.dumps(req, ensure_ascii=False) + "\n")
+                    cls._worker_proc.stdin.flush()
+
+                    # 응답 수신 (180초 타임아웃)
+                    resp_line = cls._worker_queue.get(timeout=cls._WORKER_TIMEOUT)
+                    if resp_line is None:
+                        raise RuntimeError("워커 프로세스가 응답 중 예기치 않게 종료되었습니다 (EOF).")
+
+                    worker_result = json.loads(resp_line)
+                    if not worker_result.get("success"):
+                        err_msg = worker_result.get("error", "Unknown worker error")
+                        raise RuntimeError(f"OCR 처리 실패: {err_msg}")
+
+                    return worker_result
+
+                except queue.Empty:
+                    cls._kill_worker()
+                    raise TimeoutError(f"OCR 워커 처리 시간 초과 ({cls._WORKER_TIMEOUT}초)")
+                except Exception as e:
+                    last_err = e
+                    cls._kill_worker()
+                    if attempt == 1:
+                        raise RuntimeError(f"OCR 워커 실행 최종 실패: {str(last_err)}")
+
+            raise RuntimeError(f"OCR 워커 실행 실패: {str(last_err)}")
 
     @classmethod
     def classify_document_type(cls, texts: List[str]) -> str:

@@ -158,6 +158,23 @@ export const VendorOcrTab: React.FC = () => {
     setTaskId(null);
     setDownloadUrl(null);
     setRawTexts([]);
+    setDocLabel('');
+    setActualElapsed(null);
+    // 새 업로드 시작 시 이전 결과 필드 전부 초기화
+    setFormFields({
+      business_number: '',
+      company_name: '',
+      representative_name: '',
+      business_type: '',
+      business_item: '',
+      name: '',
+      resident_number: '',
+      base_address: '',
+      detail_address: '',
+      car_number: '',
+      car_name: '',
+      vin: '',
+    });
 
     const formData = new FormData();
     formData.append('file', selectedFile);
@@ -235,6 +252,24 @@ export const VendorOcrTab: React.FC = () => {
     setStatus('IDLE');
     setErrorMsg(null);
     setElapsedTimer(0);
+    setDocLabel('');
+    setDownloadUrl(null);
+    setRawTexts([]);
+    setActualElapsed(null);
+    setFormFields({
+      business_number: '',
+      company_name: '',
+      representative_name: '',
+      business_type: '',
+      business_item: '',
+      name: '',
+      resident_number: '',
+      base_address: '',
+      detail_address: '',
+      car_number: '',
+      car_name: '',
+      vin: '',
+    });
   };
 
   return (
@@ -246,7 +281,7 @@ export const VendorOcrTab: React.FC = () => {
             <span className="text-xl">📄</span>
             <h1 className="text-lg font-bold text-white">현장 서류 거래처 OCR 자동 추출</h1>
             <span className="text-[11px] font-semibold bg-[#221c17] text-[#cc9166] border border-[#442c1d] px-2 py-0.5 rounded-full">
-              PaddleOCR CPU 경량 파이프라인
+              RapidOCR OpenVINO 상주 파이프라인
             </span>
           </div>
           <p className="text-xs text-[#9194a1]">
@@ -321,9 +356,9 @@ export const VendorOcrTab: React.FC = () => {
                   {status === 'PROCESSING' && (
                     <div className="absolute inset-0 bg-black/75 backdrop-blur-sm flex flex-col items-center justify-center p-4 text-center">
                       <RefreshCw className="w-8 h-8 text-[#cc9166] animate-spin mb-3" />
-                      <p className="text-sm font-bold text-white mb-1">PaddleOCR 서류 분석 진행 중</p>
+                      <p className="text-sm font-bold text-white mb-1">거래처 서류 정밀 분석 진행 중</p>
                       <p className="text-xs text-[#9194a1] max-w-[240px]">
-                        회전 보정 및 텍스트 100여 개 블록 정밀 인식 중...
+                        RapidOCR OpenVINO 초고속 추론 중...
                       </p>
                       <div className="mt-3 flex items-center gap-1.5 text-xs text-[#cc9166] font-mono bg-[#1c140d] px-3 py-1 rounded-full border border-[#442c1d]">
                         <Clock className="w-3.5 h-3.5" />
