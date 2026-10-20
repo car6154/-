@@ -27,7 +27,7 @@ ping 127.0.0.1 -n 6 > nul
 set "BACKEND_OK=0"
 netstat -ano -p tcp | findstr "LISTENING" | findstr ":8000" > nul 2>&1
 if not errorlevel 1 (
-    curl.exe -s -m 5 -o nul http://127.0.0.1:8000/ > nul 2>&1
+    curl.exe -s -m 5 -o nul http://127.0.0.1:8000/api/health > nul 2>&1
     if not errorlevel 1 set "BACKEND_OK=1"
 )
 if "!BACKEND_OK!"=="0" (
