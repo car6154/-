@@ -28,5 +28,12 @@ del "%SHORTCUT_VBS%" > nul 2>&1
 echo [성공] 윈도우 부팅 시 자동 실행 등록이 완료되었습니다!
 echo 등록 위치: %STARTUP_FOLDER%\JPRO_AutoStart.lnk
 echo.
+
+:: 가드 즉시 1회 기동하여 Watchdog 및 서버 감시망 즉시 활성화
+if exist "%~dp0guard_watchdog.bat" (
+    echo [*] 무인 복구 가드(Guard Watchdog) 즉시 기동...
+    call "%~dp0guard_watchdog.bat"
+)
+
 ping 127.0.0.1 -n 3 > nul
 exit
