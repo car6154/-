@@ -36,20 +36,52 @@ class AccountUpdateRequest(BaseModel):
     holder: Optional[str] = ""
 
 
-def _save_latest_result(task_id: str, doc_type: str, parsed: Dict[str, Any], file_path: str, orig_name: str, account: Optional[Dict[str, str]] = None):
-    """최신 OCR 결과 JSON 및 전 서류(사업자/자동차등록증/인감) 원본 사진 보관"""
+class AccountRawRequest(BaseModel):
+    account_text: str = ""
+
+
+class FileTypeUpdateRequest(BaseModel):
+    old_doc_type: str
+    new_doc_type: str
+    task_id: Optional[str] = None
+
+
+DOC_TYPE_LABELS = {
+    "BIZ": "사업자등록증",
+    "CAR": "자동차등록증",
+    "SEAL": "인감증명서",
+    "FACT": "비사업용사실확인서",
+    "UNKNOWN": "기타 서류",
+}
+
+
+def _save_latest_result(
+    task_id: str,
+    doc_type: str,
+    parsed: Dict[str, Any],
+    file_path: str,
+    orig_name: str,
+    account: Optional[Dict[str, str]] = None,
+    registration_type: str = "individual",
+):
+    """최신 OCR 결과 JSON 및 전 서류(사업자/자동차등록증/인감/비사업용사실확인서) 원본 사진 보관"""
     try:
         os.makedirs(LATEST_OCR_DIR, exist_ok=True)
+        doc_key = doc_type.upper()
         ext = os.path.splitext(orig_name or file_path)[1].lower() or ".jpg"
-        target_filename = f"latest_{doc_type.lower()}{ext}"
+        target_filename = f"latest_{doc_key.lower()}{ext}"
         target_path = os.path.join(LATEST_OCR_DIR, target_filename)
 
         if os.path.exists(file_path):
             shutil.copy2(file_path, target_path)
 
-        # 기존 서류 종류별 파일 보관 상태 및 기존 계좌 정보 유지/갱신
+        # 기존 서류 종류별 파일 보관 상태 및 기존 데이터 유지 (세션 단위 유지)
         files_by_type = {}
         existing_account = {"bank_name": "", "bank_code": "", "account_no": "", "holder": ""}
+        old_data = None
+        old_doc_type = "UNKNOWN"
+        old_reg_type = registration_type
+
         if os.path.exists(LATEST_META_FILE):
             try:
                 with open(LATEST_META_FILE, "r", encoding="utf-8") as f:
@@ -57,35 +89,88 @@ def _save_latest_result(task_id: str, doc_type: str, parsed: Dict[str, Any], fil
                     files_by_type = old_meta.get("files", {})
                     if old_meta.get("account"):
                         existing_account = old_meta.get("account")
+                    old_data = old_meta.get("data")
+                    old_doc_type = old_meta.get("document_type", "UNKNOWN")
+                    old_reg_type = old_meta.get("registration_type", registration_type)
             except Exception:
                 files_by_type = {}
 
-        doc_key = doc_type.upper()
+        # 1. 파일 보관함 갱신 (서류 종류별 독립 저장)
         files_by_type[doc_key] = {
             "has_file": True,
             "file_name": target_filename,
             "original_filename": orig_name,
             "download_url": f"/api/ocr/latest/file?doc_type={doc_key}",
-            "updated_at": time.time()
+            "updated_at": time.time(),
         }
 
-        # 전달받은 account가 유효하면 우선 반영, 없으면 parsed 내의 account 또는 기존 account 유지
+        # 2. 계좌 정보 유지/갱신
         final_account = account or parsed.get("account") or existing_account
         parsed["account"] = final_account
+
+        # 3. 거래처 필드의 주 서류 결정 (등록 기준 선택에 따름)
+        # 제이 규칙: "개인 선택 시 등록증/인감, 사업자 선택 시 사업자등록증. 선택과 다른 서류가 늦게 분석돼도 주 필드가 바뀌지 않는다."
+        reg_type = registration_type or old_reg_type or "individual"
+
+        if reg_type == "business":
+            # 사업자 등록 기준
+            if doc_key == "BIZ":
+                main_data = parsed
+                main_doc_type = "BIZ"
+                main_vendor_type = "business"
+            else:
+                # BIZ가 아닌 다른 서류(CAR, SEAL, FACT 등)인 경우
+                if old_data and old_doc_type == "BIZ":
+                    # 이미 BIZ 결과가 있으면 기존 BIZ를 주 서류로 절대 유지!
+                    main_data = old_data
+                    main_doc_type = "BIZ"
+                    main_vendor_type = "business"
+                else:
+                    # 아직 BIZ가 들어오지 않은 경우에만 이번 서류 결과 반영
+                    main_data = parsed
+                    main_doc_type = doc_key
+                    main_vendor_type = "business"
+        else:
+            # 개인 등록 기준
+            if doc_key in ("SEAL", "CAR"):
+                # 개인의 주 서류
+                main_data = parsed
+                main_doc_type = doc_key
+                main_vendor_type = "individual"
+            elif doc_key == "BIZ":
+                # 개인 기준인데 사업자등록증이 들어온 경우
+                if old_data and old_doc_type in ("SEAL", "CAR"):
+                    # 기존 개인 서류가 있으면 기존 개인 결과를 주 서류로 유지!
+                    main_data = old_data
+                    main_doc_type = old_doc_type
+                    main_vendor_type = old_data.get("vendor_type", "individual")
+                else:
+                    main_data = parsed
+                    main_doc_type = "BIZ"
+                    main_vendor_type = parsed.get("vendor_type", "business")
+            else:
+                # FACT나 기타 서류는 필드 추출이 없으므로 기존 데이터 유지
+                main_data = old_data or parsed
+                main_doc_type = old_doc_type if old_data else doc_key
+                main_vendor_type = (old_data.get("vendor_type") if old_data else None) or parsed.get("vendor_type", "individual")
+
+        if main_data and isinstance(main_data, dict):
+            main_data["account"] = final_account
 
         meta = {
             "has_data": True,
             "task_id": task_id,
-            "document_type": doc_key,
-            "vendor_type": parsed.get("vendor_type", "UNKNOWN"),
-            "data": parsed,
+            "document_type": main_doc_type,
+            "vendor_type": main_vendor_type,
+            "registration_type": reg_type,
+            "data": main_data,
             "account": final_account,
             "has_file": True,
             "file_name": target_filename,
             "original_filename": orig_name,
-            "download_url": "/api/ocr/latest/file",
+            "download_url": f"/api/ocr/latest/file?doc_type={main_doc_type}",
             "files": files_by_type,
-            "completed_at": time.time()
+            "completed_at": time.time(),
         }
 
         with open(LATEST_META_FILE, "w", encoding="utf-8") as f:
@@ -113,7 +198,13 @@ def _cleanup_old_tasks():
             OCR_TASKS.pop(tid, None)
 
 
-def _async_ocr_worker(task_id: str, file_path: str, account: Optional[Dict[str, str]] = None):
+def _async_ocr_worker(
+    task_id: str,
+    file_path: str,
+    account: Optional[Dict[str, str]] = None,
+    registration_type: str = "individual",
+    manual_doc_type: Optional[str] = None,
+):
     """백그라운드 스레드에서 OCR subprocess를 실행하고 결과를 갱신합니다."""
     orig_name = ""
     with TASK_LOCK:
@@ -122,19 +213,42 @@ def _async_ocr_worker(task_id: str, file_path: str, account: Optional[Dict[str, 
             orig_name = OCR_TASKS[task_id].get("original_filename", "")
 
     try:
-        # 1. RapidOCR OpenVINO 서브프로세스 실행 (독립 가상환경)
-        ocr_raw = OCRService.execute_ocr_subprocess(file_path)
+        # 비사업용사실확인서(FACT) 등 미추출 보관 서류는 OCR 서브프로세스 건너뜀
+        if manual_doc_type and manual_doc_type.upper() == "FACT":
+            parsed = {
+                "document_type": "FACT",
+                "document_label": "비사업용사실확인서",
+                "vendor_type": registration_type,
+                "fields": {},
+                "raw_texts": ["비사업용사실확인서 (보관·첨부 전용)"],
+                "elapsed_sec": 0.01,
+            }
+            doc_type = "FACT"
+        else:
+            # 1. RapidOCR OpenVINO 서브프로세스 실행 (독립 가상환경)
+            ocr_raw = OCRService.execute_ocr_subprocess(file_path)
 
-        # 2. 문서 종류 및 필드 파싱
-        parsed = OCRService.parse_document(ocr_raw)
-        doc_type = parsed.get("document_type", "UNKNOWN")
+            # 2. 문서 종류 및 필드 파싱
+            parsed = OCRService.parse_document(ocr_raw)
+            if manual_doc_type:
+                parsed["document_type"] = manual_doc_type.upper()
+                parsed["document_label"] = DOC_TYPE_LABELS.get(parsed["document_type"], parsed.get("document_label", ""))
+            doc_type = parsed.get("document_type", "UNKNOWN")
 
         # 계좌 정보 탑재
         if account:
             parsed["account"] = account
 
-        # 3. 최신 결과 보관 (전 서류 원본 보관 정책 + 계좌 정보)
-        _save_latest_result(task_id, doc_type, parsed, file_path, orig_name, account=account)
+        # 3. 최신 결과 보관 (전 서류 원본 보관 정책 + 주 서류 고정 로직)
+        _save_latest_result(
+            task_id,
+            doc_type,
+            parsed,
+            file_path,
+            orig_name,
+            account=account,
+            registration_type=registration_type,
+        )
 
         # 4. 개별 작업 상태 갱신
         download_url = f"/api/ocr/download/{task_id}"
@@ -164,10 +278,12 @@ def _async_ocr_worker(task_id: str, file_path: str, account: Optional[Dict[str, 
 @router.post("/vendor")
 async def upload_vendor_document(
     file: UploadFile = File(...),
-    account_text: Optional[str] = Form(None)
+    account_text: Optional[str] = Form(None),
+    registration_type: str = Form("individual"),
+    manual_doc_type: Optional[str] = Form(None),
 ):
     """
-    거래처 서류(사업자등록증, 인감증명서, 자동차등록증) 사진 및 계좌 텍스트를 업로드하고 비동기 OCR 작업을 시작합니다.
+    거래처 서류(사업자등록증, 인감증명서, 자동차등록증, 비사업용사실확인서) 사진 및 계좌 텍스트를 업로드하고 비동기 OCR 작업을 시작합니다.
     """
     OCRService.ensure_temp_dir()
     _cleanup_old_tasks()
@@ -200,6 +316,8 @@ async def upload_vendor_document(
             "file_path": saved_path,
             "original_filename": file.filename,
             "account": parsed_account,
+            "registration_type": registration_type,
+            "manual_doc_type": manual_doc_type,
             "result": None,
             "download_url": None,
             "error": None,
@@ -208,7 +326,7 @@ async def upload_vendor_document(
     # 동기 블로킹 방지를 위해 백그라운드 스레드로 비동기 처리
     worker_thread = threading.Thread(
         target=_async_ocr_worker,
-        args=(task_id, saved_path, parsed_account),
+        args=(task_id, saved_path, parsed_account, registration_type, manual_doc_type),
         daemon=True,
     )
     worker_thread.start()
@@ -218,6 +336,7 @@ async def upload_vendor_document(
         "task_id": task_id,
         "status": "PENDING",
         "account": parsed_account,
+        "registration_type": registration_type,
         "message": "서류 업로드 완료. OCR 분석 작업이 백그라운드에서 시작되었습니다."
     }
 
@@ -282,7 +401,7 @@ async def get_latest_ocr_result():
     try:
         with open(LATEST_META_FILE, "r", encoding="utf-8") as f:
             meta = json.load(f)
-        meta["has_data"] = True
+        meta["has_data"] = meta.get("has_data", True)
         return meta
     except Exception as e:
         return {
@@ -383,3 +502,112 @@ async def download_latest_ocr_file(doc_type: Optional[str] = None):
         filename=orig_name or target_file_name,
         media_type="application/octet-stream"
     )
+
+
+@router.post("/latest/reset")
+async def reset_latest_ocr_result():
+    """
+    [새 건 시작] 보관된 최신 OCR 메타데이터 및 서류 파일들을 초기화합니다.
+    """
+    try:
+        if os.path.exists(LATEST_OCR_DIR):
+            for fname in os.listdir(LATEST_OCR_DIR):
+                fpath = os.path.join(LATEST_OCR_DIR, fname)
+                try:
+                    if os.path.isfile(fpath):
+                        os.remove(fpath)
+                except Exception:
+                    pass
+
+        empty_meta = {
+            "has_data": False,
+            "message": "새 건으로 초기화되었습니다.",
+            "files": {},
+            "account": {"bank_name": "", "bank_code": "", "account_no": "", "holder": ""}
+        }
+        with open(LATEST_META_FILE, "w", encoding="utf-8") as f:
+            json.dump(empty_meta, f, ensure_ascii=False, indent=2)
+
+        return {"success": True, "message": "새 건으로 초기화되었습니다."}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"초기화 실패: {str(e)}")
+
+
+@router.post("/latest/account")
+async def save_account_only(req: AccountRawRequest):
+    """
+    [계좌만 저장] 사진 분석 없이 계좌 텍스트만 전송하여 파싱 및 최신 보관분에 즉시 반영합니다.
+    """
+    raw_text = req.account_text.strip()
+    if not raw_text:
+        raise HTTPException(status_code=400, detail="계좌 텍스트가 비어 있습니다.")
+
+    parsed_acc = parse_account_text(raw_text)
+
+    # LATEST_META_FILE 로드 또는 생성
+    os.makedirs(LATEST_OCR_DIR, exist_ok=True)
+    meta = {}
+    if os.path.exists(LATEST_META_FILE):
+        try:
+            with open(LATEST_META_FILE, "r", encoding="utf-8") as f:
+                meta = json.load(f)
+        except Exception:
+            meta = {}
+
+    meta["account"] = parsed_acc
+    if "data" in meta and isinstance(meta["data"], dict):
+        meta["data"]["account"] = parsed_acc
+
+    if "files" not in meta:
+        meta["files"] = {}
+    if not meta.get("has_data") and parsed_acc.get("account_no"):
+        meta["has_data"] = True
+        meta["completed_at"] = time.time()
+
+    with open(LATEST_META_FILE, "w", encoding="utf-8") as f:
+        json.dump(meta, f, ensure_ascii=False, indent=2)
+
+    return {
+        "success": True,
+        "message": "계좌 정보가 성공적으로 파싱되어 서버에 보관되었습니다.",
+        "account": parsed_acc
+    }
+
+
+@router.patch("/latest/file-type")
+async def update_file_type(req: FileTypeUpdateRequest):
+    """
+    [서류 종류 변경] 사용자가 파일별 카드에서 판정된 서류 종류를 변경했을 때 보관 파일 매핑을 갱신합니다.
+    """
+    if not os.path.exists(LATEST_META_FILE):
+        raise HTTPException(status_code=404, detail="최근 OCR 결과가 없습니다.")
+
+    try:
+        with open(LATEST_META_FILE, "r", encoding="utf-8") as f:
+            meta = json.load(f)
+
+        old_key = req.old_doc_type.upper()
+        new_key = req.new_doc_type.upper()
+        files = meta.get("files", {})
+
+        if old_key in files:
+            file_info = files.pop(old_key)
+            old_fname = file_info.get("file_name")
+            if old_fname:
+                ext = os.path.splitext(old_fname)[1] or ".jpg"
+                new_fname = f"latest_{new_key.lower()}{ext}"
+                old_path = os.path.join(LATEST_OCR_DIR, old_fname)
+                new_path = os.path.join(LATEST_OCR_DIR, new_fname)
+                if os.path.exists(old_path):
+                    shutil.move(old_path, new_path)
+                file_info["file_name"] = new_fname
+                file_info["download_url"] = f"/api/ocr/latest/file?doc_type={new_key}"
+            files[new_key] = file_info
+            meta["files"] = files
+
+            with open(LATEST_META_FILE, "w", encoding="utf-8") as f:
+                json.dump(meta, f, ensure_ascii=False, indent=2)
+
+        return {"success": True, "message": f"서류 종류가 '{new_key}'(으)로 갱신되었습니다.", "files": meta.get("files")}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"서류 종류 갱신 실패: {str(e)}")
