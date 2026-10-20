@@ -452,8 +452,41 @@ class OCRService:
             }
         }
 
+    @staticmethod
+    def _get_box_rect(box: Any) -> Optional[Dict[str, float]]:
+        """
+        OCR 박스 좌표([[x1, y1], [x2, y2], [x3, y3], [x4, y4]] 또는 [x1, y1, x2, y2])에서
+        x_min, x_max, y_min, y_max, x_center, y_center, height를 안전하게 계산합니다.
+        """
+        if not box:
+            return None
+        try:
+            if isinstance(box, (list, tuple)) and len(box) > 0:
+                if isinstance(box[0], (list, tuple)) and len(box[0]) >= 2:
+                    xs = [float(pt[0]) for pt in box]
+                    ys = [float(pt[1]) for pt in box]
+                elif len(box) >= 4:
+                    xs = [float(box[0]), float(box[2])]
+                    ys = [float(box[1]), float(box[3])]
+                else:
+                    return None
+                x_min, x_max = min(xs), max(xs)
+                y_min, y_max = min(ys), max(ys)
+                return {
+                    "x_min": x_min,
+                    "x_max": x_max,
+                    "y_min": y_min,
+                    "y_max": y_max,
+                    "x_center": (x_min + x_max) / 2.0,
+                    "y_center": (y_min + y_max) / 2.0,
+                    "height": max(y_max - y_min, 1.0),
+                }
+        except Exception:
+            return None
+        return None
+
     @classmethod
-    def parse_car_registration(cls, texts: List[str]) -> Dict[str, Any]:
+    def parse_car_registration(cls, texts: List[str], boxes: Optional[List[Any]] = None) -> Dict[str, Any]:
         """
         자동차등록증 필드 추출:
         소유자 성명, 주민등록번호, 주소 (소유자 ⑪주소 기준), 자동차등록번호, 차명, 차대번호
@@ -479,7 +512,7 @@ class OCRService:
                 vin = m_vin.group(1)
                 break
 
-        # 3. 차명 ("차명" 또는 "차", "명" 라벨 라인 기준, 모델연도·형식 라벨 절대 배제)
+        # 3. 차명 ("차명" 또는 "차", "명" 라벨 기준, 모델연도·형식 라벨 절대 배제)
         def is_car_label_line(s: str) -> bool:
             s_clean = s.strip()
             # 1자 이하 파편("차", "명", "형", "식", "종", "호", "란", "번" 등)은 라벨 파편으로 간주하여 값 후보에서 제외
@@ -493,41 +526,118 @@ class OCRService:
             )
             return any(k in s_clean for k in label_keywords)
 
-        for i, t in enumerate(texts):
-            t_clean = t.strip()
-            # 앵커 조건: "차명", "④차명", "④차", "차", "명" 라인
-            if re.search(r'^[④\d\s]*차\s*명', t_clean) or t_clean in ("차명", "④차", "차", "명"):
-                # 같은 라인 잔여 텍스트 확인 (예: "④차명 : 스파크 1.0")
-                # 단, t_clean이 "차", "명", "④차" 단독 라벨이면 같은 라인 탐색 건너뜀
-                if t_clean not in ("차", "명", "④차"):
-                    m_same = re.search(r'차\s*명\s*[:\s]+([가-힣A-Za-z0-9\.\s]+)', t_clean)
-                    if m_same:
-                        val = m_same.group(1).strip()
-                        val = re.split(r'⑤|형식|모델', val)[0].strip()
-                        # 값 후보는 2자 이상 + 라벨 키워드 미포함
-                        if len(val) >= 2 and not is_car_label_line(val):
-                            car_name = val
-                            break
+        # 3-1. 좌표 기반 차명 탐색 (1순위: boxes가 주어졌을 때)
+        if boxes and len(boxes) == len(texts):
+            items = []
+            for idx, (t, b) in enumerate(zip(texts, boxes)):
+                rect = cls._get_box_rect(b)
+                if rect is not None:
+                    items.append({
+                        "idx": idx,
+                        "text": t,
+                        "text_clean": t.strip(),
+                        "rect": rect,
+                    })
 
-                # 다음 라인들 중 비라벨 라인 탐색 (한글 포함 모델명 최우선 채택)
-                best_cand = ""
-                for offset in range(1, 6):
-                    if i + offset < len(texts):
-                        cand = texts[i + offset].strip()
-                        # 2자 미만이거나 라벨/라벨파편이면 후보 제외
-                        if len(cand) < 2 or is_car_label_line(cand):
-                            continue
-                        # 4자리 숫자(연도) 배제
-                        if re.match(r'^\d{4}$', cand):
-                            continue
-                        if re.search(r'[가-힣]', cand):
-                            best_cand = cand
-                            break
-                        elif not best_cand and not cand.startswith("20"):
-                            best_cand = cand
-                if best_cand:
-                    car_name = best_cand
+            label_x_max = None
+            label_y_center = None
+            label_height = None
+
+            # 1) 단일 라벨 항목("차명", "④차명", "차 명" 등)
+            for it in items:
+                tc = it["text_clean"]
+                if re.search(r'^[④\d\s]*차\s*명', tc) or tc in ("차명", "차 명", "④차명"):
+                    label_x_max = it["rect"]["x_max"]
+                    label_y_center = it["rect"]["y_center"]
+                    label_height = it["rect"]["height"]
                     break
+
+            # 2) "차"와 "명" 파편 쌍 탐색
+            if label_x_max is None:
+                for it in items:
+                    if it["text_clean"] in ("④차", "차"):
+                        for it2 in items:
+                            if it2["text_clean"] == "명" and abs(it2["rect"]["y_center"] - it["rect"]["y_center"]) <= max(it["rect"]["height"] * 0.85, 15.0):
+                                label_x_max = max(it["rect"]["x_max"], it2["rect"]["x_max"])
+                                label_y_center = (it["rect"]["y_center"] + it2["rect"]["y_center"]) / 2.0
+                                label_height = max(it["rect"]["height"], it2["rect"]["height"])
+                                break
+                        if label_x_max is not None:
+                            break
+                        label_x_max = it["rect"]["x_max"]
+                        label_y_center = it["rect"]["y_center"]
+                        label_height = it["rect"]["height"]
+                        break
+
+            # 3) 앵커를 찾았으면 같은 행(y좌표 근접) 항목들을 x 순 정렬해 스캔
+            if label_x_max is not None and label_y_center is not None and label_height is not None:
+                same_row = [
+                    it for it in items
+                    if abs(it["rect"]["y_center"] - label_y_center) <= max(label_height * 0.85, 15.0)
+                ]
+                same_row.sort(key=lambda it: it["rect"]["x_min"])
+
+                for it in same_row:
+                    # 라벨 오른쪽 항목만 고려 (경계 겹침 2px 허용)
+                    if it["rect"]["x_min"] < label_x_max - 2.0:
+                        continue
+
+                    tc = it["text_clean"]
+
+                    # ⑤형식/모델연도 라벨을 만나면 그 너머 값은 채택 금지 (DC487 차단)
+                    if any(k in tc for k in ("형식", "모델", "⑤")):
+                        break
+
+                    # 1자 파편("명", "차" 등) 및 라벨 키워드는 스킵
+                    if is_car_label_line(tc):
+                        continue
+
+                    # 4자리 숫자(연도) 배제
+                    if re.match(r'^\d{4}$', tc):
+                        continue
+
+                    # 2자 이상 비라벨 항목이면 차명으로 채택!
+                    if len(tc) >= 2:
+                        car_name = tc
+                        break
+
+        # 3-2. 기존 라인 스캔 방식 폴백 (boxes가 없거나 좌표 탐색에서 차명을 못 찾은 경우)
+        if not car_name:
+            for i, t in enumerate(texts):
+                t_clean = t.strip()
+                # 앵커 조건: "차명", "④차명", "④차", "차", "명" 라인
+                if re.search(r'^[④\d\s]*차\s*명', t_clean) or t_clean in ("차명", "④차", "차", "명"):
+                    # 같은 라인 잔여 텍스트 확인 (예: "④차명 : 스파크 1.0")
+                    # 단, t_clean이 "차", "명", "④차" 단독 라벨이면 같은 라인 탐색 건너뜀
+                    if t_clean not in ("차", "명", "④차"):
+                        m_same = re.search(r'차\s*명\s*[:\s]+([가-힣A-Za-z0-9\.\s]+)', t_clean)
+                        if m_same:
+                            val = m_same.group(1).strip()
+                            val = re.split(r'⑤|형식|모델', val)[0].strip()
+                            # 값 후보는 2자 이상 + 라벨 키워드 미포함
+                            if len(val) >= 2 and not is_car_label_line(val):
+                                car_name = val
+                                break
+
+                    # 다음 라인들 중 비라벨 라인 탐색 (한글 포함 모델명 최우선 채택)
+                    best_cand = ""
+                    for offset in range(1, 6):
+                        if i + offset < len(texts):
+                            cand = texts[i + offset].strip()
+                            # 2자 미만이거나 라벨/라벨파편이면 후보 제외
+                            if len(cand) < 2 or is_car_label_line(cand):
+                                continue
+                            # 4자리 숫자(연도) 배제
+                            if re.match(r'^\d{4}$', cand):
+                                continue
+                            if re.search(r'[가-힣]', cand):
+                                best_cand = cand
+                                break
+                            elif not best_cand and not cand.startswith("20"):
+                                best_cand = cand
+                    if best_cand:
+                        car_name = best_cand
+                        break
 
         # 4. 소유자 정보 (성명 & 주민번호 라인 인덱스 파악)
         owner_idx = -1
@@ -607,6 +717,7 @@ class OCRService:
         OCR 원문 텍스트 목록을 받아 문서 종류를 판별하고 규격화된 필드를 추출합니다.
         """
         texts = ocr_data.get("texts", [])
+        boxes = ocr_data.get("boxes", None)
         doc_type = cls.classify_document_type(texts)
 
         if doc_type == "BIZ":
@@ -614,7 +725,7 @@ class OCRService:
         elif doc_type == "SEAL":
             parsed = cls.parse_seal_certificate(texts)
         elif doc_type == "CAR":
-            parsed = cls.parse_car_registration(texts)
+            parsed = cls.parse_car_registration(texts, boxes=boxes)
         else:
             # 알 수 없는 문서
             parsed = {
