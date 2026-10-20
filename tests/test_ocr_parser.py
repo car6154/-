@@ -310,6 +310,49 @@ class TestOCRParser(unittest.TestCase):
         self.assertIn("테헤란로 123", fields["base_address"])
         self.assertIn("101동 101호", fields["detail_address"])
 
+    def test_car_registration_split_car_name_label(self):
+        """
+        차와 명이 별도 라인으로 분절된 서식:
+        "④차", "명", "스파크 1.0" 순서에서
+        1자 라벨 파편 '명'이 아닌 '스파크 1.0'이 차명으로 정확히 추출되는지 검증
+        """
+        texts = [
+            "자동차등록증",
+            "①자동차등록번호",
+            "123가4567",
+            "②차종",
+            "경형승용",
+            "③용도",
+            "자가용",
+            "④차",
+            "명",
+            "스파크 1.0",
+            "⑤형식 및 모델연도",
+            "DC487",
+            "2021",
+            "⑥차대번호",
+            "KMHET41BP0A000001",
+            "⑧사용본거지",
+            "서울특별시 서초구 반포대로 50",
+            "소유자",
+            "⑨성명(명칭)",
+            "홍길동",
+            "⑩주민(법인)등록번호",
+            "900101-1234567",
+            "⑪주소",
+            "서울특별시 강남구 테헤란로 123, 101동 101호"
+        ]
+        result = OCRService.parse_document({"texts": texts, "elapsed_sec": 0.88})
+        self.assertEqual(result["document_type"], "CAR")
+        fields = result["fields"]
+        self.assertEqual(fields["car_name"], "스파크 1.0")
+        self.assertEqual(fields["car_number"], "123가4567")
+        self.assertEqual(fields["vin"], "KMHET41BP0A000001")
+        self.assertEqual(fields["owner_name"], "홍길동")
+        self.assertEqual(fields["resident_number"], "900101-1234567")
+        self.assertIn("테헤란로 123", fields["base_address"])
+
 
 if __name__ == "__main__":
     unittest.main()
+

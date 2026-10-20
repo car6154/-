@@ -479,32 +479,51 @@ class OCRService:
                 vin = m_vin.group(1)
                 break
 
-        # 3. 차명 ("차명" 또는 "차 명" 라벨 라인 기준, 모델연도·형식 라벨 절대 배제)
+        # 3. 차명 ("차명" 또는 "차", "명" 라벨 라인 기준, 모델연도·형식 라벨 절대 배제)
         def is_car_label_line(s: str) -> bool:
-            return any(k in s for k in ("차명", "형식", "모델", "차대", "원동기", "용도", "차종", "사용본거지", "소유자", "성명", "주민", "등록번호", "최초등록", "검사유효"))
+            s_clean = s.strip()
+            # 1자 이하 파편("차", "명", "형", "식", "종", "호", "란", "번" 등)은 라벨 파편으로 간주하여 값 후보에서 제외
+            if len(s_clean) <= 1:
+                return True
+            # 라벨 키워드 포함 라인
+            label_keywords = (
+                "차명", "형식", "모델", "차대", "원동기", "용도", "차종",
+                "사용본거지", "소유자", "성명", "주민", "등록번호", "최초등록", "검사유효",
+                "연식", "제원"
+            )
+            return any(k in s_clean for k in label_keywords)
 
         for i, t in enumerate(texts):
-            if re.search(r'^[④\d\s]*차\s*명', t) or t.strip() in ("차명", "④차", "명"):
+            t_clean = t.strip()
+            # 앵커 조건: "차명", "④차명", "④차", "차", "명" 라인
+            if re.search(r'^[④\d\s]*차\s*명', t_clean) or t_clean in ("차명", "④차", "차", "명"):
                 # 같은 라인 잔여 텍스트 확인 (예: "④차명 : 스파크 1.0")
-                m_same = re.search(r'차\s*명\s*[:\s]+([가-힣A-Za-z0-9\.\s]+)', t)
-                if m_same:
-                    val = m_same.group(1).strip()
-                    val = re.split(r'⑤|형식|모델', val)[0].strip()
-                    if val and not is_car_label_line(val):
-                        car_name = val
-                        break
+                # 단, t_clean이 "차", "명", "④차" 단독 라벨이면 같은 라인 탐색 건너뜀
+                if t_clean not in ("차", "명", "④차"):
+                    m_same = re.search(r'차\s*명\s*[:\s]+([가-힣A-Za-z0-9\.\s]+)', t_clean)
+                    if m_same:
+                        val = m_same.group(1).strip()
+                        val = re.split(r'⑤|형식|모델', val)[0].strip()
+                        # 값 후보는 2자 이상 + 라벨 키워드 미포함
+                        if len(val) >= 2 and not is_car_label_line(val):
+                            car_name = val
+                            break
 
                 # 다음 라인들 중 비라벨 라인 탐색 (한글 포함 모델명 최우선 채택)
                 best_cand = ""
                 for offset in range(1, 6):
                     if i + offset < len(texts):
                         cand = texts[i + offset].strip()
-                        if not cand or is_car_label_line(cand):
+                        # 2자 미만이거나 라벨/라벨파편이면 후보 제외
+                        if len(cand) < 2 or is_car_label_line(cand):
+                            continue
+                        # 4자리 숫자(연도) 배제
+                        if re.match(r'^\d{4}$', cand):
                             continue
                         if re.search(r'[가-힣]', cand):
                             best_cand = cand
                             break
-                        elif not best_cand and len(cand) >= 2 and not cand.startswith("20"):
+                        elif not best_cand and not cand.startswith("20"):
                             best_cand = cand
                 if best_cand:
                     car_name = best_cand
