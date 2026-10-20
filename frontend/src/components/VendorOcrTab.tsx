@@ -438,18 +438,6 @@ export const VendorOcrTab: React.FC = () => {
                 <div className="flex items-center bg-[#15161c] p-0.5 rounded-lg border border-[#23242c] ml-1">
                   <button
                     type="button"
-                    onClick={() => setVendorType('business')}
-                    className={`px-2.5 py-1 text-xs font-medium rounded-md transition flex items-center gap-1 ${
-                      vendorType === 'business'
-                        ? 'bg-[#cc9166] text-black font-bold shadow'
-                        : 'text-[#9194a1] hover:text-white'
-                    }`}
-                  >
-                    <Building className="w-3 h-3" />
-                    사업자
-                  </button>
-                  <button
-                    type="button"
                     onClick={() => setVendorType('individual')}
                     className={`px-2.5 py-1 text-xs font-medium rounded-md transition flex items-center gap-1 ${
                       vendorType === 'individual'
@@ -459,6 +447,18 @@ export const VendorOcrTab: React.FC = () => {
                   >
                     <User className="w-3 h-3" />
                     개인
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setVendorType('business')}
+                    className={`px-2.5 py-1 text-xs font-medium rounded-md transition flex items-center gap-1 ${
+                      vendorType === 'business'
+                        ? 'bg-[#cc9166] text-black font-bold shadow'
+                        : 'text-[#9194a1] hover:text-white'
+                    }`}
+                  >
+                    <Building className="w-3 h-3" />
+                    사업자
                   </button>
                 </div>
               </div>
