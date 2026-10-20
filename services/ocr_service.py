@@ -349,16 +349,42 @@ class OCRService:
         }
 
     @classmethod
+    def is_korean_address(cls, text: str) -> bool:
+        """
+        문자열이 대한민국 행정구역 주소 형태인지 검사합니다.
+        특별시·광역시·특별자치시 또는 도(道)로 시작/포함하는 주소 문장 판별.
+        """
+        s = text.strip()
+        if len(s) < 5:
+            return False
+
+        regions = (
+            "서울특별시", "부산광역시", "대구광역시", "인천광역시", "광주광역시", 
+            "대전광역시", "울산광역시", "세종특별자치시", "제주특별자치도", "강원특별자치도", "전북특별자치도",
+            "서울시", "부산시", "대구시", "인천시", "광주시", "대전시", "울산시", "세종시",
+            "경기도", "강원도", "충청북도", "충청남도", "전라북도", "전라남도", "경상북도", "경상남도",
+            "충북", "충남", "전북", "전남", "경북", "경남", "제주도"
+        )
+        if any(r in s for r in regions):
+            return True
+
+        if re.search(r'^[가-힣]+[시도]\s+[가-힣0-9]+[구군시로길]', s):
+            return True
+
+        return False
+
+    @classmethod
     def parse_seal_certificate(cls, texts: List[str]) -> Dict[str, Any]:
         """
         인감증명서 필드 추출:
         성명, 주민등록번호, 주소
 
-        본인 영역 가드:
-        성명·주민등록번호·주소 후보 탐색을 "매수자"·"용도"·"매도용" 중 하나라도 포함된 첫 라인의 이전까지로 제한합니다.
-        그 이후 라인은 본인 필드 추출에 절대 쓰지 않습니다.
+        본인 영역 가드 및 정밀 앵커:
+        1. 본인 영역 가드: "매수자"·"용도"·"매도용" 첫 라인 이전(owner_texts)으로 제한
+        2. 성명: 1순위 "신청인: 성명" 머리줄, 2순위 기존 "성명" 라벨
+        3. 주소: owner_texts 안의 행정구역 주소 문장을 직접 후보로 채택
         """
-        # 본인 영역 가드: "매수자", "용도", "매도용" 중 하나라도 포함된 첫 라인 이전까지만 탐색
+        # 1. 본인 영역 가드: "매수자", "용도", "매도용" 중 하나라도 포함된 첫 라인 이전까지만 탐색
         cutoff_idx = len(texts)
         for i, t in enumerate(texts):
             if any(guard_word in t for guard_word in ("매수자", "용도", "매도용")):
@@ -371,27 +397,45 @@ class OCRService:
         resident_num = cls.extract_resident_number(owner_texts)
         raw_address = ""
 
-        for i, t in enumerate(owner_texts):
-            t_clean = t.strip()
+        # 2. 성명 탐색 (1순위: "신청인" 머리줄 패턴)
+        for t in owner_texts:
+            m_applicant = re.search(r'신청인\s*[:：]?\s*([가-힣]{2,5})', t)
+            if m_applicant:
+                name = m_applicant.group(1).strip()
+                break
 
-            # 성명: "성 명" 레이블 다음 블록에 이름 위치
-            if not name:
+        # 성명 2순위: 본인 표 내 "성 명" / "성명" 라벨 탐색
+        if not name:
+            for i, t in enumerate(owner_texts):
+                t_clean = t.strip()
                 if t_clean in ("성 명", "성명", "성  명"):
                     if i + 1 < len(owner_texts):
                         m_name = re.search(r'^([가-힣]{2,5})\b', owner_texts[i + 1].strip())
-                        if m_name:
+                        if m_name and m_name.group(1) not in ("인", "감", "인감"):
                             name = m_name.group(1).strip()
+                            break
                 elif re.search(r'^성\s*명\s*[:\s]+([가-힣]{2,5})', t_clean):
                     name = re.search(r'^성\s*명\s*[:\s]+([가-힣]{2,5})', t_clean).group(1).strip()
+                    break
 
-            # 주소: "주소" 레이블 다음 블록의 시/도 주소
-            if not raw_address:
+        # 3. 주소 탐색 (owner_texts 안에서 주소 형태 라인 직접 채택)
+        for t in owner_texts:
+            t_clean = t.strip()
+            m_prefix = re.search(r'^주\s*소\s*[:\s]+(.+)', t_clean)
+            cand = m_prefix.group(1).strip() if m_prefix else t_clean
+            if cls.is_korean_address(cand):
+                raw_address = cand
+                break
+
+        # 폴백: "주소" 라벨 다음 라인 탐색
+        if not raw_address:
+            for i, t in enumerate(owner_texts):
+                t_clean = t.strip()
                 if t_clean == "주소" and i + 1 < len(owner_texts):
                     candidate = owner_texts[i + 1].strip()
                     if any(city in candidate for city in ["시", "도", "구", "군", "로", "길"]):
                         raw_address = candidate
-                elif re.search(r'^주\s*소\s*[:\s]+(.+)', t_clean):
-                    raw_address = re.search(r'^주\s*소\s*[:\s]+(.+)', t_clean).group(1).strip()
+                        break
 
         base_addr, detail_addr = cls.split_korean_address(raw_address)
 
@@ -412,7 +456,7 @@ class OCRService:
     def parse_car_registration(cls, texts: List[str]) -> Dict[str, Any]:
         """
         자동차등록증 필드 추출:
-        소유자 성명, 주민등록번호, 주소 (소유자 주소 기준), 자동차등록번호, 차명, 차대번호
+        소유자 성명, 주민등록번호, 주소 (소유자 ⑪주소 기준), 자동차등록번호, 차명, 차대번호
         """
         owner_name = ""
         resident_num = cls.extract_resident_number(texts)
@@ -428,36 +472,54 @@ class OCRService:
                 car_number = m_car.group(1).replace(" ", "")
                 break
 
-        # 2. 차대번호 (17자리 영숫자, I, O, Q 제외 규격이나 OCR 특성상 포함될 수 있으므로 허용)
+        # 2. 차대번호 (17자리 영숫자)
         for t in texts:
             m_vin = re.search(r'\b([A-HJ-NPR-Z0-9]{17})\b', t)
             if m_vin:
                 vin = m_vin.group(1)
                 break
 
-        # 3. 차명
+        # 3. 차명 ("차명" 또는 "차 명" 라벨 라인 기준, 모델연도·형식 라벨 절대 배제)
+        def is_car_label_line(s: str) -> bool:
+            return any(k in s for k in ("차명", "형식", "모델", "차대", "원동기", "용도", "차종", "사용본거지", "소유자", "성명", "주민", "등록번호", "최초등록", "검사유효"))
+
         for i, t in enumerate(texts):
             if re.search(r'^[④\d\s]*차\s*명', t) or t.strip() in ("차명", "④차", "명"):
-                if i + 1 < len(texts):
-                    candidate = texts[i + 1].strip()
-                    # 모델연도나 잡음이 아닌 차명
-                    if not candidate.startswith("20") and len(candidate) >= 2:
-                        car_name = candidate
+                # 같은 라인 잔여 텍스트 확인 (예: "④차명 : 스파크 1.0")
+                m_same = re.search(r'차\s*명\s*[:\s]+([가-힣A-Za-z0-9\.\s]+)', t)
+                if m_same:
+                    val = m_same.group(1).strip()
+                    val = re.split(r'⑤|형식|모델', val)[0].strip()
+                    if val and not is_car_label_line(val):
+                        car_name = val
                         break
-            elif re.search(r'차\s*명\s*[:\s]+([가-힣A-Za-z0-9\.\s]+)', t):
-                car_name = re.search(r'차\s*명\s*[:\s]+([가-힣A-Za-z0-9\.\s]+)', t).group(1).strip()
-                break
 
-        # 4. 소유자 정보 (성명 및 소유자 주소 - ⑧사용본거지와 혼동 방지)
-        # 소유자 블록(소유자, ⑨ 성명, 주민등록번호) 주변 탐색
+                # 다음 라인들 중 비라벨 라인 탐색 (한글 포함 모델명 최우선 채택)
+                best_cand = ""
+                for offset in range(1, 6):
+                    if i + offset < len(texts):
+                        cand = texts[i + offset].strip()
+                        if not cand or is_car_label_line(cand):
+                            continue
+                        if re.search(r'[가-힣]', cand):
+                            best_cand = cand
+                            break
+                        elif not best_cand and len(cand) >= 2 and not cand.startswith("20"):
+                            best_cand = cand
+                if best_cand:
+                    car_name = best_cand
+                    break
+
+        # 4. 소유자 정보 (성명 & 주민번호 라인 인덱스 파악)
         owner_idx = -1
+        res_line_idx = -1
         for i, t in enumerate(texts):
-            if "소유자" in t or "⑨ 성명" in t or "성명(명칭)" in t:
+            if "소유자" in t or "⑨성명" in t or "⑨ 성명" in t or "성명(명칭)" in t:
                 owner_idx = i
-                break
+            if re.search(r'\d{6}[ -]?[1-4]\d{6}', t):
+                res_line_idx = i
 
         if owner_idx != -1:
-            # 소유자 블록 근처(±5블록)에서 성명 탐색
             for offset in range(-2, 6):
                 idx = owner_idx + offset
                 if 0 <= idx < len(texts):
@@ -466,22 +528,41 @@ class OCRService:
                         owner_name = candidate
                         break
 
-        # 소유자 주소 탐색 (자동차등록증에서 "주 소" 레이블 다음 주소)
+        # 5. 주소 (주소 형태 라인 중 ⑩주민번호 뒤의 ⑪소유자 주소 최우선 채택)
+        addr_candidates = []
         for i, t in enumerate(texts):
-            if re.search(r'^[①\d\s]*주\s*소', t) or t.strip() in ("주소", "① 주", "소"):
-                # 소유자 주소는 대개 주민등록번호 직후에 위치
-                if i + 1 < len(texts):
+            t_clean = t.strip()
+            m_pre = re.search(r'^[①-⑳\d\s]*주\s*소\s*[:\s]*(.+)', t_clean)
+            cand = m_pre.group(1).strip() if m_pre else t_clean
+            if cls.is_korean_address(cand):
+                addr_candidates.append((i, cand))
+
+        # 1순위: 주민번호 매칭 라인(res_line_idx)보다 뒤에 있는 주소 후보 (⑪ 소유자 주소)
+        if res_line_idx != -1:
+            for idx, cand in addr_candidates:
+                if idx > res_line_idx:
+                    owner_address = cand
+                    break
+
+        # 2순위: 성명 라인(owner_idx)보다 뒤에 있는 주소 후보
+        if not owner_address and owner_idx != -1:
+            for idx, cand in addr_candidates:
+                if idx > owner_idx:
+                    owner_address = cand
+                    break
+
+        # 3순위: 그래도 없으면 첫 번째 주소 후보(⑧ 사용본거지)로 폴백
+        if not owner_address and addr_candidates:
+            owner_address = addr_candidates[0][1]
+
+        # 4순위: 그래도 없으면 기존 "사용본거지" 라벨 다음 라인 폴백
+        if not owner_address:
+            for i, t in enumerate(texts):
+                if "사용본거지" in t and i + 1 < len(texts):
                     cand = texts[i + 1].strip()
                     if any(city in cand for city in ["시", "도", "구", "군", "로", "길"]):
                         owner_address = cand
                         break
-
-        # 만약 소유자 주소를 못 찾았으면 사용본거지라도 fallback 탐색
-        if not owner_address:
-            for i, t in enumerate(texts):
-                if "사용본거지" in t and i + 1 < len(texts):
-                    owner_address = texts[i + 1].strip()
-                    break
 
         base_addr, detail_addr = cls.split_korean_address(owner_address)
 

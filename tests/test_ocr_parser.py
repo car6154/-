@@ -220,6 +220,96 @@ class TestOCRParser(unittest.TestCase):
             fixed_img = preprocess_image_orientation(loaded_img)
             self.assertEqual(fixed_img.size, (200, 400))
 
+    def test_car_registration_layout_failure_reproduction(self):
+        """
+        자동차등록증 실물 서식 행 순서(좌우 칸 섞임) 재현:
+        - ④차명 "스파크 1.0" vs ⑤형식 "DC487"
+        - ⑧사용본거지(서초구) vs 소유자 ⑪주소(강남구 테헤란로)
+        """
+        texts = [
+            "자동차등록증",
+            "①자동차등록번호",
+            "123가4567",
+            "②차종",
+            "경형승용",
+            "③용도",
+            "자가용",
+            "④차명",
+            "⑤형식 및 모델연도",
+            "DC487",
+            "스파크 1.0",
+            "2021",
+            "⑥차대번호",
+            "KMHET41BP0A000001",
+            "⑦원동기형식",
+            "L5Q",
+            "⑧사용본거지",
+            "서울특별시 서초구 반포대로 50, 202동 202호",
+            "소유자",
+            "⑨성명(명칭)",
+            "홍길동",
+            "⑩주민(법인)등록번호",
+            "900101-1234567",
+            "⑪주소",
+            "홍길동",
+            "서울특별시 강남구 테헤란로 123, 101동 101호 (역삼동, 테스트아파트)"
+        ]
+        result = OCRService.parse_document({"texts": texts, "elapsed_sec": 0.88})
+        self.assertEqual(result["document_type"], "CAR")
+        fields = result["fields"]
+        self.assertEqual(fields["car_number"], "123가4567")
+        self.assertEqual(fields["vin"], "KMHET41BP0A000001")
+        self.assertEqual(fields["owner_name"], "홍길동")
+        self.assertEqual(fields["resident_number"], "900101-1234567")
+        # 실패 재현 대상 1: 차명에 DC487 대신 스파크 1.0이 들어와야 함
+        self.assertEqual(fields["car_name"], "스파크 1.0")
+        # 실패 재현 대상 2: 기본주소에 성명(홍길동)이나 사용본거지(서초구) 대신 ⑪주소(테헤란로 123)가 들어와야 함
+        self.assertIn("테헤란로 123", fields["base_address"])
+        self.assertIn("101동 101호", fields["detail_address"])
+
+    def test_seal_certificate_header_applicant_failure_reproduction(self):
+        """
+        인감증명서 실물 서식 재현:
+        - 본인 표 상단 "신청인: 홍길동(생년월일:1990.01.01)" 머리줄
+        - 본인 표에서 '성', '명', '주', '소' 라벨 분절
+        - 하단 매수자 블록 존재
+        """
+        texts = [
+            "인감증명서",
+            "인감증명법 시행령[별지 제14호서식]",
+            "신청인: 홍길동(생년월일:1990.01.01)",
+            "인감증명서 발급사실 확인용 번호",
+            "1234-5678-1",
+            "주민",
+            "900101-",
+            "등록",
+            "번호",
+            "1234567",
+            "성",
+            "명",
+            "인",
+            "감",
+            "주",
+            "소",
+            "서울특별시 강남구 테헤란로 123, 101동 101호 (역삼동, 테스트아파트)",
+            "[]부동산 매수자[√]자동차매수자",
+            "용도",
+            "자동차 매도용",
+            "매수자",
+            "성명(법인명) : 더미모터스(주)",
+            "주민(법인)등록번호 : 110111-1234567",
+            "주소 : 서울특별시 영등포구 여의대로 108"
+        ]
+        result = OCRService.parse_document({"texts": texts, "elapsed_sec": 1.15})
+        self.assertEqual(result["document_type"], "SEAL")
+        fields = result["fields"]
+        self.assertEqual(fields["resident_number"], "900101-1234567")
+        # 실패 재현 대상 1: 성명이 공란이 아니라 신청인 머리줄에서 '홍길동'으로 추출되어야 함
+        self.assertEqual(fields["name"], "홍길동")
+        # 실패 재현 대상 2: 주소가 공란이 아니라 '테헤란로 123'으로 추출되어야 함
+        self.assertIn("테헤란로 123", fields["base_address"])
+        self.assertIn("101동 101호", fields["detail_address"])
+
 
 if __name__ == "__main__":
     unittest.main()
