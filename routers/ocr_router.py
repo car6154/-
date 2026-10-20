@@ -9,6 +9,7 @@ import time
 import uuid
 import shutil
 import threading
+import json
 from typing import Dict, Any, Optional
 from fastapi import APIRouter, UploadFile, File, HTTPException, BackgroundTasks
 from fastapi.responses import JSONResponse, FileResponse
@@ -17,9 +18,64 @@ from services.ocr_service import OCRService, TEMP_OCR_DIR
 
 router = APIRouter(prefix="/api/ocr", tags=["OCR"])
 
+# 최신 OCR 결과 및 전 서류 보관 디렉터리
+LATEST_OCR_DIR = os.path.join(os.path.dirname(TEMP_OCR_DIR), "ocr_latest")
+LATEST_META_FILE = os.path.join(LATEST_OCR_DIR, "latest_meta.json")
+
 # 메모리 기반 태스크 저장소 (task_id -> task dict)
 OCR_TASKS: Dict[str, Dict[str, Any]] = {}
 TASK_LOCK = threading.Lock()
+
+
+def _save_latest_result(task_id: str, doc_type: str, parsed: Dict[str, Any], file_path: str, orig_name: str):
+    """최신 OCR 결과 JSON 및 전 서류(사업자/자동차등록증/인감) 원본 사진 보관"""
+    try:
+        os.makedirs(LATEST_OCR_DIR, exist_ok=True)
+        ext = os.path.splitext(orig_name or file_path)[1].lower() or ".jpg"
+        target_filename = f"latest_{doc_type.lower()}{ext}"
+        target_path = os.path.join(LATEST_OCR_DIR, target_filename)
+
+        if os.path.exists(file_path):
+            shutil.copy2(file_path, target_path)
+
+        # 기존 서류 종류별 파일 보관 상태 유지/갱신
+        files_by_type = {}
+        if os.path.exists(LATEST_META_FILE):
+            try:
+                with open(LATEST_META_FILE, "r", encoding="utf-8") as f:
+                    old_meta = json.load(f)
+                    files_by_type = old_meta.get("files", {})
+            except Exception:
+                files_by_type = {}
+
+        doc_key = doc_type.upper()
+        files_by_type[doc_key] = {
+            "has_file": True,
+            "file_name": target_filename,
+            "original_filename": orig_name,
+            "download_url": f"/api/ocr/latest/file?doc_type={doc_key}",
+            "updated_at": time.time()
+        }
+
+        meta = {
+            "has_data": True,
+            "task_id": task_id,
+            "document_type": doc_key,
+            "vendor_type": parsed.get("vendor_type", "UNKNOWN"),
+            "data": parsed,
+            "has_file": True,
+            "file_name": target_filename,
+            "original_filename": orig_name,
+            "download_url": "/api/ocr/latest/file",
+            "files": files_by_type,
+            "completed_at": time.time()
+        }
+
+        with open(LATEST_META_FILE, "w", encoding="utf-8") as f:
+            json.dump(meta, f, ensure_ascii=False, indent=2)
+
+    except Exception as ex:
+        print(f"[OCR Router] 최신 결과 보관 실패: {ex}", file=sys.stderr)
 
 
 def _cleanup_old_tasks():
@@ -42,30 +98,25 @@ def _cleanup_old_tasks():
 
 def _async_ocr_worker(task_id: str, file_path: str):
     """백그라운드 스레드에서 OCR subprocess를 실행하고 결과를 갱신합니다."""
-    try:
-        with TASK_LOCK:
-            if task_id in OCR_TASKS:
-                OCR_TASKS[task_id]["status"] = "PROCESSING"
+    orig_name = ""
+    with TASK_LOCK:
+        if task_id in OCR_TASKS:
+            OCR_TASKS[task_id]["status"] = "PROCESSING"
+            orig_name = OCR_TASKS[task_id].get("original_filename", "")
 
-        # 1. PaddleOCR 서브프로세스 실행 (독립 가상환경)
+    try:
+        # 1. RapidOCR OpenVINO 서브프로세스 실행 (독립 가상환경)
         ocr_raw = OCRService.execute_ocr_subprocess(file_path)
 
         # 2. 문서 종류 및 필드 파싱
         parsed = OCRService.parse_document(ocr_raw)
         doc_type = parsed.get("document_type", "UNKNOWN")
 
-        download_url = None
-        # 3. 파일 유지 및 삭제 정책:
-        # - 사업자등록증(BIZ): 인트라넷 등록 시 파일 첨부가 필수이므로 다운로드 링크 제공 및 1시간 임시 보존
-        # - 자동차등록증/인감증명서: 개인정보 보호를 위해 처리 완료 즉시 파일 영구 삭제
-        if doc_type == "BIZ":
-            download_url = f"/api/ocr/download/{task_id}"
-        else:
-            if os.path.exists(file_path):
-                try:
-                    os.remove(file_path)
-                except Exception:
-                    pass
+        # 3. 최신 결과 보관 (전 서류 원본 보관 정책)
+        _save_latest_result(task_id, doc_type, parsed, file_path, orig_name)
+
+        # 4. 개별 작업 상태 갱신
+        download_url = f"/api/ocr/download/{task_id}"
 
         with TASK_LOCK:
             if task_id in OCR_TASKS:
@@ -75,7 +126,7 @@ def _async_ocr_worker(task_id: str, file_path: str):
                 OCR_TASKS[task_id]["completed_at"] = time.time()
 
     except Exception as e:
-        # 실패 시 파일 삭제
+        # 실패 시 파일 정리
         if os.path.exists(file_path):
             try:
                 os.remove(file_path)
@@ -184,5 +235,72 @@ async def download_vendor_file(task_id: str):
     return FileResponse(
         path=file_path,
         filename=orig_name,
+        media_type="application/octet-stream"
+    )
+
+
+@router.get("/latest")
+async def get_latest_ocr_result():
+    """
+    가장 최근에 완료된 OCR 결과 JSON 및 전 서류 원본 파일 보관 현황을 조회합니다.
+    """
+    if not os.path.exists(LATEST_META_FILE):
+        return {
+            "has_data": False,
+            "message": "최근 처리된 OCR 결과가 없습니다."
+        }
+
+    try:
+        with open(LATEST_META_FILE, "r", encoding="utf-8") as f:
+            meta = json.load(f)
+        meta["has_data"] = True
+        return meta
+    except Exception as e:
+        return {
+            "has_data": False,
+            "error": f"최신 결과 로드 실패: {str(e)}"
+        }
+
+
+@router.get("/latest/file")
+async def download_latest_ocr_file(doc_type: Optional[str] = None):
+    """
+    최근 처리된 서류 원본 사진 파일을 다운로드합니다.
+    doc_type 지정 시(BIZ, CAR, SEAL 등) 해당 서류를 반환하며, 미지정 시 가장 최근 서류를 반환합니다.
+    """
+    if not os.path.exists(LATEST_META_FILE):
+        raise HTTPException(status_code=404, detail="최근 처리된 OCR 결과가 없습니다.")
+
+    try:
+        with open(LATEST_META_FILE, "r", encoding="utf-8") as f:
+            meta = json.load(f)
+    except Exception:
+        raise HTTPException(status_code=500, detail="최신 메타데이터를 읽을 수 없습니다.")
+
+    target_file_name = None
+    orig_name = None
+
+    if doc_type:
+        doc_key = doc_type.upper()
+        file_info = meta.get("files", {}).get(doc_key)
+        if file_info and file_info.get("has_file"):
+            target_file_name = file_info.get("file_name")
+            orig_name = file_info.get("original_filename")
+        else:
+            raise HTTPException(status_code=404, detail=f"'{doc_key}' 종류의 보관된 서류 파일이 없습니다.")
+    else:
+        target_file_name = meta.get("file_name")
+        orig_name = meta.get("original_filename")
+
+    if not target_file_name:
+        raise HTTPException(status_code=404, detail="보관된 서류 파일이 없습니다.")
+
+    full_path = os.path.join(LATEST_OCR_DIR, target_file_name)
+    if not os.path.exists(full_path):
+        raise HTTPException(status_code=404, detail=f"서버에 파일이 존재하지 않습니다: {target_file_name}")
+
+    return FileResponse(
+        path=full_path,
+        filename=orig_name or target_file_name,
         media_type="application/octet-stream"
     )

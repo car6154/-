@@ -24,6 +24,7 @@ venv/
 ENV/
 .venv_ocr_spike/
 data/temp_ocr/
+data/ocr_latest/
 
 # Environment variables & Machine-specific credentials
 .env
