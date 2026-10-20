@@ -526,115 +526,104 @@ class OCRService:
             )
             return any(k in s_clean for k in label_keywords)
 
-        # 3-1. 좌표 기반 차명 탐색 (1순위: boxes가 주어졌을 때)
-        if boxes and len(boxes) == len(texts):
-            items = []
-            for idx, (t, b) in enumerate(zip(texts, boxes)):
-                rect = cls._get_box_rect(b)
-                if rect is not None:
-                    items.append({
-                        "idx": idx,
-                        "text": t,
-                        "text_clean": t.strip(),
-                        "rect": rect,
-                    })
+        # 3-1. OCR 텍스트 순서 기반 차명 탐색 (1순위, boxes 미사용)
+        # 등록증 서식상 ④차명 칸 바로 오른쪽에 ⑤형식 칸이 붙어 있으므로 "차명 라벨과 형식 라벨 사이의 토큰"이 곧 차명임
+        car_name_label_found = False
+        label_end_idx = -1
+        inline_tokens: List[str] = []
 
-            label_x_max = None
-            label_y_center = None
-            label_height = None
+        for i, t in enumerate(texts):
+            t_clean = t.strip()
 
-            # 1) 단일 라벨 항목("차명", "④차명", "차 명" 등)
-            for it in items:
-                tc = it["text_clean"]
-                if re.search(r'^[④\d\s]*차\s*명', tc) or tc in ("차명", "차 명", "④차명"):
-                    label_x_max = it["rect"]["x_max"]
-                    label_y_center = it["rect"]["y_center"]
-                    label_height = it["rect"]["height"]
+            # 1) 단일 토큰 라벨 매칭: 정규식 ^[④\d\s]*차\s*명 매칭 또는 "차명"/"④차명"
+            m_label = re.search(r'^[④\d\s]*차\s*명', t_clean)
+            if m_label or t_clean in ("차명", "④차명"):
+                car_name_label_found = True
+                label_end_idx = i
+                # 라벨에 값이 붙어 있으면("④차명 스파크 1.0") 잔여 텍스트를 첫 후보로 포함
+                if m_label:
+                    rem = t_clean[m_label.end():].strip()
+                else:
+                    rem = re.sub(r'^[④\d\s]*차\s*명', '', t_clean).strip()
+                rem = re.sub(r'^[:\s]+', '', rem).strip()
+                # 잔여 텍스트 내에 형식/모델 라벨이 포함된 경우 그 앞부분만 취함 (예: "④차명 스파크 ⑤형식")
+                rem = re.split(r'⑤|형식|모델', rem)[0].strip()
+                if rem:
+                    inline_tokens = [tok for tok in rem.split() if tok]
+                break
+
+            # 2) "차" 토큰 다음이 "명"이면 둘을 합쳐 라벨로 간주
+            if t_clean in ("④차", "차") and (i + 1 < len(texts)) and texts[i + 1].strip() == "명":
+                car_name_label_found = True
+                label_end_idx = i + 1
+                break
+
+        if car_name_label_found and label_end_idx != -1:
+            # 2. 라벨 뒤에서 형식 라벨 시작 위치 찾기: "형식"·"⑤"·"모델" 포함 첫 토큰
+            format_label_idx = -1
+            for j in range(label_end_idx + 1, len(texts)):
+                tj_clean = texts[j].strip()
+                if any(kw in tj_clean for kw in ("형식", "⑤", "모델")):
+                    format_label_idx = j
                     break
 
-            # 2) "차"와 "명" 파편 쌍 탐색
-            if label_x_max is None:
-                for it in items:
-                    if it["text_clean"] in ("④차", "차"):
-                        for it2 in items:
-                            if it2["text_clean"] == "명" and abs(it2["rect"]["y_center"] - it["rect"]["y_center"]) <= max(it["rect"]["height"] * 0.85, 15.0):
-                                label_x_max = max(it["rect"]["x_max"], it2["rect"]["x_max"])
-                                label_y_center = (it["rect"]["y_center"] + it2["rect"]["y_center"]) / 2.0
-                                label_height = max(it["rect"]["height"], it2["rect"]["height"])
-                                break
-                        if label_x_max is not None:
-                            break
-                        label_x_max = it["rect"]["x_max"]
-                        label_y_center = it["rect"]["y_center"]
-                        label_height = it["rect"]["height"]
-                        break
+            # 3. 토큰 수집 범위 결정
+            raw_candidates: List[str] = list(inline_tokens)
+            if format_label_idx != -1:
+                # 두 라벨 사이 토큰 수집
+                for k in range(label_end_idx + 1, format_label_idx):
+                    raw_candidates.append(texts[k].strip())
+            else:
+                # 형식 라벨을 못 찾으면 라벨 뒤 최대 4토큰까지만 같은 규칙으로 수집 (무한 스캔 금지)
+                scan_limit = min(label_end_idx + 1 + 4, len(texts))
+                for k in range(label_end_idx + 1, scan_limit):
+                    raw_candidates.append(texts[k].strip())
 
-            # 3) 앵커를 찾았으면 같은 행(y좌표 근접) 항목들을 x 순 정렬해 스캔
-            if label_x_max is not None and label_y_center is not None and label_height is not None:
-                same_row = [
-                    it for it in items
-                    if abs(it["rect"]["y_center"] - label_y_center) <= max(label_height * 0.85, 15.0)
-                ]
-                same_row.sort(key=lambda it: it["rect"]["x_min"])
-
-                for it in same_row:
-                    # 라벨 오른쪽 항목만 고려 (경계 겹침 2px 허용)
-                    if it["rect"]["x_min"] < label_x_max - 2.0:
+            # 4. 토큰 정제: 1자 파편, 라벨 키워드(is_car_label_line), 순수 4자리 연도 제외
+            valid_tokens: List[str] = []
+            for item in raw_candidates:
+                for sub in item.split():
+                    sub_clean = sub.strip()
+                    if len(sub_clean) <= 1:
                         continue
-
-                    tc = it["text_clean"]
-
-                    # ⑤형식/모델연도 라벨을 만나면 그 너머 값은 채택 금지 (DC487 차단)
-                    if any(k in tc for k in ("형식", "모델", "⑤")):
-                        break
-
-                    # 1자 파편("명", "차" 등) 및 라벨 키워드는 스킵
-                    if is_car_label_line(tc):
+                    if is_car_label_line(sub_clean):
                         continue
-
-                    # 4자리 숫자(연도) 배제
-                    if re.match(r'^\d{4}$', tc):
+                    if re.match(r'^\d{4}$', sub_clean):
                         continue
+                    valid_tokens.append(sub_clean)
 
-                    # 2자 이상 비라벨 항목이면 차명으로 채택!
-                    if len(tc) >= 2:
-                        car_name = tc
-                        break
+            # 남은 토큰을 공백으로 합쳐 차명으로 채택 ("스파크"+"1.0" -> "스파크 1.0"). 없으면 공란.
+            if valid_tokens:
+                car_name = " ".join(valid_tokens)
 
-        # 3-2. 기존 라인 스캔 방식 폴백 (boxes가 없거나 좌표 탐색에서 차명을 못 찾은 경우)
+        # 3-2. 기존 라인 스캔 방식 폴백 (새 로직이 공란일 때만 동작 유지)
         if not car_name:
             for i, t in enumerate(texts):
                 t_clean = t.strip()
                 # 앵커 조건: "차명", "④차명", "④차", "차", "명" 라인
                 if re.search(r'^[④\d\s]*차\s*명', t_clean) or t_clean in ("차명", "④차", "차", "명"):
                     # 같은 라인 잔여 텍스트 확인 (예: "④차명 : 스파크 1.0")
-                    # 단, t_clean이 "차", "명", "④차" 단독 라벨이면 같은 라인 탐색 건너뜀
                     if t_clean not in ("차", "명", "④차"):
                         m_same = re.search(r'차\s*명\s*[:\s]+([가-힣A-Za-z0-9\.\s]+)', t_clean)
                         if m_same:
                             val = m_same.group(1).strip()
                             val = re.split(r'⑤|형식|모델', val)[0].strip()
-                            # 값 후보는 2자 이상 + 라벨 키워드 미포함
                             if len(val) >= 2 and not is_car_label_line(val):
                                 car_name = val
                                 break
 
-                    # 다음 라인들 중 비라벨 라인 탐색 (한글 포함 모델명 최우선 채택)
+                    # 다음 라인들 중 비라벨 라인 탐색 (한글 포함 모델명 최우선 채택, 형식 코드 DC487 배제)
                     best_cand = ""
                     for offset in range(1, 6):
                         if i + offset < len(texts):
                             cand = texts[i + offset].strip()
-                            # 2자 미만이거나 라벨/라벨파편이면 후보 제외
                             if len(cand) < 2 or is_car_label_line(cand):
                                 continue
-                            # 4자리 숫자(연도) 배제
                             if re.match(r'^\d{4}$', cand):
                                 continue
                             if re.search(r'[가-힣]', cand):
                                 best_cand = cand
                                 break
-                            elif not best_cand and not cand.startswith("20"):
-                                best_cand = cand
                     if best_cand:
                         car_name = best_cand
                         break
