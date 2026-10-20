@@ -527,20 +527,21 @@ class OCRService:
             return any(k in s_clean for k in label_keywords)
 
         # 3-1. OCR 텍스트 순서 기반 차명 탐색 (1순위, boxes 미사용)
-        # 등록증 서식상 ④차명 칸 바로 오른쪽에 ⑤형식 칸이 붙어 있으므로 "차명 라벨과 형식 라벨 사이의 토큰"이 곧 차명임
-        car_name_label_found = False
+        # 차명 값은 (1) 라벨 조각 사이, (2) 라벨 직전, (3) 라벨 직후 세 위치 중 어디든 올 수 있음
+        label_start_idx = -1
         label_end_idx = -1
         inline_tokens: List[str] = []
 
+        # 1. 라벨 위치 탐색
         for i, t in enumerate(texts):
             t_clean = t.strip()
 
-            # 1) 단일 토큰 라벨 매칭: 정규식 ^[④\d\s]*차\s*명 매칭 또는 "차명"/"④차명"
+            # 단일 라벨: 정규식 ^[④\d\s]*차\s*명 매칭 또는 "차명"/"④차명" 토큰
             m_label = re.search(r'^[④\d\s]*차\s*명', t_clean)
             if m_label or t_clean in ("차명", "④차명"):
-                car_name_label_found = True
+                label_start_idx = i
                 label_end_idx = i
-                # 라벨에 값이 붙어 있으면("④차명 스파크 1.0") 잔여 텍스트를 첫 후보로 포함
+                # 인라인 잔여 토큰 수집 (현행 유지)
                 if m_label:
                     rem = t_clean[m_label.end():].strip()
                 else:
@@ -552,36 +553,22 @@ class OCRService:
                     inline_tokens = [tok for tok in rem.split() if tok]
                 break
 
-            # 2) "차" 토큰 다음이 "명"이면 둘을 합쳐 라벨로 간주
-            if t_clean in ("④차", "차") and (i + 1 < len(texts)) and texts[i + 1].strip() == "명":
-                car_name_label_found = True
-                label_end_idx = i + 1
-                break
-
-        if car_name_label_found and label_end_idx != -1:
-            # 2. 라벨 뒤에서 형식 라벨 시작 위치 찾기: "형식"·"⑤"·"모델" 포함 첫 토큰
-            format_label_idx = -1
-            for j in range(label_end_idx + 1, len(texts)):
-                tj_clean = texts[j].strip()
-                if any(kw in tj_clean for kw in ("형식", "⑤", "모델")):
-                    format_label_idx = j
+            # 분절 라벨: "④차"/"차" 토큰이 label_start_idx, 그 뒤 최대 3토큰 이내의 "명" 토큰이 label_end_idx
+            if t_clean in ("④차", "차"):
+                found_split = False
+                for step in range(1, 4):
+                    if i + step < len(texts) and texts[i + step].strip() == "명":
+                        label_start_idx = i
+                        label_end_idx = i + step
+                        found_split = True
+                        break
+                if found_split:
                     break
 
-            # 3. 토큰 수집 범위 결정
-            raw_candidates: List[str] = list(inline_tokens)
-            if format_label_idx != -1:
-                # 두 라벨 사이 토큰 수집
-                for k in range(label_end_idx + 1, format_label_idx):
-                    raw_candidates.append(texts[k].strip())
-            else:
-                # 형식 라벨을 못 찾으면 라벨 뒤 최대 4토큰까지만 같은 규칙으로 수집 (무한 스캔 금지)
-                scan_limit = min(label_end_idx + 1 + 4, len(texts))
-                for k in range(label_end_idx + 1, scan_limit):
-                    raw_candidates.append(texts[k].strip())
-
-            # 4. 토큰 정제: 1자 파편, 라벨 키워드(is_car_label_line), 순수 4자리 연도 제외
-            valid_tokens: List[str] = []
-            for item in raw_candidates:
+        # 정제 헬퍼 함수 (1자 파편, 라벨 키워드, 순수 4자리 연도 제외 + VIN 역참조 필터)
+        def clean_car_tokens(candidate_items: List[str]) -> List[str]:
+            tokens: List[str] = []
+            for item in candidate_items:
                 for sub in item.split():
                     sub_clean = sub.strip()
                     if len(sub_clean) <= 1:
@@ -590,11 +577,65 @@ class OCRService:
                         continue
                     if re.match(r'^\d{4}$', sub_clean):
                         continue
-                    valid_tokens.append(sub_clean)
+                    # VIN 역참조 필터: 4자리 이상 영숫자이고 vin 부분 문자열이면 제외 (예: "DC487" in "KLYDC487DMC214608")
+                    if vin and re.match(r'^[A-Z0-9]{4,}$', sub_clean):
+                        if sub_clean.upper() in vin.upper():
+                            continue
+                    tokens.append(sub_clean)
+            return tokens
 
-            # 남은 토큰을 공백으로 합쳐 차명으로 채택 ("스파크"+"1.0" -> "스파크 1.0"). 없으면 공란.
-            if valid_tokens:
-                car_name = " ".join(valid_tokens)
+        if label_start_idx != -1 and label_end_idx != -1:
+            # 2. Step A — 전방 수집 (정제 후 남으면 채택하고 종료)
+            # 수집 순서: inline_tokens → label_start_idx와 label_end_idx 사이 토큰 → label_end_idx+1부터 format_label_idx 사이 토큰
+
+            # (1) inline_tokens 검사
+            if inline_tokens:
+                v_inline = clean_car_tokens(inline_tokens)
+                if v_inline:
+                    car_name = " ".join(v_inline)
+
+            # (2) inline이 없으면 label_start_idx와 label_end_idx 사이 토큰 검사
+            if not car_name and label_start_idx < label_end_idx:
+                between_tokens = [texts[k].strip() for k in range(label_start_idx + 1, label_end_idx)]
+                v_between = clean_car_tokens(between_tokens)
+                if v_between:
+                    car_name = " ".join(v_between)
+
+            # (3) 그래도 없으면 label_end_idx+1부터 format_label_idx 사이 토큰 검사 (없으면 최대 4토큰)
+            if not car_name:
+                format_label_idx = -1
+                for j in range(label_end_idx + 1, len(texts)):
+                    tj_clean = texts[j].strip()
+                    if any(kw in tj_clean for kw in ("형식", "⑤", "모델")):
+                        format_label_idx = j
+                        break
+
+                after_tokens = []
+                if format_label_idx != -1:
+                    for k in range(label_end_idx + 1, format_label_idx):
+                        after_tokens.append(texts[k].strip())
+                else:
+                    scan_limit = min(label_end_idx + 1 + 4, len(texts))
+                    for k in range(label_end_idx + 1, scan_limit):
+                        after_tokens.append(texts[k].strip())
+
+                v_after = clean_car_tokens(after_tokens)
+                if v_after:
+                    car_name = " ".join(v_after)
+
+            # 4. Step B — 라벨 직전 역탐색 (Step A가 공란일 때만)
+            if not car_name and label_start_idx > 0:
+                prev_field_values = ("자가용", "영업용", "경형승용", "승용", "화물", "특수")
+                for prev_idx in range(label_start_idx - 1, max(-1, label_start_idx - 4), -1):
+                    t_prev = texts[prev_idx].strip()
+                    # 중단 조건: 라벨 라인(is_car_label_line 해당) 또는 원형숫자(①~⑳) 포함 토큰 또는 이전 필드 값 토큰 중 하나를 만나면 중단
+                    if is_car_label_line(t_prev) or re.search(r'[①-⑳]', t_prev) or t_prev in prev_field_values:
+                        break
+                    # 중단 전에 정제(VIN 필터 포함)를 통과한 첫 토큰을 차명으로 채택
+                    v_prev = clean_car_tokens([t_prev])
+                    if v_prev:
+                        car_name = " ".join(v_prev)
+                        break
 
         # 3-2. 기존 라인 스캔 방식 폴백 (새 로직이 공란일 때만 동작 유지)
         if not car_name:

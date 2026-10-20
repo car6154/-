@@ -396,11 +396,15 @@ class TestOCRParser(unittest.TestCase):
 
     def test_car_registration_order_based_car_name_cases(self):
         """
-        차명-형식 라벨 사이 토큰 순서 기반 추출 신규 4대 케이스 검증:
+        차명-형식 라벨 사이 토큰 순서 기반 추출 검증:
         (a) ["④차명","스파크","1.0","⑤형식","DC487"] → "스파크 1.0"
         (b) ["차명","아반떼","형식","MD"] → "아반떼"
         (c) ["④차명 스파크 1.0","⑤형식 DC487"] → "스파크 1.0"
         (d) ["④차명","⑤형식","DC487"] → 공란 (DC487 채택 금지)
+        (e) ["③용도", "스파크 1.0", "④차", "명", "DC487", "2021", "⑤형식 및 모델연도", "⑥차대번호", "KLYDC487DMC214608"] → "스파크 1.0"
+        (f) ["④차명", "G80", "⑤형식 및 모델연도", "⑥차대번호", "KLYDC487DMC214608"] → "G80"
+        (g) ["④차", "스파크1.0", "명", "DC487", "2021", "⑤형식및 모델연도"] → "스파크 1.0" / "스파크1.0"
+        (h) ["④차", "명", "DC487", "2021", "⑤형식및 모델연도", "⑥차대번호", "KLYDC487DMC214608"] → 공란
         """
         # (a) 다중 토큰 결합
         res_a = OCRService.parse_car_registration(["④차명", "스파크", "1.0", "⑤형식", "DC487"])
@@ -417,6 +421,22 @@ class TestOCRParser(unittest.TestCase):
         # (d) 차명 칸이 비어있고 형식 코드가 바로 이어지는 경우 (DC487 채택 절대 금지, 공란)
         res_d = OCRService.parse_car_registration(["④차명", "⑤형식", "DC487"])
         self.assertEqual(res_d["fields"]["car_name"], "")
+
+        # (e) 라벨 직전 차명 위치 (위치 2: ③용도 뒤, ④차 직전)
+        res_e = OCRService.parse_car_registration(["③용도", "스파크 1.0", "④차", "명", "DC487", "2021", "⑤형식 및 모델연도", "⑥차대번호", "KLYDC487DMC214608"])
+        self.assertEqual(res_e["fields"]["car_name"], "스파크 1.0")
+
+        # (f) 영숫자 단일 차명 보호 (G80: VIN 필터에 의해 제거되지 않음)
+        res_f = OCRService.parse_car_registration(["④차명", "G80", "⑤형식 및 모델연도", "⑥차대번호", "KLYDC487DMC214608"])
+        self.assertEqual(res_f["fields"]["car_name"], "G80")
+
+        # (g) 라벨 조각 사이 차명 (위치 1: ④차와 명 사이, DC487 배제)
+        res_g = OCRService.parse_car_registration(["④차", "스파크1.0", "명", "DC487", "2021", "⑤형식및 모델연도"])
+        self.assertIn(res_g["fields"]["car_name"], ("스파크 1.0", "스파크1.0"))
+
+        # (h) 차명 없이 형식 코드만 존재하는 분절 라벨 (DC487 채택 차단, 공란)
+        res_h = OCRService.parse_car_registration(["④차", "명", "DC487", "2021", "⑤형식및 모델연도", "⑥차대번호", "KLYDC487DMC214608"])
+        self.assertEqual(res_h["fields"]["car_name"], "")
 
 
 if __name__ == "__main__":
