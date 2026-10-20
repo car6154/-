@@ -15,6 +15,7 @@ import {
   ChevronUp,
   Clock,
   ShieldCheck,
+  CreditCard,
 } from 'lucide-react';
 
 interface OCRResult {
@@ -41,6 +42,12 @@ interface OCRResult {
     car_name?: string;
     vin?: string;
   };
+  account?: {
+    bank_name?: string;
+    bank_code?: string;
+    account_no?: string;
+    holder?: string;
+  };
   elapsed_sec: number;
   raw_texts: string[];
 }
@@ -54,6 +61,21 @@ export const VendorOcrTab: React.FC = () => {
   const [elapsedTimer, setElapsedTimer] = useState<number>(0);
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
   const [showRawTexts, setShowRawTexts] = useState<boolean>(false);
+
+  // 계좌 텍스트 붙여넣기 및 계좌 정보 상태
+  const [accountText, setAccountText] = useState<string>('');
+  const [accountFields, setAccountFields] = useState<{
+    bank_name: string;
+    bank_code: string;
+    account_no: string;
+    holder: string;
+  }>({
+    bank_name: '',
+    bank_code: '',
+    account_no: '',
+    holder: '',
+  });
+  const [accountSaveStatus, setAccountSaveStatus] = useState<'IDLE' | 'SAVING' | 'SAVED' | 'ERROR'>('IDLE');
 
   // 파싱 결과 및 편집 가능한 필드 상태
   const [vendorType, setVendorType] = useState<'business' | 'individual'>('business');
@@ -117,6 +139,15 @@ export const VendorOcrTab: React.FC = () => {
           setRawTexts(result.raw_texts || []);
           setActualElapsed(result.elapsed_sec || null);
 
+          // 계좌 정보 채우기
+          const acc = result.account || (data as any).account || {};
+          setAccountFields({
+            bank_name: acc.bank_name || '',
+            bank_code: acc.bank_code || '',
+            account_no: acc.account_no || '',
+            holder: acc.holder || '',
+          });
+
           // 필드 채우기
           const f = result.fields || {};
           setFormFields({
@@ -160,6 +191,7 @@ export const VendorOcrTab: React.FC = () => {
     setRawTexts([]);
     setDocLabel('');
     setActualElapsed(null);
+    setAccountSaveStatus('IDLE');
     // 새 업로드 시작 시 이전 결과 필드 전부 초기화
     setFormFields({
       business_number: '',
@@ -178,6 +210,9 @@ export const VendorOcrTab: React.FC = () => {
 
     const formData = new FormData();
     formData.append('file', selectedFile);
+    if (accountText.trim()) {
+      formData.append('account_text', accountText.trim());
+    }
 
     try {
       const res = await fetch('/api/ocr/vendor', {
@@ -192,11 +227,45 @@ export const VendorOcrTab: React.FC = () => {
 
       const data = await res.json();
       setTaskId(data.task_id);
+      if (data.account) {
+        setAccountFields({
+          bank_name: data.account.bank_name || '',
+          bank_code: data.account.bank_code || '',
+          account_no: data.account.account_no || '',
+          holder: data.account.holder || '',
+        });
+      }
       setStatus('PROCESSING');
     } catch (err: any) {
       setStatus('FAILED');
       setErrorMsg(err.message || '파일 업로드 중 오류가 발생했습니다.');
     }
+  };
+
+  // 계좌 정보 서버(latest 보관분) 실시간 반영
+  const syncAccountToLatest = async (acc: { bank_name: string; bank_code: string; account_no: string; holder: string }) => {
+    setAccountSaveStatus('SAVING');
+    try {
+      const res = await fetch('/api/ocr/latest', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(acc),
+      });
+      if (res.ok) {
+        setAccountSaveStatus('SAVED');
+        setTimeout(() => setAccountSaveStatus('IDLE'), 2500);
+      } else {
+        setAccountSaveStatus('ERROR');
+      }
+    } catch {
+      setAccountSaveStatus('ERROR');
+    }
+  };
+
+  const handleAccountFieldChange = (key: string, value: string) => {
+    const updated = { ...accountFields, [key]: value };
+    setAccountFields(updated);
+    syncAccountToLatest(updated);
   };
 
   // 단일 필드 복사
@@ -236,6 +305,10 @@ export const VendorOcrTab: React.FC = () => {
         .join('\n');
     }
 
+    if (accountFields.bank_name || accountFields.account_no) {
+      summary += `\n[계좌] ${accountFields.bank_name} ${accountFields.account_no} (예금주: ${accountFields.holder})`;
+    }
+
     navigator.clipboard.writeText(summary);
     setCopiedKey('ALL');
     setTimeout(() => setCopiedKey(null), 1500);
@@ -256,6 +329,8 @@ export const VendorOcrTab: React.FC = () => {
     setDownloadUrl(null);
     setRawTexts([]);
     setActualElapsed(null);
+    setAccountFields({ bank_name: '', bank_code: '', account_no: '', holder: '' });
+    setAccountSaveStatus('IDLE');
     setFormFields({
       business_number: '',
       company_name: '',
@@ -408,6 +483,38 @@ export const VendorOcrTab: React.FC = () => {
                 </div>
               </div>
             )}
+
+            {/* 계좌 정보 (문자 붙여넣기) 입력칸 */}
+            <div className="bg-[#121318] border border-[#23242c] rounded-xl p-4 space-y-2">
+              <div className="flex items-center justify-between">
+                <label className="text-xs font-semibold text-white flex items-center gap-1.5">
+                  <CreditCard className="w-3.5 h-3.5 text-[#cc9166]" />
+                  <span>계좌 정보 (문자 붙여넣기)</span>
+                  <span className="text-[10px] text-[#cc9166] bg-[#221c17] border border-[#442c1d] px-1.5 py-0.5 rounded">
+                    선택
+                  </span>
+                </label>
+                {accountText && (
+                  <button
+                    type="button"
+                    onClick={() => setAccountText('')}
+                    className="text-[11px] text-[#9194a1] hover:text-white transition"
+                  >
+                    지우기
+                  </button>
+                )}
+              </div>
+              <textarea
+                value={accountText}
+                onChange={(e) => setAccountText(e.target.value)}
+                placeholder="예: 국민은행 123456-78-901234 홍길동&#10;(문자나 카톡 계좌 텍스트를 붙여넣으면 사진 분석 시 은행·계좌번호·예금주가 자동 분리됩니다)"
+                rows={3}
+                className="w-full bg-[#0a0b0e] text-white text-xs rounded-lg p-2.5 border border-[#262833] focus:border-[#cc9166] outline-none resize-none transition placeholder:text-[#555866]"
+              />
+              <p className="text-[11px] text-[#6e717e]">
+                사진 분석 시 함께 전송되어 최신 보관분(/api/ocr/latest)에 실리며, 거래처 및 송금정보 자동입력에 즉시 반영됩니다.
+              </p>
+            </div>
           </div>
         </div>
 
@@ -641,6 +748,67 @@ export const VendorOcrTab: React.FC = () => {
                   )}
                 </>
               )}
+            </div>
+
+            {/* 계좌 정보 섹션 (분리 결과 및 직접 수정칸) */}
+            <div className="pt-4 border-t border-[#1c1d22] space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-1.5 text-xs font-semibold text-amber-400">
+                  <CreditCard className="w-3.5 h-3.5" />
+                  <span>계좌 정보 (송금/정산용)</span>
+                  {accountFields.bank_code && (
+                    <span className="text-[10px] font-mono bg-[#241d13] text-[#f59e0b] border border-[#53381a] px-1.5 py-0.2 rounded">
+                      코드: {accountFields.bank_code}
+                    </span>
+                  )}
+                </div>
+                {accountSaveStatus === 'SAVED' && (
+                  <span className="text-[11px] text-emerald-400 font-semibold flex items-center gap-1 bg-emerald-950/40 border border-emerald-800/60 px-2 py-0.5 rounded">
+                    <Check className="w-3 h-3" /> latest 보관분 반영 완료
+                  </span>
+                )}
+                {accountSaveStatus === 'SAVING' && (
+                  <span className="text-[11px] text-[#cc9166] animate-pulse">
+                    서버 저장 중...
+                  </span>
+                )}
+                {accountSaveStatus === 'ERROR' && (
+                  <span className="text-[11px] text-red-400">
+                    서버 반영 실패
+                  </span>
+                )}
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <FieldRow
+                  label="은행명"
+                  value={accountFields.bank_name}
+                  onChange={(v) => handleAccountFieldChange('bank_name', v)}
+                  onCopy={() => handleCopyField('bank_name', accountFields.bank_name)}
+                  isCopied={copiedKey === 'bank_name'}
+                  placeholder="예: 국민은행"
+                />
+                <FieldRow
+                  label="예금주"
+                  value={accountFields.holder}
+                  onChange={(v) => handleAccountFieldChange('holder', v)}
+                  onCopy={() => handleCopyField('holder', accountFields.holder)}
+                  isCopied={copiedKey === 'holder'}
+                  placeholder="예: 홍길동"
+                />
+                <FieldRow
+                  label="계좌번호"
+                  value={accountFields.account_no}
+                  onChange={(v) => handleAccountFieldChange('account_no', v)}
+                  onCopy={() => handleCopyField('account_no', accountFields.account_no)}
+                  isCopied={copiedKey === 'account_no'}
+                  placeholder="예: 123456-78-901234"
+                  highlight
+                />
+              </div>
+              <p className="text-[11px] text-[#6e717e]">
+                * 제이님이 직접 수정하면 서버의 최신 보관분(/api/ocr/latest)에 즉시 저장되어 인트라넷 자동입력에 그대로 반영됩니다.
+              </p>
             </div>
 
             {/* 5. 하단: OCR 원문 전체 보기 아코디언 */}

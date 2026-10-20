@@ -1,0 +1,12 @@
+.venv/
+.venv-1/
+.venv-2/
+.venv-3/
+.venv_ocr_spike/
+frontend/node_modules/
+frontend/dist/
+backups/
+scratch/
+__pycache__/
+data/encar_snapshots.json
+data/encar_newcar_catalog.json

@@ -11,10 +11,12 @@ import shutil
 import threading
 import json
 from typing import Dict, Any, Optional
-from fastapi import APIRouter, UploadFile, File, HTTPException, BackgroundTasks
+from pydantic import BaseModel
+from fastapi import APIRouter, UploadFile, File, Form, HTTPException, BackgroundTasks
 from fastapi.responses import JSONResponse, FileResponse
 
 from services.ocr_service import OCRService, TEMP_OCR_DIR
+from services.account_parser import parse_account_text
 
 router = APIRouter(prefix="/api/ocr", tags=["OCR"])
 
@@ -27,7 +29,14 @@ OCR_TASKS: Dict[str, Dict[str, Any]] = {}
 TASK_LOCK = threading.Lock()
 
 
-def _save_latest_result(task_id: str, doc_type: str, parsed: Dict[str, Any], file_path: str, orig_name: str):
+class AccountUpdateRequest(BaseModel):
+    bank_name: Optional[str] = ""
+    bank_code: Optional[str] = ""
+    account_no: Optional[str] = ""
+    holder: Optional[str] = ""
+
+
+def _save_latest_result(task_id: str, doc_type: str, parsed: Dict[str, Any], file_path: str, orig_name: str, account: Optional[Dict[str, str]] = None):
     """최신 OCR 결과 JSON 및 전 서류(사업자/자동차등록증/인감) 원본 사진 보관"""
     try:
         os.makedirs(LATEST_OCR_DIR, exist_ok=True)
@@ -38,13 +47,16 @@ def _save_latest_result(task_id: str, doc_type: str, parsed: Dict[str, Any], fil
         if os.path.exists(file_path):
             shutil.copy2(file_path, target_path)
 
-        # 기존 서류 종류별 파일 보관 상태 유지/갱신
+        # 기존 서류 종류별 파일 보관 상태 및 기존 계좌 정보 유지/갱신
         files_by_type = {}
+        existing_account = {"bank_name": "", "bank_code": "", "account_no": "", "holder": ""}
         if os.path.exists(LATEST_META_FILE):
             try:
                 with open(LATEST_META_FILE, "r", encoding="utf-8") as f:
                     old_meta = json.load(f)
                     files_by_type = old_meta.get("files", {})
+                    if old_meta.get("account"):
+                        existing_account = old_meta.get("account")
             except Exception:
                 files_by_type = {}
 
@@ -57,12 +69,17 @@ def _save_latest_result(task_id: str, doc_type: str, parsed: Dict[str, Any], fil
             "updated_at": time.time()
         }
 
+        # 전달받은 account가 유효하면 우선 반영, 없으면 parsed 내의 account 또는 기존 account 유지
+        final_account = account or parsed.get("account") or existing_account
+        parsed["account"] = final_account
+
         meta = {
             "has_data": True,
             "task_id": task_id,
             "document_type": doc_key,
             "vendor_type": parsed.get("vendor_type", "UNKNOWN"),
             "data": parsed,
+            "account": final_account,
             "has_file": True,
             "file_name": target_filename,
             "original_filename": orig_name,
@@ -96,7 +113,7 @@ def _cleanup_old_tasks():
             OCR_TASKS.pop(tid, None)
 
 
-def _async_ocr_worker(task_id: str, file_path: str):
+def _async_ocr_worker(task_id: str, file_path: str, account: Optional[Dict[str, str]] = None):
     """백그라운드 스레드에서 OCR subprocess를 실행하고 결과를 갱신합니다."""
     orig_name = ""
     with TASK_LOCK:
@@ -112,8 +129,12 @@ def _async_ocr_worker(task_id: str, file_path: str):
         parsed = OCRService.parse_document(ocr_raw)
         doc_type = parsed.get("document_type", "UNKNOWN")
 
-        # 3. 최신 결과 보관 (전 서류 원본 보관 정책)
-        _save_latest_result(task_id, doc_type, parsed, file_path, orig_name)
+        # 계좌 정보 탑재
+        if account:
+            parsed["account"] = account
+
+        # 3. 최신 결과 보관 (전 서류 원본 보관 정책 + 계좌 정보)
+        _save_latest_result(task_id, doc_type, parsed, file_path, orig_name, account=account)
 
         # 4. 개별 작업 상태 갱신
         download_url = f"/api/ocr/download/{task_id}"
@@ -141,9 +162,12 @@ def _async_ocr_worker(task_id: str, file_path: str):
 
 
 @router.post("/vendor")
-async def upload_vendor_document(file: UploadFile = File(...)):
+async def upload_vendor_document(
+    file: UploadFile = File(...),
+    account_text: Optional[str] = Form(None)
+):
     """
-    거래처 서류(사업자등록증, 인감증명서, 자동차등록증) 사진을 업로드하고 비동기 OCR 작업을 시작합니다.
+    거래처 서류(사업자등록증, 인감증명서, 자동차등록증) 사진 및 계좌 텍스트를 업로드하고 비동기 OCR 작업을 시작합니다.
     """
     OCRService.ensure_temp_dir()
     _cleanup_old_tasks()
@@ -165,6 +189,9 @@ async def upload_vendor_document(file: UploadFile = File(...)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"파일 저장 실패: {str(e)}")
 
+    # 계좌 텍스트 파싱
+    parsed_account = parse_account_text(account_text) if account_text else {"bank_name": "", "bank_code": "", "account_no": "", "holder": ""}
+
     with TASK_LOCK:
         OCR_TASKS[task_id] = {
             "task_id": task_id,
@@ -172,6 +199,7 @@ async def upload_vendor_document(file: UploadFile = File(...)):
             "created_at": time.time(),
             "file_path": saved_path,
             "original_filename": file.filename,
+            "account": parsed_account,
             "result": None,
             "download_url": None,
             "error": None,
@@ -180,7 +208,7 @@ async def upload_vendor_document(file: UploadFile = File(...)):
     # 동기 블로킹 방지를 위해 백그라운드 스레드로 비동기 처리
     worker_thread = threading.Thread(
         target=_async_ocr_worker,
-        args=(task_id, saved_path),
+        args=(task_id, saved_path, parsed_account),
         daemon=True,
     )
     worker_thread.start()
@@ -189,6 +217,7 @@ async def upload_vendor_document(file: UploadFile = File(...)):
         "success": True,
         "task_id": task_id,
         "status": "PENDING",
+        "account": parsed_account,
         "message": "서류 업로드 완료. OCR 분석 작업이 백그라운드에서 시작되었습니다."
     }
 
@@ -260,6 +289,56 @@ async def get_latest_ocr_result():
             "has_data": False,
             "error": f"최신 결과 로드 실패: {str(e)}"
         }
+
+
+@router.patch("/latest")
+async def update_latest_ocr_result(req: AccountUpdateRequest):
+    """
+    최신 OCR 결과에 계좌 정보(은행명, 은행코드, 계좌번호, 예금주) 수정 사항을 반영합니다.
+    """
+    if not os.path.exists(LATEST_META_FILE):
+        raise HTTPException(status_code=404, detail="수정할 최신 OCR 결과가 없습니다.")
+
+    try:
+        with open(LATEST_META_FILE, "r", encoding="utf-8") as f:
+            meta = json.load(f)
+
+        # 계좌 정보 갱신
+        current_account = meta.get("account", {}) or {}
+        
+        # 은행명 전달 시 코드 자동 보정
+        b_name = req.bank_name if req.bank_name is not None else current_account.get("bank_name", "")
+        b_code = req.bank_code if req.bank_code is not None else current_account.get("bank_code", "")
+        if b_name and not b_code:
+            # 은행명으로 코드 역조회
+            for code, name in BANK_CODE_MAP.items():
+                if name == b_name or b_name in name:
+                    b_code = code
+                    break
+
+        updated_account = {
+            "bank_name": b_name,
+            "bank_code": b_code,
+            "account_no": req.account_no if req.account_no is not None else current_account.get("account_no", ""),
+            "holder": req.holder if req.holder is not None else current_account.get("holder", "")
+        }
+
+        meta["account"] = updated_account
+        if "data" in meta and isinstance(meta["data"], dict):
+            meta["data"]["account"] = updated_account
+
+        with open(LATEST_META_FILE, "w", encoding="utf-8") as f:
+            json.dump(meta, f, ensure_ascii=False, indent=2)
+
+        meta["has_data"] = True
+        return {
+            "success": True,
+            "message": "최신 계좌 정보가 성공적으로 반영되었습니다.",
+            "account": updated_account,
+            "data": meta
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"계좌 정보 갱신 실패: {str(e)}")
 
 
 @router.get("/latest/file")
