@@ -34,6 +34,7 @@ from services.data_processor import DataProcessor
 from services.autoplus_sync_service import AutoplusSyncService, start_autoplus_scheduler
 from routers.ledger_router import router as ledger_router
 from routers.settlement_router import router as settlement_router
+from routers.ocr_router import router as ocr_router
 
 app = FastAPI(title="J-Project Local API Server", version="1.0.0")
 
@@ -71,6 +72,7 @@ async def cors_and_pna_preflight_middleware(request: Request, call_next):
 
 app.include_router(ledger_router)
 app.include_router(settlement_router)
+app.include_router(ocr_router)
 
 @app.on_event("startup")
 def on_app_startup():

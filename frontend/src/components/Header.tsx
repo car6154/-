@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Car, Cloud, Key, ChevronDown, Check } from 'lucide-react';
 
-export type AppTab = 'cockpit' | 'ledger' | 'settlement' | 'soldout' | 'performance' | 'inventory';
+export type AppTab = 'cockpit' | 'ledger' | 'settlement' | 'soldout' | 'performance' | 'inventory' | 'ocr';
 
 interface HeaderProps {
   activeTab: AppTab;
@@ -52,6 +52,7 @@ export const Header: React.FC<HeaderProps> = ({
     { id: 'soldout', label: '판매완료 정산', icon: '🏁' },
     { id: 'performance', label: '판매실적 DB', icon: '📈' },
     { id: 'inventory', label: '보유재고', icon: '🏢' },
+    { id: 'ocr', label: '거래처 OCR', icon: '📄' },
   ];
 
   const currentTabInfo = tabOptions.find((t) => t.id === activeTab) || tabOptions[0];

@@ -12,6 +12,7 @@ import { LedgerTab } from '@/components/LedgerTab';
 import { BiddingCockpitTab } from '@/components/BiddingCockpitTab';
 import { SettlementTab } from '@/components/SettlementTab';
 import { SoldOutSettlementTab } from '@/components/SoldOutSettlementTab';
+import { VendorOcrTab } from '@/components/VendorOcrTab';
 import { CarDetailModal } from '@/components/CarDetailModal';
 import { AddCarModal } from '@/components/AddCarModal';
 import { DriveModal } from '@/components/DriveModal';
@@ -879,6 +880,9 @@ export default function App() {
             />
           </Suspense>
         )}
+
+        {/* Tab 7: 📄 거래처 OCR (현장 서류 자동 추출 및 인트라넷 복사) */}
+        {activeTab === 'ocr' && <VendorOcrTab />}
       </main>
 
       {/* Footer Info */}

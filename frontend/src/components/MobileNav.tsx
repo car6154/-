@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calculator, FileText, Clock, CheckCircle2, TrendingUp, Warehouse } from 'lucide-react';
+import { Calculator, FileText, Clock, CheckCircle2, TrendingUp, Warehouse, ScanLine } from 'lucide-react';
 import type { AppTab } from './Header';
 
 interface MobileNavProps {
@@ -68,6 +68,16 @@ export const MobileNav: React.FC<MobileNavProps> = ({ activeTab, setActiveTab })
       >
         <Warehouse className="w-4 h-4 mb-0.5" />
         <span className="text-[9px] font-medium">재고</span>
+      </button>
+
+      <button
+        onClick={() => setActiveTab('ocr')}
+        className={`flex flex-col items-center py-1 px-2 rounded-lg transition ${
+          activeTab === 'ocr' ? 'text-[#cc9166]' : 'text-[#9194a1] hover:text-white'
+        }`}
+      >
+        <ScanLine className="w-4 h-4 mb-0.5" />
+        <span className="text-[9px] font-medium">OCR</span>
       </button>
     </div>
   );

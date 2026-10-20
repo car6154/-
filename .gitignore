@@ -22,6 +22,8 @@ wheels/
 .venv/
 venv/
 ENV/
+.venv_ocr_spike/
+data/temp_ocr/
 
 # Environment variables & Machine-specific credentials
 .env
