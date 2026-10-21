@@ -744,6 +744,11 @@ def build_kcar_web_url(car_name: str, year: int = 0, detail_model: str = "", mil
         cond["wr_eq_mnuftr_cd"] = codes[0]
         cond["wr_eq_model_grp_cd"] = codes[1]
         cond["wr_eq_model_cd"] = codes[2]
+        grd_cd, grd_dtl_cd = resolve_kcar_grade_codes(codes[0], codes[1], codes[2], detail_model, car_name)
+        if grd_cd:
+            cond["wr_eq_grd_cd"] = grd_cd
+            if grd_dtl_cd:
+                cond["wr_eq_grd_dtl_cd"] = grd_dtl_cd
     elif car_name:
         cond["wr_txt_idx"] = car_name
         cond["wr_in_model_nm"] = car_name
@@ -825,6 +830,7 @@ def fetch_kcar_market_stats(
         return empty_res
 
     m_cd, grp_cd, mod_cd = codes
+    grd_cd, grd_dtl_cd = resolve_kcar_grade_codes(m_cd, grp_cd, mod_cd, detail_model, car_name)
 
     # K-Car 직영 검색 API 파라미터 구성 (최대 100대)
     param: Dict[str, Any] = {
@@ -835,16 +841,23 @@ def fetch_kcar_market_stats(
         "limit": 100
     }
 
-    # a) 연식 파라미터 (wr_gt_mfg_dt, wr_lt_mfg_dt)
+    # a) 등급 코드 파라미터 (해소 시 wr_eq_grd_cd, 세부코드 시 wr_eq_grd_dtl_cd, wr_txt_idx 미포함)
+    trim_kw = ""
+    if grd_cd:
+        param["wr_eq_grd_cd"] = grd_cd
+        if grd_dtl_cd:
+            param["wr_eq_grd_dtl_cd"] = grd_dtl_cd
+    else:
+        # 미해소 시 기존 텍스트 키워드 (wr_txt_idx) 유지
+        trim_kw = extract_kcar_trim_keyword(detail_model)
+        if trim_kw:
+            param["wr_txt_idx"] = trim_kw
+
+    # b) 연식 파라미터 (wr_gt_mfg_dt, wr_lt_mfg_dt: ±1년 교정)
     if year and year > 0:
         k_yr = 2000 + year if year < 100 else year
-        param["wr_gt_mfg_dt"] = f"{k_yr}01"
-        param["wr_lt_mfg_dt"] = f"{k_yr}12"
-
-    # b) 세부등급 트림 키워드 (wr_txt_idx)
-    trim_kw = extract_kcar_trim_keyword(detail_model)
-    if trim_kw:
-        param["wr_txt_idx"] = trim_kw
+        param["wr_gt_mfg_dt"] = f"{k_yr - 1}01"
+        param["wr_lt_mfg_dt"] = f"{k_yr + 1}12"
 
     # c) 주행거리 파라미터 (wr_gt_milg, wr_lt_milg: ±3만km)
     if mileage and mileage > 0:
@@ -899,9 +912,15 @@ def fetch_kcar_market_stats(
         grd_dtl_nm = str(r.get('grdDtlNm') or '')
         row_full = f"{car_whl_nm} {grd_nm} {grd_dtl_nm}".lower().replace(" ", "")
 
-        # 1. 트림 키워드 엄격 일치
-        if trim_kw and trim_kw.lower() not in row_full:
-            continue
+        # 1. 등급 코드가 풀린 경우 코드 동등 비교, 안 풀린 경우 트림 키워드 엄격 일치
+        if grd_cd:
+            if str(r.get('grdCd') or '') != grd_cd:
+                continue
+            if grd_dtl_cd and str(r.get('grdDtlCd') or '') != grd_dtl_cd:
+                continue
+        else:
+            if trim_kw and trim_kw.lower() not in row_full:
+                continue
 
         # 2. 배기량 엄격 일치 (요청에 2.0 등 배기량이 명시된 경우)
         if disp_val and disp_val not in row_full:
