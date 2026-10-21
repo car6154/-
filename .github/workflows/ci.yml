@@ -52,6 +52,7 @@ jobs:
               'routers/settlement_router.py',
               'services/autoplus_admin_service.py',
               'tests/test_ocr_parser.py',
+              'tests/test_ocr_latest_endpoint.py',
           }
           violations = []
 
