@@ -374,8 +374,11 @@ class Scraper:
             session.headers.update(headers)
 
             cars = []
+            search_status = None
+            fallback_statuses = []
             try:
                 cars_res = session.get(api_url, timeout=7)
+                search_status = cars_res.status_code
                 if cars_res.status_code == 200:
                     cars = cars_res.json().get("SearchResults", [])
                     # 💡 [다중 페이지 자동 수집] 1페이지(100대)가 꽉 찼을 경우 추가 페이지(2~3페이지) 연속 수집하여 누락 방지
@@ -395,6 +398,7 @@ class Scraper:
                             except Exception:
                                 break
             except Exception:
+                search_status = "EXC"
                 cars = []
             
             # 💡 [정밀 구문 보정 Fallback]
@@ -467,6 +471,7 @@ class Scraper:
                         fb_safe = urllib.parse.quote(fb_cond)
                         fb_url = f"https://api.encar.com/search/car/list/general?count=false&q={fb_safe}&sr=%7CModifiedDate%7C0%7C100"
                         fb_resp = session.get(fb_url, timeout=7)
+                        fallback_statuses.append(fb_resp.status_code)
                         if fb_resp.status_code == 200:
                             fb_cars = fb_resp.json().get("SearchResults", [])
                             if fb_cars:
@@ -488,9 +493,9 @@ class Scraper:
                                             break
                                 break
                     except Exception:
-                        pass
+                        fallback_statuses.append("EXC")
 
-            if not cars: return pd.DataFrame(), "❌ 매물 없음"
+            if not cars: return pd.DataFrame(), f"❌ 매물 없음 (search={search_status}, fb={fallback_statuses[:5]})"
 
             car_data_list = []
             for car in cars:

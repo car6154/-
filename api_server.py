@@ -750,6 +750,7 @@ def search_encar_market(req: EncarSearchRequest):
             }
 
         df, msg = Scraper.run(encar_url, "")
+        print(f"[엔카검색 결과] rows={len(df)} msg={msg}", flush=True)
         if df.empty and req.url:
             alt_url = MasterMappingService.generate_smart_encar_url(
                 car_name=car_name,
@@ -760,6 +761,7 @@ def search_encar_market(req: EncarSearchRequest):
             )
             if alt_url and alt_url != encar_url and ("action" in alt_url or "q=" in alt_url):
                 df, msg = Scraper.run(alt_url, "")
+                print(f"[엔카검색 결과] rows={len(df)} msg={msg}", flush=True)
                 if not df.empty:
                     encar_url = alt_url
 
