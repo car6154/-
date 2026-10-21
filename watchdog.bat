@@ -26,8 +26,8 @@ if errorlevel 1 (
     echo   - 다른 정상 서버는 절대 종료하지 않음 [무충돌 보장]
     echo ========================================================
 
-    echo [*] 초기 서버 부팅 대기 중 [60초]...
-    ping 127.0.0.1 -n 61 > nul
+    echo [*] 초기 서버 부팅 대기 중 [15초]...
+    ping 127.0.0.1 -n 16 > nul
 
     set "FAIL_8000=0"
     set "FAIL_3000=0"
@@ -63,7 +63,7 @@ if errorlevel 1 (
                 echo [%date% %time%] 8000번 포트 해제 확인 완료. FastAPI 개별 부활 기동...
                 start "JPRO_FastAPI_8000" cmd.exe /c "cd /d "%~dp0" & .venv\Scripts\python.exe -m uvicorn api_server:app --host 0.0.0.0 --port 8000 --reload --timeout-graceful-shutdown 1"
                 set "FAIL_8000=0"
-                ping 127.0.0.1 -n 10 > nul
+                ping 127.0.0.1 -n 6 > nul
             )
         )
     )
@@ -95,7 +95,7 @@ if errorlevel 1 (
                 echo [%date% %time%] 3000번 포트 해제 확인 완료. Frontend 개별 부활 기동...
                 start "JPRO_Frontend_3000" cmd.exe /c "cd /d "%~dp0frontend" & npm run dev -- --host 0.0.0.0"
                 set "FAIL_3000=0"
-                ping 127.0.0.1 -n 10 > nul
+                ping 127.0.0.1 -n 6 > nul
             )
         )
     )
@@ -127,7 +127,7 @@ if errorlevel 1 (
                 echo [%date% %time%] 8501번 포트 해제 확인 완료. Streamlit 개별 부활 기동...
                 start "JPRO_Streamlit_8501" cmd.exe /c "cd /d "%~dp0" & .venv\Scripts\python.exe -m streamlit run app.py --server.port 8501 --server.address 0.0.0.0 --browser.gatherUsageStats false"
                 set "FAIL_8501=0"
-                ping 127.0.0.1 -n 10 > nul
+                ping 127.0.0.1 -n 6 > nul
             )
         )
     )
