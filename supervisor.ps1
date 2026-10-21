@@ -38,17 +38,26 @@ function Write-SupervisorLog([string]$message) {
 $mutexName = "Global\JPRO_Supervisor_Mutex"
 $createdNew = $false
 $mutex = $null
+$hasHandle = $false
 
 try {
-    $mutex = New-Object System.Threading.Mutex($true, $mutexName, [ref]$createdNew)
-} catch [System.Threading.AbandonedMutexException] {
-    $createdNew = $true
+    $mutex = New-Object System.Threading.Mutex($false, $mutexName, [ref]$createdNew)
 } catch {
-    Write-SupervisorLog "[FATAL] Failed to create or acquire mutex: $_"
+    Write-SupervisorLog "[FATAL] Failed to create mutex: $_"
     exit 1
 }
 
-if (-not $createdNew) {
+try {
+    $hasHandle = $mutex.WaitOne(0, $false)
+} catch [System.Threading.AbandonedMutexException] {
+    # Previous process was killed abruptly; ownership acquired
+    $hasHandle = $true
+} catch {
+    Write-SupervisorLog "[FATAL] Failed to acquire mutex: $_"
+    exit 1
+}
+
+if (-not $hasHandle) {
     Write-SupervisorLog "[INFO] JPRO_Supervisor is already running. Exiting immediately."
     exit 0
 }
@@ -256,6 +265,14 @@ try {
             $svc.Process = $null
             $svc.Pid = $null
         }
+    }
+
+    # 4-1. Clear stale stop file on startup
+    if (Test-Path $stopFile) {
+        try {
+            Remove-Item -Path $stopFile -Force -ErrorAction SilentlyContinue
+            Write-SupervisorLog "[STARTUP] Stale supervisor.stop removed. Continuing normal startup."
+        } catch {}
     }
 
     # 5. Start all services initially
