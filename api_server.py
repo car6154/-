@@ -784,11 +784,54 @@ def search_encar_market(req: EncarSearchRequest):
         df = DataProcessor.standardize(df)
         df = Scraper.dedupe_after_scan(df)
 
-        # 2. 세부모델/파생트림 엄격 정밀 필터링 (스페셜, 에디션, N Line 배제)
-        df = DataProcessor.filter_strictly_by_submodel(df, target_car_name=car_name, target_sub_model=detail_model)
+        # 2. 세부모델/파생트림 엄격 정밀 필터링 (Badge 파라미터 확정 차종은 스킵)
+        should_skip_filter = False
+        try:
+            import urllib.parse
+            resolve_res = MasterMappingService.resolve_encar_model(
+                brand=manufacturer or "",
+                car_name=car_name or "",
+                sub_model=detail_model or "",
+                year=year_num
+            )
+            if resolve_res and resolve_res.get("encar_model"):
+                trims_dict = resolve_res.get("trims", {})
+                matched_trim = None
+                if detail_model and trims_dict:
+                    clean_sub = re.sub(r'[\s/]+', '', str(detail_model)).lower()
+                    for t_name, t_data in trims_dict.items():
+                        if re.sub(r'[\s/]+', '', str(t_name)).lower() == clean_sub:
+                            matched_trim = t_data
+                            break
+                    if not matched_trim:
+                        tokens = [t for t in re.split(r'[\s/]+', str(detail_model).lower()) if len(t) >= 2]
+                        best_s = 0
+                        for t_name, t_data in trims_dict.items():
+                            tn_clean = str(t_name).lower()
+                            s = sum(1 for tok in tokens if tok in tn_clean)
+                            if s > best_s:
+                                best_s = s
+                                matched_trim = t_data
+                        if best_s < 1:
+                            matched_trim = None
+                has_badge = bool(matched_trim and matched_trim.get("badge") and str(matched_trim.get("badge")).strip())
+                decoded_url = urllib.parse.unquote(encar_url or "")
+                has_badge_param = "Badge." in (encar_url or "") or "Badge." in decoded_url
+                if has_badge and has_badge_param:
+                    should_skip_filter = True
+        except Exception as e_gate:
+            print(f"[게이트 판정 오류] {e_gate}")
+
+        if should_skip_filter:
+            print(f"   => [필터 스킵] 파라미터 조회로 등급 확정 — 텍스트 후처리 생략", flush=True)
+        else:
+            df = DataProcessor.filter_strictly_by_submodel(df, target_car_name=car_name, target_sub_model=detail_model)
+
         print(f"   => [필터링 결과] 최종 반환 매물: {len(df)}대 (target_sub_model='{detail_model}')\n", flush=True)
         try:
             with open("data/encar_debug.log", "a", encoding="utf-8") as f_dbg:
+                if should_skip_filter:
+                    f_dbg.write(f"   => [필터 스킵] 파라미터 조회로 등급 확정 — 텍스트 후처리 생략\n")
                 f_dbg.write(f"   => 최종 필터링 결과: {len(df)}대 (target_sub_model='{detail_model}')\n\n")
         except Exception:
             pass

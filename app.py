@@ -2095,11 +2095,58 @@ if st.session_state.f_sub not in f_sub_opts: st.session_state.f_sub = "전체"
 st.session_state.f_sub = st.sidebar.selectbox("세부모델", f_sub_opts, index=f_sub_opts.index(st.session_state.f_sub))
 
 if not is_url_mode and not filtered_df.empty and st.session_state.f_sub != "전체" and '세부모델' in filtered_df.columns: 
-    filtered_df = DataProcessor.filter_strictly_by_submodel(
-        filtered_df,
-        target_car_name=st.session_state.get('f_name', ''),
-        target_sub_model=st.session_state.f_sub
-    )
+    # 3조건 충족 시 세부모델 텍스트 필터 스킵 (Badge 파라미터 확정 차종)
+    should_skip_filter = False
+    try:
+        from services.master_mapping import MasterMappingService
+        target_c_name = st.session_state.get('f_name', '')
+        target_s_model = st.session_state.f_sub
+        active_url = st.session_state.get('auto_encar_url', '') or (st.session_state.get('debug_encar_scan', {}).get('target_url', '') if isinstance(st.session_state.get('debug_encar_scan'), dict) else '')
+        if not active_url:
+            active_url = generate_encar_market_url(target_c_name, target_s_model, st.session_state.get('f_year', ''))
+
+        resolve_res = MasterMappingService.resolve_encar_model(
+            brand=st.session_state.get('f_brand', ''),
+            car_name=target_c_name,
+            sub_model=target_s_model,
+            year=st.session_state.get('f_year', '')
+        )
+        if resolve_res and resolve_res.get("encar_model"):
+            trims_dict = resolve_res.get("trims", {})
+            matched_trim = None
+            if target_s_model and trims_dict:
+                clean_sub = re.sub(r'[\s/]+', '', str(target_s_model)).lower()
+                for t_name, t_data in trims_dict.items():
+                    if re.sub(r'[\s/]+', '', str(t_name)).lower() == clean_sub:
+                        matched_trim = t_data
+                        break
+                if not matched_trim:
+                    tokens = [t for t in re.split(r'[\s/]+', str(target_s_model).lower()) if len(t) >= 2]
+                    best_s = 0
+                    for t_name, t_data in trims_dict.items():
+                        tn_clean = str(t_name).lower()
+                        s = sum(1 for tok in tokens if tok in tn_clean)
+                        if s > best_s:
+                            best_s = s
+                            matched_trim = t_data
+                    if best_s < 1:
+                        matched_trim = None
+            has_badge = bool(matched_trim and matched_trim.get("badge") and str(matched_trim.get("badge")).strip())
+            decoded_url = urllib.parse.unquote(active_url or "")
+            has_badge_param = "Badge." in (active_url or "") or "Badge." in decoded_url
+            if has_badge and has_badge_param:
+                should_skip_filter = True
+    except Exception as e_gate:
+        print(f"[app.py 게이트 판정 오류] {e_gate}")
+
+    if should_skip_filter:
+        print(f"   => [필터 스킵] 파라미터 조회로 등급 확정 — 텍스트 후처리 생략", flush=True)
+    else:
+        filtered_df = DataProcessor.filter_strictly_by_submodel(
+            filtered_df,
+            target_car_name=st.session_state.get('f_name', ''),
+            target_sub_model=st.session_state.f_sub
+        )
 
 # 5. 연식 (시세분석용 연식, 0=전체)
 default_f_year = st.session_state.get('f_year', '')
