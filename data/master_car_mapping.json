@@ -1254,6 +1254,8 @@
           "badge_group": "가솔린 1000cc",
           "badge": "터보 인스퍼레이션",
           "badge_detail": "",
+          "soldout_clsheadcd": "006",
+          "soldout_clsdetailcd": "",
           "updated_at": "2026-10-21 21:55:00"
         },
         "가솔린 1.0 인스퍼레이션": {
@@ -1266,6 +1268,8 @@
           "badge_group": "가솔린 1000cc",
           "badge": "터보 디 에센셜",
           "badge_detail": "",
+          "soldout_clsheadcd": "005",
+          "soldout_clsdetailcd": "",
           "updated_at": "2026-10-21 21:55:00"
         },
         "가솔린 1.0 디 에센셜": {
