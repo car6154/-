@@ -914,7 +914,8 @@ class MasterMappingService:
                     "model_group": m_info.get("model_group", ""),
                     "encar_model": enc_m,
                     "matched_key": matched_master_key,
-                    "trims": all_trims
+                    "trims": all_trims,
+                    "soldout_codes": m_info.get("soldout_codes", {})
                 }
 
             return {}

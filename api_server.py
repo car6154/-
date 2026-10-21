@@ -1379,6 +1379,7 @@ class EncarSoldOutRequest(BaseModel):
     carIds: Optional[List[str]] = []
     targetYear: Optional[str] = None
     expectedModel: Optional[str] = None
+    detailModel: Optional[str] = None
 
 
 @app.post("/api/encar/soldout")
@@ -1387,9 +1388,57 @@ def get_encar_soldout_stats(req: EncarSoldOutRequest):
         car_ids = [str(cid).strip() for cid in (req.carIds or []) if str(cid).strip()]
         target_year = str(req.targetYear).strip() if req.targetYear else None
         expected_model = str(req.expectedModel).strip() if req.expectedModel else None
+        detail_model = str(req.detailModel).strip() if req.detailModel else None
+
+        direct_codes = None
+        if detail_model:
+            resolved = MasterMappingService.resolve_encar_model(
+                brand="",
+                car_name=expected_model or detail_model,
+                sub_model=detail_model,
+                year=target_year
+            )
+            if not resolved and expected_model:
+                resolved = MasterMappingService.resolve_encar_model(
+                    brand="",
+                    car_name=detail_model,
+                    sub_model=detail_model,
+                    year=target_year
+                )
+
+            if resolved and resolved.get("soldout_codes"):
+                base_codes = resolved.get("soldout_codes", {})
+                trims_dict = resolved.get("trims", {})
+                matched_trim = None
+                if trims_dict:
+                    clean_sub = re.sub(r'[\s/]+', '', str(detail_model)).lower()
+                    for t_name, t_data in trims_dict.items():
+                        if re.sub(r'[\s/]+', '', str(t_name)).lower() == clean_sub:
+                            matched_trim = t_data
+                            break
+                    if not matched_trim:
+                        tokens = [t for t in re.split(r'[\s/]+', str(detail_model).lower()) if len(t) >= 2]
+                        best_s = 0
+                        for t_name, t_data in trims_dict.items():
+                            tn_clean = str(t_name).lower()
+                            s = sum(1 for tok in tokens if tok in tn_clean)
+                            if s > best_s:
+                                best_s = s
+                                matched_trim = t_data
+                        if best_s < 1:
+                            matched_trim = None
+
+                if matched_trim and matched_trim.get("soldout_clsheadcd"):
+                    direct_codes = {
+                        "mnfccd": base_codes.get("mnfccd", ""),
+                        "mdlgroupcd": base_codes.get("mdlgroupcd", ""),
+                        "mdlcd": base_codes.get("mdlcd", ""),
+                        "clsheadcd": matched_trim.get("soldout_clsheadcd", ""),
+                        "clsdetailcd": matched_trim.get("soldout_clsdetailcd", "")
+                    }
 
         # carIds가 없으면 로컬 스냅샷에서 최근 ID 추출 시도
-        if not car_ids:
+        if not car_ids and not direct_codes:
             try:
                 snap_path = os.path.join(os.path.dirname(__file__), "data", "encar_snapshots.json")
                 if os.path.exists(snap_path):
@@ -1403,13 +1452,14 @@ def get_encar_soldout_stats(req: EncarSoldOutRequest):
             except Exception as e:
                 print("Snapshot fallback error:", e)
 
-        if not car_ids:
+        if not car_ids and not direct_codes:
             return {"success": False, "message": "후보 차량 ID가 없습니다.", "data": {"has_data": False}}
 
         sold_out_res = Scraper.fetch_sold_out_cars(
             car_ids,
             target_year=target_year,
-            expected_model=expected_model
+            expected_model=expected_model,
+            direct_codes=direct_codes
         )
 
         enriched_info = {}

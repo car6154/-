@@ -1244,6 +1244,11 @@
       "aliases": [
         "더뉴캐스퍼"
       ],
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "062",
+        "mdlcd": "193"
+      },
       "trims": {
         "가솔린 1.0 터보 인스퍼레이션": {
           "badge_group": "가솔린 1000cc",
@@ -1267,18 +1272,24 @@
           "badge_group": "가솔린 1000cc",
           "badge": "디 에센셜",
           "badge_detail": "",
+          "soldout_clsheadcd": "002",
+          "soldout_clsdetailcd": "",
           "updated_at": "2026-10-21 21:55:00"
         },
         "가솔린 1.0 터보 스마트": {
           "badge_group": "가솔린 1000cc",
           "badge": "터보 스마트",
           "badge_detail": "",
+          "soldout_clsheadcd": "004",
+          "soldout_clsdetailcd": "",
           "updated_at": "2026-10-21 21:55:00"
         },
         "가솔린 1.0 스마트": {
           "badge_group": "가솔린 1000cc",
           "badge": "스마트",
           "badge_detail": "",
+          "soldout_clsheadcd": "001",
+          "soldout_clsdetailcd": "",
           "updated_at": "2026-10-21 21:55:00"
         }
       }

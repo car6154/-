@@ -226,7 +226,7 @@ export function useBiddingCockpit({
     }
   }, []);
 
-  const fetchEncarSoldOut = useCallback(async (carIds: string[], expectedModel: string, targetYear: string) => {
+  const fetchEncarSoldOut = useCallback(async (carIds: string[], expectedModel: string, targetYear: string, targetDetailModel?: string) => {
     if (!carIds.length || !expectedModel) return;
     try {
       const res = await fetch('/api/encar/soldout', {
@@ -235,7 +235,8 @@ export function useBiddingCockpit({
         body: JSON.stringify({
           carIds,
           expectedModel,
-          targetYear
+          targetYear,
+          detailModel: targetDetailModel !== undefined ? targetDetailModel : detailModel
         })
       });
       if (res.ok) {
@@ -247,7 +248,7 @@ export function useBiddingCockpit({
     } catch (e) {
       console.warn('Encar soldout fetch failed:', e);
     }
-  }, []);
+  }, [detailModel]);
 
   const fetchEncarComparable = useCallback(async (options: {
     url?: string;
@@ -343,7 +344,7 @@ export function useBiddingCockpit({
 
         const cids = data.items.map((it: any) => String(it.id || it.carid || '').replace(/\D/g, '')).filter(Boolean);
         if (cids.length > 0) {
-          fetchEncarSoldOut(cids, targetCarName, String(targetYr));
+          fetchEncarSoldOut(cids, targetCarName, String(targetYr), targetDetail);
         }
 
         return data.items;
