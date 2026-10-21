@@ -1246,37 +1246,37 @@
       ],
       "trims": {
         "가솔린 1.0 터보 인스퍼레이션": {
-          "badge_group": "",
+          "badge_group": "가솔린 1000cc",
           "badge": "터보 인스퍼레이션",
           "badge_detail": "",
           "updated_at": "2026-10-21 21:55:00"
         },
         "가솔린 1.0 인스퍼레이션": {
-          "badge_group": "",
+          "badge_group": "가솔린 1000cc",
           "badge": "인스퍼레이션",
           "badge_detail": "",
           "updated_at": "2026-10-21 21:55:00"
         },
         "가솔린 1.0 터보 디 에센셜": {
-          "badge_group": "",
+          "badge_group": "가솔린 1000cc",
           "badge": "터보 디 에센셜",
           "badge_detail": "",
           "updated_at": "2026-10-21 21:55:00"
         },
         "가솔린 1.0 디 에센셜": {
-          "badge_group": "",
+          "badge_group": "가솔린 1000cc",
           "badge": "디 에센셜",
           "badge_detail": "",
           "updated_at": "2026-10-21 21:55:00"
         },
         "가솔린 1.0 터보 스마트": {
-          "badge_group": "",
+          "badge_group": "가솔린 1000cc",
           "badge": "터보 스마트",
           "badge_detail": "",
           "updated_at": "2026-10-21 21:55:00"
         },
         "가솔린 1.0 스마트": {
-          "badge_group": "",
+          "badge_group": "가솔린 1000cc",
           "badge": "스마트",
           "badge_detail": "",
           "updated_at": "2026-10-21 21:55:00"
