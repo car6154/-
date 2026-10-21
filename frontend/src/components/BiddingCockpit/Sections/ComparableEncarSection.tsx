@@ -592,7 +592,7 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                     </span>
                   ) : (
                     <span className="px-2.5 py-1 rounded bg-blue-500/20 text-blue-300 font-bold font-mono">
-                      📅 {selectedEncar.checkDate} ({selectedEncar.holdingDays}일 전)
+                      📅 점검: {selectedEncar.checkDate}
                     </span>
                   )}
                   {selectedEncar.accidentType.includes('완전무사고') && !selectedEncar.accidentType.includes('교환') && !selectedEncar.accidentType.includes('판금') ? (
