@@ -1,5 +1,5 @@
 @echo off
-setlocal
+setlocal EnableDelayedExpansion
 cd /d "%~dp0"
 title J-PRO Integrated Launcher
 
@@ -33,25 +33,63 @@ if %errorlevel% neq 0 (
     git stash pop > nul 2>&1
 )
 
-echo [1/3] 기존 서버 프로세스 및 포트(8000, 3000, 8501) 완전 정리 중...
+echo [1/3] 기존 서버 프로세스 및 포트[8000, 3000, 8501] 완전 정리 중...
 
-REM -0. 잔여 감시자 및 백그라운드 프로세스(python, node) 일괄 완전 종료
+REM -0. 잔여 감시자 및 백그라운드 프로세스 일괄 완전 종료
 taskkill /f /fi "WINDOWTITLE eq JPRO_Watchdog*" > nul 2>&1
 taskkill /f /im python.exe > nul 2>&1
 taskkill /f /im node.exe > nul 2>&1
 
-REM -1. 기존 포트 8000, 3000, 8501, 8502 점유 프로세스(PID) 강제 확인사살
+REM -1. 기존 포트 8000, 3000, 8501, 8502 점유 프로세스[PID] 강제 종료
 for /f "tokens=5" %%a in ('netstat -ano -p tcp ^| findstr "LISTENING" ^| findstr ":8000 :3000 :8501 :8502"') do (
     taskkill /f /t /pid %%a > nul 2>&1
 )
 
-REM -2. 기존 잔여 서버 콘솔 창 닫기 (자기 자신 Launcher 창은 보호)
+REM -2. 기존 잔여 서버 콘솔 창 닫기 [자기 자신 Launcher 창은 보호]
 taskkill /f /fi "WINDOWTITLE eq JPRO_FastAPI_*" > nul 2>&1
 taskkill /f /fi "WINDOWTITLE eq JPRO_Frontend_*" > nul 2>&1
 taskkill /f /fi "WINDOWTITLE eq JPRO_Streamlit_*" > nul 2>&1
 taskkill /f /fi "WINDOWTITLE eq Shopping_Web_6154*" > nul 2>&1
 taskkill /f /fi "WINDOWTITLE eq AI_Shopping_Bot*" > nul 2>&1
+ping 127.0.0.1 -n 3 > nul
+
+REM -3. 포트 잔여 PID 재확인 및 2차 강제 종료
+for /f "tokens=5" %%a in ('netstat -ano -p tcp ^| findstr "LISTENING" ^| findstr ":8000 :3000 :8501"') do (
+    taskkill /f /t /pid %%a > nul 2>&1
+)
 ping 127.0.0.1 -n 2 > nul
+
+REM -4. 세 포트[8000, 3000, 8501] 완전 해제 여부 검증
+set "PORTS_CLEAR=1"
+
+netstat -ano -p tcp | findstr "LISTENING" | findstr ":8000" > nul 2>&1
+if not errorlevel 1 (
+    echo [경고] 8000번 포트 프로세스 종료 실패 - 포트가 여전히 점유 중입니다.
+    set "PORTS_CLEAR=0"
+)
+
+netstat -ano -p tcp | findstr "LISTENING" | findstr ":3000" > nul 2>&1
+if not errorlevel 1 (
+    echo [경고] 3000번 포트 프로세스 종료 실패 - 포트가 여전히 점유 중입니다.
+    set "PORTS_CLEAR=0"
+)
+
+netstat -ano -p tcp | findstr "LISTENING" | findstr ":8501" > nul 2>&1
+if not errorlevel 1 (
+    echo [경고] 8501번 포트 프로세스 종료 실패 - 포트가 여전히 점유 중입니다.
+    set "PORTS_CLEAR=0"
+)
+
+if "!PORTS_CLEAR!"=="0" (
+    echo.
+    echo ========================================================
+    echo   [치명적 오류] 기존 포트 정리에 실패하여 기동을 중단합니다.
+    echo   중복 기동 방지를 위해 신규 서버를 띄우지 않습니다.
+    echo ========================================================
+    pause
+    exit /b 1
+)
+echo [OK] 8000, 3000, 8501 세 포트 모두 정상 해제 확인 완료.
 
 REM 0. Tailscale 수신 파일(다운로드 폴더) 자동 배치
 if exist "%USERPROFILE%\Downloads\firebase-applet-config.json" (
@@ -85,10 +123,17 @@ if exist "C:\ai_shopping_bot\run_web.bat" (
 )
 
 REM 5. 24시간 무인 자동 부활 감시자 (Watchdog) 가동
+set "WD_ACTIVE=0"
+(type nul > "%~dp0watchdog.lock") 2>nul
+if errorlevel 1 set "WD_ACTIVE=1"
 tasklist /fi "WINDOWTITLE eq JPRO_Watchdog*" 2>nul | findstr /i "cmd.exe" > nul 2>&1
-if %errorlevel% neq 0 (
+if not errorlevel 1 set "WD_ACTIVE=1"
+
+if "!WD_ACTIVE!"=="0" (
     echo [*] 24시간 자동 부활 감시자 가동 중...
     start "JPRO_Watchdog" /min cmd.exe /c "cd /d "%~dp0" & watchdog.bat"
+) else (
+    echo [*] 24시간 자동 부활 감시자가 이미 정상 가동 중입니다.
 )
 
 echo [3/3] 서버 가동 완료. 런처 창을 닫습니다.
