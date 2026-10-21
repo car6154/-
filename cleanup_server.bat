@@ -6,7 +6,7 @@ title JPRO_Server_Cleanup
 REM ========================================================
 REM   1. 자기 보호 [jpro 서버 머신 외 실행 절대 금지]
 REM ========================================================
-if /i not "%COMPUTERNAME%"=="jpro" (
+if /i not "%COMPUTERNAME%"=="DESKTOP-809DDGE" (
     echo [차단] 이 PC에서는 실행할 수 없습니다. 호스트명: %COMPUTERNAME%
     echo 이 스크립트는 실제 서버 [jpro] 전용 정리 도구입니다.
     pause
