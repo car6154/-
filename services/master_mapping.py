@@ -142,7 +142,7 @@ class MasterMappingService:
             "brand": "기아",
             "model_group": "레이",
             "encar_model": "더 뉴 레이",
-            "aliases": ["더뉴레이", "더 뉴 레이", "더뉴기아레이"],
+            "aliases": ["더뉴레이", "더 뉴 레이"],
             "trims": {}
         },
         "더 뉴 스파크": {
@@ -308,7 +308,7 @@ class MasterMappingService:
             "brand": "현대",
             "model_group": "아이오닉5",
             "encar_model": "아이오닉5",
-            "aliases": ["아이오닉5", "더뉴아이오닉5"],
+            "aliases": ["아이오닉5"],
             "trims": {}
         },
         "i30 (PD)": {
@@ -378,7 +378,7 @@ class MasterMappingService:
             "brand": "기아",
             "model_group": "셀토스",
             "encar_model": "셀토스",
-            "aliases": ["셀토스", "기아셀토스", "더뉴셀토스"],
+            "aliases": ["셀토스", "기아셀토스"],
             "trims": {}
         },
         "더 뉴 말리부": {
@@ -434,7 +434,7 @@ class MasterMappingService:
             "brand": "KG모빌리티(쌍용_)",
             "model_group": "티볼리",
             "encar_model": "베리 뉴 티볼리",
-            "aliases": ["베리뉴티볼리", "더뉴티볼리"],
+            "aliases": ["베리뉴티볼리"],
             "trims": {}
         },
         "티볼리 아머": {
@@ -462,7 +462,7 @@ class MasterMappingService:
             "brand": "쉐보레(GM대우_)",
             "model_group": "스파크",
             "encar_model": "스파크",
-            "aliases": ["스파크", "마티즈크리에이티브"],
+            "aliases": ["스파크"],
             "trims": {}
         },
         "올 뉴 모닝": {
@@ -872,6 +872,22 @@ class MasterMappingService:
                     matched_master_key = norm_idx[f_norm]
                 elif c_norm in norm_idx:
                     matched_master_key = norm_idx[c_norm]
+
+            # 3-1. 긴 키 우선 부분 포함 탐색 (구체적인(긴) 모델명이 짧은 모델명에 먼저 먹히지 않도록 긴 키 우선 정렬)
+            if not matched_master_key:
+                sorted_cands = sorted(norm_idx.items(), key=lambda x: len(x[0]), reverse=True)
+                for norm_cand, m_key in sorted_cands:
+                    if len(norm_cand) < 2:
+                        continue
+                    if norm_cand in TRIM_STOPWORDS:
+                        continue
+                    if norm_cand == c_norm or norm_cand == f_norm:
+                        matched_master_key = m_key
+                        break
+                    # 의미 있는 길이(4자 이상)의 포함 관계 탐색 (예: '더뉴셀토스'가 입력에 포함된 경우)
+                    if len(norm_cand) >= 4 and (norm_cand in c_norm or norm_cand in f_norm):
+                        matched_master_key = m_key
+                        break
 
             # 4. 어절(단어 경계) 단위 부분 일치 탐색 (버그 1 수정: 트림명 내부 음절 오매칭 원천 차단)
             if not matched_master_key:
