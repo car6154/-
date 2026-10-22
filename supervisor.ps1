@@ -169,6 +169,29 @@ try {
         }
     )
 
+    # Git HEAD 커밋 정보 조회 함수
+    function Get-GitHeadInfo() {
+        try {
+            $hash = (git rev-parse HEAD 2>$null)
+            if (-not $hash) { return $null }
+            $hash = $hash.Trim()
+            $shortHash = (git rev-parse --short HEAD 2>$null).Trim()
+            $unixTimestamp = [int64](git log -1 --format="%ct" 2>$null).Trim()
+            $commitDate = [DateTimeOffset]::FromUnixTimeSeconds($unixTimestamp).LocalDateTime
+            $subject = (git log -1 --format="%s" 2>$null).Trim()
+
+            return @{
+                Hash = $hash
+                ShortHash = $shortHash
+                CommitDate = $commitDate
+                UnixTimestamp = $unixTimestamp
+                Subject = $subject
+            }
+        } catch {
+            return $null
+        }
+    }
+
     function Get-ListeningProcesses() {
         $map = @{}
         $lines = netstat -ano -p tcp
@@ -259,7 +282,20 @@ try {
             $svc.Pid = $proc.Id
             $svc.StartedAt = [DateTime]::Now
             $svc.FailCount = 0
-            Write-SupervisorLog "[$($svc.Name)] Started successfully. (PID: $($svc.Pid))"
+
+            # 기동 시점의 HEAD 커밋 기록 및 불변조건 자체 검증
+            $headInfo = Get-GitHeadInfo
+            if ($headInfo) {
+                $svc.LastAppliedCommit = $headInfo.Hash
+                $timeDiffSec = ($svc.StartedAt - $headInfo.CommitDate).TotalSeconds
+                if ($timeDiffSec -ge 0) {
+                    Write-SupervisorLog "[$($svc.Name)] Started successfully (PID: $($svc.Pid)). [불변조건 통과] StartedAt ($($svc.StartedAt.ToString('yyyy-MM-dd HH:mm:ss'))) >= HEAD ($($headInfo.ShortHash), $($headInfo.CommitDate.ToString('yyyy-MM-dd HH:mm:ss')), diff: +$([Math]::Round($timeDiffSec, 1))s)"
+                } else {
+                    Write-SupervisorLog "[$($svc.Name)] Started successfully (PID: $($svc.Pid)). [불변조건 주의] StartedAt < HEAD ($($headInfo.ShortHash), diff: $([Math]::Round($timeDiffSec, 1))s)"
+                }
+            } else {
+                Write-SupervisorLog "[$($svc.Name)] Started successfully. (PID: $($svc.Pid))"
+            }
         } catch {
             Write-SupervisorLog "[$($svc.Name)] [ERROR] Failed to start: $_"
             $svc.Process = $null
@@ -309,7 +345,34 @@ try {
             break
         }
 
-        # (2) Health check
+        # (2) Git HEAD 커밋 변경 및 불변조건 감시
+        # 불변 조건: 실행 중인 각 서버 프로세스의 시작 시각은 현재 체크아웃된 HEAD 커밋 시각보다 이후여야 한다.
+        $headInfo = Get-GitHeadInfo
+        if ($headInfo) {
+            foreach ($svc in $services) {
+                if (-not $svc.Enabled) { continue }
+
+                # 같은 커밋으로 이미 재시작했으면 패스 (반복 루프 방지)
+                if ($svc.LastAppliedCommit -eq $headInfo.Hash) {
+                    continue
+                }
+
+                # 프로세스 시작 시각이 HEAD 커밋 시각보다 이전인지 판정
+                $isOlderThanCommit = ($svc.StartedAt -lt $headInfo.CommitDate)
+                $isNewCommitDetected = ($svc.LastAppliedCommit -and ($svc.LastAppliedCommit -ne $headInfo.Hash))
+
+                if ($isOlderThanCommit -or $isNewCommitDetected) {
+                    Write-SupervisorLog "[$($svc.Name)] 새 커밋 감지! [HEAD: $($headInfo.ShortHash), 커밋시각: $($headInfo.CommitDate.ToString('yyyy-MM-dd HH:mm:ss')), 프로세스시작: $($svc.StartedAt.ToString('yyyy-MM-dd HH:mm:ss'))]. 최신 코드로 자동 재시작을 진행합니다..."
+                    Stop-ServiceTree $svc
+                    if (-not (Wait-PortClear $svc.Port 10)) {
+                        Write-SupervisorLog "[$($svc.Name)] [WARNING] Port $($svc.Port) not cleared after tree kill."
+                    }
+                    Start-SingleService $svc
+                }
+            }
+        }
+
+        # (3) Health check
         $listenMap = Get-ListeningProcesses
 
         foreach ($svc in $services) {

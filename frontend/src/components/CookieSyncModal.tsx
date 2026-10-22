@@ -42,6 +42,15 @@ export const CookieSyncModal: React.FC<CookieSyncModalProps> = ({
 
   // Git 동기화 & 원격 복구 상태
   const [gitStatus, setGitStatus] = useState<string>('조회 중...');
+  const [gitDetails, setGitDetails] = useState<{
+    appliedCommit?: string;
+    appliedCommitMsg?: string;
+    appliedCommitDate?: string;
+    bootTime?: string;
+    currentHead?: string;
+    currentHeadMsg?: string;
+    isProcessUpToDate?: boolean;
+  }>({});
   const [isGitActionRunning, setIsGitActionRunning] = useState(false);
   const [gitActionResult, setGitActionResult] = useState<string | null>(null);
 
@@ -87,6 +96,15 @@ export const CookieSyncModal: React.FC<CookieSyncModalProps> = ({
       if (res.ok) {
         const d = await res.json();
         setGitStatus(d.statusBadge || d.lastSyncStatus || '정상');
+        setGitDetails({
+          appliedCommit: d.appliedCommit,
+          appliedCommitMsg: d.appliedCommitMsg,
+          appliedCommitDate: d.appliedCommitDate,
+          bootTime: d.bootTime,
+          currentHead: d.currentHead,
+          currentHeadMsg: d.currentHeadMsg,
+          isProcessUpToDate: d.isProcessUpToDate ?? true,
+        });
       } else {
         setGitStatus('백엔드 응답 대기');
       }
@@ -392,6 +410,41 @@ export const CookieSyncModal: React.FC<CookieSyncModalProps> = ({
               <span className="text-[11px] font-mono text-slate-400 bg-slate-800/80 px-2 py-0.5 rounded border border-slate-700/50">
                 {gitStatus}
               </span>
+            </div>
+
+            {/* 적용된 커밋 & 프로세스 상태 불변조건 배지 */}
+            <div className={`p-2.5 rounded-lg border flex flex-col sm:flex-row sm:items-center justify-between gap-2 transition-all ${
+              gitDetails.isProcessUpToDate === false
+                ? 'bg-rose-950/40 border-rose-500/50 text-rose-200 shadow-sm'
+                : 'bg-slate-950/60 border-slate-800/80 text-slate-300'
+            }`}>
+              <div className="space-y-0.5">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="text-[11px] font-bold text-slate-400">적용된 커밋:</span>
+                  <span className="font-mono text-xs px-2 py-0.5 rounded bg-slate-800 border border-slate-700 text-sky-400 font-bold">
+                    {gitDetails.appliedCommit || '-'}
+                  </span>
+                  {gitDetails.isProcessUpToDate === false ? (
+                    <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/40 animate-pulse flex items-center gap-1">
+                      ⚠️ 구형 코드 물림! (최신: {gitDetails.currentHead})
+                    </span>
+                  ) : (
+                    <span className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 flex items-center gap-1">
+                      🟢 최신 일치 {gitDetails.bootTime ? `(${gitDetails.bootTime} 가동)` : ''}
+                    </span>
+                  )}
+                </div>
+                {gitDetails.appliedCommitMsg && (
+                  <p className="text-[11px] text-slate-400 truncate max-w-[380px]">
+                    {gitDetails.appliedCommitMsg}
+                  </p>
+                )}
+              </div>
+              {gitDetails.appliedCommitDate && (
+                <div className="text-right text-[11px] text-slate-400 shrink-0">
+                  {gitDetails.appliedCommitDate}
+                </div>
+              )}
             </div>
 
             <p className="text-xs text-slate-400 leading-relaxed">

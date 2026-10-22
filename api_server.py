@@ -38,6 +38,17 @@ from routers.ocr_router import router as ocr_router
 
 app = FastAPI(title="J-Project Local API Server", version="1.0.0")
 
+# 프로세스 기동 시점의 커밋 기록 (프로세스-커밋 일치 불변조건 보장용)
+BOOT_TIME = datetime.now()
+try:
+    BOOT_COMMIT = subprocess.run(["git", "rev-parse", "--short", "HEAD"], capture_output=True, text=True, timeout=5).stdout.strip()
+    BOOT_COMMIT_MSG = subprocess.run(["git", "log", "-1", "--format=%s"], capture_output=True, text=True, encoding="utf-8", errors="ignore", timeout=5).stdout.strip()
+    BOOT_COMMIT_DATE = subprocess.run(["git", "log", "-1", "--format=%cd", "--date=format:%m-%d %H:%M"], capture_output=True, text=True, timeout=5).stdout.strip()
+except Exception:
+    BOOT_COMMIT = "-"
+    BOOT_COMMIT_MSG = "-"
+    BOOT_COMMIT_DATE = "-"
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -592,11 +603,33 @@ def get_sold_out_cars(car_name: str, year: Optional[str] = "", candidate_ids: Op
 # ----------------------------------------------------
 @app.get("/api/git/status")
 def get_git_sync_status():
+    current_head = "-"
+    current_head_msg = "-"
+    current_head_date = "-"
+    try:
+        current_head = subprocess.run(["git", "rev-parse", "--short", "HEAD"], capture_output=True, text=True, timeout=5).stdout.strip()
+        current_head_msg = subprocess.run(["git", "log", "-1", "--format=%s"], capture_output=True, text=True, encoding="utf-8", errors="ignore", timeout=5).stdout.strip()
+        current_head_date = subprocess.run(["git", "log", "-1", "--format=%cd", "--date=format:%m-%d %H:%M"], capture_output=True, text=True, timeout=5).stdout.strip()
+    except Exception:
+        pass
+
+    is_up_to_date = True
+    if BOOT_COMMIT and current_head and BOOT_COMMIT != "-" and current_head != "-":
+        is_up_to_date = (BOOT_COMMIT == current_head)
+
     return {
         "statusBadge": GitSyncService.get_status_badge(),
         "isSyncing": GitSyncService._is_syncing,
         "lastSyncTime": GitSyncService._last_sync_time.isoformat() if GitSyncService._last_sync_time else None,
-        "lastSyncStatus": GitSyncService._last_sync_status
+        "lastSyncStatus": GitSyncService._last_sync_status,
+        "appliedCommit": BOOT_COMMIT,
+        "appliedCommitMsg": BOOT_COMMIT_MSG,
+        "appliedCommitDate": BOOT_COMMIT_DATE,
+        "bootTime": BOOT_TIME.strftime("%m-%d %H:%M:%S") if BOOT_TIME else "-",
+        "currentHead": current_head,
+        "currentHeadMsg": current_head_msg,
+        "currentHeadDate": current_head_date,
+        "isProcessUpToDate": is_up_to_date
     }
 
 
