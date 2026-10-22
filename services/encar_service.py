@@ -351,14 +351,13 @@ class Scraper:
 
             if not condition: return pd.DataFrame(), "❌ URL 검색 조건 누락"
             
-            # 💡 [문자열 정제] 유니코드 이스케이프(\uXXXX) 및 + 기호를 실제 한글/공백으로 완벽 보정
+            # 💡 [문자열 정제] 유니코드 이스케이프(\uXXXX) 정제 (주의: '가솔린+전기' 등 실제 엔카 카탈로그의 + 기호는 반드시 보존)
             if "\\u" in condition or r"\u" in condition:
                 try:
                     condition = condition.encode('utf-8').decode('unicode_escape')
                 except Exception:
                     pass
-            condition = condition.replace("+", " ")
-            condition = re.sub(r' +', ' ', condition)
+            condition = re.sub(r'\s+', ' ', condition)
                 
             safe_condition = urllib.parse.quote(condition)
             api_url = f"https://api.encar.com/search/car/list/general?count=false&q={safe_condition}&sr=%7CModifiedDate%7C0%7C100"
