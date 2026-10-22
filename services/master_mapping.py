@@ -584,9 +584,7 @@ class MasterMappingService:
                 val = val.encode('utf-8').decode('unicode_escape')
             except Exception:
                 pass
-        # 2. + 문자를 공백으로 변환 (엔카 action 조건식은 +가 아닌 공백 문자를 요구함)
-        val = val.replace("+", " ")
-        # 3. 연속 공백 축약 및 양끝 공백 제거
+        # 2. 연속 공백 축약 및 양끝 공백 제거 (주의: '가솔린+전기' 등 실제 카탈로그 토큰의 + 기호는 반드시 보존)
         return re.sub(r'\s+', ' ', val).strip()
 
     @classmethod
