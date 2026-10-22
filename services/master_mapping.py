@@ -907,8 +907,8 @@ class MasterMappingService:
                     for other_v in models.values():
                         if other_v.get("encar_model") == enc_m:
                             all_trims.update(other_v.get("trims", {}))
-                if not all_trims:
-                    all_trims = m_info.get("trims", {})
+                # 매칭된 모델(m_info) 본인의 트림이 마지막에 적용되어 항상 우선하도록 보장
+                all_trims.update(m_info.get("trims", {}))
                 return {
                     "brand": m_info.get("brand") or brand or "현대",
                     "model_group": m_info.get("model_group", ""),
