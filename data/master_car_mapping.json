@@ -303,32 +303,33 @@
         "1.6 가솔린 2WD 프리미엄": {
           "badge_group": "가솔린 2WD",
           "badge": "가솔린 1.6 터보 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "프리미엄",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "004",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "006"
         },
         "2.0 디젤 AWD 모던": {
           "badge_group": "디젤 4WD",
           "badge": "디젤 2.0 4WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "모던",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "003",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "가솔린 1.6 터보 2WD 모던피버": {
           "badge_group": "가솔린 2WD",
           "badge": "모던",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:12:00"
+          "badge_detail": "모던",
+          "updated_at": "2026-10-22 19:04:28",
+          "soldout_clsdetailcd": "003"
         },
         "디젤 R2.0 2WD 모던": {
           "badge_group": "디젤 2WD",
           "badge": "디젤 2.0 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:12:00",
+          "badge_detail": "모던",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "디젤 R2.0 2WD 스타일": {
           "badge_group": "가솔린 2WD",
@@ -752,26 +753,26 @@
         "LPi 3.0 렌터카 모던": {
           "badge_group": "LPG 3000cc",
           "badge": "3.0 LPi (렌터카용)",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "모던",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "004",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         },
         "LPi 3.0 렌터카 익스클루시브": {
           "badge_group": "LPG 3000cc",
           "badge": "3.0 LPi (렌터카용)",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "익스클루시브",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "004",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         },
         "LPi 3.0 렌터카 프리미엄": {
           "badge_group": "LPG 3000cc",
           "badge": "3.0 LPi (렌터카용)",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "프리미엄",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "004",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "LPi 3.0 익스클루시브": {
           "badge_group": "LPG 3000cc",
@@ -794,18 +795,18 @@
         "가솔린 2.5 르블랑": {
           "badge_group": "가솔린 2500cc",
           "badge": "2.5",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "르블랑",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "005"
         },
         "가솔린 2.5 익스클루시브": {
           "badge_group": "가솔린 2500cc",
           "badge": "2.5",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "익스클루시브",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         },
         "가솔린 2.5 임원전용": {
           "badge_group": "가솔린 2500cc",
@@ -818,66 +819,66 @@
         "가솔린 2.5 캘리그래피": {
           "badge_group": "가솔린 2500cc",
           "badge": "2.5",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "캘리그래피",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "004"
         },
         "가솔린 2.5 프리미엄": {
           "badge_group": "가솔린 2500cc",
           "badge": "2.5",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "프리미엄",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         },
         "가솔린 2.5 프리미엄 초이스": {
           "badge_group": "가솔린 2500cc",
           "badge": "2.5",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "프리미엄",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         },
         "가솔린 3.3 르블랑": {
           "badge_group": "가솔린 3300cc",
           "badge": "3.3",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "르블랑",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "005"
         },
         "가솔린 3.3 익스클루시브": {
           "badge_group": "가솔린 3300cc",
           "badge": "3.3",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "익스클루시브",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         },
         "가솔린 3.3 캘리그래피": {
           "badge_group": "가솔린 3300cc",
           "badge": "3.3",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "캘리그래피",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "004"
         },
         "가솔린 3.3 프리미엄": {
           "badge_group": "가솔린 3300cc",
           "badge": "3.3",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "프리미엄",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         },
         "가솔린 3.3 프리미엄 초이스": {
           "badge_group": "가솔린 3300cc",
           "badge": "3.3",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "프리미엄",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         }
       },
       "soldout_codes": {
@@ -918,10 +919,10 @@
         "2.4 GDi 프리미엄 스페셜": {
           "badge_group": "가솔린 2400cc",
           "badge": "2.4 프리미엄",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "스페셜",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "3.0 GDi 익스클루시브": {
           "badge_group": "가솔린 3000cc",
@@ -934,10 +935,10 @@
         "3.0 GDi 익스클루시브 스페셜": {
           "badge_group": "가솔린 3000cc",
           "badge": "3.0 익스클루시브",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "스페셜",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "003",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "3.0 GDi 프리미엄": {
           "badge_group": "가솔린 3000cc",
@@ -1115,90 +1116,90 @@
         "1.6 HEV 4WD 시그니처": {
           "badge_group": "가솔린+전기 1600cc",
           "badge": "HEV 1.6 4WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "시그니처",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "004",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         },
         "1.6 HEV 2WD 그래비티": {
           "badge_group": "가솔린+전기 1600cc",
           "badge": "HEV 1.6 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "그래비티",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "003",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "004"
         },
         "1.6 HEV 2WD 노블레스": {
           "badge_group": "가솔린+전기 1600cc",
           "badge": "HEV 1.6 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "노블레스",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "003",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "1.6 HEV 2WD 시그니처": {
           "badge_group": "가솔린+전기 1600cc",
           "badge": "HEV 1.6 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "시그니처",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "003",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         },
         "1.6 HEV 2WD 프레스티지": {
           "badge_group": "가솔린+전기 1600cc",
           "badge": "HEV 1.6 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "프레스티지",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "003",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         },
         "2.2 디젤 2WD 노블레스": {
           "badge_group": "디젤 2200cc",
           "badge": "디젤 2.2 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "노블레스",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         },
         "2.2 디젤 2WD 시그니처": {
           "badge_group": "디젤 2200cc",
           "badge": "디젤 2.2 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "시그니처",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "004"
         },
         "2.2 디젤 2WD 트렌디": {
           "badge_group": "디젤 2200cc",
           "badge": "디젤 2.2 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "트렌디",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         },
         "2.5 가솔린 4WD 노블레스": {
           "badge_group": "가솔린 2500cc",
           "badge": "가솔린 2.5T 4WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "노블레스",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "006",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         },
         "2.2 디젤 2WD 프레스티지": {
           "badge_group": "디젤 2200cc",
           "badge": "디젤 2.2 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "프레스티지",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "2.2 디젤 4WD 시그니처": {
           "badge_group": "디젤 2200cc",
           "badge": "디젤 2.2 4WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "시그니처",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "004"
         },
         "1.6 HEV 4WD 그래비티": {
           "badge_group": "가솔린+전기 1600cc",
@@ -1606,18 +1607,18 @@
         "R2.0 2WD 노블레스": {
           "badge_group": "디젤 2WD",
           "badge": "디젤 2.0 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "노블레스",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "004"
         },
         "R2.0 2WD 노블레스 스페셜": {
           "badge_group": "디젤 2WD",
           "badge": "디젤 2.0 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "노블레스",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "004"
         },
         "R2.0 2WD 럭셔리": {
           "badge_group": "가솔린 2WD",
@@ -1634,10 +1635,10 @@
         "R2.0 4WD 노블레스 스페셜": {
           "badge_group": "디젤 4WD",
           "badge": "디젤 2.0 4WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "노블레스",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "R2.2 2WD 노블레스 스페셜": {
           "badge_group": "가솔린 2WD",
@@ -1695,34 +1696,34 @@
         "디젤 R2.0 2WD 마스터": {
           "badge_group": "디젤 2WD",
           "badge": "디젤 2.0 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "마스터",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "005"
         },
         "디젤 R2.0 2WD 프레스티지": {
           "badge_group": "디젤 2WD",
           "badge": "디젤 2.0 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "프레스티지",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "디젤 R2.2 2WD 노블레스": {
           "badge_group": "디젤 2WD",
           "badge": "디젤 2.2 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "노블레스",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "003",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         },
         "디젤 R2.2 2WD 마스터": {
           "badge_group": "디젤 2WD",
           "badge": "디젤 2.2 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "마스터",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "003",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "006"
         }
       },
       "soldout_codes": {
@@ -1961,30 +1962,32 @@
         "2.0 가솔린 노블레스": {
           "badge_group": "가솔린 2000cc",
           "badge": "2.0",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:12:00",
+          "badge_detail": "노블레스",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "1.6 가솔린 터보 노블레스": {
           "badge_group": "가솔린 1600cc",
           "badge": "1.6 터보",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:12:00",
+          "badge_detail": "노블레스",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "2.0 LPI 렌터카 프레스티지": {
           "badge_group": "LPG 2000cc",
           "badge": "2.0 LPI 렌터카 프레스티지",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:12:00"
+          "badge_detail": "프레스티지",
+          "updated_at": "2026-10-22 19:04:28",
+          "soldout_clsdetailcd": "001"
         },
         "2.0 가솔린 프레스티지": {
           "badge_group": "가솔린 2000cc",
           "badge": "2.0 가솔린 프레스티지",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:12:00"
+          "badge_detail": "프레스티지",
+          "updated_at": "2026-10-22 19:04:28",
+          "soldout_clsdetailcd": "001"
         },
         "2.0 LPi": {
           "badge_group": "LPG 2000cc",
@@ -2464,10 +2467,10 @@
         "하이리무진 7인승 가솔린 시그니처": {
           "badge_group": "가솔린 3500cc",
           "badge": "가솔린 7인승 하이리무진",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "시그니처",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "018",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         },
         "1.6 HEV 9인승 프레스티지": {
           "badge_group": "가솔린+전기 1600cc",
@@ -2999,18 +3002,18 @@
         "1.6 가솔린 2WD 시그니처": {
           "badge_group": "가솔린 2WD",
           "badge": "가솔린 1.6 터보 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "시그니처",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "005"
         },
         "2.0 디젤 2WD 노블레스": {
           "badge_group": "디젤 2WD",
           "badge": "디젤 2.0 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "노블레스",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "003",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         },
         "1.6 가솔린 2WD 프레스티지": {
           "badge_group": "가솔린 1600cc",
@@ -3338,10 +3341,10 @@
         "1.6 LPI 렌터카 스마트": {
           "badge_group": "가솔린 1600cc",
           "badge": "1.6",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "스마트",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         },
         "1.6 LPI 일반인용 모던": {
           "badge_group": "LPG 1600cc",
@@ -3352,26 +3355,26 @@
         "가솔린 1.6 모던": {
           "badge_group": "가솔린 1600cc",
           "badge": "1.6",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "모던",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "가솔린 1.6 스마트": {
           "badge_group": "가솔린 1600cc",
           "badge": "1.6",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "스마트",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         },
         "가솔린 1.6 인스퍼레이션": {
           "badge_group": "가솔린 1600cc",
           "badge": "1.6",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "인스퍼레이션",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         }
       },
       "soldout_codes": {
@@ -3418,10 +3421,10 @@
         "1.6 GDi 모던 스페셜": {
           "badge_group": "가솔린 1600cc",
           "badge": "1.6 GDI 모던",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "스페셜",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "003",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "1.6 GDi 밸류 플러스": {
           "badge_group": "가솔린 1600cc",
@@ -3440,8 +3443,9 @@
         "1.6 GDi 스마트 스페셜": {
           "badge_group": "가솔린 2WD",
           "badge": "스페셜",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58"
+          "badge_detail": "스페셜",
+          "updated_at": "2026-10-22 19:04:28",
+          "soldout_clsdetailcd": "002"
         },
         "1.6 GDi 스타일": {
           "badge_group": "가솔린 1600cc",
@@ -3707,20 +3711,23 @@
         "밴 고급형": {
           "badge_group": "가솔린 1000cc",
           "badge": "밴",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50"
+          "badge_detail": "고급형",
+          "updated_at": "2026-10-22 19:04:28",
+          "soldout_clsdetailcd": "001"
         },
         "밴 스탠다드": {
           "badge_group": "가솔린 1000cc",
           "badge": "밴",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:51"
+          "badge_detail": "스탠다드",
+          "updated_at": "2026-10-22 19:04:28",
+          "soldout_clsdetailcd": "002"
         },
         "밴 프레스티지": {
           "badge_group": "가솔린 1000cc",
           "badge": "밴",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50"
+          "badge_detail": "프레스티지",
+          "updated_at": "2026-10-22 19:04:28",
+          "soldout_clsdetailcd": "005"
         },
         "밴 프레스티지 스페셜": {
           "badge_group": "가솔린 1000cc",
@@ -4390,10 +4397,10 @@
         "가솔린 2WD LX 고급형": {
           "badge_group": "가솔린 1600cc",
           "badge": "LX 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "고급형",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "003",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         },
         "가솔린 2WD VX": {
           "badge_group": "가솔린 1600cc",
@@ -4962,26 +4969,30 @@
         "1.6 GDI 노블레스": {
           "badge_group": "가솔린 2WD",
           "badge": "구분",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:12:00"
+          "badge_detail": "노블레스",
+          "updated_at": "2026-10-22 19:04:28",
+          "soldout_clsdetailcd": "003"
         },
         "1.6 GDI 트렌디": {
           "badge_group": "가솔린 2WD",
           "badge": "구분",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:12:00"
+          "badge_detail": "트렌디",
+          "updated_at": "2026-10-22 19:04:28",
+          "soldout_clsdetailcd": "001"
         },
         "1.6 GDI 트렌디 스타일": {
           "badge_group": "가솔린 1600cc",
           "badge": "트렌디",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50"
+          "badge_detail": "트렌디",
+          "updated_at": "2026-10-22 19:04:28",
+          "soldout_clsdetailcd": "001"
         },
         "1.6 GDI 프레스티지": {
           "badge_group": "가솔린 2WD",
           "badge": "프레스티지",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:12:00"
+          "badge_detail": "프레스티지",
+          "updated_at": "2026-10-22 19:04:28",
+          "soldout_clsdetailcd": "002"
         },
         "1.6 GT 5도어 시그니처": {
           "badge_group": "가솔린 1600cc",
@@ -4992,20 +5003,23 @@
         "1.6 가솔린 시그니처": {
           "badge_group": "가솔린 1600cc",
           "badge": "1.6",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:51"
+          "badge_detail": "시그니처",
+          "updated_at": "2026-10-22 19:04:28",
+          "soldout_clsdetailcd": "004"
         },
         "1.6 가솔린 트렌디": {
           "badge_group": "가솔린 1600cc",
           "badge": "1.6",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:51"
+          "badge_detail": "트렌디",
+          "updated_at": "2026-10-22 19:04:28",
+          "soldout_clsdetailcd": "001"
         },
         "1.6 가솔린 프레스티지": {
           "badge_group": "가솔린 1600cc",
           "badge": "1.6",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50"
+          "badge_detail": "프레스티지",
+          "updated_at": "2026-10-22 19:04:28",
+          "soldout_clsdetailcd": "002"
         },
         "1.6 디젤 트렌디": {
           "badge_group": "가솔린 2WD",
@@ -5046,10 +5060,10 @@
         "스파크 S LT": {
           "badge_group": "가솔린 1000cc",
           "badge": "스파크 S",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "LT",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "011",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "가솔린 LT": {
           "badge_group": "가솔린 1000cc",
@@ -5134,26 +5148,26 @@
         "R2.0 2WD 프레스티지": {
           "badge_group": "디젤 2000cc",
           "badge": "디젤 2.0 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "프레스티지",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "005"
         },
         "R2.0 2WD 익스클루시브": {
           "badge_group": "디젤 2000cc",
           "badge": "디젤 2.0 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "익스클루시브",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         },
         "2.0T GDi 2WD 프리미엄": {
           "badge_group": "가솔린 2000cc",
           "badge": "가솔린 2.0T 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "프리미엄",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "005",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         },
         "R2.0 2WD 인스퍼레이션": {
           "badge_group": "디젤 2000cc",
@@ -5474,10 +5488,10 @@
         "LT 플러스": {
           "badge_group": "가솔린 1000cc",
           "badge": "LT",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "플러스",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "003",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "퍼펙트 블랙": {
           "badge_group": "가솔린 1000cc",
@@ -5510,22 +5524,24 @@
         "2.0 가솔린 인텔리전트": {
           "badge_group": "가솔린 2000cc",
           "badge": "2.0 가솔린 인텔리전트",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:12:00"
+          "badge_detail": "인텔리전트",
+          "updated_at": "2026-10-22 19:04:28",
+          "soldout_clsdetailcd": "004"
         },
         "2.0 가솔린 프레스티지": {
           "badge_group": "가솔린 2000cc",
           "badge": "2.0",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:12:00",
+          "badge_detail": "프레스티지",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "2.0 가솔린 노블레스": {
           "badge_group": "가솔린 2000cc",
           "badge": "2.0 가솔린 노블레스",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:12:00"
+          "badge_detail": "노블레스",
+          "updated_at": "2026-10-22 19:04:28",
+          "soldout_clsdetailcd": "003"
         },
         "2.0 LPI": {
           "badge_group": "LPG 2000cc",
@@ -5604,10 +5620,10 @@
         "디젤 R2.0 2WD 모던": {
           "badge_group": "디젤 2WD",
           "badge": "디젤(e-VGT) 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:12:00",
+          "badge_detail": "모던",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         },
         "디젤 R2.0 2WD 스마트": {
           "badge_group": "디젤 2000cc",
@@ -5618,10 +5634,10 @@
         "디젤 R2.0 2WD 스마트 스페셜": {
           "badge_group": "디젤 2WD",
           "badge": "디젤(e-VGT) 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:12:00",
+          "badge_detail": "스마트",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         },
         "디젤 R2.0 2WD 프리미엄": {
           "badge_group": "가솔린 2WD",
@@ -5646,58 +5662,58 @@
         "2.0T AWD 엘리트": {
           "badge_group": "가솔린 4WD",
           "badge": "2.0T AWD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "엘리트",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "004"
         },
         "2.0T AWD 슈프림": {
           "badge_group": "가솔린 4WD",
           "badge": "2.0T AWD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "슈프림",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "2.0T 엘리트": {
           "badge_group": "가솔린 2WD",
           "badge": "2.0T",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "엘리트",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "004"
         },
         "2.0T 슈프림": {
           "badge_group": "가솔린 2WD",
           "badge": "2.0T",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "슈프림",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "2.0T 스포츠 패키지": {
           "badge_group": "가솔린 2WD",
           "badge": "2.0T",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "스포츠 패키지",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         },
         "2.0T 어드밴스드": {
           "badge_group": "가솔린 2WD",
           "badge": "2.0T",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "어드밴스드",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         },
         "2.0T AWD 스포츠 패키지": {
           "badge_group": "가솔린 4WD",
           "badge": "2.0T AWD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "스포츠 패키지",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         }
       },
       "soldout_codes": {
@@ -5719,18 +5735,18 @@
         "2.0 가솔린 프레스티지 SX": {
           "badge_group": "가솔린 2000cc",
           "badge": "2.0 SX",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "프레스티지",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "019",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         },
         "2.0 가솔린 프레스티지 MX": {
           "badge_group": "가솔린 2000cc",
           "badge": "2.0 MX",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "프레스티지",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "018",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         },
         "2.0 LPI 렌터카 프레스티지 SX": {
           "badge_group": "LPG 2000cc",
@@ -5869,18 +5885,18 @@
         "디젤 R2.0 2WD 프리미엄": {
           "badge_group": "디젤 2000cc",
           "badge": "디젤 2.0 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "프리미엄",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         },
         "디젤 R2.0 2WD 익스클루시브": {
           "badge_group": "디젤 2000cc",
           "badge": "디젤 2.0 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "익스클루시브",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "004"
         },
         "디젤 R2.0 2WD 밸류플러스": {
           "badge_group": "디젤 2WD",
@@ -5897,10 +5913,10 @@
         "디젤 R2.2 4WD 익스클루시브 스페셜": {
           "badge_group": "디젤 2200cc",
           "badge": "디젤 2.2 4WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:51",
+          "badge_detail": "익스클루시브",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "004",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "디젤 R2.2 2WD 익스클루시브": {
           "badge_group": "디젤 2WD",
@@ -6197,10 +6213,10 @@
         "1.6 GDI HEV 노블레스 스페셜": {
           "badge_group": "가솔린+전기 1600cc",
           "badge": "1.6 HEV",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "노블레스",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         },
         "1.6 GDI HEV 럭셔리": {
           "badge_group": "가솔린+전기 1600cc",
@@ -6223,10 +6239,10 @@
         "1.6 하이브리드 노블레스": {
           "badge_group": "가솔린+전기 1600cc",
           "badge": "1.6 HEV",
-          "badge_detail": "",
-          "updated_at": "2026-09-30 14:49:17",
+          "badge_detail": "노블레스",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         },
         "1.6 하이브리드 프레스티지": {
           "badge_group": "가솔린+전기 1600cc",
@@ -6329,10 +6345,10 @@
         "밴 고급형": {
           "badge_group": "가솔린 1000cc",
           "badge": "밴",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "고급형",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "007",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         }
       },
       "soldout_codes": {
@@ -6355,10 +6371,10 @@
         "1.6 LPI 렌터카 스마트": {
           "badge_group": "가솔린 1600cc",
           "badge": "1.6",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "스마트",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "005"
         },
         "1.6 가솔린 베스트 초이스": {
           "badge_group": "가솔린 1600cc",
@@ -6371,34 +6387,34 @@
         "1.6 가솔린 스마트": {
           "badge_group": "가솔린 1600cc",
           "badge": "1.6",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "스마트",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "1.6 가솔린 스마트 초이스": {
           "badge_group": "가솔린 1600cc",
           "badge": "1.6",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "스마트 초이스",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "004"
         },
         "1.6 가솔린 스타일": {
           "badge_group": "가솔린 1600cc",
           "badge": "1.6",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "스타일",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         },
         "1.6 가솔린 프리미엄": {
           "badge_group": "가솔린 1600cc",
           "badge": "1.6",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "프리미엄",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         }
       },
       "soldout_codes": {
@@ -6881,10 +6897,10 @@
         "1.6 터보 프리미엄": {
           "badge_group": "가솔린 1600cc",
           "badge": "1.6 터보",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "프리미엄",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "005",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "1.6 터보 프리미엄 패밀리": {
           "badge_group": "가솔린 1600cc",
@@ -6895,16 +6911,17 @@
         "1.6 터보 프리미엄 플러스": {
           "badge_group": "가솔린 2WD",
           "badge": "1.6 터보 프리미엄 플러스",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58"
+          "badge_detail": "프리미엄",
+          "updated_at": "2026-10-22 19:04:28",
+          "soldout_clsdetailcd": "002"
         },
         "G2.0 모던": {
           "badge_group": "가솔린 2000cc",
           "badge": "2.0",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "모던",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "G2.0 프리미엄": {
           "badge_group": "가솔린 2000cc",
@@ -6915,18 +6932,18 @@
         "G2.0 프리미엄 패밀리": {
           "badge_group": "가솔린 2000cc",
           "badge": "2.0",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "프리미엄",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         },
         "G2.0 프리미엄 플러스": {
           "badge_group": "가솔린 2000cc",
           "badge": "2.0",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "프리미엄",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         },
         "L2.0 렌터카 스마트": {
           "badge_group": "LPG 2000cc",
@@ -6937,24 +6954,25 @@
         "L2.0 렌터카 스타일": {
           "badge_group": "LPG 2000cc",
           "badge": "2.0 LPG(렌터카용)",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "스타일",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "003",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         },
         "L2.0 렌터카 프리미엄": {
           "badge_group": "가솔린 2WD",
           "badge": "L2.0 렌터카 프리미엄",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58"
+          "badge_detail": "프리미엄",
+          "updated_at": "2026-10-22 19:04:28",
+          "soldout_clsdetailcd": "002"
         },
         "L2.0 인스퍼레이션": {
           "badge_group": "LPG 2000cc",
           "badge": "2.0 LPG",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "인스퍼레이션",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "004",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "004"
         }
       },
       "soldout_codes": {
@@ -7408,26 +7426,26 @@
         "1.6 가솔린 2WD 모던 팝": {
           "badge_group": "가솔린 1600cc",
           "badge": "1.6 터보 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "모던",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "1.6 가솔린 2WD 프리미엄": {
           "badge_group": "가솔린 1600cc",
           "badge": "1.6 터보 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:51",
+          "badge_detail": "프리미엄",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "006"
         },
         "1.6 가솔린 2WD 모던 초이스": {
           "badge_group": "가솔린 1600cc",
           "badge": "1.6 터보 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:51",
+          "badge_detail": "모던",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "1.6 가솔린 2WD 모던 테크": {
           "badge_group": "가솔린 1600cc",
@@ -7438,10 +7456,10 @@
         "1.6 가솔린 2WD 모던 아트": {
           "badge_group": "가솔린 1600cc",
           "badge": "1.6 터보 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:51",
+          "badge_detail": "모던",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "1.6 가솔린 4WD 프리미엄": {
           "badge_group": "가솔린 1600cc",
@@ -7523,10 +7541,10 @@
         "가솔린 1.6 터보 익스클루시브": {
           "badge_group": "가솔린 1600cc",
           "badge": "1.6 터보",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "익스클루시브",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "LPG 2.0 렌터카 비지니스 1": {
           "badge_group": "LPG 2000cc",
@@ -7547,18 +7565,18 @@
         "가솔린 1.6 터보 인스퍼레이션": {
           "badge_group": "가솔린 1600cc",
           "badge": "1.6 터보",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "인스퍼레이션",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         },
         "가솔린 2.0 프리미엄": {
           "badge_group": "가솔린 2000cc",
           "badge": "2.0",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:51",
+          "badge_detail": "프리미엄",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         }
       },
       "soldout_codes": {
@@ -7581,10 +7599,10 @@
         "1.7 디젤 스마트 스페셜": {
           "badge_group": "디젤 1700cc",
           "badge": "1.7 디젤 스마트",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "스페셜",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "015",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "2.0 CVVL 스마트": {
           "badge_group": "가솔린 2000cc",
@@ -7603,10 +7621,10 @@
         "2.0 CVVL 스타일 스페셜": {
           "badge_group": "가솔린 2000cc",
           "badge": "2.0 스타일",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "스페셜",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "2.0 CVVL 케어플러스": {
           "badge_group": "가솔린 2000cc",
@@ -7661,18 +7679,18 @@
         "EV 2WD 롱레인지 익스클루시브": {
           "badge_group": "전기",
           "badge": "롱레인지",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "익스클루시브",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "003",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         },
         "EV 2WD 롱레인지 프레스티지": {
           "badge_group": "전기",
           "badge": "롱레인지",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "프레스티지",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "003",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "EV AWD 롱레인지 익스클루시브": {
           "badge_group": "전기",
@@ -7683,10 +7701,10 @@
         "EV AWD 롱레인지 프레스티지": {
           "badge_group": "전기",
           "badge": "롱레인지 AWD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "프레스티지",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "004",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         }
       },
       "soldout_codes": {
@@ -7712,34 +7730,34 @@
         "1.6 터보 스포츠 프리미엄": {
           "badge_group": "가솔린 1600cc",
           "badge": "1.6 터보",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:12:00",
+          "badge_detail": "스포츠",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         },
         "1.4 터보 스마트": {
           "badge_group": "가솔린 1400cc",
           "badge": "1.4 터보",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:12:00",
+          "badge_detail": "스마트",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "1.4 터보 스타일": {
           "badge_group": "가솔린 1400cc",
           "badge": "1.4 터보",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:12:00",
+          "badge_detail": "스타일",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "005"
         },
         "1.4 터보 프리미엄": {
           "badge_group": "가솔린 1400cc",
           "badge": "1.4 터보",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:12:00",
+          "badge_detail": "프리미엄",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "004"
         },
         "1.6 VVT 럭셔리": {
           "badge_group": "가솔린 1600cc",
@@ -8098,10 +8116,10 @@
         "1.6 가솔린 터보 2WD 트렌디": {
           "badge_group": "가솔린 1600cc",
           "badge": "가솔린 1.6 터보 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "트렌디",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         },
         "1.6 가솔린 터보 2WD 프레스티지": {
           "badge_group": "가솔린 1600cc",
@@ -8112,10 +8130,10 @@
         "1.6 가솔린 터보 4WD 시그니처": {
           "badge_group": "가솔린 1600cc",
           "badge": "가솔린 1.6 터보 4WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "시그니처",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         },
         "2.0 가솔린 2WD 트렌디": {
           "badge_group": "가솔린 2000cc",
@@ -8126,10 +8144,10 @@
         "2.0 가솔린 2WD 프레스티지": {
           "badge_group": "가솔린 2000cc",
           "badge": "가솔린 2.0 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:04:58",
+          "badge_detail": "프레스티지",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "003",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         }
       },
       "soldout_codes": {
@@ -8193,22 +8211,24 @@
         "2.2 디젤 투어러 9인승 2WD 모던": {
           "badge_group": "디젤 2WD",
           "badge": "투어러 9인승",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:51",
+          "badge_detail": "모던",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         },
         "2.2 디젤 카고 3인승 모던": {
           "badge_group": "디젤 2WD",
           "badge": "모던",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:51"
+          "badge_detail": "모던",
+          "updated_at": "2026-10-22 19:04:28",
+          "soldout_clsdetailcd": "002"
         },
         "2.2 디젤 투어러 11인승 2WD 모던": {
           "badge_group": "디젤 2WD",
           "badge": "모던",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:51"
+          "badge_detail": "모던",
+          "updated_at": "2026-10-22 19:04:28",
+          "soldout_clsdetailcd": "002"
         },
         "2.2 디젤 투어러 11인승 4WD 모던": {
           "badge_group": "디젤 2WD",
@@ -8219,32 +8239,33 @@
         "3.5 LPG 카고 3인승 모던": {
           "badge_group": "LPG 2WD",
           "badge": "L3.5 카고 3인승",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "모던",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "015",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         },
         "2.2 디젤 라운지 9인승 4WD 인스퍼레이션": {
           "badge_group": "디젤 4WD",
           "badge": "4WD 라운지 9인승",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "인스퍼레이션",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "010",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "2.2 디젤 라운지 9인승 2WD 프레스티지": {
           "badge_group": "디젤 2WD",
           "badge": "라운지 9인승",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:51",
+          "badge_detail": "프레스티지",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "009",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         },
         "2.2 디젤 투어러 11인승 2WD 스마트": {
           "badge_group": "디젤 2WD",
           "badge": "스마트",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:51"
+          "badge_detail": "스마트",
+          "updated_at": "2026-10-22 19:04:28",
+          "soldout_clsdetailcd": "001"
         },
         "2.2 디젤 투어러 9인승 4WD 모던": {
           "badge_group": "디젤 2WD",
@@ -8261,8 +8282,9 @@
         "2.2 디젤 카고 3인승 스마트": {
           "badge_group": "디젤 2WD",
           "badge": "스마트",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:51"
+          "badge_detail": "스마트",
+          "updated_at": "2026-10-22 19:04:28",
+          "soldout_clsdetailcd": "001"
         },
         "2.2 디젤 카고 5인승 모던": {
           "badge_group": "디젤 2WD",
@@ -8361,26 +8383,26 @@
         "롱 레인지 2WD 어스": {
           "badge_group": "전기",
           "badge": "롱레인지",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "어스",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "003",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "롱 레인지 4WD 어스": {
           "badge_group": "전기",
           "badge": "롱레인지 4WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "어스",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "004",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "롱 레인지 2WD 에어": {
           "badge_group": "전기",
           "badge": "롱레인지",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "에어",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "003",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         }
       },
       "soldout_codes": {
@@ -8598,74 +8620,74 @@
         "가솔린 2.5 2WD 익스클루시브": {
           "badge_group": "가솔린 2500cc",
           "badge": "가솔린 2.5T 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:51",
+          "badge_detail": "익스클루시브",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "003",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "005"
         },
         "가솔린 2.5 AWD 캘리그래피": {
           "badge_group": "가솔린 2500cc",
           "badge": "가솔린 2.5T 4WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:51",
+          "badge_detail": "캘리그래피",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "004",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "004"
         },
         "디젤 2.2 2WD 프레스티지": {
           "badge_group": "디젤 2200cc",
           "badge": "디젤 2.2 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "프레스티지",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         },
         "가솔린 2.5 2WD 캘리그래피": {
           "badge_group": "가솔린 2500cc",
           "badge": "가솔린 2.5T 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "캘리그래피",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "003",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "004"
         },
         "디젤 2.2 2WD 익스클루시브": {
           "badge_group": "디젤 2200cc",
           "badge": "디젤 2.2 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "익스클루시브",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "005"
         },
         "디젤 2.2 2WD 프리미엄 초이스": {
           "badge_group": "디젤 2200cc",
           "badge": "디젤 2.2 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "프리미엄",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         },
         "가솔린 2.5 2WD 프리미엄 초이스": {
           "badge_group": "가솔린 2500cc",
           "badge": "가솔린 2.5T 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "프리미엄",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "003",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         },
         "가솔린 2.5 2WD 프레스티지": {
           "badge_group": "가솔린 2500cc",
           "badge": "가솔린 2.5T 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "프레스티지",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "003",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         },
         "가솔린 2.5 AWD 익스클루시브": {
           "badge_group": "가솔린 2500cc",
           "badge": "가솔린 2.5T 4WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "익스클루시브",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "004",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "005"
         },
         "디젤 2.2 AWD 캘리그래피": {
           "badge_group": "가솔린 2WD",
@@ -8688,18 +8710,18 @@
         "디젤 2.2 2WD 프리미엄": {
           "badge_group": "디젤 2200cc",
           "badge": "디젤 2.2 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "프리미엄",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         },
         "디젤 2.2 2WD 캘리그래피": {
           "badge_group": "디젤 2200cc",
           "badge": "디젤 2.2 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "캘리그래피",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "004"
         },
         "디젤 2.2 AWD 익스클루시브": {
           "badge_group": "가솔린 2WD",
@@ -8716,14 +8738,16 @@
         "1.6 HEV AWD 프레스티지": {
           "badge_group": "가솔린+전기 1600cc",
           "badge": "HEV 1.6 4WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:51"
+          "badge_detail": "프레스티지",
+          "updated_at": "2026-10-22 19:04:28",
+          "soldout_clsdetailcd": "002"
         },
         "1.6 HEV AWD 캘리그래피": {
           "badge_group": "가솔린+전기 1600cc",
           "badge": "HEV 1.6 4WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:51"
+          "badge_detail": "캘리그래피",
+          "updated_at": "2026-10-22 19:04:28",
+          "soldout_clsdetailcd": "003"
         },
         "1.6 HEV 2WD 익스클루시브": {
           "badge_group": "가솔린+전기 1600cc",
@@ -8961,10 +8985,10 @@
         "2.5 GDI 노블레스": {
           "badge_group": "가솔린 2WD",
           "badge": "2.5 가솔린 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "노블레스",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "3.5 LPi 렌터카 스탠다드": {
           "badge_group": "LPG 2WD",
@@ -8977,18 +9001,18 @@
         "2.5 GDI 노블레스 라이트": {
           "badge_group": "가솔린 2WD",
           "badge": "2.5 가솔린 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "노블레스 라이트",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         },
         "2.5 GDI 시그니처": {
           "badge_group": "가솔린 2WD",
           "badge": "2.5 가솔린 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "시그니처",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         },
         "3.5 GDI 4WD 시그니처": {
           "badge_group": "가솔린 2WD",
@@ -9007,26 +9031,26 @@
         "3.5 GDI 2WD 노블레스": {
           "badge_group": "가솔린 2WD",
           "badge": "3.5 가솔린 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "노블레스",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "3.5 LPi 일반인 노블레스": {
           "badge_group": "LPG 2WD",
           "badge": "3.5 LPG 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "노블레스",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "004",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "3.5 GDI 4WD 플래티넘": {
           "badge_group": "가솔린 4WD",
           "badge": "3.5 가솔린 4WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "플래티넘",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "003",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "004"
         }
       },
       "soldout_codes": {
@@ -9239,10 +9263,10 @@
         "1.2 가솔린 터보 RS 플러스": {
           "badge_group": "가솔린 1200cc",
           "badge": "1.2 RS",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "플러스",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "004",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "1.2 가솔린 터보 레드라인": {
           "badge_group": "가솔린 1200cc",
@@ -9263,18 +9287,18 @@
         "1.2 가솔린 터보 액티브 플러스": {
           "badge_group": "가솔린 1200cc",
           "badge": "1.2 ACTIV",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:51",
+          "badge_detail": "플러스",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "003",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "1.2 가솔린 터보 LT 플러스": {
           "badge_group": "가솔린 1200cc",
           "badge": "1.2 LT",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "플러스",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         }
       },
       "soldout_codes": {
@@ -9614,26 +9638,26 @@
         "3.0 디젤 4WD 마스터즈 그래비티": {
           "badge_group": "디젤 4WD",
           "badge": "디젤 3.0 4WD 5인승",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "마스터즈",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "3.0 디젤 4WD 플래티넘": {
           "badge_group": "디젤 4WD",
           "badge": "디젤 3.0 4WD 5인승",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "플래티넘",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         },
         "3.0 디젤 4WD 마스터즈": {
           "badge_group": "디젤 4WD",
           "badge": "디젤 3.0 4WD 6인승",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "마스터즈",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         }
       },
       "soldout_codes": {
@@ -9698,50 +9722,50 @@
         "3.8 GDI AWD 베스트셀렉션Ⅰ": {
           "badge_group": "가솔린 4WD",
           "badge": "3.8 GDI AWD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "베스트 셀렉션Ⅰ",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "006"
         },
         "3.8 GDI AWD 플래티넘Ⅰ": {
           "badge_group": "가솔린 4WD",
           "badge": "3.8 GDI AWD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "플래티넘Ⅰ",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         },
         "3.8 GDI AWD 플래티넘Ⅱ": {
           "badge_group": "가솔린 4WD",
           "badge": "3.8 GDI AWD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "플래티넘Ⅱ",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "3.8 GDI 플래티넘Ⅱ": {
           "badge_group": "가솔린 2WD",
           "badge": "3.8 GDI",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "플래티넘Ⅱ",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "3.8 GDI AWD 그랜드플래티넘": {
           "badge_group": "가솔린 4WD",
           "badge": "3.8 GDI AWD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "플래티넘",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "005"
         },
         "3.8 GDI AWD 플래티넘Ⅲ": {
           "badge_group": "가솔린 4WD",
           "badge": "3.8 GDI AWD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "플래티넘Ⅲ",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         },
         "3.3 AWD 법인전용": {
           "badge_group": "가솔린 4WD",
@@ -9846,34 +9870,34 @@
         "3.8 가솔린 AWD 플래티넘 베스트셀렉션Ⅰ": {
           "badge_group": "가솔린 4WD",
           "badge": "3.8 GDI AWD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "플래티넘",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "006",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "004"
         },
         "3.3 가솔린 터보 AWD 마스터즈 베스트셀렉션Ⅱ": {
           "badge_group": "가솔린 4WD",
           "badge": "3.3 T-GDI AWD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "마스터즈",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "004",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         },
         "3.8 가솔린 플래티넘": {
           "badge_group": "가솔린 2WD",
           "badge": "3.8 GDI",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "플래티넘",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "005",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         },
         "3.8 가솔린 AWD 마스터즈 베스트셀렉션Ⅱ": {
           "badge_group": "가솔린 4WD",
           "badge": "3.8 GDI AWD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "마스터즈",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "006",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "3.8 가솔린 AWD 마스터즈": {
           "badge_group": "가솔린 3800cc",
@@ -9897,18 +9921,18 @@
         "2.2 4WD 노블레스": {
           "badge_group": "디젤 2200cc",
           "badge": "디젤 2.2 4WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "노블레스",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "004"
         },
         "2.2 4WD 프레스티지": {
           "badge_group": "디젤 2200cc",
           "badge": "디젤 2.2 4WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:51",
+          "badge_detail": "프레스티지",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         },
         "2.2 4WD 어드벤처": {
           "badge_group": "가솔린 2WD",
@@ -9919,10 +9943,10 @@
         "2.2 4WD 프레스티지 스페셜": {
           "badge_group": "디젤 2200cc",
           "badge": "디젤 2.2 4WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "프레스티지",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         },
         "2.2 4WD 다이내믹 에디션": {
           "badge_group": "가솔린 2WD",
@@ -10029,18 +10053,18 @@
         "2.2 2WD 프레스티지": {
           "badge_group": "디젤 2200cc",
           "badge": "디젤 2.2 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:51",
+          "badge_detail": "프레스티지",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "2.2 4WD 프레스티지": {
           "badge_group": "디젤 2200cc",
           "badge": "디젤 2.2 4WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:51",
+          "badge_detail": "프레스티지",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "2.2 2WD 와일드": {
           "badge_group": "가솔린 2WD",
@@ -10180,26 +10204,26 @@
         "2.0 가솔린 프레스티지": {
           "badge_group": "가솔린 2WD",
           "badge": "가솔린 2.0 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "프레스티지",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "005",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "R2.0 디젤 2WD 프레스티지": {
           "badge_group": "디젤 2WD",
           "badge": "디젤 2.0 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:51",
+          "badge_detail": "프레스티지",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "003",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "2.0 가솔린 노블레스": {
           "badge_group": "가솔린 2WD",
           "badge": "가솔린 2.0 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "노블레스",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "005",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         },
         "1.6 디젤 2WD 프레스티지": {
           "badge_group": "가솔린 2WD",
@@ -10232,10 +10256,10 @@
         "2.0 가솔린 인텔리전트": {
           "badge_group": "가솔린 2WD",
           "badge": "가솔린 2.0 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "인텔리전트",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "005",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "004"
         }
       },
       "soldout_codes": {
@@ -10807,10 +10831,10 @@
         "1.5 가솔린 2WD C5 플러스": {
           "badge_group": "가솔린 2WD",
           "badge": "가솔린 1.5 2WD C5",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "플러스",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "010",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         }
       },
       "soldout_codes": {
@@ -10831,26 +10855,26 @@
         "롱레인지 2WD 익스클루시브 플러스": {
           "badge_group": "전기",
           "badge": "롱레인지",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "익스클루시브",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         },
         "롱레인지 2WD 프레스티지": {
           "badge_group": "전기",
           "badge": "롱레인지",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:51",
+          "badge_detail": "프레스티지",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         },
         "롱레인지 AWD 프레스티지": {
           "badge_group": "전기",
           "badge": "롱레인지 AWD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "프레스티지",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "003",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         }
       },
       "soldout_codes": {
@@ -10880,10 +10904,10 @@
         "롱레인지 4WD 어스": {
           "badge_group": "전기 4WD",
           "badge": "롱레인지 4WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "어스",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "008",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         }
       },
       "soldout_codes": {
@@ -11104,10 +11128,10 @@
         "2.2 4WD 유라시아 에디션": {
           "badge_group": "디젤 2200cc",
           "badge": "디젤 2.2 4WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:51",
+          "badge_detail": "유라시아 에디션",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "005"
         },
         "2.2 4WD 헤리티지": {
           "badge_group": "가솔린 2WD",
@@ -11186,10 +11210,10 @@
         "1.6 HEV 2WD 프레스티지 플러스": {
           "badge_group": "가솔린+전기 1600cc",
           "badge": "HEV 1.6 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:51",
+          "badge_detail": "프레스티지",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "003",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "1.6 HEV 2WD 캘리그래피": {
           "badge_group": "전기 2WD",
@@ -11200,10 +11224,10 @@
         "1.6 HEV 2WD 캘리그래피 블랙 잉크": {
           "badge_group": "가솔린+전기 1600cc",
           "badge": "HEV 1.6 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "캘리그래피",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "003",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         },
         "1.6 HEV 2WD 프레스티지": {
           "badge_group": "전기 2WD",
@@ -11214,18 +11238,18 @@
         "1.6 HEV AWD 프레스티지": {
           "badge_group": "가솔린+전기 1600cc",
           "badge": "HEV 1.6 4WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "프레스티지",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "004",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "1.6 HEV 2WD 익스클루시브": {
           "badge_group": "가솔린+전기 1600cc",
           "badge": "HEV 1.6 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "익스클루시브",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "003",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         },
         "가솔린 2.5 AWD 캘리그래피": {
           "badge_group": "가솔린 2500cc",
@@ -11333,18 +11357,18 @@
         "1.6 HEV 2WD 인스퍼레이션": {
           "badge_group": "가솔린+전기 1600cc",
           "badge": "HEV 1.6 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "인스퍼레이션",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         },
         "1.6 HEV 2WD 프리미엄": {
           "badge_group": "가솔린+전기 1600cc",
           "badge": "HEV 1.6 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "프리미엄",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         }
       },
       "soldout_codes": {
@@ -11367,34 +11391,34 @@
         "2.2 4WD 프레스티지": {
           "badge_group": "디젤 2200cc",
           "badge": "디젤 2.2 4WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:51",
+          "badge_detail": "프레스티지",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "2.2 2WD 프레스티지": {
           "badge_group": "디젤 2200cc",
           "badge": "디젤 2.2 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:12:00",
+          "badge_detail": "프레스티지",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "2.2 4WD 더 블랙": {
           "badge_group": "디젤 2200cc",
           "badge": "디젤 2.2 4WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:51",
+          "badge_detail": "더 블랙",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         },
         "2.2 4WD 럭셔리": {
           "badge_group": "디젤 2200cc",
           "badge": "디젤 2.2 4WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "럭셔리",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         }
       },
       "soldout_codes": {
@@ -11493,10 +11517,10 @@
         "1.5 T-GDI 2WD S9": {
           "badge_group": "가솔린 2WD",
           "badge": "가솔린 1.5 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "S9",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "1.5 T-GDI 2WD S7": {
           "badge_group": "가솔린 1500cc",
@@ -11591,26 +11615,26 @@
         "2.0 터보 AWD 플래티넘": {
           "badge_group": "가솔린 2000cc",
           "badge": "2.0 터보 AWD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "플래티넘",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "2.0 터보 플래티넘": {
           "badge_group": "가솔린 2000cc",
           "badge": "2.0 터보 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "플래티넘",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "2.2 디젤 프라임": {
           "badge_group": "디젤 2200cc",
           "badge": "2.2 디젤 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:51",
+          "badge_detail": "프라임",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "005",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         }
       },
       "soldout_codes": {
@@ -11633,10 +11657,10 @@
         "디젤 4WD 프레지던트": {
           "badge_group": "디젤 4WD",
           "badge": "디젤 3.0 4WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "프레지던트",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         }
       },
       "soldout_codes": {
@@ -11684,34 +11708,34 @@
         "디젤 2.2 4WD 파이니스트 에디션": {
           "badge_group": "디젤 4WD",
           "badge": "디젤 2.2 4WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:51",
+          "badge_detail": "파이니스트 에디션",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "004"
         },
         "디젤 2.2 2WD 익스클루시브": {
           "badge_group": "디젤 2WD",
           "badge": "디젤 2.2 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "익스클루시브",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         },
         "디젤 2.2 2WD 프레스티지": {
           "badge_group": "디젤 2WD",
           "badge": "디젤 2.2 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "프레스티지",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         },
         "디젤 2.2 4WD 익스클루시브 스페셜": {
           "badge_group": "디젤 4WD",
           "badge": "디젤 2.2 4WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:51",
+          "badge_detail": "익스클루시브",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         }
       },
       "soldout_codes": {
@@ -11879,10 +11903,10 @@
         "롱 레인지 에어": {
           "badge_group": "전기 2WD",
           "badge": "롱레인지 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "에어",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         },
         "롱 레인지 어스": {
           "badge_group": "전기",
@@ -12488,10 +12512,10 @@
         "R2.0 2WD 트렌디": {
           "badge_group": "디젤 2WD",
           "badge": "디젤 2.0 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "트렌디",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "013",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "007"
         },
         "R2.0 2WD 럭셔리": {
           "badge_group": "가솔린 2WD",
@@ -12523,18 +12547,18 @@
         "1.4 가솔린 프레스티지": {
           "badge_group": "가솔린 1400cc",
           "badge": "1.4",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "프레스티지",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         },
         "U2 1.6 디젤 트렌디": {
           "badge_group": "디젤 1600cc",
           "badge": "디젤 1.6",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "트렌디",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         }
       },
       "soldout_codes": {
@@ -12635,10 +12659,10 @@
         "5도어 1.4 MPI 디럭스": {
           "badge_group": "가솔린 1400cc",
           "badge": "1.4 MPI 세단",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:51",
+          "badge_detail": "디럭스",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         }
       },
       "soldout_codes": {
@@ -12679,18 +12703,18 @@
         "1.6 HEV 2WD 프레스티지": {
           "badge_group": "가솔린+전기 1600cc",
           "badge": "HEV 1.6 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "프레스티지",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         },
         "1.6 HEV 4WD 시그니처 X-라인": {
           "badge_group": "가솔린+전기 1600cc",
           "badge": "HEV 1.6 4WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "시그니처",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         }
       },
       "soldout_codes": {
@@ -12950,18 +12974,18 @@
         "2.5 GDI 시그니처 블랙": {
           "badge_group": "가솔린 2WD",
           "badge": "2.5 가솔린 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "시그니처",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         },
         "2.5 GDI 시그니처": {
           "badge_group": "가솔린 2WD",
           "badge": "2.5 가솔린 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "시그니처",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         }
       },
       "soldout_codes": {
@@ -12982,10 +13006,10 @@
         "1.5 HEV T7": {
           "badge_group": "가솔린+전기 1500cc",
           "badge": "HEV 1.5 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "T7",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "005",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "1.5 GDI-T 2WD 블랙 에디션": {
           "badge_group": "가솔린 1500cc",
@@ -13342,10 +13366,10 @@
         "1.6 가솔린 터보 2WD 인스퍼레이션": {
           "badge_group": "가솔린 1600cc",
           "badge": "가솔린 1.6 터보 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "인스퍼레이션",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         },
         "1.6 가솔린 터보 2WD H-픽": {
           "badge_group": "가솔린 1600cc",
@@ -13358,18 +13382,18 @@
         "1.6 가솔린 터보 2WD 모던": {
           "badge_group": "가솔린 1600cc",
           "badge": "가솔린 1.6 터보 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "모던",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         },
         "1.6 가솔린 터보 2WD 프리미엄": {
           "badge_group": "가솔린 1600cc",
           "badge": "가솔린 1.6 터보 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "프리미엄",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "1.6 가솔린 터보 2WD 모던플러스": {
           "badge_group": "가솔린 1600cc",
@@ -13416,24 +13440,25 @@
         "3.8 AWD 프리미엄 럭셔리": {
           "badge_group": "가솔린 4WD",
           "badge": "3.8 AWD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "럭셔리",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         },
         "3.3T AWD 프레스티지": {
           "badge_group": "가솔린 4WD",
           "badge": "3.3 T AWD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "프레스티지",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "004",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         },
         "3.8 AWD 프레스티지": {
           "badge_group": "가솔린 3800cc",
           "badge": "3.8 AWD 프레스티지",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:51"
+          "badge_detail": "프레스티지",
+          "updated_at": "2026-10-22 19:04:28",
+          "soldout_clsdetailcd": "003"
         }
       },
       "soldout_codes": {
@@ -13614,10 +13639,10 @@
         "1.35 가솔린 프라임 세이프티": {
           "badge_group": "가솔린 1300cc",
           "badge": "1.3 터보 프리미어",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "프라임 세이프티",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "003",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "2.0 가솔린 레드라인": {
           "badge_group": "가솔린 2000cc",
@@ -13657,26 +13682,26 @@
         "2.0 터보 LT 프리미엄": {
           "badge_group": "가솔린 2000cc",
           "badge": "2.0 터보 LT",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "프리미엄",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "004",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         },
         "2.0 터보 LTZ 프리미엄": {
           "badge_group": "가솔린 2000cc",
           "badge": "2.0 터보 LTZ",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "프리미엄",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "005",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         },
         "1.5 터보 LTZ 프리미엄 세이프티": {
           "badge_group": "가솔린 1500cc",
           "badge": "1.5 터보 LTZ",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "프리미엄 세이프티",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "003",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "2.0 터보 퍼펙트 블랙": {
           "badge_group": "가솔린 2000cc",
@@ -13689,8 +13714,9 @@
         "1.5 터보 LS 디럭스": {
           "badge_group": "가솔린 1500cc",
           "badge": "1.5 터보 LS 디럭스",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:51"
+          "badge_detail": "디럭스",
+          "updated_at": "2026-10-22 19:04:28",
+          "soldout_clsdetailcd": "002"
         }
       },
       "soldout_codes": {
@@ -13710,40 +13736,41 @@
         "3.3 GDi AWD 프리미엄 럭셔리": {
           "badge_group": "가솔린 4WD",
           "badge": "3.3 GDI AWD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "럭셔리",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         },
         "3.3 GDi AWD 럭셔리": {
           "badge_group": "가솔린 4WD",
           "badge": "3.3 GDI AWD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "럭셔리",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         },
         "3.3 GDi 럭셔리": {
           "badge_group": "가솔린 2WD",
           "badge": "3.3 GDI",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "럭셔리",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         },
         "3.3 GDi AWD 럭셔리 스페셜": {
           "badge_group": "가솔린 4WD",
           "badge": "3.3 GDI AWD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "럭셔리",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         },
         "3.3 GDi 프리미엄 럭셔리": {
           "badge_group": "가솔린 3300cc",
           "badge": "3.3 GDi 프리미엄 럭셔리",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:51"
+          "badge_detail": "럭셔리",
+          "updated_at": "2026-10-22 19:04:28",
+          "soldout_clsdetailcd": "001"
         }
       },
       "soldout_codes": {
@@ -13807,50 +13834,50 @@
         "1.6 가솔린 2WD 시그니처": {
           "badge_group": "가솔린 1600cc",
           "badge": "가솔린 1.6 터보 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "시그니처",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "004"
         },
         "1.6 가솔린 2WD 트렌디": {
           "badge_group": "가솔린 1600cc",
           "badge": "가솔린 1.6 터보 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "트렌디",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         },
         "1.6 가솔린 2WD 프레스티지": {
           "badge_group": "가솔린 1600cc",
           "badge": "가솔린 1.6 터보 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "프레스티지",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "1.6 가솔린 2WD 노블레스": {
           "badge_group": "가솔린 1600cc",
           "badge": "가솔린 1.6 터보 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "노블레스",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         },
         "1.6 가솔린 4WD 노블레스": {
           "badge_group": "가솔린 1600cc",
           "badge": "가솔린 1.6 터보 4WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "노블레스",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         },
         "1.6 가솔린 2WD 그래비티": {
           "badge_group": "가솔린 1600cc",
           "badge": "가솔린 1.6 터보 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "그래비티",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "005"
         },
         "1.6 디젤 2WD 프레스티지": {
           "badge_group": "디젤 1600cc",
@@ -13867,10 +13894,10 @@
         "1.6 가솔린 4WD 시그니처": {
           "badge_group": "가솔린 1600cc",
           "badge": "가솔린 1.6 터보 4WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:51",
+          "badge_detail": "시그니처",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "004"
         }
       },
       "soldout_codes": {
@@ -13922,26 +13949,26 @@
         "1.35 가솔린 AWD RS": {
           "badge_group": "가솔린 4WD",
           "badge": "1.3 터보 4WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:51",
+          "badge_detail": "RS",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "003",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         },
         "1.35 가솔린 RS": {
           "badge_group": "가솔린 2WD",
           "badge": "1.3 터보 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:51",
+          "badge_detail": "RS",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "004"
         },
         "1.35 가솔린 프리미어": {
           "badge_group": "가솔린 2WD",
           "badge": "1.3 터보 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "프리미어",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         }
       },
       "soldout_codes": {
@@ -14131,26 +14158,26 @@
         "1.5 가솔린 2WD V5": {
           "badge_group": "가솔린 1500cc",
           "badge": "가솔린 1.5 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "V5",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         },
         "1.5 가솔린 2WD V3": {
           "badge_group": "가솔린 1500cc",
           "badge": "가솔린 1.5 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "V3",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "002"
         },
         "1.5 가솔린 2WD V1": {
           "badge_group": "가솔린 1500cc",
           "badge": "가솔린 1.5 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "V1",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         }
       },
       "soldout_codes": {
@@ -14472,10 +14499,10 @@
         "1.6 터보 스포츠 코어": {
           "badge_group": "가솔린 1600cc",
           "badge": "1.6 터보 스포츠",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "코어",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "001"
         }
       },
       "soldout_codes": {
@@ -15103,10 +15130,10 @@
         "1.35 가솔린 RS": {
           "badge_group": "가솔린 2WD",
           "badge": "1.3 터보 2WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:51",
+          "badge_detail": "RS",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "004"
         }
       },
       "soldout_codes": {
@@ -15227,16 +15254,17 @@
         "2.2 4WD 프레스티지": {
           "badge_group": "디젤 2200cc",
           "badge": "디젤 2.2 4WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:51"
+          "badge_detail": "프레스티지",
+          "updated_at": "2026-10-22 19:04:28",
+          "soldout_clsdetailcd": "002"
         },
         "2.2 4WD 노블레스": {
           "badge_group": "디젤 2200cc",
           "badge": "디젤 2.2 4WD",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:51",
+          "badge_detail": "노블레스",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "002",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "003"
         },
         "2.2 4WD 와일드": {
           "badge_group": "가솔린 2200cc",
@@ -15669,10 +15697,10 @@
         "살룬 1.7 VGT D 스펙": {
           "badge_group": "디젤 1700cc",
           "badge": "1.7 VGT",
-          "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50",
+          "badge_detail": "D 스펙",
+          "updated_at": "2026-10-22 19:04:28",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": ""
+          "soldout_clsdetailcd": "006"
         },
         "2.0 GDi": {
           "badge_group": "가솔린 2000cc",
@@ -15779,10 +15807,10 @@
         "롱보디 V6 골드": {
           "badge_group": "가솔린 3000cc",
           "badge": "롱보디 V6 골드",
-          "badge_detail": "",
+          "badge_detail": "골드",
           "soldout_clsheadcd": "005",
-          "soldout_clsdetailcd": "",
-          "updated_at": "2026-10-21 23:36:46"
+          "soldout_clsdetailcd": "001",
+          "updated_at": "2026-10-22 19:04:28"
         },
         "숏보디 터보STD": {
           "badge_group": "디젤 2500cc",
@@ -16731,10 +16759,10 @@
         "Q270 기본형": {
           "badge_group": "가솔린 2700cc 이하",
           "badge": "Q270 기본형",
-          "badge_detail": "",
+          "badge_detail": "기본형",
           "soldout_clsheadcd": "001",
-          "soldout_clsdetailcd": "",
-          "updated_at": "2026-10-21 23:38:31"
+          "soldout_clsdetailcd": "001",
+          "updated_at": "2026-10-22 19:04:28"
         },
         "Q270 디럭스": {
           "badge_group": "가솔린 2700cc 이하",
@@ -29365,18 +29393,18 @@
         "이지무브 GLX 고급형 11인승": {
           "badge_group": "디젤 2900cc",
           "badge": "이지무브 GLX 고급형 11인승",
-          "badge_detail": "",
+          "badge_detail": "고급형",
           "soldout_clsheadcd": "017",
-          "soldout_clsdetailcd": "",
-          "updated_at": "2026-10-22 02:38:43"
+          "soldout_clsdetailcd": "002",
+          "updated_at": "2026-10-22 19:04:28"
         },
         "이지무브 GLX 고급형 8인승": {
           "badge_group": "디젤 2900cc",
           "badge": "이지무브 GLX 고급형 8인승",
-          "badge_detail": "",
+          "badge_detail": "고급형",
           "soldout_clsheadcd": "018",
-          "soldout_clsdetailcd": "",
-          "updated_at": "2026-10-22 02:38:43"
+          "soldout_clsdetailcd": "002",
+          "updated_at": "2026-10-22 19:04:28"
         },
         "어린이 보호차": {
           "badge_group": "디젤 2900cc",
