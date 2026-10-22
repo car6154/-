@@ -18,7 +18,12 @@
         "더 올 뉴 투싼",
         "더 올뉴투싼"
       ],
-      "trims": {}
+      "trims": {},
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "032",
+        "mdlcd": "169"
+      }
     },
     "올 뉴 투싼": {
       "brand": "현대",
@@ -79,6 +84,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:12:00"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "032",
+        "mdlcd": "133"
       }
     },
     "더 뉴 투싼": {
@@ -166,6 +176,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:04:58"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "004",
+        "mdlcd": "178"
       }
     },
     "더 뉴 그랜저 IG": {
@@ -301,6 +316,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:04:58"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "004",
+        "mdlcd": "162"
       }
     },
     "그랜저 IG": {
@@ -382,6 +402,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:04:58"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "004",
+        "mdlcd": "141"
       }
     },
     "그랜저 HG": {
@@ -471,6 +496,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:04:58"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "004",
+        "mdlcd": "106"
       }
     },
     "쏘렌토 4세대": {
@@ -573,6 +603,11 @@
           "soldout_clsheadcd": "002",
           "soldout_clsdetailcd": ""
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "027",
+        "mdlcd": "151"
       }
     },
     "더 뉴 쏘렌토 4세대": {
@@ -598,6 +633,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:04:58"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "027",
+        "mdlcd": "171"
       }
     },
     "올 뉴 쏘렌토": {
@@ -654,6 +694,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:04:58"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "027",
+        "mdlcd": "114"
       }
     },
     "더 뉴 쏘렌토": {
@@ -715,6 +760,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:04:58"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "027",
+        "mdlcd": "133"
       }
     },
     "K5 3세대": {
@@ -773,6 +823,11 @@
           "soldout_clsheadcd": "001",
           "soldout_clsdetailcd": ""
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "001",
+        "mdlcd": "149"
       }
     },
     "더 뉴 K5 3세대": {
@@ -818,6 +873,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:12:00"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "001",
+        "mdlcd": "173"
       }
     },
     "카니발 4세대": {
@@ -885,6 +945,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:04:58"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "036",
+        "mdlcd": "154"
       }
     },
     "더 뉴 카니발 4세대": {
@@ -945,6 +1010,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:12:00"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "036",
+        "mdlcd": "175"
       }
     },
     "올 뉴 카니발": {
@@ -988,6 +1058,11 @@
           "soldout_clsheadcd": "007",
           "soldout_clsdetailcd": ""
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "036",
+        "mdlcd": "113"
       }
     },
     "스포티지 5세대": {
@@ -1017,6 +1092,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:04:58"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "025",
+        "mdlcd": "160"
       }
     },
     "The SUV 스포티지": {
@@ -1103,6 +1183,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:04:58"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "019",
+        "mdlcd": "164"
       }
     },
     "더 뉴 아반떼 (CN7)": {
@@ -1160,6 +1245,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:04:58"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "019",
+        "mdlcd": "182"
       }
     },
     "아반떼 AD": {
@@ -1235,6 +1325,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:04:58"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "019",
+        "mdlcd": "136"
       }
     },
     "캐스퍼": {
@@ -1331,6 +1426,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "062",
+        "mdlcd": "174"
       }
     },
     "더 뉴 캐스퍼": {
@@ -1438,6 +1538,11 @@
           "soldout_clsheadcd": "004",
           "soldout_clsdetailcd": ""
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "058",
+        "mdlcd": "134"
       }
     },
     "더 뉴 QM6": {
@@ -1449,7 +1554,12 @@
         "qm6더뉴",
         "더뉴qm6"
       ],
-      "trims": {}
+      "trims": {},
+      "soldout_codes": {
+        "mnfccd": "005",
+        "mdlgroupcd": "011",
+        "mdlcd": "071"
+      }
     },
     "G80 (RG3)": {
       "brand": "제네시스",
@@ -1502,6 +1612,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:04:58"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "007",
+        "mdlgroupcd": "002",
+        "mdlcd": "006"
       }
     },
     "GV70": {
@@ -1593,6 +1708,11 @@
           "soldout_clsheadcd": "004",
           "soldout_clsdetailcd": ""
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "007",
+        "mdlgroupcd": "006",
+        "mdlcd": "008"
       }
     },
     "GV80": {
@@ -1644,6 +1764,11 @@
           "soldout_clsheadcd": "006",
           "soldout_clsdetailcd": ""
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "007",
+        "mdlgroupcd": "005",
+        "mdlcd": "005"
       }
     },
     "i40": {
@@ -1659,6 +1784,11 @@
           "badge_detail": "D 스펙",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "049",
+        "mdlcd": "109"
       }
     },
     "올 뉴 아반떼 (CN7)": {
@@ -1719,6 +1849,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "004",
+        "mdlgroupcd": "012",
+        "mdlcd": "107"
       }
     },
     "쏘렌토 4세대 (MQ4)": {
@@ -1772,6 +1907,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "005",
+        "mdlgroupcd": "011",
+        "mdlcd": "066"
       }
     },
     "싼타페 DM": {
@@ -1834,6 +1974,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:04:58"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "017",
+        "mdlcd": "111"
       }
     },
     "쏘나타 뉴 라이즈": {
@@ -1845,7 +1990,12 @@
         "뉴라이즈",
         "쏘나타뉴라이즈"
       ],
-      "trims": {}
+      "trims": {},
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "018",
+        "mdlcd": "142"
+      }
     },
     "더 뉴 K3 2세대": {
       "brand": "기아",
@@ -1853,7 +2003,12 @@
       "encar_model": "더 뉴 K3 2세대",
       "created_at": "2026-09-29 15:29:05",
       "aliases": [],
-      "trims": {}
+      "trims": {},
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "060",
+        "mdlcd": "157"
+      }
     },
     "스파크": {
       "brand": "쉐보레(GM대우)",
@@ -1874,6 +2029,11 @@
           "badge_detail": "기본형",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "003",
+        "mdlgroupcd": "043",
+        "mdlcd": "075"
       }
     },
     "올 뉴 모닝": {
@@ -1906,6 +2066,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:04:58"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "013",
+        "mdlcd": "095"
       }
     },
     "싼타페 TM": {
@@ -1947,6 +2112,11 @@
           "soldout_clsheadcd": "005",
           "soldout_clsdetailcd": ""
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "017",
+        "mdlcd": "150"
       }
     },
     "트레일 블레이저": {
@@ -1980,6 +2150,11 @@
           "soldout_clsheadcd": "002",
           "soldout_clsdetailcd": ""
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "058",
+        "mdlcd": "167"
       }
     },
     "레이": {
@@ -2039,6 +2214,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "058",
+        "mdlcd": "099"
       }
     },
     "더 넥스트 스파크": {
@@ -2082,6 +2262,11 @@
           "soldout_clsheadcd": "009",
           "soldout_clsdetailcd": ""
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "003",
+        "mdlgroupcd": "043",
+        "mdlcd": "086"
       }
     },
     "더 뉴 K5 2세대": {
@@ -2118,6 +2303,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:12:00"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "001",
+        "mdlcd": "135"
       }
     },
     "뉴 투싼 ix": {
@@ -2156,6 +2346,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:12:00"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "032",
+        "mdlcd": "122"
       }
     },
     "G70": {
@@ -2207,6 +2402,11 @@
           "badge_detail": "스포츠 패키지",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "007",
+        "mdlgroupcd": "003",
+        "mdlcd": "003"
       }
     },
     "K5 2세대": {
@@ -2238,6 +2438,11 @@
           "soldout_clsheadcd": "018",
           "soldout_clsdetailcd": ""
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "001",
+        "mdlcd": "118"
       }
     },
     "싼타페 더 프라임": {
@@ -2287,6 +2492,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "017",
+        "mdlcd": "134"
       }
     },
     "어메이징 뉴 크루즈": {
@@ -2295,7 +2505,12 @@
       "encar_model": "어메이징 뉴 크루즈",
       "created_at": "2026-09-30 12:46:04",
       "aliases": [],
-      "trims": {}
+      "trims": {},
+      "soldout_codes": {
+        "mnfccd": "003",
+        "mdlgroupcd": "041",
+        "mdlcd": "084"
+      }
     },
     "XM3": {
       "brand": "르노코리아(삼성)",
@@ -2358,6 +2573,11 @@
           "soldout_clsheadcd": "005",
           "soldout_clsdetailcd": ""
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "005",
+        "mdlgroupcd": "015",
+        "mdlcd": "072"
       }
     },
     "더 뉴 트랙스": {
@@ -2424,6 +2644,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:04:58"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "003",
+        "mdlgroupcd": "048",
+        "mdlcd": "092"
       }
     },
     "더 뉴 니로": {
@@ -2450,6 +2675,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:04:58"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "061",
+        "mdlcd": "144"
       }
     },
     "스포티지 R": {
@@ -2477,6 +2707,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "025",
+        "mdlcd": "091"
       }
     },
     "더 뉴 모닝": {
@@ -2511,6 +2746,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:04:58"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "013",
+        "mdlcd": "116"
       }
     },
     "더 뉴 아반떼 AD": {
@@ -2565,6 +2805,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:04:58"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "019",
+        "mdlcd": "154"
       }
     },
     "올 뉴 K7": {
@@ -2651,6 +2896,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:04:58"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "002",
+        "mdlcd": "122"
       }
     },
     "더 뉴 카니발": {
@@ -2710,7 +2960,12 @@
           "soldout_clsdetailcd": ""
         }
       },
-      "created_at": "2026-10-01"
+      "created_at": "2026-10-01",
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "036",
+        "mdlcd": "137"
+      }
     },
     "올 뉴 크루즈": {
       "brand": "쉐보레(GM대우_)",
@@ -2741,6 +2996,11 @@
           "soldout_clsheadcd": "002",
           "soldout_clsdetailcd": ""
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "003",
+        "mdlgroupcd": "041",
+        "mdlcd": "093"
       }
     },
     "쏘나타 (DN8)": {
@@ -2838,6 +3098,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:04:58"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "018",
+        "mdlcd": "157"
       }
     },
     "올 뉴 모닝 (JA)": {
@@ -2902,6 +3167,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:04:58"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "013",
+        "mdlcd": "130"
       }
     },
     "엑센트(신형)": {
@@ -2972,6 +3242,11 @@
           "soldout_clsheadcd": "014",
           "soldout_clsdetailcd": ""
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "022",
+        "mdlcd": "105"
       }
     },
     "캐스퍼 일렉트릭": {
@@ -2980,7 +3255,12 @@
       "encar_model": "캐스퍼 일렉트릭",
       "created_at": "2026-10-05 19:27:49",
       "aliases": [],
-      "trims": {}
+      "trims": {},
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "062",
+        "mdlcd": "192"
+      }
     },
     "말리부": {
       "brand": "쉐보레(GM대우)",
@@ -3017,6 +3297,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "003",
+        "mdlgroupcd": "046",
+        "mdlcd": "079"
       }
     },
     "코나": {
@@ -3070,6 +3355,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "055",
+        "mdlcd": "146"
       }
     },
     "모닝 어반": {
@@ -3120,6 +3410,11 @@
           "soldout_clsheadcd": "004",
           "soldout_clsdetailcd": ""
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "013",
+        "mdlcd": "152"
       }
     },
     "디 올 뉴 싼타페 (MX5)": {
@@ -3179,6 +3474,11 @@
           "badge_detail": "프리미엄",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "018",
+        "mdlcd": "185"
       }
     },
     "LF 쏘나타": {
@@ -3252,6 +3552,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:04:58"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "018",
+        "mdlcd": "126"
       }
     },
     "아이오닉5": {
@@ -3290,6 +3595,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:04:58"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "061",
+        "mdlcd": "172"
       }
     },
     "i30 (PD)": {
@@ -3338,6 +3648,11 @@
           "soldout_clsheadcd": "001",
           "soldout_clsdetailcd": ""
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "001",
+        "mdlcd": "140"
       }
     },
     "더 뉴 팰리세이드": {
@@ -3424,6 +3739,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:04:58"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "058",
+        "mdlcd": "175"
       }
     },
     "더 뉴 셀토스": {
@@ -3486,6 +3806,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:04:58"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "064",
+        "mdlcd": "166"
       }
     },
     "더 뉴 스파크": {
@@ -3513,6 +3838,11 @@
           "soldout_clsheadcd": "004",
           "soldout_clsdetailcd": ""
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "003",
+        "mdlgroupcd": "043",
+        "mdlcd": "096"
       }
     },
     "더 올뉴G80": {
@@ -3889,6 +4219,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "060",
+        "mdlcd": "171"
       }
     },
     "아반떼(CN7)": {
@@ -4070,6 +4405,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "004",
+        "mdlcd": "163"
       }
     },
     "EV6": {
@@ -4106,6 +4446,11 @@
           "badge_detail": "에어",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "066",
+        "mdlcd": "162"
       }
     },
     "신형쏘렌토 하이브리드(MQ4)": {
@@ -4330,6 +4675,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "015",
+        "mdlcd": "148"
       }
     },
     "더 뉴싼타페": {
@@ -4451,6 +4801,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "017",
+        "mdlcd": "165"
       }
     },
     "K8 하이브리드": {
@@ -4486,6 +4841,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "065",
+        "mdlcd": "158"
       }
     },
     "올 뉴모닝(JA)": {
@@ -4884,6 +5244,11 @@
           "badge_detail": "플래티넘",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "065",
+        "mdlcd": "156"
       }
     },
     "신형쏘렌토(MQ4)": {
@@ -5339,6 +5704,11 @@
           "soldout_clsheadcd": "012",
           "soldout_clsdetailcd": ""
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "060",
+        "mdlcd": "136"
       }
     },
     "디 올뉴스포티지": {
@@ -5744,6 +6114,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "004",
+        "mdlcd": "179"
       }
     },
     "신형 K5 하이브리드(DL3)": {
@@ -5783,6 +6158,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "001",
+        "mdlcd": "150"
       }
     },
     "트랙스 크로스오버": {
@@ -5838,6 +6218,11 @@
           "badge_detail": "플러스",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "003",
+        "mdlgroupcd": "048",
+        "mdlcd": "108"
       }
     },
     "더 뉴아반떼AD": {
@@ -6017,6 +6402,11 @@
           "soldout_clsheadcd": "002",
           "soldout_clsdetailcd": ""
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "061",
+        "mdlcd": "164"
       }
     },
     "디 올뉴스포티지 하이브리드": {
@@ -6068,6 +6458,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "025",
+        "mdlcd": "161"
       }
     },
     "뉴 G80": {
@@ -6139,6 +6534,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "061",
+        "mdlcd": "163"
       }
     },
     "올 뉴모닝": {
@@ -6233,6 +6633,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:04:58"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "018",
+        "mdlcd": "160"
       }
     },
     "베뉴": {
@@ -6279,6 +6684,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:04:58"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "059",
+        "mdlcd": "159"
       }
     },
     "모하비 더 마스터": {
@@ -6308,6 +6718,11 @@
           "badge_detail": "마스터즈",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "015",
+        "mdlcd": "148"
       }
     },
     "LF쏘나타": {
@@ -6462,6 +6877,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "007",
+        "mdlgroupcd": "004",
+        "mdlcd": "011"
       }
     },
     "더 K9(RJ)": {
@@ -6518,6 +6938,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "059",
+        "mdlcd": "138"
       }
     },
     "올 뉴K7": {
@@ -6685,6 +7110,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:04:58"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "002",
+        "mdlcd": "145"
       }
     },
     "더 뉴K9(RJ)": {
@@ -6730,6 +7160,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "059",
+        "mdlcd": "159"
       }
     },
     "렉스턴 스포츠": {
@@ -6787,6 +7222,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "004",
+        "mdlgroupcd": "003",
+        "mdlcd": "113"
       }
     },
     "더 뉴니로": {
@@ -6968,6 +7408,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:04:58"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "005",
+        "mdlgroupcd": "010",
+        "mdlcd": "065"
       }
     },
     "신형 투싼": {
@@ -7132,6 +7577,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:04:58"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "004",
+        "mdlgroupcd": "003",
+        "mdlcd": "118"
       }
     },
     "5시리즈(7세대)": {
@@ -7260,6 +7710,11 @@
           "badge_detail": "스페셜",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "004",
+        "mdlcd": "143"
       }
     },
     "스포티지 더 볼드": {
@@ -7323,6 +7778,11 @@
           "badge_detail": "인텔리전트",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "025",
+        "mdlcd": "141"
       }
     },
     "아반떼MD": {
@@ -7385,6 +7845,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "019",
+        "mdlcd": "104"
       }
     },
     "더 뉴트랙스": {
@@ -7521,6 +7986,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "019",
+        "mdlcd": "166"
       }
     },
     "더 뉴카니발(KA4)": {
@@ -7656,6 +8126,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "056",
+        "mdlcd": "151"
       }
     },
     "토레스": {
@@ -7686,6 +8161,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "004",
+        "mdlgroupcd": "013",
+        "mdlcd": "121"
       }
     },
     "더 뉴아반떼MD": {
@@ -7738,6 +8218,11 @@
           "badge_detail": "기본형",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "019",
+        "mdlcd": "123"
       }
     },
     "더 뉴봉고Ⅲ화물": {
@@ -7900,6 +8385,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "025",
+        "mdlcd": "119"
       }
     },
     "QM3": {
@@ -7932,6 +8422,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "005",
+        "mdlgroupcd": "009",
+        "mdlcd": "059"
       }
     },
     "더 뉴K5 하이브리드(DL3)": {
@@ -7966,6 +8461,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "001",
+        "mdlcd": "174"
       }
     },
     "올 뉴코란도": {
@@ -8017,6 +8517,11 @@
           "badge_detail": "플러스",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "004",
+        "mdlgroupcd": "011",
+        "mdlcd": "115"
       }
     },
     "디 올뉴싼타페 하이브리드": {
@@ -8068,6 +8573,11 @@
           "badge_detail": "익스클루시브",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "017",
+        "mdlcd": "187"
       }
     },
     "아이오닉 6": {
@@ -8097,6 +8607,11 @@
           "badge_detail": "프레스티지",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "063",
+        "mdlcd": "176"
       }
     },
     "올 뉴투싼": {
@@ -8165,6 +8680,11 @@
           "badge_detail": "어스",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "069",
+        "mdlcd": "169"
       }
     },
     "더 뉴K5(DL3)": {
@@ -8490,6 +9010,11 @@
           "soldout_clsheadcd": "003",
           "soldout_clsdetailcd": ""
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "005",
+        "mdlgroupcd": "009",
+        "mdlcd": "067"
       }
     },
     "더 뉴투싼": {
@@ -8763,6 +9288,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "004",
+        "mdlgroupcd": "003",
+        "mdlcd": "111"
       }
     },
     "3시리즈(7세대)": {
@@ -8869,6 +9399,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "053",
+        "mdlcd": "138"
       }
     },
     "제네시스DH": {
@@ -8893,6 +9428,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "025",
+        "mdlcd": "124"
       }
     },
     "더 뉴투싼 하이브리드": {
@@ -8920,6 +9460,11 @@
           "badge_detail": "프리미엄",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "032",
+        "mdlcd": "189"
       }
     },
     "올 뉴렉스턴": {
@@ -8962,6 +9507,11 @@
           "badge_detail": "럭셔리",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "004",
+        "mdlgroupcd": "003",
+        "mdlcd": "117"
       }
     },
     "XC40": {
@@ -9076,6 +9626,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "004",
+        "mdlgroupcd": "006",
+        "mdlcd": "127"
       }
     },
     "캡쳐": {
@@ -9099,6 +9654,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "005",
+        "mdlgroupcd": "016",
+        "mdlcd": "073"
       }
     },
     "티구안(2세대)": {
@@ -9157,6 +9717,11 @@
           "badge_detail": "프라임",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "062",
+        "mdlcd": "131"
       }
     },
     "더 뉴모하비": {
@@ -9177,6 +9742,11 @@
           "badge_detail": "프레지던트",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "015",
+        "mdlcd": "123"
       }
     },
     "SM5 노바": {
@@ -9198,6 +9768,11 @@
           "soldout_clsheadcd": "013",
           "soldout_clsdetailcd": ""
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "005",
+        "mdlgroupcd": "002",
+        "mdlcd": "064"
       }
     },
     "더 뉴맥스크루즈": {
@@ -9236,6 +9811,11 @@
           "badge_detail": "익스클루시브 스페셜",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "050",
+        "mdlcd": "135"
       }
     },
     "컨트리맨(2세대)": {
@@ -9333,6 +9913,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "005",
+        "mdlgroupcd": "013",
+        "mdlcd": "069"
       }
     },
     "모델 3": {
@@ -9380,6 +9965,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "070",
+        "mdlcd": "177"
       }
     },
     "모델 Y": {
@@ -9438,6 +10028,11 @@
           "soldout_clsheadcd": "004",
           "soldout_clsdetailcd": ""
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "005",
+        "mdlgroupcd": "018",
+        "mdlcd": "076"
       }
     },
     "알티마(5세대F/L)": {
@@ -9493,6 +10088,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "005",
+        "mdlgroupcd": "019",
+        "mdlcd": "077"
       }
     },
     "1시리즈(3세대)": {
@@ -9729,6 +10329,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "003",
+        "mdlgroupcd": "049",
+        "mdlcd": "087"
       }
     },
     "뉴쏘렌토 R": {
@@ -9760,6 +10365,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:12:00"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "027",
+        "mdlcd": "102"
       }
     },
     "스토닉": {
@@ -9784,6 +10394,11 @@
           "badge_detail": "트렌디",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "063",
+        "mdlcd": "132"
       }
     },
     "제타(7세대)": {
@@ -9841,6 +10456,11 @@
           "badge_detail": "기본형",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "001",
+        "mdlcd": "106"
       }
     },
     "올 뉴카니발": {
@@ -9907,6 +10527,11 @@
           "soldout_clsheadcd": "001",
           "soldout_clsdetailcd": ""
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "053",
+        "mdlcd": "098"
       }
     },
     "봉고Ⅲ EV": {
@@ -10002,6 +10627,11 @@
           "badge_detail": "쿨멘 노블레스",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "004",
+        "mdlgroupcd": "003",
+        "mdlcd": "119"
       }
     },
     "뉴 GV80": {
@@ -10062,6 +10692,11 @@
           "badge_detail": "시그니처 X Line",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "025",
+        "mdlcd": "181"
       }
     },
     "더 올뉴투싼 하이브리드": {
@@ -10078,6 +10713,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "032",
+        "mdlcd": "170"
       }
     },
     "더 뉴쏘렌토(MQ4)": {
@@ -10138,6 +10778,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "005",
+        "mdlgroupcd": "021",
+        "mdlcd": "079"
       }
     },
     "CLS클래스(3세대)": {
@@ -10270,6 +10915,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "058",
+        "mdlcd": "155"
       }
     },
     "토레스 하이브리드": {
@@ -10286,6 +10936,11 @@
           "badge_detail": "T7",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "004",
+        "mdlgroupcd": "013",
+        "mdlcd": "126"
       }
     },
     "더 뉴 S90": {
@@ -10362,6 +11017,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "065",
+        "mdlcd": "178"
       }
     },
     "뉴 QM6": {
@@ -10446,6 +11106,11 @@
           "badge_detail": "시그니처",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "065",
+        "mdlcd": "179"
       }
     },
     "더 뉴토레스": {
@@ -10502,6 +11167,11 @@
           "soldout_clsheadcd": "001",
           "soldout_clsdetailcd": ""
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "007",
+        "mdlgroupcd": "006",
+        "mdlcd": "012"
       }
     },
     "XC90(2세대)": {
@@ -10546,6 +11216,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "003",
+        "mdlgroupcd": "054",
+        "mdlcd": "101"
       }
     },
     "X4(2세대)": {
@@ -10682,6 +11357,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "001",
+        "mdlcd": "092"
       }
     },
     "니로 플러스": {
@@ -10704,6 +11384,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "061",
+        "mdlcd": "165"
       }
     },
     "디 올뉴코나 일렉트릭": {
@@ -10720,6 +11405,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "055",
+        "mdlcd": "184"
       }
     },
     "디 올뉴코나": {
@@ -10762,6 +11452,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "055",
+        "mdlcd": "180"
       }
     },
     "1시리즈(2세대)": {
@@ -10806,6 +11501,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "007",
+        "mdlgroupcd": "004",
+        "mdlcd": "004"
       }
     },
     "프리우스(5세대)": {
@@ -10872,6 +11572,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "061",
+        "mdlcd": "126"
       }
     },
     "신형 트래버스": {
@@ -10912,6 +11617,11 @@
           "soldout_clsheadcd": "002",
           "soldout_clsdetailcd": ""
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "037",
+        "mdlcd": "127"
       }
     },
     "디 올뉴코나 하이브리드": {
@@ -10934,6 +11644,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "055",
+        "mdlcd": "181"
       }
     },
     "더 뉴G70": {
@@ -10980,6 +11695,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "007",
+        "mdlgroupcd": "003",
+        "mdlcd": "007"
       }
     },
     "더 뉴말리부": {
@@ -11016,6 +11736,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "003",
+        "mdlgroupcd": "046",
+        "mdlcd": "098"
       }
     },
     "올 뉴말리부": {
@@ -11060,6 +11785,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "003",
+        "mdlgroupcd": "046",
+        "mdlcd": "088"
       }
     },
     "더 뉴레이": {
@@ -11170,6 +11900,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "007",
+        "mdlgroupcd": "002",
+        "mdlcd": "002"
       }
     },
     "신형 QM6": {
@@ -11202,6 +11937,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "015",
+        "mdlcd": "080"
       }
     },
     "X5(4세대)": {
@@ -11290,6 +12030,11 @@
           "soldout_clsheadcd": "002",
           "soldout_clsdetailcd": ""
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "064",
+        "mdlcd": "147"
       }
     },
     "K7 프리미어 하이브리드": {
@@ -11312,6 +12057,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "002",
+        "mdlcd": "146"
       }
     },
     "트레일블레이저": {
@@ -11340,6 +12090,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "003",
+        "mdlgroupcd": "055",
+        "mdlcd": "102"
       }
     },
     "니로 EV": {
@@ -11362,6 +12117,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "061",
+        "mdlcd": "140"
       }
     },
     "ES(6세대)": {
@@ -11434,6 +12194,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "011",
+        "mdlcd": "082"
       }
     },
     "쏘나타 디 엣지 하이브리드": {
@@ -11468,6 +12233,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "018",
+        "mdlcd": "186"
       }
     },
     "더 뉴기아 레이": {
@@ -11550,6 +12320,11 @@
           "soldout_clsheadcd": "006",
           "soldout_clsdetailcd": ""
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "005",
+        "mdlgroupcd": "003",
+        "mdlcd": "063"
       }
     },
     "뉴 르노 QM6": {
@@ -11596,6 +12371,11 @@
           "badge_detail": "V1",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "004",
+        "mdlgroupcd": "012",
+        "mdlcd": "116"
       }
     },
     "더 뉴 K3": {
@@ -11630,6 +12410,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "060",
+        "mdlcd": "120"
       }
     },
     "트랙스": {
@@ -11648,6 +12433,11 @@
           "soldout_clsheadcd": "005",
           "soldout_clsdetailcd": ""
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "003",
+        "mdlgroupcd": "048",
+        "mdlcd": "082"
       }
     },
     "쏘울": {
@@ -11670,6 +12460,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "028",
+        "mdlcd": "086"
       }
     },
     "LF쏘나타 뉴라이즈 하이브리드": {
@@ -11686,6 +12481,11 @@
           "badge_detail": "스페셜",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "018",
+        "mdlcd": "144"
       }
     },
     "Q5(2세대)": {
@@ -11718,6 +12518,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "062",
+        "mdlcd": "155"
       }
     },
     "더 기아 레이 EV": {
@@ -11734,6 +12539,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "058",
+        "mdlcd": "172"
       }
     },
     "레니게이드": {
@@ -11848,6 +12658,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "004",
+        "mdlgroupcd": "012",
+        "mdlcd": "112"
       }
     },
     "Q8": {
@@ -11880,6 +12695,11 @@
           "badge_detail": "코어",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "048",
+        "mdlcd": "149"
       }
     },
     "XM3 하이브리드": {
@@ -11932,6 +12752,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "048",
+        "mdlcd": "107"
       }
     },
     "프리우스(4세대)": {
@@ -11996,6 +12821,11 @@
           "soldout_clsheadcd": "012",
           "soldout_clsdetailcd": ""
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "005",
+        "mdlgroupcd": "010",
+        "mdlcd": "074"
       }
     },
     "더 뉴아반떼 하이브리드(CN7)": {
@@ -12024,6 +12854,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "019",
+        "mdlcd": "183"
       }
     },
     "오딧세이(4세대)": {
@@ -12056,6 +12891,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "001",
+        "mdlcd": "139"
       }
     },
     "골프(7세대)": {
@@ -12150,6 +12990,11 @@
           "soldout_clsheadcd": "004",
           "soldout_clsdetailcd": ""
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "060",
+        "mdlcd": "103"
       }
     },
     "체로키(KL)": {
@@ -12192,6 +13037,11 @@
           "soldout_clsheadcd": "001",
           "soldout_clsdetailcd": ""
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "004",
+        "mdlgroupcd": "013",
+        "mdlcd": "125"
       }
     },
     "리얼 뉴 콜로라도": {
@@ -12208,6 +13058,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "003",
+        "mdlgroupcd": "053",
+        "mdlcd": "103"
       }
     },
     "신형 K5 하이브리드": {
@@ -12224,6 +13079,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "001",
+        "mdlcd": "121"
       }
     },
     "더 뉴K9(KH)": {
@@ -12250,6 +13110,11 @@
           "soldout_clsheadcd": "005",
           "soldout_clsdetailcd": ""
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "059",
+        "mdlcd": "117"
       }
     },
     "뉴 티볼리 에어": {
@@ -12266,6 +13131,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:50"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "004",
+        "mdlgroupcd": "012",
+        "mdlcd": "108"
       }
     },
     "NF쏘나타 트랜스폼": {
@@ -12284,6 +13154,11 @@
           "soldout_clsheadcd": "022",
           "soldout_clsdetailcd": ""
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "018",
+        "mdlcd": "092"
       }
     },
     "코나 하이브리드": {
@@ -12306,6 +13181,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "055",
+        "mdlcd": "161"
       }
     },
     "LF쏘나타 뉴라이즈": {
@@ -12370,6 +13250,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "013",
+        "mdlcd": "170"
       }
     },
     "라브4(5세대)": {
@@ -12430,6 +13315,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "001",
+        "mdlcd": "097"
       }
     },
     "쏘울 부스터": {
@@ -12448,6 +13338,11 @@
           "soldout_clsheadcd": "002",
           "soldout_clsdetailcd": ""
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "028",
+        "mdlcd": "142"
       }
     },
     "더 뉴트레일블레이저": {
@@ -12464,6 +13359,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "003",
+        "mdlgroupcd": "055",
+        "mdlcd": "109"
       }
     },
     "코나 N": {
@@ -12480,6 +13380,11 @@
           "badge_detail": "2.0 N",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "055",
+        "mdlcd": "167"
       }
     },
     "더 뉴스포티지R": {
@@ -12502,6 +13407,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "002",
+        "mdlgroupcd": "025",
+        "mdlcd": "107"
       }
     },
     "V60 크로스컨트리(2세대)": {
@@ -12622,6 +13532,11 @@
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "015",
+        "mdlcd": "083"
       }
     },
     "i30": {
@@ -12640,6 +13555,11 @@
           "soldout_clsheadcd": "017",
           "soldout_clsdetailcd": ""
         }
+      },
+      "soldout_codes": {
+        "mnfccd": "001",
+        "mdlgroupcd": "001",
+        "mdlcd": "084"
       }
     },
     "더 뉴 i30": {
