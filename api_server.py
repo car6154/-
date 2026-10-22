@@ -846,7 +846,6 @@ def search_encar_market(req: EncarSearchRequest):
             print(f"[api_server] SoldOutTracker error: {e}")
 
         # --- 옵션 감가(opt_adj) 로직 이관 ---
-        import re
         import numpy as np
         from datetime import datetime
         
