@@ -540,6 +540,8 @@ export function useBiddingCockpit({
       rawGradeNameRef.current = '';
       rawGradeDetailNameRef.current = '';
 
+      console.info(`[InvDiag] preset 수신: carNumber=${preset.carNumber || ''}, mileage=${preset.mileage || ''}, carName=${preset.carName || ''}, detailModel=${preset.detailModel || ''}`);
+
       // a. preset의 기본 정보부터 적용: setCarNumber, setManufacturer, setCarName, setDetailModel, setYearModel, setMileageKm (조회 실패 시에도 화면에 표시되도록)
       if (preset.carNumber) {
         setCarNumber(preset.carNumber);
@@ -589,13 +591,52 @@ export function useBiddingCockpit({
         lookupSucceeded = Boolean(await handleLookupCarNumber(preset.carNumber, parsedMileage, true));
       }
 
-      // c. 실시간 조회 실패(또는 차량번호 미존재) 시에만 과거 장부 가격을 폴백으로 세팅하고, 성공 시에는 실시간 AI 산출 시세를 유지
+      // c. 차얼마 실시간 조회 실패 시, preset의 제원으로 엔카/K-Car 크롤링 폴백 직접 가동
+      let fallbackCrawlingSucceeded = false;
       if (!lookupSucceeded) {
         if (preset.sellPrice && preset.sellPrice > 0) {
           setExpectedSellPrice(preset.sellPrice);
         }
         if (preset.buyPrice && preset.buyPrice > 0) {
           setUserBid(preset.buyPrice);
+        }
+
+        const fbCarName = preset.carName || carName;
+        const fbDetailModel = preset.detailModel || detailModel;
+        const fbMileage = parsedMileage || mileageKm;
+        const fbYear = typeof preset.year === 'number'
+          ? preset.year
+          : (preset.year ? parseInt(String(preset.year).replace(/[^\d]/g, ''), 10) : undefined);
+        const fbManufacturer = preset.manufacturer || manufacturer;
+
+        if (fbCarName) {
+          console.info(`[InvDiag] 폴백 크롤링 호출: carName=${fbCarName}, detailModel=${fbDetailModel}, mileage=${fbMileage}`);
+          try {
+            const encarItems = await fetchEncarComparable({
+              carName: fbCarName,
+              detailModel: fbDetailModel,
+              year: fbYear,
+              mileage: fbMileage,
+              carNumber: preset.carNumber || carNumber,
+              manufacturer: fbManufacturer,
+            });
+
+            fetchKcarMarket({
+              carName: fbCarName,
+              detailModel: fbDetailModel,
+              year: fbYear,
+              mileage: fbMileage,
+              manufacturer: fbManufacturer,
+            });
+
+            if (encarItems && encarItems.length > 0) {
+              fallbackCrawlingSucceeded = true;
+            }
+          } catch (crawlingErr) {
+            console.error('[InvDiag] 폴백 크롤링 오류:', crawlingErr);
+          }
+        } else {
+          console.info(`[InvDiag] 폴백 크롤링 건너뜀 (carName 부재): carNumber=${preset.carNumber || ''}`);
         }
       }
 
@@ -623,10 +664,23 @@ export function useBiddingCockpit({
         setAuctionType(preset.auctionType);
       }
 
-      setSearchStatus({
-        type: 'success',
-        message: `✅ [${preset.carNumber || preset.carName}] 장부·재고 역추적 시세 필터 100% 자동 채움 완료!`
-      });
+      // f. 실제 결과에 따른 정직한 상태 메시지 구분 표시
+      if (lookupSucceeded) {
+        setSearchStatus({
+          type: 'success',
+          message: `✅ [${preset.carNumber || preset.carName}] 차얼마 제원 및 엔카 실시간 시세 연동 완료!`
+        });
+      } else if (fallbackCrawlingSucceeded) {
+        setSearchStatus({
+          type: 'warning',
+          message: `⚠️ [${preset.carNumber || preset.carName}] 차얼마 미등록 — 엔카 동급 매물 크롤링 연동 완료`
+        });
+      } else {
+        setSearchStatus({
+          type: 'error',
+          message: `❌ [${preset.carNumber || preset.carName}] 차얼마 조회 및 엔카 크롤링 연동 실패 (조건 재확인 필요)`
+        });
+      }
       setTimeout(() => setSearchStatus(null), 4000);
     })();
   }, [preset]);
@@ -678,6 +732,7 @@ export function useBiddingCockpit({
     try {
       // 실제 차얼마(오토플러스 ERP) 서비스 호출
       const res = await queryChaolmaCar(no, effectiveMileage);
+      console.info(`[InvDiag] 차얼마 응답: carNumber=${no}, success=${Boolean(res?.success)}, message=${res?.message || ''}`);
       if (res && res.success) {
         skipAutoFetchRef.current = true;
         setCarNumber(no);

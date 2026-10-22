@@ -711,6 +711,23 @@ export default function App() {
     setActiveTab('cockpit');
   };
 
+  // Jump to cockpit from company inventory DB (차량번호+주행거리 최소 구성, 폴백용 차명·세부모델만 포함)
+  const handleAnalyzeInventoryInCockpit = (item: any) => {
+    const rawMileage = item.mileage;
+    const parsedMileage = typeof rawMileage === 'number'
+      ? rawMileage
+      : (parseInt(String(rawMileage || 0).replace(/[^\d]/g, ''), 10) || undefined);
+
+    setCockpitPreset({
+      carNumber: item.plate || item.carNumber || '',
+      mileage: parsedMileage && parsedMileage > 0 ? parsedMileage : undefined,
+      carName: item.carName || '',
+      detailModel: item.subModel || item.detailModel || '',
+    });
+    showToast(`📦 [${item.plate || item.carNumber || ''} ${item.carName || ''}] 사이드바 필터 및 실시간 역추적 시세 연동!`);
+    setActiveTab('cockpit');
+  };
+
   const handleResetToInitial = () => {
     if (confirm('저장된 원장과 정산 데이터를 초기 상태로 리셋하시겠습니까?')) {
       setCars(INITIAL_CAR_LEDGER);
@@ -876,7 +893,7 @@ export default function App() {
         {activeTab === 'inventory' && (
           <Suspense fallback={<div className="p-8 text-center text-sm text-[#8b8e9d]">자사 보유 재고 DB 로딩 중...</div>}>
             <CompanyInventoryTab
-              onAnalyzeInCockpit={handleAnalyzePerformanceInCockpit}
+              onAnalyzeInCockpit={handleAnalyzeInventoryInCockpit}
             />
           </Suspense>
         )}
