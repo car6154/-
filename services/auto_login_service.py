@@ -28,7 +28,7 @@ def _hd_diag_found(text: str) -> List[str]:
     return [k for k in HD_DIAG_KEYWORDS if k in (text or "")]
 
 
-def _hd_save_failure_evidence(page, reason: str, curr_url: str, page_text: str, cookie_names: List[str]) -> str:
+def _hd_save_failure_evidence(page, reason: str, curr_url: str, page_text: str, cookie_names: List[str], login_resp_body: str = "") -> str:
     """[진단] 실패 순간의 화면 캡처(PNG)·화면 텍스트·최종 URL을 logs/ 에 저장합니다.
     logs/ 는 .gitignore 대상이므로 커밋되지 않습니다. 쿠키 값은 저장하지 않고 이름만 남깁니다.
     """
@@ -47,6 +47,9 @@ def _hd_save_failure_evidence(page, reason: str, curr_url: str, page_text: str, 
             f.write(f"title: {page.title() if page else ''}\n")
             f.write(f"cookie_names: {', '.join(cookie_names)}\n")
             f.write(f"diag_keywords_found: {', '.join(_hd_diag_found(page_text))}\n")
+            # [진단] 로그인 API 응답 본문만 기록 (요청 본문/헤더/비밀번호는 기록하지 않음, 최대 2,000자)
+            f.write("----- login_response_body (max 2000) -----\n")
+            f.write((login_resp_body or "(none)") + "\n")
             f.write("----- page_text -----\n")
             f.write(page_text or "(empty)")
         print(f"[HeydealerAutoLogin][DIAG] 실패 증거 저장: {base}.png / .txt", flush=True)
@@ -229,12 +232,15 @@ def login_heydealer() -> Dict[str, Any]:
 
             # [진단] 로그인 관련 네트워크 응답 코드 기록 (헤더/본문은 남기지 않음)
             net_log: List[str] = []
+            login_resps: List[Any] = []  # [진단] 로그인 API 응답 객체 (본문은 대기 후 읽음)
 
             def _on_response(resp):
                 try:
                     u = resp.url
                     if "heydealer.com" in u and resp.request.method in ("POST", "PUT"):
                         net_log.append(f"{resp.request.method} {u.split('?')[0]} -> {resp.status}")
+                    if "api.heydealer.com/v2/dealers/web/login" in u and resp.request.method == "POST":
+                        login_resps.append(resp)
                 except Exception:
                     pass
 
@@ -253,6 +259,14 @@ def login_heydealer() -> Dict[str, Any]:
             except Exception:
                 pass
 
+            # [진단] 로그인 API 응답 본문 (최대 2,000자) - 실패 증거 파일에만 기록
+            login_resp_body = ""
+            if login_resps:
+                try:
+                    lr = login_resps[-1]
+                    login_resp_body = f"HTTP {lr.status}\n" + (lr.text() or "")[:2000]
+                except Exception as be:
+                    login_resp_body = f"(응답 본문 읽기 실패: {be})"
             print(f"[HeydealerAutoLogin] 4/5: 로그인 후 이동 URL: {curr_url}", flush=True)
             print(f"[HeydealerAutoLogin][DIAG] {datetime.now():%H:%M:%S} 제출 후 오류·차단 문구={_hd_diag_found(page_text) or '없음'} / 제출 응답={net_log or '기록 없음'}", flush=True)
 
@@ -291,7 +305,7 @@ def login_heydealer() -> Dict[str, Any]:
             if "sessionid" not in cookie_dict:
                 cookie_names = [f"{c['name']}@{c.get('domain', '')}" for c in cookies]
                 print(f"[HeydealerAutoLogin][DIAG] 획득 쿠키 이름: {cookie_names or '없음'}", flush=True)
-                _hd_save_failure_evidence(page, "sessionid missing", curr_url, page_text, cookie_names)
+                _hd_save_failure_evidence(page, "sessionid missing", curr_url, page_text, cookie_names, login_resp_body)
 
             browser.close()
 
