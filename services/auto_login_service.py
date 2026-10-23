@@ -7,11 +7,52 @@
 """
 
 import os
-from typing import Dict, Any
+from datetime import datetime
+from typing import Dict, Any, List
 from services.cookie_server import save_cookie, save_autoplus_cookie, set_env_variable
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ENV_FILE = os.path.join(BASE_DIR, ".env")
+LOGS_DIR = os.path.join(BASE_DIR, "logs")
+
+# [진단] 헤이딜러 로그인 화면에서 오류/차단 여부를 판단하기 위한 관찰용 문구 (판정에는 사용하지 않음)
+HD_DIAG_KEYWORDS = [
+    "차단", "비정상", "자동화", "제한", "잠시 후", "다시 시도", "오류", "실패",
+    "일치하지", "확인해", "올바르지", "로봇", "robot", "captcha", "CAPTCHA",
+    "Access Denied", "Forbidden", "403", "429", "인증",
+]
+
+
+def _hd_diag_found(text: str) -> List[str]:
+    """[진단] 화면 텍스트에서 오류/차단 관련 문구를 찾아 반환합니다."""
+    return [k for k in HD_DIAG_KEYWORDS if k in (text or "")]
+
+
+def _hd_save_failure_evidence(page, reason: str, curr_url: str, page_text: str, cookie_names: List[str]) -> str:
+    """[진단] 실패 순간의 화면 캡처(PNG)·화면 텍스트·최종 URL을 logs/ 에 저장합니다.
+    logs/ 는 .gitignore 대상이므로 커밋되지 않습니다. 쿠키 값은 저장하지 않고 이름만 남깁니다.
+    """
+    ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+    base = os.path.join(LOGS_DIR, f"heydealer_login_fail_{ts}")
+    try:
+        os.makedirs(LOGS_DIR, exist_ok=True)
+        try:
+            page.screenshot(path=base + ".png", full_page=True, timeout=10000)
+        except Exception as se:
+            print(f"[HeydealerAutoLogin][DIAG] 캡처 저장 실패: {se}", flush=True)
+        with open(base + ".txt", "w", encoding="utf-8") as f:
+            f.write(f"time: {datetime.now().isoformat(timespec='seconds')}\n")
+            f.write(f"reason: {reason}\n")
+            f.write(f"final_url: {curr_url}\n")
+            f.write(f"title: {page.title() if page else ''}\n")
+            f.write(f"cookie_names: {', '.join(cookie_names)}\n")
+            f.write(f"diag_keywords_found: {', '.join(_hd_diag_found(page_text))}\n")
+            f.write("----- page_text -----\n")
+            f.write(page_text or "(empty)")
+        print(f"[HeydealerAutoLogin][DIAG] 실패 증거 저장: {base}.png / .txt", flush=True)
+    except Exception as e:
+        print(f"[HeydealerAutoLogin][DIAG] 증거 저장 중 예외: {e}", flush=True)
+    return base
 
 
 def get_credential(key: str) -> str:
@@ -179,6 +220,26 @@ def login_heydealer() -> Dict[str, Any]:
             page.fill('input[name="username"]', user_id)
             page.fill('input[name="password"]', user_pw)
 
+            # [진단] 제출 전 화면 상태 기록
+            try:
+                pre_text = page.inner_text("body", timeout=3000)
+            except Exception:
+                pre_text = ""
+            print(f"[HeydealerAutoLogin][DIAG] {datetime.now():%H:%M:%S} 제출 전 URL={page.url} / 오류·차단 문구={_hd_diag_found(pre_text) or '없음'}", flush=True)
+
+            # [진단] 로그인 관련 네트워크 응답 코드 기록 (헤더/본문은 남기지 않음)
+            net_log: List[str] = []
+
+            def _on_response(resp):
+                try:
+                    u = resp.url
+                    if "heydealer.com" in u and resp.request.method in ("POST", "PUT"):
+                        net_log.append(f"{resp.request.method} {u.split('?')[0]} -> {resp.status}")
+                except Exception:
+                    pass
+
+            page.on("response", _on_response)
+
             login_btn = page.locator('button:has-text("로그인"), button[type="submit"]')
             login_btn.first.click()
 
@@ -193,6 +254,7 @@ def login_heydealer() -> Dict[str, Any]:
                 pass
 
             print(f"[HeydealerAutoLogin] 4/5: 로그인 후 이동 URL: {curr_url}", flush=True)
+            print(f"[HeydealerAutoLogin][DIAG] {datetime.now():%H:%M:%S} 제출 후 오류·차단 문구={_hd_diag_found(page_text) or '없음'} / 제출 응답={net_log or '기록 없음'}", flush=True)
 
             # 1. 2차 인증 / OTP 감지
             if any(k in page_text for k in ["인증번호", "2차 인증", "OTP", "인증 코드", "보안문자"]) or any(k in curr_url for k in ["verify", "otp", "auth/2step"]):
@@ -223,9 +285,15 @@ def login_heydealer() -> Dict[str, Any]:
                 }
 
             cookies = page.context.cookies()
-            browser.close()
-
             cookie_dict = {c["name"]: c["value"] for c in cookies if "heydealer.com" in c.get("domain", "")}
+
+            # [진단] sessionid 누락 시 브라우저를 닫기 전에 실패 순간 화면을 증거로 저장
+            if "sessionid" not in cookie_dict:
+                cookie_names = [f"{c['name']}@{c.get('domain', '')}" for c in cookies]
+                print(f"[HeydealerAutoLogin][DIAG] 획득 쿠키 이름: {cookie_names or '없음'}", flush=True)
+                _hd_save_failure_evidence(page, "sessionid missing", curr_url, page_text, cookie_names)
+
+            browser.close()
 
             # sessionid 세션 존재 검증
             if "sessionid" not in cookie_dict:
