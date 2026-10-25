@@ -121,6 +121,7 @@ export interface KcarMarketStats {
   max: number;
   avg: number;
   avgAdj?: number;
+  accDeduction?: number;
   adjNote?: string;
   median: number;
   postFilterFallback?: boolean;

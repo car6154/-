@@ -1121,6 +1121,7 @@ class KcarMarketRequest(BaseModel):
     manufacturer: Optional[str] = ""
     year: Optional[int] = 0
     mileage: Optional[int] = 0
+    accident: Optional[str] = "PERFECT"
 
 
 @app.post("/api/kcar/market")
@@ -1139,7 +1140,8 @@ def get_kcar_market_stats_post(req: KcarMarketRequest):
             year=req.year or 0,
             detail_model=detail_model,
             mileage=req.mileage or 0,
-            manufacturer=req.manufacturer or ""
+            manufacturer=req.manufacturer or "",
+            accident=req.accident or "PERFECT"
         )
     except Exception as e:
         return {"success": False, "error": str(e), "count": 0, "cars": [], "yearStats": [], "priceBins": []}
@@ -1153,7 +1155,8 @@ def get_kcar_market_stats_get(
     gradeDetailName: str = "",
     manufacturer: str = "",
     year: int = 0,
-    mileage: int = 0
+    mileage: int = 0,
+    accident: str = "PERFECT"
 ):
     try:
         from services.kcar_service import fetch_kcar_market_stats
@@ -1169,7 +1172,8 @@ def get_kcar_market_stats_get(
             year=year,
             detail_model=d_model,
             mileage=mileage,
-            manufacturer=manufacturer
+            manufacturer=manufacturer,
+            accident=accident
         )
     except Exception as e:
         return {"success": False, "error": str(e), "count": 0, "cars": [], "yearStats": [], "priceBins": []}

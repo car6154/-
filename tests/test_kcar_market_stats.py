@@ -42,6 +42,14 @@ def test_kcar_market_stats():
     assert res_hev["count"] > 0, "K5 HEV 매물 수가 0입니다."
     print(f"[PASS] K5 하이브리드 3세대: 총 {res_hev['count']}대, 평균 {res_hev['avg']}만원 (최저 {res_hev['min']}만 ~ 최고 {res_hev['max']}만)")
     print(f"       연식분포: {res_hev['yearStats']}")
+    # 사고 차감 검증 (무사고 0%, 단순수리 3%, 골격/결격 7%)
+    assert res_hev["accDeduction"] == 0
+    res_minor = fetch_kcar_market_stats("K5 하이브리드 3세대", year=2021, manufacturer="기아", accident="MINOR")
+    assert res_minor["accDeduction"] == 3
+    assert res_minor["avgAdj"] == int(round(res_hev["avgAdj"] * 0.97))
+    res_frame = fetch_kcar_market_stats("K5 하이브리드 3세대", year=2021, manufacturer="기아", accident="FRAME")
+    assert res_frame["accDeduction"] == 7
+    assert res_frame["avgAdj"] == int(round(res_hev["avgAdj"] * 0.93))
 
     # 3. 팰리세이드 (SUV 차종)
     res_pali = fetch_kcar_market_stats("팰리세이드", year=2020, manufacturer="현대")

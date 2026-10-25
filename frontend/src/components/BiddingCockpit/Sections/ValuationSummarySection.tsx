@@ -965,6 +965,11 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
                       <div className="flex items-baseline justify-between pt-1 border-t border-[#23141c]/70">
                         <span className="text-[11px] text-zinc-400 flex items-center gap-1">
                           <span className="text-amber-400 font-bold">🎯 주행 보정 평균</span>
+                          {kcarStats.accDeduction && kcarStats.accDeduction > 0 ? (
+                            <span className="text-[10px] text-rose-400 font-semibold bg-rose-500/10 px-1 py-0.5 rounded border border-rose-500/20">
+                              사고 −{kcarStats.accDeduction}% 적용
+                            </span>
+                          ) : null}
                           {kcarStats.adjNote && (
                             <span className="text-[10px] text-zinc-500 font-normal">({kcarStats.adjNote})</span>
                           )}

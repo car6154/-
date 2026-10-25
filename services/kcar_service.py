@@ -3393,7 +3393,8 @@ def fetch_kcar_market_stats(
     year: int = 0,
     detail_model: str = "",
     mileage: int = 0,
-    manufacturer: str = ""
+    manufacturer: str = "",
+    accident: str = "PERFECT"
 ) -> Dict[str, Any]:
     """
     K-Car 실시간 직영 매물 검색 및 시세 통계 산출
@@ -3414,6 +3415,7 @@ def fetch_kcar_market_stats(
         "max": 0,
         "avg": 0,
         "avgAdj": 0,
+        "accDeduction": 0,
         "adjNote": "",
         "median": 0,
         "postFilterFallback": False,
@@ -3632,6 +3634,20 @@ def fetch_kcar_market_stats(
             sign_str = f"+{mean_mil_diff:,}" if mean_mil_diff >= 0 else f"{mean_mil_diff:,}"
             adj_note = f"{len(adj_prices)}대 보정 (평균 {sign_str}km 차이)"
 
+    # f) 목표 차량 사고 차감 적용 (무사고 PERFECT 0%, 단순수리 MINOR 3%, 그 외 골격/결격 7%)
+    acc_upper = str(accident or "PERFECT").strip().upper()
+    if acc_upper in ("PERFECT", "무사고", "CLEAN", ""):
+        acc_deduction = 0
+    elif acc_upper in ("MINOR", "단순수리", "단순교환"):
+        acc_deduction = 3
+    else:
+        acc_deduction = 7
+
+    if acc_deduction > 0:
+        avg_adj = int(round(avg_adj * (100 - acc_deduction) / 100.0))
+        acc_str = f"사고 -{acc_deduction}% 적용"
+        adj_note = f"{adj_note} · {acc_str}" if adj_note else acc_str
+
     # 타겟 연식 계산
     target_yr = 0
     if year and year > 0:
@@ -3702,6 +3718,7 @@ def fetch_kcar_market_stats(
         "max": max_p,
         "avg": avg_p,
         "avgAdj": avg_adj,
+        "accDeduction": acc_deduction,
         "adjNote": adj_note,
         "median": median_p,
         "postFilterFallback": post_filter_fallback,
