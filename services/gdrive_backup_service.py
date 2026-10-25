@@ -17,6 +17,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 LEDGER_CSV_PATH = BASE_DIR / "my_car_ledger.csv"
 SETTLEMENT_CSV_PATH = BASE_DIR / "my_inventory_settlement.csv"
 SNAPSHOTS_JSON_PATH = BASE_DIR / "data" / "encar_snapshots.json"
+HASH_FILE_PATH = BASE_DIR / "data" / ".gdrive_last_synced_hash"
 
 DEFAULT_WEBHOOK_URL = (
     "https://script.google.com/macros/s/"
@@ -385,8 +386,29 @@ class GDriveBackupService:
             return False, f"웹훅 전송 실패: {e}"
 
     @classmethod
-    def _compute_content_hash(cls, include_snapshots: bool = False) -> str:
-        """장부 및 정산 파일의 내용 해시(SHA-256)를 계산하여 중복 동기화 방지"""
+    def _load_persisted_hash(cls) -> Optional[str]:
+        """디스크 파일에서 마지막 동기화 성공 해시 복원"""
+        if HASH_FILE_PATH.exists():
+            try:
+                val = HASH_FILE_PATH.read_text(encoding="utf-8").strip()
+                if val:
+                    return val
+            except Exception as e:
+                logger.warning(f"[GDriveBackup] 해시 복원 실패: {e}")
+        return None
+
+    @classmethod
+    def _save_persisted_hash(cls, content_hash: str):
+        """마지막 동기화 성공 해시를 디스크 파일에 영구 저장"""
+        try:
+            HASH_FILE_PATH.parent.mkdir(parents=True, exist_ok=True)
+            HASH_FILE_PATH.write_text(content_hash.strip(), encoding="utf-8")
+        except Exception as e:
+            logger.warning(f"[GDriveBackup] 해시 디스크 저장 실패: {e}")
+
+    @classmethod
+    def _compute_content_hash(cls) -> str:
+        """장부 및 정산 파일의 내용 해시(SHA-256)를 계산하여 중복 동기화 방지 (스냅샷 제외)"""
         h = hashlib.sha256()
         for p in (LEDGER_CSV_PATH, SETTLEMENT_CSV_PATH):
             if p.exists():
@@ -396,22 +418,21 @@ class GDriveBackupService:
                     pass
             else:
                 h.update(b"__NONE__")
-        if include_snapshots and SNAPSHOTS_JSON_PATH.exists():
-            try:
-                st = SNAPSHOTS_JSON_PATH.stat()
-                h.update(f"snap_{st.st_size}_{st.st_mtime}".encode("utf-8"))
-            except Exception:
-                pass
         return h.hexdigest()
 
     @classmethod
     def sync_now(cls, reason: str = "manual", include_snapshots: bool = True) -> Tuple[bool, str]:
         """J-PRO_DB 스프레드시트에 my_car_ledger.csv, my_inventory_settlement.csv, data/encar_snapshots.json 즉시 동기화"""
-        current_hash = cls._compute_content_hash(include_snapshots=include_snapshots)
+        current_hash = cls._compute_content_hash()
 
         with cls._lock:
             if cls._is_syncing:
                 return False, "이미 백업 동기화가 진행 중입니다."
+
+            # 서버 재시작 등으로 메모리 해시가 비어 있으면 디스크 파일에서 복원
+            if cls._last_synced_hash is None:
+                cls._last_synced_hash = cls._load_persisted_hash()
+
             # 내용 해시가 직전 성공 동기화와 완전히 동일하면 중복 동기화 스킵 (단, force는 강제 실행)
             if reason != "force" and cls._last_synced_hash and cls._last_synced_hash == current_hash:
                 logger.info(f"[GDriveBackup] 동기화 스킵: 직전 성공 동기화와 내용 동일 (해시: {current_hash[:10]}, 사유: {reason})")
@@ -445,8 +466,9 @@ class GDriveBackupService:
                         )
 
                     cls._last_sync_time = datetime.now()
-                    cls._last_synced_hash = current_hash
                     if ok_ledger and ok_settle:
+                        cls._last_synced_hash = current_hash
+                        cls._save_persisted_hash(current_hash)
                         cls._last_sync_status = (
                             f"J-PRO_DB 리프레시 토큰 백업 성공 "
                             f"(장부 {max(0, len(ledger_rows)-1)}대 / 정산 {max(0, len(settlement_rows)-1)}대)"
@@ -458,6 +480,7 @@ class GDriveBackupService:
             cls._last_sync_time = datetime.now()
             if ok_wh:
                 cls._last_synced_hash = current_hash
+                cls._save_persisted_hash(current_hash)
             cls._last_sync_status = msg_wh
             return ok_wh, msg_wh
         except Exception as e:
