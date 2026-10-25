@@ -9,9 +9,11 @@ K-Car 공식 직영 매물 검색 및 실시간 소매 시세 통계 서비스
 import os
 import re
 import json
+import time
 import base64
 import urllib.request
 import urllib.parse
+import concurrent.futures
 from datetime import datetime
 from typing import Dict, Any, List, Optional, Union
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
@@ -20,6 +22,83 @@ from services.chaolma_service import norm_opt_name
 
 KEY = b"SKFJ2424DasfaJRI"
 IV = b"sfq241sf3dscs321"
+
+# 케이카 상세 JATO 옵션 캐시 (carCd -> {"timestamp": float, "options": List[Dict]})
+_KCAR_JATO_CACHE: Dict[str, Dict[str, Any]] = {}
+_KCAR_JATO_CACHE_TTL = 3600  # 1시간
+
+# 유상 외장 컬러 식별 키워드 (제이 결정: 펄, 매트, 메탈릭)
+COLOR_OPTION_KEYWORDS = ("펄", "매트", "메탈릭")
+
+
+def is_color_option(name: str) -> bool:
+    """유상 외장 컬러 항목 판정 (펄, 매트, 메탈릭)"""
+    if not name:
+        return False
+    norm = norm_opt_name(name)
+    return any(k in norm for k in COLOR_OPTION_KEYWORDS)
+
+
+def fetch_kcar_jato_options(car_cd: str) -> Optional[List[Dict[str, Any]]]:
+    """
+    케이카 차량 상세 JATO 옵션 목록(carJatoOptList) 조회
+    반환:
+      - List[Dict]: 정상 조회 성공 (선택옵션 없으면 빈 배열 [])
+      - None: 네트워크 통신 실패 (비상 폴백 필요)
+    """
+    if not car_cd or not str(car_cd).strip():
+        return []
+
+    car_cd_clean = str(car_cd).strip()
+    now_ts = time.time()
+    cached = _KCAR_JATO_CACHE.get(car_cd_clean)
+    if cached and (now_ts - cached.get("timestamp", 0) < _KCAR_JATO_CACHE_TTL):
+        return cached.get("options", [])
+
+    url = f"https://api.kcar.com/bc/car-info-detail-of-ng?i_sCarCd={car_cd_clean}&bltbdKnd=CM050"
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Referer': f'https://www.kcar.com/bc/detail/carInfoDtl?i_sCarCd={car_cd_clean}',
+        'Accept': 'application/json, text/plain, */*'
+    }
+
+    try:
+        req = urllib.request.Request(url, headers=headers)
+        with urllib.request.urlopen(req, timeout=4) as resp:
+            data = json.loads(resp.read().decode('utf-8'))
+            d = data.get('data', {})
+            jato_list = d.get('carJatoOptList')
+            if jato_list is None:
+                jato_list = []
+            _KCAR_JATO_CACHE[car_cd_clean] = {
+                "timestamp": now_ts,
+                "options": jato_list
+            }
+            return jato_list
+    except Exception as e:
+        print(f"[K-Car JATO API 오류] carCd='{car_cd_clean}': {e}", flush=True)
+        return None
+
+
+def fallback_calc_comp_opt_from_optnnm(optn_nm: str, catalog_map: Dict[str, int]) -> int:
+    """상세 API 통신 실패 시 비상 격리 폴백: optnNm 파이프 파싱 + 부분문자열 매칭"""
+    if not optn_nm:
+        return 0
+    tokens = [t.strip() for t in optn_nm.split('|') if t.strip()]
+    raw_sum = 0
+    for t in tokens:
+        if is_color_option(t):
+            continue
+        t_norm = norm_opt_name(t)
+        matched_p = catalog_map.get(t_norm, 0)
+        if matched_p == 0:
+            for cn_norm, cp in catalog_map.items():
+                if (t_norm in cn_norm and len(t_norm) >= 2) or (cn_norm in t_norm and len(cn_norm) >= 2):
+                    matched_p = cp
+                    break
+        if matched_p > 0:
+            raw_sum += matched_p
+    return raw_sum
 
 # KCar 제조사 및 모델 코드 매핑 테이블 (https://market-api.kcar.com/api/v1/ds/getModelListCount 공식 전수 기준)
 # [필수 규칙] 하이브리드 모델 등록 시 양방향 어순 등록:
@@ -3624,6 +3703,9 @@ def fetch_kcar_market_stats(
             for m in re.finditer(r'([가-힣a-zA-Z0-9\s\-_+]+?)\s*\(([\d,]+)만(?:원)?\)', target_options):
                 opt_name = m.group(1).strip()
                 if opt_name and opt_name not in ('옵션총액', '순정옵션총액'):
+                    if is_color_option(opt_name):
+                        print(f"[K-Car 목표 옵션 제외] 유상 컬러='{opt_name}' 제외됨", flush=True)
+                        continue
                     p_val = int(m.group(2).replace(',', ''))
                     target_opt_items.append({"name": opt_name, "price": p_val})
             if target_opt_items:
@@ -3635,13 +3717,16 @@ def fetch_kcar_market_stats(
             for o in target_options:
                 if isinstance(o, dict):
                     n = str(o.get("name") or o.get("standard_name") or "").strip()
+                    if is_color_option(n):
+                        print(f"[K-Car 목표 옵션 제외] 유상 컬러='{n}' 제외됨", flush=True)
+                        continue
                     p = o.get("price") or o.get("standard_price_man") or 0
                     p_val = int(p) // 10000 if int(p) >= 10000 else int(p)
                     if n:
                         target_opt_items.append({"name": n, "price": p_val})
             target_opt_raw = sum(item["price"] for item in target_opt_items)
 
-    # 기본 카탈로그 옵션가 사전 (만원 단위) - chaolma DEFAULT_OPTION_PRICES 기준
+    # 기본 카탈로그 옵션가 사전 (만원 단위) - 비상 폴백용
     DEFAULT_CATALOG_PRICES = {
         "선루프": 80,
         "와이드선루프": 79,
@@ -3702,6 +3787,21 @@ def fetch_kcar_market_stats(
     # 목표 차량 감가 후 잔존 옵션가
     target_opt_deprec = int(round(target_opt_raw * _get_residual_rate(year))) if has_target_opts else 0
 
+    # 비교군 차량 상세 JATO 옵션 병렬 조회 (ThreadPoolExecutor 5 workers, 메모리 캐시 1시간)
+    jato_results: Dict[str, Optional[List[Dict[str, Any]]]] = {}
+    if has_target_opts and valid_cars:
+        car_cds = [c["carCd"] for c in valid_cars if c.get("carCd")]
+        if car_cds:
+            with concurrent.futures.ThreadPoolExecutor(max_workers=min(5, len(car_cds))) as executor:
+                future_to_cd = {executor.submit(fetch_kcar_jato_options, cd): cd for cd in car_cds}
+                for future in concurrent.futures.as_completed(future_to_cd):
+                    cd = future_to_cd[future]
+                    try:
+                        jato_results[cd] = future.result()
+                    except Exception as e:
+                        print(f"[K-Car JATO Future 오류] carCd='{cd}': {e}", flush=True)
+                        jato_results[cd] = None
+
     if valid_cars:
         # pt 구간 기준: K-Car 원본 avg_p (단일 기준가)
         if avg_p >= 2000:
@@ -3728,22 +3828,26 @@ def fetch_kcar_market_stats(
             else:
                 mil_adj_p = c_price
 
-            # (2) 옵션 델타 보정 (엔카식 반영률 35%/40% 및 ±40만 캡)
+            # (2) 옵션 델타 보정 (엔카식 반영률 35%/40% 및 ±40만 캡, 상세 API 공인 가격)
             real_opt_adj = 0
             if has_target_opts:
-                c_optn = c.get("optnNm") or ""
-                tokens = [t.strip() for t in c_optn.split('|') if t.strip()]
-                comp_opt_raw = 0
-                for t in tokens:
-                    t_norm = norm_opt_name(t)
-                    matched_p = catalog_price_map.get(t_norm, 0)
-                    if matched_p == 0:
-                        for cn_norm, cp in catalog_price_map.items():
-                            if (t_norm in cn_norm and len(t_norm) >= 2) or (cn_norm in t_norm and len(cn_norm) >= 2):
-                                matched_p = cp
-                                break
-                    if matched_p > 0:
-                        comp_opt_raw += matched_p
+                c_cd = c.get("carCd") or ""
+                c_jato = jato_results.get(c_cd)
+
+                if c_jato is not None:
+                    # 정상 상세 API 응답 (빈 배열 []이면 옵션 없는 기본 사양으로 0원 정상 처리)
+                    comp_opt_raw = 0
+                    for opt in c_jato:
+                        opt_nm = str(opt.get("optNm") or "").strip()
+                        if is_color_option(opt_nm):
+                            print(f"[K-Car 비교군 옵션 제외] carCd='{c_cd}', 유상 컬러='{opt_nm}' 제외됨", flush=True)
+                            continue
+                        opt_prc = opt.get("optPrc") or 0
+                        p_val = int(opt_prc) // 10000 if int(opt_prc) >= 10000 else int(opt_prc)
+                        comp_opt_raw += p_val
+                else:
+                    # 상세 API 통신 실패 (None) 시에만 비상 격리 카탈로그 폴백 (부분문자열 포함)
+                    comp_opt_raw = fallback_calc_comp_opt_from_optnnm(c.get("optnNm") or "", catalog_price_map)
 
                 comp_rate = _get_residual_rate(c["year"])
                 comp_opt_deprec = int(round(comp_opt_raw * comp_rate))
