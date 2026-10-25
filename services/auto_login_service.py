@@ -65,11 +65,14 @@ def get_credential(key: str) -> str:
         return val
     if os.path.exists(ENV_FILE):
         try:
-            with open(ENV_FILE, "r", encoding="utf-8") as f:
+            with open(ENV_FILE, "r", encoding="utf-8-sig") as f:
                 for line in f:
                     line = line.strip()
                     if line.startswith(f"{key}="):
-                        return line.split("=", 1)[1].strip().strip('"').strip("'")
+                        val_part = line.split("=", 1)[1].strip()
+                        if (val_part.startswith('"') and val_part.endswith('"')) or (val_part.startswith("'") and val_part.endswith("'")):
+                            return val_part[1:-1]
+                        return val_part
         except Exception:
             pass
     return ""
@@ -216,7 +219,10 @@ def login_heydealer() -> Dict[str, Any]:
         with sync_playwright() as p:
             print("[HeydealerAutoLogin] 2/5: Chromium 브라우저 기동 및 dealer.heydealer.com 접속 중...", flush=True)
             browser = p.chromium.launch(headless=True)
-            page = browser.new_page()
+            context = browser.new_context(
+                user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+            )
+            page = context.new_page()
 
             page.goto("https://dealer.heydealer.com", timeout=20000)
             print("[HeydealerAutoLogin] 3/5: 로그인 폼 입력 및 로그인 버튼 클릭...", flush=True)
@@ -283,6 +289,7 @@ def login_heydealer() -> Dict[str, Any]:
             # 2. 로그인 실패 에러 문구 감지
             if any(k in page_text for k in ["아이디 또는 비밀번호", "일치하지 않습니다", "비밀번호를 확인", "계정 정보를 확인"]):
                 print("[HeydealerAutoLogin] ❌ 로그인 실패 (아이디/비밀번호 불일치)", flush=True)
+                _hd_save_failure_evidence(page, "credentials mismatch", curr_url, page_text, [], login_resp_body)
                 browser.close()
                 return {
                     "success": False,
@@ -292,6 +299,7 @@ def login_heydealer() -> Dict[str, Any]:
             # 3. 로그인 페이지 이탈 여부 검증
             if "login" in curr_url.lower() and not any(k in curr_url.lower() for k in ["cars", "app", "home", "main"]):
                 print(f"[HeydealerAutoLogin] ❌ 로그인 페이지 벗어나지 못함 (URL: {curr_url})", flush=True)
+                _hd_save_failure_evidence(page, "login page not left", curr_url, page_text, [], login_resp_body)
                 browser.close()
                 return {
                     "success": False,

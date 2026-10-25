@@ -16,7 +16,7 @@ COOKIE_SERVER_SECRET = os.getenv("COOKIE_SERVER_TOKEN", "jpro_sec_9981_live_auth
 def set_env_variable(var_name: str, value: str):
     """안전하게 .env 파일의 환경변수를 갱신 (줄바꿈 오염, 파편 및 중복 방지)"""
     env_path = os.path.join(BASE_DIR, '.env')
-    clean_val = value.replace('\r', '').replace('\n', '').strip().replace('"', '')
+    clean_val = value.replace('\r', '').replace('\n', '').strip()
     lines = []
     if os.path.exists(env_path):
         try:
