@@ -241,9 +241,76 @@ def login_heydealer() -> Dict[str, Any]:
             )
             page = context.new_page()
 
-            # [진단] webdriver 지문 상태 확인 (값 자체/민감정보 없음)
+            # [지문 제거] JS DOM의 navigator.userAgentData.brands를 일반 크롬 브랜드로 재정의
+            uad_init_script = f"""(() => {{
+                try {{
+                    if (!navigator.userAgentData) return;
+                    const normalBrands = [
+                        {{ brand: 'Not:A-Brand', version: '8' }},
+                        {{ brand: 'Chromium', version: '{chrome_major}' }},
+                        {{ brand: 'Google Chrome', version: '{chrome_major}' }}
+                    ];
+                    const normalFullVersionList = [
+                        {{ brand: 'Not:A-Brand', version: '8.0.0.0' }},
+                        {{ brand: 'Chromium', version: '{browser_ver}' }},
+                        {{ brand: 'Google Chrome', version: '{browser_ver}' }}
+                    ];
+
+                    const origUAD = navigator.userAgentData;
+                    const origGetHighEntropyValues = origUAD.getHighEntropyValues ? origUAD.getHighEntropyValues.bind(origUAD) : null;
+
+                    const fakeUAD = {{
+                        get brands() {{ return normalBrands; }},
+                        get mobile() {{ return false; }},
+                        get platform() {{ return 'Windows'; }},
+                        async getHighEntropyValues(hints) {{
+                            let res = {{}};
+                            if (origGetHighEntropyValues) {{
+                                try {{ res = await origGetHighEntropyValues(hints); }} catch(e) {{}}
+                            }}
+                            return {{
+                                ...res,
+                                brands: normalBrands,
+                                fullVersionList: normalFullVersionList,
+                                platform: 'Windows',
+                                platformVersion: '10.0.0',
+                                architecture: 'x86',
+                                bitness: '64',
+                                model: '',
+                                mobile: false,
+                            }};
+                        }},
+                        toJSON() {{
+                            return {{
+                                brands: normalBrands,
+                                mobile: false,
+                                platform: 'Windows'
+                            }};
+                        }}
+                    }};
+
+                    try {{
+                        Object.defineProperty(navigator, 'userAgentData', {{
+                            get: () => fakeUAD,
+                            configurable: true,
+                            enumerable: true
+                        }});
+                    }} catch (e) {{
+                        try {{
+                            Object.defineProperty(Object.getPrototypeOf(navigator.userAgentData), 'brands', {{
+                                get: () => normalBrands,
+                                configurable: true
+                            }});
+                        }} catch (e2) {{}}
+                    }}
+                }} catch (err) {{}}
+            }})();"""
+            page.add_init_script(uad_init_script)
+
+            # [진단] webdriver 및 userAgentData.brands 지문 상태 확인 (값 자체/민감정보 없음)
             is_webdriver = page.evaluate("() => navigator.webdriver")
-            print(f"[HeydealerAutoLogin][DIAG] 브라우저 지문 점검 navigator.webdriver={is_webdriver}", flush=True)
+            uad_brands = page.evaluate("() => navigator.userAgentData ? navigator.userAgentData.brands : '미지원'")
+            print(f"[HeydealerAutoLogin][DIAG] 브라우저 지문 점검 navigator.webdriver={is_webdriver} / userAgentData.brands={uad_brands}", flush=True)
 
             page.goto("https://dealer.heydealer.com", timeout=20000)
             print("[HeydealerAutoLogin] 3/5: 로그인 폼 순차 입력 및 로그인 버튼 클릭...", flush=True)
