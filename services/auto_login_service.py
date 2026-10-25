@@ -7,6 +7,7 @@
 """
 
 import os
+import json
 from datetime import datetime
 from typing import Dict, Any, List
 from services.cookie_server import save_cookie, save_autoplus_cookie, set_env_variable
@@ -225,20 +226,28 @@ def login_heydealer() -> Dict[str, Any]:
             page = context.new_page()
 
             page.goto("https://dealer.heydealer.com", timeout=20000)
-            print("[HeydealerAutoLogin] 3/5: 로그인 폼 입력 및 로그인 버튼 클릭...", flush=True)
-            page.fill('input[name="username"]', user_id)
-            page.fill('input[name="password"]', user_pw)
+            print("[HeydealerAutoLogin] 3/5: 로그인 폼 순차 입력 및 로그인 버튼 클릭...", flush=True)
 
-            # [진단] 제출 전 화면 상태 기록
-            try:
-                pre_text = page.inner_text("body", timeout=3000)
-            except Exception:
-                pre_text = ""
-            print(f"[HeydealerAutoLogin][DIAG] {datetime.now():%H:%M:%S} 제출 전 URL={page.url} / 오류·차단 문구={_hd_diag_found(pre_text) or '없음'}", flush=True)
-
-            # [진단] 로그인 관련 네트워크 응답 코드 기록 (헤더/본문은 남기지 않음)
+            # [진단] 로그인 관련 네트워크 요청/응답 가로채기 (값 자체는 기록 금지, 필드명과 길이만 출력)
             net_log: List[str] = []
-            login_resps: List[Any] = []  # [진단] 로그인 API 응답 객체 (본문은 대기 후 읽음)
+            login_resps: List[Any] = []
+
+            def _on_request(req):
+                try:
+                    u = req.url
+                    if "api.heydealer.com/v2/dealers/web/login" in u and req.method == "POST":
+                        post_data = req.post_data
+                        if post_data:
+                            try:
+                                payload = json.loads(post_data)
+                                field_lens = {k: len(str(v)) for k, v in payload.items()}
+                                print(f"[HeydealerAutoLogin][DIAG] 로그인 POST 요청 필드 및 각 값의 길이: {field_lens}", flush=True)
+                            except Exception:
+                                print(f"[HeydealerAutoLogin][DIAG] 로그인 POST 요청 본문 길이: {len(post_data)}자", flush=True)
+                        else:
+                            print("[HeydealerAutoLogin][DIAG] 로그인 POST 요청 본문 없음", flush=True)
+                except Exception as e:
+                    print(f"[HeydealerAutoLogin][DIAG] 요청 가로채기 오류: {e}", flush=True)
 
             def _on_response(resp):
                 try:
@@ -247,10 +256,36 @@ def login_heydealer() -> Dict[str, Any]:
                         net_log.append(f"{resp.request.method} {u.split('?')[0]} -> {resp.status}")
                     if "api.heydealer.com/v2/dealers/web/login" in u and resp.request.method == "POST":
                         login_resps.append(resp)
+                        print(f"[HeydealerAutoLogin][DIAG] 로그인 API 응답 코드: HTTP {resp.status}", flush=True)
                 except Exception:
                     pass
 
+            page.on("request", _on_request)
             page.on("response", _on_response)
+
+            # [입력 방식 변경] page.fill 대신 포커스 + 문자 단위 순차 입력(press_sequentially) 적용
+            username_input = page.locator('input[name="username"]')
+            password_input = page.locator('input[name="password"]')
+
+            username_input.click()
+            username_input.fill("")
+            username_input.press_sequentially(user_id, delay=30)
+
+            password_input.click()
+            password_input.fill("")
+            password_input.press_sequentially(user_pw, delay=30)
+
+            # [진단] 클릭 직전 페이지에서 읽은 username·password 입력칸 값의 길이 (값 자체는 기록 금지)
+            u_len = len(username_input.input_value() or "")
+            p_len = len(password_input.input_value() or "")
+            print(f"[HeydealerAutoLogin][DIAG] 클릭 직전 input_value 길이: username={u_len}자, password={p_len}자", flush=True)
+
+            # [진단] 제출 전 화면 상태 기록
+            try:
+                pre_text = page.inner_text("body", timeout=3000)
+            except Exception:
+                pre_text = ""
+            print(f"[HeydealerAutoLogin][DIAG] {datetime.now():%H:%M:%S} 제출 전 URL={page.url} / 오류·차단 문구={_hd_diag_found(pre_text) or '없음'}", flush=True)
 
             login_btn = page.locator('button:has-text("로그인"), button[type="submit"]')
             login_btn.first.click()
