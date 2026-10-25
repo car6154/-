@@ -217,21 +217,23 @@ def login_heydealer() -> Dict[str, Any]:
 
     try:
         import requests
+        profile_dir = r"C:\jpro\data\heydealer_profile"
+        os.makedirs(profile_dir, exist_ok=True)
+
         with sync_playwright() as p:
-            print("[HeydealerAutoLogin] 2/5: Chromium 브라우저 기동 및 dealer.heydealer.com 접속 중...", flush=True)
-            browser = p.chromium.launch(
-                headless=True,
-                args=[
-                    "--disable-blink-features=AutomationControlled",
-                ],
-            )
+            print(f"[HeydealerAutoLogin] 2/5: 실제 브라우저(headed) 및 지속 프로필 기동 중... (경로: {profile_dir})", flush=True)
             # 브라우저 실제 버전(예: 156.0.8078.4) 기반으로 UA와 sec-ch-ua 버전 일치
-            browser_ver = browser.version or "156.0.8078.4"
-            chrome_major = browser_ver.split(".")[0]
+            browser_ver = "156.0.8078.4"
+            chrome_major = "156"
             ua_str = f"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{browser_ver} Safari/537.36"
             sec_ch_ua_val = f'"Not:A-Brand";v="8", "Chromium";v="{chrome_major}", "Google Chrome";v="{chrome_major}"'
 
-            context = browser.new_context(
+            context = p.chromium.launch_persistent_context(
+                user_data_dir=profile_dir,
+                headless=False,
+                args=[
+                    "--disable-blink-features=AutomationControlled",
+                ],
                 user_agent=ua_str,
                 extra_http_headers={
                     "sec-ch-ua": sec_ch_ua_val,
@@ -239,7 +241,12 @@ def login_heydealer() -> Dict[str, Any]:
                     "sec-ch-ua-platform": '"Windows"',
                 },
             )
-            page = context.new_page()
+
+            if context.browser and context.browser.version:
+                browser_ver = context.browser.version
+                chrome_major = browser_ver.split(".")[0]
+
+            page = context.pages[0] if context.pages else context.new_page()
 
             # [지문 제거] JS DOM의 navigator.userAgentData.brands를 일반 크롬 브랜드로 재정의
             uad_init_script = f"""(() => {{
@@ -310,7 +317,7 @@ def login_heydealer() -> Dict[str, Any]:
             # [진단] webdriver 및 userAgentData.brands 지문 상태 확인 (값 자체/민감정보 없음)
             is_webdriver = page.evaluate("() => navigator.webdriver")
             uad_brands = page.evaluate("() => navigator.userAgentData ? navigator.userAgentData.brands : '미지원'")
-            print(f"[HeydealerAutoLogin][DIAG] 브라우저 지문 점검 navigator.webdriver={is_webdriver} / userAgentData.brands={uad_brands}", flush=True)
+            print(f"[HeydealerAutoLogin][DIAG] headed 브라우저 지문 점검 navigator.webdriver={is_webdriver} / userAgentData.brands={uad_brands}", flush=True)
 
             page.goto("https://dealer.heydealer.com", timeout=20000)
             print("[HeydealerAutoLogin] 3/5: 로그인 폼 순차 입력 및 로그인 버튼 클릭...", flush=True)
@@ -404,7 +411,7 @@ def login_heydealer() -> Dict[str, Any]:
             # 1. 2차 인증 / OTP 감지
             if any(k in page_text for k in ["인증번호", "2차 인증", "OTP", "인증 코드", "보안문자"]) or any(k in curr_url for k in ["verify", "otp", "auth/2step"]):
                 print("[HeydealerAutoLogin] ⚠️ 2차 인증(OTP/SMS) 단계 감지됨. 자동 진행 불가.", flush=True)
-                browser.close()
+                context.close()
                 return {
                     "success": False,
                     "need_otp": True,
@@ -415,7 +422,7 @@ def login_heydealer() -> Dict[str, Any]:
             if any(k in page_text for k in ["아이디 또는 비밀번호", "일치하지 않습니다", "비밀번호를 확인", "계정 정보를 확인"]):
                 print("[HeydealerAutoLogin] ❌ 로그인 실패 (아이디/비밀번호 불일치)", flush=True)
                 _hd_save_failure_evidence(page, "credentials mismatch", curr_url, page_text, [], login_resp_body)
-                browser.close()
+                context.close()
                 return {
                     "success": False,
                     "message": "헤이딜러 로그인 실패: 아이디 또는 비밀번호가 올바르지 않습니다. [계정 설정]을 다시 확인해주세요.",
@@ -425,7 +432,7 @@ def login_heydealer() -> Dict[str, Any]:
             if "login" in curr_url.lower() and not any(k in curr_url.lower() for k in ["cars", "app", "home", "main"]):
                 print(f"[HeydealerAutoLogin] ❌ 로그인 페이지 벗어나지 못함 (URL: {curr_url})", flush=True)
                 _hd_save_failure_evidence(page, "login page not left", curr_url, page_text, [], login_resp_body)
-                browser.close()
+                context.close()
                 return {
                     "success": False,
                     "message": f"헤이딜러 로그인 실패 (로그인 페이지를 벗어나지 못했습니다. URL: {curr_url})",
@@ -440,7 +447,7 @@ def login_heydealer() -> Dict[str, Any]:
                 print(f"[HeydealerAutoLogin][DIAG] 획득 쿠키 이름: {cookie_names or '없음'}", flush=True)
                 _hd_save_failure_evidence(page, "sessionid missing", curr_url, page_text, cookie_names, login_resp_body)
 
-            browser.close()
+            context.close()
 
             # sessionid 세션 존재 검증
             if "sessionid" not in cookie_dict:
