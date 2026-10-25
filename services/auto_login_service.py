@@ -225,8 +225,19 @@ def login_heydealer() -> Dict[str, Any]:
                     "--disable-blink-features=AutomationControlled",
                 ],
             )
+            # 브라우저 실제 버전(예: 156.0.8078.4) 기반으로 UA와 sec-ch-ua 버전 일치
+            browser_ver = browser.version or "156.0.8078.4"
+            chrome_major = browser_ver.split(".")[0]
+            ua_str = f"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{browser_ver} Safari/537.36"
+            sec_ch_ua_val = f'"Not:A-Brand";v="8", "Chromium";v="{chrome_major}", "Google Chrome";v="{chrome_major}"'
+
             context = browser.new_context(
-                user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+                user_agent=ua_str,
+                extra_http_headers={
+                    "sec-ch-ua": sec_ch_ua_val,
+                    "sec-ch-ua-mobile": "?0",
+                    "sec-ch-ua-platform": '"Windows"',
+                },
             )
             page = context.new_page()
 
@@ -245,6 +256,9 @@ def login_heydealer() -> Dict[str, Any]:
                 try:
                     u = req.url
                     if "api.heydealer.com/v2/dealers/web/login" in u and req.method == "POST":
+                        # 실제 전송된 sec-ch-ua 헤더 확인 (민감정보 아님)
+                        req_sec_ch_ua = req.headers.get("sec-ch-ua", "없음")
+                        print(f"[HeydealerAutoLogin][DIAG] 로그인 POST 요청 헤더 sec-ch-ua: {req_sec_ch_ua}", flush=True)
                         post_data = req.post_data
                         if post_data:
                             try:
