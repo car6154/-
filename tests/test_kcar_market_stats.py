@@ -51,6 +51,16 @@ def test_kcar_market_stats():
     assert res_frame["accDeduction"] == 7
     assert res_frame["avgAdj"] == int(round(res_hev["avgAdj"] * 0.93))
 
+    # 옵션 델타 검증 (목표 옵션 전달 시 avgAdj 보정 및 adjNote 옵션 반영 문구 확인)
+    res_opt = fetch_kcar_market_stats(
+        "K5 하이브리드 3세대",
+        year=2021,
+        manufacturer="기아",
+        target_options="파노라마 선루프(108만) · 헤드업 디스플레이(74만) [옵션총액: 182만]"
+    )
+    assert res_opt["avgAdj"] > 0
+    assert "옵션" in res_opt.get("adjNote", "")
+
     # 3. 팰리세이드 (SUV 차종)
     res_pali = fetch_kcar_market_stats("팰리세이드", year=2020, manufacturer="현대")
     assert res_pali["success"] is True, f"팰리세이드 실패: {res_pali.get('message')}"

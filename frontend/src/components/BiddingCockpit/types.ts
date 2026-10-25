@@ -96,6 +96,7 @@ export interface KcarCarItem {
   center: string;
   color: string;
   accident: string;
+  optnNm?: string;
   detailUrl: string;
 }
 

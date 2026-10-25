@@ -12,9 +12,11 @@ import json
 import base64
 import urllib.request
 import urllib.parse
-from typing import Dict, Any, List, Optional
+from datetime import datetime
+from typing import Dict, Any, List, Optional, Union
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives import padding
+from services.chaolma_service import norm_opt_name
 
 KEY = b"SKFJ2424DasfaJRI"
 IV = b"sfq241sf3dscs321"
@@ -3394,7 +3396,8 @@ def fetch_kcar_market_stats(
     detail_model: str = "",
     mileage: int = 0,
     manufacturer: str = "",
-    accident: str = "PERFECT"
+    accident: str = "PERFECT",
+    target_options: Union[str, List[Dict[str, Any]]] = ""
 ) -> Dict[str, Any]:
     """
     K-Car 실시간 직영 매물 검색 및 시세 통계 산출
@@ -3573,6 +3576,7 @@ def fetch_kcar_market_stats(
                 yr_num = parsed_y % 100 if parsed_y > 100 else parsed_y
 
             car_cd = r.get('carCd') or ''
+            raw_optn = r.get('optnNm') or ''
             valid_cars.append({
                 "carCd": car_cd,
                 "carName": r.get('carWhlNm') or r.get('modelNm') or '',
@@ -3585,6 +3589,7 @@ def fetch_kcar_market_stats(
                 "center": r.get('cntrNm') or '',
                 "color": r.get('extrColorNm') or '',
                 "accident": r.get('acdtHistCnts') or '무사고',
+                "optnNm": raw_optn,
                 "detailUrl": f"https://www.kcar.com/bc/detail/carInfoPrsn?i_sCarCd={car_cd}" if car_cd else ""
             })
             prices.append(prc)
@@ -3605,10 +3610,99 @@ def fetch_kcar_market_stats(
     mid_idx = count // 2
     median_p = round((prices[mid_idx - 1] + prices[mid_idx]) / 2) if count % 2 == 0 else prices[mid_idx]
 
-    # e) A로직 주행거리 보정 확장 (get_benchmarked_valuation L1173-1185 대칭 공식)
+    # e) A로직 주행거리 보정 및 옵션 델타 확장 (get_benchmarked_valuation 대칭 공식)
     avg_adj = avg_p
     adj_note = ""
-    if mileage and mileage > 0 and valid_cars:
+
+    # 1. 목표 차량 옵션 원가 및 카탈로그 사전 구축
+    has_target_opts = bool(target_options)
+    target_opt_raw = 0
+    target_opt_items = []
+
+    if has_target_opts:
+        if isinstance(target_options, str):
+            for m in re.finditer(r'([가-힣a-zA-Z0-9\s\-_+]+?)\s*\(([\d,]+)만(?:원)?\)', target_options):
+                opt_name = m.group(1).strip()
+                if opt_name and opt_name not in ('옵션총액', '순정옵션총액'):
+                    p_val = int(m.group(2).replace(',', ''))
+                    target_opt_items.append({"name": opt_name, "price": p_val})
+            if target_opt_items:
+                target_opt_raw = sum(item["price"] for item in target_opt_items)
+            else:
+                m_tot = re.search(r'\[(?:순정)?옵션총액:?\s*([\d,]+)만(?:원)?\]', target_options)
+                target_opt_raw = int(m_tot.group(1).replace(',', '')) if m_tot else 0
+        elif isinstance(target_options, (list, tuple)):
+            for o in target_options:
+                if isinstance(o, dict):
+                    n = str(o.get("name") or o.get("standard_name") or "").strip()
+                    p = o.get("price") or o.get("standard_price_man") or 0
+                    p_val = int(p) // 10000 if int(p) >= 10000 else int(p)
+                    if n:
+                        target_opt_items.append({"name": n, "price": p_val})
+            target_opt_raw = sum(item["price"] for item in target_opt_items)
+
+    # 기본 카탈로그 옵션가 사전 (만원 단위) - chaolma DEFAULT_OPTION_PRICES 기준
+    DEFAULT_CATALOG_PRICES = {
+        "선루프": 80,
+        "와이드선루프": 79,
+        "듀얼선루프": 80,
+        "파노라마선루프": 115,
+        "hud": 120,
+        "헤드업디스플레이": 120,
+        "드라이브와이즈": 110,
+        "스마트센스": 105,
+        "현대스마트센스": 105,
+        "서라운드뷰": 80,
+        "어라운드뷰": 80,
+        "모니터링": 70,
+        "모니터링팩": 70,
+        "스타일": 85,
+        "컴포트": 60,
+        "컴포트시트": 60,
+        "컨비니언스": 100,
+        "크렐": 60,
+        "jbl": 60,
+        "보스": 60,
+        "렉시콘": 120,
+        "프리미엄사운드": 60,
+        "빌트인캠": 65,
+        "스마트커넥트": 60,
+        "후측방경보": 45,
+        "후측방": 45,
+    }
+
+    catalog_price_map = dict(DEFAULT_CATALOG_PRICES)
+    for item in target_opt_items:
+        n_norm = norm_opt_name(item["name"])
+        if n_norm and item["price"] > 0:
+            catalog_price_map[n_norm] = item["price"]
+            if "헤드업" in n_norm or "hud" in n_norm:
+                catalog_price_map["hud"] = item["price"]
+                catalog_price_map["헤드업디스플레이"] = item["price"]
+            if "선루프" in n_norm:
+                catalog_price_map["선루프"] = item["price"]
+                catalog_price_map["파노라마선루프"] = item["price"]
+
+    # 연식 잔가율 계산 헬퍼 (chaolma_service.calculate_option_depreciation 기준)
+    def _get_residual_rate(yr_val: int) -> float:
+        if yr_val <= 0:
+            return 0.50
+        full_yr = 2000 + yr_val if yr_val < 100 else yr_val
+        curr_yr = datetime.now().year
+        age = max(0, curr_yr - full_yr)
+        if age < 1:
+            return 0.80
+        elif age < 3:
+            return 0.50
+        elif age < 5:
+            return 0.35
+        else:
+            return 0.20
+
+    # 목표 차량 감가 후 잔존 옵션가
+    target_opt_deprec = int(round(target_opt_raw * _get_residual_rate(year))) if has_target_opts else 0
+
+    if valid_cars:
         # pt 구간 기준: K-Car 원본 avg_p (단일 기준가)
         if avg_p >= 2000:
             pt_per_10k = 1.3
@@ -3619,20 +3713,69 @@ def fetch_kcar_market_stats(
 
         adj_prices = []
         mil_diffs = []
+        opt_adjs = []
+
         for c in valid_cars:
             c_mil = c["mileage"]
             c_price = c["price"]
-            delta = ((c_mil - mileage) / 10000.0) * pt_per_10k
-            delta = max(-8.0, min(8.0, delta))
-            adj_p = round(c_price * (100.0 + delta) / 100.0)
-            adj_prices.append(adj_p)
-            mil_diffs.append(c_mil - mileage)
+
+            # (1) 주행거리 보정
+            if mileage and mileage > 0:
+                mil_delta = ((c_mil - mileage) / 10000.0) * pt_per_10k
+                mil_delta = max(-8.0, min(8.0, mil_delta))
+                mil_adj_p = round(c_price * (100.0 + mil_delta) / 100.0)
+                mil_diffs.append(c_mil - mileage)
+            else:
+                mil_adj_p = c_price
+
+            # (2) 옵션 델타 보정 (엔카식 반영률 35%/40% 및 ±40만 캡)
+            real_opt_adj = 0
+            if has_target_opts:
+                c_optn = c.get("optnNm") or ""
+                tokens = [t.strip() for t in c_optn.split('|') if t.strip()]
+                comp_opt_raw = 0
+                for t in tokens:
+                    t_norm = norm_opt_name(t)
+                    matched_p = catalog_price_map.get(t_norm, 0)
+                    if matched_p == 0:
+                        for cn_norm, cp in catalog_price_map.items():
+                            if (t_norm in cn_norm and len(t_norm) >= 2) or (cn_norm in t_norm and len(cn_norm) >= 2):
+                                matched_p = cp
+                                break
+                    if matched_p > 0:
+                        comp_opt_raw += matched_p
+
+                comp_rate = _get_residual_rate(c["year"])
+                comp_opt_deprec = int(round(comp_opt_raw * comp_rate))
+
+                opt_diff = target_opt_deprec - comp_opt_deprec
+                if opt_diff > 0:
+                    real_opt_adj = min(40, int(round(opt_diff * 0.35)))
+                elif opt_diff < 0:
+                    real_opt_adj = max(-40, int(round(opt_diff * 0.40)))
+                else:
+                    real_opt_adj = 0
+
+            opt_adjs.append(real_opt_adj)
+            adj_prices.append(mil_adj_p + real_opt_adj)
 
         if adj_prices:
             avg_adj = int(round(sum(adj_prices) / len(adj_prices)))
-            mean_mil_diff = int(round(sum(mil_diffs) / len(mil_diffs)))
-            sign_str = f"+{mean_mil_diff:,}" if mean_mil_diff >= 0 else f"{mean_mil_diff:,}"
-            adj_note = f"{len(adj_prices)}대 보정 (평균 {sign_str}km 차이)"
+
+            notes = []
+            if mil_diffs:
+                mean_mil_diff = int(round(sum(mil_diffs) / len(mil_diffs)))
+                sign_str = f"+{mean_mil_diff:,}" if mean_mil_diff >= 0 else f"{mean_mil_diff:,}"
+                notes.append(f"{len(adj_prices)}대 보정 (평균 {sign_str}km 차이)")
+            elif has_target_opts:
+                notes.append(f"{len(adj_prices)}대 보정")
+
+            if has_target_opts and opt_adjs:
+                mean_opt_adj = int(round(sum(opt_adjs) / len(opt_adjs)))
+                if mean_opt_adj != 0:
+                    notes.append(f"옵션 {mean_opt_adj:+}만원 반영")
+
+            adj_note = " · ".join(notes)
 
     # f) 목표 차량 사고 차감 적용 (무사고 PERFECT 0%, 단순수리 MINOR 3%, 그 외 골격/결격 7%)
     acc_upper = str(accident or "PERFECT").strip().upper()

@@ -386,6 +386,7 @@ export function useBiddingCockpit({
     year?: number;
     mileage?: number;
     accident?: string;
+    targetOptions?: string;
   }) => {
     const targetCarName = options?.carName || carName;
     if (!targetCarName) {
@@ -401,6 +402,7 @@ export function useBiddingCockpit({
       const targetYr = options?.year !== undefined ? options.year : yearModel;
       const targetMil = options?.mileage !== undefined ? options.mileage : mileageKm;
       const targetAccident = options?.accident !== undefined ? options.accident : (currentAssessment?.accidentDamage?.status || 'PERFECT');
+      const targetOpt = options?.targetOptions !== undefined ? options.targetOptions : (optionsTag || '');
 
       const res = await fetch('/api/kcar/market', {
         method: 'POST',
@@ -414,6 +416,7 @@ export function useBiddingCockpit({
           year: targetYr,
           mileage: targetMil,
           accident: targetAccident,
+          targetOptions: targetOpt,
         }),
       });
       if (res.ok) {
@@ -425,7 +428,7 @@ export function useBiddingCockpit({
     } finally {
       setIsKcarLoading(false);
     }
-  }, [carName, detailModel, manufacturer, yearModel, mileageKm, currentAssessment]);
+  }, [carName, detailModel, manufacturer, yearModel, mileageKm, currentAssessment, optionsTag]);
 
   // 사이드바 차량 조건 변경 시 실데이터 자동 수집 (차량이 있을 때만)
   useEffect(() => {
@@ -455,10 +458,11 @@ export function useBiddingCockpit({
         year: yearModel,
         mileage: mileageKm,
         accident: currentAssessment?.accidentDamage?.status,
+        targetOptions: optionsTag,
       });
     }, 300);
     return () => clearTimeout(timer);
-  }, [carName, detailModel, manufacturer, yearModel, mileageKm, carNumber, currentAssessment?.accidentDamage?.status, fetchEncarComparable, fetchKcarMarket]);
+  }, [carName, detailModel, manufacturer, yearModel, mileageKm, carNumber, currentAssessment?.accidentDamage?.status, optionsTag, fetchEncarComparable, fetchKcarMarket]);
 
   // 텍스트/복사 데이터 빠른 자동 분석 모달 상태
   const [isQuickPasteOpen, setIsQuickPasteOpen] = useState(false);
@@ -775,15 +779,18 @@ export function useBiddingCockpit({
         }
         setYearModel(yr);
 
+        let calculatedOptionsTag = '';
         if (res.options && res.options.length > 0) {
           const cat = await fetchNewCarCatalog(res.model_detail_name || res.model_name || resolvedCarName || carName, yr ? String(yr) : undefined);
           if (cat) setTargetNewCarCatalog(cat);
           const normalized = normalizeChaolmaOptions(res.options, cat);
           const optStr = normalized.map(o => `${o.standardName}(${o.standardPriceMan}만)`).join(' · ');
           const totalOptMan = normalized.reduce((acc, cur) => acc + cur.standardPriceMan, 0);
-          setOptionsTag(`${optStr} [옵션총액: ${totalOptMan}만]`);
+          calculatedOptionsTag = `${optStr} [옵션총액: ${totalOptMan}만]`;
+          setOptionsTag(calculatedOptionsTag);
         } else {
-          setOptionsTag('추가 옵션 없음 (기본 출고 사양)');
+          calculatedOptionsTag = '추가 옵션 없음 (기본 출고 사양)';
+          setOptionsTag(calculatedOptionsTag);
         }
 
         if (res.new_car_price > 0 || res.vin || res.car_history) {
@@ -852,6 +859,7 @@ export function useBiddingCockpit({
           manufacturer: res.maker || manufacturer,
           year: yr,
           mileage: effectiveMileage,
+          targetOptions: calculatedOptionsTag,
         });
 
         skipAutoFetchRef.current = true;

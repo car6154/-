@@ -15,7 +15,7 @@ import time
 import threading
 import subprocess
 import urllib.parse
-from typing import List, Any, Optional
+from typing import List, Any, Optional, Union, Dict
 from datetime import datetime
 from pydantic import BaseModel
 import requests
@@ -1122,6 +1122,7 @@ class KcarMarketRequest(BaseModel):
     year: Optional[int] = 0
     mileage: Optional[int] = 0
     accident: Optional[str] = "PERFECT"
+    targetOptions: Optional[Union[str, List[Dict[str, Any]]]] = ""
 
 
 @app.post("/api/kcar/market")
@@ -1141,7 +1142,8 @@ def get_kcar_market_stats_post(req: KcarMarketRequest):
             detail_model=detail_model,
             mileage=req.mileage or 0,
             manufacturer=req.manufacturer or "",
-            accident=req.accident or "PERFECT"
+            accident=req.accident or "PERFECT",
+            target_options=req.targetOptions or ""
         )
     except Exception as e:
         return {"success": False, "error": str(e), "count": 0, "cars": [], "yearStats": [], "priceBins": []}
@@ -1156,7 +1158,8 @@ def get_kcar_market_stats_get(
     manufacturer: str = "",
     year: int = 0,
     mileage: int = 0,
-    accident: str = "PERFECT"
+    accident: str = "PERFECT",
+    targetOptions: str = ""
 ):
     try:
         from services.kcar_service import fetch_kcar_market_stats
@@ -1173,7 +1176,8 @@ def get_kcar_market_stats_get(
             detail_model=d_model,
             mileage=mileage,
             manufacturer=manufacturer,
-            accident=accident
+            accident=accident,
+            target_options=targetOptions or ""
         )
     except Exception as e:
         return {"success": False, "error": str(e), "count": 0, "cars": [], "yearStats": [], "priceBins": []}
