@@ -869,8 +869,8 @@ def search_encar_market(req: EncarSearchRequest):
         except Exception:
             pass
 
-        # 3. 2번 정렬 기준 (가격 낮은순 -> 연식 최신순 -> 성능점검순)
-        df = DataProcessor.sort_by_price_year_perf(df)
+        # 3. 스트림릿 확정 복합 정렬 기준 (성능점검일 최신순 -> 가격 낮은순 -> 연식 최신순)
+        df = DataProcessor.sort_by_perf_and_year(df)
 
         # 스냅샷 자동 누적
         try:
@@ -1024,8 +1024,13 @@ def search_encar_market(req: EncarSearchRequest):
                     continue
                 seen_specs.add(spec_key)
             
-            raw_hold = row.get('재고', 15)
-            hold_days = _safe_int(str(raw_hold).replace('일', '').strip(), 15)
+            raw_hold = row.get('재고')
+            hold_days = None
+            if raw_hold is not None and str(raw_hold).strip() not in ('-', '', 'None', 'nan'):
+                try:
+                    hold_days = int(str(raw_hold).replace('일', '').strip())
+                except (ValueError, TypeError):
+                    hold_days = None
 
             c_name = str(row.get('차량명', ''))
             s_model = str(row.get('세부모델', ''))
@@ -1264,7 +1269,7 @@ def get_encar_inspection(car_id: str):
         vehicle_no = ""
         options_text = "기본 출고 사양 (추가옵션 없음)"
         reg_date_str = ""
-        holding_days = 15
+        holding_days = None
 
         try:
             v_res = session.get(f"https://api.encar.com/v1/readside/vehicle/{car_id}?include=MANAGE,OPTIONS,SPEC", timeout=5)
@@ -1279,15 +1284,12 @@ def get_encar_inspection(car_id: str):
                 color = spec.get("colorName") or "미확인"
                 vehicle_no = v_data.get("vehicleNo") or ""
 
-                # 등록일시 및 재고일수
+                # 등록일시 파싱 (표시용 - 재고일수 산정에는 사용하지 않음)
                 dt_raw = manage.get("firstAdvertisedDateTime") or manage.get("registDateTime") or ""
                 if dt_raw and len(dt_raw) >= 10:
                     try:
                         v_dt = datetime.strptime(dt_raw[:10], "%Y-%m-%d")
-                        diff = (datetime.now() - v_dt).days
-                        if diff >= 0:
-                            holding_days = max(1, diff)
-                            reg_date_str = v_dt.strftime("%y-%m-%d")
+                        reg_date_str = v_dt.strftime("%y-%m-%d")
                     except Exception:
                         pass
         except Exception as e:
@@ -1332,8 +1334,7 @@ def get_encar_inspection(car_id: str):
         repairs = []
         replace_names = []
         repair_names = []
-        accident_type = "완전무사고"
-        inspection_date = reg_date_str or "-"
+        inspection_date = "-"
 
         if res.status_code == 200:
             ij = res.json() or {}
@@ -1342,6 +1343,16 @@ def get_encar_inspection(car_id: str):
             raw_date = detail.get("issueDate") or (master.get("registrationDate") or "")[:10].replace("-", "")
             if raw_date and len(raw_date) >= 8:
                 inspection_date = f"{raw_date[2:4]}-{raw_date[4:6]}-{raw_date[6:8]}"
+
+        # 점검일(inspection_date) 확정 후 그 날짜 기준으로 재고일수 산정 (목록의 재고일과 동일 기준)
+        if inspection_date and inspection_date not in ["-", "⚠️미등록", "미검사/사진", "⚠️조회실패"]:
+            try:
+                full_date_str = f"20{inspection_date}" if len(inspection_date) == 8 else inspection_date
+                holding_days = (datetime.now() - datetime.strptime(full_date_str, "%Y-%m-%d")).days
+            except Exception:
+                holding_days = None
+        else:
+            holding_days = None
 
             if master.get("accident"):
                 accident_type = "유사고"

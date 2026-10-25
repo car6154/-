@@ -15,7 +15,7 @@ export interface EncarItem {
   checkDate: string;
   inspectionDate?: string;
   registrationDate?: string;
-  holdingDays: number;
+  holdingDays?: number | null;
   carName: string;
   modelName?: string;
   subModel?: string;

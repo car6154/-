@@ -19,7 +19,7 @@ export interface EncarItem {
   accidentType: string;
   color?: string;
   checkDate?: string;
-  holdingDays?: number;
+  holdingDays?: number | null;
   optionsText?: string;
   [key: string]: any;
 }
@@ -156,14 +156,34 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
         });
       case 'complex':
         return list.sort((a, b) => {
-          // 1차: 성능일/등록일 최신순 (내림차순)
-          const dateA = getValidDateStr(a);
-          const dateB = getValidDateStr(b);
-          if (dateA !== dateB) return dateB.localeCompare(dateA);
-          // 2차: 가격 낮은 순 (오름차순)
-          const priceDiff = (Number(a.price) || 0) - (Number(b.price) || 0);
-          if (priceDiff !== 0) return priceDiff;
-          // 3차: 연식 최신순 (내림차순)
+          // 백엔드 DataProcessor.sort_by_perf_and_year 4키 기준과 100% 동일화
+          const isNormalPerf = (d: any): boolean => {
+            if (!d) return false;
+            const str = String(d).trim();
+            if (['미검사/사진', '⚠️미등록', '⚠️조회실패', '-'].includes(str)) return false;
+            return /^\d{2}-\d{2}-\d{2}/.test(str);
+          };
+
+          const checkA = String(a.checkDate || '').trim();
+          const checkB = String(b.checkDate || '').trim();
+
+          const hasPerfA = isNormalPerf(checkA) ? 1 : 0;
+          const hasPerfB = isNormalPerf(checkB) ? 1 : 0;
+
+          // 1키: 점검 완료 우선 (내림차순)
+          if (hasPerfA !== hasPerfB) return hasPerfB - hasPerfA;
+
+          // 2키: 성능점검일 최신순 (내림차순)
+          const perfA = hasPerfA ? checkA : '00-00-00';
+          const perfB = hasPerfB ? checkB : '00-00-00';
+          if (perfA !== perfB) return perfB.localeCompare(perfA);
+
+          // 3키: 가격 낮은순 (오름차순, 결측치는 뒤로)
+          const priceA = Number(a.price) > 0 ? Number(a.price) : 999999;
+          const priceB = Number(b.price) > 0 ? Number(b.price) : 999999;
+          if (priceA !== priceB) return priceA - priceB;
+
+          // 4키: 연식 최신순 (내림차순)
           return parseYearNum(b.year) - parseYearNum(a.year);
         });
       default:
@@ -407,15 +427,19 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                           {car.checkDate || '-'}
                         </td>
                         <td className="py-1.5 px-1 text-center whitespace-nowrap">
-                          <span className={`px-1.5 py-0.5 rounded text-[11px] font-black font-mono border ${
-                            (car.holdingDays ?? 0) <= 14 
-                              ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40' 
-                              : (car.holdingDays ?? 0) >= 60 
-                                ? 'bg-rose-500/20 text-rose-300 border-rose-500/40' 
-                                : 'bg-amber-500/20 text-amber-300 border-amber-500/40'
-                          }`}>
-                            {car.holdingDays}일
-                          </span>
+                          {car.holdingDays !== undefined && car.holdingDays !== null ? (
+                            <span className={`px-1.5 py-0.5 rounded text-[11px] font-black font-mono border ${
+                              car.holdingDays <= 14 
+                                ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40' 
+                                : car.holdingDays >= 60 
+                                  ? 'bg-rose-500/20 text-rose-300 border-rose-500/40' 
+                                  : 'bg-amber-500/20 text-amber-300 border-amber-500/40'
+                            }`}>
+                              {car.holdingDays}일
+                            </span>
+                          ) : (
+                            <span className="text-zinc-500 font-mono text-[11px]">-</span>
+                          )}
                         </td>
                         <td className="py-1.5 px-1.5 text-[12px] whitespace-nowrap">
                           <div className="flex items-center gap-1.5">

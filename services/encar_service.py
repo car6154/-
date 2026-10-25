@@ -86,9 +86,12 @@ class Scraper:
                 clean_reg = str(regist_dt)[:10].replace("-", "")
                 if len(clean_reg) >= 8:
                     reg_date_str = f"{clean_reg[2:4]}-{clean_reg[4:6]}-{clean_reg[6:8]}"
-                    inv_days = Scraper.calculate_inventory_days(reg_date_str)
-            elif perf_date and perf_date not in ["⚠️미등록", "미검사/사진"]:
+
+            # 재고일은 성능일(perf_date) 기준으로만 계산 (광고 등록일 기준 계산 분기 완전 제거)
+            if perf_date and perf_date not in ["⚠️미등록", "미검사/사진", "⚠️조회실패", "-"]:
                 inv_days = Scraper.calculate_inventory_days(perf_date)
+            else:
+                inv_days = "-"
 
             acc = master.get("accdient")
             rep = master.get("simpleRepair")
