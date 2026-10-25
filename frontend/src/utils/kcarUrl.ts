@@ -194,6 +194,7 @@ export const KCAR_MODEL_GROUPS: KcarModelGroupEntry[] = [
       '더 뉴 K5 3세대': '188',
       '더 뉴 K5 3세대 하이브리드': '189',
       '더 뉴 K5 하이브리드 3세대': '189',
+      '더 뉴 K5 하이브리드': '189',
     },
   },
   {

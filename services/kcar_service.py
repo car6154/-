@@ -170,6 +170,7 @@ KCAR_MODEL_GROUP_MAP = {
         "더 뉴 K5 3세대": "188",
         "더 뉴 K5 3세대 하이브리드": "189",
         "더 뉴 K5 하이브리드 3세대": "189",
+        "더 뉴 K5 하이브리드": "189",
     },
     ("002", "002"): {  # K7
         "K7": "089",
@@ -594,7 +595,7 @@ def resolve_kcar_grade_codes(m_cd: str, grp_cd: str, mod_cd: str, sub_model: str
             continue
         if has_2wd and g_is_4wd:
             continue
-        if not has_4wd and not has_2wd and (g_is_4wd or g_is_2wd):
+        if not has_4wd and not has_2wd and g_is_4wd:
             continue
 
         skip_special = False
@@ -630,7 +631,7 @@ def resolve_kcar_grade_codes(m_cd: str, grp_cd: str, mod_cd: str, sub_model: str
         if "일반" in g_norm:
             score += 2
 
-        grd_tokens = [_norm(t) for t in re.split(r'[\s\(\)\/\-]+', grd_nm) if _norm(t) and _norm(t) not in spec_ignore]
+        grd_tokens = [_norm(t) for t in re.split(r'[\s\(\)\/\-\+]+', grd_nm) if _norm(t) and _norm(t) not in spec_ignore]
         non_spec_tokens = [t for t in grd_tokens if not re.match(r'^(\d+\.\d+T?|\d+인승|GDI|GDE|GTE|VGT|EVGT|VVT|MPI|LPE|TDI)$', t)]
         if non_spec_tokens:
             if all(t in comb_norm for t in non_spec_tokens):
@@ -811,7 +812,10 @@ def fetch_kcar_market_stats(
         "min": 0,
         "max": 0,
         "avg": 0,
+        "avgAdj": 0,
+        "adjNote": "",
         "median": 0,
+        "postFilterFallback": False,
         "yearStats": [],
         "priceBins": [],
         "cars": [],
@@ -859,10 +863,11 @@ def fetch_kcar_market_stats(
         param["wr_gt_mfg_dt"] = f"{k_yr - 1}01"
         param["wr_lt_mfg_dt"] = f"{k_yr + 1}12"
 
-    # c) 주행거리 파라미터 (wr_gt_milg, wr_lt_milg: ±3만km)
+    # c) 주행거리 파라미터 (wr_gt_milg, wr_lt_milg: 만단위 반올림 후 ±3만km 통일, build_kcar_web_url 및 엔카 대칭)
     if mileage and mileage > 0:
-        param["wr_gt_milg"] = max(0, mileage - 30000)
-        param["wr_lt_milg"] = mileage + 30000
+        rounded = round(mileage / 10000) * 10000
+        param["wr_gt_milg"] = max(0, rounded - 30000)
+        param["wr_lt_milg"] = rounded + 30000
 
     print(f"[K-Car API 요청] car_name='{car_name}', year={year}, detail_model='{detail_model}', mileage={mileage} => param = {param}", flush=True)
 
@@ -941,7 +946,12 @@ def fetch_kcar_market_stats(
 
         filtered_rows.append(r)
 
-    target_rows = filtered_rows if filtered_rows else rows
+    post_filter_fallback = False
+    if filtered_rows:
+        target_rows = filtered_rows
+    else:
+        target_rows = rows
+        post_filter_fallback = True
 
     # 매물 유효 데이터 추출
     valid_cars = []
@@ -980,6 +990,7 @@ def fetch_kcar_market_stats(
 
     if not prices:
         empty_res["success"] = True
+        empty_res["postFilterFallback"] = post_filter_fallback
         empty_res["message"] = "유효한 가격의 직영 매물이 없습니다."
         return empty_res
 
@@ -990,6 +1001,35 @@ def fetch_kcar_market_stats(
     avg_p = int(sum(prices) / count)
     mid_idx = count // 2
     median_p = round((prices[mid_idx - 1] + prices[mid_idx]) / 2) if count % 2 == 0 else prices[mid_idx]
+
+    # e) A로직 주행거리 보정 확장 (get_benchmarked_valuation L1173-1185 대칭 공식)
+    avg_adj = avg_p
+    adj_note = ""
+    if mileage and mileage > 0 and valid_cars:
+        # pt 구간 기준: K-Car 원본 avg_p (단일 기준가)
+        if avg_p >= 2000:
+            pt_per_10k = 1.3
+        elif avg_p >= 1200:
+            pt_per_10k = 1.5
+        else:
+            pt_per_10k = 1.8
+
+        adj_prices = []
+        mil_diffs = []
+        for c in valid_cars:
+            c_mil = c["mileage"]
+            c_price = c["price"]
+            delta = ((c_mil - mileage) / 10000.0) * pt_per_10k
+            delta = max(-8.0, min(8.0, delta))
+            adj_p = round(c_price * (100.0 + delta) / 100.0)
+            adj_prices.append(adj_p)
+            mil_diffs.append(c_mil - mileage)
+
+        if adj_prices:
+            avg_adj = int(round(sum(adj_prices) / len(adj_prices)))
+            mean_mil_diff = int(round(sum(mil_diffs) / len(mil_diffs)))
+            sign_str = f"+{mean_mil_diff:,}" if mean_mil_diff >= 0 else f"{mean_mil_diff:,}"
+            adj_note = f"{len(adj_prices)}대 보정 (평균 {sign_str}km 차이)"
 
     # 타겟 연식 계산
     target_yr = 0
@@ -1060,7 +1100,10 @@ def fetch_kcar_market_stats(
         "min": min_p,
         "max": max_p,
         "avg": avg_p,
+        "avgAdj": avg_adj,
+        "adjNote": adj_note,
         "median": median_p,
+        "postFilterFallback": post_filter_fallback,
         "yearStats": year_stats,
         "priceBins": price_bins,
         "cars": valid_cars[:20],

@@ -960,6 +960,23 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
                         )}
                       </div>
                     </div>
+                    {/* 주행 보정 평균 (avgAdj가 있을 때만 표시) */}
+                    {kcarStats && (kcarStats.avgAdj || 0) > 0 && !isKcarLoading && (
+                      <div className="flex items-baseline justify-between pt-1 border-t border-[#23141c]/70">
+                        <span className="text-[11px] text-zinc-400 flex items-center gap-1">
+                          <span className="text-amber-400 font-bold">🎯 주행 보정 평균</span>
+                          {kcarStats.adjNote && (
+                            <span className="text-[10px] text-zinc-500 font-normal">({kcarStats.adjNote})</span>
+                          )}
+                        </span>
+                        <div className="flex items-baseline gap-1">
+                          <span className="text-base sm:text-lg font-black font-mono text-amber-300 tracking-tight">
+                            {kcarStats.avgAdj.toLocaleString()}
+                          </span>
+                          <span className="text-[10px] text-amber-400 font-bold">만원</span>
+                        </div>
+                      </div>
+                    )}
                     <div className="grid grid-cols-3 gap-1 pt-1 border-t border-[#23141c] text-center text-xs">
                       <div className="bg-[#170e13] rounded py-1 px-1.5">
                         <div className="text-[10px] text-zinc-400">⬇️ 최저가</div>

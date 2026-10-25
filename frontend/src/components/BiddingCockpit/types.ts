@@ -120,7 +120,10 @@ export interface KcarMarketStats {
   min: number;
   max: number;
   avg: number;
+  avgAdj?: number;
+  adjNote?: string;
   median: number;
+  postFilterFallback?: boolean;
   yearStats: KcarYearStat[];
   priceBins: KcarPriceBin[];
   cars: KcarCarItem[];
