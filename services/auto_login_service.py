@@ -219,11 +219,20 @@ def login_heydealer() -> Dict[str, Any]:
         import requests
         with sync_playwright() as p:
             print("[HeydealerAutoLogin] 2/5: Chromium 브라우저 기동 및 dealer.heydealer.com 접속 중...", flush=True)
-            browser = p.chromium.launch(headless=True)
+            browser = p.chromium.launch(
+                headless=True,
+                args=[
+                    "--disable-blink-features=AutomationControlled",
+                ],
+            )
             context = browser.new_context(
                 user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
             )
             page = context.new_page()
+
+            # [진단] webdriver 지문 상태 확인 (값 자체/민감정보 없음)
+            is_webdriver = page.evaluate("() => navigator.webdriver")
+            print(f"[HeydealerAutoLogin][DIAG] 브라우저 지문 점검 navigator.webdriver={is_webdriver}", flush=True)
 
             page.goto("https://dealer.heydealer.com", timeout=20000)
             print("[HeydealerAutoLogin] 3/5: 로그인 폼 순차 입력 및 로그인 버튼 클릭...", flush=True)
