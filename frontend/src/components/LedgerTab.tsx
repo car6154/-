@@ -694,7 +694,7 @@ export const LedgerTab: React.FC<LedgerTabProps> = ({
 
         {/* Header (Sticky Top) */}
 
-        <div className="hidden md:grid grid-cols-[80px_110px_80px_minmax(120px,1fr)_120px_56px_96px_60px_90px_90px_80px_105px] items-center gap-2 bg-[#181b24] px-3 py-2.5 border-b border-[#282c3c] border-l-4 border-l-transparent text-[11px] font-bold text-slate-400 sticky top-0 z-10 shadow-md">
+        <div className="hidden md:grid grid-cols-[80px_110px_80px_minmax(120px,1fr)_120px_56px_96px_60px_90px_90px_80px_80px_105px] items-center gap-2 bg-[#181b24] px-3 py-2.5 border-b border-[#282c3c] border-l-4 border-l-transparent text-[11px] font-bold text-slate-400 sticky top-0 z-10 shadow-md">
 
           <div>📅 등록일</div>
 
@@ -715,6 +715,8 @@ export const LedgerTab: React.FC<LedgerTabProps> = ({
           <div className="text-right">매입가</div>
 
           <div className="text-right">판매가</div>
+
+          <div className="text-right">헤딜수수료</div>
 
           <div className="text-center">상태</div>
 
@@ -737,6 +739,8 @@ export const LedgerTab: React.FC<LedgerTabProps> = ({
             const buyPriceText = car.buyPrice > 0 ? `${car.buyPrice.toLocaleString()}만` : '-';
 
             const sellPriceText = car.sellPrice > 0 ? `${car.sellPrice.toLocaleString()}만` : '-';
+
+            const feeText = (car.heydealerFee !== undefined && car.heydealerFee !== null && Number(car.heydealerFee) > 0) ? `${car.heydealerFee}만` : '-';
 
             const isCompleted = car.status === '매입완료';
 
@@ -768,9 +772,9 @@ export const LedgerTab: React.FC<LedgerTabProps> = ({
 
               >
 
-                {/* Desktop layout: Exact 12-column Grid matching Header */}
+                {/* Desktop layout: Exact 13-column Grid matching Header */}
 
-                <div className="hidden md:grid grid-cols-[80px_110px_80px_minmax(120px,1fr)_120px_56px_96px_60px_90px_90px_80px_105px] items-center gap-2 w-full">
+                <div className="hidden md:grid grid-cols-[80px_110px_80px_minmax(120px,1fr)_120px_56px_96px_60px_90px_90px_80px_80px_105px] items-center gap-2 w-full">
 
                   {/* 1. 등록일 */}
 
@@ -854,7 +858,11 @@ export const LedgerTab: React.FC<LedgerTabProps> = ({
 
                   <div className="text-right font-bold text-sky-400">{sellPriceText}</div>
 
-                  {/* 11. 상태 */}
+                  {/* 11. 헤딜수수료 */}
+
+                  <div className="text-right font-medium text-slate-300">{feeText}</div>
+
+                  {/* 12. 상태 */}
 
                   <div className="text-center">
 
@@ -1019,6 +1027,8 @@ export const LedgerTab: React.FC<LedgerTabProps> = ({
                       <span className="text-emerald-400 font-semibold">매입 {buyPriceText}</span>
 
                       <span className="text-sky-400 font-semibold">판매 {sellPriceText}</span>
+
+                      <span className="text-slate-300">수수료 {feeText}</span>
 
                     </div>
 
