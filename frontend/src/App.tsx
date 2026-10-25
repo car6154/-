@@ -20,7 +20,6 @@ import { CookieSyncModal } from '@/components/CookieSyncModal';
 import { ExtensionInstallModal } from '@/components/ExtensionInstallModal';
 import { MobileNav } from '@/components/MobileNav';
 import { RefreshCw, Cloud, ShieldCheck, CheckCircle2 } from 'lucide-react';
-import { sendCarToGoogleSheet } from '@/services/googleSheetService';
 import { startContinuousCookieSync, subscribeCookieSync, JPRO_COOKIE_SECRET_TOKEN } from '@/services/cookieBridge';
 
 const CompanyPerformanceTab = lazy(() =>
@@ -366,28 +365,7 @@ export default function App() {
       showToast(`✅ [${newCarData.carNumber}] 브라우저 장부 저장 완료`);
     }
 
-    // 3. 🚀 Google Sheets Realtime Webhook Auto-Sync
-    try {
-      await sendCarToGoogleSheet({
-        차량번호: newCarData.carNumber,
-        제조사: newCarData.manufacturer,
-        차량명: newCarData.carName,
-        세부모델: newCarData.detailModel,
-        연식: newCarData.year,
-        주행거리: newCarData.mileage,
-        옵션: newCarData.options,
-        매입가: newCarData.buyPrice,
-        판매가: newCarData.sellPrice,
-        외판수리: newCarData.outerRepairs,
-        외판수리비: newCarData.repairCost,
-        헤딜수수료: newCarData.heydealerFee,
-        특이사항: newCarData.memo,
-        상태: newCarData.status || '장부저장',
-        등록일: regDate
-      });
-    } catch (err) {
-      console.error('Google Sheet auto-sync error:', err);
-    }
+    // (시트 동기화는 POST /api/ledger 처리 시 백엔드 GDriveBackupService가 전담하므로 프론트 직접 전송 제거)
   };
 
   // Mark a car as sold in settlement (tab_settlement.py & settlement_service.py)

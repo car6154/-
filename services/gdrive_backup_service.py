@@ -8,6 +8,7 @@ import logging
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, Any, List, Optional, Tuple
+import hashlib
 import requests
 
 logger = logging.getLogger("GDriveBackupService")
@@ -50,6 +51,7 @@ class GDriveBackupService:
     _watcher_started = False
     _last_sync_time: Optional[datetime] = None
     _last_sync_status: str = "대기"
+    _last_synced_hash: Optional[str] = None
     _spreadsheet_id: Optional[str] = None
     _access_token: Optional[str] = None
     _token_expiry: float = 0.0
@@ -383,11 +385,37 @@ class GDriveBackupService:
             return False, f"웹훅 전송 실패: {e}"
 
     @classmethod
+    def _compute_content_hash(cls, include_snapshots: bool = False) -> str:
+        """장부 및 정산 파일의 내용 해시(SHA-256)를 계산하여 중복 동기화 방지"""
+        h = hashlib.sha256()
+        for p in (LEDGER_CSV_PATH, SETTLEMENT_CSV_PATH):
+            if p.exists():
+                try:
+                    h.update(p.read_bytes())
+                except Exception:
+                    pass
+            else:
+                h.update(b"__NONE__")
+        if include_snapshots and SNAPSHOTS_JSON_PATH.exists():
+            try:
+                st = SNAPSHOTS_JSON_PATH.stat()
+                h.update(f"snap_{st.st_size}_{st.st_mtime}".encode("utf-8"))
+            except Exception:
+                pass
+        return h.hexdigest()
+
+    @classmethod
     def sync_now(cls, reason: str = "manual", include_snapshots: bool = True) -> Tuple[bool, str]:
         """J-PRO_DB 스프레드시트에 my_car_ledger.csv, my_inventory_settlement.csv, data/encar_snapshots.json 즉시 동기화"""
+        current_hash = cls._compute_content_hash(include_snapshots=include_snapshots)
+
         with cls._lock:
             if cls._is_syncing:
                 return False, "이미 백업 동기화가 진행 중입니다."
+            # 내용 해시가 직전 성공 동기화와 완전히 동일하면 중복 동기화 스킵 (단, force는 강제 실행)
+            if reason != "force" and cls._last_synced_hash and cls._last_synced_hash == current_hash:
+                logger.info(f"[GDriveBackup] 동기화 스킵: 직전 성공 동기화와 내용 동일 (해시: {current_hash[:10]}, 사유: {reason})")
+                return True, f"동기화 스킵 (내용 변경 없음, 해시: {current_hash[:10]})"
             cls._is_syncing = True
 
         try:
@@ -417,6 +445,7 @@ class GDriveBackupService:
                         )
 
                     cls._last_sync_time = datetime.now()
+                    cls._last_synced_hash = current_hash
                     if ok_ledger and ok_settle:
                         cls._last_sync_status = (
                             f"J-PRO_DB 리프레시 토큰 백업 성공 "
@@ -427,6 +456,8 @@ class GDriveBackupService:
             # 리프레시 토큰이 아직 설정되지 않았거나 실패한 경우 웹훅 폴백 실행
             ok_wh, msg_wh = cls._sync_via_webhook(ledger_rows, settlement_rows)
             cls._last_sync_time = datetime.now()
+            if ok_wh:
+                cls._last_synced_hash = current_hash
             cls._last_sync_status = msg_wh
             return ok_wh, msg_wh
         except Exception as e:
@@ -581,6 +612,7 @@ class GDriveBackupService:
             "remainingDebounceSeconds": round(remaining_debounce, 1) if timer_pending else 0.0,
             "lastSyncTime": cls._last_sync_time.strftime("%Y-%m-%d %H:%M:%S") if cls._last_sync_time else None,
             "lastSyncStatus": cls._last_sync_status,
+            "lastSyncedHash": cls._last_synced_hash[:10] if cls._last_synced_hash else None,
             "targetFiles": [
                 "my_car_ledger.csv",
                 "my_inventory_settlement.csv",
