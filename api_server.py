@@ -338,6 +338,20 @@ def save_cookie_api(payload: CookieSavePayload):
         set_env_variable("ENCAR_COOKIE", raw_cookie)
         os.environ["ENCAR_COOKIE"] = raw_cookie
         print(f"[CookieReceive] 엔카 쿠키 {len(raw_cookie)}자 갱신 완료", flush=True)
+    elif target in ("autoplus_data", "data", "ap_data"):
+        with open(os.path.join(base_dir, "autoplus_data_cookie.txt"), "w", encoding="utf-8") as f:
+            f.write(raw_cookie)
+        set_env_variable("AUTOPLUS_DATA_COOKIE", raw_cookie)
+        os.environ["AUTOPLUS_DATA_COOKIE"] = raw_cookie
+        print(f"[CookieReceive] 오토플러스.Data 쿠키 {len(raw_cookie)}자 갱신 완료. 백그라운드 동기화(execute_sync) 즉시 트리거!", flush=True)
+        import threading
+        def _bg_sync():
+            try:
+                from services.autoplus_sync_service import AutoplusSyncService
+                AutoplusSyncService.execute_sync()
+            except Exception as se:
+                print(f"[CookieReceive] 오플 데이터 자동 동기화 오류: {se}", flush=True)
+        threading.Thread(target=_bg_sync, daemon=True).start()
     elif target in ("high", "autoplus_high", "high_cookie") or "high" in target:
         with open(os.path.join(base_dir, "high_cookie.txt"), "w", encoding="utf-8") as f:
             f.write(raw_cookie)

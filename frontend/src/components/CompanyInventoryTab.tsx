@@ -80,29 +80,23 @@ export const CompanyInventoryTab: React.FC<CompanyInventoryTabProps> = ({ onAnal
       setSyncStatus(data);
       if (data.status === 'SUCCESS') {
         alert(
-          `[오토플러스 모바일 API 최신화 성공]\n\n` +
-          `• 연동 시간: ${new Date(data.last_sync_time).toLocaleTimeString('ko-KR')}\n` +
-          `• 내용: ${data.message}\n\n` +
-          `✅ 자사 보유 재고 및 장부 매입 데이터가 정상 갱신되었습니다.`
+          `[오토플러스.Data 전사 최신화 성공]\n\n` +
+          `• 최신화 시간: ${new Date(data.last_sync_time).toLocaleTimeString('ko-KR')}\n` +
+          `• 판매중 매물: ${Number(data.inventory_count || 0).toLocaleString()}대\n` +
+          `• 판매완료 매물: ${Number(data.sold_count || 0).toLocaleString()}대\n` +
+          `• 정산 장부 갱신: ${Number(data.settlement_updated_count || 0).toLocaleString()}건\n\n` +
+          `✅ 전사 보유 재고 및 판매완료 데이터가 정상 갱신되었습니다.`
         );
-      } else if (data.status === 'EXPIRED' || data.status === 'NO_SESSION') {
+      } else if (data.status === 'COOKIE_EXPIRED' || data.status === 'NO_SESSION' || data.status === 'EXPIRED') {
         alert(
-          `[오토플러스 모바일 API 연동 실패 (세션 만료/없음)]\n\n` +
-          `• 상태: ${data.status === 'EXPIRED' ? '세션 만료 (HTTP 403)' : '세션 없음'}\n` +
+          `[오토플러스.Data 세션 쿠키 필요]\n\n` +
           `• 사유: ${data.message}\n\n` +
           `💡 조치 방법:\n` +
-          `1. 모바일 사이트 (https://high.autoplus.co.kr)에 접속하여 로그인합니다.\n` +
-          `2. 발급된 세션 쿠키를 high_cookie.txt에 갱신해 주세요.\n` +
-          `(※ admin.autoplus.co.kr 이나 data.autoplus.co.kr 사이트와는 도메인이 달라 쿠키가 공유되지 않습니다.)`
-        );
-      } else if (data.status === 'DISABLED') {
-        alert(
-          `[오토플러스 동기화 알림]\n\n` +
-          `• ${data.message}\n\n` +
-          `사내 data.autoplus.co.kr 경로는 비활성화되어 모바일 API(high.autoplus.co.kr) 전용으로 연동됩니다.`
+          `1. 브라우저에서 https://data.autoplus.co.kr 에 접속하여 로그인합니다.\n` +
+          `2. 크롬 확장 프로그램 팝업에서 [📊 오토플러스.Data 쿠키 전송] 버튼을 클릭해 주세요.`
         );
       } else {
-        alert(`[동기화 알림]\n\n• 상태: ${data.status}\n• 메시지: ${data.message || '알 수 없는 오류'}`);
+        alert(`[전사 동기화 알림]\n\n• 상태: ${data.status}\n• 메시지: ${data.message || '알 수 없는 오류'}`);
       }
     } catch (e: any) {
       console.error('동기화 실패:', e);
@@ -241,7 +235,7 @@ export const CompanyInventoryTab: React.FC<CompanyInventoryTabProps> = ({ onAnal
                     <span className={`relative inline-flex rounded-full h-2 w-2 ${dotColor}`}></span>
                   </span>
                   <div className="flex items-center gap-1.5 text-slate-300">
-                    <span className="font-medium text-slate-200">오토플러스 모바일:</span>
+                    <span className="font-medium text-slate-200">전사 재고(Data):</span>
                     {isSuccess ? (
                       <>
                         <span className="text-emerald-400 font-semibold">
@@ -252,23 +246,19 @@ export const CompanyInventoryTab: React.FC<CompanyInventoryTabProps> = ({ onAnal
                             minute: '2-digit'
                           }) : '방금'}
                         </span>
-                        {syncStatus?.inventory_count ? (
+                        {syncStatus?.inventory_count !== undefined ? (
                           <span className="text-slate-400 text-[11px] hidden sm:inline">
-                            ({syncStatus.inventory_count.toLocaleString()}대 연동)
+                            (판매중 {syncStatus.inventory_count.toLocaleString()}대 / 판매완료 {syncStatus.sold_count?.toLocaleString() || 0}대)
                           </span>
                         ) : null}
                       </>
                     ) : isExpired ? (
-                      <span className="text-amber-400 font-semibold" title={syncStatus?.message || 'high.autoplus.co.kr 로그인 필요'}>
-                        세션 만료 (high.autoplus 로그인 필요)
+                      <span className="text-amber-400 font-semibold" title={syncStatus?.message || 'data.autoplus.co.kr 로그인 필요'}>
+                        세션 만료 (Data 로그인 필요)
                       </span>
                     ) : isNoSession ? (
-                      <span className="text-amber-400 font-semibold" title={syncStatus?.message || 'high_cookie.txt 없음'}>
-                        세션 없음 (high_cookie.txt 필요)
-                      </span>
-                    ) : isDisabled ? (
-                      <span className="text-slate-400 font-medium">
-                        data/admin 비활성화 (모바일 전용)
+                      <span className="text-amber-400 font-semibold" title={syncStatus?.message || 'autoplus_data_cookie.txt 없음'}>
+                        세션 없음 (Data 로그인 필요)
                       </span>
                     ) : isFailed ? (
                       <span className="text-rose-400 font-semibold" title={syncStatus?.message}>

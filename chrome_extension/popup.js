@@ -92,6 +92,48 @@ async function getAutoplusCookies() {
   return allMap;
 }
 
+async function getAutoplusDataCookies() {
+  const queryPromises = [
+    chrome.cookies.getAll({ url: 'https://data.autoplus.co.kr' }).catch(() => []),
+    chrome.cookies.getAll({ domain: 'data.autoplus.co.kr' }).catch(() => []),
+    chrome.cookies.getAll({ domain: 'autoplus.co.kr' }).catch(() => []),
+    chrome.cookies.getAll({ domain: '.autoplus.co.kr' }).catch(() => [])
+  ];
+
+  const results = await Promise.all(queryPromises);
+  const allMap = new Map();
+
+  results.flat().forEach(c => {
+    if (c && c.name && c.value) {
+      const d = (c.domain || '').toLowerCase();
+      if (d.includes('admin.') || d.includes('purchase.')) return;
+      if (d.includes('data.autoplus.co.kr') || d === 'autoplus.co.kr' || d === '.autoplus.co.kr') {
+        allMap.set(c.name, c.value);
+      }
+    }
+  });
+
+  try {
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    if (tab && tab.id && tab.url && tab.url.includes('data.autoplus.co.kr')) {
+      const [res] = await chrome.scripting.executeScript({
+        target: { tabId: tab.id },
+        func: () => document.cookie
+      });
+      if (res && res.result) {
+        res.result.split(';').forEach(pair => {
+          const [k, v] = pair.trim().split('=');
+          if (k && v && !allMap.has(k)) {
+            allMap.set(k, v);
+          }
+        });
+      }
+    }
+  } catch (_) {}
+
+  return allMap;
+}
+
 async function broadcastCookieToServers(cookieStr, target) {
   const payload = {
     cookie: cookieStr,
@@ -268,3 +310,68 @@ document.getElementById('copyApBtn').addEventListener('click', async () => {
     statusDiv.className = 'error';
   }
 });
+
+// 5. 오토플러스.Data 쿠키 전송 버튼
+document.getElementById('syncDataBtn').addEventListener('click', async () => {
+  const statusDiv = document.getElementById('status');
+  const btn = document.getElementById('syncDataBtn');
+  btn.disabled = true;
+  statusDiv.textContent = '오토플러스.Data 쿠키 추출 중...';
+  statusDiv.className = '';
+
+  try {
+    const allMap = await getAutoplusDataCookies();
+    if (allMap.size === 0) {
+      statusDiv.innerHTML = '❌ Data 쿠키를 찾지 못했습니다.<br><a href="https://data.autoplus.co.kr" target="_blank" style="color:#f59e0b;">data.autoplus.co.kr 열기</a>';
+      statusDiv.className = 'error';
+      btn.disabled = false;
+      return;
+    }
+
+    const cookieStr = Array.from(allMap.entries()).map(([k, v]) => `${k}=${v}`).join('; ');
+    const upperStr = cookieStr.toUpperCase();
+    const hasSession = upperStr.includes('JSESSIONID') || cookieStr.length >= 30;
+
+    try { await navigator.clipboard.writeText(cookieStr); } catch (_) {}
+
+    if (!hasSession) {
+      statusDiv.innerHTML = `⚠️ <b>주의: Data 로그인 세션 부족</b><br><span style="font-size:11px;color:#fbbf24;">data.autoplus.co.kr에 로그인해 주세요.</span>`;
+      statusDiv.className = 'error';
+      btn.disabled = false;
+      return;
+    }
+
+    statusDiv.textContent = 'J-PRO 전산 프로그램으로 전송 중...';
+    await broadcastCookieToServers(cookieStr, 'autoplus_data');
+
+    statusDiv.textContent = `✅ 오토플러스.Data 세션 (${cookieStr.length}자) 연동 완료! 전사 동기화 시작됨`;
+    statusDiv.className = 'success';
+  } catch (e) {
+    statusDiv.textContent = '❌ 오류: ' + e.message;
+    statusDiv.className = 'error';
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+// 6. 오토플러스.Data 쿠키 복사 버튼
+document.getElementById('copyDataBtn').addEventListener('click', async () => {
+  const statusDiv = document.getElementById('status');
+  try {
+    const allMap = await getAutoplusDataCookies();
+    if (allMap.size === 0) {
+      statusDiv.textContent = '❌ Data 쿠키를 찾지 못했습니다.';
+      statusDiv.className = 'error';
+      return;
+    }
+    const cookieStr = Array.from(allMap.entries()).map(([k, v]) => `${k}=${v}`).join('; ');
+    await navigator.clipboard.writeText(cookieStr);
+    broadcastCookieToServers(cookieStr, 'autoplus_data').catch(() => {});
+    statusDiv.textContent = `📋 Data 쿠키 (${cookieStr.length}자) 복사 완료!`;
+    statusDiv.className = 'success';
+  } catch (e) {
+    statusDiv.textContent = '❌ 복사 실패: ' + e.message;
+    statusDiv.className = 'error';
+  }
+});
+

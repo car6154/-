@@ -7,6 +7,8 @@ let lastChaeolmaCookie = "";
 let lastChaeolmaSyncTime = 0;
 let lastHighCookie = "";
 let lastHighSyncTime = 0;
+let lastDataCookie = "";
+let lastDataSyncTime = 0;
 
 let hdTimer = null;
 let apTimer = null;
@@ -60,12 +62,13 @@ function requestHdSync(force = false, delayMs = 150) {
   }, delayMs);
 }
 
-// ── 오토플러스 쿠키 지연/후행 동기화 (차얼마, 하이오플 모바일만 동기화) ──
+// ── 오토플러스 쿠키 지연/후행 동기화 (차얼마, 하이오플 모바일, Data 동기화) ──
 function requestApSync(force = false, delayMs = 150) {
   if (apTimer) clearTimeout(apTimer);
   apTimer = setTimeout(() => {
     syncChaolmaCookies(force);
     syncHighCookies(force);
+    syncDataCookies(force);
   }, delayMs);
 }
 
@@ -190,6 +193,45 @@ async function syncHighCookies(force = false) {
       lastHighCookie = cookieStr;
       lastHighSyncTime = now;
       console.log('[J-PRO AutoSync] 하이오플(모바일) 쿠키 동기화 완료');
+    }
+    return ok;
+  } catch (e) {
+    return false;
+  }
+}
+
+// ── 오토플러스.Data(전사 재고/판매완료) 쿠키 동기화 (data.autoplus.co.kr -> autoplus_data_cookie.txt) ──
+async function syncDataCookies(force = false) {
+  try {
+    const [byUrl, byDomain] = await Promise.all([
+      chrome.cookies.getAll({ url: 'https://data.autoplus.co.kr' }).catch(() => []),
+      chrome.cookies.getAll({ domain: 'data.autoplus.co.kr' }).catch(() => [])
+    ]);
+    const dataCookies = [...byUrl, ...byDomain];
+    if (!dataCookies || dataCookies.length === 0) return false;
+
+    const cookieMap = new Map();
+    dataCookies.forEach(c => {
+      if (c && c.name && c.value) cookieMap.set(c.name, c.value);
+    });
+    const cookieStr = Array.from(cookieMap.entries()).map(([k, v]) => `${k}=${v}`).join('; ');
+    if (!cookieStr) return false;
+
+    const upperStr = cookieStr.toUpperCase();
+    if (!upperStr.includes('JSESSIONID') && cookieStr.length < 30) {
+      return false;
+    }
+
+    const now = Date.now();
+    if (!force && cookieStr === lastDataCookie && (now - lastDataSyncTime < 15000)) {
+      return true;
+    }
+
+    const ok = await broadcastToServer(cookieStr, 'autoplus_data');
+    if (ok) {
+      lastDataCookie = cookieStr;
+      lastDataSyncTime = now;
+      console.log('[J-PRO AutoSync] 오토플러스.Data 쿠키 동기화 완료 (autoplus_data_cookie.txt)');
     }
     return ok;
   } catch (e) {

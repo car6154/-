@@ -1,8 +1,8 @@
 {
-  "status": "EXPIRED",
-  "last_sync_time": "2026-10-26T18:37:37.691564",
+  "status": "COOKIE_EXPIRED",
+  "last_sync_time": "2026-10-26T19:12:02.027825",
   "inventory_count": 0,
   "sold_count": 0,
   "settlement_updated_count": 0,
-  "message": "high.autoplus.co.kr 모바일 세션 만료(HTTP 403): 모바일 사이트 재로그인이 필요합니다."
+  "message": "오토플러스.Data 세션 쿠키가 없습니다. 브라우저에서 data.autoplus.co.kr에 로그인해 주세요."
 }

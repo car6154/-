@@ -9,6 +9,7 @@ from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 COOKIE_FILE = os.path.join(BASE_DIR, "encar_cookie.txt")
 AUTOPLUS_COOKIE_FILE = os.path.join(BASE_DIR, "autoplus_cookie.txt")
+AUTOPLUS_DATA_COOKIE_FILE = os.path.join(BASE_DIR, "autoplus_data_cookie.txt")
 HIGH_COOKIE_FILE = os.path.join(BASE_DIR, "high_cookie.txt")
 
 COOKIE_SERVER_SECRET = os.getenv("COOKIE_SERVER_TOKEN", "jpro_sec_9981_live_auth")
@@ -73,6 +74,7 @@ class CookieReceiverHandler(BaseHTTPRequestHandler):
         if self.path.startswith('/api/session/cookie') or self.path.startswith('/api/cookie') or self.path.startswith('/api/get_cookie'):
             hd = get_current_hd_cookie()
             ap = get_current_autoplus_cookie()
+            ap_data = get_current_autoplus_data_cookie()
             high = get_current_high_cookie()
             encar = get_current_encar_cookie()
             res_data = {
@@ -81,6 +83,8 @@ class CookieReceiverHandler(BaseHTTPRequestHandler):
                 "heydealerCookie": hd or "",
                 "hasAutoplusCookie": bool(ap),
                 "autoplusCookie": ap or "",
+                "hasAutoplusDataCookie": bool(ap_data),
+                "autoplusDataCookie": ap_data or "",
                 "hasHighCookie": bool(high),
                 "highCookie": high or "",
                 "hasEncarCookie": bool(encar),
@@ -141,6 +145,9 @@ class CookieReceiverHandler(BaseHTTPRequestHandler):
                     if target == 'encar':
                         var_name = 'ENCAR_COOKIE'
                         curr_cookie = get_current_encar_cookie()
+                    elif target in ('autoplus_data', 'data', 'ap_data'):
+                        var_name = 'AUTOPLUS_DATA_COOKIE'
+                        curr_cookie = get_current_autoplus_data_cookie()
                     elif target in ('high', 'autoplus_high', 'high_cookie') or 'high' in target:
                         var_name = 'HIGH_COOKIE'
                         curr_cookie = get_current_high_cookie()
@@ -195,6 +202,9 @@ class CookieReceiverHandler(BaseHTTPRequestHandler):
                     if target == 'encar':
                         save_cookie(raw_cookie)
                         os.environ['ENCAR_COOKIE'] = raw_cookie
+                    elif target in ('autoplus_data', 'data', 'ap_data'):
+                        save_autoplus_data_cookie(raw_cookie)
+                        os.environ['AUTOPLUS_DATA_COOKIE'] = raw_cookie
                     elif target in ('high', 'autoplus_high', 'high_cookie') or 'high' in target:
                         save_high_cookie(raw_cookie)
                         os.environ['HIGH_COOKIE'] = raw_cookie
@@ -385,6 +395,45 @@ def get_current_high_cookie():
     except Exception:
         pass
     return os.getenv("HIGH_COOKIE", "")
+
+
+def load_autoplus_data_cookie():
+    if os.path.exists(AUTOPLUS_DATA_COOKIE_FILE):
+        try:
+            with open(AUTOPLUS_DATA_COOKIE_FILE, "r", encoding="utf-8") as f:
+                return f.read().strip()
+        except:
+            pass
+    return ""
+
+
+def save_autoplus_data_cookie(cookie_str):
+    try:
+        with open(AUTOPLUS_DATA_COOKIE_FILE, "w", encoding="utf-8") as f:
+            f.write(cookie_str)
+        os.environ['AUTOPLUS_DATA_COOKIE'] = cookie_str
+    except:
+        pass
+
+
+def get_current_autoplus_data_cookie():
+    c = load_autoplus_data_cookie()
+    if c:
+        return c
+    try:
+        env_f = os.path.join(BASE_DIR, '.env')
+        if os.path.exists(env_f):
+            with open(env_f, 'r', encoding='utf-8-sig') as f:
+                for line in f:
+                    line = line.strip()
+                    if line.startswith('AUTOPLUS_DATA_COOKIE='):
+                        val = line.split('=', 1)[1].strip()
+                        if val.startswith('"') and val.endswith('"'): val = val[1:-1]
+                        elif val.startswith("'") and val.endswith("'"): val = val[1:-1]
+                        return val
+    except Exception:
+        pass
+    return os.getenv("AUTOPLUS_DATA_COOKIE", "")
 
 
 
