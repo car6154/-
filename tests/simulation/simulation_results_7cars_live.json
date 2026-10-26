@@ -1,10 +1,5 @@
 {
-  "blocked_info": {
-    "blocked_index": 2,
-    "blocked_car_id": "CAR_02_CASPER_2025",
-    "blocked_model": "현대 캐스퍼 일렉트릭 인스퍼레이션",
-    "msg": "❌ 매물 없음 (search=407, fb=[407, 407, 407])"
-  },
+  "blocked_info": null,
   "results": [
     {
       "masked_id": "CAR_01_SPARK_2021",
@@ -60,19 +55,66 @@
       "accident": "단순교환",
       "category": "재고(광고중)",
       "target_price": 2770,
-      "encar_count": 0,
-      "encar_filtered_count": 0,
-      "kcar_count": 0,
-      "status": "BLOCKED_BY_407",
+      "encar_count": 109,
+      "encar_wide_count": 98,
+      "encar_strict_count": 32,
+      "kcar_count": 16,
+      "kcar_wide_count": 16,
+      "kcar_strict_count": 16,
+      "status": "COMPLETED",
       "encar_models": {
-        "EN_01_React_100점_산출가": null,
-        "EN_02_엔카_100점_기준가": null,
-        "EN_03_엔카_100점_기준가_x0.97": null,
-        "EN_04_엔카_카드_평균가": null,
-        "EN_05_엔카_카드_중앙값": null,
-        "EN_06_엔카_카드_평균가_x0.95": null,
-        "EN_07_Streamlit_AI_회귀소매가": null,
-        "EN_08_Streamlit_무사고_평균가": null
+        "EN_01_React_100점_산출가": 2684,
+        "EN_02_엔카_100점_기준가": 2768,
+        "EN_03_엔카_100점_기준가_x0.97": 2685,
+        "EN_04_엔카_카드_평균가": 2780,
+        "EN_05_엔카_카드_중앙값": 2790,
+        "EN_06_엔카_카드_평균가_x0.95": 2641,
+        "EN_07_Streamlit_AI_회귀소매가": 2796,
+        "EN_08_Streamlit_무사고_평균가": 2816
+      },
+      "kcar_models": {
+        "KC_01_케이카_단순평균가": 2698,
+        "KC_02_케이카_마일리지보정가": 2694,
+        "KC_03_케이카_보정가_x0.97": 2613,
+        "KC_04_케이카_단순평균가_x0.95": 2563
+      },
+      "ens_models": {
+        "ENS_01_React100_케이카보정_평균": 2689,
+        "ENS_02_엔카기준가_케이카보정_평균": 2731,
+        "ENS_03_엔카평균_케이카평균_평균": 2739
+      },
+      "cost_models": {
+        "COST_01_총원가_115만마진": 2675,
+        "COST_02_총원가_130만마진": 2690,
+        "COST_03_총원가_8퍼마진": 2783
+      }
+    },
+    {
+      "masked_id": "CAR_03_AVANTE_2017",
+      "maker": "현대",
+      "model": "아반떼 AD",
+      "detail": "1.6 GDI 스마트",
+      "year": 2017,
+      "mileage": 98000,
+      "accident": "단순교환",
+      "category": "재고(광고중)",
+      "target_price": 850,
+      "encar_count": 101,
+      "encar_wide_count": 85,
+      "encar_strict_count": 27,
+      "kcar_count": 0,
+      "kcar_wide_count": 1,
+      "kcar_strict_count": 0,
+      "status": "COMPLETED",
+      "encar_models": {
+        "EN_01_React_100점_산출가": 860,
+        "EN_02_엔카_100점_기준가": 813,
+        "EN_03_엔카_100점_기준가_x0.97": 789,
+        "EN_04_엔카_카드_평균가": 864,
+        "EN_05_엔카_카드_중앙값": 850,
+        "EN_06_엔카_카드_평균가_x0.95": 821,
+        "EN_07_Streamlit_AI_회귀소매가": 956,
+        "EN_08_Streamlit_무사고_평균가": 941
       },
       "kcar_models": {
         "KC_01_케이카_단순평균가": null,
@@ -85,7 +127,187 @@
         "ENS_02_엔카기준가_케이카보정_평균": null,
         "ENS_03_엔카평균_케이카평균_평균": null
       },
-      "cost_models": {}
+      "cost_models": {
+        "COST_01_총원가_115만마진": 844,
+        "COST_02_총원가_130만마진": 858,
+        "COST_03_총원가_8퍼마진": 792
+      }
+    },
+    {
+      "masked_id": "CAR_04_CARNIVAL4_2021",
+      "maker": "기아",
+      "model": "카니발 4세대",
+      "detail": "디젤 7인승 노블레스",
+      "year": 2021,
+      "mileage": 90479,
+      "accident": "무사고",
+      "category": "재고(광고중)",
+      "target_price": 2310,
+      "encar_count": 26,
+      "encar_wide_count": 24,
+      "encar_strict_count": 10,
+      "kcar_count": 1,
+      "kcar_wide_count": 1,
+      "kcar_strict_count": 1,
+      "status": "COMPLETED",
+      "encar_models": {
+        "EN_01_React_100점_산출가": 2309,
+        "EN_02_엔카_100점_기준가": 2272,
+        "EN_03_엔카_100점_기준가_x0.97": 2204,
+        "EN_04_엔카_카드_평균가": 2497,
+        "EN_05_엔카_카드_중앙값": 2594,
+        "EN_06_엔카_카드_평균가_x0.95": 2372,
+        "EN_07_Streamlit_AI_회귀소매가": 2479,
+        "EN_08_Streamlit_무사고_평균가": 2482
+      },
+      "kcar_models": {
+        "KC_01_케이카_단순평균가": 2300,
+        "KC_02_케이카_마일리지보정가": 2346,
+        "KC_03_케이카_보정가_x0.97": 2276,
+        "KC_04_케이카_단순평균가_x0.95": 2185
+      },
+      "ens_models": {
+        "ENS_01_React100_케이카보정_평균": 2328,
+        "ENS_02_엔카기준가_케이카보정_평균": 2309,
+        "ENS_03_엔카평균_케이카평균_평균": 2398
+      },
+      "cost_models": {
+        "COST_01_총원가_115만마진": 2258,
+        "COST_02_총원가_130만마진": 2273,
+        "COST_03_총원가_8퍼마진": 2329
+      }
+    },
+    {
+      "masked_id": "CAR_05_TUCSON_2021",
+      "maker": "현대",
+      "model": "투싼 (NX4)",
+      "detail": "가솔린 1.6 터보 2WD 인스퍼레이션",
+      "year": 2021,
+      "mileage": 38000,
+      "accident": "무사고",
+      "category": "재고(광고중)",
+      "target_price": 2480,
+      "encar_count": 30,
+      "encar_wide_count": 29,
+      "encar_strict_count": 12,
+      "kcar_count": 2,
+      "kcar_wide_count": 2,
+      "kcar_strict_count": 2,
+      "status": "COMPLETED",
+      "encar_models": {
+        "EN_01_React_100점_산출가": 2380,
+        "EN_02_엔카_100점_기준가": 2194,
+        "EN_03_엔카_100점_기준가_x0.97": 2128,
+        "EN_04_엔카_카드_평균가": 2389,
+        "EN_05_엔카_카드_중앙값": 2430,
+        "EN_06_엔카_카드_평균가_x0.95": 2270,
+        "EN_07_Streamlit_AI_회귀소매가": 2505,
+        "EN_08_Streamlit_무사고_평균가": 2386
+      },
+      "kcar_models": {
+        "KC_01_케이카_단순평균가": 2365,
+        "KC_02_케이카_마일리지보정가": 2371,
+        "KC_03_케이카_보정가_x0.97": 2300,
+        "KC_04_케이카_단순평균가_x0.95": 2247
+      },
+      "ens_models": {
+        "ENS_01_React100_케이카보정_평균": 2376,
+        "ENS_02_엔카기준가_케이카보정_평균": 2282,
+        "ENS_03_엔카평균_케이카평균_평균": 2377
+      },
+      "cost_models": {
+        "COST_01_총원가_115만마진": 2355,
+        "COST_02_총원가_130만마진": 2370,
+        "COST_03_총원가_8퍼마진": 2435
+      }
+    },
+    {
+      "masked_id": "CAR_06_CARNIVAL_2018",
+      "maker": "기아",
+      "model": "올 뉴 카니발",
+      "detail": "9인승 프레스티지",
+      "year": 2018,
+      "mileage": 140000,
+      "accident": "단순교환",
+      "category": "재고(광고중)",
+      "target_price": 980,
+      "encar_count": 67,
+      "encar_wide_count": 65,
+      "encar_strict_count": 23,
+      "kcar_count": 2,
+      "kcar_wide_count": 2,
+      "kcar_strict_count": 2,
+      "status": "COMPLETED",
+      "encar_models": {
+        "EN_01_React_100점_산출가": 1049,
+        "EN_02_엔카_100점_기준가": 1091,
+        "EN_03_엔카_100점_기준가_x0.97": 1058,
+        "EN_04_엔카_카드_평균가": 1026,
+        "EN_05_엔카_카드_중앙값": 1000,
+        "EN_06_엔카_카드_평균가_x0.95": 975,
+        "EN_07_Streamlit_AI_회귀소매가": 1094,
+        "EN_08_Streamlit_무사고_평균가": 1068
+      },
+      "kcar_models": {
+        "KC_01_케이카_단순평균가": 1130,
+        "KC_02_케이카_마일리지보정가": 1134,
+        "KC_03_케이카_보정가_x0.97": 1100,
+        "KC_04_케이카_단순평균가_x0.95": 1074
+      },
+      "ens_models": {
+        "ENS_01_React100_케이카보정_평균": 1092,
+        "ENS_02_엔카기준가_케이카보정_평균": 1112,
+        "ENS_03_엔카평균_케이카평균_평균": 1078
+      },
+      "cost_models": {
+        "COST_01_총원가_115만마진": 891,
+        "COST_02_총원가_130만마진": 906,
+        "COST_03_총원가_8퍼마진": 843
+      }
+    },
+    {
+      "masked_id": "CAR_07_RAY_2021_SOLD",
+      "maker": "기아",
+      "model": "더 뉴 레이",
+      "detail": "시그니처",
+      "year": 2021,
+      "mileage": 79000,
+      "accident": "무사고",
+      "category": "팔린차(실판매가)",
+      "target_price": 1190,
+      "encar_count": 74,
+      "encar_wide_count": 72,
+      "encar_strict_count": 44,
+      "kcar_count": 3,
+      "kcar_wide_count": 3,
+      "kcar_strict_count": 3,
+      "status": "COMPLETED",
+      "encar_models": {
+        "EN_01_React_100점_산출가": 1154,
+        "EN_02_엔카_100점_기준가": 1102,
+        "EN_03_엔카_100점_기준가_x0.97": 1069,
+        "EN_04_엔카_카드_평균가": 1162,
+        "EN_05_엔카_카드_중앙값": 1150,
+        "EN_06_엔카_카드_평균가_x0.95": 1104,
+        "EN_07_Streamlit_AI_회귀소매가": 1201,
+        "EN_08_Streamlit_무사고_평균가": 1179
+      },
+      "kcar_models": {
+        "KC_01_케이카_단순평균가": 1233,
+        "KC_02_케이카_마일리지보정가": 1213,
+        "KC_03_케이카_보정가_x0.97": 1177,
+        "KC_04_케이카_단순평균가_x0.95": 1171
+      },
+      "ens_models": {
+        "ENS_01_React100_케이카보정_평균": 1184,
+        "ENS_02_엔카기준가_케이카보정_평균": 1158,
+        "ENS_03_엔카평균_케이카평균_평균": 1198
+      },
+      "cost_models": {
+        "COST_01_총원가_115만마진": 1151,
+        "COST_02_총원가_130만마진": 1166,
+        "COST_03_총원가_8퍼마진": 1126
+      }
     }
   ]
 }

@@ -51,7 +51,7 @@ class Scraper:
         rep = None
 
         v_resp = Scraper._fetch_json(session, f"https://api.encar.com/v1/readside/vehicle/{c_id}?include=MANAGE,OPTIONS,SPEC", c_id)
-        if v_resp["status"] in [403, 429]: return {"성능일": "⚠️조회실패", "재고": "-", "사고유무": "⚠️조회실패", "외장컬러": "⚠️조회실패", "추가옵션": "⚠️조회실패", "is_rate_limited": True}
+        if v_resp["status"] in [403, 407, 429]: return {"성능일": "⚠️조회실패", "재고": "-", "사고유무": "⚠️조회실패", "외장컬러": "⚠️조회실패", "추가옵션": "⚠️조회실패", "is_rate_limited": True, "status": v_resp["status"]}
         
         real_id = str(c_id)
         applied_codes = []
@@ -72,7 +72,7 @@ class Scraper:
         if i_resp["status"] == 404 and real_id != str(c_id):
             i_resp = Scraper._fetch_json(session, f"https://api.encar.com/v1/readside/inspection/vehicle/{real_id}", c_id)
         
-        if i_resp["status"] in [403, 429]: return {"성능일": "⚠️조회실패", "재고": "-", "사고유무": "⚠️조회실패", "추가옵션": "⚠️조회실패", "is_rate_limited": True}
+        if i_resp["status"] in [403, 407, 429]: return {"성능일": "⚠️조회실패", "재고": "-", "사고유무": "⚠️조회실패", "추가옵션": "⚠️조회실패", "is_rate_limited": True, "status": i_resp["status"]}
         
         if i_resp["status"] == 200 and i_resp["json"]:
             master = i_resp["json"].get("master") or {}
@@ -333,7 +333,7 @@ class Scraper:
             return {"success": False, "error": f"역추적 중 오류 발생: {str(e)}"}
 
     @staticmethod
-    def run(target_url, custom_cookie, progress_bar=None, status_text=None):
+    def run(target_url, custom_cookie, progress_bar=None, status_text=None, pacing: bool = False, detail_interval: float = 2.0):
         try:
             if status_text: status_text.text("1/3: 실시간 통신 준비...")
             if progress_bar: progress_bar.progress(10)
@@ -381,6 +381,8 @@ class Scraper:
             try:
                 cars_res = session.get(api_url, timeout=7)
                 search_status = cars_res.status_code
+                if search_status == 407:
+                    return pd.DataFrame(), "❌ 407 프록시 인증 차단 (search=407)"
                 if cars_res.status_code == 200:
                     cars = cars_res.json().get("SearchResults", [])
                     # 💡 [다중 페이지 자동 수집] 1페이지(100대)가 꽉 찼을 경우 추가 페이지(2~3페이지) 연속 수집하여 누락 방지
@@ -389,6 +391,8 @@ class Scraper:
                             try:
                                 p_url = f"https://api.encar.com/search/car/list/general?count=false&q={safe_condition}&sr=%7CModifiedDate%7C{p_start}%7C100"
                                 p_res = session.get(p_url, timeout=5)
+                                if p_res.status_code == 407:
+                                    return pd.DataFrame(), "❌ 407 프록시 인증 차단 (search_page=407)"
                                 if p_res.status_code == 200:
                                     p_cars = p_res.json().get("SearchResults", [])
                                     if p_cars:
@@ -474,6 +478,9 @@ class Scraper:
                         fb_url = f"https://api.encar.com/search/car/list/general?count=false&q={fb_safe}&sr=%7CModifiedDate%7C0%7C100"
                         fb_resp = session.get(fb_url, timeout=7)
                         fallback_statuses.append(fb_resp.status_code)
+                        # 지시: 검색 내부 폴백 호출도 407 발생 즉시 중단
+                        if fb_resp.status_code == 407:
+                            return pd.DataFrame(), "❌ 407 프록시 인증 차단 (fallback=407)"
                         if fb_resp.status_code == 200:
                             fb_cars = fb_resp.json().get("SearchResults", [])
                             if fb_cars:
@@ -483,6 +490,8 @@ class Scraper:
                                         try:
                                             next_p_url = f"https://api.encar.com/search/car/list/general?count=false&q={fb_safe}&sr=%7CModifiedDate%7C{p_start}%7C100"
                                             next_p_res = session.get(next_p_url, timeout=5)
+                                            if next_p_res.status_code == 407:
+                                                return pd.DataFrame(), "❌ 407 프록시 인증 차단 (fallback_page=407)"
                                             if next_p_res.status_code == 200:
                                                 next_p_cars = next_p_res.json().get("SearchResults", [])
                                                 if next_p_cars:
@@ -537,31 +546,58 @@ class Scraper:
             
             total_cars = len(car_data_list)
             
-            # 💡 [어제 벤치마크 검증 완료 Worker 5 멀티스레드 병렬화 적용]
-            # 30~50대 상세 스펙(성능/사고/옵션) 수집 속도: 3.1초 -> 1.2초대로 2.5배 쾌속 단축 (429 차단 0건 안정성 보장)
-            with ThreadPoolExecutor(max_workers=5) as executor:
-                future_to_car = {
-                    executor.submit(Scraper.fetch_car_detail, session, car["_carid"]): car 
-                    for car in car_data_list
-                }
+            if pacing:
+                # 💡 [시뮬레이션 전용: 순차 1건씩 + 1건당 detail_interval초 간격 + 407 즉시 중단]
                 completed = 0
-                for future in as_completed(future_to_car):
+                for idx, car in enumerate(car_data_list):
                     completed += 1
-                    car = future_to_car[future]
                     try:
-                        res = future.result()
+                        res = Scraper.fetch_car_detail(session, car["_carid"])
+                        if res.get("status") == 407 or (res.get("is_rate_limited") and res.get("status") == 407):
+                            return pd.DataFrame(car_data_list[:completed]), "❌ 407 프록시 인증 차단 (detail=407)"
                         car["성능일"] = res.get("성능일", "-")
                         car["재고"] = res.get("재고", "-")
                         car["사고유무"] = res.get("사고유무", "-")
                         car["외장컬러"] = res.get("외장컬러", "-")
                         car["추가옵션"] = res.get("추가옵션", "-")
-                    except Exception:
+                    except Exception as e:
+                        if "407" in str(e):
+                            return pd.DataFrame(car_data_list[:completed]), "❌ 407 프록시 인증 차단 (detail_exc=407)"
                         pass
                     
                     if status_text: 
-                        status_text.text(f"2/3: 쾌속 정밀 스캔 중... ({completed}/{total_cars}대)")
+                        status_text.text(f"2/3: Pacing 정밀 스캔 중... ({completed}/{total_cars}대)")
                     if progress_bar: 
                         progress_bar.progress(10 + int(80 * completed / total_cars))
+
+                    # 마지막 대수가 아니면 지정 간격(2초) 유지
+                    if idx < len(car_data_list) - 1:
+                        time.sleep(detail_interval)
+            else:
+                # 💡 [기본 콕핏 모드: Worker 5 멀티스레드 병렬화 기존 동작 그대로 보존]
+                with ThreadPoolExecutor(max_workers=5) as executor:
+                    future_to_car = {
+                        executor.submit(Scraper.fetch_car_detail, session, car["_carid"]): car 
+                        for car in car_data_list
+                    }
+                    completed = 0
+                    for future in as_completed(future_to_car):
+                        completed += 1
+                        car = future_to_car[future]
+                        try:
+                            res = future.result()
+                            car["성능일"] = res.get("성능일", "-")
+                            car["재고"] = res.get("재고", "-")
+                            car["사고유무"] = res.get("사고유무", "-")
+                            car["외장컬러"] = res.get("외장컬러", "-")
+                            car["추가옵션"] = res.get("추가옵션", "-")
+                        except Exception:
+                            pass
+                        
+                        if status_text: 
+                            status_text.text(f"2/3: 쾌속 정밀 스캔 중... ({completed}/{total_cars}대)")
+                        if progress_bar: 
+                            progress_bar.progress(10 + int(80 * completed / total_cars))
 
             if status_text: status_text.text("3/3: 스캔 완료. 스마트 데이터 취합 중...")
             raw_df = pd.DataFrame(car_data_list)
