@@ -941,7 +941,8 @@ class MasterMappingService:
         sub_model: str = "", 
         year: any = "", 
         mileage: any = 0, 
-        car_number: str = ""
+        car_number: str = "",
+        mileage_range: int = 30000
     ) -> str:
         """
         스마트 엔카 URL 생성:
@@ -1056,13 +1057,13 @@ class MasterMappingService:
             if parsed_year and parsed_year >= 2000:
                 action += f"_.Year.range({parsed_year - 1}01..{parsed_year + 1}12)."
 
-            # 주행거리 밴드 (±30,000km, 정밀 동급 매물 산출)
+            # 주행거리 밴드 (기본 ±30,000km, 7대 미만 시 ±50,000km 확장)
             try:
                 mil_val = int(re.sub(r'[^\d]', '', str(mileage)))
                 if mil_val > 0:
                     base_mil = int(round(mil_val, -4))
-                    min_mil = max(0, base_mil - 30000)
-                    max_mil = base_mil + 30000
+                    min_mil = max(0, base_mil - mileage_range)
+                    max_mil = base_mil + mileage_range
                     action += f"_.Mileage.range({min_mil}..{max_mil})."
             except Exception:
                 pass

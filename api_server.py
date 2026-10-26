@@ -876,6 +876,29 @@ def search_encar_market(req: EncarSearchRequest):
         else:
             df = DataProcessor.filter_strictly_by_submodel(df, target_car_name=car_name, target_sub_model=detail_model)
 
+        # 💡 [제이 7번 규칙] 엄격(동일 연식·등급) 비교대상이 7대 미만이면 주행 범위를 ±5만km로 확장 재수집
+        if len(df) < 7 and mileage_num and mileage_num > 0:
+            print(f"   => [표본 부족] 엄격 매물 {len(df)}대 < 7대: 주행거리 범위를 ±50,000km로 확장 재수집", flush=True)
+            wider_url = MasterMappingService.generate_smart_encar_url(
+                car_name=car_name,
+                sub_model=detail_model,
+                year=year_num,
+                mileage=mileage_num,
+                car_number=car_no,
+                mileage_range=50000
+            )
+            if wider_url and wider_url != encar_url:
+                df_wider, msg_wider = Scraper.run(wider_url, "", fetch_details=not skip_detail)
+                if not df_wider.empty:
+                    df_wider = DataProcessor.standardize(df_wider)
+                    df_wider = Scraper.dedupe_after_scan(df_wider)
+                    if not should_skip_filter:
+                        df_wider = DataProcessor.filter_strictly_by_submodel(df_wider, target_car_name=car_name, target_sub_model=detail_model)
+                    if len(df_wider) >= len(df):
+                        df = df_wider
+                        encar_url = wider_url
+                        print(f"   => [확장 수집 성공] 최종 반환 매물: {len(df)}대 (±5만km)", flush=True)
+
         print(f"   => [필터링 결과] 최종 반환 매물: {len(df)}대 (target_sub_model='{detail_model}')\n", flush=True)
         try:
             with open("data/encar_debug.log", "a", encoding="utf-8") as f_dbg:

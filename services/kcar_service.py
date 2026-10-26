@@ -3451,7 +3451,7 @@ def encrypt_kcar_payload(data: dict) -> str:
     return base64.b64encode(ct).decode('utf-8')
 
 
-def build_kcar_web_url(car_name: str, year: int = 0, detail_model: str = "", mileage: int = 0, manufacturer: str = "") -> str:
+def build_kcar_web_url(car_name: str, year: int = 0, detail_model: str = "", mileage: int = 0, manufacturer: str = "", mileage_range: int = 30000) -> str:
     """K-Car 공식 웹사이트 직영차 검색 바로가기 URL 동적 생성"""
     codes = resolve_kcar_model_codes(car_name, brand_hint=manufacturer, sub_model=detail_model)
     cond: Dict[str, Any] = {}
@@ -3475,8 +3475,8 @@ def build_kcar_web_url(car_name: str, year: int = 0, detail_model: str = "", mil
 
     if mileage and mileage > 0:
         rounded = round(mileage / 10000) * 10000
-        cond["wr_gt_milg"] = max(0, rounded - 30000)
-        cond["wr_lt_milg"] = rounded + 30000
+        cond["wr_gt_milg"] = max(0, rounded - mileage_range)
+        cond["wr_lt_milg"] = rounded + mileage_range
 
     if cond:
         return f"https://www.kcar.com/bc/search?searchCond={urllib.parse.quote(json.dumps(cond))}"
@@ -3627,43 +3627,6 @@ def fetch_kcar_market_stats(
     is_q_gas = any(k in sub_clean for k in ['가솔린', 'gasoline', 'gdi', 'cvvl'])
     is_q_lpg = any(k in sub_clean for k in ['lpi', 'lpg'])
 
-    filtered_rows = []
-    for r in rows:
-        car_whl_nm = str(r.get('carWhlNm') or r.get('modelNm') or '')
-        grd_nm = str(r.get('grdNm') or '')
-        grd_dtl_nm = str(r.get('grdDtlNm') or '')
-        row_full = f"{car_whl_nm} {grd_nm} {grd_dtl_nm}".lower().replace(" ", "")
-
-        # 1. 등급 코드가 풀린 경우 코드 동등 비교, 안 풀린 경우 트림 키워드 엄격 일치
-        if grd_cd:
-            if str(r.get('grdCd') or '') != grd_cd:
-                continue
-            if grd_dtl_cd and str(r.get('grdDtlCd') or '') != grd_dtl_cd:
-                continue
-        else:
-            if trim_kw and trim_kw.lower() not in row_full:
-                continue
-
-        # 2. 배기량 엄격 일치 (요청에 2.0 등 배기량이 명시된 경우)
-        if disp_val and disp_val not in row_full:
-            continue
-
-        # 3. 터보 엄격 일치 (요청에 배기량이 명시되어 있고 '터보'가 없으면 터보 배제)
-        if not is_q_turbo and disp_val and ('터보' in row_full or 'turbo' in row_full):
-            if '터보' not in car_name:
-                continue
-        elif is_q_turbo and ('터보' not in row_full and 'turbo' not in row_full):
-            continue
-
-        # 4. 유종 상호 배제
-        if is_q_diesel and not any(k in row_full for k in ['디젤', 'crdi', 'vgt']):
-            continue
-        if is_q_lpg and not any(k in row_full for k in ['lpi', 'lpg']):
-            continue
-
-        filtered_rows.append(r)
-
-    # d-2) [계산 직전 엄격 필터] 목표 차량과 동일 연식 AND 동일 등급인 매물만 격리
     from services.data_processor import DataProcessor
     target_yr_2d = f"{year % 100:02d}" if year and year > 0 else ""
     ref_grade = DataProcessor.extract_grade_keyword(detail_model)
@@ -3682,40 +3645,103 @@ def fetch_kcar_market_stats(
         "시그니처": ["노블레스", "프레스티지", "트렌디", "스탠다드", "베스트셀렉션"]
     }
 
-    strict_rows = []
-    for r in filtered_rows:
-        # 1. 동일 연식 검사
-        if target_yr_2d:
-            yr_str = str(r.get('prdcnYr') or '')
-            yr_match = re.search(r'(\d{2,4})', yr_str)
-            if not yr_match:
-                continue
-            r_yr = int(yr_match.group(1))
-            if f"{r_yr % 100:02d}" != target_yr_2d:
-                continue
+    def _filter_and_strict(cand_rows):
+        f_rows = []
+        for r in cand_rows:
+            car_whl_nm = str(r.get('carWhlNm') or r.get('modelNm') or '')
+            grd_nm = str(r.get('grdNm') or '')
+            grd_dtl_nm = str(r.get('grdDtlNm') or '')
+            row_full = f"{car_whl_nm} {grd_nm} {grd_dtl_nm}".lower().replace(" ", "")
 
-        # 2. 동일 등급 검사
-        if ref_grade:
-            row_grade_text = f"{r.get('carWhlNm', '')} {r.get('modelNm', '')} {r.get('grdNm', '')} {r.get('grdDtlNm', '')}".strip().lower()
-            if not row_grade_text:
-                continue
-            if len(ref_grade) <= 2:
-                p = rf'(?:\b|[^a-zA-Z0-9]){re.escape(ref_grade.lower())}(?:\b|[^a-zA-Z0-9]|$)'
-                if not re.search(p, row_grade_text):
+            # 1. 등급 코드가 풀린 경우 코드 동등 비교, 안 풀린 경우 트림 키워드 엄격 일치
+            if grd_cd:
+                if str(r.get('grdCd') or '') != grd_cd:
+                    continue
+                if grd_dtl_cd and str(r.get('grdDtlCd') or '') != grd_dtl_cd:
                     continue
             else:
-                if ref_g_clean not in row_grade_text.replace(" ", ""):
+                if trim_kw and trim_kw.lower() not in row_full:
                     continue
 
-            comp_list = COMPETING_GRADES.get(ref_g_clean, [])
-            if any(comp in row_grade_text.replace(" ", "") for comp in comp_list):
+            # 2. 배기량 엄격 일치
+            if disp_val and disp_val not in row_full:
                 continue
 
-            m_seat = re.search(r'(\d+인승)', str(detail_model))
-            if m_seat and m_seat.group(1) not in row_grade_text:
+            # 3. 터보 엄격 일치
+            if not is_q_turbo and disp_val and ('터보' in row_full or 'turbo' in row_full):
+                if '터보' not in car_name:
+                    continue
+            elif is_q_turbo and ('터보' not in row_full and 'turbo' not in row_full):
                 continue
 
-        strict_rows.append(r)
+            # 4. 유종 상호 배제
+            if is_q_diesel and not any(k in row_full for k in ['디젤', 'crdi', 'vgt']):
+                continue
+            if is_q_lpg and not any(k in row_full for k in ['lpi', 'lpg']):
+                continue
+
+            f_rows.append(r)
+
+        s_rows = []
+        for r in f_rows:
+            # 1. 동일 연식 검사
+            if target_yr_2d:
+                yr_str = str(r.get('prdcnYr') or '')
+                yr_match = re.search(r'(\d{2,4})', yr_str)
+                if not yr_match:
+                    continue
+                r_yr = int(yr_match.group(1))
+                if f"{r_yr % 100:02d}" != target_yr_2d:
+                    continue
+
+            # 2. 동일 등급 검사
+            if ref_grade:
+                row_grade_text = f"{r.get('carWhlNm', '')} {r.get('modelNm', '')} {r.get('grdNm', '')} {r.get('grdDtlNm', '')}".strip().lower()
+                if not row_grade_text:
+                    continue
+                if len(ref_grade) <= 2:
+                    p = rf'(?:|[^a-zA-Z0-9]){re.escape(ref_grade.lower())}(?:|[^a-zA-Z0-9]|$)'
+                    if not re.search(p, row_grade_text):
+                        continue
+                else:
+                    if ref_g_clean not in row_grade_text.replace(" ", ""):
+                        continue
+
+                comp_list = COMPETING_GRADES.get(ref_g_clean, [])
+                if any(comp in row_grade_text.replace(" ", "") for comp in comp_list):
+                    continue
+
+                m_seat = re.search(r'(\d+인승)', str(detail_model))
+                if m_seat and m_seat.group(1) not in row_grade_text:
+                    continue
+
+            s_rows.append(r)
+        return f_rows, s_rows
+
+    filtered_rows, strict_rows = _filter_and_strict(rows)
+
+    # 💡 [제이 7번 규칙] 엄격(동일 연식·등급) 비교대상이 7대 미만이면 주행 범위를 ±5만km로 확장 재수집
+    if len(strict_rows) < 7 and mileage and mileage > 0:
+        print(f"[K-Car 표본 부족] 엄격 매물 {len(strict_rows)}대 < 7대: 주행거리 범위를 ±50,000km로 확장 재수집", flush=True)
+        param_wide = dict(param)
+        rounded = round(mileage / 10000) * 10000
+        param_wide["wr_gt_milg"] = max(0, rounded - 50000)
+        param_wide["wr_lt_milg"] = rounded + 50000
+        try:
+            enc_wide = encrypt_kcar_payload(param_wide)
+            req_body_wide = json.dumps({"enc": enc_wide}).encode('utf-8')
+            req_wide = urllib.request.Request("https://api.kcar.com/bc/search/list/drct", data=req_body_wide, headers=headers)
+            with urllib.request.urlopen(req_wide, timeout=10) as resp_wide:
+                resp_wide_data = json.loads(resp_wide.read().decode('utf-8'))
+                rows_wide = resp_wide_data.get('data', {}).get('rows', [])
+                if rows_wide:
+                    f_wide, s_wide = _filter_and_strict(rows_wide)
+                    if len(s_wide) >= len(strict_rows):
+                        filtered_rows, strict_rows = f_wide, s_wide
+                        rows = rows_wide
+                        print(f"   => [K-Car 확장 수집 성공] 엄격 매물: {len(strict_rows)}대 (±5만km)", flush=True)
+        except Exception as e_wide:
+            print(f"[K-Car 확장 재수집 오류] {e_wide}", flush=True)
 
     post_filter_fallback = False
     strict_has_data = True
