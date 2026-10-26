@@ -1,61 +1,56 @@
 {
-  "total_cars": 4,
-  "completed_count": 3,
-  "encar_valid_count": 2,
-  "blocked_info": {
-    "blocked_index": 4,
-    "blocked_car_id": "S04",
-    "blocked_model": "기아 더 뉴기아 레이 1.0 가솔린 시그니처",
-    "msg": "❌ 407 프록시 인증 차단 (search=407)"
-  },
+  "total_cars": 10,
+  "completed_count": 10,
+  "encar_valid_count": 5,
+  "blocked_info": null,
   "metrics": {
     "EN_01_엔카_단순평균": {
       "name": "EN_01_엔카_단순평균",
-      "valid_count": 2,
-      "total_count": 3,
-      "mae": 165.0,
-      "mape": 8.92,
-      "bias": 85.0
+      "valid_count": 5,
+      "total_count": 10,
+      "mae": 296.6,
+      "mape": 14.87,
+      "bias": 179.4
     },
     "EN_02_엔카_중앙값": {
       "name": "EN_02_엔카_중앙값",
-      "valid_count": 2,
-      "total_count": 3,
-      "mae": 195.0,
-      "mape": 10.58,
-      "bias": 85.0
+      "valid_count": 5,
+      "total_count": 10,
+      "mae": 307.4,
+      "mape": 15.58,
+      "bias": 171.4
     },
     "EN_03_React_벤치마크": {
       "name": "EN_03_React_벤치마크",
-      "valid_count": 2,
-      "total_count": 3,
-      "mae": 203.5,
-      "mape": 11.04,
-      "bias": 89.5
+      "valid_count": 5,
+      "total_count": 10,
+      "mae": 290.6,
+      "mape": 14.89,
+      "bias": 140.2
     },
     "EN_04_Streamlit_벤치마크": {
       "name": "EN_04_Streamlit_벤치마크",
-      "valid_count": 2,
-      "total_count": 3,
-      "mae": 197.5,
-      "mape": 10.64,
-      "bias": 197.5
+      "valid_count": 5,
+      "total_count": 10,
+      "mae": 306.0,
+      "mape": 15.0,
+      "bias": 256.0
     },
     "KC_01_케이카_평균": {
       "name": "KC_01_케이카_평균",
-      "valid_count": 2,
-      "total_count": 3,
-      "mae": 95.0,
-      "mape": 5.18,
-      "bias": 35.0
+      "valid_count": 5,
+      "total_count": 10,
+      "mae": 216.6,
+      "mape": 11.31,
+      "bias": 58.6
     },
     "ENS_01_엔카케이카_앙상블": {
       "name": "ENS_01_엔카케이카_앙상블",
-      "valid_count": 2,
-      "total_count": 3,
-      "mae": 130.0,
-      "mape": 7.05,
-      "bias": 60.0
+      "valid_count": 3,
+      "total_count": 10,
+      "mae": 185.7,
+      "mape": 9.71,
+      "bias": 139.0
     }
   },
   "car_table": [
@@ -100,6 +95,104 @@
       "st_bench": 1795,
       "kcar_avg": 1650,
       "ens_price": 1640
+    },
+    {
+      "mask_id": "S04",
+      "model_group": "레이",
+      "actual_price": 1540,
+      "encar_count": 68,
+      "encar_strict_count": 14,
+      "kcar_count": 0,
+      "encar_avg": 1327,
+      "encar_median": 1310,
+      "react_bench": 1278,
+      "st_bench": 1415,
+      "kcar_avg": null,
+      "ens_price": null
+    },
+    {
+      "mask_id": "S05",
+      "model_group": "G80",
+      "actual_price": 3580,
+      "encar_count": 85,
+      "encar_strict_count": 0,
+      "kcar_count": 0,
+      "encar_avg": null,
+      "encar_median": null,
+      "react_bench": null,
+      "st_bench": null,
+      "kcar_avg": 0,
+      "ens_price": null
+    },
+    {
+      "mask_id": "S06",
+      "model_group": "쏘렌토",
+      "actual_price": 2366,
+      "encar_count": 26,
+      "encar_strict_count": 8,
+      "kcar_count": 0,
+      "encar_avg": 2951,
+      "encar_median": 2920,
+      "react_bench": 2883,
+      "st_bench": 3025,
+      "kcar_avg": null,
+      "ens_price": null
+    },
+    {
+      "mask_id": "S07",
+      "model_group": "GV70",
+      "actual_price": 2850,
+      "encar_count": 22,
+      "encar_strict_count": 0,
+      "kcar_count": 0,
+      "encar_avg": null,
+      "encar_median": null,
+      "react_bench": null,
+      "st_bench": null,
+      "kcar_avg": null,
+      "ens_price": null
+    },
+    {
+      "mask_id": "S08",
+      "model_group": "싼타페",
+      "actual_price": 1977,
+      "encar_count": 27,
+      "encar_strict_count": 15,
+      "kcar_count": 2,
+      "encar_avg": 2332,
+      "encar_median": 2340,
+      "react_bench": 2244,
+      "st_bench": 2328,
+      "kcar_avg": 2215,
+      "ens_price": 2274
+    },
+    {
+      "mask_id": "S09",
+      "model_group": "카니발",
+      "actual_price": 1756,
+      "encar_count": 0,
+      "encar_strict_count": 0,
+      "kcar_count": 3,
+      "encar_avg": null,
+      "encar_median": null,
+      "react_bench": null,
+      "st_bench": null,
+      "kcar_avg": 2076,
+      "ens_price": null
+    },
+    {
+      "mask_id": "S10",
+      "model_group": "쏘나타",
+      "actual_price": 2100,
+      "encar_count": 6,
+      "encar_strict_count": 0,
+      "kcar_count": 12,
+      "encar_avg": null,
+      "encar_median": null,
+      "react_bench": null,
+      "st_bench": null,
+      "kcar_avg": 1765,
+      "ens_price": null
     }
   ]
 }

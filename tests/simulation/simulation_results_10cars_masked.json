@@ -90,10 +90,37 @@
       "year": 2022,
       "mileage": 40048,
       "actual_price": 1540,
-      "encar_count": 0,
+      "encar_count": 68,
+      "encar_strict_count": 14,
+      "kcar_count": 0,
+      "status": "COMPLETED",
+      "encar_models": {
+        "EN_01_엔카_단순평균": 1327,
+        "EN_02_엔카_중앙값": 1310,
+        "EN_03_React_벤치마크": 1278,
+        "EN_04_Streamlit_벤치마크": 1415
+      },
+      "kcar_models": {
+        "KC_01_케이카_평균": null,
+        "KC_02_케이카_마일리지보정가": null
+      },
+      "ens_models": {
+        "ENS_01_엔카케이카_앙상블": null
+      }
+    },
+    {
+      "mask_id": "S05",
+      "model_group": "G80",
+      "maker": "제네시스",
+      "car_name": "더 올뉴G80",
+      "sub_model": "가솔린 3.5 AWD 기본형",
+      "year": 2023,
+      "mileage": 57123,
+      "actual_price": 3580,
+      "encar_count": 85,
       "encar_strict_count": 0,
       "kcar_count": 0,
-      "status": "BLOCKED_BY_407",
+      "status": "COMPLETED",
       "encar_models": {
         "EN_01_엔카_단순평균": null,
         "EN_02_엔카_중앙값": null,
@@ -101,17 +128,148 @@
         "EN_04_Streamlit_벤치마크": null
       },
       "kcar_models": {
-        "KC_01_케이카_평균": null
+        "KC_01_케이카_평균": 0,
+        "KC_02_케이카_마일리지보정가": 0
+      },
+      "ens_models": {
+        "ENS_01_엔카케이카_앙상블": null
+      }
+    },
+    {
+      "mask_id": "S06",
+      "model_group": "쏘렌토",
+      "maker": "기아",
+      "car_name": "신형쏘렌토 하이브리드(MQ4)",
+      "sub_model": "1.6 HEV 2WD 시그니처",
+      "year": 2021,
+      "mileage": 90904,
+      "actual_price": 2366,
+      "encar_count": 26,
+      "encar_strict_count": 8,
+      "kcar_count": 0,
+      "status": "COMPLETED",
+      "encar_models": {
+        "EN_01_엔카_단순평균": 2951,
+        "EN_02_엔카_중앙값": 2920,
+        "EN_03_React_벤치마크": 2883,
+        "EN_04_Streamlit_벤치마크": 3025
+      },
+      "kcar_models": {
+        "KC_01_케이카_평균": null,
+        "KC_02_케이카_마일리지보정가": null
+      },
+      "ens_models": {
+        "ENS_01_엔카케이카_앙상블": null
+      }
+    },
+    {
+      "mask_id": "S07",
+      "model_group": "GV70",
+      "maker": "제네시스",
+      "car_name": "GV70",
+      "sub_model": "2.2 디젤 AWD 기본형",
+      "year": 2022,
+      "mileage": 68908,
+      "actual_price": 2850,
+      "encar_count": 22,
+      "encar_strict_count": 0,
+      "kcar_count": 0,
+      "status": "COMPLETED",
+      "encar_models": {
+        "EN_01_엔카_단순평균": null,
+        "EN_02_엔카_중앙값": null,
+        "EN_03_React_벤치마크": null,
+        "EN_04_Streamlit_벤치마크": null
+      },
+      "kcar_models": {
+        "KC_01_케이카_평균": null,
+        "KC_02_케이카_마일리지보정가": null
+      },
+      "ens_models": {
+        "ENS_01_엔카케이카_앙상블": null
+      }
+    },
+    {
+      "mask_id": "S08",
+      "model_group": "싼타페",
+      "maker": "현대",
+      "car_name": "더 뉴싼타페",
+      "sub_model": "가솔린 2.5 2WD 프레스티지",
+      "year": 2021,
+      "mileage": 65112,
+      "actual_price": 1977,
+      "encar_count": 27,
+      "encar_strict_count": 15,
+      "kcar_count": 2,
+      "status": "COMPLETED",
+      "encar_models": {
+        "EN_01_엔카_단순평균": 2332,
+        "EN_02_엔카_중앙값": 2340,
+        "EN_03_React_벤치마크": 2244,
+        "EN_04_Streamlit_벤치마크": 2328
+      },
+      "kcar_models": {
+        "KC_01_케이카_평균": 2215,
+        "KC_02_케이카_마일리지보정가": 2244
+      },
+      "ens_models": {
+        "ENS_01_엔카케이카_앙상블": 2274
+      }
+    },
+    {
+      "mask_id": "S09",
+      "model_group": "카니발",
+      "maker": "기아",
+      "car_name": "신형 카니발(KA4)",
+      "sub_model": "9인승 디젤 노블레스",
+      "year": 2021,
+      "mileage": 103216,
+      "actual_price": 1756,
+      "encar_count": 0,
+      "encar_strict_count": 0,
+      "kcar_count": 3,
+      "status": "COMPLETED",
+      "encar_models": {
+        "EN_01_엔카_단순평균": null,
+        "EN_02_엔카_중앙값": null,
+        "EN_03_React_벤치마크": null,
+        "EN_04_Streamlit_벤치마크": null
+      },
+      "kcar_models": {
+        "KC_01_케이카_평균": 2076,
+        "KC_02_케이카_마일리지보정가": 2065
+      },
+      "ens_models": {
+        "ENS_01_엔카케이카_앙상블": null
+      }
+    },
+    {
+      "mask_id": "S10",
+      "model_group": "쏘나타",
+      "maker": "현대",
+      "car_name": "쏘나타(DN8)",
+      "sub_model": "G2.0 프리미엄 플러스",
+      "year": 2022,
+      "mileage": 54990,
+      "actual_price": 2100,
+      "encar_count": 6,
+      "encar_strict_count": 0,
+      "kcar_count": 12,
+      "status": "COMPLETED",
+      "encar_models": {
+        "EN_01_엔카_단순평균": null,
+        "EN_02_엔카_중앙값": null,
+        "EN_03_React_벤치마크": null,
+        "EN_04_Streamlit_벤치마크": null
+      },
+      "kcar_models": {
+        "KC_01_케이카_평균": 1765,
+        "KC_02_케이카_마일리지보정가": 1762
       },
       "ens_models": {
         "ENS_01_엔카케이카_앙상블": null
       }
     }
   ],
-  "blocked_info": {
-    "blocked_index": 4,
-    "blocked_car_id": "S04",
-    "blocked_model": "기아 더 뉴기아 레이 1.0 가솔린 시그니처",
-    "msg": "❌ 407 프록시 인증 차단 (search=407)"
-  }
+  "blocked_info": null
 }

@@ -124,9 +124,30 @@ def run_simulation():
     live_res_file = os.path.join(output_dir, "simulation_results_10cars_live.json")
     masked_res_file = os.path.join(output_dir, "simulation_results_10cars_masked.json")
     
+    # 기존 정상 완료 차량 로드 (안 되던 데부터 이어하기)
+    existing_completed = {}
+    if os.path.exists(masked_res_file):
+        try:
+            with open(masked_res_file, "r", encoding="utf-8") as f:
+                prev_data = json.load(f)
+                for r in prev_data.get("results", []):
+                    if r.get("status") == "COMPLETED":
+                        existing_completed[r["mask_id"]] = r
+        except Exception:
+            pass
+    if existing_completed:
+        print(f"  [이어하기] 기존 정상 완료된 {len(existing_completed)}대 ({list(existing_completed.keys())}) 결과를 유지하고 미완료 차량부터 진행합니다.")
+    
     for idx, c in enumerate(cars):
         mask_id = c['mask_id']
         model_group = c['model_group']
+        
+        # 이미 완료된 차량은 기존 데이터 유지
+        if mask_id in existing_completed:
+            print(f"\n[{idx+1}/{len(cars)}] 차량 {mask_id} ({model_group})는 이미 완료되어 기존 결과를 유지합니다.")
+            results.append(existing_completed[mask_id])
+            continue
+            
         maker = MAKER_MAP.get(model_group, '국산')
         car_name = c['car_name']
         sub_model = c['sub_model']
@@ -300,9 +321,10 @@ def run_simulation():
             
         print(f"  [중간 결과] 실제가: {actual_price}만 | 엔카평균: {encar_avg} | 엔카중앙값: {encar_median} | React: {react_bench} | Streamlit: {st_bench} | 케이카평균: {kcar_avg} | 앙상블: {ens_price}")
         
-        # 차량 간 간격 60초 대기 (마지막 차량 제외)
-        if idx < len(cars) - 1:
-            print(f"  ⏳ [Pacing] 지시사항(3번)에 따라 다음 차 조회 전 60초간 대기합니다...")
+        # 차량 간 간격 60초 대기 (남은 미완료 차량이 있을 때만)
+        remaining_uncompleted = [rem_c for rem_c in cars[idx + 1:] if rem_c['mask_id'] not in existing_completed]
+        if remaining_uncompleted:
+            print(f"  ⏳ [Pacing] 지시사항(3번)에 따라 다음 차 조회 전 60초간 대기합니다... (남은 미완료: {len(remaining_uncompleted)}대)")
             time.sleep(60)
 
     # 마스킹 결과 저장
