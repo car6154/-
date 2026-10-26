@@ -500,8 +500,55 @@ export const computeBiGramJaccard = (strA: string, strB: string): number => {
   return union > 0 ? intersection / union : 0;
 };
 
-// 🌟 핵심 등급/스펙 수식어 목록 (한쪽에만 존재할 경우 동일 옵션으로 판정 금지)
-const SPEC_QUALIFIER_KEYWORDS = ['스마트', 'uvo', '유보', '어라운드뷰', 'avm', '서라운드뷰', 'svm', 'jbl', '크렐', 'krell', '보스', 'bose', '렉시콘', 'lexicon', '드라이브와이즈', '스마트센스'];
+// 🌟 핵심 등급/스펙 수식어 목록 (한쪽에만 존재할 경우 동일 옵션으로 판정 금지 — 고급 사양 차별화용)
+const SPEC_QUALIFIER_KEYWORDS = ['어라운드뷰', 'avm', '서라운드뷰', 'svm', 'jbl', '크렐', 'krell', '보스', 'bose', '렉시콘', 'lexicon', '드라이브와이즈', '스마트센스'];
+
+/**
+ * 🌟 동일 기능/사양 옵션군 판정 (같은 기능인데 명칭이나 세부 화면 규격이 다른 경우 매칭)
+ * 예: 내비게이션 vs 8인치 내비게이션 / UVO 내비게이션 / 스마트 내비게이션
+ * 예: 선루프 vs 와이드 파노라마 썬루프
+ * 예: 전동트렁크 vs 스마트 테일게이트
+ */
+export const isSameFunctionOptionGroup = (optA: string, optB: string): { matched: boolean; groupLabel?: string } => {
+  if (!optA || !optB) return { matched: false };
+  const normA = normalizeOpt(optA);
+  const normB = normalizeOpt(optB);
+  if (!normA || !normB) return { matched: false };
+
+  if (normA === normB) return { matched: true, groupLabel: normA };
+
+  // 1. 화면 인치수(8인치, 7인치, 10.25인치 등) 정규화 후 대조
+  const stripInch = (s: string) => s.replace(/\d+(?:\.\d+)?(?:인치|inch)/g, '');
+  const baseA = stripInch(normA);
+  const baseB = stripInch(normB);
+
+  if (baseA && baseB) {
+    if (baseA === baseB) return { matched: true, groupLabel: baseA };
+    // '스마트' 접두어 차이 제거 후 대조 (스마트내비게이션 vs 내비게이션)
+    const stripSmartA = baseA.replace(/^스마트/, '');
+    const stripSmartB = baseB.replace(/^스마트/, '');
+    if (stripSmartA && stripSmartB && stripSmartA === stripSmartB) {
+      return { matched: true, groupLabel: stripSmartA };
+    }
+  }
+
+  // 2. CORE_EQUIVALENCE_GROUPS 전역 동의어/기능군 대조
+  for (const group of CORE_EQUIVALENCE_GROUPS) {
+    const hitA = group.some(g => normA.includes(g) || baseA.includes(g));
+    const hitB = group.some(g => normB.includes(g) || baseB.includes(g));
+    if (hitA && hitB) {
+      // 단, 패키지 버전(예: 컴포트1 vs 컴포트2)이 명확히 갈리는 경우 제외
+      const numsA = normA.match(/(?:패키지|플러스|팩|센스|와이즈|컴포트|스타일)([1-9])/);
+      const numsB = normB.match(/(?:패키지|플러스|팩|센스|와이즈|컴포트|스타일)([1-9])/);
+      if (numsA && numsB && numsA[1] !== numsB[1]) {
+        continue;
+      }
+      return { matched: true, groupLabel: group[0] };
+    }
+  }
+
+  return { matched: false };
+};
 
 // 🌟 전체적 정규화 옵션 매칭 판정 (전체 카탈로그 분해 + 바이그램 자카드 + 약어 동의어 매칭)
 export const isOptionMatched = (optA: string, optB: string): boolean => {
@@ -881,9 +928,9 @@ export const matchOptionWithCatalog = (
   const officialA = findOfficialCatalogOption(cleanA, catalogA);
   const officialB = findOfficialCatalogOption(cleanB, catalogB);
 
-  // 1. 양쪽 모두 공식 카탈로그 옵션이 식별된 경우 (가장 엄격한 공식 대조)
+  // 1. 양쪽 모두 공식 카탈로그 옵션이 식별된 경우
   if (officialA && officialB) {
-    // 공식 명칭이 완전히 일치하거나, 정규화된 공식 키가 일치하는 경우
+    // 1-1. 공식 명칭이 완전히 일치하거나, 정규화된 공식 키가 일치하는 경우 (완전 공식 일치)
     if (normalizeOpt(officialA.officialName) === normalizeOpt(officialB.officialName)) {
       return {
         isMatched: true,
@@ -896,7 +943,22 @@ export const matchOptionWithCatalog = (
       };
     }
 
-    // 서로 다른 공식 옵션으로 확인된 경우 (예: 내비게이션 vs 스마트 내비게이션)
+    // 1-2. 🌟 [제이 규칙] 같은 기능인데 명칭이 다른 경우 (예: 내비게이션 vs 8인치 내비게이션, 스마트 내비게이션 등)
+    const eqCheck = isSameFunctionOptionGroup(officialA.officialName, officialB.officialName) ||
+                    isSameFunctionOptionGroup(cleanA, cleanB);
+    if (eqCheck.matched) {
+      return {
+        isMatched: true,
+        confidence: 'fuzzy',
+        symbol: '~',
+        matchedOppositeName: optB,
+        officialA,
+        officialB,
+        reason: `신차 공식 동등 기능 사양 매칭 [${officialA.officialName} ≒ ${officialB.officialName}]`
+      };
+    }
+
+    // 서로 다른 공식 옵션으로 확인된 경우 (예: 내비게이션 vs 선루프)
     return {
       isMatched: false,
       confidence: 'none',
@@ -947,8 +1009,8 @@ export const matchOptionWithCatalog = (
     };
   }
 
-  // 4. 기존 퍼지 엔진으로 폴백 (동의어 그룹, 패키지 분해, Jaccard 유사도)
-  if (isOptionMatched(cleanA, cleanB)) {
+  // 4. 기존 퍼지 엔진 및 기능 동등성으로 폴백 (동의어 그룹, 패키지 분해, Jaccard 유사도)
+  if (isOptionMatched(cleanA, cleanB) || isSameFunctionOptionGroup(cleanA, cleanB).matched) {
     return {
       isMatched: true,
       confidence: 'fuzzy',
@@ -956,7 +1018,7 @@ export const matchOptionWithCatalog = (
       matchedOppositeName: optB,
       officialA,
       officialB,
-      reason: '카탈로그 미등재 사양 퍼지 유사도 추정 매칭'
+      reason: '동등 기능 사양 퍼지 유사도 추정 매칭'
     };
   }
 
