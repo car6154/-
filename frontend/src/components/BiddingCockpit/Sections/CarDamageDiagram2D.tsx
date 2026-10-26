@@ -75,7 +75,8 @@ export const CarDamageDiagram2D: React.FC<CarDamageDiagram2DProps> = ({ selected
 
   // 외판 부위 (사이드실 패널을 차체 바닥 양측면에 맞추어 완벽히 정렬)
   const outerParts: DamagePart[] = [
-    { code: 'HOOD', kw: ['후드', '보닛', '본넷', 'hood', 'p010'], exclude: [], x: 55, y: 20, w: 110, h: 55, label: '후드', full: '후드(보닛)' },
+    { code: 'RADIATOR_SUPPORT', kw: ['라디에이터', '라디에이터서포트', 'radiator_support', 'radiator'], exclude: [], x: 55, y: 14, w: 110, h: 16, label: 'R.S', full: '라디에이터 서포트' },
+    { code: 'HOOD', kw: ['후드', '보닛', '본넷', 'hood', 'p010'], exclude: [], x: 55, y: 33, w: 110, h: 44, label: '후드', full: '후드(보닛)' },
     { code: 'F_FENDER_L', kw: ['앞휀더(좌)', '앞휀더좌', '프론트휀더(좌)', 'front_fender_left', 'front_fender_l', 'f_fender_l', 'p021'], exclude: ['뒤', '리어', 'rear', '우', 'right'], x: 18, y: 25, w: 33, h: 65, label: 'F휀', full: '프론트 휀더(좌)' },
     { code: 'F_FENDER_R', kw: ['앞휀더(우)', '앞휀더우', '프론트휀더(우)', 'front_fender_right', 'front_fender_r', 'f_fender_r', 'p022'], exclude: ['뒤', '리어', 'rear', '좌', 'left'], x: 169, y: 25, w: 33, h: 65, label: 'F휀', full: '프론트 휀더(우)' },
     { code: 'SIDE_SILL_L', kw: ['사이드실(좌)', '사이드실좌', '사이드실패널(좌)', 'side_sill_left', 'side_sill_l', 'p081'], exclude: ['우', 'right'], x: 18, y: 95, w: 12, h: 130, label: '실', full: '사이드실 패널(좌)' },
@@ -93,7 +94,6 @@ export const CarDamageDiagram2D: React.FC<CarDamageDiagram2DProps> = ({ selected
   // 주요골격 부위 (엔카 및 국토부 성능점검 전체 골격 부위 포괄)
   const innerParts: DamagePart[] = [
     { code: 'FRONT_PANEL', kw: ['프론트패널', '프론트 패널', '앞패널', 'front_panel'], exclude: ['리어', '뒤', '대쉬', '대시', '플로어', 'floor'], x: 55, y: 16, w: 110, h: 14, label: '프론트패널', full: '프론트 패널' },
-    { code: 'RADIATOR_SUPPORT', kw: ['라디에이터', '라디에이터서포트', 'radiator_support', 'radiator'], exclude: [], x: 55, y: 33, w: 110, h: 22, label: 'R.S', full: '라디에이터 서포트' },
     { code: 'SIDE_MEMBER_FRONT_L', kw: ['사이드멤버(좌)', '프론트사이드멤버(좌)', '앞사이드멤버(좌)', 'side_member_front_left', 'side_member_front_l', 'front_side_member_l', 'p101'], exclude: ['리어', '뒤', 'rear', '우', 'right'], x: 18, y: 25, w: 33, h: 50, label: 'F멤', full: '프론트 사이드멤버(좌)' },
     { code: 'SIDE_MEMBER_FRONT_R', kw: ['사이드멤버(우)', '프론트사이드멤버(우)', '앞사이드멤버(우)', 'side_member_front_right', 'side_member_front_r', 'front_side_member_r', 'p102'], exclude: ['리어', '뒤', 'rear', '좌', 'left'], x: 169, y: 25, w: 33, h: 50, label: 'F멤', full: '프론트 사이드멤버(우)' },
     { code: 'FRONT_WHEEL_HOUSE_L', kw: ['휠하우스(좌)', '프론트휠하우스(좌)', 'front_wheel_house_l', 'wheel_house_l', 'p111'], exclude: ['우', 'right'], x: 18, y: 78, w: 33, h: 32, label: 'F하우스', full: '프론트 휠하우스(좌)' },
