@@ -402,7 +402,8 @@ async function startServer() {
         year: Number(req.body?.year || req.query.year) || 0,
         mileage: Number(req.body?.mileage || req.query.mileage) || 0,
         carNumber: (req.body?.carNumber || req.query.carNumber) as string || '',
-        targetAccident: (req.body?.targetAccident || req.query.targetAccident) as string || ''
+        targetAccident: (req.body?.targetAccident || req.query.targetAccident) as string || '',
+        skipDetail: req.body?.skipDetail !== undefined ? Boolean(req.body.skipDetail) : true
       };
 
       const pyRes = await fetch('http://127.0.0.1:8000/api/encar/search', {

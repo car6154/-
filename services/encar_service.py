@@ -333,7 +333,7 @@ class Scraper:
             return {"success": False, "error": f"역추적 중 오류 발생: {str(e)}"}
 
     @staticmethod
-    def run(target_url, custom_cookie, progress_bar=None, status_text=None, pacing: bool = False, detail_interval: float = 2.0):
+    def run(target_url, custom_cookie, progress_bar=None, status_text=None, pacing: bool = False, detail_interval: float = 2.0, fetch_details: bool = False):
         try:
             if status_text: status_text.text("1/3: 실시간 통신 준비...")
             if progress_bar: progress_bar.progress(10)
@@ -573,8 +573,8 @@ class Scraper:
                     # 마지막 대수가 아니면 지정 간격(2초) 유지
                     if idx < len(car_data_list) - 1:
                         time.sleep(detail_interval)
-            else:
-                # 💡 [기본 콕핏 모드: Worker 5 멀티스레드 병렬화 기존 동작 그대로 보존]
+            elif fetch_details:
+                # 💡 [명시적 상세 스캔 요청 시: Worker 5 멀티스레드 병렬화]
                 with ThreadPoolExecutor(max_workers=5) as executor:
                     future_to_car = {
                         executor.submit(Scraper.fetch_car_detail, session, car["_carid"]): car 
@@ -598,6 +598,10 @@ class Scraper:
                             status_text.text(f"2/3: 쾌속 정밀 스캔 중... ({completed}/{total_cars}대)")
                         if progress_bar: 
                             progress_bar.progress(10 + int(80 * completed / total_cars))
+            else:
+                # 💡 [목록·상세 분리]: 콕핏 모드는 전수 상세 스캔 없이 목록(평균·분포·산점도용)만 즉시 반환
+                if status_text:
+                    status_text.text(f"2/3: 쾌속 목록 수집 완료 ({total_cars}대)")
 
             if status_text: status_text.text("3/3: 스캔 완료. 스마트 데이터 취합 중...")
             raw_df = pd.DataFrame(car_data_list)

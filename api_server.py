@@ -731,6 +731,7 @@ class EncarSearchRequest(BaseModel):
     targetOptions: Optional[str] = ""
     targetAccident: Optional[str] = ""
     carNumber: Optional[str] = ""
+    skipDetail: Optional[bool] = True
 
 
 @app.post("/api/encar/search")
@@ -796,8 +797,9 @@ def search_encar_market(req: EncarSearchRequest):
                 }
             }
 
-        df, msg = Scraper.run(encar_url, "")
-        print(f"[엔카검색 결과] rows={len(df)} msg={msg}", flush=True)
+        skip_detail = req.skipDetail if req.skipDetail is not None else True
+        df, msg = Scraper.run(encar_url, "", fetch_details=not skip_detail)
+        print(f"[엔카검색 결과] rows={len(df)} msg={msg} (skip_detail={skip_detail})", flush=True)
         if df.empty and req.url:
             alt_url = MasterMappingService.generate_smart_encar_url(
                 car_name=car_name,
@@ -807,8 +809,8 @@ def search_encar_market(req: EncarSearchRequest):
                 car_number=car_no
             )
             if alt_url and alt_url != encar_url and ("action" in alt_url or "q=" in alt_url):
-                df, msg = Scraper.run(alt_url, "")
-                print(f"[엔카검색 결과] rows={len(df)} msg={msg}", flush=True)
+                df, msg = Scraper.run(alt_url, "", fetch_details=not skip_detail)
+                print(f"[엔카검색 결과] rows={len(df)} msg={msg} (skip_detail={skip_detail})", flush=True)
                 if not df.empty:
                     encar_url = alt_url
 
