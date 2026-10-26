@@ -1,0 +1,91 @@
+{
+  "blocked_info": {
+    "blocked_index": 2,
+    "blocked_car_id": "CAR_02_CASPER_2025",
+    "blocked_model": "현대 캐스퍼 일렉트릭 인스퍼레이션",
+    "msg": "❌ 매물 없음 (search=407, fb=[407, 407, 407])"
+  },
+  "results": [
+    {
+      "masked_id": "CAR_01_SPARK_2021",
+      "maker": "쉐보레",
+      "model": "더 뉴 스파크",
+      "detail": "LT C-Tech",
+      "year": 2021,
+      "mileage": 44000,
+      "accident": "무사고",
+      "category": "재고(광고중)",
+      "target_price": 680,
+      "encar_count": 26,
+      "encar_wide_count": 25,
+      "encar_strict_count": 7,
+      "kcar_count": 4,
+      "kcar_wide_count": 4,
+      "kcar_strict_count": 4,
+      "status": "COMPLETED",
+      "encar_models": {
+        "EN_01_React_100점_산출가": 711,
+        "EN_02_엔카_100점_기준가": 649,
+        "EN_03_엔카_100점_기준가_x0.97": 630,
+        "EN_04_엔카_카드_평균가": 773,
+        "EN_05_엔카_카드_중앙값": 780,
+        "EN_06_엔카_카드_평균가_x0.95": 734,
+        "EN_07_Streamlit_AI_회귀소매가": 764,
+        "EN_08_Streamlit_무사고_평균가": 796
+      },
+      "kcar_models": {
+        "KC_01_케이카_단순평균가": 792,
+        "KC_02_케이카_마일리지보정가": 773,
+        "KC_03_케이카_보정가_x0.97": 750,
+        "KC_04_케이카_단순평균가_x0.95": 752
+      },
+      "ens_models": {
+        "ENS_01_React100_케이카보정_평균": 742,
+        "ENS_02_엔카기준가_케이카보정_평균": 711,
+        "ENS_03_엔카평균_케이카평균_평균": 782
+      },
+      "cost_models": {
+        "COST_01_총원가_115만마진": 634,
+        "COST_02_총원가_130만마진": 649,
+        "COST_03_총원가_8퍼마진": 564
+      }
+    },
+    {
+      "masked_id": "CAR_02_CASPER_2025",
+      "maker": "현대",
+      "model": "캐스퍼 일렉트릭",
+      "detail": "인스퍼레이션",
+      "year": 2025,
+      "mileage": 22723,
+      "accident": "단순교환",
+      "category": "재고(광고중)",
+      "target_price": 2770,
+      "encar_count": 0,
+      "encar_filtered_count": 0,
+      "kcar_count": 0,
+      "status": "BLOCKED_BY_407",
+      "encar_models": {
+        "EN_01_React_100점_산출가": null,
+        "EN_02_엔카_100점_기준가": null,
+        "EN_03_엔카_100점_기준가_x0.97": null,
+        "EN_04_엔카_카드_평균가": null,
+        "EN_05_엔카_카드_중앙값": null,
+        "EN_06_엔카_카드_평균가_x0.95": null,
+        "EN_07_Streamlit_AI_회귀소매가": null,
+        "EN_08_Streamlit_무사고_평균가": null
+      },
+      "kcar_models": {
+        "KC_01_케이카_단순평균가": null,
+        "KC_02_케이카_마일리지보정가": null,
+        "KC_03_케이카_보정가_x0.97": null,
+        "KC_04_케이카_단순평균가_x0.95": null
+      },
+      "ens_models": {
+        "ENS_01_React100_케이카보정_평균": null,
+        "ENS_02_엔카기준가_케이카보정_평균": null,
+        "ENS_03_엔카평균_케이카평균_평균": null
+      },
+      "cost_models": {}
+    }
+  ]
+}

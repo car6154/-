@@ -961,28 +961,47 @@ def search_encar_market(req: EncarSearchRequest):
         elif target_opts:
             opt_adj = int(round(len(target_opt_names) * 70 * opt_ratio))
 
-        # 통계 및 AI 정밀 밸류에이션
+        # 4. [계산 직전 엄격 필터] 동일 연식 AND 동일 등급 매물 격리 (통계 왜곡 원천 차단)
+        strict_df = DataProcessor.filter_strictly_same_year_and_grade(
+            df,
+            target_year=year_num,
+            target_detail_model=detail_model
+        )
+        strict_has_data = not strict_df.empty
+
+        # 통계 및 AI 정밀 밸류에이션 (동일 연식·동일 등급 엄격 매물 기준)
         bench_val = Scraper.get_benchmarked_valuation(
             df,
             target_mil=mileage_num,
             target_accident=req.targetAccident or "",
             target_year=year_num,
-            target_opt_adj=opt_adj
+            target_options=req.targetOptions or "",
+            target_opt_adj=opt_adj,
+            target_sub_model=detail_model
         ) if not df.empty else {"has_data": False}
 
-        valid_prices = pd.to_numeric(df['판매가'], errors='coerce').dropna()
+        # 엄격 매물 기준 통계 산출 (엄격 subset이 비면 엄격 추정가는 0/해당없음 처리, 넓은 범위로 슬쩍 대체 금지)
+        calc_df = strict_df if strict_has_data else pd.DataFrame()
+        valid_prices = pd.to_numeric(calc_df['판매가'], errors='coerce').dropna() if not calc_df.empty else pd.Series(dtype=float)
         avg_price = int(valid_prices.mean()) if not valid_prices.empty else 0
         min_price = int(valid_prices.min()) if not valid_prices.empty else 0
         max_price = int(valid_prices.max()) if not valid_prices.empty else 0
         median_price = int(valid_prices.median()) if not valid_prices.empty else 0
 
-        benchmark_price = bench_val.get("calc_individual_price", avg_price) if bench_val.get("has_data") else avg_price
-        min_band = bench_val.get("calc_min_price", int(benchmark_price * 0.94)) if bench_val.get("has_data") else min_price
-        max_band = bench_val.get("calc_max_price", int(benchmark_price * 1.08)) if bench_val.get("has_data") else max_price
+        # 넓은 범위 참고용 통계 (별도 필드 보존)
+        wide_prices = pd.to_numeric(df['판매가'], errors='coerce').dropna() if not df.empty else pd.Series(dtype=float)
+        wide_avg_price = int(wide_prices.mean()) if not wide_prices.empty else 0
+        wide_median_price = int(wide_prices.median()) if not wide_prices.empty else 0
 
-        # 사고/무사고 격차
-        is_no = df['사고유무'].astype(str).str.contains('무사고') if '사고유무' in df.columns else pd.Series(False, index=df.index)
-        p_num = pd.to_numeric(df['판매가'], errors='coerce')
+        benchmark_price = bench_val.get("calc_individual_price", avg_price) if bench_val.get("has_data") else 0
+        min_band = bench_val.get("calc_min_price", int(benchmark_price * 0.94)) if bench_val.get("has_data") else 0
+        max_band = bench_val.get("calc_max_price", int(benchmark_price * 1.08)) if bench_val.get("has_data") else 0
+
+        # 사고/무사고 격차 (엄격 매물 우선, 없으면 전체 매물)
+        gap_base_df = strict_df if len(strict_df) >= 3 else df
+        is_no = gap_base_df['사고유무'].astype(str).str.contains('무사고') if '사고유무' in gap_base_df.columns else pd.Series(False, index=gap_base_df.index)
+        p_num = pd.to_numeric(gap_base_df['판매가'], errors='coerce')
+
         no_acc_avg = int(p_num[is_no].mean()) if is_no.any() else 0
         acc_avg = int(p_num[~is_no].mean()) if (~is_no).any() else 0
         acc_gap = no_acc_avg - acc_avg if no_acc_avg > 0 and acc_avg > 0 else 0
@@ -1087,7 +1106,12 @@ def search_encar_market(req: EncarSearchRequest):
                 "min": min_price,
                 "max": max_price,
                 "median": median_price,
-                "count": len(items),
+                "count": len(strict_df) if strict_has_data else 0,
+                "strictCount": len(strict_df),
+                "strictHasData": strict_has_data,
+                "wideCount": len(items),
+                "wideAvg": wide_avg_price if not strict_has_data else None,
+                "wideMedian": wide_median_price if not strict_has_data else None,
                 "benchmarkPrice": benchmark_price,
                 "minBand": min_band,
                 "maxBand": max_band,

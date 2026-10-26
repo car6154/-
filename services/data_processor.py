@@ -360,3 +360,143 @@ class DataProcessor:
         ).drop(columns=['_has_perf', '_sort_perf', '_sort_price', '_sort_year']).reset_index(drop=True)
             
         return res_df
+
+    @staticmethod
+    def extract_grade_keyword(detail_model: str) -> str:
+        """세부모델/등급 문자열에서 핵심 트림/등급 키워드 추출"""
+        if not detail_model:
+            return ""
+        s = str(detail_model).strip()
+        TRIM_LIST = [
+            # 현대/기아
+            "캘리그래피", "인스퍼레이션", "익스클루시브", "르블랑", "프리미엄", "모던", "스마트",
+            "시그니처", "그래비티", "노블레스", "프레스티지", "트렌디", "스타일", "럭셔리", "디럭스",
+            "스탠다드", "베스트셀렉션", "마스터즈", "패밀리", "N Line", "nline",
+            # 쉐보레
+            "프리미어", "premier", "레드라인", "redline", "마이핏", "myfit", "액티브", "activ",
+            "LTZ", "ltz", "LT", "lt", "LS", "ls", "RS", "rs",
+            # 르노
+            "RE 시그니처", "RE", "LE", "SE", "PE", "인스파이어", "아이코닉", "테크노",
+            # KGM
+            "인스파이어링", "블랙에디션", "프라임", "RX", "LX"
+        ]
+        for kw in TRIM_LIST:
+            if len(kw) <= 2:
+                pattern = rf'(?:\b|[^a-zA-Z0-9]){re.escape(kw)}(?:\b|[^a-zA-Z0-9]|$)'
+                if re.search(pattern, s, re.IGNORECASE):
+                    return kw.upper()
+            else:
+                if kw.lower() in s.lower():
+                    return kw
+        return ""
+
+    @staticmethod
+    def filter_strictly_same_year_and_grade(
+        df: pd.DataFrame,
+        target_year: Union[int, str],
+        target_detail_model: str = "",
+        target_grade: str = ""
+    ) -> pd.DataFrame:
+        """
+        [계산 엄격 필터]
+        수집된 동급 매물(연식 ±1년, 주행 ±3만km 등) 중,
+        계산 직전에 목표 차량과 '동일 연식 AND 동일 등급'인 매물만 엄격 추출합니다.
+        - 동일 연식: 타겟 연식(2자리/4자리)과 정확히 일치하는 매물만 유지.
+        - 동일 등급: 세부모델 텍스트(또는 Badge) 기준으로 목표 등급과 일치하는 매물만 유지.
+        - 등급을 알 수 없는 매물(결측/미상) 및 타 등급 매물은 원천 배제.
+        """
+        if df is None or df.empty:
+            return pd.DataFrame() if df is None else df
+            
+        cand_df = df.copy()
+
+        # 1. 📅 동일 연식 엄격 필터링
+        if target_year:
+            m_yr = re.search(r'(\d{2,4})', str(target_year))
+            if m_yr:
+                yr_val = int(m_yr.group(1))
+                yr_2digit = f"{yr_val % 100:02d}"
+                yr_4digit = f"{yr_val if yr_val >= 1900 else 2000 + yr_val}"
+                
+                def _match_year(x):
+                    sx = str(x).strip()
+                    m = re.search(r'(\d{2,4})', sx)
+                    if not m:
+                        return False
+                    v = int(m.group(1))
+                    v_2d = f"{v % 100:02d}"
+                    v_4d = f"{v if v >= 1900 else 2000 + v}"
+                    return (v_2d == yr_2digit) or (v_4d == yr_4digit)
+
+                year_col = "연식" if "연식" in cand_df.columns else ("year" if "year" in cand_df.columns else None)
+                if year_col:
+                    mask_yr = cand_df[year_col].apply(_match_year)
+                    cand_df = cand_df[mask_yr]
+
+        if cand_df.empty:
+            return cand_df.reset_index(drop=True)
+
+        # 2. 🏷️ 동일 등급 엄격 필터링
+        ref_grade = target_grade.strip() if target_grade else ""
+        if not ref_grade and target_detail_model:
+            ref_grade = DataProcessor.extract_grade_keyword(target_detail_model)
+            if not ref_grade:
+                ref_grade = str(target_detail_model).strip()
+
+        if ref_grade:
+            ref_g_clean = ref_grade.lower().replace(" ", "")
+            
+            # 타 등급 경쟁 키워드 목록
+            COMPETING_GRADES = {
+                "lt": ["프리미어", "premier", "ls", "ltz", "마이핏", "redline", "레드라인"],
+                "ls": ["lt", "프리미어", "premier", "ltz"],
+                "프리미어": ["lt", "ls", "ltz"],
+                "인스퍼레이션": ["프리미엄", "모던", "스마트", "스타일", "익스클루시브", "캘리그래피"],
+                "스마트": ["모던", "프리미엄", "익스클루시브", "인스퍼레이션", "스타일", "스포츠"],
+                "노블레스": ["프레스티지", "트렌디", "시그니처", "그래비티"],
+                "프레스티지": ["노블레스", "트렌디", "시그니처", "럭셔리", "디럭스", "그래비티"],
+                "시그니처": ["노블레스", "프레스티지", "트렌디", "스탠다드", "베스트셀렉션"]
+            }
+
+            sub_col = "세부모델" if "세부모델" in cand_df.columns else ("detail" if "detail" in cand_df.columns else None)
+            badge_col = "Badge" if "Badge" in cand_df.columns else ("badge" if "badge" in cand_df.columns else None)
+
+            def _match_grade(row):
+                s_val = str(row.get(sub_col, '') if sub_col else '').strip()
+                b_val = str(row.get(badge_col, '') if badge_col else '').strip()
+                combined = f"{s_val} {b_val}".strip().lower()
+
+                # 등급 미상/결측 배제
+                if not combined or combined in ('-', 'none', 'nan', '미확인'):
+                    return False
+
+                # 목표 등급 키워드 포함 검사
+                if len(ref_grade) <= 2:
+                    p = rf'(?:\b|[^a-zA-Z0-9]){re.escape(ref_grade.lower())}(?:\b|[^a-zA-Z0-9]|$)'
+                    if not re.search(p, combined):
+                        return False
+                else:
+                    if ref_g_clean not in combined.replace(" ", ""):
+                        return False
+
+                # 타 경쟁 등급 배제
+                comp_list = COMPETING_GRADES.get(ref_g_clean, [])
+                for comp in comp_list:
+                    if comp in combined.replace(" ", ""):
+                        return False
+
+                # 카니발 등 인승(7인승 vs 9인승 vs 11인승) 엄격 일치
+                if target_detail_model:
+                    m_seat = re.search(r'(\d+인승)', target_detail_model)
+                    if m_seat:
+                        seat_kw = m_seat.group(1)
+                        if seat_kw not in combined:
+                            return False
+
+                return True
+
+            mask_g = cand_df.apply(_match_grade, axis=1)
+            cand_df = cand_df[mask_g]
+
+        return cand_df.reset_index(drop=True)
+

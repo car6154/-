@@ -1032,34 +1032,34 @@ class Scraper:
             return {"has_data": False, "msg": f"통신 에러: {str(e)}"}
 
     @staticmethod
-    def get_benchmarked_valuation(chart_base, target_mil=0, target_accident="", target_year="", target_options="", target_opt_adj=0):
+    def get_benchmarked_valuation(chart_base, target_mil=0, target_accident="", target_year="", target_options="", target_opt_adj=0, target_sub_model=""):
         """
         동급 매물 리스트(chart_base)에서 실제 rgsid를 찾아 엔카 viewPriceReport를 찌르고,
         엔카 표준 100점 기준가와 상하한 밴드 계수를 획득하여
         평가 대상 차량(헤이딜러/미등록)에 맞춘 엔카 공식 적정시세 밴드와 평가점수를 산출합니다.
-        (옵션 가치 보정치 target_opt_adj도 기준가에 정밀 가산)
+        (계산 직전: 목표 차량과 동일 연식 AND 동일 등급 매물만 엄격 필터링, 엄격 매물 없으면 해당 없음 반환)
         """
         if chart_base is None or chart_base.empty:
             return {"has_data": False, "msg": "동급 매물 없음"}
 
-        # 1. 타겟 연식(target_year) 매물 우선 탐색 (타 연식으로 인한 기준가 왜곡 원천 차단)
-        t_yr_norm = ""
-        if target_year:
-            m_yr = re.search(r'(\d{2,4})', str(target_year))
-            if m_yr:
-                t_yr_norm = f"{int(m_yr.group(1)) % 100:02d}"
+        # 1. [계산 직전 엄격 필터] 동일 연식 AND 동일 등급 매물만 격리
+        from services.data_processor import DataProcessor
+        strict_df = DataProcessor.filter_strictly_same_year_and_grade(
+            chart_base,
+            target_year=target_year,
+            target_detail_model=target_sub_model
+        )
 
-        # 타겟 연식에 맞는 매물군 분리
-        target_year_df = pd.DataFrame()
-        if t_yr_norm and '연식' in chart_base.columns:
-            target_year_df = chart_base[
-                chart_base['연식'].astype(str).str.strip().apply(
-                    lambda x: bool(re.match(rf'^\s*{t_yr_norm}', x))
-                )
-            ]
+        if strict_df.empty:
+            # 엄격 subset이 비면 엄격 기준 추정가는 "해당 없음" 처리 (넓은 범위로 슬쩍 계산 금지)
+            return {
+                "has_data": False,
+                "msg": "동일 연식·동일 등급 엄격 매물 없음 (해당 없음)",
+                "wide_count": len(chart_base),
+                "strict_count": 0
+            }
 
-        # 벤치마크 대상 매물 DF 결정 (타겟 연식 매물 우선)
-        cand_df = target_year_df if not target_year_df.empty else chart_base
+        cand_df = strict_df
 
         # 무사고 매물 우선 정렬
         is_no_acc = cand_df['사고유무'].astype(str).str.contains('무사고') if '사고유무' in cand_df.columns else pd.Series(False, index=cand_df.index)

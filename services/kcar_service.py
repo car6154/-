@@ -3631,11 +3631,68 @@ def fetch_kcar_market_stats(
 
         filtered_rows.append(r)
 
+    # d-2) [계산 직전 엄격 필터] 목표 차량과 동일 연식 AND 동일 등급인 매물만 격리
+    from services.data_processor import DataProcessor
+    target_yr_2d = f"{year % 100:02d}" if year and year > 0 else ""
+    ref_grade = DataProcessor.extract_grade_keyword(detail_model)
+    if not ref_grade:
+        ref_grade = str(detail_model).strip()
+    ref_g_clean = ref_grade.lower().replace(" ", "")
+
+    COMPETING_GRADES = {
+        "lt": ["프리미어", "premier", "ls", "ltz", "마이핏", "redline", "레드라인"],
+        "ls": ["lt", "프리미어", "premier", "ltz"],
+        "프리미어": ["lt", "ls", "ltz"],
+        "인스퍼레이션": ["프리미엄", "모던", "스마트", "스타일", "익스클루시브", "캘리그래피"],
+        "스마트": ["모던", "프리미엄", "익스클루시브", "인스퍼레이션", "스타일", "스포츠"],
+        "노블레스": ["프레스티지", "트렌디", "시그니처", "그래비티"],
+        "프레스티지": ["노블레스", "트렌디", "시그니처", "럭셔리", "디럭스", "그래비티"],
+        "시그니처": ["노블레스", "프레스티지", "트렌디", "스탠다드", "베스트셀렉션"]
+    }
+
+    strict_rows = []
+    for r in filtered_rows:
+        # 1. 동일 연식 검사
+        if target_yr_2d:
+            yr_str = str(r.get('prdcnYr') or '')
+            yr_match = re.search(r'(\d{2,4})', yr_str)
+            if not yr_match:
+                continue
+            r_yr = int(yr_match.group(1))
+            if f"{r_yr % 100:02d}" != target_yr_2d:
+                continue
+
+        # 2. 동일 등급 검사
+        if ref_grade:
+            row_grade_text = f"{r.get('carWhlNm', '')} {r.get('modelNm', '')} {r.get('grdNm', '')} {r.get('grdDtlNm', '')}".strip().lower()
+            if not row_grade_text:
+                continue
+            if len(ref_grade) <= 2:
+                p = rf'(?:\b|[^a-zA-Z0-9]){re.escape(ref_grade.lower())}(?:\b|[^a-zA-Z0-9]|$)'
+                if not re.search(p, row_grade_text):
+                    continue
+            else:
+                if ref_g_clean not in row_grade_text.replace(" ", ""):
+                    continue
+
+            comp_list = COMPETING_GRADES.get(ref_g_clean, [])
+            if any(comp in row_grade_text.replace(" ", "") for comp in comp_list):
+                continue
+
+            m_seat = re.search(r'(\d+인승)', str(detail_model))
+            if m_seat and m_seat.group(1) not in row_grade_text:
+                continue
+
+        strict_rows.append(r)
+
     post_filter_fallback = False
-    if filtered_rows:
-        target_rows = filtered_rows
+    strict_has_data = True
+    if strict_rows:
+        target_rows = strict_rows
     else:
-        target_rows = rows
+        # 엄격 subset이 비면 엄격 기준 추정가는 "해당 없음" 처리 (넓은 범위로 슬쩍 계산 금지)
+        strict_has_data = False
+        target_rows = filtered_rows if filtered_rows else rows
         post_filter_fallback = True
 
     # 매물 유효 데이터 추출
@@ -3960,19 +4017,27 @@ def fetch_kcar_market_stats(
 
     return {
         "success": True,
-        "count": count,
-        "min": min_p,
-        "max": max_p,
-        "avg": avg_p,
-        "avgAdj": avg_adj,
+        "count": len(strict_rows) if strict_has_data else 0,
+        "strictCount": len(strict_rows),
+        "wideCount": count,
+        "strictHasData": strict_has_data,
+        "min": min_p if strict_has_data else None,
+        "max": max_p if strict_has_data else None,
+        "avg": avg_p if strict_has_data else None,
+        "avgAdj": avg_adj if strict_has_data else None,
+        "median": median_p if strict_has_data else None,
+        # 넓은 범위 참고용 필드 (슬쩍 메우지 않고 별도 필드로 보존)
+        "wideAvg": avg_p if not strict_has_data else None,
+        "wideAvgAdj": avg_adj if not strict_has_data else None,
+        "wideMedian": median_p if not strict_has_data else None,
         "accDeduction": acc_deduction,
         "adjNote": adj_note,
-        "median": median_p,
         "postFilterFallback": post_filter_fallback,
         "yearStats": year_stats,
         "priceBins": price_bins,
         "cars": valid_cars[:20],
         "modelName": rows[0].get('modelNm') or '',
         "searchUrl": search_url,
-        "message": ""
+        "message": "" if strict_has_data else "동일 연식·동일 등급 엄격 매물 없음 (해당 없음)"
     }
+
