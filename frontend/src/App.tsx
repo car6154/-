@@ -204,9 +204,15 @@ export default function App() {
 
       if (hashIdParam || titleParam) {
         setActiveTab('cockpit');
+        const decodedCarName = titleParam ? decodeURIComponent(titleParam) : '';
+        const brand = decodedCarName ? inferBrandFromCarName(decodedCarName) : undefined;
         setCockpitPreset({
-          carName: titleParam ? decodeURIComponent(titleParam) : '',
-          memo: ''
+          manufacturer: brand,
+          carName: decodedCarName || undefined,
+          outerRepairs: 0,
+          options: '+기본형',
+          memo: '',
+          targetMargin: 120,
         });
         showToast(`⚡ 헤이딜러 매물 [${titleParam ? decodeURIComponent(titleParam) : hashIdParam}] 콕핏 연동 완료!`);
       }
@@ -604,7 +610,7 @@ export default function App() {
 
   // Jump to cockpit for instant market comparison with full ledger details
   const handleAnalyzeInCockpit = (car: CarLedgerItem) => {
-    let parsedYear = 20;
+    let parsedYear: number | undefined = undefined;
     const yearMatch = (car.year || '').match(/\d+/);
     if (yearMatch) {
       let y = parseInt(yearMatch[0], 10);
@@ -612,7 +618,7 @@ export default function App() {
       parsedYear = y;
     }
 
-    let parsedMileage = 40000;
+    let parsedMileage: number | undefined = undefined;
     const milClean = (car.mileage || '').replace(/[^\d]/g, '');
     if (milClean) {
       parsedMileage = parseInt(milClean, 10);
@@ -642,50 +648,73 @@ export default function App() {
 
   // Jump to cockpit for instant market comparison with full settlement inventory details
   const handleAnalyzeSettlementInCockpit = (item: InventorySettlementItem) => {
-    const brand = inferBrandFromCarName(item.carName);
+    const matchedLedger = cars.find(c => c.carNumber === item.carNumber);
+
+    const brand = matchedLedger?.manufacturer || inferBrandFromCarName(item.carName);
+    const carName = matchedLedger?.carName || item.carName;
+    const detailModel = matchedLedger?.detailModel || (item as any).subModel || (item as any).detailModel || '';
+
+    let parsedYear: number | undefined = undefined;
+    const rawYear = matchedLedger?.year ?? (item as any).year;
+    if (rawYear !== undefined && rawYear !== null && rawYear !== '') {
+      const yearMatch = String(rawYear).match(/\d+/);
+      if (yearMatch) {
+        let y = parseInt(yearMatch[0], 10);
+        if (y > 2000) y -= 2000;
+        parsedYear = y;
+      }
+    }
+
+    let parsedMileage: number | undefined = undefined;
+    const rawMil = matchedLedger?.mileage ?? (item as any).mileage;
+    if (rawMil !== undefined && rawMil !== null && rawMil !== '') {
+      const milClean = String(rawMil).replace(/[^\d]/g, '');
+      if (milClean) {
+        parsedMileage = parseInt(milClean, 10);
+      }
+    }
+
+    const parsedOuter = typeof item.outerRepairs === 'number'
+      ? item.outerRepairs
+      : (matchedLedger?.outerRepairs || 0);
+
+    const options = matchedLedger?.options || '+기본형';
 
     setCockpitPreset({
       carNumber: item.carNumber,
       manufacturer: brand,
-      carName: item.carName,
-      detailModel: item.carName,
-      year: 20,
-      mileage: 45000,
-      sellPrice: item.sellPrice,
-      buyPrice: item.buyPrice,
-      outerRepairs: item.outerRepairs || 0,
-      options: '+기본형',
+      carName: carName,
+      detailModel: detailModel || undefined,
+      year: parsedYear,
+      mileage: parsedMileage,
+      sellPrice: item.sellPrice || matchedLedger?.sellPrice,
+      buyPrice: item.buyPrice || matchedLedger?.buyPrice,
+      outerRepairs: parsedOuter,
+      options: options,
       memo: `[재고 역추적 / 매입일: ${item.buyDate} / ${item.stockDays}일차 재고]`,
       targetMargin: 120,
     });
-    showToast(`🎯 [${item.carNumber} ${item.carName}] 사이드바 필터 및 실시간 역추적 시세 연동 완료!`);
+    showToast(`🎯 [${item.carNumber} ${carName}] 사이드바 필터 및 실시간 역추적 시세 연동 완료!`);
     setActiveTab('cockpit');
   };
 
   // Jump to cockpit for instant market comparison from company performance DB
   const handleAnalyzePerformanceInCockpit = (record: any) => {
-    const brand = inferBrandFromCarName(record.carName || '');
-    const parsedOuter = typeof record.outerRepairs === 'number'
-      ? record.outerRepairs
-      : (parseInt(String(record.outerRepairs || 0), 10) || 0);
+    const rawMileage = record.mileage;
+    const parsedMileage = typeof rawMileage === 'number'
+      ? rawMileage
+      : (parseInt(String(rawMileage || 0).replace(/[^\d]/g, ''), 10) || undefined);
 
-    const memoText = record.memo || record.note || (record.regDate ? `[실적DB 역추적 / 판매일: ${record.regDate} / ${record.stockDays || 0}일 완판]` : '');
+    const carNo = record.plate || record.carNumber || '';
+    const carTitle = record.carName || '';
 
     setCockpitPreset({
-      carNumber: record.plate || record.carNumber,
-      manufacturer: brand,
-      carName: record.carName,
-      detailModel: record.subModel || record.detailModel,
-      year: record.year || 20,
-      mileage: record.mileage || 40000,
-      sellPrice: record.sellPrice || 1400,
-      buyPrice: record.buyPrice || 1200,
-      outerRepairs: parsedOuter,
-      options: '+순정옵션',
-      memo: memoText,
-      targetMargin: 120,
+      carNumber: carNo,
+      mileage: parsedMileage && parsedMileage > 0 ? parsedMileage : undefined,
+      carName: carTitle,
+      detailModel: record.subModel || record.detailModel || '',
     });
-    showToast(`📈 [${record.plate || record.carNumber} ${record.carName}] 사이드바 필터 및 실시간 역추적 시세 연동 완료!`);
+    showToast(`📈 [${carNo} ${carTitle}] 사이드바 필터 및 실시간 역추적 시세 연동 완료!`);
     setActiveTab('cockpit');
   };
 
