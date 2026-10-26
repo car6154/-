@@ -976,7 +976,7 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
                         </span>
                         <div className="flex items-baseline gap-1">
                           <span className="text-base sm:text-lg font-black font-mono text-amber-300 tracking-tight">
-                            {kcarStats.avgAdj.toLocaleString()}
+                            {kcarStats.avgAdj?.toLocaleString()}
                           </span>
                           <span className="text-[10px] text-amber-400 font-bold">만원</span>
                         </div>

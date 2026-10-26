@@ -361,7 +361,9 @@ export const SettlementTab: React.FC<SettlementTabProps> = ({
           `[high A+ 매입 연동 알림]\n\n` +
           `• 상태: ${syncData.message || '세션 만료 또는 데이터 없음'}\n` +
           `• 이전 성공 시점: ${st.last_sync_time || '없음'}\n\n` +
-          `💡 high_cookie.txt 쿠키를 확인하거나, high.autoplus.co.kr 로그인 상태를 점검해 주세요.`
+          `💡 조치 방법:\n` +
+          `1. high.autoplus.co.kr 모바일 사이트에 로그인하여 high_cookie.txt를 갱신해 주세요.\n` +
+          `2. admin.autoplus.co.kr 이나 data.autoplus.co.kr 사이트와는 도메인이 달라 쿠키가 공유되지 않습니다.`
         );
       }
     } catch (e: any) {

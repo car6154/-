@@ -548,6 +548,7 @@ def sync_highplus_buy(req: Optional[HighplusBuySyncRequest] = None):
             print(f"[SettlementRouter] 6대 상세 API 조회 완료: 총 {len(cars_to_process)}대 수집", flush=True)
 
         # 2. 상세 API 실패 시 목록 API 또는 확장프로그램 fallback
+        fallback_res = {}
         if not cars_to_process:
             fallback_res = MobilePurchaseService.get_purchase_list(manager="kimjh1202")
             if fallback_res.get("success") and fallback_res.get("cars"):
@@ -567,6 +568,46 @@ def sync_highplus_buy(req: Optional[HighplusBuySyncRequest] = None):
             elif req and req.cars:
                 cars_to_process = req.cars
                 print(f"[SettlementRouter] 모바일 API 미응답 -> 확장프로그램 {len(cars_to_process)}대 fallback 사용", flush=True)
+
+        # 3. 데이터가 없고 세션 이슈(403 또는 쿠키 부재)인 경우 명확한 에러 반환
+        is_session_issue = (
+            not cars_to_process and (
+                detail_res.get("is_no_session") or detail_res.get("is_403") or
+                fallback_res.get("is_no_session") or fallback_res.get("is_403")
+            )
+        )
+
+        if is_session_issue:
+            is_no_sess = detail_res.get("is_no_session") or fallback_res.get("is_no_session")
+            status_code_str = "NO_SESSION" if is_no_sess else "EXPIRED"
+            err_message = detail_res.get("message") or fallback_res.get("message") or "high.autoplus.co.kr 모바일 세션이 만료되었습니다 (HTTP 403). high.autoplus.co.kr 로그인 후 세션을 갱신해 주세요."
+            
+            now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            status_record = {
+                "status": status_code_str,
+                "last_sync_time": now_str,
+                "total_synced_cars": 0,
+                "cars_in_api": [],
+                "has_155_in_api": False,
+                "new_inventory_added": 0,
+                "inventory_updated": 0,
+                "ledger_updated": 0,
+                "message": err_message
+            }
+            try:
+                os.makedirs(os.path.dirname(STATUS_FILE_PATH), exist_ok=True)
+                with open(STATUS_FILE_PATH, "w", encoding="utf-8") as f:
+                    json.dump(status_record, f, ensure_ascii=False, indent=2)
+            except Exception as e:
+                print(f"[SettlementRouter] highplus_buy_status.json 저장 실패: {e}", flush=True)
+
+            return {
+                "success": False,
+                "status": status_code_str,
+                "message": err_message,
+                "syncedCount": 0,
+                "data": status_record
+            }
 
         res = AutoplusAdminService.process_highplus_buy_data(cars_to_process)
         if isinstance(res, dict):

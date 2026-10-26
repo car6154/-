@@ -78,10 +78,12 @@ class MobilePurchaseService:
             return {
                 "success": False,
                 "status_code": 0,
+                "is_no_session": True,
+                "is_403": False,
                 "raw_response": None,
                 "cars": [],
                 "has_etc_amt": False,
-                "message": "오토플러스 쿠키가 설정되지 않았습니다. (autoplus_cookie.txt 없음)"
+                "message": "오토플러스 모바일 세션 없음: high_cookie.txt 파일이 비어있습니다. high.autoplus.co.kr 로그인이 필요합니다."
             }
 
         headers = {
@@ -105,14 +107,18 @@ class MobilePurchaseService:
             status_code = resp.status_code
 
             if status_code != 200:
+                is_403 = (status_code == 403)
+                err_msg = "high.autoplus.co.kr 모바일 세션 만료(HTTP 403): 모바일 사이트 재로그인이 필요합니다." if is_403 else f"모바일 API 호출 실패 (HTTP {status_code}): {resp.text[:200]}"
                 logger.error(f"[MobilePurchaseService] API 응답 에러 HTTP {status_code}: {resp.text[:300]}")
                 return {
                     "success": False,
                     "status_code": status_code,
+                    "is_no_session": False,
+                    "is_403": is_403,
                     "raw_response": resp.text[:1000],
                     "cars": [],
                     "has_etc_amt": False,
-                    "message": f"API 호출 실패 (HTTP {status_code}): {resp.text[:200]}"
+                    "message": err_msg
                 }
 
             json_data = resp.json()
@@ -248,8 +254,10 @@ class MobilePurchaseService:
             return {
                 "success": False,
                 "status_code": 0,
+                "is_no_session": True,
+                "is_403": False,
                 "cars": [],
-                "message": "오토플러스 쿠키가 설정되지 않았습니다."
+                "message": "오토플러스 모바일 세션 없음: high_cookie.txt 파일이 비어있습니다. high.autoplus.co.kr 로그인이 필요합니다."
             }
 
         headers = {
@@ -262,11 +270,17 @@ class MobilePurchaseService:
         }
 
         detailed_cars = []
+        has_403 = False
+        last_status = 200
+
         for pcs_id in pcs_ids:
             url = f"{API_URL}/{pcs_id}"
             try:
                 resp = requests.get(url, headers=headers, timeout=10)
+                last_status = resp.status_code
                 if resp.status_code != 200:
+                    if resp.status_code == 403:
+                        has_403 = True
                     logger.warning(f"[MobilePurchaseService] pcs_id {pcs_id} 상세 조회 실패 HTTP {resp.status_code}")
                     continue
 
@@ -333,10 +347,20 @@ class MobilePurchaseService:
             except Exception as e:
                 logger.error(f"[MobilePurchaseService] pcs_id {pcs_id} 상세 호출 예외: {e}")
 
+        success = bool(detailed_cars)
+        if success:
+            msg = f"성공적으로 {len(detailed_cars)}대 차량 상세 정보를 조회했습니다."
+        elif has_403:
+            msg = "high.autoplus.co.kr 모바일 세션 만료(HTTP 403): 모바일 사이트 재로그인이 필요합니다."
+        else:
+            msg = f"차량 상세 정보를 조회하지 못했습니다. (HTTP {last_status})"
+
         return {
-            "success": True if detailed_cars else False,
-            "status_code": 200,
+            "success": success,
+            "status_code": 403 if (not success and has_403) else (200 if success else last_status),
+            "is_no_session": False,
+            "is_403": has_403,
             "cars": detailed_cars,
             "total_count": len(detailed_cars),
-            "message": f"성공적으로 {len(detailed_cars)}대 차량 상세 정보를 조회했습니다."
+            "message": msg
         }

@@ -1,8 +1,8 @@
 {
-  "status": "FAILED",
-  "last_sync_time": "2026-10-16T13:37:43.579779",
+  "status": "EXPIRED",
+  "last_sync_time": "2026-10-26T18:37:37.691564",
   "inventory_count": 0,
   "sold_count": 0,
   "settlement_updated_count": 0,
-  "message": "동기화 오류: 오토플러스 로그인 세션이 만료되었습니다. 쿠키를 갱신해 주세요."
+  "message": "high.autoplus.co.kr 모바일 세션 만료(HTTP 403): 모바일 사이트 재로그인이 필요합니다."
 }

@@ -360,22 +360,60 @@ class AutoplusSyncService:
 
     @classmethod
     def execute_sync(cls) -> Dict[str, Any]:
-        """실제 동기화 수행 메인 함수"""
+        """
+        자사 보유 매입/재고 실시간 동기화 메인 함수
+        - data/admin 도메인은 사내에서 비활성화되었으므로, 살아 있는 모바일 API(high.autoplus.co.kr)로 연결하여 실시간 매입/재고/장부 갱신 수행
+        """
         if cls._is_running:
             return {"status": "IN_PROGRESS", "message": "이미 동기화가 진행 중입니다."}
 
-        with cls._lock:
-            # data/admin 도메인 동기화 비활성화 (high.autoplus.co.kr 모바일 API 전용 연동 사용)
+        cls._is_running = True
+        try:
+            with cls._lock:
+                from routers.settlement_router import sync_highplus_buy
+                sync_res = sync_highplus_buy()
+
+                now_iso = datetime.datetime.now().isoformat()
+                if sync_res.get("success"):
+                    st_data = sync_res.get("data", {})
+                    total_synced = st_data.get("total_synced_cars", 0)
+                    inv_updated = st_data.get("inventory_updated", 0)
+                    led_updated = st_data.get("ledger_updated", 0)
+                    res = {
+                        "status": "SUCCESS",
+                        "last_sync_time": now_iso,
+                        "inventory_count": total_synced,
+                        "sold_count": 0,
+                        "settlement_updated_count": inv_updated + led_updated,
+                        "message": f"모바일 API(high.autoplus.co.kr) 연동 완료: {total_synced}대 감지 (재고갱신 {inv_updated}대, 장부승격 {led_updated}대)"
+                    }
+                else:
+                    err_status = sync_res.get("status") or "FAILED"
+                    err_msg = sync_res.get("message") or "모바일 API 연동 실패"
+                    res = {
+                        "status": err_status,
+                        "last_sync_time": now_iso,
+                        "inventory_count": 0,
+                        "sold_count": 0,
+                        "settlement_updated_count": 0,
+                        "message": err_msg
+                    }
+
+                cls._save_status(res)
+                return res
+        except Exception as e:
             res = {
-                "status": "DISABLED",
+                "status": "FAILED",
                 "last_sync_time": datetime.datetime.now().isoformat(),
                 "inventory_count": 0,
                 "sold_count": 0,
                 "settlement_updated_count": 0,
-                "message": "Autoplus data/admin 도메인 동기화가 비활성화되었습니다. (모바일 API high.autoplus.co.kr 전용 연동 사용)"
+                "message": f"동기화 중 오류 발생: {str(e)}"
             }
             cls._save_status(res)
             return res
+        finally:
+            cls._is_running = False
 
     @classmethod
     def _update_frontend_json(cls, selling_rows: List[List[Any]]):

@@ -78,8 +78,35 @@ export const CompanyInventoryTab: React.FC<CompanyInventoryTabProps> = ({ onAnal
       const res = await fetch('/api/autoplus/sync_now', { method: 'POST' });
       const data = await res.json();
       setSyncStatus(data);
-    } catch (e) {
+      if (data.status === 'SUCCESS') {
+        alert(
+          `[오토플러스 모바일 API 최신화 성공]\n\n` +
+          `• 연동 시간: ${new Date(data.last_sync_time).toLocaleTimeString('ko-KR')}\n` +
+          `• 내용: ${data.message}\n\n` +
+          `✅ 자사 보유 재고 및 장부 매입 데이터가 정상 갱신되었습니다.`
+        );
+      } else if (data.status === 'EXPIRED' || data.status === 'NO_SESSION') {
+        alert(
+          `[오토플러스 모바일 API 연동 실패 (세션 만료/없음)]\n\n` +
+          `• 상태: ${data.status === 'EXPIRED' ? '세션 만료 (HTTP 403)' : '세션 없음'}\n` +
+          `• 사유: ${data.message}\n\n` +
+          `💡 조치 방법:\n` +
+          `1. 모바일 사이트 (https://high.autoplus.co.kr)에 접속하여 로그인합니다.\n` +
+          `2. 발급된 세션 쿠키를 high_cookie.txt에 갱신해 주세요.\n` +
+          `(※ admin.autoplus.co.kr 이나 data.autoplus.co.kr 사이트와는 도메인이 달라 쿠키가 공유되지 않습니다.)`
+        );
+      } else if (data.status === 'DISABLED') {
+        alert(
+          `[오토플러스 동기화 알림]\n\n` +
+          `• ${data.message}\n\n` +
+          `사내 data.autoplus.co.kr 경로는 비활성화되어 모바일 API(high.autoplus.co.kr) 전용으로 연동됩니다.`
+        );
+      } else {
+        alert(`[동기화 알림]\n\n• 상태: ${data.status}\n• 메시지: ${data.message || '알 수 없는 오류'}`);
+      }
+    } catch (e: any) {
       console.error('동기화 실패:', e);
+      alert(`동기화 통신 오류: ${e.message}`);
     } finally {
       setIsSyncing(false);
     }
@@ -184,39 +211,72 @@ export const CompanyInventoryTab: React.FC<CompanyInventoryTabProps> = ({ onAnal
         <div className="flex items-center gap-2.5">
           <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#141824] border border-[#23293d] text-xs">
             {(() => {
-              const isSuccess = syncStatus?.status === 'SUCCESS';
-              const isFailed = syncStatus?.status === 'FAILED';
+              const status = syncStatus?.status;
+              const isSuccess = status === 'SUCCESS';
+              const isExpired = status === 'EXPIRED';
+              const isNoSession = status === 'NO_SESSION';
+              const isDisabled = status === 'DISABLED';
+              const isFailed = status === 'FAILED';
+
+              const dotColor = isSuccess
+                ? 'bg-emerald-500'
+                : (isExpired || isNoSession)
+                ? 'bg-amber-500'
+                : isFailed
+                ? 'bg-rose-500'
+                : 'bg-slate-500';
+
+              const pingColor = isSuccess
+                ? 'bg-emerald-400'
+                : (isExpired || isNoSession)
+                ? 'bg-amber-400'
+                : isFailed
+                ? 'bg-rose-400'
+                : 'bg-slate-400';
+
               return (
                 <>
                   <span className="relative flex h-2 w-2">
-                    <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${isSuccess ? 'bg-emerald-400' : isFailed ? 'bg-amber-400' : 'bg-slate-400'}`}></span>
-                    <span className={`relative inline-flex rounded-full h-2 w-2 ${isSuccess ? 'bg-emerald-500' : isFailed ? 'bg-amber-500' : 'bg-slate-500'}`}></span>
+                    <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${pingColor}`}></span>
+                    <span className={`relative inline-flex rounded-full h-2 w-2 ${dotColor}`}></span>
                   </span>
                   <div className="flex items-center gap-1.5 text-slate-300">
-                    <span className="font-medium text-slate-200">오토플러스.Data:</span>
+                    <span className="font-medium text-slate-200">오토플러스 모바일:</span>
                     {isSuccess ? (
                       <>
                         <span className="text-emerald-400 font-semibold">
-                          최신화 완료: {new Date(syncStatus.last_sync_time!).toLocaleString('ko-KR', {
+                          최신화 완료: {syncStatus?.last_sync_time ? new Date(syncStatus.last_sync_time).toLocaleString('ko-KR', {
                             month: '2-digit',
                             day: '2-digit',
                             hour: '2-digit',
                             minute: '2-digit'
-                          })}
+                          }) : '방금'}
                         </span>
                         {syncStatus?.inventory_count ? (
                           <span className="text-slate-400 text-[11px] hidden sm:inline">
-                            (판매중 {syncStatus.inventory_count.toLocaleString()}대 / 판매완료 {syncStatus.sold_count?.toLocaleString()}대)
+                            ({syncStatus.inventory_count.toLocaleString()}대 연동)
                           </span>
                         ) : null}
                       </>
+                    ) : isExpired ? (
+                      <span className="text-amber-400 font-semibold" title={syncStatus?.message || 'high.autoplus.co.kr 로그인 필요'}>
+                        세션 만료 (high.autoplus 로그인 필요)
+                      </span>
+                    ) : isNoSession ? (
+                      <span className="text-amber-400 font-semibold" title={syncStatus?.message || 'high_cookie.txt 없음'}>
+                        세션 없음 (high_cookie.txt 필요)
+                      </span>
+                    ) : isDisabled ? (
+                      <span className="text-slate-400 font-medium">
+                        data/admin 비활성화 (모바일 전용)
+                      </span>
                     ) : isFailed ? (
-                      <span className="text-amber-400 font-semibold">
-                        세션 만료 (크롬 로그인 시 자동 갱신)
+                      <span className="text-rose-400 font-semibold" title={syncStatus?.message}>
+                        동기화 실패 ({syncStatus?.message || '오류'})
                       </span>
                     ) : (
                       <span className="text-slate-400 font-medium">
-                        대기 중 (크롬 로그인 대기)
+                        대기 중
                       </span>
                     )}
                   </div>
@@ -233,7 +293,7 @@ export const CompanyInventoryTab: React.FC<CompanyInventoryTabProps> = ({ onAnal
                 ? 'bg-slate-800 text-slate-400 border-slate-700 cursor-not-allowed'
                 : 'bg-emerald-600/20 text-emerald-300 border-emerald-500/30 hover:bg-emerald-600/30 hover:border-emerald-500/50'
             }`}
-            title="오토플러스.Data에서 실시간 판매중/판매완료 데이터를 가져와 최신화합니다."
+            title="오토플러스 모바일 API(high.autoplus.co.kr)에서 실시간 매입/재고 데이터를 가져와 최신화합니다."
           >
             <RefreshCw className={`w-3.5 h-3.5 ${isSyncing ? 'animate-spin text-emerald-400' : ''}`} />
             <span>{isSyncing ? '최신화 중...' : '지금 최신화'}</span>
