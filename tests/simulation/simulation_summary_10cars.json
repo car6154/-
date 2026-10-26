@@ -1,0 +1,105 @@
+{
+  "total_cars": 4,
+  "completed_count": 3,
+  "encar_valid_count": 2,
+  "blocked_info": {
+    "blocked_index": 4,
+    "blocked_car_id": "S04",
+    "blocked_model": "기아 더 뉴기아 레이 1.0 가솔린 시그니처",
+    "msg": "❌ 407 프록시 인증 차단 (search=407)"
+  },
+  "metrics": {
+    "EN_01_엔카_단순평균": {
+      "name": "EN_01_엔카_단순평균",
+      "valid_count": 2,
+      "total_count": 3,
+      "mae": 165.0,
+      "mape": 8.92,
+      "bias": 85.0
+    },
+    "EN_02_엔카_중앙값": {
+      "name": "EN_02_엔카_중앙값",
+      "valid_count": 2,
+      "total_count": 3,
+      "mae": 195.0,
+      "mape": 10.58,
+      "bias": 85.0
+    },
+    "EN_03_React_벤치마크": {
+      "name": "EN_03_React_벤치마크",
+      "valid_count": 2,
+      "total_count": 3,
+      "mae": 203.5,
+      "mape": 11.04,
+      "bias": 89.5
+    },
+    "EN_04_Streamlit_벤치마크": {
+      "name": "EN_04_Streamlit_벤치마크",
+      "valid_count": 2,
+      "total_count": 3,
+      "mae": 197.5,
+      "mape": 10.64,
+      "bias": 197.5
+    },
+    "KC_01_케이카_평균": {
+      "name": "KC_01_케이카_평균",
+      "valid_count": 2,
+      "total_count": 3,
+      "mae": 95.0,
+      "mape": 5.18,
+      "bias": 35.0
+    },
+    "ENS_01_엔카케이카_앙상블": {
+      "name": "ENS_01_엔카케이카_앙상블",
+      "valid_count": 2,
+      "total_count": 3,
+      "mae": 130.0,
+      "mape": 7.05,
+      "bias": 60.0
+    }
+  },
+  "car_table": [
+    {
+      "mask_id": "S01",
+      "model_group": "스타리아",
+      "actual_price": 1220,
+      "encar_count": 0,
+      "encar_strict_count": 0,
+      "kcar_count": 0,
+      "encar_avg": null,
+      "encar_median": null,
+      "react_bench": null,
+      "st_bench": null,
+      "kcar_avg": 0,
+      "ens_price": null
+    },
+    {
+      "mask_id": "S02",
+      "model_group": "그랜저",
+      "actual_price": 1900,
+      "encar_count": 144,
+      "encar_strict_count": 90,
+      "kcar_count": 7,
+      "encar_avg": 2150,
+      "encar_median": 2180,
+      "react_bench": 2193,
+      "st_bench": 2210,
+      "kcar_avg": 2030,
+      "ens_price": 2090
+    },
+    {
+      "mask_id": "S03",
+      "model_group": "아반떼",
+      "actual_price": 1710,
+      "encar_count": 13,
+      "encar_strict_count": 3,
+      "kcar_count": 1,
+      "encar_avg": 1630,
+      "encar_median": 1600,
+      "react_bench": 1596,
+      "st_bench": 1795,
+      "kcar_avg": 1650,
+      "ens_price": 1640
+    }
+  ]
+}

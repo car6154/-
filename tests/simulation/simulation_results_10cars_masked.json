@@ -1,0 +1,117 @@
+{
+  "results": [
+    {
+      "mask_id": "S01",
+      "model_group": "스타리아",
+      "maker": "현대",
+      "car_name": "스타리아",
+      "sub_model": "2.2 디젤 카고 3인승 모던",
+      "year": 2021,
+      "mileage": 147240,
+      "actual_price": 1220,
+      "encar_count": 0,
+      "encar_strict_count": 0,
+      "kcar_count": 0,
+      "status": "COMPLETED",
+      "encar_models": {
+        "EN_01_엔카_단순평균": null,
+        "EN_02_엔카_중앙값": null,
+        "EN_03_React_벤치마크": null,
+        "EN_04_Streamlit_벤치마크": null
+      },
+      "kcar_models": {
+        "KC_01_케이카_평균": 0,
+        "KC_02_케이카_마일리지보정가": 0
+      },
+      "ens_models": {
+        "ENS_01_엔카케이카_앙상블": null
+      }
+    },
+    {
+      "mask_id": "S02",
+      "model_group": "그랜저",
+      "maker": "현대",
+      "car_name": "더 뉴그랜저IG",
+      "sub_model": "가솔린 2.5 르블랑",
+      "year": 2022,
+      "mileage": 86340,
+      "actual_price": 1900,
+      "encar_count": 144,
+      "encar_strict_count": 90,
+      "kcar_count": 7,
+      "status": "COMPLETED",
+      "encar_models": {
+        "EN_01_엔카_단순평균": 2150,
+        "EN_02_엔카_중앙값": 2180,
+        "EN_03_React_벤치마크": 2193,
+        "EN_04_Streamlit_벤치마크": 2210
+      },
+      "kcar_models": {
+        "KC_01_케이카_평균": 2030,
+        "KC_02_케이카_마일리지보정가": 2031
+      },
+      "ens_models": {
+        "ENS_01_엔카케이카_앙상블": 2090
+      }
+    },
+    {
+      "mask_id": "S03",
+      "model_group": "아반떼",
+      "maker": "현대",
+      "car_name": "아반떼 하이브리드(CN7)",
+      "sub_model": "HEV 모던",
+      "year": 2021,
+      "mileage": 73989,
+      "actual_price": 1710,
+      "encar_count": 13,
+      "encar_strict_count": 3,
+      "kcar_count": 1,
+      "status": "COMPLETED",
+      "encar_models": {
+        "EN_01_엔카_단순평균": 1630,
+        "EN_02_엔카_중앙값": 1600,
+        "EN_03_React_벤치마크": 1596,
+        "EN_04_Streamlit_벤치마크": 1795
+      },
+      "kcar_models": {
+        "KC_01_케이카_평균": 1650,
+        "KC_02_케이카_마일리지보정가": 1579
+      },
+      "ens_models": {
+        "ENS_01_엔카케이카_앙상블": 1640
+      }
+    },
+    {
+      "mask_id": "S04",
+      "model_group": "레이",
+      "maker": "기아",
+      "car_name": "더 뉴기아 레이",
+      "sub_model": "1.0 가솔린 시그니처",
+      "year": 2022,
+      "mileage": 40048,
+      "actual_price": 1540,
+      "encar_count": 0,
+      "encar_strict_count": 0,
+      "kcar_count": 0,
+      "status": "BLOCKED_BY_407",
+      "encar_models": {
+        "EN_01_엔카_단순평균": null,
+        "EN_02_엔카_중앙값": null,
+        "EN_03_React_벤치마크": null,
+        "EN_04_Streamlit_벤치마크": null
+      },
+      "kcar_models": {
+        "KC_01_케이카_평균": null
+      },
+      "ens_models": {
+        "ENS_01_엔카케이카_앙상블": null
+      }
+    }
+  ],
+  "blocked_info": {
+    "blocked_index": 4,
+    "blocked_car_id": "S04",
+    "blocked_model": "기아 더 뉴기아 레이 1.0 가솔린 시그니처",
+    "msg": "❌ 407 프록시 인증 차단 (search=407)"
+  }
+}
