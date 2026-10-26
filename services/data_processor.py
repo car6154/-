@@ -1,5 +1,6 @@
 # services/data_processor.py
 import re
+from typing import Union
 import pandas as pd
 
 class DataProcessor:
