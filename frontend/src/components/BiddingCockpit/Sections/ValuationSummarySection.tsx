@@ -135,6 +135,16 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
     return [{ label: `${minP.toLocaleString()}~${maxP.toLocaleString()}만`, min: minP, max: maxP, count, ratio: 100 }];
   }, [encarList]);
 
+  // 🏷️ 엔카 스타일 신차대비 분석 데이터 산출 (제이 6번 요구사항)
+  const stdNewCarP = Number(targetCarHistory?.standardNewCarPrice || 0);
+  const totalOptP = Number(targetCarHistory?.totalOptionPrice || 0);
+  const baseCarP = Number(targetCarHistory?.baseCarPrice || (stdNewCarP > 0 && totalOptP > 0 ? Math.max(0, stdNewCarP - totalOptP) : stdNewCarP));
+  const hasNewCarPrice = stdNewCarP > 0;
+  
+  const newCarRatio = (hasNewCarPrice && aiRetailPrice > 0) ? Math.round((aiRetailPrice / stdNewCarP) * 100) : 0;
+  const newCarDiff = (hasNewCarPrice && aiRetailPrice > 0) ? (aiRetailPrice - stdNewCarP) : 0;
+  const newCarDeprecRatio = (hasNewCarPrice && aiRetailPrice > 0) ? Math.round(((stdNewCarP - aiRetailPrice) / stdNewCarP) * 100) : 0;
+
   return (
         <div className="bg-[#0e0f13] border border-[#262833] rounded-xl p-4 sm:p-5 shadow-lg space-y-3.5">
           
@@ -206,6 +216,46 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
               </div>
               <div className="w-8 h-8 rounded-lg bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-base shrink-0">
                 💰
+              </div>
+            </div>
+          </div>
+
+          {/* 🏷️ 엔카 스타일 신차대비 분석 패널 (제이 6번 요구사항 반영) */}
+          <div className="bg-[#121622] border border-[#232f45] rounded-xl px-3.5 py-2.5 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-2.5 text-xs">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 font-bold border border-sky-500/30 text-[11px] flex items-center gap-1 shrink-0">
+                <span>🚘</span> 신차대비
+              </span>
+              <div className="flex items-center gap-1.5 text-slate-300 font-mono text-[12px] flex-wrap">
+                <span className="text-slate-400">등급 기준가</span>
+                <strong className="text-white">{hasNewCarPrice && baseCarP > 0 ? `${baseCarP.toLocaleString()}만` : '-'}</strong>
+                <span className="text-slate-500">+</span>
+                <span className="text-slate-400">선택옵션</span>
+                <strong className="text-sky-300">{hasNewCarPrice ? (totalOptP > 0 ? `+${totalOptP.toLocaleString()}만` : '+0만') : '-'}</strong>
+                <span className="text-slate-500">=</span>
+                <span className="text-slate-400">신차가</span>
+                <strong className="text-amber-300 font-bold">{hasNewCarPrice ? `${stdNewCarP.toLocaleString()}만` : '-'}</strong>
+              </div>
+            </div>
+            
+            <div className="flex items-center gap-3 font-mono text-[12px] shrink-0 border-t md:border-t-0 pt-1.5 md:pt-0 border-[#232f45]">
+              <div>
+                <span className="text-slate-400 mr-1.5 text-[11px]">현재 판매가</span>
+                <strong className="text-white">
+                  {aiRetailPrice > 0 ? `${aiRetailPrice.toLocaleString()}만` : '-'}
+                  {hasNewCarPrice && aiRetailPrice > 0 ? (
+                    <span className="ml-1 text-[11px] text-sky-300 font-normal">({newCarRatio}%)</span>
+                  ) : null}
+                </strong>
+              </div>
+              <div className="h-3 w-px bg-slate-700 hidden sm:block" />
+              <div>
+                <span className="text-slate-400 mr-1.5 text-[11px]">신차대비</span>
+                <strong className={newCarDiff < 0 ? 'text-emerald-400 font-bold' : (newCarDiff > 0 ? 'text-rose-400 font-bold' : 'text-slate-300')}>
+                  {hasNewCarPrice && aiRetailPrice > 0 
+                    ? `${newCarDiff > 0 ? `+${newCarDiff.toLocaleString()}` : newCarDiff.toLocaleString()}만 (-${newCarDeprecRatio}%)`
+                    : '-'}
+                </strong>
               </div>
             </div>
           </div>
