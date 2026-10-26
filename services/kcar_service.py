@@ -3800,9 +3800,23 @@ def fetch_kcar_market_stats(
     count = len(prices)
     min_p = prices[0]
     max_p = prices[-1]
-    avg_p = int(sum(prices) / count)
+    all_strict_avg = int(sum(prices) / count)
     mid_idx = count // 2
     median_p = round((prices[mid_idx - 1] + prices[mid_idx]) / 2) if count % 2 == 0 else prices[mid_idx]
+
+    # 💡 [제이 8번 규칙] 케이카 기준가를 전체 엄격 평균에서 무사고 평균(acdtHistCnts '무사고' 행만)으로 변경.
+    # 무사고가 0대면 전체 엄격 평균으로 대체.
+    no_acc_cars = [
+        c for c in valid_cars 
+        if c.get("accident") == "무사고" or str(c.get("accident", "")).strip() in ("무사고", "")
+    ]
+    no_acc_prices = [c["price"] for c in no_acc_cars]
+    if no_acc_prices:
+        avg_p = int(sum(no_acc_prices) / len(no_acc_prices))
+        print(f"[K-Car 기준가 산출] 무사고 {len(no_acc_prices)}대 평균 기준가 적용: {avg_p}만원 (전체 엄격 {count}대 평균: {all_strict_avg}만원)", flush=True)
+    else:
+        avg_p = all_strict_avg
+        print(f"[K-Car 기준가 산출] 무사고 0대 => 전체 엄격 평균 기준가 대체: {avg_p}만원", flush=True)
 
     # e) A로직 주행거리 보정 및 옵션 델타 확장 (get_benchmarked_valuation 대칭 공식)
     avg_adj = avg_p
@@ -3930,7 +3944,8 @@ def fetch_kcar_market_stats(
         mil_diffs = []
         opt_adjs = []
 
-        for c in valid_cars:
+        calc_cars = no_acc_cars if no_acc_cars else valid_cars
+        for c in calc_cars:
             c_mil = c["mileage"]
             c_price = c["price"]
 
