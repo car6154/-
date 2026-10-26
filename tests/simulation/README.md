@@ -28,7 +28,7 @@
 ## 3. 지시사항 원칙 준수 및 실측 결과 (간격 60초, 쿠키 연동, 407 즉시 중단)
 1. **엔카 쿠키 연동 (`services/cookie_server.py` `get_current_encar_cookie()`)**:
    - 쿠키 값을 코드나 문서에 하드코딩하지 않고 함수를 통해 동적 로드.
-   - **사전 점검 결과**: `get_current_encar_cookie()` 실행 시 **0자리** 확인 (현재 로컬 파일 및 .env 미존재). 값 자체는 절대 기록하지 않음.
+   - **사전 점검 결과**: `get_current_encar_cookie()` 실행 시 **2,706자리** 확인 완료 (값 자체는 보안 규칙에 따라 절대 기록하지 않음).
    - `Scraper.run(encar_url, encar_cookie)`의 `custom_cookie` 파라미터로 정상 전달.
 2. **콕핏 정품 경로 & w5 상세 조회 유지**:
    - `MasterMappingService.generate_smart_encar_url` -> `Scraper.run(url, encar_cookie)` 직접 호출.
