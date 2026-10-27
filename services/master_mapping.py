@@ -1096,19 +1096,35 @@ class MasterMappingService:
             if not re.search(r'\bev[1-9]\b', text_clean):
                 fuel = '전기'
 
-        # 2. 배기량 (disp) - \d+\.\d+ (R2.0 등 포함) 또는 \d+cc (1600cc -> 1.6)
+        # 2. 배기량 (disp) - \d+\.\d+ (R2.0, 1.35 등 포함) 또는 \d+cc (1600cc -> 1.6, 1350cc -> 1.35)
         disp = None
         m_disp = re.search(r'(?:[a-z가-힣]|\b)(\d+\.\d+)', text_clean)
         if m_disp:
             try:
-                disp = f"{float(m_disp.group(1)):.1f}"
+                val = float(m_disp.group(1))
+                parts = f"{val:.2f}".split('.')
+                dec = parts[1].rstrip('0')
+                if len(dec) == 0:
+                    disp = f"{parts[0]}.0"
+                elif len(dec) == 1:
+                    disp = f"{parts[0]}.{dec}"
+                else:
+                    disp = f"{parts[0]}.{dec[:2]}"
             except Exception:
                 pass
         else:
             m_cc = re.search(r'(\d{3,4})\s*cc', text_clean)
             if m_cc:
                 try:
-                    disp = f"{round(int(m_cc.group(1)) / 1000.0, 1):.1f}"
+                    val = int(m_cc.group(1)) / 1000.0
+                    parts = f"{val:.2f}".split('.')
+                    dec = parts[1].rstrip('0')
+                    if len(dec) == 0:
+                        disp = f"{parts[0]}.0"
+                    elif len(dec) == 1:
+                        disp = f"{parts[0]}.{dec}"
+                    else:
+                        disp = f"{parts[0]}.{dec[:2]}"
                 except Exception:
                     pass
 
@@ -1168,9 +1184,16 @@ class MasterMappingService:
                 continue
 
             # 2. 배기량 모순 체크: t_name 또는 tree_spec에 배기량이 있을 때 입력과 다르면 제외
-            cand_disps = {s for s in [name_spec['disp'], tree_spec['disp']] if s}
-            if in_disp and any(d != in_disp for d in cand_disps):
-                continue
+            # 단, 배기량 차이 0.05 이내(예: 1.35 vs 1.3)는 동일 배기량으로 취급 (부동소수점 오차 감안 4자리 반올림)
+            cand_disps = [s for s in [name_spec['disp'], tree_spec['disp']] if s]
+            if in_disp and cand_disps:
+                try:
+                    in_d_val = float(in_disp)
+                    if any(round(abs(in_d_val - float(d)), 4) > 0.05 for d in cand_disps):
+                        continue
+                except Exception:
+                    if any(d != in_disp for d in cand_disps):
+                        continue
 
             # 3. 구동방식 모순 체크: t_name 또는 tree_spec에 구동방식이 있을 때 입력과 다르면 제외
             cand_drives = {s for s in [name_spec['drive'], tree_spec['drive']] if s}
@@ -1185,8 +1208,14 @@ class MasterMappingService:
             spec_score = 0
             if in_fuel and in_fuel in cand_fuels:
                 spec_score += 2
-            if in_disp and in_disp in cand_disps:
-                spec_score += 3
+            if in_disp and cand_disps:
+                try:
+                    in_d_val = float(in_disp)
+                    if any(round(abs(in_d_val - float(d)), 4) <= 0.05 for d in cand_disps):
+                        spec_score += 3
+                except Exception:
+                    if in_disp in cand_disps:
+                        spec_score += 3
             if in_drive and in_drive in cand_drives:
                 spec_score += 2
 

@@ -6489,9 +6489,9 @@
         },
         "3.0 LPI 렌터카 프레스티지": {
           "badge_group": "LPG 3000cc",
-          "badge": "3.0 LPI 럭셔리 (렌터카)",
-          "badge_detail": "프레스티지",
-          "updated_at": "2026-10-27 13:05:18",
+          "badge": "3.0 LPI 프레스티지 (렌터카)",
+          "badge_detail": "",
+          "updated_at": "2026-10-27 14:02:39",
           "soldout_clsheadcd": "005",
           "soldout_clsdetailcd": ""
         },
@@ -10293,9 +10293,9 @@
         },
         "M16 GDi 모던": {
           "badge_group": "가솔린 1600cc",
-          "badge": "M16 GDI 프리미엄",
-          "badge_detail": "모던",
-          "updated_at": "2026-10-27 13:05:18",
+          "badge": "M16 GDI 모던",
+          "badge_detail": "",
+          "updated_at": "2026-10-27 14:02:39",
           "soldout_clsheadcd": "023",
           "soldout_clsdetailcd": ""
         },
