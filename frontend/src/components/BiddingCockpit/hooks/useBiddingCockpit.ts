@@ -354,7 +354,7 @@ export function useBiddingCockpit({
           }
         }
 
-        const cids = data.items.map((it: any) => String(it.id || it.carid || '').replace(/\D/g, '')).filter(Boolean);
+        const cids = data.items.map((it: any) => String(it._carid || it.id || it.carid || '').replace(/\D/g, '')).filter(Boolean);
         if (cids.length > 0) {
           fetchEncarSoldOut(cids, targetCarName, String(targetYr), targetDetail);
         }
