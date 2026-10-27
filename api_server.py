@@ -1017,7 +1017,8 @@ def search_encar_market(req: EncarSearchRequest):
         strict_df = DataProcessor.filter_strictly_same_year_and_grade(
             df,
             target_year=year_num,
-            target_detail_model=detail_model
+            target_detail_model=detail_model,
+            target_car_name=car_name
         )
         strict_has_data = not strict_df.empty
 
@@ -1065,7 +1066,8 @@ def search_encar_market(req: EncarSearchRequest):
                 strict_df = DataProcessor.filter_strictly_same_year_and_grade(
                     df,
                     target_year=year_num,
-                    target_detail_model=detail_model
+                    target_detail_model=detail_model,
+                    target_car_name=car_name
                 )
                 strict_has_data = not strict_df.empty
 
@@ -1101,7 +1103,8 @@ def search_encar_market(req: EncarSearchRequest):
             target_year=year_num,
             target_options=req.targetOptions or "",
             target_opt_adj=opt_adj,
-            target_sub_model=detail_model
+            target_sub_model=detail_model,
+            target_car_name=car_name
         ) if not df.empty else {"has_data": False}
 
         # 엄격 매물 기준 통계 산출 (엄격 subset이 비면 엄격 추정가는 0/해당없음 처리, 넓은 범위로 슬쩍 대체 금지)

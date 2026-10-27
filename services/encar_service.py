@@ -1072,7 +1072,7 @@ class Scraper:
             return {"has_data": False, "msg": f"통신 에러: {str(e)}"}
 
     @staticmethod
-    def get_benchmarked_valuation(chart_base, target_mil=0, target_accident="", target_year="", target_options="", target_opt_adj=0, target_sub_model=""):
+    def get_benchmarked_valuation(chart_base, target_mil=0, target_accident="", target_year="", target_options="", target_opt_adj=0, target_sub_model="", target_car_name=""):
         """
         동급 매물 리스트(chart_base)에서 실제 rgsid를 찾아 엔카 viewPriceReport를 찌르고,
         엔카 표준 100점 기준가와 상하한 밴드 계수를 획득하여
@@ -1087,7 +1087,8 @@ class Scraper:
         strict_df = DataProcessor.filter_strictly_same_year_and_grade(
             chart_base,
             target_year=target_year,
-            target_detail_model=target_sub_model
+            target_detail_model=target_sub_model,
+            target_car_name=target_car_name
         )
 
         if strict_df.empty:
