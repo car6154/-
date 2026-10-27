@@ -39,6 +39,8 @@ export interface InventorySettlementItem {
   finalProfit: number;
   isMine: boolean;
   encarUrl?: string;
+  mileage?: number;
+  apCarId?: string;
 }
 
 export interface AuctionCarItem {
@@ -81,4 +83,5 @@ export interface CockpitPresetData {
   memo?: string;
   auctionType?: string;
   targetMargin?: number;
+  apCarId?: string;
 }

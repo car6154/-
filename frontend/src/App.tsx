@@ -665,12 +665,19 @@ export default function App() {
       }
     }
 
+    // 주행거리: 정산 행 주행거리를 우선 사용하고, 없을 때만 장부를 본다. 둘 다 없으면 undefined.
     let parsedMileage: number | undefined = undefined;
-    const rawMil = matchedLedger?.mileage ?? (item as any).mileage;
+    const rawMil = (item.mileage !== undefined && item.mileage !== null && Number(item.mileage) > 0)
+      ? item.mileage
+      : matchedLedger?.mileage;
+
     if (rawMil !== undefined && rawMil !== null && rawMil !== '') {
       const milClean = String(rawMil).replace(/[^\d]/g, '');
       if (milClean) {
-        parsedMileage = parseInt(milClean, 10);
+        const m = parseInt(milClean, 10);
+        if (!isNaN(m) && m > 0) {
+          parsedMileage = m;
+        }
       }
     }
 
@@ -693,6 +700,7 @@ export default function App() {
       options: options,
       memo: `[재고 역추적 / 매입일: ${item.buyDate} / ${item.stockDays}일차 재고]`,
       targetMargin: 120,
+      apCarId: item.apCarId || undefined,
     });
     showToast(`🎯 [${item.carNumber} ${carName}] 사이드바 필터 및 실시간 역추적 시세 연동 완료!`);
     setActiveTab('cockpit');

@@ -590,12 +590,17 @@ export function useBiddingCockpit({
         if (!isNaN(y) && y > 0) setYearModel(y);
       }
       let parsedMileage = 0;
-      if (preset.mileage !== undefined) {
+      if (preset.mileage !== undefined && preset.mileage !== null && preset.mileage !== '') {
         let m = typeof preset.mileage === 'number' ? preset.mileage : parseInt(String(preset.mileage).replace(/[^\d]/g, ''), 10);
         if (!isNaN(m) && m > 0) {
           parsedMileage = m;
           setMileageKm(m);
+        } else {
+          setMileageKm(0);
         }
+      } else {
+        // 프리셋에 주행거리가 없으면 이전 차 숫자가 남지 않게 0으로 초기화
+        setMileageKm(0);
       }
       if (preset.options) {
         setOptionsTag(preset.options);
@@ -842,6 +847,21 @@ export function useBiddingCockpit({
             rawHistory: ch,
             originDoc: doc
           });
+        }
+
+        // 프리셋 주행거리가 없을 때만 차얼마/검사/카히스토리 주행거리 결과로 채움 (프리셋이 있으면 절대 덮어쓰지 않음)
+        if (!overrideMileage || overrideMileage <= 0) {
+          const docMil = res.origin_doc?.inspection_mileage;
+          const histMil = (res.car_history as any)?.mileages?.[0]?.mileage;
+          const foundMil = docMil || histMil;
+          if (foundMil && typeof foundMil === 'number' && foundMil > 0) {
+            setMileageKm(foundMil);
+          } else if (foundMil) {
+            const parsed = parseInt(String(foundMil).replace(/[^\d]/g, ''), 10);
+            if (!isNaN(parsed) && parsed > 0) {
+              setMileageKm(parsed);
+            }
+          }
         }
 
         // 자사 소매/도매 실적 통계도 즉시 연동 (동일 차종 재조회 시 resetCockpitState로 초기화된 상태 복구 보장)

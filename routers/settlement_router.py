@@ -86,7 +86,8 @@ def _safe_float(val: Any, default: float = 0.0) -> float:
 SETTLEMENT_HEADER = [
     '순차', '매입일', '상태', '차량번호', '차종', '판매가', '재고일', '매입가',
     '외판수리', '상품화', '헤딜수수료', '기본제경비', '공헌이익', '실수익',
-    '수수료율', '판매수수료', '수수료율_수동', '최종매출이익', '내꺼', '엔카URL'
+    '수수료율', '판매수수료', '수수료율_수동', '최종매출이익', '내꺼', '엔카URL',
+    '주행거리', 'apCarId'
 ]
 
 
@@ -154,6 +155,8 @@ def get_inventory_settlement(response: Response):
                     "finalProfit": _safe_float(get_val("최종매출이익")),
                     "isMine": get_val("내꺼") not in ("false", "False", "0", "N"),
                     "encarUrl": get_val("엔카URL"),
+                    "mileage": _safe_int(get_val("주행거리")) if get_val("주행거리") else None,
+                    "apCarId": get_val("apCarId") or None,
                 }
                 items.append(item)
 
@@ -538,12 +541,13 @@ def sync_highplus_buy(req: Optional[HighplusBuySyncRequest] = None):
                     "buyPrice": buy_price,
                     "salePrice": c.get("targetSaleAmt"),
                     "apCarId": c.get("apCarId"),
+                    "mileage": c.get("mileage"),
                     "etcFee": etc_amt,
                     "transferDate": t_date,
                     "manager": "김재현",
                     "api_success": True
                 })
-                print(f"[SettlementRouter] 6대 상세 매입 조회: 차량={c_no}, etcAmt={etc_amt}, buyPrice={buy_price}, targetSaleAmt={c.get('targetSaleAmt')}, apCarId={c.get('apCarId')}", flush=True)
+                print(f"[SettlementRouter] 6대 상세 매입 조회: 차량={c_no}, etcAmt={etc_amt}, buyPrice={buy_price}, targetSaleAmt={c.get('targetSaleAmt')}, apCarId={c.get('apCarId')}, mileage={c.get('mileage')}", flush=True)
 
             print(f"[SettlementRouter] 6대 상세 API 조회 완료: 총 {len(cars_to_process)}대 수집", flush=True)
 
@@ -560,6 +564,7 @@ def sync_highplus_buy(req: Optional[HighplusBuySyncRequest] = None):
                             "buyPrice": c.get("buyPrice"),
                             "salePrice": c.get("targetSaleAmt"),
                             "apCarId": c.get("apCarId"),
+                            "mileage": c.get("mileage"),
                             "etcFee": c.get("etcAmt"),
                             "transferDate": c.get("transferDate"),
                             "manager": "김재현",

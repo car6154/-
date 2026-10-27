@@ -258,6 +258,7 @@ class AutoplusAdminService:
                 "raw_sale_price": raw_s,
                 "has_explicit_sale_price": has_explicit_sale_price,
                 "apCarId": ap_car_id,
+                "mileage": _safe_int(c.get("mileage")) if c.get("mileage") else None,
                 "buyDate": buy_date_disp,
                 "stockDays": stock_days,
                 "outerRepairs": _safe_int(c.get("outerRepairs", 0)),
@@ -446,7 +447,8 @@ class AutoplusAdminService:
         header = [
             '순차', '매입일', '상태', '차량번호', '차종', '판매가', '재고일', '매입가',
             '외판수리', '상품화', '헤딜수수료', '기본제경비', '공헌이익', '실수익',
-            '수수료율', '판매수수료', '수수료율_수동', '최종매출이익', '내꺼', '엔카URL'
+            '수수료율', '판매수수료', '수수료율_수동', '최종매출이익', '내꺼', '엔카URL',
+            '주행거리', 'apCarId'
         ]
         rows = []
 
@@ -464,6 +466,11 @@ class AutoplusAdminService:
                 break
             except Exception:
                 continue
+
+        if "주행거리" not in header:
+            header.append("주행거리")
+        if "apCarId" not in header:
+            header.append("apCarId")
 
         h_map = {col.strip(): i for i, col in enumerate(header)}
         car_no_idx = h_map.get("차량번호", 3)
@@ -549,6 +556,10 @@ class AutoplusAdminService:
 
                     if c_info["buyDate"]:
                         update_val("매입일", c_info["buyDate"])
+                    if c_info.get("mileage"):
+                        update_val("주행거리", c_info["mileage"])
+                    if c_info.get("apCarId"):
+                        update_val("apCarId", c_info["apCarId"])
                     updated_count += 1
 
                 new_rows.append(r)
@@ -600,6 +611,8 @@ class AutoplusAdminService:
                 set_new("최종매출이익", "")
                 set_new("내꺼", "true")
                 set_new("엔카URL", "")
+                set_new("주행거리", str(c_info.get("mileage") or ""))
+                set_new("apCarId", str(c_info.get("apCarId") or ""))
 
                 new_rows.insert(0, row_new)
                 added_count += 1

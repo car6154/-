@@ -205,10 +205,30 @@ class MobilePurchaseService:
 
                 is_sold = (sold_yn_str in ("Y", "YES", "TRUE", "1")) or ("완료" in status_val or status_val == "판매완료")
 
+                list_mileage = None
+                for mk in ["mileage", "vhclMileage", "accumMileage", "drivingDistance", "주행거리", "dvrDsc", "useKm", "runKm", "distance"]:
+                    if mk in item and item[mk] is not None and str(item[mk]).strip() not in ("", "null", "none"):
+                        try:
+                            lm_val = int(float(str(item[mk]).replace(",", "").strip()))
+                            if lm_val > 0:
+                                list_mileage = lm_val
+                                break
+                        except (ValueError, TypeError):
+                            pass
+
+                ap_car_id_list = item.get("apCarId") or item.get("carId") or None
+                if ap_car_id_list is not None:
+                    ap_car_id_list = str(ap_car_id_list).strip()
+                    if ap_car_id_list.lower() in ("", "null", "none"):
+                        ap_car_id_list = None
+
                 parsed_cars.append({
                     "carNumber": car_no,
                     "carName": car_name,
                     "buyPrice": buy_price,
+                    "targetSaleAmt": target_sale_amt,
+                    "apCarId": ap_car_id_list,
+                    "mileage": list_mileage,
                     "etcAmt": etc_amt,
                     "transferDate": transfer_date,
                     "manager": manager,
@@ -329,6 +349,28 @@ class MobilePurchaseService:
                     if ap_car_id.lower() in ("", "null", "none"):
                         ap_car_id = None
 
+                # 주행거리 추출: 키 이름은 추측하지 않고 후보 키들을 순회하며 실제 매칭된 키를 로그로 기록
+                extracted_mileage = None
+                matched_mileage_key = None
+                mileage_candidates = ["mileage", "vhclMileage", "accumMileage", "drivingDistance", "주행거리", "dvrDsc", "useKm", "runKm", "distance"]
+                for mk in mileage_candidates:
+                    if mk in data and data[mk] is not None and str(data[mk]).strip() not in ("", "null", "none"):
+                        try:
+                            m_val = int(float(str(data[mk]).replace(",", "").strip()))
+                            if m_val > 0:
+                                extracted_mileage = m_val
+                                matched_mileage_key = mk
+                                break
+                        except (ValueError, TypeError):
+                            pass
+
+                if matched_mileage_key:
+                    logger.info(f"[MobilePurchaseService] pcs_id {pcs_id}: 주행거리 추출 성공 (키='{matched_mileage_key}', 값={extracted_mileage}km)")
+                    print(f"[MobilePurchaseService] pcs_id {pcs_id}: 주행거리 추출 성공 (키='{matched_mileage_key}', 값={extracted_mileage}km)", flush=True)
+                else:
+                    logger.info(f"[MobilePurchaseService] pcs_id {pcs_id}: 주행거리 키 미발견 (원본 data 키: {list(data.keys())})")
+                    print(f"[MobilePurchaseService] pcs_id {pcs_id}: 주행거리 키 미발견 (원본 data 키: {list(data.keys())})", flush=True)
+
                 car_dict = {
                     "pcsId": pcs_id,
                     "carNumber": car_no,
@@ -336,6 +378,7 @@ class MobilePurchaseService:
                     "buyPrice": buy_price,
                     "targetSaleAmt": target_sale_amt,
                     "apCarId": ap_car_id,
+                    "mileage": extracted_mileage,
                     "etcAmt": etc_amt,
                     "transferDate": transfer_date,
                     "manager": manager_name or "김재현",
@@ -343,7 +386,7 @@ class MobilePurchaseService:
                     "raw": data
                 }
                 detailed_cars.append(car_dict)
-                print(f"[MobilePurchaseService] pcs_id {pcs_id}: 차량={car_no}, etcAmt={etc_amt}, buyPrice={buy_price}, targetSaleAmt={target_sale_amt}, apCarId={ap_car_id}, 매니저={manager_name}({manager_id})", flush=True)
+                print(f"[MobilePurchaseService] pcs_id {pcs_id}: 차량={car_no}, etcAmt={etc_amt}, buyPrice={buy_price}, targetSaleAmt={target_sale_amt}, apCarId={ap_car_id}, mileage={extracted_mileage}, 매니저={manager_name}({manager_id})", flush=True)
             except Exception as e:
                 logger.error(f"[MobilePurchaseService] pcs_id {pcs_id} 상세 호출 예외: {e}")
 
