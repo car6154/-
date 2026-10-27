@@ -8,6 +8,7 @@ import {
 } from '@/services/biddingOptionCatalog';
 import { CarDamageDiagram2D, getDamagePartKoreanName } from './CarDamageDiagram2D';
 import { TrackedCarsModal } from './TrackedCarsModal';
+import { KcarMarketStats, KcarCarItem } from '../types';
 
 export interface EncarItem {
   id: string;
@@ -35,6 +36,12 @@ export type EncarSortOption =
   | 'year_desc'
   | 'mileage_asc'
   | 'complex';
+
+export type KcarSortOption =
+  | 'price_asc'
+  | 'price_desc'
+  | 'year_desc'
+  | 'mileage_asc';
 
 export interface EncarFilterStats {
   targetBadge?: string;
@@ -65,6 +72,7 @@ export interface ComparableEncarSectionProps {
   showTrimColumn?: boolean;
   onToggleTrimColumn?: () => void;
   onSelectEncar: (id: string) => void;
+  kcarStats?: KcarMarketStats | null;
 }
 
 export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
@@ -87,10 +95,13 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
   showTrimColumn: externalShowTrimColumn,
   onToggleTrimColumn,
   onSelectEncar,
+  kcarStats,
 }) => {
+  const [activeTab, setActiveTab] = useState<'encar' | 'kcar'>('encar');
   const [internalShowTrim, setInternalShowTrim] = useState<boolean>(false);
   const showTrimColumn = externalShowTrimColumn !== undefined ? externalShowTrimColumn : internalShowTrim;
   const [sortOption, setSortOption] = useState<EncarSortOption>('complex');
+  const [kcarSortOption, setKcarSortOption] = useState<KcarSortOption>('price_asc');
 
   // 자사 차량 매핑 맵 연동 (백엔드 캐시와 동기화하여 100% 자사 매물 식별)
   const [companyCarIdMap, setCompanyCarIdMap] = useState<Record<string, string>>({});
@@ -254,6 +265,40 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
     }
   }, [encarList, sortOption]);
 
+  const kcarCars: KcarCarItem[] = useMemo(() => kcarStats?.cars || [], [kcarStats]);
+
+  const sortedKcarList = useMemo(() => {
+    const list = [...kcarCars];
+    const parseYearNum = (val: any): number => {
+      if (!val) return 0;
+      const str = String(val);
+      const m = str.match(/(?:20)?(\d{2})/);
+      return m ? Number('20' + m[1]) : 0;
+    };
+
+    switch (kcarSortOption) {
+      case 'price_asc':
+        return list.sort((a, b) => (Number(a.price) || 0) - (Number(b.price) || 0));
+      case 'price_desc':
+        return list.sort((a, b) => (Number(b.price) || 0) - (Number(a.price) || 0));
+      case 'year_desc':
+        return list.sort((a, b) => {
+          const yrDiff = parseYearNum(b.year || b.fullYear) - parseYearNum(a.year || a.fullYear);
+          if (yrDiff !== 0) return yrDiff;
+          return (Number(a.price) || 0) - (Number(b.price) || 0);
+        });
+      case 'mileage_asc':
+        return list.sort((a, b) => {
+          const milA = Number(a.mileage ?? 0);
+          const milB = Number(b.mileage ?? 0);
+          if (milA !== milB) return milA - milB;
+          return (Number(a.price) || 0) - (Number(b.price) || 0);
+        });
+      default:
+        return list;
+    }
+  }, [kcarCars, kcarSortOption]);
+
   const [targetCatalog, setTargetCatalog] = useState<NewCarCatalogData | null>(null);
   const [compCatalog, setCompCatalog] = useState<NewCarCatalogData | null>(null);
 
@@ -288,14 +333,40 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
 
   return (
     <div className="bg-[#0e0f13] border-2 border-amber-500/30 rounded-xl p-4 sm:p-5 shadow-xl space-y-4">
-      {/* 비교 매물 영역 상단 명확한 구분 배너 */}
+      {/* 비교 매물 영역 상단 명확한 구분 배너 & 탭 전환 */}
       <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-[#262833] bg-amber-500/5 -mx-4 -mt-4 p-4 rounded-t-xl">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           <span className="px-2.5 py-1 rounded bg-amber-500/25 text-amber-300 font-black text-xs border border-amber-500/40 shadow-sm">
             🔍 시장 비교 매물 영역
           </span>
-          <span className="text-white font-bold text-sm sm:text-base">
-            엔카 실시간 등록 매물 리스트 ({encarFilteredCount || encarList.length}대)
+          <div className="flex items-center gap-1 bg-[#14151b] p-0.5 rounded-lg border border-[#2b2e3d]">
+            <button
+              type="button"
+              onClick={() => setActiveTab('encar')}
+              className={`px-3 py-1 rounded-md text-xs font-bold transition cursor-pointer ${
+                activeTab === 'encar'
+                  ? 'bg-amber-500 text-black shadow-sm font-black'
+                  : 'text-zinc-400 hover:text-white hover:bg-[#1f222e]'
+              }`}
+            >
+              엔카 ({encarFilteredCount || encarList.length}대)
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveTab('kcar')}
+              className={`px-3 py-1 rounded-md text-xs font-bold transition cursor-pointer ${
+                activeTab === 'kcar'
+                  ? 'bg-amber-500 text-black shadow-sm font-black'
+                  : 'text-zinc-400 hover:text-white hover:bg-[#1f222e]'
+              }`}
+            >
+              케이카 ({kcarCars.length}대)
+            </button>
+          </div>
+          <span className="text-white font-bold text-sm sm:text-base ml-1">
+            {activeTab === 'encar'
+              ? `엔카 실시간 등록 매물 리스트 (${encarFilteredCount || encarList.length}대)`
+              : `케이카 실시간 등록 매물 리스트 (${kcarCars.length}대)`}
           </span>
         </div>
         <div className="text-xs text-zinc-400">
@@ -303,8 +374,10 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
         </div>
       </div>
 
-      {/* Encar List + 2D Detail Layout */}
-      <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 items-stretch">
+      {/* 탭 분기: 엔카 (테이블 7칸 + 상세카드 5칸) vs 케이카 (전폭 테이블) */}
+      {activeTab === 'encar' ? (
+        /* Encar List + 2D Detail Layout */
+        <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 items-stretch">
         {/* Table (Left 7 cols) */}
         <div className="xl:col-span-7 space-y-2 flex flex-col">
           <div className="flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm font-bold text-white px-1">
@@ -861,6 +934,202 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
           )}
         </div>
       </div>
+      ) : (
+        /* K-Car Full Width Table Layout (동일 양식, 껍데기 공유) */
+        <div className="space-y-3">
+          {/* 케이카 헤드라인 요약 바 */}
+          <div className="bg-[#12131a] border border-[#262833] rounded-xl p-3 space-y-2">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/40 text-xs font-black">
+                  🏢 K-Car 직영 시세 요약
+                </span>
+                <span className="text-xs font-mono font-bold text-white">
+                  총 <strong className="text-rose-400 font-bold">{kcarStats?.count || 0}</strong>대
+                </span>
+                {kcarStats?.modelName && (
+                  <span className="text-[10px] px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-300 hidden sm:inline">
+                    {kcarStats.modelName}
+                  </span>
+                )}
+                {kcarStats?.searchUrl && (
+                  <a
+                    href={kcarStats.searchUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[11px] px-2 py-0.5 rounded bg-rose-500/15 hover:bg-rose-500/30 text-rose-300 border border-rose-500/35 font-bold transition flex items-center gap-1"
+                  >
+                    <span>K-Car 바로가기</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                )}
+              </div>
+              <div className="flex items-center gap-2 flex-wrap">
+                <div className="flex items-center gap-1.5 shrink-0">
+                  <span className="text-[11px] text-zinc-400 font-medium hidden sm:inline whitespace-nowrap">정렬:</span>
+                  <select
+                    value={kcarSortOption}
+                    onChange={(e) => setKcarSortOption(e.target.value as KcarSortOption)}
+                    className="text-xs px-2.5 py-1 rounded bg-[#1c1e28] hover:bg-[#282c3c] text-zinc-200 border border-[#35394a] transition cursor-pointer font-bold focus:outline-none focus:border-amber-400"
+                  >
+                    <option value="price_asc">가격 낮은 순</option>
+                    <option value="price_desc">가격 높은 순</option>
+                    <option value="year_desc">연식 신순</option>
+                    <option value="mileage_asc">주행거리 적은 순</option>
+                  </select>
+                </div>
+                <button
+                  type="button"
+                  onClick={toggleTrim}
+                  className="text-xs px-2.5 py-1 rounded bg-[#1c1e28] hover:bg-[#282c3c] text-zinc-200 border border-[#35394a] transition cursor-pointer font-bold"
+                >
+                  <span>세부등급 {showTrimColumn ? '숨김' : '표시'}</span>
+                </button>
+              </div>
+            </div>
+
+            {/* 헤드라인 통계 칩스 (총 대수, 평균, 주행보정평균, 최저, 중간, 최고) */}
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 text-center text-xs">
+              <div className="bg-[#181a24] p-2 rounded-lg border border-[#232634]">
+                <div className="text-[10px] text-zinc-400 font-medium">무사고 평균가</div>
+                <div className="font-mono font-bold text-rose-300 text-sm">
+                  {kcarStats && kcarStats.avg > 0 ? `${kcarStats.avg.toLocaleString()}만` : '-'}
+                </div>
+              </div>
+              <div className="bg-[#181a24] p-2 rounded-lg border border-[#232634]">
+                <div className="text-[10px] text-zinc-400 font-medium">주행보정 평균</div>
+                <div className="font-mono font-bold text-amber-300 text-sm">
+                  {kcarStats && kcarStats.avgAdj && kcarStats.avgAdj > 0 ? `${kcarStats.avgAdj.toLocaleString()}만` : '-'}
+                </div>
+              </div>
+              <div className="bg-[#181a24] p-2 rounded-lg border border-[#232634]">
+                <div className="text-[10px] text-zinc-400 font-medium">⬇️ 최저가</div>
+                <div className="font-mono font-bold text-emerald-400 text-sm">
+                  {kcarStats && kcarStats.min > 0 ? `${kcarStats.min.toLocaleString()}만` : '-'}
+                </div>
+              </div>
+              <div className="bg-[#181a24] p-2 rounded-lg border border-[#232634]">
+                <div className="text-[10px] text-zinc-400 font-medium">🎯 중간값</div>
+                <div className="font-mono font-bold text-zinc-200 text-sm">
+                  {kcarStats && kcarStats.median > 0 ? `${kcarStats.median.toLocaleString()}만` : '-'}
+                </div>
+              </div>
+              <div className="bg-[#181a24] p-2 rounded-lg border border-[#232634]">
+                <div className="text-[10px] text-zinc-400 font-medium">⬆️ 최고가</div>
+                <div className="font-mono font-bold text-rose-400 text-sm">
+                  {kcarStats && kcarStats.max > 0 ? `${kcarStats.max.toLocaleString()}만` : '-'}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* 케이카 테이블 (엔카 껍데기 그대로, 전폭) */}
+          <div className="border border-[#232634] rounded-lg overflow-hidden bg-[#0d0e12] flex-1 flex flex-col min-h-[300px] max-h-[640px] overflow-y-auto">
+            <table className="w-full text-left text-[12px] text-zinc-200">
+              <thead className="bg-[#14151b] sticky top-0 z-10 text-[11px] text-zinc-300 font-bold uppercase border-b border-[#262833]">
+                <tr>
+                  <th className="py-2.5 px-3 bg-[#14151b] whitespace-nowrap">차량명</th>
+                  {showTrimColumn && <th className="py-2.5 px-2 bg-[#14151b] whitespace-nowrap">세부등급</th>}
+                  <th className="py-2.5 px-2 text-center bg-[#14151b] whitespace-nowrap w-[70px]">연식</th>
+                  <th className="py-2.5 px-2 text-right bg-[#14151b] whitespace-nowrap w-[90px]">주행(km)</th>
+                  <th className="py-2.5 px-2 text-right bg-[#14151b] whitespace-nowrap w-[90px]">💰 가격</th>
+                  <th className="py-2.5 px-2 text-left bg-[#14151b] whitespace-nowrap w-[130px]">사고유무</th>
+                  <th className="py-2.5 px-2 text-center bg-[#14151b] whitespace-nowrap w-[60px]">색상</th>
+                  <th className="py-2.5 px-2 text-center bg-[#14151b] whitespace-nowrap w-[80px]">지점</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[#232634]">
+                {sortedKcarList.map((car, idx) => {
+                  const targetYrStr = String(yearModel % 100).padStart(2, '0');
+                  const regYrMatch = String(car.fullYear || car.year || '').match(/(?:20)?(\d{2})/);
+                  const isTargetYear = regYrMatch ? regYrMatch[1] === targetYrStr : false;
+
+                  const formatAccident = (rawType: string) => {
+                    if (!rawType || rawType.includes('무사고')) {
+                      return { text: '🟢 무사고', style: 'text-emerald-400 font-bold' };
+                    }
+                    if (rawType.includes('단순수리')) {
+                      return { text: '🟡 단순수리', style: 'text-amber-400 font-bold' };
+                    }
+                    if (rawType.includes('사고')) {
+                      return { text: '🔴 사고', style: 'text-rose-400 font-bold' };
+                    }
+                    return { text: rawType, style: 'text-zinc-300 font-medium' };
+                  };
+                  const accInfo = formatAccident(car.accident);
+
+                  return (
+                    <tr
+                      key={car.carCd || idx}
+                      onClick={() => {
+                        if (car.detailUrl) {
+                          window.open(car.detailUrl, '_blank');
+                        }
+                      }}
+                      className="cursor-pointer transition hover:bg-[#14151c]"
+                      title="클릭 시 케이카 공식 상세페이지가 새 탭으로 열립니다."
+                    >
+                      <td className="py-2 px-3 text-[12px] whitespace-nowrap">
+                        <a
+                          href={car.detailUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="hover:underline font-bold text-[12px] text-sky-400 hover:text-sky-300 transition-colors flex items-center gap-1.5"
+                        >
+                          <span>{car.carName}</span>
+                          <ExternalLink className="w-3 h-3 text-zinc-500 shrink-0 inline" />
+                        </a>
+                      </td>
+                      {showTrimColumn && (
+                        <td className="py-2 px-2 text-[11px] text-zinc-300 font-medium whitespace-nowrap">
+                          {car.gradeDetail || car.grade || '-'}
+                        </td>
+                      )}
+                      <td className="py-2 px-2 text-center text-[12px] whitespace-nowrap">
+                        <span className={isTargetYear ? 'text-amber-300 font-bold font-mono' : 'text-zinc-300 font-mono'}>
+                          {car.fullYear || `${car.year}년`}
+                        </span>
+                      </td>
+                      <td className="py-2 px-2 text-right text-[12px] font-mono text-zinc-200 whitespace-nowrap">
+                        {car.mileage ? `${Number(car.mileage).toLocaleString()}km` : '-'}
+                      </td>
+                      <td className="py-2 px-2 text-right font-bold text-amber-300 font-mono text-[13px] whitespace-nowrap">
+                        {car.price ? `${Number(car.price).toLocaleString()}만` : '-'}
+                      </td>
+                      <td className="py-2 px-2 text-left whitespace-nowrap">
+                        <span className={`text-[11px] ${accInfo.style}`}>
+                          {accInfo.text}
+                        </span>
+                      </td>
+                      <td className="py-2 px-2 text-center text-[11px] text-zinc-300 whitespace-nowrap">
+                        {car.color || '-'}
+                      </td>
+                      <td className="py-2 px-2 text-center text-[11px] text-zinc-300 whitespace-nowrap">
+                        <span className="px-1.5 py-0.5 rounded bg-zinc-800/80 text-zinc-300 border border-zinc-700/50">
+                          {car.center || '-'}
+                        </span>
+                      </td>
+                    </tr>
+                  );
+                })}
+                {sortedKcarList.length === 0 && (
+                  <tr>
+                    <td
+                      colSpan={showTrimColumn ? 8 : 7}
+                      className="py-12 text-center text-zinc-400 font-medium"
+                    >
+                      {kcarStats && !kcarStats.success
+                        ? (kcarStats.message || 'K-Car 매물 정보를 불러오지 못했습니다.')
+                        : '해당 조건의 K-Car 직영 매물이 없습니다.'}
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
 
       {/* 관심 차량 추적 관리 모달 */}
       <TrackedCarsModal

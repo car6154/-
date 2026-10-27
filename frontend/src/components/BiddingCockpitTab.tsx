@@ -162,6 +162,7 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = (props) => {
           showTrimColumn={cockpit.showTrimColumn}
           onToggleTrimColumn={() => cockpit.setShowTrimColumn(!cockpit.showTrimColumn)}
           onSelectEncar={cockpit.handleSelectEncarCar}
+          kcarStats={cockpit.kcarStats}
         />
 
         {/* ========================================================
