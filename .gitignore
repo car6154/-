@@ -80,3 +80,4 @@ frontend/src/data/my_car_ledger.csv
 frontend/src/data/my_inventory_settlement.csv
 autoplus_inventory.csv
 sales_car_datalist.csv
+data/tracked_cars.json

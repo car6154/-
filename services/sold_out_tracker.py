@@ -2,6 +2,7 @@
 import os
 import re
 import json
+import threading
 from datetime import datetime
 
 class SoldOutTracker:
@@ -12,34 +13,38 @@ class SoldOutTracker:
     """
     SNAPSHOT_FILE = os.path.join("data", "encar_snapshots.json")
     SOLD_HISTORY_FILE = os.path.join("data", "encar_sold_history.json")
+    TRACKED_CARS_FILE = os.path.join("data", "tracked_cars.json")
+    _file_lock = threading.Lock()
     _memory_cache = None
 
     @classmethod
     def _load_json(cls, filepath):
-        if not os.path.exists(filepath):
-            return {}
-        try:
-            with open(filepath, "r", encoding="utf-8") as f:
-                return json.load(f)
-        except Exception:
-            return {}
+        with cls._file_lock:
+            if not os.path.exists(filepath):
+                return {}
+            try:
+                with open(filepath, "r", encoding="utf-8") as f:
+                    return json.load(f)
+            except Exception:
+                return {}
 
     @classmethod
     def _save_json(cls, filepath, data):
-        try:
-            temp_path = f"{filepath}.tmp"
-            with open(temp_path, "w", encoding="utf-8") as f:
-                json.dump(data, f, ensure_ascii=False, indent=2)
-            if os.path.exists(filepath):
-                os.remove(filepath)
-            os.rename(temp_path, filepath)
+        with cls._file_lock:
             try:
-                from services.gdrive_backup_service import GDriveBackupService
-                GDriveBackupService.on_file_changed("snapshots", source="sold_out_tracker")
-            except Exception:
-                pass
-        except Exception as e:
-            print(f"[SoldOutTracker] Save error ({filepath}): {e}")
+                temp_path = f"{filepath}.tmp"
+                with open(temp_path, "w", encoding="utf-8") as f:
+                    json.dump(data, f, ensure_ascii=False, indent=2)
+                if os.path.exists(filepath):
+                    os.remove(filepath)
+                os.rename(temp_path, filepath)
+                try:
+                    from services.gdrive_backup_service import GDriveBackupService
+                    GDriveBackupService.on_file_changed("snapshots", source="sold_out_tracker")
+                except Exception:
+                    pass
+            except Exception as e:
+                print(f"[SoldOutTracker] Save error ({filepath}): {e}")
 
     @classmethod
     def record_active_listings(cls, df, is_complete=True):
@@ -152,17 +157,17 @@ class SoldOutTracker:
         return updated_count
 
     @classmethod
-    def verify_car_status(cls, car_id: str):
+    def verify_car_status(cls, car_id: str, update_snapshot: bool = True):
         """
         엔카 공식 리드사이드 API를 통해 매물의 실제 판매완료/판매중 상태를 실측 확정 (AGENTS.md 3-3 준수)
-        - HTTP 404: '판매완료' 확정
+        - HTTP 404: '판매완료' 확정 (update_snapshot=True인 경우 스냅샷 업데이트)
         - HTTP 200: '판매중' 확정 (consecutive_misses=0 초기화)
-        - HTTP 403, 429, 5xx, 타임아웃, 예외: '확인불가' (절대 판매완료 처리 금지)
+        - HTTP 407, 403, 429, 5xx, 타임아웃, 예외: '확인불가' (절대 판매완료 처리 금지)
         """
         import requests
         cid = re.sub(r'\D', '', str(car_id))
         if not cid:
-            return {"status": "확인불가", "carId": car_id, "detail": "유효하지 않은 차량 ID"}
+            return {"status": "확인불가", "carId": car_id, "statusCode": 0, "isSold": None, "detail": "유효하지 않은 차량 ID"}
 
         api_url = f"https://api.encar.com/v1/readside/vehicle/{cid}"
         headers = {
@@ -173,15 +178,16 @@ class SoldOutTracker:
         try:
             res = requests.get(api_url, headers=headers, timeout=5)
             status_code = res.status_code
-            snapshots = cls._load_json(cls.SNAPSHOT_FILE)
             today_str = datetime.now().strftime("%Y-%m-%d")
 
             if status_code == 404:
-                if cid in snapshots:
-                    snapshots[cid]["status"] = "판매완료"
-                    snapshots[cid]["verified_at"] = today_str
-                    snapshots[cid]["confirmed_sold_date"] = today_str
-                    cls._save_json(cls.SNAPSHOT_FILE, snapshots)
+                if update_snapshot:
+                    snapshots = cls._load_json(cls.SNAPSHOT_FILE)
+                    if cid in snapshots:
+                        snapshots[cid]["status"] = "판매완료"
+                        snapshots[cid]["verified_at"] = today_str
+                        snapshots[cid]["confirmed_sold_date"] = today_str
+                        cls._save_json(cls.SNAPSHOT_FILE, snapshots)
                 return {
                     "status": "판매완료",
                     "carId": cid,
@@ -190,11 +196,13 @@ class SoldOutTracker:
                     "verifiedAt": today_str
                 }
             elif status_code == 200:
-                if cid in snapshots:
-                    snapshots[cid]["status"] = "판매중"
-                    snapshots[cid]["consecutive_misses"] = 0
-                    snapshots[cid]["verified_at"] = today_str
-                    cls._save_json(cls.SNAPSHOT_FILE, snapshots)
+                if update_snapshot:
+                    snapshots = cls._load_json(cls.SNAPSHOT_FILE)
+                    if cid in snapshots:
+                        snapshots[cid]["status"] = "판매중"
+                        snapshots[cid]["consecutive_misses"] = 0
+                        snapshots[cid]["verified_at"] = today_str
+                        cls._save_json(cls.SNAPSHOT_FILE, snapshots)
                 return {
                     "status": "판매중",
                     "carId": cid,
@@ -202,13 +210,13 @@ class SoldOutTracker:
                     "isSold": False,
                     "verifiedAt": today_str
                 }
-            elif status_code in (403, 429) or status_code >= 500:
+            elif status_code in (403, 407, 429) or status_code >= 500:
                 return {
                     "status": "확인불가",
                     "carId": cid,
                     "statusCode": status_code,
                     "isSold": None,
-                    "detail": f"HTTP {status_code} 응답 수신"
+                    "detail": f"HTTP {status_code} 차단/오류 응답 수신"
                 }
             else:
                 return {
@@ -226,6 +234,219 @@ class SoldOutTracker:
                 "isSold": None,
                 "detail": f"네트워크/타임아웃 오류: {str(e)}"
             }
+
+    @classmethod
+    def get_tracked_cars(cls):
+        """관심 추적 차량 목록 반환"""
+        return cls._load_json(cls.TRACKED_CARS_FILE)
+
+    @classmethod
+    def add_tracked_car(cls, car_id: str, car_name: str = "", car_number: str = "", price: int = 0, source: str = "cockpit", memo: str = ""):
+        """관심 추적 차량 등록 (이미 존재하면 업데이트)"""
+        cid = re.sub(r'\D', '', str(car_id))
+        if not cid:
+            return {"success": False, "error": "유효한 carid가 아닙니다."}
+
+        tracked = cls.get_tracked_cars()
+        now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        today_str = datetime.now().strftime("%Y-%m-%d")
+
+        snapshots = cls._load_json(cls.SNAPSHOT_FILE)
+        snap = snapshots.get(cid, {})
+
+        current_price = price or snap.get("price", 0)
+
+        item = tracked.get(cid, {})
+        item.update({
+            "carid": cid,
+            "carName": car_name or snap.get("name", "") or item.get("carName", ""),
+            "carNumber": car_number or item.get("carNumber", ""),
+            "price": current_price,
+            "last_asking_price": current_price,
+            "is_asking_price": True,
+            "price_type": "호가 (팔리기 직전 호가)",
+            "source": source or item.get("source", "cockpit"),
+            "addedAt": item.get("addedAt", now_str),
+            "lastCheckedAt": item.get("lastCheckedAt"),
+            "status": item.get("status", "판매중"),
+            "consecutive_misses": item.get("consecutive_misses", 0),
+            "estimated_sold_date": item.get("estimated_sold_date"),
+            "memo": memo or item.get("memo", "")
+        })
+        tracked[cid] = item
+        cls._save_json(cls.TRACKED_CARS_FILE, tracked)
+
+        # 스냅샷 DB에도 해당 carid가 없으면 등록하여 추적 보장
+        if cid not in snapshots:
+            snapshots[cid] = {
+                "carid": cid,
+                "name": item["carName"],
+                "year": snap.get("year", ""),
+                "mileage": snap.get("mileage", 0),
+                "price": current_price,
+                "last_asking_price": current_price,
+                "is_asking_price": True,
+                "price_type": "호가 (팔리기 직전 호가)",
+                "first_seen": today_str,
+                "first_seen_time": now_str,
+                "last_seen": today_str,
+                "status": "판매중",
+                "consecutive_misses": 0
+            }
+            cls._save_json(cls.SNAPSHOT_FILE, snapshots)
+
+        return {"success": True, "carid": cid, "item": item}
+
+    @classmethod
+    def remove_tracked_car(cls, car_id: str):
+        """관심 추적 차량 등록 해제"""
+        cid = re.sub(r'\D', '', str(car_id))
+        if not cid:
+            return {"success": False, "error": "유효한 carid가 아닙니다."}
+
+        tracked = cls.get_tracked_cars()
+        if cid in tracked:
+            del tracked[cid]
+            cls._save_json(cls.TRACKED_CARS_FILE, tracked)
+            return {"success": True, "carid": cid}
+        return {"success": False, "error": "등록되지 않은 차량입니다."}
+
+    @classmethod
+    def check_all_tracked_cars(cls, pacing_sec: float = 2.0):
+        """
+        관심 carid 목록을 순회하며 엔카 readside API로 재확인
+        - 엔카 페이싱(기본 2초) 준수
+        - 407, 403, 429, 5xx, 타임아웃 수신 시 즉시 중단(Abort) & 미발견 횟수 미포함
+        - 404 수신 시 미발견 횟수 +1
+          - 1회 미발견: 상태 '판매중' 유지
+          - 2회 연속 미발견: 상태 '판매완료 추정', 마지막 저장 가격을 '팔리기 직전 호가'로 확정
+        - 200 수신 시: '판매중' 확정, consecutive_misses=0 초기화
+        """
+        import time
+        tracked = cls.get_tracked_cars()
+        if not tracked:
+            return {"total": 0, "checked": 0, "updated": 0, "aborted": False, "message": "추적 대상 차량 없음"}
+
+        snapshots = cls._load_json(cls.SNAPSHOT_FILE)
+        today_str = datetime.now().strftime("%Y-%m-%d")
+        now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        checked_count = 0
+        updated_count = 0
+        aborted = False
+        abort_reason = ""
+
+        # 이미 판매완료(404 확정)된 차량은 제외하고 점검
+        cars_to_check = [cid for cid, item in tracked.items() if item.get("status") != "판매완료"]
+
+        print(f"[SoldOutTracker] 관심 차량 재확인 시작: 총 {len(cars_to_check)}대 대상 (페이싱 {pacing_sec}초)", flush=True)
+
+        for idx, cid in enumerate(cars_to_check):
+            if idx > 0 and pacing_sec > 0:
+                time.sleep(pacing_sec)
+
+            # verify_car_status 재사용 (스냅샷 자동갱신은 끄고 결과만 수신)
+            res = cls.verify_car_status(cid, update_snapshot=False)
+            status_code = res.get("statusCode", 0)
+
+            # 407, 403, 429, 5xx, 타임아웃 등 에러/차단 시: 미발견 횟수에 포함하지 않고 즉시 중단!
+            if status_code in (407, 403, 429) or status_code >= 500 or status_code == 0:
+                aborted = True
+                abort_reason = f"HTTP {status_code} 수신 (차단/네트워크 오류 감지)"
+                print(f"[SoldOutTracker] 관심 차량 {cid} 확인 중 {abort_reason} -> 즉시 중단합니다.", flush=True)
+                break
+
+            checked_count += 1
+            item = tracked[cid]
+            item["lastCheckedAt"] = now_str
+
+            if status_code == 200:
+                # 판매중 정상 노출
+                item["status"] = "판매중"
+                item["consecutive_misses"] = 0
+                item["last_seen"] = today_str
+                if cid in snapshots:
+                    snapshots[cid]["status"] = "판매중"
+                    snapshots[cid]["consecutive_misses"] = 0
+                    snapshots[cid]["last_seen"] = today_str
+                updated_count += 1
+
+            elif status_code == 404:
+                # 404만 미발견으로 카운트
+                misses = item.get("consecutive_misses", 0) + 1
+                item["consecutive_misses"] = misses
+
+                # 마지막 저장 가격 확보
+                last_price = item.get("price") or (snapshots.get(cid, {}).get("price", 0)) or item.get("last_asking_price", 0)
+                item["last_asking_price"] = last_price
+                item["is_asking_price"] = True
+                item["price_type"] = "호가 (팔리기 직전 호가)"
+
+                if misses < 2:
+                    # 1회 미발견: 상태는 판매중 유지
+                    item["status"] = "판매중"
+                    print(f"[SoldOutTracker] 관심 차량 {cid}: 1회 미발견 감지 (상태 유지, 연속 미발견=1)", flush=True)
+                else:
+                    # 2회 연속 미발견: 판매완료 추정으로 전이 + 호가 확정
+                    item["status"] = "판매완료 추정"
+                    item["estimated_sold_date"] = today_str
+                    print(f"[SoldOutTracker] 관심 차량 {cid}: 2회 연속 미발견 -> '판매완료 추정' 전이! (직전 호가: {last_price}만)", flush=True)
+
+                # 스냅샷에도 동일하게 반영
+                if cid in snapshots:
+                    snapshots[cid]["consecutive_misses"] = misses
+                    snapshots[cid]["last_asking_price"] = last_price
+                    snapshots[cid]["is_asking_price"] = True
+                    snapshots[cid]["price_type"] = "호가 (팔리기 직전 호가)"
+                    if misses >= 2:
+                        snapshots[cid]["status"] = "판매완료 추정"
+                        snapshots[cid]["estimated_sold_date"] = today_str
+                updated_count += 1
+
+        cls._save_json(cls.TRACKED_CARS_FILE, tracked)
+        if updated_count > 0:
+            cls._save_json(cls.SNAPSHOT_FILE, snapshots)
+
+        res_msg = f"재확인 완료: {checked_count}/{len(cars_to_check)}대 검사, {updated_count}건 갱신"
+        if aborted:
+            res_msg += f" (중단 사유: {abort_reason})"
+
+        print(f"[SoldOutTracker] {res_msg}", flush=True)
+        return {
+            "total": len(cars_to_check),
+            "checked": checked_count,
+            "updated": updated_count,
+            "aborted": aborted,
+            "abortReason": abort_reason,
+            "message": res_msg
+        }
+
+    @classmethod
+    def start_tracked_cars_scheduler(cls, interval_hours: float = 12.0):
+        """관심 차량 주기적(하루 2회, 12시간) 재확인 백그라운드 스레드 데몬"""
+        import threading
+        import time
+
+        def _scheduler_loop():
+            # 서버 기동 후 초기화 작업 완료 대기 (60초 후 1회차 점검)
+            time.sleep(60)
+            try:
+                print("[SoldOutTracker] 관심 차량 스케줄러 기동 1회차 점검 시작", flush=True)
+                cls.check_all_tracked_cars(pacing_sec=2.0)
+            except Exception as e:
+                print(f"[SoldOutTracker] 관심 차량 1회차 점검 예외: {e}", flush=True)
+
+            while True:
+                time.sleep(interval_hours * 3600)
+                try:
+                    print(f"[SoldOutTracker] 관심 차량 {interval_hours}시간 정기 재확인 점검 시작", flush=True)
+                    cls.check_all_tracked_cars(pacing_sec=2.0)
+                except Exception as e:
+                    print(f"[SoldOutTracker] 관심 차량 정기 점검 예외: {e}", flush=True)
+
+        t = threading.Thread(target=_scheduler_loop, daemon=True, name="TrackedCarsScheduler")
+        t.start()
+        print(f"[SoldOutTracker] 관심 차량 {interval_hours}시간 주기 스케줄러 등록 완료", flush=True)
 
     CORE_MODELS = [
         # 현대

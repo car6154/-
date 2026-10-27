@@ -85,3 +85,20 @@ export interface CockpitPresetData {
   targetMargin?: number;
   apCarId?: string;
 }
+
+export interface TrackedCarItem {
+  carid: string;
+  carName: string;
+  carNumber?: string;
+  price: number;
+  last_asking_price?: number;
+  is_asking_price?: boolean;
+  price_type?: string;
+  source: 'cockpit' | 'settlement' | string;
+  addedAt: string;
+  lastCheckedAt?: string | null;
+  status: '판매중' | '판매완료' | '판매완료 추정' | '확인불가';
+  consecutive_misses: number;
+  estimated_sold_date?: string | null;
+  memo?: string;
+}

@@ -7,6 +7,7 @@ import {
   NewCarCatalogData
 } from '@/services/biddingOptionCatalog';
 import { CarDamageDiagram2D, getDamagePartKoreanName } from './CarDamageDiagram2D';
+import { TrackedCarsModal } from './TrackedCarsModal';
 
 export interface EncarItem {
   id: string;
@@ -90,6 +91,59 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
 
   // 자사 차량 매핑 맵 연동 (백엔드 캐시와 동기화하여 100% 자사 매물 식별)
   const [companyCarIdMap, setCompanyCarIdMap] = useState<Record<string, string>>({});
+  const [trackedCarIds, setTrackedCarIds] = useState<Set<string>>(new Set());
+  const [isTrackedModalOpen, setIsTrackedModalOpen] = useState<boolean>(false);
+
+  const fetchTrackedCarIds = async () => {
+    try {
+      const res = await fetch('/api/tracking/cars');
+      const data = await res.json();
+      if (data.success && Array.isArray(data.items)) {
+        setTrackedCarIds(new Set(data.items.map((i: any) => String(i.carid))));
+      }
+    } catch (e) {}
+  };
+
+  useEffect(() => {
+    fetchTrackedCarIds();
+  }, []);
+
+  const handleToggleTrack = async (car: EncarItem, e: React.MouseEvent) => {
+    e.stopPropagation();
+    const cid = String(car.id || car._carid || '').replace(/\D/g, '');
+    if (!cid) return;
+
+    if (trackedCarIds.has(cid)) {
+      try {
+        const res = await fetch(`/api/tracking/cars/${cid}`, { method: 'DELETE' });
+        const data = await res.json();
+        if (data.success) {
+          setTrackedCarIds(prev => {
+            const next = new Set(prev);
+            next.delete(cid);
+            return next;
+          });
+        }
+      } catch (e) {}
+    } else {
+      try {
+        const res = await fetch('/api/tracking/cars', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            carid: cid,
+            carName: car.carName || '',
+            price: Number(car.price) || 0,
+            source: 'cockpit',
+          })
+        });
+        const data = await res.json();
+        if (data.success) {
+          setTrackedCarIds(prev => new Set(prev).add(cid));
+        }
+      } catch (e) {}
+    }
+  };
 
   useEffect(() => {
     fetch('/api/autoplus/company_carids')
@@ -276,6 +330,17 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
               >
                 <span>세부등급 {showTrimColumn ? '숨김' : '표시'}</span>
               </button>
+              <button
+                type="button"
+                onClick={() => setIsTrackedModalOpen(true)}
+                className="text-xs px-2.5 py-1 rounded bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 transition cursor-pointer font-bold flex items-center gap-1.5 shadow-sm"
+                title="관심 등록된 매물 목록 및 팔리기 직전 호가 확인"
+              >
+                <span>🎯 관심 추적</span>
+                <span className="px-1.5 py-0.2 rounded-full bg-amber-400 text-black text-[10px] font-black font-mono">
+                  {trackedCarIds.size}
+                </span>
+              </button>
               <span className="text-xs text-amber-300/90 font-medium hidden sm:inline">👆 행 클릭 시 해당 비교 매물 점검표 열림</span>
             </div>
           </div>
@@ -347,6 +412,7 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
               <table className="w-full text-left text-[12px] text-zinc-200">
                 <thead className="bg-[#14151b] sticky top-0 z-10 text-[11px] text-zinc-300 font-bold uppercase border-b border-[#262833]">
                   <tr>
+                    <th className="py-2 px-1 text-center w-7 bg-[#14151b] whitespace-nowrap" title="관심 추적">추적</th>
                     <th className="py-2 px-1 text-center w-7 bg-[#14151b] whitespace-nowrap">선택</th>
                     <th className="py-2 px-1 text-center bg-[#14151b] whitespace-nowrap w-[72px]">성능일</th>
                     <th className="py-2 px-1 text-center bg-[#14151b] whitespace-nowrap w-[52px]">재고일</th>
@@ -412,6 +478,20 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                               : 'hover:bg-[#14151c]'
                         }`}
                       >
+                        <td className="py-1.5 px-1 text-center whitespace-nowrap">
+                          <button
+                            type="button"
+                            onClick={(e) => handleToggleTrack(car, e)}
+                            className={`p-0.5 rounded transition hover:scale-125 text-sm ${
+                              trackedCarIds.has(String(car.id))
+                                ? 'text-amber-400 font-bold drop-shadow-[0_0_4px_rgba(251,191,36,0.5)]'
+                                : 'text-zinc-600 hover:text-amber-300'
+                            }`}
+                            title={trackedCarIds.has(String(car.id)) ? "관심 추적 중 (클릭 시 해제)" : "관심 추적 등록 (엔카 판매종료 시 호가 확정 추적)"}
+                          >
+                            {trackedCarIds.has(String(car.id)) ? '★' : '☆'}
+                          </button>
+                        </td>
                         <td className={`py-1.5 px-1 text-center whitespace-nowrap ${
                           isCompany ? 'border-l-4 border-indigo-400' : ''
                         }`}>
@@ -762,6 +842,13 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
           )}
         </div>
       </div>
+
+      {/* 관심 차량 추적 관리 모달 */}
+      <TrackedCarsModal
+        isOpen={isTrackedModalOpen}
+        onClose={() => setIsTrackedModalOpen(false)}
+        onListChanged={fetchTrackedCarIds}
+      />
     </div>
   );
 };

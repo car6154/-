@@ -35,6 +35,7 @@ from services.autoplus_sync_service import AutoplusSyncService, start_autoplus_s
 from routers.ledger_router import router as ledger_router
 from routers.settlement_router import router as settlement_router
 from routers.ocr_router import router as ocr_router
+from routers.tracking_router import router as tracking_router
 
 app = FastAPI(title="J-Project Local API Server", version="1.0.0")
 
@@ -84,6 +85,7 @@ async def cors_and_pna_preflight_middleware(request: Request, call_next):
 app.include_router(ledger_router)
 app.include_router(settlement_router)
 app.include_router(ocr_router)
+app.include_router(tracking_router)
 
 @app.on_event("startup")
 def on_app_startup():
@@ -91,6 +93,10 @@ def on_app_startup():
         start_autoplus_scheduler()
     except Exception as e:
         print(f"[api_server] Failed to start Autoplus sync scheduler: {e}", flush=True)
+    try:
+        SoldOutTracker.start_tracked_cars_scheduler(interval_hours=12.0)
+    except Exception as e:
+        print(f"[api_server] Failed to start Tracked cars scheduler: {e}", flush=True)
     try:
         GDriveBackupService.start_realtime_watcher()
     except Exception as e:
