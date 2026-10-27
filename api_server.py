@@ -839,7 +839,7 @@ def search_encar_market(req: EncarSearchRequest):
         df = DataProcessor.standardize(df)
         df = Scraper.dedupe_after_scan(df)
 
-        # 2. 세부모델/파생트림 엄격 정밀 필터링 (Badge 파라미터 확정 차종은 스킵)
+        # 2. 세부모델/파생트림 엄격 정밀 필터링 (Badge 및 BadgeDetail까지 목표 등급·접미사와 100% 일치할 때만 스킵)
         should_skip_filter = False
         try:
             import urllib.parse
@@ -854,11 +854,33 @@ def search_encar_market(req: EncarSearchRequest):
                 matched_trim = None
                 if detail_model and trims_dict:
                     _, matched_trim = MasterMappingService.match_structured_trim(detail_model, trims_dict)
-                has_badge = bool(matched_trim and matched_trim.get("badge") and str(matched_trim.get("badge")).strip())
-                decoded_url = urllib.parse.unquote(encar_url or "")
-                has_badge_param = "Badge." in (encar_url or "") or "Badge." in decoded_url
-                if has_badge and has_badge_param:
-                    should_skip_filter = True
+
+                if matched_trim:
+                    b_val = str(matched_trim.get("badge") or "").strip()
+                    bd_val = str(matched_trim.get("badge_detail") or "").strip()
+                    decoded_url = urllib.parse.unquote(encar_url or "")
+                    has_badge_param = "Badge." in (encar_url or "") or "Badge." in decoded_url
+                    has_bd_param = "BadgeDetail." in (encar_url or "") or "BadgeDetail." in decoded_url
+
+                    if b_val and has_badge_param:
+                        target_spec = DataProcessor.build_car_spec(text=detail_model, car_name=car_name, year=year_num)
+                        t_base = target_spec.get('grade_base') or ''
+                        t_suffix = target_spec.get('grade_suffix') or ''
+
+                        # 목표에 등급이나 접미사가 있는 경우: badge_detail이 목표 등급과 접미사까지 완전히 일치하고 URL에도 반영되었는지 확인
+                        if t_base or t_suffix:
+                            bd_spec = DataProcessor.build_car_spec(text=bd_val, car_name=car_name)
+                            bd_base = bd_spec.get('grade_base') or ''
+                            bd_suffix = bd_spec.get('grade_suffix') or ''
+
+                            # 1) 기본 등급과 접미사가 모두 일치하고
+                            # 2) URL에 BadgeDetail 파라미터가 들어가 있거나 (엔카 전산에 세부등급 파라미터가 존재)
+                            #    단독 트림이라 Badge만으로 특정되는 경우
+                            if bd_base == t_base and bd_suffix == t_suffix and (has_bd_param or not bd_val):
+                                should_skip_filter = True
+                        else:
+                            # 목표에 특정 등급이 없는 순수 배기량/연료 매칭 차종인 경우
+                            should_skip_filter = True
         except Exception as e_gate:
             print(f"[게이트 판정 오류] {e_gate}")
 
