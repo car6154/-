@@ -210,7 +210,11 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
         });
       case 'complex':
         return list.sort((a, b) => {
-          // 백엔드 DataProcessor.sort_by_perf_and_year 4키 기준과 100% 동일화
+          // 스트림릿 화면 표시 정렬(tab_main.py L969-972)과 100% 동일화:
+          // 1순위: 점검 유무 (정상 점검 매물 우선, 미검사/사진 매물은 맨 뒤로 배치)
+          // 2순위: 연식 최신순 (내림차순, 예: 18년식 -> 17년식 -> 16년식)
+          // 3순위: 성능일 최신순 (내림차순)
+          // 4순위: 가격 낮은순 (오름차순, 결측치는 뒤로)
           const isNormalPerf = (d: any): boolean => {
             if (!d) return false;
             const str = String(d).trim();
@@ -218,27 +222,29 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
             return /^\d{2}-\d{2}-\d{2}/.test(str);
           };
 
-          const checkA = String(a.checkDate || '').trim();
-          const checkB = String(b.checkDate || '').trim();
+          const checkA = String(a.checkDate || a.성능일 || '').trim();
+          const checkB = String(b.checkDate || b.성능일 || '').trim();
 
           const hasPerfA = isNormalPerf(checkA) ? 1 : 0;
           const hasPerfB = isNormalPerf(checkB) ? 1 : 0;
 
-          // 1키: 점검 완료 우선 (내림차순)
+          // 1순위: 점검 완료 우선 (내림차순)
           if (hasPerfA !== hasPerfB) return hasPerfB - hasPerfA;
 
-          // 2키: 성능점검일 최신순 (내림차순)
+          // 2순위: 연식 최신순 (내림차순)
+          const yrA = parseYearNum(a.year);
+          const yrB = parseYearNum(b.year);
+          if (yrA !== yrB) return yrB - yrA;
+
+          // 3순위: 성능점검일 최신순 (내림차순)
           const perfA = hasPerfA ? checkA : '00-00-00';
           const perfB = hasPerfB ? checkB : '00-00-00';
           if (perfA !== perfB) return perfB.localeCompare(perfA);
 
-          // 3키: 가격 낮은순 (오름차순, 결측치는 뒤로)
+          // 4순위: 가격 낮은순 (오름차순, 결측치는 뒤로)
           const priceA = Number(a.price) > 0 ? Number(a.price) : 999999;
           const priceB = Number(b.price) > 0 ? Number(b.price) : 999999;
-          if (priceA !== priceB) return priceA - priceB;
-
-          // 4키: 연식 최신순 (내림차순)
-          return parseYearNum(b.year) - parseYearNum(a.year);
+          return priceA - priceB;
         });
       default:
         return list;
