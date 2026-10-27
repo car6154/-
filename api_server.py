@@ -847,22 +847,7 @@ def search_encar_market(req: EncarSearchRequest):
                 trims_dict = resolve_res.get("trims", {})
                 matched_trim = None
                 if detail_model and trims_dict:
-                    clean_sub = re.sub(r'[\s/]+', '', str(detail_model)).lower()
-                    for t_name, t_data in trims_dict.items():
-                        if re.sub(r'[\s/]+', '', str(t_name)).lower() == clean_sub:
-                            matched_trim = t_data
-                            break
-                    if not matched_trim:
-                        tokens = [t for t in re.split(r'[\s/]+', str(detail_model).lower()) if len(t) >= 2]
-                        best_s = 0
-                        for t_name, t_data in trims_dict.items():
-                            tn_clean = str(t_name).lower()
-                            s = sum(1 for tok in tokens if tok in tn_clean)
-                            if s > best_s:
-                                best_s = s
-                                matched_trim = t_data
-                        if best_s < 1:
-                            matched_trim = None
+                    _, matched_trim = MasterMappingService.match_structured_trim(detail_model, trims_dict)
                 has_badge = bool(matched_trim and matched_trim.get("badge") and str(matched_trim.get("badge")).strip())
                 decoded_url = urllib.parse.unquote(encar_url or "")
                 has_badge_param = "Badge." in (encar_url or "") or "Badge." in decoded_url
@@ -1639,23 +1624,8 @@ def get_encar_soldout_stats(req: EncarSoldOutRequest):
                 base_codes = resolved.get("soldout_codes", {})
                 trims_dict = resolved.get("trims", {})
                 matched_trim = None
-                if trims_dict:
-                    clean_sub = re.sub(r'[\s/]+', '', str(detail_model)).lower()
-                    for t_name, t_data in trims_dict.items():
-                        if re.sub(r'[\s/]+', '', str(t_name)).lower() == clean_sub:
-                            matched_trim = t_data
-                            break
-                    if not matched_trim:
-                        tokens = [t for t in re.split(r'[\s/]+', str(detail_model).lower()) if len(t) >= 2]
-                        best_s = 0
-                        for t_name, t_data in trims_dict.items():
-                            tn_clean = str(t_name).lower()
-                            s = sum(1 for tok in tokens if tok in tn_clean)
-                            if s > best_s:
-                                best_s = s
-                                matched_trim = t_data
-                        if best_s < 1:
-                            matched_trim = None
+                if detail_model and trims_dict:
+                    _, matched_trim = MasterMappingService.match_structured_trim(detail_model, trims_dict)
 
                 if matched_trim and matched_trim.get("soldout_clsheadcd"):
                     direct_codes = {

@@ -873,6 +873,12 @@ class MasterMappingService:
                 elif c_norm in norm_idx:
                     matched_master_key = norm_idx[c_norm]
 
+            TRIM_STOPWORDS = {
+                '인스퍼레이션', '프리미엄', '노블레스', '시그니처', '프레스티지',
+                '익스클루시브', '캘리그래피', '트렌디', '스마트', '모던', '디럭스',
+                '럭셔리', '스타일', '가솔린', '디젤', '하이브리드', '터보'
+            }
+
             # 3-1. 긴 키 우선 부분 포함 탐색 (구체적인(긴) 모델명이 짧은 모델명에 먼저 먹히지 않도록 긴 키 우선 정렬)
             if not matched_master_key:
                 sorted_cands = sorted(norm_idx.items(), key=lambda x: len(x[0]), reverse=True)
@@ -892,11 +898,6 @@ class MasterMappingService:
             # 4. 어절(단어 경계) 단위 부분 일치 탐색 (버그 1 수정: 트림명 내부 음절 오매칭 원천 차단)
             if not matched_master_key:
                 words = [w for w in re.split(r'[\s\(\)\[\]\-_,./]+', str(car_name)) if len(w) >= 2]
-                TRIM_STOPWORDS = {
-                    '인스퍼레이션', '프리미엄', '노블레스', '시그니처', '프레스티지',
-                    '익스클루시브', '캘리그래피', '트렌디', '스마트', '모던', '디럭스',
-                    '럭셔리', '스타일', '가솔린', '디젤', '하이브리드', '터보'
-                }
                 best_len = 0
                 for w in words:
                     w_norm = cls._normalize_key(w)
@@ -992,26 +993,11 @@ class MasterMappingService:
             }
             mapped_brand = BRAND_ENCAR_MAP.get(f_brand, f_brand)
 
-            # 세부 등급(Trim) 매칭 시도
+            # 세부 등급(Trim) 매칭 시도 (구조화 매칭: 연료·배기량·구동방식 필수조건 + 등급 토큰 가산점)
             matched_trim = None
             trims_dict = master_match.get("trims", {})
             if sub_model and trims_dict:
-                clean_sub = re.sub(r'[\s/]+', '', str(sub_model)).lower()
-                for t_name, t_data in trims_dict.items():
-                    if re.sub(r'[\s/]+', '', str(t_name)).lower() == clean_sub:
-                        matched_trim = t_data
-                        break
-                if not matched_trim:
-                    tokens = [t for t in re.split(r'[\s/]+', str(sub_model).lower()) if len(t) >= 2]
-                    best_s = 0
-                    for t_name, t_data in trims_dict.items():
-                        tn_clean = str(t_name).lower()
-                        s = sum(1 for tok in tokens if tok in tn_clean)
-                        if s > best_s:
-                            best_s = s
-                            matched_trim = t_data
-                    if best_s < 1:
-                        matched_trim = None
+                _, matched_trim = cls.match_structured_trim(sub_model, trims_dict)
 
             # 모델 및 세부등급 코어 트리 조립
             bg = matched_trim.get("badge_group", "") if matched_trim else ""
@@ -1084,6 +1070,135 @@ class MasterMappingService:
         # 3순위: 마스터 DB 미매칭 시 기존 정규식 기반 함수로 Fallback
         from sales_analysis import SalesDataAnalyzer
         return SalesDataAnalyzer.generate_encar_url(car_name, sub_model, year, mileage)
+
+    @classmethod
+    def parse_car_spec(cls, text: str) -> dict:
+        """차량 명칭/트림 텍스트에서 연료, 배기량, 구동방식, 등급/기타 토큰을 정밀 추출"""
+        if not text:
+            return {'fuel': None, 'disp': None, 'drive': None, 'tokens': []}
+        text_clean = str(text).lower()
+
+        # 1. 연료 (fuel)
+        fuel = None
+        if '플러그인' in text_clean or 'phev' in text_clean:
+            fuel = '플러그인하이브리드'
+        elif '하이브리드' in text_clean or 'hev' in text_clean:
+            fuel = '하이브리드'
+        elif '가솔린' in text_clean or '휘발유' in text_clean:
+            fuel = '가솔린'
+        elif '디젤' in text_clean or '경유' in text_clean:
+            fuel = '디젤'
+        elif '전기' in text_clean or 'ev' in text_clean:
+            fuel = '전기'
+        elif 'lpg' in text_clean or 'lpi' in text_clean:
+            fuel = 'lpg'
+        elif '수소' in text_clean or 'fcev' in text_clean:
+            fuel = '수소'
+
+        # 2. 배기량 (disp) - \d+\.\d+ (R2.0 등 포함) 또는 \d+cc (1600cc -> 1.6)
+        disp = None
+        m_disp = re.search(r'(?:[a-z가-힣]|\b)(\d+\.\d+)', text_clean)
+        if m_disp:
+            try:
+                disp = f"{float(m_disp.group(1)):.1f}"
+            except Exception:
+                pass
+        else:
+            m_cc = re.search(r'(\d{3,4})\s*cc', text_clean)
+            if m_cc:
+                try:
+                    disp = f"{round(int(m_cc.group(1)) / 1000.0, 1):.1f}"
+                except Exception:
+                    pass
+
+        # 3. 구동방식 (drive) - 2WD/4WD/AWD
+        drive = None
+        if '4wd' in text_clean or 'awd' in text_clean or '4륜' in text_clean:
+            drive = '4wd'
+        elif '2wd' in text_clean or '2륜' in text_clean or 'ff' in text_clean or 'fr' in text_clean:
+            drive = '2wd'
+
+        # 4. 등급 및 기타 토큰 (tokens)
+        rem = text_clean
+        rem = re.sub(r'(?:[a-z가-힣]|\b)\d+\.\d+', ' ', rem)
+        rem = re.sub(r'\d{3,4}\s*cc', ' ', rem)
+        rem = re.sub(r'\b(4wd|awd|2wd|4륜|2륜|ff|fr)\b', ' ', rem)
+        rem = re.sub(r'(가솔린|휘발유|디젤|경유|하이브리드|플러그인하이브리드|전기|수소|lpg|lpi|hev|phev|ev|fcev)', ' ', rem)
+        tokens = [t for t in re.split(r'[\s/()_\-]+', rem) if len(t) >= 2]
+
+        return {'fuel': fuel, 'disp': disp, 'drive': drive, 'tokens': tokens}
+
+    @classmethod
+    def match_structured_trim(cls, sub_model: str, trims_dict: dict):
+        """
+        입력 세부모델과 후보 트림들을 구조화 매칭:
+        - 1단계: 공백/슬래시 제거 정확 일치
+        - 2단계: 구조화 매칭
+          * 필수 조건: 연료, 배기량, 구동방식 중 양쪽에 모두 존재하는 스펙이 다르면 제외 (한쪽에만 없으면 통과)
+          * 가산점: 통과 후보 중 등급·기타 토큰 일치 개수 + 스펙 완전 일치 보너스
+        - 통과 후보 없으면 (None, None) 반환하여 틀린 트림 대체 방지
+        """
+        if not sub_model or not trims_dict:
+            return None, None
+
+        # 1단계: 정확 일치
+        clean_sub = re.sub(r'[\s/]+', '', str(sub_model)).lower()
+        for t_name, t_data in trims_dict.items():
+            if re.sub(r'[\s/]+', '', str(t_name)).lower() == clean_sub:
+                return t_name, t_data
+
+        # 2단계: 구조화 매칭
+        input_spec = cls.parse_car_spec(sub_model)
+        in_fuel = input_spec['fuel']
+        in_disp = input_spec['disp']
+        in_drive = input_spec['drive']
+        in_tokens = input_spec['tokens']
+
+        candidates = []
+        for t_name, t_data in trims_dict.items():
+            # 후보 스펙 검사: t_name뿐만 아니라 실제 엔카 트리에 쓰일 badge_group, badge 모두와 대조
+            name_spec = cls.parse_car_spec(t_name)
+            tree_text = f"{t_data.get('badge_group', '')} {t_data.get('badge', '')}"
+            tree_spec = cls.parse_car_spec(tree_text)
+
+            # 1. 연료 모순 체크: t_name 또는 tree_spec에 연료가 있을 때 입력과 다르면 제외
+            cand_fuels = {s for s in [name_spec['fuel'], tree_spec['fuel']] if s}
+            if in_fuel and any(f != in_fuel for f in cand_fuels):
+                continue
+
+            # 2. 배기량 모순 체크: t_name 또는 tree_spec에 배기량이 있을 때 입력과 다르면 제외
+            cand_disps = {s for s in [name_spec['disp'], tree_spec['disp']] if s}
+            if in_disp and any(d != in_disp for d in cand_disps):
+                continue
+
+            # 3. 구동방식 모순 체크: t_name 또는 tree_spec에 구동방식이 있을 때 입력과 다르면 제외
+            cand_drives = {s for s in [name_spec['drive'], tree_spec['drive']] if s}
+            if in_drive and any(dr != in_drive for dr in cand_drives):
+                continue
+
+            # 가산점 산출: 등급/기타 토큰 일치 개수
+            cand_full = f"{t_name} {t_data.get('badge_group', '')} {t_data.get('badge', '')} {t_data.get('badge_detail', '')}".lower()
+            token_score = sum(10 for tok in in_tokens if tok in cand_full)
+
+            # 스펙 완전 일치 보너스
+            spec_score = 0
+            if in_fuel and in_fuel in cand_fuels:
+                spec_score += 2
+            if in_disp and in_disp in cand_disps:
+                spec_score += 3
+            if in_drive and in_drive in cand_drives:
+                spec_score += 2
+
+            total_score = token_score + spec_score
+            candidates.append((total_score, t_name, t_data))
+
+        if not candidates:
+            return None, None
+
+        # 점수 순 정렬 후 최고 점수 후보 선택
+        candidates.sort(key=lambda x: x[0], reverse=True)
+        best_score, best_name, best_data = candidates[0]
+        return best_name, best_data
 
     @classmethod
     def get_stats(cls) -> dict:

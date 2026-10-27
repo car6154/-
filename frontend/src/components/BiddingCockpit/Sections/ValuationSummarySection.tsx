@@ -787,18 +787,22 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
                   (엔카 전체 시장 호가 vs K-Car 직영 인증 실매물)
                 </span>
               </div>
-              {aiRetailPrice > 0 && (
-                <div className="px-2.5 py-0.5 rounded-lg bg-[#141d2e] border border-sky-500/40 text-sky-300 font-bold text-xs sm:text-sm flex items-center gap-1.5 shadow-sm">
-                  <span>🎯 AI 권장 소매가:</span>
-                  <strong className="text-white text-sm sm:text-base font-mono">{aiRetailPrice.toLocaleString()}</strong>
-                  <span className="text-xs text-zinc-300">만원</span>
-                  {encarValuation?.minPrice && encarValuation?.maxPrice && (
-                    <span className="text-[11px] text-zinc-400 font-normal font-mono">
-                      (적정밴드 {encarValuation.minPrice.toLocaleString()}~{encarValuation.maxPrice.toLocaleString()}만)
-                    </span>
-                  )}
-                </div>
-              )}
+              <div className="px-2.5 py-0.5 rounded-lg bg-[#141d2e] border border-sky-500/40 text-sky-300 font-bold text-xs sm:text-sm flex items-center gap-1.5 shadow-sm">
+                <span>🎯 AI 권장 소매가:</span>
+                {aiRetailPrice > 0 ? (
+                  <>
+                    <strong className="text-white text-sm sm:text-base font-mono">{aiRetailPrice.toLocaleString()}</strong>
+                    <span className="text-xs text-zinc-300">만원</span>
+                    {encarValuation?.minPrice && encarValuation?.maxPrice && (
+                      <span className="text-[11px] text-zinc-400 font-normal font-mono">
+                        (적정밴드 {encarValuation.minPrice.toLocaleString()}~{encarValuation.maxPrice.toLocaleString()}만)
+                      </span>
+                    )}
+                  </>
+                ) : (
+                  <span className="text-zinc-400 font-medium">해당 없음</span>
+                )}
+              </div>
             </div>
 
             {/* 2열 나란히 대칭 시세 카드 그리드 */}

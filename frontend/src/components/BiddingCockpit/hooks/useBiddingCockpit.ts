@@ -328,21 +328,26 @@ export function useBiddingCockpit({
         } else if (data.stats?.avg && data.stats.avg > 0) {
           setBackendEncarStats(data.stats);
           const avgP = data.stats.avg;
-          const benchP = data.stats.benchmarkPrice || avgP;
-          const minP = data.stats.minBand || Math.round(benchP * 0.94);
-          const maxP = data.stats.maxBand || Math.round(benchP * 1.08);
-          const bGap = avgP - benchP;
-          const bPct = benchP > 0 ? Math.round((bGap / benchP) * 1000) / 10 : 0;
-          setEncarValuation({
-            hasData: true,
-            individualPrice: benchP,
-            minPrice: minP,
-            maxPrice: maxP,
-            score: 96.1,
-            bubbleGap: bGap,
-            bubblePct: bPct,
-            safeCeiling: Math.max(0, benchP - 180)
-          });
+          const benchP = data.stats.benchmarkPrice || 0;
+          if (benchP > 0) {
+            const minP = data.stats.minBand || Math.round(benchP * 0.94);
+            const maxP = data.stats.maxBand || Math.round(benchP * 1.08);
+            const bGap = avgP - benchP;
+            const bPct = Math.round((bGap / benchP) * 1000) / 10;
+            setEncarValuation({
+              hasData: true,
+              individualPrice: benchP,
+              minPrice: minP,
+              maxPrice: maxP,
+              score: 96.1,
+              bubbleGap: bGap,
+              bubblePct: bPct,
+              safeCeiling: Math.max(0, benchP - 180)
+            });
+          } else {
+            // 💡 벤치마크 매물이 없으면 전체 평균(avgP)으로 대체 표시하지 않고 미보유 처리
+            setEncarValuation(null);
+          }
         }
 
         const cids = data.items.map((it: any) => String(it.id || it.carid || '').replace(/\D/g, '')).filter(Boolean);
@@ -1903,9 +1908,10 @@ export function useBiddingCockpit({
       ? encarStats.avg 
       : (encarList.length > 0 ? Math.round(encarList.reduce((a, b) => a + (b.price || 0), 0) / encarList.length) : 0);
     const rawIndPrice = encarValuation?.individualPrice || 0;
+    // 💡 벤치마크가 없으면 전체 평균(marketAvg)으로 대체하지 않고 0(해당 없음)으로 유지
     const validIndPrice = (rawIndPrice > 0 && marketAvg > 0 && rawIndPrice < marketAvg * 1.6 && rawIndPrice > marketAvg * 0.4)
       ? rawIndPrice
-      : (marketAvg > 0 ? marketAvg : 0);
+      : (rawIndPrice > 0 ? rawIndPrice : 0);
     return validIndPrice;
   }, [encarStats, encarList, encarValuation]);
 
