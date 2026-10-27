@@ -7,7 +7,6 @@ import {
   Save,
   RefreshCw
 } from 'lucide-react';
-import { TrackedCarsModal } from './BiddingCockpit/Sections/TrackedCarsModal';
 
 interface SettlementTabProps {
   settlementList: InventorySettlementItem[];
@@ -38,18 +37,6 @@ export const SettlementTab: React.FC<SettlementTabProps> = ({
 }) => {
   // 자사 차량 carid 매핑 맵
   const [companyCarIdMap, setCompanyCarIdMap] = useState<Record<string, string>>({});
-  const [trackedCarIds, setTrackedCarIds] = useState<Set<string>>(new Set());
-  const [isTrackedModalOpen, setIsTrackedModalOpen] = useState<boolean>(false);
-
-  const fetchTrackedCarIds = async () => {
-    try {
-      const res = await fetch('/api/tracking/cars');
-      const data = await res.json();
-      if (data.success && Array.isArray(data.items)) {
-        setTrackedCarIds(new Set(data.items.map((i: any) => String(i.carid))));
-      }
-    } catch (e) {}
-  };
 
   useEffect(() => {
     fetch('/api/autoplus/company_carids')
@@ -60,49 +47,8 @@ export const SettlementTab: React.FC<SettlementTabProps> = ({
         }
       })
       .catch(() => {});
-    fetchTrackedCarIds();
   }, []);
 
-  // 엔카 URL에서만 순수 엔카 carid 추출 (오토플러스 apCarId는 절대 사용 금지)
-  const getEncarCarIdFromUrl = (url?: string): string | null => {
-    if (!url) return null;
-    const m = url.match(/carid=(\d+)/) || url.match(/\/cars\/detail\/(\d+)/);
-    return m ? m[1] : null;
-  };
-
-  const handleToggleTrackSettlement = async (carid: string, item: InventorySettlementItem) => {
-    if (trackedCarIds.has(carid)) {
-      try {
-        const res = await fetch(`/api/tracking/cars/${carid}`, { method: 'DELETE' });
-        const data = await res.json();
-        if (data.success) {
-          setTrackedCarIds(prev => {
-            const next = new Set(prev);
-            next.delete(carid);
-            return next;
-          });
-        }
-      } catch (e) {}
-    } else {
-      try {
-        const res = await fetch('/api/tracking/cars', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            carid: carid,
-            carName: item.carName || '',
-            carNumber: item.carNumber || '',
-            price: Number(item.sellPrice || item.buyPrice || 0),
-            source: 'settlement',
-          })
-        });
-        const data = await res.json();
-        if (data.success) {
-          setTrackedCarIds(prev => new Set(prev).add(carid));
-        }
-      } catch (e) {}
-    }
-  };
 
   const getEncarDetailLink = (carNo: string, encarUrl?: string): string | null => {
     if (encarUrl) {
@@ -990,38 +936,6 @@ export const SettlementTab: React.FC<SettlementTabProps> = ({
                             시세
                           </button>
                         )}
-                        {(() => {
-                          const parsedEncarId = getEncarCarIdFromUrl(item.encarUrl);
-                          const isTracked = parsedEncarId ? trackedCarIds.has(parsedEncarId) : false;
-                          return (
-                            <button
-                              type="button"
-                              disabled={!parsedEncarId}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                if (parsedEncarId) {
-                                  handleToggleTrackSettlement(parsedEncarId, item);
-                                }
-                              }}
-                              className={`px-2 py-1 rounded text-[11px] font-semibold transition border ${
-                                !parsedEncarId
-                                  ? 'bg-slate-850 text-slate-600 border-slate-800 cursor-not-allowed opacity-40'
-                                  : isTracked
-                                    ? 'bg-amber-500/20 text-amber-300 border-amber-500/40 font-bold'
-                                    : 'bg-[#1e2230] hover:bg-[#282d3e] text-slate-300 border-slate-700 hover:text-amber-300'
-                              }`}
-                              title={
-                                !parsedEncarId
-                                  ? '엔카 URL 등록 필요 (오토플러스 ID는 엔카 ID가 아니므로 추적할 수 없습니다)'
-                                  : isTracked
-                                    ? '관심 추적 중 (클릭 시 해제)'
-                                    : '엔카 관심 추적 등록 (판매완료 시 호가 확정)'
-                              }
-                            >
-                              {isTracked ? '★ 추적중' : '추적'}
-                            </button>
-                          );
-                        })()}
                         <button
                           type="button"
                           onClick={(e) => {
@@ -1057,12 +971,6 @@ export const SettlementTab: React.FC<SettlementTabProps> = ({
         </div>
       </div>
 
-      {/* 관심 차량 추적 관리 모달 */}
-      <TrackedCarsModal
-        isOpen={isTrackedModalOpen}
-        onClose={() => setIsTrackedModalOpen(false)}
-        onListChanged={fetchTrackedCarIds}
-      />
     </div>
   );
 };
