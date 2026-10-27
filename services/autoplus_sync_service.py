@@ -97,6 +97,45 @@ class AutoplusSyncService:
             return None
 
     @classmethod
+    def ensure_settlement_file(cls) -> bool:
+        """SETTLEMENT_CSV 파일 부재 시 .tmp 또는 backups 폴더의 최신 백업에서 안전하게 복구"""
+        if os.path.exists(SETTLEMENT_CSV) and os.path.getsize(SETTLEMENT_CSV) > 0:
+            return True
+
+        # 1. .tmp 파일 복구 시도
+        tmp_path = SETTLEMENT_CSV + ".tmp"
+        if os.path.exists(tmp_path) and os.path.getsize(tmp_path) > 0:
+            try:
+                os.replace(tmp_path, SETTLEMENT_CSV)
+                print(f"[AutoplusSync] .tmp 파일에서 {SETTLEMENT_CSV} 복구 완료", flush=True)
+                return True
+            except Exception as e:
+                print(f"[AutoplusSync] .tmp 파일 복구 실패: {e}", flush=True)
+
+        # 2. backups 폴더의 최신 백업 파일 복구 시도
+        if os.path.exists(BACKUP_DIR):
+            candidates = []
+            for fn in os.listdir(BACKUP_DIR):
+                if fn.startswith("my_inventory_settlement_") and fn.endswith(".csv"):
+                    fp = os.path.join(BACKUP_DIR, fn)
+                    try:
+                        if os.path.getsize(fp) > 0:
+                            candidates.append((os.path.getmtime(fp), fp))
+                    except Exception:
+                        pass
+            if candidates:
+                candidates.sort(reverse=True)
+                latest_backup = candidates[0][1]
+                try:
+                    shutil.copy2(latest_backup, SETTLEMENT_CSV)
+                    print(f"[AutoplusSync] 최신 백업({latest_backup})에서 {SETTLEMENT_CSV} 복구 완료", flush=True)
+                    return True
+                except Exception as e:
+                    print(f"[AutoplusSync] 백업 복구 실패: {e}", flush=True)
+
+        return False
+
+    @classmethod
     def fetch_selling_cars(cls, cookie: str) -> List[List[Any]]:
         """판매중 차량 데이터(ap_all_car) 실시간 수신"""
         url = "https://data.autoplus.co.kr/on_sale_car_list"
@@ -320,6 +359,7 @@ class AutoplusSyncService:
                         "mileage": mileage_val
                     }
 
+        cls.ensure_settlement_file()
         cls.backup_file(SETTLEMENT_CSV)
         updated_count = 0
         lines = []
@@ -397,14 +437,26 @@ class AutoplusSyncService:
                 continue
 
         if headers and lines:
-            temp_path = SETTLEMENT_CSV + ".tmp"
+            import time
+            temp_path = f"{SETTLEMENT_CSV}.tmp"
             with open(temp_path, 'w', encoding='utf-8-sig', newline='') as f:
                 writer = csv.writer(f)
                 writer.writerow(headers)
                 writer.writerows(lines)
-            if os.path.exists(SETTLEMENT_CSV):
-                os.remove(SETTLEMENT_CSV)
-            os.rename(temp_path, SETTLEMENT_CSV)
+            for attempt in range(3):
+                try:
+                    os.replace(temp_path, SETTLEMENT_CSV)
+                    break
+                except Exception as e:
+                    if attempt < 2:
+                        time.sleep(0.1 * (attempt + 1))
+                    else:
+                        print(f"[AutoplusSync] SETTLEMENT_CSV os.replace 실패, shutil fallback: {e}", flush=True)
+                        try:
+                            shutil.copy2(temp_path, SETTLEMENT_CSV)
+                            os.remove(temp_path)
+                        except Exception:
+                            pass
 
         return updated_count
 

@@ -105,7 +105,18 @@ def get_inventory_settlement(response: Response):
 
     print(f"[SettlementRouter][DEBUG] GET /api/settlement 호출 | 대상 파일: {abs_path} | 존재: {exists} | 크기: {file_size}B | 수정시각: {mtime_str}", flush=True)
 
-    if not exists:
+    if not exists or file_size == 0:
+        try:
+            from services.autoplus_sync_service import AutoplusSyncService
+            if AutoplusSyncService.ensure_settlement_file():
+                exists = os.path.exists(abs_path)
+                file_size = os.path.getsize(abs_path) if exists else 0
+                mtime_str = datetime.fromtimestamp(os.path.getmtime(abs_path)).strftime('%Y-%m-%d %H:%M:%S') if exists else "N/A"
+                print(f"[SettlementRouter][RECOVERY] ensure_settlement_file 성공! 크기: {file_size}B", flush=True)
+        except Exception as e:
+            print(f"[SettlementRouter] ensure_settlement_file 예외: {e}", flush=True)
+
+    if not exists or file_size == 0:
         print(f"[SettlementRouter][WARN] {abs_path} 파일이 존재하지 않아 빈 배열 반환", flush=True)
         return []
 
