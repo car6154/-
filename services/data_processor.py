@@ -369,7 +369,11 @@ class DataProcessor:
             return ""
         s = str(detail_model).strip()
         TRIM_LIST = [
-            # 현대/기아
+            # 현대/기아 복합 트림 (플러스, 스페셜, 초이스 등 접미사 복합어를 기본 트림보다 항상 먼저 둠)
+            "프레스티지 플러스", "프레스티지 초이스", "익스클루시브 플러스", "익스클루시브 스페셜",
+            "프리미엄 플러스", "프리미엄 초이스", "모던 플러스", "모던 초이스",
+            "시그니처 그래비티", "노블레스 스페셜", "트렌디 플러스",
+            # 현대/기아 단일 트림
             "캘리그래피", "인스퍼레이션", "익스클루시브", "르블랑", "프리미엄", "모던", "스마트",
             "시그니처", "그래비티", "노블레스", "프레스티지", "트렌디", "스타일", "럭셔리", "디럭스",
             "스탠다드", "베스트셀렉션", "마스터즈", "패밀리", "N Line", "nline",
@@ -456,6 +460,7 @@ class DataProcessor:
                 "스마트": ["모던", "프리미엄", "익스클루시브", "인스퍼레이션", "스타일", "스포츠"],
                 "노블레스": ["프레스티지", "트렌디", "시그니처", "그래비티"],
                 "프레스티지": ["노블레스", "트렌디", "시그니처", "럭셔리", "디럭스", "그래비티"],
+                "프레스티지플러스": ["노블레스", "트렌디", "시그니처", "럭셔리", "디럭스", "그래비티"],
                 "시그니처": ["노블레스", "프레스티지", "트렌디", "스탠다드", "베스트셀렉션"]
             }
 
@@ -485,6 +490,22 @@ class DataProcessor:
                 for comp in comp_list:
                     if comp in combined.replace(" ", ""):
                         return False
+
+                # ✨ 서브 키워드 (플러스, 스페셜, 초이스, 에디션, 마스터, n line 등) 상호 배제
+                # 목록용 filter_strictly_by_submodel (L150~) 5단계와 100% 동일 규칙 적용:
+                # 목표에 서브 키워드가 있으면 해당 키워드가 없는 매물 배제,
+                # 목표에 서브 키워드가 없으면 해당 키워드가 포함된 매물 배제!
+                target_sub_clean = (str(target_detail_model or "") + " " + str(target_grade or "")).lower().replace(" ", "")
+                SUB_KEYWORDS = ['플러스', '스페셜', '초이스', '에디션', '마스터', 'n line', 'nline']
+                comb_clean = combined.replace(" ", "")
+                for sub_kw in SUB_KEYWORDS:
+                    kw_clean = sub_kw.replace(" ", "")
+                    if kw_clean in target_sub_clean:
+                        if kw_clean not in comb_clean:
+                            return False
+                    else:
+                        if kw_clean in comb_clean:
+                            return False
 
                 # 카니발 등 인승(7인승 vs 9인승 vs 11인승) 엄격 일치
                 if target_detail_model:
