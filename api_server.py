@@ -1022,16 +1022,28 @@ def search_encar_market(req: EncarSearchRequest):
         )
         strict_has_data = not strict_df.empty
 
-        # 4-1. [엄격 매물 한정 상세 보강] skipDetail=True 시 엄격 subset만 상세(성능일·재고·사고유무·외장컬러·추가옵션) 병렬 조회
-        if skip_detail and strict_has_data:
-            from concurrent.futures import ThreadPoolExecutor, as_completed
-            from services.cookie_server import get_current_encar_cookie
+        # 4-1. [엄격 매물 상세 보강 및 캐싱] 엄격 subset의 상세(성능일·재고·사고유무·외장컬러·추가옵션 및 부위/옵션) 확보
+        strict_detail_map = {}
+        if strict_has_data:
+            # 1단계: 이미 df에 채워진 _detail_res가 있으면 우선 수집
+            if '_detail_res' in strict_df.columns:
+                for _, r in strict_df.iterrows():
+                    cid = str(r.get('_carid', '')).strip()
+                    dt = r.get('_detail_res')
+                    if isinstance(dt, dict) and not dt.get('is_rate_limited'):
+                        strict_detail_map[cid] = dt
 
-            strict_carids = [
+            # 2단계: strict_detail_map에 없는 엄격 차들만 동시 조회로 보강
+            missing_strict_carids = [
                 str(cid).strip() for cid in strict_df['_carid'].dropna().unique()
                 if str(cid).strip() and str(cid).strip() not in ('-', 'None', '')
+                and str(cid).strip() not in strict_detail_map
             ]
-            if strict_carids:
+
+            if missing_strict_carids:
+                from concurrent.futures import ThreadPoolExecutor, as_completed
+                from services.cookie_server import get_current_encar_cookie
+
                 detail_session = requests.Session()
                 detail_session.headers.update({
                     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
@@ -1043,16 +1055,18 @@ def search_encar_market(req: EncarSearchRequest):
                 if cur_cookie:
                     detail_session.headers["Cookie"] = cur_cookie
 
-                max_workers = min(5, len(strict_carids))
+                max_workers = min(5, len(missing_strict_carids))
                 with ThreadPoolExecutor(max_workers=max_workers) as executor:
                     future_to_cid = {
                         executor.submit(Scraper.fetch_car_detail, detail_session, cid): cid
-                        for cid in strict_carids
+                        for cid in missing_strict_carids
                     }
                     for future in as_completed(future_to_cid):
                         cid = future_to_cid[future]
                         try:
                             detail_res = future.result()
+                            if detail_res and not detail_res.get("is_rate_limited"):
+                                strict_detail_map[str(cid)] = detail_res
                             mask = df['_carid'].astype(str) == str(cid)
                             df.loc[mask, '성능일'] = detail_res.get('성능일', '-')
                             df.loc[mask, '재고'] = detail_res.get('재고', '-')
@@ -1152,6 +1166,7 @@ def search_encar_market(req: EncarSearchRequest):
         strict_adj_excluded_count = 0
 
         if strict_has_data and not strict_df.empty:
+            t_adj_start = time.time()
             from services.cookie_server import get_current_encar_cookie
 
             # 주행 보정 계수 pt_per_10k (엄격 평균가 기준: 2000만 이상 1.3 / 1200만 이상 1.5 / 미만 1.8)
@@ -1203,121 +1218,135 @@ def search_encar_market(req: EncarSearchRequest):
                 else:
                     mil_adj_price = raw_price
 
-                # 상세 조회는 순차 2초 페이싱 (407 차단 회피 규칙)
-                time.sleep(2.0)
+                # 동시 조회 상세 데이터 재사용 (재사용 가능 시 상세 재조회 및 2초 sleep 생략)
+                cached_dt = strict_detail_map.get(cid) if 'strict_detail_map' in locals() else None
+                can_reuse = (
+                    cached_dt is not None 
+                    and not cached_dt.get('is_rate_limited')
+                    and ('insp_ok' in cached_dt or 'replaces' in cached_dt)
+                )
 
-                # 차량 기본 제원 및 옵션 choice 코드 조회
-                vehicle_id = cid
-                choice_codes = []
-                try:
-                    v_res = adj_session.get(f"https://api.encar.com/v1/readside/vehicle/{cid}?include=CATEGORY,MANAGE,OPTIONS,SPEC", timeout=5)
-                    if v_res.status_code == 200:
-                        v_json = v_res.json() or {}
-                        manage = v_json.get("manage") or {}
-                        if manage.get("dummyVehicleId"):
-                            vehicle_id = str(manage.get("dummyVehicleId"))
-                        elif v_json.get("vehicleId"):
-                            vehicle_id = str(v_json["vehicleId"])
-                        choice_codes = [str(c) for c in (v_json.get("options", {}).get("choice", []) or [])]
-                except Exception as e_v:
-                    print(f"[호가 상세 vehicle 조회 오류] cid={cid}: {e_v}", flush=True)
+                if can_reuse:
+                    replaces = list(cached_dt.get('replaces', []))
+                    repairs = list(cached_dt.get('repairs', []))
+                    insp_ok = cached_dt.get('insp_ok', False)
+                    acc_flag = cached_dt.get('acc')
+                    rep_flag = cached_dt.get('rep')
+                    comp_opt_new = cached_dt.get('comp_opt_new', 0)
+                else:
+                    # 폴백: 동시 조회 실패/누락 차량만 순차 2초 페이싱 상세 조회 (407 차단 회피 규칙)
+                    time.sleep(2.0)
 
-                # 비교차 옵션 가격 산출 (기존 상세카드·벤치마크 방식 재사용)
-                comp_opt_new = 0
-                if choice_codes:
+                    # 차량 기본 제원 및 옵션 choice 코드 조회
+                    vehicle_id = cid
+                    choice_codes = []
                     try:
-                        o_res = adj_session.get(f"https://api.encar.com/v1/readside/vehicles/car/{cid}/options/choice", timeout=5)
-                        if o_res.status_code != 200 and vehicle_id != cid:
-                            o_res = adj_session.get(f"https://api.encar.com/v1/readside/vehicles/car/{vehicle_id}/options/choice", timeout=5)
-                        if o_res.status_code == 200 and isinstance(o_res.json(), list):
-                            for opt in o_res.json():
-                                if isinstance(opt, dict) and str(opt.get("optionCd", "")) in choice_codes:
-                                    try:
-                                        p_val = int(opt.get("price", 0))
-                                        if p_val > 0:
-                                            comp_opt_new += p_val
-                                    except Exception:
-                                        pass
-                    except Exception as e_opt:
-                        print(f"[호가 옵션 조회 오류] cid={cid}: {e_opt}", flush=True)
+                        v_res = adj_session.get(f"https://api.encar.com/v1/readside/vehicle/{cid}?include=CATEGORY,MANAGE,OPTIONS,SPEC", timeout=5)
+                        if v_res.status_code == 200:
+                            v_json = v_res.json() or {}
+                            manage = v_json.get("manage") or {}
+                            if manage.get("dummyVehicleId"):
+                                vehicle_id = str(manage.get("dummyVehicleId"))
+                            elif v_json.get("vehicleId"):
+                                vehicle_id = str(v_json["vehicleId"])
+                            choice_codes = [str(c) for c in (v_json.get("options", {}).get("choice", []) or [])]
+                    except Exception as e_v:
+                        print(f"[호가 상세 vehicle 조회 오류] cid={cid}: {e_v}", flush=True)
+
+                    comp_opt_new = 0
+                    if choice_codes:
+                        try:
+                            o_res = adj_session.get(f"https://api.encar.com/v1/readside/vehicles/car/{cid}/options/choice", timeout=5)
+                            if o_res.status_code != 200 and vehicle_id != cid:
+                                o_res = adj_session.get(f"https://api.encar.com/v1/readside/vehicles/car/{vehicle_id}/options/choice", timeout=5)
+                            if o_res.status_code == 200 and isinstance(o_res.json(), list):
+                                for opt in o_res.json():
+                                    if isinstance(opt, dict) and str(opt.get("optionCd", "")) in choice_codes:
+                                        try:
+                                            p_val = int(opt.get("price", 0))
+                                            if p_val > 0:
+                                                comp_opt_new += p_val
+                                        except Exception:
+                                            pass
+                        except Exception as e_opt:
+                            print(f"[호가 옵션 조회 오류] cid={cid}: {e_opt}", flush=True)
+
+                    replaces = []
+                    repairs = []
+                    acc_flag = None
+                    rep_flag = None
+                    insp_ok = False
+
+                    try:
+                        i_res = adj_session.get(f"https://api.encar.com/v1/readside/inspection/vehicle/{vehicle_id}", timeout=5)
+                        if i_res.status_code != 200 and vehicle_id != cid:
+                            i_res = adj_session.get(f"https://api.encar.com/v1/readside/inspection/vehicle/{cid}", timeout=5)
+
+                        if i_res.status_code == 200:
+                            ij = i_res.json() or {}
+                            master = ij.get("master") or {}
+                            if isinstance(master, dict) and master:
+                                insp_ok = True
+                                acc_flag = master.get("accident")
+                                rep_flag = master.get("simpleRepair")
+
+                                all_parts = (ij.get("outers", []) or []) + (ij.get("inners", []) or [])
+                                if not all_parts:
+                                    all_parts = (master.get("outers", []) or []) + (master.get("inners", []) or [])
+
+                                for part in (all_parts or []):
+                                    if not isinstance(part, dict):
+                                        continue
+                                    p_title = ""
+                                    p_type = part.get("type") or {}
+                                    if isinstance(p_type, dict):
+                                        p_title = p_type.get("title", "")
+                                    if not p_title:
+                                        p_title = part.get("name", "") or part.get("partName", "")
+
+                                    status_types = part.get("statusTypes", []) or []
+                                    codes = [str(s.get("code", "")).upper() for s in status_types if isinstance(s, dict)]
+                                    svg_part = _resolve_part_code(p_title)
+
+                                    if "X" in codes:
+                                        if svg_part:
+                                            replaces.append(svg_part)
+                                    elif any(c in codes for c in ["W", "C", "A", "U", "T"]):
+                                        if svg_part:
+                                            repairs.append(svg_part)
+
+                        # 성능점검 없으면 진단 API 조회 (진단차량 완벽 지원)
+                        if not replaces and not repairs:
+                            d_res = adj_session.get(f"https://api.encar.com/v1/readside/diagnosis/vehicle/{vehicle_id}", timeout=5)
+                            if d_res.status_code != 200 and vehicle_id != cid:
+                                d_res = adj_session.get(f"https://api.encar.com/v1/readside/diagnosis/vehicle/{cid}", timeout=5)
+                            if d_res.status_code == 200:
+                                dj = d_res.json() or {}
+                                items_list = dj.get("items", []) or []
+                                if items_list:
+                                    insp_ok = True
+                                    for it in items_list:
+                                        raw_name = it.get("name", "")
+                                        if raw_name in ["CHECKER_COMMENT", "OUTER_PANEL_COMMENT"]:
+                                            continue
+                                        rc = str(it.get("resultCode", "") or "").upper()
+                                        rt = str(it.get("result", "") or "")
+                                        part_name = it.get("partName") or raw_name
+                                        svg_part = _resolve_part_code(part_name)
+
+                                        if rc in ["REPLACEMENT", "EXCHANGE", "X"] or rt == "교환":
+                                            if svg_part:
+                                                replaces.append(svg_part)
+                                        elif rc in ["SHEET_METAL", "WELD", "W", "C", "A", "U", "T"] or any(k in rt for k in ["판금", "용접", "도색", "수리"]):
+                                            if svg_part and svg_part not in replaces:
+                                                repairs.append(svg_part)
+                    except Exception as e_insp:
+                        print(f"[호가 성능점검 조회 오류] cid={cid}: {e_insp}", flush=True)
 
                 if comp_opt_new == 0 and '추가옵션' in s_row and s_row['추가옵션']:
                     comp_opt_new = calculate_catalog_option_value(str(s_row['추가옵션']), car_name=car_name, year=str(target_year_val))
                     if comp_opt_new == 0:
                         comp_opt_new = extract_option_val(str(s_row['추가옵션']))
-
-                # 2) 성능점검 조회 및 사고 환산 (헤이딜러 공식 기준, 부위별)
-                replaces = []
-                repairs = []
-                acc_flag = None
-                rep_flag = None
-                insp_ok = False
-
-                try:
-                    i_res = adj_session.get(f"https://api.encar.com/v1/readside/inspection/vehicle/{vehicle_id}", timeout=5)
-                    if i_res.status_code != 200 and vehicle_id != cid:
-                        i_res = adj_session.get(f"https://api.encar.com/v1/readside/inspection/vehicle/{cid}", timeout=5)
-
-                    if i_res.status_code == 200:
-                        ij = i_res.json() or {}
-                        master = ij.get("master") or {}
-                        if isinstance(master, dict) and master:
-                            insp_ok = True
-                            acc_flag = master.get("accident")
-                            rep_flag = master.get("simpleRepair")
-
-                            all_parts = (ij.get("outers", []) or []) + (ij.get("inners", []) or [])
-                            if not all_parts:
-                                all_parts = (master.get("outers", []) or []) + (master.get("inners", []) or [])
-
-                            for part in (all_parts or []):
-                                if not isinstance(part, dict):
-                                    continue
-                                p_title = ""
-                                p_type = part.get("type") or {}
-                                if isinstance(p_type, dict):
-                                    p_title = p_type.get("title", "")
-                                if not p_title:
-                                    p_title = part.get("name", "") or part.get("partName", "")
-
-                                status_types = part.get("statusTypes", []) or []
-                                codes = [str(s.get("code", "")).upper() for s in status_types if isinstance(s, dict)]
-                                svg_part = _resolve_part_code(p_title)
-
-                                if "X" in codes:
-                                    if svg_part:
-                                        replaces.append(svg_part)
-                                elif any(c in codes for c in ["W", "C", "A", "U", "T"]):
-                                    if svg_part:
-                                        repairs.append(svg_part)
-
-                    # 성능점검 없으면 진단 API 조회 (진단차량 완벽 지원)
-                    if not replaces and not repairs:
-                        d_res = adj_session.get(f"https://api.encar.com/v1/readside/diagnosis/vehicle/{vehicle_id}", timeout=5)
-                        if d_res.status_code != 200 and vehicle_id != cid:
-                            d_res = adj_session.get(f"https://api.encar.com/v1/readside/diagnosis/vehicle/{cid}", timeout=5)
-                        if d_res.status_code == 200:
-                            dj = d_res.json() or {}
-                            items_list = dj.get("items", []) or []
-                            if items_list:
-                                insp_ok = True
-                                for it in items_list:
-                                    raw_name = it.get("name", "")
-                                    if raw_name in ["CHECKER_COMMENT", "OUTER_PANEL_COMMENT"]:
-                                        continue
-                                    rc = str(it.get("resultCode", "") or "").upper()
-                                    rt = str(it.get("result", "") or "")
-                                    part_name = it.get("partName") or raw_name
-                                    svg_part = _resolve_part_code(part_name)
-
-                                    if rc in ["REPLACEMENT", "EXCHANGE", "X"] or rt == "교환":
-                                        if svg_part:
-                                            replaces.append(svg_part)
-                                    elif rc in ["SHEET_METAL", "WELD", "W", "C", "A", "U", "T"] or any(k in rt for k in ["판금", "용접", "도색", "수리"]):
-                                        if svg_part and svg_part not in replaces:
-                                            repairs.append(svg_part)
-                except Exception as e_insp:
-                    print(f"[호가 성능점검 조회 오류] cid={cid}: {e_insp}", flush=True)
 
                 replaces = list(dict.fromkeys(replaces))
                 repairs = list(dict.fromkeys(repairs))
@@ -1385,6 +1414,9 @@ def search_encar_market(req: EncarSearchRequest):
                 strict_adj_min = 0
                 strict_adj_max = 0
                 strict_adj_median = 0
+
+            t_adj_elapsed = time.time() - t_adj_start
+            print(f"[호가 계산 구간 완료] 소요 시간: {t_adj_elapsed:.2f}초 (포함={strict_adj_count}대, 제외={strict_adj_excluded_count}대)", flush=True)
 
         from services.autoplus_sync_service import AutoplusSyncService
         try:
