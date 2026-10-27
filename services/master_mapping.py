@@ -1082,18 +1082,19 @@ class MasterMappingService:
         fuel = None
         if '플러그인' in text_clean or 'phev' in text_clean:
             fuel = '플러그인하이브리드'
-        elif '하이브리드' in text_clean or 'hev' in text_clean:
-            fuel = '하이브리드'
-        elif '가솔린' in text_clean or '휘발유' in text_clean:
-            fuel = '가솔린'
-        elif '디젤' in text_clean or '경유' in text_clean:
-            fuel = '디젤'
-        elif '전기' in text_clean or 'ev' in text_clean:
-            fuel = '전기'
         elif 'lpg' in text_clean or 'lpi' in text_clean:
             fuel = 'lpg'
-        elif '수소' in text_clean or 'fcev' in text_clean:
+        elif '하이브리드' in text_clean or 'hev' in text_clean or '가솔린+전기' in text_clean or '디젤+전기' in text_clean or 'lpg+전기' in text_clean:
+            fuel = '하이브리드'
+        elif 'fcev' in text_clean or '수소' in text_clean:
             fuel = '수소'
+        elif '디젤' in text_clean or '경유' in text_clean or 'crdi' in text_clean or 'vgt' in text_clean or re.search(r'(?:^|[\s/_\-])r[12]\.[02]\b', text_clean) or text_clean.startswith('r2.') or ' r2.' in text_clean or '2.2d' in text_clean or '2.0d' in text_clean:
+            fuel = '디젤'
+        elif '가솔린' in text_clean or '휘발유' in text_clean or 'gdi' in text_clean or 't-gdi' in text_clean:
+            fuel = '가솔린'
+        elif re.search(r'\bev\b', text_clean) or '전기' in text_clean:
+            if not re.search(r'\bev[1-9]\b', text_clean):
+                fuel = '전기'
 
         # 2. 배기량 (disp) - \d+\.\d+ (R2.0 등 포함) 또는 \d+cc (1600cc -> 1.6)
         disp = None
