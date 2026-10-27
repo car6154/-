@@ -33,7 +33,19 @@ export interface ValuationSummarySectionProps {
   targetCarHistory: any;
   liveMarketStats: any;
   liveEncarSoldStats: any;
-  encarStats: { count: number; min: number; max: number; avg: number; median: number };
+  encarStats: {
+    count: number;
+    min: number;
+    max: number;
+    avg: number;
+    median: number;
+    strictAdjAvg?: number;
+    strictAdjMin?: number;
+    strictAdjMedian?: number;
+    strictAdjMax?: number;
+    strictAdjCount?: number;
+    strictAdjExcludedCount?: number;
+  };
   encarValuation: any;
   encarYearStats: Array<{ year: number; avg: number; count: number; isTarget: boolean }>;
   encarSoldList: any[];
@@ -851,13 +863,25 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
                     </div>
                   </div>
 
-                  {/* 1. 최저가 / 최고가 / 평균가 메인 요약 바 */}
+                  {/* 1. 최저가 / 최고가 / 평균가 메인 요약 바 (동일 연식·등급 보정 엄격 기준) */}
                   <div className="bg-[#090b10] border border-[#1e2538] rounded-lg p-2.5 space-y-1.5">
                     <div className="flex items-baseline justify-between">
-                      <span className="text-xs text-zinc-400 font-medium">평균 판매 호가</span>
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        <span className="text-xs text-zinc-400 font-medium">평균 판매 호가</span>
+                        <span className="text-[10px] text-sky-400/90 font-normal">
+                          (동일 연식·등급 보정 평균{encarStats.strictAdjCount !== undefined ? ` · ${encarStats.strictAdjCount}대` : ''})
+                        </span>
+                        {!!encarStats.strictAdjExcludedCount && encarStats.strictAdjExcludedCount > 0 && (
+                          <span className="text-[10px] text-zinc-500 font-normal">
+                            (부위 미확인 {encarStats.strictAdjExcludedCount}대 제외)
+                          </span>
+                        )}
+                      </div>
                       <div className="flex items-baseline gap-1">
                         <span className="text-xl sm:text-2xl font-black font-mono text-sky-300 tracking-tight">
-                          {encarStats.avg > 0 ? `${encarStats.avg.toLocaleString()}` : '-'}
+                          {(encarStats.strictAdjAvg && encarStats.strictAdjAvg > 0)
+                            ? `${encarStats.strictAdjAvg.toLocaleString()}`
+                            : '-'}
                         </span>
                         <span className="text-xs text-sky-400 font-bold">만원</span>
                       </div>
@@ -866,19 +890,25 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
                       <div className="bg-[#121622] rounded py-1 px-1.5">
                         <div className="text-[10px] text-zinc-400">⬇️ 최저가</div>
                         <div className="font-mono font-bold text-emerald-400 truncate">
-                          {encarStats.min > 0 ? `${encarStats.min.toLocaleString()}만` : '-'}
+                          {(encarStats.strictAdjMin && encarStats.strictAdjMin > 0)
+                            ? `${encarStats.strictAdjMin.toLocaleString()}만`
+                            : '-'}
                         </div>
                       </div>
                       <div className="bg-[#121622] rounded py-1 px-1.5">
                         <div className="text-[10px] text-zinc-400">🎯 중간값</div>
                         <div className="font-mono font-bold text-zinc-200 truncate">
-                          {encarStats.median > 0 ? `${encarStats.median.toLocaleString()}만` : '-'}
+                          {(encarStats.strictAdjMedian && encarStats.strictAdjMedian > 0)
+                            ? `${encarStats.strictAdjMedian.toLocaleString()}만`
+                            : '-'}
                         </div>
                       </div>
                       <div className="bg-[#121622] rounded py-1 px-1.5">
                         <div className="text-[10px] text-zinc-400">⬆️ 최고가</div>
                         <div className="font-mono font-bold text-rose-400 truncate">
-                          {encarStats.max > 0 ? `${encarStats.max.toLocaleString()}만` : '-'}
+                          {(encarStats.strictAdjMax && encarStats.strictAdjMax > 0)
+                            ? `${encarStats.strictAdjMax.toLocaleString()}만`
+                            : '-'}
                         </div>
                       </div>
                     </div>

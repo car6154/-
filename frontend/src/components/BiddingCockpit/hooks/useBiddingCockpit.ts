@@ -325,10 +325,12 @@ export function useBiddingCockpit({
         } else if (options.url) {
           setEncarSourceUrl(options.url);
         }
+        if (data.stats) {
+          setBackendEncarStats(data.stats);
+        }
         if (data.valuation && data.valuation.hasData) {
           setEncarValuation(data.valuation);
         } else if (data.stats?.avg && data.stats.avg > 0) {
-          setBackendEncarStats(data.stats);
           const avgP = data.stats.avg;
           const benchP = data.stats.benchmarkPrice || 0;
           if (benchP > 0) {
@@ -1933,7 +1935,13 @@ export function useBiddingCockpit({
 
   // 엔카 동급 매물 통계 (최저가, 최고가, 평균가, 중앙값, 매물수 - Streamlit 8501 int(mean) 방식 100% 동일)
   const encarStats = useMemo(() => {
-    if (!encarList.length) return { count: 0, min: 0, max: 0, avg: 0, median: 0 };
+    if (!encarList.length) {
+      return {
+        count: 0, min: 0, max: 0, avg: 0, median: 0,
+        strictAdjAvg: 0, strictAdjMin: 0, strictAdjMedian: 0, strictAdjMax: 0,
+        strictAdjCount: 0, strictAdjExcludedCount: 0
+      };
+    }
     const prices = [...encarList.map(c => c.price)].sort((a, b) => a - b);
     const min = prices[0];
     const max = prices[prices.length - 1];
@@ -1941,8 +1949,20 @@ export function useBiddingCockpit({
     const avg = Math.floor(prices.reduce((sum, p) => sum + p, 0) / prices.length);
     const midIdx = Math.floor(prices.length / 2);
     const median = prices.length % 2 === 0 ? Math.round((prices[midIdx - 1] + prices[midIdx]) / 2) : prices[midIdx];
-    return { count: encarList.length, min, max, avg, median };
-  }, [encarList]);
+    return {
+      count: encarList.length,
+      min,
+      max,
+      avg,
+      median,
+      strictAdjAvg: backendEncarStats?.strictAdjAvg ?? 0,
+      strictAdjMin: backendEncarStats?.strictAdjMin ?? 0,
+      strictAdjMedian: backendEncarStats?.strictAdjMedian ?? 0,
+      strictAdjMax: backendEncarStats?.strictAdjMax ?? 0,
+      strictAdjCount: backendEncarStats?.strictAdjCount ?? 0,
+      strictAdjExcludedCount: backendEncarStats?.strictAdjExcludedCount ?? 0
+    };
+  }, [encarList, backendEncarStats]);
 
   // 연식별 호가 평균 및 대수 (Streamlit tab_main.py L500-L525 100% 동일 구현 - 9대 전수 집계)
   const encarYearStats = useMemo(() => {

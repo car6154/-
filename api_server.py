@@ -1143,6 +1143,249 @@ def search_encar_market(req: EncarSearchRequest):
         elif "단순" in target_acc_status or "교환" in target_acc_status or "판금" in target_acc_status:
             acc_adj = -int(round(market_gap * 0.4))
 
+        # 4-2. [엔카 호가 신설] 동일 연식·등급 엄격 매물(strict_df)의 대당 보정 평균 (strictAdjAvg)
+        strict_adj_avg = 0
+        strict_adj_min = 0
+        strict_adj_max = 0
+        strict_adj_median = 0
+        strict_adj_count = 0
+        strict_adj_excluded_count = 0
+
+        if strict_has_data and not strict_df.empty:
+            from services.cookie_server import get_current_encar_cookie
+
+            # 주행 보정 계수 pt_per_10k (엄격 평균가 기준: 2000만 이상 1.3 / 1200만 이상 1.5 / 미만 1.8)
+            if avg_price >= 2000:
+                pt_per_10k = 1.3
+            elif avg_price >= 1200:
+                pt_per_10k = 1.5
+            else:
+                pt_per_10k = 1.8
+
+            adj_prices = []
+            excluded_count = 0
+
+            adj_session = requests.Session()
+            adj_session.headers.update({
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
+                "Accept": "application/json, text/plain, */*",
+                "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
+                "Origin": "https://fem.encar.com",
+                "Referer": "https://fem.encar.com"
+            })
+            cur_cookie = get_current_encar_cookie()
+            if cur_cookie:
+                adj_session.headers["Cookie"] = cur_cookie
+
+            for _, s_row in strict_df.iterrows():
+                cid = str(s_row.get('_carid', '')).strip()
+                if not cid or cid in ('-', 'None', ''):
+                    continue
+
+                try:
+                    raw_price = float(s_row.get('판매가', 0))
+                except Exception:
+                    raw_price = 0.0
+                if raw_price <= 0:
+                    continue
+
+                try:
+                    comp_mil = float(s_row.get('주행거리', 0))
+                except Exception:
+                    comp_mil = 0.0
+
+                # 1) 주행 보정: mil_delta = ((비교차 주행 - 목표 주행) / 10,000) × pt_per_10k, ±8점 클램프
+                # 주행보정가 = 판매가 × (100 + mil_delta) / 100. 목표 주행이 0이면 주행 보정 생략.
+                if mileage_num and mileage_num > 0:
+                    raw_mil_delta = ((comp_mil - float(mileage_num)) / 10000.0) * pt_per_10k
+                    mil_delta = max(-8.0, min(8.0, raw_mil_delta))
+                    mil_adj_price = raw_price * (100.0 + mil_delta) / 100.0
+                else:
+                    mil_adj_price = raw_price
+
+                # 상세 조회는 순차 2초 페이싱 (407 차단 회피 규칙)
+                time.sleep(2.0)
+
+                # 차량 기본 제원 및 옵션 choice 코드 조회
+                vehicle_id = cid
+                choice_codes = []
+                try:
+                    v_res = adj_session.get(f"https://api.encar.com/v1/readside/vehicle/{cid}?include=CATEGORY,MANAGE,OPTIONS,SPEC", timeout=5)
+                    if v_res.status_code == 200:
+                        v_json = v_res.json() or {}
+                        manage = v_json.get("manage") or {}
+                        if manage.get("dummyVehicleId"):
+                            vehicle_id = str(manage.get("dummyVehicleId"))
+                        elif v_json.get("vehicleId"):
+                            vehicle_id = str(v_json["vehicleId"])
+                        choice_codes = [str(c) for c in (v_json.get("options", {}).get("choice", []) or [])]
+                except Exception as e_v:
+                    print(f"[호가 상세 vehicle 조회 오류] cid={cid}: {e_v}", flush=True)
+
+                # 비교차 옵션 가격 산출 (기존 상세카드·벤치마크 방식 재사용)
+                comp_opt_new = 0
+                if choice_codes:
+                    try:
+                        o_res = adj_session.get(f"https://api.encar.com/v1/readside/vehicles/car/{cid}/options/choice", timeout=5)
+                        if o_res.status_code != 200 and vehicle_id != cid:
+                            o_res = adj_session.get(f"https://api.encar.com/v1/readside/vehicles/car/{vehicle_id}/options/choice", timeout=5)
+                        if o_res.status_code == 200 and isinstance(o_res.json(), list):
+                            for opt in o_res.json():
+                                if isinstance(opt, dict) and str(opt.get("optionCd", "")) in choice_codes:
+                                    try:
+                                        p_val = int(opt.get("price", 0))
+                                        if p_val > 0:
+                                            comp_opt_new += p_val
+                                    except Exception:
+                                        pass
+                    except Exception as e_opt:
+                        print(f"[호가 옵션 조회 오류] cid={cid}: {e_opt}", flush=True)
+
+                if comp_opt_new == 0 and '추가옵션' in s_row and s_row['추가옵션']:
+                    comp_opt_new = calculate_catalog_option_value(str(s_row['추가옵션']), car_name=car_name, year=str(target_year_val))
+                    if comp_opt_new == 0:
+                        comp_opt_new = extract_option_val(str(s_row['추가옵션']))
+
+                # 2) 성능점검 조회 및 사고 환산 (헤이딜러 공식 기준, 부위별)
+                replaces = []
+                repairs = []
+                acc_flag = None
+                rep_flag = None
+                insp_ok = False
+
+                try:
+                    i_res = adj_session.get(f"https://api.encar.com/v1/readside/inspection/vehicle/{vehicle_id}", timeout=5)
+                    if i_res.status_code != 200 and vehicle_id != cid:
+                        i_res = adj_session.get(f"https://api.encar.com/v1/readside/inspection/vehicle/{cid}", timeout=5)
+
+                    if i_res.status_code == 200:
+                        ij = i_res.json() or {}
+                        master = ij.get("master") or {}
+                        if isinstance(master, dict) and master:
+                            insp_ok = True
+                            acc_flag = master.get("accident")
+                            rep_flag = master.get("simpleRepair")
+
+                            all_parts = (ij.get("outers", []) or []) + (ij.get("inners", []) or [])
+                            if not all_parts:
+                                all_parts = (master.get("outers", []) or []) + (master.get("inners", []) or [])
+
+                            for part in (all_parts or []):
+                                if not isinstance(part, dict):
+                                    continue
+                                p_title = ""
+                                p_type = part.get("type") or {}
+                                if isinstance(p_type, dict):
+                                    p_title = p_type.get("title", "")
+                                if not p_title:
+                                    p_title = part.get("name", "") or part.get("partName", "")
+
+                                status_types = part.get("statusTypes", []) or []
+                                codes = [str(s.get("code", "")).upper() for s in status_types if isinstance(s, dict)]
+                                svg_part = _resolve_part_code(p_title)
+
+                                if "X" in codes:
+                                    if svg_part:
+                                        replaces.append(svg_part)
+                                elif any(c in codes for c in ["W", "C", "A", "U", "T"]):
+                                    if svg_part:
+                                        repairs.append(svg_part)
+
+                    # 성능점검 없으면 진단 API 조회 (진단차량 완벽 지원)
+                    if not replaces and not repairs:
+                        d_res = adj_session.get(f"https://api.encar.com/v1/readside/diagnosis/vehicle/{vehicle_id}", timeout=5)
+                        if d_res.status_code != 200 and vehicle_id != cid:
+                            d_res = adj_session.get(f"https://api.encar.com/v1/readside/diagnosis/vehicle/{cid}", timeout=5)
+                        if d_res.status_code == 200:
+                            dj = d_res.json() or {}
+                            items_list = dj.get("items", []) or []
+                            if items_list:
+                                insp_ok = True
+                                for it in items_list:
+                                    raw_name = it.get("name", "")
+                                    if raw_name in ["CHECKER_COMMENT", "OUTER_PANEL_COMMENT"]:
+                                        continue
+                                    rc = str(it.get("resultCode", "") or "").upper()
+                                    rt = str(it.get("result", "") or "")
+                                    part_name = it.get("partName") or raw_name
+                                    svg_part = _resolve_part_code(part_name)
+
+                                    if rc in ["REPLACEMENT", "EXCHANGE", "X"] or rt == "교환":
+                                        if svg_part:
+                                            replaces.append(svg_part)
+                                    elif rc in ["SHEET_METAL", "WELD", "W", "C", "A", "U", "T"] or any(k in rt for k in ["판금", "용접", "도색", "수리"]):
+                                        if svg_part and svg_part not in replaces:
+                                            repairs.append(svg_part)
+                except Exception as e_insp:
+                    print(f"[호가 성능점검 조회 오류] cid={cid}: {e_insp}", flush=True)
+
+                replaces = list(dict.fromkeys(replaces))
+                repairs = list(dict.fromkeys(repairs))
+
+                # 성능점검 미등록/사진이거나 확인 불가인 경우 호가 대상에서 제외
+                if not insp_ok:
+                    excluded_count += 1
+                    print(f"   [호가 제외] cid={cid[:4]}*** | 사유: 성능점검 미등록/사진(확인불가)", flush=True)
+                    continue
+
+                all_damaged = set(replaces) | set(repairs)
+                outer_count = len(all_damaged & OUTER_PART_CODES)
+                inner_count = len(all_damaged & INNER_PART_CODES)
+
+                has_accident = (acc_flag is True or rep_flag is True or len(all_damaged) > 0)
+
+                if has_accident:
+                    if len(all_damaged) == 0:
+                        # 사고 이력이 있는데 부위 확인이 안 되는 차 -> 호가 대상에서 제외 (flat율 폴백 금지)
+                        excluded_count += 1
+                        print(f"   [호가 제외] cid={cid[:4]}*** | 사유: 사고 이력 있으나 부위 미확인", flush=True)
+                        continue
+                    # 헤이딜러 공식 기준 부위별 환산
+                    # 외판 판금·교환: 3% / 부위, 골격 용접·판금·교환: 7% / 부위, 범퍼 교환: 0원
+                    sigma_rate = outer_count * 0.03 + inner_count * 0.07
+                    denom = max(0.1, 1.0 - sigma_rate)
+                    no_acc_price = mil_adj_price / denom
+                else:
+                    # 무사고 차는 환산 없이 주행보정가 그대로
+                    sigma_rate = 0.0
+                    no_acc_price = mil_adj_price
+
+                # 3) 옵션 델타: (목표 옵션 잔존가 - 비교차 옵션 잔존가) × 반영률(양수 35% / 음수 40%), ±40만 캡
+                # 목표 옵션 없음이면 델타 생략
+                if target_opt_new > 0:
+                    target_opt_res_val = target_opt_new * opt_ratio
+                    comp_opt_res_val = comp_opt_new * opt_ratio
+                    opt_raw_diff = target_opt_res_val - comp_opt_res_val
+                    opt_rate = 0.35 if opt_raw_diff > 0 else 0.40
+                    opt_delta = max(-40.0, min(40.0, opt_raw_diff * opt_rate))
+                else:
+                    opt_delta = 0.0
+
+                # 4) 대당 보정가 = 무사고 환산가 + 옵션 델타
+                car_adj_price = no_acc_price + opt_delta
+                adj_prices.append(car_adj_price)
+                print(f"   [대당 보정] cid={cid[:4]}*** | 판매가={raw_price:.0f}만 | 주행={comp_mil:,.0f}km | mil_delta={mil_delta:+.2f}% | 주행보정={mil_adj_price:.1f}만 | 부위(외판{outer_count}/골격{inner_count}, Σ율={sigma_rate:.1%}) | 무사고환산={no_acc_price:.1f}만 | opt_delta={opt_delta:+.1f}만 | 최종보정가={car_adj_price:.1f}만", flush=True)
+
+            strict_adj_count = len(adj_prices)
+            strict_adj_excluded_count = excluded_count
+
+            if strict_adj_count > 0:
+                strict_adj_avg = int(round(sum(adj_prices) / strict_adj_count))
+                sorted_adj = sorted(adj_prices)
+                strict_adj_min = int(round(sorted_adj[0]))
+                strict_adj_max = int(round(sorted_adj[-1]))
+                mid = strict_adj_count // 2
+                if strict_adj_count % 2 == 1:
+                    strict_adj_median = int(round(sorted_adj[mid]))
+                else:
+                    strict_adj_median = int(round((sorted_adj[mid - 1] + sorted_adj[mid]) / 2.0))
+            else:
+                # 포함 대수가 0대면 strictAdjAvg = 0(해당 없음). 넓은 평균으로 슬쩍 대체 금지.
+                strict_adj_avg = 0
+                strict_adj_min = 0
+                strict_adj_max = 0
+                strict_adj_median = 0
+
         from services.autoplus_sync_service import AutoplusSyncService
         try:
             company_car_map = AutoplusSyncService.get_company_carid_map()
@@ -1236,6 +1479,12 @@ def search_encar_market(req: EncarSearchRequest):
                 "count": len(strict_df) if strict_has_data else 0,
                 "strictCount": len(strict_df),
                 "strictHasData": strict_has_data,
+                "strictAdjAvg": strict_adj_avg,
+                "strictAdjMin": strict_adj_min,
+                "strictAdjMedian": strict_adj_median,
+                "strictAdjMax": strict_adj_max,
+                "strictAdjCount": strict_adj_count,
+                "strictAdjExcludedCount": strict_adj_excluded_count,
                 "wideCount": len(items),
                 "wideAvg": wide_avg_price if not strict_has_data else None,
                 "wideMedian": wide_median_price if not strict_has_data else None,
@@ -1411,6 +1660,24 @@ def _resolve_part_code(title: str) -> Optional[str]:
         if k in title or k.upper() in raw_upper:
             return PART_CODE_MAP[k]
     return None
+
+
+OUTER_PART_CODES = {
+    'RADIATOR_SUPPORT', 'HOOD', 'F_FENDER_L', 'F_FENDER_R',
+    'SIDE_SILL_L', 'FRONT_DOOR_L', 'FRONT_DOOR_R', 'SIDE_SILL_R',
+    'REAR_DOOR_L', 'REAR_DOOR_R', 'QUARTER_L', 'QUARTER_R',
+    'ROOF', 'TRUNK'
+}
+INNER_PART_CODES = {
+    'FRONT_PANEL', 'SIDE_MEMBER_FRONT_L', 'FRONT_SIDE_MEMBER_L',
+    'SIDE_MEMBER_FRONT_R', 'FRONT_SIDE_MEMBER_R', 'FRONT_WHEEL_HOUSE_L',
+    'FRONT_WHEEL_HOUSE_R', 'CROSS_MEMBER', 'INSIDE_PANEL_L',
+    'INSIDE_PANEL_R', 'DASH_PANEL', 'A_PILLAR_L', 'PILLAR_A_L',
+    'A_PILLAR_R', 'PILLAR_A_R', 'B_PILLAR_L', 'PILLAR_B_L',
+    'B_PILLAR_R', 'PILLAR_B_R', 'C_PILLAR_L', 'PILLAR_C_L',
+    'C_PILLAR_R', 'PILLAR_C_R', 'FLOOR_PANEL', 'SIDE_MEMBER_REAR_L',
+    'SIDE_MEMBER_REAR_R', 'TRUNK_FLOOR', 'REAR_PANEL'
+}
 
 
 @app.get("/api/encar/inspection/{car_id}")
