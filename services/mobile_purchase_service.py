@@ -206,7 +206,7 @@ class MobilePurchaseService:
                 is_sold = (sold_yn_str in ("Y", "YES", "TRUE", "1")) or ("완료" in status_val or status_val == "판매완료")
 
                 list_mileage = None
-                for mk in ["mileage", "vhclMileage", "accumMileage", "drivingDistance", "주행거리", "dvrDsc", "useKm", "runKm", "distance"]:
+                for mk in ["carMileage", "mileage", "vhclMileage", "accumMileage", "drivingDistance", "주행거리", "dvrDsc", "useKm", "runKm", "distance"]:
                     if mk in item and item[mk] is not None and str(item[mk]).strip() not in ("", "null", "none"):
                         try:
                             lm_val = int(float(str(item[mk]).replace(",", "").strip()))
@@ -352,7 +352,7 @@ class MobilePurchaseService:
                 # 주행거리 추출: 키 이름은 추측하지 않고 후보 키들을 순회하며 실제 매칭된 키를 로그로 기록
                 extracted_mileage = None
                 matched_mileage_key = None
-                mileage_candidates = ["mileage", "vhclMileage", "accumMileage", "drivingDistance", "주행거리", "dvrDsc", "useKm", "runKm", "distance"]
+                mileage_candidates = ["carMileage", "mileage", "vhclMileage", "accumMileage", "drivingDistance", "주행거리", "dvrDsc", "useKm", "runKm", "distance"]
                 for mk in mileage_candidates:
                     if mk in data and data[mk] is not None and str(data[mk]).strip() not in ("", "null", "none"):
                         try:
