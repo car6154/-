@@ -165,6 +165,7 @@ export function useBiddingCockpit({
   // 선택된 엔카 매물 및 실시간 성능점검표 연동 상태 (상단 호이스팅)
   const [selectedEncarId, setSelectedEncarId] = useState<string>('');
   const [selectedInspectionMap, setSelectedInspectionMap] = useState<Record<string, any>>({});
+  const selectedInspectionMapRef = useRef<Record<string, any>>({});
   const [isInspectionLoading, setIsInspectionLoading] = useState<boolean>(false);
 
   // 자사 오토플러스 실적 및 시장 수요도 상태 (상단 호이스팅)
@@ -196,6 +197,7 @@ export function useBiddingCockpit({
     setLiveEncarList([]);
     setSelectedEncarId('');
     setSelectedInspectionMap({});
+    selectedInspectionMapRef.current = {};
     setLiveEncarSoldStats(null);
     setEncarTotalModelCount(0);
     setEncarFilteredCount(0);
@@ -1390,27 +1392,75 @@ export function useBiddingCockpit({
     setSelectedEncarId('');
   }, [carName, detailModel, yearModel, carNumber]);
 
+  // 🚀 [사전 프리패치(Prefetch)]: 엔카 매물 목록이 준비되면 백그라운드에서 상위 매물들의 성능점검표/신차가격을 순차 로드
+  // 사용자가 테이블 행을 클릭하는 순간 지연 없이(0.0초) 즉각 렌더링되도록 사전 캐싱합니다.
+  useEffect(() => {
+    if (!encarList || encarList.length === 0) return;
+
+    let isCancelled = false;
+    const prefetchList = encarList.slice(0, 30); // 상위 30대 우선 프리패치
+
+    const runPrefetch = async () => {
+      for (const car of prefetchList) {
+        if (isCancelled) break;
+        const carId = car.id;
+        if (!carId) continue;
+
+        // 이미 캐시(ref)에 있으면 스킵
+        if (selectedInspectionMapRef.current[carId]) continue;
+
+        try {
+          const res = await fetch(`/api/encar/inspection/${carId}`);
+          if (isCancelled) break;
+          const data = await res.json();
+          if (data.success && data.data && !isCancelled) {
+            selectedInspectionMapRef.current[carId] = data.data;
+            setSelectedInspectionMap(prev => ({
+              ...prev,
+              [carId]: data.data
+            }));
+          }
+        } catch (e) {
+          // 백그라운드 프리패치는 무음 처리
+        }
+
+        // 브라우저 렌더링 프레임 및 네트워크 여유를 위해 100ms 지연
+        await new Promise(r => setTimeout(r, 100));
+      }
+    };
+
+    runPrefetch();
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [encarList]);
+
   // 행 클릭 시 성능점검표 및 상세 옵션 즉시 호출
   const handleSelectEncarCar = async (carId: string) => {
     if (!carId) return;
     setSelectedEncarId(carId);
 
-    if (!selectedInspectionMap[carId]) {
-      setIsInspectionLoading(true);
-      try {
-        const res = await fetch(`/api/encar/inspection/${carId}`);
-        const data = await res.json();
-        if (data.success && data.data) {
-          setSelectedInspectionMap(prev => ({
-            ...prev,
-            [carId]: data.data
-          }));
-        }
-      } catch (e) {
-        console.warn('엔카 성능점검표 조회 실패:', e);
-      } finally {
-        setIsInspectionLoading(false);
+    // 이미 프리패치되어 캐시에 있으면 네트워크 대기 없이 즉시 표시 (0ms 지연)
+    if (selectedInspectionMapRef.current[carId] || selectedInspectionMap[carId]) {
+      return;
+    }
+
+    setIsInspectionLoading(true);
+    try {
+      const res = await fetch(`/api/encar/inspection/${carId}`);
+      const data = await res.json();
+      if (data.success && data.data) {
+        selectedInspectionMapRef.current[carId] = data.data;
+        setSelectedInspectionMap(prev => ({
+          ...prev,
+          [carId]: data.data
+        }));
       }
+    } catch (e) {
+      console.warn('엔카 성능점검표 조회 실패:', e);
+    } finally {
+      setIsInspectionLoading(false);
     }
   };
 

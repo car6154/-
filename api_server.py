@@ -1465,8 +1465,11 @@ def get_encar_inspection(car_id: str):
         except Exception as e:
             print(f"[api_server] options fetch error: {e}")
 
-        # 신차가 산출 (1순위: 차량번호 기준 차얼마 정부/카마트 공식 원장 데이터 대조 -> 2순위: 엔카 카탈로그 originPrice + 유료옵션 총액)
-        if vehicle_no:
+        # 신차가 산출 (엔카 공식 '신차대비' 화면과 100% 동일 기준: 출고 등급가 originPrice + 유료 장착옵션(외장컬러 포함) 총액)
+        if origin_price > 0:
+            new_car_price = origin_price + total_option_price
+        elif vehicle_no:
+            # 엔카 카탈로그에 originPrice가 없는 특수 매물만 차얼마 공식 원장으로 안전하게 폴백
             try:
                 from services.chaolma_service import ChaolmaService
                 ch_res = ChaolmaService.fetch_car_info(vehicle_no)
@@ -1479,10 +1482,7 @@ def get_encar_inspection(car_id: str):
                     if not origin_price:
                         origin_price = b_man
             except Exception as e:
-                print(f"[api_server] chaolma new_car_price lookup error: {e}")
-
-        if not new_car_price and origin_price > 0:
-            new_car_price = origin_price + total_option_price
+                print(f"[api_server] chaolma fallback error: {e}")
 
         # 3. 성능점검 상세 조회
         insp_url = f"https://api.encar.com/v1/readside/inspection/vehicle/{vehicle_id}"
