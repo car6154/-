@@ -674,10 +674,22 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                     </div>
                     <div className="text-xs sm:text-sm text-zinc-300 font-semibold">{selectedEncar.subModel || detailModel}</div>
                   </div>
-                  {/* 선택한 차량의 신차가만 단독 표시 (선택 해제 버튼 제거) */}
+                  {/* 선택한 차량의 신차가(추가옵션값) 표기 */}
                   {Boolean(selectedEncar.newCarPrice || selectedEncar.originPrice) && (
-                    <span className="text-sm sm:text-base font-black text-amber-300 font-mono tracking-tight shrink-0">
+                    <span
+                      className="text-sm sm:text-base font-black text-amber-300 font-mono tracking-tight shrink-0"
+                      title={
+                        typeof selectedEncar.optionPrice === 'number'
+                          ? `엔카 신차가: ${((selectedEncar.newCarPrice || selectedEncar.originPrice) || 0).toLocaleString()}만원 (출고 등급가: ${(selectedEncar.originPrice || 0).toLocaleString()}만 + 선택옵션: ${selectedEncar.optionPrice.toLocaleString()}만)`
+                          : `엔카 신차가: ${((selectedEncar.newCarPrice || selectedEncar.originPrice) || 0).toLocaleString()}만원`
+                      }
+                    >
                       {((selectedEncar.newCarPrice || selectedEncar.originPrice) || 0).toLocaleString()}만
+                      {typeof selectedEncar.optionPrice === 'number' && (
+                        <span className="text-xs sm:text-sm font-semibold text-amber-200/90 ml-1">
+                          ({selectedEncar.optionPrice.toLocaleString()}만)
+                        </span>
+                      )}
                     </span>
                   )}
                 </div>
