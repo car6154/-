@@ -123,6 +123,10 @@ class SoldOutTracker:
                 item["last_seen"] = today_date_str
                 item["status"] = "판매중"
                 item["consecutive_misses"] = 0
+                item.pop("estimated_sold_date", None)
+                item.pop("last_asking_price", None)
+                item.pop("price_type", None)
+                item.pop("is_asking_price", None)
                 if prc_num > 0:
                     item["price"] = prc_num
                 if perf_date and not item.get("perf_date"):
@@ -147,7 +151,8 @@ class SoldOutTracker:
                     s_item["consecutive_misses"] = misses
                     if misses >= 2:
                         s_item["status"] = "판매완료 추정"
-                        s_item["estimated_sold_date"] = today_date_str
+                        if not s_item.get("estimated_sold_date"):
+                            s_item["estimated_sold_date"] = today_date_str
                     updated_count += 1
 
         if updated_count > 0:
@@ -202,6 +207,10 @@ class SoldOutTracker:
                         snapshots[cid]["status"] = "판매중"
                         snapshots[cid]["consecutive_misses"] = 0
                         snapshots[cid]["verified_at"] = today_str
+                        snapshots[cid].pop("estimated_sold_date", None)
+                        snapshots[cid].pop("last_asking_price", None)
+                        snapshots[cid].pop("price_type", None)
+                        snapshots[cid].pop("is_asking_price", None)
                         cls._save_json(cls.SNAPSHOT_FILE, snapshots)
                 return {
                     "status": "판매중",
@@ -361,14 +370,22 @@ class SoldOutTracker:
             item["lastCheckedAt"] = now_str
 
             if status_code == 200:
-                # 판매중 정상 노출
+                # 판매중 정상 노출 (부활 시 이전 추정 날짜 및 호가 필드 정리)
                 item["status"] = "판매중"
                 item["consecutive_misses"] = 0
                 item["last_seen"] = today_str
+                item.pop("estimated_sold_date", None)
+                item.pop("last_asking_price", None)
+                item.pop("price_type", None)
+                item.pop("is_asking_price", None)
                 if cid in snapshots:
                     snapshots[cid]["status"] = "판매중"
                     snapshots[cid]["consecutive_misses"] = 0
                     snapshots[cid]["last_seen"] = today_str
+                    snapshots[cid].pop("estimated_sold_date", None)
+                    snapshots[cid].pop("last_asking_price", None)
+                    snapshots[cid].pop("price_type", None)
+                    snapshots[cid].pop("is_asking_price", None)
                 updated_count += 1
 
             elif status_code == 404:
@@ -389,8 +406,10 @@ class SoldOutTracker:
                 else:
                     # 2회 연속 미발견: 판매완료 추정으로 전이 + 호가 확정
                     item["status"] = "판매완료 추정"
-                    item["estimated_sold_date"] = today_str
-                    print(f"[SoldOutTracker] 관심 차량 {cid}: 2회 연속 미발견 -> '판매완료 추정' 전이! (직전 호가: {last_price}만)", flush=True)
+                    # estimated_sold_date는 misses==2로 전이되는 순간에만 기록하고 misses>=3일 때 덮어쓰지 않음
+                    if not item.get("estimated_sold_date"):
+                        item["estimated_sold_date"] = today_str
+                    print(f"[SoldOutTracker] 관심 차량 {cid}: {misses}회 연속 미발견 -> '판매완료 추정' (추정일: {item.get('estimated_sold_date')}, 직전 호가: {last_price}만)", flush=True)
 
                 # 스냅샷에도 동일하게 반영
                 if cid in snapshots:
@@ -400,7 +419,8 @@ class SoldOutTracker:
                     snapshots[cid]["price_type"] = "호가 (팔리기 직전 호가)"
                     if misses >= 2:
                         snapshots[cid]["status"] = "판매완료 추정"
-                        snapshots[cid]["estimated_sold_date"] = today_str
+                        if not snapshots[cid].get("estimated_sold_date"):
+                            snapshots[cid]["estimated_sold_date"] = today_str
                 updated_count += 1
 
         cls._save_json(cls.TRACKED_CARS_FILE, tracked)
