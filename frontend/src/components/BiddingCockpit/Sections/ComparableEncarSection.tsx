@@ -22,6 +22,9 @@ export interface EncarItem {
   checkDate?: string;
   holdingDays?: number | null;
   optionsText?: string;
+  originPrice?: number;
+  optionPrice?: number;
+  newCarPrice?: number;
   [key: string]: any;
 }
 
@@ -671,14 +674,12 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                     </div>
                     <div className="text-xs sm:text-sm text-zinc-300 font-semibold">{selectedEncar.subModel || detailModel}</div>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => onSelectEncar('')}
-                    className="text-[11px] px-2 py-1 rounded bg-[#232634] hover:bg-[#323646] text-zinc-300 hover:text-white font-medium transition cursor-pointer shrink-0"
-                    title="비교 매물 선택 해제"
-                  >
-                    선택 해제 ✕
-                  </button>
+                  {/* 선택한 차량의 신차가만 단독 표시 (선택 해제 버튼 제거) */}
+                  {Boolean(selectedEncar.newCarPrice || selectedEncar.originPrice) && (
+                    <span className="text-sm sm:text-base font-black text-amber-300 font-mono tracking-tight shrink-0">
+                      {((selectedEncar.newCarPrice || selectedEncar.originPrice) || 0).toLocaleString()}만
+                    </span>
+                  )}
                 </div>
 
                 <div className="flex flex-wrap gap-1.5 pt-0.5 text-xs">

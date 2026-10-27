@@ -1510,6 +1510,9 @@ export function useBiddingCockpit({
         replaceNames: replaceNames.length > 0 ? Array.from(new Set(replaceNames)) : (Array.isArray(insp.replaceNames) ? insp.replaceNames : []),
         repairNames: repairNames.length > 0 ? Array.from(new Set(repairNames)) : (Array.isArray(insp.repairNames) ? insp.repairNames : []),
         damageData: insp.damageData || (found as any).damageData || {},
+        originPrice: insp.originPrice || (found as any).originPrice || 0,
+        optionPrice: insp.optionPrice || (found as any).optionPrice || 0,
+        newCarPrice: insp.newCarPrice || (found as any).newCarPrice || 0,
       };
     }
 

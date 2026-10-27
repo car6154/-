@@ -1404,11 +1404,17 @@ def get_encar_inspection(car_id: str):
         options_text = "기본 출고 사양 (추가옵션 없음)"
         reg_date_str = ""
         holding_days = None
+        origin_price = 0
+        new_car_price = 0
+        total_option_price = 0
 
         try:
-            v_res = session.get(f"https://api.encar.com/v1/readside/vehicle/{car_id}?include=MANAGE,OPTIONS,SPEC", timeout=5)
+            v_res = session.get(f"https://api.encar.com/v1/readside/vehicle/{car_id}?include=CATEGORY,MANAGE,OPTIONS,SPEC", timeout=5)
             if v_res.status_code == 200:
                 v_data = v_res.json()
+                cat = v_data.get("category") or {}
+                if cat.get("originPrice"):
+                    origin_price = _safe_int(cat.get("originPrice", 0))
                 manage = v_data.get("manage") or {}
                 spec = v_data.get("spec") or {}
                 if manage.get("dummyVehicleId"):
@@ -1445,6 +1451,8 @@ def get_encar_inspection(car_id: str):
                             if isinstance(opt, dict) and str(opt.get("optionCd", "")) in choice_codes:
                                 o_name = opt.get("optionName", "").strip()
                                 o_price = _safe_int(opt.get("price", 0))
+                                if o_price > 0:
+                                    total_option_price += o_price
                                 if o_name and "외장컬러" not in o_name:
                                     if o_price > 0:
                                         opt_names.append(f"{o_name}({o_price}만)")
@@ -1456,6 +1464,25 @@ def get_encar_inspection(car_id: str):
                 options_text = "추가 옵션 없음"
         except Exception as e:
             print(f"[api_server] options fetch error: {e}")
+
+        # 신차가 산출 (1순위: 차량번호 기준 차얼마 정부/카마트 공식 원장 데이터 대조 -> 2순위: 엔카 카탈로그 originPrice + 유료옵션 총액)
+        if vehicle_no:
+            try:
+                from services.chaolma_service import ChaolmaService
+                ch_res = ChaolmaService.fetch_car_info(vehicle_no)
+                if ch_res and ch_res.get("base_car_price"):
+                    b = ch_res.get("base_car_price", 0)
+                    o = ch_res.get("total_option_price", 0)
+                    b_man = round(b / 10000) if b > 10000 else b
+                    o_man = round(o / 10000) if o > 10000 else o
+                    new_car_price = b_man + o_man
+                    if not origin_price:
+                        origin_price = b_man
+            except Exception as e:
+                print(f"[api_server] chaolma new_car_price lookup error: {e}")
+
+        if not new_car_price and origin_price > 0:
+            new_car_price = origin_price + total_option_price
 
         # 3. 성능점검 상세 조회
         insp_url = f"https://api.encar.com/v1/readside/inspection/vehicle/{vehicle_id}"
@@ -1478,7 +1505,6 @@ def get_encar_inspection(car_id: str):
             if raw_date and len(raw_date) >= 8:
                 inspection_date = f"{raw_date[2:4]}-{raw_date[4:6]}-{raw_date[6:8]}"
 
-        # 점검일(inspection_date) 확정 후 그 날짜 기준으로 재고일수 산정 (목록의 재고일과 동일 기준)
         if inspection_date and inspection_date not in ["-", "⚠️미등록", "미검사/사진", "⚠️조회실패"]:
             try:
                 full_date_str = f"20{inspection_date}" if len(inspection_date) == 8 else inspection_date
@@ -1488,6 +1514,8 @@ def get_encar_inspection(car_id: str):
         else:
             holding_days = None
 
+        accident_type = "미확인"
+        if res.status_code == 200:
             if master.get("accident"):
                 accident_type = "유사고"
             elif master.get("simpleRepair"):
@@ -1588,7 +1616,10 @@ def get_encar_inspection(car_id: str):
                 "repairs": repairs,
                 "replaceNames": replace_names,
                 "repairNames": repair_names,
-                "optionsText": options_text
+                "optionsText": options_text,
+                "originPrice": origin_price,
+                "optionPrice": total_option_price,
+                "newCarPrice": new_car_price
             }
         }
     except Exception as e:

@@ -697,8 +697,8 @@ async function startServer() {
         }
       }
 
-      // 출고정보 (이 차만의 옵션 - choice options 실측 디코딩)
       let choiceOptionsText = '기본사양';
+      let totalOptionPrice = 0;
       const selectedChoiceCodes = (vehicleData?.options?.choice || []).map((c: any) => String(c));
       try {
         const choiceRes = await fetch(`https://api.encar.com/v1/readside/vehicles/car/${vehicleId}/options/choice`, {
@@ -713,6 +713,9 @@ async function startServer() {
           const choiceNames: string[] = [];
           for (const opt of choiceData) {
             if (selectedChoiceCodes.includes(String(opt.optionCd))) {
+              if (typeof opt.price === 'number' && opt.price > 0) {
+                totalOptionPrice += opt.price;
+              }
               const priceStr = opt.price ? ` (${opt.price}만)` : '';
               choiceNames.push(`${opt.optionName}${priceStr}`);
             }
@@ -726,6 +729,8 @@ async function startServer() {
       }
 
       const optionsText = choiceOptionsText;
+      const originPrice = Number(vehicleData?.category?.originPrice) || 0;
+      const newCarPrice = originPrice > 0 ? originPrice + totalOptionPrice : 0;
 
       return res.json({
         success: true,
@@ -743,7 +748,10 @@ async function startServer() {
           repairs: Array.from(new Set(parsedRepairs)),
           replaceNames: Array.from(new Set(replaceNames)),
           repairNames: Array.from(new Set(repairNames)),
-          rawVehicle: vehicleData
+          rawVehicle: vehicleData,
+          originPrice,
+          optionPrice: totalOptionPrice,
+          newCarPrice
         }
       });
     } catch (err: any) {
