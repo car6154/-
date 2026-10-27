@@ -559,19 +559,6 @@ export const SettlementTab: React.FC<SettlementTabProps> = ({
             <span>매입연동</span>
           </button>
 
-          {/* 관심 추적 관리 버튼 */}
-          <button
-            type="button"
-            onClick={() => setIsTrackedModalOpen(true)}
-            className="px-2.5 py-1.5 rounded-lg bg-amber-950/40 hover:bg-amber-900/60 border border-amber-600/50 text-amber-300 font-bold text-xs flex items-center gap-1.5 transition shadow-sm"
-            title="관심 매물 실시간 호가 추적 관리 열기"
-          >
-            <span>🎯 관심 추적</span>
-            <span className="px-1.5 py-0.2 rounded-full bg-amber-400 text-black text-[10px] font-black font-mono">
-              {trackedCarIds.size}
-            </span>
-          </button>
-
           {/* Filter Radio Buttons */}
           <div className="flex flex-wrap items-center gap-1.5 bg-[#181b24] p-1 rounded-lg border border-[#282c3c] text-xs">
           <button
