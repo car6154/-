@@ -1008,6 +1008,78 @@ def search_encar_market(req: EncarSearchRequest):
         )
         strict_has_data = not strict_df.empty
 
+        # 4-1. [엄격 매물 한정 상세 보강] skipDetail=True 시 엄격 subset만 상세(성능일·재고·사고유무·외장컬러·추가옵션) 병렬 조회
+        if skip_detail and strict_has_data:
+            from concurrent.futures import ThreadPoolExecutor, as_completed
+            from services.cookie_server import get_current_encar_cookie
+
+            strict_carids = [
+                str(cid).strip() for cid in strict_df['_carid'].dropna().unique()
+                if str(cid).strip() and str(cid).strip() not in ('-', 'None', '')
+            ]
+            if strict_carids:
+                detail_session = requests.Session()
+                detail_session.headers.update({
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+                    "Accept": "application/json, text/plain, */*",
+                    "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
+                    "Origin": "https://fem.encar.com",
+                })
+                cur_cookie = get_current_encar_cookie()
+                if cur_cookie:
+                    detail_session.headers["Cookie"] = cur_cookie
+
+                max_workers = min(5, len(strict_carids))
+                with ThreadPoolExecutor(max_workers=max_workers) as executor:
+                    future_to_cid = {
+                        executor.submit(Scraper.fetch_car_detail, detail_session, cid): cid
+                        for cid in strict_carids
+                    }
+                    for future in as_completed(future_to_cid):
+                        cid = future_to_cid[future]
+                        try:
+                            detail_res = future.result()
+                            mask = df['_carid'].astype(str) == str(cid)
+                            df.loc[mask, '성능일'] = detail_res.get('성능일', '-')
+                            df.loc[mask, '재고'] = detail_res.get('재고', '-')
+                            df.loc[mask, '사고유무'] = detail_res.get('사고유무', '-')
+                            df.loc[mask, '외장컬러'] = detail_res.get('외장컬러', '-')
+                            df.loc[mask, '추가옵션'] = detail_res.get('추가옵션', '-')
+                        except Exception as e_dt:
+                            print(f"[엄격 상세조회 예외] cid={cid}: {e_dt}", flush=True)
+
+                # 채운 df로 strict_df 재동기화
+                strict_df = DataProcessor.filter_strictly_same_year_and_grade(
+                    df,
+                    target_year=year_num,
+                    target_detail_model=detail_model
+                )
+                strict_has_data = not strict_df.empty
+
+                # 채워진 성능일 기반으로 복합 정렬 재적용 (점검 완료 -> 점검일 최신 -> 가격 낮은 -> 연식 최신)
+                df = DataProcessor.sort_by_perf_and_year(df)
+
+                # 엄격 매물의 채워진 사고유무/옵션을 바탕으로 avg_opt_new, opt_adj 재계산
+                no_acc_strict = strict_df[~strict_df['사고유무'].astype(str).str.contains('사고|교환|판금', regex=True)]
+                if not no_acc_strict.empty and '추가옵션' in no_acc_strict.columns:
+                    def _get_opt_val(x):
+                        val = calculate_catalog_option_value(str(x), car_name=car_name, year=str(target_year_val))
+                        return val if val > 0 else extract_option_val(x)
+                    opt_vals = no_acc_strict['추가옵션'].apply(_get_opt_val)
+                    avg_opt_new = int(opt_vals.mean()) if not opt_vals.empty else 0
+                    scores = [score_key_options(str(x))[0] for x in no_acc_strict['추가옵션'].dropna()]
+                    avg_opt_score = int(np.mean(scores)) if scores else 0
+
+                    if target_opt_new > 0:
+                        if avg_opt_new > 0 and avg_opt_new != target_opt_new:
+                            opt_adj = int(round((target_opt_new - avg_opt_new) * opt_ratio))
+                        else:
+                            opt_adj = int(round(target_opt_new * opt_ratio * 0.7))
+                    elif target_score != avg_opt_score and target_score > 0:
+                        opt_adj = int(round((target_score - avg_opt_score) * opt_ratio))
+                    elif target_opts:
+                        opt_adj = int(round(len(target_opt_names) * 70 * opt_ratio))
+
         # 통계 및 AI 정밀 밸류에이션 (동일 연식·동일 등급 엄격 매물 기준)
         bench_val = Scraper.get_benchmarked_valuation(
             df,
@@ -1128,7 +1200,7 @@ def search_encar_market(req: EncarSearchRequest):
                 "판매가": str(price_val),
                 "링크": link_s,
                 "성능일": perf_d,
-                "재고": f"{hold_days}일",
+                "재고": f"{hold_days}일" if hold_days is not None else "-",
                 "사고유무": acc_str,
                 "외장컬러": col_str,
                 "추가옵션": opt_s
