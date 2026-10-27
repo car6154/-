@@ -1128,18 +1128,18 @@ class MasterMappingService:
                 except Exception:
                     pass
 
-        # 3. 구동방식 (drive) - 2WD/4WD/AWD
+        # 3. 구동방식 (drive) - 2WD/4WD/AWD (브랜드별 사륜 표기 4matic/4매틱/quattro/콰트로/xdrive 통합)
         drive = None
-        if '4wd' in text_clean or 'awd' in text_clean or '4륜' in text_clean:
+        if any(w in text_clean for w in ['4wd', 'awd', '4륜', '사륜', '4matic', '4매틱', 'quattro', '콰트로', 'xdrive']):
             drive = '4wd'
-        elif '2wd' in text_clean or '2륜' in text_clean or 'ff' in text_clean or 'fr' in text_clean:
+        elif any(w in text_clean for w in ['2wd', '2륜', '이륜', 'ff', 'fr']):
             drive = '2wd'
 
         # 4. 등급 및 기타 토큰 (tokens)
         rem = text_clean
         rem = re.sub(r'(?:[a-z가-힣]|\b)\d+\.\d+', ' ', rem)
         rem = re.sub(r'\d{3,4}\s*cc', ' ', rem)
-        rem = re.sub(r'\b(4wd|awd|2wd|4륜|2륜|ff|fr)\b', ' ', rem)
+        rem = re.sub(r'(4wd|awd|2wd|4륜|2륜|사륜|이륜|ff|fr|4matic|4매틱|quattro|콰트로|xdrive)', ' ', rem)
         rem = re.sub(r'(가솔린|휘발유|디젤|경유|하이브리드|플러그인하이브리드|전기|수소|lpg|lpi|hev|phev|ev|fcev)', ' ', rem)
         tokens = [t for t in re.split(r'[\s/()_\-]+', rem) if len(t) >= 2]
 
@@ -1220,14 +1220,20 @@ class MasterMappingService:
                 spec_score += 2
 
             total_score = token_score + spec_score
-            candidates.append((total_score, t_name, t_data))
+            is_2wd_candidate = ('2wd' in cand_drives)
+            candidates.append((total_score, is_2wd_candidate, t_name, t_data))
 
         if not candidates:
             return None, None
 
         # 점수 순 정렬 후 최고 점수 후보 선택
-        candidates.sort(key=lambda x: x[0], reverse=True)
-        best_score, best_name, best_data = candidates[0]
+        # 작업 2: 입력에 구동 정보가 없을 때 동점이면 2WD 후보 우선
+        if not in_drive:
+            candidates.sort(key=lambda x: (x[0], 1 if x[1] else 0), reverse=True)
+        else:
+            candidates.sort(key=lambda x: x[0], reverse=True)
+
+        best_score, is_2wd, best_name, best_data = candidates[0]
         return best_name, best_data
 
     @classmethod
