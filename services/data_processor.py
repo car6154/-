@@ -2,6 +2,7 @@
 import re
 from typing import Union
 import pandas as pd
+from services.model_matcher import ModelMatcher
 
 class DataProcessor:
     @staticmethod
@@ -424,51 +425,17 @@ class DataProcessor:
                 y_val = int(m_yr.group(1))
                 parsed_year = y_val if y_val >= 1900 else 2000 + y_val
 
-        # 2. 연료 (fuel)
-        fuel = None
-        if '플러그인' in clean_compact or 'phev' in clean_compact:
-            fuel = '플러그인하이브리드'
-        elif any(k in clean_compact for k in ['lpg', 'lpi', 'lpe']):
-            fuel = 'lpg'
-        elif any(k in clean_compact for k in ['하이브리드', 'hev', '가솔린+전기', '디젤+전기', 'lpg+전기']):
-            fuel = '하이브리드'
-        elif 'fcev' in clean_compact or '수소' in clean_compact:
-            fuel = '수소'
-        elif any(k in clean_compact for k in ['디젤', '경유', 'crdi', 'vgt', 'dci', 'cdi', 'tdi', 'e-vgt']) or re.search(r'r[12]\.[02]', clean_text):
-            fuel = '디젤'
-        elif any(k in clean_compact for k in ['가솔린', '휘발유', 'gdi', 't-gdi', 'gde', 'mpi', 'cvvl']):
-            fuel = '가솔린'
-        elif ('ev' in clean_text or '전기' in clean_compact) and not re.search(r'ev[1-9]', clean_compact):
-            fuel = '전기'
+        # 2. 연료 (fuel: 공유 모듈 ModelMatcher로 단일화)
+        fuel = ModelMatcher.extract_fuel(raw_text) or None
 
-        # 3. 배기량 (disp)
-        disp = None
-        m_disp = re.search(r'(?:[a-z가-힣]|\b)(\d\.\d)', clean_text)
-        if m_disp:
-            disp = m_disp.group(1)
-        else:
-            m_cc = re.search(r'(\d{3,4})\s*cc', clean_text)
-            if m_cc:
-                try:
-                    disp = f"{int(m_cc.group(1)) / 1000.0:.1f}"
-                except Exception:
-                    pass
+        # 3. 배기량 (disp: 공유 모듈 ModelMatcher로 단일화)
+        disp = ModelMatcher.extract_disp(clean_text) or None
 
-        # 4. 터보 여부 (is_turbo)
-        has_turbo_kw = any(k in clean_compact for k in ['터보', 'turbo', 't-gdi', 'tgdi']) or bool(re.search(r'\b\d\.\d+t\b', clean_text))
-        is_hk = any(m in clean_compact for m in ['현대', '기아', '제네시스', 'hyundai', 'kia', '싼타페', '쏘렌토', '그랜저', 'k8', '투싼', '스포티지', '카니발', '팰리세이드'])
-        is_na_16 = any(m in clean_compact for m in ['니로', 'niro', '아반떼', 'avante', '코나', 'kona', '아이오닉', 'ioniq'])
-        if is_hk and disp == '1.6' and fuel == '하이브리드' and not is_na_16:
-            is_turbo = True
-        else:
-            is_turbo = has_turbo_kw
+        # 4. 터보 여부 (is_turbo: 공유 모듈 ModelMatcher로 단일화)
+        is_turbo = ModelMatcher.extract_turbo(raw_text, disp=disp, fuel=fuel)
 
-        # 5. 구동방식 (drive)
-        drive = None
-        if any(k in clean_compact for k in ['4wd', 'awd', '4륜', '사륜', '4matic', '4매틱', 'quattro', '콰트로', 'xdrive']):
-            drive = '4wd'
-        elif any(k in clean_compact for k in ['2wd', '2륜', '이륜', 'ff', 'fr']):
-            drive = '2wd'
+        # 5. 구동방식 (drive: 공유 모듈 ModelMatcher로 단일화)
+        drive = ModelMatcher.extract_drive(raw_text) or None
 
         # 6. 인승 (seats)
         seats = ''
@@ -647,6 +614,11 @@ class DataProcessor:
             if not combined or combined in ('-', 'none', 'nan', '미확인'):
                 return False
 
+            # 목표 차명이 전달된 경우 공유 모듈(ModelMatcher)로 동일 모델 여부 사전 검증
+            if target_car_name and name_val:
+                if not ModelMatcher.is_same_model(target_car_name, name_val):
+                    return False
+
             cand_spec = cls.build_car_spec(
                 text=sub_val,
                 car_name=name_val,
@@ -658,4 +630,9 @@ class DataProcessor:
 
         mask = cand_df.apply(_match_row, axis=1)
         return cand_df[mask].reset_index(drop=True)
+
+    @classmethod
+    def is_same_model(cls, expected: str, candidate: str) -> bool:
+        """두 차명의 동일 모델 여부 판정 (공유 모듈 ModelMatcher 위임)"""
+        return ModelMatcher.is_same_model(expected, candidate)
 

@@ -904,18 +904,10 @@ class Scraper:
             if not parsed_cars:
                 return None
 
-            # 모델명 유효성 검증 (기대 모델명이 있는 경우)
-            if expected_model:
-                exp_clean = re.sub(r'[^가-힣a-zA-Z0-9]', '', str(expected_model)).lower()
-                first_name_clean = re.sub(r'[^가-힣a-zA-Z0-9]', '', parsed_cars[0]['name']).lower()
-                core_exp = re.sub(r'^(제네시스|현대|기아|쉐보레|르노코리아|르노삼성|쌍용|kg모빌리티|벤츠|bmw|아우디|폭스바겐)?(신형|디올뉴|더올뉴|올뉴|더뉴|뉴|allnew|thenew)?', '', exp_clean).strip()
-                matched_exp = False
-                check_parts = [p for p in [core_exp, exp_clean, exp_clean[-4:], exp_clean[:4]] if p and len(p) >= 2]
-                for part in check_parts:
-                    if part in first_name_clean or first_name_clean in part:
-                        matched_exp = True
-                        break
-                if not matched_exp and len(exp_clean) >= 2:
+            # 모델명 유효성 검증 (기대 모델명이 있는 경우: 공유 모듈 판정 단일화)
+            if expected_model and parsed_cars:
+                from services.model_matcher import ModelMatcher
+                if not ModelMatcher.is_same_model(expected_model, parsed_cars[0]['name']):
                     return None
 
             # 연식 필터링 적용

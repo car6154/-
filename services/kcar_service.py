@@ -3725,6 +3725,7 @@ def fetch_kcar_market_stats(
 
         # 🌟 정식 스펙 동등성 기반 엄격 필터링 (엔카와 100% 동일 단일 기준 적용)
         from services.data_processor import DataProcessor
+        from services.model_matcher import ModelMatcher
         target_spec = DataProcessor.build_car_spec(
             text=detail_model,
             car_name=car_name,
@@ -3733,6 +3734,11 @@ def fetch_kcar_market_stats(
 
         s_rows = []
         for r in f_rows:
+            # 0. 공유 모듈(ModelMatcher)로 동일 모델 검증
+            cand_name = str(r.get('modelNm') or r.get('carWhlNm') or '')
+            if car_name and cand_name and not ModelMatcher.is_same_model(car_name, cand_name):
+                continue
+
             # 1. 등급 코드가 있는 경우 코드 일치 우선 확인
             if grd_cd:
                 if str(r.get('grdCd') or '') != grd_cd:
