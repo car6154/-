@@ -3213,7 +3213,11 @@ def resolve_kcar_grade_codes(m_cd: str, grp_cd: str, mod_cd: str, sub_model: str
     has_diesel = ("디젤" in comb_norm) or ("VGT" in comb_norm) or ("TDI" in comb_norm) or ("CDI" in comb_norm) or bool(re.search(r'\d\.\d\s*D(?![A-Z])', combined_src.upper()))
     has_gasoline = ("가솔린" in comb_norm) or ("GDI" in comb_norm) or ("GDE" in comb_norm) or ("GTE" in comb_norm) or ("MPI" in comb_norm) or ("휘발유" in comb_norm)
 
-    has_4wd = ("4WD" in comb_norm) or ("AWD" in comb_norm) or ("4MATIC" in comb_norm) or ("XDRIVE" in comb_norm) or ("QUATTRO" in comb_norm)
+    has_4wd = (
+        ("4WD" in comb_norm) or ("AWD" in comb_norm) or
+        ("4MATIC" in comb_norm) or ("XDRIVE" in comb_norm) or ("QUATTRO" in comb_norm) or
+        ("4매틱" in comb_norm) or ("콰트로" in comb_norm) or ("4륜" in comb_norm) or ("사륜" in comb_norm)
+    )
     has_2wd = ("2WD" in comb_norm) or ("FF" in comb_norm)
 
     seat_m = re.search(r'(\d+)\s*인승', combined_src)
@@ -3235,7 +3239,8 @@ def resolve_kcar_grade_codes(m_cd: str, grp_cd: str, mod_cd: str, sub_model: str
     spec_ignore = {
         "가솔린", "디젤", "전기", "EV", "하이브리드", "HEV", "LPG", "LPI", "LPE",
         "2WD", "4WD", "AWD", "FF", "FR", "터보", "일반인판매용", "일반판매용", "일반인",
-        "롱레인지", "스탠다드"
+        "롱레인지", "스탠다드",
+        "4MATIC", "XDRIVE", "QUATTRO", "콰트로", "4매틱", "4륜", "사륜"
     }
     extra_suffixes = ["스페셜", "플러스", "PLUS", "스포츠", "베이직", "라이트", "초이스", "어드밴스", "프리미어", "익스트림", "TUIX", "살롱"]
 
@@ -3282,7 +3287,11 @@ def resolve_kcar_grade_codes(m_cd: str, grp_cd: str, mod_cd: str, sub_model: str
             if has_diesel or any("9인승" in k or "11인승" in k for k in grd_map.keys()):
                 continue
 
-        g_is_4wd = ("4WD" in g_norm) or ("AWD" in g_norm)
+        g_is_4wd = (
+            ("4WD" in g_norm) or ("AWD" in g_norm) or
+            ("4MATIC" in g_norm) or ("XDRIVE" in g_norm) or ("QUATTRO" in g_norm) or
+            ("콰트로" in g_norm) or ("4매틱" in g_norm) or ("4륜" in g_norm) or ("사륜" in g_norm)
+        )
         g_is_2wd = ("2WD" in g_norm)
         if has_4wd and g_is_2wd:
             continue
