@@ -731,7 +731,7 @@ class EncarSearchRequest(BaseModel):
     targetOptions: Optional[str] = ""
     targetAccident: Optional[str] = ""
     carNumber: Optional[str] = ""
-    skipDetail: Optional[bool] = True
+    skipDetail: Optional[bool] = False
 
 
 @app.post("/api/encar/search")
@@ -797,7 +797,7 @@ def search_encar_market(req: EncarSearchRequest):
                 }
             }
 
-        skip_detail = req.skipDetail if req.skipDetail is not None else True
+        skip_detail = req.skipDetail if req.skipDetail is not None else False
         df, msg = Scraper.run(encar_url, "", fetch_details=not skip_detail)
         print(f"[엔카검색 결과] rows={len(df)} msg={msg} (skip_detail={skip_detail})", flush=True)
         if df.empty and req.url:

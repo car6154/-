@@ -48399,8 +48399,9 @@
     "first_seen": "2026-10-12",
     "first_seen_time": "2026-10-12 15:02",
     "last_seen": "2026-10-12",
-    "status": "판매중",
-    "consecutive_misses": 1
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-27"
   },
   "42172848": {
     "carid": "42172848",
@@ -48910,8 +48911,9 @@
     "first_seen": "2026-10-12",
     "first_seen_time": "2026-10-12 15:02",
     "last_seen": "2026-10-12",
-    "status": "판매중",
-    "consecutive_misses": 1
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-27"
   },
   "42738791": {
     "carid": "42738791",
@@ -49010,8 +49012,9 @@
     "first_seen": "2026-10-12",
     "first_seen_time": "2026-10-12 15:02",
     "last_seen": "2026-10-12",
-    "status": "판매중",
-    "consecutive_misses": 1
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-27"
   },
   "42288467": {
     "carid": "42288467",
@@ -49606,8 +49609,9 @@
     "first_seen": "2026-10-12",
     "first_seen_time": "2026-10-12 15:02",
     "last_seen": "2026-10-12",
-    "status": "판매중",
-    "consecutive_misses": 1
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-27"
   },
   "42688029": {
     "carid": "42688029",
@@ -49620,8 +49624,9 @@
     "first_seen": "2026-10-12",
     "first_seen_time": "2026-10-12 15:02",
     "last_seen": "2026-10-12",
-    "status": "판매중",
-    "consecutive_misses": 1
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-27"
   },
   "42281145": {
     "carid": "42281145",
@@ -49832,8 +49837,9 @@
     "first_seen": "2026-10-12",
     "first_seen_time": "2026-10-12 15:02",
     "last_seen": "2026-10-12",
-    "status": "판매중",
-    "consecutive_misses": 1
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-27"
   },
   "42836429": {
     "carid": "42836429",
@@ -49875,8 +49881,9 @@
     "first_seen": "2026-10-12",
     "first_seen_time": "2026-10-12 15:02",
     "last_seen": "2026-10-12",
-    "status": "판매중",
-    "consecutive_misses": 1
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-27"
   },
   "42860971": {
     "carid": "42860971",
@@ -50171,8 +50178,9 @@
     "first_seen": "2026-10-12",
     "first_seen_time": "2026-10-12 15:02",
     "last_seen": "2026-10-12",
-    "status": "판매중",
-    "consecutive_misses": 1
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-27"
   },
   "42849413": {
     "carid": "42849413",
@@ -50354,8 +50362,9 @@
     "first_seen": "2026-10-12",
     "first_seen_time": "2026-10-12 15:02",
     "last_seen": "2026-10-12",
-    "status": "판매중",
-    "consecutive_misses": 1
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-27"
   },
   "42878603": {
     "carid": "42878603",
@@ -50538,8 +50547,9 @@
     "first_seen": "2026-10-12",
     "first_seen_time": "2026-10-12 15:02",
     "last_seen": "2026-10-12",
-    "status": "판매중",
-    "consecutive_misses": 1
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-27"
   },
   "41703741": {
     "carid": "41703741",
@@ -50596,7 +50606,7 @@
     "first_seen_time": "2026-10-12 15:02",
     "last_seen": "2026-10-27",
     "status": "판매중",
-    "consecutive_misses": 0
+    "consecutive_misses": 1
   },
   "42808753": {
     "carid": "42808753",
@@ -50959,8 +50969,9 @@
     "first_seen": "2026-10-12",
     "first_seen_time": "2026-10-12 15:02",
     "last_seen": "2026-10-12",
-    "status": "판매중",
-    "consecutive_misses": 1
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-27"
   },
   "41778812": {
     "carid": "41778812",
@@ -51999,8 +52010,9 @@
     "first_seen": "2026-10-12",
     "first_seen_time": "2026-10-12 15:04",
     "last_seen": "2026-10-12",
-    "status": "판매중",
-    "consecutive_misses": 1
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-27"
   },
   "42769512": {
     "carid": "42769512",
@@ -52013,8 +52025,9 @@
     "first_seen": "2026-10-12",
     "first_seen_time": "2026-10-12 15:04",
     "last_seen": "2026-10-12",
-    "status": "판매중",
-    "consecutive_misses": 1
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-27"
   },
   "42395503": {
     "carid": "42395503",
@@ -52143,8 +52156,9 @@
     "first_seen": "2026-10-12",
     "first_seen_time": "2026-10-12 15:04",
     "last_seen": "2026-10-12",
-    "status": "판매중",
-    "consecutive_misses": 1
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-27"
   },
   "42706194": {
     "carid": "42706194",
@@ -52185,8 +52199,9 @@
     "first_seen": "2026-10-12",
     "first_seen_time": "2026-10-12 15:04",
     "last_seen": "2026-10-12",
-    "status": "판매중",
-    "consecutive_misses": 1
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-27"
   },
   "42602635": {
     "carid": "42602635",
@@ -52344,8 +52359,9 @@
     "first_seen": "2026-10-12",
     "first_seen_time": "2026-10-12 15:04",
     "last_seen": "2026-10-12",
-    "status": "판매중",
-    "consecutive_misses": 1
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-27"
   },
   "42695632": {
     "carid": "42695632",
@@ -52656,8 +52672,9 @@
     "first_seen": "2026-10-12",
     "first_seen_time": "2026-10-12 15:04",
     "last_seen": "2026-10-12",
-    "status": "판매중",
-    "consecutive_misses": 1
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-27"
   },
   "42328430": {
     "carid": "42328430",
@@ -52797,8 +52814,9 @@
     "first_seen": "2026-10-12",
     "first_seen_time": "2026-10-12 15:04",
     "last_seen": "2026-10-12",
-    "status": "판매중",
-    "consecutive_misses": 1
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-27"
   },
   "42671653": {
     "carid": "42671653",
@@ -52853,8 +52871,9 @@
     "first_seen": "2026-10-12",
     "first_seen_time": "2026-10-12 15:04",
     "last_seen": "2026-10-12",
-    "status": "판매중",
-    "consecutive_misses": 1
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-27"
   },
   "41548007": {
     "carid": "41548007",
@@ -52952,8 +52971,9 @@
     "first_seen": "2026-10-12",
     "first_seen_time": "2026-10-12 15:04",
     "last_seen": "2026-10-12",
-    "status": "판매중",
-    "consecutive_misses": 1
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-27"
   },
   "42395261": {
     "carid": "42395261",
@@ -53036,8 +53056,9 @@
     "first_seen": "2026-10-12",
     "first_seen_time": "2026-10-12 15:04",
     "last_seen": "2026-10-12",
-    "status": "판매중",
-    "consecutive_misses": 1
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-27"
   },
   "42722981": {
     "carid": "42722981",
@@ -53206,8 +53227,9 @@
     "first_seen": "2026-10-12",
     "first_seen_time": "2026-10-12 15:04",
     "last_seen": "2026-10-12",
-    "status": "판매중",
-    "consecutive_misses": 1
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-27"
   },
   "42663046": {
     "carid": "42663046",
@@ -53447,8 +53469,9 @@
     "first_seen": "2026-10-12",
     "first_seen_time": "2026-10-12 15:04",
     "last_seen": "2026-10-12",
-    "status": "판매중",
-    "consecutive_misses": 1
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-27"
   },
   "42762300": {
     "carid": "42762300",
@@ -53673,8 +53696,9 @@
     "first_seen": "2026-10-12",
     "first_seen_time": "2026-10-12 15:04",
     "last_seen": "2026-10-12",
-    "status": "판매중",
-    "consecutive_misses": 1
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-27"
   },
   "42864413": {
     "carid": "42864413",
@@ -53701,8 +53725,9 @@
     "first_seen": "2026-10-12",
     "first_seen_time": "2026-10-12 15:04",
     "last_seen": "2026-10-12",
-    "status": "판매중",
-    "consecutive_misses": 1
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-27"
   },
   "42798044": {
     "carid": "42798044",
@@ -53744,8 +53769,9 @@
     "first_seen": "2026-10-12",
     "first_seen_time": "2026-10-12 15:04",
     "last_seen": "2026-10-12",
-    "status": "판매중",
-    "consecutive_misses": 1
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-27"
   },
   "42101656": {
     "carid": "42101656",
@@ -54137,8 +54163,9 @@
     "first_seen": "2026-10-12",
     "first_seen_time": "2026-10-12 15:04",
     "last_seen": "2026-10-12",
-    "status": "판매중",
-    "consecutive_misses": 1
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-27"
   },
   "41778136": {
     "carid": "41778136",
@@ -54844,8 +54871,9 @@
     "first_seen": "2026-10-12",
     "first_seen_time": "2026-10-12 15:06",
     "last_seen": "2026-10-12",
-    "status": "판매중",
-    "consecutive_misses": 1
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-27"
   },
   "42100906": {
     "carid": "42100906",
@@ -55000,8 +55028,9 @@
     "first_seen": "2026-10-12",
     "first_seen_time": "2026-10-12 15:06",
     "last_seen": "2026-10-12",
-    "status": "판매중",
-    "consecutive_misses": 1
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-27"
   },
   "42607998": {
     "carid": "42607998",
@@ -55114,8 +55143,9 @@
     "first_seen": "2026-10-12",
     "first_seen_time": "2026-10-12 15:06",
     "last_seen": "2026-10-12",
-    "status": "판매중",
-    "consecutive_misses": 1
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-27"
   },
   "42633490": {
     "carid": "42633490",
@@ -55452,8 +55482,9 @@
     "first_seen": "2026-10-12",
     "first_seen_time": "2026-10-12 15:06",
     "last_seen": "2026-10-12",
-    "status": "판매중",
-    "consecutive_misses": 1
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-27"
   },
   "42861956": {
     "carid": "42861956",
@@ -55932,8 +55963,9 @@
     "first_seen": "2026-10-12",
     "first_seen_time": "2026-10-12 15:06",
     "last_seen": "2026-10-12",
-    "status": "판매중",
-    "consecutive_misses": 1
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-27"
   },
   "42838199": {
     "carid": "42838199",
@@ -55974,8 +56006,9 @@
     "first_seen": "2026-10-12",
     "first_seen_time": "2026-10-12 15:06",
     "last_seen": "2026-10-12",
-    "status": "판매중",
-    "consecutive_misses": 1
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-27"
   },
   "42027514": {
     "carid": "42027514",
@@ -56002,8 +56035,9 @@
     "first_seen": "2026-10-12",
     "first_seen_time": "2026-10-12 15:06",
     "last_seen": "2026-10-12",
-    "status": "판매중",
-    "consecutive_misses": 1
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-27"
   },
   "41952023": {
     "carid": "41952023",
@@ -56142,8 +56176,9 @@
     "first_seen": "2026-10-12",
     "first_seen_time": "2026-10-12 15:06",
     "last_seen": "2026-10-12",
-    "status": "판매중",
-    "consecutive_misses": 1
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-27"
   },
   "42861953": {
     "carid": "42861953",
@@ -56313,8 +56348,9 @@
     "first_seen": "2026-10-12",
     "first_seen_time": "2026-10-12 15:06",
     "last_seen": "2026-10-12",
-    "status": "판매중",
-    "consecutive_misses": 1
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-27"
   },
   "42657920": {
     "carid": "42657920",
@@ -56425,8 +56461,9 @@
     "first_seen": "2026-10-12",
     "first_seen_time": "2026-10-12 15:06",
     "last_seen": "2026-10-12",
-    "status": "판매중",
-    "consecutive_misses": 1
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-27"
   },
   "41696634": {
     "carid": "41696634",
@@ -56649,8 +56686,9 @@
     "first_seen": "2026-10-12",
     "first_seen_time": "2026-10-12 15:06",
     "last_seen": "2026-10-12",
-    "status": "판매중",
-    "consecutive_misses": 1
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-27"
   },
   "42775571": {
     "carid": "42775571",
@@ -56677,8 +56715,9 @@
     "first_seen": "2026-10-12",
     "first_seen_time": "2026-10-12 15:06",
     "last_seen": "2026-10-12",
-    "status": "판매중",
-    "consecutive_misses": 1
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-27"
   },
   "42803687": {
     "carid": "42803687",
@@ -56887,8 +56926,9 @@
     "first_seen": "2026-10-12",
     "first_seen_time": "2026-10-12 15:06",
     "last_seen": "2026-10-12",
-    "status": "판매중",
-    "consecutive_misses": 1
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-27"
   },
   "42759798": {
     "carid": "42759798",
@@ -56929,8 +56969,9 @@
     "first_seen": "2026-10-12",
     "first_seen_time": "2026-10-12 15:06",
     "last_seen": "2026-10-12",
-    "status": "판매중",
-    "consecutive_misses": 1
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-27"
   },
   "42876106": {
     "carid": "42876106",
@@ -57226,8 +57267,9 @@
     "first_seen": "2026-10-12",
     "first_seen_time": "2026-10-12 15:06",
     "last_seen": "2026-10-12",
-    "status": "판매중",
-    "consecutive_misses": 1
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-27"
   },
   "41352840": {
     "carid": "41352840",
@@ -58242,8 +58284,9 @@
     "first_seen": "2026-10-12",
     "first_seen_time": "2026-10-12 15:06",
     "last_seen": "2026-10-12",
-    "status": "판매중",
-    "consecutive_misses": 1
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-27"
   },
   "42847893": {
     "carid": "42847893",
@@ -58313,8 +58356,9 @@
     "first_seen": "2026-10-12",
     "first_seen_time": "2026-10-12 15:06",
     "last_seen": "2026-10-12",
-    "status": "판매중",
-    "consecutive_misses": 1
+    "status": "판매완료 추정",
+    "consecutive_misses": 2,
+    "estimated_sold_date": "2026-10-27"
   },
   "42653749": {
     "carid": "42653749",
@@ -70267,8 +70311,8 @@
     "year": "20(20)",
     "mileage": 71460,
     "price": 1890,
-    "perf_date": "",
-    "inv_days": "-",
+    "perf_date": "26-08-04",
+    "inv_days": "84",
     "first_seen": "2026-10-27",
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
@@ -70301,7 +70345,7 @@
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
     "status": "판매중",
-    "consecutive_misses": 0
+    "consecutive_misses": 1
   },
   "42793270": {
     "carid": "42793270",
@@ -70315,7 +70359,7 @@
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
     "status": "판매중",
-    "consecutive_misses": 0
+    "consecutive_misses": 1
   },
   "42614573": {
     "carid": "42614573",
@@ -70329,7 +70373,7 @@
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
     "status": "판매중",
-    "consecutive_misses": 0
+    "consecutive_misses": 1
   },
   "42913935": {
     "carid": "42913935",
@@ -70337,8 +70381,8 @@
     "year": "21(21)",
     "mileage": 76000,
     "price": 2149,
-    "perf_date": "",
-    "inv_days": "-",
+    "perf_date": "26-10-13",
+    "inv_days": "14",
     "first_seen": "2026-10-27",
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
@@ -70357,7 +70401,7 @@
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
     "status": "판매중",
-    "consecutive_misses": 0
+    "consecutive_misses": 1
   },
   "42631826": {
     "carid": "42631826",
@@ -70365,8 +70409,8 @@
     "year": "21(21)",
     "mileage": 89874,
     "price": 2180,
-    "perf_date": "",
-    "inv_days": "-",
+    "perf_date": "26-08-18",
+    "inv_days": "70",
     "first_seen": "2026-10-27",
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
@@ -70385,7 +70429,7 @@
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
     "status": "판매중",
-    "consecutive_misses": 0
+    "consecutive_misses": 1
   },
   "42229526": {
     "carid": "42229526",
@@ -70399,7 +70443,7 @@
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
     "status": "판매중",
-    "consecutive_misses": 0
+    "consecutive_misses": 1
   },
   "41877201": {
     "carid": "41877201",
@@ -70413,7 +70457,7 @@
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
     "status": "판매중",
-    "consecutive_misses": 0
+    "consecutive_misses": 1
   },
   "42200783": {
     "carid": "42200783",
@@ -70427,7 +70471,7 @@
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
     "status": "판매중",
-    "consecutive_misses": 0
+    "consecutive_misses": 1
   },
   "42043206": {
     "carid": "42043206",
@@ -70455,7 +70499,7 @@
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
     "status": "판매중",
-    "consecutive_misses": 0
+    "consecutive_misses": 1
   },
   "42100458": {
     "carid": "42100458",
@@ -70469,7 +70513,7 @@
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
     "status": "판매중",
-    "consecutive_misses": 0
+    "consecutive_misses": 1
   },
   "42864088": {
     "carid": "42864088",
@@ -70477,8 +70521,8 @@
     "year": "20(20)",
     "mileage": 70020,
     "price": 2250,
-    "perf_date": "",
-    "inv_days": "-",
+    "perf_date": "26-10-07",
+    "inv_days": "20",
     "first_seen": "2026-10-27",
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
@@ -70497,7 +70541,7 @@
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
     "status": "판매중",
-    "consecutive_misses": 0
+    "consecutive_misses": 1
   },
   "43027913": {
     "carid": "43027913",
@@ -70511,7 +70555,7 @@
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
     "status": "판매중",
-    "consecutive_misses": 0
+    "consecutive_misses": 1
   },
   "41245253": {
     "carid": "41245253",
@@ -70553,7 +70597,7 @@
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
     "status": "판매중",
-    "consecutive_misses": 0
+    "consecutive_misses": 1
   },
   "42811455": {
     "carid": "42811455",
@@ -70561,8 +70605,8 @@
     "year": "20(20)",
     "mileage": 80277,
     "price": 2290,
-    "perf_date": "",
-    "inv_days": "-",
+    "perf_date": "26-09-28",
+    "inv_days": "29",
     "first_seen": "2026-10-27",
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
@@ -70581,7 +70625,7 @@
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
     "status": "판매중",
-    "consecutive_misses": 0
+    "consecutive_misses": 1
   },
   "41938912": {
     "carid": "41938912",
@@ -70589,8 +70633,8 @@
     "year": "20(20)",
     "mileage": 81469,
     "price": 2340,
-    "perf_date": "",
-    "inv_days": "-",
+    "perf_date": "26-04-29",
+    "inv_days": "181",
     "first_seen": "2026-10-27",
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
@@ -70609,7 +70653,7 @@
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
     "status": "판매중",
-    "consecutive_misses": 0
+    "consecutive_misses": 1
   },
   "42332364": {
     "carid": "42332364",
@@ -70623,7 +70667,7 @@
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
     "status": "판매중",
-    "consecutive_misses": 0
+    "consecutive_misses": 1
   },
   "42943823": {
     "carid": "42943823",
@@ -70637,7 +70681,7 @@
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
     "status": "판매중",
-    "consecutive_misses": 0
+    "consecutive_misses": 1
   },
   "42503623": {
     "carid": "42503623",
@@ -70645,8 +70689,8 @@
     "year": "20(20)",
     "mileage": 43160,
     "price": 2350,
-    "perf_date": "",
-    "inv_days": "-",
+    "perf_date": "26-08-05",
+    "inv_days": "83",
     "first_seen": "2026-10-27",
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
@@ -70665,7 +70709,7 @@
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
     "status": "판매중",
-    "consecutive_misses": 0
+    "consecutive_misses": 1
   },
   "42756097": {
     "carid": "42756097",
@@ -70673,8 +70717,8 @@
     "year": "21(21)",
     "mileage": 64660,
     "price": 2389,
-    "perf_date": "",
-    "inv_days": "-",
+    "perf_date": "26-07-15",
+    "inv_days": "104",
     "first_seen": "2026-10-27",
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
@@ -70693,7 +70737,7 @@
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
     "status": "판매중",
-    "consecutive_misses": 0
+    "consecutive_misses": 1
   },
   "42981854": {
     "carid": "42981854",
@@ -70701,8 +70745,8 @@
     "year": "20(20)",
     "mileage": 72935,
     "price": 2390,
-    "perf_date": "",
-    "inv_days": "-",
+    "perf_date": "26-10-20",
+    "inv_days": "7",
     "first_seen": "2026-10-27",
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
@@ -70715,8 +70759,8 @@
     "year": "20(20)",
     "mileage": 56027,
     "price": 2390,
-    "perf_date": "",
-    "inv_days": "-",
+    "perf_date": "26-07-01",
+    "inv_days": "118",
     "first_seen": "2026-10-27",
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
@@ -70735,7 +70779,7 @@
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
     "status": "판매중",
-    "consecutive_misses": 0
+    "consecutive_misses": 1
   },
   "42438238": {
     "carid": "42438238",
@@ -70749,7 +70793,7 @@
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
     "status": "판매중",
-    "consecutive_misses": 0
+    "consecutive_misses": 1
   },
   "42910481": {
     "carid": "42910481",
@@ -70757,8 +70801,8 @@
     "year": "21(21)",
     "mileage": 73308,
     "price": 2440,
-    "perf_date": "",
-    "inv_days": "-",
+    "perf_date": "26-10-13",
+    "inv_days": "14",
     "first_seen": "2026-10-27",
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
@@ -70777,7 +70821,7 @@
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
     "status": "판매중",
-    "consecutive_misses": 0
+    "consecutive_misses": 1
   },
   "42937280": {
     "carid": "42937280",
@@ -70785,8 +70829,8 @@
     "year": "21(21)",
     "mileage": 52386,
     "price": 2450,
-    "perf_date": "",
-    "inv_days": "-",
+    "perf_date": "26-10-14",
+    "inv_days": "13",
     "first_seen": "2026-10-27",
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
@@ -70805,7 +70849,7 @@
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
     "status": "판매중",
-    "consecutive_misses": 0
+    "consecutive_misses": 1
   },
   "41439471": {
     "carid": "41439471",
@@ -70819,7 +70863,7 @@
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
     "status": "판매중",
-    "consecutive_misses": 0
+    "consecutive_misses": 1
   },
   "42863893": {
     "carid": "42863893",
@@ -70841,8 +70885,8 @@
     "year": "20(20)",
     "mileage": 55943,
     "price": 2460,
-    "perf_date": "",
-    "inv_days": "-",
+    "perf_date": "26-06-01",
+    "inv_days": "148",
     "first_seen": "2026-10-27",
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
@@ -70875,7 +70919,7 @@
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
     "status": "판매중",
-    "consecutive_misses": 0
+    "consecutive_misses": 1
   },
   "42792217": {
     "carid": "42792217",
@@ -70889,7 +70933,7 @@
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
     "status": "판매중",
-    "consecutive_misses": 0
+    "consecutive_misses": 1
   },
   "42826815": {
     "carid": "42826815",
@@ -70903,7 +70947,7 @@
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
     "status": "판매중",
-    "consecutive_misses": 0
+    "consecutive_misses": 1
   },
   "42762399": {
     "carid": "42762399",
@@ -70911,8 +70955,8 @@
     "year": "21(22)",
     "mileage": 59254,
     "price": 2530,
-    "perf_date": "",
-    "inv_days": "-",
+    "perf_date": "26-09-18",
+    "inv_days": "39",
     "first_seen": "2026-10-27",
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
@@ -70925,8 +70969,8 @@
     "year": "20(20)",
     "mileage": 75475,
     "price": 2530,
-    "perf_date": "",
-    "inv_days": "-",
+    "perf_date": "26-10-14",
+    "inv_days": "13",
     "first_seen": "2026-10-27",
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
@@ -70945,7 +70989,7 @@
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
     "status": "판매중",
-    "consecutive_misses": 0
+    "consecutive_misses": 1
   },
   "42998262": {
     "carid": "42998262",
@@ -70959,7 +71003,7 @@
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
     "status": "판매중",
-    "consecutive_misses": 0
+    "consecutive_misses": 1
   },
   "42695248": {
     "carid": "42695248",
@@ -70973,7 +71017,7 @@
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
     "status": "판매중",
-    "consecutive_misses": 0
+    "consecutive_misses": 1
   },
   "42777758": {
     "carid": "42777758",
@@ -70987,7 +71031,7 @@
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
     "status": "판매중",
-    "consecutive_misses": 0
+    "consecutive_misses": 1
   },
   "42073481": {
     "carid": "42073481",
@@ -71001,7 +71045,7 @@
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
     "status": "판매중",
-    "consecutive_misses": 0
+    "consecutive_misses": 1
   },
   "42983856": {
     "carid": "42983856",
@@ -71015,7 +71059,7 @@
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
     "status": "판매중",
-    "consecutive_misses": 0
+    "consecutive_misses": 1
   },
   "43027489": {
     "carid": "43027489",
@@ -71029,7 +71073,7 @@
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
     "status": "판매중",
-    "consecutive_misses": 0
+    "consecutive_misses": 1
   },
   "42865396": {
     "carid": "42865396",
@@ -71043,7 +71087,7 @@
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
     "status": "판매중",
-    "consecutive_misses": 0
+    "consecutive_misses": 1
   },
   "41397016": {
     "carid": "41397016",
@@ -71051,8 +71095,8 @@
     "year": "20(20)",
     "mileage": 74704,
     "price": 2590,
-    "perf_date": "",
-    "inv_days": "-",
+    "perf_date": "26-01-21",
+    "inv_days": "279",
     "first_seen": "2026-10-27",
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
@@ -71065,8 +71109,8 @@
     "year": "20(20)",
     "mileage": 41075,
     "price": 2590,
-    "perf_date": "",
-    "inv_days": "-",
+    "perf_date": "26-08-11",
+    "inv_days": "77",
     "first_seen": "2026-10-27",
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
@@ -71079,8 +71123,8 @@
     "year": "20(20)",
     "mileage": 62712,
     "price": 2590,
-    "perf_date": "",
-    "inv_days": "-",
+    "perf_date": "26-04-29",
+    "inv_days": "181",
     "first_seen": "2026-10-27",
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
@@ -71107,8 +71151,8 @@
     "year": "20(20)",
     "mileage": 77000,
     "price": 2630,
-    "perf_date": "",
-    "inv_days": "-",
+    "perf_date": "26-03-26",
+    "inv_days": "215",
     "first_seen": "2026-10-27",
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
@@ -71121,8 +71165,8 @@
     "year": "20(20)",
     "mileage": 30429,
     "price": 2690,
-    "perf_date": "",
-    "inv_days": "-",
+    "perf_date": "26-10-08",
+    "inv_days": "19",
     "first_seen": "2026-10-27",
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
@@ -71141,7 +71185,7 @@
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
     "status": "판매중",
-    "consecutive_misses": 0
+    "consecutive_misses": 1
   },
   "41559870": {
     "carid": "41559870",
@@ -71155,7 +71199,7 @@
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
     "status": "판매중",
-    "consecutive_misses": 0
+    "consecutive_misses": 1
   },
   "42904705": {
     "carid": "42904705",
@@ -71163,8 +71207,8 @@
     "year": "20(20)",
     "mileage": 57829,
     "price": 2780,
-    "perf_date": "",
-    "inv_days": "-",
+    "perf_date": "26-10-14",
+    "inv_days": "13",
     "first_seen": "2026-10-27",
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
@@ -71177,8 +71221,8 @@
     "year": "21(21)",
     "mileage": 40969,
     "price": 2790,
-    "perf_date": "",
-    "inv_days": "-",
+    "perf_date": "26-08-25",
+    "inv_days": "63",
     "first_seen": "2026-10-27",
     "first_seen_time": "2026-10-27 11:08",
     "last_seen": "2026-10-27",
@@ -71191,10 +71235,542 @@
     "year": "20(20)",
     "mileage": 42966,
     "price": 2790,
+    "perf_date": "26-02-09",
+    "inv_days": "260",
+    "first_seen": "2026-10-27",
+    "first_seen_time": "2026-10-27 11:08",
+    "last_seen": "2026-10-27",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42977922": {
+    "carid": "42977922",
+    "name": "더뉴그랜저IG",
+    "year": "20(20)",
+    "mileage": 89747,
+    "price": 2220,
+    "perf_date": "26-10-19",
+    "inv_days": "8",
+    "first_seen": "2026-10-27",
+    "first_seen_time": "2026-10-27 11:53",
+    "last_seen": "2026-10-27",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42947669": {
+    "carid": "42947669",
+    "name": "더뉴그랜저IG",
+    "year": "20(21)",
+    "mileage": 67273,
+    "price": 2490,
+    "perf_date": "26-10-15",
+    "inv_days": "12",
+    "first_seen": "2026-10-27",
+    "first_seen_time": "2026-10-27 11:53",
+    "last_seen": "2026-10-27",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42961778": {
+    "carid": "42961778",
+    "name": "더뉴그랜저IG",
+    "year": "20(20)",
+    "mileage": 66654,
+    "price": 2580,
+    "perf_date": "26-10-14",
+    "inv_days": "13",
+    "first_seen": "2026-10-27",
+    "first_seen_time": "2026-10-27 11:53",
+    "last_seen": "2026-10-27",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42991920": {
+    "carid": "42991920",
+    "name": "더뉴그랜저IG",
+    "year": "20(20)",
+    "mileage": 51913,
+    "price": 2550,
+    "perf_date": "26-10-13",
+    "inv_days": "14",
+    "first_seen": "2026-10-27",
+    "first_seen_time": "2026-10-27 11:53",
+    "last_seen": "2026-10-27",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42889698": {
+    "carid": "42889698",
+    "name": "더뉴그랜저IG",
+    "year": "20(20)",
+    "mileage": 45703,
+    "price": 2690,
+    "perf_date": "26-10-07",
+    "inv_days": "20",
+    "first_seen": "2026-10-27",
+    "first_seen_time": "2026-10-27 11:53",
+    "last_seen": "2026-10-27",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42864191": {
+    "carid": "42864191",
+    "name": "더뉴그랜저IG",
+    "year": "20(20)",
+    "mileage": 60806,
+    "price": 2590,
+    "perf_date": "26-10-06",
+    "inv_days": "21",
+    "first_seen": "2026-10-27",
+    "first_seen_time": "2026-10-27 11:53",
+    "last_seen": "2026-10-27",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42936553": {
+    "carid": "42936553",
+    "name": "더뉴그랜저IG",
+    "year": "20(20)",
+    "mileage": 78393,
+    "price": 2350,
+    "perf_date": "26-10-02",
+    "inv_days": "25",
+    "first_seen": "2026-10-27",
+    "first_seen_time": "2026-10-27 11:53",
+    "last_seen": "2026-10-27",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42826811": {
+    "carid": "42826811",
+    "name": "더뉴그랜저IG",
+    "year": "20(20)",
+    "mileage": 56350,
+    "price": 2500,
+    "perf_date": "26-09-28",
+    "inv_days": "29",
+    "first_seen": "2026-10-27",
+    "first_seen_time": "2026-10-27 11:53",
+    "last_seen": "2026-10-27",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42776926": {
+    "carid": "42776926",
+    "name": "더뉴그랜저IG",
+    "year": "20(21)",
+    "mileage": 61704,
+    "price": 2499,
+    "perf_date": "26-09-22",
+    "inv_days": "35",
+    "first_seen": "2026-10-27",
+    "first_seen_time": "2026-10-27 11:53",
+    "last_seen": "2026-10-27",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42194005": {
+    "carid": "42194005",
+    "name": "더뉴그랜저IG",
+    "year": "20(20)",
+    "mileage": 72596,
+    "price": 2199,
+    "perf_date": "26-09-21",
+    "inv_days": "36",
+    "first_seen": "2026-10-27",
+    "first_seen_time": "2026-10-27 11:53",
+    "last_seen": "2026-10-27",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42856561": {
+    "carid": "42856561",
+    "name": "더뉴그랜저IG",
+    "year": "21(21)",
+    "mileage": 79951,
+    "price": 2290,
+    "perf_date": "26-09-21",
+    "inv_days": "36",
+    "first_seen": "2026-10-27",
+    "first_seen_time": "2026-10-27 11:53",
+    "last_seen": "2026-10-27",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42773411": {
+    "carid": "42773411",
+    "name": "더뉴그랜저IG",
+    "year": "20(20)",
+    "mileage": 47173,
+    "price": 2550,
+    "perf_date": "26-09-21",
+    "inv_days": "36",
+    "first_seen": "2026-10-27",
+    "first_seen_time": "2026-10-27 11:53",
+    "last_seen": "2026-10-27",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42789590": {
+    "carid": "42789590",
+    "name": "더뉴그랜저IG",
+    "year": "21(22)",
+    "mileage": 64938,
+    "price": 2190,
+    "perf_date": "26-09-19",
+    "inv_days": "38",
+    "first_seen": "2026-10-27",
+    "first_seen_time": "2026-10-27 11:53",
+    "last_seen": "2026-10-27",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42760045": {
+    "carid": "42760045",
+    "name": "더뉴그랜저IG",
+    "year": "20(20)",
+    "mileage": 59265,
+    "price": 2399,
+    "perf_date": "26-09-18",
+    "inv_days": "39",
+    "first_seen": "2026-10-27",
+    "first_seen_time": "2026-10-27 11:53",
+    "last_seen": "2026-10-27",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42788501": {
+    "carid": "42788501",
+    "name": "더뉴그랜저IG",
+    "year": "20(20)",
+    "mileage": 83222,
+    "price": 2090,
+    "perf_date": "26-09-17",
+    "inv_days": "40",
+    "first_seen": "2026-10-27",
+    "first_seen_time": "2026-10-27 11:53",
+    "last_seen": "2026-10-27",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "41601009": {
+    "carid": "41601009",
+    "name": "더뉴그랜저IG",
+    "year": "20(20)",
+    "mileage": 58379,
+    "price": 2350,
+    "perf_date": "26-09-09",
+    "inv_days": "48",
+    "first_seen": "2026-10-27",
+    "first_seen_time": "2026-10-27 11:53",
+    "last_seen": "2026-10-27",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42698663": {
+    "carid": "42698663",
+    "name": "더뉴그랜저IG",
+    "year": "20(20)",
+    "mileage": 66088,
+    "price": 2050,
+    "perf_date": "26-08-31",
+    "inv_days": "57",
+    "first_seen": "2026-10-27",
+    "first_seen_time": "2026-10-27 11:53",
+    "last_seen": "2026-10-27",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42683820": {
+    "carid": "42683820",
+    "name": "더뉴그랜저IG",
+    "year": "20(20)",
+    "mileage": 42326,
+    "price": 2550,
+    "perf_date": "26-08-26",
+    "inv_days": "62",
+    "first_seen": "2026-10-27",
+    "first_seen_time": "2026-10-27 11:53",
+    "last_seen": "2026-10-27",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "41892517": {
+    "carid": "41892517",
+    "name": "더뉴그랜저IG",
+    "year": "20(20)",
+    "mileage": 81828,
+    "price": 2540,
+    "perf_date": "26-08-25",
+    "inv_days": "63",
+    "first_seen": "2026-10-27",
+    "first_seen_time": "2026-10-27 11:53",
+    "last_seen": "2026-10-27",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42612224": {
+    "carid": "42612224",
+    "name": "더뉴그랜저IG",
+    "year": "21(21)",
+    "mileage": 40417,
+    "price": 2140,
+    "perf_date": "26-08-18",
+    "inv_days": "70",
+    "first_seen": "2026-10-27",
+    "first_seen_time": "2026-10-27 11:53",
+    "last_seen": "2026-10-27",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "41037034": {
+    "carid": "41037034",
+    "name": "더뉴그랜저IG",
+    "year": "21(21)",
+    "mileage": 42835,
+    "price": 2450,
+    "perf_date": "26-08-14",
+    "inv_days": "74",
+    "first_seen": "2026-10-27",
+    "first_seen_time": "2026-10-27 11:53",
+    "last_seen": "2026-10-27",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42842374": {
+    "carid": "42842374",
+    "name": "더뉴그랜저IG",
+    "year": "21(21)",
+    "mileage": 85961,
+    "price": 2370,
+    "perf_date": "26-08-11",
+    "inv_days": "77",
+    "first_seen": "2026-10-27",
+    "first_seen_time": "2026-10-27 11:53",
+    "last_seen": "2026-10-27",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42491940": {
+    "carid": "42491940",
+    "name": "더뉴그랜저IG",
+    "year": "20(20)",
+    "mileage": 88304,
+    "price": 2250,
+    "perf_date": "26-07-30",
+    "inv_days": "89",
+    "first_seen": "2026-10-27",
+    "first_seen_time": "2026-10-27 11:53",
+    "last_seen": "2026-10-27",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "41709269": {
+    "carid": "41709269",
+    "name": "더뉴그랜저IG",
+    "year": "19(20)",
+    "mileage": 49742,
+    "price": 2370,
+    "perf_date": "26-07-27",
+    "inv_days": "92",
+    "first_seen": "2026-10-27",
+    "first_seen_time": "2026-10-27 11:53",
+    "last_seen": "2026-10-27",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42437203": {
+    "carid": "42437203",
+    "name": "더뉴그랜저IG",
+    "year": "20(20)",
+    "mileage": 83232,
+    "price": 2400,
+    "perf_date": "26-07-23",
+    "inv_days": "96",
+    "first_seen": "2026-10-27",
+    "first_seen_time": "2026-10-27 11:53",
+    "last_seen": "2026-10-27",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42330361": {
+    "carid": "42330361",
+    "name": "더뉴그랜저IG",
+    "year": "20(20)",
+    "mileage": 83667,
+    "price": 2350,
+    "perf_date": "26-07-04",
+    "inv_days": "115",
+    "first_seen": "2026-10-27",
+    "first_seen_time": "2026-10-27 11:53",
+    "last_seen": "2026-10-27",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42071657": {
+    "carid": "42071657",
+    "name": "더뉴그랜저IG",
+    "year": "20(20)",
+    "mileage": 60819,
+    "price": 2550,
+    "perf_date": "26-06-30",
+    "inv_days": "119",
+    "first_seen": "2026-10-27",
+    "first_seen_time": "2026-10-27 11:53",
+    "last_seen": "2026-10-27",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42268831": {
+    "carid": "42268831",
+    "name": "더뉴그랜저IG",
+    "year": "20(20)",
+    "mileage": 37761,
+    "price": 2450,
+    "perf_date": "26-06-25",
+    "inv_days": "124",
+    "first_seen": "2026-10-27",
+    "first_seen_time": "2026-10-27 11:53",
+    "last_seen": "2026-10-27",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42227565": {
+    "carid": "42227565",
+    "name": "더뉴그랜저IG",
+    "year": "19(20)",
+    "mileage": 71966,
+    "price": 2190,
+    "perf_date": "26-06-15",
+    "inv_days": "134",
+    "first_seen": "2026-10-27",
+    "first_seen_time": "2026-10-27 11:53",
+    "last_seen": "2026-10-27",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "40976215": {
+    "carid": "40976215",
+    "name": "더뉴그랜저IG",
+    "year": "20(20)",
+    "mileage": 70448,
+    "price": 2490,
+    "perf_date": "26-06-02",
+    "inv_days": "147",
+    "first_seen": "2026-10-27",
+    "first_seen_time": "2026-10-27 11:53",
+    "last_seen": "2026-10-27",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42095776": {
+    "carid": "42095776",
+    "name": "더뉴그랜저IG",
+    "year": "20(20)",
+    "mileage": 85596,
+    "price": 2250,
+    "perf_date": "26-05-27",
+    "inv_days": "153",
+    "first_seen": "2026-10-27",
+    "first_seen_time": "2026-10-27 11:53",
+    "last_seen": "2026-10-27",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "42022744": {
+    "carid": "42022744",
+    "name": "더뉴그랜저IG",
+    "year": "20(20)",
+    "mileage": 79887,
+    "price": 2170,
+    "perf_date": "26-05-15",
+    "inv_days": "165",
+    "first_seen": "2026-10-27",
+    "first_seen_time": "2026-10-27 11:53",
+    "last_seen": "2026-10-27",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "41876199": {
+    "carid": "41876199",
+    "name": "더뉴그랜저IG",
+    "year": "21(22)",
+    "mileage": 82931,
+    "price": 2199,
+    "perf_date": "26-04-14",
+    "inv_days": "196",
+    "first_seen": "2026-10-27",
+    "first_seen_time": "2026-10-27 11:53",
+    "last_seen": "2026-10-27",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "41550684": {
+    "carid": "41550684",
+    "name": "더뉴그랜저IG",
+    "year": "19(20)",
+    "mileage": 60646,
+    "price": 2699,
+    "perf_date": "26-02-24",
+    "inv_days": "245",
+    "first_seen": "2026-10-27",
+    "first_seen_time": "2026-10-27 11:53",
+    "last_seen": "2026-10-27",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "41494078": {
+    "carid": "41494078",
+    "name": "더뉴그랜저IG",
+    "year": "21(21)",
+    "mileage": 79939,
+    "price": 2300,
+    "perf_date": "26-02-09",
+    "inv_days": "260",
+    "first_seen": "2026-10-27",
+    "first_seen_time": "2026-10-27 11:53",
+    "last_seen": "2026-10-27",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "41436594": {
+    "carid": "41436594",
+    "name": "더뉴그랜저IG",
+    "year": "20(20)",
+    "mileage": 81555,
+    "price": 2450,
+    "perf_date": "26-01-30",
+    "inv_days": "270",
+    "first_seen": "2026-10-27",
+    "first_seen_time": "2026-10-27 11:53",
+    "last_seen": "2026-10-27",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "43018732": {
+    "carid": "43018732",
+    "name": "더뉴그랜저IG",
+    "year": "19(20)",
+    "mileage": 60462,
+    "price": 2250,
     "perf_date": "",
     "inv_days": "-",
     "first_seen": "2026-10-27",
-    "first_seen_time": "2026-10-27 11:08",
+    "first_seen_time": "2026-10-27 11:53",
+    "last_seen": "2026-10-27",
+    "status": "판매중",
+    "consecutive_misses": 0
+  },
+  "43026905": {
+    "carid": "43026905",
+    "name": "더뉴그랜저IG",
+    "year": "21(21)",
+    "mileage": 64240,
+    "price": 2590,
+    "perf_date": "",
+    "inv_days": "-",
+    "first_seen": "2026-10-27",
+    "first_seen_time": "2026-10-27 11:53",
     "last_seen": "2026-10-27",
     "status": "판매중",
     "consecutive_misses": 0

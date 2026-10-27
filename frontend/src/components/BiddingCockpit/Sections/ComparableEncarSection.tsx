@@ -6,7 +6,7 @@ import {
   fetchNewCarCatalog,
   NewCarCatalogData
 } from '@/services/biddingOptionCatalog';
-import { CarDamageDiagram2D } from './CarDamageDiagram2D';
+import { CarDamageDiagram2D, getDamagePartKoreanName } from './CarDamageDiagram2D';
 
 export interface EncarItem {
   id: string;
@@ -633,8 +633,10 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                 {(() => {
                   const repList = ((selectedEncar?.replaceNames && selectedEncar.replaceNames.length > 0) ? selectedEncar.replaceNames : selectedEncar?.replaces) || [];
                   const fixList = ((selectedEncar?.repairNames && selectedEncar.repairNames.length > 0) ? selectedEncar.repairNames : selectedEncar?.repairs) || [];
-                  const hasRep = repList.length > 0;
-                  const hasFix = fixList.length > 0;
+                  const mappedRepList = repList.map(getDamagePartKoreanName);
+                  const mappedFixList = fixList.map(getDamagePartKoreanName);
+                  const hasRep = mappedRepList.length > 0;
+                  const hasFix = mappedFixList.length > 0;
 
                   if (!hasRep && !hasFix) return null;
 
@@ -643,13 +645,13 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                       {hasRep && (
                         <div className="text-rose-400 font-medium flex items-start gap-1">
                           <span className="font-bold shrink-0">🔴 교환(X):</span>
-                          <span className="font-semibold text-rose-300">{repList.join(', ')}</span>
+                          <span className="font-semibold text-rose-300">{mappedRepList.join(', ')}</span>
                         </div>
                       )}
                       {hasFix && (
                         <div className="text-amber-400 font-medium flex items-start gap-1">
                           <span className="font-bold shrink-0">🟡 판금/용접(W):</span>
-                          <span className="font-semibold text-amber-300">{fixList.join(', ')}</span>
+                          <span className="font-semibold text-amber-300">{mappedFixList.join(', ')}</span>
                         </div>
                       )}
                     </div>

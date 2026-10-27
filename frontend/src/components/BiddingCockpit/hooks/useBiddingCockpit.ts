@@ -283,7 +283,7 @@ export function useBiddingCockpit({
       const targetMil = options.mileage !== undefined ? options.mileage : mileageKm;
       const targetOpt = optionsTag || '';
       const targetAcc = '';
-      const skipDetail = options.skipDetail !== undefined ? options.skipDetail : true;
+      const skipDetail = options.skipDetail !== undefined ? options.skipDetail : false;
 
       const res = await fetch('/api/encar/search', {
         method: 'POST',
