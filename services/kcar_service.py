@@ -3631,7 +3631,7 @@ def fetch_kcar_market_stats(
     disp_m = re.search(r'(\d\.\d)', sub_raw)
     disp_val = disp_m.group(1) if disp_m else ""
 
-    is_q_turbo = '터보' in sub_clean or 'turbo' in sub_clean
+    is_q_turbo = ('터보' in sub_clean) or ('turbo' in sub_clean) or ('터보' in str(car_name)) or bool(re.search(r'\d\.\d\s*t(?![a-z])', sub_raw.lower()))
     is_q_diesel = any(k in sub_clean for k in ['디젤', 'diesel', 'crdi', 'vgt'])
     is_q_gas = any(k in sub_clean for k in ['가솔린', 'gasoline', 'gdi', 'cvvl'])
     is_q_lpg = any(k in sub_clean for k in ['lpi', 'lpg'])
@@ -3653,6 +3653,28 @@ def fetch_kcar_market_stats(
         "프레스티지": ["노블레스", "트렌디", "시그니처", "럭셔리", "디럭스", "그래비티"],
         "시그니처": ["노블레스", "프레스티지", "트렌디", "스탠다드", "베스트셀렉션"]
     }
+
+    def _extract_kcar_year(r_dict: dict) -> tuple[int, str]:
+        """K-Car 매물의 최초등록일(mfgDt: YYYYMM) 우선 연식 추출 (부재 시 prdcnYr 폴백)"""
+        mfg = str(r_dict.get('mfgDt') or '').strip()
+        if mfg:
+            m = re.search(r'^(20\d{2}|19\d{2})', mfg)
+            if m:
+                full_y = int(m.group(1))
+                return full_y, mfg
+
+        prd = str(r_dict.get('prdcnYr') or '').strip()
+        if prd:
+            m = re.search(r'(\d{4})', prd)
+            if m:
+                full_y = int(m.group(1))
+                return full_y, prd
+            m_2d = re.search(r'(\d{2})', prd)
+            if m_2d:
+                full_y = 2000 + int(m_2d.group(1))
+                return full_y, prd
+
+        return 0, ""
 
     def _filter_and_strict(cand_rows):
         f_rows = []
@@ -3693,14 +3715,12 @@ def fetch_kcar_market_stats(
 
         s_rows = []
         for r in f_rows:
-            # 1. 동일 연식 검사
+            # 1. 동일 연식 검사 (최초등록일 mfgDt 우선 판정)
             if target_yr_2d:
-                yr_str = str(r.get('prdcnYr') or '')
-                yr_match = re.search(r'(\d{2,4})', yr_str)
-                if not yr_match:
+                r_yr_full, _ = _extract_kcar_year(r)
+                if not r_yr_full:
                     continue
-                r_yr = int(yr_match.group(1))
-                if f"{r_yr % 100:02d}" != target_yr_2d:
+                if f"{r_yr_full % 100:02d}" != target_yr_2d:
                     continue
 
             # 2. 동일 등급 검사
@@ -3771,12 +3791,9 @@ def fetch_kcar_market_stats(
             if prc <= 0:
                 continue
             milg = int(r.get('milg') or 0)
-            yr_str = str(r.get('prdcnYr') or '')
-            yr_match = re.search(r'(\d{2,4})', yr_str)
-            yr_num = 0
-            if yr_match:
-                parsed_y = int(yr_match.group(1))
-                yr_num = parsed_y % 100 if parsed_y > 100 else parsed_y
+            r_yr_full, _ = _extract_kcar_year(r)
+            yr_num = r_yr_full % 100 if r_yr_full > 0 else 0
+            full_yr_str = str(r_yr_full) if r_yr_full > 0 else str(r.get('prdcnYr') or '')
 
             car_cd = r.get('carCd') or ''
             raw_optn = r.get('optnNm') or ''
@@ -3786,7 +3803,7 @@ def fetch_kcar_market_stats(
                 "price": prc,
                 "mileage": milg,
                 "year": yr_num,
-                "fullYear": yr_str,
+                "fullYear": full_yr_str,
                 "grade": r.get('grdNm') or '',
                 "gradeDetail": r.get('grdDtlNm') or '',
                 "center": r.get('cntrNm') or '',
