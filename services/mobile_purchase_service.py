@@ -5,6 +5,7 @@ services/mobile_purchase_service.py
 """
 
 import os
+import re
 import json
 import logging
 from typing import List, Dict, Any, Optional
@@ -208,13 +209,15 @@ class MobilePurchaseService:
                 list_mileage = None
                 for mk in ["carMileage", "mileage", "vhclMileage", "accumMileage", "drivingDistance", "주행거리", "dvrDsc", "useKm", "runKm", "distance"]:
                     if mk in item and item[mk] is not None and str(item[mk]).strip() not in ("", "null", "none"):
-                        try:
-                            lm_val = int(float(str(item[mk]).replace(",", "").strip()))
-                            if lm_val > 0:
-                                list_mileage = lm_val
-                                break
-                        except (ValueError, TypeError):
-                            pass
+                        digits = re.sub(r"[^0-9]", "", str(item[mk]))
+                        if digits:
+                            try:
+                                lm_val = int(digits)
+                                if lm_val > 0:
+                                    list_mileage = lm_val
+                                    break
+                            except (ValueError, TypeError):
+                                pass
 
                 ap_car_id_list = item.get("apCarId") or item.get("carId") or None
                 if ap_car_id_list is not None:
@@ -349,27 +352,30 @@ class MobilePurchaseService:
                     if ap_car_id.lower() in ("", "null", "none"):
                         ap_car_id = None
 
-                # 주행거리 추출: 키 이름은 추측하지 않고 후보 키들을 순회하며 실제 매칭된 키를 로그로 기록
+                # 주행거리 추출: 콤마·공백·단위 문자 제거 후 정규식 숫자만 추출 (0 초과)
                 extracted_mileage = None
                 matched_mileage_key = None
                 mileage_candidates = ["carMileage", "mileage", "vhclMileage", "accumMileage", "drivingDistance", "주행거리", "dvrDsc", "useKm", "runKm", "distance"]
                 for mk in mileage_candidates:
                     if mk in data and data[mk] is not None and str(data[mk]).strip() not in ("", "null", "none"):
-                        try:
-                            m_val = int(float(str(data[mk]).replace(",", "").strip()))
-                            if m_val > 0:
-                                extracted_mileage = m_val
-                                matched_mileage_key = mk
-                                break
-                        except (ValueError, TypeError):
-                            pass
+                        digits = re.sub(r"[^0-9]", "", str(data[mk]))
+                        if digits:
+                            try:
+                                m_val = int(digits)
+                                if m_val > 0:
+                                    extracted_mileage = m_val
+                                    matched_mileage_key = mk
+                                    break
+                            except (ValueError, TypeError):
+                                pass
 
                 if matched_mileage_key:
                     logger.info(f"[MobilePurchaseService] pcs_id {pcs_id}: 주행거리 추출 성공 (키='{matched_mileage_key}', 값={extracted_mileage}km)")
                     print(f"[MobilePurchaseService] pcs_id {pcs_id}: 주행거리 추출 성공 (키='{matched_mileage_key}', 값={extracted_mileage}km)", flush=True)
                 else:
-                    logger.info(f"[MobilePurchaseService] pcs_id {pcs_id}: 주행거리 키 미발견 (원본 data 키: {list(data.keys())})")
-                    print(f"[MobilePurchaseService] pcs_id {pcs_id}: 주행거리 키 미발견 (원본 data 키: {list(data.keys())})", flush=True)
+                    raw_cm = data.get("carMileage")
+                    logger.info(f"[MobilePurchaseService] pcs_id {pcs_id}: 주행거리 키 미발견 (carMileage 원본={repr(raw_cm)}, 타입={type(raw_cm).__name__}, 원본 data 키: {list(data.keys())})")
+                    print(f"[MobilePurchaseService] pcs_id {pcs_id}: 주행거리 키 미발견 (carMileage 원본={repr(raw_cm)}, 타입={type(raw_cm).__name__}, 원본 data 키: {list(data.keys())})", flush=True)
 
                 car_dict = {
                     "pcsId": pcs_id,
