@@ -15,7 +15,6 @@ interface HeaderProps {
   onOpenDriveModal: () => void;
   onOpenCookieModal: () => void;
   onOpenExtensionModal?: () => void;
-  onPasteClipboardCookie?: () => void;
   cookieStatus: 'active' | 'expired' | 'missing';
   isPrivateUnlocked?: boolean;
   setIsPrivateUnlocked?: (unlocked: boolean | ((prev: boolean) => boolean)) => void;
@@ -28,7 +27,6 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenDriveModal,
   onOpenCookieModal,
   onOpenExtensionModal,
-  onPasteClipboardCookie,
   cookieStatus,
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -235,16 +233,6 @@ export const Header: React.FC<HeaderProps> = ({
             </button>
           )}
 
-          {onPasteClipboardCookie && (
-            <button
-              onClick={onPasteClipboardCookie}
-              className="px-2 py-1 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-semibold flex items-center gap-1 transition shadow-sm shrink-0"
-              title="클립보드에 복사된 헤이딜러/차얼마 쿠키를 즉시 연동합니다"
-            >
-              <span>📋</span>
-              <span className="hidden md:inline">쿠키</span>
-            </button>
-          )}
 
           <button
             onClick={handleSyncBuy}

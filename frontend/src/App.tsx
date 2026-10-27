@@ -843,7 +843,6 @@ export default function App() {
         onOpenDriveModal={() => setIsDriveModalOpen(true)}
         onOpenCookieModal={() => setIsCookieModalOpen(true)}
         onOpenExtensionModal={() => setIsExtensionModalOpen(true)}
-        onPasteClipboardCookie={handlePasteClipboardCookie}
         cookieStatus={cookieStatus}
         isPrivateUnlocked={isPrivateUnlocked}
         setIsPrivateUnlocked={setIsPrivateUnlocked}
