@@ -3723,36 +3723,36 @@ def fetch_kcar_market_stats(
 
             f_rows.append(r)
 
+        # 🌟 정식 스펙 동등성 기반 엄격 필터링 (엔카와 100% 동일 단일 기준 적용)
+        from services.data_processor import DataProcessor
+        target_spec = DataProcessor.build_car_spec(
+            text=detail_model,
+            car_name=car_name,
+            year=year
+        )
+
         s_rows = []
         for r in f_rows:
-            # 1. 동일 연식 검사 (최초등록일 mfgDt 우선 판정)
-            if target_yr_2d:
-                r_yr_full, _ = _extract_kcar_year(r)
-                if not r_yr_full:
+            # 1. 등급 코드가 있는 경우 코드 일치 우선 확인
+            if grd_cd:
+                if str(r.get('grdCd') or '') != grd_cd:
                     continue
-                if f"{r_yr_full % 100:02d}" != target_yr_2d:
-                    continue
-
-            # 2. 동일 등급 검사
-            if ref_grade:
-                row_grade_text = f"{r.get('carWhlNm', '')} {r.get('modelNm', '')} {r.get('grdNm', '')} {r.get('grdDtlNm', '')}".strip().lower()
-                if not row_grade_text:
-                    continue
-                if len(ref_grade) <= 2:
-                    p = rf'(?:|[^a-zA-Z0-9]){re.escape(ref_grade.lower())}(?:|[^a-zA-Z0-9]|$)'
-                    if not re.search(p, row_grade_text):
-                        continue
-                else:
-                    if ref_g_clean not in row_grade_text.replace(" ", ""):
-                        continue
-
-                comp_list = COMPETING_GRADES.get(ref_g_clean, [])
-                if any(comp in row_grade_text.replace(" ", "") for comp in comp_list):
+                if grd_dtl_cd and str(r.get('grdDtlCd') or '') != grd_dtl_cd:
                     continue
 
-                m_seat = re.search(r'(\d+인승)', str(detail_model))
-                if m_seat and m_seat.group(1) not in row_grade_text:
-                    continue
+            # 2. 후보 매물 스펙 빌드
+            r_yr_full, _ = _extract_kcar_year(r)
+            cand_text = f"{r.get('carWhlNm', '')} {r.get('modelNm', '')} {r.get('grdNm', '')} {r.get('grdDtlNm', '')}".strip()
+            cand_spec = DataProcessor.build_car_spec(
+                text=cand_text,
+                car_name=str(r.get('modelNm', '') or car_name),
+                year=r_yr_full,
+                mfg_date=str(r.get('mfgDt', ''))
+            )
+
+            # 3. 정식 스펙 동등성 검사 (연식, 등급 기본값+접미사, 배기량, 터보, 유종, 구동, 인승 완전 일치)
+            if not DataProcessor.is_strictly_same_spec(target_spec, cand_spec, check_year=bool(target_yr_2d)):
+                continue
 
             s_rows.append(r)
         return f_rows, s_rows

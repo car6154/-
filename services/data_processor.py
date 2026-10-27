@@ -258,16 +258,17 @@ class DataProcessor:
             if is_4wd.any():
                 cand_df = cand_df[is_4wd]
                 
-        # 5. ✨ 서브 키워드 (스페셜, 플러스, 에디션, 마스터, n line 등) 배제
-        for sub_kw in ['스페셜', '플러스', '에디션', '마스터', 'n line', 'nline']:
-            if sub_kw not in sub_clean:
-                has_kw = cand_df['세부모델'].astype(str).str.lower().str.contains(sub_kw, na=False)
-                if (~has_kw).any():
-                    cand_df = cand_df[~has_kw]
-            else:
-                has_kw = cand_df['세부모델'].astype(str).str.lower().str.contains(sub_kw, na=False)
-                if has_kw.any():
-                    cand_df = cand_df[has_kw]
+        # 5. ✨ 등급 접미사 (플러스, 스페셜, 초이스, 에디션, 마스터, n line, 그래비티 등) 스펙 동등성 검사
+        t_spec = cls.build_car_spec(text=target_sub_model, car_name=target_car_name)
+        target_sfx = t_spec.get('grade_suffix', '')
+        
+        def _match_suffix(val):
+            c_spec = cls.build_car_spec(text=str(val))
+            return c_spec.get('grade_suffix', '') == target_sfx
+
+        sfx_mask = cand_df['세부모델'].apply(_match_suffix)
+        if sfx_mask.any():
+            cand_df = cand_df[sfx_mask]
                     
         return cand_df.reset_index(drop=True)
 
@@ -395,63 +396,190 @@ class DataProcessor:
                     return kw
         return ""
 
-    @staticmethod
-    def filter_strictly_same_year_and_grade(
-        df: pd.DataFrame,
-        target_year: Union[int, str],
-        target_detail_model: str = "",
-        target_grade: str = ""
-    ) -> pd.DataFrame:
+    @classmethod
+    def build_car_spec(
+        cls,
+        text: str = "",
+        car_name: str = "",
+        year: Union[int, str] = 0,
+        mfg_date: str = "",
+        badge: str = ""
+    ) -> dict:
         """
-        [계산 엄격 필터]
-        수집된 동급 매물(연식 ±1년, 주행 ±3만km 등) 중,
-        계산 직전에 목표 차량과 '동일 연식 AND 동일 등급'인 매물만 엄격 추출합니다.
-        - 동일 연식: 타겟 연식(2자리/4자리)과 정확히 일치하는 매물만 유지.
-        - 동일 등급: 세부모델 텍스트(또는 Badge) 기준으로 목표 등급과 일치하는 매물만 유지.
-        - 등급을 알 수 없는 매물(결측/미상) 및 타 등급 매물은 원천 배제.
+        차량 명칭/세부모델/Badge 텍스트를 구조화된 정식 표준 스펙으로 1회 파싱 (단일 진실 공급원).
         """
-        if df is None or df.empty:
-            return pd.DataFrame() if df is None else df
-            
-        cand_df = df.copy()
+        raw_text = f"{car_name} {text} {badge}".strip()
+        clean_text = raw_text.lower()
+        clean_compact = clean_text.replace(" ", "")
 
-        # 1. 📅 동일 연식 엄격 필터링
-        if target_year:
-            m_yr = re.search(r'(\d{2,4})', str(target_year))
+        # 1. 연식 (최초등록일 우선)
+        parsed_year = 0
+        if mfg_date:
+            m_mfg = re.search(r'(\d{4})', str(mfg_date))
+            if m_mfg:
+                parsed_year = int(m_mfg.group(1))
+        if not parsed_year and year:
+            m_yr = re.search(r'(\d{2,4})', str(year))
             if m_yr:
-                yr_val = int(m_yr.group(1))
-                yr_2digit = f"{yr_val % 100:02d}"
-                yr_4digit = f"{yr_val if yr_val >= 1900 else 2000 + yr_val}"
-                
-                def _match_year(x):
-                    sx = str(x).strip()
-                    m = re.search(r'(\d{2,4})', sx)
-                    if not m:
-                        return False
-                    v = int(m.group(1))
-                    v_2d = f"{v % 100:02d}"
-                    v_4d = f"{v if v >= 1900 else 2000 + v}"
-                    return (v_2d == yr_2digit) or (v_4d == yr_4digit)
+                y_val = int(m_yr.group(1))
+                parsed_year = y_val if y_val >= 1900 else 2000 + y_val
 
-                year_col = "연식" if "연식" in cand_df.columns else ("year" if "year" in cand_df.columns else None)
-                if year_col:
-                    mask_yr = cand_df[year_col].apply(_match_year)
-                    cand_df = cand_df[mask_yr]
+        # 2. 연료 (fuel)
+        fuel = None
+        if '플러그인' in clean_compact or 'phev' in clean_compact:
+            fuel = '플러그인하이브리드'
+        elif any(k in clean_compact for k in ['lpg', 'lpi', 'lpe']):
+            fuel = 'lpg'
+        elif any(k in clean_compact for k in ['하이브리드', 'hev', '가솔린+전기', '디젤+전기', 'lpg+전기']):
+            fuel = '하이브리드'
+        elif 'fcev' in clean_compact or '수소' in clean_compact:
+            fuel = '수소'
+        elif any(k in clean_compact for k in ['디젤', '경유', 'crdi', 'vgt', 'dci', 'cdi', 'tdi', 'e-vgt']) or re.search(r'r[12]\.[02]', clean_text):
+            fuel = '디젤'
+        elif any(k in clean_compact for k in ['가솔린', '휘발유', 'gdi', 't-gdi', 'gde', 'mpi', 'cvvl']):
+            fuel = '가솔린'
+        elif ('ev' in clean_text or '전기' in clean_compact) and not re.search(r'ev[1-9]', clean_compact):
+            fuel = '전기'
 
-        if cand_df.empty:
-            return cand_df.reset_index(drop=True)
+        # 3. 배기량 (disp)
+        disp = None
+        m_disp = re.search(r'(?:[a-z가-힣]|\b)(\d\.\d)', clean_text)
+        if m_disp:
+            disp = m_disp.group(1)
+        else:
+            m_cc = re.search(r'(\d{3,4})\s*cc', clean_text)
+            if m_cc:
+                try:
+                    disp = f"{int(m_cc.group(1)) / 1000.0:.1f}"
+                except Exception:
+                    pass
 
-        # 2. 🏷️ 동일 등급 엄격 필터링
-        ref_grade = target_grade.strip() if target_grade else ""
-        if not ref_grade and target_detail_model:
-            ref_grade = DataProcessor.extract_grade_keyword(target_detail_model)
-            if not ref_grade:
-                ref_grade = str(target_detail_model).strip()
+        # 4. 터보 여부 (is_turbo)
+        has_turbo_kw = any(k in clean_compact for k in ['터보', 'turbo', 't-gdi', 'tgdi']) or bool(re.search(r'\b\d\.\d+t\b', clean_text))
+        is_hk = any(m in clean_compact for m in ['현대', '기아', '제네시스', 'hyundai', 'kia', '싼타페', '쏘렌토', '그랜저', 'k8', '투싼', '스포티지', '카니발', '팰리세이드'])
+        is_na_16 = any(m in clean_compact for m in ['니로', 'niro', '아반떼', 'avante', '코나', 'kona', '아이오닉', 'ioniq'])
+        if is_hk and disp == '1.6' and fuel == '하이브리드' and not is_na_16:
+            is_turbo = True
+        else:
+            is_turbo = has_turbo_kw
 
-        if ref_grade:
-            ref_g_clean = ref_grade.lower().replace(" ", "")
-            
-            # 타 등급 경쟁 키워드 목록
+        # 5. 구동방식 (drive)
+        drive = None
+        if any(k in clean_compact for k in ['4wd', 'awd', '4륜', '사륜', '4matic', '4매틱', 'quattro', '콰트로', 'xdrive']):
+            drive = '4wd'
+        elif any(k in clean_compact for k in ['2wd', '2륜', '이륜', 'ff', 'fr']):
+            drive = '2wd'
+
+        # 6. 인승 (seats)
+        seats = ''
+        m_seat = re.search(r'(\d+인승)', raw_text)
+        if m_seat:
+            seats = m_seat.group(1)
+
+        # 7. 등급 접미사 (grade_suffix: 플러스, 스페셜, 초이스, 에디션, 마스터, n line, 그래비티 등)
+        grade_suffix = ''
+        SUFFIX_LIST = ['n line', 'nline', '그래비티', '스페셜', '플러스', '초이스', '에디션', '마스터', '패밀리', '베스트셀렉션']
+        for sfx in SUFFIX_LIST:
+            sfx_clean = sfx.replace(' ', '')
+            if sfx_clean == '마스터' and '마스터즈' in clean_compact:
+                continue
+            if sfx_clean in clean_compact:
+                grade_suffix = sfx_clean
+                break
+
+        # 8. 등급 기본값 (grade_base)
+        grade_base = ''
+        BASE_GRADES = [
+            # 현대/기아
+            '캘리그래피', '인스퍼레이션', '익스클루시브', '르블랑', '프리미엄', '모던', '스마트',
+            '시그니처', '노블레스', '프레스티지', '트렌디', '스타일', '럭셔리', '디럭스',
+            '스탠다드', '마스터즈',
+            # 쉐보레
+            '프리미어', '레드라인', '마이핏', '액티브', 'ltz', 'lt', 'ls', 'rs',
+            # 르노
+            '인스파이어', '아이코닉', '테크노', 're', 'le', 'se', 'pe',
+            # KGM
+            '인스파이어링', '블랙에디션', '프라임', 'rx', 'lx'
+        ]
+        for bg in BASE_GRADES:
+            bg_clean = bg.replace(' ', '')
+            if len(bg_clean) <= 2:
+                p = rf'(?:\b|[^a-zA-Z0-9]){re.escape(bg_clean)}(?:\b|[^a-zA-Z0-9]|$)'
+                if re.search(p, clean_text):
+                    grade_base = bg_clean
+                    break
+            else:
+                if bg_clean in clean_compact:
+                    grade_base = bg_clean
+                    break
+
+        if not grade_base:
+            # 폴백: 기존 extract_grade_keyword 활용
+            kw = cls.extract_grade_keyword(raw_text)
+            if kw:
+                grade_base = kw.lower().replace(' ', '')
+
+        return {
+            'year': parsed_year,
+            'fuel': fuel,
+            'disp': disp,
+            'is_turbo': is_turbo,
+            'drive': drive,
+            'seats': seats,
+            'grade_base': grade_base,
+            'grade_suffix': grade_suffix,
+            'raw_text': raw_text
+        }
+
+    @classmethod
+    def is_strictly_same_spec(cls, target: dict, cand: dict, check_year: bool = True) -> bool:
+        """
+        두 표준 스펙의 동등성(Equivalence)을 판정:
+        - 연식: 2자리 연도 일치 (check_year=True 시)
+        - 배기량: 둘 다 존재할 경우 일치
+        - 유종: 둘 다 존재할 경우 상호 배제
+        - 터보: 둘 다 판정되었을 때 일치
+        - 구동방식: 둘 다 존재할 경우 일치 (2wd vs 4wd)
+        - 인승: target에 인승이 지정되어 있을 때 cand도 동일 인승이어야 함
+        - 등급: 기본값(grade_base)이 같고, 접미사(grade_suffix)가 100% 동일해야만 통과!
+        """
+        # 1. 연식 검사
+        if check_year and target.get('year') and cand.get('year'):
+            if (target['year'] % 100) != (cand['year'] % 100):
+                return False
+
+        # 2. 배기량 검사 (둘 다 있을 때만 일치 요구)
+        if target.get('disp') and cand.get('disp'):
+            if target['disp'] != cand['disp']:
+                return False
+
+        # 3. 유종 검사 (둘 다 있을 때 상호 배제)
+        if target.get('fuel') and cand.get('fuel'):
+            if target['fuel'] != cand['fuel']:
+                return False
+
+        # 4. 터보 일치 검사
+        if target.get('is_turbo') is not None and cand.get('is_turbo') is not None:
+            if target['is_turbo'] != cand['is_turbo']:
+                return False
+
+        # 5. 구동방식 일치 검사 (둘 다 명시된 경우)
+        if target.get('drive') and cand.get('drive'):
+            if target['drive'] != cand['drive']:
+                return False
+
+        # 6. 인승 일치 검사 (target에 인승이 지정되어 있을 때 cand도 동일 인승이어야 함)
+        if target.get('seats'):
+            if target['seats'] != cand.get('seats'):
+                return False
+
+        # 7. 🌟 등급 동등성 (Grade Identity Equivalence)
+        t_base = target.get('grade_base') or ''
+        c_base = cand.get('grade_base') or ''
+        if t_base:
+            if not c_base:
+                return False
+            # 경쟁 등급 배제 테이블 (기본 등급 간의 상호 배제)
             COMPETING_GRADES = {
                 "lt": ["프리미어", "premier", "ls", "ltz", "마이핏", "redline", "레드라인"],
                 "ls": ["lt", "프리미어", "premier", "ltz"],
@@ -460,65 +588,74 @@ class DataProcessor:
                 "스마트": ["모던", "프리미엄", "익스클루시브", "인스퍼레이션", "스타일", "스포츠"],
                 "노블레스": ["프레스티지", "트렌디", "시그니처", "그래비티"],
                 "프레스티지": ["노블레스", "트렌디", "시그니처", "럭셔리", "디럭스", "그래비티"],
-                "프레스티지플러스": ["노블레스", "트렌디", "시그니처", "럭셔리", "디럭스", "그래비티"],
                 "시그니처": ["노블레스", "프레스티지", "트렌디", "스탠다드", "베스트셀렉션"]
             }
+            comp_list = COMPETING_GRADES.get(t_base, [])
+            if any(comp in c_base for comp in comp_list):
+                return False
 
-            sub_col = "세부모델" if "세부모델" in cand_df.columns else ("detail" if "detail" in cand_df.columns else None)
-            badge_col = "Badge" if "Badge" in cand_df.columns else ("badge" if "badge" in cand_df.columns else None)
+            if t_base != c_base:
+                return False
 
-            def _match_grade(row):
-                s_val = str(row.get(sub_col, '') if sub_col else '').strip()
-                b_val = str(row.get(badge_col, '') if badge_col else '').strip()
-                combined = f"{s_val} {b_val}".strip().lower()
+            # 기본 등급이 일치하면 접미사(suffix)가 100% 동일해야 함!
+            t_suf = target.get('grade_suffix') or ''
+            c_suf = cand.get('grade_suffix') or ''
+            if t_suf != c_suf:
+                return False
 
-                # 등급 미상/결측 배제
-                if not combined or combined in ('-', 'none', 'nan', '미확인'):
-                    return False
+        return True
 
-                # 목표 등급 키워드 포함 검사
-                if len(ref_grade) <= 2:
-                    p = rf'(?:\b|[^a-zA-Z0-9]){re.escape(ref_grade.lower())}(?:\b|[^a-zA-Z0-9]|$)'
-                    if not re.search(p, combined):
-                        return False
-                else:
-                    if ref_g_clean not in combined.replace(" ", ""):
-                        return False
+    @classmethod
+    def filter_strictly_same_year_and_grade(
+        cls,
+        df: pd.DataFrame,
+        target_year: Union[int, str],
+        target_detail_model: str = "",
+        target_grade: str = "",
+        target_car_name: str = ""
+    ) -> pd.DataFrame:
+        """
+        [계산 엄격 필터]
+        수집된 동급 매물 중 정식 스펙 동등성(Spec Equivalence)을 적용하여
+        동일 연식 AND 동일 등급(기본값+접미사 완전 일치)인 매물만 엄격 추출합니다.
+        """
+        if df is None or df.empty:
+            return pd.DataFrame() if df is None else df
+            
+        cand_df = df.copy()
 
-                # 타 경쟁 등급 배제
-                comp_list = COMPETING_GRADES.get(ref_g_clean, [])
-                for comp in comp_list:
-                    if comp in combined.replace(" ", ""):
-                        return False
+        # 목표 차량의 정식 스펙 1회 생성 (단일 진실 공급원)
+        target_spec = cls.build_car_spec(
+            text=target_detail_model,
+            car_name=target_car_name,
+            year=target_year,
+            badge=target_grade
+        )
 
-                # ✨ 서브 키워드 (플러스, 스페셜, 초이스, 에디션, 마스터, n line 등) 상호 배제
-                # 목록용 filter_strictly_by_submodel (L150~) 5단계와 100% 동일 규칙 적용:
-                # 목표에 서브 키워드가 있으면 해당 키워드가 없는 매물 배제,
-                # 목표에 서브 키워드가 없으면 해당 키워드가 포함된 매물 배제!
-                target_sub_clean = (str(target_detail_model or "") + " " + str(target_grade or "")).lower().replace(" ", "")
-                SUB_KEYWORDS = ['플러스', '스페셜', '초이스', '에디션', '마스터', 'n line', 'nline']
-                comb_clean = combined.replace(" ", "")
-                for sub_kw in SUB_KEYWORDS:
-                    kw_clean = sub_kw.replace(" ", "")
-                    if kw_clean in target_sub_clean:
-                        if kw_clean not in comb_clean:
-                            return False
-                    else:
-                        if kw_clean in comb_clean:
-                            return False
+        sub_col = "세부모델" if "세부모델" in cand_df.columns else ("detail" if "detail" in cand_df.columns else None)
+        badge_col = "Badge" if "Badge" in cand_df.columns else ("badge" if "badge" in cand_df.columns else None)
+        year_col = "연식" if "연식" in cand_df.columns else ("year" if "year" in cand_df.columns else None)
+        name_col = "차량명" if "차량명" in cand_df.columns else ("carName" if "carName" in cand_df.columns else None)
 
-                # 카니발 등 인승(7인승 vs 9인승 vs 11인승) 엄격 일치
-                if target_detail_model:
-                    m_seat = re.search(r'(\d+인승)', target_detail_model)
-                    if m_seat:
-                        seat_kw = m_seat.group(1)
-                        if seat_kw not in combined:
-                            return False
+        def _match_row(row):
+            sub_val = str(row.get(sub_col, '') if sub_col else '').strip()
+            badge_val = str(row.get(badge_col, '') if badge_col else '').strip()
+            year_val = str(row.get(year_col, '') if year_col else '').strip()
+            name_val = str(row.get(name_col, '') if name_col else '').strip()
 
-                return True
+            combined = f"{sub_val} {badge_val}".strip().lower()
+            if not combined or combined in ('-', 'none', 'nan', '미확인'):
+                return False
 
-            mask_g = cand_df.apply(_match_grade, axis=1)
-            cand_df = cand_df[mask_g]
+            cand_spec = cls.build_car_spec(
+                text=sub_val,
+                car_name=name_val,
+                year=year_val,
+                badge=badge_val
+            )
 
-        return cand_df.reset_index(drop=True)
+            return cls.is_strictly_same_spec(target_spec, cand_spec, check_year=True)
+
+        mask = cand_df.apply(_match_row, axis=1)
+        return cand_df[mask].reset_index(drop=True)
 
