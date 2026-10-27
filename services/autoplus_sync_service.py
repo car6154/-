@@ -8,6 +8,7 @@
 """
 
 import os
+import re
 import csv
 import json
 import shutil
@@ -298,11 +299,25 @@ class AutoplusSyncService:
                 if plate:
                     # 광고가 (할인적용가 우선, 없으면 지점판매가)
                     adv_price = str(r[21]).strip() if len(r) > 21 and str(r[21]).strip() and str(r[21]).strip() != '0' else str(r[19]).strip()
+                    
+                    # 주행거리 (r[6])
+                    mileage_val = None
+                    if len(r) > 6 and r[6] is not None:
+                        digits = re.sub(r"[^0-9]", "", str(r[6]))
+                        if digits:
+                            try:
+                                mv = int(digits)
+                                if mv > 0:
+                                    mileage_val = mv
+                            except (ValueError, TypeError):
+                                pass
+
                     selling_map[plate] = {
                         "status": str(r[8]).strip() or "판매중",
                         "price": adv_price,
                         "stock_days": str(r[11]).strip(),     # 경과일수
-                        "encar_url": str(r[28]).strip()       # E URL
+                        "encar_url": str(r[28]).strip(),      # E URL
+                        "mileage": mileage_val
                     }
 
         cls.backup_file(SETTLEMENT_CSV)
@@ -310,40 +325,75 @@ class AutoplusSyncService:
         lines = []
 
         enc_found = 'utf-8-sig'
+        headers = None
         for enc in ['utf-8-sig', 'utf-8', 'cp949']:
             try:
                 with open(SETTLEMENT_CSV, 'r', encoding=enc) as f:
                     reader = csv.reader(f)
-                    headers = next(reader, None)
-                    if not headers:
+                    file_headers = next(reader, None)
+                    if not file_headers:
                         return 0
+                    headers = list(file_headers)
+
+                    h_map = {col.strip(): i for i, col in enumerate(headers)}
+                    # 주행거리 및 apCarId 컬럼이 헤더에 없으면 스키마 확장
+                    if "주행거리" not in h_map:
+                        headers.append("주행거리")
+                        h_map["주행거리"] = len(headers) - 1
+                    if "apCarId" not in h_map:
+                        headers.append("apCarId")
+                        h_map["apCarId"] = len(headers) - 1
+
+                    mileage_idx = h_map["주행거리"]
+                    plate_idx = h_map.get("차량번호", 3)
+                    sell_price_idx = h_map.get("판매가", 5)
+                    stock_days_idx = h_map.get("재고일", 6)
+                    encar_url_idx = h_map.get("엔카URL", 19)
+
                     for row in reader:
-                        if not row:
+                        if not row or not any(field.strip() for field in row):
                             continue
-                        # 순차,매입일,상태,차량번호,차종,판매가,재고일,... (차량번호 index: 3)
-                        if len(row) > 3:
-                            plate = str(row[3]).strip()
+                        # 행 길이를 headers 길이에 맞춤
+                        while len(row) < len(headers):
+                            row.append("")
+
+                        if len(row) > plate_idx:
+                            plate = str(row[plate_idx]).replace(' ', '').strip()
                             if plate in selling_map:
                                 s_info = selling_map[plate]
                                 # 판매가(만원 단위)
                                 try:
                                     raw_p = float(s_info["price"].replace(',', ''))
-                                    row[5] = str(int(raw_p // 10000)) if raw_p > 10000 else str(int(raw_p))
+                                    row[sell_price_idx] = str(int(raw_p // 10000)) if raw_p > 10000 else str(int(raw_p))
                                 except:
                                     pass
                                 # 재고일
                                 try:
-                                    row[6] = str(int(float(s_info["stock_days"])))
+                                    row[stock_days_idx] = str(int(float(s_info["stock_days"])))
                                 except:
                                     pass
-                                # 엔카URL (index 19)
-                                if len(row) > 19 and s_info["encar_url"] and s_info["encar_url"] != 'javascript:;':
-                                    row[19] = s_info["encar_url"]
+                                # 엔카URL
+                                if len(row) > encar_url_idx and s_info["encar_url"] and s_info["encar_url"] != 'javascript:;':
+                                    row[encar_url_idx] = s_info["encar_url"]
+
+                                # 주행거리: 비어 있는 행만 채우고, 이미 값이 있는 행은 절대 덮지 않는다
+                                cur_mileage_str = str(row[mileage_idx]).strip()
+                                cur_mileage_num = 0
+                                if cur_mileage_str and cur_mileage_str.lower() not in ("none", "null", ""):
+                                    try:
+                                        cur_mileage_num = int(re.sub(r"[^0-9]", "", cur_mileage_str) or 0)
+                                    except:
+                                        cur_mileage_num = 0
+
+                                if cur_mileage_num <= 0 and s_info.get("mileage"):
+                                    row[mileage_idx] = str(s_info["mileage"])
+                                    print(f"[AutoplusSync] 정산 행 주행거리 전사 데이터 매핑 성공: {plate[-4:]} -> {s_info['mileage']}km", flush=True)
+
                                 updated_count += 1
                         lines.append(row)
                 enc_found = enc
                 break
-            except (UnicodeDecodeError, Exception):
+            except (UnicodeDecodeError, Exception) as e:
                 continue
 
         if headers and lines:
