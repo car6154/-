@@ -302,7 +302,7 @@ def fetch_kcar_car_detail(car_cd: str) -> Optional[Dict[str, Any]]:
                 "color": color,
                 "center": center,
                 "status": car_stat,
-                "detailUrl": f"https://www.kcar.com/bc/detail/carInfoPrsn?i_sCarCd={car_cd_clean}",
+                "detailUrl": f"https://www.kcar.com/bc/detail/carInfoDtl?i_sCarCd={car_cd_clean}",
                 "dates": {
                     "regDate": str(reg_dttm),
                     "pfmncDate": str(pfmnc_dt),
@@ -4100,7 +4100,7 @@ def fetch_kcar_market_stats(
                 "color": r.get('extrColorNm') or '',
                 "accident": r.get('acdtHistCnts') or '무사고',
                 "optnNm": raw_optn,
-                "detailUrl": f"https://www.kcar.com/bc/detail/carInfoPrsn?i_sCarCd={car_cd}" if car_cd else ""
+                "detailUrl": f"https://www.kcar.com/bc/detail/carInfoDtl?i_sCarCd={car_cd}" if car_cd else ""
             })
             prices.append(prc)
         except Exception:
@@ -4433,7 +4433,7 @@ def fetch_kcar_market_stats(
                 "color": r.get('extrColorNm') or '',
                 "accident": r.get('acdtHistCnts') or '무사고',
                 "optnNm": raw_optn,
-                "detailUrl": f"https://www.kcar.com/bc/detail/carInfoPrsn?i_sCarCd={car_cd}" if car_cd else ""
+                "detailUrl": f"https://www.kcar.com/bc/detail/carInfoDtl?i_sCarCd={car_cd}" if car_cd else ""
             })
         except Exception:
             continue

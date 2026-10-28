@@ -1159,8 +1159,17 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                             className="accent-blue-500 cursor-pointer w-3.5 h-3.5"
                           />
                         </td>
-                        <td className="py-1.5 px-1.5 truncate max-w-[82px] font-medium text-sky-400" title={car.carName}>
-                          {car.modelName || car.carName}
+                        <td className="py-1.5 px-1.5 truncate max-w-[82px] font-medium" title={car.carName}>
+                          <a
+                            href={car.detailUrl || `https://www.kcar.com/bc/detail/carInfoDtl?i_sCarCd=${car.carCd}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            className="hover:underline font-bold text-[12px] text-sky-400 hover:text-sky-300 whitespace-nowrap transition-colors"
+                            title="새 탭에서 케이카 상세페이지 열기"
+                          >
+                            {car.modelName || car.carName}
+                          </a>
                         </td>
                         {showTrimColumn && (
                           <td className="py-1.5 px-1.5 truncate max-w-[95px] text-[11px] text-zinc-300 font-medium" title={car.gradeDetail || car.grade || ''}>
