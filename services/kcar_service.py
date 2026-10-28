@@ -83,6 +83,46 @@ def fetch_kcar_jato_options(car_cd: str) -> Optional[List[Dict[str, Any]]]:
 _KCAR_DETAIL_CACHE: Dict[str, Dict[str, Any]] = {}
 _KCAR_DETAIL_CACHE_TTL = 600  # 10분 캐시
 
+# 케이카 3Dview API(https://api.kcar.com/bc/dgnos/3dview) 실측 부위명 한글 매핑
+_KCAR_3D_PART_KR_MAP = {
+    'bonnet': '후드(보닛)',
+    'roof': '루프 패널',
+    'trunk': '트렁크리드',
+    'cabin': '캐빈/바디',
+    'front-fender-left': '프론트 휀더(좌)',
+    'front-door-left': '프론트 도어(좌)',
+    'back-door-left': '리어 도어(좌)',
+    'front-fender-right': '프론트 휀더(우)',
+    'front-door-right': '프론트 도어(우)',
+    'back-door-right': '리어 도어(우)',
+    'front-panel': '프론트 패널',
+    'radiator': '라디에이터 서포트',
+    'crossmember': '크로스멤버',
+    'dash-panel': '대쉬 패널',
+    'floor-panel': '플로어 패널',
+    'packagetray': '패키지 트레이',
+    'trunk-floor-panel': '트렁크 플로어',
+    'rear-panel': '리어 패널',
+    'sidemember-front-left': '프론트 사이드멤버(좌)',
+    'inside-panel-left': '인사이드 패널(좌)',
+    'wheelhouse-front-left': '프론트 휠하우스(좌)',
+    'a-pillar-left': 'A필러(좌)',
+    'b-pillar-left': 'B필러(좌)',
+    'quarter-panel-left': '쿼터 패널(좌)',
+    'wheelhouse-back-left': '리어 휠하우스(좌)',
+    'sidemember-back-left': '리어 사이드멤버(좌)',
+    'sidesill-left': '사이드실 패널(좌)',
+    'sidemember-front-right': '프론트 사이드멤버(우)',
+    'inside-panel-right': '인사이드 패널(우)',
+    'wheelhouse-front-right': '프론트 휠하우스(우)',
+    'a-pillar-right': 'A필러(우)',
+    'b-pillar-right': 'B필러(우)',
+    'quarter-panel-right': '쿼터 패널(우)',
+    'wheelhouse-back-right': '리어 휠하우스(우)',
+    'sidemember-back-right': '리어 사이드멤버(우)',
+    'sidesill-right': '사이드실 패널(우)',
+}
+
 
 def fetch_kcar_car_detail(car_cd: str) -> Optional[Dict[str, Any]]:
     """K-Car 단일 차량 상세 정보 조회 (car-info-detail-of-ng 단 1회 호출)
@@ -151,6 +191,46 @@ def fetch_kcar_car_detail(car_cd: str) -> Optional[Dict[str, Any]]:
 
             change_cnt = int(d.get('changeCnt') or 0)
             metal_cnt = int(d.get('metalCnt') or 0)
+
+            # 3-1. 케이카 3D 진단 부위별 실측 상세 조회 (https://api.kcar.com/bc/dgnos/3dview)
+            replace_names: List[str] = []
+            repair_names: List[str] = []
+            damage_parts_raw: List[Dict[str, str]] = []
+
+            try:
+                dgnos_url = f"https://api.kcar.com/bc/dgnos/3dview?i_sCarCd={car_cd_clean}"
+                dgnos_req = urllib.request.Request(dgnos_url, headers=headers)
+                with urllib.request.urlopen(dgnos_req, timeout=4) as dgnos_resp:
+                    dgnos_json = json.loads(dgnos_resp.read().decode('utf-8'))
+                    dgnos_data = dgnos_json.get('data', {})
+                    ext_items = dgnos_data.get('exteriorData', []) or []
+                    frm_items = dgnos_data.get('frameData', []) or []
+
+                    for item in (ext_items + frm_items):
+                        part_id = str(item.get('part') or '').strip()
+                        part_status = str(item.get('status') or '').strip()
+                        if not part_id or part_status == '1':
+                            continue
+
+                        kr_label = _KCAR_3D_PART_KR_MAP.get(part_id, part_id)
+                        damage_parts_raw.append({
+                            "part": part_id,
+                            "status": part_status,
+                            "name": kr_label
+                        })
+
+                        if part_status == '2':  # 교환 (X)
+                            replace_names.append(kr_label)
+                        elif part_status == '3':  # 판금/용접 (W)
+                            repair_names.append(kr_label)
+
+                    if replace_names or repair_names:
+                        change_cnt = len(replace_names)
+                        metal_cnt = len(repair_names)
+                        if accident_type == '무사고':
+                            accident_type = '단순수리'
+            except Exception as e:
+                pass
 
             # 4. 보험 내역 (carhistory)
             gnrl_ttls = int(ch.get('gnrlTtlsAcdtCnt') or 0)
@@ -234,8 +314,13 @@ def fetch_kcar_car_detail(car_cd: str) -> Optional[Dict[str, Any]]:
                     "acdtHistYn": acdt_yn,
                     "smplReprYn": smpl_yn,
                     "changeCount": change_cnt,
-                    "metalCount": metal_cnt
+                    "metalCount": metal_cnt,
+                    "replaceNames": replace_names,
+                    "repairNames": repair_names,
+                    "damageParts": damage_parts_raw
                 },
+                "replaceNames": replace_names,
+                "repairNames": repair_names,
                 "insurance": {
                     "totalLoss": gnrl_ttls > 0,
                     "flood": fldg_cnt > 0,

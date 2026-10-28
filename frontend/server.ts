@@ -524,6 +524,34 @@ async function startServer() {
     }
   });
 
+  // 5-0-2. K-Car 직영 매물 상세 조회 API (로컬 Python 백엔드 연동)
+  app.all('/api/kcar/detail', async (req, res) => {
+    try {
+      const carCd = (req.body?.carCd || req.query.carCd || '') as string;
+      if (!carCd) {
+        return res.status(400).json({ success: false, message: 'carCd가 누락되었습니다.' });
+      }
+
+      const pyRes = await fetch('http://127.0.0.1:8000/api/kcar/detail', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ carCd }),
+        signal: AbortSignal.timeout(8000)
+      });
+      if (pyRes.ok) {
+        const data = await pyRes.json();
+        return res.json(data);
+      }
+      return res.status(pyRes.status).json({ success: false, message: 'Python K-Car 상세 API 반환 실패' });
+    } catch (err: any) {
+      console.warn('K-Car 상세 API 연동 실패:', err.message);
+      return res.json({
+        success: false,
+        message: err.message
+      });
+    }
+  });
+
   // 5-1. 엔카 특정 매물 성능점검표 상세 조회 API
   app.get('/api/encar/inspection/:carId', async (req, res) => {
     const { carId } = req.params;

@@ -176,7 +176,12 @@ export interface KcarDetailData {
     smplReprYn: string;
     changeCount: number;
     metalCount: number;
+    replaceNames?: string[];
+    repairNames?: string[];
+    damageParts?: Array<{ part: string; status: string; name: string }>;
   };
+  replaceNames?: string[];
+  repairNames?: string[];
   insurance: {
     totalLoss: boolean;
     flood: boolean;

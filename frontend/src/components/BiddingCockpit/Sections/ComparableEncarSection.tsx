@@ -1301,20 +1301,26 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                 {(() => {
                   const chg = kcarDetail?.accident?.changeCount || 0;
                   const mtl = kcarDetail?.accident?.metalCount || 0;
-                  if (chg <= 0 && mtl <= 0) return null;
+                  const repNames = kcarDetail?.accident?.replaceNames || kcarDetail?.replaceNames || [];
+                  const fixNames = kcarDetail?.accident?.repairNames || kcarDetail?.repairNames || [];
+                  if (chg <= 0 && mtl <= 0 && repNames.length === 0 && fixNames.length === 0) return null;
 
                   return (
                     <div className="pt-1.5 pb-0.5 text-xs flex flex-col gap-1">
-                      {chg > 0 && (
+                      {(chg > 0 || repNames.length > 0) && (
                         <div className="text-rose-400 font-medium flex items-start gap-1">
                           <span className="font-bold shrink-0">🔴 교환(X):</span>
-                          <span className="font-semibold text-rose-300">{chg}건</span>
+                          <span className="font-semibold text-rose-300">
+                            {repNames.length > 0 ? `${repNames.join(', ')} (${repNames.length}건)` : `${chg}건`}
+                          </span>
                         </div>
                       )}
-                      {mtl > 0 && (
+                      {(mtl > 0 || fixNames.length > 0) && (
                         <div className="text-amber-400 font-medium flex items-start gap-1">
                           <span className="font-bold shrink-0">🟡 판금/용접(W):</span>
-                          <span className="font-semibold text-amber-300">{mtl}건</span>
+                          <span className="font-semibold text-amber-300">
+                            {fixNames.length > 0 ? `${fixNames.join(', ')} (${fixNames.length}건)` : `${mtl}건`}
+                          </span>
                         </div>
                       )}
                     </div>
@@ -1373,6 +1379,18 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                     </div>
                   );
                 })()}
+
+                {/* 6. 2D Car Damage Diagram Component (엔카와 완전 동일 양식) */}
+                <CarDamageDiagram2D
+                  selectedEncar={{
+                    ...kcarDetail,
+                    accidentType: kcarDetail?.accident?.accidentType || selectedKcar.accident || '',
+                    replaces: kcarDetail?.accident?.replaceNames || kcarDetail?.replaceNames || [],
+                    repairs: kcarDetail?.accident?.repairNames || kcarDetail?.repairNames || [],
+                    replaceNames: kcarDetail?.accident?.replaceNames || kcarDetail?.replaceNames || [],
+                    repairNames: kcarDetail?.accident?.repairNames || kcarDetail?.repairNames || [],
+                  }}
+                />
               </>
             )}
           </div>
