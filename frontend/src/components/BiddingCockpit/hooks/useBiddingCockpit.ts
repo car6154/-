@@ -918,6 +918,11 @@ export function useBiddingCockpit({
           });
         }
       } else {
+        if (reqId === activeRequestIdRef.current) {
+          setIsSearchingCar(false);
+          setIsEncarLoading(false);
+          setIsKcarLoading(false);
+        }
         if (unifiedRes?.statusMessage) {
           setSearchStatus(unifiedRes.statusMessage);
         } else {
@@ -926,8 +931,14 @@ export function useBiddingCockpit({
             message: `⚠️ [${no}] ${res?.message || '차얼마 데이터 조회 실패 또는 미등록 차량'}`
           });
         }
+        return false;
       }
     } catch (err: any) {
+      if (reqId === activeRequestIdRef.current) {
+        setIsSearchingCar(false);
+        setIsEncarLoading(false);
+        setIsKcarLoading(false);
+      }
       if (reqId !== activeRequestIdRef.current) return false;
       console.error('차얼마 제원 조회 오류:', err);
       const isTimeout = err?.isTimeout || String(err?.message).includes('시간 초과');
@@ -937,10 +948,7 @@ export function useBiddingCockpit({
           ? `❌ [${no}] 차얼마 조회 시간 초과 (30초 동안 응답이 없습니다)` 
           : `❌ [${no}] 차량 제원 조회 중 오류가 발생했습니다: ${err?.message || err}`
       });
-    } finally {
-      if (reqId === activeRequestIdRef.current) {
-        setIsSearchingCar(false);
-      }
+      return false;
     }
 
     if (reqId !== activeRequestIdRef.current) return false;
@@ -1015,6 +1023,7 @@ export function useBiddingCockpit({
       return false;
     } finally {
       if (reqId === activeRequestIdRef.current) {
+        setIsSearchingCar(false);
         skipAutoFetchRef.current = false;
       }
     }
