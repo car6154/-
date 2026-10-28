@@ -67,6 +67,12 @@ try {
     Write-SupervisorLog "  [J-PRO] Unified Supervisor Started (PID: $PID)"
     Write-SupervisorLog "=================================================="
 
+    # 2-1. Check supervisor.stop before startup
+    if (Test-Path $stopFile) {
+        Write-SupervisorLog "[STOP] supervisor.stop detected before service start. Exiting cleanly without starting services."
+        exit 0
+    }
+
     # Node.js PATH setup
     if (Test-Path "$env:LOCALAPPDATA\Programs\nodejs") {
         $env:PATH = "$env:LOCALAPPDATA\Programs\nodejs;$env:PATH"
@@ -324,100 +330,104 @@ try {
     while ($true) {
         Start-Sleep -Seconds 5
 
-        # (1) Check supervisor.stop
-        if (Test-Path $stopFile) {
-            Write-SupervisorLog "[STOP] supervisor.stop detected! Terminating all child services and shutting down supervisor..."
-            foreach ($svc in $services) {
-                Stop-ServiceTree $svc
-            }
-            $allPorts = @(8000, 3000, 8501, 8502, 6154)
-            $listenMap = Get-ListeningProcesses
-            foreach ($prt in $allPorts) {
-                if ($listenMap.ContainsKey($prt)) {
-                    foreach ($p in $listenMap[$prt]) {
-                        if ($p -gt 0 -and $p -ne $PID) {
-                            try { taskkill /f /t /pid $p 2>&1 | Out-Null } catch {}
+        try {
+            # (1) Check supervisor.stop
+            if (Test-Path $stopFile) {
+                Write-SupervisorLog "[STOP] supervisor.stop detected! Terminating all child services and shutting down supervisor..."
+                foreach ($svc in $services) {
+                    Stop-ServiceTree $svc
+                }
+                $allPorts = @(8000, 3000, 8501, 8502, 6154)
+                $listenMap = Get-ListeningProcesses
+                foreach ($prt in $allPorts) {
+                    if ($listenMap.ContainsKey($prt)) {
+                        foreach ($p in $listenMap[$prt]) {
+                            if ($p -gt 0 -and $p -ne $PID) {
+                                try { taskkill /f /t /pid $p 2>&1 | Out-Null } catch {}
+                            }
                         }
                     }
                 }
+                Write-SupervisorLog "[STOP] All child services stopped. Supervisor exiting cleanly."
+                break
             }
-            Write-SupervisorLog "[STOP] All child services stopped. Supervisor exiting cleanly."
-            break
-        }
 
-        # (2) Git HEAD 커밋 변경 및 불변조건 감시
-        # 불변 조건: 실행 중인 각 서버 프로세스의 시작 시각은 현재 체크아웃된 HEAD 커밋 시각보다 이후여야 한다.
-        $headInfo = Get-GitHeadInfo
-        if ($headInfo) {
+            # (2) Git HEAD 커밋 변경 및 불변조건 감시
+            # 불변 조건: 실행 중인 각 서버 프로세스의 시작 시각은 현재 체크아웃된 HEAD 커밋 시각보다 이후여야 한다.
+            $headInfo = Get-GitHeadInfo
+            if ($headInfo) {
+                foreach ($svc in $services) {
+                    if (-not $svc.Enabled) { continue }
+
+                    # 같은 커밋으로 이미 재시작했으면 패스 (반복 루프 방지)
+                    if ($svc.LastAppliedCommit -eq $headInfo.Hash) {
+                        continue
+                    }
+
+                    # 프로세스 시작 시각이 HEAD 커밋 시각보다 이전인지 판정
+                    $isOlderThanCommit = ($svc.StartedAt -lt $headInfo.CommitDate)
+                    $isNewCommitDetected = ($svc.LastAppliedCommit -and ($svc.LastAppliedCommit -ne $headInfo.Hash))
+
+                    if ($isOlderThanCommit -or $isNewCommitDetected) {
+                        Write-SupervisorLog "[$($svc.Name)] 새 커밋 감지! [HEAD: $($headInfo.ShortHash), 커밋시각: $($headInfo.CommitDate.ToString('yyyy-MM-dd HH:mm:ss')), 프로세스시작: $($svc.StartedAt.ToString('yyyy-MM-dd HH:mm:ss'))]. 최신 코드로 자동 재시작을 진행합니다..."
+                        Stop-ServiceTree $svc
+                        if (-not (Wait-PortClear $svc.Port 10)) {
+                            Write-SupervisorLog "[$($svc.Name)] [WARNING] Port $($svc.Port) not cleared after tree kill."
+                        }
+                        Start-SingleService $svc
+                    }
+                }
+            }
+
+            # (3) Health check
+            $listenMap = Get-ListeningProcesses
+
             foreach ($svc in $services) {
                 if (-not $svc.Enabled) { continue }
 
-                # 같은 커밋으로 이미 재시작했으면 패스 (반복 루프 방지)
-                if ($svc.LastAppliedCommit -eq $headInfo.Hash) {
+                $now = [DateTime]::Now
+                $uptimeSec = ($now - $svc.StartedAt).TotalSeconds
+
+                # 30s initial grace period
+                if ($uptimeSec -lt $gracePeriodSec) {
+                    $svc.FailCount = 0
                     continue
                 }
 
-                # 프로세스 시작 시각이 HEAD 커밋 시각보다 이전인지 판정
-                $isOlderThanCommit = ($svc.StartedAt -lt $headInfo.CommitDate)
-                $isNewCommitDetected = ($svc.LastAppliedCommit -and ($svc.LastAppliedCommit -ne $headInfo.Hash))
+                # Process alive check
+                $procAlive = $false
+                if ($svc.Process -and -not $svc.Process.HasExited) {
+                    $procAlive = $true
+                } elseif ($svc.Pid) {
+                    $p = Get-Process -Id $svc.Pid -ErrorAction SilentlyContinue
+                    if ($p) { $procAlive = $true }
+                }
 
-                if ($isOlderThanCommit -or $isNewCommitDetected) {
-                    Write-SupervisorLog "[$($svc.Name)] 새 커밋 감지! [HEAD: $($headInfo.ShortHash), 커밋시각: $($headInfo.CommitDate.ToString('yyyy-MM-dd HH:mm:ss')), 프로세스시작: $($svc.StartedAt.ToString('yyyy-MM-dd HH:mm:ss'))]. 최신 코드로 자동 재시작을 진행합니다..."
-                    Stop-ServiceTree $svc
-                    if (-not (Wait-PortClear $svc.Port 10)) {
-                        Write-SupervisorLog "[$($svc.Name)] [WARNING] Port $($svc.Port) not cleared after tree kill."
+                # Port listening check
+                $portListening = $listenMap.ContainsKey($svc.Port)
+
+                if ($procAlive -and $portListening) {
+                    if ($svc.FailCount -gt 0) {
+                        Write-SupervisorLog "[$($svc.Name)] Health restored (PID: $($svc.Pid), Port: $($svc.Port)). Resetting fail count."
                     }
-                    Start-SingleService $svc
-                }
-            }
-        }
-
-        # (3) Health check
-        $listenMap = Get-ListeningProcesses
-
-        foreach ($svc in $services) {
-            if (-not $svc.Enabled) { continue }
-
-            $now = [DateTime]::Now
-            $uptimeSec = ($now - $svc.StartedAt).TotalSeconds
-
-            # 30s initial grace period
-            if ($uptimeSec -lt $gracePeriodSec) {
-                $svc.FailCount = 0
-                continue
-            }
-
-            # Process alive check
-            $procAlive = $false
-            if ($svc.Process -and -not $svc.Process.HasExited) {
-                $procAlive = $true
-            } elseif ($svc.Pid) {
-                $p = Get-Process -Id $svc.Pid -ErrorAction SilentlyContinue
-                if ($p) { $procAlive = $true }
-            }
-
-            # Port listening check
-            $portListening = $listenMap.ContainsKey($svc.Port)
-
-            if ($procAlive -and $portListening) {
-                if ($svc.FailCount -gt 0) {
-                    Write-SupervisorLog "[$($svc.Name)] Health restored (PID: $($svc.Pid), Port: $($svc.Port)). Resetting fail count."
-                }
-                $svc.FailCount = 0
-            } else {
-                $svc.FailCount++
-                Write-SupervisorLog "[$($svc.Name)] Check FAILED ($($svc.FailCount)/$failThreshold). [ProcessAlive: $procAlive, Port $($svc.Port) Listening: $portListening]"
-                
-                # 3 consecutive failures threshold
-                if ($svc.FailCount -ge $failThreshold) {
-                    Write-SupervisorLog "[$($svc.Name)] Reached $failThreshold consecutive failures. Initiating restart..."
-                    Stop-ServiceTree $svc
-                    if (-not (Wait-PortClear $svc.Port 10)) {
-                        Write-SupervisorLog "[$($svc.Name)] [WARNING] Port $($svc.Port) not cleared after tree kill."
+                    $svc.FailCount = 0
+                } else {
+                    $svc.FailCount++
+                    Write-SupervisorLog "[$($svc.Name)] Check FAILED ($($svc.FailCount)/$failThreshold). [ProcessAlive: $procAlive, Port $($svc.Port) Listening: $portListening]"
+                    
+                    # 3 consecutive failures threshold
+                    if ($svc.FailCount -ge $failThreshold) {
+                        Write-SupervisorLog "[$($svc.Name)] Reached $failThreshold consecutive failures. Initiating restart..."
+                        Stop-ServiceTree $svc
+                        if (-not (Wait-PortClear $svc.Port 10)) {
+                            Write-SupervisorLog "[$($svc.Name)] [WARNING] Port $($svc.Port) not cleared after tree kill."
+                        }
+                        Start-SingleService $svc
                     }
-                    Start-SingleService $svc
                 }
             }
+        } catch {
+            Write-SupervisorLog "[ERROR] Health loop exception: $_"
         }
     }
 } finally {
