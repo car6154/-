@@ -8,7 +8,6 @@ import {
   HD_REPAIR_MAP,
   formatHdRelativeDate,
   fetchNewCarCatalog,
-  normalizeChaolmaOptions,
   NewCarCatalogData,
 } from '@/services/biddingOptionCatalog';
 import { copyToClipboard } from '@/utils/clipboard';
@@ -1206,14 +1205,10 @@ export function useBiddingCockpit({
                 };
               });
 
-              // 차올마 순정옵션이 있으면 옵션태그를 카탈로그 기준 표준 옵션명(출고가 포함)으로 정확히 교체 (중복 방지)
+              // 🌟 카탈로그 데이터가 필요할 경우 카탈로그 상태만 세팅 (optionsTag는 통합 조회 백엔드 결과 유지: 덮어쓰기 금지)
               if (chRes.options && chRes.options.length > 0) {
                 const cat = await fetchNewCarCatalog(chRes.model_detail_name || chRes.model_name || carData.car_name, (chRes as any).model_year || chRes.year);
                 if (cat) setTargetNewCarCatalog(cat);
-                const normalized = normalizeChaolmaOptions(chRes.options, cat);
-                const optStr = normalized.map(o => `${o.standardName}(${o.standardPriceMan}만)`).join(' · ');
-                const totalOptMan = normalized.reduce((acc, cur) => acc + cur.standardPriceMan, 0);
-                setOptionsTag(`${optStr} [순정옵션총액: ${totalOptMan}만]`);
               }
             }
           } catch (chErr) {
