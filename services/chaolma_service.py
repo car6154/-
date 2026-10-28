@@ -22,13 +22,42 @@ CACHE_TTL = 1800  # 30분
 
 
 def norm_opt_name(s: str) -> str:
-    """옵션명 정규화 (로마자, 띄어쓰기, 특수문자, 패키지 제거)"""
+    """옵션명 정규화 (유니코드 특수 로마자, 띄어쓰기, 특수문자, 패키지 제거)"""
     if not s:
         return ""
-    s = s.lower().replace(" ", "").replace("-", "").replace("_", "").replace("+", "")
-    s = s.replace("iii", "3").replace("ii", "2").replace("iv", "4").replace("i", "1")
+    # 유니코드 로마자 기호 (Ⅰ, Ⅱ, Ⅲ, Ⅳ, ⅰ, ⅱ, ⅲ, ⅳ) 변환
+    ROMAN_MAP = {
+        'Ⅰ': '1', 'Ⅱ': '2', 'Ⅲ': '3', 'Ⅳ': '4', 'Ⅴ': '5',
+        'ⅰ': '1', 'ⅱ': '2', 'ⅲ': '3', 'ⅳ': '4', 'ⅴ': '5',
+    }
+    for r, d in ROMAN_MAP.items():
+        s = s.replace(r, d)
+    s = s.lower()
+    for ch in [" ", "-", "_", "+", "&", "/", "\"", "'", "(", ")", "[", "]", "·", ","]:
+        s = s.replace(ch, "")
+    s = s.replace("iii", "3").replace("ii", "2").replace("iv", "4")
     s = s.replace("패키지", "").replace("팩", "")
     return s
+
+
+def compute_opt_jaccard(s1: str, s2: str) -> float:
+    """두 옵션명 간의 바이그램(2글자) 자카드 유사도 계산"""
+    n1 = norm_opt_name(s1)
+    n2 = norm_opt_name(s2)
+    if not n1 or not n2:
+        return 0.0
+    if n1 == n2:
+        return 1.0
+    # 버전 식별자 불일치 방지 (1 vs 2, 1 vs 3 등)
+    digits1 = [c for c in n1 if c.isdigit()]
+    digits2 = [c for c in n2 if c.isdigit()]
+    if digits1 and digits2 and "".join(digits1) != "".join(digits2):
+        return 0.0
+    b1 = set(n1[i:i+2] for i in range(len(n1)-1))
+    b2 = set(n2[i:i+2] for i in range(len(n2)-1))
+    if not b1 or not b2:
+        return 0.0
+    return len(b1 & b2) / len(b1 | b2)
 
 
 class ChaolmaService:
@@ -293,12 +322,24 @@ class ChaolmaService:
             # 가격이 0이면 카탈로그 목록과 정규화 비교
             if p_val == 0:
                 n_norm = norm_opt_name(name)
-                # 1) 카탈로그에서 매칭
+                # 1) 카탈로그에서 완전/포함 일치 우선 매칭
                 for cname, cprice in price_by_name.items():
                     cn_norm = norm_opt_name(cname)
                     if n_norm == cn_norm or (n_norm in cn_norm) or (cn_norm in n_norm):
                         p_val = cprice
                         break
+
+                # 2) 미매칭 시 바이그램 자카드 유사도 매칭 (오타/기호/부가단어 차이 극복)
+                if p_val == 0:
+                    best_score = 0.0
+                    best_price = 0
+                    for cname, cprice in price_by_name.items():
+                        score = compute_opt_jaccard(name, cname)
+                        if score > best_score and score >= 0.45:
+                            best_score = score
+                            best_price = cprice
+                    if best_price > 0:
+                        p_val = best_price
 
             # 2) 여전히 0이면 기본 추정치 사전 매칭
             if p_val == 0:

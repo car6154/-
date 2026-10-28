@@ -630,9 +630,9 @@ export const splitOptionString = (optStr: string): string[] => {
   }
 
   // 🚗 [타이어 규격 보존 전처리]
-  // 예: "245/45R20(앞), 275/40R20(뒤) 미쉐린 타이어 & 다이아몬드 컷팅 휠(100만)"
-  // 슬래시(/)와 앞뒤 타이어 사이 쉼표(,)가 분해기로 쪼개져 "+ 245", "+ 275" 등 파편화되는 버그 방지
-  cleanedStr = cleanedStr.replace(/(\d{3})\/(\d{2}[a-zA-Z]?\d{2})/g, '$1__SLASH__$2');
+  // 예: "215/55 R18", "245/45R20", "275/40 ZR 20", "215/60-17" 등 공백/하이픈/영문 기호 유무와 무관하게 보존
+  // 슬래시(/)와 앞뒤 타이어 사이 쉼표(,)가 분해기로 쪼개져 "+ 215", "+ 55 R18" 등 파편화되는 버그 방지
+  cleanedStr = cleanedStr.replace(/(?<=\b|\D)(\d{3})\/(\d{2}(?:\s*[-a-zA-Z]{1,2}\s*\d{2})?)(?=\b|\D)/g, '$1__SLASH__$2');
   cleanedStr = cleanedStr.replace(/(\([앞전뒤후]\))\s*,\s*(\d{3}__SLASH__)/g, '$1__COMMA__$2');
 
   const results: string[] = [];
