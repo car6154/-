@@ -1497,10 +1497,14 @@ export function useBiddingCockpit({
           else if (name.includes('인사이드') && name.includes('우')) mappedPart = 'INSIDE_PANEL_R';
           else if (name.includes('크로스')) mappedPart = 'CROSS_MEMBER';
           else if (name.includes('프론트 패널') || name.includes('프론트패널')) mappedPart = 'FRONT_PANEL';
-          else if (name.includes('사이드 멤버') && name.includes('좌')) mappedPart = 'FRONT_SIDE_MEMBER_L';
-          else if (name.includes('사이드 멤버') && name.includes('우')) mappedPart = 'FRONT_SIDE_MEMBER_R';
+          else if ((name.includes('리어') || name.includes('뒤')) && name.includes('사이드 멤버') && name.includes('좌')) mappedPart = 'SIDE_MEMBER_REAR_L';
+          else if ((name.includes('리어') || name.includes('뒤')) && name.includes('사이드 멤버') && name.includes('우')) mappedPart = 'SIDE_MEMBER_REAR_R';
+          else if (name.includes('사이드 멤버') && name.includes('좌')) mappedPart = 'SIDE_MEMBER_FRONT_L';
+          else if (name.includes('사이드 멤버') && name.includes('우')) mappedPart = 'SIDE_MEMBER_FRONT_R';
           else if (name.includes('휠하우스') && name.includes('좌')) mappedPart = 'FRONT_WHEEL_HOUSE_L';
           else if (name.includes('휠하우스') && name.includes('우')) mappedPart = 'FRONT_WHEEL_HOUSE_R';
+          else if (name.includes('대쉬패널') || name.includes('대시패널') || name.includes('대쉬 패널') || name.includes('대시 패널')) mappedPart = 'DASH_PANEL';
+          else if (name.includes('플로어패널') || name.includes('플로어 패널')) mappedPart = 'FLOOR_PANEL';
           else if (name.includes('리어 패널') || name.includes('리어패널')) mappedPart = 'REAR_PANEL';
           else if (name.includes('트렁크 플로어') || name.includes('트렁크플로어')) mappedPart = 'TRUNK_FLOOR';
           else if (name.includes('A필러') && name.includes('좌')) mappedPart = 'A_PILLAR_L';

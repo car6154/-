@@ -13,78 +13,13 @@ import streamlit as st
 from services.data_processor import DataProcessor
 from services.cookie_server import get_current_encar_cookie
 
-# 국토부/엔카 부위 코드 맵핑 (상세카드 SVG 상태도 호환)
-PART_CODE_MAP = {
-    '후드': 'HOOD', '본넷': 'HOOD',
-    '앞휀더(좌)': 'F_FENDER_L', '프론트 휀더(좌)': 'F_FENDER_L', '프론트휀더(좌)': 'F_FENDER_L',
-    '앞휀더(우)': 'F_FENDER_R', '프론트 휀더(우)': 'F_FENDER_R', '프론트휀더(우)': 'F_FENDER_R',
-    '앞도어(좌)': 'FRONT_DOOR_L', '프론트 도어(좌)': 'FRONT_DOOR_L', '프론트도어(좌)': 'FRONT_DOOR_L',
-    '앞도어(우)': 'FRONT_DOOR_R', '프론트 도어(우)': 'FRONT_DOOR_R', '프론트도어(우)': 'FRONT_DOOR_R',
-    '뒤도어(좌)': 'REAR_DOOR_L', '리어 도어(좌)': 'REAR_DOOR_L', '리어도어(좌)': 'REAR_DOOR_L',
-    '뒤도어(우)': 'REAR_DOOR_R', '리어 도어(우)': 'REAR_DOOR_R', '리어도어(우)': 'REAR_DOOR_R',
-    '트렁크': 'TRUNK', '트렁크 리드': 'TRUNK', '트렁크리드': 'TRUNK',
-    '쿼터(우)': 'QUARTER_R', '쿼터패널(우)': 'QUARTER_R', '쿼터 패널(우)': 'QUARTER_R', '뒤휀더(우)': 'QUARTER_R',
-    '쿼터(좌)': 'QUARTER_L', '쿼터패널(좌)': 'QUARTER_L', '쿼터 패널(좌)': 'QUARTER_L', '뒤휀더(좌)': 'QUARTER_L',
-    '루프': 'ROOF', '루프 패널': 'ROOF', '루프패널': 'ROOF',
-    '사이드실(좌)': 'SIDE_SILL_L', '사이드실 패널(좌)': 'SIDE_SILL_L', '사이드실(스텝)(좌)': 'SIDE_SILL_L',
-    '사이드실(우)': 'SIDE_SILL_R', '사이드실 패널(우)': 'SIDE_SILL_R', '사이드실(스텝)(우)': 'SIDE_SILL_R',
-    '라디에이터': 'RADIATOR_SUPPORT', '라디에이터 서포트': 'RADIATOR_SUPPORT', '라디에이터서포트': 'RADIATOR_SUPPORT',
-    '인사이드(좌)': 'INSIDE_PANEL_L', '인사이드 패널(좌)': 'INSIDE_PANEL_L', '인사이드패널(좌)': 'INSIDE_PANEL_L',
-    '인사이드(우)': 'INSIDE_PANEL_R', '인사이드 패널(우)': 'INSIDE_PANEL_R', '인사이드패널(우)': 'INSIDE_PANEL_R',
-    '크로스': 'CROSS_MEMBER', '크로스멤버': 'CROSS_MEMBER',
-    '프론트 패널': 'FRONT_PANEL', '프론트패널': 'FRONT_PANEL',
-    '사이드 멤버(좌)': 'FRONT_SIDE_MEMBER_L', '프론트 사이드 멤버(좌)': 'FRONT_SIDE_MEMBER_L',
-    '사이드 멤버(우)': 'FRONT_SIDE_MEMBER_R', '프론트 사이드 멤버(우)': 'FRONT_SIDE_MEMBER_R',
-    '휠하우스(좌)': 'FRONT_WHEEL_HOUSE_L', '휠 하우스(좌)': 'FRONT_WHEEL_HOUSE_L',
-    '휠하우스(우)': 'FRONT_WHEEL_HOUSE_R', '휠 하우스(우)': 'FRONT_WHEEL_HOUSE_R',
-    '리어 패널': 'REAR_PANEL', '리어패널': 'REAR_PANEL',
-    '트렁크 플로어': 'TRUNK_FLOOR', '트렁크플로어': 'TRUNK_FLOOR',
-    '필러(A)(좌)': 'PILLAR_A_L', 'A필러(좌)': 'PILLAR_A_L',
-    '필러(A)(우)': 'PILLAR_A_R', 'A필러(우)': 'PILLAR_A_R',
-    '필러(B)(좌)': 'PILLAR_B_L', 'B필러(좌)': 'PILLAR_B_L',
-    '필러(B)(우)': 'PILLAR_B_R', 'B필러(우)': 'PILLAR_B_R',
-    '필러(C)(좌)': 'PILLAR_C_L', 'C필러(좌)': 'PILLAR_C_L',
-    '필러(C)(우)': 'PILLAR_C_R', 'C필러(우)': 'PILLAR_C_R',
-    # 엔카 영문 부위 코드 직접 매핑
-    'HOOD': 'HOOD', 'BONNET': 'HOOD',
-    'FRONT_FENDER_LEFT': 'F_FENDER_L', 'FRONT_FENDER_L': 'F_FENDER_L', 'FENDER_FL': 'F_FENDER_L',
-    'FRONT_FENDER_RIGHT': 'F_FENDER_R', 'FRONT_FENDER_R': 'F_FENDER_R', 'FENDER_FR': 'F_FENDER_R',
-    'FRONT_DOOR_LEFT': 'FRONT_DOOR_L', 'FRONT_DOOR_L': 'FRONT_DOOR_L', 'DOOR_FL': 'FRONT_DOOR_L',
-    'FRONT_DOOR_RIGHT': 'FRONT_DOOR_R', 'FRONT_DOOR_R': 'FRONT_DOOR_R', 'DOOR_FR': 'FRONT_DOOR_R',
-    'REAR_DOOR_LEFT': 'REAR_DOOR_L', 'REAR_DOOR_L': 'REAR_DOOR_L', 'DOOR_RL': 'REAR_DOOR_L',
-    'REAR_DOOR_RIGHT': 'REAR_DOOR_R', 'REAR_DOOR_R': 'REAR_DOOR_R', 'DOOR_RR': 'REAR_DOOR_R',
-    'TRUNK': 'TRUNK', 'TRUNK_LID': 'TRUNK',
-    'TRUNK_FLOOR': 'TRUNK_FLOOR',
-    'REAR_PANEL': 'REAR_PANEL',
-    'QUARTER_LEFT': 'QUARTER_L', 'QUARTER_L': 'QUARTER_L',
-    'QUARTER_RIGHT': 'QUARTER_R', 'QUARTER_R': 'QUARTER_R',
-    'ROOF': 'ROOF',
-    'RADIATOR': 'RADIATOR_SUPPORT', 'RADIATOR_SUPPORT': 'RADIATOR_SUPPORT',
-    # 엔카 국토부 표준 부위 코드 (P-Code)
-    'P010': 'HOOD', 'P021': 'F_FENDER_L', 'P022': 'F_FENDER_R',
-    'P031': 'FRONT_DOOR_L', 'P032': 'FRONT_DOOR_R',
-    'P033': 'REAR_DOOR_L', 'P034': 'REAR_DOOR_R',
-    'P040': 'TRUNK', 'P041': 'TRUNK',
-    'P061': 'QUARTER_L', 'P062': 'QUARTER_R',
-    'P070': 'ROOF', 'P081': 'SIDE_SILL_L', 'P082': 'SIDE_SILL_R',
-    'P101': 'FRONT_SIDE_MEMBER_L', 'P102': 'FRONT_SIDE_MEMBER_R',
-    'P111': 'FRONT_WHEEL_HOUSE_L', 'P112': 'FRONT_WHEEL_HOUSE_R',
-    'P120': 'CROSS_MEMBER', 'P131': 'INSIDE_PANEL_L', 'P132': 'INSIDE_PANEL_R',
-    'P141': 'SIDE_MEMBER_REAR_L', 'P142': 'SIDE_MEMBER_REAR_R',
-    'P150': 'TRUNK_FLOOR', 'P160': 'REAR_PANEL', 'P181': 'REAR_PANEL',
-}
-
-
-def _resolve_part_code(title: str):
-    if not title:
-        return None
-    raw_upper = title.strip().upper()
-    if raw_upper in PART_CODE_MAP:
-        return PART_CODE_MAP[raw_upper]
-    for k in sorted(PART_CODE_MAP.keys(), key=len, reverse=True):
-        if k in title or k.upper() in raw_upper:
-            return PART_CODE_MAP[k]
-    return None
+# 국토부/엔카/오토플러스/헤이딜러 부위 코드 매핑 단일 모듈 import (Single Source of Truth)
+from services.part_codes import (
+    resolve_part_code as _resolve_part_code,
+    PART_CODE_MAP,
+    OUTER_PART_CODES,
+    INNER_PART_CODES,
+)
 
 
 class Scraper:
