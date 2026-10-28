@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import { CarLedgerItem } from '@/types';
 import { queryChaolmaCar, type ChaolmaCarHistory, type ChaolmaOriginDoc, type OptionItem } from '@/services/chaolmaService';
+import { searchCockpitUnified } from '@/services/cockpitService';
 import { computeRuleBasedAssessment } from '@/utils/ruleBasedAssessment';
 import {
   HD_PART_MAP,
@@ -257,6 +258,80 @@ export function useBiddingCockpit({
     }
   }, [detailModel]);
 
+  // ----------------------------------------------------
+  // [엔카 & 케이카 데이터 상태 반영 일원화 헬퍼 (Phase 2)]
+  // ----------------------------------------------------
+  const applyEncarData = useCallback((data: any, optionsUrl?: string) => {
+    if (data && data.success && Array.isArray(data.items) && data.items.length > 0) {
+      lastEncarFailReasonRef.current = '';
+      setEncarErrorMessage('');
+      setLiveEncarList(data.items);
+      setEncarTotalModelCount(data.totalModelCount || data.items.length);
+      setEncarFilteredCount(data.filteredCount || data.items.length);
+      setEncarFilterStats(data.filterStats || null);
+      if (data.directSearchUrl) {
+        setEncarSourceUrl(data.directSearchUrl);
+      } else if (optionsUrl) {
+        setEncarSourceUrl(optionsUrl);
+      }
+      if (data.stats) {
+        setBackendEncarStats(data.stats);
+      }
+      if (data.valuation && data.valuation.hasData) {
+        setEncarValuation(data.valuation);
+      } else if (data.stats?.avg && data.stats.avg > 0) {
+        const avgP = data.stats.avg;
+        const benchP = data.stats.benchmarkPrice || 0;
+        if (benchP > 0) {
+          const minP = data.stats.minBand || Math.round(benchP * 0.94);
+          const maxP = data.stats.maxBand || Math.round(benchP * 1.08);
+          const bGap = avgP - benchP;
+          const bPct = Math.round((bGap / benchP) * 1000) / 10;
+          setEncarValuation({
+            hasData: true,
+            individualPrice: benchP,
+            minPrice: minP,
+            maxPrice: maxP,
+            score: 96.1,
+            bubbleGap: bGap,
+            bubblePct: bPct,
+            safeCeiling: Math.max(0, benchP - 180)
+          });
+        } else {
+          setEncarValuation(null);
+        }
+      }
+
+      const cids = data.items.map((it: any) => String(it._carid || it.id || it.carid || '').replace(/\D/g, '')).filter(Boolean);
+      if (cids.length > 0) {
+        fetchEncarSoldOut(cids, carName, String(yearModel), detailModel);
+      }
+
+      return data.items;
+    } else {
+      const rawReason = data?.failReason ? String(data.failReason).replace(/^[❌\s]+/, '').trim() : '';
+      lastEncarFailReasonRef.current = rawReason;
+      setLiveEncarList([]);
+      setEncarTotalModelCount(data?.totalModelCount || 0);
+      setEncarFilteredCount(0);
+      setEncarFilterStats(null);
+      setEncarValuation(null);
+      setEncarErrorMessage(data?.message || '엔카 실시간 매물을 불러오지 못했습니다.');
+      if (data?.directSearchUrl) {
+        setEncarSourceUrl(data.directSearchUrl);
+      }
+      return [];
+    }
+  }, [carName, yearModel, detailModel, fetchEncarSoldOut]);
+
+  const applyKcarData = useCallback((data: any) => {
+    if (data && data.success) {
+      setKcarStats(data);
+    } else {
+      setKcarStats(null);
+    }
+  }, []);
+
   const fetchEncarComparable = useCallback(async (options: {
     url?: string;
     carName?: string;
@@ -289,97 +364,31 @@ export function useBiddingCockpit({
       const targetYr = options.year !== undefined ? options.year : yearModel;
       const targetMil = options.mileage !== undefined ? options.mileage : mileageKm;
       const targetOpt = optionsTag || '';
-      const targetAcc = '';
       const skipDetail = options.skipDetail !== undefined ? options.skipDetail : false;
 
-      const res = await fetch('/api/encar/search', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          url: options.url || '',
-          carName: targetCarName,
-          detailModel: targetDetail,
-          gradeName: targetGradeName,
-          gradeDetailName: targetGradeDetail,
-          manufacturer: targetMaker,
-          year: targetYr,
-          mileage: targetMil,
-          targetOptions: targetOpt,
-          targetAccident: targetAcc,
-          carNumber: targetCarNumber,
-          skipDetail: skipDetail
-        })
+      const unifiedRes = await searchCockpitUnified({
+        encarUrl: options.url || '',
+        carName: targetCarName,
+        detailModel: targetDetail,
+        gradeName: targetGradeName,
+        gradeDetailName: targetGradeDetail,
+        manufacturer: targetMaker,
+        year: targetYr,
+        mileage: targetMil,
+        targetOptions: targetOpt,
+        carNumber: targetCarNumber,
+        skipDetail: skipDetail,
+        sources: ['encar'],
       });
-      const data = await res.json();
-      
+
+      const data = unifiedRes.encar;
       if (reqId !== activeRequestIdRef.current) {
-        // 이미 새로운 요청이 트리거되었더라도 현재 요청에 유효한 매물이 있으면 버리지 않고 정상 처리
-        if (!data.success || !Array.isArray(data.items) || data.items.length === 0) {
+        if (!data || !data.success || !Array.isArray(data.items) || data.items.length === 0) {
           return [];
         }
       }
 
-      if (data.success && Array.isArray(data.items) && data.items.length > 0) {
-        lastEncarFailReasonRef.current = '';
-        setEncarErrorMessage('');
-        setLiveEncarList(data.items);
-        setEncarTotalModelCount(data.totalModelCount || data.items.length);
-        setEncarFilteredCount(data.filteredCount || data.items.length);
-        setEncarFilterStats(data.filterStats || null);
-        if (data.directSearchUrl) {
-          setEncarSourceUrl(data.directSearchUrl);
-        } else if (options.url) {
-          setEncarSourceUrl(options.url);
-        }
-        if (data.stats) {
-          setBackendEncarStats(data.stats);
-        }
-        if (data.valuation && data.valuation.hasData) {
-          setEncarValuation(data.valuation);
-        } else if (data.stats?.avg && data.stats.avg > 0) {
-          const avgP = data.stats.avg;
-          const benchP = data.stats.benchmarkPrice || 0;
-          if (benchP > 0) {
-            const minP = data.stats.minBand || Math.round(benchP * 0.94);
-            const maxP = data.stats.maxBand || Math.round(benchP * 1.08);
-            const bGap = avgP - benchP;
-            const bPct = Math.round((bGap / benchP) * 1000) / 10;
-            setEncarValuation({
-              hasData: true,
-              individualPrice: benchP,
-              minPrice: minP,
-              maxPrice: maxP,
-              score: 96.1,
-              bubbleGap: bGap,
-              bubblePct: bPct,
-              safeCeiling: Math.max(0, benchP - 180)
-            });
-          } else {
-            // 💡 벤치마크 매물이 없으면 전체 평균(avgP)으로 대체 표시하지 않고 미보유 처리
-            setEncarValuation(null);
-          }
-        }
-
-        const cids = data.items.map((it: any) => String(it._carid || it.id || it.carid || '').replace(/\D/g, '')).filter(Boolean);
-        if (cids.length > 0) {
-          fetchEncarSoldOut(cids, targetCarName, String(targetYr), targetDetail);
-        }
-
-        return data.items;
-      } else {
-        const rawReason = data.failReason ? String(data.failReason).replace(/^[❌\s]+/, '').trim() : '';
-        lastEncarFailReasonRef.current = rawReason;
-        setLiveEncarList([]);
-        setEncarTotalModelCount(data.totalModelCount || 0);
-        setEncarFilteredCount(0);
-        setEncarFilterStats(null);
-        setEncarValuation(null);
-        setEncarErrorMessage(data.message || '엔카 실시간 매물을 불러오지 못했습니다.');
-        if (data.directSearchUrl) {
-          setEncarSourceUrl(data.directSearchUrl);
-        }
-        return [];
-      }
+      return applyEncarData(data, options.url);
     } catch (e: any) {
       console.warn('Encar fetch failed:', e);
       lastEncarFailReasonRef.current = e?.message ? String(e.message).replace(/^[❌\s]+/, '').trim() : '';
@@ -395,7 +404,7 @@ export function useBiddingCockpit({
       }
     }
     return [];
-  }, [carName, detailModel, manufacturer, yearModel, mileageKm, carNumber]);
+  }, [carName, detailModel, manufacturer, yearModel, mileageKm, carNumber, optionsTag, applyEncarData]);
 
   // 🏢 K-Car 직영 실시간 시세 및 통계 비동기 수집
   const fetchKcarMarket = useCallback(async (options?: {
@@ -422,34 +431,27 @@ export function useBiddingCockpit({
       const targetMaker = options?.manufacturer || manufacturer;
       const targetYr = options?.year !== undefined ? options.year : yearModel;
       const targetMil = options?.mileage !== undefined ? options.mileage : mileageKm;
-      const targetAccident = options?.accident !== undefined ? options.accident : (currentAssessment?.accidentDamage?.status || 'PERFECT');
       const targetOpt = options?.targetOptions !== undefined ? options.targetOptions : (optionsTag || '');
 
-      const res = await fetch('/api/kcar/market', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          carName: targetCarName,
-          detailModel: targetDetail,
-          gradeName: targetGradeName,
-          gradeDetailName: targetGradeDetail,
-          manufacturer: targetMaker,
-          year: targetYr,
-          mileage: targetMil,
-          accident: targetAccident,
-          targetOptions: targetOpt,
-        }),
+      const unifiedRes = await searchCockpitUnified({
+        carName: targetCarName,
+        detailModel: targetDetail,
+        gradeName: targetGradeName,
+        gradeDetailName: targetGradeDetail,
+        manufacturer: targetMaker,
+        year: targetYr,
+        mileage: targetMil,
+        targetOptions: targetOpt,
+        sources: ['kcar'],
       });
-      if (res.ok) {
-        const data = await res.json();
-        setKcarStats(data);
-      }
+
+      applyKcarData(unifiedRes.kcar);
     } catch (e) {
       console.warn('[useBiddingCockpit] fetchKcarMarket failed:', e);
     } finally {
       setIsKcarLoading(false);
     }
-  }, [carName, detailModel, manufacturer, yearModel, mileageKm, currentAssessment, optionsTag]);
+  }, [carName, detailModel, manufacturer, yearModel, mileageKm, optionsTag, applyKcarData]);
 
   // 사이드바 차량 조건 변경 시 실데이터 자동 수집 (차량이 있을 때만)
   useEffect(() => {
@@ -764,9 +766,15 @@ export function useBiddingCockpit({
     });
 
     try {
-      // 실제 차얼마(오토플러스 ERP) 서비스 호출
-      const res = await queryChaolmaCar(no, effectiveMileage);
-      console.info(`[InvDiag] 차얼마 응답: carNumber=${no}, success=${Boolean(res?.success)}, message=${res?.message || ''}`);
+      // 콕핏 통합 검색 (Phase 2: 백엔드 단일 진실 공급원 - 차얼마, 엔카, 케이카 일괄 수집)
+      const unifiedRes = await searchCockpitUnified({
+        carNumber: no,
+        mileage: effectiveMileage,
+        sources: ['chaolma', 'encar', 'kcar']
+      });
+      console.info(`[InvDiag] 콕핏 통합 조회 응답: carNumber=${no}, success=${Boolean(unifiedRes?.success)}`);
+
+      const res = unifiedRes.chaolma;
       if (res && res.success) {
         skipAutoFetchRef.current = true;
         setCarNumber(no);
@@ -881,48 +889,32 @@ export function useBiddingCockpit({
         // 자사 소매/도매 실적 통계도 즉시 연동 (동일 차종 재조회 시 resetCockpitState로 초기화된 상태 복구 보장)
         fetchMarketStats(resolvedCarName || carName, resolvedGrade || detailModel, yr);
 
-        // 엔카 전수 매물 자동 수집 연동 (차얼마 원본 grade_name, grade_detail_name을 백엔드로 가공 없이 그대로 전달)
-        const encarItems = await fetchEncarComparable({
-          carName: resolvedCarName || carName,
-          detailModel: resolvedGrade || detailModel,
-          gradeName: rawG,
-          gradeDetailName: rawGd,
-          manufacturer: res.maker || manufacturer,
-          year: yr,
-          mileage: effectiveMileage,
-          carNumber: no
-        });
+        // 엔카 실시간 매물 및 밸류에이션 반영
+        if (unifiedRes.encar) {
+          applyEncarData(unifiedRes.encar);
+        }
 
-        fetchKcarMarket({
-          carName: resolvedCarName || carName,
-          detailModel: resolvedGrade || detailModel,
-          gradeName: rawG,
-          gradeDetailName: rawGd,
-          manufacturer: res.maker || manufacturer,
-          year: yr,
-          mileage: effectiveMileage,
-          targetOptions: calculatedOptionsTag,
-        });
+        // 케이카 직영 마켓 통계 반영
+        if (unifiedRes.kcar) {
+          applyKcarData(unifiedRes.kcar);
+        }
 
         skipAutoFetchRef.current = true;
-        if (encarItems.length === 0) {
-          const reasonSuffix = lastEncarFailReasonRef.current ? ` (원인: ${lastEncarFailReasonRef.current})` : '';
-          setSearchStatus({
-            type: 'warning',
-            message: `⚠️ 차얼마 제원은 연동됐으나 엔카 매물을 가져오지 못했습니다. (${no} ${resolvedCarName})${reasonSuffix}`
-          });
-        } else {
-          setSearchStatus({
-            type: 'success',
-            message: `✅ [차얼마&엔카] ${no} ${res.maker} ${resolvedCarName} [${rawG || resolvedGrade}] 제원 및 시세 연동 완료! (엔카 동급 ${encarItems.length}대 연동)`
-          });
+
+        // 백엔드 통합 상태 메시지 직결 (단일 진실 공급원)
+        if (unifiedRes.statusMessage) {
+          setSearchStatus(unifiedRes.statusMessage);
         }
         return true;
       } else {
-        setSearchStatus({
-          type: 'warning',
-          message: `⚠️ [${no}] ${res?.message || '차얼마 데이터 조회 실패 또는 미등록 차량'}`
-        });
+        if (unifiedRes.statusMessage) {
+          setSearchStatus(unifiedRes.statusMessage);
+        } else {
+          setSearchStatus({
+            type: 'warning',
+            message: `⚠️ [${no}] ${res?.message || '차얼마 데이터 조회 실패 또는 미등록 차량'}`
+          });
+        }
         return false;
       }
     } catch (err: any) {

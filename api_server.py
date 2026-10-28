@@ -2099,6 +2099,199 @@ def trigger_gdrive_backup_sync(includeSnapshots: bool = True):
     return {"success": ok, "message": msg, **GDriveBackupService.get_status()}
 
 
+# ----------------------------------------------------
+# 4. 콕핏 통합 조회 API (Phase 2: 단일 진실 공급원)
+# ----------------------------------------------------
+class CockpitSearchRequest(BaseModel):
+    carNumber: Optional[str] = ""
+    carName: Optional[str] = ""
+    detailModel: Optional[str] = ""
+    gradeName: Optional[str] = ""
+    gradeDetailName: Optional[str] = ""
+    manufacturer: Optional[str] = ""
+    year: Optional[int] = 0
+    mileage: Optional[int] = 0
+    targetOptions: Optional[Union[str, List[Dict[str, Any]]]] = ""
+    sources: Optional[List[str]] = ["chaolma", "encar", "kcar"]
+    skipDetail: Optional[bool] = False
+    encarUrl: Optional[str] = ""
+
+
+@app.post("/api/cockpit/search")
+def search_cockpit_unified(req: CockpitSearchRequest):
+    """
+    비딩 콕핏 통합 조회 엔드포인트 (백엔드 일원화)
+    - sources 파라미터로 필요한 출처만 지정 호출 (지연 로딩 지원)
+    - 차얼마 제원 + 엔카 실시간 매물/밸류에이션 + 케이카 마켓 통계 + 통합 경고문/상태 일괄 반환
+    """
+    sources = req.sources or ["chaolma", "encar", "kcar"]
+    sources_set = set(sources)
+
+    car_no = (req.carNumber or "").replace(" ", "").strip()
+    car_name = (req.carName or "").strip()
+    raw_g = (req.gradeName or "").strip()
+    raw_gd = (req.gradeDetailName or "").strip()
+    detail_model = (req.detailModel or "").strip()
+    manufacturer = (req.manufacturer or "").strip()
+    year = req.year or 0
+    mileage = req.mileage or 0
+
+    chaolma_res = None
+    encar_res = None
+    kcar_res = None
+
+    fail_reasons = {}
+
+    # 1. 차얼마 조회
+    if "chaolma" in sources_set:
+        if car_no:
+            try:
+                chaolma_res = get_chaolma_car_info(car_no, mileage=mileage)
+                if not chaolma_res or not chaolma_res.get("success"):
+                    fail_reasons["chaolma"] = chaolma_res.get("message") if chaolma_res else "차얼마 미등록 또는 조회 실패"
+                else:
+                    # 차얼마 성공 시 모델/등급/연식 등 부족한 정보 자동 보강
+                    if not car_name:
+                        car_name = chaolma_res.get("model_detail_name") or chaolma_res.get("model_name") or ""
+                    if not raw_g:
+                        raw_g = str(chaolma_res.get("grade_name") or "").strip()
+                    if not raw_gd:
+                        raw_gd = str(chaolma_res.get("grade_detail_name") or "").strip()
+                    if not manufacturer and chaolma_res.get("maker"):
+                        manufacturer = chaolma_res.get("maker")
+                    if not year and chaolma_res.get("model_year"):
+                        try:
+                            ym = re.search(r"\d+", str(chaolma_res.get("model_year")))
+                            if ym:
+                                y = int(ym.group(0))
+                                if y > 2000: y -= 2000
+                                year = y
+                        except Exception:
+                            pass
+            except Exception as e_ch:
+                fail_reasons["chaolma"] = str(e_ch)
+        else:
+            fail_reasons["chaolma"] = "차량번호 없음"
+
+    # 2. 엔카 매물 및 밸류에이션 조회
+    if "encar" in sources_set:
+        try:
+            # 타겟 옵션 전달 (문자열 또는 배열)
+            encar_target_opts = req.targetOptions
+            if not encar_target_opts and chaolma_res and chaolma_res.get("options"):
+                opts_list = chaolma_res.get("options", [])
+                opt_str = " · ".join([f"{o.get('name')}({o.get('price_man')}만)" for o in opts_list if o.get("name")])
+                total_opt = chaolma_res.get("total_option_price_man", 0)
+                encar_target_opts = f"{opt_str} [옵션총액: {total_opt}만]" if opt_str else ""
+
+            encar_req = EncarSearchRequest(
+                carName=car_name,
+                detailModel=detail_model,
+                gradeName=raw_g,
+                gradeDetailName=raw_gd,
+                manufacturer=manufacturer,
+                year=year,
+                mileage=mileage,
+                targetOptions=str(encar_target_opts or ""),
+                carNumber=car_no,
+                url=req.encarUrl or "",
+                skipDetail=req.skipDetail or False
+            )
+            encar_res = search_encar_market(encar_req)
+            if not encar_res or not encar_res.get("success") or len(encar_res.get("items", [])) == 0:
+                fail_reasons["encar"] = encar_res.get("failReason") or encar_res.get("message") or "엔카 매물 0건"
+        except Exception as e_enc:
+            fail_reasons["encar"] = str(e_enc)
+
+    # 3. 케이카 직영 마켓 조회
+    if "kcar" in sources_set:
+        try:
+            kcar_req = KcarMarketRequest(
+                carName=car_name,
+                detailModel=detail_model,
+                gradeName=raw_g,
+                gradeDetailName=raw_gd,
+                manufacturer=manufacturer,
+                year=year,
+                mileage=mileage,
+                targetOptions=req.targetOptions or ""
+            )
+            kcar_res = get_kcar_market_stats_post(kcar_req)
+            if not kcar_res or not kcar_res.get("success"):
+                fail_reasons["kcar"] = kcar_res.get("error") if kcar_res else "케이카 조회 실패"
+        except Exception as e_kc:
+            fail_reasons["kcar"] = str(e_kc)
+
+    # 4. 통합 상태 메시지 및 경고문 조립 (단일 진실 공급원: 백엔드 전담)
+    ch_ok = bool(chaolma_res and chaolma_res.get("success"))
+    enc_ok = bool(encar_res and encar_res.get("success") and len(encar_res.get("items", [])) > 0)
+    enc_count = len(encar_res.get("items", [])) if enc_ok else 0
+
+    status_type = "info"
+    status_msg = ""
+    warning_text = None
+
+    if "chaolma" in sources_set and "encar" in sources_set:
+        if ch_ok and enc_ok:
+            status_type = "success"
+            status_msg = f"✨ [{car_no or car_name}] 차얼마 제원 및 엔카 실시간 매물({enc_count}대) 연동 완료!"
+        elif ch_ok and not enc_ok:
+            status_type = "warning"
+            enc_reason = fail_reasons.get("encar")
+            reason_suffix = f" (원인: {enc_reason})" if enc_reason else ""
+            status_msg = f"⚠️ [{car_no or car_name}] 차얼마 제원 연동 완료 — 단, 엔카 실시간 매물을 불러오지 못했습니다.{reason_suffix}"
+            warning_text = f"엔카 실시간 매물 조회 실패{reason_suffix}"
+        elif not ch_ok and enc_ok:
+            status_type = "warning"
+            status_msg = f"⚠️ [{car_no or car_name}] 차얼마 미등록 — 엔카 실시간 매물({enc_count}대) 연동 완료"
+        else:
+            status_type = "error"
+            enc_reason = fail_reasons.get("encar")
+            reason_suffix = f" (원인: {enc_reason})" if enc_reason else ""
+            status_msg = f"❌ [{car_no or car_name}] 차얼마 조회 및 엔카 크롤링 연동 실패{reason_suffix}"
+            warning_text = f"차얼마 및 엔카 연동 실패{reason_suffix}"
+    elif "encar" in sources_set:
+        if enc_ok:
+            status_type = "success"
+            status_msg = f"✨ 엔카 동급 매물({enc_count}대) 검색 완료!"
+        else:
+            status_type = "warning"
+            enc_reason = fail_reasons.get("encar")
+            reason_suffix = f" (원인: {enc_reason})" if enc_reason else ""
+            status_msg = f"⚠️ 엔카 실시간 매물을 불러오지 못했습니다.{reason_suffix}"
+            warning_text = f"엔카 매물 0건{reason_suffix}"
+    elif "chaolma" in sources_set:
+        if ch_ok:
+            status_type = "success"
+            status_msg = f"✅ [{car_no}] 차얼마 제원 및 옵션 연동 완료!"
+        else:
+            status_type = "error"
+            status_msg = f"❌ [{car_no}] 차얼마 조회 실패: {fail_reasons.get('chaolma', '미등록')}"
+            warning_text = fail_reasons.get('chaolma')
+    elif "kcar" in sources_set:
+        if kcar_res and kcar_res.get("success"):
+            status_type = "success"
+            kc_cnt = kcar_res.get("count", 0)
+            status_msg = f"✨ 케이카 직영 매물({kc_cnt}대) 통계 연동 완료!"
+        else:
+            status_type = "warning"
+            status_msg = f"⚠️ 케이카 매물을 불러오지 못했습니다."
+
+    return {
+        "success": True,
+        "sources": sources,
+        "chaolma": chaolma_res,
+        "encar": encar_res,
+        "kcar": kcar_res,
+        "statusMessage": {
+            "type": status_type,
+            "message": status_msg
+        },
+        "warning": warning_text,
+        "failReasons": fail_reasons
+    }
+
+
 if __name__ == "__main__":
     uvicorn.run("api_server:app", host="0.0.0.0", port=8000, reload=True, timeout_graceful_shutdown=1)
 
