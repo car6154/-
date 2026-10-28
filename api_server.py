@@ -1581,6 +1581,22 @@ def get_kcar_market_stats_post(req: KcarMarketRequest):
         return {"success": False, "error": str(e), "count": 0, "cars": [], "yearStats": [], "priceBins": []}
 
 
+class KcarDetailRequest(BaseModel):
+    carCd: str
+
+
+@app.post("/api/kcar/detail")
+def get_kcar_car_detail_endpoint(req: KcarDetailRequest):
+    try:
+        from services.kcar_service import fetch_kcar_car_detail
+        res = fetch_kcar_car_detail(req.carCd)
+        if not res:
+            return {"success": False, "message": "케이카 차량 상세 정보를 불러오지 못했습니다."}
+        return {"success": True, "data": res}
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
 @app.get("/api/kcar/market")
 def get_kcar_market_stats_get(
     carName: str = "",

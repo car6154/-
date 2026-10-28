@@ -129,7 +129,75 @@ export interface KcarMarketStats {
   yearStats: KcarYearStat[];
   priceBins: KcarPriceBin[];
   cars: KcarCarItem[];
+  wideCars?: KcarCarItem[];
   modelName: string;
   searchUrl: string;
   message?: string;
+}
+
+export interface KcarTireItem {
+  position: string;
+  remainMm: number;
+  width?: string;
+  ratio?: string;
+  inch?: string;
+  dotYear?: string;
+  dotWeek?: string;
+}
+
+export interface KcarOptionItem {
+  name: string;
+  price: number;
+}
+
+export interface KcarDetailData {
+  carCd: string;
+  modelName: string;
+  gradeFullName: string;
+  year: string;
+  mfgDate: string;
+  firstRegDate: string;
+  mileage: number;
+  price: number;
+  color: string;
+  center: string;
+  status: string;
+  detailUrl: string;
+  dates: {
+    regDate: string;
+    pfmncDate: string;
+    issueDate: string;
+    inspName: string;
+  };
+  accident: {
+    accidentType: string;
+    acdtHistYn: string;
+    smplReprYn: string;
+    changeCount: number;
+    metalCount: number;
+  };
+  insurance: {
+    totalLoss: boolean;
+    flood: boolean;
+    theft: boolean;
+    myAccidentCount: number;
+    myAccidentCost: number;
+    otherAccidentCount: number;
+    otherAccidentCost: number;
+  };
+  history: {
+    isRental: boolean;
+    isCommercial: boolean;
+    ownerChangeCount: number;
+    mileageHistories: Array<{
+      date: string;
+      mileage: number;
+      org: string;
+    }>;
+  };
+  options: {
+    items: KcarOptionItem[];
+    totalPrice: number;
+  };
+  tires: KcarTireItem[];
 }

@@ -80,6 +80,194 @@ def fetch_kcar_jato_options(car_cd: str) -> Optional[List[Dict[str, Any]]]:
         return None
 
 
+_KCAR_DETAIL_CACHE: Dict[str, Dict[str, Any]] = {}
+_KCAR_DETAIL_CACHE_TTL = 600  # 10분 캐시
+
+
+def fetch_kcar_car_detail(car_cd: str) -> Optional[Dict[str, Any]]:
+    """K-Car 단일 차량 상세 정보 조회 (car-info-detail-of-ng 단 1회 호출)
+    - 기본 스펙, 날짜(광고/성능/발급), 사고 판정 및 교환/판금, 보험 이력, 소유/용도, 옵션, 타이어(mm) 추출
+    - 차량번호(cno), 차대번호(vin)는 보안을 위해 절대 반환하지 않음
+    """
+    if not car_cd or not str(car_cd).strip():
+        return None
+
+    car_cd_clean = str(car_cd).strip()
+    now_ts = time.time()
+    cached = _KCAR_DETAIL_CACHE.get(car_cd_clean)
+    if cached and (now_ts - cached.get("timestamp", 0) < _KCAR_DETAIL_CACHE_TTL):
+        return cached.get("data")
+
+    url = f"https://api.kcar.com/bc/car-info-detail-of-ng?i_sCarCd={car_cd_clean}&bltbdKnd=CM050"
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Referer': f'https://www.kcar.com/bc/detail/carInfoDtl?i_sCarCd={car_cd_clean}',
+        'Accept': 'application/json, text/plain, */*'
+    }
+
+    try:
+        req = urllib.request.Request(url, headers=headers)
+        with urllib.request.urlopen(req, timeout=5) as resp:
+            data = json.loads(resp.read().decode('utf-8'))
+            d = data.get('data', {})
+            if not d:
+                return None
+
+            rvo = d.get('rvo', {})
+            m = d.get('masterInfo', {})
+            ch = d.get('carhistory', {})
+
+            # 1. 기본 정보
+            model_nm = rvo.get('modelNm') or rvo.get('carWhlNm') or ''
+            grd_nm = rvo.get('grdNm') or ''
+            grd_dtl_nm = rvo.get('grdDtlNm') or ''
+            grade_full = f"{grd_nm} {grd_dtl_nm}".strip()
+            sal_prc = int(rvo.get('salprc') or 0)
+            milg = int(rvo.get('milg') or 0)
+            color = rvo.get('extrColorNm') or ''
+            center = rvo.get('cntrNm') or ''
+            car_stat = rvo.get('statCdNm') or '판매중'
+            year_val = rvo.get('regModelyr') or rvo.get('prdcnYr') or ''
+            mfg_dt = rvo.get('mfgDt') or ''
+            first_reg_dt = rvo.get('fstCarRegYm') or m.get('firstregdt') or ''
+
+            # 2. 날짜 정보
+            reg_dttm = rvo.get('regDttm') or m.get('regDttm') or ''
+            pfmnc_dt = m.get('pfmncCkqtDt') or ''
+            issue_dt = m.get('issuedt') or ''
+            insp_nm = m.get('inspNm') or ''
+
+            # 3. 사고 판정 및 교환/판금
+            # 실측 매핑: acdtHistYn: '1'(없음)/'2'(있음), smplReprYn: '1'(없음)/'2'(있음)
+            acdt_yn = str(m.get('acdtHistYn') or rvo.get('acdtHistYn') or '1').strip()
+            smpl_yn = str(m.get('smplReprYn') or '1').strip()
+
+            if acdt_yn == '2':
+                accident_type = '사고'
+            elif smpl_yn == '2':
+                accident_type = '단순수리'
+            else:
+                accident_type = '무사고'
+
+            change_cnt = int(d.get('changeCnt') or 0)
+            metal_cnt = int(d.get('metalCnt') or 0)
+
+            # 4. 보험 내역 (carhistory)
+            gnrl_ttls = int(ch.get('gnrlTtlsAcdtCnt') or 0)
+            fldg_cnt = int(ch.get('fldgAcdtCnt') or 0)
+            rbr_cnt = int(ch.get('rbrTtlsAcdtCnt') or 0)
+            my_acc_cnt = int(ch.get('owncarDmgeAcdtCnt') or 0)
+            my_acc_amt = int(ch.get('owncarDmgeInsrAmtSum') or 0)
+            othr_acc_cnt = int(ch.get('othrcarWrdgAcdtCnt') or 0)
+            othr_acc_amt = int(ch.get('othrcarWrdgInsrAmtSum') or 0)
+
+            # 5. 소유 및 주행
+            is_rental = (rvo.get('rentRegYn') == 'Y') or (ch.get('useCd') == 1)
+            is_commercial = (ch.get('bizuseHistYn') == 'Y')
+            owner_change_cnt = int(ch.get('ownrChngCnt') or len(d.get('carOwnrChngHistList') or []))
+
+            milg_histories = []
+            for mh in d.get('carHistMilgList', []):
+                milg_histories.append({
+                    "date": mh.get('milgClctDt') or mh.get('regDttm') or '',
+                    "mileage": mh.get('milg'),
+                    "org": mh.get('milgOffrOrg') or ''
+                })
+
+            # 6. 선택 옵션 (유상 외장 컬러 제외)
+            jato_opts = []
+            opt_total_prc = 0
+            for o in d.get('carJatoOptList', []):
+                opt_name = o.get('optNm') or ''
+                if not opt_name or is_color_option(opt_name):
+                    continue
+                p_raw = int(o.get('optPrc') or 0)
+                p_man = p_raw // 10000 if p_raw >= 10000 else p_raw
+                jato_opts.append({
+                    "name": opt_name,
+                    "price": p_man
+                })
+                opt_total_prc += p_man
+
+            # 7. 타이어 (4본 잔여 트레드 mm 실측값만, 추정 km 제외)
+            tires = []
+            for t in d.get('tireDtlList', []):
+                sub_nm = t.get('subCdNm') or ''
+                if '휠' in sub_nm:
+                    continue
+                rem_mm = t.get('tirResQty')
+                try:
+                    rem_val = float(rem_mm) if rem_mm is not None else 0.0
+                except (ValueError, TypeError):
+                    rem_val = 0.0
+                tires.append({
+                    "position": sub_nm,
+                    "remainMm": rem_val,
+                    "width": t.get('tirSidWidth') or '',
+                    "ratio": t.get('tirFlatRt') or '',
+                    "inch": t.get('tirInch') or '',
+                    "dotYear": t.get('tirPrdcnYr') or '',
+                    "dotWeek": t.get('tirPrdcnWkcnt') or ''
+                })
+
+            res = {
+                "carCd": car_cd_clean,
+                "modelName": model_nm,
+                "gradeFullName": grade_full,
+                "year": str(year_val),
+                "mfgDate": str(mfg_dt),
+                "firstRegDate": str(first_reg_dt),
+                "mileage": milg,
+                "price": sal_prc,
+                "color": color,
+                "center": center,
+                "status": car_stat,
+                "detailUrl": f"https://www.kcar.com/bc/detail/carInfoPrsn?i_sCarCd={car_cd_clean}",
+                "dates": {
+                    "regDate": str(reg_dttm),
+                    "pfmncDate": str(pfmnc_dt),
+                    "issueDate": str(issue_dt),
+                    "inspName": str(insp_nm)
+                },
+                "accident": {
+                    "accidentType": accident_type,
+                    "acdtHistYn": acdt_yn,
+                    "smplReprYn": smpl_yn,
+                    "changeCount": change_cnt,
+                    "metalCount": metal_cnt
+                },
+                "insurance": {
+                    "totalLoss": gnrl_ttls > 0,
+                    "flood": fldg_cnt > 0,
+                    "theft": rbr_cnt > 0,
+                    "myAccidentCount": my_acc_cnt,
+                    "myAccidentCost": my_acc_amt,
+                    "otherAccidentCount": othr_acc_cnt,
+                    "otherAccidentCost": othr_acc_amt
+                },
+                "history": {
+                    "isRental": is_rental,
+                    "isCommercial": is_commercial,
+                    "ownerChangeCount": owner_change_cnt,
+                    "mileageHistories": milg_histories
+                },
+                "options": {
+                    "items": jato_opts,
+                    "totalPrice": opt_total_prc
+                },
+                "tires": tires
+            }
+
+            _KCAR_DETAIL_CACHE[car_cd_clean] = {
+                "timestamp": now_ts,
+                "data": res
+            }
+            return res
+    except Exception as e:
+        print(f"[K-Car Detail API 오류] carCd='{car_cd_clean}': {e}", flush=True)
+        return None
+
+
 def fallback_calc_comp_opt_from_optnnm(optn_nm: str, catalog_map: Dict[str, int]) -> int:
     """상세 API 통신 실패 시 비상 격리 폴백: optnNm 파이프 파싱 + 부분문자열 매칭"""
     if not optn_nm:
@@ -4130,6 +4318,41 @@ def fetch_kcar_market_stats(
     # 차량 정렬 (가격 오름차순, 최대 20대)
     valid_cars.sort(key=lambda x: x["price"])
 
+    # 넓은 목록 추출 (filtered_rows 기반 ±1년 목록, 가격 오름차순, 최대 20대)
+    wide_cars = []
+    wide_source = filtered_rows if filtered_rows else rows
+    for r in wide_source:
+        try:
+            prc = int(r.get('prc') or 0)
+            if prc <= 0:
+                continue
+            milg = int(r.get('milg') or 0)
+            r_yr_full, _ = _extract_kcar_year(r)
+            yr_num = r_yr_full % 100 if r_yr_full > 0 else 0
+            full_yr_str = str(r_yr_full) if r_yr_full > 0 else str(r.get('prdcnYr') or '')
+
+            car_cd = r.get('carCd') or ''
+            raw_optn = r.get('optnNm') or ''
+            wide_cars.append({
+                "carCd": car_cd,
+                "carName": r.get('carWhlNm') or r.get('modelNm') or '',
+                "price": prc,
+                "mileage": milg,
+                "year": yr_num,
+                "fullYear": full_yr_str,
+                "grade": r.get('grdNm') or '',
+                "gradeDetail": r.get('grdDtlNm') or '',
+                "center": r.get('cntrNm') or '',
+                "color": r.get('extrColorNm') or '',
+                "accident": r.get('acdtHistCnts') or '무사고',
+                "optnNm": raw_optn,
+                "detailUrl": f"https://www.kcar.com/bc/detail/carInfoPrsn?i_sCarCd={car_cd}" if car_cd else ""
+            })
+        except Exception:
+            continue
+
+    wide_cars.sort(key=lambda x: x["price"])
+
     return {
         "success": True,
         "count": len(strict_rows) if strict_has_data else 0,
@@ -4151,6 +4374,7 @@ def fetch_kcar_market_stats(
         "yearStats": year_stats,
         "priceBins": price_bins,
         "cars": valid_cars[:20],
+        "wideCars": wide_cars[:20],
         "modelName": rows[0].get('modelNm') or '',
         "searchUrl": search_url,
         "message": "" if strict_has_data else "동일 연식·동일 등급 엄격 매물 없음 (해당 없음)"
