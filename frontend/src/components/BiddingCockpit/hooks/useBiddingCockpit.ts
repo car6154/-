@@ -7,7 +7,6 @@ import {
   HD_PART_MAP,
   HD_REPAIR_MAP,
   formatHdRelativeDate,
-  parseHeydealerOptions,
   fetchNewCarCatalog,
   normalizeChaolmaOptions,
   NewCarCatalogData,
@@ -1103,17 +1102,10 @@ export function useBiddingCockpit({
           else if (auction.auction_type.includes('zero')) setAuctionType('제로(탁송/진단)');
         }
 
-        // 🌟 실차주 신차 출고 유료 옵션 (8501과 동일: car_spec.description 우선 파싱 -> advanced_options fallback)
-        const specDesc = detail.car_spec?.description || carData.car_spec?.description || resJson.data?.car_spec?.description || '';
-        const parsedSpecOpts = parseHeydealerOptions(specDesc);
-
-        const loadedAdvOptions = (detail.advanced_options || [])
-          .filter((opt: any) => opt.choice === 'loaded')
-          .map((opt: any) => opt.name || opt.content?.option_name)
-          .filter(Boolean);
-
-        const finalOpts = parsedSpecOpts.length > 0 ? parsedSpecOpts : loadedAdvOptions;
-        const optionsResult = finalOpts.length > 0 ? finalOpts.join(' · ') : '';
+        // 🌟 실차주 신차 출고 유료 옵션 (백엔드 단일 진실 공급원 options_text / parsed_options 직결)
+        const optionsResult = detail.options_text || carData.options_text || resJson.data?.options_text ||
+          (Array.isArray(detail.parsed_options) ? detail.parsed_options.join(' · ') : '') ||
+          (Array.isArray(carData.parsed_options) ? carData.parsed_options.join(' · ') : '');
         setOptionsTag(optionsResult);
 
         // 🌟 타겟 차량 보험사고 이력 (carhistory) & 출고정보 정밀 파싱
@@ -1600,14 +1592,12 @@ export function useBiddingCockpit({
           accType = '유사고';
         }
 
-        const specDesc = String(d.car_spec?.description || item.car_spec?.description || d.spec_description || item.spec_description || '');
-        const parsedSpecOpts = parseHeydealerOptions(specDesc);
-
-        const advOpts = Array.isArray(d.advanced_options)
-          ? d.advanced_options.filter((o: any) => o.choice === 'loaded').map((o: any) => o.name || o.content?.option_name).filter(Boolean)
-          : [];
-
-        const finalHdOpts = parsedSpecOpts.length > 0 ? parsedSpecOpts : advOpts;
+        // 🌟 백엔드가 정제해 준 parsed_options / options_text 우선 바인딩
+        const finalHdOpts: string[] = (Array.isArray(d.parsed_options) && d.parsed_options.length > 0)
+          ? d.parsed_options
+          : ((Array.isArray(item.parsed_options) && item.parsed_options.length > 0)
+            ? item.parsed_options
+            : (d.options_text ? String(d.options_text).split(' · ') : (item.options_text ? String(item.options_text).split(' · ') : [])));
         const isExport = Boolean(bid.is_export || bid.is_export_dealer || auc.is_export || baseAcc.includes('수출') || price < 300);
         const bidDateStr = formatHdRelativeDate(item);
         const carHashId = String(item.id || item.car_id || item.hash_id || '').trim();

@@ -477,6 +477,8 @@ def get_heydealer_car_data(car_id: str):
     from scraper import HeydealerScraper
     from services.cookie_server import get_current_hd_cookie
     
+    from services.heydealer_service import enrich_heydealer_options
+    
     cookie_str = get_current_hd_cookie()
     # 1. 라이브 헤이딜러 스크래퍼 호출 시도
     if cookie_str:
@@ -494,6 +496,7 @@ def get_heydealer_car_data(car_id: str):
                     "auction_repairs": rep_obj,
                     "encar_url": res.get("encar_url")
                 }
+                payload = enrich_heydealer_options(payload)
                 return {"success": True, "data": payload, "isLive": True}
         except Exception as e:
             print(f"[FastAPI] Heydealer live fetch failed ({clean_id}): {e}")
@@ -509,6 +512,7 @@ def get_heydealer_car_data(car_id: str):
                 if cached_data:
                     c_hid = cached_data.get('hash_id') or cached_data.get('detail', {}).get('detail_hash_id')
                     if not clean_id or clean_id in ('sample', 'QrqzKqKn') or c_hid == clean_id:
+                        cached_data = enrich_heydealer_options(cached_data)
                         return {"success": True, "data": cached_data, "isFallback": True, "cached": True}
     except Exception as e_c:
         print(f"[FastAPI] Heydealer cache load error: {e_c}")

@@ -67,7 +67,89 @@ def parse_heydealer_options(spec_desc: str) -> list:
     return target_options
 
 
-def format_relative_date(date_val):
+def enrich_heydealer_options(car_dict: dict) -> dict:
+    """
+    헤이딜러 차량 데이터에서 car_spec.description 파싱 및 advanced_options 처리를 백엔드가 전담.
+    - parsed_options (list[str]): 정제된 옵션 명칭 리스트
+    - options_text (str): " · " 구분자로 연결된 옵션 문자열
+    - options_items (list[dict]): Phase 1 표준 OptionItem 구조 (resolve_option_item 적용)
+    - market_prices (동급 낙찰시세) 매물들에 대해서도 동일하게 옵션을 정제해 주입
+    """
+    if not isinstance(car_dict, dict):
+        return car_dict
+
+    try:
+        from services.option_package_service import resolve_option_item
+    except ImportError:
+        resolve_option_item = None
+
+    def _process_single(target_d: dict) -> tuple:
+        if not isinstance(target_d, dict):
+            return [], "", []
+        d = target_d.get('detail') if isinstance(target_d.get('detail'), dict) else target_d
+        
+        # 1. car_spec.description 우선 파싱
+        s_desc = ""
+        if isinstance(d.get('car_spec'), dict):
+            s_desc = d.get('car_spec', {}).get('description') or ""
+        if not s_desc and isinstance(target_d.get('car_spec'), dict):
+            s_desc = target_d.get('car_spec', {}).get('description') or ""
+        if not s_desc:
+            s_desc = str(d.get('spec_description') or target_d.get('spec_description') or "")
+
+        parsed_spec = parse_heydealer_options(s_desc)
+
+        # 2. advanced_options(loaded) 폴백
+        adv_list = d.get('advanced_options') or target_d.get('advanced_options') or []
+        adv_opts = []
+        if isinstance(adv_list, list):
+            for o in adv_list:
+                if isinstance(o, dict) and o.get('choice') == 'loaded':
+                    name = o.get('name') or (o.get('content', {}).get('option_name') if isinstance(o.get('content'), dict) else None)
+                    if name and str(name).strip():
+                        adv_opts.append(str(name).strip())
+
+        final_opts = parsed_spec if parsed_spec else adv_opts
+        final_opts = [str(x).strip() for x in final_opts if str(x).strip()]
+        opt_text = " · ".join(final_opts) if final_opts else ""
+
+        opt_items = []
+        if resolve_option_item and final_opts:
+            for opt_name in final_opts:
+                opt_items.append(resolve_option_item(raw_name=opt_name))
+
+        return final_opts, opt_text, opt_items
+
+    # 1. 메인 타겟 차량 처리
+    m_opts, m_text, m_items = _process_single(car_dict)
+    car_dict['parsed_options'] = m_opts
+    car_dict['options_text'] = m_text
+    car_dict['options_items'] = m_items
+    if 'detail' in car_dict and isinstance(car_dict['detail'], dict):
+        car_dict['detail']['parsed_options'] = m_opts
+        car_dict['detail']['options_text'] = m_text
+        car_dict['detail']['options_items'] = m_items
+
+    # 2. 동급 낙찰시세 (market_prices) 매물들 처리
+    mp = car_dict.get('market_prices')
+    items = []
+    if isinstance(mp, list):
+        items = mp
+    elif isinstance(mp, dict) and isinstance(mp.get('items'), list):
+        items = mp['items']
+
+    for item in items:
+        if isinstance(item, dict):
+            i_opts, i_text, i_items = _process_single(item)
+            item['parsed_options'] = i_opts
+            item['options_text'] = i_text
+            item['options_items'] = i_items
+            if 'detail' in item and isinstance(item['detail'], dict):
+                item['detail']['parsed_options'] = i_opts
+                item['detail']['options_text'] = i_text
+                item['detail']['options_items'] = i_items
+
+    return car_dict
     """헤이딜러 경매일시를 '4일 전', '1주 전', '오늘', '1달 전' 등의 상대 시간으로 변환"""
     if not date_val or str(date_val).strip() in ['', 'None', 'nan', '-', 'null']:
         return "-"
