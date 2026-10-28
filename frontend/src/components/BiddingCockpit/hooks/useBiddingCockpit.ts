@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import { CarLedgerItem } from '@/types';
 import { queryChaolmaCar, type ChaolmaCarHistory, type ChaolmaOriginDoc, type OptionItem } from '@/services/chaolmaService';
-import { searchCockpitUnified } from '@/services/cockpitService';
+import { searchCockpitUnified, compareEncarItemsByBackendRule } from '@/services/cockpitService';
 import { computeRuleBasedAssessment } from '@/utils/ruleBasedAssessment';
 import {
   HD_PART_MAP,
@@ -1364,30 +1364,9 @@ export function useBiddingCockpit({
       dedupedList.push(item);
     }
 
-    // 2번 기준 정렬: 1. 가격 낮은순(오름차순) -> 2. 연식 최신순(내림차순) -> 3. 성능점검 완료 우선 및 점검일 최신순
-    return dedupedList.sort((a, b) => {
-      // 1. 가격 낮은순 (오름차순)
-      const pA = Number(a.price || 0);
-      const pB = Number(b.price || 0);
-      if (pA !== pB) {
-        return pA - pB;
-      }
-      // 2. 연식 최신순 (내림차순)
-      const yrA = parseInt(String(a.year || '').match(/^\s*(\d+)/)?.[1] || '0', 10);
-      const yrB = parseInt(String(b.year || '').match(/^\s*(\d+)/)?.[1] || '0', 10);
-      if (yrA !== yrB) {
-        return yrB - yrA;
-      }
-      // 3. 성능점검 완료 우선 및 점검일 최신순
-      const hasPerfA = /^\d{2}-\d{2}-\d{2}/.test(String(a.checkDate || '')) && !['미검사/사진', '⚠️미등록', '⚠️조회실패', '-'].includes(String(a.checkDate || ''));
-      const hasPerfB = /^\d{2}-\d{2}-\d{2}/.test(String(b.checkDate || '')) && !['미검사/사진', '⚠️미등록', '⚠️조회실패', '-'].includes(String(b.checkDate || ''));
-      if (hasPerfA !== hasPerfB) {
-        return hasPerfB ? 1 : -1;
-      }
-      const dateA = String(a.checkDate || '').replace(/\D/g, '');
-      const dateB = String(b.checkDate || '').replace(/\D/g, '');
-      return dateB.localeCompare(dateA);
-    });
+    // 백엔드 확정 기준 정렬 (Phase 3: 단일 진실 공급원):
+    // 1. 점검 유무(등록 우선) -> 2. 점검일 최신순 -> 3. 가격 낮은순 -> 4. 연식 최신순
+    return dedupedList.sort(compareEncarItemsByBackendRule);
   }, [liveEncarList, carName, detailModel, expectedSellPrice, yearModel, mileageKm, optionsTag]);
 
   // (selectedEncarId, selectedInspectionMap, isInspectionLoading, isEncarSoldOpen 상태는 호이스팅 방지를 위해 상단 배치됨)
