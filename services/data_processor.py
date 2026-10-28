@@ -260,11 +260,11 @@ class DataProcessor:
                 cand_df = cand_df[is_4wd]
                 
         # 5. ✨ 등급 접미사 (플러스, 스페셜, 초이스, 에디션, 마스터, n line, 그래비티 등) 스펙 동등성 검사
-        t_spec = cls.build_car_spec(text=target_sub_model, car_name=target_car_name)
+        t_spec = DataProcessor.build_car_spec(text=target_sub_model, car_name=target_car_name)
         target_sfx = t_spec.get('grade_suffix', '')
         
         def _match_suffix(val):
-            c_spec = cls.build_car_spec(text=str(val))
+            c_spec = DataProcessor.build_car_spec(text=str(val))
             return c_spec.get('grade_suffix', '') == target_sfx
 
         sfx_mask = cand_df['세부모델'].apply(_match_suffix)
