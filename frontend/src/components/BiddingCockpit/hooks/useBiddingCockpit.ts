@@ -808,20 +808,34 @@ export function useBiddingCockpit({
         rawGradeNameRef.current = rawG;
         rawGradeDetailNameRef.current = rawGd;
 
-        // 💡 유종/배기량(rawG)과 세부트림(rawGd) 결합
-        if (rawG && rawGd) {
-          if (rawGd.includes(rawG)) {
-            resolvedGrade = rawGd;
-          } else {
-            const gParts = rawG.split(/\s+/).filter(p => p && !rawGd.includes(p));
-            resolvedGrade = gParts.length > 0 ? `${gParts.join(' ')} ${rawGd}`.trim() : `${rawG} ${rawGd}`.trim();
+        // 💡 [등급 정규화 - 제이 1번 원칙]: (7인승...), (통풍시트...) 등 중첩 괄호 옵션/좌석 분리
+        const cleanGradeText = (txt: string): string => {
+          if (!txt) return '';
+          let s = txt.replace(/\[[^\]]*\]/g, ' ');
+          for (let i = 0; i < 3; i++) {
+            s = s.replace(/\([^\(\)]*\)/g, ' ');
           }
-        } else if (rawGd) {
-          resolvedGrade = rawGd;
-        } else if (rawG) {
-          resolvedGrade = rawG;
+          return s.replace(/[\(\)\[\]]/g, ' ').replace(/\s+/g, ' ').trim();
+        };
+
+        const cleanG = cleanGradeText(rawG);
+        const cleanGd = cleanGradeText(rawGd);
+
+        // 유종/배기량(cleanG)과 세부트림(cleanGd) 결합
+        if (cleanG && cleanGd) {
+          if (cleanGd.includes(cleanG)) {
+            resolvedGrade = cleanGd;
+          } else {
+            const gParts = cleanG.split(/\s+/).filter(p => p && !cleanGd.includes(p));
+            resolvedGrade = gParts.length > 0 ? `${gParts.join(' ')} ${cleanGd}`.trim() : `${cleanG} ${cleanGd}`.trim();
+          }
+        } else if (cleanGd) {
+          resolvedGrade = cleanGd;
+        } else if (cleanG) {
+          resolvedGrade = cleanG;
         }
         if (resolvedGrade) setDetailModel(resolvedGrade);
+
 
         if (res.year) {
           const ym = res.year.match(/\d+/);
@@ -2024,7 +2038,7 @@ export function useBiddingCockpit({
     const midIdx = Math.floor(prices.length / 2);
     const median = prices.length % 2 === 0 ? Math.round((prices[midIdx - 1] + prices[midIdx]) / 2) : prices[midIdx];
     return {
-      count: encarList.length,
+      count: backendEncarStats?.strictCount ?? backendEncarStats?.strictAdjCount ?? encarFilteredCount,
       min,
       max,
       avg,
@@ -2036,7 +2050,8 @@ export function useBiddingCockpit({
       strictAdjCount: backendEncarStats?.strictAdjCount ?? 0,
       strictAdjExcludedCount: backendEncarStats?.strictAdjExcludedCount ?? 0
     };
-  }, [encarList, backendEncarStats]);
+  }, [encarList, backendEncarStats, encarFilteredCount]);
+
 
   // 연식별 호가 평균 및 대수 (Streamlit tab_main.py L500-L525 100% 동일 구현 - 9대 전수 집계)
   const encarYearStats = useMemo(() => {

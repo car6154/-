@@ -277,14 +277,16 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
     }
   }, [kcarCars, kcarSortOption]);
 
-  // 케이카 목록 변경 시 첫 번째 차량 자동 선택
+  // 케이카 목록 변경 시 유효 엄격 차량 중에서만 첫 번째 차량 자동 선택 (없으면 선택 없음)
   useEffect(() => {
     if (activeTab === 'kcar' && sortedKcarList.length > 0) {
       if (!selectedKcarCarCd || !sortedKcarList.some(c => c.carCd === selectedKcarCarCd)) {
-        setSelectedKcarCarCd(sortedKcarList[0].carCd);
+        const strictMatch = sortedKcarList.find(c => c.isStrict);
+        setSelectedKcarCarCd(strictMatch ? strictMatch.carCd : null);
       }
     }
   }, [activeTab, sortedKcarList, selectedKcarCarCd]);
+
 
   const selectedKcar = useMemo(() => {
     if (!selectedKcarCarCd) return null;
@@ -416,7 +418,7 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                   : 'text-zinc-400 hover:text-white hover:bg-[#1f222e]'
               }`}
             >
-              엔카 ({encarFilteredCount || encarList.length}대)
+              엔카 ({encarFilteredCount}대)
             </button>
             <button
               type="button"
@@ -432,7 +434,7 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
           </div>
           <span className="text-white font-bold text-sm sm:text-base ml-1">
             {activeTab === 'encar'
-              ? `엔카 실시간 등록 매물 리스트 (${encarFilteredCount || encarList.length}대)`
+              ? `엔카 실시간 등록 매물 리스트 (${encarFilteredCount}대)`
               : `케이카 실시간 등록 매물 리스트 (${kcarCars.length}대)`}
           </span>
         </div>
@@ -449,7 +451,7 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
         <div className="xl:col-span-7 space-y-2 flex flex-col">
           <div className="flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm font-bold text-white px-1">
             <span className="flex items-center gap-2 shrink-0">
-              <span>📰 엔카 동급 매물 (전체 {encarTotalModelCount}대 중 유효 {encarFilteredCount || encarList.length}대)</span>
+              <span>📰 엔카 동급 매물 (전체 {encarTotalModelCount}대 중 유효 {encarFilteredCount}대)</span>
               {companyCount > 0 && (
                 <span className="px-1.5 py-0.5 rounded text-[11px] font-black bg-indigo-500/30 text-indigo-200 border border-indigo-400/50">
                   자사 {companyCount}대
@@ -467,7 +469,7 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                   <option value="price_asc">가격 낮은 순</option>
                   <option value="price_desc">가격 높은 순</option>
                   <option value="recent_reg">최신 등록순</option>
-                  <option value="year_desc">연식 신순</option>
+                  <option value="year_desc">연식 최신순</option>
                   <option value="mileage_asc">주행거리 적은 순</option>
                   <option value="complex">복합 정렬</option>
                 </select>
@@ -508,7 +510,7 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                   ) : (
                     <> 기준 등급 100% 일치 ➔</>
                   )}
-                  {" "}최종 유효 표본 <strong className="text-emerald-400 font-mono font-bold">{encarFilterStats.validCount || encarList.length}대</strong>
+                  {" "}최종 유효 표본 <strong className="text-emerald-400 font-mono font-bold">{encarFilterStats.validCount ?? encarFilteredCount}대</strong>
                 </span>
               </div>
               <span className="text-[11px] text-zinc-400 font-medium">
@@ -516,12 +518,13 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
               </span>
             </div>
           ) : (
-            encarTotalModelCount > (encarFilteredCount || encarList.length) && (
+            encarTotalModelCount > encarFilteredCount && (
               <div className="flex items-center gap-2 px-3 py-1.5 bg-amber-500/10 border border-amber-500/25 rounded-lg text-xs text-amber-300">
-                <span>💡 필터링 기준: 등급 불일치로 {(encarTotalModelCount - (encarFilteredCount || encarList.length)).toLocaleString()}대 제외 ➔ 유효 {encarFilteredCount || encarList.length}대 표본 채택</span>
+                <span>💡 필터링 기준: 등급 불일치로 {(encarTotalModelCount - encarFilteredCount).toLocaleString()}대 제외 ➔ 유효 {encarFilteredCount}대 표본 채택</span>
               </div>
             )
           )}
+
 
           <div className="overflow-x-auto h-[560px] max-h-[560px] overflow-y-auto border border-[#262833] rounded-xl scrollbar-thin scrollbar-thumb-zinc-700 bg-[#0a0b0e] flex-1">
             {isEncarLoading ? (
@@ -701,9 +704,12 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                         )}
                         <td className="py-1.5 px-1 text-center text-[12px] whitespace-nowrap font-mono">
                           <span className={isTargetYear ? 'text-sky-400 font-black' : 'text-zinc-300 font-semibold'}>
-                            {car.year}
+                            {(car as any).regYear && (car as any).formYear && (car as any).regYear !== (car as any).formYear
+                              ? `${(car as any).regYear}년 (${(car as any).formYear}형)`
+                              : car.year}
                           </span>
                         </td>
+
                         <td className="py-1.5 px-1.5 text-right text-[12px] text-white font-bold font-mono whitespace-nowrap">
                           <div>{car.mileage.toLocaleString()}</div>
                           {mileageKm > 0 && (() => {

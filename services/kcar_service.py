@@ -3869,17 +3869,13 @@ def fetch_kcar_market_stats(
         "limit": 100
     }
 
-    # a) 등급 코드 파라미터 (해소 시 wr_eq_grd_cd, 세부코드 시 wr_eq_grd_dtl_cd, wr_txt_idx 미포함)
-    trim_kw = ""
+    # a) 등급 코드 파라미터 (해소 시 wr_eq_grd_cd, 세부코드 시 wr_eq_grd_dtl_cd)
+    # 💡 [원칙]: 등급 코드 미해소 시 wr_txt_idx를 하드 필터로 쓰지 않고 모델 단위로 폭넓게 수집 후,
+    # 2단계 백엔드 정식 스펙 동등성(DataProcessor.is_strictly_same_spec)으로 엄격 분별 (TV7 등으로 인한 승용 탈락 원천 방지)
     if grd_cd:
         param["wr_eq_grd_cd"] = grd_cd
         if grd_dtl_cd:
             param["wr_eq_grd_dtl_cd"] = grd_dtl_cd
-    else:
-        # 미해소 시 기존 텍스트 키워드 (wr_txt_idx) 유지
-        trim_kw = extract_kcar_trim_keyword(detail_model)
-        if trim_kw:
-            param["wr_txt_idx"] = trim_kw
 
     # b) 연식 파라미터 (wr_gt_mfg_dt, wr_lt_mfg_dt: ±1년 교정)
     if year and year > 0:
@@ -3990,15 +3986,13 @@ def fetch_kcar_market_stats(
             grd_dtl_nm = str(r.get('grdDtlNm') or '')
             row_full = f"{car_whl_nm} {grd_nm} {grd_dtl_nm}".lower().replace(" ", "")
 
-            # 1. 등급 코드가 풀린 경우 코드 동등 비교, 안 풀린 경우 트림 키워드 엄격 일치
+            # 1. 등급 코드가 풀린 경우 코드 동등 비교, 안 풀린 경우 2단계 엄격 스펙 필터에 위임
             if grd_cd:
                 if str(r.get('grdCd') or '') != grd_cd:
                     continue
                 if grd_dtl_cd and str(r.get('grdDtlCd') or '') != grd_dtl_cd:
                     continue
-            else:
-                if trim_kw and trim_kw.lower() not in row_full:
-                    continue
+
 
             # 2. 배기량 엄격 일치
             if disp_val and disp_val not in row_full:
@@ -4087,16 +4081,13 @@ def fetch_kcar_market_stats(
             print(f"[K-Car 확장 재수집 오류] {e_wide}", flush=True)
 
     post_filter_fallback = False
-    strict_has_data = True
-    if strict_rows:
-        target_rows = strict_rows
-    else:
-        # 엄격 subset이 비면 엄격 기준 추정가는 "해당 없음" 처리 (넓은 범위로 슬쩍 계산 금지)
-        strict_has_data = False
-        target_rows = filtered_rows if filtered_rows else rows
-        post_filter_fallback = True
+    strict_has_data = bool(strict_rows)
+    target_rows = strict_rows if strict_has_data else []
+    post_filter_fallback = not strict_has_data
 
-    # 매물 유효 데이터 추출
+    strict_car_cds = {str(r.get('carCd', '')).strip() for r in strict_rows}
+
+    # 매물 유효 데이터 추출 (엄격 매물 기준)
     valid_cars = []
     prices = []
     for r in target_rows:
@@ -4125,17 +4116,79 @@ def fetch_kcar_market_stats(
                 "color": r.get('extrColorNm') or '',
                 "accident": r.get('acdtHistCnts') or '무사고',
                 "optnNm": raw_optn,
+                "isStrict": True,
                 "detailUrl": f"https://www.kcar.com/bc/detail/carInfoDtl?i_sCarCd={car_cd}" if car_cd else ""
             })
             prices.append(prc)
         except Exception:
             continue
 
-    if not prices:
-        empty_res["success"] = True
-        empty_res["postFilterFallback"] = post_filter_fallback
-        empty_res["message"] = "유효한 가격의 직영 매물이 없습니다."
-        return empty_res
+    # 넓은 목록 추출 (filtered_rows 기반 ±1년 목록, 가격 오름차순, 최대 20대)
+    wide_cars = []
+    wide_source = filtered_rows if filtered_rows else rows
+    for r in wide_source:
+        try:
+            prc = int(r.get('prc') or 0)
+            if prc <= 0:
+                continue
+            milg = int(r.get('milg') or 0)
+            r_yr_full, _ = _extract_kcar_year(r)
+            yr_num = r_yr_full % 100 if r_yr_full > 0 else 0
+            full_yr_str = str(r_yr_full) if r_yr_full > 0 else str(r.get('prdcnYr') or '')
+
+            car_cd = r.get('carCd') or ''
+            raw_optn = r.get('optnNm') or ''
+            is_st = str(car_cd).strip() in strict_car_cds
+            wide_cars.append({
+                "carCd": car_cd,
+                "modelName": r.get('modelNm') or '',
+                "carName": r.get('carWhlNm') or r.get('modelNm') or '',
+                "price": prc,
+                "mileage": milg,
+                "year": yr_num,
+                "fullYear": full_yr_str,
+                "grade": r.get('grdNm') or '',
+                "gradeDetail": r.get('grdDtlNm') or '',
+                "center": r.get('cntrNm') or '',
+                "color": r.get('extrColorNm') or '',
+                "accident": r.get('acdtHistCnts') or '무사고',
+                "optnNm": raw_optn,
+                "isStrict": is_st,
+                "detailUrl": f"https://www.kcar.com/bc/detail/carInfoDtl?i_sCarCd={car_cd}" if car_cd else ""
+            })
+        except Exception:
+            continue
+
+    wide_cars.sort(key=lambda x: x["price"])
+
+    if not strict_has_data or not prices:
+        # 💡 [원칙]: 엄격 매물이 없으면 무효 매물 가격으로 평균/최저가를 슬쩍 메우지 않고 엄격 통계 0대 반환
+        return {
+            "success": True,
+            "count": 0,
+            "strictCount": 0,
+            "validCount": 0,
+            "wideCount": len(wide_cars),
+            "strictHasData": False,
+            "min": None,
+            "max": None,
+            "avg": None,
+            "avgAdj": None,
+            "median": None,
+            "wideAvg": None,
+            "wideAvgAdj": None,
+            "wideMedian": None,
+            "accDeduction": 0,
+            "adjNote": "",
+            "postFilterFallback": True,
+            "yearStats": [],
+            "priceBins": [],
+            "cars": [],
+            "wideCars": wide_cars[:20],
+            "modelName": rows[0].get('modelNm') or '' if rows else '',
+            "searchUrl": search_url,
+            "message": "동일 연식·동일 등급 엄격 매물 없음 (해당 없음)"
+        }
 
     prices.sort()
     count = len(prices)
@@ -4428,42 +4481,6 @@ def fetch_kcar_market_stats(
 
     # 차량 정렬 (가격 오름차순, 최대 20대)
     valid_cars.sort(key=lambda x: x["price"])
-
-    # 넓은 목록 추출 (filtered_rows 기반 ±1년 목록, 가격 오름차순, 최대 20대)
-    wide_cars = []
-    wide_source = filtered_rows if filtered_rows else rows
-    for r in wide_source:
-        try:
-            prc = int(r.get('prc') or 0)
-            if prc <= 0:
-                continue
-            milg = int(r.get('milg') or 0)
-            r_yr_full, _ = _extract_kcar_year(r)
-            yr_num = r_yr_full % 100 if r_yr_full > 0 else 0
-            full_yr_str = str(r_yr_full) if r_yr_full > 0 else str(r.get('prdcnYr') or '')
-
-            car_cd = r.get('carCd') or ''
-            raw_optn = r.get('optnNm') or ''
-            wide_cars.append({
-                "carCd": car_cd,
-                "modelName": r.get('modelNm') or '',
-                "carName": r.get('carWhlNm') or r.get('modelNm') or '',
-                "price": prc,
-                "mileage": milg,
-                "year": yr_num,
-                "fullYear": full_yr_str,
-                "grade": r.get('grdNm') or '',
-                "gradeDetail": r.get('grdDtlNm') or '',
-                "center": r.get('cntrNm') or '',
-                "color": r.get('extrColorNm') or '',
-                "accident": r.get('acdtHistCnts') or '무사고',
-                "optnNm": raw_optn,
-                "detailUrl": f"https://www.kcar.com/bc/detail/carInfoDtl?i_sCarCd={car_cd}" if car_cd else ""
-            })
-        except Exception:
-            continue
-
-    wide_cars.sort(key=lambda x: x["price"])
 
     return {
         "success": True,

@@ -356,10 +356,10 @@ class DataProcessor:
         # 3. 연식 파싱 (최신순)
         res_df['_sort_year'] = res_df['연식'].apply(_parse_year) if "연식" in res_df.columns else 0
 
-        # 정렬: 성능일 최신순 -> 가격 낮은순 -> 연식 최신순
+        # 정렬 (최종 기준): 점검 완료 우선 -> 연식 최신순 -> 성능점검일 최신순 -> 가격 낮은순
         res_df = res_df.sort_values(
-            by=['_has_perf', '_sort_perf', '_sort_price', '_sort_year'],
-            ascending=[False, False, True, False]
+            by=['_has_perf', '_sort_year', '_sort_perf', '_sort_price'],
+            ascending=[False, False, False, True]
         ).drop(columns=['_has_perf', '_sort_perf', '_sort_price', '_sort_year']).reset_index(drop=True)
             
         return res_df
@@ -397,6 +397,29 @@ class DataProcessor:
                     return kw
         return ""
 
+    @staticmethod
+    def clean_grade(grade_text: str) -> str:
+        """
+        등급 문자열에서 좌석수(7인승 등), 추가옵션 문구((통풍시트 등)), 대괄호 태그 등을 분리하고
+        순수 등급·트림 명칭만 정규화하여 반환 (단일 진실 공급원).
+        예: '캘리그래피(7인승+통풍시트(2열))' -> '캘리그래피'
+            '디젤 2.2 4WD 노블레스 스페셜 (5인승)' -> '디젤 2.2 4WD 노블레스 스페셜'
+        """
+        if not grade_text:
+            return ""
+        s = str(grade_text).strip()
+        # 1. 대괄호 태그 제거 [옵션총액: ...] 등
+        s = re.sub(r'\[[^\]]*\]', '', s)
+        # 2. 중첩 괄호까지 가장 안쪽 괄호부터 반복 제거
+        for _ in range(3):
+            s = re.sub(r'\([^\(\)]*\)', '', s)
+        # 3. 혹시 남은 고립된 괄호 제거
+        s = re.sub(r'[\(\)\[\]]', '', s)
+        # 4. 양끝 공백 및 연속 공백 정리
+        s = re.sub(r'\s+', ' ', s).strip()
+        return s
+
+
     @classmethod
     def build_car_spec(
         cls,
@@ -409,21 +432,40 @@ class DataProcessor:
         """
         차량 명칭/세부모델/Badge 텍스트를 구조화된 정식 표준 스펙으로 1회 파싱 (단일 진실 공급원).
         """
-        raw_text = f"{car_name} {text} {badge}".strip()
+        # 0. 등급 정규화: 괄호 내 옵션/좌석 부가 문구 분리
+        cleaned_text = cls.clean_grade(text)
+        raw_text = f"{car_name} {cleaned_text} {badge}".strip()
         clean_text = raw_text.lower()
         clean_compact = clean_text.replace(" ", "")
 
-        # 1. 연식 (최초등록일 우선)
+        # 0-1. 차체 타입 분리 (body_type: 'van' vs 'passenger')
+        is_van = bool(re.search(r'(?:\b|[^a-zA-Z0-9가-힣])(?:밴|van|카고)(?:\b|[^a-zA-Z0-9가-힣]|$)', clean_text))
+        body_type = 'van' if is_van else 'passenger'
+
+        # 1. 연식 (등록연도와 형식연도 분리 저장, 엄격 계산 기준은 최초등록연도 유지)
         parsed_year = 0
-        if mfg_date:
+        reg_year = 0
+        form_year = 0
+        m_paren = re.search(r'(\d{2,4})\s*\(\s*(\d{2,4})\s*\)', str(year))
+        if m_paren:
+            y1 = int(m_paren.group(1))
+            y2 = int(m_paren.group(2))
+            reg_year = y1 if y1 >= 1900 else 2000 + y1
+            form_year = y2 if y2 >= 1900 else 2000 + y2
+            parsed_year = reg_year
+        elif mfg_date:
             m_mfg = re.search(r'(\d{4})', str(mfg_date))
             if m_mfg:
                 parsed_year = int(m_mfg.group(1))
+                reg_year = parsed_year
+                form_year = parsed_year
         if not parsed_year and year:
             m_yr = re.search(r'(\d{2,4})', str(year))
             if m_yr:
                 y_val = int(m_yr.group(1))
                 parsed_year = y_val if y_val >= 1900 else 2000 + y_val
+                reg_year = parsed_year
+                form_year = parsed_year
 
         # 2. 연료 (fuel: 공유 모듈 ModelMatcher로 단일화)
         fuel = ModelMatcher.extract_fuel(raw_text) or None
@@ -439,7 +481,7 @@ class DataProcessor:
 
         # 6. 인승 (seats)
         seats = ''
-        m_seat = re.search(r'(\d+인승)', raw_text)
+        m_seat = re.search(r'(\d+인승)', str(text) + " " + str(badge))
         if m_seat:
             seats = m_seat.group(1)
 
@@ -466,11 +508,11 @@ class DataProcessor:
             # 르노
             '인스파이어', '아이코닉', '테크노', 're', 'le', 'se', 'pe',
             # KGM
-            '인스파이어링', '블랙에디션', '프라임', 'rx', 'lx'
+            '인스파이어링', '블랙에디션', '프라임', 't7', 't5', 'tx', 'tv7', 'tv5', 'rx', 'lx'
         ]
         for bg in BASE_GRADES:
             bg_clean = bg.replace(' ', '')
-            if len(bg_clean) <= 2:
+            if len(bg_clean) <= 3:
                 p = rf'(?:\b|[^a-zA-Z0-9]){re.escape(bg_clean)}(?:\b|[^a-zA-Z0-9]|$)'
                 if re.search(p, clean_text):
                     grade_base = bg_clean
@@ -480,6 +522,12 @@ class DataProcessor:
                     grade_base = bg_clean
                     break
 
+        # 토레스 등 승용 모델인데 차얼마가 tv7으로 보낸 경우 t7으로 대칭 정규화
+        if body_type == 'passenger' and grade_base == 'tv7':
+            grade_base = 't7'
+        elif body_type == 'van' and grade_base == 't7':
+            grade_base = 'tv7'
+
         if not grade_base:
             # 폴백: 기존 extract_grade_keyword 활용
             kw = cls.extract_grade_keyword(raw_text)
@@ -488,6 +536,9 @@ class DataProcessor:
 
         return {
             'year': parsed_year,
+            'reg_year': reg_year,
+            'form_year': form_year,
+            'body_type': body_type,
             'fuel': fuel,
             'disp': disp,
             'is_turbo': is_turbo,
@@ -502,15 +553,22 @@ class DataProcessor:
     def is_strictly_same_spec(cls, target: dict, cand: dict, check_year: bool = True) -> bool:
         """
         두 표준 스펙의 동등성(Equivalence)을 판정:
-        - 연식: 2자리 연도 일치 (check_year=True 시)
+        - 차체: 승용 vs 밴 상호 배제
+        - 연식: 2자리 최초등록연도 일치 (check_year=True 시, 등록연도 기준 유지)
         - 배기량: 둘 다 존재할 경우 일치
         - 유종: 둘 다 존재할 경우 상호 배제
         - 터보: 둘 다 판정되었을 때 일치
         - 구동방식: 둘 다 존재할 경우 일치 (2wd vs 4wd)
-        - 인승: target에 인승이 지정되어 있을 때 cand도 동일 인승이어야 함
+        - 인승: 둘 다 인승이 명시되어 있을 때만 일치 요구 (미명시 시 통과)
         - 등급: 기본값(grade_base)이 같고, 접미사(grade_suffix)가 100% 동일해야만 통과!
         """
-        # 1. 연식 검사
+        # 0. 차체 타입 검사 (승용 vs 밴)
+        t_body = target.get('body_type') or 'passenger'
+        c_body = cand.get('body_type') or 'passenger'
+        if t_body != c_body:
+            return False
+
+        # 1. 연식 검사 (최초등록일 기준 유지)
         if check_year and target.get('year') and cand.get('year'):
             if (target['year'] % 100) != (cand['year'] % 100):
                 return False
@@ -535,8 +593,8 @@ class DataProcessor:
             if target['drive'] != cand['drive']:
                 return False
 
-        # 6. 인승 일치 검사 (target에 인승이 지정되어 있을 때 cand도 동일 인승이어야 함)
-        if target.get('seats'):
+        # 6. 인승 일치 검사 (둘 다 인승이 명시되어 있을 때만 불일치 배제)
+        if target.get('seats') and cand.get('seats'):
             if target['seats'] != cand.get('seats'):
                 return False
 

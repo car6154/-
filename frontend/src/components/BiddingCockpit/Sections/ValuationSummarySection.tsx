@@ -415,9 +415,22 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
                   <div className="w-7 h-7 rounded-md bg-amber-500/10 border border-amber-500/25 flex items-center justify-center text-sm shrink-0">💰</div>
                   <div className="min-w-0 flex-1">
                     <div className="text-[10px] text-zinc-400 font-medium">과거 평균 실현마진</div>
-                    <div className="text-sm sm:text-base font-bold text-amber-300 font-mono">
-                      +{Number(liveMarketStats.avg_profit || 0).toLocaleString()}만원 <span className="text-[10px] text-zinc-400 font-normal">({liveMarketStats.profit_rate || 0}%)</span>
-                    </div>
+                    {(() => {
+                      const profitVal = Number(liveMarketStats.avg_profit || 0);
+                      const rateVal = parseFloat(String(liveMarketStats.profit_rate || '0').replace(/[^0-9.-]/g, '')) || 0;
+                      const sign = profitVal > 0 ? '+' : (profitVal < 0 ? '-' : '');
+                      const absProfit = Math.abs(profitVal).toLocaleString();
+                      const absRate = Math.abs(rateVal).toFixed(1);
+                      const colorClass = profitVal > 0 ? 'text-amber-300' : (profitVal < 0 ? 'text-rose-400' : 'text-slate-200');
+                      return (
+                        <div className={`text-sm sm:text-base font-bold font-mono ${colorClass}`}>
+                          {sign ? `${sign}${absProfit}만원` : `${absProfit}만원`}
+                          <span className="text-[10px] text-zinc-400 font-normal ml-1">
+                            ({sign ? `${sign}${absRate}%` : `${absRate}%`})
+                          </span>
+                        </div>
+                      );
+                    })()}
                   </div>
                 </div>
               </div>
@@ -438,8 +451,8 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
                   </span>
                 </div>
 
-                {/* 엔카 완판 핵심 팩트 칩 3종 */}
-                {liveEncarSoldStats && liveEncarSoldStats.has_data && (
+                {/* 엔카 완판 핵심 팩트 칩 3종 또는 대체 상태 표시 */}
+                {liveEncarSoldStats && liveEncarSoldStats.has_data ? (
                   <div className="flex flex-wrap items-center gap-1.5 text-[11px]">
                     <span className="px-2 py-0.5 rounded bg-[#1a1d2b] border border-[#2b3044] text-zinc-300">
                       최근 30일: <strong>{liveEncarSoldStats.count_30d}대 완판</strong>
@@ -453,8 +466,22 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
                       평균 소요: <strong className="text-emerald-400 font-mono">{liveEncarSoldStats.sold_avg_days || 28}일</strong>
                     </span>
                   </div>
+                ) : (
+                  <div className="flex flex-wrap items-center gap-1.5 text-[11px]">
+                    <span className="px-2 py-0.5 rounded bg-zinc-800/80 border border-zinc-700/60 text-zinc-400">
+                      {liveEncarSoldStats?.is_rate_limited
+                        ? '⚠️ 엔카 완판 API 일시 차단됨 (자사 실적으로 대체)'
+                        : (liveEncarSoldStats?.message || '엔카 완판 데이터 0건 (자사 실적 대체)')}
+                    </span>
+                    {liveMarketStats?.has_data && (
+                      <span className="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-300">
+                        자사 실적: <strong>{liveMarketStats.total_count || 0}대 완판</strong> (평균 {liveMarketStats.avg_days || 0}일)
+                      </span>
+                    )}
+                  </div>
                 )}
               </div>
+
 
               <div className="text-xs text-slate-300 space-y-0.5 leading-relaxed pt-0.5">
                 <p dangerouslySetInnerHTML={{ __html: biddingVerdict.mainText }} />
@@ -832,7 +859,7 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
                         <span>엔카 소매 시세</span>
                       </span>
                       <span className="text-xs font-mono font-bold text-white">
-                        총 <strong className="text-sky-400 font-bold">{encarStats.count || encarList.length}</strong>대
+                        총 <strong className="text-sky-400 font-bold">{encarStats.strictAdjCount ?? encarStats.count ?? 0}</strong>대
                       </span>
                     </div>
                     <div className="flex items-center gap-1.5">
@@ -921,8 +948,9 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
                         <span>📊</span>
                         <span>가격 분포 (구간별 건수)</span>
                       </span>
-                      <span className="text-[10px] font-mono text-zinc-400">총 {encarStats.count || encarList.length}대</span>
+                      <span className="text-[10px] font-mono text-zinc-400">총 {encarStats.strictAdjCount ?? encarStats.count ?? 0}대</span>
                     </div>
+
                     {encarPriceBins.length > 0 ? (
                       <div className="space-y-1 bg-[#090b10] border border-[#1a202f] rounded-lg p-2 text-xs">
                         {encarPriceBins.map((bin, idx) => (

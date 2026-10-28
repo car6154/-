@@ -83,7 +83,7 @@ def test_chaolma_unpriced():
 
 
 def test_sort():
-    print("[3] 정렬 (Phase 3 기준)")
+    print("[3] 정렬 (최종 확정 기준: 점검완료 -> 연식 -> 성능일 -> 가격)")
     import pandas as pd
     from services.data_processor import DataProcessor
     rows = [
@@ -96,7 +96,8 @@ def test_sort():
         {"성능일": "-", "판매가": 900, "연식": 2024, "name": "G"},
     ]
     out = DataProcessor.sort_by_perf_and_year(pd.DataFrame(rows))
-    check("정렬 E>B>A>F>C>G>D", out["name"].tolist() == ["E", "B", "A", "F", "C", "G", "D"], str(out["name"].tolist()))
+    check("정렬 F>E>C>A>B>G>D", out["name"].tolist() == ["F", "E", "C", "A", "B", "G", "D"], str(out["name"].tolist()))
+
 
 
 def test_part_codes():

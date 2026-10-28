@@ -814,9 +814,11 @@ def search_encar_market(req: EncarSearchRequest):
                 }
             }
 
-        skip_detail = req.skipDetail if req.skipDetail is not None else False
-        df, msg = Scraper.run(encar_url, "", fetch_details=not skip_detail)
-        print(f"[엔카검색 결과] rows={len(df)} msg={msg} (skip_detail={skip_detail})", flush=True)
+        skip_detail = req.skipDetail if req.skipDetail is not None else True
+        # 💡 [속도 개선]: 콕핏 엔카 검색은 목록(가벼운 기본 제원)만 1초 만에 초고속 수집 후,
+        # 아래 엄격 후보군(strict_df)에 대해서만 정밀 상세 스캔(ThreadPoolExecutor)을 집중 수행하여 30초 타임아웃 원천 차단
+        df, msg = Scraper.run(encar_url, "", fetch_details=False)
+        print(f"[엔카검색 결과] rows={len(df)} msg={msg} (fetch_details=False 목록수집)", flush=True)
         if df.empty and req.url:
             alt_url = MasterMappingService.generate_smart_encar_url(
                 car_name=car_name,
@@ -826,8 +828,8 @@ def search_encar_market(req: EncarSearchRequest):
                 car_number=car_no
             )
             if alt_url and alt_url != encar_url and ("action" in alt_url or "q=" in alt_url):
-                df, msg = Scraper.run(alt_url, "", fetch_details=not skip_detail)
-                print(f"[엔카검색 결과] rows={len(df)} msg={msg} (skip_detail={skip_detail})", flush=True)
+                df, msg = Scraper.run(alt_url, "", fetch_details=False)
+                print(f"[엔카검색 결과] rows={len(df)} msg={msg} (alt_url 목록수집)", flush=True)
                 if not df.empty:
                     encar_url = alt_url
 
@@ -1479,6 +1481,16 @@ def search_encar_market(req: EncarSearchRequest):
             clean_cid = re.sub(r'\D', '', cid)
             is_company = bool(clean_cid and clean_cid in company_car_map)
 
+            # 등록연도(regYear)와 형식연도(formYear) 분리 (예: '24(25)' -> 24년 등록, 25년형)
+            m_yr = re.search(r'(\d{2,4})\s*\(\s*(\d{2,4})\s*\)', yr_str)
+            if m_yr:
+                r_y = int(m_yr.group(1)) % 100
+                f_y = int(m_yr.group(2)) % 100
+            else:
+                m_single = re.search(r'(\d{2,4})', yr_str)
+                r_y = int(m_single.group(1)) % 100 if m_single else 0
+                f_y = r_y
+
             items.append({
                 "id": cid,
                 "checkDate": perf_d,
@@ -1487,6 +1499,8 @@ def search_encar_market(req: EncarSearchRequest):
                 "modelName": c_name,
                 "subModel": s_model,
                 "year": yr_str,
+                "regYear": r_y,
+                "formYear": f_y,
                 "mileage": mil_val,
                 "price": price_val,
                 "accidentType": acc_str,
@@ -1517,7 +1531,14 @@ def search_encar_market(req: EncarSearchRequest):
             "success": True,
             "items": items,
             "totalModelCount": len(items),
-            "filteredCount": len(items),
+            "filteredCount": len(strict_df),
+            "filterStats": {
+                "targetBadge": detail_model,
+                "totalModelCount": len(items),
+                "excludedByBadge": max(0, len(items) - len(strict_df)),
+                "validCount": len(strict_df),
+                "filterMethod": "STRICT_SPEC"
+            },
             "directSearchUrl": encar_url or (items[0]['encarUrl'] if items else ""),
             "stats": {
                 "avg": avg_price,
