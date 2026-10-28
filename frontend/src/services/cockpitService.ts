@@ -62,21 +62,82 @@ export interface CockpitSearchResponse {
   failReasons?: Record<string, string>;
 }
 
+export interface UnifiedSearchOptions {
+  timeoutMs?: number;
+  maxRetries?: number;
+}
+
 /**
- * 콕핏 통합 검색 API (Phase 2: 단일 진실 공급원)
- * - sources: ['chaolma', 'encar', 'kcar'] 지정 호출
- * - 백엔드가 제원, 매물, 밸류에이션, 경고문 및 상태메시지를 일괄 조립하여 반환
+ * 콕핏 통합 검색 API (Phase 2 & 5: 단일 진실 공급원)
+ * - AbortController 기반 30초 타임아웃 기본 적용
+ * - 타임아웃/네트워크 단절 시 1회 자동 재시도 (4xx, 5xx HTTP 오류는 재시도 제외)
  */
-export async function searchCockpitUnified(req: CockpitSearchRequest): Promise<CockpitSearchResponse> {
-  const res = await fetch('/api/cockpit/search', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(req),
-  });
-  if (!res.ok) {
-    throw new Error(`통합 검색 서버 오류 (HTTP ${res.status})`);
+export async function searchCockpitUnified(
+  req: CockpitSearchRequest,
+  options?: UnifiedSearchOptions
+): Promise<CockpitSearchResponse> {
+  const timeoutMs = options?.timeoutMs ?? 30000;
+  const maxRetries = options?.maxRetries ?? 1;
+
+  let attempt = 0;
+  while (attempt <= maxRetries) {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => {
+      controller.abort();
+    }, timeoutMs);
+
+    try {
+      const res = await fetch('/api/cockpit/search', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(req),
+        signal: controller.signal,
+      });
+      clearTimeout(timeoutId);
+
+      if (!res.ok) {
+        // 429, 403, 407, 500 등 HTTP 에러는 재시도 없이 즉시 throw
+        throw new Error(`통합 검색 서버 오류 (HTTP ${res.status})`);
+      }
+
+      return await res.json();
+    } catch (err: any) {
+      clearTimeout(timeoutId);
+
+      const isAbort = err?.name === 'AbortError' || controller.signal.aborted;
+      const isHttpError = err?.message && err.message.includes('통합 검색 서버 오류 (HTTP');
+
+      // 4xx, 5xx HTTP 에러는 절대 재시도하지 않음
+      if (isHttpError) {
+        throw err;
+      }
+
+      const isNetworkError = err instanceof TypeError && (
+        err.message.includes('fetch') ||
+        err.message.includes('network') ||
+        err.message.includes('Failed to fetch')
+      );
+
+      // 타임아웃 또는 네트워크 단절 시에만 1회 재시도
+      if ((isAbort || isNetworkError) && attempt < maxRetries) {
+        attempt++;
+        console.warn(`[searchCockpitUnified] ${isAbort ? '요청 시간 초과(30초)' : '네트워크 연결 오류'} 감지 -> 1회 자동 재시도 시작 (시도 ${attempt}/${maxRetries})`);
+        continue;
+      }
+
+      if (isAbort) {
+        const timeoutErr = new Error('요청 시간 초과 (30초 동안 응답이 없습니다)');
+        (timeoutErr as any).isTimeout = true;
+        throw timeoutErr;
+      }
+
+      throw err;
+    }
   }
-  return res.json();
+
+  const finalTimeoutErr = new Error('요청 시간 초과 (재시도 실패)');
+  (finalTimeoutErr as any).isTimeout = true;
+  throw finalTimeoutErr;
 }
 
 /**

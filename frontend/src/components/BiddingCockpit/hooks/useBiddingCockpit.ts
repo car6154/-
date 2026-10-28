@@ -389,13 +389,15 @@ export function useBiddingCockpit({
       return applyEncarData(data, options.url);
     } catch (e: any) {
       console.warn('Encar fetch failed:', e);
-      lastEncarFailReasonRef.current = e?.message ? String(e.message).replace(/^[❌\s]+/, '').trim() : '';
+      const isTimeout = e?.isTimeout || String(e?.message).includes('시간 초과');
+      const reasonMsg = isTimeout ? '요청 시간 초과' : (e?.message ? String(e.message).replace(/^[❌\s]+/, '').trim() : '');
+      lastEncarFailReasonRef.current = reasonMsg;
       setLiveEncarList([]);
       setEncarTotalModelCount(0);
       setEncarFilteredCount(0);
       setEncarFilterStats(null);
       setEncarValuation(null);
-      setEncarErrorMessage('엔카 실시간 매물을 불러오지 못했습니다.');
+      setEncarErrorMessage(isTimeout ? '요청 시간 초과 (30초 동안 응답이 없습니다)' : '엔카 실시간 매물을 불러오지 못했습니다.');
     } finally {
       if (reqId === activeRequestIdRef.current) {
         setIsEncarLoading(false);
@@ -757,20 +759,26 @@ export function useBiddingCockpit({
     // 🧹 새 차량번호 조회 시 이전 차량의 헤이딜러 낙찰/엔카 매물/밸류에이션 즉시 리셋 (입력 필드는 유지)
     resetCockpitState({ keepInputs: true });
 
+    const reqId = ++activeRequestIdRef.current;
     setIsSearchingCar(true);
+    setIsEncarLoading(true);
+    setIsKcarLoading(true);
+    setEncarErrorMessage('');
+    lastEncarFailReasonRef.current = '';
+
     setSearchStatus({
       type: 'info',
       message: '🔍 차얼마 & 엔카 실시간 제원/옵션 스캔 중...'
     });
 
-    try {
-      // 콕핏 통합 검색 (Phase 2: 백엔드 단일 진실 공급원 - 차얼마, 엔카, 케이카 일괄 수집)
-      const unifiedRes = await searchCockpitUnified({
-        carNumber: no,
-        mileage: effectiveMileage,
-        sources: ['chaolma', 'encar', 'kcar']
-      });
-      console.info(`[InvDiag] 콕핏 통합 조회 응답: carNumber=${no}, success=${Boolean(unifiedRes?.success)}`);
+    // 1. 차얼마(제원/옵션/소유자) 프로미스 (수백ms~1초 만에 완료되어 기본 화면 즉시 렌더)
+    const chaolmaPromise = searchCockpitUnified({
+      carNumber: no,
+      mileage: effectiveMileage,
+      sources: ['chaolma'],
+    }).then((unifiedRes) => {
+      if (reqId !== activeRequestIdRef.current) return;
+      console.info(`[InvDiag] 차얼마 제원 응답: carNumber=${no}, success=${Boolean(unifiedRes?.chaolma?.success)}`);
 
       const res = unifiedRes.chaolma;
       if (res && res.success) {
@@ -784,7 +792,7 @@ export function useBiddingCockpit({
         rawGradeNameRef.current = rawG;
         rawGradeDetailNameRef.current = rawGd;
 
-        // 💡 유종/배기량(rawG: 예 '가솔린 1.0 터보')과 세부트림(rawGd: 예 '인스퍼레이션')을 온전히 결합 (app.py:1605-1616 동일)
+        // 💡 유종/배기량(rawG)과 세부트림(rawGd) 결합
         let resolvedGrade = '';
         if (rawG && rawGd) {
           if (rawGd.includes(rawG)) {
@@ -869,7 +877,6 @@ export function useBiddingCockpit({
           });
         }
 
-        // 프리셋 주행거리가 없을 때만 차얼마/검사/카히스토리 주행거리 결과로 채움 (프리셋이 있으면 절대 덮어쓰지 않음)
         if (!overrideMileage || overrideMileage <= 0) {
           const docMil = res.origin_doc?.inspection_mileage;
           const histMil = (res.car_history as any)?.mileages?.[0]?.mileage;
@@ -884,26 +891,17 @@ export function useBiddingCockpit({
           }
         }
 
-        // 자사 소매/도매 실적 통계도 즉시 연동 (동일 차종 재조회 시 resetCockpitState로 초기화된 상태 복구 보장)
         fetchMarketStats(resolvedCarName || carName, resolvedGrade || detailModel, yr);
-
-        // 엔카 실시간 매물 및 밸류에이션 반영
-        if (unifiedRes.encar) {
-          applyEncarData(unifiedRes.encar);
-        }
-
-        // 케이카 직영 마켓 통계 반영
-        if (unifiedRes.kcar) {
-          applyKcarData(unifiedRes.kcar);
-        }
-
         skipAutoFetchRef.current = true;
 
-        // 백엔드 통합 상태 메시지 직결 (단일 진실 공급원)
         if (unifiedRes.statusMessage) {
           setSearchStatus(unifiedRes.statusMessage);
+        } else {
+          setSearchStatus({
+            type: 'success',
+            message: `✅ [${no}] 차얼마 제원 스캔 완료`
+          });
         }
-        return true;
       } else {
         if (unifiedRes.statusMessage) {
           setSearchStatus(unifiedRes.statusMessage);
@@ -913,17 +911,77 @@ export function useBiddingCockpit({
             message: `⚠️ [${no}] ${res?.message || '차얼마 데이터 조회 실패 또는 미등록 차량'}`
           });
         }
-        return false;
       }
-    } catch (err: any) {
-      console.error('차량 조회 오류:', err);
+    }).catch((err: any) => {
+      if (reqId !== activeRequestIdRef.current) return;
+      console.error('차얼마 제원 조회 오류:', err);
+      const isTimeout = err?.isTimeout || String(err?.message).includes('시간 초과');
       setSearchStatus({
         type: 'error',
-        message: `❌ [${no}] 차량 조회 중 오류가 발생했습니다: ${err?.message || err}`
+        message: isTimeout 
+          ? `❌ [${no}] 차얼마 조회 시간 초과 (30초 동안 응답이 없습니다)` 
+          : `❌ [${no}] 차량 제원 조회 중 오류가 발생했습니다: ${err?.message || err}`
       });
+    }).finally(() => {
+      if (reqId === activeRequestIdRef.current) {
+        setIsSearchingCar(false);
+      }
+    });
+
+    // 2. 케이카 프로미스 (독립 실행: ~2.6초에 완료되어 케이카 스피너 즉시 해제 및 화면 반영)
+    const kcarPromise = searchCockpitUnified({
+      carNumber: no,
+      mileage: effectiveMileage,
+      sources: ['kcar'],
+    }).then((unifiedRes) => {
+      if (reqId !== activeRequestIdRef.current) return;
+      if (unifiedRes.kcar) {
+        applyKcarData(unifiedRes.kcar);
+      }
+    }).catch((err) => {
+      if (reqId !== activeRequestIdRef.current) return;
+      console.warn('[handleLookupCarNumber] 케이카 조회 실패 (케이카 영역만 비표시):', err);
+      setKcarStats(null);
+    }).finally(() => {
+      if (reqId === activeRequestIdRef.current) {
+        setIsKcarLoading(false);
+      }
+    });
+
+    // 3. 엔카 프로미스 (독립 실행: ~12초에 완료되어 엔카 스피너 해제 및 반영, 실패/타임아웃 시 엔카만 해제)
+    const encarPromise = searchCockpitUnified({
+      carNumber: no,
+      mileage: effectiveMileage,
+      sources: ['encar'],
+    }).then((unifiedRes) => {
+      if (reqId !== activeRequestIdRef.current) return;
+      if (unifiedRes.encar) {
+        applyEncarData(unifiedRes.encar);
+      }
+    }).catch((err: any) => {
+      if (reqId !== activeRequestIdRef.current) return;
+      console.warn('[handleLookupCarNumber] 엔카 조회 실패 (엔카 영역만 해제):', err);
+      const isTimeout = err?.isTimeout || String(err?.message).includes('시간 초과');
+      const reasonMsg = isTimeout ? '요청 시간 초과' : (err?.message ? String(err.message).replace(/^[❌\s]+/, '').trim() : '');
+      lastEncarFailReasonRef.current = reasonMsg;
+      setLiveEncarList([]);
+      setEncarTotalModelCount(0);
+      setEncarFilteredCount(0);
+      setEncarFilterStats(null);
+      setEncarValuation(null);
+      setEncarErrorMessage(isTimeout ? '요청 시간 초과 (30초 동안 응답이 없습니다)' : '엔카 실시간 매물을 불러오지 못했습니다.');
+    }).finally(() => {
+      if (reqId === activeRequestIdRef.current) {
+        setIsEncarLoading(false);
+      }
+    });
+
+    try {
+      // 3개 출처 동시 진행 (한 출처의 실패가 다른 출처 표시를 막지 않음)
+      await Promise.allSettled([chaolmaPromise, kcarPromise, encarPromise]);
+      return true;
+    } catch {
       return false;
-    } finally {
-      setIsSearchingCar(false);
     }
   };
 
