@@ -323,23 +323,36 @@ class Scraper:
                 elif o_resp["status"] != 200:
                     opt_str = "코드매칭실패"
 
+            options_list = []
             catalog = opt_cache.get(c_id, [])
             if isinstance(catalog, list) and catalog:
                 applied_opts = []
                 applied_code_strs = [str(x) for x in applied_codes]
                 for opt in catalog:
                     if isinstance(opt, dict) and str(opt.get("optionCd", "")) in applied_code_strs:
-                        name = Scraper.clean_option_name(opt.get("optionName", ""))
+                        code = str(opt.get("optionCd", ""))
+                        raw_name = opt.get("optionName", "")
+                        name = Scraper.clean_option_name(raw_name)
                         price = opt.get("price", 0)
                         try:
                             p_val = int(price)
                             if p_val > 0:
                                 comp_opt_new += p_val
                         except Exception:
-                            pass
+                            p_val = 0
                         if name and "외장컬러" not in name:
-                            if price > 0: applied_opts.append(f"{name}({price}만)")
+                            if p_val > 0: applied_opts.append(f"{name}({p_val}만)")
                             else: applied_opts.append(name)
+                        options_list.append({
+                            "code": code,
+                            "name": name or raw_name,
+                            "raw_name": raw_name,
+                            "price": p_val * 10000,
+                            "price_man": p_val,
+                            "source": "api" if p_val > 0 else "unpriced",
+                            "match_status": "exact",
+                            "desc": ""
+                        })
                 if applied_opts and opt_str == "없음":
                     opt_str = " / ".join(applied_opts)
 
@@ -353,6 +366,7 @@ class Scraper:
             "사고유무": accident_status,
             "외장컬러": color,
             "추가옵션": opt_str,
+            "options": options_list,
             "is_rate_limited": is_rate_limited,
             "replaces": replaces,
             "repairs": repairs,
@@ -707,6 +721,7 @@ class Scraper:
                         car["사고유무"] = res.get("사고유무", "-")
                         car["외장컬러"] = res.get("외장컬러", "-")
                         car["추가옵션"] = res.get("추가옵션", "-")
+                        car["options"] = res.get("options", [])
                         if res and not res.get("is_rate_limited"):
                             car["_detail_res"] = res
                     except Exception as e:
@@ -740,6 +755,7 @@ class Scraper:
                             car["사고유무"] = res.get("사고유무", "-")
                             car["외장컬러"] = res.get("외장컬러", "-")
                             car["추가옵션"] = res.get("추가옵션", "-")
+                            car["options"] = res.get("options", [])
                             if res and not res.get("is_rate_limited"):
                                 car["_detail_res"] = res
                         except Exception:

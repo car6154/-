@@ -18,7 +18,7 @@ from datetime import datetime
 from typing import Dict, Any, List, Optional, Union
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives import padding
-from services.chaolma_service import norm_opt_name
+from services.option_package_service import normalize_opt_name as norm_opt_name
 
 KEY = b"SKFJ2424DasfaJRI"
 IV = b"sfq241sf3dscs321"
@@ -254,7 +254,7 @@ def fetch_kcar_car_detail(car_cd: str) -> Optional[Dict[str, Any]]:
                     "org": mh.get('milgOffrOrg') or ''
                 })
 
-            # 6. 선택 옵션 (유상 외장 컬러 제외)
+            # 6. 선택 옵션 (유상 외장 컬러 제외) - 표준 OptionItem 배열 구성
             jato_opts = []
             opt_total_prc = 0
             for o in d.get('carJatoOptList', []):
@@ -263,9 +263,16 @@ def fetch_kcar_car_detail(car_cd: str) -> Optional[Dict[str, Any]]:
                     continue
                 p_raw = int(o.get('optPrc') or 0)
                 p_man = p_raw // 10000 if p_raw >= 10000 else p_raw
+                opt_code = str(o.get('optCd') or '')
                 jato_opts.append({
+                    "code": opt_code,
                     "name": opt_name,
-                    "price": p_man
+                    "raw_name": opt_name,
+                    "price": p_man * 10000,
+                    "price_man": p_man,
+                    "source": "api" if p_man > 0 else "unpriced",
+                    "match_status": "exact",
+                    "desc": ""
                 })
                 opt_total_prc += p_man
 

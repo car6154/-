@@ -3,12 +3,20 @@
  * 깃허브 원본 services/chaolma_service.py 1:1 완벽 이식
  */
 
-export interface GenuineOption {
+export interface OptionItem {
+  code?: string;
   name: string;
+  raw_name?: string;
   price: number;
+  price_man?: number;
+  source?: 'catalog' | 'api' | 'estimated' | 'unpriced';
+  match_status?: 'exact' | 'fuzzy' | 'estimated' | 'unmatched';
+  desc?: string;
   depreciated_price?: number;
   rate?: number;
 }
+
+export interface GenuineOption extends OptionItem {}
 
 export interface ChaolmaCarHistory {
   success: boolean;
@@ -92,7 +100,9 @@ export interface ChaolmaResult {
   depreciation_rate: number;
   remain_rate: number;
   age_years: number;
-  options: GenuineOption[];
+  options: OptionItem[];
+  unclassified_balance?: number;
+  unclassified_balance_man?: number;
   car_history?: ChaolmaCarHistory;
   origin_doc?: ChaolmaOriginDoc;
 }

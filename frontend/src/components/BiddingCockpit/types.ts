@@ -1,4 +1,5 @@
 import { ComparableSaleItem, CarLedgerItem, CockpitPresetData } from '@/types';
+import { OptionItem } from '@/services/chaolmaService';
 
 export interface BiddingCockpitTabProps {
   initialCarName?: string;
@@ -25,6 +26,7 @@ export interface EncarItem {
   accidentType: string;
   color: string;
   optionsText: string;
+  options?: OptionItem[];
   replaces: string[];
   repairs: string[];
   replaceNames?: string[];

@@ -15,49 +15,20 @@ import xml.etree.ElementTree as ET
 import requests
 
 from services.cookie_server import get_current_autoplus_cookie
+from services.option_package_service import (
+    normalize_opt_name,
+    resolve_option_item,
+    get_catalog_for_car,
+    compute_bigram_jaccard
+)
 
 # 메모리 캐시 (차량번호 -> {timestamp, data}) : 30분간 유효
 _CHAOLMA_CACHE: Dict[str, Dict[str, Any]] = {}
 CACHE_TTL = 1800  # 30분
 
-
-def norm_opt_name(s: str) -> str:
-    """옵션명 정규화 (유니코드 특수 로마자, 띄어쓰기, 특수문자, 패키지 제거)"""
-    if not s:
-        return ""
-    # 유니코드 로마자 기호 (Ⅰ, Ⅱ, Ⅲ, Ⅳ, ⅰ, ⅱ, ⅲ, ⅳ) 변환
-    ROMAN_MAP = {
-        'Ⅰ': '1', 'Ⅱ': '2', 'Ⅲ': '3', 'Ⅳ': '4', 'Ⅴ': '5',
-        'ⅰ': '1', 'ⅱ': '2', 'ⅲ': '3', 'ⅳ': '4', 'ⅴ': '5',
-    }
-    for r, d in ROMAN_MAP.items():
-        s = s.replace(r, d)
-    s = s.lower()
-    for ch in [" ", "-", "_", "+", "&", "/", "\"", "'", "(", ")", "[", "]", "·", ","]:
-        s = s.replace(ch, "")
-    s = s.replace("iii", "3").replace("ii", "2").replace("iv", "4")
-    s = s.replace("패키지", "").replace("팩", "")
-    return s
-
-
-def compute_opt_jaccard(s1: str, s2: str) -> float:
-    """두 옵션명 간의 바이그램(2글자) 자카드 유사도 계산"""
-    n1 = norm_opt_name(s1)
-    n2 = norm_opt_name(s2)
-    if not n1 or not n2:
-        return 0.0
-    if n1 == n2:
-        return 1.0
-    # 버전 식별자 불일치 방지 (1 vs 2, 1 vs 3 등)
-    digits1 = [c for c in n1 if c.isdigit()]
-    digits2 = [c for c in n2 if c.isdigit()]
-    if digits1 and digits2 and "".join(digits1) != "".join(digits2):
-        return 0.0
-    b1 = set(n1[i:i+2] for i in range(len(n1)-1))
-    b2 = set(n2[i:i+2] for i in range(len(n2)-1))
-    if not b1 or not b2:
-        return 0.0
-    return len(b1 & b2) / len(b1 | b2)
+# 하위 호환 별칭 (단일 진실 공급원 normalize_opt_name 사용)
+norm_opt_name = normalize_opt_name
+compute_opt_jaccard = compute_bigram_jaccard
 
 
 class ChaolmaService:
@@ -223,20 +194,7 @@ class ChaolmaService:
         """
         getCarMartData JSON 응답을 정형화된 시세 분석 데이터로 변환
         """
-        # 1. 카탈로그 전체 옵션 목록 (원가 매핑용)
-        catalog_opts = c_data.get("optionSelectList", []) or []
-        price_by_name = {}
-        for o in catalog_opts:
-            name = str(o.get("name", "")).strip()
-            p_val = 0
-            try:
-                p_val = int(str(o.get("price", 0)).replace(",", "").strip() or 0)
-            except ValueError:
-                p_val = 0
-            if name:
-                price_by_name[name] = p_val
-
-        # 2. 실제 장착된 옵션 목록 (jsonFullText.optlist)
+        # 1. 원시 JSON 텍스트 파싱
         jf = {}
         raw_jf = c_data.get("jsonFullText")
         if raw_jf:
@@ -248,138 +206,11 @@ class ChaolmaService:
                 except Exception:
                     pass
 
-        # 기본 출고가 및 총 신차가
+        # 2. 기본 출고가 및 총 신차가
         new_car_price = int(c_data.get("carMakePrice") or jf.get("carmakeprice") or 0)
         base_car_price = int(jf.get("newprice") or 0)
 
-        # 3. 옵션 가격 사전 (카탈로그에 없거나 0일 때 보완)
-        DEFAULT_OPTION_PRICES = {
-            "7인치내비": 800000,
-            "8인치내비": 950000,
-            "내비": 850000,
-            "내비게이션": 850000,
-            "ecm&etcs": 250000,
-            "ecm": 250000,
-            "하이패스": 250000,
-            "etcs": 200000,
-            "컴포트": 600000,
-            "컴포트시트": 600000,
-            "기본형-컴포트시트": 600000,
-            "기본형-컨비니언스": 1000000,
-            "컨비니언스": 1000000,
-            "시트": 500000,
-            "통풍시트": 400000,
-            "스타일": 850000,
-            "스타일1": 850000,
-            "스타일2": 950000,
-            "선루프": 800000,
-            "와이드선루프": 790000,
-            "듀얼선루프": 800000,
-            "파노라마선루프": 1150000,
-            "드라이브와이즈": 1100000,
-            "드라이브와이즈1": 1000000,
-            "드라이브와이즈2": 1690000,
-            "스마트센스": 1050000,
-            "현대스마트센스": 1050000,
-            "후측방경보": 450000,
-            "후측방": 450000,
-            "hud": 1200000,
-            "헤드업디스플레이": 1200000,
-            "서라운드뷰": 800000,
-            "어라운드뷰": 800000,
-            "모니터링팩": 700000,
-            "스마트키": 350000,
-            "버튼시동": 350000,
-            "사운드": 600000,
-            "크렐": 600000,
-            "jbl": 600000,
-            "보스": 600000,
-            "렉시콘": 1200000,
-            "프리미엄사운드": 600000,
-            "led헤드램프": 650000,
-        }
-
-        installed_opts_raw = jf.get("optlist", [])
-        if not installed_opts_raw and c_data.get("optList"):
-            installed_opts_raw = c_data.get("optList", [])
-
-        resolved_opts = []
-        total_opt_price = 0
-
-        for io in installed_opts_raw:
-            name = str(io.get("name", "")).strip()
-            if not name:
-                continue
-
-            p = io.get("price")
-            p_val = 0
-            if p is not None:
-                try:
-                    p_val = int(str(p).replace(",", "").strip() or 0)
-                except ValueError:
-                    p_val = 0
-
-            # 가격이 0이면 카탈로그 목록과 정규화 비교
-            if p_val == 0:
-                n_norm = norm_opt_name(name)
-                # 1) 카탈로그에서 완전/포함 일치 우선 매칭
-                for cname, cprice in price_by_name.items():
-                    cn_norm = norm_opt_name(cname)
-                    if n_norm == cn_norm or (n_norm in cn_norm) or (cn_norm in n_norm):
-                        p_val = cprice
-                        break
-
-                # 2) 미매칭 시 바이그램 자카드 유사도 매칭 (오타/기호/부가단어 차이 극복)
-                if p_val == 0:
-                    best_score = 0.0
-                    best_price = 0
-                    for cname, cprice in price_by_name.items():
-                        score = compute_opt_jaccard(name, cname)
-                        if score > best_score and score >= 0.45:
-                            best_score = score
-                            best_price = cprice
-                    if best_price > 0:
-                        p_val = best_price
-
-            # 2) 여전히 0이면 기본 추정치 사전 매칭
-            if p_val == 0:
-                n_clean = name.lower().replace(" ", "").replace("_", "")
-                if n_clean in DEFAULT_OPTION_PRICES:
-                    p_val = DEFAULT_OPTION_PRICES[n_clean]
-                else:
-                    for k, v in DEFAULT_OPTION_PRICES.items():
-                        if k in n_clean:
-                            p_val = v
-                            break
-
-            resolved_opts.append({
-                "name": name,
-                "price": p_val
-            })
-            total_opt_price += p_val
-
-        # 출고가 - 기본가 차액이 있고 옵션 총액과 차이가 날 때 정밀 보정
-        diff_price = max(0, new_car_price - base_car_price)
-        if diff_price > 0:
-            if total_opt_price == 0 and len(resolved_opts) > 0:
-                # 옵션이 1개면 바로 전액 배정
-                if len(resolved_opts) == 1:
-                    resolved_opts[0]["price"] = diff_price
-                    total_opt_price = diff_price
-            elif abs(diff_price - total_opt_price) > 0:
-                # 가격이 0인 옵션이 있으면 차액을 배정
-                unpriced = [o for o in resolved_opts if o["price"] == 0]
-                if len(unpriced) == 1 and diff_price > total_opt_price:
-                    unpriced[0]["price"] = diff_price - total_opt_price
-                    total_opt_price = diff_price
-
-        # 신차가 / 기본가 상호 보완
-        if base_car_price == 0 and new_car_price > 0:
-            base_car_price = max(0, new_car_price - total_opt_price)
-        if new_car_price == 0 and base_car_price > 0:
-            new_car_price = base_car_price + total_opt_price
-
-        # 4. 연식 및 최초등록일
+        # 3. 연식 및 최초등록일 추출
         rel_date = c_data.get("firstDate") or jf.get("firstdate") or ""
         m_year = str(c_data.get("year") or jf.get("year") or "").replace("년", "").strip()
 
@@ -405,19 +236,77 @@ class ChaolmaService:
         else:
             year_display = f"{str(car_yr)[-2:]}년식"
 
-        # 5. 연식별 옵션 감가율 적용
-        deprec_result = cls.calculate_option_depreciation(
-            resolved_opts,
-            release_date=rel_date,
-            year=str(car_yr)
-        )
-
+        # 4. 모델 및 등급 정보
         maker = c_data.get("makerName") or jf.get("makername") or ""
         model_name = c_data.get("modelName") or jf.get("modelname") or ""
         model_detail = c_data.get("modelDetailName") or ""
         grade_name = c_data.get("gradeName") or jf.get("seriesname1") or ""
         grade_detail = c_data.get("gradeDetailName") or jf.get("seriesname") or ""
         trim_name = grade_detail or model_detail or ""
+
+        # 5. 카탈로그 데이터 로드
+        catalog_data = get_catalog_for_car(model_detail or model_name, m_year or reg_year)
+
+        # 6. 차얼마 API 제공 선택 옵션 사전 (원가 매핑용)
+        catalog_opts = c_data.get("optionSelectList", []) or []
+        price_by_name = {}
+        for o in catalog_opts:
+            name = str(o.get("name", "")).strip()
+            p_val = 0
+            try:
+                p_val = int(str(o.get("price", 0)).replace(",", "").strip() or 0)
+            except ValueError:
+                p_val = 0
+            if name:
+                price_by_name[name] = p_val
+
+        # 7. 실제 장착된 옵션 목록 파싱 (단일 가격 규칙 적용)
+        installed_opts_raw = jf.get("optlist", [])
+        if not installed_opts_raw and c_data.get("optList"):
+            installed_opts_raw = c_data.get("optList", [])
+
+        resolved_opts = []
+        total_opt_price = 0
+
+        for io in installed_opts_raw:
+            name = str(io.get("name", "")).strip()
+            if not name:
+                continue
+
+            raw_p = io.get("price")
+            raw_p_val = 0
+            if raw_p is not None:
+                try:
+                    raw_p_val = int(str(raw_p).replace(",", "").strip() or 0)
+                except ValueError:
+                    raw_p_val = 0
+
+            # 4단계 단일 가격 규칙 (OptionItem 생성)
+            opt_item = resolve_option_item(
+                raw_name=name,
+                raw_price=raw_p_val,
+                catalog_data=catalog_data,
+                price_by_name=price_by_name
+            )
+            resolved_opts.append(opt_item)
+            total_opt_price += opt_item["price"]
+
+        # 8. 출고가 - 기본가 차액 및 미분류 잔액 계산 (차액 덤터기 완전 제거)
+        diff_price = max(0, new_car_price - base_car_price)
+        unclassified_balance = max(0, diff_price - total_opt_price)
+
+        # 신차가 / 기본가 상호 보완
+        if base_car_price == 0 and new_car_price > 0:
+            base_car_price = max(0, new_car_price - total_opt_price)
+        if new_car_price == 0 and base_car_price > 0:
+            new_car_price = base_car_price + total_opt_price
+
+        # 9. 연식별 옵션 감가율 적용
+        deprec_result = cls.calculate_option_depreciation(
+            resolved_opts,
+            release_date=rel_date,
+            year=str(car_yr)
+        )
 
         return {
             "success": True,
@@ -440,6 +329,9 @@ class ChaolmaService:
             "base_car_price": base_car_price,
             "options": deprec_result["options"],
             "total_option_price": total_opt_price,
+            "total_option_price_man": round(total_opt_price / 10000),
+            "unclassified_balance": unclassified_balance,
+            "unclassified_balance_man": round(unclassified_balance / 10000),
             "total_depreciated_opt_price": deprec_result["total_depreciated_opt_price"],
             "depreciation_rate": deprec_result["depreciation_rate"],
             "remain_rate": 0.0,

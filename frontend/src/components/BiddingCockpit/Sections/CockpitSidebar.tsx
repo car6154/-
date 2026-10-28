@@ -10,6 +10,7 @@ import {
   fetchNewCarCatalog,
   NewCarCatalogData
 } from '@/services/biddingOptionCatalog';
+import { OptionItem } from '@/services/chaolmaService';
 import { copyToClipboard } from '@/utils/clipboard';
 import { EncarItem } from './ComparableEncarSection';
 
@@ -37,6 +38,8 @@ export interface CockpitSidebarProps {
   mileageKm: number;
   setMileageKm: (km: number) => void;
   optionsTag: string;
+  targetOptions?: OptionItem[];
+  unclassifiedBalance?: number;
   selectedEncar: EncarItem | null;
   expectedSellPrice: number;
   setExpectedSellPrice: (p: number) => void;
@@ -83,6 +86,8 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
   mileageKm,
   setMileageKm,
   optionsTag,
+  targetOptions = [],
+  unclassifiedBalance = 0,
   selectedEncar,
   expectedSellPrice,
   setExpectedSellPrice,
@@ -375,12 +380,14 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-1.5">
                   <span className="text-[11px] font-medium text-zinc-400">추가 옵션</span>
-                  {optionsTag && optionsTag.trim() && !optionsTag.includes('옵션 없음') && (() => {
-                    const optCount = splitOptionString(optionsTag).length;
-                    const totalMatch = optionsTag.match(/\[(?:순정)?옵션총액:?\s*([0-9,]+만?)\]/);
+                  {((targetOptions && targetOptions.length > 0) || (optionsTag && optionsTag.trim() && !optionsTag.includes('옵션 없음'))) && (() => {
+                    const optCount = targetOptions && targetOptions.length > 0 ? targetOptions.length : splitOptionString(optionsTag).length;
+                    const totalMan = targetOptions && targetOptions.length > 0
+                      ? targetOptions.reduce((acc, c) => acc + (c.price_man || Math.round(c.price / 10000)), 0)
+                      : (optionsTag.match(/\[(?:순정)?옵션총액:?\s*([0-9,]+만?)\]/) ? optionsTag.match(/\[(?:순정)?옵션총액:?\s*([0-9,]+만?)\]/)![1] : null);
                     return (
                       <span className="text-[10px] px-1.5 py-0.2 rounded bg-blue-500/15 text-blue-300 font-semibold border border-blue-500/30 font-mono">
-                        신차 옵션 {optCount}개{totalMatch ? ` (총 ${totalMatch[1]})` : ''}
+                        신차 옵션 {optCount}개{totalMan ? ` (총 ${typeof totalMan === 'number' ? `${totalMan}만` : totalMan})` : ''}
                       </span>
                     );
                   })()}
@@ -445,14 +452,74 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
                 </div>
               )}
 
-              {/* Parsed Option Chips (카탈로그 정밀 매칭 + 3단계 신뢰도 + 마우스 호버 상세 툴팁) */}
-              {optionsTag && optionsTag.trim().length > 0 ? (
+              {/* Parsed Option Chips (백엔드 일원화 OptionItem 배열 직접 렌더링 + 미분류 잔액 뱃지) */}
+              {(targetOptions && targetOptions.length > 0) || (optionsTag && optionsTag.trim().length > 0) ? (
                 <div className="flex flex-wrap gap-1.5 py-1">
                   {(() => {
-                    const compOpts = splitOptionString(selectedEncar?.optionsText || '');
+                    const compOpts = (selectedEncar?.options && selectedEncar.options.length > 0)
+                      ? selectedEncar.options.map((o: OptionItem) => o.name)
+                      : splitOptionString(selectedEncar?.optionsText || '');
                     const hasComp = compOpts.length > 0;
-                    const tgtOpts = splitOptionString(optionsTag);
 
+                    if (targetOptions && targetOptions.length > 0) {
+                      return (
+                        <>
+                          {targetOptions.map((opt, idx) => {
+                            const pMan = opt.price_man || Math.round(opt.price / 10000);
+                            const displayName = pMan > 0 ? `${opt.name}(${pMan}만)` : opt.name;
+                            const detail = getOptionMatchDetail(opt.name, compOpts, 'target_vs_comp', targetCatalog, compCatalog);
+
+                            if (hasComp && !detail.isMatched) {
+                              return (
+                                <span
+                                  key={idx}
+                                  title={detail.tooltipText || opt.desc || `${opt.name} (${pMan}만)`}
+                                  className="px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-500 text-emerald-400 font-bold text-[11px] flex items-center gap-1 shadow-[0_0_6px_rgba(34,197,94,0.25)] cursor-help hover:brightness-110 transition"
+                                >
+                                  <span className="text-emerald-400 text-[10px] font-black">+</span>
+                                  <span>{displayName}</span>
+                                </span>
+                              );
+                            }
+
+                            if (hasComp && detail.confidence === 'fuzzy') {
+                              return (
+                                <span
+                                  key={idx}
+                                  title={detail.tooltipText || opt.desc || `${opt.name} (${pMan}만)`}
+                                  className="px-2 py-0.5 rounded bg-amber-500/20 border border-amber-500/60 text-amber-300 font-semibold text-[11px] flex items-center gap-1 cursor-help hover:brightness-110 transition"
+                                >
+                                  <span className="text-amber-400 text-[10px] font-black">~</span>
+                                  <span>{displayName}</span>
+                                </span>
+                              );
+                            }
+
+                            return (
+                              <span
+                                key={idx}
+                                title={detail.tooltipText || opt.desc || `[${opt.name}]\n조회 차량의 장착 순정 옵션입니다.`}
+                                className="px-2 py-0.5 rounded bg-sky-500/20 border border-sky-400/60 text-sky-300 font-semibold text-[11px] flex items-center gap-1 cursor-help hover:brightness-110 transition"
+                              >
+                                <span className="text-sky-400 text-[10px]">{hasComp ? '✓' : '•'}</span>
+                                <span>{displayName}</span>
+                              </span>
+                            );
+                          })}
+
+                          {unclassifiedBalance > 0 && (
+                            <span
+                              title={`카탈로그 옵션가 합계와 출고가 차액 간의 미분류 잔액입니다. 특정 옵션에 임의 배정되지 않은 순수 잔액입니다.`}
+                              className="px-2 py-0.5 rounded bg-amber-500/20 border border-amber-500/50 text-amber-300 font-medium text-[11px] flex items-center gap-1 cursor-help font-mono"
+                            >
+                              <span>ℹ️ 미분류 잔액 ({unclassifiedBalance}만)</span>
+                            </span>
+                          )}
+                        </>
+                      );
+                    }
+
+                    const tgtOpts = splitOptionString(optionsTag);
                     if (tgtOpts.length === 0) {
                       return (
                         <div className="text-[11px] text-zinc-500 py-1 italic">
@@ -465,7 +532,6 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
                       const detail = getOptionMatchDetail(opt, compOpts, 'target_vs_comp', targetCatalog, compCatalog);
 
                       if (hasComp && !detail.isMatched) {
-                        // 타겟 우세/고유 옵션: 녹색 강조 (+ opt)
                         return (
                           <span
                             key={idx}
@@ -479,7 +545,6 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
                       }
 
                       if (hasComp && detail.confidence === 'fuzzy') {
-                        // 퍼지 추정 매칭: 주황/호박색 경고/주의 (~ opt)
                         return (
                           <span
                             key={idx}
@@ -492,7 +557,6 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
                         );
                       }
 
-                      // 공식 카탈로그 일치 또는 비교차 없음: 블루/하늘색 (✓ opt)
                       return (
                         <span
                           key={idx}

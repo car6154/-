@@ -447,12 +447,19 @@ PACKAGE_CATALOG = [
 
 
 def normalize_opt_name(text: str) -> str:
-    """패키지/옵션 명칭 정규화 (공백, 기호, 괄호, 로마숫자 통일)"""
+    """패키지/옵션 명칭 정규화 (공백, 기호, 괄호, 로마숫자 통일) - 단일 진실 공급원"""
     if not text:
         return ""
-    # 유니코드 정규화 (Ⅰ, Ⅱ, Ⅲ -> I, II, III 등)
+    # 1. 유니코드 NFKC 정규화 (전각, 호환 문자 표준화)
     t = unicodedata.normalize('NFKC', str(text))
-    # 괄호 안의 가격 정보나 부가설명 제거: '컴포트 패키지 III (79만)' -> '컴포트 패키지 III'
+    # 2. 로마자 특수문자 직접 치환 (유니코드 및 소문자 대응)
+    ROMAN_MAP = {
+        'Ⅰ': '1', 'Ⅱ': '2', 'Ⅲ': '3', 'Ⅳ': '4', 'Ⅴ': '5',
+        'ⅰ': '1', 'ⅱ': '2', 'ⅲ': '3', 'ⅳ': '4', 'ⅴ': '5',
+    }
+    for r, d in ROMAN_MAP.items():
+        t = t.replace(r, d)
+    # 3. 괄호 안의 가격 정보나 부가설명 분리: '컴포트 패키지 III (79만)' -> '컴포트 패키지 III'
     # 단, 전체가 괄호로 감싸진 경우('(캘리그래피)') 괄호만 벗겨서 알맹이 보존
     sub_t = re.sub(r'\(.*?\)', '', t).strip().lower()
     sub_t = re.sub(r'\[.*?\]', '', sub_t).strip()
@@ -460,10 +467,9 @@ def normalize_opt_name(text: str) -> str:
         t = sub_t
     else:
         t = t.replace('(', '').replace(')', '').replace('[', '').replace(']', '').strip().lower()
-    # 공백 및 특수기호 제거
-    t = re.sub(r'[\s\-_/·+.]', '', t)
-    # 로마숫자 통일 (끝자리 또는 패키지 키워드 뒤: iv->4, iii->3, ii->2, i->1)
-    # 순수 영단어(drivewise, navigation 등) 파괴를 방지하기 위해 로마숫자 치환 안전 처리
+    # 4. 공백 및 특수기호 제거 (앰퍼샌드, 따옴표, 쉼표, 슬래시, 플러스 등 전수 클리닝)
+    t = re.sub(r'[\s\-_/·+.&"\'\',]', '', t)
+    # 5. 로마숫자 통일 (끝자리 또는 패키지 키워드 뒤: iv->4, iii->3, ii->2, i->1)
     t = re.sub(r'iv$', '4', t)
     t = re.sub(r'iii$', '3', t)
     t = re.sub(r'ii$', '2', t)
@@ -472,7 +478,138 @@ def normalize_opt_name(text: str) -> str:
     t = re.sub(r'(패키지|플러스|팩|센스|와이즈|컨트롤|어시스트|액티브|컴포트|셀렉티브|스타일|세이프티)iii', r'\g<1>3', t)
     t = re.sub(r'(패키지|플러스|팩|센스|와이즈|컨트롤|어시스트|액티브|컴포트|셀렉티브|스타일|세이프티)ii', r'\g<1>2', t)
     t = re.sub(r'(패키지|플러스|팩|센스|와이즈|컨트롤|어시스트|액티브|컴포트|셀렉티브|스타일|세이프티)i', r'\g<1>1', t)
+    # 6. '패키지', '팩' 접미어 제거
+    t = t.replace("패키지", "").replace("팩", "")
     return t
+
+
+# ═══════════════════════════════════════════════════════════════
+# 💰 단일 가격 규칙 및 표준 옵션 항목 (OptionItem) 구조
+# 규칙: 카탈로그 정가(catalog) -> API 가격(api) -> 추정(estimated) -> 미가격(unpriced)
+# ═══════════════════════════════════════════════════════════════
+
+DEFAULT_OPTION_PRICES = {
+    "7인치내비": 800000, "8인치내비": 950000, "내비": 850000, "내비게이션": 850000,
+    "ecm&etcs": 250000, "ecm": 250000, "하이패스": 250000, "etcs": 200000,
+    "컴포트": 600000, "컴포트시트": 600000, "기본형-컴포트시트": 600000,
+    "기본형-컨비니언스": 1000000, "컨비니언스": 1000000, "시트": 500000,
+    "통풍시트": 400000, "스타일": 850000, "스타일1": 850000, "스타일2": 950000,
+    "선루프": 800000, "와이드선루프": 790000, "듀얼선루프": 800000, "파노라마선루프": 1150000,
+    "드라이브와이즈": 1100000, "드라이브와이즈1": 1000000, "드라이브와이즈2": 1690000,
+    "스마트센스": 1050000, "현대스마트센스": 1050000, "후측방경보": 450000, "후측방": 450000,
+    "hud": 1200000, "헤드업디스플레이": 1200000, "서라운드뷰": 800000, "어라운드뷰": 800000,
+    "모니터링팩": 700000, "스마트키": 350000, "버튼시동": 350000, "사운드": 600000,
+    "크렐": 600000, "jbl": 600000, "보스": 600000, "렉시콘": 1200000,
+    "프리미엄사운드": 600000, "led헤드램프": 650000,
+}
+
+
+def resolve_option_item(
+    raw_name: str,
+    raw_price: int = 0,
+    code: str = "",
+    catalog_data: dict = None,
+    price_by_name: dict = None
+) -> dict:
+    """
+    단일 옵션에 대해 백엔드 단일 가격 규칙을 적용하여 표준 OptionItem 딕셔너리 생성
+    규칙: 카탈로그 정가(catalog) -> API 가격(api) -> 기본 사전 추정치(estimated) -> 미가격(unpriced)
+    """
+    name_clean = str(raw_name or "").strip()
+    if not name_clean:
+        return {
+            "code": str(code or ""),
+            "name": "",
+            "raw_name": "",
+            "price": 0,
+            "price_man": 0,
+            "source": "unpriced",
+            "match_status": "unmatched",
+            "desc": ""
+        }
+
+    standard_name = name_clean
+    price = 0
+    source = "unpriced"
+    match_status = "unmatched"
+    desc = ""
+
+    # 1순위: 공식 신차가격표 카탈로그 매칭 (catalog)
+    matched = find_official_catalog_option(name_clean, catalog_data) if catalog_data else None
+    if matched and matched.get("price") and matched["price"] > 0:
+        standard_name = matched.get("official_name") or name_clean
+        price = int(matched["price"])
+        source = "catalog"
+        match_status = "exact" if normalize_opt_name(standard_name) == normalize_opt_name(name_clean) else "fuzzy"
+        desc = matched.get("desc") or ""
+
+    # 2순위: 원천 API 가격 매칭 (api - 차얼마 price_by_name 또는 명시된 raw_price)
+    if price == 0 and price_by_name:
+        n_norm = normalize_opt_name(name_clean)
+        # 2-1: 완전/포함 일치
+        for cname, cprice in price_by_name.items():
+            cn_norm = normalize_opt_name(cname)
+            if n_norm == cn_norm or (n_norm in cn_norm) or (cn_norm in n_norm):
+                price = int(cprice)
+                standard_name = cname
+                source = "api"
+                match_status = "exact" if n_norm == cn_norm else "fuzzy"
+                break
+        # 2-2: 바이그램 자카드 유사도 매칭 (기호/단어 차이 극복)
+        if price == 0:
+            best_score = 0.0
+            best_price = 0
+            best_cname = ""
+            for cname, cprice in price_by_name.items():
+                score = compute_bigram_jaccard(name_clean, cname)
+                if score > best_score and score >= 0.45:
+                    best_score = score
+                    best_price = int(cprice)
+                    best_cname = cname
+            if best_price > 0:
+                price = best_price
+                standard_name = best_cname
+                source = "api"
+                match_status = "fuzzy"
+
+    # 2순위-B: raw_price가 직접 주어진 경우 (예: 엔카/케이카 상세 데이터의 가격)
+    if price == 0 and raw_price > 0:
+        price = raw_price if raw_price >= 10000 else raw_price * 10000
+        source = "api"
+        match_status = "exact"
+
+    # 3순위: 기본 사전 추정치 (estimated)
+    if price == 0:
+        n_clean = name_clean.lower().replace(" ", "").replace("_", "")
+        if n_clean in DEFAULT_OPTION_PRICES:
+            price = DEFAULT_OPTION_PRICES[n_clean]
+            source = "estimated"
+            match_status = "estimated"
+        else:
+            for k, v in DEFAULT_OPTION_PRICES.items():
+                if k in n_clean:
+                    price = v
+                    source = "estimated"
+                    match_status = "estimated"
+                    break
+
+    # 4순위: 미가격 (unpriced)
+    if price == 0:
+        source = "unpriced"
+        match_status = "unmatched"
+
+    price_man = round(price / 10000) if price >= 10000 else (price if price > 0 else 0)
+
+    return {
+        "code": str(code or ""),
+        "name": standard_name,
+        "raw_name": name_clean,
+        "price": price,
+        "price_man": price_man,
+        "source": source,
+        "match_status": match_status,
+        "desc": desc
+    }
 
 
 def get_bigram_set(s: str) -> set:

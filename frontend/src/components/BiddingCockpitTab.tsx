@@ -71,6 +71,8 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = (props) => {
         savedSuccess={cockpit.savedSuccess}
         handleSaveToLedger={cockpit.handleSaveToLedger}
         targetCatalog={cockpit.targetNewCarCatalog}
+        targetOptions={cockpit.targetOptions}
+        unclassifiedBalance={cockpit.unclassifiedBalance}
       />
 
       {/* ========================================================

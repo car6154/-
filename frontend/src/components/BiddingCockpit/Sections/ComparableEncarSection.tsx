@@ -6,6 +6,7 @@ import {
   fetchNewCarCatalog,
   NewCarCatalogData
 } from '@/services/biddingOptionCatalog';
+import { OptionItem } from '@/services/chaolmaService';
 import { CarDamageDiagram2D, getDamagePartKoreanName } from './CarDamageDiagram2D';
 import { TrackedCarsModal } from './TrackedCarsModal';
 import { KcarMarketStats, KcarCarItem, KcarDetailData } from '../types';
@@ -23,6 +24,7 @@ export interface EncarItem {
   checkDate?: string;
   holdingDays?: number | null;
   optionsText?: string;
+  options?: OptionItem[];
   originPrice?: number;
   optionPrice?: number;
   newCarPrice?: number;
@@ -939,7 +941,12 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
 
               {/* Parsed Individual Option Badges */}
               {(() => {
-                const optItems = splitOptionString(selectedEncar.optionsText || '');
+                const optItems = (selectedEncar.options && selectedEncar.options.length > 0)
+                  ? selectedEncar.options.map((o: OptionItem) => {
+                      const pMan = o.price_man || Math.round(o.price / 10000);
+                      return pMan > 0 ? `${o.name}(${pMan}만)` : o.name;
+                    })
+                  : splitOptionString(selectedEncar.optionsText || '');
 
                 if (optItems.length === 0) {
                   return (

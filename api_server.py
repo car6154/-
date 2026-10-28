@@ -1461,6 +1461,9 @@ def search_encar_market(req: EncarSearchRequest):
             acc_str = str(row.get('사고유무', '-'))
             col_str = str(row.get('외장컬러', '-'))
             opt_s = str(row.get('추가옵션', '-'))
+            opts_arr = row.get('options', [])
+            if not isinstance(opts_arr, list):
+                opts_arr = []
             link_s = str(row.get('링크', f"https://fem.encar.com/cars/detail/{cid}"))
             clean_cid = re.sub(r'\D', '', cid)
             is_company = bool(clean_cid and clean_cid in company_car_map)
@@ -1478,6 +1481,7 @@ def search_encar_market(req: EncarSearchRequest):
                 "accidentType": acc_str,
                 "color": col_str,
                 "optionsText": opt_s,
+                "options": opts_arr,
                 "replaces": [],
                 "repairs": [],
                 "encarUrl": link_s,
@@ -1776,7 +1780,8 @@ def get_encar_inspection(car_id: str):
         except Exception as e:
             print(f"[api_server] vehicle spec fetch error: {e}")
 
-        # 2. 추가 옵션 카탈로그 정밀 조회 (Streamlit tab_cockpit.py 146~160행과 100% 동일: choice_codes와 일치하는 실 장착 유료옵션만 필터링)
+        # 2. 추가 옵션 카탈로그 정밀 조회 (choice_codes와 일치하는 실 장착 유료옵션 필터링 + 표준 OptionItem 배열 구성)
+        options_list = []
         try:
             choice_codes = [str(c) for c in (v_data.get("options", {}).get("choice", []) or [])]
             opt_names = []
@@ -1790,7 +1795,9 @@ def get_encar_inspection(car_id: str):
                     if isinstance(catalog, list):
                         for opt in catalog:
                             if isinstance(opt, dict) and str(opt.get("optionCd", "")) in choice_codes:
-                                o_name = opt.get("optionName", "").strip()
+                                o_code = str(opt.get("optionCd", ""))
+                                o_raw_name = opt.get("optionName", "")
+                                o_name = o_raw_name.strip()
                                 o_price = _safe_int(opt.get("price", 0))
                                 if o_price > 0:
                                     total_option_price += o_price
@@ -1799,6 +1806,16 @@ def get_encar_inspection(car_id: str):
                                         opt_names.append(f"{o_name}({o_price}만)")
                                     else:
                                         opt_names.append(o_name)
+                                options_list.append({
+                                    "code": o_code,
+                                    "name": o_name,
+                                    "raw_name": o_raw_name,
+                                    "price": o_price * 10000,
+                                    "price_man": o_price,
+                                    "source": "api" if o_price > 0 else "unpriced",
+                                    "match_status": "exact",
+                                    "desc": ""
+                                })
             if opt_names:
                 options_text = " · ".join(opt_names)
             else:
@@ -1958,6 +1975,7 @@ def get_encar_inspection(car_id: str):
                 "replaceNames": replace_names,
                 "repairNames": repair_names,
                 "optionsText": options_text,
+                "options": options_list,
                 "originPrice": origin_price,
                 "optionPrice": total_option_price,
                 "newCarPrice": new_car_price

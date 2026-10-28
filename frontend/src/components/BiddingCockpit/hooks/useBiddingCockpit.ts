@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import { CarLedgerItem } from '@/types';
-import { queryChaolmaCar, type ChaolmaCarHistory, type ChaolmaOriginDoc } from '@/services/chaolmaService';
+import { queryChaolmaCar, type ChaolmaCarHistory, type ChaolmaOriginDoc, type OptionItem } from '@/services/chaolmaService';
 import { computeRuleBasedAssessment } from '@/utils/ruleBasedAssessment';
 import {
   HD_PART_MAP,
@@ -34,6 +34,8 @@ export function useBiddingCockpit({
   const [yearModel, setYearModel] = useState<number>(0);
   const [mileageKm, setMileageKm] = useState<number>(0);
   const [optionsTag, setOptionsTag] = useState('');
+  const [targetOptions, setTargetOptions] = useState<OptionItem[]>([]);
+  const [unclassifiedBalance, setUnclassifiedBalance] = useState<number>(0);
   const [expectedSellPrice, setExpectedSellPrice] = useState<number>(0);
   const [outerRepairCount, setOuterRepairCount] = useState<number>(0);
   const [auctionType, setAuctionType] = useState('셀프(기본)');
@@ -214,6 +216,8 @@ export function useBiddingCockpit({
     setLiveMarketStats(null);
     setCockpitModalCar(null);
     setOptionsTag('');
+    setTargetOptions([]);
+    setUnclassifiedBalance(0);
     setSearchStatus(null);
     setTargetNewCarCatalog(null);
 
@@ -803,14 +807,15 @@ export function useBiddingCockpit({
 
         let calculatedOptionsTag = '';
         if (res.options && res.options.length > 0) {
-          const cat = await fetchNewCarCatalog(res.model_detail_name || res.model_name || resolvedCarName || carName, yr ? String(yr) : undefined);
-          if (cat) setTargetNewCarCatalog(cat);
-          const normalized = normalizeChaolmaOptions(res.options, cat);
-          const optStr = normalized.map(o => `${o.standardName}(${o.standardPriceMan}만)`).join(' · ');
-          const totalOptMan = normalized.reduce((acc, cur) => acc + cur.standardPriceMan, 0);
+          setTargetOptions(res.options);
+          setUnclassifiedBalance(res.unclassified_balance_man || 0);
+          const optStr = res.options.map(o => `${o.name}(${o.price_man || Math.round(o.price / 10000)}만)`).join(' · ');
+          const totalOptMan = res.total_option_price ? (res.total_option_price > 10000 ? Math.round(res.total_option_price / 10000) : res.total_option_price) : res.options.reduce((acc, cur) => acc + (cur.price_man || Math.round(cur.price / 10000)), 0);
           calculatedOptionsTag = `${optStr} [옵션총액: ${totalOptMan}만]`;
           setOptionsTag(calculatedOptionsTag);
         } else {
+          setTargetOptions([]);
+          setUnclassifiedBalance(0);
           calculatedOptionsTag = '추가 옵션 없음 (기본 출고 사양)';
           setOptionsTag(calculatedOptionsTag);
         }
@@ -2267,5 +2272,9 @@ export function useBiddingCockpit({
 
     // 신차 공식 카탈로그 상태
     targetNewCarCatalog,
+
+    // 일원화된 목표차 옵션 배열 및 미분류 잔액
+    targetOptions,
+    unclassifiedBalance,
   };
 }
