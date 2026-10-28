@@ -4003,6 +4003,7 @@ def fetch_kcar_market_stats(
             raw_optn = r.get('optnNm') or ''
             valid_cars.append({
                 "carCd": car_cd,
+                "modelName": r.get('modelNm') or '',
                 "carName": r.get('carWhlNm') or r.get('modelNm') or '',
                 "price": prc,
                 "mileage": milg,
@@ -4335,6 +4336,7 @@ def fetch_kcar_market_stats(
             raw_optn = r.get('optnNm') or ''
             wide_cars.append({
                 "carCd": car_cd,
+                "modelName": r.get('modelNm') or '',
                 "carName": r.get('carWhlNm') or r.get('modelNm') or '',
                 "price": prc,
                 "mileage": milg,

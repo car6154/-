@@ -86,6 +86,7 @@ export interface HeydealerBidItem {
 
 export interface KcarCarItem {
   carCd: string;
+  modelName?: string;
   carName: string;
   price: number;
   mileage: number;

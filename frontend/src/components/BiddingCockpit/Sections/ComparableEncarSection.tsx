@@ -322,44 +322,60 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
     return sortedKcarList.find(c => c.carCd === selectedKcarCarCd) || null;
   }, [sortedKcarList, selectedKcarCarCd]);
 
-  // 케이카 단일 차량 상세 정보 API 호출
+  const [kcarDetailError, setKcarDetailError] = useState<string | null>(null);
+
+  // 케이카 단일 차량 상세 정보 API 호출 (7초 타임아웃 + 실패 안내)
   useEffect(() => {
     if (!selectedKcarCarCd) {
       setKcarDetail(null);
+      setKcarDetailError(null);
       return;
     }
-    let isCancelled = false;
+    const controller = new AbortController();
+    const timer = setTimeout(() => {
+      controller.abort();
+    }, 7000); // 7초 타임아웃
+
     setIsKcarDetailLoading(true);
+    setKcarDetailError(null);
 
     fetch('/api/kcar/detail', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ carCd: selectedKcarCarCd })
+      body: JSON.stringify({ carCd: selectedKcarCarCd }),
+      signal: controller.signal
     })
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
       .then(json => {
-        if (!isCancelled) {
-          if (json.success && json.data) {
-            setKcarDetail(json.data);
-          } else {
-            setKcarDetail(null);
-          }
+        if (json.success && json.data) {
+          setKcarDetail(json.data);
+          setKcarDetailError(null);
+        } else {
+          setKcarDetail(null);
+          setKcarDetailError(json.message || '상세 정보를 불러오지 못했습니다.');
         }
       })
       .catch(err => {
-        if (!isCancelled) {
+        if (err.name === 'AbortError') {
+          console.warn(`[K-Car Detail] carCd=${selectedKcarCarCd} 타임아웃 (7초 초과)`);
+          setKcarDetailError('상세 정보 요청 시간이 초과되었습니다.');
+        } else {
           console.error('[K-Car Detail Fetch Error]', err);
-          setKcarDetail(null);
+          setKcarDetailError('상세 정보를 불러오지 못했습니다.');
         }
+        setKcarDetail(null);
       })
       .finally(() => {
-        if (!isCancelled) {
-          setIsKcarDetailLoading(false);
-        }
+        clearTimeout(timer);
+        setIsKcarDetailLoading(false);
       });
 
     return () => {
-      isCancelled = true;
+      clearTimeout(timer);
+      controller.abort();
     };
   }, [selectedKcarCarCd]);
 
@@ -1068,20 +1084,20 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
               </div>
             </div>
 
-            {/* 케이카 테이블 (좌측 7칸, 엔카와 100% 동일 양식) */}
-            <div className="border border-[#232634] rounded-lg overflow-hidden bg-[#0d0e12] flex-1 flex flex-col min-h-[300px] max-h-[640px] overflow-y-auto">
+            {/* 케이카 테이블 (좌측 7칸, 엔카와 100% 동일 양식 및 가로스크롤 보장) */}
+            <div className="overflow-x-auto max-h-[580px] rounded-lg border border-[#232634] bg-[#0c0d12]">
               <table className="w-full text-left text-[12px] text-zinc-200">
                 <thead className="bg-[#14151b] sticky top-0 z-10 text-[11px] text-zinc-300 font-bold uppercase border-b border-[#262833]">
                   <tr>
-                    <th className="py-2.5 px-2 text-center bg-[#14151b] whitespace-nowrap w-[35px]">선택</th>
-                    <th className="py-2.5 px-3 bg-[#14151b] whitespace-nowrap">차량명</th>
-                    {showTrimColumn && <th className="py-2.5 px-2 bg-[#14151b] whitespace-nowrap">세부등급</th>}
-                    <th className="py-2.5 px-2 text-center bg-[#14151b] whitespace-nowrap w-[70px]">연식</th>
-                    <th className="py-2.5 px-2 text-right bg-[#14151b] whitespace-nowrap w-[90px]">주행(km)</th>
-                    <th className="py-2.5 px-2 text-right bg-[#14151b] whitespace-nowrap w-[90px]">💰 가격</th>
-                    <th className="py-2.5 px-2 text-left bg-[#14151b] whitespace-nowrap w-[130px]">사고유무</th>
-                    <th className="py-2.5 px-2 text-center bg-[#14151b] whitespace-nowrap w-[60px]">색상</th>
-                    <th className="py-2.5 px-2 text-center bg-[#14151b] whitespace-nowrap w-[80px]">지점</th>
+                    <th className="py-2 px-1 text-center w-7 bg-[#14151b] whitespace-nowrap">선택</th>
+                    <th className="py-2 px-1.5 bg-[#14151b] whitespace-nowrap w-[82px]">차량명</th>
+                    {showTrimColumn && <th className="py-2 px-1.5 bg-[#14151b] whitespace-nowrap w-[95px]">세부등급</th>}
+                    <th className="py-2 px-1 text-center bg-[#14151b] whitespace-nowrap w-[58px]">연식</th>
+                    <th className="py-2 px-1.5 text-right bg-[#14151b] whitespace-nowrap w-[84px]">주행(km)</th>
+                    <th className="py-2 px-1.5 text-right bg-[#14151b] whitespace-nowrap w-[78px]">💰 가격</th>
+                    <th className="py-2 px-2 text-left bg-[#14151b] whitespace-nowrap w-[115px] min-w-[115px]">사고유무</th>
+                    <th className="py-2 px-1 text-center bg-[#14151b] whitespace-nowrap w-[50px]">색상</th>
+                    <th className="py-2 px-1 text-center bg-[#14151b] whitespace-nowrap w-[72px]">지점</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-[#232634]">
@@ -1114,9 +1130,9 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                             ? 'bg-blue-600/30 text-white font-bold'
                             : 'hover:bg-[#14151c]'
                         }`}
-                        title="클릭 시 우측 상세카드에 점검/옵션/타이어 정보가 표시됩니다."
+                        title="클릭 시 우측 상세카드에 점검/옵션 정보가 표시됩니다."
                       >
-                        <td className="py-2 px-2 text-center whitespace-nowrap">
+                        <td className="py-1.5 px-1 text-center whitespace-nowrap">
                           <input
                             type="radio"
                             name="kcarSelect"
@@ -1125,34 +1141,34 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                             className="accent-blue-500 cursor-pointer w-3.5 h-3.5"
                           />
                         </td>
-                        <td className="py-2 px-3 text-[12px] whitespace-nowrap font-bold text-sky-400">
-                          {car.carName}
+                        <td className="py-1.5 px-1.5 truncate max-w-[82px] font-medium text-sky-400" title={car.carName}>
+                          {car.modelName || car.carName}
                         </td>
                         {showTrimColumn && (
-                          <td className="py-2 px-2 text-[11px] text-zinc-300 font-medium whitespace-nowrap">
+                          <td className="py-1.5 px-1.5 truncate max-w-[95px] text-[11px] text-zinc-300 font-medium" title={car.gradeDetail || car.grade || ''}>
                             {car.gradeDetail || car.grade || '-'}
                           </td>
                         )}
-                        <td className="py-2 px-2 text-center text-[12px] whitespace-nowrap">
+                        <td className="py-1.5 px-1 text-center text-[12px] whitespace-nowrap">
                           <span className={isTargetYear ? 'text-amber-300 font-bold font-mono' : 'text-zinc-300 font-mono'}>
                             {car.fullYear || `${car.year}년`}
                           </span>
                         </td>
-                        <td className="py-2 px-2 text-right text-[12px] font-mono text-zinc-200 whitespace-nowrap">
+                        <td className="py-1.5 px-1.5 text-right text-[12px] font-mono text-zinc-200 whitespace-nowrap">
                           {car.mileage ? `${Number(car.mileage).toLocaleString()}km` : '-'}
                         </td>
-                        <td className="py-2 px-2 text-right font-bold text-amber-300 font-mono text-[13px] whitespace-nowrap">
+                        <td className="py-1.5 px-1.5 text-right font-bold text-amber-300 font-mono text-[13px] whitespace-nowrap">
                           {car.price ? `${Number(car.price).toLocaleString()}만` : '-'}
                         </td>
-                        <td className="py-2 px-2 text-left whitespace-nowrap">
+                        <td className="py-1.5 px-2 text-left whitespace-nowrap">
                           <span className={`text-[11px] ${accInfo.style}`}>
                             {accInfo.text}
                           </span>
                         </td>
-                        <td className="py-2 px-2 text-center text-[11px] text-zinc-300 whitespace-nowrap">
+                        <td className="py-1.5 px-1 text-center text-[11px] text-zinc-300 whitespace-nowrap">
                           {car.color || '-'}
                         </td>
-                        <td className="py-2 px-2 text-center text-[11px] text-zinc-300 whitespace-nowrap">
+                        <td className="py-1.5 px-1 text-center text-[11px] text-zinc-300 whitespace-nowrap">
                           <span className="px-1.5 py-0.5 rounded bg-zinc-800/80 text-zinc-300 border border-zinc-700/50">
                             {car.center || '-'}
                           </span>
@@ -1195,8 +1211,8 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                 <div className="space-y-2 border-b border-[#232634] pb-2.5">
                   <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-1.5 flex-wrap">
-                      <span className="text-base sm:text-lg font-black text-white">
-                        {kcarDetail?.modelName || selectedKcar.carName}
+                      <span className="text-base sm:text-lg font-black text-white" title={selectedKcar.carName}>
+                        {kcarDetail?.modelName || selectedKcar.modelName || selectedKcar.carName}
                       </span>
                       <span className="px-1.5 py-0.5 rounded bg-orange-500/20 text-orange-300 font-extrabold text-[10px] border border-orange-500/40">
                         K-Car 직영
@@ -1207,21 +1223,39 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                         </span>
                       )}
                     </div>
-                    {/* 케이카 공식 상세페이지 바로가기 버튼 */}
-                    <a
-                      href={kcarDetail?.detailUrl || selectedKcar.detailUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="px-2 py-0.5 rounded bg-[#1c1e28] hover:bg-[#282c3c] text-sky-400 hover:text-sky-300 border border-[#35394a] text-xs font-bold transition flex items-center gap-1 shrink-0"
-                    >
-                      <span>케이카 원문</span>
-                      <ExternalLink className="w-3 h-3" />
-                    </a>
+                    <div className="flex items-center gap-2">
+                      {/* 신차가는 케이카 원문 미제공이므로 미표시하고, JATO 추가 옵션 합계만 표시 */}
+                      {kcarDetail?.options && kcarDetail.options.totalPrice > 0 && (
+                        <span
+                          className="text-xs sm:text-sm font-bold text-amber-300 font-mono shrink-0 px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/30"
+                          title="케이카 JATO 추가 선택옵션 합계 (출고 등급 신차가는 원문 미제공)"
+                        >
+                          옵션합계 +{kcarDetail.options.totalPrice.toLocaleString()}만
+                        </span>
+                      )}
+                      {/* 케이카 공식 상세페이지 바로가기 버튼 */}
+                      <a
+                        href={kcarDetail?.detailUrl || selectedKcar.detailUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-2 py-0.5 rounded bg-[#1c1e28] hover:bg-[#282c3c] text-sky-400 hover:text-sky-300 border border-[#35394a] text-xs font-bold transition flex items-center gap-1 shrink-0"
+                      >
+                        <span>케이카 원문</span>
+                        <ExternalLink className="w-3 h-3" />
+                      </a>
+                    </div>
                   </div>
                   <div className="text-xs sm:text-sm text-zinc-300 font-semibold">
                     {kcarDetail?.gradeFullName || selectedKcar.gradeDetail || selectedKcar.grade || ''}
                   </div>
                 </div>
+
+                {/* 상세 수신 실패/타임아웃 안내 */}
+                {kcarDetailError && !isKcarDetailLoading && (
+                  <div className="p-2.5 bg-rose-500/10 border border-rose-500/30 rounded-lg text-rose-300 text-xs flex items-center gap-2">
+                    <span>⚠️ {kcarDetailError}</span>
+                  </div>
+                )}
 
                 {/* 2. 칩스: 연식 / 주행 km / 색상 / 점검일(있을 때만) / 사고 배지 */}
                 <div className="flex flex-wrap gap-1.5 pt-0.5 text-xs">
@@ -1295,8 +1329,16 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                   <span className="text-sm font-bold text-zinc-300">만원</span>
                 </div>
 
-                {/* 5. 옵션: 이름 배지만 최대 8개 + 초과 개수 (가격/합계 제외) */}
+                {/* 5. 옵션: 이름 배지만 최대 8개 + 초과 개수 (가격/합계 제외, 로딩 중에는 미노출) */}
                 {(() => {
+                  if (isKcarDetailLoading) {
+                    return (
+                      <div className="p-2.5 bg-[#0c0e14] rounded-lg border border-[#232634] text-xs text-amber-400 font-mono animate-pulse">
+                        ⚡ 옵션 정보 수신 중...
+                      </div>
+                    );
+                  }
+
                   const optList = kcarDetail?.options?.items || [];
 
                   if (optList.length === 0) {
