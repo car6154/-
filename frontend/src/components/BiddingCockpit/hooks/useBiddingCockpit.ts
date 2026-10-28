@@ -771,29 +771,44 @@ export function useBiddingCockpit({
       message: '🔍 차얼마 & 엔카 실시간 제원/옵션 스캔 중...'
     });
 
-    // 1. 차얼마(제원/옵션/소유자) 프로미스 (수백ms~1초 만에 완료되어 기본 화면 즉시 렌더)
-    const chaolmaPromise = searchCockpitUnified({
-      carNumber: no,
-      mileage: effectiveMileage,
-      sources: ['chaolma'],
-    }).then((unifiedRes) => {
-      if (reqId !== activeRequestIdRef.current) return;
+    let resolvedMaker = manufacturer;
+    let resolvedCarName = carName;
+    let rawG = rawGradeNameRef.current;
+    let rawGd = rawGradeDetailNameRef.current;
+    let resolvedGrade = detailModel;
+    let yr = yearModel;
+    let finalMileage = effectiveMileage;
+    let calculatedOptionsTag = optionsTag;
+
+    // 1. 차얼마(제원/옵션/소유자) 선행 await (수백ms~1초 만에 완료되어 제원 확정 및 기본 화면 즉시 렌더)
+    try {
+      const unifiedRes = await searchCockpitUnified({
+        carNumber: no,
+        mileage: effectiveMileage,
+        sources: ['chaolma'],
+      });
+      if (reqId !== activeRequestIdRef.current) return false;
       console.info(`[InvDiag] 차얼마 제원 응답: carNumber=${no}, success=${Boolean(unifiedRes?.chaolma?.success)}`);
 
-      const res = unifiedRes.chaolma;
+      const res = unifiedRes?.chaolma;
       if (res && res.success) {
         skipAutoFetchRef.current = true;
         setCarNumber(no);
-        if (res.maker) setManufacturer(res.maker);
-        const resolvedCarName = res.model_detail_name || res.model_name || '';
-        if (resolvedCarName) setCarName(resolvedCarName);
-        const rawG = String(res.grade_name || '').trim();
-        const rawGd = String(res.grade_detail_name || '').trim();
+        if (res.maker) {
+          resolvedMaker = res.maker;
+          setManufacturer(res.maker);
+        }
+        const foundCarName = res.model_detail_name || res.model_name || '';
+        if (foundCarName) {
+          resolvedCarName = foundCarName;
+          setCarName(foundCarName);
+        }
+        rawG = String(res.grade_name || '').trim();
+        rawGd = String(res.grade_detail_name || '').trim();
         rawGradeNameRef.current = rawG;
         rawGradeDetailNameRef.current = rawGd;
 
         // 💡 유종/배기량(rawG)과 세부트림(rawGd) 결합
-        let resolvedGrade = '';
         if (rawG && rawGd) {
           if (rawGd.includes(rawG)) {
             resolvedGrade = rawGd;
@@ -803,12 +818,11 @@ export function useBiddingCockpit({
           }
         } else if (rawGd) {
           resolvedGrade = rawGd;
-        } else {
+        } else if (rawG) {
           resolvedGrade = rawG;
         }
         if (resolvedGrade) setDetailModel(resolvedGrade);
 
-        let yr = yearModel;
         if (res.year) {
           const ym = res.year.match(/\d+/);
           if (ym) {
@@ -819,7 +833,6 @@ export function useBiddingCockpit({
         }
         setYearModel(yr);
 
-        let calculatedOptionsTag = '';
         if (res.options && res.options.length > 0) {
           setTargetOptions(res.options);
           setUnclassifiedBalance(res.unclassified_balance_man || 0);
@@ -882,10 +895,12 @@ export function useBiddingCockpit({
           const histMil = (res.car_history as any)?.mileages?.[0]?.mileage;
           const foundMil = docMil || histMil;
           if (foundMil && typeof foundMil === 'number' && foundMil > 0) {
+            finalMileage = foundMil;
             setMileageKm(foundMil);
           } else if (foundMil) {
             const parsed = parseInt(String(foundMil).replace(/[^\d]/g, ''), 10);
             if (!isNaN(parsed) && parsed > 0) {
+              finalMileage = parsed;
               setMileageKm(parsed);
             }
           }
@@ -903,7 +918,7 @@ export function useBiddingCockpit({
           });
         }
       } else {
-        if (unifiedRes.statusMessage) {
+        if (unifiedRes?.statusMessage) {
           setSearchStatus(unifiedRes.statusMessage);
         } else {
           setSearchStatus({
@@ -912,8 +927,8 @@ export function useBiddingCockpit({
           });
         }
       }
-    }).catch((err: any) => {
-      if (reqId !== activeRequestIdRef.current) return;
+    } catch (err: any) {
+      if (reqId !== activeRequestIdRef.current) return false;
       console.error('차얼마 제원 조회 오류:', err);
       const isTimeout = err?.isTimeout || String(err?.message).includes('시간 초과');
       setSearchStatus({
@@ -922,16 +937,25 @@ export function useBiddingCockpit({
           ? `❌ [${no}] 차얼마 조회 시간 초과 (30초 동안 응답이 없습니다)` 
           : `❌ [${no}] 차량 제원 조회 중 오류가 발생했습니다: ${err?.message || err}`
       });
-    }).finally(() => {
+    } finally {
       if (reqId === activeRequestIdRef.current) {
         setIsSearchingCar(false);
       }
-    });
+    }
 
-    // 2. 케이카 프로미스 (독립 실행: ~2.6초에 완료되어 케이카 스피너 즉시 해제 및 화면 반영)
+    if (reqId !== activeRequestIdRef.current) return false;
+
+    // 2. 케이카 프로미스 (차얼마 확정 specs로 병렬 실행: ~2.6초에 완료되어 케이카 스피너 즉시 해제 및 화면 반영)
     const kcarPromise = searchCockpitUnified({
       carNumber: no,
-      mileage: effectiveMileage,
+      mileage: finalMileage,
+      carName: resolvedCarName || carName,
+      detailModel: resolvedGrade || detailModel,
+      gradeName: rawG,
+      gradeDetailName: rawGd,
+      manufacturer: resolvedMaker || manufacturer,
+      year: yr,
+      targetOptions: calculatedOptionsTag || optionsTag,
       sources: ['kcar'],
     }).then((unifiedRes) => {
       if (reqId !== activeRequestIdRef.current) return;
@@ -948,10 +972,17 @@ export function useBiddingCockpit({
       }
     });
 
-    // 3. 엔카 프로미스 (독립 실행: ~12초에 완료되어 엔카 스피너 해제 및 반영, 실패/타임아웃 시 엔카만 해제)
+    // 3. 엔카 프로미스 (차얼마 확정 specs로 병렬 실행: ~12초에 완료되어 엔카 스피너 해제 및 반영, 실패/타임아웃 시 엔카만 해제)
     const encarPromise = searchCockpitUnified({
       carNumber: no,
-      mileage: effectiveMileage,
+      mileage: finalMileage,
+      carName: resolvedCarName || carName,
+      detailModel: resolvedGrade || detailModel,
+      gradeName: rawG,
+      gradeDetailName: rawGd,
+      manufacturer: resolvedMaker || manufacturer,
+      year: yr,
+      targetOptions: calculatedOptionsTag || optionsTag,
       sources: ['encar'],
     }).then((unifiedRes) => {
       if (reqId !== activeRequestIdRef.current) return;
@@ -977,11 +1008,15 @@ export function useBiddingCockpit({
     });
 
     try {
-      // 3개 출처 동시 진행 (한 출처의 실패가 다른 출처 표시를 막지 않음)
-      await Promise.allSettled([chaolmaPromise, kcarPromise, encarPromise]);
+      // 엔카 & 케이카 병렬 진행 (한 출처의 실패가 다른 출처 표시를 막지 않음)
+      await Promise.allSettled([kcarPromise, encarPromise]);
       return true;
     } catch {
       return false;
+    } finally {
+      if (reqId === activeRequestIdRef.current) {
+        skipAutoFetchRef.current = false;
+      }
     }
   };
 
