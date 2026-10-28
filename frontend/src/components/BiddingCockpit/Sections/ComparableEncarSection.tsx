@@ -409,6 +409,24 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
       isMounted = false;
     };
   }, [selectedEncar?.carName, selectedEncar?.year]);
+
+  const [kcarCompCatalog, setKcarCompCatalog] = useState<NewCarCatalogData | null>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    const model = kcarDetail?.modelName || selectedKcar?.carName || selectedKcar?.modelName;
+    const yr = kcarDetail?.year || selectedKcar?.year || selectedKcar?.fullYear;
+    if (model) {
+      fetchNewCarCatalog(model, yr ? String(yr) : undefined).then((cat) => {
+        if (isMounted) setKcarCompCatalog(cat);
+      });
+    } else {
+      setKcarCompCatalog(null);
+    }
+    return () => {
+      isMounted = false;
+    };
+  }, [kcarDetail?.modelName, selectedKcar?.carName, selectedKcar?.modelName, kcarDetail?.year, selectedKcar?.year, selectedKcar?.fullYear]);
   const toggleTrim = onToggleTrimColumn || (() => setInternalShowTrim(prev => !prev));
 
   return (
@@ -1233,16 +1251,6 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                           옵션합계 +{kcarDetail.options.totalPrice.toLocaleString()}만
                         </span>
                       )}
-                      {/* 케이카 공식 상세페이지 바로가기 버튼 */}
-                      <a
-                        href={kcarDetail?.detailUrl || selectedKcar.detailUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="px-2 py-0.5 rounded bg-[#1c1e28] hover:bg-[#282c3c] text-sky-400 hover:text-sky-300 border border-[#35394a] text-xs font-bold transition flex items-center gap-1 shrink-0"
-                      >
-                        <span>케이카 원문</span>
-                        <ExternalLink className="w-3 h-3" />
-                      </a>
                     </div>
                   </div>
                   <div className="text-xs sm:text-sm text-zinc-300 font-semibold">
@@ -1335,7 +1343,7 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                   <span className="text-sm font-bold text-zinc-300">만원</span>
                 </div>
 
-                {/* 5. 옵션: 이름 배지만 최대 8개 + 초과 개수 (가격/합계 제외, 로딩 중에는 미노출) */}
+                {/* 5. 옵션: 엔카와 1:1 완전 동일 옵션 매칭 및 설명 툴팁 적용 */}
                 {(() => {
                   if (isKcarDetailLoading) {
                     return (
@@ -1345,9 +1353,9 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                     );
                   }
 
-                  const optList = kcarDetail?.options?.items || [];
+                  const rawOptList = kcarDetail?.options?.items || [];
 
-                  if (optList.length === 0) {
+                  if (rawOptList.length === 0) {
                     return (
                       <div className="p-2.5 bg-[#0c0e14] rounded-lg border border-[#232634] text-xs text-zinc-500 italic">
                         추가옵션 없음 또는 기본 트림 사양
@@ -1355,23 +1363,86 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                     );
                   }
 
-                  const displayOpts = optList.slice(0, 8);
-                  const overflowCount = optList.length - 8;
+                  const targetOpts = splitOptionString(optionsTag || '');
+                  const currentCompCat = kcarCompCatalog || compCatalog;
+
+                  const exactOpts: { name: string; tooltip: string; detail: any }[] = [];
+                  const fuzzyOpts: { name: string; tooltip: string; detail: any }[] = [];
+                  const extraOpts: { name: string; tooltip: string; detail: any }[] = [];
+
+                  for (const o of rawOptList) {
+                    // HTML 특수문자 디코딩 (&amp; -> & 등)
+                    const cleanName = (o.name || '')
+                      .replace(/&amp;/g, '&')
+                      .replace(/&lt;/g, '<')
+                      .replace(/&gt;/g, '>')
+                      .replace(/&quot;/g, '"')
+                      .replace(/&#39;/g, "'")
+                      .trim();
+                    if (!cleanName) continue;
+
+                    const detail = getOptionMatchDetail(cleanName, targetOpts, 'comp_vs_target', targetCatalog, currentCompCat);
+                    if (detail.confidence === 'exact') {
+                      exactOpts.push({ name: cleanName, tooltip: detail.tooltipText, detail });
+                    } else if (detail.confidence === 'fuzzy') {
+                      fuzzyOpts.push({ name: cleanName, tooltip: detail.tooltipText, detail });
+                    } else {
+                      extraOpts.push({ name: cleanName, tooltip: detail.tooltipText, detail });
+                    }
+                  }
+
+                  // 공식 일치(하늘색 ✓) -> 퍼지 추정(주황색 ~) -> 비교차 전용(오렌지 +) 순 정렬
+                  const sortedOptItems = [
+                    ...exactOpts,
+                    ...fuzzyOpts,
+                    ...extraOpts
+                  ];
+
+                  const displayOpts = sortedOptItems.slice(0, 8);
+                  const overflowCount = sortedOptItems.length - 8;
 
                   return (
                     <div className="flex flex-wrap gap-1.5 p-2 bg-[#0c0e14] rounded-lg border border-[#232634]">
-                      {displayOpts.map((item, idx) => (
-                        <span
-                          key={idx}
-                          className="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 flex items-center gap-1 max-w-[210px]"
-                        >
-                          <span className="truncate">{item.name}</span>
-                        </span>
-                      ))}
+                      {displayOpts.map((item, idx) => {
+                        if (item.detail.confidence === 'exact') {
+                          return (
+                            <span
+                              key={idx}
+                              title={item.tooltip}
+                              className="px-2 py-0.5 rounded text-[11px] font-bold bg-sky-500/20 text-sky-300 border border-sky-400 shadow-[0_0_6px_rgba(14,165,233,0.2)] flex items-center gap-1 cursor-help hover:brightness-110 transition max-w-[210px]"
+                            >
+                              <span className="text-sky-400 font-black shrink-0">✓</span>
+                              <span className="truncate">{item.name}</span>
+                            </span>
+                          );
+                        }
+                        if (item.detail.confidence === 'fuzzy') {
+                          return (
+                            <span
+                              key={idx}
+                              title={item.tooltip}
+                              className="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/60 flex items-center gap-1 cursor-help hover:brightness-110 transition max-w-[210px]"
+                            >
+                              <span className="text-amber-400 font-black shrink-0">~</span>
+                              <span className="truncate">{item.name}</span>
+                            </span>
+                          );
+                        }
+                        return (
+                          <span
+                            key={idx}
+                            title={item.tooltip}
+                            className="px-2 py-0.5 rounded text-[11px] font-bold bg-orange-500/20 text-orange-400 border border-orange-500/60 flex items-center gap-1 cursor-help hover:brightness-110 transition max-w-[210px]"
+                          >
+                            <span className="text-orange-400 font-black shrink-0">+</span>
+                            <span className="truncate">{item.name}</span>
+                          </span>
+                        );
+                      })}
                       {overflowCount > 0 && (
                         <span
                           className="px-2 py-0.5 rounded text-[11px] font-medium bg-[#1e222d] text-slate-400 border border-[#2e384d] cursor-help hover:brightness-110 transition"
-                          title={`추가 옵션:\n${optList.slice(8).map(o => `- ${o.name}`).join('\n')}`}
+                          title={`추가 옵션:\n${sortedOptItems.slice(8).map(o => `- ${o.name}`).join('\n')}`}
                         >
                           +{overflowCount}
                         </span>
