@@ -161,6 +161,7 @@ export function useBiddingCockpit({
   const rawGradeNameRef = useRef<string>('');
   const rawGradeDetailNameRef = useRef<string>('');
   const prevAiRetailPriceRef = useRef<number>(0);
+  const lastEncarFailReasonRef = useRef<string>('');
 
   // 선택된 엔카 매물 및 실시간 성능점검표 연동 상태 (상단 호이스팅)
   const [selectedEncarId, setSelectedEncarId] = useState<string>('');
@@ -315,6 +316,7 @@ export function useBiddingCockpit({
       }
 
       if (data.success && Array.isArray(data.items) && data.items.length > 0) {
+        lastEncarFailReasonRef.current = '';
         setEncarErrorMessage('');
         setLiveEncarList(data.items);
         setEncarTotalModelCount(data.totalModelCount || data.items.length);
@@ -361,6 +363,8 @@ export function useBiddingCockpit({
 
         return data.items;
       } else {
+        const rawReason = data.failReason ? String(data.failReason).replace(/^[❌\s]+/, '').trim() : '';
+        lastEncarFailReasonRef.current = rawReason;
         setLiveEncarList([]);
         setEncarTotalModelCount(data.totalModelCount || 0);
         setEncarFilteredCount(0);
@@ -374,6 +378,7 @@ export function useBiddingCockpit({
       }
     } catch (e: any) {
       console.warn('Encar fetch failed:', e);
+      lastEncarFailReasonRef.current = e?.message ? String(e.message).replace(/^[❌\s]+/, '').trim() : '';
       setLiveEncarList([]);
       setEncarTotalModelCount(0);
       setEncarFilteredCount(0);
@@ -896,9 +901,10 @@ export function useBiddingCockpit({
 
         skipAutoFetchRef.current = true;
         if (encarItems.length === 0) {
+          const reasonSuffix = lastEncarFailReasonRef.current ? ` (원인: ${lastEncarFailReasonRef.current})` : '';
           setSearchStatus({
             type: 'warning',
-            message: `⚠️ 차얼마 제원은 연동됐으나 엔카 매물을 가져오지 못했습니다. (${no} ${resolvedCarName})`
+            message: `⚠️ 차얼마 제원은 연동됐으나 엔카 매물을 가져오지 못했습니다. (${no} ${resolvedCarName})${reasonSuffix}`
           });
         } else {
           setSearchStatus({
@@ -1292,9 +1298,10 @@ export function useBiddingCockpit({
         });
 
         if (fetchedItems.length === 0) {
+          const reasonSuffix = lastEncarFailReasonRef.current ? ` (원인: ${lastEncarFailReasonRef.current})` : '';
           setSearchStatus({
             type: 'warning',
-            message: `⚠️ 엔카 매물을 가져오지 못했습니다. (${cNo} ${cName})`
+            message: `⚠️ 엔카 매물을 가져오지 못했습니다. (${cNo} ${cName})${reasonSuffix}`
           });
         } else {
           setSearchStatus({

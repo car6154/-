@@ -824,6 +824,7 @@ def search_encar_market(req: EncarSearchRequest):
             return {
                 "success": False,
                 "message": "엔카 실시간 매물을 불러오지 못했습니다.",
+                "failReason": msg,
                 "items": [],
                 "totalModelCount": 0,
                 "filteredCount": 0,
