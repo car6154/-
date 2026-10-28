@@ -19,6 +19,7 @@ from typing import Dict, Any, List, Optional, Union
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives import padding
 from services.option_package_service import normalize_opt_name as norm_opt_name
+from services.part_codes import resolve_part_code, is_outer_part, is_inner_part
 
 KEY = b"SKFJ2424DasfaJRI"
 IV = b"sfq241sf3dscs321"
@@ -205,6 +206,8 @@ def fetch_kcar_car_detail(car_cd: str) -> Optional[Dict[str, Any]]:
                     dgnos_data = dgnos_json.get('data', {})
                     ext_items = dgnos_data.get('exteriorData', []) or []
                     frm_items = dgnos_data.get('frameData', []) or []
+                    has_inner_damage = False
+                    has_outer_damage = False
 
                     for item in (ext_items + frm_items):
                         part_id = str(item.get('part') or '').strip()
@@ -224,10 +227,25 @@ def fetch_kcar_car_detail(car_cd: str) -> Optional[Dict[str, Any]]:
                         elif part_status == '3':  # 판금/용접 (W)
                             repair_names.append(kr_label)
 
+                        # 외판 / 골격 구분 판정 (services.part_codes 단일 기준)
+                        code = resolve_part_code(part_id) or resolve_part_code(kr_label)
+                        if code:
+                            if is_inner_part(code):
+                                has_inner_damage = True
+                            elif is_outer_part(code):
+                                has_outer_damage = True
+                        else:
+                            if item in frm_items:
+                                has_inner_damage = True
+                            else:
+                                has_outer_damage = True
+
                     if replace_names or repair_names:
                         change_cnt = len(replace_names)
                         metal_cnt = len(repair_names)
-                        if accident_type == '무사고':
+                        if has_inner_damage:
+                            accident_type = '사고'
+                        elif has_outer_damage and accident_type == '무사고':
                             accident_type = '단순수리'
             except Exception as e:
                 pass
