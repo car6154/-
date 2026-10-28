@@ -1007,7 +1007,7 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
           <div className="xl:col-span-7 space-y-2 flex flex-col">
             <div className="flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm font-bold text-white px-1">
               <span className="flex items-center gap-2 shrink-0">
-                <span>📰 K-Car 직영 매물 (전체 {kcarStats?.count || kcarCars.length}대 중 유효 {kcarCars.length}대)</span>
+                <span>📰 K-Car 직영 매물 (전체 {kcarCars.length}대 중 유효 {kcarStats?.count ?? kcarCars.length}대)</span>
               </span>
               <div className="flex items-center gap-2 flex-wrap">
                 <div className="flex items-center gap-1.5 shrink-0">
@@ -1177,244 +1177,161 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
             </div>
           </div>
 
-          {/* Right: K-Car Detail Card (5 cols) - 엔카와 동일 양식 */}
-          <div className="xl:col-span-5 bg-[#14151b] border border-[#262833] rounded-xl p-4 sm:p-5 space-y-4 h-auto flex flex-col justify-between">
+          {/* Right: K-Car Detail Card (5 cols) - 엔카 1:1 동일 양식 */}
+          <div className="xl:col-span-5 bg-[#14151f] p-4 rounded-xl border border-[#262833] space-y-3 flex flex-col justify-between">
             {!selectedKcar ? (
               <div className="flex flex-col items-center justify-center h-full text-center space-y-3 py-16 px-4 bg-[#0a0b0e] rounded-xl border border-dashed border-[#2a2d3d]">
-                <div className="w-12 h-12 rounded-full bg-orange-500/10 flex items-center justify-center text-orange-400">
+                <div className="w-12 h-12 rounded-full bg-amber-500/10 flex items-center justify-center text-amber-400">
                   <Car className="w-6 h-6" />
                 </div>
                 <div className="text-sm font-bold text-white">비교 매물이 선택되지 않았습니다</div>
                 <div className="text-xs text-zinc-400 max-w-[280px] leading-relaxed">
-                  좌측 <span className="text-amber-300 font-semibold">케이카 비교 매물 목록</span>에서 확인하고 싶은 차량의 행을 클릭하면, 해당 비교 매물의 <span className="text-orange-300 font-semibold">점검일자, 사고/보험 이력, 타이어 잔여 mm, 추가옵션</span>이 여기에 표시됩니다.
+                  좌측 <span className="text-amber-300 font-semibold">케이카 비교 매물 목록</span>에서 확인하고 싶은 차량의 행을 클릭하면, 해당 비교 매물의 <span className="text-orange-300 font-semibold">점검일자, 사고 배지, 추가옵션</span>이 여기에 표시됩니다.
                 </div>
               </div>
             ) : (
-              <div className="space-y-3.5">
+              <>
                 {/* 1. Header Title & Link */}
-                <div className="space-y-1.5">
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="min-w-0">
-                      <div className="flex items-center gap-1.5 flex-wrap">
-                        <span className="text-base sm:text-lg font-black text-white">
-                          {kcarDetail?.modelName || selectedKcar.carName}
+                <div className="space-y-2 border-b border-[#232634] pb-2.5">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      <span className="text-base sm:text-lg font-black text-white">
+                        {kcarDetail?.modelName || selectedKcar.carName}
+                      </span>
+                      <span className="px-1.5 py-0.5 rounded bg-orange-500/20 text-orange-300 font-extrabold text-[10px] border border-orange-500/40">
+                        K-Car 직영
+                      </span>
+                      {isKcarDetailLoading && (
+                        <span className="text-[11px] text-amber-400 font-mono animate-pulse">
+                          ⚡ 상세 정보 수신 중...
                         </span>
-                        <span className="px-1.5 py-0.5 rounded bg-orange-500/20 text-orange-300 font-extrabold text-[10px] border border-orange-500/40">
-                          K-Car 직영
-                        </span>
-                        <span className="px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-300 font-medium text-[10px] border border-zinc-700/50">
-                          {selectedKcar.center || kcarDetail?.center || '-'}
-                        </span>
-                        {isKcarDetailLoading && (
-                          <span className="text-[11px] text-amber-400 font-mono animate-pulse">
-                            ⚡ 상세 정보 수신 중...
-                          </span>
-                        )}
-                      </div>
-                      <div className="text-xs sm:text-sm text-zinc-300 font-semibold">
-                        {kcarDetail?.gradeFullName || selectedKcar.gradeDetail || '-'}
-                      </div>
+                      )}
                     </div>
                     {/* 케이카 공식 상세페이지 바로가기 버튼 */}
                     <a
                       href={kcarDetail?.detailUrl || selectedKcar.detailUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="px-2.5 py-1 rounded bg-[#1c1e28] hover:bg-[#282c3c] text-sky-400 hover:text-sky-300 border border-[#35394a] text-xs font-bold transition flex items-center gap-1 shrink-0"
+                      className="px-2 py-0.5 rounded bg-[#1c1e28] hover:bg-[#282c3c] text-sky-400 hover:text-sky-300 border border-[#35394a] text-xs font-bold transition flex items-center gap-1 shrink-0"
                     >
                       <span>케이카 원문</span>
                       <ExternalLink className="w-3 h-3" />
                     </a>
                   </div>
-
-                  {/* 가격 및 스펙 요약 바 */}
-                  <div className="flex flex-wrap items-center justify-between gap-2 p-2.5 rounded-lg bg-[#0d0e12] border border-[#232634]">
-                    <div className="flex items-baseline gap-2">
-                      <span className="text-xl font-black text-amber-400 font-mono">
-                        {(kcarDetail?.price || selectedKcar.price || 0).toLocaleString()}만원
-                      </span>
-                      <span className="text-xs text-zinc-400 font-mono">
-                        {(kcarDetail?.mileage || selectedKcar.mileage || 0).toLocaleString()}km
-                      </span>
-                    </div>
-                    <div className="text-xs text-zinc-300 font-mono">
-                      <span>{selectedKcar.fullYear || kcarDetail?.year}년식</span>
-                      <span className="mx-1 text-zinc-600">·</span>
-                      <span>{selectedKcar.color || kcarDetail?.color || '-'}</span>
-                    </div>
+                  <div className="text-xs sm:text-sm text-zinc-300 font-semibold">
+                    {kcarDetail?.gradeFullName || selectedKcar.gradeDetail || selectedKcar.grade || ''}
                   </div>
                 </div>
 
-                {/* 2. 핵심 날짜 4종 (광고일, 성능일, 발급일, 점검기관) */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 text-center text-xs">
-                  <div className="bg-[#181a24] p-2 rounded-lg border border-[#232634]">
-                    <div className="text-[10px] text-zinc-400 font-medium">광고등록일</div>
-                    <div className="font-mono font-bold text-zinc-200 text-[11px] truncate" title={kcarDetail?.dates?.regDate}>
-                      {kcarDetail?.dates?.regDate ? kcarDetail.dates.regDate.slice(0, 8).replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3') : '-'}
-                    </div>
-                  </div>
-                  <div className="bg-[#181a24] p-2 rounded-lg border border-[#232634]">
-                    <div className="text-[10px] text-zinc-400 font-medium">성능점검일</div>
-                    <div className="font-mono font-bold text-sky-300 text-[11px] truncate" title={kcarDetail?.dates?.pfmncDate}>
-                      {kcarDetail?.dates?.pfmncDate ? kcarDetail.dates.pfmncDate.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3') : '-'}
-                    </div>
-                  </div>
-                  <div className="bg-[#181a24] p-2 rounded-lg border border-[#232634]">
-                    <div className="text-[10px] text-zinc-400 font-medium">발급일자</div>
-                    <div className="font-mono font-bold text-zinc-200 text-[11px] truncate" title={kcarDetail?.dates?.issueDate}>
-                      {kcarDetail?.dates?.issueDate || '-'}
-                    </div>
-                  </div>
-                  <div className="bg-[#181a24] p-2 rounded-lg border border-[#232634]">
-                    <div className="text-[10px] text-zinc-400 font-medium">점검기관</div>
-                    <div className="font-bold text-zinc-200 text-[11px] truncate" title={kcarDetail?.dates?.inspName}>
-                      {kcarDetail?.dates?.inspName ? kcarDetail.dates.inspName.slice(0, 8) : '-'}
-                    </div>
-                  </div>
+                {/* 2. 칩스: 연식 / 주행 km / 색상 / 점검일(있을 때만) / 사고 배지 */}
+                <div className="flex flex-wrap gap-1.5 pt-0.5 text-xs">
+                  <span className="px-2.5 py-1 rounded bg-[#1f222e] text-white font-bold font-mono">
+                    {selectedKcar.fullYear || selectedKcar.year || kcarDetail?.year}년식
+                  </span>
+                  <span className="px-2.5 py-1 rounded bg-[#1f222e] text-emerald-400 font-bold font-mono">
+                    {(kcarDetail?.mileage || selectedKcar.mileage || 0).toLocaleString()}km
+                  </span>
+                  <span className="px-2.5 py-1 rounded bg-[#1f222e] text-zinc-300 font-medium">
+                    ⚫ {kcarDetail?.color || selectedKcar.color || '색상'}
+                  </span>
+                  {kcarDetail?.dates?.pfmncDate ? (
+                    <span className="px-2.5 py-1 rounded bg-blue-500/20 text-blue-300 font-bold font-mono" title="법정 성능점검일자">
+                      📋 점검: {kcarDetail.dates.pfmncDate.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3')}
+                    </span>
+                  ) : null}
+                  {(() => {
+                    const accType = kcarDetail?.accident?.accidentType || selectedKcar.accident || '';
+                    if (accType === '무사고' || accType.includes('완전무사고')) {
+                      return (
+                        <span className="px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/40">
+                          🟢 완전무사고
+                        </span>
+                      );
+                    }
+                    if (accType === '사고' || (accType.includes('사고') && !accType.includes('무사고'))) {
+                      return (
+                        <span className="px-2.5 py-1 rounded bg-rose-500/20 text-rose-300 font-bold border border-rose-500/40">
+                          🔴 사고
+                        </span>
+                      );
+                    }
+                    return (
+                      <span className="px-2.5 py-1 rounded bg-amber-500/20 text-amber-300 font-bold border border-amber-500/40">
+                        🟡 단순수리
+                      </span>
+                    );
+                  })()}
                 </div>
 
-                {/* 3. 사고 및 보험 이력 (성능 판정 + 보험금) */}
-                <div className="bg-[#181a24] p-3 rounded-lg border border-[#232634] space-y-2">
-                  <div className="flex items-center justify-between text-xs border-b border-[#262833] pb-1.5">
-                    <span className="font-bold text-zinc-200 flex items-center gap-1">
-                      <span>🛠️ 성능 판정 & 교환·판금</span>
-                    </span>
-                    <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${
-                      kcarDetail?.accident?.accidentType === '무사고'
-                        ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
-                        : kcarDetail?.accident?.accidentType === '단순수리'
-                          ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
-                          : 'bg-rose-500/20 text-rose-300 border border-rose-500/40'
-                    }`}>
-                      {kcarDetail?.accident?.accidentType === '무사고' && '🟢 완전무사고'}
-                      {kcarDetail?.accident?.accidentType === '단순수리' && '🟡 단순수리'}
-                      {kcarDetail?.accident?.accidentType === '사고' && '🔴 사고차'}
-                      {!kcarDetail?.accident && (selectedKcar.accident || '확인 중')}
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-2 gap-2 text-xs">
-                    <div className="flex items-center justify-between bg-[#12131a] px-2.5 py-1.5 rounded border border-[#262833]">
-                      <span className="text-zinc-400 text-[11px]">외판/골격 교환</span>
-                      <span className="font-mono font-bold text-zinc-200">
-                        {kcarDetail?.accident ? `${kcarDetail.accident.changeCount}건` : '-'}
-                      </span>
+                {/* 3. 사고 내역: 교환 건수·판금 건수가 있을 때만 한 줄씩 (둘 다 0이면 미렌더링) */}
+                {(() => {
+                  const chg = kcarDetail?.accident?.changeCount || 0;
+                  const mtl = kcarDetail?.accident?.metalCount || 0;
+                  if (chg <= 0 && mtl <= 0) return null;
+
+                  return (
+                    <div className="pt-1.5 pb-0.5 text-xs flex flex-col gap-1">
+                      {chg > 0 && (
+                        <div className="text-rose-400 font-medium flex items-start gap-1">
+                          <span className="font-bold shrink-0">🔴 교환(X):</span>
+                          <span className="font-semibold text-rose-300">{chg}건</span>
+                        </div>
+                      )}
+                      {mtl > 0 && (
+                        <div className="text-amber-400 font-medium flex items-start gap-1">
+                          <span className="font-bold shrink-0">🟡 판금/용접(W):</span>
+                          <span className="font-semibold text-amber-300">{mtl}건</span>
+                        </div>
+                      )}
                     </div>
-                    <div className="flex items-center justify-between bg-[#12131a] px-2.5 py-1.5 rounded border border-[#262833]">
-                      <span className="text-zinc-400 text-[11px]">판금/용접 수리</span>
-                      <span className="font-mono font-bold text-zinc-200">
-                        {kcarDetail?.accident ? `${kcarDetail.accident.metalCount}건` : '-'}
-                      </span>
-                    </div>
-                  </div>
-                  {/* 카히스토리 보험사고 */}
-                  <div className="grid grid-cols-2 gap-2 text-xs pt-1">
-                    <div className="bg-[#12131a] p-2 rounded border border-[#262833]">
-                      <div className="text-[10px] text-zinc-400">내차 피해 (보험)</div>
-                      <div className="font-mono font-bold text-zinc-200 text-xs mt-0.5">
-                        {kcarDetail?.insurance ? (
-                          kcarDetail.insurance.myAccidentCount > 0
-                            ? `${kcarDetail.insurance.myAccidentCount}회 (${(kcarDetail.insurance.myAccidentCost / 10000).toLocaleString()}만원)`
-                            : '없음 (0원)'
-                        ) : '-'}
+                  );
+                })()}
+
+                {/* 4. Large Price Display */}
+                <div className="flex items-baseline gap-1.5 pt-1 pb-0.5">
+                  <span className="text-2xl sm:text-3xl font-black text-amber-400 font-mono tracking-tight">
+                    {(kcarDetail?.price || selectedKcar.price || 0).toLocaleString()}
+                  </span>
+                  <span className="text-sm font-bold text-zinc-300">만원</span>
+                </div>
+
+                {/* 5. 옵션: 이름 배지만 최대 8개 + 초과 개수 (가격/합계 제외) */}
+                {(() => {
+                  const optList = kcarDetail?.options?.items || [];
+
+                  if (optList.length === 0) {
+                    return (
+                      <div className="p-2.5 bg-[#0c0e14] rounded-lg border border-[#232634] text-xs text-zinc-500 italic">
+                        추가옵션 없음 또는 기본 트림 사양
                       </div>
-                    </div>
-                    <div className="bg-[#12131a] p-2 rounded border border-[#262833]">
-                      <div className="text-[10px] text-zinc-400">타차가해 (상대차)</div>
-                      <div className="font-mono font-bold text-zinc-200 text-xs mt-0.5">
-                        {kcarDetail?.insurance ? (
-                          kcarDetail.insurance.otherAccidentCount > 0
-                            ? `${kcarDetail.insurance.otherAccidentCount}회 (${(kcarDetail.insurance.otherAccidentCost / 10000).toLocaleString()}만원)`
-                            : '없음 (0원)'
-                        ) : '-'}
-                      </div>
-                    </div>
-                  </div>
-                  {/* 특수 사고 (전손/침수/도난) & 용도 */}
-                  <div className="flex items-center justify-between text-[11px] px-2 py-1 rounded bg-[#101117] text-zinc-400">
-                    <span>
-                      {kcarDetail?.insurance?.flood || kcarDetail?.insurance?.totalLoss || kcarDetail?.insurance?.theft ? (
-                        <span className="text-rose-400 font-bold">⚠️ 전손/침수/도난 이력 있음</span>
-                      ) : (
-                        <span className="text-emerald-400 font-medium">✓ 전손·침수·도난 없음</span>
-                      )}
-                    </span>
-                    <span>
-                      {kcarDetail?.history?.ownerChangeCount === 0 ? (
-                        <span className="text-emerald-300 font-bold">👑 1인 신조</span>
-                      ) : (
-                        <span>소유변경 {kcarDetail?.history?.ownerChangeCount ?? 0}회</span>
-                      )}
-                      <span className="mx-1 text-zinc-600">·</span>
-                      {kcarDetail?.history?.isRental ? (
-                        <span className="text-amber-400 font-bold">렌터카</span>
-                      ) : (
-                        <span>자가용</span>
-                      )}
-                    </span>
-                  </div>
-                </div>
+                    );
+                  }
 
-                {/* 4. 타이어 잔여 트레드 (4본 실측 mm, 추정 km 없음) */}
-                <div className="bg-[#181a24] p-3 rounded-lg border border-[#232634] space-y-2">
-                  <div className="flex items-center justify-between text-xs border-b border-[#262833] pb-1.5">
-                    <span className="font-bold text-zinc-200">🛞 타이어 잔여 트레드 (실측 mm)</span>
-                    <span className="text-[10px] text-zinc-400 font-mono">단위: mm</span>
-                  </div>
-                  {kcarDetail?.tires && kcarDetail.tires.length > 0 ? (
-                    <div className="grid grid-cols-2 gap-2 text-xs">
-                      {kcarDetail.tires.slice(0, 4).map((t, tIdx) => {
-                        const mm = t.remainMm;
-                        const mmColor = mm >= 5.0 ? 'text-emerald-400' : mm >= 3.0 ? 'text-amber-400' : 'text-rose-400';
-                        return (
-                          <div key={tIdx} className="bg-[#12131a] p-2 rounded border border-[#262833] flex items-center justify-between">
-                            <div>
-                              <div className="text-[11px] font-medium text-zinc-300">{t.position}</div>
-                              <div className="text-[9.5px] text-zinc-400 font-mono">
-                                {t.width && t.ratio ? `${t.width}/${t.ratio}R${t.inch}` : ''}
-                                {t.dotYear ? ` (${t.dotYear}년 ${t.dotWeek}주)` : ''}
-                              </div>
-                            </div>
-                            <div className={`font-mono font-black text-sm ${mmColor}`}>
-                              {mm > 0 ? `${mm} mm` : '-'}
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  ) : (
-                    <div className="text-center py-2 text-zinc-400 text-xs">
-                      {isKcarDetailLoading ? '타이어 실측 정보를 불러오는 중...' : '타이어 실측 정보가 등록되지 않았습니다.'}
-                    </div>
-                  )}
-                </div>
+                  const displayOpts = optList.slice(0, 8);
+                  const overflowCount = optList.length - 8;
 
-                {/* 5. 선택 옵션 (JATO 옵션) */}
-                <div className="bg-[#181a24] p-3 rounded-lg border border-[#232634] space-y-2">
-                  <div className="flex items-center justify-between text-xs border-b border-[#262833] pb-1.5">
-                    <span className="font-bold text-zinc-200">✨ 추가 선택 옵션 (K-Car 정식 사양)</span>
-                    <span className="text-[11px] font-mono text-amber-300 font-bold">
-                      {kcarDetail?.options ? `총 ${kcarDetail.options.items.length}개 (+${kcarDetail.options.totalPrice.toLocaleString()}만)` : '-'}
-                    </span>
-                  </div>
-                  {kcarDetail?.options?.items && kcarDetail.options.items.length > 0 ? (
-                    <div className="flex flex-wrap gap-1.5 max-h-[100px] overflow-y-auto">
-                      {kcarDetail.options.items.map((opt, oIdx) => (
+                  return (
+                    <div className="flex flex-wrap gap-1.5 p-2 bg-[#0c0e14] rounded-lg border border-[#232634]">
+                      {displayOpts.map((item, idx) => (
                         <span
-                          key={oIdx}
-                          className="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-bold border border-amber-500/30 text-[11px] flex items-center gap-1"
+                          key={idx}
+                          className="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 flex items-center gap-1 max-w-[210px]"
                         >
-                          <span>{opt.name}</span>
-                          {opt.price > 0 && <span className="text-amber-400/80 font-mono text-[10px]">+{opt.price}만</span>}
+                          <span className="truncate">{item.name}</span>
                         </span>
                       ))}
+                      {overflowCount > 0 && (
+                        <span
+                          className="px-2 py-0.5 rounded text-[11px] font-medium bg-[#1e222d] text-slate-400 border border-[#2e384d] cursor-help hover:brightness-110 transition"
+                          title={`추가 옵션:\n${optList.slice(8).map(o => `- ${o.name}`).join('\n')}`}
+                        >
+                          +{overflowCount}
+                        </span>
+                      )}
                     </div>
-                  ) : (
-                    <div className="text-center py-2 text-zinc-400 text-xs">
-                      {isKcarDetailLoading ? '옵션 정보를 불러오는 중...' : '기본 출고 사양 (추가 선택 옵션 없음)'}
-                    </div>
-                  )}
-                </div>
-              </div>
+                  );
+                })()}
+              </>
             )}
           </div>
         </div>
