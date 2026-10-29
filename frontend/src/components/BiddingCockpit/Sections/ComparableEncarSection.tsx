@@ -882,8 +882,8 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
             </div>
           ) : (
             <>
-              {/* Title & Badges */}
-              <div className="space-y-2 border-b border-[#232634] pb-2.5">
+              {/* 1. Header Title & Grade (줄 블록: 제목과 등급만 포함, 케이카와 1:1 대칭) */}
+              <div className="space-y-2 border-b border-zinc-600 pb-2.5">
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0">
                     <div className="flex items-center gap-1.5 flex-wrap">
@@ -920,8 +920,10 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                     </span>
                   )}
                 </div>
+              </div>
 
-                <div className="flex flex-wrap gap-1.5 pt-0.5 text-xs">
+              {/* 2. 칩스: 연식 / 주행 km / 색상 / 점검일 / 사고 배지 (줄 블록 밖으로 분리) */}
+              <div className="flex flex-wrap gap-1.5 pt-0.5 text-xs">
                   <span className="px-2.5 py-1 rounded bg-[#1f222e] text-white font-bold font-mono">
                     {selectedEncar.year}년식
                   </span>
@@ -983,7 +985,6 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                     </div>
                   );
                 })()}
-              </div>
 
               {/* Large Price Display */}
               <div className="flex items-baseline gap-1.5 pt-1 pb-0.5">
