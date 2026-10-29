@@ -216,6 +216,45 @@ try {
         return $map
     }
 
+    function Test-TcpPort([int]$port, [int]$timeoutMs = 2000) {
+        $client = $null
+        try {
+            $client = New-Object System.Net.Sockets.TcpClient
+            $iar = $client.BeginConnect("127.0.0.1", $port, $null, $null)
+            $wait = $iar.AsyncWaitHandle.WaitOne($timeoutMs, $false)
+            if ($wait -and $client.Connected) {
+                try { $client.EndConnect($iar) } catch {}
+                return $true
+            }
+            return $false
+        } catch {
+            return $false
+        } finally {
+            if ($client) {
+                try { $client.Close() } catch {}
+                try { $client.Dispose() } catch {}
+            }
+        }
+    }
+
+    function Get-ChildNodePids([int]$parentPid) {
+        if (-not $parentPid) { return "none" }
+        try {
+            $children = Get-CimInstance Win32_Process -Filter "ParentProcessId = $parentPid" -Property ProcessId, Name -ErrorAction SilentlyContinue
+            if (-not $children) { return "none" }
+            $items = @()
+            foreach ($c in $children) {
+                if ($c.Name -match 'node') {
+                    $items += "$($c.ProcessId)($($c.Name))"
+                }
+            }
+            if ($items.Count -eq 0) { return "none" }
+            return ($items -join ",")
+        } catch {
+            return "unknown"
+        }
+    }
+
     function Stop-ServiceTree($svc) {
         Write-SupervisorLog "[$($svc.Name)] Stopping process tree (PID: $($svc.Pid), Port: $($svc.Port))..."
         if ($svc.Pid) {
@@ -403,26 +442,38 @@ try {
                     if ($p) { $procAlive = $true }
                 }
 
-                # Port listening check
+                # Port listening check (1st: netstat, 2nd: TcpClient 127.0.0.1:$port timeout 2s)
                 $portListening = $listenMap.ContainsKey($svc.Port)
+                $tcpConnected = $false
+                if (-not $portListening) {
+                    $tcpConnected = Test-TcpPort -port $svc.Port -timeoutMs 2000
+                } else {
+                    $tcpConnected = $true
+                }
 
-                if ($procAlive -and $portListening) {
-                    if ($svc.FailCount -gt 0) {
+                if ($procAlive -and ($portListening -or $tcpConnected)) {
+                    if (-not $portListening -and $tcpConnected) {
+                        Write-SupervisorLog "[$($svc.Name)] [NETSTAT MISS] TCP confirmed (PID: $($svc.Pid), Port: $($svc.Port)). Resetting fail count."
+                    } elseif ($svc.FailCount -gt 0) {
                         Write-SupervisorLog "[$($svc.Name)] Health restored (PID: $($svc.Pid), Port: $($svc.Port)). Resetting fail count."
                     }
                     $svc.FailCount = 0
                 } else {
                     $svc.FailCount++
-                    Write-SupervisorLog "[$($svc.Name)] Check FAILED ($($svc.FailCount)/$failThreshold). [ProcessAlive: $procAlive, Port $($svc.Port) Listening: $portListening]"
+                    $listenerPids = if ($listenMap.ContainsKey($svc.Port)) { ($listenMap[$svc.Port] -join ",") } else { "none" }
+                    $childNodePids = Get-ChildNodePids -parentPid $svc.Pid
+                    Write-SupervisorLog "[$($svc.Name)] Check FAILED ($($svc.FailCount)/$failThreshold). [TrackedPID: $($svc.Pid), ProcessAlive: $procAlive, Port $($svc.Port) Netstat: $portListening (ListenerPIDs: $listenerPids), TcpClient: $tcpConnected, ChildNodePIDs: $childNodePids]"
                     
                     # 3 consecutive failures threshold
                     if ($svc.FailCount -ge $failThreshold) {
-                        Write-SupervisorLog "[$($svc.Name)] Reached $failThreshold consecutive failures. Initiating restart..."
+                        $preKillListeners = if ($listenMap.ContainsKey($svc.Port)) { ($listenMap[$svc.Port] -join ",") } else { "none" }
+                        $oldTrackedPid = $svc.Pid
                         Stop-ServiceTree $svc
                         if (-not (Wait-PortClear $svc.Port 10)) {
                             Write-SupervisorLog "[$($svc.Name)] [WARNING] Port $($svc.Port) not cleared after tree kill."
                         }
                         Start-SingleService $svc
+                        Write-SupervisorLog "[$($svc.Name)] Reached $failThreshold consecutive failures. Restart completed [PreKillTrackedPID: $oldTrackedPid, PreKillListenerPIDs: $preKillListeners -> NewPID: $($svc.Pid)]."
                     }
                 }
             }
