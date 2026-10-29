@@ -785,9 +785,9 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                         )}
                         <td className="py-1.5 px-1 text-center text-[12px] whitespace-nowrap font-mono">
                           <span className={isTargetYear ? 'text-sky-400 font-black' : 'text-zinc-300 font-semibold'}>
-                            {(car as any).regYear && (car as any).formYear && (car as any).regYear !== (car as any).formYear
-                              ? `${(car as any).regYear}년 (${(car as any).formYear}형)`
-                              : car.year}
+                            {((car as any).regYear ? String((car as any).regYear).slice(-2) : (regYrMatch ? regYrMatch[1] : car.year))}
+
+
                           </span>
                         </td>
 
@@ -883,7 +883,7 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
           ) : (
             <>
               {/* Title & Badges */}
-              <div className="space-y-1.5">
+              <div className="space-y-2 border-b border-[#232634] pb-2.5">
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0">
                     <div className="flex items-center gap-1.5 flex-wrap">
@@ -904,7 +904,7 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                   {/* 선택한 차량의 신차가(추가옵션값) 표기 */}
                   {Boolean(selectedEncar.newCarPrice || selectedEncar.originPrice) && (
                     <span
-                      className="text-sm sm:text-base font-black text-amber-300 font-mono tracking-tight shrink-0"
+                      className="text-xs sm:text-sm font-bold text-amber-300 font-mono shrink-0 px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/30"
                       title={
                         typeof selectedEncar.optionPrice === 'number'
                           ? `엔카 신차가: ${((selectedEncar.newCarPrice || selectedEncar.originPrice) || 0).toLocaleString()}만원 (출고 등급가: ${(selectedEncar.originPrice || 0).toLocaleString()}만 + 선택옵션: ${selectedEncar.optionPrice.toLocaleString()}만)`
@@ -1259,7 +1259,7 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                         )}
                         <td className="py-1.5 px-1 text-center text-[12px] whitespace-nowrap">
                           <span className={isTargetYear ? 'text-amber-300 font-bold font-mono' : 'text-zinc-300 font-mono'}>
-                            {car.fullYear || `${car.year}년`}
+                            {(car.fullYear ? String(car.fullYear).slice(-2) : (car.year ? String(car.year).slice(-2) : '-'))}
                           </span>
                         </td>
                         <td className="py-1.5 px-1.5 text-right text-[12px] font-mono text-zinc-200 whitespace-nowrap">
