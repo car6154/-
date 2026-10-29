@@ -259,13 +259,17 @@ export function useBiddingCockpit({
   // ----------------------------------------------------
   // [엔카 & 케이카 데이터 상태 반영 일원화 헬퍼 (Phase 2)]
   // ----------------------------------------------------
-  const applyEncarData = useCallback((data: any, optionsUrl?: string) => {
+  const applyEncarData = useCallback((
+    data: any,
+    optionsUrl?: string,
+    context?: { carName?: string; year?: number | string; detailModel?: string }
+  ) => {
     if (data && data.success && Array.isArray(data.items) && data.items.length > 0) {
       lastEncarFailReasonRef.current = '';
       setEncarErrorMessage('');
       setLiveEncarList(data.items);
       setEncarTotalModelCount(data.totalModelCount || data.items.length);
-      setEncarFilteredCount(data.filteredCount || data.items.length);
+      setEncarFilteredCount(data.filteredCount ?? data.items.length);
       setEncarFilterStats(data.filterStats || null);
       if (data.directSearchUrl) {
         setEncarSourceUrl(data.directSearchUrl);
@@ -302,7 +306,10 @@ export function useBiddingCockpit({
 
       const cids = data.items.map((it: any) => String(it._carid || it.id || it.carid || '').replace(/\D/g, '')).filter(Boolean);
       if (cids.length > 0) {
-        fetchEncarSoldOut(cids, carName, String(yearModel), detailModel);
+        const resolvedCarName = context?.carName !== undefined ? context.carName : carName;
+        const resolvedYear = context?.year !== undefined ? String(context.year) : String(yearModel);
+        const resolvedDetail = context?.detailModel !== undefined ? context.detailModel : detailModel;
+        fetchEncarSoldOut(cids, resolvedCarName, resolvedYear, resolvedDetail);
       }
 
       return data.items;
@@ -386,7 +393,11 @@ export function useBiddingCockpit({
         }
       }
 
-      return applyEncarData(data, options.url);
+      return applyEncarData(data, options.url, {
+        carName: targetCarName,
+        year: targetYr,
+        detailModel: targetDetail,
+      });
     } catch (e: any) {
       console.warn('Encar fetch failed:', e);
       const isTimeout = e?.isTimeout || String(e?.message).includes('시간 초과');
@@ -1009,7 +1020,11 @@ export function useBiddingCockpit({
     }).then((unifiedRes) => {
       if (reqId !== activeRequestIdRef.current) return;
       if (unifiedRes.encar) {
-        applyEncarData(unifiedRes.encar);
+        applyEncarData(unifiedRes.encar, undefined, {
+          carName: resolvedCarName || carName,
+          year: yr,
+          detailModel: resolvedGrade || detailModel,
+        });
       }
     }).catch((err: any) => {
       if (reqId !== activeRequestIdRef.current) return;

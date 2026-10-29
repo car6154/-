@@ -369,7 +369,7 @@ class DataProcessor:
         """세부모델/등급 문자열에서 핵심 트림/등급 키워드 추출"""
         if not detail_model:
             return ""
-        s = str(detail_model).strip()
+        s = DataProcessor.clean_grade(detail_model)
         TRIM_LIST = [
             # 현대/기아 복합 트림 (플러스, 스페셜, 초이스 등 접미사 복합어를 기본 트림보다 항상 먼저 둠)
             "프레스티지 플러스", "프레스티지 초이스", "익스클루시브 플러스", "익스클루시브 스페셜",
@@ -415,7 +415,14 @@ class DataProcessor:
             s = re.sub(r'\([^\(\)]*\)', '', s)
         # 3. 혹시 남은 고립된 괄호 제거
         s = re.sub(r'[\(\)\[\]]', '', s)
-        # 4. 양끝 공백 및 연속 공백 정리
+        # 4. 공백 없이 붙은 선행 제원 토큰(배기량, 구동방식, 엔진/유종 약어) 경계 분리
+        s = re.sub(
+            r'(\d\.\d(?:t(?![0-9]))?|(?:2|4|a|f|r)wd|t-?gdi|gde|lpe|dci|gdi|mpi|tce|crdi|vgt|lpi)',
+            r' \1 ',
+            s,
+            flags=re.IGNORECASE,
+        )
+        # 5. 양끝 공백 및 연속 공백 정리
         s = re.sub(r'\s+', ' ', s).strip()
         return s
 
@@ -434,7 +441,8 @@ class DataProcessor:
         """
         # 0. 등급 정규화: 괄호 내 옵션/좌석 부가 문구 분리
         cleaned_text = cls.clean_grade(text)
-        raw_text = f"{car_name} {cleaned_text} {badge}".strip()
+        cleaned_badge = cls.clean_grade(badge) if badge else ""
+        raw_text = f"{car_name} {cleaned_text} {cleaned_badge}".strip()
         clean_text = raw_text.lower()
         clean_compact = clean_text.replace(" ", "")
 

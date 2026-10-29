@@ -3995,7 +3995,7 @@ def fetch_kcar_market_stats(
 
 
             # 2. 배기량 엄격 일치
-            if disp_val and disp_val not in row_full:
+            if disp_val and re.search(r'\d\.\d', row_full) and disp_val not in row_full:
                 continue
 
             # 3. 터보 엄격 일치
