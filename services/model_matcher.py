@@ -45,6 +45,10 @@ DRIVE_SYNONYM_MAP = {
 
 class ModelMatcher:
     """모델 매칭 판정 및 문자열 정규화 단일 진실 공급원"""
+    BRAND_PREFIXES = BRAND_PREFIXES
+    GENERATION_PREFIXES = GENERATION_PREFIXES
+    FUEL_SYNONYM_MAP = FUEL_SYNONYM_MAP
+    DRIVE_SYNONYM_MAP = DRIVE_SYNONYM_MAP
 
     @classmethod
     def clean_text(cls, text: str) -> str:

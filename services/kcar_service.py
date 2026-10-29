@@ -3800,6 +3800,35 @@ def resolve_kcar_model_codes(raw_base_name: str, brand_hint: str = "", sub_model
         _, m_cd, grp_cd, mod_cd = candidates[0]
         return m_cd, grp_cd, mod_cd
 
+    # 🌟 2차: 원문 매칭 실패 시, 공유 매처(ModelMatcher.GENERATION_PREFIXES)의 세대 접두사를 분리하여 폴백 탐색 (원문 우선 보존)
+    from services.model_matcher import ModelMatcher
+    stripped_norm = norm_text
+    for pfx in sorted(ModelMatcher.GENERATION_PREFIXES, key=len, reverse=True):
+        pfx_norm = _norm(pfx)
+        if pfx_norm and stripped_norm.startswith(pfx_norm):
+            stripped_norm = stripped_norm[len(pfx_norm):]
+            break
+
+    if stripped_norm and stripped_norm != norm_text:
+        fallback_candidates = []
+        for (m_cd, grp_cd), models_dict in KCAR_MODEL_GROUP_MAP.items():
+            if detected_mnuftr_cd and m_cd != detected_mnuftr_cd:
+                continue
+            for m_name, mod_cd in models_dict.items():
+                if m_name == "하이브리드 4세대" and "카니발" not in raw_base_name:
+                    continue
+                nm = _norm(m_name)
+                if nm and (stripped_norm == nm or stripped_norm.startswith(nm)):
+                    fallback_candidates.append((len(nm), m_cd, grp_cd, mod_cd))
+                elif is_hev_sub and "하이브리드" in nm:
+                    nm_no_hev = nm.replace("하이브리드", "")
+                    if nm_no_hev and (stripped_norm == nm_no_hev or stripped_norm.startswith(nm_no_hev)):
+                        fallback_candidates.append((len(nm) + 10, m_cd, grp_cd, mod_cd))
+        if fallback_candidates:
+            fallback_candidates.sort(key=lambda x: x[0], reverse=True)
+            _, m_cd, grp_cd, mod_cd = fallback_candidates[0]
+            return m_cd, grp_cd, mod_cd
+
     return None
 
 
@@ -4071,19 +4100,26 @@ def fetch_kcar_market_stats(
             year=year
         )
 
+        import collections
+        kcar_gate_counts = collections.Counter()
         s_rows = []
         for r in f_rows:
             # 0. 공유 모듈(ModelMatcher)로 동일 모델 검증
             cand_name = str(r.get('modelNm') or r.get('carWhlNm') or '')
             if car_name and cand_name and not ModelMatcher.is_same_model(car_name, cand_name):
+                kcar_gate_counts["GATE_MODEL"] += 1
                 continue
 
-            # 1. 등급 코드가 있는 경우 코드 일치 우선 확인
+            # 1. 등급 코드가 있는 경우 코드 일치 우선 확인 (API 필터 뒤집기 방지)
+            is_code_matched = False
             if grd_cd:
                 if str(r.get('grdCd') or '') != grd_cd:
+                    kcar_gate_counts["GATE_GRADE_CODE"] += 1
                     continue
                 if grd_dtl_cd and str(r.get('grdDtlCd') or '') != grd_dtl_cd:
+                    kcar_gate_counts["GATE_GRADE_DETAIL_CODE"] += 1
                     continue
+                is_code_matched = True
 
             # 2. 후보 매물 스펙 빌드
             r_yr_full, _ = _extract_kcar_year(r)
@@ -4095,11 +4131,21 @@ def fetch_kcar_market_stats(
                 mfg_date=str(r.get('mfgDt', ''))
             )
 
-            # 3. 정식 스펙 동등성 검사 (연식, 등급 기본값+접미사, 배기량, 터보, 유종, 구동, 인승 완전 일치)
-            if not DataProcessor.is_strictly_same_spec(target_spec, cand_spec, check_year=bool(target_yr_2d)):
+            # 3. 정식 스펙 동등성 검사 (코드가 일치했으면 ignore_grade=True로 등급 재파싱 실패 방지, 연식·차체·기본제원만 검사)
+            ok, reason = DataProcessor.is_strictly_same_spec(
+                target_spec,
+                cand_spec,
+                check_year=bool(target_yr_2d),
+                ignore_grade=is_code_matched,
+                return_gate=True
+            )
+            if not ok:
+                kcar_gate_counts[reason] += 1
                 continue
 
             s_rows.append(r)
+
+        print(f"[K-Car 엄격 게이트 로그] 총 {len(f_rows)}대 중 {len(s_rows)}대 엄격 통과 | 탈락 사유: {dict(kcar_gate_counts)}", flush=True)
         return f_rows, s_rows
 
     filtered_rows, strict_rows = _filter_and_strict(rows)

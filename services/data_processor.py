@@ -558,85 +558,93 @@ class DataProcessor:
         }
 
     @classmethod
-    def is_strictly_same_spec(cls, target: dict, cand: dict, check_year: bool = True) -> bool:
+    def is_strictly_same_spec(
+        cls,
+        target: dict,
+        cand: dict,
+        check_year: bool = True,
+        ignore_grade: bool = False,
+        return_gate: bool = False
+    ) -> Union[bool, tuple]:
         """
         두 표준 스펙의 동등성(Equivalence)을 판정:
         - 차체: 승용 vs 밴 상호 배제
         - 연식: 2자리 최초등록연도 일치 (check_year=True 시, 등록연도 기준 유지)
         - 배기량: 둘 다 존재할 경우 일치
         - 유종: 둘 다 존재할 경우 상호 배제
-        - 터보: 둘 다 판정되었을 때 일치
+        - 터보: 둘 다 판정되었을 때 일치 (한쪽이라도 미지면 통과)
         - 구동방식: 둘 다 존재할 경우 일치 (2wd vs 4wd)
         - 인승: 둘 다 인승이 명시되어 있을 때만 일치 요구 (미명시 시 통과)
-        - 등급: 기본값(grade_base)이 같고, 접미사(grade_suffix)가 100% 동일해야만 통과!
+        - 등급: ignore_grade=False 시 기본값(grade_base)과 접미사(grade_suffix) 완전 일치 요구
         """
         # 0. 차체 타입 검사 (승용 vs 밴)
         t_body = target.get('body_type') or 'passenger'
         c_body = cand.get('body_type') or 'passenger'
         if t_body != c_body:
-            return False
+            return (False, "GATE_BODY") if return_gate else False
 
         # 1. 연식 검사 (최초등록일 기준 유지)
         if check_year and target.get('year') and cand.get('year'):
             if (target['year'] % 100) != (cand['year'] % 100):
-                return False
+                return (False, "GATE_YEAR") if return_gate else False
 
         # 2. 배기량 검사 (둘 다 있을 때만 일치 요구)
         if target.get('disp') and cand.get('disp'):
             if target['disp'] != cand['disp']:
-                return False
+                return (False, "GATE_DISP") if return_gate else False
 
         # 3. 유종 검사 (둘 다 있을 때 상호 배제)
         if target.get('fuel') and cand.get('fuel'):
             if target['fuel'] != cand['fuel']:
-                return False
+                return (False, "GATE_FUEL") if return_gate else False
 
         # 4. 터보 일치 검사 (둘 다 명시되어 판정된 경우에만 비교, 한쪽이라도 미지(None)면 통과)
         if target.get('is_turbo') is not None and cand.get('is_turbo') is not None:
             if bool(target['is_turbo']) != bool(cand['is_turbo']):
-                return False
+                return (False, "GATE_TURBO") if return_gate else False
 
         # 5. 구동방식 일치 검사 (둘 다 명시된 경우)
         if target.get('drive') and cand.get('drive'):
             if target['drive'] != cand['drive']:
-                return False
+                return (False, "GATE_DRIVE") if return_gate else False
 
         # 6. 인승 일치 검사 (둘 다 인승이 명시되어 있을 때만 불일치 배제)
         if target.get('seats') and cand.get('seats'):
             if target['seats'] != cand.get('seats'):
-                return False
+                return (False, "GATE_SEATS") if return_gate else False
 
-        # 7. 🌟 등급 동등성 (Grade Identity Equivalence)
-        t_base = target.get('grade_base') or ''
-        c_base = cand.get('grade_base') or ''
-        if t_base:
-            if not c_base:
-                return False
-            # 경쟁 등급 배제 테이블 (기본 등급 간의 상호 배제)
-            COMPETING_GRADES = {
-                "lt": ["프리미어", "premier", "ls", "ltz", "마이핏", "redline", "레드라인"],
-                "ls": ["lt", "프리미어", "premier", "ltz"],
-                "프리미어": ["lt", "ls", "ltz"],
-                "인스퍼레이션": ["프리미엄", "모던", "스마트", "스타일", "익스클루시브", "캘리그래피"],
-                "스마트": ["모던", "프리미엄", "익스클루시브", "인스퍼레이션", "스타일", "스포츠"],
-                "노블레스": ["프레스티지", "트렌디", "시그니처", "그래비티"],
-                "프레스티지": ["노블레스", "트렌디", "시그니처", "럭셔리", "디럭스", "그래비티"],
-                "시그니처": ["노블레스", "프레스티지", "트렌디", "스탠다드", "베스트셀렉션"]
-            }
-            comp_list = COMPETING_GRADES.get(t_base, [])
-            if any(comp in c_base for comp in comp_list):
-                return False
+        # 7. 🌟 등급 동등성 (Grade Identity Equivalence) - ignore_grade=True 시 API/코드 확정으로 스킵
+        if not ignore_grade:
+            t_base = target.get('grade_base') or ''
+            c_base = cand.get('grade_base') or ''
+            if t_base:
+                if not c_base:
+                    return (False, "GATE_GRADE_BASE") if return_gate else False
+                # 경쟁 등급 배제 테이블 (기본 등급 간의 상호 배제)
+                COMPETING_GRADES = {
+                    "lt": ["프리미어", "premier", "ls", "ltz", "마이핏", "redline", "레드라인"],
+                    "ls": ["lt", "프리미어", "premier", "ltz"],
+                    "프리미어": ["lt", "ls", "ltz"],
+                    "인스퍼레이션": ["프리미엄", "모던", "스마트", "스타일", "익스클루시브", "캘리그래피"],
+                    "스마트": ["모던", "프리미엄", "익스클루시브", "인스퍼레이션", "스타일", "스포츠"],
+                    "노블레스": ["프레스티지", "트렌디", "시그니처", "그래비티"],
+                    "프레스티지": ["노블레스", "트렌디", "시그니처", "럭셔리", "디럭스", "그래비티"],
+                    "시그니처": ["노블레스", "프레스티지", "트렌디", "스탠다드", "베스트셀렉션"]
+                }
+                comp_list = COMPETING_GRADES.get(t_base, [])
+                if any(comp in c_base for comp in comp_list):
+                    return (False, "GATE_GRADE_COMPETE") if return_gate else False
 
-            if t_base != c_base:
-                return False
+                if t_base != c_base:
+                    return (False, "GATE_GRADE_BASE") if return_gate else False
 
-            # 기본 등급이 일치하면 접미사(suffix)가 100% 동일해야 함!
-            t_suf = target.get('grade_suffix') or ''
-            c_suf = cand.get('grade_suffix') or ''
-            if t_suf != c_suf:
-                return False
+                # 기본 등급이 일치하면 접미사(suffix)가 100% 동일해야 함!
+                t_suf = target.get('grade_suffix') or ''
+                c_suf = cand.get('grade_suffix') or ''
+                if t_suf != c_suf:
+                    return (False, "GATE_GRADE_SUFFIX") if return_gate else False
 
-        return True
+        return (True, "PASS") if return_gate else True
 
     @classmethod
     def filter_strictly_same_year_and_grade(
@@ -645,16 +653,23 @@ class DataProcessor:
         target_year: Union[int, str],
         target_detail_model: str = "",
         target_grade: str = "",
-        target_car_name: str = ""
+        target_car_name: str = "",
+        target_badge: str = "",
+        target_badge_detail: str = "",
+        is_api_filtered: bool = False
     ) -> pd.DataFrame:
         """
         [계산 엄격 필터]
         수집된 동급 매물 중 정식 스펙 동등성(Spec Equivalence)을 적용하여
-        동일 연식 AND 동일 등급(기본값+접미사 완전 일치)인 매물만 엄격 추출합니다.
+        동일 연식 AND 동일 등급인 매물만 엄격 추출합니다.
+        - 원본 파라미터 보존: target_badge/target_badge_detail 및 is_api_filtered 반영
+        - API 필터 뒤집기 방지: API가 이미 특정하여 수집한 결과는 등급 텍스트 재파싱 실패만으로 탈락시키지 않음
+        - 게이트 로깅: 탈락 매물의 게이트별 사유를 카운트하여 실측 로깅
         """
         if df is None or df.empty:
             return pd.DataFrame() if df is None else df
-            
+
+        import collections
         cand_df = df.copy()
 
         # 목표 차량의 정식 스펙 1회 생성 (단일 진실 공급원)
@@ -662,28 +677,50 @@ class DataProcessor:
             text=target_detail_model,
             car_name=target_car_name,
             year=target_year,
-            badge=target_grade
+            badge=target_grade or target_badge
         )
 
         sub_col = "세부모델" if "세부모델" in cand_df.columns else ("detail" if "detail" in cand_df.columns else None)
         badge_col = "Badge" if "Badge" in cand_df.columns else ("badge" if "badge" in cand_df.columns else None)
+        bd_col = "BadgeDetail" if "BadgeDetail" in cand_df.columns else ("badgeDetail" if "badgeDetail" in cand_df.columns else None)
         year_col = "연식" if "연식" in cand_df.columns else ("year" if "year" in cand_df.columns else None)
         name_col = "차량명" if "차량명" in cand_df.columns else ("carName" if "carName" in cand_df.columns else None)
 
-        def _match_row(row):
+        norm_t_badge = re.sub(r'[\s\.\-_]+', '', str(target_badge or '')).lower()
+        norm_t_bd = re.sub(r'[\s\.\-_]+', '', str(target_badge_detail or '')).lower()
+        has_direct_badge = bool(norm_t_badge)
+
+        gate_counts = collections.Counter()
+        passed_indices = []
+
+        for idx, row in cand_df.iterrows():
             sub_val = str(row.get(sub_col, '') if sub_col else '').strip()
             badge_val = str(row.get(badge_col, '') if badge_col else '').strip()
+            bd_val = str(row.get(bd_col, '') if bd_col else '').strip()
             year_val = str(row.get(year_col, '') if year_col else '').strip()
             name_val = str(row.get(name_col, '') if name_col else '').strip()
 
             combined = f"{sub_val} {badge_val}".strip().lower()
             if not combined or combined in ('-', 'none', 'nan', '미확인'):
-                return False
+                gate_counts["GATE_EMPTY"] += 1
+                continue
 
             # 목표 차명이 전달된 경우 공유 모듈(ModelMatcher)로 동일 모델 여부 사전 검증
             if target_car_name and name_val:
                 if not ModelMatcher.is_same_model(target_car_name, name_val):
-                    return False
+                    gate_counts["GATE_MODEL"] += 1
+                    continue
+
+            # 1) 원본 파라미터 우선 판정 (API 필터 뒤집기 방지)
+            ignore_grade = False
+            if is_api_filtered:
+                ignore_grade = True
+            elif has_direct_badge and badge_val:
+                norm_c_badge = re.sub(r'[\s\.\-_]+', '', badge_val).lower()
+                norm_c_bd = re.sub(r'[\s\.\-_]+', '', bd_val).lower()
+                if norm_t_badge in norm_c_badge or norm_c_badge in norm_t_badge:
+                    if not norm_t_bd or (norm_t_bd in norm_c_bd or norm_c_bd in norm_t_bd):
+                        ignore_grade = True
 
             cand_spec = cls.build_car_spec(
                 text=sub_val,
@@ -692,10 +729,20 @@ class DataProcessor:
                 badge=badge_val
             )
 
-            return cls.is_strictly_same_spec(target_spec, cand_spec, check_year=True)
+            ok, reason = cls.is_strictly_same_spec(
+                target_spec,
+                cand_spec,
+                check_year=True,
+                ignore_grade=ignore_grade,
+                return_gate=True
+            )
+            if ok:
+                passed_indices.append(idx)
+            else:
+                gate_counts[reason] += 1
 
-        mask = cand_df.apply(_match_row, axis=1)
-        return cand_df[mask].reset_index(drop=True)
+        print(f"[엄격 필터 게이트 로그] 총 {len(cand_df)}대 중 {len(passed_indices)}대 엄격 통과 | 탈락 사유: {dict(gate_counts)}", flush=True)
+        return cand_df.loc[passed_indices].reset_index(drop=True)
 
     @classmethod
     def is_same_model(cls, expected: str, candidate: str) -> bool:

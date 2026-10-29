@@ -825,9 +825,34 @@ def _assemble_target_detail_model(grade_name: str, grade_detail_name: str, detai
         return assembled
 
     spec_str = " ".join(missing_specs)
-    if base_g and base_gd:
-        return f"{base_g} {spec_str} {base_gd}".strip()
-    return f"{assembled} {spec_str}".strip()
+    final_assembled = f"{base_g} {spec_str} {base_gd}".strip() if (base_g and base_gd) else f"{assembled} {spec_str}".strip()
+
+    # 🌟 왕복 검증 (Round-trip Verification): 조립 문자열이 원래 detailModel의 제원 스펙을 보존하는지 검증
+    try:
+        orig_sp = DataProcessor.build_car_spec(text=raw_dm)
+        asm_sp = DataProcessor.build_car_spec(text=final_assembled)
+        lost_items = []
+        if orig_sp.get('disp') and asm_sp.get('disp') != orig_sp.get('disp'):
+            lost_items.append(f"배기량({orig_sp['disp']})")
+        if orig_sp.get('fuel') and asm_sp.get('fuel') != orig_sp.get('fuel'):
+            lost_items.append(f"유종({orig_sp['fuel']})")
+        if orig_sp.get('is_turbo') is True and asm_sp.get('is_turbo') is not True:
+            lost_items.append("터보")
+        if orig_sp.get('drive') and asm_sp.get('drive') != orig_sp.get('drive'):
+            lost_items.append(f"구동({orig_sp['drive']})")
+        if orig_sp.get('grade_base') and asm_sp.get('grade_base') != orig_sp.get('grade_base'):
+            lost_items.append(f"등급({orig_sp['grade_base']})")
+
+        if lost_items:
+            print(f"[왕복 검증 경고] 조립 문자열='{final_assembled}'에서 스펙 유실 감지: {', '.join(lost_items)}", flush=True)
+            if "터보" in lost_items and "터보" not in final_assembled:
+                final_assembled = f"{final_assembled} 터보"
+        else:
+            print(f"[왕복 검증 통과] 목표 조립='{final_assembled}' (원본 제원 스펙 100% 보존 확인)", flush=True)
+    except Exception as e_rt:
+        print(f"[왕복 검증 오류] {e_rt}", flush=True)
+
+    return final_assembled
 
 
 # 2. 엔카 실시간 시세 검색 API (스냅샷 자동 누적)
@@ -1119,11 +1144,16 @@ def search_encar_market(req: EncarSearchRequest):
             opt_adj = int(round(len(target_opt_names) * 70 * opt_ratio))
 
         # 4. [계산 직전 엄격 필터] 동일 연식 AND 동일 등급 매물 격리 (통계 왜곡 원천 차단)
+        b_val_strict = b_val if 'b_val' in locals() and b_val else ""
+        bd_val_strict = bd_val if 'bd_val' in locals() and bd_val else ""
         strict_df = DataProcessor.filter_strictly_same_year_and_grade(
             df,
             target_year=year_num,
             target_detail_model=detail_model,
-            target_car_name=car_name
+            target_car_name=car_name,
+            target_badge=b_val_strict,
+            target_badge_detail=bd_val_strict,
+            is_api_filtered=should_skip_filter
         )
         strict_has_data = not strict_df.empty
 
