@@ -264,12 +264,13 @@ export function useBiddingCockpit({
     optionsUrl?: string,
     context?: { carName?: string; year?: number | string; detailModel?: string }
   ) => {
-    if (data && data.success && Array.isArray(data.items) && data.items.length > 0) {
+    if (data && data.success) {
+      const items = Array.isArray(data.items) ? data.items : [];
       lastEncarFailReasonRef.current = '';
       setEncarErrorMessage('');
-      setLiveEncarList(data.items);
-      setEncarTotalModelCount(data.totalModelCount || data.items.length);
-      setEncarFilteredCount(data.filteredCount ?? data.items.length);
+      setLiveEncarList(items);
+      setEncarTotalModelCount(data.totalModelCount ?? items.length);
+      setEncarFilteredCount(data.filteredCount ?? items.length);
       setEncarFilterStats(data.filterStats || null);
       if (data.directSearchUrl) {
         setEncarSourceUrl(data.directSearchUrl);
@@ -279,32 +280,36 @@ export function useBiddingCockpit({
       if (data.stats) {
         setBackendEncarStats(data.stats);
       }
-      if (data.valuation && data.valuation.hasData) {
-        setEncarValuation(data.valuation);
-      } else if (data.stats?.avg && data.stats.avg > 0) {
-        const avgP = data.stats.avg;
-        const benchP = data.stats.benchmarkPrice || 0;
-        if (benchP > 0) {
-          const minP = data.stats.minBand || Math.round(benchP * 0.94);
-          const maxP = data.stats.maxBand || Math.round(benchP * 1.08);
-          const bGap = avgP - benchP;
-          const bPct = Math.round((bGap / benchP) * 1000) / 10;
-          setEncarValuation({
-            hasData: true,
-            individualPrice: benchP,
-            minPrice: minP,
-            maxPrice: maxP,
-            score: 96.1,
-            bubbleGap: bGap,
-            bubblePct: bPct,
-            safeCeiling: Math.max(0, benchP - 180)
-          });
-        } else {
-          setEncarValuation(null);
+      if (items.length > 0) {
+        if (data.valuation && data.valuation.hasData) {
+          setEncarValuation(data.valuation);
+        } else if (data.stats?.avg && data.stats.avg > 0) {
+          const avgP = data.stats.avg;
+          const benchP = data.stats.benchmarkPrice || 0;
+          if (benchP > 0) {
+            const minP = data.stats.minBand || Math.round(benchP * 0.94);
+            const maxP = data.stats.maxBand || Math.round(benchP * 1.08);
+            const bGap = avgP - benchP;
+            const bPct = Math.round((bGap / benchP) * 1000) / 10;
+            setEncarValuation({
+              hasData: true,
+              individualPrice: benchP,
+              minPrice: minP,
+              maxPrice: maxP,
+              score: 96.1,
+              bubbleGap: bGap,
+              bubblePct: bPct,
+              safeCeiling: Math.max(0, benchP - 180)
+            });
+          } else {
+            setEncarValuation(null);
+          }
         }
+      } else {
+        setEncarValuation(null);
       }
 
-      const cids = data.items.map((it: any) => String(it._carid || it.id || it.carid || '').replace(/\D/g, '')).filter(Boolean);
+      const cids = items.map((it: any) => String(it._carid || it.id || it.carid || '').replace(/\D/g, '')).filter(Boolean);
       if (cids.length > 0) {
         const resolvedCarName = context?.carName !== undefined ? context.carName : carName;
         const resolvedYear = context?.year !== undefined ? String(context.year) : String(yearModel);
@@ -312,16 +317,18 @@ export function useBiddingCockpit({
         fetchEncarSoldOut(cids, resolvedCarName, resolvedYear, resolvedDetail);
       }
 
-      return data.items;
+      return items;
     } else {
-      const rawReason = data?.failReason ? String(data.failReason).replace(/^[❌\s]+/, '').trim() : '';
+      const rawReason = data?.failReason
+        ? String(data.failReason).replace(/^[❌\s]+/, '').trim()
+        : (data?.message || data?.error || '엔카 실시간 매물을 불러오지 못했습니다.');
       lastEncarFailReasonRef.current = rawReason;
       setLiveEncarList([]);
-      setEncarTotalModelCount(data?.totalModelCount || 0);
+      setEncarTotalModelCount(0);
       setEncarFilteredCount(0);
       setEncarFilterStats(null);
       setEncarValuation(null);
-      setEncarErrorMessage(data?.message || '엔카 실시간 매물을 불러오지 못했습니다.');
+      setEncarErrorMessage(rawReason);
       if (data?.directSearchUrl) {
         setEncarSourceUrl(data.directSearchUrl);
       }
@@ -333,7 +340,8 @@ export function useBiddingCockpit({
     if (data && data.success) {
       setKcarStats(data);
     } else {
-      setKcarStats(null);
+      const reason = data?.error || data?.message || 'K-Car 매물 정보를 불러오지 못했습니다.';
+      setKcarStats({ success: false, message: reason, count: 0, min: 0, max: 0, avg: 0, median: 0, yearStats: [], priceBins: [], cars: [], modelName: '', searchUrl: '' });
     }
   }, []);
 

@@ -2260,8 +2260,8 @@ def search_cockpit_unified(req: CockpitSearchRequest):
                 skipDetail=req.skipDetail or False
             )
             encar_res = search_encar_market(encar_req)
-            if not encar_res or not encar_res.get("success") or len(encar_res.get("items", [])) == 0:
-                fail_reasons["encar"] = encar_res.get("failReason") or encar_res.get("message") or "엔카 매물 0건"
+            if not encar_res or not encar_res.get("success"):
+                fail_reasons["encar"] = encar_res.get("failReason") or encar_res.get("message") or "엔카 조회 실패"
         except Exception as e_enc:
             fail_reasons["encar"] = str(e_enc)
 
@@ -2286,8 +2286,8 @@ def search_cockpit_unified(req: CockpitSearchRequest):
 
     # 4. 통합 상태 메시지 및 경고문 조립 (단일 진실 공급원: 백엔드 전담)
     ch_ok = bool(chaolma_res and chaolma_res.get("success"))
-    enc_ok = bool(encar_res and encar_res.get("success") and len(encar_res.get("items", [])) > 0)
-    enc_count = len(encar_res.get("items", [])) if enc_ok else 0
+    enc_ok = bool(encar_res and encar_res.get("success"))
+    enc_count = len(encar_res.get("items", [])) if (encar_res and encar_res.get("items")) else 0
 
     status_type = "info"
     status_msg = ""
@@ -2321,7 +2321,7 @@ def search_cockpit_unified(req: CockpitSearchRequest):
             enc_reason = fail_reasons.get("encar")
             reason_suffix = f" (원인: {enc_reason})" if enc_reason else ""
             status_msg = f"⚠️ 엔카 실시간 매물을 불러오지 못했습니다.{reason_suffix}"
-            warning_text = f"엔카 매물 0건{reason_suffix}"
+            warning_text = f"엔카 조회 실패{reason_suffix}"
     elif "chaolma" in sources_set:
         if ch_ok:
             status_type = "success"
@@ -2337,7 +2337,10 @@ def search_cockpit_unified(req: CockpitSearchRequest):
             status_msg = f"✨ 케이카 직영 매물({kc_cnt}대) 통계 연동 완료!"
         else:
             status_type = "warning"
-            status_msg = f"⚠️ 케이카 매물을 불러오지 못했습니다."
+            kc_reason = fail_reasons.get("kcar")
+            reason_suffix = f" (원인: {kc_reason})" if kc_reason else ""
+            status_msg = f"⚠️ 케이카 매물을 불러오지 못했습니다.{reason_suffix}"
+            warning_text = f"케이카 조회 실패{reason_suffix}"
 
     return {
         "success": True,

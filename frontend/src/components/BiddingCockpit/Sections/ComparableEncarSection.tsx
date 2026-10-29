@@ -620,15 +620,31 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
               </div>
             ) : encarList.length === 0 ? (
               <div className="flex flex-col items-center justify-center h-full space-y-3 py-16 px-4 bg-[#0a0b0e] text-center">
-                <div className="w-12 h-12 rounded-full bg-rose-500/10 flex items-center justify-center text-rose-400">
-                  <AlertTriangle className="w-6 h-6" />
-                </div>
-                <div className="text-sm font-bold text-rose-300">
-                  {encarErrorMessage || '엔카 실시간 매물을 불러오지 못했습니다.'}
-                </div>
-                <div className="text-xs text-zinc-400 max-w-[340px] leading-relaxed">
-                  현재 조건(차종/연식/주행거리)에 일치하는 등록 매물이 없거나 실시간 통신이 원활하지 않습니다.
-                </div>
+                {encarErrorMessage ? (
+                  <>
+                    <div className="w-12 h-12 rounded-full bg-rose-500/10 flex items-center justify-center text-rose-400">
+                      <AlertTriangle className="w-6 h-6" />
+                    </div>
+                    <div className="text-sm font-bold text-rose-300">
+                      {encarErrorMessage}
+                    </div>
+                    <div className="text-xs text-zinc-400 max-w-[340px] leading-relaxed">
+                      엔카 실시간 매물 조회 중 오류가 발생했거나 통신이 원활하지 않습니다.
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="w-12 h-12 rounded-full bg-zinc-800/40 flex items-center justify-center text-zinc-400">
+                      <Car className="w-6 h-6" />
+                    </div>
+                    <div className="text-sm font-bold text-zinc-300">
+                      해당 조건의 엔카 동급 매물이 없습니다.
+                    </div>
+                    <div className="text-xs text-zinc-400 max-w-[340px] leading-relaxed">
+                      현재 조건(차종/연식/주행거리)에 일치하는 시장 등록 매물이 없습니다.
+                    </div>
+                  </>
+                )}
                 {encarSourceUrl && (
                   <a
                     href={encarSourceUrl}
