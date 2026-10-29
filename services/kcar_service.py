@@ -3560,7 +3560,9 @@ def resolve_kcar_grade_codes(m_cd: str, grp_cd: str, mod_cd: str, sub_model: str
     combined_src = f"{raw_car_name} {sub_str}".strip()
     comb_norm = _norm(combined_src)
 
-    has_turbo = ("터보" in comb_norm) or bool(re.search(r'\d\.\d\s*T(?![A-Z])', combined_src.upper()))
+    from services.model_matcher import ModelMatcher
+    q_turbo = ModelMatcher.extract_turbo(combined_src)
+    has_turbo = bool(q_turbo is True)
     has_van = ("밴" in comb_norm) or ("카고" in comb_norm)
     has_lpg = ("LPG" in comb_norm) or ("LPI" in comb_norm) or ("LPE" in comb_norm)
     has_diesel = ("디젤" in comb_norm) or ("VGT" in comb_norm) or ("TDI" in comb_norm) or ("CDI" in comb_norm) or bool(re.search(r'\d\.\d\s*D(?![A-Z])', combined_src.upper()))
@@ -3611,7 +3613,7 @@ def resolve_kcar_grade_codes(m_cd: str, grp_cd: str, mod_cd: str, sub_model: str
             continue
 
         g_is_turbo = ("터보" in g_norm) or bool(re.search(r'\d\.\d\s*T(?![A-Z])', grd_nm.upper()))
-        if has_both_turbo_and_na and (has_turbo != g_is_turbo):
+        if has_both_turbo_and_na and q_turbo is not None and (bool(q_turbo) != g_is_turbo):
             continue
 
         g_seat_m = re.search(r'(\d+)\s*인승', grd_nm)
@@ -4062,7 +4064,7 @@ def fetch_kcar_market_stats(
 
         # 🌟 정식 스펙 동등성 기반 엄격 필터링 (엔카와 100% 동일 단일 기준 적용)
         from services.data_processor import DataProcessor
-        from services.model_matcher import ModelMatcher
+        # (DataProcessor, ModelMatcher는 상위 스코프에서 이미 임포트됨 - UnboundLocalError 방지)
         target_spec = DataProcessor.build_car_spec(
             text=detail_model,
             car_name=car_name,
