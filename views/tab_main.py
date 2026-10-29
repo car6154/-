@@ -522,6 +522,11 @@ def render_main_tab(
         # 🤖 AI 타겟 맞춤 소매가 자동 산출 (주행거리 추세선 기울기 + 옵션 차이 보정)
         ai_retail_price = 0
         ai_detail_desc = ""
+        opt_adj = 0
+        opt_ratio = 0.35
+        user_target_mil = l_mil if ('l_mil' in locals() and l_mil > 0) else int(st.session_state.get('user_target_mil', 0) or st.session_state.get('f_mil', 0) or 0)
+        target_acc_status = str(st.session_state.get("hd_target_accident", "") or "완전무사고")
+        target_year_val = calc_year if ("calc_year" in locals() and calc_year) else ""
         try:
             if not chart_base.empty:
                 c_mil = pd.to_numeric(chart_base['주행거리'], errors='coerce').dropna()
@@ -735,8 +740,8 @@ def render_main_tab(
                     target_score, target_opt_names = score_key_options(all_target_opts)
                     if target_opt_new == 0:
                         from services.option_package_service import calculate_catalog_option_value
-                        c_name = st.session_state.get('hd_model_part_name', '') or current_car_name
-                        c_year = str(current_car_year or '')
+                        c_name = st.session_state.get('hd_model_part_name', '') or (bd_target_car if 'bd_target_car' in locals() else '')
+                        c_year = str(target_year_val if ('target_year_val' in locals() and target_year_val) else (calc_year if 'calc_year' in locals() else ''))
                         target_opt_new = calculate_catalog_option_value(all_target_opts, car_name=c_name, year=c_year)
                         if target_opt_new == 0:
                             # 엔카 등에서 옵션 가격이 문자열에 포함되어 있는 경우 추출
@@ -1845,8 +1850,8 @@ def render_main_tab(
                     
                     if not hd_parsed_opt_price and all_target_opts:
                         from services.option_package_service import calculate_catalog_option_value
-                        c_name = st.session_state.get('hd_model_part_name', '') or current_car_name
-                        c_year = str(current_car_year or '')
+                        c_name = st.session_state.get('hd_model_part_name', '') or (bd_target_car if 'bd_target_car' in locals() else '')
+                        c_year = str(target_year_val if ('target_year_val' in locals() and target_year_val) else (calc_year if 'calc_year' in locals() else ''))
                         hd_parsed_opt_price = calculate_catalog_option_value(all_target_opts, car_name=c_name, year=c_year)
 
                     if all_target_opts and '옵션리스트' in calc_hd_df.columns:
