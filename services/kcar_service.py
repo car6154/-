@@ -4150,29 +4150,6 @@ def fetch_kcar_market_stats(
 
     filtered_rows, strict_rows = _filter_and_strict(rows)
 
-    # 💡 [제이 7번 규칙] 엄격(동일 연식·등급) 비교대상이 7대 미만이면 주행 범위를 ±5만km로 확장 재수집
-    if len(strict_rows) < 7 and mileage and mileage > 0:
-        print(f"[K-Car 표본 부족] 엄격 매물 {len(strict_rows)}대 < 7대: 주행거리 범위를 ±50,000km로 확장 재수집", flush=True)
-        param_wide = dict(param)
-        rounded = round(mileage / 10000) * 10000
-        param_wide["wr_gt_milg"] = max(0, rounded - 50000)
-        param_wide["wr_lt_milg"] = rounded + 50000
-        try:
-            enc_wide = encrypt_kcar_payload(param_wide)
-            req_body_wide = json.dumps({"enc": enc_wide}).encode('utf-8')
-            req_wide = urllib.request.Request("https://api.kcar.com/bc/search/list/drct", data=req_body_wide, headers=headers)
-            with urllib.request.urlopen(req_wide, timeout=10) as resp_wide:
-                resp_wide_data = json.loads(resp_wide.read().decode('utf-8'))
-                rows_wide = resp_wide_data.get('data', {}).get('rows', [])
-                if rows_wide:
-                    f_wide, s_wide = _filter_and_strict(rows_wide)
-                    if len(s_wide) >= len(strict_rows):
-                        filtered_rows, strict_rows = f_wide, s_wide
-                        rows = rows_wide
-                        print(f"   => [K-Car 확장 수집 성공] 엄격 매물: {len(strict_rows)}대 (±5만km)", flush=True)
-        except Exception as e_wide:
-            print(f"[K-Car 확장 재수집 오류] {e_wide}", flush=True)
-
     post_filter_fallback = False
     strict_has_data = bool(strict_rows)
     target_rows = strict_rows if strict_has_data else []

@@ -872,6 +872,50 @@ class EncarSearchRequest(BaseModel):
     skipDetail: Optional[bool] = False
 
 
+def enforce_encar_mileage_band(url: str, target_mileage: int, band_range: int = 30000, max_allowed_spread: int = 100000) -> str:
+    """
+    외부 URL이나 기존 엔카 URL의 Mileage.range를 검증하고 강제한다.
+    - target_mileage가 없으면 URL 그대로 반환.
+    - URL에 Mileage.range가 없거나, spread(max - min) > max_allowed_spread(기본 10만km = ±5만km)이면,
+      목표 주행거리 기준 band_range(기본 ±3만km)로 교체 또는 주입한다.
+    """
+    if not url or not target_mileage or target_mileage <= 0:
+        return url
+
+    base_mil = int(round(target_mileage / 10000.0) * 10000)
+    target_min = max(0, base_mil - band_range)
+    target_max = base_mil + band_range
+    new_mil_str = f"Mileage.range({target_min}..{target_max})"
+
+    # 1. 기존 Mileage.range가 있는 경우
+    mil_pat = r'Mileage\.range(?:\(|%28)(\d+)\.\.(\d+)(?:\)|%29)'
+    m = re.search(mil_pat, url)
+    if m:
+        cur_min = int(m.group(1))
+        cur_max = int(m.group(2))
+        spread = cur_max - cur_min
+        if spread > max_allowed_spread:
+            url = re.sub(mil_pat, new_mil_str, url)
+        return url
+
+    # 2. Mileage.range가 없는 경우 action 닫는 괄호 바로 앞에 안전하게 주입
+    # URL 인코딩된 %29%22 형태 또는 일반 .)%22 / .)" 형태 모두 대응
+    if "%29%22" in url:
+        url = url.replace("%29%22", f"_.{new_mil_str}.%29%22", 1)
+    elif '.)"' in url:
+        url = url.replace('.)"', f"_.{new_mil_str}.)\"", 1)
+    elif ".)" in url:
+        # 가장 마지막 .) 앞에 삽입
+        last_dot_paren = url.rfind(".)")
+        if last_dot_paren != -1:
+            url = url[:last_dot_paren] + f"_.{new_mil_str}" + url[last_dot_paren:]
+    elif url.endswith(")"):
+        url = url[:-1] + f"_.{new_mil_str}.)"
+    else:
+        url = url + f"_.{new_mil_str}."
+
+    return url
+
 @app.post("/api/encar/search")
 def search_encar_market(req: EncarSearchRequest):
     try:
@@ -909,6 +953,9 @@ def search_encar_market(req: EncarSearchRequest):
             norm_range = f"Year.range({full_target_yr - 1}01..{full_target_yr + 1}12)"
             encar_url = re.sub(r'Year\.range\((?:%28|\()?\d{6}\.\.\d{6}(?:%29|\))?\)', norm_range, str(encar_url))
             encar_url = re.sub(r'Year\.range%28\d{6}\.\.\d{6}%29', f"Year.range%28{full_target_yr - 1}01..{full_target_yr + 1}12%29", encar_url)
+            # 💡 [10-29-17]: 외부 URL 주행거리 검증 및 ±30,000km 강제 (우회 차단)
+            if mileage_num and mileage_num > 0:
+                encar_url = enforce_encar_mileage_band(encar_url, target_mileage=mileage_num, band_range=30000, max_allowed_spread=100000)
         elif not encar_url or not str(encar_url).strip():
             encar_url = MasterMappingService.generate_smart_encar_url(
                 car_name=car_name,
@@ -1021,17 +1068,26 @@ def search_encar_market(req: EncarSearchRequest):
         else:
             df = DataProcessor.filter_strictly_by_submodel(df, target_car_name=car_name, target_sub_model=detail_model)
 
-        # 💡 [제이 7번 규칙] 엄격(동일 연식·등급) 비교대상이 7대 미만이면 주행 범위를 ±5만km로 확장 재수집
+        # 💡 [제이 7번 규칙 / 10-29-17]: 엄격(동일 연식·등급) 비교대상이 7대 미만이면 주행 범위를 ±50,000km로 1회만 확장 재수집
         if len(df) < 7 and mileage_num and mileage_num > 0:
             print(f"   => [표본 부족] 엄격 매물 {len(df)}대 < 7대: 주행거리 범위를 ±50,000km로 확장 재수집", flush=True)
-            wider_url = MasterMappingService.generate_smart_encar_url(
-                car_name=car_name,
-                sub_model=detail_model,
-                year=year_num,
-                mileage=mileage_num,
-                car_number=car_no,
-                mileage_range=50000
-            )
+            base_mil = int(round(mileage_num / 10000.0) * 10000)
+            wider_min = max(0, base_mil - 50000)
+            wider_max = base_mil + 50000
+            wider_mil_str = f"Mileage.range({wider_min}..{wider_max})"
+            
+            # 외부 URL 경로인 경우 기존 URL의 주행거리 밴드를 ±50,000km로 교체
+            if req.url and encar_url and "Mileage.range" in encar_url:
+                wider_url = re.sub(r'Mileage\.range(?:\(|%28)\d+\.\.\d+(?:\)|%29)', wider_mil_str, encar_url)
+            else:
+                wider_url = MasterMappingService.generate_smart_encar_url(
+                    car_name=car_name,
+                    sub_model=detail_model,
+                    year=year_num,
+                    mileage=mileage_num,
+                    car_number=car_no,
+                    mileage_range=50000
+                )
             if wider_url and wider_url != encar_url:
                 df_wider, msg_wider = Scraper.run(wider_url, "", fetch_details=not skip_detail)
                 if not df_wider.empty:
