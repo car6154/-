@@ -125,7 +125,71 @@ _KCAR_3D_PART_KR_MAP = {
 }
 
 
-def fetch_kcar_car_detail(car_cd: str) -> Optional[Dict[str, Any]]:
+def _fetch_kcar_3d_damage(car_cd_clean: str, headers: Dict[str, str], base_accident_type: str, base_change_cnt: int, base_metal_cnt: int):
+    """케이카 3D 진단 부위별 실측 상세 조회 (https://api.kcar.com/bc/dgnos/3dview)"""
+    replace_names: List[str] = []
+    repair_names: List[str] = []
+    damage_parts_raw: List[Dict[str, str]] = []
+    change_cnt = base_change_cnt
+    metal_cnt = base_metal_cnt
+    accident_type = base_accident_type
+
+    try:
+        dgnos_url = f"https://api.kcar.com/bc/dgnos/3dview?i_sCarCd={car_cd_clean}"
+        dgnos_req = urllib.request.Request(dgnos_url, headers=headers)
+        with urllib.request.urlopen(dgnos_req, timeout=4) as dgnos_resp:
+            dgnos_json = json.loads(dgnos_resp.read().decode('utf-8'))
+            dgnos_data = dgnos_json.get('data', {})
+            ext_items = dgnos_data.get('exteriorData', []) or []
+            frm_items = dgnos_data.get('frameData', []) or []
+            has_inner_damage = False
+            has_outer_damage = False
+
+            for item in (ext_items + frm_items):
+                part_id = str(item.get('part') or '').strip()
+                part_status = str(item.get('status') or '').strip()
+                if not part_id or part_status == '1':
+                    continue
+
+                kr_label = _KCAR_3D_PART_KR_MAP.get(part_id, part_id)
+                damage_parts_raw.append({
+                    "part": part_id,
+                    "status": part_status,
+                    "name": kr_label
+                })
+
+                if part_status == '2':  # 교환 (X)
+                    replace_names.append(kr_label)
+                elif part_status == '3':  # 판금/용접 (W)
+                    repair_names.append(kr_label)
+
+                # 외판 / 골격 구분 판정 (services.part_codes 단일 기준)
+                code = resolve_part_code(part_id) or resolve_part_code(kr_label)
+                if code:
+                    if is_inner_part(code):
+                        has_inner_damage = True
+                    elif is_outer_part(code):
+                        has_outer_damage = True
+                else:
+                    if item in frm_items:
+                        has_inner_damage = True
+                    else:
+                        has_outer_damage = True
+
+            if replace_names or repair_names:
+                change_cnt = len(replace_names)
+                metal_cnt = len(repair_names)
+                if has_inner_damage:
+                    accident_type = '사고'
+                elif has_outer_damage and accident_type == '무사고':
+                    accident_type = '단순수리'
+    except Exception:
+        pass
+
+    return replace_names, repair_names, damage_parts_raw, change_cnt, metal_cnt, accident_type
+
+
+def fetch_kcar_car_detail(car_cd: str, include_3d: bool = True) -> Optional[Dict[str, Any]]:
     """K-Car 단일 차량 상세 정보 조회 (car-info-detail-of-ng 단 1회 호출)
     - 기본 스펙, 날짜(광고/성능/발급), 사고 판정 및 교환/판금, 보험 이력, 소유/용도, 옵션, 타이어(mm) 추출
     - 차량번호(cno), 차대번호(vin)는 보안을 위해 절대 반환하지 않음
@@ -135,16 +199,40 @@ def fetch_kcar_car_detail(car_cd: str) -> Optional[Dict[str, Any]]:
 
     car_cd_clean = str(car_cd).strip()
     now_ts = time.time()
-    cached = _KCAR_DETAIL_CACHE.get(car_cd_clean)
-    if cached and (now_ts - cached.get("timestamp", 0) < _KCAR_DETAIL_CACHE_TTL):
-        return cached.get("data")
-
-    url = f"https://api.kcar.com/bc/car-info-detail-of-ng?i_sCarCd={car_cd_clean}&bltbdKnd=CM050"
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
         'Referer': f'https://www.kcar.com/bc/detail/carInfoDtl?i_sCarCd={car_cd_clean}',
         'Accept': 'application/json, text/plain, */*'
     }
+
+    cached = _KCAR_DETAIL_CACHE.get(car_cd_clean)
+    if cached and (now_ts - cached.get("timestamp", 0) < _KCAR_DETAIL_CACHE_TTL):
+        cached_data = cached.get("data")
+        if cached_data:
+            if not include_3d or cached_data.get("has3d"):
+                return cached_data
+            # 프리패치(include_3d=False)로 캐시된 항목을 상세 카드 클릭(include_3d=True)할 때 3D 도면만 추가 조회
+            acc_obj = cached_data.get("accident") or {}
+            rep_names, fix_names, dmg_parts, chg_cnt, mtl_cnt, acc_type = _fetch_kcar_3d_damage(
+                car_cd_clean,
+                headers,
+                str(acc_obj.get("accidentType") or "무사고"),
+                int(acc_obj.get("changeCount") or 0),
+                int(acc_obj.get("metalCount") or 0)
+            )
+            acc_obj["accidentType"] = acc_type
+            acc_obj["changeCount"] = chg_cnt
+            acc_obj["metalCount"] = mtl_cnt
+            acc_obj["replaceNames"] = rep_names
+            acc_obj["repairNames"] = fix_names
+            acc_obj["damageParts"] = dmg_parts
+            cached_data["accident"] = acc_obj
+            cached_data["replaceNames"] = rep_names
+            cached_data["repairNames"] = fix_names
+            cached_data["has3d"] = True
+            return cached_data
+
+    url = f"https://api.kcar.com/bc/car-info-detail-of-ng?i_sCarCd={car_cd_clean}&bltbdKnd=CM050"
 
     try:
         req = urllib.request.Request(url, headers=headers)
@@ -172,11 +260,22 @@ def fetch_kcar_car_detail(car_cd: str) -> Optional[Dict[str, Any]]:
             mfg_dt = rvo.get('mfgDt') or ''
             first_reg_dt = rvo.get('fstCarRegYm') or m.get('firstregdt') or ''
 
-            # 2. 날짜 정보
+            # 2. 날짜 정보 및 성능점검일 기준 재고일(오늘 - 성능점검일) 산출
             reg_dttm = rvo.get('regDttm') or m.get('regDttm') or ''
-            pfmnc_dt = m.get('pfmncCkqtDt') or ''
+            pfmnc_dt = str(m.get('pfmncCkqtDt') or '').strip()
             issue_dt = m.get('issuedt') or ''
             insp_nm = m.get('inspNm') or ''
+
+            check_date_str = "-"
+            holding_days: Optional[int] = None
+            pfmnc_digits = re.sub(r'\D', '', pfmnc_dt)
+            if len(pfmnc_digits) >= 8:
+                check_date_str = f"{pfmnc_digits[2:4]}-{pfmnc_digits[4:6]}-{pfmnc_digits[6:8]}"
+                try:
+                    p_dt = datetime.strptime(pfmnc_digits[:8], "%Y%m%d")
+                    holding_days = max(0, (datetime.now() - p_dt).days)
+                except Exception:
+                    holding_days = None
 
             # 3. 사고 판정 및 교환/판금
             # 실측 매핑: acdtHistYn: '1'(없음)/'2'(있음), smplReprYn: '1'(없음)/'2'(있음)
@@ -193,62 +292,15 @@ def fetch_kcar_car_detail(car_cd: str) -> Optional[Dict[str, Any]]:
             change_cnt = int(d.get('changeCnt') or 0)
             metal_cnt = int(d.get('metalCnt') or 0)
 
-            # 3-1. 케이카 3D 진단 부위별 실측 상세 조회 (https://api.kcar.com/bc/dgnos/3dview)
+            # 3-1. 케이카 3D 진단 부위별 실측 상세 조회 (include_3d=True일 때만 호출)
             replace_names: List[str] = []
             repair_names: List[str] = []
             damage_parts_raw: List[Dict[str, str]] = []
 
-            try:
-                dgnos_url = f"https://api.kcar.com/bc/dgnos/3dview?i_sCarCd={car_cd_clean}"
-                dgnos_req = urllib.request.Request(dgnos_url, headers=headers)
-                with urllib.request.urlopen(dgnos_req, timeout=4) as dgnos_resp:
-                    dgnos_json = json.loads(dgnos_resp.read().decode('utf-8'))
-                    dgnos_data = dgnos_json.get('data', {})
-                    ext_items = dgnos_data.get('exteriorData', []) or []
-                    frm_items = dgnos_data.get('frameData', []) or []
-                    has_inner_damage = False
-                    has_outer_damage = False
-
-                    for item in (ext_items + frm_items):
-                        part_id = str(item.get('part') or '').strip()
-                        part_status = str(item.get('status') or '').strip()
-                        if not part_id or part_status == '1':
-                            continue
-
-                        kr_label = _KCAR_3D_PART_KR_MAP.get(part_id, part_id)
-                        damage_parts_raw.append({
-                            "part": part_id,
-                            "status": part_status,
-                            "name": kr_label
-                        })
-
-                        if part_status == '2':  # 교환 (X)
-                            replace_names.append(kr_label)
-                        elif part_status == '3':  # 판금/용접 (W)
-                            repair_names.append(kr_label)
-
-                        # 외판 / 골격 구분 판정 (services.part_codes 단일 기준)
-                        code = resolve_part_code(part_id) or resolve_part_code(kr_label)
-                        if code:
-                            if is_inner_part(code):
-                                has_inner_damage = True
-                            elif is_outer_part(code):
-                                has_outer_damage = True
-                        else:
-                            if item in frm_items:
-                                has_inner_damage = True
-                            else:
-                                has_outer_damage = True
-
-                    if replace_names or repair_names:
-                        change_cnt = len(replace_names)
-                        metal_cnt = len(repair_names)
-                        if has_inner_damage:
-                            accident_type = '사고'
-                        elif has_outer_damage and accident_type == '무사고':
-                            accident_type = '단순수리'
-            except Exception as e:
-                pass
+            if include_3d:
+                replace_names, repair_names, damage_parts_raw, change_cnt, metal_cnt, accident_type = _fetch_kcar_3d_damage(
+                    car_cd_clean, headers, accident_type, change_cnt, metal_cnt
+                )
 
             # 4. 보험 내역 (carhistory)
             gnrl_ttls = int(ch.get('gnrlTtlsAcdtCnt') or 0)
@@ -328,6 +380,9 @@ def fetch_kcar_car_detail(car_cd: str) -> Optional[Dict[str, Any]]:
                 "center": center,
                 "status": car_stat,
                 "detailUrl": f"https://www.kcar.com/bc/detail/carInfoDtl?i_sCarCd={car_cd_clean}",
+                "checkDate": check_date_str,
+                "holdingDays": holding_days,
+                "has3d": bool(include_3d),
                 "dates": {
                     "regDate": str(reg_dttm),
                     "pfmncDate": str(pfmnc_dt),

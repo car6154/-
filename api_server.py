@@ -789,7 +789,12 @@ def search_encar_market(req: EncarSearchRequest):
         car_no = req.carNumber or ""
 
         encar_url = req.url
-        if not encar_url or not str(encar_url).strip():
+        if encar_url and str(encar_url).strip() and year_num > 0:
+            full_target_yr = (year_num + 2000) if year_num < 100 else year_num
+            norm_range = f"Year.range({full_target_yr - 1}01..{full_target_yr + 1}12)"
+            encar_url = re.sub(r'Year\.range\((?:%28|\()?\d{6}\.\.\d{6}(?:%29|\))?\)', norm_range, str(encar_url))
+            encar_url = re.sub(r'Year\.range%28\d{6}\.\.\d{6}%29', f"Year.range%28{full_target_yr - 1}01..{full_target_yr + 1}12%29", encar_url)
+        elif not encar_url or not str(encar_url).strip():
             encar_url = MasterMappingService.generate_smart_encar_url(
                 car_name=car_name,
                 sub_model=detail_model,
@@ -1618,13 +1623,15 @@ def get_kcar_market_stats_post(req: KcarMarketRequest):
 
 class KcarDetailRequest(BaseModel):
     carCd: str
+    include3d: Optional[bool] = True
 
 
 @app.post("/api/kcar/detail")
 def get_kcar_car_detail_endpoint(req: KcarDetailRequest):
     try:
         from services.kcar_service import fetch_kcar_car_detail
-        res = fetch_kcar_car_detail(req.carCd)
+        inc_3d = True if req.include3d is None else bool(req.include3d)
+        res = fetch_kcar_car_detail(req.carCd, include_3d=inc_3d)
         if not res:
             return {"success": False, "message": "케이카 차량 상세 정보를 불러오지 못했습니다."}
         return {"success": True, "data": res}

@@ -102,6 +102,8 @@ export interface KcarCarItem {
   optnNm?: string;
   detailUrl: string;
   isStrict?: boolean;
+  checkDate?: string;
+  holdingDays?: number | null;
 }
 
 export interface KcarPriceBin {
@@ -169,6 +171,9 @@ export interface KcarDetailData {
   center: string;
   status: string;
   detailUrl: string;
+  checkDate?: string;
+  holdingDays?: number | null;
+  has3d?: boolean;
   dates: {
     regDate: string;
     pfmncDate: string;

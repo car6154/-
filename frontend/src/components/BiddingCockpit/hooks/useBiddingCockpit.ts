@@ -1502,9 +1502,12 @@ export function useBiddingCockpit({
       const inspColor = (insp.color && insp.color !== '미확인' && insp.color !== '⚠️정보없음')
         ? insp.color
         : item.color;
-      const holdingDays = (item.holdingDays && item.holdingDays > 0)
+      const inspHolding = typeof insp.holdingDays === 'number' && !isNaN(insp.holdingDays) && insp.holdingDays >= 0
+        ? insp.holdingDays
+        : (typeof insp.stockDays === 'number' && !isNaN(insp.stockDays) && insp.stockDays >= 0 ? insp.stockDays : null);
+      const holdingDays = (typeof item.holdingDays === 'number' && !isNaN(item.holdingDays) && item.holdingDays >= 0)
         ? item.holdingDays
-        : (typeof insp.stockDays === 'number' && insp.stockDays > 0 ? insp.stockDays : item.holdingDays);
+        : (inspHolding !== null ? inspHolding : item.holdingDays);
       return {
         ...item,
         checkDate: inspDate || item.checkDate,
@@ -1684,12 +1687,20 @@ export function useBiddingCockpit({
 
       const inspOpts = insp.optionsText || (insp.options ? insp.options.join(' · ') : (insp.optionNames ? insp.optionNames.join(' · ') : found.optionsText));
 
+      const inspHolding = typeof insp.holdingDays === 'number' && !isNaN(insp.holdingDays) && insp.holdingDays >= 0
+        ? insp.holdingDays
+        : (typeof insp.stockDays === 'number' && !isNaN(insp.stockDays) && insp.stockDays >= 0 ? insp.stockDays : null);
+      const mergedHoldingDays = (typeof found.holdingDays === 'number' && !isNaN(found.holdingDays) && found.holdingDays >= 0)
+        ? found.holdingDays
+        : (inspHolding !== null ? inspHolding : found.holdingDays);
+
       return {
         ...found,
         color: inspColor || found.color,
         checkDate: inspDate || found.checkDate,
         inspectionDate: inspDate || (found as any).inspectionDate || '-',
         registrationDate: insp.registrationDate || (found as any).registrationDate || '-',
+        holdingDays: mergedHoldingDays,
         accidentType: inspAccident || found.accidentType,
         optionsText: inspOpts || found.optionsText,
         replaces: parsedReplaces.length > 0 ? Array.from(new Set(parsedReplaces)) : (found.replaces || []),

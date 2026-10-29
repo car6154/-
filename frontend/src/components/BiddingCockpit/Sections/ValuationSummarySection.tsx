@@ -453,33 +453,27 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
                   </span>
                 </div>
 
-                {/* 엔카 완판 핵심 팩트 칩 3종 또는 대체 상태 표시 */}
-                {liveEncarSoldStats && liveEncarSoldStats.has_data ? (
+                {/* 자사 소매 실적 기준 핵심 팩트 칩 3종 (도매·경매 제외 순수 소매 완판 기준) */}
+                {liveMarketStats && liveMarketStats.has_data ? (
                   <div className="flex flex-wrap items-center gap-1.5 text-[11px]">
                     <span className="px-2 py-0.5 rounded bg-[#1a1d2b] border border-[#2b3044] text-zinc-300">
-                      최근 30일: <strong>{liveEncarSoldStats.count_30d}대 완판</strong>
+                      자사 소매 실적 기준: <strong>{liveMarketStats.total_count || 0}대 완판</strong>
+                      {liveMarketStats.matched_year_band ? ` (${liveMarketStats.matched_year_band})` : ''}
                     </span>
-                    {Number(liveEncarSoldStats.sold_avg_price || 0) > 0 && (
+                    {Number(liveMarketStats.avg_sell_price || 0) > 0 && (
                       <span className="px-2 py-0.5 rounded bg-[#1a1d2b] border border-[#2b3044] text-zinc-300">
-                        완판 평균: <strong className="text-amber-300 font-mono">{Number(liveEncarSoldStats.sold_avg_price).toLocaleString()}만</strong>
+                        완판 평균: <strong className="text-amber-300 font-mono">{Number(liveMarketStats.avg_sell_price).toLocaleString()}만</strong>
                       </span>
                     )}
                     <span className="px-2 py-0.5 rounded bg-[#1a1d2b] border border-[#2b3044] text-zinc-300">
-                      평균 소요: <strong className="text-emerald-400 font-mono">{liveEncarSoldStats.sold_avg_days || 28}일</strong>
+                      평균 소요: <strong className="text-emerald-400 font-mono">{liveMarketStats.avg_days || 0}일</strong>
                     </span>
                   </div>
                 ) : (
                   <div className="flex flex-wrap items-center gap-1.5 text-[11px]">
                     <span className="px-2 py-0.5 rounded bg-zinc-800/80 border border-zinc-700/60 text-zinc-400">
-                      {liveEncarSoldStats?.is_rate_limited
-                        ? '⚠️ 엔카 완판 API 일시 차단됨 (자사 실적으로 대체)'
-                        : (liveEncarSoldStats?.message || '엔카 완판 데이터 0건 (자사 실적 대체)')}
+                      자사 소매 실적 기준: <strong>완판 데이터 0건</strong>
                     </span>
-                    {liveMarketStats?.has_data && (
-                      <span className="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-300">
-                        자사 실적: <strong>{liveMarketStats.total_count || 0}대 완판</strong> (평균 {liveMarketStats.avg_days || 0}일)
-                      </span>
-                    )}
                   </div>
                 )}
               </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { AlertTriangle, ExternalLink, Car } from 'lucide-react';
 import {
   splitOptionString,
@@ -244,9 +244,73 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
   const [selectedKcarCarCd, setSelectedKcarCarCd] = useState<string | null>(null);
   const [kcarDetail, setKcarDetail] = useState<KcarDetailData | null>(null);
   const [isKcarDetailLoading, setIsKcarDetailLoading] = useState<boolean>(false);
+  const [kcarInspectionMap, setKcarInspectionMap] = useState<Record<string, KcarDetailData>>({});
+  const kcarDetailCacheRef = useRef<Record<string, KcarDetailData>>({});
+
+  // 🚀 [케이카 사전 프리패치(Prefetch)]: 케이카 목록이 준비되면 성능점검일·재고일을 100ms 간격 순차 로드 (3D 도면은 상세 클릭 시로 지연)
+  useEffect(() => {
+    if (!kcarCars || kcarCars.length === 0) return;
+
+    let isCancelled = false;
+    const prefetchList = kcarCars.slice(0, 20);
+
+    const runPrefetch = async () => {
+      for (const car of prefetchList) {
+        if (isCancelled) break;
+        const cd = car.carCd;
+        if (!cd) continue;
+
+        if (kcarDetailCacheRef.current[cd]) continue;
+
+        try {
+          const res = await fetch('/api/kcar/detail', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ carCd: cd, include3d: false })
+          });
+          if (isCancelled) break;
+          const json = await res.json();
+          if (json.success && json.data && !isCancelled) {
+            kcarDetailCacheRef.current[cd] = json.data;
+            setKcarInspectionMap(prev => ({
+              ...prev,
+              [cd]: json.data
+            }));
+          }
+        } catch (e) {
+          // 백그라운드 프리패치는 무음 처리
+        }
+
+        await new Promise(r => setTimeout(r, 100));
+      }
+    };
+
+    runPrefetch();
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [kcarCars]);
 
   const sortedKcarList = useMemo(() => {
-    const list = [...kcarCars];
+    const list = kcarCars.map(car => {
+      const det = kcarInspectionMap[car.carCd];
+      if (!det) return car;
+      let checkDate = det.checkDate && det.checkDate !== '-' ? det.checkDate : car.checkDate;
+      let holdingDays = typeof det.holdingDays === 'number' && !isNaN(det.holdingDays) && det.holdingDays >= 0
+        ? det.holdingDays
+        : car.holdingDays;
+      const pfmncRaw = det.dates?.pfmncDate || '';
+      const pDigits = pfmncRaw.replace(/\D/g, '');
+      if ((!checkDate || checkDate === '-') && pDigits.length >= 8) {
+        checkDate = `${pDigits.slice(2, 4)}-${pDigits.slice(4, 6)}-${pDigits.slice(6, 8)}`;
+      }
+      return {
+        ...car,
+        checkDate: checkDate || '-',
+        holdingDays: holdingDays !== undefined ? holdingDays : null,
+      };
+    });
     const parseYearNum = (val: any): number => {
       if (!val) return 0;
       const str = String(val);
@@ -275,7 +339,7 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
       default:
         return list;
     }
-  }, [kcarCars, kcarSortOption]);
+  }, [kcarCars, kcarInspectionMap, kcarSortOption]);
 
   // 케이카 목록 변경 시 유효 엄격 차량 중에서만 첫 번째 차량 자동 선택 (없으면 선택 없음)
   useEffect(() => {
@@ -295,13 +359,25 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
 
   const [kcarDetailError, setKcarDetailError] = useState<string | null>(null);
 
-  // 케이카 단일 차량 상세 정보 API 호출 (7초 타임아웃 + 실패 안내)
+  // 케이카 단일 차량 상세 정보 API 호출 (상세 카드용: include3d=true, 7초 타임아웃 + 실패 안내)
   useEffect(() => {
     if (!selectedKcarCarCd) {
       setKcarDetail(null);
       setKcarDetailError(null);
       return;
     }
+
+    const cached = kcarDetailCacheRef.current[selectedKcarCarCd];
+    if (cached && cached.has3d) {
+      setKcarDetail(cached);
+      setKcarDetailError(null);
+      setIsKcarDetailLoading(false);
+      return;
+    }
+    if (cached) {
+      setKcarDetail(cached);
+    }
+
     const controller = new AbortController();
     const timer = setTimeout(() => {
       controller.abort();
@@ -313,7 +389,7 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
     fetch('/api/kcar/detail', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ carCd: selectedKcarCarCd }),
+      body: JSON.stringify({ carCd: selectedKcarCarCd, include3d: true }),
       signal: controller.signal
     })
       .then(res => {
@@ -322,10 +398,15 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
       })
       .then(json => {
         if (json.success && json.data) {
+          kcarDetailCacheRef.current[selectedKcarCarCd] = json.data;
+          setKcarInspectionMap(prev => ({
+            ...prev,
+            [selectedKcarCarCd]: json.data
+          }));
           setKcarDetail(json.data);
           setKcarDetailError(null);
         } else {
-          setKcarDetail(null);
+          if (!cached) setKcarDetail(null);
           setKcarDetailError(json.message || '상세 정보를 불러오지 못했습니다.');
         }
       })
@@ -337,7 +418,7 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
           console.error('[K-Car Detail Fetch Error]', err);
           setKcarDetailError('상세 정보를 불러오지 못했습니다.');
         }
-        setKcarDetail(null);
+        if (!cached) setKcarDetail(null);
       })
       .finally(() => {
         clearTimeout(timer);
@@ -418,7 +499,7 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                   : 'text-zinc-400 hover:text-white hover:bg-[#1f222e]'
               }`}
             >
-              엔카 ({encarFilteredCount}대)
+              엔카 ({encarTotalModelCount || encarList.length}대)
             </button>
             <button
               type="button"
@@ -434,7 +515,7 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
           </div>
           <span className="text-white font-bold text-sm sm:text-base ml-1">
             {activeTab === 'encar'
-              ? `엔카 실시간 등록 매물 리스트 (${encarFilteredCount}대)`
+              ? `엔카 실시간 등록 매물 리스트 (${encarTotalModelCount || encarList.length}대)`
               : `케이카 실시간 등록 매물 리스트 (${kcarCars.length}대)`}
           </span>
         </div>
@@ -783,7 +864,7 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
         </div>
 
         {/* Right: Detailed Inspection Card + 2D Car Diagram (Right 5 cols) - 비교 매물 선택 시에만 표출 */}
-        <div className="xl:col-span-5 bg-[#14151b] border border-[#262833] rounded-xl p-4 sm:p-5 space-y-4 h-auto flex flex-col justify-between">
+        <div className="xl:col-span-5 bg-[#14151b] border border-[#262833] rounded-xl p-4 space-y-3 self-start flex flex-col justify-start">
           {!selectedEncar ? (
             <div className="flex flex-col items-center justify-center h-full text-center space-y-3 py-16 px-4 bg-[#0a0b0e] rounded-xl border border-dashed border-[#2a2d3d]">
               <div className="w-12 h-12 rounded-full bg-amber-500/10 flex items-center justify-center text-amber-400">
@@ -1088,6 +1169,8 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                 <thead className="bg-[#14151b] sticky top-0 z-10 text-[11px] text-zinc-300 font-bold uppercase border-b border-[#262833]">
                   <tr>
                     <th className="py-2 px-1 text-center w-7 bg-[#14151b] whitespace-nowrap">선택</th>
+                    <th className="py-2 px-1 text-center bg-[#14151b] whitespace-nowrap w-[72px]">성능일</th>
+                    <th className="py-2 px-1 text-center bg-[#14151b] whitespace-nowrap w-[52px]">재고일</th>
                     <th className="py-2 px-1.5 bg-[#14151b] whitespace-nowrap w-[82px]">차량명</th>
                     {showTrimColumn && <th className="py-2 px-1.5 bg-[#14151b] whitespace-nowrap w-[95px]">세부등급</th>}
                     <th className="py-2 px-1 text-center bg-[#14151b] whitespace-nowrap w-[58px]">연식</th>
@@ -1139,6 +1222,24 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                             className="accent-blue-500 cursor-pointer w-3.5 h-3.5"
                           />
                         </td>
+                        <td className="py-1.5 px-1 text-center text-[12px] text-zinc-100 font-mono font-medium whitespace-nowrap">
+                          {car.checkDate || '-'}
+                        </td>
+                        <td className="py-1.5 px-1 text-center whitespace-nowrap">
+                          {typeof car.holdingDays === 'number' && !isNaN(car.holdingDays) && car.holdingDays >= 0 ? (
+                            <span className={`px-1.5 py-0.5 rounded text-[11px] font-black font-mono border ${
+                              car.holdingDays <= 14
+                                ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
+                                : car.holdingDays >= 60
+                                  ? 'bg-rose-500/20 text-rose-300 border-rose-500/40'
+                                  : 'bg-amber-500/20 text-amber-300 border-amber-500/40'
+                            }`}>
+                              {car.holdingDays}일
+                            </span>
+                          ) : (
+                            <span className="text-zinc-500 font-mono text-[11px]">-</span>
+                          )}
+                        </td>
                         <td className="py-1.5 px-1.5 truncate max-w-[82px] font-medium" title={car.carName}>
                           <a
                             href={car.detailUrl || `https://www.kcar.com/bc/detail/carInfoDtl?i_sCarCd=${car.carCd}`}
@@ -1186,7 +1287,7 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                   {sortedKcarList.length === 0 && (
                     <tr>
                       <td
-                        colSpan={showTrimColumn ? 9 : 8}
+                        colSpan={showTrimColumn ? 11 : 10}
                         className="py-12 text-center text-zinc-400 font-medium"
                       >
                         {kcarStats && !kcarStats.success
@@ -1201,7 +1302,7 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
           </div>
 
           {/* Right: K-Car Detail Card (5 cols) - 엔카 1:1 동일 양식 */}
-          <div className="xl:col-span-5 bg-[#14151f] p-4 rounded-xl border border-[#262833] space-y-3 flex flex-col justify-between">
+          <div className="xl:col-span-5 bg-[#14151f] p-4 rounded-xl border border-[#262833] space-y-3 self-start flex flex-col justify-start">
             {!selectedKcar ? (
               <div className="flex flex-col items-center justify-center h-full text-center space-y-3 py-16 px-4 bg-[#0a0b0e] rounded-xl border border-dashed border-[#2a2d3d]">
                 <div className="w-12 h-12 rounded-full bg-amber-500/10 flex items-center justify-center text-amber-400">
@@ -1267,7 +1368,8 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                   </span>
                   {kcarDetail?.dates?.pfmncDate ? (
                     <span className="px-2.5 py-1 rounded bg-blue-500/20 text-blue-300 font-bold font-mono" title="법정 성능점검일자">
-                      📋 점검: {kcarDetail.dates.pfmncDate.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3')}
+                      📋 점검: {kcarDetail.checkDate && kcarDetail.checkDate !== '-' ? kcarDetail.checkDate : kcarDetail.dates.pfmncDate.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3')}
+                      {typeof kcarDetail.holdingDays === 'number' && !isNaN(kcarDetail.holdingDays) && kcarDetail.holdingDays >= 0 ? ` (${kcarDetail.holdingDays}일 전)` : ''}
                     </span>
                   ) : null}
                   {(() => {
