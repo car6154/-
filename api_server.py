@@ -734,6 +734,102 @@ def kill_all_servers_endpoint():
 
 
 
+def _assemble_target_detail_model(grade_name: str, grade_detail_name: str, detail_model: str) -> str:
+    """
+    등급명(gradeName), 등급상세명(gradeDetailName), 요청 세부모델(detailModel)을 결합하되,
+    요청 세부모델(detailModel)에 있던 제원 토큰(배기량, 유종/엔진코드, 구동방식, 과급/터보, 인승/차체 등)이
+    결합 과정에서 사라지지 않도록 공통 규칙으로 보존한다.
+    """
+    raw_g = (grade_name or "").strip()
+    raw_gd = (grade_detail_name or "").strip()
+    raw_dm = (detail_model or "").strip()
+
+    if not raw_g and not raw_gd:
+        return raw_dm
+
+    if raw_g and raw_gd:
+        if raw_gd in raw_g:
+            base_g, base_gd = raw_g, ""
+        elif raw_g in raw_gd:
+            base_g, base_gd = "", raw_gd
+        else:
+            gd_parts = [p for p in raw_gd.split() if p.lower() not in raw_g.lower()]
+            base_g, base_gd = raw_g, " ".join(gd_parts)
+    else:
+        base_g, base_gd = raw_g, raw_gd
+
+    assembled = f"{base_g} {base_gd}".strip()
+    if not raw_dm:
+        return assembled
+
+    from services.model_matcher import ModelMatcher, FUEL_SYNONYM_MAP, DRIVE_SYNONYM_MAP
+    dm_clean = DataProcessor.clean_grade(raw_dm)
+    assembled_clean = ModelMatcher.clean_text(assembled)
+
+    missing_specs = []
+
+    # 1) 배기량 보존
+    if not ModelMatcher.extract_disp(assembled):
+        dm_disp = ModelMatcher.extract_disp(dm_clean)
+        if dm_disp:
+            missing_specs.append(dm_disp)
+
+    # 2) 유종 및 엔진 형식 코드 보존
+    ENGINE_CODES = ['t-gdi', 'tgdi', 'gdi', 'gde', 'mpi', 'cvvl', 'crdi', 'e-vgt', 'evgt', 'vgt', 'dci', 'cdi', 'tdi', 'tce', 'lpi', 'lpe', 'phev', 'hev', 'fcev']
+    if not ModelMatcher.extract_fuel(assembled):
+        for syns in FUEL_SYNONYM_MAP.values():
+            matched_fuel_tok = None
+            for syn in syns:
+                if ModelMatcher.clean_text(syn) in ModelMatcher.clean_text(dm_clean):
+                    matched_fuel_tok = syn
+                    break
+            if matched_fuel_tok:
+                missing_specs.append(matched_fuel_tok)
+                break
+    for eng in ENGINE_CODES:
+        eng_c = ModelMatcher.clean_text(eng)
+        if eng_c in ModelMatcher.clean_text(dm_clean) and eng_c not in assembled_clean:
+            if eng_c == 'gdi' and ('tgdi' in ModelMatcher.clean_text(dm_clean) or 'tgdi' in assembled_clean):
+                continue
+            m_orig = re.search(re.escape(eng), dm_clean, re.IGNORECASE)
+            missing_specs.append(m_orig.group(0) if m_orig else (eng.upper() if eng.isascii() else eng))
+            assembled_clean += eng_c
+
+    # 3) 과급/터보/자연흡기 키워드 보존
+    if ModelMatcher.extract_turbo(assembled) is None:
+        m_tb = re.search(r'(트윈터보|바이터보|터보|biturbo|turbo|자연흡기|논터보|nonturbo)', dm_clean, re.IGNORECASE)
+        if m_tb:
+            missing_specs.append(m_tb.group(1))
+        elif re.search(r'(?:[a-zA-Z가-힣]|\b)\d\.\d+\s*t(?![a-z0-9])', dm_clean.lower()):
+            missing_specs.append("터보")
+
+    # 4) 구동방식 보존
+    if not ModelMatcher.extract_drive(assembled):
+        for syns in DRIVE_SYNONYM_MAP.values():
+            matched_drv = None
+            for syn in syns:
+                if ModelMatcher.clean_text(syn) in ModelMatcher.clean_text(dm_clean):
+                    matched_drv = syn.upper() if syn.isascii() else syn
+                    break
+            if matched_drv:
+                missing_specs.append(matched_drv)
+                break
+
+    # 5) 인승 및 차체 키워드 보존
+    for m_extra in re.finditer(r'(\d+인승|하이리무진|리무진|롱바디|밴|카고)', dm_clean, re.IGNORECASE):
+        tok = m_extra.group(1)
+        if ModelMatcher.clean_text(tok) not in assembled_clean:
+            missing_specs.append(tok)
+
+    if not missing_specs:
+        return assembled
+
+    spec_str = " ".join(missing_specs)
+    if base_g and base_gd:
+        return f"{base_g} {spec_str} {base_gd}".strip()
+    return f"{assembled} {spec_str}".strip()
+
+
 # 2. 엔카 실시간 시세 검색 API (스냅샷 자동 누적)
 # ----------------------------------------------------
 class EncarSearchRequest(BaseModel):
@@ -758,14 +854,8 @@ def search_encar_market(req: EncarSearchRequest):
         raw_g = (req.gradeName or "").strip()
         raw_gd = (req.gradeDetailName or "").strip()
 
-        # 등급 결합 (단일 진실 공급원: 백엔드가 조립, dedup 필수, 누락 시 기존 detailModel 폴백)
-        if raw_g:
-            if raw_gd and raw_gd not in raw_g:
-                detail_model = f"{raw_g} {raw_gd}".strip()
-            else:
-                detail_model = raw_g
-        else:
-            detail_model = req.detailModel or ""
+        # 등급 결합 (단일 진실 공급원: 백엔드가 조립, dedup 및 요청 세부모델 제원 토큰 보존)
+        detail_model = _assemble_target_detail_model(raw_g, raw_gd, req.detailModel or "")
 
         try:
             os.makedirs("data", exist_ok=True)
@@ -1603,10 +1693,7 @@ def get_kcar_market_stats_post(req: KcarMarketRequest):
         from services.kcar_service import fetch_kcar_market_stats
         raw_g = (req.gradeName or "").strip()
         raw_gd = (req.gradeDetailName or "").strip()
-        if raw_g:
-            detail_model = f"{raw_g} {raw_gd}".strip() if (raw_gd and raw_gd not in raw_g) else raw_g
-        else:
-            detail_model = req.detailModel or ""
+        detail_model = _assemble_target_detail_model(raw_g, raw_gd, req.detailModel or "")
 
         return fetch_kcar_market_stats(
             car_name=req.carName or "",
@@ -1655,10 +1742,7 @@ def get_kcar_market_stats_get(
         from services.kcar_service import fetch_kcar_market_stats
         raw_g = (gradeName or "").strip()
         raw_gd = (gradeDetailName or "").strip()
-        if raw_g:
-            d_model = f"{raw_g} {raw_gd}".strip() if (raw_gd and raw_gd not in raw_g) else raw_g
-        else:
-            d_model = detailModel or ""
+        d_model = _assemble_target_detail_model(raw_g, raw_gd, detailModel or "")
 
         return fetch_kcar_market_stats(
             car_name=carName,

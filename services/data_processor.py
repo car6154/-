@@ -591,9 +591,9 @@ class DataProcessor:
             if target['fuel'] != cand['fuel']:
                 return False
 
-        # 4. 터보 일치 검사
+        # 4. 터보 일치 검사 (둘 다 명시되어 판정된 경우에만 비교, 한쪽이라도 미지(None)면 통과)
         if target.get('is_turbo') is not None and cand.get('is_turbo') is not None:
-            if target['is_turbo'] != cand['is_turbo']:
+            if bool(target['is_turbo']) != bool(cand['is_turbo']):
                 return False
 
         # 5. 구동방식 일치 검사 (둘 다 명시된 경우)

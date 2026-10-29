@@ -587,7 +587,7 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                 <span className="text-zinc-300 text-xs">
                   전체 <strong className="text-white font-mono">{encarFilterStats.totalModelCount || encarTotalModelCount}대</strong> 중
                   {encarFilterStats.excludedByBadge && encarFilterStats.excludedByBadge > 0 ? (
-                    <> <strong className="text-amber-400 font-mono font-bold">등급 불일치로 {encarFilterStats.excludedByBadge.toLocaleString()}대 제외</strong> (하이리무진·타인승·타트림 배제) ➔</>
+                    <> <strong className="text-amber-400 font-mono font-bold">엄격 기준 불일치로 {encarFilterStats.excludedByBadge.toLocaleString()}대 제외</strong> ➔</>
                   ) : (
                     <> 기준 등급 100% 일치 ➔</>
                   )}
@@ -601,7 +601,7 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
           ) : (
             encarTotalModelCount > encarFilteredCount && (
               <div className="flex items-center gap-2 px-3 py-1.5 bg-amber-500/10 border border-amber-500/25 rounded-lg text-xs text-amber-300">
-                <span>💡 필터링 기준: 등급 불일치로 {(encarTotalModelCount - encarFilteredCount).toLocaleString()}대 제외 ➔ 유효 {encarFilteredCount}대 표본 채택</span>
+                <span>💡 필터링 기준: 엄격 기준 불일치로 {(encarTotalModelCount - encarFilteredCount).toLocaleString()}대 제외 ➔ 유효 {encarFilteredCount}대 표본 채택</span>
               </div>
             )
           )}

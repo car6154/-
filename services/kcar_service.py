@@ -3980,14 +3980,8 @@ def fetch_kcar_market_stats(
     disp_m = re.search(r'(\d\.\d)', sub_raw)
     disp_val = disp_m.group(1) if disp_m else ""
 
-    is_q_turbo = ('터보' in sub_clean) or ('turbo' in sub_clean) or ('터보' in str(car_name)) or bool(re.search(r'\d\.\d\s*t(?![a-z])', sub_raw.lower()))
-    # 현대·기아 1.6 HEV 표기(detail에 1.6 HEV 포함)인 경우 터보 1.6 하이브리드로 판정
-    # 단, HEV 전체를 터보로 단정하지 않고 자연흡기 대조군(2.0/2.4 HEV 및 아반떼/니로/코나/아이오닉 등 1.6 자연흡기 HEV) 보호
-    is_hk_maker = (manufacturer in ['현대', '기아']) or ('현대' in str(car_name)) or ('기아' in str(car_name))
-    is_16_hev = bool(re.search(r'1\.6\s*(?:hev|하이브리드)', sub_raw.lower()))
-    is_na_16_model = any(k in str(car_name) for k in ['아반떼', '니로', '코나', '아이오닉'])
-    if is_hk_maker and is_16_hev and not is_na_16_model:
-        is_q_turbo = True
+    from services.model_matcher import ModelMatcher
+    q_turbo = ModelMatcher.extract_turbo(f"{manufacturer} {car_name} {sub_raw}", disp=disp_val)
 
     is_q_diesel = any(k in sub_clean for k in ['디젤', 'diesel', 'crdi', 'vgt'])
     is_q_gas = any(k in sub_clean for k in ['가솔린', 'gasoline', 'gdi', 'cvvl'])
@@ -4053,14 +4047,10 @@ def fetch_kcar_market_stats(
             if disp_val and re.search(r'\d\.\d', row_full) and disp_val not in row_full:
                 continue
 
-            # 3. 터보 엄격 일치
-            if not is_q_turbo and disp_val and ('터보' in row_full or 'turbo' in row_full):
-                if '터보' not in car_name:
-                    continue
-            elif is_q_turbo and ('터보' not in row_full and 'turbo' not in row_full):
-                # 현대·기아 1.6 터보 하이브리드 모델군은 K-Car 매물명 표기 편차(터보 단어 누락)를 허용
-                if not (is_hk_maker and is_16_hev and not is_na_16_model):
-                    continue
+            # 3. 터보 일치 검사 (공통 ModelMatcher 기준: 양쪽 중 한쪽이라도 미지(None)면 통과)
+            row_turbo = ModelMatcher.extract_turbo(f"{manufacturer} {car_name} {car_whl_nm} {grd_nm} {grd_dtl_nm}")
+            if q_turbo is not None and row_turbo is not None and bool(q_turbo) != bool(row_turbo):
+                continue
 
             # 4. 유종 상호 배제
             if is_q_diesel and not any(k in row_full for k in ['디젤', 'crdi', 'vgt']):

@@ -132,11 +132,26 @@ class ModelMatcher:
         return ""
 
     @classmethod
-    def extract_turbo(cls, text: str, disp: str = None, fuel: str = None) -> bool:
-        """터보 여부 판정 (현대/기아 1.6T HEV 자동 판정 포함)"""
+    def extract_turbo(cls, text: str, disp: str = None, fuel: str = None) -> Optional[bool]:
+        """
+        터보 여부 판정 (현대/기아 1.6T HEV 자동 판정 포함).
+        - 확실히 터보인 경우: True
+        - 확실히 비터보(자연흡기/MPI/GDe/일반GDI/LPG/전기/수소 등)인 경우: False
+        - 터보 정보가 명시되지 않은 경우(예: '1.6 가솔린 2WD 시그니처'): None (미지)
+        """
         raw = str(text) if text else ""
+        raw_lower = raw.lower()
         c = cls.clean_text(raw)
-        has_turbo_kw = any(k in c for k in ['터보', 'turbo', 'tgdi']) or bool(re.search(r'\b\d\.\d+t\b', raw.lower()))
+        if not c:
+            return None
+
+        has_turbo_kw = (
+            any(k in c for k in ['터보', 'turbo', 'tgdi', 'tce', '트윈터보', '바이터보', 'biturbo'])
+            or ('t-gdi' in raw_lower)
+            or bool(re.search(r'(?:[a-zA-Z가-힣]|\b)\d\.\d+\s*t(?![a-z0-9])', raw_lower))
+        )
+        if has_turbo_kw:
+            return True
 
         cur_disp = disp or cls.extract_disp(raw)
         cur_fuel = fuel or cls.extract_fuel(raw)
@@ -146,7 +161,21 @@ class ModelMatcher:
 
         if is_hk and cur_disp == '1.6' and cur_fuel == '하이브리드' and not is_na_16:
             return True
-        return has_turbo_kw
+
+        if is_na_16 and cur_disp == '1.6' and cur_fuel == '하이브리드':
+            return False
+
+        # 명시적 자연흡기/비터보 키워드 또는 엔진 형식(MPI, CVVL, GDe, 일반 GDI, LPi/LPe 등)
+        has_na_kw = (
+            any(k in c for k in ['자연흡기', '논터보', 'nonturbo', 'mpi', 'cvvl', 'gde', 'lpi', 'lpe'])
+            or ('non-turbo' in raw_lower)
+            or ('gdi' in c and 'tgdi' not in c and 't-gdi' not in raw_lower)
+            or (cur_fuel in ('lpg', '전기', '수소'))
+        )
+        if has_na_kw:
+            return False
+
+        return None
 
     @classmethod
     def extract_core_model(cls, text: str) -> str:
