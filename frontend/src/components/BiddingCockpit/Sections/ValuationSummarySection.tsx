@@ -35,6 +35,8 @@ export interface ValuationSummarySectionProps {
   liveEncarSoldStats: any;
   encarStats: {
     count: number;
+    strictCount?: number;
+    wideCount?: number;
     min: number;
     max: number;
     avg: number;
@@ -859,7 +861,10 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
                         <span>엔카 소매 시세</span>
                       </span>
                       <span className="text-xs font-mono font-bold text-white">
-                        총 <strong className="text-sky-400 font-bold">{encarStats.strictAdjCount ?? encarStats.count ?? 0}</strong>대
+                        전체 <strong className="text-sky-400 font-bold">{encarStats.wideCount ?? encarList.length}</strong>대
+                        <span className="text-zinc-400 font-normal ml-1">
+                          (엄격 <strong className="text-zinc-200">{encarStats.strictCount ?? encarStats.count ?? 0}</strong> · 보정 표본 <strong className="text-emerald-400">{encarStats.strictAdjCount ?? encarStats.count ?? 0}</strong>대)
+                        </span>
                       </span>
                     </div>
                     <div className="flex items-center gap-1.5">
@@ -948,7 +953,7 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
                         <span>📊</span>
                         <span>가격 분포 (구간별 건수)</span>
                       </span>
-                      <span className="text-[10px] font-mono text-zinc-400">총 {encarStats.strictAdjCount ?? encarStats.count ?? 0}대</span>
+                      <span className="text-[10px] font-mono text-zinc-400">전체 {encarStats.wideCount ?? encarList.length}대</span>
                     </div>
 
                     {encarPriceBins.length > 0 ? (
@@ -1021,7 +1026,10 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
                         <span>K-Car 직영 시세</span>
                       </span>
                       <span className="text-xs font-mono font-bold text-white">
-                        총 <strong className="text-rose-400 font-bold">{kcarStats?.count || 0}</strong>대
+                        전체 <strong className="text-rose-400 font-bold">{kcarStats?.wideCount ?? kcarStats?.wideCars?.length ?? kcarStats?.count ?? 0}</strong>대
+                        <span className="text-zinc-400 font-normal ml-1">
+                          (시세 표본 <strong className="text-emerald-400">{kcarStats?.strictCount ?? kcarStats?.count ?? 0}</strong>대)
+                        </span>
                       </span>
                       {kcarStats?.modelName && (
                         <span className="text-[10px] px-1.5 py-0.2 rounded bg-zinc-800 text-zinc-300 hidden sm:inline">
@@ -1058,7 +1066,12 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
                   {/* 1. 최저가 / 최고가 / 평균가 메인 요약 바 */}
                   <div className="bg-[#0b080a] border border-[#2b1822] rounded-lg p-2.5 space-y-1.5">
                     <div className="flex items-baseline justify-between">
-                      <span className="text-xs text-zinc-400 font-medium">직영 평균 판매가</span>
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        <span className="text-xs text-zinc-400 font-medium">직영 평균 판매가</span>
+                        <span className="text-[10px] text-rose-400/90 font-normal">
+                          (동일 연식·등급 엄격 평균 · {kcarStats?.strictCount ?? kcarStats?.count ?? 0}대)
+                        </span>
+                      </div>
                       <div className="flex items-baseline gap-1">
                         {isKcarLoading ? (
                           <span className="text-sm text-zinc-400 animate-pulse">K-Car 직영 시세 조회 중...</span>
@@ -1124,7 +1137,7 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
                         <span>가격 분포 (구간별 건수)</span>
                       </span>
                       <span className="text-[10px] font-mono text-zinc-400">
-                        총 {kcarStats?.count || 0}대
+                        전체 {kcarStats?.wideCount ?? kcarStats?.wideCars?.length ?? kcarStats?.count ?? 0}대
                       </span>
                     </div>
                     {kcarStats?.priceBins && kcarStats.priceBins.length > 0 ? (

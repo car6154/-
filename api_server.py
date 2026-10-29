@@ -849,9 +849,7 @@ def search_encar_market(req: EncarSearchRequest):
                 }
             }
 
-        # 1. 표준화 및 중복 제거
-        df = DataProcessor.standardize(df)
-        df = Scraper.dedupe_after_scan(df)
+        # 1. 표준화 및 중복 제거 (Scraper.run 내부에서 dedupe_after_scan 및 standardize가 이미 1회 수행됨 - 중복 분위수 절사 방지)
 
         # 2. 세부모델/파생트림 엄격 정밀 필터링 (Badge 및 BadgeDetail까지 목표 등급·접미사와 100% 일치할 때만 스킵)
         should_skip_filter = False
@@ -917,8 +915,6 @@ def search_encar_market(req: EncarSearchRequest):
             if wider_url and wider_url != encar_url:
                 df_wider, msg_wider = Scraper.run(wider_url, "", fetch_details=not skip_detail)
                 if not df_wider.empty:
-                    df_wider = DataProcessor.standardize(df_wider)
-                    df_wider = Scraper.dedupe_after_scan(df_wider)
                     if not should_skip_filter:
                         df_wider = DataProcessor.filter_strictly_by_submodel(df_wider, target_car_name=car_name, target_sub_model=detail_model)
                     if len(df_wider) >= len(df):
@@ -1259,10 +1255,12 @@ def search_encar_market(req: EncarSearchRequest):
                         if v_res.status_code == 200:
                             v_json = v_res.json() or {}
                             manage = v_json.get("manage") or {}
-                            if manage.get("dummyVehicleId"):
-                                vehicle_id = str(manage.get("dummyVehicleId"))
-                            elif v_json.get("vehicleId"):
-                                vehicle_id = str(v_json["vehicleId"])
+                            cand_vid = str(v_json.get("vehicleId") or "")
+                            cand_dummy = str(manage.get("dummyVehicleId") or "")
+                            if cand_vid and cand_vid != str(cid):
+                                vehicle_id = cand_vid
+                            elif cand_dummy and cand_dummy != str(cid):
+                                vehicle_id = cand_dummy
                             choice_codes = [str(c) for c in (v_json.get("options", {}).get("choice", []) or [])]
                     except Exception as e_v:
                         print(f"[호가 상세 vehicle 조회 오류] cid={cid}: {e_v}", flush=True)
@@ -1703,10 +1701,12 @@ def get_encar_inspection(car_id: str):
                     origin_price = _safe_int(cat.get("originPrice", 0))
                 manage = v_data.get("manage") or {}
                 spec = v_data.get("spec") or {}
-                if manage.get("dummyVehicleId"):
-                    vehicle_id = str(manage.get("dummyVehicleId"))
-                elif v_data.get("vehicleId"):
-                    vehicle_id = str(v_data["vehicleId"])
+                cand_vid = str(v_data.get("vehicleId") or "")
+                cand_dummy = str(manage.get("dummyVehicleId") or "")
+                if cand_vid and cand_vid != str(car_id):
+                    vehicle_id = cand_vid
+                elif cand_dummy and cand_dummy != str(car_id):
+                    vehicle_id = cand_dummy
                 color = spec.get("colorName") or "미확인"
                 vehicle_no = v_data.get("vehicleNo") or ""
 

@@ -451,7 +451,7 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
         <div className="xl:col-span-7 space-y-2 flex flex-col">
           <div className="flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm font-bold text-white px-1">
             <span className="flex items-center gap-2 shrink-0">
-              <span>📰 엔카 동급 매물 (전체 {encarTotalModelCount}대 중 유효 {encarFilteredCount}대)</span>
+              <span>📰 엔카 동급 매물 (전체 {encarTotalModelCount}대 · 시세 계산 표본 {encarFilteredCount}대)</span>
               {companyCount > 0 && (
                 <span className="px-1.5 py-0.5 rounded text-[11px] font-black bg-indigo-500/30 text-indigo-200 border border-indigo-400/50">
                   자사 {companyCount}대
@@ -1021,7 +1021,7 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
           <div className="xl:col-span-7 space-y-2 flex flex-col">
             <div className="flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm font-bold text-white px-1">
               <span className="flex items-center gap-2 shrink-0">
-                <span>📰 K-Car 직영 매물 (전체 {kcarCars.length}대 중 유효 {kcarStats?.count ?? kcarCars.length}대)</span>
+                <span>📰 K-Car 직영 매물 (전체 {kcarCars.length}대 · 시세 계산 표본 {kcarStats?.strictCount ?? kcarStats?.count ?? 0}대)</span>
               </span>
               <div className="flex items-center gap-2 flex-wrap">
                 <div className="flex items-center gap-1.5 shrink-0">

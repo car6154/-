@@ -1445,7 +1445,7 @@ export function useBiddingCockpit({
   // ----------------------------------------------------
   // [2단계. 동급매물 (엔카) 데이터] - 실시간 엔카 API 연동 데이터 (8501 콕핏과 100% 동일 정렬)
   // ----------------------------------------------------
-  const encarList: EncarItem[] = useMemo(() => {
+  const baseEncarList: EncarItem[] = useMemo(() => {
     if (!liveEncarList || liveEncarList.length === 0) {
       return [];
     }
@@ -1469,12 +1469,12 @@ export function useBiddingCockpit({
       }
 
       // 2. 실물 매물 (스트림릿 기준: 차량명 + 연식 + 주행거리 + 가격) 중복 제거 (딜러 중복등록 차단)
-      const carName = String(item.carName || item.modelName || '').trim();
+      const carNameStr = String(item.carName || item.modelName || '').trim();
       const yrMatch = String(item.year || '').match(/\d{2}/)?.[0] || '';
       const milVal = Number(item.mileage || 0);
       const priceVal = Number(item.price || 0);
       if (milVal > 0 && priceVal > 0) {
-        const specKey = `${carName}_${yrMatch}_${milVal}_${priceVal}`;
+        const specKey = `${carNameStr}_${yrMatch}_${milVal}_${priceVal}`;
         if (seenSpecs.has(specKey)) continue;
         seenSpecs.add(specKey);
       }
@@ -1482,10 +1482,40 @@ export function useBiddingCockpit({
       dedupedList.push(item);
     }
 
-    // 백엔드 확정 기준 정렬 (Phase 3: 단일 진실 공급원):
-    // 1. 점검 유무(등록 우선) -> 2. 점검일 최신순 -> 3. 가격 낮은순 -> 4. 연식 최신순
     return dedupedList.sort(compareEncarItemsByBackendRule);
-  }, [liveEncarList, carName, detailModel, expectedSellPrice, yearModel, mileageKm, optionsTag]);
+  }, [liveEncarList]);
+
+  const encarList: EncarItem[] = useMemo(() => {
+    if (!baseEncarList.length) return [];
+    const merged = baseEncarList.map(item => {
+      const insp = selectedInspectionMap[item.id];
+      if (!insp) return item;
+      const inspDate = insp.inspectionDate && insp.inspectionDate !== '-'
+        ? insp.inspectionDate
+        : (item.checkDate && item.checkDate !== '-' ? item.checkDate : (insp.checkDate || item.checkDate));
+      const inspAccident = insp.accidentType && insp.accidentType !== '-' && insp.accidentType !== '미확인'
+        ? insp.accidentType
+        : (item.accidentType && item.accidentType !== '-' ? item.accidentType : '미확인');
+      const inspOpts = insp.optionsText && insp.optionsText !== '추가 옵션 없음'
+        ? insp.optionsText
+        : (item.optionsText && item.optionsText !== '-' ? item.optionsText : (insp.optionsText || item.optionsText));
+      const inspColor = (insp.color && insp.color !== '미확인' && insp.color !== '⚠️정보없음')
+        ? insp.color
+        : item.color;
+      const holdingDays = (item.holdingDays && item.holdingDays > 0)
+        ? item.holdingDays
+        : (typeof insp.stockDays === 'number' && insp.stockDays > 0 ? insp.stockDays : item.holdingDays);
+      return {
+        ...item,
+        checkDate: inspDate || item.checkDate,
+        holdingDays,
+        accidentType: inspAccident || item.accidentType,
+        color: inspColor || item.color,
+        optionsText: inspOpts || item.optionsText,
+      };
+    });
+    return merged.sort(compareEncarItemsByBackendRule);
+  }, [baseEncarList, selectedInspectionMap]);
 
   // (selectedEncarId, selectedInspectionMap, isInspectionLoading, isEncarSoldOpen 상태는 호이스팅 방지를 위해 상단 배치됨)
 
@@ -1498,10 +1528,10 @@ export function useBiddingCockpit({
   // 🚀 [사전 프리패치(Prefetch)]: 엔카 매물 목록이 준비되면 백그라운드에서 상위 매물들의 성능점검표/신차가격을 순차 로드
   // 사용자가 테이블 행을 클릭하는 순간 지연 없이(0.0초) 즉각 렌더링되도록 사전 캐싱합니다.
   useEffect(() => {
-    if (!encarList || encarList.length === 0) return;
+    if (!baseEncarList || baseEncarList.length === 0) return;
 
     let isCancelled = false;
-    const prefetchList = encarList.slice(0, 30); // 상위 30대 우선 프리패치
+    const prefetchList = baseEncarList.slice(0, 30); // 상위 30대 우선 프리패치
 
     const runPrefetch = async () => {
       for (const car of prefetchList) {
@@ -1537,7 +1567,7 @@ export function useBiddingCockpit({
     return () => {
       isCancelled = true;
     };
-  }, [encarList]);
+  }, [baseEncarList]);
 
   // 행 클릭 시 성능점검표 및 상세 옵션 즉시 호출
   const handleSelectEncarCar = async (carId: string) => {
@@ -1959,7 +1989,7 @@ export function useBiddingCockpit({
         const cleanId = String(c.id || c.carid || c.carId || '').replace(/\D/g, '');
         const directUrl = c.encarUrl || (cleanId ? `https://fem.encar.com/cars/detail/${cleanId}` : '');
         const milNum = Number(c.mileage || c.km_num || 0);
-        const pNum = Number(c.price || c.finalPrice || c.soldPrice || 0);
+        const pNum = Number(c.price || c.finalPrice || c.soldPrice || c.est_price || 0);
         const fullCarName = c.name || c.carName || `${carName} ${detailModel}`.trim();
         return {
           id: cleanId ? `enc-sold-${cleanId}` : `es-${idx}`,
@@ -1969,7 +1999,7 @@ export function useBiddingCockpit({
           year: String(c.year || yearModel),
           mileage: milNum,
           finalPrice: pNum,
-          daysTaken: Number(c.holding_days || c.daysTaken || 0),
+          daysTaken: Number(c.holding_days || c.daysTaken || c.est_days || 0),
           soldDate: String(c.sold_date || c.soldDate || liveEncarSoldStats.latest_sold_date || '-'),
           accident: String(c.accident || c.accidentType || '미확인'),
           encarUrl: directUrl,
@@ -2040,7 +2070,7 @@ export function useBiddingCockpit({
   const encarStats = useMemo(() => {
     if (!encarList.length) {
       return {
-        count: 0, min: 0, max: 0, avg: 0, median: 0,
+        count: 0, strictCount: 0, wideCount: 0, min: 0, max: 0, avg: 0, median: 0,
         strictAdjAvg: 0, strictAdjMin: 0, strictAdjMedian: 0, strictAdjMax: 0,
         strictAdjCount: 0, strictAdjExcludedCount: 0
       };
@@ -2054,6 +2084,8 @@ export function useBiddingCockpit({
     const median = prices.length % 2 === 0 ? Math.round((prices[midIdx - 1] + prices[midIdx]) / 2) : prices[midIdx];
     return {
       count: backendEncarStats?.strictCount ?? backendEncarStats?.strictAdjCount ?? encarFilteredCount,
+      strictCount: backendEncarStats?.strictCount ?? encarFilteredCount,
+      wideCount: backendEncarStats?.wideCount ?? encarList.length,
       min,
       max,
       avg,
@@ -2112,16 +2144,7 @@ export function useBiddingCockpit({
     return validIndPrice;
   }, [encarStats, encarList, encarValuation]);
 
-  // 🔄 AI 정밀 소매가가 새로 산출(변경)될 때만 좌측 예상 소매가(expectedSellPrice) 초기값 세팅
-  // (사용자가 사이드바에서 값을 지워 0으로 만들거나 직접 수정할 때는 강제 덮어쓰기 금지)
-  useEffect(() => {
-    if (aiRetailPrice !== prevAiRetailPriceRef.current) {
-      prevAiRetailPriceRef.current = aiRetailPrice;
-      if (aiRetailPrice > 0) {
-        setExpectedSellPrice(aiRetailPrice);
-      }
-    }
-  }, [aiRetailPrice]);
+  // 💡 [제이 규칙]: 사이드바 예상 소매가(expectedSellPrice)는 순수 사용자 수동 입력 필드이므로 AI 산출값으로 자동 채우지 않는다.
 
   // 실시간 유효 소매가 (사용자 직접 입력값 우선, 없으면 AI 정밀 소매가)
   const effectiveSellPrice = useMemo(() => {

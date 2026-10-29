@@ -101,6 +101,7 @@ export interface KcarCarItem {
   accident: string;
   optnNm?: string;
   detailUrl: string;
+  isStrict?: boolean;
 }
 
 export interface KcarPriceBin {
@@ -129,6 +130,8 @@ export interface KcarMarketStats {
   adjNote?: string;
   median: number;
   postFilterFallback?: boolean;
+  strictCount?: number;
+  wideCount?: number;
   yearStats: KcarYearStat[];
   priceBins: KcarPriceBin[];
   cars: KcarCarItem[];

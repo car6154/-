@@ -75,6 +75,7 @@ class Scraper:
         
         real_id = str(c_id)
         applied_codes = []
+        options_list = []
         regist_dt = ""
         reg_date_str = "-"
         
@@ -83,8 +84,12 @@ class Scraper:
             spec = v_resp["json"].get("spec") or {}
             color = spec.get("colorName", "⚠️정보없음")
             regist_dt = manage.get("registDateTime") or manage.get("firstAdvertisedDateTime") or ""
-            if manage.get("dummy") and manage.get("dummyVehicleId"):
-                real_id = str(manage.get("dummyVehicleId"))
+            cand_vid = str(v_resp["json"].get("vehicleId") or "")
+            cand_dummy = str(manage.get("dummyVehicleId") or "")
+            if cand_vid and cand_vid != str(c_id):
+                real_id = cand_vid
+            elif cand_dummy and cand_dummy != str(c_id):
+                real_id = cand_dummy
             applied_codes = v_resp["json"].get("options", {}).get("choice", [])
 
         # 1차로 c_id 조회, 404 발생 시 real_id(dummyVehicleId) 조회

@@ -4161,6 +4161,62 @@ def fetch_kcar_market_stats(
 
     wide_cars.sort(key=lambda x: x["price"])
 
+    # 타겟 연식 계산 및 넓은 범위(wide_cars) 기준 연식별 평균가·가격 분포 산출 (엔카와 1:1 통일)
+    target_yr = (year % 100 if year > 100 else year) if (year and year > 0) else 0
+    year_map: Dict[int, Dict[str, int]] = {}
+    for c in wide_cars:
+        y = c["year"]
+        if y <= 0:
+            continue
+        if y not in year_map:
+            year_map[y] = {"count": 0, "sum": 0}
+        year_map[y]["count"] += 1
+        year_map[y]["sum"] += c["price"]
+
+    sorted_years = sorted(year_map.keys(), reverse=True)
+    year_stats = [
+        {
+            "year": y,
+            "avg": int(year_map[y]["sum"] / year_map[y]["count"]),
+            "count": year_map[y]["count"],
+            "isTarget": (y == target_yr) if target_yr > 0 else False,
+        }
+        for y in sorted_years
+    ]
+
+    wide_prices = sorted([c["price"] for c in wide_cars if c.get("price", 0) > 0])
+    wide_cnt = len(wide_prices)
+    price_bins = []
+    if wide_cnt >= 3 and wide_prices[-1] > wide_prices[0]:
+        w_min, w_max = wide_prices[0], wide_prices[-1]
+        span = w_max - w_min
+        bin_step = max(50, round((span / 4) / 50) * 50)
+        curr = w_min
+        for i in range(4):
+            is_last = (i == 3)
+            next_limit = w_max + 1 if is_last else curr + bin_step
+            b_cnt = sum(1 for p in wide_prices if (curr <= p <= w_max if is_last else curr <= p < next_limit))
+            ratio = round((b_cnt / wide_cnt) * 100) if wide_cnt > 0 else 0
+            label = f"{curr:,}~{w_max:,}만" if is_last else f"{curr:,}~{next_limit:,}만"
+            price_bins.append({
+                "label": label,
+                "min": curr,
+                "max": w_max if is_last else next_limit,
+                "count": b_cnt,
+                "ratio": ratio,
+            })
+            curr = next_limit
+            if curr > w_max:
+                break
+    elif wide_cnt > 0:
+        price_bins.append({
+            "label": f"{wide_prices[0]:,}~{wide_prices[-1]:,}만",
+            "min": wide_prices[0],
+            "max": wide_prices[-1],
+            "count": wide_cnt,
+            "ratio": 100,
+        })
+
     if not strict_has_data or not prices:
         # 💡 [원칙]: 엄격 매물이 없으면 무효 매물 가격으로 평균/최저가를 슬쩍 메우지 않고 엄격 통계 0대 반환
         return {
@@ -4181,8 +4237,8 @@ def fetch_kcar_market_stats(
             "accDeduction": 0,
             "adjNote": "",
             "postFilterFallback": True,
-            "yearStats": [],
-            "priceBins": [],
+            "yearStats": year_stats,
+            "priceBins": price_bins,
             "cars": [],
             "wideCars": wide_cars[:20],
             "modelName": rows[0].get('modelNm') or '' if rows else '',
@@ -4419,66 +4475,6 @@ def fetch_kcar_market_stats(
         acc_str = f"사고 -{acc_deduction}% 적용"
         adj_note = f"{adj_note} · {acc_str}" if adj_note else acc_str
 
-    # 타겟 연식 계산
-    target_yr = 0
-    if year and year > 0:
-        target_yr = year % 100 if year > 100 else year
-
-    # 연식별 통계 (yearStats)
-    year_map: Dict[int, Dict[str, int]] = {}
-    for c in valid_cars:
-        y = c["year"]
-        if y <= 0:
-            continue
-        if y not in year_map:
-            year_map[y] = {"count": 0, "sum": 0}
-        year_map[y]["count"] += 1
-        year_map[y]["sum"] += c["price"]
-
-    sorted_years = sorted(year_map.keys(), reverse=True)
-    year_stats = []
-    for y in sorted_years:
-        cnt = year_map[y]["count"]
-        s = year_map[y]["sum"]
-        year_stats.append({
-            "year": y,
-            "avg": int(s / cnt),
-            "count": cnt,
-            "isTarget": (y == target_yr) if target_yr > 0 else False
-        })
-
-    # 가격 분포 구간 (priceBins) - 균등 4개 구간 산출
-    price_bins = []
-    if count >= 3 and max_p > min_p:
-        span = max_p - min_p
-        raw_bin_step = span / 4
-        bin_step = max(50, round(raw_bin_step / 50) * 50)
-        curr = min_p
-        for i in range(4):
-            is_last = (i == 3)
-            next_limit = max_p + 1 if is_last else curr + bin_step
-            b_cnt = sum(1 for p in prices if (curr <= p <= max_p if is_last else curr <= p < next_limit))
-            ratio = round((b_cnt / count) * 100) if count > 0 else 0
-            label = f"{curr:,}~{max_p:,}만" if is_last else f"{curr:,}~{next_limit:,}만"
-            price_bins.append({
-                "label": label,
-                "min": curr,
-                "max": max_p if is_last else next_limit,
-                "count": b_cnt,
-                "ratio": ratio
-            })
-            curr = next_limit
-            if curr > max_p:
-                break
-    elif count > 0:
-        price_bins.append({
-            "label": f"{min_p:,}~{max_p:,}만",
-            "min": min_p,
-            "max": max_p,
-            "count": count,
-            "ratio": 100
-        })
-
     # 차량 정렬 (가격 오름차순, 최대 20대)
     valid_cars.sort(key=lambda x: x["price"])
 
@@ -4486,7 +4482,7 @@ def fetch_kcar_market_stats(
         "success": True,
         "count": len(strict_rows) if strict_has_data else 0,
         "strictCount": len(strict_rows),
-        "wideCount": count,
+        "wideCount": len(wide_cars),
         "strictHasData": strict_has_data,
         "min": min_p if strict_has_data else None,
         "max": max_p if strict_has_data else None,

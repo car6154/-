@@ -1145,7 +1145,7 @@ class SalesDataAnalyzer:
                                 year_band_desc = f"{y_min}~{y_max}년식"
                             matched_trim_title = str(best_subset['세부모델'].mode()[0] if not best_subset['세부모델'].empty else best_subset['세부모델'].iloc[0])
                             is_year_diff = True
-                            year_diff_note = f"{target_year_short} 데이터 없음"
+                            year_diff_note = f"자사 {target_year_short} 실적 없음"
 
             # Step 3: 인접 연식에도 없을 경우 -> 동일 세대 전체 연식에서 동일 정밀 등급 검색
             if best_subset.empty:
@@ -1164,7 +1164,7 @@ class SalesDataAnalyzer:
                         matched_trim_title = str(best_subset['세부모델'].mode()[0] if not best_subset['세부모델'].empty else best_subset['세부모델'].iloc[0])
                         if target_year and (not actual_years or target_year not in actual_years):
                             is_year_diff = True
-                            year_diff_note = f"{target_year_short} 데이터 없음"
+                            year_diff_note = f"자사 {target_year_short} 실적 없음"
 
             # Step 4: 세부 트림 실적이 전혀 없을 때 (다른 등급으로 억지 매칭 금지!)
             if best_subset.empty:

@@ -463,6 +463,7 @@ async function startServer() {
       const carIds = req.body?.carIds || req.query.carIds || [];
       const targetYear = req.body?.targetYear || req.query.targetYear || '';
       const expectedModel = req.body?.expectedModel || req.query.expectedModel || '';
+      const detailModel = req.body?.detailModel || req.query.detailModel || '';
 
       const pyRes = await fetch('http://127.0.0.1:8000/api/encar/soldout', {
         method: 'POST',
@@ -470,9 +471,10 @@ async function startServer() {
         body: JSON.stringify({
           carIds: Array.isArray(carIds) ? carIds : [carIds],
           targetYear: String(targetYear),
-          expectedModel: String(expectedModel)
+          expectedModel: String(expectedModel),
+          detailModel: String(detailModel)
         }),
-        signal: AbortSignal.timeout(10000)
+        signal: AbortSignal.timeout(20000)
       });
       if (pyRes.ok) {
         const data = await pyRes.json();
