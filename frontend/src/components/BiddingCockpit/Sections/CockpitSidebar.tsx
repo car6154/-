@@ -496,21 +496,21 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
                   {((targetOptions && targetOptions.length > 0) || (optionsTag && optionsTag.trim() && !optionsTag.includes('옵션 없음'))) && (() => {
                     const optCount = targetOptions && targetOptions.length > 0 ? targetOptions.length : splitOptionString(optionsTag).length;
                     return (
-                      <span className="text-[10px] px-1.5 py-0.2 rounded bg-blue-500/15 text-blue-300 font-semibold border border-blue-500/30 font-mono">
+                      <span className="inline-flex items-center text-[10px] px-1.5 py-1 rounded bg-blue-500/15 text-blue-300 font-bold border border-blue-500/30">
                         신차 옵션 {optCount}개
                       </span>
                     );
                   })()}
                 </div>
 
-                {/* 2. 가운데: 추가옵션 총 가격 배지 (1곳으로 일원화, flex-1 text-center) */}
+                {/* 2. 가운데: 추가옵션 총 가격 배지 (1곳으로 일원화, flex flex-1 items-center justify-center) */}
                 {((targetOptions && targetOptions.length > 0) || (optionsTag && optionsTag.trim() && !optionsTag.includes('옵션 없음'))) && (() => {
                   const priceInfo = calculateExtraOptionsTotalPrice(targetOptions, optionsTag, targetCatalog, compCatalog, historyOptionTotalMan);
                   return (
-                    <div className="flex-1 text-center min-w-0">
+                    <div className="flex flex-1 items-center justify-center min-w-0">
                       <span
                         title={priceInfo.tooltip}
-                        className="text-[10px] px-1.5 py-0.2 rounded bg-amber-500/15 text-amber-300 font-semibold border border-amber-500/30 font-mono cursor-help inline-block truncate max-w-full"
+                        className="inline-flex items-center text-[10px] px-1.5 py-1 rounded bg-amber-500/20 text-amber-200 font-bold border border-amber-500/40 cursor-help truncate max-w-full"
                       >
                         {priceInfo.badgeText}
                       </span>
@@ -519,15 +519,15 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
                 })()}
 
                 {/* 3. 오른쪽: 우세 또는 조회차량 순정 배지 */}
-                <div className="shrink-0">
+                <div className="flex items-center shrink-0">
                   {(() => {
                     if (!selectedEncar?.optionsText || !optionsTag || !optionsTag.trim()) {
-                      return <span className="text-[10px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-400 font-medium border border-emerald-500/30">조회차량 순정</span>;
+                      return <span className="inline-flex items-center text-[10px] px-1.5 py-1 rounded bg-emerald-500/20 text-emerald-400 font-bold border border-emerald-500/30">조회차량 순정</span>;
                     }
                     const compOpts = splitOptionString(selectedEncar.optionsText);
                     const tgtOpts = splitOptionString(optionsTag);
                     if (compOpts.length === 0 || tgtOpts.length === 0) {
-                      return <span className="text-[10px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-400 font-medium border border-emerald-500/30">조회차량 순정</span>;
+                      return <span className="inline-flex items-center text-[10px] px-1.5 py-1 rounded bg-emerald-500/20 text-emerald-400 font-bold border border-emerald-500/30">조회차량 순정</span>;
                     }
                     const matchDetails = tgtOpts.map(to => getOptionMatchDetail(to, compOpts, 'target_vs_comp', targetCatalog, compCatalog));
                     const winCount = matchDetails.filter(d => !d.isMatched).length;
@@ -538,7 +538,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
                       return (
                         <span
                           title={`비교 매물(${selectedEncar.carName}) 대비 내 차 우세/고유 옵션: ${winCount}개\n공식 일치: ${exactCount}개 / 추정 매칭: ${fuzzyCount}개`}
-                          className="text-[10px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-400 font-bold border border-emerald-500 cursor-help"
+                          className="inline-flex items-center text-[10px] px-1.5 py-1 rounded bg-emerald-500/20 text-emerald-400 font-bold border border-emerald-500 cursor-help"
                         >
                           🟢 우세 {winCount}개
                         </span>
@@ -547,7 +547,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
                     return (
                       <span
                         title={`비교 매물(${selectedEncar.carName})과 핵심 옵션 일치 (공식 일치: ${exactCount}개, 추정: ${fuzzyCount}개)`}
-                        className="text-[10px] px-1.5 py-0.2 rounded bg-sky-500/20 text-sky-300 font-bold border border-sky-400/50 cursor-help"
+                        className="inline-flex items-center text-[10px] px-1.5 py-1 rounded bg-sky-500/20 text-sky-300 font-bold border border-sky-400/50 cursor-help"
                       >
                         🔵 공통 사양
                       </span>
