@@ -158,6 +158,7 @@ export function useBiddingCockpit({
   const [encarSourceUrl, setEncarSourceUrl] = useState<string>('');
   const [showTrimColumn, setShowTrimColumn] = useState<boolean>(false);
   const activeRequestIdRef = useRef<number>(0);
+  const activeHeydealerTokenRef = useRef<string>('');
   const skipAutoFetchRef = useRef<boolean>(false);
   const rawGradeNameRef = useRef<string>('');
   const rawGradeDetailNameRef = useRef<string>('');
@@ -187,6 +188,7 @@ export function useBiddingCockpit({
     setSelectedHeydealerBidId(null);
     setSelectedHeydealerGradeFilter('ALL');
 
+    activeHeydealerTokenRef.current = '';
     // 2. 가격 계산 및 밸류에이션 상태 초기화
     prevAiRetailPriceRef.current = 0;
     setExpectedSellPrice(0);
@@ -356,6 +358,7 @@ export function useBiddingCockpit({
     mileage?: number;
     carNumber?: string;
     skipDetail?: boolean;
+    targetOptions?: string;
   }) => {
     const targetCarName = options.carName || carName;
     if (!targetCarName && !options.url) {
@@ -376,7 +379,7 @@ export function useBiddingCockpit({
       const targetMaker = options.manufacturer || manufacturer;
       const targetYr = options.year !== undefined ? options.year : yearModel;
       const targetMil = options.mileage !== undefined ? options.mileage : mileageKm;
-      const targetOpt = optionsTag || '';
+      const targetOpt = options.targetOptions !== undefined ? options.targetOptions : (optionsTag || '');
       const skipDetail = options.skipDetail !== undefined ? options.skipDetail : false;
 
       const unifiedRes = await searchCockpitUnified({
@@ -474,7 +477,7 @@ export function useBiddingCockpit({
 
   // 사이드바 차량 조건 변경 시 실데이터 자동 수집 (차량이 있을 때만)
   useEffect(() => {
-    if (isSearchingCar) return;
+    if (isSearchingCar || isAiEstimating) return;
     if (skipAutoFetchRef.current) {
       skipAutoFetchRef.current = false;
       return;
@@ -504,7 +507,7 @@ export function useBiddingCockpit({
       });
     }, 300);
     return () => clearTimeout(timer);
-  }, [carName, detailModel, manufacturer, yearModel, mileageKm, carNumber, currentAssessment?.accidentDamage?.status, optionsTag, fetchEncarComparable, fetchKcarMarket]);
+  }, [carName, detailModel, manufacturer, yearModel, mileageKm, carNumber, currentAssessment?.accidentDamage?.status, optionsTag, isAiEstimating, fetchEncarComparable, fetchKcarMarket]);
 
   // 텍스트/복사 데이터 빠른 자동 분석 모달 상태
   const [isQuickPasteOpen, setIsQuickPasteOpen] = useState(false);
@@ -779,6 +782,7 @@ export function useBiddingCockpit({
     resetCockpitState({ keepInputs: true });
 
     const reqId = ++activeRequestIdRef.current;
+    activeHeydealerTokenRef.current = '';
     setIsSearchingCar(true);
     setIsEncarLoading(true);
     setIsKcarLoading(true);
@@ -1089,6 +1093,9 @@ export function useBiddingCockpit({
         hashId = match[1];
       }
 
+      const heydealerToken = `${hashId}_${Date.now()}`;
+      activeHeydealerTokenRef.current = heydealerToken;
+
       setAiEstimateStep(`매물 ID [${hashId}] 제원 및 진단 리포트 수신 중...`);
 
       const savedCookie = localStorage.getItem('jpro_session_cookie') || '';
@@ -1279,92 +1286,7 @@ export function useBiddingCockpit({
           inspectionValidUntil: vi.inspection_valid_until ? String(vi.inspection_valid_until).slice(0, 10) : ''
         });
 
-        // 🌟 [4단계 API 직결] 차올마(오토플러스 ERP) 신차가 & 순정옵션 원본 직결 호출
-        if (cNo) {
-          try {
-            const chRes = await queryChaolmaCar(cNo, rawMil || 50000);
-            if (chRes && chRes.success) {
-              if (chRes.grade_name) rawGradeNameRef.current = String(chRes.grade_name);
-              if (chRes.grade_detail_name) rawGradeDetailNameRef.current = String(chRes.grade_detail_name);
-              const rawNewP = chRes.new_car_price || 0;
-              const stdP = rawNewP > 10000 ? Math.round(rawNewP / 10000) : rawNewP;
-              const rawBaseP = chRes.base_car_price || 0;
-              const baseP = rawBaseP > 10000 ? Math.round(rawBaseP / 10000) : rawBaseP;
-              const rawOptP = chRes.total_option_price || 0;
-              const optP = rawOptP > 10000 ? Math.round(rawOptP / 10000) : rawOptP;
-
-              setTargetCarHistory(prev => {
-                const ch = chRes.car_history;
-                const doc = chRes.origin_doc;
-                if (!prev) {
-                  if (ch || doc) {
-                    return {
-                      ownerChangedCount: ch ? ch.owner_changed_count : 0,
-                      isSingleOwner: ch ? ch.is_single_owner : true,
-                      myCarAccidentCount: ch ? ch.my_car_accident_count : 0,
-                      myCarAccidentCost: ch ? ch.my_car_accident_cost_man : 0,
-                      otherCarAccidentCount: ch ? ch.other_car_accident_count : 0,
-                      otherCarAccidentCost: ch ? ch.other_car_accident_cost_man : 0,
-                      totalLossCount: ch ? ch.total_loss_count : 0,
-                      floodedCount: ch ? ch.flooded_count : 0,
-                      stolenCount: ch ? ch.stolen_count : 0,
-                      hasRentHistory: ch ? ch.has_rent_history : false,
-                      standardNewCarPrice: stdP,
-                      baseCarPrice: baseP,
-                      totalOptionPrice: optP,
-                      vin: chRes.vin || (doc ? doc.raw_doc?.VIN : '') || '',
-                      manufacturedDate: chRes.release_date || (ch ? ch.first_reg_date : '') || (doc ? doc.first_regist_date : '') || '',
-                      inspectionValidUntil: (doc ? doc.inspection_valid_end : '') || (ch ? ch.uninsured_period : '') || '',
-                      rawHistory: ch,
-                      originDoc: doc
-                    };
-                  }
-                  return prev;
-                }
-                return {
-                  ...prev,
-                  standardNewCarPrice: stdP > 0 ? stdP : prev.standardNewCarPrice,
-                  baseCarPrice: baseP > 0 ? baseP : prev.baseCarPrice,
-                  totalOptionPrice: optP > 0 ? optP : prev.totalOptionPrice,
-                  vin: chRes.vin || (doc ? doc.raw_doc?.VIN : '') || prev.vin || '',
-                  manufacturedDate: chRes.release_date || (ch ? ch.first_reg_date : '') || (doc ? doc.first_regist_date : '') || prev.manufacturedDate || '',
-                  ownerChangedCount: (prev.ownerChangedCount === 0 && ch && ch.owner_changed_count > 0) ? ch.owner_changed_count : prev.ownerChangedCount,
-                  isSingleOwner: (ch && !ch.is_single_owner) ? false : prev.isSingleOwner,
-                  myCarAccidentCount: (prev.myCarAccidentCount === 0 && ch && ch.my_car_accident_count > 0) ? ch.my_car_accident_count : prev.myCarAccidentCount,
-                  myCarAccidentCost: (prev.myCarAccidentCost === 0 && ch && ch.my_car_accident_cost_man > 0) ? ch.my_car_accident_cost_man : prev.myCarAccidentCost,
-                  otherCarAccidentCount: (prev.otherCarAccidentCount === 0 && ch && ch.other_car_accident_count > 0) ? ch.other_car_accident_count : prev.otherCarAccidentCount,
-                  otherCarAccidentCost: (prev.otherCarAccidentCost === 0 && ch && ch.other_car_accident_cost_man > 0) ? ch.other_car_accident_cost_man : prev.otherCarAccidentCost,
-                  totalLossCount: (ch && ch.total_loss_count > 0) ? ch.total_loss_count : prev.totalLossCount,
-                  floodedCount: (ch && ch.flooded_count > 0) ? ch.flooded_count : prev.floodedCount,
-                  stolenCount: (ch && ch.stolen_count > 0) ? ch.stolen_count : prev.stolenCount,
-                  hasRentHistory: (ch && ch.has_rent_history) ? true : prev.hasRentHistory,
-                  inspectionValidUntil: (doc ? doc.inspection_valid_end : '') || prev.inspectionValidUntil || (ch ? ch.uninsured_period : '') || '',
-                  rawHistory: ch || prev.rawHistory,
-                  originDoc: doc || prev.originDoc
-                };
-              });
-
-              // 🌟 카탈로그 데이터가 필요할 경우 카탈로그 상태만 세팅 (optionsTag는 통합 조회 백엔드 결과 유지: 덮어쓰기 금지)
-              if (chRes.options && chRes.options.length > 0) {
-                const cat = await fetchNewCarCatalog(chRes.model_detail_name || chRes.model_name || carData.car_name, (chRes as any).model_year || chRes.year);
-                if (cat) setTargetNewCarCatalog(cat);
-              }
-            }
-          } catch (chErr) {
-            console.warn('차올마 백그라운드 직결 조회 중 오류 (정상 진행):', chErr);
-          }
-        }
-
-        // 🌟 헤이딜러 동급 20대 낙찰가 데이터 저장
-        const rawMp = carData.market_prices || resJson.data?.market_prices || resJson.market_prices;
-        if (rawMp) {
-          const compList = Array.isArray(rawMp) ? rawMp : (rawMp.results || []);
-          if (Array.isArray(compList) && compList.length > 0) {
-            setRawHeydealerComps(compList);
-          }
-        }
-
-        // 🌟 엔카 실시간 동급 매물 시세 자동 수집 트리거 (Heydealer etc.external_url.encar 기반)
+        // 🌟 [10-30-02]: 트랙 1 시작 전 핵심 제원 및 URL 변수 사전 확정
         const directEncarUrl = detail.etc?.external_url?.encar || 
                                resJson.data?.etc?.external_url?.encar || 
                                resJson.raw?.etc?.external_url?.encar || 
@@ -1383,42 +1305,153 @@ export function useBiddingCockpit({
           if (!isNaN(m)) calculatedMil = m;
         }
 
-        setAiEstimateStep(`엔카 실시간 동급 매물 수집 중... [${cBrand} ${cName}]`);
-        let fetchedItems: any[] = [];
+        // 헤이딜러 동급 20대 낙찰가 데이터 저장
+        const rawMp = carData.market_prices || resJson.data?.market_prices || resJson.market_prices;
+        if (rawMp) {
+          const compList = Array.isArray(rawMp) ? rawMp : (rawMp.results || []);
+          if (Array.isArray(compList) && compList.length > 0) {
+            setRawHeydealerComps(compList);
+          }
+        }
 
-        if (directEncarUrl) {
-          setEncarSourceUrl(directEncarUrl);
-          fetchedItems = await fetchEncarComparable({
-            url: directEncarUrl,
-            carName: cName,
-            detailModel: cGrade,
-            gradeName: rawGradeNameRef.current,
-            gradeDetailName: rawGradeDetailNameRef.current,
-            manufacturer: cBrand,
-            year: calculatedYear,
-            mileage: calculatedMil
+        // 🌟 차올마(오토플러스 ERP) 결과 반영 헬퍼 (targetCarHistory 갱신)
+        const applyChaolmaResult = (chRes: any) => {
+          if (!chRes || !chRes.success) return;
+          if (chRes.grade_name) rawGradeNameRef.current = String(chRes.grade_name);
+          if (chRes.grade_detail_name) rawGradeDetailNameRef.current = String(chRes.grade_detail_name);
+          const rawNewP = chRes.new_car_price || 0;
+          const stdP = rawNewP > 10000 ? Math.round(rawNewP / 10000) : rawNewP;
+          const rawBaseP = chRes.base_car_price || 0;
+          const baseP = rawBaseP > 10000 ? Math.round(rawBaseP / 10000) : rawBaseP;
+          const rawOptP = chRes.total_option_price || 0;
+          const optP = rawOptP > 10000 ? Math.round(rawOptP / 10000) : rawOptP;
+
+          setTargetCarHistory(prev => {
+            const ch = chRes.car_history;
+            const doc = chRes.origin_doc;
+            if (!prev) {
+              if (ch || doc) {
+                return {
+                  ownerChangedCount: ch ? ch.owner_changed_count : 0,
+                  isSingleOwner: ch ? ch.is_single_owner : true,
+                  myCarAccidentCount: ch ? ch.my_car_accident_count : 0,
+                  myCarAccidentCost: ch ? ch.my_car_accident_cost_man : 0,
+                  otherCarAccidentCount: ch ? ch.other_car_accident_count : 0,
+                  otherCarAccidentCost: ch ? ch.other_car_accident_cost_man : 0,
+                  totalLossCount: ch ? ch.total_loss_count : 0,
+                  floodedCount: ch ? ch.flooded_count : 0,
+                  stolenCount: ch ? ch.stolen_count : 0,
+                  hasRentHistory: ch ? ch.has_rent_history : false,
+                  standardNewCarPrice: stdP,
+                  baseCarPrice: baseP,
+                  totalOptionPrice: optP,
+                  vin: chRes.vin || (doc ? doc.raw_doc?.VIN : '') || '',
+                  manufacturedDate: chRes.release_date || (ch ? ch.first_reg_date : '') || (doc ? doc.first_regist_date : '') || '',
+                  inspectionValidUntil: (doc ? doc.inspection_valid_end : '') || (ch ? ch.uninsured_period : '') || '',
+                  rawHistory: ch,
+                  originDoc: doc
+                };
+              }
+              return prev;
+            }
+            return {
+              ...prev,
+              standardNewCarPrice: stdP > 0 ? stdP : prev.standardNewCarPrice,
+              baseCarPrice: baseP > 0 ? baseP : prev.baseCarPrice,
+              totalOptionPrice: optP > 0 ? optP : prev.totalOptionPrice,
+              vin: chRes.vin || (doc ? doc.raw_doc?.VIN : '') || prev.vin || '',
+              manufacturedDate: chRes.release_date || (ch ? ch.first_reg_date : '') || (doc ? doc.first_regist_date : '') || prev.manufacturedDate || '',
+              ownerChangedCount: (prev.ownerChangedCount === 0 && ch && ch.owner_changed_count > 0) ? ch.owner_changed_count : prev.ownerChangedCount,
+              isSingleOwner: (ch && !ch.is_single_owner) ? false : prev.isSingleOwner,
+              myCarAccidentCount: (prev.myCarAccidentCount === 0 && ch && ch.my_car_accident_count > 0) ? ch.my_car_accident_count : prev.myCarAccidentCount,
+              myCarAccidentCost: (prev.myCarAccidentCost === 0 && ch && ch.my_car_accident_cost_man > 0) ? ch.my_car_accident_cost_man : prev.myCarAccidentCost,
+              otherCarAccidentCount: (prev.otherCarAccidentCount === 0 && ch && ch.other_car_accident_count > 0) ? ch.other_car_accident_count : prev.otherCarAccidentCount,
+              otherCarAccidentCost: (prev.otherCarAccidentCost === 0 && ch && ch.other_car_accident_cost_man > 0) ? ch.other_car_accident_cost_man : prev.otherCarAccidentCost,
+              totalLossCount: (ch && ch.total_loss_count > 0) ? ch.total_loss_count : prev.totalLossCount,
+              floodedCount: (ch && ch.flooded_count > 0) ? ch.flooded_count : prev.floodedCount,
+              stolenCount: (ch && ch.stolen_count > 0) ? ch.stolen_count : prev.stolenCount,
+              hasRentHistory: (ch && ch.has_rent_history) ? true : prev.hasRentHistory,
+              inspectionValidUntil: (doc ? doc.inspection_valid_end : '') || prev.inspectionValidUntil || (ch ? ch.uninsured_period : '') || '',
+              rawHistory: ch || prev.rawHistory,
+              originDoc: doc || prev.originDoc
+            };
           });
-        } else if (cName) {
-          fetchedItems = await fetchEncarComparable({
-            carName: cName,
-            detailModel: cGrade,
-            gradeName: rawGradeNameRef.current,
-            gradeDetailName: rawGradeDetailNameRef.current,
-            manufacturer: cBrand,
-            year: calculatedYear,
-            mileage: calculatedMil
+        };
+
+        let targetGrade = cGrade;
+
+        // 💡 [10-30-02 등급 가드]: cGrade가 없거나 '-'인 예외적 경우에만 차얼마 결과를 await하여 등급 보정
+        if ((!targetGrade || targetGrade === '-') && cNo) {
+          setAiEstimateStep(`차얼마 제원 연동 대기 중... [${cNo}]`);
+          try {
+            const chRes = await queryChaolmaCar(cNo, calculatedMil || 50000);
+            if (activeHeydealerTokenRef.current === heydealerToken && chRes && chRes.success) {
+              applyChaolmaResult(chRes);
+              const combinedG = [chRes.grade_name, chRes.grade_detail_name].filter(Boolean).join(' ').trim();
+              if (combinedG) {
+                targetGrade = combinedG;
+                setDetailModel(combinedG);
+              }
+              if (chRes.options && chRes.options.length > 0) {
+                fetchNewCarCatalog(chRes.model_detail_name || chRes.model_name || carData.car_name, (chRes as any).model_year || chRes.year)
+                  .then(cat => {
+                    if (activeHeydealerTokenRef.current === heydealerToken && cat) setTargetNewCarCatalog(cat);
+                  })
+                  .catch(() => {});
+              }
+            }
+          } catch (chErr) {
+            console.warn('차올마 등급 조회 대기 중 오류 (기존 제원 유지):', chErr);
+          }
+        } else if (cNo) {
+          // 💡 [10-30-02 트랙 2]: 정상 등급이 이미 있는 경우 차얼마 & 카탈로그는 백그라운드 비동기로 실행
+          queryChaolmaCar(cNo, calculatedMil || 50000).then(async (chRes) => {
+            if (activeHeydealerTokenRef.current !== heydealerToken) return;
+            if (chRes && chRes.success) {
+              applyChaolmaResult(chRes);
+              if (chRes.options && chRes.options.length > 0) {
+                const cat = await fetchNewCarCatalog(chRes.model_detail_name || chRes.model_name || carData.car_name, (chRes as any).model_year || chRes.year);
+                if (activeHeydealerTokenRef.current === heydealerToken && cat) {
+                  setTargetNewCarCatalog(cat);
+                }
+              }
+            }
+          }).catch((chErr) => {
+            console.warn('차올마 백그라운드 직결 조회 중 오류 (정상 진행):', chErr);
           });
         }
 
-        fetchKcarMarket({
+        // 💡 [10-30-02 트랙 1]: 엔카 & 케이카 실시간 동급 매물 즉시 병렬 크롤링 (차얼마 기다림 제거)
+        setAiEstimateStep(`엔카·케이카 실시간 동급 매물 및 제원 동시 수집 중... [${cBrand} ${cName}]`);
+        if (directEncarUrl) {
+          setEncarSourceUrl(directEncarUrl);
+        }
+
+        const encarPromise = fetchEncarComparable({
+          url: directEncarUrl || undefined,
           carName: cName,
-          detailModel: cGrade,
-          gradeName: rawGradeNameRef.current,
-          gradeDetailName: rawGradeDetailNameRef.current,
+          detailModel: targetGrade,
           manufacturer: cBrand,
           year: calculatedYear,
           mileage: calculatedMil,
+          targetOptions: optionsResult
         });
+
+        const kcarPromise = fetchKcarMarket({
+          carName: cName,
+          detailModel: targetGrade,
+          manufacturer: cBrand,
+          year: calculatedYear,
+          mileage: calculatedMil,
+          targetOptions: optionsResult
+        });
+
+        const [encarSettled] = await Promise.allSettled([encarPromise, kcarPromise]);
+
+        // 이전 요청으로 교체되었으면 상태 덮어쓰기 방지
+        if (activeHeydealerTokenRef.current !== heydealerToken) return;
+
+        const fetchedItems = encarSettled.status === 'fulfilled' ? (encarSettled.value || []) : [];
 
         if (fetchedItems.length === 0) {
           const reasonSuffix = lastEncarFailReasonRef.current ? ` (원인: ${lastEncarFailReasonRef.current})` : '';
@@ -1445,6 +1478,7 @@ export function useBiddingCockpit({
         message: `❌ 헤이딜러 연동 오류: ${err?.message || '네트워크 통신 오류가 발생했습니다.'}`
       });
     } finally {
+      skipAutoFetchRef.current = true;
       setIsAiEstimating(false);
       setAiEstimateStep(null);
     }
