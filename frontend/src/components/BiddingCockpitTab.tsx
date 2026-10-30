@@ -73,6 +73,7 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = (props) => {
         targetCatalog={cockpit.targetNewCarCatalog}
         targetOptions={cockpit.targetOptions}
         unclassifiedBalance={cockpit.unclassifiedBalance}
+        historyOptionTotalMan={cockpit.targetCarHistory?.totalOptionPrice ?? 0}
       />
 
       {/* ========================================================

@@ -22,19 +22,21 @@ interface ExtraOptionPriceResult {
 }
 
 /**
- * 추가옵션 총 가격 판정 (3단계 출처 순서)
+ * 추가옵션 총 가격 판정 (5단계 출처 순서)
  * 1순위: targetOptions 합계 (price_man 또는 price/10000)
- * 2순위: optionsTag 안의 [옵션총액] 정규식
- * 3순위: 카탈로그 공식가 합계 (targetCatalog, 없으면 compCatalog 순)
- * 4순위: 위 3가지로도 불가 시 '가격 미확인'
+ * 2순위 (신규): historyOptionTotalMan (차얼마 옵션 총액, 상단 신차대비와 동일 출처)
+ * 3순위: optionsTag 안의 [옵션총액] 정규식
+ * 4순위: 카탈로그 공식가 합계 (targetCatalog, 없으면 compCatalog 순)
+ * 5순위: 위 모두 불가 시 '가격 미확인'
  */
 function calculateExtraOptionsTotalPrice(
   targetOptions?: OptionItem[],
   optionsTag?: string,
   targetCatalog?: NewCarCatalogData | null,
-  compCatalog?: NewCarCatalogData | null
+  compCatalog?: NewCarCatalogData | null,
+  historyOptionTotalMan?: number
 ): ExtraOptionPriceResult {
-  // 1순위: targetOptions 합계
+  // 1순위: targetOptions 합계가 0보다 크면 그대로 쓴다 (기존 차량번호 경로 동작 유지)
   if (targetOptions && targetOptions.length > 0) {
     const sum1 = targetOptions.reduce((acc, c) => {
       const pMan = typeof c.price_man === 'number' && !isNaN(c.price_man) && c.price_man > 0
@@ -57,7 +59,17 @@ function calculateExtraOptionsTotalPrice(
     }
   }
 
-  // 2순위: optionsTag 안의 [옵션총액] 정규식
+  // 2순위 (신규): 1순위가 0이거나 비어 있고, historyOptionTotalMan이 0보다 크면 총 {historyOptionTotalMan}만을 표시한다.
+  // 단, 옵션이 하나도 없을 때(targetOptions도 비어 있고 optionsTag도 비어 있거나 옵션 없음이면)는 이 순위를 쓰지 않고 가격 미확인으로 떨어진다.
+  const hasOptions = (targetOptions && targetOptions.length > 0) || (optionsTag && optionsTag.trim() && !optionsTag.includes('옵션 없음'));
+  if (hasOptions && typeof historyOptionTotalMan === 'number' && historyOptionTotalMan > 0) {
+    return {
+      badgeText: `총 ${historyOptionTotalMan.toLocaleString()}만`,
+      tooltip: `[차얼마 옵션 총액 (상단 신차대비와 동일 출처)] 합계: ${historyOptionTotalMan.toLocaleString()}만원`
+    };
+  }
+
+  // 3순위: optionsTag 안의 [옵션총액] 정규식 (기존 그대로)
   if (optionsTag && optionsTag.trim()) {
     const match = optionsTag.match(/\[(?:순정)?옵션총액:?\s*([0-9,]+만?)\]/);
     if (match && match[1]) {
@@ -70,7 +82,7 @@ function calculateExtraOptionsTotalPrice(
     }
   }
 
-  // 3순위: 카탈로그 공식가 합계 (targetCatalog -> compCatalog)
+  // 4순위: 카탈로그 공식가 합계 (targetCatalog -> compCatalog)
   const optNames: string[] = (targetOptions && targetOptions.length > 0)
     ? targetOptions.map(o => o.name)
     : splitOptionString(optionsTag || '');
@@ -105,7 +117,7 @@ function calculateExtraOptionsTotalPrice(
     }
   }
 
-  // 4순위: 가격 미확인
+  // 5순위: 가격 미확인
   return {
     badgeText: '가격 미확인',
     tooltip: '가격 출처가 없습니다 (실제 신차가 미제공)'
@@ -158,6 +170,7 @@ export interface CockpitSidebarProps {
   savedSuccess: boolean;
   handleSaveToLedger: () => void;
   targetCatalog?: NewCarCatalogData | null;
+  historyOptionTotalMan?: number;
 }
 
 export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
@@ -206,6 +219,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
   savedSuccess,
   handleSaveToLedger,
   targetCatalog: propTargetCatalog,
+  historyOptionTotalMan = 0,
 }) => {
   const [internalCatalog, setInternalCatalog] = useState<NewCarCatalogData | null>(null);
   const [compCatalog, setCompCatalog] = useState<NewCarCatalogData | null>(null);
@@ -491,7 +505,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
 
                 {/* 2. 가운데: 추가옵션 총 가격 배지 (1곳으로 일원화, flex-1 text-center) */}
                 {((targetOptions && targetOptions.length > 0) || (optionsTag && optionsTag.trim() && !optionsTag.includes('옵션 없음'))) && (() => {
-                  const priceInfo = calculateExtraOptionsTotalPrice(targetOptions, optionsTag, targetCatalog, compCatalog);
+                  const priceInfo = calculateExtraOptionsTotalPrice(targetOptions, optionsTag, targetCatalog, compCatalog, historyOptionTotalMan);
                   return (
                     <div className="flex-1 text-center min-w-0">
                       <span
