@@ -8,11 +8,109 @@ import {
   splitOptionString,
   getOptionMatchDetail,
   fetchNewCarCatalog,
-  NewCarCatalogData
+  NewCarCatalogData,
+  findOfficialCatalogOption,
+  stripOptionPriceText
 } from '@/services/biddingOptionCatalog';
 import { OptionItem } from '@/services/chaolmaService';
 import { copyToClipboard } from '@/utils/clipboard';
 import { EncarItem } from './ComparableEncarSection';
+
+interface ExtraOptionPriceResult {
+  badgeText: string;
+  tooltip: string;
+}
+
+/**
+ * 추가옵션 총 가격 판정 (3단계 출처 순서)
+ * 1순위: targetOptions 합계 (price_man 또는 price/10000)
+ * 2순위: optionsTag 안의 [옵션총액] 정규식
+ * 3순위: 카탈로그 공식가 합계 (targetCatalog, 없으면 compCatalog 순)
+ * 4순위: 위 3가지로도 불가 시 '가격 미확인'
+ */
+function calculateExtraOptionsTotalPrice(
+  targetOptions?: OptionItem[],
+  optionsTag?: string,
+  targetCatalog?: NewCarCatalogData | null,
+  compCatalog?: NewCarCatalogData | null
+): ExtraOptionPriceResult {
+  // 1순위: targetOptions 합계
+  if (targetOptions && targetOptions.length > 0) {
+    const sum1 = targetOptions.reduce((acc, c) => {
+      const pMan = typeof c.price_man === 'number' && !isNaN(c.price_man) && c.price_man > 0
+        ? c.price_man
+        : (typeof c.price === 'number' && !isNaN(c.price) && c.price > 0 ? Math.round(c.price / 10000) : 0);
+      return acc + pMan;
+    }, 0);
+
+    if (sum1 > 0) {
+      const lines = targetOptions.map(c => {
+        const pMan = (typeof c.price_man === 'number' && !isNaN(c.price_man) && c.price_man > 0)
+          ? c.price_man
+          : (typeof c.price === 'number' && !isNaN(c.price) && c.price > 0 ? Math.round(c.price / 10000) : 0);
+        return `- ${c.name}: ${pMan > 0 ? `${pMan.toLocaleString()}만` : '가격미확인'}`;
+      });
+      return {
+        badgeText: `총 ${sum1.toLocaleString()}만`,
+        tooltip: `[옵션 상세 가격 (실차 데이터)]\n${lines.join('\n')}\n합계: ${sum1.toLocaleString()}만원`
+      };
+    }
+  }
+
+  // 2순위: optionsTag 안의 [옵션총액] 정규식
+  if (optionsTag && optionsTag.trim()) {
+    const match = optionsTag.match(/\[(?:순정)?옵션총액:?\s*([0-9,]+만?)\]/);
+    if (match && match[1]) {
+      const rawVal = match[1].trim();
+      const badgeText = rawVal.endsWith('만') ? `총 ${rawVal}` : `총 ${rawVal}만`;
+      return {
+        badgeText,
+        tooltip: `옵션 정보에 기재된 총액: ${rawVal}`
+      };
+    }
+  }
+
+  // 3순위: 카탈로그 공식가 합계 (targetCatalog -> compCatalog)
+  const optNames: string[] = (targetOptions && targetOptions.length > 0)
+    ? targetOptions.map(o => o.name)
+    : splitOptionString(optionsTag || '');
+
+  if (optNames.length > 0) {
+    let catalogSumMan = 0;
+    const matchedLines: string[] = [];
+    const unpricedOptions: string[] = [];
+
+    for (const name of optNames) {
+      const clean = stripOptionPriceText(name);
+      if (!clean) continue;
+      const official = findOfficialCatalogOption(clean, targetCatalog) || findOfficialCatalogOption(clean, compCatalog);
+      if (official && typeof official.price === 'number' && official.price > 0) {
+        const man = Math.round(official.price / 10000);
+        catalogSumMan += man;
+        matchedLines.push(`- ${clean}: ${man.toLocaleString()}만 (${official.officialName})`);
+      } else {
+        unpricedOptions.push(clean);
+      }
+    }
+
+    if (matchedLines.length > 0 && catalogSumMan > 0) {
+      let tooltip = `[신차 카탈로그 공식가 합계: ${catalogSumMan.toLocaleString()}만]\n${matchedLines.join('\n')}`;
+      if (unpricedOptions.length > 0) {
+        tooltip += `\n\n(공식가 미확인 옵션: ${unpricedOptions.join(', ')})`;
+      }
+      return {
+        badgeText: `총 ${catalogSumMan.toLocaleString()}만`,
+        tooltip
+      };
+    }
+  }
+
+  // 4순위: 가격 미확인
+  return {
+    badgeText: '가격 미확인',
+    tooltip: '가격 출처가 없습니다 (실제 신차가 미제공)'
+  };
+}
 
 export interface CockpitSidebarProps {
   heydealerUrl: string;
@@ -377,55 +475,71 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
 
             {/* Options */}
             <div className="space-y-1.5">
-              <div className="flex justify-between items-center">
-                <div className="flex items-center gap-1.5">
+              <div className="flex items-center justify-between gap-1.5">
+                {/* 1. 왼쪽: 추가 옵션 라벨 + 신차 옵션 N개 배지 */}
+                <div className="flex items-center gap-1.5 shrink-0">
                   <span className="text-[11px] font-medium text-zinc-400">추가 옵션</span>
                   {((targetOptions && targetOptions.length > 0) || (optionsTag && optionsTag.trim() && !optionsTag.includes('옵션 없음'))) && (() => {
                     const optCount = targetOptions && targetOptions.length > 0 ? targetOptions.length : splitOptionString(optionsTag).length;
-                    const totalMan = targetOptions && targetOptions.length > 0
-                      ? targetOptions.reduce((acc, c) => acc + (c.price_man || Math.round(c.price / 10000)), 0)
-                      : (optionsTag.match(/\[(?:순정)?옵션총액:?\s*([0-9,]+만?)\]/) ? optionsTag.match(/\[(?:순정)?옵션총액:?\s*([0-9,]+만?)\]/)![1] : null);
                     return (
                       <span className="text-[10px] px-1.5 py-0.2 rounded bg-blue-500/15 text-blue-300 font-semibold border border-blue-500/30 font-mono">
-                        신차 옵션 {optCount}개{totalMan ? ` (총 ${typeof totalMan === 'number' ? `${totalMan}만` : totalMan})` : ''}
+                        신차 옵션 {optCount}개
                       </span>
                     );
                   })()}
                 </div>
-                {/* 🌟 비교차 선택 시에만 우세/공통 뱃지 연동, 미선택 시에는 조회차량 순정 표시 */}
-                {(() => {
-                  if (!selectedEncar?.optionsText || !optionsTag || !optionsTag.trim()) {
-                    return <span className="text-[10px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-400 font-medium border border-emerald-500/30">조회차량 순정</span>;
-                  }
-                  const compOpts = splitOptionString(selectedEncar.optionsText);
-                  const tgtOpts = splitOptionString(optionsTag);
-                  if (compOpts.length === 0 || tgtOpts.length === 0) {
-                    return <span className="text-[10px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-400 font-medium border border-emerald-500/30">조회차량 순정</span>;
-                  }
-                  const matchDetails = tgtOpts.map(to => getOptionMatchDetail(to, compOpts, 'target_vs_comp', targetCatalog, compCatalog));
-                  const winCount = matchDetails.filter(d => !d.isMatched).length;
-                  const exactCount = matchDetails.filter(d => d.confidence === 'exact').length;
-                  const fuzzyCount = matchDetails.filter(d => d.confidence === 'fuzzy').length;
 
-                  if (winCount > 0) {
-                    return (
-                      <span
-                        title={`비교 매물(${selectedEncar.carName}) 대비 내 차 우세/고유 옵션: ${winCount}개\n공식 일치: ${exactCount}개 / 추정 매칭: ${fuzzyCount}개`}
-                        className="text-[10px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-400 font-bold border border-emerald-500 cursor-help"
-                      >
-                        🟢 우세 {winCount}개
-                      </span>
-                    );
-                  }
+                {/* 2. 가운데: 추가옵션 총 가격 배지 (1곳으로 일원화, flex-1 text-center) */}
+                {((targetOptions && targetOptions.length > 0) || (optionsTag && optionsTag.trim() && !optionsTag.includes('옵션 없음'))) && (() => {
+                  const priceInfo = calculateExtraOptionsTotalPrice(targetOptions, optionsTag, targetCatalog, compCatalog);
                   return (
-                    <span
-                      title={`비교 매물(${selectedEncar.carName})과 핵심 옵션 일치 (공식 일치: ${exactCount}개, 추정: ${fuzzyCount}개)`}
-                      className="text-[10px] px-1.5 py-0.2 rounded bg-sky-500/20 text-sky-300 font-bold border border-sky-400/50 cursor-help"
-                    >
-                      🔵 공통 사양
-                    </span>
+                    <div className="flex-1 text-center min-w-0">
+                      <span
+                        title={priceInfo.tooltip}
+                        className="text-[10px] px-1.5 py-0.2 rounded bg-amber-500/15 text-amber-300 font-semibold border border-amber-500/30 font-mono cursor-help inline-block truncate max-w-full"
+                      >
+                        {priceInfo.badgeText}
+                      </span>
+                    </div>
                   );
                 })()}
+
+                {/* 3. 오른쪽: 우세 또는 조회차량 순정 배지 */}
+                <div className="shrink-0">
+                  {(() => {
+                    if (!selectedEncar?.optionsText || !optionsTag || !optionsTag.trim()) {
+                      return <span className="text-[10px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-400 font-medium border border-emerald-500/30">조회차량 순정</span>;
+                    }
+                    const compOpts = splitOptionString(selectedEncar.optionsText);
+                    const tgtOpts = splitOptionString(optionsTag);
+                    if (compOpts.length === 0 || tgtOpts.length === 0) {
+                      return <span className="text-[10px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-400 font-medium border border-emerald-500/30">조회차량 순정</span>;
+                    }
+                    const matchDetails = tgtOpts.map(to => getOptionMatchDetail(to, compOpts, 'target_vs_comp', targetCatalog, compCatalog));
+                    const winCount = matchDetails.filter(d => !d.isMatched).length;
+                    const exactCount = matchDetails.filter(d => d.confidence === 'exact').length;
+                    const fuzzyCount = matchDetails.filter(d => d.confidence === 'fuzzy').length;
+
+                    if (winCount > 0) {
+                      return (
+                        <span
+                          title={`비교 매물(${selectedEncar.carName}) 대비 내 차 우세/고유 옵션: ${winCount}개\n공식 일치: ${exactCount}개 / 추정 매칭: ${fuzzyCount}개`}
+                          className="text-[10px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-400 font-bold border border-emerald-500 cursor-help"
+                        >
+                          🟢 우세 {winCount}개
+                        </span>
+                      );
+                    }
+                    return (
+                      <span
+                        title={`비교 매물(${selectedEncar.carName})과 핵심 옵션 일치 (공식 일치: ${exactCount}개, 추정: ${fuzzyCount}개)`}
+                        className="text-[10px] px-1.5 py-0.2 rounded bg-sky-500/20 text-sky-300 font-bold border border-sky-400/50 cursor-help"
+                      >
+                        🔵 공통 사양
+                      </span>
+                    );
+                  })()}
+                </div>
               </div>
 
               {/* 🎨 옵션 색상 범례 안내 (비교차 선택 시 자동 전환) */}
