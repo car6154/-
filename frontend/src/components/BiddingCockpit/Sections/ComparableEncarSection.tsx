@@ -11,6 +11,7 @@ import { compareEncarItemsByBackendRule } from '@/services/cockpitService';
 import { CarDamageDiagram2D, getDamagePartKoreanName } from './CarDamageDiagram2D';
 import { TrackedCarsModal } from './TrackedCarsModal';
 import { KcarMarketStats, KcarCarItem, KcarDetailData } from '../types';
+import { getCarColorStyle } from '@/utils/carColor';
 
 export interface EncarItem {
   id: string;
@@ -946,9 +947,21 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                   <span className="px-2.5 py-1 rounded bg-[#1f222e] text-emerald-400 font-bold font-mono">
                     {selectedEncar.mileage.toLocaleString()}km
                   </span>
-                  <span className="px-2.5 py-1 rounded bg-[#1f222e] text-zinc-300 font-medium">
-                    ⚫ {selectedEncar.color || '색상'}
-                  </span>
+                  {(() => {
+                    const colorStyle = getCarColorStyle(selectedEncar.color);
+                    return (
+                      <span
+                        className="px-2.5 py-1 rounded font-medium border"
+                        style={{
+                          backgroundColor: colorStyle.bgColor,
+                          color: colorStyle.textColor,
+                          borderColor: colorStyle.borderColor
+                        }}
+                      >
+                        {colorStyle.dot} {colorStyle.displayName}
+                      </span>
+                    );
+                  })()}
                   {selectedEncar.inspectionDate && selectedEncar.inspectionDate !== '-' ? (
                     <span className="px-2.5 py-1 rounded bg-blue-500/20 text-blue-300 font-bold font-mono" title="법정 성능점검일자">
                       📋 점검: {selectedEncar.inspectionDate}{typeof selectedEncar.holdingDays === 'number' && !isNaN(selectedEncar.holdingDays) && selectedEncar.holdingDays >= 0 ? ` (${selectedEncar.holdingDays}일 전)` : ''}
@@ -1380,9 +1393,22 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                   <span className="px-2.5 py-1 rounded bg-[#1f222e] text-emerald-400 font-bold font-mono">
                     {(kcarDetail?.mileage || selectedKcar.mileage || 0).toLocaleString()}km
                   </span>
-                  <span className="px-2.5 py-1 rounded bg-[#1f222e] text-zinc-300 font-medium">
-                    ⚫ {kcarDetail?.color || selectedKcar.color || '색상'}
-                  </span>
+                  {(() => {
+                    const rawColor = kcarDetail?.color || selectedKcar.color;
+                    const colorStyle = getCarColorStyle(rawColor);
+                    return (
+                      <span
+                        className="px-2.5 py-1 rounded font-medium border"
+                        style={{
+                          backgroundColor: colorStyle.bgColor,
+                          color: colorStyle.textColor,
+                          borderColor: colorStyle.borderColor
+                        }}
+                      >
+                        {colorStyle.dot} {colorStyle.displayName}
+                      </span>
+                    );
+                  })()}
                   {kcarDetail?.dates?.pfmncDate ? (
                     <span className="px-2.5 py-1 rounded bg-blue-500/20 text-blue-300 font-bold font-mono" title="법정 성능점검일자">
                       📋 점검: {kcarDetail.checkDate && kcarDetail.checkDate !== '-' ? kcarDetail.checkDate : kcarDetail.dates.pfmncDate.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3')}
