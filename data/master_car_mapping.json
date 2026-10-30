@@ -7467,6 +7467,48 @@
           "badge": "1.6 가솔린 4WD 프리미엄",
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"
+        },
+        "디젤 1.6 2WD 모던": {
+          "badge_group": "",
+          "badge": "디젤 1.6 2WD",
+          "badge_detail": "모던",
+          "updated_at": "2026-10-30 11:00:00"
+        },
+        "디젤 1.6 2WD 모던 아트": {
+          "badge_group": "",
+          "badge": "디젤 1.6 2WD",
+          "badge_detail": "모던 아트",
+          "updated_at": "2026-10-30 11:00:00"
+        },
+        "디젤 1.6 2WD 모던 팝": {
+          "badge_group": "",
+          "badge": "디젤 1.6 2WD",
+          "badge_detail": "모던 팝",
+          "updated_at": "2026-10-30 11:00:00"
+        },
+        "디젤 1.6 2WD 모던 테크": {
+          "badge_group": "",
+          "badge": "디젤 1.6 2WD",
+          "badge_detail": "모던 테크",
+          "updated_at": "2026-10-30 11:00:00"
+        },
+        "디젤 1.6 2WD 프리미엄": {
+          "badge_group": "",
+          "badge": "디젤 1.6 2WD",
+          "badge_detail": "프리미엄",
+          "updated_at": "2026-10-30 11:00:00"
+        },
+        "디젤 1.6 4WD 모던": {
+          "badge_group": "",
+          "badge": "디젤 1.6 4WD",
+          "badge_detail": "모던",
+          "updated_at": "2026-10-30 11:00:00"
+        },
+        "디젤 1.6 4WD 프리미엄": {
+          "badge_group": "",
+          "badge": "디젤 1.6 4WD",
+          "badge_detail": "프리미엄",
+          "updated_at": "2026-10-30 11:00:00"
         }
       },
       "soldout_codes": {

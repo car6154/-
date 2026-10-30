@@ -965,6 +965,9 @@ def search_encar_market(req: EncarSearchRequest):
                 car_number=car_no
             )
 
+        # 💡 [10-30-01]: 표시용 바로가기 URL(원래 엄격 URL)을 내부 수집/확장용 URL과 분리 보존
+        initial_strict_url = encar_url
+
         # 유효한 상세 조건(action)이 없는 단순 전체 목록 URL일 경우 전수 국산차 덤프 차단 (빈 상태 반환)
         if not encar_url or ("action" not in encar_url and "q=" not in encar_url):
             return {
@@ -973,7 +976,7 @@ def search_encar_market(req: EncarSearchRequest):
                 "items": [],
                 "totalModelCount": 0,
                 "filteredCount": 0,
-                "directSearchUrl": encar_url or "",
+                "directSearchUrl": initial_strict_url or encar_url or "",
                 "stats": {
                     "avg": 0, "min": 0, "max": 0, "median": 0, "count": 0,
                     "benchmarkPrice": 0, "minBand": 0, "maxBand": 0,
@@ -1718,7 +1721,7 @@ def search_encar_market(req: EncarSearchRequest):
                 "validCount": len(strict_df),
                 "filterMethod": "STRICT_SPEC"
             },
-            "directSearchUrl": encar_url or (items[0]['encarUrl'] if items else ""),
+            "directSearchUrl": initial_strict_url or encar_url or (items[0]['encarUrl'] if items else ""),
             "stats": {
                 "avg": avg_price,
                 "min": min_price,

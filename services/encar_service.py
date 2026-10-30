@@ -530,9 +530,26 @@ class Scraper:
 
                 # 3. BadgeDetail 완화 (동일 모델/동일 트림의 Badge 레벨까지만 유지하여 검색)
                 if "BadgeDetail" in cur_c:
-                    c_no_detail = re.sub(r'_\.\(C\.Badge\.([^\.]+)\._\.BadgeDetail\.[^\.]+\.\)', r'._.Badge.\1.', cur_c)
+                    c_no_detail = re.sub(r'_\.\(C\.Badge\.(.+?)\._\.BadgeDetail\.[^\.]+\.\)', r'._.Badge.\1.', cur_c)
                     if c_no_detail != cur_c and c_no_detail not in fallback_candidates:
                         fallback_candidates.append(c_no_detail)
+
+                # 3-2. 주행거리 밴드 ±50,000km 상한 교체 (삭제가 아닌 중심점 기준 확장 교체)
+                # 연식은 원래 범위 그대로 유지하며, 기존 폭이 100,000km 이내인 경우만 중심점 기준 max(0, c-5만)..c+5만 교체
+                if "Mileage.range" in cur_c:
+                    m_mil = re.search(r'Mileage\.range\((\d+)\.\.(\d+)\)', cur_c)
+                    if m_mil:
+                        cur_min = int(m_mil.group(1))
+                        cur_max = int(m_mil.group(2))
+                        cur_spread = cur_max - cur_min
+                        if cur_spread <= 100000:
+                            center_mil = (cur_min + cur_max) // 2
+                            new_min = max(0, center_mil - 50000)
+                            new_max = center_mil + 50000
+                            if (new_min, new_max) != (cur_min, cur_max):
+                                c_wide_mil = cur_c.replace(f"Mileage.range({cur_min}..{cur_max})", f"Mileage.range({new_min}..{new_max})")
+                                if c_wide_mil != cur_c and c_wide_mil not in fallback_candidates:
+                                    fallback_candidates.append(c_wide_mil)
 
                 # 4. BadgeGroup 공백 미세 보정 (예: '디젤 9인승' <-> '디젤 9 인승')
                 if "BadgeGroup." in cur_c:

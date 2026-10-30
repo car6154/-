@@ -1030,6 +1030,8 @@ class MasterMappingService:
                 core_tree = f"(C.CarType.Y._.(C.Manufacturer.{mapped_brand}._.(C.ModelGroup.{f_mg}._.(C.Model.{f_model_esc}._.(C.BadgeGroup.{bg_clean}._.(C.Badge.{b_esc}._.BadgeDetail.{bd_esc}.))))))"
             elif f_model_esc and bg_clean and b_esc:
                 core_tree = f"(C.CarType.Y._.(C.Manufacturer.{mapped_brand}._.(C.ModelGroup.{f_mg}._.(C.Model.{f_model_esc}._.(C.BadgeGroup.{bg_clean}._.Badge.{b_esc}.)))))"
+            elif f_model_esc and b_esc and bd_esc:
+                core_tree = f"(C.CarType.Y._.(C.Manufacturer.{mapped_brand}._.(C.ModelGroup.{f_mg}._.(C.Model.{f_model_esc}._.(C.Badge.{b_esc}._.BadgeDetail.{bd_esc}.)))))"
             elif f_model_esc and b_esc:
                 core_tree = f"(C.CarType.Y._.(C.Manufacturer.{mapped_brand}._.(C.ModelGroup.{f_mg}._.(C.Model.{f_model_esc}._.Badge.{b_esc}.))))"
             elif f_model_esc:
