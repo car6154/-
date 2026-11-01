@@ -21,12 +21,18 @@ from cryptography.hazmat.primitives import padding
 from services.option_package_service import normalize_opt_name as norm_opt_name
 from services.part_codes import resolve_part_code, is_outer_part, is_inner_part
 
+from services.local_cache import LocalFileCache
+
 KEY = b"SKFJ2424DasfaJRI"
 IV = b"sfq241sf3dscs321"
 
-# 케이카 상세 JATO 옵션 캐시 (carCd -> {"timestamp": float, "options": List[Dict]})
+_KCAR_CACHE_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "cache")
+
+# 케이카 상세 JATO 옵션 캐시 (carCd -> {"timestamp": float, "options": List[Dict]}) : 1시간 (로컬 파일 캐시 연동)
 _KCAR_JATO_CACHE: Dict[str, Dict[str, Any]] = {}
 _KCAR_JATO_CACHE_TTL = 3600  # 1시간
+_KCAR_JATO_CACHE_FILE = os.path.join(_KCAR_CACHE_DIR, "kcar_jato_cache.json")
+_kcar_jato_file_cache = LocalFileCache(_KCAR_JATO_CACHE_FILE, _KCAR_JATO_CACHE_TTL, _KCAR_JATO_CACHE)
 
 # 유상 외장 컬러 식별 키워드 (제이 결정: 펄, 매트, 메탈릭)
 COLOR_OPTION_KEYWORDS = ("펄", "매트", "메탈릭")
@@ -52,7 +58,7 @@ def fetch_kcar_jato_options(car_cd: str) -> Optional[List[Dict[str, Any]]]:
 
     car_cd_clean = str(car_cd).strip()
     now_ts = time.time()
-    cached = _KCAR_JATO_CACHE.get(car_cd_clean)
+    cached = _kcar_jato_file_cache.get(car_cd_clean)
     if cached and (now_ts - cached.get("timestamp", 0) < _KCAR_JATO_CACHE_TTL):
         return cached.get("options", [])
 
@@ -71,18 +77,21 @@ def fetch_kcar_jato_options(car_cd: str) -> Optional[List[Dict[str, Any]]]:
             jato_list = d.get('carJatoOptList')
             if jato_list is None:
                 jato_list = []
-            _KCAR_JATO_CACHE[car_cd_clean] = {
+            _kcar_jato_file_cache.set(car_cd_clean, {
                 "timestamp": now_ts,
                 "options": jato_list
-            }
+            })
             return jato_list
     except Exception as e:
         print(f"[K-Car JATO API 오류] carCd='{car_cd_clean}': {e}", flush=True)
         return None
 
 
+# 케이카 차량 상세 캐시 : 10분 (로컬 파일 캐시 연동)
 _KCAR_DETAIL_CACHE: Dict[str, Dict[str, Any]] = {}
 _KCAR_DETAIL_CACHE_TTL = 600  # 10분 캐시
+_KCAR_DETAIL_CACHE_FILE = os.path.join(_KCAR_CACHE_DIR, "kcar_detail_cache.json")
+_kcar_detail_file_cache = LocalFileCache(_KCAR_DETAIL_CACHE_FILE, _KCAR_DETAIL_CACHE_TTL, _KCAR_DETAIL_CACHE)
 
 # 케이카 3Dview API(https://api.kcar.com/bc/dgnos/3dview) 실측 부위명 한글 매핑
 _KCAR_3D_PART_KR_MAP = {
@@ -205,7 +214,7 @@ def fetch_kcar_car_detail(car_cd: str, include_3d: bool = True) -> Optional[Dict
         'Accept': 'application/json, text/plain, */*'
     }
 
-    cached = _KCAR_DETAIL_CACHE.get(car_cd_clean)
+    cached = _kcar_detail_file_cache.get(car_cd_clean)
     if cached and (now_ts - cached.get("timestamp", 0) < _KCAR_DETAIL_CACHE_TTL):
         cached_data = cached.get("data")
         if cached_data:
@@ -423,10 +432,10 @@ def fetch_kcar_car_detail(car_cd: str, include_3d: bool = True) -> Optional[Dict
                 "tires": tires
             }
 
-            _KCAR_DETAIL_CACHE[car_cd_clean] = {
+            _kcar_detail_file_cache.set(car_cd_clean, {
                 "timestamp": now_ts,
                 "data": res
-            }
+            })
             return res
     except Exception as e:
         print(f"[K-Car Detail API 오류] carCd='{car_cd_clean}': {e}", flush=True)
@@ -4576,3 +4585,9 @@ def fetch_kcar_market_stats(
         "message": "" if strict_has_data else "동일 연식·동일 등급 엄격 매물 없음 (해당 없음)"
     }
 
+
+def clear_kcar_cache():
+    """케이카 JATO 및 상세 캐시 (메모리 + 로컬 파일) 전체 삭제"""
+    global _KCAR_JATO_CACHE, _KCAR_DETAIL_CACHE
+    _kcar_jato_file_cache.clear()
+    _kcar_detail_file_cache.clear()

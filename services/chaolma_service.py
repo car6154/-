@@ -14,7 +14,9 @@ import urllib.parse
 import xml.etree.ElementTree as ET
 import requests
 
+import os
 from services.cookie_server import get_current_autoplus_cookie
+from services.local_cache import LocalFileCache
 from services.option_package_service import (
     normalize_opt_name,
     resolve_option_item,
@@ -22,9 +24,14 @@ from services.option_package_service import (
     compute_bigram_jaccard
 )
 
-# 메모리 캐시 (차량번호 -> {timestamp, data}) : 30분간 유효
+# 메모리 캐시 (차량번호 -> {timestamp, data}) : 30분간 유효 (로컬 파일 캐시 연동)
 _CHAOLMA_CACHE: Dict[str, Dict[str, Any]] = {}
 CACHE_TTL = 1800  # 30분
+_CHAOLMA_CACHE_FILE = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+    "data", "cache", "chaolma_cache.json"
+)
+_chaolma_file_cache = LocalFileCache(_CHAOLMA_CACHE_FILE, CACHE_TTL, _CHAOLMA_CACHE)
 
 # 하위 호환 별칭 (단일 진실 공급원 normalize_opt_name 사용)
 norm_opt_name = normalize_opt_name
@@ -39,9 +46,9 @@ class ChaolmaService:
 
     @classmethod
     def clear_cache(cls):
-        """메모리 캐시 전체 초기화"""
+        """메모리 및 로컬 파일 캐시 전체 초기화"""
         global _CHAOLMA_CACHE
-        _CHAOLMA_CACHE.clear()
+        _chaolma_file_cache.clear()
 
     @classmethod
     def get_cookie(cls) -> str:
@@ -67,12 +74,11 @@ class ChaolmaService:
         if not car_no:
             return {"success": False, "message": "차량번호가 입력되지 않았습니다."}
 
-        # 1. 캐시 확인
+        # 1. 캐시 확인 (메모리 + 파일 캐시)
         now = time.time()
-        if car_no in _CHAOLMA_CACHE:
-            entry = _CHAOLMA_CACHE[car_no]
-            if now - entry["timestamp"] < CACHE_TTL:
-                return entry["data"]
+        cached_entry = _chaolma_file_cache.get(car_no)
+        if cached_entry and (now - cached_entry.get("timestamp", 0) < CACHE_TTL):
+            return cached_entry["data"]
 
         # 2. 쿠키 확인
         cookie = cls.get_cookie()
@@ -156,10 +162,10 @@ class ChaolmaService:
                     except Exception:
                         pass
 
-                    _CHAOLMA_CACHE[car_no] = {
+                    _chaolma_file_cache.set(car_no, {
                         "timestamp": now,
                         "data": parsed
-                    }
+                    })
                 return parsed
 
             elif resp.status_code == 500:

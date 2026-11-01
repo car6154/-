@@ -38,6 +38,7 @@ heydealer_cookie.txt
 # Temporary dump files & logs
 last_heydealer_detail.json
 data/catalog_crawl.log
+data/cache/
 logs/
 *.log
 *.lock
