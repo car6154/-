@@ -273,6 +273,7 @@ export async function queryChaolmaCar(carNo: string, mileage: number = 50000): P
             options: data.options || [],
             car_history: data.car_history,
             origin_doc: data.origin_doc,
+            chaolma_retail_price: data.chaolma_retail_price ?? 0,
           };
         } else if (data && data.message) {
           return {
