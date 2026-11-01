@@ -79,7 +79,39 @@ class ChaolmaService:
         now = time.time()
         cached_entry = _chaolma_file_cache.get(car_no)
         if cached_entry and (now - cached_entry.get("timestamp", 0) < CACHE_TTL):
-            return cached_entry["data"]
+            cached_data = cached_entry.get("data")
+            if isinstance(cached_data, dict):
+                # 기준소매가 보충: 기준소매가 필드가 없거나 0이면 현재 주행거리로 보충 조회 (스펙·옵션·보험은 캐시 값 유지)
+                cur_retail = cached_data.get("chaolma_retail_price") or 0
+                if cur_retail <= 0:
+                    ap_id = (
+                        cached_data.get("ap_model_id")
+                        or cached_data.get("apModelId")
+                        or (cached_data.get("raw_inputs", {}).get("apModelId") if isinstance(cached_data.get("raw_inputs"), dict) else "")
+                        or ""
+                    )
+                    if ap_id:
+                        try:
+                            rel_d = cached_data.get("release_date") or ""
+                            n_p = cached_data.get("new_car_price") or cached_data.get("base_car_price") or 0
+                            mp_res = cls.fetch_daa_market_price(
+                                ap_model_id=ap_id,
+                                release_date=rel_d,
+                                mileage=mileage,
+                                new_price=n_p,
+                                car_no=car_no
+                            )
+                            if mp_res and mp_res.get("success"):
+                                cached_data["chaolma_retail_price"] = mp_res.get("retail_price_man", 0)
+                                _chaolma_file_cache.set(car_no, {
+                                    "timestamp": cached_entry.get("timestamp", now),
+                                    "data": cached_data
+                                })
+                        except Exception:
+                            pass
+                    else:
+                        cached_data.setdefault("chaolma_retail_price", 0)
+                return cached_data
 
         # 2. 쿠키 확인
         cookie = cls.get_cookie()
@@ -170,8 +202,24 @@ class ChaolmaService:
                     # 3. 차얼마 공식 시세(기준소매가) 자동 결합 조회 (참고 지표용, 실패해도 스펙·옵션·보험 유지)
                     parsed["chaolma_retail_price"] = 0
                     try:
-                        ap_id = car_data.get("apModelId") or parsed.get("ap_model_id") or ""
-                        rel_d = car_data.get("firstDate") or parsed.get("release_date") or ""
+                        raw_jf = car_data.get("jsonFullText")
+                        jf_obj = {}
+                        if isinstance(raw_jf, dict):
+                            jf_obj = raw_jf
+                        elif isinstance(raw_jf, str):
+                            try:
+                                jf_obj = json.loads(raw_jf)
+                            except Exception:
+                                jf_obj = {}
+
+                        ap_id = (
+                            car_data.get("apModelId")
+                            or parsed.get("ap_model_id")
+                            or (jf_obj.get("apmodelid") if isinstance(jf_obj, dict) else "")
+                            or (jf_obj.get("apModelId") if isinstance(jf_obj, dict) else "")
+                            or ""
+                        )
+                        rel_d = car_data.get("firstDate") or parsed.get("release_date") or (jf_obj.get("firstdate") if isinstance(jf_obj, dict) else "") or ""
                         n_p = car_data.get("newPrice") or parsed.get("base_car_price") or parsed.get("new_car_price") or 0
                         mp_res = cls.fetch_daa_market_price(
                             ap_model_id=ap_id,
@@ -340,7 +388,12 @@ class ChaolmaService:
         return {
             "success": True,
             "car_no": car_no,
-            "ap_model_id": c_data.get("apModelId") or "",
+            "ap_model_id": (
+                c_data.get("apModelId")
+                or (jf.get("apmodelid") if isinstance(jf, dict) else "")
+                or (jf.get("apModelId") if isinstance(jf, dict) else "")
+                or ""
+            ),
             "chaolma_retail_price": 0,
             "vin": c_data.get("vin") or jf.get("vin") or "",
             "maker": maker,
