@@ -10,6 +10,7 @@ import { CarLedgerItem, InventorySettlementItem, CockpitPresetData } from '@/typ
 import { Header, AppTab } from '@/components/Header';
 import { LedgerTab } from '@/components/LedgerTab';
 import { BiddingCockpitTab } from '@/components/BiddingCockpitTab';
+import { BiddingCockpitV2Tab } from '@/components/BiddingCockpitV2/BiddingCockpitV2Tab';
 import { SettlementTab } from '@/components/SettlementTab';
 import { SoldOutSettlementTab } from '@/components/SoldOutSettlementTab';
 import { VendorOcrTab } from '@/components/VendorOcrTab';
@@ -148,7 +149,8 @@ export default function App() {
   });
 
   // Tab & Search state
-  const [activeTab, setActiveTab] = useState<AppTab>('cockpit');
+  type ExtendedAppTab = AppTab | 'cockpit_v2';
+  const [activeTab, setActiveTab] = useState<ExtendedAppTab>('cockpit');
   const [searchQuery, setSearchQuery] = useState('');
 
   // Modals state
@@ -194,11 +196,11 @@ export default function App() {
   useEffect(() => {
     try {
       const params = new URLSearchParams(window.location.search);
-      const tabParam = params.get('tab') as AppTab | null;
+      const tabParam = params.get('tab') as ExtendedAppTab | null;
       const hashIdParam = params.get('hashId');
       const titleParam = params.get('title');
 
-      if (tabParam && ['cockpit', 'ledger', 'settlement', 'soldout', 'performance', 'inventory', 'ocr'].includes(tabParam)) {
+      if (tabParam && ['cockpit', 'ledger', 'settlement', 'soldout', 'performance', 'inventory', 'ocr', 'cockpit_v2'].includes(tabParam)) {
         setActiveTab(tabParam);
       }
 
@@ -832,8 +834,8 @@ export default function App() {
       
       {/* Top Header */}
       <Header
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
+        activeTab={activeTab as AppTab}
+        setActiveTab={setActiveTab as (tab: AppTab) => void}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         totalCarsCount={totalCarsCount}
@@ -859,6 +861,11 @@ export default function App() {
             presetCarName={cockpitPreset?.carName}
             presetSellPrice={cockpitPreset?.sellPrice}
           />
+        )}
+
+        {/* Tab 1-2: 🎯 새 버전 비딩 콕핏 (V2 1단계) */}
+        {activeTab === 'cockpit_v2' && (
+          <BiddingCockpitV2Tab />
         )}
 
         {/* Tab 2: 📋 매입 장부 관리 (125대 라이프사이클) */}
@@ -989,8 +996,8 @@ export default function App() {
 
       {/* Mobile Bottom Navigation Bar */}
       <MobileNav
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
+        activeTab={activeTab as AppTab}
+        setActiveTab={setActiveTab as (tab: AppTab) => void}
       />
 
       {/* Floating Toast Notification */}
