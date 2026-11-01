@@ -354,6 +354,7 @@ export const BiddingCockpitV2Tab: React.FC = () => {
                     filteredHeydealerBids={cockpit.filteredHeydealerBids}
                     selectedHeydealerBidId={cockpit.selectedHeydealerBidId}
                     setSelectedHeydealerBidId={cockpit.setSelectedHeydealerBidId}
+                    selectedHeydealerBid={cockpit.selectedHeydealerBid}
                     mileageKm={cockpit.mileageKm || 0}
                   />
                 </div>
