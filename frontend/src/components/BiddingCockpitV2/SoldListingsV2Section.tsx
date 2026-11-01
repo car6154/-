@@ -10,6 +10,7 @@ export interface SoldListingsV2SectionProps {
   detailModel?: string;
   yearModel?: number;
   liveMarketStats?: any;
+  biddingVerdict?: any;
   defaultTabMode?: 'encar' | 'autoplus' | 'wholesale' | 'none';
 }
 
@@ -21,14 +22,60 @@ export const SoldListingsV2Section: React.FC<SoldListingsV2SectionProps> = ({
   detailModel = '',
   yearModel,
   liveMarketStats,
+  biddingVerdict,
   defaultTabMode = 'none',
 }) => {
   const [soldTabMode, setSoldTabMode] = useState<'encar' | 'autoplus' | 'wholesale' | 'none'>(defaultTabMode);
 
+  // 자사 소매 평균가 및 최근 판매일 추출
+  const avgSellPrice = Number(liveMarketStats?.avg_sell_price || 0);
+  const latestSoldDate = React.useMemo(() => {
+    if (!matchedAutoplusList || matchedAutoplusList.length === 0) return null;
+    const itemWithDate = matchedAutoplusList.find((i) => Boolean(i.soldDate || i.regDate));
+    return itemWithDate ? (itemWithDate.soldDate || itemWithDate.regDate || null) : null;
+  }, [matchedAutoplusList]);
+
   return (
-    <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-3.5 space-y-3 shadow-sm">
-      {/* 1. 상단 3개 서브탭 버튼 바 (엔카 팔린매물 · 자사 소매 실적 · 자사 도매 실적) */}
-      <div className="flex items-center gap-2 overflow-x-auto scrollbar-none text-xs">
+    <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-3 space-y-2 shadow-sm">
+      {/* 1. 상단 브리핑 줄 & 우측 완판 평균가·판매일 지표 행 */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 px-1">
+        {/* 좌측: 훅의 biddingVerdict.mainText 브리핑 문장 줄 */}
+        <div className="min-w-0 flex-1 text-xs text-zinc-300 flex items-center gap-1.5">
+          {biddingVerdict?.mainText ? (
+            <span
+              className="text-zinc-300 [&>b]:text-white [&>b]:font-bold"
+              dangerouslySetInnerHTML={{ __html: biddingVerdict.mainText }}
+            />
+          ) : (
+            <span className="text-zinc-500">시장 완판 데이터 분석 대기 중</span>
+          )}
+        </div>
+
+        {/* 우측 상단: 자사 소매 평균가 · 최근 판매일 */}
+        <div className="shrink-0 flex items-center gap-1.5 text-[11px] font-mono">
+          {avgSellPrice > 0 || latestSoldDate ? (
+            <>
+              {avgSellPrice > 0 && (
+                <span className="px-2 py-0.5 rounded bg-[#1a1d2b] border border-[#2b3044] text-zinc-300">
+                  완판 평균 <strong className="text-amber-300 font-bold">{avgSellPrice.toLocaleString()}만</strong>
+                </span>
+              )}
+              {latestSoldDate && (
+                <span className="px-2 py-0.5 rounded bg-[#1a1d2b] border border-[#2b3044] text-zinc-400">
+                  최근 판매일 <strong className="text-zinc-200 font-semibold">{latestSoldDate}</strong>
+                </span>
+              )}
+            </>
+          ) : (
+            <span className="px-2 py-0.5 rounded bg-[#161822] border border-[#262938] text-zinc-400">
+              완판 데이터 0건
+            </span>
+          )}
+        </div>
+      </div>
+
+      {/* 2. 슬림 스트립 3개 서브탭 버튼 바 (기존 탭처럼 border-t 구분선과 슬림 여백) */}
+      <div className="flex items-center gap-2 overflow-x-auto scrollbar-none text-xs pt-1.5 border-t border-[#1e2029]">
         <button
           type="button"
           onClick={() => setSoldTabMode(soldTabMode === 'encar' ? 'none' : 'encar')}
@@ -66,8 +113,8 @@ export const SoldListingsV2Section: React.FC<SoldListingsV2SectionProps> = ({
         </button>
       </div>
 
-      {/* 2. 탭 본문 영역 */}
-      {/* 2-1. 엔카 팔린매물 탭 */}
+      {/* 3. 탭 본문 영역 */}
+      {/* 3-1. 엔카 팔린매물 탭 */}
       {soldTabMode === 'encar' && (
         <div className="space-y-2 pt-2 border-t border-[#1e2029]">
           <div className="flex justify-between items-center text-xs sm:text-sm text-zinc-300">
@@ -134,7 +181,7 @@ export const SoldListingsV2Section: React.FC<SoldListingsV2SectionProps> = ({
         </div>
       )}
 
-      {/* 2-2. 자사 소매 실적 탭 */}
+      {/* 3-2. 자사 소매 실적 탭 */}
       {soldTabMode === 'autoplus' && (
         <div className="space-y-2 pt-2 border-t border-[#1e2029]">
           <div className="flex justify-between items-center text-xs sm:text-sm text-zinc-300">
@@ -245,7 +292,7 @@ export const SoldListingsV2Section: React.FC<SoldListingsV2SectionProps> = ({
         </div>
       )}
 
-      {/* 2-3. 자사 도매 실적 탭 */}
+      {/* 3-3. 자사 도매 실적 탭 */}
       {soldTabMode === 'wholesale' && (
         <div className="space-y-2 pt-2 border-t border-[#1e2029]">
           <div className="flex justify-between items-center text-xs sm:text-sm text-zinc-300">

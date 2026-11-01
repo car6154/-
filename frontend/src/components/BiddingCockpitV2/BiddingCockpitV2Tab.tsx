@@ -481,6 +481,7 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
             detailModel={cockpit.detailModel}
             yearModel={cockpit.yearModel}
             liveMarketStats={cockpit.liveMarketStats}
+            biddingVerdict={cockpit.biddingVerdict}
           />
 
           {/* 비교 목록(왼쪽 절반)과 선택 상세(오른쪽 절반) 나란히 배치 */}
