@@ -4478,7 +4478,7 @@ def fetch_kcar_market_stats(
             else:
                 mil_adj_p = c_price
 
-            # (2) 옵션 델타 보정 (엔카식 반영률 35%/40% 및 ±40만 캡, 상세 API 공인 가격)
+            # (2) 옵션 델타 보정 (옵션 잔존가 차액 100% 반영, 비율·캡 없음, 상세 API 공인 가격)
             real_opt_adj = 0
             if has_target_opts:
                 c_cd = c.get("carCd") or ""
@@ -4503,12 +4503,7 @@ def fetch_kcar_market_stats(
                 comp_opt_deprec = int(round(comp_opt_raw * comp_rate))
 
                 opt_diff = target_opt_deprec - comp_opt_deprec
-                if opt_diff > 0:
-                    real_opt_adj = min(40, int(round(opt_diff * 0.35)))
-                elif opt_diff < 0:
-                    real_opt_adj = max(-40, int(round(opt_diff * 0.40)))
-                else:
-                    real_opt_adj = 0
+                real_opt_adj = opt_diff
 
             opt_adjs.append(real_opt_adj)
             adj_prices.append(mil_adj_p + real_opt_adj)

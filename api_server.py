@@ -1577,16 +1577,10 @@ def search_encar_market(req: EncarSearchRequest):
                     sigma_rate = 0.0
                     no_acc_price = mil_adj_price
 
-                # 3) 옵션 델타: (목표 옵션 잔존가 - 비교차 옵션 잔존가) × 반영률(양수 35% / 음수 40%), ±40만 캡
-                # 목표 옵션 없음이면 델타 생략
-                if target_opt_new > 0:
-                    target_opt_res_val = target_opt_new * opt_ratio
-                    comp_opt_res_val = comp_opt_new * opt_ratio
-                    opt_raw_diff = target_opt_res_val - comp_opt_res_val
-                    opt_rate = 0.35 if opt_raw_diff > 0 else 0.40
-                    opt_delta = max(-40.0, min(40.0, opt_raw_diff * opt_rate))
-                else:
-                    opt_delta = 0.0
+                # 3) 옵션 델타: 목표 옵션 잔존가 - 비교차 옵션 잔존가 (100% 반영, 비율·캡 없음, 깡통차 포함)
+                target_opt_res_val = int(round(target_opt_new * opt_ratio))
+                comp_opt_res_val = int(round(comp_opt_new * opt_ratio))
+                opt_delta = target_opt_res_val - comp_opt_res_val
 
                 # 4) 대당 보정가 = 무사고 환산가 + 옵션 델타
                 car_adj_price = no_acc_price + opt_delta

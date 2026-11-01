@@ -1335,13 +1335,8 @@ class Scraper:
         # (3) 가치평가 점수 산출
         calc_score = round(100.0 + mil_score_delta + acc_score_delta, 1)
 
-        # (4) 대상 차량의 엔카 개별 기준가 산출 (초과 옵션 가치는 시장 매물 감안하여 현실적 순증분 반영)
-        if target_opt_adj > 0:
-            real_opt_adj = min(40, int(round(target_opt_adj * 0.35)))
-        elif target_opt_adj < 0:
-            real_opt_adj = max(-40, int(round(target_opt_adj * 0.4)))
-        else:
-            real_opt_adj = 0
+        # (4) 대상 차량의 엔카 개별 기준가 산출 (옵션 잔존가 차액 100% 반영, 비율·상한선 없음)
+        real_opt_adj = int(round(target_opt_adj)) if target_opt_adj else 0
 
         calc_individual_price = int(round(std_100_price * (calc_score / 100.0))) + real_opt_adj
 
