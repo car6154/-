@@ -91,12 +91,12 @@ class ChaolmaService:
                         or ""
                     )
                     rel_d = cached_data.get("release_date") or ""
-                    n_p = cached_data.get("new_car_price") or cached_data.get("base_car_price") or 0
+                    n_p = cached_data.get("new_car_price") or 0
                     has_ap = bool(str(ap_id).strip())
                     has_rel = bool(str(rel_d).strip())
                     has_np = bool(n_p and n_p > 0)
 
-                    if has_ap:
+                    if has_ap and has_np:
                         try:
                             mp_res = cls.fetch_daa_market_price(
                                 ap_model_id=ap_id,
@@ -122,7 +122,7 @@ class ChaolmaService:
                             cls._log_retail_debug("캐시보충", has_ap, has_rel, has_np, "api_error", 0)
                     else:
                         cached_data.setdefault("chaolma_retail_price", 0)
-                        cls._log_retail_debug("캐시보충", False, has_rel, has_np, "ap_missing", 0)
+                        cls._log_retail_debug("캐시보충", has_ap, has_rel, has_np, "ap_missing" if not has_ap else "new_price_missing", 0)
                 return cached_data
 
         # 2. 쿠키 확인
@@ -232,12 +232,17 @@ class ChaolmaService:
                             or ""
                         )
                         rel_d = car_data.get("firstDate") or parsed.get("release_date") or (jf_obj.get("firstdate") if isinstance(jf_obj, dict) else "") or ""
-                        n_p = car_data.get("newPrice") or parsed.get("base_car_price") or parsed.get("new_car_price") or 0
+                        n_p = (
+                            parsed.get("new_car_price")
+                            or car_data.get("carMakePrice")
+                            or (jf_obj.get("carmakeprice") if isinstance(jf_obj, dict) else 0)
+                            or 0
+                        )
                         has_ap = bool(str(ap_id).strip())
                         has_rel = bool(str(rel_d).strip())
                         has_np = bool(n_p and n_p > 0)
 
-                        if has_ap:
+                        if has_ap and has_np:
                             try:
                                 mp_res = cls.fetch_daa_market_price(
                                     ap_model_id=ap_id,
@@ -258,7 +263,7 @@ class ChaolmaService:
                             except Exception:
                                 cls._log_retail_debug("신규", has_ap, has_rel, has_np, "api_error", 0)
                         else:
-                            cls._log_retail_debug("신규", False, has_rel, has_np, "ap_missing", 0)
+                            cls._log_retail_debug("신규", has_ap, has_rel, has_np, "ap_missing" if not has_ap else "new_price_missing", 0)
                     except Exception:
                         pass
 
