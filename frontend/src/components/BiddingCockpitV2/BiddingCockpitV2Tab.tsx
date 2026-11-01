@@ -4,6 +4,7 @@ import { Search, ExternalLink, Car, AlertCircle, CheckCircle2, RefreshCw } from 
 import { ComparableEncarV2Section } from './ComparableEncarV2Section';
 import { ComparableKcarV2Section } from './ComparableKcarV2Section';
 import { SelectedCarDetailV2Section } from './SelectedCarDetailV2Section';
+import { SelectedKcarDetailV2Section } from './SelectedKcarDetailV2Section';
 import { SidebarOptionSection } from './SidebarOptionSection';
 
 export const BiddingCockpitV2Tab: React.FC = () => {
@@ -14,6 +15,22 @@ export const BiddingCockpitV2Tab: React.FC = () => {
   // 0. 비교 목록 활성 탭 (엔카 기본) 및 케이카 선택 상태 (V2 전용)
   const [activeCompTab, setActiveCompTab] = React.useState<'encar' | 'kcar'>('encar');
   const [selectedKcarCarCd, setSelectedKcarCarCd] = React.useState<string | null>(null);
+
+  // 케이카 목록 변경 시 유효 엄격(isStrict) 차량 중에서만 첫 번째 차량 자동 선택 (없으면 첫 번째 차량, 없으면 null)
+  React.useEffect(() => {
+    if (activeCompTab === 'kcar' && cockpit.kcarStats?.cars && cockpit.kcarStats.cars.length > 0) {
+      const kcarCars = cockpit.kcarStats.cars;
+      if (!selectedKcarCarCd || !kcarCars.some(c => c.carCd === selectedKcarCarCd)) {
+        const strictMatch = kcarCars.find(c => c.isStrict);
+        setSelectedKcarCarCd(strictMatch ? strictMatch.carCd : (kcarCars[0]?.carCd || null));
+      }
+    }
+  }, [activeCompTab, cockpit.kcarStats?.cars, selectedKcarCarCd]);
+
+  const selectedKcar = React.useMemo(() => {
+    if (!selectedKcarCarCd || !cockpit.kcarStats?.cars) return null;
+    return cockpit.kcarStats.cars.find(c => c.carCd === selectedKcarCarCd) || null;
+  }, [cockpit.kcarStats?.cars, selectedKcarCarCd]);
 
   // 1. 목표차 한 줄 정보 (훅 값 그대로 사용)
   const targetCarName = cockpit.carName || '-';
@@ -301,12 +318,18 @@ export const BiddingCockpitV2Tab: React.FC = () => {
               </div>
             </div>
 
-            {/* 우측 절반: 선택 차량 상세 & 2D 상태도 */}
+            {/* 우측 절반: 선택 차량 상세 & 2D 상태도 (엔카 / 케이카 탭 전환) */}
             <div className="min-w-0 w-full">
-              <SelectedCarDetailV2Section
-                selectedEncar={cockpit.selectedEncar}
-                isInspectionLoading={cockpit.isInspectionLoading}
-              />
+              {activeCompTab === 'encar' ? (
+                <SelectedCarDetailV2Section
+                  selectedEncar={cockpit.selectedEncar}
+                  isInspectionLoading={cockpit.isInspectionLoading}
+                />
+              ) : (
+                <SelectedKcarDetailV2Section
+                  selectedKcar={selectedKcar}
+                />
+              )}
             </div>
           </div>
         </main>
