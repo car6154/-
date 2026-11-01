@@ -18,7 +18,7 @@ export interface DamagePart {
 
 // 외판 부위 (사이드실 패널을 차체 바닥 양측면에 맞추어 완벽히 정렬)
 export const outerParts: DamagePart[] = [
-  { code: 'RADIATOR_SUPPORT', kw: ['라디에이터', '라디에이터서포트', 'radiator_support', 'radiator'], exclude: [], x: 51, y: 32, w: 118, h: 16, label: 'R.S', full: '라디에이터 서포트' },
+  { code: 'RADIATOR_SUPPORT', kw: ['라디에이터', '라디에이터서포트', 'radiator_support', 'radiator'], exclude: [], x: 51, y: 25, w: 118, h: 23, label: 'R.S', full: '라디에이터 서포트' },
   { code: 'HOOD', kw: ['후드', '보닛', '본넷', 'hood', 'bonnet', 'p010'], exclude: [], x: 55, y: 51, w: 110, h: 44, label: '후드', full: '후드(보닛)' },
   { code: 'F_FENDER_L', kw: ['앞휀더(좌)', '앞휀더좌', '프론트휀더(좌)', 'front_fender_left', 'front-fender-left', 'front_fender_l', 'f_fender_l', 'p021'], exclude: ['뒤', '리어', 'rear', '우', 'right'], x: 18, y: 25, w: 33, h: 65, label: 'F휀', full: '프론트 휀더(좌)' },
   { code: 'F_FENDER_R', kw: ['앞휀더(우)', '앞휀더우', '프론트휀더(우)', 'front_fender_right', 'front-fender-right', 'front_fender_r', 'f_fender_r', 'p022'], exclude: ['뒤', '리어', 'rear', '좌', 'left'], x: 169, y: 25, w: 33, h: 65, label: 'F휀', full: '프론트 휀더(우)' },
