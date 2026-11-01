@@ -9,6 +9,8 @@ import { SidebarOptionSection } from './SidebarOptionSection';
 import { HeydealerBidsV2Section } from './HeydealerBidsV2Section';
 import { SelectedHeydealerBidDetailV2Section } from './SelectedHeydealerBidDetailV2Section';
 import { SoldListingsV2Section } from './SoldListingsV2Section';
+import { VehicleAssessmentV2Bar } from './VehicleAssessmentV2Bar';
+import { CarHistoryDetailModal } from '@/components/CarHistoryDetailModal';
 
 export interface BiddingCockpitV2TabProps {
   onSaveToLedger?: (car: any) => Promise<void> | void;
@@ -472,6 +474,14 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
             </div>
           </div>
 
+          {/* 차량 상태 판정(보험이력 포함) 칩 행 */}
+          <VehicleAssessmentV2Bar
+            currentAssessment={cockpit.currentAssessment}
+            targetCarHistory={cockpit.targetCarHistory}
+            outerRepairCount={cockpit.outerRepairCount}
+            onOpenHistoryModal={() => cockpit.setShowCarHistoryModal(true)}
+          />
+
           {/* 팔린매물 3탭 영역 (엔카 팔린매물 · 자사 소매 실적 · 자사 도매 실적) */}
           <SoldListingsV2Section
             encarSoldList={cockpit.encarSoldList || []}
@@ -615,6 +625,16 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
           </div>
         </main>
       </div>
+
+      {/* 🌟 원부 & 카히스토리 대형 상세 리포트 모달 */}
+      <CarHistoryDetailModal
+        isOpen={cockpit.showCarHistoryModal}
+        onClose={() => cockpit.setShowCarHistoryModal(false)}
+        carNumber={cockpit.carNumber}
+        carName={cockpit.carName}
+        currentMileage={cockpit.mileageKm}
+        data={cockpit.targetCarHistory}
+      />
     </div>
   );
 };
