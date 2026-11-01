@@ -27,17 +27,13 @@ export const SoldListingsV2Section: React.FC<SoldListingsV2SectionProps> = ({
 }) => {
   const [soldTabMode, setSoldTabMode] = useState<'encar' | 'autoplus' | 'wholesale' | 'none'>(defaultTabMode);
 
-  // 자사 소매 평균가 및 최근 판매일 추출
+  // 자사 소매 평균가 및 평균 경과일수
   const avgSellPrice = Number(liveMarketStats?.avg_sell_price || 0);
-  const latestSoldDate = React.useMemo(() => {
-    if (!matchedAutoplusList || matchedAutoplusList.length === 0) return null;
-    const itemWithDate = matchedAutoplusList.find((i) => Boolean(i.soldDate || i.regDate));
-    return itemWithDate ? (itemWithDate.soldDate || itemWithDate.regDate || null) : null;
-  }, [matchedAutoplusList]);
+  const avgDays = Number(liveMarketStats?.avg_days || 0);
 
   return (
     <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-3 space-y-2 shadow-sm">
-      {/* 1. 상단 브리핑 줄 & 우측 완판 평균가·판매일 지표 행 */}
+      {/* 1. 상단 브리핑 줄 & 우측 완판 평균가·평균 경과일수 지표 행 */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 px-1">
         {/* 좌측: 훅의 biddingVerdict.mainText 브리핑 문장 줄 */}
         <div className="min-w-0 flex-1 text-xs text-zinc-300 flex items-center gap-1.5">
@@ -51,18 +47,18 @@ export const SoldListingsV2Section: React.FC<SoldListingsV2SectionProps> = ({
           )}
         </div>
 
-        {/* 우측 상단: 자사 소매 평균가 · 최근 판매일 */}
+        {/* 우측 상단: 자사 소매 평균가 · 평균 경과일수 */}
         <div className="shrink-0 flex items-center gap-1.5 text-[11px] font-mono">
-          {avgSellPrice > 0 || latestSoldDate ? (
+          {avgSellPrice > 0 || avgDays > 0 ? (
             <>
               {avgSellPrice > 0 && (
                 <span className="px-2 py-0.5 rounded bg-[#1a1d2b] border border-[#2b3044] text-zinc-300">
                   완판 평균 <strong className="text-amber-300 font-bold">{avgSellPrice.toLocaleString()}만</strong>
                 </span>
               )}
-              {latestSoldDate && (
-                <span className="px-2 py-0.5 rounded bg-[#1a1d2b] border border-[#2b3044] text-zinc-400">
-                  최근 판매일 <strong className="text-zinc-200 font-semibold">{latestSoldDate}</strong>
+              {avgDays > 0 && (
+                <span className="px-2 py-0.5 rounded bg-[#1a1d2b] border border-[#2b3044] text-zinc-300">
+                  평균 경과일수 <strong className="text-emerald-400 font-bold">{avgDays}일</strong>
                 </span>
               )}
             </>
