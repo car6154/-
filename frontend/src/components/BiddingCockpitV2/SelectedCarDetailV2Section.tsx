@@ -2,6 +2,7 @@ import React from 'react';
 import { ExternalLink, RefreshCw, AlertCircle, Info, CheckCircle2 } from 'lucide-react';
 import { EncarItem } from '@/components/BiddingCockpit/types';
 import { CarDamageDiagram2D, getDamagePartKoreanName } from '@/components/BiddingCockpit/Sections/CarDamageDiagram2D';
+import { getCarColorStyle } from '@/utils/carColor';
 
 export interface SelectedCarDetailV2SectionProps {
   selectedEncar: EncarItem | null;
@@ -64,6 +65,9 @@ export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProp
   const adjustedPriceVal = (selectedEncar as any).adjustedPrice;
   const hasAdjustedPrice = adjustedPriceVal !== undefined && adjustedPriceVal !== null;
 
+  // 색상 칩 스타일 (기존 콕핏과 100% 동일)
+  const colorStyle = getCarColorStyle(selectedEncar.color);
+
   // 2. 사고/점검 내역 부위 추출
   const repList = ((selectedEncar.replaceNames && selectedEncar.replaceNames.length > 0)
     ? selectedEncar.replaceNames
@@ -88,18 +92,33 @@ export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProp
 
   return (
     <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl overflow-hidden shadow-sm space-y-0">
-      {/* 1. 상단 바 (차명, 세부모델, 상세 링크) */}
+      {/* 1. 상단 바 (차명, 세부모델, 상단 뱃지, 상세 링크) */}
       <div className="px-5 py-3.5 border-b border-[#1e2029] flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-2">
-          <span className="text-xs font-semibold text-[#8b8e9d] uppercase tracking-wider">
-            선택 차량 상세
-          </span>
-          <span className="text-sm font-bold text-white">
+        <div className="flex items-center gap-2 flex-wrap min-w-0">
+          <span className="text-base sm:text-lg font-black text-white truncate">
             {selectedEncar.carName}
           </span>
           {selectedEncar.subModel && (
-            <span className="text-xs text-zinc-400">
-              ({selectedEncar.subModel})
+            <span className="text-xs sm:text-sm text-zinc-300 font-semibold">
+              {selectedEncar.subModel}
+            </span>
+          )}
+          {/* 상단 보정가 또는 신차가 뱃지 */}
+          {hasAdjustedPrice ? (
+            <span className="text-xs font-bold text-sky-300 font-mono shrink-0 px-2 py-0.5 rounded bg-sky-500/20 border border-sky-400">
+              보정가: {Number(adjustedPriceVal).toLocaleString()}만원
+            </span>
+          ) : Boolean((selectedEncar as any).newCarPrice || (selectedEncar as any).originPrice) ? (
+            <span
+              className="text-xs font-bold text-amber-300 font-mono shrink-0 px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/30"
+              title={`신차가: ${(((selectedEncar as any).newCarPrice || (selectedEncar as any).originPrice) || 0).toLocaleString()}만원`}
+            >
+              신차 {(((selectedEncar as any).newCarPrice || (selectedEncar as any).originPrice) || 0).toLocaleString()}만
+            </span>
+          ) : null}
+          {isInspectionLoading && (
+            <span className="text-[11px] text-amber-400 font-mono animate-pulse">
+              ⚡ 점검표 수신 중...
             </span>
           )}
         </div>
@@ -107,7 +126,7 @@ export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProp
           href={detailUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#161822] hover:bg-[#202330] border border-[#262938] text-xs font-medium text-zinc-300 hover:text-white transition"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#161822] hover:bg-[#202330] border border-[#262938] text-xs font-medium text-zinc-300 hover:text-white transition shrink-0"
         >
           <span>엔카 원본 보기</span>
           <ExternalLink className="w-3.5 h-3.5" />
@@ -115,56 +134,88 @@ export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProp
       </div>
 
       {/* 2. 본문 한 박스 (스펙 위 · 2D 아래 세로 쌓기: 절반 너비 100% 활용) */}
-      <div className="p-5 space-y-5">
-        {/* [상단 영역: 스펙 & 가격] */}
-        <div className="space-y-4">
-          {/* 가격 카드 */}
-          <div className="bg-[#14151b] border border-[#232634] rounded-xl p-4 space-y-1">
-            <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase">
-              엔카 판매가
+      <div className="p-5 space-y-4">
+        {/* [상단 스펙 영역: 기존 콕핏 카드 칩스 & 가격 레이아웃] */}
+        <div className="space-y-3">
+          {/* 2-1) 칩스 바: 연식 / 주행 km / 색상(점 형태) / 점검일 / 사고 배지 */}
+          <div className="flex flex-wrap items-center gap-1.5 text-xs">
+            {/* 연식 칩 */}
+            <span className="px-2.5 py-1 rounded bg-[#1f222e] text-white font-bold font-mono">
+              {selectedEncar.year}년식
             </span>
-            <div className="flex items-baseline gap-1.5">
-              <span className="text-3xl font-black text-amber-400 font-mono tracking-tight">
-                {selectedEncar.price.toLocaleString()}
+
+            {/* 주행거리 칩 */}
+            <span className="px-2.5 py-1 rounded bg-[#1f222e] text-emerald-400 font-bold font-mono">
+              {selectedEncar.mileage.toLocaleString()}km
+            </span>
+
+            {/* 색상 칩 (점 형태, getCarColorStyle 적용) */}
+            <span
+              className="px-2.5 py-1 rounded font-medium border text-xs"
+              style={{
+                backgroundColor: colorStyle.bgColor,
+                color: colorStyle.textColor,
+                borderColor: colorStyle.borderColor,
+              }}
+            >
+              {colorStyle.dot} {colorStyle.displayName}
+            </span>
+
+            {/* 점검일 칩 */}
+            {inspectionDateText ? (
+              <span
+                className="px-2.5 py-1 rounded bg-blue-500/20 text-blue-300 font-bold font-mono"
+                title="법정 성능점검일자"
+              >
+                📋 점검: {inspectionDateText}
+                {typeof selectedEncar.holdingDays === 'number' &&
+                !isNaN(selectedEncar.holdingDays) &&
+                selectedEncar.holdingDays >= 0
+                  ? ` (${selectedEncar.holdingDays}일 전)`
+                  : ''}
               </span>
-              <span className="text-sm font-bold text-zinc-300">만원</span>
+            ) : null}
+
+            {/* 사고 구분 배지 */}
+            <span className={`px-2.5 py-1 rounded border text-xs font-bold ${accInfo.style}`}>
+              {accInfo.text}
+            </span>
+          </div>
+
+          {/* 2-2) 사고 부위 요약 텍스트 (배지 바로 아래, 기존 위치) */}
+          {(hasRep || hasFix) && (
+            <div className="pt-1 pb-0.5 text-xs flex flex-col gap-1">
+              {hasRep && (
+                <div className="text-rose-400 font-medium flex items-start gap-1">
+                  <span className="font-bold shrink-0">🔴 교환(X):</span>
+                  <span className="font-semibold text-rose-300">{mappedRepList.join(', ')}</span>
+                </div>
+              )}
+              {hasFix && (
+                <div className="text-amber-400 font-medium flex items-start gap-1">
+                  <span className="font-bold shrink-0">🟡 판금/용접(W):</span>
+                  <span className="font-semibold text-amber-300">{mappedFixList.join(', ')}</span>
+                </div>
+              )}
             </div>
+          )}
+
+          {/* 2-3) 대형 가격 표시 (Large Price Display) */}
+          <div className="flex items-baseline gap-1.5 pt-1">
+            <span className="text-2xl sm:text-3xl font-black text-amber-400 font-mono tracking-tight">
+              {selectedEncar.price.toLocaleString()}
+            </span>
+            <span className="text-sm font-bold text-zinc-300">만원</span>
             {hasAdjustedPrice && (
-              <div className="pt-1 text-xs text-sky-400 font-mono font-medium">
-                보정가: {Number(adjustedPriceVal).toLocaleString()}만원
-              </div>
+              <span className="ml-3 text-xs sm:text-sm font-bold text-sky-400 font-mono">
+                (보정가: {Number(adjustedPriceVal).toLocaleString()}만원)
+              </span>
             )}
           </div>
 
-          {/* 핵심 스펙 그리드 */}
-          <div className="bg-[#14151b] border border-[#232634] rounded-xl p-4 space-y-2.5 text-xs">
-            <div className="flex justify-between items-center py-1 border-b border-[#1e2029]">
-              <span className="text-[#8b8e9d]">연식</span>
-              <span className="font-mono font-bold text-zinc-200">{selectedEncar.year}년식</span>
-            </div>
-            <div className="flex justify-between items-center py-1 border-b border-[#1e2029]">
-              <span className="text-[#8b8e9d]">주행거리</span>
-              <span className="font-mono font-bold text-zinc-200">{selectedEncar.mileage.toLocaleString()}km</span>
-            </div>
-            <div className="flex justify-between items-center py-1 border-b border-[#1e2029]">
-              <span className="text-[#8b8e9d]">색상</span>
-              <span className="font-medium text-zinc-300">{selectedEncar.color || '-'}</span>
-            </div>
-            <div className="flex justify-between items-center py-1 border-b border-[#1e2029]">
-              <span className="text-[#8b8e9d]">성능점검일</span>
-              <span className="font-mono text-zinc-300">{inspectionDateText || '-'}</span>
-            </div>
-            <div className="flex justify-between items-center py-1">
-              <span className="text-[#8b8e9d]">사고 구분</span>
-              <span className={`px-2 py-0.5 rounded border text-[11px] font-bold ${accInfo.style}`}>
-                {accInfo.text}
-              </span>
-            </div>
-          </div>
-
-          {/* 옵션 정보 (있으면 표시) */}
+          {/* 2-4) 옵션 정보 (있으면 표시) */}
           {selectedEncar.optionsText && (
-            <div className="bg-[#14151b] border border-[#232634] rounded-xl p-3.5 text-xs space-y-1">
+            <div className="p-3 bg-[#0c0e14] rounded-lg border border-[#232634] text-xs space-y-1">
               <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase block">
                 주요 옵션
               </span>
@@ -175,11 +226,11 @@ export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProp
           )}
         </div>
 
-        {/* [하단 영역: 사고·점검 요약 및 2D 상태도] */}
+        {/* [하단 영역: 사고·점검 2D 상태도 (절반 너비 전체 100% 활용)] */}
         <div className="bg-[#14151b] border border-[#232634] rounded-xl p-4 space-y-3">
           <div className="flex items-center justify-between border-b border-[#232634] pb-2">
             <span className="text-xs font-bold text-white">
-              성능점검 및 사고 상태도
+              외판 및 주요골격 상태도
             </span>
             {inspectionDateText && (
               <span className="text-[11px] text-zinc-400 font-mono">
@@ -204,34 +255,9 @@ export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProp
               </p>
             </div>
           ) : (
-            /* 분기 3: 점검 정보 있음 -> 사고 부위 텍스트 요약 + 2D 상태도 */
-            <div className="space-y-3">
-              {/* 사고 교환/판금 부위 텍스트 요약 */}
-              <div className="p-3 bg-[#0d0e12] rounded-lg border border-[#1e2029] text-xs space-y-1">
-                {hasRep && (
-                  <div className="flex items-start gap-1.5 text-rose-400">
-                    <span className="font-bold shrink-0">🔴 교환(X):</span>
-                    <span className="font-semibold text-rose-300">{mappedRepList.join(', ')}</span>
-                  </div>
-                )}
-                {hasFix && (
-                  <div className="flex items-start gap-1.5 text-amber-400">
-                    <span className="font-bold shrink-0">🟡 판금/용접(W):</span>
-                    <span className="font-semibold text-amber-300">{mappedFixList.join(', ')}</span>
-                  </div>
-                )}
-                {!hasRep && !hasFix && (
-                  <div className="flex items-center gap-1.5 text-emerald-400 font-semibold">
-                    <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
-                    <span>외판 및 주요골격 교환·판금 없음 (무사고 상태)</span>
-                  </div>
-                )}
-              </div>
-
-              {/* 2D 상태도 컴포넌트 임포트 사용 (기존 부품 무수정 임포트) */}
-              <div className="pt-1">
-                <CarDamageDiagram2D selectedEncar={selectedEncar} />
-              </div>
+            /* 분기 3: 점검 정보 있음 -> 2D 상태도 렌더링 */
+            <div className="pt-1">
+              <CarDamageDiagram2D selectedEncar={selectedEncar} />
             </div>
           )}
         </div>

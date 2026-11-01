@@ -36,7 +36,7 @@ export const outerParts: DamagePart[] = [
 
 // 주요골격 부위 (엔카 및 국토부 성능점검 전체 골격 부위 포괄 + 케이카 3Dview)
 export const innerParts: DamagePart[] = [
-  { code: 'FRONT_PANEL', kw: ['프론트패널', '프론트 패널', '앞패널', 'front_panel', 'front-panel'], exclude: ['리어', '뒤', '대쉬', '대시', '플로어', 'floor'], x: 55, y: 16, w: 110, h: 14, label: '프론트패널', full: '프론트 패널' },
+  { code: 'FRONT_PANEL', kw: ['프론트패널', '프론트 패널', '앞패널', 'front_panel', 'front-panel'], exclude: ['리어', '뒤', '대쉬', '대시', '플로어', 'floor'], x: 55, y: 46, w: 110, h: 14, label: '프론트패널', full: '프론트 패널' },
   { code: 'SIDE_MEMBER_FRONT_L', kw: ['사이드멤버(좌)', '프론트사이드멤버(좌)', '앞사이드멤버(좌)', 'side_member_front_left', 'sidemember-front-left', 'side_member_front_l', 'front_side_member_l', 'p101'], exclude: ['리어', '뒤', 'rear', '우', 'right'], x: 18, y: 25, w: 33, h: 50, label: 'F멤', full: '프론트 사이드멤버(좌)' },
   { code: 'SIDE_MEMBER_FRONT_R', kw: ['사이드멤버(우)', '프론트사이드멤버(우)', '앞사이드멤버(우)', 'side_member_front_right', 'sidemember-front-right', 'side_member_front_r', 'front_side_member_r', 'p102'], exclude: ['리어', '뒤', 'rear', '좌', 'left'], x: 169, y: 25, w: 33, h: 50, label: 'F멤', full: '프론트 사이드멤버(우)' },
   { code: 'FRONT_WHEEL_HOUSE_L', kw: ['휠하우스(좌)', '프론트휠하우스(좌)', 'front_wheel_house_l', 'wheelhouse-front-left', 'wheel_house_l', 'p111'], exclude: ['우', 'right'], x: 18, y: 78, w: 33, h: 32, label: 'F하우스', full: '프론트 휠하우스(좌)' },
