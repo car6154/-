@@ -2196,18 +2196,10 @@ export function useBiddingCockpit({
     });
   }, [encarList, yearModel]);
 
-  // 🎯 [실시간 AI 빅데이터 정밀 소매가] (Streamlit 8501 100% 동일)
+  // 🎯 [실시간 엔카평균 대당 보정 평균 소매가] (엄격 0대면 0/해당 없음, 폴백 금지)
   const aiRetailPrice = useMemo(() => {
-    const marketAvg = encarStats.avg > 0 
-      ? encarStats.avg 
-      : (encarList.length > 0 ? Math.round(encarList.reduce((a, b) => a + (b.price || 0), 0) / encarList.length) : 0);
-    const rawIndPrice = encarValuation?.individualPrice || 0;
-    // 💡 벤치마크가 없으면 전체 평균(marketAvg)으로 대체하지 않고 0(해당 없음)으로 유지
-    const validIndPrice = (rawIndPrice > 0 && marketAvg > 0 && rawIndPrice < marketAvg * 1.6 && rawIndPrice > marketAvg * 0.4)
-      ? rawIndPrice
-      : (rawIndPrice > 0 ? rawIndPrice : 0);
-    return validIndPrice;
-  }, [encarStats, encarList, encarValuation]);
+    return encarStats.strictAdjAvg > 0 ? encarStats.strictAdjAvg : 0;
+  }, [encarStats.strictAdjAvg]);
 
   // 💡 [제이 규칙]: 사이드바 예상 소매가(expectedSellPrice)는 순수 사용자 수동 입력 필드이므로 AI 산출값으로 자동 채우지 않는다.
 
