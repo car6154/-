@@ -114,10 +114,10 @@ export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProp
         </a>
       </div>
 
-      {/* 2. 본문 한 박스 (좌측 스펙 & 가격 / 우측 사고·점검 요약 및 2D 상태도) */}
-      <div className="p-5 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        {/* [좌측 영역: 스펙 & 가격] */}
-        <div className="lg:col-span-5 space-y-4">
+      {/* 2. 본문 한 박스 (스펙 위 · 2D 아래 세로 쌓기: 절반 너비 100% 활용) */}
+      <div className="p-5 space-y-5">
+        {/* [상단 영역: 스펙 & 가격] */}
+        <div className="space-y-4">
           {/* 가격 카드 */}
           <div className="bg-[#14151b] border border-[#232634] rounded-xl p-4 space-y-1">
             <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase">
@@ -175,8 +175,8 @@ export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProp
           )}
         </div>
 
-        {/* [우측 영역: 사고·점검 요약 및 2D 상태도] */}
-        <div className="lg:col-span-7 bg-[#14151b] border border-[#232634] rounded-xl p-4 space-y-3">
+        {/* [하단 영역: 사고·점검 요약 및 2D 상태도] */}
+        <div className="bg-[#14151b] border border-[#232634] rounded-xl p-4 space-y-3">
           <div className="flex items-center justify-between border-b border-[#232634] pb-2">
             <span className="text-xs font-bold text-white">
               성능점검 및 사고 상태도

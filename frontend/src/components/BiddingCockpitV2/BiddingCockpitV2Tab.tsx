@@ -57,30 +57,28 @@ export const BiddingCockpitV2Tab: React.FC = () => {
 
       {/* 사이드바(좌측) + 메인(우측) 2단 레이아웃 */}
       <div className="flex flex-col lg:flex-row gap-5 items-start">
-        {/* [사이드바 (왼쪽, 고정 너비, sticky)] */}
-        <aside className="w-full lg:w-[380px] xl:w-[420px] shrink-0 space-y-4 lg:sticky lg:top-4">
+        {/* [사이드바 (왼쪽, 고정 280px 너비, sticky)] */}
+        <aside className="w-full lg:w-[280px] shrink-0 space-y-4 lg:sticky lg:top-4">
           {/* 1) 조회 입력 영역 (매물 URL · 차량번호 · 주행거리 · 조회 버튼) */}
           <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-4 shadow-sm space-y-3.5">
             <div className="text-xs font-semibold text-[#8b8e9d] uppercase tracking-wider">
               조회 입력
             </div>
 
-            {/* 헤이딜러 매물 URL 조회 */}
-            <div className="flex flex-col sm:flex-row lg:flex-col xl:flex-row items-stretch gap-2">
-              <div className="flex-1">
-                <input
-                  type="text"
-                  value={cockpit.heydealerUrl}
-                  onChange={(e) => cockpit.setHeydealerUrl(e.target.value)}
-                  placeholder="헤이딜러 매물 URL 또는 경매 ID"
-                  className="w-full px-3 py-2 rounded-lg bg-[#161822] border border-[#262938] text-xs text-white placeholder-[#5e616e] focus:outline-none focus:border-[#cc9166] transition font-mono"
-                />
-              </div>
+            {/* 헤이딜러 매물 URL 조회 (세로 고정 배치) */}
+            <div className="space-y-2">
+              <input
+                type="text"
+                value={cockpit.heydealerUrl}
+                onChange={(e) => cockpit.setHeydealerUrl(e.target.value)}
+                placeholder="헤이딜러 매물 URL 또는 경매 ID"
+                className="w-full px-3 py-2 rounded-lg bg-[#161822] border border-[#262938] text-xs text-white placeholder-[#5e616e] focus:outline-none focus:border-[#cc9166] transition font-mono"
+              />
               <button
                 type="button"
                 onClick={cockpit.handleHeydealerAiEstimate}
                 disabled={cockpit.isAiEstimating}
-                className="px-3.5 py-2 rounded-lg bg-gradient-to-r from-amber-600/50 to-[#cc9166]/60 hover:from-amber-600/70 hover:to-[#cc9166]/80 text-xs font-bold text-white border border-[#cc9166]/60 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-1.5 shrink-0"
+                className="w-full py-2 rounded-lg bg-gradient-to-r from-amber-600/50 to-[#cc9166]/60 hover:from-amber-600/70 hover:to-[#cc9166]/80 text-xs font-bold text-white border border-[#cc9166]/60 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-1.5 shadow-sm"
               >
                 {cockpit.isAiEstimating ? (
                   <>
@@ -90,7 +88,7 @@ export const BiddingCockpitV2Tab: React.FC = () => {
                 ) : (
                   <>
                     <ExternalLink className="w-3.5 h-3.5" />
-                    <span>URL 조회</span>
+                    <span>매물 URL 조회</span>
                   </>
                 )}
               </button>
@@ -103,7 +101,7 @@ export const BiddingCockpitV2Tab: React.FC = () => {
               <div className="flex-grow border-t border-[#1e2029]" />
             </div>
 
-            {/* 차량번호 & 주행거리 조회 */}
+            {/* 차량번호 & 주행거리 조회 (세로 고정 배치) */}
             <div className="space-y-2">
               <input
                 type="text"
@@ -115,36 +113,34 @@ export const BiddingCockpitV2Tab: React.FC = () => {
                   if (e.key === 'Enter') cockpit.handleLookupCarNumber();
                 }}
               />
-              <div className="flex gap-2">
-                <input
-                  type="number"
-                  value={cockpit.mileageKm || ''}
-                  onChange={(e) => cockpit.setMileageKm(Number(e.target.value))}
-                  placeholder="주행거리 (km)"
-                  className="flex-1 px-3 py-2 rounded-lg bg-[#161822] border border-[#262938] text-xs text-white placeholder-[#5e616e] focus:outline-none focus:border-blue-500 transition font-mono"
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') cockpit.handleLookupCarNumber();
-                  }}
-                />
-                <button
-                  type="button"
-                  onClick={() => cockpit.handleLookupCarNumber()}
-                  disabled={cockpit.isSearchingCar}
-                  className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-xs font-bold text-white transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-1.5 shadow-sm shrink-0"
-                >
-                  {cockpit.isSearchingCar ? (
-                    <>
-                      <RefreshCw className="w-3.5 h-3.5 animate-spin" />
-                      <span>조회 중</span>
-                    </>
-                  ) : (
-                    <>
-                      <Search className="w-3.5 h-3.5" />
-                      <span>조회</span>
-                    </>
-                  )}
-                </button>
-              </div>
+              <input
+                type="number"
+                value={cockpit.mileageKm || ''}
+                onChange={(e) => cockpit.setMileageKm(Number(e.target.value))}
+                placeholder="주행거리 (km)"
+                className="w-full px-3 py-2 rounded-lg bg-[#161822] border border-[#262938] text-xs text-white placeholder-[#5e616e] focus:outline-none focus:border-blue-500 transition font-mono"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') cockpit.handleLookupCarNumber();
+                }}
+              />
+              <button
+                type="button"
+                onClick={() => cockpit.handleLookupCarNumber()}
+                disabled={cockpit.isSearchingCar}
+                className="w-full py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-xs font-bold text-white transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-1.5 shadow-sm"
+              >
+                {cockpit.isSearchingCar ? (
+                  <>
+                    <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                    <span>조회 중</span>
+                  </>
+                ) : (
+                  <>
+                    <Search className="w-3.5 h-3.5" />
+                    <span>통합 조회</span>
+                  </>
+                )}
+              </button>
             </div>
 
             {/* 상태 메시지 알림 (검색 중/경고/안내) */}
