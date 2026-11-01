@@ -410,6 +410,13 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
 
         {/* [메인 영역 (오른쪽, 나머지 너비)] */}
         <main className="flex-1 min-w-0 w-full space-y-4">
+          {/* 차량 상태 판정(보험이력 포함) 칩 행 (메인 최상단) */}
+          <VehicleAssessmentV2Bar
+            currentAssessment={cockpit.currentAssessment}
+            targetCarHistory={cockpit.targetCarHistory}
+            onOpenHistoryModal={() => cockpit.setShowCarHistoryModal(true)}
+          />
+
           {/* 상단 4칸 한 줄: 소매가 · 엔카평균 · 엔카시세 · 기준소매 */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {/* 1) 소매가 */}
@@ -473,14 +480,6 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
               </div>
             </div>
           </div>
-
-          {/* 차량 상태 판정(보험이력 포함) 칩 행 */}
-          <VehicleAssessmentV2Bar
-            currentAssessment={cockpit.currentAssessment}
-            targetCarHistory={cockpit.targetCarHistory}
-            outerRepairCount={cockpit.outerRepairCount}
-            onOpenHistoryModal={() => cockpit.setShowCarHistoryModal(true)}
-          />
 
           {/* 팔린매물 3탭 영역 (엔카 팔린매물 · 자사 소매 실적 · 자사 도매 실적) */}
           <SoldListingsV2Section

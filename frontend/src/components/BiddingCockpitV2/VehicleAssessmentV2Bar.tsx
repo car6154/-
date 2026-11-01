@@ -3,14 +3,12 @@ import React from 'react';
 export interface VehicleAssessmentV2BarProps {
   currentAssessment?: any;
   targetCarHistory?: any;
-  outerRepairCount?: number;
   onOpenHistoryModal?: () => void;
 }
 
 export const VehicleAssessmentV2Bar: React.FC<VehicleAssessmentV2BarProps> = ({
   currentAssessment,
   targetCarHistory,
-  outerRepairCount = 0,
   onOpenHistoryModal,
 }) => {
   if (!currentAssessment) return null;
@@ -45,11 +43,6 @@ export const VehicleAssessmentV2Bar: React.FC<VehicleAssessmentV2BarProps> = ({
             }`}
           >
             사고: {currentAssessment.accidentDamage?.status === 'PERFECT' ? '무사고' : currentAssessment.accidentDamage?.status === 'MINOR' ? '단순수리' : '골격/결격'}
-            {outerRepairCount > 0 ? (
-              <span className="ml-1 text-[10px] opacity-90 font-mono">
-                (외판 {outerRepairCount}판)
-              </span>
-            ) : null}
             {targetCarHistory && targetCarHistory.myCarAccidentCount > 0 ? (
               <span className="ml-1 text-[10px] opacity-90 font-mono">
                 (내차 {targetCarHistory.myCarAccidentCount}건/{targetCarHistory.myCarAccidentCost}만)
@@ -127,3 +120,4 @@ export const VehicleAssessmentV2Bar: React.FC<VehicleAssessmentV2BarProps> = ({
     </div>
   );
 };
+
