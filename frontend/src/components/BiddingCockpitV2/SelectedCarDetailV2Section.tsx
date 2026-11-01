@@ -3,6 +3,7 @@ import { ExternalLink, RefreshCw, AlertCircle, Info, CheckCircle2 } from 'lucide
 import { EncarItem } from '@/components/BiddingCockpit/types';
 import { CarDamageDiagram2D, getDamagePartKoreanName } from '@/components/BiddingCockpit/Sections/CarDamageDiagram2D';
 import { getCarColorStyle } from '@/utils/carColor';
+import { splitOptionString } from '@/services/biddingOptionCatalog';
 
 export interface SelectedCarDetailV2SectionProps {
   selectedEncar: EncarItem | null;
@@ -223,34 +224,51 @@ export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProp
             )}
           </div>
 
-          {/* 2-4) 옵션 정보 & 색상 칩 (있으면 표시) */}
-          {(selectedEncar.optionsText || (selectedEncar.color && selectedEncar.color !== '-')) && (
-            <div className="p-3 bg-[#0c0e14] rounded-lg border border-[#232634] text-xs space-y-1.5">
-              <div className="flex items-center justify-between">
-                <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase block">
-                  주요 옵션 & 색상
-                </span>
-                {selectedEncar.color && selectedEncar.color !== '-' && selectedEncar.color !== '미확인' && (
-                  <span
-                    className="px-2 py-0.5 rounded font-medium border text-[11px] inline-flex items-center gap-1"
-                    style={{
-                      backgroundColor: colorStyle.bgColor,
-                      color: colorStyle.textColor,
-                      borderColor: colorStyle.borderColor,
-                    }}
-                  >
-                    <span>{colorStyle.dot}</span>
-                    <span>{colorStyle.displayName}</span>
+          {/* 2-4) 옵션 정보 & 색상 칩 (케이카 상세 칩과 100% 동일 양식으로 전 항목 칩 표시) */}
+          {(selectedEncar.optionsText || (selectedEncar.color && selectedEncar.color !== '-')) && (() => {
+            const encarOptionList = selectedEncar.optionsText
+              ? splitOptionString(selectedEncar.optionsText)
+              : [];
+
+            return (
+              <div className="p-3 bg-[#0c0e14] rounded-lg border border-[#232634] text-xs space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase block">
+                    {encarOptionList.length > 0 ? `주요 옵션 (${encarOptionList.length}개) & 색상` : '주요 옵션 & 색상'}
                   </span>
+                  {selectedEncar.color && selectedEncar.color !== '-' && selectedEncar.color !== '미확인' && (
+                    <span
+                      className="px-2 py-0.5 rounded font-medium border text-[11px] inline-flex items-center gap-1"
+                      style={{
+                        backgroundColor: colorStyle.bgColor,
+                        color: colorStyle.textColor,
+                        borderColor: colorStyle.borderColor,
+                      }}
+                    >
+                      <span>{colorStyle.dot}</span>
+                      <span>{colorStyle.displayName}</span>
+                    </span>
+                  )}
+                </div>
+                {encarOptionList.length > 0 ? (
+                  <div className="flex flex-wrap gap-1.5">
+                    {encarOptionList.map((opt, i) => (
+                      <span
+                        key={i}
+                        className="px-2 py-0.5 rounded text-[11px] font-medium bg-[#1a1c26] text-zinc-300 border border-[#2d3142]"
+                      >
+                        {opt}
+                      </span>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-zinc-500 text-xs italic">
+                    추가옵션 없음 또는 기본 트림 사양
+                  </p>
                 )}
               </div>
-              {selectedEncar.optionsText && (
-                <p className="text-zinc-300 text-[11.5px] leading-relaxed">
-                  {selectedEncar.optionsText}
-                </p>
-              )}
-            </div>
-          )}
+            );
+          })()}
         </div>
 
         {/* [하단 영역: 사고·점검 2D 상태도 (절반 너비 전체 100% 활용)] */}
