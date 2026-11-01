@@ -4438,7 +4438,7 @@ def fetch_kcar_market_stats(
 
     # 비교군 차량 상세 JATO 옵션 병렬 조회 (ThreadPoolExecutor 5 workers, 메모리 캐시 1시간)
     jato_results: Dict[str, Optional[List[Dict[str, Any]]]] = {}
-    if has_target_opts and valid_cars:
+    if valid_cars:
         car_cds = [c["carCd"] for c in valid_cars if c.get("carCd")]
         if car_cds:
             with concurrent.futures.ThreadPoolExecutor(max_workers=min(5, len(car_cds))) as executor:
@@ -4479,31 +4479,29 @@ def fetch_kcar_market_stats(
                 mil_adj_p = c_price
 
             # (2) 옵션 델타 보정 (옵션 잔존가 차액 100% 반영, 비율·캡 없음, 상세 API 공인 가격)
-            real_opt_adj = 0
-            if has_target_opts:
-                c_cd = c.get("carCd") or ""
-                c_jato = jato_results.get(c_cd)
+            c_cd = c.get("carCd") or ""
+            c_jato = jato_results.get(c_cd)
 
-                if c_jato is not None:
-                    # 정상 상세 API 응답 (빈 배열 []이면 옵션 없는 기본 사양으로 0원 정상 처리)
-                    comp_opt_raw = 0
-                    for opt in c_jato:
-                        opt_nm = str(opt.get("optNm") or "").strip()
-                        if is_color_option(opt_nm):
-                            print(f"[K-Car 비교군 옵션 제외] carCd='{c_cd}', 유상 컬러='{opt_nm}' 제외됨", flush=True)
-                            continue
-                        opt_prc = opt.get("optPrc") or 0
-                        p_val = int(opt_prc) // 10000 if int(opt_prc) >= 10000 else int(opt_prc)
-                        comp_opt_raw += p_val
-                else:
-                    # 상세 API 통신 실패 (None) 시에만 비상 격리 카탈로그 폴백 (부분문자열 포함)
-                    comp_opt_raw = fallback_calc_comp_opt_from_optnnm(c.get("optnNm") or "", catalog_price_map)
+            if c_jato is not None:
+                # 정상 상세 API 응답 (빈 배열 []이면 옵션 없는 기본 사양으로 0원 정상 처리)
+                comp_opt_raw = 0
+                for opt in c_jato:
+                    opt_nm = str(opt.get("optNm") or "").strip()
+                    if is_color_option(opt_nm):
+                        print(f"[K-Car 비교군 옵션 제외] carCd='{c_cd}', 유상 컬러='{opt_nm}' 제외됨", flush=True)
+                        continue
+                    opt_prc = opt.get("optPrc") or 0
+                    p_val = int(opt_prc) // 10000 if int(opt_prc) >= 10000 else int(opt_prc)
+                    comp_opt_raw += p_val
+            else:
+                # 상세 API 통신 실패 (None) 시에만 비상 격리 카탈로그 폴백 (부분문자열 포함)
+                comp_opt_raw = fallback_calc_comp_opt_from_optnnm(c.get("optnNm") or "", catalog_price_map)
 
-                comp_rate = _get_residual_rate(c["year"])
-                comp_opt_deprec = int(round(comp_opt_raw * comp_rate))
+            comp_rate = _get_residual_rate(c["year"])
+            comp_opt_deprec = int(round(comp_opt_raw * comp_rate))
 
-                opt_diff = target_opt_deprec - comp_opt_deprec
-                real_opt_adj = opt_diff
+            opt_diff = target_opt_deprec - comp_opt_deprec
+            real_opt_adj = opt_diff
 
             opt_adjs.append(real_opt_adj)
             adj_prices.append(mil_adj_p + real_opt_adj)
