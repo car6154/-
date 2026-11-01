@@ -57,6 +57,9 @@ export interface ChaolmaCarHistory {
     paint_parts?: string[];
   }[];
   market_price_range?: string;
+  market_price_min?: number;
+  market_price_max?: number;
+  market_price_avg?: number;
   first_reg_date?: string;
 }
 
@@ -103,6 +106,10 @@ export interface ChaolmaResult {
   options: OptionItem[];
   unclassified_balance?: number;
   unclassified_balance_man?: number;
+  market_price_range?: string;
+  market_price_min?: number;
+  market_price_max?: number;
+  market_price_avg?: number;
   car_history?: ChaolmaCarHistory;
   origin_doc?: ChaolmaOriginDoc;
 }

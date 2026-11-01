@@ -1183,7 +1183,7 @@ class Scraper:
         (계산 직전: 목표 차량과 동일 연식 AND 동일 등급 매물만 엄격 필터링, 엄격 매물 없으면 해당 없음 반환)
         """
         if chart_base is None or chart_base.empty:
-            return {"has_data": False, "msg": "동급 매물 없음"}
+            return {"has_data": False, "msg": "동급 매물 없음", "raw_std_100_price": 0, "cohort_no_acc_avg": 0}
 
         # 1. [계산 직전 엄격 필터] 동일 연식 AND 동일 등급 매물만 격리
         from services.data_processor import DataProcessor
@@ -1200,7 +1200,9 @@ class Scraper:
                 "has_data": False,
                 "msg": "동일 연식·동일 등급 엄격 매물 없음 (해당 없음)",
                 "wide_count": len(chart_base),
-                "strict_count": 0
+                "strict_count": 0,
+                "raw_std_100_price": 0,
+                "cohort_no_acc_avg": 0
             }
 
         cand_df = strict_df
@@ -1231,7 +1233,7 @@ class Scraper:
                         target_rgsids.append(c_str)
 
         if not target_rgsids:
-            return {"has_data": False, "msg": "동급 매물 ID 없음"}
+            return {"has_data": False, "msg": "동급 매물 ID 없음", "raw_std_100_price": 0, "cohort_no_acc_avg": 0}
 
         # 💡 [실매물 코호트 통계] 현재 화면의 동급(타겟 연식) 매물 실제 통계 선계산
         real_prices = pd.to_numeric(cand_df['판매가'], errors='coerce').dropna()
@@ -1271,10 +1273,11 @@ class Scraper:
                     "score": 100.0
                 }
             else:
-                return {"has_data": False, "msg": "엔카 시세리포트 데이터 미제공 차종"}
+                return {"has_data": False, "msg": "엔카 시세리포트 데이터 미제공 차종", "raw_std_100_price": 0, "cohort_no_acc_avg": 0}
 
         # 3. 엔카 표준 100점 기본가 및 상하한 밴드 계수 확보
         std_100_price = benchmark_report.get("std_100_price", 0)
+        raw_std_100_price = int(std_100_price) if std_100_price else 0
         bad_ratio = benchmark_report.get("bad_ratio", 0.95)
         good_ratio = benchmark_report.get("good_ratio", 1.05)
         rep_min_price = benchmark_report.get("min_price", 0)
@@ -1367,6 +1370,8 @@ class Scraper:
             "has_data": True,
             "benchmark_rgsid": benchmark_report["rgsid"],
             "std_100_price": std_100_price,
+            "raw_std_100_price": raw_std_100_price,
+            "cohort_no_acc_avg": cohort_no_acc_avg,
             "base_mileage": base_mil,
             "calc_score": calc_score,
             "calc_individual_price": calc_individual_price,

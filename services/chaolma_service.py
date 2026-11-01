@@ -151,6 +151,10 @@ class ChaolmaService:
                         ch_res = cls.fetch_car_history(car_no)
                         if ch_res and ch_res.get("success"):
                             parsed["car_history"] = ch_res
+                            parsed["market_price_range"] = ch_res.get("market_price_range", "")
+                            parsed["market_price_min"] = ch_res.get("market_price_min", 0)
+                            parsed["market_price_max"] = ch_res.get("market_price_max", 0)
+                            parsed["market_price_avg"] = ch_res.get("market_price_avg", 0)
                     except Exception:
                         pass
 
@@ -574,6 +578,19 @@ class ChaolmaService:
             if len(raw_reg_date) == 8:
                 formatted_reg_date = f"{raw_reg_date[:4]}-{raw_reg_date[4:6]}-{raw_reg_date[6:]}"
 
+            # 카히스토리 시세 범위 파싱 (만원 단위, r701 텍스트: 예 "713~953")
+            raw_mpr = get_text("r701", "")
+            m_min, m_max, m_avg = 0, 0, 0
+            if raw_mpr:
+                nums = re.findall(r'\d+', str(raw_mpr).replace(',', ''))
+                if len(nums) >= 2:
+                    try:
+                        m_min = int(nums[0])
+                        m_max = int(nums[1])
+                        m_avg = int(round((m_min + m_max) / 2.0))
+                    except (ValueError, TypeError):
+                        m_min, m_max, m_avg = 0, 0, 0
+
             return {
                 "success": True,
                 "car_no": car_no or get_text("r002", ""),
@@ -598,7 +615,10 @@ class ChaolmaService:
                 "uninsured_period": uninsured_period,
                 "mileage_records": mileage_records,
                 "accident_histories": accident_histories,
-                "market_price_range": get_text("r701", ""),
+                "market_price_range": raw_mpr,
+                "market_price_min": m_min,
+                "market_price_max": m_max,
+                "market_price_avg": m_avg,
                 "first_reg_date": formatted_reg_date or raw_reg_date
             }
         except Exception as e:

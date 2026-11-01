@@ -217,3 +217,14 @@ export interface KcarDetailData {
   };
   tires: KcarTireItem[];
 }
+
+export interface EncarBenchmarkStats {
+  rawStd100Price?: number;
+  cohortNoAccAvg?: number;
+  raw_std_100_price?: number;
+  cohort_no_acc_avg?: number;
+  market_price_min?: number;
+  market_price_max?: number;
+  market_price_avg?: number;
+  market_price_range?: string;
+}

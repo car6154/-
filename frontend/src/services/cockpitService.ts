@@ -10,6 +10,10 @@ export interface EncarValuationData {
   bubbleGap?: number;
   bubblePct?: number;
   safeCeiling?: number;
+  rawStd100Price?: number;
+  cohortNoAccAvg?: number;
+  raw_std_100_price?: number;
+  cohort_no_acc_avg?: number;
   [key: string]: any;
 }
 

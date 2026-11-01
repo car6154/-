@@ -96,6 +96,10 @@ export function useBiddingCockpit({
     vin?: string;
     manufacturedDate?: string;
     inspectionValidUntil?: string;
+    marketPriceMin?: number;
+    marketPriceMax?: number;
+    marketPriceAvg?: number;
+    marketPriceRange?: string;
     rawHistory?: ChaolmaCarHistory;
     originDoc?: ChaolmaOriginDoc;
   } | null>(null);
@@ -983,6 +987,10 @@ export function useBiddingCockpit({
             vin: res.vin || (doc ? doc.raw_doc?.VIN : '') || '',
             manufacturedDate: res.release_date || (ch ? ch.first_reg_date : '') || (doc ? doc.first_regist_date : '') || '',
             inspectionValidUntil: (doc ? doc.inspection_valid_end : '') || (ch ? ch.uninsured_period : '') || '',
+            marketPriceMin: ch?.market_price_min ?? (res as any)?.market_price_min ?? 0,
+            marketPriceMax: ch?.market_price_max ?? (res as any)?.market_price_max ?? 0,
+            marketPriceAvg: ch?.market_price_avg ?? (res as any)?.market_price_avg ?? 0,
+            marketPriceRange: ch?.market_price_range ?? (res as any)?.market_price_range ?? "",
             rawHistory: ch,
             originDoc: doc
           });
@@ -1504,6 +1512,10 @@ export function useBiddingCockpit({
                   vin: chRes.vin || (doc ? doc.raw_doc?.VIN : '') || '',
                   manufacturedDate: chRes.release_date || (ch ? ch.first_reg_date : '') || (doc ? doc.first_regist_date : '') || '',
                   inspectionValidUntil: (doc ? doc.inspection_valid_end : '') || (ch ? ch.uninsured_period : '') || '',
+                  marketPriceMin: ch?.market_price_min ?? (chRes as any)?.market_price_min ?? 0,
+                  marketPriceMax: ch?.market_price_max ?? (chRes as any)?.market_price_max ?? 0,
+                  marketPriceAvg: ch?.market_price_avg ?? (chRes as any)?.market_price_avg ?? 0,
+                  marketPriceRange: ch?.market_price_range ?? (chRes as any)?.market_price_range ?? "",
                   rawHistory: ch,
                   originDoc: doc
                 };
@@ -2281,7 +2293,11 @@ export function useBiddingCockpit({
       return {
         count: 0, strictCount: 0, wideCount: 0, min: 0, max: 0, avg: 0, median: 0,
         strictAdjAvg: 0, strictAdjMin: 0, strictAdjMedian: 0, strictAdjMax: 0,
-        strictAdjCount: 0, strictAdjExcludedCount: 0
+        strictAdjCount: 0, strictAdjExcludedCount: 0,
+        rawStd100Price: backendEncarStats?.rawStd100Price ?? backendEncarStats?.raw_std_100_price ?? 0,
+        cohortNoAccAvg: backendEncarStats?.cohortNoAccAvg ?? backendEncarStats?.cohort_no_acc_avg ?? 0,
+        raw_std_100_price: backendEncarStats?.raw_std_100_price ?? backendEncarStats?.rawStd100Price ?? 0,
+        cohort_no_acc_avg: backendEncarStats?.cohort_no_acc_avg ?? backendEncarStats?.cohortNoAccAvg ?? 0
       };
     }
     const prices = [...encarList.map(c => c.price)].sort((a, b) => a - b);
@@ -2304,7 +2320,11 @@ export function useBiddingCockpit({
       strictAdjMedian: backendEncarStats?.strictAdjMedian ?? 0,
       strictAdjMax: backendEncarStats?.strictAdjMax ?? 0,
       strictAdjCount: backendEncarStats?.strictAdjCount ?? 0,
-      strictAdjExcludedCount: backendEncarStats?.strictAdjExcludedCount ?? 0
+      strictAdjExcludedCount: backendEncarStats?.strictAdjExcludedCount ?? 0,
+      rawStd100Price: backendEncarStats?.rawStd100Price ?? backendEncarStats?.raw_std_100_price ?? 0,
+      cohortNoAccAvg: backendEncarStats?.cohortNoAccAvg ?? backendEncarStats?.cohort_no_acc_avg ?? 0,
+      raw_std_100_price: backendEncarStats?.raw_std_100_price ?? backendEncarStats?.rawStd100Price ?? 0,
+      cohort_no_acc_avg: backendEncarStats?.cohort_no_acc_avg ?? backendEncarStats?.cohortNoAccAvg ?? 0
     };
   }, [encarList, backendEncarStats, encarFilteredCount]);
 

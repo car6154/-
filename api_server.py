@@ -1331,6 +1331,8 @@ def search_encar_market(req: EncarSearchRequest):
         benchmark_price = bench_val.get("calc_individual_price", avg_price) if bench_val.get("has_data") else 0
         min_band = bench_val.get("calc_min_price", int(benchmark_price * 0.94)) if bench_val.get("has_data") else 0
         max_band = bench_val.get("calc_max_price", int(benchmark_price * 1.08)) if bench_val.get("has_data") else 0
+        raw_std_100_price = bench_val.get("raw_std_100_price", 0) if bench_val.get("has_data") else 0
+        cohort_no_acc_avg = bench_val.get("cohort_no_acc_avg", 0) if bench_val.get("has_data") else 0
 
         # 사고/무사고 격차 (엄격 매물 우선, 없으면 전체 매물)
         gap_base_df = strict_df if len(strict_df) >= 3 else df
@@ -1766,12 +1768,27 @@ def search_encar_market(req: EncarSearchRequest):
                 "benchmarkPrice": benchmark_price,
                 "minBand": min_band,
                 "maxBand": max_band,
+                "rawStd100Price": raw_std_100_price,
+                "cohortNoAccAvg": cohort_no_acc_avg,
+                "raw_std_100_price": raw_std_100_price,
+                "cohort_no_acc_avg": cohort_no_acc_avg,
                 "noAccAvg": no_acc_avg,
                 "accAvg": acc_avg,
                 "accGap": acc_gap,
                 "optAdj": opt_adj,
                 "accAdj": acc_adj
-            }
+            },
+            "valuation": {
+                "hasData": bench_val.get("has_data", False),
+                "individualPrice": benchmark_price,
+                "minPrice": min_band,
+                "maxPrice": max_band,
+                "rawStd100Price": raw_std_100_price,
+                "cohortNoAccAvg": cohort_no_acc_avg,
+                "raw_std_100_price": raw_std_100_price,
+                "cohort_no_acc_avg": cohort_no_acc_avg,
+                "score": bench_val.get("calc_score", 100.0) if bench_val.get("has_data") else 100.0
+            } if bench_val.get("has_data") else None
         }
     except Exception as e:
         return {"success": False, "error": str(e), "items": []}
