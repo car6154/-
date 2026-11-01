@@ -98,6 +98,8 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = (props) => {
           expectedSellPrice={cockpit.expectedSellPrice}
           effectiveSellPrice={cockpit.effectiveSellPrice}
           aiRetailPrice={cockpit.aiRetailPrice}
+          finalRetailPrice={cockpit.finalRetailPrice}
+          insuranceDeduction={cockpit.insuranceDeduction}
           aiSafeBidCeiling={cockpit.aiSafeBidCeiling}
           targetMargin={cockpit.targetMargin}
           repairCostTotal={cockpit.repairCostTotal}

@@ -19,6 +19,8 @@ export interface ValuationSummarySectionProps {
   expectedSellPrice: number;
   effectiveSellPrice: number;
   aiRetailPrice?: number;
+  finalRetailPrice?: number;
+  insuranceDeduction?: number;
   aiSafeBidCeiling?: number;
   targetMargin: number;
   repairCostTotal: number;
@@ -74,6 +76,8 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
   expectedSellPrice,
   effectiveSellPrice,
   aiRetailPrice = 0,
+  finalRetailPrice = 0,
+  insuranceDeduction = 0,
   aiSafeBidCeiling = 0,
   targetMargin,
   repairCostTotal,
@@ -824,9 +828,9 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
               </div>
               <div className="px-2.5 py-0.5 rounded-lg bg-[#141d2e] border border-sky-500/40 text-sky-300 font-bold text-xs sm:text-sm flex items-center gap-1.5 shadow-sm">
                 <span>🎯 AI 권장 소매가:</span>
-                {aiRetailPrice > 0 ? (
+                {finalRetailPrice > 0 ? (
                   <>
-                    <strong className="text-white text-sm sm:text-base font-mono">{aiRetailPrice.toLocaleString()}</strong>
+                    <strong className="text-white text-sm sm:text-base font-mono">{finalRetailPrice.toLocaleString()}</strong>
                     <span className="text-xs text-zinc-300">만원</span>
                     {encarValuation?.minPrice && encarValuation?.maxPrice && (
                       <span className="text-[11px] text-zinc-400 font-normal font-mono">

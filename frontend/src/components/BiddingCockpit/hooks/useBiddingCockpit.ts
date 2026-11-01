@@ -2201,12 +2201,25 @@ export function useBiddingCockpit({
     return encarStats.strictAdjAvg > 0 ? encarStats.strictAdjAvg : 0;
   }, [encarStats.strictAdjAvg]);
 
+  // 🛡️ [보험 감가액]: 내차 피해액(myCarAccidentCost, 만원 단위)의 7% (단, 0보다 크면 최소 5만원, 만원 단위 반올림)
+  const insuranceDeduction = useMemo(() => {
+    const rawCost = targetCarHistory?.myCarAccidentCost;
+    const cost = (typeof rawCost === 'number' && !isNaN(rawCost)) ? rawCost : 0;
+    if (cost <= 0) return 0;
+    return Math.max(5, Math.round(cost * 0.07));
+  }, [targetCarHistory?.myCarAccidentCost]);
+
+  // 🎯 [최종 소매가]: 엔카 보정 평균(aiRetailPrice)에서 보험 감가액 차감 (엄격 0대면 0/해당 없음)
+  const finalRetailPrice = useMemo(() => {
+    return aiRetailPrice > 0 ? Math.max(0, aiRetailPrice - insuranceDeduction) : 0;
+  }, [aiRetailPrice, insuranceDeduction]);
+
   // 💡 [제이 규칙]: 사이드바 예상 소매가(expectedSellPrice)는 순수 사용자 수동 입력 필드이므로 AI 산출값으로 자동 채우지 않는다.
 
-  // 실시간 유효 소매가 (사용자 직접 입력값 우선, 없으면 AI 정밀 소매가)
+  // 실시간 유효 소매가 (사용자 직접 입력값 우선, 없으면 최종 소매가)
   const effectiveSellPrice = useMemo(() => {
-    return expectedSellPrice > 0 ? expectedSellPrice : aiRetailPrice;
-  }, [expectedSellPrice, aiRetailPrice]);
+    return expectedSellPrice > 0 ? expectedSellPrice : finalRetailPrice;
+  }, [expectedSellPrice, finalRetailPrice]);
 
   // 💡 [8501 Streamlit 100% 동기화] 실시간 안전 입찰 상한가 & 제비용 & 헤이딜러 수수료 공식
   const isLightCar = useMemo(() => {
@@ -2256,9 +2269,9 @@ export function useBiddingCockpit({
     return estBid;
   }, [expectedSellPrice, outerRepairCount, targetMargin, auctionType, isLightCar, calcPurchaseFee]);
 
-  // 💡 우측 메인 상단 고정 권장 매입가 (AI 정밀 소매가 aiRetailPrice 기준, 사이드바 판매가 변경과 독립)
+  // 💡 우측 메인 상단 고정 권장 매입가 (최종 소매가 finalRetailPrice 기준, 사이드바 판매가 변경과 독립)
   const aiSafeBidCeiling = useMemo(() => {
-    const basePrice = aiRetailPrice;
+    const basePrice = finalRetailPrice;
     if (basePrice <= 0) return 0;
 
     const sFee = Math.round(basePrice * 0.007 * 10) / 10;
@@ -2272,7 +2285,7 @@ export function useBiddingCockpit({
       estBid = Math.max(0, Math.floor(basePrice - fixedDeductions - pFee));
     }
     return estBid;
-  }, [aiRetailPrice, outerRepairCount, targetMargin, auctionType, isLightCar, calcPurchaseFee]);
+  }, [finalRetailPrice, outerRepairCount, targetMargin, auctionType, isLightCar, calcPurchaseFee]);
 
   // 사용자가 직접 수정한 입찰가 (기본값: safeBidCeiling)
   const [userBid, setUserBid] = useState<number>(safeBidCeiling);
@@ -2368,6 +2381,8 @@ export function useBiddingCockpit({
     setExpectedSellPrice,
     effectiveSellPrice,
     aiRetailPrice,
+    finalRetailPrice,
+    insuranceDeduction,
     aiSafeBidCeiling,
     outerRepairCount,
     setOuterRepairCount,
