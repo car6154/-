@@ -6,14 +6,16 @@ import { ComparableKcarV2Section } from './ComparableKcarV2Section';
 import { SelectedCarDetailV2Section } from './SelectedCarDetailV2Section';
 import { SelectedKcarDetailV2Section } from './SelectedKcarDetailV2Section';
 import { SidebarOptionSection } from './SidebarOptionSection';
+import { HeydealerBidsV2Section } from './HeydealerBidsV2Section';
 
 export const BiddingCockpitV2Tab: React.FC = () => {
   const cockpit = useBiddingCockpit({
     onSaveToLedger: () => {},
   });
 
-  // 0. 비교 목록 활성 탭 (엔카 기본) 및 케이카 선택 상태 (V2 전용)
-  const [activeCompTab, setActiveCompTab] = React.useState<'encar' | 'kcar'>('encar');
+  // 0. 비교 목록 활성 탭 (엔카 기본 / 케이카 / 헤이딜러 낙찰) 및 선택 상태 (V2 전용)
+  const [activeCompTab, setActiveCompTab] = React.useState<'encar' | 'kcar' | 'heydealer'>('encar');
+  const [lastRetailTab, setLastRetailTab] = React.useState<'encar' | 'kcar'>('encar');
   const [selectedKcarCarCd, setSelectedKcarCarCd] = React.useState<string | null>(null);
 
   // 케이카 목록 변경 시 유효 엄격(isStrict) 차량 중에서만 첫 번째 차량 자동 선택 (없으면 첫 번째 차량, 없으면 null)
@@ -256,12 +258,12 @@ export const BiddingCockpitV2Tab: React.FC = () => {
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-5 items-start">
             {/* 좌측 절반: 비교 목록 (엔카 / 케이카 탭 전환) */}
             <div className="min-w-0 w-full space-y-3">
-              {/* 상단 탭 토글 (엔카 / 케이카) */}
+              {/* 상단 탭 토글 (엔카 / 케이카 / 헤이딜러 낙찰) */}
               <div className="flex items-center justify-between gap-2">
                 <div className="inline-flex p-1 bg-[#0f1015] border border-[#1e2029] rounded-xl shadow-sm">
                   <button
                     type="button"
-                    onClick={() => setActiveCompTab('encar')}
+                    onClick={() => { setActiveCompTab('encar'); setLastRetailTab('encar'); }}
                     className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${
                       activeCompTab === 'encar'
                         ? 'bg-blue-600 text-white shadow-sm'
@@ -278,7 +280,7 @@ export const BiddingCockpitV2Tab: React.FC = () => {
 
                   <button
                     type="button"
-                    onClick={() => setActiveCompTab('kcar')}
+                    onClick={() => { setActiveCompTab('kcar'); setLastRetailTab('kcar'); }}
                     className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${
                       activeCompTab === 'kcar'
                         ? 'bg-amber-600 text-white shadow-sm'
@@ -292,10 +294,27 @@ export const BiddingCockpitV2Tab: React.FC = () => {
                       {cockpit.kcarStats?.strictCount ?? cockpit.kcarStats?.count ?? cockpit.kcarStats?.cars?.length ?? 0}
                     </span>
                   </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setActiveCompTab('heydealer')}
+                    className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${
+                      activeCompTab === 'heydealer'
+                        ? 'bg-blue-600 text-white shadow-sm'
+                        : 'text-zinc-400 hover:text-white hover:bg-[#1a1c26]'
+                    }`}
+                  >
+                    <span>헤이딜러 낙찰</span>
+                    <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono font-black ${
+                      activeCompTab === 'heydealer' ? 'bg-black/30 text-white' : 'bg-[#1a1c26] text-zinc-400'
+                    }`}>
+                      {cockpit.filteredHeydealerBids?.length || 0}
+                    </span>
+                  </button>
                 </div>
               </div>
 
-              {/* 탭 본문 (엔카 또는 케이카 비교 목록): 마운트 유지 및 hidden 토글로 탭 전환 시 캐시 보존 및 무재호출 보장 */}
+              {/* 탭 본문 (엔카 / 케이카 / 헤이딜러 비교 목록): 마운트 유지 및 hidden 토글로 탭 전환 시 캐시 보존 및 무재호출 보장 */}
               <div className="max-h-[640px] overflow-y-auto rounded-xl">
                 <div className={activeCompTab === 'encar' ? 'block' : 'hidden'}>
                   <ComparableEncarV2Section
@@ -323,18 +342,33 @@ export const BiddingCockpitV2Tab: React.FC = () => {
                     errorMessage={cockpit.kcarStats?.message}
                   />
                 </div>
+                <div className={activeCompTab === 'heydealer' ? 'block' : 'hidden'}>
+                  <HeydealerBidsV2Section
+                    heydealerSummary={cockpit.heydealerSummary}
+                    availableHeydealerGrades={cockpit.availableHeydealerGrades}
+                    bestMatchHeydealerGrade={cockpit.bestMatchHeydealerGrade}
+                    heydealerGradeCounts={cockpit.heydealerGradeCounts}
+                    selectedHeydealerGradeFilter={cockpit.selectedHeydealerGradeFilter}
+                    setSelectedHeydealerGradeFilter={cockpit.setSelectedHeydealerGradeFilter}
+                    heydealerBids={cockpit.heydealerBids}
+                    filteredHeydealerBids={cockpit.filteredHeydealerBids}
+                    selectedHeydealerBidId={cockpit.selectedHeydealerBidId}
+                    setSelectedHeydealerBidId={cockpit.setSelectedHeydealerBidId}
+                    mileageKm={cockpit.mileageKm || 0}
+                  />
+                </div>
               </div>
             </div>
 
-            {/* 우측 절반: 선택 차량 상세 & 2D 상태도 (엔카 / 케이카 탭 전환 시 마운트 유지하여 상세 캐시 무재호출 보장) */}
+            {/* 우측 절반: 선택 차량 상세 & 2D 상태도 (낙찰 탭일 때는 마지막 엔카/케이카 상세 유지) */}
             <div className="min-w-0 w-full">
-              <div className={activeCompTab === 'encar' ? 'block' : 'hidden'}>
+              <div className={lastRetailTab === 'encar' ? 'block' : 'hidden'}>
                 <SelectedCarDetailV2Section
                   selectedEncar={cockpit.selectedEncar}
                   isInspectionLoading={cockpit.isInspectionLoading}
                 />
               </div>
-              <div className={activeCompTab === 'kcar' ? 'block' : 'hidden'}>
+              <div className={lastRetailTab === 'kcar' ? 'block' : 'hidden'}>
                 <SelectedKcarDetailV2Section
                   selectedKcar={selectedKcar}
                 />
