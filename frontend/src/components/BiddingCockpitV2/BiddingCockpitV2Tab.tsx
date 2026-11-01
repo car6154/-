@@ -10,9 +10,15 @@ import { HeydealerBidsV2Section } from './HeydealerBidsV2Section';
 import { SelectedHeydealerBidDetailV2Section } from './SelectedHeydealerBidDetailV2Section';
 import { SoldListingsV2Section } from './SoldListingsV2Section';
 
-export const BiddingCockpitV2Tab: React.FC = () => {
+export interface BiddingCockpitV2TabProps {
+  onSaveToLedger?: (car: any) => Promise<void> | void;
+}
+
+export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
+  onSaveToLedger,
+}) => {
   const cockpit = useBiddingCockpit({
-    onSaveToLedger: () => {},
+    onSaveToLedger: onSaveToLedger || (() => {}),
   });
 
   // 0. 비교 목록 활성 탭 (엔카 기본 / 케이카 / 헤이딜러 낙찰) 및 선택 상태 (V2 전용)
@@ -43,6 +49,7 @@ export const BiddingCockpitV2Tab: React.FC = () => {
   const targetMileage = cockpit.mileageKm && cockpit.mileageKm > 0
     ? `${cockpit.mileageKm.toLocaleString()}km`
     : '-';
+  const targetColor = cockpit.targetCarHistory?.color || '-';
 
   // 2. 상단 4칸 지표 (소매가 · 엔카평균(카드값 strictAdjAvg) · 엔카시세 · 기준소매) 및 델타 계산
   const finalPriceVal = (cockpit.finalRetailPrice && cockpit.finalRetailPrice > 0) ? cockpit.finalRetailPrice : 0;
@@ -233,11 +240,16 @@ export const BiddingCockpitV2Tab: React.FC = () => {
             )}
           </div>
 
-          {/* 2) 목표차 한 줄 정보 (차명 · 등급 · 연식 · 주행거리) */}
+          {/* 2) 목표차 한 줄 정보 (차명 · 등급 · 연식 · 주행거리 · 색상) */}
           <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl px-4 py-3 space-y-1.5 text-xs">
             <div className="flex items-center justify-between gap-2">
               <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase">목표 차량</span>
               <span className="font-bold text-white truncate max-w-[200px]">{targetCarName}</span>
+            </div>
+            {/* 차명 바로 밑에 색상 표시 (지어내지 않고 조회 결과의 색상 필드, 없으면 '-') */}
+            <div className="flex items-center justify-between text-[11px] text-zinc-300">
+              <span className="text-[#8b8e9d]">색상</span>
+              <span className="font-medium text-white">{targetColor}</span>
             </div>
             {targetDetailModel !== '-' && (
               <div className="text-[11px] text-zinc-300 truncate">
@@ -259,6 +271,137 @@ export const BiddingCockpitV2Tab: React.FC = () => {
             historyOptionTotalMan={cockpit.targetCarHistory?.totalOptionPrice}
             unclassifiedBalance={cockpit.unclassifiedBalance}
           />
+
+          {/* 2-2) 장부 저장 폼 (예상 소매가 · 외판 수리 갯수 · 매입 경로 · 목표 마진 · 특이사항 메모 · 저장 버튼) */}
+          <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-4 shadow-sm space-y-3 text-xs">
+            <div className="text-xs font-semibold text-[#8b8e9d] uppercase tracking-wider flex items-center justify-between">
+              <span>장부 저장</span>
+              {cockpit.savedSuccess && (
+                <span className="text-emerald-400 font-bold flex items-center gap-1 text-[11px]">
+                  <CheckCircle2 className="w-3.5 h-3.5" /> 저장 완료!
+                </span>
+              )}
+            </div>
+
+            {/* 예상 소매가 (만원) */}
+            <div className="space-y-1">
+              <div className="flex justify-between items-center text-zinc-400">
+                <span className="text-[11px]">예상 소매가 (만원)</span>
+                {cockpit.expectedSellPrice > 0 && (
+                  <span className="text-[10px] text-zinc-500 font-mono">
+                    {cockpit.expectedSellPrice.toLocaleString()}만원
+                  </span>
+                )}
+              </div>
+              <div className="flex items-center gap-1">
+                <button
+                  type="button"
+                  onClick={() => cockpit.setExpectedSellPrice(Math.max(0, cockpit.expectedSellPrice - 10))}
+                  className="w-7 h-7 rounded bg-[#161822] hover:bg-[#202330] text-white font-bold transition flex items-center justify-center border border-[#262938]"
+                >-</button>
+                <input
+                  type="number"
+                  value={cockpit.expectedSellPrice === 0 ? '' : cockpit.expectedSellPrice}
+                  onChange={(e) => cockpit.setExpectedSellPrice(Math.max(0, Number(e.target.value) || 0))}
+                  placeholder="예상 소매가 입력"
+                  className="flex-1 px-2.5 py-1.5 rounded-lg bg-[#161822] border border-[#262938] text-xs text-white placeholder-[#5e616e] focus:outline-none focus:border-sky-400 font-mono text-center"
+                />
+                <button
+                  type="button"
+                  onClick={() => cockpit.setExpectedSellPrice(cockpit.expectedSellPrice + 10)}
+                  className="w-7 h-7 rounded bg-[#161822] hover:bg-[#202330] text-white font-bold transition flex items-center justify-center border border-[#262938]"
+                >+</button>
+              </div>
+            </div>
+
+            {/* 외판 수리 갯수 */}
+            <div className="space-y-1">
+              <span className="text-[11px] text-zinc-400 block">외판 수리 갯수</span>
+              <div className="flex items-center gap-1">
+                <button
+                  type="button"
+                  onClick={() => cockpit.setOuterRepairCount(Math.max(0, cockpit.outerRepairCount - 1))}
+                  className="w-7 h-7 rounded bg-[#161822] hover:bg-[#202330] text-white font-bold transition flex items-center justify-center border border-[#262938]"
+                >-</button>
+                <input
+                  type="number"
+                  min={0}
+                  value={cockpit.outerRepairCount}
+                  onChange={(e) => cockpit.setOuterRepairCount(Math.max(0, Number(e.target.value) || 0))}
+                  className="flex-1 px-2.5 py-1.5 rounded-lg bg-[#161822] border border-[#262938] text-xs text-white font-mono text-center focus:outline-none focus:border-sky-400"
+                />
+                <button
+                  type="button"
+                  onClick={() => cockpit.setOuterRepairCount(cockpit.outerRepairCount + 1)}
+                  className="w-7 h-7 rounded bg-[#161822] hover:bg-[#202330] text-white font-bold transition flex items-center justify-center border border-[#262938]"
+                >+</button>
+              </div>
+            </div>
+
+            {/* 매입 경로 (입력란, 기본값 '셀프'. 직접 입력 가능) */}
+            <div className="space-y-1">
+              <span className="text-[11px] text-zinc-400 block">매입 경로</span>
+              <input
+                type="text"
+                value={cockpit.auctionType || '셀프'}
+                onChange={(e) => cockpit.setAuctionType(e.target.value)}
+                placeholder="셀프"
+                className="w-full px-3 py-1.5 rounded-lg bg-[#161822] border border-[#262938] text-xs text-white placeholder-[#5e616e] focus:outline-none focus:border-sky-400 font-mono"
+              />
+            </div>
+
+            {/* 목표 마진 (만원) */}
+            <div className="space-y-1">
+              <span className="text-[11px] text-zinc-400 block">목표 마진 (만원)</span>
+              <div className="flex items-center gap-1">
+                <button
+                  type="button"
+                  onClick={() => cockpit.setTargetMargin(Math.max(0, cockpit.targetMargin - 10))}
+                  className="w-7 h-7 rounded bg-[#161822] hover:bg-[#202330] text-white font-bold transition flex items-center justify-center border border-[#262938]"
+                >-</button>
+                <input
+                  type="number"
+                  value={cockpit.targetMargin === 0 ? '' : cockpit.targetMargin}
+                  onChange={(e) => cockpit.setTargetMargin(Number(e.target.value) || 0)}
+                  placeholder="0"
+                  className="flex-1 px-2.5 py-1.5 rounded-lg bg-[#161822] border border-[#262938] text-xs text-emerald-400 font-mono font-bold text-center focus:outline-none focus:border-emerald-400"
+                />
+                <button
+                  type="button"
+                  onClick={() => cockpit.setTargetMargin(cockpit.targetMargin + 10)}
+                  className="w-7 h-7 rounded bg-[#161822] hover:bg-[#202330] text-white font-bold transition flex items-center justify-center border border-[#262938]"
+                >+</button>
+              </div>
+            </div>
+
+            {/* 특이사항 메모 */}
+            <div className="space-y-1">
+              <span className="text-[11px] text-zinc-400 block">특이사항 메모</span>
+              <input
+                type="text"
+                value={cockpit.memo}
+                onChange={(e) => cockpit.setMemo(e.target.value)}
+                placeholder="보조키, 틴팅, 블박 등"
+                className="w-full px-3 py-1.5 rounded-lg bg-[#161822] border border-[#262938] text-xs text-white placeholder-[#5e616e] focus:outline-none focus:border-sky-400"
+              />
+            </div>
+
+            {/* '내 장부 및 구글시트에 저장' 버튼 */}
+            <button
+              type="button"
+              onClick={cockpit.handleSaveToLedger}
+              disabled={!cockpit.carName}
+              className={`w-full py-2.5 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-md ${
+                cockpit.savedSuccess
+                  ? 'bg-emerald-600 text-white'
+                  : !cockpit.carName
+                  ? 'bg-[#161822] text-zinc-600 border border-[#262938] cursor-not-allowed'
+                  : 'bg-[#1f222e] hover:bg-[#2c3040] text-white border border-[#35394a] cursor-pointer'
+              }`}
+            >
+              {cockpit.savedSuccess ? '✅ 저장 완료!' : '📋 내 장부 및 구글시트에 저장'}
+            </button>
+          </div>
 
 
         </aside>

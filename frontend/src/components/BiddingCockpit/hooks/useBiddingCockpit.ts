@@ -103,6 +103,7 @@ export function useBiddingCockpit({
     chaolmaRetailPrice?: number;
     rawHistory?: ChaolmaCarHistory;
     originDoc?: ChaolmaOriginDoc;
+    color?: string;
   } | null>(null);
 
   // 🌟 보험사고 & 카히스토리 대형 상세 리포트 모달 표시 상태
@@ -994,7 +995,8 @@ export function useBiddingCockpit({
             marketPriceRange: ch?.market_price_range ?? (res as any)?.market_price_range ?? "",
             chaolmaRetailPrice: (res as any)?.chaolma_retail_price ?? 0,
             rawHistory: ch,
-            originDoc: doc
+            originDoc: doc,
+            color: (res as any)?.color || ''
           });
         }
 
@@ -1449,7 +1451,8 @@ export function useBiddingCockpit({
           standardNewCarPrice: typeof stdPrice === 'number' ? (stdPrice > 10000 ? Math.round(stdPrice / 10000) : stdPrice) : 0,
           vin: vi.vin || '',
           manufacturedDate: vi.manufactured_date ? String(vi.manufactured_date).slice(0, 10) : '',
-          inspectionValidUntil: vi.inspection_valid_until ? String(vi.inspection_valid_until).slice(0, 10) : ''
+          inspectionValidUntil: vi.inspection_valid_until ? String(vi.inspection_valid_until).slice(0, 10) : '',
+          color: detail.color || carData.color || resJson.data?.color || ''
         });
 
         // 🌟 [10-30-02]: 트랙 1 시작 전 핵심 제원 및 URL 변수 사전 확정
@@ -1520,13 +1523,15 @@ export function useBiddingCockpit({
                   marketPriceRange: ch?.market_price_range ?? (chRes as any)?.market_price_range ?? "",
                   chaolmaRetailPrice: (chRes as any)?.chaolma_retail_price ?? 0,
                   rawHistory: ch,
-                  originDoc: doc
+                  originDoc: doc,
+                  color: (chRes as any)?.color || ''
                 };
               }
               return prev;
             }
             return {
               ...prev,
+              color: (chRes as any)?.color || prev.color || '',
               standardNewCarPrice: stdP > 0 ? stdP : prev.standardNewCarPrice,
               baseCarPrice: baseP > 0 ? baseP : prev.baseCarPrice,
               totalOptionPrice: optP > 0 ? optP : prev.totalOptionPrice,
