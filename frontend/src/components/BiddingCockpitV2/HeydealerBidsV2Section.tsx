@@ -79,24 +79,15 @@ export const HeydealerBidsV2Section: React.FC<HeydealerBidsV2SectionProps> = ({
         </div>
       </div>
 
-      {/* 2. AI 매입가 산출 내역 박스 (훅 값 1:1 표시, 새 계산 없음) */}
-      <div className="p-3.5 bg-[#0f1015] border border-[#1e2029] rounded-xl space-y-2">
+      {/* 2. AI 매입가 박스 (훅 값 1:1 표시, 새 계산 없음) */}
+      <div className="p-3.5 bg-[#0f1015] border border-[#1e2029] rounded-xl">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <span className="text-xs font-bold text-zinc-200 flex items-center gap-1.5">
-            <span>🤖</span> AI 판단 매입가 (헤이딜러 내수 낙찰 기준)
+            <span>🤖</span> AI 판단 매입가 (헤이딜러 무사고 낙찰 기준)
           </span>
           <div className="px-2.5 py-1 rounded bg-blue-500/20 border border-blue-500/40 text-blue-300 text-xs font-bold font-mono">
             AI 매입가: {heydealerSummary.aiWholesalePrice.toLocaleString()}만원
           </div>
-        </div>
-
-        <div className="space-y-1 text-xs text-zinc-400 pt-0.5 leading-relaxed font-mono">
-          <p>
-            • <strong className="text-zinc-200">AI 산출 내역:</strong> <span className="text-sky-400 font-bold">{heydealerSummary.aiWholesalePrice.toLocaleString()}만원</span> (내수 평균 {heydealerSummary.avgPrice.toLocaleString()}만 대비 주행거리({mileageKm.toLocaleString()}km: {heydealerSummary.milAdj >= 0 ? `+${heydealerSummary.milAdj}` : heydealerSummary.milAdj}만), 옵션가치({heydealerSummary.optAdj >= 0 ? `+${heydealerSummary.optAdj}` : heydealerSummary.optAdj}만) 실시간 반영)
-          </p>
-          <p>
-            • <strong className="text-zinc-200">동급 경매 평균:</strong> {heydealerSummary.avgPrice.toLocaleString()}만원 (무사고 {heydealerSummary.noAccAvg.toLocaleString()}만원 / 유사고 {heydealerSummary.accAvg.toLocaleString()}만원)
-          </p>
         </div>
       </div>
 

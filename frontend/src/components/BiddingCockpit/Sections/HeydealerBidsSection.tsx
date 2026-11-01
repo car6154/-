@@ -152,7 +152,7 @@ export const HeydealerBidsSection: React.FC<HeydealerBidsSectionProps> = ({
 
             <div className="space-y-1 text-xs text-[#8b8e9d] pt-1">
               <p>
-                • <strong className="text-white">AI 매입(낙찰)가 산출 내역:</strong> <span className="text-blue-400 font-bold">{heydealerSummary.aiWholesalePrice.toLocaleString()}만원</span> (내수 평균 {heydealerSummary.avgPrice}만 대비 주행거리({mileageKm.toLocaleString()}km: {heydealerSummary.milAdj >= 0 ? `+${heydealerSummary.milAdj}` : heydealerSummary.milAdj}만), 옵션가치({heydealerSummary.optAdj >= 0 ? `+${heydealerSummary.optAdj}` : heydealerSummary.optAdj}만) 실시간 반영)
+                • <strong className="text-white">AI 매입(낙찰)가 산출 내역:</strong> <span className="text-blue-400 font-bold">{heydealerSummary.aiWholesalePrice.toLocaleString()}만원</span> (무사고 평균 {heydealerSummary.noAccAvg.toLocaleString()}만 대비 주행거리({mileageKm.toLocaleString()}km: {heydealerSummary.milAdj >= 0 ? `+${heydealerSummary.milAdj}` : heydealerSummary.milAdj}만), 옵션가치({heydealerSummary.optAdj >= 0 ? `+${heydealerSummary.optAdj}` : heydealerSummary.optAdj}만) 실시간 반영)
               </p>
               <p>
                 • <strong className="text-white">동급 경매 평균(내수):</strong> {heydealerSummary.avgPrice.toLocaleString()}만원 (무사고 {heydealerSummary.noAccAvg.toLocaleString()}만원 / 유사고 {heydealerSummary.accAvg.toLocaleString()}만원)

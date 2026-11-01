@@ -2070,7 +2070,7 @@ export function useBiddingCockpit({
     return filteredHeydealerBids[0] || null;
   }, [selectedHeydealerBidId, filteredHeydealerBids]);
 
-  // 헤이딜러 4개 메트릭 및 AI 판단 매입가 요약 통계 (순수 내수 기준 100% 실측 일치)
+  // 헤이딜러 4개 메트릭 및 AI 판단 매입가 요약 통계 (무사고 낙찰 기준)
   const heydealerSummary = useMemo(() => {
     const totalCount = filteredHeydealerBids.length;
     if (totalCount === 0) {
@@ -2116,7 +2116,7 @@ export function useBiddingCockpit({
     // 옵션 보정: 엔카 API 산출된 정밀 옵션가치 보정 사용
     let optAdj = backendEncarStats?.optAdj || 0;
 
-    const aiWholesalePrice = Math.max(10, avgPrice + milAdj + optAdj);
+    const aiWholesalePrice = Math.max(10, noAccAvg + milAdj + optAdj);
 
     return {
       hasData: true,
