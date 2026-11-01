@@ -43,19 +43,29 @@ export const BiddingCockpitV2Tab: React.FC = () => {
     ? `${cockpit.mileageKm.toLocaleString()}km`
     : '-';
 
-  // 2. 최종 소매가 1카드 (훅 값 그대로 사용, 0이거나 없으면 '-')
-  const finalPriceText = (cockpit.finalRetailPrice && cockpit.finalRetailPrice > 0)
-    ? `${cockpit.finalRetailPrice.toLocaleString()}만원`
-    : '-';
+  // 2. 상단 4칸 지표 (소매가 · 엔카평균 · 엔카시세 · 기준소매) 및 델타 계산
+  const finalPriceVal = (cockpit.finalRetailPrice && cockpit.finalRetailPrice > 0) ? cockpit.finalRetailPrice : 0;
+  const finalPriceText = finalPriceVal > 0 ? `${finalPriceVal.toLocaleString()}만원` : '-';
 
-  // 3. 참고 한 줄 (훅 값 그대로 사용, 0이거나 없으면 '-')
-  const rawStdVal = cockpit.encarStats?.rawStd100Price || 0;
   const cohortNoAccVal = cockpit.encarStats?.cohortNoAccAvg || 0;
+  const rawStdVal = cockpit.encarStats?.rawStd100Price || 0;
   const chaolmaRetailVal = cockpit.targetCarHistory?.chaolmaRetailPrice || 0;
 
-  const rawStdText = rawStdVal > 0 ? `${rawStdVal.toLocaleString()}만원` : '-';
   const cohortNoAccText = cohortNoAccVal > 0 ? `${cohortNoAccVal.toLocaleString()}만원` : '-';
+  const rawStdText = rawStdVal > 0 ? `${rawStdVal.toLocaleString()}만원` : '-';
   const chaolmaRetailText = chaolmaRetailVal > 0 ? `${chaolmaRetailVal.toLocaleString()}만원` : '-';
+
+  const formatDelta = (val: number, base: number) => {
+    if (!val || val <= 0 || !base || base <= 0) return null;
+    const diff = val - base;
+    if (diff > 0) return `+${diff}`;
+    if (diff < 0) return `${diff}`;
+    return '0';
+  };
+
+  const cohortDelta = formatDelta(cohortNoAccVal, finalPriceVal);
+  const rawStdDelta = formatDelta(rawStdVal, finalPriceVal);
+  const chaolmaDelta = formatDelta(chaolmaRetailVal, finalPriceVal);
 
   // 4. 조회 전 초기 상태 여부 판정 (차량명 없고, 조회 중도 아니며, 매물 목록도 없는 상태)
   const isInitialState =
@@ -218,39 +228,66 @@ export const BiddingCockpitV2Tab: React.FC = () => {
 
         {/* [메인 영역 (오른쪽, 나머지 너비)] */}
         <main className="flex-1 min-w-0 w-full space-y-4">
-          {/* 상단 2열: 최종 소매가 & 참고 지표 카드 (목업 구조) */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* 1) 최종 소매가 1카드 */}
-            <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-4 shadow-sm flex items-center justify-between">
-              <div>
-                <span className="text-xs font-semibold text-[#8b8e9d] uppercase tracking-wider block">
-                  최종 소매가
-                </span>
-                <p className="text-[11px] text-[#5e616e] mt-0.5">기존 콕핏 엔진 산출 검증 소매가</p>
-              </div>
-              <div className="text-right">
-                <span className="text-2xl sm:text-3xl font-black text-sky-400 font-mono tracking-tight">
+          {/* 상단 4칸 한 줄: 소매가 · 엔카평균 · 엔카시세 · 기준소매 */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {/* 1) 소매가 */}
+            <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-3.5 shadow-sm flex flex-col justify-between">
+              <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase">소매가</span>
+              <div className="mt-1 flex items-baseline">
+                <span className="text-xl sm:text-2xl font-black text-sky-400 font-mono tracking-tight">
                   {finalPriceText}
                 </span>
               </div>
             </div>
 
-            {/* 2) 참고 한 줄 (엔카 역산 기준가 · 무사고 평균 · 차얼마 기준소매가) */}
-            <div className="bg-[#0b0c10] border border-[#1b1e28] rounded-xl p-3.5 space-y-2 text-xs flex flex-col justify-center">
-              <span className="font-semibold text-[#8b8e9d] block text-[11px] uppercase">참고 지표</span>
-              <div className="grid grid-cols-3 gap-2 font-mono text-zinc-300 text-xs">
-                <div>
-                  <span className="text-zinc-500 text-[10px] block">엔카 역산 기준가</span>
-                  <strong className="text-zinc-100 font-bold text-xs truncate block">{rawStdText}</strong>
-                </div>
-                <div>
-                  <span className="text-zinc-500 text-[10px] block">무사고 평균</span>
-                  <strong className="text-zinc-100 font-bold text-xs truncate block">{cohortNoAccText}</strong>
-                </div>
-                <div>
-                  <span className="text-zinc-500 text-[10px] block">차얼마 기준소매가</span>
-                  <strong className="text-zinc-100 font-bold text-xs truncate block">{chaolmaRetailText}</strong>
-                </div>
+            {/* 2) 엔카평균 */}
+            <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-3.5 shadow-sm flex flex-col justify-between">
+              <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase">엔카평균</span>
+              <div className="mt-1 flex items-baseline justify-between gap-1 flex-wrap">
+                <span className="text-base sm:text-lg font-bold text-zinc-100 font-mono tracking-tight">
+                  {cohortNoAccText}
+                </span>
+                {cohortDelta && (
+                  <span className={`text-xs font-mono font-bold ${
+                    cohortDelta.startsWith('+') ? 'text-rose-400' : cohortDelta.startsWith('-') ? 'text-blue-400' : 'text-zinc-400'
+                  }`}>
+                    {cohortDelta}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {/* 3) 엔카시세 */}
+            <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-3.5 shadow-sm flex flex-col justify-between">
+              <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase">엔카시세</span>
+              <div className="mt-1 flex items-baseline justify-between gap-1 flex-wrap">
+                <span className="text-base sm:text-lg font-bold text-zinc-100 font-mono tracking-tight">
+                  {rawStdText}
+                </span>
+                {rawStdDelta && (
+                  <span className={`text-xs font-mono font-bold ${
+                    rawStdDelta.startsWith('+') ? 'text-rose-400' : rawStdDelta.startsWith('-') ? 'text-blue-400' : 'text-zinc-400'
+                  }`}>
+                    {rawStdDelta}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {/* 4) 기준소매 */}
+            <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-3.5 shadow-sm flex flex-col justify-between">
+              <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase">기준소매</span>
+              <div className="mt-1 flex items-baseline justify-between gap-1 flex-wrap">
+                <span className="text-base sm:text-lg font-bold text-zinc-100 font-mono tracking-tight">
+                  {chaolmaRetailText}
+                </span>
+                {chaolmaDelta && (
+                  <span className={`text-xs font-mono font-bold ${
+                    chaolmaDelta.startsWith('+') ? 'text-rose-400' : chaolmaDelta.startsWith('-') ? 'text-blue-400' : 'text-zinc-400'
+                  }`}>
+                    {chaolmaDelta}
+                  </span>
+                )}
               </div>
             </div>
           </div>
