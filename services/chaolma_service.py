@@ -353,16 +353,30 @@ class ChaolmaService:
         - 5년차 이상: 20% (0.20)
         """
         age_years = 3.0
+        parsed = False
 
         if release_date:
             try:
-                date_clean = re.sub(r"[^\d-]", "", release_date.strip())
-                if len(date_clean) >= 10:
-                    dt = datetime.strptime(date_clean[:10], "%Y-%m-%d")
+                raw_d = str(release_date).strip()
+                raw_d = raw_d.replace(".", "-").replace("/", "-")
+                date_clean = re.sub(r"[^\d-]", "", raw_d)
+
+                dt = None
+                m = re.match(r"^(\d{4})-(\d{1,2})-(\d{1,2})", date_clean)
+                if m:
+                    dt = datetime.strptime(f"{m.group(1)}-{int(m.group(2)):02d}-{int(m.group(3)):02d}", "%Y-%m-%d")
+                else:
+                    digits = re.sub(r"[^\d]", "", raw_d)
+                    if len(digits) == 8:
+                        dt = datetime.strptime(f"{digits[:4]}-{digits[4:6]}-{digits[6:8]}", "%Y-%m-%d")
+
+                if dt:
                     age_years = (datetime.now() - dt).days / 365.25
+                    parsed = True
             except Exception:
-                pass
-        elif year:
+                parsed = False
+
+        if not parsed and year:
             try:
                 yr = int(re.sub(r"[^\d]", "", str(year)))
                 age_years = max(0.0, datetime.now().year - yr + 0.5)
