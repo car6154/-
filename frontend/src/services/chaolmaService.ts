@@ -112,6 +112,7 @@ export interface ChaolmaResult {
   market_price_avg?: number;
   car_history?: ChaolmaCarHistory;
   origin_doc?: ChaolmaOriginDoc;
+  chaolma_retail_price?: number;
 }
 
 export const DEFAULT_OPTION_PRICES: Record<string, number> = {

@@ -43,6 +43,7 @@ class ChaolmaService:
     HISTORY_URL = "https://purchase.autoplus.co.kr/ajax/getPurchaseInfoList"
     CAR_HISTORY_URL = "https://purchase.autoplus.co.kr/ajax/getCarHistory"
     ORIGIN_DOC_URL = "https://purchase.autoplus.co.kr/ajax/getCarOriginDocData"
+    MARKET_PRICE_URL = "https://purchase.autoplus.co.kr/ajax/getDaaMarketPriceModel"
 
     @classmethod
     def clear_cache(cls):
@@ -163,6 +164,24 @@ class ChaolmaService:
                         doc_res = cls.fetch_car_origin_doc(car_no)
                         if doc_res and doc_res.get("success"):
                             parsed["origin_doc"] = doc_res
+                    except Exception:
+                        pass
+
+                    # 3. 차얼마 공식 시세(기준소매가) 자동 결합 조회 (참고 지표용, 실패해도 스펙·옵션·보험 유지)
+                    parsed["chaolma_retail_price"] = 0
+                    try:
+                        ap_id = car_data.get("apModelId") or parsed.get("ap_model_id") or ""
+                        rel_d = car_data.get("firstDate") or parsed.get("release_date") or ""
+                        n_p = car_data.get("newPrice") or parsed.get("base_car_price") or parsed.get("new_car_price") or 0
+                        mp_res = cls.fetch_daa_market_price(
+                            ap_model_id=ap_id,
+                            release_date=rel_d,
+                            mileage=mileage,
+                            new_price=n_p,
+                            car_no=car_no
+                        )
+                        if mp_res and mp_res.get("success"):
+                            parsed["chaolma_retail_price"] = mp_res.get("retail_price_man", 0)
                     except Exception:
                         pass
 
@@ -321,6 +340,8 @@ class ChaolmaService:
         return {
             "success": True,
             "car_no": car_no,
+            "ap_model_id": c_data.get("apModelId") or "",
+            "chaolma_retail_price": 0,
             "vin": c_data.get("vin") or jf.get("vin") or "",
             "maker": maker,
             "model_name": model_name,
@@ -768,4 +789,68 @@ class ChaolmaService:
             return {"success": False, "message": "등록원부 서버 응답 시간 초과 (10초)"}
         except Exception as e:
             return {"success": False, "message": f"등록원부 조회 중 오류: {str(e)}"}
+
+    @classmethod
+    def fetch_daa_market_price(
+        cls,
+        ap_model_id: Any,
+        release_date: str,
+        mileage: int,
+        new_price: Any,
+        car_no: str = ""
+    ) -> Dict[str, Any]:
+        """
+        차얼마(오토플러스) getDaaMarketPriceModel API를 호출하여 공식 기준소매가 조회 (참고 지표 전용)
+        - 실패하거나 데이터가 없어도 전체 조회를 막지 않고 안전하게 기본값 반환
+        """
+        if not ap_model_id:
+            return {"success": False, "message": "apModelId 누락"}
+
+        cookie = cls.get_cookie()
+        if not cookie:
+            return {"success": False, "message": "차얼마 로그인 쿠키 없음"}
+
+        clean_no = str(car_no).replace(" ", "").strip()
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36",
+            "Cookie": cookie,
+            "X-Requested-With": "XMLHttpRequest",
+            "X-Ajax-call": "true",
+            "Referer": f"https://purchase.autoplus.co.kr/purchase/PCVP010001?brCd=00244&tsKey=&seriesNo=&carNumber={urllib.parse.quote(clean_no)}&carNavi={mileage}",
+            "Accept": "application/json, text/javascript, */*; q=0.01",
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+        }
+
+        data_payload = {
+            "apModelId": str(ap_model_id).strip(),
+            "releaseDate": str(release_date or "").strip(),
+            "carNavi": str(mileage) if mileage > 0 else "50000",
+            "newPrice": str(new_price or 0).strip()
+        }
+
+        try:
+            resp = requests.post(cls.MARKET_PRICE_URL, data=data_payload, headers=headers, timeout=10)
+            if resp.status_code == 200:
+                res_json = resp.json()
+                header = res_json.get("header", {})
+                if header.get("isSuccessful"):
+                    d = res_json.get("data") or {}
+                    raw_retail = d.get("retailPrice")
+                    retail_man = 0
+                    if raw_retail is not None:
+                        try:
+                            val_float = float(str(raw_retail).strip())
+                            retail_man = int(round(val_float / 10000.0))
+                        except (ValueError, TypeError):
+                            retail_man = 0
+
+                    return {
+                        "success": True,
+                        "retail_price_man": retail_man,
+                        "raw_retail_price": raw_retail
+                    }
+            return {"success": False, "message": f"시세 응답 오류 (상태코드: {resp.status_code})"}
+        except Exception as e:
+            return {"success": False, "message": f"시세 조회 예외 발생: {str(e)}"}
+
 

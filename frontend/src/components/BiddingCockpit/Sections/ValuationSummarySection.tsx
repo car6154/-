@@ -948,20 +948,15 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
                     </div>
                   </div>
 
-                  {/* 💡 [참고 기준] 엔카 순수 기준값 및 차얼마 시세 참고 줄 (최종 소매가 미영향, 단순 참고 표시) */}
+                  {/* 💡 [참고 기준] 엔카 순수 기준값 및 차얼마 기준소매가 참고 줄 (최종 소매가 미영향, 단순 참고 표시) */}
                   {(() => {
                     const rawStd = encarStats?.rawStd100Price || encarStats?.raw_std_100_price || encarValuation?.rawStd100Price || encarValuation?.raw_std_100_price || 0;
                     const cohortAvg = encarStats?.cohortNoAccAvg || encarStats?.cohort_no_acc_avg || encarValuation?.cohortNoAccAvg || encarValuation?.cohort_no_acc_avg || 0;
-                    const chHist = targetCarHistory?.rawHistory || targetCarHistory;
-                    const chMin = Number(chHist?.market_price_min ?? targetCarHistory?.marketPriceMin ?? 0);
-                    const chMax = Number(chHist?.market_price_max ?? targetCarHistory?.marketPriceMax ?? 0);
-                    const chAvg = Number(chHist?.market_price_avg ?? targetCarHistory?.marketPriceAvg ?? (chMin > 0 && chMax > 0 ? Math.round((chMin + chMax) / 2) : 0));
+                    const chaolmaRetailP = Number(targetCarHistory?.chaolmaRetailPrice || (targetCarHistory?.rawHistory as any)?.chaolma_retail_price || 0);
 
                     const rawStdText = rawStd > 0 ? `${rawStd.toLocaleString()}만` : '-';
                     const cohortAvgText = cohortAvg > 0 ? `${cohortAvg.toLocaleString()}만` : '-';
-                    const chText = (chMin > 0 && chMax > 0)
-                      ? `${chMin.toLocaleString()}~${chMax.toLocaleString()}만 (평균 ${chAvg.toLocaleString()}만)`
-                      : '-';
+                    const chRetailText = chaolmaRetailP > 0 ? `${chaolmaRetailP.toLocaleString()}만` : '-';
 
                     return (
                       <div className="px-2.5 py-1.5 rounded-lg bg-[#0a0d14] border border-[#1b2233] text-[11px] text-zinc-400 flex items-center justify-between flex-wrap gap-1 shadow-inner">
@@ -974,7 +969,7 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
                           <span className="text-zinc-600">|</span>
                           <span>무사고 평균 <strong className="text-zinc-100 font-bold">{cohortAvgText}</strong></span>
                           <span className="text-zinc-600">|</span>
-                          <span>차얼마 시세 <strong className="text-zinc-100 font-bold">{chText}</strong></span>
+                          <span>차얼마 기준소매가 <strong className="text-zinc-100 font-bold">{chRetailText}</strong></span>
                         </div>
                       </div>
                     );

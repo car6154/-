@@ -100,6 +100,7 @@ export function useBiddingCockpit({
     marketPriceMax?: number;
     marketPriceAvg?: number;
     marketPriceRange?: string;
+    chaolmaRetailPrice?: number;
     rawHistory?: ChaolmaCarHistory;
     originDoc?: ChaolmaOriginDoc;
   } | null>(null);
@@ -991,6 +992,7 @@ export function useBiddingCockpit({
             marketPriceMax: ch?.market_price_max ?? (res as any)?.market_price_max ?? 0,
             marketPriceAvg: ch?.market_price_avg ?? (res as any)?.market_price_avg ?? 0,
             marketPriceRange: ch?.market_price_range ?? (res as any)?.market_price_range ?? "",
+            chaolmaRetailPrice: (res as any)?.chaolma_retail_price ?? 0,
             rawHistory: ch,
             originDoc: doc
           });
@@ -1516,6 +1518,7 @@ export function useBiddingCockpit({
                   marketPriceMax: ch?.market_price_max ?? (chRes as any)?.market_price_max ?? 0,
                   marketPriceAvg: ch?.market_price_avg ?? (chRes as any)?.market_price_avg ?? 0,
                   marketPriceRange: ch?.market_price_range ?? (chRes as any)?.market_price_range ?? "",
+                  chaolmaRetailPrice: (chRes as any)?.chaolma_retail_price ?? 0,
                   rawHistory: ch,
                   originDoc: doc
                 };
@@ -1527,6 +1530,7 @@ export function useBiddingCockpit({
               standardNewCarPrice: stdP > 0 ? stdP : prev.standardNewCarPrice,
               baseCarPrice: baseP > 0 ? baseP : prev.baseCarPrice,
               totalOptionPrice: optP > 0 ? optP : prev.totalOptionPrice,
+              chaolmaRetailPrice: (chRes as any)?.chaolma_retail_price ?? prev.chaolmaRetailPrice ?? 0,
               vin: chRes.vin || (doc ? doc.raw_doc?.VIN : '') || prev.vin || '',
               manufacturedDate: chRes.release_date || (ch ? ch.first_reg_date : '') || (doc ? doc.first_regist_date : '') || prev.manufacturedDate || '',
               ownerChangedCount: (prev.ownerChangedCount === 0 && ch && ch.owner_changed_count > 0) ? ch.owner_changed_count : prev.ownerChangedCount,
