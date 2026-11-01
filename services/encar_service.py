@@ -276,7 +276,7 @@ class Scraper:
                         price = opt.get("price", 0)
                         try:
                             p_val = int(price)
-                            if p_val > 0:
+                            if p_val > 0 and "외장컬러" not in name:
                                 comp_opt_new += p_val
                         except Exception:
                             p_val = 0

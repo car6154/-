@@ -1458,9 +1458,11 @@ def search_encar_market(req: EncarSearchRequest):
                             if o_res.status_code == 200 and isinstance(o_res.json(), list):
                                 for opt in o_res.json():
                                     if isinstance(opt, dict) and str(opt.get("optionCd", "")) in choice_codes:
+                                        raw_name = opt.get("optionName", "")
+                                        name = Scraper.clean_option_name(raw_name)
                                         try:
                                             p_val = int(opt.get("price", 0))
-                                            if p_val > 0:
+                                            if p_val > 0 and "외장컬러" not in name:
                                                 comp_opt_new += p_val
                                         except Exception:
                                             pass
