@@ -148,7 +148,7 @@ export const SelectedKcarDetailV2Section: React.FC<SelectedKcarDetailV2SectionPr
 
   return (
     <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl overflow-hidden shadow-sm space-y-0">
-      {/* 1. 상단 바 (차명 원본링크, 등급, 직영 뱃지, 우측 옵션합계 뱃지) */}
+      {/* 1. 상단 바 (차명 원본링크, 등급, 우측 옵션합계 뱃지) */}
       <div className="px-5 py-3.5 border-b border-[#1e2029] flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2 flex-wrap min-w-0">
           <a
@@ -161,9 +161,6 @@ export const SelectedKcarDetailV2Section: React.FC<SelectedKcarDetailV2SectionPr
             <span>{carName}</span>
             <ExternalLink className="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 transition shrink-0" />
           </a>
-          <span className="px-1.5 py-0.5 rounded bg-orange-500/20 text-orange-300 font-extrabold text-[10px] border border-orange-500/40 shrink-0">
-            K-Car 직영
-          </span>
           {gradeName && (
             <span className="text-xs sm:text-sm text-zinc-300 font-semibold truncate">
               {gradeName}
@@ -334,3 +331,4 @@ export const SelectedKcarDetailV2Section: React.FC<SelectedKcarDetailV2SectionPr
     </div>
   );
 };
+

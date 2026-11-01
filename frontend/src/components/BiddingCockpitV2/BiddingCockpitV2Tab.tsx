@@ -288,9 +288,9 @@ export const BiddingCockpitV2Tab: React.FC = () => {
                 </div>
               </div>
 
-              {/* 탭 본문 (엔카 또는 케이카 비교 목록): 상세 스펙 높이(실측 약 640px)에 맞춘 내부 세로 스크롤 래퍼 */}
+              {/* 탭 본문 (엔카 또는 케이카 비교 목록): 마운트 유지 및 hidden 토글로 탭 전환 시 캐시 보존 및 무재호출 보장 */}
               <div className="max-h-[640px] overflow-y-auto rounded-xl">
-                {activeCompTab === 'encar' ? (
+                <div className={activeCompTab === 'encar' ? 'block' : 'hidden'}>
                   <ComparableEncarV2Section
                     encarList={cockpit.encarList || []}
                     selectedEncarId={cockpit.selectedEncarId}
@@ -302,7 +302,8 @@ export const BiddingCockpitV2Tab: React.FC = () => {
                     targetMileageKm={cockpit.mileageKm || 0}
                     errorMessage={cockpit.encarErrorMessage}
                   />
-                ) : (
+                </div>
+                <div className={activeCompTab === 'kcar' ? 'block' : 'hidden'}>
                   <ComparableKcarV2Section
                     kcarList={cockpit.kcarStats?.cars || []}
                     selectedCarCd={selectedKcarCarCd}
@@ -314,22 +315,23 @@ export const BiddingCockpitV2Tab: React.FC = () => {
                     isInitialState={isInitialState}
                     errorMessage={cockpit.kcarStats?.message}
                   />
-                )}
+                </div>
               </div>
             </div>
 
-            {/* 우측 절반: 선택 차량 상세 & 2D 상태도 (엔카 / 케이카 탭 전환) */}
+            {/* 우측 절반: 선택 차량 상세 & 2D 상태도 (엔카 / 케이카 탭 전환 시 마운트 유지하여 상세 캐시 무재호출 보장) */}
             <div className="min-w-0 w-full">
-              {activeCompTab === 'encar' ? (
+              <div className={activeCompTab === 'encar' ? 'block' : 'hidden'}>
                 <SelectedCarDetailV2Section
                   selectedEncar={cockpit.selectedEncar}
                   isInspectionLoading={cockpit.isInspectionLoading}
                 />
-              ) : (
+              </div>
+              <div className={activeCompTab === 'kcar' ? 'block' : 'hidden'}>
                 <SelectedKcarDetailV2Section
                   selectedKcar={selectedKcar}
                 />
-              )}
+              </div>
             </div>
           </div>
         </main>

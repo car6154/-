@@ -1757,7 +1757,7 @@ export function useBiddingCockpit({
     if (!baseEncarList || baseEncarList.length === 0) return;
 
     let isCancelled = false;
-    const prefetchList = baseEncarList.slice(0, 30); // 상위 30대 우선 프리패치
+    const prefetchList = baseEncarList; // 목록 전체 순차 프리패치
 
     const runPrefetch = async () => {
       for (const car of prefetchList) {

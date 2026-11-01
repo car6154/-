@@ -18,8 +18,8 @@ export interface DamagePart {
 
 // 외판 부위 (사이드실 패널을 차체 바닥 양측면에 맞추어 완벽히 정렬)
 export const outerParts: DamagePart[] = [
-  { code: 'RADIATOR_SUPPORT', kw: ['라디에이터', '라디에이터서포트', 'radiator_support', 'radiator'], exclude: [], x: 55, y: 14, w: 110, h: 16, label: 'R.S', full: '라디에이터 서포트' },
-  { code: 'HOOD', kw: ['후드', '보닛', '본넷', 'hood', 'bonnet', 'p010'], exclude: [], x: 55, y: 33, w: 110, h: 44, label: '후드', full: '후드(보닛)' },
+  { code: 'RADIATOR_SUPPORT', kw: ['라디에이터', '라디에이터서포트', 'radiator_support', 'radiator'], exclude: [], x: 55, y: 32, w: 110, h: 16, label: 'R.S', full: '라디에이터 서포트' },
+  { code: 'HOOD', kw: ['후드', '보닛', '본넷', 'hood', 'bonnet', 'p010'], exclude: [], x: 55, y: 51, w: 110, h: 44, label: '후드', full: '후드(보닛)' },
   { code: 'F_FENDER_L', kw: ['앞휀더(좌)', '앞휀더좌', '프론트휀더(좌)', 'front_fender_left', 'front-fender-left', 'front_fender_l', 'f_fender_l', 'p021'], exclude: ['뒤', '리어', 'rear', '우', 'right'], x: 18, y: 25, w: 33, h: 65, label: 'F휀', full: '프론트 휀더(좌)' },
   { code: 'F_FENDER_R', kw: ['앞휀더(우)', '앞휀더우', '프론트휀더(우)', 'front_fender_right', 'front-fender-right', 'front_fender_r', 'f_fender_r', 'p022'], exclude: ['뒤', '리어', 'rear', '좌', 'left'], x: 169, y: 25, w: 33, h: 65, label: 'F휀', full: '프론트 휀더(우)' },
   { code: 'SIDE_SILL_L', kw: ['사이드실(좌)', '사이드실좌', '사이드실패널(좌)', 'side_sill_left', 'side-sill-left', 'sidesill-left', 'side_sill_l', 'p081'], exclude: ['우', 'right'], x: 18, y: 95, w: 12, h: 130, label: '실', full: '사이드실 패널(좌)' },
@@ -30,7 +30,7 @@ export const outerParts: DamagePart[] = [
   { code: 'REAR_DOOR_R', kw: ['뒤문(우)', '뒷문(우)', '뒤문우', '뒷문우', '뒤도어(우)', '뒤도어우', '리어도어(우)', 'rear_door_right', 'rear-door-right', 'back-door-right', 'back_door_right', 'rear_door_r', 'p034'], exclude: ['앞', '프론트', 'front', '좌', 'left'], x: 153, y: 163, w: 34, h: 60, label: 'R도', full: '리어 도어(우)' },
   { code: 'QUARTER_L', kw: ['쿼터(좌)', '쿼터좌', '뒤휀더(좌)', '뒤휀더좌', '리어휀더(좌)', '쿼터패널(좌)', 'quarter_panel_left', 'quarter-panel-left', 'quarter_panel_l', 'quarter_l', 'p061'], exclude: ['앞', '프론트', 'front', '우', 'right'], x: 18, y: 230, w: 48, h: 60, label: '쿼터', full: '쿼터 패널(좌)' },
   { code: 'QUARTER_R', kw: ['쿼터(우)', '쿼터우', '뒤휀더(우)', '뒤휀더우', '리어휀더(우)', '쿼터패널(우)', 'quarter_panel_right', 'quarter-panel-right', 'quarter_panel_r', 'quarter_r', 'p062'], exclude: ['앞', '프론트', 'front', '좌', 'left'], x: 154, y: 230, w: 48, h: 60, label: '쿼터', full: '쿼터 패널(우)' },
-  { code: 'ROOF', kw: ['루프', '루프패널', 'roof', 'p070'], exclude: [], x: 70, y: 80, w: 80, h: 145, label: '루프', full: '루프 패널' },
+  { code: 'ROOF', kw: ['루프', '루프패널', 'roof', 'p070'], exclude: [], x: 70, y: 98, w: 80, h: 127, label: '루프', full: '루프 패널' },
   { code: 'TRUNK', kw: ['트렁크리드', '트렁크 리드', '트렁크', 'trunk_lid', 'trunk', 'p040', 'p041'], exclude: ['플로어', '바닥', 'floor'], x: 70, y: 230, w: 80, h: 60, label: 'TR', full: '트렁크리드' }
 ];
 
@@ -51,7 +51,7 @@ export const innerParts: DamagePart[] = [
   { code: 'B_PILLAR_R', kw: ['b필러(우)', 'b필러우', 'b_pillar_r', 'b-pillar-right'], exclude: ['좌', 'left'], x: 186, y: 177, w: 16, h: 24, label: 'B', full: 'B필러(우)' },
   { code: 'C_PILLAR_L', kw: ['c필러(좌)', 'c필러좌', 'c_pillar_l', 'c-pillar-left'], exclude: ['우', 'right'], x: 18, y: 204, w: 16, h: 24, label: 'C', full: 'C필러(좌)' },
   { code: 'C_PILLAR_R', kw: ['c필러(우)', 'c필러우', 'c_pillar_r', 'c-pillar-right'], exclude: ['좌', 'left'], x: 186, y: 204, w: 16, h: 24, label: 'C', full: 'C필러(우)' },
-  { code: 'FLOOR_PANEL', kw: ['플로어패널', '플로어 패널', 'floor_panel', 'floor-panel'], exclude: ['트렁크', 'trunk'], x: 37, y: 114, w: 146, h: 112, label: '플로어 패널', full: '플로어 패널' },
+  { code: 'FLOOR_PANEL', kw: ['플로어패널', '플로어 패널', 'floor_panel', 'floor-panel'], exclude: ['트렁크', 'trunk'], x: 51, y: 114, w: 118, h: 112, label: '플로어 패널', full: '플로어 패널' },
   { code: 'SIDE_MEMBER_REAR_L', kw: ['리어사이드멤버(좌)', '뒤사이드멤버(좌)', 'side_member_rear_left', 'sidemember-back-left', 'side_member_rear_l', 'rear_side_member_l', 'p141'], exclude: ['앞', '프론트', 'front', '우', 'right'], x: 18, y: 231, w: 33, h: 58, label: 'R멤', full: '리어 사이드멤버(좌)' },
   { code: 'SIDE_MEMBER_REAR_R', kw: ['리어사이드멤버(우)', '뒤사이드멤버(우)', 'side_member_rear_right', 'sidemember-back-right', 'side_member_rear_r', 'rear_side_member_r', 'p142'], exclude: ['앞', '프론트', 'front', '좌', 'left'], x: 169, y: 231, w: 33, h: 58, label: 'R멤', full: '리어 사이드멤버(우)' },
   { code: 'TRUNK_FLOOR', kw: ['트렁크플로어', '트렁크 플로어', '트렁크바닥', 'trunk_floor', 'trunk-floor-panel', 'p150'], exclude: ['리드', 'lid'], x: 55, y: 230, w: 110, h: 58, label: '트렁크플로어', full: '트렁크 플로어' },
