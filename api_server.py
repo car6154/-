@@ -1577,9 +1577,37 @@ def search_encar_market(req: EncarSearchRequest):
                     sigma_rate = 0.0
                     no_acc_price = mil_adj_price
 
+                # 비교 매물 연식: 형식연도와 최초등록일 중 더 오래된 연식 선택 (없으면 기존 year 필드 또는 목표차 연식 폴백)
+                comp_yr_str = str(s_row.get('연식', ''))
+                comp_y = 0
+                m_comp_yr = re.search(r'(\d{2,4})\s*\(\s*(\d{2,4})\s*\)', comp_yr_str)
+                if m_comp_yr:
+                    c_ry = int(m_comp_yr.group(1))
+                    c_fy = int(m_comp_yr.group(2))
+                    if c_ry < 100: c_ry += 2000
+                    if c_fy < 100: c_fy += 2000
+                    comp_y = min(c_ry, c_fy)
+                else:
+                    m_comp_single = re.search(r'(\d{2,4})', comp_yr_str)
+                    if m_comp_single:
+                        c_sy = int(m_comp_single.group(1))
+                        comp_y = c_sy + 2000 if c_sy < 100 else c_sy
+                    else:
+                        comp_y = target_year_val
+
+                comp_age = max(0, curr_year - comp_y)
+                if comp_age <= 1:
+                    comp_opt_ratio = 0.80
+                elif comp_age <= 3:
+                    comp_opt_ratio = 0.50
+                elif comp_age <= 5:
+                    comp_opt_ratio = 0.35
+                else:
+                    comp_opt_ratio = 0.20
+
                 # 3) 옵션 델타: 목표 옵션 잔존가 - 비교차 옵션 잔존가 (100% 반영, 비율·캡 없음, 깡통차 포함)
                 target_opt_res_val = int(round(target_opt_new * opt_ratio))
-                comp_opt_res_val = int(round(comp_opt_new * opt_ratio))
+                comp_opt_res_val = int(round(comp_opt_new * comp_opt_ratio))
                 opt_delta = target_opt_res_val - comp_opt_res_val
 
                 # 4) 대당 보정가 = 무사고 환산가 + 옵션 델타
@@ -2276,15 +2304,27 @@ def search_cockpit_unified(req: CockpitSearchRequest):
                         raw_gd = str(chaolma_res.get("grade_detail_name") or "").strip()
                     if not manufacturer and chaolma_res.get("maker"):
                         manufacturer = chaolma_res.get("maker")
-                    if not year and chaolma_res.get("model_year"):
-                        try:
-                            ym = re.search(r"\d+", str(chaolma_res.get("model_year")))
-                            if ym:
-                                y = int(ym.group(0))
-                                if y > 2000: y -= 2000
-                                year = y
-                        except Exception:
-                            pass
+                    if not year:
+                        ch_my = chaolma_res.get("model_year")
+                        ch_ry = chaolma_res.get("reg_year")
+                        y_m = 0
+                        y_r = 0
+                        if ch_my:
+                            m_match = re.search(r"\d+", str(ch_my))
+                            if m_match:
+                                y = int(m_match.group(0))
+                                y_m = (y - 2000) if y > 2000 else y
+                        if ch_ry:
+                            r_match = re.search(r"\d+", str(ch_ry))
+                            if r_match:
+                                y = int(r_match.group(0))
+                                y_r = (y - 2000) if y > 2000 else y
+                        if y_m > 0 and y_r > 0:
+                            year = min(y_m, y_r)
+                        elif y_m > 0:
+                            year = y_m
+                        elif y_r > 0:
+                            year = y_r
             except Exception as e_ch:
                 fail_reasons["chaolma"] = str(e_ch)
         else:

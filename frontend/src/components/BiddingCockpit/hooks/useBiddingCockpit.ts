@@ -1147,24 +1147,36 @@ export function useBiddingCockpit({
         if (cBrand) setManufacturer(cBrand);
         setDetailModel(cGrade);
 
-        // 💡 [연식/형식 엄격 구분 - Streamlit app.py 1110~1114행 100% 동일]
-        // initial_registration_date: 최초등록일 기준 연식 (예: 2020-07-23 -> 20 / '20년식')
-        // year: 모델 형식연도 (예: 2021년형 -> '21년형')
+        // 💡 [연식/형식 통일: 형식연도와 최초등록일 중 더 오래된 연식(숫자가 작은 쪽) 선택]
+        // initial_registration_date: 최초등록일 기준 연식 (예: 2026-03-01 -> 26)
+        // year: 모델 형식연도 (예: 2025년형 -> 25)
+        // -> 둘 다 있으면 Math.min(regYearVal, formYearVal), 하나만 있으면 있는 쪽 사용
         const initRegDate = detail.initial_registration_date || detail.vehicle_information?.initial_registration_date || carData.initial_registration_date || '';
-        let resolvedYear = 0;
+        let regYearVal = 0;
         if (initRegDate) {
           const m = String(initRegDate).match(/(\d{4})/);
           if (m) {
             let y = parseInt(m[1], 10);
             if (y > 2000) y -= 2000;
-            resolvedYear = y;
+            regYearVal = y;
           }
         }
-        if (!resolvedYear && rawYear) {
+        let formYearVal = 0;
+        if (rawYear) {
           let y = typeof rawYear === 'number' ? rawYear : parseInt(String(rawYear).match(/\d+/)?.[0] || '0', 10);
           if (y > 2000) y -= 2000;
-          resolvedYear = y;
+          formYearVal = y;
         }
+
+        let resolvedYear = 0;
+        if (regYearVal > 0 && formYearVal > 0) {
+          resolvedYear = Math.min(regYearVal, formYearVal);
+        } else if (regYearVal > 0) {
+          resolvedYear = regYearVal;
+        } else if (formYearVal > 0) {
+          resolvedYear = formYearVal;
+        }
+
         if (resolvedYear > 0) {
           setYearModel(resolvedYear);
         }

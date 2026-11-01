@@ -4037,24 +4037,32 @@ def fetch_kcar_market_stats(
     }
 
     def _extract_kcar_year(r_dict: dict) -> tuple[int, str]:
-        """K-Car 매물의 최초등록일(mfgDt: YYYYMM) 우선 연식 추출 (부재 시 prdcnYr 폴백)"""
+        """K-Car 매물의 형식연도(prdcnYr)와 최초등록일(mfgDt) 중 더 오래된 연식 선택"""
         mfg = str(r_dict.get('mfgDt') or '').strip()
+        prd = str(r_dict.get('prdcnYr') or '').strip()
+        reg_y = 0
+        form_y = 0
         if mfg:
             m = re.search(r'^(20\d{2}|19\d{2})', mfg)
             if m:
-                full_y = int(m.group(1))
-                return full_y, mfg
+                reg_y = int(m.group(1))
 
-        prd = str(r_dict.get('prdcnYr') or '').strip()
         if prd:
             m = re.search(r'(\d{4})', prd)
             if m:
-                full_y = int(m.group(1))
-                return full_y, prd
-            m_2d = re.search(r'(\d{2})', prd)
-            if m_2d:
-                full_y = 2000 + int(m_2d.group(1))
-                return full_y, prd
+                form_y = int(m.group(1))
+            else:
+                m_2d = re.search(r'(\d{2})', prd)
+                if m_2d:
+                    form_y = 2000 + int(m_2d.group(1))
+
+        if reg_y > 0 and form_y > 0:
+            full_y = min(reg_y, form_y)
+            return full_y, mfg or prd
+        elif reg_y > 0:
+            return reg_y, mfg
+        elif form_y > 0:
+            return form_y, prd
 
         return 0, ""
 

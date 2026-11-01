@@ -450,7 +450,7 @@ class DataProcessor:
         is_van = bool(re.search(r'(?:\b|[^a-zA-Z0-9가-힣])(?:밴|van|카고)(?:\b|[^a-zA-Z0-9가-힣]|$)', clean_text))
         body_type = 'van' if is_van else 'passenger'
 
-        # 1. 연식 (등록연도와 형식연도 분리 저장, 엄격 계산 기준은 최초등록연도 유지)
+        # 1. 연식 (등록연도와 형식연도 분리 저장, 엄격 계산 기준은 더 오래된 연식 선택)
         parsed_year = 0
         reg_year = 0
         form_year = 0
@@ -460,7 +460,7 @@ class DataProcessor:
             y2 = int(m_paren.group(2))
             reg_year = y1 if y1 >= 1900 else 2000 + y1
             form_year = y2 if y2 >= 1900 else 2000 + y2
-            parsed_year = reg_year
+            parsed_year = min(reg_year, form_year)
         elif mfg_date:
             m_mfg = re.search(r'(\d{4})', str(mfg_date))
             if m_mfg:
