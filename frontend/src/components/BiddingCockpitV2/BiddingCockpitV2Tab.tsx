@@ -405,6 +405,34 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
               </div>
             </div>
 
+            {/* 매입 비용 내역 (권장/최종 매입가, 예상마진, 수수료·수리·잡비) */}
+            <div className="bg-emerald-500/10 border border-emerald-500/30 p-2.5 rounded-lg space-y-1.5">
+              <div className="flex justify-between items-baseline">
+                <div className="text-xs font-bold text-zinc-300">
+                  {cockpit.userBid > 0 && cockpit.userBid !== cockpit.safeBidCeiling ? (
+                    <span>최종 매입가 <small className="text-zinc-400 font-normal">(권장 {cockpit.safeBidCeiling.toLocaleString()}만)</small></span>
+                  ) : (
+                    <span className="text-zinc-300">권장 매입가</span>
+                  )}
+                </div>
+                <div className="text-lg font-black text-emerald-400 tracking-tight font-mono">
+                  {(cockpit.userBid > 0 ? cockpit.userBid : cockpit.safeBidCeiling).toLocaleString()}{' '}
+                  <span className="text-xs font-bold text-zinc-300">만원</span>
+                </div>
+              </div>
+
+              <div className="flex justify-between items-center pt-1.5 border-t border-dashed border-emerald-500/20 text-xs">
+                <span className="text-zinc-300 font-medium">예상마진</span>
+                <span className="text-blue-400 font-black font-mono">
+                  {cockpit.actualMargin >= 0 ? `+${Math.round(cockpit.actualMargin).toLocaleString()}` : Math.round(cockpit.actualMargin).toLocaleString()}만원
+                </span>
+              </div>
+
+              <div className="text-[10.5px] text-zinc-400 pt-0.5 font-mono">
+                수수료: {cockpit.actualPurchaseFee}만 · 수리: {cockpit.repairCostTotal}만 · 잡비: 15만
+              </div>
+            </div>
+
             {/* 특이사항 메모 */}
             <div className="space-y-1">
               <span className="text-[11px] text-zinc-400 block">특이사항 메모</span>
