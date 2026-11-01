@@ -133,7 +133,6 @@ export const SelectedHeydealerBidDetailV2Section: React.FC<SelectedHeydealerBidD
     }
 
     if (!carKey || carKey.startsWith('hd_bid_')) {
-      heydealerOptionsCache.set(bidId, []);
       setFetchedOptions(null);
       return;
     }
@@ -159,17 +158,17 @@ export const SelectedHeydealerBidDetailV2Section: React.FC<SelectedHeydealerBidD
               .map((s: string) => s.trim())
               .filter(Boolean);
           }
-          heydealerOptionsCache.set(bidId, opts);
-          setFetchedOptions(opts);
+          if (opts.length > 0) {
+            heydealerOptionsCache.set(bidId, opts);
+          }
+          setFetchedOptions(opts.length > 0 ? opts : null);
         } else {
-          // 실패(LOGIN_REQUIRED 포함) 또는 빈 결과면 재조회 방지 캐시 및 null 유지
-          heydealerOptionsCache.set(bidId, []);
+          // 실패(LOGIN_REQUIRED 포함) 또는 빈 결과 시 캐시하지 않고 null 유지 (추후 세션 연동 시 재시도 가능)
           setFetchedOptions(null);
         }
       })
       .catch(() => {
         if (!isCancelled) {
-          heydealerOptionsCache.set(bidId, []);
           setFetchedOptions(null);
         }
       });
@@ -179,29 +178,8 @@ export const SelectedHeydealerBidDetailV2Section: React.FC<SelectedHeydealerBidD
     };
   }, [selectedHeydealerBid?.id, selectedHeydealerBid?.link, selectedHeydealerBid?.keyOptions, selectedHeydealerBid?.options]);
 
-  if (!selectedHeydealerBid) {
-    return (
-      <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-6 text-center text-xs text-zinc-500">
-        선택된 헤이딜러 매물이 없습니다.
-      </div>
-    );
-  }
-
-  // 최종 표시할 주요옵션 목록 결정 (목록 keyOptions -> 비동기 조회 fetchedOptions 순)
-  const displayKeyOptions =
-    selectedHeydealerBid.keyOptions && selectedHeydealerBid.keyOptions.length > 0
-      ? selectedHeydealerBid.keyOptions
-      : fetchedOptions && fetchedOptions.length > 0
-      ? fetchedOptions
-      : null;
-
-  // 주요옵션 텍스트 정리 (빈 문자열 또는 '-'는 무옵션으로 처리)
-  const fallbackOptionsText =
-    selectedHeydealerBid.options && selectedHeydealerBid.options !== '-'
-      ? selectedHeydealerBid.options.trim()
-      : '';
-
   // 2D 상태도용 수리 부위 매핑 (교환: replaces, 판금/용접: repairs)
+  // Hook 규칙 준수: 조기 반환(if (!selectedHeydealerBid))보다 먼저 최상위에서 무조건 호출하여 Hook 개수 일치 보장
   const diagramEncar = React.useMemo(() => {
     if (!selectedHeydealerBid?.repairs || selectedHeydealerBid.repairs.length === 0) {
       return { replaces: [], repairs: [] };
@@ -224,6 +202,28 @@ export const SelectedHeydealerBidDetailV2Section: React.FC<SelectedHeydealerBidD
 
     return { replaces, repairs };
   }, [selectedHeydealerBid?.repairs]);
+
+  if (!selectedHeydealerBid) {
+    return (
+      <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-6 text-center text-xs text-zinc-500">
+        선택된 헤이딜러 매물이 없습니다.
+      </div>
+    );
+  }
+
+  // 최종 표시할 주요옵션 목록 결정 (목록 keyOptions -> 비동기 조회 fetchedOptions 순)
+  const displayKeyOptions =
+    selectedHeydealerBid.keyOptions && selectedHeydealerBid.keyOptions.length > 0
+      ? selectedHeydealerBid.keyOptions
+      : fetchedOptions && fetchedOptions.length > 0
+        ? fetchedOptions
+        : null;
+
+  // 주요옵션 텍스트 정리 (빈 문자열 또는 '-'는 무옵션으로 처리)
+  const fallbackOptionsText =
+    selectedHeydealerBid.options && selectedHeydealerBid.options !== '-'
+      ? selectedHeydealerBid.options.trim()
+      : '';
 
   return (
     <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl overflow-hidden shadow-sm space-y-0">
@@ -287,13 +287,12 @@ export const SelectedHeydealerBidDetailV2Section: React.FC<SelectedHeydealerBidD
           {/* 사고유무 */}
           <div className="flex items-center gap-2 text-xs">
             <span className="text-zinc-400 font-medium">사고유무:</span>
-            <span className={`px-2 py-0.5 rounded font-bold text-[11px] border ${
-              selectedHeydealerBid.accidentType === '완전무사고'
+            <span className={`px-2 py-0.5 rounded font-bold text-[11px] border ${selectedHeydealerBid.accidentType === '완전무사고'
                 ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-300'
                 : selectedHeydealerBid.accidentType === '유사고'
-                ? 'bg-rose-500/20 border-rose-500/40 text-rose-300'
-                : 'bg-amber-500/20 border-amber-500/40 text-amber-300'
-            }`}>
+                  ? 'bg-rose-500/20 border-rose-500/40 text-rose-300'
+                  : 'bg-amber-500/20 border-amber-500/40 text-amber-300'
+              }`}>
               {selectedHeydealerBid.accident}
             </span>
           </div>
