@@ -2,6 +2,7 @@ import React from 'react';
 import { useBiddingCockpit } from '@/components/BiddingCockpit/hooks/useBiddingCockpit';
 import { Search, ExternalLink, Car, AlertCircle, CheckCircle2, RefreshCw } from 'lucide-react';
 import { ComparableEncarV2Section } from './ComparableEncarV2Section';
+import { ComparableKcarV2Section } from './ComparableKcarV2Section';
 import { SelectedCarDetailV2Section } from './SelectedCarDetailV2Section';
 import { SidebarOptionSection } from './SidebarOptionSection';
 
@@ -9,6 +10,9 @@ export const BiddingCockpitV2Tab: React.FC = () => {
   const cockpit = useBiddingCockpit({
     onSaveToLedger: () => {},
   });
+
+  // 0. 비교 목록 활성 탭 (엔카 기본)
+  const [activeCompTab, setActiveCompTab] = React.useState<'encar' | 'kcar'>('encar');
 
   // 1. 목표차 한 줄 정보 (훅 값 그대로 사용)
   const targetCarName = cockpit.carName || '-';
@@ -225,19 +229,70 @@ export const BiddingCockpitV2Tab: React.FC = () => {
         <main className="flex-1 min-w-0 w-full">
           {/* 비교 목록(왼쪽 절반)과 선택 상세(오른쪽 절반) 나란히 배치 */}
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-5 items-start">
-            {/* 좌측 절반: 비교 목록 (가로 스크롤 표 유지) */}
-            <div className="min-w-0 w-full">
-              <ComparableEncarV2Section
-                encarList={cockpit.encarList || []}
-                selectedEncarId={cockpit.selectedEncarId}
-                onSelectCar={cockpit.handleSelectEncarCar}
-                isLoading={cockpit.isEncarLoading}
-                totalModelCount={cockpit.encarTotalModelCount || 0}
-                filteredCount={cockpit.encarFilteredCount || 0}
-                isInitialState={isInitialState}
-                targetMileageKm={cockpit.mileageKm || 0}
-                errorMessage={cockpit.encarErrorMessage}
-              />
+            {/* 좌측 절반: 비교 목록 (엔카 / 케이카 탭 전환) */}
+            <div className="min-w-0 w-full space-y-3">
+              {/* 상단 탭 토글 (엔카 / 케이카) */}
+              <div className="flex items-center justify-between gap-2">
+                <div className="inline-flex p-1 bg-[#0f1015] border border-[#1e2029] rounded-xl shadow-sm">
+                  <button
+                    type="button"
+                    onClick={() => setActiveCompTab('encar')}
+                    className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${
+                      activeCompTab === 'encar'
+                        ? 'bg-blue-600 text-white shadow-sm'
+                        : 'text-zinc-400 hover:text-white hover:bg-[#1a1c26]'
+                    }`}
+                  >
+                    <span>엔카</span>
+                    <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono font-black ${
+                      activeCompTab === 'encar' ? 'bg-black/30 text-white' : 'bg-[#1a1c26] text-zinc-400'
+                    }`}>
+                      {cockpit.encarFilteredCount || cockpit.encarList?.length || 0}
+                    </span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setActiveCompTab('kcar')}
+                    className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${
+                      activeCompTab === 'kcar'
+                        ? 'bg-amber-600 text-white shadow-sm'
+                        : 'text-zinc-400 hover:text-white hover:bg-[#1a1c26]'
+                    }`}
+                  >
+                    <span>케이카</span>
+                    <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono font-black ${
+                      activeCompTab === 'kcar' ? 'bg-black/30 text-white' : 'bg-[#1a1c26] text-zinc-400'
+                    }`}>
+                      {cockpit.kcarStats?.strictCount ?? cockpit.kcarStats?.count ?? cockpit.kcarStats?.cars?.length ?? 0}
+                    </span>
+                  </button>
+                </div>
+              </div>
+
+              {/* 탭 본문 (엔카 또는 케이카 비교 목록) */}
+              {activeCompTab === 'encar' ? (
+                <ComparableEncarV2Section
+                  encarList={cockpit.encarList || []}
+                  selectedEncarId={cockpit.selectedEncarId}
+                  onSelectCar={cockpit.handleSelectEncarCar}
+                  isLoading={cockpit.isEncarLoading}
+                  totalModelCount={cockpit.encarTotalModelCount || 0}
+                  filteredCount={cockpit.encarFilteredCount || 0}
+                  isInitialState={isInitialState}
+                  targetMileageKm={cockpit.mileageKm || 0}
+                  errorMessage={cockpit.encarErrorMessage}
+                />
+              ) : (
+                <ComparableKcarV2Section
+                  kcarList={cockpit.kcarStats?.cars || []}
+                  isLoading={cockpit.isKcarLoading}
+                  totalCount={cockpit.kcarStats?.count || cockpit.kcarStats?.cars?.length || 0}
+                  strictCount={cockpit.kcarStats?.strictCount ?? (cockpit.kcarStats?.count || cockpit.kcarStats?.cars?.length || 0)}
+                  isInitialState={isInitialState}
+                  errorMessage={cockpit.kcarStats?.message}
+                />
+              )}
             </div>
 
             {/* 우측 절반: 선택 차량 상세 & 2D 상태도 */}
