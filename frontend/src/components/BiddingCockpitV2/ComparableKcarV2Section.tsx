@@ -114,8 +114,78 @@ export const ComparableKcarV2Section: React.FC<ComparableKcarV2SectionProps> = (
   // 4. 목표 연식 2자리 문자열 (비교용)
   const targetYrStr = yearModel ? String(yearModel % 100).padStart(2, '0') : '';
 
+  // 5. 엄격 + 무사고 subset 필터링 및 날통계 집계 (보정 없음)
+  const { summaryCount, minPrice, maxPrice, avgPrice } = useMemo(() => {
+    if (!kcarList || kcarList.length === 0) {
+      return { summaryCount: 0, minPrice: 0, maxPrice: 0, avgPrice: 0 };
+    }
+
+    // 1) 엄격 매물 우선 추출
+    const strictCars = kcarList.filter((c) => Boolean(c.isStrict));
+    const baseList = strictCars.length > 0 ? strictCars : kcarList;
+
+    // 2) 무사고 매물 추출 (기존 formatKcarAccident 로직과 동일: 미기재 또는 '무사고' 포함)
+    const noAccCars = baseList.filter((c) => {
+      const acc = String(c.accidentType || '').trim();
+      return !acc || acc.includes('무사고');
+    });
+
+    const targetList = noAccCars.length > 0 ? noAccCars : baseList;
+    const prices = targetList
+      .map((c) => Number(c.price))
+      .filter((p) => !isNaN(p) && p > 0);
+
+    const count = targetList.length;
+    const minP = prices.length > 0 ? Math.min(...prices) : 0;
+    const maxP = prices.length > 0 ? Math.max(...prices) : 0;
+    const avgP = prices.length > 0 ? Math.round(prices.reduce((sum, cur) => sum + cur, 0) / prices.length) : 0;
+
+    return {
+      summaryCount: count,
+      minPrice: minP,
+      maxPrice: maxP,
+      avgPrice: avgP,
+    };
+  }, [kcarList]);
+
   return (
-    <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl overflow-hidden shadow-sm space-y-0">
+    <div className="space-y-3">
+      {/* 0. 엄격+무사고 요약 행 (총 매물 수 · 최저가 · 최고가 · 평균가) */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+        <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-3">
+          <span className="text-[10px] text-zinc-400 block font-medium">총 매물 수</span>
+          <div className="flex items-baseline gap-1 mt-1">
+            <span className="text-lg font-black text-white font-mono">
+              {summaryCount > 0 ? `${summaryCount.toLocaleString()}대` : '-'}
+            </span>
+            <span className="text-[10px] text-zinc-500 truncate">(무사고)</span>
+          </div>
+        </div>
+
+        <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-3">
+          <span className="text-[10px] text-zinc-400 block font-medium">최저가</span>
+          <div className="text-lg font-black text-sky-400 font-mono mt-1 flex items-center gap-0.5">
+            {minPrice > 0 ? `${minPrice.toLocaleString()}만` : '-'} <span>⬇</span>
+          </div>
+        </div>
+
+        <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-3">
+          <span className="text-[10px] text-zinc-400 block font-medium">최고가</span>
+          <div className="text-lg font-black text-sky-400 font-mono mt-1 flex items-center gap-0.5">
+            {maxPrice > 0 ? `${maxPrice.toLocaleString()}만` : '-'} <span>⬆</span>
+          </div>
+        </div>
+
+        <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-3">
+          <span className="text-[10px] text-zinc-400 block font-medium">평균가</span>
+          <div className="text-lg font-black text-white font-mono mt-1">
+            {avgPrice > 0 ? `${avgPrice.toLocaleString()}만` : '-'}
+          </div>
+        </div>
+      </div>
+
+      {/* 1. 케이카 비교 매물 목록 테이블 박스 */}
+      <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl overflow-hidden shadow-sm space-y-0">
       {/* 1. 상단 헤더 (제목 및 매물 수) */}
       <div className="px-5 py-3.5 border-b border-[#1e2029] flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-2">
@@ -302,6 +372,7 @@ export const ComparableKcarV2Section: React.FC<ComparableKcarV2SectionProps> = (
           </table>
         </div>
       )}
+      </div>
     </div>
   );
 };

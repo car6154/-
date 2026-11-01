@@ -43,15 +43,16 @@ export const BiddingCockpitV2Tab: React.FC = () => {
     ? `${cockpit.mileageKm.toLocaleString()}km`
     : '-';
 
-  // 2. 상단 4칸 지표 (소매가 · 엔카평균 · 엔카시세 · 기준소매) 및 델타 계산
+  // 2. 상단 4칸 지표 (소매가 · 엔카평균(카드값 strictAdjAvg) · 엔카시세 · 기준소매) 및 델타 계산
   const finalPriceVal = (cockpit.finalRetailPrice && cockpit.finalRetailPrice > 0) ? cockpit.finalRetailPrice : 0;
   const finalPriceText = finalPriceVal > 0 ? `${finalPriceVal.toLocaleString()}만원` : '-';
 
-  const cohortNoAccVal = cockpit.encarStats?.cohortNoAccAvg || 0;
+  // 엔카평균: 카드값(strictAdjAvg) 기준
+  const strictAdjVal = cockpit.encarStats?.strictAdjAvg || 0;
   const rawStdVal = cockpit.encarStats?.rawStd100Price || 0;
   const chaolmaRetailVal = cockpit.targetCarHistory?.chaolmaRetailPrice || 0;
 
-  const cohortNoAccText = cohortNoAccVal > 0 ? `${cohortNoAccVal.toLocaleString()}만원` : '-';
+  const strictAdjText = strictAdjVal > 0 ? `${strictAdjVal.toLocaleString()}만원` : '-';
   const rawStdText = rawStdVal > 0 ? `${rawStdVal.toLocaleString()}만원` : '-';
   const chaolmaRetailText = chaolmaRetailVal > 0 ? `${chaolmaRetailVal.toLocaleString()}만원` : '-';
 
@@ -63,7 +64,7 @@ export const BiddingCockpitV2Tab: React.FC = () => {
     return '0';
   };
 
-  const cohortDelta = formatDelta(cohortNoAccVal, finalPriceVal);
+  const strictAdjDelta = formatDelta(strictAdjVal, finalPriceVal);
   const rawStdDelta = formatDelta(rawStdVal, finalPriceVal);
   const chaolmaDelta = formatDelta(chaolmaRetailVal, finalPriceVal);
 
@@ -245,13 +246,13 @@ export const BiddingCockpitV2Tab: React.FC = () => {
               <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase">엔카평균</span>
               <div className="mt-1 flex items-baseline justify-between gap-1 flex-wrap">
                 <span className="text-base sm:text-lg font-bold text-zinc-100 font-mono tracking-tight">
-                  {cohortNoAccText}
+                  {strictAdjText}
                 </span>
-                {cohortDelta && (
+                {strictAdjDelta && (
                   <span className={`text-xs font-mono font-bold ${
-                    cohortDelta.startsWith('+') ? 'text-rose-400' : cohortDelta.startsWith('-') ? 'text-blue-400' : 'text-zinc-400'
+                    strictAdjDelta.startsWith('+') ? 'text-rose-400' : strictAdjDelta.startsWith('-') ? 'text-blue-400' : 'text-zinc-400'
                   }`}>
-                    {cohortDelta}
+                    {strictAdjDelta}
                   </span>
                 )}
               </div>
@@ -364,6 +365,7 @@ export const BiddingCockpitV2Tab: React.FC = () => {
                     filteredCount={cockpit.encarFilteredCount || 0}
                     isInitialState={isInitialState}
                     targetMileageKm={cockpit.mileageKm || 0}
+                    cohortNoAccAvg={cockpit.encarStats?.cohortNoAccAvg || 0}
                     errorMessage={cockpit.encarErrorMessage}
                   />
                 </div>

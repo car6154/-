@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { ExternalLink, RefreshCw, Car, AlertCircle } from 'lucide-react';
 import { EncarItem } from '@/components/BiddingCockpit/types';
 
@@ -11,6 +11,7 @@ export interface ComparableEncarV2SectionProps {
   filteredCount: number;
   isInitialState: boolean;
   targetMileageKm?: number;
+  cohortNoAccAvg?: number;
   errorMessage?: string | null;
 }
 
@@ -51,15 +52,91 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
   filteredCount,
   isInitialState,
   targetMileageKm = 0,
+  cohortNoAccAvg = 0,
   errorMessage,
 }) => {
+  // 엄격 + 무사고 subset 필터링 및 날통계 집계 (보정 없음)
+  const { summaryCount, minPrice, maxPrice, avgPrice } = useMemo(() => {
+    if (!encarList || encarList.length === 0) {
+      return { summaryCount: 0, minPrice: 0, maxPrice: 0, avgPrice: 0 };
+    }
+
+    // 무사고 매물 추출: accidentType에 '무사고' 포함되고 유사고/프레임사고가 아닌 매물
+    const noAccCars = encarList.filter((item) => {
+      const acc = String(item.accidentType || '').trim();
+      if (!acc) return true;
+      if (acc.includes('사고') && !acc.includes('무사고')) return false;
+      return acc.includes('무사고') || acc.includes('완전무사고');
+    });
+
+    const targetList = noAccCars.length > 0 ? noAccCars : encarList;
+    const prices = targetList
+      .map((c) => Number(c.price))
+      .filter((p) => !isNaN(p) && p > 0);
+
+    const count = targetList.length;
+    const minP = prices.length > 0 ? Math.min(...prices) : 0;
+    const maxP = prices.length > 0 ? Math.max(...prices) : 0;
+
+    // 평균가는 훅의 cohortNoAccAvg가 유효하면 그대로 사용, 없으면 subset 판매가 단순 평균
+    let avgP = 0;
+    if (cohortNoAccAvg && cohortNoAccAvg > 0) {
+      avgP = cohortNoAccAvg;
+    } else if (prices.length > 0) {
+      avgP = Math.round(prices.reduce((sum, cur) => sum + cur, 0) / prices.length);
+    }
+
+    return {
+      summaryCount: count,
+      minPrice: minP,
+      maxPrice: maxP,
+      avgPrice: avgP,
+    };
+  }, [encarList, cohortNoAccAvg]);
+
   // 💡 [2026-11-01 제이 규칙]: 보정가 필드가 항목에 있으면 표시하되, 없으면 계산하지 않고 표시에서 제외(V2에서 계산 금지)
   const hasAdjustedPrice = encarList.some(
     (item) => (item as any).adjustedPrice !== undefined && (item as any).adjustedPrice !== null
   );
 
   return (
-    <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl overflow-hidden shadow-sm space-y-0">
+    <div className="space-y-3">
+      {/* 0. 엄격+무사고 요약 행 (총 매물 수 · 최저가 · 최고가 · 평균가) */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+        <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-3">
+          <span className="text-[10px] text-zinc-400 block font-medium">총 매물 수</span>
+          <div className="flex items-baseline gap-1 mt-1">
+            <span className="text-lg font-black text-white font-mono">
+              {summaryCount > 0 ? `${summaryCount.toLocaleString()}대` : '-'}
+            </span>
+            <span className="text-[10px] text-zinc-500 truncate">(무사고)</span>
+          </div>
+        </div>
+
+        <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-3">
+          <span className="text-[10px] text-zinc-400 block font-medium">최저가</span>
+          <div className="text-lg font-black text-sky-400 font-mono mt-1 flex items-center gap-0.5">
+            {minPrice > 0 ? `${minPrice.toLocaleString()}만` : '-'} <span>⬇</span>
+          </div>
+        </div>
+
+        <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-3">
+          <span className="text-[10px] text-zinc-400 block font-medium">최고가</span>
+          <div className="text-lg font-black text-sky-400 font-mono mt-1 flex items-center gap-0.5">
+            {maxPrice > 0 ? `${maxPrice.toLocaleString()}만` : '-'} <span>⬆</span>
+          </div>
+        </div>
+
+        <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-3">
+          <span className="text-[10px] text-zinc-400 block font-medium">평균가</span>
+          <div className="text-lg font-black text-white font-mono mt-1">
+            {avgPrice > 0 ? `${avgPrice.toLocaleString()}만` : '-'}
+          </div>
+        </div>
+      </div>
+
+      {/* 1. 엔카 비교 매물 목록 테이블 박스 */}
+      <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl overflow-hidden shadow-sm space-y-0">
       {/* 1. 상단 헤더 (제목 및 매물 수) */}
       <div className="px-5 py-3.5 border-b border-[#1e2029] flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-2">
@@ -293,6 +370,7 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
           </table>
         </div>
       )}
+      </div>
     </div>
   );
 };
