@@ -328,65 +328,6 @@ export const BiddingCockpitV2Tab: React.FC = () => {
             </div>
           </div>
 
-          {/* 연식평균 카드 (전체 폭: 엔카 · 케이카 연식별 호가 평균 및 대수 칩) */}
-          <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-3.5 space-y-2.5 shadow-sm">
-            <div className="flex items-center justify-between">
-              <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase">연식평균</span>
-            </div>
-
-            {/* 1) 엔카 행 */}
-            <div className="flex items-center gap-2.5 flex-wrap text-xs">
-              <span className="w-12 shrink-0 text-[11px] font-bold text-sky-400">엔카</span>
-              <div className="flex items-center gap-1.5 flex-wrap">
-                {cockpit.encarYearStats && cockpit.encarYearStats.length > 0 ? (
-                  cockpit.encarYearStats.map((st) => (
-                    <span
-                      key={st.year}
-                      className={`px-2 py-0.5 rounded text-[11px] font-mono flex items-center gap-1 ${
-                        st.isTarget
-                          ? 'bg-sky-500/20 text-sky-300 border border-sky-500/40 font-bold'
-                          : 'bg-[#151926] text-zinc-300 border border-[#20283d]'
-                      }`}
-                    >
-                      <span>{st.year}년</span>
-                      <strong className="text-white">{st.avg.toLocaleString()}만</strong>
-                      <span className="text-zinc-400 text-[10px]">({st.count}대)</span>
-                      {st.isTarget && <span className="text-[10px] text-amber-300">★</span>}
-                    </span>
-                  ))
-                ) : (
-                  <span className="text-zinc-500 text-[11px] font-mono">-</span>
-                )}
-              </div>
-            </div>
-
-            {/* 2) 케이카 행 */}
-            <div className="flex items-center gap-2.5 flex-wrap text-xs pt-2 border-t border-[#1e2029]">
-              <span className="w-12 shrink-0 text-[11px] font-bold text-rose-400">케이카</span>
-              <div className="flex items-center gap-1.5 flex-wrap">
-                {kcarYearStats && kcarYearStats.length > 0 ? (
-                  kcarYearStats.map((st) => (
-                    <span
-                      key={st.year}
-                      className={`px-2 py-0.5 rounded text-[11px] font-mono flex items-center gap-1 ${
-                        st.isTarget
-                          ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40 font-bold'
-                          : 'bg-[#1b1016] text-zinc-300 border border-[#2d1823]'
-                      }`}
-                    >
-                      <span>{st.year}년</span>
-                      <strong className="text-white">{st.avg.toLocaleString()}만</strong>
-                      <span className="text-zinc-400 text-[10px]">({st.count}대)</span>
-                      {st.isTarget && <span className="text-[10px] text-amber-300">★</span>}
-                    </span>
-                  ))
-                ) : (
-                  <span className="text-zinc-500 text-[11px] font-mono">-</span>
-                )}
-              </div>
-            </div>
-          </div>
-
           {/* 비교 목록(왼쪽 절반)과 선택 상세(오른쪽 절반) 나란히 배치 */}
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-5 items-start">
             {/* 좌측 절반: 비교 목록 (엔카 / 케이카 탭 전환) */}
@@ -461,6 +402,7 @@ export const BiddingCockpitV2Tab: React.FC = () => {
                     targetMileageKm={cockpit.mileageKm || 0}
                     cohortNoAccAvg={cockpit.encarStats?.cohortNoAccAvg || 0}
                     errorMessage={cockpit.encarErrorMessage}
+                    encarYearStats={cockpit.encarYearStats || []}
                   />
                 </div>
                 <div className={activeCompTab === 'kcar' ? 'block' : 'hidden'}>
@@ -474,6 +416,7 @@ export const BiddingCockpitV2Tab: React.FC = () => {
                     strictCount={cockpit.kcarStats?.strictCount ?? (cockpit.kcarStats?.count || cockpit.kcarStats?.cars?.length || 0)}
                     isInitialState={isInitialState}
                     errorMessage={cockpit.kcarStats?.message}
+                    kcarYearStats={kcarYearStats || []}
                   />
                 </div>
                 <div className={activeCompTab === 'heydealer' ? 'block' : 'hidden'}>

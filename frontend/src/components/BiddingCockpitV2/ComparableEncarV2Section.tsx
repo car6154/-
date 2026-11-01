@@ -13,6 +13,7 @@ export interface ComparableEncarV2SectionProps {
   targetMileageKm?: number;
   cohortNoAccAvg?: number;
   errorMessage?: string | null;
+  encarYearStats?: Array<{ year: number; avg: number; count: number; isTarget: boolean }>;
 }
 
 // 사고구분 라벨 헬퍼 (무사고/단순수리/사고 배지)
@@ -54,6 +55,7 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
   targetMileageKm = 0,
   cohortNoAccAvg = 0,
   errorMessage,
+  encarYearStats = [],
 }) => {
   // 엄격 + 무사고 subset 필터링 및 날통계 집계 (보정 없음)
   const { summaryCount, minPrice, maxPrice, avgPrice } = useMemo(() => {
@@ -132,6 +134,32 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
           <div className="text-lg font-black text-white font-mono mt-1">
             {avgPrice > 0 ? `${avgPrice.toLocaleString()}만` : '-'}
           </div>
+        </div>
+      </div>
+
+      {/* 0-1. 엔카 연식별 호가 평균 칩 행 */}
+      <div className="p-3 bg-[#0f1015] border border-[#1e2029] rounded-xl flex items-center gap-2.5 flex-wrap text-xs">
+        <span className="text-[11px] font-bold text-sky-400 shrink-0">연식평균</span>
+        <div className="flex items-center gap-1.5 flex-wrap">
+          {encarYearStats && encarYearStats.length > 0 ? (
+            encarYearStats.map((st) => (
+              <span
+                key={st.year}
+                className={`px-2 py-0.5 rounded text-[11px] font-mono flex items-center gap-1 ${
+                  st.isTarget
+                    ? 'bg-sky-500/20 text-sky-300 border border-sky-500/40 font-bold'
+                    : 'bg-[#151926] text-zinc-300 border border-[#20283d]'
+                }`}
+              >
+                <span>{st.year}년</span>
+                <strong className="text-white">{st.avg.toLocaleString()}만</strong>
+                <span className="text-zinc-400 text-[10px]">({st.count}대)</span>
+                {st.isTarget && <span className="text-[10px] text-amber-300">★</span>}
+              </span>
+            ))
+          ) : (
+            <span className="text-zinc-500 text-[11px] font-mono">-</span>
+          )}
         </div>
       </div>
 
