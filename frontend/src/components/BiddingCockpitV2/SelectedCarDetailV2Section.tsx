@@ -92,45 +92,55 @@ export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProp
 
   return (
     <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl overflow-hidden shadow-sm space-y-0">
-      {/* 1. 상단 바 (차명, 세부모델, 상단 뱃지, 상세 링크) */}
+      {/* 1. 상단 바 (차명 원본링크, 세부모델, 보정가 뱃지, 우측 신차가 표기) */}
       <div className="px-5 py-3.5 border-b border-[#1e2029] flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2 flex-wrap min-w-0">
-          <span className="text-base sm:text-lg font-black text-white truncate">
-            {selectedEncar.carName}
-          </span>
+          <a
+            href={detailUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-base sm:text-lg font-black text-white hover:text-sky-400 transition underline underline-offset-2 flex items-center gap-1.5 truncate group"
+            title="엔카 매물 원본 상세페이지 열기"
+          >
+            <span>{selectedEncar.carName}</span>
+            <ExternalLink className="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 transition shrink-0" />
+          </a>
           {selectedEncar.subModel && (
             <span className="text-xs sm:text-sm text-zinc-300 font-semibold">
               {selectedEncar.subModel}
             </span>
           )}
-          {/* 상단 보정가 또는 신차가 뱃지 */}
-          {hasAdjustedPrice ? (
+          {/* 상단 보정가 뱃지 */}
+          {hasAdjustedPrice && (
             <span className="text-xs font-bold text-sky-300 font-mono shrink-0 px-2 py-0.5 rounded bg-sky-500/20 border border-sky-400">
               보정가: {Number(adjustedPriceVal).toLocaleString()}만원
             </span>
-          ) : Boolean((selectedEncar as any).newCarPrice || (selectedEncar as any).originPrice) ? (
-            <span
-              className="text-xs font-bold text-amber-300 font-mono shrink-0 px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/30"
-              title={`신차가: ${(((selectedEncar as any).newCarPrice || (selectedEncar as any).originPrice) || 0).toLocaleString()}만원`}
-            >
-              신차 {(((selectedEncar as any).newCarPrice || (selectedEncar as any).originPrice) || 0).toLocaleString()}만
-            </span>
-          ) : null}
+          )}
           {isInspectionLoading && (
             <span className="text-[11px] text-amber-400 font-mono animate-pulse">
               ⚡ 점검표 수신 중...
             </span>
           )}
         </div>
-        <a
-          href={detailUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#161822] hover:bg-[#202330] border border-[#262938] text-xs font-medium text-zinc-300 hover:text-white transition shrink-0"
-        >
-          <span>엔카 원본 보기</span>
-          <ExternalLink className="w-3.5 h-3.5" />
-        </a>
+
+        {/* 우측 영역: 신차가(선택옵션가) 뱃지 (기존 ComparableEncarSection 형식 1:1) */}
+        {Boolean((selectedEncar as any).newCarPrice || (selectedEncar as any).originPrice) && (
+          <span
+            className="text-xs sm:text-sm font-bold text-amber-300 font-mono shrink-0 px-2.5 py-1 rounded bg-amber-500/10 border border-amber-500/30"
+            title={
+              typeof (selectedEncar as any).optionPrice === 'number'
+                ? `엔카 신차가: ${(((selectedEncar as any).newCarPrice || (selectedEncar as any).originPrice) || 0).toLocaleString()}만원 (출고 등급가: ${((selectedEncar as any).originPrice || 0).toLocaleString()}만 + 선택옵션: ${(selectedEncar as any).optionPrice.toLocaleString()}만)`
+                : `엔카 신차가: ${(((selectedEncar as any).newCarPrice || (selectedEncar as any).originPrice) || 0).toLocaleString()}만원`
+            }
+          >
+            신차 {(((selectedEncar as any).newCarPrice || (selectedEncar as any).originPrice) || 0).toLocaleString()}만
+            {typeof (selectedEncar as any).optionPrice === 'number' && (
+              <span className="text-xs sm:text-sm font-semibold text-amber-200/90 ml-1">
+                ({(selectedEncar as any).optionPrice.toLocaleString()}만)
+              </span>
+            )}
+          </span>
+        )}
       </div>
 
       {/* 2. 본문 한 박스 (스펙 위 · 2D 아래 세로 쌓기: 절반 너비 100% 활용) */}

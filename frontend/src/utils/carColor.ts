@@ -179,7 +179,7 @@ export function getCarColorStyle(rawColor?: string): CarColorStyle {
   }
 
   // 15. 초록 계열 (포레스트 그린/카키)
-  if (c.includes('초록') || c.includes('그린') || c.includes('green') || c.includes('국방') || c.includes('카키') || c.includes('khaki') || c.includes('올리브') || c.includes('olive') || c.includes('연두')) {
+  if (c.includes('초록') || c.includes('녹색') || c.includes('그린') || c.includes('green') || c.includes('국방') || c.includes('카키') || c.includes('khaki') || c.includes('올리브') || c.includes('olive') || c.includes('연두')) {
     return {
       dot: '🟢',
       textColor: '#f0fdf4',

@@ -3,6 +3,7 @@ import { useBiddingCockpit } from '@/components/BiddingCockpit/hooks/useBiddingC
 import { Search, ExternalLink, Car, AlertCircle, CheckCircle2, RefreshCw } from 'lucide-react';
 import { ComparableEncarV2Section } from './ComparableEncarV2Section';
 import { SelectedCarDetailV2Section } from './SelectedCarDetailV2Section';
+import { SidebarOptionSection } from './SidebarOptionSection';
 
 export const BiddingCockpitV2Tab: React.FC = () => {
   const cockpit = useBiddingCockpit({
@@ -176,6 +177,16 @@ export const BiddingCockpitV2Tab: React.FC = () => {
               <span>주행거리 <strong className="text-zinc-200 font-semibold">{targetMileage}</strong></span>
             </div>
           </div>
+
+          {/* 2-1) 추가 옵션 및 매칭 섹션 */}
+          <SidebarOptionSection
+            targetOptions={cockpit.targetOptions}
+            optionsTag={cockpit.optionsTag}
+            selectedEncar={cockpit.selectedEncar}
+            targetCatalog={cockpit.targetNewCarCatalog}
+            historyOptionTotalMan={cockpit.targetCarHistory?.totalOptionPrice}
+            unclassifiedBalance={cockpit.unclassifiedBalance}
+          />
 
           {/* 3) 최종 소매가 1카드 */}
           <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-5 shadow-sm space-y-1">
