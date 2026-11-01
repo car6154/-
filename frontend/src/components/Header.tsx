@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Car, Cloud, Key, ChevronDown, Check } from 'lucide-react';
 
-export type AppTab = 'cockpit' | 'ledger' | 'settlement' | 'soldout' | 'performance' | 'inventory' | 'ocr';
+export type AppTab = 'cockpit' | 'cockpit_v2' | 'ledger' | 'settlement' | 'soldout' | 'performance' | 'inventory' | 'ocr';
 
 interface HeaderProps {
   activeTab: AppTab;
@@ -124,6 +124,7 @@ export const Header: React.FC<HeaderProps> = ({
 
   const tabOptions: { id: AppTab; label: string; icon: string; count?: number }[] = [
     { id: 'cockpit', label: '시세 분석 (비딩 콕핏)', icon: '⚡' },
+    { id: 'cockpit_v2', label: '새 버전 콕핏 (V2)', icon: '🎯' },
     { id: 'ledger', label: '매입 장부', icon: '📒', count: totalCarsCount },
     { id: 'settlement', label: '재고 및 정산', icon: '📦' },
     { id: 'soldout', label: '판매완료 정산', icon: '🏁' },
