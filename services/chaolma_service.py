@@ -90,10 +90,14 @@ class ChaolmaService:
                         or (cached_data.get("raw_inputs", {}).get("apModelId") if isinstance(cached_data.get("raw_inputs"), dict) else "")
                         or ""
                     )
-                    if ap_id:
+                    rel_d = cached_data.get("release_date") or ""
+                    n_p = cached_data.get("new_car_price") or cached_data.get("base_car_price") or 0
+                    has_ap = bool(str(ap_id).strip())
+                    has_rel = bool(str(rel_d).strip())
+                    has_np = bool(n_p and n_p > 0)
+
+                    if has_ap:
                         try:
-                            rel_d = cached_data.get("release_date") or ""
-                            n_p = cached_data.get("new_car_price") or cached_data.get("base_car_price") or 0
                             mp_res = cls.fetch_daa_market_price(
                                 ap_model_id=ap_id,
                                 release_date=rel_d,
@@ -102,15 +106,23 @@ class ChaolmaService:
                                 car_no=car_no
                             )
                             if mp_res and mp_res.get("success"):
-                                cached_data["chaolma_retail_price"] = mp_res.get("retail_price_man", 0)
+                                r_man = mp_res.get("retail_price_man", 0)
+                                cached_data["chaolma_retail_price"] = r_man
                                 _chaolma_file_cache.set(car_no, {
                                     "timestamp": cached_entry.get("timestamp", now),
                                     "data": cached_data
                                 })
+                                res_type = "success" if r_man > 0 else "retail_zero"
+                                cls._log_retail_debug("캐시보충", has_ap, has_rel, has_np, res_type, r_man)
+                            else:
+                                msg = (mp_res or {}).get("message", "")
+                                res_type = "unsuccessful" if "응답 오류" in msg or "상태코드" in msg else "api_error"
+                                cls._log_retail_debug("캐시보충", has_ap, has_rel, has_np, res_type, 0)
                         except Exception:
-                            pass
+                            cls._log_retail_debug("캐시보충", has_ap, has_rel, has_np, "api_error", 0)
                     else:
                         cached_data.setdefault("chaolma_retail_price", 0)
+                        cls._log_retail_debug("캐시보충", False, has_rel, has_np, "ap_missing", 0)
                 return cached_data
 
         # 2. 쿠키 확인
@@ -221,15 +233,32 @@ class ChaolmaService:
                         )
                         rel_d = car_data.get("firstDate") or parsed.get("release_date") or (jf_obj.get("firstdate") if isinstance(jf_obj, dict) else "") or ""
                         n_p = car_data.get("newPrice") or parsed.get("base_car_price") or parsed.get("new_car_price") or 0
-                        mp_res = cls.fetch_daa_market_price(
-                            ap_model_id=ap_id,
-                            release_date=rel_d,
-                            mileage=mileage,
-                            new_price=n_p,
-                            car_no=car_no
-                        )
-                        if mp_res and mp_res.get("success"):
-                            parsed["chaolma_retail_price"] = mp_res.get("retail_price_man", 0)
+                        has_ap = bool(str(ap_id).strip())
+                        has_rel = bool(str(rel_d).strip())
+                        has_np = bool(n_p and n_p > 0)
+
+                        if has_ap:
+                            try:
+                                mp_res = cls.fetch_daa_market_price(
+                                    ap_model_id=ap_id,
+                                    release_date=rel_d,
+                                    mileage=mileage,
+                                    new_price=n_p,
+                                    car_no=car_no
+                                )
+                                if mp_res and mp_res.get("success"):
+                                    r_man = mp_res.get("retail_price_man", 0)
+                                    parsed["chaolma_retail_price"] = r_man
+                                    res_type = "success" if r_man > 0 else "retail_zero"
+                                    cls._log_retail_debug("신규", has_ap, has_rel, has_np, res_type, r_man)
+                                else:
+                                    msg = (mp_res or {}).get("message", "")
+                                    res_type = "unsuccessful" if "응답 오류" in msg or "상태코드" in msg else "api_error"
+                                    cls._log_retail_debug("신규", has_ap, has_rel, has_np, res_type, 0)
+                            except Exception:
+                                cls._log_retail_debug("신규", has_ap, has_rel, has_np, "api_error", 0)
+                        else:
+                            cls._log_retail_debug("신규", False, has_rel, has_np, "ap_missing", 0)
                     except Exception:
                         pass
 
@@ -842,6 +871,54 @@ class ChaolmaService:
             return {"success": False, "message": "등록원부 서버 응답 시간 초과 (10초)"}
         except Exception as e:
             return {"success": False, "message": f"등록원부 조회 중 오류: {str(e)}"}
+
+    @classmethod
+    def _log_retail_debug(
+        cls,
+        path_type: str,
+        has_ap_id: bool,
+        has_release_date: bool,
+        has_new_price: bool,
+        result: str,
+        retail_man: int = 0
+    ):
+        """
+        차얼마 기준소매가 분기 진단 로깅 (data/chaolma_retail_debug.log)
+        - 보안 준수: 쿠키, 차량번호, 차대번호, apModelId 값 자체, API 응답 원문 절대 기록 금지
+        - 최근 200줄 유지 (회전 로그)
+        - 실패해도 조회는 정상 진행 (fail-safe)
+        """
+        try:
+            log_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data")
+            os.makedirs(log_dir, exist_ok=True)
+            log_file = os.path.join(log_dir, "chaolma_retail_debug.log")
+
+            now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            line = (
+                f"[{now_str}] path={path_type} "
+                f"ap_id_exists={str(has_ap_id).lower()} "
+                f"release_date_exists={str(has_release_date).lower()} "
+                f"new_price_exists={str(has_new_price).lower()} "
+                f"result={result} "
+                f"retail_man={retail_man}\n"
+            )
+
+            lines = []
+            if os.path.exists(log_file):
+                try:
+                    with open(log_file, "r", encoding="utf-8") as f:
+                        lines = f.readlines()
+                except Exception:
+                    lines = []
+
+            lines.append(line)
+            if len(lines) > 200:
+                lines = lines[-200:]
+
+            with open(log_file, "w", encoding="utf-8") as f:
+                f.writelines(lines)
+        except Exception:
+            pass
 
     @classmethod
     def fetch_daa_market_price(
