@@ -2003,7 +2003,7 @@ export function useBiddingCockpit({
           bidDate: bidDateStr,
           accident: baseAcc,
           accidentType: accType,
-          options: finalHdOpts.length > 0 ? finalHdOpts.join(' · ') : '-',
+          options: finalHdOpts.length > 0 ? finalHdOpts.join(' · ') : '',
           isExport,
           repairs: parsedRepairs,
           keyOptions: finalHdOpts,

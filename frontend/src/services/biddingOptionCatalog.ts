@@ -27,6 +27,7 @@ export const HD_PART_MAP: Record<string, string> = {
   quarter_panel_driver: '쿼터패널(운전석)', quarter_panel_passenger: '쿼터패널(조수석)',
   wheel_house_front_driver: '휠하우스(앞/운전석)', wheel_house_front_passenger: '휠하우스(앞/조수석)',
   wheel_house_rear_driver: '휠하우스(뒤/운전석)', wheel_house_rear_passenger: '휠하우스(뒤/조수석)',
+  side_sil_pannel_driver: '사이드실 패널(운전석)', side_sil_pannel_passenger: '사이드실 패널(조수석)',
 };
 
 export const HD_REPAIR_MAP: Record<string, string> = {

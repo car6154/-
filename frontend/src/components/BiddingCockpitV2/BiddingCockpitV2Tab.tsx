@@ -7,6 +7,7 @@ import { SelectedCarDetailV2Section } from './SelectedCarDetailV2Section';
 import { SelectedKcarDetailV2Section } from './SelectedKcarDetailV2Section';
 import { SidebarOptionSection } from './SidebarOptionSection';
 import { HeydealerBidsV2Section } from './HeydealerBidsV2Section';
+import { SelectedHeydealerBidDetailV2Section } from './SelectedHeydealerBidDetailV2Section';
 
 export const BiddingCockpitV2Tab: React.FC = () => {
   const cockpit = useBiddingCockpit({
@@ -354,22 +355,26 @@ export const BiddingCockpitV2Tab: React.FC = () => {
                     filteredHeydealerBids={cockpit.filteredHeydealerBids}
                     selectedHeydealerBidId={cockpit.selectedHeydealerBidId}
                     setSelectedHeydealerBidId={cockpit.setSelectedHeydealerBidId}
-                    selectedHeydealerBid={cockpit.selectedHeydealerBid}
                     mileageKm={cockpit.mileageKm || 0}
                   />
                 </div>
               </div>
             </div>
 
-            {/* 우측 절반: 선택 차량 상세 & 2D 상태도 (낙찰 탭일 때는 마지막 엔카/케이카 상세 유지) */}
+            {/* 우측 절반: 선택 차량 상세 & 2D 상태도 (낙찰 탭 + 낙찰 선택 시 낙찰 상세, 그 외에는 마지막 소매 차량 상세 유지) */}
             <div className="min-w-0 w-full">
-              <div className={lastRetailTab === 'encar' ? 'block' : 'hidden'}>
+              <div className={activeCompTab === 'heydealer' && Boolean(cockpit.selectedHeydealerBid) ? 'block' : 'hidden'}>
+                <SelectedHeydealerBidDetailV2Section
+                  selectedHeydealerBid={cockpit.selectedHeydealerBid}
+                />
+              </div>
+              <div className={!(activeCompTab === 'heydealer' && Boolean(cockpit.selectedHeydealerBid)) && lastRetailTab === 'encar' ? 'block' : 'hidden'}>
                 <SelectedCarDetailV2Section
                   selectedEncar={cockpit.selectedEncar}
                   isInspectionLoading={cockpit.isInspectionLoading}
                 />
               </div>
-              <div className={lastRetailTab === 'kcar' ? 'block' : 'hidden'}>
+              <div className={!(activeCompTab === 'heydealer' && Boolean(cockpit.selectedHeydealerBid)) && lastRetailTab === 'kcar' ? 'block' : 'hidden'}>
                 <SelectedKcarDetailV2Section
                   selectedKcar={selectedKcar}
                 />

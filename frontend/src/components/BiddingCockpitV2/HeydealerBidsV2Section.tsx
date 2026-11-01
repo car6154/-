@@ -1,5 +1,4 @@
 import React from 'react';
-import { Eye } from 'lucide-react';
 import { HeydealerBidItem, HeydealerSummaryData } from '@/components/BiddingCockpit/Sections/HeydealerBidsSection';
 
 export interface HeydealerBidsV2SectionProps {
@@ -13,7 +12,6 @@ export interface HeydealerBidsV2SectionProps {
   filteredHeydealerBids: HeydealerBidItem[];
   selectedHeydealerBidId: string | null;
   setSelectedHeydealerBidId: (id: string) => void;
-  selectedHeydealerBid: HeydealerBidItem | null;
   mileageKm: number;
 }
 
@@ -28,7 +26,6 @@ export const HeydealerBidsV2Section: React.FC<HeydealerBidsV2SectionProps> = ({
   filteredHeydealerBids,
   selectedHeydealerBidId,
   setSelectedHeydealerBidId,
-  selectedHeydealerBid,
   mileageKm,
 }) => {
   // 1. 헤이딜러 데이터가 없는 경우 (빈 상태 안내 박스)
@@ -209,112 +206,6 @@ export const HeydealerBidsV2Section: React.FC<HeydealerBidsV2SectionProps> = ({
             </tbody>
           </table>
         </div>
-      </div>
-
-      {/* 4. 선택 상세 패널 (목록 아래 표시) */}
-      <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-3.5 space-y-3 shadow-sm">
-        <div className="flex items-center justify-between pb-2.5 border-b border-[#1e2029]">
-          <div className="flex items-center gap-1.5 text-xs font-bold text-white">
-            <Eye className="w-3.5 h-3.5 text-sky-400" />
-            <span>상세설명 및 옵션 (헤이딜러)</span>
-          </div>
-        </div>
-
-        {selectedHeydealerBid ? (
-          <div className="space-y-3">
-            {/* 차명 및 연식 / 주행거리 */}
-            <div className="space-y-0.5">
-              <div className="text-sm font-bold text-white tracking-tight">
-                {selectedHeydealerBid.model}
-              </div>
-              <div className="text-xs text-zinc-400 font-mono">
-                {selectedHeydealerBid.year} · {selectedHeydealerBid.mileage.toLocaleString()}km
-              </div>
-            </div>
-
-            {/* 뱃지들 (수출/내수 구분, 낙찰가, 낙찰일) */}
-            <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
-              {selectedHeydealerBid.isExport ? (
-                <span className="px-2 py-0.5 rounded bg-blue-500/20 border border-blue-500/30 text-blue-300 font-bold text-xs">
-                  🚢 수출딜러 낙찰
-                </span>
-              ) : (
-                <span className="px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 font-bold text-xs">
-                  🚙 내수딜러 낙찰
-                </span>
-              )}
-              <span className="px-2 py-0.5 rounded bg-rose-500/20 border border-rose-500/30 text-rose-300 font-extrabold text-xs font-mono">
-                {selectedHeydealerBid.isExport ? `🚢 수출 ${selectedHeydealerBid.bidPrice}만원` : `${selectedHeydealerBid.bidPrice.toLocaleString()}만원`}
-              </span>
-              <span className="px-2 py-0.5 rounded bg-[#1a1c26] border border-[#2d3142] text-zinc-400 font-medium text-xs font-mono">
-                ⏱️ {selectedHeydealerBid.bidDate}
-              </span>
-            </div>
-
-            {/* 사고유무 / 교환 및 수리 부위 / 주요옵션 */}
-            <div className="pt-2.5 border-t border-[#1e2029] space-y-2.5">
-              {/* 사고유무 */}
-              <div className="flex items-center gap-2 text-xs">
-                <span className="text-zinc-400 font-medium">사고유무:</span>
-                <span className={`px-2 py-0.5 rounded font-bold text-[11px] border ${
-                  selectedHeydealerBid.accidentType === '완전무사고'
-                    ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-300'
-                    : selectedHeydealerBid.accidentType === '유사고'
-                    ? 'bg-rose-500/20 border-rose-500/40 text-rose-300'
-                    : 'bg-amber-500/20 border-amber-500/40 text-amber-300'
-                }`}>
-                  {selectedHeydealerBid.accident}
-                </span>
-              </div>
-
-              {/* 교환 및 수리 부위 */}
-              <div>
-                <div className="text-xs text-white font-bold mb-1.5 flex items-center gap-1">
-                  <span>🛠️</span> 교환 및 수리 부위
-                </div>
-                <div className="flex flex-wrap gap-1.5">
-                  {selectedHeydealerBid.repairs && selectedHeydealerBid.repairs.length > 0 ? (
-                    selectedHeydealerBid.repairs.map((r, pIdx) => (
-                      <span
-                        key={pIdx}
-                        className="px-2 py-0.5 rounded bg-amber-500/15 text-amber-200 border border-amber-500/30 text-[11px] font-medium"
-                      >
-                        {r.desc}
-                      </span>
-                    ))
-                  ) : (
-                    <span className="text-xs text-zinc-500">수리 이력 없음 (완전무사고)</span>
-                  )}
-                </div>
-              </div>
-
-              {/* 주요옵션 */}
-              <div>
-                <div className="text-xs text-white font-bold mb-1.5">주요옵션</div>
-                <div className="flex flex-wrap gap-1.5">
-                  {selectedHeydealerBid.keyOptions && selectedHeydealerBid.keyOptions.length > 0 ? (
-                    selectedHeydealerBid.keyOptions.map((opt, oIdx) => (
-                      <span
-                        key={oIdx}
-                        className="px-2 py-0.5 rounded bg-blue-500/15 text-blue-300 border border-blue-500/25 text-[11px] font-medium"
-                      >
-                        {opt}
-                      </span>
-                    ))
-                  ) : selectedHeydealerBid.options ? (
-                    <div className="text-xs text-zinc-400">{selectedHeydealerBid.options}</div>
-                  ) : (
-                    <div className="text-xs text-zinc-500">등록된 옵션 없음</div>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div className="text-xs text-zinc-500 py-6 text-center">
-            선택된 헤이딜러 매물이 없습니다.
-          </div>
-        )}
       </div>
     </div>
   );
