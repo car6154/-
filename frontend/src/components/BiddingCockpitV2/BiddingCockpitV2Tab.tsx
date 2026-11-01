@@ -210,41 +210,48 @@ export const BiddingCockpitV2Tab: React.FC = () => {
             unclassifiedBalance={cockpit.unclassifiedBalance}
           />
 
-          {/* 3) 최종 소매가 1카드 */}
-          <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-5 shadow-sm space-y-1">
-            <span className="text-xs font-semibold text-[#8b8e9d] uppercase tracking-wider block">
-              최종 소매가
-            </span>
-            <div className="text-right">
-              <span className="text-3xl font-black text-sky-400 font-mono tracking-tight">
-                {finalPriceText}
-              </span>
-            </div>
-            <p className="text-[11px] text-[#5e616e] text-right">기존 콕핏 엔진 산출 검증 소매가</p>
-          </div>
 
-          {/* 4) 참고 한 줄 (엔카 역산 기준가 · 무사고 평균 · 차얼마 기준소매가) */}
-          <div className="bg-[#0b0c10] border border-[#1b1e28] rounded-xl p-3.5 space-y-2 text-xs">
-            <span className="font-semibold text-[#8b8e9d] block text-[11px] uppercase">참고 지표</span>
-            <div className="space-y-1.5 font-mono text-zinc-300 text-xs">
-              <div className="flex justify-between items-center">
-                <span className="text-zinc-400">엔카 역산 기준가</span>
-                <strong className="text-zinc-100 font-bold">{rawStdText}</strong>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-zinc-400">무사고 평균</span>
-                <strong className="text-zinc-100 font-bold">{cohortNoAccText}</strong>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-zinc-400">차얼마 기준소매가</span>
-                <strong className="text-zinc-100 font-bold">{chaolmaRetailText}</strong>
-              </div>
-            </div>
-          </div>
         </aside>
 
         {/* [메인 영역 (오른쪽, 나머지 너비)] */}
-        <main className="flex-1 min-w-0 w-full">
+        <main className="flex-1 min-w-0 w-full space-y-4">
+          {/* 상단 2열: 최종 소매가 & 참고 지표 카드 (목업 구조) */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* 1) 최종 소매가 1카드 */}
+            <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-4 shadow-sm flex items-center justify-between">
+              <div>
+                <span className="text-xs font-semibold text-[#8b8e9d] uppercase tracking-wider block">
+                  최종 소매가
+                </span>
+                <p className="text-[11px] text-[#5e616e] mt-0.5">기존 콕핏 엔진 산출 검증 소매가</p>
+              </div>
+              <div className="text-right">
+                <span className="text-2xl sm:text-3xl font-black text-sky-400 font-mono tracking-tight">
+                  {finalPriceText}
+                </span>
+              </div>
+            </div>
+
+            {/* 2) 참고 한 줄 (엔카 역산 기준가 · 무사고 평균 · 차얼마 기준소매가) */}
+            <div className="bg-[#0b0c10] border border-[#1b1e28] rounded-xl p-3.5 space-y-2 text-xs flex flex-col justify-center">
+              <span className="font-semibold text-[#8b8e9d] block text-[11px] uppercase">참고 지표</span>
+              <div className="grid grid-cols-3 gap-2 font-mono text-zinc-300 text-xs">
+                <div>
+                  <span className="text-zinc-500 text-[10px] block">엔카 역산 기준가</span>
+                  <strong className="text-zinc-100 font-bold text-xs truncate block">{rawStdText}</strong>
+                </div>
+                <div>
+                  <span className="text-zinc-500 text-[10px] block">무사고 평균</span>
+                  <strong className="text-zinc-100 font-bold text-xs truncate block">{cohortNoAccText}</strong>
+                </div>
+                <div>
+                  <span className="text-zinc-500 text-[10px] block">차얼마 기준소매가</span>
+                  <strong className="text-zinc-100 font-bold text-xs truncate block">{chaolmaRetailText}</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* 비교 목록(왼쪽 절반)과 선택 상세(오른쪽 절반) 나란히 배치 */}
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-5 items-start">
             {/* 좌측 절반: 비교 목록 (엔카 / 케이카 탭 전환) */}

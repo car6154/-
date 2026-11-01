@@ -223,15 +223,32 @@ export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProp
             )}
           </div>
 
-          {/* 2-4) 옵션 정보 (있으면 표시) */}
-          {selectedEncar.optionsText && (
-            <div className="p-3 bg-[#0c0e14] rounded-lg border border-[#232634] text-xs space-y-1">
-              <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase block">
-                주요 옵션
-              </span>
-              <p className="text-zinc-300 text-[11.5px] leading-relaxed">
-                {selectedEncar.optionsText}
-              </p>
+          {/* 2-4) 옵션 정보 & 색상 칩 (있으면 표시) */}
+          {(selectedEncar.optionsText || (selectedEncar.color && selectedEncar.color !== '-')) && (
+            <div className="p-3 bg-[#0c0e14] rounded-lg border border-[#232634] text-xs space-y-1.5">
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase block">
+                  주요 옵션 & 색상
+                </span>
+                {selectedEncar.color && selectedEncar.color !== '-' && selectedEncar.color !== '미확인' && (
+                  <span
+                    className="px-2 py-0.5 rounded font-medium border text-[11px] inline-flex items-center gap-1"
+                    style={{
+                      backgroundColor: colorStyle.bgColor,
+                      color: colorStyle.textColor,
+                      borderColor: colorStyle.borderColor,
+                    }}
+                  >
+                    <span>{colorStyle.dot}</span>
+                    <span>{colorStyle.displayName}</span>
+                  </span>
+                )}
+              </div>
+              {selectedEncar.optionsText && (
+                <p className="text-zinc-300 text-[11.5px] leading-relaxed">
+                  {selectedEncar.optionsText}
+                </p>
+              )}
             </div>
           )}
         </div>

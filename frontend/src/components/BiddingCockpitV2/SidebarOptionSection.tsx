@@ -142,10 +142,16 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
     historyOptionTotalMan
   );
 
-  // 3. 비교차 옵션 파싱 및 매칭
-  const compOpts = (selectedEncar?.options && selectedEncar.options.length > 0)
+  // 3. 비교차 옵션 파싱 및 매칭 (비교차 색상을 매칭 집합에 포함하여 외장 색상 매칭 지원)
+  const rawCompOpts = (selectedEncar?.options && selectedEncar.options.length > 0)
     ? selectedEncar.options.map((o: any) => o.name || o)
     : splitOptionString(selectedEncar?.optionsText || '');
+
+  const compColor = selectedEncar?.color?.trim();
+  const compOpts = (compColor && compColor !== '-' && compColor !== '미확인')
+    ? [...rawCompOpts, compColor]
+    : rawCompOpts;
+
   const hasComp = compOpts.length > 0;
 
   // 우세/순정 배지 판정

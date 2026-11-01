@@ -267,12 +267,27 @@ export const SelectedKcarDetailV2Section: React.FC<SelectedKcarDetailV2SectionPr
             <span className="text-sm font-bold text-zinc-300">만원</span>
           </div>
 
-          {/* 3-4) 주요 옵션 목록 */}
+          {/* 3-4) 주요 옵션 목록 & 색상 칩 */}
           {optionList.length > 0 ? (
             <div className="p-3 bg-[#0c0e14] rounded-lg border border-[#232634] text-xs space-y-1.5">
-              <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase block">
-                주요 옵션 ({optionList.length}개)
-              </span>
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase block">
+                  주요 옵션 ({optionList.length}개) & 색상
+                </span>
+                {rawColor && rawColor !== '-' && rawColor !== '미확인' && (
+                  <span
+                    className="px-2 py-0.5 rounded font-medium border text-[11px] inline-flex items-center gap-1"
+                    style={{
+                      backgroundColor: colorStyle.bgColor,
+                      color: colorStyle.textColor,
+                      borderColor: colorStyle.borderColor,
+                    }}
+                  >
+                    <span>{colorStyle.dot}</span>
+                    <span>{colorStyle.displayName}</span>
+                  </span>
+                )}
+              </div>
               <div className="flex flex-wrap gap-1.5">
                 {optionList.slice(0, 8).map((opt, i) => (
                   <span
@@ -290,10 +305,25 @@ export const SelectedKcarDetailV2Section: React.FC<SelectedKcarDetailV2SectionPr
               </div>
             </div>
           ) : selectedKcar.optnNm ? (
-            <div className="p-3 bg-[#0c0e14] rounded-lg border border-[#232634] text-xs space-y-1">
-              <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase block">
-                장착 옵션
-              </span>
+            <div className="p-3 bg-[#0c0e14] rounded-lg border border-[#232634] text-xs space-y-1.5">
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase block">
+                  장착 옵션 & 색상
+                </span>
+                {rawColor && rawColor !== '-' && rawColor !== '미확인' && (
+                  <span
+                    className="px-2 py-0.5 rounded font-medium border text-[11px] inline-flex items-center gap-1"
+                    style={{
+                      backgroundColor: colorStyle.bgColor,
+                      color: colorStyle.textColor,
+                      borderColor: colorStyle.borderColor,
+                    }}
+                  >
+                    <span>{colorStyle.dot}</span>
+                    <span>{colorStyle.displayName}</span>
+                  </span>
+                )}
+              </div>
               <p className="text-zinc-300 line-clamp-2">{selectedKcar.optnNm}</p>
             </div>
           ) : null}

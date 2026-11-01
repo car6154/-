@@ -18,7 +18,7 @@ export interface DamagePart {
 
 // 외판 부위 (사이드실 패널을 차체 바닥 양측면에 맞추어 완벽히 정렬)
 export const outerParts: DamagePart[] = [
-  { code: 'RADIATOR_SUPPORT', kw: ['라디에이터', '라디에이터서포트', 'radiator_support', 'radiator'], exclude: [], x: 55, y: 32, w: 110, h: 16, label: 'R.S', full: '라디에이터 서포트' },
+  { code: 'RADIATOR_SUPPORT', kw: ['라디에이터', '라디에이터서포트', 'radiator_support', 'radiator'], exclude: [], x: 51, y: 32, w: 118, h: 16, label: 'R.S', full: '라디에이터 서포트' },
   { code: 'HOOD', kw: ['후드', '보닛', '본넷', 'hood', 'bonnet', 'p010'], exclude: [], x: 55, y: 51, w: 110, h: 44, label: '후드', full: '후드(보닛)' },
   { code: 'F_FENDER_L', kw: ['앞휀더(좌)', '앞휀더좌', '프론트휀더(좌)', 'front_fender_left', 'front-fender-left', 'front_fender_l', 'f_fender_l', 'p021'], exclude: ['뒤', '리어', 'rear', '우', 'right'], x: 18, y: 25, w: 33, h: 65, label: 'F휀', full: '프론트 휀더(좌)' },
   { code: 'F_FENDER_R', kw: ['앞휀더(우)', '앞휀더우', '프론트휀더(우)', 'front_fender_right', 'front-fender-right', 'front_fender_r', 'f_fender_r', 'p022'], exclude: ['뒤', '리어', 'rear', '좌', 'left'], x: 169, y: 25, w: 33, h: 65, label: 'F휀', full: '프론트 휀더(우)' },
@@ -39,11 +39,11 @@ export const innerParts: DamagePart[] = [
   { code: 'FRONT_PANEL', kw: ['프론트패널', '프론트 패널', '앞패널', 'front_panel', 'front-panel'], exclude: ['리어', '뒤', '대쉬', '대시', '플로어', 'floor'], x: 51, y: 25, w: 118, h: 30, label: '프론트패널', full: '프론트 패널' },
   { code: 'SIDE_MEMBER_FRONT_L', kw: ['사이드멤버(좌)', '프론트사이드멤버(좌)', '앞사이드멤버(좌)', 'side_member_front_left', 'sidemember-front-left', 'side_member_front_l', 'front_side_member_l', 'p101'], exclude: ['리어', '뒤', 'rear', '우', 'right'], x: 18, y: 25, w: 33, h: 50, label: 'F멤', full: '프론트 사이드멤버(좌)' },
   { code: 'SIDE_MEMBER_FRONT_R', kw: ['사이드멤버(우)', '프론트사이드멤버(우)', '앞사이드멤버(우)', 'side_member_front_right', 'sidemember-front-right', 'side_member_front_r', 'front_side_member_r', 'p102'], exclude: ['리어', '뒤', 'rear', '좌', 'left'], x: 169, y: 25, w: 33, h: 50, label: 'F멤', full: '프론트 사이드멤버(우)' },
-  { code: 'FRONT_WHEEL_HOUSE_L', kw: ['휠하우스(좌)', '프론트휠하우스(좌)', 'front_wheel_house_l', 'wheelhouse-front-left', 'wheel_house_l', 'p111'], exclude: ['우', 'right'], x: 18, y: 78, w: 33, h: 32, label: 'F하우스', full: '프론트 휠하우스(좌)' },
-  { code: 'FRONT_WHEEL_HOUSE_R', kw: ['휠하우스(우)', '프론트휠하우스(우)', 'front_wheel_house_r', 'wheelhouse-front-right', 'wheel_house_r', 'p112'], exclude: ['좌', 'left'], x: 169, y: 78, w: 33, h: 32, label: 'F하우스', full: '프론트 휠하우스(우)' },
+  { code: 'FRONT_WHEEL_HOUSE_L', kw: ['휠하우스(좌)', '프론트휠하우스(좌)', 'front_wheel_house_l', 'wheelhouse-front-left', 'wheel_house_l', 'p111'], exclude: ['우', 'right'], x: 18, y: 113, w: 33, h: 32, label: 'F하우스', full: '프론트 휠하우스(좌)' },
+  { code: 'FRONT_WHEEL_HOUSE_R', kw: ['휠하우스(우)', '프론트휠하우스(우)', 'front_wheel_house_r', 'wheelhouse-front-right', 'wheel_house_r', 'p112'], exclude: ['좌', 'left'], x: 169, y: 113, w: 33, h: 32, label: 'F하우스', full: '프론트 휠하우스(우)' },
   { code: 'CROSS_MEMBER', kw: ['크로스멤버', 'cross_member', 'crossmember', 'cross-member', 'p120'], exclude: [], x: 51, y: 55, w: 118, h: 30, label: '크로스멤버', full: '크로스멤버' },
-  { code: 'INSIDE_PANEL_L', kw: ['인사이드(좌)', '인사이드패널(좌)', 'inside_panel_left', 'inside-panel-left', 'inside_panel_l', 'p131'], exclude: ['우', 'right'], x: 18, y: 113, w: 33, h: 34, label: 'I패', full: '인사이드 패널(좌)' },
-  { code: 'INSIDE_PANEL_R', kw: ['인사이드(우)', '인사이드패널(우)', 'inside_panel_right', 'inside-panel-right', 'inside_panel_r', 'p132'], exclude: ['좌', 'left'], x: 169, y: 113, w: 33, h: 34, label: 'I패', full: '인사이드 패널(우)' },
+  { code: 'INSIDE_PANEL_L', kw: ['인사이드(좌)', '인사이드패널(좌)', 'inside_panel_left', 'inside-panel-left', 'inside_panel_l', 'p131'], exclude: ['우', 'right'], x: 18, y: 78, w: 33, h: 34, label: 'I패', full: '인사이드 패널(좌)' },
+  { code: 'INSIDE_PANEL_R', kw: ['인사이드(우)', '인사이드패널(우)', 'inside_panel_right', 'inside-panel-right', 'inside_panel_r', 'p132'], exclude: ['좌', 'left'], x: 169, y: 78, w: 33, h: 34, label: 'I패', full: '인사이드 패널(우)' },
   { code: 'DASH_PANEL', kw: ['대쉬패널', '대시패널', 'dash_panel', 'dash-panel'], exclude: [], x: 55, y: 85, w: 110, h: 26, label: '대쉬패널', full: '대쉬 패널' },
   { code: 'A_PILLAR_L', kw: ['a필러(좌)', 'a필러좌', 'a_pillar_l', 'a-pillar-left'], exclude: ['우', 'right'], x: 18, y: 150, w: 16, h: 24, label: 'A', full: 'A필러(좌)' },
   { code: 'A_PILLAR_R', kw: ['a필러(우)', 'a필러우', 'a_pillar_r', 'a-pillar-right'], exclude: ['좌', 'left'], x: 186, y: 150, w: 16, h: 24, label: 'A', full: 'A필러(우)' },
