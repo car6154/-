@@ -1,10 +1,91 @@
 import React from 'react';
 import { Eye, ExternalLink } from 'lucide-react';
 import { HeydealerBidItem } from '@/components/BiddingCockpit/Sections/HeydealerBidsSection';
+import { CarDamageDiagram2D } from '@/components/BiddingCockpit/Sections/CarDamageDiagram2D';
+import { HD_PART_MAP } from '@/services/biddingOptionCatalog';
 
 export interface SelectedHeydealerBidDetailV2SectionProps {
   selectedHeydealerBid: HeydealerBidItem | null;
 }
+
+/**
+ * 헤이딜러 수리 부위명 -> CarDamageDiagram2D 표준 부위 키워드로 변환
+ * - 운전석 -> 좌, 조수석 -> 우 기본 치환
+ * - 다이어그램에 앞/뒤 구분이 없는 부위(인사이드패널 등)는 위치어 정리
+ * - 다이어그램 배제어 충돌(예: 휠하우스의 '우') 방지를 위해 필요 시 표준 부위 코드 반환
+ * - 다이어그램 미지원 부위(범퍼, 뒤 휠하우스 등)는 null 반환
+ */
+export const mapHeydealerPartToDiagram = (rawPart: string): string | null => {
+  if (!rawPart || typeof rawPart !== 'string') return null;
+  const raw = rawPart.trim();
+  if (!raw) return null;
+
+  // 영문 코드일 경우 HD_PART_MAP으로 한글 변환
+  const s = HD_PART_MAP[raw] || raw;
+
+  // 1. 범퍼: 다이어그램 미지원 부위
+  if (s.includes('범퍼')) {
+    return null;
+  }
+
+  // 2. 휠하우스: 다이어그램에는 앞 휠하우스만 존재
+  if (s.includes('휠하우스')) {
+    if (s.includes('뒤') || s.toLowerCase().includes('rear')) {
+      return null; // 뒤 휠하우스는 다이어그램 미지원
+    }
+    // 프론트 휠하우스: 한글 '휠하우스(좌)'는 '휠하우스'의 '우'가 exclude: ['우']에 걸리므로 표준 코드로 매핑
+    if (s.includes('운전석') || s.includes('좌')) {
+      return 'FRONT_WHEEL_HOUSE_L';
+    }
+    if (s.includes('조수석') || s.includes('우')) {
+      return 'FRONT_WHEEL_HOUSE_R';
+    }
+    return 'FRONT_WHEEL_HOUSE_L';
+  }
+
+  // 3. 인사이드패널: 다이어그램에 앞/뒤 구분이 없으므로 위치어(앞/, 뒤/) 제거하고 좌/우 통일
+  if (s.includes('인사이드')) {
+    if (s.includes('운전석') || s.includes('좌')) {
+      return '인사이드패널(좌)';
+    }
+    if (s.includes('조수석') || s.includes('우')) {
+      return '인사이드패널(우)';
+    }
+    return 'INSIDE_PANEL_L';
+  }
+
+  // 4. 사이드멤버: 다이어그램에 앞/뒤 구분이 명확히 있음
+  if (s.includes('사이드멤버')) {
+    const isRear = s.includes('뒤') || s.includes('리어') || s.toLowerCase().includes('rear');
+    if (s.includes('운전석') || s.includes('좌')) {
+      return isRear ? '리어사이드멤버(좌)' : '앞사이드멤버(좌)';
+    }
+    if (s.includes('조수석') || s.includes('우')) {
+      return isRear ? '리어사이드멤버(우)' : '앞사이드멤버(우)';
+    }
+    return '앞사이드멤버(좌)';
+  }
+
+  // 5. 사이드실 패널
+  if (s.includes('사이드실')) {
+    if (s.includes('운전석') || s.includes('좌')) {
+      return '사이드실(좌)';
+    }
+    if (s.includes('조수석') || s.includes('우')) {
+      return '사이드실(우)';
+    }
+    return '사이드실(좌)';
+  }
+
+  // 6. 후드(보닛)
+  if (s.includes('후드') || s.includes('보닛') || s.includes('본넷')) {
+    return '후드';
+  }
+
+  // 7. 기본 방향 치환 (운전석 -> 좌, 조수석 -> 우)
+  const mapped = s.replace(/운전석/g, '좌').replace(/조수석/g, '우');
+  return mapped;
+};
 
 export const SelectedHeydealerBidDetailV2Section: React.FC<SelectedHeydealerBidDetailV2SectionProps> = ({
   selectedHeydealerBid,
@@ -22,6 +103,30 @@ export const SelectedHeydealerBidDetailV2Section: React.FC<SelectedHeydealerBidD
     selectedHeydealerBid.options && selectedHeydealerBid.options !== '-'
       ? selectedHeydealerBid.options.trim()
       : '';
+
+  // 2D 상태도용 수리 부위 매핑 (교환: replaces, 판금/용접: repairs)
+  const diagramEncar = React.useMemo(() => {
+    if (!selectedHeydealerBid?.repairs || selectedHeydealerBid.repairs.length === 0) {
+      return { replaces: [], repairs: [] };
+    }
+
+    const replaces: string[] = [];
+    const repairs: string[] = [];
+
+    for (const r of selectedHeydealerBid.repairs) {
+      const mappedPart = mapHeydealerPartToDiagram(r.part);
+      if (!mappedPart) continue;
+
+      const isReplace = r.repair === '교환' || r.repair === 'exchange' || r.repair === 'replace';
+      if (isReplace) {
+        replaces.push(mappedPart);
+      } else {
+        repairs.push(mappedPart);
+      }
+    }
+
+    return { replaces, repairs };
+  }, [selectedHeydealerBid?.repairs]);
 
   return (
     <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl overflow-hidden shadow-sm space-y-0">
@@ -138,7 +243,11 @@ export const SelectedHeydealerBidDetailV2Section: React.FC<SelectedHeydealerBidD
             </div>
           </div>
         </div>
+
+        {/* 5. 외판 및 주요골격 2D 상태도 */}
+        <CarDamageDiagram2D selectedEncar={diagramEncar} />
       </div>
     </div>
   );
 };
+
