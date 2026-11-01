@@ -1,5 +1,5 @@
 import React from 'react';
-import { ExternalLink, RefreshCw, Car, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { ExternalLink, RefreshCw, Car, AlertCircle } from 'lucide-react';
 import { EncarItem } from '@/components/BiddingCockpit/types';
 
 export interface ComparableEncarV2SectionProps {
@@ -10,10 +10,11 @@ export interface ComparableEncarV2SectionProps {
   totalModelCount: number;
   filteredCount: number;
   isInitialState: boolean;
+  targetMileageKm?: number;
   errorMessage?: string | null;
 }
 
-// 사고구분 라벨 헬퍼 (무사고/단순수리/사고)
+// 사고구분 라벨 헬퍼 (무사고/단순수리/사고 배지)
 const formatAccident = (rawType?: string) => {
   if (!rawType || (rawType.includes('완전무사고') && !rawType.includes('교환') && !rawType.includes('판금'))) {
     return { text: '🟢 완전무사고', style: 'text-emerald-400 font-bold' };
@@ -49,6 +50,7 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
   totalModelCount,
   filteredCount,
   isInitialState,
+  targetMileageKm = 0,
   errorMessage,
 }) => {
   // 💡 [2026-11-01 제이 규칙]: 보정가 필드가 항목에 있으면 표시하되, 없으면 계산하지 않고 표시에서 제외(V2에서 계산 금지)
@@ -106,29 +108,50 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
           </p>
         </div>
       ) : (
-        /* 2-4) 목록 렌더링 */
+        /* 2-4) 목록 렌더링 (기존 칸 직관성 1:1 이전 및 가로 스크롤 보존) */
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs text-zinc-200">
             <thead className="bg-[#14151b] border-b border-[#262833] text-[11px] text-[#8b8e9d] uppercase font-semibold">
               <tr>
-                <th className="py-2.5 px-3 text-center w-10">선택</th>
-                <th className="py-2.5 px-3">모델 / 세부등급</th>
-                <th className="py-2.5 px-3 text-center w-16">연식</th>
-                <th className="py-2.5 px-3 text-right w-24">주행거리</th>
-                <th className="py-2.5 px-3 text-right w-24">가격</th>
+                <th className="py-2.5 px-2 text-center w-8 whitespace-nowrap">선택</th>
+                <th className="py-2.5 px-2 text-center w-20 whitespace-nowrap">성능일</th>
+                <th className="py-2.5 px-2 text-center w-16 whitespace-nowrap">재고일</th>
+                <th className="py-2.5 px-3 min-w-[130px] whitespace-nowrap">차량명</th>
+                <th className="py-2.5 px-2 text-center w-14 whitespace-nowrap">연식</th>
+                <th className="py-2.5 px-2 text-right w-24 whitespace-nowrap">주행(km)</th>
+                <th className="py-2.5 px-2 text-right w-20 whitespace-nowrap">가격</th>
                 {hasAdjustedPrice && (
-                  <th className="py-2.5 px-3 text-right w-24">보정가</th>
+                  <th className="py-2.5 px-2 text-right w-20 whitespace-nowrap">보정가</th>
                 )}
-                <th className="py-2.5 px-3 text-center w-28">사고구분</th>
-                <th className="py-2.5 px-3 text-center w-24">점검일</th>
-                <th className="py-2.5 px-3 text-center w-14">상세</th>
+                <th className="py-2.5 px-2 text-left w-28 whitespace-nowrap">사고유무</th>
+                <th className="py-2.5 px-2 text-center w-14 whitespace-nowrap">색상</th>
+                <th className="py-2.5 px-2 text-center w-14 whitespace-nowrap">옵션</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[#1e2029]">
               {encarList.map((car) => {
                 const isSelected = selectedEncarId === car.id;
                 const accInfo = formatAccident(car.accidentType);
-                const detailUrl = car.encarUrl || `https://fem.encar.com/cars/detail/${car.id}`;
+                const detailUrl = car.encarUrl || `https://fem.encar.com/cars/detail/${String(car.id).replace(/\D/g, '')}`;
+
+                // 재고일 색상 밴드: 14일 이하 초록, 60일 이상 빨강, 그 외 노랑
+                const hasHoldingDays = car.holdingDays !== undefined && car.holdingDays !== null && !isNaN(Number(car.holdingDays));
+                const holdingDaysVal = Number(car.holdingDays);
+
+                // 주행 차이 계산 (표시 전용)
+                const hasDiff = targetMileageKm > 0;
+                const diffKm = hasDiff ? car.mileage - targetMileageKm : 0;
+
+                // 옵션 유무 판단
+                const hasOptions = Boolean(
+                  (car.options && car.options.length > 0) ||
+                  (car.optionsText && car.optionsText.trim() !== '' && car.optionsText !== '-')
+                );
+                const optionsCount = car.options && car.options.length > 0
+                  ? car.options.length
+                  : car.optionsText
+                  ? car.optionsText.split(/[,·\/\n]/).filter(s => s.trim().length > 0).length
+                  : 0;
 
                 return (
                   <tr
@@ -141,7 +164,7 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
                     }`}
                   >
                     {/* 1) 선택 라디오 */}
-                    <td className="py-2 px-3 text-center">
+                    <td className="py-2 px-2 text-center whitespace-nowrap">
                       <input
                         type="radio"
                         checked={isSelected}
@@ -150,12 +173,43 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
                       />
                     </td>
 
-                    {/* 2) 모델 / 세부등급 */}
-                    <td className="py-2 px-3">
-                      <div className="flex flex-col">
-                        <span className="font-semibold text-zinc-100 truncate max-w-xs">
-                          {car.carName}
+                    {/* 2) 성능일 */}
+                    <td className="py-2 px-2 text-center font-mono text-[11px] text-zinc-300 whitespace-nowrap">
+                      {car.checkDate || car.inspectionDate || '-'}
+                    </td>
+
+                    {/* 3) 재고일 (14일 이하 초록, 60일 이상 빨강, 그 외 노랑) */}
+                    <td className="py-2 px-2 text-center whitespace-nowrap">
+                      {hasHoldingDays ? (
+                        <span
+                          className={`px-1.5 py-0.5 rounded text-[11px] font-black font-mono border ${
+                            holdingDaysVal <= 14
+                              ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
+                              : holdingDaysVal >= 60
+                              ? 'bg-rose-500/20 text-rose-300 border-rose-500/40'
+                              : 'bg-amber-500/20 text-amber-300 border-amber-500/40'
+                          }`}
+                        >
+                          {holdingDaysVal}일
                         </span>
+                      ) : (
+                        <span className="text-zinc-500 font-mono text-[11px]">-</span>
+                      )}
+                    </td>
+
+                    {/* 4) 차량명 (자체에 원문 링크, 클릭 전파 중단) */}
+                    <td className="py-2 px-3 whitespace-nowrap">
+                      <div className="flex flex-col">
+                        <a
+                          href={detailUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="font-bold text-sky-400 hover:text-sky-300 hover:underline transition truncate max-w-xs block"
+                          title={`엔카 상세 새 창 열기 (ID: ${car.id})`}
+                        >
+                          {car.carName}
+                        </a>
                         {car.subModel && (
                           <span className="text-[11px] text-zinc-400 truncate max-w-xs">
                             {car.subModel}
@@ -164,54 +218,73 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
                       </div>
                     </td>
 
-                    {/* 3) 연식 */}
-                    <td className="py-2 px-3 text-center font-mono text-zinc-300">
+                    {/* 5) 연식 */}
+                    <td className="py-2 px-2 text-center font-mono text-zinc-300 whitespace-nowrap">
                       {car.year}
                     </td>
 
-                    {/* 4) 주행거리 */}
-                    <td className="py-2 px-3 text-right font-mono text-zinc-200">
-                      {car.mileage.toLocaleString()}km
+                    {/* 6) 주행(km) 및 주행 차이 (표시 전용) */}
+                    <td className="py-2 px-2 text-right font-mono whitespace-nowrap">
+                      <div className="text-zinc-200 font-bold">
+                        {car.mileage.toLocaleString()}km
+                      </div>
+                      {hasDiff && (
+                        <div
+                          className={`text-[10px] leading-tight pt-0.5 font-mono ${
+                            diffKm === 0
+                              ? 'text-zinc-400'
+                              : diffKm > 0
+                              ? 'text-amber-400'
+                              : 'text-emerald-400'
+                          }`}
+                        >
+                          {diffKm === 0
+                            ? '동일km'
+                            : diffKm > 0
+                            ? `+${diffKm.toLocaleString()}km`
+                            : `${diffKm.toLocaleString()}km`}
+                        </div>
+                      )}
                     </td>
 
-                    {/* 5) 가격 */}
-                    <td className="py-2 px-3 text-right font-mono font-bold text-amber-400">
-                      {car.price.toLocaleString()}만원
+                    {/* 7) 가격 */}
+                    <td className="py-2 px-2 text-right font-mono font-bold text-amber-400 whitespace-nowrap">
+                      {car.price.toLocaleString()}만
                     </td>
 
-                    {/* 6) 보정가 (필드가 존재할 때만 표시) */}
+                    {/* 8) 보정가 (필드 존재 시에만 표시) */}
                     {hasAdjustedPrice && (
-                      <td className="py-2 px-3 text-right font-mono text-sky-400 font-semibold">
+                      <td className="py-2 px-2 text-right font-mono text-sky-400 font-semibold whitespace-nowrap">
                         {(car as any).adjustedPrice !== undefined && (car as any).adjustedPrice !== null
-                          ? `${Number((car as any).adjustedPrice).toLocaleString()}만원`
+                          ? `${Number((car as any).adjustedPrice).toLocaleString()}만`
                           : '-'}
                       </td>
                     )}
 
-                    {/* 7) 사고구분 */}
-                    <td className="py-2 px-3 text-center whitespace-nowrap">
+                    {/* 9) 사고유무 */}
+                    <td className="py-2 px-2 text-left whitespace-nowrap">
                       <span className={`text-[11px] ${accInfo.style}`}>
                         {accInfo.text}
                       </span>
                     </td>
 
-                    {/* 8) 점검일 */}
-                    <td className="py-2 px-3 text-center font-mono text-[11px] text-zinc-400 whitespace-nowrap">
-                      {car.checkDate || car.inspectionDate || '-'}
+                    {/* 10) 색상 */}
+                    <td className="py-2 px-2 text-center text-[11px] text-zinc-300 whitespace-nowrap">
+                      {car.color || '-'}
                     </td>
 
-                    {/* 9) 엔카 상세 링크 */}
-                    <td className="py-2 px-3 text-center">
-                      <a
-                        href={detailUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        title="엔카 상세 페이지 열기"
-                        className="inline-flex items-center justify-center p-1 rounded text-zinc-400 hover:text-white hover:bg-zinc-800 transition"
-                      >
-                        <ExternalLink className="w-3.5 h-3.5" />
-                      </a>
+                    {/* 11) 옵션 유무 */}
+                    <td className="py-2 px-2 text-center whitespace-nowrap">
+                      {hasOptions ? (
+                        <span
+                          title={car.optionsText || '옵션 있음'}
+                          className="px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold border border-amber-500/40 text-[10.5px]"
+                        >
+                          {optionsCount > 0 ? `${optionsCount}개` : '유'}
+                        </span>
+                      ) : (
+                        <span className="text-zinc-500 text-[11px]">기본</span>
+                      )}
                     </td>
                   </tr>
                 );

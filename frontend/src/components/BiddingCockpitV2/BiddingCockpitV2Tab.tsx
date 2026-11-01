@@ -224,6 +224,7 @@ export const BiddingCockpitV2Tab: React.FC = () => {
                 totalModelCount={cockpit.encarTotalModelCount || 0}
                 filteredCount={cockpit.encarFilteredCount || 0}
                 isInitialState={isInitialState}
+                targetMileageKm={cockpit.mileageKm || 0}
                 errorMessage={cockpit.encarErrorMessage}
               />
             </div>

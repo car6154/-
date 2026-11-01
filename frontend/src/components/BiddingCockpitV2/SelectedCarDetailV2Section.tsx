@@ -8,13 +8,13 @@ export interface SelectedCarDetailV2SectionProps {
   isInspectionLoading: boolean;
 }
 
-// 사고구분 라벨 헬퍼 (배지 스타일 포함)
+// 사고구분 라벨 헬퍼 (기존 콕핏 배지 스타일과 100% 일치)
 const formatAccident = (rawType?: string) => {
   if (!rawType || (rawType.includes('완전무사고') && !rawType.includes('교환') && !rawType.includes('판금'))) {
-    return { text: '🟢 완전무사고', style: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/30' };
+    return { text: '🟢 완전무사고', style: 'text-emerald-300 bg-emerald-500/20 border-emerald-500/40 font-bold' };
   }
   if (rawType.includes('사고') && !rawType.includes('무사고')) {
-    return { text: '🔴 프레임사고', style: 'text-rose-400 bg-rose-500/10 border-rose-500/30' };
+    return { text: '🔴 프레임사고', style: 'text-rose-300 bg-rose-500/20 border-rose-500/40 font-bold' };
   }
   const repMatch = rawType.match(/교환\s*[:\s]?\s*(\d+)/);
   const fixMatch = rawType.match(/판금\s*[:\s]?\s*(\d+)/);
@@ -22,18 +22,18 @@ const formatAccident = (rawType?: string) => {
   const fCnt = fixMatch ? parseInt(fixMatch[1], 10) : 0;
   const total = rCnt + fCnt;
   if (total > 0) {
-    return { text: `🟡 단순수리 (${total})`, style: 'text-amber-400 bg-amber-500/10 border-amber-500/30' };
+    return { text: `🟡 단순수리 (${total})`, style: 'text-amber-300 bg-amber-500/20 border-amber-500/40 font-bold' };
   }
   if (rawType.includes('교환') && rawType.includes('판금')) {
-    return { text: '🟡 단순(교/판)', style: 'text-amber-400 bg-amber-500/10 border-amber-500/30' };
+    return { text: '🟡 단순(교/판)', style: 'text-amber-300 bg-amber-500/20 border-amber-500/40 font-bold' };
   }
   if (rawType.includes('판금')) {
-    return { text: '🟡 단순판금', style: 'text-amber-400 bg-amber-500/10 border-amber-500/30' };
+    return { text: '🟡 단순판금', style: 'text-amber-300 bg-amber-500/20 border-amber-500/40 font-bold' };
   }
   if (rawType.includes('교환')) {
-    return { text: '🟡 단순교환', style: 'text-amber-400 bg-amber-500/10 border-amber-500/30' };
+    return { text: '🟡 단순교환', style: 'text-amber-300 bg-amber-500/20 border-amber-500/40 font-bold' };
   }
-  return { text: `🟡 ${rawType.slice(0, 8)}`, style: 'text-amber-400 bg-amber-500/10 border-amber-500/30' };
+  return { text: `🟡 ${rawType.slice(0, 8)}`, style: 'text-amber-300 bg-amber-500/20 border-amber-500/40 font-bold' };
 };
 
 export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProps> = ({

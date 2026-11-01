@@ -176,13 +176,13 @@ export const CarDamageDiagram2D: React.FC<CarDamageDiagram2DProps> = ({ selected
           <div className="text-center flex-1">
             <div className="text-[11px] font-bold text-zinc-400 mb-0.5">외판 (1랭크/2랭크)</div>
             <svg viewBox="0 0 220 340" className="w-full max-w-[125px] mx-auto">
-              <rect x="15" y="10" width="190" height="320" rx="18" fill="#0f172a" stroke="#334155" strokeWidth="1.2" />
+              <rect x="15" y="10" width="190" height="320" rx="18" fill="#0f172a" stroke="#475569" strokeWidth="1.5" />
               {outerParts.map((p, i) => {
                 const fill = checkStatus(p);
                 return (
                   <g key={i}>
                     <title>{p.full}</title>
-                    <rect x={p.x} y={p.y} width={p.w} height={p.h} rx="4" fill={fill} stroke="#334155" strokeWidth="1.1" />
+                    <rect x={p.x} y={p.y} width={p.w} height={p.h} rx="4" fill={fill} stroke="#94a3b8" strokeWidth="1.6" />
                     <text x={p.x + p.w / 2} y={p.y + p.h / 2} textAnchor="middle" dominantBaseline="middle" fontSize={p.w < 15 ? 7.5 : 9.5} fontWeight="bold" fill="#ffffff">
                       {p.label}
                     </text>
@@ -196,13 +196,13 @@ export const CarDamageDiagram2D: React.FC<CarDamageDiagram2DProps> = ({ selected
           <div className="text-center flex-1">
             <div className="text-[11px] font-bold text-zinc-400 mb-0.5">주요골격 (차체구조)</div>
             <svg viewBox="0 0 220 340" className="w-full max-w-[125px] mx-auto">
-              <rect x="15" y="10" width="190" height="320" rx="18" fill="#0f172a" stroke="#334155" strokeWidth="1.2" />
+              <rect x="15" y="10" width="190" height="320" rx="18" fill="#0f172a" stroke="#475569" strokeWidth="1.5" />
               {innerParts.map((p, i) => {
                 const fill = checkStatus(p);
                 return (
                   <g key={i}>
                     <title>{p.full}</title>
-                    <rect x={p.x} y={p.y} width={p.w} height={p.h} rx="4" fill={fill} stroke="#334155" strokeWidth="1.1" />
+                    <rect x={p.x} y={p.y} width={p.w} height={p.h} rx="4" fill={fill} stroke="#94a3b8" strokeWidth="1.6" />
                     <text x={p.x + p.w / 2} y={p.y + p.h / 2} textAnchor="middle" dominantBaseline="middle" fontSize={p.w < 20 ? 7 : 8.5} fontWeight="bold" fill="#ffffff">
                       {p.label}
                     </text>
