@@ -1551,24 +1551,33 @@ export function useBiddingCockpit({
         // 💡 [10-30-02 등급 가드]: cGrade가 없거나 '-'인 예외적 경우에만 차얼마 결과를 await하여 등급 보정
         if ((!targetGrade || targetGrade === '-') && cNo) {
           setAiEstimateStep(`차얼마 제원 연동 대기 중... [${cNo}]`);
+          startChaolmaTimer();
           try {
             const chRes = await queryChaolmaCar(cNo, calculatedMil || 50000);
-            if (activeHeydealerTokenRef.current === heydealerToken && chRes && chRes.success) {
-              applyChaolmaResult(chRes);
-              const combinedG = [chRes.grade_name, chRes.grade_detail_name].filter(Boolean).join(' ').trim();
-              if (combinedG) {
-                targetGrade = combinedG;
-                setDetailModel(combinedG);
-              }
-              if (chRes.options && chRes.options.length > 0) {
-                fetchNewCarCatalog(chRes.model_detail_name || chRes.model_name || carData.car_name, (chRes as any).model_year || chRes.year)
-                  .then(cat => {
-                    if (activeHeydealerTokenRef.current === heydealerToken && cat) setTargetNewCarCatalog(cat);
-                  })
-                  .catch(() => {});
+            if (activeHeydealerTokenRef.current === heydealerToken) {
+              if (chRes && chRes.success) {
+                stopChaolmaTimer(true);
+                applyChaolmaResult(chRes);
+                const combinedG = [chRes.grade_name, chRes.grade_detail_name].filter(Boolean).join(' ').trim();
+                if (combinedG) {
+                  targetGrade = combinedG;
+                  setDetailModel(combinedG);
+                }
+                if (chRes.options && chRes.options.length > 0) {
+                  fetchNewCarCatalog(chRes.model_detail_name || chRes.model_name || carData.car_name, (chRes as any).model_year || chRes.year)
+                    .then(cat => {
+                      if (activeHeydealerTokenRef.current === heydealerToken && cat) setTargetNewCarCatalog(cat);
+                    })
+                    .catch(() => {});
+                }
+              } else {
+                stopChaolmaTimer(false);
               }
             }
           } catch (chErr) {
+            if (activeHeydealerTokenRef.current === heydealerToken) {
+              stopChaolmaTimer(false);
+            }
             console.warn('차올마 등급 조회 대기 중 오류 (기존 제원 유지):', chErr);
           }
         } else if (cNo) {
