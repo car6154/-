@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calculator, FileText, Clock, CheckCircle2, TrendingUp, Warehouse, ScanLine } from 'lucide-react';
+import { Calculator, Rocket, FileText, Clock, CheckCircle2, TrendingUp, Warehouse, ScanLine } from 'lucide-react';
 import type { AppTab } from './Header';
 
 interface MobileNavProps {
@@ -12,7 +12,7 @@ export const MobileNav: React.FC<MobileNavProps> = ({ activeTab, setActiveTab })
     <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#07080B]/95 backdrop-blur-lg border-t border-[#1c1d22] px-1 py-1.5 flex items-center justify-around safe-area-pb">
       <button
         onClick={() => setActiveTab('cockpit')}
-        className={`flex flex-col items-center py-1 px-2 rounded-lg transition ${
+        className={`flex flex-col items-center py-1 px-1.5 rounded-lg transition ${
           activeTab === 'cockpit' ? 'text-[#cc9166]' : 'text-[#9194a1] hover:text-white'
         }`}
       >
@@ -21,8 +21,18 @@ export const MobileNav: React.FC<MobileNavProps> = ({ activeTab, setActiveTab })
       </button>
 
       <button
+        onClick={() => setActiveTab('cockpit_v2')}
+        className={`flex flex-col items-center py-1 px-1.5 rounded-lg transition ${
+          activeTab === 'cockpit_v2' ? 'text-[#cc9166]' : 'text-[#9194a1] hover:text-white'
+        }`}
+      >
+        <Rocket className="w-4 h-4 mb-0.5" />
+        <span className="text-[9px] font-medium">V2</span>
+      </button>
+
+      <button
         onClick={() => setActiveTab('ledger')}
-        className={`flex flex-col items-center py-1 px-2 rounded-lg transition ${
+        className={`flex flex-col items-center py-1 px-1.5 rounded-lg transition ${
           activeTab === 'ledger' ? 'text-[#cc9166]' : 'text-[#9194a1] hover:text-white'
         }`}
       >
@@ -32,7 +42,7 @@ export const MobileNav: React.FC<MobileNavProps> = ({ activeTab, setActiveTab })
 
       <button
         onClick={() => setActiveTab('settlement')}
-        className={`flex flex-col items-center py-1 px-2 rounded-lg transition ${
+        className={`flex flex-col items-center py-1 px-1.5 rounded-lg transition ${
           activeTab === 'settlement' ? 'text-[#cc9166]' : 'text-[#9194a1] hover:text-white'
         }`}
       >
@@ -42,7 +52,7 @@ export const MobileNav: React.FC<MobileNavProps> = ({ activeTab, setActiveTab })
 
       <button
         onClick={() => setActiveTab('soldout')}
-        className={`flex flex-col items-center py-1 px-2 rounded-lg transition ${
+        className={`flex flex-col items-center py-1 px-1.5 rounded-lg transition ${
           activeTab === 'soldout' ? 'text-[#cc9166]' : 'text-[#9194a1] hover:text-white'
         }`}
       >
@@ -52,7 +62,7 @@ export const MobileNav: React.FC<MobileNavProps> = ({ activeTab, setActiveTab })
 
       <button
         onClick={() => setActiveTab('performance')}
-        className={`flex flex-col items-center py-1 px-2 rounded-lg transition ${
+        className={`flex flex-col items-center py-1 px-1.5 rounded-lg transition ${
           activeTab === 'performance' ? 'text-[#cc9166]' : 'text-[#9194a1] hover:text-white'
         }`}
       >
@@ -62,7 +72,7 @@ export const MobileNav: React.FC<MobileNavProps> = ({ activeTab, setActiveTab })
 
       <button
         onClick={() => setActiveTab('inventory')}
-        className={`flex flex-col items-center py-1 px-2 rounded-lg transition ${
+        className={`flex flex-col items-center py-1 px-1.5 rounded-lg transition ${
           activeTab === 'inventory' ? 'text-[#cc9166]' : 'text-[#9194a1] hover:text-white'
         }`}
       >
@@ -72,7 +82,7 @@ export const MobileNav: React.FC<MobileNavProps> = ({ activeTab, setActiveTab })
 
       <button
         onClick={() => setActiveTab('ocr')}
-        className={`flex flex-col items-center py-1 px-2 rounded-lg transition ${
+        className={`flex flex-col items-center py-1 px-1.5 rounded-lg transition ${
           activeTab === 'ocr' ? 'text-[#cc9166]' : 'text-[#9194a1] hover:text-white'
         }`}
       >

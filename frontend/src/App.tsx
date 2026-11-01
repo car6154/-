@@ -997,8 +997,8 @@ export default function App() {
 
       {/* Mobile Bottom Navigation Bar */}
       <MobileNav
-        activeTab={activeTab as AppTab}
-        setActiveTab={setActiveTab as (tab: AppTab) => void}
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
       />
 
       {/* Floating Toast Notification */}
