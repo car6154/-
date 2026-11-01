@@ -285,6 +285,35 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
               )}
             </div>
 
+            {/* 매입 희망가 (만원) - 미입력 시 권장상한 자동 적용 */}
+            <div className="space-y-1">
+              <div className="flex justify-between items-center text-zinc-400">
+                <span className="text-[11px] font-medium">매입 희망가 (만원)</span>
+                <span className="text-[10px] text-zinc-500 font-mono">
+                  {cockpit.safeBidCeiling > 0 ? `권장상한 ${cockpit.safeBidCeiling.toLocaleString()}만` : '미입력 시 권장상한 자동적용'}
+                </span>
+              </div>
+              <div className="flex items-center gap-1">
+                <button
+                  type="button"
+                  onClick={() => cockpit.setUserBid(Math.max(0, (cockpit.userBid || cockpit.safeBidCeiling) - 10))}
+                  className="w-7 h-7 rounded bg-[#161822] hover:bg-[#202330] text-white font-bold transition flex items-center justify-center border border-[#262938]"
+                >-</button>
+                <input
+                  type="number"
+                  value={cockpit.userBid === 0 ? '' : cockpit.userBid}
+                  onChange={(e) => cockpit.setUserBid(Math.max(0, Number(e.target.value) || 0))}
+                  placeholder={cockpit.safeBidCeiling > 0 ? `${cockpit.safeBidCeiling}` : '매입가 입력'}
+                  className="flex-1 px-2.5 py-1.5 rounded-lg bg-[#161822] border border-[#262938] text-xs text-emerald-400 placeholder-[#5e616e] focus:outline-none focus:border-emerald-400 font-mono font-bold text-center"
+                />
+                <button
+                  type="button"
+                  onClick={() => cockpit.setUserBid((cockpit.userBid || cockpit.safeBidCeiling) + 10)}
+                  className="w-7 h-7 rounded bg-[#161822] hover:bg-[#202330] text-white font-bold transition flex items-center justify-center border border-[#262938]"
+                >+</button>
+              </div>
+            </div>
+
             {/* 예상 소매가 (만원) */}
             <div className="space-y-1">
               <div className="flex justify-between items-center text-zinc-400">

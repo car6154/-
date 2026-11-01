@@ -356,6 +356,7 @@ export default function App() {
           outerRepairs: newCarData.outerRepairs,
           repairCost: newCarData.repairCost,
           heydealerFee: newCarData.heydealerFee,
+          targetMargin: newCarData.targetMargin,
           memo: newCarData.memo,
           status: newCarData.status || '장부저장'
         })

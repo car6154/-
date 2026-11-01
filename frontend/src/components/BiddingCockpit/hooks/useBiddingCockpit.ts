@@ -2530,7 +2530,8 @@ export function useBiddingCockpit({
       outerRepairs: outerRepairCount,
       repairCost: repairCostTotal,
       heydealerFee: actualPurchaseFee,
-      memo: `[헤이딜러 ${auctionType} / 마진: ${Math.round(actualMargin)}만 / 예상소매: ${expectedSellPrice}만 / 권장상한: ${safeBidCeiling}만] ${memo}`,
+      targetMargin: targetMargin,
+      memo: `[헤이딜러 ${auctionType} / 목표마진: ${targetMargin}만 / 마진: ${Math.round(actualMargin)}만 / 예상소매: ${expectedSellPrice}만 / 권장상한: ${safeBidCeiling}만] ${memo}`,
       status: '장부저장'
     });
 

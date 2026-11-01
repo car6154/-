@@ -146,6 +146,7 @@ class CarLedgerCreateRequest(BaseModel):
     outerRepairs: Optional[Any] = 0
     repairCost: Optional[Any] = 0
     heydealerFee: Optional[Any] = 0.0
+    targetMargin: Optional[Any] = 0
     memo: Optional[str] = ""
     status: Optional[str] = "장부저장"
 
@@ -212,6 +213,7 @@ def save_car_to_ledger(req: CarLedgerCreateRequest):
     set_col("외판수리", str(req.outerRepairs if req.outerRepairs is not None else "0"))
     set_col("외판수리비", str(req.repairCost if req.repairCost is not None else "0"))
     set_col("헤딜수수료", str(req.heydealerFee if req.heydealerFee is not None else "0"))
+    set_col("목표마진", str(req.targetMargin if req.targetMargin is not None else "0"))
     set_col("특이사항", req.memo or "")
     set_col("상태", req.status or "장부저장")
 

@@ -13,6 +13,7 @@ export interface CarLedgerItem {
   outerRepairs: number;   // 외판수리 판수
   repairCost: number;     // 외판수리비 (만원)
   heydealerFee: number;   // 헤딜수수료 (만원)
+  targetMargin?: number;  // 목표 마진 (만원)
   memo: string;           // 특이사항 (예: [셀프(기본) / 마진: 120만])
   status: string;         // 상태 (장부저장, 판매완료, 보유중 등)
 }
