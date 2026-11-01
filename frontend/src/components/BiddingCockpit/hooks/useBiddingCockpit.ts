@@ -3,6 +3,7 @@ import { CarLedgerItem } from '@/types';
 import { queryChaolmaCar, type ChaolmaCarHistory, type ChaolmaOriginDoc, type OptionItem } from '@/services/chaolmaService';
 import { searchCockpitUnified, compareEncarItemsByBackendRule } from '@/services/cockpitService';
 import { computeRuleBasedAssessment } from '@/utils/ruleBasedAssessment';
+import { calculateAccidentDepreciation, AccidentDepreciationResult } from '@/utils/accidentDepreciation';
 import {
   HD_PART_MAP,
   HD_REPAIR_MAP,
@@ -104,6 +105,9 @@ export function useBiddingCockpit({
     rawHistory?: ChaolmaCarHistory;
     originDoc?: ChaolmaOriginDoc;
     color?: string;
+    accidentRepairs?: any[] | null;
+    accidentType?: string;
+    isAccidentKnown?: boolean;
   } | null>(null);
 
   // 🌟 보험사고 & 카히스토리 대형 상세 리포트 모달 표시 상태
@@ -1293,7 +1297,7 @@ export function useBiddingCockpit({
       const cBrand = String(detail.brand_name || '-').trim();
       const rawYear = detail.year ?? carData.year ?? 0;
       const rawMil = Number(detail.mileage) || Number(carData.mileage) || Number(detail.vehicle_information?.mileage) || 0;
-      const cAccident = String(detail.accident_repairs_summary_display || detail.accident_repairs_summary || detail.accident_description || '').trim();
+      const cAccident = String(detail.accident || detail.accident_display || detail.accident_repairs_summary_display || detail.accident_repairs_summary || detail.accident_description || '').trim();
       const cDesiredPrice = Number(auction.desired_price) || 0;
 
       if (cNo || cName) {
@@ -1387,13 +1391,14 @@ export function useBiddingCockpit({
         }
 
         // 3순위: accident_repairs 목록 (범퍼 제외 실 외판 부위 집계)
+        const rawRepairs = (detail.accident_repairs && Array.isArray(detail.accident_repairs))
+          ? detail.accident_repairs
+          : (Array.isArray(carData.accident_repairs) ? carData.accident_repairs : (Array.isArray(resJson.data?.accident_repairs) ? resJson.data.accident_repairs : null));
+        const repairsList = rawRepairs || [];
+
         if (detectedOuterCount !== null) {
           setOuterRepairCount(detectedOuterCount);
         } else {
-          const repairsList = (detail.accident_repairs && Array.isArray(detail.accident_repairs))
-            ? detail.accident_repairs
-            : (Array.isArray(carData.accident_repairs) ? carData.accident_repairs : (Array.isArray(resJson.data?.accident_repairs) ? resJson.data.accident_repairs : []));
-
           if (repairsList.length > 0) {
             const nonBumper = repairsList.filter((r: any) => {
               const p = String(r.part || r.name || '').toLowerCase();
@@ -1452,7 +1457,10 @@ export function useBiddingCockpit({
           vin: vi.vin || '',
           manufacturedDate: vi.manufactured_date ? String(vi.manufactured_date).slice(0, 10) : '',
           inspectionValidUntil: vi.inspection_valid_until ? String(vi.inspection_valid_until).slice(0, 10) : '',
-          color: detail.color || carData.color || resJson.data?.color || ''
+          color: detail.color || carData.color || resJson.data?.color || '',
+          accidentRepairs: rawRepairs,
+          accidentType: cAccident,
+          isAccidentKnown: Boolean(rawRepairs !== null || (cAccident && cAccident !== '-'))
         });
 
         // 🌟 [10-30-02]: 트랙 1 시작 전 핵심 제원 및 URL 변수 사전 확정
@@ -2391,15 +2399,26 @@ export function useBiddingCockpit({
     return Math.max(5, Math.round(cost * 0.07));
   }, [targetCarHistory?.myCarAccidentCost]);
 
-  // 🎯 [최종 소매가]: 엔카 보정 평균(aiRetailPrice) 기준, 목표차 정보(targetCarHistory) 있을 때 보험 중복 제외 규칙 가감액 반영
+  // 🛡️ [목표차 사고 감가]: 목표차의 교환 내역이 알려졌을 때 부품별 감가를 최종 소매가에 적용 (제이 최종 확정 감가 일정)
+  const targetPartDepreciation = useMemo(() => {
+    return calculateAccidentDepreciation({
+      repairs: targetCarHistory?.accidentRepairs,
+      accidentType: targetCarHistory?.accidentType,
+      isAccidentKnown: targetCarHistory?.isAccidentKnown,
+      basePriceMan: aiRetailPrice
+    });
+  }, [targetCarHistory?.accidentRepairs, targetCarHistory?.accidentType, targetCarHistory?.isAccidentKnown, aiRetailPrice]);
+
+  // 🎯 [최종 소매가]: 엔카 보정 평균(aiRetailPrice) 기준, 목표차 정보(targetCarHistory) 있을 때 보험 중복 제외 규칙 가감액 및 목표차 사고 감가 반영
   const finalRetailPrice = useMemo(() => {
     const insuranceInRule = currentAssessment?.ruleAdjustments?.find(a => a.item === '보험사고 감가')?.amountMan ?? 0;
     const ruleAdjustmentExcludingInsurance = (currentAssessment?.totalAdjustmentMan ?? 0) - insuranceInRule;
+    const partDepreciation = targetPartDepreciation.totalDepreciationMan;
 
     return aiRetailPrice > 0 && targetCarHistory
-      ? Math.max(0, aiRetailPrice - insuranceDeduction + ruleAdjustmentExcludingInsurance)
-      : (aiRetailPrice > 0 ? Math.max(0, aiRetailPrice - insuranceDeduction) : 0);
-  }, [aiRetailPrice, insuranceDeduction, targetCarHistory, currentAssessment]);
+      ? Math.max(0, aiRetailPrice - insuranceDeduction + ruleAdjustmentExcludingInsurance - partDepreciation)
+      : (aiRetailPrice > 0 ? Math.max(0, aiRetailPrice - insuranceDeduction - partDepreciation) : 0);
+  }, [aiRetailPrice, insuranceDeduction, targetCarHistory, currentAssessment, targetPartDepreciation]);
 
   // 💡 [제이 규칙]: 사이드바 예상 소매가(expectedSellPrice)는 순수 사용자 수동 입력 필드이므로 AI 산출값으로 자동 채우지 않는다.
 
@@ -2570,6 +2589,7 @@ export function useBiddingCockpit({
     aiRetailPrice,
     finalRetailPrice,
     insuranceDeduction,
+    targetPartDepreciation,
     aiSafeBidCeiling,
     outerRepairCount,
     setOuterRepairCount,
