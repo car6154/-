@@ -87,9 +87,98 @@ export const mapHeydealerPartToDiagram = (rawPart: string): string | null => {
   return mapped;
 };
 
+// 낙찰 상세 옵션 캐시 (낙찰 id -> 정제된 옵션 목록)
+const heydealerOptionsCache = new Map<string, string[]>();
+
 export const SelectedHeydealerBidDetailV2Section: React.FC<SelectedHeydealerBidDetailV2SectionProps> = ({
   selectedHeydealerBid,
 }) => {
+  // 비동기 조회된 세부 옵션 상태
+  const [fetchedOptions, setFetchedOptions] = React.useState<string[] | null>(null);
+
+  // 선택된 낙찰 매물이 변경되거나 옵션이 비어 있을 때만 1건 비동기 조회
+  React.useEffect(() => {
+    if (!selectedHeydealerBid) {
+      setFetchedOptions(null);
+      return;
+    }
+
+    const bidId = selectedHeydealerBid.id;
+
+    // 1. 목록에 이미 유효한 옵션이 있는 경우 신규 조회 생략
+    const hasKeyOptions = Array.isArray(selectedHeydealerBid.keyOptions) && selectedHeydealerBid.keyOptions.length > 0;
+    const hasOptionsText = Boolean(selectedHeydealerBid.options && selectedHeydealerBid.options !== '-' && selectedHeydealerBid.options.trim().length > 0);
+    if (hasKeyOptions || hasOptionsText) {
+      setFetchedOptions(null);
+      return;
+    }
+
+    // 2. 이미 캐시된 옵션이 있는 경우 재호출 없이 즉시 반영
+    if (heydealerOptionsCache.has(bidId)) {
+      setFetchedOptions(heydealerOptionsCache.get(bidId) || null);
+      return;
+    }
+
+    // 3. 식별자 결정 (link 우선, 없으면 id 사용). hd_bid_로 시작하면 가상 ID이므로 조회 생략
+    let carKey = '';
+    if (selectedHeydealerBid.link) {
+      const m = selectedHeydealerBid.link.match(/\/cars\/([a-zA-Z0-9_-]+)/);
+      if (m) {
+        carKey = m[1];
+      } else {
+        carKey = selectedHeydealerBid.link.trim();
+      }
+    } else if (bidId && !bidId.startsWith('hd_bid_')) {
+      carKey = bidId.trim();
+    }
+
+    if (!carKey || carKey.startsWith('hd_bid_')) {
+      heydealerOptionsCache.set(bidId, []);
+      setFetchedOptions(null);
+      return;
+    }
+
+    // 4. 비동기 단건 상세 조회 (화면 블로킹 없음, 조용한 실패 처리)
+    let isCancelled = false;
+
+    fetch(`/api/heydealer/car/${encodeURIComponent(carKey)}`)
+      .then((res) => {
+        if (!res.ok) return null;
+        return res.json();
+      })
+      .then((resJson) => {
+        if (isCancelled) return;
+        if (resJson && resJson.success && resJson.data) {
+          const d = resJson.data;
+          let opts: string[] = [];
+          if (Array.isArray(d.parsed_options) && d.parsed_options.length > 0) {
+            opts = d.parsed_options.filter((o: any) => typeof o === 'string' && o.trim().length > 0);
+          } else if (d.options_text && typeof d.options_text === 'string') {
+            opts = d.options_text
+              .split(' · ')
+              .map((s: string) => s.trim())
+              .filter(Boolean);
+          }
+          heydealerOptionsCache.set(bidId, opts);
+          setFetchedOptions(opts);
+        } else {
+          // 실패(LOGIN_REQUIRED 포함) 또는 빈 결과면 재조회 방지 캐시 및 null 유지
+          heydealerOptionsCache.set(bidId, []);
+          setFetchedOptions(null);
+        }
+      })
+      .catch(() => {
+        if (!isCancelled) {
+          heydealerOptionsCache.set(bidId, []);
+          setFetchedOptions(null);
+        }
+      });
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [selectedHeydealerBid?.id, selectedHeydealerBid?.link, selectedHeydealerBid?.keyOptions, selectedHeydealerBid?.options]);
+
   if (!selectedHeydealerBid) {
     return (
       <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-6 text-center text-xs text-zinc-500">
@@ -97,6 +186,14 @@ export const SelectedHeydealerBidDetailV2Section: React.FC<SelectedHeydealerBidD
       </div>
     );
   }
+
+  // 최종 표시할 주요옵션 목록 결정 (목록 keyOptions -> 비동기 조회 fetchedOptions 순)
+  const displayKeyOptions =
+    selectedHeydealerBid.keyOptions && selectedHeydealerBid.keyOptions.length > 0
+      ? selectedHeydealerBid.keyOptions
+      : fetchedOptions && fetchedOptions.length > 0
+      ? fetchedOptions
+      : null;
 
   // 주요옵션 텍스트 정리 (빈 문자열 또는 '-'는 무옵션으로 처리)
   const fallbackOptionsText =
@@ -226,8 +323,8 @@ export const SelectedHeydealerBidDetailV2Section: React.FC<SelectedHeydealerBidD
           <div>
             <div className="text-xs text-white font-bold mb-1.5">주요옵션</div>
             <div className="flex flex-wrap gap-1.5">
-              {selectedHeydealerBid.keyOptions && selectedHeydealerBid.keyOptions.length > 0 ? (
-                selectedHeydealerBid.keyOptions.map((opt, oIdx) => (
+              {displayKeyOptions && displayKeyOptions.length > 0 ? (
+                displayKeyOptions.map((opt, oIdx) => (
                   <span
                     key={oIdx}
                     className="px-2.5 py-1 rounded bg-blue-500/15 text-blue-300 border border-blue-500/25 text-xs font-medium"
