@@ -68,6 +68,41 @@ export const BiddingCockpitV2Tab: React.FC = () => {
   const rawStdDelta = formatDelta(rawStdVal, finalPriceVal);
   const chaolmaDelta = formatDelta(chaolmaRetailVal, finalPriceVal);
 
+  // 케이카 연식 통계 헬퍼 (kcarStats.yearStats 우선 사용, 없으면 kcarStats.cars에서 엔카와 동일 방식으로 집계)
+  const kcarYearStats = React.useMemo(() => {
+    if (cockpit.kcarStats?.yearStats && cockpit.kcarStats.yearStats.length > 0) {
+      return cockpit.kcarStats.yearStats;
+    }
+    const cars = cockpit.kcarStats?.cars;
+    if (!cars || cars.length === 0) return [];
+
+    const targetYr = cockpit.yearModel > 0 ? (cockpit.yearModel > 100 ? cockpit.yearModel % 100 : cockpit.yearModel) : 22;
+    const yearGroups: Record<number, { count: number; sum: number }> = {};
+
+    cars.forEach(car => {
+      let y = targetYr;
+      const yrStr = String(car.year || '').trim();
+      const match = yrStr.match(/(\d{2,4})/);
+      if (match) {
+        const parsed = parseInt(match[1], 10);
+        if (parsed > 2000) y = parsed - 2000;
+        else if (parsed > 100) y = parsed % 100;
+        else if (parsed > 0) y = parsed;
+      }
+      if (!yearGroups[y]) yearGroups[y] = { count: 0, sum: 0 };
+      yearGroups[y].count++;
+      yearGroups[y].sum += (Number(car.price) || 0);
+    });
+
+    const years = Object.keys(yearGroups).map(Number).sort((a, b) => b - a);
+    return years.map(y => {
+      const { count, sum } = yearGroups[y];
+      const avg = Math.floor(sum / count);
+      const isTarget = y === targetYr;
+      return { year: y, avg, count, isTarget };
+    });
+  }, [cockpit.kcarStats, cockpit.yearModel]);
+
   // 4. 조회 전 초기 상태 여부 판정 (차량명 없고, 조회 중도 아니며, 매물 목록도 없는 상태)
   const isInitialState =
     !cockpit.carName &&
@@ -288,6 +323,65 @@ export const BiddingCockpitV2Tab: React.FC = () => {
                   }`}>
                     {chaolmaDelta}
                   </span>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* 연식평균 카드 (전체 폭: 엔카 · 케이카 연식별 호가 평균 및 대수 칩) */}
+          <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-3.5 space-y-2.5 shadow-sm">
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase">연식평균</span>
+            </div>
+
+            {/* 1) 엔카 행 */}
+            <div className="flex items-center gap-2.5 flex-wrap text-xs">
+              <span className="w-12 shrink-0 text-[11px] font-bold text-sky-400">엔카</span>
+              <div className="flex items-center gap-1.5 flex-wrap">
+                {cockpit.encarYearStats && cockpit.encarYearStats.length > 0 ? (
+                  cockpit.encarYearStats.map((st) => (
+                    <span
+                      key={st.year}
+                      className={`px-2 py-0.5 rounded text-[11px] font-mono flex items-center gap-1 ${
+                        st.isTarget
+                          ? 'bg-sky-500/20 text-sky-300 border border-sky-500/40 font-bold'
+                          : 'bg-[#151926] text-zinc-300 border border-[#20283d]'
+                      }`}
+                    >
+                      <span>{st.year}년</span>
+                      <strong className="text-white">{st.avg.toLocaleString()}만</strong>
+                      <span className="text-zinc-400 text-[10px]">({st.count}대)</span>
+                      {st.isTarget && <span className="text-[10px] text-amber-300">★</span>}
+                    </span>
+                  ))
+                ) : (
+                  <span className="text-zinc-500 text-[11px] font-mono">-</span>
+                )}
+              </div>
+            </div>
+
+            {/* 2) 케이카 행 */}
+            <div className="flex items-center gap-2.5 flex-wrap text-xs pt-2 border-t border-[#1e2029]">
+              <span className="w-12 shrink-0 text-[11px] font-bold text-rose-400">케이카</span>
+              <div className="flex items-center gap-1.5 flex-wrap">
+                {kcarYearStats && kcarYearStats.length > 0 ? (
+                  kcarYearStats.map((st) => (
+                    <span
+                      key={st.year}
+                      className={`px-2 py-0.5 rounded text-[11px] font-mono flex items-center gap-1 ${
+                        st.isTarget
+                          ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40 font-bold'
+                          : 'bg-[#1b1016] text-zinc-300 border border-[#2d1823]'
+                      }`}
+                    >
+                      <span>{st.year}년</span>
+                      <strong className="text-white">{st.avg.toLocaleString()}만</strong>
+                      <span className="text-zinc-400 text-[10px]">({st.count}대)</span>
+                      {st.isTarget && <span className="text-[10px] text-amber-300">★</span>}
+                    </span>
+                  ))
+                ) : (
+                  <span className="text-zinc-500 text-[11px] font-mono">-</span>
                 )}
               </div>
             </div>

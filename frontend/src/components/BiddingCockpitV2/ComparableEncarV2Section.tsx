@@ -122,7 +122,7 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
 
         <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-3">
           <span className="text-[10px] text-zinc-400 block font-medium">최고가</span>
-          <div className="text-lg font-black text-sky-400 font-mono mt-1 flex items-center gap-0.5">
+          <div className="text-lg font-black text-rose-400 font-mono mt-1 flex items-center gap-0.5">
             {maxPrice > 0 ? `${maxPrice.toLocaleString()}만` : '-'} <span>⬆</span>
           </div>
         </div>
