@@ -407,15 +407,29 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
 
             {/* 매입 비용 내역 (권장/최종 매입가, 예상마진, 수수료·수리·잡비) */}
             <div className="bg-emerald-500/10 border border-emerald-500/30 p-2.5 rounded-lg space-y-1.5">
-              <div className="flex justify-between items-baseline">
-                <div className="text-xs font-bold text-zinc-300">
-                  {cockpit.userBid > 0 && cockpit.userBid !== cockpit.safeBidCeiling ? (
-                    <span>최종 매입가 <small className="text-zinc-400 font-normal">(권장 {cockpit.safeBidCeiling.toLocaleString()}만)</small></span>
-                  ) : (
-                    <span className="text-zinc-300">권장 매입가</span>
-                  )}
+              {/* 매입가 줄: 클릭 시 최종 입찰가 자동 복사 + 장부 저장 */}
+              <div
+                onClick={cockpit.carName ? cockpit.handleSaveToLedger : undefined}
+                className={`flex justify-between items-baseline p-1.5 -m-0.5 rounded-md transition ${
+                  cockpit.carName
+                    ? 'cursor-pointer hover:bg-emerald-500/20 active:scale-[0.99] group'
+                    : 'cursor-not-allowed opacity-75'
+                }`}
+                title={cockpit.carName ? '클릭 시 최종 입찰가 자동 복사 & 장부 저장' : '차량을 먼저 선택해주세요'}
+              >
+                <div>
+                  <div className="text-xs font-bold text-zinc-300">
+                    {cockpit.userBid > 0 && cockpit.userBid !== cockpit.safeBidCeiling ? (
+                      <span>최종 매입가 <small className="text-zinc-400 font-normal">(권장 {cockpit.safeBidCeiling.toLocaleString()}만)</small></span>
+                    ) : (
+                      <span className="text-zinc-300">권장 매입가</span>
+                    )}
+                  </div>
+                  <div className="text-[10px] text-emerald-400 font-medium flex items-center gap-1 mt-0.5">
+                    <span>💾 클릭하면 복사·저장</span>
+                  </div>
                 </div>
-                <div className="text-lg font-black text-emerald-400 tracking-tight font-mono">
+                <div className="text-lg font-black text-emerald-400 tracking-tight font-mono group-hover:text-emerald-300 transition-colors">
                   {(cockpit.userBid > 0 ? cockpit.userBid : cockpit.safeBidCeiling).toLocaleString()}{' '}
                   <span className="text-xs font-bold text-zinc-300">만원</span>
                 </div>
