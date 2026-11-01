@@ -11,8 +11,9 @@ export const BiddingCockpitV2Tab: React.FC = () => {
     onSaveToLedger: () => {},
   });
 
-  // 0. 비교 목록 활성 탭 (엔카 기본)
+  // 0. 비교 목록 활성 탭 (엔카 기본) 및 케이카 선택 상태 (V2 전용)
   const [activeCompTab, setActiveCompTab] = React.useState<'encar' | 'kcar'>('encar');
+  const [selectedKcarCarCd, setSelectedKcarCarCd] = React.useState<string | null>(null);
 
   // 1. 목표차 한 줄 정보 (훅 값 그대로 사용)
   const targetCarName = cockpit.carName || '-';
@@ -270,29 +271,34 @@ export const BiddingCockpitV2Tab: React.FC = () => {
                 </div>
               </div>
 
-              {/* 탭 본문 (엔카 또는 케이카 비교 목록) */}
-              {activeCompTab === 'encar' ? (
-                <ComparableEncarV2Section
-                  encarList={cockpit.encarList || []}
-                  selectedEncarId={cockpit.selectedEncarId}
-                  onSelectCar={cockpit.handleSelectEncarCar}
-                  isLoading={cockpit.isEncarLoading}
-                  totalModelCount={cockpit.encarTotalModelCount || 0}
-                  filteredCount={cockpit.encarFilteredCount || 0}
-                  isInitialState={isInitialState}
-                  targetMileageKm={cockpit.mileageKm || 0}
-                  errorMessage={cockpit.encarErrorMessage}
-                />
-              ) : (
-                <ComparableKcarV2Section
-                  kcarList={cockpit.kcarStats?.cars || []}
-                  isLoading={cockpit.isKcarLoading}
-                  totalCount={cockpit.kcarStats?.count || cockpit.kcarStats?.cars?.length || 0}
-                  strictCount={cockpit.kcarStats?.strictCount ?? (cockpit.kcarStats?.count || cockpit.kcarStats?.cars?.length || 0)}
-                  isInitialState={isInitialState}
-                  errorMessage={cockpit.kcarStats?.message}
-                />
-              )}
+              {/* 탭 본문 (엔카 또는 케이카 비교 목록): 상세 스펙 높이(실측 약 640px)에 맞춘 내부 세로 스크롤 래퍼 */}
+              <div className="max-h-[640px] overflow-y-auto rounded-xl">
+                {activeCompTab === 'encar' ? (
+                  <ComparableEncarV2Section
+                    encarList={cockpit.encarList || []}
+                    selectedEncarId={cockpit.selectedEncarId}
+                    onSelectCar={cockpit.handleSelectEncarCar}
+                    isLoading={cockpit.isEncarLoading}
+                    totalModelCount={cockpit.encarTotalModelCount || 0}
+                    filteredCount={cockpit.encarFilteredCount || 0}
+                    isInitialState={isInitialState}
+                    targetMileageKm={cockpit.mileageKm || 0}
+                    errorMessage={cockpit.encarErrorMessage}
+                  />
+                ) : (
+                  <ComparableKcarV2Section
+                    kcarList={cockpit.kcarStats?.cars || []}
+                    selectedCarCd={selectedKcarCarCd}
+                    onSelectCar={(carCd) => setSelectedKcarCarCd(carCd)}
+                    yearModel={cockpit.yearModel}
+                    isLoading={cockpit.isKcarLoading}
+                    totalCount={cockpit.kcarStats?.count || cockpit.kcarStats?.cars?.length || 0}
+                    strictCount={cockpit.kcarStats?.strictCount ?? (cockpit.kcarStats?.count || cockpit.kcarStats?.cars?.length || 0)}
+                    isInitialState={isInitialState}
+                    errorMessage={cockpit.kcarStats?.message}
+                  />
+                )}
+              </div>
             </div>
 
             {/* 우측 절반: 선택 차량 상세 & 2D 상태도 */}

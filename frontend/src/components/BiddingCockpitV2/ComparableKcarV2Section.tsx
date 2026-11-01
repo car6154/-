@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { ExternalLink, RefreshCw, Car, AlertCircle } from 'lucide-react';
-import { KcarCarItem } from '@/components/BiddingCockpit/types';
+import { KcarCarItem, KcarDetailData } from '@/components/BiddingCockpit/types';
 
 export interface ComparableKcarV2SectionProps {
   kcarList: KcarCarItem[];
+  selectedCarCd?: string | null;
+  onSelectCar?: (carCd: string) => void;
+  yearModel?: number;
   isLoading: boolean;
   totalCount: number;
   strictCount: number;
@@ -27,12 +30,90 @@ const formatKcarAccident = (rawType?: string) => {
 
 export const ComparableKcarV2Section: React.FC<ComparableKcarV2SectionProps> = ({
   kcarList,
+  selectedCarCd = null,
+  onSelectCar,
+  yearModel,
   isLoading,
   totalCount,
   strictCount,
   isInitialState,
   errorMessage,
 }) => {
+  // 1. 케이카 프리패치 캐시 및 상세 맵
+  const [kcarInspectionMap, setKcarInspectionMap] = useState<Record<string, KcarDetailData>>({});
+  const kcarDetailCacheRef = useRef<Record<string, KcarDetailData>>({});
+
+  // 2. 케이카 목록 준비 시 상위 20대 성능점검일·재고일 순차 프리패치 (100ms 간격, 실패는 무음 처리)
+  useEffect(() => {
+    if (!kcarList || kcarList.length === 0) return;
+
+    let isCancelled = false;
+    const prefetchList = kcarList.slice(0, 20);
+
+    const runPrefetch = async () => {
+      for (const car of prefetchList) {
+        if (isCancelled) break;
+        const cd = car.carCd;
+        if (!cd || kcarDetailCacheRef.current[cd]) continue;
+
+        try {
+          const res = await fetch('/api/kcar/detail', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ carCd: cd, include3d: false }),
+          });
+          if (isCancelled) break;
+          const json = await res.json();
+          if (json.success && json.data && !isCancelled) {
+            kcarDetailCacheRef.current[cd] = json.data;
+            setKcarInspectionMap(prev => ({
+              ...prev,
+              [cd]: json.data,
+            }));
+          }
+        } catch {
+          // 백그라운드 프리패치 실패는 무음 처리하여 목록 렌더링에 영향 없도록 함
+        }
+
+        await new Promise(r => setTimeout(r, 100));
+      }
+    };
+
+    runPrefetch();
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [kcarList]);
+
+  // 3. 프리패치 결과와 원본 목록 병합 (checkDate, holdingDays 보완)
+  const displayKcarList = useMemo(() => {
+    return kcarList.map(car => {
+      const det = kcarInspectionMap[car.carCd];
+      if (!det) return car;
+
+      let checkDate = det.checkDate && det.checkDate !== '-' ? det.checkDate : car.checkDate;
+      const holdingDays = typeof det.holdingDays === 'number' && !isNaN(det.holdingDays) && det.holdingDays >= 0
+        ? det.holdingDays
+        : car.holdingDays;
+
+      const pfmncRaw = det.dates?.pfmncDate || '';
+      const pDigits = pfmncRaw.replace(/\D/g, '');
+      if ((!checkDate || checkDate === '-') && pDigits.length >= 8) {
+        checkDate = `${pDigits.slice(2, 4)}-${pDigits.slice(4, 6)}-${pDigits.slice(6, 8)}`;
+      }
+
+      return {
+        ...car,
+        checkDate: checkDate || '-',
+        holdingDays: holdingDays !== undefined ? holdingDays : null,
+      };
+    });
+  }, [kcarList, kcarInspectionMap]);
+
+  // 4. 목표 연식 2자리 문자열 (비교용)
+  const targetYrStr = yearModel ? String(yearModel % 100).padStart(2, '0') : '';
+
   return (
     <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl overflow-hidden shadow-sm space-y-0">
       {/* 1. 상단 헤더 (제목 및 매물 수) */}
@@ -63,7 +144,7 @@ export const ComparableKcarV2Section: React.FC<ComparableKcarV2SectionProps> = (
           <p className="text-xs sm:text-sm">케이카 비교 매물을 불러오는 중입니다...</p>
         </div>
       ) : isInitialState ? (
-        /* 2-2) 조회 전 초기 상태: "조회하면 비교 목록이 여기에 표시됩니다" */
+        /* 2-2) 조회 전 초기 상태 */
         <div className="p-12 flex flex-col items-center justify-center gap-3 text-zinc-500">
           <Car className="w-8 h-8 text-zinc-600 stroke-[1.5]" />
           <p className="text-xs sm:text-sm font-medium text-zinc-400">
@@ -73,8 +154,8 @@ export const ComparableKcarV2Section: React.FC<ComparableKcarV2SectionProps> = (
             상단에서 헤이딜러 URL 또는 차량번호를 입력하고 조회해 주세요.
           </p>
         </div>
-      ) : kcarList.length === 0 ? (
-        /* 2-3) 조회 완료 후 0건: "해당 없음" */
+      ) : displayKcarList.length === 0 ? (
+        /* 2-3) 조회 완료 후 0건 */
         <div className="p-12 flex flex-col items-center justify-center gap-2 text-zinc-400">
           <AlertCircle className="w-7 h-7 text-amber-500/80 stroke-[1.5]" />
           <p className="text-xs sm:text-sm font-bold text-zinc-200">해당 없음</p>
@@ -83,25 +164,26 @@ export const ComparableKcarV2Section: React.FC<ComparableKcarV2SectionProps> = (
           </p>
         </div>
       ) : (
-        /* 2-4) 목록 렌더링 (가로 스크롤 보존) */
+        /* 2-4) 목록 렌더링 (가로 스크롤 및 sticky thead 지원) */
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs text-zinc-200">
-            <thead className="bg-[#14151b] border-b border-[#262833] text-[11px] text-[#8b8e9d] uppercase font-semibold">
+            <thead className="bg-[#14151b] border-b border-[#262833] text-[11px] text-[#8b8e9d] uppercase font-semibold sticky top-0 z-10">
               <tr>
-                <th className="py-2.5 px-2 text-center w-8 whitespace-nowrap">선택</th>
-                <th className="py-2.5 px-2 text-center w-20 whitespace-nowrap">성능일</th>
-                <th className="py-2.5 px-2 text-center w-16 whitespace-nowrap">재고일</th>
-                <th className="py-2.5 px-3 min-w-[130px] whitespace-nowrap">차량명</th>
-                <th className="py-2.5 px-2 text-center w-14 whitespace-nowrap">연식</th>
-                <th className="py-2.5 px-2 text-right w-24 whitespace-nowrap">주행(km)</th>
-                <th className="py-2.5 px-2 text-right w-20 whitespace-nowrap">가격</th>
-                <th className="py-2.5 px-2 text-left w-24 whitespace-nowrap">사고유무</th>
-                <th className="py-2.5 px-2 text-center w-14 whitespace-nowrap">색상</th>
-                <th className="py-2.5 px-2 text-center min-w-[100px] whitespace-nowrap">옵션</th>
+                <th className="py-2.5 px-2 text-center w-8 whitespace-nowrap bg-[#14151b]">선택</th>
+                <th className="py-2.5 px-2 text-center w-20 whitespace-nowrap bg-[#14151b]">성능일</th>
+                <th className="py-2.5 px-2 text-center w-16 whitespace-nowrap bg-[#14151b]">재고일</th>
+                <th className="py-2.5 px-3 min-w-[130px] whitespace-nowrap bg-[#14151b]">차량명</th>
+                <th className="py-2.5 px-2 text-center w-14 whitespace-nowrap bg-[#14151b]">연식</th>
+                <th className="py-2.5 px-2 text-right w-24 whitespace-nowrap bg-[#14151b]">주행(km)</th>
+                <th className="py-2.5 px-2 text-right w-20 whitespace-nowrap bg-[#14151b]">가격</th>
+                <th className="py-2.5 px-2 text-left w-24 whitespace-nowrap bg-[#14151b]">사고유무</th>
+                <th className="py-2.5 px-2 text-center w-14 whitespace-nowrap bg-[#14151b]">색상</th>
+                <th className="py-2.5 px-2 text-center min-w-[100px] whitespace-nowrap bg-[#14151b]">옵션</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[#1e2029]">
-              {kcarList.map((car, idx) => {
+              {displayKcarList.map((car, idx) => {
+                const isSelected = selectedCarCd === car.carCd;
                 const accInfo = formatKcarAccident(car.accident);
                 const detailUrl = car.detailUrl || `https://www.kcar.com/bc/detail/carInfoDtl?i_sCarCd=${car.carCd}`;
 
@@ -109,26 +191,35 @@ export const ComparableKcarV2Section: React.FC<ComparableKcarV2SectionProps> = (
                 const hasHoldingDays = car.holdingDays !== undefined && car.holdingDays !== null && !isNaN(Number(car.holdingDays));
                 const holdingDaysVal = Number(car.holdingDays);
 
-                // 연식 표시: fullYear 끝 2자리, 없으면 year 끝 2자리, 없으면 '-'
+                // 연식 표시 (fullYear 끝 2자리, 없으면 year 끝 2자리, 없으면 '-')
                 const yearText = car.fullYear
                   ? String(car.fullYear).slice(-2)
                   : car.year
                   ? String(car.year).slice(-2)
                   : '-';
 
+                // 목표 연식과 일치 여부 판정 (일치 시 amber-300 bold)
+                const regYrMatch = String(car.fullYear || car.year || '').match(/(?:20)?(\d{2})/);
+                const isTargetYear = Boolean(targetYrStr && regYrMatch && regYrMatch[1] === targetYrStr);
+
                 return (
                   <tr
                     key={car.carCd || idx}
-                    className="hover:bg-[#161822] transition select-none"
+                    onClick={() => onSelectCar && onSelectCar(car.carCd)}
+                    className={`cursor-pointer transition select-none ${
+                      isSelected
+                        ? 'bg-blue-950/40 text-white font-medium border-l-2 border-blue-500'
+                        : 'hover:bg-[#161822]'
+                    }`}
                   >
-                    {/* 1) 선택 라디오 (이번 단계에서는 표시만) */}
+                    {/* 1) 선택 라디오 (클릭 시 활성화 및 선택 강조) */}
                     <td className="py-2 px-2 text-center whitespace-nowrap">
                       <input
                         type="radio"
                         name="kcarSelectV2"
-                        disabled
-                        className="text-zinc-600 bg-[#161822] border-[#262938] cursor-not-allowed opacity-50"
-                        title="케이카 상세 연결은 다음 단계에서 지원됩니다."
+                        checked={isSelected}
+                        onChange={() => onSelectCar && onSelectCar(car.carCd)}
+                        className="text-blue-500 focus:ring-0 focus:ring-offset-0 bg-[#161822] border-[#262938] cursor-pointer"
                       />
                     </td>
 
@@ -156,12 +247,13 @@ export const ComparableKcarV2Section: React.FC<ComparableKcarV2SectionProps> = (
                       )}
                     </td>
 
-                    {/* 4) 차량명 (자체에 원문 링크) */}
+                    {/* 4) 차량명 (자체에 원문 링크, 행 클릭과 분리) */}
                     <td className="py-2 px-3 whitespace-nowrap">
                       <a
                         href={detailUrl}
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
                         className="hover:underline font-bold text-white hover:text-sky-400 transition-colors inline-flex items-center gap-1 group"
                         title="새 탭에서 케이카 원문 매물 열기"
                       >
@@ -170,9 +262,11 @@ export const ComparableKcarV2Section: React.FC<ComparableKcarV2SectionProps> = (
                       </a>
                     </td>
 
-                    {/* 5) 연식 */}
-                    <td className="py-2 px-2 text-center font-mono text-[11px] text-zinc-300 whitespace-nowrap">
-                      {yearText}
+                    {/* 5) 연식 (목표 연식 일치 시 amber-300 font-bold) */}
+                    <td className="py-2 px-2 text-center font-mono text-[11px] whitespace-nowrap">
+                      <span className={isTargetYear ? 'text-amber-300 font-bold' : 'text-zinc-300'}>
+                        {yearText}
+                      </span>
                     </td>
 
                     {/* 6) 주행(km) */}
