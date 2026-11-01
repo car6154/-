@@ -224,32 +224,23 @@ export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProp
             )}
           </div>
 
-          {/* 2-4) 옵션 정보 & 색상 칩 (케이카 상세 칩과 100% 동일 양식으로 전 항목 칩 표시) */}
-          {(selectedEncar.optionsText || (selectedEncar.color && selectedEncar.color !== '-')) && (() => {
-            const encarOptionList = selectedEncar.optionsText
-              ? splitOptionString(selectedEncar.optionsText)
+          {/* 2-4) 옵션 정보 (무옵션 플레이스홀더 처리 및 칩 표시) */}
+          {(() => {
+            const rawOptText = selectedEncar.optionsText || '';
+            const cleanOptText = rawOptText.replace(/\s+/g, '');
+            const isNoOptionPlaceholder =
+              cleanOptText === '추가옵션없음' ||
+              cleanOptText === '기본출고사양(추가옵션없음)';
+
+            const encarOptionList = (rawOptText && !isNoOptionPlaceholder)
+              ? splitOptionString(rawOptText)
               : [];
 
             return (
               <div className="p-3 bg-[#0c0e14] rounded-lg border border-[#232634] text-xs space-y-1.5">
-                <div className="flex items-center justify-between">
-                  <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase block">
-                    {encarOptionList.length > 0 ? `주요 옵션 (${encarOptionList.length}개) & 색상` : '주요 옵션 & 색상'}
-                  </span>
-                  {selectedEncar.color && selectedEncar.color !== '-' && selectedEncar.color !== '미확인' && (
-                    <span
-                      className="px-2 py-0.5 rounded font-medium border text-[11px] inline-flex items-center gap-1"
-                      style={{
-                        backgroundColor: colorStyle.bgColor,
-                        color: colorStyle.textColor,
-                        borderColor: colorStyle.borderColor,
-                      }}
-                    >
-                      <span>{colorStyle.dot}</span>
-                      <span>{colorStyle.displayName}</span>
-                    </span>
-                  )}
-                </div>
+                <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase block">
+                  {encarOptionList.length > 0 ? `주요 옵션 (${encarOptionList.length}개)` : '주요 옵션'}
+                </span>
                 {encarOptionList.length > 0 ? (
                   <div className="flex flex-wrap gap-1.5">
                     {encarOptionList.map((opt, i) => (

@@ -267,26 +267,11 @@ export const SelectedKcarDetailV2Section: React.FC<SelectedKcarDetailV2SectionPr
             <span className="text-sm font-bold text-zinc-300">만원</span>
           </div>
 
-          {/* 3-4) 주요 옵션 목록 & 색상 칩 (JATO 옵션 미존재 시 optnNm 텍스트 폴백 대신 기존 탭과 동일한 기본사양 안내 박스 표시) */}
+          {/* 3-4) 주요 옵션 목록 (JATO 옵션 미존재 시 optnNm 텍스트 폴백 대신 기존 탭과 동일한 기본사양 안내 박스 표시) */}
           <div className="p-3 bg-[#0c0e14] rounded-lg border border-[#232634] text-xs space-y-1.5">
-            <div className="flex items-center justify-between">
-              <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase block">
-                {optionList.length > 0 ? `주요 옵션 (${optionList.length}개) & 색상` : '주요 옵션 & 색상'}
-              </span>
-              {rawColor && rawColor !== '-' && rawColor !== '미확인' && (
-                <span
-                  className="px-2 py-0.5 rounded font-medium border text-[11px] inline-flex items-center gap-1"
-                  style={{
-                    backgroundColor: colorStyle.bgColor,
-                    color: colorStyle.textColor,
-                    borderColor: colorStyle.borderColor,
-                  }}
-                >
-                  <span>{colorStyle.dot}</span>
-                  <span>{colorStyle.displayName}</span>
-                </span>
-              )}
-            </div>
+            <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase block">
+              {optionList.length > 0 ? `주요 옵션 (${optionList.length}개)` : '주요 옵션'}
+            </span>
             {optionList.length > 0 ? (
               <div className="flex flex-wrap gap-1.5">
                 {optionList.slice(0, 8).map((opt, i) => (
