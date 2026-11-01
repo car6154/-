@@ -1,6 +1,7 @@
 import React from 'react';
 import { useBiddingCockpit } from '@/components/BiddingCockpit/hooks/useBiddingCockpit';
 import { Search, ExternalLink, Car, AlertCircle, CheckCircle2, RefreshCw } from 'lucide-react';
+import { ComparableEncarV2Section } from './ComparableEncarV2Section';
 
 export const BiddingCockpitV2Tab: React.FC = () => {
   const cockpit = useBiddingCockpit({
@@ -28,6 +29,13 @@ export const BiddingCockpitV2Tab: React.FC = () => {
   const rawStdText = rawStdVal > 0 ? `${rawStdVal.toLocaleString()}만원` : '-';
   const cohortNoAccText = cohortNoAccVal > 0 ? `${cohortNoAccVal.toLocaleString()}만원` : '-';
   const chaolmaRetailText = chaolmaRetailVal > 0 ? `${chaolmaRetailVal.toLocaleString()}만원` : '-';
+
+  // 4. 조회 전 초기 상태 여부 판정 (차량명 없고, 조회 중도 아니며, 매물 목록도 없는 상태)
+  const isInitialState =
+    !cockpit.carName &&
+    cockpit.encarList.length === 0 &&
+    !cockpit.isSearchingCar &&
+    !cockpit.isAiEstimating;
 
   return (
     <div className="w-full max-w-5xl mx-auto space-y-6 py-4">
@@ -202,6 +210,18 @@ export const BiddingCockpitV2Tab: React.FC = () => {
           </span>
         </div>
       </div>
+
+      {/* 5) 엔카 비교 목록 (V2 전용 분리 컴포넌트) */}
+      <ComparableEncarV2Section
+        encarList={cockpit.encarList || []}
+        selectedEncarId={cockpit.selectedEncarId}
+        onSelectCar={cockpit.handleSelectEncarCar}
+        isLoading={cockpit.isEncarLoading}
+        totalModelCount={cockpit.encarTotalModelCount || 0}
+        filteredCount={cockpit.encarFilteredCount || 0}
+        isInitialState={isInitialState}
+        errorMessage={cockpit.encarErrorMessage}
+      />
     </div>
   );
 };
