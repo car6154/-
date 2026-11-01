@@ -159,9 +159,9 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
   const baseCarP = Number(targetCarHistory?.baseCarPrice || (stdNewCarP > 0 && totalOptP > 0 ? Math.max(0, stdNewCarP - totalOptP) : stdNewCarP));
   const hasNewCarPrice = stdNewCarP > 0;
   
-  const newCarRatio = (hasNewCarPrice && aiRetailPrice > 0) ? Math.round((aiRetailPrice / stdNewCarP) * 100) : 0;
-  const newCarDiff = (hasNewCarPrice && aiRetailPrice > 0) ? (aiRetailPrice - stdNewCarP) : 0;
-  const newCarDeprecRatio = (hasNewCarPrice && aiRetailPrice > 0) ? Math.round(((stdNewCarP - aiRetailPrice) / stdNewCarP) * 100) : 0;
+  const newCarRatio = (hasNewCarPrice && finalRetailPrice > 0) ? Math.round((finalRetailPrice / stdNewCarP) * 100) : 0;
+  const newCarDiff = (hasNewCarPrice && finalRetailPrice > 0) ? (finalRetailPrice - stdNewCarP) : 0;
+  const newCarDeprecRatio = (hasNewCarPrice && finalRetailPrice > 0) ? Math.round(((stdNewCarP - finalRetailPrice) / stdNewCarP) * 100) : 0;
 
   return (
         <div className="bg-[#0e0f13] border border-[#262833] rounded-xl p-4 sm:p-5 shadow-lg space-y-3.5">
@@ -212,7 +212,7 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
                   <span className="text-[10px] text-zinc-400 font-normal hidden sm:inline">(엔카 동급 및 자사실거래)</span>
                 </div>
                 <div className="text-lg sm:text-xl font-black text-sky-300 font-mono tracking-tight leading-none">
-                  {aiRetailPrice > 0 ? `${aiRetailPrice.toLocaleString()}만원` : '-'}
+                  {finalRetailPrice > 0 ? `${finalRetailPrice.toLocaleString()}만원` : '-'}
                 </div>
               </div>
               <div className="w-8 h-8 rounded-lg bg-sky-500/15 border border-sky-500/30 flex items-center justify-center text-base shrink-0">
@@ -260,8 +260,8 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
               <div>
                 <span className="text-slate-400 mr-1.5 text-[11px]">현재 판매가</span>
                 <strong className="text-white">
-                  {aiRetailPrice > 0 ? `${aiRetailPrice.toLocaleString()}만` : '-'}
-                  {hasNewCarPrice && aiRetailPrice > 0 ? (
+                  {finalRetailPrice > 0 ? `${finalRetailPrice.toLocaleString()}만` : '-'}
+                  {hasNewCarPrice && finalRetailPrice > 0 ? (
                     <span className="ml-1 text-[11px] text-sky-300 font-normal">({newCarRatio}%)</span>
                   ) : null}
                 </strong>
@@ -270,7 +270,7 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
               <div>
                 <span className="text-slate-400 mr-1.5 text-[11px]">신차대비</span>
                 <strong className={newCarDiff < 0 ? 'text-emerald-400 font-bold' : (newCarDiff > 0 ? 'text-rose-400 font-bold' : 'text-slate-300')}>
-                  {hasNewCarPrice && aiRetailPrice > 0 
+                  {hasNewCarPrice && finalRetailPrice > 0 
                     ? `${newCarDiff > 0 ? `+${newCarDiff.toLocaleString()}` : newCarDiff.toLocaleString()}만 (-${newCarDeprecRatio}%)`
                     : '-'}
                 </strong>
