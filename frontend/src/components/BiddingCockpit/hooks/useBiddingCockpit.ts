@@ -2353,10 +2353,15 @@ export function useBiddingCockpit({
     return Math.max(5, Math.round(cost * 0.07));
   }, [targetCarHistory?.myCarAccidentCost]);
 
-  // 🎯 [최종 소매가]: 엔카 보정 평균(aiRetailPrice)에서 보험 감가액 차감 (엄격 0대면 0/해당 없음)
+  // 🎯 [최종 소매가]: 엔카 보정 평균(aiRetailPrice) 기준, 목표차 정보(targetCarHistory) 있을 때 보험 중복 제외 규칙 가감액 반영
   const finalRetailPrice = useMemo(() => {
-    return aiRetailPrice > 0 ? Math.max(0, aiRetailPrice - insuranceDeduction) : 0;
-  }, [aiRetailPrice, insuranceDeduction]);
+    const insuranceInRule = currentAssessment?.ruleAdjustments?.find(a => a.item === '보험사고 감가')?.amountMan ?? 0;
+    const ruleAdjustmentExcludingInsurance = (currentAssessment?.totalAdjustmentMan ?? 0) - insuranceInRule;
+
+    return aiRetailPrice > 0 && targetCarHistory
+      ? Math.max(0, aiRetailPrice - insuranceDeduction + ruleAdjustmentExcludingInsurance)
+      : (aiRetailPrice > 0 ? Math.max(0, aiRetailPrice - insuranceDeduction) : 0);
+  }, [aiRetailPrice, insuranceDeduction, targetCarHistory, currentAssessment]);
 
   // 💡 [제이 규칙]: 사이드바 예상 소매가(expectedSellPrice)는 순수 사용자 수동 입력 필드이므로 AI 산출값으로 자동 채우지 않는다.
 
