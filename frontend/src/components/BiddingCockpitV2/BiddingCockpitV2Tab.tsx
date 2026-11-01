@@ -8,6 +8,7 @@ import { SelectedKcarDetailV2Section } from './SelectedKcarDetailV2Section';
 import { SidebarOptionSection } from './SidebarOptionSection';
 import { HeydealerBidsV2Section } from './HeydealerBidsV2Section';
 import { SelectedHeydealerBidDetailV2Section } from './SelectedHeydealerBidDetailV2Section';
+import { SoldListingsV2Section } from './SoldListingsV2Section';
 
 export const BiddingCockpitV2Tab: React.FC = () => {
   const cockpit = useBiddingCockpit({
@@ -327,6 +328,17 @@ export const BiddingCockpitV2Tab: React.FC = () => {
               </div>
             </div>
           </div>
+
+          {/* 팔린매물 3탭 영역 (엔카 팔린매물 · 자사 소매 실적 · 자사 도매 실적) */}
+          <SoldListingsV2Section
+            encarSoldList={cockpit.encarSoldList || []}
+            matchedAutoplusList={cockpit.matchedAutoplusList || []}
+            matchedAuctionList={cockpit.matchedAuctionList || []}
+            carName={cockpit.carName}
+            detailModel={cockpit.detailModel}
+            yearModel={cockpit.yearModel}
+            liveMarketStats={cockpit.liveMarketStats}
+          />
 
           {/* 비교 목록(왼쪽 절반)과 선택 상세(오른쪽 절반) 나란히 배치 */}
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-5 items-start">
