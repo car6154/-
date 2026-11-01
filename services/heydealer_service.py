@@ -100,16 +100,30 @@ def enrich_heydealer_options(car_dict: dict) -> dict:
         parsed_spec = parse_heydealer_options(s_desc)
 
         # 2. advanced_options(loaded) 폴백
-        adv_list = d.get('advanced_options') or target_d.get('advanced_options') or []
         adv_opts = []
-        if isinstance(adv_list, list):
-            for o in adv_list:
-                if isinstance(o, dict) and o.get('choice') == 'loaded':
-                    name = o.get('name') or (o.get('content', {}).get('option_name') if isinstance(o.get('content'), dict) else None)
-                    if name and str(name).strip():
-                        adv_opts.append(str(name).strip())
+        if not parsed_spec:
+            adv_list = d.get('advanced_options') or target_d.get('advanced_options') or []
+            if isinstance(adv_list, list):
+                for o in adv_list:
+                    if isinstance(o, dict) and o.get('choice') == 'loaded':
+                        name = o.get('name') or (o.get('content', {}).get('option_name') if isinstance(o.get('content'), dict) else None)
+                        if name and str(name).strip():
+                            adv_opts.append(str(name).strip())
 
-        final_opts = parsed_spec if parsed_spec else adv_opts
+        # 3. loaded_options 폴백 (앞의 두 출처가 모두 비어 있을 때만 발동)
+        loaded_opts = []
+        if not parsed_spec and not adv_opts:
+            loaded_list = d.get('loaded_options') or target_d.get('loaded_options') or []
+            if isinstance(loaded_list, list):
+                for o in loaded_list:
+                    if isinstance(o, dict):
+                        name = o.get('name')
+                        if name and str(name).strip():
+                            loaded_opts.append(str(name).strip())
+                    elif isinstance(o, str) and o.strip():
+                        loaded_opts.append(o.strip())
+
+        final_opts = parsed_spec if parsed_spec else (adv_opts if adv_opts else loaded_opts)
         final_opts = [str(x).strip() for x in final_opts if str(x).strip()]
         opt_text = " · ".join(final_opts) if final_opts else ""
 
@@ -130,13 +144,16 @@ def enrich_heydealer_options(car_dict: dict) -> dict:
         car_dict['detail']['options_text'] = m_text
         car_dict['detail']['options_items'] = m_items
 
-    # 2. 동급 낙찰시세 (market_prices) 매물들 처리
+    # 2. 동급 낙찰시세 (market_prices) 매물들 처리 (results -> items 순 탐색)
     mp = car_dict.get('market_prices')
     items = []
     if isinstance(mp, list):
         items = mp
-    elif isinstance(mp, dict) and isinstance(mp.get('items'), list):
-        items = mp['items']
+    elif isinstance(mp, dict):
+        if isinstance(mp.get('results'), list):
+            items = mp['results']
+        elif isinstance(mp.get('items'), list):
+            items = mp['items']
 
     for item in items:
         if isinstance(item, dict):
