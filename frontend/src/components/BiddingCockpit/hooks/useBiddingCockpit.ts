@@ -177,6 +177,31 @@ export function useBiddingCockpit({
   // 🌟 공식 신차가격표 카탈로그 실시간 보관 상태 (옵션 툴팁 즉시 렌더링용)
   const [targetNewCarCatalog, setTargetNewCarCatalog] = useState<NewCarCatalogData | null>(null);
 
+  // ⏱️ 차얼마 상태 및 15초 지연 타이머 (2026-11-01 제이 확정 규칙)
+  const CHAOLMA_DELAY_TIMEOUT_MS = 15000;
+  const [chaolmaStatus, setChaolmaStatus] = useState<'idle' | 'pending' | 'success' | 'failed' | 'timeout'>('idle');
+  const [isChaolmaDelayed, setIsChaolmaDelayed] = useState(false);
+  const chaolmaTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const startChaolmaTimer = useCallback(() => {
+    if (chaolmaTimerRef.current) clearTimeout(chaolmaTimerRef.current);
+    setIsChaolmaDelayed(false);
+    setChaolmaStatus('pending');
+    chaolmaTimerRef.current = setTimeout(() => {
+      setIsChaolmaDelayed(true);
+      setChaolmaStatus('timeout');
+    }, CHAOLMA_DELAY_TIMEOUT_MS);
+  }, []);
+
+  const stopChaolmaTimer = useCallback((success: boolean) => {
+    if (chaolmaTimerRef.current) {
+      clearTimeout(chaolmaTimerRef.current);
+      chaolmaTimerRef.current = null;
+    }
+    setIsChaolmaDelayed(false);
+    setChaolmaStatus(success ? 'success' : 'failed');
+  }, []);
+
   // 🏢 K-Car 직영 실시간 시세 및 매물 상태
   const [kcarStats, setKcarStats] = useState<KcarMarketStats | null>(null);
   const [isKcarLoading, setIsKcarLoading] = useState<boolean>(false);
@@ -211,6 +236,12 @@ export function useBiddingCockpit({
 
     // 3-1. K-Car 실시간 시세 및 통계 초기화
     setKcarStats(null);
+
+    // 3-2. 차얼마 타이머 및 지연 상태 초기화
+    stopChaolmaTimer(false);
+    setChaolmaStatus('idle');
+    setIsChaolmaDelayed(false);
+    lastTriggeredSearchSignatureRef.current = '';
 
     // 4. 차량 원부 / 카히스토리 / 모달 상태 초기화
     setTargetCarHistory(null);
@@ -475,15 +506,44 @@ export function useBiddingCockpit({
     }
   }, [carName, detailModel, manufacturer, yearModel, mileageKm, optionsTag, applyKcarData]);
 
-  // 사이드바 차량 조건 변경 시 실데이터 자동 수집 (차량이 있을 때만)
+  // 💡 [2026-11-01 제이 확정 규칙]: 검색 입력 확정 여부 단일 판정
+  // - 차명(carName)과 연식(yearModel > 0, 1990~2040), 주행거리(mileageKm >= 0)가 확정되었을 때만 출발
+  // - 옵션 태그(optionsTag), 사고 상태(accident)는 검색 필터가 아닌 계산용이므로 출발 조건에서 제외
+  const isSearchReady = useMemo(() => {
+    const targetName = (carName || initialCarName || '').trim();
+    const hasName = Boolean(targetName && targetName !== '-');
+    const hasYear = typeof yearModel === 'number' && !isNaN(yearModel) && yearModel >= 1990 && yearModel <= 2040;
+    const hasMileage = typeof mileageKm === 'number' && !isNaN(mileageKm) && mileageKm >= 0;
+    return hasName && hasYear && hasMileage;
+  }, [carName, initialCarName, yearModel, mileageKm]);
+
+  // 실제 검색 필터만 포함하는 시그니처 (옵션, 사고 등 비검색 값 제외)
+  const searchInputSignature = useMemo(() => {
+    const targetName = (carName || initialCarName || '').trim();
+    const targetDetail = (detailModel || '').trim();
+    const targetMaker = (manufacturer || '').trim();
+    const targetYr = typeof yearModel === 'number' ? yearModel : 0;
+    const targetMil = typeof mileageKm === 'number' ? mileageKm : 0;
+    return `${targetName}__${targetDetail}__${targetMaker}__${targetYr}__${targetMil}`;
+  }, [carName, initialCarName, detailModel, manufacturer, yearModel, mileageKm]);
+
+  const lastTriggeredSearchSignatureRef = useRef<string>('');
+
+  // 사이드바 차량 조건 변경 시 실데이터 자동 수집 (검색 입력이 확정됐을 때만)
   useEffect(() => {
-    if (isSearchingCar || isAiEstimating) return;
+    // 1. 검색 입력이 아직 미확정되었으면 출발하지 않고 대기 (조회 전 최소 상태 유지)
+    if (!isSearchReady) return;
+
+    // 2. 이미 동일한 검색 입력으로 출발한 적이 있으면 중복 출발 방지
+    if (lastTriggeredSearchSignatureRef.current === searchInputSignature) return;
+
     if (skipAutoFetchRef.current) {
       skipAutoFetchRef.current = false;
       return;
     }
-    if (!carName && !initialCarName) return;
+
     const timer = setTimeout(() => {
+      lastTriggeredSearchSignatureRef.current = searchInputSignature;
       fetchEncarComparable({
         carName: carName || initialCarName,
         detailModel: detailModel,
@@ -507,7 +567,7 @@ export function useBiddingCockpit({
       });
     }, 300);
     return () => clearTimeout(timer);
-  }, [carName, detailModel, manufacturer, yearModel, mileageKm, carNumber, currentAssessment?.accidentDamage?.status, optionsTag, isAiEstimating, fetchEncarComparable, fetchKcarMarket]);
+  }, [isSearchReady, searchInputSignature, carName, initialCarName, detailModel, manufacturer, yearModel, mileageKm, carNumber, fetchEncarComparable, fetchKcarMarket]);
 
   // 텍스트/복사 데이터 빠른 자동 분석 모달 상태
   const [isQuickPasteOpen, setIsQuickPasteOpen] = useState(false);
@@ -804,6 +864,7 @@ export function useBiddingCockpit({
     let calculatedOptionsTag = optionsTag;
 
     // 1. 차얼마(제원/옵션/소유자) 선행 await (수백ms~1초 만에 완료되어 제원 확정 및 기본 화면 즉시 렌더)
+    startChaolmaTimer();
     try {
       const unifiedRes = await searchCockpitUnified({
         carNumber: no,
@@ -946,6 +1007,7 @@ export function useBiddingCockpit({
         fetchMarketStats(resolvedCarName || carName, resolvedGrade || detailModel, yr);
         skipAutoFetchRef.current = true;
 
+        stopChaolmaTimer(true);
         if (unifiedRes.statusMessage) {
           setSearchStatus(unifiedRes.statusMessage);
         } else {
@@ -955,6 +1017,7 @@ export function useBiddingCockpit({
           });
         }
       } else {
+        stopChaolmaTimer(false);
         if (reqId === activeRequestIdRef.current) {
           setIsSearchingCar(false);
           setIsEncarLoading(false);
@@ -971,6 +1034,7 @@ export function useBiddingCockpit({
         return false;
       }
     } catch (err: any) {
+      stopChaolmaTimer(false);
       if (reqId === activeRequestIdRef.current) {
         setIsSearchingCar(false);
         setIsEncarLoading(false);
@@ -1069,6 +1133,86 @@ export function useBiddingCockpit({
       }
     }
   };
+
+  // 💡 [2026-11-01 제이 확정 규칙]: [응답 지연 재검색] 버튼 핸들러
+  // - 차얼마만 단독 재조회 (엔카·케이카 검색은 호출하지 않음)
+  // - 검색 입력(차명/등급/연식/주행)이 바뀌지 않았으면 엔카·케이카 검색을 다시 출발하지 않음
+  // - 차얼마 재조회 성공 뒤 검색 입력이 바뀌었을 때만 자동 출발 효과에 의해 1회 다시 출발
+  const handleRetryChaolma = useCallback(async () => {
+    const targetNo = (carNumber || '').replace(/\s+/g, '').trim();
+    if (!targetNo) return;
+
+    startChaolmaTimer();
+    setIsSearchingCar(true);
+    setSearchStatus({
+      type: 'info',
+      message: `🔄 [${targetNo}] 차얼마 단독 재조회 중...`
+    });
+
+    try {
+      const unifiedRes = await searchCockpitUnified({
+        carNumber: targetNo,
+        mileage: mileageKm || 50000,
+        sources: ['chaolma'],
+      });
+
+      const res = unifiedRes?.chaolma;
+      if (res && res.success) {
+        stopChaolmaTimer(true);
+        if (res.maker) setManufacturer(res.maker);
+        const foundCarName = res.model_detail_name || res.model_name || '';
+        if (foundCarName) setCarName(foundCarName);
+        if (res.grade_name) rawGradeNameRef.current = String(res.grade_name).trim();
+        if (res.grade_detail_name) rawGradeDetailNameRef.current = String(res.grade_detail_name).trim();
+
+        const cleanGradeText = (txt: string): string => {
+          if (!txt) return '';
+          let s = txt.replace(/\[[^\]]*\]/g, ' ');
+          for (let i = 0; i < 3; i++) {
+            s = s.replace(/\([^\(\)]*\)/g, ' ');
+          }
+          return s.replace(/[\(\)\[\]]/g, ' ').replace(/\s+/g, ' ').trim();
+        };
+
+        const cleanG = cleanGradeText(res.grade_name || '');
+        const cleanGd = cleanGradeText(res.grade_detail_name || '');
+        let resolvedG = '';
+        if (cleanG && cleanGd) {
+          resolvedG = cleanGd.includes(cleanG) ? cleanGd : `${cleanG} ${cleanGd}`.trim();
+        } else {
+          resolvedG = cleanG || cleanGd;
+        }
+        if (resolvedG) setDetailModel(resolvedG);
+
+        const parsedYear = parseInt(String(res.model_year || res.year || '').replace(/[^\d]/g, ''), 10);
+        if (!isNaN(parsedYear) && parsedYear > 1990) setYearModel(parsedYear);
+
+        if (res.options && Array.isArray(res.options)) {
+          setTargetCarOptions(res.options);
+          const optSummary = res.options.map((o: any) => o.name).filter(Boolean).join(', ');
+          if (optSummary) setOptionsTag(optSummary);
+        }
+
+        setSearchStatus({
+          type: 'success',
+          message: `✅ [${targetNo}] 차얼마 제원 재조회 성공`
+        });
+      } else {
+        stopChaolmaTimer(false);
+        setSearchStatus({
+          type: 'warning',
+          message: `⚠️ [${targetNo}] ${res?.message || '차얼마 데이터 재조회 실패'}`
+        });
+      }
+    } catch (err: any) {
+      stopChaolmaTimer(false);
+      console.error('[handleRetryChaolma] 오류:', err);
+      setSearchStatus({
+        type: 'error',
+        message: `❌ [${targetNo}] 차얼마 재조회 실패: ${err?.message || err}`
+      });
+    }
+  }, [carNumber, mileageKm, startChaolmaTimer, stopChaolmaTimer]);
 
   // 3. 헤이딜러 URL [AI 견적 산출] 실제 실행 핸들러 (실제 백엔드 프록시 호출)
   const handleHeydealerAiEstimate = async () => {
@@ -2463,5 +2607,11 @@ export function useBiddingCockpit({
     // 일원화된 목표차 옵션 배열 및 미분류 잔액
     targetOptions,
     unclassifiedBalance,
+
+    // 💡 [2026-11-01 제이 확정 규칙]: 차얼마 지연 및 검색 입력 확정 상태
+    isSearchReady,
+    isChaolmaDelayed,
+    chaolmaStatus,
+    handleRetryChaolma,
   };
 }

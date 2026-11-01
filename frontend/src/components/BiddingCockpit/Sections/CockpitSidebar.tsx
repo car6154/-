@@ -171,6 +171,9 @@ export interface CockpitSidebarProps {
   handleSaveToLedger: () => void;
   targetCatalog?: NewCarCatalogData | null;
   historyOptionTotalMan?: number;
+  isChaolmaDelayed?: boolean;
+  chaolmaStatus?: 'idle' | 'pending' | 'success' | 'failed' | 'timeout';
+  onRetryChaolma?: () => void;
 }
 
 export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
@@ -220,6 +223,9 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
   handleSaveToLedger,
   targetCatalog: propTargetCatalog,
   historyOptionTotalMan = 0,
+  isChaolmaDelayed = false,
+  chaolmaStatus = 'idle',
+  onRetryChaolma,
 }) => {
   const [internalCatalog, setInternalCatalog] = useState<NewCarCatalogData | null>(null);
   const [compCatalog, setCompCatalog] = useState<NewCarCatalogData | null>(null);
@@ -351,6 +357,17 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
               >
                 <span>{searchStatus.message}</span>
               </div>
+            )}
+            {(isChaolmaDelayed || chaolmaStatus === 'failed' || chaolmaStatus === 'timeout') && onRetryChaolma && (
+              <button
+                type="button"
+                onClick={onRetryChaolma}
+                disabled={isSearchingCar}
+                className="w-full mt-1.5 py-2 px-3 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"
+              >
+                <RefreshCw className={`w-3.5 h-3.5 ${isSearchingCar ? 'animate-spin' : ''}`} />
+                <span>응답 지연 재검색</span>
+              </button>
             )}
           </div>
 

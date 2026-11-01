@@ -74,6 +74,9 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = (props) => {
         targetOptions={cockpit.targetOptions}
         unclassifiedBalance={cockpit.unclassifiedBalance}
         historyOptionTotalMan={cockpit.targetCarHistory?.totalOptionPrice ?? 0}
+        isChaolmaDelayed={cockpit.isChaolmaDelayed}
+        chaolmaStatus={cockpit.chaolmaStatus}
+        onRetryChaolma={cockpit.handleRetryChaolma}
       />
 
       {/* ========================================================
@@ -168,6 +171,10 @@ export const BiddingCockpitTab: React.FC<BiddingCockpitTabProps> = (props) => {
           onToggleTrimColumn={() => cockpit.setShowTrimColumn(!cockpit.showTrimColumn)}
           onSelectEncar={cockpit.handleSelectEncarCar}
           kcarStats={cockpit.kcarStats}
+          isSearchReady={cockpit.isSearchReady}
+          isChaolmaDelayed={cockpit.isChaolmaDelayed}
+          chaolmaStatus={cockpit.chaolmaStatus}
+          onRetryChaolma={cockpit.handleRetryChaolma}
         />
 
         {/* ========================================================

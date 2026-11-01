@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import { AlertTriangle, ExternalLink, Car } from 'lucide-react';
+import { AlertTriangle, ExternalLink, Car, RotateCw } from 'lucide-react';
 import {
   splitOptionString,
   getOptionMatchDetail,
@@ -77,6 +77,10 @@ export interface ComparableEncarSectionProps {
   onToggleTrimColumn?: () => void;
   onSelectEncar: (id: string) => void;
   kcarStats?: KcarMarketStats | null;
+  isSearchReady?: boolean;
+  isChaolmaDelayed?: boolean;
+  chaolmaStatus?: 'idle' | 'pending' | 'success' | 'failed' | 'timeout';
+  onRetryChaolma?: () => void;
 }
 
 export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
@@ -100,6 +104,10 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
   onToggleTrimColumn,
   onSelectEncar,
   kcarStats,
+  isSearchReady = true,
+  isChaolmaDelayed = false,
+  chaolmaStatus = 'idle',
+  onRetryChaolma,
 }) => {
   const [activeTab, setActiveTab] = useState<'encar' | 'kcar'>('encar');
   const [internalShowTrim, setInternalShowTrim] = useState<boolean>(false);
@@ -639,12 +647,24 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                       <Car className="w-6 h-6" />
                     </div>
                     <div className="text-sm font-bold text-zinc-300">
-                      해당 조건의 엔카 동급 매물이 없습니다.
+                      {!isSearchReady ? '차량 검색 조건 입력 대기 중' : '해당 조건의 엔카 동급 매물이 없습니다.'}
                     </div>
                     <div className="text-xs text-zinc-400 max-w-[340px] leading-relaxed">
-                      현재 조건(차종/연식/주행거리)에 일치하는 시장 등록 매물이 없습니다.
+                      {!isSearchReady
+                        ? '차량번호를 조회하거나 차량명·연식·주행거리를 확정하면 실시간 비교 매물 검색이 시작됩니다.'
+                        : '현재 조건(차종/연식/주행거리)에 일치하는 시장 등록 매물이 없습니다.'}
                     </div>
                   </>
+                )}
+                {(isChaolmaDelayed || chaolmaStatus === 'failed' || chaolmaStatus === 'timeout') && onRetryChaolma && (
+                  <button
+                    type="button"
+                    onClick={onRetryChaolma}
+                    className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-xs font-bold transition mt-2 cursor-pointer shadow-sm"
+                  >
+                    <RotateCw className="w-3.5 h-3.5" />
+                    <span>응답 지연 재검색</span>
+                  </button>
                 )}
                 {encarSourceUrl && (
                   <a
