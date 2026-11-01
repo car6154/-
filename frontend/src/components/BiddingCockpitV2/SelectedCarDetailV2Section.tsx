@@ -1,0 +1,241 @@
+import React from 'react';
+import { ExternalLink, RefreshCw, AlertCircle, Info, CheckCircle2 } from 'lucide-react';
+import { EncarItem } from '@/components/BiddingCockpit/types';
+import { CarDamageDiagram2D, getDamagePartKoreanName } from '@/components/BiddingCockpit/Sections/CarDamageDiagram2D';
+
+export interface SelectedCarDetailV2SectionProps {
+  selectedEncar: EncarItem | null;
+  isInspectionLoading: boolean;
+}
+
+// 사고구분 라벨 헬퍼 (배지 스타일 포함)
+const formatAccident = (rawType?: string) => {
+  if (!rawType || (rawType.includes('완전무사고') && !rawType.includes('교환') && !rawType.includes('판금'))) {
+    return { text: '🟢 완전무사고', style: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/30' };
+  }
+  if (rawType.includes('사고') && !rawType.includes('무사고')) {
+    return { text: '🔴 프레임사고', style: 'text-rose-400 bg-rose-500/10 border-rose-500/30' };
+  }
+  const repMatch = rawType.match(/교환\s*[:\s]?\s*(\d+)/);
+  const fixMatch = rawType.match(/판금\s*[:\s]?\s*(\d+)/);
+  const rCnt = repMatch ? parseInt(repMatch[1], 10) : 0;
+  const fCnt = fixMatch ? parseInt(fixMatch[1], 10) : 0;
+  const total = rCnt + fCnt;
+  if (total > 0) {
+    return { text: `🟡 단순수리 (${total})`, style: 'text-amber-400 bg-amber-500/10 border-amber-500/30' };
+  }
+  if (rawType.includes('교환') && rawType.includes('판금')) {
+    return { text: '🟡 단순(교/판)', style: 'text-amber-400 bg-amber-500/10 border-amber-500/30' };
+  }
+  if (rawType.includes('판금')) {
+    return { text: '🟡 단순판금', style: 'text-amber-400 bg-amber-500/10 border-amber-500/30' };
+  }
+  if (rawType.includes('교환')) {
+    return { text: '🟡 단순교환', style: 'text-amber-400 bg-amber-500/10 border-amber-500/30' };
+  }
+  return { text: `🟡 ${rawType.slice(0, 8)}`, style: 'text-amber-400 bg-amber-500/10 border-amber-500/30' };
+};
+
+export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProps> = ({
+  selectedEncar,
+  isInspectionLoading,
+}) => {
+  // 💡 [2026-11-01 제이 규칙]: 선택된 차량이 없으면 안내 한 줄만 보여준다 (예시 차량 생성 금지)
+  if (!selectedEncar) {
+    return (
+      <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-8 shadow-sm flex items-center justify-center text-zinc-500 text-xs sm:text-sm">
+        <Info className="w-4 h-4 mr-2 text-zinc-600" />
+        <span>목록에서 차량을 선택하면 상세 정보가 여기에 표시됩니다</span>
+      </div>
+    );
+  }
+
+  // 1. 스펙 항목 정리
+  const accInfo = formatAccident(selectedEncar.accidentType);
+  const detailUrl = selectedEncar.encarUrl || `https://fem.encar.com/cars/detail/${selectedEncar.id}`;
+  const inspectionDateText =
+    (selectedEncar.inspectionDate && selectedEncar.inspectionDate !== '-')
+      ? selectedEncar.inspectionDate
+      : (selectedEncar.checkDate && selectedEncar.checkDate !== '-')
+      ? selectedEncar.checkDate
+      : null;
+
+  // 💡 [2026-11-01 제이 규칙]: 보정가 필드가 항목에 있으면 표시하되, 없으면 계산하지 않고 표시에서 제외(V2에서 계산 금지)
+  const adjustedPriceVal = (selectedEncar as any).adjustedPrice;
+  const hasAdjustedPrice = adjustedPriceVal !== undefined && adjustedPriceVal !== null;
+
+  // 2. 사고/점검 내역 부위 추출
+  const repList = ((selectedEncar.replaceNames && selectedEncar.replaceNames.length > 0)
+    ? selectedEncar.replaceNames
+    : selectedEncar.replaces) || [];
+  const fixList = ((selectedEncar.repairNames && selectedEncar.repairNames.length > 0)
+    ? selectedEncar.repairNames
+    : selectedEncar.repairs) || [];
+  const mappedRepList = repList.map(getDamagePartKoreanName).filter(Boolean);
+  const mappedFixList = fixList.map(getDamagePartKoreanName).filter(Boolean);
+  const hasRep = mappedRepList.length > 0;
+  const hasFix = mappedFixList.length > 0;
+
+  // 점검 정보 존재 여부 판정
+  const hasDamageData = selectedEncar.damageData && Object.keys(selectedEncar.damageData).length > 0;
+  const hasInspectionInfo = Boolean(
+    inspectionDateText ||
+    hasRep ||
+    hasFix ||
+    hasDamageData ||
+    (selectedEncar.accidentType && selectedEncar.accidentType !== '미확인' && selectedEncar.accidentType !== '-')
+  );
+
+  return (
+    <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl overflow-hidden shadow-sm space-y-0">
+      {/* 1. 상단 바 (차명, 세부모델, 상세 링크) */}
+      <div className="px-5 py-3.5 border-b border-[#1e2029] flex flex-wrap items-center justify-between gap-3">
+        <div className="flex items-center gap-2">
+          <span className="text-xs font-semibold text-[#8b8e9d] uppercase tracking-wider">
+            선택 차량 상세
+          </span>
+          <span className="text-sm font-bold text-white">
+            {selectedEncar.carName}
+          </span>
+          {selectedEncar.subModel && (
+            <span className="text-xs text-zinc-400">
+              ({selectedEncar.subModel})
+            </span>
+          )}
+        </div>
+        <a
+          href={detailUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#161822] hover:bg-[#202330] border border-[#262938] text-xs font-medium text-zinc-300 hover:text-white transition"
+        >
+          <span>엔카 원본 보기</span>
+          <ExternalLink className="w-3.5 h-3.5" />
+        </a>
+      </div>
+
+      {/* 2. 본문 한 박스 (좌측 스펙 & 가격 / 우측 사고·점검 요약 및 2D 상태도) */}
+      <div className="p-5 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        {/* [좌측 영역: 스펙 & 가격] */}
+        <div className="lg:col-span-5 space-y-4">
+          {/* 가격 카드 */}
+          <div className="bg-[#14151b] border border-[#232634] rounded-xl p-4 space-y-1">
+            <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase">
+              엔카 판매가
+            </span>
+            <div className="flex items-baseline gap-1.5">
+              <span className="text-3xl font-black text-amber-400 font-mono tracking-tight">
+                {selectedEncar.price.toLocaleString()}
+              </span>
+              <span className="text-sm font-bold text-zinc-300">만원</span>
+            </div>
+            {hasAdjustedPrice && (
+              <div className="pt-1 text-xs text-sky-400 font-mono font-medium">
+                보정가: {Number(adjustedPriceVal).toLocaleString()}만원
+              </div>
+            )}
+          </div>
+
+          {/* 핵심 스펙 그리드 */}
+          <div className="bg-[#14151b] border border-[#232634] rounded-xl p-4 space-y-2.5 text-xs">
+            <div className="flex justify-between items-center py-1 border-b border-[#1e2029]">
+              <span className="text-[#8b8e9d]">연식</span>
+              <span className="font-mono font-bold text-zinc-200">{selectedEncar.year}년식</span>
+            </div>
+            <div className="flex justify-between items-center py-1 border-b border-[#1e2029]">
+              <span className="text-[#8b8e9d]">주행거리</span>
+              <span className="font-mono font-bold text-zinc-200">{selectedEncar.mileage.toLocaleString()}km</span>
+            </div>
+            <div className="flex justify-between items-center py-1 border-b border-[#1e2029]">
+              <span className="text-[#8b8e9d]">색상</span>
+              <span className="font-medium text-zinc-300">{selectedEncar.color || '-'}</span>
+            </div>
+            <div className="flex justify-between items-center py-1 border-b border-[#1e2029]">
+              <span className="text-[#8b8e9d]">성능점검일</span>
+              <span className="font-mono text-zinc-300">{inspectionDateText || '-'}</span>
+            </div>
+            <div className="flex justify-between items-center py-1">
+              <span className="text-[#8b8e9d]">사고 구분</span>
+              <span className={`px-2 py-0.5 rounded border text-[11px] font-bold ${accInfo.style}`}>
+                {accInfo.text}
+              </span>
+            </div>
+          </div>
+
+          {/* 옵션 정보 (있으면 표시) */}
+          {selectedEncar.optionsText && (
+            <div className="bg-[#14151b] border border-[#232634] rounded-xl p-3.5 text-xs space-y-1">
+              <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase block">
+                주요 옵션
+              </span>
+              <p className="text-zinc-300 text-[11.5px] leading-relaxed">
+                {selectedEncar.optionsText}
+              </p>
+            </div>
+          )}
+        </div>
+
+        {/* [우측 영역: 사고·점검 요약 및 2D 상태도] */}
+        <div className="lg:col-span-7 bg-[#14151b] border border-[#232634] rounded-xl p-4 space-y-3">
+          <div className="flex items-center justify-between border-b border-[#232634] pb-2">
+            <span className="text-xs font-bold text-white">
+              성능점검 및 사고 상태도
+            </span>
+            {inspectionDateText && (
+              <span className="text-[11px] text-zinc-400 font-mono">
+                점검일자: {inspectionDateText}
+              </span>
+            )}
+          </div>
+
+          {/* 분기 1: 점검 정보 불러오는 중 */}
+          {isInspectionLoading ? (
+            <div className="py-12 flex flex-col items-center justify-center gap-2 text-zinc-400">
+              <RefreshCw className="w-5 h-5 animate-spin text-[#cc9166]" />
+              <span className="text-xs">점검 정보를 불러오는 중입니다...</span>
+            </div>
+          ) : !hasInspectionInfo ? (
+            /* 분기 2: 점검 정보 없음 안내 */
+            <div className="py-12 flex flex-col items-center justify-center gap-2 text-zinc-500">
+              <AlertCircle className="w-6 h-6 text-zinc-600 stroke-[1.5]" />
+              <span className="text-xs font-bold text-zinc-400">점검 정보 없음</span>
+              <p className="text-[11px] text-zinc-600">
+                해당 차량의 온라인 성능상태점검기록부가 제공되지 않거나 조회가 불가합니다.
+              </p>
+            </div>
+          ) : (
+            /* 분기 3: 점검 정보 있음 -> 사고 부위 텍스트 요약 + 2D 상태도 */
+            <div className="space-y-3">
+              {/* 사고 교환/판금 부위 텍스트 요약 */}
+              <div className="p-3 bg-[#0d0e12] rounded-lg border border-[#1e2029] text-xs space-y-1">
+                {hasRep && (
+                  <div className="flex items-start gap-1.5 text-rose-400">
+                    <span className="font-bold shrink-0">🔴 교환(X):</span>
+                    <span className="font-semibold text-rose-300">{mappedRepList.join(', ')}</span>
+                  </div>
+                )}
+                {hasFix && (
+                  <div className="flex items-start gap-1.5 text-amber-400">
+                    <span className="font-bold shrink-0">🟡 판금/용접(W):</span>
+                    <span className="font-semibold text-amber-300">{mappedFixList.join(', ')}</span>
+                  </div>
+                )}
+                {!hasRep && !hasFix && (
+                  <div className="flex items-center gap-1.5 text-emerald-400 font-semibold">
+                    <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
+                    <span>외판 및 주요골격 교환·판금 없음 (무사고 상태)</span>
+                  </div>
+                )}
+              </div>
+
+              {/* 2D 상태도 컴포넌트 임포트 사용 (기존 부품 무수정 임포트) */}
+              <div className="pt-1">
+                <CarDamageDiagram2D selectedEncar={selectedEncar} />
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};

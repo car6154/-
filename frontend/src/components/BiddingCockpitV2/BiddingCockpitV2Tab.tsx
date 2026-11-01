@@ -2,6 +2,7 @@ import React from 'react';
 import { useBiddingCockpit } from '@/components/BiddingCockpit/hooks/useBiddingCockpit';
 import { Search, ExternalLink, Car, AlertCircle, CheckCircle2, RefreshCw } from 'lucide-react';
 import { ComparableEncarV2Section } from './ComparableEncarV2Section';
+import { SelectedCarDetailV2Section } from './SelectedCarDetailV2Section';
 
 export const BiddingCockpitV2Tab: React.FC = () => {
   const cockpit = useBiddingCockpit({
@@ -221,6 +222,12 @@ export const BiddingCockpitV2Tab: React.FC = () => {
         filteredCount={cockpit.encarFilteredCount || 0}
         isInitialState={isInitialState}
         errorMessage={cockpit.encarErrorMessage}
+      />
+
+      {/* 6) 선택 차량 상세 & 2D 상태도 (V2 전용 분리 컴포넌트) */}
+      <SelectedCarDetailV2Section
+        selectedEncar={cockpit.selectedEncar}
+        isInspectionLoading={cockpit.isInspectionLoading}
       />
     </div>
   );
