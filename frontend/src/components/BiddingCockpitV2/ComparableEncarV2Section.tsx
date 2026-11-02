@@ -14,6 +14,7 @@ export interface ComparableEncarV2SectionProps {
   cohortNoAccAvg?: number;
   errorMessage?: string | null;
   encarYearStats?: Array<{ year: number; avg: number; count: number; isTarget: boolean }>;
+  encarSourceUrl?: string;
 }
 
 // 사고구분 라벨 헬퍼 (무사고/단순수리/사고 배지)
@@ -68,6 +69,7 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
   cohortNoAccAvg = 0,
   errorMessage,
   encarYearStats = [],
+  encarSourceUrl,
 }) => {
   // 세부등급 줄 표시/숨김 토글 상태 (기본값: 보임)
   const [showSubModel, setShowSubModel] = useState<boolean>(true);
@@ -182,6 +184,17 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
             <span className="text-zinc-500 text-[11px] font-mono">-</span>
           )}
         </div>
+        {encarSourceUrl && (
+          <a
+            href={encarSourceUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="ml-auto px-1.5 py-1 rounded bg-blue-500/15 text-sky-300 border border-blue-500/35 hover:bg-blue-500/25 transition shrink-0"
+            title="엔카 필터 검색 바로가기"
+          >
+            <ExternalLink className="w-3 h-3" />
+          </a>
+        )}
       </div>
 
       {/* 1. 엔카 비교 매물 목록 테이블 박스 */}

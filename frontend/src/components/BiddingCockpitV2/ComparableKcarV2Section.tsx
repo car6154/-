@@ -13,6 +13,7 @@ export interface ComparableKcarV2SectionProps {
   isInitialState: boolean;
   errorMessage?: string | null;
   kcarYearStats?: Array<{ year: number; avg: number; count: number; isTarget: boolean }>;
+  kcarSearchUrl?: string;
 }
 
 // 사고구분 라벨 헬퍼 (케이카 무사고/단순수리/사고 배지)
@@ -40,6 +41,7 @@ export const ComparableKcarV2Section: React.FC<ComparableKcarV2SectionProps> = (
   isInitialState,
   errorMessage,
   kcarYearStats = [],
+  kcarSearchUrl,
 }) => {
   // 1. 케이카 프리패치 캐시 및 상세 맵
   const [kcarInspectionMap, setKcarInspectionMap] = useState<Record<string, KcarDetailData>>({});
@@ -210,6 +212,17 @@ export const ComparableKcarV2Section: React.FC<ComparableKcarV2SectionProps> = (
             <span className="text-zinc-500 text-[11px] font-mono">-</span>
           )}
         </div>
+        {kcarSearchUrl && (
+          <a
+            href={kcarSearchUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="ml-auto px-1.5 py-1 rounded bg-rose-500/15 text-rose-300 border border-rose-500/35 hover:bg-rose-500/25 transition shrink-0"
+            title="K-Car 필터 검색 바로가기"
+          >
+            <ExternalLink className="w-3 h-3" />
+          </a>
+        )}
       </div>
 
       {/* 1. 케이카 비교 매물 목록 테이블 박스 */}

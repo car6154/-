@@ -639,6 +639,7 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
                     cohortNoAccAvg={cockpit.encarStats?.cohortNoAccAvg || 0}
                     errorMessage={cockpit.encarErrorMessage}
                     encarYearStats={cockpit.encarYearStats || []}
+                    encarSourceUrl={cockpit.encarSourceUrl}
                   />
                 </div>
                 <div className={activeCompTab === 'kcar' ? 'block' : 'hidden'}>
@@ -653,6 +654,7 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
                     isInitialState={isInitialState}
                     errorMessage={cockpit.kcarStats?.message}
                     kcarYearStats={kcarYearStats || []}
+                    kcarSearchUrl={cockpit.kcarStats?.searchUrl}
                   />
                 </div>
                 <div className={activeCompTab === 'heydealer' ? 'block' : 'hidden'}>
