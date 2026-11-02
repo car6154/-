@@ -3,7 +3,7 @@
 services/kcar_service.py
 K-Car 공식 직영 매물 검색 및 실시간 소매 시세 통계 서비스
 - K-Car 공식 직영 검색 API (POST https://api.kcar.com/bc/search/list/drct)
-- AES-128-CBC 암호화 (Key: SKFJ2424DasfaJRI, IV: sfq241sf3dscs321)
+- AES-128-CBC 암호화 (키/IV는 환경변수 또는 .env 참조)
 - 백엔드 단일 진실 공급원(SSOT): 통계(평균, 최저, 최고, 중앙값, 연식별, 가격분포) 일괄 산출
 """
 import os
@@ -23,8 +23,53 @@ from services.part_codes import resolve_part_code, is_outer_part, is_inner_part
 
 from services.local_cache import LocalFileCache
 
-KEY = b"SKFJ2424DasfaJRI"
-IV = b"sfq241sf3dscs321"
+def _get_kcar_aes_credentials():
+    """
+    K-Car AES-128-CBC 암호화 키/IV 로드
+    - 1순위: 환경변수 (KCAR_AES_KEY, KCAR_AES_IV)
+    - 2순위: 프로젝트 루트 .env 파일 (services/cookie_server.py 방식 준용)
+    - 하드코딩 폴백 금지
+    - 값이 없거나 16바이트가 아니면 명확한 에러 발생
+    """
+    key_str = os.environ.get("KCAR_AES_KEY")
+    iv_str = os.environ.get("KCAR_AES_IV")
+
+    if not key_str or not iv_str:
+        base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        env_path = os.path.join(base_dir, ".env")
+        if os.path.exists(env_path):
+            try:
+                with open(env_path, "r", encoding="utf-8-sig") as f:
+                    for line in f:
+                        line = line.strip()
+                        if line.startswith("#") or "=" not in line:
+                            continue
+                        k, v = line.split("=", 1)
+                        k = k.strip()
+                        v = v.strip().strip("'\"")
+                        if k == "KCAR_AES_KEY" and not key_str:
+                            key_str = v
+                        elif k == "KCAR_AES_IV" and not iv_str:
+                            iv_str = v
+            except Exception as e:
+                print(f"[kcar_service] .env 읽기 실패: {e}")
+
+    if not key_str or not iv_str:
+        raise ValueError(
+            "케이카 암호화 키/IV가 설정되지 않았습니다. "
+            "프로젝트 루트 .env 파일 또는 시스템 환경변수에 KCAR_AES_KEY, KCAR_AES_IV를 설정해주세요."
+        )
+
+    key_bytes = key_str.encode("utf-8")
+    iv_bytes = iv_str.encode("utf-8")
+
+    if len(key_bytes) != 16 or len(iv_bytes) != 16:
+        raise ValueError(
+            f"케이카 AES 키/IV 길이가 올바르지 않습니다 (Key: {len(key_bytes)}바이트, IV: {len(iv_bytes)}바이트). "
+            "AES-128 규격에 맞는 16바이트 문자열을 .env 또는 환경변수에 설정해주세요."
+        )
+
+    return key_bytes, iv_bytes
 
 _KCAR_CACHE_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "cache")
 
@@ -3847,7 +3892,8 @@ def encrypt_kcar_payload(data: dict) -> str:
     raw_str = json.dumps(filtered, separators=(',', ':'), ensure_ascii=False).encode('utf-8')
     padder = padding.PKCS7(128).padder()
     padded_data = padder.update(raw_str) + padder.finalize()
-    cipher = Cipher(algorithms.AES(KEY), modes.CBC(IV))
+    key, iv = _get_kcar_aes_credentials()
+    cipher = Cipher(algorithms.AES(key), modes.CBC(iv))
     encryptor = cipher.encryptor()
     ct = encryptor.update(padded_data) + encryptor.finalize()
     return base64.b64encode(ct).decode('utf-8')
