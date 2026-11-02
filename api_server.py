@@ -679,26 +679,6 @@ def trigger_git_sync(action: str = "pull"):
         raise HTTPException(status_code=400, detail=f"알 수 없는 동기화 액션: {action}")
 
 
-class KcarKeySyncRequest(BaseModel):
-    key: str
-    iv: str
-    token: Optional[str] = ""
-
-@app.post("/api/admin/sync_kcar_keys")
-def sync_kcar_keys_endpoint(req: KcarKeySyncRequest):
-    """메인PC -> 서버 간 K-Car 암호화 키/IV 안전 동기화"""
-    from services.cookie_server import set_env_variable, COOKIE_SERVER_SECRET
-    if req.token and req.token != COOKIE_SERVER_SECRET:
-        raise HTTPException(status_code=403, detail="Forbidden")
-    if len(req.key.encode('utf-8')) != 16 or len(req.iv.encode('utf-8')) != 16:
-        raise HTTPException(status_code=400, detail="Invalid key/iv length: must be 16 bytes")
-    set_env_variable("KCAR_AES_KEY", req.key)
-    set_env_variable("KCAR_AES_IV", req.iv)
-    os.environ["KCAR_AES_KEY"] = req.key
-    os.environ["KCAR_AES_IV"] = req.iv
-    return {"success": True, "message": "K-Car AES key/iv successfully saved to .env"}
-
-
 @app.post("/api/server/restart_all")
 def restart_all_servers_endpoint():
     """
