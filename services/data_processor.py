@@ -417,7 +417,7 @@ class DataProcessor:
         s = re.sub(r'[\(\)\[\]]', '', s)
         # 4. 공백 없이 붙은 선행 제원 토큰(배기량, 구동방식, 엔진/유종 약어) 경계 분리
         s = re.sub(
-            r'(\d\.\d(?:t(?![0-9]))?|(?:2|4|a|f|r)wd|t-?gdi|gde|lpe|dci|gdi|mpi|tce|crdi|vgt|lpi)',
+            r'(\d\.\d(?:t(?![0-9a-zA-Z]))?|(?:2|4|a|f|r)wd|t-?gdi|gde|lpe|dci|gdi|mpi|tce|crdi|vgt|lpi)',
             r' \1 ',
             s,
             flags=re.IGNORECASE,
