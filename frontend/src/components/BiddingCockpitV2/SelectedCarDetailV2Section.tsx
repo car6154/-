@@ -13,6 +13,7 @@ export interface MatchedOptionItem {
   desc?: string;
   match_type: 'exact' | 'fuzzy' | 'none';
   source: 'danawa' | 'encar' | 'none';
+  matched_year?: string;
 }
 
 export interface SelectedCarDetailV2SectionProps {
@@ -364,6 +365,7 @@ export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProp
               matchType: 'exact' | 'fuzzy' | 'none';
               source: 'danawa' | 'encar' | 'none';
               price?: number | null;
+              matchedYear?: string;
             }> = matchedOptions.length > 0
               ? matchedOptions.map((m) => ({
                   displayName: m.match_type !== 'none' ? m.official_name : m.raw_name,
@@ -371,6 +373,7 @@ export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProp
                   matchType: m.match_type,
                   source: m.source,
                   price: m.price,
+                  matchedYear: m.matched_year,
                 }))
               : fallbackList.map((raw) => ({
                   displayName: raw,
@@ -409,11 +412,13 @@ export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProp
                     if (item.matchType === 'exact') {
                       chipStyle = 'bg-emerald-500/15 text-emerald-300 border-emerald-500/40 font-semibold';
                       const srcLabel = item.source === 'danawa' ? '다나와' : '엔카';
-                      titleText = `[${srcLabel} 카탈로그 정확 매칭] 표준명: ${item.displayName}${item.price ? ` (${Math.round(item.price / 10000)}만원)` : ''}`;
+                      const yearSuffix = item.matchedYear ? ` · ${item.matchedYear}년` : '';
+                      titleText = `[${srcLabel} 카탈로그 정확 매칭${yearSuffix}] 표준명: ${item.displayName}${item.price ? ` (${Math.round(item.price / 10000)}만원)` : ''}`;
                     } else if (item.matchType === 'fuzzy') {
                       chipStyle = 'bg-amber-500/15 text-amber-300 border-amber-500/40 font-semibold';
                       const srcLabel = item.source === 'danawa' ? '다나와' : '엔카';
-                      titleText = `[${srcLabel} 카탈로그 퍼지 매칭] 표준명: ${item.displayName} (원문: ${item.rawName})`;
+                      const yearSuffix = item.matchedYear ? ` · ${item.matchedYear}년` : '';
+                      titleText = `[${srcLabel} 카탈로그 퍼지 매칭${yearSuffix}] 표준명: ${item.displayName} (원문: ${item.rawName})`;
                     }
 
                     return (

@@ -661,10 +661,10 @@ SPEC_QUALIFIER_KEYWORDS = [
 ]
 
 
-def _search_in_catalog(db: dict, car_name: str, year: str = "") -> dict:
-    """단일 카탈로그 DB에서 차종명과 연식으로 검색"""
+def _find_model_in_catalog(db: dict, car_name: str):
+    """단일 카탈로그 DB에서 차종명으로 모델 데이터(연식별 dict) 검색 -> (best_model_key, model_data)"""
     if not db or not car_name:
-        return {}
+        return None
 
     clean_name = re.sub(r'^(현대|기아|제네시스|쉐보레|르노코리아|르노삼성|KG모빌리티|쌍용)\s*', '', str(car_name)).strip()
 
@@ -687,9 +687,57 @@ def _search_in_catalog(db: dict, car_name: str, year: str = "") -> dict:
                     break
 
     if not best_model_key:
+        return None
+    return best_model_key, db[best_model_key]
+
+
+def get_ordered_model_years(model_data: dict, year_str: str) -> list:
+    """
+    카탈로그 모델 데이터의 연식들을 요청 연식 기반으로 우선순위 정렬:
+    1. 요청 연식에서 추출된 후보 연식(extract_year_candidates 순서) 먼저
+    2. 나머지 모델 연식은 요청 연식과의 거리(절대값) 오름차순, 동거리면 최신 연식 내림차순
+    """
+    if not model_data:
+        return []
+
+    all_years = [str(y) for y in model_data.keys() if model_data.get(y)]
+    if not all_years:
+        return []
+
+    cands = extract_year_candidates(year_str)
+    ordered = []
+
+    # 1. 후보 연식 먼저
+    for c in cands:
+        if c in all_years and c not in ordered:
+            ordered.append(c)
+
+    # 후보 연식 숫자 목록 (거리 계산 기준)
+    cand_ints = [int(c) for c in cands if c.isdigit()]
+
+    # 2. 나머지 연식 (요청 연식과의 거리순, 동거리면 최신 연식 먼저)
+    remaining = [y for y in all_years if y not in ordered]
+    if remaining:
+        if cand_ints:
+            def _sort_key(y_str: str):
+                y_val = int(y_str) if y_str.isdigit() else 0
+                min_dist = min(abs(y_val - c) for c in cand_ints)
+                return (min_dist, -y_val)
+            remaining.sort(key=_sort_key)
+        else:
+            remaining.sort(key=lambda y: -int(y) if y.isdigit() else 0)
+        ordered.extend(remaining)
+
+    return ordered
+
+
+def _search_in_catalog(db: dict, car_name: str, year: str = "") -> dict:
+    """단일 카탈로그 DB에서 차종명과 연식으로 검색 (기존 호출처 보존)"""
+    found = _find_model_in_catalog(db, car_name)
+    if not found:
         return {}
 
-    model_data = db[best_model_key]
+    _, model_data = found
     yr_cands = extract_year_candidates(year)
 
     target_yr = None
@@ -709,6 +757,7 @@ def _search_in_catalog(db: dict, car_name: str, year: str = "") -> dict:
     if res and (res.get("options") or res.get("grades")):
         return res
     return {}
+
 
 def get_catalog_for_car(car_name: str, year: str = "") -> dict:
     """
@@ -736,9 +785,13 @@ def get_catalog_for_car(car_name: str, year: str = "") -> dict:
 
 def get_catalog_option_detail(car_name: str, year: Any, opt_name: str) -> Optional[dict]:
     """
-    입력: 차량명 (예: "더 뉴 카니발 4세대"), 연식 (예: 2026), 옵션명 (예: "컴포트")
-    처리: 다나와(1순위) → 엔카(2순위) → 퍼지(3순위 폴백)
-    출력: 해당 옵션의 가격과 설명 표시 ({price: 1190000, desc: "...", official_name: "...", match_type: "exact"|"fuzzy", source: "danawa"|"encar"})
+    입력: 차량명 (예: "더 뉴 카니발 4세대"), 연식 (예: 2026, "14(15)"), 옵션명 (예: "컴포트")
+    처리 순서 (2026-11-02 제이 규칙):
+      1단계: 다나와 정확 매칭 (연식 순서대로)
+      2단계: 엔카 정확 매칭 (연식 순서대로)
+      3단계: 다나와 퍼지 매칭 (연식 순서대로)
+      4단계: 엔카 퍼지 매칭 (연식 순서대로)
+    출력: 해당 옵션의 가격, 설명, 공식명, 출처, 매칭 연식 등 ({price, desc, official_name, match_type, source, matched_year})
     """
     if not car_name or not opt_name:
         return None
@@ -807,53 +860,71 @@ def get_catalog_option_detail(car_name: str, year: Any, opt_name: str) -> Option
                 }
         return best_candidate
 
-    # 1순위: 다나와 카탈로그 exact 일치
+    year_str = str(year or "")
     danawa_db = load_danawa_catalog()
-    d_cat = None
-    if danawa_db:
-        d_cat = _search_in_catalog(danawa_db, car_name, str(year or ""))
-        if d_cat and d_cat.get("options"):
-            found = _find_in_options(d_cat["options"])
-            if found:
-                found["source"] = "danawa"
-                found["raw_name"] = opt_name
-                return found
-
-    # 2순위: 엔카 카탈로그 exact 일치
     encar_db = load_crawled_catalog()
-    e_cat = None
-    if encar_db:
-        e_cat = _search_in_catalog(encar_db, car_name, str(year or ""))
-        if e_cat and e_cat.get("options"):
-            found = _find_in_options(e_cat["options"])
-            if found:
-                found["source"] = "encar"
-                found["raw_name"] = opt_name
-                return found
 
-    # 3순위: 다나와 카탈로그 fuzzy 일치
-    if d_cat and d_cat.get("options"):
-        f_found = _fuzzy_find_in_options(d_cat["options"])
-        if f_found:
-            f_found["source"] = "danawa"
-            f_found["raw_name"] = opt_name
-            return f_found
+    d_model = _find_model_in_catalog(danawa_db, car_name) if danawa_db else None
+    e_model = _find_model_in_catalog(encar_db, car_name) if encar_db else None
 
-    # 4순위: 엔카 카탈로그 fuzzy 일치
-    if e_cat and e_cat.get("options"):
-        f_found = _fuzzy_find_in_options(e_cat["options"])
-        if f_found:
-            f_found["source"] = "encar"
-            f_found["raw_name"] = opt_name
-            return f_found
+    d_years = get_ordered_model_years(d_model[1], year_str) if d_model else []
+    e_years = get_ordered_model_years(e_model[1], year_str) if e_model else []
+
+    # 1단계: 다나와 정확 매칭 (연식 순서대로)
+    if d_model:
+        for yr in d_years:
+            opts = d_model[1].get(yr, {}).get("options")
+            if opts:
+                found = _find_in_options(opts)
+                if found:
+                    found["source"] = "danawa"
+                    found["matched_year"] = yr
+                    found["raw_name"] = opt_name
+                    return found
+
+    # 2단계: 엔카 정확 매칭 (연식 순서대로)
+    if e_model:
+        for yr in e_years:
+            opts = e_model[1].get(yr, {}).get("options")
+            if opts:
+                found = _find_in_options(opts)
+                if found:
+                    found["source"] = "encar"
+                    found["matched_year"] = yr
+                    found["raw_name"] = opt_name
+                    return found
+
+    # 3단계: 다나와 퍼지 매칭 (연식 순서대로)
+    if d_model:
+        for yr in d_years:
+            opts = d_model[1].get(yr, {}).get("options")
+            if opts:
+                f_found = _fuzzy_find_in_options(opts)
+                if f_found:
+                    f_found["source"] = "danawa"
+                    f_found["matched_year"] = yr
+                    f_found["raw_name"] = opt_name
+                    return f_found
+
+    # 4단계: 엔카 퍼지 매칭 (연식 순서대로)
+    if e_model:
+        for yr in e_years:
+            opts = e_model[1].get(yr, {}).get("options")
+            if opts:
+                f_found = _fuzzy_find_in_options(opts)
+                if f_found:
+                    f_found["source"] = "encar"
+                    f_found["matched_year"] = yr
+                    f_found["raw_name"] = opt_name
+                    return f_found
 
     return None
 
 
 def match_car_options_detail(car_name: str, year: Any, options_text_or_list: Any) -> list:
     """
-    선택 차량의 옵션 목록(원문)을 카탈로그(다나와 1순위 -> 엔카 2순위 -> 퍼지 3순위)와 매칭하여
-    표준명, 매칭상태(exact/fuzzy/none), 출처(danawa/encar/none) 목록 반환
+    선택 차량의 옵션 목록(원문)을 카탈로그(다나와 1순위 -> 엔카 2순위 -> 퍼지 3순위, 모델 전체 연식 확대 순회)와 매칭하여
+    표준명, 매칭상태(exact/fuzzy/none), 출처(danawa/encar/none), 매칭연식(matched_year) 목록 반환
     """
     if not options_text_or_list:
         return []
@@ -878,7 +949,8 @@ def match_car_options_detail(car_name: str, year: Any, options_text_or_list: Any
                 "price": matched.get("price"),
                 "desc": matched.get("desc", ""),
                 "match_type": matched.get("match_type", "exact"),
-                "source": matched.get("source", "encar")
+                "source": matched.get("source", "encar"),
+                "matched_year": matched.get("matched_year", "")
             })
         else:
             results.append({
@@ -888,7 +960,8 @@ def match_car_options_detail(car_name: str, year: Any, options_text_or_list: Any
                 "price": None,
                 "desc": "",
                 "match_type": "none",
-                "source": "none"
+                "source": "none",
+                "matched_year": ""
             })
     return results
 
