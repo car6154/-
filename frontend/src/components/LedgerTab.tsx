@@ -684,6 +684,58 @@ export const LedgerTab: React.FC<LedgerTabProps> = ({
 
         </div>
 
+        {/* Selected Car Option Delta & Valuation Strip (D1 엄격 평균 대당 옵션 델타 및 최종 소매가) */}
+        {currentSelectedCar && (
+          <div className="mt-2.5 pt-2.5 border-t border-[#1e2230] flex flex-wrap items-center gap-4 text-xs">
+            <div className="flex items-center gap-1.5">
+              <span className="text-zinc-400 text-[11px]">최종 소매가:</span>
+              <span className="font-bold text-sky-400 font-mono text-[11px]">
+                {currentSelectedCar.finalRetailPrice && currentSelectedCar.finalRetailPrice > 0
+                  ? `${currentSelectedCar.finalRetailPrice.toLocaleString()}만`
+                  : '-'}
+              </span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="text-zinc-400 text-[11px]">옵션 차이:</span>
+              <span className={`font-bold font-mono text-[11px] ${
+                typeof currentSelectedCar.meanOptDelta === 'number' && currentSelectedCar.meanOptDelta > 0
+                  ? 'text-emerald-400'
+                  : typeof currentSelectedCar.meanOptDelta === 'number' && currentSelectedCar.meanOptDelta < 0
+                  ? 'text-rose-400'
+                  : 'text-zinc-400'
+              }`}>
+                {typeof currentSelectedCar.meanOptDelta === 'number' && currentSelectedCar.meanOptDelta !== 0
+                  ? `${currentSelectedCar.meanOptDelta > 0 ? `+${currentSelectedCar.meanOptDelta.toLocaleString()}` : currentSelectedCar.meanOptDelta.toLocaleString()}만`
+                  : '-'}
+              </span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="text-zinc-400 text-[11px]">목표 옵션 신차가:</span>
+              <span className="font-medium text-zinc-200 font-mono text-[11px]">
+                {currentSelectedCar.targetOptNew && currentSelectedCar.targetOptNew > 0
+                  ? `${currentSelectedCar.targetOptNew.toLocaleString()}만`
+                  : '-'}
+              </span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="text-zinc-400 text-[11px]">목표 옵션 잔존가:</span>
+              <span className="font-medium text-zinc-200 font-mono text-[11px]">
+                {currentSelectedCar.targetOptResVal && currentSelectedCar.targetOptResVal > 0
+                  ? `${currentSelectedCar.targetOptResVal.toLocaleString()}만`
+                  : '-'}
+              </span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="text-zinc-400 text-[11px]">엄격 대수:</span>
+              <span className="font-medium text-amber-300 font-mono text-[11px]">
+                {currentSelectedCar.strictAdjCount && currentSelectedCar.strictAdjCount > 0
+                  ? `${currentSelectedCar.strictAdjCount.toLocaleString()}대`
+                  : '-'}
+              </span>
+            </div>
+          </div>
+        )}
+
       </div>
 
 

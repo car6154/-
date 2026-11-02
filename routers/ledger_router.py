@@ -80,6 +80,11 @@ def get_car_ledger():
                 heydealer_fee_raw = get_val("헤딜수수료")
                 memo = get_val("특이사항")
                 status = get_val("상태")
+                final_retail_price_raw = get_val("최종소매가")
+                mean_opt_delta_raw = get_val("옵션델타")
+                target_opt_new_raw = get_val("목표옵션신차가")
+                target_opt_res_val_raw = get_val("목표옵션잔존가")
+                strict_adj_count_raw = get_val("엄격대수")
 
                 base_id = f"{car_number}_{reg_date}".strip("_")
                 if not base_id:
@@ -109,6 +114,11 @@ def get_car_ledger():
                     "heydealerFee": _safe_float(heydealer_fee_raw),
                     "memo": memo,
                     "status": status,
+                    "finalRetailPrice": _safe_int(final_retail_price_raw),
+                    "meanOptDelta": _safe_int(mean_opt_delta_raw),
+                    "targetOptNew": _safe_int(target_opt_new_raw),
+                    "targetOptResVal": _safe_int(target_opt_res_val_raw),
+                    "strictAdjCount": _safe_int(strict_adj_count_raw),
                     "등록일": reg_date,
                     "차량번호": car_number,
                     "제조사": manufacturer,
@@ -124,6 +134,11 @@ def get_car_ledger():
                     "헤딜수수료": heydealer_fee_raw,
                     "특이사항": memo,
                     "상태": status,
+                    "최종소매가": final_retail_price_raw,
+                    "옵션델타": mean_opt_delta_raw,
+                    "목표옵션신차가": target_opt_new_raw,
+                    "목표옵션잔존가": target_opt_res_val_raw,
+                    "엄격대수": strict_adj_count_raw,
                 }
                 items.append(item)
 
