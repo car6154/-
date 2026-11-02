@@ -404,18 +404,15 @@ export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProp
                 <div className="flex flex-wrap gap-1.5 pt-0.5">
                   {displayList.map((item, i) => {
                     let chipStyle = 'bg-[#1a1c26] text-zinc-300 border-[#2d3142]';
-                    let badgeText = '';
                     let titleText = `[미매칭 옵션] 원문: ${item.rawName}`;
 
                     if (item.matchType === 'exact') {
                       chipStyle = 'bg-emerald-500/15 text-emerald-300 border-emerald-500/40 font-semibold';
                       const srcLabel = item.source === 'danawa' ? '다나와' : '엔카';
-                      badgeText = srcLabel;
                       titleText = `[${srcLabel} 카탈로그 정확 매칭] 표준명: ${item.displayName}${item.price ? ` (${Math.round(item.price / 10000)}만원)` : ''}`;
                     } else if (item.matchType === 'fuzzy') {
                       chipStyle = 'bg-amber-500/15 text-amber-300 border-amber-500/40 font-semibold';
                       const srcLabel = item.source === 'danawa' ? '다나와' : '엔카';
-                      badgeText = `${srcLabel}·퍼지`;
                       titleText = `[${srcLabel} 카탈로그 퍼지 매칭] 표준명: ${item.displayName} (원문: ${item.rawName})`;
                     }
 
@@ -426,15 +423,6 @@ export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProp
                         title={titleText}
                       >
                         <span>{item.displayName}</span>
-                        {badgeText && (
-                          <span className={`text-[9px] px-1 py-0.2 rounded font-mono font-normal ${
-                            item.matchType === 'exact'
-                              ? 'bg-emerald-500/25 text-emerald-200'
-                              : 'bg-amber-500/25 text-amber-200'
-                          }`}>
-                            {badgeText}
-                          </span>
-                        )}
                       </span>
                     );
                   })}
