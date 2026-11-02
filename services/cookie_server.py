@@ -1,3 +1,4 @@
+import time
 # services/cookie_server.py
 import os
 import re
@@ -14,41 +15,107 @@ HIGH_COOKIE_FILE = os.path.join(BASE_DIR, "high_cookie.txt")
 
 COOKIE_SERVER_SECRET = os.getenv("COOKIE_SERVER_TOKEN", "jpro_sec_9981_live_auth")
 
-def set_env_variable(var_name: str, value: str):
-    """안전하게 .env 파일의 환경변수를 갱신 (줄바꿈 오염, 파편 및 중복 방지)"""
-    env_path = os.path.join(BASE_DIR, '.env')
-    clean_val = value.replace('\r', '').replace('\n', '').strip()
-    lines = []
-    if os.path.exists(env_path):
-        try:
-            with open(env_path, 'r', encoding='utf-8-sig') as f:
-                lines = f.readlines()
-        except:
-            lines = []
+class _EnvFileLock:
+    """프로세스 간 .env 파일 동시 쓰기 방지 파일 락 (Windows msvcrt / POSIX fcntl 지원)"""
+    def __init__(self, lock_path: str, timeout: float = 10.0):
+        self.lock_path = lock_path
+        self.timeout = timeout
+        self.fd = None
 
-    new_lines = []
-    found = False
-    for line in lines:
-        stripped = line.strip()
-        if not stripped or stripped.startswith('#'):
-            continue
-        m = re.match(r'^([A-Za-z_][A-Za-z0-9_]*)\s*=', stripped)
-        if not m:
-            continue
-        curr_key = m.group(1)
-        if curr_key == var_name:
-            new_lines.append(f'{var_name}="{clean_val}"\n')
-            found = True
-        else:
-            new_lines.append(line if line.endswith('\n') else line + '\n')
-    if not found:
-        new_lines.append(f'{var_name}="{clean_val}"\n')
+    def __enter__(self):
+        start_time = time.time()
+        self.fd = os.open(self.lock_path, os.O_RDWR | os.O_CREAT)
+        while True:
+            try:
+                if os.name == 'nt':
+                    import msvcrt
+                    msvcrt.locking(self.fd, msvcrt.LK_NBLCK, 1)
+                else:
+                    import fcntl
+                    fcntl.flock(self.fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                return self
+            except (BlockingIOError, OSError):
+                if time.time() - start_time > self.timeout:
+                    raise TimeoutError(f"Failed to acquire lock on {self.lock_path} within {self.timeout}s")
+                time.sleep(0.02)
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        if self.fd is not None:
+            try:
+                if os.name == 'nt':
+                    import msvcrt
+                    os.lseek(self.fd, 0, os.SEEK_SET)
+                    msvcrt.locking(self.fd, msvcrt.LK_UNLCK, 1)
+                else:
+                    import fcntl
+                    fcntl.flock(self.fd, fcntl.LOCK_UN)
+            except Exception:
+                pass
+            finally:
+                os.close(self.fd)
+                self.fd = None
+
+def set_env_variable(var_name: str, value: str):
+    """안전하게 .env 파일의 환경변수를 갱신 (프로세스 파일 락 + 임시 파일 os.replace 원자적 교체 + 읽기 실패 시 덮어쓰기 금지)"""
+    import tempfile
+    env_path = os.path.join(BASE_DIR, '.env')
+    lock_path = os.path.join(BASE_DIR, '.env.lock')
+    clean_val = value.replace('\r', '').replace('\n', '').strip()
 
     try:
-        with open(env_path, 'w', encoding='utf-8') as f:
-            f.writelines(new_lines)
+        with _EnvFileLock(lock_path):
+            lines = []
+            if os.path.exists(env_path):
+                try:
+                    with open(env_path, 'r', encoding='utf-8-sig') as f:
+                        lines = f.readlines()
+                except Exception as e:
+                    print(f"[CookieServer] CRITICAL: Failed to read .env file: {e}. Aborting set_env_variable to prevent data loss.", flush=True)
+                    return False
+
+            new_lines = []
+            found = False
+            for line in lines:
+                stripped = line.strip()
+                if not stripped or stripped.startswith('#'):
+                    new_lines.append(line if line.endswith('\n') else line + '\n')
+                    continue
+                m = re.match(r'^([A-Za-z_][A-Za-z0-9_]*)\s*=', stripped)
+                if not m:
+                    new_lines.append(line if line.endswith('\n') else line + '\n')
+                    continue
+                curr_key = m.group(1)
+                if curr_key == var_name:
+                    new_lines.append(f'{var_name}="{clean_val}"\n')
+                    found = True
+                else:
+                    new_lines.append(line if line.endswith('\n') else line + '\n')
+
+            if not found:
+                new_lines.append(f'{var_name}="{clean_val}"\n')
+
+            # 원자적 쓰기: 같은 디렉터리(BASE_DIR)의 임시 파일에 기록 후 os.replace로 원자적 교체
+            tmp_fd, tmp_path = tempfile.mkstemp(prefix='.env.tmp.', dir=BASE_DIR, text=True)
+            try:
+                with open(tmp_fd, 'w', encoding='utf-8', closefd=True) as f:
+                    f.writelines(new_lines)
+                os.replace(tmp_path, env_path)
+            except Exception as e:
+                print(f"[CookieServer] Failed to write/replace .env: {e}", flush=True)
+                if os.path.exists(tmp_path):
+                    try:
+                        os.remove(tmp_path)
+                    except Exception:
+                        pass
+                return False
+
+            # 실행 중인 프로세스 환경변수 메모리 동기화
+            os.environ[var_name] = clean_val
+            return True
+
     except Exception as e:
-        print(f"[CookieServer] Failed to write .env: {e}", flush=True)
+        print(f"[CookieServer] Error in set_env_variable: {e}", flush=True)
+        return False
 
 class CookieReceiverHandler(BaseHTTPRequestHandler):
     def log_message(self, format, *args):
