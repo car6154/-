@@ -73,6 +73,7 @@ def enrich_heydealer_options(car_dict: dict) -> dict:
     - parsed_options (list[str]): 정제된 옵션 명칭 리스트
     - options_text (str): " · " 구분자로 연결된 옵션 문자열
     - options_items (list[dict]): Phase 1 표준 OptionItem 구조 (resolve_option_item 적용)
+    - options_source (str): 'description' | 'advanced' | 'loaded' | 'none' (폴백 출처 표기)
     - market_prices (동급 낙찰시세) 매물들에 대해서도 동일하게 옵션을 정제해 주입
     """
     if not isinstance(car_dict, dict):
@@ -85,7 +86,7 @@ def enrich_heydealer_options(car_dict: dict) -> dict:
 
     def _process_single(target_d: dict) -> tuple:
         if not isinstance(target_d, dict):
-            return [], "", []
+            return [], "", [], 'none'
         d = target_d.get('detail') if isinstance(target_d.get('detail'), dict) else target_d
         
         # 1. car_spec.description 우선 파싱
@@ -124,6 +125,15 @@ def enrich_heydealer_options(car_dict: dict) -> dict:
                         loaded_opts.append(o.strip())
 
         final_opts = parsed_spec if parsed_spec else (adv_opts if adv_opts else loaded_opts)
+        # 출처 표기: 딜러 설명 파싱이 아니면 폴백 출처를 명시 (프론트 게이트용)
+        if parsed_spec:
+            opt_source = 'description'
+        elif adv_opts:
+            opt_source = 'advanced'
+        elif loaded_opts:
+            opt_source = 'loaded'
+        else:
+            opt_source = 'none'
         final_opts = [str(x).strip() for x in final_opts if str(x).strip()]
         opt_text = " · ".join(final_opts) if final_opts else ""
 
@@ -132,16 +142,18 @@ def enrich_heydealer_options(car_dict: dict) -> dict:
             for opt_name in final_opts:
                 opt_items.append(resolve_option_item(raw_name=opt_name))
 
-        return final_opts, opt_text, opt_items
+        return final_opts, opt_text, opt_items, opt_source
 
     # 1. 메인 타겟 차량 처리
-    m_opts, m_text, m_items = _process_single(car_dict)
+    m_opts, m_text, m_items, m_source = _process_single(car_dict)
     car_dict['parsed_options'] = m_opts
     car_dict['options_text'] = m_text
+    car_dict['options_source'] = m_source
     car_dict['options_items'] = m_items
     if 'detail' in car_dict and isinstance(car_dict['detail'], dict):
         car_dict['detail']['parsed_options'] = m_opts
         car_dict['detail']['options_text'] = m_text
+        car_dict['detail']['options_source'] = m_source
         car_dict['detail']['options_items'] = m_items
 
     # 2. 동급 낙찰시세 (market_prices) 매물들 처리 (results -> items 순 탐색)
@@ -157,13 +169,15 @@ def enrich_heydealer_options(car_dict: dict) -> dict:
 
     for item in items:
         if isinstance(item, dict):
-            i_opts, i_text, i_items = _process_single(item)
+            i_opts, i_text, i_items, i_source = _process_single(item)
             item['parsed_options'] = i_opts
             item['options_text'] = i_text
+            item['options_source'] = i_source
             item['options_items'] = i_items
             if 'detail' in item and isinstance(item['detail'], dict):
                 item['detail']['parsed_options'] = i_opts
                 item['detail']['options_text'] = i_text
+                item['detail']['options_source'] = i_source
                 item['detail']['options_items'] = i_items
 
     return car_dict

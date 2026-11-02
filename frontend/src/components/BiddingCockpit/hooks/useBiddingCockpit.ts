@@ -1424,7 +1424,11 @@ export function useBiddingCockpit({
         const optionsResult = detail.options_text || carData.options_text || resJson.data?.options_text ||
           (Array.isArray(detail.parsed_options) ? detail.parsed_options.join(' · ') : '') ||
           (Array.isArray(carData.parsed_options) ? carData.parsed_options.join(' · ') : '');
-        setOptionsTag(optionsResult);
+        // 폴백 출처 게이트: 딜러 설명 파싱이 아닌 폴백 출처면 목표 옵션으로 표시하지 않음
+        // (10-30 확인 규칙: 헤이딜러 옵션 0개면 출고정보만 기준. 출처 필드 없으면 기존 동작 유지)
+        const optionsSource = detail.options_source || carData.options_source || resJson.data?.options_source || '';
+        const isFallbackSource = optionsSource === 'advanced' || optionsSource === 'loaded';
+        setOptionsTag(isFallbackSource ? '' : optionsResult);
 
         // 🌟 타겟 차량 보험사고 이력 (carhistory) & 출고정보 정밀 파싱
         const ch = detail.carhistory || carData.carhistory || resJson.data?.carhistory || {};

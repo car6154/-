@@ -626,6 +626,12 @@ export const splitOptionString = (optStr: string): string[] => {
   let cleanedStr = String(optStr)
     .replace(/\[(?:순정)?옵션총액[^\]]*\]/gi, '')
     .trim();
+  // ※ 주석 줄 제거: ※로 시작하는 줄은 옵션이 아니라 조건 메모이므로 칩에서 제외
+  cleanedStr = cleanedStr
+    .split('\n')
+    .filter(line => !line.trim().startsWith('※'))
+    .join('\n')
+    .trim();
   if (!cleanedStr || ['없음', '-', '없음(구버전점검)', '⚠️조회실패', '코드매칭실패', '기본'].includes(cleanedStr)) {
     return [];
   }
@@ -633,8 +639,14 @@ export const splitOptionString = (optStr: string): string[] => {
   // 🚗 [타이어 규격 보존 전처리]
   // 예: "215/55 R18", "245/45R20", "275/40 ZR 20", "215/60-17" 등 공백/하이픈/영문 기호 유무와 무관하게 보존
   // 슬래시(/)와 앞뒤 타이어 사이 쉼표(,)가 분해기로 쪼개져 "+ 215", "+ 55 R18" 등 파편화되는 버그 방지
+  // 가격 천 단위 쉼표 보호: 숫자 사이의 쉼표는 구분자가 아니라 자릿수 구분자 (450,000원, 1,000,000원)
+  // (앞자리 숫자를 소비하지 않는 후방탐색으로 1,000,000처럼 겹치는 경우도 모두 보호)
+  cleanedStr = cleanedStr.replace(/(?<=\d),(\d{3})(?!\d)/g, '__PRICECOMMA__$1');
   cleanedStr = cleanedStr.replace(/(?<=\b|\D)(\d{3})\/(\d{2}(?:\s*[-a-zA-Z]{1,2}\s*\d{2})?)(?=\b|\D)/g, '$1__SLASH__$2');
   cleanedStr = cleanedStr.replace(/(\([앞전뒤후]\))\s*,\s*(\d{3}__SLASH__)/g, '$1__COMMA__$2');
+  // 단어 내부 슬래시 보호: 공백 없는 슬래시는 합성어(주행/주차, 운전석/동승석)이므로 분리하지 않음
+  // (공백 있는 'A / B'는 기존대로 분리, URL의 //도 건드리지 않음)
+  cleanedStr = cleanedStr.replace(/([^\s\/])\/(?=[^\s\/])/g, '$1__SLASH__');
 
   const results: string[] = [];
   let current = '';
@@ -661,8 +673,8 @@ export const splitOptionString = (optStr: string): string[] => {
   if (lastTrimmed) results.push(lastTrimmed);
 
   return results
-    .map(o => o.replace(/__SLASH__/g, '/').replace(/__COMMA__/g, ', ').replace(/\[(?:순정)?옵션총액[^\]]*\]/gi, '').trim())
-    .filter(o => o.length > 0 && !['없음', '-', '기본'].includes(o));
+    .map(o => o.replace(/__SLASH__/g, '/').replace(/__COMMA__/g, ', ').replace(/__PRICECOMMA__/g, ',').replace(/\[(?:순정)?옵션총액[^\]]*\]/gi, '').trim())
+    .filter(o => o.length > 0 && !o.startsWith('※') && !['없음', '-', '기본'].includes(o));
 };
 
 // ═══════════════════════════════════════════════════════════════
