@@ -16,6 +16,25 @@ CRAWLED_CATALOG_FILE = os.path.join(os.path.dirname(os.path.dirname(os.path.absp
 _CRAWLED_CACHE = None
 _CACHE_MTIME = 0
 
+DANAWA_CATALOG_FILE = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "danawa_newcar_catalog.json")
+_DANAWA_CACHE = None
+_DANAWA_CACHE_MTIME = 0
+
+def load_danawa_catalog() -> dict:
+    """다나와 신차 카탈로그 파일 로드 (mtime 기반 리로드)"""
+    global _DANAWA_CACHE, _DANAWA_CACHE_MTIME
+    if os.path.exists(DANAWA_CATALOG_FILE):
+        try:
+            mtime = os.path.getmtime(DANAWA_CATALOG_FILE)
+            if _DANAWA_CACHE is None or mtime > _DANAWA_CACHE_MTIME:
+                with open(DANAWA_CATALOG_FILE, "r", encoding="utf-8") as f:
+                    _DANAWA_CACHE = json.load(f)
+                    _DANAWA_CACHE_MTIME = mtime
+            return _DANAWA_CACHE or {}
+        except Exception:
+            return _DANAWA_CACHE or {}
+    return {}
+
 def load_crawled_catalog() -> dict:
     global _CRAWLED_CACHE, _CACHE_MTIME
     if os.path.exists(CRAWLED_CATALOG_FILE):
@@ -642,34 +661,26 @@ SPEC_QUALIFIER_KEYWORDS = [
 ]
 
 
-def get_catalog_for_car(car_name: str, year: str = "") -> dict:
-    """
-    차종명과 연식으로 공식 엔카 신차가격표 DB에서 해당 스펙(options, packages 등) 추출
-    - car_name: '올 뉴 카니발', '카니발', '팰리세이드' 등
-    - year: '2020', '2018', '17(18)' 등
-    """
-    crawled_db = load_crawled_catalog()
-    if not crawled_db or not car_name:
+def _search_in_catalog(db: dict, car_name: str, year: str = "") -> dict:
+    """단일 카탈로그 DB에서 차종명과 연식으로 검색"""
+    if not db or not car_name:
         return {}
 
     clean_name = re.sub(r'^(현대|기아|제네시스|쉐보레|르노코리아|르노삼성|KG모빌리티|쌍용)\s*', '', str(car_name)).strip()
 
-    # 1. 완전 일치 우선 검사 (팰리세이드가 팰리세이드(LX3)에 오매칭되는 것 방지)
     best_model_key = None
-    if car_name in crawled_db:
+    if car_name in db:
         best_model_key = car_name
-    elif clean_name in crawled_db:
+    elif clean_name in db:
         best_model_key = clean_name
     else:
         norm_target = normalize_opt_name(clean_name)
-        # 2. 정규화 완전 일치 검사
-        for m_key in crawled_db.keys():
+        for m_key in db.keys():
             if normalize_opt_name(m_key) == norm_target:
                 best_model_key = m_key
                 break
-        # 3. 부분 일치 검사 (완전 일치가 없을 때만)
         if not best_model_key:
-            for m_key in crawled_db.keys():
+            for m_key in db.keys():
                 norm_m = normalize_opt_name(m_key)
                 if norm_target in norm_m or norm_m in norm_target:
                     best_model_key = m_key
@@ -678,7 +689,7 @@ def get_catalog_for_car(car_name: str, year: str = "") -> dict:
     if not best_model_key:
         return {}
 
-    model_data = crawled_db[best_model_key]
+    model_data = db[best_model_key]
     yr_cands = extract_year_candidates(year)
 
     target_yr = None
@@ -693,24 +704,43 @@ def get_catalog_for_car(car_name: str, year: str = "") -> dict:
     if not target_yr:
         return {}
 
-    return model_data.get(target_yr, {})
+    res = model_data.get(target_yr, {})
+    # 빈 껍데기 체크 (grades 또는 options가 있을 때만 유효 반환)
+    if res and (res.get("options") or res.get("grades")):
+        return res
+    return {}
+
+def get_catalog_for_car(car_name: str, year: str = "") -> dict:
+    """
+    차종명과 연식으로 공식 신차가격표 DB에서 해당 스펙(options, packages 등) 추출
+    - 우선순위: 다나와(1순위) → 엔카(2순위) → 빈 카탈로그(퍼지 폴백)
+    - car_name: '더 뉴 카니발 4세대', '올 뉴 카니발', '팰리세이드' 등
+    - year: '2026', '2020', '2018' 등
+    """
+    # 1순위: 다나와 카탈로그
+    danawa_db = load_danawa_catalog()
+    if danawa_db:
+        res = _search_in_catalog(danawa_db, car_name, year)
+        if res:
+            return res
+
+    # 2순위: 엔카 카탈로그
+    encar_db = load_crawled_catalog()
+    if encar_db:
+        res = _search_in_catalog(encar_db, car_name, year)
+        if res:
+            return res
+
+    return {}
 
 
 def get_catalog_option_detail(car_name: str, year: Any, opt_name: str) -> Optional[dict]:
     """
-    입력: 차량명 (예: "팰리세이드"), 연식 (예: 2020), 옵션명 (예: "컨비니언스")
-    처리: data/encar_newcar_catalog.json에서 [차량명][연식][옵션명]으로 직접 조회
-    출력: 해당 옵션의 가격과 설명만 표시 ({price: 800000, desc: "스마트 파워 테일게이트..."})
+    입력: 차량명 (예: "더 뉴 카니발 4세대"), 연식 (예: 2026), 옵션명 (예: "컴포트")
+    처리: 다나와(1순위) → 엔카(2순위) → 퍼지(3순위 폴백)
+    출력: 해당 옵션의 가격과 설명 표시 ({price: 1190000, desc: "2열 다이내믹 바디케어시트..."})
     """
     if not car_name or not opt_name:
-        return None
-
-    cat_data = get_catalog_for_car(car_name, str(year or ""))
-    if not cat_data:
-        return None
-
-    options_dict = cat_data.get("options", {})
-    if not options_dict:
         return None
 
     # 가격 및 괄호 표기 제거
@@ -718,28 +748,48 @@ def get_catalog_option_detail(car_name: str, year: Any, opt_name: str) -> Option
     clean_opt = re.sub(r'\[[^\]]*\]', '', clean_opt).strip()
     norm_opt = normalize_opt_name(clean_opt)
 
-    # 1. 옵션명 직접 일치
-    if clean_opt in options_dict:
-        val = options_dict[clean_opt]
-        price = val.get("price") if isinstance(val, dict) else None
-        desc = val.get("desc") if isinstance(val, dict) else (val if isinstance(val, str) else "")
-        return {"price": price, "desc": desc, "official_name": clean_opt}
-
-    # 2. 정규화 완전 일치
-    for off_key, val in options_dict.items():
-        if normalize_opt_name(off_key) == norm_opt:
+    def _find_in_options(options_dict: dict) -> Optional[dict]:
+        if not options_dict:
+            return None
+        # 1. 직접 일치
+        if clean_opt in options_dict:
+            val = options_dict[clean_opt]
             price = val.get("price") if isinstance(val, dict) else None
             desc = val.get("desc") if isinstance(val, dict) else (val if isinstance(val, str) else "")
-            return {"price": price, "desc": desc, "official_name": off_key}
-
-    # 3. 접두어(기본형- 등) 제거 후 일치
-    prefix_clean = re.sub(r'^(?:기본형|고급형|스마트형|모던형|프리미엄형|디럭스형|최고급형)[-_ ]*', '', norm_opt)
-    if prefix_clean and prefix_clean != norm_opt:
+            return {"price": price, "desc": desc, "official_name": clean_opt}
+        # 2. 정규화 완전 일치
         for off_key, val in options_dict.items():
-            if normalize_opt_name(off_key) == prefix_clean:
+            if normalize_opt_name(off_key) == norm_opt:
                 price = val.get("price") if isinstance(val, dict) else None
                 desc = val.get("desc") if isinstance(val, dict) else (val if isinstance(val, str) else "")
                 return {"price": price, "desc": desc, "official_name": off_key}
+        # 3. 접두어(기본형- 등) 제거 후 일치
+        prefix_clean = re.sub(r'^(?:기본형|고급형|스마트형|모던형|프리미엄형|디럭스형|최고급형)[-_ ]*', '', norm_opt)
+        if prefix_clean and prefix_clean != norm_opt:
+            for off_key, val in options_dict.items():
+                if normalize_opt_name(off_key) == prefix_clean:
+                    price = val.get("price") if isinstance(val, dict) else None
+                    desc = val.get("desc") if isinstance(val, dict) else (val if isinstance(val, str) else "")
+                    return {"price": price, "desc": desc, "official_name": off_key}
+        return None
+
+    # 1순위: 다나와 카탈로그
+    danawa_db = load_danawa_catalog()
+    if danawa_db:
+        d_cat = _search_in_catalog(danawa_db, car_name, str(year or ""))
+        if d_cat and d_cat.get("options"):
+            found = _find_in_options(d_cat["options"])
+            if found:
+                return found
+
+    # 2순위: 엔카 카탈로그
+    encar_db = load_crawled_catalog()
+    if encar_db:
+        e_cat = _search_in_catalog(encar_db, car_name, str(year or ""))
+        if e_cat and e_cat.get("options"):
+            found = _find_in_options(e_cat["options"])
+            if found:
+                return found
 
     return None
 
