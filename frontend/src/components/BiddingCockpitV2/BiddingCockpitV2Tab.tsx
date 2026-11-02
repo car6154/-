@@ -564,10 +564,10 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
             biddingVerdict={cockpit.biddingVerdict}
           />
 
-          {/* 비교 목록(왼쪽 7)과 선택 상세(오른쪽 5) 2xl 나란히 배치 (7:5 비율) */}
-          <div className="grid grid-cols-1 2xl:grid-cols-12 gap-5 items-start">
+          {/* 비교 목록(왼쪽 7)과 선택 상세(오른쪽 5) xl 나란히 배치 (7:5 비율) */}
+          <div className="grid grid-cols-1 xl:grid-cols-12 gap-5 items-start">
             {/* 좌측 7/12: 비교 목록 (엔카 / 케이카 탭 전환) */}
-            <div className="min-w-0 w-full 2xl:col-span-7 space-y-3">
+            <div className="min-w-0 w-full xl:col-span-7 space-y-3">
               {/* 상단 탭 토글 (엔카 / 케이카 / 헤이딜러 낙찰) */}
               <div className="flex items-center justify-between gap-2">
                 <div className="inline-flex p-1 bg-[#0f1015] border border-[#1e2029] rounded-xl shadow-sm">
@@ -676,7 +676,7 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
             </div>
 
             {/* 우측 5/12: 선택 차량 상세 & 2D 상태도 (낙찰 탭 + 낙찰 선택 시 낙찰 상세, 그 외에는 마지막 소매 차량 상세 유지) */}
-            <div className="min-w-0 w-full 2xl:col-span-5">
+            <div className="min-w-0 w-full xl:col-span-5">
               <div className={activeCompTab === 'heydealer' && Boolean(cockpit.selectedHeydealerBid) ? 'block' : 'hidden'}>
                 <SelectedHeydealerBidDetailV2Section
                   selectedHeydealerBid={cockpit.selectedHeydealerBid}
