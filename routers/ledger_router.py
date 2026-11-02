@@ -149,6 +149,11 @@ class CarLedgerCreateRequest(BaseModel):
     targetMargin: Optional[Any] = 0
     memo: Optional[str] = ""
     status: Optional[str] = "장부저장"
+    finalRetailPrice: Optional[Any] = 0
+    meanOptDelta: Optional[Any] = 0
+    targetOptNew: Optional[Any] = 0
+    targetOptResVal: Optional[Any] = 0
+    strictAdjCount: Optional[Any] = 0
 
 
 @router.post("")
@@ -171,7 +176,8 @@ def save_car_to_ledger(req: CarLedgerCreateRequest):
         print(f"[api_server] 백업 생성 경고: {e}")
 
     # 2. 기존 원장 읽기
-    header = ['등록일', '차량번호', '제조사', '차량명', '세부모델', '연식', '주행거리', '옵션', '매입가', '판매가', '외판수리', '외판수리비', '헤딜수수료', '특이사항', '상태']
+    new_cols = ['최종소매가', '옵션델타', '목표옵션신차가', '목표옵션잔존가', '엄격대수']
+    header = ['등록일', '차량번호', '제조사', '차량명', '세부모델', '연식', '주행거리', '옵션', '매입가', '판매가', '외판수리', '외판수리비', '헤딜수수료', '특이사항', '상태'] + new_cols
     existing_rows = []
 
     if os.path.exists(LEDGER_CSV_PATH):
@@ -189,6 +195,16 @@ def save_car_to_ledger(req: CarLedgerCreateRequest):
                         existing_rows.append(r)
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"기존 장부 읽기 실패: {str(e)}")
+
+    # 기존 파일 헤더에 새 컬럼이 없으면 끝에 추가하고 기존 행 패딩
+    added_cols = [c for c in new_cols if c not in header]
+    if added_cols:
+        header.extend(added_cols)
+        if existing_rows:
+            target_len = len(header)
+            for r in existing_rows:
+                if len(r) < target_len:
+                    r.extend([""] * (target_len - len(r)))
 
     h_map = {col.strip(): i for i, col in enumerate(header)}
 
@@ -216,6 +232,11 @@ def save_car_to_ledger(req: CarLedgerCreateRequest):
     set_col("목표마진", str(req.targetMargin if req.targetMargin is not None else "0"))
     set_col("특이사항", req.memo or "")
     set_col("상태", req.status or "장부저장")
+    set_col("최종소매가", str(req.finalRetailPrice if req.finalRetailPrice is not None else "0"))
+    set_col("옵션델타", str(req.meanOptDelta if req.meanOptDelta is not None else "0"))
+    set_col("목표옵션신차가", str(req.targetOptNew if req.targetOptNew is not None else "0"))
+    set_col("목표옵션잔존가", str(req.targetOptResVal if req.targetOptResVal is not None else "0"))
+    set_col("엄격대수", str(req.strictAdjCount if req.strictAdjCount is not None else "0"))
 
     # 동일 차량번호 중복 방지 (기존 동일 차량이 있으면 교체, 없으면 상단 추가)
     car_no_idx = h_map.get("차량번호", 1)

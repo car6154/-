@@ -358,7 +358,12 @@ export default function App() {
           heydealerFee: newCarData.heydealerFee,
           targetMargin: newCarData.targetMargin,
           memo: newCarData.memo,
-          status: newCarData.status || '장부저장'
+          status: newCarData.status || '장부저장',
+          finalRetailPrice: newCarData.finalRetailPrice,
+          meanOptDelta: newCarData.meanOptDelta,
+          targetOptNew: newCarData.targetOptNew,
+          targetOptResVal: newCarData.targetOptResVal,
+          strictAdjCount: newCarData.strictAdjCount
         })
       });
 

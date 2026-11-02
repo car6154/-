@@ -1355,6 +1355,7 @@ def search_encar_market(req: EncarSearchRequest):
 
         # 4-2. [엔카 호가 신설] 동일 연식·등급 엄격 매물(strict_df)의 대당 보정 평균 (strictAdjAvg)
         strict_adj_avg = 0
+        mean_opt_delta = 0
         strict_adj_min = 0
         strict_adj_max = 0
         strict_adj_median = 0
@@ -1374,6 +1375,7 @@ def search_encar_market(req: EncarSearchRequest):
                 pt_per_10k = 1.8
 
             adj_prices = []
+            opt_deltas = []
             excluded_count = 0
 
             adj_session = requests.Session()
@@ -1611,6 +1613,7 @@ def search_encar_market(req: EncarSearchRequest):
                 target_opt_res_val = int(round(target_opt_new * opt_ratio))
                 comp_opt_res_val = int(round(comp_opt_new * comp_opt_ratio))
                 opt_delta = target_opt_res_val - comp_opt_res_val
+                opt_deltas.append(opt_delta)
 
                 # 4) 대당 보정가 = 무사고 환산가 + 옵션 델타
                 car_adj_price = no_acc_price + opt_delta
@@ -1622,6 +1625,7 @@ def search_encar_market(req: EncarSearchRequest):
 
             if strict_adj_count > 0:
                 strict_adj_avg = int(round(sum(adj_prices) / strict_adj_count))
+                mean_opt_delta = int(round(sum(opt_deltas) / strict_adj_count))
                 sorted_adj = sorted(adj_prices)
                 strict_adj_min = int(round(sorted_adj[0]))
                 strict_adj_max = int(round(sorted_adj[-1]))
@@ -1633,6 +1637,7 @@ def search_encar_market(req: EncarSearchRequest):
             else:
                 # 포함 대수가 0대면 strictAdjAvg = 0(해당 없음). 넓은 평균으로 슬쩍 대체 금지.
                 strict_adj_avg = 0
+                mean_opt_delta = 0
                 strict_adj_min = 0
                 strict_adj_max = 0
                 strict_adj_median = 0
@@ -1757,6 +1762,9 @@ def search_encar_market(req: EncarSearchRequest):
                 "strictCount": len(strict_df),
                 "strictHasData": strict_has_data,
                 "strictAdjAvg": strict_adj_avg,
+                "meanOptDelta": mean_opt_delta,
+                "targetOptNew": target_opt_new,
+                "targetOptResVal": int(round(target_opt_new * opt_ratio)),
                 "strictAdjMin": strict_adj_min,
                 "strictAdjMedian": strict_adj_median,
                 "strictAdjMax": strict_adj_max,

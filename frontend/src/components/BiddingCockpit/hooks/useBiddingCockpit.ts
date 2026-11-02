@@ -2375,6 +2375,9 @@ export function useBiddingCockpit({
         count: 0, strictCount: 0, wideCount: 0, min: 0, max: 0, avg: 0, median: 0,
         strictAdjAvg: 0, strictAdjMin: 0, strictAdjMedian: 0, strictAdjMax: 0,
         strictAdjCount: 0, strictAdjExcludedCount: 0,
+        meanOptDelta: backendEncarStats?.meanOptDelta ?? 0,
+        targetOptNew: backendEncarStats?.targetOptNew ?? 0,
+        targetOptResVal: backendEncarStats?.targetOptResVal ?? 0,
         rawStd100Price: backendEncarStats?.rawStd100Price ?? backendEncarStats?.raw_std_100_price ?? 0,
         cohortNoAccAvg: backendEncarStats?.cohortNoAccAvg ?? backendEncarStats?.cohort_no_acc_avg ?? 0,
         raw_std_100_price: backendEncarStats?.raw_std_100_price ?? backendEncarStats?.rawStd100Price ?? 0,
@@ -2402,6 +2405,9 @@ export function useBiddingCockpit({
       strictAdjMax: backendEncarStats?.strictAdjMax ?? 0,
       strictAdjCount: backendEncarStats?.strictAdjCount ?? 0,
       strictAdjExcludedCount: backendEncarStats?.strictAdjExcludedCount ?? 0,
+      meanOptDelta: backendEncarStats?.meanOptDelta ?? 0,
+      targetOptNew: backendEncarStats?.targetOptNew ?? 0,
+      targetOptResVal: backendEncarStats?.targetOptResVal ?? 0,
       rawStd100Price: backendEncarStats?.rawStd100Price ?? backendEncarStats?.raw_std_100_price ?? 0,
       cohortNoAccAvg: backendEncarStats?.cohortNoAccAvg ?? backendEncarStats?.cohort_no_acc_avg ?? 0,
       raw_std_100_price: backendEncarStats?.raw_std_100_price ?? backendEncarStats?.rawStd100Price ?? 0,
@@ -2587,7 +2593,12 @@ export function useBiddingCockpit({
       heydealerFee: actualPurchaseFee,
       targetMargin: targetMargin,
       memo: `[헤이딜러 ${auctionType} / 목표마진: ${targetMargin}만 / 마진: ${Math.round(actualMargin)}만 / 예상소매: ${expectedSellPrice}만 / 권장상한: ${safeBidCeiling}만] ${memo}`,
-      status: '장부저장'
+      status: '장부저장',
+      finalRetailPrice: finalRetailPrice,
+      meanOptDelta: encarStats.meanOptDelta,
+      targetOptNew: encarStats.targetOptNew,
+      targetOptResVal: encarStats.targetOptResVal,
+      strictAdjCount: encarStats.strictAdjCount
     });
 
     // 제이 워크플로우: 저장 후 헤이딜러에 바로 붙여넣기할 수 있도록 최종 입찰가 자동 복사

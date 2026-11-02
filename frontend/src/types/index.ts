@@ -16,6 +16,11 @@ export interface CarLedgerItem {
   targetMargin?: number;  // 목표 마진 (만원)
   memo: string;           // 특이사항 (예: [셀프(기본) / 마진: 120만])
   status: string;         // 상태 (장부저장, 판매완료, 보유중 등)
+  finalRetailPrice?: number;
+  meanOptDelta?: number;
+  targetOptNew?: number;
+  targetOptResVal?: number;
+  strictAdjCount?: number;
 }
 
 export interface InventorySettlementItem {
