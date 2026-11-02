@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { ExternalLink, RefreshCw, Car, AlertCircle } from 'lucide-react';
 import { KcarCarItem, KcarDetailData } from '@/components/BiddingCockpit/types';
 import { compareEncarItemsByBackendRule } from '@/services/cockpitService';
+import { OptionItem } from '@/services/chaolmaService';
+import { splitOptionString, getOptionMatchDetail, NewCarCatalogData } from '@/services/biddingOptionCatalog';
 
 export interface ComparableKcarV2SectionProps {
   kcarList: KcarCarItem[];
@@ -15,6 +17,9 @@ export interface ComparableKcarV2SectionProps {
   errorMessage?: string | null;
   kcarYearStats?: Array<{ year: number; avg: number; count: number; isTarget: boolean }>;
   kcarSearchUrl?: string;
+  targetOptions?: OptionItem[];
+  optionsTag?: string;
+  targetCatalog?: NewCarCatalogData | null;
 }
 
 // 사고구분 라벨 헬퍼 (케이카 무사고/단순수리/사고 배지)
@@ -43,6 +48,9 @@ export const ComparableKcarV2Section: React.FC<ComparableKcarV2SectionProps> = (
   errorMessage,
   kcarYearStats = [],
   kcarSearchUrl,
+  targetOptions,
+  optionsTag,
+  targetCatalog,
 }) => {
   // 1. 케이카 프리패치 캐시 및 상세 맵
   const [kcarInspectionMap, setKcarInspectionMap] = useState<Record<string, KcarDetailData>>({});
@@ -90,6 +98,72 @@ export const ComparableKcarV2Section: React.FC<ComparableKcarV2SectionProps> = (
       isCancelled = true;
     };
   }, [kcarList]);
+
+  // 케이카 optnNm 파이프 기준 옵션 매칭 및 배지 데이터 사전 계산 (행 렌더링 최적화 Map)
+  const optionBadgeMap = useMemo(() => {
+    const map = new Map<string, {
+      hasOptions: boolean;
+      totalCount: number;
+      symbol: '✓' | '~' | null;
+      tooltip: string;
+    }>();
+
+    const targetOptNames: string[] = (targetOptions && targetOptions.length > 0)
+      ? targetOptions.map((o) => o.name)
+      : splitOptionString(optionsTag || '');
+
+    for (const car of kcarList) {
+      if (!car.carCd) continue;
+
+      const compOpts: string[] = (car.optnNm || '')
+        .split('|')
+        .map((s) => s.trim())
+        .filter(Boolean);
+
+      if (compOpts.length === 0) {
+        map.set(car.carCd, {
+          hasOptions: false,
+          totalCount: 0,
+          symbol: null,
+          tooltip: '',
+        });
+        continue;
+      }
+
+      const compDetails = compOpts.map((o) =>
+        getOptionMatchDetail(o, targetOptNames, 'comp_vs_target', targetCatalog, undefined)
+      );
+      const exactCount = compDetails.filter((d) => d.confidence === 'exact').length;
+      const fuzzyCount = compDetails.filter((d) => d.confidence === 'fuzzy').length;
+      const commonCount = compDetails.filter((d) => d.isMatched).length;
+      const extraCount = compOpts.length - commonCount;
+
+      const symbol: '✓' | '~' | null = exactCount > 0 ? '✓' : (fuzzyCount > 0 ? '~' : null);
+
+      const tooltipLines = [
+        `[비교 차량 추가옵션 총 ${compOpts.length}개 · 목록 optnNm 기준]`,
+        ...compDetails.map((d, i) => {
+          const o = compOpts[i];
+          if (d.confidence === 'exact') return `✓ ${o} (신차 공식 일치: ${d.matchedOppositeName})`;
+          if (d.confidence === 'fuzzy') return `~ ${o} (퍼지 추정 매칭: ${d.matchedOppositeName})`;
+          return `+ ${o} (비교차 전용 옵션)`;
+        }),
+        '──────────────────────────────',
+        targetOptNames.length > 0
+          ? `공식 일치: ${exactCount}개 / 추정 매칭: ${fuzzyCount}개 / 비교차 전용: ${extraCount}개`
+          : '내 차 옵션 정보 없음',
+      ];
+
+      map.set(car.carCd, {
+        hasOptions: true,
+        totalCount: compOpts.length,
+        symbol,
+        tooltip: tooltipLines.join('\n'),
+      });
+    }
+
+    return map;
+  }, [kcarList, targetOptions, optionsTag, targetCatalog]);
 
   // 3. 프리패치 결과와 원본 목록 병합 (checkDate, holdingDays 보완) 후 백엔드 규칙(엔카와 동일)으로 정렬
   const displayKcarList = useMemo(() => {
@@ -406,8 +480,27 @@ export const ComparableKcarV2Section: React.FC<ComparableKcarV2SectionProps> = (
                     </td>
 
                     {/* 10) 옵션 */}
-                    <td className="py-2 px-2 text-center text-[11px] text-zinc-400 whitespace-nowrap max-w-[140px] truncate" title={car.optnNm || ''}>
-                      {car.optnNm && car.optnNm.trim() ? car.optnNm : '-'}
+                    <td className="py-2 px-2 text-center whitespace-nowrap">
+                      {(() => {
+                        const badgeData = car.carCd ? optionBadgeMap.get(car.carCd) : null;
+                        if (!badgeData || !badgeData.hasOptions) {
+                          return <span className="text-zinc-500 text-[11px]">-</span>;
+                        }
+                        return (
+                          <span
+                            title={badgeData.tooltip}
+                            className="px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold border border-amber-500/40 text-[10.5px] cursor-help hover:bg-amber-500/30 transition inline-flex items-center gap-0.5"
+                          >
+                            {badgeData.symbol === '✓' && (
+                              <span className="text-sky-400 text-[10px]">✓</span>
+                            )}
+                            {badgeData.symbol === '~' && (
+                              <span className="text-amber-400 text-[10px]">~</span>
+                            )}
+                            <span>{badgeData.totalCount}개</span>
+                          </span>
+                        );
+                      })()}
                     </td>
                   </tr>
                 );

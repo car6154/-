@@ -658,6 +658,9 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
                     errorMessage={cockpit.kcarStats?.message}
                     kcarYearStats={kcarYearStats || []}
                     kcarSearchUrl={cockpit.kcarStats?.searchUrl}
+                    targetOptions={cockpit.targetOptions}
+                    optionsTag={cockpit.optionsTag}
+                    targetCatalog={cockpit.targetNewCarCatalog}
                   />
                 </div>
                 <div className={activeCompTab === 'heydealer' ? 'block' : 'hidden'}>
