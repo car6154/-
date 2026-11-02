@@ -216,8 +216,8 @@ export function useBiddingCockpit({
   const [kcarStats, setKcarStats] = useState<KcarMarketStats | null>(null);
   const [isKcarLoading, setIsKcarLoading] = useState<boolean>(false);
 
-  // 🧹 차량 변경/재조회 시 이전 차량 데이터 완전 초기화 (상태 잔류 및 가격 오염 방지)
-  const resetCockpitState = useCallback((options?: { keepInputs?: boolean }) => {
+  // 🧹 차량 변경/재조회 시 이전 차량 데이터 초기화 (상태 잔류 및 가격 오염 방지)
+  const resetCockpitState = useCallback((options?: { keepInputs?: boolean; preserveSameCar?: boolean }) => {
     // 1. 헤이딜러 실시간 낙찰 데이터 및 선택 상태 완전 초기화
     setRawHeydealerComps([]);
     setSelectedHeydealerBidId(null);
@@ -229,7 +229,9 @@ export function useBiddingCockpit({
     setExpectedSellPrice(0);
     setEncarValuation(null);
     setBackendEncarStats(null);
-    setOuterRepairCount(0);
+    if (!options?.preserveSameCar) {
+      setOuterRepairCount(0);
+    }
     setMemo('');
 
     // 3. 엔카 실시간 매물 및 통계 초기화
@@ -254,11 +256,14 @@ export function useBiddingCockpit({
     lastTriggeredSearchSignatureRef.current = '';
 
     // 4. 차량 원부 / 카히스토리 / 모달 상태 초기화
-    setTargetCarHistory(null);
+    // [병합 모드]: 같은 차 재조회 시에는 targetCarHistory와 옵션을 유지
+    if (!options?.preserveSameCar) {
+      setTargetCarHistory(null);
+      setOptionsTag('');
+      setTargetOptions([]);
+    }
     setLiveMarketStats(null);
     setCockpitModalCar(null);
-    setOptionsTag('');
-    setTargetOptions([]);
     setUnclassifiedBalance(0);
     setSearchStatus(null);
     setTargetNewCarCatalog(null);
@@ -848,8 +853,12 @@ export function useBiddingCockpit({
       return;
     }
 
-    // 🧹 새 차량번호 조회 시 이전 차량의 헤이딜러 낙찰/엔카 매물/밸류에이션 즉시 리셋 (입력 필드는 유지)
-    resetCockpitState({ keepInputs: true });
+    // 💡 같은 차 판정 (정규화 후 비교)
+    const currentNoClean = (carNumber || '').replace(/\s+/g, '').trim();
+    const isSameCar = Boolean(currentNoClean && no === currentNoClean);
+
+    // 🧹 새 차량번호 조회 시: 같은 차면 병합 모드(헤이딜러 사고/기존옵션 보존), 다른 차면 전체 리셋
+    resetCockpitState({ keepInputs: true, preserveSameCar: isSameCar });
 
     const reqId = ++activeRequestIdRef.current;
     activeHeydealerTokenRef.current = '';
@@ -941,18 +950,24 @@ export function useBiddingCockpit({
         }
         setYearModel(yr);
 
-        if (res.options && res.options.length > 0) {
-          setTargetOptions(res.options);
-          setUnclassifiedBalance(res.unclassified_balance_man || 0);
-          const optStr = res.options.map(o => `${o.name}(${o.price_man || Math.round(o.price / 10000)}만)`).join(' · ');
-          const totalOptMan = res.total_option_price ? (res.total_option_price > 10000 ? Math.round(res.total_option_price / 10000) : res.total_option_price) : res.options.reduce((acc, cur) => acc + (cur.price_man || Math.round(cur.price / 10000)), 0);
-          calculatedOptionsTag = `${optStr} [옵션총액: ${totalOptMan}만]`;
-          setOptionsTag(calculatedOptionsTag);
-        } else {
-          setTargetOptions([]);
-          setUnclassifiedBalance(0);
-          calculatedOptionsTag = '추가 옵션 없음 (기본 출고 사양)';
-          setOptionsTag(calculatedOptionsTag);
+        // 💡 [옵션 병합 모드]: 같은 차이고 현재 옵션이 이미 채워져 있으면 기존 옵션을 덮지 않음
+        const currentHasOptions = Boolean(optionsTag && optionsTag.trim() && optionsTag !== '추가 옵션 없음 (기본 출고 사양)');
+        const shouldUpdateOptions = !isSameCar || !currentHasOptions;
+
+        if (shouldUpdateOptions) {
+          if (res.options && res.options.length > 0) {
+            setTargetOptions(res.options);
+            setUnclassifiedBalance(res.unclassified_balance_man || 0);
+            const optStr = res.options.map(o => `${o.name}(${o.price_man || Math.round(o.price / 10000)}만)`).join(' · ');
+            const totalOptMan = res.total_option_price ? (res.total_option_price > 10000 ? Math.round(res.total_option_price / 10000) : res.total_option_price) : res.options.reduce((acc, cur) => acc + (cur.price_man || Math.round(cur.price / 10000)), 0);
+            calculatedOptionsTag = `${optStr} [옵션총액: ${totalOptMan}만]`;
+            setOptionsTag(calculatedOptionsTag);
+          } else {
+            setTargetOptions([]);
+            setUnclassifiedBalance(0);
+            calculatedOptionsTag = '추가 옵션 없음 (기본 출고 사양)';
+            setOptionsTag(calculatedOptionsTag);
+          }
         }
 
         if (res.new_car_price > 0 || res.vin || res.car_history) {
@@ -976,31 +991,44 @@ export function useBiddingCockpit({
           const stole = ch ? ch.stolen_count : 0;
           const rent = ch ? ch.has_rent_history : false;
 
-          setTargetCarHistory({
-            ownerChangedCount: ocCount,
-            isSingleOwner: isSingle,
-            myCarAccidentCount: myCnt,
-            myCarAccidentCost: myCost,
-            otherCarAccidentCount: otherCnt,
-            otherCarAccidentCost: otherCost,
-            totalLossCount: totLoss,
-            floodedCount: flood,
-            stolenCount: stole,
-            hasRentHistory: rent,
-            standardNewCarPrice: stdP,
-            baseCarPrice: baseP,
-            totalOptionPrice: optP,
-            vin: res.vin || (doc ? doc.raw_doc?.VIN : '') || '',
-            manufacturedDate: res.release_date || (ch ? ch.first_reg_date : '') || (doc ? doc.first_regist_date : '') || '',
-            inspectionValidUntil: (doc ? doc.inspection_valid_end : '') || (ch ? ch.uninsured_period : '') || '',
-            marketPriceMin: ch?.market_price_min ?? (res as any)?.market_price_min ?? 0,
-            marketPriceMax: ch?.market_price_max ?? (res as any)?.market_price_max ?? 0,
-            marketPriceAvg: ch?.market_price_avg ?? (res as any)?.market_price_avg ?? 0,
-            marketPriceRange: ch?.market_price_range ?? (res as any)?.market_price_range ?? "",
-            chaolmaRetailPrice: (res as any)?.chaolma_retail_price ?? 0,
-            rawHistory: ch,
-            originDoc: doc,
-            color: (res as any)?.color || ''
+          setTargetCarHistory(prev => {
+            const nextHistory = {
+              ownerChangedCount: ocCount,
+              isSingleOwner: isSingle,
+              myCarAccidentCount: myCnt,
+              myCarAccidentCost: myCost,
+              otherCarAccidentCount: otherCnt,
+              otherCarAccidentCost: otherCost,
+              totalLossCount: totLoss,
+              floodedCount: flood,
+              stolenCount: stole,
+              hasRentHistory: rent,
+              standardNewCarPrice: stdP,
+              baseCarPrice: baseP,
+              totalOptionPrice: optP,
+              vin: res.vin || (doc ? doc.raw_doc?.VIN : '') || '',
+              manufacturedDate: res.release_date || (ch ? ch.first_reg_date : '') || (doc ? doc.first_regist_date : '') || '',
+              inspectionValidUntil: (doc ? doc.inspection_valid_end : '') || (ch ? ch.uninsured_period : '') || '',
+              marketPriceMin: ch?.market_price_min ?? (res as any)?.market_price_min ?? 0,
+              marketPriceMax: ch?.market_price_max ?? (res as any)?.market_price_max ?? 0,
+              marketPriceAvg: ch?.market_price_avg ?? (res as any)?.market_price_avg ?? 0,
+              marketPriceRange: ch?.market_price_range ?? (res as any)?.market_price_range ?? "",
+              chaolmaRetailPrice: (res as any)?.chaolma_retail_price ?? 0,
+              rawHistory: ch,
+              originDoc: doc,
+              color: (res as any)?.color || ''
+            };
+
+            // 💡 [병합 모드]: 같은 차인 경우 이전 헤이딜러 전용 사고 정보(사고 부위 목록, 사고 유형, 사고 확인 여부) 보존
+            if (isSameCar && prev) {
+              return {
+                ...nextHistory,
+                accidentRepairs: prev.accidentRepairs ?? null,
+                accidentType: prev.accidentType,
+                isAccidentKnown: prev.isAccidentKnown
+              };
+            }
+            return nextHistory;
           });
         }
 
@@ -1240,6 +1268,11 @@ export function useBiddingCockpit({
       return;
     }
 
+    // 💡 [병합 모드용]: 재조회 시 같은 차인지 판별하기 위해 이전 차량번호 및 기존 옵션 임시 기억
+    const prevCarNoClean = (carNumber || '').replace(/\s+/g, '').trim();
+    const prevOptionsTag = optionsTag;
+    const prevTargetOptions = targetOptions;
+
     // 🧹 새 헤이딜러 URL 조회 시 이전 차량의 모든 상태 즉시 완전 리셋
     resetCockpitState({ keepInputs: false });
 
@@ -1428,7 +1461,25 @@ export function useBiddingCockpit({
         // (10-30 확인 규칙: 헤이딜러 옵션 0개면 출고정보만 기준. 출처 필드 없으면 기존 동작 유지)
         const optionsSource = detail.options_source || carData.options_source || resJson.data?.options_source || '';
         const isFallbackSource = optionsSource === 'advanced' || optionsSource === 'loaded';
-        setOptionsTag(isFallbackSource ? '' : optionsResult);
+
+        // 💡 [병합 모드(URL 재조회, 같은 차)]:
+        // 헤이딜러 새 데이터가 있으면(isFallbackSource가 아니면) 그걸 쓰고,
+        // 헤이딜러 옵션이 비어 있으면(isFallbackSource) 같은 차일 때 기존에 있던 차얼마 옵션을 빈 값으로 덮지 않고 유지!
+        const cNoClean = String(cNo || '').replace(/\s+/g, '').trim();
+        const isSameCarAsPrev = Boolean(prevCarNoClean && cNoClean && prevCarNoClean === cNoClean);
+
+        if (isFallbackSource) {
+          if (isSameCarAsPrev && prevOptionsTag && prevOptionsTag.trim() && prevOptionsTag !== '추가 옵션 없음 (기본 출고 사양)') {
+            setOptionsTag(prevOptionsTag);
+            if (prevTargetOptions && prevTargetOptions.length > 0) {
+              setTargetOptions(prevTargetOptions);
+            }
+          } else {
+            setOptionsTag('');
+          }
+        } else {
+          setOptionsTag(optionsResult);
+        }
 
         // 🌟 타겟 차량 보험사고 이력 (carhistory) & 출고정보 정밀 파싱
         const ch = detail.carhistory || carData.carhistory || resJson.data?.carhistory || {};
