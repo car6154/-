@@ -162,7 +162,7 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
 
       {/* 0-1. 엔카 연식별 호가 평균 칩 행 */}
       <div className="p-3 bg-[#0f1015] border border-[#1e2029] rounded-xl flex items-center gap-2.5 flex-wrap text-xs">
-        <span className="text-[11px] font-bold text-sky-400 shrink-0">연식평균</span>
+        <span className="text-[11px] font-bold text-sky-400 shrink-0">평균</span>
         <div className="flex items-center gap-1.5 flex-wrap">
           {encarYearStats && encarYearStats.length > 0 ? (
             encarYearStats.map((st) => (

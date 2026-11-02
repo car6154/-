@@ -190,7 +190,7 @@ export const ComparableKcarV2Section: React.FC<ComparableKcarV2SectionProps> = (
 
       {/* 0-1. 케이카 연식별 호가 평균 칩 행 */}
       <div className="p-3 bg-[#0f1015] border border-[#1e2029] rounded-xl flex items-center gap-2.5 flex-wrap text-xs">
-        <span className="text-[11px] font-bold text-rose-400 shrink-0">연식평균</span>
+        <span className="text-[11px] font-bold text-rose-400 shrink-0">평균</span>
         <div className="flex items-center gap-1.5 flex-wrap">
           {kcarYearStats && kcarYearStats.length > 0 ? (
             kcarYearStats.map((st) => (
