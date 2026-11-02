@@ -34,52 +34,7 @@ function calculateExtraOptionsTotalPrice(
   compCatalog?: NewCarCatalogData | null,
   historyOptionTotalMan?: number
 ): ExtraOptionPriceResult {
-  // 1순위: targetOptions 합계가 0보다 크면 그대로 쓴다
-  if (targetOptions && targetOptions.length > 0) {
-    const sum1 = targetOptions.reduce((acc, c) => {
-      const pMan = typeof c.price_man === 'number' && !isNaN(c.price_man) && c.price_man > 0
-        ? c.price_man
-        : (typeof c.price === 'number' && !isNaN(c.price) && c.price > 0 ? Math.round(c.price / 10000) : 0);
-      return acc + pMan;
-    }, 0);
-
-    if (sum1 > 0) {
-      const lines = targetOptions.map(c => {
-        const pMan = (typeof c.price_man === 'number' && !isNaN(c.price_man) && c.price_man > 0)
-          ? c.price_man
-          : (typeof c.price === 'number' && !isNaN(c.price) && c.price > 0 ? Math.round(c.price / 10000) : 0);
-        return `- ${c.name}: ${pMan > 0 ? `${pMan.toLocaleString()}만` : '가격미확인'}`;
-      });
-      return {
-        badgeText: `총 ${sum1.toLocaleString()}만`,
-        tooltip: `[옵션 상세 가격 (실차 데이터)]\n${lines.join('\n')}\n합계: ${sum1.toLocaleString()}만원`
-      };
-    }
-  }
-
-  // 2순위: 1순위가 0이거나 비어 있고, historyOptionTotalMan이 0보다 크면 총 {historyOptionTotalMan}만을 표시한다.
-  const hasOptions = (targetOptions && targetOptions.length > 0) || (optionsTag && optionsTag.trim() && !optionsTag.includes('옵션 없음'));
-  if (hasOptions && typeof historyOptionTotalMan === 'number' && historyOptionTotalMan > 0) {
-    return {
-      badgeText: `총 ${historyOptionTotalMan.toLocaleString()}만`,
-      tooltip: `[차얼마 옵션 총액] 합계: ${historyOptionTotalMan.toLocaleString()}만원`
-    };
-  }
-
-  // 3순위: optionsTag 안의 [옵션총액] 정규식
-  if (optionsTag && optionsTag.trim()) {
-    const match = optionsTag.match(/\[(?:순정)?옵션총액:?\s*([0-9,]+만?)\]/);
-    if (match && match[1]) {
-      const rawVal = match[1].trim();
-      const badgeText = rawVal.endsWith('만') ? `총 ${rawVal}` : `총 ${rawVal}만`;
-      return {
-        badgeText,
-        tooltip: `옵션 정보에 기재된 총액: ${rawVal}`
-      };
-    }
-  }
-
-  // 4순위: 카탈로그 공식가 합계 (targetCatalog -> compCatalog)
+  // 1순위: 카탈로그 공식가 합계 (targetCatalog -> compCatalog)
   const optNames: string[] = (targetOptions && targetOptions.length > 0)
     ? targetOptions.map(o => o.name)
     : splitOptionString(optionsTag || '');
@@ -107,6 +62,51 @@ function calculateExtraOptionsTotalPrice(
       return {
         badgeText: `총 ${catalogSumMan.toLocaleString()}만`,
         tooltip: `[신차 공식 카탈로그 기준가 합계]\n${matchedLines.join('\n')}${unpricedNote}\n합계: ${catalogSumMan.toLocaleString()}만원`
+      };
+    }
+  }
+
+  // 2순위: targetOptions 합계가 0보다 크면 그대로 쓴다
+  if (targetOptions && targetOptions.length > 0) {
+    const sum1 = targetOptions.reduce((acc, c) => {
+      const pMan = typeof c.price_man === 'number' && !isNaN(c.price_man) && c.price_man > 0
+        ? c.price_man
+        : (typeof c.price === 'number' && !isNaN(c.price) && c.price > 0 ? Math.round(c.price / 10000) : 0);
+      return acc + pMan;
+    }, 0);
+
+    if (sum1 > 0) {
+      const lines = targetOptions.map(c => {
+        const pMan = (typeof c.price_man === 'number' && !isNaN(c.price_man) && c.price_man > 0)
+          ? c.price_man
+          : (typeof c.price === 'number' && !isNaN(c.price) && c.price > 0 ? Math.round(c.price / 10000) : 0);
+        return `- ${c.name}: ${pMan > 0 ? `${pMan.toLocaleString()}만` : '가격미확인'}`;
+      });
+      return {
+        badgeText: `총 ${sum1.toLocaleString()}만`,
+        tooltip: `[옵션 상세 가격 (실차 데이터)]\n${lines.join('\n')}\n합계: ${sum1.toLocaleString()}만원`
+      };
+    }
+  }
+
+  // 3순위: 1순위·2순위가 0이거나 비어 있고, historyOptionTotalMan이 0보다 크면 총 {historyOptionTotalMan}만을 표시한다.
+  const hasOptions = (targetOptions && targetOptions.length > 0) || (optionsTag && optionsTag.trim() && !optionsTag.includes('옵션 없음'));
+  if (hasOptions && typeof historyOptionTotalMan === 'number' && historyOptionTotalMan > 0) {
+    return {
+      badgeText: `총 ${historyOptionTotalMan.toLocaleString()}만`,
+      tooltip: `[차얼마 옵션 총액] 합계: ${historyOptionTotalMan.toLocaleString()}만원`
+    };
+  }
+
+  // 4순위: optionsTag 안의 [옵션총액] 정규식
+  if (optionsTag && optionsTag.trim()) {
+    const match = optionsTag.match(/\[(?:순정)?옵션총액:?\s*([0-9,]+만?)\]/);
+    if (match && match[1]) {
+      const rawVal = match[1].trim();
+      const badgeText = rawVal.endsWith('만') ? `총 ${rawVal}` : `총 ${rawVal}만`;
+      return {
+        badgeText,
+        tooltip: `옵션 정보에 기재된 총액: ${rawVal}`
       };
     }
   }
