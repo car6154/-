@@ -248,16 +248,16 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
               <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase">목표 차량</span>
               <span className="font-bold text-white truncate max-w-[200px]">{targetCarName}</span>
             </div>
-            {/* 차명 바로 밑에 색상 표시 (지어내지 않고 조회 결과의 색상 필드, 없으면 '-') */}
-            <div className="flex items-center justify-between text-[11px] text-zinc-300">
-              <span className="text-[#8b8e9d]">색상</span>
-              <span className="font-medium text-white">{targetColor}</span>
-            </div>
             {targetDetailModel !== '-' && (
               <div className="text-[11px] text-zinc-300 truncate">
                 {targetDetailModel}
               </div>
             )}
+            {/* 등급 밑에 색상 표시 (지어내지 않고 조회 결과의 색상 필드, 없으면 '-') */}
+            <div className="flex items-center justify-between text-[11px] text-zinc-300">
+              <span className="text-[#8b8e9d]">색상</span>
+              <span className="font-medium text-white">{targetColor}</span>
+            </div>
             <div className="flex items-center justify-between font-mono text-xs text-[#8b8e9d] pt-1 border-t border-[#1e2029]">
               <span>연식 <strong className="text-zinc-200 font-semibold">{targetYear}</strong></span>
               <span>주행거리 <strong className="text-zinc-200 font-semibold">{targetMileage}</strong></span>
