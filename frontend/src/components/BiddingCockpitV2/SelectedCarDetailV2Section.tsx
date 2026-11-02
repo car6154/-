@@ -1,5 +1,5 @@
-import React from 'react';
-import { ExternalLink, RefreshCw, AlertCircle, Info, CheckCircle2 } from 'lucide-react';
+import React, { useState } from 'react';
+import { ExternalLink, RefreshCw, AlertCircle, Info, CheckCircle2, ChevronUp, ChevronDown } from 'lucide-react';
 import { EncarItem } from '@/components/BiddingCockpit/types';
 import { CarDamageDiagram2D, getDamagePartKoreanName } from '@/components/BiddingCockpit/Sections/CarDamageDiagram2D';
 import { getCarColorStyle } from '@/utils/carColor';
@@ -42,12 +42,40 @@ export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProp
   selectedEncar,
   isInspectionLoading,
 }) => {
+  // 상세 패널 숨김/펼침 상태 (기본값: 펼침)
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
   // 💡 [2026-11-01 제이 규칙]: 선택된 차량이 없으면 안내 한 줄만 보여준다 (예시 차량 생성 금지)
   if (!selectedEncar) {
     return (
       <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-8 shadow-sm flex items-center justify-center text-zinc-500 text-xs sm:text-sm">
         <Info className="w-4 h-4 mr-2 text-zinc-600" />
         <span>목록에서 차량을 선택하면 상세 정보가 여기에 표시됩니다</span>
+      </div>
+    );
+  }
+
+  // 💡 [2026-11-02 제이 규칙]: 접힘 상태일 때 간결한 복원 바 표시 (상세 보기 버튼으로 언제든 복원)
+  if (isCollapsed) {
+    return (
+      <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-3.5 shadow-sm flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2 min-w-0">
+          <span className="text-xs sm:text-sm font-bold text-zinc-200 truncate">
+            {selectedEncar.carName} {selectedEncar.subModel || ''}
+          </span>
+          <span className="text-[11px] text-zinc-500 font-mono shrink-0">
+            (상세 정보 숨김)
+          </span>
+        </div>
+        <button
+          type="button"
+          onClick={() => setIsCollapsed(false)}
+          className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-sky-400 hover:text-sky-300 bg-sky-500/10 hover:bg-sky-500/20 border border-sky-500/30 rounded-lg transition shrink-0 cursor-pointer"
+          title="선택 차량 상세 패널 다시 펼치기"
+        >
+          <ChevronDown className="w-3.5 h-3.5" />
+          <span>상세 보기</span>
+        </button>
       </div>
     );
   }
@@ -124,24 +152,37 @@ export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProp
           )}
         </div>
 
-        {/* 우측 영역: 신차가(선택옵션가) 뱃지 (기존 ComparableEncarSection 형식 1:1) */}
-        {Boolean((selectedEncar as any).newCarPrice || (selectedEncar as any).originPrice) && (
-          <span
-            className="text-xs sm:text-sm font-bold text-amber-300 font-mono shrink-0 px-2.5 py-1 rounded bg-amber-500/10 border border-amber-500/30"
-            title={
-              typeof (selectedEncar as any).optionPrice === 'number'
-                ? `엔카 신차가: ${(((selectedEncar as any).newCarPrice || (selectedEncar as any).originPrice) || 0).toLocaleString()}만원 (출고 등급가: ${((selectedEncar as any).originPrice || 0).toLocaleString()}만 + 선택옵션: ${(selectedEncar as any).optionPrice.toLocaleString()}만)`
-                : `엔카 신차가: ${(((selectedEncar as any).newCarPrice || (selectedEncar as any).originPrice) || 0).toLocaleString()}만원`
-            }
+        {/* 우측 영역: 신차가(선택옵션가) 뱃지 + 상세 접기 버튼 */}
+        <div className="flex items-center gap-2 shrink-0">
+          {Boolean((selectedEncar as any).newCarPrice || (selectedEncar as any).originPrice) && (
+            <span
+              className="text-xs sm:text-sm font-bold text-amber-300 font-mono shrink-0 px-2.5 py-1 rounded bg-amber-500/10 border border-amber-500/30"
+              title={
+                typeof (selectedEncar as any).optionPrice === 'number'
+                  ? `엔카 신차가: ${(((selectedEncar as any).newCarPrice || (selectedEncar as any).originPrice) || 0).toLocaleString()}만원 (출고 등급가: ${((selectedEncar as any).originPrice || 0).toLocaleString()}만 + 선택옵션: ${(selectedEncar as any).optionPrice.toLocaleString()}만)`
+                  : `엔카 신차가: ${(((selectedEncar as any).newCarPrice || (selectedEncar as any).originPrice) || 0).toLocaleString()}만원`
+              }
+            >
+              신차 {(((selectedEncar as any).newCarPrice || (selectedEncar as any).originPrice) || 0).toLocaleString()}만
+              {typeof (selectedEncar as any).optionPrice === 'number' && (
+                <span className="text-xs sm:text-sm font-semibold text-amber-200/90 ml-1">
+                  ({(selectedEncar as any).optionPrice.toLocaleString()}만)
+                </span>
+              )}
+            </span>
+          )}
+
+          {/* 상세 숨김 버튼 */}
+          <button
+            type="button"
+            onClick={() => setIsCollapsed(true)}
+            className="flex items-center gap-1 px-2.5 py-1 text-xs font-semibold text-zinc-400 hover:text-white bg-[#151926] hover:bg-[#20283d] border border-[#262938] rounded-lg transition cursor-pointer"
+            title="선택 차량 상세 패널 숨기기"
           >
-            신차 {(((selectedEncar as any).newCarPrice || (selectedEncar as any).originPrice) || 0).toLocaleString()}만
-            {typeof (selectedEncar as any).optionPrice === 'number' && (
-              <span className="text-xs sm:text-sm font-semibold text-amber-200/90 ml-1">
-                ({(selectedEncar as any).optionPrice.toLocaleString()}만)
-              </span>
-            )}
-          </span>
-        )}
+            <ChevronUp className="w-3.5 h-3.5" />
+            <span>상세 숨김</span>
+          </button>
+        </div>
       </div>
 
       {/* 2. 본문 한 박스 (스펙 위 · 2D 아래 세로 쌓기: 절반 너비 100% 활용) */}

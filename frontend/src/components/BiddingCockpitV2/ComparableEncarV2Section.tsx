@@ -44,6 +44,18 @@ const formatAccident = (rawType?: string) => {
   return { text: `🟡 ${rawType.slice(0, 8)}`, style: 'text-amber-400 font-bold' };
 };
 
+// 연식 문자열에서 2자리 연도 숫자 추출 (useBiddingCockpit encarYearStats 생성 로직과 100% 동일)
+const parseYearTo2Digit = (yrStr?: string): number | null => {
+  if (!yrStr) return null;
+  const match = String(yrStr).trim().match(/(\d{2,4})/);
+  if (!match) return null;
+  const parsed = parseInt(match[1], 10);
+  if (parsed > 2000) return parsed - 2000;
+  if (parsed > 100) return parsed % 100;
+  if (parsed > 0) return parsed;
+  return null;
+};
+
 export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> = ({
   encarList,
   selectedEncarId,
@@ -57,6 +69,12 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
   errorMessage,
   encarYearStats = [],
 }) => {
+  // 목표 연식(2자리) 추출 (encarYearStats의 isTarget: true 항목 기준)
+  const targetYear = useMemo(() => {
+    const targetStat = encarYearStats.find((st) => st.isTarget);
+    return targetStat ? targetStat.year : null;
+  }, [encarYearStats]);
+
   // 엄격 + 무사고 subset 필터링 및 날통계 집계 (보정 없음)
   const { summaryCount, minPrice, maxPrice, avgPrice } = useMemo(() => {
     if (!encarList || encarList.length === 0) {
@@ -258,6 +276,10 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
                   ? car.optionsText.split(/[,·\/\n]/).filter(s => s.trim().length > 0).length
                   : 0;
 
+                // 목표 연식 일치 여부 판정 (연식 칩 ★과 동일 기준)
+                const carYear2Digit = parseYearTo2Digit(car.year);
+                const isTargetYear = targetYear !== null && carYear2Digit === targetYear;
+
                 return (
                   <tr
                     key={car.id}
@@ -265,6 +287,8 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
                     className={`cursor-pointer transition select-none ${
                       isSelected
                         ? 'bg-blue-950/40 text-white font-medium border-l-2 border-blue-500'
+                        : isTargetYear
+                        ? 'bg-amber-950/20 hover:bg-amber-950/35 border-l-2 border-amber-500/70'
                         : 'hover:bg-[#161822]'
                     }`}
                   >
@@ -324,8 +348,15 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
                     </td>
 
                     {/* 5) 연식 */}
-                    <td className="py-2 px-2 text-center font-mono text-zinc-300 whitespace-nowrap">
-                      {car.year}
+                    <td className="py-2 px-2 text-center font-mono whitespace-nowrap">
+                      <span className={isTargetYear ? 'text-amber-300 font-bold' : 'text-zinc-300'}>
+                        {car.year}
+                      </span>
+                      {isTargetYear && (
+                        <span className="ml-1 text-[10px] text-amber-400 font-bold" title="목표 연식">
+                          ★
+                        </span>
+                      )}
                     </td>
 
                     {/* 6) 주행(km) 및 주행 차이 (표시 전용) */}
