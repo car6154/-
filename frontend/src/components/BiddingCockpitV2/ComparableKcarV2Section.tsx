@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { ExternalLink, RefreshCw, Car, AlertCircle } from 'lucide-react';
 import { KcarCarItem, KcarDetailData } from '@/components/BiddingCockpit/types';
+import { compareEncarItemsByBackendRule } from '@/services/cockpitService';
 
 export interface ComparableKcarV2SectionProps {
   kcarList: KcarCarItem[];
@@ -90,9 +91,9 @@ export const ComparableKcarV2Section: React.FC<ComparableKcarV2SectionProps> = (
     };
   }, [kcarList]);
 
-  // 3. 프리패치 결과와 원본 목록 병합 (checkDate, holdingDays 보완)
+  // 3. 프리패치 결과와 원본 목록 병합 (checkDate, holdingDays 보완) 후 백엔드 규칙(엔카와 동일)으로 정렬
   const displayKcarList = useMemo(() => {
-    return kcarList.map(car => {
+    const merged = kcarList.map(car => {
       const det = kcarInspectionMap[car.carCd];
       if (!det) return car;
 
@@ -113,6 +114,8 @@ export const ComparableKcarV2Section: React.FC<ComparableKcarV2SectionProps> = (
         holdingDays: holdingDays !== undefined ? holdingDays : null,
       };
     });
+
+    return merged.sort(compareEncarItemsByBackendRule);
   }, [kcarList, kcarInspectionMap]);
 
   // 4. 목표 연식 2자리 문자열 (비교용)
