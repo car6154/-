@@ -640,6 +640,9 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
                     errorMessage={cockpit.encarErrorMessage}
                     encarYearStats={cockpit.encarYearStats || []}
                     encarSourceUrl={cockpit.encarSourceUrl}
+                    targetOptions={cockpit.targetOptions}
+                    optionsTag={cockpit.optionsTag}
+                    targetCatalog={cockpit.targetNewCarCatalog}
                   />
                 </div>
                 <div className={activeCompTab === 'kcar' ? 'block' : 'hidden'}>

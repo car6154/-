@@ -1,6 +1,8 @@
 import React, { useMemo, useState } from 'react';
 import { ExternalLink, RefreshCw, Car, AlertCircle } from 'lucide-react';
 import { EncarItem } from '@/components/BiddingCockpit/types';
+import { OptionItem } from '@/services/chaolmaService';
+import { splitOptionString, getOptionMatchDetail, NewCarCatalogData } from '@/services/biddingOptionCatalog';
 
 export interface ComparableEncarV2SectionProps {
   encarList: EncarItem[];
@@ -15,6 +17,9 @@ export interface ComparableEncarV2SectionProps {
   errorMessage?: string | null;
   encarYearStats?: Array<{ year: number; avg: number; count: number; isTarget: boolean }>;
   encarSourceUrl?: string;
+  targetOptions?: OptionItem[];
+  optionsTag?: string;
+  targetCatalog?: NewCarCatalogData | null;
 }
 
 // 사고구분 라벨 헬퍼 (무사고/단순수리/사고 배지)
@@ -70,6 +75,9 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
   errorMessage,
   encarYearStats = [],
   encarSourceUrl,
+  targetOptions,
+  optionsTag,
+  targetCatalog,
 }) => {
   // 세부등급 줄 표시/숨김 토글 상태 (기본값: 보임)
   const [showSubModel, setShowSubModel] = useState<boolean>(true);
@@ -79,6 +87,69 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
     const targetStat = encarYearStats.find((st) => st.isTarget);
     return targetStat ? targetStat.year : null;
   }, [encarYearStats]);
+
+  // 비교 차량 옵션 매칭 및 배지 데이터 사전 계산 (행 렌더링 최적화 Map)
+  const optionBadgeMap = useMemo(() => {
+    const map = new Map<string, {
+      hasOptions: boolean;
+      totalCount: number;
+      symbol: '✓' | '~' | null;
+      tooltip: string;
+    }>();
+
+    const targetOptNames: string[] = (targetOptions && targetOptions.length > 0)
+      ? targetOptions.map((o) => o.name)
+      : splitOptionString(optionsTag || '');
+
+    for (const car of encarList) {
+      const compOpts: string[] = (car.options && car.options.length > 0)
+        ? car.options.map((o) => o.name)
+        : splitOptionString(car.optionsText || '');
+
+      if (compOpts.length === 0) {
+        map.set(car.id, {
+          hasOptions: false,
+          totalCount: 0,
+          symbol: null,
+          tooltip: '',
+        });
+        continue;
+      }
+
+      const compDetails = compOpts.map((o) =>
+        getOptionMatchDetail(o, targetOptNames, 'comp_vs_target', targetCatalog, undefined)
+      );
+      const exactCount = compDetails.filter((d) => d.confidence === 'exact').length;
+      const fuzzyCount = compDetails.filter((d) => d.confidence === 'fuzzy').length;
+      const commonCount = compDetails.filter((d) => d.isMatched).length;
+      const extraCount = compOpts.length - commonCount;
+
+      const symbol: '✓' | '~' | null = exactCount > 0 ? '✓' : (fuzzyCount > 0 ? '~' : null);
+
+      const tooltipLines = [
+        `[비교 차량 추가옵션 총 ${compOpts.length}개]`,
+        ...compDetails.map((d, i) => {
+          const o = compOpts[i];
+          if (d.confidence === 'exact') return `✓ ${o} (신차 공식 일치: ${d.matchedOppositeName})`;
+          if (d.confidence === 'fuzzy') return `~ ${o} (퍼지 추정 매칭: ${d.matchedOppositeName})`;
+          return `+ ${o} (비교차 전용 옵션)`;
+        }),
+        '──────────────────────────────',
+        targetOptNames.length > 0
+          ? `공식 일치: ${exactCount}개 / 추정 매칭: ${fuzzyCount}개 / 비교차 전용: ${extraCount}개`
+          : '내 차 옵션 정보 없음',
+      ];
+
+      map.set(car.id, {
+        hasOptions: true,
+        totalCount: compOpts.length,
+        symbol,
+        tooltip: tooltipLines.join('\n'),
+      });
+    }
+
+    return map;
+  }, [encarList, targetOptions, optionsTag, targetCatalog]);
 
   // 엄격 + 무사고 subset 필터링 및 날통계 집계 (보정 없음)
   const { summaryCount, minPrice, maxPrice, avgPrice } = useMemo(() => {
@@ -291,16 +362,9 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
                 const hasDiff = targetMileageKm > 0;
                 const diffKm = hasDiff ? car.mileage - targetMileageKm : 0;
 
-                // 옵션 유무 판단
-                const hasOptions = Boolean(
-                  (car.options && car.options.length > 0) ||
-                  (car.optionsText && car.optionsText.trim() !== '' && car.optionsText !== '-')
-                );
-                const optionsCount = car.options && car.options.length > 0
-                  ? car.options.length
-                  : car.optionsText
-                  ? car.optionsText.split(/[,·\/\n]/).filter(s => s.trim().length > 0).length
-                  : 0;
+                // 옵션 배지 데이터 조회 (Map 기반)
+                const badgeData = optionBadgeMap.get(car.id);
+                const hasOptions = badgeData?.hasOptions ?? false;
 
                 // 목표 연식 일치 여부 판정 (연식 칩 ★과 동일 기준)
                 const carYear2Digit = parseYearTo2Digit(car.year);
@@ -437,12 +501,18 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
 
                     {/* 11) 옵션 유무 */}
                     <td className="py-2 px-2 text-center whitespace-nowrap">
-                      {hasOptions ? (
+                      {hasOptions && badgeData ? (
                         <span
-                          title={car.optionsText || '옵션 있음'}
-                          className="px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold border border-amber-500/40 text-[10.5px]"
+                          title={badgeData.tooltip}
+                          className="px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold border border-amber-500/40 text-[10.5px] cursor-help hover:bg-amber-500/30 transition inline-flex items-center gap-0.5"
                         >
-                          {optionsCount > 0 ? `${optionsCount}개` : '유'}
+                          {badgeData.symbol === '✓' && (
+                            <span className="text-sky-400 text-[10px]">✓</span>
+                          )}
+                          {badgeData.symbol === '~' && (
+                            <span className="text-amber-400 text-[10px]">~</span>
+                          )}
+                          <span>{badgeData.totalCount}개</span>
                         </span>
                       ) : (
                         <span className="text-zinc-500 text-[11px]">기본</span>
