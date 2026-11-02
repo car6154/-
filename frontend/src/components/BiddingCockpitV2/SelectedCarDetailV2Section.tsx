@@ -1,9 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ExternalLink, RefreshCw, AlertCircle, Info, CheckCircle2, ChevronUp, ChevronDown } from 'lucide-react';
 import { EncarItem } from '@/components/BiddingCockpit/types';
 import { CarDamageDiagram2D, getDamagePartKoreanName } from '@/components/BiddingCockpit/Sections/CarDamageDiagram2D';
 import { getCarColorStyle } from '@/utils/carColor';
 import { splitOptionString } from '@/services/biddingOptionCatalog';
+
+export interface MatchedOptionItem {
+  raw_name: string;
+  clean_name: string;
+  official_name: string;
+  price?: number | null;
+  desc?: string;
+  match_type: 'exact' | 'fuzzy' | 'none';
+  source: 'danawa' | 'encar' | 'none';
+}
 
 export interface SelectedCarDetailV2SectionProps {
   selectedEncar: EncarItem | null;
@@ -79,6 +89,65 @@ export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProp
       </div>
     );
   }
+
+  // 💡 [2026-11-02 제이 규칙]: 선택 차량의 옵션에 대해서만 신차 카탈로그 매칭(다나와 1순위 -> 엔카 2순위 -> 퍼지 3순위) 비동기 조회
+  const [matchedOptions, setMatchedOptions] = useState<MatchedOptionItem[]>([]);
+  const [, setIsOptionsMatching] = useState<boolean>(false);
+  const optionsCacheRef = useRef<Record<string, MatchedOptionItem[]>>({});
+
+  useEffect(() => {
+    if (!selectedEncar) {
+      setMatchedOptions([]);
+      return;
+    }
+
+    const rawOptText = selectedEncar.optionsText || '';
+    const cleanOptText = rawOptText.replace(/\s+/g, '');
+    const isNoOptionPlaceholder =
+      cleanOptText === '추가옵션없음' ||
+      cleanOptText === '기본출고사양(추가옵션없음)';
+
+    if (!rawOptText || isNoOptionPlaceholder) {
+      setMatchedOptions([]);
+      return;
+    }
+
+    const cacheKey = `${selectedEncar.id}_${selectedEncar.carName}_${selectedEncar.year}_${rawOptText}`;
+    if (optionsCacheRef.current[cacheKey]) {
+      setMatchedOptions(optionsCacheRef.current[cacheKey]);
+      return;
+    }
+
+    let isMounted = true;
+    setIsOptionsMatching(true);
+
+    fetch('/api/encar/match-options', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        carName: selectedEncar.carName,
+        year: selectedEncar.year,
+        optionsText: rawOptText,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (isMounted && data.success && Array.isArray(data.data)) {
+          optionsCacheRef.current[cacheKey] = data.data;
+          setMatchedOptions(data.data);
+        }
+      })
+      .catch((e) => {
+        console.warn('옵션 카탈로그 매칭 조회 실패:', e);
+      })
+      .finally(() => {
+        if (isMounted) setIsOptionsMatching(false);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [selectedEncar?.id, selectedEncar?.carName, selectedEncar?.year, selectedEncar?.optionsText]);
 
   // 1. 스펙 항목 정리
   const accInfo = formatAccident(selectedEncar.accidentType);
@@ -265,7 +334,7 @@ export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProp
             )}
           </div>
 
-          {/* 2-4) 옵션 정보 (무옵션 플레이스홀더 처리 및 칩 표시) */}
+          {/* 2-4) 옵션 정보 (신차 카탈로그 통합규격 매칭 및 상태별 색상 표시) */}
           {(() => {
             const rawOptText = selectedEncar.optionsText || '';
             const cleanOptText = rawOptText.replace(/\s+/g, '');
@@ -273,31 +342,102 @@ export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProp
               cleanOptText === '추가옵션없음' ||
               cleanOptText === '기본출고사양(추가옵션없음)';
 
-            const encarOptionList = (rawOptText && !isNoOptionPlaceholder)
-              ? splitOptionString(rawOptText)
-              : [];
-
-            return (
-              <div className="p-3 bg-[#0c0e14] rounded-lg border border-[#232634] text-xs space-y-1.5">
-                <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase block">
-                  {encarOptionList.length > 0 ? `주요 옵션 (${encarOptionList.length}개)` : '주요 옵션'}
-                </span>
-                {encarOptionList.length > 0 ? (
-                  <div className="flex flex-wrap gap-1.5">
-                    {encarOptionList.map((opt, i) => (
-                      <span
-                        key={i}
-                        className="px-2 py-0.5 rounded text-[11px] font-medium bg-[#1a1c26] text-zinc-300 border border-[#2d3142]"
-                      >
-                        {opt}
-                      </span>
-                    ))}
-                  </div>
-                ) : (
+            if (!rawOptText || isNoOptionPlaceholder) {
+              return (
+                <div className="p-3 bg-[#0c0e14] rounded-lg border border-[#232634] text-xs space-y-1.5">
+                  <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase block">
+                    주요 옵션
+                  </span>
                   <p className="text-zinc-500 text-xs italic">
                     추가옵션 없음 또는 기본 트림 사양
                   </p>
-                )}
+                </div>
+              );
+            }
+
+            // 매칭 데이터가 있으면 사용, 아직 수신 전이면 원문 리스트 폴백
+            const fallbackList = splitOptionString(rawOptText);
+            const displayList: Array<{
+              displayName: string;
+              rawName: string;
+              matchType: 'exact' | 'fuzzy' | 'none';
+              source: 'danawa' | 'encar' | 'none';
+              price?: number | null;
+            }> = matchedOptions.length > 0
+              ? matchedOptions.map((m) => ({
+                  displayName: m.match_type !== 'none' ? m.official_name : m.raw_name,
+                  rawName: m.raw_name,
+                  matchType: m.match_type,
+                  source: m.source,
+                  price: m.price,
+                }))
+              : fallbackList.map((raw) => ({
+                  displayName: raw,
+                  rawName: raw,
+                  matchType: 'none',
+                  source: 'none',
+                }));
+
+            return (
+              <div className="p-3 bg-[#0c0e14] rounded-lg border border-[#232634] text-xs space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase block">
+                    주요 옵션 ({displayList.length}개)
+                  </span>
+                  <div className="flex items-center gap-2 text-[10px] text-zinc-500 font-medium">
+                    <span className="flex items-center gap-0.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block" />
+                      정확
+                    </span>
+                    <span className="flex items-center gap-0.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-amber-400 inline-block" />
+                      퍼지
+                    </span>
+                    <span className="flex items-center gap-0.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-zinc-500 inline-block" />
+                      미매칭
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap gap-1.5 pt-0.5">
+                  {displayList.map((item, i) => {
+                    let chipStyle = 'bg-[#1a1c26] text-zinc-300 border-[#2d3142]';
+                    let badgeText = '';
+                    let titleText = `[미매칭 옵션] 원문: ${item.rawName}`;
+
+                    if (item.matchType === 'exact') {
+                      chipStyle = 'bg-emerald-500/15 text-emerald-300 border-emerald-500/40 font-semibold';
+                      const srcLabel = item.source === 'danawa' ? '다나와' : '엔카';
+                      badgeText = srcLabel;
+                      titleText = `[${srcLabel} 카탈로그 정확 매칭] 표준명: ${item.displayName}${item.price ? ` (${Math.round(item.price / 10000)}만원)` : ''}`;
+                    } else if (item.matchType === 'fuzzy') {
+                      chipStyle = 'bg-amber-500/15 text-amber-300 border-amber-500/40 font-semibold';
+                      const srcLabel = item.source === 'danawa' ? '다나와' : '엔카';
+                      badgeText = `${srcLabel}·퍼지`;
+                      titleText = `[${srcLabel} 카탈로그 퍼지 매칭] 표준명: ${item.displayName} (원문: ${item.rawName})`;
+                    }
+
+                    return (
+                      <span
+                        key={i}
+                        className={`px-2 py-0.5 rounded text-[11px] border flex items-center gap-1 transition select-none ${chipStyle}`}
+                        title={titleText}
+                      >
+                        <span>{item.displayName}</span>
+                        {badgeText && (
+                          <span className={`text-[9px] px-1 py-0.2 rounded font-mono font-normal ${
+                            item.matchType === 'exact'
+                              ? 'bg-emerald-500/25 text-emerald-200'
+                              : 'bg-amber-500/25 text-amber-200'
+                          }`}>
+                            {badgeText}
+                          </span>
+                        )}
+                      </span>
+                    );
+                  })}
+                </div>
               </div>
             );
           })()}

@@ -738,7 +738,7 @@ def get_catalog_option_detail(car_name: str, year: Any, opt_name: str) -> Option
     """
     입력: 차량명 (예: "더 뉴 카니발 4세대"), 연식 (예: 2026), 옵션명 (예: "컴포트")
     처리: 다나와(1순위) → 엔카(2순위) → 퍼지(3순위 폴백)
-    출력: 해당 옵션의 가격과 설명 표시 ({price: 1190000, desc: "2열 다이내믹 바디케어시트..."})
+    출력: 해당 옵션의 가격과 설명 표시 ({price: 1190000, desc: "...", official_name: "...", match_type: "exact"|"fuzzy", source: "danawa"|"encar"})
     """
     if not car_name or not opt_name:
         return None
@@ -756,13 +756,13 @@ def get_catalog_option_detail(car_name: str, year: Any, opt_name: str) -> Option
             val = options_dict[clean_opt]
             price = val.get("price") if isinstance(val, dict) else None
             desc = val.get("desc") if isinstance(val, dict) else (val if isinstance(val, str) else "")
-            return {"price": price, "desc": desc, "official_name": clean_opt}
+            return {"price": price, "desc": desc, "official_name": clean_opt, "match_type": "exact"}
         # 2. 정규화 완전 일치
         for off_key, val in options_dict.items():
             if normalize_opt_name(off_key) == norm_opt:
                 price = val.get("price") if isinstance(val, dict) else None
                 desc = val.get("desc") if isinstance(val, dict) else (val if isinstance(val, str) else "")
-                return {"price": price, "desc": desc, "official_name": off_key}
+                return {"price": price, "desc": desc, "official_name": off_key, "match_type": "exact"}
         # 3. 접두어(기본형- 등) 제거 후 일치
         prefix_clean = re.sub(r'^(?:기본형|고급형|스마트형|모던형|프리미엄형|디럭스형|최고급형)[-_ ]*', '', norm_opt)
         if prefix_clean and prefix_clean != norm_opt:
@@ -770,28 +770,127 @@ def get_catalog_option_detail(car_name: str, year: Any, opt_name: str) -> Option
                 if normalize_opt_name(off_key) == prefix_clean:
                     price = val.get("price") if isinstance(val, dict) else None
                     desc = val.get("desc") if isinstance(val, dict) else (val if isinstance(val, str) else "")
-                    return {"price": price, "desc": desc, "official_name": off_key}
+                    return {"price": price, "desc": desc, "official_name": off_key, "match_type": "exact"}
         return None
 
-    # 1순위: 다나와 카탈로그
+    def _fuzzy_find_in_options(options_dict: dict) -> Optional[dict]:
+        if not options_dict:
+            return None
+        best_candidate = None
+        best_score = 0.0
+        clean_prefix = re.sub(r'^(?:기본형|고급형|스마트형|모던형|프리미엄형|디럭스형|최고급형)[-_ ]*', '', norm_opt)
+        clean_prefix = re.sub(r'팩(?=[0-9])', '', clean_prefix)
+
+        for official_key, val in options_dict.items():
+            norm_official = normalize_opt_name(official_key)
+            mismatch = any((kw in norm_opt) != (kw in norm_official) for kw in SPEC_QUALIFIER_KEYWORDS)
+            if mismatch:
+                continue
+            nums_a = re.findall(r'[1-9]', norm_opt)
+            nums_b = re.findall(r'[1-9]', norm_official)
+            if nums_a and nums_b and "".join(nums_a) != "".join(nums_b):
+                continue
+            jaccard = max(
+                compute_bigram_jaccard(norm_opt, norm_official),
+                compute_bigram_jaccard(clean_prefix, norm_official) if clean_prefix else 0.0
+            )
+            if jaccard > best_score and jaccard >= 0.35:
+                best_score = jaccard
+                price = val.get("price") if isinstance(val, dict) else None
+                desc = val.get("desc") if isinstance(val, dict) else (val if isinstance(val, str) else "")
+                best_candidate = {
+                    "price": price,
+                    "desc": desc,
+                    "official_name": official_key,
+                    "match_type": "fuzzy",
+                    "similarity": round(best_score, 2)
+                }
+        return best_candidate
+
+    # 1순위: 다나와 카탈로그 exact 일치
     danawa_db = load_danawa_catalog()
+    d_cat = None
     if danawa_db:
         d_cat = _search_in_catalog(danawa_db, car_name, str(year or ""))
         if d_cat and d_cat.get("options"):
             found = _find_in_options(d_cat["options"])
             if found:
+                found["source"] = "danawa"
+                found["raw_name"] = opt_name
                 return found
 
-    # 2순위: 엔카 카탈로그
+    # 2순위: 엔카 카탈로그 exact 일치
     encar_db = load_crawled_catalog()
+    e_cat = None
     if encar_db:
         e_cat = _search_in_catalog(encar_db, car_name, str(year or ""))
         if e_cat and e_cat.get("options"):
             found = _find_in_options(e_cat["options"])
             if found:
+                found["source"] = "encar"
+                found["raw_name"] = opt_name
                 return found
 
+    # 3순위: 다나와 카탈로그 fuzzy 일치
+    if d_cat and d_cat.get("options"):
+        f_found = _fuzzy_find_in_options(d_cat["options"])
+        if f_found:
+            f_found["source"] = "danawa"
+            f_found["raw_name"] = opt_name
+            return f_found
+
+    # 4순위: 엔카 카탈로그 fuzzy 일치
+    if e_cat and e_cat.get("options"):
+        f_found = _fuzzy_find_in_options(e_cat["options"])
+        if f_found:
+            f_found["source"] = "encar"
+            f_found["raw_name"] = opt_name
+            return f_found
+
     return None
+
+
+def match_car_options_detail(car_name: str, year: Any, options_text_or_list: Any) -> list:
+    """
+    선택 차량의 옵션 목록(원문)을 카탈로그(다나와 1순위 -> 엔카 2순위 -> 퍼지 3순위)와 매칭하여
+    표준명, 매칭상태(exact/fuzzy/none), 출처(danawa/encar/none) 목록 반환
+    """
+    if not options_text_or_list:
+        return []
+
+    if isinstance(options_text_or_list, str):
+        raw_list = [s.strip() for s in re.split(r'[,·\/\n]', options_text_or_list) if s.strip()]
+    elif isinstance(options_text_or_list, list):
+        raw_list = [str(s).strip() for s in options_text_or_list if str(s).strip()]
+    else:
+        return []
+
+    results = []
+    for raw in raw_list:
+        clean = re.sub(r'\([0-9,]+(?:\s*만|\s*원)?\)', '', raw)
+        clean = re.sub(r'\[[^\]]*\]', '', clean).strip()
+        matched = get_catalog_option_detail(car_name, year, raw)
+        if matched and matched.get("official_name"):
+            results.append({
+                "raw_name": raw,
+                "clean_name": clean,
+                "official_name": matched["official_name"],
+                "price": matched.get("price"),
+                "desc": matched.get("desc", ""),
+                "match_type": matched.get("match_type", "exact"),
+                "source": matched.get("source", "encar")
+            })
+        else:
+            results.append({
+                "raw_name": raw,
+                "clean_name": clean,
+                "official_name": raw,
+                "price": None,
+                "desc": "",
+                "match_type": "none",
+                "source": "none"
+            })
+    return results
 
 
 

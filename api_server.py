@@ -2147,6 +2147,24 @@ def get_encar_inspection(car_id: str):
         return {"success": False, "error": str(e), "data": None}
 
 
+class MatchOptionsRequest(BaseModel):
+    carName: str
+    year: Union[int, str]
+    optionsText: Optional[str] = ""
+    optionsList: Optional[List[str]] = []
+
+
+@app.post("/api/encar/match-options")
+def match_encar_options_endpoint(req: MatchOptionsRequest):
+    try:
+        from services.option_package_service import match_car_options_detail
+        input_data = req.optionsList if (req.optionsList and len(req.optionsList) > 0) else (req.optionsText or "")
+        matched = match_car_options_detail(req.carName, req.year, input_data)
+        return {"success": True, "data": matched}
+    except Exception as e:
+        return {"success": False, "error": str(e), "data": []}
+
+
 class EncarSoldOutRequest(BaseModel):
     carIds: Optional[List[str]] = []
     targetYear: Optional[str] = None
