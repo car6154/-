@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { ExternalLink, RefreshCw, Car, AlertCircle } from 'lucide-react';
 import { EncarItem } from '@/components/BiddingCockpit/types';
 
@@ -69,6 +69,9 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
   errorMessage,
   encarYearStats = [],
 }) => {
+  // 세부등급 줄 표시/숨김 토글 상태 (기본값: 보임)
+  const [showSubModel, setShowSubModel] = useState<boolean>(true);
+
   // 목표 연식(2자리) 추출 (encarYearStats의 isTarget: true 항목 기준)
   const targetYear = useMemo(() => {
     const targetStat = encarYearStats.find((st) => st.isTarget);
@@ -190,9 +193,19 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
             엔카 비교 매물
           </span>
           {!isInitialState && !isLoading && (
-            <span className="text-xs px-2 py-0.5 rounded-full bg-[#1f222e] text-zinc-300 font-mono">
-              전체 {totalModelCount.toLocaleString()}대 중 {filteredCount || encarList.length}대 일치
-            </span>
+            <>
+              <span className="text-xs px-2 py-0.5 rounded-full bg-[#1f222e] text-zinc-300 font-mono">
+                전체 {totalModelCount.toLocaleString()}대 중 {filteredCount || encarList.length}대 일치
+              </span>
+              <button
+                type="button"
+                onClick={() => setShowSubModel((prev) => !prev)}
+                className="text-[11px] px-2 py-0.5 rounded bg-[#161822] hover:bg-[#20283d] text-zinc-400 hover:text-zinc-200 border border-[#262938] transition cursor-pointer font-medium"
+                title={showSubModel ? '세부등급 줄을 숨겨 행 높이를 축소합니다' : '세부등급 줄을 표시합니다'}
+              >
+                {showSubModel ? '세부등급 숨기기' : '세부등급 보기'}
+              </button>
+            </>
           )}
         </div>
         {errorMessage && (
@@ -339,7 +352,7 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
                         >
                           {car.carName}
                         </a>
-                        {car.subModel && (
+                        {showSubModel && car.subModel && (
                           <span className="text-[11px] text-zinc-400 truncate max-w-xs">
                             {car.subModel}
                           </span>
