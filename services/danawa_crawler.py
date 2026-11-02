@@ -356,7 +356,7 @@ def save_danawa_catalog(data: dict):
         json.dump(data, f, ensure_ascii=False, indent=2)
     os.replace(temp_file, DANAWA_CATALOG_FILE)
 
-def run_full_crawling(max_models: Optional[int] = None):
+def run_full_crawling(max_models: Optional[int] = None, target_mids: Optional[set] = None):
     """
     다나와 사이트의 신차 카탈로그 전수 수집 오케스트레이터.
     - 5건 완료마다 저장
@@ -383,6 +383,8 @@ def run_full_crawling(max_models: Optional[int] = None):
     error_streak = 0
     
     for mid, tinfo in targets.items():
+        if target_mids and mid not in target_mids:
+            continue
         if max_models and processed_count >= max_models:
             break
             
@@ -391,7 +393,7 @@ def run_full_crawling(max_models: Optional[int] = None):
         # 카탈로그의 키 중 하나에 매핑되거나 이미 연식 데이터가 있으면 건너뜀
         already_collected = False
         for k in catalog_db.keys():
-            if k == mname_target or mname_target in k or k in mname_target:
+            if k == mname_target:
                 # 2026 또는 데이터가 1개 이상 있는지
                 if len(catalog_db[k]) > 0:
                     already_collected = True
@@ -445,3 +447,8 @@ def run_full_crawling(max_models: Optional[int] = None):
     # 최종 저장
     save_danawa_catalog(catalog_db)
     logger.info(f"Finished run. Total models in catalog: {len(catalog_db)}")
+
+if __name__ == "__main__":
+    import io
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
+    run_full_crawling()
