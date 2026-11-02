@@ -55,42 +55,8 @@ export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProp
   // 상세 패널 숨김/펼침 상태 (기본값: 펼침)
   const [isCollapsed, setIsCollapsed] = useState(false);
 
-  // 💡 [2026-11-01 제이 규칙]: 선택된 차량이 없으면 안내 한 줄만 보여준다 (예시 차량 생성 금지)
-  if (!selectedEncar) {
-    return (
-      <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-8 shadow-sm flex items-center justify-center text-zinc-500 text-xs sm:text-sm">
-        <Info className="w-4 h-4 mr-2 text-zinc-600" />
-        <span>목록에서 차량을 선택하면 상세 정보가 여기에 표시됩니다</span>
-      </div>
-    );
-  }
-
-  // 💡 [2026-11-02 제이 규칙]: 접힘 상태일 때 간결한 복원 바 표시 (상세 보기 버튼으로 언제든 복원)
-  if (isCollapsed) {
-    return (
-      <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-3.5 shadow-sm flex items-center justify-between gap-3">
-        <div className="flex items-center gap-2 min-w-0">
-          <span className="text-xs sm:text-sm font-bold text-zinc-200 truncate">
-            {selectedEncar.carName} {selectedEncar.subModel || ''}
-          </span>
-          <span className="text-[11px] text-zinc-500 font-mono shrink-0">
-            (상세 정보 숨김)
-          </span>
-        </div>
-        <button
-          type="button"
-          onClick={() => setIsCollapsed(false)}
-          className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-sky-400 hover:text-sky-300 bg-sky-500/10 hover:bg-sky-500/20 border border-sky-500/30 rounded-lg transition shrink-0 cursor-pointer"
-          title="선택 차량 상세 패널 다시 펼치기"
-        >
-          <ChevronDown className="w-3.5 h-3.5" />
-          <span>상세 보기</span>
-        </button>
-      </div>
-    );
-  }
-
   // 💡 [2026-11-02 제이 규칙]: 선택 차량의 옵션에 대해서만 신차 카탈로그 매칭(다나와 1순위 -> 엔카 2순위 -> 퍼지 3순위) 비동기 조회
+  // 💡 [Rules of Hooks]: 모든 리액트 훅은 early return(조기 반환) 이전에 컴포넌트 최상단에서 무조건 실행되어야 함
   const [matchedOptions, setMatchedOptions] = useState<MatchedOptionItem[]>([]);
   const [, setIsOptionsMatching] = useState<boolean>(false);
   const optionsCacheRef = useRef<Record<string, MatchedOptionItem[]>>({});
@@ -148,6 +114,41 @@ export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProp
       isMounted = false;
     };
   }, [selectedEncar?.id, selectedEncar?.carName, selectedEncar?.year, selectedEncar?.optionsText]);
+
+  // 💡 [2026-11-01 제이 규칙]: 선택된 차량이 없으면 안내 한 줄만 보여준다 (예시 차량 생성 금지)
+  if (!selectedEncar) {
+    return (
+      <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-8 shadow-sm flex items-center justify-center text-zinc-500 text-xs sm:text-sm">
+        <Info className="w-4 h-4 mr-2 text-zinc-600" />
+        <span>목록에서 차량을 선택하면 상세 정보가 여기에 표시됩니다</span>
+      </div>
+    );
+  }
+
+  // 💡 [2026-11-02 제이 규칙]: 접힘 상태일 때 간결한 복원 바 표시 (상세 보기 버튼으로 언제든 복원)
+  if (isCollapsed) {
+    return (
+      <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-3.5 shadow-sm flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2 min-w-0">
+          <span className="text-xs sm:text-sm font-bold text-zinc-200 truncate">
+            {selectedEncar.carName} {selectedEncar.subModel || ''}
+          </span>
+          <span className="text-[11px] text-zinc-500 font-mono shrink-0">
+            (상세 정보 숨김)
+          </span>
+        </div>
+        <button
+          type="button"
+          onClick={() => setIsCollapsed(false)}
+          className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-sky-400 hover:text-sky-300 bg-sky-500/10 hover:bg-sky-500/20 border border-sky-500/30 rounded-lg transition shrink-0 cursor-pointer"
+          title="선택 차량 상세 패널 다시 펼치기"
+        >
+          <ChevronDown className="w-3.5 h-3.5" />
+          <span>상세 보기</span>
+        </button>
+      </div>
+    );
+  }
 
   // 1. 스펙 항목 정리
   const accInfo = formatAccident(selectedEncar.accidentType);
