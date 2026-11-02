@@ -138,16 +138,17 @@ def parse_price(val_str: str) -> int:
     return int(digits) if digits else 0
 
 def extract_year_from_text(txt: str) -> str:
-    """텍스트나 날짜에서 연형(MY) 4자리 연식 추출 (연형 표기 우선)"""
+    """텍스트나 날짜에서 연형(MY) 4자리 연식 추출 (연형 표기 우선, 개소세 날짜 등 오인 방지)"""
     if not txt:
         return ""
+    # 1순위: 2024년형, 2024년, 2024MY
     m_my = re.search(r'(20\d{2})\s*(?:년형|년|MY)', txt, re.IGNORECASE)
     if m_my:
         return m_my.group(1)
+    # 2순위: 개소세/출시일 날짜 패턴(2025.01.03)을 제외한 4자리 연도
     txt_no_date = re.sub(r'20\d{2}[\.\-\/]\d{1,2}[\.\-\/]\d{1,2}', '', txt)
-    m = re.search(r'\b(20\d{2})\b', txt_no_date)
+    m = re.search(r'(20\d{2})', txt_no_date)
     return m.group(1) if m else ""
-
 def normalize_catalog_model_name(raw_title: str) -> str:
     """다나와 타이틀에서 순수 모델명 추출 및 카탈로그 표준명 매핑 (정확 일치 기준)"""
     name = raw_title.split('가격')[0].split(':')[0].strip()
@@ -253,44 +254,69 @@ def get_model_lineups(model_id: str, session: requests.Session) -> Tuple[str, Di
     """
     url = f"https://auto.danawa.com/auto/?Work=model&Model={model_id}&Tab=price"
     r = session.get(url, timeout=10)
-    r.encoding = 'utf-8'
+    r.encoding = "utf-8"
     
-    soup = BeautifulSoup(r.text, 'html.parser')
-    title_el = soup.find('title')
+    soup = BeautifulSoup(r.text, "html.parser")
+    title_el = soup.find("title")
     raw_title = title_el.get_text(strip=True) if title_el else f"Model_{model_id}"
     model_name = normalize_catalog_model_name(raw_title)
     
     lineups_by_year: Dict[str, List[dict]] = {}
-    choices = soup.select('.choice')
+    boxes = soup.select(".article-box")
     
-    for ch in choices:
-        inp = ch.select_one('input[name="lineup_"]')
-        if not inp:
-            continue
-        lu_id = inp.get('data-lineup') or inp.get('id', '').replace('lineup_', '')
-        if not lu_id:
-            continue
-            
-        date_el = ch.select_one('.txt-date')
-        date_str = clean_text(date_el.get_text()) if date_el else ""
-        info_el = ch.select_one('.choice__info .txt') or ch.select_one('label')
-        name_str = clean_text(info_el.get_text()) if info_el else ""
-        
-        year = extract_year_from_text(name_str) or extract_year_from_text(ch.get_text()) or extract_year_from_text(date_str)
-        if not year:
-            continue
-            
-        if year not in lineups_by_year:
-            lineups_by_year[year] = []
-            
-        lineups_by_year[year].append({
-            "lineup_id": str(lu_id),
-            "name": name_str,
-            "date": date_str
-        })
+    # 1. 신규 다나와 구조: .article-box 헤더(h4)에 연형(2024년형 등)이 있는 경우
+    if boxes:
+        for box in boxes:
+            header = box.select_one("h4, .article-box__title, .txt-title, header")
+            header_text = clean_text(header.get_text()) if header else ""
+            year = extract_year_from_text(header_text)
+            if not year:
+                continue
+            if year not in lineups_by_year:
+                lineups_by_year[year] = []
+            for ch in box.select(".choice"):
+                inp = ch.select_one("input[name='lineup_']")
+                if not inp:
+                    continue
+                lu_id = inp.get("data-lineup") or inp.get("id", "").replace("lineup_", "")
+                if not lu_id:
+                    continue
+                date_el = ch.select_one(".txt-date")
+                date_str = clean_text(date_el.get_text()) if date_el else ""
+                info_el = ch.select_one(".choice__info .txt") or ch.select_one("label")
+                name_str = clean_text(info_el.get_text()) if info_el else ""
+                lineups_by_year[year].append({
+                    "lineup_id": str(lu_id),
+                    "name": name_str,
+                    "date": date_str
+                })
+    
+    # 2. 구형 페이지 폴백 (article-box가 없는 경우)
+    if not lineups_by_year:
+        choices = soup.select(".choice")
+        for ch in choices:
+            inp = ch.select_one("input[name='lineup_']")
+            if not inp:
+                continue
+            lu_id = inp.get("data-lineup") or inp.get("id", "").replace("lineup_", "")
+            if not lu_id:
+                continue
+            date_el = ch.select_one(".txt-date")
+            date_str = clean_text(date_el.get_text()) if date_el else ""
+            info_el = ch.select_one(".choice__info .txt") or ch.select_one("label")
+            name_str = clean_text(info_el.get_text()) if info_el else ""
+            year = extract_year_from_text(name_str) or extract_year_from_text(ch.get_text()) or extract_year_from_text(date_str)
+            if not year:
+                continue
+            if year not in lineups_by_year:
+                lineups_by_year[year] = []
+            lineups_by_year[year].append({
+                "lineup_id": str(lu_id),
+                "name": name_str,
+                "date": date_str
+            })
         
     return model_name, lineups_by_year
-
 def crawl_model_catalog(
     model_id: str,
     session: Optional[requests.Session] = None,
