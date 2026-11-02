@@ -35,6 +35,34 @@ DANAWA_TARGETS_FILE = os.path.join(DATA_DIR, "danawa_model_targets.json")
 
 # 다나와 모델명/코드 -> 제이프로젝트 표준 카탈로그 모델명 매핑
 MODEL_NAME_MAP = {
+    # F/L(페이스리프트) 및 세부모델 표준명 매핑 (오염 방지 및 병합)
+    "팰리세이드(LX2) F/L": "더 뉴 팰리세이드",
+    "팰리세이드 F/L": "더 뉴 팰리세이드",
+    "더 뉴 팰리세이드 F/L": "더 뉴 팰리세이드",
+    "투싼(NX4) F/L": "더 뉴 투싼",
+    "더 뉴 투싼 F/L": "더 뉴 투싼",
+    "투싼 F/L": "더 뉴 투싼",
+    "더 뉴 그랜저 F/L": "더 뉴 그랜저",
+    "그랜저(IG) F/L": "더 뉴 그랜저",
+    "쏘렌토(MQ4) F/L": "더 뉴 쏘렌토 4세대",
+    "쏘렌토 F/L": "더 뉴 쏘렌토 4세대",
+    "더 뉴 쏘렌토 F/L": "더 뉴 쏘렌토 4세대",
+    "K5(DL3) F/L": "더 뉴 K5 3세대",
+    "K5 F/L": "더 뉴 K5 3세대",
+    "더 뉴 K5 F/L": "더 뉴 K5 3세대",
+    "카니발(KA4) F/L": "더 뉴 카니발 4세대",
+    "카니발 F/L": "더 뉴 카니발 4세대",
+    "아반떼(CN7) F/L": "더 뉴 아반떼 (CN7)",
+    "아반떼 F/L": "더 뉴 아반떼 (CN7)",
+    "스포티지(NQ5) F/L": "더 뉴 스포티지 5세대",
+    "스포티지 F/L": "더 뉴 스포티지 5세대",
+    "G80(RG3) F/L": "더 뉴 G80",
+    "G80 F/L": "더 뉴 G80",
+    "GV70(JK1) F/L": "더 뉴 GV70",
+    "GV70 F/L": "더 뉴 GV70",
+    "GV80(JX1) F/L": "더 뉴 GV80",
+    "GV80 F/L": "더 뉴 GV80",
+    "G70 F/L": "더 뉴 G70",
     "더 뉴 카니발(KA4)": "더 뉴 카니발 4세대",
     "더 뉴 카니발 4세대": "더 뉴 카니발 4세대",
     "카니발(KA4)": "카니발 4세대",
@@ -110,12 +138,18 @@ def parse_price(val_str: str) -> int:
     return int(digits) if digits else 0
 
 def extract_year_from_text(txt: str) -> str:
-    """텍스트나 날짜(2026.08.27, 2026년형 등)에서 4자리 연식 추출"""
-    m = re.search(r'(20\d{2})', txt)
+    """텍스트나 날짜에서 연형(MY) 4자리 연식 추출 (연형 표기 우선)"""
+    if not txt:
+        return ""
+    m_my = re.search(r'(20\d{2})\s*(?:년형|년|MY)', txt, re.IGNORECASE)
+    if m_my:
+        return m_my.group(1)
+    txt_no_date = re.sub(r'20\d{2}[\.\-\/]\d{1,2}[\.\-\/]\d{1,2}', '', txt)
+    m = re.search(r'\b(20\d{2})\b', txt_no_date)
     return m.group(1) if m else ""
 
 def normalize_catalog_model_name(raw_title: str) -> str:
-    """다나와 타이틀에서 순수 모델명 추출 및 카탈로그 표준명 매핑"""
+    """다나와 타이틀에서 순수 모델명 추출 및 카탈로그 표준명 매핑 (정확 일치 기준)"""
     name = raw_title.split('가격')[0].split(':')[0].strip()
     if name in MODEL_NAME_MAP:
         return MODEL_NAME_MAP[name]
@@ -124,7 +158,7 @@ def normalize_catalog_model_name(raw_title: str) -> str:
     if clean_n in MODEL_NAME_MAP:
         return MODEL_NAME_MAP[clean_n]
     for k, v in MODEL_NAME_MAP.items():
-        if k == clean_n or clean_n in k:
+        if k == clean_n:
             return v
             
     return clean_n or name
@@ -242,7 +276,7 @@ def get_model_lineups(model_id: str, session: requests.Session) -> Tuple[str, Di
         info_el = ch.select_one('.choice__info .txt') or ch.select_one('label')
         name_str = clean_text(info_el.get_text()) if info_el else ""
         
-        year = extract_year_from_text(date_str) or extract_year_from_text(name_str) or extract_year_from_text(ch.get_text())
+        year = extract_year_from_text(name_str) or extract_year_from_text(ch.get_text()) or extract_year_from_text(date_str)
         if not year:
             continue
             

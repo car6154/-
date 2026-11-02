@@ -12,42 +12,32 @@ import re
 import unicodedata
 from typing import Optional, Any
 
-CRAWLED_CATALOG_FILE = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "encar_newcar_catalog.json")
-_CRAWLED_CACHE = None
-_CACHE_MTIME = 0
+CANONICAL_CATALOG_FILE = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "canonical_newcar_catalog.json")
+_CANONICAL_CACHE = None
+_CANONICAL_MTIME = 0
 
-DANAWA_CATALOG_FILE = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "danawa_newcar_catalog.json")
-_DANAWA_CACHE = None
-_DANAWA_CACHE_MTIME = 0
+def load_canonical_catalog() -> dict:
+    """캐노니컬 정규화 신차 카탈로그 파일 로드 (mtime 기반 리로드)"""
+    global _CANONICAL_CACHE, _CANONICAL_MTIME
+    if os.path.exists(CANONICAL_CATALOG_FILE):
+        try:
+            mtime = os.path.getmtime(CANONICAL_CATALOG_FILE)
+            if _CANONICAL_CACHE is None or mtime > _CANONICAL_MTIME:
+                with open(CANONICAL_CATALOG_FILE, "r", encoding="utf-8") as f:
+                    _CANONICAL_CACHE = json.load(f)
+                    _CANONICAL_MTIME = mtime
+            return _CANONICAL_CACHE or {}
+        except Exception:
+            return _CANONICAL_CACHE or {}
+    return {}
 
 def load_danawa_catalog() -> dict:
-    """다나와 신차 카탈로그 파일 로드 (mtime 기반 리로드)"""
-    global _DANAWA_CACHE, _DANAWA_CACHE_MTIME
-    if os.path.exists(DANAWA_CATALOG_FILE):
-        try:
-            mtime = os.path.getmtime(DANAWA_CATALOG_FILE)
-            if _DANAWA_CACHE is None or mtime > _DANAWA_CACHE_MTIME:
-                with open(DANAWA_CATALOG_FILE, "r", encoding="utf-8") as f:
-                    _DANAWA_CACHE = json.load(f)
-                    _DANAWA_CACHE_MTIME = mtime
-            return _DANAWA_CACHE or {}
-        except Exception:
-            return _DANAWA_CACHE or {}
-    return {}
+    """하위 호환성 유지: 캐노니컬 정규화 카탈로그 반환"""
+    return load_canonical_catalog()
 
 def load_crawled_catalog() -> dict:
-    global _CRAWLED_CACHE, _CACHE_MTIME
-    if os.path.exists(CRAWLED_CATALOG_FILE):
-        try:
-            mtime = os.path.getmtime(CRAWLED_CATALOG_FILE)
-            if _CRAWLED_CACHE is None or mtime > _CACHE_MTIME:
-                with open(CRAWLED_CATALOG_FILE, "r", encoding="utf-8") as f:
-                    _CRAWLED_CACHE = json.load(f)
-                    _CACHE_MTIME = mtime
-            return _CRAWLED_CACHE or {}
-        except Exception:
-            return _CRAWLED_CACHE or {}
-    return {}
+    """하위 호환성 유지: 캐노니컬 정규화 카탈로그 반환"""
+    return load_canonical_catalog()
 
 # ═══════════════════════════════════════════════════════════════
 # 📦 신차 패키지 옵션 마스터 카탈로그 (쉐보레, 현대, 기아, 르노, KGM)
@@ -761,25 +751,15 @@ def _search_in_catalog(db: dict, car_name: str, year: str = "") -> dict:
 
 def get_catalog_for_car(car_name: str, year: str = "") -> dict:
     """
-    차종명과 연식으로 공식 신차가격표 DB에서 해당 스펙(options, packages 등) 추출
-    - 우선순위: 다나와(1순위) → 엔카(2순위) → 빈 카탈로그(퍼지 폴백)
-    - car_name: '더 뉴 카니발 4세대', '올 뉴 카니발', '팰리세이드' 등
-    - year: '2026', '2020', '2018' 등
+    차종명과 연식으로 캐노니컬 정규화 신차가격표 DB에서 해당 스펙(options, packages 등) 추출
+    - car_name: '더 뉴 카니발 4세대', '올 뉴 카니발', '더 뉴 팰리세이드' 등
+    - year: '2026', '2024', '2020' 등
     """
-    # 1순위: 다나와 카탈로그
-    danawa_db = load_danawa_catalog()
-    if danawa_db:
-        res = _search_in_catalog(danawa_db, car_name, year)
+    canonical_db = load_canonical_catalog()
+    if canonical_db:
+        res = _search_in_catalog(canonical_db, car_name, year)
         if res:
             return res
-
-    # 2순위: 엔카 카탈로그
-    encar_db = load_crawled_catalog()
-    if encar_db:
-        res = _search_in_catalog(encar_db, car_name, year)
-        if res:
-            return res
-
     return {}
 
 
@@ -861,59 +841,35 @@ def get_catalog_option_detail(car_name: str, year: Any, opt_name: str) -> Option
         return best_candidate
 
     year_str = str(year or "")
-    danawa_db = load_danawa_catalog()
-    encar_db = load_crawled_catalog()
+    canonical_db = load_canonical_catalog()
 
-    d_model = _find_model_in_catalog(danawa_db, car_name) if danawa_db else None
-    e_model = _find_model_in_catalog(encar_db, car_name) if encar_db else None
+    c_model = _find_model_in_catalog(canonical_db, car_name) if canonical_db else None
+    c_years = get_ordered_model_years(c_model[1], year_str) if c_model else []
 
-    d_years = get_ordered_model_years(d_model[1], year_str) if d_model else []
-    e_years = get_ordered_model_years(e_model[1], year_str) if e_model else []
-
-    # 1단계: 다나와 정확 매칭 (연식 순서대로)
-    if d_model:
-        for yr in d_years:
-            opts = d_model[1].get(yr, {}).get("options")
+    # 1단계: 캐노니컬 정확 매칭 (연식 순서대로)
+    if c_model:
+        for yr in c_years:
+            opts = c_model[1].get(yr, {}).get("options")
             if opts:
                 found = _find_in_options(opts)
                 if found:
-                    found["source"] = "danawa"
+                    opt_meta = opts.get(found.get("official_name", ""))
+                    opt_src = opt_meta.get("source", "danawa") if isinstance(opt_meta, dict) else "danawa"
+                    found["source"] = opt_src
                     found["matched_year"] = yr
                     found["raw_name"] = opt_name
                     return found
 
-    # 2단계: 엔카 정확 매칭 (연식 순서대로)
-    if e_model:
-        for yr in e_years:
-            opts = e_model[1].get(yr, {}).get("options")
-            if opts:
-                found = _find_in_options(opts)
-                if found:
-                    found["source"] = "encar"
-                    found["matched_year"] = yr
-                    found["raw_name"] = opt_name
-                    return found
-
-    # 3단계: 다나와 퍼지 매칭 (연식 순서대로)
-    if d_model:
-        for yr in d_years:
-            opts = d_model[1].get(yr, {}).get("options")
+    # 2단계: 캐노니컬 퍼지 매칭 (연식 순서대로, 최후 폴백)
+    if c_model:
+        for yr in c_years:
+            opts = c_model[1].get(yr, {}).get("options")
             if opts:
                 f_found = _fuzzy_find_in_options(opts)
                 if f_found:
-                    f_found["source"] = "danawa"
-                    f_found["matched_year"] = yr
-                    f_found["raw_name"] = opt_name
-                    return f_found
-
-    # 4단계: 엔카 퍼지 매칭 (연식 순서대로)
-    if e_model:
-        for yr in e_years:
-            opts = e_model[1].get(yr, {}).get("options")
-            if opts:
-                f_found = _fuzzy_find_in_options(opts)
-                if f_found:
-                    f_found["source"] = "encar"
+                    opt_meta = opts.get(f_found.get("official_name", ""))
+                    opt_src = opt_meta.get("source", "danawa") if isinstance(opt_meta, dict) else "danawa"
+                    f_found["source"] = opt_src
                     f_found["matched_year"] = yr
                     f_found["raw_name"] = opt_name
                     return f_found

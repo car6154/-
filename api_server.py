@@ -173,7 +173,7 @@ _newcar_catalog_mtime = 0
 
 def _get_newcar_catalog():
     global _newcar_catalog_cache, _newcar_catalog_mtime
-    cat_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "encar_newcar_catalog.json")
+    cat_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "canonical_newcar_catalog.json")
     if not os.path.exists(cat_path):
         return {}
     mtime = os.path.getmtime(cat_path)
@@ -183,7 +183,7 @@ def _get_newcar_catalog():
                 _newcar_catalog_cache = json.load(f)
                 _newcar_catalog_mtime = mtime
         except Exception as e:
-            print(f"[api_server] 신차가격표 카탈로그 로드 실패: {e}")
+            print(f"[api_server] 캐노니컬 신차가격표 카탈로그 로드 실패: {e}")
             _newcar_catalog_cache = {}
     return _newcar_catalog_cache or {}
 
