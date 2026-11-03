@@ -224,6 +224,24 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
       : splitOptionString(optionsTag || '');
   }, [targetOptions, optionsTag]);
 
+  // 💡 [11-03-34]: 신차 카탈로그 뷰어 링크 (목표차 모델명/연식 동적 바인딩)
+  const catalogHref = useMemo(() => {
+    const params: string[] = [];
+    if (targetCarName && String(targetCarName).trim()) {
+      params.push(`model=${encodeURIComponent(String(targetCarName).trim())}`);
+    }
+    if (targetYear && String(targetYear).trim()) {
+      const yrStr = String(targetYear).trim();
+      const mYr = yrStr.match(/(?:20)?(\d{2})/);
+      const fullYr = yrStr.match(/20\d{2}/) ? yrStr.match(/20\d{2}/)![0] : (mYr ? `20${mYr[1]}` : yrStr);
+      params.push(`year=${encodeURIComponent(fullYr)}`);
+    }
+    if (params.length > 0) {
+      return `/newcar-catalog.html#${params.join('&')}`;
+    }
+    return '/newcar-catalog.html';
+  }, [targetCarName, targetYear]);
+
   useEffect(() => {
     if (targetOptNames.length === 0 || !targetCarName) {
       setTargetMatchedOpts([]);
@@ -429,7 +447,15 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
       {/* 1. 상단 라인: '추가 옵션' 라벨 + 신차 옵션 N개 + 총 가격 + 우세/순정 배지 (1행 묶음, 줄바꿈 금지) */}
       <div className="flex items-center justify-between gap-1 flex-nowrap whitespace-nowrap min-h-[22px]">
         <div className="flex items-center gap-1 shrink-0">
-          <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase shrink-0">추가 옵션</span>
+          <a
+            href={catalogHref}
+            target="_blank"
+            rel="noopener"
+            className="text-[11px] font-semibold text-[#8b8e9d] uppercase shrink-0 hover:underline cursor-pointer"
+            title="새 탭에서 신차 공식 카탈로그 열기"
+          >
+            추가 옵션
+          </a>
           {hasOptions && (
             <span className="inline-flex items-center text-[10px] px-1 py-0.5 rounded bg-blue-500/15 text-blue-300 font-bold border border-blue-500/30 shrink-0">
               신차 옵션 {optCount}개

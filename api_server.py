@@ -189,14 +189,14 @@ def _get_newcar_catalog():
 
 
 @app.get("/api/newcar_catalog")
-def get_newcar_catalog_endpoint(car_name: str, year: Optional[str] = None):
+def get_newcar_catalog_endpoint(car_name: Optional[str] = None, year: Optional[str] = None):
     """
     차량명(예: 올 뉴 카니발)과 연식(예: 2017)으로 공식 신차 옵션 및 패키지 목록 조회
+    car_name이 없으면 메모리에 로드된 전체 카탈로그 반환
     """
-    if not car_name:
-        return {"success": False, "message": "차량명을 입력해주세요."}
-
     catalog = _get_newcar_catalog()
+    if not car_name:
+        return {"success": True, "catalog": catalog}
     clean_name = re.sub(r'^(현대|기아|제네시스|쉐보레|르노코리아|르노삼성|KG모빌리티|쌍용)\s*', '', car_name).strip()
     clean_name_no_parens = re.sub(r'\(.*?\)', '', clean_name).strip()
     norm_input = re.sub(r'\s+', '', clean_name).lower()
