@@ -321,42 +321,44 @@ export const ComparableKcarV2Section: React.FC<ComparableKcarV2SectionProps> = (
 
   return (
     <div className="space-y-3">
-      {/* 0. 엄격+무사고 요약 행 (총 매물 수 · 최저가 · 최고가 · 평균가) */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-        <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-2">
-          <span className="text-[10px] text-zinc-400 block font-medium">총 매물 수</span>
-          <div className="flex items-baseline gap-1 mt-1">
-            <span className="text-lg font-black text-white font-mono">
-              {summaryCount > 0 ? `${summaryCount.toLocaleString()}대` : '-'}
-            </span>
-            <span className="text-[10px] text-zinc-500 truncate">(무사고)</span>
+      {/* 0 + 0-1. 목록 헤더 스티키 래퍼 (요약 4칸 + 연식별 평균 한 덩어리 고정, 11-03-22) */}
+      <div className="sticky top-0 z-20 bg-[#08080a] pb-1 space-y-2.5">
+        {/* 0. 엄격+무사고 요약 행 (총 매물 수 · 최저가 · 최고가 · 평균가) */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+          <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-2">
+            <span className="text-[10px] text-zinc-400 block font-medium">총 매물 수</span>
+            <div className="flex items-baseline gap-1 mt-1">
+              <span className="text-lg font-black text-white font-mono">
+                {summaryCount > 0 ? `${summaryCount.toLocaleString()}대` : '-'}
+              </span>
+              <span className="text-[10px] text-zinc-500 truncate">(무사고)</span>
+            </div>
+          </div>
+
+          <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-2">
+            <span className="text-[10px] text-zinc-400 block font-medium">최저가</span>
+            <div className="text-lg font-black text-sky-400 font-mono mt-1 flex items-center gap-0.5">
+              {minPrice > 0 ? `${minPrice.toLocaleString()}만` : '-'} <span>⬇</span>
+            </div>
+          </div>
+
+          <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-2">
+            <span className="text-[10px] text-zinc-400 block font-medium">최고가</span>
+            <div className="text-lg font-black text-rose-400 font-mono mt-1 flex items-center gap-0.5">
+              {maxPrice > 0 ? `${maxPrice.toLocaleString()}만` : '-'} <span>⬆</span>
+            </div>
+          </div>
+
+          <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-2">
+            <span className="text-[10px] text-zinc-400 block font-medium">평균가</span>
+            <div className="text-lg font-black text-white font-mono mt-1">
+              {avgPrice > 0 ? `${avgPrice.toLocaleString()}만` : '-'}
+            </div>
           </div>
         </div>
 
-        <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-2">
-          <span className="text-[10px] text-zinc-400 block font-medium">최저가</span>
-          <div className="text-lg font-black text-sky-400 font-mono mt-1 flex items-center gap-0.5">
-            {minPrice > 0 ? `${minPrice.toLocaleString()}만` : '-'} <span>⬇</span>
-          </div>
-        </div>
-
-        <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-2">
-          <span className="text-[10px] text-zinc-400 block font-medium">최고가</span>
-          <div className="text-lg font-black text-rose-400 font-mono mt-1 flex items-center gap-0.5">
-            {maxPrice > 0 ? `${maxPrice.toLocaleString()}만` : '-'} <span>⬆</span>
-          </div>
-        </div>
-
-        <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-2">
-          <span className="text-[10px] text-zinc-400 block font-medium">평균가</span>
-          <div className="text-lg font-black text-white font-mono mt-1">
-            {avgPrice > 0 ? `${avgPrice.toLocaleString()}만` : '-'}
-          </div>
-        </div>
-      </div>
-
-      {/* 0-1. 케이카 연식별 호가 평균 칩 행 (스크롤 시 상단 고정 스티키 헤더) */}
-      <div className="sticky top-0 z-20 p-3 bg-[#0f1015] border border-[#1e2029] rounded-xl flex items-center gap-2.5 flex-wrap text-xs shadow-md">
+        {/* 0-1. 케이카 연식별 호가 평균 칩 행 */}
+        <div className="p-3 bg-[#0f1015] border border-[#1e2029] rounded-xl flex items-center gap-2.5 flex-wrap text-xs shadow-md">
         <span className="text-[11px] font-bold text-rose-400 shrink-0">평균</span>
         <div className="flex items-center gap-1.5 flex-wrap">
           {kcarYearStats && kcarYearStats.length > 0 ? (
@@ -390,6 +392,7 @@ export const ComparableKcarV2Section: React.FC<ComparableKcarV2SectionProps> = (
             <ExternalLink className="w-3 h-3" />
           </a>
         )}
+        </div>
       </div>
 
       {/* 1. 케이카 비교 매물 목록 테이블 박스 */}
