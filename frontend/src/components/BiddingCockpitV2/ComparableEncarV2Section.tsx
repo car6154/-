@@ -126,21 +126,21 @@ export const EncarSummaryHeader: React.FC<EncarSummaryHeaderProps> = ({
         <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl px-2.5 py-1.5 flex items-center justify-between gap-1.5">
           <span className="text-[10px] text-zinc-500 font-medium shrink-0">최저가</span>
           <div className="text-[20px] font-black text-sky-400 font-mono flex items-center gap-0.5 leading-none">
-            {minPrice > 0 ? `${minPrice.toLocaleString()}만` : '-'} <span className="text-xs">⬇</span>
+            {minPrice > 0 ? minPrice.toLocaleString() : '-'} <span className="text-xs">⬇</span>
           </div>
         </div>
 
         <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl px-2.5 py-1.5 flex items-center justify-between gap-1.5">
           <span className="text-[10px] text-zinc-500 font-medium shrink-0">최고가</span>
           <div className="text-[20px] font-black text-rose-400 font-mono flex items-center gap-0.5 leading-none">
-            {maxPrice > 0 ? `${maxPrice.toLocaleString()}만` : '-'} <span className="text-xs">⬆</span>
+            {maxPrice > 0 ? maxPrice.toLocaleString() : '-'} <span className="text-xs">⬆</span>
           </div>
         </div>
 
         <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl px-2.5 py-1.5 flex items-center justify-between gap-1.5">
           <span className="text-[10px] text-zinc-500 font-medium shrink-0">평균가</span>
           <span className="text-[20px] font-black text-white font-mono leading-none">
-            {avgPrice > 0 ? `${avgPrice.toLocaleString()}만` : '-'}
+            {avgPrice > 0 ? avgPrice.toLocaleString() : '-'}
           </span>
         </div>
       </div>
@@ -408,19 +408,19 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
           <table className="w-full text-left text-xs text-zinc-200">
             <thead className="bg-[#14151b] border-b border-[#262833] text-[11px] text-[#8b8e9d] uppercase font-semibold">
               <tr>
-                <th className="py-2.5 px-2 text-center w-8 whitespace-nowrap">선택</th>
-                <th className="py-2.5 px-2 text-center w-20 whitespace-nowrap">성능일</th>
-                <th className="py-2.5 px-2 text-center w-16 whitespace-nowrap">재고일</th>
-                <th className="py-2.5 px-3 whitespace-nowrap">차량명</th>
-                <th className="py-2.5 px-2 text-center w-14 whitespace-nowrap">연식</th>
-                <th className="py-2.5 px-2 text-right w-24 whitespace-nowrap">주행(km)</th>
-                <th className="py-2.5 px-2 text-right w-20 whitespace-nowrap">가격</th>
+                <th className="py-2 px-1 text-center w-7 whitespace-nowrap">선택</th>
+                <th className="py-2 px-1.5 text-center w-16 whitespace-nowrap">성능일</th>
+                <th className="py-2 px-1.5 text-center w-12 whitespace-nowrap">재고일</th>
+                <th className="py-2 px-2 whitespace-nowrap max-w-[170px]">차량명</th>
+                <th className="py-2 px-1.5 text-center w-12 whitespace-nowrap">연식</th>
+                <th className="py-2 px-1.5 text-right w-20 whitespace-nowrap">주행(km)</th>
+                <th className="py-2 px-1.5 text-right w-16 whitespace-nowrap">가격</th>
                 {hasAdjustedPrice && (
-                  <th className="py-2.5 px-2 text-right w-20 whitespace-nowrap">보정가</th>
+                  <th className="py-2 px-1.5 text-right w-16 whitespace-nowrap">보정가</th>
                 )}
-                <th className="py-2.5 px-2 text-left w-28 whitespace-nowrap">사고유무</th>
-                <th className="py-2.5 px-2 text-center w-14 whitespace-nowrap">색상</th>
-                <th className="py-2.5 px-2 text-center w-14 whitespace-nowrap">옵션</th>
+                <th className="py-2 px-1.5 text-left w-20 whitespace-nowrap">사고유무</th>
+                <th className="py-2 px-1 text-center w-11 whitespace-nowrap">색상</th>
+                <th className="py-2 px-1.5 text-center w-14 whitespace-nowrap">옵션</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[#1e2029]">
@@ -458,7 +458,7 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
                     }`}
                   >
                     {/* 1) 선택 라디오 */}
-                    <td className="py-2 px-2 text-center whitespace-nowrap">
+                    <td className="py-1.5 px-1 text-center whitespace-nowrap">
                       <input
                         type="radio"
                         checked={isSelected}
@@ -468,12 +468,12 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
                     </td>
 
                     {/* 2) 성능일 */}
-                    <td className="py-2 px-2 text-center font-mono text-[11px] text-zinc-300 whitespace-nowrap">
+                    <td className="py-1.5 px-1.5 text-center font-mono text-[11px] text-zinc-300 whitespace-nowrap">
                       {car.checkDate || car.inspectionDate || '-'}
                     </td>
 
                     {/* 3) 재고일 (14일 이하 초록, 60일 이상 빨강, 그 외 노랑) */}
-                    <td className="py-2 px-2 text-center whitespace-nowrap">
+                    <td className="py-1.5 px-1.5 text-center whitespace-nowrap">
                       {hasHoldingDays ? (
                         <span
                           className={`px-1.5 py-0.5 rounded text-[11px] font-black font-mono border ${
@@ -491,21 +491,21 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
                       )}
                     </td>
 
-                    {/* 4) 차량명 (자체에 원문 링크, 클릭 전파 중단) */}
-                    <td className="py-2 px-3 whitespace-nowrap">
-                      <div className="flex flex-col">
+                    {/* 4) 차량명 (내용만큼 차지하고 넘치면 말줄임 처리, 자체에 원문 링크) */}
+                    <td className="py-1.5 px-2 whitespace-nowrap max-w-[170px]">
+                      <div className="flex flex-col min-w-0">
                         <a
                           href={detailUrl}
                           target="_blank"
                           rel="noopener noreferrer"
                           onClick={(e) => e.stopPropagation()}
-                          className="font-bold text-sky-400 hover:text-sky-300 hover:underline transition truncate max-w-xs block"
-                          title={`엔카 상세 새 창 열기 (ID: ${car.id})`}
+                          className="font-bold text-sky-400 hover:text-sky-300 hover:underline transition truncate block"
+                          title={`엔카 상세 새 창 열기 (ID: ${car.id})\n${car.carName}${car.subModel ? ' ' + car.subModel : ''}`}
                         >
                           {car.carName}
                         </a>
                         {showSubModel && car.subModel && (
-                          <span className="text-[11px] text-zinc-400 truncate max-w-xs">
+                          <span className="text-[11px] text-zinc-400 truncate block">
                             {car.subModel}
                           </span>
                         )}
@@ -513,7 +513,7 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
                     </td>
 
                     {/* 5) 연식 */}
-                    <td className="py-2 px-2 text-center font-mono whitespace-nowrap">
+                    <td className="py-1.5 px-1.5 text-center font-mono whitespace-nowrap">
                       <span className={isTargetYear ? 'text-amber-300 font-bold' : 'text-zinc-300'}>
                         {car.year}
                       </span>
@@ -525,7 +525,7 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
                     </td>
 
                     {/* 6) 주행(km) 및 주행 차이 (표시 전용) */}
-                    <td className="py-2 px-2 text-right font-mono whitespace-nowrap">
+                    <td className="py-1.5 px-1.5 text-right font-mono whitespace-nowrap">
                       <div className="text-zinc-200 font-bold">
                         {car.mileage.toLocaleString()}km
                       </div>
@@ -549,13 +549,13 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
                     </td>
 
                     {/* 7) 가격 */}
-                    <td className="py-2 px-2 text-right font-mono font-bold text-amber-400 whitespace-nowrap">
+                    <td className="py-1.5 px-1.5 text-right font-mono font-bold text-amber-400 whitespace-nowrap">
                       {car.price.toLocaleString()}만
                     </td>
 
                     {/* 8) 보정가 (필드 존재 시에만 표시) */}
                     {hasAdjustedPrice && (
-                      <td className="py-2 px-2 text-right font-mono text-sky-400 font-semibold whitespace-nowrap">
+                      <td className="py-1.5 px-1.5 text-right font-mono text-sky-400 font-semibold whitespace-nowrap">
                         {(car as any).adjustedPrice !== undefined && (car as any).adjustedPrice !== null
                           ? `${Number((car as any).adjustedPrice).toLocaleString()}만`
                           : '-'}
@@ -563,19 +563,19 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
                     )}
 
                     {/* 9) 사고유무 */}
-                    <td className="py-2 px-2 text-left whitespace-nowrap">
+                    <td className="py-1.5 px-1.5 text-left whitespace-nowrap">
                       <span className={`text-[11px] ${accInfo.style}`}>
                         {accInfo.text}
                       </span>
                     </td>
 
                     {/* 10) 색상 */}
-                    <td className="py-2 px-2 text-center text-[11px] text-zinc-300 whitespace-nowrap">
+                    <td className="py-1.5 px-1 text-center text-[11px] text-zinc-300 whitespace-nowrap">
                       {car.color || '-'}
                     </td>
 
                     {/* 11) 옵션 유무 */}
-                    <td className="py-2 px-2 text-center whitespace-nowrap">
+                    <td className="py-1.5 px-1.5 text-center whitespace-nowrap">
                       {hasOptions && badgeData ? (
                         <span
                           title={badgeData.tooltip}

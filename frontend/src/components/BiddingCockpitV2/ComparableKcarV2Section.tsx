@@ -96,21 +96,21 @@ export const KcarSummaryHeader: React.FC<KcarSummaryHeaderProps> = ({
         <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl px-2.5 py-1.5 flex items-center justify-between gap-1.5">
           <span className="text-[10px] text-zinc-500 font-medium shrink-0">최저가</span>
           <div className="text-[20px] font-black text-sky-400 font-mono flex items-center gap-0.5 leading-none">
-            {minPrice > 0 ? `${minPrice.toLocaleString()}만` : '-'} <span className="text-xs">⬇</span>
+            {minPrice > 0 ? minPrice.toLocaleString() : '-'} <span className="text-xs">⬇</span>
           </div>
         </div>
 
         <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl px-2.5 py-1.5 flex items-center justify-between gap-1.5">
           <span className="text-[10px] text-zinc-500 font-medium shrink-0">최고가</span>
           <div className="text-[20px] font-black text-rose-400 font-mono flex items-center gap-0.5 leading-none">
-            {maxPrice > 0 ? `${maxPrice.toLocaleString()}만` : '-'} <span className="text-xs">⬆</span>
+            {maxPrice > 0 ? maxPrice.toLocaleString() : '-'} <span className="text-xs">⬆</span>
           </div>
         </div>
 
         <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl px-2.5 py-1.5 flex items-center justify-between gap-1.5">
           <span className="text-[10px] text-zinc-500 font-medium shrink-0">평균가</span>
           <span className="text-[20px] font-black text-white font-mono leading-none">
-            {avgPrice > 0 ? `${avgPrice.toLocaleString()}만` : '-'}
+            {avgPrice > 0 ? avgPrice.toLocaleString() : '-'}
           </span>
         </div>
       </div>
@@ -446,16 +446,16 @@ export const ComparableKcarV2Section: React.FC<ComparableKcarV2SectionProps> = (
           <table className="w-full text-left text-xs text-zinc-200">
             <thead className="bg-[#14151b] border-b border-[#262833] text-[11px] text-[#8b8e9d] uppercase font-semibold sticky top-0 z-10">
               <tr>
-                <th className="py-2.5 px-2 text-center w-8 whitespace-nowrap bg-[#14151b]">선택</th>
-                <th className="py-2.5 px-2 text-center w-20 whitespace-nowrap bg-[#14151b]">성능일</th>
-                <th className="py-2.5 px-2 text-center w-16 whitespace-nowrap bg-[#14151b]">재고일</th>
-                <th className="py-2.5 px-3 whitespace-nowrap bg-[#14151b]">차량명</th>
-                <th className="py-2.5 px-2 text-center w-14 whitespace-nowrap bg-[#14151b]">연식</th>
-                <th className="py-2.5 px-2 text-right w-24 whitespace-nowrap bg-[#14151b]">주행(km)</th>
-                <th className="py-2.5 px-2 text-right w-20 whitespace-nowrap bg-[#14151b]">가격</th>
-                <th className="py-2.5 px-2 text-left w-24 whitespace-nowrap bg-[#14151b]">사고유무</th>
-                <th className="py-2.5 px-2 text-center w-14 whitespace-nowrap bg-[#14151b]">색상</th>
-                <th className="py-2.5 px-2 text-center min-w-[100px] whitespace-nowrap bg-[#14151b]">옵션</th>
+                <th className="py-2 px-1 text-center w-7 whitespace-nowrap bg-[#14151b]">선택</th>
+                <th className="py-2 px-1.5 text-center w-16 whitespace-nowrap bg-[#14151b]">성능일</th>
+                <th className="py-2 px-1.5 text-center w-12 whitespace-nowrap bg-[#14151b]">재고일</th>
+                <th className="py-2 px-2 whitespace-nowrap max-w-[160px] bg-[#14151b]">차량명</th>
+                <th className="py-2 px-1.5 text-center w-12 whitespace-nowrap bg-[#14151b]">연식</th>
+                <th className="py-2 px-1.5 text-right w-20 whitespace-nowrap bg-[#14151b]">주행(km)</th>
+                <th className="py-2 px-1.5 text-right w-16 whitespace-nowrap bg-[#14151b]">가격</th>
+                <th className="py-2 px-1.5 text-left w-20 whitespace-nowrap bg-[#14151b]">사고유무</th>
+                <th className="py-2 px-1 text-center w-11 whitespace-nowrap bg-[#14151b]">색상</th>
+                <th className="py-2 px-1.5 text-center w-14 whitespace-nowrap bg-[#14151b]">옵션</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[#1e2029]">
@@ -490,7 +490,7 @@ export const ComparableKcarV2Section: React.FC<ComparableKcarV2SectionProps> = (
                     }`}
                   >
                     {/* 1) 선택 라디오 (클릭 시 활성화 및 선택 강조) */}
-                    <td className="py-2 px-2 text-center whitespace-nowrap">
+                    <td className="py-1.5 px-1 text-center whitespace-nowrap">
                       <input
                         type="radio"
                         name="kcarSelectV2"
@@ -501,12 +501,12 @@ export const ComparableKcarV2Section: React.FC<ComparableKcarV2SectionProps> = (
                     </td>
 
                     {/* 2) 성능일 */}
-                    <td className="py-2 px-2 text-center font-mono text-[11px] text-zinc-300 whitespace-nowrap">
+                    <td className="py-1.5 px-1.5 text-center font-mono text-[11px] text-zinc-300 whitespace-nowrap">
                       {car.checkDate || '-'}
                     </td>
 
                     {/* 3) 재고일 (14일 이하 초록, 60일 이상 빨강, 그 외 노랑) */}
-                    <td className="py-2 px-2 text-center whitespace-nowrap">
+                    <td className="py-1.5 px-1.5 text-center whitespace-nowrap">
                       {hasHoldingDays ? (
                         <span
                           className={`px-1.5 py-0.5 rounded text-[11px] font-black font-mono border ${
@@ -525,51 +525,51 @@ export const ComparableKcarV2Section: React.FC<ComparableKcarV2SectionProps> = (
                     </td>
 
                     {/* 4) 차량명 (자체에 원문 링크, 행 클릭과 분리) */}
-                    <td className="py-2 px-3 whitespace-nowrap">
+                    <td className="py-1.5 px-2 whitespace-nowrap max-w-[160px]">
                       <a
                         href={detailUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={(e) => e.stopPropagation()}
-                        className="hover:underline font-bold text-white hover:text-sky-400 transition-colors inline-flex items-center gap-1 group"
-                        title="새 탭에서 케이카 원문 매물 열기"
+                        className="hover:underline font-bold text-white hover:text-sky-400 transition-colors inline-flex items-center gap-1 group max-w-full"
+                        title={`새 탭에서 케이카 원문 매물 열기\n${car.modelName || car.carName}`}
                       >
-                        <span className="truncate max-w-[200px]">{car.modelName || car.carName}</span>
+                        <span className="truncate max-w-[140px] block">{car.modelName || car.carName}</span>
                         <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition shrink-0" />
                       </a>
                     </td>
 
                     {/* 5) 연식 (목표 연식 일치 시 amber-300 font-bold) */}
-                    <td className="py-2 px-2 text-center font-mono text-[11px] whitespace-nowrap">
+                    <td className="py-1.5 px-1.5 text-center font-mono text-[11px] whitespace-nowrap">
                       <span className={isTargetYear ? 'text-amber-300 font-bold' : 'text-zinc-300'}>
                         {yearText}
                       </span>
                     </td>
 
                     {/* 6) 주행(km) */}
-                    <td className="py-2 px-2 text-right font-mono text-[11px] text-zinc-200 whitespace-nowrap">
+                    <td className="py-1.5 px-1.5 text-right font-mono text-[11px] text-zinc-200 whitespace-nowrap">
                       {car.mileage ? `${Number(car.mileage).toLocaleString()}km` : '-'}
                     </td>
 
                     {/* 7) 가격 */}
-                    <td className="py-2 px-2 text-right font-mono font-bold text-amber-300 text-[12px] whitespace-nowrap">
+                    <td className="py-1.5 px-1.5 text-right font-mono font-bold text-amber-300 text-[12px] whitespace-nowrap">
                       {car.price ? `${Number(car.price).toLocaleString()}만` : '-'}
                     </td>
 
                     {/* 8) 사고유무 */}
-                    <td className="py-2 px-2 text-left whitespace-nowrap">
+                    <td className="py-1.5 px-1.5 text-left whitespace-nowrap">
                       <span className={`text-[11px] ${accInfo.style}`}>
                         {accInfo.text}
                       </span>
                     </td>
 
                     {/* 9) 색상 */}
-                    <td className="py-2 px-2 text-center text-[11px] text-zinc-300 whitespace-nowrap">
+                    <td className="py-1.5 px-1 text-center text-[11px] text-zinc-300 whitespace-nowrap">
                       {car.color || '-'}
                     </td>
 
                     {/* 10) 옵션 */}
-                    <td className="py-2 px-2 text-center whitespace-nowrap">
+                    <td className="py-1.5 px-1.5 text-center whitespace-nowrap">
                       {(() => {
                         const badgeData = car.carCd ? optionBadgeMap.get(car.carCd) : null;
                         if (!badgeData || !badgeData.hasOptions) {
