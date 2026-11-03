@@ -78,11 +78,13 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
 
   // 엔카평균: 카드값(strictAdjAvg) 기준
   const strictAdjVal = cockpit.encarStats?.strictAdjAvg || 0;
+  // 💡 [11-03-35]: 엔카시세 - 옵션·주행거리·사고 보정이 반영된 엔카 맞춤 개별시세(individualPrice / benchmarkPrice) 사용
+  const encarCustomVal = cockpit.encarValuation?.individualPrice || (cockpit.encarStats as any)?.benchmarkPrice || cockpit.encarStats?.rawStd100Price || 0;
   const rawStdVal = cockpit.encarStats?.rawStd100Price || 0;
   const chaolmaRetailVal = cockpit.targetCarHistory?.chaolmaRetailPrice || 0;
 
   const strictAdjText = strictAdjVal > 0 ? `${strictAdjVal.toLocaleString()}만원` : '-';
-  const rawStdText = rawStdVal > 0 ? `${rawStdVal.toLocaleString()}만원` : '-';
+  const encarCustomText = encarCustomVal > 0 ? `${encarCustomVal.toLocaleString()}만원` : '-';
   const chaolmaRetailText = chaolmaRetailVal > 0 ? `${chaolmaRetailVal.toLocaleString()}만원` : '-';
 
   const formatDelta = (val: number, base: number) => {
@@ -94,7 +96,7 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
   };
 
   const strictAdjDelta = formatDelta(strictAdjVal, finalPriceVal);
-  const rawStdDelta = formatDelta(rawStdVal, finalPriceVal);
+  const encarCustomDelta = formatDelta(encarCustomVal, finalPriceVal);
   const chaolmaDelta = formatDelta(chaolmaRetailVal, finalPriceVal);
 
   // 케이카 연식 통계 헬퍼 (kcarStats.yearStats 우선 사용, 없으면 kcarStats.cars에서 엔카와 동일 방식으로 집계)
@@ -523,18 +525,21 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
               </div>
             </div>
 
-            {/* 3) 엔카시세 */}
-            <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl px-2.5 py-1.5 shadow-sm flex items-center justify-between gap-1.5">
+            {/* 3) 엔카시세 (옵션·주행·사고 보정된 개별 맞춤시세) */}
+            <div
+              className="bg-[#0f1015] border border-[#1e2029] rounded-xl px-2.5 py-1.5 shadow-sm flex items-center justify-between gap-1.5"
+              title={rawStdVal > 0 ? `엔카 100점 기준가: ${rawStdVal.toLocaleString()}만원\n주행·사고·옵션 보정 후 엔카시세: ${encarCustomVal.toLocaleString()}만원` : '엔카 맞춤시세'}
+            >
               <span className="text-[11px] font-semibold text-zinc-500 uppercase shrink-0">엔카시세</span>
               <div className="flex items-baseline gap-1.5 min-w-0">
                 <span className="text-[20px] font-bold text-zinc-100 font-mono tracking-tight leading-none">
-                  {rawStdText}
+                  {encarCustomText}
                 </span>
-                {rawStdDelta && (
+                {encarCustomDelta && (
                   <span className={`text-xs font-mono font-bold shrink-0 ${
-                    rawStdDelta.startsWith('+') ? 'text-rose-400' : rawStdDelta.startsWith('-') ? 'text-blue-400' : 'text-zinc-400'
+                    encarCustomDelta.startsWith('+') ? 'text-rose-400' : encarCustomDelta.startsWith('-') ? 'text-blue-400' : 'text-zinc-400'
                   }`}>
-                    {rawStdDelta}
+                    {encarCustomDelta}
                   </span>
                 )}
               </div>
