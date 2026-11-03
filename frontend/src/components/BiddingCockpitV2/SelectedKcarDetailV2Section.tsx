@@ -3,9 +3,11 @@ import { ExternalLink, RefreshCw, AlertCircle, Car, CheckCircle2 } from 'lucide-
 import { KcarCarItem, KcarDetailData } from '@/components/BiddingCockpit/types';
 import { CarDamageDiagram2D } from '@/components/BiddingCockpit/Sections/CarDamageDiagram2D';
 import { getCarColorStyle } from '@/utils/carColor';
+import { NewCarCatalogData, getOptionMatchDetail, findOfficialCatalogOption } from '@/services/biddingOptionCatalog';
 
 export interface SelectedKcarDetailV2SectionProps {
   selectedKcar: KcarCarItem | null;
+  targetCatalog?: NewCarCatalogData | null;
 }
 
 // 사고 구분 포맷팅 (케이카 기준)
@@ -21,6 +23,7 @@ const formatKcarAccident = (rawType?: string) => {
 
 export const SelectedKcarDetailV2Section: React.FC<SelectedKcarDetailV2SectionProps> = ({
   selectedKcar,
+  targetCatalog,
 }) => {
   const [kcarDetail, setKcarDetail] = useState<KcarDetailData | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -146,6 +149,61 @@ export const SelectedKcarDetailV2Section: React.FC<SelectedKcarDetailV2SectionPr
   const optionList = kcarDetail?.options?.items || [];
   const optionTotalPrice = kcarDetail?.options?.totalPrice || 0;
 
+  // 옵션 원문 목록 추출 (kcarDetail options 우선, 없으면 selectedKcar.optnNm 파이프 분리)
+  const rawOptionNames: string[] = React.useMemo(() => {
+    if (kcarDetail?.options?.items && kcarDetail.options.items.length > 0) {
+      return kcarDetail.options.items.map((o) => o.name);
+    }
+    if (selectedKcar?.optnNm) {
+      return selectedKcar.optnNm.split('|').map((s) => s.trim()).filter(Boolean);
+    }
+    return [];
+  }, [kcarDetail, selectedKcar]);
+
+  const catalogOptNames = React.useMemo(() => {
+    return targetCatalog?.options ? Object.keys(targetCatalog.options) : [];
+  }, [targetCatalog]);
+
+  const matchedOptionChips = React.useMemo(() => {
+    return rawOptionNames.map((rawName) => {
+      const detail = getOptionMatchDetail(
+        rawName,
+        catalogOptNames,
+        'comp_vs_target',
+        targetCatalog,
+        targetCatalog
+      );
+
+      const isExact = detail.isMatched && detail.confidence === 'exact';
+      const isFuzzy = detail.isMatched && detail.confidence === 'fuzzy';
+
+      const official = detail.officialOption || (detail.matchedOppositeName ? findOfficialCatalogOption(detail.matchedOppositeName, targetCatalog) : null);
+
+      const srcLabel = official?.source === 'danawa' ? '다나와' : official?.source === 'encar' ? '엔카' : (official?.source || '카탈로그');
+      const yearPart = targetCatalog?.year ? ` · ${targetCatalog.year}년` : '';
+      const stdName = official?.officialName || detail.matchedOppositeName || rawName;
+      const pricePart = official?.price ? ` (${Math.round(official.price / 10000)}만)` : '';
+
+      let chipStyle = 'bg-[#1a1c26] text-zinc-300 border-[#2d3142]';
+      let titleText = `[미매칭 옵션] 원문: ${rawName}`;
+
+      if (isExact) {
+        chipStyle = 'bg-emerald-500/15 text-emerald-300 border-emerald-500/40 font-semibold';
+        titleText = `[${srcLabel} 카탈로그 정확 매칭${yearPart}] 표준명: ${stdName}${pricePart}`;
+      } else if (isFuzzy) {
+        chipStyle = 'bg-amber-500/15 text-amber-300 border-amber-500/40 font-semibold';
+        titleText = `[${srcLabel} 카탈로그 퍼지 매칭${yearPart}] 표준명: ${stdName} (원문: ${rawName})`;
+      }
+
+      return {
+        rawName,
+        displayName: stdName,
+        chipStyle,
+        titleText,
+      };
+    });
+  }, [rawOptionNames, catalogOptNames, targetCatalog]);
+
   return (
     <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl overflow-hidden shadow-sm space-y-0">
       {/* 1. 상단 바 (차명 원본링크, 등급, 우측 옵션합계 뱃지) */}
@@ -267,24 +325,41 @@ export const SelectedKcarDetailV2Section: React.FC<SelectedKcarDetailV2SectionPr
             <span className="text-sm font-bold text-zinc-300">만원</span>
           </div>
 
-          {/* 3-4) 주요 옵션 목록 (JATO 옵션 미존재 시 optnNm 텍스트 폴백 대신 기존 탭과 동일한 기본사양 안내 박스 표시) */}
+          {/* 3-4) 주요 옵션 목록 (엔카 상세와 동일한 매칭 계약) */}
           <div className="p-3 bg-[#0c0e14] rounded-lg border border-[#232634] text-xs space-y-1.5">
-            <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase block">
-              {optionList.length > 0 ? `주요 옵션 (${optionList.length}개)` : '주요 옵션'}
-            </span>
-            {optionList.length > 0 ? (
-              <div className="flex flex-wrap gap-1.5">
-                {optionList.slice(0, 8).map((opt, i) => (
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase">
+                {matchedOptionChips.length > 0 ? `주요 옵션 (${matchedOptionChips.length}개)` : '주요 옵션'}
+              </span>
+              <div className="flex items-center gap-2 text-[10px] text-zinc-500 font-medium">
+                <span className="flex items-center gap-0.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block" />
+                  정확
+                </span>
+                <span className="flex items-center gap-0.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400 inline-block" />
+                  퍼지
+                </span>
+                <span className="flex items-center gap-0.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-zinc-500 inline-block" />
+                  미매칭
+                </span>
+              </div>
+            </div>
+            {matchedOptionChips.length > 0 ? (
+              <div className="flex flex-wrap gap-1.5 pt-0.5">
+                {matchedOptionChips.slice(0, 8).map((chip, i) => (
                   <span
                     key={i}
-                    className="px-2 py-0.5 rounded text-[11px] font-medium bg-[#1a1c26] text-zinc-300 border border-[#2d3142]"
+                    title={chip.titleText}
+                    className={`px-2 py-0.5 rounded text-[11px] border flex items-center gap-1 transition select-none ${chip.chipStyle}`}
                   >
-                    {opt.name}
+                    <span>{chip.displayName}</span>
                   </span>
                 ))}
-                {optionList.length > 8 && (
+                {matchedOptionChips.length > 8 && (
                   <span className="px-2 py-0.5 rounded text-[11px] font-medium bg-[#1a1c26] text-zinc-400 border border-[#2d3142]">
-                    +{optionList.length - 8}개 더보기
+                    +{matchedOptionChips.length - 8}개 더보기
                   </span>
                 )}
               </div>

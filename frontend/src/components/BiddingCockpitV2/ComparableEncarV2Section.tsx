@@ -130,8 +130,19 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
         `[비교 차량 추가옵션 총 ${compOpts.length}개]`,
         ...compDetails.map((d, i) => {
           const o = compOpts[i];
-          if (d.confidence === 'exact') return `✓ ${o} (신차 공식 일치: ${d.matchedOppositeName})`;
-          if (d.confidence === 'fuzzy') return `~ ${o} (퍼지 추정 매칭: ${d.matchedOppositeName})`;
+          if (d.officialOption) {
+            const stdName = d.officialOption.officialName || d.matchedOppositeName || o;
+            const srcLabel = d.officialOption.source === 'danawa' ? '다나와' : d.officialOption.source === 'encar' ? '엔카' : (d.officialOption.source || '');
+            const priceLabel = d.officialOption.price ? `${Math.round(d.officialOption.price / 10000)}만` : '';
+            const metaParts = [stdName, srcLabel, priceLabel].filter(Boolean);
+            const detailLabel = metaParts.join(' · ');
+
+            if (d.confidence === 'exact') return `✓ ${o} (신차 공식 일치: ${detailLabel})`;
+            if (d.confidence === 'fuzzy') return `~ ${o} (퍼지 추정 매칭: ${detailLabel})`;
+          } else {
+            if (d.confidence === 'exact') return `✓ ${o} (신차 공식 일치: ${d.matchedOppositeName})`;
+            if (d.confidence === 'fuzzy') return `~ ${o} (퍼지 추정 매칭: ${d.matchedOppositeName})`;
+          }
           return `+ ${o} (비교차 전용 옵션)`;
         }),
         '──────────────────────────────',

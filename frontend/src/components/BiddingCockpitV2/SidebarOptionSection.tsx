@@ -7,12 +7,44 @@ import {
   stripOptionPriceText,
 } from '@/services/biddingOptionCatalog';
 import { OptionItem } from '@/services/chaolmaService';
-import { EncarItem } from '@/components/BiddingCockpit/types';
+import { EncarItem, KcarCarItem } from '@/components/BiddingCockpit/types';
+
+export interface EffectiveCompCar {
+  optionsText: string;
+  options?: Array<{ name: string }>;
+  color?: string;
+  carName: string;
+}
+
+export const resolveEffectiveComp = (
+  activeCompTab?: 'encar' | 'kcar' | string,
+  selectedEncar?: EncarItem | null,
+  selectedKcar?: KcarCarItem | null
+): EffectiveCompCar | null => {
+  if (activeCompTab === 'kcar' && selectedKcar) {
+    return {
+      optionsText: selectedKcar.optnNm || '',
+      color: selectedKcar.color,
+      carName: selectedKcar.carName || selectedKcar.modelName || '케이카 매물',
+    };
+  }
+  if (selectedEncar) {
+    return {
+      optionsText: selectedEncar.optionsText || '',
+      options: selectedEncar.options,
+      color: selectedEncar.color,
+      carName: selectedEncar.carName || '엔카 매물',
+    };
+  }
+  return null;
+};
 
 export interface SidebarOptionSectionProps {
   targetOptions?: OptionItem[];
   optionsTag?: string;
   selectedEncar?: EncarItem | null;
+  selectedKcar?: KcarCarItem | null;
+  activeCompTab?: 'encar' | 'kcar' | string;
   targetCatalog?: NewCarCatalogData | null;
   compCatalog?: NewCarCatalogData | null;
   historyOptionTotalMan?: number;
@@ -121,6 +153,8 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
   targetOptions,
   optionsTag,
   selectedEncar,
+  selectedKcar,
+  activeCompTab,
   targetCatalog,
   compCatalog,
   historyOptionTotalMan,
@@ -142,12 +176,15 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
     historyOptionTotalMan
   );
 
-  // 3. 비교차 옵션 파싱 및 매칭 (비교차 색상을 매칭 집합에 포함하여 외장 색상 매칭 지원)
-  const rawCompOpts = (selectedEncar?.options && selectedEncar.options.length > 0)
-    ? selectedEncar.options.map((o: any) => o.name || o)
-    : splitOptionString(selectedEncar?.optionsText || '');
+  // 유효 비교차 판정 (activeCompTab에 따라 kcar 우선 혹은 encar)
+  const effectiveComp = resolveEffectiveComp(activeCompTab, selectedEncar, selectedKcar);
 
-  const compColor = selectedEncar?.color?.trim();
+  // 3. 비교차 옵션 파싱 및 매칭 (비교차 색상을 매칭 집합에 포함하여 외장 색상 매칭 지원)
+  const rawCompOpts = (effectiveComp?.options && effectiveComp.options.length > 0)
+    ? effectiveComp.options.map((o: any) => o.name || o)
+    : splitOptionString(effectiveComp?.optionsText || '');
+
+  const compColor = effectiveComp?.color?.trim();
   const compOpts = (compColor && compColor !== '-' && compColor !== '미확인')
     ? [...rawCompOpts, compColor]
     : rawCompOpts;
@@ -156,7 +193,7 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
 
   // 우세/순정 배지 판정
   const renderMatchBadge = () => {
-    if (!selectedEncar?.optionsText || !optionsTag || !optionsTag.trim()) {
+    if (!effectiveComp?.optionsText || !optionsTag || !optionsTag.trim()) {
       return (
         <span className="inline-flex items-center text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-bold border border-emerald-500/30">
           조회차량 순정
@@ -183,7 +220,7 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
     if (winCount > 0) {
       return (
         <span
-          title={`비교 매물(${selectedEncar.carName}) 대비 내 차 우세/고유 옵션: ${winCount}개\n공식 일치: ${exactCount}개 / 추정 매칭: ${fuzzyCount}개`}
+          title={`비교 매물(${effectiveComp.carName}) 대비 내 차 우세/고유 옵션: ${winCount}개\n공식 일치: ${exactCount}개 / 추정 매칭: ${fuzzyCount}개`}
           className="inline-flex items-center text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-bold border border-emerald-500 cursor-help"
         >
           🟢 우세 {winCount}개
@@ -192,7 +229,7 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
     }
     return (
       <span
-        title={`비교 매물(${selectedEncar.carName})과 핵심 옵션 일치 (공식 일치: ${exactCount}개, 추정: ${fuzzyCount}개)`}
+        title={`비교 매물(${effectiveComp.carName})과 핵심 옵션 일치 (공식 일치: ${exactCount}개, 추정: ${fuzzyCount}개)`}
         className="inline-flex items-center text-[10px] px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300 font-bold border border-sky-400/50 cursor-help"
       >
         🔵 공통 사양
@@ -230,7 +267,7 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
       {hasOptions && (
         <div className="flex items-center gap-1.5 text-[9.5px] text-zinc-400 bg-zinc-900/60 px-2 py-1 rounded border border-zinc-800 flex-wrap">
           <span className="text-zinc-500 font-medium">범례:</span>
-          {selectedEncar?.optionsText ? (
+          {effectiveComp?.optionsText ? (
             <>
               <span className="flex items-center gap-0.5 text-emerald-400 font-semibold" title="비교차에는 없고 내 차에만 있는 고유/우세 옵션">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0"></span>내차우세(+)

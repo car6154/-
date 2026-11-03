@@ -276,6 +276,8 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
             targetOptions={cockpit.targetOptions}
             optionsTag={cockpit.optionsTag}
             selectedEncar={cockpit.selectedEncar}
+            selectedKcar={selectedKcar}
+            activeCompTab={activeCompTab === 'kcar' ? 'kcar' : 'encar'}
             targetCatalog={cockpit.targetNewCarCatalog}
             historyOptionTotalMan={cockpit.targetCarHistory?.totalOptionPrice}
             unclassifiedBalance={cockpit.unclassifiedBalance}
@@ -704,6 +706,7 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
               <div className={!(activeCompTab === 'heydealer' && Boolean(cockpit.selectedHeydealerBid)) && lastRetailTab === 'kcar' ? 'block' : 'hidden'}>
                 <SelectedKcarDetailV2Section
                   selectedKcar={selectedKcar}
+                  targetCatalog={cockpit.targetNewCarCatalog}
                 />
               </div>
             </div>
