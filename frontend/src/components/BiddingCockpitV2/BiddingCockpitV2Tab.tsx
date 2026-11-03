@@ -1,6 +1,6 @@
 import React from 'react';
 import { useBiddingCockpit } from '@/components/BiddingCockpit/hooks/useBiddingCockpit';
-import { Search, ExternalLink, Car, AlertCircle, CheckCircle2, RefreshCw } from 'lucide-react';
+import { Search, ExternalLink, Car, AlertCircle, CheckCircle2, RefreshCw, X } from 'lucide-react';
 import { ComparableEncarV2Section } from './ComparableEncarV2Section';
 import { ComparableKcarV2Section } from './ComparableKcarV2Section';
 import { SelectedCarDetailV2Section } from './SelectedCarDetailV2Section';
@@ -27,6 +27,16 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
   const [activeCompTab, setActiveCompTab] = React.useState<'encar' | 'kcar' | 'heydealer'>('encar');
   const [lastRetailTab, setLastRetailTab] = React.useState<'encar' | 'kcar'>('encar');
   const [selectedKcarCarCd, setSelectedKcarCarCd] = React.useState<string | null>(null);
+
+  // 💡 [11-03-17]: success 알림 스낵바 5초 자동 닫힘 타이머 (새 메시지 시 리셋 및 언마운트 cleanup)
+  React.useEffect(() => {
+    if (cockpit.searchStatus && cockpit.searchStatus.type === 'success') {
+      const timer = setTimeout(() => {
+        cockpit.setSearchStatus(null);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [cockpit.searchStatus, cockpit.setSearchStatus]);
 
   // 케이카 비교 목록 소스: wideCars(넓은 목록) 우선, 없으면 cars(엄격) 폴백 (V1 선례와 동일)
   const kcarDisplayList = React.useMemo(() => {
@@ -232,8 +242,8 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
               </button>
             </div>
 
-            {/* 상태 메시지 알림 (검색 중/경고/안내) */}
-            {cockpit.searchStatus && (
+            {/* 상태 메시지 알림 (검색 중/경고/안내 - error/warning/info 등 non-success만 고정 박스로 표시) */}
+            {cockpit.searchStatus && cockpit.searchStatus.type !== 'success' && (
               <div
                 className={`text-xs px-3 py-2 rounded-lg flex items-center gap-1.5 ${
                   cockpit.searchStatus.type === 'error'
@@ -737,6 +747,22 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
         currentMileage={cockpit.mileageKm}
         data={cockpit.targetCarHistory}
       />
+
+      {/* 💡 [11-03-17]: 연동완료 success 스낵바 (화면 하단 고정 오버레이 토스트, 레이아웃 공간 차지 없음) */}
+      {cockpit.searchStatus && cockpit.searchStatus.type === 'success' && (
+        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2 px-4 py-3 bg-emerald-950/90 border border-emerald-500/60 text-emerald-200 text-xs sm:text-sm font-medium rounded-xl shadow-2xl backdrop-blur-md animate-in fade-in slide-in-from-bottom-3 duration-200">
+          <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+          <span>{cockpit.searchStatus.message}</span>
+          <button
+            type="button"
+            onClick={() => cockpit.setSearchStatus(null)}
+            className="ml-2 p-1 text-emerald-400/70 hover:text-emerald-200 hover:bg-emerald-900/50 rounded-lg transition"
+            title="닫기"
+          >
+            <X className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      )}
     </div>
   );
 };

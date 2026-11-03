@@ -298,7 +298,7 @@ export const SelectedKcarDetailV2Section: React.FC<SelectedKcarDetailV2SectionPr
 
   return (
     <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl overflow-hidden shadow-sm space-y-0">
-      {/* 1. 상단 바 (차명 원본링크, 등급, 우측 옵션합계 뱃지) */}
+      {/* 1. 상단 바 (차명 원본링크, 등급) */}
       <div className="px-5 py-3.5 border-b border-[#1e2029] flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2 flex-wrap min-w-0">
           <a
@@ -323,15 +323,7 @@ export const SelectedKcarDetailV2Section: React.FC<SelectedKcarDetailV2SectionPr
           )}
         </div>
 
-        {/* 우측 영역: JATO 옵션 합계 뱃지 */}
-        {optionTotalPrice > 0 && (
-          <span
-            className="text-xs sm:text-sm font-bold text-amber-300 font-mono shrink-0 px-2.5 py-1 rounded bg-amber-500/10 border border-amber-500/30"
-            title="케이카 JATO 추가 선택옵션 합계"
-          >
-            옵션합계 +{optionTotalPrice.toLocaleString()}만
-          </span>
-        )}
+
       </div>
 
       {/* 2. 에러/타임아웃 안내 배너 (있을 때만) */}
@@ -409,12 +401,24 @@ export const SelectedKcarDetailV2Section: React.FC<SelectedKcarDetailV2SectionPr
             </div>
           )}
 
-          {/* 3-3) 대형 가격 표시 */}
-          <div className="flex items-baseline gap-1.5 pt-1">
-            <span className="text-2xl sm:text-3xl font-black text-amber-400 font-mono tracking-tight">
-              {(kcarDetail?.price || selectedKcar.price || 0).toLocaleString()}
-            </span>
-            <span className="text-sm font-bold text-zinc-300">만원</span>
+          {/* 3-3) 대형 가격 표시 (좌측 가격, 우측 옵션합계 뱃지 한 행) */}
+          <div className="flex items-center justify-between gap-2 pt-1">
+            <div className="flex items-baseline gap-1.5">
+              <span className="text-2xl sm:text-3xl font-black text-amber-400 font-mono tracking-tight">
+                {(kcarDetail?.price || selectedKcar.price || 0).toLocaleString()}
+              </span>
+              <span className="text-sm font-bold text-zinc-300">만원</span>
+            </div>
+
+            {/* 우측 영역: JATO 옵션 합계 뱃지 */}
+            {optionTotalPrice > 0 && (
+              <span
+                className="text-xs sm:text-sm font-bold text-amber-300 font-mono shrink-0 px-2.5 py-1 rounded bg-amber-500/10 border border-amber-500/30"
+                title="케이카 JATO 추가 선택옵션 합계"
+              >
+                옵션합계 +{optionTotalPrice.toLocaleString()}만
+              </span>
+            )}
           </div>
 
           {/* 3-4) 주요 옵션 목록 (엔카 상세와 동일한 매칭 계약) */}

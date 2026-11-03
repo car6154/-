@@ -262,24 +262,22 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
 
   return (
     <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-3.5 space-y-2 text-xs">
-      {/* 1. 상단 라인: 1행(라벨 + 신차 옵션 N개 배지), 2행(총 가격 + 우세/순정 배지) 고정 2행 분리 */}
-      <div className="space-y-1.5">
-        <div className="flex items-center justify-between gap-1.5 min-h-[22px]">
-          <div className="flex items-center gap-1.5 shrink-0">
-            <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase">추가 옵션</span>
-            {hasOptions && (
-              <span className="inline-flex items-center text-[10px] px-1.5 py-0.5 rounded bg-blue-500/15 text-blue-300 font-bold border border-blue-500/30">
-                신차 옵션 {optCount}개
-              </span>
-            )}
-          </div>
+      {/* 1. 상단 라인: '추가 옵션' 라벨 + 신차 옵션 N개 + 총 가격 + 우세/순정 배지 (1행 묶음, 줄바꿈 금지) */}
+      <div className="flex items-center justify-between gap-1 flex-nowrap whitespace-nowrap min-h-[22px]">
+        <div className="flex items-center gap-1 shrink-0">
+          <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase shrink-0">추가 옵션</span>
+          {hasOptions && (
+            <span className="inline-flex items-center text-[10px] px-1 py-0.5 rounded bg-blue-500/15 text-blue-300 font-bold border border-blue-500/30 shrink-0">
+              신차 옵션 {optCount}개
+            </span>
+          )}
         </div>
 
         {hasOptions && (
-          <div className="flex items-center gap-1.5 shrink-0 min-h-[22px]">
+          <div className="flex items-center gap-1 shrink-0">
             <span
               title={priceInfo.tooltip}
-              className="inline-flex items-center text-[10px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-200 font-bold border border-amber-500/40 cursor-help truncate max-w-[120px]"
+              className="inline-flex items-center text-[10px] px-1 py-0.5 rounded bg-amber-500/20 text-amber-200 font-bold border border-amber-500/40 cursor-help shrink-0"
             >
               {priceInfo.badgeText}
             </span>
