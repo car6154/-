@@ -146,10 +146,13 @@ export const SelectedKcarDetailV2Section: React.FC<SelectedKcarDetailV2SectionPr
   }, [carCd]);
 
   // 💡 [Rules of Hooks]: 모든 리액트 훅은 early return(조기 반환) 이전에 컴포넌트 최상단에서 무조건 실행되어야 함
-  // 옵션 원문 목록 추출 (kcarDetail options 우선, 없으면 selectedKcar.optnNm 파이프 분리)
+  // 💡 [11-03-37]: 옵션 원문 목록 추출 (kcarDetail 상세 성공 시 options.items 사용하며, JATO 0건 시 optnNm으로 폴백 금지. kcarDetail 부재 시에만 optnNm 비상 폴백)
   const rawOptionNames: string[] = React.useMemo(() => {
-    if (kcarDetail?.options?.items && kcarDetail.options.items.length > 0) {
-      return kcarDetail.options.items.map((o) => o.name);
+    if (kcarDetail) {
+      if (kcarDetail.options?.items && kcarDetail.options.items.length > 0) {
+        return kcarDetail.options.items.map((o) => o.name);
+      }
+      return [];
     }
     if (selectedKcar?.optnNm) {
       return selectedKcar.optnNm.split('|').map((s) => s.trim()).filter(Boolean);
@@ -428,7 +431,7 @@ export const SelectedKcarDetailV2Section: React.FC<SelectedKcarDetailV2SectionPr
           <div className="p-3 bg-[#0c0e14] rounded-lg border border-[#232634] text-xs space-y-1.5">
             <div className="flex items-center justify-between">
               <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase">
-                {matchedOptionChips.length > 0 ? `주요 옵션 (${matchedOptionChips.length}개)` : '주요 옵션'}
+                {matchedOptionChips.length > 0 ? `주요 옵션 (${matchedOptionChips.length}개)` : '주요 옵션 (0개)'}
               </span>
               <div className="flex items-center gap-2 text-[10px] text-zinc-500 font-medium">
                 {hasCatalog ? (
@@ -473,7 +476,7 @@ export const SelectedKcarDetailV2Section: React.FC<SelectedKcarDetailV2SectionPr
               </div>
             ) : (
               <p className="text-zinc-500 text-xs italic">
-                추가옵션 없음 또는 기본 트림 사양
+                유료 옵션 없음
               </p>
             )}
           </div>
