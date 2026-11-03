@@ -780,6 +780,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
               >
                 <option value="셀프(기본)">셀프(기본)</option>
                 <option value="제로">제로</option>
+                <option value="개인">개인</option>
               </select>
             </div>
 

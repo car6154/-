@@ -1467,7 +1467,7 @@ export function useBiddingCockpit({
         // 경매방식 자동 감지
         if (auction.auction_type) {
           if (auction.auction_type === 'self') setAuctionType('셀프(기본)');
-          else if (auction.auction_type.includes('zero')) setAuctionType('제로(탁송/진단)');
+          else if (auction.auction_type.includes('zero')) setAuctionType('제로');
         }
 
         // 🌟 실차주 신차 출고 유료 옵션 (백엔드 단일 진실 공급원 options_text / parsed_options 직결)
@@ -2577,6 +2577,8 @@ export function useBiddingCockpit({
       if (targetVal <= 3000) return 39.5;
       if (targetVal <= 4000) return 47.5;
       return 50.5;
+    } else if (route === '개인') {
+      return 0;
     }
     return 0; // 개인 직접입력 등
   }, []);

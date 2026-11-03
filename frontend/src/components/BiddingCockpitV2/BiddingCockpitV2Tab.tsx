@@ -350,16 +350,18 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
               </div>
             </div>
 
-            {/* 매입 경로 (입력란, 기본값 '셀프'. 직접 입력 가능) */}
+            {/* 매입 경로 (드롭다운: 셀프(기본) / 제로 / 개인) */}
             <div className="space-y-1">
               <span className="text-[11px] text-zinc-400 block">매입 경로</span>
-              <input
-                type="text"
-                value={cockpit.auctionType || '셀프'}
+              <select
+                value={cockpit.auctionType || '셀프(기본)'}
                 onChange={(e) => cockpit.setAuctionType(e.target.value)}
-                placeholder="셀프"
-                className="w-full px-3 py-1.5 rounded-lg bg-[#161822] border border-[#262938] text-xs text-white placeholder-[#5e616e] focus:outline-none focus:border-sky-400 font-mono"
-              />
+                className="w-full px-3 py-1.5 rounded-lg bg-[#161822] border border-[#262938] text-xs text-white font-medium focus:outline-none focus:border-sky-400"
+              >
+                <option value="셀프(기본)">셀프(기본)</option>
+                <option value="제로">제로</option>
+                <option value="개인">개인</option>
+              </select>
             </div>
 
             {/* 목표 마진 (만원) */}
