@@ -8,7 +8,6 @@ import {
 import {
   matchOptionsSingle,
   BackendMatchedOption,
-  getCachedCarMatchedOptions,
   compareOptionToOpposites,
 } from '@/services/optionMatchingService';
 import { OptionItem } from '@/services/chaolmaService';
@@ -16,6 +15,7 @@ import { EncarItem, KcarCarItem } from '@/components/BiddingCockpit/types';
 
 export interface EffectiveCompCar {
   id?: string;
+  year?: string | number;
   optionsText: string;
   options?: Array<{ name: string }>;
   color?: string;
@@ -30,6 +30,7 @@ export const resolveEffectiveComp = (
   if (activeCompTab === 'kcar' && selectedKcar) {
     return {
       id: selectedKcar.carCd,
+      year: selectedKcar.year || '',
       optionsText: selectedKcar.optnNm || '',
       color: selectedKcar.color,
       carName: selectedKcar.carName || selectedKcar.modelName || '케이카 매물',
@@ -38,6 +39,7 @@ export const resolveEffectiveComp = (
   if (selectedEncar) {
     return {
       id: selectedEncar.id,
+      year: selectedEncar.year || '',
       optionsText: selectedEncar.optionsText || '',
       options: selectedEncar.options,
       color: selectedEncar.color,
@@ -149,6 +151,8 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
 }) => {
   // 💡 [11-03-11]: 목표차 옵션 백엔드 매칭 조회 (단건 함수 사용)
   const [targetMatchedOpts, setTargetMatchedOpts] = useState<BackendMatchedOption[]>([]);
+  // 💡 [11-03-19]: 비교차 옵션 백엔드 단건 매칭 조회 상태
+  const [compMatchedOpts, setCompMatchedOpts] = useState<BackendMatchedOption[]>([]);
 
   const targetOptNames: string[] = useMemo(() => {
     return (targetOptions && targetOptions.length > 0)
@@ -193,6 +197,47 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
 
   const effectiveComp = resolveEffectiveComp(activeCompTab, selectedEncar, selectedKcar);
 
+  // 💡 [11-03-19]: 비교차 변경 시 단건 매칭(matchOptionsSingle) 실행 (언마운트 가드 포함, 목록 배치와 동일 패턴)
+  useEffect(() => {
+    if (!effectiveComp || !effectiveComp.carName) {
+      setCompMatchedOpts([]);
+      return;
+    }
+
+    const hasOpts = (effectiveComp.options && effectiveComp.options.length > 0) ||
+      Boolean(effectiveComp.optionsText && effectiveComp.optionsText.trim());
+
+    if (!hasOpts) {
+      setCompMatchedOpts([]);
+      return;
+    }
+
+    let isMounted = true;
+    matchOptionsSingle({
+      id: effectiveComp.id,
+      carName: effectiveComp.carName,
+      year: effectiveComp.year || '',
+      optionsList: effectiveComp.options && effectiveComp.options.length > 0
+        ? effectiveComp.options.map((o: any) => o.name)
+        : undefined,
+      optionsText: effectiveComp.optionsText || '',
+    }).then((res) => {
+      if (isMounted) {
+        setCompMatchedOpts(res || []);
+      }
+    });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [
+    effectiveComp?.id,
+    effectiveComp?.carName,
+    effectiveComp?.year,
+    effectiveComp?.optionsText,
+    effectiveComp?.options,
+  ]);
+
   // 3. 비교차 옵션 파싱 및 매칭
   const rawCompOpts = (effectiveComp?.options && effectiveComp.options.length > 0)
     ? effectiveComp.options.map((o: any) => o.name || o)
@@ -205,13 +250,22 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
 
   const hasComp = compOpts.length > 0;
 
-  // 💡 [11-03-12]: 비교차 옵션은 배치 캐시에서 raw_name이 일치하는 항목만 대조에 쓰고, 없으면 원문 문자열 대조
-  const compOpposites: (BackendMatchedOption | string)[] = useMemo(() => {
-    if (!effectiveComp?.id) return compOpts;
-    const cached = getCachedCarMatchedOptions(effectiveComp.id);
-    if (!cached || cached.length === 0) return compOpts;
-    return compOpts.map((co) => cached.find((m) => m.raw_name === co) || co);
-  }, [effectiveComp?.id, compOpts]);
+  // 💡 [11-03-19]: 비교차 옵션 대조를 단건 매칭 객체(BackendMatchedOption[])로 통일 (원문 문자열 대조 폐지)
+  const compOpposites: BackendMatchedOption[] = useMemo(() => {
+    if (!effectiveComp || compOpts.length === 0) return [];
+    return compOpts.map((co) => {
+      const found = compMatchedOpts.find((m) => m.raw_name === co);
+      if (found) return found;
+      return {
+        raw_name: co,
+        clean_name: co,
+        official_name: '',
+        price: null,
+        match_type: 'none',
+        source: 'none',
+      };
+    });
+  }, [effectiveComp, compOpts, compMatchedOpts]);
 
   // 우세/순정 배지 판정 (규칙 4-d 기반)
   const renderMatchBadge = () => {
