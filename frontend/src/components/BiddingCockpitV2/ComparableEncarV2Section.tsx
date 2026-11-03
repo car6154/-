@@ -75,7 +75,6 @@ export interface EncarSummaryHeaderProps {
 
 export const EncarSummaryHeader: React.FC<EncarSummaryHeaderProps> = ({
   encarList,
-  cohortNoAccAvg,
   encarYearStats,
   encarSourceUrl,
 }) => {
@@ -84,28 +83,15 @@ export const EncarSummaryHeader: React.FC<EncarSummaryHeaderProps> = ({
       return { summaryCount: 0, minPrice: 0, maxPrice: 0, avgPrice: 0 };
     }
 
-    const noAccCars = encarList.filter((item) => {
-      const acc = String(item.accidentType || '').trim();
-      if (!acc) return true;
-      if (acc.includes('사고') && !acc.includes('무사고')) return false;
-      return acc.includes('무사고') || acc.includes('완전무사고');
-    });
-
-    const targetList = noAccCars.length > 0 ? noAccCars : encarList;
-    const prices = targetList
+    // 💡 [11-03-29 제이 철칙]: 무사고 필터 및 cohortNoAccAvg 제거 -> 목록에 표시되는 동급 엄격 집합(encarList) 기준 단순 집계
+    const prices = encarList
       .map((c) => Number(c.price))
       .filter((p) => !isNaN(p) && p > 0);
 
-    const count = targetList.length;
+    const count = encarList.length;
     const minP = prices.length > 0 ? Math.min(...prices) : 0;
     const maxP = prices.length > 0 ? Math.max(...prices) : 0;
-
-    let avgP = 0;
-    if (cohortNoAccAvg && cohortNoAccAvg > 0) {
-      avgP = cohortNoAccAvg;
-    } else if (prices.length > 0) {
-      avgP = Math.round(prices.reduce((sum, cur) => sum + cur, 0) / prices.length);
-    }
+    const avgP = prices.length > 0 ? Math.round(prices.reduce((sum, cur) => sum + cur, 0) / prices.length) : 0;
 
     return {
       summaryCount: count,
@@ -113,14 +99,14 @@ export const EncarSummaryHeader: React.FC<EncarSummaryHeaderProps> = ({
       maxPrice: maxP,
       avgPrice: avgP,
     };
-  }, [encarList, cohortNoAccAvg]);
+  }, [encarList]);
 
   return (
     <div className="space-y-2.5">
-      {/* 0. 엄격+무사고 요약 행: 무사고 매물 수 · 최저가 · 최고가 · 평균가 (카드 내부 1줄 압축) */}
+      {/* 0. 동급 엄격 요약 행: 동급매물 · 최저가 · 최고가 · 평균가 (카드 내부 1줄 압축) */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
         <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl px-2.5 py-1.5 flex items-center justify-between gap-1.5">
-          <span className="text-[10px] text-zinc-400 font-medium shrink-0">무사고 매물 수</span>
+          <span className="text-[10px] text-zinc-400 font-medium shrink-0">동급매물</span>
           <span className="text-sm sm:text-base font-black text-white font-mono">
             {summaryCount > 0 ? `${summaryCount.toLocaleString()}대` : '-'}
           </span>

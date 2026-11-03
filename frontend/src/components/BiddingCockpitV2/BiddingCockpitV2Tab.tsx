@@ -496,7 +496,7 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
             onOpenHistoryModal={() => cockpit.setShowCarHistoryModal(true)}
           />
 
-          {/* 상단 4칸 한 줄: 소매가 · 엔카평균 · 엔카시세 · 기준소매 (카드 내부 1줄 압축) */}
+          {/* 상단 4칸 한 줄: 소매가 · 엔카평균 · 엔카시세 · 기준소매 (11-03-29 카드 내부 1줄 압축) */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {/* 1) 소매가 */}
             <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl px-2.5 py-1.5 shadow-sm flex items-center justify-between gap-1.5">

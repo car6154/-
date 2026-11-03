@@ -1584,15 +1584,7 @@ def search_encar_market(req: EncarSearchRequest):
                         excluded_count += 1
                         print(f"   [호가 제외] cid={cid[:4]}*** | 사유: 사고 이력 있으나 부위 미확인", flush=True)
                         continue
-                    # 헤이딜러 공식 기준 부위별 환산
-                    # 외판 판금·교환: 3% / 부위, 골격 용접·판금·교환: 7% / 부위, 범퍼 교환: 0원
-                    sigma_rate = outer_count * 0.03 + inner_count * 0.07
-                    denom = max(0.1, 1.0 - sigma_rate)
-                    no_acc_price = mil_adj_price / denom
-                else:
-                    # 무사고 차는 환산 없이 주행보정가 그대로
-                    sigma_rate = 0.0
-                    no_acc_price = mil_adj_price
+                # [11-03-29 제이 철칙]: 사고차 무사고 환산(분모 나누기) 제거 -> 사고차도 판매가 그대로 기준 (대당 보정가 = 주행보정가 + 옵션 델타 통일)
 
                 # 비교 매물 연식: 형식연도와 최초등록일 중 더 오래된 연식 선택 (없으면 기존 year 필드 또는 목표차 연식 폴백)
                 comp_yr_str = str(s_row.get('연식', ''))
@@ -1628,10 +1620,10 @@ def search_encar_market(req: EncarSearchRequest):
                 opt_delta = target_opt_res_val - comp_opt_res_val
                 opt_deltas.append(opt_delta)
 
-                # 4) 대당 보정가 = 무사고 환산가 + 옵션 델타
-                car_adj_price = no_acc_price + opt_delta
+                # 4) 대당 보정가 = 주행보정가 + 옵션 델타 (사고차 무사고 환산 제거로 공식 통일)
+                car_adj_price = mil_adj_price + opt_delta
                 adj_prices.append(car_adj_price)
-                print(f"   [대당 보정] cid={cid[:4]}*** | 판매가={raw_price:.0f}만 | 주행={comp_mil:,.0f}km | mil_delta={mil_delta:+.2f}% | 주행보정={mil_adj_price:.1f}만 | 부위(외판{outer_count}/골격{inner_count}, Σ율={sigma_rate:.1%}) | 무사고환산={no_acc_price:.1f}만 | opt_delta={opt_delta:+.1f}만 | 최종보정가={car_adj_price:.1f}만", flush=True)
+                print(f"   [대당 보정] cid={cid[:4]}*** | 판매가={raw_price:.0f}만 | 주행={comp_mil:,.0f}km | mil_delta={mil_delta:+.2f}% | 주행보정={mil_adj_price:.1f}만 | 부위(외판{outer_count}/골격{inner_count}) | opt_delta={opt_delta:+.1f}만 | 최종보정가={car_adj_price:.1f}만", flush=True)
 
             strict_adj_count = len(adj_prices)
             strict_adj_excluded_count = excluded_count

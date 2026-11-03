@@ -55,17 +55,10 @@ export const KcarSummaryHeader: React.FC<KcarSummaryHeaderProps> = ({
       return { summaryCount: 0, minPrice: 0, maxPrice: 0, avgPrice: 0 };
     }
 
-    // 1) 엄격 매물 우선 추출
+    // 💡 [11-03-29 제이 철칙]: 무사고 필터 제거 -> 목록에 표시되는 동급 엄격 집합(strictCars 또는 kcarList) 기준 단순 집계
     const strictCars = kcarList.filter((c) => Boolean(c.isStrict));
-    const baseList = strictCars.length > 0 ? strictCars : kcarList;
+    const targetList = strictCars.length > 0 ? strictCars : kcarList;
 
-    // 2) 무사고 매물 추출 (기존 formatKcarAccident 로직과 동일: 미기재 또는 '무사고' 포함)
-    const noAccCars = baseList.filter((c) => {
-      const acc = String((c as any).accidentType || c.accident || '').trim();
-      return !acc || acc.includes('무사고');
-    });
-
-    const targetList = noAccCars.length > 0 ? noAccCars : baseList;
     const prices = targetList
       .map((c) => Number(c.price))
       .filter((p) => !isNaN(p) && p > 0);
@@ -85,10 +78,10 @@ export const KcarSummaryHeader: React.FC<KcarSummaryHeaderProps> = ({
 
   return (
     <div className="space-y-2.5">
-      {/* 0. 엄격+무사고 요약 행: 무사고 매물 수 · 최저가 · 최고가 · 평균가 (카드 내부 1줄 압축) */}
+      {/* 0. 동급 엄격 요약 행: 동급매물 · 최저가 · 최고가 · 평균가 (카드 내부 1줄 압축) */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
         <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl px-2.5 py-1.5 flex items-center justify-between gap-1.5">
-          <span className="text-[10px] text-zinc-400 font-medium shrink-0">무사고 매물 수</span>
+          <span className="text-[10px] text-zinc-400 font-medium shrink-0">동급매물</span>
           <span className="text-sm sm:text-base font-black text-white font-mono">
             {summaryCount > 0 ? `${summaryCount.toLocaleString()}대` : '-'}
           </span>
