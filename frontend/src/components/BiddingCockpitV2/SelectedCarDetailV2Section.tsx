@@ -4,17 +4,9 @@ import { EncarItem } from '@/components/BiddingCockpit/types';
 import { CarDamageDiagram2D, getDamagePartKoreanName } from '@/components/BiddingCockpit/Sections/CarDamageDiagram2D';
 import { getCarColorStyle } from '@/utils/carColor';
 import { splitOptionString } from '@/services/biddingOptionCatalog';
+import { matchOptionsSingle } from '@/services/optionMatchingService';
 
-export interface MatchedOptionItem {
-  raw_name: string;
-  clean_name: string;
-  official_name: string;
-  price?: number | null;
-  desc?: string;
-  match_type: 'exact' | 'fuzzy' | 'none';
-  source: 'danawa' | 'encar' | 'none';
-  matched_year?: string;
-}
+export type MatchedOptionItem = import('@/services/optionMatchingService').BackendMatchedOption;
 
 export interface SelectedCarDetailV2SectionProps {
   selectedEncar: EncarItem | null;
@@ -88,20 +80,16 @@ export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProp
     let isMounted = true;
     setIsOptionsMatching(true);
 
-    fetch('/api/encar/match-options', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        carName: selectedEncar.carName,
-        year: selectedEncar.year,
-        optionsText: rawOptText,
-      }),
+    matchOptionsSingle({
+      id: selectedEncar.id,
+      carName: selectedEncar.carName,
+      year: selectedEncar.year,
+      optionsText: rawOptText,
     })
-      .then((res) => res.json())
       .then((data) => {
-        if (isMounted && data.success && Array.isArray(data.data)) {
-          optionsCacheRef.current[cacheKey] = data.data;
-          setMatchedOptions(data.data);
+        if (isMounted && Array.isArray(data)) {
+          optionsCacheRef.current[cacheKey] = data;
+          setMatchedOptions(data);
         }
       })
       .catch((e) => {

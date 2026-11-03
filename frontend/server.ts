@@ -518,6 +518,36 @@ async function startServer() {
     }
   });
 
+  // 4-1-1. 엔카/케이카 다수 매물 옵션 카탈로그 표준명 매칭 배치 API (Python 백엔드 8000 직결 프록시, 최대 20대)
+  app.all('/api/encar/match-options-batch', async (req, res) => {
+    const startTime = Date.now();
+    try {
+      const payload = {
+        cars: Array.isArray(req.body?.cars) ? req.body.cars : []
+      };
+
+      const pyRes = await fetch('http://127.0.0.1:8000/api/encar/match-options-batch', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        signal: AbortSignal.timeout(120000)
+      });
+
+      const data = await pyRes.json();
+      const duration = Date.now() - startTime;
+      console.info(`[EncProxy] POST /api/encar/match-options-batch -> 8000, status=${pyRes.status}, count=${payload.cars.length}, time=${duration}ms`);
+      return res.status(pyRes.status).json(data);
+    } catch (e: any) {
+      const duration = Date.now() - startTime;
+      console.error(`[EncProxy] POST /api/encar/match-options-batch -> 8000 FAILED, time=${duration}ms:`, e.message);
+      return res.status(500).json({
+        success: false,
+        error: `Python 백엔드(8000) 배치 옵션 매칭 프록시 실패: ${e.message}`,
+        data: {}
+      });
+    }
+  });
+
 
   // 5-0. 엔카 판매완료(완판) 소진 속도 및 실거래 시세 분석 API (로컬 Python 백엔드 연동)
   app.all('/api/encar/soldout', async (req, res) => {

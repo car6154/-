@@ -1,15 +1,21 @@
-import React from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   splitOptionString,
-  getOptionMatchDetail,
   NewCarCatalogData,
-  findOfficialCatalogOption,
   stripOptionPriceText,
+  MASTER_PACKAGE_CATALOG,
 } from '@/services/biddingOptionCatalog';
+import {
+  matchOptionsSingle,
+  BackendMatchedOption,
+  getCachedCarMatchedOptions,
+  compareOptionToOpposites,
+} from '@/services/optionMatchingService';
 import { OptionItem } from '@/services/chaolmaService';
 import { EncarItem, KcarCarItem } from '@/components/BiddingCockpit/types';
 
 export interface EffectiveCompCar {
+  id?: string;
   optionsText: string;
   options?: Array<{ name: string }>;
   color?: string;
@@ -23,6 +29,7 @@ export const resolveEffectiveComp = (
 ): EffectiveCompCar | null => {
   if (activeCompTab === 'kcar' && selectedKcar) {
     return {
+      id: selectedKcar.carCd,
       optionsText: selectedKcar.optnNm || '',
       color: selectedKcar.color,
       carName: selectedKcar.carName || selectedKcar.modelName || '케이카 매물',
@@ -30,6 +37,7 @@ export const resolveEffectiveComp = (
   }
   if (selectedEncar) {
     return {
+      id: selectedEncar.id,
       optionsText: selectedEncar.optionsText || '',
       options: selectedEncar.options,
       color: selectedEncar.color,
@@ -42,6 +50,8 @@ export const resolveEffectiveComp = (
 export interface SidebarOptionSectionProps {
   targetOptions?: OptionItem[];
   optionsTag?: string;
+  targetCarName?: string;
+  targetYear?: string | number;
   selectedEncar?: EncarItem | null;
   selectedKcar?: KcarCarItem | null;
   activeCompTab?: 'encar' | 'kcar' | string;
@@ -57,33 +67,33 @@ interface ExtraOptionPriceResult {
 }
 
 /**
- * 추가옵션 총 가격 판정 (기존 CockpitSidebar.tsx calculateExtraOptionsTotalPrice와 100% 동일)
+ * 추가옵션 총 가격 판정 (백엔드 카탈로그 매칭 결과 기준, 11-03-11 백엔드 단일화)
  */
 function calculateExtraOptionsTotalPrice(
   targetOptions?: OptionItem[],
   optionsTag?: string,
-  targetCatalog?: NewCarCatalogData | null,
-  compCatalog?: NewCarCatalogData | null,
-  historyOptionTotalMan?: number
+  targetMatchedOpts: BackendMatchedOption[] = []
 ): ExtraOptionPriceResult {
-  // 1순위: 카탈로그 공식가 합계 (targetCatalog -> compCatalog)
   const optNames: string[] = (targetOptions && targetOptions.length > 0)
-    ? targetOptions.map(o => o.name)
+    ? targetOptions.map((o) => o.name)
     : splitOptionString(optionsTag || '');
 
-  if (optNames.length > 0) {
+  // 1순위: 백엔드 카탈로그 공식가 합계
+  if (targetMatchedOpts && targetMatchedOpts.length > 0) {
     let catalogSumMan = 0;
     const matchedLines: string[] = [];
     const unpricedOptions: string[] = [];
 
-    for (const name of optNames) {
-      const clean = stripOptionPriceText(name);
+    for (const mi of targetMatchedOpts) {
+      const clean = mi.clean_name || mi.raw_name;
       if (!clean) continue;
-      const official = findOfficialCatalogOption(clean, targetCatalog) || findOfficialCatalogOption(clean, compCatalog);
-      if (official && typeof official.price === 'number' && official.price > 0) {
-        const man = Math.round(official.price / 10000);
+      if (typeof mi.price === 'number' && mi.price > 0) {
+        const man = Math.round(mi.price / 10000);
         catalogSumMan += man;
-        matchedLines.push(`- ${clean}: ${man.toLocaleString()}만 (${official.officialName})`);
+        const srcLabel = mi.source === 'danawa' ? '다나와' : mi.source === 'encar' ? '엔카' : (mi.source || '');
+        const yrLabel = mi.matched_year ? `${mi.matched_year}년` : '';
+        const meta = [srcLabel, yrLabel].filter(Boolean).join(' ');
+        matchedLines.push(`- ${clean}: ${man.toLocaleString()}만 (${mi.official_name}${meta ? ` · ${meta}` : ''})`);
       } else {
         unpricedOptions.push(clean);
       }
@@ -93,7 +103,7 @@ function calculateExtraOptionsTotalPrice(
       const unpricedNote = unpricedOptions.length > 0 ? `\n(가격 미확인 옵션 ${unpricedOptions.length}개 제외)` : '';
       return {
         badgeText: `총 ${catalogSumMan.toLocaleString()}만`,
-        tooltip: `[신차 공식 카탈로그 기준가 합계]\n${matchedLines.join('\n')}${unpricedNote}\n합계: ${catalogSumMan.toLocaleString()}만원`
+        tooltip: `[신차 공식 카탈로그 기준가 합계]\n${matchedLines.join('\n')}${unpricedNote}\n합계: ${catalogSumMan.toLocaleString()}만원`,
       };
     }
   }
@@ -108,7 +118,7 @@ function calculateExtraOptionsTotalPrice(
     }, 0);
 
     if (sum1 > 0) {
-      const lines = targetOptions.map(c => {
+      const lines = targetOptions.map((c) => {
         const pMan = (typeof c.price_man === 'number' && !isNaN(c.price_man) && c.price_man > 0)
           ? c.price_man
           : (typeof c.price === 'number' && !isNaN(c.price) && c.price > 0 ? Math.round(c.price / 10000) : 0);
@@ -116,70 +126,74 @@ function calculateExtraOptionsTotalPrice(
       });
       return {
         badgeText: `총 ${sum1.toLocaleString()}만`,
-        tooltip: `[옵션 상세 가격 (실차 데이터)]\n${lines.join('\n')}\n합계: ${sum1.toLocaleString()}만원`
-      };
-    }
-  }
-
-  // 3순위: 1순위·2순위가 0이거나 비어 있고, historyOptionTotalMan이 0보다 크면 총 {historyOptionTotalMan}만을 표시한다.
-  const hasOptions = (targetOptions && targetOptions.length > 0) || (optionsTag && optionsTag.trim() && !optionsTag.includes('옵션 없음'));
-  if (hasOptions && typeof historyOptionTotalMan === 'number' && historyOptionTotalMan > 0) {
-    return {
-      badgeText: `총 ${historyOptionTotalMan.toLocaleString()}만`,
-      tooltip: `[차얼마 옵션 총액] 합계: ${historyOptionTotalMan.toLocaleString()}만원`
-    };
-  }
-
-  // 4순위: optionsTag 안의 [옵션총액] 정규식
-  if (optionsTag && optionsTag.trim()) {
-    const match = optionsTag.match(/\[(?:순정)?옵션총액:?\s*([0-9,]+만?)\]/);
-    if (match && match[1]) {
-      const rawVal = match[1].trim();
-      const badgeText = rawVal.endsWith('만') ? `총 ${rawVal}` : `총 ${rawVal}만`;
-      return {
-        badgeText,
-        tooltip: `옵션 정보에 기재된 총액: ${rawVal}`
+        tooltip: `[옵션 상세 가격 (실차 데이터)]\n${lines.join('\n')}\n합계: ${sum1.toLocaleString()}만원`,
       };
     }
   }
 
   return {
     badgeText: '가격 미확인',
-    tooltip: '옵션 가격 정보를 확인할 수 없습니다.'
+    tooltip: '옵션 가격 정보가 제공되지 않았습니다.',
   };
 }
 
 export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
   targetOptions,
   optionsTag,
+  targetCarName,
+  targetYear,
   selectedEncar,
   selectedKcar,
   activeCompTab,
-  targetCatalog,
-  compCatalog,
-  historyOptionTotalMan,
   unclassifiedBalance = 0,
 }) => {
-  const hasOptions = (targetOptions && targetOptions.length > 0) || (optionsTag && optionsTag.trim().length > 0 && !optionsTag.includes('옵션 없음'));
+  // 💡 [11-03-11]: 목표차 옵션 백엔드 매칭 조회 (단건 함수 사용)
+  const [targetMatchedOpts, setTargetMatchedOpts] = useState<BackendMatchedOption[]>([]);
 
-  // 1. 옵션 개수
-  const optCount = targetOptions && targetOptions.length > 0
+  const targetOptNames: string[] = useMemo(() => {
+    return (targetOptions && targetOptions.length > 0)
+      ? targetOptions.map((o) => o.name)
+      : splitOptionString(optionsTag || '');
+  }, [targetOptions, optionsTag]);
+
+  useEffect(() => {
+    if (targetOptNames.length === 0 || !targetCarName) {
+      setTargetMatchedOpts([]);
+      return;
+    }
+
+    let isMounted = true;
+    matchOptionsSingle({
+      carName: targetCarName,
+      year: targetYear || '',
+      optionsList: targetOptNames,
+    }).then((res) => {
+      if (isMounted) setTargetMatchedOpts(res);
+    });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [targetCarName, targetYear, targetOptNames]);
+
+  // 1. 추가 옵션 보유 여부 및 개수 판정
+  const hasOptions = (targetOptions && targetOptions.length > 0) || Boolean(optionsTag && optionsTag.trim());
+  const optCount = (targetOptions && targetOptions.length > 0)
     ? targetOptions.length
-    : splitOptionString(optionsTag || '').length;
+    : (optionsTag ? splitOptionString(optionsTag).length : 0);
 
-  // 2. 추가옵션 총 가격
-  const priceInfo = calculateExtraOptionsTotalPrice(
-    targetOptions,
-    optionsTag,
-    targetCatalog,
-    compCatalog,
-    historyOptionTotalMan
-  );
+  // 2. 추가 옵션 총 가격 판정
+  const priceInfo = useMemo(() => {
+    return calculateExtraOptionsTotalPrice(
+      targetOptions,
+      optionsTag,
+      targetMatchedOpts
+    );
+  }, [targetOptions, optionsTag, targetMatchedOpts]);
 
-  // 유효 비교차 판정 (activeCompTab에 따라 kcar 우선 혹은 encar)
   const effectiveComp = resolveEffectiveComp(activeCompTab, selectedEncar, selectedKcar);
 
-  // 3. 비교차 옵션 파싱 및 매칭 (비교차 색상을 매칭 집합에 포함하여 외장 색상 매칭 지원)
+  // 3. 비교차 옵션 파싱 및 매칭
   const rawCompOpts = (effectiveComp?.options && effectiveComp.options.length > 0)
     ? effectiveComp.options.map((o: any) => o.name || o)
     : splitOptionString(effectiveComp?.optionsText || '');
@@ -191,7 +205,14 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
 
   const hasComp = compOpts.length > 0;
 
-  // 우세/순정 배지 판정
+  // 💡 [11-03-11]: 비교차 옵션은 배치 캐시에서 가져와 재사용 (재호출 금지)
+  const compOpposites: (BackendMatchedOption | string)[] = useMemo(() => {
+    if (!effectiveComp?.id) return compOpts;
+    const cached = getCachedCarMatchedOptions(effectiveComp.id);
+    return (cached && cached.length > 0) ? cached : compOpts;
+  }, [effectiveComp?.id, compOpts]);
+
+  // 우세/순정 배지 판정 (규칙 4-d 기반)
   const renderMatchBadge = () => {
     if (!effectiveComp?.optionsText || !optionsTag || !optionsTag.trim()) {
       return (
@@ -200,11 +221,8 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
         </span>
       );
     }
-    const tgtOpts = (targetOptions && targetOptions.length > 0)
-      ? targetOptions.map(o => o.name)
-      : splitOptionString(optionsTag);
 
-    if (compOpts.length === 0 || tgtOpts.length === 0) {
+    if (compOpts.length === 0 || targetOptNames.length === 0) {
       return (
         <span className="inline-flex items-center text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-bold border border-emerald-500/30">
           조회차량 순정
@@ -212,10 +230,14 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
       );
     }
 
-    const matchDetails = tgtOpts.map(to => getOptionMatchDetail(to, compOpts, 'target_vs_comp', targetCatalog, compCatalog));
-    const winCount = matchDetails.filter(d => !d.isMatched).length;
-    const exactCount = matchDetails.filter(d => d.confidence === 'exact').length;
-    const fuzzyCount = matchDetails.filter(d => d.confidence === 'fuzzy').length;
+    const matchDetails = targetOptNames.map((to, idx) => {
+      const tgtTarget = targetMatchedOpts[idx] || to;
+      return compareOptionToOpposites(tgtTarget, compOpposites);
+    });
+
+    const winCount = matchDetails.filter((d) => d.symbol === '+').length;
+    const exactCount = matchDetails.filter((d) => d.symbol === '✓').length;
+    const fuzzyCount = matchDetails.filter((d) => d.symbol === '~').length;
 
     if (winCount > 0) {
       return (
@@ -263,29 +285,32 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
         )}
       </div>
 
-      {/* 2. 🎨 옵션 색상 범례 안내 */}
-      {hasOptions && (
-        <div className="flex items-center gap-1.5 text-[9.5px] text-zinc-400 bg-zinc-900/60 px-2 py-1 rounded border border-zinc-800 flex-wrap">
-          <span className="text-zinc-500 font-medium">범례:</span>
-          {effectiveComp?.optionsText ? (
-            <>
-              <span className="flex items-center gap-0.5 text-emerald-400 font-semibold" title="비교차에는 없고 내 차에만 있는 고유/우세 옵션">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0"></span>내차우세(+)
+      {/* 2. 중단 라인: 패키지 포함 안내 (MASTER_PACKAGE_CATALOG 기반, 백엔드 매칭 없음일 때만 표시) */}
+      {(() => {
+        const pkgTooltips: Array<{ pkgName: string; tip: string }> = [];
+        for (const pkg of MASTER_PACKAGE_CATALOG) {
+          const hasInTarget = targetOptNames.some((opt) => opt.includes(pkg.name));
+          const hasInMatched = targetMatchedOpts.some((m) => (m.official_name || '').includes(pkg.name));
+          if (hasInTarget && !hasInMatched && pkg.items && pkg.items.length > 0) {
+            pkgTooltips.push({ pkgName: pkg.name, tip: `[${pkg.name} 포함 품목]\n- ${pkg.items.join('\n- ')}` });
+          }
+        }
+        if (pkgTooltips.length === 0) return null;
+        return (
+          <div className="flex flex-wrap gap-1 pt-0.5">
+            {pkgTooltips.map(({ pkgName, tip }) => (
+              <span
+                key={pkgName}
+                title={tip}
+                className="text-[10px] px-1.5 py-0.5 rounded bg-zinc-800/80 text-zinc-300 border border-zinc-700/60 cursor-help inline-flex items-center gap-1"
+              >
+                <span>📦</span>
+                <span className="font-semibold">{pkgName} 포함</span>
               </span>
-              <span className="flex items-center gap-0.5 text-amber-400 font-semibold" title="스펙 유사로 추정 매칭된 옵션">
-                <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0"></span>추정(~)
-              </span>
-              <span className="flex items-center gap-0.5 text-sky-400 font-semibold" title="비교차와 내 차 모두 동일한 공통 옵션">
-                <span className="w-1.5 h-1.5 rounded-full bg-sky-400 shrink-0"></span>공통(✓)
-              </span>
-            </>
-          ) : (
-            <span className="text-sky-300 flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-sky-400 shrink-0"></span>장착 순정 옵션 (비교 매물 선택 시 우세 대조)
-            </span>
-          )}
-        </div>
-      )}
+            ))}
+          </div>
+        );
+      })()}
 
       {/* 3. 옵션 칩 목록 */}
       {hasOptions ? (
@@ -297,13 +322,23 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
                   {targetOptions.map((opt, idx) => {
                     const pMan = opt.price_man || Math.round((opt.price || 0) / 10000);
                     const displayName = pMan > 0 ? `${opt.name}(${pMan}만)` : opt.name;
-                    const detail = getOptionMatchDetail(opt.name, compOpts, 'target_vs_comp', targetCatalog, compCatalog);
+                    const mi = targetMatchedOpts[idx];
+                    const compareRes = compareOptionToOpposites(mi || opt.name, compOpposites);
 
-                    if (hasComp && !detail.isMatched) {
+                    // 툴팁 구성
+                    let tipText = opt.desc || `${opt.name} (${pMan}만)`;
+                    if (mi && mi.official_name) {
+                      const srcLabel = mi.source === 'danawa' ? '다나와' : mi.source === 'encar' ? '엔카' : (mi.source || '');
+                      const yrLabel = mi.matched_year ? `${mi.matched_year}년` : '';
+                      const meta = [srcLabel, yrLabel].filter(Boolean).join(' ');
+                      tipText = `[신차 공식 표준명: ${mi.official_name}${meta ? ` · ${meta}` : ''}]\n${tipText}`;
+                    }
+
+                    if (hasComp && compareRes.symbol === '+') {
                       return (
                         <span
                           key={idx}
-                          title={detail.tooltipText || opt.desc || `${opt.name} (${pMan}만)`}
+                          title={tipText}
                           className="px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-500 text-emerald-400 font-bold text-[10.5px] flex items-center gap-1 cursor-help hover:brightness-110 transition"
                         >
                           <span className="text-emerald-400 text-[10px] font-black">+</span>
@@ -312,11 +347,11 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
                       );
                     }
 
-                    if (hasComp && detail.confidence === 'fuzzy') {
+                    if (hasComp && compareRes.symbol === '~') {
                       return (
                         <span
                           key={idx}
-                          title={detail.tooltipText || opt.desc || `${opt.name} (${pMan}만)`}
+                          title={tipText}
                           className="px-2 py-0.5 rounded bg-amber-500/20 border border-amber-500/60 text-amber-300 font-semibold text-[10.5px] flex items-center gap-1 cursor-help hover:brightness-110 transition"
                         >
                           <span className="text-amber-400 text-[10px] font-black">~</span>
@@ -328,7 +363,7 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
                     return (
                       <span
                         key={idx}
-                        title={detail.tooltipText || opt.desc || `[${opt.name}]\n조회 차량의 장착 순정 옵션입니다.`}
+                        title={tipText || `[${opt.name}]\n조회 차량의 장착 순정 옵션입니다.`}
                         className="px-2 py-0.5 rounded bg-sky-500/20 border border-sky-400/60 text-sky-300 font-semibold text-[10.5px] flex items-center gap-1 cursor-help hover:brightness-110 transition"
                       >
                         <span className="text-sky-400 text-[10px]">{hasComp ? '✓' : '•'}</span>
@@ -359,13 +394,23 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
             }
 
             return tgtOpts.map((opt, idx) => {
-              const detail = getOptionMatchDetail(opt, compOpts, 'target_vs_comp', targetCatalog, compCatalog);
+              const mi = targetMatchedOpts[idx];
+              const compareRes = compareOptionToOpposites(mi || opt, compOpposites);
 
-              if (hasComp && !detail.isMatched) {
+              let tipText = `[${opt}]\n조회 차량의 장착 순정 옵션입니다.`;
+              if (mi && mi.official_name) {
+                const srcLabel = mi.source === 'danawa' ? '다나와' : mi.source === 'encar' ? '엔카' : (mi.source || '');
+                const yrLabel = mi.matched_year ? `${mi.matched_year}년` : '';
+                const pLabel = mi.price ? ` (${Math.round(mi.price / 10000)}만)` : '';
+                const meta = [srcLabel, yrLabel].filter(Boolean).join(' ');
+                tipText = `[신차 공식 표준명: ${mi.official_name}${pLabel}${meta ? ` · ${meta}` : ''}]\n원문: ${opt}`;
+              }
+
+              if (hasComp && compareRes.symbol === '+') {
                 return (
                   <span
                     key={idx}
-                    title={detail.tooltipText}
+                    title={tipText}
                     className="px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-500 text-emerald-400 font-bold text-[10.5px] flex items-center gap-1 cursor-help hover:brightness-110 transition"
                   >
                     <span className="text-emerald-400 text-[10px] font-black">+</span>
@@ -374,11 +419,11 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
                 );
               }
 
-              if (hasComp && detail.confidence === 'fuzzy') {
+              if (hasComp && compareRes.symbol === '~') {
                 return (
                   <span
                     key={idx}
-                    title={detail.tooltipText}
+                    title={tipText}
                     className="px-2 py-0.5 rounded bg-amber-500/20 border border-amber-500/60 text-amber-300 font-semibold text-[10.5px] flex items-center gap-1 cursor-help hover:brightness-110 transition"
                   >
                     <span className="text-amber-400 text-[10px] font-black">~</span>
@@ -390,7 +435,7 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
               return (
                 <span
                   key={idx}
-                  title={detail.tooltipText || `[${opt}]\n조회 차량의 장착 순정 옵션입니다.`}
+                  title={tipText}
                   className="px-2 py-0.5 rounded bg-sky-500/20 border border-sky-400/60 text-sky-300 font-semibold text-[10.5px] flex items-center gap-1 cursor-help hover:brightness-110 transition"
                 >
                   <span className="text-sky-400 text-[10px]">{hasComp ? '✓' : '•'}</span>

@@ -1,8 +1,9 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { ExternalLink, RefreshCw, Car, AlertCircle } from 'lucide-react';
 import { EncarItem } from '@/components/BiddingCockpit/types';
 import { OptionItem } from '@/services/chaolmaService';
-import { splitOptionString, getOptionMatchDetail, NewCarCatalogData } from '@/services/biddingOptionCatalog';
+import { splitOptionString, NewCarCatalogData } from '@/services/biddingOptionCatalog';
+import { matchOptionsBatch, BackendMatchedOption, compareOptionToOpposites } from '@/services/optionMatchingService';
 
 export interface ComparableEncarV2SectionProps {
   encarList: EncarItem[];
@@ -88,7 +89,36 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
     return targetStat ? targetStat.year : null;
   }, [encarYearStats]);
 
-  // 비교 차량 옵션 매칭 및 배지 데이터 사전 계산 (행 렌더링 최적화 Map)
+  // 💡 [11-03-11]: 백엔드 단일화 배치 옵션 매칭 상태 (목록 렌더링당 1회 배치 호출)
+  const [batchOptionsMap, setBatchOptionsMap] = useState<Record<string, BackendMatchedOption[]>>({});
+
+  useEffect(() => {
+    if (!encarList || encarList.length === 0) return;
+    const batchInputs = encarList
+      .filter((c) => (c.options && c.options.length > 0) || c.optionsText)
+      .map((c) => ({
+        id: c.id,
+        carName: c.carName,
+        year: c.year,
+        optionsList: c.options && c.options.length > 0 ? c.options.map((o) => o.name) : undefined,
+        optionsText: c.optionsText || '',
+      }));
+
+    if (batchInputs.length === 0) return;
+
+    let isMounted = true;
+    matchOptionsBatch(batchInputs).then((res) => {
+      if (isMounted) {
+        setBatchOptionsMap((prev) => ({ ...prev, ...res }));
+      }
+    });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [encarList]);
+
+  // 비교 차량 옵션 매칭 및 배지 데이터 사전 계산 (행 렌더링 최적화 Map, 백엔드 단일화 배치 매칭 기반)
   const optionBadgeMap = useMemo(() => {
     const map = new Map<string, {
       hasOptions: boolean;
@@ -102,6 +132,7 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
       : splitOptionString(optionsTag || '');
 
     for (const car of encarList) {
+      const compMatchedList = batchOptionsMap[car.id] || [];
       const compOpts: string[] = (car.options && car.options.length > 0)
         ? car.options.map((o) => o.name)
         : splitOptionString(car.optionsText || '');
@@ -116,32 +147,42 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
         continue;
       }
 
-      const compDetails = compOpts.map((o) =>
-        getOptionMatchDetail(o, targetOptNames, 'comp_vs_target', targetCatalog, undefined)
-      );
-      const exactCount = compDetails.filter((d) => d.confidence === 'exact').length;
-      const fuzzyCount = compDetails.filter((d) => d.confidence === 'fuzzy').length;
-      const commonCount = compDetails.filter((d) => d.isMatched).length;
-      const extraCount = compOpts.length - commonCount;
+      // 백엔드 배치 매칭 결과와 목표차 옵션 대조 (규칙 4-d)
+      const compDetails = compOpts.map((o, idx) => {
+        const matchedItem = compMatchedList[idx] || compMatchedList.find((m) => m.raw_name === o);
+        const compTarget = matchedItem || o;
+        const compareRes = compareOptionToOpposites(compTarget, targetOptNames);
+        return {
+          raw: o,
+          matchedItem,
+          compareRes,
+        };
+      });
+
+      const exactCount = compDetails.filter((d) => d.compareRes.symbol === '✓').length;
+      const fuzzyCount = compDetails.filter((d) => d.compareRes.symbol === '~').length;
+      const extraCount = compOpts.length - (exactCount + fuzzyCount);
 
       const symbol: '✓' | '~' | null = exactCount > 0 ? '✓' : (fuzzyCount > 0 ? '~' : null);
 
       const tooltipLines = [
         `[비교 차량 추가옵션 총 ${compOpts.length}개]`,
-        ...compDetails.map((d, i) => {
-          const o = compOpts[i];
-          if (d.officialOption) {
-            const stdName = d.officialOption.officialName || d.matchedOppositeName || o;
-            const srcLabel = d.officialOption.source === 'danawa' ? '다나와' : d.officialOption.source === 'encar' ? '엔카' : (d.officialOption.source || '');
-            const priceLabel = d.officialOption.price ? `${Math.round(d.officialOption.price / 10000)}만` : '';
-            const metaParts = [stdName, srcLabel, priceLabel].filter(Boolean);
+        ...compDetails.map((d) => {
+          const o = d.raw;
+          const mi = d.matchedItem;
+          if (mi && mi.official_name) {
+            const stdName = mi.official_name;
+            const srcLabel = mi.source === 'danawa' ? '다나와' : mi.source === 'encar' ? '엔카' : (mi.source || '');
+            const priceLabel = mi.price ? `${Math.round(mi.price / 10000)}만` : '';
+            const yrLabel = mi.matched_year ? `${mi.matched_year}년` : '';
+            const metaParts = [stdName, srcLabel, yrLabel, priceLabel].filter(Boolean);
             const detailLabel = metaParts.join(' · ');
 
-            if (d.confidence === 'exact') return `✓ ${o} (신차 공식 일치: ${detailLabel})`;
-            if (d.confidence === 'fuzzy') return `~ ${o} (퍼지 추정 매칭: ${detailLabel})`;
+            if (d.compareRes.symbol === '✓') return `✓ ${o} (신차 공식 일치: ${detailLabel})`;
+            if (d.compareRes.symbol === '~') return `~ ${o} (퍼지 추정 매칭: ${detailLabel})`;
           } else {
-            if (d.confidence === 'exact') return `✓ ${o} (신차 공식 일치: ${d.matchedOppositeName})`;
-            if (d.confidence === 'fuzzy') return `~ ${o} (퍼지 추정 매칭: ${d.matchedOppositeName})`;
+            if (d.compareRes.symbol === '✓') return `✓ ${o} (신차 공식 일치: ${d.compareRes.matchedName || o})`;
+            if (d.compareRes.symbol === '~') return `~ ${o} (퍼지 추정 매칭: ${d.compareRes.matchedName || o})`;
           }
           return `+ ${o} (비교차 전용 옵션)`;
         }),
@@ -160,7 +201,7 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
     }
 
     return map;
-  }, [encarList, targetOptions, optionsTag, targetCatalog]);
+  }, [encarList, targetOptions, optionsTag, batchOptionsMap]);
 
   // 엄격 + 무사고 subset 필터링 및 날통계 집계 (보정 없음)
   const { summaryCount, minPrice, maxPrice, avgPrice } = useMemo(() => {

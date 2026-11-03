@@ -3,7 +3,8 @@ import { ExternalLink, RefreshCw, AlertCircle, Car, CheckCircle2 } from 'lucide-
 import { KcarCarItem, KcarDetailData } from '@/components/BiddingCockpit/types';
 import { CarDamageDiagram2D } from '@/components/BiddingCockpit/Sections/CarDamageDiagram2D';
 import { getCarColorStyle } from '@/utils/carColor';
-import { NewCarCatalogData, getOptionMatchDetail, findOfficialCatalogOption } from '@/services/biddingOptionCatalog';
+import { NewCarCatalogData } from '@/services/biddingOptionCatalog';
+import { matchOptionsSingle, BackendMatchedOption, getCachedCarMatchedOptions } from '@/services/optionMatchingService';
 
 export interface SelectedKcarDetailV2SectionProps {
   selectedKcar: KcarCarItem | null;
@@ -116,10 +117,37 @@ export const SelectedKcarDetailV2Section: React.FC<SelectedKcarDetailV2SectionPr
 
   const hasCatalog = Boolean(targetCatalog && targetCatalog.options && Object.keys(targetCatalog.options).length > 0);
 
+  // 💡 [11-03-11]: 백엔드 단일화 케이카 옵션 매칭 상태
+  const [kcarMatchedOpts, setKcarMatchedOpts] = React.useState<BackendMatchedOption[]>([]);
+
+  React.useEffect(() => {
+    if (!selectedKcar || rawOptionNames.length === 0) {
+      setKcarMatchedOpts([]);
+      return;
+    }
+    const cached = selectedKcar.carCd ? getCachedCarMatchedOptions(selectedKcar.carCd) : null;
+    if (cached && cached.length > 0) {
+      setKcarMatchedOpts(cached);
+      return;
+    }
+    let isMounted = true;
+    matchOptionsSingle({
+      id: selectedKcar.carCd,
+      carName: selectedKcar.carName || selectedKcar.modelName || '',
+      year: selectedKcar.year || '',
+      optionsList: rawOptionNames,
+    }).then((data) => {
+      if (isMounted) setKcarMatchedOpts(data);
+    });
+    return () => {
+      isMounted = false;
+    };
+  }, [selectedKcar?.carCd, selectedKcar?.carName, selectedKcar?.year, rawOptionNames]);
+
   const matchedOptionChips = React.useMemo(() => {
-    return rawOptionNames.map((rawName) => {
-      // 카탈로그가 없을 때: 깔때기 폴백으로 원문 그대로·가격 미확인 유지 (없는 매칭 지어내지 않음)
-      if (!hasCatalog) {
+    return rawOptionNames.map((rawName, idx) => {
+      // 카탈로그가 없거나 백엔드 매칭이 없을 때: 깔때기 폴백으로 원문 그대로·가격 미확인 유지
+      if (!hasCatalog && kcarMatchedOpts.length === 0) {
         return {
           rawName,
           displayName: rawName,
@@ -131,23 +159,26 @@ export const SelectedKcarDetailV2Section: React.FC<SelectedKcarDetailV2SectionPr
         };
       }
 
-      const detail = getOptionMatchDetail(
-        rawName,
-        catalogOptNames,
-        'comp_vs_target',
-        targetCatalog,
-        targetCatalog
-      );
+      const mi = kcarMatchedOpts[idx] || kcarMatchedOpts.find((m) => m.raw_name === rawName);
 
-      const isExact = detail.isMatched && detail.confidence === 'exact';
-      const isFuzzy = detail.isMatched && detail.confidence === 'fuzzy';
+      if (!mi || mi.match_type === 'none') {
+        return {
+          rawName,
+          displayName: mi?.clean_name || rawName,
+          chipStyle: 'bg-[#1a1c26] text-zinc-300 border-[#2d3142]',
+          titleText: `[미매칭 옵션] 원문: ${rawName}`,
+          isExact: false,
+          isFuzzy: false,
+          hasCatalog: true,
+        };
+      }
 
-      const official = detail.officialOption || (detail.matchedOppositeName ? findOfficialCatalogOption(detail.matchedOppositeName, targetCatalog) : null);
-
-      const srcLabel = official?.source === 'danawa' ? '다나와' : official?.source === 'encar' ? '엔카' : (official?.source || '카탈로그');
-      const yearPart = targetCatalog?.year ? ` · ${targetCatalog.year}년` : '';
-      const stdName = official?.officialName || detail.matchedOppositeName || rawName;
-      const pricePart = official?.price ? ` (${Math.round(official.price / 10000)}만)` : '';
+      const isExact = mi.match_type === 'exact';
+      const isFuzzy = mi.match_type === 'fuzzy';
+      const srcLabel = mi.source === 'danawa' ? '다나와' : mi.source === 'encar' ? '엔카' : (mi.source || '카탈로그');
+      const yearPart = mi.matched_year ? ` · ${mi.matched_year}년` : (targetCatalog?.year ? ` · ${targetCatalog.year}년` : '');
+      const stdName = mi.official_name || mi.clean_name || rawName;
+      const pricePart = mi.price ? ` (${Math.round(mi.price / 10000)}만)` : '';
 
       let chipStyle = 'bg-[#1a1c26] text-zinc-300 border-[#2d3142]';
       let titleText = `[미매칭 옵션] 원문: ${rawName}`;
@@ -170,7 +201,7 @@ export const SelectedKcarDetailV2Section: React.FC<SelectedKcarDetailV2SectionPr
         hasCatalog: true,
       };
     });
-  }, [rawOptionNames, catalogOptNames, targetCatalog, hasCatalog]);
+  }, [rawOptionNames, kcarMatchedOpts, targetCatalog, hasCatalog]);
 
   // 1. 미선택 상태 분기
   if (!selectedKcar) {

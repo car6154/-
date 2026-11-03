@@ -2186,6 +2186,33 @@ def match_encar_options_endpoint(req: MatchOptionsRequest):
         return {"success": False, "error": str(e), "data": []}
 
 
+class BatchCarItem(BaseModel):
+    id: str
+    carName: str
+    year: Union[int, str]
+    optionsList: Optional[List[str]] = []
+    optionsText: Optional[str] = ""
+
+
+class MatchOptionsBatchRequest(BaseModel):
+    cars: List[BatchCarItem]
+
+
+@app.post("/api/encar/match-options-batch")
+def match_encar_options_batch_endpoint(req: MatchOptionsBatchRequest):
+    try:
+        from services.option_package_service import match_car_options_detail
+        results = {}
+        for car in req.cars:
+            car_id = str(car.id).strip()
+            input_data = car.optionsList if (car.optionsList and len(car.optionsList) > 0) else (car.optionsText or "")
+            matched = match_car_options_detail(car.carName, car.year, input_data)
+            results[car_id] = matched
+        return {"success": True, "data": results}
+    except Exception as e:
+        return {"success": False, "error": str(e), "data": {}}
+
+
 class EncarSoldOutRequest(BaseModel):
     carIds: Optional[List[str]] = []
     targetYear: Optional[str] = None
