@@ -31,39 +31,49 @@ export const SoldListingsV2Section: React.FC<SoldListingsV2SectionProps> = ({
   const avgSellPrice = Number(liveMarketStats?.avg_sell_price || 0);
   const avgDays = Number(liveMarketStats?.avg_days || 0);
 
+  // 💡 [11-03-30]: 브리핑 문장 형식을 짧게 한 줄로 변환 (수치는 기존 계산값 그대로 사용, 하드코딩 금지)
+  const shortBriefingText = React.useMemo(() => {
+    if (!biddingVerdict?.mainText) return '시장 완판 데이터 분석 대기 중';
+    let text = biddingVerdict.mainText;
+    text = text.replace(/엔카 시장에서\s*/g, '엔카 ');
+    text = text.replace(/엔카 시장\s*/g, '엔카 ');
+    text = text.replace(/최근 30일간 <b>(\d+)대<\/b>가 완판\(일평균 ([0-9.]+)대 출고\)되는.*$/g, '30일 <b>$1대</b> 완판(일 $2대)');
+    text = text.replace(/최근 30일간 <b>(\d+)대<\/b>가 완판되는.*$/g, '30일 <b>$1대</b> 완판');
+    text = text.replace(/최근 30일 완판이 <b>(\d+)대<\/b>로 유통 속도가 완만합니다\./g, '30일 <b>$1대</b> 완판(완만)');
+    text = text.replace(/\(월 (\d+)대 출고\)에서 꾸준히 소화되는 정상 유통 차종입니다\./g, '월 $1대 출고');
+    text = text.replace(/자사 소매 평균 (\d+)일 만에 완판되는 빠른 회전 효자 차종입니다\./g, '자사 소매 평균 $1일 완판');
+    return text;
+  }, [biddingVerdict?.mainText]);
+
   return (
-    <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-3 space-y-2 shadow-sm">
-      {/* 1. 상단 브리핑 줄 & 우측 완판 평균가·평균 경과일수 지표 행 */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 px-1">
-        {/* 좌측: 훅의 biddingVerdict.mainText 브리핑 문장 줄 */}
-        <div className="min-w-0 flex-1 text-sm text-zinc-300 flex items-center gap-1.5">
-          {biddingVerdict?.mainText ? (
-            <span
-              className="text-zinc-300 [&>b]:text-white [&>b]:font-bold"
-              dangerouslySetInnerHTML={{ __html: biddingVerdict.mainText }}
-            />
-          ) : (
-            <span className="text-zinc-500">시장 완판 데이터 분석 대기 중</span>
-          )}
+    <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl px-3 py-2 space-y-1.5 shadow-sm">
+      {/* 1. 상단 짧은 브리핑 줄 + 문장 옆 완판 평균가·평균 경과일수 알약 (11-03-30 한 줄 통합 및 글자/패딩 축소) */}
+      <div className="flex items-center justify-between gap-2 px-0.5 text-xs text-zinc-300">
+        {/* 좌측: 짧은 브리핑 문장 */}
+        <div className="min-w-0 flex items-center gap-1.5 truncate">
+          <span
+            className="text-zinc-300 [&>b]:text-white [&>b]:font-bold truncate"
+            dangerouslySetInnerHTML={{ __html: shortBriefingText }}
+          />
         </div>
 
-        {/* 우측 상단: 자사 소매 평균가 · 평균 경과일수 */}
-        <div className="shrink-0 flex items-center gap-1.5 text-[11px] font-mono">
+        {/* 우측: 자사 소매 완판 평균가 · 평균 경과일수 알약 (문장 옆 같은 줄) */}
+        <div className="shrink-0 flex items-center gap-1.5 text-[10px] font-mono">
           {avgSellPrice > 0 || avgDays > 0 ? (
             <>
               {avgSellPrice > 0 && (
-                <span className="px-2 py-0.5 rounded bg-[#1a1d2b] border border-[#2b3044] text-zinc-300">
+                <span className="px-1.5 py-0.5 rounded bg-[#1a1d2b] border border-[#2b3044] text-zinc-300">
                   완판 평균 <strong className="text-amber-300 font-bold">{avgSellPrice.toLocaleString()}만</strong>
                 </span>
               )}
               {avgDays > 0 && (
-                <span className="px-2 py-0.5 rounded bg-[#1a1d2b] border border-[#2b3044] text-zinc-300">
+                <span className="px-1.5 py-0.5 rounded bg-[#1a1d2b] border border-[#2b3044] text-zinc-300">
                   평균 경과일수 <strong className="text-emerald-400 font-bold">{avgDays}일</strong>
                 </span>
               )}
             </>
           ) : (
-            <span className="px-2 py-0.5 rounded bg-[#161822] border border-[#262938] text-zinc-400">
+            <span className="px-1.5 py-0.5 rounded bg-[#161822] border border-[#262938] text-zinc-400">
               완판 데이터 0건
             </span>
           )}

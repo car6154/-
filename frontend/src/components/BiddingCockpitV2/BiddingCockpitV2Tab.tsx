@@ -496,21 +496,21 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
             onOpenHistoryModal={() => cockpit.setShowCarHistoryModal(true)}
           />
 
-          {/* 상단 4칸 한 줄: 소매가 · 엔카평균 · 엔카시세 · 기준소매 (11-03-29 카드 내부 1줄 압축) */}
+          {/* 상단 4칸 한 줄: 소매가 · 엔카평균 · 엔카시세 · 기준소매 (11-03-30 카드 내부 1줄 압축 & 시각 위계 조정: 소매가 28px, 나머지 20px, 라벨 옅게) */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {/* 1) 소매가 */}
             <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl px-2.5 py-1.5 shadow-sm flex items-center justify-between gap-1.5">
-              <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase shrink-0">소매가</span>
-              <span className="text-lg sm:text-xl font-black text-sky-400 font-mono tracking-tight">
+              <span className="text-[11px] font-semibold text-zinc-500 uppercase shrink-0">소매가</span>
+              <span className="text-[28px] font-black text-sky-400 font-mono tracking-tight leading-none">
                 {finalPriceText}
               </span>
             </div>
 
             {/* 2) 엔카평균 */}
             <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl px-2.5 py-1.5 shadow-sm flex items-center justify-between gap-1.5">
-              <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase shrink-0">엔카평균</span>
+              <span className="text-[11px] font-semibold text-zinc-500 uppercase shrink-0">엔카평균</span>
               <div className="flex items-baseline gap-1.5 min-w-0">
-                <span className="text-sm sm:text-base font-bold text-zinc-100 font-mono tracking-tight">
+                <span className="text-[20px] font-bold text-zinc-100 font-mono tracking-tight leading-none">
                   {strictAdjText}
                 </span>
                 {strictAdjDelta && (
@@ -525,9 +525,9 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
 
             {/* 3) 엔카시세 */}
             <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl px-2.5 py-1.5 shadow-sm flex items-center justify-between gap-1.5">
-              <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase shrink-0">엔카시세</span>
+              <span className="text-[11px] font-semibold text-zinc-500 uppercase shrink-0">엔카시세</span>
               <div className="flex items-baseline gap-1.5 min-w-0">
-                <span className="text-sm sm:text-base font-bold text-zinc-100 font-mono tracking-tight">
+                <span className="text-[20px] font-bold text-zinc-100 font-mono tracking-tight leading-none">
                   {rawStdText}
                 </span>
                 {rawStdDelta && (
@@ -542,9 +542,9 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
 
             {/* 4) 기준소매 */}
             <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl px-2.5 py-1.5 shadow-sm flex items-center justify-between gap-1.5">
-              <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase shrink-0">기준소매</span>
+              <span className="text-[11px] font-semibold text-zinc-500 uppercase shrink-0">기준소매</span>
               <div className="flex items-baseline gap-1.5 min-w-0">
-                <span className="text-sm sm:text-base font-bold text-zinc-100 font-mono tracking-tight">
+                <span className="text-[20px] font-bold text-zinc-100 font-mono tracking-tight leading-none">
                   {chaolmaRetailText}
                 </span>
                 {chaolmaDelta && (

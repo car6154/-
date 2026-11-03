@@ -16,12 +16,12 @@ export const VehicleAssessmentV2Bar: React.FC<VehicleAssessmentV2BarProps> = ({
   return (
     <div
       onClick={onOpenHistoryModal}
-      className="bg-[#121622] hover:bg-[#161c2d] border border-sky-500/35 hover:border-sky-400/60 rounded-xl p-3 flex flex-col md:flex-row md:items-center justify-between gap-3 shadow-md transition cursor-pointer group"
+      className="bg-[#121622] hover:bg-[#161c2d] border border-sky-500/35 hover:border-sky-400/60 rounded-xl px-3 py-1.5 flex flex-col md:flex-row md:items-center justify-between gap-2 shadow-md transition cursor-pointer group"
       title="클릭 시 국토부 등록원부 및 카히스토리 상세 모달 열기"
     >
       <div className="flex flex-wrap items-center gap-2">
         <span
-          className="px-2.5 py-0.5 rounded-full text-xs font-black border flex items-center gap-1 shrink-0"
+          className="px-2 py-0.5 rounded-full text-[11px] font-black border flex items-center gap-1 shrink-0"
           style={{
             backgroundColor: `${currentAssessment.gradeBadgeColor}20`,
             color: currentAssessment.gradeBadgeColor,
@@ -32,11 +32,11 @@ export const VehicleAssessmentV2Bar: React.FC<VehicleAssessmentV2BarProps> = ({
           <span>{currentAssessment.gradeName}</span>
         </span>
 
-        {/* 핵심 검증 태그 칩들: '5단계' 및 '주행' 제외, 실무 우선순위 반영 */}
-        <div className="flex flex-wrap items-center gap-1.5 text-[11px]">
+        {/* 핵심 검증 태그 칩들: '5단계' 및 '주행' 제외, 실무 우선순위 반영 (11-03-30 한 단계 축소) */}
+        <div className="flex flex-wrap items-center gap-1.5 text-[10px]">
           {/* 1. 사고 및 내차피해 */}
           <span
-            className={`px-2 py-0.5 rounded border ${
+            className={`px-1.5 py-0.5 rounded border ${
               currentAssessment.accidentDamage?.isPass
                 ? 'bg-emerald-500/10 text-emerald-300 border-emerald-500/30'
                 : 'bg-rose-500/20 text-rose-300 border-rose-500/40 font-bold'
@@ -44,7 +44,7 @@ export const VehicleAssessmentV2Bar: React.FC<VehicleAssessmentV2BarProps> = ({
           >
             사고: {currentAssessment.accidentDamage?.status === 'PERFECT' ? '무사고' : currentAssessment.accidentDamage?.status === 'MINOR' ? '단순수리' : '골격/결격'}
             {targetCarHistory && targetCarHistory.myCarAccidentCount > 0 ? (
-              <span className="ml-1 text-[10px] opacity-90 font-mono">
+              <span className="ml-1 text-[9px] opacity-90 font-mono">
                 (내차 {targetCarHistory.myCarAccidentCount}건/{targetCarHistory.myCarAccidentCost}만)
               </span>
             ) : null}
@@ -52,7 +52,7 @@ export const VehicleAssessmentV2Bar: React.FC<VehicleAssessmentV2BarProps> = ({
 
           {/* 2. 침수 / 전손 */}
           <span
-            className={`px-2 py-0.5 rounded border ${
+            className={`px-1.5 py-0.5 rounded border ${
               !targetCarHistory || (targetCarHistory.floodedCount === 0 && targetCarHistory.totalLossCount === 0)
                 ? 'bg-emerald-500/10 text-emerald-300 border-emerald-500/30'
                 : 'bg-rose-500/20 text-rose-300 border-rose-500/40 font-bold animate-pulse'
@@ -65,7 +65,7 @@ export const VehicleAssessmentV2Bar: React.FC<VehicleAssessmentV2BarProps> = ({
 
           {/* 3. 용도 및 소유자 변경 */}
           <span
-            className={`px-2 py-0.5 rounded border ${
+            className={`px-1.5 py-0.5 rounded border ${
               currentAssessment.ownershipUsage?.isPass
                 ? 'bg-emerald-500/10 text-emerald-300 border-emerald-500/30'
                 : 'bg-amber-500/20 text-amber-300 border-amber-500/40'
@@ -73,13 +73,13 @@ export const VehicleAssessmentV2Bar: React.FC<VehicleAssessmentV2BarProps> = ({
           >
             용도: {currentAssessment.ownershipUsage?.status === 'SINGLE' ? '1인신조' : currentAssessment.ownershipUsage?.status === 'RENT' ? '렌트이력' : '자가용'}
             {targetCarHistory && targetCarHistory.ownerChangedCount > 0 && !targetCarHistory.isSingleOwner ? (
-              <span className="ml-1 text-[10px] opacity-90 font-mono">({targetCarHistory.ownerChangedCount}회 변경)</span>
+              <span className="ml-1 text-[9px] opacity-90 font-mono">({targetCarHistory.ownerChangedCount}회 변경)</span>
             ) : null}
           </span>
 
           {/* 4. 원부 (압류/저당) */}
           <span
-            className={`px-2 py-0.5 rounded border ${
+            className={`px-1.5 py-0.5 rounded border ${
               currentAssessment.legalRights?.isPass
                 ? 'bg-emerald-500/10 text-emerald-300 border-emerald-500/30'
                 : 'bg-rose-500/20 text-rose-300 border-rose-500/40 font-bold'
@@ -94,7 +94,7 @@ export const VehicleAssessmentV2Bar: React.FC<VehicleAssessmentV2BarProps> = ({
 
           {/* 5. 정기검사 */}
           <span
-            className={`px-2 py-0.5 rounded border ${
+            className={`px-1.5 py-0.5 rounded border ${
               currentAssessment.inspectionValidity?.isPass
                 ? 'bg-emerald-500/10 text-emerald-300 border-emerald-500/30'
                 : 'bg-rose-500/20 text-rose-300 border-rose-500/40 font-bold'
@@ -105,16 +105,19 @@ export const VehicleAssessmentV2Bar: React.FC<VehicleAssessmentV2BarProps> = ({
         </div>
       </div>
 
-      <div className="flex items-center gap-3 self-end md:self-auto shrink-0">
+      <div className="flex items-center gap-2 self-end md:self-auto shrink-0">
         {currentAssessment.totalAdjustmentMan !== 0 && (
-          <span className="text-xs font-mono font-bold">
+          <span className="text-[11px] font-mono font-bold">
             규칙 가감: <span className={currentAssessment.totalAdjustmentMan > 0 ? 'text-emerald-400' : 'text-rose-400'}>
               {currentAssessment.totalAdjustmentMan > 0 ? `+${currentAssessment.totalAdjustmentMan}만` : `${currentAssessment.totalAdjustmentMan}만`}
             </span>
           </span>
         )}
-        <span className="text-xs text-sky-300 font-bold bg-sky-500/20 group-hover:bg-sky-500/30 px-2.5 py-1 rounded-lg border border-sky-400/40 flex items-center gap-1 transition">
-          원부·카히스토리 정밀리포트 ↗
+        <span
+          title="원부·카히스토리 정밀리포트"
+          className="text-xs text-sky-300 font-bold bg-sky-500/20 group-hover:bg-sky-500/30 px-2 py-0.5 rounded-lg border border-sky-400/40 flex items-center justify-center transition"
+        >
+          ↗
         </span>
       </div>
     </div>
