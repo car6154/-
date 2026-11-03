@@ -2050,6 +2050,7 @@ class SalesDataAnalyzer:
                 '포드', '링컨', '혼다', '토요타', '렉서스', '지프', '랜드로버', '미니', '푸조', '폴스타'
             ]
             car_type = "for" if is_import else "kor"
+            dsl_car_type = "N" if is_import else "Y"
             
             # 제조사 괄호 표기 엔카 규격 변환 (르노코리아(삼성_) 등)
             BRAND_ENCAR_MAP = {
@@ -2082,9 +2083,9 @@ class SalesDataAnalyzer:
 
             if matched_sub_model:
                 f_sub = str(matched_sub_model)
-                core_tree = f"(C.CarType.Y._.(C.Manufacturer.{f_brand}._.(C.ModelGroup.{f_mg}._.Model.{f_sub}.)))"
+                core_tree = f"(C.CarType.{dsl_car_type}._.(C.Manufacturer.{f_brand}._.(C.ModelGroup.{f_mg}._.Model.{f_sub}.)))"
             else:
-                core_tree = f"(C.CarType.Y._.(C.Manufacturer.{f_brand}._.ModelGroup.{f_mg}.))"
+                core_tree = f"(C.CarType.{dsl_car_type}._.(C.Manufacturer.{f_brand}._.ModelGroup.{f_mg}.))"
 
             action = f"(And.Hidden.N._.{core_tree}"
 

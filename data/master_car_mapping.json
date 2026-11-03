@@ -11484,19 +11484,19 @@
       ],
       "trims": {
         "2.0 B4 AWD 인스크립션": {
-          "badge_group": "가솔린 2000cc",
+          "badge_group": "가솔린 4WD",
           "badge": "B4 인스크립션",
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:50"
         },
         "2.0 B4 AWD 울트라 브라이트": {
-          "badge_group": "가솔린 2000cc",
+          "badge_group": "가솔린 4WD",
           "badge": "B4 울트라 브라이트",
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:50"
         },
         "2.0 T4 AWD 인스크립션": {
-          "badge_group": "가솔린 2000cc",
+          "badge_group": "가솔린 4WD",
           "badge": "T4 인스크립션",
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:50"
@@ -11626,19 +11626,19 @@
       ],
       "trims": {
         "올스페이스 2.0 TSI 프레스티지": {
-          "badge_group": "가솔린 2000cc",
+          "badge_group": "가솔린 2WD",
           "badge": "2.0 TSI 프레스티지",
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:50"
         },
         "2.0 TDI 프리미엄": {
-          "badge_group": "디젤 2000cc",
+          "badge_group": "디젤 2WD",
           "badge": "2.0 TDI 프리미엄",
           "badge_detail": "",
           "updated_at": "2026-10-12 19:12:00"
         },
         "2.0 TDI 프레스티지": {
-          "badge_group": "디젤 2000cc",
+          "badge_group": "디젤 2WD",
           "badge": "2.0 TDI 프레스티지",
           "badge_detail": "",
           "updated_at": "2026-10-12 19:40:51"

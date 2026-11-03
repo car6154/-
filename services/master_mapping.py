@@ -978,6 +978,7 @@ class MasterMappingService:
                 '포드', '링컨', '혼다', '토요타', '렉서스', '지프', '랜드로버', '미니', '푸조', '폴스타'
             ]
             car_type = "for" if is_import else "kor"
+            dsl_car_type = "N" if is_import else "Y"
 
             # 엔카 특수 브랜드명 보정 (언더바 등)
             BRAND_ENCAR_MAP = {
@@ -1027,17 +1028,17 @@ class MasterMappingService:
             bd_esc = cls._escape_encar_dsl_token(bd)
 
             if f_model_esc and bg_clean and b_esc and bd_esc:
-                core_tree = f"(C.CarType.Y._.(C.Manufacturer.{mapped_brand}._.(C.ModelGroup.{f_mg}._.(C.Model.{f_model_esc}._.(C.BadgeGroup.{bg_clean}._.(C.Badge.{b_esc}._.BadgeDetail.{bd_esc}.))))))"
+                core_tree = f"(C.CarType.{dsl_car_type}._.(C.Manufacturer.{mapped_brand}._.(C.ModelGroup.{f_mg}._.(C.Model.{f_model_esc}._.(C.BadgeGroup.{bg_clean}._.(C.Badge.{b_esc}._.BadgeDetail.{bd_esc}.))))))"
             elif f_model_esc and bg_clean and b_esc:
-                core_tree = f"(C.CarType.Y._.(C.Manufacturer.{mapped_brand}._.(C.ModelGroup.{f_mg}._.(C.Model.{f_model_esc}._.(C.BadgeGroup.{bg_clean}._.Badge.{b_esc}.)))))"
+                core_tree = f"(C.CarType.{dsl_car_type}._.(C.Manufacturer.{mapped_brand}._.(C.ModelGroup.{f_mg}._.(C.Model.{f_model_esc}._.(C.BadgeGroup.{bg_clean}._.Badge.{b_esc}.)))))"
             elif f_model_esc and b_esc and bd_esc:
-                core_tree = f"(C.CarType.Y._.(C.Manufacturer.{mapped_brand}._.(C.ModelGroup.{f_mg}._.(C.Model.{f_model_esc}._.(C.Badge.{b_esc}._.BadgeDetail.{bd_esc}.)))))"
+                core_tree = f"(C.CarType.{dsl_car_type}._.(C.Manufacturer.{mapped_brand}._.(C.ModelGroup.{f_mg}._.(C.Model.{f_model_esc}._.(C.Badge.{b_esc}._.BadgeDetail.{bd_esc}.)))))"
             elif f_model_esc and b_esc:
-                core_tree = f"(C.CarType.Y._.(C.Manufacturer.{mapped_brand}._.(C.ModelGroup.{f_mg}._.(C.Model.{f_model_esc}._.Badge.{b_esc}.))))"
+                core_tree = f"(C.CarType.{dsl_car_type}._.(C.Manufacturer.{mapped_brand}._.(C.ModelGroup.{f_mg}._.(C.Model.{f_model_esc}._.Badge.{b_esc}.))))"
             elif f_model_esc:
-                core_tree = f"(C.CarType.Y._.(C.Manufacturer.{mapped_brand}._.(C.ModelGroup.{f_mg}._.Model.{f_model_esc}.)))"
+                core_tree = f"(C.CarType.{dsl_car_type}._.(C.Manufacturer.{mapped_brand}._.(C.ModelGroup.{f_mg}._.Model.{f_model_esc}.)))"
             else:
-                core_tree = f"(C.CarType.Y._.(C.Manufacturer.{mapped_brand}._.ModelGroup.{f_mg}.))"
+                core_tree = f"(C.CarType.{dsl_car_type}._.(C.Manufacturer.{mapped_brand}._.ModelGroup.{f_mg}.))"
 
             action = f"(And.Hidden.N._.{core_tree}"
 
