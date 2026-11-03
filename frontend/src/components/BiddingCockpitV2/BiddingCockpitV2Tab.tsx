@@ -659,10 +659,11 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
                     </div>
                   </div>
 
-                  {/* 0-2. 활성 탭 요약 4칸 + 연식별 호가 평균 (엔카 / 케이카) */}
+                  {/* 0-2. 활성 탭 요약 4칸 + 연식별 호가 평균 (엔카 / 케이카 - 11-03-31 strictCarIds 전달) */}
                   {activeCompTab === 'encar' && (
                     <EncarSummaryHeader
                       encarList={cockpit.encarList || []}
+                      strictCarIds={cockpit.encarStats?.strictCarIds || []}
                       cohortNoAccAvg={cockpit.encarStats?.cohortNoAccAvg || 0}
                       encarYearStats={cockpit.encarYearStats || []}
                       encarSourceUrl={cockpit.encarSourceUrl}
@@ -671,6 +672,7 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
                   {activeCompTab === 'kcar' && (
                     <KcarSummaryHeader
                       kcarList={kcarDisplayList}
+                      strictCarIds={(cockpit.kcarStats as any)?.strictCarIds || []}
                       kcarYearStats={kcarYearStats || []}
                       kcarSearchUrl={cockpit.kcarStats?.searchUrl}
                     />

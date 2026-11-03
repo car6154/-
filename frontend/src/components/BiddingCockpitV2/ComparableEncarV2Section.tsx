@@ -68,6 +68,7 @@ const parseYearTo2Digit = (yrStr?: string): number | null => {
 
 export interface EncarSummaryHeaderProps {
   encarList: EncarItem[];
+  strictCarIds?: string[];
   cohortNoAccAvg?: number;
   encarYearStats?: Array<{ year: number; avg: number; count: number; isTarget: boolean }>;
   encarSourceUrl?: string;
@@ -75,20 +76,30 @@ export interface EncarSummaryHeaderProps {
 
 export const EncarSummaryHeader: React.FC<EncarSummaryHeaderProps> = ({
   encarList,
+  strictCarIds = [],
   encarYearStats,
   encarSourceUrl,
 }) => {
   const { summaryCount, minPrice, maxPrice, avgPrice } = useMemo(() => {
-    if (!encarList || encarList.length === 0) {
+    // 💡 [11-03-31 제이 철칙]: strictCarIds(백엔드 엄격 집합)에 속한 차량만으로 계산. 비어 있거나 없으면 '-' 표시(전체 폴백 절대 금지)
+    if (!encarList || encarList.length === 0 || !strictCarIds || strictCarIds.length === 0) {
       return { summaryCount: 0, minPrice: 0, maxPrice: 0, avgPrice: 0 };
     }
 
-    // 💡 [11-03-29 제이 철칙]: 무사고 필터 및 cohortNoAccAvg 제거 -> 목록에 표시되는 동급 엄격 집합(encarList) 기준 단순 집계
-    const prices = encarList
+    const idSet = new Set(strictCarIds.map(String));
+    const strictCars = encarList.filter(
+      (c) => idSet.has(String(c.id)) || idSet.has(String((c as any)._carid))
+    );
+
+    if (strictCars.length === 0) {
+      return { summaryCount: 0, minPrice: 0, maxPrice: 0, avgPrice: 0 };
+    }
+
+    const prices = strictCars
       .map((c) => Number(c.price))
       .filter((p) => !isNaN(p) && p > 0);
 
-    const count = encarList.length;
+    const count = strictCars.length;
     const minP = prices.length > 0 ? Math.min(...prices) : 0;
     const maxP = prices.length > 0 ? Math.max(...prices) : 0;
     const avgP = prices.length > 0 ? Math.round(prices.reduce((sum, cur) => sum + cur, 0) / prices.length) : 0;
@@ -99,7 +110,7 @@ export const EncarSummaryHeader: React.FC<EncarSummaryHeaderProps> = ({
       maxPrice: maxP,
       avgPrice: avgP,
     };
-  }, [encarList]);
+  }, [encarList, strictCarIds]);
 
   return (
     <div className="space-y-2.5">

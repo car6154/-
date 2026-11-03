@@ -1024,9 +1024,11 @@ def search_encar_market(req: EncarSearchRequest):
                 "items": [],
                 "totalModelCount": 0,
                 "filteredCount": 0,
+                "strictCarIds": [],
                 "directSearchUrl": encar_url or "",
                 "stats": {
                     "avg": 0, "min": 0, "max": 0, "median": 0, "count": 0,
+                    "strictCarIds": [],
                     "benchmarkPrice": 0, "minBand": 0, "maxBand": 0,
                     "noAccAvg": 0, "accAvg": 0, "accGap": 0
                 }
@@ -1745,11 +1747,19 @@ def search_encar_market(req: EncarSearchRequest):
                 "추가옵션": opt_s
             })
 
+        # [11-03-31 제이 철칙]: 엄격 집합(_carid 기준) ID 목록 반환 (프론트 요약 계산용)
+        strict_car_ids = [
+            str(cid).strip()
+            for cid in strict_df['_carid'].dropna().unique()
+            if str(cid).strip() and str(cid).strip() not in ('-', 'None', '')
+        ] if strict_has_data else []
+
         return {
             "success": True,
             "items": items,
             "totalModelCount": len(items),
             "filteredCount": len(strict_df),
+            "strictCarIds": strict_car_ids,
             "filterStats": {
                 "targetBadge": detail_model,
                 "totalModelCount": len(items),
@@ -1765,6 +1775,7 @@ def search_encar_market(req: EncarSearchRequest):
                 "median": median_price,
                 "count": len(strict_df) if strict_has_data else 0,
                 "strictCount": len(strict_df),
+                "strictCarIds": strict_car_ids,
                 "strictHasData": strict_has_data,
                 "strictAdjAvg": strict_adj_avg,
                 "meanOptDelta": mean_opt_delta,

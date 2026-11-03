@@ -326,7 +326,10 @@ export function useBiddingCockpit({
         setEncarSourceUrl(optionsUrl);
       }
       if (data.stats) {
-        setBackendEncarStats(data.stats);
+        setBackendEncarStats({
+          ...data.stats,
+          strictCarIds: data.strictCarIds || data.stats?.strictCarIds || []
+        });
       }
       if (items.length > 0) {
         if (data.valuation && data.valuation.hasData) {
@@ -2390,7 +2393,7 @@ export function useBiddingCockpit({
   const encarStats = useMemo(() => {
     if (!encarList.length) {
       return {
-        count: 0, strictCount: 0, wideCount: 0, min: 0, max: 0, avg: 0, median: 0,
+        count: 0, strictCount: 0, wideCount: 0, strictCarIds: [] as string[], min: 0, max: 0, avg: 0, median: 0,
         strictAdjAvg: 0, strictAdjMin: 0, strictAdjMedian: 0, strictAdjMax: 0,
         strictAdjCount: 0, strictAdjExcludedCount: 0,
         meanOptDelta: backendEncarStats?.meanOptDelta ?? 0,
@@ -2413,6 +2416,7 @@ export function useBiddingCockpit({
       count: backendEncarStats?.strictCount ?? backendEncarStats?.strictAdjCount ?? encarFilteredCount,
       strictCount: backendEncarStats?.strictCount ?? encarFilteredCount,
       wideCount: backendEncarStats?.wideCount ?? encarList.length,
+      strictCarIds: (backendEncarStats?.strictCarIds || []) as string[],
       min,
       max,
       avg,

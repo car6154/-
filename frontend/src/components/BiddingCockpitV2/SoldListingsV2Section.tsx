@@ -31,7 +31,7 @@ export const SoldListingsV2Section: React.FC<SoldListingsV2SectionProps> = ({
   const avgSellPrice = Number(liveMarketStats?.avg_sell_price || 0);
   const avgDays = Number(liveMarketStats?.avg_days || 0);
 
-  // 💡 [11-03-30]: 브리핑 문장 형식을 짧게 한 줄로 변환 (수치는 기존 계산값 그대로 사용, 하드코딩 금지)
+  // 💡 [11-03-31]: 브리핑 문장 형식을 짧게 한 줄로 변환 (수치는 기존 계산값 그대로 사용, 하드코딩 금지)
   const shortBriefingText = React.useMemo(() => {
     if (!biddingVerdict?.mainText) return '시장 완판 데이터 분석 대기 중';
     let text = biddingVerdict.mainText;

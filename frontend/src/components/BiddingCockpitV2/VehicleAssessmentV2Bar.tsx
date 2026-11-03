@@ -32,7 +32,7 @@ export const VehicleAssessmentV2Bar: React.FC<VehicleAssessmentV2BarProps> = ({
           <span>{currentAssessment.gradeName}</span>
         </span>
 
-        {/* 핵심 검증 태그 칩들: '5단계' 및 '주행' 제외, 실무 우선순위 반영 (11-03-30 한 단계 축소) */}
+        {/* 핵심 검증 태그 칩들: '5단계' 및 '주행' 제외, 실무 우선순위 반영 (11-03-31 한 단계 축소) */}
         <div className="flex flex-wrap items-center gap-1.5 text-[10px]">
           {/* 1. 사고 및 내차피해 */}
           <span
