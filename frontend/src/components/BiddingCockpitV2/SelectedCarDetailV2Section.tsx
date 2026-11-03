@@ -1,16 +1,25 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { ExternalLink, RefreshCw, AlertCircle, Info, CheckCircle2, ChevronUp, ChevronDown } from 'lucide-react';
 import { EncarItem } from '@/components/BiddingCockpit/types';
 import { CarDamageDiagram2D, getDamagePartKoreanName } from '@/components/BiddingCockpit/Sections/CarDamageDiagram2D';
 import { getCarColorStyle } from '@/utils/carColor';
+import { OptionItem } from '@/services/chaolmaService';
 import { splitOptionString } from '@/services/biddingOptionCatalog';
-import { matchOptionsSingle } from '@/services/optionMatchingService';
+import {
+  matchOptionsSingle,
+  BackendMatchedOption,
+  compareOptionToOpposites,
+} from '@/services/optionMatchingService';
 
 export type MatchedOptionItem = import('@/services/optionMatchingService').BackendMatchedOption;
 
 export interface SelectedCarDetailV2SectionProps {
   selectedEncar: EncarItem | null;
   isInspectionLoading: boolean;
+  targetCarName?: string;
+  targetYear?: string | number;
+  targetOptions?: OptionItem[];
+  optionsTag?: string;
 }
 
 // 사고구분 라벨 헬퍼 (기존 콕핏 배지 스타일과 100% 일치)
@@ -44,7 +53,43 @@ const formatAccident = (rawType?: string) => {
 export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProps> = ({
   selectedEncar,
   isInspectionLoading,
+  targetCarName,
+  targetYear,
+  targetOptions,
+  optionsTag,
 }) => {
+  // 💡 [11-03-14]: 목표차 옵션 원문 및 백엔드 매칭 (id 없이 단건 호출하여 사이드바와 캐시 공유)
+  const targetOptNames: string[] = useMemo(() => {
+    return (targetOptions && targetOptions.length > 0)
+      ? targetOptions.map((o) => o.name)
+      : splitOptionString(optionsTag || '');
+  }, [targetOptions, optionsTag]);
+
+  const [targetMatchedOpts, setTargetMatchedOpts] = useState<BackendMatchedOption[]>([]);
+
+  useEffect(() => {
+    if (targetOptNames.length === 0) {
+      setTargetMatchedOpts([]);
+      return;
+    }
+    let isMounted = true;
+    matchOptionsSingle({
+      carName: targetCarName || '',
+      year: targetYear || '',
+      optionsList: targetOptNames,
+    }).then((data) => {
+      if (isMounted) setTargetMatchedOpts(data);
+    });
+    return () => {
+      isMounted = false;
+    };
+  }, [targetCarName, targetYear, targetOptNames]);
+
+  const targetMatchedList = useMemo(() => {
+    return targetOptNames.map((to) => {
+      return targetMatchedOpts.find((m) => m.raw_name === to) || to;
+    });
+  }, [targetOptNames, targetMatchedOpts]);
   // 상세 패널 숨김/펼침 상태 (기본값: 펼침)
   const [isCollapsed, setIsCollapsed] = useState(false);
 
@@ -347,78 +392,84 @@ export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProp
 
             // 매칭 데이터가 있으면 사용, 아직 수신 전이면 원문 리스트 폴백
             const fallbackList = splitOptionString(rawOptText);
-            const displayList: Array<{
-              displayName: string;
-              rawName: string;
-              matchType: 'exact' | 'fuzzy' | 'none';
-              source: 'danawa' | 'encar' | 'none';
-              price?: number | null;
-              matchedYear?: string;
-            }> = matchedOptions.length > 0
-              ? matchedOptions.map((m) => ({
-                  displayName: m.match_type !== 'none' ? m.official_name : m.raw_name,
-                  rawName: m.raw_name,
-                  matchType: m.match_type,
-                  source: m.source,
-                  price: m.price,
-                  matchedYear: m.matched_year,
-                }))
-              : fallbackList.map((raw) => ({
-                  displayName: raw,
-                  rawName: raw,
-                  matchType: 'none',
-                  source: 'none',
-                }));
+            const rawItems = matchedOptions.length > 0 ? matchedOptions : fallbackList;
+
+            const mappedChips = rawItems.map((item, origIdx) => {
+              const isMatchedOpt = typeof item === 'object';
+              const rawName = isMatchedOpt ? item.raw_name : item;
+              const displayName = isMatchedOpt && item.match_type !== 'none'
+                ? item.official_name
+                : rawName;
+
+              let titleText = `[미매칭 옵션] 원문: ${rawName}`;
+              if (isMatchedOpt && item.match_type === 'exact') {
+                const srcLabel = item.source === 'danawa' ? '다나와' : '엔카';
+                const yearSuffix = item.matched_year ? ` · ${item.matched_year}년` : '';
+                titleText = `[${srcLabel} 카탈로그 정확 매칭${yearSuffix}] 표준명: ${displayName}${item.price ? ` (${Math.round(item.price / 10000)}만원)` : ''}`;
+              } else if (isMatchedOpt && item.match_type === 'fuzzy') {
+                const srcLabel = item.source === 'danawa' ? '다나와' : '엔카';
+                const yearSuffix = item.matched_year ? ` · ${item.matched_year}년` : '';
+                titleText = `[${srcLabel} 카탈로그 퍼지 매칭${yearSuffix}] 표준명: ${displayName} (원문: ${rawName})`;
+              }
+
+              // 💡 [11-03-14]: 목표차와의 대조 결과로 기호 및 색상 결정
+              const compareRes = compareOptionToOpposites(item, targetMatchedList);
+              const symbol = compareRes.symbol; // '✓' | '~' | '+'
+              const symbolRank = symbol === '✓' ? 1 : symbol === '~' ? 2 : 3;
+
+              let chipStyle = 'bg-orange-500/30 text-orange-300 border-orange-500/60 font-bold';
+              if (symbol === '✓') {
+                chipStyle = 'bg-emerald-500/30 text-emerald-300 border-emerald-500/60 font-bold';
+              } else if (symbol === '~') {
+                chipStyle = 'bg-amber-500/30 text-amber-300 border-amber-500/60 font-bold';
+              }
+
+              return {
+                origIdx,
+                displayName,
+                titleText,
+                symbol,
+                symbolRank,
+                chipStyle,
+              };
+            });
+
+            // 💡 [11-03-14]: 공식 일치(✓) -> 추정(~) -> 비교차 전용(+) 순 정렬 (그룹 내 원문 순서 유지)
+            const sortedChips = mappedChips.slice().sort((a, b) => a.symbolRank - b.symbolRank || a.origIdx - b.origIdx);
 
             return (
               <div className="p-3 bg-[#0c0e14] rounded-lg border border-[#232634] text-xs space-y-1.5">
                 <div className="flex items-center justify-between">
                   <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase block">
-                    주요 옵션 ({displayList.length}개)
+                    주요 옵션 ({sortedChips.length}개)
                   </span>
                   <div className="flex items-center gap-2 text-[10px] text-zinc-500 font-medium">
                     <span className="flex items-center gap-0.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block" />
-                      정확
+                      일치 (✓)
                     </span>
                     <span className="flex items-center gap-0.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-amber-400 inline-block" />
-                      퍼지
+                      추정 (~)
                     </span>
                     <span className="flex items-center gap-0.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-zinc-500 inline-block" />
-                      미매칭
+                      <span className="w-1.5 h-1.5 rounded-full bg-orange-400 inline-block" />
+                      비교차 전용 (+)
                     </span>
                   </div>
                 </div>
 
                 <div className="flex flex-wrap gap-1.5 pt-0.5">
-                  {displayList.map((item, i) => {
-                    let chipStyle = 'bg-[#1a1c26] text-zinc-300 border-[#2d3142]';
-                    let titleText = `[미매칭 옵션] 원문: ${item.rawName}`;
-
-                    if (item.matchType === 'exact') {
-                      chipStyle = 'bg-emerald-500/15 text-emerald-300 border-emerald-500/40 font-semibold';
-                      const srcLabel = item.source === 'danawa' ? '다나와' : '엔카';
-                      const yearSuffix = item.matchedYear ? ` · ${item.matchedYear}년` : '';
-                      titleText = `[${srcLabel} 카탈로그 정확 매칭${yearSuffix}] 표준명: ${item.displayName}${item.price ? ` (${Math.round(item.price / 10000)}만원)` : ''}`;
-                    } else if (item.matchType === 'fuzzy') {
-                      chipStyle = 'bg-amber-500/15 text-amber-300 border-amber-500/40 font-semibold';
-                      const srcLabel = item.source === 'danawa' ? '다나와' : '엔카';
-                      const yearSuffix = item.matchedYear ? ` · ${item.matchedYear}년` : '';
-                      titleText = `[${srcLabel} 카탈로그 퍼지 매칭${yearSuffix}] 표준명: ${item.displayName} (원문: ${item.rawName})`;
-                    }
-
-                    return (
-                      <span
-                        key={i}
-                        className={`px-2 py-0.5 rounded text-[11px] border flex items-center gap-1 transition select-none ${chipStyle}`}
-                        title={titleText}
-                      >
-                        <span>{item.displayName}</span>
-                      </span>
-                    );
-                  })}
+                  {sortedChips.map((chip) => (
+                    <span
+                      key={chip.origIdx}
+                      className={`px-2 py-0.5 rounded text-[11px] border flex items-center gap-1 transition select-none ${chip.chipStyle}`}
+                      title={chip.titleText}
+                    >
+                      <span className="text-[10px] font-bold">{chip.symbol}</span>
+                      <span>{chip.displayName}</span>
+                    </span>
+                  ))}
                 </div>
               </div>
             );

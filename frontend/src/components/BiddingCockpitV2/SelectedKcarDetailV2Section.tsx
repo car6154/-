@@ -4,11 +4,21 @@ import { KcarCarItem, KcarDetailData } from '@/components/BiddingCockpit/types';
 import { CarDamageDiagram2D } from '@/components/BiddingCockpit/Sections/CarDamageDiagram2D';
 import { getCarColorStyle } from '@/utils/carColor';
 import { NewCarCatalogData } from '@/services/biddingOptionCatalog';
-import { matchOptionsSingle, BackendMatchedOption } from '@/services/optionMatchingService';
+import { OptionItem } from '@/services/chaolmaService';
+import { splitOptionString } from '@/services/biddingOptionCatalog';
+import {
+  matchOptionsSingle,
+  BackendMatchedOption,
+  compareOptionToOpposites,
+} from '@/services/optionMatchingService';
 
 export interface SelectedKcarDetailV2SectionProps {
   selectedKcar: KcarCarItem | null;
   targetCatalog?: NewCarCatalogData | null;
+  targetCarName?: string;
+  targetYear?: string | number;
+  targetOptions?: OptionItem[];
+  optionsTag?: string;
 }
 
 // 사고 구분 포맷팅 (케이카 기준)
@@ -25,7 +35,43 @@ const formatKcarAccident = (rawType?: string) => {
 export const SelectedKcarDetailV2Section: React.FC<SelectedKcarDetailV2SectionProps> = ({
   selectedKcar,
   targetCatalog,
+  targetCarName,
+  targetYear,
+  targetOptions,
+  optionsTag,
 }) => {
+  // 💡 [11-03-14]: 목표차 옵션 원문 및 백엔드 매칭 (id 없이 단건 호출하여 사이드바와 캐시 공유)
+  const targetOptNames: string[] = React.useMemo(() => {
+    return (targetOptions && targetOptions.length > 0)
+      ? targetOptions.map((o) => o.name)
+      : splitOptionString(optionsTag || '');
+  }, [targetOptions, optionsTag]);
+
+  const [targetMatchedOpts, setTargetMatchedOpts] = React.useState<BackendMatchedOption[]>([]);
+
+  React.useEffect(() => {
+    if (targetOptNames.length === 0) {
+      setTargetMatchedOpts([]);
+      return;
+    }
+    let isMounted = true;
+    matchOptionsSingle({
+      carName: targetCarName || '',
+      year: targetYear || '',
+      optionsList: targetOptNames,
+    }).then((data) => {
+      if (isMounted) setTargetMatchedOpts(data);
+    });
+    return () => {
+      isMounted = false;
+    };
+  }, [targetCarName, targetYear, targetOptNames]);
+
+  const targetMatchedList = React.useMemo(() => {
+    return targetOptNames.map((to) => {
+      return targetMatchedOpts.find((m) => m.raw_name === to) || to;
+    });
+  }, [targetOptNames, targetMatchedOpts]);
   const [kcarDetail, setKcarDetail] = useState<KcarDetailData | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -140,63 +186,63 @@ export const SelectedKcarDetailV2Section: React.FC<SelectedKcarDetailV2SectionPr
   }, [selectedKcar?.carCd, selectedKcar?.carName, selectedKcar?.year, rawOptionNames]);
 
   const matchedOptionChips = React.useMemo(() => {
-    return rawOptionNames.map((rawName) => {
+    const mapped = rawOptionNames.map((rawName, origIdx) => {
       // 카탈로그가 없거나 백엔드 매칭이 없을 때: 깔때기 폴백으로 원문 그대로·가격 미확인 유지
       if (!hasCatalog && kcarMatchedOpts.length === 0) {
         return {
+          origIdx,
           rawName,
           displayName: rawName,
           chipStyle: 'bg-[#1a1c26] text-zinc-300 border-[#2d3142]',
           titleText: `[카탈로그 미연동] 원문: ${rawName} (신차 공식 사양 미확인)`,
-          isExact: false,
-          isFuzzy: false,
+          symbol: '',
+          symbolRank: 4,
           hasCatalog: false,
         };
       }
 
       const mi = kcarMatchedOpts.find((m) => m.raw_name === rawName);
+      const isExact = mi?.match_type === 'exact';
+      const isFuzzy = mi?.match_type === 'fuzzy';
+      const srcLabel = mi?.source === 'danawa' ? '다나와' : mi?.source === 'encar' ? '엔카' : (mi?.source || '카탈로그');
+      const yearPart = mi?.matched_year ? ` · ${mi.matched_year}년` : (targetCatalog?.year ? ` · ${targetCatalog.year}년` : '');
+      const stdName = mi?.official_name || mi?.clean_name || rawName;
+      const pricePart = mi?.price ? ` (${Math.round(mi.price / 10000)}만)` : '';
 
-      if (!mi || mi.match_type === 'none') {
-        return {
-          rawName,
-          displayName: mi?.clean_name || rawName,
-          chipStyle: 'bg-[#1a1c26] text-zinc-300 border-[#2d3142]',
-          titleText: `[미매칭 옵션] 원문: ${rawName}`,
-          isExact: false,
-          isFuzzy: false,
-          hasCatalog: true,
-        };
-      }
-
-      const isExact = mi.match_type === 'exact';
-      const isFuzzy = mi.match_type === 'fuzzy';
-      const srcLabel = mi.source === 'danawa' ? '다나와' : mi.source === 'encar' ? '엔카' : (mi.source || '카탈로그');
-      const yearPart = mi.matched_year ? ` · ${mi.matched_year}년` : (targetCatalog?.year ? ` · ${targetCatalog.year}년` : '');
-      const stdName = mi.official_name || mi.clean_name || rawName;
-      const pricePart = mi.price ? ` (${Math.round(mi.price / 10000)}만)` : '';
-
-      let chipStyle = 'bg-[#1a1c26] text-zinc-300 border-[#2d3142]';
       let titleText = `[미매칭 옵션] 원문: ${rawName}`;
-
       if (isExact) {
-        chipStyle = 'bg-emerald-500/15 text-emerald-300 border-emerald-500/40 font-semibold';
         titleText = `[${srcLabel} 카탈로그 정확 매칭${yearPart}] 표준명: ${stdName}${pricePart}`;
       } else if (isFuzzy) {
-        chipStyle = 'bg-amber-500/15 text-amber-300 border-amber-500/40 font-semibold';
         titleText = `[${srcLabel} 카탈로그 퍼지 매칭${yearPart}] 표준명: ${stdName} (원문: ${rawName})`;
       }
 
+      // 💡 [11-03-14]: 목표차와의 대조 결과로 기호 및 색상 결정
+      const compareRes = compareOptionToOpposites(mi || rawName, targetMatchedList);
+      const symbol = compareRes.symbol; // '✓' | '~' | '+'
+      const symbolRank = symbol === '✓' ? 1 : symbol === '~' ? 2 : 3;
+
+      let chipStyle = 'bg-orange-500/30 text-orange-300 border-orange-500/60 font-bold';
+      if (symbol === '✓') {
+        chipStyle = 'bg-emerald-500/30 text-emerald-300 border-emerald-500/60 font-bold';
+      } else if (symbol === '~') {
+        chipStyle = 'bg-amber-500/30 text-amber-300 border-amber-500/60 font-bold';
+      }
+
       return {
+        origIdx,
         rawName,
         displayName: stdName,
         chipStyle,
         titleText,
-        isExact,
-        isFuzzy,
+        symbol,
+        symbolRank,
         hasCatalog: true,
       };
     });
-  }, [rawOptionNames, kcarMatchedOpts, targetCatalog, hasCatalog]);
+
+    // 💡 [11-03-14]: 공식 일치(✓) -> 추정(~) -> 비교차 전용(+) 순 정렬 (그룹 내 원문 순서 유지)
+    return mapped.slice().sort((a, b) => a.symbolRank - b.symbolRank || a.origIdx - b.origIdx);
+  }, [rawOptionNames, kcarMatchedOpts, targetCatalog, hasCatalog, targetMatchedList]);
 
   // 1. 미선택 상태 분기
   if (!selectedKcar) {
@@ -382,15 +428,15 @@ export const SelectedKcarDetailV2Section: React.FC<SelectedKcarDetailV2SectionPr
                   <>
                     <span className="flex items-center gap-0.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block" />
-                      정확
+                      일치 (✓)
                     </span>
                     <span className="flex items-center gap-0.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-amber-400 inline-block" />
-                      퍼지
+                      추정 (~)
                     </span>
                     <span className="flex items-center gap-0.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-zinc-500 inline-block" />
-                      미매칭
+                      <span className="w-1.5 h-1.5 rounded-full bg-orange-400 inline-block" />
+                      비교차 전용 (+)
                     </span>
                   </>
                 ) : (
@@ -402,12 +448,13 @@ export const SelectedKcarDetailV2Section: React.FC<SelectedKcarDetailV2SectionPr
             </div>
             {matchedOptionChips.length > 0 ? (
               <div className="flex flex-wrap gap-1.5 pt-0.5">
-                {matchedOptionChips.slice(0, 8).map((chip, i) => (
+                {matchedOptionChips.slice(0, 8).map((chip) => (
                   <span
-                    key={i}
+                    key={chip.origIdx}
                     title={chip.titleText}
                     className={`px-2 py-0.5 rounded text-[11px] border flex items-center gap-1 transition select-none ${chip.chipStyle}`}
                   >
+                    {chip.symbol && <span className="text-[10px] font-bold">{chip.symbol}</span>}
                     <span>{chip.displayName}</span>
                   </span>
                 ))}

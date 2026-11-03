@@ -4,7 +4,7 @@ import { KcarCarItem, KcarDetailData } from '@/components/BiddingCockpit/types';
 import { compareEncarItemsByBackendRule } from '@/services/cockpitService';
 import { OptionItem } from '@/services/chaolmaService';
 import { splitOptionString, NewCarCatalogData } from '@/services/biddingOptionCatalog';
-import { matchOptionsBatch, BackendMatchedOption, compareOptionToOpposites } from '@/services/optionMatchingService';
+import { matchOptionsSingle, matchOptionsBatch, BackendMatchedOption, compareOptionToOpposites } from '@/services/optionMatchingService';
 
 export interface ComparableKcarV2SectionProps {
   kcarList: KcarCarItem[];
@@ -21,6 +21,8 @@ export interface ComparableKcarV2SectionProps {
   targetOptions?: OptionItem[];
   optionsTag?: string;
   targetCatalog?: NewCarCatalogData | null;
+  targetCarName?: string;
+  targetYear?: string | number;
 }
 
 // 사고구분 라벨 헬퍼 (케이카 무사고/단순수리/사고 배지)
@@ -52,6 +54,8 @@ export const ComparableKcarV2Section: React.FC<ComparableKcarV2SectionProps> = (
   targetOptions,
   optionsTag,
   targetCatalog,
+  targetCarName,
+  targetYear,
 }) => {
   // 1. 케이카 프리패치 캐시 및 상세 맵
   const [kcarInspectionMap, setKcarInspectionMap] = useState<Record<string, KcarDetailData>>({});
@@ -134,6 +138,39 @@ export const ComparableKcarV2Section: React.FC<ComparableKcarV2SectionProps> = (
     };
   }, [kcarList]);
 
+  // 💡 [11-03-14]: 목표차 옵션 원문 및 백엔드 매칭 (id 없이 단건 호출하여 사이드바와 캐시 공유)
+  const targetOptNames: string[] = useMemo(() => {
+    return (targetOptions && targetOptions.length > 0)
+      ? targetOptions.map((o) => o.name)
+      : splitOptionString(optionsTag || '');
+  }, [targetOptions, optionsTag]);
+
+  const [targetMatchedOpts, setTargetMatchedOpts] = useState<BackendMatchedOption[]>([]);
+
+  useEffect(() => {
+    if (targetOptNames.length === 0) {
+      setTargetMatchedOpts([]);
+      return;
+    }
+    let isMounted = true;
+    matchOptionsSingle({
+      carName: targetCarName || '',
+      year: targetYear || yearModel || '',
+      optionsList: targetOptNames,
+    }).then((data) => {
+      if (isMounted) setTargetMatchedOpts(data);
+    });
+    return () => {
+      isMounted = false;
+    };
+  }, [targetCarName, targetYear, yearModel, targetOptNames]);
+
+  const targetMatchedList = useMemo(() => {
+    return targetOptNames.map((to) => {
+      return targetMatchedOpts.find((m) => m.raw_name === to) || to;
+    });
+  }, [targetOptNames, targetMatchedOpts]);
+
   // 케이카 optnNm 파이프 기준 옵션 매칭 및 배지 데이터 사전 계산 (행 렌더링 최적화 Map, 백엔드 단일화 배치 기반)
   const optionBadgeMap = useMemo(() => {
     const map = new Map<string, {
@@ -142,10 +179,6 @@ export const ComparableKcarV2Section: React.FC<ComparableKcarV2SectionProps> = (
       symbol: '✓' | '~' | null;
       tooltip: string;
     }>();
-
-    const targetOptNames: string[] = (targetOptions && targetOptions.length > 0)
-      ? targetOptions.map((o) => o.name)
-      : splitOptionString(optionsTag || '');
 
     for (const car of kcarList) {
       if (!car.carCd) continue;
@@ -170,7 +203,7 @@ export const ComparableKcarV2Section: React.FC<ComparableKcarV2SectionProps> = (
       const compDetails = compOpts.map((o) => {
         const matchedItem = compMatchedList.find((m) => m.raw_name === o);
         const compTarget = matchedItem || o;
-        const compareRes = compareOptionToOpposites(compTarget, targetOptNames);
+        const compareRes = compareOptionToOpposites(compTarget, targetMatchedList);
         return {
           raw: o,
           matchedItem,
@@ -220,7 +253,7 @@ export const ComparableKcarV2Section: React.FC<ComparableKcarV2SectionProps> = (
     }
 
     return map;
-  }, [kcarList, targetOptions, optionsTag, batchOptionsMap]);
+  }, [kcarList, targetMatchedList, targetOptNames, batchOptionsMap]);
 
   // 3. 프리패치 결과와 원본 목록 병합 (checkDate, holdingDays 보완) 후 백엔드 규칙(엔카와 동일)으로 정렬
   const displayKcarList = useMemo(() => {
@@ -546,13 +579,19 @@ export const ComparableKcarV2Section: React.FC<ComparableKcarV2SectionProps> = (
                         return (
                           <span
                             title={badgeData.tooltip}
-                            className="px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold border border-amber-500/40 text-[10.5px] cursor-help hover:bg-amber-500/30 transition inline-flex items-center gap-0.5"
+                            className={`px-1.5 py-0.5 rounded text-[10.5px] cursor-help transition inline-flex items-center gap-0.5 font-bold border ${
+                              badgeData.symbol === '✓'
+                                ? 'bg-emerald-500/30 text-emerald-300 border-emerald-500/60'
+                                : badgeData.symbol === '~'
+                                ? 'bg-amber-500/30 text-amber-300 border-amber-500/60'
+                                : 'bg-zinc-800/80 text-zinc-300 border-zinc-700'
+                            }`}
                           >
                             {badgeData.symbol === '✓' && (
-                              <span className="text-sky-400 text-[10px]">✓</span>
+                              <span className="text-emerald-300 text-[10px] font-bold">✓</span>
                             )}
                             {badgeData.symbol === '~' && (
-                              <span className="text-amber-400 text-[10px]">~</span>
+                              <span className="text-amber-300 text-[10px] font-bold">~</span>
                             )}
                             <span>{badgeData.totalCount}개</span>
                           </span>

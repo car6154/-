@@ -181,11 +181,51 @@ export interface OptionCompareDetail {
 }
 
 /**
- * 대조 규칙 4-d 구현:
+ * 글자 바이그램 집합 추출
+ */
+function getBigrams(str: string): Set<string> {
+  const s = new Set<string>();
+  for (let i = 0; i < str.length - 1; i++) {
+    s.add(str.slice(i, i + 2));
+  }
+  return s;
+}
+
+/**
+ * 글자 바이그램 자카드 유사도 (0.0 ~ 1.0)
+ */
+function bigramJaccard(str1: string, str2: string): number {
+  if (str1 === str2) return 1.0;
+  if (str1.length < 2 || str2.length < 2) return 0.0;
+  const b1 = getBigrams(str1);
+  const b2 = getBigrams(str2);
+  let intersection = 0;
+  for (const b of b1) {
+    if (b2.has(b)) intersection++;
+  }
+  const union = b1.size + b2.size - intersection;
+  return union === 0 ? 0.0 : intersection / union;
+}
+
+/**
+ * 문자열에서 숫자 묶음(소수점 포함) 추출
+ */
+function extractNumberGroups(str: string): string[] {
+  const matches = str.match(/\d+(?:\.\d+)?/g);
+  return matches || [];
+}
+
+/**
+ * 대조 규칙 4-d 구현 및 11-03-14 승격 규칙 적용:
  * - 양쪽 옵션의 백엔드 official_name이 같으면 ✓ (exact)
- * - 다르면 정규화(공백·특수문자 제거·소문자) 후 한쪽이 다른 쪽을 포함하면 ~ (fuzzy)
+ * - 정규화 이름 완전 일치 시 ✓ (exact)
+ * - [11-03-14 승격 규칙]: 완전 일치가 아니더라도 아래 4개 조건을 모두 만족하면 ✓로 승격:
+ *   (a) 이름 유사: 정규화 이름 기준 짧은 쪽이 긴 쪽에 포함되거나 바이그램 자카드 0.7 이상
+ *   (b) 양쪽 가격이 둘 다 있음 (매칭 항목 price > 0)
+ *   (c) 가격 차이 10만 원(100,000원) 이내
+ *   (d) 숫자 가드: 양쪽 이름에서 추출한 숫자 묶음이 둘 다 있고 다르면 승격하지 않음 (10.25 vs 12.3 등)
+ * - 그 외 정규화 상호 포함 관계면 ~ (fuzzy)
  * - 그 외 + (none)
- * - official_name이 없는 옵션은 clean_name(raw 정리본)으로 같은 규칙 적용
  */
 export function compareOptionToOpposites(
   target: BackendMatchedOption | string,
@@ -231,7 +271,45 @@ export function compareOptionToOpposites(
     }
   }
 
-  // 2. 퍼지 추정 매칭 (~) 검사: 정규화 문자열 상호 포함 관계
+  // 2. [11-03-14 승격 규칙]: 완전 일치가 아닐 때 4가지 조건 만족 시 ✓로 승격
+  for (const opp of opposites) {
+    const oppNames = getOptNames(opp);
+    const oppStd = oppNames.official || oppNames.clean || oppNames.raw;
+    const normOppStd = normalizeOptionName(oppStd);
+
+    // (b) 양쪽 가격이 둘 다 있다 (매칭 항목의 price, 원 단위). 원문 문자열이라 가격이 없으면 승격하지 않는다.
+    if (typeof target !== 'object' || typeof opp !== 'object') continue;
+    if (typeof target.price !== 'number' || typeof opp.price !== 'number') continue;
+    if (target.price <= 0 || opp.price <= 0) continue;
+
+    // (c) 가격 차이 10만 원(100,000원) 이내
+    if (Math.abs(target.price - opp.price) > 100000) continue;
+
+    // (d) 숫자 가드: 양쪽 이름에서 추출한 숫자 묶음이 둘 다 있고 다르면 승격하지 않는다 (10.25인치와 12.3인치 등).
+    const nums1 = extractNumberGroups(tgtStd || tgt.raw);
+    const nums2 = extractNumberGroups(oppStd || oppNames.raw);
+    if (nums1.length > 0 && nums2.length > 0) {
+      if (nums1.join(',') !== nums2.join(',')) continue;
+    }
+
+    // (a) 이름 유사: 정규화 이름 기준, 짧은 쪽이 긴 쪽에 포함되거나 글자 바이그램 자카드 0.7 이상
+    if (!normTgtStd || !normOppStd) continue;
+    const shorter = normTgtStd.length <= normOppStd.length ? normTgtStd : normOppStd;
+    const longer = normTgtStd.length <= normOppStd.length ? normOppStd : normTgtStd;
+    const isSubstring = longer.includes(shorter);
+    const jaccardScore = bigramJaccard(normTgtStd, normOppStd);
+
+    if (isSubstring || jaccardScore >= 0.7) {
+      return {
+        symbol: '✓',
+        confidence: 'exact',
+        matchedName: oppStd,
+        matchedOption: opp,
+      };
+    }
+  }
+
+  // 3. 퍼지 추정 매칭 (~) 검사: 정규화 문자열 상호 포함 관계
   if (normTgtStd && normTgtStd.length >= 2) {
     for (const opp of opposites) {
       const oppNames = getOptNames(opp);
@@ -251,7 +329,7 @@ export function compareOptionToOpposites(
     }
   }
 
-  // 3. 미매칭 / 전용 옵션 (+)
+  // 4. 미매칭 / 전용 옵션 (+)
   return {
     symbol: '+',
     confidence: 'none',

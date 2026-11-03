@@ -3,7 +3,7 @@ import { ExternalLink, RefreshCw, Car, AlertCircle } from 'lucide-react';
 import { EncarItem } from '@/components/BiddingCockpit/types';
 import { OptionItem } from '@/services/chaolmaService';
 import { splitOptionString, NewCarCatalogData } from '@/services/biddingOptionCatalog';
-import { matchOptionsBatch, BackendMatchedOption, compareOptionToOpposites } from '@/services/optionMatchingService';
+import { matchOptionsSingle, matchOptionsBatch, BackendMatchedOption, compareOptionToOpposites } from '@/services/optionMatchingService';
 
 export interface ComparableEncarV2SectionProps {
   encarList: EncarItem[];
@@ -21,6 +21,8 @@ export interface ComparableEncarV2SectionProps {
   targetOptions?: OptionItem[];
   optionsTag?: string;
   targetCatalog?: NewCarCatalogData | null;
+  targetCarName?: string;
+  targetYear?: string | number;
 }
 
 // 사고구분 라벨 헬퍼 (무사고/단순수리/사고 배지)
@@ -79,12 +81,14 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
   targetOptions,
   optionsTag,
   targetCatalog,
+  targetCarName,
+  targetYear,
 }) => {
   // 세부등급 줄 표시/숨김 토글 상태 (기본값: 보임)
   const [showSubModel, setShowSubModel] = useState<boolean>(true);
 
   // 목표 연식(2자리) 추출 (encarYearStats의 isTarget: true 항목 기준)
-  const targetYear = useMemo(() => {
+  const targetCohortYear = useMemo(() => {
     const targetStat = encarYearStats.find((st) => st.isTarget);
     return targetStat ? targetStat.year : null;
   }, [encarYearStats]);
@@ -118,6 +122,39 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
     };
   }, [encarList]);
 
+  // 💡 [11-03-14]: 목표차 옵션 원문 및 백엔드 매칭 (id 없이 단건 호출하여 사이드바와 캐시 공유)
+  const targetOptNames: string[] = useMemo(() => {
+    return (targetOptions && targetOptions.length > 0)
+      ? targetOptions.map((o) => o.name)
+      : splitOptionString(optionsTag || '');
+  }, [targetOptions, optionsTag]);
+
+  const [targetMatchedOpts, setTargetMatchedOpts] = useState<BackendMatchedOption[]>([]);
+
+  useEffect(() => {
+    if (targetOptNames.length === 0) {
+      setTargetMatchedOpts([]);
+      return;
+    }
+    let isMounted = true;
+    matchOptionsSingle({
+      carName: targetCarName || '',
+      year: targetYear || '',
+      optionsList: targetOptNames,
+    }).then((data) => {
+      if (isMounted) setTargetMatchedOpts(data);
+    });
+    return () => {
+      isMounted = false;
+    };
+  }, [targetCarName, targetYear, targetOptNames]);
+
+  const targetMatchedList = useMemo(() => {
+    return targetOptNames.map((to) => {
+      return targetMatchedOpts.find((m) => m.raw_name === to) || to;
+    });
+  }, [targetOptNames, targetMatchedOpts]);
+
   // 비교 차량 옵션 매칭 및 배지 데이터 사전 계산 (행 렌더링 최적화 Map, 백엔드 단일화 배치 매칭 기반)
   const optionBadgeMap = useMemo(() => {
     const map = new Map<string, {
@@ -126,10 +163,6 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
       symbol: '✓' | '~' | null;
       tooltip: string;
     }>();
-
-    const targetOptNames: string[] = (targetOptions && targetOptions.length > 0)
-      ? targetOptions.map((o) => o.name)
-      : splitOptionString(optionsTag || '');
 
     for (const car of encarList) {
       const compMatchedList = batchOptionsMap[car.id] || [];
@@ -151,7 +184,7 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
       const compDetails = compOpts.map((o) => {
         const matchedItem = compMatchedList.find((m) => m.raw_name === o);
         const compTarget = matchedItem || o;
-        const compareRes = compareOptionToOpposites(compTarget, targetOptNames);
+        const compareRes = compareOptionToOpposites(compTarget, targetMatchedList);
         return {
           raw: o,
           matchedItem,
@@ -201,7 +234,7 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
     }
 
     return map;
-  }, [encarList, targetOptions, optionsTag, batchOptionsMap]);
+  }, [encarList, targetMatchedList, targetOptNames, batchOptionsMap]);
 
   // 엄격 + 무사고 subset 필터링 및 날통계 집계 (보정 없음)
   const { summaryCount, minPrice, maxPrice, avgPrice } = useMemo(() => {
@@ -420,7 +453,7 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
 
                 // 목표 연식 일치 여부 판정 (연식 칩 ★과 동일 기준)
                 const carYear2Digit = parseYearTo2Digit(car.year);
-                const isTargetYear = targetYear !== null && carYear2Digit === targetYear;
+                const isTargetYear = targetCohortYear !== null && carYear2Digit === targetCohortYear;
 
                 return (
                   <tr
@@ -556,13 +589,19 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
                       {hasOptions && badgeData ? (
                         <span
                           title={badgeData.tooltip}
-                          className="px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold border border-amber-500/40 text-[10.5px] cursor-help hover:bg-amber-500/30 transition inline-flex items-center gap-0.5"
+                          className={`px-1.5 py-0.5 rounded text-[10.5px] cursor-help transition inline-flex items-center gap-0.5 font-bold border ${
+                            badgeData.symbol === '✓'
+                              ? 'bg-emerald-500/30 text-emerald-300 border-emerald-500/60'
+                              : badgeData.symbol === '~'
+                              ? 'bg-amber-500/30 text-amber-300 border-amber-500/60'
+                              : 'bg-zinc-800/80 text-zinc-300 border-zinc-700'
+                          }`}
                         >
                           {badgeData.symbol === '✓' && (
-                            <span className="text-sky-400 text-[10px]">✓</span>
+                            <span className="text-emerald-300 text-[10px] font-bold">✓</span>
                           )}
                           {badgeData.symbol === '~' && (
-                            <span className="text-amber-400 text-[10px]">~</span>
+                            <span className="text-amber-300 text-[10px] font-bold">~</span>
                           )}
                           <span>{badgeData.totalCount}개</span>
                         </span>

@@ -654,6 +654,8 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
                     targetOptions={cockpit.targetOptions}
                     optionsTag={cockpit.optionsTag}
                     targetCatalog={cockpit.targetNewCarCatalog}
+                    targetCarName={cockpit.carName}
+                    targetYear={cockpit.yearModel}
                   />
                 </div>
                 <div className={activeCompTab === 'kcar' ? 'block' : 'hidden'}>
@@ -672,6 +674,8 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
                     targetOptions={cockpit.targetOptions}
                     optionsTag={cockpit.optionsTag}
                     targetCatalog={cockpit.targetNewCarCatalog}
+                    targetCarName={cockpit.carName}
+                    targetYear={cockpit.yearModel}
                   />
                 </div>
                 <div className={activeCompTab === 'heydealer' ? 'block' : 'hidden'}>
@@ -703,12 +707,20 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
                 <SelectedCarDetailV2Section
                   selectedEncar={cockpit.selectedEncar}
                   isInspectionLoading={cockpit.isInspectionLoading}
+                  targetCarName={cockpit.carName}
+                  targetYear={cockpit.yearModel}
+                  targetOptions={cockpit.targetOptions}
+                  optionsTag={cockpit.optionsTag}
                 />
               </div>
               <div className={!(activeCompTab === 'heydealer' && Boolean(cockpit.selectedHeydealerBid)) && lastRetailTab === 'kcar' ? 'block' : 'hidden'}>
                 <SelectedKcarDetailV2Section
                   selectedKcar={selectedKcar}
                   targetCatalog={cockpit.targetNewCarCatalog}
+                  targetCarName={cockpit.carName}
+                  targetYear={cockpit.yearModel}
+                  targetOptions={cockpit.targetOptions}
+                  optionsTag={cockpit.optionsTag}
                 />
               </div>
             </div>

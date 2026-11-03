@@ -244,18 +244,18 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
       return (
         <span
           title={`비교 매물(${effectiveComp.carName}) 대비 내 차 우세/고유 옵션: ${winCount}개\n공식 일치: ${exactCount}개 / 추정 매칭: ${fuzzyCount}개`}
-          className="inline-flex items-center text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-bold border border-emerald-500 cursor-help"
+          className="inline-flex items-center text-[10px] px-1.5 py-0.5 rounded bg-blue-500/30 text-blue-300 font-bold border border-blue-500/60 cursor-help"
         >
-          🟢 우세 {winCount}개
+          🔵 우세 {winCount}개
         </span>
       );
     }
     return (
       <span
         title={`비교 매물(${effectiveComp.carName})과 핵심 옵션 일치 (공식 일치: ${exactCount}개, 추정: ${fuzzyCount}개)`}
-        className="inline-flex items-center text-[10px] px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300 font-bold border border-sky-400/50 cursor-help"
+        className="inline-flex items-center text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/30 text-emerald-300 font-bold border border-emerald-500/60 cursor-help"
       >
-        🔵 공통 사양
+        🟢 공통 사양
       </span>
     );
   };
@@ -318,31 +318,49 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
         <div className="flex flex-wrap gap-1.5 pt-0.5 max-h-[160px] overflow-y-auto">
           {(() => {
             if (targetOptions && targetOptions.length > 0) {
+              const mapped = targetOptions.map((opt, idx) => {
+                const pMan = opt.price_man || Math.round((opt.price || 0) / 10000);
+                const displayName = pMan > 0 ? `${opt.name}(${pMan}만)` : opt.name;
+                const mi = targetMatchedOpts.find((m) => m.raw_name === opt.name);
+                const compareRes = compareOptionToOpposites(mi || opt.name, compOpposites);
+
+                let tipText = opt.desc || `${opt.name} (${pMan}만)`;
+                if (mi && mi.official_name) {
+                  const srcLabel = mi.source === 'danawa' ? '다나와' : mi.source === 'encar' ? '엔카' : (mi.source || '');
+                  const yrLabel = mi.matched_year ? `${mi.matched_year}년` : '';
+                  const meta = [srcLabel, yrLabel].filter(Boolean).join(' ');
+                  tipText = `[신차 공식 표준명: ${mi.official_name}${meta ? ` · ${meta}` : ''}]\n${tipText}`;
+                }
+
+                const symbolRank = !hasComp ? 4 : compareRes.symbol === '✓' ? 1 : compareRes.symbol === '~' ? 2 : 3;
+
+                return {
+                  idx,
+                  displayName,
+                  tipText,
+                  compareRes,
+                  symbolRank,
+                };
+              });
+
+              // 💡 [11-03-14]: 공식 일치(✓) -> 추정(~) -> 내 차만 있음(+) 순 정렬 (그룹 내 원문 순서 유지)
+              const sorted = hasComp
+                ? mapped.slice().sort((a, b) => a.symbolRank - b.symbolRank || a.idx - b.idx)
+                : mapped;
+
               return (
                 <>
-                  {targetOptions.map((opt, idx) => {
-                    const pMan = opt.price_man || Math.round((opt.price || 0) / 10000);
-                    const displayName = pMan > 0 ? `${opt.name}(${pMan}만)` : opt.name;
-                    const mi = targetMatchedOpts.find((m) => m.raw_name === opt.name);
-                    const compareRes = compareOptionToOpposites(mi || opt.name, compOpposites);
-
-                    // 툴팁 구성
-                    let tipText = opt.desc || `${opt.name} (${pMan}만)`;
-                    if (mi && mi.official_name) {
-                      const srcLabel = mi.source === 'danawa' ? '다나와' : mi.source === 'encar' ? '엔카' : (mi.source || '');
-                      const yrLabel = mi.matched_year ? `${mi.matched_year}년` : '';
-                      const meta = [srcLabel, yrLabel].filter(Boolean).join(' ');
-                      tipText = `[신차 공식 표준명: ${mi.official_name}${meta ? ` · ${meta}` : ''}]\n${tipText}`;
-                    }
+                  {sorted.map((item) => {
+                    const { idx, displayName, tipText, compareRes } = item;
 
                     if (hasComp && compareRes.symbol === '+') {
                       return (
                         <span
                           key={idx}
                           title={tipText}
-                          className="px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-500 text-emerald-400 font-bold text-[10.5px] flex items-center gap-1 cursor-help hover:brightness-110 transition"
+                          className="px-2 py-0.5 rounded bg-blue-500/30 border border-blue-500/60 text-blue-300 font-bold text-[10.5px] flex items-center gap-1 cursor-help hover:brightness-110 transition"
                         >
-                          <span className="text-emerald-400 text-[10px] font-black">+</span>
+                          <span className="text-blue-300 text-[10px] font-bold">+</span>
                           <span>{displayName}</span>
                         </span>
                       );
@@ -353,21 +371,35 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
                         <span
                           key={idx}
                           title={tipText}
-                          className="px-2 py-0.5 rounded bg-amber-500/20 border border-amber-500/60 text-amber-300 font-semibold text-[10.5px] flex items-center gap-1 cursor-help hover:brightness-110 transition"
+                          className="px-2 py-0.5 rounded bg-amber-500/30 border border-amber-500/60 text-amber-300 font-bold text-[10.5px] flex items-center gap-1 cursor-help hover:brightness-110 transition"
                         >
-                          <span className="text-amber-400 text-[10px] font-black">~</span>
+                          <span className="text-amber-300 text-[10px] font-bold">~</span>
                           <span>{displayName}</span>
                         </span>
                       );
                     }
 
+                    if (hasComp && compareRes.symbol === '✓') {
+                      return (
+                        <span
+                          key={idx}
+                          title={tipText}
+                          className="px-2 py-0.5 rounded bg-emerald-500/30 border border-emerald-500/60 text-emerald-300 font-bold text-[10.5px] flex items-center gap-1 cursor-help hover:brightness-110 transition"
+                        >
+                          <span className="text-emerald-300 text-[10px] font-bold">✓</span>
+                          <span>{displayName}</span>
+                        </span>
+                      );
+                    }
+
+                    // 비교 대상 없을 때 (비교가 아니므로 회색 계열)
                     return (
                       <span
                         key={idx}
-                        title={tipText || `[${opt.name}]\n조회 차량의 장착 순정 옵션입니다.`}
-                        className="px-2 py-0.5 rounded bg-sky-500/20 border border-sky-400/60 text-sky-300 font-semibold text-[10.5px] flex items-center gap-1 cursor-help hover:brightness-110 transition"
+                        title={tipText}
+                        className="px-2 py-0.5 rounded bg-zinc-800/60 border border-zinc-700 text-zinc-300 font-medium text-[10.5px] flex items-center gap-1 cursor-help hover:brightness-110 transition"
                       >
-                        <span className="text-sky-400 text-[10px]">{hasComp ? '✓' : '•'}</span>
+                        <span className="text-zinc-500 text-[10px]">•</span>
                         <span>{displayName}</span>
                       </span>
                     );
@@ -394,7 +426,7 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
               );
             }
 
-            return tgtOpts.map((opt, idx) => {
+            const mappedOpts = tgtOpts.map((opt, idx) => {
               const mi = targetMatchedOpts.find((m) => m.raw_name === opt);
               const compareRes = compareOptionToOpposites(mi || opt, compOpposites);
 
@@ -407,14 +439,33 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
                 tipText = `[신차 공식 표준명: ${mi.official_name}${pLabel}${meta ? ` · ${meta}` : ''}]\n원문: ${opt}`;
               }
 
+              const symbolRank = !hasComp ? 4 : compareRes.symbol === '✓' ? 1 : compareRes.symbol === '~' ? 2 : 3;
+
+              return {
+                idx,
+                opt,
+                tipText,
+                compareRes,
+                symbolRank,
+              };
+            });
+
+            // 💡 [11-03-14]: 공식 일치(✓) -> 추정(~) -> 내 차만 있음(+) 순 정렬
+            const sortedOpts = hasComp
+              ? mappedOpts.slice().sort((a, b) => a.symbolRank - b.symbolRank || a.idx - b.idx)
+              : mappedOpts;
+
+            return sortedOpts.map((item) => {
+              const { idx, opt, tipText, compareRes } = item;
+
               if (hasComp && compareRes.symbol === '+') {
                 return (
                   <span
                     key={idx}
                     title={tipText}
-                    className="px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-500 text-emerald-400 font-bold text-[10.5px] flex items-center gap-1 cursor-help hover:brightness-110 transition"
+                    className="px-2 py-0.5 rounded bg-blue-500/30 border border-blue-500/60 text-blue-300 font-bold text-[10.5px] flex items-center gap-1 cursor-help hover:brightness-110 transition"
                   >
-                    <span className="text-emerald-400 text-[10px] font-black">+</span>
+                    <span className="text-blue-300 text-[10px] font-bold">+</span>
                     <span>{opt}</span>
                   </span>
                 );
@@ -425,9 +476,22 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
                   <span
                     key={idx}
                     title={tipText}
-                    className="px-2 py-0.5 rounded bg-amber-500/20 border border-amber-500/60 text-amber-300 font-semibold text-[10.5px] flex items-center gap-1 cursor-help hover:brightness-110 transition"
+                    className="px-2 py-0.5 rounded bg-amber-500/30 border border-amber-500/60 text-amber-300 font-bold text-[10.5px] flex items-center gap-1 cursor-help hover:brightness-110 transition"
                   >
-                    <span className="text-amber-400 text-[10px] font-black">~</span>
+                    <span className="text-amber-300 text-[10px] font-bold">~</span>
+                    <span>{opt}</span>
+                  </span>
+                );
+              }
+
+              if (hasComp && compareRes.symbol === '✓') {
+                return (
+                  <span
+                    key={idx}
+                    title={tipText}
+                    className="px-2 py-0.5 rounded bg-emerald-500/30 border border-emerald-500/60 text-emerald-300 font-bold text-[10.5px] flex items-center gap-1 cursor-help hover:brightness-110 transition"
+                  >
+                    <span className="text-emerald-300 text-[10px] font-bold">✓</span>
                     <span>{opt}</span>
                   </span>
                 );
@@ -437,9 +501,9 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
                 <span
                   key={idx}
                   title={tipText}
-                  className="px-2 py-0.5 rounded bg-sky-500/20 border border-sky-400/60 text-sky-300 font-semibold text-[10.5px] flex items-center gap-1 cursor-help hover:brightness-110 transition"
+                  className="px-2 py-0.5 rounded bg-zinc-800/60 border border-zinc-700 text-zinc-300 font-medium text-[10.5px] flex items-center gap-1 cursor-help hover:brightness-110 transition"
                 >
-                  <span className="text-sky-400 text-[10px]">{hasComp ? '✓' : '•'}</span>
+                  <span className="text-zinc-500 text-[10px]">•</span>
                   <span>{opt}</span>
                 </span>
               );
