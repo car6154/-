@@ -98,57 +98,7 @@ export const SelectedKcarDetailV2Section: React.FC<SelectedKcarDetailV2SectionPr
     };
   }, [carCd]);
 
-  // 1. 미선택 상태 분기
-  if (!selectedKcar) {
-    return (
-      <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-12 text-center text-zinc-500 shadow-sm space-y-2">
-        <Car className="w-8 h-8 text-zinc-600 mx-auto stroke-[1.5]" />
-        <p className="text-xs sm:text-sm font-medium text-zinc-400">
-          비교 목록에서 케이카 매물을 선택해 주세요
-        </p>
-        <p className="text-[11px] text-zinc-600">
-          선택한 케이카 차량의 상세 스펙과 2D 외판/골격 상태도가 여기에 표시됩니다.
-        </p>
-      </div>
-    );
-  }
-
-  // 2. 표시용 데이터 가공 (기존 필드 그대로 바인딩)
-  const carName = kcarDetail?.modelName || selectedKcar.modelName || selectedKcar.carName;
-  const gradeName = kcarDetail?.gradeFullName || selectedKcar.gradeDetail || selectedKcar.grade || '';
-  const detailUrl = kcarDetail?.detailUrl || selectedKcar.detailUrl || `https://www.kcar.com/bc/detail/carInfoDtl?i_sCarCd=${selectedKcar.carCd}`;
-
-  // 색상 칩 스타일
-  const rawColor = kcarDetail?.color || selectedKcar.color;
-  const colorStyle = getCarColorStyle(rawColor);
-
-  // 점검일자 및 재고일수
-  const checkDateText = kcarDetail?.checkDate && kcarDetail.checkDate !== '-'
-    ? kcarDetail.checkDate
-    : (kcarDetail?.dates?.pfmncDate
-      ? kcarDetail.dates.pfmncDate.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3')
-      : (selectedKcar.checkDate && selectedKcar.checkDate !== '-' ? selectedKcar.checkDate : ''));
-
-  const holdingDaysVal = typeof kcarDetail?.holdingDays === 'number' && !isNaN(kcarDetail.holdingDays)
-    ? kcarDetail.holdingDays
-    : (typeof selectedKcar.holdingDays === 'number' && !isNaN(selectedKcar.holdingDays) ? selectedKcar.holdingDays : null);
-
-  // 사고 구분
-  const accType = kcarDetail?.accident?.accidentType || selectedKcar.accident || '';
-  const accInfo = formatKcarAccident(accType);
-
-  // 사고 교환/판금 부위
-  const repList: string[] = kcarDetail?.accident?.replaceNames || (kcarDetail as any)?.replaceNames || [];
-  const fixList: string[] = kcarDetail?.accident?.repairNames || (kcarDetail as any)?.repairNames || [];
-  const chgCount = kcarDetail?.accident?.changeCount || 0;
-  const mtlCount = kcarDetail?.accident?.metalCount || 0;
-  const hasRep = repList.length > 0 || chgCount > 0;
-  const hasFix = fixList.length > 0 || mtlCount > 0;
-
-  // 옵션 데이터
-  const optionList = kcarDetail?.options?.items || [];
-  const optionTotalPrice = kcarDetail?.options?.totalPrice || 0;
-
+  // 💡 [Rules of Hooks]: 모든 리액트 훅은 early return(조기 반환) 이전에 컴포넌트 최상단에서 무조건 실행되어야 함
   // 옵션 원문 목록 추출 (kcarDetail options 우선, 없으면 selectedKcar.optnNm 파이프 분리)
   const rawOptionNames: string[] = React.useMemo(() => {
     if (kcarDetail?.options?.items && kcarDetail.options.items.length > 0) {
@@ -203,6 +153,58 @@ export const SelectedKcarDetailV2Section: React.FC<SelectedKcarDetailV2SectionPr
       };
     });
   }, [rawOptionNames, catalogOptNames, targetCatalog]);
+
+  // 1. 미선택 상태 분기
+  if (!selectedKcar) {
+    return (
+      <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-12 text-center text-zinc-500 shadow-sm space-y-2">
+        <Car className="w-8 h-8 text-zinc-600 mx-auto stroke-[1.5]" />
+        <p className="text-xs sm:text-sm font-medium text-zinc-400">
+          비교 목록에서 케이카 매물을 선택해 주세요
+        </p>
+        <p className="text-[11px] text-zinc-600">
+          선택한 케이카 차량의 상세 스펙과 2D 외판/골격 상태도가 여기에 표시됩니다.
+        </p>
+      </div>
+    );
+  }
+
+  // 2. 표시용 데이터 가공 (기존 필드 그대로 바인딩)
+  const carName = kcarDetail?.modelName || selectedKcar.modelName || selectedKcar.carName;
+  const gradeName = kcarDetail?.gradeFullName || selectedKcar.gradeDetail || selectedKcar.grade || '';
+  const detailUrl = kcarDetail?.detailUrl || selectedKcar.detailUrl || `https://www.kcar.com/bc/detail/carInfoDtl?i_sCarCd=${selectedKcar.carCd}`;
+
+  // 색상 칩 스타일
+  const rawColor = kcarDetail?.color || selectedKcar.color;
+  const colorStyle = getCarColorStyle(rawColor);
+
+  // 점검일자 및 재고일수
+  const checkDateText = kcarDetail?.checkDate && kcarDetail.checkDate !== '-'
+    ? kcarDetail.checkDate
+    : (kcarDetail?.dates?.pfmncDate
+      ? kcarDetail.dates.pfmncDate.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3')
+      : (selectedKcar.checkDate && selectedKcar.checkDate !== '-' ? selectedKcar.checkDate : ''));
+
+  const holdingDaysVal = typeof kcarDetail?.holdingDays === 'number' && !isNaN(kcarDetail.holdingDays)
+    ? kcarDetail.holdingDays
+    : (typeof selectedKcar.holdingDays === 'number' && !isNaN(selectedKcar.holdingDays) ? selectedKcar.holdingDays : null);
+
+  // 사고 구분
+  const accType = kcarDetail?.accident?.accidentType || selectedKcar.accident || '';
+  const accInfo = formatKcarAccident(accType);
+
+  // 사고 교환/판금 부위
+  const repList: string[] = kcarDetail?.accident?.replaceNames || (kcarDetail as any)?.replaceNames || [];
+  const fixList: string[] = kcarDetail?.accident?.repairNames || (kcarDetail as any)?.repairNames || [];
+  const chgCount = kcarDetail?.accident?.changeCount || 0;
+  const mtlCount = kcarDetail?.accident?.metalCount || 0;
+  const hasRep = repList.length > 0 || chgCount > 0;
+  const hasFix = fixList.length > 0 || mtlCount > 0;
+
+  // 옵션 데이터
+  const optionList = kcarDetail?.options?.items || [];
+  const optionTotalPrice = kcarDetail?.options?.totalPrice || 0;
+
 
   return (
     <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl overflow-hidden shadow-sm space-y-0">
