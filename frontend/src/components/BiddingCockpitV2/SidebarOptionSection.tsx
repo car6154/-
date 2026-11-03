@@ -205,11 +205,12 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
 
   const hasComp = compOpts.length > 0;
 
-  // 💡 [11-03-11]: 비교차 옵션은 배치 캐시에서 가져와 재사용 (재호출 금지)
+  // 💡 [11-03-12]: 비교차 옵션은 배치 캐시에서 raw_name이 일치하는 항목만 대조에 쓰고, 없으면 원문 문자열 대조
   const compOpposites: (BackendMatchedOption | string)[] = useMemo(() => {
     if (!effectiveComp?.id) return compOpts;
     const cached = getCachedCarMatchedOptions(effectiveComp.id);
-    return (cached && cached.length > 0) ? cached : compOpts;
+    if (!cached || cached.length === 0) return compOpts;
+    return compOpts.map((co) => cached.find((m) => m.raw_name === co) || co);
   }, [effectiveComp?.id, compOpts]);
 
   // 우세/순정 배지 판정 (규칙 4-d 기반)
@@ -230,8 +231,8 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
       );
     }
 
-    const matchDetails = targetOptNames.map((to, idx) => {
-      const tgtTarget = targetMatchedOpts[idx] || to;
+    const matchDetails = targetOptNames.map((to) => {
+      const tgtTarget = targetMatchedOpts.find((m) => m.raw_name === to) || to;
       return compareOptionToOpposites(tgtTarget, compOpposites);
     });
 
@@ -322,7 +323,7 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
                   {targetOptions.map((opt, idx) => {
                     const pMan = opt.price_man || Math.round((opt.price || 0) / 10000);
                     const displayName = pMan > 0 ? `${opt.name}(${pMan}만)` : opt.name;
-                    const mi = targetMatchedOpts[idx];
+                    const mi = targetMatchedOpts.find((m) => m.raw_name === opt.name);
                     const compareRes = compareOptionToOpposites(mi || opt.name, compOpposites);
 
                     // 툴팁 구성
@@ -394,7 +395,7 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
             }
 
             return tgtOpts.map((opt, idx) => {
-              const mi = targetMatchedOpts[idx];
+              const mi = targetMatchedOpts.find((m) => m.raw_name === opt);
               const compareRes = compareOptionToOpposites(mi || opt, compOpposites);
 
               let tipText = `[${opt}]\n조회 차량의 장착 순정 옵션입니다.`;

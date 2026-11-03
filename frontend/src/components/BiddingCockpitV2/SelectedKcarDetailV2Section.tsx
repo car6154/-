@@ -4,7 +4,7 @@ import { KcarCarItem, KcarDetailData } from '@/components/BiddingCockpit/types';
 import { CarDamageDiagram2D } from '@/components/BiddingCockpit/Sections/CarDamageDiagram2D';
 import { getCarColorStyle } from '@/utils/carColor';
 import { NewCarCatalogData } from '@/services/biddingOptionCatalog';
-import { matchOptionsSingle, BackendMatchedOption, getCachedCarMatchedOptions } from '@/services/optionMatchingService';
+import { matchOptionsSingle, BackendMatchedOption } from '@/services/optionMatchingService';
 
 export interface SelectedKcarDetailV2SectionProps {
   selectedKcar: KcarCarItem | null;
@@ -125,11 +125,6 @@ export const SelectedKcarDetailV2Section: React.FC<SelectedKcarDetailV2SectionPr
       setKcarMatchedOpts([]);
       return;
     }
-    const cached = selectedKcar.carCd ? getCachedCarMatchedOptions(selectedKcar.carCd) : null;
-    if (cached && cached.length > 0) {
-      setKcarMatchedOpts(cached);
-      return;
-    }
     let isMounted = true;
     matchOptionsSingle({
       id: selectedKcar.carCd,
@@ -145,7 +140,7 @@ export const SelectedKcarDetailV2Section: React.FC<SelectedKcarDetailV2SectionPr
   }, [selectedKcar?.carCd, selectedKcar?.carName, selectedKcar?.year, rawOptionNames]);
 
   const matchedOptionChips = React.useMemo(() => {
-    return rawOptionNames.map((rawName, idx) => {
+    return rawOptionNames.map((rawName) => {
       // 카탈로그가 없거나 백엔드 매칭이 없을 때: 깔때기 폴백으로 원문 그대로·가격 미확인 유지
       if (!hasCatalog && kcarMatchedOpts.length === 0) {
         return {
@@ -159,7 +154,7 @@ export const SelectedKcarDetailV2Section: React.FC<SelectedKcarDetailV2SectionPr
         };
       }
 
-      const mi = kcarMatchedOpts[idx] || kcarMatchedOpts.find((m) => m.raw_name === rawName);
+      const mi = kcarMatchedOpts.find((m) => m.raw_name === rawName);
 
       if (!mi || mi.match_type === 'none') {
         return {

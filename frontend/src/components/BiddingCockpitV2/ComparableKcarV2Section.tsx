@@ -167,8 +167,8 @@ export const ComparableKcarV2Section: React.FC<ComparableKcarV2SectionProps> = (
       }
 
       // 백엔드 배치 매칭 결과와 목표차 옵션 대조 (규칙 4-d)
-      const compDetails = compOpts.map((o, idx) => {
-        const matchedItem = compMatchedList[idx] || compMatchedList.find((m) => m.raw_name === o);
+      const compDetails = compOpts.map((o) => {
+        const matchedItem = compMatchedList.find((m) => m.raw_name === o);
         const compTarget = matchedItem || o;
         const compareRes = compareOptionToOpposites(compTarget, targetOptNames);
         return {
