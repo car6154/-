@@ -2418,6 +2418,12 @@ def search_cockpit_unified(req: CockpitSearchRequest):
                             year = y_m
                         elif y_r > 0:
                             year = y_r
+
+                    # 차얼마 응답 객체에 2자리 연식(문자열, 예: "22") 담기
+                    if year and int(year) > 0:
+                        y_int = int(year)
+                        y_2d = (y_int - 2000) if y_int > 2000 else y_int
+                        chaolma_res["year"] = f"{y_2d:02d}"
             except Exception as e_ch:
                 fail_reasons["chaolma"] = str(e_ch)
         else:
