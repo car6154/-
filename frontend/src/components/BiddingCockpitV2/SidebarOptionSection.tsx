@@ -262,19 +262,21 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
 
   return (
     <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-3.5 space-y-2 text-xs">
-      {/* 1. 상단 라인: '추가 옵션' 라벨 + 신차 옵션 N개 + 총 가격 + 우세/순정 배지 */}
-      <div className="flex items-center justify-between gap-1.5 flex-wrap">
-        <div className="flex items-center gap-1.5 shrink-0">
-          <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase">추가 옵션</span>
-          {hasOptions && (
-            <span className="inline-flex items-center text-[10px] px-1.5 py-0.5 rounded bg-blue-500/15 text-blue-300 font-bold border border-blue-500/30">
-              신차 옵션 {optCount}개
-            </span>
-          )}
+      {/* 1. 상단 라인: 1행(라벨 + 신차 옵션 N개 배지), 2행(총 가격 + 우세/순정 배지) 고정 2행 분리 */}
+      <div className="space-y-1.5">
+        <div className="flex items-center justify-between gap-1.5 min-h-[22px]">
+          <div className="flex items-center gap-1.5 shrink-0">
+            <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase">추가 옵션</span>
+            {hasOptions && (
+              <span className="inline-flex items-center text-[10px] px-1.5 py-0.5 rounded bg-blue-500/15 text-blue-300 font-bold border border-blue-500/30">
+                신차 옵션 {optCount}개
+              </span>
+            )}
+          </div>
         </div>
 
         {hasOptions && (
-          <div className="flex items-center gap-1.5 shrink-0">
+          <div className="flex items-center gap-1.5 shrink-0 min-h-[22px]">
             <span
               title={priceInfo.tooltip}
               className="inline-flex items-center text-[10px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-200 font-bold border border-amber-500/40 cursor-help truncate max-w-[120px]"
@@ -320,8 +322,9 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
             if (targetOptions && targetOptions.length > 0) {
               const mapped = targetOptions.map((opt, idx) => {
                 const pMan = opt.price_man || Math.round((opt.price || 0) / 10000);
-                const displayName = pMan > 0 ? `${opt.name}(${pMan}만)` : opt.name;
                 const mi = targetMatchedOpts.find((m) => m.raw_name === opt.name);
+                const optDisplayName = mi?.official_name || opt.name;
+                const displayName = pMan > 0 ? `${optDisplayName}(${pMan}만)` : optDisplayName;
                 const compareRes = compareOptionToOpposites(mi || opt.name, compOpposites);
 
                 let tipText = opt.desc || `${opt.name} (${pMan}만)`;
@@ -429,6 +432,7 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
             const mappedOpts = tgtOpts.map((opt, idx) => {
               const mi = targetMatchedOpts.find((m) => m.raw_name === opt);
               const compareRes = compareOptionToOpposites(mi || opt, compOpposites);
+              const displayName = mi?.official_name || opt;
 
               let tipText = `[${opt}]\n조회 차량의 장착 순정 옵션입니다.`;
               if (mi && mi.official_name) {
@@ -444,6 +448,7 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
               return {
                 idx,
                 opt,
+                displayName,
                 tipText,
                 compareRes,
                 symbolRank,
@@ -456,7 +461,7 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
               : mappedOpts;
 
             return sortedOpts.map((item) => {
-              const { idx, opt, tipText, compareRes } = item;
+              const { idx, opt, displayName, tipText, compareRes } = item;
 
               if (hasComp && compareRes.symbol === '+') {
                 return (
@@ -466,7 +471,7 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
                     className="px-2 py-0.5 rounded bg-blue-500/30 border border-blue-500/60 text-blue-300 font-bold text-[10.5px] flex items-center gap-1 cursor-help hover:brightness-110 transition"
                   >
                     <span className="text-blue-300 text-[10px] font-bold">+</span>
-                    <span>{opt}</span>
+                    <span>{displayName}</span>
                   </span>
                 );
               }
@@ -479,7 +484,7 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
                     className="px-2 py-0.5 rounded bg-amber-500/30 border border-amber-500/60 text-amber-300 font-bold text-[10.5px] flex items-center gap-1 cursor-help hover:brightness-110 transition"
                   >
                     <span className="text-amber-300 text-[10px] font-bold">~</span>
-                    <span>{opt}</span>
+                    <span>{displayName}</span>
                   </span>
                 );
               }
@@ -492,7 +497,7 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
                     className="px-2 py-0.5 rounded bg-emerald-500/30 border border-emerald-500/60 text-emerald-300 font-bold text-[10.5px] flex items-center gap-1 cursor-help hover:brightness-110 transition"
                   >
                     <span className="text-emerald-300 text-[10px] font-bold">✓</span>
-                    <span>{opt}</span>
+                    <span>{displayName}</span>
                   </span>
                 );
               }
@@ -504,7 +509,7 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
                   className="px-2 py-0.5 rounded bg-zinc-800/60 border border-zinc-700 text-zinc-300 font-medium text-[10.5px] flex items-center gap-1 cursor-help hover:brightness-110 transition"
                 >
                   <span className="text-zinc-500 text-[10px]">•</span>
-                  <span>{opt}</span>
+                  <span>{displayName}</span>
                 </span>
               );
             });

@@ -489,6 +489,8 @@ def normalize_opt_name(text: str) -> str:
     t = re.sub(r'(패키지|플러스|팩|센스|와이즈|컨트롤|어시스트|액티브|컴포트|셀렉티브|스타일|세이프티)i', r'\g<1>1', t)
     # 6. '패키지', '팩' 접미어 제거
     t = t.replace("패키지", "").replace("팩", "")
+    # 7. 음운/표기 변이 공통 표준화 ('썬' -> '선') (11-03-16 제이 규칙)
+    t = t.replace("썬", "선")
     return t
 
 
@@ -860,7 +862,37 @@ def get_catalog_option_detail(car_name: str, year: Any, opt_name: str) -> Option
                     found["raw_name"] = opt_name
                     return found
 
-    # 2단계: 캐노니컬 퍼지 매칭 (연식 순서대로, 최후 폴백)
+    # 2단계: 캐노니컬 포함 유일 매칭 (Unique Substring Match, 11-03-16 깔때기 설계)
+    # 정규화된 원문이 모델 카탈로그 옵션들 중 유일하게 1개 옵션에만 포함되는 경우 exact 매칭
+    if c_model and norm_opt:
+        model_candidates = set()
+        for yr_key, yr_val in c_model[1].items():
+            for off_k in yr_val.get("options", {}):
+                if norm_opt in normalize_opt_name(off_k):
+                    model_candidates.add(normalize_opt_name(off_k))
+
+        if len(model_candidates) == 1:
+            for yr in c_years:
+                opts = c_model[1].get(yr, {}).get("options")
+                if opts:
+                    yr_cands = [k for k in opts if norm_opt in normalize_opt_name(k)]
+                    if len(yr_cands) == 1:
+                        off_key = yr_cands[0]
+                        val = opts[off_key]
+                        price = val.get("price") if isinstance(val, dict) else None
+                        desc = val.get("desc") if isinstance(val, dict) else (val if isinstance(val, str) else "")
+                        opt_src = val.get("source", "danawa") if isinstance(val, dict) else "danawa"
+                        return {
+                            "price": price,
+                            "desc": desc,
+                            "official_name": off_key,
+                            "match_type": "exact",
+                            "source": opt_src,
+                            "matched_year": yr,
+                            "raw_name": opt_name
+                        }
+
+    # 3단계: 캐노니컬 퍼지 매칭 (연식 순서대로, 최후 폴백)
     if c_model:
         for yr in c_years:
             opts = c_model[1].get(yr, {}).get("options")
