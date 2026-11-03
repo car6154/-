@@ -215,6 +215,9 @@ export const SelectedKcarDetailV2Section: React.FC<SelectedKcarDetailV2SectionPr
       } else if (isFuzzy) {
         titleText = `[${srcLabel} 카탈로그 퍼지 매칭${yearPart}] 표준명: ${stdName} (원문: ${rawName})`;
       }
+      if (mi?.desc && mi.desc.trim()) {
+        titleText = `${titleText}\n${mi.desc.trim()}`;
+      }
 
       // 💡 [11-03-14]: 목표차와의 대조 결과로 기호 및 색상 결정
       const compareRes = compareOptionToOpposites(mi || rawName, targetMatchedList);

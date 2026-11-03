@@ -332,6 +332,9 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
                   const meta = [srcLabel, yrLabel].filter(Boolean).join(' ');
                   tipText = `[신차 공식 표준명: ${mi.official_name}${meta ? ` · ${meta}` : ''}]\n${tipText}`;
                 }
+                if (mi?.desc && mi.desc.trim() && !tipText.includes(mi.desc.trim())) {
+                  tipText = `${tipText}\n${mi.desc.trim()}`;
+                }
 
                 const symbolRank = !hasComp ? 4 : compareRes.symbol === '✓' ? 1 : compareRes.symbol === '~' ? 2 : 3;
 
@@ -439,6 +442,9 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
                 const pLabel = mi.price ? ` (${Math.round(mi.price / 10000)}만)` : '';
                 const meta = [srcLabel, yrLabel].filter(Boolean).join(' ');
                 tipText = `[신차 공식 표준명: ${mi.official_name}${pLabel}${meta ? ` · ${meta}` : ''}]\n원문: ${opt}`;
+              }
+              if (mi?.desc && mi.desc.trim()) {
+                tipText = `${tipText}\n${mi.desc.trim()}`;
               }
 
               const symbolRank = !hasComp ? 4 : compareRes.symbol === '✓' ? 1 : compareRes.symbol === '~' ? 2 : 3;

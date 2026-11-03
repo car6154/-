@@ -316,8 +316,8 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
         </div>
       </div>
 
-      {/* 0-1. 엔카 연식별 호가 평균 칩 행 */}
-      <div className="p-3 bg-[#0f1015] border border-[#1e2029] rounded-xl flex items-center gap-2.5 flex-wrap text-xs">
+      {/* 0-1. 엔카 연식별 호가 평균 칩 행 (스크롤 시 상단 고정 스티키 헤더) */}
+      <div className="sticky top-0 z-20 p-3 bg-[#0f1015] border border-[#1e2029] rounded-xl flex items-center gap-2.5 flex-wrap text-xs shadow-md">
         <span className="text-[11px] font-bold text-sky-400 shrink-0">평균</span>
         <div className="flex items-center gap-1.5 flex-wrap">
           {encarYearStats && encarYearStats.length > 0 ? (

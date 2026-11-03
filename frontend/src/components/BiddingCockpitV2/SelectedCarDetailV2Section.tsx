@@ -96,6 +96,18 @@ export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProp
   // 💡 [2026-11-02 제이 규칙]: 선택 차량의 옵션에 대해서만 신차 카탈로그 매칭(다나와 1순위 -> 엔카 2순위 -> 퍼지 3순위) 비동기 조회
   // 💡 [Rules of Hooks]: 모든 리액트 훅은 early return(조기 반환) 이전에 컴포넌트 최상단에서 무조건 실행되어야 함
   const [matchedOptions, setMatchedOptions] = useState<MatchedOptionItem[]>([]);
+
+  // 💡 [11-03-18]: 카탈로그 매칭 옵션들의 가격 합계 (만원 단위 환산·반올림)
+  const optionTotalPrice = useMemo(() => {
+    if (!matchedOptions || matchedOptions.length === 0) return 0;
+    const totalWon = matchedOptions.reduce((acc, cur) => {
+      if (cur && typeof cur.price === 'number' && cur.price > 0) {
+        return acc + cur.price;
+      }
+      return acc;
+    }, 0);
+    return Math.round(totalWon / 10000);
+  }, [matchedOptions]);
   const [, setIsOptionsMatching] = useState<boolean>(false);
   const optionsCacheRef = useRef<Record<string, MatchedOptionItem[]>>({});
 
@@ -326,15 +338,27 @@ export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProp
             </div>
           )}
 
-          {/* 2-3) 대형 가격 표시 (Large Price Display) */}
-          <div className="flex items-baseline gap-1.5 pt-1">
-            <span className="text-2xl sm:text-3xl font-black text-amber-400 font-mono tracking-tight">
-              {selectedEncar.price.toLocaleString()}
-            </span>
-            <span className="text-sm font-bold text-zinc-300">만원</span>
-            {hasAdjustedPrice && (
-              <span className="ml-3 text-xs sm:text-sm font-bold text-sky-400 font-mono">
-                (보정가: {Number(adjustedPriceVal).toLocaleString()}만원)
+          {/* 2-3) 대형 가격 표시 (Large Price Display - 좌측 가격/보정가, 우측 옵션합계 뱃지 한 행) */}
+          <div className="flex items-center justify-between gap-2 pt-1">
+            <div className="flex items-baseline gap-1.5 flex-wrap">
+              <span className="text-2xl sm:text-3xl font-black text-amber-400 font-mono tracking-tight">
+                {selectedEncar.price.toLocaleString()}
+              </span>
+              <span className="text-sm font-bold text-zinc-300">만원</span>
+              {hasAdjustedPrice && (
+                <span className="ml-3 text-xs sm:text-sm font-bold text-sky-400 font-mono">
+                  (보정가: {Number(adjustedPriceVal).toLocaleString()}만원)
+                </span>
+              )}
+            </div>
+
+            {/* 우측 영역: 카탈로그 옵션 합계 뱃지 */}
+            {optionTotalPrice > 0 && (
+              <span
+                className="text-xs sm:text-sm font-bold text-amber-300 font-mono shrink-0 px-2.5 py-1 rounded bg-amber-500/10 border border-amber-500/30"
+                title="엔카 카탈로그 추가 선택옵션 합계"
+              >
+                옵션합계 +{optionTotalPrice.toLocaleString()}만
               </span>
             )}
           </div>
@@ -380,6 +404,9 @@ export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProp
                 const srcLabel = item.source === 'danawa' ? '다나와' : '엔카';
                 const yearSuffix = item.matched_year ? ` · ${item.matched_year}년` : '';
                 titleText = `[${srcLabel} 카탈로그 퍼지 매칭${yearSuffix}] 표준명: ${displayName} (원문: ${rawName})`;
+              }
+              if (isMatchedOpt && item.desc && item.desc.trim()) {
+                titleText = `${titleText}\n${item.desc.trim()}`;
               }
 
               // 💡 [11-03-14]: 목표차와의 대조 결과로 기호 및 색상 결정
