@@ -475,17 +475,6 @@ export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProp
 
         {/* [하단 영역: 사고·점검 2D 상태도 (절반 너비 전체 100% 활용)] */}
         <div className="bg-[#14151b] border border-[#232634] rounded-xl p-4 space-y-3">
-          <div className="flex items-center justify-between border-b border-[#232634] pb-2">
-            <span className="text-xs font-bold text-white">
-              외판 및 주요골격 상태도
-            </span>
-            {inspectionDateText && (
-              <span className="text-[11px] text-zinc-400 font-mono">
-                점검일자: {inspectionDateText}
-              </span>
-            )}
-          </div>
-
           {/* 분기 1: 점검 정보 불러오는 중 */}
           {isInspectionLoading ? (
             <div className="py-12 flex flex-col items-center justify-center gap-2 text-zinc-400">

@@ -484,17 +484,6 @@ export const SelectedKcarDetailV2Section: React.FC<SelectedKcarDetailV2SectionPr
 
         {/* [하단 영역: 2D 상태도] */}
         <div className="bg-[#14151b] border border-[#232634] rounded-xl p-4 space-y-3">
-          <div className="flex items-center justify-between border-b border-[#232634] pb-2">
-            <span className="text-xs font-bold text-white">
-              외판 및 주요골격 상태도
-            </span>
-            {checkDateText && (
-              <span className="text-[11px] text-zinc-400 font-mono">
-                {checkDateText} 점검
-              </span>
-            )}
-          </div>
-
           {/* 2D 상태도 컴포넌트 임포트 사용 (기존 부품 무수정 연결) */}
           <div className="pt-1">
             <CarDamageDiagram2D
