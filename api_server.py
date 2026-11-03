@@ -198,12 +198,16 @@ def get_newcar_catalog_endpoint(car_name: str, year: Optional[str] = None):
 
     catalog = _get_newcar_catalog()
     clean_name = re.sub(r'^(현대|기아|제네시스|쉐보레|르노코리아|르노삼성|KG모빌리티|쌍용)\s*', '', car_name).strip()
+    clean_name_no_parens = re.sub(r'\(.*?\)', '', clean_name).strip()
     norm_input = re.sub(r'\s+', '', clean_name).lower()
+    norm_input_no_parens = re.sub(r'\s+', '', clean_name_no_parens).lower()
 
-    # 1. 모델명 매칭
+    # 1. 모델명 매칭 (괄호 구간 제거 비교, 정규화 길이 2 미만 한 글자 키 부분문자 제외)
     matched_key = None
     if clean_name in catalog:
         matched_key = clean_name
+    elif clean_name_no_parens in catalog:
+        matched_key = clean_name_no_parens
     else:
         for k in catalog.keys():
             if re.sub(r'\s+', '', k).lower() == norm_input:
@@ -211,8 +215,17 @@ def get_newcar_catalog_endpoint(car_name: str, year: Optional[str] = None):
                 break
         if not matched_key:
             for k in catalog.keys():
-                norm_k = re.sub(r'\s+', '', k).lower()
-                if norm_input in norm_k or norm_k in norm_input:
+                k_no_parens = re.sub(r'\(.*?\)', '', k).strip()
+                if re.sub(r'\s+', '', k_no_parens).lower() == norm_input_no_parens:
+                    matched_key = k
+                    break
+        if not matched_key:
+            for k in catalog.keys():
+                k_no_parens = re.sub(r'\(.*?\)', '', k).strip()
+                norm_k = re.sub(r'\s+', '', k_no_parens).lower()
+                if len(norm_k) < 2:
+                    continue
+                if norm_input_no_parens in norm_k or norm_k in norm_input_no_parens:
                     matched_key = k
                     break
 

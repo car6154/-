@@ -711,13 +711,18 @@ export const fetchNewCarCatalog = async (carName: string, year?: string): Promis
     try {
       const url = `/api/newcar_catalog?car_name=${encodeURIComponent(cleanName)}&year=${encodeURIComponent(cleanYr)}`;
       const res = await fetch(url);
-      if (!res.ok) return null;
+      if (!res.ok) {
+        newCarCatalogCache.delete(cacheKey);
+        return null;
+      }
       const data = await res.json();
       if (data && data.success) {
         return data as NewCarCatalogData;
       }
+      newCarCatalogCache.delete(cacheKey);
       return null;
     } catch {
+      newCarCatalogCache.delete(cacheKey);
       return null;
     }
   })();

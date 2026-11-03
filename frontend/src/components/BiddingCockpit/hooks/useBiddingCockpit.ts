@@ -1049,8 +1049,9 @@ export function useBiddingCockpit({
         }
 
         // 💡 [11-03-07]: 차량번호 단독 조회 시에도 신차 공식 카탈로그 비동기 확보 (케이카/엔카 상세 칩 연동)
-        const catalogCarName = res.model_detail_name || res.model_name || resolvedCarName || carName;
-        const catalogYear = (res as any).model_year || res.year || (yr ? String(yr) : '');
+        // 💡 [11-03-10]: resolvedCarName/carName과 yr 우선 사용, 차얼마는 최후 폴백
+        const catalogCarName = resolvedCarName || carName || res.model_detail_name || res.model_name;
+        const catalogYear = (yr ? String(yr) : '') || (res as any).model_year || res.year || '';
         if (catalogCarName) {
           fetchNewCarCatalog(catalogCarName, catalogYear)
             .then(cat => {
@@ -1649,7 +1650,10 @@ export function useBiddingCockpit({
                   setDetailModel(combinedG);
                 }
                 // 💡 [11-03-07]: 차얼마 옵션 유무와 무관하게 카탈로그 비동기 확보 (게이트 분리)
-                fetchNewCarCatalog(chRes.model_detail_name || chRes.model_name || carData.car_name, (chRes as any).model_year || chRes.year)
+                // 💡 [11-03-10]: 시장 검색 정규화 값(cName, calculatedYear) 우선 사용, 차얼마는 최후 폴백
+                const catalogCarName = (cName && cName !== '-') ? cName : (chRes.model_detail_name || chRes.model_name || carData.car_name);
+                const catalogYear = calculatedYear ? String(calculatedYear) : ((chRes as any).model_year || chRes.year || '');
+                fetchNewCarCatalog(catalogCarName, catalogYear)
                   .then(cat => {
                     if (activeHeydealerTokenRef.current === heydealerToken && cat) setTargetNewCarCatalog(cat);
                   })
@@ -1671,7 +1675,10 @@ export function useBiddingCockpit({
             if (chRes && chRes.success) {
               applyChaolmaResult(chRes);
               // 💡 [11-03-07]: 차얼마 옵션 유무와 무관하게 카탈로그 비동기 확보 (게이트 분리)
-              const cat = await fetchNewCarCatalog(chRes.model_detail_name || chRes.model_name || carData.car_name, (chRes as any).model_year || chRes.year);
+              // 💡 [11-03-10]: 시장 검색 정규화 값(cName, calculatedYear) 우선 사용, 차얼마는 최후 폴백
+              const catalogCarName = (cName && cName !== '-') ? cName : (chRes.model_detail_name || chRes.model_name || carData.car_name);
+              const catalogYear = calculatedYear ? String(calculatedYear) : ((chRes as any).model_year || chRes.year || '');
+              const cat = await fetchNewCarCatalog(catalogCarName, catalogYear);
               if (activeHeydealerTokenRef.current === heydealerToken && cat) {
                 setTargetNewCarCatalog(cat);
               }
