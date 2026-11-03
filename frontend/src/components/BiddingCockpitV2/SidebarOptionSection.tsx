@@ -211,6 +211,7 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
   selectedEncar,
   selectedKcar,
   activeCompTab,
+  targetCatalog,
   unclassifiedBalance = 0,
 }) => {
   // 💡 [11-03-11]: 목표차 옵션 백엔드 매칭 조회 (단건 함수 사용)
@@ -227,8 +228,11 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
   // 💡 [11-03-34]: 신차 카탈로그 뷰어 링크 (목표차 모델명/연식 동적 바인딩)
   const catalogHref = useMemo(() => {
     const params: string[] = [];
-    if (targetCarName && String(targetCarName).trim()) {
-      params.push(`model=${encodeURIComponent(String(targetCarName).trim())}`);
+    // 💡 [11-03-48]: 뷰어는 카탈로그 키(matched_key)로 모델을 찾는다. 표시명(예: "신형 카니발(KA4)")이 아니라
+    // 백엔드가 반환한 targetCatalog.model(예: "카니발 4세대")을 우선 사용하고, 없으면 표시명으로 폴백.
+    const viewerModel = (targetCatalog?.model || targetCarName || '').toString().trim();
+    if (viewerModel) {
+      params.push(`model=${encodeURIComponent(viewerModel)}`);
     }
     if (targetYear && String(targetYear).trim()) {
       const yrStr = String(targetYear).trim();
@@ -240,7 +244,7 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
       return `/newcar-catalog.html#${params.join('&')}`;
     }
     return '/newcar-catalog.html';
-  }, [targetCarName, targetYear]);
+  }, [targetCarName, targetYear, targetCatalog?.model]);
 
   useEffect(() => {
     if (targetOptNames.length === 0 || !targetCarName) {
