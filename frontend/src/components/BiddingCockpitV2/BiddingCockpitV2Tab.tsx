@@ -1,6 +1,6 @@
 import React from 'react';
 import { useBiddingCockpit } from '@/components/BiddingCockpit/hooks/useBiddingCockpit';
-import { Search, ExternalLink, Car, AlertCircle, CheckCircle2, RefreshCw, X } from 'lucide-react';
+import { Search, ExternalLink, AlertCircle, CheckCircle2, RefreshCw, X } from 'lucide-react';
 import { ComparableEncarV2Section } from './ComparableEncarV2Section';
 import { ComparableKcarV2Section } from './ComparableKcarV2Section';
 import { SelectedCarDetailV2Section } from './SelectedCarDetailV2Section';
@@ -139,21 +139,6 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
 
   return (
     <div className="w-full max-w-[1920px] mx-auto px-4 py-4 space-y-4">
-      {/* 새 버전 안내 헤더 */}
-      <div className="flex items-center justify-between border-b border-[#1f222e] pb-3">
-        <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg bg-[#cc9166]/20 border border-[#cc9166]/40 flex items-center justify-center">
-            <Car className="w-4 h-4 text-[#cc9166]" />
-          </div>
-          <div>
-            <h1 className="text-base font-bold text-white flex items-center gap-2">
-              비딩 콕핏 <span className="text-xs px-2 py-0.5 rounded bg-[#cc9166]/20 text-[#cc9166] border border-[#cc9166]/40">V2 (사이드바·메인 구조)</span>
-            </h1>
-            <p className="text-xs text-[#8b8e9d]">사이드바: 조회·목표차·소매가 | 메인: 비교 목록(좌) · 선택 상세(우) 반반 나란히</p>
-          </div>
-        </div>
-      </div>
-
       {/* 사이드바(좌측) + 메인(우측) 2단 레이아웃 */}
       <div className="flex flex-col lg:flex-row gap-5 items-start">
         {/* [사이드바 (왼쪽, 고정 280px 너비, sticky)] */}
@@ -512,7 +497,7 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
           {/* 상단 4칸 한 줄: 소매가 · 엔카평균 · 엔카시세 · 기준소매 */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {/* 1) 소매가 */}
-            <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-3.5 shadow-sm flex flex-col justify-between">
+            <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-2 shadow-sm flex flex-col justify-between">
               <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase">소매가</span>
               <div className="mt-1 flex items-baseline">
                 <span className="text-xl sm:text-2xl font-black text-sky-400 font-mono tracking-tight">
@@ -522,7 +507,7 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
             </div>
 
             {/* 2) 엔카평균 */}
-            <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-3.5 shadow-sm flex flex-col justify-between">
+            <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-2 shadow-sm flex flex-col justify-between">
               <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase">엔카평균</span>
               <div className="mt-1 flex items-baseline justify-between gap-1 flex-wrap">
                 <span className="text-base sm:text-lg font-bold text-zinc-100 font-mono tracking-tight">
@@ -539,7 +524,7 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
             </div>
 
             {/* 3) 엔카시세 */}
-            <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-3.5 shadow-sm flex flex-col justify-between">
+            <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-2 shadow-sm flex flex-col justify-between">
               <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase">엔카시세</span>
               <div className="mt-1 flex items-baseline justify-between gap-1 flex-wrap">
                 <span className="text-base sm:text-lg font-bold text-zinc-100 font-mono tracking-tight">
@@ -556,7 +541,7 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
             </div>
 
             {/* 4) 기준소매 */}
-            <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-3.5 shadow-sm flex flex-col justify-between">
+            <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-2 shadow-sm flex flex-col justify-between">
               <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase">기준소매</span>
               <div className="mt-1 flex items-baseline justify-between gap-1 flex-wrap">
                 <span className="text-base sm:text-lg font-bold text-zinc-100 font-mono tracking-tight">
@@ -585,10 +570,10 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
             biddingVerdict={cockpit.biddingVerdict}
           />
 
-          {/* 비교 목록(왼쪽 7)과 선택 상세(오른쪽 5) xl 나란히 배치 (7:5 비율) */}
-          <div className="grid grid-cols-1 xl:grid-cols-12 gap-5 items-start">
+          {/* 비교 목록(왼쪽 7)과 선택 상세(오른쪽 5) lg 나란히 배치 (7:5 비율) */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
             {/* 좌측 7/12: 비교 목록 (엔카 / 케이카 탭 전환) */}
-            <div className="min-w-0 w-full xl:col-span-7 space-y-3">
+            <div className="min-w-0 w-full lg:col-span-7 space-y-3">
               {/* 상단 탭 토글 (엔카 / 케이카 / 헤이딜러 낙찰) */}
               <div className="flex items-center justify-between gap-2">
                 <div className="inline-flex p-1 bg-[#0f1015] border border-[#1e2029] rounded-xl shadow-sm">
@@ -707,7 +692,7 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
             </div>
 
             {/* 우측 5/12: 선택 차량 상세 & 2D 상태도 (낙찰 탭 + 낙찰 선택 시 낙찰 상세, 그 외에는 마지막 소매 차량 상세 유지) */}
-            <div className="min-w-0 w-full xl:col-span-5">
+            <div className="min-w-0 w-full lg:col-span-5">
               <div className={activeCompTab === 'heydealer' && Boolean(cockpit.selectedHeydealerBid) ? 'block' : 'hidden'}>
                 <SelectedHeydealerBidDetailV2Section
                   selectedHeydealerBid={cockpit.selectedHeydealerBid}

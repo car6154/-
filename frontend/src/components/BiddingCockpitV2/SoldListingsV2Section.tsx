@@ -36,7 +36,7 @@ export const SoldListingsV2Section: React.FC<SoldListingsV2SectionProps> = ({
       {/* 1. 상단 브리핑 줄 & 우측 완판 평균가·평균 경과일수 지표 행 */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 px-1">
         {/* 좌측: 훅의 biddingVerdict.mainText 브리핑 문장 줄 */}
-        <div className="min-w-0 flex-1 text-xs text-zinc-300 flex items-center gap-1.5">
+        <div className="min-w-0 flex-1 text-sm text-zinc-300 flex items-center gap-1.5">
           {biddingVerdict?.mainText ? (
             <span
               className="text-zinc-300 [&>b]:text-white [&>b]:font-bold"
@@ -71,7 +71,7 @@ export const SoldListingsV2Section: React.FC<SoldListingsV2SectionProps> = ({
       </div>
 
       {/* 2. 슬림 스트립 3개 서브탭 버튼 바 (기존 탭처럼 border-t 구분선과 슬림 여백) */}
-      <div className="flex items-center gap-2 overflow-x-auto scrollbar-none text-xs pt-1.5 border-t border-[#1e2029]">
+      <div className="flex items-center gap-2 overflow-x-auto scrollbar-none text-[10px] pt-1.5 border-t border-[#1e2029]">
         <button
           type="button"
           onClick={() => setSoldTabMode(soldTabMode === 'encar' ? 'none' : 'encar')}

@@ -323,7 +323,7 @@ export const ComparableKcarV2Section: React.FC<ComparableKcarV2SectionProps> = (
     <div className="space-y-3">
       {/* 0. 엄격+무사고 요약 행 (총 매물 수 · 최저가 · 최고가 · 평균가) */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-        <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-3">
+        <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-2">
           <span className="text-[10px] text-zinc-400 block font-medium">총 매물 수</span>
           <div className="flex items-baseline gap-1 mt-1">
             <span className="text-lg font-black text-white font-mono">
@@ -333,21 +333,21 @@ export const ComparableKcarV2Section: React.FC<ComparableKcarV2SectionProps> = (
           </div>
         </div>
 
-        <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-3">
+        <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-2">
           <span className="text-[10px] text-zinc-400 block font-medium">최저가</span>
           <div className="text-lg font-black text-sky-400 font-mono mt-1 flex items-center gap-0.5">
             {minPrice > 0 ? `${minPrice.toLocaleString()}만` : '-'} <span>⬇</span>
           </div>
         </div>
 
-        <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-3">
+        <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-2">
           <span className="text-[10px] text-zinc-400 block font-medium">최고가</span>
           <div className="text-lg font-black text-rose-400 font-mono mt-1 flex items-center gap-0.5">
             {maxPrice > 0 ? `${maxPrice.toLocaleString()}만` : '-'} <span>⬆</span>
           </div>
         </div>
 
-        <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-3">
+        <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-2">
           <span className="text-[10px] text-zinc-400 block font-medium">평균가</span>
           <div className="text-lg font-black text-white font-mono mt-1">
             {avgPrice > 0 ? `${avgPrice.toLocaleString()}만` : '-'}
