@@ -26,6 +26,8 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
   // 0. 비교 목록 활성 탭 (엔카 기본 / 케이카 / 헤이딜러 낙찰) 및 선택 상태 (V2 전용)
   const [activeCompTab, setActiveCompTab] = React.useState<'encar' | 'kcar' | 'heydealer'>('encar');
   const [lastRetailTab, setLastRetailTab] = React.useState<'encar' | 'kcar'>('encar');
+  // 💡 [11-03-27]: 엔카 세부등급 행 숨김/표시 토글 상태 (상단 합친 탭바 행으로 끌어올림)
+  const [showSubModel, setShowSubModel] = React.useState<boolean>(true);
   const [selectedKcarCarCd, setSelectedKcarCarCd] = React.useState<string | null>(null);
 
   // 💡 [11-03-17]: success 알림 스낵바 5초 자동 닫힘 타이머 (새 메시지 시 리셋 및 언마운트 cleanup)
@@ -576,27 +578,11 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
             <div className="min-w-0 w-full lg:col-span-7 space-y-3">
               {/* 탭 본문 (엔카 / 케이카 / 헤이딜러 비교 목록): 마운트 유지 및 hidden 토글로 탭 전환 시 캐시 보존 및 무재호출 보장 */}
               <div className="max-h-[640px] overflow-y-auto rounded-xl space-y-3">
-                {/* 0. 목록 헤더 스티키 래퍼: [활성 탭 요약 4칸 + 연식별 평균] + [탭바 토글] 한 덩어리 고정 (11-03-23) */}
+                {/* 0. 목록 헤더 스티키 래퍼: [합친 탭바 줄] -> [요약 4칸] -> [연식별 평균 칩 행] (11-03-27) */}
                 <div className="sticky top-0 z-20 bg-[#08080a] pb-1 space-y-2.5">
-                  {/* 0-1. 활성 탭 요약 4칸 + 연식별 호가 평균 (엔카 / 케이카) */}
-                  {activeCompTab === 'encar' && (
-                    <EncarSummaryHeader
-                      encarList={cockpit.encarList || []}
-                      cohortNoAccAvg={cockpit.encarStats?.cohortNoAccAvg || 0}
-                      encarYearStats={cockpit.encarYearStats || []}
-                      encarSourceUrl={cockpit.encarSourceUrl}
-                    />
-                  )}
-                  {activeCompTab === 'kcar' && (
-                    <KcarSummaryHeader
-                      kcarList={kcarDisplayList}
-                      kcarYearStats={kcarYearStats || []}
-                      kcarSearchUrl={cockpit.kcarStats?.searchUrl}
-                    />
-                  )}
-
-                  {/* 0-2. 상단 탭 토글 (엔카 / 케이카 / 헤이딜러 낙찰) */}
-                  <div className="flex items-center justify-between gap-2 pt-0.5">
+                  {/* 0-1. 합친 탭 줄: 좌측 탭 그룹(엔카/케이카/헤이딜러) + 우측 카운트 문구 & 세부등급 버튼 */}
+                  <div className="flex items-center justify-between gap-2 flex-wrap pt-0.5">
+                    {/* 좌측: 탭 버튼 바 */}
                     <div className="inline-flex p-1 bg-[#0f1015] border border-[#1e2029] rounded-xl shadow-sm">
                       <button
                         type="button"
@@ -649,7 +635,48 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
                         </span>
                       </button>
                     </div>
+
+                    {/* 우측: 활성 탭 카운트 문구 ("41대 중 9대" / "10대 중 8대") + 세부등급 토글 버튼 (엔카만) */}
+                    <div className="flex items-center gap-2">
+                      {activeCompTab === 'encar' && !isInitialState && !cockpit.isEncarLoading && (
+                        <>
+                          <span className="text-xs px-2 py-0.5 rounded-full bg-[#1f222e] text-zinc-300 font-mono">
+                            {(cockpit.encarTotalModelCount || 0).toLocaleString()}대 중 {cockpit.encarFilteredCount || cockpit.encarList?.length || 0}대
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => setShowSubModel((prev) => !prev)}
+                            className="text-[11px] px-2 py-0.5 rounded bg-[#161822] hover:bg-[#20283d] text-zinc-400 hover:text-zinc-200 border border-[#262938] transition cursor-pointer font-medium"
+                            title={showSubModel ? '세부등급 줄을 숨겨 행 높이를 축소합니다' : '세부등급 줄을 표시합니다'}
+                          >
+                            {showSubModel ? '세부등급 숨기기' : '세부등급 보기'}
+                          </button>
+                        </>
+                      )}
+                      {activeCompTab === 'kcar' && !isInitialState && !cockpit.isKcarLoading && (
+                        <span className="text-xs px-2 py-0.5 rounded-full bg-[#1f222e] text-zinc-300 font-mono">
+                          {(cockpit.kcarStats?.wideCount ?? cockpit.kcarStats?.count ?? cockpit.kcarStats?.cars?.length ?? 0).toLocaleString()}대 중 {(cockpit.kcarStats?.strictCount ?? cockpit.kcarStats?.count ?? cockpit.kcarStats?.cars?.length ?? 0).toLocaleString()}대
+                        </span>
+                      )}
+                    </div>
                   </div>
+
+                  {/* 0-2. 활성 탭 요약 4칸 + 연식별 호가 평균 (엔카 / 케이카) */}
+                  {activeCompTab === 'encar' && (
+                    <EncarSummaryHeader
+                      encarList={cockpit.encarList || []}
+                      cohortNoAccAvg={cockpit.encarStats?.cohortNoAccAvg || 0}
+                      encarYearStats={cockpit.encarYearStats || []}
+                      encarSourceUrl={cockpit.encarSourceUrl}
+                    />
+                  )}
+                  {activeCompTab === 'kcar' && (
+                    <KcarSummaryHeader
+                      kcarList={kcarDisplayList}
+                      kcarYearStats={kcarYearStats || []}
+                      kcarSearchUrl={cockpit.kcarStats?.searchUrl}
+                    />
+                  )}
                 </div>
                 <div className={activeCompTab === 'encar' ? 'block' : 'hidden'}>
                   <ComparableEncarV2Section
@@ -670,6 +697,7 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
                     targetCatalog={cockpit.targetNewCarCatalog}
                     targetCarName={cockpit.carName}
                     targetYear={cockpit.yearModel}
+                    showSubModel={showSubModel}
                   />
                 </div>
                 <div className={activeCompTab === 'kcar' ? 'block' : 'hidden'}>

@@ -409,25 +409,13 @@ export const ComparableKcarV2Section: React.FC<ComparableKcarV2SectionProps> = (
     <div className="space-y-3">
       {/* 1. 케이카 비교 매물 목록 테이블 박스 */}
       <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl overflow-hidden shadow-sm space-y-0">
-      {/* 1. 상단 헤더 (제목 및 매물 수) */}
-      <div className="px-5 py-3.5 border-b border-[#1e2029] flex flex-wrap items-center justify-between gap-2">
-        <div className="flex items-center gap-2">
-          <span className="text-xs font-semibold text-[#8b8e9d] uppercase tracking-wider">
-            케이카 비교 매물
-          </span>
-          {!isInitialState && !isLoading && (
-            <span className="text-xs px-2 py-0.5 rounded-full bg-[#1f222e] text-zinc-300 font-mono">
-              전체 {totalCount.toLocaleString()}대 중 {strictCount.toLocaleString()}대 일치
-            </span>
-          )}
+      {/* 1. 에러 메시지 알림 (있을 때만 표시, 기존 헤더 행은 상단 합친 탭 줄로 일원화) */}
+      {errorMessage && (
+        <div className="px-4 py-2 border-b border-[#1e2029] bg-rose-500/10 text-xs text-rose-400 flex items-center gap-1.5">
+          <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+          <span>{errorMessage}</span>
         </div>
-        {errorMessage && (
-          <div className="text-xs text-rose-400 flex items-center gap-1">
-            <AlertCircle className="w-3.5 h-3.5" />
-            <span>{errorMessage}</span>
-          </div>
-        )}
-      </div>
+      )}
 
       {/* 2. 본문 영역 (상태별 분기) */}
       {/* 2-1) 로딩 상태 */}

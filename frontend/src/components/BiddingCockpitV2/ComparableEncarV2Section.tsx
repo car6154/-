@@ -23,6 +23,7 @@ export interface ComparableEncarV2SectionProps {
   targetCatalog?: NewCarCatalogData | null;
   targetCarName?: string;
   targetYear?: string | number;
+  showSubModel?: boolean;
 }
 
 // 사고구분 라벨 헬퍼 (무사고/단순수리/사고 배지)
@@ -208,9 +209,11 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
   targetCatalog,
   targetCarName,
   targetYear,
+  showSubModel: externalShowSubModel,
 }) => {
-  // 세부등급 줄 표시/숨김 토글 상태 (기본값: 보임)
-  const [showSubModel, setShowSubModel] = useState<boolean>(true);
+  // 세부등급 줄 표시/숨김 토글 상태 (상위에서 전달받거나 로컬 기본값 true 유지)
+  const [localShowSubModel, setLocalShowSubModel] = useState<boolean>(true);
+  const showSubModel = externalShowSubModel !== undefined ? externalShowSubModel : localShowSubModel;
 
   // 목표 연식(2자리) 추출 (encarYearStats의 isTarget: true 항목 기준)
   const targetCohortYear = useMemo(() => {
@@ -370,35 +373,13 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
     <div className="space-y-3">
       {/* 1. 엔카 비교 매물 목록 테이블 박스 */}
       <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl overflow-hidden shadow-sm space-y-0">
-      {/* 1. 상단 헤더 (제목 및 매물 수) */}
-      <div className="px-5 py-3.5 border-b border-[#1e2029] flex flex-wrap items-center justify-between gap-2">
-        <div className="flex items-center gap-2">
-          <span className="text-xs font-semibold text-[#8b8e9d] uppercase tracking-wider">
-            엔카 비교 매물
-          </span>
-          {!isInitialState && !isLoading && (
-            <>
-              <span className="text-xs px-2 py-0.5 rounded-full bg-[#1f222e] text-zinc-300 font-mono">
-                전체 {totalModelCount.toLocaleString()}대 중 {filteredCount || encarList.length}대 일치
-              </span>
-              <button
-                type="button"
-                onClick={() => setShowSubModel((prev) => !prev)}
-                className="text-[11px] px-2 py-0.5 rounded bg-[#161822] hover:bg-[#20283d] text-zinc-400 hover:text-zinc-200 border border-[#262938] transition cursor-pointer font-medium"
-                title={showSubModel ? '세부등급 줄을 숨겨 행 높이를 축소합니다' : '세부등급 줄을 표시합니다'}
-              >
-                {showSubModel ? '세부등급 숨기기' : '세부등급 보기'}
-              </button>
-            </>
-          )}
+      {/* 1. 에러 메시지 알림 (있을 때만 표시, 기존 헤더 행은 상단 합친 탭 줄로 일원화) */}
+      {errorMessage && (
+        <div className="px-4 py-2 border-b border-[#1e2029] bg-rose-500/10 text-xs text-rose-400 flex items-center gap-1.5">
+          <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+          <span>{errorMessage}</span>
         </div>
-        {errorMessage && (
-          <div className="text-xs text-rose-400 flex items-center gap-1">
-            <AlertCircle className="w-3.5 h-3.5" />
-            <span>{errorMessage}</span>
-          </div>
-        )}
-      </div>
+      )}
 
       {/* 2. 본문 영역 (상태별 분기) */}
       {/* 2-1) 로딩 상태 */}
