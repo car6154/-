@@ -11,15 +11,25 @@ import { SelectedHeydealerBidDetailV2Section } from './SelectedHeydealerBidDetai
 import { SoldListingsV2Section } from './SoldListingsV2Section';
 import { VehicleAssessmentV2Bar } from './VehicleAssessmentV2Bar';
 import { CarHistoryDetailModal } from '@/components/CarHistoryDetailModal';
+import { CockpitPresetData } from '@/types';
 
 export interface BiddingCockpitV2TabProps {
+  presetCarName?: string;
+  presetSellPrice?: number;
+  preset?: CockpitPresetData | null;
   onSaveToLedger?: (car: any) => Promise<void> | void;
 }
 
 export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
+  presetCarName,
+  presetSellPrice,
+  preset,
   onSaveToLedger,
 }) => {
   const cockpit = useBiddingCockpit({
+    presetCarName,
+    presetSellPrice,
+    preset,
     onSaveToLedger: onSaveToLedger || (() => {}),
   });
 
