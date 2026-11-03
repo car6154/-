@@ -1048,6 +1048,19 @@ export function useBiddingCockpit({
           }
         }
 
+        // 💡 [11-03-07]: 차량번호 단독 조회 시에도 신차 공식 카탈로그 비동기 확보 (케이카/엔카 상세 칩 연동)
+        const catalogCarName = res.model_detail_name || res.model_name || resolvedCarName || carName;
+        const catalogYear = (res as any).model_year || res.year || (yr ? String(yr) : '');
+        if (catalogCarName) {
+          fetchNewCarCatalog(catalogCarName, catalogYear)
+            .then(cat => {
+              if (reqId === activeRequestIdRef.current && cat) {
+                setTargetNewCarCatalog(cat);
+              }
+            })
+            .catch(() => {});
+        }
+
         fetchMarketStats(resolvedCarName || carName, resolvedGrade || detailModel, yr);
         skipAutoFetchRef.current = true;
 
@@ -1635,13 +1648,12 @@ export function useBiddingCockpit({
                   targetGrade = combinedG;
                   setDetailModel(combinedG);
                 }
-                if (chRes.options && chRes.options.length > 0) {
-                  fetchNewCarCatalog(chRes.model_detail_name || chRes.model_name || carData.car_name, (chRes as any).model_year || chRes.year)
-                    .then(cat => {
-                      if (activeHeydealerTokenRef.current === heydealerToken && cat) setTargetNewCarCatalog(cat);
-                    })
-                    .catch(() => {});
-                }
+                // 💡 [11-03-07]: 차얼마 옵션 유무와 무관하게 카탈로그 비동기 확보 (게이트 분리)
+                fetchNewCarCatalog(chRes.model_detail_name || chRes.model_name || carData.car_name, (chRes as any).model_year || chRes.year)
+                  .then(cat => {
+                    if (activeHeydealerTokenRef.current === heydealerToken && cat) setTargetNewCarCatalog(cat);
+                  })
+                  .catch(() => {});
               } else {
                 stopChaolmaTimer(false);
               }
@@ -1658,11 +1670,10 @@ export function useBiddingCockpit({
             if (activeHeydealerTokenRef.current !== heydealerToken) return;
             if (chRes && chRes.success) {
               applyChaolmaResult(chRes);
-              if (chRes.options && chRes.options.length > 0) {
-                const cat = await fetchNewCarCatalog(chRes.model_detail_name || chRes.model_name || carData.car_name, (chRes as any).model_year || chRes.year);
-                if (activeHeydealerTokenRef.current === heydealerToken && cat) {
-                  setTargetNewCarCatalog(cat);
-                }
+              // 💡 [11-03-07]: 차얼마 옵션 유무와 무관하게 카탈로그 비동기 확보 (게이트 분리)
+              const cat = await fetchNewCarCatalog(chRes.model_detail_name || chRes.model_name || carData.car_name, (chRes as any).model_year || chRes.year);
+              if (activeHeydealerTokenRef.current === heydealerToken && cat) {
+                setTargetNewCarCatalog(cat);
               }
             }
           }).catch((chErr) => {

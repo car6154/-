@@ -114,8 +114,23 @@ export const SelectedKcarDetailV2Section: React.FC<SelectedKcarDetailV2SectionPr
     return targetCatalog?.options ? Object.keys(targetCatalog.options) : [];
   }, [targetCatalog]);
 
+  const hasCatalog = Boolean(targetCatalog && targetCatalog.options && Object.keys(targetCatalog.options).length > 0);
+
   const matchedOptionChips = React.useMemo(() => {
     return rawOptionNames.map((rawName) => {
+      // 카탈로그가 없을 때: 깔때기 폴백으로 원문 그대로·가격 미확인 유지 (없는 매칭 지어내지 않음)
+      if (!hasCatalog) {
+        return {
+          rawName,
+          displayName: rawName,
+          chipStyle: 'bg-[#1a1c26] text-zinc-300 border-[#2d3142]',
+          titleText: `[카탈로그 미연동] 원문: ${rawName} (신차 공식 사양 미확인)`,
+          isExact: false,
+          isFuzzy: false,
+          hasCatalog: false,
+        };
+      }
+
       const detail = getOptionMatchDetail(
         rawName,
         catalogOptNames,
@@ -150,9 +165,12 @@ export const SelectedKcarDetailV2Section: React.FC<SelectedKcarDetailV2SectionPr
         displayName: stdName,
         chipStyle,
         titleText,
+        isExact,
+        isFuzzy,
+        hasCatalog: true,
       };
     });
-  }, [rawOptionNames, catalogOptNames, targetCatalog]);
+  }, [rawOptionNames, catalogOptNames, targetCatalog, hasCatalog]);
 
   // 1. 미선택 상태 분기
   if (!selectedKcar) {
@@ -334,18 +352,26 @@ export const SelectedKcarDetailV2Section: React.FC<SelectedKcarDetailV2SectionPr
                 {matchedOptionChips.length > 0 ? `주요 옵션 (${matchedOptionChips.length}개)` : '주요 옵션'}
               </span>
               <div className="flex items-center gap-2 text-[10px] text-zinc-500 font-medium">
-                <span className="flex items-center gap-0.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block" />
-                  정확
-                </span>
-                <span className="flex items-center gap-0.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400 inline-block" />
-                  퍼지
-                </span>
-                <span className="flex items-center gap-0.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-zinc-500 inline-block" />
-                  미매칭
-                </span>
+                {hasCatalog ? (
+                  <>
+                    <span className="flex items-center gap-0.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block" />
+                      정확
+                    </span>
+                    <span className="flex items-center gap-0.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-amber-400 inline-block" />
+                      퍼지
+                    </span>
+                    <span className="flex items-center gap-0.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-zinc-500 inline-block" />
+                      미매칭
+                    </span>
+                  </>
+                ) : (
+                  <span className="text-zinc-500 text-[10px]">
+                    신차가격표 미연동 (원문 표기)
+                  </span>
+                )}
               </div>
             </div>
             {matchedOptionChips.length > 0 ? (
