@@ -12,6 +12,16 @@ import re
 import unicodedata
 from typing import Optional, Any
 
+# 전역 옵션 별칭 사전 (11-03-50): 원천(헤이딜러/차얼마/엔카) 옵션 표기 -> 카탈로그 공식 표기.
+# 키는 실제 원문 문자열과 띄어쓰기까지 정확히 일치해야 한다.
+# 주의: normalize_opt_name은 차명 매칭에도 쓰이므로 이 별칭은 거기에 넣지 않고,
+#       옵션 매칭 함수(get_catalog_option_detail, find_official_catalog_option)에서만 적용한다.
+OPTION_ALIAS_MAP = {
+    "스타일 (7인승)": "스타일",
+    "스타일(7인승)": "스타일",
+    "12.3인치 UVO 내비게이션": "12.3인치 내비게이션",
+}
+
 CANONICAL_CATALOG_FILE = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "canonical_newcar_catalog.json")
 _CANONICAL_CACHE = None
 _CANONICAL_MTIME = 0
@@ -468,11 +478,6 @@ def normalize_opt_name(text: str) -> str:
     }
     for r, d in ROMAN_MAP.items():
         t = t.replace(r, d)
-    # 2-1. 좌석수 꼬리표 제거 (11-03-48): "스타일 (7인승)", "스타일(7인승)", "스타일 [9인승]", "스타일 7인승" -> "스타일"
-    # 전제: 좌석수는 검색 파라미터(배지)에서 이미 고정되므로 비교군에 7인승과 9인승이 섞일 일이 없다.
-    # 즉 이 제거는 좌석수 구분을 없애는 것이 아니라 옵션명 표기 차이만 없애는 것이다.
-    # 입력명과 카탈로그 키 양쪽이 모두 이 함수를 통과하므로 여기 1곳에서 대칭 적용된다.
-    t = re.sub(r'[\(\[]?\s*\d+\s*인승\s*[\)\]]?', '', t)
     # 3. 괄호 안의 가격 정보나 부가설명 분리: '컴포트 패키지 III (79만)' -> '컴포트 패키지 III'
     # 단, 전체가 괄호로 감싸진 경우('(캘리그래피)') 괄호만 벗겨서 알맹이 보존
     sub_t = re.sub(r'\(.*?\)', '', t).strip().lower()
@@ -810,6 +815,8 @@ def get_catalog_option_detail(car_name: str, year: Any, opt_name: str) -> Option
     # 가격 및 괄호 표기 제거
     clean_opt = re.sub(r'\([0-9,]+(?:\s*만|\s*원)?\)', '', str(opt_name))
     clean_opt = re.sub(r'\[[^\]]*\]', '', clean_opt).strip()
+    # 전역 별칭 적용 (직접 일치보다 먼저)
+    clean_opt = OPTION_ALIAS_MAP.get(clean_opt, clean_opt)
     norm_opt = normalize_opt_name(clean_opt)
 
     def _find_in_options(options_dict: dict) -> Optional[dict]:
@@ -1005,6 +1012,8 @@ def find_official_catalog_option(opt_name: str, catalog_data_or_options: Any = N
 
     clean = re.sub(r'\([0-9,]+(?:\s*만|\s*원)?\)', '', str(opt_name))
     clean = re.sub(r'\[[^\]]*\]', '', clean).strip()
+    # 전역 별칭 적용 (정규화 비교보다 먼저)
+    clean = OPTION_ALIAS_MAP.get(clean, clean)
     norm_clean = normalize_opt_name(clean)
     if not norm_clean:
         return None
