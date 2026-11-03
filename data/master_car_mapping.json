@@ -350,16 +350,16 @@
           "updated_at": "2026-10-27 12:50:54"
         },
         "1.6 가솔린 2WD 모던": {
-          "badge_group": "가솔린 1600cc",
+          "badge_group": "가솔린 2WD",
           "badge": "가솔린 1.6 터보 2WD",
           "badge_detail": "모던",
-          "updated_at": "2026-10-12 19:40:50"
+          "updated_at": "2026-11-03 21:21:15"
         },
         "1.6 가솔린 2WD 스마트": {
-          "badge_group": "가솔린 1600cc",
+          "badge_group": "가솔린 2WD",
           "badge": "가솔린 1.6 터보 2WD",
           "badge_detail": "스마트",
-          "updated_at": "2026-10-12 19:40:50"
+          "updated_at": "2026-11-03 21:21:15"
         },
         "2.0 디젤 2WD 모던": {
           "badge_group": "디젤 2000cc",
@@ -563,22 +563,22 @@
           "soldout_clsdetailcd": "002"
         },
         "가솔린 3.5 AWD 캘리그래피": {
-          "badge_group": "가솔린 3500cc",
+          "badge_group": "가솔린 4WD",
           "badge": "3.5 가솔린 4WD",
           "badge_detail": "캘리그래피",
-          "updated_at": "2026-10-12 19:40:50"
+          "updated_at": "2026-11-03 21:21:15"
         },
         "가솔린 2.5 프리미엄": {
-          "badge_group": "가솔린 2500cc",
+          "badge_group": "가솔린 2WD",
           "badge": "2.5 가솔린 2WD",
           "badge_detail": "프리미엄",
-          "updated_at": "2026-10-12 19:40:50"
+          "updated_at": "2026-11-03 21:21:15"
         },
         "가솔린 2.5 캘리그래피": {
-          "badge_group": "가솔린 2500cc",
+          "badge_group": "가솔린 2WD",
           "badge": "2.5 가솔린 2WD",
           "badge_detail": "캘리그래피",
-          "updated_at": "2026-10-12 19:40:50"
+          "updated_at": "2026-11-03 21:21:15"
         },
         "가솔린 3.5 2WD 프리미엄": {
           "badge_group": "가솔린 3500cc",
@@ -2118,40 +2118,40 @@
           "soldout_clsdetailcd": ""
         },
         "9인승 디젤 프레스티지": {
-          "badge_group": "디젤 9인승",
+          "badge_group": "디젤 2200cc",
           "badge": "디젤 9인승 프레스티지",
           "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50"
+          "updated_at": "2026-11-03 21:21:15"
         },
         "9인승 디젤 노블레스": {
-          "badge_group": "디젤 9인승",
+          "badge_group": "디젤 2200cc",
           "badge": "디젤 9인승 노블레스",
           "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50"
+          "updated_at": "2026-11-03 21:21:15"
         },
         "9인승 가솔린 노블레스": {
-          "badge_group": "가솔린 9인승",
+          "badge_group": "가솔린 3500cc",
           "badge": "가솔린 9인승 노블레스",
           "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50"
+          "updated_at": "2026-11-03 21:21:15"
         },
         "리무진 7인승 디젤 노블레스": {
-          "badge_group": "디젤 7인승",
+          "badge_group": "디젤 2200cc",
           "badge": "디젤 7인승 노블레스",
           "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50"
+          "updated_at": "2026-11-03 21:21:15"
         },
         "리무진 7인승 가솔린 노블레스": {
-          "badge_group": "가솔린 7인승",
+          "badge_group": "가솔린 3500cc",
           "badge": "가솔린 7인승 노블레스",
           "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50"
+          "updated_at": "2026-11-03 21:21:15"
         },
         "11인승 디젤 노블레스": {
-          "badge_group": "디젤 11인승",
+          "badge_group": "디젤 2200cc",
           "badge": "디젤 11인승 노블레스",
           "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:51"
+          "updated_at": "2026-11-03 21:21:15"
         },
         "하이리무진 특장 디에이치오토": {
           "badge_group": "가솔린",
@@ -2511,10 +2511,10 @@
           "updated_at": "2026-10-12 19:40:50"
         },
         "7인승 가솔린 시그니처 그래비티": {
-          "badge_group": "가솔린 7인승",
+          "badge_group": "가솔린 3500cc",
           "badge": "가솔린 7인승 그래비티",
           "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50"
+          "updated_at": "2026-11-03 21:21:15"
         },
         "9인승 디젤 프레스티지": {
           "badge_group": "디젤 9인승",
@@ -2523,10 +2523,10 @@
           "updated_at": "2026-10-12 19:40:50"
         },
         "하이리무진 9인승 가솔린 시그니처": {
-          "badge_group": "가솔린 9인승",
+          "badge_group": "가솔린 3500cc",
           "badge": "가솔린 9인승 하이리무진",
           "badge_detail": "시그니처",
-          "updated_at": "2026-10-12 19:40:51"
+          "updated_at": "2026-11-03 21:21:15"
         },
         "9인승 가솔린 노블레스": {
           "badge_group": "가솔린 9인승",
@@ -3016,46 +3016,46 @@
           "soldout_clsdetailcd": "003"
         },
         "1.6 가솔린 2WD 프레스티지": {
-          "badge_group": "가솔린 1600cc",
+          "badge_group": "가솔린 2WD",
           "badge": "가솔린 1.6 터보 2WD",
           "badge_detail": "프레스티지",
-          "updated_at": "2026-10-12 19:40:50"
+          "updated_at": "2026-11-03 21:21:15"
         },
         "1.6 가솔린 2WD 노블레스": {
-          "badge_group": "가솔린 1600cc",
+          "badge_group": "가솔린 2WD",
           "badge": "가솔린 1.6 터보 2WD",
           "badge_detail": "노블레스",
-          "updated_at": "2026-10-12 19:40:50"
+          "updated_at": "2026-11-03 21:21:15"
         },
         "2.0 디젤 2WD 프레스티지": {
-          "badge_group": "디젤 2000cc",
+          "badge_group": "디젤 2WD",
           "badge": "디젤 2.0 2WD",
           "badge_detail": "프레스티지",
-          "updated_at": "2026-10-12 19:40:50"
+          "updated_at": "2026-11-03 21:21:15"
         },
         "1.6 가솔린 2WD 시그니처 그래비티": {
-          "badge_group": "가솔린 1600cc",
+          "badge_group": "가솔린 2WD",
           "badge": "가솔린 1.6 터보 2WD",
           "badge_detail": "시그니처 그래비티",
-          "updated_at": "2026-10-12 19:40:50"
+          "updated_at": "2026-11-03 21:21:15"
         },
         "1.6 가솔린 2WD 트렌디": {
-          "badge_group": "가솔린 1600cc",
+          "badge_group": "가솔린 2WD",
           "badge": "가솔린 1.6 터보 2WD",
           "badge_detail": "트렌디",
-          "updated_at": "2026-10-12 19:40:51"
+          "updated_at": "2026-11-03 21:21:15"
         },
         "2.0 LPG 2WD 프레스티지": {
-          "badge_group": "LPG 2000cc",
+          "badge_group": "LPG 2WD",
           "badge": "LPG 2.0 2WD",
           "badge_detail": "프레스티지",
-          "updated_at": "2026-10-12 19:40:51"
+          "updated_at": "2026-11-03 21:21:15"
         },
         "2.0 디젤 4WD 트렌디": {
-          "badge_group": "디젤 2000cc",
+          "badge_group": "디젤 4WD",
           "badge": "디젤 2.0 4WD",
           "badge_detail": "트렌디",
-          "updated_at": "2026-10-12 19:40:51"
+          "updated_at": "2026-11-03 21:21:15"
         },
         "2.0 디젤 2WD 트렌디": {
           "badge_group": "디젤 2000cc",
@@ -3786,10 +3786,10 @@
           "updated_at": "2026-10-12 19:40:51"
         },
         "2.0 GDe SE": {
-          "badge_group": "가솔린 2000cc",
+          "badge_group": "가솔린 2WD",
           "badge": "2.0 GDe SE 2WD",
           "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50"
+          "updated_at": "2026-11-03 21:21:15"
         },
         "2.0 LPe LE": {
           "badge_group": "LPG 2000cc",
@@ -3798,28 +3798,28 @@
           "updated_at": "2026-10-12 19:40:51"
         },
         "2.0 LPe RE": {
-          "badge_group": "LPG 2000cc",
+          "badge_group": "LPG 2WD",
           "badge": "2.0 LPe RE 2WD",
           "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50"
+          "updated_at": "2026-11-03 21:21:15"
         },
         "2.0 LPe RE 시그니처": {
-          "badge_group": "LPG 2000cc",
+          "badge_group": "LPG 2WD",
           "badge": "2.0 LPe RE 시그니처 2WD",
           "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50"
+          "updated_at": "2026-11-03 21:21:15"
         },
         "2.0 LPe LE 시그니처": {
-          "badge_group": "LPG 2000cc",
+          "badge_group": "LPG 2WD",
           "badge": "2.0 LPe LE 시그니처 2WD",
           "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50"
+          "updated_at": "2026-11-03 21:21:15"
         },
         "2.0 LPe 프리미에르": {
-          "badge_group": "LPG 2000cc",
+          "badge_group": "LPG 2WD",
           "badge": "2.0 LPe 프리미에르 2WD",
           "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50"
+          "updated_at": "2026-11-03 21:21:15"
         },
         "2.0 LPe SE 2WD": {
           "badge_group": "LPG 2WD",
@@ -4086,16 +4086,16 @@
           "updated_at": "2026-10-27 13:05:18"
         },
         "가솔린 2.5 AWD 스포츠팩": {
-          "badge_group": "가솔린 2500cc",
+          "badge_group": "가솔린 4WD",
           "badge": "가솔린 2.5 터보 AWD",
           "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50"
+          "updated_at": "2026-11-03 21:21:15"
         },
         "가솔린 3.5 AWD 스포츠팩": {
-          "badge_group": "가솔린 3500cc",
+          "badge_group": "가솔린 4WD",
           "badge": "가솔린 3.5 터보 AWD",
           "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50"
+          "updated_at": "2026-11-03 21:21:15"
         },
         "가솔린 2.5 터보 2WD": {
           "badge_group": "가솔린 2WD",
@@ -6010,10 +6010,10 @@
           "soldout_clsdetailcd": ""
         },
         "1.6 GTe 인스파이어(e-시프트)": {
-          "badge_group": "가솔린 1600cc",
+          "badge_group": "가솔린+전기 1600cc",
           "badge": "1.6 E-TECH 인스파이어 e-시프터",
           "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50"
+          "updated_at": "2026-11-03 21:21:15"
         },
         "1.6 GTe for all E-테크 디자인 패키지": {
           "badge_group": "가솔린 1600cc",
@@ -6022,10 +6022,10 @@
           "updated_at": "2026-10-12 19:40:50"
         },
         "1.6 GTe for all 인스파이어": {
-          "badge_group": "가솔린 1600cc",
+          "badge_group": "가솔린+전기 1600cc",
           "badge": "1.6 E-TECH 인스파이어",
           "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:51"
+          "updated_at": "2026-11-03 21:21:15"
         },
         "1.3 TCe RE 인스파이어": {
           "badge_group": "가솔린 1300cc",
@@ -7862,10 +7862,10 @@
       ],
       "trims": {
         "2.2 디젤 2WD 르블랑": {
-          "badge_group": "디젤 2200cc",
+          "badge_group": "디젤 2WD",
           "badge": "디젤 2.2 2WD",
           "badge_detail": "르블랑",
-          "updated_at": "2026-10-12 19:40:50"
+          "updated_at": "2026-11-03 21:21:15"
         },
         "2.2 디젤 2WD 익스클루시브": {
           "badge_group": "디젤 2WD",
@@ -7876,16 +7876,16 @@
           "soldout_clsdetailcd": ""
         },
         "2.2 디젤 2WD 캘리그래피": {
-          "badge_group": "디젤 2200cc",
+          "badge_group": "디젤 2WD",
           "badge": "디젤 2.2 2WD",
           "badge_detail": "캘리그래피",
-          "updated_at": "2026-10-12 19:40:51"
+          "updated_at": "2026-11-03 21:21:15"
         },
         "2.2 디젤 2WD 프레스티지": {
-          "badge_group": "디젤 2200cc",
+          "badge_group": "디젤 2WD",
           "badge": "디젤 2.2 2WD",
           "badge_detail": "프레스티지",
-          "updated_at": "2026-10-12 19:40:50"
+          "updated_at": "2026-11-03 21:21:15"
         },
         "2.2 디젤 AWD 캘리그래피": {
           "badge_group": "디젤 4WD",
@@ -7904,10 +7904,10 @@
           "soldout_clsdetailcd": ""
         },
         "3.8 가솔린 2WD 익스클루시브": {
-          "badge_group": "가솔린 3800cc",
+          "badge_group": "가솔린 2WD",
           "badge": "가솔린 3.8 2WD",
           "badge_detail": "익스클루시브",
-          "updated_at": "2026-10-12 19:40:50"
+          "updated_at": "2026-11-03 21:21:15"
         },
         "3.8 가솔린 2WD 캘리그래피": {
           "badge_group": "가솔린 2WD",
@@ -12028,10 +12028,10 @@
       ],
       "trims": {
         "1.6 GTe E-테크 디자인 패키지": {
-          "badge_group": "가솔린 1600cc",
+          "badge_group": "가솔린+전기 1600cc",
           "badge": "1.6 E-TECH 아이코닉 디자인 패키지",
           "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50"
+          "updated_at": "2026-11-03 21:21:15"
         },
         "1.6 GTe 아이코닉": {
           "badge_group": "가솔린 1600cc",
@@ -13181,16 +13181,16 @@
           "soldout_clsdetailcd": ""
         },
         "3.6 가솔린 하이 컨트리": {
-          "badge_group": "가솔린 3600cc",
+          "badge_group": "가솔린 4WD",
           "badge": "3.6 AWD 하이컨트리",
           "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50"
+          "updated_at": "2026-11-03 21:21:15"
         },
         "3.6 가솔린 레드라인": {
-          "badge_group": "가솔린 3600cc",
+          "badge_group": "가솔린 4WD",
           "badge": "3.6 AWD 레드라인",
           "badge_detail": "",
-          "updated_at": "2026-10-12 19:40:50"
+          "updated_at": "2026-11-03 21:21:15"
         },
         "3.6 AWD LT 레더": {
           "badge_group": "가솔린 4WD",
