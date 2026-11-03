@@ -372,9 +372,7 @@ class ChaolmaService:
                 price_by_name[name] = p_val
 
         # 7. 실제 장착된 옵션 목록 파싱 (단일 가격 규칙 적용)
-        installed_opts_raw = jf.get("optlist", [])
-        if not installed_opts_raw and c_data.get("optList"):
-            installed_opts_raw = c_data.get("optList", [])
+        installed_opts_raw = jf.get("optlist") or c_data.get("optList") or []
 
         resolved_opts = []
         total_opt_price = 0
