@@ -619,132 +619,61 @@ export const isOptionMatched = (optA: string, optB: string): boolean => {
 /**
  * 괄호 안의 쉼표나 상세 설명을 보존하면서 개별 옵션 단위로 안전하게 분리하는 스마트 파서
  * - 타이어 규격(245/45R20, 275/40R20 등)의 슬래시(/) 및 쉼표(,) 쪼개짐 방지 보존
- * - ※ 메모 분리 금지 및 구분자 경계 보호 (※ 내부 슬래시/쉼표로 옵션 쪼개짐 방지)
- * - 패키지 옵션 내부 쉼표 및 가격 귀속 보호 (빌트인 캠 2, 증강현실 내비게이션 450,000원)
  */
 export const splitOptionString = (optStr: string): string[] => {
   if (!optStr) return [];
-  // 1. [옵션총액: 354만], [순정옵션총액: ...] 등 메타 태그 사전 분리/제거
+  // [옵션총액: 354만], [순정옵션총액: ...] 등 메타 태그 사전 분리/제거
   let cleanedStr = String(optStr)
     .replace(/\[(?:순정)?옵션총액[^\]]*\]/gi, '')
     .trim();
-
+  // ※ 주석 줄 제거: ※로 시작하는 줄은 옵션이 아니라 조건 메모이므로 칩에서 제외
+  cleanedStr = cleanedStr
+    .split('\n')
+    .filter(line => !line.trim().startsWith('※'))
+    .join('\n')
+    .trim();
   if (!cleanedStr || ['없음', '-', '없음(구버전점검)', '⚠️조회실패', '코드매칭실패', '기본'].includes(cleanedStr)) {
     return [];
   }
 
-  // 2. 🚗 [타이어 규격 및 특수 패턴 보존 전처리]
-  // 2-1. 가격 천 단위 쉼표 보호 (450,000원 -> 450__PRICECOMMA__000원)
+  // 🚗 [타이어 규격 보존 전처리]
+  // 예: "215/55 R18", "245/45R20", "275/40 ZR 20", "215/60-17" 등 공백/하이픈/영문 기호 유무와 무관하게 보존
+  // 슬래시(/)와 앞뒤 타이어 사이 쉼표(,)가 분해기로 쪼개져 "+ 215", "+ 55 R18" 등 파편화되는 버그 방지
+  // 가격 천 단위 쉼표 보호: 숫자 사이의 쉼표는 구분자가 아니라 자릿수 구분자 (450,000원, 1,000,000원)
+  // (앞자리 숫자를 소비하지 않는 후방탐색으로 1,000,000처럼 겹치는 경우도 모두 보호)
   cleanedStr = cleanedStr.replace(/(?<=\d),(\d{3})(?!\d)/g, '__PRICECOMMA__$1');
-  // 2-2. 타이어 규격 슬래시 보호 (245/45R20 -> 245__SLASH__45R20)
   cleanedStr = cleanedStr.replace(/(?<=\b|\D)(\d{3})\/(\d{2}(?:\s*[-a-zA-Z]{1,2}\s*\d{2})?)(?=\b|\D)/g, '$1__SLASH__$2');
-  // 2-3. 전후 타이어 규격 쉼표 보호
   cleanedStr = cleanedStr.replace(/(\([앞전뒤후]\))\s*,\s*(\d{3}__SLASH__)/g, '$1__COMMA__$2');
-  // 2-4. 단어 내부 슬래시(합성어: 주행/주차, 운전석/동승석 등) 보호
+  // 단어 내부 슬래시 보호: 공백 없는 슬래시는 합성어(주행/주차, 운전석/동승석)이므로 분리하지 않음
+  // (공백 있는 'A / B'는 기존대로 분리, URL의 //도 건드리지 않음)
   cleanedStr = cleanedStr.replace(/([^\s\/])\/(?=[^\s\/])/g, '$1__SLASH__');
 
-  // 3. 1차 분리: 주요 경계(줄바꿈 \n, 슬래시 /, 중점 ·) 기준 청크 분할 (괄호 depth 보호)
-  const chunks: string[] = [];
-  let currentChunk = '';
+  const results: string[] = [];
+  let current = '';
   let depth = 0;
 
   for (let i = 0; i < cleanedStr.length; i++) {
     const ch = cleanedStr[i];
     if (ch === '(' || ch === '[' || ch === '{') {
       depth++;
-      currentChunk += ch;
+      current += ch;
     } else if (ch === ')' || ch === ']' || ch === '}') {
       depth = Math.max(0, depth - 1);
-      currentChunk += ch;
-    } else if (depth === 0 && (ch === '\n' || ch === '/' || ch === '·' || ch === '|')) {
-      const trimmed = currentChunk.trim();
-      if (trimmed) chunks.push(trimmed);
-      currentChunk = '';
+      current += ch;
+    } else if (depth === 0 && (ch === '/' || ch === '·' || ch === '\n' || ch === ',' || ch === '|')) {
+      const trimmed = current.trim();
+      if (trimmed) results.push(trimmed);
+      current = '';
     } else {
-      currentChunk += ch;
-    }
-  }
-  const lastChunk = currentChunk.trim();
-  if (lastChunk) chunks.push(lastChunk);
-
-  // 4. 각 청크 내에서 ※ 메모 분리 및 가격 귀속 / 패키지 쉼표 보호 처리
-  const results: string[] = [];
-
-  for (let chunk of chunks) {
-    // 4-1. ※ 메모 처리 (규칙 A & B & C)
-    if (chunk.includes('※')) {
-      const firstNoteIdx = chunk.indexOf('※');
-      const mainPart = chunk.substring(0, firstNoteIdx).trim();
-      const notePart = chunk.substring(firstNoteIdx);
-
-      // 본문 쪽에 가격이 있는지 확인
-      const priceRegex = /(\d+(?:__PRICECOMMA__\d+)*(?:\.\d+)?\s*(?:만원?|원))/gi;
-      const mainHasPrice = priceRegex.test(mainPart);
-
-      let memoPrice: string | null = null;
-      // 만약 본문에 가격이 없고 notePart 쪽에 가격이 있다면, 그 가격을 본문에 귀속
-      if (!mainHasPrice) {
-        const notePriceMatches = [...notePart.matchAll(/(\d+(?:__PRICECOMMA__\d+)*(?:\.\d+)?\s*(?:만원?|원))/gi)];
-        if (notePriceMatches.length > 0) {
-          memoPrice = notePriceMatches[notePriceMatches.length - 1][1];
-        }
-      }
-
-      let cleanMain = mainPart;
-      if (memoPrice && !cleanMain.includes(memoPrice)) {
-        cleanMain = `${cleanMain} ${memoPrice}`.trim();
-      }
-
-      chunk = cleanMain;
-    }
-
-    if (!chunk) continue;
-
-    // 4-2. 쉼표(,) 분리 처리 (규칙 C: 패키지 쉼표 보호)
-    // 청크 내에 쉼표가 있을 때:
-    // - 가격이 1개만 있고 쉼표가 가격 앞쪽에 위치하면 복합 패키지 옵션 내부 쉼표로 보호!
-    //   예: "빌트인 캠 2, 증강현실 내비게이션 450,000원" -> 쉼표 분리하지 않음
-    // - 반대로 각 쉼표 항목마다 가격이 있거나("A 100만, B 50만"), 가격이 전혀 없는 나열("A, B, C")이면 쉼표 분리!
-    const priceMatches = [...chunk.matchAll(/(\d+(?:__PRICECOMMA__\d+)*(?:\.\d+)?\s*(?:만원?|원))/gi)];
-
-    if (priceMatches.length === 1 && chunk.includes(',')) {
-      results.push(chunk);
-    } else if (chunk.includes(',')) {
-      let subCurrent = '';
-      let subDepth = 0;
-      for (let j = 0; j < chunk.length; j++) {
-        const c = chunk[j];
-        if (c === '(' || c === '[' || c === '{') {
-          subDepth++;
-          subCurrent += c;
-        } else if (c === ')' || c === ']' || c === '}') {
-          subDepth = Math.max(0, subDepth - 1);
-          subCurrent += c;
-        } else if (subDepth === 0 && c === ',') {
-          const t = subCurrent.trim();
-          if (t) results.push(t);
-          subCurrent = '';
-        } else {
-          subCurrent += c;
-        }
-      }
-      const lastSub = subCurrent.trim();
-      if (lastSub) results.push(lastSub);
-    } else {
-      results.push(chunk);
+      current += ch;
     }
   }
 
-  // 5. 후처리: 임시 토큰 원복 및 불필요 항목 필터
+  const lastTrimmed = current.trim();
+  if (lastTrimmed) results.push(lastTrimmed);
+
   return results
-    .map(o => o
-      .replace(/__SLASH__/g, '/')
-      .replace(/__COMMA__/g, ', ')
-      .replace(/__PRICECOMMA__/g, ',')
-      .replace(/\[(?:순정)?옵션총액[^\]]*\]/gi, '')
-      .replace(/\s+/g, ' ')
-      .trim()
-    )
+    .map(o => o.replace(/__SLASH__/g, '/').replace(/__COMMA__/g, ', ').replace(/__PRICECOMMA__/g, ',').replace(/\[(?:순정)?옵션총액[^\]]*\]/gi, '').trim())
     .filter(o => o.length > 0 && !o.startsWith('※') && !['없음', '-', '기본'].includes(o));
 };
 
