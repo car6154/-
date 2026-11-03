@@ -444,27 +444,22 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
 
   return (
     <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-3.5 space-y-2 text-xs">
-      {/* 1. 상단 라인: '추가 옵션' 라벨 + 신차 옵션 N개 + 총 가격 + 우세/순정 배지 (1행 묶음, 줄바꿈 금지) */}
-      <div className="flex items-center justify-between gap-1 flex-nowrap whitespace-nowrap min-h-[22px]">
-        <div className="flex items-center gap-1 shrink-0">
-          <a
-            href={catalogHref}
-            target="_blank"
-            rel="noopener"
-            className="text-[11px] font-semibold text-[#8b8e9d] uppercase shrink-0 hover:underline cursor-pointer"
-            title="새 탭에서 신차 공식 카탈로그 열기"
-          >
-            추가 옵션
-          </a>
-          {hasOptions && (
+      {/* 1. 상단 라인: '추가 옵션' 라벨 + 신차 옵션 N개 + 총 가격 + 우세/순정 배지 (1행 묶음, 왼쪽부터 gap-1 균일 배치, 줄바꿈 금지) */}
+      <div className="flex items-center gap-1 flex-nowrap whitespace-nowrap min-h-[22px]">
+        <a
+          href={catalogHref}
+          target="_blank"
+          rel="noopener"
+          className="text-[11px] font-semibold text-[#8b8e9d] uppercase shrink-0 hover:underline cursor-pointer"
+          title="새 탭에서 신차 공식 카탈로그 열기"
+        >
+          추가 옵션
+        </a>
+        {hasOptions && (
+          <>
             <span className="inline-flex items-center text-[10px] px-1 py-0.5 rounded bg-blue-500/15 text-blue-300 font-bold border border-blue-500/30 shrink-0">
               신차 옵션 {optCount}개
             </span>
-          )}
-        </div>
-
-        {hasOptions && (
-          <div className="flex items-center gap-1 shrink-0">
             <span
               title={priceInfo.tooltip}
               className="inline-flex items-center text-[10px] px-1 py-0.5 rounded bg-amber-500/20 text-amber-200 font-bold border border-amber-500/40 cursor-help shrink-0"
@@ -472,7 +467,7 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
               {priceInfo.badgeText}
             </span>
             {renderMatchBadge()}
-          </div>
+          </>
         )}
       </div>
 
