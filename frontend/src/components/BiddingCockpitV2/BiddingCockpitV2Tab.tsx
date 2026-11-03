@@ -66,7 +66,7 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
   // 1. 목표차 한 줄 정보 (훅 값 그대로 사용)
   const targetCarName = cockpit.carName || '-';
   const targetDetailModel = cockpit.detailModel || '-';
-  const targetYear = cockpit.yearModel ? `${cockpit.yearModel}년형` : '-';
+  const targetYear = cockpit.regYm || (cockpit.yearModel ? `${cockpit.yearModel}년형` : '-');
   const targetMileage = cockpit.mileageKm && cockpit.mileageKm > 0
     ? `${cockpit.mileageKm.toLocaleString()}km`
     : '-';

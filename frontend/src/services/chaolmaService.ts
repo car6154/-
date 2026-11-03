@@ -96,6 +96,7 @@ export interface ChaolmaResult {
   trim_name?: string;
   year?: string;
   release_date?: string;
+  reg_ym?: string;
   new_car_price: number;
   base_car_price: number;
   total_option_price: number;

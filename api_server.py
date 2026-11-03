@@ -2424,6 +2424,15 @@ def search_cockpit_unified(req: CockpitSearchRequest):
                         y_int = int(year)
                         y_2d = (y_int - 2000) if y_int > 2000 else y_int
                         chaolma_res["year"] = f"{y_2d:02d}"
+
+                    # reg_ym(최초등록 연월: YY-MM) 안전 보충
+                    if not chaolma_res.get("reg_ym") and chaolma_res.get("release_date"):
+                        m_ym = re.search(r"(\d{4})[^\d]?(\d{1,2})", str(chaolma_res["release_date"]).strip())
+                        if m_ym:
+                            y_str = m_ym.group(1)[-2:]
+                            m_int = int(m_ym.group(2))
+                            if 1 <= m_int <= 12:
+                                chaolma_res["reg_ym"] = f"{y_str}-{m_int:02d}"
             except Exception as e_ch:
                 fail_reasons["chaolma"] = str(e_ch)
         else:

@@ -81,6 +81,14 @@ class ChaolmaService:
         if cached_entry and (now - cached_entry.get("timestamp", 0) < CACHE_TTL):
             cached_data = cached_entry.get("data")
             if isinstance(cached_data, dict):
+                # reg_ym 보충 (캐시된 데이터에 reg_ym이 없고 release_date가 있는 경우)
+                if not cached_data.get("reg_ym") and cached_data.get("release_date"):
+                    m_ym = re.search(r"(\d{4})[^\d]?(\d{1,2})", str(cached_data["release_date"]).strip())
+                    if m_ym:
+                        y_str = m_ym.group(1)[-2:]
+                        m_int = int(m_ym.group(2))
+                        if 1 <= m_int <= 12:
+                            cached_data["reg_ym"] = f"{y_str}-{m_int:02d}"
                 # 기준소매가 보충: 기준소매가 필드가 없거나 0이면 현재 주행거리로 보충 조회 (스펙·옵션·보험은 캐시 값 유지)
                 cur_retail = cached_data.get("chaolma_retail_price") or 0
                 if cur_retail <= 0:
@@ -325,6 +333,15 @@ class ChaolmaService:
         rel_date = c_data.get("firstDate") or jf.get("firstdate") or ""
         m_year = str(c_data.get("year") or jf.get("year") or "").replace("년", "").strip()
 
+        reg_ym = None
+        if rel_date:
+            m_ym = re.search(r"(\d{4})[^\d]?(\d{1,2})", str(rel_date).strip())
+            if m_ym:
+                y_str = m_ym.group(1)[-2:]
+                m_int = int(m_ym.group(2))
+                if 1 <= m_int <= 12:
+                    reg_ym = f"{y_str}-{m_int:02d}"
+
         reg_year = ""
         if rel_date:
             m_ry = re.search(r"(\d{4})", rel_date)
@@ -438,6 +455,7 @@ class ChaolmaService:
             "reg_year": reg_year or str(car_yr),
             "release_date": rel_date,
             "year_display": year_display,
+            **( {"reg_ym": reg_ym} if reg_ym else {} ),
             "color": c_data.get("color") or jf.get("color") or "",
             "fuel": c_data.get("fuel") or jf.get("fuel") or "",
             "transmission": c_data.get("gearBox") or jf.get("gearbox") or "오토",

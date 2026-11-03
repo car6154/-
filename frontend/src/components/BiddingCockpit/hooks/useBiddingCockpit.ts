@@ -32,6 +32,7 @@ export function useBiddingCockpit({
   const [carName, setCarName] = useState('');
   const [detailModel, setDetailModel] = useState('');
   const [yearModel, setYearModel] = useState<number>(0);
+  const [regYm, setRegYm] = useState<string>('');
   const [mileageKm, setMileageKm] = useState<number>(0);
   const [optionsTag, setOptionsTag] = useState('');
   const [targetOptions, setTargetOptions] = useState<OptionItem[]>([]);
@@ -274,6 +275,7 @@ export function useBiddingCockpit({
       setCarName('');
       setDetailModel('');
       setYearModel(0);
+      setRegYm('');
       setMileageKm(0);
       rawGradeNameRef.current = '';
       rawGradeDetailNameRef.current = '';
@@ -913,6 +915,9 @@ export function useBiddingCockpit({
         rawGd = String(res.grade_detail_name || '').trim();
         rawGradeNameRef.current = rawG;
         rawGradeDetailNameRef.current = rawGd;
+        if (res.reg_ym) {
+          setRegYm(res.reg_ym);
+        }
 
         // 💡 [등급 정규화 - 제이 1번 원칙]: (7인승...), (통풍시트...) 등 중첩 괄호 옵션/좌석 분리
         const cleanGradeText = (txt: string): string => {
@@ -1225,6 +1230,9 @@ export function useBiddingCockpit({
         if (foundCarName) setCarName(foundCarName);
         if (res.grade_name) rawGradeNameRef.current = String(res.grade_name).trim();
         if (res.grade_detail_name) rawGradeDetailNameRef.current = String(res.grade_detail_name).trim();
+        if (res.reg_ym) {
+          setRegYm(res.reg_ym);
+        }
 
         const cleanGradeText = (txt: string): string => {
           if (!txt) return '';
@@ -1369,6 +1377,14 @@ export function useBiddingCockpit({
             let y = parseInt(m[1], 10);
             if (y > 2000) y -= 2000;
             regYearVal = y;
+          }
+          const ymMatch = String(initRegDate).match(/(\d{4})[^\d]?(\d{1,2})/);
+          if (ymMatch) {
+            const yStr = ymMatch[1].slice(-2);
+            const mInt = parseInt(ymMatch[2], 10);
+            if (mInt >= 1 && mInt <= 12) {
+              setRegYm(`${yStr}-${String(mInt).padStart(2, '0')}`);
+            }
           }
         }
         let formYearVal = 0;
@@ -2710,6 +2726,8 @@ export function useBiddingCockpit({
     setDetailModel,
     yearModel,
     setYearModel,
+    regYm,
+    setRegYm,
     mileageKm,
     setMileageKm,
     optionsTag,
