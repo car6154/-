@@ -678,6 +678,30 @@ def _find_model_in_catalog(db: dict, car_name: str):
                     best_model_key = m_key
                     break
 
+    # 💡 [11-03-26 제이 규칙]: 기존 정확 매칭 실패 시에만 동작하는 차명 정규화 폴백
+    # 정규화: 브랜드 제거 + 공백 제거 + 괄호 문자(()[]{}) 자체만 제거 (내용물 보존: (4세대) -> 4세대)
+    # 정규화된 카탈로그 키가 정규화된 입력 차명에 포함되는 경우 매칭.
+    # 후보가 2개 이상이면 임의 추측하지 않고 매칭하지 않음(none 유지).
+    if not best_model_key:
+        def _norm_car_key(s: str) -> str:
+            s = re.sub(r'^(현대|기아|제네시스|쉐보레|르노코리아|르노삼성|KG모빌리티|쌍용)\s*', '', str(s)).strip()
+            s = re.sub(r'[\(\)\[\]\{\}]', '', s)
+            return re.sub(r'\s+', '', s).lower()
+
+        norm_input = _norm_car_key(car_name)
+        if norm_input:
+            candidates = []
+            for m_key in db.keys():
+                norm_k = _norm_car_key(m_key)
+                if norm_k and norm_k in norm_input:
+                    candidates.append(m_key)
+
+            if len(candidates) == 1:
+                best_model_key = candidates[0]
+            elif len(candidates) > 1:
+                # 후보가 2개 이상이면 추측하지 않고 매칭하지 않는다(none 유지)
+                pass
+
     if not best_model_key:
         return None
     return best_model_key, db[best_model_key]

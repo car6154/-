@@ -13,6 +13,59 @@ import {
 import { OptionItem } from '@/services/chaolmaService';
 import { EncarItem, KcarCarItem } from '@/components/BiddingCockpit/types';
 
+// 💡 [11-03-26]: 케이카 상세 options.items name 목록 캐시 (중복 호출 방지)
+const kcarDetailItemsCache: Record<string, string[]> = {};
+const kcarDetailInflight: Record<string, Promise<string[]>> = {};
+
+export async function fetchKcarDetailItemNames(carCd: string): Promise<string[]> {
+  if (!carCd) return [];
+  if (kcarDetailItemsCache[carCd]) {
+    return kcarDetailItemsCache[carCd];
+  }
+  // 전역 window 캐시 확인 (상세 패널 등에서 이미 조회한 데이터 재사용)
+  const winCache = typeof window !== 'undefined' ? (window as any).__KCAR_DETAIL_CACHE__?.[carCd] : null;
+  if (winCache?.options?.items) {
+    const names = winCache.options.items.map((it: any) => it.name).filter(Boolean);
+    kcarDetailItemsCache[carCd] = names;
+    return names;
+  }
+
+  if (carCd in kcarDetailInflight) {
+    return kcarDetailInflight[carCd];
+  }
+
+  const promise = (async () => {
+    try {
+      const res = await fetch('/api/kcar/detail', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ carCd, include3d: false }),
+        signal: AbortSignal.timeout(7000),
+      });
+      if (!res.ok) return [];
+      const json = await res.json();
+      if (json.success && json.data) {
+        if (typeof window !== 'undefined') {
+          if (!(window as any).__KCAR_DETAIL_CACHE__) (window as any).__KCAR_DETAIL_CACHE__ = {};
+          (window as any).__KCAR_DETAIL_CACHE__[carCd] = json.data;
+        }
+        const items = json.data.options?.items || [];
+        const names: string[] = items.map((it: any) => it.name).filter(Boolean);
+        kcarDetailItemsCache[carCd] = names;
+        return names;
+      }
+      return [];
+    } catch {
+      return [];
+    } finally {
+      delete kcarDetailInflight[carCd];
+    }
+  })();
+
+  kcarDetailInflight[carCd] = promise;
+  return promise;
+}
+
 export interface EffectiveCompCar {
   id?: string;
   year?: string | number;
@@ -20,20 +73,30 @@ export interface EffectiveCompCar {
   options?: Array<{ name: string }>;
   color?: string;
   carName: string;
+  isLoading?: boolean;
 }
 
 export const resolveEffectiveComp = (
   activeCompTab?: 'encar' | 'kcar' | string,
   selectedEncar?: EncarItem | null,
-  selectedKcar?: KcarCarItem | null
+  selectedKcar?: KcarCarItem | null,
+  kcarDetailOptions?: string[] | null,
+  isKcarLoading?: boolean
 ): EffectiveCompCar | null => {
   if (activeCompTab === 'kcar' && selectedKcar) {
+    // 💡 [11-03-26]: 케이카 비교차 옵션 원문으로 목록 optnNm(기본 편의사양) 대신 상세 options.items 사용
+    const opts = (kcarDetailOptions && kcarDetailOptions.length > 0)
+      ? kcarDetailOptions.map((name) => ({ name }))
+      : undefined;
+
     return {
       id: selectedKcar.carCd,
       year: selectedKcar.year || '',
-      optionsText: selectedKcar.optnNm || '',
+      optionsText: '', // optnNm 기본 편의사양 대조 폐지
+      options: opts,
       color: selectedKcar.color,
       carName: selectedKcar.carName || selectedKcar.modelName || '케이카 매물',
+      isLoading: Boolean(isKcarLoading || kcarDetailOptions === null),
     };
   }
   if (selectedEncar) {
@@ -44,6 +107,7 @@ export const resolveEffectiveComp = (
       options: selectedEncar.options,
       color: selectedEncar.color,
       carName: selectedEncar.carName || '엔카 매물',
+      isLoading: false,
     };
   }
   return null;
@@ -195,11 +259,56 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
     );
   }, [targetOptions, optionsTag, targetMatchedOpts]);
 
-  const effectiveComp = resolveEffectiveComp(activeCompTab, selectedEncar, selectedKcar);
+  // 💡 [11-03-26]: 케이카 탭일 때 선택 차량의 상세 API(/api/kcar/detail) options.items 목록 조회 (캐시 재사용)
+  const isKcarTab = activeCompTab === 'kcar';
+  const selectedKcarCd = isKcarTab ? selectedKcar?.carCd : undefined;
+
+  const [kcarDetailOptions, setKcarDetailOptions] = useState<string[] | null>(() => {
+    if (selectedKcarCd && kcarDetailItemsCache[selectedKcarCd]) {
+      return kcarDetailItemsCache[selectedKcarCd];
+    }
+    return null;
+  });
+  const [isKcarDetailLoading, setIsKcarDetailLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!isKcarTab || !selectedKcarCd) {
+      setKcarDetailOptions(null);
+      setIsKcarDetailLoading(false);
+      return;
+    }
+
+    if (kcarDetailItemsCache[selectedKcarCd]) {
+      setKcarDetailOptions(kcarDetailItemsCache[selectedKcarCd]);
+      setIsKcarDetailLoading(false);
+      return;
+    }
+
+    let isMounted = true;
+    setIsKcarDetailLoading(true);
+    fetchKcarDetailItemNames(selectedKcarCd).then((names) => {
+      if (isMounted) {
+        setKcarDetailOptions(names);
+        setIsKcarDetailLoading(false);
+      }
+    });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [isKcarTab, selectedKcarCd]);
+
+  const effectiveComp = resolveEffectiveComp(
+    activeCompTab,
+    selectedEncar,
+    selectedKcar,
+    kcarDetailOptions,
+    isKcarDetailLoading
+  );
 
   // 3. 비교차 옵션 파싱 (색상 제외 원문 옵션 문자열 목록, 11-03-21 단건 호출 입력용)
   const rawCompOpts: string[] = useMemo(() => {
-    if (!effectiveComp) return [];
+    if (!effectiveComp || effectiveComp.isLoading) return [];
     return (effectiveComp.options && effectiveComp.options.length > 0)
       ? effectiveComp.options.map((o: any) => o.name || o)
       : splitOptionString(effectiveComp.optionsText || '');
@@ -210,7 +319,8 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
     ? [...rawCompOpts, compColor]
     : rawCompOpts;
 
-  const hasComp = compOpts.length > 0;
+  // 💡 [11-03-26]: 상세 조회 로딩 중이거나 실패했을 때는 잘못된 +를 확정 표시하지 않음
+  const hasComp = Boolean(effectiveComp && !effectiveComp.isLoading && compOpts.length > 0);
 
   // 💡 [11-03-19/21]: 비교차 변경 시 단건 매칭(matchOptionsSingle) 실행 (분리된 optionsList 전달, 언마운트 가드 포함)
   useEffect(() => {
