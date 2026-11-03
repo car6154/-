@@ -1844,9 +1844,32 @@ export function useBiddingCockpit({
   // 사용자가 테이블 행을 클릭하는 순간 지연 없이(0.0초) 즉각 렌더링되도록 사전 캐싱합니다.
   useEffect(() => {
     if (!baseEncarList || baseEncarList.length === 0) return;
+    // 💡 strictCarIds가 확정되기 전(backendEncarStats 로드 전)에는 프리패치가 돌지 않도록 순서 보장
+    if (!backendEncarStats) return;
 
     let isCancelled = false;
-    const prefetchList = baseEncarList; // 목록 전체 순차 프리패치
+
+    // 💡 엄격 매물(strictCarIds) 제외 + 누락 매물 보완:
+    // 백엔드가 이미 상세를 채워준 엄격 매물은 프리패치에서 제외(스킵).
+    // 단, 날짜나 재고일수가 비어 있는 엄격 매물이 있으면 개별 조회로 메운다.
+    const strictCarIds = new Set<string>(
+      (backendEncarStats?.strictCarIds || []).map((id: any) => String(id).trim())
+    );
+
+    const prefetchList = baseEncarList.filter(car => {
+      const cId = String(car.id || '').trim();
+      if (!cId) return false;
+      const isStrict = strictCarIds.has(cId);
+      if (!isStrict) return true; // 비엄격 매물은 경량 프리패치 대상
+
+      // 엄격 매물: 성능점검일과 재고일수가 이미 정상 채워져 있으면 스킵
+      const hasPerfDate = car.checkDate && car.checkDate !== '-' && car.checkDate !== '⚠️미등록' && car.checkDate !== '미검사/사진';
+      const hasHolding = typeof car.holdingDays === 'number' && !isNaN(car.holdingDays) && car.holdingDays >= 0;
+      if (!hasPerfDate || !hasHolding) {
+        return true; // 비어 있는 엄격 매물은 개별 조회로 메움
+      }
+      return false; // 이미 채워진 엄격 매물은 스킵
+    });
 
     const runPrefetch = async () => {
       for (const car of prefetchList) {
@@ -1858,14 +1881,19 @@ export function useBiddingCockpit({
         if (selectedInspectionMapRef.current[carId]) continue;
 
         try {
-          const res = await fetch(`/api/encar/inspection/${carId}`);
+          // 💡 프리패치 전용 경량 모드 호출 (?mode=lightweight)
+          const res = await fetch(`/api/encar/inspection/${carId}?mode=lightweight`);
           if (isCancelled) break;
           const data = await res.json();
           if (data.success && data.data && !isCancelled) {
-            selectedInspectionMapRef.current[carId] = data.data;
+            const lightweightData = {
+              ...data.data,
+              isLightweight: true
+            };
+            selectedInspectionMapRef.current[carId] = lightweightData;
             setSelectedInspectionMap(prev => ({
               ...prev,
-              [carId]: data.data
+              [carId]: lightweightData
             }));
           }
         } catch (e) {
@@ -1882,27 +1910,34 @@ export function useBiddingCockpit({
     return () => {
       isCancelled = true;
     };
-  }, [baseEncarList]);
+  }, [baseEncarList, backendEncarStats]);
 
   // 행 클릭 시 성능점검표 및 상세 옵션 즉시 호출
   const handleSelectEncarCar = async (carId: string) => {
     if (!carId) return;
     setSelectedEncarId(carId);
 
-    // 이미 프리패치되어 캐시에 있으면 네트워크 대기 없이 즉시 표시 (0ms 지연)
-    if (selectedInspectionMapRef.current[carId] || selectedInspectionMap[carId]) {
+    // 💡 안전장치: 이미 완전 데이터(isLightweight 아님)로 캐시에 있으면 네트워크 대기 없이 즉시 표시 (0ms 지연)
+    // 경량 프리패치 데이터(isLightweight === true)만 있는 경우에는 반드시 전체 데이터를 다시 가져온다.
+    const existing = selectedInspectionMapRef.current[carId] || selectedInspectionMap[carId];
+    if (existing && !existing.isLightweight) {
       return;
     }
 
     setIsInspectionLoading(true);
     try {
+      // 💡 클릭 시에는 경량 모드가 아닌 전체 데이터(/api/encar/inspection/${carId})를 호출함
       const res = await fetch(`/api/encar/inspection/${carId}`);
       const data = await res.json();
       if (data.success && data.data) {
-        selectedInspectionMapRef.current[carId] = data.data;
+        const fullData = {
+          ...data.data,
+          isLightweight: false
+        };
+        selectedInspectionMapRef.current[carId] = fullData;
         setSelectedInspectionMap(prev => ({
           ...prev,
-          [carId]: data.data
+          [carId]: fullData
         }));
       }
     } catch (e) {
@@ -1997,7 +2032,13 @@ export function useBiddingCockpit({
         ? insp.accidentType
         : (found.accidentType && found.accidentType !== '-' ? found.accidentType : '미확인');
 
-      const inspOpts = insp.optionsText || (insp.options ? insp.options.join(' · ') : (insp.optionNames ? insp.optionNames.join(' · ') : found.optionsText));
+      // 💡 안전장치: 경량 프리패치 데이터(isLightweight === true)일 때는
+      // 옵션/신차가격이 불완전하므로 클릭 상세의 신차가격·옵션으로 흘러들어가지 않도록 found 원본을 보호한다.
+      const isLt = Boolean(insp.isLightweight);
+
+      const inspOpts = (!isLt && insp.optionsText && insp.optionsText !== '-')
+        ? (insp.optionsText || (insp.options ? insp.options.join(' · ') : (insp.optionNames ? insp.optionNames.join(' · ') : found.optionsText)))
+        : found.optionsText;
 
       const inspHolding = typeof insp.holdingDays === 'number' && !isNaN(insp.holdingDays) && insp.holdingDays >= 0
         ? insp.holdingDays
@@ -2015,14 +2056,15 @@ export function useBiddingCockpit({
         holdingDays: mergedHoldingDays,
         accidentType: inspAccident || found.accidentType,
         optionsText: inspOpts || found.optionsText,
+        options: !isLt && Array.isArray(insp.options) && insp.options.length > 0 ? insp.options : (found.options || []),
         replaces: parsedReplaces.length > 0 ? Array.from(new Set(parsedReplaces)) : (found.replaces || []),
         repairs: parsedRepairs.length > 0 ? Array.from(new Set(parsedRepairs)) : (found.repairs || []),
         replaceNames: replaceNames.length > 0 ? Array.from(new Set(replaceNames)) : (Array.isArray(insp.replaceNames) ? insp.replaceNames : []),
         repairNames: repairNames.length > 0 ? Array.from(new Set(repairNames)) : (Array.isArray(insp.repairNames) ? insp.repairNames : []),
         damageData: insp.damageData || (found as any).damageData || {},
-        originPrice: insp.originPrice ?? (found as any).originPrice ?? 0,
-        optionPrice: insp.optionPrice ?? (found as any).optionPrice ?? 0,
-        newCarPrice: insp.newCarPrice ?? (found as any).newCarPrice ?? 0,
+        originPrice: !isLt ? (insp.originPrice ?? (found as any).originPrice ?? 0) : ((found as any).originPrice ?? 0),
+        optionPrice: !isLt ? (insp.optionPrice ?? (found as any).optionPrice ?? 0) : ((found as any).optionPrice ?? 0),
+        newCarPrice: !isLt ? (insp.newCarPrice ?? (found as any).newCarPrice ?? 0) : ((found as any).newCarPrice ?? 0),
       };
     }
 

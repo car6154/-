@@ -1918,8 +1918,10 @@ def get_kcar_market_stats_get(
 
 
 @app.get("/api/encar/inspection/{car_id}")
-def get_encar_inspection(car_id: str):
+def get_encar_inspection(car_id: str, mode: Optional[str] = None, lightweight: bool = False):
     try:
+        is_lightweight = lightweight or (mode in ["lightweight", "prefetch", "table"])
+
         session = requests.Session()
         session.headers.update({
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
@@ -1930,7 +1932,7 @@ def get_encar_inspection(car_id: str):
         vehicle_id = car_id
         color = "미확인"
         vehicle_no = ""
-        options_text = "기본 출고 사양 (추가옵션 없음)"
+        options_text = "-" if is_lightweight else "기본 출고 사양 (추가옵션 없음)"
         reg_date_str = ""
         holding_days = None
         origin_price = 0
@@ -1966,67 +1968,70 @@ def get_encar_inspection(car_id: str):
         except Exception as e:
             print(f"[api_server] vehicle spec fetch error: {e}")
 
-        # 2. 추가 옵션 카탈로그 정밀 조회 (choice_codes와 일치하는 실 장착 유료옵션 필터링 + 표준 OptionItem 배열 구성)
+        # 2. 추가 옵션 카탈로그 정밀 조회 (경량 모드 시 options/choice 외부 호출 완전 생략)
         options_list = []
-        try:
-            choice_codes = [str(c) for c in (v_data.get("options", {}).get("choice", []) or [])]
-            opt_names = []
-            if choice_codes:
-                o_res = session.get(f"https://api.encar.com/v1/readside/vehicles/car/{car_id}/options/choice", timeout=5)
-                if o_res.status_code != 200 and vehicle_id != car_id:
-                    o_res = session.get(f"https://api.encar.com/v1/readside/vehicles/car/{vehicle_id}/options/choice", timeout=5)
-
-                if o_res.status_code == 200 and o_res.json():
-                    catalog = o_res.json()
-                    if isinstance(catalog, list):
-                        for opt in catalog:
-                            if isinstance(opt, dict) and str(opt.get("optionCd", "")) in choice_codes:
-                                o_code = str(opt.get("optionCd", ""))
-                                o_raw_name = opt.get("optionName", "")
-                                o_name = o_raw_name.strip()
-                                o_price = _safe_int(opt.get("price", 0))
-                                if o_price > 0:
-                                    total_option_price += o_price
-                                if o_name and "외장컬러" not in o_name:
-                                    if o_price > 0:
-                                        opt_names.append(f"{o_name}({o_price}만)")
-                                    else:
-                                        opt_names.append(o_name)
-                                options_list.append({
-                                    "code": o_code,
-                                    "name": o_name,
-                                    "raw_name": o_raw_name,
-                                    "price": o_price * 10000,
-                                    "price_man": o_price,
-                                    "source": "api" if o_price > 0 else "unpriced",
-                                    "match_status": "exact",
-                                    "desc": ""
-                                })
-            if opt_names:
-                options_text = " · ".join(opt_names)
-            else:
-                options_text = "추가 옵션 없음"
-        except Exception as e:
-            print(f"[api_server] options fetch error: {e}")
-
-        # 신차가 산출 (엔카 공식 '신차대비' 화면과 100% 동일 기준: 출고 등급가 originPrice + 유료 장착옵션(외장컬러 포함) 총액)
-        if origin_price > 0:
-            new_car_price = origin_price + total_option_price
-        elif vehicle_no:
-            # 엔카 카탈로그에 originPrice가 없는 특수 매물만 차얼마 공식 원장으로 안전하게 폴백
+        if not is_lightweight:
             try:
-                from services.chaolma_service import ChaolmaService
-                ch_res = ChaolmaService.fetch_car_info(vehicle_no)
-                if ch_res and ch_res.get("base_car_price"):
-                    b = ch_res.get("base_car_price", 0)
-                    o = ch_res.get("total_option_price", 0)
-                    b_man = round(b / 10000) if b > 10000 else b
-                    o_man = round(o / 10000) if o > 10000 else o
-                    new_car_price = b_man + o_man
-                    if not origin_price:
-                        origin_price = b_man
+                choice_codes = [str(c) for c in (v_data.get("options", {}).get("choice", []) or [])]
+                opt_names = []
+                if choice_codes:
+                    o_res = session.get(f"https://api.encar.com/v1/readside/vehicles/car/{car_id}/options/choice", timeout=5)
+                    if o_res.status_code != 200 and vehicle_id != car_id:
+                        o_res = session.get(f"https://api.encar.com/v1/readside/vehicles/car/{vehicle_id}/options/choice", timeout=5)
+
+                    if o_res.status_code == 200 and o_res.json():
+                        catalog = o_res.json()
+                        if isinstance(catalog, list):
+                            for opt in catalog:
+                                if isinstance(opt, dict) and str(opt.get("optionCd", "")) in choice_codes:
+                                    o_code = str(opt.get("optionCd", ""))
+                                    o_raw_name = opt.get("optionName", "")
+                                    o_name = o_raw_name.strip()
+                                    o_price = _safe_int(opt.get("price", 0))
+                                    if o_price > 0:
+                                        total_option_price += o_price
+                                    if o_name and "외장컬러" not in o_name:
+                                        if o_price > 0:
+                                            opt_names.append(f"{o_name}({o_price}만)")
+                                        else:
+                                            opt_names.append(o_name)
+                                    options_list.append({
+                                        "code": o_code,
+                                        "name": o_name,
+                                        "raw_name": o_raw_name,
+                                        "price": o_price * 10000,
+                                        "price_man": o_price,
+                                        "source": "api" if o_price > 0 else "unpriced",
+                                        "match_status": "exact",
+                                        "desc": ""
+                                    })
+                if opt_names:
+                    options_text = " · ".join(opt_names)
+                else:
+                    options_text = "추가 옵션 없음"
             except Exception as e:
-                print(f"[api_server] chaolma fallback error: {e}")
+                print(f"[api_server] options fetch error: {e}")
+
+            # 신차가 산출 (엔카 공식 '신차대비' 화면과 100% 동일 기준: 출고 등급가 originPrice + 유료 장착옵션(외장컬러 포함) 총액)
+            if origin_price > 0:
+                new_car_price = origin_price + total_option_price
+            elif vehicle_no:
+                # 엔카 카탈로그에 originPrice가 없는 특수 매물만 차얼마 공식 원장으로 안전하게 폴백
+                try:
+                    from services.chaolma_service import ChaolmaService
+                    ch_res = ChaolmaService.fetch_car_info(vehicle_no)
+                    if ch_res and ch_res.get("base_car_price"):
+                        b = ch_res.get("base_car_price", 0)
+                        o = ch_res.get("total_option_price", 0)
+                        b_man = round(b / 10000) if b > 10000 else b
+                        o_man = round(o / 10000) if o > 10000 else o
+                        new_car_price = b_man + o_man
+                        if not origin_price:
+                            origin_price = b_man
+                except Exception as e:
+                    print(f"[api_server] chaolma fallback error: {e}")
+        else:
+            new_car_price = origin_price
 
         # 3. 성능점검 상세 조회
         insp_url = f"https://api.encar.com/v1/readside/inspection/vehicle/{vehicle_id}"
@@ -2149,6 +2154,7 @@ def get_encar_inspection(car_id: str):
         return {
             "success": True,
             "carId": car_id,
+            "isLightweight": is_lightweight,
             "data": {
                 "color": color,
                 "vehicleNo": vehicle_no,
@@ -2164,7 +2170,8 @@ def get_encar_inspection(car_id: str):
                 "options": options_list,
                 "originPrice": origin_price,
                 "optionPrice": total_option_price,
-                "newCarPrice": new_car_price
+                "newCarPrice": new_car_price,
+                "isLightweight": is_lightweight
             }
         }
     except Exception as e:
