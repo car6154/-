@@ -22,6 +22,12 @@ OPTION_ALIAS_MAP = {
     "12.3인치 UVO 내비게이션": "12.3인치 내비게이션",
 }
 
+# 전역 모델 별칭 사전 (11-03-51): 표시명(차얼마/헤이딜러 등 외부 차명) -> 카탈로그 공식 키.
+# 공용 메커니즘(차종 전용 분기 아님). 새 차 표시명은 항목으로만 추가한다.
+MODEL_ALIAS_MAP = {
+    "신형 카니발(KA4)": "카니발 4세대",
+}
+
 CANONICAL_CATALOG_FILE = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "canonical_newcar_catalog.json")
 _CANONICAL_CACHE = None
 _CANONICAL_MTIME = 0
@@ -668,7 +674,11 @@ def _find_model_in_catalog(db: dict, car_name: str):
     if not db or not car_name:
         return None
 
+    # 전역 모델 별칭 우선 적용 (11-03-51): 기존 매칭보다 먼저 표시명을 카탈로그 키로 바꾼다.
+    car_name = MODEL_ALIAS_MAP.get(car_name, car_name)
+
     clean_name = re.sub(r'^(현대|기아|제네시스|쉐보레|르노코리아|르노삼성|KG모빌리티|쌍용)\s*', '', str(car_name)).strip()
+    clean_name = MODEL_ALIAS_MAP.get(clean_name, clean_name)
 
     best_model_key = None
     if car_name in db:
@@ -703,6 +713,9 @@ def _find_model_in_catalog(db: dict, car_name: str):
             candidates = []
             for m_key in db.keys():
                 norm_k = _norm_car_key(m_key)
+                # 2자 이하 키는 부분일치 후보에서 제외 (11-03-51): 'A4'('a4')가 '신형카니발ka4' 안에 있어 오매칭된 실측 사례 방지.
+                if len(norm_k) < 3:
+                    continue
                 if norm_k and norm_k in norm_input:
                     candidates.append(m_key)
 
@@ -818,6 +831,12 @@ def get_catalog_option_detail(car_name: str, year: Any, opt_name: str) -> Option
     # 전역 별칭 적용 (직접 일치보다 먼저)
     clean_opt = OPTION_ALIAS_MAP.get(clean_opt, clean_opt)
     norm_opt = normalize_opt_name(clean_opt)
+    # 별칭 정규화 조회 (11-03-51): 띄어쓰기 변형(예: "12.3인치UVO 내비게이션")도 별칭 키와 정규화 기준으로 맞춘다. 새 키 추가 없음.
+    for _alias_key, _alias_val in OPTION_ALIAS_MAP.items():
+        if normalize_opt_name(_alias_key) == norm_opt:
+            clean_opt = _alias_val
+            norm_opt = normalize_opt_name(clean_opt)
+            break
 
     def _find_in_options(options_dict: dict) -> Optional[dict]:
         if not options_dict:
@@ -1015,6 +1034,12 @@ def find_official_catalog_option(opt_name: str, catalog_data_or_options: Any = N
     # 전역 별칭 적용 (정규화 비교보다 먼저)
     clean = OPTION_ALIAS_MAP.get(clean, clean)
     norm_clean = normalize_opt_name(clean)
+    # 별칭 정규화 조회 (11-03-51): 띄어쓰기 변형도 별칭 키와 정규화 기준으로 맞춘다. 새 키 추가 없음.
+    for _alias_key, _alias_val in OPTION_ALIAS_MAP.items():
+        if normalize_opt_name(_alias_key) == norm_clean:
+            clean = _alias_val
+            norm_clean = normalize_opt_name(clean)
+            break
     if not norm_clean:
         return None
 

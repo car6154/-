@@ -197,7 +197,11 @@ def get_newcar_catalog_endpoint(car_name: Optional[str] = None, year: Optional[s
     catalog = _get_newcar_catalog()
     if not car_name:
         return {"success": True, "catalog": catalog}
+    # 전역 모델 별칭 우선 적용 (11-03-51): option_package_service와 같은 맵을 쓴다.
+    from services.option_package_service import MODEL_ALIAS_MAP
+    car_name = MODEL_ALIAS_MAP.get(car_name, car_name)
     clean_name = re.sub(r'^(현대|기아|제네시스|쉐보레|르노코리아|르노삼성|KG모빌리티|쌍용)\s*', '', car_name).strip()
+    clean_name = MODEL_ALIAS_MAP.get(clean_name, clean_name)
     clean_name_no_parens = re.sub(r'\(.*?\)', '', clean_name).strip()
     norm_input = re.sub(r'\s+', '', clean_name).lower()
     norm_input_no_parens = re.sub(r'\s+', '', clean_name_no_parens).lower()
