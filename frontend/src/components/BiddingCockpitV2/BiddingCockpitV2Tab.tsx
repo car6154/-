@@ -28,21 +28,28 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
   const [lastRetailTab, setLastRetailTab] = React.useState<'encar' | 'kcar'>('encar');
   const [selectedKcarCarCd, setSelectedKcarCarCd] = React.useState<string | null>(null);
 
-  // 케이카 목록 변경 시 유효 엄격(isStrict) 차량 중에서만 첫 번째 차량 자동 선택 (없으면 첫 번째 차량, 없으면 null)
+  // 케이카 비교 목록 소스: wideCars(넓은 목록) 우선, 없으면 cars(엄격) 폴백 (V1 선례와 동일)
+  const kcarDisplayList = React.useMemo(() => {
+    if (cockpit.kcarStats?.wideCars && cockpit.kcarStats.wideCars.length > 0) {
+      return cockpit.kcarStats.wideCars;
+    }
+    return cockpit.kcarStats?.cars || [];
+  }, [cockpit.kcarStats?.wideCars, cockpit.kcarStats?.cars]);
+
+  // 케이카 탭 전환 또는 목록 갱신 시 목록 안에서 엄격(isStrict) 차를 먼저, 없으면 첫 번째 차, 없으면 null
   React.useEffect(() => {
-    if (activeCompTab === 'kcar' && cockpit.kcarStats?.cars && cockpit.kcarStats.cars.length > 0) {
-      const kcarCars = cockpit.kcarStats.cars;
-      if (!selectedKcarCarCd || !kcarCars.some(c => c.carCd === selectedKcarCarCd)) {
-        const strictMatch = kcarCars.find(c => c.isStrict);
-        setSelectedKcarCarCd(strictMatch ? strictMatch.carCd : (kcarCars[0]?.carCd || null));
+    if (activeCompTab === 'kcar' && kcarDisplayList.length > 0) {
+      if (!selectedKcarCarCd || !kcarDisplayList.some(c => c.carCd === selectedKcarCarCd)) {
+        const strictMatch = kcarDisplayList.find(c => c.isStrict);
+        setSelectedKcarCarCd(strictMatch ? strictMatch.carCd : (kcarDisplayList[0]?.carCd || null));
       }
     }
-  }, [activeCompTab, cockpit.kcarStats?.cars, selectedKcarCarCd]);
+  }, [activeCompTab, kcarDisplayList, selectedKcarCarCd]);
 
   const selectedKcar = React.useMemo(() => {
-    if (!selectedKcarCarCd || !cockpit.kcarStats?.cars) return null;
-    return cockpit.kcarStats.cars.find(c => c.carCd === selectedKcarCarCd) || null;
-  }, [cockpit.kcarStats?.cars, selectedKcarCarCd]);
+    if (!selectedKcarCarCd || !kcarDisplayList.length) return null;
+    return kcarDisplayList.find(c => c.carCd === selectedKcarCarCd) || null;
+  }, [kcarDisplayList, selectedKcarCarCd]);
 
   // 1. 목표차 한 줄 정보 (훅 값 그대로 사용)
   const targetCarName = cockpit.carName || '-';
@@ -647,12 +654,12 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
                 </div>
                 <div className={activeCompTab === 'kcar' ? 'block' : 'hidden'}>
                   <ComparableKcarV2Section
-                    kcarList={cockpit.kcarStats?.cars || []}
+                    kcarList={kcarDisplayList}
                     selectedCarCd={selectedKcarCarCd}
                     onSelectCar={(carCd) => setSelectedKcarCarCd(carCd)}
                     yearModel={cockpit.yearModel}
                     isLoading={cockpit.isKcarLoading}
-                    totalCount={cockpit.kcarStats?.count || cockpit.kcarStats?.cars?.length || 0}
+                    totalCount={cockpit.kcarStats?.wideCount ?? cockpit.kcarStats?.count ?? cockpit.kcarStats?.cars?.length ?? 0}
                     strictCount={cockpit.kcarStats?.strictCount ?? (cockpit.kcarStats?.count || cockpit.kcarStats?.cars?.length || 0)}
                     isInitialState={isInitialState}
                     errorMessage={cockpit.kcarStats?.message}
