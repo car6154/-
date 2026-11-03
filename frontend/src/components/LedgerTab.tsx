@@ -282,7 +282,7 @@ export const LedgerTab: React.FC<LedgerTabProps> = ({
 
       '등록일', '차량번호', '제조사', '차량명', '세부모델', '연식', '주행거리', '옵션',
 
-      '외판수리', '매입가', '판매가', '외판수리비', '헤딜수수료', '특이사항', '상태'
+      '외판수리', '매입가', '판매가', '외판수리비', '헤딜수수료', '특이사항', '상태', '최종소매가', '옵션델타', '목표옵션신차가', '목표옵션잔존가', '엄격대수'
 
     ];
 
@@ -318,7 +318,17 @@ export const LedgerTab: React.FC<LedgerTabProps> = ({
 
       `"${(c.memo || '').replace(/"/g, '""')}"`,
 
-      c.status || '보유중'
+      c.status || '보유중',
+
+      c.finalRetailPrice ?? 0,
+
+      c.meanOptDelta ?? 0,
+
+      c.targetOptNew ?? 0,
+
+      c.targetOptResVal ?? 0,
+
+      c.strictAdjCount ?? 0
 
     ].join(','));
 
@@ -746,7 +756,7 @@ export const LedgerTab: React.FC<LedgerTabProps> = ({
 
         {/* Header (Sticky Top) */}
 
-        <div className="hidden md:grid grid-cols-[80px_110px_80px_minmax(120px,1fr)_120px_56px_96px_60px_90px_90px_80px_80px_105px] items-center gap-2 bg-[#181b24] px-3 py-2.5 border-b border-[#282c3c] border-l-4 border-l-transparent text-[11px] font-bold text-slate-400 sticky top-0 z-10 shadow-md">
+        <div className="hidden md:grid grid-cols-[80px_110px_80px_minmax(120px,1fr)_120px_56px_96px_60px_90px_90px_90px_80px_80px_80px_105px] items-center gap-2 bg-[#181b24] px-3 py-2.5 border-b border-[#282c3c] border-l-4 border-l-transparent text-[11px] font-bold text-slate-400 sticky top-0 z-10 shadow-md">
 
           <div>📅 등록일</div>
 
@@ -767,6 +777,10 @@ export const LedgerTab: React.FC<LedgerTabProps> = ({
           <div className="text-right">매입가</div>
 
           <div className="text-right">판매가</div>
+
+          <div className="text-right">최종소매가</div>
+
+          <div className="text-right">옵션델타</div>
 
           <div className="text-right">헤딜수수료</div>
 
@@ -826,7 +840,7 @@ export const LedgerTab: React.FC<LedgerTabProps> = ({
 
                 {/* Desktop layout: Exact 13-column Grid matching Header */}
 
-                <div className="hidden md:grid grid-cols-[80px_110px_80px_minmax(120px,1fr)_120px_56px_96px_60px_90px_90px_80px_80px_105px] items-center gap-2 w-full">
+                <div className="hidden md:grid grid-cols-[80px_110px_80px_minmax(120px,1fr)_120px_56px_96px_60px_90px_90px_90px_80px_80px_80px_105px] items-center gap-2 w-full">
 
                   {/* 1. 등록일 */}
 
@@ -909,6 +923,46 @@ export const LedgerTab: React.FC<LedgerTabProps> = ({
                   {/* 10. 판매가 */}
 
                   <div className="text-right font-bold text-sky-400">{sellPriceText}</div>
+
+                  {/* 11. 최종소매가 */}
+
+                  <div className="text-right font-bold text-sky-400 font-mono">
+
+                    {typeof car.finalRetailPrice === 'number' && car.finalRetailPrice > 0
+
+                      ? `${car.finalRetailPrice.toLocaleString()}만`
+
+                      : '-'}
+
+                  </div>
+
+                  {/* 12. 옵션델타 */}
+
+                  <div className={`text-right font-bold font-mono ${
+
+                    typeof car.meanOptDelta === 'number' && car.meanOptDelta > 0
+
+                      ? 'text-emerald-400'
+
+                      : typeof car.meanOptDelta === 'number' && car.meanOptDelta < 0
+
+                      ? 'text-rose-400'
+
+                      : 'text-slate-400'
+
+                  }}`}>
+
+                    {typeof car.meanOptDelta === 'number' && car.meanOptDelta > 0
+
+                      ? `+${car.meanOptDelta.toLocaleString()}만`
+
+                      : typeof car.meanOptDelta === 'number' && car.meanOptDelta < 0
+
+                      ? `${car.meanOptDelta.toLocaleString()}만`
+
+                      : '-'}
+
+                  </div>
 
                   {/* 11. 헤딜수수료 */}
 
