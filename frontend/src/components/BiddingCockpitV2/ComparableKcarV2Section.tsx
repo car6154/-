@@ -39,6 +39,126 @@ const formatKcarAccident = (rawType?: string) => {
   return { text: rawType || '-', style: 'text-zinc-300 font-medium' };
 };
 
+export interface KcarSummaryHeaderProps {
+  kcarList: KcarCarItem[];
+  kcarYearStats?: Array<{ year: number; avg: number; count: number; isTarget: boolean }>;
+  kcarSearchUrl?: string;
+}
+
+export const KcarSummaryHeader: React.FC<KcarSummaryHeaderProps> = ({
+  kcarList,
+  kcarYearStats,
+  kcarSearchUrl,
+}) => {
+  const { summaryCount, minPrice, maxPrice, avgPrice } = useMemo(() => {
+    if (!kcarList || kcarList.length === 0) {
+      return { summaryCount: 0, minPrice: 0, maxPrice: 0, avgPrice: 0 };
+    }
+
+    // 1) 엄격 매물 우선 추출
+    const strictCars = kcarList.filter((c) => Boolean(c.isStrict));
+    const baseList = strictCars.length > 0 ? strictCars : kcarList;
+
+    // 2) 무사고 매물 추출 (기존 formatKcarAccident 로직과 동일: 미기재 또는 '무사고' 포함)
+    const noAccCars = baseList.filter((c) => {
+      const acc = String((c as any).accidentType || c.accident || '').trim();
+      return !acc || acc.includes('무사고');
+    });
+
+    const targetList = noAccCars.length > 0 ? noAccCars : baseList;
+    const prices = targetList
+      .map((c) => Number(c.price))
+      .filter((p) => !isNaN(p) && p > 0);
+
+    const count = targetList.length;
+    const minP = prices.length > 0 ? Math.min(...prices) : 0;
+    const maxP = prices.length > 0 ? Math.max(...prices) : 0;
+    const avgP = prices.length > 0 ? Math.round(prices.reduce((sum, cur) => sum + cur, 0) / prices.length) : 0;
+
+    return {
+      summaryCount: count,
+      minPrice: minP,
+      maxPrice: maxP,
+      avgPrice: avgP,
+    };
+  }, [kcarList]);
+
+  return (
+    <div className="space-y-2.5">
+      {/* 0. 엄격+무사고 요약 행 (총 매물 수 · 최저가 · 최고가 · 평균가) */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+        <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-2">
+          <span className="text-[10px] text-zinc-400 block font-medium">총 매물 수</span>
+          <div className="flex items-baseline gap-1 mt-1">
+            <span className="text-lg font-black text-white font-mono">
+              {summaryCount > 0 ? `${summaryCount.toLocaleString()}대` : '-'}
+            </span>
+            <span className="text-[10px] text-zinc-500 truncate">(무사고)</span>
+          </div>
+        </div>
+
+        <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-2">
+          <span className="text-[10px] text-zinc-400 block font-medium">최저가</span>
+          <div className="text-lg font-black text-sky-400 font-mono mt-1 flex items-center gap-0.5">
+            {minPrice > 0 ? `${minPrice.toLocaleString()}만` : '-'} <span>⬇</span>
+          </div>
+        </div>
+
+        <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-2">
+          <span className="text-[10px] text-zinc-400 block font-medium">최고가</span>
+          <div className="text-lg font-black text-rose-400 font-mono mt-1 flex items-center gap-0.5">
+            {maxPrice > 0 ? `${maxPrice.toLocaleString()}만` : '-'} <span>⬆</span>
+          </div>
+        </div>
+
+        <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-2">
+          <span className="text-[10px] text-zinc-400 block font-medium">평균가</span>
+          <div className="text-lg font-black text-white font-mono mt-1">
+            {avgPrice > 0 ? `${avgPrice.toLocaleString()}만` : '-'}
+          </div>
+        </div>
+      </div>
+
+      {/* 0-1. 케이카 연식별 호가 평균 칩 행 */}
+      <div className="p-3 bg-[#0f1015] border border-[#1e2029] rounded-xl flex items-center gap-2.5 flex-wrap text-xs shadow-md">
+        <span className="text-[11px] font-bold text-rose-400 shrink-0">평균</span>
+        <div className="flex items-center gap-1.5 flex-wrap">
+          {kcarYearStats && kcarYearStats.length > 0 ? (
+            kcarYearStats.map((st) => (
+              <span
+                key={st.year}
+                className={`px-2 py-0.5 rounded text-[11px] font-mono flex items-center gap-1 ${
+                  st.isTarget
+                    ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40 font-bold'
+                    : 'bg-[#1b1016] text-zinc-300 border border-[#2d1823]'
+                }`}
+              >
+                <span>{st.year}년</span>
+                <strong className="text-white">{st.avg.toLocaleString()}만</strong>
+                <span className="text-zinc-400 text-[10px]">({st.count}대)</span>
+                {st.isTarget && <span className="text-[10px] text-amber-300">★</span>}
+              </span>
+            ))
+          ) : (
+            <span className="text-zinc-500 text-[11px] font-mono">-</span>
+          )}
+        </div>
+        {kcarSearchUrl && (
+          <a
+            href={kcarSearchUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="ml-auto px-1.5 py-1 rounded bg-rose-500/15 text-rose-300 border border-rose-500/35 hover:bg-rose-500/25 transition shrink-0"
+            title="K-Car 필터 검색 바로가기"
+          >
+            <ExternalLink className="w-3 h-3" />
+          </a>
+        )}
+      </div>
+    </div>
+  );
+};
+
 export const ComparableKcarV2Section: React.FC<ComparableKcarV2SectionProps> = ({
   kcarList,
   selectedCarCd = null,
@@ -285,116 +405,8 @@ export const ComparableKcarV2Section: React.FC<ComparableKcarV2SectionProps> = (
   // 4. 목표 연식 2자리 문자열 (비교용)
   const targetYrStr = yearModel ? String(yearModel % 100).padStart(2, '0') : '';
 
-  // 5. 엄격 + 무사고 subset 필터링 및 날통계 집계 (보정 없음)
-  const { summaryCount, minPrice, maxPrice, avgPrice } = useMemo(() => {
-    if (!kcarList || kcarList.length === 0) {
-      return { summaryCount: 0, minPrice: 0, maxPrice: 0, avgPrice: 0 };
-    }
-
-    // 1) 엄격 매물 우선 추출
-    const strictCars = kcarList.filter((c) => Boolean(c.isStrict));
-    const baseList = strictCars.length > 0 ? strictCars : kcarList;
-
-    // 2) 무사고 매물 추출 (기존 formatKcarAccident 로직과 동일: 미기재 또는 '무사고' 포함)
-    const noAccCars = baseList.filter((c) => {
-      const acc = String(c.accidentType || '').trim();
-      return !acc || acc.includes('무사고');
-    });
-
-    const targetList = noAccCars.length > 0 ? noAccCars : baseList;
-    const prices = targetList
-      .map((c) => Number(c.price))
-      .filter((p) => !isNaN(p) && p > 0);
-
-    const count = targetList.length;
-    const minP = prices.length > 0 ? Math.min(...prices) : 0;
-    const maxP = prices.length > 0 ? Math.max(...prices) : 0;
-    const avgP = prices.length > 0 ? Math.round(prices.reduce((sum, cur) => sum + cur, 0) / prices.length) : 0;
-
-    return {
-      summaryCount: count,
-      minPrice: minP,
-      maxPrice: maxP,
-      avgPrice: avgP,
-    };
-  }, [kcarList]);
-
   return (
     <div className="space-y-3">
-      {/* 0 + 0-1. 목록 헤더 스티키 래퍼 (요약 4칸 + 연식별 평균 한 덩어리 고정, 11-03-22) */}
-      <div className="sticky top-0 z-20 bg-[#08080a] pb-1 space-y-2.5">
-        {/* 0. 엄격+무사고 요약 행 (총 매물 수 · 최저가 · 최고가 · 평균가) */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-          <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-2">
-            <span className="text-[10px] text-zinc-400 block font-medium">총 매물 수</span>
-            <div className="flex items-baseline gap-1 mt-1">
-              <span className="text-lg font-black text-white font-mono">
-                {summaryCount > 0 ? `${summaryCount.toLocaleString()}대` : '-'}
-              </span>
-              <span className="text-[10px] text-zinc-500 truncate">(무사고)</span>
-            </div>
-          </div>
-
-          <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-2">
-            <span className="text-[10px] text-zinc-400 block font-medium">최저가</span>
-            <div className="text-lg font-black text-sky-400 font-mono mt-1 flex items-center gap-0.5">
-              {minPrice > 0 ? `${minPrice.toLocaleString()}만` : '-'} <span>⬇</span>
-            </div>
-          </div>
-
-          <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-2">
-            <span className="text-[10px] text-zinc-400 block font-medium">최고가</span>
-            <div className="text-lg font-black text-rose-400 font-mono mt-1 flex items-center gap-0.5">
-              {maxPrice > 0 ? `${maxPrice.toLocaleString()}만` : '-'} <span>⬆</span>
-            </div>
-          </div>
-
-          <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-2">
-            <span className="text-[10px] text-zinc-400 block font-medium">평균가</span>
-            <div className="text-lg font-black text-white font-mono mt-1">
-              {avgPrice > 0 ? `${avgPrice.toLocaleString()}만` : '-'}
-            </div>
-          </div>
-        </div>
-
-        {/* 0-1. 케이카 연식별 호가 평균 칩 행 */}
-        <div className="p-3 bg-[#0f1015] border border-[#1e2029] rounded-xl flex items-center gap-2.5 flex-wrap text-xs shadow-md">
-        <span className="text-[11px] font-bold text-rose-400 shrink-0">평균</span>
-        <div className="flex items-center gap-1.5 flex-wrap">
-          {kcarYearStats && kcarYearStats.length > 0 ? (
-            kcarYearStats.map((st) => (
-              <span
-                key={st.year}
-                className={`px-2 py-0.5 rounded text-[11px] font-mono flex items-center gap-1 ${
-                  st.isTarget
-                    ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40 font-bold'
-                    : 'bg-[#1b1016] text-zinc-300 border border-[#2d1823]'
-                }`}
-              >
-                <span>{st.year}년</span>
-                <strong className="text-white">{st.avg.toLocaleString()}만</strong>
-                <span className="text-zinc-400 text-[10px]">({st.count}대)</span>
-                {st.isTarget && <span className="text-[10px] text-amber-300">★</span>}
-              </span>
-            ))
-          ) : (
-            <span className="text-zinc-500 text-[11px] font-mono">-</span>
-          )}
-        </div>
-        {kcarSearchUrl && (
-          <a
-            href={kcarSearchUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="ml-auto px-1.5 py-1 rounded bg-rose-500/15 text-rose-300 border border-rose-500/35 hover:bg-rose-500/25 transition shrink-0"
-            title="K-Car 필터 검색 바로가기"
-          >
-            <ExternalLink className="w-3 h-3" />
-          </a>
-        )}
-        </div>
-      </div>
-
       {/* 1. 케이카 비교 매물 목록 테이블 박스 */}
       <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl overflow-hidden shadow-sm space-y-0">
       {/* 1. 상단 헤더 (제목 및 매물 수) */}
