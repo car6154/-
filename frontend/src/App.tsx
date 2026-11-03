@@ -150,7 +150,7 @@ export default function App() {
 
   // Tab & Search state
   type ExtendedAppTab = AppTab | 'cockpit_v2';
-  const [activeTab, setActiveTab] = useState<ExtendedAppTab>('cockpit');
+  const [activeTab, setActiveTab] = useState<ExtendedAppTab>('cockpit_v2');
   const [searchQuery, setSearchQuery] = useState('');
 
   // Modals state
@@ -205,7 +205,7 @@ export default function App() {
       }
 
       if (hashIdParam || titleParam) {
-        setActiveTab('cockpit');
+        setActiveTab('cockpit_v2');
         const decodedCarName = titleParam ? decodeURIComponent(titleParam) : '';
         const brand = decodedCarName ? inferBrandFromCarName(decodedCarName) : undefined;
         setCockpitPreset({
@@ -651,7 +651,7 @@ export default function App() {
       targetMargin: 120,
     });
     showToast(`🔍 [${car.carNumber} ${car.carName}] 사이드바 필터 및 실시간 역추적 시세 연동 완료!`);
-    setActiveTab('cockpit');
+    setActiveTab('cockpit_v2');
   };
 
   // Jump to cockpit for instant market comparison with full settlement inventory details
@@ -711,7 +711,7 @@ export default function App() {
       apCarId: item.apCarId || undefined,
     });
     showToast(`🎯 [${item.carNumber} ${carName}] 사이드바 필터 및 실시간 역추적 시세 연동 완료!`);
-    setActiveTab('cockpit');
+    setActiveTab('cockpit_v2');
   };
 
   // Jump to cockpit for instant market comparison from company performance DB
@@ -731,7 +731,7 @@ export default function App() {
       detailModel: record.subModel || record.detailModel || '',
     });
     showToast(`📈 [${carNo} ${carTitle}] 사이드바 필터 및 실시간 역추적 시세 연동 완료!`);
-    setActiveTab('cockpit');
+    setActiveTab('cockpit_v2');
   };
 
   // Jump to cockpit from company inventory DB (차량번호+주행거리 최소 구성, 폴백용 차명·세부모델만 포함)
@@ -748,7 +748,7 @@ export default function App() {
       detailModel: item.subModel || item.detailModel || '',
     });
     showToast(`📦 [${item.plate || item.carNumber || ''} ${item.carName || ''}] 사이드바 필터 및 실시간 역추적 시세 연동!`);
-    setActiveTab('cockpit');
+    setActiveTab('cockpit_v2');
   };
 
   const handleResetToInitial = () => {

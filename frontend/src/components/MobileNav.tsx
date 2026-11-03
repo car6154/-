@@ -11,9 +11,9 @@ export const MobileNav: React.FC<MobileNavProps> = ({ activeTab, setActiveTab })
   return (
     <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#07080B]/95 backdrop-blur-lg border-t border-[#1c1d22] px-1 py-1.5 flex items-center justify-around safe-area-pb">
       <button
-        onClick={() => setActiveTab('cockpit')}
+        onClick={() => setActiveTab('cockpit_v2')}
         className={`flex flex-col items-center py-1 px-1.5 rounded-lg transition ${
-          activeTab === 'cockpit' ? 'text-[#cc9166]' : 'text-[#9194a1] hover:text-white'
+          activeTab === 'cockpit_v2' ? 'text-[#cc9166]' : 'text-[#9194a1] hover:text-white'
         }`}
       >
         <Calculator className="w-4 h-4 mb-0.5" />

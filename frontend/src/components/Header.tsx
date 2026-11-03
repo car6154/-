@@ -123,7 +123,6 @@ export const Header: React.FC<HeaderProps> = ({
   }, []);
 
   const tabOptions: { id: AppTab; label: string; icon: string; count?: number }[] = [
-    { id: 'cockpit', label: '시세 분석 (비딩 콕핏)', icon: '⚡' },
     { id: 'cockpit_v2', label: '새 버전 콕핏 (V2)', icon: '🎯' },
     { id: 'ledger', label: '매입 장부', icon: '📒', count: totalCarsCount },
     { id: 'settlement', label: '재고 및 정산', icon: '📦' },
@@ -131,6 +130,7 @@ export const Header: React.FC<HeaderProps> = ({
     { id: 'performance', label: '판매실적 DB', icon: '📈' },
     { id: 'inventory', label: '보유재고', icon: '🏢' },
     { id: 'ocr', label: '거래처 OCR', icon: '📄' },
+    { id: 'cockpit', label: '시세 분석 (비딩 콕핏)', icon: '⚡' },
   ];
 
   const currentTabInfo = tabOptions.find((t) => t.id === activeTab) || tabOptions[0];
@@ -144,7 +144,7 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="flex items-center gap-3">
           {/* Logo */}
           <div 
-            onClick={() => setActiveTab('cockpit')}
+            onClick={() => setActiveTab('cockpit_v2')}
             className="flex items-center gap-2 cursor-pointer hover:opacity-90 transition"
           >
             <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-[#cc9166] to-[#9e6840] flex items-center justify-center shadow-md shadow-[#cc9166]/10">
