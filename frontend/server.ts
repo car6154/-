@@ -22,6 +22,8 @@ export { logEvent };
 
 async function startServer() {
   const app = express();
+  // API JSON은 동적 데이터이므로 304 재검증을 방지하고 항상 200 본문을 전송 (클라이언트 304 처리 실패 방지)
+  app.set('etag', false);
   const PORT = Number(process.env.PORT) || 3000;
 
   app.use(express.json({ limit: '10mb' }));
