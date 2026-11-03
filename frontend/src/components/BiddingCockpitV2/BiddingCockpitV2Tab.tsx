@@ -496,27 +496,25 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
             onOpenHistoryModal={() => cockpit.setShowCarHistoryModal(true)}
           />
 
-          {/* 상단 4칸 한 줄: 소매가 · 엔카평균 · 엔카시세 · 기준소매 */}
+          {/* 상단 4칸 한 줄: 소매가 · 엔카평균 · 엔카시세 · 기준소매 (카드 내부 1줄 압축) */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {/* 1) 소매가 */}
-            <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-2 shadow-sm flex flex-col justify-between">
-              <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase">소매가</span>
-              <div className="mt-1 flex items-baseline">
-                <span className="text-xl sm:text-2xl font-black text-sky-400 font-mono tracking-tight">
-                  {finalPriceText}
-                </span>
-              </div>
+            <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl px-2.5 py-1.5 shadow-sm flex items-center justify-between gap-1.5">
+              <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase shrink-0">소매가</span>
+              <span className="text-lg sm:text-xl font-black text-sky-400 font-mono tracking-tight">
+                {finalPriceText}
+              </span>
             </div>
 
             {/* 2) 엔카평균 */}
-            <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-2 shadow-sm flex flex-col justify-between">
-              <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase">엔카평균</span>
-              <div className="mt-1 flex items-baseline justify-between gap-1 flex-wrap">
-                <span className="text-base sm:text-lg font-bold text-zinc-100 font-mono tracking-tight">
+            <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl px-2.5 py-1.5 shadow-sm flex items-center justify-between gap-1.5">
+              <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase shrink-0">엔카평균</span>
+              <div className="flex items-baseline gap-1.5 min-w-0">
+                <span className="text-sm sm:text-base font-bold text-zinc-100 font-mono tracking-tight">
                   {strictAdjText}
                 </span>
                 {strictAdjDelta && (
-                  <span className={`text-xs font-mono font-bold ${
+                  <span className={`text-xs font-mono font-bold shrink-0 ${
                     strictAdjDelta.startsWith('+') ? 'text-rose-400' : strictAdjDelta.startsWith('-') ? 'text-blue-400' : 'text-zinc-400'
                   }`}>
                     {strictAdjDelta}
@@ -526,14 +524,14 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
             </div>
 
             {/* 3) 엔카시세 */}
-            <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-2 shadow-sm flex flex-col justify-between">
-              <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase">엔카시세</span>
-              <div className="mt-1 flex items-baseline justify-between gap-1 flex-wrap">
-                <span className="text-base sm:text-lg font-bold text-zinc-100 font-mono tracking-tight">
+            <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl px-2.5 py-1.5 shadow-sm flex items-center justify-between gap-1.5">
+              <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase shrink-0">엔카시세</span>
+              <div className="flex items-baseline gap-1.5 min-w-0">
+                <span className="text-sm sm:text-base font-bold text-zinc-100 font-mono tracking-tight">
                   {rawStdText}
                 </span>
                 {rawStdDelta && (
-                  <span className={`text-xs font-mono font-bold ${
+                  <span className={`text-xs font-mono font-bold shrink-0 ${
                     rawStdDelta.startsWith('+') ? 'text-rose-400' : rawStdDelta.startsWith('-') ? 'text-blue-400' : 'text-zinc-400'
                   }`}>
                     {rawStdDelta}
@@ -543,14 +541,14 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
             </div>
 
             {/* 4) 기준소매 */}
-            <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-2 shadow-sm flex flex-col justify-between">
-              <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase">기준소매</span>
-              <div className="mt-1 flex items-baseline justify-between gap-1 flex-wrap">
-                <span className="text-base sm:text-lg font-bold text-zinc-100 font-mono tracking-tight">
+            <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl px-2.5 py-1.5 shadow-sm flex items-center justify-between gap-1.5">
+              <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase shrink-0">기준소매</span>
+              <div className="flex items-baseline gap-1.5 min-w-0">
+                <span className="text-sm sm:text-base font-bold text-zinc-100 font-mono tracking-tight">
                   {chaolmaRetailText}
                 </span>
                 {chaolmaDelta && (
-                  <span className={`text-xs font-mono font-bold ${
+                  <span className={`text-xs font-mono font-bold shrink-0 ${
                     chaolmaDelta.startsWith('+') ? 'text-rose-400' : chaolmaDelta.startsWith('-') ? 'text-blue-400' : 'text-zinc-400'
                   }`}>
                     {chaolmaDelta}

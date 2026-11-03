@@ -85,37 +85,34 @@ export const KcarSummaryHeader: React.FC<KcarSummaryHeaderProps> = ({
 
   return (
     <div className="space-y-2.5">
-      {/* 0. 엄격+무사고 요약 행 (총 매물 수 · 최저가 · 최고가 · 평균가) */}
+      {/* 0. 엄격+무사고 요약 행: 무사고 매물 수 · 최저가 · 최고가 · 평균가 (카드 내부 1줄 압축) */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-        <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-2">
-          <span className="text-[10px] text-zinc-400 block font-medium">총 매물 수</span>
-          <div className="flex items-baseline gap-1 mt-1">
-            <span className="text-lg font-black text-white font-mono">
-              {summaryCount > 0 ? `${summaryCount.toLocaleString()}대` : '-'}
-            </span>
-            <span className="text-[10px] text-zinc-500 truncate">(무사고)</span>
-          </div>
+        <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl px-2.5 py-1.5 flex items-center justify-between gap-1.5">
+          <span className="text-[10px] text-zinc-400 font-medium shrink-0">무사고 매물 수</span>
+          <span className="text-sm sm:text-base font-black text-white font-mono">
+            {summaryCount > 0 ? `${summaryCount.toLocaleString()}대` : '-'}
+          </span>
         </div>
 
-        <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-2">
-          <span className="text-[10px] text-zinc-400 block font-medium">최저가</span>
-          <div className="text-lg font-black text-sky-400 font-mono mt-1 flex items-center gap-0.5">
+        <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl px-2.5 py-1.5 flex items-center justify-between gap-1.5">
+          <span className="text-[10px] text-zinc-400 font-medium shrink-0">최저가</span>
+          <div className="text-sm sm:text-base font-black text-sky-400 font-mono flex items-center gap-0.5">
             {minPrice > 0 ? `${minPrice.toLocaleString()}만` : '-'} <span>⬇</span>
           </div>
         </div>
 
-        <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-2">
-          <span className="text-[10px] text-zinc-400 block font-medium">최고가</span>
-          <div className="text-lg font-black text-rose-400 font-mono mt-1 flex items-center gap-0.5">
+        <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl px-2.5 py-1.5 flex items-center justify-between gap-1.5">
+          <span className="text-[10px] text-zinc-400 font-medium shrink-0">최고가</span>
+          <div className="text-sm sm:text-base font-black text-rose-400 font-mono flex items-center gap-0.5">
             {maxPrice > 0 ? `${maxPrice.toLocaleString()}만` : '-'} <span>⬆</span>
           </div>
         </div>
 
-        <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl p-2">
-          <span className="text-[10px] text-zinc-400 block font-medium">평균가</span>
-          <div className="text-lg font-black text-white font-mono mt-1">
+        <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl px-2.5 py-1.5 flex items-center justify-between gap-1.5">
+          <span className="text-[10px] text-zinc-400 font-medium shrink-0">평균가</span>
+          <span className="text-sm sm:text-base font-black text-white font-mono">
             {avgPrice > 0 ? `${avgPrice.toLocaleString()}만` : '-'}
-          </div>
+          </span>
         </div>
       </div>
 
