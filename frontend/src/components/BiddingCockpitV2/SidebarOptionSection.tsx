@@ -197,15 +197,29 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
 
   const effectiveComp = resolveEffectiveComp(activeCompTab, selectedEncar, selectedKcar);
 
-  // 💡 [11-03-19]: 비교차 변경 시 단건 매칭(matchOptionsSingle) 실행 (언마운트 가드 포함, 목록 배치와 동일 패턴)
+  // 3. 비교차 옵션 파싱 (색상 제외 원문 옵션 문자열 목록, 11-03-21 단건 호출 입력용)
+  const rawCompOpts: string[] = useMemo(() => {
+    if (!effectiveComp) return [];
+    return (effectiveComp.options && effectiveComp.options.length > 0)
+      ? effectiveComp.options.map((o: any) => o.name || o)
+      : splitOptionString(effectiveComp.optionsText || '');
+  }, [effectiveComp]);
+
+  const compColor = effectiveComp?.color?.trim();
+  const compOpts = (compColor && compColor !== '-' && compColor !== '미확인')
+    ? [...rawCompOpts, compColor]
+    : rawCompOpts;
+
+  const hasComp = compOpts.length > 0;
+
+  // 💡 [11-03-19/21]: 비교차 변경 시 단건 매칭(matchOptionsSingle) 실행 (분리된 optionsList 전달, 언마운트 가드 포함)
   useEffect(() => {
     if (!effectiveComp || !effectiveComp.carName) {
       setCompMatchedOpts([]);
       return;
     }
 
-    const hasOpts = (effectiveComp.options && effectiveComp.options.length > 0) ||
-      Boolean(effectiveComp.optionsText && effectiveComp.optionsText.trim());
+    const hasOpts = rawCompOpts.length > 0 || Boolean(effectiveComp.optionsText && effectiveComp.optionsText.trim());
 
     if (!hasOpts) {
       setCompMatchedOpts([]);
@@ -217,10 +231,8 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
       id: effectiveComp.id,
       carName: effectiveComp.carName,
       year: effectiveComp.year || '',
-      optionsList: effectiveComp.options && effectiveComp.options.length > 0
-        ? effectiveComp.options.map((o: any) => o.name)
-        : undefined,
-      optionsText: effectiveComp.optionsText || '',
+      optionsList: rawCompOpts.length > 0 ? rawCompOpts : undefined,
+      optionsText: rawCompOpts.length === 0 ? (effectiveComp.optionsText || '') : undefined,
     }).then((res) => {
       if (isMounted) {
         setCompMatchedOpts(res || []);
@@ -235,20 +247,8 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
     effectiveComp?.carName,
     effectiveComp?.year,
     effectiveComp?.optionsText,
-    effectiveComp?.options,
+    rawCompOpts,
   ]);
-
-  // 3. 비교차 옵션 파싱 및 매칭
-  const rawCompOpts = (effectiveComp?.options && effectiveComp.options.length > 0)
-    ? effectiveComp.options.map((o: any) => o.name || o)
-    : splitOptionString(effectiveComp?.optionsText || '');
-
-  const compColor = effectiveComp?.color?.trim();
-  const compOpts = (compColor && compColor !== '-' && compColor !== '미확인')
-    ? [...rawCompOpts, compColor]
-    : rawCompOpts;
-
-  const hasComp = compOpts.length > 0;
 
   // 💡 [11-03-19]: 비교차 옵션 대조를 단건 매칭 객체(BackendMatchedOption[])로 통일 (원문 문자열 대조 폐지)
   const compOpposites: BackendMatchedOption[] = useMemo(() => {
