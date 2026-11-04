@@ -328,30 +328,30 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
     isKcarDetailLoading
   );
 
-  // 3. 비교차 옵션 파싱 (색상 제외 원문 옵션 문자열 목록, 11-03-21 단건 호출 입력용)
+  // 3. 케이카 탭용 비교차 옵션 목록 (11-03-26 kcarDetailOptions 경로 유지, 엔카 탭은 optionsList 파생 중단)
   const rawCompOpts: string[] = useMemo(() => {
-    if (!effectiveComp || effectiveComp.isLoading) return [];
+    if (!effectiveComp || effectiveComp.isLoading || !isKcarTab) return [];
     return (effectiveComp.options && effectiveComp.options.length > 0)
       ? effectiveComp.options.map((o: any) => o.name || o)
-      : splitOptionString(effectiveComp.optionsText || '');
-  }, [effectiveComp]);
+      : [];
+  }, [effectiveComp, isKcarTab]);
 
-  const compColor = effectiveComp?.color?.trim();
-  const compOpts = (compColor && compColor !== '-' && compColor !== '미확인')
-    ? [...rawCompOpts, compColor]
-    : rawCompOpts;
+  // 💡 [11-04-01]: 상세 조회 로딩 중이거나 매칭 결과가 비어있을 때는 기호를 확정 표시하지 않고 !hasComp(순위 4) 유지 (색상 제외)
+  const hasComp = Boolean(effectiveComp && !effectiveComp.isLoading && compMatchedOpts.length > 0);
 
-  // 💡 [11-03-26]: 상세 조회 로딩 중이거나 실패했을 때는 잘못된 +를 확정 표시하지 않음
-  const hasComp = Boolean(effectiveComp && !effectiveComp.isLoading && compOpts.length > 0);
-
-  // 💡 [11-03-19/21]: 비교차 변경 시 단건 매칭(matchOptionsSingle) 실행 (분리된 optionsList 전달, 언마운트 가드 포함)
+  // 💡 [11-04-01]: 비교차 변경 시 단건 매칭(matchOptionsSingle) 실행
+  // - 엔카 탭: optionsList 파생을 중단하고 상세(SelectedCarDetailV2Section)와 완전히 동일하게 optionsText 원문 전달
+  //   캐시 키가 상세와 동일해져 백엔드가 쪼갠 조각을 그대로 공유
+  // - 케이카 탭: 11-03-26 kcarDetailOptions 경로 유지 (optionsList 전달)
   useEffect(() => {
     if (!effectiveComp || !effectiveComp.carName) {
       setCompMatchedOpts([]);
       return;
     }
 
-    const hasOpts = rawCompOpts.length > 0 || Boolean(effectiveComp.optionsText && effectiveComp.optionsText.trim());
+    const hasOpts = isKcarTab
+      ? rawCompOpts.length > 0
+      : Boolean(effectiveComp.optionsText && effectiveComp.optionsText.trim());
 
     if (!hasOpts) {
       setCompMatchedOpts([]);
@@ -363,8 +363,8 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
       id: effectiveComp.id,
       carName: effectiveComp.carName,
       year: effectiveComp.year || '',
-      optionsList: rawCompOpts.length > 0 ? rawCompOpts : undefined,
-      optionsText: rawCompOpts.length === 0 ? (effectiveComp.optionsText || '') : undefined,
+      optionsList: isKcarTab && rawCompOpts.length > 0 ? rawCompOpts : undefined,
+      optionsText: isKcarTab ? undefined : (effectiveComp.optionsText || ''),
     }).then((res) => {
       if (isMounted) {
         setCompMatchedOpts(res || []);
@@ -375,6 +375,7 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
       isMounted = false;
     };
   }, [
+    isKcarTab,
     effectiveComp?.id,
     effectiveComp?.carName,
     effectiveComp?.year,
@@ -382,22 +383,11 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
     rawCompOpts,
   ]);
 
-  // 💡 [11-03-19]: 비교차 옵션 대조를 단건 매칭 객체(BackendMatchedOption[])로 통일 (원문 문자열 대조 폐지)
+  // 💡 [11-04-01]: 비교차 옵션 대조는 백엔드가 반환한 matched 리스트 그대로 사용 (raw_name 재꿰맴 및 none 폴백 폐지, 색상 제외)
   const compOpposites: BackendMatchedOption[] = useMemo(() => {
-    if (!effectiveComp || compOpts.length === 0) return [];
-    return compOpts.map((co) => {
-      const found = compMatchedOpts.find((m) => m.raw_name === co);
-      if (found) return found;
-      return {
-        raw_name: co,
-        clean_name: co,
-        official_name: '',
-        price: null,
-        match_type: 'none',
-        source: 'none',
-      };
-    });
-  }, [effectiveComp, compOpts, compMatchedOpts]);
+    if (!effectiveComp || effectiveComp.isLoading) return [];
+    return compMatchedOpts;
+  }, [effectiveComp, compMatchedOpts]);
 
   // 우세/순정 배지 판정 (규칙 4-d 기반)
   const renderMatchBadge = () => {
@@ -409,7 +399,7 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
       );
     }
 
-    if (compOpts.length === 0 || targetOptNames.length === 0) {
+    if (compOpposites.length === 0 || targetOptNames.length === 0) {
       return (
         <span className="inline-flex items-center text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-bold border border-emerald-500/30">
           조회차량 순정
