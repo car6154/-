@@ -933,6 +933,22 @@ def enforce_encar_mileage_band(url: str, target_mileage: int, band_range: int = 
 
     return url
 
+def normalize_empty_option_string(opt_str: Optional[str]) -> str:
+    """
+    옵션 없음 표시 문장을 빈 문자열('')로 정규화한다.
+    - strip 후 정확히 일치할 때만 빈 문자열 반환
+    - 정규화 대상 집합: '', '없음', '-', '추가 옵션 없음', '추가 옵션 없음 (기본 출고 사양)'
+    - 그 외에는 원본 그대로 반환
+    """
+    if not opt_str:
+        return ""
+    cleaned = str(opt_str).strip()
+    empty_set = {'', '없음', '-', '추가 옵션 없음', '추가 옵션 없음 (기본 출고 사양)'}
+    if cleaned in empty_set:
+        return ""
+    return str(opt_str)
+
+
 @app.post("/api/encar/search")
 def search_encar_market(req: EncarSearchRequest):
     try:
@@ -949,6 +965,9 @@ def search_encar_market(req: EncarSearchRequest):
                 f_dbg.write(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] carName='{car_name}' | gradeName='{raw_g}' | gradeDetailName='{raw_gd}' | detailModel='{req.detailModel}' => 결합='{detail_model}' | year={req.year} | mileage={req.mileage} | targetOptions='{req.targetOptions}'\n")
         except Exception:
             pass
+
+        # 💡 [11-04-58]: 옵션 없음 표시 문장('추가 옵션 없음 (기본 출고 사양)' 등)을 빈 문자열('')로 정규화 (L1203, L1331 전파)
+        req.targetOptions = normalize_empty_option_string(req.targetOptions)
 
         print(f"\n==================================================", flush=True)
         print(f"[엔카검색 요청 수신]", flush=True)
