@@ -946,7 +946,7 @@ def search_encar_market(req: EncarSearchRequest):
         try:
             os.makedirs("data", exist_ok=True)
             with open("data/encar_debug.log", "a", encoding="utf-8") as f_dbg:
-                f_dbg.write(f"[{datetime.now().strftime('%H:%M:%S')}] carName='{car_name}' | gradeName='{raw_g}' | gradeDetailName='{raw_gd}' | detailModel='{req.detailModel}' => 결합='{detail_model}'\n")
+                f_dbg.write(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] carName='{car_name}' | gradeName='{raw_g}' | gradeDetailName='{raw_gd}' | detailModel='{req.detailModel}' => 결합='{detail_model}' | year={req.year} | mileage={req.mileage} | targetOptions='{req.targetOptions}'\n")
         except Exception:
             pass
 
@@ -1757,6 +1757,12 @@ def search_encar_market(req: EncarSearchRequest):
             for cid in strict_df['_carid'].dropna().unique()
             if str(cid).strip() and str(cid).strip() not in ('-', 'None', '')
         ] if strict_has_data else []
+
+        try:
+            with open("data/encar_debug.log", "a", encoding="utf-8") as f_dbg:
+                f_dbg.write(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] [반환 stats] strictAdjAvg={strict_adj_avg} | avg={avg_price} | min={min_price} | max={max_price} | strictCount={len(strict_df)} | meanOptDelta={mean_opt_delta} | targetOptNew={target_opt_new} | targetOptResVal={int(round(target_opt_new * opt_ratio))}\n")
+        except Exception:
+            pass
 
         return {
             "success": True,
