@@ -286,6 +286,7 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
             optionsTag={cockpit.optionsTag}
             targetCarName={cockpit.carName}
             targetYear={cockpit.yearModel}
+            targetGrade={cockpit.targetGrade}
             selectedEncar={cockpit.selectedEncar}
             selectedKcar={selectedKcar}
             activeCompTab={activeCompTab === 'kcar' ? 'kcar' : 'encar'}

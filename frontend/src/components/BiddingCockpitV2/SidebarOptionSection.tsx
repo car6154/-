@@ -118,6 +118,7 @@ export interface SidebarOptionSectionProps {
   optionsTag?: string;
   targetCarName?: string;
   targetYear?: string | number;
+  targetGrade?: string;
   selectedEncar?: EncarItem | null;
   selectedKcar?: KcarCarItem | null;
   activeCompTab?: 'encar' | 'kcar' | string;
@@ -208,6 +209,7 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
   optionsTag,
   targetCarName,
   targetYear,
+  targetGrade,
   selectedEncar,
   selectedKcar,
   activeCompTab,
@@ -225,9 +227,9 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
       : splitOptionString(optionsTag || '');
   }, [targetOptions, optionsTag]);
 
-  // 💡 [11-03-34]: 신차 카탈로그 뷰어 링크 (목표차 모델명/연식 동적 바인딩)
+  // 💡 [11-05-05]: 신차 카탈로그 V2 뷰어 링크 (다나와 책 기준, 등급별 차등 가격)
   const catalogHref = useMemo(() => {
-    const params: string[] = [];
+    const params: string[] = ['source=danawa'];
     // 💡 [11-03-48]: 뷰어는 카탈로그 키(matched_key)로 모델을 찾는다. 표시명(예: "신형 카니발(KA4)")이 아니라
     // 백엔드가 반환한 targetCatalog.model(예: "카니발 4세대")을 우선 사용하고, 없으면 표시명으로 폴백.
     const viewerModel = (targetCatalog?.model || targetCarName || '').toString().trim();
@@ -240,11 +242,11 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
       const fullYr = yrStr.match(/20\d{2}/) ? yrStr.match(/20\d{2}/)![0] : (mYr ? `20${mYr[1]}` : yrStr);
       params.push(`year=${encodeURIComponent(fullYr)}`);
     }
-    if (params.length > 0) {
-      return `/newcar-catalog.html#${params.join('&')}`;
+    if (targetGrade && String(targetGrade).trim()) {
+      params.push(`grade=${encodeURIComponent(String(targetGrade).trim())}`);
     }
-    return '/newcar-catalog.html';
-  }, [targetCarName, targetYear, targetCatalog?.model]);
+    return `/newcar-catalog-v2.html#${params.join('&')}`;
+  }, [targetCarName, targetYear, targetCatalog?.model, targetGrade]);
 
   useEffect(() => {
     if (targetOptNames.length === 0 || !targetCarName) {

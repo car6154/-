@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>신차 공식 카탈로그 V2 (등급별 차등 가격) | J-PRO</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: #0b0c10;
+      color: #e4e4e7;
+      line-height: 1.5;
+      font-size: 13px;
+    }
+    header {
+      background-color: #14151b;
+      border-bottom: 1px solid #262833;
+      padding: 14px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .header-title-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .header-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #10b981;
+      letter-spacing: -0.02em;
+    }
+    .header-badge {
+      font-size: 11px;
+      background-color: #064e3b;
+      color: #6ee7b7;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      border: 1px solid #047857;
+      font-weight: 600;
+    }
+    .search-bar-container {
+      background-color: #121319;
+      border-bottom: 1px solid #20222b;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .input-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .input-label {
+      font-size: 11px;
+      color: #71717a;
+      font-weight: 600;
+    }
+    .text-input {
+      background-color: #0b0c10;
+      border: 1px solid #2a2d3d;
+      color: #f4f4f5;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      outline: none;
+    }
+    .text-input:focus {
+      border-color: #10b981;
+    }
+    .btn-search {
+      background-color: #10b981;
+      color: #042f2e;
+      font-weight: 700;
+      border: none;
+      padding: 6px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: background-color 0.15s;
+    }
+    .btn-search:hover {
+      background-color: #34d399;
+    }
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px 20px;
+    }
+    .card {
+      background-color: #14151b;
+      border: 1px solid #262833;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+    .info-item {
+      background-color: #0b0c10;
+      border: 1px solid #1e2029;
+      padding: 12px 14px;
+      border-radius: 8px;
+    }
+    .info-item-label {
+      font-size: 11px;
+      color: #a1a1aa;
+      margin-bottom: 4px;
+    }
+    .info-item-val {
+      font-size: 15px;
+      font-weight: 700;
+      color: #fafafa;
+    }
+    .price-highlight {
+      color: #10b981;
+      font-size: 18px;
+    }
+    .section-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #f4f4f5;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .options-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+    .options-table th {
+      background-color: #181a24;
+      color: #a1a1aa;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 10px 14px;
+      border-bottom: 1px solid #262833;
+    }
+    .options-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid #1e2029;
+      vertical-align: top;
+    }
+    .options-table tr:hover {
+      background-color: #181922;
+    }
+    .opt-name {
+      font-weight: 700;
+      color: #fafafa;
+      font-size: 13px;
+    }
+    .opt-price {
+      font-weight: 700;
+      color: #38bdf8;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+    .opt-desc {
+      color: #a1a1aa;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+    .alert-box {
+      background-color: #1e1b18;
+      border: 1px solid #451a03;
+      border-radius: 8px;
+      padding: 16px;
+      color: #fdba74;
+      margin-bottom: 16px;
+    }
+    .alert-title {
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 6px;
+      color: #f97316;
+    }
+    .fallback-link {
+      display: inline-block;
+      margin-top: 10px;
+      color: #38bdf8;
+      text-decoration: underline;
+      font-weight: 600;
+      font-size: 12px;
+    }
+    .empty-badge {
+      display: inline-block;
+      background-color: #1f2937;
+      color: #9ca3af;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+    }
+    .loading-spinner {
+      text-align: center;
+      padding: 40px;
+      color: #9ca3af;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-title-box">
+      <span class="header-title">신차 공식 카탈로그 V2</span>
+      <span class="header-badge">출처별·등급별 차등 가격</span>
+    </div>
+    <div style="font-size: 11px; color: #71717a;">
+      책 분리 보장 (다나와 / 엔카 독립 보존)
+    </div>
+  </header>
+
+  <div class="search-bar-container">
+    <div class="input-group">
+      <span class="input-label">책(출처):</span>
+      <input type="text" id="inputSource" class="text-input" style="width: 80px;" value="danawa" readonly />
+    </div>
+    <div class="input-group">
+      <span class="input-label">차종:</span>
+      <input type="text" id="inputModel" class="text-input" style="width: 140px;" placeholder="예: 쏘렌토 4세대" />
+    </div>
+    <div class="input-group">
+      <span class="input-label">연식:</span>
+      <input type="text" id="inputYear" class="text-input" style="width: 80px;" placeholder="예: 2022" />
+    </div>
+    <div class="input-group">
+      <span class="input-label">등급:</span>
+      <input type="text" id="inputGrade" class="text-input" style="width: 220px;" placeholder="예: 디젤 2.2 2WD 트렌디" />
+    </div>
+    <button type="button" id="btnSearch" class="btn-search">조회</button>
+  </div>
+
+  <main id="mainContainer">
+    <div id="loadingView" class="loading-spinner">
+      데이터를 불러오는 중입니다...
+    </div>
+    <div id="contentView" style="display: none;"></div>
+  </main>
+
+  <script>
+    function parseHash() {
+      const hash = window.location.hash.replace(/^#/, '');
+      const params = new URLSearchParams(hash);
+      return {
+        source: params.get('source') || 'danawa',
+        model: params.get('model') || '',
+        year: params.get('year') || '',
+        grade: params.get('grade') || ''
+      };
+    }
+
+    function updateInputs(p) {
+      document.getElementById('inputSource').value = p.source || 'danawa';
+      document.getElementById('inputModel').value = p.model || '';
+      document.getElementById('inputYear').value = p.year || '';
+      document.getElementById('inputGrade').value = p.grade || '';
+    }
+
+    async function fetchCatalogSpec(source, model, year, grade) {
+      const loading = document.getElementById('loadingView');
+      const content = document.getElementById('contentView');
+      loading.style.display = 'block';
+      content.style.display = 'none';
+
+      // 상대 경로 호출 (절대 URL 및 8000 직결 금지)
+      const url = `/api/catalog-v2/spec?source=${encodeURIComponent(source)}&car_name=${encodeURIComponent(model)}&year=${encodeURIComponent(year)}&grade=${encodeURIComponent(grade)}`;
+
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+        renderResult(data, { source, model, year, grade });
+      } catch (err) {
+        renderError(`네트워크 요청 중 오류가 발생했습니다: ${err.message}`, { source, model, year, grade });
+      } finally {
+        loading.style.display = 'none';
+        content.style.display = 'block';
+      }
+    }
+
+    function renderResult(data, query) {
+      const content = document.getElementById('contentView');
+      
+      if (!data || !data.found) {
+        const reason = data ? (data.reason || '가격 미확인') : '응답 데이터 없음';
+        const fallbackUrl = `/newcar-catalog.html#model=${encodeURIComponent(query.model)}&year=${encodeURIComponent(query.year)}`;
+        content.innerHTML = `
+          <div class="alert-box">
+            <div class="alert-title">⚠️ 카탈로그 V2 가격 미확인</div>
+            <div>${escapeHtml(reason)}</div>
+            <div style="margin-top: 6px; font-size: 12px; color: #a1a1aa;">
+              조회 조건: 책=${escapeHtml(query.source || '-')}, 차종=${escapeHtml(query.model || '-')}, 연식=${escapeHtml(query.year || '-')}, 등급=${escapeHtml(query.grade || '-')}
+            </div>
+            ${query.model ? `<a href="${fallbackUrl}" class="fallback-link" target="_blank">구 카탈로그(V1) 뷰어로 보기 &rarr;</a>` : ''}
+          </div>
+        `;
+        return;
+      }
+
+      const options = data.options || {};
+      const optKeys = Object.keys(options);
+      const baseMan = data.base_price_man ? Number(data.base_price_man).toLocaleString() : (data.base_price ? (Math.round(data.base_price / 10000)).toLocaleString() : '-');
+      const baseWon = data.base_price ? Number(data.base_price).toLocaleString() : '-';
+
+      let optionsHtml = '';
+      if (optKeys.length === 0) {
+        optionsHtml = `<tr><td colspan="3" style="text-align: center; color: #71717a; padding: 20px;">등록된 선택 옵션이 없습니다.</td></tr>`;
+      } else {
+        optionsHtml = optKeys.map(k => {
+          const item = options[k];
+          const pMan = item.price_man != null ? Number(item.price_man).toLocaleString() : (item.price != null ? Math.round(item.price / 10000).toLocaleString() : '-');
+          const pWon = item.price != null ? Number(item.price).toLocaleString() : '-';
+          return `
+            <tr>
+              <td class="opt-name">${escapeHtml(k)}</td>
+              <td class="opt-price">${pMan}만원 <span style="font-size: 11px; color: #71717a; font-weight: normal;">(${pWon}원)</span></td>
+              <td class="opt-desc">${escapeHtml(item.desc || '-')}</td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      const standardFeatures = data.standard_features || [];
+      let standardHtml = '';
+      if (!standardFeatures || standardFeatures.length === 0) {
+        standardHtml = `<span class="empty-badge">기본사양 미수집</span>`;
+      } else {
+        standardHtml = standardFeatures.map(f => `<span class="empty-badge" style="margin-right: 6px; margin-bottom: 6px;">${escapeHtml(f)}</span>`).join('');
+      }
+
+      content.innerHTML = `
+        <div class="card">
+          <div class="info-grid">
+            <div class="info-item">
+              <div class="info-item-label">출처 책</div>
+              <div class="info-item-val" style="color: #6ee7b7;">${escapeHtml(data.source?.toUpperCase() || '-')}</div>
+            </div>
+            <div class="info-item">
+              <div class="info-item-label">차종 / 연식</div>
+              <div class="info-item-val">${escapeHtml(data.car_name || '-')} (${escapeHtml(data.year || '-')})</div>
+            </div>
+            <div class="info-item">
+              <div class="info-item-label">선택 등급</div>
+              <div class="info-item-val" style="color: #38bdf8;">${escapeHtml(data.grade || '-')}</div>
+            </div>
+            <div class="info-item">
+              <div class="info-item-label">기본 출고가</div>
+              <div class="info-item-val price-highlight">${baseMan}만원 <span style="font-size: 12px; color: #71717a; font-weight: normal;">(${baseWon}원)</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="section-title">
+            <span>📦 선택 가능 옵션 목록</span>
+            <span style="font-size: 11px; color: #71717a; font-weight: normal;">(해당 등급 전용 가격)</span>
+          </div>
+          <table class="options-table">
+            <thead>
+              <tr>
+                <th style="width: 25%;">옵션명</th>
+                <th style="width: 25%;">선택 가격</th>
+                <th style="width: 50%;">상세 품목 구성</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${optionsHtml}
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card">
+          <div class="section-title">
+            <span>📋 기본 출고 사양</span>
+          </div>
+          <div>
+            ${standardHtml}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderError(message, query) {
+      const content = document.getElementById('contentView');
+      content.innerHTML = `
+        <div class="alert-box" style="border-color: #ef4444; background-color: #1f1315; color: #fca5a5;">
+          <div class="alert-title" style="color: #ef4444;">🚨 네트워크 오류</div>
+          <div>${escapeHtml(message)}</div>
+        </div>
+      `;
+    }
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function init() {
+      const p = parseHash();
+      updateInputs(p);
+      fetchCatalogSpec(p.source, p.model, p.year, p.grade);
+    }
+
+    document.getElementById('btnSearch').addEventListener('click', () => {
+      const source = document.getElementById('inputSource').value.trim() || 'danawa';
+      const model = document.getElementById('inputModel').value.trim();
+      const year = document.getElementById('inputYear').value.trim();
+      const grade = document.getElementById('inputGrade').value.trim();
+
+      const newHash = `source=${encodeURIComponent(source)}&model=${encodeURIComponent(model)}&year=${encodeURIComponent(year)}&grade=${encodeURIComponent(grade)}`;
+      window.location.hash = newHash;
+    });
+
+    window.addEventListener('hashchange', () => {
+      const p = parseHash();
+      updateInputs(p);
+      fetchCatalogSpec(p.source, p.model, p.year, p.grade);
+    });
+
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>

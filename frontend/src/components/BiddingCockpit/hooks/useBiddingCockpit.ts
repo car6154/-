@@ -179,6 +179,7 @@ export function useBiddingCockpit({
   const skipAutoFetchRef = useRef<boolean>(false);
   const rawGradeNameRef = useRef<string>('');
   const rawGradeDetailNameRef = useRef<string>('');
+  const [targetGrade, setTargetGrade] = useState<string>('');
   const prevAiRetailPriceRef = useRef<number>(0);
   const lastEncarFailReasonRef = useRef<string>('');
 
@@ -285,6 +286,7 @@ export function useBiddingCockpit({
       setMileageKm(0);
       rawGradeNameRef.current = '';
       rawGradeDetailNameRef.current = '';
+      setTargetGrade('');
     }
   }, []);
 
@@ -678,6 +680,7 @@ export function useBiddingCockpit({
       // d. 기존의 낡은 ref 리셋 (a 단계 전에 유지)
       rawGradeNameRef.current = '';
       rawGradeDetailNameRef.current = '';
+      setTargetGrade('');
 
       console.info(`[InvDiag] preset 수신: carNumber=${preset.carNumber || ''}, mileage=${preset.mileage || ''}, carName=${preset.carName || ''}, detailModel=${preset.detailModel || ''}`);
 
@@ -921,6 +924,7 @@ export function useBiddingCockpit({
         rawGd = String(res.grade_detail_name || '').trim();
         rawGradeNameRef.current = rawG;
         rawGradeDetailNameRef.current = rawGd;
+        setTargetGrade(rawG);
         if (res.reg_ym) {
           setRegYm(res.reg_ym);
         }
@@ -1234,7 +1238,11 @@ export function useBiddingCockpit({
         if (res.maker) setManufacturer(res.maker);
         const foundCarName = res.model_detail_name || res.model_name || '';
         if (foundCarName) setCarName(foundCarName);
-        if (res.grade_name) rawGradeNameRef.current = String(res.grade_name).trim();
+        if (res.grade_name) {
+          const gName = String(res.grade_name).trim();
+          rawGradeNameRef.current = gName;
+          setTargetGrade(gName);
+        }
         if (res.grade_detail_name) rawGradeDetailNameRef.current = String(res.grade_detail_name).trim();
         if (res.reg_ym) {
           setRegYm(res.reg_ym);
@@ -1588,7 +1596,11 @@ export function useBiddingCockpit({
         // 🌟 차올마(오토플러스 ERP) 결과 반영 헬퍼 (targetCarHistory 갱신)
         const applyChaolmaResult = (chRes: any) => {
           if (!chRes || !chRes.success) return;
-          if (chRes.grade_name) rawGradeNameRef.current = String(chRes.grade_name);
+          if (chRes.grade_name) {
+            const gName = String(chRes.grade_name).trim();
+            rawGradeNameRef.current = gName;
+            setTargetGrade(gName);
+          }
           if (chRes.grade_detail_name) rawGradeDetailNameRef.current = String(chRes.grade_detail_name);
           const rawNewP = chRes.new_car_price || 0;
           const stdP = rawNewP > 10000 ? Math.round(rawNewP / 10000) : rawNewP;
@@ -2740,6 +2752,7 @@ export function useBiddingCockpit({
     setCarName,
     detailModel,
     setDetailModel,
+    targetGrade,
     yearModel,
     setYearModel,
     regYm,
