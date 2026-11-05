@@ -4025,15 +4025,13 @@ def fetch_kcar_market_stats(
         param["wr_lt_mfg_dt"] = f"{k_yr + 1}12"
 
     # c) 주행거리 파라미터 (wr_gt_milg, wr_lt_milg: 만단위 반올림 후 ±3만km 통일, build_kcar_web_url 및 엔카 대칭)
+    rounded = round(mileage / 10000) * 10000 if mileage and mileage > 0 else 0
     if mileage and mileage > 0:
-        rounded = round(mileage / 10000) * 10000
         param["wr_gt_milg"] = max(0, rounded - 30000)
         param["wr_lt_milg"] = rounded + 30000
 
     print(f"[K-Car API 요청] car_name='{car_name}', year={year}, detail_model='{detail_model}', mileage={mileage} => param = {param}", flush=True)
 
-    enc_val = encrypt_kcar_payload(param)
-    req_body = json.dumps({"enc": enc_val}).encode('utf-8')
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
         'Accept': 'application/json, text/plain, */*',
@@ -4042,18 +4040,22 @@ def fetch_kcar_market_stats(
         'Referer': 'https://www.kcar.com/'
     }
 
+    def _execute_kcar_query(query_param: dict) -> list:
+        enc_val = encrypt_kcar_payload(query_param)
+        req_body = json.dumps({"enc": enc_val}).encode('utf-8')
+        try:
+            req = urllib.request.Request('https://api.kcar.com/bc/search/list/drct', data=req_body, headers=headers, method='POST')
+            with urllib.request.urlopen(req, timeout=5) as resp:
+                data_raw = json.loads(resp.read().decode('utf-8'))
+                return data_raw.get('data', {}).get('rows', [])
+        except Exception as e:
+            print(f"[K-Car API 통신 오류] {e}", flush=True)
+            return []
+
     try:
-        req = urllib.request.Request('https://api.kcar.com/bc/search/list/drct', data=req_body, headers=headers, method='POST')
-        with urllib.request.urlopen(req, timeout=5) as resp:
-            data_raw = json.loads(resp.read().decode('utf-8'))
+        rows = _execute_kcar_query(param)
     except Exception as e:
         empty_res["message"] = f"K-Car API 통신 오류: {str(e)}"
-        return empty_res
-
-    rows = data_raw.get('data', {}).get('rows', [])
-    if not rows:
-        empty_res["success"] = True
-        empty_res["message"] = "현재 판매 중인 K-Car 직영 매물이 없습니다."
         return empty_res
 
     # d) 백엔드 2단계 정밀 후처리 필터 (엔카 filter_strictly_by_submodel 대칭 로직)
@@ -4211,7 +4213,29 @@ def fetch_kcar_market_stats(
         print(f"[K-Car 엄격 게이트 로그] 총 {len(f_rows)}대 중 {len(s_rows)}대 엄격 통과 | 탈락 사유: {dict(kcar_gate_counts)}", flush=True)
         return f_rows, s_rows
 
-    filtered_rows, strict_rows = _filter_and_strict(rows)
+    filtered_rows, strict_rows = _filter_and_strict(rows) if rows else ([], [])
+
+    # 💡 [제이 7번 규칙 / 11-05 케이카 동일 확장]: 동일 연식·동일 등급 엄격 매물이 7대 미만일 때만 주행 범위를 ±50,000km로 1회 확장 재조회
+    if len(strict_rows) < 7 and mileage and mileage > 0:
+        param_wider = dict(param)
+        param_wider["wr_gt_milg"] = max(0, rounded - 50000)
+        param_wider["wr_lt_milg"] = rounded + 50000
+        print(f"[K-Car 표본 부족] 엄격 매물 {len(strict_rows)}대 < 7대: 주행거리 범위를 ±50,000km로 확장 재조회 (wr_gt_milg={param_wider['wr_gt_milg']}, wr_lt_milg={param_wider['wr_lt_milg']})", flush=True)
+
+        rows_wider = _execute_kcar_query(param_wider)
+        if rows_wider:
+            filtered_rows_wider, strict_rows_wider = _filter_and_strict(rows_wider)
+            print(f"[K-Car 확장 재조회 결과] 엄격 매물: {len(strict_rows)}대 -> {len(strict_rows_wider)}대 (전체: {len(rows)}대 -> {len(rows_wider)}대)", flush=True)
+            if len(strict_rows_wider) >= len(strict_rows):
+                rows = rows_wider
+                filtered_rows = filtered_rows_wider
+                strict_rows = strict_rows_wider
+                search_url = build_kcar_web_url(car_name, year, detail_model, mileage, manufacturer, mileage_range=50000)
+                print(f"[K-Car 확장 채택] 최종 엄격 매물: {len(strict_rows)}대 (±5만km)", flush=True)
+            else:
+                print(f"[K-Car 확장 기각] 넓힌 엄격 매물({len(strict_rows_wider)}대)이 기존({len(strict_rows)}대)보다 적어 원래 매물 유지", flush=True)
+        else:
+            print(f"[K-Car 확장 결과 없음] 기존 결과 유지 (엄격 {len(strict_rows)}대)", flush=True)
 
     post_filter_fallback = False
     strict_has_data = bool(strict_rows)

@@ -1132,9 +1132,22 @@ def search_encar_market(req: EncarSearchRequest):
         else:
             df = DataProcessor.filter_strictly_by_submodel(df, target_car_name=car_name, target_sub_model=detail_model)
 
-        # 💡 [제이 7번 규칙 / 10-29-17]: 엄격(동일 연식·등급) 비교대상이 7대 미만이면 주행 범위를 ±50,000km로 1회만 확장 재수집
-        if len(df) < 7 and mileage_num and mileage_num > 0:
-            print(f"   => [표본 부족] 엄격 매물 {len(df)}대 < 7대: 주행거리 범위를 ±50,000km로 확장 재수집", flush=True)
+        # 💡 [제이 7번 규칙 / 11-05 엔카 엄격 확장 트리거]: 동일 연식·동일 등급 엄격 매물이 7대 미만일 때만 주행 범위를 ±50,000km로 1회 확장
+        b_val_strict = b_val if 'b_val' in locals() and b_val else ""
+        bd_val_strict = bd_val if 'bd_val' in locals() and bd_val else ""
+        strict_df_current = DataProcessor.filter_strictly_same_year_and_grade(
+            df,
+            target_year=year_num,
+            target_detail_model=detail_model,
+            target_car_name=car_name,
+            target_badge=b_val_strict,
+            target_badge_detail=bd_val_strict,
+            is_api_filtered=should_skip_filter
+        )
+        strict_cnt_current = len(strict_df_current)
+
+        if strict_cnt_current < 7 and mileage_num and mileage_num > 0:
+            print(f"   => [표본 부족] 등급 매물 {len(df)}대, 동일 연식·등급 엄격 매물 {strict_cnt_current}대 < 7대: 주행거리 범위를 ±50,000km로 확장 재수집", flush=True)
             base_mil = int(round(mileage_num / 10000.0) * 10000)
             wider_min = max(0, base_mil - 50000)
             wider_max = base_mil + 50000
@@ -1157,10 +1170,24 @@ def search_encar_market(req: EncarSearchRequest):
                 if not df_wider.empty:
                     if not should_skip_filter:
                         df_wider = DataProcessor.filter_strictly_by_submodel(df_wider, target_car_name=car_name, target_sub_model=detail_model)
-                    if len(df_wider) >= len(df):
+                    
+                    strict_df_wider = DataProcessor.filter_strictly_same_year_and_grade(
+                        df_wider,
+                        target_year=year_num,
+                        target_detail_model=detail_model,
+                        target_car_name=car_name,
+                        target_badge=b_val_strict,
+                        target_badge_detail=bd_val_strict,
+                        is_api_filtered=should_skip_filter
+                    )
+                    strict_cnt_wider = len(strict_df_wider)
+                    print(f"   => [확장 수집 검증] 엄격 매물: {strict_cnt_current}대 -> {strict_cnt_wider}대 (등급 매물: {len(df)}대 -> {len(df_wider)}대)", flush=True)
+                    if strict_cnt_wider >= strict_cnt_current:
                         df = df_wider
                         encar_url = wider_url
-                        print(f"   => [확장 수집 성공] 최종 반환 매물: {len(df)}대 (±5만km)", flush=True)
+                        print(f"   => [확장 수집 채택] 최종 반환 매물: {len(df)}대 (엄격: {strict_cnt_wider}대, ±5만km)", flush=True)
+                    else:
+                        print(f"   => [확장 수집 기각] 넓힌 엄격 매물({strict_cnt_wider}대)이 기존({strict_cnt_current}대)보다 적어 원래 매물 유지", flush=True)
 
         print(f"   => [필터링 결과] 최종 반환 매물: {len(df)}대 (target_sub_model='{detail_model}')\n", flush=True)
         try:
