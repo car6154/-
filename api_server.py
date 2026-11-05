@@ -630,6 +630,27 @@ def get_reborn_car_detail(pid: str):
 
 
 # ----------------------------------------------------
+# 0-2-2. [11-05 시범] 출처별(책별) 등급 카탈로그 V2 파일럿 조회 API (크롤링 금지, 가격 계산 제외)
+# ----------------------------------------------------
+@app.get("/api/catalog-v2/spec")
+def get_catalog_v2_spec_endpoint(source: str = "", car_name: str = "", year: str = "", grade: str = ""):
+    """
+    출처·차종·연식·등급별 기본가 및 선택옵션 목록 조회 (다나와 책 시범 경로)
+    """
+    from services.catalog_by_source_service import get_pilot_catalog_spec
+    return get_pilot_catalog_spec(source=source, car_name=car_name, year=year, grade=grade)
+
+
+@app.get("/api/catalog-v2/option-price")
+def get_catalog_v2_option_price_endpoint(source: str = "", car_name: str = "", year: str = "", grade: str = "", option_name: str = ""):
+    """
+    출처·차종·연식·등급 내 특정 옵션 단일 가격 조회 (다나와 책 시범 경로)
+    """
+    from services.catalog_by_source_service import get_pilot_option_price
+    return get_pilot_option_price(source=source, car_name=car_name, year=year, grade=grade, option_name=option_name)
+
+
+# ----------------------------------------------------
 # 0-3. 엔카 최근 완판(팔린매물) 실거래 스냅샷 통계 API (Streamlit 8501 100% 동일 로직)
 # ----------------------------------------------------
 @app.get("/api/sold_out_cars")

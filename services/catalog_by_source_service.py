@@ -1,0 +1,181 @@
+# services/catalog_by_source_service.py
+# 💡 [11-05 시범]: 다나와 책 쏘렌토 2022 등급별 가격 파일 시범 서비스 (크롤링 금지, 로컬 파일만 사용)
+
+import os
+import json
+from typing import Dict, Any, Optional
+
+CATALOG_V2_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "catalog_by_source_v2.json")
+
+_CATALOG_V2_CACHE: Optional[Dict[str, Any]] = None
+
+
+def load_catalog_by_source_v2() -> Dict[str, Any]:
+    """로컬 catalog_by_source_v2.json 로드 (네트워크 요청 없음)"""
+    global _CATALOG_V2_CACHE
+    if _CATALOG_V2_CACHE is not None:
+        return _CATALOG_V2_CACHE
+
+    if not os.path.exists(CATALOG_V2_PATH):
+        return {}
+
+    try:
+        with open(CATALOG_V2_PATH, "r", encoding="utf-8") as f:
+            _CATALOG_V2_CACHE = json.load(f)
+            return _CATALOG_V2_CACHE
+    except Exception as e:
+        print(f"[catalog_by_source_service] JSON 로드 오류: {e}")
+        return {}
+
+
+def get_pilot_catalog_spec(
+    source: Optional[str],
+    car_name: Optional[str],
+    year: Any,
+    grade: Optional[str]
+) -> Dict[str, Any]:
+    """
+    시범 경로: 출처·차종·연식·등급 4가지가 모두 정확히 일치할 때만 스펙 및 등급별 옵션 목록 반환.
+    - 하나라도 누락되거나 불일치 시 '가격 미확인' 반환.
+    - 다른 출처, 다른 연식, 다른 등급의 가격으로 대체하거나 메우지 않음.
+    - 별칭 추가, 기본 사전 추정치, 단어 수 폴백 일절 금지.
+    """
+    # 1. 필수 입력값 검증 (하나라도 비어있으면 가격 미확인)
+    s_source = str(source or "").strip().lower()
+    s_car = str(car_name or "").strip()
+    s_year = str(year or "").strip()
+    s_grade = str(grade or "").strip()
+
+    if not s_source or not s_car or not s_year or not s_grade:
+        return {
+            "found": False,
+            "reason": "가격 미확인 (출처·차종·연식·등급 필수 입력 누락)",
+            "source": s_source or None,
+            "car_name": s_car or None,
+            "year": s_year or None,
+            "grade": s_grade or None,
+            "base_price": None,
+            "base_price_man": None,
+            "options": {},
+            "standard_features": []
+        }
+
+    # 2. 로컬 카탈로그 탐색
+    catalog = load_catalog_by_source_v2()
+
+    # 1단계: 출처 (danawa, encar 등)
+    source_book = catalog.get(s_source)
+    if not source_book or not isinstance(source_book, dict):
+        return {
+            "found": False,
+            "reason": f"가격 미확인 (출처 '{s_source}' 미등록)",
+            "source": s_source,
+            "car_name": s_car,
+            "year": s_year,
+            "grade": s_grade
+        }
+
+    # 2단계: 차종 (정확 일치만)
+    car_book = source_book.get(s_car)
+    if not car_book or not isinstance(car_book, dict):
+        return {
+            "found": False,
+            "reason": f"가격 미확인 (차종 '{s_car}' 미등록)",
+            "source": s_source,
+            "car_name": s_car,
+            "year": s_year,
+            "grade": s_grade
+        }
+
+    # 3단계: 연식 (정확 일치만)
+    # 2022, 22 등 문자열 변환 시 4자리 2022로 매칭
+    norm_year = s_year if len(s_year) == 4 else (f"20{s_year}" if len(s_year) == 2 else s_year)
+    year_book = car_book.get(norm_year)
+    if not year_book or not isinstance(year_book, dict):
+        return {
+            "found": False,
+            "reason": f"가격 미확인 (연식 '{norm_year}' 미등록)",
+            "source": s_source,
+            "car_name": s_car,
+            "year": norm_year,
+            "grade": s_grade
+        }
+
+    # 4단계: 등급 (정확 일치만, 다른 등급 메우기 금지)
+    grade_spec = year_book.get(s_grade)
+    if not grade_spec or not isinstance(grade_spec, dict):
+        return {
+            "found": False,
+            "reason": f"가격 미확인 (등급 '{s_grade}' 미등록)",
+            "source": s_source,
+            "car_name": s_car,
+            "year": norm_year,
+            "grade": s_grade
+        }
+
+    # 일치 확인: 해당 등급의 기본가와 선택옵션 목록만 반환
+    return {
+        "found": True,
+        "source": s_source,
+        "car_name": s_car,
+        "year": norm_year,
+        "grade": s_grade,
+        "base_price": grade_spec.get("base_price"),
+        "base_price_man": grade_spec.get("base_price_man"),
+        "options": grade_spec.get("options", {}),
+        "standard_features": grade_spec.get("standard_features", [])
+    }
+
+
+def get_pilot_option_price(
+    source: Optional[str],
+    car_name: Optional[str],
+    year: Any,
+    grade: Optional[str],
+    option_name: Optional[str]
+) -> Dict[str, Any]:
+    """
+    시범 경로: 출처·차종·연식·등급 내에서 특정 옵션의 가격 조회.
+    - 해당 등급의 options 딕셔너리에 있는 가격만 반환.
+    - 기존 뭉개진 가격(93만, 88만 등)이나 단어 수 폴백 일절 금지.
+    """
+    spec = get_pilot_catalog_spec(source, car_name, year, grade)
+    if not spec.get("found"):
+        return {
+            "found": False,
+            "price": None,
+            "price_man": None,
+            "desc": None,
+            "reason": spec.get("reason", "가격 미확인")
+        }
+
+    opt_key = str(option_name or "").strip()
+    if not opt_key:
+        return {
+            "found": False,
+            "price": None,
+            "price_man": None,
+            "desc": None,
+            "reason": "옵션명 누락"
+        }
+
+    options = spec.get("options", {})
+    if opt_key in options:
+        opt_info = options[opt_key]
+        return {
+            "found": True,
+            "option_name": opt_key,
+            "price": opt_info.get("price"),
+            "price_man": opt_info.get("price_man"),
+            "desc": opt_info.get("desc", ""),
+            "grade": spec.get("grade")
+        }
+
+    return {
+        "found": False,
+        "option_name": opt_key,
+        "price": None,
+        "price_man": None,
+        "desc": None,
+        "reason": f"가격 미확인 (등급 '{spec.get('grade')}'에 선택옵션 '{opt_key}' 미적용)"
+    }
