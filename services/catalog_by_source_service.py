@@ -81,9 +81,20 @@ def get_pilot_catalog_spec(
             "grade": s_grade
         }
 
-    # 2단계: 차종 (정확 일치만)
-    car_book = source_book.get(s_car)
-    if not car_book or not isinstance(car_book, dict):
+    # 2단계: 차종 (직접 일치 우선, 불일치 시 _find_model_in_catalog 단일 진실 공급원 적용)
+    matched_car_key = None
+    car_book = None
+
+    if s_car in source_book and isinstance(source_book[s_car], dict):
+        matched_car_key = s_car
+        car_book = source_book[s_car]
+    else:
+        from services.option_package_service import _find_model_in_catalog
+        res_model = _find_model_in_catalog(source_book, s_car)
+        if res_model:
+            matched_car_key, car_book = res_model
+
+    if not car_book or not isinstance(car_book, dict) or not matched_car_key:
         return {
             "found": False,
             "reason": f"가격 미확인 (차종 '{s_car}' 미등록)",
@@ -144,7 +155,8 @@ def get_pilot_catalog_spec(
     return {
         "found": True,
         "source": s_source,
-        "car_name": s_car,
+        "car_name": matched_car_key,
+        "query_car_name": s_car,
         "year": norm_year,
         "grade": matched_grade_key,
         "query_grade": s_grade,
