@@ -869,15 +869,15 @@ export default function App() {
           />
         )}
 
-        {/* Tab 1-2: 🎯 새 버전 비딩 콕핏 (V2 1단계) */}
-        {activeTab === 'cockpit_v2' && (
+        {/* Tab 1-2: 🎯 새 버전 비딩 콕핏 (V2 1단계 - 항상 마운트 유지, 다른 탭 이동 시 CSS 숨김 처리) */}
+        <div style={{ display: activeTab === 'cockpit_v2' ? 'block' : 'none' }}>
           <BiddingCockpitV2Tab
             onSaveToLedger={handleAddCar}
             preset={cockpitPreset}
             presetCarName={cockpitPreset?.carName}
             presetSellPrice={cockpitPreset?.sellPrice}
           />
-        )}
+        </div>
 
         {/* Tab 2: 📋 매입 장부 관리 (125대 라이프사이클) */}
         {activeTab === 'ledger' && (

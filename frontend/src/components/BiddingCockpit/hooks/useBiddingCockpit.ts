@@ -14,6 +14,12 @@ import {
 import { copyToClipboard } from '@/utils/clipboard';
 import { EncarItem, EncarSoldItem, EncarSoldStats, HeydealerBidItem, BiddingCockpitTabProps, KcarMarketStats } from '../types';
 
+// 💡 [11-05 제이 규칙]: 최종 소매가 기준 목표 마진 자동 계산 (9%, 10만원 단위 반올림)
+export const calculateAutoTargetMargin = (retailPrice: number): number => {
+  if (!retailPrice || retailPrice <= 0) return 0;
+  return Math.round((retailPrice * 0.09) / 10) * 10;
+};
+
 export function useBiddingCockpit({
   initialCarName,
   initialSellPrice,
@@ -2560,6 +2566,16 @@ export function useBiddingCockpit({
       ? Math.max(0, aiRetailPrice - insuranceDeduction + ruleAdjustmentExcludingInsurance - partDepreciation)
       : (aiRetailPrice > 0 ? Math.max(0, aiRetailPrice - insuranceDeduction - partDepreciation) : 0);
   }, [aiRetailPrice, insuranceDeduction, targetCarHistory, currentAssessment, targetPartDepreciation]);
+
+  // 💡 [11-05 제이 규칙]: 목표 마진은 최종 소매가(finalRetailPrice)의 9% (10만원 단위 반올림)로 자동 계산
+  // finalRetailPrice가 바뀔 때만 다시 계산하며, 0이거나 없을 때는 기존 저장값이나 150만원 초기값을 억지로 바꾸지 않는다.
+  // 계산된 뒤 사이드바 -10/+10 버튼 및 직접 입력으로 수정한 값은 finalRetailPrice가 다시 바뀔 때까지 유지된다.
+  useEffect(() => {
+    if (finalRetailPrice > 0) {
+      const autoMargin = calculateAutoTargetMargin(finalRetailPrice);
+      setTargetMargin(autoMargin);
+    }
+  }, [finalRetailPrice]);
 
   // 💡 [제이 규칙]: 사이드바 예상 소매가(expectedSellPrice)는 순수 사용자 수동 입력 필드이므로 AI 산출값으로 자동 채우지 않는다.
 
