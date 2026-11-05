@@ -5,6 +5,7 @@ import { compareEncarItemsByBackendRule } from '@/services/cockpitService';
 import { OptionItem } from '@/services/chaolmaService';
 import { splitOptionString, NewCarCatalogData } from '@/services/biddingOptionCatalog';
 import { matchOptionsSingle, matchOptionsBatch, BackendMatchedOption, compareOptionToOpposites } from '@/services/optionMatchingService';
+import { assembleFullGradeName } from '@/components/BiddingCockpit/hooks/useBiddingCockpit';
 
 export interface ComparableKcarV2SectionProps {
   kcarList: KcarCarItem[];
@@ -23,6 +24,7 @@ export interface ComparableKcarV2SectionProps {
   targetCatalog?: NewCarCatalogData | null;
   targetCarName?: string;
   targetYear?: string | number;
+  targetGrade?: string;
 }
 
 // 사고구분 라벨 헬퍼 (케이카 무사고/단순수리/사고 배지)
@@ -172,6 +174,7 @@ export const ComparableKcarV2Section: React.FC<ComparableKcarV2SectionProps> = (
   targetCatalog,
   targetCarName,
   targetYear,
+  targetGrade,
 }) => {
   // 1. 케이카 프리패치 캐시 및 상세 맵
   const [kcarInspectionMap, setKcarInspectionMap] = useState<Record<string, KcarDetailData>>({});
@@ -237,6 +240,7 @@ export const ComparableKcarV2Section: React.FC<ComparableKcarV2SectionProps> = (
           carName: c.carName || c.modelName || '',
           year: c.year || '',
           optionsList: rawOpts,
+          grade: assembleFullGradeName(c.grade, c.gradeDetail),
         };
       });
 
@@ -273,13 +277,14 @@ export const ComparableKcarV2Section: React.FC<ComparableKcarV2SectionProps> = (
       carName: targetCarName || '',
       year: targetYear || yearModel || '',
       optionsList: targetOptNames,
+      grade: targetGrade || undefined,
     }).then((data) => {
       if (isMounted) setTargetMatchedOpts(data);
     });
     return () => {
       isMounted = false;
     };
-  }, [targetCarName, targetYear, yearModel, targetOptNames]);
+  }, [targetCarName, targetYear, yearModel, targetOptNames, targetGrade]);
 
   const targetMatchedList = useMemo(() => {
     return targetOptNames.map((to) => {

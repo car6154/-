@@ -1187,9 +1187,9 @@ def get_catalog_option_detail(car_name: str, year: Any, opt_name: str) -> Option
     return None
 
 
-def match_car_options_detail(car_name: str, year: Any, options_text_or_list: Any) -> list:
+def match_car_options_detail(car_name: str, year: Any, options_text_or_list: Any, grade: Optional[str] = None) -> list:
     """
-    선택 차량의 옵션 목록(원문)을 카탈로그(다나와 1순위 -> 엔카 2순위 -> 퍼지 3순위, 모델 전체 연식 확대 순회)와 매칭하여
+    선택 차량의 옵션 목록(원문)을 카탈로그(1순위 V2 새 책 -> 2순위 기존 다나와/엔카 순회)와 매칭하여
     표준명, 매칭상태(exact/fuzzy/none), 출처(danawa/encar/none), 매칭연식(matched_year) 목록 반환
     """
     if not options_text_or_list:
@@ -1202,10 +1202,60 @@ def match_car_options_detail(car_name: str, year: Any, options_text_or_list: Any
     else:
         return []
 
+    # 💡 [11-05-07]: 등급이 주어진 경우 카탈로그 V2(새 책) 우선 확인
+    v2_spec = None
+    if grade and str(grade).strip():
+        try:
+            from services.catalog_by_source_service import get_pilot_catalog_spec
+            v2_spec = get_pilot_catalog_spec(source="danawa", car_name=car_name, year=year, grade=str(grade).strip())
+        except Exception:
+            v2_spec = None
+
+    v2_options = v2_spec.get("options", {}) if (v2_spec and v2_spec.get("found")) else {}
+
     results = []
     for raw in raw_list:
         clean = re.sub(r'\([0-9,]+(?:\s*만|\s*원)?\)', '', raw)
         clean = re.sub(r'\[[^\]]*\]', '', clean).strip()
+
+        matched_v2 = None
+        if v2_options:
+            # 1. V2 직접 일치
+            if clean in v2_options:
+                matched_v2 = (clean, v2_options[clean])
+            else:
+                # 2. 전역 별칭 및 정규화 일치
+                clean_opt = OPTION_ALIAS_MAP.get(clean, clean)
+                norm_opt = normalize_opt_name(clean_opt)
+                for _alias_key, _alias_val in OPTION_ALIAS_MAP.items():
+                    if normalize_opt_name(_alias_key) == norm_opt:
+                        clean_opt = _alias_val
+                        norm_opt = normalize_opt_name(clean_opt)
+                        break
+
+                if clean_opt in v2_options:
+                    matched_v2 = (clean_opt, v2_options[clean_opt])
+                else:
+                    for v2_k, v2_v in v2_options.items():
+                        if normalize_opt_name(v2_k) == norm_opt:
+                            matched_v2 = (v2_k, v2_v)
+                            break
+
+        if matched_v2:
+            v2_k, v2_val = matched_v2
+            results.append({
+                "raw_name": raw,
+                "clean_name": clean,
+                "official_name": v2_k,
+                "price": v2_val.get("price"),
+                "desc": v2_val.get("desc", ""),
+                "match_type": "exact",
+                "source": "danawa",
+                "matched_year": str(v2_spec.get("year", year))
+            })
+            continue
+
+        # V2에 없거나 등급이 없는 경우: 기존 get_catalog_option_detail 경로 폴백
         matched = get_catalog_option_detail(car_name, year, raw)
         if matched and matched.get("official_name"):
             results.append({

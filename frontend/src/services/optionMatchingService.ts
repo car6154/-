@@ -21,6 +21,7 @@ export interface BatchCarInput {
   year: number | string;
   optionsList?: string[];
   optionsText?: string;
+  grade?: string;
 }
 
 // 차량 id (또는 고유 캐시 키) 기준 매칭 결과 메모리 캐시
@@ -38,13 +39,15 @@ export async function matchOptionsSingle(car: {
   year: number | string;
   optionsList?: string[];
   optionsText?: string;
+  grade?: string;
 }): Promise<BackendMatchedOption[]> {
   const rawList = car.optionsList || [];
   const rawText = car.optionsText || '';
   const cleanListStr = rawList.join('|');
+  const gradePart = car.grade ? `_grade:${car.grade.trim()}` : '';
   const cacheKey = car.id
-    ? `${car.id}_${car.carName}_${car.year}_${cleanListStr || rawText}`
-    : `${car.carName}_${car.year}_${cleanListStr || rawText}`;
+    ? `${car.id}_${car.carName}_${car.year}${gradePart}_${cleanListStr || rawText}`
+    : `${car.carName}_${car.year}${gradePart}_${cleanListStr || rawText}`;
 
   if (optionMatchCache.has(cacheKey)) {
     return optionMatchCache.get(cacheKey)!;
@@ -56,15 +59,20 @@ export async function matchOptionsSingle(car: {
 
   const promise = (async () => {
     try {
+      const payload: Record<string, any> = {
+        carName: car.carName,
+        year: car.year,
+        optionsList: rawList,
+        optionsText: rawText,
+      };
+      if (car.grade && car.grade.trim()) {
+        payload.grade = car.grade.trim();
+      }
+
       const res = await fetch('/api/encar/match-options', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          carName: car.carName,
-          year: car.year,
-          optionsList: rawList,
-          optionsText: rawText,
-        }),
+        body: JSON.stringify(payload),
       });
 
       if (!res.ok) {
@@ -109,8 +117,9 @@ export async function matchOptionsBatch(
 
   for (const car of cars) {
     const carId = String(car.id).trim();
-    if (optionMatchCache.has(carId)) {
-      results[carId] = optionMatchCache.get(carId)!;
+    const cacheKey = car.grade ? `${carId}_grade:${car.grade.trim()}` : carId;
+    if (optionMatchCache.has(cacheKey)) {
+      results[carId] = optionMatchCache.get(cacheKey)!;
     } else {
       uncachedCars.push(car);
     }
@@ -125,13 +134,19 @@ export async function matchOptionsBatch(
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        cars: uncachedCars.map((c) => ({
-          id: String(c.id).trim(),
-          carName: c.carName,
-          year: c.year,
-          optionsList: c.optionsList || [],
-          optionsText: c.optionsText || '',
-        })),
+        cars: uncachedCars.map((c) => {
+          const item: Record<string, any> = {
+            id: String(c.id).trim(),
+            carName: c.carName,
+            year: c.year,
+            optionsList: c.optionsList || [],
+            optionsText: c.optionsText || '',
+          };
+          if (c.grade && c.grade.trim()) {
+            item.grade = c.grade.trim();
+          }
+          return item;
+        }),
       }),
     });
 
@@ -142,10 +157,13 @@ export async function matchOptionsBatch(
 
     const data = await res.json();
     if (data && data.success && data.data) {
-      for (const [id, matchedList] of Object.entries(data.data)) {
+      for (const car of uncachedCars) {
+        const carId = String(car.id).trim();
+        const cacheKey = car.grade ? `${carId}_grade:${car.grade.trim()}` : carId;
+        const matchedList = data.data[carId];
         if (Array.isArray(matchedList) && matchedList.length > 0) {
-          optionMatchCache.set(id, matchedList as BackendMatchedOption[]);
-          results[id] = matchedList as BackendMatchedOption[];
+          optionMatchCache.set(cacheKey, matchedList as BackendMatchedOption[]);
+          results[carId] = matchedList as BackendMatchedOption[];
         }
       }
     }

@@ -23,6 +23,7 @@ export interface ComparableEncarV2SectionProps {
   targetCatalog?: NewCarCatalogData | null;
   targetCarName?: string;
   targetYear?: string | number;
+  targetGrade?: string;
   showSubModel?: boolean;
 }
 
@@ -203,6 +204,7 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
   targetCatalog,
   targetCarName,
   targetYear,
+  targetGrade,
   showSubModel: externalShowSubModel,
 }) => {
   // 세부등급 줄 표시/숨김 토글 상태 (상위에서 전달받거나 로컬 기본값 true 유지)
@@ -263,13 +265,14 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
       carName: targetCarName || '',
       year: targetYear || '',
       optionsList: targetOptNames,
+      grade: targetGrade || undefined,
     }).then((data) => {
       if (isMounted) setTargetMatchedOpts(data);
     });
     return () => {
       isMounted = false;
     };
-  }, [targetCarName, targetYear, targetOptNames]);
+  }, [targetCarName, targetYear, targetOptNames, targetGrade]);
 
   const targetMatchedList = useMemo(() => {
     return targetOptNames.map((to) => {

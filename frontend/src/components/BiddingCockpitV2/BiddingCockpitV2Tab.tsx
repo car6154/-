@@ -715,6 +715,7 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
                     targetCatalog={cockpit.targetNewCarCatalog}
                     targetCarName={cockpit.carName}
                     targetYear={cockpit.yearModel}
+                    targetGrade={cockpit.targetGrade}
                     showSubModel={showSubModel}
                   />
                 </div>
@@ -736,6 +737,7 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
                     targetCatalog={cockpit.targetNewCarCatalog}
                     targetCarName={cockpit.carName}
                     targetYear={cockpit.yearModel}
+                    targetGrade={cockpit.targetGrade}
                   />
                 </div>
                 <div className={activeCompTab === 'heydealer' ? 'block' : 'hidden'}>

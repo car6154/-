@@ -12,6 +12,7 @@ import {
 } from '@/services/optionMatchingService';
 import { OptionItem } from '@/services/chaolmaService';
 import { EncarItem, KcarCarItem } from '@/components/BiddingCockpit/types';
+import { assembleFullGradeName } from '@/components/BiddingCockpit/hooks/useBiddingCockpit';
 
 // 💡 [11-03-26]: 케이카 상세 options.items name 목록 캐시 (중복 호출 방지)
 const kcarDetailItemsCache: Record<string, string[]> = {};
@@ -259,6 +260,7 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
       carName: targetCarName,
       year: targetYear || '',
       optionsList: targetOptNames,
+      grade: targetGrade || undefined,
     }).then((res) => {
       if (isMounted) setTargetMatchedOpts(res);
     });
@@ -266,7 +268,7 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
     return () => {
       isMounted = false;
     };
-  }, [targetCarName, targetYear, targetOptNames]);
+  }, [targetCarName, targetYear, targetOptNames, targetGrade]);
 
   // 1. 추가 옵션 보유 여부 및 개수 판정
   const hasOptions = (targetOptions && targetOptions.length > 0) || Boolean(optionsTag && optionsTag.trim());
@@ -360,6 +362,10 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
       return;
     }
 
+    const compGrade = (isKcarTab && selectedKcar)
+      ? assembleFullGradeName(selectedKcar.grade, selectedKcar.gradeDetail)
+      : undefined;
+
     let isMounted = true;
     matchOptionsSingle({
       id: effectiveComp.id,
@@ -367,6 +373,7 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
       year: effectiveComp.year || '',
       optionsList: isKcarTab && rawCompOpts.length > 0 ? rawCompOpts : undefined,
       optionsText: isKcarTab ? undefined : (effectiveComp.optionsText || ''),
+      grade: compGrade,
     }).then((res) => {
       if (isMounted) {
         setCompMatchedOpts(res || []);
@@ -383,6 +390,8 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
     effectiveComp?.year,
     effectiveComp?.optionsText,
     rawCompOpts,
+    selectedKcar?.grade,
+    selectedKcar?.gradeDetail,
   ]);
 
   // 💡 [11-04-01]: 비교차 옵션 대조는 백엔드가 반환한 matched 리스트 그대로 사용 (raw_name 재꿰맴 및 none 폴백 폐지, 색상 제외)
