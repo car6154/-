@@ -20,6 +20,21 @@ export const calculateAutoTargetMargin = (retailPrice: number): number => {
   return Math.round((retailPrice * 0.09) / 10) * 10;
 };
 
+// 💡 [11-05 제이 규칙]: 등급명과 등급상세명을 중복 토큰 없이 결합하여 전체 등급명 생성
+export const assembleFullGradeName = (gradeName?: string, gradeDetailName?: string): string => {
+  const g = String(gradeName || '').trim();
+  const gd = String(gradeDetailName || '').trim();
+  if (!g && !gd) return '';
+  if (!g) return gd;
+  if (!gd) return g;
+  if (g.toLowerCase().includes(gd.toLowerCase())) return g;
+  if (gd.toLowerCase().includes(g.toLowerCase())) return gd;
+
+  const gTokens = g.toLowerCase().split(/\s+/);
+  const gdTokens = gd.split(/\s+/).filter(tok => !gTokens.includes(tok.toLowerCase()));
+  return [g, ...gdTokens].join(' ').trim();
+};
+
 export function useBiddingCockpit({
   initialCarName,
   initialSellPrice,
@@ -924,7 +939,7 @@ export function useBiddingCockpit({
         rawGd = String(res.grade_detail_name || '').trim();
         rawGradeNameRef.current = rawG;
         rawGradeDetailNameRef.current = rawGd;
-        setTargetGrade(rawG);
+        setTargetGrade(assembleFullGradeName(rawG, rawGd));
         if (res.reg_ym) {
           setRegYm(res.reg_ym);
         }
@@ -1238,12 +1253,11 @@ export function useBiddingCockpit({
         if (res.maker) setManufacturer(res.maker);
         const foundCarName = res.model_detail_name || res.model_name || '';
         if (foundCarName) setCarName(foundCarName);
-        if (res.grade_name) {
-          const gName = String(res.grade_name).trim();
-          rawGradeNameRef.current = gName;
-          setTargetGrade(gName);
-        }
-        if (res.grade_detail_name) rawGradeDetailNameRef.current = String(res.grade_detail_name).trim();
+        const gName = String(res.grade_name || '').trim();
+        const gdName = String(res.grade_detail_name || '').trim();
+        if (gName) rawGradeNameRef.current = gName;
+        if (gdName) rawGradeDetailNameRef.current = gdName;
+        setTargetGrade(assembleFullGradeName(gName, gdName));
         if (res.reg_ym) {
           setRegYm(res.reg_ym);
         }
@@ -1596,12 +1610,11 @@ export function useBiddingCockpit({
         // 🌟 차올마(오토플러스 ERP) 결과 반영 헬퍼 (targetCarHistory 갱신)
         const applyChaolmaResult = (chRes: any) => {
           if (!chRes || !chRes.success) return;
-          if (chRes.grade_name) {
-            const gName = String(chRes.grade_name).trim();
-            rawGradeNameRef.current = gName;
-            setTargetGrade(gName);
-          }
-          if (chRes.grade_detail_name) rawGradeDetailNameRef.current = String(chRes.grade_detail_name);
+          const gName = String(chRes.grade_name || '').trim();
+          const gdName = String(chRes.grade_detail_name || '').trim();
+          if (gName) rawGradeNameRef.current = gName;
+          if (gdName) rawGradeDetailNameRef.current = gdName;
+          setTargetGrade(assembleFullGradeName(gName, gdName));
           const rawNewP = chRes.new_car_price || 0;
           const stdP = rawNewP > 10000 ? Math.round(rawNewP / 10000) : rawNewP;
           const rawBaseP = chRes.base_car_price || 0;
