@@ -548,13 +548,18 @@ def get_heydealer_car_data(car_id: str):
 def get_market_statistics(car_name: str, sub_model: Optional[str] = "", year: Optional[str] = "", current_retail: Optional[int] = 0):
     try:
         from sales_analysis import get_car_market_stats
+        from services.reborn_service import build_reborn_url
         stats = get_car_market_stats(car_name, sub_model or "", str(year or ""), current_retail or 0)
         sample_df = stats.get("sample_df")
         sample_list = []
         if sample_df is not None and isinstance(sample_df, pd.DataFrame) and not sample_df.empty:
             for _, r in sample_df.iterrows():
+                raw_pid = str(r.get("PID", "") or "").strip()
+                clean_pid = "" if raw_pid in ("-", "None", "nan") else raw_pid
                 sample_list.append({
                     "id": f"autoplus-{r.get('차량번호', _)}",
+                    "pid": clean_pid,
+                    "rebornUrl": build_reborn_url(clean_pid),
                     "soldDate": str(r.get("최종수정일", "") or r.get("최초등록일", "") or "-"),
                     "carNumber": str(r.get("차량번호", "")),
                     "carName": str(r.get("차량명", "")),
@@ -604,6 +609,24 @@ def get_market_statistics(car_name: str, sub_model: Optional[str] = "", year: Op
     except Exception as e:
         print(f"[FastAPI] market_statistics error: {e}")
         return {"success": False, "error": str(e)}
+
+
+@app.get("/api/reborn/{pid}")
+def get_reborn_car_detail(pid: str):
+    """
+    리본카 매물 상세 정보 조회 (자사 소매 실적 행 클릭 시 파일럿 조회용, 소매가 계산 제외)
+    """
+    try:
+        from services.reborn_service import fetch_reborn_detail
+        return fetch_reborn_detail(pid)
+    except Exception as e:
+        from services.reborn_service import build_reborn_url
+        return {
+            "success": False,
+            "pid": str(pid or "").strip(),
+            "rebornUrl": build_reborn_url(pid),
+            "error": str(e)
+        }
 
 
 # ----------------------------------------------------

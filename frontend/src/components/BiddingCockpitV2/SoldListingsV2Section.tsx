@@ -27,6 +27,49 @@ export const SoldListingsV2Section: React.FC<SoldListingsV2SectionProps> = ({
 }) => {
   const [soldTabMode, setSoldTabMode] = useState<'encar' | 'autoplus' | 'wholesale' | 'none'>(defaultTabMode);
 
+  // 💡 [11-04-59 파일럿]: 자사 소매 실적 행 클릭 시 리본카 광고 자료 조회 상태 (소매가 계산 제외)
+  const [selectedPid, setSelectedPid] = useState<string | null>(null);
+  const [selectedAutoplusItem, setSelectedAutoplusItem] = useState<any | null>(null);
+  const [rebornDetail, setRebornDetail] = useState<any | null>(null);
+  const [isRebornLoading, setIsRebornLoading] = useState<boolean>(false);
+  const [rebornError, setRebornError] = useState<string | null>(null);
+
+  const handleRowClick = async (item: any) => {
+    const pid = String(item.pid || '').trim();
+    if (!pid) {
+      setSelectedPid(null);
+      setSelectedAutoplusItem(item);
+      setRebornDetail(null);
+      setRebornError('해당 매물은 리본카 고유번호(PID)가 등록되지 않았습니다.');
+      return;
+    }
+
+    if (selectedPid === pid && rebornDetail) {
+      return;
+    }
+
+    setSelectedPid(pid);
+    setSelectedAutoplusItem(item);
+    setIsRebornLoading(true);
+    setRebornError(null);
+    setRebornDetail(null);
+
+    try {
+      const res = await fetch(`/api/reborn/${encodeURIComponent(pid)}`);
+      const data = await res.json();
+      if (data && data.success) {
+        setRebornDetail(data);
+      } else {
+        setRebornError(data?.error || '리본카 정보를 불러오지 못했습니다.');
+        setRebornDetail(data || null);
+      }
+    } catch (e: any) {
+      setRebornError(e?.message || '리본카 정보 요청 중 오류가 발생했습니다.');
+    } finally {
+      setIsRebornLoading(false);
+    }
+  };
+
   // 자사 소매 평균가 및 평균 경과일수
   const avgSellPrice = Number(liveMarketStats?.avg_sell_price || 0);
   const avgDays = Number(liveMarketStats?.avg_days || 0);
@@ -236,47 +279,207 @@ export const SoldListingsV2Section: React.FC<SoldListingsV2SectionProps> = ({
           </div>
 
           {matchedAutoplusList.length > 0 ? (
-            <div className="overflow-x-auto max-h-64 overflow-y-auto border border-[#262833] rounded-xl">
-              <table className="w-full text-left text-xs sm:text-sm text-zinc-200">
-                <thead className="bg-[#14151b] text-xs text-zinc-400 sticky top-0 uppercase border-b border-[#262833]">
-                  <tr>
-                    <th className="p-2.5">판매일자</th>
-                    <th className="p-2.5">차량번호</th>
-                    <th className="p-2.5">세부모델</th>
-                    <th className="p-2.5">연식</th>
-                    <th className="p-2.5 text-right">주행거리</th>
-                    <th className="p-2.5 text-right">매입가</th>
-                    <th className="p-2.5 text-right">소매 판매가</th>
-                    <th className="p-2.5 text-center">경과일수</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-[#232634] bg-[#0a0b0e]">
-                  {matchedAutoplusList.map((item: any, idx: number) => {
-                    const rawBuy = Number(item.buyPrice);
-                    const buyMan = rawBuy ? (rawBuy >= 100000 ? Math.round(rawBuy / 10000) : Math.round(rawBuy)) : null;
-                    
-                    const rawSell = Number(item.sellPrice);
-                    const sellMan = rawSell ? (rawSell >= 100000 ? Math.round(rawSell / 10000) : Math.round(rawSell)) : null;
+            <div className="space-y-3">
+              <div className="overflow-x-auto max-h-64 overflow-y-auto border border-[#262833] rounded-xl">
+                <table className="w-full text-left text-xs sm:text-sm text-zinc-200">
+                  <thead className="bg-[#14151b] text-xs text-zinc-400 sticky top-0 uppercase border-b border-[#262833]">
+                    <tr>
+                      <th className="p-2.5">판매일자</th>
+                      <th className="p-2.5">차량번호</th>
+                      <th className="p-2.5">세부모델</th>
+                      <th className="p-2.5">연식</th>
+                      <th className="p-2.5 text-right">주행거리</th>
+                      <th className="p-2.5 text-right">매입가</th>
+                      <th className="p-2.5 text-right">소매 판매가</th>
+                      <th className="p-2.5 text-center">경과일수</th>
+                      <th className="p-2.5 text-center">리본</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-[#232634] bg-[#0a0b0e]">
+                    {matchedAutoplusList.map((item: any, idx: number) => {
+                      const rawBuy = Number(item.buyPrice);
+                      const buyMan = rawBuy ? (rawBuy >= 100000 ? Math.round(rawBuy / 10000) : Math.round(rawBuy)) : null;
+                      
+                      const rawSell = Number(item.sellPrice);
+                      const sellMan = rawSell ? (rawSell >= 100000 ? Math.round(rawSell / 10000) : Math.round(rawSell)) : null;
 
-                    return (
-                      <tr key={item.id || idx} className="hover:bg-[#14151c]">
-                        <td className="p-2.5 text-xs text-zinc-400 font-mono">{item.soldDate || item.regDate || '-'}</td>
-                        <td className="p-2.5 font-mono text-white font-bold">{item.carNumber || item.plate || '-'}</td>
-                        <td className="p-2.5 text-white font-semibold text-xs sm:text-sm">{item.subModel || item.carName || '-'}</td>
-                        <td className="p-2.5 text-xs text-blue-400 font-mono">{item.year ? `${item.year}년` : '-'}</td>
-                        <td className="p-2.5 text-right text-xs text-white font-mono">{item.mileage > 0 ? `${Number(item.mileage).toLocaleString()}km` : '-'}</td>
-                        <td className="p-2.5 text-right text-zinc-300 font-mono">
-                          {buyMan !== null ? `${buyMan.toLocaleString()}만` : '-'}
-                        </td>
-                        <td className="p-2.5 text-right text-emerald-400 font-bold font-mono">
-                          {sellMan !== null ? `${sellMan.toLocaleString()}만` : '-'}
-                        </td>
-                        <td className="p-2.5 text-center font-mono text-xs">{item.stockDays ? `${item.stockDays}일` : '0일'}</td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+                      const isSelected = selectedAutoplusItem && (
+                        (item.pid && selectedPid === item.pid) ||
+                        (item.id && selectedAutoplusItem.id === item.id)
+                      );
+
+                      return (
+                        <tr
+                          key={item.id || idx}
+                          onClick={() => handleRowClick(item)}
+                          className={`hover:bg-[#14151c] cursor-pointer transition-colors ${
+                            isSelected ? 'bg-[#181a24] border-l-2 border-emerald-400' : ''
+                          }`}
+                        >
+                          <td className="p-2.5 text-xs text-zinc-400 font-mono">{item.soldDate || item.regDate || '-'}</td>
+                          <td className="p-2.5 font-mono text-white font-bold">{item.carNumber || item.plate || '-'}</td>
+                          <td className="p-2.5 text-white font-semibold text-xs sm:text-sm">{item.subModel || item.carName || '-'}</td>
+                          <td className="p-2.5 text-xs text-blue-400 font-mono">{item.year ? `${item.year}년` : '-'}</td>
+                          <td className="p-2.5 text-right text-xs text-white font-mono">{item.mileage > 0 ? `${Number(item.mileage).toLocaleString()}km` : '-'}</td>
+                          <td className="p-2.5 text-right text-zinc-300 font-mono">
+                            {buyMan !== null ? `${buyMan.toLocaleString()}만` : '-'}
+                          </td>
+                          <td className="p-2.5 text-right text-emerald-400 font-bold font-mono">
+                            {sellMan !== null ? `${sellMan.toLocaleString()}만` : '-'}
+                          </td>
+                          <td className="p-2.5 text-center font-mono text-xs">{item.stockDays ? `${item.stockDays}일` : '0일'}</td>
+                          <td className="p-2.5 text-center" onClick={(e) => e.stopPropagation()}>
+                            {item.rebornUrl ? (
+                              <a
+                                href={item.rebornUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 text-xs font-medium"
+                                title="리본카 원본 페이지 새 탭으로 열기"
+                              >
+                                <span>리본 보기</span>
+                                <ExternalLink className="w-3 h-3" />
+                              </a>
+                            ) : (
+                              <span className="text-zinc-600">-</span>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* 💡 [11-04-59]: 자사 소매 실적 행 클릭 시 리본카 상세 패널 (소매가 계산 제외) */}
+              {selectedAutoplusItem && (
+                <div className="p-3 bg-[#111218] border border-[#232634] rounded-xl text-xs space-y-2">
+                  <div className="flex items-center justify-between border-b border-[#1e2029] pb-2">
+                    <div className="flex items-center gap-2">
+                      <span className="font-bold text-zinc-200">
+                        [{selectedAutoplusItem.carNumber || selectedAutoplusItem.subModel || '자사 실적 매물'}] 리본카 광고 자료
+                      </span>
+                      {selectedPid && (
+                        <span className="text-[11px] font-mono text-zinc-400">PID: {selectedPid}</span>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {selectedAutoplusItem.rebornUrl && (
+                        <a
+                          href={selectedAutoplusItem.rebornUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs text-emerald-400 hover:underline flex items-center gap-1"
+                        >
+                          <span>새 탭으로 열기</span>
+                          <ExternalLink className="w-3 h-3" />
+                        </a>
+                      )}
+                      <button
+                        onClick={() => {
+                          setSelectedAutoplusItem(null);
+                          setSelectedPid(null);
+                          setRebornDetail(null);
+                          setRebornError(null);
+                        }}
+                        className="text-zinc-500 hover:text-zinc-300 text-xs px-1.5 py-0.5"
+                      >
+                        ✕ 닫기
+                      </button>
+                    </div>
+                  </div>
+
+                  {isRebornLoading ? (
+                    <div className="py-4 text-center text-zinc-400 flex items-center justify-center gap-2">
+                      <div className="w-4 h-4 border-2 border-emerald-400 border-t-transparent rounded-full animate-spin" />
+                      <span>리본카 광고 자료를 불러오는 중...</span>
+                    </div>
+                  ) : rebornError && !rebornDetail?.success ? (
+                    <div className="py-2.5 px-3 bg-rose-500/10 border border-rose-500/20 rounded-lg text-rose-300 flex items-center justify-between">
+                      <span>⚠️ {rebornError}</span>
+                      {selectedAutoplusItem.rebornUrl && (
+                        <a
+                          href={selectedAutoplusItem.rebornUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs text-rose-300 underline font-medium"
+                        >
+                          링크로 직접 확인
+                        </a>
+                      )}
+                    </div>
+                  ) : rebornDetail && rebornDetail.success ? (
+                    <div className="flex flex-col sm:flex-row gap-3 items-start">
+                      {/* 대표 사진 1장 */}
+                      {rebornDetail.imageUrl ? (
+                        <div className="w-28 h-20 shrink-0 bg-black/40 rounded-lg overflow-hidden border border-[#232634]">
+                          <img
+                            src={rebornDetail.imageUrl}
+                            alt="리본카 대표 사진"
+                            className="w-full h-full object-cover"
+                            onError={(e: any) => { e.target.style.display = 'none'; }}
+                          />
+                        </div>
+                      ) : (
+                        <div className="w-28 h-20 shrink-0 bg-zinc-900 rounded-lg flex items-center justify-center text-zinc-600 text-[11px] border border-[#232634]">
+                          사진 없음
+                        </div>
+                      )}
+
+                      {/* 상세 스펙 그리드 */}
+                      <div className="flex-1 grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs w-full">
+                        {/* 가격 (DB 할인적용가 우선 표시, 리본 가격 다르면 참고 표시) */}
+                        <div className="bg-[#0a0b0e] p-2 rounded border border-[#1e2029]">
+                          <span className="text-zinc-500 text-[10px] block">소매 판매가</span>
+                          <div className="font-bold text-emerald-400">
+                            {selectedAutoplusItem.sellPrice
+                              ? `${Math.round(selectedAutoplusItem.sellPrice >= 100000 ? selectedAutoplusItem.sellPrice / 10000 : selectedAutoplusItem.sellPrice).toLocaleString()}만원`
+                              : `${rebornDetail.price?.toLocaleString()}만원`}
+                          </div>
+                          {selectedAutoplusItem.sellPrice && rebornDetail.price && (Math.round(selectedAutoplusItem.sellPrice >= 100000 ? selectedAutoplusItem.sellPrice / 10000 : selectedAutoplusItem.sellPrice) !== rebornDetail.price) && (
+                            <span className="text-[10px] text-zinc-500 block">
+                              (리본 표기: {rebornDetail.price.toLocaleString()}만)
+                            </span>
+                          )}
+                        </div>
+
+                        {/* 주행거리 */}
+                        <div className="bg-[#0a0b0e] p-2 rounded border border-[#1e2029]">
+                          <span className="text-zinc-500 text-[10px] block">주행거리</span>
+                          <div className="font-bold text-zinc-200">
+                            {rebornDetail.mileage ? `${Number(rebornDetail.mileage).toLocaleString()}km` : '-'}
+                          </div>
+                          {rebornDetail.regYearMonth && rebornDetail.regYearMonth !== '-' && (
+                            <span className="text-[10px] text-blue-400 block">{rebornDetail.regYearMonth}</span>
+                          )}
+                        </div>
+
+                        {/* 지점 및 제원 */}
+                        <div className="bg-[#0a0b0e] p-2 rounded border border-[#1e2029]">
+                          <span className="text-zinc-500 text-[10px] block">지점 / 사양</span>
+                          <div className="font-bold text-zinc-200">{rebornDetail.branch || '-'}</div>
+                          <span className="text-[10px] text-zinc-400 block">
+                            {[rebornDetail.color, rebornDetail.fuel, rebornDetail.seating].filter(v => v && v !== '-').join(' · ') || '-'}
+                          </span>
+                        </div>
+
+                        {/* 판매완료 여부 */}
+                        <div className="bg-[#0a0b0e] p-2 rounded border border-[#1e2029]">
+                          <span className="text-zinc-500 text-[10px] block">판매 상태</span>
+                          <div className="font-bold">
+                            {rebornDetail.isSoldOut ? (
+                              <span className="text-zinc-400">판매완료 (OutOfStock)</span>
+                            ) : (
+                              <span className="text-emerald-400">판매중</span>
+                            )}
+                          </div>
+                          <span className="text-[10px] text-zinc-500 block">소매가 계산 미반영</span>
+                        </div>
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
+              )}
             </div>
           ) : (
             <div className="p-4 text-center bg-[#0a0b0e] rounded-xl border border-[#262833] text-xs sm:text-sm space-y-1.5">
