@@ -6,62 +6,14 @@ import json
 import re
 from typing import Dict, Any, Optional
 
+from services.data_processor import DataProcessor
+
 CATALOG_V2_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "catalog_by_source_v2.json")
 
 _CATALOG_V2_CACHE: Optional[Dict[str, Any]] = None
 
-
-def canonicalize_grade(grade_text: str) -> str:
-    """
-    [11-05-06] 카탈로그 V2 등급 표준화 (차종·등급별 예외 하드코딩 금지, 별칭 목록 금지)
-    - 띄어쓰기 정리: 2.2WD -> 2.2 2WD 같은 붙은 표기 분리
-    - 토큰 종류별 순서 재배열: 연료 -> 배기량 -> 구동방식 -> 트림/기타
-    예: '2.2 디젤 2WD 시그니처' -> '디젤 2.2 2WD 시그니처'
-        '디젤 2.2 2WD 시그니처' -> '디젤 2.2 2WD 시그니처'
-    """
-    if not grade_text or not str(grade_text).strip():
-        return ""
-
-    text = str(grade_text).strip()
-
-    # 1. 붙어있는 배기량+구동방식 분리 (예: 2.2WD -> 2.2 2WD)
-    text = re.sub(r'(\d\.\d)\s*(2WD|4WD|AWD)', r'\1 \2', text, flags=re.I)
-    text = re.sub(r'(\d\.\d)(WD)', r'\1 2\2', text, flags=re.I)
-
-    # 2. 토큰 분리 (공백 기준)
-    raw_tokens = text.split()
-
-    fuel_tokens = []
-    disp_tokens = []
-    drive_tokens = []
-    trim_tokens = []
-
-    FUEL_SET = {'디젤', '가솔린', '하이브리드', 'hev', 'phev', 'lpi', 'lpg', '전기', 'ev', '수소', 'fcev', 'diesel', 'gasoline'}
-    DRIVE_SET = {'2wd', '4wd', 'awd', '2륜', '4륜', 'fwd', 'rwd'}
-
-    for token in raw_tokens:
-        tok_clean = token.strip()
-        if not tok_clean:
-            continue
-        tok_lower = tok_clean.lower()
-
-        # a) 배기량: 2.2, 2.0, 1.6, 2.2L 등
-        if re.match(r'^\d\.\d(?:l|cc)?$', tok_lower):
-            m = re.match(r'^\d\.\d', tok_lower)
-            disp_tokens.append(m.group(0) if m else tok_lower)
-        # b) 유종
-        elif tok_lower in FUEL_SET:
-            fuel_tokens.append(tok_clean)
-        # c) 구동방식
-        elif tok_lower in DRIVE_SET:
-            drive_tokens.append(tok_clean.upper() if 'wd' in tok_lower else tok_clean)
-        # d) 트림 및 나머지 모든 토큰 (시그니처, 트렌디, 5인승 등)
-        else:
-            trim_tokens.append(tok_clean)
-
-    # 순서 재배열: 연료 -> 배기량 -> 구동방식 -> 트림
-    ordered = fuel_tokens + disp_tokens + drive_tokens + trim_tokens
-    return " ".join(ordered).strip().lower()
+# [11-05-08] 통합 규격(build_car_spec) 비교 항목: 모두 같으면 같은 등급 판정
+SPEC_COMPARE_KEYS = ("fuel", "disp", "drive", "seats", "grade_base", "grade_suffix", "is_turbo")
 
 
 def load_catalog_by_source_v2() -> Dict[str, Any]:
@@ -155,7 +107,7 @@ def get_pilot_catalog_spec(
             "grade": s_grade
         }
 
-    # 4단계: 등급 (캐노니컬 표준화 비교)
+    # 4단계: 등급 (통합 규격 DataProcessor.build_car_spec 기반 비교)
     matched_grade_key = None
     grade_spec = None
 
@@ -164,13 +116,19 @@ def get_pilot_catalog_spec(
         matched_grade_key = s_grade
         grade_spec = year_book[s_grade]
     else:
-        # 4-2. 토큰 종류별 순서 재배열(연료 -> 배기량 -> 구동방식 -> 트림) 캐노니컬 비교
-        s_canonical = canonicalize_grade(s_grade)
+        # 4-2. DataProcessor.build_car_spec 기반 스펙 동등성 비교
+        # 비교 항목: (fuel, disp, drive, seats, grade_base, grade_suffix, is_turbo)
+        target_spec = DataProcessor.build_car_spec(text=s_grade)
+        target_tuple = tuple(target_spec.get(k) for k in SPEC_COMPARE_KEYS)
+
         for book_g_key, book_g_spec in year_book.items():
-            if isinstance(book_g_spec, dict) and canonicalize_grade(book_g_key) == s_canonical:
-                matched_grade_key = book_g_key
-                grade_spec = book_g_spec
-                break
+            if isinstance(book_g_spec, dict):
+                cand_spec = DataProcessor.build_car_spec(text=book_g_key)
+                cand_tuple = tuple(cand_spec.get(k) for k in SPEC_COMPARE_KEYS)
+                if target_tuple == cand_tuple:
+                    matched_grade_key = book_g_key
+                    grade_spec = book_g_spec
+                    break
 
     if not grade_spec or not matched_grade_key:
         return {
