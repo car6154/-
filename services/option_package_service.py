@@ -897,11 +897,37 @@ def _find_model_in_catalog(db: dict, car_name: str):
     if not db or not car_name:
         return None
 
-    # 전역 모델 별칭 우선 적용 (11-03-51): 기존 매칭보다 먼저 표시명을 카탈로그 키로 바꾼다.
-    car_name = MODEL_ALIAS_MAP.get(car_name, car_name)
+    def _norm_car_key(s: str) -> str:
+        s = re.sub(r'^(현대|기아|제네시스|쉐보레|르노코리아|르노삼성|KG모빌리티|쌍용)\s*', '', str(s)).strip()
+        s = re.sub(r'[\(\)\[\]\{\}]', '', s)
+        return re.sub(r'\s+', '', s).lower()
 
+    # 전역 모델 별칭 우선 적용 (11-03-51, 11-06-01):
+    # 1. 원문 직접 일치
+    alias_applied = MODEL_ALIAS_MAP.get(car_name)
+
+    # 2. 브랜드 제거 후 직접 일치
     clean_name = re.sub(r'^(현대|기아|제네시스|쉐보레|르노코리아|르노삼성|KG모빌리티|쌍용)\s*', '', str(car_name)).strip()
-    clean_name = MODEL_ALIAS_MAP.get(clean_name, clean_name)
+    if not alias_applied:
+        alias_applied = MODEL_ALIAS_MAP.get(clean_name)
+
+    # 3. 공백/특수문자 무시 정규화 별칭 조회 (11-06-01):
+    # 공백 없는 표시명('신형쏘렌토(MQ4)')도 별칭('신형 쏘렌토 (MQ4)')에 매칭되도록 공통 정규화 비교
+    if not alias_applied:
+        norm_input = _norm_car_key(car_name)
+        if norm_input:
+            alias_cands = []
+            for alias_k, alias_v in MODEL_ALIAS_MAP.items():
+                norm_ak = _norm_car_key(alias_k)
+                if norm_ak == norm_input:
+                    alias_cands.append(alias_v)
+            unique_cands = list(dict.fromkeys(alias_cands))
+            if len(unique_cands) == 1:
+                alias_applied = unique_cands[0]
+
+    if alias_applied:
+        car_name = alias_applied
+        clean_name = re.sub(r'^(현대|기아|제네시스|쉐보레|르노코리아|르노삼성|KG모빌리티|쌍용)\s*', '', str(car_name)).strip()
 
     best_model_key = None
     if car_name in db:
@@ -926,11 +952,6 @@ def _find_model_in_catalog(db: dict, car_name: str):
     # 정규화된 카탈로그 키가 정규화된 입력 차명에 포함되는 경우 매칭.
     # 후보가 2개 이상이면 임의 추측하지 않고 매칭하지 않음(none 유지).
     if not best_model_key:
-        def _norm_car_key(s: str) -> str:
-            s = re.sub(r'^(현대|기아|제네시스|쉐보레|르노코리아|르노삼성|KG모빌리티|쌍용)\s*', '', str(s)).strip()
-            s = re.sub(r'[\(\)\[\]\{\}]', '', s)
-            return re.sub(r'\s+', '', s).lower()
-
         norm_input = _norm_car_key(car_name)
         if norm_input:
             candidates = []
