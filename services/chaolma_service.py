@@ -372,8 +372,19 @@ class ChaolmaService:
         grade_detail = c_data.get("gradeDetailName") or jf.get("seriesname") or ""
         trim_name = grade_detail or model_detail or ""
 
-        # 5. 카탈로그 데이터 로드
-        catalog_data = get_catalog_for_car(model_detail or model_name, m_year or reg_year)
+        # 5. 카탈로그 데이터 로드 (V2 새 책 조회 1순위)
+        catalog_data = None
+        target_car = model_detail or model_name
+        target_year = m_year or reg_year or str(car_yr)
+        full_grade = f"{grade_name} {grade_detail}".strip()
+        if target_car and full_grade:
+            try:
+                from services.catalog_by_source_service import get_pilot_catalog_spec
+                v2_spec = get_pilot_catalog_spec(source="danawa", car_name=target_car, year=target_year, grade=full_grade)
+                if v2_spec and v2_spec.get("found"):
+                    catalog_data = v2_spec.get("options") or {}
+            except Exception:
+                catalog_data = None
 
         # 6. 차얼마 API 제공 선택 옵션 사전 (원가 매핑용)
         catalog_opts = c_data.get("optionSelectList", []) or []

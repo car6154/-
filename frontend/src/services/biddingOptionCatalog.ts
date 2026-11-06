@@ -697,11 +697,16 @@ const newCarCatalogCache = new Map<string, Promise<NewCarCatalogData | null>>();
 /**
  * 차량명과 연식으로 백엔드 신차가격표 카탈로그 조회
  */
-export const fetchNewCarCatalog = async (carName: string, year?: string): Promise<NewCarCatalogData | null> => {
+export const fetchNewCarCatalog = async (
+  carName: string,
+  year?: string,
+  grade?: string
+): Promise<NewCarCatalogData | null> => {
   if (!carName || !carName.trim()) return null;
   const cleanName = carName.trim();
   const cleanYr = (year || '').trim();
-  const cacheKey = `${cleanName}__${cleanYr}`;
+  const cleanGrade = (grade || '').trim();
+  const cacheKey = `${cleanName}__${cleanYr}__${cleanGrade}`;
 
   if (newCarCatalogCache.has(cacheKey)) {
     return newCarCatalogCache.get(cacheKey)!;
@@ -709,15 +714,33 @@ export const fetchNewCarCatalog = async (carName: string, year?: string): Promis
 
   const promise = (async () => {
     try {
-      const url = `/api/newcar_catalog?car_name=${encodeURIComponent(cleanName)}&year=${encodeURIComponent(cleanYr)}`;
+      const url = `/api/catalog-v2/spec?source=danawa&car_name=${encodeURIComponent(cleanName)}&year=${encodeURIComponent(cleanYr)}&grade=${encodeURIComponent(cleanGrade)}`;
       const res = await fetch(url);
       if (!res.ok) {
         newCarCatalogCache.delete(cacheKey);
         return null;
       }
       const data = await res.json();
-      if (data && data.success) {
-        return data as NewCarCatalogData;
+      if (data && data.found) {
+        const mappedOptions: Record<string, { price: number | null; desc?: string; source?: string }> = {};
+        if (data.options && typeof data.options === 'object') {
+          for (const [k, v] of Object.entries(data.options)) {
+            const val = v as any;
+            mappedOptions[k] = {
+              price: val?.price ?? null,
+              desc: val?.desc ?? '',
+              source: data.source || 'danawa',
+            };
+          }
+        }
+        return {
+          success: true,
+          model: data.car_name || cleanName,
+          year: String(data.year || cleanYr),
+          grades: data.grade ? [data.grade] : [],
+          options: mappedOptions,
+          packages: {},
+        } as NewCarCatalogData;
       }
       newCarCatalogCache.delete(cacheKey);
       return null;

@@ -1085,8 +1085,9 @@ export function useBiddingCockpit({
         // 💡 [11-03-10]: resolvedCarName/carName과 yr 우선 사용, 차얼마는 최후 폴백
         const catalogCarName = resolvedCarName || carName || res.model_detail_name || res.model_name;
         const catalogYear = (yr ? String(yr) : '') || (res as any).model_year || res.year || '';
+        const catalogGrade = resolvedGrade || detailModel || '';
         if (catalogCarName) {
-          fetchNewCarCatalog(catalogCarName, catalogYear)
+          fetchNewCarCatalog(catalogCarName, catalogYear, catalogGrade)
             .then(cat => {
               if (reqId === activeRequestIdRef.current && cat) {
                 setTargetNewCarCatalog(cat);
@@ -1703,7 +1704,8 @@ export function useBiddingCockpit({
                 // 💡 [11-03-10]: 시장 검색 정규화 값(cName, calculatedYear) 우선 사용, 차얼마는 최후 폴백
                 const catalogCarName = (cName && cName !== '-') ? cName : (chRes.model_detail_name || chRes.model_name || carData.car_name);
                 const catalogYear = calculatedYear ? String(calculatedYear) : ((chRes as any).model_year || chRes.year || '');
-                fetchNewCarCatalog(catalogCarName, catalogYear)
+                const catalogGrade = combinedG || detailModel || '';
+                fetchNewCarCatalog(catalogCarName, catalogYear, catalogGrade)
                   .then(cat => {
                     if (activeHeydealerTokenRef.current === heydealerToken && cat) setTargetNewCarCatalog(cat);
                   })
@@ -1728,7 +1730,8 @@ export function useBiddingCockpit({
               // 💡 [11-03-10]: 시장 검색 정규화 값(cName, calculatedYear) 우선 사용, 차얼마는 최후 폴백
               const catalogCarName = (cName && cName !== '-') ? cName : (chRes.model_detail_name || chRes.model_name || carData.car_name);
               const catalogYear = calculatedYear ? String(calculatedYear) : ((chRes as any).model_year || chRes.year || '');
-              const cat = await fetchNewCarCatalog(catalogCarName, catalogYear);
+              const catalogGrade = [chRes.grade_name, chRes.grade_detail_name].filter(Boolean).join(' ') || detailModel || '';
+              const cat = await fetchNewCarCatalog(catalogCarName, catalogYear, catalogGrade);
               if (activeHeydealerTokenRef.current === heydealerToken && cat) {
                 setTargetNewCarCatalog(cat);
               }
