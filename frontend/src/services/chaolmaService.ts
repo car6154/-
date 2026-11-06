@@ -272,6 +272,8 @@ export async function queryChaolmaCar(carNo: string, mileage: number = 50000): P
             remain_rate: data.remain_rate || 0,
             age_years: data.age_years || 0,
             options: data.options || [],
+            unclassified_balance: data.unclassified_balance ?? 0,
+            unclassified_balance_man: data.unclassified_balance_man ?? 0,
             car_history: data.car_history,
             origin_doc: data.origin_doc,
             chaolma_retail_price: data.chaolma_retail_price ?? 0,

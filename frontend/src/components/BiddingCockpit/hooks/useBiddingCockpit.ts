@@ -1623,6 +1623,35 @@ export function useBiddingCockpit({
           const rawOptP = chRes.total_option_price || 0;
           const optP = rawOptP > 10000 ? Math.round(rawOptP / 10000) : rawOptP;
 
+          // 💡 [11-06-04]: URL 조회에서도 차량번호 경로(L988-1004)와 동일하게 차얼마 구조화 옵션 반영
+          // 폴백 출처 + 같은 차 + 기존 옵션 보유 시에는 기존 옵션 보존(10-30 규칙)
+          const currentHasOptions = Boolean(
+            (prevTargetOptions && prevTargetOptions.length > 0) ||
+            (prevOptionsTag && prevOptionsTag.trim() && prevOptionsTag !== '추가 옵션 없음 (기본 출고 사양)')
+          );
+          const shouldPreservePrev = isFallbackSource && isSameCarAsPrev && currentHasOptions;
+
+          if (!shouldPreservePrev) {
+            if (chRes.options && Array.isArray(chRes.options) && chRes.options.length > 0) {
+              setTargetOptions(chRes.options);
+              setUnclassifiedBalance(chRes.unclassified_balance_man || 0);
+              const optStr = chRes.options.map((o: any) => `${o.name}(${o.price_man || Math.round((o.price || 0) / 10000)}만)`).join(' · ');
+              const totalOptMan = chRes.total_option_price
+                ? (chRes.total_option_price > 10000 ? Math.round(chRes.total_option_price / 10000) : chRes.total_option_price)
+                : chRes.options.reduce((acc: number, cur: any) => acc + (cur.price_man || Math.round((cur.price || 0) / 10000)), 0);
+              const calculatedOptionsTag = `${optStr} [옵션총액: ${totalOptMan}만]`;
+              setOptionsTag(calculatedOptionsTag);
+            } else if (!isFallbackSource && optionsResult) {
+              // 헤이딜러 딜러 설명에서 파싱된 옵션이 이미 있다면 유지
+            } else {
+              setTargetOptions([]);
+              setUnclassifiedBalance(0);
+              if (!isFallbackSource) {
+                setOptionsTag('추가 옵션 없음 (기본 출고 사양)');
+              }
+            }
+          }
+
           setTargetCarHistory(prev => {
             const ch = chRes.car_history;
             const doc = chRes.origin_doc;
