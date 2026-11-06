@@ -483,7 +483,7 @@ class Scraper:
                 cars_res = session.get(api_url, timeout=7)
                 search_status = cars_res.status_code
                 if search_status == 407:
-                    time.sleep(1.5)
+                    time.sleep(5.0)
                     cars_res = session.get(api_url, timeout=7)
                     search_status = cars_res.status_code
                     if search_status == 407:
@@ -494,10 +494,11 @@ class Scraper:
                     if len(cars) == 100:
                         for p_start in [100, 200]:
                             try:
+                                time.sleep(1.0)
                                 p_url = f"https://api.encar.com/search/car/list/general?count=false&q={safe_condition}&sr=%7CModifiedDate%7C{p_start}%7C100"
                                 p_res = session.get(p_url, timeout=5)
                                 if p_res.status_code == 407:
-                                    time.sleep(1.5)
+                                    time.sleep(5.0)
                                     p_res = session.get(p_url, timeout=5)
                                     if p_res.status_code == 407:
                                         return pd.DataFrame(), "❌ 407 프록시 인증 차단 (search_page=407)"
@@ -586,13 +587,14 @@ class Scraper:
 
                 for fb_cond in fallback_candidates:
                     try:
+                        time.sleep(1.0)
                         fb_safe = urllib.parse.quote(fb_cond)
                         fb_url = f"https://api.encar.com/search/car/list/general?count=false&q={fb_safe}&sr=%7CModifiedDate%7C0%7C100"
                         fb_resp = session.get(fb_url, timeout=7)
                         fallback_statuses.append(fb_resp.status_code)
                         # 지시: 검색 내부 폴백 호출도 407 발생 즉시 중단
                         if fb_resp.status_code == 407:
-                            time.sleep(1.5)
+                            time.sleep(5.0)
                             fb_resp = session.get(fb_url, timeout=7)
                             fallback_statuses.append(fb_resp.status_code)
                             if fb_resp.status_code == 407:
@@ -604,10 +606,11 @@ class Scraper:
                                 if len(cars) == 100:
                                     for p_start in [100, 200]:
                                         try:
+                                            time.sleep(1.0)
                                             next_p_url = f"https://api.encar.com/search/car/list/general?count=false&q={fb_safe}&sr=%7CModifiedDate%7C{p_start}%7C100"
                                             next_p_res = session.get(next_p_url, timeout=5)
                                             if next_p_res.status_code == 407:
-                                                time.sleep(1.5)
+                                                time.sleep(5.0)
                                                 next_p_res = session.get(next_p_url, timeout=5)
                                                 if next_p_res.status_code == 407:
                                                     return pd.DataFrame(), "❌ 407 프록시 인증 차단 (fallback_page=407)"
