@@ -104,9 +104,17 @@ def get_pilot_catalog_spec(
             "grade": s_grade
         }
 
-    # 3단계: 연식 (정확 일치만)
-    # 2022, 22 등 문자열 변환 시 4자리 2022로 매칭
-    norm_year = s_year if len(s_year) == 4 else (f"20{s_year}" if len(s_year) == 2 else s_year)
+    # 3단계: 연식 (정규화 후 매칭)
+    # 문자열에서 4자리 연도(19xx·20xx)를 먼저 찾고, 없으면 2자리 숫자에서 20xx로 변환
+    m4 = re.search(r'\b(19\d{2}|20\d{2})\b', s_year) or re.search(r'(19\d{2}|20\d{2})', s_year)
+    if m4:
+        norm_year = m4.group(1)
+    else:
+        m2 = re.search(r'(\d{2})', s_year)
+        if m2:
+            norm_year = f"20{m2.group(1)}"
+        else:
+            norm_year = s_year
     year_book = car_book.get(norm_year)
     if not year_book or not isinstance(year_book, dict):
         return {

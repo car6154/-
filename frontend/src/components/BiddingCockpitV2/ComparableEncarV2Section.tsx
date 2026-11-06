@@ -230,6 +230,7 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
         year: c.year,
         optionsList: c.options && c.options.length > 0 ? c.options.map((o) => o.name) : undefined,
         optionsText: c.optionsText || '',
+        grade: c.subModel ? c.subModel.trim() : undefined,
       }));
 
     if (batchInputs.length === 0) return;

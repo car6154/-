@@ -1187,6 +1187,82 @@ def get_catalog_option_detail(car_name: str, year: Any, opt_name: str) -> Option
     return None
 
 
+def _find_in_v2_options(v2_options: dict, clean: str) -> Optional[tuple]:
+    """
+    V2 카탈로그 옵션 매칭 헬퍼 (옛날 길과 동일한 단계적 깔때기 규칙):
+    1. 직접 일치 (exact)
+    2. 별칭 사전 적용 후 직접/정규화 일치 (exact)
+    3. 정규화 완전 일치 (exact)
+    4. 접두어(기본형-, 고급형- 등) 제거 후 일치 (exact)
+    5. 유일 포함 매칭 (Unique Substring Match, exact, 2개 이상이면 매칭 안 함)
+    6. 바이그램 자카드 퍼지 매칭 (>= 0.35, fuzzy)
+    반환: (official_key, val_dict, match_type) 또는 None
+    """
+    if not v2_options or not clean:
+        return None
+
+    # 1. 직접 일치
+    if clean in v2_options:
+        return (clean, v2_options[clean], "exact")
+
+    # 2. 별칭 적용 (직접 및 정규화 기준)
+    clean_opt = OPTION_ALIAS_MAP.get(clean, clean)
+    norm_opt = normalize_opt_name(clean_opt)
+    for _alias_key, _alias_val in OPTION_ALIAS_MAP.items():
+        if normalize_opt_name(_alias_key) == norm_opt:
+            clean_opt = _alias_val
+            norm_opt = normalize_opt_name(clean_opt)
+            break
+
+    if clean_opt in v2_options:
+        return (clean_opt, v2_options[clean_opt], "exact")
+
+    # 3. 정규화 완전 일치
+    for off_key, val in v2_options.items():
+        if normalize_opt_name(off_key) == norm_opt:
+            return (off_key, val, "exact")
+
+    # 4. 접두어(기본형- 등) 제거 후 재탐색
+    clean_prefix = re.sub(r'^(?:기본형|고급형|스마트형|모던형|프리미엄형|디럭스형|최고급형)[-_ ]*', '', norm_opt)
+    clean_prefix = re.sub(r'팩(?=[0-9])', '', clean_prefix)
+    if clean_prefix and clean_prefix != norm_opt:
+        for off_key, val in v2_options.items():
+            if normalize_opt_name(off_key) == clean_prefix:
+                return (off_key, val, "exact")
+
+    # 5. 유일 포함 매칭 (Unique Substring Match)
+    # 정규화된 원문이 카탈로그 옵션들 중 유일하게 1개 옵션에만 포함되는 경우 exact 매칭
+    if norm_opt:
+        cands = [off_key for off_key in v2_options if norm_opt in normalize_opt_name(off_key)]
+        if len(cands) == 1:
+            off_key = cands[0]
+            return (off_key, v2_options[off_key], "exact")
+
+    # 6. 바이그램 자카드 퍼지 매칭 (자카드 >= 0.35)
+    best_candidate = None
+    best_score = 0.0
+    for official_key, val in v2_options.items():
+        norm_official = normalize_opt_name(official_key)
+        # 핵심 등급 수식어가 한쪽에만 있으면 매칭 배제
+        mismatch = any((kw in norm_opt) != (kw in norm_official) for kw in SPEC_QUALIFIER_KEYWORDS)
+        if mismatch:
+            continue
+        # 버전 식별자 불일치 방지 (1 vs 2)
+        nums_a = re.findall(r'[1-9]', norm_opt)
+        nums_b = re.findall(r'[1-9]', norm_official)
+        if nums_a and nums_b and "".join(nums_a) != "".join(nums_b):
+            continue
+        jaccard = max(
+            compute_bigram_jaccard(norm_opt, norm_official),
+            compute_bigram_jaccard(clean_prefix, norm_official) if clean_prefix else 0.0
+        )
+        if jaccard > best_score and jaccard >= 0.35:
+            best_score = jaccard
+            best_candidate = (official_key, val, "fuzzy")
+
+    return best_candidate
+
+
 def match_car_options_detail(car_name: str, year: Any, options_text_or_list: Any, grade: Optional[str] = None) -> list:
     """
     선택 차량의 옵션 목록(원문)을 카탈로그(1순위 V2 새 책 -> 2순위 기존 다나와/엔카 순회)와 매칭하여
@@ -1220,36 +1296,17 @@ def match_car_options_detail(car_name: str, year: Any, options_text_or_list: Any
 
         matched_v2 = None
         if v2_options:
-            # 1. V2 직접 일치
-            if clean in v2_options:
-                matched_v2 = (clean, v2_options[clean])
-            else:
-                # 2. 전역 별칭 및 정규화 일치
-                clean_opt = OPTION_ALIAS_MAP.get(clean, clean)
-                norm_opt = normalize_opt_name(clean_opt)
-                for _alias_key, _alias_val in OPTION_ALIAS_MAP.items():
-                    if normalize_opt_name(_alias_key) == norm_opt:
-                        clean_opt = _alias_val
-                        norm_opt = normalize_opt_name(clean_opt)
-                        break
-
-                if clean_opt in v2_options:
-                    matched_v2 = (clean_opt, v2_options[clean_opt])
-                else:
-                    for v2_k, v2_v in v2_options.items():
-                        if normalize_opt_name(v2_k) == norm_opt:
-                            matched_v2 = (v2_k, v2_v)
-                            break
+            matched_v2 = _find_in_v2_options(v2_options, clean)
 
         if matched_v2:
-            v2_k, v2_val = matched_v2
+            v2_k, v2_val, v2_match_type = matched_v2
             results.append({
                 "raw_name": raw,
                 "clean_name": clean,
                 "official_name": v2_k,
-                "price": v2_val.get("price"),
-                "desc": v2_val.get("desc", ""),
-                "match_type": "exact",
+                "price": v2_val.get("price") if isinstance(v2_val, dict) else v2_val,
+                "desc": v2_val.get("desc", "") if isinstance(v2_val, dict) else "",
+                "match_type": v2_match_type,
                 "source": "danawa",
                 "matched_year": str(v2_spec.get("year", year))
             })
