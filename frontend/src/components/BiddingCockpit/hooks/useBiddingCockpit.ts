@@ -1608,6 +1608,8 @@ export function useBiddingCockpit({
           }
         }
 
+        let currentEffectiveOptionsTag = optionsResult || '';
+
         // 🌟 차올마(오토플러스 ERP) 결과 반영 헬퍼 (targetCarHistory 갱신)
         const applyChaolmaResult = (chRes: any) => {
           if (!chRes || !chRes.success) return;
@@ -1641,6 +1643,7 @@ export function useBiddingCockpit({
                 : chRes.options.reduce((acc: number, cur: any) => acc + (cur.price_man || Math.round((cur.price || 0) / 10000)), 0);
               const calculatedOptionsTag = `${optStr} [옵션총액: ${totalOptMan}만]`;
               setOptionsTag(calculatedOptionsTag);
+              currentEffectiveOptionsTag = calculatedOptionsTag;
             } else if (!isFallbackSource && optionsResult) {
               // 헤이딜러 딜러 설명에서 파싱된 옵션이 이미 있다면 유지
             } else {
@@ -1648,6 +1651,7 @@ export function useBiddingCockpit({
               setUnclassifiedBalance(0);
               if (!isFallbackSource) {
                 setOptionsTag('추가 옵션 없음 (기본 출고 사양)');
+                currentEffectiveOptionsTag = '추가 옵션 없음 (기본 출고 사양)';
               }
             }
           }
@@ -1714,9 +1718,10 @@ export function useBiddingCockpit({
 
         let targetGrade = cGrade;
 
-        // 💡 [10-30-02 등급 가드]: cGrade가 없거나 '-'인 예외적 경우에만 차얼마 결과를 await하여 등급 보정
-        if ((!targetGrade || targetGrade === '-') && cNo) {
-          setAiEstimateStep(`차얼마 제원 연동 대기 중... [${cNo}]`);
+        // 💡 [11-06-05 (b안)]: 차얼마 제원 및 순정 출고옵션을 먼저 await 확정하여, 엔카·케이카 검색 시 옵션을 품고 출발
+        // (엔카 WAF 407 방지를 위해 재크롤링 없이 단 1회 검색으로 소매가·엔카평균에 옵션 100% 반영)
+        if (cNo) {
+          setAiEstimateStep(`차얼마 제원 및 순정 출고옵션 수신 중... [${cNo}]`);
           startChaolmaTimer();
           try {
             const chRes = await queryChaolmaCar(cNo, calculatedMil || 50000);
@@ -1725,15 +1730,13 @@ export function useBiddingCockpit({
                 stopChaolmaTimer(true);
                 applyChaolmaResult(chRes);
                 const combinedG = [chRes.grade_name, chRes.grade_detail_name].filter(Boolean).join(' ').trim();
-                if (combinedG) {
+                if (combinedG && (!targetGrade || targetGrade === '-')) {
                   targetGrade = combinedG;
                   setDetailModel(combinedG);
                 }
-                // 💡 [11-03-07]: 차얼마 옵션 유무와 무관하게 카탈로그 비동기 확보 (게이트 분리)
-                // 💡 [11-03-10]: 시장 검색 정규화 값(cName, calculatedYear) 우선 사용, 차얼마는 최후 폴백
                 const catalogCarName = (cName && cName !== '-') ? cName : (chRes.model_detail_name || chRes.model_name || carData.car_name);
                 const catalogYear = calculatedYear ? String(calculatedYear) : ((chRes as any).model_year || chRes.year || '');
-                const catalogGrade = combinedG || detailModel || '';
+                const catalogGrade = combinedG || targetGrade || detailModel || '';
                 fetchNewCarCatalog(catalogCarName, catalogYear, catalogGrade)
                   .then(cat => {
                     if (activeHeydealerTokenRef.current === heydealerToken && cat) setTargetNewCarCatalog(cat);
@@ -1747,31 +1750,12 @@ export function useBiddingCockpit({
             if (activeHeydealerTokenRef.current === heydealerToken) {
               stopChaolmaTimer(false);
             }
-            console.warn('차올마 등급 조회 대기 중 오류 (기존 제원 유지):', chErr);
+            console.warn('차올마 제원 및 옵션 조회 중 오류 (기존 제원 유지):', chErr);
           }
-        } else if (cNo) {
-          // 💡 [10-30-02 트랙 2]: 정상 등급이 이미 있는 경우 차얼마 & 카탈로그는 백그라운드 비동기로 실행
-          queryChaolmaCar(cNo, calculatedMil || 50000).then(async (chRes) => {
-            if (activeHeydealerTokenRef.current !== heydealerToken) return;
-            if (chRes && chRes.success) {
-              applyChaolmaResult(chRes);
-              // 💡 [11-03-07]: 차얼마 옵션 유무와 무관하게 카탈로그 비동기 확보 (게이트 분리)
-              // 💡 [11-03-10]: 시장 검색 정규화 값(cName, calculatedYear) 우선 사용, 차얼마는 최후 폴백
-              const catalogCarName = (cName && cName !== '-') ? cName : (chRes.model_detail_name || chRes.model_name || carData.car_name);
-              const catalogYear = calculatedYear ? String(calculatedYear) : ((chRes as any).model_year || chRes.year || '');
-              const catalogGrade = [chRes.grade_name, chRes.grade_detail_name].filter(Boolean).join(' ') || detailModel || '';
-              const cat = await fetchNewCarCatalog(catalogCarName, catalogYear, catalogGrade);
-              if (activeHeydealerTokenRef.current === heydealerToken && cat) {
-                setTargetNewCarCatalog(cat);
-              }
-            }
-          }).catch((chErr) => {
-            console.warn('차올마 백그라운드 직결 조회 중 오류 (정상 진행):', chErr);
-          });
         }
 
-        // 💡 [10-30-02 트랙 1]: 엔카 & 케이카 실시간 동급 매물 즉시 병렬 크롤링 (차얼마 기다림 제거)
-        setAiEstimateStep(`엔카·케이카 실시간 동급 매물 및 제원 동시 수집 중... [${cBrand} ${cName}]`);
+        // 💡 [11-06-05 (b안)]: 확정된 목표 옵션(currentEffectiveOptionsTag)을 들고 엔카 & 케이카 실시간 동급 매물 1회 크롤링
+        setAiEstimateStep(`엔카·케이카 실시간 동급 매물 및 제원 수집 중... [${cBrand} ${cName}]`);
         if (directEncarUrl) {
           setEncarSourceUrl(directEncarUrl);
         }
@@ -1783,7 +1767,7 @@ export function useBiddingCockpit({
           manufacturer: cBrand,
           year: calculatedYear,
           mileage: calculatedMil,
-          targetOptions: optionsResult
+          targetOptions: currentEffectiveOptionsTag
         });
 
         const kcarPromise = fetchKcarMarket({
@@ -1792,7 +1776,7 @@ export function useBiddingCockpit({
           manufacturer: cBrand,
           year: calculatedYear,
           mileage: calculatedMil,
-          targetOptions: optionsResult
+          targetOptions: currentEffectiveOptionsTag
         });
 
         const [encarSettled] = await Promise.allSettled([encarPromise, kcarPromise]);
