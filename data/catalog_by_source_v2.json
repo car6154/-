@@ -268,6 +268,970 @@
             }
           },
           "standard_features": []
+        },
+        "HEV 1.6 2WD 프레스티지": {
+          "base_price": 35580000,
+          "base_price_man": 3558,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 880000,
+              "price_man": 88,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 880000,
+              "price_man": 88,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "6인승": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "7인승": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 노블레스": {
+          "base_price": 38380000,
+          "base_price_man": 3838,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 880000,
+              "price_man": 88,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "6인승": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "7인승": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 시그니처": {
+          "base_price": 41320000,
+          "base_price_man": 4132,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 880000,
+              "price_man": 88,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "6인승": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "7인승": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 그래비티": {
+          "base_price": 42200000,
+          "base_price_man": 4220,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 880000,
+              "price_man": 88,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "6인승": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "7인승": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 프레스티지": {
+          "base_price": 33510000,
+          "base_price_man": 3351,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 880000,
+              "price_man": 88,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 1180000,
+              "price_man": 118,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "6인승": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "7인승": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 노블레스": {
+          "base_price": 36500000,
+          "base_price_man": 3650,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 880000,
+              "price_man": 88,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "6인승": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "7인승": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 그래비티": {
+          "base_price": 40430000,
+          "base_price_man": 4043,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 880000,
+              "price_man": 88,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "6인승": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "7인승": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 터보 2.5 2WD 트렌디": {
+          "base_price": 29580000,
+          "base_price_man": 2958,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 880000,
+              "price_man": 88,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1230000,
+              "price_man": 123,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 1280000,
+              "price_man": 128,
+              "desc": ""
+            },
+            "6인승": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "7인승": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 터보 2.5 2WD 프레스티지": {
+          "base_price": 32520000,
+          "base_price_man": 3252,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 880000,
+              "price_man": 88,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 1180000,
+              "price_man": 118,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "6인승": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "7인승": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 터보 2.5 2WD 노블레스": {
+          "base_price": 35520000,
+          "base_price_man": 3552,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 880000,
+              "price_man": 88,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "6인승": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "7인승": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 터보 2.5 2WD 시그니처": {
+          "base_price": 38460000,
+          "base_price_man": 3846,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 880000,
+              "price_man": 88,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "6인승": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "7인승": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 터보 2.5 2WD 그래비티": {
+          "base_price": 39440000,
+          "base_price_man": 3944,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 880000,
+              "price_man": 88,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "6인승": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "7인승": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 터보 2.5 4WD 트렌디": {
+          "base_price": 31840000,
+          "base_price_man": 3184,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 880000,
+              "price_man": 88,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1230000,
+              "price_man": 123,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 1280000,
+              "price_man": 128,
+              "desc": ""
+            },
+            "6인승": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "7인승": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 터보 2.5 4WD 프레스티지": {
+          "base_price": 34780000,
+          "base_price_man": 3478,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 880000,
+              "price_man": 88,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 1180000,
+              "price_man": 118,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "6인승": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "7인승": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 터보 2.5 4WD 노블레스": {
+          "base_price": 37780000,
+          "base_price_man": 3778,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 880000,
+              "price_man": 88,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "6인승": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "7인승": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 터보 2.5 4WD 시그니처": {
+          "base_price": 40720000,
+          "base_price_man": 4072,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 880000,
+              "price_man": 88,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "6인승": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "7인승": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 터보 2.5 4WD 그래비티": {
+          "base_price": 41700000,
+          "base_price_man": 4170,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 880000,
+              "price_man": 88,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "6인승": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "7인승": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 4WD 트렌디": {
+          "base_price": 32820000,
+          "base_price_man": 3282,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 880000,
+              "price_man": 88,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1230000,
+              "price_man": 123,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 1280000,
+              "price_man": 128,
+              "desc": ""
+            },
+            "6인승": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "7인승": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 4WD 프레스티지": {
+          "base_price": 35770000,
+          "base_price_man": 3577,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 880000,
+              "price_man": 88,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 1180000,
+              "price_man": 118,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "6인승": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "7인승": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 4WD 노블레스": {
+          "base_price": 38760000,
+          "base_price_man": 3876,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 880000,
+              "price_man": 88,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "6인승": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "7인승": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 4WD 시그니처": {
+          "base_price": 41700000,
+          "base_price_man": 4170,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 880000,
+              "price_man": 88,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "6인승": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "7인승": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 4WD 그래비티": {
+          "base_price": 42690000,
+          "base_price_man": 4269,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 880000,
+              "price_man": 88,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "6인승": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "7인승": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            }
+          }
         }
       },
       "2023": {
@@ -668,6 +1632,834 @@
             }
           },
           "standard_features": []
+        },
+        "가솔린 터보 2.5 2WD 트렌디": {
+          "base_price": 30240000,
+          "base_price_man": 3024,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 890000,
+              "price_man": 89,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1240000,
+              "price_man": 124,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 1290000,
+              "price_man": 129,
+              "desc": ""
+            },
+            "6인승": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "7인승": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 터보 2.5 2WD 프레스티지": {
+          "base_price": 33210000,
+          "base_price_man": 3321,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 890000,
+              "price_man": 89,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 1240000,
+              "price_man": 124,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "6인승": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "7인승": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 터보 2.5 2WD 노블레스": {
+          "base_price": 36230000,
+          "base_price_man": 3623,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "6인승": {
+              "price": 1140000,
+              "price_man": 114,
+              "desc": ""
+            },
+            "7인승": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 터보 2.5 2WD 시그니처": {
+          "base_price": 39190000,
+          "base_price_man": 3919,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "6인승": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "7인승": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 터보 2.5 2WD 그래비티": {
+          "base_price": 40180000,
+          "base_price_man": 4018,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "6인승": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "7인승": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 터보 2.5 4WD 트렌디": {
+          "base_price": 32510000,
+          "base_price_man": 3251,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 890000,
+              "price_man": 89,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1240000,
+              "price_man": 124,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 1290000,
+              "price_man": 129,
+              "desc": ""
+            },
+            "6인승": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "7인승": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 터보 2.5 4WD 프레스티지": {
+          "base_price": 35480000,
+          "base_price_man": 3548,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 890000,
+              "price_man": 89,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 1240000,
+              "price_man": 124,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "6인승": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "7인승": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 터보 2.5 4WD 노블레스": {
+          "base_price": 38500000,
+          "base_price_man": 3850,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "6인승": {
+              "price": 1140000,
+              "price_man": 114,
+              "desc": ""
+            },
+            "7인승": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 터보 2.5 4WD 시그니처": {
+          "base_price": 41460000,
+          "base_price_man": 4146,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "6인승": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "7인승": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 터보 2.5 4WD 그래비티": {
+          "base_price": 42450000,
+          "base_price_man": 4245,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "6인승": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "7인승": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 4WD 트렌디": {
+          "base_price": 34240000,
+          "base_price_man": 3424,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 890000,
+              "price_man": 89,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1240000,
+              "price_man": 124,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 1290000,
+              "price_man": 129,
+              "desc": ""
+            },
+            "6인승": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "7인승": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 4WD 프레스티지": {
+          "base_price": 37210000,
+          "base_price_man": 3721,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 890000,
+              "price_man": 89,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 1240000,
+              "price_man": 124,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "6인승": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "7인승": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 4WD 노블레스": {
+          "base_price": 40230000,
+          "base_price_man": 4023,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "6인승": {
+              "price": 1140000,
+              "price_man": 114,
+              "desc": ""
+            },
+            "7인승": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 4WD 시그니처": {
+          "base_price": 43190000,
+          "base_price_man": 4319,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "6인승": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "7인승": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 4WD 그래비티": {
+          "base_price": 44180000,
+          "base_price_man": 4418,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "6인승": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "7인승": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 4WD 프레스티지": {
+          "base_price": 40010000,
+          "base_price_man": 4001,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 890000,
+              "price_man": 89,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "6인승": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "7인승": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 4WD 노블레스": {
+          "base_price": 42820000,
+          "base_price_man": 4282,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "6인승": {
+              "price": 1140000,
+              "price_man": 114,
+              "desc": ""
+            },
+            "7인승": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 4WD 시그니처": {
+          "base_price": 45790000,
+          "base_price_man": 4579,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "6인승": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "7인승": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 4WD 그래비티": {
+          "base_price": 46680000,
+          "base_price_man": 4668,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "6인승": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "7인승": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            }
+          }
         }
       }
     },
