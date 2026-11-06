@@ -20,6 +20,8 @@ export interface SelectedCarDetailV2SectionProps {
   targetYear?: string | number;
   targetOptions?: OptionItem[];
   optionsTag?: string;
+  targetGrade?: string;
+  detailModel?: string;
 }
 
 // 사고구분 라벨 헬퍼 (기존 콕핏 배지 스타일과 100% 일치)
@@ -57,6 +59,8 @@ export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProp
   targetYear,
   targetOptions,
   optionsTag,
+  targetGrade,
+  detailModel,
 }) => {
   // 💡 [11-03-14]: 목표차 옵션 원문 및 백엔드 매칭 (id 없이 단건 호출하여 사이드바와 캐시 공유)
   const targetOptNames: string[] = useMemo(() => {
@@ -66,24 +70,24 @@ export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProp
   }, [targetOptions, optionsTag]);
 
   const [targetMatchedOpts, setTargetMatchedOpts] = useState<BackendMatchedOption[]>([]);
+  const targetMatchReqIdRef = useRef(0);
 
   useEffect(() => {
     if (targetOptNames.length === 0) {
       setTargetMatchedOpts([]);
       return;
     }
-    let isMounted = true;
+    const effectiveTargetGrade = (targetGrade && targetGrade.trim()) || (detailModel && detailModel.trim() && detailModel !== '-' ? detailModel.trim() : undefined);
+    const reqId = ++targetMatchReqIdRef.current;
     matchOptionsSingle({
       carName: targetCarName || '',
       year: targetYear || '',
       optionsList: targetOptNames,
+      grade: effectiveTargetGrade,
     }).then((data) => {
-      if (isMounted) setTargetMatchedOpts(data);
+      if (reqId === targetMatchReqIdRef.current) setTargetMatchedOpts(data);
     });
-    return () => {
-      isMounted = false;
-    };
-  }, [targetCarName, targetYear, targetOptNames]);
+  }, [targetCarName, targetYear, targetOptNames, targetGrade, detailModel]);
 
   const targetMatchedList = useMemo(() => {
     return targetOptNames.map((to) => {
@@ -128,7 +132,8 @@ export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProp
       return;
     }
 
-    const cacheKey = `${selectedEncar.id}_${selectedEncar.carName}_${selectedEncar.year}_${rawOptText}`;
+    const grade = selectedEncar.subModel ? selectedEncar.subModel.trim() : undefined;
+    const cacheKey = `${selectedEncar.id}_${selectedEncar.carName}_${selectedEncar.year}_${grade || ''}_${rawOptText}`;
     if (optionsCacheRef.current[cacheKey]) {
       setMatchedOptions(optionsCacheRef.current[cacheKey]);
       return;
@@ -142,6 +147,7 @@ export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProp
       carName: selectedEncar.carName,
       year: selectedEncar.year,
       optionsText: rawOptText,
+      grade: grade,
     })
       .then((data) => {
         if (isMounted && Array.isArray(data)) {
@@ -159,7 +165,7 @@ export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProp
     return () => {
       isMounted = false;
     };
-  }, [selectedEncar?.id, selectedEncar?.carName, selectedEncar?.year, selectedEncar?.optionsText]);
+  }, [selectedEncar?.id, selectedEncar?.carName, selectedEncar?.year, selectedEncar?.subModel, selectedEncar?.optionsText]);
 
   // 💡 [2026-11-01 제이 규칙]: 선택된 차량이 없으면 안내 한 줄만 보여준다 (예시 차량 생성 금지)
   if (!selectedEncar) {

@@ -774,6 +774,8 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
                   targetYear={cockpit.yearModel}
                   targetOptions={cockpit.targetOptions}
                   optionsTag={cockpit.optionsTag}
+                  targetGrade={cockpit.targetGrade}
+                  detailModel={cockpit.detailModel}
                 />
               </div>
               <div className={!(activeCompTab === 'heydealer' && Boolean(cockpit.selectedHeydealerBid)) && lastRetailTab === 'kcar' ? 'block' : 'hidden'}>
