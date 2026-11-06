@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import {
   splitOptionString,
   NewCarCatalogData,
@@ -120,6 +120,7 @@ export interface SidebarOptionSectionProps {
   targetCarName?: string;
   targetYear?: string | number;
   targetGrade?: string;
+  detailModel?: string;
   selectedEncar?: EncarItem | null;
   selectedKcar?: KcarCarItem | null;
   activeCompTab?: 'encar' | 'kcar' | string;
@@ -211,6 +212,7 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
   targetCarName,
   targetYear,
   targetGrade,
+  detailModel,
   selectedEncar,
   selectedKcar,
   activeCompTab,
@@ -243,32 +245,40 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
       const fullYr = yrStr.match(/20\d{2}/) ? yrStr.match(/20\d{2}/)![0] : (mYr ? `20${mYr[1]}` : yrStr);
       params.push(`year=${encodeURIComponent(fullYr)}`);
     }
-    if (targetGrade && String(targetGrade).trim()) {
-      params.push(`grade=${encodeURIComponent(String(targetGrade).trim())}`);
+    const currentGrade = (targetGrade && targetGrade.trim()) || (detailModel && detailModel.trim() && detailModel !== '-' ? detailModel.trim() : '');
+    if (currentGrade) {
+      params.push(`grade=${encodeURIComponent(currentGrade)}`);
     }
     return `/newcar-catalog-v2.html#${params.join('&')}`;
-  }, [targetCarName, targetYear, targetCatalog?.model, targetGrade]);
+  }, [targetCarName, targetYear, targetCatalog?.model, targetGrade, detailModel]);
+
+  // 💡 [11-06-03]: 목표차 매칭 요청 시퀀스 가드 (낡은 비동기 응답이 최신 응답을 덮어쓰지 못하도록 차단)
+  const targetMatchReqIdRef = useRef(0);
 
   useEffect(() => {
-    if (targetOptNames.length === 0 || !targetCarName) {
+    // 💡 [11-06-03]: 유효 등급(effectiveGrade) 판정: targetGrade 우선, 없으면 화면 등급(detailModel) 폴백
+    const effectiveGrade = (targetGrade && targetGrade.trim()) || (detailModel && detailModel.trim() && detailModel !== '-' ? detailModel.trim() : '');
+
+    // 등급이 아직 비어있거나, 옵션 목록/차종이 없으면 요청을 보내지 않고 대기 (새 책 체계에서는 등급 없으면 항상 price=None)
+    if (!effectiveGrade || targetOptNames.length === 0 || !targetCarName) {
       setTargetMatchedOpts([]);
       return;
     }
 
-    let isMounted = true;
+    const reqId = ++targetMatchReqIdRef.current;
+
     matchOptionsSingle({
       carName: targetCarName,
       year: targetYear || '',
       optionsList: targetOptNames,
-      grade: targetGrade || undefined,
+      grade: effectiveGrade,
     }).then((res) => {
-      if (isMounted) setTargetMatchedOpts(res);
+      // 최신 요청의 응답인 경우에만 상태에 반영
+      if (reqId === targetMatchReqIdRef.current) {
+        setTargetMatchedOpts(res);
+      }
     });
-
-    return () => {
-      isMounted = false;
-    };
-  }, [targetCarName, targetYear, targetOptNames, targetGrade]);
+  }, [targetCarName, targetYear, targetOptNames, targetGrade, detailModel]);
 
   // 1. 추가 옵션 보유 여부 및 개수 판정
   const hasOptions = (targetOptions && targetOptions.length > 0) || Boolean(optionsTag && optionsTag.trim());
