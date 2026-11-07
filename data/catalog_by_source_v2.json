@@ -73919,6 +73919,125 @@
             }
           },
           "standard_features": []
+        },
+        "2.0 디젤 4WD 프리미에르": {
+          "base_price": 39080000,
+          "base_price_man": 3908,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1040000,
+              "price_man": 104,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "드라이빙 어시스트 패키지": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "S-Link 패키지 II + 프레임리스 룸미러": {
+              "price": 1230000,
+              "price_man": 123,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 LPG 2WD SE": {
+          "base_price": 24650000,
+          "base_price_man": 2465,
+          "standard_features": [],
+          "options": {}
+        },
+        "2.0 LPG 2WD LE 시그니처": {
+          "base_price": 26900000,
+          "base_price_man": 2690,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1040000,
+              "price_man": 104,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "S-Link 패키지 I": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "S-Link 패키지 III": {
+              "price": 1870000,
+              "price_man": 187,
+              "desc": ""
+            },
+            "파워시트 팩": {
+              "price": 890000,
+              "price_man": 89,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 LPG 2WD RE 시그니처": {
+          "base_price": 30290000,
+          "base_price_man": 3029,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1040000,
+              "price_man": 104,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "S-Link 8.7인치 내비게이션": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "드라이빙 어시스트 패키지": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "프레임리스 룸미러": {
+              "price": 50000,
+              "price_man": 5,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 LPG 2WD 프리미에르": {
+          "base_price": 33190000,
+          "base_price_man": 3319,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1040000,
+              "price_man": 104,
+              "desc": ""
+            },
+            "드라이빙 어시스트 패키지": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "프레임리스 룸미러": {
+              "price": 50000,
+              "price_man": 5,
+              "desc": ""
+            }
+          }
         }
       },
       "2023": {
@@ -74002,6 +74121,543 @@
             }
           },
           "standard_features": []
+        },
+        "2.0 디젤 4WD 프리미에르": {
+          "base_price": 40750000,
+          "base_price_man": 4075,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 LPG 2WD SE": {
+          "base_price": 24890000,
+          "base_price_man": 2489,
+          "standard_features": [],
+          "options": {}
+        },
+        "2.0 LPG 2WD LE 시그니처": {
+          "base_price": 27790000,
+          "base_price_man": 2779,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "S-Link 패키지 I": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "S-Link 패키지 III": {
+              "price": 1910000,
+              "price_man": 191,
+              "desc": ""
+            },
+            "파워시트 팩": {
+              "price": 980000,
+              "price_man": 98,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 LPG 2WD RE 시그니처": {
+          "base_price": 31570000,
+          "base_price_man": 3157,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "S-Link 8.7인치 내비게이션": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "프레임리스 룸미러": {
+              "price": 70000,
+              "price_man": 7,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 LPG 2WD 프리미에르": {
+          "base_price": 35050000,
+          "base_price_man": 3505,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "프레임리스 룸미러": {
+              "price": 70000,
+              "price_man": 7,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 LPG 2WD LE": {
+          "base_price": 27490000,
+          "base_price_man": 2749,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "S-Link 패키지 I": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "S-Link 패키지 III": {
+              "price": 1910000,
+              "price_man": 191,
+              "desc": ""
+            },
+            "파워시트 팩": {
+              "price": 980000,
+              "price_man": 98,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 GDe 2WD LE 시그니처": {
+          "base_price": 27790000,
+          "base_price_man": 2779,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "S-Link 패키지 I": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "S-Link 패키지 III": {
+              "price": 1910000,
+              "price_man": 191,
+              "desc": ""
+            },
+            "파워시트 팩": {
+              "price": 980000,
+              "price_man": 98,
+              "desc": ""
+            }
+          }
+        }
+      },
+      "2021": {
+        "2.0 GDe 2WD SE": {
+          "base_price": 24740000,
+          "base_price_man": 2474,
+          "standard_features": [],
+          "options": {}
+        },
+        "2.0 GDe 2WD LE": {
+          "base_price": 26310000,
+          "base_price_man": 2631,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프 + 루프랙": {
+              "price": 1230000,
+              "price_man": 123,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "S-Link 패키지 I": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "S-Link 패키지 III": {
+              "price": 1870000,
+              "price_man": 187,
+              "desc": ""
+            },
+            "하이패스 + ECM + 운전석 파워시트 + E-PKB": {
+              "price": 540000,
+              "price_man": 54,
+              "desc": ""
+            },
+            "스타일링 패키지": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 GDe 2WD RE": {
+          "base_price": 28720000,
+          "base_price_man": 2872,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1040000,
+              "price_man": 104,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "S-Link 패키지 II": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "드라이빙 어시스트 패키지 I": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "19인치 투톤 휠": {
+              "price": 350000,
+              "price_man": 35,
+              "desc": ""
+            },
+            "스타일링 패키지": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "모던 브라운 가죽시트 패키지": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "프레임리스 룸미러": {
+              "price": 50000,
+              "price_man": 5,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 GDe 2WD RE 시그니처": {
+          "base_price": 30390000,
+          "base_price_man": 3039,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1040000,
+              "price_man": 104,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "S-Link 패키지 II": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "드라이빙 어시스트 패키지 I": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "프레임리스 룸미러": {
+              "price": 50000,
+              "price_man": 5,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 GDe 2WD 프리미에르": {
+          "base_price": 33240000,
+          "base_price_man": 3324,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1040000,
+              "price_man": 104,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "드라이빙 어시스트 패키지 I": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "프레임리스 룸미러": {
+              "price": 50000,
+              "price_man": 5,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 디젤 4WD RE": {
+          "base_price": 34660000,
+          "base_price_man": 3466,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1040000,
+              "price_man": 104,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "S-Link 패키지 V": {
+              "price": 1480000,
+              "price_man": 148,
+              "desc": ""
+            },
+            "S-Link 패키지 VI": {
+              "price": 2260000,
+              "price_man": 226,
+              "desc": ""
+            },
+            "19인치 투톤 휠": {
+              "price": 350000,
+              "price_man": 35,
+              "desc": ""
+            },
+            "스타일링 패키지": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "모던 브라운 가죽시트 패키지": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "프레임리스 룸미러": {
+              "price": 50000,
+              "price_man": 5,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 디젤 4WD 프리미에르": {
+          "base_price": 40550000,
+          "base_price_man": 4055,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1040000,
+              "price_man": 104,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "드라이빙 어시스트 패키지 I": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "프레임리스 룸미러": {
+              "price": 50000,
+              "price_man": 5,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 LPG 2WD SE": {
+          "base_price": 24350000,
+          "base_price_man": 2435,
+          "standard_features": [],
+          "options": {}
+        },
+        "2.0 LPG 2WD LE": {
+          "base_price": 25920000,
+          "base_price_man": 2592,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프 + 루프랙": {
+              "price": 1230000,
+              "price_man": 123,
+              "desc": ""
+            },
+            "하이패스 + ECM + 운전석 파워시트 + E-PKB": {
+              "price": 540000,
+              "price_man": 54,
+              "desc": ""
+            },
+            "S-Link 패키지 I": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "S-Link 패키지 IV": {
+              "price": 1480000,
+              "price_man": 148,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "스타일링 패키지": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 LPG 2WD RE": {
+          "base_price": 28330000,
+          "base_price_man": 2833,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1040000,
+              "price_man": 104,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "S-Link 8.7인치 내비게이션": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "드라이빙 어시스트 패키지 II": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "19인치 투톤 휠": {
+              "price": 350000,
+              "price_man": 35,
+              "desc": ""
+            },
+            "스타일링 패키지": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "모던 브라운 가죽시트 패키지": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "프레임리스 룸미러": {
+              "price": 50000,
+              "price_man": 5,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 LPG 2WD RE 시그니처": {
+          "base_price": 30000000,
+          "base_price_man": 3000,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1040000,
+              "price_man": 104,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "S-Link 8.7인치 내비게이션": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "드라이빙 어시스트 패키지 II": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "프레임리스 룸미러": {
+              "price": 50000,
+              "price_man": 5,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 LPG 2WD 프리미에르": {
+          "base_price": 32450000,
+          "base_price_man": 3245,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1040000,
+              "price_man": 104,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "드라이빙 어시스트 패키지 II": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "프레임리스 룸미러": {
+              "price": 50000,
+              "price_man": 5,
+              "desc": ""
+            }
+          }
         }
       }
     },
@@ -74033,6 +74689,203 @@
             }
           },
           "standard_features": []
+        },
+        "2.0 GDe 2WD 프리미에르": {
+          "base_price": 37200000,
+          "base_price_man": 3720,
+          "standard_features": [],
+          "options": {
+            "LED 도어 스팟 램프": {
+              "price": 110000,
+              "price_man": 11,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "알칸타라 나파 시트 팩": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "BOSE 서라운드 사운드 시스템": {
+              "price": 650000,
+              "price_man": 65,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 LPG 2WD LE": {
+          "base_price": 28400000,
+          "base_price_man": 2840,
+          "standard_features": [],
+          "options": {
+            "LED 도어 스팟 램프": {
+              "price": 110000,
+              "price_man": 11,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "9.3인치 디스플레이 팩": {
+              "price": 1210000,
+              "price_man": 121,
+              "desc": ""
+            },
+            "EASY LIFE 인포테인먼트 팩 I": {
+              "price": 1810000,
+              "price_man": 181,
+              "desc": ""
+            },
+            "컴포트 팩": {
+              "price": 990000,
+              "price_man": 99,
+              "desc": ""
+            },
+            "18인치 투톤 알로이 휠 + 하이패스 + ECM + E-PKB": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            },
+            "그레이 가죽시트 + 틸트 헤드레스트": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 LPG 2WD RE": {
+          "base_price": 32200000,
+          "base_price_man": 3220,
+          "standard_features": [],
+          "options": {
+            "LED 도어 스팟 램프": {
+              "price": 110000,
+              "price_man": 11,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "EASY LIFE 인포테인먼트 팩 II": {
+              "price": 860000,
+              "price_man": 86,
+              "desc": ""
+            },
+            "가죽시트 + 프레임리스 룸미러": {
+              "price": 370000,
+              "price_man": 37,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 LPG 2WD 밴": {
+          "base_price": 24950000,
+          "base_price_man": 2495,
+          "standard_features": [],
+          "options": {
+            "LED 도어 스팟 램프": {
+              "price": 110000,
+              "price_man": 11,
+              "desc": ""
+            },
+            "언더 플로어 스토리지": {
+              "price": 280000,
+              "price_man": 28,
+              "desc": ""
+            },
+            "디지털 룸미러 + 분리형 무선 하이패스": {
+              "price": 450000,
+              "price_man": 45,
+              "desc": ""
+            },
+            "블랙인조가죽시트 + 앞좌석 열선시트": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 LPG 2WD 비지니스": {
+          "base_price": 26900000,
+          "base_price_man": 2690,
+          "standard_features": [],
+          "options": {
+            "LED 도어 스팟 램프": {
+              "price": 110000,
+              "price_man": 11,
+              "desc": ""
+            },
+            "언더 플로어 스토리지": {
+              "price": 280000,
+              "price_man": 28,
+              "desc": ""
+            },
+            "디지털 룸미러 + 분리형 무선 하이패스": {
+              "price": 450000,
+              "price_man": 45,
+              "desc": ""
+            },
+            "18인치 투톤 알로이 휠 + 전방 경보": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            },
+            "운전석/동승석 파워시트 + 앞좌석 통풍시트 + 사이드 에어백": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 LPG 2WD 어드벤처": {
+          "base_price": 30700000,
+          "base_price_man": 3070,
+          "standard_features": [],
+          "options": {
+            "LED 도어 스팟 램프": {
+              "price": 110000,
+              "price_man": 11,
+              "desc": ""
+            },
+            "언더 플로어 스토리지": {
+              "price": 280000,
+              "price_man": 28,
+              "desc": ""
+            },
+            "디지털 룸미러 + 분리형 무선 하이패스": {
+              "price": 450000,
+              "price_man": 45,
+              "desc": ""
+            },
+            "EASY LIFE 인포테인먼트 팩 III": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "가죽시트(모던 브라운/블랙)": {
+              "price": 370000,
+              "price_man": 37,
+              "desc": ""
+            }
+          }
         }
       },
       "2026": {
@@ -74041,6 +74894,453 @@
           "base_price_man": 3049,
           "options": {},
           "standard_features": []
+        },
+        "2.0 LPG 2WD LE": {
+          "base_price": 27970000,
+          "base_price_man": 2797,
+          "standard_features": [],
+          "options": {
+            "LED 도어 스팟 램프": {
+              "price": 115000.0,
+              "price_man": 11.5,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "EASY LIFE 인포테인먼트 팩 I": {
+              "price": 1740000,
+              "price_man": 174,
+              "desc": ""
+            },
+            "18인치 투톤 알로이 휠 + 하이패스 + ECM + EPB + 열선 스티어링": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 LPG 2WD RE": {
+          "base_price": 30490000,
+          "base_price_man": 3049,
+          "standard_features": [],
+          "options": {
+            "LED 도어 스팟 램프": {
+              "price": 115000.0,
+              "price_man": 11.5,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "EASY LIFE 인포테인먼트 팩 II": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "모던 브라운 가죽시트 + 프레임리스 룸미러 + 틸트 헤드레스트 + 이지 액세스/메모리 + 아웃사이드 미러 메모리·후진 자동각도": {
+              "price": 370000,
+              "price_man": 37,
+              "desc": ""
+            },
+            "주행 보조 시스템 팩": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 LPG 2WD 밴": {
+          "base_price": 25650000,
+          "base_price_man": 2565,
+          "standard_features": [],
+          "options": {
+            "LED 도어 스팟 램프": {
+              "price": 110000,
+              "price_man": 11,
+              "desc": ""
+            },
+            "언더 플로어 스토리지": {
+              "price": 280000,
+              "price_man": 28,
+              "desc": ""
+            },
+            "디지털 룸미러 + 분리형 무선 하이패스": {
+              "price": 450000,
+              "price_man": 45,
+              "desc": ""
+            },
+            "V10 내비게이션": {
+              "price": 970000,
+              "price_man": 97,
+              "desc": ""
+            },
+            "18인치 투톤 알로이 휠": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "컨비니언스 팩": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "컴포트 팩": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "파티션 팩": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            }
+          }
+        }
+      },
+      "2024": {
+        "2.0 GDe 2WD LE": {
+          "base_price": 28600000,
+          "base_price_man": 2860,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "9.3인치 디스플레이 팩": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "EASY LIFE 인포테인먼트 팩 I": {
+              "price": 1800000,
+              "price_man": 180,
+              "desc": ""
+            },
+            "드라이빙 어시스트 패키지": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "파워시트 팩": {
+              "price": 980000,
+              "price_man": 98,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 GDe 2WD RE": {
+          "base_price": 32900000,
+          "base_price_man": 3290,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "EASY LIFE 인포테인먼트 팩 II + BOSE 서라운드 사운드 시스템": {
+              "price": 1500000,
+              "price_man": 150,
+              "desc": ""
+            },
+            "올리브 그린 나파가죽 시트": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            },
+            "프레임리스 룸미러": {
+              "price": 70000,
+              "price_man": 7,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 GDe 2WD 프리미에르": {
+          "base_price": 37150000,
+          "base_price_man": 3715,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "프레임리스 룸미러": {
+              "price": 70000,
+              "price_man": 7,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 LPG 2WD LE": {
+          "base_price": 29100000,
+          "base_price_man": 2910,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "9.3인치 디스플레이 팩": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "EASY LIFE 인포테인먼트 팩 I": {
+              "price": 1800000,
+              "price_man": 180,
+              "desc": ""
+            },
+            "드라이빙 어시스트 패키지": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "파워시트 팩": {
+              "price": 980000,
+              "price_man": 98,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 LPG 2WD RE": {
+          "base_price": 33400000,
+          "base_price_man": 3340,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "EASY LIFE 인포테인먼트 팩 II": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "올리브 그린 나파가죽 시트": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            },
+            "프레임리스 룸미러": {
+              "price": 70000,
+              "price_man": 7,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 LPG 2WD 프리미에르": {
+          "base_price": 37650000,
+          "base_price_man": 3765,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "프레임리스 룸미러": {
+              "price": 70000,
+              "price_man": 7,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 LPG 2WD 퀘스트 SE": {
+          "base_price": 26800000,
+          "base_price_man": 2680,
+          "standard_features": [],
+          "options": {
+            "디지털 룸미러 + 분리형 무선 하이패스": {
+              "price": 450000,
+              "price_man": 45,
+              "desc": ""
+            },
+            "파티션 팩": {
+              "price": 60000,
+              "price_man": 6,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 LPG 2WD 퀘스트 LE": {
+          "base_price": 28100000,
+          "base_price_man": 2810,
+          "standard_features": [],
+          "options": {
+            "운전석/동승석 파워시트 + 앞좌석 통풍시트": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "디지털 룸미러 + 분리형 무선 하이패스": {
+              "price": 450000,
+              "price_man": 45,
+              "desc": ""
+            },
+            "파티션 팩": {
+              "price": 60000,
+              "price_man": 6,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 LPG 2WD 퀘스트 RE": {
+          "base_price": 32200000,
+          "base_price_man": 3220,
+          "standard_features": [],
+          "options": {
+            "EASY LIFE 인포테인먼트 팩 III": {
+              "price": 860000,
+              "price_man": 86,
+              "desc": ""
+            },
+            "올리브 그린 나파가죽 시트": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "디지털 룸미러 + 분리형 무선 하이패스": {
+              "price": 450000,
+              "price_man": 45,
+              "desc": ""
+            },
+            "파티션 팩": {
+              "price": 60000,
+              "price_man": 6,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 LPG 2WD 밴": {
+          "base_price": 24950000,
+          "base_price_man": 2495,
+          "standard_features": [],
+          "options": {
+            "LED 도어 스팟 램프": {
+              "price": 110000,
+              "price_man": 11,
+              "desc": ""
+            },
+            "언더 플로어 스토리지": {
+              "price": 280000,
+              "price_man": 28,
+              "desc": ""
+            },
+            "디지털 룸미러 + 분리형 무선 하이패스": {
+              "price": 450000,
+              "price_man": 45,
+              "desc": ""
+            },
+            "블랙인조가죽시트 + 앞좌석 열선시트": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 LPG 2WD 비지니스": {
+          "base_price": 26900000,
+          "base_price_man": 2690,
+          "standard_features": [],
+          "options": {
+            "LED 도어 스팟 램프": {
+              "price": 110000,
+              "price_man": 11,
+              "desc": ""
+            },
+            "언더 플로어 스토리지": {
+              "price": 280000,
+              "price_man": 28,
+              "desc": ""
+            },
+            "디지털 룸미러 + 분리형 무선 하이패스": {
+              "price": 450000,
+              "price_man": 45,
+              "desc": ""
+            },
+            "18인치 투톤 알로이 휠 + 전방 경보": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            },
+            "운전석/동승석 파워시트 + 앞좌석 통풍시트 + 사이드 에어백": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 LPG 2WD 어드벤처": {
+          "base_price": 30200000,
+          "base_price_man": 3020,
+          "standard_features": [],
+          "options": {
+            "LED 도어 스팟 램프": {
+              "price": 110000,
+              "price_man": 11,
+              "desc": ""
+            },
+            "언더 플로어 스토리지": {
+              "price": 280000,
+              "price_man": 28,
+              "desc": ""
+            },
+            "디지털 룸미러 + 분리형 무선 하이패스": {
+              "price": 450000,
+              "price_man": 45,
+              "desc": ""
+            },
+            "EASY LIFE 인포테인먼트 팩 III": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "모던 브라운 가죽시트": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            }
+          }
         }
       }
     },
@@ -74183,6 +75483,482 @@
             }
           },
           "standard_features": []
+        },
+        "2.5 가솔린 2WD 노블레스 라이트": {
+          "base_price": 37360000,
+          "base_price_man": 3736,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "스타일 I": {
+              "price": 1190000,
+              "price_man": 119,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            }
+          }
+        },
+        "2.5 가솔린 2WD 노블레스": {
+          "base_price": 40880000,
+          "base_price_man": 4088,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 840000,
+              "price_man": 84,
+              "desc": ""
+            },
+            "메리디안 프리미엄 사운드": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "스타일 II": {
+              "price": 1880000,
+              "price_man": 188,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "프리미엄": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 540000,
+              "price_man": 54,
+              "desc": ""
+            }
+          }
+        },
+        "2.5 가솔린 2WD 시그니처": {
+          "base_price": 45010000,
+          "base_price_man": 4501,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 840000,
+              "price_man": 84,
+              "desc": ""
+            },
+            "20인치 휠 & 피렐리 타이어": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "메리디안 프리미엄 사운드": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "프리미엄": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 540000,
+              "price_man": 54,
+              "desc": ""
+            }
+          }
+        },
+        "2.5 가솔린 2WD 시그니처 블랙": {
+          "base_price": 45500000,
+          "base_price_man": 4550,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 840000,
+              "price_man": 84,
+              "desc": ""
+            },
+            "20인치 휠 & 피렐리 타이어": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "메리디안 프리미엄 사운드": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "프리미엄": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 540000,
+              "price_man": 54,
+              "desc": ""
+            }
+          }
+        },
+        "3.5 가솔린 2WD 노블레스 라이트": {
+          "base_price": 40480000,
+          "base_price_man": 4048,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "스타일 II": {
+              "price": 1980000,
+              "price_man": 198,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            }
+          }
+        },
+        "3.5 가솔린 2WD 노블레스": {
+          "base_price": 43750000,
+          "base_price_man": 4375,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 840000,
+              "price_man": 84,
+              "desc": ""
+            },
+            "메리디안 프리미엄 사운드": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "스타일 II": {
+              "price": 1880000,
+              "price_man": 188,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "프리미엄": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 540000,
+              "price_man": 54,
+              "desc": ""
+            }
+          }
+        },
+        "3.5 가솔린 AWD 노블레스": {
+          "base_price": 45930000,
+          "base_price_man": 4593,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 840000,
+              "price_man": 84,
+              "desc": ""
+            },
+            "메리디안 프리미엄 사운드": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "스타일 II": {
+              "price": 1880000,
+              "price_man": 188,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "프리미엄": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 540000,
+              "price_man": 54,
+              "desc": ""
+            }
+          }
+        },
+        "3.5 가솔린 2WD 시그니처": {
+          "base_price": 47880000,
+          "base_price_man": 4788,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 840000,
+              "price_man": 84,
+              "desc": ""
+            },
+            "20인치 휠 & 피렐리 타이어": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "메리디안 프리미엄 사운드": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "프리미엄": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 540000,
+              "price_man": 54,
+              "desc": ""
+            }
+          }
+        },
+        "3.5 가솔린 AWD 시그니처": {
+          "base_price": 50060000,
+          "base_price_man": 5006,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 840000,
+              "price_man": 84,
+              "desc": ""
+            },
+            "20인치 휠 & 피렐리 타이어": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "메리디안 프리미엄 사운드": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "프리미엄": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 540000,
+              "price_man": 54,
+              "desc": ""
+            }
+          }
+        },
+        "3.5 가솔린 2WD 시그니처 블랙": {
+          "base_price": 48370000,
+          "base_price_man": 4837,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 840000,
+              "price_man": 84,
+              "desc": ""
+            },
+            "메리디안 프리미엄 사운드": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "프리미엄": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 540000,
+              "price_man": 54,
+              "desc": ""
+            }
+          }
+        },
+        "3.5 가솔린 AWD 시그니처 블랙": {
+          "base_price": 50550000,
+          "base_price_man": 5055,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 840000,
+              "price_man": 84,
+              "desc": ""
+            },
+            "메리디안 프리미엄 사운드": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "프리미엄": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 540000,
+              "price_man": 54,
+              "desc": ""
+            }
+          }
+        },
+        "3.5 LPG 2WD 프레스티지": {
+          "base_price": 37820000,
+          "base_price_man": 3782,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "전자식 룸미러 + 하이패스 + 245/45 R18 휠": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1040000,
+              "price_man": 104,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            }
+          }
+        },
+        "3.5 LPG 2WD 노블레스": {
+          "base_price": 41660000,
+          "base_price_man": 4166,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "메리디안 프리미엄 사운드": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1090000,
+              "price_man": 109,
+              "desc": ""
+            },
+            "컨비니언스": {
+              "price": 1780000,
+              "price_man": 178,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1680000,
+              "price_man": 168,
+              "desc": ""
+            },
+            "헤드업 디스플레이 + 스마트 커넥트": {
+              "price": 1780000,
+              "price_man": 178,
+              "desc": ""
+            }
+          }
         }
       },
       "2027": {
@@ -74470,6 +76246,963 @@
             }
           },
           "standard_features": []
+        },
+        "3.5 가솔린 2WD 노블레스 라이트": {
+          "base_price": 39870000,
+          "base_price_man": 3987,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1950000,
+              "price_man": 195,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            }
+          }
+        },
+        "3.5 가솔린 2WD 베스트 셀렉션": {
+          "base_price": 41140000,
+          "base_price_man": 4114,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 830000,
+              "price_man": 83,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1750000,
+              "price_man": 175,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 630000,
+              "price_man": 63,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 530000,
+              "price_man": 53,
+              "desc": ""
+            }
+          }
+        },
+        "3.5 가솔린 2WD 노블레스": {
+          "base_price": 43680000,
+          "base_price_man": 4368,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 830000,
+              "price_man": 83,
+              "desc": ""
+            },
+            "메리디안 프리미엄 사운드": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1950000,
+              "price_man": 195,
+              "desc": ""
+            },
+            "프리미엄": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 530000,
+              "price_man": 53,
+              "desc": ""
+            }
+          }
+        },
+        "3.5 가솔린 AWD 노블레스": {
+          "base_price": 45820000,
+          "base_price_man": 4582,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 830000,
+              "price_man": 83,
+              "desc": ""
+            },
+            "메리디안 프리미엄 사운드": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1950000,
+              "price_man": 195,
+              "desc": ""
+            },
+            "프리미엄": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 530000,
+              "price_man": 53,
+              "desc": ""
+            }
+          }
+        },
+        "3.5 가솔린 2WD 시그니처": {
+          "base_price": 47220000,
+          "base_price_man": 4722,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 830000,
+              "price_man": 83,
+              "desc": ""
+            },
+            "프리뷰 전자제어 서스펜션 I": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "프리뷰 전자제어 서스펜션 II": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "메리디안 프리미엄 사운드": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "프리미엄": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            }
+          }
+        },
+        "3.5 가솔린 AWD 시그니처": {
+          "base_price": 49370000,
+          "base_price_man": 4937,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 830000,
+              "price_man": 83,
+              "desc": ""
+            },
+            "프리뷰 전자제어 서스펜션 I": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "프리뷰 전자제어 서스펜션 II": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "메리디안 프리미엄 사운드": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "프리미엄": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            }
+          }
+        },
+        "3.5 가솔린 2WD 시그니처 블랙": {
+          "base_price": 48780000,
+          "base_price_man": 4878,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "메리디안 프리미엄 사운드": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "프리미엄": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            }
+          }
+        },
+        "3.5 가솔린 AWD 시그니처 블랙": {
+          "base_price": 50920000,
+          "base_price_man": 5092,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "메리디안 프리미엄 사운드": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "프리미엄": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            }
+          }
+        },
+        "3.5 LPG 2WD 프레스티지": {
+          "base_price": 37250000,
+          "base_price_man": 3725,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "전자식 룸미러 + 하이패스 + 245/45 R18 휠": {
+              "price": 580000,
+              "price_man": 58,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1020000,
+              "price_man": 102,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            }
+          }
+        },
+        "3.5 LPG 2WD 노블레스": {
+          "base_price": 41030000,
+          "base_price_man": 4103,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "메리디안 프리미엄 사운드": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "컨비니언스": {
+              "price": 1750000,
+              "price_man": 175,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1650000,
+              "price_man": 165,
+              "desc": ""
+            },
+            "헤드업 디스플레이 + 스마트 커넥트": {
+              "price": 1750000,
+              "price_man": 175,
+              "desc": ""
+            }
+          }
+        }
+      },
+      "2026": {
+        "HEV 1.6 2WD 노블레스 라이트": {
+          "base_price": 42060000,
+          "base_price_man": 4206,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1170000,
+              "price_man": 117,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 베스트 셀렉션": {
+          "base_price": 43400000,
+          "base_price_man": 4340,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 830000,
+              "price_man": 83,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1750000,
+              "price_man": 175,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 530000,
+              "price_man": 53,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 노블레스": {
+          "base_price": 45520000,
+          "base_price_man": 4552,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 830000,
+              "price_man": 83,
+              "desc": ""
+            },
+            "메리디안 프리미엄 사운드": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1950000,
+              "price_man": 195,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "프리미엄": {
+              "price": 680000,
+              "price_man": 68,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 530000,
+              "price_man": 53,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 시그니처": {
+          "base_price": 49170000,
+          "base_price_man": 4917,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 830000,
+              "price_man": 83,
+              "desc": ""
+            },
+            "프리뷰 전자제어 서스펜션 I": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "메리디안 프리미엄 사운드": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "프리미엄": {
+              "price": 680000,
+              "price_man": 68,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 시그니처 블랙": {
+          "base_price": 50530000,
+          "base_price_man": 5053,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 830000,
+              "price_man": 83,
+              "desc": ""
+            },
+            "메리디안 프리미엄 사운드": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "프리미엄": {
+              "price": 680000,
+              "price_man": 68,
+              "desc": ""
+            }
+          }
+        },
+        "2.5 가솔린 2WD 노블레스 라이트": {
+          "base_price": 36790000,
+          "base_price_man": 3679,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1170000,
+              "price_man": 117,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            }
+          }
+        },
+        "2.5 가솔린 2WD 베스트 셀렉션": {
+          "base_price": 38130000,
+          "base_price_man": 3813,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 830000,
+              "price_man": 83,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1750000,
+              "price_man": 175,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 530000,
+              "price_man": 53,
+              "desc": ""
+            }
+          }
+        },
+        "2.5 가솔린 2WD 노블레스": {
+          "base_price": 40260000,
+          "base_price_man": 4026,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 830000,
+              "price_man": 83,
+              "desc": ""
+            },
+            "메리디안 프리미엄 사운드": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1950000,
+              "price_man": 195,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "프리미엄": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 530000,
+              "price_man": 53,
+              "desc": ""
+            }
+          }
+        },
+        "2.5 가솔린 2WD 시그니처": {
+          "base_price": 43900000,
+          "base_price_man": 4390,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 830000,
+              "price_man": 83,
+              "desc": ""
+            },
+            "프리뷰 전자제어 서스펜션 I": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "프리뷰 전자제어 서스펜션 II": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "메리디안 프리미엄 사운드": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "프리미엄": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            }
+          }
+        },
+        "2.5 가솔린 2WD 시그니처 블랙": {
+          "base_price": 45460000,
+          "base_price_man": 4546,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 830000,
+              "price_man": 83,
+              "desc": ""
+            },
+            "메리디안 프리미엄 사운드": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "프리미엄": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            }
+          }
+        },
+        "3.5 가솔린 2WD 노블레스 라이트": {
+          "base_price": 39870000,
+          "base_price_man": 3987,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1950000,
+              "price_man": 195,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            }
+          }
+        },
+        "3.5 가솔린 2WD 베스트 셀렉션": {
+          "base_price": 40960000,
+          "base_price_man": 4096,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 830000,
+              "price_man": 83,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1750000,
+              "price_man": 175,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 530000,
+              "price_man": 53,
+              "desc": ""
+            }
+          }
+        },
+        "3.5 가솔린 2WD 노블레스": {
+          "base_price": 43090000,
+          "base_price_man": 4309,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 830000,
+              "price_man": 83,
+              "desc": ""
+            },
+            "메리디안 프리미엄 사운드": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1950000,
+              "price_man": 195,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "프리미엄": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 530000,
+              "price_man": 53,
+              "desc": ""
+            }
+          }
+        },
+        "3.5 가솔린 AWD 노블레스": {
+          "base_price": 45230000,
+          "base_price_man": 4523,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 830000,
+              "price_man": 83,
+              "desc": ""
+            },
+            "메리디안 프리미엄 사운드": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1950000,
+              "price_man": 195,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "프리미엄": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 530000,
+              "price_man": 53,
+              "desc": ""
+            }
+          }
+        },
+        "3.5 가솔린 2WD 시그니처": {
+          "base_price": 46730000,
+          "base_price_man": 4673,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 830000,
+              "price_man": 83,
+              "desc": ""
+            },
+            "프리뷰 전자제어 서스펜션 I": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "프리뷰 전자제어 서스펜션 II": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "메리디안 프리미엄 사운드": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "프리미엄": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            }
+          }
+        },
+        "3.5 가솔린 AWD 시그니처": {
+          "base_price": 48880000,
+          "base_price_man": 4888,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 830000,
+              "price_man": 83,
+              "desc": ""
+            },
+            "프리뷰 전자제어 서스펜션 I": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "프리뷰 전자제어 서스펜션 II": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "메리디안 프리미엄 사운드": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "프리미엄": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            }
+          }
+        },
+        "3.5 가솔린 2WD 시그니처 블랙": {
+          "base_price": 48290000,
+          "base_price_man": 4829,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 830000,
+              "price_man": 83,
+              "desc": ""
+            },
+            "메리디안 프리미엄 사운드": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "프리미엄": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            }
+          }
+        },
+        "3.5 가솔린 AWD 시그니처 블랙": {
+          "base_price": 50430000,
+          "base_price_man": 5043,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 830000,
+              "price_man": 83,
+              "desc": ""
+            },
+            "메리디안 프리미엄 사운드": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "프리미엄": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            }
+          }
+        },
+        "3.5 LPG 2WD 프레스티지": {
+          "base_price": 37250000,
+          "base_price_man": 3725,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "전자식 룸미러 + 하이패스 + 245/45 R18 휠": {
+              "price": 580000,
+              "price_man": 58,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1020000,
+              "price_man": 102,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            }
+          }
+        },
+        "3.5 LPG 2WD 노블레스": {
+          "base_price": 41030000,
+          "base_price_man": 4103,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "메리디안 프리미엄 사운드": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "컨비니언스": {
+              "price": 1750000,
+              "price_man": 175,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1650000,
+              "price_man": 165,
+              "desc": ""
+            },
+            "헤드업 디스플레이 + 스마트 커넥트": {
+              "price": 1750000,
+              "price_man": 175,
+              "desc": ""
+            }
+          }
         }
       }
     },
