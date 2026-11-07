@@ -29827,6 +29827,377 @@
             }
           },
           "standard_features": []
+        },
+        "HEV 2.0 2WD 트렌디": {
+          "base_price": 27740000,
+          "base_price_man": 2774,
+          "standard_features": [],
+          "options": {
+            "컴포트": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "10.25인치 UVO 내비게이션": {
+              "price": 1620000,
+              "price_man": 162,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 2.0 2WD 프레스티지": {
+          "base_price": 29710000,
+          "base_price_man": 2971,
+          "standard_features": [],
+          "options": {
+            "컴포트": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1180000,
+              "price_man": 118,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 2.0 2WD 노블레스": {
+          "base_price": 31710000,
+          "base_price_man": 3171,
+          "standard_features": [],
+          "options": {
+            "컴포트": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1180000,
+              "price_man": 118,
+              "desc": ""
+            },
+            "솔라 루프": {
+              "price": 1280000,
+              "price_man": 128,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 2.0 2WD 시그니처": {
+          "base_price": 33780000,
+          "base_price_man": 3378,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1180000,
+              "price_man": 118,
+              "desc": ""
+            },
+            "솔라 루프": {
+              "price": 1280000,
+              "price_man": 128,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 2WD 트렌디": {
+          "base_price": 24300000,
+          "base_price_man": 2430,
+          "standard_features": [],
+          "options": {
+            "버튼시동 팩": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1180000,
+              "price_man": 118,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "10.25인치 UVO 내비게이션": {
+              "price": 1620000,
+              "price_man": 162,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "보조배터리": {
+              "price": 310000,
+              "price_man": 31,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 2WD 프레스티지": {
+          "base_price": 27090000,
+          "base_price_man": 2709,
+          "standard_features": [],
+          "options": {
+            "스타일": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "보조배터리": {
+              "price": 310000,
+              "price_man": 31,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1180000,
+              "price_man": 118,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 2WD 노블레스": {
+          "base_price": 29010000,
+          "base_price_man": 2901,
+          "standard_features": [],
+          "options": {
+            "스타일": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "보조배터리": {
+              "price": 310000,
+              "price_man": 31,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1180000,
+              "price_man": 118,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 2WD 시그니처": {
+          "base_price": 31410000,
+          "base_price_man": 3141,
+          "standard_features": [],
+          "options": {
+            "스타일": {
+              "price": 290000,
+              "price_man": 29,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "보조배터리": {
+              "price": 310000,
+              "price_man": 31,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1180000,
+              "price_man": 118,
+              "desc": ""
+            }
+          }
         }
       },
       "2023": {
@@ -30088,6 +30459,407 @@
             }
           },
           "standard_features": []
+        },
+        "가솔린 1.6 터보 2WD 트렌디": {
+          "base_price": 24790000,
+          "base_price_man": 2479,
+          "standard_features": [],
+          "options": {
+            "버튼시동 팩": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1180000,
+              "price_man": 118,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 830000,
+              "price_man": 83,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "버튼시동 팩+10.25인치 내비게이션": {
+              "price": 2210000,
+              "price_man": 221,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "스마트 커넥트 + 보조배터리": {
+              "price": 920000,
+              "price_man": 92,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 2WD 프레스티지": {
+          "base_price": 27680000,
+          "base_price_man": 2768,
+          "standard_features": [],
+          "options": {
+            "스타일": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "스마트 커넥트 + 보조배터리": {
+              "price": 920000,
+              "price_man": 92,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 2WD 노블레스": {
+          "base_price": 29790000,
+          "base_price_man": 2979,
+          "standard_features": [],
+          "options": {
+            "스타일": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 440000,
+              "price_man": 44,
+              "desc": ""
+            },
+            "스마트 커넥트 + 보조배터리": {
+              "price": 770000,
+              "price_man": 77,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 2WD 시그니처": {
+          "base_price": 32840000,
+          "base_price_man": 3284,
+          "standard_features": [],
+          "options": {
+            "스타일": {
+              "price": 290000,
+              "price_man": 29,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 440000,
+              "price_man": 44,
+              "desc": ""
+            },
+            "스마트 커넥트 + 보조배터리": {
+              "price": 770000,
+              "price_man": 77,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "블랙 핏": {
+              "price": 490000,
+              "price_man": 49,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 트렌디": {
+          "base_price": 24000000,
+          "base_price_man": 2400,
+          "standard_features": [],
+          "options": {
+            "버튼시동 팩": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 880000,
+              "price_man": 88,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 830000,
+              "price_man": 83,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "버튼시동 팩+10.25인치 내비게이션": {
+              "price": 2210000,
+              "price_man": 221,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "스마트 커넥트 + 보조배터리": {
+              "price": 920000,
+              "price_man": 92,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 프레스티지": {
+          "base_price": 26510000,
+          "base_price_man": 2651,
+          "standard_features": [],
+          "options": {
+            "스타일": {
+              "price": 880000,
+              "price_man": 88,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "스마트 커넥트 + 보조배터리": {
+              "price": 920000,
+              "price_man": 92,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 노블레스": {
+          "base_price": 28620000,
+          "base_price_man": 2862,
+          "standard_features": [],
+          "options": {
+            "스타일": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 440000,
+              "price_man": 44,
+              "desc": ""
+            },
+            "스마트 커넥트 + 보조배터리": {
+              "price": 770000,
+              "price_man": 77,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 시그니처": {
+          "base_price": 32050000,
+          "base_price_man": 3205,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "헤드업 디스플레이": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 440000,
+              "price_man": 44,
+              "desc": ""
+            },
+            "스마트 커넥트 + 보조배터리": {
+              "price": 770000,
+              "price_man": 77,
+              "desc": ""
+            },
+            "파노라마 선루프": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "블랙 핏": {
+              "price": 490000,
+              "price_man": 49,
+              "desc": ""
+            }
+          }
         }
       },
       "2022": {
@@ -102034,6 +102806,3265 @@
             "세이프티 패키지 II": {
               "price": 400000,
               "price_man": 40,
+              "desc": ""
+            }
+          }
+        }
+      }
+    },
+    "K5 2세대": {
+      "2016": {
+        "가솔린 2.0 2WD 디럭스": {
+          "base_price": 22450000,
+          "base_price_man": 2245,
+          "standard_features": [],
+          "options": {
+            "내비(7인치, 후방카메라)+블루투스 핸즈프리+오토라이트 컨트롤 헤드램프": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 럭셔리": {
+          "base_price": 23850000,
+          "base_price_man": 2385,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "내비(7인치, 후방카메라)": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "스타일1": {
+              "price": 650000,
+              "price_man": 65,
+              "desc": ""
+            },
+            "버튼시동 스마트키+크롬 아웃사이드 도어 핸들(프론트 도어 손잡이 조명)": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 프레스티지": {
+          "base_price": 25200000,
+          "base_price_man": 2520,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "내비(7인치, 후방카메라)": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "UVO2.0(8인치, 후방카메라)&7스피커(외장앰프)": {
+              "price": 1350000,
+              "price_man": 135,
+              "desc": ""
+            },
+            "ECM & ETCS": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            },
+            "스타일 2+LED 안개등": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 노블레스": {
+          "base_price": 26850000,
+          "base_price_man": 2685,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "UVO2.0(8인치, 후방카메라)&7스피커": {
+              "price": 1350000,
+              "price_man": 135,
+              "desc": ""
+            },
+            "스타일2": {
+              "price": 650000,
+              "price_man": 65,
+              "desc": ""
+            },
+            "EPB+전방 주차보조+대구경 디스크 브레이크": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 노블레스 스페셜": {
+          "base_price": 28700000,
+          "base_price_man": 2870,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "UVO2.0(8인치, 후방카메라)&JBL 사운드(10스피커, 외장앰프)": {
+              "price": 1800000,
+              "price_man": 180,
+              "desc": ""
+            },
+            "드라이빙 세이프티 PACK": {
+              "price": 1950000,
+              "price_man": 195,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 2WD 럭셔리": {
+          "base_price": 25300000,
+          "base_price_man": 2530,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "내비(7인치, 후방카메라)": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "스타일1": {
+              "price": 650000,
+              "price_man": 65,
+              "desc": ""
+            },
+            "버튼시동+크롬 아웃사이드 도어 핸들": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 2WD 프레스티지": {
+          "base_price": 26650000,
+          "base_price_man": 2665,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "내비(7인치, 후방카메라)": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "UVO2.0(8인치, 후방카메라)&7스피커": {
+              "price": 1350000,
+              "price_man": 135,
+              "desc": ""
+            },
+            "스타일2": {
+              "price": 650000,
+              "price_man": 65,
+              "desc": ""
+            },
+            "ECM & ETCS": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 2WD 노블레스": {
+          "base_price": 28300000,
+          "base_price_man": 2830,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "UVO2.0(8인치, 후방카메라)&7스피커": {
+              "price": 1350000,
+              "price_man": 135,
+              "desc": ""
+            },
+            "스타일2": {
+              "price": 650000,
+              "price_man": 65,
+              "desc": ""
+            },
+            "EPB+전방 주차보조+대구경 디스크": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 터보 2WD 노블레스 스페셜": {
+          "base_price": 31250000,
+          "base_price_man": 3125,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "UVO2.0(8인치, 후방카메라)&JBL 사운드(10스피커, 외장앰프)": {
+              "price": 1800000,
+              "price_man": 180,
+              "desc": ""
+            },
+            "드라이빙 세이프티 PACK": {
+              "price": 1950000,
+              "price_man": 195,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.7 2WD 디럭스": {
+          "base_price": 24800000,
+          "base_price_man": 2480,
+          "standard_features": [],
+          "options": {
+            "내비(7인치, 후방카메라)+블루투스+오토라이트": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.7 2WD 럭셔리": {
+          "base_price": 26200000,
+          "base_price_man": 2620,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "내비(7인치, 후방카메라)": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "스타일1": {
+              "price": 650000,
+              "price_man": 65,
+              "desc": ""
+            },
+            "버튼시동+크롬 아웃사이드 도어 핸들": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.7 2WD 프레스티지": {
+          "base_price": 27550000,
+          "base_price_man": 2755,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "내비(7인치, 후방카메라)": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "UVO2.0(8인치, 후방카메라)&7스피커": {
+              "price": 1350000,
+              "price_man": 135,
+              "desc": ""
+            },
+            "ECM & ETCS": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            },
+            "스타일2+LED 안개등": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.7 2WD 노블레스": {
+          "base_price": 29200000,
+          "base_price_man": 2920,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "UVO2.0(8인치, 후방카메라)&7스피커": {
+              "price": 1350000,
+              "price_man": 135,
+              "desc": ""
+            },
+            "스타일2": {
+              "price": 650000,
+              "price_man": 65,
+              "desc": ""
+            },
+            "EPB+전방 주차보조+대구경 디스크": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            }
+          }
+        }
+      },
+      "2017": {
+        "가솔린 2.0 2WD 럭셔리": {
+          "base_price": 22650000,
+          "base_price_man": 2265,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "스마트 내비(7인치, 후방카메라)": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            },
+            "버튼시동 스마트키+크롬 아웃사이드 도어 핸들+ECM&ETCS": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 프레스티지": {
+          "base_price": 25050000,
+          "base_price_man": 2505,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "스마트 내비(7인치)": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "UVO2.0(8인치, 후방카메라)&7스피커": {
+              "price": 1350000,
+              "price_man": 135,
+              "desc": ""
+            },
+            "컴포트시트1": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "스타일 UP+LED 안개등": {
+              "price": 990000,
+              "price_man": 99,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 스페셜 에디션": {
+          "base_price": 26250000,
+          "base_price_man": 2625,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "스마트 내비(7인치)": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "UVO2.0(8인치)&7스피커": {
+              "price": 1350000,
+              "price_man": 135,
+              "desc": ""
+            },
+            "컴포트시트2": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 노블레스": {
+          "base_price": 27050000,
+          "base_price_man": 2705,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "스마트 내비(7인치)": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "UVO2.0(8인치)&7스피커": {
+              "price": 1350000,
+              "price_man": 135,
+              "desc": ""
+            },
+            "스타일UP": {
+              "price": 890000,
+              "price_man": 89,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 시그니처": {
+          "base_price": 29050000,
+          "base_price_man": 2905,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "스마트 내비(7인치, 후방카메라)+어라운드뷰": {
+              "price": 1350000,
+              "price_man": 135,
+              "desc": ""
+            },
+            "UVO 2.0(8인치, 후방카메라)&JBL 사운드(10스피커, 외장앰프)+어라운드뷰": {
+              "price": 2350000,
+              "price_man": 235,
+              "desc": ""
+            },
+            "드라이빙 세이프티 PACK": {
+              "price": 1850000,
+              "price_man": 185,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 2WD 럭셔리": {
+          "base_price": 24250000,
+          "base_price_man": 2425,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "스마트 내비(7인치)": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "터보 스타일": {
+              "price": 450000,
+              "price_man": 45,
+              "desc": ""
+            },
+            "215/55R17 & 알로이 휠": {
+              "price": 100000,
+              "price_man": 10,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 2WD 프레스티지": {
+          "base_price": 26100000,
+          "base_price_man": 2610,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "스마트 내비(7인치)": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "UVO2.0(8인치)&7스피커": {
+              "price": 1350000,
+              "price_man": 135,
+              "desc": ""
+            },
+            "컴포트시트1": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "터보 스타일UP": {
+              "price": 990000,
+              "price_man": 99,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 2WD 스페셜 에디션": {
+          "base_price": 27300000,
+          "base_price_man": 2730,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "스마트 내비(7인치)": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "UVO2.0(8인치)&7스피커": {
+              "price": 1350000,
+              "price_man": 135,
+              "desc": ""
+            },
+            "컴포트시트2": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 2WD 노블레스": {
+          "base_price": 28100000,
+          "base_price_man": 2810,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "스마트 내비(7인치)": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "UVO2.0(8인치)&7스피커": {
+              "price": 1350000,
+              "price_man": 135,
+              "desc": ""
+            },
+            "터보 스타일UP": {
+              "price": 990000,
+              "price_man": 99,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 2WD GT Line": {
+          "base_price": 30300000,
+          "base_price_man": 3030,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "스마트 내비(7인치)+어라운드뷰": {
+              "price": 1350000,
+              "price_man": 135,
+              "desc": ""
+            },
+            "UVO 2.0(8인치)&JBL+어라운드뷰": {
+              "price": 2350000,
+              "price_man": 235,
+              "desc": ""
+            },
+            "미쉐린 타이어": {
+              "price": 200000,
+              "price_man": 20,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 터보 2WD GT Line": {
+          "base_price": 31950000,
+          "base_price_man": 3195,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "스마트 내비(7인치)+어라운드뷰": {
+              "price": 1350000,
+              "price_man": 135,
+              "desc": ""
+            },
+            "UVO 2.0(8인치)&JBL+어라운드뷰": {
+              "price": 2350000,
+              "price_man": 235,
+              "desc": ""
+            },
+            "미쉐린 타이어": {
+              "price": 200000,
+              "price_man": 20,
+              "desc": ""
+            },
+            "드라이빙 세이프티 PACK": {
+              "price": 1850000,
+              "price_man": 185,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.7 2WD 럭셔리": {
+          "base_price": 25000000,
+          "base_price_man": 2500,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "스마트 내비(7인치)": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            },
+            "버튼시동+크롬 아웃사이드 도어 핸들+ECM&ETCS": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.7 2WD 프레스티지": {
+          "base_price": 27500000,
+          "base_price_man": 2750,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "스마트 내비(7인치)": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "UVO2.0(8인치)&7스피커": {
+              "price": 1350000,
+              "price_man": 135,
+              "desc": ""
+            },
+            "컴포트시트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "스타일 UP+LED 안개등": {
+              "price": 990000,
+              "price_man": 99,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.7 2WD 노블레스": {
+          "base_price": 29500000,
+          "base_price_man": 2950,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "스마트 내비(7인치)": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "UVO2.0(8인치)&7스피커": {
+              "price": 1350000,
+              "price_man": 135,
+              "desc": ""
+            },
+            "스타일UP": {
+              "price": 890000,
+              "price_man": 89,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.7 2WD 시그니처": {
+          "base_price": 31500000,
+          "base_price_man": 3150,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "스마트 내비(7인치)+어라운드뷰": {
+              "price": 1350000,
+              "price_man": 135,
+              "desc": ""
+            },
+            "UVO2.0(8인치)&JBL+어라운드뷰": {
+              "price": 2350000,
+              "price_man": 235,
+              "desc": ""
+            },
+            "드라이빙 세이프티 PACK": {
+              "price": 1850000,
+              "price_man": 185,
+              "desc": ""
+            }
+          }
+        }
+      },
+      "2018": {
+        "가솔린 2.0 2WD 럭셔리": {
+          "base_price": 22700000,
+          "base_price_man": 2270,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "스마트 내비(7인치, 후방카메라)": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "ECM & ETCS": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            },
+            "235/45R18 & 럭셔리 알로이 휠": {
+              "price": 450000,
+              "price_man": 45,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 스타일 에디션": {
+          "base_price": 23950000,
+          "base_price_man": 2395,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "스마트 내비(7인치)": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "ECM & ETCS": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 프레스티지": {
+          "base_price": 25150000,
+          "base_price_man": 2515,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "스마트 내비(7인치)": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "내비(8인치, 후방카메라)&7스피커(외장앰프)": {
+              "price": 1350000,
+              "price_man": 135,
+              "desc": ""
+            },
+            "컴포트시트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "스타일 UP+LED 안개등": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 노블레스": {
+          "base_price": 27150000,
+          "base_price_man": 2715,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "스마트 내비(7인치)": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "내비(8인치)&7스피커": {
+              "price": 1350000,
+              "price_man": 135,
+              "desc": ""
+            },
+            "스타일 UP": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 시그니처": {
+          "base_price": 29250000,
+          "base_price_man": 2925,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "스마트 내비(7인치, 후방카메라)+어라운드뷰 모니터링 시스템": {
+              "price": 1350000,
+              "price_man": 135,
+              "desc": ""
+            },
+            "내비 2.0(8인치, 후방카메라)&JBL사운드+어라운드뷰": {
+              "price": 2350000,
+              "price_man": 235,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1850000,
+              "price_man": 185,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 터보 2WD GT": {
+          "base_price": 32950000,
+          "base_price_man": 3295,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 1.7 2WD 프레스티지": {
+          "base_price": 25850000,
+          "base_price_man": 2585,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "스마트 내비(7인치, 후방카메라)": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "운전석 파워시트(전동식 허리지지대)+운전석 통풍시트": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "LED 헤드램프+레드베젤 LED 리어 콤비네이션램프+LED 안개등": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "235/45R18 & 럭셔리 알로이 휠": {
+              "price": 450000,
+              "price_man": 45,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.7 2WD 노블레스 스페셜": {
+          "base_price": 31100000,
+          "base_price_man": 3110,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "내비(8인치, 후방카메라)&JBL 사운드(10스피커, 외장앰프)": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "퀼팅 가죽시트": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "컨비니언스": {
+              "price": 1300000,
+              "price_man": 130,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1850000,
+              "price_man": 185,
+              "desc": ""
+            }
+          }
+        }
+      }
+    },
+    "더 뉴 K5 2세대": {
+      "2018": {
+        "가솔린 1.6 터보 2WD 노블레스": {
+          "base_price": 26950000,
+          "base_price_man": 2695,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "UVO 3.0(8인치)+ECM+독립제어 풀오토 에어컨": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "통풍시트+동승석 파워시트+전동식 허리지지대+워크인 디바이스": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "235/45R18 & 스포티 알로이 휠+듀얼머플러": {
+              "price": 350000,
+              "price_man": 35,
+              "desc": ""
+            },
+            "후측방 충돌 경고+후방 교차 충돌 경고+전방 주차보조": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 럭셔리": {
+          "base_price": 22700000,
+          "base_price_man": 2270,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "스마트 내비(7인치, 후방카메라)": {
+              "price": 650000,
+              "price_man": 65,
+              "desc": ""
+            },
+            "버튼시동 스마트키+ETCS": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            },
+            "앞좌석 통풍시트": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "스타일 UP+LED 리어콤비네이션램프": {
+              "price": 1300000,
+              "price_man": 130,
+              "desc": ""
+            },
+            "235/45R18 & 다크 스퍼터링 휠": {
+              "price": 350000,
+              "price_man": 35,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 프레스티지": {
+          "base_price": 25300000,
+          "base_price_man": 2530,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "UVO 3.0(8인치)+ECM+독립제어 풀오토 에어컨": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "통풍시트": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "스타일 UP": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "드라이브 와이즈+EPB": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 노블레스": {
+          "base_price": 27350000,
+          "base_price_man": 2735,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "UVO 3.0(8인치)": {
+              "price": 650000,
+              "price_man": 65,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 650000,
+              "price_man": 65,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 인텔리전트": {
+          "base_price": 29850000,
+          "base_price_man": 2985,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "UVO 3.0(8인치)+KRELL+서라운드": {
+              "price": 1600000,
+              "price_man": 160,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 월드컵 에디션": {
+          "base_price": 27800000,
+          "base_price_man": 2780,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "UVO 3.0(8인치)+ECM+풀오토": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.7 2WD 프레스티지": {
+          "base_price": 25950000,
+          "base_price_man": 2595,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "스마트 내비(7인치, 후방카메라)+ETCS": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "통풍시트": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "LED 스타일 UP": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "235/45R18 & 다크 스퍼터링 휠": {
+              "price": 350000,
+              "price_man": 35,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.7 2WD 노블레스 스페셜": {
+          "base_price": 31500000,
+          "base_price_man": 3150,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "UVO 3.0(8인치)+KRELL+서라운드": {
+              "price": 1600000,
+              "price_man": 160,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            }
+          }
+        }
+      },
+      "2019": {
+        "가솔린 1.6 터보 2WD 프레스티지": {
+          "base_price": 24890000,
+          "base_price_man": 2489,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "스마트 내비+ETCS": {
+              "price": 830000,
+              "price_man": 83,
+              "desc": ""
+            },
+            "통풍시트": {
+              "price": 390000,
+              "price_man": 39,
+              "desc": ""
+            },
+            "LED 스타일 UP": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "215/55R17": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 2WD 노블레스": {
+          "base_price": 26460000,
+          "base_price_man": 2646,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "UVO+ECM+풀오토": {
+              "price": 830000,
+              "price_man": 83,
+              "desc": ""
+            },
+            "통풍시트 패키지": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "18인치+듀얼머플러": {
+              "price": 340000,
+              "price_man": 34,
+              "desc": ""
+            },
+            "후측방+후방 교차+전방 주차보조": {
+              "price": 540000,
+              "price_man": 54,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 2WD 스페셜": {
+          "base_price": 30290000,
+          "base_price_man": 3029,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "UVO+KRELL+서라운드": {
+              "price": 1570000,
+              "price_man": 157,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 럭셔리": {
+          "base_price": 22280000,
+          "base_price_man": 2228,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "스마트 내비(7인치)": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "버튼시동+ETCS": {
+              "price": 540000,
+              "price_man": 54,
+              "desc": ""
+            },
+            "통풍시트": {
+              "price": 390000,
+              "price_man": 39,
+              "desc": ""
+            },
+            "스타일 UP+LED 리어콤비네이션램프": {
+              "price": 1280000,
+              "price_man": 128,
+              "desc": ""
+            },
+            "235/45R18+다크 스퍼터링 휠": {
+              "price": 340000,
+              "price_man": 34,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 프레스티지": {
+          "base_price": 24840000,
+          "base_price_man": 2484,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "UVO+ECM+풀오토": {
+              "price": 830000,
+              "price_man": 83,
+              "desc": ""
+            },
+            "통풍시트": {
+              "price": 390000,
+              "price_man": 39,
+              "desc": ""
+            },
+            "스타일 UP": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "드라이브 와이즈+EPB": {
+              "price": 1230000,
+              "price_man": 123,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 노블레스": {
+          "base_price": 26850000,
+          "base_price_man": 2685,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "UVO 3.0 8인치": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 인텔리전트": {
+          "base_price": 29300000,
+          "base_price_man": 2930,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "UVO+KRELL+서라운드": {
+              "price": 1570000,
+              "price_man": 157,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.7 2WD 프레스티지": {
+          "base_price": 25470000,
+          "base_price_man": 2547,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "스마트 내비(7인치)+ETCS": {
+              "price": 830000,
+              "price_man": 83,
+              "desc": ""
+            },
+            "통풍시트": {
+              "price": 390000,
+              "price_man": 39,
+              "desc": ""
+            },
+            "LED 스타일 UP": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "235/45R18+다크 스퍼터링 휠": {
+              "price": 340000,
+              "price_man": 34,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.7 2WD 스페셜": {
+          "base_price": 30920000,
+          "base_price_man": 3092,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "UVO+KRELL+서라운드": {
+              "price": 1570000,
+              "price_man": 157,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            }
+          }
+        }
+      },
+      "2020": {
+        "가솔린 1.6 터보 2WD 프레스티지": {
+          "base_price": 24890000,
+          "base_price_man": 2489,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "스마트 디스플레이 오디오(7인치)+ETCS": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "통풍시트": {
+              "price": 390000,
+              "price_man": 39,
+              "desc": ""
+            },
+            "LED 스타일 UP": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "215/55R17 & 전면가공 알로이 휠": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            },
+            "215/55R17+전방 충돌&차로 이탈 방지 보조시스템": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 2WD 노블레스": {
+          "base_price": 26850000,
+          "base_price_man": 2685,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "UVO+ECM+풀오토": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "컴포트 시트": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "235/45R18+듀얼머플러": {
+              "price": 340000,
+              "price_man": 34,
+              "desc": ""
+            },
+            "후측방+후방 교차+전방 주차보조": {
+              "price": 540000,
+              "price_man": 54,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 440000,
+              "price_man": 44,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 2WD 스페셜": {
+          "base_price": 30680000,
+          "base_price_man": 3068,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "UVO+KRELL+서라운드": {
+              "price": 1670000,
+              "price_man": 167,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 440000,
+              "price_man": 44,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 럭셔리": {
+          "base_price": 22280000,
+          "base_price_man": 2228,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "스마트 디스플레이 오디오(7인치)": {
+              "price": 490000,
+              "price_man": 49,
+              "desc": ""
+            },
+            "버튼시동+ETCS": {
+              "price": 540000,
+              "price_man": 54,
+              "desc": ""
+            },
+            "통풍시트": {
+              "price": 390000,
+              "price_man": 39,
+              "desc": ""
+            },
+            "235/45R18+다크 스퍼터링 휠": {
+              "price": 340000,
+              "price_man": 34,
+              "desc": ""
+            },
+            "235/45R18+전방 충돌&차로 이탈 방지 보조시스템": {
+              "price": 830000,
+              "price_man": 83,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 프레스티지": {
+          "base_price": 24980000,
+          "base_price_man": 2498,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "UVO+ECM+풀오토": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "통풍시트": {
+              "price": 390000,
+              "price_man": 39,
+              "desc": ""
+            },
+            "스타일 UP": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 440000,
+              "price_man": 44,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 노블레스": {
+          "base_price": 27050000,
+          "base_price_man": 2705,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "UVO 8인치": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "후측방+후방 교차+전방 주차보조": {
+              "price": 540000,
+              "price_man": 54,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 440000,
+              "price_man": 44,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 인텔리전트": {
+          "base_price": 28910000,
+          "base_price_man": 2891,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "UVO+KRELL+서라운드": {
+              "price": 1670000,
+              "price_man": 167,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 440000,
+              "price_man": 44,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.7 2WD 프레스티지": {
+          "base_price": 25470000,
+          "base_price_man": 2547,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "스마트 디스플레이 오디오(7인치)+ETCS": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "통풍시트": {
+              "price": 390000,
+              "price_man": 39,
+              "desc": ""
+            },
+            "LED 스타일 UP": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "235/45R18+다크 스퍼터링 휠": {
+              "price": 340000,
+              "price_man": 34,
+              "desc": ""
+            },
+            "235/45R18+전방 충돌&차로 이탈 방지 보조시스템": {
+              "price": 830000,
+              "price_man": 83,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.7 2WD 스페셜": {
+          "base_price": 31320000,
+          "base_price_man": 3132,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "UVO+KRELL+서라운드": {
+              "price": 1670000,
+              "price_man": 167,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 440000,
+              "price_man": 44,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 2.0 2WD 프레스티지": {
+          "base_price": 23262375,
+          "base_price_man": 2326.2375,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1129140,
+              "price_man": 112.914,
+              "desc": ""
+            },
+            "UVO+ECM+듀얼 풀오토 에어컨": {
+              "price": 1411425,
+              "price_man": 141.1425,
+              "desc": ""
+            },
+            "215/55R17+LED 리어콤비네이션램프": {
+              "price": 418200,
+              "price_man": 41.82,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 2.0 2WD 노블레스": {
+          "base_price": 25719300,
+          "base_price_man": 2571.93,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1129140,
+              "price_man": 112.914,
+              "desc": ""
+            },
+            "UVO+ECM": {
+              "price": 1254600,
+              "price_man": 125.46,
+              "desc": ""
+            },
+            "215/55R17+LED 리어콤비네이션램프": {
+              "price": 418200,
+              "price_man": 41.82,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 2.0 2WD 노블레스 스페셜": {
+          "base_price": 28019400,
+          "base_price_man": 2801.94,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1129140,
+              "price_man": 112.914,
+              "desc": ""
+            },
+            "UVO+KRELL+서라운드": {
+              "price": 1672800,
+              "price_man": 167.28,
+              "desc": ""
+            }
+          }
+        }
+      }
+    },
+    "K5 1세대": {
+      "2013": {
+        "가솔린 2.0 2WD 스마트 M/T": {
+          "base_price": 20250000,
+          "base_price_man": 2025,
+          "standard_features": [],
+          "options": {}
+        },
+        "가솔린 2.0 2WD 스마트 A/T": {
+          "base_price": 21950000,
+          "base_price_man": 2195,
+          "standard_features": [],
+          "options": {}
+        },
+        "가솔린 2.0 2WD 스페셜 A/T": {
+          "base_price": 22750000,
+          "base_price_man": 2275,
+          "standard_features": [],
+          "options": {
+            "내비(7인치,후방카메라)&7스피커": {
+              "price": 1450000,
+              "price_man": 145,
+              "desc": ""
+            },
+            "파노라마": {
+              "price": 1120000,
+              "price_man": 112,
+              "desc": ""
+            },
+            "버튼시동 스마트키 시스템(도어 손잡이 조명, 크롬아웃사이드 도어 핸들포함)": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 트렌디 A/T": {
+          "base_price": 24550000,
+          "base_price_man": 2455,
+          "standard_features": [],
+          "options": {
+            "내비&7스피커": {
+              "price": 1450000,
+              "price_man": 145,
+              "desc": ""
+            },
+            "파노라마": {
+              "price": 1120000,
+              "price_man": 112,
+              "desc": ""
+            },
+            "ECM & ETCS": {
+              "price": 240000,
+              "price_man": 24,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 럭셔리 A/T": {
+          "base_price": 25550000,
+          "base_price_man": 2555,
+          "standard_features": [],
+          "options": {
+            "내비&7스피커": {
+              "price": 1450000,
+              "price_man": 145,
+              "desc": ""
+            },
+            "파노라마": {
+              "price": 1120000,
+              "price_man": 112,
+              "desc": ""
+            },
+            "225/45R 18인치 타이어 & 알로이휠+TPMS": {
+              "price": 350000,
+              "price_man": 35,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 프레스티지 A/T": {
+          "base_price": 26360000,
+          "base_price_man": 2636,
+          "standard_features": [],
+          "options": {
+            "내비&7스피커": {
+              "price": 1450000,
+              "price_man": 145,
+              "desc": ""
+            },
+            "파노라마": {
+              "price": 1120000,
+              "price_man": 112,
+              "desc": ""
+            },
+            "하이클래스": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 브라운 A/T": {
+          "base_price": 26360000,
+          "base_price_man": 2636,
+          "standard_features": [],
+          "options": {
+            "내비&7스피커": {
+              "price": 1450000,
+              "price_man": 145,
+              "desc": ""
+            },
+            "파노라마": {
+              "price": 1120000,
+              "price_man": 112,
+              "desc": ""
+            },
+            "하이클래스": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 노블레스 A/T": {
+          "base_price": 27920000,
+          "base_price_man": 2792,
+          "standard_features": [],
+          "options": {
+            "내비&7스피커": {
+              "price": 1450000,
+              "price_man": 145,
+              "desc": ""
+            },
+            "내비(7인치, 후방카메라)&JBL사운드 시스템(8스피커, 외장앰프)": {
+              "price": 1800000,
+              "price_man": 180,
+              "desc": ""
+            },
+            "파노라마": {
+              "price": 1120000,
+              "price_man": 112,
+              "desc": ""
+            },
+            "SPAS": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            },
+            "컴포트시트": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 에코플러스 프레스티지 A/T": {
+          "base_price": 27750000,
+          "base_price_man": 2775,
+          "standard_features": [],
+          "options": {
+            "내비&7스피커": {
+              "price": 1450000,
+              "price_man": 145,
+              "desc": ""
+            },
+            "파노라마": {
+              "price": 1120000,
+              "price_man": 112,
+              "desc": ""
+            },
+            "SPAS": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            },
+            "하이클래스": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 터보 2WD 프레스티지 A/T": {
+          "base_price": 28500000,
+          "base_price_man": 2850,
+          "standard_features": [],
+          "options": {
+            "내비&7스피커": {
+              "price": 1450000,
+              "price_man": 145,
+              "desc": ""
+            },
+            "파노라마": {
+              "price": 1120000,
+              "price_man": 112,
+              "desc": ""
+            },
+            "하이클래스": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 터보 2WD 노블레스 A/T": {
+          "base_price": 29800000,
+          "base_price_man": 2980,
+          "standard_features": [],
+          "options": {
+            "내비&JBL사운드": {
+              "price": 1170000,
+              "price_man": 117,
+              "desc": ""
+            },
+            "파노라마": {
+              "price": 1120000,
+              "price_man": 112,
+              "desc": ""
+            },
+            "SPAS": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            },
+            "컴포트시트": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "하이클래스": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            }
+          }
+        }
+      }
+    },
+    "더 뉴 K5 1세대": {
+      "2014": {
+        "가솔린 2.0 2WD 디럭스 M/T": {
+          "base_price": 20250000,
+          "base_price_man": 2025,
+          "standard_features": [],
+          "options": {
+            "ECM & ETCS": {
+              "price": 240000,
+              "price_man": 24,
+              "desc": ""
+            },
+            "음성인식 블루투스 핸즈프리": {
+              "price": 100000,
+              "price_man": 10,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 디럭스 A/T": {
+          "base_price": 21950000,
+          "base_price_man": 2195,
+          "standard_features": [],
+          "options": {
+            "ECM & ETCS": {
+              "price": 240000,
+              "price_man": 24,
+              "desc": ""
+            },
+            "음성인식 블루투스 핸즈프리": {
+              "price": 100000,
+              "price_man": 10,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 럭셔리 A/T": {
+          "base_price": 23500000,
+          "base_price_man": 2350,
+          "standard_features": [],
+          "options": {
+            "내비(8인치, 후방카메라)": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "파노라마 썬루프": {
+              "price": 1120000,
+              "price_man": 112,
+              "desc": ""
+            },
+            "ECM & ETCS": {
+              "price": 240000,
+              "price_man": 24,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 트렌디 A/T": {
+          "base_price": 24700000,
+          "base_price_man": 2470,
+          "standard_features": [],
+          "options": {
+            "내비": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "파노라마": {
+              "price": 1120000,
+              "price_man": 112,
+              "desc": ""
+            },
+            "ECM & ETCS": {
+              "price": 240000,
+              "price_man": 24,
+              "desc": ""
+            },
+            "EPB+대구경 디스크+TPMS": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "가죽시트+운전석 통풍시트": {
+              "price": 450000,
+              "price_man": 45,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 프레스티지 A/T": {
+          "base_price": 26450000,
+          "base_price_man": 2645,
+          "standard_features": [],
+          "options": {
+            "UVO 2.0(8인치)&7스피커": {
+              "price": 1450000,
+              "price_man": 145,
+              "desc": ""
+            },
+            "내비": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "파노라마": {
+              "price": 1120000,
+              "price_man": 112,
+              "desc": ""
+            },
+            "다이나믹": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "컴포트시트": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 노블레스 A/T": {
+          "base_price": 27850000,
+          "base_price_man": 2785,
+          "standard_features": [],
+          "options": {
+            "UVO 2.0&JBL(8스피커)": {
+              "price": 1800000,
+              "price_man": 180,
+              "desc": ""
+            },
+            "내비": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "파노라마": {
+              "price": 1120000,
+              "price_man": 112,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 터보 2WD 프레스티지 A/T": {
+          "base_price": 27950000,
+          "base_price_man": 2795,
+          "standard_features": [],
+          "options": {
+            "UVO 2.0&7스피커": {
+              "price": 1450000,
+              "price_man": 145,
+              "desc": ""
+            },
+            "내비": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "파노라마": {
+              "price": 1120000,
+              "price_man": 112,
+              "desc": ""
+            },
+            "ECM & ETCS": {
+              "price": 240000,
+              "price_man": 24,
+              "desc": ""
+            },
+            "컴포트시트": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 터보 2WD 노블레스 A/T": {
+          "base_price": 29950000,
+          "base_price_man": 2995,
+          "standard_features": [],
+          "options": {
+            "UVO 2.0&JBL": {
+              "price": 1800000,
+              "price_man": 180,
+              "desc": ""
+            },
+            "내비": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "파노라마": {
+              "price": 1120000,
+              "price_man": 112,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            }
+          }
+        }
+      },
+      "2015": {
+        "가솔린 2.0 2WD 디럭스 M/T": {
+          "base_price": 20400000,
+          "base_price_man": 2040,
+          "standard_features": [],
+          "options": {
+            "ECM & ETCS": {
+              "price": 240000,
+              "price_man": 24,
+              "desc": ""
+            },
+            "음성인식 블루투스 핸즈프리": {
+              "price": 100000,
+              "price_man": 10,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 디럭스 A/T": {
+          "base_price": 22100000,
+          "base_price_man": 2210,
+          "standard_features": [],
+          "options": {
+            "ECM & ETCS": {
+              "price": 240000,
+              "price_man": 24,
+              "desc": ""
+            },
+            "음성인식 블루투스 핸즈프리": {
+              "price": 100000,
+              "price_man": 10,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 럭셔리 A/T": {
+          "base_price": 23650000,
+          "base_price_man": 2365,
+          "standard_features": [],
+          "options": {
+            "내비(8인치, 후방카메라)": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "파노라마": {
+              "price": 1120000,
+              "price_man": 112,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 650000,
+              "price_man": 65,
+              "desc": ""
+            },
+            "ECM & ETCS": {
+              "price": 240000,
+              "price_man": 24,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 트렌디 A/T": {
+          "base_price": 24850000,
+          "base_price_man": 2485,
+          "standard_features": [],
+          "options": {
+            "내비": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "파노라마": {
+              "price": 1120000,
+              "price_man": 112,
+              "desc": ""
+            },
+            "ECM & ETCS": {
+              "price": 240000,
+              "price_man": 24,
+              "desc": ""
+            },
+            "가죽시트+운전석 통풍시트": {
+              "price": 450000,
+              "price_man": 45,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 스페셜 A/T": {
+          "base_price": 26090000,
+          "base_price_man": 2609,
+          "standard_features": [],
+          "options": {
+            "내비": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "파노라마": {
+              "price": 1120000,
+              "price_man": 112,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 프레스티지 A/T": {
+          "base_price": 26800000,
+          "base_price_man": 2680,
+          "standard_features": [],
+          "options": {
+            "UVO 2.0&7스피커": {
+              "price": 1450000,
+              "price_man": 145,
+              "desc": ""
+            },
+            "내비": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "파노라마": {
+              "price": 1120000,
+              "price_man": 112,
+              "desc": ""
+            },
+            "HID 헤드램프+크롬 스퍼터링 알로이 휠": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "컴포트시트": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 노블레스 A/T": {
+          "base_price": 28200000,
+          "base_price_man": 2820,
+          "standard_features": [],
+          "options": {
+            "UVO 2.0&JBL": {
+              "price": 1800000,
+              "price_man": 180,
+              "desc": ""
+            },
+            "내비": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "파노라마": {
+              "price": 1120000,
+              "price_man": 112,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 터보 2WD 프레스티지 A/T": {
+          "base_price": 28050000,
+          "base_price_man": 2805,
+          "standard_features": [],
+          "options": {
+            "내비": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "파노라마": {
+              "price": 1120000,
+              "price_man": 112,
+              "desc": ""
+            },
+            "ECM & ETCS": {
+              "price": 240000,
+              "price_man": 24,
+              "desc": ""
+            },
+            "컴포트시트": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 터보 2WD 노블레스 A/T": {
+          "base_price": 30200000,
+          "base_price_man": 3020,
+          "standard_features": [],
+          "options": {
+            "UVO 2.0&JBL": {
+              "price": 1800000,
+              "price_man": 180,
+              "desc": ""
+            },
+            "내비": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "파노라마": {
+              "price": 1120000,
+              "price_man": 112,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            }
+          }
+        }
+      }
+    },
+    "K5 HEV": {
+      "2013": {
+        "HEV 2.0 2WD 디럭스": {
+          "base_price": 28980000,
+          "base_price_man": 2898,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1120000,
+              "price_man": 112,
+              "desc": ""
+            },
+            "내비(7인치, 후방카메라) & 7스피커(외장앰프)": {
+              "price": 1450000,
+              "price_man": 145,
+              "desc": ""
+            },
+            "ECM & ETCS": {
+              "price": 240000,
+              "price_man": 24,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 2.0 2WD 럭셔리": {
+          "base_price": 30080000,
+          "base_price_man": 3008,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 1120000,
+              "price_man": 112,
+              "desc": ""
+            },
+            "내비(7인치, 후방카메라) & 7스피커(외장앰프)": {
+              "price": 1450000,
+              "price_man": 145,
+              "desc": ""
+            },
+            "ECM & ETCS": {
+              "price": 240000,
+              "price_man": 24,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 2.0 2WD 프레스티지": {
+          "base_price": 31780000,
+          "base_price_man": 3178,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1120000,
+              "price_man": 112,
+              "desc": ""
+            },
+            "내비&7스피커": {
+              "price": 1450000,
+              "price_man": 145,
+              "desc": ""
+            },
+            "하이클래스": {
+              "price": 450000,
+              "price_man": 45,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 2.0 2WD 노블레스": {
+          "base_price": 32780000,
+          "base_price_man": 3278,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1120000,
+              "price_man": 112,
+              "desc": ""
+            },
+            "내비(7인치, 후방카메라) & JBL사운드시스템(8스피커, 외장앰프)": {
+              "price": 1170000,
+              "price_man": 117,
+              "desc": ""
+            },
+            "하이클래스": {
+              "price": 450000,
+              "price_man": 45,
+              "desc": ""
+            }
+          }
+        }
+      },
+      "2014": {
+        "HEV 2.0 2WD 럭셔리": {
+          "base_price": 29360000,
+          "base_price_man": 2936,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1120000,
+              "price_man": 112,
+              "desc": ""
+            },
+            "ECM & ETCS": {
+              "price": 240000,
+              "price_man": 24,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "내비 UVO 2.0(8인치)&7스피커": {
+              "price": 1450000,
+              "price_man": 145,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 2.0 2WD 프레스티지": {
+          "base_price": 30680000,
+          "base_price_man": 3068,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1120000,
+              "price_man": 112,
+              "desc": ""
+            },
+            "HID 헤드램프": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "컴포트시트": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            },
+            "내비 UVO 2.0&7스피커": {
+              "price": 1450000,
+              "price_man": 145,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 2.0 2WD 노블레스": {
+          "base_price": 32530000,
+          "base_price_man": 3253,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1120000,
+              "price_man": 112,
+              "desc": ""
+            },
+            "내비 UVO 2.0&7스피커": {
+              "price": 1450000,
+              "price_man": 145,
+              "desc": ""
+            },
+            "내비 UVO 2.0&JBL": {
+              "price": 1800000,
+              "price_man": 180,
+              "desc": ""
+            },
+            "스페셜": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            }
+          }
+        }
+      },
+      "2015": {
+        "HEV 2.0 2WD 럭셔리": {
+          "base_price": 29460000,
+          "base_price_man": 2946,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1120000,
+              "price_man": 112,
+              "desc": ""
+            },
+            "ECM & ETCS": {
+              "price": 240000,
+              "price_man": 24,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "내비(8인치, 후방카메라)": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 2.0 2WD 프레스티지": {
+          "base_price": 30780000,
+          "base_price_man": 3078,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1120000,
+              "price_man": 112,
+              "desc": ""
+            },
+            "HID 헤드램프": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "컴포트시트": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            },
+            "내비(8인치, 후방카메라)": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "내비 UVO 2.0&7스피커": {
+              "price": 1450000,
+              "price_man": 145,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 2.0 2WD 노블레스": {
+          "base_price": 32630000,
+          "base_price_man": 3263,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1120000,
+              "price_man": 112,
+              "desc": ""
+            },
+            "내비 UVO 2.0&JBL": {
+              "price": 1800000,
+              "price_man": 180,
+              "desc": ""
+            },
+            "스페셜": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            }
+          }
+        }
+      },
+      "2016": {
+        "HEV 2.0 2WD 프레스티지": {
+          "base_price": 28530000,
+          "base_price_man": 2853,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "내비(7인치, 후방카메라)": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "ECM & ETCS": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 490000,
+              "price_man": 49,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 2.0 2WD 노블레스": {
+          "base_price": 29710000,
+          "base_price_man": 2971,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "내비(7인치, 후방카메라)": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "UVO2.0(8인치, 후방카메라)&7스피커": {
+              "price": 1330000,
+              "price_man": 133,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 490000,
+              "price_man": 49,
+              "desc": ""
+            },
+            "컴포트시트": {
+              "price": 540000,
+              "price_man": 54,
+              "desc": ""
+            },
+            "HID 헤드램프+전자식 파킹브레이크(AUTO 홀드)": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 2.0 2WD 스페셜": {
+          "base_price": 31820000,
+          "base_price_man": 3182,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "UVO2.0(8인치, 후방카메라)&JBL 사운드(10스피커, 외장앰프)": {
+              "price": 1770000,
+              "price_man": 177,
+              "desc": ""
+            },
+            "서포트 PACK": {
+              "price": 540000,
+              "price_man": 54,
+              "desc": ""
+            },
+            "드라이빙 세이프티 PACK": {
+              "price": 1910000,
+              "price_man": 191,
+              "desc": ""
+            }
+          }
+        }
+      },
+      "2017": {
+        "HEV 2.0 2WD 프레스티지": {
+          "base_price": 29080000,
+          "base_price_man": 2908,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "내비(7인치, 후방카메라)": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "ECM & ETCS": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 2.0 2WD 노블레스": {
+          "base_price": 30380000,
+          "base_price_man": 3038,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "내비(7인치, 후방카메라)": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "UVO2.0(8인치, 후방카메라)&7스피커": {
+              "price": 1350000,
+              "price_man": 135,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "컴포트시트": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            },
+            "LED 헤드램프": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 2.0 2WD 스페셜": {
+          "base_price": 33130000,
+          "base_price_man": 3313,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "UVO2.0(8인치, 후방카메라)&JBL 사운드(10스피커, 외장앰프)": {
+              "price": 1800000,
+              "price_man": 180,
+              "desc": ""
+            },
+            "UVO2.0(8인치, 후방카메라)&JBL 사운드+후측방 모니터링 시스템": {
+              "price": 2200000,
+              "price_man": 220,
+              "desc": ""
+            },
+            "드라이빙 세이프티 PACK": {
+              "price": 1850000,
+              "price_man": 185,
+              "desc": ""
+            }
+          }
+        }
+      },
+      "2018": {
+        "HEV 2.0 2WD 프레스티지": {
+          "base_price": 29130000,
+          "base_price_man": 2913,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "스마트 내비(7인치)": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "ECM & ETCS": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            },
+            "스타일 UP": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 2.0 2WD 노블레스": {
+          "base_price": 30430000,
+          "base_price_man": 3043,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "스마트 내비(7인치)": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "UVO 2.0(8인치)&7스피커": {
+              "price": 1350000,
+              "price_man": 135,
+              "desc": ""
+            },
+            "스타일 UP": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "컴포트시트": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            },
+            "LED 헤드램프": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 2.0 2WD 노블레스 스페셜": {
+          "base_price": 33180000,
+          "base_price_man": 3318,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "스마트 내비(7인치)": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "UVO 2.0(8인치)&JBL": {
+              "price": 1800000,
+              "price_man": 180,
+              "desc": ""
+            },
+            "UVO 2.0(8인치)&JBL+후측방 모니터링 시스템": {
+              "price": 2200000,
+              "price_man": 220,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1850000,
+              "price_man": 185,
+              "desc": ""
+            }
+          }
+        }
+      }
+    },
+    "더 뉴 K5 HEV": {
+      "2018": {
+        "HEV 2.0 2WD 프레스티지": {
+          "base_price": 29330000,
+          "base_price_man": 2933,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "스마트 내비(7인치, 후방카메라)+ETCS": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "앞좌석 통풍시트": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "후측방 충돌경고+후방 교차 충돌 경고+전방 주차보조 시스템": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 2.0 2WD 노블레스": {
+          "base_price": 31380000,
+          "base_price_man": 3138,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "UVO 3.0(8인치)": {
+              "price": 650000,
+              "price_man": 65,
+              "desc": ""
+            },
+            "컴포트시트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "215/55R17 & 에어로 다이나믹 알로이 휠": {
+              "price": 200000,
+              "price_man": 20,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 2.0 2WD 스페셜": {
+          "base_price": 33980000,
+          "base_price_man": 3398,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "UVO 3.0(8인치)+KRELL+서라운드뷰 모니터": {
+              "price": 1600000,
+              "price_man": 160,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            }
+          }
+        }
+      },
+      "2020": {
+        "HEV 2.0 2WD 프레스티지": {
+          "base_price": 28770000,
+          "base_price_man": 2877,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "스마트 디스플레이 오디오(7인치, 후방카메라)+ETCS": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "앞좌석 통풍시트": {
+              "price": 390000,
+              "price_man": 39,
+              "desc": ""
+            },
+            "전방 충돌방지 보조(차량, 보행자)+전방 충돌 경고+차로 이탈방지 보조+차로 이탈 경고+운전자 주의 경고+전자식 파킹브레이크": {
+              "price": 490000,
+              "price_man": 49,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 2.0 2WD 노블레스": {
+          "base_price": 30890000,
+          "base_price_man": 3089,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "스마트 내비게이션 UVO 3.0(8인치)": {
+              "price": 740000,
+              "price_man": 74,
+              "desc": ""
+            },
+            "컴포트 시트": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "드라이브 와이즈+후측방 충돌 경고+후방 교차 충돌 경고": {
+              "price": 830000,
+              "price_man": 83,
+              "desc": ""
+            },
+            "215/55R17 & 에어로 다이나믹 알로이 휠": {
+              "price": 200000,
+              "price_man": 20,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 2.0 2WD 스페셜": {
+          "base_price": 33730000,
+          "base_price_man": 3373,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "UVO 3.0(8인치)+KRELL 프리미엄 사운드(10스피커, 외장앰프)+서라운드 뷰 모니터": {
+              "price": 1670000,
+              "price_man": 167,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 440000,
+              "price_man": 44,
+              "desc": ""
+            }
+          }
+        }
+      }
+    },
+    "K5 PHEV": {
+      "2017": {
+        "PHEV 2.0 2WD 노블레스 스페셜": {
+          "base_price": 40030000,
+          "base_price_man": 4003,
+          "standard_features": [],
+          "options": {
+            "와이드 파노라마 선루프": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1800000,
+              "price_man": 180,
+              "desc": ""
+            },
+            "드라이빙 세이프티 PACK": {
+              "price": 1850000,
+              "price_man": 185,
+              "desc": ""
+            },
+            "220V 휴대용 충전케이블": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        }
+      },
+      "2018": {
+        "PHEV 2.0 2WD 노블레스 스페셜": {
+          "base_price": 40030000,
+          "base_price_man": 4003,
+          "standard_features": [],
+          "options": {
+            "파노라마": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "스타일 UP": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1800000,
+              "price_man": 180,
+              "desc": ""
+            },
+            "220V 휴대용 충전케이블": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1850000,
+              "price_man": 185,
               "desc": ""
             }
           }
