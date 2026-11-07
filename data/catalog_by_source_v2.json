@@ -77315,6 +77315,820 @@
             }
           },
           "standard_features": []
+        },
+        "HEV 1.6 2WD 라운지 프레스티지 9인승": {
+          "base_price": 44990000,
+          "base_price_man": 4499,
+          "standard_features": [],
+          "options": {
+            "듀얼 와이드 선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "스마트": {
+              "price": 1410000,
+              "price_man": 141,
+              "desc": ""
+            },
+            "컴포트Ⅰ": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "컴포트Ⅱ": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "테크Ⅰ": {
+              "price": 1900000,
+              "price_man": 190,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 라운지 인스퍼레이션 9인승": {
+          "base_price": 48760000,
+          "base_price_man": 4876,
+          "standard_features": [],
+          "options": {
+            "선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "BOSE 사운드 시스템": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 670000,
+              "price_man": 67,
+              "desc": ""
+            },
+            "컴포트Ⅱ": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 라운지 인스퍼레이션 7인승": {
+          "base_price": 50210000,
+          "base_price_man": 5021,
+          "standard_features": [],
+          "options": {
+            "선루프": {
+              "price": 880000,
+              "price_man": 88,
+              "desc": ""
+            },
+            "BOSE 사운드 시스템": {
+              "price": 630000,
+              "price_man": 63,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "컴포트Ⅱ": {
+              "price": 510000,
+              "price_man": 51,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 라운지 리무진 인스퍼레이션 9인승": {
+          "base_price": 59800000,
+          "base_price_man": 5980,
+          "standard_features": [],
+          "options": {
+            "빌트인 캠": {
+              "price": 670000,
+              "price_man": 67,
+              "desc": ""
+            },
+            "2열 플러쉬 글래스": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            },
+            "선루프 패키지": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 라운지 리무진 인스퍼레이션 6인승": {
+          "base_price": 69090000,
+          "base_price_man": 6909,
+          "standard_features": [],
+          "options": {
+            "빌트인 캠": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "2열 플러쉬 글래스": {
+              "price": 260000,
+              "price_man": 26,
+              "desc": ""
+            },
+            "선루프 패키지": {
+              "price": 890000,
+              "price_man": 89,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 카고 스마트 2인승": {
+          "base_price": 36170000,
+          "base_price_man": 3617,
+          "standard_features": [],
+          "options": {
+            "트윈 스윙 도어": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "멀티미디어 내비플러스Ⅰ": {
+              "price": 1650000,
+              "price_man": 165,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 카고 모던 2인승": {
+          "base_price": 37450000,
+          "base_price_man": 3745,
+          "standard_features": [],
+          "options": {
+            "트윈 스윙 도어": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 670000,
+              "price_man": 67,
+              "desc": ""
+            },
+            "윈도우 밴": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            },
+            "내비플러스Ⅱ": {
+              "price": 1450000,
+              "price_man": 145,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "테크": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 카고 스마트 5인승": {
+          "base_price": 36860000,
+          "base_price_man": 3686,
+          "standard_features": [],
+          "options": {
+            "트윈 스윙 도어": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "멀티미디어 내비플러스Ⅰ": {
+              "price": 1650000,
+              "price_man": 165,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 카고 모던 5인승": {
+          "base_price": 38200000,
+          "base_price_man": 3820,
+          "standard_features": [],
+          "options": {
+            "트윈 스윙 도어": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 670000,
+              "price_man": 67,
+              "desc": ""
+            },
+            "윈도우 밴": {
+              "price": 200000,
+              "price_man": 20,
+              "desc": ""
+            },
+            "내비플러스Ⅱ": {
+              "price": 1450000,
+              "price_man": 145,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "테크": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 라운지 모빌리티9 9인승": {
+          "base_price": 47070000,
+          "base_price_man": 4707,
+          "standard_features": [],
+          "options": {
+            "BOSE 사운드 시스템": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "듀얼 와이드 선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "스마트": {
+              "price": 1160000,
+              "price_man": 116,
+              "desc": ""
+            },
+            "컴포트Ⅰ": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "컴포트Ⅱ": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "테크": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "컴포트Ⅱ + 테크": {
+              "price": 1550000,
+              "price_man": 155,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 라운지 모빌리티7 7인승": {
+          "base_price": 47890000,
+          "base_price_man": 4789,
+          "standard_features": [],
+          "options": {
+            "BOSE 사운드 시스템": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "듀얼 와이드 선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "스마트": {
+              "price": 1160000,
+              "price_man": 116,
+              "desc": ""
+            },
+            "컴포트Ⅱ": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "테크": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "컴포트Ⅱ + 테크": {
+              "price": 1550000,
+              "price_man": 155,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 킨더 11인승": {
+          "base_price": 45060000,
+          "base_price_man": 4506,
+          "standard_features": [],
+          "options": {
+            "내비플러스Ⅱ": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            },
+            "테크Ⅰ": {
+              "price": 970000,
+              "price_man": 97,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 킨더 15인승": {
+          "base_price": 47930000,
+          "base_price_man": 4793,
+          "standard_features": [],
+          "options": {
+            "내비플러스Ⅱ": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            },
+            "테크Ⅰ": {
+              "price": 970000,
+              "price_man": 97,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 특장차 일반 구급 5인승": {
+          "base_price": 51240000,
+          "base_price_man": 5124,
+          "standard_features": [],
+          "options": {
+            "내비플러스Ⅱ": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "구급 패키지Ⅰ": {
+              "price": 6100000,
+              "price_man": 610,
+              "desc": ""
+            },
+            "구급 패키지Ⅱ": {
+              "price": 5650000,
+              "price_man": 565,
+              "desc": ""
+            },
+            "구급충전": {
+              "price": 760000,
+              "price_man": 76,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 특장차 일반 구급 6인승": {
+          "base_price": 52100000,
+          "base_price_man": 5210,
+          "standard_features": [],
+          "options": {
+            "내비플러스Ⅱ": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "구급 패키지Ⅰ": {
+              "price": 6100000,
+              "price_man": 610,
+              "desc": ""
+            },
+            "구급 패키지Ⅱ": {
+              "price": 5650000,
+              "price_man": 565,
+              "desc": ""
+            },
+            "구급충전": {
+              "price": 760000,
+              "price_man": 76,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 특장차 특수 구급 6인승": {
+          "base_price": 76170000,
+          "base_price_man": 7617,
+          "standard_features": [],
+          "options": {
+            "내비플러스Ⅱ": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "구급 패키지Ⅱ": {
+              "price": 5650000,
+              "price_man": 565,
+              "desc": ""
+            },
+            "구급 패키지Ⅲ": {
+              "price": 10290000,
+              "price_man": 1029,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 3.5 2WD 투어러 스마트 11인승": {
+          "base_price": 35020000,
+          "base_price_man": 3502,
+          "standard_features": [],
+          "options": {
+            "내비플러스Ⅰ": {
+              "price": 1900000,
+              "price_man": 190,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 3.5 2WD 투어러 모던 11인승": {
+          "base_price": 36590000,
+          "base_price_man": 3659,
+          "standard_features": [],
+          "options": {
+            "빌트인 캠": {
+              "price": 670000,
+              "price_man": 67,
+              "desc": ""
+            },
+            "듀얼 와이드 선루프": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "내비플러스Ⅱ": {
+              "price": 1700000,
+              "price_man": 170,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            },
+            "테크Ⅰ": {
+              "price": 1350000,
+              "price_man": 135,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 3.5 2WD 라운지 인스퍼레이션 7인승": {
+          "base_price": 47050000,
+          "base_price_man": 4705,
+          "standard_features": [],
+          "options": {
+            "선루프": {
+              "price": 880000,
+              "price_man": 88,
+              "desc": ""
+            },
+            "BOSE 사운드 시스템": {
+              "price": 630000,
+              "price_man": 63,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 510000,
+              "price_man": 51,
+              "desc": ""
+            },
+            "트레일러 패키지": {
+              "price": 1320000,
+              "price_man": 132,
+              "desc": ""
+            },
+            "공기청정기": {
+              "price": 410000,
+              "price_man": 41,
+              "desc": ""
+            },
+            "사이드 스텝": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 3.5 2WD 카고 스마트 3인승": {
+          "base_price": 32590000,
+          "base_price_man": 3259,
+          "standard_features": [],
+          "options": {
+            "트윈 스윙 도어": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "내비플러스Ⅰ": {
+              "price": 1850000,
+              "price_man": 185,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 3.5 2WD 카고 모던 3인승": {
+          "base_price": 34120000,
+          "base_price_man": 3412,
+          "standard_features": [],
+          "options": {
+            "트윈 스윙 도어": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 670000,
+              "price_man": 67,
+              "desc": ""
+            },
+            "윈도우 밴": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            },
+            "내비플러스Ⅱ": {
+              "price": 1650000,
+              "price_man": 165,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "테크": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 3.5 2WD 카고 스마트 5인승": {
+          "base_price": 33330000,
+          "base_price_man": 3333,
+          "standard_features": [],
+          "options": {
+            "트윈 스윙 도어": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "내비플러스Ⅰ": {
+              "price": 1850000,
+              "price_man": 185,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 3.5 2WD 카고 모던 5인승": {
+          "base_price": 34900000,
+          "base_price_man": 3490,
+          "standard_features": [],
+          "options": {
+            "트윈 스윙 도어": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 670000,
+              "price_man": 67,
+              "desc": ""
+            },
+            "윈도우 밴": {
+              "price": 200000,
+              "price_man": 20,
+              "desc": ""
+            },
+            "내비플러스Ⅱ": {
+              "price": 1650000,
+              "price_man": 165,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "테크": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 3.5 2WD 라운지 모빌리티7 7인승": {
+          "base_price": 44690000,
+          "base_price_man": 4469,
+          "standard_features": [],
+          "options": {
+            "BOSE 사운드 시스템": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "듀얼 와이드 선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "스마트": {
+              "price": 1160000,
+              "price_man": 116,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "테크": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "컴포트Ⅱ + 테크": {
+              "price": 1550000,
+              "price_man": 155,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 3.5 2WD 킨더 11인승": {
+          "base_price": 41660000,
+          "base_price_man": 4166,
+          "standard_features": [],
+          "options": {
+            "내비플러스Ⅱ": {
+              "price": 1600000,
+              "price_man": 160,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            },
+            "테크Ⅰ": {
+              "price": 970000,
+              "price_man": 97,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 3.5 2WD 킨더 15인승": {
+          "base_price": 44530000,
+          "base_price_man": 4453,
+          "standard_features": [],
+          "options": {
+            "내비플러스Ⅱ": {
+              "price": 1600000,
+              "price_man": 160,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            },
+            "테크Ⅰ": {
+              "price": 970000,
+              "price_man": 97,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 3.5 2WD 특장차 휠체어 리프트 7인승": {
+          "base_price": 49520000,
+          "base_price_man": 4952,
+          "standard_features": [],
+          "options": {
+            "내비플러스Ⅱ": {
+              "price": 1600000,
+              "price_man": 160,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            },
+            "전동 회전시트": {
+              "price": 7430000,
+              "price_man": 743,
+              "desc": ""
+            }
+          }
         }
       }
     },
@@ -77454,6 +78268,4835 @@
             }
           },
           "standard_features": []
+        },
+        "HEV 1.6 2WD 투어러 모던 11인승": {
+          "base_price": 36530000,
+          "base_price_man": 3653,
+          "standard_features": [],
+          "options": {
+            "듀얼 와이드 선루프 + LED 룸램프": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 560000,
+              "price_man": 56,
+              "desc": ""
+            },
+            "멀티미디어 내비플러스": {
+              "price": 1500000,
+              "price_man": 150,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "테크Ⅰ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 투어러 모던 9인승": {
+          "base_price": 36530000,
+          "base_price_man": 3653,
+          "standard_features": [],
+          "options": {
+            "듀얼 와이드 선루프 + LED 룸램프": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 560000,
+              "price_man": 56,
+              "desc": ""
+            },
+            "멀티미디어 내비플러스": {
+              "price": 1500000,
+              "price_man": 150,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "테크Ⅰ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 라운지 캠퍼 프레스티지 4인승": {
+          "base_price": 74360000,
+          "base_price_man": 7436,
+          "standard_features": [],
+          "options": {
+            "컴포트Ⅱ": {
+              "price": 510000,
+              "price_man": 51,
+              "desc": ""
+            },
+            "컨비니언스": {
+              "price": 1650000,
+              "price_man": 165,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            },
+            "어닝 패키지": {
+              "price": 1720000,
+              "price_man": 172,
+              "desc": ""
+            },
+            "충전 패키지": {
+              "price": 3120000,
+              "price_man": 312,
+              "desc": ""
+            },
+            "캠핑 패키지Ⅱ": {
+              "price": 3260000,
+              "price_man": 326,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 카고 모던 3인승": {
+          "base_price": 34330000,
+          "base_price_man": 3433,
+          "standard_features": [],
+          "options": {
+            "트윈 스윙 도어": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "윈도우 밴": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 560000,
+              "price_man": 56,
+              "desc": ""
+            },
+            "내비플러스": {
+              "price": 1450000,
+              "price_man": 145,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "테크": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "슬라이딩 카고 베드": {
+              "price": 1330000,
+              "price_man": 133,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 카고 모던 5인승": {
+          "base_price": 35130000,
+          "base_price_man": 3513,
+          "standard_features": [],
+          "options": {
+            "트윈 스윙 도어": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "윈도우 밴": {
+              "price": 200000,
+              "price_man": 20,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 560000,
+              "price_man": 56,
+              "desc": ""
+            },
+            "내비플러스": {
+              "price": 1450000,
+              "price_man": 145,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "테크": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "슬라이딩 카고 베드": {
+              "price": 1330000,
+              "price_man": 133,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 특장차 일반 구급 5인승": {
+          "base_price": 44950000,
+          "base_price_man": 4495,
+          "standard_features": [],
+          "options": {
+            "내비플러스": {
+              "price": 1440000,
+              "price_man": 144,
+              "desc": ""
+            },
+            "구급 패키지Ⅰ": {
+              "price": 6000000,
+              "price_man": 600,
+              "desc": ""
+            },
+            "구급 패키지Ⅱ": {
+              "price": 5840000,
+              "price_man": 584,
+              "desc": ""
+            },
+            "구급충전": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 특장차 일반 구급 6인승": {
+          "base_price": 45810000,
+          "base_price_man": 4581,
+          "standard_features": [],
+          "options": {
+            "내비플러스": {
+              "price": 1440000,
+              "price_man": 144,
+              "desc": ""
+            },
+            "구급 패키지Ⅰ": {
+              "price": 6000000,
+              "price_man": 600,
+              "desc": ""
+            },
+            "구급 패키지Ⅱ": {
+              "price": 5840000,
+              "price_man": 584,
+              "desc": ""
+            },
+            "구급충전": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 특장차 특수 구급 6인승": {
+          "base_price": 67970000,
+          "base_price_man": 6797,
+          "standard_features": [],
+          "options": {
+            "내비플러스": {
+              "price": 1440000,
+              "price_man": 144,
+              "desc": ""
+            },
+            "구급 패키지Ⅱ": {
+              "price": 5840000,
+              "price_man": 584,
+              "desc": ""
+            },
+            "구급 패키지Ⅲ": {
+              "price": 10290000,
+              "price_man": 1029,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 특장차 소방 구급 6인승": {
+          "base_price": 71820000,
+          "base_price_man": 7182,
+          "standard_features": [],
+          "options": {
+            "내비플러스": {
+              "price": 1440000,
+              "price_man": 144,
+              "desc": ""
+            },
+            "테크": {
+              "price": 870000,
+              "price_man": 87,
+              "desc": ""
+            },
+            "소방 패키지Ⅰ": {
+              "price": 4870000,
+              "price_man": 487,
+              "desc": ""
+            },
+            "소방 패키지Ⅱ": {
+              "price": 3990000,
+              "price_man": 399,
+              "desc": ""
+            },
+            "소방 패키지Ⅲ": {
+              "price": 9570000,
+              "price_man": 957,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 투어러 스마트 M/T 11인승": {
+          "base_price": 28410000,
+          "base_price_man": 2841,
+          "standard_features": [],
+          "options": {
+            "멀티미디어 라이트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "내비플러스Ⅰ": {
+              "price": 2300000,
+              "price_man": 230,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 투어러 스마트 A/T 11인승": {
+          "base_price": 30510000,
+          "base_price_man": 3051,
+          "standard_features": [],
+          "options": {
+            "멀티미디어 라이트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "내비플러스Ⅰ": {
+              "price": 2300000,
+              "price_man": 230,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 AWD 투어러 스마트 A/T 11인승": {
+          "base_price": 32460000,
+          "base_price_man": 3246,
+          "standard_features": [],
+          "options": {
+            "멀티미디어 라이트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "내비플러스Ⅰ": {
+              "price": 2300000,
+              "price_man": 230,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 투어러 모던 11인승": {
+          "base_price": 32380000,
+          "base_price_man": 3238,
+          "standard_features": [],
+          "options": {
+            "듀얼 와이드 선루프 + LED 룸램프": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 560000,
+              "price_man": 56,
+              "desc": ""
+            },
+            "내비플러스Ⅱ": {
+              "price": 1800000,
+              "price_man": 180,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "테크Ⅰ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 AWD 투어러 모던 11인승": {
+          "base_price": 34330000,
+          "base_price_man": 3433,
+          "standard_features": [],
+          "options": {
+            "듀얼 와이드 선루프 + LED 룸램프": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 560000,
+              "price_man": 56,
+              "desc": ""
+            },
+            "내비플러스Ⅱ": {
+              "price": 1800000,
+              "price_man": 180,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "테크Ⅰ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 투어러 모던 9인승": {
+          "base_price": 32380000,
+          "base_price_man": 3238,
+          "standard_features": [],
+          "options": {
+            "듀얼 와이드 선루프 + LED 룸램프": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 560000,
+              "price_man": 56,
+              "desc": ""
+            },
+            "내비플러스Ⅱ": {
+              "price": 1800000,
+              "price_man": 180,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "테크Ⅰ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 AWD 투어러 모던 9인승": {
+          "base_price": 34330000,
+          "base_price_man": 3433,
+          "standard_features": [],
+          "options": {
+            "듀얼 와이드 선루프 + LED 룸램프": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 560000,
+              "price_man": 56,
+              "desc": ""
+            },
+            "내비플러스Ⅱ": {
+              "price": 1800000,
+              "price_man": 180,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "테크Ⅰ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 라운지 프레스티지 9인승": {
+          "base_price": 37800000,
+          "base_price_man": 3780,
+          "standard_features": [],
+          "options": {
+            "선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "스마트": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "컴포트Ⅰ": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "컴포트Ⅱ": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "테크Ⅰ": {
+              "price": 2200000,
+              "price_man": 220,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 AWD 라운지 프레스티지 9인승": {
+          "base_price": 39750000,
+          "base_price_man": 3975,
+          "standard_features": [],
+          "options": {
+            "선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "스마트": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "컴포트Ⅰ": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "컴포트Ⅱ": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "테크Ⅰ": {
+              "price": 2200000,
+              "price_man": 220,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 라운지 인스퍼레이션 9인승": {
+          "base_price": 41670000,
+          "base_price_man": 4167,
+          "standard_features": [],
+          "options": {
+            "선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "BOSE 사운드 시스템": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 560000,
+              "price_man": 56,
+              "desc": ""
+            },
+            "컴포트Ⅱ": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 AWD 라운지 인스퍼레이션 9인승": {
+          "base_price": 43620000,
+          "base_price_man": 4362,
+          "standard_features": [],
+          "options": {
+            "선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "BOSE 사운드 시스템": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 560000,
+              "price_man": 56,
+              "desc": ""
+            },
+            "컴포트Ⅱ": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 라운지 리무진 9인승": {
+          "base_price": 59110000,
+          "base_price_man": 5911,
+          "standard_features": [],
+          "options": {
+            "BOSE 사운드 시스템": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "스태리 스카이": {
+              "price": 1830000,
+              "price_man": 183,
+              "desc": ""
+            },
+            "무버블 콘솔": {
+              "price": 3090000,
+              "price_man": 309,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 AWD 라운지 리무진 9인승": {
+          "base_price": 61060000,
+          "base_price_man": 6106,
+          "standard_features": [],
+          "options": {
+            "BOSE 사운드 시스템": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "스태리 스카이": {
+              "price": 1830000,
+              "price_man": 183,
+              "desc": ""
+            },
+            "무버블 콘솔": {
+              "price": 3090000,
+              "price_man": 309,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 라운지 인스퍼레이션 7인승": {
+          "base_price": 42840000,
+          "base_price_man": 4284,
+          "standard_features": [],
+          "options": {
+            "선루프": {
+              "price": 890000,
+              "price_man": 89,
+              "desc": ""
+            },
+            "BOSE 사운드 시스템": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "컴포트Ⅱ": {
+              "price": 520000,
+              "price_man": 52,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 AWD 라운지 인스퍼레이션 7인승": {
+          "base_price": 44820000,
+          "base_price_man": 4482,
+          "standard_features": [],
+          "options": {
+            "선루프": {
+              "price": 890000,
+              "price_man": 89,
+              "desc": ""
+            },
+            "BOSE 사운드 시스템": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "컴포트Ⅱ": {
+              "price": 520000,
+              "price_man": 52,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 라운지 리무진 7인승": {
+          "base_price": 61250000,
+          "base_price_man": 6125,
+          "standard_features": [],
+          "options": {
+            "BOSE 사운드 시스템": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "스태리 스카이": {
+              "price": 1930000,
+              "price_man": 193,
+              "desc": ""
+            },
+            "무버블 콘솔": {
+              "price": 3000000,
+              "price_man": 300,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 AWD 라운지 리무진 7인승": {
+          "base_price": 63230000,
+          "base_price_man": 6323,
+          "standard_features": [],
+          "options": {
+            "BOSE 사운드 시스템": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "스태리 스카이": {
+              "price": 1930000,
+              "price_man": 193,
+              "desc": ""
+            },
+            "무버블 콘솔": {
+              "price": 3000000,
+              "price_man": 300,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 라운지 캠퍼 프레스티지 4인승": {
+          "base_price": 72030000,
+          "base_price_man": 7203,
+          "standard_features": [],
+          "options": {
+            "컴포트Ⅱ": {
+              "price": 520000,
+              "price_man": 52,
+              "desc": ""
+            },
+            "컨비니언스": {
+              "price": 1680000,
+              "price_man": 168,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "어닝 패키지": {
+              "price": 1750000,
+              "price_man": 175,
+              "desc": ""
+            },
+            "충전 패키지": {
+              "price": 3170000,
+              "price_man": 317,
+              "desc": ""
+            },
+            "캠핑 패키지Ⅱ": {
+              "price": 2830000,
+              "price_man": 283,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 AWD 라운지 캠퍼 프레스티지 4인승": {
+          "base_price": 74010000,
+          "base_price_man": 7401,
+          "standard_features": [],
+          "options": {
+            "컴포트Ⅱ": {
+              "price": 520000,
+              "price_man": 52,
+              "desc": ""
+            },
+            "컨비니언스": {
+              "price": 1680000,
+              "price_man": 168,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "어닝 패키지": {
+              "price": 1750000,
+              "price_man": 175,
+              "desc": ""
+            },
+            "충전 패키지": {
+              "price": 3170000,
+              "price_man": 317,
+              "desc": ""
+            },
+            "캠핑 패키지Ⅱ": {
+              "price": 2830000,
+              "price_man": 283,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 카고 스마트 M/T 3인승": {
+          "base_price": 26370000,
+          "base_price_man": 2637,
+          "standard_features": [],
+          "options": {
+            "트윈 스윙 도어": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "멀티미디어 라이트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "내비플러스Ⅰ": {
+              "price": 2250000,
+              "price_man": 225,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 카고 스마트 A/T 3인승": {
+          "base_price": 28470000,
+          "base_price_man": 2847,
+          "standard_features": [],
+          "options": {
+            "트윈 스윙 도어": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "멀티미디어 라이트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "내비플러스Ⅰ": {
+              "price": 2250000,
+              "price_man": 225,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 카고 모던 3인승": {
+          "base_price": 30280000,
+          "base_price_man": 3028,
+          "standard_features": [],
+          "options": {
+            "트윈 스윙 도어": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "윈도우 밴": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 560000,
+              "price_man": 56,
+              "desc": ""
+            },
+            "내비플러스Ⅱ": {
+              "price": 1750000,
+              "price_man": 175,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "테크": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "슬라이딩 카고 베드": {
+              "price": 1330000,
+              "price_man": 133,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 카고 스마트 M/T 5인승": {
+          "base_price": 27060000,
+          "base_price_man": 2706,
+          "standard_features": [],
+          "options": {
+            "트윈 스윙 도어": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "멀티미디어 라이트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "내비플러스Ⅰ": {
+              "price": 2250000,
+              "price_man": 225,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 카고 스마트 A/T 5인승": {
+          "base_price": 29160000,
+          "base_price_man": 2916,
+          "standard_features": [],
+          "options": {
+            "트윈 스윙 도어": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "멀티미디어 라이트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "내비플러스Ⅰ": {
+              "price": 2250000,
+              "price_man": 225,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 카고 모던 5인승": {
+          "base_price": 31080000,
+          "base_price_man": 3108,
+          "standard_features": [],
+          "options": {
+            "트윈 스윙 도어": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "윈도우 밴": {
+              "price": 200000,
+              "price_man": 20,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 560000,
+              "price_man": 56,
+              "desc": ""
+            },
+            "내비플러스Ⅱ": {
+              "price": 1750000,
+              "price_man": 175,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "테크": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "슬라이딩 카고 베드": {
+              "price": 1330000,
+              "price_man": 133,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 특장차 일반 구급 5인승": {
+          "base_price": 38880000,
+          "base_price_man": 3888,
+          "standard_features": [],
+          "options": {
+            "내비플러스": {
+              "price": 2240000,
+              "price_man": 224,
+              "desc": ""
+            },
+            "구급 패키지Ⅰ": {
+              "price": 6000000,
+              "price_man": 600,
+              "desc": ""
+            },
+            "구급 패키지Ⅱ": {
+              "price": 5840000,
+              "price_man": 584,
+              "desc": ""
+            },
+            "구급충전": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 특장차 일반 구급 6인승": {
+          "base_price": 39750000,
+          "base_price_man": 3975,
+          "standard_features": [],
+          "options": {
+            "내비플러스": {
+              "price": 2240000,
+              "price_man": 224,
+              "desc": ""
+            },
+            "구급 패키지Ⅰ": {
+              "price": 6000000,
+              "price_man": 600,
+              "desc": ""
+            },
+            "구급 패키지Ⅱ": {
+              "price": 5840000,
+              "price_man": 584,
+              "desc": ""
+            },
+            "구급충전": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 특장차 특수 구급 6인승": {
+          "base_price": 61900000,
+          "base_price_man": 6190,
+          "standard_features": [],
+          "options": {
+            "내비플러스": {
+              "price": 2240000,
+              "price_man": 224,
+              "desc": ""
+            },
+            "구급 패키지Ⅱ": {
+              "price": 5840000,
+              "price_man": 584,
+              "desc": ""
+            },
+            "구급 패키지Ⅲ": {
+              "price": 10290000,
+              "price_man": 1029,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 AWD 특장차 특수 구급 6인승": {
+          "base_price": 63850000,
+          "base_price_man": 6385,
+          "standard_features": [],
+          "options": {
+            "내비플러스": {
+              "price": 2240000,
+              "price_man": 224,
+              "desc": ""
+            },
+            "구급 패키지Ⅱ": {
+              "price": 5840000,
+              "price_man": 584,
+              "desc": ""
+            },
+            "구급 패키지Ⅲ": {
+              "price": 10290000,
+              "price_man": 1029,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 특장차 소방 구급 6인승": {
+          "base_price": 67620000,
+          "base_price_man": 6762,
+          "standard_features": [],
+          "options": {
+            "내비플러스Ⅱ": {
+              "price": 1740000,
+              "price_man": 174,
+              "desc": ""
+            },
+            "테크": {
+              "price": 870000,
+              "price_man": 87,
+              "desc": ""
+            },
+            "소방 패키지Ⅰ": {
+              "price": 4870000,
+              "price_man": 487,
+              "desc": ""
+            },
+            "소방 패키지Ⅱ": {
+              "price": 3990000,
+              "price_man": 399,
+              "desc": ""
+            },
+            "소방 패키지Ⅲ": {
+              "price": 9570000,
+              "price_man": 957,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 AWD 특장차 소방 구급 6인승": {
+          "base_price": 69570000,
+          "base_price_man": 6957,
+          "standard_features": [],
+          "options": {
+            "내비플러스Ⅱ": {
+              "price": 1740000,
+              "price_man": 174,
+              "desc": ""
+            },
+            "테크": {
+              "price": 870000,
+              "price_man": 87,
+              "desc": ""
+            },
+            "소방 패키지Ⅰ": {
+              "price": 4870000,
+              "price_man": 487,
+              "desc": ""
+            },
+            "소방 패키지Ⅱ": {
+              "price": 3990000,
+              "price_man": 399,
+              "desc": ""
+            },
+            "소방 패키지Ⅲ": {
+              "price": 9570000,
+              "price_man": 957,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 특장차 휠체어 리프트 7인승": {
+          "base_price": 45360000,
+          "base_price_man": 4536,
+          "standard_features": [],
+          "options": {
+            "내비플러스": {
+              "price": 1750000,
+              "price_man": 175,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            },
+            "전동 회전시트": {
+              "price": 7430000,
+              "price_man": 743,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 AWD 특장차 휠체어 리프트 7인승": {
+          "base_price": 47310000,
+          "base_price_man": 4731,
+          "standard_features": [],
+          "options": {
+            "내비플러스": {
+              "price": 1750000,
+              "price_man": 175,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            },
+            "전동 회전시트": {
+              "price": 7430000,
+              "price_man": 743,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 3.5 2WD 투어러 모던 11인승": {
+          "base_price": 32080000,
+          "base_price_man": 3208,
+          "standard_features": [],
+          "options": {
+            "선루프": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 560000,
+              "price_man": 56,
+              "desc": ""
+            },
+            "내비플러스": {
+              "price": 1800000,
+              "price_man": 180,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "테크Ⅰ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            },
+            "트레일러 패키지": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 3.5 2WD 투어러 모던 9인승": {
+          "base_price": 32080000,
+          "base_price_man": 3208,
+          "standard_features": [],
+          "options": {
+            "선루프": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 560000,
+              "price_man": 56,
+              "desc": ""
+            },
+            "내비플러스": {
+              "price": 1800000,
+              "price_man": 180,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "테크Ⅰ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            },
+            "트레일러 패키지": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 3.5 2WD 라운지 프레스티지 9인승": {
+          "base_price": 37500000,
+          "base_price_man": 3750,
+          "standard_features": [],
+          "options": {
+            "선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "스마트": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "컴포트Ⅰ": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "컴포트Ⅱ": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "테크Ⅰ": {
+              "price": 2200000,
+              "price_man": 220,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 3.5 2WD 라운지 인스퍼레이션 9인승": {
+          "base_price": 41370000,
+          "base_price_man": 4137,
+          "standard_features": [],
+          "options": {
+            "선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "BOSE 사운드 시스템": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 560000,
+              "price_man": 56,
+              "desc": ""
+            },
+            "컴포트Ⅱ": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 3.5 2WD 라운지 인스퍼레이션 7인승": {
+          "base_price": 42540000,
+          "base_price_man": 4254,
+          "standard_features": [],
+          "options": {
+            "선루프": {
+              "price": 890000,
+              "price_man": 89,
+              "desc": ""
+            },
+            "BOSE 사운드 시스템": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "컴포트Ⅱ": {
+              "price": 520000,
+              "price_man": 52,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 3.5 2WD 카고 모던 3인승": {
+          "base_price": 29980000,
+          "base_price_man": 2998,
+          "standard_features": [],
+          "options": {
+            "트윈 스윙 도어": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "윈도우 밴": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 560000,
+              "price_man": 56,
+              "desc": ""
+            },
+            "내비플러스Ⅱ": {
+              "price": 1750000,
+              "price_man": 175,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "테크": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "슬라이딩 카고 베드": {
+              "price": 1330000,
+              "price_man": 133,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 3.5 2WD 카고 모던 5인승": {
+          "base_price": 30780000,
+          "base_price_man": 3078,
+          "standard_features": [],
+          "options": {
+            "트윈 스윙 도어": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "윈도우 밴": {
+              "price": 200000,
+              "price_man": 20,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 560000,
+              "price_man": 56,
+              "desc": ""
+            },
+            "내비플러스Ⅱ": {
+              "price": 1750000,
+              "price_man": 175,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "테크": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "슬라이딩 카고 베드": {
+              "price": 1330000,
+              "price_man": 133,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 라운지 모빌리티9 9인승": {
+          "base_price": 43650000,
+          "base_price_man": 4365,
+          "standard_features": [],
+          "options": {
+            "BOSE 사운드 시스템 + 컴포트Ⅱ + 테크Ⅰ": {
+              "price": 2700000,
+              "price_man": 270,
+              "desc": ""
+            },
+            "듀얼 와이드 선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "스마트": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "컴포트Ⅰ": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "컴포트Ⅱ": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "테크Ⅰ": {
+              "price": 1600000,
+              "price_man": 160,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 라운지 모빌리티7 7인승": {
+          "base_price": 43590000,
+          "base_price_man": 4359,
+          "standard_features": [],
+          "options": {
+            "BOSE 사운드 시스템 + 컴포트Ⅱ + 테크Ⅰ": {
+              "price": 2700000,
+              "price_man": 270,
+              "desc": ""
+            },
+            "듀얼 와이드 선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "스마트": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "컴포트Ⅱ": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "테크Ⅰ": {
+              "price": 1600000,
+              "price_man": 160,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 3.5 2WD 라운지 모빌리티9 9인승": {
+          "base_price": 39950000,
+          "base_price_man": 3995,
+          "standard_features": [],
+          "options": {
+            "BOSE 사운드 시스템 + 컴포트Ⅱ + 테크Ⅰ": {
+              "price": 2700000,
+              "price_man": 270,
+              "desc": ""
+            },
+            "듀얼 와이드 선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "스마트": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "컴포트Ⅰ": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "컴포트Ⅱ": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "테크Ⅰ": {
+              "price": 1600000,
+              "price_man": 160,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 3.5 2WD 라운지 모빌리티7 7인승": {
+          "base_price": 39890000,
+          "base_price_man": 3989,
+          "standard_features": [],
+          "options": {
+            "BOSE 사운드 시스템 + 컴포트Ⅱ + 테크Ⅰ": {
+              "price": 2700000,
+              "price_man": 270,
+              "desc": ""
+            },
+            "듀얼 와이드 선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "스마트": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "컴포트Ⅱ": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "테크Ⅰ": {
+              "price": 1600000,
+              "price_man": 160,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 3.5 2WD 킨더 11인승": {
+          "base_price": 36430000,
+          "base_price_man": 3643,
+          "standard_features": [],
+          "options": {
+            "서라운드 뷰 모니터": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "멀티미디어 내비플러스": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "테크": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 3.5 2WD 킨더 15인승": {
+          "base_price": 39050000,
+          "base_price_man": 3905,
+          "standard_features": [],
+          "options": {
+            "서라운드 뷰 모니터": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "멀티미디어 내비플러스": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "테크": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 3.5 2WD 특장차 휠체어 리프트 7인승": {
+          "base_price": 45060000,
+          "base_price_man": 4506,
+          "standard_features": [],
+          "options": {
+            "내비플러스": {
+              "price": 1750000,
+              "price_man": 175,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            },
+            "전동 회전시트": {
+              "price": 7430000,
+              "price_man": 743,
+              "desc": ""
+            }
+          }
+        }
+      },
+      "2023": {
+        "디젤 2.2 2WD 투어러 스마트 M/T 11인승": {
+          "base_price": 28020000,
+          "base_price_man": 2802,
+          "standard_features": [],
+          "options": {
+            "멀티미디어 라이트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "내비플러스Ⅰ": {
+              "price": 2300000,
+              "price_man": 230,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 투어러 스마트 A/T 11인승": {
+          "base_price": 30120000,
+          "base_price_man": 3012,
+          "standard_features": [],
+          "options": {
+            "멀티미디어 라이트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "내비플러스Ⅰ": {
+              "price": 2300000,
+              "price_man": 230,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 AWD 투어러 스마트 A/T 11인승": {
+          "base_price": 32070000,
+          "base_price_man": 3207,
+          "standard_features": [],
+          "options": {
+            "멀티미디어 라이트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "내비플러스Ⅰ": {
+              "price": 2300000,
+              "price_man": 230,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 투어러 모던 11인승": {
+          "base_price": 31690000,
+          "base_price_man": 3169,
+          "standard_features": [],
+          "options": {
+            "듀얼 와이드 선루프 + LED 룸램프": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 560000,
+              "price_man": 56,
+              "desc": ""
+            },
+            "내비플러스Ⅱ": {
+              "price": 2000000,
+              "price_man": 200,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "내비플러스Ⅱ + 테크Ⅰ": {
+              "price": 3350000,
+              "price_man": 335,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 AWD 투어러 모던 11인승": {
+          "base_price": 33640000,
+          "base_price_man": 3364,
+          "standard_features": [],
+          "options": {
+            "듀얼 와이드 선루프 + LED 룸램프": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 560000,
+              "price_man": 56,
+              "desc": ""
+            },
+            "내비플러스Ⅱ": {
+              "price": 2000000,
+              "price_man": 200,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "내비플러스Ⅱ + 테크Ⅰ": {
+              "price": 3350000,
+              "price_man": 335,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 투어러 모던 9인승": {
+          "base_price": 31690000,
+          "base_price_man": 3169,
+          "standard_features": [],
+          "options": {
+            "듀얼 와이드 선루프 + LED 룸램프": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 560000,
+              "price_man": 56,
+              "desc": ""
+            },
+            "내비플러스Ⅱ": {
+              "price": 2000000,
+              "price_man": 200,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "내비플러스Ⅱ + 테크Ⅰ": {
+              "price": 3350000,
+              "price_man": 335,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 AWD 투어러 모던 9인승": {
+          "base_price": 33640000,
+          "base_price_man": 3364,
+          "standard_features": [],
+          "options": {
+            "듀얼 와이드 선루프 + LED 룸램프": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 560000,
+              "price_man": 56,
+              "desc": ""
+            },
+            "내비플러스Ⅱ": {
+              "price": 2000000,
+              "price_man": 200,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "내비플러스Ⅱ + 테크Ⅰ": {
+              "price": 3350000,
+              "price_man": 335,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 카고 스마트 M/T 3인승": {
+          "base_price": 25960000,
+          "base_price_man": 2596,
+          "standard_features": [],
+          "options": {
+            "트윈 스윙 도어": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "멀티미디어 라이트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "내비플러스Ⅰ": {
+              "price": 2250000,
+              "price_man": 225,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 카고 스마트 A/T 3인승": {
+          "base_price": 28060000,
+          "base_price_man": 2806,
+          "standard_features": [],
+          "options": {
+            "트윈 스윙 도어": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "멀티미디어 라이트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "내비플러스Ⅰ": {
+              "price": 2250000,
+              "price_man": 225,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 카고 모던 3인승": {
+          "base_price": 29570000,
+          "base_price_man": 2957,
+          "standard_features": [],
+          "options": {
+            "트윈 스윙 도어": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "윈도우 밴": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            },
+            "내비플러스Ⅱ": {
+              "price": 1950000,
+              "price_man": 195,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "테크": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 560000,
+              "price_man": 56,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 카고 스마트 M/T 5인승": {
+          "base_price": 26650000,
+          "base_price_man": 2665,
+          "standard_features": [],
+          "options": {
+            "트윈 스윙 도어": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "멀티미디어 라이트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "내비플러스Ⅰ": {
+              "price": 2250000,
+              "price_man": 225,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 카고 스마트 A/T 5인승": {
+          "base_price": 28750000,
+          "base_price_man": 2875,
+          "standard_features": [],
+          "options": {
+            "트윈 스윙 도어": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "멀티미디어 라이트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "내비플러스Ⅰ": {
+              "price": 2250000,
+              "price_man": 225,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 카고 모던 5인승": {
+          "base_price": 30370000,
+          "base_price_man": 3037,
+          "standard_features": [],
+          "options": {
+            "트윈 스윙 도어": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "윈도우 밴": {
+              "price": 200000,
+              "price_man": 20,
+              "desc": ""
+            },
+            "내비플러스Ⅱ": {
+              "price": 1950000,
+              "price_man": 195,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "테크": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 560000,
+              "price_man": 56,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 3.5 2WD 투어러 모던 11인승": {
+          "base_price": 31390000,
+          "base_price_man": 3139,
+          "standard_features": [],
+          "options": {
+            "듀얼 와이드 선루프 + LED 룸램프": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 560000,
+              "price_man": 56,
+              "desc": ""
+            },
+            "내비플러스Ⅱ": {
+              "price": 2000000,
+              "price_man": 200,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "내비플러스Ⅱ + 테크Ⅰ": {
+              "price": 3350000,
+              "price_man": 335,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 3.5 2WD 투어러 모던 9인승": {
+          "base_price": 31390000,
+          "base_price_man": 3139,
+          "standard_features": [],
+          "options": {
+            "듀얼 와이드 선루프 + LED 룸램프": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 560000,
+              "price_man": 56,
+              "desc": ""
+            },
+            "내비플러스Ⅱ": {
+              "price": 2000000,
+              "price_man": 200,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "내비플러스Ⅱ + 테크Ⅰ": {
+              "price": 3350000,
+              "price_man": 335,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 3.5 2WD 카고 모던 3인승": {
+          "base_price": 29270000,
+          "base_price_man": 2927,
+          "standard_features": [],
+          "options": {
+            "트윈 스윙 도어": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "윈도우 밴": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            },
+            "내비플러스Ⅱ": {
+              "price": 1950000,
+              "price_man": 195,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "테크": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 560000,
+              "price_man": 56,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 3.5 2WD 카고 모던 5인승": {
+          "base_price": 30070000,
+          "base_price_man": 3007,
+          "standard_features": [],
+          "options": {
+            "트윈 스윙 도어": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "윈도우 밴": {
+              "price": 200000,
+              "price_man": 20,
+              "desc": ""
+            },
+            "내비플러스Ⅱ": {
+              "price": 1950000,
+              "price_man": 195,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "테크": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 560000,
+              "price_man": 56,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 라운지 프레스티지 9인승": {
+          "base_price": 37360000,
+          "base_price_man": 3736,
+          "standard_features": [],
+          "options": {
+            "선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "스마트": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "컴포트Ⅰ": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "컴포트Ⅱ": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "테크Ⅰ": {
+              "price": 2200000,
+              "price_man": 220,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 AWD 라운지 프레스티지 9인승": {
+          "base_price": 39310000,
+          "base_price_man": 3931,
+          "standard_features": [],
+          "options": {
+            "선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "스마트": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "컴포트Ⅰ": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "컴포트Ⅱ": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "테크Ⅰ": {
+              "price": 2200000,
+              "price_man": 220,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 라운지 인스퍼레이션 9인승": {
+          "base_price": 41230000,
+          "base_price_man": 4123,
+          "standard_features": [],
+          "options": {
+            "선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "BOSE 사운드 시스템": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 560000,
+              "price_man": 56,
+              "desc": ""
+            },
+            "컴포트Ⅱ": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 AWD 라운지 인스퍼레이션 9인승": {
+          "base_price": 43180000,
+          "base_price_man": 4318,
+          "standard_features": [],
+          "options": {
+            "선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "BOSE 사운드 시스템": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 560000,
+              "price_man": 56,
+              "desc": ""
+            },
+            "컴포트Ⅱ": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 라운지 인스퍼레이션 7인승": {
+          "base_price": 42090000,
+          "base_price_man": 4209,
+          "standard_features": [],
+          "options": {
+            "선루프": {
+              "price": 890000,
+              "price_man": 89,
+              "desc": ""
+            },
+            "BOSE 사운드 시스템": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "컴포트Ⅱ": {
+              "price": 520000,
+              "price_man": 52,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 AWD 라운지 인스퍼레이션 7인승": {
+          "base_price": 44050000,
+          "base_price_man": 4405,
+          "standard_features": [],
+          "options": {
+            "선루프": {
+              "price": 890000,
+              "price_man": 89,
+              "desc": ""
+            },
+            "BOSE 사운드 시스템": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "컴포트Ⅱ": {
+              "price": 520000,
+              "price_man": 52,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 라운지 리무진 9인승": {
+          "base_price": 58670000,
+          "base_price_man": 5867,
+          "standard_features": [],
+          "options": {
+            "BOSE 사운드 시스템": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "스태리 스카이": {
+              "price": 1830000,
+              "price_man": 183,
+              "desc": ""
+            },
+            "무버블 콘솔": {
+              "price": 3090000,
+              "price_man": 309,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 AWD 라운지 리무진 9인승": {
+          "base_price": 60620000,
+          "base_price_man": 6062,
+          "standard_features": [],
+          "options": {
+            "BOSE 사운드 시스템": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "스태리 스카이": {
+              "price": 1830000,
+              "price_man": 183,
+              "desc": ""
+            },
+            "무버블 콘솔": {
+              "price": 3090000,
+              "price_man": 309,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 라운지 리무진 7인승": {
+          "base_price": 60370000,
+          "base_price_man": 6037,
+          "standard_features": [],
+          "options": {
+            "BOSE 사운드 시스템": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "스태리 스카이": {
+              "price": 1910000,
+              "price_man": 191,
+              "desc": ""
+            },
+            "무버블 콘솔": {
+              "price": 2970000,
+              "price_man": 297,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 AWD 라운지 리무진 7인승": {
+          "base_price": 62330000,
+          "base_price_man": 6233,
+          "standard_features": [],
+          "options": {
+            "BOSE 사운드 시스템": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "스태리 스카이": {
+              "price": 1910000,
+              "price_man": 191,
+              "desc": ""
+            },
+            "무버블 콘솔": {
+              "price": 2970000,
+              "price_man": 297,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 라운지 캠퍼 프레스티지 11인승": {
+          "base_price": 50880000,
+          "base_price_man": 5088,
+          "standard_features": [],
+          "options": {
+            "컴포트Ⅰ": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "테크Ⅰ": {
+              "price": 2220000,
+              "price_man": 222,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1260000,
+              "price_man": 126,
+              "desc": ""
+            },
+            "어닝 패키지": {
+              "price": 1670000,
+              "price_man": 167,
+              "desc": ""
+            },
+            "캠핑 패키지Ⅰ": {
+              "price": 3240000,
+              "price_man": 324,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 AWD 라운지 캠퍼 프레스티지 11인승": {
+          "base_price": 52840000,
+          "base_price_man": 5284,
+          "standard_features": [],
+          "options": {
+            "컴포트Ⅰ": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "테크Ⅰ": {
+              "price": 2220000,
+              "price_man": 222,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1260000,
+              "price_man": 126,
+              "desc": ""
+            },
+            "어닝 패키지": {
+              "price": 1670000,
+              "price_man": 167,
+              "desc": ""
+            },
+            "캠핑 패키지Ⅰ": {
+              "price": 3240000,
+              "price_man": 324,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 라운지 캠퍼 프레스티지 4인승": {
+          "base_price": 70140000,
+          "base_price_man": 7014,
+          "standard_features": [],
+          "options": {
+            "컴포트Ⅱ": {
+              "price": 520000,
+              "price_man": 52,
+              "desc": ""
+            },
+            "컨비니언스": {
+              "price": 1670000,
+              "price_man": 167,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1260000,
+              "price_man": 126,
+              "desc": ""
+            },
+            "어닝 패키지": {
+              "price": 1670000,
+              "price_man": 167,
+              "desc": ""
+            },
+            "충전 패키지": {
+              "price": 2900000,
+              "price_man": 290,
+              "desc": ""
+            },
+            "캠핑 패키지Ⅱ": {
+              "price": 2750000,
+              "price_man": 275,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 AWD 라운지 캠퍼 프레스티지 4인승": {
+          "base_price": 72100000,
+          "base_price_man": 7210,
+          "standard_features": [],
+          "options": {
+            "컴포트Ⅱ": {
+              "price": 520000,
+              "price_man": 52,
+              "desc": ""
+            },
+            "컨비니언스": {
+              "price": 1670000,
+              "price_man": 167,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1260000,
+              "price_man": 126,
+              "desc": ""
+            },
+            "어닝 패키지": {
+              "price": 1670000,
+              "price_man": 167,
+              "desc": ""
+            },
+            "충전 패키지": {
+              "price": 2900000,
+              "price_man": 290,
+              "desc": ""
+            },
+            "캠핑 패키지Ⅱ": {
+              "price": 2750000,
+              "price_man": 275,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 3.5 2WD 라운지 프레스티지 9인승": {
+          "base_price": 37060000,
+          "base_price_man": 3706,
+          "standard_features": [],
+          "options": {
+            "선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "스마트": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "컴포트Ⅰ": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "컴포트Ⅱ": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "테크Ⅰ": {
+              "price": 2200000,
+              "price_man": 220,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 3.5 2WD 라운지 인스퍼레이션 9인승": {
+          "base_price": 40930000,
+          "base_price_man": 4093,
+          "standard_features": [],
+          "options": {
+            "선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "BOSE 사운드 시스템": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 560000,
+              "price_man": 56,
+              "desc": ""
+            },
+            "컴포트Ⅱ": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 3.5 2WD 라운지 인스퍼레이션 7인승": {
+          "base_price": 41800000,
+          "base_price_man": 4180,
+          "standard_features": [],
+          "options": {
+            "선루프": {
+              "price": 890000,
+              "price_man": 89,
+              "desc": ""
+            },
+            "BOSE 사운드 시스템": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "컴포트Ⅱ": {
+              "price": 520000,
+              "price_man": 52,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 3.5 2WD 라운지 모빌리티9 9인승": {
+          "base_price": 40580000,
+          "base_price_man": 4058,
+          "standard_features": [],
+          "options": {
+            "스마트": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "컴포트Ⅰ": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "컴포트Ⅱ": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "테크Ⅰ": {
+              "price": 1600000,
+              "price_man": 160,
+              "desc": ""
+            },
+            "컴포트Ⅱ + 테크Ⅰ + BOSE 사운드 시스템": {
+              "price": 2700000,
+              "price_man": 270,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 3.5 2WD 라운지 모빌리티7 7인승": {
+          "base_price": 39450000,
+          "base_price_man": 3945,
+          "standard_features": [],
+          "options": {
+            "루프 모니터": {
+              "price": 1070000,
+              "price_man": 107,
+              "desc": ""
+            },
+            "듀얼 와이드 선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "스마트": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "컴포트Ⅱ": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "테크Ⅰ": {
+              "price": 1600000,
+              "price_man": 160,
+              "desc": ""
+            },
+            "컴포트Ⅱ + 테크Ⅰ + BOSE 사운드 시스템": {
+              "price": 2700000,
+              "price_man": 270,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 킨더 11인승": {
+          "base_price": 36120000,
+          "base_price_man": 3612,
+          "standard_features": [],
+          "options": {
+            "서라운드 뷰 모니터": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "멀티미디어 내비플러스": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "테크": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 AWD 킨더 11인승": {
+          "base_price": 38070000,
+          "base_price_man": 3807,
+          "standard_features": [],
+          "options": {
+            "서라운드 뷰 모니터": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "멀티미디어 내비플러스": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "테크": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 킨더 14인승": {
+          "base_price": 38720000,
+          "base_price_man": 3872,
+          "standard_features": [],
+          "options": {
+            "서라운드 뷰 모니터": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "멀티미디어 내비플러스": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "테크": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 3.5 2WD 킨더 11인승": {
+          "base_price": 35720000,
+          "base_price_man": 3572,
+          "standard_features": [],
+          "options": {
+            "서라운드 뷰 모니터": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "멀티미디어 내비플러스": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "테크": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 3.5 2WD 킨더 15인승": {
+          "base_price": 38350000,
+          "base_price_man": 3835,
+          "standard_features": [],
+          "options": {
+            "서라운드 뷰 모니터": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "멀티미디어 내비플러스": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "테크": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 특장차 휠체어 리프트 7인승": {
+          "base_price": 43750000,
+          "base_price_man": 4375,
+          "standard_features": [],
+          "options": {
+            "내비플러스": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            },
+            "전동 회전시트": {
+              "price": 7430000,
+              "price_man": 743,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 AWD 특장차 휠체어 리프트 7인승": {
+          "base_price": 45700000,
+          "base_price_man": 4570,
+          "standard_features": [],
+          "options": {
+            "내비플러스": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            },
+            "전동 회전시트": {
+              "price": 7430000,
+              "price_man": 743,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 특장차 휠체어 슬로프 7인승": {
+          "base_price": 42230000,
+          "base_price_man": 4223,
+          "standard_features": [],
+          "options": {
+            "내비플러스": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            },
+            "전동 회전시트": {
+              "price": 7430000,
+              "price_man": 743,
+              "desc": ""
+            },
+            "헤드앤 백레스트": {
+              "price": 2510000,
+              "price_man": 251,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 특장차 일반 구급 5인승": {
+          "base_price": 38270000,
+          "base_price_man": 3827,
+          "standard_features": [],
+          "options": {
+            "내비플러스": {
+              "price": 2240000,
+              "price_man": 224,
+              "desc": ""
+            },
+            "구급 패키지Ⅰ": {
+              "price": 3800000,
+              "price_man": 380,
+              "desc": ""
+            },
+            "구급 패키지Ⅱ": {
+              "price": 5680000,
+              "price_man": 568,
+              "desc": ""
+            },
+            "구급충전": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 특장차 일반 구급 6인승": {
+          "base_price": 38800000,
+          "base_price_man": 3880,
+          "standard_features": [],
+          "options": {
+            "내비플러스": {
+              "price": 2240000,
+              "price_man": 224,
+              "desc": ""
+            },
+            "구급 패키지Ⅰ": {
+              "price": 3800000,
+              "price_man": 380,
+              "desc": ""
+            },
+            "구급 패키지Ⅱ": {
+              "price": 5680000,
+              "price_man": 568,
+              "desc": ""
+            },
+            "구급충전": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 특장차 특수 구급 6인승": {
+          "base_price": 59110000,
+          "base_price_man": 5911,
+          "standard_features": [],
+          "options": {
+            "내비플러스": {
+              "price": 2240000,
+              "price_man": 224,
+              "desc": ""
+            },
+            "구급 패키지Ⅱ": {
+              "price": 5680000,
+              "price_man": 568,
+              "desc": ""
+            },
+            "구급 패키지Ⅲ": {
+              "price": 10290000,
+              "price_man": 1029,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 AWD 특장차 특수 구급 6인승": {
+          "base_price": 61060000,
+          "base_price_man": 6106,
+          "standard_features": [],
+          "options": {
+            "내비플러스": {
+              "price": 2240000,
+              "price_man": 224,
+              "desc": ""
+            },
+            "구급 패키지Ⅱ": {
+              "price": 5680000,
+              "price_man": 568,
+              "desc": ""
+            },
+            "구급 패키지Ⅲ": {
+              "price": 10290000,
+              "price_man": 1029,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 특장차 소방 구급 6인승": {
+          "base_price": 66600000,
+          "base_price_man": 6660,
+          "standard_features": [],
+          "options": {
+            "내비플러스Ⅱ": {
+              "price": 1940000,
+              "price_man": 194,
+              "desc": ""
+            },
+            "테크": {
+              "price": 970000,
+              "price_man": 97,
+              "desc": ""
+            },
+            "소방 패키지Ⅰ": {
+              "price": 4870000,
+              "price_man": 487,
+              "desc": ""
+            },
+            "소방 패키지Ⅱ": {
+              "price": 3990000,
+              "price_man": 399,
+              "desc": ""
+            },
+            "소방 패키지Ⅲ": {
+              "price": 9570000,
+              "price_man": 957,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 AWD 특장차 소방 구급 6인승": {
+          "base_price": 68550000,
+          "base_price_man": 6855,
+          "standard_features": [],
+          "options": {
+            "내비플러스Ⅱ": {
+              "price": 1940000,
+              "price_man": 194,
+              "desc": ""
+            },
+            "테크": {
+              "price": 970000,
+              "price_man": 97,
+              "desc": ""
+            },
+            "소방 패키지Ⅰ": {
+              "price": 4870000,
+              "price_man": 487,
+              "desc": ""
+            },
+            "소방 패키지Ⅱ": {
+              "price": 3990000,
+              "price_man": 399,
+              "desc": ""
+            },
+            "소방 패키지Ⅲ": {
+              "price": 9570000,
+              "price_man": 957,
+              "desc": ""
+            }
+          }
+        }
+      },
+      "2021": {
+        "디젤 2.2 2WD 투어러 스마트 M/T 11인승": {
+          "base_price": 27220000,
+          "base_price_man": 2722,
+          "standard_features": [],
+          "options": {
+            "멀티미디어 라이트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "내비플러스Ⅰ": {
+              "price": 2300000,
+              "price_man": 230,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 투어러 스마트 A/T 11인승": {
+          "base_price": 29320000,
+          "base_price_man": 2932,
+          "standard_features": [],
+          "options": {
+            "멀티미디어 라이트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "내비플러스Ⅰ": {
+              "price": 2300000,
+              "price_man": 230,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 AWD 투어러 스마트 A/T 11인승": {
+          "base_price": 31270000,
+          "base_price_man": 3127,
+          "standard_features": [],
+          "options": {
+            "멀티미디어 라이트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "내비플러스Ⅰ": {
+              "price": 2300000,
+              "price_man": 230,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 투어러 모던 11인승": {
+          "base_price": 30840000,
+          "base_price_man": 3084,
+          "standard_features": [],
+          "options": {
+            "듀얼 와이드 선루프 + LED 룸램프": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 560000,
+              "price_man": 56,
+              "desc": ""
+            },
+            "내비플러스Ⅱ": {
+              "price": 2000000,
+              "price_man": 200,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "테크Ⅰ": {
+              "price": 1350000,
+              "price_man": 135,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 AWD 투어러 모던 11인승": {
+          "base_price": 32790000,
+          "base_price_man": 3279,
+          "standard_features": [],
+          "options": {
+            "듀얼 와이드 선루프 + LED 룸램프": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 560000,
+              "price_man": 56,
+              "desc": ""
+            },
+            "내비플러스Ⅱ": {
+              "price": 2000000,
+              "price_man": 200,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "테크Ⅰ": {
+              "price": 1350000,
+              "price_man": 135,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 투어러 모던 9인승": {
+          "base_price": 30840000,
+          "base_price_man": 3084,
+          "standard_features": [],
+          "options": {
+            "듀얼 와이드 선루프 + LED 룸램프": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 560000,
+              "price_man": 56,
+              "desc": ""
+            },
+            "내비플러스Ⅱ": {
+              "price": 2000000,
+              "price_man": 200,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "테크Ⅰ": {
+              "price": 1350000,
+              "price_man": 135,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 AWD 투어러 모던 9인승": {
+          "base_price": 32790000,
+          "base_price_man": 3279,
+          "standard_features": [],
+          "options": {
+            "듀얼 와이드 선루프 + LED 룸램프": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 560000,
+              "price_man": 56,
+              "desc": ""
+            },
+            "내비플러스Ⅱ": {
+              "price": 2000000,
+              "price_man": 200,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "테크Ⅰ": {
+              "price": 1350000,
+              "price_man": 135,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 카고 스마트 M/T 3인승": {
+          "base_price": 25160000,
+          "base_price_man": 2516,
+          "standard_features": [],
+          "options": {
+            "트윈 스윙 도어": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "멀티미디어 라이트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "내비플러스Ⅰ": {
+              "price": 2250000,
+              "price_man": 225,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 카고 스마트 A/T 3인승": {
+          "base_price": 27260000,
+          "base_price_man": 2726,
+          "standard_features": [],
+          "options": {
+            "트윈 스윙 도어": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "멀티미디어 라이트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "내비플러스Ⅰ": {
+              "price": 2250000,
+              "price_man": 225,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 카고 모던 3인승": {
+          "base_price": 28720000,
+          "base_price_man": 2872,
+          "standard_features": [],
+          "options": {
+            "트윈 스윙 도어": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "윈도우 밴": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            },
+            "내비플러스Ⅱ": {
+              "price": 1950000,
+              "price_man": 195,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "테크": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 560000,
+              "price_man": 56,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 카고 스마트 M/T 5인승": {
+          "base_price": 25850000,
+          "base_price_man": 2585,
+          "standard_features": [],
+          "options": {
+            "트윈 스윙 도어": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "멀티미디어 라이트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "내비플러스Ⅰ": {
+              "price": 2250000,
+              "price_man": 225,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 카고 스마트 A/T 5인승": {
+          "base_price": 27950000,
+          "base_price_man": 2795,
+          "standard_features": [],
+          "options": {
+            "트윈 스윙 도어": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "멀티미디어 라이트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "내비플러스Ⅰ": {
+              "price": 2250000,
+              "price_man": 225,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 카고 모던 5인승": {
+          "base_price": 29520000,
+          "base_price_man": 2952,
+          "standard_features": [],
+          "options": {
+            "트윈 스윙 도어": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "윈도우 밴": {
+              "price": 200000,
+              "price_man": 20,
+              "desc": ""
+            },
+            "내비플러스Ⅱ": {
+              "price": 1950000,
+              "price_man": 195,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "테크": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 560000,
+              "price_man": 56,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 3.5 2WD 투어러 모던 11인승": {
+          "base_price": 30540000,
+          "base_price_man": 3054,
+          "standard_features": [],
+          "options": {
+            "듀얼 와이드 선루프 + LED 룸램프": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 560000,
+              "price_man": 56,
+              "desc": ""
+            },
+            "내비플러스Ⅱ": {
+              "price": 2000000,
+              "price_man": 200,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "테크Ⅰ": {
+              "price": 1350000,
+              "price_man": 135,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 3.5 2WD 투어러 모던 9인승": {
+          "base_price": 30540000,
+          "base_price_man": 3054,
+          "standard_features": [],
+          "options": {
+            "듀얼 와이드 선루프 + LED 룸램프": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 560000,
+              "price_man": 56,
+              "desc": ""
+            },
+            "내비플러스Ⅱ": {
+              "price": 2000000,
+              "price_man": 200,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "테크Ⅰ": {
+              "price": 1350000,
+              "price_man": 135,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 3.5 2WD 카고 모던 3인승": {
+          "base_price": 28420000,
+          "base_price_man": 2842,
+          "standard_features": [],
+          "options": {
+            "트윈 스윙 도어": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "윈도우 밴": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            },
+            "내비플러스Ⅱ": {
+              "price": 1950000,
+              "price_man": 195,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "테크": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 560000,
+              "price_man": 56,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 3.5 2WD 카고 모던 5인승": {
+          "base_price": 29220000,
+          "base_price_man": 2922,
+          "standard_features": [],
+          "options": {
+            "트윈 스윙 도어": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "윈도우 밴": {
+              "price": 200000,
+              "price_man": 20,
+              "desc": ""
+            },
+            "내비플러스Ⅱ": {
+              "price": 1950000,
+              "price_man": 195,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "테크": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 560000,
+              "price_man": 56,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 라운지 프레스티지 9인승": {
+          "base_price": 36610000,
+          "base_price_man": 3661,
+          "standard_features": [],
+          "options": {
+            "선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "스마트": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "컴포트Ⅰ": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "컴포트Ⅱ": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "테크Ⅰ": {
+              "price": 2200000,
+              "price_man": 220,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 AWD 라운지 프레스티지 9인승": {
+          "base_price": 38560000,
+          "base_price_man": 3856,
+          "standard_features": [],
+          "options": {
+            "선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "스마트": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "컴포트Ⅰ": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "컴포트Ⅱ": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "테크Ⅰ": {
+              "price": 2200000,
+              "price_man": 220,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 라운지 인스퍼레이션 9인승": {
+          "base_price": 40480000,
+          "base_price_man": 4048,
+          "standard_features": [],
+          "options": {
+            "선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "BOSE 사운드 시스템": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 560000,
+              "price_man": 56,
+              "desc": ""
+            },
+            "컴포트Ⅱ": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 AWD 라운지 인스퍼레이션 9인승": {
+          "base_price": 42430000,
+          "base_price_man": 4243,
+          "standard_features": [],
+          "options": {
+            "선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "BOSE 사운드 시스템": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 560000,
+              "price_man": 56,
+              "desc": ""
+            },
+            "컴포트Ⅱ": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 라운지 리무진 9인승": {
+          "base_price": 57920000,
+          "base_price_man": 5792,
+          "standard_features": [],
+          "options": {
+            "BOSE 사운드 시스템": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "스태리 스카이": {
+              "price": 1830000,
+              "price_man": 183,
+              "desc": ""
+            },
+            "무버블 콘솔": {
+              "price": 3090000,
+              "price_man": 309,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 AWD 라운지 리무진 9인승": {
+          "base_price": 59870000,
+          "base_price_man": 5987,
+          "standard_features": [],
+          "options": {
+            "BOSE 사운드 시스템": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "스태리 스카이": {
+              "price": 1830000,
+              "price_man": 183,
+              "desc": ""
+            },
+            "무버블 콘솔": {
+              "price": 3090000,
+              "price_man": 309,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 라운지 인스퍼레이션 7인승": {
+          "base_price": 41350000,
+          "base_price_man": 4135,
+          "standard_features": [],
+          "options": {
+            "선루프": {
+              "price": 890000,
+              "price_man": 89,
+              "desc": ""
+            },
+            "BOSE 사운드 시스템": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "컴포트Ⅱ": {
+              "price": 520000,
+              "price_man": 52,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 AWD 라운지 인스퍼레이션 7인승": {
+          "base_price": 43310000,
+          "base_price_man": 4331,
+          "standard_features": [],
+          "options": {
+            "선루프": {
+              "price": 890000,
+              "price_man": 89,
+              "desc": ""
+            },
+            "BOSE 사운드 시스템": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "컴포트Ⅱ": {
+              "price": 520000,
+              "price_man": 52,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 라운지 리무진 7인승": {
+          "base_price": 59630000,
+          "base_price_man": 5963,
+          "standard_features": [],
+          "options": {
+            "BOSE 사운드 시스템": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "스태리 스카이": {
+              "price": 1910000,
+              "price_man": 191,
+              "desc": ""
+            },
+            "무버블 콘솔": {
+              "price": 2970000,
+              "price_man": 297,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 AWD 라운지 리무진 7인승": {
+          "base_price": 61590000,
+          "base_price_man": 6159,
+          "standard_features": [],
+          "options": {
+            "BOSE 사운드 시스템": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "스태리 스카이": {
+              "price": 1910000,
+              "price_man": 191,
+              "desc": ""
+            },
+            "무버블 콘솔": {
+              "price": 2970000,
+              "price_man": 297,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 라운지 캠퍼 프레스티지 11인승": {
+          "base_price": 49470000,
+          "base_price_man": 4947,
+          "standard_features": [],
+          "options": {
+            "컴포트Ⅰ": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "테크Ⅰ": {
+              "price": 2160000,
+              "price_man": 216,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1230000,
+              "price_man": 123,
+              "desc": ""
+            },
+            "어닝 패키지": {
+              "price": 1670000,
+              "price_man": 167,
+              "desc": ""
+            },
+            "캠핑 패키지Ⅰ": {
+              "price": 3240000,
+              "price_man": 324,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 AWD 라운지 캠퍼 프레스티지 11인승": {
+          "base_price": 51380000,
+          "base_price_man": 5138,
+          "standard_features": [],
+          "options": {
+            "컴포트Ⅰ": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "테크Ⅰ": {
+              "price": 2160000,
+              "price_man": 216,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1230000,
+              "price_man": 123,
+              "desc": ""
+            },
+            "어닝 패키지": {
+              "price": 1670000,
+              "price_man": 167,
+              "desc": ""
+            },
+            "캠핑 패키지Ⅰ": {
+              "price": 3240000,
+              "price_man": 324,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 라운지 캠퍼 프레스티지 4인승": {
+          "base_price": 68580000,
+          "base_price_man": 6858,
+          "standard_features": [],
+          "options": {
+            "컴포트Ⅱ": {
+              "price": 490000,
+              "price_man": 49,
+              "desc": ""
+            },
+            "컨비니언스": {
+              "price": 1670000,
+              "price_man": 167,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1230000,
+              "price_man": 123,
+              "desc": ""
+            },
+            "어닝 패키지": {
+              "price": 1670000,
+              "price_man": 167,
+              "desc": ""
+            },
+            "충전 패키지": {
+              "price": 2900000,
+              "price_man": 290,
+              "desc": ""
+            },
+            "캠핑 패키지Ⅱ": {
+              "price": 2750000,
+              "price_man": 275,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 AWD 라운지 캠퍼 프레스티지 4인승": {
+          "base_price": 70490000,
+          "base_price_man": 7049,
+          "standard_features": [],
+          "options": {
+            "컴포트Ⅱ": {
+              "price": 490000,
+              "price_man": 49,
+              "desc": ""
+            },
+            "컨비니언스": {
+              "price": 1670000,
+              "price_man": 167,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1230000,
+              "price_man": 123,
+              "desc": ""
+            },
+            "어닝 패키지": {
+              "price": 1670000,
+              "price_man": 167,
+              "desc": ""
+            },
+            "충전 패키지": {
+              "price": 2900000,
+              "price_man": 290,
+              "desc": ""
+            },
+            "캠핑 패키지Ⅱ": {
+              "price": 2750000,
+              "price_man": 275,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 3.5 2WD 라운지 프레스티지 9인승": {
+          "base_price": 36310000,
+          "base_price_man": 3631,
+          "standard_features": [],
+          "options": {
+            "선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "스마트": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "컴포트Ⅰ": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "컴포트Ⅱ": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "테크Ⅰ": {
+              "price": 2200000,
+              "price_man": 220,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 3.5 2WD 라운지 인스퍼레이션 9인승": {
+          "base_price": 40180000,
+          "base_price_man": 4018,
+          "standard_features": [],
+          "options": {
+            "선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "BOSE 사운드 시스템": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 560000,
+              "price_man": 56,
+              "desc": ""
+            },
+            "컴포트Ⅱ": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 3.5 2WD 라운지 인스퍼레이션 7인승": {
+          "base_price": 41050000,
+          "base_price_man": 4105,
+          "standard_features": [],
+          "options": {
+            "선루프": {
+              "price": 890000,
+              "price_man": 89,
+              "desc": ""
+            },
+            "BOSE 사운드 시스템": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "빌트인 캠": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "컴포트Ⅱ": {
+              "price": 520000,
+              "price_man": 52,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 3.5 2WD 라운지 모빌리티9 9인승": {
+          "base_price": 39710000,
+          "base_price_man": 3971,
+          "standard_features": [],
+          "options": {
+            "스마트": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "컴포트Ⅰ": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "컴포트Ⅱ": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "테크Ⅰ": {
+              "price": 1600000,
+              "price_man": 160,
+              "desc": ""
+            },
+            "컴포트Ⅱ + 테크Ⅰ + BOSE 사운드 시스템": {
+              "price": 2700000,
+              "price_man": 270,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 킨더 11인승": {
+          "base_price": 35080000,
+          "base_price_man": 3508,
+          "standard_features": [],
+          "options": {
+            "서라운드 뷰 모니터": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "멀티미디어 내비플러스": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "테크": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 AWD 킨더 11인승": {
+          "base_price": 37030000,
+          "base_price_man": 3703,
+          "standard_features": [],
+          "options": {
+            "서라운드 뷰 모니터": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "멀티미디어 내비플러스": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "테크": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 킨더 14인승": {
+          "base_price": 37700000,
+          "base_price_man": 3770,
+          "standard_features": [],
+          "options": {
+            "서라운드 뷰 모니터": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "멀티미디어 내비플러스": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "테크": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 3.5 2WD 킨더 11인승": {
+          "base_price": 34780000,
+          "base_price_man": 3478,
+          "standard_features": [],
+          "options": {
+            "서라운드 뷰 모니터": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "멀티미디어 내비플러스": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "테크": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 3.5 2WD 킨더 15인승": {
+          "base_price": 37410000,
+          "base_price_man": 3741,
+          "standard_features": [],
+          "options": {
+            "서라운드 뷰 모니터": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "멀티미디어 내비플러스": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "테크": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 특장차 휠체어 리프트 7인승": {
+          "base_price": 42900000,
+          "base_price_man": 4290,
+          "standard_features": [],
+          "options": {
+            "내비플러스": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            },
+            "전동 회전시트": {
+              "price": 7430000,
+              "price_man": 743,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 AWD 특장차 휠체어 리프트 7인승": {
+          "base_price": 44850000,
+          "base_price_man": 4485,
+          "standard_features": [],
+          "options": {
+            "내비플러스": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            },
+            "전동 회전시트": {
+              "price": 7430000,
+              "price_man": 743,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 특장차 휠체어 슬로프 7인승": {
+          "base_price": 41380000,
+          "base_price_man": 4138,
+          "standard_features": [],
+          "options": {
+            "내비플러스": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "테크Ⅱ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            },
+            "전동 회전시트": {
+              "price": 7430000,
+              "price_man": 743,
+              "desc": ""
+            },
+            "헤드앤 백레스트": {
+              "price": 2510000,
+              "price_man": 251,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 특장차 일반 구급 5인승": {
+          "base_price": 37470000,
+          "base_price_man": 3747,
+          "standard_features": [],
+          "options": {
+            "내비플러스": {
+              "price": 2240000,
+              "price_man": 224,
+              "desc": ""
+            },
+            "구급 패키지Ⅰ": {
+              "price": 3800000,
+              "price_man": 380,
+              "desc": ""
+            },
+            "구급 패키지Ⅱ": {
+              "price": 5680000,
+              "price_man": 568,
+              "desc": ""
+            },
+            "구급충전": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 특장차 일반 구급 6인승": {
+          "base_price": 38000000,
+          "base_price_man": 3800,
+          "standard_features": [],
+          "options": {
+            "내비플러스": {
+              "price": 2240000,
+              "price_man": 224,
+              "desc": ""
+            },
+            "구급 패키지Ⅰ": {
+              "price": 3800000,
+              "price_man": 380,
+              "desc": ""
+            },
+            "구급 패키지Ⅱ": {
+              "price": 5680000,
+              "price_man": 568,
+              "desc": ""
+            },
+            "구급충전": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 특장차 특수 구급 6인승": {
+          "base_price": 58310000,
+          "base_price_man": 5831,
+          "standard_features": [],
+          "options": {
+            "내비플러스": {
+              "price": 2240000,
+              "price_man": 224,
+              "desc": ""
+            },
+            "구급 패키지Ⅱ": {
+              "price": 5680000,
+              "price_man": 568,
+              "desc": ""
+            },
+            "구급 패키지Ⅲ": {
+              "price": 10290000,
+              "price_man": 1029,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 AWD 특장차 특수 구급 6인승": {
+          "base_price": 60260000,
+          "base_price_man": 6026,
+          "standard_features": [],
+          "options": {
+            "내비플러스": {
+              "price": 2240000,
+              "price_man": 224,
+              "desc": ""
+            },
+            "구급 패키지Ⅱ": {
+              "price": 5680000,
+              "price_man": 568,
+              "desc": ""
+            },
+            "구급 패키지Ⅲ": {
+              "price": 10290000,
+              "price_man": 1029,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 특장차 소방 구급 6인승": {
+          "base_price": 65750000,
+          "base_price_man": 6575,
+          "standard_features": [],
+          "options": {
+            "내비플러스Ⅱ": {
+              "price": 1940000,
+              "price_man": 194,
+              "desc": ""
+            },
+            "테크": {
+              "price": 970000,
+              "price_man": 97,
+              "desc": ""
+            },
+            "소방 패키지Ⅰ": {
+              "price": 4870000,
+              "price_man": 487,
+              "desc": ""
+            },
+            "소방 패키지Ⅱ": {
+              "price": 3990000,
+              "price_man": 399,
+              "desc": ""
+            },
+            "소방 패키지Ⅲ": {
+              "price": 9570000,
+              "price_man": 957,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 AWD 특장차 소방 구급 6인승": {
+          "base_price": 67700000,
+          "base_price_man": 6770,
+          "standard_features": [],
+          "options": {
+            "내비플러스Ⅱ": {
+              "price": 1940000,
+              "price_man": 194,
+              "desc": ""
+            },
+            "테크": {
+              "price": 970000,
+              "price_man": 97,
+              "desc": ""
+            },
+            "소방 패키지Ⅰ": {
+              "price": 4870000,
+              "price_man": 487,
+              "desc": ""
+            },
+            "소방 패키지Ⅱ": {
+              "price": 3990000,
+              "price_man": 399,
+              "desc": ""
+            },
+            "소방 패키지Ⅲ": {
+              "price": 9570000,
+              "price_man": 957,
+              "desc": ""
+            }
+          }
         }
       }
     },
