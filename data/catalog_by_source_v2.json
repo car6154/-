@@ -83219,6 +83219,302 @@
               "desc": ""
             }
           }
+        },
+        "디젤 2.2 2WD 럭셔리 9인승": {
+          "base_price": 30450000,
+          "base_price_man": 3045,
+          "standard_features": [],
+          "options": {
+            "내비게이션 + 독립제어 풀오토 에어컨 + 이오나이저 + 오토 디포그": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "파워 슬라이딩 도어": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "드라이브 와이즈Ⅰ": {
+              "price": 2020000,
+              "price_man": 202,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 프레스티지 9인승": {
+          "base_price": 33800000,
+          "base_price_man": 3380,
+          "standard_features": [],
+          "options": {
+            "내비게이션": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "내비게이션 + AVM": {
+              "price": 1350000,
+              "price_man": 135,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "컨비니언스": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "드라이브 와이즈Ⅱ": {
+              "price": 1690000,
+              "price_man": 169,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 노블레스 9인승": {
+          "base_price": 37250000,
+          "base_price_man": 3725,
+          "standard_features": [],
+          "options": {
+            "내비게이션 + AVM + JBL 사운드 시스템": {
+              "price": 1490000,
+              "price_man": 149,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "드라이브 와이즈Ⅱ": {
+              "price": 1690000,
+              "price_man": 169,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 노블레스 스페셜 9인승": {
+          "base_price": 38850000,
+          "base_price_man": 3885,
+          "standard_features": [],
+          "options": {
+            "내비게이션 UVO + JBL 사운드 시스템": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "드라이브 와이즈Ⅱ": {
+              "price": 1690000,
+              "price_man": 169,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 디럭스 11인승": {
+          "base_price": 27550000,
+          "base_price_man": 2755,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈Ⅰ": {
+              "price": 2020000,
+              "price_man": 202,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 럭셔리 11인승": {
+          "base_price": 30050000,
+          "base_price_man": 3005,
+          "standard_features": [],
+          "options": {
+            "내비게이션 + 독립제어 풀오토 에어컨 + 이오나이저 + 오토 디포그": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "파워 슬라이딩 도어": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "드라이브 와이즈Ⅰ": {
+              "price": 2020000,
+              "price_man": 202,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 프레스티지 11인승": {
+          "base_price": 32800000,
+          "base_price_man": 3280,
+          "standard_features": [],
+          "options": {
+            "내비게이션": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "내비게이션 + AVM": {
+              "price": 1350000,
+              "price_man": 135,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "컨비니언스": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "드라이브 와이즈Ⅰ": {
+              "price": 2020000,
+              "price_man": 202,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 노블레스 11인승": {
+          "base_price": 36300000,
+          "base_price_man": 3630,
+          "standard_features": [],
+          "options": {
+            "내비게이션 + AVM + JBL 사운드 시스템": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "드라이브 와이즈Ⅰ": {
+              "price": 2020000,
+              "price_man": 202,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.3 2WD 프레지던트 7인승 리무진": {
+          "base_price": 37900000,
+          "base_price_man": 3790,
+          "standard_features": [],
+          "options": {
+            "내비게이션 + AVM + JBL 사운드 시스템": {
+              "price": 1490000,
+              "price_man": 149,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "드라이브 와이즈Ⅱ": {
+              "price": 1800000,
+              "price_man": 180,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.3 2WD 프레지던트 7인승 하이리무진": {
+          "base_price": 57620000,
+          "base_price_man": 5762,
+          "standard_features": [],
+          "options": {}
+        },
+        "가솔린 3.3 2WD 노블레스 9인승 하이리무진": {
+          "base_price": 54040000,
+          "base_price_man": 5404,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD VIP 7인승 하이리무진": {
+          "base_price": 54650000,
+          "base_price_man": 5465,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD 프레지던트 7인승 하이리무진": {
+          "base_price": 59430000,
+          "base_price_man": 5943,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD 럭셔리 9인승 하이리무진": {
+          "base_price": 48150000,
+          "base_price_man": 4815,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD 프레스티지 9인승 하이리무진": {
+          "base_price": 51630000,
+          "base_price_man": 5163,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD 프레스티지 하이루프 9인승 하이리무진": {
+          "base_price": 42720000,
+          "base_price_man": 4272,
+          "standard_features": [],
+          "options": {
+            "내비게이션": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 노블레스 9인승 하이리무진": {
+          "base_price": 55440000,
+          "base_price_man": 5544,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD 프레지던트 11인승 하이리무진": {
+          "base_price": 49780000,
+          "base_price_man": 4978,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD VIP 7인승 아웃도어": {
+          "base_price": 45840000,
+          "base_price_man": 4584,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD 프레스티지 9인승 아웃도어": {
+          "base_price": 40000000,
+          "base_price_man": 4000,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD 프레스티지 11인승 아웃도어": {
+          "base_price": 39000000,
+          "base_price_man": 3900,
+          "standard_features": [],
+          "options": {}
         }
       },
       "2019": {
@@ -83321,6 +83617,1820 @@
             }
           },
           "standard_features": []
+        },
+        "디젤 2.2 2WD 럭셔리 9인승": {
+          "base_price": 31500000,
+          "base_price_man": 3150,
+          "standard_features": [],
+          "options": {
+            "듀얼 선루프": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "내비게이션 + 독립제어 풀오토 에어컨 + 이오나이저 + 오토 디포그": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "파워 슬라이딩 도어": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "LED 헤드램프 + LED 포그램프 + 휠 & 타이어": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "ETCS": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 프레스티지 9인승": {
+          "base_price": 34700000,
+          "base_price_man": 3470,
+          "standard_features": [],
+          "options": {
+            "듀얼 선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "드라이브 와이즈Ⅰ": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "내비게이션 + 독립제어 풀오토 에어컨 + 이오나이저 + 오토 디포그": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "LED 헤드램프 + LED 포그램프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 노블레스 9인승": {
+          "base_price": 38200000,
+          "base_price_man": 3820,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈Ⅱ": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "컨비니언스": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "서라운드 뷰 모니터": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 노블레스 스페셜 9인승": {
+          "base_price": 39200000,
+          "base_price_man": 3920,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈Ⅱ": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "프리미엄 팩": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 디럭스 11인승": {
+          "base_price": 28800000,
+          "base_price_man": 2880,
+          "standard_features": [],
+          "options": {
+            "내비게이션 + 독립제어 풀오토 에어컨 + 이오나이저 + 오토 디포그": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "LED DRL + LED 리어콤비 + 휠 & 타이어": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "ETCS": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 프레스티지 11인승": {
+          "base_price": 33900000,
+          "base_price_man": 3390,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈Ⅰ + 슈퍼비전 클러스터": {
+              "price": 1800000,
+              "price_man": 180,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "내비게이션 + 독립제어 풀오토 에어컨 + 이오나이저 + 오토 디포그": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.3 2WD 프레지던트 7인승 리무진": {
+          "base_price": 37990000,
+          "base_price_man": 3799,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈Ⅱ": {
+              "price": 1260000,
+              "price_man": 126,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 880000,
+              "price_man": 88,
+              "desc": ""
+            },
+            "프리미엄 팩": {
+              "price": 1460000,
+              "price_man": 146,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD VIP 7인승 리무진": {
+          "base_price": 36720000,
+          "base_price_man": 3672,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈Ⅱ": {
+              "price": 1260000,
+              "price_man": 126,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 880000,
+              "price_man": 88,
+              "desc": ""
+            },
+            "내비게이션": {
+              "price": 780000,
+              "price_man": 78,
+              "desc": ""
+            },
+            "서라운드 뷰 모니터": {
+              "price": 580000,
+              "price_man": 58,
+              "desc": ""
+            },
+            "스마트 테일게이트": {
+              "price": 410000,
+              "price_man": 41,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 프레지던트 7인승 리무진": {
+          "base_price": 40450000,
+          "base_price_man": 4045,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈Ⅱ": {
+              "price": 1260000,
+              "price_man": 126,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 880000,
+              "price_man": 88,
+              "desc": ""
+            },
+            "프리미엄 팩": {
+              "price": 1460000,
+              "price_man": 146,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD VIP 7인승 하이리무진": {
+          "base_price": 55270000,
+          "base_price_man": 5527,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD 프레지던트 7인승 하이리무진": {
+          "base_price": 59870000,
+          "base_price_man": 5987,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD 럭셔리 9인승 하이리무진": {
+          "base_price": 49930000,
+          "base_price_man": 4993,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD 프레스티지 9인승 하이리무진": {
+          "base_price": 53410000,
+          "base_price_man": 5341,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD 프레스티지 하이루프 9인승 하이리무진": {
+          "base_price": 44150000,
+          "base_price_man": 4415,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈Ⅰ": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 노블레스 스페셜 9인승 하이리무진": {
+          "base_price": 56160000,
+          "base_price_man": 5616,
+          "standard_features": [],
+          "options": {
+            "프리미엄 팩": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 프레지던트 11인승 하이리무진": {
+          "base_price": 51560000,
+          "base_price_man": 5156,
+          "standard_features": [],
+          "options": {}
+        }
+      },
+      "2020": {
+        "가솔린 3.3 2WD VIP 7인승": {
+          "base_price": 34260000,
+          "base_price_man": 3426,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈Ⅱ": {
+              "price": 1260000,
+              "price_man": 126,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 880000,
+              "price_man": 88,
+              "desc": ""
+            },
+            "내비게이션": {
+              "price": 780000,
+              "price_man": 78,
+              "desc": ""
+            },
+            "서라운드 뷰 모니터": {
+              "price": 630000,
+              "price_man": 63,
+              "desc": ""
+            },
+            "스마트 테일게이트": {
+              "price": 410000,
+              "price_man": 41,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.3 2WD 프레지던트 7인승": {
+          "base_price": 37990000,
+          "base_price_man": 3799,
+          "standard_features": [],
+          "options": {
+            "듀얼 선루프": {
+              "price": 880000,
+              "price_man": 88,
+              "desc": ""
+            },
+            "드라이브 와이즈Ⅱ": {
+              "price": 1260000,
+              "price_man": 126,
+              "desc": ""
+            },
+            "프리미엄 팩": {
+              "price": 1460000,
+              "price_man": 146,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD VIP 7인승": {
+          "base_price": 36720000,
+          "base_price_man": 3672,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈Ⅱ": {
+              "price": 1260000,
+              "price_man": 126,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 880000,
+              "price_man": 88,
+              "desc": ""
+            },
+            "내비게이션": {
+              "price": 780000,
+              "price_man": 78,
+              "desc": ""
+            },
+            "서라운드 뷰 모니터": {
+              "price": 630000,
+              "price_man": 63,
+              "desc": ""
+            },
+            "스마트 테일게이트": {
+              "price": 410000,
+              "price_man": 41,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 프레지던트 7인승": {
+          "base_price": 40450000,
+          "base_price_man": 4045,
+          "standard_features": [],
+          "options": {
+            "듀얼 선루프": {
+              "price": 880000,
+              "price_man": 88,
+              "desc": ""
+            },
+            "드라이브 와이즈Ⅱ": {
+              "price": 1260000,
+              "price_man": 126,
+              "desc": ""
+            },
+            "프리미엄 팩": {
+              "price": 1460000,
+              "price_man": 146,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.3 2WD 프레스티지 9인승": {
+          "base_price": 32600000,
+          "base_price_man": 3260,
+          "standard_features": [],
+          "options": {
+            "듀얼 선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "드라이브 와이즈Ⅱ": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "내비게이션": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "LED 헤드램프 + LED 포그램프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "스마트 테일게이트": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.3 2WD 노블레스 스페셜 9인승": {
+          "base_price": 36600000,
+          "base_price_man": 3660,
+          "standard_features": [],
+          "options": {
+            "듀얼 선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "드라이브 와이즈Ⅱ": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "프리미엄 팩": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "서라운드 뷰 모니터": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.3 2WD 프레지던트 11인승": {
+          "base_price": 31600000,
+          "base_price_man": 3160,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈Ⅰ + 슈퍼비전 클러스터": {
+              "price": 1800000,
+              "price_man": 180,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "내비게이션": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 럭셔리 9인승": {
+          "base_price": 31500000,
+          "base_price_man": 3150,
+          "standard_features": [],
+          "options": {
+            "내비게이션 + 독립제어 풀오토 에어컨 + ETCS": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "파워 슬라이딩 도어": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "LED 헤드램프 + LED 포그램프 + 휠 & 타이어": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "ETCS": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 프레스티지 9인승": {
+          "base_price": 34900000,
+          "base_price_man": 3490,
+          "standard_features": [],
+          "options": {
+            "듀얼 선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "드라이브 와이즈Ⅱ": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "내비게이션": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "LED 헤드램프 + LED 포그램프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "스마트 테일게이트": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 노블레스 스페셜 9인승": {
+          "base_price": 38900000,
+          "base_price_man": 3890,
+          "standard_features": [],
+          "options": {
+            "듀얼 선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "드라이브 와이즈Ⅱ": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "프리미엄 팩": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "서라운드 뷰 모니터": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 디럭스 11인승": {
+          "base_price": 28800000,
+          "base_price_man": 2880,
+          "standard_features": [],
+          "options": {
+            "내비게이션 + 독립제어 풀오토 에어컨 + ETCS": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "LED DRL + LED 리어콤비 + 휠 & 타이어": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "ETCS": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 프레스티지 11인승": {
+          "base_price": 33900000,
+          "base_price_man": 3390,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈Ⅰ + 슈퍼비전 클러스터": {
+              "price": 1800000,
+              "price_man": 180,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "내비게이션": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.3 2WD 프레지던트 7인승 하이리무진": {
+          "base_price": 57700000,
+          "base_price_man": 5770,
+          "standard_features": [],
+          "options": {}
+        },
+        "가솔린 3.3 2WD 노블레스 스페셜 9인승 하이리무진": {
+          "base_price": 55710000,
+          "base_price_man": 5571,
+          "standard_features": [],
+          "options": {}
+        },
+        "가솔린 3.3 2WD 노블레스 스페셜 하이루프 9인승 하이리무진": {
+          "base_price": 46300000,
+          "base_price_man": 4630,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD VIP 7인승 하이리무진": {
+          "base_price": 55470000,
+          "base_price_man": 5547,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD 프레지던트 7인승 하이리무진": {
+          "base_price": 60070000,
+          "base_price_man": 6007,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD 럭셔리 9인승 하이리무진": {
+          "base_price": 50130000,
+          "base_price_man": 5013,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD 프레스티지 9인승 하이리무진": {
+          "base_price": 53610000,
+          "base_price_man": 5361,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD 프레스티지 하이루프 9인승 하이리무진": {
+          "base_price": 44350000,
+          "base_price_man": 4435,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈Ⅱ + 스마트 테일게이트": {
+              "price": 1600000,
+              "price_man": 160,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 노블레스 스페셜 9인승 하이리무진": {
+          "base_price": 56560000,
+          "base_price_man": 5656,
+          "standard_features": [],
+          "options": {
+            "프리미엄 팩": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 프레지던트 11인승 하이리무진": {
+          "base_price": 51760000,
+          "base_price_man": 5176,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD 프레스티지 9인승 아웃도어": {
+          "base_price": 40600000,
+          "base_price_man": 4060,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈Ⅱ + 스마트 테일게이트 + 서라운드 뷰 모니터": {
+              "price": 2200000,
+              "price_man": 220,
+              "desc": ""
+            }
+          }
+        }
+      },
+      "2017": {
+        "가솔린 3.3 2WD 노블레스 9인승": {
+          "base_price": 35650000,
+          "base_price_man": 3565,
+          "standard_features": [],
+          "options": {
+            "듀얼 선루프": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "내비게이션 + AVM + JBL 사운드 시스템": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "드라이빙 세이프티 PACK": {
+              "price": 1780000,
+              "price_man": 178,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 럭셔리 9인승": {
+          "base_price": 30450000,
+          "base_price_man": 3045,
+          "standard_features": [],
+          "options": {
+            "내비게이션 + 독립제어 풀오토 에어컨 + 이오나이저 + 오토 디포그": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "파워 슬라이딩 도어": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 프레스티지 9인승": {
+          "base_price": 33400000,
+          "base_price_man": 3340,
+          "standard_features": [],
+          "options": {
+            "내비게이션": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "컨비니언스": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 노블레스 9인승": {
+          "base_price": 37050000,
+          "base_price_man": 3705,
+          "standard_features": [],
+          "options": {
+            "듀얼 선루프": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "내비게이션 + AVM + JBL 사운드 시스템": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "드라이빙 세이프티 PACK": {
+              "price": 1780000,
+              "price_man": 178,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 디럭스 11인승": {
+          "base_price": 27550000,
+          "base_price_man": 2755,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD 럭셔리 11인승": {
+          "base_price": 30050000,
+          "base_price_man": 3005,
+          "standard_features": [],
+          "options": {
+            "내비게이션 + 독립제어 풀오토 에어컨 + 이오나이저 + 오토 디포그": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "파워 슬라이딩 도어": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 프레스티지 11인승": {
+          "base_price": 32800000,
+          "base_price_man": 3280,
+          "standard_features": [],
+          "options": {
+            "내비게이션": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "컨비니언스": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 노블레스 11인승": {
+          "base_price": 36500000,
+          "base_price_man": 3650,
+          "standard_features": [],
+          "options": {
+            "내비게이션 + AVM + JBL 사운드 시스템": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "드라이빙 세이프티 PACK": {
+              "price": 1780000,
+              "price_man": 178,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.3 2WD 프레지던트 7인승 리무진": {
+          "base_price": 37700000,
+          "base_price_man": 3770,
+          "standard_features": [],
+          "options": {
+            "듀얼 선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "내비게이션 + AVM + JBL 사운드 시스템": {
+              "price": 1490000,
+              "price_man": 149,
+              "desc": ""
+            },
+            "드라이빙 세이프티 PACK": {
+              "price": 1900000,
+              "price_man": 190,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD VIP 7인승 리무진": {
+          "base_price": 35550000,
+          "base_price_man": 3555,
+          "standard_features": [],
+          "options": {
+            "내비게이션": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "컨비니언스": {
+              "price": 1060000,
+              "price_man": 106,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 프레지던트 7인승 리무진": {
+          "base_price": 39500000,
+          "base_price_man": 3950,
+          "standard_features": [],
+          "options": {
+            "듀얼 선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "내비게이션 + AVM + JBL 사운드 시스템": {
+              "price": 1490000,
+              "price_man": 149,
+              "desc": ""
+            },
+            "드라이빙 세이프티 PACK": {
+              "price": 1900000,
+              "price_man": 190,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.3 2WD 프레지던트 7인승 하이리무진": {
+          "base_price": 57570000,
+          "base_price_man": 5757,
+          "standard_features": [],
+          "options": {}
+        },
+        "가솔린 3.3 2WD 노블레스 9인승 하이리무진": {
+          "base_price": 53990000,
+          "base_price_man": 5399,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD VIP 7인승 하이리무진": {
+          "base_price": 53720000,
+          "base_price_man": 5372,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD 프레지던트 7인승 하이리무진": {
+          "base_price": 59380000,
+          "base_price_man": 5938,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD 럭셔리 9인승 하이리무진": {
+          "base_price": 48100000,
+          "base_price_man": 4810,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD 프레스티지 9인승 하이리무진": {
+          "base_price": 50710000,
+          "base_price_man": 5071,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD 프레스티지 하이루프 9인승 하이리무진": {
+          "base_price": 39800000,
+          "base_price_man": 3980,
+          "standard_features": [],
+          "options": {
+            "내비게이션": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "컨비니언스": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 노블레스 9인승 하이리무진": {
+          "base_price": 55390000,
+          "base_price_man": 5539,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD 프레지던트 11인승 하이리무진": {
+          "base_price": 49260000,
+          "base_price_man": 4926,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD VIP 7인승 아웃도어": {
+          "base_price": 44910000,
+          "base_price_man": 4491,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD 프레스티지 9인승 아웃도어": {
+          "base_price": 39080000,
+          "base_price_man": 3908,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD 프레스티지 11인승 아웃도어": {
+          "base_price": 38480000,
+          "base_price_man": 3848,
+          "standard_features": [],
+          "options": {}
+        }
+      },
+      "2016": {
+        "가솔린 3.3 2WD 노블레스 9인승": {
+          "base_price": 35100000,
+          "base_price_man": 3510,
+          "standard_features": [],
+          "options": {
+            "듀얼 선루프": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "내비게이션 UVO + AVM + 액튠 사운드": {
+              "price": 1300000,
+              "price_man": 130,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 1300000,
+              "price_man": 130,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 럭셔리 9인승": {
+          "base_price": 30200000,
+          "base_price_man": 3020,
+          "standard_features": [],
+          "options": {
+            "내비게이션 + 독립제어 풀오토 에어컨 + 이오나이저 + 오토 디포그": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "파워 슬라이딩 도어": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 프레스티지 9인승": {
+          "base_price": 33050000,
+          "base_price_man": 3305,
+          "standard_features": [],
+          "options": {
+            "내비게이션": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 노블레스 9인승": {
+          "base_price": 36500000,
+          "base_price_man": 3650,
+          "standard_features": [],
+          "options": {
+            "듀얼 선루프": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "내비게이션 UVO + AVM + 액튠 사운드": {
+              "price": 1300000,
+              "price_man": 130,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 1300000,
+              "price_man": 130,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 디럭스 11인승": {
+          "base_price": 27350000,
+          "base_price_man": 2735,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD 럭셔리 11인승": {
+          "base_price": 29850000,
+          "base_price_man": 2985,
+          "standard_features": [],
+          "options": {
+            "내비게이션 + 독립제어 풀오토 에어컨 + 이오나이저 + 오토 디포그": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "파워 슬라이딩 도어": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 프레스티지 11인승": {
+          "base_price": 32500000,
+          "base_price_man": 3250,
+          "standard_features": [],
+          "options": {
+            "내비게이션": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 노블레스 11인승": {
+          "base_price": 35950000,
+          "base_price_man": 3595,
+          "standard_features": [],
+          "options": {
+            "듀얼 선루프": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "내비게이션 UVO + AVM + 액튠 사운드": {
+              "price": 1300000,
+              "price_man": 130,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 1300000,
+              "price_man": 130,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.3 2WD 프레지던트 7인승 리무진": {
+          "base_price": 36420000,
+          "base_price_man": 3642,
+          "standard_features": [],
+          "options": {
+            "듀얼 선루프": {
+              "price": 830000,
+              "price_man": 83,
+              "desc": ""
+            },
+            "내비게이션 UVO + AVM + 액튠 사운드": {
+              "price": 1350000,
+              "price_man": 135,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 1350000,
+              "price_man": 135,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD VIP 7인승 리무진": {
+          "base_price": 34650000,
+          "base_price_man": 3465,
+          "standard_features": [],
+          "options": {
+            "내비게이션": {
+              "price": 780000,
+              "price_man": 78,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 830000,
+              "price_man": 83,
+              "desc": ""
+            },
+            "컨비니언스": {
+              "price": 1040000,
+              "price_man": 104,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 프레지던트 7인승 리무진": {
+          "base_price": 38190000,
+          "base_price_man": 3819,
+          "standard_features": [],
+          "options": {
+            "듀얼 선루프": {
+              "price": 830000,
+              "price_man": 83,
+              "desc": ""
+            },
+            "내비게이션 UVO + AVM + 액튠 사운드": {
+              "price": 1350000,
+              "price_man": 135,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 1350000,
+              "price_man": 135,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.3 2WD 프레지던트 7인승 하이리무진": {
+          "base_price": 55190000,
+          "base_price_man": 5519,
+          "standard_features": [],
+          "options": {
+            "내비게이션 UVO 2.0 + AVM + 액튠 사운드 + 하이테크": {
+              "price": 2760000,
+              "price_man": 276,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.3 2WD 노블레스 9인승 하이리무진": {
+          "base_price": 52750000,
+          "base_price_man": 5275,
+          "standard_features": [],
+          "options": {
+            "내비게이션 UVO + AVM + 액튠 사운드 + 하이테크": {
+              "price": 2760000,
+              "price_man": 276,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD VIP 7인승 하이리무진": {
+          "base_price": 52530000,
+          "base_price_man": 5253,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD 프레지던트 7인승 하이리무진": {
+          "base_price": 56960000,
+          "base_price_man": 5696,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD 럭셔리 9인승 하이리무진": {
+          "base_price": 47890000,
+          "base_price_man": 4789,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD 프레스티지 9인승 하이리무진": {
+          "base_price": 50200000,
+          "base_price_man": 5020,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD 노블레스 9인승 하이리무진": {
+          "base_price": 54150000,
+          "base_price_man": 5415,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD 프레지던트 11인승 하이리무진": {
+          "base_price": 49260000,
+          "base_price_man": 4926,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD VIP 7인승 아웃도어": {
+          "base_price": 43990000,
+          "base_price_man": 4399,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD 프레스티지 9인승 아웃도어": {
+          "base_price": 38880000,
+          "base_price_man": 3888,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD 프레스티지 11인승 아웃도어": {
+          "base_price": 38330000,
+          "base_price_man": 3833,
+          "standard_features": [],
+          "options": {}
+        }
+      },
+      "2015": {
+        "가솔린 3.3 2WD 노블레스 9인승": {
+          "base_price": 35100000,
+          "base_price_man": 3510,
+          "standard_features": [],
+          "options": {
+            "듀얼 선루프": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "내비게이션 UVO + AVM + 액튠 사운드": {
+              "price": 1300000,
+              "price_man": 130,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 1300000,
+              "price_man": 130,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 럭셔리 9인승": {
+          "base_price": 30200000,
+          "base_price_man": 3020,
+          "standard_features": [],
+          "options": {
+            "내비게이션 + 독립제어 풀오토 에어컨 + 이오나이저 + 오토 디포그": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "파워 슬라이딩 도어": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 프레스티지 9인승": {
+          "base_price": 33050000,
+          "base_price_man": 3305,
+          "standard_features": [],
+          "options": {
+            "내비게이션": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 노블레스 9인승": {
+          "base_price": 36500000,
+          "base_price_man": 3650,
+          "standard_features": [],
+          "options": {
+            "듀얼 선루프": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "내비게이션 UVO + AVM + 액튠 사운드": {
+              "price": 1300000,
+              "price_man": 130,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 1300000,
+              "price_man": 130,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 디럭스 11인승": {
+          "base_price": 27350000,
+          "base_price_man": 2735,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD 럭셔리 11인승": {
+          "base_price": 29850000,
+          "base_price_man": 2985,
+          "standard_features": [],
+          "options": {
+            "내비게이션 + 독립제어 풀오토 에어컨 + 이오나이저 + 오토 디포그": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "파워 슬라이딩 도어": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 프레스티지 11인승": {
+          "base_price": 32500000,
+          "base_price_man": 3250,
+          "standard_features": [],
+          "options": {
+            "내비게이션": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 노블레스 11인승": {
+          "base_price": 35950000,
+          "base_price_man": 3595,
+          "standard_features": [],
+          "options": {
+            "듀얼 선루프": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "내비게이션 UVO + AVM + 액튠 사운드": {
+              "price": 1300000,
+              "price_man": 130,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 1300000,
+              "price_man": 130,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.3 2WD 프레지던트 7인승 리무진": {
+          "base_price": 37100000,
+          "base_price_man": 3710,
+          "standard_features": [],
+          "options": {
+            "듀얼 선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "내비게이션 UVO + AVM + 액튠 사운드": {
+              "price": 1380000,
+              "price_man": 138,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 1380000,
+              "price_man": 138,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD VIP 7인승 리무진": {
+          "base_price": 35300000,
+          "base_price_man": 3530,
+          "standard_features": [],
+          "options": {
+            "내비게이션": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "컨비니언스": {
+              "price": 1060000,
+              "price_man": 106,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 프레지던트 7인승 리무진": {
+          "base_price": 38900000,
+          "base_price_man": 3890,
+          "standard_features": [],
+          "options": {
+            "듀얼 선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "내비게이션 UVO + AVM + 액튠 사운드": {
+              "price": 1380000,
+              "price_man": 138,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 1380000,
+              "price_man": 138,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.3 2WD 프레지던트 7인승 하이리무진": {
+          "base_price": 53460000,
+          "base_price_man": 5346,
+          "standard_features": [],
+          "options": {
+            "내비게이션 UVO 2.0 + AVM + 액튠 사운드 + 하이테크": {
+              "price": 2760000,
+              "price_man": 276,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD VIP 7인승 하이리무진": {
+          "base_price": 53510000,
+          "base_price_man": 5351,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD 프레지던트 7인승 하이리무진": {
+          "base_price": 58020000,
+          "base_price_man": 5802,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD 럭셔리 9인승 하이리무진": {
+          "base_price": 47890000,
+          "base_price_man": 4789,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD 프레스티지 9인승 하이리무진": {
+          "base_price": 50200000,
+          "base_price_man": 5020,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD 노블레스 9인승 하이리무진": {
+          "base_price": 54150000,
+          "base_price_man": 5415,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD 럭셔리 11인승 하이리무진": {
+          "base_price": 46700000,
+          "base_price_man": 4670,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD 프레스티지 11인승 하이리무진": {
+          "base_price": 48800000,
+          "base_price_man": 4880,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD VIP 7인승 아웃도어": {
+          "base_price": 44810000,
+          "base_price_man": 4481,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD 프레스티지 9인승 아웃도어": {
+          "base_price": 38880000,
+          "base_price_man": 3888,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD 프레스티지 11인승 아웃도어": {
+          "base_price": 38330000,
+          "base_price_man": 3833,
+          "standard_features": [],
+          "options": {}
+        }
+      },
+      "2014": {
+        "디젤 2.2 2WD 럭셔리 9인승": {
+          "base_price": 29900000,
+          "base_price_man": 2990,
+          "standard_features": [],
+          "options": {
+            "내비게이션 + 독립제어 풀오토 에어컨 + 이오나이저 + 오토 디포그": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "파워 슬라이딩 도어": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 프레스티지 9인승": {
+          "base_price": 32700000,
+          "base_price_man": 3270,
+          "standard_features": [],
+          "options": {
+            "내비게이션": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "컨비니언스1": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "컨비니언스2": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 노블레스 9인승": {
+          "base_price": 36300000,
+          "base_price_man": 3630,
+          "standard_features": [],
+          "options": {
+            "듀얼 선루프": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "내비게이션 UVO + AVM + 액튠 사운드": {
+              "price": 1300000,
+              "price_man": 130,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 1300000,
+              "price_man": 130,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 디럭스 11인승": {
+          "base_price": 27200000,
+          "base_price_man": 2720,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD 럭셔리 11인승": {
+          "base_price": 29600000,
+          "base_price_man": 2960,
+          "standard_features": [],
+          "options": {
+            "내비게이션 + 독립제어 풀오토 에어컨 + 이오나이저 + 오토 디포그": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "파워 슬라이딩 도어": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 프레스티지 11인승": {
+          "base_price": 32200000,
+          "base_price_man": 3220,
+          "standard_features": [],
+          "options": {
+            "내비게이션": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "컨비니언스2": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 노블레스 11인승": {
+          "base_price": 35800000,
+          "base_price_man": 3580,
+          "standard_features": [],
+          "options": {
+            "듀얼 선루프": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "내비게이션 UVO + AVM + 액튠 사운드": {
+              "price": 1300000,
+              "price_man": 130,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 1300000,
+              "price_man": 130,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 럭셔리 9인승 하이리무진": {
+          "base_price": 46390000,
+          "base_price_man": 4639,
+          "standard_features": [],
+          "options": {
+            "내비게이션 + 독립제어 풀오토 에어컨 + 이오나이저 + 오토 디포그": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 프레스티지 9인승 하이리무진": {
+          "base_price": 49850000,
+          "base_price_man": 4985,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD 럭셔리 11인승 하이리무진": {
+          "base_price": 45250000,
+          "base_price_man": 4525,
+          "standard_features": [],
+          "options": {
+            "내비게이션 + 독립제어 풀오토 에어컨 + 이오나이저 + 오토 디포그": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 프레스티지 11인승 하이리무진": {
+          "base_price": 48500000,
+          "base_price_man": 4850,
+          "standard_features": [],
+          "options": {}
+        },
+        "디젤 2.2 2WD 럭셔리 9인승 아웃도어": {
+          "base_price": 34480000,
+          "base_price_man": 3448,
+          "standard_features": [],
+          "options": {
+            "내비게이션 + 독립제어 풀오토 에어컨 + 이오나이저 + 오토 디포그": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 럭셔리 11인승 아웃도어": {
+          "base_price": 34180000,
+          "base_price_man": 3418,
+          "standard_features": [],
+          "options": {
+            "내비게이션 + 독립제어 풀오토 에어컨 + 이오나이저 + 오토 디포그": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            }
+          }
         }
       }
     },
