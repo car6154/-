@@ -79099,6 +79099,738 @@
             }
           }
         }
+      },
+      "2017": {
+        "2.0 디젤 2WD SE": {
+          "base_price": 27400000,
+          "base_price_man": 2740,
+          "standard_features": [],
+          "options": {}
+        },
+        "2.0 디젤 2WD LE": {
+          "base_price": 29000000,
+          "base_price_man": 2900,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프 + 루프랙": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "하이패스+운전석 파워시트": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "S-Link 패키지 I": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 디젤 2WD RE": {
+          "base_price": 31100000,
+          "base_price_man": 3110,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "하이패스+전자식 파킹 브레이크(E-PKB)+전방경보시스템+사각지대 경보시스템(BSW)": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "S-Link 패키지 II": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "드라이빙 어시스트 패키지": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "스타일링 패키지": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 디젤 2WD RE 시그니처": {
+          "base_price": 33000000,
+          "base_price_man": 3300,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "매직 테일게이트 + 러기지 스크린": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "S-Link 패키지 II": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "드라이빙 어시스트 패키지": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 디젤 4WD LE": {
+          "base_price": 30700000,
+          "base_price_man": 3070,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프 + 루프랙": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "하이패스+운전석 파워시트": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "S-Link 패키지 I": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 디젤 4WD RE": {
+          "base_price": 32800000,
+          "base_price_man": 3280,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "하이패스+전자식 파킹 브레이크(E-PKB)+전방경보시스템+사각지대 경보시스템(BSW)": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "S-Link 패키지 II": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "드라이빙 어시스트 패키지": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "스타일링 패키지": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 디젤 4WD RE 시그니처": {
+          "base_price": 34700000,
+          "base_price_man": 3470,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "매직 테일게이트 + 러기지 스크린": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "S-Link 패키지 II": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "드라이빙 어시스트 패키지": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            }
+          }
+        }
+      },
+      "2018": {
+        "2.0 GDe 2WD SE": {
+          "base_price": 24800000,
+          "base_price_man": 2480,
+          "standard_features": [],
+          "options": {}
+        },
+        "2.0 GDe 2WD LE": {
+          "base_price": 26400000,
+          "base_price_man": 2640,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프 + 루프랙": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "하이패스+운전석 파워시트": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "S-Link 패키지 I": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 GDe 2WD RE": {
+          "base_price": 28500000,
+          "base_price_man": 2850,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "사각지대 경보시스템(BSW)+전방경보시스템": {
+              "price": 350000,
+              "price_man": 35,
+              "desc": ""
+            },
+            "S-Link 패키지 II": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "드라이빙 어시스트 패키지": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "LED PURE VISION 헤드램프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "19인치 투톤 알로이 휠": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 디젤 2WD SE": {
+          "base_price": 27700000,
+          "base_price_man": 2770,
+          "standard_features": [],
+          "options": {}
+        },
+        "2.0 디젤 2WD LE": {
+          "base_price": 29300000,
+          "base_price_man": 2930,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프 + 루프랙": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "하이패스+운전석 파워시트": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "S-Link 패키지 I": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 디젤 2WD RE": {
+          "base_price": 31400000,
+          "base_price_man": 3140,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "사각지대 경보시스템(BSW)+전방경보시스템": {
+              "price": 350000,
+              "price_man": 35,
+              "desc": ""
+            },
+            "S-Link 패키지 II": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "드라이빙 어시스트 패키지": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "LED PURE VISION 헤드램프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "19인치 투톤 알로이 휠": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 디젤 2WD 시그니처": {
+          "base_price": 33350000,
+          "base_price_man": 3335,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "매직 테일게이트 + 러기지 스크린": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "S-Link 패키지 II": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "드라이빙 어시스트 패키지": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 디젤 4WD LE": {
+          "base_price": 31000000,
+          "base_price_man": 3100,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프 + 루프랙": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "하이패스+운전석 파워시트": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "S-Link 패키지 I": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 디젤 4WD RE": {
+          "base_price": 33100000,
+          "base_price_man": 3310,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "사각지대 경보시스템(BSW)+전방경보시스템": {
+              "price": 350000,
+              "price_man": 35,
+              "desc": ""
+            },
+            "S-Link 패키지 II": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "드라이빙 어시스트 패키지": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "LED PURE VISION 헤드램프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "19인치 투톤 알로이 휠": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 디젤 4WD 시그니처": {
+          "base_price": 35050000,
+          "base_price_man": 3505,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "매직 테일게이트 + 러기지 스크린": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "S-Link 패키지 II": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "드라이빙 어시스트 패키지": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            }
+          }
+        }
+      },
+      "2019": {
+        "2.0 GDe 2WD SE": {
+          "base_price": 24800000,
+          "base_price_man": 2480,
+          "standard_features": [],
+          "options": {}
+        },
+        "2.0 GDe 2WD LE": {
+          "base_price": 26400000,
+          "base_price_man": 2640,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프 + 루프랙": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "하이패스+운전석 파워시트": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "S-Link 패키지 I": {
+              "price": 1600000,
+              "price_man": 160,
+              "desc": ""
+            },
+            "LED PURE VISION 헤드램프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 GDe 2WD RE": {
+          "base_price": 28550000,
+          "base_price_man": 2855,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "사각지대 경보시스템(BSW)+전방경보시스템": {
+              "price": 350000,
+              "price_man": 35,
+              "desc": ""
+            },
+            "S-Link 패키지 II": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "드라이빙 어시스트 패키지": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "LED PURE VISION 헤드램프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "19인치 투톤 알로이 휠": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 GDe 2WD RE 시그니처": {
+          "base_price": 30500000,
+          "base_price_man": 3050,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "S-Link 패키지 II": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "프리미엄 인테리어": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "드라이빙 어시스트 패키지": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 디젤 2WD SE": {
+          "base_price": 27700000,
+          "base_price_man": 2770,
+          "standard_features": [],
+          "options": {}
+        },
+        "2.0 디젤 2WD LE": {
+          "base_price": 29300000,
+          "base_price_man": 2930,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프 + 루프랙": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "하이패스+운전석 파워시트": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "S-Link 패키지 I": {
+              "price": 1600000,
+              "price_man": 160,
+              "desc": ""
+            },
+            "LED PURE VISION 헤드램프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 디젤 2WD RE": {
+          "base_price": 31450000,
+          "base_price_man": 3145,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "사각지대 경보시스템(BSW)+전방경보시스템": {
+              "price": 350000,
+              "price_man": 35,
+              "desc": ""
+            },
+            "S-Link 패키지 II": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "드라이빙 어시스트 패키지": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "LED PURE VISION 헤드램프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "19인치 투톤 알로이 휠": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 디젤 2WD RE 시그니처": {
+          "base_price": 33400000,
+          "base_price_man": 3340,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "S-Link 패키지 II": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "프리미엄 인테리어": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "드라이빙 어시스트 패키지": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 디젤 4WD LE": {
+          "base_price": 31000000,
+          "base_price_man": 3100,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프 + 루프랙": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "하이패스+운전석 파워시트": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "S-Link 패키지 I": {
+              "price": 1600000,
+              "price_man": 160,
+              "desc": ""
+            },
+            "LED PURE VISION 헤드램프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 디젤 4WD RE": {
+          "base_price": 33150000,
+          "base_price_man": 3315,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "사각지대 경보시스템(BSW)+전방경보시스템": {
+              "price": 350000,
+              "price_man": 35,
+              "desc": ""
+            },
+            "S-Link 패키지 II": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "드라이빙 어시스트 패키지": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "LED PURE VISION 헤드램프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "19인치 투톤 알로이 휠": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 디젤 4WD RE 시그니처": {
+          "base_price": 35100000,
+          "base_price_man": 3510,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "S-Link 패키지 II": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "프리미엄 인테리어": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "드라이빙 어시스트 패키지": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            }
+          }
+        }
       }
     },
     "더 뉴 QM6": {
@@ -79778,6 +80510,425 @@
             "모던 브라운 가죽시트": {
               "price": 300000,
               "price_man": 30,
+              "desc": ""
+            }
+          }
+        }
+      },
+      "2020": {
+        "2.0 GDe 2WD SE": {
+          "base_price": 24450000,
+          "base_price_man": 2445,
+          "standard_features": [],
+          "options": {}
+        },
+        "2.0 GDe 2WD LE": {
+          "base_price": 26020000,
+          "base_price_man": 2602,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프 + 루프랙": {
+              "price": 1040000,
+              "price_man": 104,
+              "desc": ""
+            },
+            "하이패스 시스템(ETCS)+운전석 파워시트+전자식 파킹 브레이크(E-PKB)": {
+              "price": 540000,
+              "price_man": 54,
+              "desc": ""
+            },
+            "S-Link 패키지 I": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "S-Link 패키지 III": {
+              "price": 1920000,
+              "price_man": 192,
+              "desc": ""
+            },
+            "LED PURE VISION 헤드램프": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 GDe 2WD RE": {
+          "base_price": 28380000,
+          "base_price_man": 2838,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 840000,
+              "price_man": 84,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "S-Link 패키지 II": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "드라이빙 어시스트 패키지": {
+              "price": 840000,
+              "price_man": 84,
+              "desc": ""
+            },
+            "LED PURE VISION 헤드램프": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "19인치 투톤 알로이 휠": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            },
+            "시에나 브라운 가죽시트 패키지": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 GDe 2WD RE 시그니처": {
+          "base_price": 30140000,
+          "base_price_man": 3014,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 840000,
+              "price_man": 84,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "S-Link 패키지 II": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "드라이빙 어시스트 패키지": {
+              "price": 840000,
+              "price_man": 84,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 GDe 2WD 프리미에르": {
+          "base_price": 32890000,
+          "base_price_man": 3289,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 840000,
+              "price_man": 84,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "드라이빙 어시스트 패키지": {
+              "price": 840000,
+              "price_man": 84,
+              "desc": ""
+            }
+          }
+        },
+        "1.7 디젤 2WD SE": {
+          "base_price": 27250000,
+          "base_price_man": 2725,
+          "standard_features": [],
+          "options": {}
+        },
+        "1.7 디젤 2WD RE": {
+          "base_price": 30190000,
+          "base_price_man": 3019,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 840000,
+              "price_man": 84,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "S-Link 패키지 IV": {
+              "price": 1380000,
+              "price_man": 138,
+              "desc": ""
+            },
+            "S-Link 패키지 VI": {
+              "price": 2410000,
+              "price_man": 241,
+              "desc": ""
+            },
+            "LED PURE VISION 헤드램프": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "19인치 투톤 알로이 휠": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            },
+            "시에나 브라운 가죽시트 패키지": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            }
+          }
+        },
+        "1.7 디젤 2WD RE 시그니처": {
+          "base_price": 33190000,
+          "base_price_man": 3319,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 840000,
+              "price_man": 84,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "S-Link 패키지 V": {
+              "price": 1180000,
+              "price_man": 118,
+              "desc": ""
+            },
+            "드라이빙 어시스트 패키지 II": {
+              "price": 1040000,
+              "price_man": 104,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 디젤 4WD RE": {
+          "base_price": 32700000,
+          "base_price_man": 3270,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 840000,
+              "price_man": 84,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "S-Link 패키지 IV": {
+              "price": 1380000,
+              "price_man": 138,
+              "desc": ""
+            },
+            "S-Link 패키지 VI": {
+              "price": 2410000,
+              "price_man": 241,
+              "desc": ""
+            },
+            "LED PURE VISION 헤드램프": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "19인치 투톤 알로이 휠": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            },
+            "시에나 브라운 가죽시트 패키지": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 디젤 4WD RE 시그니처": {
+          "base_price": 35840000,
+          "base_price_man": 3584,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 840000,
+              "price_man": 84,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "S-Link 패키지 V": {
+              "price": 1180000,
+              "price_man": 118,
+              "desc": ""
+            },
+            "드라이빙 어시스트 패키지 II": {
+              "price": 1040000,
+              "price_man": 104,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 디젤 4WD 프리미에르": {
+          "base_price": 38590000,
+          "base_price_man": 3859,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 840000,
+              "price_man": 84,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "드라이빙 어시스트 패키지 II": {
+              "price": 1040000,
+              "price_man": 104,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 LPG 2WD SE": {
+          "base_price": 23760000,
+          "base_price_man": 2376,
+          "standard_features": [],
+          "options": {}
+        },
+        "2.0 LPG 2WD LE": {
+          "base_price": 25330000,
+          "base_price_man": 2533,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프 + 루프랙": {
+              "price": 1040000,
+              "price_man": 104,
+              "desc": ""
+            },
+            "하이패스 시스템(ETCS)+운전석 파워시트": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "전자식 파킹 브레이크(E-PKB)": {
+              "price": 150000,
+              "price_man": 15,
+              "desc": ""
+            },
+            "S-Link 패키지 I": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "S-Link 패키지 III": {
+              "price": 1920000,
+              "price_man": 192,
+              "desc": ""
+            },
+            "LED PURE VISION 헤드램프": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 LPG 2WD RE": {
+          "base_price": 27690000,
+          "base_price_man": 2769,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 840000,
+              "price_man": 84,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "S-Link 8.7인치 내비게이션": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "드라이빙 어시스트 패키지": {
+              "price": 840000,
+              "price_man": 84,
+              "desc": ""
+            },
+            "LED PURE VISION 헤드램프": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "19인치 투톤 알로이 휠": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            },
+            "시에나 브라운 가죽시트 패키지": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            }
+          }
+        },
+        "2.0 LPG 2WD RE 시그니처": {
+          "base_price": 29460000,
+          "base_price_man": 2946,
+          "standard_features": [],
+          "options": {
+            "파노라마 선루프": {
+              "price": 840000,
+              "price_man": 84,
+              "desc": ""
+            },
+            "매직 테일게이트": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "S-Link 8.7인치 내비게이션": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "드라이빙 어시스트 패키지": {
+              "price": 840000,
+              "price_man": 84,
               "desc": ""
             }
           }
