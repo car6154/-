@@ -12156,6 +12156,952 @@
             }
           },
           "standard_features": []
+        },
+        "HEV 1.6 2WD 프레스티지 9인승": {
+          "base_price": 40060000,
+          "base_price_man": 4006,
+          "standard_features": [],
+          "options": {
+            "컨비니언스": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "12.3인치 클러스터": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "모니터링 팩": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 노블레스 9인승": {
+          "base_price": 44460000,
+          "base_price_man": 4446,
+          "standard_features": [],
+          "options": {
+            "스타일": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "모니터링 팩": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "HUD + 빌트인 캠 2": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 시그니처 9인승": {
+          "base_price": 48110000,
+          "base_price_man": 4811,
+          "standard_features": [],
+          "options": {
+            "스타일": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "모니터링 팩": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "HUD + 빌트인 캠 2": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 그래비티 9인승": {
+          "base_price": 49140000,
+          "base_price_man": 4914,
+          "standard_features": [],
+          "options": {
+            "컴포트": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "모니터링 팩": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "HUD + 빌트인 캠 2": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.5 2WD 프레스티지 7인승": {
+          "base_price": 36860000,
+          "base_price_man": 3686,
+          "standard_features": [],
+          "options": {
+            "컨비니언스": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "12.3인치 클러스터": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "모니터링 팩": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.5 2WD 노블레스 7인승": {
+          "base_price": 42500000,
+          "base_price_man": 4250,
+          "standard_features": [],
+          "options": {
+            "스타일": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1190000,
+              "price_man": 119,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 1110000,
+              "price_man": 111,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "모니터링 팩": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "HUD + 빌트인 캠 2": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 840000,
+              "price_man": 84,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.5 2WD 시그니처 7인승": {
+          "base_price": 46360000,
+          "base_price_man": 4636,
+          "standard_features": [],
+          "options": {
+            "스타일": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1190000,
+              "price_man": 119,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "모니터링 팩": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "HUD + 빌트인 캠 2": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 630000,
+              "price_man": 63,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 840000,
+              "price_man": 84,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.5 2WD 그래비티 7인승": {
+          "base_price": 47180000,
+          "base_price_man": 4718,
+          "standard_features": [],
+          "options": {
+            "컴포트": {
+              "price": 1190000,
+              "price_man": 119,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "모니터링 팩": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "HUD + 빌트인 캠 2": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 630000,
+              "price_man": 63,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 840000,
+              "price_man": 84,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.5 2WD 프레스티지 9인승": {
+          "base_price": 35510000,
+          "base_price_man": 3551,
+          "standard_features": [],
+          "options": {
+            "컨비니언스": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "12.3인치 클러스터": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "모니터링 팩": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.5 2WD 노블레스 9인승": {
+          "base_price": 39910000,
+          "base_price_man": 3991,
+          "standard_features": [],
+          "options": {
+            "스타일": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "모니터링 팩": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "HUD + 빌트인 캠 2": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.5 2WD 시그니처 9인승": {
+          "base_price": 43560000,
+          "base_price_man": 4356,
+          "standard_features": [],
+          "options": {
+            "스타일": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "모니터링 팩": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "HUD + 빌트인 캠 2": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.5 2WD 그래비티 9인승": {
+          "base_price": 44590000,
+          "base_price_man": 4459,
+          "standard_features": [],
+          "options": {
+            "컴포트": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "모니터링 팩": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "HUD + 빌트인 캠 2": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 노블레스 7인승": {
+          "base_price": 44430000,
+          "base_price_man": 4443,
+          "standard_features": [],
+          "options": {
+            "스타일": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1190000,
+              "price_man": 119,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 1110000,
+              "price_man": 111,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "모니터링 팩": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "HUD + 빌트인 캠 2": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 840000,
+              "price_man": 84,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 아웃도어 7인승": {
+          "base_price": 43440000,
+          "base_price_man": 4344,
+          "standard_features": [],
+          "options": {
+            "스타일": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 1110000,
+              "price_man": 111,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "모니터링 팩": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "HUD + 빌트인 캠 2": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 840000,
+              "price_man": 84,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 시그니처 7인승": {
+          "base_price": 48290000,
+          "base_price_man": 4829,
+          "standard_features": [],
+          "options": {
+            "스타일": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1190000,
+              "price_man": 119,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "모니터링 팩": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "HUD + 빌트인 캠 2": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 630000,
+              "price_man": 63,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 840000,
+              "price_man": 84,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 그래비티 7인승": {
+          "base_price": 49110000,
+          "base_price_man": 4911,
+          "standard_features": [],
+          "options": {
+            "컴포트": {
+              "price": 1190000,
+              "price_man": 119,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "모니터링 팩": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "HUD + 빌트인 캠 2": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 630000,
+              "price_man": 63,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 840000,
+              "price_man": 84,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 프레스티지 9인승": {
+          "base_price": 37460000,
+          "base_price_man": 3746,
+          "standard_features": [],
+          "options": {
+            "컨비니언스": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "12.3인치 클러스터": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "모니터링 팩": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 노블레스 9인승": {
+          "base_price": 41860000,
+          "base_price_man": 4186,
+          "standard_features": [],
+          "options": {
+            "스타일": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 1050000,
+              "price_man": 105,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "모니터링 팩": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "HUD + 빌트인 캠 2": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 시그니처 9인승": {
+          "base_price": 45510000,
+          "base_price_man": 4551,
+          "standard_features": [],
+          "options": {
+            "스타일": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "모니터링 팩": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "HUD + 빌트인 캠 2": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 그래비티 9인승": {
+          "base_price": 46540000,
+          "base_price_man": 4654,
+          "standard_features": [],
+          "options": {
+            "컴포트": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "모니터링 팩": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "HUD + 빌트인 캠 2": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "KRELL 프리미엄 사운드": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 시그니처 4인승 하이리무진": {
+          "base_price": 98310000,
+          "base_price_man": 9831,
+          "standard_features": [],
+          "options": {
+            "프리미엄 팩 2": {
+              "price": 6680000,
+              "price_man": 668,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 시그니처 7인승 하이리무진": {
+          "base_price": 73890000,
+          "base_price_man": 7389,
+          "standard_features": [],
+          "options": {
+            "스마트 커넥트 & HUD + 빌트인 캠 2 & KRELL 프리미엄 사운드": {
+              "price": 2690000,
+              "price_man": 269,
+              "desc": ""
+            },
+            "프리미엄 팩": {
+              "price": 3350000,
+              "price_man": 335,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 노블레스 9인승 하이리무진": {
+          "base_price": 66990000,
+          "base_price_man": 6699,
+          "standard_features": [],
+          "options": {
+            "스마트 커넥트 & HUD + 빌트인 캠 2 & KRELL 프리미엄 사운드": {
+              "price": 2850000,
+              "price_man": 285,
+              "desc": ""
+            },
+            "프리미엄 팩": {
+              "price": 3250000,
+              "price_man": 325,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 시그니처 9인승 하이리무진": {
+          "base_price": 70640000,
+          "base_price_man": 7064,
+          "standard_features": [],
+          "options": {
+            "스마트 커넥트 & HUD + 빌트인 캠 2 & KRELL 프리미엄 사운드": {
+              "price": 2550000,
+              "price_man": 255,
+              "desc": ""
+            },
+            "프리미엄 팩": {
+              "price": 3250000,
+              "price_man": 325,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.5 2WD 시그니처 4인승 하이리무진": {
+          "base_price": 93810000,
+          "base_price_man": 9381,
+          "standard_features": [],
+          "options": {
+            "프리미엄 팩 2": {
+              "price": 6680000,
+              "price_man": 668,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.5 2WD 시그니처 7인승 하이리무진": {
+          "base_price": 69390000,
+          "base_price_man": 6939,
+          "standard_features": [],
+          "options": {
+            "스마트 커넥트 & HUD + 빌트인 캠 2 & KRELL 프리미엄 사운드": {
+              "price": 2690000,
+              "price_man": 269,
+              "desc": ""
+            },
+            "프리미엄 팩": {
+              "price": 3350000,
+              "price_man": 335,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.5 2WD 시그니처 9인승 하이리무진": {
+          "base_price": 66090000,
+          "base_price_man": 6609,
+          "standard_features": [],
+          "options": {
+            "스마트 커넥트 & HUD + 빌트인 캠 2 & KRELL 프리미엄 사운드": {
+              "price": 2550000,
+              "price_man": 255,
+              "desc": ""
+            },
+            "프리미엄 팩": {
+              "price": 3250000,
+              "price_man": 325,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 2.2 2WD 시그니처 9인승 하이리무진": {
+          "base_price": 68040000,
+          "base_price_man": 6804,
+          "standard_features": [],
+          "options": {
+            "스마트 커넥트 & HUD + 빌트인 캠 2 & KRELL 프리미엄 사운드": {
+              "price": 2550000,
+              "price_man": 255,
+              "desc": ""
+            },
+            "프리미엄 팩": {
+              "price": 3250000,
+              "price_man": 325,
+              "desc": ""
+            }
+          }
         }
       },
       "2027": {
@@ -12695,6 +13641,925 @@
             "마이컴포트 패키지": {
               "price": 1260000,
               "price_man": 126,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.5 2WD 노블레스 7인승": {
+          "base_price": 43820000,
+          "base_price_man": 4382,
+          "standard_features": [],
+          "options": {
+            "스타일": {
+              "price": 470000,
+              "price_man": 47,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1190000,
+              "price_man": 119,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "모니터링 팩": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "HUD + 빌트인 캠 2": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 840000,
+              "price_man": 84,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.5 2WD 아웃도어 7인승": {
+          "base_price": 42830000,
+          "base_price_man": 4283,
+          "standard_features": [],
+          "options": {
+            "스타일": {
+              "price": 470000,
+              "price_man": 47,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "모니터링 팩": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "HUD + 빌트인 캠 2": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 840000,
+              "price_man": 84,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.5 2WD 시그니처 7인승": {
+          "base_price": 47380000,
+          "base_price_man": 4738,
+          "standard_features": [],
+          "options": {
+            "스타일": {
+              "price": 470000,
+              "price_man": 47,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1190000,
+              "price_man": 119,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "모니터링 팩": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "HUD + 빌트인 캠 2": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 840000,
+              "price_man": 84,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.5 2WD X-Line 7인승": {
+          "base_price": 47910000,
+          "base_price_man": 4791,
+          "standard_features": [],
+          "options": {
+            "컴포트": {
+              "price": 1190000,
+              "price_man": 119,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "모니터링 팩": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "HUD + 빌트인 캠 2": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 840000,
+              "price_man": 84,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.5 2WD 블랙 에디션 7인승": {
+          "base_price": 48510000,
+          "base_price_man": 4851,
+          "standard_features": [],
+          "options": {
+            "컴포트": {
+              "price": 1190000,
+              "price_man": 119,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "모니터링 팩": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "HUD + 빌트인 캠 2": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 840000,
+              "price_man": 84,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.5 2WD 프레스티지 9인승": {
+          "base_price": 36860000,
+          "base_price_man": 3686,
+          "standard_features": [],
+          "options": {
+            "컨비니언스": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "12.3인치 클러스터": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "모니터링 팩": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.5 2WD 노블레스 9인승": {
+          "base_price": 41210000,
+          "base_price_man": 4121,
+          "standard_features": [],
+          "options": {
+            "스타일": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1460000,
+              "price_man": 146,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "모니터링 팩": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "HUD + 빌트인 캠 2": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.5 2WD 시그니처 9인승": {
+          "base_price": 44560000,
+          "base_price_man": 4456,
+          "standard_features": [],
+          "options": {
+            "스타일": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1460000,
+              "price_man": 146,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "모니터링 팩": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "HUD + 빌트인 캠 2": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.5 2WD X-Line 9인승": {
+          "base_price": 45320000,
+          "base_price_man": 4532,
+          "standard_features": [],
+          "options": {
+            "컴포트": {
+              "price": 1460000,
+              "price_man": 146,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "모니터링 팩": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "HUD + 빌트인 캠 2": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.5 2WD 블랙 에디션 9인승": {
+          "base_price": 45920000,
+          "base_price_man": 4592,
+          "standard_features": [],
+          "options": {
+            "컴포트": {
+              "price": 1460000,
+              "price_man": 146,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "모니터링 팩": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "HUD + 빌트인 캠 2": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 노블레스 9인승 하이루프": {
+          "base_price": 57160000,
+          "base_price_man": 5716,
+          "standard_features": [],
+          "options": {
+            "스타일": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1460000,
+              "price_man": 146,
+              "desc": ""
+            },
+            "드라이브 와이즈 + 모니터링팩": {
+              "price": 1950000,
+              "price_man": 195,
+              "desc": ""
+            },
+            "스마트 커넥트 + HUD + 빌트인 캠 2": {
+              "price": 1950000,
+              "price_man": 195,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 시그니처 9인승 하이루프": {
+          "base_price": 60510000,
+          "base_price_man": 6051,
+          "standard_features": [],
+          "options": {
+            "스타일": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1460000,
+              "price_man": 146,
+              "desc": ""
+            },
+            "드라이브 와이즈 + 모니터링팩": {
+              "price": 1950000,
+              "price_man": 195,
+              "desc": ""
+            },
+            "스마트 커넥트 + HUD + 빌트인 캠 2": {
+              "price": 1950000,
+              "price_man": 195,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 블랙 에디션 9인승 하이루프": {
+          "base_price": 61870000,
+          "base_price_man": 6187,
+          "standard_features": [],
+          "options": {
+            "컴포트": {
+              "price": 1460000,
+              "price_man": 146,
+              "desc": ""
+            },
+            "드라이브 와이즈 + 모니터링팩": {
+              "price": 1950000,
+              "price_man": 195,
+              "desc": ""
+            },
+            "스마트 커넥트 + HUD + 빌트인 캠 2": {
+              "price": 1950000,
+              "price_man": 195,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 노블레스 7인승 하이루프": {
+          "base_price": 59720000,
+          "base_price_man": 5972,
+          "standard_features": [],
+          "options": {
+            "스타일": {
+              "price": 470000,
+              "price_man": 47,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1190000,
+              "price_man": 119,
+              "desc": ""
+            },
+            "드라이브 와이즈 + 모니터링팩": {
+              "price": 2060000,
+              "price_man": 206,
+              "desc": ""
+            },
+            "스마트 커넥트 + HUD + 빌트인 캠 2": {
+              "price": 2060000,
+              "price_man": 206,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 시그니처 7인승 하이루프": {
+          "base_price": 63280000,
+          "base_price_man": 6328,
+          "standard_features": [],
+          "options": {
+            "스타일": {
+              "price": 470000,
+              "price_man": 47,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1190000,
+              "price_man": 119,
+              "desc": ""
+            },
+            "드라이브 와이즈 + 모니터링팩": {
+              "price": 2060000,
+              "price_man": 206,
+              "desc": ""
+            },
+            "스마트 커넥트 + HUD + 빌트인 캠 2": {
+              "price": 2060000,
+              "price_man": 206,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 블랙 에디션 7인승 하이루프": {
+          "base_price": 64410000,
+          "base_price_man": 6441,
+          "standard_features": [],
+          "options": {
+            "컴포트": {
+              "price": 1190000,
+              "price_man": 119,
+              "desc": ""
+            },
+            "드라이브 와이즈 + 모니터링팩": {
+              "price": 2060000,
+              "price_man": 206,
+              "desc": ""
+            },
+            "스마트 커넥트 + HUD + 빌트인 캠 2": {
+              "price": 2060000,
+              "price_man": 206,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.5 2WD 노블레스 9인승 하이루프": {
+          "base_price": 52610000,
+          "base_price_man": 5261,
+          "standard_features": [],
+          "options": {
+            "스타일": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1460000,
+              "price_man": 146,
+              "desc": ""
+            },
+            "드라이브 와이즈 + 모니터링팩": {
+              "price": 1950000,
+              "price_man": 195,
+              "desc": ""
+            },
+            "스마트 커넥트 + HUD + 빌트인 캠 2": {
+              "price": 1950000,
+              "price_man": 195,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.5 2WD 시그니처 9인승 하이루프": {
+          "base_price": 55960000,
+          "base_price_man": 5596,
+          "standard_features": [],
+          "options": {
+            "스타일": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1460000,
+              "price_man": 146,
+              "desc": ""
+            },
+            "드라이브 와이즈 + 모니터링팩": {
+              "price": 1950000,
+              "price_man": 195,
+              "desc": ""
+            },
+            "스마트 커넥트 + HUD + 빌트인 캠 2": {
+              "price": 1950000,
+              "price_man": 195,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.5 2WD 블랙 에디션 9인승 하이루프": {
+          "base_price": 57320000,
+          "base_price_man": 5732,
+          "standard_features": [],
+          "options": {
+            "컴포트": {
+              "price": 1460000,
+              "price_man": 146,
+              "desc": ""
+            },
+            "드라이브 와이즈 + 모니터링팩": {
+              "price": 1950000,
+              "price_man": 195,
+              "desc": ""
+            },
+            "스마트 커넥트 + HUD + 빌트인 캠 2": {
+              "price": 1950000,
+              "price_man": 195,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.5 2WD 노블레스 7인승 하이루프": {
+          "base_price": 55220000,
+          "base_price_man": 5522,
+          "standard_features": [],
+          "options": {
+            "스타일": {
+              "price": 470000,
+              "price_man": 47,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1190000,
+              "price_man": 119,
+              "desc": ""
+            },
+            "드라이브 와이즈 + 모니터링팩": {
+              "price": 2060000,
+              "price_man": 206,
+              "desc": ""
+            },
+            "스마트 커넥트 + HUD + 빌트인 캠 2": {
+              "price": 2060000,
+              "price_man": 206,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.5 2WD 시그니처 7인승 하이루프": {
+          "base_price": 58780000,
+          "base_price_man": 5878,
+          "standard_features": [],
+          "options": {
+            "스타일": {
+              "price": 470000,
+              "price_man": 47,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1190000,
+              "price_man": 119,
+              "desc": ""
+            },
+            "드라이브 와이즈 + 모니터링팩": {
+              "price": 2060000,
+              "price_man": 206,
+              "desc": ""
+            },
+            "스마트 커넥트 + HUD + 빌트인 캠 2": {
+              "price": 2060000,
+              "price_man": 206,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.5 2WD 블랙 에디션 7인승 하이루프": {
+          "base_price": 59910000,
+          "base_price_man": 5991,
+          "standard_features": [],
+          "options": {
+            "컴포트": {
+              "price": 1190000,
+              "price_man": 119,
+              "desc": ""
+            },
+            "드라이브 와이즈 + 모니터링팩": {
+              "price": 2060000,
+              "price_man": 206,
+              "desc": ""
+            },
+            "스마트 커넥트 + HUD + 빌트인 캠 2": {
+              "price": 2060000,
+              "price_man": 206,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 시그니처 9인승 하이리무진": {
+          "base_price": 71790000,
+          "base_price_man": 7179,
+          "standard_features": [],
+          "options": {
+            "스마트 커넥트 & HUD + 빌트인 캠 2 & BOSE 프리미엄 사운드": {
+              "price": 2850000,
+              "price_man": 285,
+              "desc": ""
+            },
+            "프리미엄 팩": {
+              "price": 3450000,
+              "price_man": 345,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 블랙 에디션 9인승 하이리무진": {
+          "base_price": 72960000,
+          "base_price_man": 7296,
+          "standard_features": [],
+          "options": {
+            "스마트 커넥트 & HUD + 빌트인 캠 2 & BOSE 프리미엄 사운드": {
+              "price": 2850000,
+              "price_man": 285,
+              "desc": ""
+            },
+            "프리미엄 팩": {
+              "price": 3450000,
+              "price_man": 345,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 시그니처 7인승 하이리무진": {
+          "base_price": 74950000,
+          "base_price_man": 7495,
+          "standard_features": [],
+          "options": {
+            "스마트 커넥트 & HUD + 빌트인 캠 2 & BOSE 프리미엄 사운드": {
+              "price": 3010000,
+              "price_man": 301,
+              "desc": ""
+            },
+            "프리미엄 팩": {
+              "price": 3550000,
+              "price_man": 355,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 블랙 에디션 7인승 하이리무진": {
+          "base_price": 76180000,
+          "base_price_man": 7618,
+          "standard_features": [],
+          "options": {
+            "스마트 커넥트 & HUD + 빌트인 캠 2 & BOSE 프리미엄 사운드": {
+              "price": 3010000,
+              "price_man": 301,
+              "desc": ""
+            },
+            "프리미엄 팩": {
+              "price": 3550000,
+              "price_man": 355,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 시그니처 4인승 하이리무진": {
+          "base_price": 99680000,
+          "base_price_man": 9968,
+          "standard_features": [],
+          "options": {
+            "프리미엄 팩 2": {
+              "price": 7190000,
+              "price_man": 719,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.5 2WD 시그니처 9인승 하이리무진": {
+          "base_price": 67240000,
+          "base_price_man": 6724,
+          "standard_features": [],
+          "options": {
+            "스마트 커넥트 & HUD + 빌트인 캠 2 & BOSE 프리미엄 사운드": {
+              "price": 2850000,
+              "price_man": 285,
+              "desc": ""
+            },
+            "프리미엄 팩": {
+              "price": 3450000,
+              "price_man": 345,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.5 2WD 블랙 에디션 9인승 하이리무진": {
+          "base_price": 68410000,
+          "base_price_man": 6841,
+          "standard_features": [],
+          "options": {
+            "스마트 커넥트 & HUD + 빌트인 캠 2 & BOSE 프리미엄 사운드": {
+              "price": 2850000,
+              "price_man": 285,
+              "desc": ""
+            },
+            "프리미엄 팩": {
+              "price": 3450000,
+              "price_man": 345,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.5 2WD 시그니처 7인승 하이리무진": {
+          "base_price": 70450000,
+          "base_price_man": 7045,
+          "standard_features": [],
+          "options": {
+            "스마트 커넥트 & HUD + 빌트인 캠 2 & BOSE 프리미엄 사운드": {
+              "price": 3010000,
+              "price_man": 301,
+              "desc": ""
+            },
+            "프리미엄 팩": {
+              "price": 3550000,
+              "price_man": 355,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.5 2WD 블랙 에디션 7인승 하이리무진": {
+          "base_price": 71680000,
+          "base_price_man": 7168,
+          "standard_features": [],
+          "options": {
+            "스마트 커넥트 & HUD + 빌트인 캠 2 & BOSE 프리미엄 사운드": {
+              "price": 3010000,
+              "price_man": 301,
+              "desc": ""
+            },
+            "프리미엄 팩": {
+              "price": 3550000,
+              "price_man": 355,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.5 2WD 시그니처 4인승 하이리무진": {
+          "base_price": 95180000,
+          "base_price_man": 9518,
+          "standard_features": [],
+          "options": {
+            "프리미엄 팩 2": {
+              "price": 7190000,
+              "price_man": 719,
               "desc": ""
             }
           }
@@ -14903,6 +16768,914 @@
             "프리미엄 팩": {
               "price": 3250000,
               "price_man": 325,
+              "desc": ""
+            }
+          }
+        }
+      },
+      "2026": {
+        "HEV 1.6 2WD 노블레스 7인승": {
+          "base_price": 47760000,
+          "base_price_man": 4776,
+          "standard_features": [],
+          "options": {
+            "스타일": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1190000,
+              "price_man": 119,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "모니터링 팩": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "HUD + 빌트인 캠 2": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 840000,
+              "price_man": 84,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 아웃도어 7인승": {
+          "base_price": 46770000,
+          "base_price_man": 4677,
+          "standard_features": [],
+          "options": {
+            "스타일": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "모니터링 팩": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "HUD + 빌트인 캠 2": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 840000,
+              "price_man": 84,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 시그니처 7인승": {
+          "base_price": 51520000,
+          "base_price_man": 5152,
+          "standard_features": [],
+          "options": {
+            "스타일": {
+              "price": 470000,
+              "price_man": 47,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1190000,
+              "price_man": 119,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "모니터링 팩": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "HUD + 빌트인 캠 2": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 840000,
+              "price_man": 84,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD X-Line 7인승": {
+          "base_price": 52050000,
+          "base_price_man": 5205,
+          "standard_features": [],
+          "options": {
+            "컴포트": {
+              "price": 1190000,
+              "price_man": 119,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "모니터링 팩": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "HUD + 빌트인 캠 2": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 840000,
+              "price_man": 84,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 프레스티지 9인승": {
+          "base_price": 40910000,
+          "base_price_man": 4091,
+          "standard_features": [],
+          "options": {
+            "컨비니언스": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "12.3인치 클러스터": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "모니터링 팩": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 노블레스 9인승": {
+          "base_price": 45260000,
+          "base_price_man": 4526,
+          "standard_features": [],
+          "options": {
+            "스타일": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "모니터링 팩": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "HUD + 빌트인 캠 2": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 시그니처 9인승": {
+          "base_price": 48810000,
+          "base_price_man": 4881,
+          "standard_features": [],
+          "options": {
+            "스타일": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "모니터링 팩": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "HUD + 빌트인 캠 2": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD X-Line 9인승": {
+          "base_price": 49570000,
+          "base_price_man": 4957,
+          "standard_features": [],
+          "options": {
+            "컴포트": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "모니터링 팩": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "HUD + 빌트인 캠 2": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.5 2WD 노블레스 7인승": {
+          "base_price": 43260000,
+          "base_price_man": 4326,
+          "standard_features": [],
+          "options": {
+            "스타일": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1190000,
+              "price_man": 119,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "모니터링 팩": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "HUD + 빌트인 캠 2": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 840000,
+              "price_man": 84,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.5 2WD 아웃도어 7인승": {
+          "base_price": 42270000,
+          "base_price_man": 4227,
+          "standard_features": [],
+          "options": {
+            "스타일": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "모니터링 팩": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "HUD + 빌트인 캠 2": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 840000,
+              "price_man": 84,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.5 2WD 시그니처 7인승": {
+          "base_price": 47020000,
+          "base_price_man": 4702,
+          "standard_features": [],
+          "options": {
+            "스타일": {
+              "price": 470000,
+              "price_man": 47,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1190000,
+              "price_man": 119,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "모니터링 팩": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "HUD + 빌트인 캠 2": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 840000,
+              "price_man": 84,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.5 2WD X-Line 7인승": {
+          "base_price": 47550000,
+          "base_price_man": 4755,
+          "standard_features": [],
+          "options": {
+            "컴포트": {
+              "price": 1190000,
+              "price_man": 119,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "모니터링 팩": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "HUD + 빌트인 캠 2": {
+              "price": 1270000,
+              "price_man": 127,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 840000,
+              "price_man": 84,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.5 2WD 프레스티지 9인승": {
+          "base_price": 36360000,
+          "base_price_man": 3636,
+          "standard_features": [],
+          "options": {
+            "컨비니언스": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "12.3인치 클러스터": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "모니터링 팩": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.5 2WD 노블레스 9인승": {
+          "base_price": 40710000,
+          "base_price_man": 4071,
+          "standard_features": [],
+          "options": {
+            "스타일": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "모니터링 팩": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "HUD + 빌트인 캠 2": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.5 2WD 시그니처 9인승": {
+          "base_price": 44260000,
+          "base_price_man": 4426,
+          "standard_features": [],
+          "options": {
+            "스타일": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "모니터링 팩": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "HUD + 빌트인 캠 2": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.5 2WD X-Line 9인승": {
+          "base_price": 45020000,
+          "base_price_man": 4502,
+          "standard_features": [],
+          "options": {
+            "컴포트": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "스마트 커넥트": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "드라이브 와이즈": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "모니터링 팩": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "HUD + 빌트인 캠 2": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "듀얼 선루프": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 노블레스 9인승 하이루프": {
+          "base_price": 56660000,
+          "base_price_man": 5666,
+          "standard_features": [],
+          "options": {
+            "스타일": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "드라이브 와이즈 + 모니터링팩": {
+              "price": 1950000,
+              "price_man": 195,
+              "desc": ""
+            },
+            "스마트 커넥트 + HUD + 빌트인 캠 2": {
+              "price": 1950000,
+              "price_man": 195,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 시그니처 9인승 하이루프": {
+          "base_price": 60210000,
+          "base_price_man": 6021,
+          "standard_features": [],
+          "options": {
+            "스타일": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "드라이브 와이즈 + 모니터링팩": {
+              "price": 1950000,
+              "price_man": 195,
+              "desc": ""
+            },
+            "스마트 커넥트 + HUD + 빌트인 캠 2": {
+              "price": 1950000,
+              "price_man": 195,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.5 2WD 노블레스 9인승 하이루프": {
+          "base_price": 52110000,
+          "base_price_man": 5211,
+          "standard_features": [],
+          "options": {
+            "스타일": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "드라이브 와이즈 + 모니터링팩": {
+              "price": 1950000,
+              "price_man": 195,
+              "desc": ""
+            },
+            "스마트 커넥트 + HUD + 빌트인 캠 2": {
+              "price": 1950000,
+              "price_man": 195,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.5 2WD 시그니처 9인승 하이루프": {
+          "base_price": 55660000,
+          "base_price_man": 5566,
+          "standard_features": [],
+          "options": {
+            "스타일": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 1400000,
+              "price_man": 140,
+              "desc": ""
+            },
+            "드라이브 와이즈 + 모니터링팩": {
+              "price": 1950000,
+              "price_man": 195,
+              "desc": ""
+            },
+            "스마트 커넥트 + HUD + 빌트인 캠 2": {
+              "price": 1950000,
+              "price_man": 195,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 노블레스 9인승 하이리무진": {
+          "base_price": 67820000,
+          "base_price_man": 6782,
+          "standard_features": [],
+          "options": {
+            "스마트 커넥트 & HUD + 빌트인 캠 2 & BOSE 프리미엄 사운드": {
+              "price": 2850000,
+              "price_man": 285,
+              "desc": ""
+            },
+            "프리미엄 팩": {
+              "price": 3250000,
+              "price_man": 325,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 시그니처 9인승 하이리무진": {
+          "base_price": 71220000,
+          "base_price_man": 7122,
+          "standard_features": [],
+          "options": {
+            "스마트 커넥트 & HUD + 빌트인 캠 2 & BOSE 프리미엄 사운드": {
+              "price": 2850000,
+              "price_man": 285,
+              "desc": ""
+            },
+            "프리미엄 팩": {
+              "price": 3250000,
+              "price_man": 325,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 시그니처 7인승 하이리무진": {
+          "base_price": 74380000,
+          "base_price_man": 7438,
+          "standard_features": [],
+          "options": {
+            "스마트 커넥트 & HUD + 빌트인 캠 2 & BOSE 프리미엄 사운드": {
+              "price": 3010000,
+              "price_man": 301,
+              "desc": ""
+            },
+            "프리미엄 팩": {
+              "price": 3350000,
+              "price_man": 335,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 시그니처 4인승 하이리무진": {
+          "base_price": 99110000,
+          "base_price_man": 9911,
+          "standard_features": [],
+          "options": {
+            "프리미엄 팩 2": {
+              "price": 6990000,
+              "price_man": 699,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.5 2WD 노블레스 9인승 하이리무진": {
+          "base_price": 63270000,
+          "base_price_man": 6327,
+          "standard_features": [],
+          "options": {
+            "스마트 커넥트 & HUD + 빌트인 캠 2 & BOSE 프리미엄 사운드": {
+              "price": 2850000,
+              "price_man": 285,
+              "desc": ""
+            },
+            "프리미엄 팩": {
+              "price": 3250000,
+              "price_man": 325,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.5 2WD 시그니처 9인승 하이리무진": {
+          "base_price": 66670000,
+          "base_price_man": 6667,
+          "standard_features": [],
+          "options": {
+            "스마트 커넥트 & HUD + 빌트인 캠 2 & BOSE 프리미엄 사운드": {
+              "price": 2850000,
+              "price_man": 285,
+              "desc": ""
+            },
+            "프리미엄 팩": {
+              "price": 3250000,
+              "price_man": 325,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.5 2WD 시그니처 7인승 하이리무진": {
+          "base_price": 69880000,
+          "base_price_man": 6988,
+          "standard_features": [],
+          "options": {
+            "스마트 커넥트 & HUD + 빌트인 캠 2 & BOSE 프리미엄 사운드": {
+              "price": 3010000,
+              "price_man": 301,
+              "desc": ""
+            },
+            "프리미엄 팩": {
+              "price": 3350000,
+              "price_man": 335,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.5 2WD 시그니처 4인승 하이리무진": {
+          "base_price": 94610000,
+          "base_price_man": 9461,
+          "standard_features": [],
+          "options": {
+            "프리미엄 팩 2": {
+              "price": 6990000,
+              "price_man": 699,
               "desc": ""
             }
           }
