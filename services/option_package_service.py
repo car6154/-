@@ -951,8 +951,8 @@ SPEC_QUALIFIER_KEYWORDS = [
 ]
 
 
-def _find_model_in_catalog(db: dict, car_name: str):
-    """단일 카탈로그 DB에서 차종명으로 모델 데이터(연식별 dict) 검색 -> (best_model_key, model_data)"""
+def _find_model_in_catalog(db: dict, car_name: str, year: Any = None):
+    """단일 카탈로그 DB에서 차종명과 연식으로 모델 데이터(연식별 dict) 검색 -> (best_model_key, model_data)"""
     if not db or not car_name:
         return None
 
@@ -960,6 +960,30 @@ def _find_model_in_catalog(db: dict, car_name: str):
         s = re.sub(r'^(현대|기아|제네시스|쉐보레|르노코리아|르노삼성|KG모빌리티|쌍용)\s*', '', str(s)).strip()
         s = re.sub(r'[\(\)\[\]\{\}]', '', s)
         return re.sub(r'\s+', '', s).lower()
+
+    def _base_car_name(s: str) -> str:
+        # 1. 브랜드 제거
+        s = re.sub(r'^(현대|기아|제네시스|쉐보레|르노코리아|르노삼성|KG모빌리티|쌍용)\s*', '', str(s)).strip()
+        # 2. 접두어 ('디 올 뉴', '더 뉴', '신형', '올 뉴') 제거
+        s = re.sub(r'^(디\s*올\s*뉴|더\s*뉴|신형|올\s*뉴)\s*', '', s).strip()
+        # 3. 괄호 코드 ('(SX2)', '(MX5)', '(CN7)' 등) 제거
+        s = re.sub(r'\([^\)]*\)|\[[^\]]*\]|\{[^\}]*\}', '', s).strip()
+        # 4. 공백 제거 후 소문자화
+        return re.sub(r'\s+', '', s).lower()
+
+    def _norm_year(s_year: Any) -> str:
+        if not s_year:
+            return ""
+        s = str(s_year).strip()
+        m4 = re.search(r'\b(19\d{2}|20\d{2})\b', s) or re.search(r'(19\d{2}|20\d{2})', s)
+        if m4:
+            return m4.group(1)
+        m2 = re.search(r'(\d{2})', s)
+        if m2:
+            return f"20{m2.group(1)}"
+        return s
+
+    orig_input_name = str(car_name).strip()
 
     # 전역 모델 별칭 우선 적용 (11-03-51, 11-06-01):
     # 1. 원문 직접 일치
@@ -1027,6 +1051,32 @@ def _find_model_in_catalog(db: dict, car_name: str):
             elif len(candidates) > 1:
                 # 후보가 2개 이상이면 추측하지 않고 매칭하지 않는다(none 유지)
                 pass
+
+    # 💡 [11-06-37]: 모델 조회에 연식 기반 세대 구분 추가 (구조 수정, 차종별 하드코딩 금지)
+    # - 기본 이름: 브랜드 제거 + 접두어('디 올 뉴', '더 뉴', '신형', '올 뉴') 제거 + 괄호 코드('(SX2)', '(MX5)' 등) 제거 + 공백 제거 후 소문자화
+    # - 기존 매칭으로 찾은 모델에 주어진 연식이 없는 경우: 기본 이름이 같은 책 모델 중 주어진 연식을 포함하는 모델이 정확히 1개면 교체
+    # - 기존 매칭으로 모델을 못 찾았을 때: 기본 이름이 같은 책 모델 중 주어진 연식을 포함하는 모델이 정확히 1개면 채택
+    target_year_norm = _norm_year(year)
+    if target_year_norm:
+        input_base = _base_car_name(orig_input_name) or _base_car_name(car_name)
+        if best_model_key:
+            model_years = db.get(best_model_key, {})
+            if isinstance(model_years, dict) and target_year_norm not in model_years:
+                if input_base:
+                    matched_models = [
+                        m_key for m_key, m_val in db.items()
+                        if _base_car_name(m_key) == input_base and isinstance(m_val, dict) and target_year_norm in m_val
+                    ]
+                    if len(matched_models) == 1:
+                        best_model_key = matched_models[0]
+        else:
+            if input_base:
+                matched_models = [
+                    m_key for m_key, m_val in db.items()
+                    if _base_car_name(m_key) == input_base and isinstance(m_val, dict) and target_year_norm in m_val
+                ]
+                if len(matched_models) == 1:
+                    best_model_key = matched_models[0]
 
     if not best_model_key:
         return None
@@ -1153,9 +1203,14 @@ def match_car_options_detail(car_name: str, year: Any, options_text_or_list: Any
             s_car = str(car_name).strip()
             car_book = None
             if s_car in source_book and isinstance(source_book[s_car], dict):
-                car_book = source_book[s_car]
+                # 직접 일치한 모델이라도 연식이 없으면 연식 기반 세대 구분으로 보정
+                res_model = _find_model_in_catalog(source_book, s_car, year=year)
+                if res_model:
+                    _, car_book = res_model
+                else:
+                    car_book = source_book[s_car]
             else:
-                res_model = _find_model_in_catalog(source_book, s_car)
+                res_model = _find_model_in_catalog(source_book, s_car, year=year)
                 if res_model:
                     _, car_book = res_model
 

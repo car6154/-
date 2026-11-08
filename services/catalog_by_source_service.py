@@ -86,11 +86,16 @@ def get_pilot_catalog_spec(
     car_book = None
 
     if s_car in source_book and isinstance(source_book[s_car], dict):
-        matched_car_key = s_car
-        car_book = source_book[s_car]
+        from services.option_package_service import _find_model_in_catalog
+        res_model = _find_model_in_catalog(source_book, s_car, year=s_year)
+        if res_model:
+            matched_car_key, car_book = res_model
+        else:
+            matched_car_key = s_car
+            car_book = source_book[s_car]
     else:
         from services.option_package_service import _find_model_in_catalog
-        res_model = _find_model_in_catalog(source_book, s_car)
+        res_model = _find_model_in_catalog(source_book, s_car, year=s_year)
         if res_model:
             matched_car_key, car_book = res_model
 
