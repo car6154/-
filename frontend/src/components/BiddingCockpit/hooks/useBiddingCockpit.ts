@@ -1729,7 +1729,11 @@ export function useBiddingCockpit({
               if (chRes && chRes.success) {
                 stopChaolmaTimer(true);
                 applyChaolmaResult(chRes);
-                const combinedG = [chRes.grade_name, chRes.grade_detail_name].filter(Boolean).join(' ').trim();
+                let combinedG = [chRes.grade_name, chRes.grade_detail_name].filter(Boolean).join(' ').trim();
+                const seatsCap = chRes.origin_doc?.seating_capacity;
+                if (seatsCap && seatsCap > 0 && !/\d+인승/.test(combinedG)) {
+                  combinedG = `${combinedG} ${seatsCap}인승`.trim();
+                }
                 if (combinedG && (!targetGrade || targetGrade === '-')) {
                   targetGrade = combinedG;
                   setDetailModel(combinedG);

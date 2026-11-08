@@ -197,14 +197,22 @@ export async function queryChaolmaCar(carNo: string, mileage: number = 50000): P
       if (res.ok) {
         const data = await res.json();
         if (data && data.success) {
-          // 인승 정보와 세부등급 결합 (예: 9인승 디젤 + 프레스티지 -> 9인승 프레스티지)
+          // 인승 정보와 세부등급 결합 (예: 9인승 디젤 + 프레스티지 -> 9인승 프레스티지, 또는 origin_doc 승차정원 결합)
           const rawG = String(data.grade_name || '');
-          const rawGd = String(data.grade_detail_name || '');
+          let rawGd = String(data.grade_detail_name || '');
           const seatingMatch = rawG.match(/(\d+인승)/);
-          let combinedGrade = rawGd || rawG;
-          if (seatingMatch && !combinedGrade.includes(seatingMatch[1])) {
-            combinedGrade = `${seatingMatch[1]} ${combinedGrade}`.trim();
+          const seatsCap = data.origin_doc?.seating_capacity;
+
+          if (seatingMatch && !rawGd.includes(seatingMatch[1])) {
+            rawGd = `${seatingMatch[1]} ${rawGd}`.trim();
+          } else if (seatsCap && seatsCap > 0 && !/\d+인승/.test(`${rawG} ${rawGd}`)) {
+            if (rawGd) {
+              rawGd = `${rawGd} ${seatsCap}인승`.trim();
+            } else if (rawG) {
+              rawGd = `${seatsCap}인승`;
+            }
           }
+          const effectiveTrim = rawGd || data.trim_name || '';
 
           return {
             success: true,
@@ -214,8 +222,8 @@ export async function queryChaolmaCar(carNo: string, mileage: number = 50000): P
             model_name: data.model_detail_name || data.model_name,
             model_detail_name: data.model_detail_name,
             grade_name: data.grade_name,
-            grade_detail_name: data.grade_detail_name,
-            trim_name: data.trim_name,
+            grade_detail_name: rawGd || data.grade_detail_name,
+            trim_name: effectiveTrim,
             year: data.year_display || data.model_year || data.reg_year,
             release_date: data.release_date,
             new_car_price: data.new_car_price || 0,

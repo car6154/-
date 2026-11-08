@@ -196,8 +196,15 @@ class ChaolmaService:
                         "message": f"차얼마에 해당 차량 데이터가 존재하지 않습니다 ({car_no})."
                     }
 
-                # 정상 데이터 파싱
-                parsed = cls.parse_carmart_json(car_data, car_no)
+                # 1. 국토부 자동차등록원부(압류·저당·구조변경·검사유효기간·승차정원) 선행 조회 (인승 기반 등급 보정용)
+                doc_res = None
+                try:
+                    doc_res = cls.fetch_car_origin_doc(car_no)
+                except Exception:
+                    doc_res = None
+
+                # 정상 데이터 파싱 (origin_doc 전달하여 승차정원 기반 등급 보정)
+                parsed = cls.parse_carmart_json(car_data, car_no, origin_doc=doc_res)
                 if parsed.get("success"):
                     # 1. 카히스토리(보험이력) 자동 결합 조회
                     try:
@@ -211,13 +218,9 @@ class ChaolmaService:
                     except Exception:
                         pass
 
-                    # 2. 국토부 자동차등록원부(압류·저당·구조변경·검사유효기간) 자동 결합 조회
-                    try:
-                        doc_res = cls.fetch_car_origin_doc(car_no)
-                        if doc_res and doc_res.get("success"):
-                            parsed["origin_doc"] = doc_res
-                    except Exception:
-                        pass
+                    # 2. 국토부 자동차등록원부 결과 결합
+                    if doc_res and doc_res.get("success"):
+                        parsed["origin_doc"] = doc_res
 
                     # 3. 차얼마 공식 시세(기준소매가) 자동 결합 조회 (참고 지표용, 실패해도 스펙·옵션·보험 유지)
                     parsed["chaolma_retail_price"] = 0
@@ -309,7 +312,12 @@ class ChaolmaService:
             return {"success": False, "message": f"차얼마 조회 중 오류 발생: {str(e)}"}
 
     @classmethod
-    def parse_carmart_json(cls, c_data: Dict[str, Any], car_no: str) -> Dict[str, Any]:
+    def parse_carmart_json(
+        cls,
+        c_data: Dict[str, Any],
+        car_no: str,
+        origin_doc: Optional[Dict[str, Any]] = None
+    ) -> Dict[str, Any]:
         """
         getCarMartData JSON 응답을 정형화된 시세 분석 데이터로 변환
         """
@@ -370,6 +378,21 @@ class ChaolmaService:
         model_detail = c_data.get("modelDetailName") or ""
         grade_name = c_data.get("gradeName") or jf.get("seriesname1") or ""
         grade_detail = c_data.get("gradeDetailName") or jf.get("seriesname") or ""
+
+        # 승차정원(seating_capacity) 확인: origin_doc 전달값 우선, 없을 시 c_data 내 origin_doc 확인
+        seating_cap = 0
+        if origin_doc and isinstance(origin_doc, dict):
+            seating_cap = origin_doc.get("seating_capacity") or 0
+        if not seating_cap and isinstance(c_data.get("origin_doc"), dict):
+            seating_cap = c_data["origin_doc"].get("seating_capacity") or 0
+
+        # [인승 공통 보정]: 등급 문자열에 인승(\d+인승)이 없고 origin_doc.seating_capacity > 0이면 등급 끝에 "{N}인승" 추가
+        if seating_cap > 0 and not re.search(r'\d+인승', f"{grade_name} {grade_detail}"):
+            if grade_detail:
+                grade_detail = f"{grade_detail} {seating_cap}인승".strip()
+            elif grade_name:
+                grade_name = f"{grade_name} {seating_cap}인승".strip()
+
         trim_name = grade_detail or model_detail or ""
 
         # 5. 카탈로그 데이터 로드 (V2 새 책 조회 1순위)
