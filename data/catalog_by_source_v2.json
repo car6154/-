@@ -41639,6 +41639,347 @@
             }
           },
           "standard_features": []
+        },
+        "가솔린 1.6 2WD 스타일 M/T": {
+          "base_price": 13840000,
+          "base_price_man": 1384,
+          "standard_features": [],
+          "options": {
+            "195/65R15 타이어 & 15인치 알로이 휠": {
+              "price": 290000,
+              "price_man": 29,
+              "desc": ""
+            },
+            "고급 인조가죽시트 (인조가죽 도어 센터 트림)": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 290000,
+              "price_man": 29,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 2WD 스타일 A/T": {
+          "base_price": 15310000,
+          "base_price_man": 1531,
+          "standard_features": [],
+          "options": {
+            "195/65R15 타이어 & 15인치 알로이 휠": {
+              "price": 290000,
+              "price_man": 29,
+              "desc": ""
+            },
+            "고급 인조가죽시트 (인조가죽 도어 센터 트림)": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 290000,
+              "price_man": 29,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 2WD 스마트 A/T": {
+          "base_price": 17650000,
+          "base_price_man": 1765,
+          "standard_features": [],
+          "options": {
+            "세이프티 썬루프": {
+              "price": 440000,
+              "price_man": 44,
+              "desc": ""
+            },
+            "7인치 스마트 내비게이션 + 후방카메라(음성인식 및 CDP 미적용)": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "하이패스 시스템(ECM 룸미러 포함)": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            },
+            "스마트키 패키지Ⅰ": {
+              "price": 440000,
+              "price_man": 44,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 2WD 스마트 스페셜 A/T": {
+          "base_price": 18780000,
+          "base_price_man": 1878,
+          "standard_features": [],
+          "options": {
+            "세이프티 썬루프": {
+              "price": 440000,
+              "price_man": 44,
+              "desc": ""
+            },
+            "7인치 스마트 내비게이션 + 후방카메라(음성인식 및 CDP 미적용)": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "하이패스 시스템(ECM 룸미러 포함)": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            },
+            "스마트키 패키지Ⅰ": {
+              "price": 440000,
+              "price_man": 44,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 2WD 모던 A/T": {
+          "base_price": 19290000,
+          "base_price_man": 1929,
+          "standard_features": [],
+          "options": {
+            "세이프티 썬루프": {
+              "price": 440000,
+              "price_man": 44,
+              "desc": ""
+            },
+            "7인치 스마트 내비게이션 + 후방카메라(음성인식 및 CDP 미적용)": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "하이패스 시스템(ECM 룸미러 포함)": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            },
+            "시트패키지Ⅰ": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "스마트 후측방경보시스템(BSD)": {
+              "price": 390000,
+              "price_man": 39,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 2WD 모던 스페셜 A/T": {
+          "base_price": 20520000,
+          "base_price_man": 2052,
+          "standard_features": [],
+          "options": {
+            "세이프티 썬루프": {
+              "price": 440000,
+              "price_man": 44,
+              "desc": ""
+            },
+            "7인치 스마트 내비게이션 + 후방카메라(음성인식 및 CDP 미적용)": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "하이패스 시스템(ECM 룸미러 포함)": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            },
+            "시트패키지Ⅰ": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "스마트 후측방경보시스템(BSD)": {
+              "price": 390000,
+              "price_man": 39,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 2WD 프리미엄 A/T": {
+          "base_price": 21250000,
+          "base_price_man": 2125,
+          "standard_features": [],
+          "options": {
+            "세이프티 썬루프": {
+              "price": 440000,
+              "price_man": 44,
+              "desc": ""
+            },
+            "인포테인먼트 패키지": {
+              "price": 1470000,
+              "price_man": 147,
+              "desc": ""
+            },
+            "라이트 패키지": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "스마트 후측방경보시스템(BSD)": {
+              "price": 390000,
+              "price_man": 39,
+              "desc": ""
+            },
+            "하이테크 패키지": {
+              "price": 1570000,
+              "price_man": 157,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 스마트 A/T": {
+          "base_price": 19340000,
+          "base_price_man": 1934,
+          "standard_features": [],
+          "options": {
+            "세이프티 썬루프": {
+              "price": 440000,
+              "price_man": 44,
+              "desc": ""
+            },
+            "205/55R16 타이어 & 16인치 알로이 휠": {
+              "price": 200000,
+              "price_man": 20,
+              "desc": ""
+            },
+            "7인치 스마트 내비게이션 + 후방카메라(음성인식 및 CDP 미적용)": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "하이패스 시스템(ECM 룸미러 포함)": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            },
+            "스마트키 패키지Ⅱ": {
+              "price": 490000,
+              "price_man": 49,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 2.0 2WD 프리미엄 A/T": {
+          "base_price": 22580000,
+          "base_price_man": 2258,
+          "standard_features": [],
+          "options": {
+            "세이프티 썬루프": {
+              "price": 440000,
+              "price_man": 44,
+              "desc": ""
+            },
+            "인포테인먼트 패키지": {
+              "price": 1470000,
+              "price_man": 147,
+              "desc": ""
+            },
+            "하이테크 패키지": {
+              "price": 1570000,
+              "price_man": 157,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 2WD 스포츠 M/T": {
+          "base_price": 19630000,
+          "base_price_man": 1963,
+          "standard_features": [],
+          "options": {
+            "세이프티 썬루프": {
+              "price": 440000,
+              "price_man": 44,
+              "desc": ""
+            },
+            "7인치 스마트 내비게이션 + 후방카메라(음성인식 및 CDP 미적용)": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 2WD 스포츠 7DCT A/T": {
+          "base_price": 21580000,
+          "base_price_man": 2158,
+          "standard_features": [],
+          "options": {
+            "세이프티 썬루프": {
+              "price": 440000,
+              "price_man": 44,
+              "desc": ""
+            },
+            "7인치 스마트 내비게이션 + 후방카메라(음성인식 및 CDP 미적용)": {
+              "price": 690000,
+              "price_man": 69,
+              "desc": ""
+            },
+            "세이프티 패키지": {
+              "price": 540000,
+              "price_man": 54,
+              "desc": ""
+            },
+            "시트 패키지": {
+              "price": 830000,
+              "price_man": 83,
+              "desc": ""
+            },
+            "스타일 패키지": {
+              "price": 200000,
+              "price_man": 20,
+              "desc": ""
+            },
+            "컴포트 패키지Ⅰ": {
+              "price": 640000,
+              "price_man": 64,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 2WD 스포츠 익스트림 셀렉션 A/T": {
+          "base_price": 24100000,
+          "base_price_man": 2410,
+          "standard_features": [],
+          "options": {
+            "시트 패키지": {
+              "price": 830000,
+              "price_man": 83,
+              "desc": ""
+            },
+            "스타일 패키지": {
+              "price": 200000,
+              "price_man": 20,
+              "desc": ""
+            },
+            "컴포트 패키지Ⅱ": {
+              "price": 150000,
+              "price_man": 15,
+              "desc": ""
+            },
+            "인포테인먼트 패키지": {
+              "price": 1470000,
+              "price_man": 147,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 2WD 밸류 플러스 A/T": {
+          "base_price": 16700000,
+          "base_price_man": 1670,
+          "standard_features": [],
+          "options": {
+            "고급 인조가죽시트 (인조가죽 도어 센터 트림)": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            }
+          }
         }
       },
       "2022": {
@@ -41951,6 +42292,87 @@
             "컴포트Ⅱ": {
               "price": 1080000,
               "price_man": 108,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 2WD 스마트 A/T": {
+          "base_price": 19010000,
+          "base_price_man": 1901,
+          "standard_features": [],
+          "options": {
+            "컨비니언스Ⅰ": {
+              "price": 900000,
+              "price_man": 90,
+              "desc": ""
+            },
+            "인포테인먼트 내비 추가 선택가능": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "현대 스마트 센스Ⅲ": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "17인치 알로이 휠 & 타이어Ⅰ": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 2WD 모던 A/T": {
+          "base_price": 21830000,
+          "base_price_man": 2183,
+          "standard_features": [],
+          "options": {
+            "선루프": {
+              "price": 450000,
+              "price_man": 45,
+              "desc": ""
+            },
+            "파노라마 디스플레이": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "현대 스마트 센스Ⅰ": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "익스테리어 디자인": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "17인치 알로이 휠 & 타이어Ⅱ": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            },
+            "컴포트Ⅰ": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 2WD 인스퍼레이션 A/T": {
+          "base_price": 25620000,
+          "base_price_man": 2562,
+          "standard_features": [],
+          "options": {
+            "선루프": {
+              "price": 450000,
+              "price_man": 45,
+              "desc": ""
+            },
+            "17인치 알로이 휠 & 타이어Ⅱ": {
+              "price": 300000,
+              "price_man": 30,
               "desc": ""
             }
           }
@@ -43936,6 +44358,479 @@
             "내비게이션 패키지Ⅱ": {
               "price": 1300000,
               "price_man": 130,
+              "desc": ""
+            }
+          }
+        }
+      },
+      "2021": {
+        "가솔린 1.6 2WD 스마트 M/T": {
+          "base_price": 15990000,
+          "base_price_man": 1599,
+          "standard_features": [],
+          "options": {
+            "익스테리어 디자인Ⅰ": {
+              "price": 450000,
+              "price_man": 45,
+              "desc": ""
+            },
+            "인조가죽 시트": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            },
+            "인포테인먼트 라이트": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            },
+            "하이패스시스템+ECM룸미러": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 2WD 스마트 A/T": {
+          "base_price": 17490000,
+          "base_price_man": 1749,
+          "standard_features": [],
+          "options": {
+            "익스테리어 디자인Ⅰ": {
+              "price": 450000,
+              "price_man": 45,
+              "desc": ""
+            },
+            "인조가죽 시트": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            },
+            "인포테인먼트 라이트": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            },
+            "하이패스시스템+ECM룸미러": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            },
+            "인포테인먼트 내비Ⅰ": {
+              "price": 2500000,
+              "price_man": 250,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 2WD 모던 A/T": {
+          "base_price": 19840000,
+          "base_price_man": 1984,
+          "standard_features": [],
+          "options": {
+            "선루프": {
+              "price": 450000,
+              "price_man": 45,
+              "desc": ""
+            },
+            "인포테인먼트 내비Ⅱ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            },
+            "하이패스": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            },
+            "통합 디스플레이": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "플래티넘 플러스": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "17인치 알로이 휠&타이어Ⅰ": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "현대 스마트센스Ⅰ": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "익스테리어 디자인Ⅱ": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "컴포트Ⅰ": {
+              "price": 720000,
+              "price_man": 72,
+              "desc": ""
+            },
+            "컴포트Ⅱ": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 2WD 인스퍼레이션 A/T": {
+          "base_price": 24990000,
+          "base_price_man": 2499,
+          "standard_features": [],
+          "options": {
+            "선루프": {
+              "price": 450000,
+              "price_man": 45,
+              "desc": ""
+            },
+            "17인치 알로이 휠&타이어Ⅱ": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 스마트": {
+          "base_price": 22420000,
+          "base_price_man": 2242,
+          "standard_features": [],
+          "options": {
+            "익스테리어 디자인 라이트": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "인조가죽 시트": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            },
+            "인포테인먼트 라이트": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            },
+            "인포테인먼트 내비Ⅴ": {
+              "price": 2150000,
+              "price_man": 215,
+              "desc": ""
+            },
+            "하이패스시스템+ECM룸미러": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 모던": {
+          "base_price": 24320000,
+          "base_price_man": 2432,
+          "standard_features": [],
+          "options": {
+            "선루프": {
+              "price": 450000,
+              "price_man": 45,
+              "desc": ""
+            },
+            "하이패스": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            },
+            "인포테인먼트 내비Ⅱ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            },
+            "통합 디스플레이": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "플래티넘 플러스": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "17인치 알로이 휠&타이어Ⅱ": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            },
+            "현대 스마트센스Ⅱ": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "익스테리어 디자인Ⅱ": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "컴포트Ⅰ": {
+              "price": 720000,
+              "price_man": 72,
+              "desc": ""
+            },
+            "컴포트Ⅱ": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            }
+          }
+        },
+        "HEV 1.6 2WD 인스퍼레이션": {
+          "base_price": 28970000,
+          "base_price_man": 2897,
+          "standard_features": [],
+          "options": {
+            "선루프": {
+              "price": 450000,
+              "price_man": 45,
+              "desc": ""
+            },
+            "17인치 알로이 휠&타이어Ⅱ": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 2WD N라인 스포츠 M/T": {
+          "base_price": 22200000,
+          "base_price_man": 2220,
+          "standard_features": [],
+          "options": {
+            "선루프": {
+              "price": 450000,
+              "price_man": 45,
+              "desc": ""
+            },
+            "인포테인먼트 내비Ⅳ": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "통합 디스플레이": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "플래티넘 플러스": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "하이패스시스템+ECM룸미러": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            },
+            "현대 스마트센스 MT": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "컴포트Ⅰ": {
+              "price": 720000,
+              "price_man": 72,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 2WD N라인 스포츠 A/T": {
+          "base_price": 24200000,
+          "base_price_man": 2420,
+          "standard_features": [],
+          "options": {
+            "선루프": {
+              "price": 450000,
+              "price_man": 45,
+              "desc": ""
+            },
+            "인포테인먼트 내비Ⅳ": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "통합 디스플레이": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "플래티넘 플러스": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "하이패스": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            },
+            "현대 스마트센스Ⅰ": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "컴포트Ⅰ": {
+              "price": 720000,
+              "price_man": 72,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 2WD N라인 인스퍼레이션 A/T": {
+          "base_price": 28310000,
+          "base_price_man": 2831,
+          "standard_features": [],
+          "options": {
+            "선루프": {
+              "price": 450000,
+              "price_man": 45,
+              "desc": ""
+            },
+            "컴포트Ⅱ": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 1.6 2WD 스타일": {
+          "base_price": 18900000,
+          "base_price_man": 1890,
+          "standard_features": [],
+          "options": {
+            "인조가죽 시트": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            },
+            "인포테인먼트 라이트": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            },
+            "하이패스 + ECM": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            },
+            "익스테리어 디자인Ⅰ": {
+              "price": 450000,
+              "price_man": 45,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 1.6 2WD 스마트": {
+          "base_price": 21250000,
+          "base_price_man": 2125,
+          "standard_features": [],
+          "options": {
+            "선루프": {
+              "price": 450000,
+              "price_man": 45,
+              "desc": ""
+            },
+            "하이패스": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            },
+            "인포테인먼트 내비Ⅱ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            },
+            "통합 디스플레이": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "플래티넘 플러스": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "17인치 알로이 휠&타이어Ⅰ": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "현대 스마트센스Ⅰ": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "익스테리어 디자인Ⅱ": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            }
+          }
+        },
+        "LPG 1.6 2WD 모던": {
+          "base_price": 22640000,
+          "base_price_man": 2264,
+          "standard_features": [],
+          "options": {
+            "선루프": {
+              "price": 450000,
+              "price_man": 45,
+              "desc": ""
+            },
+            "하이패스": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            },
+            "인포테인먼트 내비Ⅱ": {
+              "price": 1250000,
+              "price_man": 125,
+              "desc": ""
+            },
+            "통합 디스플레이": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "플래티넘 플러스": {
+              "price": 750000,
+              "price_man": 75,
+              "desc": ""
+            },
+            "17인치 알로이 휠&타이어Ⅱ": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            },
+            "현대 스마트센스Ⅰ": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "익스테리어 디자인Ⅱ": {
+              "price": 700000,
+              "price_man": 70,
+              "desc": ""
+            },
+            "컴포트Ⅰ": {
+              "price": 720000,
+              "price_man": 72,
+              "desc": ""
+            },
+            "컴포트Ⅲ": {
+              "price": 170000,
+              "price_man": 17,
               "desc": ""
             }
           }
