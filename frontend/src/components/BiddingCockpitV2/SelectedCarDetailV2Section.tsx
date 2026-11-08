@@ -138,17 +138,8 @@ export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProp
 
     // 💡 [11-06-35]: subModel이 없거나 비어 있을 때 grade가 undefined가 되지 않도록 다각도 폴백 조립
     const rawSubModel = selectedEncar.subModel ? selectedEncar.subModel.trim() : '';
-    const rawCarName = selectedEncar.carName ? selectedEncar.carName.trim() : '';
     const fallbackTargetGrade = (targetGrade && targetGrade.trim()) || (detailModel && detailModel.trim() && detailModel !== '-' ? detailModel.trim() : '');
     const grade = rawSubModel || (selectedEncar as any).grade || (selectedEncar as any).badgeDetail || (selectedEncar as any).badge || fallbackTargetGrade || undefined;
-    console.log('[DEBUG SelectedCarDetailV2] selectedEncar:', {
-      id: selectedEncar.id,
-      carName: rawCarName,
-      subModel: rawSubModel,
-      resolvedGrade: grade,
-      optionsText: rawOptText,
-      optionsCount: optList ? optList.length : 0,
-    });
     const optKeyPart = optList ? optList.join('|') : rawOptText;
     const cacheKey = `${selectedEncar.id}_${selectedEncar.carName}_${selectedEncar.year}_${grade || ''}_${optKeyPart}`;
     if (optionsCacheRef.current[cacheKey]) {

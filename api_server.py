@@ -2199,7 +2199,6 @@ def match_encar_options_endpoint(req: MatchOptionsRequest):
     try:
         from services.option_package_service import match_car_options_detail
         input_data = req.optionsList if (req.optionsList and len(req.optionsList) > 0) else (req.optionsText or "")
-        print(f"[DEBUG match-options] carName={req.carName!r}, year={req.year!r}, grade={req.grade!r}, input_data={input_data!r}", flush=True)
         matched = match_car_options_detail(req.carName, req.year, input_data, grade=req.grade)
         return {"success": True, "data": matched}
     except Exception as e:
