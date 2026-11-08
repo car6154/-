@@ -107473,6 +107473,307 @@
             }
           }
         }
+      },
+      "2013": {
+        "가솔린 1.4 터보 2WD LS": {
+          "base_price": 19400000,
+          "base_price_man": 1940,
+          "standard_features": [],
+          "options": {
+            "ECM 룸미러 + ETCS": {
+              "price": 240000,
+              "price_man": 24,
+              "desc": ""
+            },
+            "원터치 세이프티 전동 선루프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD LS 디럭스": {
+          "base_price": 20150000,
+          "base_price_man": 2015,
+          "standard_features": [],
+          "options": {
+            "ECM 룸미러 + ETCS": {
+              "price": 240000,
+              "price_man": 24,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD LT": {
+          "base_price": 20900000,
+          "base_price_man": 2090,
+          "standard_features": [],
+          "options": {
+            "ECM 룸미러 + ETCS": {
+              "price": 240000,
+              "price_man": 24,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "MyLink (후방카메라 포함)": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD LT 디럭스": {
+          "base_price": 21900000,
+          "base_price_man": 2190,
+          "standard_features": [],
+          "options": {
+            "ECM 룸미러 + ETCS": {
+              "price": 240000,
+              "price_man": 24,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "MyLink (후방카메라 포함)": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD LTZ": {
+          "base_price": 22890000,
+          "base_price_man": 2289,
+          "standard_features": [],
+          "options": {
+            "ECM 룸미러 + ETCS": {
+              "price": 240000,
+              "price_man": 24,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "MyLink (후방카메라 포함)": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            }
+          }
+        }
+      },
+      "2014": {
+        "가솔린 1.4 터보 2WD LS": {
+          "base_price": 19400000,
+          "base_price_man": 1940,
+          "standard_features": [],
+          "options": {
+            "ECM 룸미러 + ETCS": {
+              "price": 240000,
+              "price_man": 24,
+              "desc": ""
+            },
+            "원터치 세이프티 전동 선루프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD LS 디럭스": {
+          "base_price": 20150000,
+          "base_price_man": 2015,
+          "standard_features": [],
+          "options": {
+            "ECM 룸미러 + ETCS": {
+              "price": 240000,
+              "price_man": 24,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD LT": {
+          "base_price": 20900000,
+          "base_price_man": 2090,
+          "standard_features": [],
+          "options": {
+            "ECM 룸미러 + ETCS": {
+              "price": 240000,
+              "price_man": 24,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "MyLink (후방카메라 포함)": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD LT 디럭스": {
+          "base_price": 21900000,
+          "base_price_man": 2190,
+          "standard_features": [],
+          "options": {
+            "ECM 룸미러 + ETCS": {
+              "price": 240000,
+              "price_man": 24,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "MyLink (후방카메라 포함)": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD LTZ": {
+          "base_price": 22890000,
+          "base_price_man": 2289,
+          "standard_features": [],
+          "options": {
+            "ECM 룸미러 + ETCS": {
+              "price": 240000,
+              "price_man": 24,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "MyLink (후방카메라 포함)": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            }
+          }
+        }
+      },
+      "2015": {
+        "가솔린 1.4 터보 2WD LS": {
+          "base_price": 19530000,
+          "base_price_man": 1953,
+          "standard_features": [],
+          "options": {
+            "ECM 룸미러 + ETCS": {
+              "price": 240000,
+              "price_man": 24,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD LS 디럭스": {
+          "base_price": 20280000,
+          "base_price_man": 2028,
+          "standard_features": [],
+          "options": {
+            "ECM 룸미러 + ETCS": {
+              "price": 240000,
+              "price_man": 24,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD LT": {
+          "base_price": 21030000,
+          "base_price_man": 2103,
+          "standard_features": [],
+          "options": {
+            "선루프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "MyLink (후방카메라 포함)": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 360000,
+              "price_man": 36,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD LT 레더 패키지": {
+          "base_price": 21840000,
+          "base_price_man": 2184,
+          "standard_features": [],
+          "options": {
+            "선루프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "MyLink (후방카메라 포함)": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 360000,
+              "price_man": 36,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD LTZ": {
+          "base_price": 23020000,
+          "base_price_man": 2302,
+          "standard_features": [],
+          "options": {
+            "선루프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "MyLink (후방카메라 포함)": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            }
+          }
+        }
       }
     },
     "더 뉴 트랙스": {
@@ -107625,6 +107926,2242 @@
             "세이프티 패키지 II": {
               "price": 400000,
               "price_man": 40,
+              "desc": ""
+            }
+          }
+        }
+      },
+      "2017": {
+        "가솔린 1.4 터보 2WD LS": {
+          "base_price": 18450000,
+          "base_price_man": 1845,
+          "standard_features": [],
+          "options": {
+            "ECM 룸미러 + ETCS": {
+              "price": 240000,
+              "price_man": 24,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD LS 디럭스": {
+          "base_price": 19050000,
+          "base_price_man": 1905,
+          "standard_features": [],
+          "options": {
+            "ECM 룸미러 + ETCS": {
+              "price": 240000,
+              "price_man": 24,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD LT": {
+          "base_price": 21050000,
+          "base_price_man": 2105,
+          "standard_features": [],
+          "options": {
+            "MyLink (후방카메라 포함)": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 340000,
+              "price_man": 34,
+              "desc": ""
+            },
+            "스타일 패키지": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "마이링크 & 세이프티 패키지": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD LT 디럭스": {
+          "base_price": 21850000,
+          "base_price_man": 2185,
+          "standard_features": [],
+          "options": {
+            "MyLink (후방카메라 포함)": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 340000,
+              "price_man": 34,
+              "desc": ""
+            },
+            "스타일 패키지": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "마이링크 & 세이프티 패키지": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD LTZ": {
+          "base_price": 23900000,
+          "base_price_man": 2390,
+          "standard_features": [],
+          "options": {
+            "세이프티 패키지 I": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "세이프티 패키지 II": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD 퍼펙트 블랙": {
+          "base_price": 24150000,
+          "base_price_man": 2415,
+          "standard_features": [],
+          "options": {
+            "세이프티 패키지 I": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "세이프티 패키지 II": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD LS": {
+          "base_price": 20850000,
+          "base_price_man": 2085,
+          "standard_features": [],
+          "options": {
+            "ECM 룸미러 + ETCS": {
+              "price": 240000,
+              "price_man": 24,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD LS 디럭스": {
+          "base_price": 21450000,
+          "base_price_man": 2145,
+          "standard_features": [],
+          "options": {
+            "ECM 룸미러 + ETCS": {
+              "price": 240000,
+              "price_man": 24,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD LT": {
+          "base_price": 23550000,
+          "base_price_man": 2355,
+          "standard_features": [],
+          "options": {
+            "MyLink (후방카메라 포함)": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 340000,
+              "price_man": 34,
+              "desc": ""
+            },
+            "스타일 패키지": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "마이링크 & 세이프티 패키지": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD LT 디럭스": {
+          "base_price": 24350000,
+          "base_price_man": 2435,
+          "standard_features": [],
+          "options": {
+            "MyLink (후방카메라 포함)": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 340000,
+              "price_man": 34,
+              "desc": ""
+            },
+            "스타일 패키지": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "마이링크 & 세이프티 패키지": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD LTZ": {
+          "base_price": 25800000,
+          "base_price_man": 2580,
+          "standard_features": [],
+          "options": {
+            "세이프티 패키지 I": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "세이프티 패키지 II": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD 퍼펙트 블랙": {
+          "base_price": 26050000,
+          "base_price_man": 2605,
+          "standard_features": [],
+          "options": {
+            "세이프티 패키지 I": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "세이프티 패키지 II": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            }
+          }
+        }
+      },
+      "2018": {
+        "가솔린 1.4 터보 2WD LS M/T": {
+          "base_price": 16950000,
+          "base_price_man": 1695,
+          "standard_features": [],
+          "options": {
+            "ECM 룸미러 + ETCS": {
+              "price": 240000,
+              "price_man": 24,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD LS A/T": {
+          "base_price": 18550000,
+          "base_price_man": 1855,
+          "standard_features": [],
+          "options": {
+            "ECM 룸미러 + ETCS": {
+              "price": 240000,
+              "price_man": 24,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD LS 디럭스 M/T": {
+          "base_price": 17550000,
+          "base_price_man": 1755,
+          "standard_features": [],
+          "options": {
+            "ECM 룸미러 + ETCS": {
+              "price": 240000,
+              "price_man": 24,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD LS 디럭스 A/T": {
+          "base_price": 19150000,
+          "base_price_man": 1915,
+          "standard_features": [],
+          "options": {
+            "ECM 룸미러 + ETCS": {
+              "price": 240000,
+              "price_man": 24,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD LT": {
+          "base_price": 21150000,
+          "base_price_man": 2115,
+          "standard_features": [],
+          "options": {
+            "MyLink (후방카메라 포함)": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 340000,
+              "price_man": 34,
+              "desc": ""
+            },
+            "스타일 패키지": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "마이링크 & 세이프티 패키지": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD LT 디럭스": {
+          "base_price": 21950000,
+          "base_price_man": 2195,
+          "standard_features": [],
+          "options": {
+            "MyLink (후방카메라 포함)": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 340000,
+              "price_man": 34,
+              "desc": ""
+            },
+            "스타일 패키지": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "마이링크 & 세이프티 패키지": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD 프리미어": {
+          "base_price": 23610000,
+          "base_price_man": 2361,
+          "standard_features": [],
+          "options": {
+            "세이프티 패키지 I": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "세이프티 패키지 II": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "BOSE 사운드 패키지": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD 퍼펙트 블랙": {
+          "base_price": 23860000,
+          "base_price_man": 2386,
+          "standard_features": [],
+          "options": {
+            "세이프티 패키지 I": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "세이프티 패키지 II": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "BOSE 사운드 패키지": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD 블레이드": {
+          "base_price": 24160000,
+          "base_price_man": 2416,
+          "standard_features": [],
+          "options": {
+            "블레이드 전용 세이프티 패키지": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "BOSE 사운드 패키지": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD LS": {
+          "base_price": 20950000,
+          "base_price_man": 2095,
+          "standard_features": [],
+          "options": {
+            "ECM 룸미러 + ETCS": {
+              "price": 240000,
+              "price_man": 24,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD LS 디럭스": {
+          "base_price": 21550000,
+          "base_price_man": 2155,
+          "standard_features": [],
+          "options": {
+            "ECM 룸미러 + ETCS": {
+              "price": 240000,
+              "price_man": 24,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD LT": {
+          "base_price": 23650000,
+          "base_price_man": 2365,
+          "standard_features": [],
+          "options": {
+            "MyLink (후방카메라 포함)": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 340000,
+              "price_man": 34,
+              "desc": ""
+            },
+            "스타일 패키지": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "마이링크 & 세이프티 패키지": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD LT 디럭스": {
+          "base_price": 24450000,
+          "base_price_man": 2445,
+          "standard_features": [],
+          "options": {
+            "MyLink (후방카메라 포함)": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 340000,
+              "price_man": 34,
+              "desc": ""
+            },
+            "스타일 패키지": {
+              "price": 1200000,
+              "price_man": 120,
+              "desc": ""
+            },
+            "마이링크 & 세이프티 패키지": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD 프리미어": {
+          "base_price": 25510000,
+          "base_price_man": 2551,
+          "standard_features": [],
+          "options": {
+            "세이프티 패키지 I": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "세이프티 패키지 II": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "BOSE 사운드 패키지": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD 퍼펙트 블랙": {
+          "base_price": 25760000,
+          "base_price_man": 2576,
+          "standard_features": [],
+          "options": {
+            "세이프티 패키지 I": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "세이프티 패키지 II": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "BOSE 사운드 패키지": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD 블레이드": {
+          "base_price": 26060000,
+          "base_price_man": 2606,
+          "standard_features": [],
+          "options": {
+            "블레이드 전용 세이프티 패키지": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "BOSE 사운드 패키지": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        }
+      },
+      "2019": {
+        "가솔린 1.4 터보 2WD LS M/T": {
+          "base_price": 16640000,
+          "base_price_man": 1664,
+          "standard_features": [],
+          "options": {
+            "ECM 룸미러 + ETCS": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD LS A/T": {
+          "base_price": 18220000,
+          "base_price_man": 1822,
+          "standard_features": [],
+          "options": {
+            "ECM 룸미러 + ETCS": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD LS 디럭스 M/T": {
+          "base_price": 17230000,
+          "base_price_man": 1723,
+          "standard_features": [],
+          "options": {
+            "ECM 룸미러 + ETCS": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD LS 디럭스 A/T": {
+          "base_price": 18810000,
+          "base_price_man": 1881,
+          "standard_features": [],
+          "options": {
+            "ECM 룸미러 + ETCS": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD LT": {
+          "base_price": 20770000,
+          "base_price_man": 2077,
+          "standard_features": [],
+          "options": {
+            "MyLink (후방카메라 포함)": {
+              "price": 540000,
+              "price_man": 54,
+              "desc": ""
+            },
+            "마이링크 & 세이프티 패키지": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 350000,
+              "price_man": 35,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD LT 코어": {
+          "base_price": 21410000,
+          "base_price_man": 2141,
+          "standard_features": [],
+          "options": {
+            "MyLink (후방카메라 포함)": {
+              "price": 540000,
+              "price_man": 54,
+              "desc": ""
+            },
+            "마이링크 & 세이프티 패키지": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 350000,
+              "price_man": 35,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD 프리미어": {
+          "base_price": 23260000,
+          "base_price_man": 2326,
+          "standard_features": [],
+          "options": {
+            "세이프티 패키지 I": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "세이프티 패키지 II": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "BOSE 사운드 패키지": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD 퍼펙트 블랙": {
+          "base_price": 23510000,
+          "base_price_man": 2351,
+          "standard_features": [],
+          "options": {
+            "세이프티 패키지 I": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "세이프티 패키지 II": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "BOSE 사운드 패키지": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD 레드라인 LT 코어": {
+          "base_price": 21760000,
+          "base_price_man": 2176,
+          "standard_features": [],
+          "options": {
+            "MyLink (후방카메라 포함)": {
+              "price": 540000,
+              "price_man": 54,
+              "desc": ""
+            },
+            "마이링크 & 세이프티 패키지": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 350000,
+              "price_man": 35,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD 레드라인 프리미어": {
+          "base_price": 23610000,
+          "base_price_man": 2361,
+          "standard_features": [],
+          "options": {
+            "세이프티 패키지 I": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "세이프티 패키지 II": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "BOSE 사운드 패키지": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD LS": {
+          "base_price": 20570000,
+          "base_price_man": 2057,
+          "standard_features": [],
+          "options": {
+            "ECM 룸미러 + ETCS": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD LS 디럭스": {
+          "base_price": 21160000,
+          "base_price_man": 2116,
+          "standard_features": [],
+          "options": {
+            "ECM 룸미러 + ETCS": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD LT": {
+          "base_price": 23230000,
+          "base_price_man": 2323,
+          "standard_features": [],
+          "options": {
+            "MyLink (후방카메라 포함)": {
+              "price": 540000,
+              "price_man": 54,
+              "desc": ""
+            },
+            "마이링크 & 세이프티 패키지": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 350000,
+              "price_man": 35,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD LT 코어": {
+          "base_price": 23870000,
+          "base_price_man": 2387,
+          "standard_features": [],
+          "options": {
+            "MyLink (후방카메라 포함)": {
+              "price": 540000,
+              "price_man": 54,
+              "desc": ""
+            },
+            "마이링크 & 세이프티 패키지": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 350000,
+              "price_man": 35,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD 프리미어": {
+          "base_price": 25130000,
+          "base_price_man": 2513,
+          "standard_features": [],
+          "options": {
+            "세이프티 패키지 I": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "세이프티 패키지 II": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "BOSE 사운드 패키지": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD 퍼펙트 블랙": {
+          "base_price": 25380000,
+          "base_price_man": 2538,
+          "standard_features": [],
+          "options": {
+            "세이프티 패키지 I": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "세이프티 패키지 II": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "BOSE 사운드 패키지": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD 레드라인 LT 코어": {
+          "base_price": 24220000,
+          "base_price_man": 2422,
+          "standard_features": [],
+          "options": {
+            "MyLink (후방카메라 포함)": {
+              "price": 540000,
+              "price_man": 54,
+              "desc": ""
+            },
+            "마이링크 & 세이프티 패키지": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 350000,
+              "price_man": 35,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD 레드라인 프리미어": {
+          "base_price": 25480000,
+          "base_price_man": 2548,
+          "standard_features": [],
+          "options": {
+            "세이프티 패키지 I": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "세이프티 패키지 II": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "BOSE 사운드 패키지": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        }
+      },
+      "2020": {
+        "가솔린 1.4 터보 2WD LS M/T": {
+          "base_price": 16340000,
+          "base_price_man": 1634,
+          "standard_features": [],
+          "options": {
+            "ECM 룸미러 + ETCS": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD LS A/T": {
+          "base_price": 17920000,
+          "base_price_man": 1792,
+          "standard_features": [],
+          "options": {
+            "ECM 룸미러 + ETCS": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD LS 디럭스 M/T": {
+          "base_price": 16930000,
+          "base_price_man": 1693,
+          "standard_features": [],
+          "options": {
+            "ECM 룸미러 + ETCS": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD LS 디럭스 A/T": {
+          "base_price": 18510000,
+          "base_price_man": 1851,
+          "standard_features": [],
+          "options": {
+            "ECM 룸미러 + ETCS": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD LT": {
+          "base_price": 20270000,
+          "base_price_man": 2027,
+          "standard_features": [],
+          "options": {
+            "인포테인먼트(후방카메라 포함)": {
+              "price": 540000,
+              "price_man": 54,
+              "desc": ""
+            },
+            "인포테인먼트&세이프티 패키지": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 350000,
+              "price_man": 35,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD LT 코어": {
+          "base_price": 20960000,
+          "base_price_man": 2096,
+          "standard_features": [],
+          "options": {
+            "인포테인먼트(후방카메라 포함)": {
+              "price": 540000,
+              "price_man": 54,
+              "desc": ""
+            },
+            "인포테인먼트&세이프티 패키지": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 350000,
+              "price_man": 35,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD 프리미어": {
+          "base_price": 22570000,
+          "base_price_man": 2257,
+          "standard_features": [],
+          "options": {
+            "세이프티 패키지 I": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "세이프티 패키지 II": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "BOSE 사운드 패키지": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD 퍼펙트 블랙": {
+          "base_price": 22820000,
+          "base_price_man": 2282,
+          "standard_features": [],
+          "options": {
+            "세이프티 패키지 I": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "세이프티 패키지 II": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "BOSE 사운드 패키지": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD 레드라인 LT 코어": {
+          "base_price": 21310000,
+          "base_price_man": 2131,
+          "standard_features": [],
+          "options": {
+            "인포테인먼트(후방카메라 포함)": {
+              "price": 540000,
+              "price_man": 54,
+              "desc": ""
+            },
+            "인포테인먼트&세이프티 패키지": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 350000,
+              "price_man": 35,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD 레드라인 프리미어": {
+          "base_price": 22920000,
+          "base_price_man": 2292,
+          "standard_features": [],
+          "options": {
+            "세이프티 패키지 I": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "세이프티 패키지 II": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "BOSE 사운드 패키지": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD LS": {
+          "base_price": 20270000,
+          "base_price_man": 2027,
+          "standard_features": [],
+          "options": {
+            "ECM 룸미러 + ETCS": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD LS 디럭스": {
+          "base_price": 20860000,
+          "base_price_man": 2086,
+          "standard_features": [],
+          "options": {
+            "ECM 룸미러 + ETCS": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD LT": {
+          "base_price": 22730000,
+          "base_price_man": 2273,
+          "standard_features": [],
+          "options": {
+            "인포테인먼트(후방카메라 포함)": {
+              "price": 540000,
+              "price_man": 54,
+              "desc": ""
+            },
+            "인포테인먼트&세이프티 패키지": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 350000,
+              "price_man": 35,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD LT 코어": {
+          "base_price": 23420000,
+          "base_price_man": 2342,
+          "standard_features": [],
+          "options": {
+            "인포테인먼트(후방카메라 포함)": {
+              "price": 540000,
+              "price_man": 54,
+              "desc": ""
+            },
+            "인포테인먼트&세이프티 패키지": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 350000,
+              "price_man": 35,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD 프리미어": {
+          "base_price": 24440000,
+          "base_price_man": 2444,
+          "standard_features": [],
+          "options": {
+            "세이프티 패키지 I": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "세이프티 패키지 II": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "BOSE 사운드 패키지": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD 퍼펙트 블랙": {
+          "base_price": 24690000,
+          "base_price_man": 2469,
+          "standard_features": [],
+          "options": {
+            "세이프티 패키지 I": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "세이프티 패키지 II": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "BOSE 사운드 패키지": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD 레드라인 LT 코어": {
+          "base_price": 23770000,
+          "base_price_man": 2377,
+          "standard_features": [],
+          "options": {
+            "인포테인먼트(후방카메라 포함)": {
+              "price": 540000,
+              "price_man": 54,
+              "desc": ""
+            },
+            "인포테인먼트&세이프티 패키지": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 350000,
+              "price_man": 35,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD 레드라인 프리미어": {
+          "base_price": 24790000,
+          "base_price_man": 2479,
+          "standard_features": [],
+          "options": {
+            "세이프티 패키지 I": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "세이프티 패키지 II": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "BOSE 사운드 패키지": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        }
+      },
+      "2020.5": {
+        "가솔린 1.4 터보 2WD LS": {
+          "base_price": 18250000,
+          "base_price_man": 1825,
+          "standard_features": [],
+          "options": {
+            "ECM 룸미러 + ETCS": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD LS 디럭스": {
+          "base_price": 18850000,
+          "base_price_man": 1885,
+          "standard_features": [],
+          "options": {
+            "ECM 룸미러 + ETCS": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD LT": {
+          "base_price": 20650000,
+          "base_price_man": 2065,
+          "standard_features": [],
+          "options": {
+            "인포테인먼트": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            },
+            "인포테인먼트&세이프티 패키지": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 350000,
+              "price_man": 35,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD LT 코어": {
+          "base_price": 21450000,
+          "base_price_man": 2145,
+          "standard_features": [],
+          "options": {
+            "인포테인먼트": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            },
+            "인포테인먼트&세이프티 패키지": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 350000,
+              "price_man": 35,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "BOSE 사운드 패키지": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD 프리미어": {
+          "base_price": 22850000,
+          "base_price_man": 2285,
+          "standard_features": [],
+          "options": {
+            "세이프티 패키지 I": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "세이프티 패키지 II": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "BOSE 사운드 패키지": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD 레드라인 LT 코어": {
+          "base_price": 21800000,
+          "base_price_man": 2180,
+          "standard_features": [],
+          "options": {
+            "인포테인먼트": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            },
+            "인포테인먼트&세이프티 패키지": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 350000,
+              "price_man": 35,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "BOSE 사운드 패키지": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD 레드라인 프리미어": {
+          "base_price": 23200000,
+          "base_price_man": 2320,
+          "standard_features": [],
+          "options": {
+            "세이프티 패키지 I": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "세이프티 패키지 II": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "BOSE 사운드 패키지": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD LS": {
+          "base_price": 20650000,
+          "base_price_man": 2065,
+          "standard_features": [],
+          "options": {
+            "ECM 룸미러 + ETCS": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD LS 디럭스": {
+          "base_price": 21250000,
+          "base_price_man": 2125,
+          "standard_features": [],
+          "options": {
+            "ECM 룸미러 + ETCS": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD LT": {
+          "base_price": 23150000,
+          "base_price_man": 2315,
+          "standard_features": [],
+          "options": {
+            "인포테인먼트": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            },
+            "인포테인먼트&세이프티 패키지": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 350000,
+              "price_man": 35,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD LT 코어": {
+          "base_price": 23950000,
+          "base_price_man": 2395,
+          "standard_features": [],
+          "options": {
+            "인포테인먼트": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            },
+            "인포테인먼트&세이프티 패키지": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 350000,
+              "price_man": 35,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "BOSE 사운드 패키지": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD 프리미어": {
+          "base_price": 24750000,
+          "base_price_man": 2475,
+          "standard_features": [],
+          "options": {
+            "세이프티 패키지 I": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "세이프티 패키지 II": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "BOSE 사운드 패키지": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD 레드라인 LT 코어": {
+          "base_price": 24300000,
+          "base_price_man": 2430,
+          "standard_features": [],
+          "options": {
+            "인포테인먼트": {
+              "price": 550000,
+              "price_man": 55,
+              "desc": ""
+            },
+            "인포테인먼트&세이프티 패키지": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 350000,
+              "price_man": 35,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "BOSE 사운드 패키지": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD 레드라인 프리미어": {
+          "base_price": 25100000,
+          "base_price_man": 2510,
+          "standard_features": [],
+          "options": {
+            "세이프티 패키지 I": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "세이프티 패키지 II": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "BOSE 사운드 패키지": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        }
+      },
+      "2021": {
+        "가솔린 1.4 터보 2WD LS 디럭스": {
+          "base_price": 18270000,
+          "base_price_man": 1827,
+          "standard_features": [],
+          "options": {
+            "ECM 룸미러 + ETCS": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD LT": {
+          "base_price": 20270000,
+          "base_price_man": 2027,
+          "standard_features": [],
+          "options": {
+            "인포테인먼트": {
+              "price": 540000,
+              "price_man": 54,
+              "desc": ""
+            },
+            "인포테인먼트&세이프티 패키지": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 350000,
+              "price_man": 35,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD LT 코어": {
+          "base_price": 21060000,
+          "base_price_man": 2106,
+          "standard_features": [],
+          "options": {
+            "인포테인먼트": {
+              "price": 540000,
+              "price_man": 54,
+              "desc": ""
+            },
+            "인포테인먼트&세이프티 패키지": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 350000,
+              "price_man": 35,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "BOSE 사운드 패키지": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD 프리미어": {
+          "base_price": 22440000,
+          "base_price_man": 2244,
+          "standard_features": [],
+          "options": {
+            "세이프티 패키지 I": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "세이프티 패키지 II": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "BOSE 사운드 패키지": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD 레드라인 LT 코어": {
+          "base_price": 21410000,
+          "base_price_man": 2141,
+          "standard_features": [],
+          "options": {
+            "인포테인먼트": {
+              "price": 540000,
+              "price_man": 54,
+              "desc": ""
+            },
+            "인포테인먼트&세이프티 패키지": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 350000,
+              "price_man": 35,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "BOSE 사운드 패키지": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD 레드라인 프리미어": {
+          "base_price": 22790000,
+          "base_price_man": 2279,
+          "standard_features": [],
+          "options": {
+            "세이프티 패키지 I": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "세이프티 패키지 II": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "BOSE 사운드 패키지": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD LS 디럭스": {
+          "base_price": 20620000,
+          "base_price_man": 2062,
+          "standard_features": [],
+          "options": {
+            "ECM 룸미러 + ETCS": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD LT": {
+          "base_price": 22730000,
+          "base_price_man": 2273,
+          "standard_features": [],
+          "options": {
+            "인포테인먼트": {
+              "price": 540000,
+              "price_man": 54,
+              "desc": ""
+            },
+            "인포테인먼트&세이프티 패키지": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 350000,
+              "price_man": 35,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD LT 코어": {
+          "base_price": 23520000,
+          "base_price_man": 2352,
+          "standard_features": [],
+          "options": {
+            "인포테인먼트": {
+              "price": 540000,
+              "price_man": 54,
+              "desc": ""
+            },
+            "인포테인먼트&세이프티 패키지": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 350000,
+              "price_man": 35,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "BOSE 사운드 패키지": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD 프리미어": {
+          "base_price": 24310000,
+          "base_price_man": 2431,
+          "standard_features": [],
+          "options": {
+            "세이프티 패키지 I": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "세이프티 패키지 II": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "BOSE 사운드 패키지": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD 레드라인 LT 코어": {
+          "base_price": 23870000,
+          "base_price_man": 2387,
+          "standard_features": [],
+          "options": {
+            "인포테인먼트": {
+              "price": 540000,
+              "price_man": 54,
+              "desc": ""
+            },
+            "인포테인먼트&세이프티 패키지": {
+              "price": 940000,
+              "price_man": 94,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 350000,
+              "price_man": 35,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "BOSE 사운드 패키지": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD 레드라인 프리미어": {
+          "base_price": 24660000,
+          "base_price_man": 2466,
+          "standard_features": [],
+          "options": {
+            "세이프티 패키지 I": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "세이프티 패키지 II": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "BOSE 사운드 패키지": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            }
+          }
+        }
+      },
+      "2021.5": {
+        "가솔린 1.4 터보 2WD LS 디럭스": {
+          "base_price": 18850000,
+          "base_price_man": 1885,
+          "standard_features": [],
+          "options": {
+            "ECM 룸미러 + ETCS": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            },
+            "18인치 블랙 알로이 휠": {
+              "price": 450000,
+              "price_man": 45,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD LT": {
+          "base_price": 20910000,
+          "base_price_man": 2091,
+          "standard_features": [],
+          "options": {
+            "세이프티 패키지 I": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 350000,
+              "price_man": 35,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "18인치 블랙 알로이 휠": {
+              "price": 450000,
+              "price_man": 45,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD LT 코어": {
+          "base_price": 21700000,
+          "base_price_man": 2170,
+          "standard_features": [],
+          "options": {
+            "세이프티 패키지 I": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 350000,
+              "price_man": 35,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "BOSE 사운드 패키지": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "18인치 블랙 알로이 휠": {
+              "price": 150000,
+              "price_man": 15,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD 프리미어": {
+          "base_price": 22980000,
+          "base_price_man": 2298,
+          "standard_features": [],
+          "options": {
+            "세이프티 패키지 II": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "BOSE 사운드 패키지": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "18인치 블랙 알로이 휠": {
+              "price": 150000,
+              "price_man": 15,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD 레드라인 LT 코어": {
+          "base_price": 22050000,
+          "base_price_man": 2205,
+          "standard_features": [],
+          "options": {
+            "세이프티 패키지 I": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 350000,
+              "price_man": 35,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "BOSE 사운드 패키지": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "18인치 블랙 알로이 휠": {
+              "price": 150000,
+              "price_man": 15,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.4 터보 2WD 레드라인 프리미어": {
+          "base_price": 23330000,
+          "base_price_man": 2333,
+          "standard_features": [],
+          "options": {
+            "세이프티 패키지 II": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "BOSE 사운드 패키지": {
+              "price": 500000,
+              "price_man": 50,
+              "desc": ""
+            },
+            "18인치 블랙 알로이 휠": {
+              "price": 150000,
+              "price_man": 15,
               "desc": ""
             }
           }
