@@ -109738,6 +109738,2248 @@
           }
         }
       }
+    },
+    "셀토스": {
+      "2019": {
+        "가솔린 1.6 터보 2WD 노블레스": {
+          "base_price": 24440000,
+          "base_price_man": 2444,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "하이컴포트": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "하이컴포트 + 가죽시트 + 브라운 인테리어": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "10.25인치 UVO 팩": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드 팩": {
+              "price": 1470000,
+              "price_man": 147,
+              "desc": ""
+            },
+            "투톤 루프": {
+              "price": 290000,
+              "price_man": 29,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 390000,
+              "price_man": 39,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 2WD 트렌디": {
+          "base_price": 19290000,
+          "base_price_man": 1929,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "컨비니언스": {
+              "price": 980000,
+              "price_man": 98,
+              "desc": ""
+            },
+            "하이패스 자동결제 시스템 + LED실내등": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            },
+            "스마트 디스플레이 오디오": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 2WD 프레스티지": {
+          "base_price": 22380000,
+          "base_price_man": 2238,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 440000,
+              "price_man": 44,
+              "desc": ""
+            },
+            "컴바이너 헤드업 디스플레이": {
+              "price": 390000,
+              "price_man": 39,
+              "desc": ""
+            },
+            "하이패스 자동결제 시스템": {
+              "price": 200000,
+              "price_man": 20,
+              "desc": ""
+            },
+            "스마트 디스플레이 오디오": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "10.25인치 UVO 팩": {
+              "price": 1470000,
+              "price_man": 147,
+              "desc": ""
+            },
+            "투톤 루프": {
+              "price": 290000,
+              "price_man": 29,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 4WD 노블레스": {
+          "base_price": 26210000,
+          "base_price_man": 2621,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "하이컴포트": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "하이컴포트 + 가죽시트 + 브라운 인테리어": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "10.25인치 UVO 팩": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드 팩": {
+              "price": 1470000,
+              "price_man": 147,
+              "desc": ""
+            },
+            "투톤 루프": {
+              "price": 290000,
+              "price_man": 29,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 390000,
+              "price_man": 39,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 4WD 트렌디": {
+          "base_price": 21060000,
+          "base_price_man": 2106,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "컨비니언스": {
+              "price": 980000,
+              "price_man": 98,
+              "desc": ""
+            },
+            "하이패스 자동결제 시스템 + LED실내등": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            },
+            "스마트 디스플레이 오디오": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 4WD 프레스티지": {
+          "base_price": 24150000,
+          "base_price_man": 2415,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 440000,
+              "price_man": 44,
+              "desc": ""
+            },
+            "컴바이너 헤드업 디스플레이": {
+              "price": 390000,
+              "price_man": 39,
+              "desc": ""
+            },
+            "하이패스 자동결제 시스템": {
+              "price": 200000,
+              "price_man": 20,
+              "desc": ""
+            },
+            "스마트 디스플레이 오디오": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "10.25인치 UVO 팩": {
+              "price": 1470000,
+              "price_man": 147,
+              "desc": ""
+            },
+            "투톤 루프": {
+              "price": 290000,
+              "price_man": 29,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD 노블레스": {
+          "base_price": 26360000,
+          "base_price_man": 2636,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "하이컴포트": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "하이컴포트 + 가죽시트 + 브라운 인테리어": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "10.25인치 UVO 팩": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드 팩": {
+              "price": 1470000,
+              "price_man": 147,
+              "desc": ""
+            },
+            "투톤 루프": {
+              "price": 290000,
+              "price_man": 29,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 390000,
+              "price_man": 39,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD 트렌디": {
+          "base_price": 21200000,
+          "base_price_man": 2120,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "컨비니언스": {
+              "price": 980000,
+              "price_man": 98,
+              "desc": ""
+            },
+            "하이패스 자동결제 시스템 + LED실내등": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            },
+            "스마트 디스플레이 오디오": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD 프레스티지": {
+          "base_price": 24300000,
+          "base_price_man": 2430,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 440000,
+              "price_man": 44,
+              "desc": ""
+            },
+            "컴바이너 헤드업 디스플레이": {
+              "price": 390000,
+              "price_man": 39,
+              "desc": ""
+            },
+            "하이패스 자동결제 시스템": {
+              "price": 200000,
+              "price_man": 20,
+              "desc": ""
+            },
+            "스마트 디스플레이 오디오": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "10.25인치 UVO 팩": {
+              "price": 1470000,
+              "price_man": 147,
+              "desc": ""
+            },
+            "투톤 루프": {
+              "price": 290000,
+              "price_man": 29,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 4WD 노블레스": {
+          "base_price": 28130000,
+          "base_price_man": 2813,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "하이컴포트": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "하이컴포트 + 가죽시트 + 브라운 인테리어": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "10.25인치 UVO 팩": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드 팩": {
+              "price": 1470000,
+              "price_man": 147,
+              "desc": ""
+            },
+            "투톤 루프": {
+              "price": 290000,
+              "price_man": 29,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 390000,
+              "price_man": 39,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 4WD 트렌디": {
+          "base_price": 22970000,
+          "base_price_man": 2297,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "컨비니언스": {
+              "price": 980000,
+              "price_man": 98,
+              "desc": ""
+            },
+            "하이패스 자동결제 시스템 + LED실내등": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            },
+            "스마트 디스플레이 오디오": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 4WD 프레스티지": {
+          "base_price": 26070000,
+          "base_price_man": 2607,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 440000,
+              "price_man": 44,
+              "desc": ""
+            },
+            "컴바이너 헤드업 디스플레이": {
+              "price": 390000,
+              "price_man": 39,
+              "desc": ""
+            },
+            "하이패스 자동결제 시스템": {
+              "price": 200000,
+              "price_man": 20,
+              "desc": ""
+            },
+            "스마트 디스플레이 오디오": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "10.25인치 UVO 팩": {
+              "price": 1470000,
+              "price_man": 147,
+              "desc": ""
+            },
+            "투톤 루프": {
+              "price": 290000,
+              "price_man": 29,
+              "desc": ""
+            }
+          }
+        }
+      },
+      "2020": {
+        "가솔린 1.6 터보 2WD 노블레스": {
+          "base_price": 24900000,
+          "base_price_man": 2490,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "하이컴포트": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "하이컴포트 + 가죽시트 + 브라운 인테리어": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "10.25인치 UVO 팩": {
+              "price": 870000,
+              "price_man": 87,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드 팩": {
+              "price": 1500000,
+              "price_man": 150,
+              "desc": ""
+            },
+            "투톤 루프": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 2WD 트렌디": {
+          "base_price": 19650000,
+          "base_price_man": 1965,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "컨비니언스": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "하이패스 자동결제 시스템 + LED실내등": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            },
+            "8인치 디스플레이 오디오": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 2WD 프레스티지": {
+          "base_price": 22800000,
+          "base_price_man": 2280,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 450000,
+              "price_man": 45,
+              "desc": ""
+            },
+            "컴바이너 헤드업 디스플레이": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "하이패스 자동결제 시스템": {
+              "price": 200000,
+              "price_man": 20,
+              "desc": ""
+            },
+            "8인치 디스플레이 오디오": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "10.25인치 UVO 팩": {
+              "price": 1500000,
+              "price_man": 150,
+              "desc": ""
+            },
+            "투톤 루프": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 4WD 노블레스": {
+          "base_price": 26700000,
+          "base_price_man": 2670,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "하이컴포트": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "하이컴포트 + 가죽시트 + 브라운 인테리어": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "10.25인치 UVO 팩": {
+              "price": 870000,
+              "price_man": 87,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드 팩": {
+              "price": 1500000,
+              "price_man": 150,
+              "desc": ""
+            },
+            "투톤 루프": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 4WD 트렌디": {
+          "base_price": 21450000,
+          "base_price_man": 2145,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "컨비니언스": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "하이패스 자동결제 시스템 + LED실내등": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            },
+            "8인치 디스플레이 오디오": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 4WD 프레스티지": {
+          "base_price": 24600000,
+          "base_price_man": 2460,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 450000,
+              "price_man": 45,
+              "desc": ""
+            },
+            "컴바이너 헤드업 디스플레이": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "하이패스 자동결제 시스템": {
+              "price": 200000,
+              "price_man": 20,
+              "desc": ""
+            },
+            "8인치 디스플레이 오디오": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "10.25인치 UVO 팩": {
+              "price": 1500000,
+              "price_man": 150,
+              "desc": ""
+            },
+            "투톤 루프": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD 노블레스": {
+          "base_price": 26850000,
+          "base_price_man": 2685,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "하이컴포트": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "하이컴포트 + 가죽시트 + 브라운 인테리어": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "10.25인치 UVO 팩": {
+              "price": 870000,
+              "price_man": 87,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드 팩": {
+              "price": 1500000,
+              "price_man": 150,
+              "desc": ""
+            },
+            "투톤 루프": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD 트렌디": {
+          "base_price": 21600000,
+          "base_price_man": 2160,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "컨비니언스": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "하이패스 자동결제 시스템 + LED실내등": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            },
+            "8인치 디스플레이 오디오": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD 프레스티지": {
+          "base_price": 24750000,
+          "base_price_man": 2475,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 450000,
+              "price_man": 45,
+              "desc": ""
+            },
+            "컴바이너 헤드업 디스플레이": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "하이패스 자동결제 시스템": {
+              "price": 200000,
+              "price_man": 20,
+              "desc": ""
+            },
+            "10.25인치 UVO 팩": {
+              "price": 1500000,
+              "price_man": 150,
+              "desc": ""
+            },
+            "투톤 루프": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            },
+            "스마트 디스플레이 오디오": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 4WD 노블레스": {
+          "base_price": 28650000,
+          "base_price_man": 2865,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "하이컴포트": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "하이컴포트 + 가죽시트 + 브라운 인테리어": {
+              "price": 950000,
+              "price_man": 95,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 800000,
+              "price_man": 80,
+              "desc": ""
+            },
+            "10.25인치 UVO 팩": {
+              "price": 870000,
+              "price_man": 87,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드 팩": {
+              "price": 1500000,
+              "price_man": 150,
+              "desc": ""
+            },
+            "투톤 루프": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 4WD 트렌디": {
+          "base_price": 23400000,
+          "base_price_man": 2340,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "컨비니언스": {
+              "price": 1000000,
+              "price_man": 100,
+              "desc": ""
+            },
+            "하이패스 자동결제 시스템 + LED실내등": {
+              "price": 250000,
+              "price_man": 25,
+              "desc": ""
+            },
+            "8인치 디스플레이 오디오": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 4WD 프레스티지": {
+          "base_price": 26550000,
+          "base_price_man": 2655,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1150000,
+              "price_man": 115,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1100000,
+              "price_man": 110,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 450000,
+              "price_man": 45,
+              "desc": ""
+            },
+            "컴바이너 헤드업 디스플레이": {
+              "price": 400000,
+              "price_man": 40,
+              "desc": ""
+            },
+            "하이패스 자동결제 시스템": {
+              "price": 200000,
+              "price_man": 20,
+              "desc": ""
+            },
+            "8인치 디스플레이 오디오": {
+              "price": 600000,
+              "price_man": 60,
+              "desc": ""
+            },
+            "10.25인치 UVO 팩": {
+              "price": 1500000,
+              "price_man": 150,
+              "desc": ""
+            },
+            "투톤 루프": {
+              "price": 300000,
+              "price_man": 30,
+              "desc": ""
+            }
+          }
+        }
+      },
+      "2021": {
+        "가솔린 1.6 터보 2WD 그래비티": {
+          "base_price": 25280000,
+          "base_price_man": 2528,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "하이컴포트": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "하이컴포트 + 가죽시트 + 브라운 인테리어": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "10.25인치 내비게이션 팩(시그니처/그래비티)": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드 팩": {
+              "price": 1470000,
+              "price_man": 147,
+              "desc": ""
+            },
+            "투톤 루프": {
+              "price": 290000,
+              "price_man": 29,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 390000,
+              "price_man": 39,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 2WD 시그니처": {
+          "base_price": 24540000,
+          "base_price_man": 2454,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "하이컴포트": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "하이컴포트 + 가죽시트 + 브라운 인테리어": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "10.25인치 내비게이션 팩(시그니처/그래비티)": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드 팩": {
+              "price": 1470000,
+              "price_man": 147,
+              "desc": ""
+            },
+            "투톤 루프": {
+              "price": 290000,
+              "price_man": 29,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 390000,
+              "price_man": 39,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 2WD 트렌디": {
+          "base_price": 19340000,
+          "base_price_man": 1934,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "컨비니언스": {
+              "price": 980000,
+              "price_man": 98,
+              "desc": ""
+            },
+            "10.25인치 내비게이션 팩": {
+              "price": 1470000,
+              "price_man": 147,
+              "desc": ""
+            },
+            "하이패스 자동결제 시스템": {
+              "price": 200000,
+              "price_man": 20,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 2WD 프레스티지": {
+          "base_price": 22480000,
+          "base_price_man": 2248,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 440000,
+              "price_man": 44,
+              "desc": ""
+            },
+            "10.25인치 내비게이션 팩": {
+              "price": 1470000,
+              "price_man": 147,
+              "desc": ""
+            },
+            "하이패스 자동결제 시스템": {
+              "price": 200000,
+              "price_man": 20,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 4WD 그래비티": {
+          "base_price": 27050000,
+          "base_price_man": 2705,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "하이컴포트": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "하이컴포트 + 가죽시트 + 브라운 인테리어": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "10.25인치 내비게이션 팩(시그니처/그래비티)": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드 팩": {
+              "price": 1470000,
+              "price_man": 147,
+              "desc": ""
+            },
+            "투톤 루프": {
+              "price": 290000,
+              "price_man": 29,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 390000,
+              "price_man": 39,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 4WD 시그니처": {
+          "base_price": 26310000,
+          "base_price_man": 2631,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "하이컴포트": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "하이컴포트 + 가죽시트 + 브라운 인테리어": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "10.25인치 내비게이션 팩(시그니처/그래비티)": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드 팩": {
+              "price": 1470000,
+              "price_man": 147,
+              "desc": ""
+            },
+            "투톤 루프": {
+              "price": 290000,
+              "price_man": 29,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 390000,
+              "price_man": 39,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 4WD 트렌디": {
+          "base_price": 21110000,
+          "base_price_man": 2111,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "컨비니언스": {
+              "price": 980000,
+              "price_man": 98,
+              "desc": ""
+            },
+            "10.25인치 내비게이션 팩": {
+              "price": 1470000,
+              "price_man": 147,
+              "desc": ""
+            },
+            "하이패스 자동결제 시스템": {
+              "price": 200000,
+              "price_man": 20,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 4WD 프레스티지": {
+          "base_price": 24250000,
+          "base_price_man": 2425,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 440000,
+              "price_man": 44,
+              "desc": ""
+            },
+            "10.25인치 내비게이션 팩": {
+              "price": 1470000,
+              "price_man": 147,
+              "desc": ""
+            },
+            "하이패스 자동결제 시스템": {
+              "price": 200000,
+              "price_man": 20,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD 그래비티": {
+          "base_price": 27190000,
+          "base_price_man": 2719,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "하이컴포트": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "하이컴포트 + 가죽시트 + 브라운 인테리어": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "10.25인치 내비게이션 팩(시그니처/그래비티)": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드 팩": {
+              "price": 1470000,
+              "price_man": 147,
+              "desc": ""
+            },
+            "투톤 루프": {
+              "price": 290000,
+              "price_man": 29,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 390000,
+              "price_man": 39,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD 시그니처": {
+          "base_price": 26460000,
+          "base_price_man": 2646,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "하이컴포트": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "하이컴포트 + 가죽시트 + 브라운 인테리어": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "10.25인치 내비게이션 팩(시그니처/그래비티)": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드 팩": {
+              "price": 1470000,
+              "price_man": 147,
+              "desc": ""
+            },
+            "투톤 루프": {
+              "price": 290000,
+              "price_man": 29,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 390000,
+              "price_man": 39,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD 트렌디": {
+          "base_price": 21250000,
+          "base_price_man": 2125,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "컨비니언스": {
+              "price": 980000,
+              "price_man": 98,
+              "desc": ""
+            },
+            "10.25인치 내비게이션 팩": {
+              "price": 1470000,
+              "price_man": 147,
+              "desc": ""
+            },
+            "하이패스 자동결제 시스템": {
+              "price": 200000,
+              "price_man": 20,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD 프레스티지": {
+          "base_price": 24400000,
+          "base_price_man": 2440,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 440000,
+              "price_man": 44,
+              "desc": ""
+            },
+            "10.25인치 내비게이션 팩": {
+              "price": 1470000,
+              "price_man": 147,
+              "desc": ""
+            },
+            "하이패스 자동결제 시스템": {
+              "price": 200000,
+              "price_man": 20,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 4WD 그래비티": {
+          "base_price": 28960000,
+          "base_price_man": 2896,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "하이컴포트": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "하이컴포트 + 가죽시트 + 브라운 인테리어": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "10.25인치 내비게이션 팩(시그니처/그래비티)": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드 팩": {
+              "price": 1470000,
+              "price_man": 147,
+              "desc": ""
+            },
+            "투톤 루프": {
+              "price": 290000,
+              "price_man": 29,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 390000,
+              "price_man": 39,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 4WD 시그니처": {
+          "base_price": 28230000,
+          "base_price_man": 2823,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "하이컴포트": {
+              "price": 590000,
+              "price_man": 59,
+              "desc": ""
+            },
+            "하이컴포트 + 가죽시트 + 브라운 인테리어": {
+              "price": 930000,
+              "price_man": 93,
+              "desc": ""
+            },
+            "10.25인치 내비게이션 팩(시그니처/그래비티)": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드 팩": {
+              "price": 1470000,
+              "price_man": 147,
+              "desc": ""
+            },
+            "투톤 루프": {
+              "price": 290000,
+              "price_man": 29,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 390000,
+              "price_man": 39,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 4WD 트렌디": {
+          "base_price": 23020000,
+          "base_price_man": 2302,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "컨비니언스": {
+              "price": 980000,
+              "price_man": 98,
+              "desc": ""
+            },
+            "10.25인치 내비게이션 팩": {
+              "price": 1470000,
+              "price_man": 147,
+              "desc": ""
+            },
+            "하이패스 자동결제 시스템": {
+              "price": 200000,
+              "price_man": 20,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 4WD 프레스티지": {
+          "base_price": 26170000,
+          "base_price_man": 2617,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "컴포트": {
+              "price": 440000,
+              "price_man": 44,
+              "desc": ""
+            },
+            "10.25인치 내비게이션 팩": {
+              "price": 1470000,
+              "price_man": 147,
+              "desc": ""
+            },
+            "하이패스 자동결제 시스템": {
+              "price": 200000,
+              "price_man": 20,
+              "desc": ""
+            }
+          }
+        }
+      },
+      "2022": {
+        "가솔린 1.6 터보 2WD 그래비티": {
+          "base_price": 25430000,
+          "base_price_man": 2543,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "컴포트 II": {
+              "price": 540000,
+              "price_man": 54,
+              "desc": ""
+            },
+            "컴포트 II + 가죽시트 + 브라운 인테리어": {
+              "price": 880000,
+              "price_man": 88,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드": {
+              "price": 620000,
+              "price_man": 62,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 390000,
+              "price_man": 39,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 2WD 시그니처": {
+          "base_price": 24690000,
+          "base_price_man": 2469,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "컴포트 II": {
+              "price": 540000,
+              "price_man": 54,
+              "desc": ""
+            },
+            "컴포트 II + 가죽시트 + 브라운 인테리어": {
+              "price": 880000,
+              "price_man": 88,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드": {
+              "price": 620000,
+              "price_man": 62,
+              "desc": ""
+            },
+            "투톤 루프": {
+              "price": 290000,
+              "price_man": 29,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 390000,
+              "price_man": 39,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 2WD 트렌디": {
+          "base_price": 19440000,
+          "base_price_man": 1944,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "컨비니언스": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1160000,
+              "price_man": 116,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 1420000,
+              "price_man": 142,
+              "desc": ""
+            },
+            "하이패스 자동결제 시스템": {
+              "price": 200000,
+              "price_man": 20,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 2WD 프레스티지": {
+          "base_price": 22580000,
+          "base_price_man": 2258,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "컴포트 I": {
+              "price": 830000,
+              "price_man": 83,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 1420000,
+              "price_man": 142,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "스타일 + BOSE 프리미엄 사운드": {
+              "price": 1700000,
+              "price_man": 170,
+              "desc": ""
+            },
+            "하이패스 자동결제 시스템": {
+              "price": 200000,
+              "price_man": 20,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 4WD 그래비티": {
+          "base_price": 27200000,
+          "base_price_man": 2720,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "컴포트 II": {
+              "price": 540000,
+              "price_man": 54,
+              "desc": ""
+            },
+            "컴포트 II + 가죽시트 + 브라운 인테리어": {
+              "price": 880000,
+              "price_man": 88,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드": {
+              "price": 620000,
+              "price_man": 62,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 390000,
+              "price_man": 39,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 4WD 시그니처": {
+          "base_price": 26460000,
+          "base_price_man": 2646,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "컴포트 II": {
+              "price": 540000,
+              "price_man": 54,
+              "desc": ""
+            },
+            "컴포트 II + 가죽시트 + 브라운 인테리어": {
+              "price": 880000,
+              "price_man": 88,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드": {
+              "price": 620000,
+              "price_man": 62,
+              "desc": ""
+            },
+            "투톤 루프": {
+              "price": 290000,
+              "price_man": 29,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 390000,
+              "price_man": 39,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 4WD 트렌디": {
+          "base_price": 21210000,
+          "base_price_man": 2121,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "컨비니언스": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1160000,
+              "price_man": 116,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 1420000,
+              "price_man": 142,
+              "desc": ""
+            },
+            "하이패스 자동결제 시스템": {
+              "price": 200000,
+              "price_man": 20,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 1.6 터보 4WD 프레스티지": {
+          "base_price": 24350000,
+          "base_price_man": 2435,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "컴포트 I": {
+              "price": 830000,
+              "price_man": 83,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 1420000,
+              "price_man": 142,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "스타일 + BOSE 프리미엄 사운드": {
+              "price": 1700000,
+              "price_man": 170,
+              "desc": ""
+            },
+            "하이패스 자동결제 시스템": {
+              "price": 200000,
+              "price_man": 20,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD 그래비티": {
+          "base_price": 27500000,
+          "base_price_man": 2750,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "컴포트 II": {
+              "price": 540000,
+              "price_man": 54,
+              "desc": ""
+            },
+            "컴포트 II + 가죽시트 + 브라운 인테리어": {
+              "price": 880000,
+              "price_man": 88,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드": {
+              "price": 620000,
+              "price_man": 62,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 390000,
+              "price_man": 39,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD 시그니처": {
+          "base_price": 26760000,
+          "base_price_man": 2676,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "컴포트 II": {
+              "price": 540000,
+              "price_man": 54,
+              "desc": ""
+            },
+            "컴포트 II + 가죽시트 + 브라운 인테리어": {
+              "price": 880000,
+              "price_man": 88,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드": {
+              "price": 620000,
+              "price_man": 62,
+              "desc": ""
+            },
+            "투톤 루프": {
+              "price": 290000,
+              "price_man": 29,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 390000,
+              "price_man": 39,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD 트렌디": {
+          "base_price": 21510000,
+          "base_price_man": 2151,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "컨비니언스": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1160000,
+              "price_man": 116,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 1420000,
+              "price_man": 142,
+              "desc": ""
+            },
+            "하이패스 자동결제 시스템": {
+              "price": 200000,
+              "price_man": 20,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 2WD 프레스티지": {
+          "base_price": 24650000,
+          "base_price_man": 2465,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "컴포트 I": {
+              "price": 830000,
+              "price_man": 83,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 1420000,
+              "price_man": 142,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "스타일 + BOSE 프리미엄 사운드": {
+              "price": 1700000,
+              "price_man": 170,
+              "desc": ""
+            },
+            "하이패스 자동결제 시스템": {
+              "price": 200000,
+              "price_man": 20,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 4WD 그래비티": {
+          "base_price": 29270000,
+          "base_price_man": 2927,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "컴포트 II": {
+              "price": 540000,
+              "price_man": 54,
+              "desc": ""
+            },
+            "컴포트 II + 가죽시트 + 브라운 인테리어": {
+              "price": 880000,
+              "price_man": 88,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드": {
+              "price": 620000,
+              "price_man": 62,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 390000,
+              "price_man": 39,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 4WD 시그니처": {
+          "base_price": 28530000,
+          "base_price_man": 2853,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "컴포트 II": {
+              "price": 540000,
+              "price_man": 54,
+              "desc": ""
+            },
+            "컴포트 II + 가죽시트 + 브라운 인테리어": {
+              "price": 880000,
+              "price_man": 88,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 850000,
+              "price_man": 85,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "BOSE 프리미엄 사운드": {
+              "price": 620000,
+              "price_man": 62,
+              "desc": ""
+            },
+            "투톤 루프": {
+              "price": 290000,
+              "price_man": 29,
+              "desc": ""
+            },
+            "선루프": {
+              "price": 390000,
+              "price_man": 39,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 4WD 트렌디": {
+          "base_price": 23280000,
+          "base_price_man": 2328,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "컨비니언스": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1160000,
+              "price_man": 116,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 1420000,
+              "price_man": 142,
+              "desc": ""
+            },
+            "하이패스 자동결제 시스템": {
+              "price": 200000,
+              "price_man": 20,
+              "desc": ""
+            }
+          }
+        },
+        "디젤 1.6 4WD 프레스티지": {
+          "base_price": 26420000,
+          "base_price_man": 2642,
+          "standard_features": [],
+          "options": {
+            "드라이브 와이즈": {
+              "price": 1130000,
+              "price_man": 113,
+              "desc": ""
+            },
+            "스타일": {
+              "price": 1080000,
+              "price_man": 108,
+              "desc": ""
+            },
+            "컴포트 I": {
+              "price": 830000,
+              "price_man": 83,
+              "desc": ""
+            },
+            "10.25인치 내비게이션": {
+              "price": 1420000,
+              "price_man": 142,
+              "desc": ""
+            },
+            "하이테크": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "스타일 + BOSE 프리미엄 사운드": {
+              "price": 1700000,
+              "price_man": 170,
+              "desc": ""
+            },
+            "하이패스 자동결제 시스템": {
+              "price": 200000,
+              "price_man": 20,
+              "desc": ""
+            }
+          }
+        }
+      }
     }
   }
 }
