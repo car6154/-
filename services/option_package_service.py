@@ -762,6 +762,31 @@ def _find_in_v2_options(v2_options: dict, clean: str) -> Optional[tuple]:
             off_key = cands[0]
             return (off_key, v2_options[off_key], "exact")
 
+    # 5-2. 옵션 묶음 매칭 (첫 번째 조각이 책 옵션이고, 나머지 조각 중 책 옵션이 없는 경우)
+    # 예: "빌트인 캠 2, 증강현실 내비게이션" -> "빌트인 캠 2" exact
+    parts = [p.strip() for p in re.split(r'[,+·]', clean) if p.strip()]
+    if len(parts) >= 2:
+        norm_first = normalize_opt_name(parts[0])
+        matched_off_key = None
+        for off_key in v2_options:
+            if normalize_opt_name(off_key) == norm_first:
+                matched_off_key = off_key
+                break
+
+        if matched_off_key:
+            any_rest_matched = False
+            for rp in parts[1:]:
+                norm_rp = normalize_opt_name(rp)
+                for off_key in v2_options:
+                    if normalize_opt_name(off_key) == norm_rp:
+                        any_rest_matched = True
+                        break
+                if any_rest_matched:
+                    break
+
+            if not any_rest_matched:
+                return (matched_off_key, v2_options[matched_off_key], "exact")
+
     # 6. 바이그램 자카드 퍼지 매칭 (자카드 >= 0.35)
     best_candidate = None
     best_score = 0.0

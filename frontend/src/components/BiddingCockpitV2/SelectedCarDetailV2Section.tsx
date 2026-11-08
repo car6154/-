@@ -123,17 +123,22 @@ export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProp
 
     const rawOptText = selectedEncar.optionsText || '';
     const cleanOptText = rawOptText.replace(/\s+/g, '');
+    const optList = selectedEncar.options && selectedEncar.options.length > 0
+      ? selectedEncar.options.map((o) => o.name)
+      : undefined;
+    const hasOptList = Boolean(optList && optList.length > 0);
     const isNoOptionPlaceholder =
-      cleanOptText === '추가옵션없음' ||
-      cleanOptText === '기본출고사양(추가옵션없음)';
+      !hasOptList &&
+      (cleanOptText === '추가옵션없음' || cleanOptText === '기본출고사양(추가옵션없음)');
 
-    if (!rawOptText || isNoOptionPlaceholder) {
+    if (!hasOptList && (!rawOptText || isNoOptionPlaceholder)) {
       setMatchedOptions([]);
       return;
     }
 
     const grade = selectedEncar.subModel ? selectedEncar.subModel.trim() : undefined;
-    const cacheKey = `${selectedEncar.id}_${selectedEncar.carName}_${selectedEncar.year}_${grade || ''}_${rawOptText}`;
+    const optKeyPart = optList ? optList.join('|') : rawOptText;
+    const cacheKey = `${selectedEncar.id}_${selectedEncar.carName}_${selectedEncar.year}_${grade || ''}_${optKeyPart}`;
     if (optionsCacheRef.current[cacheKey]) {
       setMatchedOptions(optionsCacheRef.current[cacheKey]);
       return;
@@ -146,6 +151,7 @@ export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProp
       id: selectedEncar.id,
       carName: selectedEncar.carName,
       year: selectedEncar.year,
+      optionsList: optList,
       optionsText: rawOptText,
       grade: grade,
     })
