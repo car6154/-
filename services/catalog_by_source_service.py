@@ -140,14 +140,31 @@ def get_pilot_catalog_spec(
         target_spec = DataProcessor.build_car_spec(text=s_grade)
         target_tuple = tuple(target_spec.get(k) for k in SPEC_COMPARE_KEYS)
 
+        target_seats = target_spec.get("seats") or ""
+        keys_no_seats = tuple(k for k in SPEC_COMPARE_KEYS if k != "seats")
+        target_6_tuple = tuple(target_spec.get(k) for k in keys_no_seats)
+
+        exact_spec_matches = []
+        relaxed_seats_matches = []
+
         for book_g_key, book_g_spec in year_book.items():
             if isinstance(book_g_spec, dict):
                 cand_spec = DataProcessor.build_car_spec(text=book_g_key)
                 cand_tuple = tuple(cand_spec.get(k) for k in SPEC_COMPARE_KEYS)
                 if target_tuple == cand_tuple:
-                    matched_grade_key = book_g_key
-                    grade_spec = book_g_spec
-                    break
+                    exact_spec_matches.append((book_g_key, book_g_spec))
+                else:
+                    cand_seats = cand_spec.get("seats") or ""
+                    one_seat_empty = bool(target_seats) ^ bool(cand_seats)
+                    if one_seat_empty:
+                        cand_6_tuple = tuple(cand_spec.get(k) for k in keys_no_seats)
+                        if target_6_tuple == cand_6_tuple:
+                            relaxed_seats_matches.append((book_g_key, book_g_spec))
+
+        if exact_spec_matches:
+            matched_grade_key, grade_spec = exact_spec_matches[0]
+        elif len(relaxed_seats_matches) == 1:
+            matched_grade_key, grade_spec = relaxed_seats_matches[0]
 
     if not grade_spec or not matched_grade_key:
         return {
