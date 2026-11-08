@@ -1138,7 +1138,8 @@ def match_car_options_detail(car_name: str, year: Any, options_text_or_list: Any
 
     # 💡 [11-06-34]: 등급 인승 모호(get_pilot_catalog_spec found: False) 시 등급 패밀리(인승 제외 6개 키 일치) 옵션 합집합 폴백
     # 옵션은 트림 단위라 인승이 달라도 이름·가격이 동일하므로, 인승 누락/모호 등급도 옵션 매칭은 정상 수행
-    if not v2_options and grade and str(grade).strip() and car_name and year:
+    # 💡 [11-06-35]: grade가 누락되거나 비어 있어도(None/빈문자열) 차종+연식의 전체 등급 옵션 합집합으로 매칭 수행
+    if not v2_options and car_name and year:
         try:
             from services.catalog_by_source_service import (
                 load_catalog_by_source_v2,
@@ -1169,15 +1170,26 @@ def match_car_options_detail(car_name: str, year: Any, options_text_or_list: Any
 
                 year_book = car_book.get(norm_year)
                 if year_book and isinstance(year_book, dict):
-                    target_spec = DataProcessor.build_car_spec(text=str(grade).strip())
-                    keys_no_seats = tuple(k for k in SPEC_COMPARE_KEYS if k != "seats")
-                    target_6_tuple = tuple(target_spec.get(k) for k in keys_no_seats)
+                    has_grade = bool(grade and str(grade).strip())
+                    target_6_tuple = None
+                    if has_grade:
+                        target_spec = DataProcessor.build_car_spec(text=str(grade).strip())
+                        keys_no_seats = tuple(k for k in SPEC_COMPARE_KEYS if k != "seats")
+                        target_6_tuple = tuple(target_spec.get(k) for k in keys_no_seats)
 
                     for cand_g_key, cand_g_spec in year_book.items():
                         if isinstance(cand_g_spec, dict):
-                            cand_spec = DataProcessor.build_car_spec(text=cand_g_key)
-                            cand_6_tuple = tuple(cand_spec.get(k) for k in keys_no_seats)
-                            if target_6_tuple == cand_6_tuple:
+                            is_matched_grade = False
+                            if has_grade and target_6_tuple:
+                                cand_spec = DataProcessor.build_car_spec(text=cand_g_key)
+                                cand_6_tuple = tuple(cand_spec.get(k) for k in keys_no_seats)
+                                if target_6_tuple == cand_6_tuple:
+                                    is_matched_grade = True
+                            else:
+                                # grade가 없거나 특정 불가 시 해당 연식의 모든 등급 옵션 합집합 사용
+                                is_matched_grade = True
+
+                            if is_matched_grade:
                                 cand_opts = cand_g_spec.get("options", {})
                                 if isinstance(cand_opts, dict):
                                     for opt_k, opt_v in cand_opts.items():
@@ -1205,7 +1217,7 @@ def match_car_options_detail(car_name: str, year: Any, options_text_or_list: Any
                 "desc": v2_val.get("desc", "") if isinstance(v2_val, dict) else "",
                 "match_type": v2_match_type,
                 "source": "danawa",
-                "matched_year": str(v2_spec.get("year", year))
+                "matched_year": str(v2_spec.get("year", year)) if isinstance(v2_spec, dict) else str(year)
             })
             continue
 
