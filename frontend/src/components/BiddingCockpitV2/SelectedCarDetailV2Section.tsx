@@ -171,7 +171,7 @@ export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProp
     return () => {
       isMounted = false;
     };
-  }, [selectedEncar?.id, selectedEncar?.carName, selectedEncar?.year, selectedEncar?.subModel, selectedEncar?.optionsText]);
+  }, [selectedEncar?.id, selectedEncar?.carName, selectedEncar?.year, selectedEncar?.subModel, selectedEncar?.optionsText, selectedEncar?.options]);
 
   // 💡 [2026-11-01 제이 규칙]: 선택된 차량이 없으면 안내 한 줄만 보여준다 (예시 차량 생성 금지)
   if (!selectedEncar) {
@@ -379,11 +379,13 @@ export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProp
           {(() => {
             const rawOptText = selectedEncar.optionsText || '';
             const cleanOptText = rawOptText.replace(/\s+/g, '');
+            const hasOptArr = Boolean(selectedEncar.options && selectedEncar.options.length > 0);
             const isNoOptionPlaceholder =
-              cleanOptText === '추가옵션없음' ||
-              cleanOptText === '기본출고사양(추가옵션없음)';
+              !hasOptArr &&
+              (cleanOptText === '추가옵션없음' ||
+              cleanOptText === '기본출고사양(추가옵션없음)');
 
-            if (!rawOptText || isNoOptionPlaceholder) {
+            if (!hasOptArr && (!rawOptText || isNoOptionPlaceholder)) {
               return (
                 <div className="p-3 bg-[#0c0e14] rounded-lg border border-[#232634] text-xs space-y-1.5">
                   <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase block">
@@ -396,8 +398,10 @@ export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProp
               );
             }
 
-            // 매칭 데이터가 있으면 사용, 아직 수신 전이면 원문 리스트 폴백
-            const fallbackList = splitOptionString(rawOptText);
+            // 매칭 데이터가 있으면 사용, 아직 수신 전이면 options 배열 우선 폴백
+            const fallbackList = hasOptArr
+              ? selectedEncar.options!.map((o) => o.name)
+              : splitOptionString(rawOptText);
             const rawItems = matchedOptions.length > 0 ? matchedOptions : fallbackList;
 
             const mappedChips = rawItems.map((item, origIdx) => {

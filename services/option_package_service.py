@@ -1116,7 +1116,10 @@ def match_car_options_detail(car_name: str, year: Any, options_text_or_list: Any
         return []
 
     if isinstance(options_text_or_list, str):
-        raw_list = [s.strip() for s in re.split(r'[,·\/\n]', options_text_or_list) if s.strip()]
+        if re.search(r'\s+/\s+|\s+·\s+|\||\([0-9,]+\s*만\)', options_text_or_list):
+            raw_list = [s.strip() for s in re.split(r'\s+/\s+|[·|\n]', options_text_or_list) if s.strip()]
+        else:
+            raw_list = [s.strip() for s in re.split(r'[,·\/\n]', options_text_or_list) if s.strip()]
     elif isinstance(options_text_or_list, list):
         raw_list = [str(s).strip() for s in options_text_or_list if str(s).strip()]
     else:

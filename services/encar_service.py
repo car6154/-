@@ -283,16 +283,16 @@ class Scraper:
                         if name and "외장컬러" not in name:
                             if p_val > 0: applied_opts.append(f"{name}({p_val}만)")
                             else: applied_opts.append(name)
-                        options_list.append({
-                            "code": code,
-                            "name": name or raw_name,
-                            "raw_name": raw_name,
-                            "price": p_val * 10000,
-                            "price_man": p_val,
-                            "source": "api" if p_val > 0 else "unpriced",
-                            "match_status": "exact",
-                            "desc": ""
-                        })
+                            options_list.append({
+                                "code": code,
+                                "name": name or raw_name,
+                                "raw_name": raw_name,
+                                "price": p_val * 10000,
+                                "price_man": p_val,
+                                "source": "api" if p_val > 0 else "unpriced",
+                                "match_status": "exact",
+                                "desc": ""
+                            })
                 if applied_opts and opt_str == "없음":
                     opt_str = " / ".join(applied_opts)
 

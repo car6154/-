@@ -1675,8 +1675,30 @@ def search_encar_market(req: EncarSearchRequest):
             col_str = str(row.get('외장컬러', '-'))
             opt_s = str(row.get('추가옵션', '-'))
             opts_arr = row.get('options', [])
+            if not isinstance(opts_arr, list) or not opts_arr:
+                dt_obj = strict_detail_map.get(cid) or (row.get('_detail_res') if isinstance(row.get('_detail_res'), dict) else None)
+                if isinstance(dt_obj, dict):
+                    opts_arr = dt_obj.get('options', [])
             if not isinstance(opts_arr, list):
                 opts_arr = []
+            if not opts_arr and opt_s and opt_s not in ('-', '없음', '없음(구버전점검)', '⚠️조회실패', '코드매칭실패', '기본 출고 사양 (추가옵션 없음)', '추가 옵션 없음'):
+                parsed_opts = []
+                for part in re.split(r'\s+/\s+|\s+·\s+', opt_s):
+                    part_s = part.strip()
+                    if not part_s or part_s.startswith('※') or '외장컬러' in part_s:
+                        continue
+                    m_p = re.search(r'\((\d+)\s*만\)\s*$', part_s)
+                    p_man = int(m_p.group(1)) if m_p else 0
+                    c_opt_name = re.sub(r'\(\d+\s*만\)\s*$', '', part_s).strip()
+                    if c_opt_name:
+                        parsed_opts.append({
+                            "name": c_opt_name,
+                            "raw_name": part_s,
+                            "price": p_man * 10000,
+                            "price_man": p_man,
+                        })
+                if parsed_opts:
+                    opts_arr = parsed_opts
             link_s = str(row.get('링크', f"https://fem.encar.com/cars/detail/{cid}"))
             clean_cid = re.sub(r'\D', '', cid)
             is_company = bool(clean_cid and clean_cid in company_car_map)
@@ -1972,25 +1994,25 @@ def get_encar_inspection(car_id: str, mode: Optional[str] = None, lightweight: b
                                 if isinstance(opt, dict) and str(opt.get("optionCd", "")) in choice_codes:
                                     o_code = str(opt.get("optionCd", ""))
                                     o_raw_name = opt.get("optionName", "")
-                                    o_name = o_raw_name.strip()
+                                    o_name = Scraper.clean_option_name(o_raw_name) or o_raw_name.strip()
                                     o_price = _safe_int(opt.get("price", 0))
-                                    if o_price > 0:
+                                    if o_price > 0 and "외장컬러" not in o_name:
                                         total_option_price += o_price
                                     if o_name and "외장컬러" not in o_name:
                                         if o_price > 0:
                                             opt_names.append(f"{o_name}({o_price}만)")
                                         else:
                                             opt_names.append(o_name)
-                                    options_list.append({
-                                        "code": o_code,
-                                        "name": o_name,
-                                        "raw_name": o_raw_name,
-                                        "price": o_price * 10000,
-                                        "price_man": o_price,
-                                        "source": "api" if o_price > 0 else "unpriced",
-                                        "match_status": "exact",
-                                        "desc": ""
-                                    })
+                                        options_list.append({
+                                            "code": o_code,
+                                            "name": o_name,
+                                            "raw_name": o_raw_name,
+                                            "price": o_price * 10000,
+                                            "price_man": o_price,
+                                            "source": "api" if o_price > 0 else "unpriced",
+                                            "match_status": "exact",
+                                            "desc": ""
+                                        })
                 if opt_names:
                     options_text = " · ".join(opt_names)
                 else:

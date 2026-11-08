@@ -11,6 +11,7 @@ import {
   BackendMatchedOption,
   compareOptionToOpposites,
 } from '@/services/optionMatchingService';
+import { assembleFullGradeName } from '@/components/BiddingCockpit/hooks/useBiddingCockpit';
 
 export interface SelectedKcarDetailV2SectionProps {
   selectedKcar: KcarCarItem | null;
@@ -19,6 +20,8 @@ export interface SelectedKcarDetailV2SectionProps {
   targetYear?: string | number;
   targetOptions?: OptionItem[];
   optionsTag?: string;
+  targetGrade?: string;
+  detailModel?: string;
 }
 
 // 사고 구분 포맷팅 (케이카 기준)
@@ -39,6 +42,8 @@ export const SelectedKcarDetailV2Section: React.FC<SelectedKcarDetailV2SectionPr
   targetYear,
   targetOptions,
   optionsTag,
+  targetGrade,
+  detailModel,
 }) => {
   // 💡 [11-03-14]: 목표차 옵션 원문 및 백엔드 매칭 (id 없이 단건 호출하여 사이드바와 캐시 공유)
   const targetOptNames: string[] = React.useMemo(() => {
@@ -54,18 +59,20 @@ export const SelectedKcarDetailV2Section: React.FC<SelectedKcarDetailV2SectionPr
       setTargetMatchedOpts([]);
       return;
     }
+    const effectiveTargetGrade = (targetGrade && targetGrade.trim()) || (detailModel && detailModel.trim() && detailModel !== '-' ? detailModel.trim() : undefined);
     let isMounted = true;
     matchOptionsSingle({
       carName: targetCarName || '',
       year: targetYear || '',
       optionsList: targetOptNames,
+      grade: effectiveTargetGrade,
     }).then((data) => {
       if (isMounted) setTargetMatchedOpts(data);
     });
     return () => {
       isMounted = false;
     };
-  }, [targetCarName, targetYear, targetOptNames]);
+  }, [targetCarName, targetYear, targetOptNames, targetGrade, detailModel]);
 
   const targetMatchedList = React.useMemo(() => {
     return targetOptNames.map((to) => {
@@ -174,19 +181,21 @@ export const SelectedKcarDetailV2Section: React.FC<SelectedKcarDetailV2SectionPr
       setKcarMatchedOpts([]);
       return;
     }
+    const kcarGrade = assembleFullGradeName(selectedKcar.grade, selectedKcar.gradeDetail);
     let isMounted = true;
     matchOptionsSingle({
       id: selectedKcar.carCd,
       carName: selectedKcar.carName || selectedKcar.modelName || '',
       year: selectedKcar.year || '',
       optionsList: rawOptionNames,
+      grade: kcarGrade,
     }).then((data) => {
       if (isMounted) setKcarMatchedOpts(data);
     });
     return () => {
       isMounted = false;
     };
-  }, [selectedKcar?.carCd, selectedKcar?.carName, selectedKcar?.year, rawOptionNames]);
+  }, [selectedKcar?.carCd, selectedKcar?.carName, selectedKcar?.year, selectedKcar?.grade, selectedKcar?.gradeDetail, rawOptionNames]);
 
   const matchedOptionChips = React.useMemo(() => {
     const mapped = rawOptionNames.map((rawName, origIdx) => {

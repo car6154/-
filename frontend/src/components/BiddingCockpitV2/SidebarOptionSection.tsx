@@ -410,15 +410,7 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
 
   // 우세/순정 배지 판정 (규칙 4-d 기반)
   const renderMatchBadge = () => {
-    if (!effectiveComp?.optionsText || !optionsTag || !optionsTag.trim()) {
-      return (
-        <span className="inline-flex items-center text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-bold border border-emerald-500/30">
-          조회차량 순정
-        </span>
-      );
-    }
-
-    if (compOpposites.length === 0 || targetOptNames.length === 0) {
+    if (!hasComp || compOpposites.length === 0 || targetOptNames.length === 0) {
       return (
         <span className="inline-flex items-center text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-bold border border-emerald-500/30">
           조회차량 순정

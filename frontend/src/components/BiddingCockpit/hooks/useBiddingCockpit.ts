@@ -1887,6 +1887,10 @@ export function useBiddingCockpit({
       const holdingDays = (typeof item.holdingDays === 'number' && !isNaN(item.holdingDays) && item.holdingDays >= 0)
         ? item.holdingDays
         : (inspHolding !== null ? inspHolding : item.holdingDays);
+      const isLt = Boolean(insp.isLightweight);
+      const inspOptionsArr = (!isLt && Array.isArray(insp.options) && insp.options.length > 0)
+        ? insp.options
+        : item.options;
       return {
         ...item,
         checkDate: inspDate || item.checkDate,
@@ -1894,6 +1898,7 @@ export function useBiddingCockpit({
         accidentType: inspAccident || item.accidentType,
         color: inspColor || item.color,
         optionsText: inspOpts || item.optionsText,
+        options: inspOptionsArr,
       };
     });
     return merged.sort(compareEncarItemsByBackendRule);

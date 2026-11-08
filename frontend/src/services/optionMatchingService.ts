@@ -115,9 +115,18 @@ export async function matchOptionsBatch(
   const results: Record<string, BackendMatchedOption[]> = {};
   const uncachedCars: BatchCarInput[] = [];
 
+  const buildBatchCacheKey = (car: BatchCarInput) => {
+    const carId = String(car.id).trim();
+    const gradePart = car.grade ? `_grade:${car.grade.trim()}` : '';
+    const optPart = (car.optionsList && car.optionsList.length > 0)
+      ? car.optionsList.join('|')
+      : (car.optionsText || '');
+    return `${carId}${gradePart}_${optPart}`;
+  };
+
   for (const car of cars) {
     const carId = String(car.id).trim();
-    const cacheKey = car.grade ? `${carId}_grade:${car.grade.trim()}` : carId;
+    const cacheKey = buildBatchCacheKey(car);
     if (optionMatchCache.has(cacheKey)) {
       results[carId] = optionMatchCache.get(cacheKey)!;
     } else {
@@ -159,7 +168,7 @@ export async function matchOptionsBatch(
     if (data && data.success && data.data) {
       for (const car of uncachedCars) {
         const carId = String(car.id).trim();
-        const cacheKey = car.grade ? `${carId}_grade:${car.grade.trim()}` : carId;
+        const cacheKey = buildBatchCacheKey(car);
         const matchedList = data.data[carId];
         if (Array.isArray(matchedList) && matchedList.length > 0) {
           optionMatchCache.set(cacheKey, matchedList as BackendMatchedOption[]);
@@ -181,12 +190,29 @@ export function getCachedCarMatchedOptions(carId: string): BackendMatchedOption[
   return optionMatchCache.get(String(carId).trim()) || null;
 }
 
+const ROMAN_MAP: Record<string, string> = {
+  'Ⅰ': '1', 'Ⅱ': '2', 'Ⅲ': '3', 'Ⅳ': '4', 'Ⅴ': '5',
+  'Ⅵ': '6', 'Ⅶ': '7', 'Ⅷ': '8', 'Ⅸ': '9', 'Ⅹ': '10',
+  'ⅰ': '1', 'ⅱ': '2', 'ⅲ': '3', 'ⅳ': '4', 'ⅴ': '5',
+  'ⅵ': '6', 'ⅶ': '7', 'ⅷ': '8', 'ⅸ': '9', 'ⅹ': '10',
+};
+
 /**
- * 문자열 정규화 (공백, 특수문자 제거, 소문자화)
+ * 문자열 정규화 (로마 숫자 통일 후 공백·특수문자 제거, 소문자화)
  */
 export function normalizeOptionName(name: string): string {
   if (!name) return '';
-  return name.replace(/[^a-zA-Z0-9가-힣]/g, '').toLowerCase();
+  let s = String(name);
+  for (const [rk, rv] of Object.entries(ROMAN_MAP)) {
+    if (s.includes(rk)) {
+      s = s.split(rk).join(rv);
+    }
+  }
+  s = s.replace(/(?<=[가-힣\s])III(?=\b|$|\s|\()/g, '3');
+  s = s.replace(/(?<=[가-힣\s])II(?=\b|$|\s|\()/g, '2');
+  s = s.replace(/(?<=[가-힣\s])IV(?=\b|$|\s|\()/g, '4');
+  s = s.replace(/(?<=[가-힣\s])I(?=\b|$|\s|\()/g, '1');
+  return s.replace(/[^a-zA-Z0-9가-힣]/g, '').toLowerCase();
 }
 
 export type OptionCompareSymbol = '✓' | '~' | '+';
