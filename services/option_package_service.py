@@ -895,19 +895,6 @@ def resolve_option_item(
         "desc": desc
     }
 
-    price_man = round(price / 10000) if price >= 10000 else (price if price > 0 else 0)
-
-    return {
-        "code": str(code or ""),
-        "name": standard_name,
-        "raw_name": name_clean,
-        "price": price,
-        "price_man": price_man,
-        "source": source,
-        "match_status": match_status,
-        "desc": desc
-    }
-
 
 def get_bigram_set(s: str) -> set:
     """문자 바이그램(2글자 음절 단위 슬라이딩 윈도우) 집합 생성"""

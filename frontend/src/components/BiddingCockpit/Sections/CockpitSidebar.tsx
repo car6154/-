@@ -234,7 +234,8 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
   useEffect(() => {
     let isMounted = true;
     if (carName) {
-      fetchNewCarCatalog(carName, yearModel ? String(yearModel) : undefined).then((cat) => {
+      const effectiveGrade = detailModel && detailModel.trim() && detailModel !== '-' ? detailModel.trim() : undefined;
+      fetchNewCarCatalog(carName, yearModel ? String(yearModel) : undefined, effectiveGrade).then((cat) => {
         if (isMounted) setInternalCatalog(cat);
       });
     } else {
@@ -243,12 +244,15 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
     return () => {
       isMounted = false;
     };
-  }, [carName, yearModel]);
+  }, [carName, yearModel, detailModel]);
 
   useEffect(() => {
     let isMounted = true;
     if (selectedEncar?.carName) {
-      fetchNewCarCatalog(selectedEncar.carName, selectedEncar.year ? String(selectedEncar.year) : undefined).then((cat) => {
+      const encarGrade = (selectedEncar.subModel && selectedEncar.subModel.trim() && selectedEncar.subModel !== '-')
+        ? selectedEncar.subModel.trim()
+        : (detailModel && detailModel.trim() && detailModel !== '-' ? detailModel.trim() : undefined);
+      fetchNewCarCatalog(selectedEncar.carName, selectedEncar.year ? String(selectedEncar.year) : undefined, encarGrade).then((cat) => {
         if (isMounted) setCompCatalog(cat);
       });
     } else {
@@ -257,7 +261,7 @@ export const CockpitSidebar: React.FC<CockpitSidebarProps> = ({
     return () => {
       isMounted = false;
     };
-  }, [selectedEncar?.carName, selectedEncar?.year]);
+  }, [selectedEncar?.carName, selectedEncar?.year, selectedEncar?.subModel, detailModel]);
 
   return (
       <div className="w-full lg:w-[320px] xl:w-[340px] shrink-0 space-y-4 lg:sticky lg:top-4 self-start max-h-[calc(100vh-2rem)] overflow-y-auto scrollbar-thin scrollbar-thumb-zinc-700 pr-1">

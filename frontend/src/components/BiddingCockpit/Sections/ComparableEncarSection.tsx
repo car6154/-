@@ -446,7 +446,8 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
   useEffect(() => {
     let isMounted = true;
     if (carName) {
-      fetchNewCarCatalog(carName, yearModel ? String(yearModel) : undefined).then((cat) => {
+      const effectiveGrade = detailModel && detailModel.trim() && detailModel !== '-' ? detailModel.trim() : undefined;
+      fetchNewCarCatalog(carName, yearModel ? String(yearModel) : undefined, effectiveGrade).then((cat) => {
         if (isMounted) setTargetCatalog(cat);
       });
     } else {
@@ -455,12 +456,15 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
     return () => {
       isMounted = false;
     };
-  }, [carName, yearModel]);
+  }, [carName, yearModel, detailModel]);
 
   useEffect(() => {
     let isMounted = true;
     if (selectedEncar?.carName) {
-      fetchNewCarCatalog(selectedEncar.carName, selectedEncar.year ? String(selectedEncar.year) : undefined).then((cat) => {
+      const encarGrade = (selectedEncar.subModel && selectedEncar.subModel.trim() && selectedEncar.subModel !== '-')
+        ? selectedEncar.subModel.trim()
+        : (detailModel && detailModel.trim() && detailModel !== '-' ? detailModel.trim() : undefined);
+      fetchNewCarCatalog(selectedEncar.carName, selectedEncar.year ? String(selectedEncar.year) : undefined, encarGrade).then((cat) => {
         if (isMounted) setCompCatalog(cat);
       });
     } else {
@@ -469,7 +473,7 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
     return () => {
       isMounted = false;
     };
-  }, [selectedEncar?.carName, selectedEncar?.year]);
+  }, [selectedEncar?.carName, selectedEncar?.year, selectedEncar?.subModel, detailModel]);
 
   const [kcarCompCatalog, setKcarCompCatalog] = useState<NewCarCatalogData | null>(null);
 
@@ -477,8 +481,12 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
     let isMounted = true;
     const model = kcarDetail?.modelName || selectedKcar?.carName || selectedKcar?.modelName;
     const yr = kcarDetail?.year || selectedKcar?.year || selectedKcar?.fullYear;
+    const kcarGrade = (kcarDetail?.gradeFullName && kcarDetail.gradeFullName.trim())
+      || (selectedKcar?.gradeDetail && selectedKcar.gradeDetail.trim())
+      || (selectedKcar?.grade && selectedKcar.grade.trim())
+      || (detailModel && detailModel.trim() && detailModel !== '-' ? detailModel.trim() : undefined);
     if (model) {
-      fetchNewCarCatalog(model, yr ? String(yr) : undefined).then((cat) => {
+      fetchNewCarCatalog(model, yr ? String(yr) : undefined, kcarGrade).then((cat) => {
         if (isMounted) setKcarCompCatalog(cat);
       });
     } else {
@@ -487,7 +495,18 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
     return () => {
       isMounted = false;
     };
-  }, [kcarDetail?.modelName, selectedKcar?.carName, selectedKcar?.modelName, kcarDetail?.year, selectedKcar?.year, selectedKcar?.fullYear]);
+  }, [
+    kcarDetail?.modelName,
+    selectedKcar?.carName,
+    selectedKcar?.modelName,
+    kcarDetail?.year,
+    selectedKcar?.year,
+    selectedKcar?.fullYear,
+    kcarDetail?.gradeFullName,
+    selectedKcar?.gradeDetail,
+    selectedKcar?.grade,
+    detailModel
+  ]);
   const toggleTrim = onToggleTrimColumn || (() => setInternalShowTrim(prev => !prev));
 
   return (
