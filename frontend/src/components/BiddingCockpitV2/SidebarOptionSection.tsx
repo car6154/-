@@ -342,30 +342,27 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
     isKcarDetailLoading
   );
 
-  // 3. 케이카 탭용 비교차 옵션 목록 (11-03-26 kcarDetailOptions 경로 유지, 엔카 탭은 optionsList 파생 중단)
+  // 3. 비교차 옵션 목록 (엔카·케이카 공통: options가 있으면 그 name 목록 추출)
   const rawCompOpts: string[] = useMemo(() => {
-    if (!effectiveComp || effectiveComp.isLoading || !isKcarTab) return [];
+    if (!effectiveComp || effectiveComp.isLoading) return [];
     return (effectiveComp.options && effectiveComp.options.length > 0)
       ? effectiveComp.options.map((o: any) => o.name || o)
       : [];
-  }, [effectiveComp, isKcarTab]);
+  }, [effectiveComp]);
 
   // 💡 [11-04-01]: 상세 조회 로딩 중이거나 매칭 결과가 비어있을 때는 기호를 확정 표시하지 않고 !hasComp(순위 4) 유지 (색상 제외)
   const hasComp = Boolean(effectiveComp && !effectiveComp.isLoading && compMatchedOpts.length > 0);
 
-  // 💡 [11-04-01]: 비교차 변경 시 단건 매칭(matchOptionsSingle) 실행
-  // - 엔카 탭: optionsList 파생을 중단하고 상세(SelectedCarDetailV2Section)와 완전히 동일하게 optionsText 원문 전달
-  //   캐시 키가 상세와 동일해져 백엔드가 쪼갠 조각을 그대로 공유
-  // - 케이카 탭: 11-03-26 kcarDetailOptions 경로 유지 (optionsList 전달)
+  // 💡 [11-06-34]: 비교차 변경 시 단건 매칭(matchOptionsSingle) 실행 (엔카·케이카 동일 경로로 통일)
+  // - 엔카 탭: grade에 selectedEncar.subModel, optionsList에 options.name 목록 전달 (상세 SelectedCarDetailV2Section과 동일)
+  // - 케이카 탭: grade에 assembleFullGradeName, optionsList에 kcarDetailOptions 전달
   useEffect(() => {
     if (!effectiveComp || !effectiveComp.carName) {
       setCompMatchedOpts([]);
       return;
     }
 
-    const hasOpts = isKcarTab
-      ? rawCompOpts.length > 0
-      : Boolean(effectiveComp.optionsText && effectiveComp.optionsText.trim());
+    const hasOpts = rawCompOpts.length > 0 || Boolean(effectiveComp.optionsText && effectiveComp.optionsText.trim());
 
     if (!hasOpts) {
       setCompMatchedOpts([]);
@@ -374,15 +371,15 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
 
     const compGrade = (isKcarTab && selectedKcar)
       ? assembleFullGradeName(selectedKcar.grade, selectedKcar.gradeDetail)
-      : undefined;
+      : (selectedEncar?.subModel ? selectedEncar.subModel.trim() : undefined);
 
     let isMounted = true;
     matchOptionsSingle({
       id: effectiveComp.id,
       carName: effectiveComp.carName,
       year: effectiveComp.year || '',
-      optionsList: isKcarTab && rawCompOpts.length > 0 ? rawCompOpts : undefined,
-      optionsText: isKcarTab ? undefined : (effectiveComp.optionsText || ''),
+      optionsList: rawCompOpts.length > 0 ? rawCompOpts : undefined,
+      optionsText: effectiveComp.optionsText || '',
       grade: compGrade,
     }).then((res) => {
       if (isMounted) {
@@ -402,6 +399,7 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
     rawCompOpts,
     selectedKcar?.grade,
     selectedKcar?.gradeDetail,
+    selectedEncar?.subModel,
   ]);
 
   // 💡 [11-04-01]: 비교차 옵션 대조는 백엔드가 반환한 matched 리스트 그대로 사용 (raw_name 재꿰맴 및 none 폴백 폐지, 색상 제외)

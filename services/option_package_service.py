@@ -1133,6 +1133,56 @@ def match_car_options_detail(car_name: str, year: Any, options_text_or_list: Any
 
     v2_options = v2_spec.get("options", {}) if (v2_spec and v2_spec.get("found")) else {}
 
+    # 💡 [11-06-34]: 등급 인승 모호(get_pilot_catalog_spec found: False) 시 등급 패밀리(인승 제외 6개 키 일치) 옵션 합집합 폴백
+    # 옵션은 트림 단위라 인승이 달라도 이름·가격이 동일하므로, 인승 누락/모호 등급도 옵션 매칭은 정상 수행
+    if not v2_options and grade and str(grade).strip() and car_name and year:
+        try:
+            from services.catalog_by_source_service import (
+                load_catalog_by_source_v2,
+                SPEC_COMPARE_KEYS,
+            )
+            from services.data_processor import DataProcessor
+
+            cat_v2 = load_catalog_by_source_v2()
+            source_book = cat_v2.get("danawa", {})
+
+            s_car = str(car_name).strip()
+            car_book = None
+            if s_car in source_book and isinstance(source_book[s_car], dict):
+                car_book = source_book[s_car]
+            else:
+                res_model = _find_model_in_catalog(source_book, s_car)
+                if res_model:
+                    _, car_book = res_model
+
+            if car_book and isinstance(car_book, dict):
+                s_year = str(year).strip()
+                m4 = re.search(r'\b(19\d{2}|20\d{2})\b', s_year) or re.search(r'(19\d{2}|20\d{2})', s_year)
+                if m4:
+                    norm_year = m4.group(1)
+                else:
+                    m2 = re.search(r'(\d{2})', s_year)
+                    norm_year = f"20{m2.group(1)}" if m2 else s_year
+
+                year_book = car_book.get(norm_year)
+                if year_book and isinstance(year_book, dict):
+                    target_spec = DataProcessor.build_car_spec(text=str(grade).strip())
+                    keys_no_seats = tuple(k for k in SPEC_COMPARE_KEYS if k != "seats")
+                    target_6_tuple = tuple(target_spec.get(k) for k in keys_no_seats)
+
+                    for cand_g_key, cand_g_spec in year_book.items():
+                        if isinstance(cand_g_spec, dict):
+                            cand_spec = DataProcessor.build_car_spec(text=cand_g_key)
+                            cand_6_tuple = tuple(cand_spec.get(k) for k in keys_no_seats)
+                            if target_6_tuple == cand_6_tuple:
+                                cand_opts = cand_g_spec.get("options", {})
+                                if isinstance(cand_opts, dict):
+                                    for opt_k, opt_v in cand_opts.items():
+                                        if opt_k not in v2_options:
+                                            v2_options[opt_k] = opt_v
+        except Exception:
+            pass
+
     results = []
     for raw in raw_list:
         clean = re.sub(r'\([0-9,]+(?:\s*만|\s*원)?\)', '', raw)
