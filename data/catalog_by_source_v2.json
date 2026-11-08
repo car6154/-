@@ -67279,6 +67279,202 @@
               "desc": ""
             }
           }
+        },
+        "가솔린 3.8 RWD 럭셔리": {
+          "base_price": 77060000,
+          "base_price_man": 7706,
+          "standard_features": [],
+          "options": {
+            "세이프티 썬루프": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 2160000,
+              "price_man": 216,
+              "desc": ""
+            },
+            "시그니쳐 디자인 셀렉션": {
+              "price": 3140000,
+              "price_man": 314,
+              "desc": ""
+            },
+            "뒷좌석 컴포트 패키지Ⅰ": {
+              "price": 2750000,
+              "price_man": 275,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.8 AWD 럭셔리": {
+          "base_price": 79510000,
+          "base_price_man": 7951,
+          "standard_features": [],
+          "options": {
+            "세이프티 썬루프": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 2160000,
+              "price_man": 216,
+              "desc": ""
+            },
+            "시그니쳐 디자인 셀렉션": {
+              "price": 3140000,
+              "price_man": 314,
+              "desc": ""
+            },
+            "뒷좌석 컴포트 패키지Ⅰ": {
+              "price": 2750000,
+              "price_man": 275,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.8 AWD 프리미엄 럭셔리": {
+          "base_price": 91790000,
+          "base_price_man": 9179,
+          "standard_features": [],
+          "options": {
+            "세이프티 썬루프": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "뒷좌석 듀얼 모니터": {
+              "price": 2450000,
+              "price_man": 245,
+              "desc": ""
+            },
+            "시그니쳐 디자인 셀렉션": {
+              "price": 3140000,
+              "price_man": 314,
+              "desc": ""
+            },
+            "뒷좌석 컴포트 패키지Ⅱ": {
+              "price": 1960000,
+              "price_man": 196,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.8 AWD 프레스티지": {
+          "base_price": 109950000,
+          "base_price_man": 10995,
+          "standard_features": [],
+          "options": {
+            "세이프티 썬루프": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "퍼스트 클래스 VIP 시트": {
+              "price": 2950000,
+              "price_man": 295,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 터보 3.3 RWD 럭셔리": {
+          "base_price": 80990000,
+          "base_price_man": 8099,
+          "standard_features": [],
+          "options": {
+            "세이프티 썬루프": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 2160000,
+              "price_man": 216,
+              "desc": ""
+            },
+            "시그니쳐 디자인 셀렉션": {
+              "price": 3140000,
+              "price_man": 314,
+              "desc": ""
+            },
+            "뒷좌석 컴포트 패키지Ⅰ": {
+              "price": 2750000,
+              "price_man": 275,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 터보 3.3 AWD 럭셔리": {
+          "base_price": 83440000,
+          "base_price_man": 8344,
+          "standard_features": [],
+          "options": {
+            "세이프티 썬루프": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 2160000,
+              "price_man": 216,
+              "desc": ""
+            },
+            "시그니쳐 디자인 셀렉션": {
+              "price": 3140000,
+              "price_man": 314,
+              "desc": ""
+            },
+            "뒷좌석 컴포트 패키지Ⅰ": {
+              "price": 2750000,
+              "price_man": 275,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 터보 3.3 AWD 프리미엄 럭셔리": {
+          "base_price": 95710000,
+          "base_price_man": 9571,
+          "standard_features": [],
+          "options": {
+            "세이프티 썬루프": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "뒷좌석 듀얼 모니터": {
+              "price": 2450000,
+              "price_man": 245,
+              "desc": ""
+            },
+            "시그니쳐 디자인 셀렉션": {
+              "price": 3140000,
+              "price_man": 314,
+              "desc": ""
+            },
+            "뒷좌석 컴포트 패키지Ⅱ": {
+              "price": 1960000,
+              "price_man": 196,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 터보 3.3 AWD 프레스티지": {
+          "base_price": 113880000,
+          "base_price_man": 11388,
+          "standard_features": [],
+          "options": {
+            "세이프티 썬루프": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "퍼스트 클래스 VIP 시트": {
+              "price": 2950000,
+              "price_man": 295,
+              "desc": ""
+            }
+          }
         }
       },
       "2021": {
@@ -67319,6 +67515,202 @@
             "퍼스트 클래스 VIP 시트 (리무진)": {
               "price": 3440000,
               "price_man": 344,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.8 RWD 럭셔리": {
+          "base_price": 79030000,
+          "base_price_man": 7903,
+          "standard_features": [],
+          "options": {
+            "세이프티 썬루프": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 2450000,
+              "price_man": 245,
+              "desc": ""
+            },
+            "시그니쳐 디자인 셀렉션": {
+              "price": 3140000,
+              "price_man": 314,
+              "desc": ""
+            },
+            "뒷좌석 컴포트 패키지Ⅰ": {
+              "price": 2750000,
+              "price_man": 275,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.8 AWD 럭셔리": {
+          "base_price": 81480000,
+          "base_price_man": 8148,
+          "standard_features": [],
+          "options": {
+            "세이프티 썬루프": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 2450000,
+              "price_man": 245,
+              "desc": ""
+            },
+            "시그니쳐 디자인 셀렉션": {
+              "price": 3140000,
+              "price_man": 314,
+              "desc": ""
+            },
+            "뒷좌석 컴포트 패키지Ⅰ": {
+              "price": 2750000,
+              "price_man": 275,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.8 AWD 프리미엄 럭셔리": {
+          "base_price": 93750000,
+          "base_price_man": 9375,
+          "standard_features": [],
+          "options": {
+            "세이프티 썬루프": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "뒷좌석 듀얼 모니터": {
+              "price": 2450000,
+              "price_man": 245,
+              "desc": ""
+            },
+            "시그니쳐 디자인 셀렉션": {
+              "price": 3140000,
+              "price_man": 314,
+              "desc": ""
+            },
+            "뒷좌석 컴포트 패키지Ⅱ": {
+              "price": 1960000,
+              "price_man": 196,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 3.8 AWD 프레스티지": {
+          "base_price": 111910000,
+          "base_price_man": 11191,
+          "standard_features": [],
+          "options": {
+            "세이프티 썬루프": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "퍼스트 클래스 VIP 시트": {
+              "price": 2950000,
+              "price_man": 295,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 터보 3.3 RWD 럭셔리": {
+          "base_price": 81970000,
+          "base_price_man": 8197,
+          "standard_features": [],
+          "options": {
+            "세이프티 썬루프": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 2450000,
+              "price_man": 245,
+              "desc": ""
+            },
+            "시그니쳐 디자인 셀렉션": {
+              "price": 3140000,
+              "price_man": 314,
+              "desc": ""
+            },
+            "뒷좌석 컴포트 패키지Ⅰ": {
+              "price": 2750000,
+              "price_man": 275,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 터보 3.3 AWD 럭셔리": {
+          "base_price": 84420000,
+          "base_price_man": 8442,
+          "standard_features": [],
+          "options": {
+            "세이프티 썬루프": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "컨비니언스 패키지": {
+              "price": 2450000,
+              "price_man": 245,
+              "desc": ""
+            },
+            "시그니쳐 디자인 셀렉션": {
+              "price": 3140000,
+              "price_man": 314,
+              "desc": ""
+            },
+            "뒷좌석 컴포트 패키지Ⅰ": {
+              "price": 2750000,
+              "price_man": 275,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 터보 3.3 AWD 프리미엄 럭셔리": {
+          "base_price": 96700000,
+          "base_price_man": 9670,
+          "standard_features": [],
+          "options": {
+            "세이프티 썬루프": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "뒷좌석 듀얼 모니터": {
+              "price": 2450000,
+              "price_man": 245,
+              "desc": ""
+            },
+            "시그니쳐 디자인 셀렉션": {
+              "price": 3140000,
+              "price_man": 314,
+              "desc": ""
+            },
+            "뒷좌석 컴포트 패키지Ⅱ": {
+              "price": 1960000,
+              "price_man": 196,
+              "desc": ""
+            }
+          }
+        },
+        "가솔린 터보 3.3 AWD 프레스티지": {
+          "base_price": 114860000,
+          "base_price_man": 11486,
+          "standard_features": [],
+          "options": {
+            "세이프티 썬루프": {
+              "price": 790000,
+              "price_man": 79,
+              "desc": ""
+            },
+            "퍼스트 클래스 VIP 시트": {
+              "price": 2950000,
+              "price_man": 295,
               "desc": ""
             }
           }
