@@ -52,10 +52,11 @@ def extract_fuel_norm(raw: str) -> str:
 
 
 def get_base_model_family(car_name: str) -> str:
-    """차종명에서 세대 수식어(더 뉴, 올 뉴, 뉴, 디 올 뉴, F/L 등)를 제거하여 기본 모델 패밀리명 추출"""
+    """차종명에서 세대 수식어(더 뉴, 올 뉴, 뉴, 디 올 뉴, F/L, FL, 페이스리프트 등)를 제거하여 기본 모델 패밀리명 추출"""
     s = str(car_name or "").strip()
     s = re.sub(r'\([^\)]*\)', ' ', s)
-    s = re.sub(r'(?i)\b(f/l|fl|facelift)\b', ' ', s)
+    s = re.sub(r'(?i)\b(f/l|fl|facelift|페이스리프트)\b', ' ', s)
+    s = re.sub(r'(?i)(f/l|fl|facelift|페이스리프트)', ' ', s)
     s = re.sub(r'\b(더\s*뉴|올\s*뉴|디\s*올\s*뉴|뉴|new|the\s*new|all\s*new)\b', ' ', s, flags=re.IGNORECASE)
     s = re.sub(r'\b\d+세대\b', ' ', s)
     return s.strip()
@@ -142,6 +143,10 @@ def parse_grade_tokens(text: str) -> dict:
     # 8. pure_trim (사전에 없는 신규/영문/숫자 트림명 대응)
     pure_trim = extract_pure_trim(raw)
 
+    # 9. [11-06-59] 특수 바디(쿠페) 및 블랙 에디션 구분 플래그
+    is_coupe = bool(re.search(r'(?i)(?:쿠페|coupe)', clean))
+    is_black = bool(re.search(r'(?i)(?:블랙|black)', clean))
+
     return {
         "fuel": fuel,
         "disp": disp,
@@ -149,6 +154,8 @@ def parse_grade_tokens(text: str) -> dict:
         "seats": seats,
         "body_type": body_type,
         "is_manual": is_manual,
+        "is_coupe": is_coupe,
+        "is_black": is_black,
         "grade_base": grade_base,
         "grade_suffix": grade_suffix,
         "pure_trim": pure_trim,
@@ -158,11 +165,19 @@ def parse_grade_tokens(text: str) -> dict:
 
 def match_catalog_grade(query_grade: str, year_book: dict):
     """
-    [11-06-51] 통합 등급 매칭 엔진 (단일 진실 공급원)
+    [11-06-51, 11-06-59] 통합 등급 매칭 엔진 (단일 진실 공급원)
     - 1단계: 완전 일치 (Exact match) 우선
-    - 2단계: 다차원 규격(바디타입, 수동변속기, 연료, 배기량, 구동, 트림) 필터링
-    - 3단계: 인승(seats) 우선순위 정제 (동일 인승 일치 -> 책에 인승 없는 승용차 순서, 타 인승 섞임 완전 차단)
-    - 4단계: 단일 일치 후보 반환 (동일 조건 복수 시 no A/T -> pure_trim 우선, 불확실 시 Fail-Safe)
+    - 2단계: 다차원 규격(바디타입, 쿠페여부, 블랙에디션여부, 수동변속기, 연료, 배기량, 구동, 트림) 필터링
+      * [11-06-59] 수동(M/T) 전용 상용차(포터2/봉고3/라보/마이티 등) 변속기 미명시 쿼리 자동 Fallback 지원
+      * [11-06-59] 배기량 명시 쿼리 시 배기량 누락 키 배제 우선순위 적용
+    - 3단계: 인승(seats) 우선순위 정제 (동일 인승 일치 -> 책에 인승 없는 승용차 -> 기본 5인승 순서)
+    - 4단계: 복수 후보 정제
+      * 구동방식 명시 토큰 일치 (AWD vs 4WD 우선순위)
+      * 연료 명시 토큰 일치 (하이브리드 vs HEV 우선순위)
+      * A/T 표기가 없는 순수 트림 우선 선택
+      * pure_trim 완전 일치 우선 선택
+      * 동일 스펙/동일 가격 복수 키 수렴
+      * 동일 스펙 연식변경/신차가격 개정 복수 키 최종 수렴 (Fail-Safe)
     """
     if not query_grade or not year_book:
         return None
@@ -172,6 +187,7 @@ def match_catalog_grade(query_grade: str, year_book: dict):
         return query_grade, year_book[query_grade]
 
     q = parse_grade_tokens(query_grade)
+    clean_q = query_grade.lower()
     effective_q_drive = q["drive"] if q["drive"] else "2wd"
 
     candidates = []
@@ -180,14 +196,20 @@ def match_catalog_grade(query_grade: str, year_book: dict):
             c = parse_grade_tokens(book_key)
             candidates.append((book_key, book_spec, c))
 
-    # 1단계: 기본 스펙(바디타입, 수동변속기여부, 연료, 배기량, 구동, 트림명) 필터링
-    pre_matched = []
+    # 1단계: 기본 스펙(바디타입, 쿠페, 블랙, 연료, 배기량, 구동, 트림) 필터링
+    # [11-06-59] 오토/수동 후보군 분리 수집 (상용차 수동 전용 차종 Fallback 지원)
+    auto_matched = []
+    manual_matched = []
+
     for b_key, b_spec, c in candidates:
         # 바디타입 불일치 제외 (밴 vs 승용)
         if q["body_type"] != c["body_type"]:
             continue
-        # 수동 변속기 일치 여부 (수동 쿼리가 아니면 수동 후보 제외)
-        if q["is_manual"] != c["is_manual"]:
+        # 쿠페 불일치 제외 (일반 SUV/세단 vs 쿠페 바디)
+        if q["is_coupe"] != c["is_coupe"]:
+            continue
+        # 블랙 에디션 불일치 제외 (일반 트림 vs 블랙 전용 에디션)
+        if q["is_black"] != c["is_black"]:
             continue
         # 연료 불일치 제외
         if q["fuel"] and c["fuel"] and q["fuel"] != c["fuel"]:
@@ -208,21 +230,46 @@ def match_catalog_grade(query_grade: str, year_book: dict):
         trim_matched = False
         if q["grade_base"] and c["grade_base"]:
             if q["grade_base"] == c["grade_base"]:
-                if not (q["grade_suffix"] and c["grade_suffix"] and q["grade_suffix"] != c["grade_suffix"]):
+                q_suf = (q["grade_suffix"] or "").strip().lower()
+                c_suf = (c["grade_suffix"] or "").strip().lower()
+                if q_suf == c_suf:
                     trim_matched = True
         elif q["pure_trim"] and c["pure_trim"]:
             if q["pure_trim"] == c["pure_trim"]:
                 trim_matched = True
             elif q["pure_trim"] in c["pure_trim"] or c["pure_trim"] in q["pure_trim"]:
                 trim_matched = True
+        elif not q["grade_base"] and not q["pure_trim"]:
+            # [11-06-59] 단일 트림 모델 (제네시스 등 서브트림명 없이 배기량/구동으로만 구성된 차종)
+            if not c["grade_base"] and not c["pure_trim"]:
+                trim_matched = True
 
         if not trim_matched:
             continue
 
-        pre_matched.append((b_key, b_spec, c))
+        if c["is_manual"]:
+            manual_matched.append((b_key, b_spec, c))
+        else:
+            auto_matched.append((b_key, b_spec, c))
+
+    # [11-06-59] 변속기 결정:
+    if q["is_manual"]:
+        pre_matched = manual_matched
+    else:
+        # 쿼리에 수동이 없으면 오토 후보 우선, 오토 후보가 없으면 수동 전용 차종 허용
+        if auto_matched:
+            pre_matched = auto_matched
+        else:
+            pre_matched = manual_matched
 
     if not pre_matched:
         return None
+
+    # [11-06-59] 배기량 명시 우선: 쿼리에 배기량이 있을 때, 후보 중 배기량이 일치하는 후보가 있으면 배기량 빈 후보 제외 (레이, 모닝 등)
+    if q["disp"]:
+        disp_exact = [item for item in pre_matched if item[2]["disp"] == q["disp"]]
+        if disp_exact:
+            pre_matched = disp_exact
 
     # 2단계: 인승(seats) 우선순위 정제
     if q["seats"]:
@@ -236,21 +283,59 @@ def match_catalog_grade(query_grade: str, year_book: dict):
         if no_seat_matches:
             final_cands = no_seat_matches
         else:
-            final_cands = pre_matched
+            # [11-06-59] 책에 5/6/7인승이 있고 쿼리에 인승이 없으면 기본 승용 5인승 우선
+            standard_5_seats = [item for item in pre_matched if item[2]["seats"] == "5인승"]
+            if standard_5_seats:
+                final_cands = standard_5_seats
+            else:
+                final_cands = pre_matched
 
     if len(final_cands) == 1:
         return final_cands[0][0], final_cands[0][1]
+
+    # [11-06-59] 구동방식 명시 토큰 일치 (AWD vs 4WD 복수 키 충돌 해결)
+    if 'awd' in clean_q:
+        awd_matches = [item for item in final_cands if 'awd' in item[0].lower()]
+        if len(awd_matches) == 1:
+            return awd_matches[0][0], awd_matches[0][1]
+        elif len(awd_matches) > 1:
+            final_cands = awd_matches
+    elif '4wd' in clean_q or '4륜' in clean_q:
+        four_wd_matches = [item for item in final_cands if '4wd' in item[0].lower() or '4륜' in item[0].lower()]
+        if len(four_wd_matches) == 1:
+            return four_wd_matches[0][0], four_wd_matches[0][1]
+        elif len(four_wd_matches) > 1:
+            final_cands = four_wd_matches
+
+    # [11-06-59] 연료 명시 토큰 일치 (하이브리드 vs HEV 복수 키 충돌 해결)
+    if '하이브리드' in clean_q:
+        hyb_matches = [item for item in final_cands if '하이브리드' in item[0]]
+        if len(hyb_matches) == 1:
+            return hyb_matches[0][0], hyb_matches[0][1]
+        elif len(hyb_matches) > 1:
+            final_cands = hyb_matches
+    elif 'hev' in clean_q:
+        hev_matches = [item for item in final_cands if 'hev' in item[0].lower()]
+        if len(hev_matches) == 1:
+            return hev_matches[0][0], hev_matches[0][1]
+        elif len(hev_matches) > 1:
+            final_cands = hev_matches
+
+    # pure_trim 완전 일치 우선
+    if q["pure_trim"]:
+        pure_exact = [item for item in final_cands if item[2]["pure_trim"] == q["pure_trim"]]
+        if len(pure_exact) == 1:
+            return pure_exact[0][0], pure_exact[0][1]
+        elif len(pure_exact) > 1:
+            final_cands = pure_exact
 
     # 3단계: 후보가 2개 이상일 때 (예: '모던' vs '모던 A/T')
     # A/T 표기가 없는 순수 트림 우선 선택
     no_at_cands = [item for item in final_cands if 'a/t' not in item[0].lower()]
     if len(no_at_cands) == 1:
         return no_at_cands[0][0], no_at_cands[0][1]
-
-    # pure_trim 완전 일치 우선
-    pure_exact = [item for item in final_cands if item[2]["pure_trim"] == q["pure_trim"]]
-    if len(pure_exact) == 1:
-        return pure_exact[0][0], pure_exact[0][1]
+    elif len(no_at_cands) > 1:
+        final_cands = no_at_cands
 
     # 4) 동일 스펙·동일 가격의 표기 변형 복수 키인 경우 (예: '2.0 LPG 2WD RE' vs 'lpg 2.0 2WD RE')
     prices = [item[1].get('base_price') for item in final_cands if isinstance(item[1], dict)]
@@ -261,6 +346,17 @@ def match_catalog_grade(query_grade: str, year_book: dict):
     for b_key, b_spec, _ in final_cands:
         if b_key == query_grade:
             return b_key, b_spec
+
+    # 6) [11-06-59] 2WD vs RWD 등 표기 변형 중 2WD 기본형 우선 선택
+    two_wd_cands = [item for item in final_cands if '2wd' in item[0].lower()]
+    if len(two_wd_cands) == 1:
+        return two_wd_cands[0][0], two_wd_cands[0][1]
+    elif len(two_wd_cands) > 1:
+        final_cands = two_wd_cands
+
+    # [11-06-59] 동일 트림 연식변경/신차가격 개정 등으로 동일 규격 내 복수 가격 공존 시 첫 번째 유효 후보 확정
+    if final_cands:
+        return final_cands[0][0], final_cands[0][1]
 
     return None
 
