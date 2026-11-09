@@ -60,69 +60,86 @@ def normalize_opt_key(s: str) -> str:
 
 
 def extract_descriptions_from_lineup_soup(soup: BeautifulSoup) -> Dict[str, str]:
-    """다나와 라인업 HTML에서 옵션별 상세 구성품목 설명 딕셔너리 추출"""
-    pkg_map: Dict[str, str] = {}
+    """다나와 라인업 HTML에서 옵션별 상세 구성품목 설명 딕셔너리 추출 (옵션 상세 정보 팝업 + 패키지 선택 품목 표 확대)"""
+    table_pkg_map: Dict[str, str] = {}
 
-    # 1. table 및 div.package 탐색
-    for tr in soup.find_all('tr'):
-        tds = tr.find_all(['td', 'th'])
-        if len(tds) >= 2:
-            p_name = clean_text(tds[0].get_text())
-            p_desc = clean_text(tds[1].get_text())
-            if p_name and p_desc and p_name not in ['세부모델', '판매가격', '구분', '세부내용']:
-                if len(p_desc) > len(p_name):
-                    pkg_map[p_name] = p_desc
+    # 1. 패키지 선택 품목 / 주요 사항 표 탐색 (Inner Table 및 중첩 테이블 전수 탐색)
+    for tbl in soup.find_all('table'):
+        ths = [clean_text(th.get_text()) for th in tbl.find_all('th')]
+        for tr in tbl.find_all('tr'):
+            tds = tr.find_all('td')
+            if len(tds) >= 2:
+                p_name = clean_text(tds[0].get_text())
+                p_desc = clean_text(tds[1].get_text())
+                # 세부모델/가격 행 등 불필요한 메타 행 제외
+                if p_name and p_desc and p_name not in ['세부모델', '판매가격', '구분', '세부내용', '선택품목', '패키지', '사양 및 옵션']:
+                    if not any(k in p_name for k in ['차량가격', '합계', '인승)', '사양 및 옵션']) and len(p_desc) > 3:
+                        table_pkg_map[p_name] = p_desc
 
-    # 2. optionKey_* 모달 탐색 (.exp 및 .title)
+    # 2. optionKey_* 모달 팝업 탐색 (번호 + title + exp 전수 결합)
     code_desc_map: Dict[str, str] = {}
     for div in soup.select('div[id^="optionKey_"]'):
-        opt_code = div.get('id', '').replace('optionKey_', '')
+        opt_code = div.get('id', '').replace('optionKey_', '').strip()
         sub_items = []
         for cont in div.select('.infodetail__cont'):
-            exp = cont.select_one('.exp')
             title = cont.select_one('.title')
-            if exp and exp.get_text(strip=True):
-                sub_items.append(clean_text(exp.get_text()))
-            elif title and title.get_text(strip=True):
-                t = re.sub(r'^\d+\.\s*', '', clean_text(title.get_text()))
-                if t:
-                    sub_items.append(t)
+            exp = cont.select_one('.exp')
+            
+            t_txt = clean_text(title.get_text()) if title else ""
+            e_txt = clean_text(exp.get_text()).lstrip('-').strip() if exp else ""
+            
+            if t_txt and e_txt:
+                # 번호+타이틀과 세부설명 결합 (예: 2. 드라이빙 어시스턴스 패키지Ⅰ: 서라운드 뷰 모니터, ...)
+                sub_items.append(f"{t_txt}: {e_txt}")
+            elif t_txt:
+                sub_items.append(t_txt)
+            elif e_txt:
+                sub_items.append(e_txt)
+                
         if sub_items:
             code_desc_map[opt_code] = ' | '.join(sub_items)
 
     # 3. choices (옵션 체크박스 항목들과 결합)
     opt_results: Dict[str, str] = {}
-    for ch in soup.select('ul.pChkItemList .choice'):
-        info = ch.select_one('.choice__info .txt, label')
+    for ch in soup.select('.choice'):
+        info = ch.select_one('label, .choice__info .txt')
         if not info:
             continue
         opt_name = clean_text(info.get_text())
+        opt_name = re.sub(r'상세정보\s*보기.*$', '', opt_name).strip()
         if not opt_name or opt_name in ['선택', '전체']:
             continue
 
         opt_code = ch.get('code')
-        desc = ""
-        if opt_code and opt_code in code_desc_map:
-            desc = code_desc_map[opt_code]
-        elif opt_name in pkg_map:
-            desc = pkg_map[opt_name]
-        else:
-            # 부분 일치 검색
+        
+        # 1순위: 팝업 상세 정보 (번호별 구성품)
+        popup_desc = code_desc_map.get(opt_code, '') if opt_code else ''
+        
+        # 2순위: 패키지 표 정보
+        table_desc = table_pkg_map.get(opt_name, '')
+        if not table_desc:
             c_name = normalize_opt_key(opt_name)
-            for p_k, p_v in pkg_map.items():
-                c_p = normalize_opt_key(p_k)
-                if c_name and c_p and (c_name == c_p or c_name in c_p or c_p in c_name):
-                    desc = p_v
+            for t_k, t_v in table_pkg_map.items():
+                c_k = normalize_opt_key(t_k)
+                if c_name and c_k and (c_name == c_k or c_name in c_k or c_k in c_name):
+                    table_desc = t_v
                     break
 
-        if opt_name:
-            if desc:
-                opt_results[opt_name] = desc
-            elif opt_name in pkg_map:
-                opt_results[opt_name] = pkg_map[opt_name]
+        desc = ""
+        if popup_desc:
+            desc = popup_desc
+            # 표에 안내문구(※ ...)가 있고 팝업에는 없다면 부가 정보로 추가
+            guide_match = re.search(r'(※.*$)', table_desc)
+            if guide_match and guide_match.group(1) not in desc:
+                desc = f"{desc} ({guide_match.group(1).strip()})"
+        elif table_desc:
+            desc = table_desc
 
-    # pkg_map의 모든 항목도 추가
-    for p_k, p_v in pkg_map.items():
+        if desc:
+            opt_results[opt_name] = desc
+
+    # 4. 표에만 있는 패키지 및 액세서리 항목들도 추가
+    for p_k, p_v in table_pkg_map.items():
         if p_k not in opt_results and p_v:
             opt_results[p_k] = p_v
 
@@ -170,8 +187,14 @@ def crawl_model_descriptions(model_info: Tuple[str, str, str, str]) -> Dict[str,
 
 
 def main():
+    import argparse
+    parser = argparse.ArgumentParser(description="V2 책 옵션 설명(desc) 수집 및 병합 파이프라인")
+    parser.add_argument("--model", type=str, help="특정 다나와 모델 ID 또는 모델명 (예: 4465 또는 GV80)")
+    parser.add_argument("--brand", type=str, help="특정 브랜드 ID 또는 브랜드명 (예: 304 또는 제네시스)")
+    args = parser.parse_args()
+
     logger.info("==================================================================")
-    logger.info("  V2 책 옵션 설명(desc) 누락분 전수 수집 및 안전 병합 시작 (11-06-53)")
+    logger.info("  V2 책 옵션 설명(desc) 누락분 전수 수집 및 안전 병합 시작 (11-06-72)")
     logger.info("==================================================================")
 
     # 1. 백업 생성
@@ -210,14 +233,26 @@ def main():
     logger.info(f"수집 전 비어있는 desc: {initial_empty_desc:,}개 ({initial_empty_desc/initial_total_opts*100:.1f}%)")
     logger.info(f"수집 전 옵션명과 동일한 desc: {initial_same_desc:,}개 ({initial_same_desc/initial_total_opts*100:.1f}%)")
 
-    # 3. 세션 초기화 및 국내 6개 브랜드 모델 수집
+    # 3. 세션 초기화 및 브랜드 모델 수집
     session = get_danawa_session()
     all_brand_models = []
-    for bid, bname in BRANDS:
+    
+    target_brands = BRANDS
+    if args.brand:
+        target_brands = [b for b in BRANDS if args.brand in b[0] or args.brand in b[1]]
+
+    for bid, bname in target_brands:
         m_list = get_models_for_brand(bid, session)
         logger.info(f"[{bname}] {len(m_list)}개 모델 목록 확인")
         for m in m_list:
             all_brand_models.append((bid, bname, m['model_id'], m['model_name']))
+
+    if args.model:
+        all_brand_models = [
+            m for m in all_brand_models 
+            if args.model == str(m[2]) or args.model.lower() in m[3].lower()
+        ]
+        logger.info(f"--model '{args.model}' 필터 적용: {len(all_brand_models)}개 대상 모델 선별됨 {[m[3] for m in all_brand_models]}")
 
     total_models = len(all_brand_models)
     logger.info(f"총 크롤링 대상 다나와 모델: {total_models}개 (동시 6개 워커 병렬 가동)")
@@ -227,7 +262,7 @@ def main():
     t0 = time.time()
 
     # 4. 병렬 크롤링 및 메인 스레드 병합 (동시 6개 스레드)
-    with ThreadPoolExecutor(max_workers=6) as executor:
+    with ThreadPoolExecutor(max_workers=min(6, max(1, total_models))) as executor:
         future_to_model = {
             executor.submit(crawl_model_descriptions, m_info): m_info
             for m_info in all_brand_models
@@ -294,7 +329,12 @@ def main():
                                             new_desc = p_v
                                             break
 
-                                if new_desc and (need_update or (len(new_desc) > len(cur_desc) and '+' in new_desc)):
+                                # 💡 [11-06-72]: 새로 수집된 상세 정보가 더 풍부하거나(길이가 길거나 번호 '1. ' 포함), 기존 desc가 비어있는 경우 업데이트
+                                is_more_detailed = bool(new_desc and (
+                                    (len(new_desc) > len(cur_desc)) or
+                                    ('1. ' in new_desc and '1. ' not in cur_desc)
+                                ))
+                                if new_desc and (need_update or is_more_detailed):
                                     if cur_desc != new_desc:
                                         opt_info["desc"] = new_desc
                                         total_desc_filled += 1
