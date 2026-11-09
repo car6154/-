@@ -126,14 +126,28 @@ def extract_descriptions_from_lineup_soup(soup: BeautifulSoup) -> Dict[str, str]
                     break
 
         desc = ""
-        if popup_desc:
+        guide_txt = ""
+        clean_table_desc = table_desc or ""
+        guide_match = re.search(r'※.*$', clean_table_desc)
+        if guide_match:
+            guide_txt = guide_match.group(0).strip()
+            clean_table_desc = clean_table_desc[:guide_match.start()].strip().rstrip(',').rstrip('·').strip()
+
+        # 패키지 옵션 포맷 결합 (표의 [패키지 구성]을 최우선으로 배치하고 팝업 [상세 내용]을 결합)
+        if clean_table_desc and popup_desc:
+            if clean_table_desc.replace(" ", "") in popup_desc.replace(" ", "") and len(clean_table_desc) < len(popup_desc) * 0.7:
+                desc = f"[패키지 구성]: {clean_table_desc} | [상세 내용]: {popup_desc}"
+            elif clean_table_desc != popup_desc:
+                desc = f"[패키지 구성]: {clean_table_desc} | [상세 내용]: {popup_desc}"
+            else:
+                desc = popup_desc
+        elif clean_table_desc:
+            desc = f"[패키지 구성]: {clean_table_desc}"
+        elif popup_desc:
             desc = popup_desc
-            # 표에 안내문구(※ ...)가 있고 팝업에는 없다면 부가 정보로 추가
-            guide_match = re.search(r'(※.*$)', table_desc)
-            if guide_match and guide_match.group(1) not in desc:
-                desc = f"{desc} ({guide_match.group(1).strip()})"
-        elif table_desc:
-            desc = table_desc
+
+        if guide_txt and guide_txt not in desc:
+            desc = f"{desc} ({guide_txt})"
 
         if desc:
             opt_results[opt_name] = desc
@@ -141,7 +155,13 @@ def extract_descriptions_from_lineup_soup(soup: BeautifulSoup) -> Dict[str, str]
     # 4. 표에만 있는 패키지 및 액세서리 항목들도 추가
     for p_k, p_v in table_pkg_map.items():
         if p_k not in opt_results and p_v:
-            opt_results[p_k] = p_v
+            guide_m = re.search(r'※.*$', p_v)
+            g_txt = guide_m.group(0).strip() if guide_m else ""
+            c_desc = p_v[:guide_m.start()].strip().rstrip(',').rstrip('·').strip() if guide_m else p_v
+            formatted = f"[패키지 구성]: {c_desc}"
+            if g_txt and g_txt not in formatted:
+                formatted = f"{formatted} ({g_txt})"
+            opt_results[p_k] = formatted
 
     return opt_results
 
