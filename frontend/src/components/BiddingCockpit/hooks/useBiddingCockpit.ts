@@ -1912,77 +1912,9 @@ export function useBiddingCockpit({
     setSelectedEncarId('');
   }, [carName, detailModel, yearModel, carNumber]);
 
-  // 🚀 [사전 프리패치(Prefetch)]: 엔카 매물 목록이 준비되면 백그라운드에서 상위 매물들의 성능점검표/신차가격을 순차 로드
-  // 사용자가 테이블 행을 클릭하는 순간 지연 없이(0.0초) 즉각 렌더링되도록 사전 캐싱합니다.
-  useEffect(() => {
-    if (!baseEncarList || baseEncarList.length === 0) return;
-    // 💡 strictCarIds가 확정되기 전(backendEncarStats 로드 전)에는 프리패치가 돌지 않도록 순서 보장
-    if (!backendEncarStats) return;
-
-    let isCancelled = false;
-
-    // 💡 엄격 매물(strictCarIds) 제외 + 누락 매물 보완:
-    // 백엔드가 이미 상세를 채워준 엄격 매물은 프리패치에서 제외(스킵).
-    // 단, 날짜나 재고일수가 비어 있는 엄격 매물이 있으면 개별 조회로 메운다.
-    const strictCarIds = new Set<string>(
-      (backendEncarStats?.strictCarIds || []).map((id: any) => String(id).trim())
-    );
-
-    const prefetchList = baseEncarList.filter(car => {
-      const cId = String(car.id || '').trim();
-      if (!cId) return false;
-      const isStrict = strictCarIds.has(cId);
-      if (!isStrict) return true; // 비엄격 매물은 경량 프리패치 대상
-
-      // 엄격 매물: 성능점검일과 재고일수가 이미 정상 채워져 있으면 스킵
-      const hasPerfDate = car.checkDate && car.checkDate !== '-' && car.checkDate !== '⚠️미등록' && car.checkDate !== '미검사/사진';
-      const hasHolding = typeof car.holdingDays === 'number' && !isNaN(car.holdingDays) && car.holdingDays >= 0;
-      if (!hasPerfDate || !hasHolding) {
-        return true; // 비어 있는 엄격 매물은 개별 조회로 메움
-      }
-      return false; // 이미 채워진 엄격 매물은 스킵
-    });
-
-    const runPrefetch = async () => {
-      for (const car of prefetchList) {
-        if (isCancelled) break;
-        const carId = car.id;
-        if (!carId) continue;
-
-        // 이미 캐시(ref)에 있으면 스킵
-        if (selectedInspectionMapRef.current[carId]) continue;
-
-        try {
-          // 💡 프리패치 전용 경량 모드 호출 (?mode=lightweight)
-          const res = await fetch(`/api/encar/inspection/${carId}?mode=lightweight`);
-          if (isCancelled) break;
-          const data = await res.json();
-          if (data.success && data.data && !isCancelled) {
-            const lightweightData = {
-              ...data.data,
-              isLightweight: true
-            };
-            selectedInspectionMapRef.current[carId] = lightweightData;
-            setSelectedInspectionMap(prev => ({
-              ...prev,
-              [carId]: lightweightData
-            }));
-          }
-        } catch (e) {
-          // 백그라운드 프리패치는 무음 처리
-        }
-
-        // 브라우저 렌더링 프레임 및 네트워크 여유를 위해 100ms 지연
-        await new Promise(r => setTimeout(r, 100));
-      }
-    };
-
-    runPrefetch();
-
-    return () => {
-      isCancelled = true;
-    };
-  }, [baseEncarList, backendEncarStats]);
+  // 💡 [11-06-39]: 백엔드가 전체 매물(엄격+비엄격)의 점검일·재고일수·사고유무·옵션을 일괄 수집하여 반환하므로,
+  // 91회에 달하던 브라우저 백그라운드 프리패치 루프를 완전히 제거합니다. (외부 엔카 API 182회 호출 원천 차단)
+  // 상세 패널 점검표는 사용자가 테이블 행을 클릭할 때 handleSelectEncarCar에서 온디맨드로 조회됩니다.
 
   // 행 클릭 시 성능점검표 및 상세 옵션 즉시 호출
   const handleSelectEncarCar = async (carId: string) => {

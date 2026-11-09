@@ -1211,20 +1211,20 @@ def search_encar_market(req: EncarSearchRequest):
         )
         strict_has_data = not strict_df.empty
 
-        # 4-1. [엄격 매물 상세 보강 및 캐싱] 엄격 subset의 상세(성능일·재고·사고유무·외장컬러·추가옵션 및 부위/옵션) 확보
+        # 4-1. [전체 매물 상세 보강 및 캐싱] 133대 전체(엄격 + 비엄격) 상세(성능일·재고·사고유무·외장컬러·추가옵션 및 부위/옵션) 일괄 확보 (11-06-39)
         strict_detail_map = {}
-        if strict_has_data:
+        if not df.empty:
             # 1단계: 이미 df에 채워진 _detail_res가 있으면 우선 수집
-            if '_detail_res' in strict_df.columns:
-                for _, r in strict_df.iterrows():
+            if '_detail_res' in df.columns:
+                for _, r in df.iterrows():
                     cid = str(r.get('_carid', '')).strip()
                     dt = r.get('_detail_res')
                     if isinstance(dt, dict) and not dt.get('is_rate_limited'):
                         strict_detail_map[cid] = dt
 
-            # 2단계: strict_detail_map에 없는 엄격 차들만 동시 조회로 보강
+            # 2단계: strict_detail_map에 없는 전체 매물(엄격+비엄격) 동시 병렬 조회로 보강
             missing_strict_carids = [
-                str(cid).strip() for cid in strict_df['_carid'].dropna().unique()
+                str(cid).strip() for cid in df['_carid'].dropna().unique()
                 if str(cid).strip() and str(cid).strip() not in ('-', 'None', '')
                 and str(cid).strip() not in strict_detail_map
             ]
@@ -1263,7 +1263,7 @@ def search_encar_market(req: EncarSearchRequest):
                             df.loc[mask, '외장컬러'] = detail_res.get('외장컬러', '-')
                             df.loc[mask, '추가옵션'] = detail_res.get('추가옵션', '-')
                         except Exception as e_dt:
-                            print(f"[엄격 상세조회 예외] cid={cid}: {e_dt}", flush=True)
+                            print(f"[매물 상세조회 예외] cid={cid}: {e_dt}", flush=True)
 
                 # 채운 df로 strict_df 재동기화
                 strict_df = DataProcessor.filter_strictly_same_year_and_grade(
