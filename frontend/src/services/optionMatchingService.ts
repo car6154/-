@@ -380,3 +380,246 @@ export function compareOptionToOpposites(
     matchedName: '',
   };
 }
+
+// ═══════════════════════════════════════════════════════════════
+// 💡 [11-06-69]: 엔카·케이카 옵션 툴팁·라벨·개수 공용 단일화 엔진
+// ═══════════════════════════════════════════════════════════════
+
+/**
+ * 옵션 개수 산출 공용 함수 (가격 있는 유료 선택옵션만 카운트, 기본옵션/0원/미확인 제외)
+ * - 엔카·케이카·사이드바·목록 전부 동일한 단일 진실 로직 적용
+ */
+export function countPricedOptions(
+  items?: Array<{ price?: number | null; price_man?: number | null } | BackendMatchedOption | any> | null
+): number {
+  if (!items || !Array.isArray(items)) return 0;
+  return items.filter((item) => {
+    if (!item) return false;
+    const p = typeof item.price === 'number' ? item.price : 0;
+    const pMan = typeof item.price_man === 'number' ? item.price_man : 0;
+    return p > 0 || pMan > 0;
+  }).length;
+}
+
+/**
+ * 옵션 단건 툴팁 포맷팅 공용 함수 (단일 진실 공급원)
+ * - 1행: "신차가격표: 옵션명 (가격)"
+ * - 2행: desc가 있으면 항상 표시 (단, '설명 없음', '미확인' 등 무의미 텍스트 제외)
+ * - 3행: 원문과 공식명이 다르면 "원문: 원문명"
+ */
+export function formatOptionTooltip(params: {
+  officialName?: string;
+  cleanName?: string;
+  rawName?: string;
+  price?: number | null;
+  price_man?: number | null;
+  desc?: string;
+}): string {
+  const stdName = params.officialName || params.cleanName || params.rawName || '';
+  const pMan = typeof params.price_man === 'number' && params.price_man > 0
+    ? params.price_man
+    : (typeof params.price === 'number' && params.price > 0 ? Math.round(params.price / 10000) : 0);
+  const priceStr = pMan > 0 ? ` (${pMan.toLocaleString()}만원)` : '';
+
+  const lines: string[] = [`신차가격표: ${stdName}${priceStr}`];
+
+  // desc가 있으면 바로 다음 줄에 표시 (단, '설명 없음' 등 무의미 텍스트 제외)
+  const cleanDesc = (params.desc || '').trim();
+  if (cleanDesc && cleanDesc !== '설명 없음' && cleanDesc !== '미확인') {
+    lines.push(cleanDesc);
+  }
+
+  // 원문과 공식명이 다를 때 원문 표시
+  if (params.rawName && params.rawName !== stdName && params.rawName !== params.officialName) {
+    lines.push(`원문: ${params.rawName}`);
+  }
+
+  return lines.join('\n');
+}
+
+export interface FormattedOptionChip {
+  origIdx: number;
+  rawName: string;
+  displayName: string;
+  priceStr: string;
+  priceMan: number;
+  titleText: string;
+  symbol: '✓' | '~' | '+';
+  symbolRank: number;
+  chipStyle: string;
+}
+
+/**
+ * 상세 패널(SelectedCarDetailV2Section / SelectedKcarDetailV2Section) 옵션 칩 구성 공용 함수
+ * - 가격 있는 선택옵션만 선별하거나, 가격 있는 옵션 우선 정렬
+ * - formatOptionTooltip을 사용하여 desc가 항상 포함된 툴팁 생성
+ * - compareOptionToOpposites로 일치(✓)/추정(~)/전용(+) 배지 및 색상 통일
+ */
+export function buildOptionChips(
+  rawOptionNames: string[],
+  matchedList: BackendMatchedOption[],
+  targetMatchedList: (BackendMatchedOption | string)[],
+  filterPricedOnly: boolean = false
+): {
+  chips: FormattedOptionChip[];
+  pricedCount: number;
+  totalPriceMan: number;
+} {
+  const mapped: FormattedOptionChip[] = rawOptionNames.map((rawName, origIdx) => {
+    const mi = matchedList.find((m) => m.raw_name === rawName);
+    const stdName = mi?.official_name || mi?.clean_name || rawName;
+    const priceMan = mi?.price ? Math.round(mi.price / 10000) : 0;
+    const priceStr = priceMan > 0 ? ` (${priceMan.toLocaleString()}만원)` : '';
+
+    const titleText = formatOptionTooltip({
+      officialName: mi?.official_name,
+      cleanName: mi?.clean_name,
+      rawName,
+      price: mi?.price,
+      desc: mi?.desc,
+    });
+
+    const compareRes = compareOptionToOpposites(mi || rawName, targetMatchedList);
+    const symbol = compareRes.symbol; // '✓' | '~' | '+'
+    const symbolRank = symbol === '✓' ? 1 : symbol === '~' ? 2 : 3;
+
+    let chipStyle = 'bg-orange-500/30 text-orange-300 border-orange-500/60 font-bold';
+    if (symbol === '✓') {
+      chipStyle = 'bg-emerald-500/30 text-emerald-300 border-emerald-500/60 font-bold';
+    } else if (symbol === '~') {
+      chipStyle = 'bg-amber-500/30 text-amber-300 border-amber-500/60 font-bold';
+    }
+
+    return {
+      origIdx,
+      rawName,
+      displayName: stdName,
+      priceStr,
+      priceMan,
+      titleText,
+      symbol,
+      symbolRank,
+      chipStyle,
+    };
+  });
+
+  const pricedChips = mapped.filter((c) => c.priceMan > 0);
+  const pricedCount = pricedChips.length;
+  const totalPriceMan = pricedChips.reduce((sum, c) => sum + c.priceMan, 0);
+
+  // filterPricedOnly가 true이면 유료 옵션만 반환 (케이카의 45개 기본옵션 등 필터링)
+  // 단, 유료 옵션이 0개면 원본 칩 목록 유지
+  const targetChips = (filterPricedOnly && pricedCount > 0) ? pricedChips : mapped;
+
+  // 공식 일치(✓) -> 추정(~) -> 전용(+) 순 정렬 (그룹 내 원문 순서 유지)
+  const sortedChips = targetChips.slice().sort((a, b) => a.symbolRank - b.symbolRank || a.origIdx - b.origIdx);
+
+  return {
+    chips: sortedChips,
+    pricedCount,
+    totalPriceMan,
+  };
+}
+
+/**
+ * 비교 목록(ComparableEncarV2Section / ComparableKcarV2Section) 옵션 요약 정보 생성 공용 함수
+ * - 엔카·케이카 동일 양식 및 동일 툴팁 규칙 적용
+ * - 가격 있는 선택옵션만 세고 기본옵션 제외 (케이카의 45개 기본옵션 문제 해결)
+ * - 옵션별 툴팁에 desc 설명 포함
+ */
+export function buildComparableOptionsSummary(
+  rawOptionNames: string[],
+  compMatchedList: BackendMatchedOption[],
+  targetMatchedList: (BackendMatchedOption | string)[],
+  targetOptNamesCount: number
+): {
+  hasOptions: boolean;
+  totalCount: number;
+  pricedCount: number;
+  symbol: '✓' | '~' | null;
+  tooltip: string;
+} {
+  if (!rawOptionNames || rawOptionNames.length === 0) {
+    return {
+      hasOptions: false,
+      totalCount: 0,
+      pricedCount: 0,
+      symbol: null,
+      tooltip: '',
+    };
+  }
+
+  const compDetails = rawOptionNames.map((o) => {
+    const matchedItem = compMatchedList.find((m) => m.raw_name === o);
+    const compTarget = matchedItem || o;
+    const compareRes = compareOptionToOpposites(compTarget, targetMatchedList);
+    return {
+      raw: o,
+      matchedItem,
+      compareRes,
+    };
+  });
+
+  // 가격 있는 유료 선택옵션만 추출 (케이카의 45개 기본옵션 등 필터링)
+  const pricedDetails = compDetails.filter((d) => {
+    if (!d.matchedItem) return false;
+    const p = typeof d.matchedItem.price === 'number' ? d.matchedItem.price : 0;
+    return p > 0;
+  });
+
+  // 매칭 전이거나 유료옵션이 없는 경우 전체 리스트를 fallback으로 하되 유료 옵션 우선
+  const effectiveDetails = pricedDetails.length > 0 ? pricedDetails : compDetails;
+  const pricedCount = pricedDetails.length;
+
+  const exactCount = effectiveDetails.filter((d) => d.compareRes.symbol === '✓').length;
+  const fuzzyCount = effectiveDetails.filter((d) => d.compareRes.symbol === '~').length;
+  const extraCount = effectiveDetails.length - (exactCount + fuzzyCount);
+
+  const symbol: '✓' | '~' | null = exactCount > 0 ? '✓' : (fuzzyCount > 0 ? '~' : null);
+
+  const headerTitle = pricedCount > 0
+    ? `[비교 차량 추가옵션 총 ${pricedCount}개 (신차가격표 기준)]`
+    : `[비교 차량 옵션 총 ${rawOptionNames.length}개]`;
+
+  const tooltipLines = [
+    headerTitle,
+    ...effectiveDetails.map((d) => {
+      const o = d.raw;
+      const mi = d.matchedItem;
+      const stdName = mi?.official_name || mi?.clean_name || o;
+      const pMan = mi?.price ? Math.round(mi.price / 10000) : 0;
+      const priceLabel = pMan > 0 ? ` (${pMan.toLocaleString()}만원)` : '';
+      const detailLabel = `${stdName}${priceLabel}`;
+
+      let line = '';
+      if (d.compareRes.symbol === '✓') {
+        line = `✓ ${o} (신차가격표: ${detailLabel})`;
+      } else if (d.compareRes.symbol === '~') {
+        line = `~ ${o} (신차가격표 추정: ${detailLabel})`;
+      } else {
+        line = mi && mi.official_name
+          ? `+ ${o} (신차가격표: ${detailLabel})`
+          : `+ ${o} (비교차 전용 옵션)`;
+      }
+
+      // desc가 있으면 다음 줄에 들여쓰기로 표시
+      const cleanDesc = (mi?.desc || '').trim();
+      if (cleanDesc && cleanDesc !== '설명 없음' && cleanDesc !== '미확인') {
+        line = `${line}\n  └ ${cleanDesc}`;
+      }
+      return line;
+    }),
+    '──────────────────────────────',
+    targetOptNamesCount > 0
+      ? `공식 일치: ${exactCount}개 / 추정 매칭: ${fuzzyCount}개 / 비교차 전용: ${extraCount}개`
+      : '내 차 옵션 정보 없음',
+  ];
+
+  return {
+    hasOptions: true,
+    totalCount: pricedCount > 0 ? pricedCount : rawOptionNames.length,
+    pricedCount,
+    symbol,
+    tooltip: tooltipLines.join('\n'),
+  };
+}

@@ -10,6 +10,8 @@ import {
   matchOptionsSingle,
   BackendMatchedOption,
   compareOptionToOpposites,
+  buildOptionChips,
+  countPricedOptions,
 } from '@/services/optionMatchingService';
 
 export type MatchedOptionItem = import('@/services/optionMatchingService').BackendMatchedOption;
@@ -394,57 +396,23 @@ export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProp
             }
 
             // 매칭 데이터가 있으면 사용, 아직 수신 전이면 options 배열 우선 폴백
-            const fallbackList = hasOptArr
+            const rawOptNames = hasOptArr
               ? selectedEncar.options!.map((o) => o.name)
-              : splitOptionString(rawOptText);
-            const rawItems = matchedOptions.length > 0 ? matchedOptions : fallbackList;
+              : (matchedOptions.length > 0 ? matchedOptions.map(m => m.raw_name) : splitOptionString(rawOptText));
 
-            const mappedChips = rawItems.map((item, origIdx) => {
-              const isMatchedOpt = typeof item === 'object';
-              const rawName = isMatchedOpt ? item.raw_name : item;
-              const displayName = isMatchedOpt && item.match_type !== 'none'
-                ? item.official_name
-                : rawName;
-
-              const priceStr = (isMatchedOpt && item.price) ? ` (${Math.round(item.price / 10000)}만원)` : '';
-              let titleText = `신차가격표: ${displayName}${priceStr}`;
-              if (rawName && rawName !== displayName) {
-                titleText = `${titleText}\n원문: ${rawName}`;
-              }
-              if (isMatchedOpt && item.desc && item.desc.trim()) {
-                titleText = `${titleText}\n${item.desc.trim()}`;
-              }
-
-              // 💡 [11-03-14]: 목표차와의 대조 결과로 기호 및 색상 결정
-              const compareRes = compareOptionToOpposites(item, targetMatchedList);
-              const symbol = compareRes.symbol; // '✓' | '~' | '+'
-              const symbolRank = symbol === '✓' ? 1 : symbol === '~' ? 2 : 3;
-
-              let chipStyle = 'bg-orange-500/30 text-orange-300 border-orange-500/60 font-bold';
-              if (symbol === '✓') {
-                chipStyle = 'bg-emerald-500/30 text-emerald-300 border-emerald-500/60 font-bold';
-              } else if (symbol === '~') {
-                chipStyle = 'bg-amber-500/30 text-amber-300 border-amber-500/60 font-bold';
-              }
-
-              return {
-                origIdx,
-                displayName,
-                titleText,
-                symbol,
-                symbolRank,
-                chipStyle,
-              };
-            });
-
-            // 💡 [11-03-14]: 공식 일치(✓) -> 추정(~) -> 비교차 전용(+) 순 정렬 (그룹 내 원문 순서 유지)
-            const sortedChips = mappedChips.slice().sort((a, b) => a.symbolRank - b.symbolRank || a.origIdx - b.origIdx);
+            // 💡 [11-06-69]: 엔카·케이카 공용 옵션 칩 빌더 (가격 있는 선택옵션 위주, 툴팁 desc 단일화)
+            const { chips: sortedChips, pricedCount } = buildOptionChips(
+              rawOptNames,
+              matchedOptions,
+              targetMatchedList,
+              true
+            );
 
             return (
               <div className="p-3 bg-[#0c0e14] rounded-lg border border-[#232634] text-xs space-y-1.5">
                 <div className="flex items-center justify-between">
                   <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase block">
-                    주요 옵션 ({sortedChips.length}개)
+                    주요 옵션 ({pricedCount}개)
                   </span>
                   <div className="flex items-center gap-2 text-[10px] text-zinc-500 font-medium">
                     <span className="flex items-center gap-0.5">

@@ -3,7 +3,13 @@ import { ExternalLink, RefreshCw, Car, AlertCircle } from 'lucide-react';
 import { EncarItem } from '@/components/BiddingCockpit/types';
 import { OptionItem } from '@/services/chaolmaService';
 import { splitOptionString, NewCarCatalogData } from '@/services/biddingOptionCatalog';
-import { matchOptionsSingle, matchOptionsBatch, BackendMatchedOption, compareOptionToOpposites } from '@/services/optionMatchingService';
+import {
+  matchOptionsSingle,
+  matchOptionsBatch,
+  BackendMatchedOption,
+  compareOptionToOpposites,
+  buildComparableOptionsSummary,
+} from '@/services/optionMatchingService';
 import { CarColorDot } from '@/components/CarColorDot';
 
 export interface ComparableEncarV2SectionProps {
@@ -297,64 +303,14 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
         ? car.options.map((o) => o.name)
         : splitOptionString(car.optionsText || '');
 
-      if (compOpts.length === 0) {
-        map.set(car.id, {
-          hasOptions: false,
-          totalCount: 0,
-          symbol: null,
-          tooltip: '',
-        });
-        continue;
-      }
-
-      // 백엔드 배치 매칭 결과와 목표차 옵션 대조 (규칙 4-d)
-      const compDetails = compOpts.map((o) => {
-        const matchedItem = compMatchedList.find((m) => m.raw_name === o);
-        const compTarget = matchedItem || o;
-        const compareRes = compareOptionToOpposites(compTarget, targetMatchedList);
-        return {
-          raw: o,
-          matchedItem,
-          compareRes,
-        };
-      });
-
-      const exactCount = compDetails.filter((d) => d.compareRes.symbol === '✓').length;
-      const fuzzyCount = compDetails.filter((d) => d.compareRes.symbol === '~').length;
-      const extraCount = compOpts.length - (exactCount + fuzzyCount);
-
-      const symbol: '✓' | '~' | null = exactCount > 0 ? '✓' : (fuzzyCount > 0 ? '~' : null);
-
-      const tooltipLines = [
-        `[비교 차량 추가옵션 총 ${compOpts.length}개]`,
-        ...compDetails.map((d) => {
-          const o = d.raw;
-          const mi = d.matchedItem;
-          if (mi && mi.official_name) {
-            const stdName = mi.official_name;
-            const priceLabel = mi.price ? ` (${Math.round(mi.price / 10000)}만원)` : '';
-            const detailLabel = `${stdName}${priceLabel}`;
-
-            if (d.compareRes.symbol === '✓') return `✓ ${o} (신차가격표: ${detailLabel})`;
-            if (d.compareRes.symbol === '~') return `~ ${o} (신차가격표 추정: ${detailLabel})`;
-          } else {
-            if (d.compareRes.symbol === '✓') return `✓ ${o} (신차가격표: ${d.compareRes.matchedName || o})`;
-            if (d.compareRes.symbol === '~') return `~ ${o} (신차가격표 추정: ${d.compareRes.matchedName || o})`;
-          }
-          return `+ ${o} (비교차 전용 옵션)`;
-        }),
-        '──────────────────────────────',
-        targetOptNames.length > 0
-          ? `공식 일치: ${exactCount}개 / 추정 매칭: ${fuzzyCount}개 / 비교차 전용: ${extraCount}개`
-          : '내 차 옵션 정보 없음',
-      ];
-
-      map.set(car.id, {
-        hasOptions: true,
-        totalCount: compOpts.length,
-        symbol,
-        tooltip: tooltipLines.join('\n'),
-      });
+      // 💡 [11-06-69]: 엔카·케이카 공용 비교차량 옵션 요약 생성 (선택옵션만 카운트, desc 설명 툴팁 단일화)
+      const summary = buildComparableOptionsSummary(
+        compOpts,
+        compMatchedList,
+        targetMatchedList,
+        targetOptNames.length
+      );
+      map.set(car.id, summary);
     }
 
     return map;

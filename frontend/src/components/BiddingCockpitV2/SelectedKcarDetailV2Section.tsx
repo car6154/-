@@ -11,6 +11,8 @@ import {
   matchOptionsSingle,
   BackendMatchedOption,
   compareOptionToOpposites,
+  buildOptionChips,
+  formatOptionTooltip,
 } from '@/services/optionMatchingService';
 import { assembleFullGradeName } from '@/components/BiddingCockpit/hooks/useBiddingCockpit';
 
@@ -198,62 +200,10 @@ export const SelectedKcarDetailV2Section: React.FC<SelectedKcarDetailV2SectionPr
     };
   }, [selectedKcar?.carCd, selectedKcar?.carName, selectedKcar?.year, selectedKcar?.grade, selectedKcar?.gradeDetail, rawOptionNames]);
 
-  const matchedOptionChips = React.useMemo(() => {
-    const mapped = rawOptionNames.map((rawName, origIdx) => {
-      // 카탈로그가 없거나 백엔드 매칭이 없을 때: 깔때기 폴백으로 원문 그대로·가격 미확인 유지
-      if (!hasCatalog && kcarMatchedOpts.length === 0) {
-        return {
-          origIdx,
-          rawName,
-          displayName: rawName,
-          chipStyle: 'bg-[#1a1c26] text-zinc-300 border-[#2d3142]',
-          titleText: `[카탈로그 미연동] 원문: ${rawName} (신차 공식 사양 미확인)`,
-          symbol: '',
-          symbolRank: 4,
-          hasCatalog: false,
-        };
-      }
-
-      const mi = kcarMatchedOpts.find((m) => m.raw_name === rawName);
-      const isMatched = mi && mi.official_name;
-      const stdName = mi?.official_name || mi?.clean_name || rawName;
-      const pricePart = (isMatched && mi?.price) ? ` (${Math.round(mi.price / 10000)}만원)` : '';
-
-      let titleText = `신차가격표: ${stdName}${pricePart}`;
-      if (rawName && rawName !== stdName) {
-        titleText = `${titleText}\n원문: ${rawName}`;
-      }
-      if (mi?.desc && mi.desc.trim()) {
-        titleText = `${titleText}\n${mi.desc.trim()}`;
-      }
-
-      // 💡 [11-03-14]: 목표차와의 대조 결과로 기호 및 색상 결정
-      const compareRes = compareOptionToOpposites(mi || rawName, targetMatchedList);
-      const symbol = compareRes.symbol; // '✓' | '~' | '+'
-      const symbolRank = symbol === '✓' ? 1 : symbol === '~' ? 2 : 3;
-
-      let chipStyle = 'bg-orange-500/30 text-orange-300 border-orange-500/60 font-bold';
-      if (symbol === '✓') {
-        chipStyle = 'bg-emerald-500/30 text-emerald-300 border-emerald-500/60 font-bold';
-      } else if (symbol === '~') {
-        chipStyle = 'bg-amber-500/30 text-amber-300 border-amber-500/60 font-bold';
-      }
-
-      return {
-        origIdx,
-        rawName,
-        displayName: stdName,
-        chipStyle,
-        titleText,
-        symbol,
-        symbolRank,
-        hasCatalog: true,
-      };
-    });
-
-    // 💡 [11-03-14]: 공식 일치(✓) -> 추정(~) -> 비교차 전용(+) 순 정렬 (그룹 내 원문 순서 유지)
-    return mapped.slice().sort((a, b) => a.symbolRank - b.symbolRank || a.origIdx - b.origIdx);
-  }, [rawOptionNames, kcarMatchedOpts, targetCatalog, hasCatalog, targetMatchedList]);
+  // 💡 [11-06-69]: 엔카·케이카 공용 옵션 칩 빌더 (가격 있는 선택옵션 위주 필터링, 45개 기본옵션 제거, desc 툴팁 단일화)
+  const { chips: matchedOptionChips, pricedCount, totalPriceMan } = React.useMemo(() => {
+    return buildOptionChips(rawOptionNames, kcarMatchedOpts, targetMatchedList, true);
+  }, [rawOptionNames, kcarMatchedOpts, targetMatchedList]);
 
   // 1. 미선택 상태 분기
   if (!selectedKcar) {
@@ -304,7 +254,8 @@ export const SelectedKcarDetailV2Section: React.FC<SelectedKcarDetailV2SectionPr
 
   // 옵션 데이터
   const optionList = kcarDetail?.options?.items || [];
-  const optionTotalPrice = kcarDetail?.options?.totalPrice || 0;
+  // 💡 [11-06-69]: 옵션 합계: 카탈로그 매칭 가격 합계 우선 적용
+  const optionTotalPrice = totalPriceMan > 0 ? totalPriceMan : (kcarDetail?.options?.totalPrice || 0);
 
 
   return (
@@ -412,11 +363,11 @@ export const SelectedKcarDetailV2Section: React.FC<SelectedKcarDetailV2SectionPr
               <span className="text-sm font-bold text-zinc-300">만원</span>
             </div>
 
-            {/* 우측 영역: JATO 옵션 합계 뱃지 */}
+            {/* 우측 영역: 옵션 합계 뱃지 */}
             {optionTotalPrice > 0 && (
               <span
                 className="text-xs sm:text-sm font-bold text-amber-300 font-mono shrink-0 px-2.5 py-1 rounded bg-amber-500/10 border border-amber-500/30"
-                title="케이카 JATO 추가 선택옵션 합계"
+                title="신차가격표 추가 선택옵션 합계"
               >
                 옵션합계 +{optionTotalPrice.toLocaleString()}만
               </span>
@@ -427,7 +378,7 @@ export const SelectedKcarDetailV2Section: React.FC<SelectedKcarDetailV2SectionPr
           <div className="p-3 bg-[#0c0e14] rounded-lg border border-[#232634] text-xs space-y-1.5">
             <div className="flex items-center justify-between">
               <span className="text-[11px] font-semibold text-[#8b8e9d] uppercase">
-                {matchedOptionChips.length > 0 ? `주요 옵션 (${matchedOptionChips.length}개)` : '주요 옵션 (0개)'}
+                주요 옵션 ({pricedCount}개)
               </span>
               <div className="flex items-center gap-2 text-[10px] text-zinc-500 font-medium">
                 {hasCatalog ? (

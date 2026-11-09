@@ -9,6 +9,8 @@ import {
   matchOptionsSingle,
   BackendMatchedOption,
   compareOptionToOpposites,
+  countPricedOptions,
+  formatOptionTooltip,
 } from '@/services/optionMatchingService';
 import { OptionItem } from '@/services/chaolmaService';
 import { EncarItem, KcarCarItem } from '@/components/BiddingCockpit/types';
@@ -276,11 +278,13 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
     });
   }, [targetCarName, targetYear, targetOptNames, targetGrade, detailModel]);
 
-  // 1. 추가 옵션 보유 여부 및 개수 판정
+  // 1. 추가 옵션 보유 여부 및 개수 판정 (💡 [11-06-69]: 가격 있는 유료 선택옵션만 카운트, 기본옵션 제외)
   const hasOptions = (targetOptions && targetOptions.length > 0) || Boolean(optionsTag && optionsTag.trim());
-  const optCount = (targetOptions && targetOptions.length > 0)
-    ? targetOptions.length
-    : (optionsTag ? splitOptionString(optionsTag).length : 0);
+  const pricedFromMatched = countPricedOptions(targetMatchedOpts);
+  const pricedFromTarget = countPricedOptions(targetOptions);
+  const optCount = pricedFromMatched > 0
+    ? pricedFromMatched
+    : (pricedFromTarget > 0 ? pricedFromTarget : (targetOptions?.length || (optionsTag ? splitOptionString(optionsTag).length : 0)));
 
   // 2. 추가 옵션 총 가격 판정
   const priceInfo = useMemo(() => {
@@ -426,7 +430,7 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
     if (winCount > 0) {
       return (
         <span
-          title={`비교 매물(${effectiveComp.carName}) 대비 내 차 우세/고유 옵션: ${winCount}개\n공식 일치: ${exactCount}개 / 추정 매칭: ${fuzzyCount}개`}
+          title={`비교 매물(${effectiveComp?.carName || '비교 매물'}) 대비 내 차 우세/고유 옵션: ${winCount}개\n공식 일치: ${exactCount}개 / 추정 매칭: ${fuzzyCount}개`}
           className="inline-flex items-center text-[10px] px-1.5 py-0.5 rounded bg-blue-500/30 text-blue-300 font-bold border border-blue-500/60 cursor-help"
         >
           🔵 우세 {winCount}개
@@ -435,7 +439,7 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
     }
     return (
       <span
-        title={`비교 매물(${effectiveComp.carName})과 핵심 옵션 일치 (공식 일치: ${exactCount}개, 추정: ${fuzzyCount}개)`}
+        title={`비교 매물(${effectiveComp?.carName || '비교 매물'})과 핵심 옵션 일치 (공식 일치: ${exactCount}개, 추정: ${fuzzyCount}개)`}
         className="inline-flex items-center text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/30 text-emerald-300 font-bold border border-emerald-500/60 cursor-help"
       >
         🟢 공통 사양
@@ -511,15 +515,15 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
                 const displayName = pMan > 0 ? `${optDisplayName}(${pMan}만)` : optDisplayName;
                 const compareRes = compareOptionToOpposites(mi || opt.name, compOpposites);
 
-                const pLabel = pMan > 0 ? ` (${pMan}만원)` : (mi?.price ? ` (${Math.round(mi.price / 10000)}만원)` : '');
-                let tipText = `신차가격표: ${optDisplayName}${pLabel}`;
-                if (opt.name && opt.name !== optDisplayName) {
-                  tipText = `${tipText}\n원문: ${opt.name}`;
-                }
-                const descText = mi?.desc?.trim() || opt.desc?.trim();
-                if (descText && !tipText.includes(descText)) {
-                  tipText = `${tipText}\n${descText}`;
-                }
+                // 💡 [11-06-69]: 공용 툴팁 포맷터 사용 (desc 항상 포함 및 단일화)
+                const tipText = formatOptionTooltip({
+                  officialName: mi?.official_name,
+                  cleanName: mi?.clean_name,
+                  rawName: opt.name,
+                  price: opt.price || mi?.price,
+                  price_man: pMan || (mi?.price ? Math.round(mi.price / 10000) : 0),
+                  desc: mi?.desc || opt.desc,
+                });
 
                 const symbolRank = !hasComp ? 4 : compareRes.symbol === '✓' ? 1 : compareRes.symbol === '~' ? 2 : 3;
 
@@ -611,14 +615,14 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
               const compareRes = compareOptionToOpposites(mi || opt, compOpposites);
               const displayName = mi?.official_name || opt;
 
-              const pLabel = mi?.price ? ` (${Math.round(mi.price / 10000)}만원)` : '';
-              let tipText = `신차가격표: ${displayName}${pLabel}`;
-              if (opt && opt !== displayName) {
-                tipText = `${tipText}\n원문: ${opt}`;
-              }
-              if (mi?.desc && mi.desc.trim()) {
-                tipText = `${tipText}\n${mi.desc.trim()}`;
-              }
+              // 💡 [11-06-69]: 공용 툴팁 포맷터 사용 (desc 항상 포함 및 단일화)
+              const tipText = formatOptionTooltip({
+                officialName: mi?.official_name,
+                cleanName: mi?.clean_name,
+                rawName: opt,
+                price: mi?.price,
+                desc: mi?.desc,
+              });
 
               const symbolRank = !hasComp ? 4 : compareRes.symbol === '✓' ? 1 : compareRes.symbol === '~' ? 2 : 3;
 
