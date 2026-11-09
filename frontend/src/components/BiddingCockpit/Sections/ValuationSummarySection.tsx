@@ -182,9 +182,7 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
                 {carName} {detailModel} ({yearModel}년식 / {mileageKm.toLocaleString()}km)
               </span>
               {targetCarHistory?.color && targetCarHistory.color !== '-' && (
-                <span className="text-xs px-2.5 py-0.5 rounded bg-zinc-800/80 text-zinc-200 border border-zinc-700/60 font-medium inline-flex items-center gap-1.5">
-                  <CarColorDot color={targetCarHistory.color} fallbackText="" />
-                </span>
+                <CarColorDot color={targetCarHistory.color} asBadge={true} fallbackText="" />
               )}
               {autoplusStats.matchedCount > 0 && (
                 <span className="text-xs px-2.5 py-0.5 rounded bg-emerald-500/25 text-emerald-300 border border-emerald-500/40 font-bold">

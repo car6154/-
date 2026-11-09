@@ -990,16 +990,7 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                   {(() => {
                     const colorStyle = getCarColorStyle(selectedEncar.color);
                     return (
-                      <span
-                        className="px-2.5 py-1 rounded font-medium border inline-flex items-center gap-1.5"
-                        style={{
-                          backgroundColor: colorStyle.bgColor,
-                          color: colorStyle.textColor,
-                          borderColor: colorStyle.borderColor
-                        }}
-                      >
-                        <CarColorDot color={selectedEncar.color} showName={true} fallbackText={colorStyle.displayName} />
-                      </span>
+                      <CarColorDot color={selectedEncar.color} asBadge={true} className="py-1" showName={true} fallbackText={colorStyle.displayName} />
                     );
                   })()}
                   {selectedEncar.inspectionDate && selectedEncar.inspectionDate !== '-' ? (
@@ -1437,16 +1428,7 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                     const rawColor = kcarDetail?.color || selectedKcar.color;
                     const colorStyle = getCarColorStyle(rawColor);
                     return (
-                      <span
-                        className="px-2.5 py-1 rounded font-medium border inline-flex items-center gap-1.5"
-                        style={{
-                          backgroundColor: colorStyle.bgColor,
-                          color: colorStyle.textColor,
-                          borderColor: colorStyle.borderColor
-                        }}
-                      >
-                        <CarColorDot color={rawColor} showName={true} fallbackText={colorStyle.displayName} />
-                      </span>
+                      <CarColorDot color={rawColor} asBadge={true} className="py-1" showName={true} fallbackText={colorStyle.displayName} />
                     );
                   })()}
                   {kcarDetail?.dates?.pfmncDate ? (

@@ -303,17 +303,8 @@ export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProp
               {selectedEncar.mileage.toLocaleString()}km
             </span>
 
-            {/* 색상 칩 (실제 색상 견본 점 14px) */}
-            <span
-              className="px-2.5 py-1 rounded font-medium border text-xs inline-flex items-center gap-1.5"
-              style={{
-                backgroundColor: colorStyle.bgColor,
-                color: colorStyle.textColor,
-                borderColor: colorStyle.borderColor,
-              }}
-            >
-              <CarColorDot color={selectedEncar.color} showName={true} fallbackText={colorStyle.displayName} />
-            </span>
+            {/* 색상 칩 (실제 색상 견본 점 14px + 바탕 hex 채움 및 글자색 대비) */}
+            <CarColorDot color={selectedEncar.color} asBadge={true} className="py-1" showName={true} fallbackText={colorStyle.displayName} />
 
             {/* 점검일 칩 */}
             {inspectionDateText ? (
