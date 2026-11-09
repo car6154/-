@@ -16,6 +16,204 @@ _CATALOG_V2_CACHE: Optional[Dict[str, Any]] = None
 SPEC_COMPARE_KEYS = ("fuel", "disp", "drive", "seats", "grade_base", "grade_suffix", "is_turbo")
 
 
+def extract_pure_trim(text: str) -> str:
+    """연료, 배기량, 구동, 인승, 밴, 변속기 등 규격 요소를 제외한 순수 트림명 추출 (티볼리 V3, RS 등 전수 대응)"""
+    s = str(text or "").strip()
+    s = re.sub(r'\([^\)]*\)', ' ', s)
+    s = re.sub(r'\d+인승', ' ', s)
+    s = re.sub(r'(?i)\b(2wd|4wd|awd|fwd|rwd|4륜|2륜|htrac)\b', ' ', s)
+    s = re.sub(r'(?i)\b(가솔린|디젤|lpg|하이브리드|hev|전기|ev|cng|수소)\b', ' ', s)
+    s = re.sub(r'(가솔린|디젤|lpg|하이브리드|전기|cng|수소)', ' ', s, flags=re.IGNORECASE)
+    s = re.sub(r'\b\d+\.\d+\b', ' ', s)
+    s = re.sub(r'\b\d{3,4}\s*cc\b', ' ', s, flags=re.IGNORECASE)
+    s = re.sub(r'(?i)\b(밴|van|카고)\b', ' ', s)
+    s = re.sub(r'(?i)\b(m/t|a/t|cvt|dct|수동|오토)\b', ' ', s)
+
+    tokens = [t.strip().lower() for t in s.split() if t.strip()]
+    return ' '.join(tokens)
+
+
+def parse_grade_tokens(text: str) -> dict:
+    """등급 문자열에서 다차원 스펙 토큰 파싱 (연료, 배기량, 구동, 인승, 바디타입, 변속기, 트림)"""
+    from services.model_matcher import ModelMatcher
+    raw = str(text or "").strip()
+    clean = raw.lower()
+
+    # 1. body_type (밴/승용 구분)
+    is_van = bool(re.search(r'(?:\b|[^a-zA-Z0-9가-힣])(?:밴|van|카고)(?:\b|[^a-zA-Z0-9가-힣]|$)', clean))
+    body_type = 'van' if is_van else 'passenger'
+
+    # 2. transmission (수동 여부)
+    is_manual = bool(re.search(r'(?i)(?:\b|[^a-zA-Z0-9가-힣])(?:m/t|mt|수동)(?:\b|[^a-zA-Z0-9가-힣]|$)', clean))
+
+    # 3. fuel
+    fuel = ModelMatcher.extract_fuel(raw) or ""
+
+    # 4. disp (소수점 첫째 자리 반올림 / 1.35L 등 오차 정규화)
+    disp = ""
+    m_disp = re.search(r'(\d+\.\d+)', raw)
+    if m_disp:
+        try:
+            val = float(m_disp.group(1))
+            if 1.33 <= val <= 1.36:
+                disp = "1.3"
+            else:
+                disp = f"{round(val, 1):.1f}"
+        except Exception:
+            disp = ""
+    else:
+        m_cc = re.search(r'(\d{3,4})\s*cc', raw, re.IGNORECASE)
+        if m_cc:
+            try:
+                cc_val = int(m_cc.group(1))
+                if 1300 <= cc_val <= 1360:
+                    disp = "1.3"
+                else:
+                    disp = f"{round(cc_val / 1000.0, 1):.1f}"
+            except Exception:
+                disp = ""
+
+    # 5. drive
+    m_drive = re.search(r'(2wd|4wd|awd|htrac|4륜|2륜|fwd|rwd)', clean)
+    if m_drive:
+        d_val = m_drive.group(1)
+        if d_val in ['4wd', 'awd', 'htrac', '4륜']:
+            drive = '4wd'
+        else:
+            drive = '2wd'
+    else:
+        drive = None
+
+    # 6. seats
+    m_seat = re.search(r'(\d+인승)', raw)
+    seats = m_seat.group(1) if m_seat else ""
+
+    # 7. grade_base & grade_suffix
+    spec = DataProcessor.build_car_spec(text=raw)
+    grade_base = spec.get("grade_base") or ""
+    grade_suffix = spec.get("grade_suffix") or ""
+
+    # 8. pure_trim (사전에 없는 신규/영문/숫자 트림명 대응)
+    pure_trim = extract_pure_trim(raw)
+
+    return {
+        "fuel": fuel,
+        "disp": disp,
+        "drive": drive,
+        "seats": seats,
+        "body_type": body_type,
+        "is_manual": is_manual,
+        "grade_base": grade_base,
+        "grade_suffix": grade_suffix,
+        "pure_trim": pure_trim,
+        "raw_text": raw
+    }
+
+
+def match_catalog_grade(query_grade: str, year_book: dict):
+    """
+    [11-06-51] 통합 등급 매칭 엔진 (단일 진실 공급원)
+    - 1단계: 완전 일치 (Exact match) 우선
+    - 2단계: 다차원 규격(바디타입, 수동변속기, 연료, 배기량, 구동, 트림) 필터링
+    - 3단계: 인승(seats) 우선순위 정제 (동일 인승 일치 -> 책에 인승 없는 승용차 순서, 타 인승 섞임 완전 차단)
+    - 4단계: 단일 일치 후보 반환 (동일 조건 복수 시 no A/T -> pure_trim 우선, 불확실 시 Fail-Safe)
+    """
+    if not query_grade or not year_book:
+        return None
+
+    # 1. 완전 일치
+    if query_grade in year_book and isinstance(year_book[query_grade], dict):
+        return query_grade, year_book[query_grade]
+
+    q = parse_grade_tokens(query_grade)
+    effective_q_drive = q["drive"] if q["drive"] else "2wd"
+
+    candidates = []
+    for book_key, book_spec in year_book.items():
+        if isinstance(book_spec, dict):
+            c = parse_grade_tokens(book_key)
+            candidates.append((book_key, book_spec, c))
+
+    # 1단계: 기본 스펙(바디타입, 수동변속기여부, 연료, 배기량, 구동, 트림명) 필터링
+    pre_matched = []
+    for b_key, b_spec, c in candidates:
+        # 바디타입 불일치 제외 (밴 vs 승용)
+        if q["body_type"] != c["body_type"]:
+            continue
+        # 수동 변속기 일치 여부 (수동 쿼리가 아니면 수동 후보 제외)
+        if q["is_manual"] != c["is_manual"]:
+            continue
+        # 연료 불일치 제외
+        if q["fuel"] and c["fuel"] and q["fuel"] != c["fuel"]:
+            continue
+        # 배기량 불일치 제외
+        if q["disp"] and c["disp"] and q["disp"] != c["disp"]:
+            continue
+        # 구동방식 매칭: 쿼리에 구동방식이 명시되었으면 엄격 일치, 없으면 2WD 우선
+        cand_drive = c["drive"] if c["drive"] else "2wd"
+        if q["drive"]:
+            if q["drive"] != cand_drive:
+                continue
+        else:
+            if effective_q_drive != cand_drive:
+                continue
+
+        # 트림 일치 검사 (grade_base 또는 pure_trim)
+        trim_matched = False
+        if q["grade_base"] and c["grade_base"]:
+            if q["grade_base"] == c["grade_base"]:
+                if not (q["grade_suffix"] and c["grade_suffix"] and q["grade_suffix"] != c["grade_suffix"]):
+                    trim_matched = True
+        elif q["pure_trim"] and c["pure_trim"]:
+            if q["pure_trim"] == c["pure_trim"]:
+                trim_matched = True
+            elif q["pure_trim"] in c["pure_trim"] or c["pure_trim"] in q["pure_trim"]:
+                trim_matched = True
+
+        if not trim_matched:
+            continue
+
+        pre_matched.append((b_key, b_spec, c))
+
+    if not pre_matched:
+        return None
+
+    # 2단계: 인승(seats) 우선순위 정제
+    if q["seats"]:
+        seat_matches = [item for item in pre_matched if item[2]["seats"] == q["seats"]]
+        if seat_matches:
+            final_cands = seat_matches
+        else:
+            final_cands = [item for item in pre_matched if not item[2]["seats"]]
+    else:
+        no_seat_matches = [item for item in pre_matched if not item[2]["seats"]]
+        if no_seat_matches:
+            final_cands = no_seat_matches
+        else:
+            final_cands = pre_matched
+
+    if len(final_cands) == 1:
+        return final_cands[0][0], final_cands[0][1]
+
+    # 3단계: 후보가 2개 이상일 때 (예: '모던' vs '모던 A/T')
+    # A/T 표기가 없는 순수 트림 우선 선택
+    no_at_cands = [item for item in final_cands if 'a/t' not in item[0].lower()]
+    if len(no_at_cands) == 1:
+        return no_at_cands[0][0], no_at_cands[0][1]
+
+    # pure_trim 완전 일치 우선
+    pure_exact = [item for item in final_cands if item[2]["pure_trim"] == q["pure_trim"]]
+    if len(pure_exact) == 1:
+        return pure_exact[0][0], pure_exact[0][1]
+
+    # 완전 일치 후보가 있는지
+    for b_key, b_spec, _ in final_cands:
+        if b_key == query_grade:
+            return b_key, b_spec
+
+    return None
+
+
 def load_catalog_by_source_v2() -> Dict[str, Any]:
     """로컬 catalog_by_source_v2.json 로드 (네트워크 요청 없음)"""
     global _CATALOG_V2_CACHE
@@ -131,45 +329,10 @@ def get_pilot_catalog_spec(
             "grade": s_grade
         }
 
-    # 4단계: 등급 (통합 규격 DataProcessor.build_car_spec 기반 비교)
-    matched_grade_key = None
-    grade_spec = None
-
-    # 4-1. 직접 일치 우선 확인
-    if s_grade in year_book and isinstance(year_book[s_grade], dict):
-        matched_grade_key = s_grade
-        grade_spec = year_book[s_grade]
-    else:
-        # 4-2. DataProcessor.build_car_spec 기반 스펙 동등성 비교
-        # 비교 항목: (fuel, disp, drive, seats, grade_base, grade_suffix, is_turbo)
-        target_spec = DataProcessor.build_car_spec(text=s_grade)
-        target_tuple = tuple(target_spec.get(k) for k in SPEC_COMPARE_KEYS)
-
-        target_seats = target_spec.get("seats") or ""
-        keys_no_seats = tuple(k for k in SPEC_COMPARE_KEYS if k != "seats")
-        target_6_tuple = tuple(target_spec.get(k) for k in keys_no_seats)
-
-        exact_spec_matches = []
-        relaxed_seats_matches = []
-
-        for book_g_key, book_g_spec in year_book.items():
-            if isinstance(book_g_spec, dict):
-                cand_spec = DataProcessor.build_car_spec(text=book_g_key)
-                cand_tuple = tuple(cand_spec.get(k) for k in SPEC_COMPARE_KEYS)
-                if target_tuple == cand_tuple:
-                    exact_spec_matches.append((book_g_key, book_g_spec))
-                else:
-                    cand_seats = cand_spec.get("seats") or ""
-                    one_seat_empty = bool(target_seats) ^ bool(cand_seats)
-                    if one_seat_empty:
-                        cand_6_tuple = tuple(cand_spec.get(k) for k in keys_no_seats)
-                        if target_6_tuple == cand_6_tuple:
-                            relaxed_seats_matches.append((book_g_key, book_g_spec))
-
-        if exact_spec_matches:
-            matched_grade_key, grade_spec = exact_spec_matches[0]
-        elif len(relaxed_seats_matches) == 1:
-            matched_grade_key, grade_spec = relaxed_seats_matches[0]
+    # 4단계: 등급 (통합 등급 매칭 엔진 match_catalog_grade 단일 진실 공급원)
+    res_grade = match_catalog_grade(s_grade, year_book)
+    matched_grade_key = res_grade[0] if res_grade else None
+    grade_spec = res_grade[1] if res_grade else None
 
     if not grade_spec or not matched_grade_key:
         return {
