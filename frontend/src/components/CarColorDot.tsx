@@ -69,32 +69,42 @@ export const CarColorDot: React.FC<CarColorDotProps> = ({
     ? 'rgba(156, 163, 175, 0.7)' // gray-400 (다크모드에서도 흰색 원형 윤곽 선명)
     : 'rgba(255, 255, 255, 0.25)';
 
+  // 🌟 다크모드/Dark Reader의 SVG fill 투명화(transparent) 강제 치환 방지:
+  // Dark Reader는 단색 fill="#FFFFFF"을 투명으로 날려버리지만, url(#gradient) 그라디언트는 그래픽으로 인식하여 우회(Bypass)합니다.
+  const gradientId = `car-dot-grad-${colorInfo.hex.replace(/[^a-zA-Z0-9]/g, '')}`;
+
   return (
     <span className={`inline-flex items-center gap-1.5 align-middle shrink-0 ${className}`}>
-      {/* 
-        🌟 다크모드/Dark Reader 색상 반전 방지:
-        HTML span background 대신 SVG <circle>을 사용하여
-        순백색(#FFFFFF)이 검정색으로 뒤집히는 브라우저 버그를 원천 방어합니다.
-      */}
       <svg
         className={`w-[14px] h-[14px] min-w-[14px] min-h-[14px] shrink-0 ${dotClassName}`}
         viewBox="0 0 14 14"
-        fill="none"
         xmlns="http://www.w3.org/2000/svg"
         style={{
           display: 'inline-block',
           verticalAlign: 'middle',
           colorScheme: 'only light',
+          forcedColorAdjust: 'none',
         }}
       >
         <title>{`${colorInfo.name} (${colorInfo.hex})`}</title>
+        <defs>
+          <linearGradient id={gradientId} x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor={colorInfo.hex} stopOpacity="1" />
+            <stop offset="100%" stopColor={colorInfo.hex} stopOpacity="1" />
+          </linearGradient>
+        </defs>
         <circle
           cx="7"
           cy="7"
           r="6"
-          fill={colorInfo.hex}
+          fill={`url(#${gradientId})`}
           stroke={borderColor}
           strokeWidth="1"
+          style={{
+            fill: `url(#${gradientId})`,
+            fillOpacity: 1,
+            forcedColorAdjust: 'none',
+          }}
         />
       </svg>
       {showName && (

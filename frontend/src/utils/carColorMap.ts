@@ -31,6 +31,8 @@ export const CAR_COLOR_MAP: Record<string, string> = {
   '진주색': '#FAF8F5',
   '진주': '#FAF8F5',
   '펄화이트': '#FFFFFF',
+  '펄 화이트': '#FFFFFF',
+  '스노우화이트펄': '#FFFFFF',
   '밀키 화이트': '#FDFBF7',
   '글래시어 화이트': '#F8F9FA',
   '스노우 펄': '#FFFFFF',
