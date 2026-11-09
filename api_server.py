@@ -15,7 +15,8 @@ import time
 import threading
 import subprocess
 import urllib.parse
-from typing import List, Any, Optional, Union, Dict
+from typing import List, Any, Optional, Union, Dict, Callable
+from concurrent.futures import ThreadPoolExecutor, as_completed, Future
 from datetime import datetime
 from pydantic import BaseModel
 import requests
@@ -879,8 +880,7 @@ def normalize_empty_option_string(opt_str: Optional[str]) -> str:
     return str(opt_str)
 
 
-@app.post("/api/encar/search")
-def search_encar_market(req: EncarSearchRequest):
+def _search_encar_market_core(req: EncarSearchRequest, target_options_getter: Optional[Callable[[], Optional[str]]] = None):
     try:
         car_name = req.carName or ""
         raw_g = (req.gradeName or "").strip()
@@ -1176,6 +1176,16 @@ def search_encar_market(req: EncarSearchRequest):
             scores = [score_key_options(str(x))[0] for x in no_acc_df['추가옵션'].dropna()]
             avg_opt_score = int(np.mean(scores)) if scores else 0
 
+        # 💡 [11-06-42]: target_options_getter가 전달된 경우, 옵션 감가 계산 직전에 평가하여 req.targetOptions에 반영
+        if target_options_getter is not None:
+            try:
+                resolved_opts = target_options_getter()
+                if resolved_opts is not None:
+                    req.targetOptions = normalize_empty_option_string(str(resolved_opts))
+                    print(f"[api_server] 옵션 감가 직전 targetOptions 지연 평가 완료: '{req.targetOptions}'", flush=True)
+            except Exception as e_tog:
+                print(f"[api_server] target_options_getter 실패 (기존 targetOptions 유지): {e_tog}", flush=True)
+
         target_opts = req.targetOptions or ""
         target_score, target_opt_names = score_key_options(target_opts)
         
@@ -1409,6 +1419,7 @@ def search_encar_market(req: EncarSearchRequest):
                     mil_delta = max(-8.0, min(8.0, raw_mil_delta))
                     mil_adj_price = raw_price * (100.0 + mil_delta) / 100.0
                 else:
+                    mil_delta = 0.0
                     mil_adj_price = raw_price
 
                 # 동시 조회 상세 데이터 재사용 (재사용 가능 시 상세 재조회 및 2초 sleep 생략)
@@ -1824,6 +1835,11 @@ def search_encar_market(req: EncarSearchRequest):
         }
     except Exception as e:
         return {"success": False, "error": str(e), "items": []}
+
+
+@app.post("/api/encar/search")
+def search_encar_market(req: EncarSearchRequest):
+    return _search_encar_market_core(req)
 
 
 @app.get("/api/encar/verify/{car_id}")
@@ -2387,115 +2403,304 @@ def search_cockpit_unified(req: CockpitSearchRequest):
     chaolma_res = None
     encar_res = None
     kcar_res = None
-
     fail_reasons = {}
 
-    # 1. 차얼마 조회
-    if "chaolma" in sources_set:
-        if car_no:
+    need_chaolma = "chaolma" in sources_set and bool(car_no)
+    need_encar = "encar" in sources_set
+    need_kcar = "kcar" in sources_set
+
+    def _extract_year_from_dict(res_dict):
+        if not isinstance(res_dict, dict):
+            return 0
+        ch_my = res_dict.get("model_year") or res_dict.get("year")
+        ch_ry = res_dict.get("reg_year")
+        y_m = 0
+        y_r = 0
+        if ch_my:
+            m_match = re.search(r"\d+", str(ch_my))
+            if m_match:
+                y = int(m_match.group(0))
+                y_m = (y - 2000) if y > 2000 else y
+        if ch_ry:
+            r_match = re.search(r"\d+", str(ch_ry))
+            if r_match:
+                y = int(r_match.group(0))
+                y_r = (y - 2000) if y > 2000 else y
+        if y_m > 0 and y_r > 0:
+            return min(y_m, y_r)
+        elif y_m > 0:
+            return y_m
+        elif y_r > 0:
+            return y_r
+        return 0
+
+    def _enrich_chaolma_dict(ch_res, y_val):
+        if not ch_res or not isinstance(ch_res, dict):
+            return
+        if y_val and int(y_val) > 0:
+            y_int = int(y_val)
+            y_2d = (y_int - 2000) if y_int > 2000 else y_int
+            ch_res["year"] = f"{y_2d:02d}"
+        if not ch_res.get("reg_ym") and ch_res.get("release_date"):
+            m_ym = re.search(r"(\d{4})[^\d]?(\d{1,2})", str(ch_res["release_date"]).strip())
+            if m_ym:
+                y_str = m_ym.group(1)[-2:]
+                m_int = int(m_ym.group(2))
+                if 1 <= m_int <= 12:
+                    ch_res["reg_ym"] = f"{y_str}-{m_int:02d}"
+
+    def _build_encar_opts_str(ch_res, user_opts):
+        if user_opts and str(user_opts).strip():
+            return str(user_opts).strip()
+        if ch_res and isinstance(ch_res, dict) and ch_res.get("options"):
+            opts_list = ch_res.get("options", [])
+            opt_str = " · ".join([f"{o.get('name')}({o.get('price_man')}만)" for o in opts_list if o.get("name")])
+            total_opt = ch_res.get("total_option_price_man", 0)
+            return f"{opt_str} [옵션총액: {total_opt}만]" if opt_str else ""
+        return ""
+
+    t_start = time.time()
+    chaolma_future = None
+    encar_future = None
+    kcar_future = None
+
+    with ThreadPoolExecutor(max_workers=4) as executor:
+        # 모델명과 연식(1 이상)이 이미 확보되어 있는지 확인
+        has_model_and_year = bool(car_name and year and int(year) > 0)
+
+        if has_model_and_year:
+            # [시나리오 1]: 사용자 입력에 이미 모델명/연식이 있는 경우 -> 엔카 즉시 병렬 발주
+            print(f"[cockpit/search] 모델명('{car_name}')·연식({year}) 기확보 -> 엔카 검색 즉시 발주", flush=True)
+
+            if need_chaolma:
+                chaolma_future = executor.submit(get_chaolma_car_info, car_no, mileage=mileage)
+
+            if need_encar:
+                def _get_target_opts_a():
+                    if req.targetOptions and str(req.targetOptions).strip():
+                        return str(req.targetOptions).strip()
+                    if chaolma_future is not None:
+                        try:
+                            ch_data = chaolma_future.result(timeout=10.0)
+                            return _build_encar_opts_str(ch_data, req.targetOptions)
+                        except Exception:
+                            pass
+                    return str(req.targetOptions or "")
+
+                encar_req = EncarSearchRequest(
+                    carName=car_name,
+                    detailModel=detail_model,
+                    gradeName=raw_g,
+                    gradeDetailName=raw_gd,
+                    manufacturer=manufacturer,
+                    year=year,
+                    mileage=mileage,
+                    targetOptions=str(req.targetOptions or ""),
+                    carNumber=car_no,
+                    url=req.encarUrl or "",
+                    skipDetail=req.skipDetail or False
+                )
+                encar_future = executor.submit(_search_encar_market_core, encar_req, _get_target_opts_a)
+
+            if need_kcar:
+                kcar_req = KcarMarketRequest(
+                    carName=car_name,
+                    detailModel=detail_model,
+                    gradeName=raw_g,
+                    gradeDetailName=raw_gd,
+                    manufacturer=manufacturer,
+                    year=year,
+                    mileage=mileage,
+                    targetOptions=req.targetOptions or ""
+                )
+                kcar_future = executor.submit(get_kcar_market_stats_post, kcar_req)
+
+        else:
+            # [시나리오 2]: 모델명 또는 연식이 없는 경우 -> 차량번호로 차얼마 1차(0.08s) 호출 후 즉시 엔카 발주
+            if not car_no:
+                if "chaolma" in sources_set:
+                    fail_reasons["chaolma"] = "차량번호 없음"
+                if need_encar:
+                    fail_reasons["encar"] = "모델명 및 연식 미확인 (차량번호 없음)"
+            else:
+                try:
+                    t_raw_s = time.time()
+                    raw_ch = ChaolmaService.fetch_carmart_raw(car_no, mileage=mileage)
+                    t_raw_e = time.time() - t_raw_s
+                    print(f"[cockpit/search] 차얼마 1차 raw 조회 완료 ({t_raw_e:.3f}초)", flush=True)
+
+                    if not raw_ch.get("success"):
+                        fail_reasons["chaolma"] = raw_ch.get("message") or "차얼마 미등록 또는 조회 실패"
+                        if need_encar and not (car_name and year):
+                            fail_reasons["encar"] = f"모델명/연식 확보 불가 ({fail_reasons['chaolma']})"
+                    elif raw_ch.get("is_cached"):
+                        # 캐시 히트: 이미 전체 데이터가 즉시 확보됨!
+                        chaolma_res = raw_ch.get("cached_result")
+                        cur_retail = chaolma_res.get("chaolma_retail_price") or 0
+                        if cur_retail <= 0:
+                            ap_id = chaolma_res.get("ap_model_id") or chaolma_res.get("apModelId") or ""
+                            rel_d = chaolma_res.get("release_date") or ""
+                            n_p = chaolma_res.get("new_car_price") or 0
+                            if ap_id and n_p > 0:
+                                try:
+                                    mp_res = ChaolmaService.fetch_daa_market_price(
+                                        ap_model_id=ap_id,
+                                        release_date=rel_d,
+                                        mileage=mileage,
+                                        new_price=n_p,
+                                        car_no=car_no
+                                    )
+                                    if mp_res and mp_res.get("success"):
+                                        chaolma_res["chaolma_retail_price"] = mp_res.get("retail_price_man", 0)
+                                except Exception:
+                                    pass
+
+                        if not car_name:
+                            car_name = chaolma_res.get("model_detail_name") or chaolma_res.get("model_name") or ""
+                        if not raw_g:
+                            raw_g = str(chaolma_res.get("grade_name") or "").strip()
+                        if not raw_gd:
+                            raw_gd = str(chaolma_res.get("grade_detail_name") or "").strip()
+                        if not manufacturer and chaolma_res.get("maker"):
+                            manufacturer = chaolma_res.get("maker")
+                        if not year:
+                            year = _extract_year_from_dict(chaolma_res)
+
+                        _enrich_chaolma_dict(chaolma_res, year)
+
+                        if need_encar:
+                            encar_opts_str = _build_encar_opts_str(chaolma_res, req.targetOptions)
+                            encar_req = EncarSearchRequest(
+                                carName=car_name,
+                                detailModel=detail_model,
+                                gradeName=raw_g,
+                                gradeDetailName=raw_gd,
+                                manufacturer=manufacturer,
+                                year=year,
+                                mileage=mileage,
+                                targetOptions=encar_opts_str,
+                                carNumber=car_no,
+                                url=req.encarUrl or "",
+                                skipDetail=req.skipDetail or False
+                            )
+                            encar_future = executor.submit(_search_encar_market_core, encar_req)
+
+                        if need_kcar:
+                            kcar_req = KcarMarketRequest(
+                                carName=car_name,
+                                detailModel=detail_model,
+                                gradeName=raw_g,
+                                gradeDetailName=raw_gd,
+                                manufacturer=manufacturer,
+                                year=year,
+                                mileage=mileage,
+                                targetOptions=req.targetOptions or ""
+                            )
+                            kcar_future = executor.submit(get_kcar_market_stats_post, kcar_req)
+
+                    else:
+                        # 신규 조회 (캐시 미스): 1차 car_data에서 제원 추출 후 엔카 & 차얼마 2단계 동시 발주
+                        car_data = raw_ch.get("car_data")
+                        quick_spec = ChaolmaService.extract_quick_spec(car_data)
+
+                        if not car_name:
+                            car_name = quick_spec.get("model_detail_name") or quick_spec.get("model_name") or ""
+                        if not raw_g:
+                            raw_g = str(quick_spec.get("grade_name") or "").strip()
+                        if not raw_gd:
+                            raw_gd = str(quick_spec.get("grade_detail_name") or "").strip()
+                        if not manufacturer and quick_spec.get("maker"):
+                            manufacturer = quick_spec.get("maker")
+                        if not year:
+                            year = _extract_year_from_dict(quick_spec)
+
+                        print(f"[cockpit/search] 차얼마 1차에서 모델·연식·등급 추출 완료: car_name='{car_name}', year={year}, grade='{raw_g}' '{raw_gd}'", flush=True)
+
+                        # 차얼마 2단계 비동기 발주
+                        if "chaolma" in sources_set:
+                            chaolma_future = executor.submit(
+                                ChaolmaService.complete_car_info_enrichment,
+                                car_data,
+                                car_no,
+                                mileage=mileage
+                            )
+
+                        # 엔카 검색 즉시 발주 (옵션 감가 직전 지연 평가 주입)
+                        if need_encar:
+                            def _get_target_opts_b():
+                                if req.targetOptions and str(req.targetOptions).strip():
+                                    return str(req.targetOptions).strip()
+                                if chaolma_future is not None:
+                                    try:
+                                        ch_data = chaolma_future.result(timeout=10.0)
+                                        return _build_encar_opts_str(ch_data, req.targetOptions)
+                                    except Exception:
+                                        pass
+                                return str(req.targetOptions or "")
+
+                            encar_req = EncarSearchRequest(
+                                carName=car_name,
+                                detailModel=detail_model,
+                                gradeName=raw_g,
+                                gradeDetailName=raw_gd,
+                                manufacturer=manufacturer,
+                                year=year,
+                                mileage=mileage,
+                                targetOptions=str(req.targetOptions or ""),
+                                carNumber=car_no,
+                                url=req.encarUrl or "",
+                                skipDetail=req.skipDetail or False
+                            )
+                            encar_future = executor.submit(_search_encar_market_core, encar_req, _get_target_opts_b)
+
+                        # 케이카 검색 즉시 발주
+                        if need_kcar:
+                            kcar_req = KcarMarketRequest(
+                                carName=car_name,
+                                detailModel=detail_model,
+                                gradeName=raw_g,
+                                gradeDetailName=raw_gd,
+                                manufacturer=manufacturer,
+                                year=year,
+                                mileage=mileage,
+                                targetOptions=req.targetOptions or ""
+                            )
+                            kcar_future = executor.submit(get_kcar_market_stats_post, kcar_req)
+
+                except Exception as e_carmart:
+                    fail_reasons["chaolma"] = str(e_carmart)
+                    if need_encar and not (car_name and year):
+                        fail_reasons["encar"] = f"차얼마 파싱 오류로 엔카 시작 불가: {e_carmart}"
+
+        # 2. 모든 future 완료 대기 및 결과 수집 (Join)
+        if chaolma_future is not None and chaolma_res is None:
             try:
-                chaolma_res = get_chaolma_car_info(car_no, mileage=mileage)
+                chaolma_res = chaolma_future.result(timeout=15.0)
                 if not chaolma_res or not chaolma_res.get("success"):
                     fail_reasons["chaolma"] = chaolma_res.get("message") if chaolma_res else "차얼마 미등록 또는 조회 실패"
                 else:
-                    # 차얼마 성공 시 모델/등급/연식 등 부족한 정보 자동 보강
-                    if not car_name:
-                        car_name = chaolma_res.get("model_detail_name") or chaolma_res.get("model_name") or ""
-                    if not raw_g:
-                        raw_g = str(chaolma_res.get("grade_name") or "").strip()
-                    if not raw_gd:
-                        raw_gd = str(chaolma_res.get("grade_detail_name") or "").strip()
-                    if not manufacturer and chaolma_res.get("maker"):
-                        manufacturer = chaolma_res.get("maker")
-                    if not year:
-                        ch_my = chaolma_res.get("model_year")
-                        ch_ry = chaolma_res.get("reg_year")
-                        y_m = 0
-                        y_r = 0
-                        if ch_my:
-                            m_match = re.search(r"\d+", str(ch_my))
-                            if m_match:
-                                y = int(m_match.group(0))
-                                y_m = (y - 2000) if y > 2000 else y
-                        if ch_ry:
-                            r_match = re.search(r"\d+", str(ch_ry))
-                            if r_match:
-                                y = int(r_match.group(0))
-                                y_r = (y - 2000) if y > 2000 else y
-                        if y_m > 0 and y_r > 0:
-                            year = min(y_m, y_r)
-                        elif y_m > 0:
-                            year = y_m
-                        elif y_r > 0:
-                            year = y_r
+                    _enrich_chaolma_dict(chaolma_res, year)
+            except Exception as e_ch_join:
+                fail_reasons["chaolma"] = str(e_ch_join)
 
-                    # 차얼마 응답 객체에 2자리 연식(문자열, 예: "22") 담기
-                    if year and int(year) > 0:
-                        y_int = int(year)
-                        y_2d = (y_int - 2000) if y_int > 2000 else y_int
-                        chaolma_res["year"] = f"{y_2d:02d}"
+        if encar_future is not None and encar_res is None:
+            try:
+                encar_res = encar_future.result(timeout=20.0)
+                if not encar_res or not encar_res.get("success"):
+                    fail_reasons["encar"] = encar_res.get("failReason") or encar_res.get("message") or encar_res.get("error") or "엔카 조회 실패"
+            except Exception as e_enc_join:
+                fail_reasons["encar"] = str(e_enc_join)
 
-                    # reg_ym(최초등록 연월: YY-MM) 안전 보충
-                    if not chaolma_res.get("reg_ym") and chaolma_res.get("release_date"):
-                        m_ym = re.search(r"(\d{4})[^\d]?(\d{1,2})", str(chaolma_res["release_date"]).strip())
-                        if m_ym:
-                            y_str = m_ym.group(1)[-2:]
-                            m_int = int(m_ym.group(2))
-                            if 1 <= m_int <= 12:
-                                chaolma_res["reg_ym"] = f"{y_str}-{m_int:02d}"
-            except Exception as e_ch:
-                fail_reasons["chaolma"] = str(e_ch)
-        else:
-            fail_reasons["chaolma"] = "차량번호 없음"
+        if kcar_future is not None and kcar_res is None:
+            try:
+                kcar_res = kcar_future.result(timeout=12.0)
+                if not kcar_res or not kcar_res.get("success"):
+                    fail_reasons["kcar"] = kcar_res.get("error") if kcar_res else "케이카 조회 실패"
+            except Exception as e_kc_join:
+                fail_reasons["kcar"] = str(e_kc_join)
 
-    # 2. 엔카 매물 및 밸류에이션 조회
-    if "encar" in sources_set:
-        try:
-            # 타겟 옵션 전달 (문자열 또는 배열)
-            encar_target_opts = req.targetOptions
-            if not encar_target_opts and chaolma_res and chaolma_res.get("options"):
-                opts_list = chaolma_res.get("options", [])
-                opt_str = " · ".join([f"{o.get('name')}({o.get('price_man')}만)" for o in opts_list if o.get("name")])
-                total_opt = chaolma_res.get("total_option_price_man", 0)
-                encar_target_opts = f"{opt_str} [옵션총액: {total_opt}만]" if opt_str else ""
-
-            encar_req = EncarSearchRequest(
-                carName=car_name,
-                detailModel=detail_model,
-                gradeName=raw_g,
-                gradeDetailName=raw_gd,
-                manufacturer=manufacturer,
-                year=year,
-                mileage=mileage,
-                targetOptions=str(encar_target_opts or ""),
-                carNumber=car_no,
-                url=req.encarUrl or "",
-                skipDetail=req.skipDetail or False
-            )
-            encar_res = search_encar_market(encar_req)
-            if not encar_res or not encar_res.get("success"):
-                fail_reasons["encar"] = encar_res.get("failReason") or encar_res.get("message") or "엔카 조회 실패"
-        except Exception as e_enc:
-            fail_reasons["encar"] = str(e_enc)
-
-    # 3. 케이카 직영 마켓 조회
-    if "kcar" in sources_set:
-        try:
-            kcar_req = KcarMarketRequest(
-                carName=car_name,
-                detailModel=detail_model,
-                gradeName=raw_g,
-                gradeDetailName=raw_gd,
-                manufacturer=manufacturer,
-                year=year,
-                mileage=mileage,
-                targetOptions=req.targetOptions or ""
-            )
-            kcar_res = get_kcar_market_stats_post(kcar_req)
-            if not kcar_res or not kcar_res.get("success"):
-                fail_reasons["kcar"] = kcar_res.get("error") if kcar_res else "케이카 조회 실패"
-        except Exception as e_kc:
-            fail_reasons["kcar"] = str(e_kc)
+    t_total = time.time() - t_start
+    print(f"[cockpit/search] 통합 비딩 콕핏 조회 완료! 총 소요 시간: {t_total:.3f}초", flush=True)
 
     # 4. 통합 상태 메시지 및 경고문 조립 (단일 진실 공급원: 백엔드 전담)
     ch_ok = bool(chaolma_res and chaolma_res.get("success"))

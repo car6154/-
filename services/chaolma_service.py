@@ -67,71 +67,24 @@ class ChaolmaService:
         return has_session or len(cookie.strip()) > 30
 
     @classmethod
-    def fetch_car_info(cls, car_no: str, mileage: int = 50000, branch_code: str = "00244") -> Dict[str, Any]:
+    def fetch_carmart_raw(cls, car_no: str, mileage: int = 50000) -> Dict[str, Any]:
         """
-        차량번호로 차얼마에서 신차 기본가, 옵션 정보, 잔가율 등을 실시간 조회
+        차얼마 1차 API(getCarMartData)만 빠르게 호출하여 원시 car_data 반환 (약 0.1초 소요).
+        - 캐시 히트 시: {"success": True, "is_cached": True, "cached_result": cached_data}
+        - 캐시 미스 시: {"success": True, "is_cached": False, "car_data": car_data, "cookie": cookie}
+        - 실패 시: {"success": False, "message": ..., "need_login": ...}
         """
         car_no = str(car_no).replace(" ", "").strip()
         if not car_no:
             return {"success": False, "message": "차량번호가 입력되지 않았습니다."}
 
-        # 1. 캐시 확인 (메모리 + 파일 캐시)
+        # 1. 캐시 확인
         now = time.time()
         cached_entry = _chaolma_file_cache.get(car_no)
         if cached_entry and (now - cached_entry.get("timestamp", 0) < CACHE_TTL):
             cached_data = cached_entry.get("data")
             if isinstance(cached_data, dict):
-                # reg_ym 보충 (캐시된 데이터에 reg_ym이 없고 release_date가 있는 경우)
-                if not cached_data.get("reg_ym") and cached_data.get("release_date"):
-                    m_ym = re.search(r"(\d{4})[^\d]?(\d{1,2})", str(cached_data["release_date"]).strip())
-                    if m_ym:
-                        y_str = m_ym.group(1)[-2:]
-                        m_int = int(m_ym.group(2))
-                        if 1 <= m_int <= 12:
-                            cached_data["reg_ym"] = f"{y_str}-{m_int:02d}"
-                # 기준소매가 보충: 기준소매가 필드가 없거나 0이면 현재 주행거리로 보충 조회 (스펙·옵션·보험은 캐시 값 유지)
-                cur_retail = cached_data.get("chaolma_retail_price") or 0
-                if cur_retail <= 0:
-                    ap_id = (
-                        cached_data.get("ap_model_id")
-                        or cached_data.get("apModelId")
-                        or (cached_data.get("raw_inputs", {}).get("apModelId") if isinstance(cached_data.get("raw_inputs"), dict) else "")
-                        or ""
-                    )
-                    rel_d = cached_data.get("release_date") or ""
-                    n_p = cached_data.get("new_car_price") or 0
-                    has_ap = bool(str(ap_id).strip())
-                    has_rel = bool(str(rel_d).strip())
-                    has_np = bool(n_p and n_p > 0)
-
-                    if has_ap and has_np:
-                        try:
-                            mp_res = cls.fetch_daa_market_price(
-                                ap_model_id=ap_id,
-                                release_date=rel_d,
-                                mileage=mileage,
-                                new_price=n_p,
-                                car_no=car_no
-                            )
-                            if mp_res and mp_res.get("success"):
-                                r_man = mp_res.get("retail_price_man", 0)
-                                cached_data["chaolma_retail_price"] = r_man
-                                _chaolma_file_cache.set(car_no, {
-                                    "timestamp": cached_entry.get("timestamp", now),
-                                    "data": cached_data
-                                })
-                                res_type = "success" if r_man > 0 else "retail_zero"
-                                cls._log_retail_debug("캐시보충", has_ap, has_rel, has_np, res_type, r_man)
-                            else:
-                                msg = (mp_res or {}).get("message", "")
-                                res_type = "unsuccessful" if "응답 오류" in msg or "상태코드" in msg else "api_error"
-                                cls._log_retail_debug("캐시보충", has_ap, has_rel, has_np, res_type, 0)
-                        except Exception:
-                            cls._log_retail_debug("캐시보충", has_ap, has_rel, has_np, "api_error", 0)
-                    else:
-                        cached_data.setdefault("chaolma_retail_price", 0)
-                        cls._log_retail_debug("캐시보충", has_ap, has_rel, has_np, "ap_missing" if not has_ap else "new_price_missing", 0)
-                return cached_data
+                return {"success": True, "is_cached": True, "cached_result": cached_data}
 
         # 2. 쿠키 확인
         cookie = cls.get_cookie()
@@ -160,11 +113,8 @@ class ChaolmaService:
 
         try:
             resp = requests.post(cls.API_URL, data=data_payload, headers=headers, timeout=10)
-            
-            # 응답 인코딩 UTF-8 강제
             resp_text = resp.content.decode("utf-8", errors="ignore")
 
-            # 로그인 만료 체크 (로그인 폼 HTML이 반환된 경우)
             if "/login/login.do" in resp_text or "frm-login" in resp_text or ("<title>차얼마" in resp_text and not resp_text.strip().startswith("{")):
                 return {
                     "success": False,
@@ -176,140 +126,230 @@ class ChaolmaService:
                 try:
                     res_json = json.loads(resp_text)
                 except Exception:
-                    return {
-                        "success": False,
-                        "message": "차얼마 서버 응답 형식이 올바르지 않습니다."
-                    }
+                    return {"success": False, "message": "차얼마 서버 응답 형식이 올바르지 않습니다."}
 
                 header = res_json.get("header", {})
                 if not header.get("isSuccessful"):
                     msg = res_json.get("msg") or header.get("resultMessage") or "차량 정보를 찾을 수 없습니다."
-                    return {
-                        "success": False,
-                        "message": f"차얼마 조회 실패: {msg}"
-                    }
+                    return {"success": False, "message": f"차얼마 조회 실패: {msg}"}
 
                 car_data = res_json.get("data")
                 if not car_data:
-                    return {
-                        "success": False,
-                        "message": f"차얼마에 해당 차량 데이터가 존재하지 않습니다 ({car_no})."
-                    }
+                    return {"success": False, "message": f"차얼마에 해당 차량 데이터가 존재하지 않습니다 ({car_no})."}
 
-                # 1. 국토부 자동차등록원부(압류·저당·구조변경·검사유효기간·승차정원) 선행 조회 (인승 기반 등급 보정용)
-                doc_res = None
-                try:
-                    doc_res = cls.fetch_car_origin_doc(car_no)
-                except Exception:
-                    doc_res = None
-
-                # 정상 데이터 파싱 (origin_doc 전달하여 승차정원 기반 등급 보정)
-                parsed = cls.parse_carmart_json(car_data, car_no, origin_doc=doc_res)
-                if parsed.get("success"):
-                    # 1. 카히스토리(보험이력) 자동 결합 조회
-                    try:
-                        ch_res = cls.fetch_car_history(car_no)
-                        if ch_res and ch_res.get("success"):
-                            parsed["car_history"] = ch_res
-                            parsed["market_price_range"] = ch_res.get("market_price_range", "")
-                            parsed["market_price_min"] = ch_res.get("market_price_min", 0)
-                            parsed["market_price_max"] = ch_res.get("market_price_max", 0)
-                            parsed["market_price_avg"] = ch_res.get("market_price_avg", 0)
-                    except Exception:
-                        pass
-
-                    # 2. 국토부 자동차등록원부 결과 결합
-                    if doc_res and doc_res.get("success"):
-                        parsed["origin_doc"] = doc_res
-
-                    # 3. 차얼마 공식 시세(기준소매가) 자동 결합 조회 (참고 지표용, 실패해도 스펙·옵션·보험 유지)
-                    parsed["chaolma_retail_price"] = 0
-                    try:
-                        raw_jf = car_data.get("jsonFullText")
-                        jf_obj = {}
-                        if isinstance(raw_jf, dict):
-                            jf_obj = raw_jf
-                        elif isinstance(raw_jf, str):
-                            try:
-                                jf_obj = json.loads(raw_jf)
-                            except Exception:
-                                jf_obj = {}
-
-                        ap_id = (
-                            car_data.get("apModelId")
-                            or parsed.get("ap_model_id")
-                            or (jf_obj.get("apmodelid") if isinstance(jf_obj, dict) else "")
-                            or (jf_obj.get("apModelId") if isinstance(jf_obj, dict) else "")
-                            or ""
-                        )
-                        rel_d = car_data.get("firstDate") or parsed.get("release_date") or (jf_obj.get("firstdate") if isinstance(jf_obj, dict) else "") or ""
-                        n_p = (
-                            parsed.get("new_car_price")
-                            or car_data.get("carMakePrice")
-                            or (jf_obj.get("carmakeprice") if isinstance(jf_obj, dict) else 0)
-                            or 0
-                        )
-                        has_ap = bool(str(ap_id).strip())
-                        has_rel = bool(str(rel_d).strip())
-                        has_np = bool(n_p and n_p > 0)
-
-                        if has_ap and has_np:
-                            try:
-                                mp_res = cls.fetch_daa_market_price(
-                                    ap_model_id=ap_id,
-                                    release_date=rel_d,
-                                    mileage=mileage,
-                                    new_price=n_p,
-                                    car_no=car_no
-                                )
-                                if mp_res and mp_res.get("success"):
-                                    r_man = mp_res.get("retail_price_man", 0)
-                                    parsed["chaolma_retail_price"] = r_man
-                                    res_type = "success" if r_man > 0 else "retail_zero"
-                                    cls._log_retail_debug("신규", has_ap, has_rel, has_np, res_type, r_man)
-                                else:
-                                    msg = (mp_res or {}).get("message", "")
-                                    res_type = "unsuccessful" if "응답 오류" in msg or "상태코드" in msg else "api_error"
-                                    cls._log_retail_debug("신규", has_ap, has_rel, has_np, res_type, 0)
-                            except Exception:
-                                cls._log_retail_debug("신규", has_ap, has_rel, has_np, "api_error", 0)
-                        else:
-                            cls._log_retail_debug("신규", has_ap, has_rel, has_np, "ap_missing" if not has_ap else "new_price_missing", 0)
-                    except Exception:
-                        pass
-
-                    _chaolma_file_cache.set(car_no, {
-                        "timestamp": now,
-                        "data": parsed
-                    })
-                return parsed
+                return {"success": True, "is_cached": False, "car_data": car_data, "cookie": cookie}
 
             elif resp.status_code == 500:
-                # 500인 경우 JSON 에러 메시지 확인 ("차량번호가 없습니다." 등)
                 try:
                     err_json = json.loads(resp_text)
                     err_msg = err_json.get("msg") or err_json.get("header", {}).get("resultMessage")
                     if err_msg:
-                        return {
-                            "success": False,
-                            "message": f"차얼마 안내: {err_msg} ({car_no})"
-                        }
+                        return {"success": False, "message": f"차얼마 안내: {err_msg} ({car_no})"}
                 except Exception:
                     pass
-                return {
-                    "success": False,
-                    "message": f"차얼마에 등록되지 않은 차량번호이거나 조회할 수 없습니다 ({car_no})."
-                }
+                return {"success": False, "message": f"차얼마에 등록되지 않은 차량번호이거나 조회할 수 없습니다 ({car_no})."}
             else:
-                return {
-                    "success": False,
-                    "message": f"차얼마 서버 오류 (상태코드: {resp.status_code})"
-                }
-
+                return {"success": False, "message": f"차얼마 서버 오류 (상태코드: {resp.status_code})"}
         except requests.exceptions.Timeout:
             return {"success": False, "message": "차얼마 서버 응답 시간 초과 (10초). 잠시 후 다시 시도해주세요."}
         except Exception as e:
             return {"success": False, "message": f"차얼마 조회 중 오류 발생: {str(e)}"}
+
+    @classmethod
+    def extract_quick_spec(cls, car_data: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        1차 car_data에서 model_name, model_detail_name, maker, year, reg_year, grade_name, grade_detail_name 즉시 추출
+        """
+        if not car_data:
+            return {}
+        jf = {}
+        raw_jf = car_data.get("jsonFullText")
+        if raw_jf:
+            if isinstance(raw_jf, dict):
+                jf = raw_jf
+            elif isinstance(raw_jf, str):
+                try:
+                    jf = json.loads(raw_jf)
+                except Exception:
+                    pass
+
+        maker = car_data.get("makerName") or jf.get("makername") or ""
+        model_name = car_data.get("modelName") or jf.get("modelname") or ""
+        model_detail = car_data.get("modelDetailName") or ""
+        grade_name = car_data.get("gradeName") or jf.get("seriesname1") or ""
+        grade_detail = car_data.get("gradeDetailName") or jf.get("seriesname") or ""
+
+        rel_date = car_data.get("firstDate") or jf.get("firstdate") or ""
+        m_year = str(car_data.get("year") or jf.get("year") or "").replace("년", "").strip()
+
+        reg_year = ""
+        if rel_date:
+            m_ry = re.search(r"(\d{4})", str(rel_date))
+            if m_ry:
+                reg_year = m_ry.group(1)
+        if not reg_year and m_year:
+            m_my = re.search(r"(\d{4})", str(m_year))
+            if m_my:
+                reg_year = m_my.group(1)
+
+        year_num = 0
+        if m_year and m_year.isdigit():
+            y_val = int(m_year)
+            year_num = (y_val - 2000) if y_val > 2000 else y_val
+        elif reg_year and reg_year.isdigit():
+            y_val = int(reg_year)
+            year_num = (y_val - 2000) if y_val > 2000 else y_val
+
+        return {
+            "car_name": model_detail or model_name or "",
+            "model_name": model_name,
+            "model_detail_name": model_detail,
+            "maker": maker,
+            "year": year_num,
+            "model_year": m_year,
+            "reg_year": reg_year,
+            "grade_name": grade_name,
+            "grade_detail_name": grade_detail
+        }
+
+    @classmethod
+    def complete_car_info_enrichment(
+        cls,
+        car_data: Dict[str, Any],
+        car_no: str,
+        mileage: int = 50000
+    ) -> Dict[str, Any]:
+        """
+        1차 car_data를 바탕으로 등록원부, 카히스토리, 공식시세, 옵션을 보강하여 최종 chaolma_res 완성 및 캐시 저장
+        """
+        now = time.time()
+        # 1. 국토부 자동차등록원부 선행 조회
+        doc_res = None
+        try:
+            doc_res = cls.fetch_car_origin_doc(car_no)
+        except Exception:
+            doc_res = None
+
+        # 정상 데이터 파싱
+        parsed = cls.parse_carmart_json(car_data, car_no, origin_doc=doc_res)
+        if parsed.get("success"):
+            # 카히스토리(보험이력) 자동 결합 조회
+            try:
+                ch_res = cls.fetch_car_history(car_no)
+                if ch_res and ch_res.get("success"):
+                    parsed["car_history"] = ch_res
+                    parsed["market_price_range"] = ch_res.get("market_price_range", "")
+                    parsed["market_price_min"] = ch_res.get("market_price_min", 0)
+                    parsed["market_price_max"] = ch_res.get("market_price_max", 0)
+                    parsed["market_price_avg"] = ch_res.get("market_price_avg", 0)
+            except Exception:
+                pass
+
+            # 국토부 자동차등록원부 결과 결합
+            if doc_res and doc_res.get("success"):
+                parsed["origin_doc"] = doc_res
+
+            # 차얼마 공식 시세(기준소매가) 자동 결합 조회
+            parsed["chaolma_retail_price"] = 0
+            try:
+                raw_jf = car_data.get("jsonFullText")
+                jf_obj = {}
+                if isinstance(raw_jf, dict):
+                    jf_obj = raw_jf
+                elif isinstance(raw_jf, str):
+                    try:
+                        jf_obj = json.loads(raw_jf)
+                    except Exception:
+                        jf_obj = {}
+
+                ap_id = (
+                    car_data.get("apModelId")
+                    or parsed.get("ap_model_id")
+                    or (jf_obj.get("apmodelid") if isinstance(jf_obj, dict) else "")
+                    or (jf_obj.get("apModelId") if isinstance(jf_obj, dict) else "")
+                    or ""
+                )
+                rel_d = car_data.get("firstDate") or parsed.get("release_date") or (jf_obj.get("firstdate") if isinstance(jf_obj, dict) else "") or ""
+                n_p = (
+                    parsed.get("new_car_price")
+                    or car_data.get("carMakePrice")
+                    or (jf_obj.get("carmakeprice") if isinstance(jf_obj, dict) else 0)
+                    or 0
+                )
+                has_ap = bool(str(ap_id).strip())
+                has_rel = bool(str(rel_d).strip())
+                has_np = bool(n_p and n_p > 0)
+
+                if has_ap and has_np:
+                    try:
+                        mp_res = cls.fetch_daa_market_price(
+                            ap_model_id=ap_id,
+                            release_date=rel_d,
+                            mileage=mileage,
+                            new_price=n_p,
+                            car_no=car_no
+                        )
+                        if mp_res and mp_res.get("success"):
+                            r_man = mp_res.get("retail_price_man", 0)
+                            parsed["chaolma_retail_price"] = r_man
+                            res_type = "success" if r_man > 0 else "retail_zero"
+                            cls._log_retail_debug("신규", has_ap, has_rel, has_np, res_type, r_man)
+                        else:
+                            msg = (mp_res or {}).get("message", "")
+                            res_type = "unsuccessful" if "응답 오류" in msg or "상태코드" in msg else "api_error"
+                            cls._log_retail_debug("신규", has_ap, has_rel, has_np, res_type, 0)
+                    except Exception:
+                        cls._log_retail_debug("신규", has_ap, has_rel, has_np, "api_error", 0)
+                else:
+                    cls._log_retail_debug("신규", has_ap, has_rel, has_np, "ap_missing" if not has_ap else "new_price_missing", 0)
+            except Exception:
+                pass
+
+            _chaolma_file_cache.set(car_no, {
+                "timestamp": now,
+                "data": parsed
+            })
+        return parsed
+
+    @classmethod
+    def fetch_car_info(cls, car_no: str, mileage: int = 50000, branch_code: str = "00244") -> Dict[str, Any]:
+        """
+        차량번호로 차얼마에서 신차 기본가, 옵션 정보, 잔가율 등을 실시간 조회
+        """
+        car_no = str(car_no).replace(" ", "").strip()
+        if not car_no:
+            return {"success": False, "message": "차량번호가 입력되지 않았습니다."}
+
+        # 1. 1차 raw API 호출 (캐시 확인 포함)
+        raw_res = cls.fetch_carmart_raw(car_no, mileage=mileage)
+        if not raw_res.get("success"):
+            return raw_res
+        if raw_res.get("is_cached"):
+            cached_data = raw_res.get("cached_result")
+            # 기준소매가 보충 로직
+            cur_retail = cached_data.get("chaolma_retail_price") or 0
+            if cur_retail <= 0:
+                ap_id = cached_data.get("ap_model_id") or cached_data.get("apModelId") or ""
+                rel_d = cached_data.get("release_date") or ""
+                n_p = cached_data.get("new_car_price") or 0
+                if ap_id and n_p > 0:
+                    try:
+                        mp_res = cls.fetch_daa_market_price(
+                            ap_model_id=ap_id,
+                            release_date=rel_d,
+                            mileage=mileage,
+                            new_price=n_p,
+                            car_no=car_no
+                        )
+                        if mp_res and mp_res.get("success"):
+                            cached_data["chaolma_retail_price"] = mp_res.get("retail_price_man", 0)
+                    except Exception:
+                        pass
+            return cached_data
+
+        # 2. 2차 후속 정보 결합
+        car_data = raw_res.get("car_data")
+        return cls.complete_car_info_enrichment(car_data, car_no, mileage=mileage)
 
     @classmethod
     def parse_carmart_json(
