@@ -217,7 +217,6 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
   selectedKcar,
   activeCompTab,
   targetCatalog,
-  unclassifiedBalance = 0,
 }) => {
   // 💡 [11-03-11]: 목표차 옵션 백엔드 매칭 조회 (단건 함수 사용)
   const [targetMatchedOpts, setTargetMatchedOpts] = useState<BackendMatchedOption[]>([]);
@@ -598,15 +597,6 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
                       </span>
                     );
                   })}
-
-                  {unclassifiedBalance > 0 && (
-                    <span
-                      title={`카탈로그 옵션가 합계와 출고가 차액 간의 미분류 잔액입니다.`}
-                      className="px-2 py-0.5 rounded bg-amber-500/20 border border-amber-500/50 text-amber-300 font-medium text-[10.5px] flex items-center gap-1 cursor-help font-mono"
-                    >
-                      <span>ℹ️ 미분류 ({unclassifiedBalance}만)</span>
-                    </span>
-                  )}
                 </>
               );
             }
