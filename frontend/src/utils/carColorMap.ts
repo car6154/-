@@ -36,6 +36,8 @@ export const CAR_COLOR_MAP: Record<string, string> = {
   '스노우 펄': '#FFFFFF',
   '스노우펄': '#FFFFFF',
   '바닐라 화이트': '#FBF9F1',
+  '아이보리': '#FFFFF0',
+  '크림': '#FAF8F5',
 
   // 2. 검정 계열 (#111111 ~ #1a1a2e)
   // 🌟 핵심 요구사항: 아메시스트 블랙은 검은 보라색 (#1a1a2e)
@@ -88,6 +90,8 @@ export const CAR_COLOR_MAP: Record<string, string> = {
   '메탈릭 실버': '#BEC2C7',
   '실버': '#C0C0C0',
   '은색': '#C0C0C0',
+  '밝은 실버': '#D2D4D7',
+  '밝은 은색': '#D2D4D7',
   '은회색': '#C5CBD3',
   '그레이': '#6B7280',
   '회색': '#6B7280',
