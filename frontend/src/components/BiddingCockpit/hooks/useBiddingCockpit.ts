@@ -1675,47 +1675,7 @@ export function useBiddingCockpit({
 
         let targetGrade = cGrade;
 
-        // 💡 [11-06-05 (b안)]: 차얼마 제원 및 순정 출고옵션을 먼저 await 확정하여, 엔카·케이카 검색 시 옵션을 품고 출발
-        // (엔카 WAF 407 방지를 위해 재크롤링 없이 단 1회 검색으로 소매가·엔카평균에 옵션 100% 반영)
-        if (cNo) {
-          setAiEstimateStep(`차얼마 제원 및 순정 출고옵션 수신 중... [${cNo}]`);
-          startChaolmaTimer();
-          try {
-            const chRes = await queryChaolmaCar(cNo, calculatedMil || 50000);
-            if (activeHeydealerTokenRef.current === heydealerToken) {
-              if (chRes && chRes.success) {
-                stopChaolmaTimer(true);
-                applyChaolmaResult(chRes);
-                let combinedG = [chRes.grade_name, chRes.grade_detail_name].filter(Boolean).join(' ').trim();
-                const seatsCap = chRes.origin_doc?.seating_capacity;
-                if (seatsCap && seatsCap > 0 && !/\d+인승/.test(combinedG)) {
-                  combinedG = `${combinedG} ${seatsCap}인승`.trim();
-                }
-                if (combinedG && (!targetGrade || targetGrade === '-')) {
-                  targetGrade = combinedG;
-                  setDetailModel(combinedG);
-                }
-                const catalogCarName = (cName && cName !== '-') ? cName : (chRes.model_detail_name || chRes.model_name || carData.car_name);
-                const catalogYear = calculatedYear ? String(calculatedYear) : ((chRes as any).model_year || chRes.year || '');
-                const catalogGrade = combinedG || targetGrade || detailModel || '';
-                fetchNewCarCatalog(catalogCarName, catalogYear, catalogGrade)
-                  .then(cat => {
-                    if (activeHeydealerTokenRef.current === heydealerToken && cat) setTargetNewCarCatalog(cat);
-                  })
-                  .catch(() => {});
-              } else {
-                stopChaolmaTimer(false);
-              }
-            }
-          } catch (chErr) {
-            if (activeHeydealerTokenRef.current === heydealerToken) {
-              stopChaolmaTimer(false);
-            }
-            console.warn('차올마 제원 및 옵션 조회 중 오류 (기존 제원 유지):', chErr);
-          }
-        }
-
-        // 💡 [11-06-05 (b안)]: 확정된 목표 옵션(currentEffectiveOptionsTag)을 들고 엔카 & 케이카 실시간 동급 매물 1회 크롤링
+        // 💡 [11-06-70]: 기준소매가(차얼마) 대기 없이 목표차량 제원(차종명·연식·등급) 확보 즉시 엔카·케이카 크롤링 병렬 출발
         setAiEstimateStep(`엔카·케이카 실시간 동급 매물 및 제원 수집 중... [${cBrand} ${cName}]`);
         if (directEncarUrl) {
           setEncarSourceUrl(directEncarUrl);
@@ -1739,6 +1699,45 @@ export function useBiddingCockpit({
           mileage: calculatedMil,
           targetOptions: currentEffectiveOptionsTag
         });
+
+        // 💡 [11-06-70]: 차얼마(기준소매가/옵션/원부)는 크롤링과 병렬로 비동기 수신 (기준소매가가 늦게 와도 크롤링은 이미 진행 중)
+        if (cNo) {
+          startChaolmaTimer();
+          queryChaolmaCar(cNo, calculatedMil || 50000)
+            .then(chRes => {
+              if (activeHeydealerTokenRef.current === heydealerToken) {
+                if (chRes && chRes.success) {
+                  stopChaolmaTimer(true);
+                  applyChaolmaResult(chRes);
+                  let combinedG = [chRes.grade_name, chRes.grade_detail_name].filter(Boolean).join(' ').trim();
+                  const seatsCap = chRes.origin_doc?.seating_capacity;
+                  if (seatsCap && seatsCap > 0 && !/\d+인승/.test(combinedG)) {
+                    combinedG = `${combinedG} ${seatsCap}인승`.trim();
+                  }
+                  if (combinedG && (!targetGrade || targetGrade === '-')) {
+                    targetGrade = combinedG;
+                    setDetailModel(combinedG);
+                  }
+                  const catalogCarName = (cName && cName !== '-') ? cName : (chRes.model_detail_name || chRes.model_name || carData.car_name);
+                  const catalogYear = calculatedYear ? String(calculatedYear) : ((chRes as any).model_year || chRes.year || '');
+                  const catalogGrade = combinedG || targetGrade || detailModel || '';
+                  fetchNewCarCatalog(catalogCarName, catalogYear, catalogGrade)
+                    .then(cat => {
+                      if (activeHeydealerTokenRef.current === heydealerToken && cat) setTargetNewCarCatalog(cat);
+                    })
+                    .catch(() => {});
+                } else {
+                  stopChaolmaTimer(false);
+                }
+              }
+            })
+            .catch(chErr => {
+              if (activeHeydealerTokenRef.current === heydealerToken) {
+                stopChaolmaTimer(false);
+              }
+              console.warn('차올마 제원 및 옵션 조회 중 오류 (기존 제원 유지):', chErr);
+            });
+        }
 
         const [encarSettled] = await Promise.allSettled([encarPromise, kcarPromise]);
 
