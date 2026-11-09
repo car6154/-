@@ -185,6 +185,33 @@
       font-size: 12px;
       line-height: 1.4;
     }
+    .acc-table th {
+      background-color: #201a14;
+      color: #fbbf24;
+      border-bottom: 1px solid #3b2d18;
+    }
+    .notice-list-box {
+      background-color: #12131a;
+      border: 1px solid #1f212d;
+      border-radius: 8px;
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .notice-item {
+      font-size: 12px;
+      color: #94a3b8;
+      line-height: 1.5;
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+    }
+    .notice-bullet {
+      color: #f59e0b;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
     .alert-box {
       background-color: #1e1b18;
       border: 1px solid #451a03;
@@ -467,6 +494,51 @@
         }).join('');
       }
 
+      // [11-06-74] 커스터마이징 액세서리 표 (Kia Genuine, HGA, TUON/TUIX, N 퍼포먼스 등)
+      const accessories = data.accessories || {};
+      const accKeys = Object.keys(accessories);
+      let accessoriesHtml = '';
+      if (accKeys.length === 0) {
+        accessoriesHtml = `<tr><td colspan="3" style="text-align: center; color: #71717a; padding: 16px;">등록된 커스터마이징 액세서리가 없습니다.</td></tr>`;
+      } else {
+        accessoriesHtml = accKeys.map(k => {
+          const item = accessories[k];
+          const pMan = item.price_man != null && item.price_man > 0 ? Number(item.price_man).toLocaleString() : (item.price != null && item.price > 0 ? Math.round(item.price / 10000).toLocaleString() : '-');
+          const pWon = item.price != null && item.price > 0 ? Number(item.price).toLocaleString() : '-';
+          const priceDisplay = (pMan !== '-') ? `${pMan}만원 <span style="font-size: 11px; color: #71717a; font-weight: normal;">(${pWon}원)</span>` : `<span style="color: #a1a1aa; font-size: 12px;">가격 별도 안내</span>`;
+          return `
+            <tr>
+              <td class="opt-name" style="color: #fbbf24;">${escapeHtml(k)}</td>
+              <td class="opt-price" style="color: #f59e0b;">${priceDisplay}</td>
+              <td class="opt-desc">${escapeHtml(item.desc || '-')}</td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      // [11-06-74] 하단 유의사항 및 공통 안내문구 (다나와 옵션 페이지 하단 ※ 안내문구 1:1)
+      const notices = data.notices || [];
+      let noticesCardHtml = '';
+      if (notices.length > 0) {
+        const noticesItems = notices.map(n => `
+          <div class="notice-item">
+            <span class="notice-bullet">※</span>
+            <span>${escapeHtml(n.replace(/^※\s*/, ''))}</span>
+          </div>
+        `).join('');
+        noticesCardHtml = `
+          <div class="card">
+            <div class="section-title">
+              <span>※ 유의사항 및 공통 안내문구</span>
+              <span style="font-size: 11px; color: #71717a; font-weight: normal;">(다나와 카탈로그 안내 기준)</span>
+            </div>
+            <div class="notice-list-box">
+              ${noticesItems}
+            </div>
+          </div>
+        `;
+      }
+
       const standardFeatures = data.standard_features || [];
       let standardHtml = '';
       if (!standardFeatures || standardFeatures.length === 0) {
@@ -515,6 +587,27 @@
             </tbody>
           </table>
         </div>
+
+        <div class="card">
+          <div class="section-title">
+            <span>🛠️ 커스터마이징 액세서리</span>
+            <span style="font-size: 11px; color: #71717a; font-weight: normal;">(Kia Genuine Accessories / HGA / N 퍼포먼스 / 커스텀)</span>
+          </div>
+          <table class="options-table acc-table">
+            <thead>
+              <tr>
+                <th style="width: 25%;">액세서리명</th>
+                <th style="width: 25%;">선택 가격</th>
+                <th style="width: 50%;">세부 사양</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${accessoriesHtml}
+            </tbody>
+          </table>
+        </div>
+
+        ${noticesCardHtml}
 
         <div class="card">
           <div class="section-title">

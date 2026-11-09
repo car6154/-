@@ -411,7 +411,9 @@ def get_pilot_catalog_spec(
             "base_price": None,
             "base_price_man": None,
             "options": {},
-            "standard_features": []
+            "standard_features": [],
+            "accessories": {},
+            "notices": []
         }
 
     # 2. 로컬 카탈로그 탐색
@@ -529,7 +531,11 @@ def get_pilot_catalog_spec(
             "grade": s_grade
         }
 
-    # 일치 확인: 해당 등급의 기본가와 선택옵션 목록만 반환
+    # 일치 확인: 해당 등급의 기본가와 선택옵션, 액세서리, 안내문구 목록 반환
+    base_price = grade_spec.get("base_price") or grade_spec.get("price")
+    base_price_man = grade_spec.get("base_price_man") or grade_spec.get("price_man")
+    standard_features = grade_spec.get("standard_features") or grade_spec.get("standard_specs", [])
+
     return {
         "found": True,
         "source": s_source,
@@ -538,10 +544,12 @@ def get_pilot_catalog_spec(
         "year": norm_year,
         "grade": matched_grade_key,
         "query_grade": s_grade,
-        "base_price": grade_spec.get("base_price"),
-        "base_price_man": grade_spec.get("base_price_man"),
+        "base_price": base_price,
+        "base_price_man": base_price_man,
         "options": grade_spec.get("options", {}),
-        "standard_features": grade_spec.get("standard_features", [])
+        "standard_features": standard_features,
+        "accessories": grade_spec.get("accessories", {}),
+        "notices": grade_spec.get("notices") or (year_book.get("_notices") if isinstance(year_book, dict) else []) or []
     }
 
 
