@@ -4,6 +4,7 @@ import { EncarItem } from '@/components/BiddingCockpit/types';
 import { OptionItem } from '@/services/chaolmaService';
 import { splitOptionString, NewCarCatalogData } from '@/services/biddingOptionCatalog';
 import { matchOptionsSingle, matchOptionsBatch, BackendMatchedOption, compareOptionToOpposites } from '@/services/optionMatchingService';
+import { CarColorDot } from '@/components/CarColorDot';
 
 export interface ComparableEncarV2SectionProps {
   encarList: EncarItem[];
@@ -575,7 +576,7 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
 
                     {/* 10) 색상 */}
                     <td className="py-1.5 px-1 text-center text-[11px] text-zinc-300 whitespace-nowrap">
-                      {car.color || '-'}
+                      <CarColorDot color={car.color} fallbackText="-" className="justify-center" />
                     </td>
 
                     {/* 11) 옵션 유무 */}

@@ -11,6 +11,7 @@ import { SelectedHeydealerBidDetailV2Section } from './SelectedHeydealerBidDetai
 import { SoldListingsV2Section } from './SoldListingsV2Section';
 import { VehicleAssessmentV2Bar } from './VehicleAssessmentV2Bar';
 import { CarHistoryDetailModal } from '@/components/CarHistoryDetailModal';
+import { CarColorDot } from '@/components/CarColorDot';
 import { CockpitPresetData } from '@/types';
 
 export interface BiddingCockpitV2TabProps {
@@ -272,7 +273,9 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
             {/* 등급 밑에 색상 표시 (지어내지 않고 조회 결과의 색상 필드, 없으면 '-') */}
             <div className="flex items-center justify-between text-[11px] text-zinc-300">
               <span className="text-[#8b8e9d]">색상</span>
-              <span className="font-medium text-white">{targetColor}</span>
+              <span className="font-medium text-white">
+                <CarColorDot color={cockpit.targetCarHistory?.color} fallbackText="-" />
+              </span>
             </div>
             <div className="flex items-center justify-between font-mono text-xs text-[#8b8e9d] pt-1 border-t border-[#1e2029]">
               <span>연식 <strong className="text-zinc-200 font-semibold">{targetYear}</strong></span>

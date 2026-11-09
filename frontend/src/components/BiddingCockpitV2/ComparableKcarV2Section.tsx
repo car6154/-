@@ -6,6 +6,7 @@ import { OptionItem } from '@/services/chaolmaService';
 import { splitOptionString, NewCarCatalogData } from '@/services/biddingOptionCatalog';
 import { matchOptionsSingle, matchOptionsBatch, BackendMatchedOption, compareOptionToOpposites } from '@/services/optionMatchingService';
 import { assembleFullGradeName } from '@/components/BiddingCockpit/hooks/useBiddingCockpit';
+import { CarColorDot } from '@/components/CarColorDot';
 
 export interface ComparableKcarV2SectionProps {
   kcarList: KcarCarItem[];
@@ -570,7 +571,7 @@ export const ComparableKcarV2Section: React.FC<ComparableKcarV2SectionProps> = (
 
                     {/* 9) 색상 */}
                     <td className="py-1.5 px-1 text-center text-[11px] text-zinc-300 whitespace-nowrap">
-                      {car.color || '-'}
+                      <CarColorDot color={car.color} fallbackText="-" className="justify-center" />
                     </td>
 
                     {/* 10) 옵션 */}

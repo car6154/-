@@ -3,6 +3,7 @@ import { ExternalLink, RefreshCw, AlertCircle, Car, CheckCircle2 } from 'lucide-
 import { KcarCarItem, KcarDetailData } from '@/components/BiddingCockpit/types';
 import { CarDamageDiagram2D } from '@/components/BiddingCockpit/Sections/CarDamageDiagram2D';
 import { getCarColorStyle } from '@/utils/carColor';
+import { CarColorDot } from '@/components/CarColorDot';
 import { NewCarCatalogData } from '@/services/biddingOptionCatalog';
 import { OptionItem } from '@/services/chaolmaService';
 import { splitOptionString } from '@/services/biddingOptionCatalog';
@@ -365,16 +366,16 @@ export const SelectedKcarDetailV2Section: React.FC<SelectedKcarDetailV2SectionPr
               {(kcarDetail?.mileage || selectedKcar.mileage || 0).toLocaleString()}km
             </span>
 
-            {/* 색상 칩 */}
+            {/* 색상 칩 (실제 색상 견본 점 14px) */}
             <span
-              className="px-2.5 py-1 rounded font-medium border text-xs"
+              className="px-2.5 py-1 rounded font-medium border text-xs inline-flex items-center gap-1.5"
               style={{
                 backgroundColor: colorStyle.bgColor,
                 color: colorStyle.textColor,
                 borderColor: colorStyle.borderColor,
               }}
             >
-              {colorStyle.dot} {colorStyle.displayName}
+              <CarColorDot color={rawColor} showName={true} fallbackText={colorStyle.displayName} />
             </span>
 
             {/* 점검일 칩 */}

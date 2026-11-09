@@ -12,6 +12,7 @@ import { CarDamageDiagram2D, getDamagePartKoreanName } from './CarDamageDiagram2
 import { TrackedCarsModal } from './TrackedCarsModal';
 import { KcarMarketStats, KcarCarItem, KcarDetailData } from '../types';
 import { getCarColorStyle } from '@/utils/carColor';
+import { CarColorDot } from '@/components/CarColorDot';
 
 export interface EncarItem {
   id: string;
@@ -868,7 +869,7 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                           </span>
                         </td>
                         <td className="py-1.5 px-1 text-center text-[11px] text-zinc-300 whitespace-nowrap">
-                          {car.color || '흰색'}
+                          <CarColorDot color={car.color} fallbackText="-" className="justify-center" />
                         </td>
                         <td className="py-1.5 px-1 text-center whitespace-nowrap">
                           {hasAddedOptions ? (() => {
@@ -990,14 +991,14 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                     const colorStyle = getCarColorStyle(selectedEncar.color);
                     return (
                       <span
-                        className="px-2.5 py-1 rounded font-medium border"
+                        className="px-2.5 py-1 rounded font-medium border inline-flex items-center gap-1.5"
                         style={{
                           backgroundColor: colorStyle.bgColor,
                           color: colorStyle.textColor,
                           borderColor: colorStyle.borderColor
                         }}
                       >
-                        {colorStyle.dot} {colorStyle.displayName}
+                        <CarColorDot color={selectedEncar.color} showName={true} fallbackText={colorStyle.displayName} />
                       </span>
                     );
                   })()}
@@ -1343,7 +1344,7 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                           </span>
                         </td>
                         <td className="py-1.5 px-1 text-center text-[11px] text-zinc-300 whitespace-nowrap">
-                          {car.color || '-'}
+                          <CarColorDot color={car.color} fallbackText="-" className="justify-center" />
                         </td>
                         <td className="py-1.5 px-1 text-center text-[11px] text-zinc-300 whitespace-nowrap">
                           <span className="px-1.5 py-0.5 rounded bg-zinc-800/80 text-zinc-300 border border-zinc-700/50">
@@ -1437,14 +1438,14 @@ export const ComparableEncarSection: React.FC<ComparableEncarSectionProps> = ({
                     const colorStyle = getCarColorStyle(rawColor);
                     return (
                       <span
-                        className="px-2.5 py-1 rounded font-medium border"
+                        className="px-2.5 py-1 rounded font-medium border inline-flex items-center gap-1.5"
                         style={{
                           backgroundColor: colorStyle.bgColor,
                           color: colorStyle.textColor,
                           borderColor: colorStyle.borderColor
                         }}
                       >
-                        {colorStyle.dot} {colorStyle.displayName}
+                        <CarColorDot color={rawColor} showName={true} fallbackText={colorStyle.displayName} />
                       </span>
                     );
                   })()}

@@ -3,6 +3,7 @@ import { ExternalLink, RefreshCw, AlertCircle, Info, CheckCircle2, ChevronUp, Ch
 import { EncarItem } from '@/components/BiddingCockpit/types';
 import { CarDamageDiagram2D, getDamagePartKoreanName } from '@/components/BiddingCockpit/Sections/CarDamageDiagram2D';
 import { getCarColorStyle } from '@/utils/carColor';
+import { CarColorDot } from '@/components/CarColorDot';
 import { OptionItem } from '@/services/chaolmaService';
 import { splitOptionString } from '@/services/biddingOptionCatalog';
 import {
@@ -302,16 +303,16 @@ export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProp
               {selectedEncar.mileage.toLocaleString()}km
             </span>
 
-            {/* 색상 칩 (점 형태, getCarColorStyle 적용) */}
+            {/* 색상 칩 (실제 색상 견본 점 14px) */}
             <span
-              className="px-2.5 py-1 rounded font-medium border text-xs"
+              className="px-2.5 py-1 rounded font-medium border text-xs inline-flex items-center gap-1.5"
               style={{
                 backgroundColor: colorStyle.bgColor,
                 color: colorStyle.textColor,
                 borderColor: colorStyle.borderColor,
               }}
             >
-              {colorStyle.dot} {colorStyle.displayName}
+              <CarColorDot color={selectedEncar.color} showName={true} fallbackText={colorStyle.displayName} />
             </span>
 
             {/* 점검일 칩 */}

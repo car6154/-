@@ -8,6 +8,7 @@ import {
 import { EncarItem } from './ComparableEncarSection';
 import { buildKcarSearchUrl } from '../../../utils/kcarUrl';
 import { KcarMarketStats } from '../types';
+import { CarColorDot } from '@/components/CarColorDot';
 
 export interface ValuationSummarySectionProps {
   carName: string;
@@ -180,6 +181,11 @@ export const ValuationSummarySection: React.FC<ValuationSummarySectionProps> = (
               <span className="text-xs sm:text-sm px-2.5 py-0.5 rounded bg-blue-500/20 text-blue-300 border border-blue-500/35 font-bold font-mono">
                 {carName} {detailModel} ({yearModel}년식 / {mileageKm.toLocaleString()}km)
               </span>
+              {targetCarHistory?.color && targetCarHistory.color !== '-' && (
+                <span className="text-xs px-2.5 py-0.5 rounded bg-zinc-800/80 text-zinc-200 border border-zinc-700/60 font-medium inline-flex items-center gap-1.5">
+                  <CarColorDot color={targetCarHistory.color} fallbackText="" />
+                </span>
+              )}
               {autoplusStats.matchedCount > 0 && (
                 <span className="text-xs px-2.5 py-0.5 rounded bg-emerald-500/25 text-emerald-300 border border-emerald-500/40 font-bold">
                   🏢 자사 실적 {autoplusStats.matchedCount}대 매칭
