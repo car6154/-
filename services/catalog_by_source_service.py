@@ -76,6 +76,9 @@ def extract_pure_trim(text: str) -> str:
     s = re.sub(r'\b\d{3,4}\s*cc\b', ' ', s, flags=re.IGNORECASE)
     s = re.sub(r'(?i)\b(밴|van|카고)\b', ' ', s)
     s = re.sub(r'(?i)\b(m/t|a/t|cvt|dct|수동|오토)\b', ' ', s)
+    # [11-06-68] 단일 트림 및 기본 수식어 제거 ("기본형", "기본", "표준형")
+    s = re.sub(r'(?i)\b(기본형|기본|표준형)\b', ' ', s)
+    s = re.sub(r'(기본형|기본|표준형)', ' ', s)
 
     tokens = [t.strip().lower() for t in s.split() if t.strip()]
     return ' '.join(tokens)

@@ -291,12 +291,48 @@
     // 차종명으로 브랜드 역추적
     function findBrandForModel(modelName) {
       if (!catalogTree || !modelName) return '';
+      // 1. 트리에서 직접 검색 (완전 일치)
       for (const brand of catalogBrands) {
         if (catalogTree[brand] && catalogTree[brand][modelName]) {
           return brand;
         }
       }
+      // 2. [11-06-68] 공백 및 대소문자 무시 일치 검색 (FL 별칭 등 포함)
+      const cleanInput = modelName.replace(/\s+/g, '').toLowerCase().replace(/fl$/, '');
+      for (const brand of catalogBrands) {
+        if (!catalogTree[brand]) continue;
+        for (const m of Object.keys(catalogTree[brand])) {
+          const cleanM = m.replace(/\s+/g, '').toLowerCase();
+          if (cleanM === cleanInput || cleanM.includes(cleanInput) || cleanInput.includes(cleanM)) {
+            return brand;
+          }
+        }
+      }
+      // 3. [11-06-68] 차종명 키워드 기반 브랜드 Fallback
+      if (/(?:g70|g80|g90|gv60|gv70|gv80|eq900)/i.test(modelName)) return '제네시스';
+      if (/(?:k3|k5|k7|k8|k9|모닝|레이|쏘렌토|카니발|스포티지|셀토스|니로|ev3|ev6|ev9|모하비|스팅어|스토닉|쏘울|봉고)/i.test(modelName)) return '기아';
+      if (/(?:트레일블레이저|트랙스|말리부|스파크|콜로라도|타호|트래버스|이쿼녹스|볼트|올란도|크루즈|카마로)/i.test(modelName)) return '쉐보레';
+      if (/(?:토레스|티볼리|코란도|렉스턴|액티언|무쏘)/i.test(modelName)) return 'KGM';
+      if (/(?:xm3|qm6|sm6|아르카나|콜레오스|sm3|sm5|sm7|클리오|캡처|트위지|마스터)/i.test(modelName)) return '르노코리아';
+      if (/(?:아반떼|쏘나타|그랜저|투싼|싼타페|팰리세이드|코나|베뉴|캐스퍼|아이오닉|스타리아|포터)/i.test(modelName)) return '현대';
+
       return '';
+    }
+
+    // [11-06-68] API 응답 스펙을 기반으로 상단 드롭다운 자동 동기화
+    function syncDropdownsWithSpec(data) {
+      if (!data || !catalogTree) return;
+      const canonicalCar = data.car_name;
+      const canonicalYear = data.year;
+      const canonicalGrade = data.grade;
+
+      let brand = findBrandForModel(canonicalCar);
+      if (!brand && catalogBrands.length > 0) brand = catalogBrands[0];
+
+      populateBrands(brand);
+      populateModels(brand, canonicalCar);
+      populateYears(brand, canonicalCar, canonicalYear);
+      populateGrades(brand, canonicalCar, canonicalYear, canonicalGrade);
     }
 
     // 브랜드 드롭다운 채우기
@@ -376,6 +412,10 @@
       try {
         const res = await fetch(url);
         const data = await res.json();
+        // [11-06-68] API 스펙 매칭 성공 시 정규화된 차종명/연식/등급으로 상단 드롭다운 동기화
+        if (data && data.found) {
+          syncDropdownsWithSpec(data);
+        }
         renderResult(data, { source: source || 'danawa', model, year, grade });
       } catch (err) {
         renderError(`네트워크 요청 중 오류가 발생했습니다: ${err.message}`, { source: source || 'danawa', model, year, grade });
@@ -520,10 +560,10 @@
       populateBrands(brand);
       populateModels(brand, p.model);
 
-      const currentModel = document.getElementById('selectModel').value;
+      const currentModel = document.getElementById('selectModel').value || p.model;
       populateYears(brand, currentModel, p.year);
 
-      const currentYear = document.getElementById('selectYear').value;
+      const currentYear = document.getElementById('selectYear').value || p.year;
       populateGrades(brand, currentModel, currentYear, p.grade);
 
       // model, year가 있으면 바로 스펙 조회
