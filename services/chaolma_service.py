@@ -292,6 +292,8 @@ class ChaolmaService:
                         if mp_res and mp_res.get("success"):
                             r_man = mp_res.get("retail_price_man", 0)
                             parsed["chaolma_retail_price"] = r_man
+                            t_ret_done = datetime.now().strftime('%H:%M:%S.%f')[:-3]
+                            print(f"[{t_ret_done}] 💰 [차얼마 기준소매가 획득] {r_man}만", flush=True)
                             res_type = "success" if r_man > 0 else "retail_zero"
                             cls._log_retail_debug("신규", has_ap, has_rel, has_np, res_type, r_man)
                         else:

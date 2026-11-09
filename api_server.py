@@ -2470,7 +2470,8 @@ def search_cockpit_unified(req: CockpitSearchRequest):
 
         if has_model_and_year:
             # [시나리오 1]: 사용자 입력에 이미 모델명/연식이 있는 경우 -> 엔카 즉시 병렬 발주
-            print(f"[cockpit/search] 모델명('{car_name}')·연식({year}) 기확보 -> 엔카 검색 즉시 발주", flush=True)
+            t_enc_start = datetime.now().strftime('%H:%M:%S.%f')[:-3]
+            print(f"[{t_enc_start}] 🚀 [엔카 검색 시작(기확보)] car_name='{car_name}', year={year}, grade='{raw_g}'", flush=True)
 
             if need_chaolma:
                 chaolma_future = executor.submit(get_chaolma_car_info, car_no, mileage=mileage)
@@ -2536,24 +2537,6 @@ def search_cockpit_unified(req: CockpitSearchRequest):
                     elif raw_ch.get("is_cached"):
                         # 캐시 히트: 이미 전체 데이터가 즉시 확보됨!
                         chaolma_res = raw_ch.get("cached_result")
-                        cur_retail = chaolma_res.get("chaolma_retail_price") or 0
-                        if cur_retail <= 0:
-                            ap_id = chaolma_res.get("ap_model_id") or chaolma_res.get("apModelId") or ""
-                            rel_d = chaolma_res.get("release_date") or ""
-                            n_p = chaolma_res.get("new_car_price") or 0
-                            if ap_id and n_p > 0:
-                                try:
-                                    mp_res = ChaolmaService.fetch_daa_market_price(
-                                        ap_model_id=ap_id,
-                                        release_date=rel_d,
-                                        mileage=mileage,
-                                        new_price=n_p,
-                                        car_no=car_no
-                                    )
-                                    if mp_res and mp_res.get("success"):
-                                        chaolma_res["chaolma_retail_price"] = mp_res.get("retail_price_man", 0)
-                                except Exception:
-                                    pass
 
                         if not car_name:
                             car_name = chaolma_res.get("model_detail_name") or chaolma_res.get("model_name") or ""
@@ -2568,7 +2551,10 @@ def search_cockpit_unified(req: CockpitSearchRequest):
 
                         _enrich_chaolma_dict(chaolma_res, year)
 
+                        # 엔카 즉시 발주 (기준소매가 대기 없음!)
                         if need_encar:
+                            t_enc_start = datetime.now().strftime('%H:%M:%S.%f')[:-3]
+                            print(f"[{t_enc_start}] 🚀 [엔카 검색 시작(캐시)] car_name='{car_name}', year={year}, grade='{raw_g}' '{raw_gd}'", flush=True)
                             encar_opts_str = _build_encar_opts_str(chaolma_res, req.targetOptions)
                             encar_req = EncarSearchRequest(
                                 carName=car_name,
@@ -2598,6 +2584,32 @@ def search_cockpit_unified(req: CockpitSearchRequest):
                             )
                             kcar_future = executor.submit(get_kcar_market_stats_post, kcar_req)
 
+                        # 기준소매가 캐시 보강은 엔카 발주 뒤에 비동기로 실행
+                        cur_retail = chaolma_res.get("chaolma_retail_price") or 0
+                        if cur_retail <= 0:
+                            def _fetch_retail_bg():
+                                try:
+                                    ap_id = chaolma_res.get("ap_model_id") or chaolma_res.get("apModelId") or ""
+                                    rel_d = chaolma_res.get("release_date") or ""
+                                    n_p = chaolma_res.get("new_car_price") or 0
+                                    if ap_id and n_p > 0:
+                                        mp_res = ChaolmaService.fetch_daa_market_price(
+                                            ap_model_id=ap_id,
+                                            release_date=rel_d,
+                                            mileage=mileage,
+                                            new_price=n_p,
+                                            car_no=car_no
+                                        )
+                                        if mp_res and mp_res.get("success"):
+                                            r_man = mp_res.get("retail_price_man", 0)
+                                            chaolma_res["chaolma_retail_price"] = r_man
+                                            print(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}] 💰 [차얼마 기준소매가 획득(캐시보충)] {r_man}만", flush=True)
+                                except Exception:
+                                    pass
+                            executor.submit(_fetch_retail_bg)
+                        else:
+                            print(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}] 💰 [차얼마 기준소매가 획득(캐시)] {cur_retail}만", flush=True)
+
                     else:
                         # 신규 조회 (캐시 미스): 1차 car_data에서 제원 추출 후 엔카 & 차얼마 2단계 동시 발주
                         car_data = raw_ch.get("car_data")
@@ -2614,7 +2626,8 @@ def search_cockpit_unified(req: CockpitSearchRequest):
                         if not year:
                             year = _extract_year_from_dict(quick_spec)
 
-                        print(f"[cockpit/search] 차얼마 1차에서 모델·연식·등급 추출 완료: car_name='{car_name}', year={year}, grade='{raw_g}' '{raw_gd}'", flush=True)
+                        t_spec_done = datetime.now().strftime('%H:%M:%S.%f')[:-3]
+                        print(f"[{t_spec_done}] 📋 [차얼마 1차 제원 확보] car_name='{car_name}', year={year}, grade='{raw_g}' '{raw_gd}'", flush=True)
 
                         # 차얼마 2단계 비동기 발주
                         if "chaolma" in sources_set:
@@ -2627,6 +2640,9 @@ def search_cockpit_unified(req: CockpitSearchRequest):
 
                         # 엔카 검색 즉시 발주 (옵션 감가 직전 지연 평가 주입)
                         if need_encar:
+                            t_enc_start = datetime.now().strftime('%H:%M:%S.%f')[:-3]
+                            print(f"[{t_enc_start}] 🚀 [엔카 검색 시작] car_name='{car_name}', year={year}, grade='{raw_g}' '{raw_gd}'", flush=True)
+
                             def _get_target_opts_b():
                                 if req.targetOptions and str(req.targetOptions).strip():
                                     return str(req.targetOptions).strip()
