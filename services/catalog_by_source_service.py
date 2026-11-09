@@ -498,3 +498,76 @@ def get_pilot_option_price(
         "desc": None,
         "reason": f"가격 미확인 (등급 '{spec.get('grade')}'에 선택옵션 '{opt_key}' 미적용)"
     }
+
+
+_CATALOG_V2_TREE_CACHE: Optional[Dict[str, Any]] = None
+
+
+def get_catalog_v2_tree() -> Dict[str, Any]:
+    """
+    V2 카탈로그(danawa)의 브랜드 -> 차종 -> 연식 -> 등급 목록 계층 트리 반환.
+    뷰어 연쇄 드롭다운용 초경량 메타데이터.
+    """
+    global _CATALOG_V2_TREE_CACHE
+    if _CATALOG_V2_TREE_CACHE is not None:
+        return _CATALOG_V2_TREE_CACHE
+
+    full_catalog = load_catalog_by_source_v2()
+    danawa = full_catalog.get("danawa", {})
+
+    targets_path = os.path.join(os.path.dirname(__file__), "..", "data", "danawa_model_targets.json")
+    brand_lookup = {}
+    brand_name_map = {
+        '303': '현대', '307': '기아', '304': '제네시스', '306': '쉐보레', '326': 'KGM', '321': '르노코리아'
+    }
+    if os.path.exists(targets_path):
+        try:
+            with open(targets_path, "r", encoding="utf-8") as f:
+                targets = json.load(f)
+            for mid, t in targets.items():
+                bid = str(t.get('brand_id'))
+                bname = brand_name_map.get(bid)
+                if bname:
+                    name = t.get('name', '')
+                    brand_lookup[name] = bname
+        except Exception:
+            pass
+
+    from services.danawa_crawler import normalize_catalog_model_name
+    norm_brand_lookup = {normalize_catalog_model_name(k): v for k, v in brand_lookup.items()}
+
+    def _classify_brand(mname: str) -> str:
+        if mname in brand_lookup:
+            return brand_lookup[mname]
+        norm = normalize_catalog_model_name(mname)
+        if norm in norm_brand_lookup:
+            return norm_brand_lookup[norm]
+        if any(k in mname for k in ['G70', 'G80', 'G90', 'GV60', 'GV70', 'GV80']):
+            return '제네시스'
+        if any(k in mname for k in ['K3', 'K5', 'K7', 'K8', 'K9', '카니발', '쏘렌토', '스포티지', '셀토스', '모닝', '레이', '니로', 'EV', '봉고', '타스만', 'PV5', '스팅어', '스토닉', '모하비', '오피러스', '프라이드', '포르테', '로체', '카렌스', '쏘울']):
+            return '기아'
+        if any(k in mname for k in ['트레일블레이저', '트랙스', '스파크', '말리부', '이쿼녹스', '트래버스', '타호', '콜로라도', '볼트', '크루즈', '임팔라', '올란도', '아베오', '알페온', '카마로']):
+            return '쉐보레'
+        if any(k in mname for k in ['티볼리', '토레스', '렉스턴', '코란도', '액티언', '무쏘', '체어맨', '로디우스', '투리스모', '카이런']):
+            return 'KGM'
+        if any(k in mname for k in ['QM', 'SM', 'XM', '아르카나', '콜레오스', '세닉', '마스터', '캡처', '조에', '트위지', '클리오']):
+            return '르노코리아'
+        return '현대'
+
+    ordered_brands = ["현대", "기아", "제네시스", "쉐보레", "KGM", "르노코리아"]
+    tree: Dict[str, Dict[str, Dict[str, List[str]]]] = {b: {} for b in ordered_brands}
+
+    for mname, mdata in danawa.items():
+        brand = _classify_brand(mname)
+        if brand not in tree:
+            tree[brand] = {}
+        tree[brand][mname] = {}
+        for y, ydata in mdata.items():
+            tree[brand][mname][y] = list(ydata.keys())
+
+    _CATALOG_V2_TREE_CACHE = {
+        "success": True,
+        "brands": ordered_brands,
+        "tree": tree
+    }
+    return _CATALOG_V2_TREE_CACHE

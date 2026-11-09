@@ -537,6 +537,15 @@ def get_catalog_v2_option_price_endpoint(source: str = "", car_name: str = "", y
     return get_pilot_option_price(source=source, car_name=car_name, year=year, grade=grade, option_name=option_name)
 
 
+@app.get("/api/catalog-v2/tree")
+def get_catalog_v2_tree_endpoint():
+    """
+    카탈로그 V2 브랜드 -> 차종 -> 연식 -> 등급 계층 트리 조회 (연쇄 드롭다운용)
+    """
+    from services.catalog_by_source_service import get_catalog_v2_tree
+    return get_catalog_v2_tree()
+
+
 # ----------------------------------------------------
 # 0-3. 엔카 최근 완판(팔린매물) 실거래 스냅샷 통계 API (Streamlit 8501 100% 동일 로직)
 # ----------------------------------------------------

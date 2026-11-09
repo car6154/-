@@ -69,7 +69,7 @@
       color: #71717a;
       font-weight: 600;
     }
-    .text-input {
+    .select-input {
       background-color: #0b0c10;
       border: 1px solid #2a2d3d;
       color: #f4f4f5;
@@ -77,9 +77,16 @@
       border-radius: 6px;
       font-size: 12px;
       outline: none;
+      cursor: pointer;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
     }
-    .text-input:focus {
+    .select-input:focus {
       border-color: #10b981;
+      box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+    }
+    .select-input option {
+      background-color: #14151b;
+      color: #f4f4f5;
     }
     .btn-search {
       background-color: #10b981;
@@ -220,29 +227,37 @@
   <header>
     <div class="header-title-box">
       <span class="header-title">신차 공식 카탈로그 V2</span>
-      <span class="header-badge">출처별·등급별 차등 가격</span>
+      <span class="header-badge">등급별 차등 가격</span>
     </div>
     <div style="font-size: 11px; color: #71717a;">
-      책 분리 보장 (다나와 / 엔카 독립 보존)
+      다나와 신차가격표 기준 (309개 국산 전 차종 수록)
     </div>
   </header>
 
   <div class="search-bar-container">
     <div class="input-group">
-      <span class="input-label">책(출처):</span>
-      <input type="text" id="inputSource" class="text-input" style="width: 80px;" value="danawa" readonly />
+      <span class="input-label">브랜드:</span>
+      <select id="selectBrand" class="select-input" style="min-width: 100px;">
+        <option value="">브랜드 선택</option>
+      </select>
     </div>
     <div class="input-group">
       <span class="input-label">차종:</span>
-      <input type="text" id="inputModel" class="text-input" style="width: 140px;" placeholder="예: 쏘렌토 4세대" />
+      <select id="selectModel" class="select-input" style="min-width: 160px; max-width: 240px;">
+        <option value="">차종 선택</option>
+      </select>
     </div>
     <div class="input-group">
       <span class="input-label">연식:</span>
-      <input type="text" id="inputYear" class="text-input" style="width: 80px;" placeholder="예: 2022" />
+      <select id="selectYear" class="select-input" style="min-width: 90px;">
+        <option value="">연식 선택</option>
+      </select>
     </div>
     <div class="input-group">
       <span class="input-label">등급:</span>
-      <input type="text" id="inputGrade" class="text-input" style="width: 220px;" placeholder="예: 디젤 2.2 2WD 트렌디" />
+      <select id="selectGrade" class="select-input" style="min-width: 220px; max-width: 340px;">
+        <option value="">등급 선택</option>
+      </select>
     </div>
     <button type="button" id="btnSearch" class="btn-search">조회</button>
   </div>
@@ -255,22 +270,98 @@
   </main>
 
   <script>
-    function parseHash() {
+    let catalogTree = null;
+    let catalogBrands = [];
+
+    // URL 해시 및 쿼리 파라미터 파싱
+    function parseParams() {
       const hash = window.location.hash.replace(/^#/, '');
-      const params = new URLSearchParams(hash);
+      const hashParams = new URLSearchParams(hash);
+      const searchParams = new URLSearchParams(window.location.search);
+
       return {
-        source: params.get('source') || 'danawa',
-        model: params.get('model') || '',
-        year: params.get('year') || '',
-        grade: params.get('grade') || ''
+        source: hashParams.get('source') || searchParams.get('source') || 'danawa',
+        brand: hashParams.get('brand') || searchParams.get('brand') || '',
+        model: hashParams.get('model') || searchParams.get('model') || '',
+        year: hashParams.get('year') || searchParams.get('year') || '',
+        grade: hashParams.get('grade') || searchParams.get('grade') || ''
       };
     }
 
-    function updateInputs(p) {
-      document.getElementById('inputSource').value = p.source || 'danawa';
-      document.getElementById('inputModel').value = p.model || '';
-      document.getElementById('inputYear').value = p.year || '';
-      document.getElementById('inputGrade').value = p.grade || '';
+    // 차종명으로 브랜드 역추적
+    function findBrandForModel(modelName) {
+      if (!catalogTree || !modelName) return '';
+      for (const brand of catalogBrands) {
+        if (catalogTree[brand] && catalogTree[brand][modelName]) {
+          return brand;
+        }
+      }
+      return '';
+    }
+
+    // 브랜드 드롭다운 채우기
+    function populateBrands(selectedBrand) {
+      const el = document.getElementById('selectBrand');
+      el.innerHTML = '<option value="">브랜드 선택</option>';
+      catalogBrands.forEach(b => {
+        const opt = document.createElement('option');
+        opt.value = b;
+        opt.textContent = b;
+        if (b === selectedBrand) opt.selected = true;
+        el.appendChild(opt);
+      });
+    }
+
+    // 차종 드롭다운 채우기
+    function populateModels(brand, selectedModel) {
+      const el = document.getElementById('selectModel');
+      el.innerHTML = '<option value="">차종 선택</option>';
+      if (!brand || !catalogTree[brand]) return;
+
+      const models = Object.keys(catalogTree[brand]).sort((a, b) => a.localeCompare(b, 'ko'));
+      models.forEach(m => {
+        const opt = document.createElement('option');
+        opt.value = m;
+        opt.textContent = m;
+        if (m === selectedModel) opt.selected = true;
+        el.appendChild(opt);
+      });
+    }
+
+    // 연식 드롭다운 채우기 (최신순)
+    function populateYears(brand, model, selectedYear) {
+      const el = document.getElementById('selectYear');
+      el.innerHTML = '<option value="">연식 선택</option>';
+      if (!brand || !model || !catalogTree[brand] || !catalogTree[brand][model]) return;
+
+      const years = Object.keys(catalogTree[brand][model]).sort((a, b) => {
+        const na = parseInt(a, 10) || 0;
+        const nb = parseInt(b, 10) || 0;
+        return nb - na;
+      });
+      years.forEach(y => {
+        const opt = document.createElement('option');
+        opt.value = y;
+        opt.textContent = `${y}년형`;
+        if (String(y) === String(selectedYear)) opt.selected = true;
+        el.appendChild(opt);
+      });
+    }
+
+    // 등급 드롭다운 채우기
+    function populateGrades(brand, model, year, selectedGrade) {
+      const el = document.getElementById('selectGrade');
+      el.innerHTML = '<option value="">등급 선택</option>';
+      if (!brand || !model || !year || !catalogTree[brand] || !catalogTree[brand][model] || !catalogTree[brand][model][year]) return;
+
+      const grades = catalogTree[brand][model][year];
+      grades.forEach(g => {
+        const opt = document.createElement('option');
+        opt.value = g;
+        opt.textContent = g;
+        if (g === selectedGrade || (selectedGrade && g.includes(selectedGrade))) opt.selected = true;
+        el.appendChild(opt);
+      });
     }
 
     async function fetchCatalogSpec(source, model, year, grade) {
@@ -280,14 +371,14 @@
       content.style.display = 'none';
 
       // 상대 경로 호출 (절대 URL 및 8000 직결 금지)
-      const url = `/api/catalog-v2/spec?source=${encodeURIComponent(source)}&car_name=${encodeURIComponent(model)}&year=${encodeURIComponent(year)}&grade=${encodeURIComponent(grade)}`;
+      const url = `/api/catalog-v2/spec?source=${encodeURIComponent(source || 'danawa')}&car_name=${encodeURIComponent(model)}&year=${encodeURIComponent(year)}&grade=${encodeURIComponent(grade || '')}`;
 
       try {
         const res = await fetch(url);
         const data = await res.json();
-        renderResult(data, { source, model, year, grade });
+        renderResult(data, { source: source || 'danawa', model, year, grade });
       } catch (err) {
-        renderError(`네트워크 요청 중 오류가 발생했습니다: ${err.message}`, { source, model, year, grade });
+        renderError(`네트워크 요청 중 오류가 발생했습니다: ${err.message}`, { source: source || 'danawa', model, year, grade });
       } finally {
         loading.style.display = 'none';
         content.style.display = 'block';
@@ -305,7 +396,7 @@
             <div class="alert-title">⚠️ 카탈로그 V2 가격 미확인</div>
             <div>${escapeHtml(reason)}</div>
             <div style="margin-top: 6px; font-size: 12px; color: #a1a1aa;">
-              조회 조건: 책=${escapeHtml(query.source || '-')}, 차종=${escapeHtml(query.model || '-')}, 연식=${escapeHtml(query.year || '-')}, 등급=${escapeHtml(query.grade || '-')}
+              조회 조건: 차종=${escapeHtml(query.model || '-')}, 연식=${escapeHtml(query.year || '-')}, 등급=${escapeHtml(query.grade || '-')}
             </div>
             ${query.model ? `<a href="${fallbackUrl}" class="fallback-link" target="_blank">구 카탈로그(V1) 뷰어로 보기 &rarr;</a>` : ''}
           </div>
@@ -349,7 +440,7 @@
           <div class="info-grid">
             <div class="info-item">
               <div class="info-item-label">출처 책</div>
-              <div class="info-item-val" style="color: #6ee7b7;">${escapeHtml(data.source?.toUpperCase() || '-')}</div>
+              <div class="info-item-val" style="color: #6ee7b7;">DANAWA (공식)</div>
             </div>
             <div class="info-item">
               <div class="info-item-label">차종 / 연식</div>
@@ -416,26 +507,102 @@
         .replace(/'/g, '&#039;');
     }
 
-    function init() {
-      const p = parseHash();
-      updateInputs(p);
-      fetchCatalogSpec(p.source, p.model, p.year, p.grade);
+    function applyParamsFromUrl() {
+      const p = parseParams();
+      let brand = p.brand;
+      if (!brand && p.model) {
+        brand = findBrandForModel(p.model);
+      }
+      if (!brand && catalogBrands.length > 0) {
+        brand = catalogBrands[0];
+      }
+
+      populateBrands(brand);
+      populateModels(brand, p.model);
+
+      const currentModel = document.getElementById('selectModel').value;
+      populateYears(brand, currentModel, p.year);
+
+      const currentYear = document.getElementById('selectYear').value;
+      populateGrades(brand, currentModel, currentYear, p.grade);
+
+      // model, year가 있으면 바로 스펙 조회
+      if (p.model && p.year) {
+        const gradeToFetch = p.grade || document.getElementById('selectGrade').value;
+        fetchCatalogSpec('danawa', p.model, p.year, gradeToFetch);
+      } else {
+        // 파라미터가 없으면 로딩창 닫고 안내 문구 노출
+        document.getElementById('loadingView').style.display = 'none';
+        document.getElementById('contentView').style.display = 'block';
+        document.getElementById('contentView').innerHTML = `
+          <div class="alert-box" style="border-color: #10b981/40; background-color: #064e3b/20; color: #6ee7b7;">
+            <div class="alert-title" style="color: #10b981;">💡 상단 드롭다운에서 차량을 선택하세요</div>
+            <div>브랜드, 차종, 연식, 등급을 차례로 선택하신 후 [조회] 버튼을 누르면 출고가 및 선택 옵션 목록이 표시됩니다.</div>
+          </div>
+        `;
+      }
     }
 
-    document.getElementById('btnSearch').addEventListener('click', () => {
-      const source = document.getElementById('inputSource').value.trim() || 'danawa';
-      const model = document.getElementById('inputModel').value.trim();
-      const year = document.getElementById('inputYear').value.trim();
-      const grade = document.getElementById('inputGrade').value.trim();
+    async function init() {
+      try {
+        const res = await fetch('/api/catalog-v2/tree');
+        const data = await res.json();
+        if (data && data.success) {
+          catalogTree = data.tree;
+          catalogBrands = data.brands || [];
+        }
+      } catch (err) {
+        console.error('카탈로그 트리 로드 실패:', err);
+      }
 
-      const newHash = `source=${encodeURIComponent(source)}&model=${encodeURIComponent(model)}&year=${encodeURIComponent(year)}&grade=${encodeURIComponent(grade)}`;
-      window.location.hash = newHash;
+      applyParamsFromUrl();
+    }
+
+    // 브랜드 변경 이벤트
+    document.getElementById('selectBrand').addEventListener('change', (e) => {
+      const brand = e.target.value;
+      populateModels(brand, '');
+      populateYears(brand, '', '');
+      populateGrades(brand, '', '', '');
     });
 
+    // 차종 변경 이벤트
+    document.getElementById('selectModel').addEventListener('change', (e) => {
+      const brand = document.getElementById('selectBrand').value;
+      const model = e.target.value;
+      populateYears(brand, model, '');
+      populateGrades(brand, model, '', '');
+    });
+
+    // 연식 변경 이벤트
+    document.getElementById('selectYear').addEventListener('change', (e) => {
+      const brand = document.getElementById('selectBrand').value;
+      const model = document.getElementById('selectModel').value;
+      const year = e.target.value;
+      populateGrades(brand, model, year, '');
+    });
+
+    // 조회 버튼 클릭 이벤트
+    document.getElementById('btnSearch').addEventListener('click', () => {
+      const brand = document.getElementById('selectBrand').value;
+      const model = document.getElementById('selectModel').value;
+      const year = document.getElementById('selectYear').value;
+      const grade = document.getElementById('selectGrade').value;
+
+      if (!model || !year) {
+        alert('차종과 연식을 선택해주세요.');
+        return;
+      }
+
+      const newHash = `brand=${encodeURIComponent(brand)}&model=${encodeURIComponent(model)}&year=${encodeURIComponent(year)}&grade=${encodeURIComponent(grade)}`;
+      window.location.hash = newHash;
+
+      fetchCatalogSpec('danawa', model, year, grade);
+    });
+
+    // 해시 변경 시 자동 반영
     window.addEventListener('hashchange', () => {
-      const p = parseHash();
-      updateInputs(p);
-      fetchCatalogSpec(p.source, p.model, p.year, p.grade);
+      applyParamsFromUrl();
     });
 
     window.addEventListener('DOMContentLoaded', init);
