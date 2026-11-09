@@ -207,6 +207,65 @@ OPTION_ALIAS_MAP = {
     "히팅패키지": "히팅 패키지",
 }
 
+# [11-06-75] 커스터마이징 액세서리 약칭/별칭 사전 (엔카·케이카 매물 약칭 -> 카탈로그 공식 액세서리명)
+ACCESSORY_ALIAS_MAP = {
+    # 트레일러 패키지 변형
+    "트레일러21": "트레일러 패키지(21인치 휠)",
+    "트레일러 21": "트레일러 패키지(21인치 휠)",
+    "트레일러패키지21": "트레일러 패키지(21인치 휠)",
+    "트레일러 패키지 21": "트레일러 패키지(21인치 휠)",
+    "트레일러패키지(21인치)": "트레일러 패키지(21인치 휠)",
+    "트레일러패키지(21인치휠)": "트레일러 패키지(21인치 휠)",
+    "트레일러 패키지(21인치)": "트레일러 패키지(21인치 휠)",
+    "트레일러19": "트레일러 패키지(19인치 휠)",
+    "트레일러 19": "트레일러 패키지(19인치 휠)",
+    "트레일러패키지19": "트레일러 패키지(19인치 휠)",
+    "트레일러 패키지 19": "트레일러 패키지(19인치 휠)",
+    "트레일러패키지(19인치)": "트레일러 패키지(19인치 휠)",
+    "트레일러패키지(19인치휠)": "트레일러 패키지(19인치 휠)",
+    "트레일러 패키지(19인치)": "트레일러 패키지(19인치 휠)",
+    "트레일러": "트레일러 패키지",
+    "토우히치": "트레일러 패키지",
+    "토우 히치": "트레일러 패키지",
+    # 라운지 패키지
+    "라운지": "라운지 패키지",
+    "라운지패키지": "라운지 패키지",
+    # 사이드 스텝
+    "사이드스텝": "사이드 스텝",
+    "고정식사이드스텝": "사이드 스텝",
+    "고정식 사이드 스텝": "사이드 스텝",
+    "전동식사이드스텝": "전동식 사이드 스텝",
+    "전동식 사이드스텝": "전동식 사이드 스텝",
+    # 캠핑 패키지
+    "캠핑": "캠핑 패키지",
+    "캠핑패키지": "캠핑 패키지",
+    # 공기청정기
+    "공기청정기": "빌트인 공기청정기",
+    "빌트인공기청정기": "빌트인 공기청정기",
+    # 러기지
+    "러기지패키지": "러기지 패키지",
+    "러기지매트": "리버서블 러기지 매트",
+    "리버서블러기지매트": "리버서블 러기지 매트",
+    "리버서블 러기지매트": "리버서블 러기지 매트",
+    # 차량보호필름
+    "차량보호필름": "차량 보호 필름",
+    "차량 보호필름": "차량 보호 필름",
+    "차량보호필름1": "차량 보호 필름 I",
+    "차량보호필름2": "차량 보호 필름 II",
+    "차량보호필름 1": "차량 보호 필름 I",
+    "차량보호필름 2": "차량 보호 필름 II",
+    "차량보호필름I": "차량 보호 필름 I",
+    "차량보호필름II": "차량 보호 필름 II",
+    # 후석 스마트 엔터테인먼트
+    "후석엔터테인먼트": "후석 스마트 엔터테인먼트 시스템",
+    "후석스마트엔터테인먼트": "후석 스마트 엔터테인먼트 시스템",
+    "후석 엔터테인먼트": "후석 스마트 엔터테인먼트 시스템",
+    "후석 스마트 엔터테인먼트": "후석 스마트 엔터테인먼트 시스템",
+    "후석엔터": "후석 스마트 엔터테인먼트 시스템",
+    "스마트엔터테인먼트": "후석 스마트 엔터테인먼트 시스템",
+}
+OPTION_ALIAS_MAP.update(ACCESSORY_ALIAS_MAP)
+
 # 전역 모델 별칭 사전 (11-03-51): 표시명(차얼마/헤이딜러 등 외부 차명) -> 카탈로그 공식 키.
 # 공용 메커니즘(차종 전용 분기 아님). 새 차 표시명은 항목으로만 추가한다.
 MODEL_ALIAS_MAP = {
@@ -717,14 +776,25 @@ def normalize_opt_name(text: str) -> str:
     }
     for r, d in ROMAN_MAP.items():
         t = t.replace(r, d)
-    # 3. 괄호 안의 가격 정보나 부가설명 분리: '컴포트 패키지 III (79만)' -> '컴포트 패키지 III'
-    # 단, 전체가 괄호로 감싸진 경우('(캘리그래피)') 괄호만 벗겨서 알맹이 보존
-    sub_t = re.sub(r'\(.*?\)', '', t).strip().lower()
-    sub_t = re.sub(r'\[.*?\]', '', sub_t).strip()
+    # 3. 괄호 안의 가격 정보 분리 및 규격 식별자(인치, 휠, 인승 등) 보존
+    # 3-1. 가격 표기 괄호 우선 분리/제거: (79만), (1,360,000원), [354만] 등
+    t = re.sub(r'\([0-9,]+(?:\s*만|\s*원)?\)', '', t)
+    t = re.sub(r'\[[0-9,]+(?:\s*만|\s*원)?\]', '', t)
+
+    # 3-2. 괄호 안에 규격 식별자(인치, 휠, 인승, 구동방식 등)가 포함된 경우 알맹이 보존 (11-06-75 근본 구조)
+    def _strip_or_preserve_paren(m):
+        inner = m.group(1).strip()
+        if re.search(r'\d+\s*(?:인치|인승|wd|단|v)|휠|awd|4wd|2wd', inner, re.I):
+            return f" {inner} "
+        return ""
+
+    sub_t = re.sub(r'\((.*?)\)', _strip_or_preserve_paren, t).strip()
+    sub_t = re.sub(r'\[(.*?)\]', _strip_or_preserve_paren, sub_t).strip()
     if sub_t:
         t = sub_t
     else:
-        t = t.replace('(', '').replace(')', '').replace('[', '').replace(']', '').strip().lower()
+        t = t.replace('(', '').replace(')', '').replace('[', '').replace(']', '').strip()
+    t = t.lower()
     # 4. 공백 및 특수기호 제거 (앰퍼샌드, 따옴표, 쉼표, 슬래시, 플러스 등 전수 클리닝)
     t = re.sub(r'[\s\-_/·+.&"\'\',]', '', t)
     # 5. 로마숫자 통일 (끝자리 또는 패키지 키워드 뒤: iv->4, iii->3, ii->2, i->1)
@@ -760,6 +830,11 @@ def _find_in_v2_options(v2_options: dict, clean: str) -> Optional[tuple]:
     반환: (official_key, val_dict, match_type) 또는 None
     """
     if not v2_options or not clean:
+        return None
+
+    # [11-06-75] 매물 옵션명 '+' 접두사(예: '+트레일러21') 제거
+    clean = re.sub(r'^\++', '', str(clean)).strip()
+    if not clean:
         return None
 
     # 1. 직접 일치
@@ -861,6 +936,7 @@ def resolve_option_item(
     규칙: 카탈로그 정가(catalog) -> API 가격(api) -> 미가격(unpriced, 0원)
     """
     name_clean = str(raw_name or "").strip()
+    name_clean = re.sub(r'^\++', '', name_clean).strip()
     if not name_clean:
         return {
             "code": str(code or ""),
@@ -1224,7 +1300,11 @@ def match_car_options_detail(car_name: str, year: Any, options_text_or_list: Any
         except Exception:
             v2_spec = None
 
-    v2_options = v2_spec.get("options", {}) if (v2_spec and v2_spec.get("found")) else {}
+    v2_options = {}
+    if v2_spec and v2_spec.get("found"):
+        v2_options.update(v2_spec.get("options", {}))
+        # [11-06-75] 커스터마이징 액세서리(Kia Genuine, HGA, TUON, N퍼포먼스 등)도 옵션 매칭 풀에 통합
+        v2_options.update(v2_spec.get("accessories", {}))
 
     # 💡 [11-06-34]: 등급 인승 모호(get_pilot_catalog_spec found: False) 시 등급 패밀리(인승 제외 6개 키 일치) 옵션 합집합 폴백
     # 옵션은 트림 단위라 인승이 달라도 이름·가격이 동일하므로, 인승 누락/모호 등급도 옵션 매칭은 정상 수행
@@ -1290,6 +1370,11 @@ def match_car_options_detail(car_name: str, year: Any, options_text_or_list: Any
                                     for opt_k, opt_v in cand_opts.items():
                                         if opt_k not in v2_options:
                                             v2_options[opt_k] = opt_v
+                                cand_accs = cand_g_spec.get("accessories", {})
+                                if isinstance(cand_accs, dict):
+                                    for acc_k, acc_v in cand_accs.items():
+                                        if acc_k not in v2_options:
+                                            v2_options[acc_k] = acc_v
         except Exception:
             pass
 
@@ -1297,6 +1382,7 @@ def match_car_options_detail(car_name: str, year: Any, options_text_or_list: Any
     for raw in raw_list:
         clean = re.sub(r'\([0-9,]+(?:\s*만|\s*원)?\)', '', raw)
         clean = re.sub(r'\[[^\]]*\]', '', clean).strip()
+        clean = re.sub(r'^\++', '', clean).strip()
 
         matched_v2 = None
         if v2_options:
@@ -1340,8 +1426,12 @@ def find_official_catalog_option(opt_name: str, catalog_data_or_options: Any = N
         return None
 
     if isinstance(catalog_data_or_options, dict):
-        if "options" in catalog_data_or_options:
-            options_dict = catalog_data_or_options.get("options", {})
+        if "options" in catalog_data_or_options or "accessories" in catalog_data_or_options:
+            options_dict = {}
+            if "options" in catalog_data_or_options:
+                options_dict.update(catalog_data_or_options.get("options", {}))
+            if "accessories" in catalog_data_or_options:
+                options_dict.update(catalog_data_or_options.get("accessories", {}))
         else:
             options_dict = catalog_data_or_options
     else:
@@ -1352,6 +1442,7 @@ def find_official_catalog_option(opt_name: str, catalog_data_or_options: Any = N
 
     clean = re.sub(r'\([0-9,]+(?:\s*만|\s*원)?\)', '', str(opt_name))
     clean = re.sub(r'\[[^\]]*\]', '', clean).strip()
+    clean = re.sub(r'^\++', '', clean).strip()
     # 전역 별칭 적용 (정규화 비교보다 먼저)
     clean = OPTION_ALIAS_MAP.get(clean, clean)
     norm_clean = normalize_opt_name(clean)

@@ -688,6 +688,7 @@ export interface NewCarCatalogData {
   fallback?: boolean;
   grades: string[];
   options: Record<string, { price: number | null; desc?: string; source?: string }>;
+  accessories?: Record<string, { price: number | null; desc?: string; source?: string }>;
   packages: Record<string, string>;
 }
 
@@ -733,6 +734,17 @@ export const fetchNewCarCatalog = async (
             };
           }
         }
+        // [11-06-75] 커스터마이징 액세서리도 mappedOptions에 함께 병합
+        if (data.accessories && typeof data.accessories === 'object') {
+          for (const [k, v] of Object.entries(data.accessories)) {
+            const val = v as any;
+            mappedOptions[k] = {
+              price: val?.price ?? null,
+              desc: val?.desc ?? '',
+              source: data.source || 'danawa',
+            };
+          }
+        }
         return {
           success: true,
           model: data.car_name || cleanName,
@@ -761,14 +773,39 @@ export interface OfficialOptionMatch {
   source?: string;
 }
 
+// [11-06-75] 커스터마이징 액세서리 약칭 별칭 맵
+const ACCESSORY_ALIAS_MAP_FRONT: Record<string, string> = {
+  '트레일러21': '트레일러 패키지(21인치 휠)',
+  '트레일러 21': '트레일러 패키지(21인치 휠)',
+  '트레일러패키지21': '트레일러 패키지(21인치 휠)',
+  '트레일러 패키지 21': '트레일러 패키지(21인치 휠)',
+  '트레일러19': '트레일러 패키지(19인치 휠)',
+  '트레일러 19': '트레일러 패키지(19인치 휠)',
+  '트레일러패키지19': '트레일러 패키지(19인치 휠)',
+  '트레일러 패키지 19': '트레일러 패키지(19인치 휠)',
+  '트레일러': '트레일러 패키지',
+  '토우히치': '트레일러 패키지',
+  '라운지': '라운지 패키지',
+  '사이드스텝': '사이드 스텝',
+  '고정식사이드스텝': '사이드 스텝',
+  '캠핑': '캠핑 패키지',
+  '공기청정기': '빌트인 공기청정기',
+  '빌트인공기청정기': '빌트인 공기청정기',
+  '러기지패키지': '러기지 패키지',
+  '차량보호필름': '차량 보호 필름',
+  '후석엔터테인먼트': '후석 스마트 엔터테인먼트 시스템',
+  '후석스마트엔터테인먼트': '후석 스마트 엔터테인먼트 시스템',
+};
+
 /**
- * 옵션명에서 가격 표기 (예: (17만), (1,050,000원), [354만] 등)를 분리 제거하는 헬퍼
+ * 옵션명에서 가격 표기 (예: (17만), (1,050,000원), [354만] 등) 및 '+' 접두사를 분리 제거하는 헬퍼
  */
 export const stripOptionPriceText = (optName: string): string => {
   if (!optName) return '';
   return optName
     .replace(/\([0-9,]+(?:\s*만|\s*원)?\)/g, '')
     .replace(/\[[^\]]*\]/g, '')
+    .replace(/^\++/, '')
     .trim();
 };
 
@@ -787,8 +824,16 @@ export const findOfficialCatalogOption = (
   }
 
   // 가격 표기 제거 및 기본 클리닝
-  const clean = stripOptionPriceText(optName);
-  const normClean = normalizeOpt(clean);
+  let clean = stripOptionPriceText(optName);
+  clean = ACCESSORY_ALIAS_MAP_FRONT[clean] || clean;
+  let normClean = normalizeOpt(clean);
+  for (const [aKey, aVal] of Object.entries(ACCESSORY_ALIAS_MAP_FRONT)) {
+    if (normalizeOpt(aKey) === normClean) {
+      clean = aVal;
+      normClean = normalizeOpt(clean);
+      break;
+    }
+  }
   if (!normClean) return null;
 
   // 1. 완전 일치 (정규화 후)

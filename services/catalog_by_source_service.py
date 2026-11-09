@@ -575,7 +575,7 @@ def get_pilot_option_price(
             "reason": spec.get("reason", "가격 미확인")
         }
 
-    opt_key = str(option_name or "").strip()
+    opt_key = re.sub(r'^\++', '', str(option_name or "")).strip()
     if not opt_key:
         return {
             "found": False,
@@ -585,17 +585,50 @@ def get_pilot_option_price(
             "reason": "옵션명 누락"
         }
 
-    options = spec.get("options", {})
-    if opt_key in options:
-        opt_info = options[opt_key]
+    # [11-06-75] options와 accessories를 모두 탐색 대상에 포함
+    items_pool = {}
+    items_pool.update(spec.get("options", {}))
+    items_pool.update(spec.get("accessories", {}))
+
+    # 1. 직접 일치
+    if opt_key in items_pool:
+        opt_info = items_pool[opt_key]
         return {
             "found": True,
             "option_name": opt_key,
-            "price": opt_info.get("price"),
-            "price_man": opt_info.get("price_man"),
-            "desc": opt_info.get("desc", ""),
+            "price": opt_info.get("price") if isinstance(opt_info, dict) else opt_info,
+            "price_man": opt_info.get("price_man") if isinstance(opt_info, dict) else None,
+            "desc": opt_info.get("desc", "") if isinstance(opt_info, dict) else "",
             "grade": spec.get("grade")
         }
+
+    # 2. 별칭 사전 적용
+    from services.option_package_service import OPTION_ALIAS_MAP, normalize_opt_name
+
+    clean_alias = OPTION_ALIAS_MAP.get(opt_key, opt_key)
+    if clean_alias in items_pool:
+        opt_info = items_pool[clean_alias]
+        return {
+            "found": True,
+            "option_name": clean_alias,
+            "price": opt_info.get("price") if isinstance(opt_info, dict) else opt_info,
+            "price_man": opt_info.get("price_man") if isinstance(opt_info, dict) else None,
+            "desc": opt_info.get("desc", "") if isinstance(opt_info, dict) else "",
+            "grade": spec.get("grade")
+        }
+
+    # 3. 정규화 일치
+    norm_key = normalize_opt_name(clean_alias)
+    for off_k, off_v in items_pool.items():
+        if normalize_opt_name(off_k) == norm_key:
+            return {
+                "found": True,
+                "option_name": off_k,
+                "price": off_v.get("price") if isinstance(off_v, dict) else off_v,
+                "price_man": off_v.get("price_man") if isinstance(off_v, dict) else None,
+                "desc": off_v.get("desc", "") if isinstance(off_v, dict) else "",
+                "grade": spec.get("grade")
+            }
 
     return {
         "found": False,
@@ -603,7 +636,7 @@ def get_pilot_option_price(
         "price": None,
         "price_man": None,
         "desc": None,
-        "reason": f"가격 미확인 (등급 '{spec.get('grade')}'에 선택옵션 '{opt_key}' 미적용)"
+        "reason": f"가격 미확인 (등급 '{spec.get('grade')}'에 선택옵션/액세서리 '{opt_key}' 미적용)"
     }
 
 
