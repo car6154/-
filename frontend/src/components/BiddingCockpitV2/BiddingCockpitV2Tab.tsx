@@ -600,14 +600,14 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
               <div className="max-h-[640px] overflow-y-auto rounded-xl space-y-3">
                 {/* 0. 목록 헤더 스티키 래퍼: [합친 탭바 줄] -> [요약 4칸] -> [연식별 평균 칩 행] (11-03-27) */}
                 <div className="sticky top-0 z-20 bg-[#08080a] pb-1 space-y-2.5">
-                  {/* 0-1. 합친 탭 줄: 좌측 탭 그룹(엔카/케이카/헤이딜러) + 우측 카운트 문구 & 세부등급 버튼 */}
-                  <div className="flex items-center justify-between gap-2 flex-wrap pt-0.5">
+                  {/* 0-1. 합친 탭 줄: 좌측 탭 그룹(엔카/케이카/헤이딜러) + 우측 카운트 문구 & 세부등급 버튼 (11-06-60 줄바뀜 방지) */}
+                  <div className="flex items-center justify-between gap-1.5 sm:gap-2 pt-0.5 min-w-0">
                     {/* 좌측: 탭 버튼 바 */}
-                    <div className="inline-flex p-1 bg-[#0f1015] border border-[#1e2029] rounded-xl shadow-sm">
+                    <div className="inline-flex p-0.5 sm:p-1 bg-[#0f1015] border border-[#1e2029] rounded-xl shadow-sm shrink-0">
                       <button
                         type="button"
                         onClick={() => { setActiveCompTab('encar'); setLastRetailTab('encar'); }}
-                        className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${
+                        className={`px-2.5 sm:px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 sm:gap-2 whitespace-nowrap shrink-0 ${
                           activeCompTab === 'encar'
                             ? 'bg-blue-600 text-white shadow-sm'
                             : 'text-zinc-400 hover:text-white hover:bg-[#1a1c26]'
@@ -624,7 +624,7 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
                       <button
                         type="button"
                         onClick={() => { setActiveCompTab('kcar'); setLastRetailTab('kcar'); }}
-                        className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${
+                        className={`px-2.5 sm:px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 sm:gap-2 whitespace-nowrap shrink-0 ${
                           activeCompTab === 'kcar'
                             ? 'bg-amber-600 text-white shadow-sm'
                             : 'text-zinc-400 hover:text-white hover:bg-[#1a1c26]'
@@ -641,7 +641,7 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
                       <button
                         type="button"
                         onClick={() => setActiveCompTab('heydealer')}
-                        className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${
+                        className={`px-2.5 sm:px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 sm:gap-2 whitespace-nowrap shrink-0 ${
                           activeCompTab === 'heydealer'
                             ? 'bg-blue-600 text-white shadow-sm'
                             : 'text-zinc-400 hover:text-white hover:bg-[#1a1c26]'
@@ -657,16 +657,16 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
                     </div>
 
                     {/* 우측: 활성 탭 카운트 문구 ("41대 중 9대" / "10대 중 8대") + 세부등급 토글 버튼 (엔카만) */}
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 whitespace-nowrap">
                       {activeCompTab === 'encar' && !isInitialState && !cockpit.isEncarLoading && (
                         <>
-                          <span className="text-xs px-2 py-0.5 rounded-full bg-[#1f222e] text-zinc-300 font-mono">
+                          <span className="text-xs px-2 py-0.5 rounded-full bg-[#1f222e] text-zinc-300 font-mono shrink-0 whitespace-nowrap">
                             {(cockpit.encarTotalModelCount || 0).toLocaleString()}대 중 {cockpit.encarFilteredCount || cockpit.encarList?.length || 0}대
                           </span>
                           <button
                             type="button"
                             onClick={() => setShowSubModel((prev) => !prev)}
-                            className="text-[11px] px-2 py-0.5 rounded bg-[#161822] hover:bg-[#20283d] text-zinc-400 hover:text-zinc-200 border border-[#262938] transition cursor-pointer font-medium"
+                            className="text-[11px] px-2 py-0.5 rounded bg-[#161822] hover:bg-[#20283d] text-zinc-400 hover:text-zinc-200 border border-[#262938] transition cursor-pointer font-medium shrink-0 whitespace-nowrap min-w-[76px] text-center"
                             title={showSubModel ? '세부등급 줄을 숨겨 행 높이를 축소합니다' : '세부등급 줄을 표시합니다'}
                           >
                             {showSubModel ? '세부등급 숨기기' : '세부등급 보기'}
@@ -674,7 +674,7 @@ export const BiddingCockpitV2Tab: React.FC<BiddingCockpitV2TabProps> = ({
                         </>
                       )}
                       {activeCompTab === 'kcar' && !isInitialState && !cockpit.isKcarLoading && (
-                        <span className="text-xs px-2 py-0.5 rounded-full bg-[#1f222e] text-zinc-300 font-mono">
+                        <span className="text-xs px-2 py-0.5 rounded-full bg-[#1f222e] text-zinc-300 font-mono shrink-0 whitespace-nowrap">
                           {(cockpit.kcarStats?.wideCount ?? cockpit.kcarStats?.count ?? cockpit.kcarStats?.cars?.length ?? 0).toLocaleString()}대 중 {(cockpit.kcarStats?.strictCount ?? cockpit.kcarStats?.count ?? cockpit.kcarStats?.cars?.length ?? 0).toLocaleString()}대
                         </span>
                       )}
