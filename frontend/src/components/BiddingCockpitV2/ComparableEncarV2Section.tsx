@@ -332,17 +332,14 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
           const mi = d.matchedItem;
           if (mi && mi.official_name) {
             const stdName = mi.official_name;
-            const srcLabel = mi.source === 'danawa' ? '다나와' : mi.source === 'encar' ? '엔카' : (mi.source || '');
-            const priceLabel = mi.price ? `${Math.round(mi.price / 10000)}만` : '';
-            const yrLabel = mi.matched_year ? `${mi.matched_year}년` : '';
-            const metaParts = [stdName, srcLabel, yrLabel, priceLabel].filter(Boolean);
-            const detailLabel = metaParts.join(' · ');
+            const priceLabel = mi.price ? ` (${Math.round(mi.price / 10000)}만원)` : '';
+            const detailLabel = `${stdName}${priceLabel}`;
 
-            if (d.compareRes.symbol === '✓') return `✓ ${o} (신차 공식 일치: ${detailLabel})`;
-            if (d.compareRes.symbol === '~') return `~ ${o} (퍼지 추정 매칭: ${detailLabel})`;
+            if (d.compareRes.symbol === '✓') return `✓ ${o} (신차가격표: ${detailLabel})`;
+            if (d.compareRes.symbol === '~') return `~ ${o} (신차가격표 추정: ${detailLabel})`;
           } else {
-            if (d.compareRes.symbol === '✓') return `✓ ${o} (신차 공식 일치: ${d.compareRes.matchedName || o})`;
-            if (d.compareRes.symbol === '~') return `~ ${o} (퍼지 추정 매칭: ${d.compareRes.matchedName || o})`;
+            if (d.compareRes.symbol === '✓') return `✓ ${o} (신차가격표: ${d.compareRes.matchedName || o})`;
+            if (d.compareRes.symbol === '~') return `~ ${o} (신차가격표 추정: ${d.compareRes.matchedName || o})`;
           }
           return `+ ${o} (비교차 전용 옵션)`;
         }),

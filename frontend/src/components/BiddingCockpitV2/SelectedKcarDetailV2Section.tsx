@@ -215,18 +215,13 @@ export const SelectedKcarDetailV2Section: React.FC<SelectedKcarDetailV2SectionPr
       }
 
       const mi = kcarMatchedOpts.find((m) => m.raw_name === rawName);
-      const isExact = mi?.match_type === 'exact';
-      const isFuzzy = mi?.match_type === 'fuzzy';
-      const srcLabel = mi?.source === 'danawa' ? '다나와' : mi?.source === 'encar' ? '엔카' : (mi?.source || '카탈로그');
-      const yearPart = mi?.matched_year ? ` · ${mi.matched_year}년` : (targetCatalog?.year ? ` · ${targetCatalog.year}년` : '');
+      const isMatched = mi && mi.official_name;
       const stdName = mi?.official_name || mi?.clean_name || rawName;
-      const pricePart = mi?.price ? ` (${Math.round(mi.price / 10000)}만)` : '';
+      const pricePart = (isMatched && mi?.price) ? ` (${Math.round(mi.price / 10000)}만원)` : '';
 
-      let titleText = `[미매칭 옵션] 원문: ${rawName}`;
-      if (isExact) {
-        titleText = `[${srcLabel} 카탈로그 정확 매칭${yearPart}] 표준명: ${stdName}${pricePart}`;
-      } else if (isFuzzy) {
-        titleText = `[${srcLabel} 카탈로그 퍼지 매칭${yearPart}] 표준명: ${stdName} (원문: ${rawName})`;
+      let titleText = `신차가격표: ${stdName}${pricePart}`;
+      if (rawName && rawName !== stdName) {
+        titleText = `${titleText}\n원문: ${rawName}`;
       }
       if (mi?.desc && mi.desc.trim()) {
         titleText = `${titleText}\n${mi.desc.trim()}`;

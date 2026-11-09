@@ -98,7 +98,7 @@ export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProp
   // 상세 패널 숨김/펼침 상태 (기본값: 펼침)
   const [isCollapsed, setIsCollapsed] = useState(false);
 
-  // 💡 [2026-11-02 제이 규칙]: 선택 차량의 옵션에 대해서만 신차 카탈로그 매칭(다나와 1순위 -> 엔카 2순위 -> 퍼지 3순위) 비동기 조회
+  // 💡 [2026-11-02 제이 규칙]: 선택 차량의 옵션에 대해서만 신차 카탈로그 매칭(신차가격표 1순위 -> 엔카 2순위 -> 퍼지 3순위) 비동기 조회
   // 💡 [Rules of Hooks]: 모든 리액트 훅은 early return(조기 반환) 이전에 컴포넌트 최상단에서 무조건 실행되어야 함
   const [matchedOptions, setMatchedOptions] = useState<MatchedOptionItem[]>([]);
 
@@ -406,15 +406,10 @@ export const SelectedCarDetailV2Section: React.FC<SelectedCarDetailV2SectionProp
                 ? item.official_name
                 : rawName;
 
-              let titleText = `[미매칭 옵션] 원문: ${rawName}`;
-              if (isMatchedOpt && item.match_type === 'exact') {
-                const srcLabel = item.source === 'danawa' ? '다나와' : '엔카';
-                const yearSuffix = item.matched_year ? ` · ${item.matched_year}년` : '';
-                titleText = `[${srcLabel} 카탈로그 정확 매칭${yearSuffix}] 표준명: ${displayName}${item.price ? ` (${Math.round(item.price / 10000)}만원)` : ''}`;
-              } else if (isMatchedOpt && item.match_type === 'fuzzy') {
-                const srcLabel = item.source === 'danawa' ? '다나와' : '엔카';
-                const yearSuffix = item.matched_year ? ` · ${item.matched_year}년` : '';
-                titleText = `[${srcLabel} 카탈로그 퍼지 매칭${yearSuffix}] 표준명: ${displayName} (원문: ${rawName})`;
+              const priceStr = (isMatchedOpt && item.price) ? ` (${Math.round(item.price / 10000)}만원)` : '';
+              let titleText = `신차가격표: ${displayName}${priceStr}`;
+              if (rawName && rawName !== displayName) {
+                titleText = `${titleText}\n원문: ${rawName}`;
               }
               if (isMatchedOpt && item.desc && item.desc.trim()) {
                 titleText = `${titleText}\n${item.desc.trim()}`;

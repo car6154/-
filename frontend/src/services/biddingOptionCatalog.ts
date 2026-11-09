@@ -1148,10 +1148,9 @@ export const getOptionMatchDetail = (
 
   // 카탈로그 공식 정보가 있으면 단독 표기 (오매칭 및 350만 패키지 혼재 방지)
   if (officialInfo) {
-    const priceStr = officialInfo.price ? `${officialInfo.price.toLocaleString()}원` : '출고가 미표기';
-    const sourceLabel = officialInfo.source === 'danawa' ? '다나와' : officialInfo.source === 'encar' ? '엔카' : (officialInfo.source || '');
-    const metaPart = sourceLabel ? `${priceStr} · ${sourceLabel}` : priceStr;
-    lines.push(`🏛️ 신차 공식 사양: ${officialInfo.officialName} (${metaPart})`);
+    const priceMan = officialInfo.price ? `${Math.round(officialInfo.price / 10000)}만원` : '';
+    const pricePart = priceMan ? ` (${priceMan})` : '';
+    lines.push(`🏛️ 신차가격표: ${officialInfo.officialName}${pricePart}`);
     if (officialInfo.desc && officialInfo.desc.length > 5) {
       lines.push(`📄 사양 안내: ${officialInfo.desc}`);
     }

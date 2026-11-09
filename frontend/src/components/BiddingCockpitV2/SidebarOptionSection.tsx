@@ -159,10 +159,7 @@ function calculateExtraOptionsTotalPrice(
       if (typeof mi.price === 'number' && mi.price > 0) {
         const man = Math.round(mi.price / 10000);
         catalogSumMan += man;
-        const srcLabel = mi.source === 'danawa' ? '다나와' : mi.source === 'encar' ? '엔카' : (mi.source || '');
-        const yrLabel = mi.matched_year ? `${mi.matched_year}년` : '';
-        const meta = [srcLabel, yrLabel].filter(Boolean).join(' ');
-        matchedLines.push(`- ${clean}: ${man.toLocaleString()}만 (${mi.official_name}${meta ? ` · ${meta}` : ''})`);
+        matchedLines.push(`- ${clean}: ${man.toLocaleString()}만원 (신차가격표: ${mi.official_name})`);
       } else {
         unpricedOptions.push(clean);
       }
@@ -172,7 +169,7 @@ function calculateExtraOptionsTotalPrice(
       const unpricedNote = unpricedOptions.length > 0 ? `\n(가격 미확인 옵션 ${unpricedOptions.length}개 제외)` : '';
       return {
         badgeText: `총 ${catalogSumMan.toLocaleString()}만`,
-        tooltip: `[신차 공식 카탈로그 기준가 합계]\n${matchedLines.join('\n')}${unpricedNote}\n합계: ${catalogSumMan.toLocaleString()}만원`,
+        tooltip: `[신차가격표 기준가 합계]\n${matchedLines.join('\n')}${unpricedNote}\n합계: ${catalogSumMan.toLocaleString()}만원`,
       };
     }
   }
@@ -229,7 +226,7 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
       : splitOptionString(optionsTag || '');
   }, [targetOptions, optionsTag]);
 
-  // 💡 [11-05-05]: 신차 카탈로그 V2 뷰어 링크 (다나와 책 기준, 등급별 차등 가격)
+  // 💡 [11-05-05]: 신차 카탈로그 V2 뷰어 링크 (신차가격표 기준, 등급별 차등 가격)
   const catalogHref = useMemo(() => {
     const params: string[] = ['source=danawa'];
     // 💡 [11-03-48]: 뷰어는 카탈로그 키(matched_key)로 모델을 찾는다. 표시명(예: "신형 카니발(KA4)")이 아니라
@@ -455,14 +452,14 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
           target="_blank"
           rel="noopener"
           className="text-[11px] font-semibold text-[#8b8e9d] uppercase shrink-0 hover:underline cursor-pointer"
-          title="새 탭에서 신차 공식 카탈로그 열기"
+          title="새 탭에서 신차가격표 열기"
         >
           추가 옵션
         </a>
         {hasOptions && (
           <>
             <span className="inline-flex items-center text-[10px] px-1 py-0.5 rounded bg-blue-500/15 text-blue-300 font-bold border border-blue-500/30 shrink-0">
-              신차 옵션 {optCount}개
+              신차가격표 {optCount}개
             </span>
             <span
               title={priceInfo.tooltip}
@@ -514,15 +511,14 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
                 const displayName = pMan > 0 ? `${optDisplayName}(${pMan}만)` : optDisplayName;
                 const compareRes = compareOptionToOpposites(mi || opt.name, compOpposites);
 
-                let tipText = opt.desc || `${opt.name} (${pMan}만)`;
-                if (mi && mi.official_name) {
-                  const srcLabel = mi.source === 'danawa' ? '다나와' : mi.source === 'encar' ? '엔카' : (mi.source || '');
-                  const yrLabel = mi.matched_year ? `${mi.matched_year}년` : '';
-                  const meta = [srcLabel, yrLabel].filter(Boolean).join(' ');
-                  tipText = `[신차 공식 표준명: ${mi.official_name}${meta ? ` · ${meta}` : ''}]\n${tipText}`;
+                const pLabel = pMan > 0 ? ` (${pMan}만원)` : (mi?.price ? ` (${Math.round(mi.price / 10000)}만원)` : '');
+                let tipText = `신차가격표: ${optDisplayName}${pLabel}`;
+                if (opt.name && opt.name !== optDisplayName) {
+                  tipText = `${tipText}\n원문: ${opt.name}`;
                 }
-                if (mi?.desc && mi.desc.trim() && !tipText.includes(mi.desc.trim())) {
-                  tipText = `${tipText}\n${mi.desc.trim()}`;
+                const descText = mi?.desc?.trim() || opt.desc?.trim();
+                if (descText && !tipText.includes(descText)) {
+                  tipText = `${tipText}\n${descText}`;
                 }
 
                 const symbolRank = !hasComp ? 4 : compareRes.symbol === '✓' ? 1 : compareRes.symbol === '~' ? 2 : 3;
@@ -615,13 +611,10 @@ export const SidebarOptionSection: React.FC<SidebarOptionSectionProps> = ({
               const compareRes = compareOptionToOpposites(mi || opt, compOpposites);
               const displayName = mi?.official_name || opt;
 
-              let tipText = `[${opt}]\n조회 차량의 장착 순정 옵션입니다.`;
-              if (mi && mi.official_name) {
-                const srcLabel = mi.source === 'danawa' ? '다나와' : mi.source === 'encar' ? '엔카' : (mi.source || '');
-                const yrLabel = mi.matched_year ? `${mi.matched_year}년` : '';
-                const pLabel = mi.price ? ` (${Math.round(mi.price / 10000)}만)` : '';
-                const meta = [srcLabel, yrLabel].filter(Boolean).join(' ');
-                tipText = `[신차 공식 표준명: ${mi.official_name}${pLabel}${meta ? ` · ${meta}` : ''}]\n원문: ${opt}`;
+              const pLabel = mi?.price ? ` (${Math.round(mi.price / 10000)}만원)` : '';
+              let tipText = `신차가격표: ${displayName}${pLabel}`;
+              if (opt && opt !== displayName) {
+                tipText = `${tipText}\n원문: ${opt}`;
               }
               if (mi?.desc && mi.desc.trim()) {
                 tipText = `${tipText}\n${mi.desc.trim()}`;
