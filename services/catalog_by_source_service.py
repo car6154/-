@@ -15,14 +15,61 @@ _CATALOG_V2_CACHE: Optional[Dict[str, Any]] = None
 # [11-05-08] 통합 규격(build_car_spec) 비교 항목: 모두 같으면 같은 등급 판정
 SPEC_COMPARE_KEYS = ("fuel", "disp", "drive", "seats", "grade_base", "grade_suffix", "is_turbo")
 
+# [11-06-52] 연료 및 파워트레인 명칭 정규화 맵 (LPe=LPG, GDe/TCe=가솔린, dCi=디젤 등 통합)
+FUEL_NORM_MAP = {
+    # LPG 계열
+    'lpg': 'LPG', 'lpe': 'LPG', 'lpi': 'LPG',
+    # 가솔린 계열
+    '가솔린': '가솔린', 'gasoline': '가솔린', 'gde': '가솔린', 'tce': '가솔린',
+    'gdi': '가솔린', 'tgdi': '가솔린', 't-gdi': '가솔린', 'mpi': '가솔린',
+    'tsi': '가솔린', 'tfsi': '가솔린',
+    # 디젤 계열
+    '디젤': '디젤', 'diesel': '디젤', 'dci': '디젤', 'crdi': '디젤',
+    'vgt': '디젤', 'e-vgt': '디젤', 'tdi': '디젤',
+    # 하이브리드 계열
+    '하이브리드': '하이브리드', 'hybrid': '하이브리드', 'hev': '하이브리드', 'phev': '하이브리드',
+    # 전기 계열
+    '전기': '전기', 'electric': '전기', 'ev': '전기',
+    # 수소 계열
+    '수소': '수소', 'fcev': '수소',
+    # CNG
+    'cng': 'CNG'
+}
+
+
+def extract_fuel_norm(raw: str) -> str:
+    """연료 별칭을 표준 명칭(LPG, 가솔린, 디젤, 하이브리드, 전기, 수소, CNG)으로 정규화"""
+    clean = str(raw or "").lower()
+    for k, v in FUEL_NORM_MAP.items():
+        if re.search(rf'(?:\b|[^a-zA-Z0-9가-힣]){re.escape(k)}(?:\b|[^a-zA-Z0-9가-힣]|$)', clean):
+            return v
+    for k in ['가솔린', '디젤', '하이브리드', '전기', '수소']:
+        if k in clean:
+            return FUEL_NORM_MAP[k]
+    from services.model_matcher import ModelMatcher
+    f = ModelMatcher.extract_fuel(raw) or ""
+    return FUEL_NORM_MAP.get(f.lower(), f)
+
+
+def get_base_model_family(car_name: str) -> str:
+    """차종명에서 세대 수식어(더 뉴, 올 뉴, 뉴, 디 올 뉴, F/L 등)를 제거하여 기본 모델 패밀리명 추출"""
+    s = str(car_name or "").strip()
+    s = re.sub(r'\([^\)]*\)', ' ', s)
+    s = re.sub(r'(?i)\b(f/l|fl|facelift)\b', ' ', s)
+    s = re.sub(r'\b(더\s*뉴|올\s*뉴|디\s*올\s*뉴|뉴|new|the\s*new|all\s*new)\b', ' ', s, flags=re.IGNORECASE)
+    s = re.sub(r'\b\d+세대\b', ' ', s)
+    return s.strip()
+
 
 def extract_pure_trim(text: str) -> str:
-    """연료, 배기량, 구동, 인승, 밴, 변속기 등 규격 요소를 제외한 순수 트림명 추출 (티볼리 V3, RS 등 전수 대응)"""
+    """연료, 배기량, 구동, 인승, 밴, 변속기 및 연료별칭(LPe, GDe 등) 규격 요소를 제외한 순수 트림명 추출"""
     s = str(text or "").strip()
     s = re.sub(r'\([^\)]*\)', ' ', s)
     s = re.sub(r'\d+인승', ' ', s)
     s = re.sub(r'(?i)\b(2wd|4wd|awd|fwd|rwd|4륜|2륜|htrac)\b', ' ', s)
-    s = re.sub(r'(?i)\b(가솔린|디젤|lpg|하이브리드|hev|전기|ev|cng|수소)\b', ' ', s)
+    # [11-06-52] 연료 및 파워트레인 약어 완전 제거
+    fuel_patterns = r'(?i)\b(가솔린|디젤|lpg|lpe|lpi|gde|tce|gdi|tgdi|t-gdi|mpi|tsi|tfsi|dci|crdi|vgt|e-vgt|tdi|하이브리드|hybrid|hev|phev|전기|electric|ev|수소|fcev|cng)\b'
+    s = re.sub(fuel_patterns, ' ', s)
     s = re.sub(r'(가솔린|디젤|lpg|하이브리드|전기|cng|수소)', ' ', s, flags=re.IGNORECASE)
     s = re.sub(r'\b\d+\.\d+\b', ' ', s)
     s = re.sub(r'\b\d{3,4}\s*cc\b', ' ', s, flags=re.IGNORECASE)
@@ -34,8 +81,7 @@ def extract_pure_trim(text: str) -> str:
 
 
 def parse_grade_tokens(text: str) -> dict:
-    """등급 문자열에서 다차원 스펙 토큰 파싱 (연료, 배기량, 구동, 인승, 바디타입, 변속기, 트림)"""
-    from services.model_matcher import ModelMatcher
+    """등급 문자열에서 다차원 스펙 토큰 파싱 (연료 별칭 정규화, 배기량, 구동, 인승, 바디타입, 변속기, 트림)"""
     raw = str(text or "").strip()
     clean = raw.lower()
 
@@ -46,8 +92,8 @@ def parse_grade_tokens(text: str) -> dict:
     # 2. transmission (수동 여부)
     is_manual = bool(re.search(r'(?i)(?:\b|[^a-zA-Z0-9가-힣])(?:m/t|mt|수동)(?:\b|[^a-zA-Z0-9가-힣]|$)', clean))
 
-    # 3. fuel
-    fuel = ModelMatcher.extract_fuel(raw) or ""
+    # 3. fuel (연료 별칭 표준화: LPe=LPG, GDe=가솔린 등)
+    fuel = extract_fuel_norm(raw)
 
     # 4. disp (소수점 첫째 자리 반올림 / 1.35L 등 오차 정규화)
     disp = ""
@@ -206,7 +252,12 @@ def match_catalog_grade(query_grade: str, year_book: dict):
     if len(pure_exact) == 1:
         return pure_exact[0][0], pure_exact[0][1]
 
-    # 완전 일치 후보가 있는지
+    # 4) 동일 스펙·동일 가격의 표기 변형 복수 키인 경우 (예: '2.0 LPG 2WD RE' vs 'lpg 2.0 2WD RE')
+    prices = [item[1].get('base_price') for item in final_cands if isinstance(item[1], dict)]
+    if len(prices) == len(final_cands) and len(set(prices)) == 1 and prices[0] is not None:
+        return final_cands[0][0], final_cands[0][1]
+
+    # 5) 완전 일치 후보가 있는지
     for b_key, b_spec, _ in final_cands:
         if b_key == query_grade:
             return b_key, b_spec
@@ -319,6 +370,46 @@ def get_pilot_catalog_spec(
         else:
             norm_year = s_year
     year_book = car_book.get(norm_year)
+    matched_grade_key = None
+    grade_spec = None
+
+    # 4단계: 등급 매칭 (1차: 현재 차종의 해당 연식 탐색)
+    if year_book and isinstance(year_book, dict):
+        res_grade = match_catalog_grade(s_grade, year_book)
+        if res_grade:
+            matched_grade_key = res_grade[0]
+            grade_spec = res_grade[1]
+
+    # [11-06-52] 4-2. 차종 패밀리 연식·등급 폴백:
+    # 조회 차종에 해당 연식이 없거나 등급이 불일치할 때, 같은 계열의 다른 차종명(예: '더 뉴 QM6' -> 'QM6')에 해당 연식·등급이 있는지 확인
+    if not grade_spec:
+        base_family = get_base_model_family(s_car)
+        if base_family:
+            family_candidates = []
+            for cand_name, cand_book in source_book.items():
+                if cand_name == matched_car_key:
+                    continue
+                if isinstance(cand_book, dict):
+                    cand_base = get_base_model_family(cand_name)
+                    if cand_base and (cand_base.lower() == base_family.lower() or base_family.lower() in cand_name.lower()):
+                        if norm_year in cand_book and isinstance(cand_book[norm_year], dict):
+                            family_candidates.append((cand_name, cand_book, cand_book[norm_year]))
+
+            # 패밀리 후보들 중 연식과 등급이 정확히 일치하는 단일 후보 탐색
+            family_matches = []
+            for f_name, f_book, f_ybook in family_candidates:
+                f_res = match_catalog_grade(s_grade, f_ybook)
+                if f_res:
+                    family_matches.append((f_name, f_book, f_ybook, f_res))
+
+            if len(family_matches) == 1:
+                f_name, f_book, f_ybook, f_res = family_matches[0]
+                matched_car_key = f_name
+                car_book = f_book
+                year_book = f_ybook
+                matched_grade_key = f_res[0]
+                grade_spec = f_res[1]
+
     if not year_book or not isinstance(year_book, dict):
         return {
             "found": False,
@@ -329,17 +420,12 @@ def get_pilot_catalog_spec(
             "grade": s_grade
         }
 
-    # 4단계: 등급 (통합 등급 매칭 엔진 match_catalog_grade 단일 진실 공급원)
-    res_grade = match_catalog_grade(s_grade, year_book)
-    matched_grade_key = res_grade[0] if res_grade else None
-    grade_spec = res_grade[1] if res_grade else None
-
     if not grade_spec or not matched_grade_key:
         return {
             "found": False,
             "reason": f"가격 미확인 (등급 '{s_grade}' 미등록)",
             "source": s_source,
-            "car_name": s_car,
+            "car_name": matched_car_key or s_car,
             "year": norm_year,
             "grade": s_grade
         }
