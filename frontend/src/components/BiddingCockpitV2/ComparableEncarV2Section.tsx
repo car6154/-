@@ -62,18 +62,6 @@ const formatAccident = (rawType?: string) => {
   return { text: `🟡 ${rawType.slice(0, 8)}`, style: 'text-amber-400 font-bold' };
 };
 
-// 연식 문자열에서 2자리 연도 숫자 추출 (useBiddingCockpit encarYearStats 생성 로직과 100% 동일)
-const parseYearTo2Digit = (yrStr?: string): number | null => {
-  if (!yrStr) return null;
-  const match = String(yrStr).trim().match(/(\d{2,4})/);
-  if (!match) return null;
-  const parsed = parseInt(match[1], 10);
-  if (parsed > 2000) return parsed - 2000;
-  if (parsed > 100) return parsed % 100;
-  if (parsed > 0) return parsed;
-  return null;
-};
-
 export interface EncarSummaryHeaderProps {
   encarList: EncarItem[];
   strictCarIds?: string[];
@@ -170,7 +158,6 @@ export const EncarSummaryHeader: React.FC<EncarSummaryHeaderProps> = ({
                 <span>{st.year}년</span>
                 <strong className="text-white">{st.avg.toLocaleString()}만</strong>
                 <span className="text-zinc-400 text-[10px]">({st.count}대)</span>
-                {st.isTarget && <span className="text-[10px] text-amber-300">★</span>}
               </span>
             ))
           ) : (
@@ -218,11 +205,30 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
   const [localShowSubModel, setLocalShowSubModel] = useState<boolean>(true);
   const showSubModel = externalShowSubModel !== undefined ? externalShowSubModel : localShowSubModel;
 
-  // 목표 연식(2자리) 추출 (encarYearStats의 isTarget: true 항목 기준)
-  const targetCohortYear = useMemo(() => {
-    const targetStat = encarYearStats.find((st) => st.isTarget);
-    return targetStat ? targetStat.year : null;
-  }, [encarYearStats]);
+  // ── 자사 매물 (오토플러스/리본카) 연동 및 판정 로직 (V1 ComparableEncarSection과 1:1 일치) ──
+  const [companyCarIdMap, setCompanyCarIdMap] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    fetch('/api/autoplus/company_carids')
+      .then((r) => r.json())
+      .then((data) => {
+        if (data && typeof data === 'object') {
+          setCompanyCarIdMap(data);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  const isCompanyCarItem = (car: EncarItem): boolean => {
+    if ((car as any).isCompanyCar) return true;
+    const cleanId = String(car.id || (car as any)._carid || '').replace(/\D/g, '');
+    if (cleanId && companyCarIdMap[cleanId]) return true;
+    return false;
+  };
+
+  const companyCount = useMemo(() => {
+    return (encarList || []).filter(isCompanyCarItem).length;
+  }, [encarList, companyCarIdMap]);
 
   // 💡 [11-03-11]: 백엔드 단일화 배치 옵션 매칭 상태 (목록 렌더링당 1회 배치 호출)
   const [batchOptionsMap, setBatchOptionsMap] = useState<Record<string, BackendMatchedOption[]>>({});
@@ -325,6 +331,19 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
     <div className="space-y-3">
       {/* 1. 엔카 비교 매물 목록 테이블 박스 */}
       <div className="bg-[#0f1015] border border-[#1e2029] rounded-xl overflow-hidden shadow-sm space-y-0">
+      {companyCount > 0 && (
+        <div className="px-3.5 py-1.5 border-b border-[#1e2029] bg-indigo-950/20 flex items-center justify-between text-xs">
+          <div className="flex items-center gap-2">
+            <span className="text-zinc-300 font-semibold">📰 엔카 비교 매물</span>
+            <span
+              className="px-1.5 py-0.5 rounded text-[11px] font-black bg-indigo-500/30 text-indigo-200 border border-indigo-400/50 shadow-sm"
+              title="자사(오토플러스/리본카) 보유 및 엔카 광고 등록 매물"
+            >
+              자사 {companyCount}대
+            </span>
+          </div>
+        </div>
+      )}
       {/* 1. 에러 메시지 알림 (있을 때만 표시, 기존 헤더 행은 상단 합친 탭 줄로 일원화) */}
       {errorMessage && (
         <div className="px-4 py-2 border-b border-[#1e2029] bg-rose-500/10 text-xs text-rose-400 flex items-center gap-1.5">
@@ -398,20 +417,18 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
                 // 옵션 배지 데이터 조회 (Map 기반)
                 const badgeData = optionBadgeMap.get(car.id);
                 const hasOptions = badgeData?.hasOptions ?? false;
-
-                // 목표 연식 일치 여부 판정 (연식 칩 ★과 동일 기준)
-                const carYear2Digit = parseYearTo2Digit(car.year);
-                const isTargetYear = targetCohortYear !== null && carYear2Digit === targetCohortYear;
+                const isCompany = isCompanyCarItem(car);
 
                 return (
                   <tr
                     key={car.id}
                     onClick={() => onSelectCar(car.id)}
+                    title={isCompany ? "자사(오토플러스/리본카) 보유 광고 매물" : undefined}
                     className={`cursor-pointer transition select-none ${
                       isSelected
                         ? 'bg-blue-950/40 text-white font-medium border-l-2 border-blue-500'
-                        : isTargetYear
-                        ? 'bg-amber-950/20 hover:bg-amber-950/35 border-l-2 border-amber-500/70'
+                        : isCompany
+                        ? 'bg-indigo-900/60 hover:bg-indigo-900/75 text-indigo-100 border-l-4 border-indigo-400'
                         : 'hover:bg-[#161822]'
                     }`}
                   >
@@ -452,16 +469,28 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
                     {/* 4) 차량명 (내용만큼 차지하고 넘치면 말줄임 처리, 자체에 원문 링크) */}
                     <td className="py-1.5 px-2 whitespace-nowrap max-w-[170px]">
                       <div className="flex flex-col min-w-0">
-                        <a
-                          href={detailUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          onClick={(e) => e.stopPropagation()}
-                          className="font-bold text-sky-400 hover:text-sky-300 hover:underline transition truncate block"
-                          title={`엔카 상세 새 창 열기 (ID: ${car.id})\n${car.carName}${car.subModel ? ' ' + car.subModel : ''}`}
-                        >
-                          {car.carName}
-                        </a>
+                        <div className="flex items-center gap-1.5">
+                          {isCompany && (
+                            <span
+                              className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-black bg-indigo-500/30 text-indigo-200 border border-indigo-400/50 shadow-sm shrink-0"
+                              title="자사(오토플러스/리본카) 보유 및 엔카 광고 등록 매물"
+                            >
+                              자사
+                            </span>
+                          )}
+                          <a
+                            href={detailUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            className={`font-bold hover:underline transition truncate block ${
+                              isCompany ? 'text-indigo-300 hover:text-indigo-200' : 'text-sky-400 hover:text-sky-300'
+                            }`}
+                            title={`엔카 상세 새 창 열기 (ID: ${car.id})\n${car.carName}${car.subModel ? ' ' + car.subModel : ''}`}
+                          >
+                            {car.carName}
+                          </a>
+                        </div>
                         {showSubModel && car.subModel && (
                           <span className="text-[11px] text-zinc-400 truncate block">
                             {car.subModel}
@@ -472,14 +501,9 @@ export const ComparableEncarV2Section: React.FC<ComparableEncarV2SectionProps> =
 
                     {/* 5) 연식 */}
                     <td className="py-1.5 px-1.5 text-center font-mono whitespace-nowrap">
-                      <span className={isTargetYear ? 'text-amber-300 font-bold' : 'text-zinc-300'}>
+                      <span className="text-zinc-300">
                         {car.year}
                       </span>
-                      {isTargetYear && (
-                        <span className="ml-1 text-[10px] text-amber-400 font-bold" title="목표 연식">
-                          ★
-                        </span>
-                      )}
                     </td>
 
                     {/* 6) 주행(km) 및 주행 차이 (표시 전용) */}
