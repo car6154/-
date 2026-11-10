@@ -82,3 +82,5 @@ frontend/src/data/my_inventory_settlement.csv
 autoplus_inventory.csv
 sales_car_datalist.csv
 data/tracked_cars.json
+
+company_carid_alias.json

@@ -26,6 +26,7 @@ INVENTORY_CSV = os.path.join(BASE_DIR, "autoplus_inventory.csv")
 SOLD_CSV = os.path.join(BASE_DIR, "sales_car_datalist.csv")
 SETTLEMENT_CSV = os.path.join(BASE_DIR, "my_inventory_settlement.csv")
 LEDGER_CSV = os.path.join(BASE_DIR, "my_car_ledger.csv")
+ALIAS_JSON = os.path.join(BASE_DIR, "company_carid_alias.json")
 
 # 1. 판매중 헤더 (33개)
 SELLING_HEADERS = [
@@ -545,6 +546,17 @@ class AutoplusSyncService:
                 }
                 cls._save_status(res)
                 print(f"[AutoplusSync] {res['message']}", flush=True)
+
+                # 5. 자사 보유 차량 중 환불/재등록 매물(dummyVehicleId) 백그라운드 증분 해석
+                try:
+                    threading.Thread(
+                        target=cls._bg_resolve_aliases,
+                        daemon=True,
+                        name="AutoplusDummyVehicleResolver"
+                    ).start()
+                except Exception as e:
+                    print(f"[AutoplusSync] dummyVehicleId 해석 스레드 시작 실패: {e}", flush=True)
+
                 return res
 
             except Exception as ex:
@@ -623,6 +635,117 @@ class AutoplusSyncService:
     _carid_cache_time: float = 0.0
 
     @classmethod
+    def resolve_dummy_vehicle_ids(cls, target_carids: Optional[List[str]] = None) -> Dict[str, str]:
+        """
+        [11-06-86] 엔카 리드사이드 API(manage.dummyVehicleId)를 호출하여
+        환불 후 재등록된 차량의 {옛 carid: 새 carid} 별칭을 증분 해석 및 저장.
+        - CSV 원본은 전혀 건드리지 않고 company_carid_alias.json에 저장
+        - 이미 검사 완료된 carid는 스킵 (증분 처리, 1,799건 매번 전수 호출 금지)
+        - 429 수신 시 재시도하지 않고 안전 즉시 중단
+        - 호출 간격(0.15초)을 두어 엔카 API 부하 방지
+        """
+        import time
+
+        # 1. 기존 alias 파일 로드 (증분 처리를 위한 checked_ids 복원)
+        aliases: Dict[str, str] = {}
+        checked_ids: set = set()
+        if os.path.exists(ALIAS_JSON):
+            try:
+                with open(ALIAS_JSON, "r", encoding="utf-8") as f:
+                    saved_data = json.load(f)
+                if isinstance(saved_data, dict):
+                    aliases = saved_data.get("aliases", {})
+                    checked_ids = set(saved_data.get("checked_ids", []))
+                    if not aliases and saved_data:
+                        aliases = {str(k): str(v) for k, v in saved_data.items() if not str(k).startswith("_")}
+                        checked_ids = set(aliases.keys())
+            except Exception as e:
+                print(f"[AutoplusSync] ALIAS_JSON 로드 중 예외(신규 생성): {e}", flush=True)
+
+        # 2. 검사 대상 carid 목록 취합
+        if target_carids is None:
+            cids_to_check = set()
+            target_csvs = [SETTLEMENT_CSV, INVENTORY_CSV, LEDGER_CSV]
+            for p in target_csvs:
+                if not os.path.exists(p):
+                    continue
+                for enc in ['utf-8-sig', 'utf-8', 'cp949', 'euc-kr']:
+                    try:
+                        with open(p, 'r', encoding=enc) as f:
+                            reader = csv.DictReader(f)
+                            for r in reader:
+                                url = str(r.get('엔카URL', '') or r.get('E URL', '') or r.get('특이사항', '')).strip()
+                                if url:
+                                    m = re.search(r'carid=(\d+)', url) or re.search(r'/cars/detail/(\d+)', url)
+                                    if m:
+                                        cids_to_check.add(m.group(1))
+                        break
+                    except Exception:
+                        continue
+        else:
+            cids_to_check = set(str(c).strip() for c in target_carids if str(c).strip().isdigit())
+
+        # 3. 이미 확인한 carid 제외 (증분 필터링)
+        pending_ids = [cid for cid in cids_to_check if cid not in checked_ids]
+        if not pending_ids:
+            return aliases
+
+        print(f"[AutoplusSync] dummyVehicleId 해석 시작: 전체 {len(cids_to_check)}건 중 신규 {len(pending_ids)}건 검사", flush=True)
+
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+        }
+        new_aliases_count = 0
+
+        for idx, cid in enumerate(pending_ids):
+            time.sleep(0.15)  # 과도한 엔카 API 호출 방지
+            url = f"https://api.encar.com/v1/readside/vehicle/{cid}"
+            try:
+                resp = requests.get(url, headers=headers, timeout=4)
+                if resp.status_code == 429:
+                    print(f"[AutoplusSync] 엔카 API 429 (Too Many Requests) 감지 - 안전을 위해 해석을 즉시 중단합니다.", flush=True)
+                    break
+                if resp.status_code == 200:
+                    data = resp.json()
+                    manage = data.get("manage", {})
+                    dummy_id = str(manage.get("dummyVehicleId", "") or "").strip()
+                    if dummy_id and dummy_id.isdigit() and dummy_id != cid:
+                        aliases[cid] = dummy_id
+                        new_aliases_count += 1
+                        print(f"[AutoplusSync] 재등록 매물 발견: {cid} -> {dummy_id}", flush=True)
+                    checked_ids.add(cid)
+                elif resp.status_code in (404, 400):
+                    # 판매종료/존재하지 않는 매물은 다시 조회하지 않도록 완료 처리
+                    checked_ids.add(cid)
+            except Exception:
+                continue
+
+        # 4. JSON 파일 저장
+        try:
+            save_payload = {
+                "aliases": aliases,
+                "checked_ids": list(checked_ids),
+                "updated_at": datetime.datetime.now().isoformat()
+            }
+            with open(ALIAS_JSON, "w", encoding="utf-8") as f:
+                json.dump(save_payload, f, ensure_ascii=False, indent=2)
+            print(f"[AutoplusSync] dummyVehicleId 해석 완료 (신규 alias {new_aliases_count}건, 총 alias {len(aliases)}건, 누적 검사 {len(checked_ids)}건)", flush=True)
+            # 캐시 무효화하여 get_company_carid_map이 새 별칭을 즉시 읽도록 처리
+            cls._carid_cache_time = 0.0
+        except Exception as e:
+            print(f"[AutoplusSync] ALIAS_JSON 저장 실패: {e}", flush=True)
+
+        return aliases
+
+    @classmethod
+    def _bg_resolve_aliases(cls):
+        """백그라운드 스레드에서 안전하게 dummyVehicleId 해석 수행"""
+        try:
+            cls.resolve_dummy_vehicle_ids()
+        except Exception as e:
+            print(f"[AutoplusSync] 백그라운드 dummyVehicleId 해석 예외: {e}", flush=True)
+
+    @classmethod
     def get_company_carid_map(cls) -> Dict[str, str]:
         """자사 보유 차량의 차량번호 -> carid 및 전체 carid 맵 로드 (5분 메모리 캐시)"""
         import time, re
@@ -653,6 +776,24 @@ class AutoplusSyncService:
                     break
                 except Exception:
                     continue
+
+        # 4. 재등록 매물(dummyVehicleId) 별칭 맵 적용
+        if os.path.exists(ALIAS_JSON):
+            try:
+                with open(ALIAS_JSON, "r", encoding="utf-8") as f:
+                    saved_data = json.load(f)
+                aliases = saved_data.get("aliases", saved_data) if isinstance(saved_data, dict) else {}
+                for old_id, new_id in aliases.items():
+                    old_s = str(old_id).strip()
+                    new_s = str(new_id).strip()
+                    if new_s and new_s.isdigit():
+                        mapping[new_s] = new_s
+                        # old_id에 연결되어 있던 차량번호가 있다면 그 차량번호도 새 carid 매핑 지원
+                        for plate, cid in list(mapping.items()):
+                            if cid == old_s and not plate.isdigit():
+                                mapping[plate] = new_s
+            except Exception as e:
+                print(f"[AutoplusSync] ALIAS_JSON 로드 실패: {e}", flush=True)
 
         cls._carid_cache = mapping
         cls._carid_cache_time = now
