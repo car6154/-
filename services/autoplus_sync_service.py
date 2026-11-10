@@ -547,15 +547,16 @@ class AutoplusSyncService:
                 cls._save_status(res)
                 print(f"[AutoplusSync] {res['message']}", flush=True)
 
-                # 5. 자사 보유 차량 중 환불/재등록 매물(dummyVehicleId) 백그라운드 증분 해석
-                try:
-                    threading.Thread(
-                        target=cls._bg_resolve_aliases,
-                        daemon=True,
-                        name="AutoplusDummyVehicleResolver"
-                    ).start()
-                except Exception as e:
-                    print(f"[AutoplusSync] dummyVehicleId 해석 스레드 시작 실패: {e}", flush=True)
+                # 5. [11-06-87]: 엔카 API 과부하/Rate Limit(429) 및 콕핏 무한로딩 방지를 위해 
+                # 백그라운드 자동 해석 스레드 비활성화 (기존 ALIAS_JSON 파일 로드는 get_company_carid_map에서 정상 유지)
+                # try:
+                #     threading.Thread(
+                #         target=cls._bg_resolve_aliases,
+                #         daemon=True,
+                #         name="AutoplusDummyVehicleResolver"
+                #     ).start()
+                # except Exception as e:
+                #     print(f"[AutoplusSync] dummyVehicleId 해석 스레드 시작 실패: {e}", flush=True)
 
                 return res
 
@@ -662,10 +663,10 @@ class AutoplusSyncService:
             except Exception as e:
                 print(f"[AutoplusSync] ALIAS_JSON 로드 중 예외(신규 생성): {e}", flush=True)
 
-        # 2. 검사 대상 carid 목록 취합
+        # 2. 검사 대상 carid 목록 취합 (엔카 과부하 방지: target_carids 미지정 시 개인 정산표 매물에 한해 상한 30건으로 안전 제한)
         if target_carids is None:
             cids_to_check = set()
-            target_csvs = [SETTLEMENT_CSV, INVENTORY_CSV, LEDGER_CSV]
+            target_csvs = [SETTLEMENT_CSV]  # 대량 전수 순회 차단, 개인 정산표 중심으로 제한
             for p in target_csvs:
                 if not os.path.exists(p):
                     continue
