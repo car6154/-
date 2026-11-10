@@ -1,14 +1,14 @@
 {
   "status": "SUCCESS",
-  "last_sync_time": "2026-11-10 11:13:18",
-  "total_synced_cars": 3,
+  "last_sync_time": "2026-11-10 11:21:03",
+  "total_synced_cars": 2,
+  "total_pages_read": 0,
   "cars_in_api": [
     "99티9999",
-    "88스8888",
-    "01수9643"
+    "88스8888"
   ],
-  "new_inventory_added": 3,
+  "new_inventory_added": 2,
   "inventory_updated": 0,
-  "ledger_updated": 3,
-  "message": "매입연동 완료: 3대 감지 (신규 3대, 갱신 0대, 장부승격 3대)"
+  "ledger_updated": 2,
+  "message": "매입연동 완료: 2대 감지 (신규 2대, 갱신 0대, 장부승격 2대)"
 }

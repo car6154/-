@@ -587,10 +587,21 @@ def sync_highplus_buy_core(req_cars: Optional[List[Dict[str, Any]]] = None) -> D
 
         print(f"[SettlementRouter] 동적 매입 목록 수집 완료: 총 {len(cars_to_process)}대 수집", flush=True)
 
-    # 2. 모바일 목록 API 미응답 시 확장프로그램 fallback
+    # 2. 모바일 목록 API 미응답 시 확장프로그램 fallback (엄격 필터 적용)
     elif req_cars:
-        cars_to_process = req_cars
-        print(f"[SettlementRouter] 모바일 API 미응답 -> 확장프로그램 {len(cars_to_process)}대 fallback 사용", flush=True)
+        for rc in req_cars:
+            c_mgr = str(rc.get("manager") or rc.get("managerName") or "").strip()
+            # 담당자가 명시된 경우 김재현만 허용
+            if c_mgr and "김재현" not in c_mgr and "kimjh" not in c_mgr.lower():
+                continue
+            r_buy = _safe_float(rc.get("buyPrice", 0))
+            if r_buy <= 0:
+                continue
+            r_name = str(rc.get("carName", "")).strip()
+            if not r_name or r_name in ("-", "미확인"):
+                continue
+            cars_to_process.append(rc)
+        print(f"[SettlementRouter] 확장프로그램 fallback 적용: 김재현 실매입 {len(cars_to_process)}대 수집", flush=True)
 
     # 3. 데이터가 없고 세션 이슈(403 또는 쿠키 부재)인 경우 명확한 에러 반환 및 상태 기록
     is_session_issue = (
@@ -609,6 +620,7 @@ def sync_highplus_buy_core(req_cars: Optional[List[Dict[str, Any]]] = None) -> D
             "status": status_code_str,
             "last_sync_time": now_str,
             "total_synced_cars": 0,
+            "total_pages_read": list_res.get("total_pages_read", 0),
             "cars_in_api": [],
             "new_inventory_added": 0,
             "inventory_updated": 0,
@@ -644,12 +656,14 @@ def sync_highplus_buy_core(req_cars: Optional[List[Dict[str, Any]]] = None) -> D
     new_added = st_data.get("new_inventory_added", 0)
     updated_inv = st_data.get("inventory_updated", 0)
     updated_led = st_data.get("ledger_updated", 0)
-    msg_str = st_data.get("message") or f"매입연동 완료: {total_cars}대 감지 (신규 {new_added}대, 갱신 {updated_inv}대, 장부승격 {updated_led}대)"
+    pages_read = list_res.get("total_pages_read", 1)
+    msg_str = st_data.get("message") or f"매입연동 완료: {pages_read}페이지 탐색, 제이 매입차 {total_cars}대 감지 (신규 {new_added}대, 갱신 {updated_inv}대, 장부승격 {updated_led}대)"
 
     status_record = {
         "status": "SUCCESS" if res.get("success", True) else "FAIL",
         "last_sync_time": now_str,
         "total_synced_cars": total_cars,
+        "total_pages_read": pages_read,
         "cars_in_api": [c.get("carNumber") for c in cars_to_process],
         "new_inventory_added": new_added,
         "inventory_updated": updated_inv,

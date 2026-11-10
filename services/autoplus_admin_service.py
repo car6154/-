@@ -165,6 +165,8 @@ class AutoplusAdminService:
         if not buy_cars or not isinstance(buy_cars, list):
             return {"success": False, "message": "전송된 매입 데이터가 없습니다.", "syncedCount": 0}
 
+        # [11-06-78] 매입연동 직전 기존 잘못 유입된 가견적/타인차 자동 정제
+        cls.clean_invalid_sync_records()
         ledger_cars = cls._load_valid_ledger_cars()
 
         cleaned_cars = []
@@ -176,6 +178,12 @@ class AutoplusAdminService:
             mgr = str(c.get("manager", "")).strip()
             if mgr and mgr != MANAGER:
                 continue
+
+            # [11-06-78] 차종명 없는 가견적 배제
+            car_nm_check = str(c.get("carName", "")).strip()
+            if not car_nm_check or car_nm_check in ("-", "미확인", "null", "None"):
+                continue
+
             # [11-06-77] 장부 사전등록 강제 필터 제거: 신규 매입차는 장부(my_car_ledger.csv)에 자동 INSERT됨
 
             # 금액 만원 단위 정규화 (finalPcsAmt / buyPrice: 있으면 API 값 우선, null이면 기존값 유지)
@@ -186,6 +194,10 @@ class AutoplusAdminService:
                 if raw_p > 0:
                     has_explicit_buy_price = True
             buy_price_man = round(raw_p / 10000) if raw_p > 50000 else round(raw_p)
+
+            # [11-06-78] 매입가 0원 가견적 배제
+            if buy_price_man <= 0:
+                continue
 
             # 판매가 정규화 (targetSaleAmt / salePrice: 있으면 API 값 우선, null이면 기존값 유지)
             has_explicit_sale_price = False
@@ -880,6 +892,149 @@ class AutoplusAdminService:
         return removed_count
 
     @classmethod
+    def clean_invalid_sync_records(cls) -> Dict[str, int]:
+        """
+        [11-06-78] 잘못 유입된 가견적(매입가 0원, 차종 미확정) 및 타인 매입 건을
+        장부(my_car_ledger.csv)와 정산표(my_inventory_settlement.csv)에서 안전하게 제거
+        - 제이 실차(캐스퍼, 아반떼, 투싼, 올뉴카니발 등) 및 정상 판매완료 건은 100% 영구 보존
+        """
+        ledger_removed = 0
+        settlement_removed = 0
+
+        # 1. 장부(my_car_ledger.csv) 정리
+        if os.path.exists(LEDGER_CSV):
+            with _FILE_LOCK:
+                cls.backup_file(LEDGER_CSV)
+                header = []
+                rows = []
+                for enc in ['utf-8-sig', 'utf-8', 'cp949']:
+                    try:
+                        with open(LEDGER_CSV, "r", encoding=enc, newline="") as f:
+                            reader = csv.reader(f)
+                            header = next(reader, [])
+                            rows = list(reader)
+                        break
+                    except Exception:
+                        continue
+
+                if header and rows:
+                    h_map = {col.strip(): i for i, col in enumerate(header)}
+                    car_no_idx = h_map.get("차량번호")
+                    name_idx = h_map.get("차량명")
+                    buy_idx = h_map.get("매입가") or h_map.get("실매입가")
+                    memo_idx = h_map.get("특이사항")
+                    date_idx = h_map.get("등록일")
+
+                    clean_ledger_rows = []
+                    for r in rows:
+                        if not r or not any(field.strip() for field in r):
+                            continue
+
+                        c_no = r[car_no_idx].strip() if car_no_idx is not None and len(r) > car_no_idx else ""
+                        c_name = r[name_idx].strip() if name_idx is not None and len(r) > name_idx else ""
+                        b_val = _safe_float(r[buy_idx]) if buy_idx is not None and len(r) > buy_idx else 0
+                        memo_val = r[memo_idx].strip() if memo_idx is not None and len(r) > memo_idx else ""
+                        date_val = r[date_idx].strip() if date_idx is not None and len(r) > date_idx else ""
+
+                        # 잘못 유입된 데이터 판정:
+                        # [오플모바일연동]으로 들어왔으나 매입가가 0원이거나 차종명이 빈 가견적/타인차
+                        is_invalid_mobile_sync = (
+                            "[오플모바일연동]" in memo_val and (b_val <= 0 or not c_name or c_name in ("-", "미확인"))
+                        )
+                        # 또는 차량번호가 없거나 차종명이 빈 유령 데이터
+                        is_ghost_row = not c_no or (not c_name and b_val <= 0)
+
+                        if is_invalid_mobile_sync or is_ghost_row:
+                            ledger_removed += 1
+                            print(f"[AutoplusAdminService] 장부 잘못 유입 데이터 제거: 차량번호={c_no}, 차종={c_name}, 매입가={b_val}만, 등록일={date_val}", flush=True)
+                            continue
+
+                        clean_ledger_rows.append(r)
+
+                    if ledger_removed > 0:
+                        temp_l = f"{LEDGER_CSV}.{uuid.uuid4().hex[:8]}.tmp"
+                        try:
+                            with open(temp_l, "w", encoding="utf-8-sig", newline="") as f:
+                                writer = csv.writer(f)
+                                writer.writerow(header)
+                                writer.writerows(clean_ledger_rows)
+                            _safe_atomic_replace(temp_l, LEDGER_CSV)
+                            print(f"[AutoplusAdminService] 장부 가견적/타인차 정리 완료: {ledger_removed}건 제거", flush=True)
+                        except Exception as le:
+                            if os.path.exists(temp_l):
+                                try: os.remove(temp_l)
+                                except: pass
+                            print(f"[AutoplusAdminService] 장부 정리 저장 오류: {le}", flush=True)
+
+        # 2. 정산표(my_inventory_settlement.csv) 정리
+        if os.path.exists(SETTLEMENT_CSV):
+            with _FILE_LOCK:
+                cls.backup_file(SETTLEMENT_CSV)
+                header = []
+                rows = []
+                for enc in ['utf-8-sig', 'utf-8', 'cp949']:
+                    try:
+                        with open(SETTLEMENT_CSV, "r", encoding=enc, newline="") as f:
+                            reader = csv.reader(f)
+                            header = next(reader, [])
+                            rows = list(reader)
+                        break
+                    except Exception:
+                        continue
+
+                if header and rows:
+                    h_map = {col.strip(): i for i, col in enumerate(header)}
+                    car_no_idx = h_map.get("차량번호", 3)
+                    name_idx = h_map.get("차종", 4)
+                    buy_idx = h_map.get("매입가", 7)
+                    status_idx = h_map.get("상태", 2)
+
+                    clean_settle_rows = []
+                    for r in rows:
+                        if not r or not any(field.strip() for field in r):
+                            continue
+
+                        c_no = r[car_no_idx].strip() if len(r) > car_no_idx else ""
+                        c_name = r[name_idx].strip() if len(r) > name_idx else ""
+                        b_val = _safe_float(r[buy_idx]) if len(r) > buy_idx else 0
+                        status_val = r[status_idx].strip() if len(r) > status_idx else ""
+
+                        # 판매완료 정상 건은 영구 보존
+                        if "판매완료" in status_val:
+                            clean_settle_rows.append(r)
+                            continue
+
+                        # 매입가가 0원이거나 차종명이 없는 가견적 유령 데이터 제거
+                        if b_val <= 0 or not c_name or c_name in ("-", "미확인") or not c_no:
+                            settlement_removed += 1
+                            print(f"[AutoplusAdminService] 정산표 가견적 유령 데이터 제거: 차량번호={c_no}, 차종={c_name}, 매입가={b_val}만", flush=True)
+                            continue
+
+                        clean_settle_rows.append(r)
+
+                    # 순차 재부여 (1부터)
+                    for idx, row in enumerate(clean_settle_rows):
+                        if len(row) > 0:
+                            row[0] = str(idx + 1)
+
+                    if settlement_removed > 0:
+                        temp_s = f"{SETTLEMENT_CSV}.{uuid.uuid4().hex[:8]}.tmp"
+                        try:
+                            with open(temp_s, "w", encoding="utf-8-sig", newline="") as f:
+                                writer = csv.writer(f)
+                                writer.writerow(header)
+                                writer.writerows(clean_settle_rows)
+                            _safe_atomic_replace(temp_s, SETTLEMENT_CSV)
+                            print(f"[AutoplusAdminService] 정산표 가견적 정리 완료: {settlement_removed}건 제거", flush=True)
+                        except Exception as se:
+                            if os.path.exists(temp_s):
+                                try: os.remove(temp_s)
+                                except: pass
+                            print(f"[AutoplusAdminService] 정산표 정리 저장 오류: {se}", flush=True)
+
+        return {"ledger_removed": ledger_removed, "settlement_removed": settlement_removed}
+
+    @classmethod
     def fetch_and_sync_backend(cls) -> Dict[str, Any]:
         """백엔드에 저장된 쿠키로 admin.autoplus.co.kr 매입 데이터 검색 form 직접 호출 및 자동 동기화"""
         cls.clean_pre_september_inventory()
@@ -952,6 +1107,12 @@ def start_highplus_buy_scheduler(interval_sec: int = 1800):
     """
     def _run_loop():
         time.sleep(5)
+        try:
+            # [11-06-78] 기동 즉시 기존 잘못 들어간 가견적/타인차 데이터 1회 자동 청소
+            AutoplusAdminService.clean_invalid_sync_records()
+        except Exception as ce:
+            print(f"[HighplusBuySync] 초기 가견적 데이터 정리 경고: {ce}", flush=True)
+
         try:
             print("[HighplusBuySync] 서버 기동 초기 매입연동 동기화 트리거", flush=True)
             from routers.settlement_router import sync_highplus_buy_core
