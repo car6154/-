@@ -55,17 +55,22 @@ class MobilePurchaseService:
     @classmethod
     def get_purchase_list(
         cls,
-        manager: str = "kimjh1202",
+        manager: str = "김재현",
         start_date: Optional[str] = None,
         page: int = 1,
         size: int = 50,
         max_pages: int = 20
     ) -> Dict[str, Any]:
         """
-        [11-06-78] 하이오플 매입 차량 목록 전수 수집 및 엄격 필터링
-        - 1. 다중 페이지네이션: 1페이지 제한 없이 max_pages까지 전수 수집
-        - 2. 담당자 엄격 필터: 김재현(kimjh1202) 외 타인 차량(문준영, 김준만, 김준현, 이형민 등) 100% 차단
-        - 3. 가견적 차단: 매입가 0원, 차종 미확정, 매입/이전일자 없는 가견적 데이터 원천 배제
+        [11-06-79] 하이오플 실측 API 규격(searchManagerName·searchPurchaseType=A) 적용
+        - 1. 실제 모바일 URL 규격: searchManagerName="김재현", searchPurchaseType="A"(매입완료), start=0, length=50
+        - 2. 실측 응답 필드 1:1 완벽 일치:
+             * 차종명: boname + gradename
+             * 매입일자: purchaseDate
+             * 주행거리: carNavi
+             * 고유키: pcsNo
+             * 매입가: finalPcsAmt / desiredPcsAmt
+        - 3. 타인 차(문준영, 김준만 등) 및 가견적 완전 차단
         """
         cookie_str = cls.get_cookie()
         if not cookie_str:
@@ -84,7 +89,7 @@ class MobilePurchaseService:
         headers = {
             "Cookie": cookie_str,
             "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148",
-            "Referer": "https://high.autoplus.co.kr/",
+            "Referer": "https://high.autoplus.co.kr/m/purchases/estimates",
             "Origin": "https://high.autoplus.co.kr",
             "Accept": "application/json, text/plain, */*",
             "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7"
@@ -97,10 +102,17 @@ class MobilePurchaseService:
 
         try:
             while cur_page <= max_pages:
+                # [실측 규격] DataTables 규격 start=0, length=50, searchManagerName=김재현, searchPurchaseType=A
+                start_offset = (cur_page - 1) * size
                 params = {
-                    "pcsManagerId": manager,
-                    "page": cur_page,
-                    "size": size
+                    "carNumber": "",
+                    "searchStartDate": "",
+                    "searchEndDate": "",
+                    "modelName": "",
+                    "searchManagerName": "김재현",
+                    "searchPurchaseType": "A",
+                    "start": start_offset,
+                    "length": size
                 }
                 resp = requests.get(API_URL, headers=headers, params=params, timeout=12)
                 last_status = resp.status_code
@@ -125,21 +137,19 @@ class MobilePurchaseService:
 
                 json_data = resp.json()
 
-                # 페이징 정보 확인 (totalPages, totalPage, data.totalPages 등)
+                # listCount로 전체 페이지 수 산출 (DataTables 규격)
+                list_count = json_data.get("listCount")
+                if list_count is not None:
+                    try:
+                        tot = int(list_count)
+                        total_pages_detected = max(1, (tot + size - 1) // size)
+                    except (ValueError, TypeError):
+                        pass
+
                 page_items = []
                 if isinstance(json_data, list):
                     page_items = json_data
                 elif isinstance(json_data, dict):
-                    # totalPages 확인
-                    tp = json_data.get("totalPages") or json_data.get("totalPage")
-                    if not tp and isinstance(json_data.get("data"), dict):
-                        tp = json_data["data"].get("totalPages") or json_data["data"].get("totalPage")
-                    if tp:
-                        try:
-                            total_pages_detected = int(tp)
-                        except (ValueError, TypeError):
-                            pass
-
                     if isinstance(json_data.get("data"), list):
                         page_items = json_data.get("data")
                     elif isinstance(json_data.get("data"), dict) and isinstance(json_data["data"].get("list"), list):
@@ -155,7 +165,7 @@ class MobilePurchaseService:
                     break
 
                 all_raw_items.extend(page_items)
-                print(f"[MobilePurchaseService] 페이지 {cur_page} 수집 완료: {len(page_items)}건 (누적 {len(all_raw_items)}건)", flush=True)
+                print(f"[MobilePurchaseService] 페이지 {cur_page} 수집 완료: {len(page_items)}건 (누적 {len(all_raw_items)}건, 전체 {list_count or len(all_raw_items)}건)", flush=True)
 
                 if cur_page >= total_pages_detected or len(page_items) < size:
                     break
@@ -174,11 +184,11 @@ class MobilePurchaseService:
                 mgr_names = [
                     item.get("pcsManagerName"), item.get("managerName"), item.get("managerNm"),
                     item.get("pcsManagerNm"), item.get("userNm"), item.get("empNm"),
-                    item.get("regUserNm"), item.get("regEmpNm")
+                    item.get("addName"), item.get("regUserNm"), item.get("regEmpNm")
                 ]
                 mgr_ids = [
                     item.get("pcsManagerId"), item.get("managerId"), item.get("userId"),
-                    item.get("empId"), item.get("regUserId"), item.get("regEmpId")
+                    item.get("addId"), item.get("empId"), item.get("regUserId"), item.get("regEmpId")
                 ]
 
                 has_mgr_info = any(bool(v and str(v).strip()) for v in mgr_names + mgr_ids)
@@ -189,7 +199,7 @@ class MobilePurchaseService:
                         filtered_out_other_manager += 1
                         continue
 
-                # ── 2. 차량번호 및 차종명 검증 ──
+                # ── 2. 차량번호 및 차종명 검증 (boname + gradename 실측 일치) ──
                 car_no = (
                     item.get("carNumber") or
                     item.get("carNo") or
@@ -200,7 +210,9 @@ class MobilePurchaseService:
                 if not car_no or len(car_no) < 6:
                     continue
 
-                car_name = (
+                boname = str(item.get("boname") or "").strip()
+                gradename = str(item.get("gradename") or "").strip()
+                car_name = f"{boname} {gradename}".strip() if boname else (
                     item.get("carName") or
                     item.get("modelNm") or
                     item.get("vhclNm") or
@@ -212,59 +224,14 @@ class MobilePurchaseService:
                     filtered_out_estimate_only += 1
                     continue
 
-                # ── 3. 매입가 검증 (0원인 단순 가견적 제외) ──
-                buy_price = item.get("finalPcsAmt") or item.get("pcsAmt") or item.get("buyPrice") or 0
-                try:
-                    buy_price = int(str(buy_price).replace(",", ""))
-                except (ValueError, TypeError):
-                    buy_price = 0
-
-                if buy_price <= 0:
-                    filtered_out_estimate_only += 1
-                    continue
-
-                # ── 4. 매입일자/이전일자 검증 (가견적은 매입일자가 없음) ──
-                raw_td = (
-                    item.get("pcsDt") or
-                    item.get("transferDate") or
-                    item.get("returnDt") or
-                    item.get("billDate")
+                # ── 3. 고유 식별키 (pcsNo 실측 일치) ──
+                raw_pcs_id = (
+                    item.get("pcsNo") or
+                    item.get("id") or
+                    item.get("pcsId") or
+                    item.get("pcsEstimateId") or
+                    item.get("estimateId")
                 )
-                transfer_date = str(raw_td).strip() if raw_td else None
-                if not transfer_date or transfer_date.lower() in ("none", "null", ""):
-                    filtered_out_estimate_only += 1
-                    continue
-
-                # ── 5. 상태 검증 (가견적/접수/반려/취소 제외) ──
-                status_val = str(
-                    item.get("status") or
-                    item.get("statusNm") or
-                    item.get("saleStatus") or
-                    item.get("pcsStatus") or
-                    item.get("carStatus") or ""
-                ).strip()
-
-                if any(bad in status_val for bad in ["가견적", "견적접수", "신청", "반려", "취소", "견적등록"]):
-                    filtered_out_estimate_only += 1
-                    continue
-
-                etc_amt = item.get("etcAmt")
-                if etc_amt is not None:
-                    has_etc_amt = True
-                    try:
-                        etc_amt = int(str(etc_amt).replace(",", ""))
-                    except (ValueError, TypeError):
-                        etc_amt = 0
-
-                raw_target_sale = item.get("targetSaleAmt") or item.get("saleAmt") or item.get("salePrice")
-                target_sale_amt = None
-                if raw_target_sale is not None and str(raw_target_sale).strip() not in ("", "null", "none"):
-                    try:
-                        target_sale_amt = int(str(raw_target_sale).replace(",", ""))
-                    except (ValueError, TypeError):
-                        target_sale_amt = None
-
-                raw_pcs_id = item.get("id") or item.get("pcsId") or item.get("pcsEstimateId") or item.get("estimateId")
                 pcs_id = None
                 if raw_pcs_id is not None and str(raw_pcs_id).strip() not in ("", "null", "none"):
                     try:
@@ -272,18 +239,52 @@ class MobilePurchaseService:
                     except (ValueError, TypeError):
                         pcs_id = None
 
-                # 판매 완료 여부 판정
-                sold_yn = (
-                    item.get("soldYn") or
-                    item.get("sold_yn") or
-                    item.get("isSold") or
-                    item.get("saleYn") or ""
+                # ── 4. 매입일자 검증 (purchaseDate 실측 일치) ──
+                raw_td = (
+                    item.get("purchaseDate") or
+                    item.get("pcsDt") or
+                    item.get("transferDate") or
+                    item.get("returnDt") or
+                    item.get("billDate")
                 )
-                sold_yn_str = str(sold_yn).strip().upper() if sold_yn is not None else ""
-                is_sold = (sold_yn_str in ("Y", "YES", "TRUE", "1")) or ("완료" in status_val or status_val == "판매완료")
+                transfer_date = str(raw_td).strip() if raw_td else None
 
+                # ── 5. 매입가 (finalPcsAmt 우선, 없으면 desiredPcsAmt, 없으면 buyPrice) ──
+                raw_buy = item.get("finalPcsAmt")
+                if raw_buy is None or str(raw_buy).strip() in ("", "null", "none", "0"):
+                    raw_buy = item.get("desiredPcsAmt")
+                if raw_buy is None or str(raw_buy).strip() in ("", "null", "none", "0"):
+                    raw_buy = item.get("buyPrice") or item.get("pcsAmt") or item.get("carPurchasePrice") or 0
+
+                buy_price = 0
+                try:
+                    buy_price = int(float(str(raw_buy).replace(",", "").strip()))
+                except (ValueError, TypeError):
+                    buy_price = 0
+
+                # 매입완료(searchPurchaseType=A) 데이터이므로 매입일자나 pcsNo가 있으면 유효 매입건으로 인정.
+                # 단, 매입일자도 없고 pcsNo도 없는데 금액마저 0원이면 가견적으로 제외
+                if buy_price <= 0 and not transfer_date and not pcs_id:
+                    filtered_out_estimate_only += 1
+                    continue
+
+                # ── 6. 상태 검증 (단순 접수/취소/반려 제외) ──
+                status_val = str(
+                    item.get("strStatus") or
+                    item.get("status") or
+                    item.get("statusNm") or
+                    item.get("saleStatus") or
+                    item.get("pcsStatus") or
+                    item.get("carStatus") or ""
+                ).strip()
+
+                if any(bad in status_val for bad in ["견적접수", "신청", "반려", "취소"]):
+                    filtered_out_estimate_only += 1
+                    continue
+
+                # ── 7. 주행거리 (carNavi 실측 일치) ──
                 list_mileage = None
-                for mk in ["carMileage", "mileage", "vhclMileage", "accumMileage", "drivingDistance", "주행거리", "dvrDsc", "useKm", "runKm", "distance"]:
+                for mk in ["carNavi", "carMileage", "mileage", "vhclMileage", "accumMileage", "drivingDistance", "주행거리", "dvrDsc", "useKm", "runKm", "distance"]:
                     if mk in item and item[mk] is not None and str(item[mk]).strip() not in ("", "null", "none"):
                         digits = re.sub(r"[^0-9]", "", str(item[mk]))
                         if digits:
@@ -295,6 +296,39 @@ class MobilePurchaseService:
                             except (ValueError, TypeError):
                                 pass
 
+                # ── 8. 연식 (carYear 실측 일치) ──
+                model_year = str(item.get("carYear") or item.get("modelYear") or "").strip()
+
+                # ── 9. 기타수수료 etcAmt ──
+                etc_amt = item.get("etcAmt")
+                if etc_amt is not None and str(etc_amt).strip() not in ("", "null", "none"):
+                    has_etc_amt = True
+                    try:
+                        etc_amt = int(str(etc_amt).replace(",", ""))
+                    except (ValueError, TypeError):
+                        etc_amt = None
+                else:
+                    etc_amt = None
+
+                # ── 10. 목표판매가 ──
+                raw_target_sale = item.get("targetSaleAmt") or item.get("saleAmt") or item.get("salePrice")
+                target_sale_amt = None
+                if raw_target_sale is not None and str(raw_target_sale).strip() not in ("", "null", "none"):
+                    try:
+                        target_sale_amt = int(str(raw_target_sale).replace(",", ""))
+                    except (ValueError, TypeError):
+                        target_sale_amt = None
+
+                # 판매 완료 여부 판정
+                sold_yn = (
+                    item.get("soldYn") or
+                    item.get("sold_yn") or
+                    item.get("isSold") or
+                    item.get("saleYn") or ""
+                )
+                sold_yn_str = str(sold_yn).strip().upper() if sold_yn is not None else ""
+                is_sold = (sold_yn_str in ("Y", "YES", "TRUE", "1")) or ("완료" in status_val or status_val == "판매완료")
+
                 ap_car_id_list = item.get("apCarId") or item.get("carId") or None
                 if ap_car_id_list is not None:
                     ap_car_id_list = str(ap_car_id_list).strip()
@@ -305,6 +339,7 @@ class MobilePurchaseService:
                     "pcsId": pcs_id,
                     "carNumber": car_no,
                     "carName": car_name,
+                    "modelYear": model_year,
                     "buyPrice": buy_price,
                     "targetSaleAmt": target_sale_amt,
                     "apCarId": ap_car_id_list,
@@ -393,19 +428,27 @@ class MobilePurchaseService:
                 if not isinstance(data, dict):
                     continue
 
-                # pcsManagerId 확인 (kimjh1202)
-                manager_id = str(data.get("pcsManagerId") or data.get("managerId") or "").strip()
-                manager_name = str(data.get("pcsManagerName") or data.get("managerNm") or data.get("managerName") or "").strip()
-                if manager_id and "kimjh" not in manager_id.lower() and "김재현" not in manager_name:
+                # pcsManagerId / pcsManagerName 확인 (김재현/kimjh1202)
+                manager_id = str(data.get("pcsManagerId") or data.get("managerId") or data.get("addId") or "").strip()
+                manager_name = str(data.get("pcsManagerName") or data.get("managerNm") or data.get("managerName") or data.get("addName") or "").strip()
+                if (manager_id or manager_name) and "kimjh" not in manager_id.lower() and "김재현" not in manager_name:
                     logger.info(f"[MobilePurchaseService] pcs_id {pcs_id} 담당자 불일치 ({manager_id}, {manager_name}) -> 제외")
                     continue
 
                 car_no = str(data.get("carNumber") or data.get("carNo") or "").replace(" ", "").strip()
-                car_name = str(data.get("carName") or data.get("modelNm") or "").strip()
+                boname = str(data.get("boname") or "").strip()
+                gradename = str(data.get("gradename") or "").strip()
+                car_name = f"{boname} {gradename}".strip() if boname else str(data.get("carName") or data.get("modelNm") or "").strip()
 
-                buy_price = data.get("finalPcsAmt") or data.get("pcsAmt") or data.get("buyPrice") or 0
+                raw_buy = data.get("finalPcsAmt")
+                if raw_buy is None or str(raw_buy).strip() in ("", "null", "none", "0"):
+                    raw_buy = data.get("desiredPcsAmt")
+                if raw_buy is None or str(raw_buy).strip() in ("", "null", "none", "0"):
+                    raw_buy = data.get("buyPrice") or data.get("pcsAmt") or data.get("carPurchasePrice") or 0
+
+                buy_price = 0
                 try:
-                    buy_price = int(str(buy_price).replace(",", ""))
+                    buy_price = int(float(str(raw_buy).replace(",", "").strip()))
                 except (ValueError, TypeError):
                     buy_price = 0
 
@@ -417,7 +460,7 @@ class MobilePurchaseService:
                     except (ValueError, TypeError):
                         etc_amt = None
 
-                transfer_date = str(data.get("pcsDt") or data.get("returnDt") or data.get("transferDate") or "").strip() or None
+                transfer_date = str(data.get("purchaseDate") or data.get("pcsDt") or data.get("returnDt") or data.get("transferDate") or data.get("billDate") or "").strip() or None
 
                 raw_target_sale = data.get("targetSaleAmt") or data.get("saleAmt")
                 target_sale_amt = None
@@ -433,10 +476,12 @@ class MobilePurchaseService:
                     if ap_car_id.lower() in ("", "null", "none"):
                         ap_car_id = None
 
-                # 주행거리 추출: 콤마·공백·단위 문자 제거 후 정규식 숫자만 추출 (0 초과)
+                model_year = str(data.get("carYear") or data.get("modelYear") or "").strip()
+
+                # 주행거리 추출: carNavi 1순위 실측
                 extracted_mileage = None
                 matched_mileage_key = None
-                mileage_candidates = ["carMileage", "mileage", "vhclMileage", "accumMileage", "drivingDistance", "주행거리", "dvrDsc", "useKm", "runKm", "distance"]
+                mileage_candidates = ["carNavi", "carMileage", "mileage", "vhclMileage", "accumMileage", "drivingDistance", "주행거리", "dvrDsc", "useKm", "runKm", "distance"]
                 for mk in mileage_candidates:
                     if mk in data and data[mk] is not None and str(data[mk]).strip() not in ("", "null", "none"):
                         digits = re.sub(r"[^0-9]", "", str(data[mk]))
@@ -462,6 +507,7 @@ class MobilePurchaseService:
                     "pcsId": pcs_id,
                     "carNumber": car_no,
                     "carName": car_name,
+                    "modelYear": model_year,
                     "buyPrice": buy_price,
                     "targetSaleAmt": target_sale_amt,
                     "apCarId": ap_car_id,

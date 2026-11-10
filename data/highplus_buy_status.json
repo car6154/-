@@ -1,14 +1,20 @@
 {
   "status": "SUCCESS",
-  "last_sync_time": "2026-11-10 11:21:03",
-  "total_synced_cars": 2,
-  "total_pages_read": 0,
+  "last_sync_time": "2026-11-10 11:39:20",
+  "total_synced_cars": 8,
+  "total_pages_read": 1,
   "cars_in_api": [
-    "99티9999",
-    "88스8888"
+    "154나5369",
+    "224버2800",
+    "01수9643",
+    "43노5327",
+    "337너5231",
+    "155라7987",
+    "37다1840",
+    "297로2620"
   ],
-  "new_inventory_added": 2,
+  "new_inventory_added": 7,
   "inventory_updated": 0,
-  "ledger_updated": 2,
-  "message": "매입연동 완료: 2대 감지 (신규 2대, 갱신 0대, 장부승격 2대)"
+  "ledger_updated": 9,
+  "message": "매입연동 완료: 8대 감지 (신규 7대, 갱신 0대, 장부승격 9대)"
 }

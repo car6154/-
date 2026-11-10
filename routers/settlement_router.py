@@ -541,7 +541,7 @@ def sync_highplus_buy_core(req_cars: Optional[List[Dict[str, Any]]] = None) -> D
     from services.mobile_purchase_service import MobilePurchaseService
 
     cars_to_process = []
-    list_res = MobilePurchaseService.get_purchase_list(manager="kimjh1202")
+    list_res = MobilePurchaseService.get_purchase_list(manager="김재현")
 
     if list_res.get("success") and list_res.get("cars"):
         raw_list_cars = list_res["cars"]
@@ -570,10 +570,12 @@ def sync_highplus_buy_core(req_cars: Optional[List[Dict[str, Any]]] = None) -> D
             sale_p = dc.get("targetSaleAmt") if dc.get("targetSaleAmt") else c.get("targetSaleAmt")
             mileage_val = dc.get("mileage") if dc.get("mileage") else c.get("mileage")
             t_date = dc.get("transferDate") or c.get("transferDate")
+            m_year = dc.get("modelYear") or c.get("modelYear")
 
             cars_to_process.append({
                 "carNumber": c_no,
                 "carName": dc.get("carName") or c.get("carName"),
+                "modelYear": m_year,
                 "buyPrice": buy_p,
                 "salePrice": sale_p,
                 "apCarId": dc.get("apCarId") or c.get("apCarId"),
@@ -583,7 +585,7 @@ def sync_highplus_buy_core(req_cars: Optional[List[Dict[str, Any]]] = None) -> D
                 "manager": "김재현",
                 "api_success": True
             })
-            print(f"[SettlementRouter] 동적 매입차량 감지: 차량={c_no}, etcAmt={etc_amt}, buyPrice={buy_p}, salePrice={sale_p}, mileage={mileage_val}", flush=True)
+            print(f"[SettlementRouter] 동적 매입차량 감지: 차량={c_no}, etcAmt={etc_amt}, buyPrice={buy_p}, salePrice={sale_p}, mileage={mileage_val}, year={m_year}", flush=True)
 
         print(f"[SettlementRouter] 동적 매입 목록 수집 완료: 총 {len(cars_to_process)}대 수집", flush=True)
 
