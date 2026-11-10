@@ -528,140 +528,151 @@ class HighplusBuySyncRequest(BaseModel):
     cars: Optional[List[Dict[str, Any]]] = None
 
 
-@router.post("/sync_highplus_buy")
-def sync_highplus_buy(req: Optional[HighplusBuySyncRequest] = None):
-    try:
-        from services.autoplus_admin_service import AutoplusAdminService
-        from services.mobile_purchase_service import MobilePurchaseService
+def sync_highplus_buy_core(req_cars: Optional[List[Dict[str, Any]]] = None) -> Dict[str, Any]:
+    """
+    [11-06-77] 하이오플 모바일 매입연동 핵심 처리 함수 (API 호출 및 백그라운드 스케줄러 공통)
+    - 1순위: 모바일 매입 목록 API(get_purchase_list)를 동적으로 호출하여 전수 매입 목록 획득
+    - 2순위: 목록의 각 차량 pcsId로 상세 API(get_purchase_details)를 동적 호출해 etcAmt/매입가/판매가 보강
+    - 3순위: 모바일 API 미응답 시 크롬 확장프로그램 fallback(req_cars) 사용
+    - 4순위: 장부(my_car_ledger.csv) 자동 INSERT/UPDATE 및 정산표(my_inventory_settlement.csv) Upsert
+    - 5순위: 실시간 동기화 상태 파일(highplus_buy_status.json) 갱신
+    """
+    from services.autoplus_admin_service import AutoplusAdminService
+    from services.mobile_purchase_service import MobilePurchaseService
 
-        # 1. 6대 pcsNo로 상세 API 직접 호출하여 etcAmt 및 매입 정보 조회 (목록 API 필터 우회)
-        from services.mobile_purchase_service import KNOWN_PCS_IDS
-        detail_res = MobilePurchaseService.get_purchase_details(KNOWN_PCS_IDS)
-        cars_to_process = []
+    cars_to_process = []
+    list_res = MobilePurchaseService.get_purchase_list(manager="kimjh1202")
 
-        if detail_res.get("success") and detail_res.get("cars"):
-            for c in detail_res["cars"]:
-                c_no = c.get("carNumber")
-                etc_amt = c.get("etcAmt")
-                buy_price = c.get("buyPrice")
-                t_date = c.get("transferDate")
-
-                cars_to_process.append({
-                    "carNumber": c_no,
-                    "carName": c.get("carName"),
-                    "buyPrice": buy_price,
-                    "salePrice": c.get("targetSaleAmt"),
-                    "apCarId": c.get("apCarId"),
-                    "mileage": c.get("mileage"),
-                    "etcFee": etc_amt,
-                    "transferDate": t_date,
-                    "manager": "김재현",
-                    "api_success": True
-                })
-                print(f"[SettlementRouter] 6대 상세 매입 조회: 차량={c_no}, etcAmt={etc_amt}, buyPrice={buy_price}, targetSaleAmt={c.get('targetSaleAmt')}, apCarId={c.get('apCarId')}, mileage={c.get('mileage')}", flush=True)
-
-            print(f"[SettlementRouter] 6대 상세 API 조회 완료: 총 {len(cars_to_process)}대 수집", flush=True)
-
-        # 2. 상세 API 실패 시 목록 API 또는 확장프로그램 fallback
-        fallback_res = {}
-        if not cars_to_process:
-            fallback_res = MobilePurchaseService.get_purchase_list(manager="kimjh1202")
-            if fallback_res.get("success") and fallback_res.get("cars"):
-                for c in fallback_res["cars"]:
-                    if not c.get("isSold"):
-                        cars_to_process.append({
-                            "carNumber": c.get("carNumber"),
-                            "carName": c.get("carName"),
-                            "buyPrice": c.get("buyPrice"),
-                            "salePrice": c.get("targetSaleAmt"),
-                            "apCarId": c.get("apCarId"),
-                            "mileage": c.get("mileage"),
-                            "etcFee": c.get("etcAmt"),
-                            "transferDate": c.get("transferDate"),
-                            "manager": "김재현",
-                            "api_success": True
-                        })
-            elif req and req.cars:
-                cars_to_process = req.cars
-                print(f"[SettlementRouter] 모바일 API 미응답 -> 확장프로그램 {len(cars_to_process)}대 fallback 사용", flush=True)
-
-        # 3. 데이터가 없고 세션 이슈(403 또는 쿠키 부재)인 경우 명확한 에러 반환
-        is_session_issue = (
-            not cars_to_process and (
-                detail_res.get("is_no_session") or detail_res.get("is_403") or
-                fallback_res.get("is_no_session") or fallback_res.get("is_403")
-            )
-        )
-
-        if is_session_issue:
-            is_no_sess = detail_res.get("is_no_session") or fallback_res.get("is_no_session")
-            status_code_str = "NO_SESSION" if is_no_sess else "EXPIRED"
-            err_message = detail_res.get("message") or fallback_res.get("message") or "high.autoplus.co.kr 모바일 세션이 만료되었습니다 (HTTP 403). high.autoplus.co.kr 로그인 후 세션을 갱신해 주세요."
-            
-            now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            status_record = {
-                "status": status_code_str,
-                "last_sync_time": now_str,
-                "total_synced_cars": 0,
-                "cars_in_api": [],
-                "has_155_in_api": False,
-                "new_inventory_added": 0,
-                "inventory_updated": 0,
-                "ledger_updated": 0,
-                "message": err_message
-            }
+    if list_res.get("success") and list_res.get("cars"):
+        raw_list_cars = list_res["cars"]
+        # pcsId가 있는 유효 차량 목록 추출
+        dynamic_pcs_ids = [c["pcsId"] for c in raw_list_cars if c.get("pcsId")]
+        detail_map = {}
+        if dynamic_pcs_ids:
             try:
-                os.makedirs(os.path.dirname(STATUS_FILE_PATH), exist_ok=True)
-                with open(STATUS_FILE_PATH, "w", encoding="utf-8") as f:
-                    json.dump(status_record, f, ensure_ascii=False, indent=2)
-            except Exception as e:
-                print(f"[SettlementRouter] highplus_buy_status.json 저장 실패: {e}", flush=True)
+                detail_res = MobilePurchaseService.get_purchase_details(dynamic_pcs_ids)
+                if detail_res.get("success") and detail_res.get("cars"):
+                    for dc in detail_res["cars"]:
+                        c_no = dc.get("carNumber")
+                        if c_no:
+                            detail_map[c_no] = dc
+            except Exception as de:
+                print(f"[SettlementRouter] 상세 API 보강 중 예외 (무시 후 목록 데이터 사용): {de}", flush=True)
 
-            return {
-                "success": False,
-                "status": status_code_str,
-                "message": err_message,
-                "syncedCount": 0,
-                "data": status_record
-            }
+        for c in raw_list_cars:
+            c_no = c.get("carNumber")
+            if not c_no:
+                continue
 
-        res = AutoplusAdminService.process_highplus_buy_data(cars_to_process)
-        if isinstance(res, dict):
-            if "data" not in res:
-                res["data"] = {}
-            res["data"]["cars_in_api"] = [c.get("carNumber") for c in cars_to_process]
-            res["data"]["has_155_in_api"] = any(c.get("carNumber") == "155라7987" for c in cars_to_process)
+            dc = detail_map.get(c_no, {})
+            etc_amt = dc.get("etcAmt") if dc.get("etcAmt") is not None else c.get("etcAmt")
+            buy_p = dc.get("buyPrice") if dc.get("buyPrice") else c.get("buyPrice")
+            sale_p = dc.get("targetSaleAmt") if dc.get("targetSaleAmt") else c.get("targetSaleAmt")
+            mileage_val = dc.get("mileage") if dc.get("mileage") else c.get("mileage")
+            t_date = dc.get("transferDate") or c.get("transferDate")
 
-        # ── 상태 파일 (data/highplus_buy_status.json)에 실시간 연동 시간 및 결과 기록 ──
+            cars_to_process.append({
+                "carNumber": c_no,
+                "carName": dc.get("carName") or c.get("carName"),
+                "buyPrice": buy_p,
+                "salePrice": sale_p,
+                "apCarId": dc.get("apCarId") or c.get("apCarId"),
+                "mileage": mileage_val,
+                "etcFee": etc_amt,
+                "transferDate": t_date,
+                "manager": "김재현",
+                "api_success": True
+            })
+            print(f"[SettlementRouter] 동적 매입차량 감지: 차량={c_no}, etcAmt={etc_amt}, buyPrice={buy_p}, salePrice={sale_p}, mileage={mileage_val}", flush=True)
+
+        print(f"[SettlementRouter] 동적 매입 목록 수집 완료: 총 {len(cars_to_process)}대 수집", flush=True)
+
+    # 2. 모바일 목록 API 미응답 시 확장프로그램 fallback
+    elif req_cars:
+        cars_to_process = req_cars
+        print(f"[SettlementRouter] 모바일 API 미응답 -> 확장프로그램 {len(cars_to_process)}대 fallback 사용", flush=True)
+
+    # 3. 데이터가 없고 세션 이슈(403 또는 쿠키 부재)인 경우 명확한 에러 반환 및 상태 기록
+    is_session_issue = (
+        not cars_to_process and (
+            list_res.get("is_no_session") or list_res.get("is_403")
+        )
+    )
+
+    if is_session_issue:
+        is_no_sess = list_res.get("is_no_session")
+        status_code_str = "NO_SESSION" if is_no_sess else "EXPIRED"
+        err_message = list_res.get("message") or "high.autoplus.co.kr 모바일 세션이 만료되었습니다 (HTTP 403). high.autoplus.co.kr 로그인 후 세션을 갱신해 주세요."
+
         now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        st_data = res.get("data", {}) if isinstance(res, dict) else {}
-        total_cars = st_data.get("total_synced_cars", len(cars_to_process))
-        new_added = st_data.get("new_inventory_added", 0)
-        updated_inv = st_data.get("inventory_updated", 0)
-        updated_led = st_data.get("ledger_updated", 0)
-        msg_str = st_data.get("message") or f"매입연동 완료: {total_cars}대 감지 (신규 {new_added}대, 갱신 {updated_inv}대, 장부승격 {updated_led}대)"
-
         status_record = {
-            "status": "SUCCESS" if res.get("success", True) else "FAIL",
+            "status": status_code_str,
             "last_sync_time": now_str,
-            "total_synced_cars": total_cars,
-            "cars_in_api": [c.get("carNumber") for c in cars_to_process],
-            "has_155_in_api": any(c.get("carNumber") == "155라7987" for c in cars_to_process),
-            "new_inventory_added": new_added,
-            "inventory_updated": updated_inv,
-            "ledger_updated": updated_led,
-            "message": msg_str
+            "total_synced_cars": 0,
+            "cars_in_api": [],
+            "new_inventory_added": 0,
+            "inventory_updated": 0,
+            "ledger_updated": 0,
+            "message": err_message
         }
-
         try:
             os.makedirs(os.path.dirname(STATUS_FILE_PATH), exist_ok=True)
             with open(STATUS_FILE_PATH, "w", encoding="utf-8") as f:
                 json.dump(status_record, f, ensure_ascii=False, indent=2)
-            print(f"[SettlementRouter][DEBUG] highplus_buy_status.json 갱신 완료: {now_str} | 감지 {total_cars}대, 갱신 {updated_inv}대", flush=True)
-        except Exception as se:
-            print(f"[SettlementRouter][WARN] highplus_buy_status.json 저장 실패: {se}", flush=True)
+        except Exception as e:
+            print(f"[SettlementRouter] highplus_buy_status.json 저장 실패: {e}", flush=True)
 
-        return res
+        return {
+            "success": False,
+            "status": status_code_str,
+            "message": err_message,
+            "syncedCount": 0,
+            "data": status_record
+        }
+
+    # 4. 장부 및 정산표 자동 갱신 (신규 매입차 INSERT + 기존 UPDATE)
+    res = AutoplusAdminService.process_highplus_buy_data(cars_to_process)
+    if isinstance(res, dict):
+        if "data" not in res:
+            res["data"] = {}
+        res["data"]["cars_in_api"] = [c.get("carNumber") for c in cars_to_process]
+
+    # 5. 상태 파일 (data/highplus_buy_status.json)에 실시간 연동 시간 및 결과 영구 기록
+    now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    st_data = res.get("data", {}) if isinstance(res, dict) else {}
+    total_cars = st_data.get("total_synced_cars", len(cars_to_process))
+    new_added = st_data.get("new_inventory_added", 0)
+    updated_inv = st_data.get("inventory_updated", 0)
+    updated_led = st_data.get("ledger_updated", 0)
+    msg_str = st_data.get("message") or f"매입연동 완료: {total_cars}대 감지 (신규 {new_added}대, 갱신 {updated_inv}대, 장부승격 {updated_led}대)"
+
+    status_record = {
+        "status": "SUCCESS" if res.get("success", True) else "FAIL",
+        "last_sync_time": now_str,
+        "total_synced_cars": total_cars,
+        "cars_in_api": [c.get("carNumber") for c in cars_to_process],
+        "new_inventory_added": new_added,
+        "inventory_updated": updated_inv,
+        "ledger_updated": updated_led,
+        "message": msg_str
+    }
+
+    try:
+        os.makedirs(os.path.dirname(STATUS_FILE_PATH), exist_ok=True)
+        with open(STATUS_FILE_PATH, "w", encoding="utf-8") as f:
+            json.dump(status_record, f, ensure_ascii=False, indent=2)
+        print(f"[SettlementRouter][DEBUG] highplus_buy_status.json 갱신 완료: {now_str} | 감지 {total_cars}대, 갱신 {updated_inv}대, 신규 {new_added}대", flush=True)
+    except Exception as se:
+        print(f"[SettlementRouter][WARN] highplus_buy_status.json 저장 실패: {se}", flush=True)
+
+    return res
+
+
+@router.post("/sync_highplus_buy")
+def sync_highplus_buy(req: Optional[HighplusBuySyncRequest] = None):
+    try:
+        req_cars = req.cars if (req and req.cars) else None
+        return sync_highplus_buy_core(req_cars=req_cars)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"매입연동 처리 오류: {str(e)}")
 

@@ -37,6 +37,15 @@ export const SettlementTab: React.FC<SettlementTabProps> = ({
 }) => {
   // 자사 차량 carid 매핑 맵
   const [companyCarIdMap, setCompanyCarIdMap] = useState<Record<string, string>>({});
+  // [11-06-77] 매입연동 상태 정보
+  const [syncStatus, setSyncStatus] = useState<{
+    status?: string;
+    last_sync_time?: string;
+    total_synced_cars?: number;
+    new_inventory_added?: number;
+    inventory_updated?: number;
+    message?: string;
+  } | null>(null);
 
   useEffect(() => {
     fetch('/api/autoplus/company_carids')
@@ -44,6 +53,16 @@ export const SettlementTab: React.FC<SettlementTabProps> = ({
       .then(data => {
         if (data && typeof data === 'object') {
           setCompanyCarIdMap(data);
+        }
+      })
+      .catch(() => {});
+
+    // [11-06-77] 매입연동 상태 조회
+    fetch('/api/settlement/highplus_status')
+      .then(r => r.json())
+      .then(data => {
+        if (data && typeof data === 'object') {
+          setSyncStatus(data);
         }
       })
       .catch(() => {});
@@ -343,6 +362,7 @@ export const SettlementTab: React.FC<SettlementTabProps> = ({
       }
 
       const st = (syncData && syncData.data) || {};
+      setSyncStatus(st);
       const timeStr = st.last_sync_time || new Date().toLocaleTimeString('ko-KR');
       const total = st.total_synced_cars || 0;
       const added = st.new_inventory_added || 0;
@@ -547,6 +567,14 @@ export const SettlementTab: React.FC<SettlementTabProps> = ({
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
+          {/* [11-06-77] 동기화 상태 배지 ("마지막 매입 연동: YYYY-MM-DD HH:mm (총 N대 최신화)") */}
+          {syncStatus?.last_sync_time && (
+            <span className="text-[11px] px-2.5 py-1 rounded-lg bg-[#181b24] border border-[#282c3c] text-slate-300 flex items-center gap-1.5 font-mono shadow-sm">
+              <span className={`w-2 h-2 rounded-full ${syncStatus.status === 'SUCCESS' ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}`}></span>
+              <span>마지막 매입 연동: {syncStatus.last_sync_time.slice(0, 16)} (총 {syncStatus.total_synced_cars || stockCount}대 최신화)</span>
+            </span>
+          )}
+
           {/* high A+ 매입연동 버튼 */}
           <button
             type="button"

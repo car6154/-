@@ -176,8 +176,7 @@ class AutoplusAdminService:
             mgr = str(c.get("manager", "")).strip()
             if mgr and mgr != MANAGER:
                 continue
-            if car_no not in ledger_cars:
-                continue
+            # [11-06-77] 장부 사전등록 강제 필터 제거: 신규 매입차는 장부(my_car_ledger.csv)에 자동 INSERT됨
 
             # 금액 만원 단위 정규화 (finalPcsAmt / buyPrice: 있으면 API 값 우선, null이면 기존값 유지)
             has_explicit_buy_price = False
@@ -225,7 +224,7 @@ class AutoplusAdminService:
             raw_rep = _safe_float(c.get("repairCost", 0))
             rep_man = round(raw_rep / 10000) if raw_rep > 5000 else round(raw_rep)
 
-            raw_date = str(c.get("transferDate") or c.get("billDate") or "").strip()
+            raw_date = str(c.get("transferDate") or c.get("billDate") or c.get("buyDate") or "").strip()
             buy_date_disp = ""
             stock_days = 0
             if raw_date and raw_date.lower() not in ("none", "null"):
@@ -243,7 +242,9 @@ class AutoplusAdminService:
                     m_short = re.search(r"^0?(\d{1,2})[^\d]?(\d{1,2})", raw_date)
                     if m_short:
                         buy_date_disp = raw_date
-            # 날짜가 없어도 etcFee 및 매입가 갱신을 위해 차량을 버리지 않고 계속 진행 (10-18-12 규칙 유지)
+            if not buy_date_disp:
+                # 날짜가 전혀 없으면 오늘 날짜를 기본값으로 부여하여 신규 재고 등록 누락 방지
+                buy_date_disp = datetime.now().strftime("%m. %d")
 
             ap_car_id = str(c.get("apCarId") or "").strip() or None
 
@@ -342,17 +343,68 @@ class AutoplusAdminService:
                 return 0
 
             new_rows = []
+            matched_car_nos = set()
             for r in rows:
                 if len(r) > car_no_idx:
                     c_no = r[car_no_idx].strip()
                     if c_no in cars_by_no:
                         c_info = cars_by_no[c_no]
-                        # 상태 매입확정으로 전환
-                        r[status_idx] = "매입확정"
+                        matched_car_nos.add(c_no)
+                        # 상태 매입확정으로 전환 (기존이 판매완료면 유지)
+                        cur_status = r[status_idx].strip() if len(r) > status_idx else ""
+                        if "판매완료" not in cur_status:
+                            r[status_idx] = "매입확정"
                         if buy_p_idx is not None and len(r) > buy_p_idx and c_info["buyPrice"] > 0:
                             r[buy_p_idx] = str(c_info["buyPrice"])
                         updated_count += 1
                 new_rows.append(r)
+
+            # [11-06-77] 장부에 없는 신규 매입 차량 자동 INSERT (티구안, 신규 스파크 등 자동 반영)
+            for c_no, c_info in cars_by_no.items():
+                if c_no not in matched_car_nos:
+                    new_r = [""] * len(header)
+                    def set_c(col_name: str, val: Any):
+                        pos = h_map.get(col_name)
+                        if pos is not None:
+                            new_r[pos] = str(val if val is not None else "").strip()
+
+                    reg_date = c_info.get("billDate") or c_info.get("transferDate") or datetime.now().strftime("%y-%m-%d")
+                    m_d = re.search(r"(\d{2,4})[^\d]?(\d{1,2})[^\d]?(\d{1,2})", str(reg_date))
+                    if m_d:
+                        y = m_d.group(1)[-2:]
+                        m = int(m_d.group(2))
+                        d = int(m_d.group(3))
+                        reg_date_str = f"{y}-{m:02d}-{d:02d}"
+                    else:
+                        reg_date_str = datetime.now().strftime("%y-%m-%d")
+
+                    car_nm = c_info.get("carName", "")
+                    mfg = ""
+                    for brand in ["현대", "기아", "쉐보레", "쉐보레(대우)", "쉐보레(GM대우)", "르노코리아", "르노삼성", "제네시스", "쌍용", "KGM", "폭스바겐", "BMW", "벤츠", "아우디", "볼보", "포르쉐"]:
+                        if brand in car_nm:
+                            mfg = brand
+                            break
+
+                    set_c("등록일", reg_date_str)
+                    set_c("차량번호", c_no)
+                    set_c("제조사", mfg)
+                    set_c("차량명", car_nm)
+                    set_c("세부모델", "")
+                    set_c("연식", c_info.get("modelYear") or "")
+                    if c_info.get("mileage"):
+                        set_c("주행거리", f"{c_info['mileage']:,} km")
+                    set_c("옵션", "")
+                    set_c("매입가", str(c_info["buyPrice"]))
+                    set_c("판매가", str(c_info.get("salePrice") or ""))
+                    set_c("외판수리", str(c_info.get("outerRepairs", 0)))
+                    set_c("외판수리비", str(c_info.get("repairCost", 0)))
+                    set_c("헤딜수수료", str(c_info.get("heydealerFee", 0)))
+                    set_c("특이사항", "[오플모바일연동]")
+                    set_c("상태", "매입확정")
+
+                    new_rows.insert(0, new_r)
+                    updated_count += 1
+                    print(f"[AutoplusAdminService] 신규 매입차 장부 INSERT 완료: 차량번호={c_no}, 차종={car_nm}, 매입가={c_info['buyPrice']}만", flush=True)
 
             if updated_count > 0:
                 temp_path = f"{LEDGER_CSV}.{uuid.uuid4().hex[:8]}.tmp"
@@ -890,4 +942,34 @@ class AutoplusAdminService:
             return cls.process_highplus_buy_data(cars)
         except Exception as e:
             return {"success": False, "message": f"백엔드 매입연동 호출 실패: {str(e)}", "syncedCount": 0}
+
+
+def start_highplus_buy_scheduler(interval_sec: int = 1800):
+    """
+    [11-06-77] 하이오플 모바일 매입연동 상시 최신화 백그라운드 스케줄러
+    - 서버 시작 5초 후 1회 즉시 실행
+    - 이후 30분(1800초) 주기 백그라운드 자동 동기화 루프
+    """
+    def _run_loop():
+        time.sleep(5)
+        try:
+            print("[HighplusBuySync] 서버 기동 초기 매입연동 동기화 트리거", flush=True)
+            from routers.settlement_router import sync_highplus_buy_core
+            sync_highplus_buy_core()
+        except Exception as e:
+            print(f"[HighplusBuySync] 초기 매입연동 동기화 실패: {e}", flush=True)
+
+        while True:
+            time.sleep(interval_sec)
+            try:
+                print(f"[HighplusBuySync] {interval_sec // 60}분 주기 매입연동 자동 동기화 트리거", flush=True)
+                from routers.settlement_router import sync_highplus_buy_core
+                sync_highplus_buy_core()
+            except Exception as e:
+                print(f"[HighplusBuySync] 주기적 매입연동 동기화 오류: {e}", flush=True)
+
+    t = threading.Thread(target=_run_loop, daemon=True, name="HighplusBuyScheduler")
+    t.start()
+    print(f"[HighplusBuySync] {interval_sec // 60}분 주기 상시 최신화 스케줄러 등록 완료", flush=True)
+
 

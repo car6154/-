@@ -102,6 +102,11 @@ def on_app_startup():
     except Exception as e:
         print(f"[api_server] Failed to start Autoplus sync scheduler: {e}", flush=True)
     try:
+        from services.autoplus_admin_service import start_highplus_buy_scheduler
+        start_highplus_buy_scheduler(interval_sec=1800)
+    except Exception as e:
+        print(f"[api_server] Failed to start Highplus buy scheduler: {e}", flush=True)
+    try:
         SoldOutTracker.start_tracked_cars_scheduler(interval_hours=12.0)
     except Exception as e:
         print(f"[api_server] Failed to start Tracked cars scheduler: {e}", flush=True)

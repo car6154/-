@@ -175,6 +175,22 @@ class MobilePurchaseService:
                     except (ValueError, TypeError):
                         etc_amt = 0
 
+                raw_target_sale = item.get("targetSaleAmt") or item.get("saleAmt") or item.get("salePrice")
+                target_sale_amt = None
+                if raw_target_sale is not None and str(raw_target_sale).strip() not in ("", "null", "none"):
+                    try:
+                        target_sale_amt = int(str(raw_target_sale).replace(",", ""))
+                    except (ValueError, TypeError):
+                        target_sale_amt = None
+
+                raw_pcs_id = item.get("id") or item.get("pcsId") or item.get("pcsEstimateId") or item.get("estimateId")
+                pcs_id = None
+                if raw_pcs_id is not None and str(raw_pcs_id).strip() not in ("", "null", "none"):
+                    try:
+                        pcs_id = int(str(raw_pcs_id).replace(",", ""))
+                    except (ValueError, TypeError):
+                        pcs_id = None
+
                 raw_td = (
                     item.get("pcsDt") or
                     item.get("returnDt") or
@@ -226,6 +242,7 @@ class MobilePurchaseService:
                         ap_car_id_list = None
 
                 parsed_cars.append({
+                    "pcsId": pcs_id,
                     "carNumber": car_no,
                     "carName": car_name,
                     "buyPrice": buy_price,

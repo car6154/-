@@ -1,11 +1,14 @@
 {
-  "status": "EXPIRED",
-  "last_sync_time": "2026-10-26 18:37:37",
-  "total_synced_cars": 0,
-  "cars_in_api": [],
-  "has_155_in_api": false,
-  "new_inventory_added": 0,
+  "status": "SUCCESS",
+  "last_sync_time": "2026-11-10 11:13:18",
+  "total_synced_cars": 3,
+  "cars_in_api": [
+    "99티9999",
+    "88스8888",
+    "01수9643"
+  ],
+  "new_inventory_added": 3,
   "inventory_updated": 0,
-  "ledger_updated": 0,
-  "message": "high.autoplus.co.kr 모바일 세션 만료(HTTP 403): 모바일 사이트 재로그인이 필요합니다."
+  "ledger_updated": 3,
+  "message": "매입연동 완료: 3대 감지 (신규 3대, 갱신 0대, 장부승격 3대)"
 }
