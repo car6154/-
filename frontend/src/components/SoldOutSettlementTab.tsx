@@ -1,8 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { InventorySettlementItem } from '@/types';
 import { 
   RotateCcw, 
 } from 'lucide-react';
+
+// 날짜 문자열을 YYYYMMDD 정수로 변환하여 최신순(내림차순) 정렬에 사용
+const parseDateToTimestamp = (dateStr?: string): number => {
+  if (!dateStr) return 0;
+  const parts = String(dateStr).match(/\d+/g);
+  if (!parts) return 0;
+  if (parts.length >= 3) {
+    let y = parseInt(parts[0], 10);
+    const m = parseInt(parts[1], 10);
+    const d = parseInt(parts[2], 10);
+    if (y < 100) y += 2000;
+    return y * 10000 + m * 100 + d;
+  } else if (parts.length === 2) {
+    const m = parseInt(parts[0], 10);
+    const d = parseInt(parts[1], 10);
+    return 2026 * 10000 + m * 100 + d;
+  }
+  return 0;
+};
 
 interface SoldOutSettlementTabProps {
   completedList: InventorySettlementItem[];
@@ -15,8 +34,18 @@ export const SoldOutSettlementTab: React.FC<SoldOutSettlementTabProps> = ({
 }) => {
   const [restoreTargetCar, setRestoreTargetCar] = useState<string>('');
 
-  // Filter only completed items (상태 === '판매완료') (tab_ledger.py L595-L596)
-  const soldItems = completedList.filter(item => item.status === '판매완료');
+  // 최신 판매완료 건이 항상 위로 오도록 최신순(내림차순) 정렬
+  const soldItems = useMemo(() => {
+    return completedList
+      .filter(item => item.status === '판매완료')
+      .slice()
+      .sort((a, b) => {
+        const timeB = parseDateToTimestamp(b.buyDate);
+        const timeA = parseDateToTimestamp(a.buyDate);
+        if (timeB !== timeA) return timeB - timeA;
+        return (a.order || 0) - (b.order || 0);
+      });
+  }, [completedList]);
 
   const totalSoldCount = soldItems.length;
   const totalSalesRevenue = soldItems.reduce((acc, curr) => acc + (curr.sellPrice || 0), 0);
@@ -124,12 +153,12 @@ export const SoldOutSettlementTab: React.FC<SoldOutSettlementTabProps> = ({
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#1a1d27]">
-                {soldItems.map((item) => {
+                {soldItems.map((item, idx) => {
                   const profit = item.netProfit || item.finalProfit || 0;
                   return (
                     <tr key={item.id} className="hover:bg-[#151824] transition">
                       <td className="py-2.5 px-2 text-center text-slate-500 font-mono">
-                        {item.order}
+                        {idx + 1}
                       </td>
                       <td className="py-2.5 px-2.5 text-slate-400 whitespace-nowrap font-mono">
                         {item.buyDate}

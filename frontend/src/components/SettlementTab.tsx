@@ -28,6 +28,25 @@ interface InlineEditForm {
   feeRate: number;
 }
 
+// 날짜 문자열을 YYYYMMDD 정수로 변환하여 최신순(내림차순) 정렬에 사용
+const parseDateToTimestamp = (dateStr?: string): number => {
+  if (!dateStr) return 0;
+  const parts = String(dateStr).match(/\d+/g);
+  if (!parts) return 0;
+  if (parts.length >= 3) {
+    let y = parseInt(parts[0], 10);
+    const m = parseInt(parts[1], 10);
+    const d = parseInt(parts[2], 10);
+    if (y < 100) y += 2000;
+    return y * 10000 + m * 100 + d;
+  } else if (parts.length === 2) {
+    const m = parseInt(parts[0], 10);
+    const d = parseInt(parts[1], 10);
+    return 2026 * 10000 + m * 100 + d;
+  }
+  return 0;
+};
+
 export const SettlementTab: React.FC<SettlementTabProps> = ({
   settlementList,
   onMarkSold,
@@ -133,19 +152,31 @@ export const SettlementTab: React.FC<SettlementTabProps> = ({
   // 당월 매입대수 기준으로 수수료율 자동 산정
   const autoFeeRate = getAutoFeeRate(monthlyBoughtCount);
 
-  // 2. 보유 재고 vs 완료 재고 분리 (tab_settlement.py L103-L108)
+  // 2. 보유 재고 vs 완료 재고 분리 및 최신 매입일순(내림차순) 정렬
   const stockItems = useMemo(() => {
-    return settlementList.filter(item => item.status !== '판매완료');
+    const list = settlementList.filter(item => item.status !== '판매완료');
+    return list.slice().sort((a, b) => {
+      const timeB = parseDateToTimestamp(b.buyDate);
+      const timeA = parseDateToTimestamp(a.buyDate);
+      if (timeB !== timeA) return timeB - timeA;
+      return (a.stockDays || 0) - (b.stockDays || 0);
+    });
   }, [settlementList]);
 
   const soldItems = useMemo(() => {
-    return settlementList.filter(item => item.status === '판매완료');
+    const list = settlementList.filter(item => item.status === '판매완료');
+    return list.slice().sort((a, b) => {
+      const timeB = parseDateToTimestamp(b.buyDate);
+      const timeA = parseDateToTimestamp(a.buyDate);
+      if (timeB !== timeA) return timeB - timeA;
+      return (a.order || 0) - (b.order || 0);
+    });
   }, [settlementList]);
 
   // 3. settlement_service.py recalc_settlement_df 공식 100% 1:1 완벽 계산
   const calculatedStockItems = useMemo(() => {
     return stockItems.map((item, idx) => {
-      const order = item.order > 0 ? item.order : (idx + 1);
+      const order = idx + 1;
       const pSell = item.sellPrice || 0;
       const pBuy = item.buyPrice || 0;
       const extCnt = item.outerRepairs || 0;

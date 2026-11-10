@@ -70,6 +70,26 @@ def _safe_float(val: Any, default: float = 0.0) -> float:
         return default
 
 
+def _parse_date_sort_key(date_str: Any) -> int:
+    """날짜 문자열을 YYYYMMDD 형태 정수로 변환하여 최신순(내림차순) 정렬에 사용"""
+    if not date_str:
+        return 0
+    s = str(date_str).strip()
+    parts = re.findall(r"\d+", s)
+    if len(parts) >= 3:
+        y = int(parts[0])
+        m = int(parts[1])
+        d = int(parts[2])
+        if y < 100:
+            y += 2000
+        return y * 10000 + m * 100 + d
+    elif len(parts) == 2:
+        m = int(parts[0])
+        d = int(parts[1])
+        return 2026 * 10000 + m * 100 + d
+    return 0
+
+
 def calculate_heydealer_fee(buy_price_man: float, purchase_type: str = "셀프(기본)", is_light: bool = False) -> float:
     """
     헤이딜러 실측 수수료 구간표 자동 계산기
@@ -681,8 +701,29 @@ class AutoplusAdminService:
                 new_rows.insert(0, row_new)
                 added_count += 1
 
-        # 3) 순차를 1부터 위에서부터 깔끔하게 재부여 (1, 2, 3, 4, 5...)
-        for idx, row in enumerate(new_rows):
+        # 3) 보유재고와 판매완료 각각 최신순(내림차순) 정렬
+        active_rows = []
+        sold_rows = []
+        for r in new_rows:
+            st = r[status_idx].strip() if status_idx is not None and len(r) > status_idx else ""
+            if "판매완료" in st:
+                sold_rows.append(r)
+            else:
+                active_rows.append(r)
+
+        active_rows.sort(
+            key=lambda r: _parse_date_sort_key(r[date_idx] if len(r) > date_idx else ""),
+            reverse=True
+        )
+        sold_rows.sort(
+            key=lambda r: _parse_date_sort_key(r[date_idx] if len(r) > date_idx else ""),
+            reverse=True
+        )
+
+        final_rows = active_rows + sold_rows
+
+        # 순차를 1부터 위에서부터 깔끔하게 재부여 (1, 2, 3, 4, 5...)
+        for idx, row in enumerate(final_rows):
             if len(row) > 0:
                 row[0] = str(idx + 1)
 
@@ -693,7 +734,7 @@ class AutoplusAdminService:
             with open(temp_path, "w", encoding="utf-8-sig", newline="") as f:
                 writer = csv.writer(f)
                 writer.writerow(header)
-                writer.writerows(new_rows)
+                writer.writerows(final_rows)
             _safe_atomic_replace(temp_path, SETTLEMENT_CSV)
             print(f"[AutoplusAdminService][DEBUG] 정산표 저장 완료 | 대상: {abs_csv_path} | 신규={added_count}, 갱신={updated_count}", flush=True)
             # [자동화 파이프라인] 매입 연동 완료 즉시 오플 전사 재고의 판매가, 재고일, 엔카URL을 100% 자동 매칭

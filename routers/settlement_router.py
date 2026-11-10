@@ -171,6 +171,20 @@ def get_inventory_settlement(response: Response):
                 }
                 items.append(item)
 
+        # 보유재고와 판매완료 각각 최신순(내림차순) 정렬 보장
+        try:
+            from services.autoplus_admin_service import _parse_date_sort_key
+            active_items = [it for it in items if it.get("status") != "판매완료"]
+            sold_items = [it for it in items if it.get("status") == "판매완료"]
+            active_items.sort(key=lambda x: _parse_date_sort_key(x.get("buyDate")), reverse=True)
+            sold_items.sort(key=lambda x: _parse_date_sort_key(x.get("buyDate")), reverse=True)
+            sorted_items = active_items + sold_items
+            for idx, it in enumerate(sorted_items, start=1):
+                it["order"] = idx
+            items = sorted_items
+        except Exception as se:
+            print(f"[SettlementRouter] 최신순 정렬 보정 중 경고: {se}", flush=True)
+
         print(f"[SettlementRouter][DEBUG] GET /api/settlement 완료 | 총 {len(items)}건 반환", flush=True)
 
         return items

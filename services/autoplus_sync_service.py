@@ -438,6 +438,22 @@ class AutoplusSyncService:
 
         if headers and lines:
             import time
+            try:
+                from services.autoplus_admin_service import _parse_date_sort_key
+                h_map_sort = {col.strip(): i for i, col in enumerate(headers)}
+                date_idx_sort = h_map_sort.get("매입일", 1)
+                status_idx_sort = h_map_sort.get("상태", 2)
+                active_lines = [r for r in lines if "판매완료" not in (r[status_idx_sort] if len(r) > status_idx_sort else "")]
+                sold_lines = [r for r in lines if "판매완료" in (r[status_idx_sort] if len(r) > status_idx_sort else "")]
+                active_lines.sort(key=lambda r: _parse_date_sort_key(r[date_idx_sort] if len(r) > date_idx_sort else ""), reverse=True)
+                sold_lines.sort(key=lambda r: _parse_date_sort_key(r[date_idx_sort] if len(r) > date_idx_sort else ""), reverse=True)
+                lines = active_lines + sold_lines
+                for idx, r in enumerate(lines):
+                    if len(r) > 0:
+                        r[0] = str(idx + 1)
+            except Exception as se:
+                print(f"[AutoplusSync] 최신순 정렬 보정 중 경고: {se}", flush=True)
+
             temp_path = f"{SETTLEMENT_CSV}.tmp"
             with open(temp_path, 'w', encoding='utf-8-sig', newline='') as f:
                 writer = csv.writer(f)
