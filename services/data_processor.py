@@ -182,9 +182,22 @@ class DataProcessor:
         
         sub_raw = str(target_sub_model).strip()
         sub_clean = sub_raw.lower().replace(" ", "")
-        sub_parts = [p for p in sub_raw.split() if len(p) >= 2]
+
+        # 인승 단어(\d+인승) 분리: 목표차 인승이 있으면 타 인승 배제 전용 로직으로 처리
+        target_seat_match = re.search(r'(\d+)\s*인승', sub_raw)
+        target_seat = f"{target_seat_match.group(1)}인승" if target_seat_match else ""
+
+        # sub_parts 분리: 인승 단어(\d+인승)는 단순 포함 검색(all_matched)에서 제외
+        sub_parts = [p for p in sub_raw.split() if len(p) >= 2 and not re.search(r'^\d+\s*인승$', p)]
         
-        encar_full_clean = (cand_df['차량명'].astype(str) + " " + cand_df['세부모델'].astype(str)).str.replace(" ", "").str.lower()
+        # 엔카 매물 텍스트: 차량명 + 세부모델 + (Badge / BadgeDetail 컬럼 보존)
+        badge_text = ""
+        if 'Badge' in cand_df.columns:
+            badge_text = badge_text + " " + cand_df['Badge'].astype(str)
+        if 'BadgeDetail' in cand_df.columns:
+            badge_text = badge_text + " " + cand_df['BadgeDetail'].astype(str)
+
+        encar_full_clean = (cand_df['차량명'].astype(str) + " " + cand_df['세부모델'].astype(str) + badge_text).str.replace(" ", "").str.lower()
         
         all_matched = pd.Series(True, index=cand_df.index)
         for part in sub_parts:
@@ -193,6 +206,27 @@ class DataProcessor:
         
         if all_matched.any():
             cand_df = cand_df[all_matched]
+            badge_text_updated = ""
+            if 'Badge' in cand_df.columns:
+                badge_text_updated = badge_text_updated + " " + cand_df['Badge'].astype(str)
+            if 'BadgeDetail' in cand_df.columns:
+                badge_text_updated = badge_text_updated + " " + cand_df['BadgeDetail'].astype(str)
+            encar_full_clean = (cand_df['차량명'].astype(str) + " " + cand_df['세부모델'].astype(str) + badge_text_updated).str.replace(" ", "").str.lower()
+
+        # 인승 전용 정밀 필터링: 목표차에 인승이 명시된 경우 다른 인승 매물 배제 (인승 미표기 매물은 통과)
+        if target_seat and not cand_df.empty:
+            badge_text_raw = ""
+            if 'Badge' in cand_df.columns:
+                badge_text_raw = badge_text_raw + " " + cand_df['Badge'].astype(str)
+            if 'BadgeDetail' in cand_df.columns:
+                badge_text_raw = badge_text_raw + " " + cand_df['BadgeDetail'].astype(str)
+            cand_raw_text = (cand_df['차량명'].astype(str) + " " + cand_df['세부모델'].astype(str) + badge_text_raw)
+            seat_series = cand_raw_text.str.extract(r'(?<![\.\d])(\d+)\s*인승', expand=False).apply(
+                lambda x: f"{x}인승" if pd.notna(x) else None
+            )
+            competing_seat = seat_series.notna() & (seat_series != target_seat)
+            if competing_seat.any() and (~competing_seat).any():
+                cand_df = cand_df[~competing_seat]
         
         # 1. 🚗 파생 바디/타입 배제
         BODY_TYPE_KEYWORDS = [

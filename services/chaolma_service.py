@@ -209,6 +209,26 @@ class ChaolmaService:
         elif y_r > 0:
             year_num = y_r
 
+        # 승차정원(seating_capacity) 확인 (2차 parse_carmart_json과 100% 동일 로직 적용)
+        seating_cap = 0
+        if isinstance(car_data.get("origin_doc"), dict):
+            seating_cap = car_data["origin_doc"].get("seating_capacity") or 0
+        if not seating_cap and isinstance(jf, dict):
+            seating_cap = jf.get("TKCAR_PSCAP_CO") or jf.get("seating_capacity") or jf.get("seatingCapacity") or 0
+        if not seating_cap and car_data.get("seating_capacity"):
+            seating_cap = car_data.get("seating_capacity") or 0
+        if not seating_cap:
+            m_s = re.search(r'(\d+)\s*인승', f"{model_detail} {model_name} {grade_name} {grade_detail}")
+            if m_s:
+                seating_cap = int(m_s.group(1))
+
+        # [인승 공통 보정]: 등급 문자열에 인승(\d+인승)이 없고 seating_cap > 0이면 등급 끝에 "{N}인승" 추가
+        if seating_cap > 0 and not re.search(r'\d+인승', f"{grade_name} {grade_detail}"):
+            if grade_detail:
+                grade_detail = f"{grade_detail} {seating_cap}인승".strip()
+            elif grade_name:
+                grade_name = f"{grade_name} {seating_cap}인승".strip()
+
         return {
             "car_name": model_detail or model_name or "",
             "model_name": model_name,
@@ -217,6 +237,7 @@ class ChaolmaService:
             "year": year_num,
             "model_year": m_year,
             "reg_year": reg_year,
+            "seating_capacity": seating_cap,
             "grade_name": grade_name,
             "grade_detail_name": grade_detail
         }
@@ -412,7 +433,16 @@ class ChaolmaService:
                 reg_year = m_my.group(1)
 
         cur_year = datetime.now().year
-        car_yr = int(reg_year) if reg_year and reg_year.isdigit() else (int(m_year) if m_year and m_year.isdigit() else cur_year)
+        y_r = int(reg_year) if reg_year and reg_year.isdigit() else 0
+        y_m = int(m_year) if m_year and m_year.isdigit() else 0
+        if y_r > 0 and y_m > 0:
+            car_yr = min(y_r, y_m)
+        elif y_r > 0:
+            car_yr = y_r
+        elif y_m > 0:
+            car_yr = y_m
+        else:
+            car_yr = cur_year
 
         if reg_year and m_year and reg_year != m_year:
             year_display = f"{reg_year[-2:]}년식 ({m_year[-2:]}년형)"
@@ -430,14 +460,22 @@ class ChaolmaService:
         grade_name = c_data.get("gradeName") or jf.get("seriesname1") or ""
         grade_detail = c_data.get("gradeDetailName") or jf.get("seriesname") or ""
 
-        # 승차정원(seating_capacity) 확인: origin_doc 전달값 우선, 없을 시 c_data 내 origin_doc 확인
+        # 승차정원(seating_capacity) 확인: origin_doc 전달값 우선, 없을 시 c_data 및 jf, 텍스트 확인
         seating_cap = 0
         if origin_doc and isinstance(origin_doc, dict):
             seating_cap = origin_doc.get("seating_capacity") or 0
         if not seating_cap and isinstance(c_data.get("origin_doc"), dict):
             seating_cap = c_data["origin_doc"].get("seating_capacity") or 0
+        if not seating_cap and isinstance(jf, dict):
+            seating_cap = jf.get("TKCAR_PSCAP_CO") or jf.get("seating_capacity") or jf.get("seatingCapacity") or 0
+        if not seating_cap and c_data.get("seating_capacity"):
+            seating_cap = c_data.get("seating_capacity") or 0
+        if not seating_cap:
+            m_s = re.search(r'(\d+)\s*인승', f"{model_detail} {model_name} {grade_name} {grade_detail}")
+            if m_s:
+                seating_cap = int(m_s.group(1))
 
-        # [인승 공통 보정]: 등급 문자열에 인승(\d+인승)이 없고 origin_doc.seating_capacity > 0이면 등급 끝에 "{N}인승" 추가
+        # [인승 공통 보정]: 등급 문자열에 인승(\d+인승)이 없고 seating_cap > 0이면 등급 끝에 "{N}인승" 추가
         if seating_cap > 0 and not re.search(r'\d+인승', f"{grade_name} {grade_detail}"):
             if grade_detail:
                 grade_detail = f"{grade_detail} {seating_cap}인승".strip()
@@ -446,10 +484,10 @@ class ChaolmaService:
 
         trim_name = grade_detail or model_detail or ""
 
-        # 5. 카탈로그 데이터 로드 (V2 새 책 조회 1순위)
+        # 5. 카탈로그 데이터 로드 (V2 새 책 조회 1순위: 프론트와 동일하게 더 오래된 연식 car_yr 기준)
         catalog_data = None
         target_car = model_detail or model_name
-        target_year = m_year or reg_year or str(car_yr)
+        target_year = str(car_yr)
         full_grade = f"{grade_name} {grade_detail}".strip()
         if target_car and full_grade:
             try:
@@ -541,6 +579,7 @@ class ChaolmaService:
             "model_detail_name": model_detail,
             "grade_name": grade_name,
             "grade_detail_name": grade_detail,
+            "seating_capacity": seating_cap,
             "trim_name": trim_name,
             "model_year": m_year or str(car_yr),
             "reg_year": reg_year or str(car_yr),
