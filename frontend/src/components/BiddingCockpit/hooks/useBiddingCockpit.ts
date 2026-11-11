@@ -244,19 +244,21 @@ export function useBiddingCockpit({
   // 🧹 차량 변경/재조회 시 이전 차량 데이터 초기화 (상태 잔류 및 가격 오염 방지)
   const resetCockpitState = useCallback((options?: { keepInputs?: boolean; preserveSameCar?: boolean }) => {
     // 1. 헤이딜러 실시간 낙찰 데이터 및 선택 상태 완전 초기화
-    setRawHeydealerComps([]);
+    if (!options?.preserveSameCar) {
+      setRawHeydealerComps([]);
+      activeHeydealerTokenRef.current = '';
+    }
     setSelectedHeydealerBidId(null);
     setSelectedHeydealerGradeFilter('ALL');
 
-    activeHeydealerTokenRef.current = '';
     // 2. 가격 계산 및 밸류에이션 상태 초기화
     prevAiRetailPriceRef.current = 0;
-    setExpectedSellPrice(0);
-    setEncarValuation(null);
-    setBackendEncarStats(null);
     if (!options?.preserveSameCar) {
+      setExpectedSellPrice(0);
       setOuterRepairCount(0);
     }
+    setEncarValuation(null);
+    setBackendEncarStats(null);
     setMemo('');
 
     // 3. 엔카 실시간 매물 및 통계 초기화
@@ -1026,24 +1028,22 @@ export function useBiddingCockpit({
           }
         }
 
-        // 💡 [옵션 병합 모드]: 같은 차이고 현재 옵션이 이미 채워져 있으면 기존 옵션을 덮지 않음
+        // 💡 [옵션 병합 모드]: 같은 차이거나 헤이딜러 연동(shouldPreserve)이고 현재 옵션이 이미 채워져 있으면 빈 값으로 덮지 않음
         const currentHasOptions = Boolean(optionsTag && optionsTag.trim() && optionsTag !== '추가 옵션 없음 (기본 출고 사양)');
-        const shouldUpdateOptions = !isSameCar || !currentHasOptions;
+        const shouldPreserveOptions = shouldPreserve && currentHasOptions;
 
-        if (shouldUpdateOptions) {
-          if (res.options && res.options.length > 0) {
-            setTargetOptions(res.options);
-            setUnclassifiedBalance(res.unclassified_balance_man || 0);
-            const optStr = res.options.map(o => `${o.name}(${o.price_man || Math.round(o.price / 10000)}만)`).join(' · ');
-            const totalOptMan = res.total_option_price ? (res.total_option_price > 10000 ? Math.round(res.total_option_price / 10000) : res.total_option_price) : res.options.reduce((acc, cur) => acc + (cur.price_man || Math.round(cur.price / 10000)), 0);
-            calculatedOptionsTag = `${optStr} [옵션총액: ${totalOptMan}만]`;
-            setOptionsTag(calculatedOptionsTag);
-          } else {
-            setTargetOptions([]);
-            setUnclassifiedBalance(0);
-            calculatedOptionsTag = '추가 옵션 없음 (기본 출고 사양)';
-            setOptionsTag(calculatedOptionsTag);
-          }
+        if (res.options && res.options.length > 0) {
+          setTargetOptions(res.options);
+          setUnclassifiedBalance(res.unclassified_balance_man || 0);
+          const optStr = res.options.map(o => `${o.name}(${o.price_man || Math.round(o.price / 10000)}만)`).join(' · ');
+          const totalOptMan = res.total_option_price ? (res.total_option_price > 10000 ? Math.round(res.total_option_price / 10000) : res.total_option_price) : res.options.reduce((acc, cur) => acc + (cur.price_man || Math.round(cur.price / 10000)), 0);
+          calculatedOptionsTag = `${optStr} [옵션총액: ${totalOptMan}만]`;
+          setOptionsTag(calculatedOptionsTag);
+        } else if (!shouldPreserveOptions) {
+          setTargetOptions([]);
+          setUnclassifiedBalance(0);
+          calculatedOptionsTag = '추가 옵션 없음 (기본 출고 사양)';
+          setOptionsTag(calculatedOptionsTag);
         }
 
         if (res.new_car_price > 0 || res.vin || res.car_history) {
@@ -1095,8 +1095,8 @@ export function useBiddingCockpit({
               color: (res as any)?.color || ''
             };
 
-            // 💡 [병합 모드]: 같은 차인 경우 이전 헤이딜러 전용 사고 정보(사고 부위 목록, 사고 유형, 사고 확인 여부) 보존
-            if (isSameCar && prev) {
+            // 💡 [병합 모드]: 같은 차이거나 헤이딜러 연동(shouldPreserve)인 경우 이전 헤이딜러 전용 사고 정보(사고 부위 목록, 사고 유형, 사고 확인 여부) 보존
+            if (shouldPreserve && prev) {
               return {
                 ...nextHistory,
                 accidentRepairs: prev.accidentRepairs ?? null,
