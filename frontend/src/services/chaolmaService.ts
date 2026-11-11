@@ -95,6 +95,8 @@ export interface ChaolmaResult {
   grade_detail_name?: string;
   trim_name?: string;
   year?: string;
+  reg_year?: string;
+  model_year?: string;
   release_date?: string;
   reg_ym?: string;
   new_car_price: number;

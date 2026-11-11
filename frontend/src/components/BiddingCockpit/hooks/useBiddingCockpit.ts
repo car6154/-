@@ -216,7 +216,7 @@ export function useBiddingCockpit({
   const CHAOLMA_DELAY_TIMEOUT_MS = 15000;
   const [chaolmaStatus, setChaolmaStatus] = useState<'idle' | 'pending' | 'success' | 'failed' | 'timeout'>('idle');
   const [isChaolmaDelayed, setIsChaolmaDelayed] = useState(false);
-  const chaolmaTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const chaolmaTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const startChaolmaTimer = useCallback(() => {
     if (chaolmaTimerRef.current) clearTimeout(chaolmaTimerRef.current);
