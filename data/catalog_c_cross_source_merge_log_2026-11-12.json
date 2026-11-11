@@ -1,0 +1,6423 @@
+[
+  {
+    "model": "i30 (PD)",
+    "year": "2016",
+    "chosen_name": "디젤 1.6",
+    "base_price": 21900000,
+    "merged_names": [
+      "디젤 1.6",
+      "디젤 1.6 2WD 1.6"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "더 뉴 그랜저 (GN7)",
+    "year": "2025",
+    "chosen_name": "가솔린 3.5 AWD 프리미엄",
+    "base_price": 42330000,
+    "merged_names": [
+      "가솔린 3.5 AWD 프리미엄",
+      "가솔린 3.5 4WD 프리미엄"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "더 뉴 그랜저 (GN7)",
+    "year": "2025",
+    "chosen_name": "가솔린 3.5 AWD 익스클루시브",
+    "base_price": 47230000,
+    "merged_names": [
+      "가솔린 3.5 AWD 익스클루시브",
+      "가솔린 3.5 4WD 익스클루시브"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 7
+  },
+  {
+    "model": "더 뉴 그랜저 (GN7)",
+    "year": "2025",
+    "chosen_name": "가솔린 3.5 AWD 캘리그래피",
+    "base_price": 51860000,
+    "merged_names": [
+      "가솔린 3.5 AWD 캘리그래피",
+      "가솔린 3.5 4WD 캘리그래피"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 4
+  },
+  {
+    "model": "더 뉴 그랜저 (GN7)",
+    "year": "2025",
+    "chosen_name": "가솔린 3.5 4WD 캘리그래피(블랙익스테리어)",
+    "base_price": 51860000,
+    "merged_names": [
+      "가솔린 3.5 4WD 캘리그래피(블랙익스테리어)",
+      "가솔린 3.5 AWD 캘리그래피 (블랙익스테리어)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 4
+  },
+  {
+    "model": "더 뉴 그랜저 (GN7)",
+    "year": "2025",
+    "chosen_name": "가솔린 3.5 4WD 캘리그래피(블랙잉크)",
+    "base_price": 53150000,
+    "merged_names": [
+      "가솔린 3.5 4WD 캘리그래피(블랙잉크)",
+      "가솔린 3.5 AWD 캘리그래피 (블랙잉크)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 3
+  },
+  {
+    "model": "그랜저 (GN7)",
+    "year": "2027",
+    "chosen_name": "가솔린 3.5 AWD 프리미엄",
+    "base_price": 47110000,
+    "merged_names": [
+      "가솔린 3.5 AWD 프리미엄",
+      "가솔린 3.5 4WD 프리미엄"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "그랜저 (GN7)",
+    "year": "2027",
+    "chosen_name": "가솔린 3.5 AWD 익스클루시브",
+    "base_price": 51610000,
+    "merged_names": [
+      "가솔린 3.5 AWD 익스클루시브",
+      "가솔린 3.5 4WD 익스클루시브"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 8
+  },
+  {
+    "model": "그랜저 (GN7)",
+    "year": "2027",
+    "chosen_name": "가솔린 3.5 AWD 캘리그래피",
+    "base_price": 57770000,
+    "merged_names": [
+      "가솔린 3.5 AWD 캘리그래피",
+      "가솔린 3.5 4WD 캘리그래피"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 7
+  },
+  {
+    "model": "그랜저 (GN7)",
+    "year": "2027",
+    "chosen_name": "가솔린 3.5 4WD 블랙잉크",
+    "base_price": 58670000,
+    "merged_names": [
+      "가솔린 3.5 4WD 블랙잉크",
+      "가솔린 3.5 AWD 블랙 잉크"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "베뉴",
+    "year": "2023",
+    "chosen_name": "1.6 플럭스",
+    "base_price": 24130000,
+    "merged_names": [
+      "1.6 플럭스",
+      "가솔린 1.6 2WD 플럭스"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 3
+  },
+  {
+    "model": "베뉴",
+    "year": "2023",
+    "chosen_name": "1.6 프리미엄",
+    "base_price": 21460000,
+    "merged_names": [
+      "1.6 프리미엄",
+      "가솔린 1.6 2WD 프리미엄"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "베뉴",
+    "year": "2019",
+    "chosen_name": "1.6 모던",
+    "base_price": 17990000,
+    "merged_names": [
+      "1.6 모던",
+      "가솔린 1.6 2WD 모던"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 8
+  },
+  {
+    "model": "베뉴",
+    "year": "2019",
+    "chosen_name": "1.6 플럭스",
+    "base_price": 21110000,
+    "merged_names": [
+      "1.6 플럭스",
+      "가솔린 1.6 2WD 플럭스"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "더 뉴 벨로스터",
+    "year": "2016",
+    "chosen_name": "1.6 PYL",
+    "base_price": 20950000,
+    "merged_names": [
+      "1.6 PYL",
+      "가솔린 1.6 2WD PYL"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "더 뉴 벨로스터",
+    "year": "2016",
+    "chosen_name": "1.6 PYL DCT",
+    "base_price": 21550000,
+    "merged_names": [
+      "1.6 PYL DCT",
+      "가솔린 1.6 2WD PYLDCT"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "쏘나타 (DN8)",
+    "year": "2023",
+    "chosen_name": "2.5 터보 N Line",
+    "base_price": 36330000,
+    "merged_names": [
+      "2.5 터보 N Line",
+      "가솔린 2.5 터보 2WD N Line"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 10
+  },
+  {
+    "model": "아반떼 (CN7)",
+    "year": "2017",
+    "chosen_name": "디젤 1.6 2WD 스타일 M/T",
+    "base_price": 16400000,
+    "merged_names": [
+      "디젤 1.6 2WD 스타일 M/T",
+      "디젤 1.6 2WD 스타일 (M/T)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 13
+  },
+  {
+    "model": "에쿠스(신형)",
+    "year": "2015",
+    "chosen_name": "VS500",
+    "base_price": 111500000,
+    "merged_names": [
+      "VS500",
+      "가솔린 2WD VS500"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 2
+  },
+  {
+    "model": "더 뉴 K3",
+    "year": "2017",
+    "chosen_name": "디럭스",
+    "base_price": 15450000,
+    "merged_names": [
+      "디럭스",
+      "가솔린 2WD 디럭스"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "더 뉴 K3",
+    "year": "2017",
+    "chosen_name": "트렌디",
+    "base_price": 17630000,
+    "merged_names": [
+      "트렌디",
+      "가솔린 2WD 트렌디"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 9
+  },
+  {
+    "model": "더 뉴 K3",
+    "year": "2017",
+    "chosen_name": "디젤 디럭스",
+    "base_price": 18000000,
+    "merged_names": [
+      "디젤 디럭스",
+      "디젤 2WD 디럭스"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 8
+  },
+  {
+    "model": "더 뉴 K3",
+    "year": "2017",
+    "chosen_name": "디젤 트렌디",
+    "base_price": 20180000,
+    "merged_names": [
+      "디젤 트렌디",
+      "디젤 2WD 트렌디"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 9
+  },
+  {
+    "model": "K3",
+    "year": "2014",
+    "chosen_name": "디럭스",
+    "base_price": 15430000,
+    "merged_names": [
+      "디럭스",
+      "가솔린 2WD 디럭스"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 3
+  },
+  {
+    "model": "K3",
+    "year": "2014",
+    "chosen_name": "럭셔리",
+    "base_price": 17340000,
+    "merged_names": [
+      "럭셔리",
+      "가솔린 2WD 럭셔리"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "K3",
+    "year": "2014",
+    "chosen_name": "노블레스",
+    "base_price": 19990000,
+    "merged_names": [
+      "노블레스",
+      "가솔린 2WD 노블레스"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 8
+  },
+  {
+    "model": "K3",
+    "year": "2014",
+    "chosen_name": "디젤 프레스티지",
+    "base_price": 21000000,
+    "merged_names": [
+      "디젤 프레스티지",
+      "디젤 2WD 프레스티지"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 7
+  },
+  {
+    "model": "K3",
+    "year": "2014",
+    "chosen_name": "디젤 노블레스",
+    "base_price": 21900000,
+    "merged_names": [
+      "디젤 노블레스",
+      "디젤 2WD 노블레스"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 8
+  },
+  {
+    "model": "더 뉴 K5",
+    "year": "2015",
+    "chosen_name": "럭셔리",
+    "base_price": 23650000,
+    "merged_names": [
+      "럭셔리",
+      "가솔린 2WD 럭셔리"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "더 뉴 K5",
+    "year": "2015",
+    "chosen_name": "프레스티지",
+    "base_price": 26800000,
+    "merged_names": [
+      "프레스티지",
+      "가솔린 2WD 프레스티지"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "K7 프리미어",
+    "year": "2021",
+    "chosen_name": "2.5 GDI 프레스티지",
+    "base_price": 32440000,
+    "merged_names": [
+      "2.5 GDI 프레스티지",
+      "가솔린 2.5 2WD 프레스티지"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 9
+  },
+  {
+    "model": "K7 프리미어",
+    "year": "2021",
+    "chosen_name": "2.5 GDI 노블레스",
+    "base_price": 33870000,
+    "merged_names": [
+      "2.5 GDI 노블레스",
+      "가솔린 2.5 2WD 노블레스"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 10
+  },
+  {
+    "model": "K7 프리미어",
+    "year": "2021",
+    "chosen_name": "2.5 GDI X 에디션",
+    "base_price": 35240000,
+    "merged_names": [
+      "2.5 GDI X 에디션",
+      "가솔린 2.5 2WD X 에디션"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 13
+  },
+  {
+    "model": "K7 프리미어",
+    "year": "2021",
+    "chosen_name": "3.0 GDI 노블레스",
+    "base_price": 36130000,
+    "merged_names": [
+      "3.0 GDI 노블레스",
+      "가솔린 3.0 2WD 노블레스"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 11
+  },
+  {
+    "model": "K7 프리미어",
+    "year": "2021",
+    "chosen_name": "3.0 GDI 시그니처",
+    "base_price": 38190000,
+    "merged_names": [
+      "3.0 GDI 시그니처",
+      "가솔린 3.0 2WD 시그니처"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 11
+  },
+  {
+    "model": "K7 프리미어",
+    "year": "2021",
+    "chosen_name": "3.0 LPI 프레스티지",
+    "base_price": 31370000,
+    "merged_names": [
+      "3.0 LPI 프레스티지",
+      "lpg 3.0 2WD 프레스티지"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "K7 프리미어",
+    "year": "2021",
+    "chosen_name": "3.0 LPI 노블레스",
+    "base_price": 36070000,
+    "merged_names": [
+      "3.0 LPI 노블레스",
+      "lpg 3.0 2WD 노블레스"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "올 뉴 K7",
+    "year": "2019",
+    "chosen_name": "2.2 디젤 프레스티지",
+    "base_price": 34780000,
+    "merged_names": [
+      "2.2 디젤 프레스티지",
+      "디젤 2.2 2WD 프레스티지"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 9
+  },
+  {
+    "model": "올 뉴 K7",
+    "year": "2019",
+    "chosen_name": "2.2 디젤 노블레스",
+    "base_price": 37240000,
+    "merged_names": [
+      "2.2 디젤 노블레스",
+      "디젤 2.2 2WD 노블레스"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "올 뉴 K7",
+    "year": "2019",
+    "chosen_name": "2.4 GDI 프레스티지",
+    "base_price": 30530000,
+    "merged_names": [
+      "2.4 GDI 프레스티지",
+      "가솔린 2.4 2WD 프레스티지"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "올 뉴 K7",
+    "year": "2019",
+    "chosen_name": "2.4 GDI 노블레스",
+    "base_price": 33290000,
+    "merged_names": [
+      "2.4 GDI 노블레스",
+      "가솔린 2.4 2WD 노블레스"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "올 뉴 K7",
+    "year": "2019",
+    "chosen_name": "3.0 GDI 프레스티지",
+    "base_price": 33030000,
+    "merged_names": [
+      "3.0 GDI 프레스티지",
+      "가솔린 3.0 2WD 프레스티지"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 7
+  },
+  {
+    "model": "올 뉴 K7",
+    "year": "2019",
+    "chosen_name": "3.0 GDI 노블레스",
+    "base_price": 35450000,
+    "merged_names": [
+      "3.0 GDI 노블레스",
+      "가솔린 3.0 2WD 노블레스"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "올 뉴 K7",
+    "year": "2019",
+    "chosen_name": "3.3 GDI 노블레스",
+    "base_price": 37090000,
+    "merged_names": [
+      "3.3 GDI 노블레스",
+      "가솔린 3.3 2WD 노블레스"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "올 뉴 K7",
+    "year": "2017",
+    "chosen_name": "2.2 디젤 프레스티지",
+    "base_price": 33900000,
+    "merged_names": [
+      "2.2 디젤 프레스티지",
+      "디젤 2.2 2WD 프레스티지"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "올 뉴 K7",
+    "year": "2017",
+    "chosen_name": "2.2 디젤 리미티드",
+    "base_price": 35900000,
+    "merged_names": [
+      "2.2 디젤 리미티드",
+      "디젤 2.2 2WD 리미티드"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 7
+  },
+  {
+    "model": "올 뉴 K7",
+    "year": "2017",
+    "chosen_name": "2.4 GDI 프레스티지",
+    "base_price": 30900000,
+    "merged_names": [
+      "2.4 GDI 프레스티지",
+      "가솔린 2.4 2WD 프레스티지"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "올 뉴 K7",
+    "year": "2017",
+    "chosen_name": "2.4 GDI 리미티드",
+    "base_price": 32900000,
+    "merged_names": [
+      "2.4 GDI 리미티드",
+      "가솔린 2.4 2WD 리미티드"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 8
+  },
+  {
+    "model": "올 뉴 K7",
+    "year": "2017",
+    "chosen_name": "3.3 GDI 노블레스",
+    "base_price": 35600000,
+    "merged_names": [
+      "3.3 GDI 노블레스",
+      "가솔린 3.3 2WD 노블레스"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "올 뉴 K7",
+    "year": "2017",
+    "chosen_name": "3.3 GDI 리미티드 플러스",
+    "base_price": 37100000,
+    "merged_names": [
+      "3.3 GDI 리미티드 플러스",
+      "가솔린 3.3 2WD 리미티드플러스"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "K9",
+    "year": "2014",
+    "chosen_name": "3.8 GDI VIP",
+    "base_price": 68300000,
+    "merged_names": [
+      "3.8 GDI VIP",
+      "가솔린 3.8 2WD VIP"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 4
+  },
+  {
+    "model": "K9",
+    "year": "2014",
+    "chosen_name": "3.8 GDI RVIP",
+    "base_price": 78300000,
+    "merged_names": [
+      "3.8 GDI RVIP",
+      "가솔린 3.8 2WD RVIP"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 2
+  },
+  {
+    "model": "K9",
+    "year": "2013",
+    "chosen_name": "3.3 GDI RVIP",
+    "base_price": 62800000,
+    "merged_names": [
+      "3.3 GDI RVIP",
+      "가솔린 3.3 2WD RVIP"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 4
+  },
+  {
+    "model": "K9",
+    "year": "2013",
+    "chosen_name": "3.8 GDI RVIP",
+    "base_price": 75800000,
+    "merged_names": [
+      "3.8 GDI RVIP",
+      "가솔린 3.8 2WD RVIP"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 2
+  },
+  {
+    "model": "니로",
+    "year": "2016",
+    "chosen_name": "럭셔리",
+    "base_price": 24330000,
+    "merged_names": [
+      "럭셔리",
+      "가솔린 2WD 럭셔리"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "니로",
+    "year": "2016",
+    "chosen_name": "프레스티지",
+    "base_price": 26390000,
+    "merged_names": [
+      "프레스티지",
+      "가솔린 2WD 프레스티지"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 9
+  },
+  {
+    "model": "니로",
+    "year": "2016",
+    "chosen_name": "노블레스",
+    "base_price": 28450000,
+    "merged_names": [
+      "노블레스",
+      "가솔린 2WD 노블레스"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 9
+  },
+  {
+    "model": "레이",
+    "year": "2013",
+    "chosen_name": "디럭스",
+    "base_price": 12450000,
+    "merged_names": [
+      "디럭스",
+      "가솔린 2WD 디럭스"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "스팅어 마이스터",
+    "year": "2021",
+    "chosen_name": "2.5 플래티넘",
+    "base_price": 38530000,
+    "merged_names": [
+      "2.5 플래티넘",
+      "가솔린 2.5 2WD 플래티넘"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 8
+  },
+  {
+    "model": "스팅어 마이스터",
+    "year": "2021",
+    "chosen_name": "2.5 마스터즈",
+    "base_price": 41970000,
+    "merged_names": [
+      "2.5 마스터즈",
+      "가솔린 2.5 2WD 마스터즈"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 7
+  },
+  {
+    "model": "더 뉴 쏘울",
+    "year": "2017",
+    "chosen_name": "1.6 GDi 트렌디",
+    "base_price": 17500000,
+    "merged_names": [
+      "1.6 GDi 트렌디",
+      "가솔린 1.6 2WD 트렌디"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "더 뉴 쏘울",
+    "year": "2017",
+    "chosen_name": "1.6 GDi 프레스티지",
+    "base_price": 19050000,
+    "merged_names": [
+      "1.6 GDi 프레스티지",
+      "가솔린 1.6 2WD 프레스티지"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 8
+  },
+  {
+    "model": "더 뉴 쏘울",
+    "year": "2017",
+    "chosen_name": "1.6 GDi 노블레스",
+    "base_price": 21450000,
+    "merged_names": [
+      "1.6 GDi 노블레스",
+      "가솔린 1.6 2WD 노블레스"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 7
+  },
+  {
+    "model": "올 뉴 쏘울",
+    "year": "2016",
+    "chosen_name": "1.6 GDi 트렌디",
+    "base_price": 17250000,
+    "merged_names": [
+      "1.6 GDi 트렌디",
+      "가솔린 1.6 2WD 트렌디"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 7
+  },
+  {
+    "model": "올 뉴 쏘울",
+    "year": "2016",
+    "chosen_name": "1.6 GDi 프레스티지",
+    "base_price": 18500000,
+    "merged_names": [
+      "1.6 GDi 프레스티지",
+      "가솔린 1.6 2WD 프레스티지"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 8
+  },
+  {
+    "model": "올 뉴 쏘울",
+    "year": "2016",
+    "chosen_name": "1.6 GDi 프레스티지 레드존",
+    "base_price": 20350000,
+    "merged_names": [
+      "1.6 GDi 프레스티지 레드존",
+      "가솔린 1.6 2WD 프레스티지레드존"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 2
+  },
+  {
+    "model": "올 뉴 쏘울",
+    "year": "2016",
+    "chosen_name": "1.6 디젤 프레스티지",
+    "base_price": 20750000,
+    "merged_names": [
+      "1.6 디젤 프레스티지",
+      "디젤 1.6 2WD 프레스티지"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "올 뉴 쏘울",
+    "year": "2016",
+    "chosen_name": "1.6 디젤 노블레스",
+    "base_price": 21800000,
+    "merged_names": [
+      "1.6 디젤 노블레스",
+      "디젤 1.6 2WD 노블레스"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "올 뉴 쏘울",
+    "year": "2016",
+    "chosen_name": "1.6 디젤 노블레스 스페셜",
+    "base_price": 22750000,
+    "merged_names": [
+      "1.6 디젤 노블레스 스페셜",
+      "디젤 1.6 2WD 노블레스스페셜"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 9
+  },
+  {
+    "model": "쏘울",
+    "year": "2013",
+    "chosen_name": "1.6 GDI 럭셔리",
+    "base_price": 17000000,
+    "merged_names": [
+      "1.6 GDI 럭셔리",
+      "가솔린 1.6 2WD 럭셔리"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "쏘울",
+    "year": "2013",
+    "chosen_name": "1.6 GDI 프리미엄",
+    "base_price": 19100000,
+    "merged_names": [
+      "1.6 GDI 프리미엄",
+      "가솔린 1.6 2WD 프리미엄"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 4
+  },
+  {
+    "model": "쏘울",
+    "year": "2013",
+    "chosen_name": "디젤 1.6 럭셔리",
+    "base_price": 19600000,
+    "merged_names": [
+      "디젤 1.6 럭셔리",
+      "디젤 1.6 2WD 럭셔리"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "더 뉴 카렌스",
+    "year": "2017",
+    "chosen_name": "2.0 LPI 럭셔리",
+    "base_price": 20000000,
+    "merged_names": [
+      "2.0 LPI 럭셔리",
+      "lpg 2.0 2WD 럭셔리"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 3
+  },
+  {
+    "model": "더 뉴 카렌스",
+    "year": "2017",
+    "chosen_name": "2.0 LPI 프레스티지",
+    "base_price": 22250000,
+    "merged_names": [
+      "2.0 LPI 프레스티지",
+      "lpg 2.0 2WD 프레스티지"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 8
+  },
+  {
+    "model": "일렉트리파이드 G80 (RG3)",
+    "year": "2026",
+    "chosen_name": "가솔린 2.5 AWD",
+    "base_price": 63430000,
+    "merged_names": [
+      "가솔린 2.5 AWD",
+      "가솔린 2.5 4WD"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 14
+  },
+  {
+    "model": "일렉트리파이드 G80 (RG3)",
+    "year": "2026",
+    "chosen_name": "가솔린 2.5 2WD 스포츠패키지",
+    "base_price": 64630000,
+    "merged_names": [
+      "가솔린 2.5 2WD 스포츠패키지",
+      "가솔린 2.5 스포츠 패키지 2WD"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 9
+  },
+  {
+    "model": "일렉트리파이드 G80 (RG3)",
+    "year": "2026",
+    "chosen_name": "가솔린 2.5 4WD 스포츠패키지",
+    "base_price": 67430000,
+    "merged_names": [
+      "가솔린 2.5 4WD 스포츠패키지",
+      "가솔린 2.5 스포츠 패키지 AWD"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 9
+  },
+  {
+    "model": "일렉트리파이드 G80 (RG3)",
+    "year": "2026",
+    "chosen_name": "가솔린 2.5 BLACK AWD",
+    "base_price": 83600000,
+    "merged_names": [
+      "가솔린 2.5 BLACK AWD",
+      "가솔린 2.5 4WD BLACK"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "일렉트리파이드 G80 (RG3)",
+    "year": "2026",
+    "chosen_name": "가솔린 3.5 AWD",
+    "base_price": 70030000,
+    "merged_names": [
+      "가솔린 3.5 AWD",
+      "가솔린 3.5 4WD"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 12
+  },
+  {
+    "model": "일렉트리파이드 G80 (RG3)",
+    "year": "2026",
+    "chosen_name": "가솔린 3.5 2WD 스포츠패키지",
+    "base_price": 72830000,
+    "merged_names": [
+      "가솔린 3.5 2WD 스포츠패키지",
+      "가솔린 3.5 스포츠 패키지 2WD"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 8
+  },
+  {
+    "model": "일렉트리파이드 G80 (RG3)",
+    "year": "2026",
+    "chosen_name": "가솔린 3.5 4WD 스포츠패키지",
+    "base_price": 75630000,
+    "merged_names": [
+      "가솔린 3.5 4WD 스포츠패키지",
+      "가솔린 3.5 스포츠 패키지 AWD"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 8
+  },
+  {
+    "model": "일렉트리파이드 G80 (RG3)",
+    "year": "2026",
+    "chosen_name": "가솔린 3.5 BLACK AWD",
+    "base_price": 87900000,
+    "merged_names": [
+      "가솔린 3.5 BLACK AWD",
+      "가솔린 3.5 4WD BLACK"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "일렉트리파이드 G80 (RG3)",
+    "year": "2025",
+    "chosen_name": "가솔린 2.5 AWD",
+    "base_price": 61750000,
+    "merged_names": [
+      "가솔린 2.5 AWD",
+      "가솔린 2.5 4WD"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 17
+  },
+  {
+    "model": "일렉트리파이드 G80 (RG3)",
+    "year": "2025",
+    "chosen_name": "가솔린 2.5 2WD 스포츠패키지",
+    "base_price": 62930000,
+    "merged_names": [
+      "가솔린 2.5 2WD 스포츠패키지",
+      "가솔린 2.5 스포츠 패키지 2WD"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 10
+  },
+  {
+    "model": "일렉트리파이드 G80 (RG3)",
+    "year": "2025",
+    "chosen_name": "가솔린 2.5 4WD 스포츠패키지",
+    "base_price": 65690000,
+    "merged_names": [
+      "가솔린 2.5 4WD 스포츠패키지",
+      "가솔린 2.5 스포츠 패키지 AWD"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 10
+  },
+  {
+    "model": "일렉트리파이드 G80 (RG3)",
+    "year": "2025",
+    "chosen_name": "가솔린 2.5 BLACK AWD",
+    "base_price": 81490000,
+    "merged_names": [
+      "가솔린 2.5 BLACK AWD",
+      "가솔린 2.5 4WD BLACK"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 2
+  },
+  {
+    "model": "일렉트리파이드 G80 (RG3)",
+    "year": "2025",
+    "chosen_name": "가솔린 3.5 AWD",
+    "base_price": 68250000,
+    "merged_names": [
+      "가솔린 3.5 AWD",
+      "가솔린 3.5 4WD"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 13
+  },
+  {
+    "model": "일렉트리파이드 G80 (RG3)",
+    "year": "2025",
+    "chosen_name": "가솔린 3.5 2WD 스포츠패키지",
+    "base_price": 71010000,
+    "merged_names": [
+      "가솔린 3.5 2WD 스포츠패키지",
+      "가솔린 3.5 스포츠 패키지 2WD"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 9
+  },
+  {
+    "model": "일렉트리파이드 G80 (RG3)",
+    "year": "2025",
+    "chosen_name": "가솔린 3.5 4WD 스포츠패키지",
+    "base_price": 73760000,
+    "merged_names": [
+      "가솔린 3.5 4WD 스포츠패키지",
+      "가솔린 3.5 스포츠 패키지 AWD"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 9
+  },
+  {
+    "model": "일렉트리파이드 G80 (RG3)",
+    "year": "2025",
+    "chosen_name": "가솔린 3.5 BLACK AWD",
+    "base_price": 85730000,
+    "merged_names": [
+      "가솔린 3.5 BLACK AWD",
+      "가솔린 3.5 4WD BLACK"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 2
+  },
+  {
+    "model": "일렉트리파이드 G80 (RG3)",
+    "year": "2024",
+    "chosen_name": "가솔린 2.5 AWD",
+    "base_price": 61700000,
+    "merged_names": [
+      "가솔린 2.5 AWD",
+      "가솔린 2.5 4WD"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 15
+  },
+  {
+    "model": "일렉트리파이드 G80 (RG3)",
+    "year": "2024",
+    "chosen_name": "가솔린 2.5 2WD 스포츠패키지",
+    "base_price": 62900000,
+    "merged_names": [
+      "가솔린 2.5 2WD 스포츠패키지",
+      "가솔린 2.5 스포츠 패키지 2WD"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 10
+  },
+  {
+    "model": "일렉트리파이드 G80 (RG3)",
+    "year": "2024",
+    "chosen_name": "가솔린 2.5 4WD 스포츠패키지",
+    "base_price": 65700000,
+    "merged_names": [
+      "가솔린 2.5 4WD 스포츠패키지",
+      "가솔린 2.5 스포츠 패키지 AWD"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 10
+  },
+  {
+    "model": "일렉트리파이드 G80 (RG3)",
+    "year": "2024",
+    "chosen_name": "가솔린 3.5 AWD",
+    "base_price": 68300000,
+    "merged_names": [
+      "가솔린 3.5 AWD",
+      "가솔린 3.5 4WD"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 13
+  },
+  {
+    "model": "일렉트리파이드 G80 (RG3)",
+    "year": "2024",
+    "chosen_name": "가솔린 3.5 2WD 스포츠패키지",
+    "base_price": 71100000,
+    "merged_names": [
+      "가솔린 3.5 2WD 스포츠패키지",
+      "가솔린 3.5 스포츠 패키지 2WD"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 9
+  },
+  {
+    "model": "일렉트리파이드 G80 (RG3)",
+    "year": "2024",
+    "chosen_name": "가솔린 3.5 4WD 스포츠패키지",
+    "base_price": 73900000,
+    "merged_names": [
+      "가솔린 3.5 4WD 스포츠패키지",
+      "가솔린 3.5 스포츠 패키지 AWD"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 9
+  },
+  {
+    "model": "G80",
+    "year": "2018",
+    "chosen_name": "가솔린 3.3 4WD 프리미엄럭셔리",
+    "base_price": 58000000,
+    "merged_names": [
+      "가솔린 3.3 4WD 프리미엄럭셔리",
+      "가솔린 3.3 AWD 프리미엄 럭셔리"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "G80",
+    "year": "2018",
+    "chosen_name": "가솔린 3.3 AWD 프레스티지",
+    "base_price": 61100000,
+    "merged_names": [
+      "가솔린 3.3 AWD 프레스티지",
+      "가솔린 3.3 4WD 프레스티지"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "G80",
+    "year": "2018",
+    "chosen_name": "가솔린 3.3 RWD 럭셔리",
+    "base_price": 48800000,
+    "merged_names": [
+      "가솔린 3.3 RWD 럭셔리",
+      "가솔린 3.3 2WD 럭셔리"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 3
+  },
+  {
+    "model": "G80",
+    "year": "2018",
+    "chosen_name": "가솔린 3.3 2WD 프리미엄럭셔리",
+    "base_price": 55500000,
+    "merged_names": [
+      "가솔린 3.3 2WD 프리미엄럭셔리",
+      "가솔린 3.3 RWD 프리미엄 럭셔리"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "G80",
+    "year": "2018",
+    "chosen_name": "가솔린 3.3 RWD 프레스티지",
+    "base_price": 58600000,
+    "merged_names": [
+      "가솔린 3.3 RWD 프레스티지",
+      "가솔린 3.3 2WD 프레스티지"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "G80",
+    "year": "2018",
+    "chosen_name": "가솔린 3.8 RWD 프레스티지",
+    "base_price": 63900000,
+    "merged_names": [
+      "가솔린 3.8 RWD 프레스티지",
+      "가솔린 3.8 2WD 프레스티지"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 4
+  },
+  {
+    "model": "G80",
+    "year": "2018",
+    "chosen_name": "가솔린 3.8 RWD 파이니스트",
+    "base_price": 71900000,
+    "merged_names": [
+      "가솔린 3.8 RWD 파이니스트",
+      "가솔린 3.8 2WD 파이니스트"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "G80",
+    "year": "2018",
+    "chosen_name": "가솔린 3.8 AWD 프레스티지",
+    "base_price": 66400000,
+    "merged_names": [
+      "가솔린 3.8 AWD 프레스티지",
+      "가솔린 3.8 4WD 프레스티지"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 4
+  },
+  {
+    "model": "G80",
+    "year": "2018",
+    "chosen_name": "가솔린 3.8 AWD 파이니스트",
+    "base_price": 74400000,
+    "merged_names": [
+      "가솔린 3.8 AWD 파이니스트",
+      "가솔린 3.8 4WD 파이니스트"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "G80",
+    "year": "2018",
+    "chosen_name": "디젤 2.2 RWD 럭셔리",
+    "base_price": 51700000,
+    "merged_names": [
+      "디젤 2.2 RWD 럭셔리",
+      "디젤 2.2 2WD 럭셔리"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 3
+  },
+  {
+    "model": "G80",
+    "year": "2018",
+    "chosen_name": "디젤 2.2 2WD 프리미엄럭셔리",
+    "base_price": 57000000,
+    "merged_names": [
+      "디젤 2.2 2WD 프리미엄럭셔리",
+      "디젤 2.2 RWD 프리미엄 럭셔리"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 4
+  },
+  {
+    "model": "G80",
+    "year": "2018",
+    "chosen_name": "디젤 2.2 AWD 럭셔리",
+    "base_price": 54200000,
+    "merged_names": [
+      "디젤 2.2 AWD 럭셔리",
+      "디젤 2.2 4WD 럭셔리"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 3
+  },
+  {
+    "model": "G80",
+    "year": "2018",
+    "chosen_name": "디젤 2.2 4WD 프리미엄럭셔리",
+    "base_price": 59500000,
+    "merged_names": [
+      "디젤 2.2 4WD 프리미엄럭셔리",
+      "디젤 2.2 AWD 프리미엄 럭셔리"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 4
+  },
+  {
+    "model": "G80",
+    "year": "2017",
+    "chosen_name": "가솔린 3.3 RWD 럭셔리",
+    "base_price": 48100000,
+    "merged_names": [
+      "가솔린 3.3 RWD 럭셔리",
+      "가솔린 3.3 2WD 럭셔리"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 3
+  },
+  {
+    "model": "G80",
+    "year": "2017",
+    "chosen_name": "가솔린 3.3 2WD 프리미엄럭셔리",
+    "base_price": 55100000,
+    "merged_names": [
+      "가솔린 3.3 2WD 프리미엄럭셔리",
+      "가솔린 3.3 RWD 프리미엄 럭셔리"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "G80",
+    "year": "2017",
+    "chosen_name": "가솔린 3.3 4WD 프리미엄럭셔리",
+    "base_price": 57600000,
+    "merged_names": [
+      "가솔린 3.3 4WD 프리미엄럭셔리",
+      "가솔린 3.3 AWD 프리미엄 럭셔리"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "G80",
+    "year": "2017",
+    "chosen_name": "가솔린 3.8 RWD 프레스티지",
+    "base_price": 61700000,
+    "merged_names": [
+      "가솔린 3.8 RWD 프레스티지",
+      "가솔린 3.8 2WD 프레스티지"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "G80",
+    "year": "2017",
+    "chosen_name": "가솔린 3.8 RWD 파이니스트",
+    "base_price": 71700000,
+    "merged_names": [
+      "가솔린 3.8 RWD 파이니스트",
+      "가솔린 3.8 2WD 파이니스트"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "G80",
+    "year": "2017",
+    "chosen_name": "가솔린 3.8 AWD 프레스티지",
+    "base_price": 64200000,
+    "merged_names": [
+      "가솔린 3.8 AWD 프레스티지",
+      "가솔린 3.8 4WD 프레스티지"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "G80",
+    "year": "2017",
+    "chosen_name": "가솔린 3.8 AWD 파이니스트",
+    "base_price": 74200000,
+    "merged_names": [
+      "가솔린 3.8 AWD 파이니스트",
+      "가솔린 3.8 4WD 파이니스트"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "일렉트리파이드 GV70",
+    "year": "2027",
+    "chosen_name": "가솔린 2.5 AWD",
+    "base_price": 57730000,
+    "merged_names": [
+      "가솔린 2.5 AWD",
+      "가솔린 2.5 4WD"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 16
+  },
+  {
+    "model": "일렉트리파이드 GV70",
+    "year": "2027",
+    "chosen_name": "가솔린 2.5 스포츠 2WD",
+    "base_price": 57530000,
+    "merged_names": [
+      "가솔린 2.5 스포츠 2WD",
+      "가솔린 2.5 2WD 스포츠"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 18
+  },
+  {
+    "model": "일렉트리파이드 GV70",
+    "year": "2027",
+    "chosen_name": "가솔린 2.5 스포츠 AWD",
+    "base_price": 60530000,
+    "merged_names": [
+      "가솔린 2.5 스포츠 AWD",
+      "가솔린 2.5 4WD 스포츠"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 18
+  },
+  {
+    "model": "일렉트리파이드 GV70",
+    "year": "2027",
+    "chosen_name": "가솔린 2.5 그래파이트 2WD",
+    "base_price": 63780000,
+    "merged_names": [
+      "가솔린 2.5 그래파이트 2WD",
+      "가솔린 2.5 2WD 그래파이트"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 11
+  },
+  {
+    "model": "일렉트리파이드 GV70",
+    "year": "2027",
+    "chosen_name": "가솔린 2.5 그래파이트 AWD",
+    "base_price": 66780000,
+    "merged_names": [
+      "가솔린 2.5 그래파이트 AWD",
+      "가솔린 2.5 4WD 그래파이트"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 11
+  },
+  {
+    "model": "일렉트리파이드 GV70",
+    "year": "2027",
+    "chosen_name": "가솔린 3.5 AWD",
+    "base_price": 63230000,
+    "merged_names": [
+      "가솔린 3.5 AWD",
+      "가솔린 3.5 4WD"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 14
+  },
+  {
+    "model": "일렉트리파이드 GV70",
+    "year": "2027",
+    "chosen_name": "가솔린 3.5 스포츠 2WD",
+    "base_price": 63580000,
+    "merged_names": [
+      "가솔린 3.5 스포츠 2WD",
+      "가솔린 3.5 2WD 스포츠"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 13
+  },
+  {
+    "model": "일렉트리파이드 GV70",
+    "year": "2027",
+    "chosen_name": "가솔린 3.5 스포츠 AWD",
+    "base_price": 66580000,
+    "merged_names": [
+      "가솔린 3.5 스포츠 AWD",
+      "가솔린 3.5 4WD 스포츠"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 13
+  },
+  {
+    "model": "일렉트리파이드 GV70",
+    "year": "2027",
+    "chosen_name": "가솔린 3.5 그래파이트 2WD",
+    "base_price": 66180000,
+    "merged_names": [
+      "가솔린 3.5 그래파이트 2WD",
+      "가솔린 3.5 2WD 그래파이트"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 11
+  },
+  {
+    "model": "일렉트리파이드 GV70",
+    "year": "2027",
+    "chosen_name": "가솔린 3.5 그래파이트 AWD",
+    "base_price": 69180000,
+    "merged_names": [
+      "가솔린 3.5 그래파이트 AWD",
+      "가솔린 3.5 4WD 그래파이트"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 11
+  },
+  {
+    "model": "GV70",
+    "year": "2024",
+    "chosen_name": "가솔린 2.5 AWD",
+    "base_price": 53370000,
+    "merged_names": [
+      "가솔린 2.5 AWD",
+      "가솔린 2.5 4WD"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 19
+  },
+  {
+    "model": "GV70",
+    "year": "2024",
+    "chosen_name": "가솔린 2.5 스포츠 2WD",
+    "base_price": 54450000,
+    "merged_names": [
+      "가솔린 2.5 스포츠 2WD",
+      "가솔린 2.5 2WD 스포츠"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 15
+  },
+  {
+    "model": "GV70",
+    "year": "2024",
+    "chosen_name": "가솔린 2.5 스포츠 AWD",
+    "base_price": 57420000,
+    "merged_names": [
+      "가솔린 2.5 스포츠 AWD",
+      "가솔린 2.5 4WD 스포츠"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 15
+  },
+  {
+    "model": "GV70",
+    "year": "2024",
+    "chosen_name": "가솔린 3.5 AWD",
+    "base_price": 59890000,
+    "merged_names": [
+      "가솔린 3.5 AWD",
+      "가솔린 3.5 4WD"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 16
+  },
+  {
+    "model": "GV70",
+    "year": "2024",
+    "chosen_name": "가솔린 3.5 스포츠 AWD",
+    "base_price": 63050000,
+    "merged_names": [
+      "가솔린 3.5 스포츠 AWD",
+      "가솔린 3.5 4WD 스포츠"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 14
+  },
+  {
+    "model": "GV70",
+    "year": "2024",
+    "chosen_name": "디젤 2.2 AWD",
+    "base_price": 55840000,
+    "merged_names": [
+      "디젤 2.2 AWD",
+      "디젤 2.2 4WD"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 19
+  },
+  {
+    "model": "GV70",
+    "year": "2024",
+    "chosen_name": "디젤 2.2 스포츠 2WD",
+    "base_price": 56920000,
+    "merged_names": [
+      "디젤 2.2 스포츠 2WD",
+      "디젤 2.2 2WD 스포츠"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 16
+  },
+  {
+    "model": "GV70",
+    "year": "2024",
+    "chosen_name": "디젤 2.2 스포츠 AWD",
+    "base_price": 59890000,
+    "merged_names": [
+      "디젤 2.2 스포츠 AWD",
+      "디젤 2.2 4WD 스포츠"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 16
+  },
+  {
+    "model": "GV80 쿠페",
+    "year": "2027",
+    "chosen_name": "HEV 2.5 2WD 5인승",
+    "base_price": 76800000,
+    "merged_names": [
+      "HEV 2.5 2WD 5인승",
+      "하이브리드 2.5 2WD (5인승)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 14
+  },
+  {
+    "model": "GV80 쿠페",
+    "year": "2027",
+    "chosen_name": "HEV 2.5 AWD 5인승",
+    "base_price": 80500000,
+    "merged_names": [
+      "HEV 2.5 AWD 5인승",
+      "하이브리드 2.5 4WD (5인승)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 14
+  },
+  {
+    "model": "GV80 쿠페",
+    "year": "2027",
+    "chosen_name": "HEV 2.5 BLACK 5인승",
+    "base_price": 103250000,
+    "merged_names": [
+      "HEV 2.5 BLACK 5인승",
+      "하이브리드 2.5 2WD BLACK(5인승)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 2
+  },
+  {
+    "model": "GV80 쿠페",
+    "year": "2027",
+    "chosen_name": "HEV 2.5 2WD 6인승",
+    "base_price": 79300000,
+    "merged_names": [
+      "HEV 2.5 2WD 6인승",
+      "하이브리드 2.5 2WD (6인승)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 14
+  },
+  {
+    "model": "GV80 쿠페",
+    "year": "2027",
+    "chosen_name": "HEV 2.5 AWD 6인승",
+    "base_price": 83000000,
+    "merged_names": [
+      "HEV 2.5 AWD 6인승",
+      "하이브리드 2.5 4WD (6인승)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 14
+  },
+  {
+    "model": "GV80 쿠페",
+    "year": "2027",
+    "chosen_name": "HEV 2.5 BLACK 6인승",
+    "base_price": 105750000,
+    "merged_names": [
+      "HEV 2.5 BLACK 6인승",
+      "하이브리드 2.5 2WD BLACK(6인승)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 2
+  },
+  {
+    "model": "GV80 쿠페",
+    "year": "2027",
+    "chosen_name": "HEV 2.5 2WD 7인승",
+    "base_price": 77800000,
+    "merged_names": [
+      "HEV 2.5 2WD 7인승",
+      "하이브리드 2.5 2WD (7인승)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 14
+  },
+  {
+    "model": "GV80 쿠페",
+    "year": "2027",
+    "chosen_name": "HEV 2.5 AWD 7인승",
+    "base_price": 81500000,
+    "merged_names": [
+      "HEV 2.5 AWD 7인승",
+      "하이브리드 2.5 4WD (7인승)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 14
+  },
+  {
+    "model": "GV80 쿠페",
+    "year": "2027",
+    "chosen_name": "HEV 2.5 BLACK 7인승",
+    "base_price": 104250000,
+    "merged_names": [
+      "HEV 2.5 BLACK 7인승",
+      "하이브리드 2.5 2WD BLACK(7인승)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 2
+  },
+  {
+    "model": "GV80",
+    "year": "2020",
+    "chosen_name": "디젤 3.0 2WD 5인승",
+    "base_price": 65800000,
+    "merged_names": [
+      "디젤 3.0 2WD 5인승",
+      "디젤 3.0 2WD (5인승)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 15
+  },
+  {
+    "model": "GV80",
+    "year": "2020",
+    "chosen_name": "디젤 3.0 2WD 7인승",
+    "base_price": 66800000,
+    "merged_names": [
+      "디젤 3.0 2WD 7인승",
+      "디젤 3.0 2WD (7인승)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 15
+  },
+  {
+    "model": "GV80",
+    "year": "2020",
+    "chosen_name": "디젤 3.0 AWD 5인승",
+    "base_price": 69300000,
+    "merged_names": [
+      "디젤 3.0 AWD 5인승",
+      "디젤 3.0 4WD (5인승)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 15
+  },
+  {
+    "model": "GV80",
+    "year": "2020",
+    "chosen_name": "디젤 3.0 AWD 7인승",
+    "base_price": 70300000,
+    "merged_names": [
+      "디젤 3.0 AWD 7인승",
+      "디젤 3.0 4WD (7인승)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 15
+  },
+  {
+    "model": "QM3",
+    "year": "2016",
+    "chosen_name": "SE",
+    "base_price": 22800000,
+    "merged_names": [
+      "SE",
+      "가솔린 2WD SE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 2
+  },
+  {
+    "model": "QM3",
+    "year": "2016",
+    "chosen_name": "LE",
+    "base_price": 23950000,
+    "merged_names": [
+      "LE",
+      "가솔린 2WD LE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 2
+  },
+  {
+    "model": "QM3",
+    "year": "2016",
+    "chosen_name": "RE",
+    "base_price": 24950000,
+    "merged_names": [
+      "RE",
+      "가솔린 2WD RE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 0
+  },
+  {
+    "model": "QM3",
+    "year": "2016",
+    "chosen_name": "RE 시그니처",
+    "base_price": 25800000,
+    "merged_names": [
+      "RE 시그니처",
+      "가솔린 2WD RESIGNATURE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 0
+  },
+  {
+    "model": "QM3",
+    "year": "2015",
+    "chosen_name": "SE",
+    "base_price": 22800000,
+    "merged_names": [
+      "SE",
+      "가솔린 2WD SE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 2
+  },
+  {
+    "model": "QM3",
+    "year": "2015",
+    "chosen_name": "LE",
+    "base_price": 23800000,
+    "merged_names": [
+      "LE",
+      "가솔린 2WD LE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 2
+  },
+  {
+    "model": "QM3",
+    "year": "2015",
+    "chosen_name": "RE",
+    "base_price": 24950000,
+    "merged_names": [
+      "RE",
+      "가솔린 2WD RE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 0
+  },
+  {
+    "model": "QM3",
+    "year": "2015",
+    "chosen_name": "RE 시그니처",
+    "base_price": 25700000,
+    "merged_names": [
+      "RE 시그니처",
+      "가솔린 2WD RESIGNATURE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 0
+  },
+  {
+    "model": "QM3",
+    "year": "2014",
+    "chosen_name": "SE",
+    "base_price": 22500000,
+    "merged_names": [
+      "SE",
+      "가솔린 2WD SE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 2
+  },
+  {
+    "model": "QM3",
+    "year": "2014",
+    "chosen_name": "LE",
+    "base_price": 23500000,
+    "merged_names": [
+      "LE",
+      "가솔린 2WD LE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "QM3",
+    "year": "2014",
+    "chosen_name": "RE",
+    "base_price": 24500000,
+    "merged_names": [
+      "RE",
+      "가솔린 2WD RE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 0
+  },
+  {
+    "model": "뉴QM5",
+    "year": "2014",
+    "chosen_name": "가솔린 2WD 2.0 SE",
+    "base_price": 22500000,
+    "merged_names": [
+      "가솔린 2WD 2.0 SE",
+      "가솔린 2.0 2WD SE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 2
+  },
+  {
+    "model": "뉴QM5",
+    "year": "2014",
+    "chosen_name": "가솔린 2WD 2.0 LE",
+    "base_price": 24850000,
+    "merged_names": [
+      "가솔린 2WD 2.0 LE",
+      "가솔린 2.0 2WD LE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 2
+  },
+  {
+    "model": "더 뉴 QM6",
+    "year": "2026",
+    "chosen_name": "2.0 GDe 2WD RE",
+    "base_price": 30490000,
+    "merged_names": [
+      "2.0 GDe 2WD RE",
+      "가솔린 2.0 2WD RE"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 4
+  },
+  {
+    "model": "더 뉴 QM6",
+    "year": "2026",
+    "chosen_name": "2.0 LPG 2WD 밴",
+    "base_price": 25650000,
+    "merged_names": [
+      "2.0 LPG 2WD 밴",
+      "lpg 2.0 2WD 밴"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 8
+  },
+  {
+    "model": "더 뉴 QM6",
+    "year": "2025",
+    "chosen_name": "2.0 GDe RE 2WD",
+    "base_price": 30490000,
+    "merged_names": [
+      "2.0 GDe RE 2WD",
+      "2.0 GDe 2WD RE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 7
+  },
+  {
+    "model": "더 뉴 QM6",
+    "year": "2025",
+    "chosen_name": "2.0 GDe 2WD 프리미에르",
+    "base_price": 37200000,
+    "merged_names": [
+      "2.0 GDe 2WD 프리미에르",
+      "가솔린 2.0 2WD 프리미에르"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "더 뉴 QM6",
+    "year": "2025",
+    "chosen_name": "2.0 LPG 2WD LE",
+    "base_price": 28400000,
+    "merged_names": [
+      "2.0 LPG 2WD LE",
+      "lpg 2.0 2WD LE"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 9
+  },
+  {
+    "model": "더 뉴 QM6",
+    "year": "2025",
+    "chosen_name": "2.0 LPG 2WD RE",
+    "base_price": 32200000,
+    "merged_names": [
+      "2.0 LPG 2WD RE",
+      "lpg 2.0 2WD RE"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "더 뉴 QM6",
+    "year": "2024",
+    "chosen_name": "2.0 LPe RE 2WD",
+    "base_price": 32200000,
+    "merged_names": [
+      "2.0 LPe RE 2WD",
+      "2.0 LPG 2WD 퀘스트 RE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 10
+  },
+  {
+    "model": "더 뉴 QM6",
+    "year": "2024",
+    "chosen_name": "퀘스트 2.0 LPe 밴 2WD",
+    "base_price": 24950000,
+    "merged_names": [
+      "퀘스트 2.0 LPe 밴 2WD",
+      "2.0 LPG 2WD 밴"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "더 뉴 QM6",
+    "year": "2024",
+    "chosen_name": "퀘스트 2.0 LPe 비즈니스 2WD",
+    "base_price": 26900000,
+    "merged_names": [
+      "퀘스트 2.0 LPe 비즈니스 2WD",
+      "2.0 LPG 2WD 비지니스"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 9
+  },
+  {
+    "model": "더 뉴 QM6",
+    "year": "2020",
+    "chosen_name": "2.0 GDe 2WD SE",
+    "base_price": 24450000,
+    "merged_names": [
+      "2.0 GDe 2WD SE",
+      "가솔린 2.0 2WD SE"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 0
+  },
+  {
+    "model": "더 뉴 QM6",
+    "year": "2020",
+    "chosen_name": "2.0 GDe 2WD LE",
+    "base_price": 26020000,
+    "merged_names": [
+      "2.0 GDe 2WD LE",
+      "가솔린 2.0 2WD LE"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 8
+  },
+  {
+    "model": "더 뉴 QM6",
+    "year": "2020",
+    "chosen_name": "2.0 GDe 2WD RE",
+    "base_price": 28380000,
+    "merged_names": [
+      "2.0 GDe 2WD RE",
+      "가솔린 2.0 2WD RE"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 9
+  },
+  {
+    "model": "더 뉴 QM6",
+    "year": "2020",
+    "chosen_name": "가솔린 2.0 2WD RE시그니처",
+    "base_price": 30140000,
+    "merged_names": [
+      "가솔린 2.0 2WD RE시그니처",
+      "2.0 GDe 2WD RE 시그니처"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "더 뉴 QM6",
+    "year": "2020",
+    "chosen_name": "2.0 GDe 2WD 프리미에르",
+    "base_price": 32890000,
+    "merged_names": [
+      "2.0 GDe 2WD 프리미에르",
+      "가솔린 2.0 2WD 프리미에르"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 3
+  },
+  {
+    "model": "더 뉴 QM6",
+    "year": "2020",
+    "chosen_name": "1.7 디젤 2WD SE",
+    "base_price": 27250000,
+    "merged_names": [
+      "1.7 디젤 2WD SE",
+      "디젤 1.7 2WD SE"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 0
+  },
+  {
+    "model": "더 뉴 QM6",
+    "year": "2020",
+    "chosen_name": "1.7 디젤 2WD RE",
+    "base_price": 30190000,
+    "merged_names": [
+      "1.7 디젤 2WD RE",
+      "디젤 1.7 2WD RE"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 10
+  },
+  {
+    "model": "더 뉴 QM6",
+    "year": "2020",
+    "chosen_name": "디젤 1.7 2WD RE시그니처",
+    "base_price": 33190000,
+    "merged_names": [
+      "디젤 1.7 2WD RE시그니처",
+      "1.7 디젤 2WD RE 시그니처"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "더 뉴 QM6",
+    "year": "2020",
+    "chosen_name": "2.0 디젤 4WD RE",
+    "base_price": 32700000,
+    "merged_names": [
+      "2.0 디젤 4WD RE",
+      "디젤 2.0 4WD RE"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 10
+  },
+  {
+    "model": "더 뉴 QM6",
+    "year": "2020",
+    "chosen_name": "디젤 2.0 4WD RE시그니처",
+    "base_price": 35840000,
+    "merged_names": [
+      "디젤 2.0 4WD RE시그니처",
+      "2.0 디젤 4WD RE 시그니처"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "더 뉴 QM6",
+    "year": "2020",
+    "chosen_name": "2.0 디젤 4WD 프리미에르",
+    "base_price": 38590000,
+    "merged_names": [
+      "2.0 디젤 4WD 프리미에르",
+      "디젤 2.0 4WD 프리미에르"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 4
+  },
+  {
+    "model": "더 뉴 QM6",
+    "year": "2020",
+    "chosen_name": "2.0 LPG 2WD SE",
+    "base_price": 23760000,
+    "merged_names": [
+      "2.0 LPG 2WD SE",
+      "lpg 2.0 2WD SE"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 0
+  },
+  {
+    "model": "더 뉴 QM6",
+    "year": "2020",
+    "chosen_name": "2.0 LPG 2WD LE",
+    "base_price": 25330000,
+    "merged_names": [
+      "2.0 LPG 2WD LE",
+      "lpg 2.0 2WD LE"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 9
+  },
+  {
+    "model": "더 뉴 QM6",
+    "year": "2020",
+    "chosen_name": "2.0 LPG 2WD RE",
+    "base_price": 27690000,
+    "merged_names": [
+      "2.0 LPG 2WD RE",
+      "lpg 2.0 2WD RE"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 8
+  },
+  {
+    "model": "더 뉴 QM6",
+    "year": "2020",
+    "chosen_name": "lpg 2.0 2WD RE시그니처",
+    "base_price": 29460000,
+    "merged_names": [
+      "lpg 2.0 2WD RE시그니처",
+      "2.0 LPG 2WD RE 시그니처"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 4
+  },
+  {
+    "model": "더 뉴 QM6",
+    "year": "2019",
+    "chosen_name": "2.0 LPe SE 2WD",
+    "base_price": 23760000,
+    "merged_names": [
+      "2.0 LPe SE 2WD",
+      "2.0 LPG 2WD SE",
+      "lpg 2.0 2WD SE"
+    ],
+    "sources": [
+      "encar",
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "더 뉴 QM6",
+    "year": "2019",
+    "chosen_name": "2.0 LPe LE 2WD",
+    "base_price": 25330000,
+    "merged_names": [
+      "2.0 LPe LE 2WD",
+      "2.0 LPG 2WD LE",
+      "lpg 2.0 2WD LE"
+    ],
+    "sources": [
+      "encar",
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 10
+  },
+  {
+    "model": "더 뉴 QM6",
+    "year": "2019",
+    "chosen_name": "2.0 LPe RE 2WD",
+    "base_price": 27690000,
+    "merged_names": [
+      "2.0 LPe RE 2WD",
+      "2.0 LPG 2WD RE",
+      "lpg 2.0 2WD RE"
+    ],
+    "sources": [
+      "encar",
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 11
+  },
+  {
+    "model": "더 뉴 QM6",
+    "year": "2019",
+    "chosen_name": "2.0 LPe RE 시그니처 2WD",
+    "base_price": 29460000,
+    "merged_names": [
+      "2.0 LPe RE 시그니처 2WD",
+      "lpg 2.0 2WD RE시그니처",
+      "2.0 LPG 2WD RE 시그니처"
+    ],
+    "sources": [
+      "encar",
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "QM6",
+    "year": "2019",
+    "chosen_name": "2.0 GDe 2WD SE",
+    "base_price": 24800000,
+    "merged_names": [
+      "2.0 GDe 2WD SE",
+      "가솔린 2.0 2WD SE"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 0
+  },
+  {
+    "model": "QM6",
+    "year": "2019",
+    "chosen_name": "2.0 GDe 2WD LE",
+    "base_price": 26400000,
+    "merged_names": [
+      "2.0 GDe 2WD LE",
+      "가솔린 2.0 2WD LE"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "QM6",
+    "year": "2019",
+    "chosen_name": "2.0 GDe 2WD RE",
+    "base_price": 28550000,
+    "merged_names": [
+      "2.0 GDe 2WD RE",
+      "가솔린 2.0 2WD RE"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 9
+  },
+  {
+    "model": "QM6",
+    "year": "2019",
+    "chosen_name": "가솔린 2.0 2WD RE시그니처",
+    "base_price": 30500000,
+    "merged_names": [
+      "가솔린 2.0 2WD RE시그니처",
+      "2.0 GDe 2WD RE 시그니처"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 7
+  },
+  {
+    "model": "QM6",
+    "year": "2019",
+    "chosen_name": "2.0 디젤 2WD SE",
+    "base_price": 27700000,
+    "merged_names": [
+      "2.0 디젤 2WD SE",
+      "디젤 2.0 2WD SE"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 0
+  },
+  {
+    "model": "QM6",
+    "year": "2019",
+    "chosen_name": "2.0 디젤 2WD LE",
+    "base_price": 29300000,
+    "merged_names": [
+      "2.0 디젤 2WD LE",
+      "디젤 2.0 2WD LE"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "QM6",
+    "year": "2019",
+    "chosen_name": "2.0 디젤 2WD RE",
+    "base_price": 31450000,
+    "merged_names": [
+      "2.0 디젤 2WD RE",
+      "디젤 2.0 2WD RE"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 9
+  },
+  {
+    "model": "QM6",
+    "year": "2019",
+    "chosen_name": "디젤 2.0 2WD RE시그니처",
+    "base_price": 33400000,
+    "merged_names": [
+      "디젤 2.0 2WD RE시그니처",
+      "2.0 디젤 2WD RE 시그니처"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 7
+  },
+  {
+    "model": "QM6",
+    "year": "2019",
+    "chosen_name": "2.0 디젤 4WD LE",
+    "base_price": 31000000,
+    "merged_names": [
+      "2.0 디젤 4WD LE",
+      "디젤 2.0 4WD LE"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "QM6",
+    "year": "2019",
+    "chosen_name": "2.0 디젤 4WD RE",
+    "base_price": 33150000,
+    "merged_names": [
+      "2.0 디젤 4WD RE",
+      "디젤 2.0 4WD RE"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 9
+  },
+  {
+    "model": "QM6",
+    "year": "2019",
+    "chosen_name": "디젤 2.0 4WD RE시그니처",
+    "base_price": 35100000,
+    "merged_names": [
+      "디젤 2.0 4WD RE시그니처",
+      "2.0 디젤 4WD RE 시그니처"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 7
+  },
+  {
+    "model": "QM6",
+    "year": "2019",
+    "chosen_name": "2.0 LPG 2WD SE",
+    "base_price": 23760000,
+    "merged_names": [
+      "2.0 LPG 2WD SE",
+      "lpg 2.0 2WD SE"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 0
+  },
+  {
+    "model": "QM6",
+    "year": "2019",
+    "chosen_name": "2.0 LPG 2WD LE",
+    "base_price": 25330000,
+    "merged_names": [
+      "2.0 LPG 2WD LE",
+      "lpg 2.0 2WD LE"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 9
+  },
+  {
+    "model": "QM6",
+    "year": "2019",
+    "chosen_name": "2.0 LPG 2WD RE",
+    "base_price": 27690000,
+    "merged_names": [
+      "2.0 LPG 2WD RE",
+      "lpg 2.0 2WD RE"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 8
+  },
+  {
+    "model": "QM6",
+    "year": "2019",
+    "chosen_name": "lpg 2.0 2WD RE시그니처",
+    "base_price": 29460000,
+    "merged_names": [
+      "lpg 2.0 2WD RE시그니처",
+      "2.0 LPG 2WD RE 시그니처"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 4
+  },
+  {
+    "model": "QM6",
+    "year": "2018",
+    "chosen_name": "2.0 GDe 2WD SE",
+    "base_price": 24800000,
+    "merged_names": [
+      "2.0 GDe 2WD SE",
+      "가솔린 2.0 2WD SE"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 0
+  },
+  {
+    "model": "QM6",
+    "year": "2018",
+    "chosen_name": "2.0 GDe 2WD LE",
+    "base_price": 26400000,
+    "merged_names": [
+      "2.0 GDe 2WD LE",
+      "가솔린 2.0 2WD LE"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "QM6",
+    "year": "2018",
+    "chosen_name": "2.0 GDe 2WD RE",
+    "base_price": 28500000,
+    "merged_names": [
+      "2.0 GDe 2WD RE",
+      "가솔린 2.0 2WD RE"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 8
+  },
+  {
+    "model": "QM6",
+    "year": "2018",
+    "chosen_name": "2.0 디젤 2WD SE",
+    "base_price": 27700000,
+    "merged_names": [
+      "2.0 디젤 2WD SE",
+      "디젤 2.0 2WD SE"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 0
+  },
+  {
+    "model": "QM6",
+    "year": "2018",
+    "chosen_name": "2.0 디젤 2WD LE",
+    "base_price": 29300000,
+    "merged_names": [
+      "2.0 디젤 2WD LE",
+      "디젤 2.0 2WD LE"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "QM6",
+    "year": "2018",
+    "chosen_name": "2.0 디젤 2WD RE",
+    "base_price": 31400000,
+    "merged_names": [
+      "2.0 디젤 2WD RE",
+      "디젤 2.0 2WD RE"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 8
+  },
+  {
+    "model": "QM6",
+    "year": "2018",
+    "chosen_name": "2.0 디젤 2WD 시그니처",
+    "base_price": 33350000,
+    "merged_names": [
+      "2.0 디젤 2WD 시그니처",
+      "디젤 2.0 2WD 시그니처"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "QM6",
+    "year": "2018",
+    "chosen_name": "2.0 디젤 4WD LE",
+    "base_price": 31000000,
+    "merged_names": [
+      "2.0 디젤 4WD LE",
+      "디젤 2.0 4WD LE"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "QM6",
+    "year": "2018",
+    "chosen_name": "2.0 디젤 4WD RE",
+    "base_price": 33100000,
+    "merged_names": [
+      "2.0 디젤 4WD RE",
+      "디젤 2.0 4WD RE"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 8
+  },
+  {
+    "model": "QM6",
+    "year": "2018",
+    "chosen_name": "2.0 디젤 4WD 시그니처",
+    "base_price": 35050000,
+    "merged_names": [
+      "2.0 디젤 4WD 시그니처",
+      "디젤 2.0 4WD 시그니처"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "QM6",
+    "year": "2017",
+    "chosen_name": "디젤 2WD RE 시그니처",
+    "base_price": 33000000,
+    "merged_names": [
+      "디젤 2WD RE 시그니처",
+      "디젤 2WD RESignature"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "QM6",
+    "year": "2017",
+    "chosen_name": "디젤 4WD RE 시그니처",
+    "base_price": 34700000,
+    "merged_names": [
+      "디젤 4WD RE 시그니처",
+      "디젤 4WD RESignature"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "SM3 네오",
+    "year": "2016",
+    "chosen_name": "PE",
+    "base_price": 15900000,
+    "merged_names": [
+      "PE",
+      "가솔린 2WD PE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "SM3 네오",
+    "year": "2016",
+    "chosen_name": "SE",
+    "base_price": 17400000,
+    "merged_names": [
+      "SE",
+      "가솔린 2WD SE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "SM3 네오",
+    "year": "2016",
+    "chosen_name": "RE",
+    "base_price": 19980000,
+    "merged_names": [
+      "RE",
+      "가솔린 2WD RE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 8
+  },
+  {
+    "model": "SM3 네오",
+    "year": "2016",
+    "chosen_name": "디젤 SE",
+    "base_price": 19800000,
+    "merged_names": [
+      "디젤 SE",
+      "디젤 2WD SE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "SM3 네오",
+    "year": "2016",
+    "chosen_name": "디젤 LE",
+    "base_price": 20950000,
+    "merged_names": [
+      "디젤 LE",
+      "디젤 2WD LE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 9
+  },
+  {
+    "model": "SM3 Z.E.",
+    "year": "2014",
+    "chosen_name": "SE 플러스",
+    "base_price": 45000000,
+    "merged_names": [
+      "SE 플러스",
+      "가솔린 2WD SEPlus"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 3
+  },
+  {
+    "model": "SM3 Z.E.",
+    "year": "2014",
+    "chosen_name": "RE",
+    "base_price": 46200000,
+    "merged_names": [
+      "RE",
+      "가솔린 2WD RE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 2
+  },
+  {
+    "model": "뉴SM3",
+    "year": "2014",
+    "chosen_name": "PE",
+    "base_price": 15380000,
+    "merged_names": [
+      "PE",
+      "가솔린 2WD PE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 2
+  },
+  {
+    "model": "뉴SM3",
+    "year": "2014",
+    "chosen_name": "SE",
+    "base_price": 16730000,
+    "merged_names": [
+      "SE",
+      "가솔린 2WD SE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 2
+  },
+  {
+    "model": "뉴SM3",
+    "year": "2014",
+    "chosen_name": "SE 플러스",
+    "base_price": 17680000,
+    "merged_names": [
+      "SE 플러스",
+      "가솔린 2WD SEPlus"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 4
+  },
+  {
+    "model": "뉴SM3",
+    "year": "2014",
+    "chosen_name": "LE",
+    "base_price": 18880000,
+    "merged_names": [
+      "LE",
+      "가솔린 2WD LE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "뉴SM3",
+    "year": "2014",
+    "chosen_name": "RE",
+    "base_price": 19780000,
+    "merged_names": [
+      "RE",
+      "가솔린 2WD RE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "뉴SM3",
+    "year": "2013",
+    "chosen_name": "PE",
+    "base_price": 15380000,
+    "merged_names": [
+      "PE",
+      "가솔린 2WD PE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 2
+  },
+  {
+    "model": "뉴SM3",
+    "year": "2013",
+    "chosen_name": "SE",
+    "base_price": 16680000,
+    "merged_names": [
+      "SE",
+      "가솔린 2WD SE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 2
+  },
+  {
+    "model": "뉴SM3",
+    "year": "2013",
+    "chosen_name": "SE 플러스",
+    "base_price": 17680000,
+    "merged_names": [
+      "SE 플러스",
+      "가솔린 2WD SEPlus"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 7
+  },
+  {
+    "model": "뉴SM3",
+    "year": "2013",
+    "chosen_name": "LE",
+    "base_price": 18880000,
+    "merged_names": [
+      "LE",
+      "가솔린 2WD LE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 8
+  },
+  {
+    "model": "뉴SM3",
+    "year": "2013",
+    "chosen_name": "RE",
+    "base_price": 19780000,
+    "merged_names": [
+      "RE",
+      "가솔린 2WD RE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "SM5 노바",
+    "year": "2016",
+    "chosen_name": "PE",
+    "base_price": 22500000,
+    "merged_names": [
+      "PE",
+      "가솔린 2WD PE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 2
+  },
+  {
+    "model": "SM5 노바",
+    "year": "2016",
+    "chosen_name": "SE",
+    "base_price": 25050000,
+    "merged_names": [
+      "SE",
+      "가솔린 2WD SE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 4
+  },
+  {
+    "model": "SM5 노바",
+    "year": "2016",
+    "chosen_name": "LE",
+    "base_price": 27600000,
+    "merged_names": [
+      "LE",
+      "가솔린 2WD LE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 4
+  },
+  {
+    "model": "SM5 노바",
+    "year": "2016",
+    "chosen_name": "RE",
+    "base_price": 29200000,
+    "merged_names": [
+      "RE",
+      "가솔린 2WD RE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "SM5 노바",
+    "year": "2015",
+    "chosen_name": "1.6 TCE",
+    "base_price": 27900000,
+    "merged_names": [
+      "1.6 TCE",
+      "가솔린 1.6 2WD TCE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "SM5 노바",
+    "year": "2015",
+    "chosen_name": "PE",
+    "base_price": 22500000,
+    "merged_names": [
+      "PE",
+      "가솔린 2WD PE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "SM5 노바",
+    "year": "2015",
+    "chosen_name": "SE",
+    "base_price": 24800000,
+    "merged_names": [
+      "SE",
+      "가솔린 2WD SE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 4
+  },
+  {
+    "model": "SM5 노바",
+    "year": "2015",
+    "chosen_name": "LE",
+    "base_price": 27300000,
+    "merged_names": [
+      "LE",
+      "가솔린 2WD LE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "SM5 노바",
+    "year": "2015",
+    "chosen_name": "RE",
+    "base_price": 28900000,
+    "merged_names": [
+      "RE",
+      "가솔린 2WD RE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "SM5 노바",
+    "year": "2015",
+    "chosen_name": "디젤 D",
+    "base_price": 25900000,
+    "merged_names": [
+      "디젤 D",
+      "디젤 2WD D"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 2
+  },
+  {
+    "model": "뉴SM5 플래티넘",
+    "year": "2014",
+    "chosen_name": "PE",
+    "base_price": 22300000,
+    "merged_names": [
+      "PE",
+      "가솔린 2WD PE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "뉴SM5 플래티넘",
+    "year": "2014",
+    "chosen_name": "SE",
+    "base_price": 24500000,
+    "merged_names": [
+      "SE",
+      "가솔린 2WD SE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 4
+  },
+  {
+    "model": "뉴SM5 플래티넘",
+    "year": "2014",
+    "chosen_name": "LE",
+    "base_price": 26700000,
+    "merged_names": [
+      "LE",
+      "가솔린 2WD LE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "뉴SM5 플래티넘",
+    "year": "2014",
+    "chosen_name": "RE",
+    "base_price": 28200000,
+    "merged_names": [
+      "RE",
+      "가솔린 2WD RE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2025",
+    "chosen_name": "1.3 TCe 필",
+    "base_price": 28810000,
+    "merged_names": [
+      "1.3 TCe 필",
+      "가솔린 1.3 2WD 필"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 7
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2025",
+    "chosen_name": "1.8 TCe 인스파이어",
+    "base_price": 36390000,
+    "merged_names": [
+      "1.8 TCe 인스파이어",
+      "가솔린 1.8 2WD 인스파이어"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 8
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2025",
+    "chosen_name": "2.0 LPe 필",
+    "base_price": 29400000,
+    "merged_names": [
+      "2.0 LPe 필",
+      "lpg 2.0 2WD 필"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 7
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2023",
+    "chosen_name": "1.3 TCe RE",
+    "base_price": 31320000,
+    "merged_names": [
+      "1.3 TCe RE",
+      "가솔린 1.3 2WD RE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 7
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2023",
+    "chosen_name": "1.8 TCe 프리미에르",
+    "base_price": 35300000,
+    "merged_names": [
+      "1.8 TCe 프리미에르",
+      "가솔린 1.8 2WD 프리미에르"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2023",
+    "chosen_name": "2.0 LPe RE",
+    "base_price": 31220000,
+    "merged_names": [
+      "2.0 LPe RE",
+      "lpg 2.0 2WD RE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 7
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2022",
+    "chosen_name": "1.3 TCe SE",
+    "base_price": 23860000,
+    "merged_names": [
+      "1.3 TCe SE",
+      "가솔린 1.3 2WD SE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 3
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2022",
+    "chosen_name": "1.3 TCe LE",
+    "base_price": 27390000,
+    "merged_names": [
+      "1.3 TCe LE",
+      "가솔린 1.3 2WD LE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 8
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2022",
+    "chosen_name": "1.3 TCe RE",
+    "base_price": 29750000,
+    "merged_names": [
+      "1.3 TCe RE",
+      "가솔린 1.3 2WD RE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 9
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2022",
+    "chosen_name": "1.8 TCe 프리미에르",
+    "base_price": 33870000,
+    "merged_names": [
+      "1.8 TCe 프리미에르",
+      "가솔린 1.8 2WD 프리미에르"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2022",
+    "chosen_name": "2.0 LPe SE Plus",
+    "base_price": 25130000,
+    "merged_names": [
+      "2.0 LPe SE Plus",
+      "lpg 2.0 2WD SE플러스"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2022",
+    "chosen_name": "2.0 LPe LE",
+    "base_price": 27190000,
+    "merged_names": [
+      "2.0 LPe LE",
+      "lpg 2.0 2WD LE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 8
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2021",
+    "chosen_name": "1.3 TCe SE",
+    "base_price": 24500000,
+    "merged_names": [
+      "1.3 TCe SE",
+      "가솔린 1.3 2WD SE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 3
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2021",
+    "chosen_name": "1.3 TCe SE Plus",
+    "base_price": 26810000,
+    "merged_names": [
+      "1.3 TCe SE Plus",
+      "가솔린 1.3 2WD SE플러스"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 9
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2021",
+    "chosen_name": "1.3 TCe LE",
+    "base_price": 28960000,
+    "merged_names": [
+      "1.3 TCe LE",
+      "가솔린 1.3 2WD LE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 8
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2021",
+    "chosen_name": "1.3 TCe RE",
+    "base_price": 31120000,
+    "merged_names": [
+      "1.3 TCe RE",
+      "가솔린 1.3 2WD RE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 10
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2021",
+    "chosen_name": "1.3 TCe 프리미에르",
+    "base_price": 32650000,
+    "merged_names": [
+      "1.3 TCe 프리미에르",
+      "가솔린 1.3 2WD 프리미에르"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 7
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2021",
+    "chosen_name": "1.8 TCe LE",
+    "base_price": 30730000,
+    "merged_names": [
+      "1.8 TCe LE",
+      "가솔린 1.8 2WD LE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 8
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2021",
+    "chosen_name": "1.8 TCe 프리미에르",
+    "base_price": 34220000,
+    "merged_names": [
+      "1.8 TCe 프리미에르",
+      "가솔린 1.8 2WD 프리미에르"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 7
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2021",
+    "chosen_name": "2.0 LPe SE",
+    "base_price": 24010000,
+    "merged_names": [
+      "2.0 LPe SE",
+      "lpg 2.0 2WD SE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 3
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2021",
+    "chosen_name": "2.0 LPe SE Plus",
+    "base_price": 26310000,
+    "merged_names": [
+      "2.0 LPe SE Plus",
+      "lpg 2.0 2WD SE플러스"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 9
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2021",
+    "chosen_name": "2.0 LPe LE",
+    "base_price": 28470000,
+    "merged_names": [
+      "2.0 LPe LE",
+      "lpg 2.0 2WD LE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 8
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2021",
+    "chosen_name": "2.0 LPe RE",
+    "base_price": 30490000,
+    "merged_names": [
+      "2.0 LPe RE",
+      "lpg 2.0 2WD RE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 10
+  },
+  {
+    "model": "SM6",
+    "year": "2016",
+    "chosen_name": "2.0 GDe PE",
+    "base_price": 23760000,
+    "merged_names": [
+      "2.0 GDe PE",
+      "가솔린 2.0 2WD PE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "SM6",
+    "year": "2016",
+    "chosen_name": "2.0 GDe SE",
+    "base_price": 25920000,
+    "merged_names": [
+      "2.0 GDe SE",
+      "가솔린 2.0 2WD SE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 4
+  },
+  {
+    "model": "SM6",
+    "year": "2016",
+    "chosen_name": "2.0 GDe LE",
+    "base_price": 27440000,
+    "merged_names": [
+      "2.0 GDe LE",
+      "가솔린 2.0 2WD LE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "SM6",
+    "year": "2016",
+    "chosen_name": "2.0 GDe RE",
+    "base_price": 29400000,
+    "merged_names": [
+      "2.0 GDe RE",
+      "가솔린 2.0 2WD RE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "SM6",
+    "year": "2016",
+    "chosen_name": "1.6 TCe SE",
+    "base_price": 27540000,
+    "merged_names": [
+      "1.6 TCe SE",
+      "가솔린 1.6 2WD SE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 4
+  },
+  {
+    "model": "SM6",
+    "year": "2016",
+    "chosen_name": "1.6 TCe LE",
+    "base_price": 29060000,
+    "merged_names": [
+      "1.6 TCe LE",
+      "가솔린 1.6 2WD LE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "SM6",
+    "year": "2016",
+    "chosen_name": "1.6 TCe RE",
+    "base_price": 31900000,
+    "merged_names": [
+      "1.6 TCe RE",
+      "가솔린 1.6 2WD RE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 7
+  },
+  {
+    "model": "SM7 노바",
+    "year": "2019",
+    "chosen_name": "2.5 V6",
+    "base_price": 33020000,
+    "merged_names": [
+      "2.5 V6",
+      "가솔린 2.5 2WD V6"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 8
+  },
+  {
+    "model": "SM7 노바",
+    "year": "2018",
+    "chosen_name": "2.5 V6",
+    "base_price": 34650000,
+    "merged_names": [
+      "2.5 V6",
+      "가솔린 2.5 2WD V6"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 8
+  },
+  {
+    "model": "SM7 노바",
+    "year": "2017",
+    "chosen_name": "2.5 V6",
+    "base_price": 34650000,
+    "merged_names": [
+      "2.5 V6",
+      "가솔린 2.5 2WD V6"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 8
+  },
+  {
+    "model": "SM7 노바",
+    "year": "2016",
+    "chosen_name": "SE",
+    "base_price": 30000000,
+    "merged_names": [
+      "SE",
+      "가솔린 2WD SE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 3
+  },
+  {
+    "model": "SM7 노바",
+    "year": "2016",
+    "chosen_name": "LE",
+    "base_price": 32200000,
+    "merged_names": [
+      "LE",
+      "가솔린 2WD LE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "SM7 노바",
+    "year": "2016",
+    "chosen_name": "RE",
+    "base_price": 34800000,
+    "merged_names": [
+      "RE",
+      "가솔린 2WD RE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "SM7 노바",
+    "year": "2016",
+    "chosen_name": "LE35",
+    "base_price": 34800000,
+    "merged_names": [
+      "LE35",
+      "가솔린 2WD LE35"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "SM7 노바",
+    "year": "2016",
+    "chosen_name": "RE35",
+    "base_price": 38200000,
+    "merged_names": [
+      "RE35",
+      "가솔린 2WD RE35"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "All New SM7",
+    "year": "2013",
+    "chosen_name": "SE",
+    "base_price": 30280000,
+    "merged_names": [
+      "SE",
+      "가솔린 2WD SE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "All New SM7",
+    "year": "2013",
+    "chosen_name": "LE",
+    "base_price": 31690000,
+    "merged_names": [
+      "LE",
+      "가솔린 2WD LE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 7
+  },
+  {
+    "model": "All New SM7",
+    "year": "2013",
+    "chosen_name": "RE",
+    "base_price": 34690000,
+    "merged_names": [
+      "RE",
+      "가솔린 2WD RE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "All New SM7",
+    "year": "2013",
+    "chosen_name": "SE35",
+    "base_price": 33920000,
+    "merged_names": [
+      "SE35",
+      "가솔린 2WD SE35"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "All New SM7",
+    "year": "2013",
+    "chosen_name": "LE35",
+    "base_price": 35840000,
+    "merged_names": [
+      "LE35",
+      "가솔린 2WD LE35"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 7
+  },
+  {
+    "model": "All New SM7",
+    "year": "2013",
+    "chosen_name": "RE35",
+    "base_price": 38550000,
+    "merged_names": [
+      "RE35",
+      "가솔린 2WD RE35"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 4
+  },
+  {
+    "model": "XM3",
+    "year": "2024",
+    "chosen_name": "1.3 TCe RE",
+    "base_price": 26060000,
+    "merged_names": [
+      "1.3 TCe RE",
+      "가솔린 1.3 2WD RE",
+      "가솔린 1.3 TCe 2WD RE"
+    ],
+    "sources": [
+      "encar",
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 13
+  },
+  {
+    "model": "XM3",
+    "year": "2024",
+    "chosen_name": "1.6 GTe LE",
+    "base_price": 22350000,
+    "merged_names": [
+      "1.6 GTe LE",
+      "가솔린 1.6 2WD LE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 4
+  },
+  {
+    "model": "XM3",
+    "year": "2024",
+    "chosen_name": "1.6 GTe RE",
+    "base_price": 24480000,
+    "merged_names": [
+      "1.6 GTe RE",
+      "가솔린 1.6 2WD RE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 11
+  },
+  {
+    "model": "XM3",
+    "year": "2024",
+    "chosen_name": "1.6 GTe 인스파이어",
+    "base_price": 26800000,
+    "merged_names": [
+      "1.6 GTe 인스파이어",
+      "가솔린 1.6 2WD 인스파이어"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 7
+  },
+  {
+    "model": "XM3",
+    "year": "2024",
+    "chosen_name": "가솔린 1.3 2WD 인스파이어",
+    "base_price": 28640000,
+    "merged_names": [
+      "가솔린 1.3 2WD 인스파이어",
+      "가솔린 1.3 TCe 2WD 인스파이어"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "XM3",
+    "year": "2023",
+    "chosen_name": "1.3 TCe RE",
+    "base_price": 25080000,
+    "merged_names": [
+      "1.3 TCe RE",
+      "가솔린 1.3 TCe 2WD RE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 10
+  },
+  {
+    "model": "XM3",
+    "year": "2022",
+    "chosen_name": "가솔린 1.3 2WD RE",
+    "base_price": 23960000,
+    "merged_names": [
+      "가솔린 1.3 2WD RE",
+      "가솔린 1.3 TCe 2WD RE"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "XM3",
+    "year": "2022",
+    "chosen_name": "가솔린 1.3 2WD RE시그니처",
+    "base_price": 26410000,
+    "merged_names": [
+      "가솔린 1.3 2WD RE시그니처",
+      "가솔린 1.3 TCe 2WD RE 시그니처"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "XM3",
+    "year": "2021",
+    "chosen_name": "1.3 TCe LE",
+    "base_price": 21360000,
+    "merged_names": [
+      "1.3 TCe LE",
+      "가솔린 1.3 2WD LE",
+      "가솔린 1.3 TCe 2WD LE"
+    ],
+    "sources": [
+      "encar",
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 7
+  },
+  {
+    "model": "XM3",
+    "year": "2021",
+    "chosen_name": "1.3 TCe RE",
+    "base_price": 23520000,
+    "merged_names": [
+      "1.3 TCe RE",
+      "가솔린 1.3 2WD RE",
+      "가솔린 1.3 TCe 2WD RE"
+    ],
+    "sources": [
+      "encar",
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 11
+  },
+  {
+    "model": "XM3",
+    "year": "2021",
+    "chosen_name": "1.3 TCe RE 시그니처",
+    "base_price": 25970000,
+    "merged_names": [
+      "1.3 TCe RE 시그니처",
+      "가솔린 1.3 2WD RE시그니처",
+      "가솔린 1.3 TCe 2WD RE 시그니처"
+    ],
+    "sources": [
+      "encar",
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 7
+  },
+  {
+    "model": "XM3",
+    "year": "2021",
+    "chosen_name": "1.6 GTe SE",
+    "base_price": 17630000,
+    "merged_names": [
+      "1.6 GTe SE",
+      "가솔린 1.6 2WD SE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "XM3",
+    "year": "2021",
+    "chosen_name": "1.6 GTe LE",
+    "base_price": 19880000,
+    "merged_names": [
+      "1.6 GTe LE",
+      "가솔린 1.6 2WD LE"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 7
+  },
+  {
+    "model": "XM3",
+    "year": "2021",
+    "chosen_name": "1.6 GTe LE Plus",
+    "base_price": 21950000,
+    "merged_names": [
+      "1.6 GTe LE Plus",
+      "가솔린 1.6 2WD LE 플러스"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "XM3",
+    "year": "2020",
+    "chosen_name": "가솔린 1.3 2WD LE",
+    "base_price": 21750000,
+    "merged_names": [
+      "가솔린 1.3 2WD LE",
+      "가솔린 1.3 TCe 2WD LE"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "XM3",
+    "year": "2020",
+    "chosen_name": "가솔린 1.3 2WD RE",
+    "base_price": 23950000,
+    "merged_names": [
+      "가솔린 1.3 2WD RE",
+      "가솔린 1.3 TCe 2WD RE"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 13
+  },
+  {
+    "model": "XM3",
+    "year": "2020",
+    "chosen_name": "가솔린 1.3 TCe 2WD RE 시그니처",
+    "base_price": 26450000,
+    "merged_names": [
+      "가솔린 1.3 TCe 2WD RE 시그니처",
+      "가솔린 1.3 2WD RESignature"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 7
+  },
+  {
+    "model": "아르카나",
+    "year": "2025",
+    "chosen_name": "가솔린 1.3 2WD 아이코닉",
+    "base_price": 29140000,
+    "merged_names": [
+      "가솔린 1.3 2WD 아이코닉",
+      "가솔린 1.3 TCe 2WD 아이코닉"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "캡처",
+    "year": "2020",
+    "chosen_name": "1.3 TCe 인텐스",
+    "base_price": 24650000,
+    "merged_names": [
+      "1.3 TCe 인텐스",
+      "가솔린 1.3 2WD 인텐스"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 0
+  },
+  {
+    "model": "캡처",
+    "year": "2020",
+    "chosen_name": "1.3 TCe 에디션 파리",
+    "base_price": 27480000,
+    "merged_names": [
+      "1.3 TCe 에디션 파리",
+      "가솔린 1.3 2WD 에디션파리"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 0
+  },
+  {
+    "model": "뉴체어맨 W",
+    "year": "2016",
+    "chosen_name": "V8 5000",
+    "base_price": 92120000,
+    "merged_names": [
+      "V8 5000",
+      "가솔린 2WD V85000"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 4
+  },
+  {
+    "model": "티볼리 에어",
+    "year": "2016",
+    "chosen_name": "디젤 AX 2WD",
+    "base_price": 21060000,
+    "merged_names": [
+      "디젤 AX 2WD",
+      "디젤 2WD AX"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 2
+  },
+  {
+    "model": "티볼리 에어",
+    "year": "2016",
+    "chosen_name": "디젤 IX 2WD",
+    "base_price": 22530000,
+    "merged_names": [
+      "디젤 IX 2WD",
+      "디젤 2WD IX"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "티볼리 에어",
+    "year": "2016",
+    "chosen_name": "디젤 RX 2WD",
+    "base_price": 24490000,
+    "merged_names": [
+      "디젤 RX 2WD",
+      "디젤 2WD RX"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "티볼리 에어",
+    "year": "2016",
+    "chosen_name": "디젤 AX 4WD",
+    "base_price": 22830000,
+    "merged_names": [
+      "디젤 AX 4WD",
+      "디젤 4WD AX"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 2
+  },
+  {
+    "model": "티볼리 에어",
+    "year": "2016",
+    "chosen_name": "디젤 IX 4WD",
+    "base_price": 24300000,
+    "merged_names": [
+      "디젤 IX 4WD",
+      "디젤 4WD IX"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "티볼리 에어",
+    "year": "2016",
+    "chosen_name": "디젤 RX 4WD",
+    "base_price": 26260000,
+    "merged_names": [
+      "디젤 RX 4WD",
+      "디젤 4WD RX"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "티볼리",
+    "year": "2017",
+    "chosen_name": "VX 2WD",
+    "base_price": 20220000,
+    "merged_names": [
+      "VX 2WD",
+      "가솔린 2WD VX"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 7
+  },
+  {
+    "model": "티볼리",
+    "year": "2017",
+    "chosen_name": "LX 2WD",
+    "base_price": 22210000,
+    "merged_names": [
+      "LX 2WD",
+      "가솔린 2WD LX"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 12
+  },
+  {
+    "model": "티볼리",
+    "year": "2017",
+    "chosen_name": "엣지 에디션 2WD",
+    "base_price": 20520000,
+    "merged_names": [
+      "엣지 에디션 2WD",
+      "가솔린 2WD 엣지에디션"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 4
+  },
+  {
+    "model": "티볼리",
+    "year": "2016",
+    "chosen_name": "TX 2WD",
+    "base_price": 17950000,
+    "merged_names": [
+      "TX 2WD",
+      "가솔린 2WD TX"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "티볼리",
+    "year": "2016",
+    "chosen_name": "디젤 TX 2WD",
+    "base_price": 20450000,
+    "merged_names": [
+      "디젤 TX 2WD",
+      "디젤 2WD TX"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "티볼리",
+    "year": "2016",
+    "chosen_name": "디젤 VX 2WD",
+    "base_price": 22850000,
+    "merged_names": [
+      "디젤 VX 2WD",
+      "디젤 2WD VX"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 4
+  },
+  {
+    "model": "티볼리",
+    "year": "2016",
+    "chosen_name": "디젤 LX 2WD",
+    "base_price": 24950000,
+    "merged_names": [
+      "디젤 LX 2WD",
+      "디젤 2WD LX"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 9
+  },
+  {
+    "model": "티볼리",
+    "year": "2015",
+    "chosen_name": "TX 2WD",
+    "base_price": 17950000,
+    "merged_names": [
+      "TX 2WD",
+      "가솔린 2WD TX"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "티볼리",
+    "year": "2015",
+    "chosen_name": "VX 2WD",
+    "base_price": 19950000,
+    "merged_names": [
+      "VX 2WD",
+      "가솔린 2WD VX"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "더 뉴 말리부",
+    "year": "2019",
+    "chosen_name": "1.6 디젤 LT",
+    "base_price": 29360000,
+    "merged_names": [
+      "1.6 디젤 LT",
+      "디젤 1.6 2WD LT"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "더 뉴 말리부",
+    "year": "2019",
+    "chosen_name": "1.8 하이브리드 LT",
+    "base_price": 36520000,
+    "merged_names": [
+      "1.8 하이브리드 LT",
+      "하이브리드 1.8 2WD LT"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 3
+  },
+  {
+    "model": "올 뉴 말리부",
+    "year": "2018",
+    "chosen_name": "1.8 하이브리드 LT",
+    "base_price": 32000000,
+    "merged_names": [
+      "1.8 하이브리드 LT",
+      "하이브리드 1.8 2WD LT"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 3
+  },
+  {
+    "model": "뉴 볼트 EV",
+    "year": "2023",
+    "chosen_name": "EV 프리미어",
+    "base_price": 44300000,
+    "merged_names": [
+      "EV 프리미어",
+      "전기 2WD 프리미어"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 2
+  },
+  {
+    "model": "더 뉴 스파크",
+    "year": "2022",
+    "chosen_name": "가솔린 1.0 2WD 승용밴 베이직 M/T",
+    "base_price": 9770000,
+    "merged_names": [
+      "가솔린 1.0 2WD 승용밴 베이직 M/T",
+      "가솔린 1.0 2WD 승용밴베이직 (M/T)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "더 뉴 스파크",
+    "year": "2022",
+    "chosen_name": "가솔린 1.0 2WD 승용밴 M/T",
+    "base_price": 10200000,
+    "merged_names": [
+      "가솔린 1.0 2WD 승용밴 M/T",
+      "가솔린 1.0 2WD 승용밴 (M/T)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "더 뉴 스파크",
+    "year": "2022",
+    "chosen_name": "가솔린 1.0 2WD LS 베이직 M/T",
+    "base_price": 9820000,
+    "merged_names": [
+      "가솔린 1.0 2WD LS 베이직 M/T",
+      "가솔린 1.0 2WD LS베이직 (M/T)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "더 뉴 스파크",
+    "year": "2022",
+    "chosen_name": "가솔린 1.0 2WD LS M/T",
+    "base_price": 10600000,
+    "merged_names": [
+      "가솔린 1.0 2WD LS M/T",
+      "가솔린 1.0 2WD LS (M/T)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "더 뉴 스파크",
+    "year": "2022",
+    "chosen_name": "가솔린 1.0 2WD LT M/T",
+    "base_price": 11250000,
+    "merged_names": [
+      "가솔린 1.0 2WD LT M/T",
+      "가솔린 1.0 2WD LT (M/T)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 11
+  },
+  {
+    "model": "더 뉴 스파크",
+    "year": "2022",
+    "chosen_name": "가솔린 1.0 2WD 프리미어 M/T",
+    "base_price": 12740000,
+    "merged_names": [
+      "가솔린 1.0 2WD 프리미어 M/T",
+      "가솔린 1.0 2WD 프리미어 (M/T)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 7
+  },
+  {
+    "model": "더 뉴 스파크",
+    "year": "2021",
+    "chosen_name": "가솔린 1.0 2WD 승용밴 베이직 M/T",
+    "base_price": 9770000,
+    "merged_names": [
+      "가솔린 1.0 2WD 승용밴 베이직 M/T",
+      "가솔린 1.0 2WD 승용밴베이직 (M/T)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "더 뉴 스파크",
+    "year": "2021",
+    "chosen_name": "가솔린 1.0 2WD 승용밴 M/T",
+    "base_price": 10200000,
+    "merged_names": [
+      "가솔린 1.0 2WD 승용밴 M/T",
+      "가솔린 1.0 2WD 승용밴 (M/T)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "더 뉴 스파크",
+    "year": "2021",
+    "chosen_name": "가솔린 1.0 2WD LS 베이직 M/T",
+    "base_price": 9820000,
+    "merged_names": [
+      "가솔린 1.0 2WD LS 베이직 M/T",
+      "가솔린 1.0 2WD LS베이직 (M/T)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "더 뉴 스파크",
+    "year": "2021",
+    "chosen_name": "가솔린 1.0 2WD LS M/T",
+    "base_price": 10600000,
+    "merged_names": [
+      "가솔린 1.0 2WD LS M/T",
+      "가솔린 1.0 2WD LS (M/T)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "더 뉴 스파크",
+    "year": "2021",
+    "chosen_name": "가솔린 1.0 2WD LT M/T",
+    "base_price": 11250000,
+    "merged_names": [
+      "가솔린 1.0 2WD LT M/T",
+      "가솔린 1.0 2WD LT (M/T)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 11
+  },
+  {
+    "model": "더 뉴 스파크",
+    "year": "2021",
+    "chosen_name": "가솔린 1.0 2WD 프리미어 M/T",
+    "base_price": 12740000,
+    "merged_names": [
+      "가솔린 1.0 2WD 프리미어 M/T",
+      "가솔린 1.0 2WD 프리미어 (M/T)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 7
+  },
+  {
+    "model": "더 뉴 스파크",
+    "year": "2020",
+    "chosen_name": "가솔린 1.0 2WD 승용밴 베이직 M/T",
+    "base_price": 9770000,
+    "merged_names": [
+      "가솔린 1.0 2WD 승용밴 베이직 M/T",
+      "가솔린 1.0 2WD 승용밴베이직 (M/T)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "더 뉴 스파크",
+    "year": "2020",
+    "chosen_name": "가솔린 1.0 2WD 승용밴 M/T",
+    "base_price": 10200000,
+    "merged_names": [
+      "가솔린 1.0 2WD 승용밴 M/T",
+      "가솔린 1.0 2WD 승용밴 (M/T)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "더 뉴 스파크",
+    "year": "2020",
+    "chosen_name": "가솔린 1.0 2WD LS 베이직 M/T",
+    "base_price": 9820000,
+    "merged_names": [
+      "가솔린 1.0 2WD LS 베이직 M/T",
+      "가솔린 1.0 2WD LS베이직 (M/T)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "더 뉴 스파크",
+    "year": "2020",
+    "chosen_name": "가솔린 1.0 2WD LS M/T",
+    "base_price": 10600000,
+    "merged_names": [
+      "가솔린 1.0 2WD LS M/T",
+      "가솔린 1.0 2WD LS (M/T)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "더 뉴 스파크",
+    "year": "2020",
+    "chosen_name": "가솔린 1.0 2WD LT M/T",
+    "base_price": 11250000,
+    "merged_names": [
+      "가솔린 1.0 2WD LT M/T",
+      "가솔린 1.0 2WD LT (M/T)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 11
+  },
+  {
+    "model": "더 뉴 스파크",
+    "year": "2020",
+    "chosen_name": "가솔린 1.0 2WD 프리미어 M/T",
+    "base_price": 12740000,
+    "merged_names": [
+      "가솔린 1.0 2WD 프리미어 M/T",
+      "가솔린 1.0 2WD 프리미어 (M/T)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 8
+  },
+  {
+    "model": "더 뉴 스파크",
+    "year": "2019",
+    "chosen_name": "가솔린 1.0 2WD 승용밴 베이직 M/T",
+    "base_price": 9720000,
+    "merged_names": [
+      "가솔린 1.0 2WD 승용밴 베이직 M/T",
+      "가솔린 1.0 2WD 승용밴베이직 (M/T)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "더 뉴 스파크",
+    "year": "2019",
+    "chosen_name": "가솔린 1.0 2WD 승용밴 M/T",
+    "base_price": 10150000,
+    "merged_names": [
+      "가솔린 1.0 2WD 승용밴 M/T",
+      "가솔린 1.0 2WD 승용밴 (M/T)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "더 뉴 스파크",
+    "year": "2019",
+    "chosen_name": "가솔린 1.0 2WD LS 베이직 M/T",
+    "base_price": 9790000,
+    "merged_names": [
+      "가솔린 1.0 2WD LS 베이직 M/T",
+      "가솔린 1.0 2WD LS베이직 (M/T)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "더 뉴 스파크",
+    "year": "2019",
+    "chosen_name": "가솔린 1.0 2WD LS M/T",
+    "base_price": 10570000,
+    "merged_names": [
+      "가솔린 1.0 2WD LS M/T",
+      "가솔린 1.0 2WD LS (M/T)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "더 뉴 스파크",
+    "year": "2019",
+    "chosen_name": "가솔린 1.0 2WD LT M/T",
+    "base_price": 11250000,
+    "merged_names": [
+      "가솔린 1.0 2WD LT M/T",
+      "가솔린 1.0 2WD LT (M/T)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 11
+  },
+  {
+    "model": "더 뉴 스파크",
+    "year": "2019",
+    "chosen_name": "가솔린 1.0 2WD 프리미어 M/T",
+    "base_price": 12750000,
+    "merged_names": [
+      "가솔린 1.0 2WD 프리미어 M/T",
+      "가솔린 1.0 2WD 프리미어 (M/T)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "final_options_count": 8
+  },
+  {
+    "model": "스파크 EV",
+    "year": "2016",
+    "chosen_name": "EV",
+    "base_price": 39900000,
+    "merged_names": [
+      "EV",
+      "전기 2WD EV"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 0
+  },
+  {
+    "model": "스파크 EV",
+    "year": "2015",
+    "chosen_name": "EV",
+    "base_price": 39900000,
+    "merged_names": [
+      "EV",
+      "전기 2WD EV"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 0
+  },
+  {
+    "model": "스파크 EV",
+    "year": "2014",
+    "chosen_name": "EV",
+    "base_price": 39900000,
+    "merged_names": [
+      "EV",
+      "전기 2WD EV"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 0
+  },
+  {
+    "model": "알페온",
+    "year": "2014",
+    "chosen_name": "CL240",
+    "base_price": 31280000,
+    "merged_names": [
+      "CL240",
+      "가솔린 2WD CL240"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 2
+  },
+  {
+    "model": "알페온",
+    "year": "2014",
+    "chosen_name": "EL240",
+    "base_price": 32620000,
+    "merged_names": [
+      "EL240",
+      "가솔린 2WD EL240"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "알페온",
+    "year": "2014",
+    "chosen_name": "CL300",
+    "base_price": 36020000,
+    "merged_names": [
+      "CL300",
+      "가솔린 2WD CL300"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "알페온",
+    "year": "2013",
+    "chosen_name": "CL240",
+    "base_price": 31500000,
+    "merged_names": [
+      "CL240",
+      "가솔린 2WD CL240"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 2
+  },
+  {
+    "model": "알페온",
+    "year": "2013",
+    "chosen_name": "EL240",
+    "base_price": 32850000,
+    "merged_names": [
+      "EL240",
+      "가솔린 2WD EL240"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "알페온",
+    "year": "2013",
+    "chosen_name": "CL300",
+    "base_price": 36290000,
+    "merged_names": [
+      "CL300",
+      "가솔린 2WD CL300"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "올란도",
+    "year": "2018",
+    "chosen_name": "1.6 디젤 LS",
+    "base_price": 23610000,
+    "merged_names": [
+      "1.6 디젤 LS",
+      "디젤 1.6 2WD LS"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "올란도",
+    "year": "2018",
+    "chosen_name": "1.6 디젤 LT",
+    "base_price": 25530000,
+    "merged_names": [
+      "1.6 디젤 LT",
+      "디젤 1.6 2WD LT"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "올란도",
+    "year": "2018",
+    "chosen_name": "1.6 디젤 LTZ",
+    "base_price": 28810000,
+    "merged_names": [
+      "1.6 디젤 LTZ",
+      "디젤 1.6 2WD LTZ"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 7
+  },
+  {
+    "model": "올란도",
+    "year": "2018",
+    "chosen_name": "1.6 디젤 퍼펙트 블랙",
+    "base_price": 27750000,
+    "merged_names": [
+      "1.6 디젤 퍼펙트 블랙",
+      "디젤 1.6 2WD 퍼펙트블랙"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "올란도",
+    "year": "2017",
+    "chosen_name": "1.6 디젤 LS",
+    "base_price": 23610000,
+    "merged_names": [
+      "1.6 디젤 LS",
+      "디젤 1.6 2WD LS"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "올란도",
+    "year": "2017",
+    "chosen_name": "1.6 디젤 LT",
+    "base_price": 25530000,
+    "merged_names": [
+      "1.6 디젤 LT",
+      "디젤 1.6 2WD LT"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "올란도",
+    "year": "2017",
+    "chosen_name": "1.6 디젤 LTZ",
+    "base_price": 28810000,
+    "merged_names": [
+      "1.6 디젤 LTZ",
+      "디젤 1.6 2WD LTZ"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "올란도",
+    "year": "2017",
+    "chosen_name": "1.6 디젤 퍼펙트 블랙",
+    "base_price": 27750000,
+    "merged_names": [
+      "1.6 디젤 퍼펙트 블랙",
+      "디젤 1.6 2WD 퍼펙트블랙"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 4
+  },
+  {
+    "model": "올란도",
+    "year": "2015",
+    "chosen_name": "2.0 디젤 LS",
+    "base_price": 22950000,
+    "merged_names": [
+      "2.0 디젤 LS",
+      "디젤 2.0 2WD LS"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "올란도",
+    "year": "2015",
+    "chosen_name": "2.0 디젤 LT",
+    "base_price": 25150000,
+    "merged_names": [
+      "2.0 디젤 LT",
+      "디젤 2.0 2WD LT"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "올란도",
+    "year": "2015",
+    "chosen_name": "2.0 디젤 플래티넘 패키지",
+    "base_price": 27050000,
+    "merged_names": [
+      "2.0 디젤 플래티넘 패키지",
+      "디젤 2.0 2WD 플래티넘패키지"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 4
+  },
+  {
+    "model": "올란도",
+    "year": "2014",
+    "chosen_name": "2.0 디젤 LS",
+    "base_price": 22670000,
+    "merged_names": [
+      "2.0 디젤 LS",
+      "디젤 2.0 2WD LS"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "올란도",
+    "year": "2014",
+    "chosen_name": "2.0 디젤 LT",
+    "base_price": 25020000,
+    "merged_names": [
+      "2.0 디젤 LT",
+      "디젤 2.0 2WD LT"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 4
+  },
+  {
+    "model": "올란도",
+    "year": "2014",
+    "chosen_name": "2.0 디젤 LTZ",
+    "base_price": 27610000,
+    "merged_names": [
+      "2.0 디젤 LTZ",
+      "디젤 2.0 2WD LTZ"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "올란도",
+    "year": "2013",
+    "chosen_name": "2.0 디젤 LS",
+    "base_price": 22100000,
+    "merged_names": [
+      "2.0 디젤 LS",
+      "디젤 2.0 2WD LS"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "올란도",
+    "year": "2013",
+    "chosen_name": "2.0 디젤 LT",
+    "base_price": 24290000,
+    "merged_names": [
+      "2.0 디젤 LT",
+      "디젤 2.0 2WD LT"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 3
+  },
+  {
+    "model": "올란도",
+    "year": "2013",
+    "chosen_name": "2.0 디젤 LTZ",
+    "base_price": 26680000,
+    "merged_names": [
+      "2.0 디젤 LTZ",
+      "디젤 2.0 2WD LTZ"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "올란도",
+    "year": "2013",
+    "chosen_name": "2.0 디젤 스페셜 컬러 에디션",
+    "base_price": 26400000,
+    "merged_names": [
+      "2.0 디젤 스페셜 컬러 에디션",
+      "디젤 2.0 2WD 스페셜컬러에디션"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 3
+  },
+  {
+    "model": "임팔라",
+    "year": "2019",
+    "chosen_name": "2.5 LT",
+    "base_price": 33500000,
+    "merged_names": [
+      "2.5 LT",
+      "가솔린 2.5 2WD LT"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "임팔라",
+    "year": "2019",
+    "chosen_name": "2.5 프리미어",
+    "base_price": 37560000,
+    "merged_names": [
+      "2.5 프리미어",
+      "가솔린 2.5 2WD 프리미어"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "임팔라",
+    "year": "2019",
+    "chosen_name": "2.5 미드나이트 블랙",
+    "base_price": 38290000,
+    "merged_names": [
+      "2.5 미드나이트 블랙",
+      "가솔린 2.5 2WD 미드나이트블랙"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "임팔라",
+    "year": "2019",
+    "chosen_name": "3.6 프리미어",
+    "base_price": 42880000,
+    "merged_names": [
+      "3.6 프리미어",
+      "가솔린 3.6 2WD 프리미어"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 2
+  },
+  {
+    "model": "임팔라",
+    "year": "2019",
+    "chosen_name": "3.6 미드나이트 블랙",
+    "base_price": 43610000,
+    "merged_names": [
+      "3.6 미드나이트 블랙",
+      "가솔린 3.6 2WD 미드나이트블랙"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "임팔라",
+    "year": "2018",
+    "chosen_name": "2.5 프리미어",
+    "base_price": 40090000,
+    "merged_names": [
+      "2.5 프리미어",
+      "가솔린 2.5 2WD 프리미어"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "임팔라",
+    "year": "2018",
+    "chosen_name": "2.5 미드나이트 블랙",
+    "base_price": 40820000,
+    "merged_names": [
+      "2.5 미드나이트 블랙",
+      "가솔린 2.5 2WD 미드나이트블랙"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "임팔라",
+    "year": "2018",
+    "chosen_name": "3.6 프리미어",
+    "base_price": 45460000,
+    "merged_names": [
+      "3.6 프리미어",
+      "가솔린 3.6 2WD 프리미어"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 2
+  },
+  {
+    "model": "임팔라",
+    "year": "2018",
+    "chosen_name": "3.6 미드나이트 블랙",
+    "base_price": 46190000,
+    "merged_names": [
+      "3.6 미드나이트 블랙",
+      "가솔린 3.6 2WD 미드나이트블랙"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "임팔라",
+    "year": "2017",
+    "chosen_name": "2.5 LT",
+    "base_price": 35870000,
+    "merged_names": [
+      "2.5 LT",
+      "가솔린 2.5 2WD LT"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "리얼 뉴 콜로라도",
+    "year": "2021",
+    "chosen_name": "3.6 익스트림 2WD",
+    "base_price": 38300000,
+    "merged_names": [
+      "3.6 익스트림 2WD",
+      "가솔린 3.6 2WD 익스트림"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "리얼 뉴 콜로라도",
+    "year": "2021",
+    "chosen_name": "3.6 익스트림 4WD",
+    "base_price": 41600000,
+    "merged_names": [
+      "3.6 익스트림 4WD",
+      "가솔린 3.6 4WD 익스트림"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "리얼 뉴 콜로라도",
+    "year": "2021",
+    "chosen_name": "3.6 익스트림-X 4WD",
+    "base_price": 43000000,
+    "merged_names": [
+      "3.6 익스트림-X 4WD",
+      "가솔린 3.6 4WD 익스트림-X"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "리얼 뉴 콜로라도",
+    "year": "2021",
+    "chosen_name": "3.6 Z71-X 4WD",
+    "base_price": 44990000,
+    "merged_names": [
+      "3.6 Z71-X 4WD",
+      "가솔린 3.6 4WD Z71-X"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "리얼 뉴 콜로라도",
+    "year": "2021",
+    "chosen_name": "3.6 Z71-X 미드나잇 4WD",
+    "base_price": 46490000,
+    "merged_names": [
+      "3.6 Z71-X 미드나잇 4WD",
+      "가솔린 3.6 4WD Z71-X미드나잇"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 1
+  },
+  {
+    "model": "올 뉴 크루즈",
+    "year": "2018",
+    "chosen_name": "1.6 디젤 LT",
+    "base_price": 22490000,
+    "merged_names": [
+      "1.6 디젤 LT",
+      "디젤 1.6 2WD LT"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "올 뉴 크루즈",
+    "year": "2018",
+    "chosen_name": "1.6 디젤 LTZ",
+    "base_price": 25580000,
+    "merged_names": [
+      "1.6 디젤 LTZ",
+      "디젤 1.6 2WD LTZ"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 6
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2022",
+    "chosen_name": "1.4 프리미어",
+    "base_price": 22980000,
+    "merged_names": [
+      "1.4 프리미어",
+      "가솔린 1.4 2WD 프리미어"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 7
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2021",
+    "chosen_name": "1.4 LT",
+    "base_price": 20910000,
+    "merged_names": [
+      "1.4 LT",
+      "가솔린 1.4 2WD LT"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 7
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2021",
+    "chosen_name": "1.4 프리미어",
+    "base_price": 22980000,
+    "merged_names": [
+      "1.4 프리미어",
+      "가솔린 1.4 2WD 프리미어"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 7
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2021",
+    "chosen_name": "1.6 디젤 LT",
+    "base_price": 22730000,
+    "merged_names": [
+      "1.6 디젤 LT",
+      "디젤 1.6 2WD LT"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 8
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2021",
+    "chosen_name": "1.6 디젤 프리미어",
+    "base_price": 24310000,
+    "merged_names": [
+      "1.6 디젤 프리미어",
+      "디젤 1.6 2WD 프리미어"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 8
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2020",
+    "chosen_name": "1.4 LS",
+    "base_price": 18250000,
+    "merged_names": [
+      "1.4 LS",
+      "가솔린 1.4 2WD LS"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 2
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2020",
+    "chosen_name": "1.4 LT",
+    "base_price": 20650000,
+    "merged_names": [
+      "1.4 LT",
+      "가솔린 1.4 2WD LT"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2020",
+    "chosen_name": "1.4 프리미어",
+    "base_price": 22850000,
+    "merged_names": [
+      "1.4 프리미어",
+      "가솔린 1.4 2WD 프리미어"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2018",
+    "chosen_name": "1.4 프리미어",
+    "base_price": 23610000,
+    "merged_names": [
+      "1.4 프리미어",
+      "가솔린 1.4 2WD 프리미어"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2018",
+    "chosen_name": "1.4 퍼펙트 블랙",
+    "base_price": 23860000,
+    "merged_names": [
+      "1.4 퍼펙트 블랙",
+      "가솔린 1.4 2WD 퍼펙트블랙"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 4
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2018",
+    "chosen_name": "1.4 블레이드",
+    "base_price": 24160000,
+    "merged_names": [
+      "1.4 블레이드",
+      "가솔린 1.4 2WD 블레이드"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 4
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2018",
+    "chosen_name": "1.6 디젤 LS",
+    "base_price": 20950000,
+    "merged_names": [
+      "1.6 디젤 LS",
+      "디젤 1.6 2WD LS"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 3
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2018",
+    "chosen_name": "1.6 디젤 LT",
+    "base_price": 23650000,
+    "merged_names": [
+      "1.6 디젤 LT",
+      "디젤 1.6 2WD LT"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 8
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2018",
+    "chosen_name": "1.6 디젤 프리미어",
+    "base_price": 25510000,
+    "merged_names": [
+      "1.6 디젤 프리미어",
+      "디젤 1.6 2WD 프리미어"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 8
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2018",
+    "chosen_name": "1.6 디젤 퍼펙트 블랙",
+    "base_price": 25760000,
+    "merged_names": [
+      "1.6 디젤 퍼펙트 블랙",
+      "디젤 1.6 2WD 퍼펙트 블랙"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 7
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2018",
+    "chosen_name": "1.6 디젤 블레이드",
+    "base_price": 26060000,
+    "merged_names": [
+      "1.6 디젤 블레이드",
+      "디젤 1.6 2WD 블레이드"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2017",
+    "chosen_name": "1.4 LTZ",
+    "base_price": 23900000,
+    "merged_names": [
+      "1.4 LTZ",
+      "가솔린 1.4 2WD LTZ"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 4
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2017",
+    "chosen_name": "1.6 디젤 LS",
+    "base_price": 20850000,
+    "merged_names": [
+      "1.6 디젤 LS",
+      "디젤 1.6 2WD LS"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 3
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2017",
+    "chosen_name": "1.6 디젤 LT",
+    "base_price": 23550000,
+    "merged_names": [
+      "1.6 디젤 LT",
+      "디젤 1.6 2WD LT"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 8
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2017",
+    "chosen_name": "1.6 디젤 LTZ",
+    "base_price": 25800000,
+    "merged_names": [
+      "1.6 디젤 LTZ",
+      "디젤 1.6 2WD LTZ"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 7
+  },
+  {
+    "model": "트랙스",
+    "year": "2016",
+    "chosen_name": "1.4 LTZ",
+    "base_price": 23050000,
+    "merged_names": [
+      "1.4 LTZ",
+      "가솔린 1.4 2WD LTZ"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "트랙스",
+    "year": "2016",
+    "chosen_name": "1.4 퍼펙트 블랙",
+    "base_price": 23320000,
+    "merged_names": [
+      "1.4 퍼펙트 블랙",
+      "가솔린 1.4 2WD 퍼펙트블랙"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 4
+  },
+  {
+    "model": "트랙스",
+    "year": "2016",
+    "chosen_name": "1.6 디젤 LS",
+    "base_price": 21950000,
+    "merged_names": [
+      "1.6 디젤 LS",
+      "디젤 1.6 2WD LS"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 4
+  },
+  {
+    "model": "트랙스",
+    "year": "2016",
+    "chosen_name": "1.6 디젤 LT",
+    "base_price": 23550000,
+    "merged_names": [
+      "1.6 디젤 LT",
+      "디젤 1.6 2WD LT"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 7
+  },
+  {
+    "model": "트랙스",
+    "year": "2016",
+    "chosen_name": "1.6 디젤 LTZ",
+    "base_price": 24950000,
+    "merged_names": [
+      "1.6 디젤 LTZ",
+      "디젤 1.6 2WD LTZ"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 5
+  },
+  {
+    "model": "트랙스",
+    "year": "2016",
+    "chosen_name": "1.6 디젤 퍼펙트 블랙",
+    "base_price": 25220000,
+    "merged_names": [
+      "1.6 디젤 퍼펙트 블랙",
+      "디젤 1.6 2WD 퍼펙트 블랙"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 4
+  },
+  {
+    "model": "트랙스",
+    "year": "2013",
+    "chosen_name": "1.4 LS",
+    "base_price": 19400000,
+    "merged_names": [
+      "1.4 LS",
+      "가솔린 1.4 2WD LS"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 3
+  },
+  {
+    "model": "트랙스",
+    "year": "2013",
+    "chosen_name": "1.4 LT",
+    "base_price": 20900000,
+    "merged_names": [
+      "1.4 LT",
+      "가솔린 1.4 2WD LT"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 4
+  },
+  {
+    "model": "트랙스",
+    "year": "2013",
+    "chosen_name": "1.4 LTZ",
+    "base_price": 22890000,
+    "merged_names": [
+      "1.4 LTZ",
+      "가솔린 1.4 2WD LTZ"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "final_options_count": 3
+  }
+]
