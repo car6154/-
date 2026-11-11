@@ -197,6 +197,8 @@ export function useBiddingCockpit({
   const [targetGrade, setTargetGrade] = useState<string>('');
   const prevAiRetailPriceRef = useRef<number>(0);
   const lastEncarFailReasonRef = useRef<string>('');
+  // 📒 장부/외부 프리셋에서 복원된 목표마진 보호 ref (차얼마/엔카 조회 완료 후 9% 자동 마진이 덮어쓰지 않도록 방지)
+  const presetLoadedMarginRef = useRef<{ carNumber: string; margin: number } | null>(null);
 
   // 선택된 엔카 매물 및 실시간 성능점검표 연동 상태 (상단 호이스팅)
   const [selectedEncarId, setSelectedEncarId] = useState<string>('');
@@ -747,22 +749,15 @@ export function useBiddingCockpit({
         setOptionsTag(preset.options);
       }
 
-      // b. await handleLookupCarNumber(preset.carNumber, parsedMileage, true) — 정상 조회와 완전히 동일한 경로. 성공 시 실시간 차얼마·엔카 산출 시세 그대로 유지.
+      // b. await handleLookupCarNumber(preset.carNumber, parsedMileage, true, true) — 정상 조회와 완전히 동일한 경로. 성공 시 실시간 차얼마·엔카 산출 시세 그대로 유지.
       let lookupSucceeded = false;
       if (preset.carNumber) {
-        lookupSucceeded = Boolean(await handleLookupCarNumber(preset.carNumber, parsedMileage, true));
+        lookupSucceeded = Boolean(await handleLookupCarNumber(preset.carNumber, parsedMileage, true, true));
       }
 
       // c. 차얼마 실시간 조회 실패 시, preset의 제원으로 엔카/K-Car 크롤링 폴백 직접 가동
       let fallbackCrawlingSucceeded = false;
       if (!lookupSucceeded) {
-        if (preset.sellPrice && preset.sellPrice > 0) {
-          setExpectedSellPrice(preset.sellPrice);
-        }
-        if (preset.buyPrice && preset.buyPrice > 0) {
-          setUserBid(preset.buyPrice);
-        }
-
         const fbCarName = preset.carName || carName;
         const fbDetailModel = preset.detailModel || detailModel;
         const fbMileage = parsedMileage || mileageKm;
@@ -802,12 +797,27 @@ export function useBiddingCockpit({
         }
       }
 
-      // d. 외판 수리 판수: 장부/역추적 프리셋의 외판 수리 개수를 최우선 자동 입력
-      if (typeof preset.outerRepairs === 'number') {
-        setOuterRepairCount(preset.outerRepairs);
+      // d. 📒 장부/역추적 프리셋의 저장값 100% 복원 (조회 성공/실패 무관하게 항상 저장값 복원)
+      // 1) 소매가(expectedSellPrice) 및 입찰가(userBid) 복원
+      const restoredSellPrice = (preset.sellPrice && preset.sellPrice > 0)
+        ? preset.sellPrice
+        : (preset.finalRetailPrice && preset.finalRetailPrice > 0 ? preset.finalRetailPrice : 0);
+      if (restoredSellPrice > 0) {
+        setExpectedSellPrice(restoredSellPrice);
+      }
+      if (preset.buyPrice && preset.buyPrice > 0) {
+        setUserBid(preset.buyPrice);
       }
 
-      // e. 특이사항: 조회된 차량의 특이사항 메모 자동 입력 (기존 수동 입력값이 있으면 유지)
+      // 2) 외판 수리 판수: 장부/역추적 프리셋의 외판 수리 개수를 최우선 자동 입력
+      if (preset.outerRepairs !== undefined && preset.outerRepairs !== null && String(preset.outerRepairs).trim() !== '') {
+        const parsedOuter = Number(preset.outerRepairs);
+        if (!isNaN(parsedOuter) && parsedOuter >= 0) {
+          setOuterRepairCount(parsedOuter);
+        }
+      }
+
+      // 3) 특이사항: 조회된 차량의 특이사항 메모 자동 입력 (기존 수동 입력값이 있으면 유지)
       if (preset.memo) {
         setMemo((prevMemo) => {
           const trimmedPrev = (prevMemo || '').trim();
@@ -819,9 +829,14 @@ export function useBiddingCockpit({
         });
       }
 
-      if (preset.targetMargin) {
-        setTargetMargin(preset.targetMargin);
+      // 4) 목표 마진(이익금) 복원 및 9% 자동 마진 덮어쓰기 방지
+      if (preset.targetMargin !== undefined && preset.targetMargin !== null && Number(preset.targetMargin) > 0) {
+        const cleanNo = (preset.carNumber || carNumber || '').replace(/\s+/g, '').trim();
+        const savedMargin = Number(preset.targetMargin);
+        presetLoadedMarginRef.current = { carNumber: cleanNo, margin: savedMargin };
+        setTargetMargin(savedMargin);
       }
+
       if (preset.auctionType) {
         setAuctionType(preset.auctionType);
       }
@@ -858,7 +873,10 @@ export function useBiddingCockpit({
   }, [presetCarName, presetSellPrice, preset]);
 
   // 2. 차량번호 [조회] 실제 실행 핸들러 (차얼마 & 엔카 실시간 제원 및 옵션 완벽 연동)
-  const handleLookupCarNumber = async (targetNo?: string, overrideMileage?: number, silent?: boolean) => {
+  const handleLookupCarNumber = async (targetNo?: string, overrideMileage?: number, silent?: boolean, isPresetCall?: boolean) => {
+    if (!isPresetCall) {
+      presetLoadedMarginRef.current = null;
+    }
     const no = (targetNo || carNumber).replace(/\s+/g, '').trim();
     if (!no) {
       if (!silent) {
@@ -2508,12 +2526,21 @@ export function useBiddingCockpit({
   // 💡 [11-05 제이 규칙]: 목표 마진은 최종 소매가(finalRetailPrice)의 9% (10만원 단위 반올림)로 자동 계산
   // finalRetailPrice가 바뀔 때만 다시 계산하며, 0이거나 없을 때는 기존 저장값이나 150만원 초기값을 억지로 바꾸지 않는다.
   // 계산된 뒤 사이드바 -10/+10 버튼 및 직접 입력으로 수정한 값은 finalRetailPrice가 다시 바뀔 때까지 유지된다.
+  // [11-11-01]: 장부/외부 프리셋에서 복원된 목표마진이 있는 동일 차량이면 자동 계산(9%)으로 덮어쓰지 않고 저장값 유지.
   useEffect(() => {
     if (finalRetailPrice > 0) {
+      const cleanNo = (carNumber || '').replace(/\s+/g, '').trim();
+      if (
+        presetLoadedMarginRef.current &&
+        presetLoadedMarginRef.current.carNumber === cleanNo
+      ) {
+        setTargetMargin(presetLoadedMarginRef.current.margin);
+        return;
+      }
       const autoMargin = calculateAutoTargetMargin(finalRetailPrice);
       setTargetMargin(autoMargin);
     }
-  }, [finalRetailPrice]);
+  }, [finalRetailPrice, carNumber]);
 
   // 💡 [제이 규칙]: 사이드바 예상 소매가(expectedSellPrice)는 순수 사용자 수동 입력 필드이므로 AI 산출값으로 자동 채우지 않는다.
 

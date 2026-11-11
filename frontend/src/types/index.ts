@@ -89,6 +89,7 @@ export interface CockpitPresetData {
   memo?: string;
   auctionType?: string;
   targetMargin?: number;
+  finalRetailPrice?: number;
   apCarId?: string;
 }
 

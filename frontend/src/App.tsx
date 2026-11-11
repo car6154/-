@@ -636,6 +636,14 @@ export default function App() {
       ? car.outerRepairs
       : (parseInt(String(car.outerRepairs || 0), 10) || 0);
 
+    const savedSellPrice = (car.sellPrice && car.sellPrice > 0)
+      ? car.sellPrice
+      : (car.finalRetailPrice && car.finalRetailPrice > 0 ? car.finalRetailPrice : undefined);
+
+    const savedTargetMargin = (car.targetMargin !== undefined && car.targetMargin !== null && Number(car.targetMargin) > 0)
+      ? Number(car.targetMargin)
+      : undefined;
+
     setCockpitPreset({
       carNumber: car.carNumber,
       manufacturer: car.manufacturer,
@@ -643,12 +651,13 @@ export default function App() {
       detailModel: car.detailModel,
       year: parsedYear,
       mileage: parsedMileage,
-      sellPrice: car.sellPrice,
+      sellPrice: savedSellPrice,
+      finalRetailPrice: car.finalRetailPrice,
       buyPrice: car.buyPrice,
       outerRepairs: parsedOuter,
       options: car.options || '+기본형',
-      memo: car.memo || `[장부 역추적 / 매입가: ${car.buyPrice}만 / 예상소매: ${car.sellPrice}만]`,
-      targetMargin: 120,
+      memo: car.memo || `[장부 역추적 / 매입가: ${car.buyPrice}만 / 예상소매: ${savedSellPrice || 0}만]`,
+      targetMargin: savedTargetMargin,
     });
     showToast(`🔍 [${car.carNumber} ${car.carName}] 사이드바 필터 및 실시간 역추적 시세 연동 완료!`);
     setActiveTab('cockpit_v2');

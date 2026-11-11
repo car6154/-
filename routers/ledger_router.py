@@ -81,6 +81,7 @@ def get_car_ledger():
                 memo = get_val("특이사항")
                 status = get_val("상태")
                 final_retail_price_raw = get_val("최종소매가")
+                target_margin_raw = get_val("목표마진")
                 mean_opt_delta_raw = get_val("옵션델타")
                 target_opt_new_raw = get_val("목표옵션신차가")
                 target_opt_res_val_raw = get_val("목표옵션잔존가")
@@ -115,6 +116,7 @@ def get_car_ledger():
                     "memo": memo,
                     "status": status,
                     "finalRetailPrice": _safe_int(final_retail_price_raw),
+                    "targetMargin": _safe_int(target_margin_raw),
                     "meanOptDelta": _safe_int(mean_opt_delta_raw),
                     "targetOptNew": _safe_int(target_opt_new_raw),
                     "targetOptResVal": _safe_int(target_opt_res_val_raw),
@@ -135,6 +137,7 @@ def get_car_ledger():
                     "특이사항": memo,
                     "상태": status,
                     "최종소매가": final_retail_price_raw,
+                    "목표마진": target_margin_raw,
                     "옵션델타": mean_opt_delta_raw,
                     "목표옵션신차가": target_opt_new_raw,
                     "목표옵션잔존가": target_opt_res_val_raw,
@@ -191,7 +194,7 @@ def save_car_to_ledger(req: CarLedgerCreateRequest):
         print(f"[api_server] 백업 생성 경고: {e}")
 
     # 2. 기존 원장 읽기
-    new_cols = ['최종소매가', '옵션델타', '목표옵션신차가', '목표옵션잔존가', '엄격대수']
+    new_cols = ['최종소매가', '목표마진', '옵션델타', '목표옵션신차가', '목표옵션잔존가', '엄격대수']
     header = ['등록일', '차량번호', '제조사', '차량명', '세부모델', '연식', '주행거리', '옵션', '매입가', '판매가', '외판수리', '외판수리비', '헤딜수수료', '특이사항', '상태'] + new_cols
     existing_rows = []
 
@@ -309,6 +312,8 @@ class CarLedgerUpdateRequest(BaseModel):
     outerRepairs: Optional[Any] = None
     repairCost: Optional[Any] = None
     heydealerFee: Optional[Any] = None
+    targetMargin: Optional[Any] = None
+    finalRetailPrice: Optional[Any] = None
     memo: Optional[str] = None
     status: Optional[str] = None
 
@@ -463,6 +468,8 @@ def update_car_in_ledger(car_key: str, req: CarLedgerUpdateRequest):
             if req.outerRepairs is not None: update_col("외판수리", req.outerRepairs)
             if req.repairCost is not None: update_col("외판수리비", req.repairCost)
             if req.heydealerFee is not None: update_col("헤딜수수료", req.heydealerFee)
+            if req.targetMargin is not None: update_col("목표마진", req.targetMargin)
+            if req.finalRetailPrice is not None: update_col("최종소매가", req.finalRetailPrice)
             if req.memo is not None: update_col("특이사항", req.memo)
             if req.status is not None: update_col("상태", req.status)
 
