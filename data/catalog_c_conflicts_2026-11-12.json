@@ -1,0 +1,170 @@
+[
+  {
+    "type": "base_price",
+    "model": "스포티지 4세대",
+    "danawa_model": "더 SUV 스포티지",
+    "year": "2018",
+    "grade": "디젤 2.0 4WD 트렌디",
+    "danawa_grade": "디젤 2.0 4WD 트렌디",
+    "encar_price": 23710000,
+    "danawa_price": 25380000,
+    "diff_percent": 6.58
+  },
+  {
+    "type": "base_price",
+    "model": "스포티지 4세대",
+    "danawa_model": "더 SUV 스포티지",
+    "year": "2018",
+    "grade": "디젤 2.0 2WD 트렌디",
+    "danawa_grade": "디젤 2.0 2WD 트렌디",
+    "encar_price": 21940000,
+    "danawa_price": 24050000,
+    "diff_percent": 8.77
+  },
+  {
+    "type": "option_price",
+    "model": "스포티지 4세대",
+    "danawa_model": "더 SUV 스포티지",
+    "year": "2017",
+    "grade": "디젤 1.7 2WD 트렌디",
+    "option": "스마트 내비게이션 (7인치, 후방카메라) & 블루투스 핸즈프리",
+    "danawa_option": "스마트 내비게이션 (8인치, 후방카메라) & 블루투스 핸즈프리",
+    "encar_price": 900000,
+    "danawa_price": 950000,
+    "diff_won": 50000
+  },
+  {
+    "type": "option_price",
+    "model": "스포티지 4세대",
+    "danawa_model": "더 SUV 스포티지",
+    "year": "2017",
+    "grade": "디젤 1.7 2WD 노블레스",
+    "option": "스마트 내비게이션 (7인치, 후방카메라)",
+    "danawa_option": "스마트 내비게이션 (8인치, 후방카메라)",
+    "encar_price": 800000,
+    "danawa_price": 850000,
+    "diff_won": 50000
+  },
+  {
+    "type": "base_price",
+    "model": "뷰티풀 코란도",
+    "danawa_model": "코란도",
+    "year": "2019",
+    "grade": "디젤 1.6 2WD 샤이니",
+    "danawa_grade": "디젤 1.6 2WD 샤이니",
+    "encar_price": 22160000,
+    "danawa_price": 24060000,
+    "diff_percent": 7.9
+  },
+  {
+    "type": "base_price",
+    "model": "뷰티풀 코란도",
+    "danawa_model": "코란도",
+    "year": "2019",
+    "grade": "디젤 1.6 4WD 샤이니",
+    "danawa_grade": "디젤 1.6 4WD 샤이니",
+    "encar_price": 24260000,
+    "danawa_price": 26160000,
+    "diff_percent": 7.26
+  },
+  {
+    "type": "option_price",
+    "model": "뷰티풀 코란도",
+    "danawa_model": "코란도",
+    "year": "2020",
+    "grade": "가솔린 1.5 4WD C5 플러스",
+    "option": "딥 컨트롤 패키지Ⅲ",
+    "danawa_option": "딥 컨트롤 패키지Ⅲ",
+    "encar_price": 2760000,
+    "danawa_price": 2700000,
+    "diff_won": 60000
+  },
+  {
+    "type": "base_price",
+    "model": "뷰티풀 코란도",
+    "danawa_model": "코란도",
+    "year": "2020",
+    "grade": "디젤 1.6 2WD C3",
+    "danawa_grade": "디젤 1.6 2WD C3",
+    "encar_price": 22580000,
+    "danawa_price": 24060000,
+    "diff_percent": 6.15
+  },
+  {
+    "type": "base_price",
+    "model": "뷰티풀 코란도",
+    "danawa_model": "코란도",
+    "year": "2021",
+    "grade": "가솔린 1.5 2WD C3",
+    "danawa_grade": "가솔린 1.5 2WD C3",
+    "encar_price": 22530000,
+    "danawa_price": 23250000,
+    "diff_percent": 3.1
+  },
+  {
+    "type": "base_price",
+    "model": "뷰티풀 코란도",
+    "danawa_model": "코란도",
+    "year": "2021",
+    "grade": "가솔린 1.5 2WD C3 플러스",
+    "danawa_grade": "가솔린 1.5 2WD C3플러스",
+    "encar_price": 23460000,
+    "danawa_price": 24200000,
+    "diff_percent": 3.06
+  },
+  {
+    "type": "base_price",
+    "model": "뷰티풀 코란도",
+    "danawa_model": "코란도",
+    "year": "2021",
+    "grade": "가솔린 1.5 2WD C5",
+    "danawa_grade": "가솔린 1.5 2WD C5",
+    "encar_price": 23910000,
+    "danawa_price": 24660000,
+    "diff_percent": 3.04
+  },
+  {
+    "type": "base_price",
+    "model": "뷰티풀 코란도",
+    "danawa_model": "코란도",
+    "year": "2021",
+    "grade": "가솔린 1.5 2WD C7",
+    "danawa_grade": "가솔린 1.5 2WD C7",
+    "encar_price": 29030000,
+    "danawa_price": 30080000,
+    "diff_percent": 3.49
+  },
+  {
+    "type": "base_price",
+    "model": "뷰티풀 코란도",
+    "danawa_model": "코란도",
+    "year": "2021",
+    "grade": "가솔린 1.5 4WD C7",
+    "danawa_grade": "가솔린 1.5 4WD C7",
+    "encar_price": 30840000,
+    "danawa_price": 31890000,
+    "diff_percent": 3.29
+  },
+  {
+    "type": "base_price",
+    "model": "뷰티풀 코란도",
+    "danawa_model": "코란도",
+    "year": "2021",
+    "grade": "디젤 1.6 2WD C7",
+    "danawa_grade": "디젤 1.6 2WD C7",
+    "encar_price": 30980000,
+    "danawa_price": 32030000,
+    "diff_percent": 3.28
+  },
+  {
+    "type": "base_price",
+    "model": "뷰티풀 코란도",
+    "danawa_model": "코란도",
+    "year": "2021",
+    "grade": "디젤 1.6 4WD C7",
+    "danawa_grade": "디젤 1.6 4WD C7",
+    "encar_price": 32790000,
+    "danawa_price": 33840000,
+    "diff_percent": 3.1
+  }
+]

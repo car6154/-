@@ -1,0 +1,1358 @@
+[
+  {
+    "model": "디 올 뉴 그랜저",
+    "year": "2025",
+    "norm_grade": "가솔린252wd캘리그래피(블랙익스테리어)",
+    "base_price": 47210000,
+    "merged_names": [
+      "가솔린 2.5 2WD 캘리그래피 (블랙익스테리어)",
+      "가솔린 2.5 2WD 캘리그래피(블랙익스테리어)"
+    ],
+    "chosen_name": "가솔린 2.5 2WD 캘리그래피 (블랙익스테리어)",
+    "options_count": 5
+  },
+  {
+    "model": "디 올 뉴 그랜저",
+    "year": "2025",
+    "norm_grade": "가솔린252wd캘리그래피(블랙잉크)",
+    "base_price": 48500000,
+    "merged_names": [
+      "가솔린 2.5 2WD 캘리그래피 (블랙잉크)",
+      "가솔린 2.5 2WD 캘리그래피(블랙잉크)"
+    ],
+    "chosen_name": "가솔린 2.5 2WD 캘리그래피 (블랙잉크)",
+    "options_count": 4
+  },
+  {
+    "model": "디 올 뉴 그랜저",
+    "year": "2025",
+    "norm_grade": "가솔린352wd캘리그래피(블랙익스테리어)",
+    "base_price": 49680000,
+    "merged_names": [
+      "가솔린 3.5 2WD 캘리그래피 (블랙익스테리어)",
+      "가솔린 3.5 2WD 캘리그래피(블랙익스테리어)"
+    ],
+    "chosen_name": "가솔린 3.5 2WD 캘리그래피 (블랙익스테리어)",
+    "options_count": 5
+  },
+  {
+    "model": "디 올 뉴 그랜저",
+    "year": "2025",
+    "norm_grade": "가솔린352wd캘리그래피(블랙잉크)",
+    "base_price": 50970000,
+    "merged_names": [
+      "가솔린 3.5 2WD 캘리그래피 (블랙잉크)",
+      "가솔린 3.5 2WD 캘리그래피(블랙잉크)"
+    ],
+    "chosen_name": "가솔린 3.5 2WD 캘리그래피 (블랙잉크)",
+    "options_count": 4
+  },
+  {
+    "model": "디 올 뉴 그랜저",
+    "year": "2025",
+    "norm_grade": "lpg352wd프리미엄",
+    "base_price": 39160000,
+    "merged_names": [
+      "lpg 3.5 2WD 프리미엄",
+      "LPG 3.5 2WD 프리미엄"
+    ],
+    "chosen_name": "lpg 3.5 2WD 프리미엄",
+    "options_count": 6
+  },
+  {
+    "model": "디 올 뉴 그랜저",
+    "year": "2025",
+    "norm_grade": "lpg352wd익스클루시브",
+    "base_price": 44060000,
+    "merged_names": [
+      "lpg 3.5 2WD 익스클루시브",
+      "LPG 3.5 2WD 익스클루시브"
+    ],
+    "chosen_name": "lpg 3.5 2WD 익스클루시브",
+    "options_count": 6
+  },
+  {
+    "model": "더 뉴 그랜저",
+    "year": "2027",
+    "norm_grade": "가솔린252wd블랙잉크",
+    "base_price": 54000000,
+    "merged_names": [
+      "가솔린 2.5 2WD 블랙 잉크",
+      "가솔린 2.5 2WD 블랙잉크"
+    ],
+    "chosen_name": "가솔린 2.5 2WD 블랙 잉크",
+    "options_count": 6
+  },
+  {
+    "model": "더 뉴 그랜저",
+    "year": "2027",
+    "norm_grade": "가솔린352wd블랙잉크",
+    "base_price": 56470000,
+    "merged_names": [
+      "가솔린 3.5 2WD 블랙 잉크",
+      "가솔린 3.5 2WD 블랙잉크"
+    ],
+    "chosen_name": "가솔린 3.5 2WD 블랙 잉크",
+    "options_count": 6
+  },
+  {
+    "model": "더 뉴 그랜저",
+    "year": "2027",
+    "norm_grade": "lpg352wd프리미엄",
+    "base_price": 43930000,
+    "merged_names": [
+      "lpg 3.5 2WD 프리미엄",
+      "LPG 3.5 2WD 프리미엄"
+    ],
+    "chosen_name": "lpg 3.5 2WD 프리미엄",
+    "options_count": 6
+  },
+  {
+    "model": "더 뉴 그랜저",
+    "year": "2027",
+    "norm_grade": "lpg352wd익스클루시브",
+    "base_price": 48420000,
+    "merged_names": [
+      "lpg 3.5 2WD 익스클루시브",
+      "LPG 3.5 2WD 익스클루시브"
+    ],
+    "chosen_name": "lpg 3.5 2WD 익스클루시브",
+    "options_count": 6
+  },
+  {
+    "model": "더 뉴 K5",
+    "year": "2024",
+    "norm_grade": "lpg202wd노블레스",
+    "base_price": 32140000,
+    "merged_names": [
+      "lpg 2.0 2WD 노블레스",
+      "LPG 2.0 2WD 노블레스"
+    ],
+    "chosen_name": "lpg 2.0 2WD 노블레스",
+    "options_count": 6
+  },
+  {
+    "model": "더 뉴 K5",
+    "year": "2024",
+    "norm_grade": "lpg202wd시그니처",
+    "base_price": 34620000,
+    "merged_names": [
+      "lpg 2.0 2WD 시그니처",
+      "LPG 2.0 2WD 시그니처"
+    ],
+    "chosen_name": "lpg 2.0 2WD 시그니처",
+    "options_count": 4
+  },
+  {
+    "model": "더 뉴 K5",
+    "year": "2024",
+    "norm_grade": "lpg202wd프레스티지",
+    "base_price": 28530000,
+    "merged_names": [
+      "lpg 2.0 2WD 프레스티지",
+      "LPG 2.0 2WD 프레스티지"
+    ],
+    "chosen_name": "lpg 2.0 2WD 프레스티지",
+    "options_count": 3
+  },
+  {
+    "model": "더 뉴 K5",
+    "year": "2027",
+    "norm_grade": "lpg202wd노블레스",
+    "base_price": 33230000,
+    "merged_names": [
+      "lpg 2.0 2WD 노블레스",
+      "LPG 2.0 2WD 노블레스"
+    ],
+    "chosen_name": "lpg 2.0 2WD 노블레스",
+    "options_count": 6
+  },
+  {
+    "model": "더 뉴 K5",
+    "year": "2027",
+    "norm_grade": "lpg202wd시그니처",
+    "base_price": 35480000,
+    "merged_names": [
+      "lpg 2.0 2WD 시그니처",
+      "LPG 2.0 2WD 시그니처"
+    ],
+    "chosen_name": "lpg 2.0 2WD 시그니처",
+    "options_count": 5
+  },
+  {
+    "model": "더 뉴 K5",
+    "year": "2027",
+    "norm_grade": "lpg202wd프레스티지",
+    "base_price": 29610000,
+    "merged_names": [
+      "lpg 2.0 2WD 프레스티지",
+      "LPG 2.0 2WD 프레스티지"
+    ],
+    "chosen_name": "lpg 2.0 2WD 프레스티지",
+    "options_count": 4
+  },
+  {
+    "model": "더 뉴 K5",
+    "year": "2027",
+    "norm_grade": "가솔린202wd베스트셀렉션",
+    "base_price": 30140000,
+    "merged_names": [
+      "가솔린 2.0 2WD 베스트 셀렉션",
+      "가솔린 2.0 2WD 베스트셀렉션"
+    ],
+    "chosen_name": "가솔린 2.0 2WD 베스트 셀렉션",
+    "options_count": 5
+  },
+  {
+    "model": "더 뉴 K5",
+    "year": "2027",
+    "norm_grade": "가솔린202wd스마트셀렉션",
+    "base_price": 27630000,
+    "merged_names": [
+      "가솔린 2.0 2WD 스마트 셀렉션",
+      "가솔린 2.0 2WD 스마트셀렉션"
+    ],
+    "chosen_name": "가솔린 2.0 2WD 스마트 셀렉션",
+    "options_count": 4
+  },
+  {
+    "model": "더 뉴 K5",
+    "year": "2025",
+    "norm_grade": "가솔린202wd스마트셀렉션",
+    "base_price": 27660000,
+    "merged_names": [
+      "가솔린 2.0 2WD 스마트 셀렉션",
+      "가솔린 2.0 2WD 스마트셀렉션"
+    ],
+    "chosen_name": "가솔린 2.0 2WD 스마트 셀렉션",
+    "options_count": 3
+  },
+  {
+    "model": "더 뉴 K5",
+    "year": "2025",
+    "norm_grade": "lpg202wd프레스티지",
+    "base_price": 29200000,
+    "merged_names": [
+      "lpg 2.0 2WD 프레스티지",
+      "LPG 2.0 2WD 프레스티지"
+    ],
+    "chosen_name": "lpg 2.0 2WD 프레스티지",
+    "options_count": 3
+  },
+  {
+    "model": "더 뉴 K5",
+    "year": "2025",
+    "norm_grade": "lpg202wd노블레스",
+    "base_price": 32820000,
+    "merged_names": [
+      "lpg 2.0 2WD 노블레스",
+      "LPG 2.0 2WD 노블레스"
+    ],
+    "chosen_name": "lpg 2.0 2WD 노블레스",
+    "options_count": 7
+  },
+  {
+    "model": "더 뉴 K5",
+    "year": "2025",
+    "norm_grade": "lpg202wd시그니처",
+    "base_price": 35370000,
+    "merged_names": [
+      "lpg 2.0 2WD 시그니처",
+      "LPG 2.0 2WD 시그니처"
+    ],
+    "chosen_name": "lpg 2.0 2WD 시그니처",
+    "options_count": 5
+  },
+  {
+    "model": "캐스퍼",
+    "year": "2023",
+    "norm_grade": "가솔린102wd디에센셜",
+    "base_price": 16900000,
+    "merged_names": [
+      "가솔린 1.0 2WD 디 에센셜",
+      "가솔린 1.0 2WD 디에센셜"
+    ],
+    "chosen_name": "가솔린 1.0 2WD 디 에센셜",
+    "options_count": 6
+  },
+  {
+    "model": "캐스퍼",
+    "year": "2023",
+    "norm_grade": "가솔린102wd디에센셜라이트",
+    "base_price": 14900000,
+    "merged_names": [
+      "가솔린 1.0 2WD 디 에센셜 라이트",
+      "가솔린 1.0 2WD 디에센셜라이트"
+    ],
+    "chosen_name": "가솔린 1.0 2WD 디 에센셜 라이트",
+    "options_count": 8
+  },
+  {
+    "model": "더 뉴 아반떼",
+    "year": "2019",
+    "norm_grade": "lpg162wd스타일",
+    "base_price": 16980000,
+    "merged_names": [
+      "lpg 1.6 2WD 스타일",
+      "LPG 1.6 2WD 스타일"
+    ],
+    "chosen_name": "lpg 1.6 2WD 스타일",
+    "options_count": 12
+  },
+  {
+    "model": "더 뉴 아반떼",
+    "year": "2019",
+    "norm_grade": "lpg162wd스마트",
+    "base_price": 19530000,
+    "merged_names": [
+      "lpg 1.6 2WD 스마트",
+      "LPG 1.6 2WD 스마트"
+    ],
+    "chosen_name": "lpg 1.6 2WD 스마트",
+    "options_count": 11
+  },
+  {
+    "model": "더 뉴 아반떼",
+    "year": "2019",
+    "norm_grade": "lpg162wd모던",
+    "base_price": 21020000,
+    "merged_names": [
+      "lpg 1.6 2WD 모던",
+      "LPG 1.6 2WD 모던"
+    ],
+    "chosen_name": "lpg 1.6 2WD 모던",
+    "options_count": 11
+  },
+  {
+    "model": "더 뉴 아반떼",
+    "year": "2023",
+    "norm_grade": "lpg162wd스마트",
+    "base_price": 21150000,
+    "merged_names": [
+      "lpg 1.6 2WD 스마트",
+      "LPG 1.6 2WD 스마트"
+    ],
+    "chosen_name": "lpg 1.6 2WD 스마트",
+    "options_count": 12
+  },
+  {
+    "model": "더 뉴 아반떼",
+    "year": "2023",
+    "norm_grade": "lpg162wd모던",
+    "base_price": 24120000,
+    "merged_names": [
+      "lpg 1.6 2WD 모던",
+      "LPG 1.6 2WD 모던"
+    ],
+    "chosen_name": "lpg 1.6 2WD 모던",
+    "options_count": 14
+  },
+  {
+    "model": "더 뉴 아반떼",
+    "year": "2023",
+    "norm_grade": "lpg162wd인스퍼레이션",
+    "base_price": 28180000,
+    "merged_names": [
+      "lpg 1.6 2WD 인스퍼레이션",
+      "LPG 1.6 2WD 인스퍼레이션"
+    ],
+    "chosen_name": "lpg 1.6 2WD 인스퍼레이션",
+    "options_count": 12
+  },
+  {
+    "model": "더 뉴 아반떼",
+    "year": "2025",
+    "norm_grade": "lpg162wd스마트",
+    "base_price": 21340000,
+    "merged_names": [
+      "lpg 1.6 2WD 스마트",
+      "LPG 1.6 2WD 스마트"
+    ],
+    "chosen_name": "lpg 1.6 2WD 스마트",
+    "options_count": 11
+  },
+  {
+    "model": "더 뉴 아반떼",
+    "year": "2025",
+    "norm_grade": "lpg162wd모던",
+    "base_price": 24650000,
+    "merged_names": [
+      "lpg 1.6 2WD 모던",
+      "LPG 1.6 2WD 모던"
+    ],
+    "chosen_name": "lpg 1.6 2WD 모던",
+    "options_count": 13
+  },
+  {
+    "model": "더 뉴 아반떼",
+    "year": "2025",
+    "norm_grade": "lpg162wd인스퍼레이션",
+    "base_price": 28260000,
+    "merged_names": [
+      "lpg 1.6 2WD 인스퍼레이션",
+      "LPG 1.6 2WD 인스퍼레이션"
+    ],
+    "chosen_name": "lpg 1.6 2WD 인스퍼레이션",
+    "options_count": 12
+  },
+  {
+    "model": "아반떼",
+    "year": "2017",
+    "norm_grade": "디젤162wd스마트스페셜",
+    "base_price": 21900000,
+    "merged_names": [
+      "디젤 1.6 2WD 스마트 스페셜",
+      "디젤 1.6 2WD 스마트스페셜"
+    ],
+    "chosen_name": "디젤 1.6 2WD 스마트 스페셜",
+    "options_count": 15
+  },
+  {
+    "model": "더 뉴 레이",
+    "year": "2022",
+    "norm_grade": "가솔린102wd베스트셀렉션",
+    "base_price": 15600000,
+    "merged_names": [
+      "가솔린 1.0 2WD 베스트 셀렉션",
+      "가솔린 1.0 2WD 베스트셀렉션"
+    ],
+    "chosen_name": "가솔린 1.0 2WD 베스트 셀렉션",
+    "options_count": 3
+  },
+  {
+    "model": "더 뉴 레이",
+    "year": "2019",
+    "norm_grade": "가솔린102wd밴고급형",
+    "base_price": 12650000,
+    "merged_names": [
+      "가솔린 1.0 2WD 밴 고급형",
+      "가솔린 1.0 2WD 밴고급형"
+    ],
+    "chosen_name": "가솔린 1.0 2WD 밴 고급형",
+    "options_count": 1
+  },
+  {
+    "model": "더 뉴 레이",
+    "year": "2019",
+    "norm_grade": "lpg102wd프레스티지",
+    "base_price": 16700000,
+    "merged_names": [
+      "lpg 1.0 2WD 프레스티지",
+      "LPG 1.0 2WD 프레스티지"
+    ],
+    "chosen_name": "lpg 1.0 2WD 프레스티지",
+    "options_count": 3
+  },
+  {
+    "model": "더 뉴 레이",
+    "year": "2018",
+    "norm_grade": "가솔린102wd밴고급형",
+    "base_price": 12650000,
+    "merged_names": [
+      "가솔린 1.0 2WD 밴 고급형",
+      "가솔린 1.0 2WD 밴고급형"
+    ],
+    "chosen_name": "가솔린 1.0 2WD 밴 고급형",
+    "options_count": 1
+  },
+  {
+    "model": "더 뉴 레이",
+    "year": "2018",
+    "norm_grade": "lpg102wd프레스티지",
+    "base_price": 16700000,
+    "merged_names": [
+      "lpg 1.0 2WD 프레스티지",
+      "LPG 1.0 2WD 프레스티지"
+    ],
+    "chosen_name": "lpg 1.0 2WD 프레스티지",
+    "options_count": 3
+  },
+  {
+    "model": "모닝 어반",
+    "year": "2022",
+    "norm_grade": "가솔린102wd밴스페셜",
+    "base_price": 12450000,
+    "merged_names": [
+      "가솔린 1.0 2WD 밴 스페셜",
+      "가솔린 1.0 2WD 밴스페셜"
+    ],
+    "chosen_name": "가솔린 1.0 2WD 밴 스페셜",
+    "options_count": 3
+  },
+  {
+    "model": "모닝 어반",
+    "year": "2022",
+    "norm_grade": "가솔린102wd베스트셀렉션",
+    "base_price": 14500000,
+    "merged_names": [
+      "가솔린 1.0 2WD 베스트 셀렉션",
+      "가솔린 1.0 2WD 베스트셀렉션"
+    ],
+    "chosen_name": "가솔린 1.0 2WD 베스트 셀렉션",
+    "options_count": 4
+  },
+  {
+    "model": "모닝 어반",
+    "year": "2022",
+    "norm_grade": "가솔린102wd스탠다드마이너스",
+    "base_price": 11750000,
+    "merged_names": [
+      "가솔린 1.0 2WD 스탠다드 마이너스",
+      "가솔린 1.0 2WD 스탠다드마이너스"
+    ],
+    "chosen_name": "가솔린 1.0 2WD 스탠다드 마이너스",
+    "options_count": 0
+  },
+  {
+    "model": "모닝 어반",
+    "year": "2023",
+    "norm_grade": "가솔린102wd스탠다드마이너스",
+    "base_price": 11750000,
+    "merged_names": [
+      "가솔린 1.0 2WD 스탠다드 마이너스",
+      "가솔린 1.0 2WD 스탠다드마이너스"
+    ],
+    "chosen_name": "가솔린 1.0 2WD 스탠다드 마이너스",
+    "options_count": 0
+  },
+  {
+    "model": "모닝 어반",
+    "year": "2020",
+    "norm_grade": "가솔린102wd밴스페셜",
+    "base_price": 12350000,
+    "merged_names": [
+      "가솔린 1.0 2WD 밴 스페셜",
+      "가솔린 1.0 2WD 밴스페셜"
+    ],
+    "chosen_name": "가솔린 1.0 2WD 밴 스페셜",
+    "options_count": 5
+  },
+  {
+    "model": "모닝 어반",
+    "year": "2020",
+    "norm_grade": "가솔린102wd스탠다드마이너스",
+    "base_price": 11750000,
+    "merged_names": [
+      "가솔린 1.0 2WD 스탠다드 마이너스",
+      "가솔린 1.0 2WD 스탠다드마이너스"
+    ],
+    "chosen_name": "가솔린 1.0 2WD 스탠다드 마이너스",
+    "options_count": 0
+  },
+  {
+    "model": "모닝 어반",
+    "year": "2020",
+    "norm_grade": "가솔린102wd시그니처엣지up",
+    "base_price": 15450000,
+    "merged_names": [
+      "가솔린 1.0 2WD 시그니처 엣지-UP",
+      "가솔린 1.0 2WD 시그니처엣지-UP"
+    ],
+    "chosen_name": "가솔린 1.0 2WD 시그니처 엣지-UP",
+    "options_count": 7
+  },
+  {
+    "model": "쏘나타",
+    "year": "2019",
+    "norm_grade": "가솔린202wd프리미엄밀레니얼",
+    "base_price": 29940000,
+    "merged_names": [
+      "가솔린 2.0 2WD 프리미엄 밀레니얼",
+      "가솔린 2.0 2WD 프리미엄밀레니얼"
+    ],
+    "chosen_name": "가솔린 2.0 2WD 프리미엄 밀레니얼",
+    "options_count": 12
+  },
+  {
+    "model": "쏘나타",
+    "year": "2019",
+    "norm_grade": "가솔린202wd프리미엄패밀리",
+    "base_price": 27980000,
+    "merged_names": [
+      "가솔린 2.0 2WD 프리미엄 패밀리",
+      "가솔린 2.0 2WD 프리미엄패밀리"
+    ],
+    "chosen_name": "가솔린 2.0 2WD 프리미엄 패밀리",
+    "options_count": 11
+  },
+  {
+    "model": "쏘나타",
+    "year": "2019",
+    "norm_grade": "lpg202wd스마트",
+    "base_price": 24570000,
+    "merged_names": [
+      "lpg 2.0 2WD 스마트",
+      "LPG 2.0 2WD 스마트"
+    ],
+    "chosen_name": "lpg 2.0 2WD 스마트",
+    "options_count": 16
+  },
+  {
+    "model": "쏘나타",
+    "year": "2019",
+    "norm_grade": "lpg202wd모던",
+    "base_price": 26800000,
+    "merged_names": [
+      "lpg 2.0 2WD 모던",
+      "LPG 2.0 2WD 모던"
+    ],
+    "chosen_name": "lpg 2.0 2WD 모던",
+    "options_count": 11
+  },
+  {
+    "model": "쏘나타",
+    "year": "2019",
+    "norm_grade": "lpg202wd프리미엄",
+    "base_price": 29590000,
+    "merged_names": [
+      "lpg 2.0 2WD 프리미엄",
+      "LPG 2.0 2WD 프리미엄"
+    ],
+    "chosen_name": "lpg 2.0 2WD 프리미엄",
+    "options_count": 12
+  },
+  {
+    "model": "쏘나타",
+    "year": "2019",
+    "norm_grade": "lpg202wd인스퍼레이션",
+    "base_price": 32940000,
+    "merged_names": [
+      "lpg 2.0 2WD 인스퍼레이션",
+      "LPG 2.0 2WD 인스퍼레이션"
+    ],
+    "chosen_name": "lpg 2.0 2WD 인스퍼레이션",
+    "options_count": 5
+  },
+  {
+    "model": "쏘나타",
+    "year": "2020",
+    "norm_grade": "가솔린202wd프리미엄패밀리",
+    "base_price": 29300000,
+    "merged_names": [
+      "가솔린 2.0 2WD 프리미엄 패밀리",
+      "가솔린 2.0 2WD 프리미엄패밀리"
+    ],
+    "chosen_name": "가솔린 2.0 2WD 프리미엄 패밀리",
+    "options_count": 9
+  },
+  {
+    "model": "쏘나타",
+    "year": "2020",
+    "norm_grade": "가솔린202wd프리미엄밀레니얼",
+    "base_price": 31100000,
+    "merged_names": [
+      "가솔린 2.0 2WD 프리미엄 밀레니얼",
+      "가솔린 2.0 2WD 프리미엄밀레니얼"
+    ],
+    "chosen_name": "가솔린 2.0 2WD 프리미엄 밀레니얼",
+    "options_count": 12
+  },
+  {
+    "model": "쏘나타",
+    "year": "2020",
+    "norm_grade": "lpg202wd프리미엄",
+    "base_price": 26900000,
+    "merged_names": [
+      "lpg 2.0 2WD 프리미엄",
+      "LPG 2.0 2WD 프리미엄"
+    ],
+    "chosen_name": "lpg 2.0 2WD 프리미엄",
+    "options_count": 11
+  },
+  {
+    "model": "쏘나타",
+    "year": "2020",
+    "norm_grade": "lpg202wd프리미엄패밀리",
+    "base_price": 29700000,
+    "merged_names": [
+      "LPG 2.0 2WD 프리미엄 패밀리",
+      "lpg 2.0 2WD 프리미엄패밀리"
+    ],
+    "chosen_name": "LPG 2.0 2WD 프리미엄 패밀리",
+    "options_count": 8
+  },
+  {
+    "model": "쏘나타",
+    "year": "2020",
+    "norm_grade": "lpg202wd프리미엄밀레니얼",
+    "base_price": 31500000,
+    "merged_names": [
+      "LPG 2.0 2WD 프리미엄 밀레니얼",
+      "lpg 2.0 2WD 프리미엄밀레니얼"
+    ],
+    "chosen_name": "LPG 2.0 2WD 프리미엄 밀레니얼",
+    "options_count": 9
+  },
+  {
+    "model": "쏘나타",
+    "year": "2020",
+    "norm_grade": "lpg202wd인스퍼레이션",
+    "base_price": 33750000,
+    "merged_names": [
+      "lpg 2.0 2WD 인스퍼레이션",
+      "LPG 2.0 2WD 인스퍼레이션"
+    ],
+    "chosen_name": "lpg 2.0 2WD 인스퍼레이션",
+    "options_count": 4
+  },
+  {
+    "model": "쏘나타",
+    "year": "2023",
+    "norm_grade": "가솔린202wd프리미엄플러스",
+    "base_price": 28640000,
+    "merged_names": [
+      "가솔린 2.0 2WD 프리미엄 플러스",
+      "가솔린 2.0 2WD 프리미엄플러스"
+    ],
+    "chosen_name": "가솔린 2.0 2WD 프리미엄 플러스",
+    "options_count": 14
+  },
+  {
+    "model": "쏘나타",
+    "year": "2023",
+    "norm_grade": "가솔린202wdnline디자인에디션",
+    "base_price": 35000000,
+    "merged_names": [
+      "가솔린 2.0 2WD N Line 디자인 에디션",
+      "가솔린 2.0 2WD NLine디자인에디션"
+    ],
+    "chosen_name": "가솔린 2.0 2WD N Line 디자인 에디션",
+    "options_count": 5
+  },
+  {
+    "model": "쏘나타",
+    "year": "2023",
+    "norm_grade": "lpg202wd모던",
+    "base_price": 26550000,
+    "merged_names": [
+      "lpg 2.0 2WD 모던",
+      "LPG 2.0 2WD 모던"
+    ],
+    "chosen_name": "lpg 2.0 2WD 모던",
+    "options_count": 8
+  },
+  {
+    "model": "쏘나타",
+    "year": "2023",
+    "norm_grade": "lpg202wd프리미엄플러스",
+    "base_price": 29270000,
+    "merged_names": [
+      "LPG 2.0 2WD 프리미엄 플러스",
+      "lpg 2.0 2WD 프리미엄플러스"
+    ],
+    "chosen_name": "LPG 2.0 2WD 프리미엄 플러스",
+    "options_count": 14
+  },
+  {
+    "model": "쏘나타",
+    "year": "2023",
+    "norm_grade": "lpg202wd인스퍼레이션",
+    "base_price": 33620000,
+    "merged_names": [
+      "lpg 2.0 2WD 인스퍼레이션",
+      "LPG 2.0 2WD 인스퍼레이션"
+    ],
+    "chosen_name": "lpg 2.0 2WD 인스퍼레이션",
+    "options_count": 7
+  },
+  {
+    "model": "쏘나타 디 엣지",
+    "year": "2025",
+    "norm_grade": "lpg202wd프리미엄",
+    "base_price": 29200000,
+    "merged_names": [
+      "lpg 2.0 2WD 프리미엄",
+      "LPG 2.0 2WD 프리미엄"
+    ],
+    "chosen_name": "lpg 2.0 2WD 프리미엄",
+    "options_count": 13
+  },
+  {
+    "model": "쏘나타 디 엣지",
+    "year": "2025",
+    "norm_grade": "lpg202wd익스클루시브",
+    "base_price": 32900000,
+    "merged_names": [
+      "lpg 2.0 2WD 익스클루시브",
+      "LPG 2.0 2WD 익스클루시브"
+    ],
+    "chosen_name": "lpg 2.0 2WD 익스클루시브",
+    "options_count": 8
+  },
+  {
+    "model": "쏘나타 디 엣지",
+    "year": "2025",
+    "norm_grade": "lpg202wd인스퍼레이션",
+    "base_price": 35660000,
+    "merged_names": [
+      "lpg 2.0 2WD 인스퍼레이션",
+      "LPG 2.0 2WD 인스퍼레이션"
+    ],
+    "chosen_name": "lpg 2.0 2WD 인스퍼레이션",
+    "options_count": 7
+  },
+  {
+    "model": "쏘나타 디 엣지",
+    "year": "2027",
+    "norm_grade": "가솔린202wd블랙nline",
+    "base_price": 36750000,
+    "merged_names": [
+      "가솔린 2.0 2WD 블랙 N Line",
+      "가솔린 2.0 2WD 블랙NLine"
+    ],
+    "chosen_name": "가솔린 2.0 2WD 블랙 N Line",
+    "options_count": 5
+  },
+  {
+    "model": "쏘나타 디 엣지",
+    "year": "2027",
+    "norm_grade": "lpg202wd프리미엄",
+    "base_price": 29610000,
+    "merged_names": [
+      "lpg 2.0 2WD 프리미엄",
+      "LPG 2.0 2WD 프리미엄"
+    ],
+    "chosen_name": "lpg 2.0 2WD 프리미엄",
+    "options_count": 8
+  },
+  {
+    "model": "쏘나타 디 엣지",
+    "year": "2027",
+    "norm_grade": "lpg202wd익스클루시브",
+    "base_price": 33710000,
+    "merged_names": [
+      "lpg 2.0 2WD 익스클루시브",
+      "LPG 2.0 2WD 익스클루시브"
+    ],
+    "chosen_name": "lpg 2.0 2WD 익스클루시브",
+    "options_count": 5
+  },
+  {
+    "model": "쏘나타 디 엣지",
+    "year": "2027",
+    "norm_grade": "lpg202wd인스퍼레이션",
+    "base_price": 36400000,
+    "merged_names": [
+      "lpg 2.0 2WD 인스퍼레이션",
+      "LPG 2.0 2WD 인스퍼레이션"
+    ],
+    "chosen_name": "lpg 2.0 2WD 인스퍼레이션",
+    "options_count": 4
+  },
+  {
+    "model": "코나",
+    "year": "2018",
+    "norm_grade": "디젤162wd모던아트",
+    "base_price": 24200000,
+    "merged_names": [
+      "디젤 1.6 2WD 모던 아트",
+      "디젤 1.6 2WD 모던아트"
+    ],
+    "chosen_name": "디젤 1.6 2WD 모던 아트",
+    "options_count": 9
+  },
+  {
+    "model": "코나",
+    "year": "2018",
+    "norm_grade": "디젤162wd모던테크",
+    "base_price": 24200000,
+    "merged_names": [
+      "디젤 1.6 2WD 모던 테크",
+      "디젤 1.6 2WD 모던테크"
+    ],
+    "chosen_name": "디젤 1.6 2WD 모던 테크",
+    "options_count": 9
+  },
+  {
+    "model": "코나",
+    "year": "2018",
+    "norm_grade": "디젤162wd모던팝",
+    "base_price": 24200000,
+    "merged_names": [
+      "디젤 1.6 2WD 모던 팝",
+      "디젤 1.6 2WD 모던팝"
+    ],
+    "chosen_name": "디젤 1.6 2WD 모던 팝",
+    "options_count": 9
+  },
+  {
+    "model": "코나",
+    "year": "2018",
+    "norm_grade": "디젤162wd플럭스모던",
+    "base_price": 24450000,
+    "merged_names": [
+      "디젤 1.6 2WD 플럭스 모던",
+      "디젤 1.6 2WD 플럭스모던"
+    ],
+    "chosen_name": "디젤 1.6 2WD 플럭스 모던",
+    "options_count": 4
+  },
+  {
+    "model": "코나",
+    "year": "2018",
+    "norm_grade": "디젤162wd플럭스프리미엄",
+    "base_price": 26800000,
+    "merged_names": [
+      "디젤 1.6 2WD 플럭스 프리미엄",
+      "디젤 1.6 2WD 플럭스프리미엄"
+    ],
+    "chosen_name": "디젤 1.6 2WD 플럭스 프리미엄",
+    "options_count": 3
+  },
+  {
+    "model": "코나",
+    "year": "2018",
+    "norm_grade": "디젤162wd플럭스프리미엄스페셜",
+    "base_price": 28750000,
+    "merged_names": [
+      "디젤 1.6 2WD 플럭스 프리미엄 스페셜",
+      "디젤 1.6 2WD 플럭스프리미엄스페셜"
+    ],
+    "chosen_name": "디젤 1.6 2WD 플럭스 프리미엄 스페셜",
+    "options_count": 3
+  },
+  {
+    "model": "XM3",
+    "year": "2021",
+    "norm_grade": "가솔린162wdle플러스",
+    "base_price": 21950000,
+    "merged_names": [
+      "가솔린 1.6 2WD LE 플러스",
+      "가솔린 1.6 2WD LE플러스"
+    ],
+    "chosen_name": "가솔린 1.6 2WD LE 플러스",
+    "options_count": 4
+  },
+  {
+    "model": "아르카나",
+    "year": "2026",
+    "norm_grade": "가솔린162wd아이코닉컬러패키지",
+    "base_price": 26680000,
+    "merged_names": [
+      "가솔린 1.6 2WD 아이코닉 컬러 패키지",
+      "가솔린 1.6 2WD 아이코닉컬러패키지"
+    ],
+    "chosen_name": "가솔린 1.6 2WD 아이코닉 컬러 패키지",
+    "options_count": 6
+  },
+  {
+    "model": "더 뉴 스포티지",
+    "year": "2027",
+    "norm_grade": "가솔린162wd블랙에디션",
+    "base_price": 35870000,
+    "merged_names": [
+      "가솔린 1.6 2WD 블랙 에디션",
+      "가솔린 1.6 2WD 블랙에디션"
+    ],
+    "chosen_name": "가솔린 1.6 2WD 블랙 에디션",
+    "options_count": 11
+  },
+  {
+    "model": "더 뉴 스포티지",
+    "year": "2027",
+    "norm_grade": "lpg202wd프레스티지",
+    "base_price": 30090000,
+    "merged_names": [
+      "lpg 2.0 2WD 프레스티지",
+      "LPG 2.0 2WD 프레스티지"
+    ],
+    "chosen_name": "lpg 2.0 2WD 프레스티지",
+    "options_count": 11
+  },
+  {
+    "model": "더 뉴 스포티지",
+    "year": "2027",
+    "norm_grade": "lpg202wd노블레스",
+    "base_price": 33870000,
+    "merged_names": [
+      "lpg 2.0 2WD 노블레스",
+      "LPG 2.0 2WD 노블레스"
+    ],
+    "chosen_name": "lpg 2.0 2WD 노블레스",
+    "options_count": 14
+  },
+  {
+    "model": "더 뉴 스포티지",
+    "year": "2027",
+    "norm_grade": "lpg202wd시그니처",
+    "base_price": 36220000,
+    "merged_names": [
+      "lpg 2.0 2WD 시그니처",
+      "LPG 2.0 2WD 시그니처"
+    ],
+    "chosen_name": "lpg 2.0 2WD 시그니처",
+    "options_count": 13
+  },
+  {
+    "model": "더 뉴 스포티지",
+    "year": "2027",
+    "norm_grade": "lpg202wdxline",
+    "base_price": 36870000,
+    "merged_names": [
+      "lpg 2.0 2WD X-Line",
+      "LPG 2.0 2WD X-Line"
+    ],
+    "chosen_name": "lpg 2.0 2WD X-Line",
+    "options_count": 12
+  },
+  {
+    "model": "더 뉴 스포티지",
+    "year": "2025",
+    "norm_grade": "lpg202wd프레스티지",
+    "base_price": 29010000,
+    "merged_names": [
+      "lpg 2.0 2WD 프레스티지",
+      "LPG 2.0 2WD 프레스티지"
+    ],
+    "chosen_name": "lpg 2.0 2WD 프레스티지",
+    "options_count": 10
+  },
+  {
+    "model": "더 뉴 스포티지",
+    "year": "2025",
+    "norm_grade": "lpg202wd노블레스",
+    "base_price": 32600000,
+    "merged_names": [
+      "lpg 2.0 2WD 노블레스",
+      "LPG 2.0 2WD 노블레스"
+    ],
+    "chosen_name": "lpg 2.0 2WD 노블레스",
+    "options_count": 14
+  },
+  {
+    "model": "더 뉴 스포티지",
+    "year": "2025",
+    "norm_grade": "lpg202wd시그니처",
+    "base_price": 35250000,
+    "merged_names": [
+      "lpg 2.0 2WD 시그니처",
+      "LPG 2.0 2WD 시그니처"
+    ],
+    "chosen_name": "lpg 2.0 2WD 시그니처",
+    "options_count": 13
+  },
+  {
+    "model": "더 뉴 스포티지",
+    "year": "2025",
+    "norm_grade": "lpg202wdxline",
+    "base_price": 35900000,
+    "merged_names": [
+      "lpg 2.0 2WD X-Line",
+      "LPG 2.0 2WD X-Line"
+    ],
+    "chosen_name": "lpg 2.0 2WD X-Line",
+    "options_count": 12
+  },
+  {
+    "model": "스포티지 더 볼드",
+    "year": "2021",
+    "norm_grade": "가솔린202wd프레스티지그래비티",
+    "base_price": 24100000,
+    "merged_names": [
+      "가솔린 2.0 2WD 프레스티지 그래비티",
+      "가솔린 2.0 2WD 프레스티지그래비티"
+    ],
+    "chosen_name": "가솔린 2.0 2WD 프레스티지 그래비티",
+    "options_count": 13
+  },
+  {
+    "model": "스포티지 더 볼드",
+    "year": "2021",
+    "norm_grade": "가솔린202wd시그니처그래비티",
+    "base_price": 27390000,
+    "merged_names": [
+      "가솔린 2.0 2WD 시그니처 그래비티",
+      "가솔린 2.0 2WD 시그니처그래비티"
+    ],
+    "chosen_name": "가솔린 2.0 2WD 시그니처 그래비티",
+    "options_count": 10
+  },
+  {
+    "model": "스포티지 더 볼드",
+    "year": "2021",
+    "norm_grade": "디젤162wd프레스티지그래비티",
+    "base_price": 26550000,
+    "merged_names": [
+      "디젤 1.6 2WD 프레스티지 그래비티",
+      "디젤 1.6 2WD 프레스티지그래비티"
+    ],
+    "chosen_name": "디젤 1.6 2WD 프레스티지 그래비티",
+    "options_count": 13
+  },
+  {
+    "model": "스포티지 더 볼드",
+    "year": "2021",
+    "norm_grade": "디젤162wd시그니처그래비티",
+    "base_price": 29840000,
+    "merged_names": [
+      "디젤 1.6 2WD 시그니처 그래비티",
+      "디젤 1.6 2WD 시그니처그래비티"
+    ],
+    "chosen_name": "디젤 1.6 2WD 시그니처 그래비티",
+    "options_count": 10
+  },
+  {
+    "model": "스포티지 더 볼드",
+    "year": "2021",
+    "norm_grade": "디젤164wd프레스티지그래비티",
+    "base_price": 28610000,
+    "merged_names": [
+      "디젤 1.6 4WD 프레스티지 그래비티",
+      "디젤 1.6 4WD 프레스티지그래비티"
+    ],
+    "chosen_name": "디젤 1.6 4WD 프레스티지 그래비티",
+    "options_count": 13
+  },
+  {
+    "model": "스포티지 더 볼드",
+    "year": "2021",
+    "norm_grade": "디젤164wd시그니처그래비티",
+    "base_price": 31900000,
+    "merged_names": [
+      "디젤 1.6 4WD 시그니처 그래비티",
+      "디젤 1.6 4WD 시그니처그래비티"
+    ],
+    "chosen_name": "디젤 1.6 4WD 시그니처 그래비티",
+    "options_count": 10
+  },
+  {
+    "model": "스포티지 더 볼드",
+    "year": "2021",
+    "norm_grade": "디젤202wd프레스티지그래비티",
+    "base_price": 27040000,
+    "merged_names": [
+      "디젤 2.0 2WD 프레스티지 그래비티",
+      "디젤 2.0 2WD 프레스티지그래비티"
+    ],
+    "chosen_name": "디젤 2.0 2WD 프레스티지 그래비티",
+    "options_count": 14
+  },
+  {
+    "model": "스포티지 더 볼드",
+    "year": "2021",
+    "norm_grade": "디젤202wd시그니처그래비티",
+    "base_price": 30330000,
+    "merged_names": [
+      "디젤 2.0 2WD 시그니처 그래비티",
+      "디젤 2.0 2WD 시그니처그래비티"
+    ],
+    "chosen_name": "디젤 2.0 2WD 시그니처 그래비티",
+    "options_count": 11
+  },
+  {
+    "model": "스포티지 더 볼드",
+    "year": "2021",
+    "norm_grade": "디젤204wd프레스티지그래비티",
+    "base_price": 29100000,
+    "merged_names": [
+      "디젤 2.0 4WD 프레스티지 그래비티",
+      "디젤 2.0 4WD 프레스티지그래비티"
+    ],
+    "chosen_name": "디젤 2.0 4WD 프레스티지 그래비티",
+    "options_count": 14
+  },
+  {
+    "model": "스포티지 더 볼드",
+    "year": "2021",
+    "norm_grade": "디젤204wd시그니처그래비티",
+    "base_price": 32390000,
+    "merged_names": [
+      "디젤 2.0 4WD 시그니처 그래비티",
+      "디젤 2.0 4WD 시그니처그래비티"
+    ],
+    "chosen_name": "디젤 2.0 4WD 시그니처 그래비티",
+    "options_count": 11
+  },
+  {
+    "model": "K7 프리미어",
+    "year": "2021",
+    "norm_grade": "가솔린252wdx에디션",
+    "base_price": 35240000,
+    "merged_names": [
+      "가솔린 2.5 2WD X 에디션",
+      "가솔린 2.5 2WD X에디션"
+    ],
+    "chosen_name": "가솔린 2.5 2WD X 에디션",
+    "options_count": 11
+  },
+  {
+    "model": "K7 프리미어",
+    "year": "2021",
+    "norm_grade": "lpg302wd프레스티지",
+    "base_price": 31370000,
+    "merged_names": [
+      "lpg 3.0 2WD 프레스티지",
+      "LPG 3.0 2WD 프레스티지"
+    ],
+    "chosen_name": "lpg 3.0 2WD 프레스티지",
+    "options_count": 5
+  },
+  {
+    "model": "K7 프리미어",
+    "year": "2021",
+    "norm_grade": "lpg302wd노블레스",
+    "base_price": 36070000,
+    "merged_names": [
+      "lpg 3.0 2WD 노블레스",
+      "LPG 3.0 2WD 노블레스"
+    ],
+    "chosen_name": "lpg 3.0 2WD 노블레스",
+    "options_count": 8
+  },
+  {
+    "model": "K7 프리미어",
+    "year": "2020",
+    "norm_grade": "lpg302wd프레스티지",
+    "base_price": 30940000,
+    "merged_names": [
+      "lpg 3.0 2WD 프레스티지",
+      "LPG 3.0 2WD 프레스티지"
+    ],
+    "chosen_name": "lpg 3.0 2WD 프레스티지",
+    "options_count": 7
+  },
+  {
+    "model": "K7 프리미어",
+    "year": "2020",
+    "norm_grade": "lpg302wd노블레스",
+    "base_price": 35860000,
+    "merged_names": [
+      "lpg 3.0 2WD 노블레스",
+      "LPG 3.0 2WD 노블레스"
+    ],
+    "chosen_name": "lpg 3.0 2WD 노블레스",
+    "options_count": 8
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2017",
+    "norm_grade": "디젤162wd퍼펙트블랙",
+    "base_price": 26050000,
+    "merged_names": [
+      "디젤 1.6 2WD 퍼펙트 블랙",
+      "디젤 1.6 2WD 퍼펙트블랙"
+    ],
+    "chosen_name": "디젤 1.6 2WD 퍼펙트 블랙",
+    "options_count": 6
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2018",
+    "norm_grade": "디젤162wd퍼펙트블랙",
+    "base_price": 25760000,
+    "merged_names": [
+      "디젤 1.6 2WD 퍼펙트 블랙",
+      "디젤 1.6 2WD 퍼펙트블랙"
+    ],
+    "chosen_name": "디젤 1.6 2WD 퍼펙트 블랙",
+    "options_count": 7
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2019",
+    "norm_grade": "디젤162wdls디럭스",
+    "base_price": 21160000,
+    "merged_names": [
+      "디젤 1.6 2WD LS 디럭스",
+      "디젤 1.6 2WD LS디럭스"
+    ],
+    "chosen_name": "디젤 1.6 2WD LS 디럭스",
+    "options_count": 2
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2019",
+    "norm_grade": "디젤162wdlt코어",
+    "base_price": 23870000,
+    "merged_names": [
+      "디젤 1.6 2WD LT 코어",
+      "디젤 1.6 2WD LT코어"
+    ],
+    "chosen_name": "디젤 1.6 2WD LT 코어",
+    "options_count": 6
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2019",
+    "norm_grade": "디젤162wd퍼펙트블랙",
+    "base_price": 25380000,
+    "merged_names": [
+      "디젤 1.6 2WD 퍼펙트 블랙",
+      "디젤 1.6 2WD 퍼펙트블랙"
+    ],
+    "chosen_name": "디젤 1.6 2WD 퍼펙트 블랙",
+    "options_count": 7
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2019",
+    "norm_grade": "디젤162wd레드라인lt코어",
+    "base_price": 24220000,
+    "merged_names": [
+      "디젤 1.6 2WD 레드라인 LT 코어",
+      "디젤 1.6 2WD 레드라인LT코어"
+    ],
+    "chosen_name": "디젤 1.6 2WD 레드라인 LT 코어",
+    "options_count": 6
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2019",
+    "norm_grade": "디젤162wd레드라인프리미어",
+    "base_price": 25480000,
+    "merged_names": [
+      "디젤 1.6 2WD 레드라인 프리미어",
+      "디젤 1.6 2WD 레드라인프리미어"
+    ],
+    "chosen_name": "디젤 1.6 2WD 레드라인 프리미어",
+    "options_count": 7
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2021",
+    "norm_grade": "디젤162wdls디럭스",
+    "base_price": 20620000,
+    "merged_names": [
+      "디젤 1.6 2WD LS 디럭스",
+      "디젤 1.6 2WD LS디럭스"
+    ],
+    "chosen_name": "디젤 1.6 2WD LS 디럭스",
+    "options_count": 2
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2021",
+    "norm_grade": "디젤162wdlt코어",
+    "base_price": 23520000,
+    "merged_names": [
+      "디젤 1.6 2WD LT 코어",
+      "디젤 1.6 2WD LT코어"
+    ],
+    "chosen_name": "디젤 1.6 2WD LT 코어",
+    "options_count": 8
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2021",
+    "norm_grade": "디젤162wd레드라인lt코어",
+    "base_price": 23870000,
+    "merged_names": [
+      "디젤 1.6 2WD 레드라인 LT 코어",
+      "디젤 1.6 2WD 레드라인LT코어"
+    ],
+    "chosen_name": "디젤 1.6 2WD 레드라인 LT 코어",
+    "options_count": 8
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2021",
+    "norm_grade": "디젤162wd레드라인프리미어",
+    "base_price": 24660000,
+    "merged_names": [
+      "디젤 1.6 2WD 레드라인 프리미어",
+      "디젤 1.6 2WD 레드라인프리미어"
+    ],
+    "chosen_name": "디젤 1.6 2WD 레드라인 프리미어",
+    "options_count": 5
+  }
+]
