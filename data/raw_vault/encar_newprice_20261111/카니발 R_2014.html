@@ -1,0 +1,1851 @@
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>차량DB - 차량정보 - 신차가격표</title>
+    <link type="text/css" rel="stylesheet" href="/css/common.css?v=1793835891525"/>
+    <link type="text/css" rel="stylesheet" href="/css/db.css?v=1793835891525"/>
+
+    <script type="text/javascript" src="/js/encarapp/lib/jquery/jquery-1.11.3.min.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/common/ui.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/prototype.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/util.js?v=1793835894199"></script>
+
+    <script type="text/javascript" src="/js/common/db_common.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/commonCombo.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/carSearchCombo.js?v=1793835894199"></script>
+	<script>
+		window.enlogInitJson = {
+			"dataTalkView": {
+				"screenName": "신차가격표"
+			}
+		}
+
+	</script>
+
+
+</head>
+
+
+
+
+
+
+
+    <!-- 등급 체크박스  -->
+    <div style="display:none">
+        
+    </div>
+
+    <!-- 세부등급 체크박스 -->
+    <div style="display:none">
+        
+    </div>
+
+
+
+<body class="db db_newdetailview db_basicTemplate">
+
+
+
+
+	
+	
+	
+	
+
+
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-W9QQ2T"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W9QQ2T');</script>
+<!-- End Google Tag Manager -->
+
+<!-- container begin -->
+<div class="container" id="containerDIV">
+<input type="hidden" id = "foldYn" name="searchtype" value="10"/>
+<form id ="searchForm" name="searchForm">
+
+    <input type="hidden" id = "method" name="method" value="newpricePopV2"/>
+    <input type="hidden" id = "dimensiontype" name="dimensiontype" value="null"/>
+    <input type="hidden" id = "paramMnfccd" name="paramMnfccd" value="002"/>
+    <input type="hidden" id = "paramMdlgroupcd" name="paramMdlgroupcd" value="036"/>
+    <input type="hidden" id = "paramMdlcd" name="paramMdlcd" value="090"/>
+    <input type="hidden" id = "paramYear" name="paramYear" value="2014"/>
+    <input type="hidden" id = "model" name="model" value="">
+    <input type="hidden" id = "paramCaryear" name="paramCaryear" value="2014"/>
+    <input type="hidden" id = "clsheadcd" name="clsheadcd" class="checkbox" value="null"/>
+    <input type="hidden" id = "paramGradeHead" name="paramGradeHead" value="null"/>
+	<input type="hidden" id = "searchtype" name="searchtype" value="check"/>
+	<input type="hidden" id = "pageAccessToken" name="pageAccessToken" value="AgV4So6CXb4EcxycMFP8DnwQRK/4zVkrp70PyYGZ4HSeQzQAcQACAAdFbmNhckNrAAdFbmNhckN2ABVhd3MtY3J5cHRvLXB1YmxpYy1rZXkAREEvRHFNcTcyLzgrdWNkRjBieVd4WjhSRzA1UVNTa2Jrd0c2RW9QaEtGT2VlUGNoZVhyS3FCTVB5eENVNzYwL0RtZz09AAEAB2F3cy1rbXMAUGFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjI3MjM2MjQ4NzY1MzprZXkvbXJrLWRmZWEyNmY3NTVhMzQ3MjliNjkwMjRkZWZmM2M1MWFjALgBAgEAeAuqQuSJvQ+Ra4FSj55FZzS0sk+00amsb3yoAFiEYn4PAWBQmvIwblmUg3bxPL2IbBEAAAB+MHwGCSqGSIb3DQEHBqBvMG0CAQAwaAYJKoZIhvcNAQcBMB4GCWCGSAFlAwQBLjARBAxRRboMXyCmziIbkCICARCAOxNnz8X153YavaTB+ZCZDT2iIKEgGG7yDOVDY5b9p9h6NHkNdXbEV98Iyry6KEIrSkMcQiual9WNy5tRAgAAEAC42Eabz8tFai78aO8ZsrXT48u8uYOcXYJvkiClS6cVCPFQWxBGufwFNgirB94CmZP/////AAAAAQAAAAAAAAAAAAAAAQAAAKP8B7JO5oeRufFrUBLOg8gckpYqpN1JURwoz56AXZb2Ia8ciLnumK/FMKl+oOm8kpxoRw+i6nFETftJfNfq+ePv7110LIzpCVD2u2qOzViFipR7Uk77YtM8SIPb+0M7rS8bU1SgVY7Uty7HV52+YB0T8TGf3cjvY9WJs34d6nIhzc0Db7/8prWLLuVz/ZtmJcIMmUTrapCu8BTEktsRbkFIIZBSHlZLuZ2p9H7/c7I7ZNGiRQBnMGUCMQCkHAeELckxrpyBUzCH7S8oGjj8u7hztJDVx1hWp3751BoWNgkomxaUlH1m9R7iOSMCMG2BShX+oSh6U6bFx+JH703Cx8y9WOh3HdFLf3ADJCa58Y0fVMDzxcx5sUdQ8vwukg=="/>
+    <div class="header">
+        <h1 class="blind">SK엔카</h1>
+        <h2 class="tit_carprice" id="main_title">신차가격표</h2>
+        <p class="quickSearch">
+
+
+
+            <select title="제조사" class="opt_select" id="mnfccd" name="mnfccd" onChange="javascript:changeModelGroup(this.value);">
+                <option value="">제조사</option>
+            </select>
+
+            <select class="opt_select" title="모델" id="mdlgroupcd" name="mdlgroupcd" onChange="javascript:changeModel_jato($('mnfccd').value, this.value);">
+                <option>모델</option>
+            </select>
+
+            <select class="opt_select" title="세부모델" id="mdlcd" name="mdlcd" onChange="javascript:changeYearJato($('mnfccd').value, $('mdlcd').value);">
+                <option>세부모델</option>
+            </select>
+
+            <select class="opt_select" title="연식" id="caryear" name="caryear">
+                <option>연식</option>
+            </select>
+
+            <button type="button" class="btn_search" onclick="javascript:onSubmit();"/>검색</button>
+
+
+
+        </p>
+    </div>
+    <!-- body begin -->
+    <div class="body" id="bodydiv">
+		
+			
+				<table class="layout">
+					<col class="contents"/>
+					<tr>
+						<td class="contentsMenu">
+							<!-- contentsMenu begin -->
+							<div class="contentsMenu">
+								<h3 class="title">기아 카니발 R 2014년형</h3>
+							</div>
+							<!-- contentsMenu end -->
+						</td>
+					</tr>
+
+					<tr>
+						<td class="contentsMain">
+							<!-- contents begin -->
+							<div class="contents">
+
+								<div class="carCompare">
+									<div class="dbHead">
+										
+											<div id="folding"><a href="javascript:foldingYN('f_fold')"
+																 class="folding f_fold">전체등급 펼쳐보기<em class="db_ir"></em></a></div>
+
+											<!-- 2013/04/03 [서] 매물탭 개선 : 기능 버튼 추가 --><!--<a href="#" class="folding f_unfold">펼치기</a>-->
+										
+									</div>
+									
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+									
+										
+									
+									<div id="f_unfold">
+										
+
+
+										<!-- case2 : 세부등급이 있는경우 -->
+										
+											<table class="carCompare sellcase2">
+												<colgroup>
+													<col class="grade">
+													<col class="detailgrd">
+													<col class="mission">
+													<col class="price">
+													<col class="uprice">
+													<col class="item">
+													<col class="option">
+												</colgroup>
+												<thead class="compare">
+												<tr>
+													<th class="grade bgn" colspan="3"><b>구분</b></th>
+													<th class="price"><b>판매가격</b></th>
+													<th class="uprice"><b>중고차시세</b></th><!-- [시세개편] 중고차시세 추가 -->
+													<th class="item"><b>기본사양 품목</b></th>
+													<th class="option end"><b>선택사양 품목</b></th>
+												</tr>
+												</thead>
+												<tbody class="new">
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="3">
+																<p>그랜드 카니발 GLX</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>고급형</p></td>
+														
+														<td class="mission"><p>M/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,488</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> 파워트레인 </b> : R2.2 디젤엔진(유로5), 6단 수동변속기
+<br><br>▶<b> 안전 </b> : 에어백(운전석, 동승석, 1열 사이드), 차체자세제어장치 (VDC), 디스크브레이크(전륜,후륜), 후방 주차 보조 시스템, 1열 액티브 헤드레스트, 운전석 세이프티 파워 윈도우, 유아용 시트 고정장치, 소화기
+<br><br>▶<b> 외관 </b> : 235/60R17 타이어 &amp; 럭셔리 알로이휠, 프로젝션헤드램프, 안개등, LED 리피터 일체형 아웃사이드 미러(전동조절, 전동접이, 히팅기능), 보조제동등, 틴티드 글라스, 머드가드, 루프랙, 크롬 아웃 사이드 도어 핸들, 크롬 웨이스트라인 몰딩, 크롬 리어가니쉬
+<br><br>▶<b> 내장 </b> : 인테리어 칼라(그레이 / 베이지 중 택1) - ※ 단, 베이지는 스노우화이트 펄, 오로라 블랙 펄 외장칼라 선택시 가능, 가죽스티어링 휠 &amp; 변속기 노브, 슈퍼비전 클러스터, D/N 룸미러, 컨버세이션 미러, 선바이저(거울), 선글라스케이스
+<br><br>▶<b> 시트 </b> : 인조가죽시트, 1열 히티드 시트, 1열 시트백 포켓, 1~2열 암레스트, 1열 시트 사이드 테이블, 운전석시트(슬라이딩, 리클라이닝, 수동식 허리지지대), 동승석시트(슬라이딩, 리클라이닝), 2열 시트(슬라이딩, 리클라이닝, 센터점프시트), 3열 시트(슬라이딩, 리클라이닝, 시트백폴딩, 사이드 점프 시트), 4열 시트(슬라이딩, 쿠션팁업, 시트백폴딩)
+<br><br>▶<b> 편의 </b> : 히티드 스티어링 휠, 회전반경제어장치(VRS), 파워스티어링, 템포러리 스페어 타이어 &amp; 휠, 파워 도어록, 파워 윈도우(1열, 2열), 무선 도어 리모컨키, PTC 히터, 시가라이터, 파워아웃렛, 클러스터 조명 조절장치, 에스코트 헤드램프, 원터치 트리플 턴 시그널, 매뉴얼 에어컨
+<br><br>▶<b> 멀티미디어 </b> : CDP 오디오(MP3재생), AUX &amp; USB(iPod) 단자, 6스피커
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶ 스노우 화이트 펄  80,000
+<br><br>▶ 6단 자동변속기  2,340,000
+<br> - 수동겸용, 가죽변속기 노브포함
+<br> - 액티브 에코시스템, 크루즈컨트롤(정속주행 장치) 포함</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>최고급형</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,897</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> 그랜드 카니발 GLX 고급형 기본품목 외 
+<br></b>
+<br>ㆍ<b> 파워트레인 </b> : 6단 자동변속기(수동겸용, 액티브 에코 시스템)
+
+<br><br>ㆍ<b> 내장 </b> : 크롬 인사이드 도어 핸들, 전자식룸미러(ECM), 자동요금징수시스템(ETCS), 선바이저 조명, 2열 스텝램프, 키홀조명
+
+<br><br>ㆍ<b> 시트 </b> : 1열 틸트 헤드레스트
+
+<br><br>ㆍ<b> 편의 </b> : 파워쿼터글라스, 크루즈 컨트롤 (정속주행장치), 와이퍼 결빙 방지장치, 오토라이트 컨트롤 헤드램프, 독립 제어 풀오토 에어컨(운전석, 동승석), 클러스터 이오나이저
+
+<br><br>ㆍ<b> 멀티미디어 </b> : 음성인식 블루투스 핸즈프리, 스티어링휠 오디오 리모컨
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶ 스노우 화이트 펄  80,000
+<br><br>▶ 선루프  510,000
+<br><br>▶ 오토슬라이딩 도어  770,000
+<br><br>▶ 오토팩(오토슬라이딩 도어+오토테일게이트)  1,050,000
+<br><br>▶ 내비게이션(6.5인치, 후방카메라) &amp; JBL사운드(8스피커, 외장앰프)  1,540,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>프리미엄</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,067</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> 그랜드 카니발 GLX 최고급형 기본품목 외 
+<br></b>
+<br>ㆍ<b> 외관 </b> : 선루프
+
+<br><br>ㆍ<b> 편의 </b> : 오토 슬라이딩 도어, 멀티 통합 전자식 룸미러(자동요금징수시스템, 후방디스플레이)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶ 스노우 화이트 펄  80,000
+<br><br>▶ 오토테일게이트  300,000
+<br><br>▶ 내비게이션(6.5인치, 후방카메라) &amp; JBL사운드(8스피커, 외장앰프) &amp; 전자식 룸미러(ECM) &amp; 자동요금징수시스템(ETCS)  1,060,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>그랜드 카니발 President</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,477</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> 그랜드 카니발 GLX 프리미엄 기본품목 외 
+<br></b>
+<br>ㆍ<b> 내장 </b> : 스테인리스 도어스커프(1열,2열)
+
+<br><br>ㆍ<b> 시트 </b> : 1열 파워시트
+
+<br><br>ㆍ<b> 편의 </b> : 오토 테일 게이트, 운전자세메모리시스템(운전석시트, 아웃사이드미러, 페달&amp;브레이크), 전동조절 페달 &amp; 브레이크, 후진연동 자동하향아웃사이드 미러, 우적감지 와이퍼, 주행정보시스템
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶ 스노우 화이트 펄  80,000
+<br><br>▶ 내비게이션(6.5인치, 후방카메라) &amp; JBL사운드(8스피커, 외장앰프) &amp; 전자식 룸미러(ECM) &amp; 자동요금징수시스템(ETCS)  1,060,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>그랜드 카니발 가솔린 GLX</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>프리미엄</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,917</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> 그랜드 카니발 GLX 프리미엄 기본품목 외 
+<br></b>
+<br>ㆍ<b> 파워트레인 </b> : V6 람다 Ⅱ 3.5 가솔린 엔진
+
+<br><br> ※ PTC 히터, 액티브 에코시스템 미적용
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶ 스노우 화이트 펄  80,000
+<br><br>▶ 내비게이션(6.5인치, 후방카메라) &amp; JBL사운드(8스피커, 외장앰프) &amp; 전자식 룸미러(ECM) &amp; 자동요금징수시스템(ETCS)  1,060,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="2">
+																<p>그랜드 카니발 하이리무진 GLX</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>최고급형</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>4,364</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> 기본차 사양 
+<br></b>
+<br>ㆍ<b> 그랜드 카니발 GLX 최고급형 기본품목과 동일 
+<br></b>
+<br> ※ 루프랙, AUX단자, 1열 시트 사이드 테이블 미적용
+<br> ※ 인테리어 칼라 : 베이지
+<br><br>▶<b> 하이리무진 사양 
+<br></b>
+<br>ㆍ<b> 외관 </b> : 하이루프(스틸), 하이리무진 전용 범퍼가드(전, 후) &amp; 사이드 에어댐, 하이리무진 전용 바디라인
+
+<br><br>ㆍ<b> 내장 </b> : 하이리무진 전용 우드그레인, 센터콘솔(암레스트, 음료보관함, 디지털시계 포함), 주름식 커튼(슬라이딩 도어 글라스, 쿼터 글라스, 테일게이트 글라스 적용), 무드램프, 간접조명, 독서등
+
+<br><br>ㆍ<b> 멀티미디어 </b> : 전동 접이식 DVD콤보 12”LCD 모니터(동영상 및 음악 재생용 USB단자), 지상파 DMB 수신기, 후석 전용 스피커
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶ 스노우 화이트 펄  80,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>프리미엄</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>4,579</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> 기본차 사양 
+<br></b>
+<br>ㆍ<b> 그랜드 카니발 GLX 프리미엄 기본품목 외 
+<br></b>
+<br> 운전석 파워시트, 오토 테일 게이트, 운전자세메모리시스템(운전석시트, 아웃사이드미러, 페달&amp;브레이크), 전동조절 페달 &amp; 브레이크, 후진연동 자동하향아웃사이드 미러, 주행정보시스템
+<br> ※ 루프랙, 선루프, AUX단자, 1열 시트 사이드 테이블 미적용
+<br><br>▶<b> 하이리무진 사양 
+<br></b>
+<br>ㆍ<b> 그랜드 카니발 하이리무진 GLX 최고급형 사양과 동일 </b>
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 스노우 화이트 펄 </b> 80,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>뉴카니발 리무진 GLX</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>최고급형</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,024</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> 파워트레인 </b> : R2.2 디젤엔진(유로5), 6단 자동 변속기(수동겸용, 액티브 에코 시스템)
+<br><br>▶<b> 안전 </b> : 에어백(운전석, 동승석, 1~2열 커튼), 차체자세제어장치(VDC), 디스크브레이크(전륜, 후륜), 후방주차보조시스템, 1열 액티브 헤드레스트, 운전석 세이프티 파워윈도우, 유아용 시트 고정창치, 소화기
+<br><br>▶<b> 외관 </b> : 235/60R17 타이어 &amp; 럭셔리 알로이휠, 프로젝션 헤드램프, 프로젝션 안개등, 리어스포일러(보조제동등 내장), LED 리피터 일체형 아웃사이드 미러(전동접이, 전동조절, 히팅기능), 틴티드 글라스, 루프랙, 크롬 아웃사이드 도어 핸들, 크롬 웨이스트라인 몰딩, 크롬리어가니쉬, 리무진 엠블렘
+<br><br>▶<b> 내장 </b> : 인테리어 칼라(그레이/베이지 중 택1) ※단, 베이지는 스노우화이트펄, 오로라 블랙 펄 외장칼라 선택시 가능, 블랙 우드 그레인, 슈퍼비전 클러스터, 가죽 스티어링 휠 &amp; 변속기 노브, 크롬 인사이드 도어 핸들, 컨버세이션 미러, 선바이저(거울, 조명), 선글라스케이스, 무드램프, 키홀조명, 2열 스텝램프
+<br><br>▶<b> 시트 </b> : 인조가죽시트, 1열 히티드 시트, 1열 시트백 포켓, 1열 틸트 헤드레스트, 운전석시트(슬라이딩, 리클라이닝, 수동식 허리지지대, 암레스트), 동승석시트(슬라이딩, 리클라이닝), 1열 센터 점프 시트, 2열 시트(3인독립탈착시트, 슬라이딩, 리클라이닝, 원터치 더블 폴딩), 3열시트 (6:4 분할 싱킹 시트, 리클라이닝)
+<br><br>▶<b> 편의 </b> : 멀티통합 전자식 룸미러(자동요금징수시스템, 후방디스플레이), 파워쿼터글라스, 회전반경 제어장치(VRS), 히티드 스티어링 휠, 템포러리 스페어 타이어&amp;휠, 크루즈 컨트롤(정속주행장치), 와이퍼 결빙 장치, 오토라이트 컨트롤 헤드램프, 에스코트 헤드램프, 원터치 트리플 턴 시그널, 파워스티어링, 파워 도어록, 파워 윈도우(1열, 2열), 무선 도어 리모컨키, PTC히터, 시가라이터, 파워아웃렛, 클러스터 조명 조절장치, 독립제어 풀오토 에어컨(운전석, 동승석), 클러스터 이오나이저
+<br><br>▶<b> 멀티미디어 </b> : CDP 오디오(MP3재생), AUX&amp;USB(iPod) 단자, 6스피커, 음성인식 블루투스 핸즈프리, 스티어링 휠 오디오 리모컨
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶ 스노우 화이트 펄  80,000
+<br><br>▶ 선루프  510,000
+<br><br>▶ 오토슬라이딩 도어  770,000
+<br><br>▶ 오토팩(오토슬라이딩 도어+오토테일게이트)  1,050,000
+<br><br>▶ 내비게이션(6.5인치, 후방카메라) &amp; JBL사운드(8스피커, 외장앰프) &amp; 전자식 룸미러(ECM) &amp; 자동요금징수시스템(ETCS)  1,060,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>뉴카니발 리무진 President</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,513</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> 뉴카니발 리무진 GLX 최고급형 기본품목 외 
+<br></b>
+<br>ㆍ<b> 외관 </b> : 선루프, 프라이버시 글라스(2열, 3열 측면)
+
+<br><br>ㆍ<b> 내장 </b> : 스테인리스 도어스커프(1열,2열)
+
+<br><br>ㆍ<b> 시트 </b> : 운전석 파워시트
+
+<br><br>ㆍ<b> 편의 </b> : 오토 슬라이딩 도어, 오토 테일게이트, 운전자세메모리시스템(운전석시트, 아웃사이드미러, 페달&amp;브레이크), 전동조절 페달 &amp; 브레이크, 우적감지 와이퍼, 주행정보시스템
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶ 스노우 화이트 펄  80,000
+<br><br>▶ 내비게이션(6.5인치, 후방카메라) &amp; JBL사운드(8스피커, 외장앰프) &amp; 전자식 룸미러(ECM) &amp; 자동요금징수시스템(ETCS)  1,060,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+													
+														
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>카니발 리무진 가솔린 프레지던트</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,363</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> 뉴카니발 리무진 President 기본품목 외 
+<br></b>
+<br>ㆍ<b> 파워트레인 </b> : V6 람다 Ⅱ 3.5 가솔린 엔진
+
+<br><br> ※ PTC 히터, 액티브 에코시스템 미적용
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶ 스노우 화이트 펄  80,000
+<br><br>▶ 내비게이션(6.5인치, 후방카메라) &amp; JBL사운드(8스피커, 외장앰프) &amp; 전자식 룸미러(ECM) &amp; 자동요금징수시스템(ETCS)  1,060,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+												</tbody>
+											</table>
+										
+									</div>
+									<!-- 신차가격표(폴더형) -->
+									<div id="f_fold" style="display:none;">
+										<div class="newcar_folder">
+											<ul class="nf_list" id="newcarList">
+												
+													<li>
+														<a href="#newcar0">
+                                                            <span class="model">그랜드 카니발 GLX 고급형 M/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,488</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar1">
+                                                            <span class="model">그랜드 카니발 GLX 최고급형 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,897</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar2">
+                                                            <span class="model">그랜드 카니발 GLX 프리미엄 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,067</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar3">
+                                                            <span class="model">그랜드 카니발 President  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,477</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar4">
+                                                            <span class="model">그랜드 카니발 가솔린 GLX 프리미엄 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,917</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar5">
+                                                            <span class="model">그랜드 카니발 하이리무진 GLX 최고급형 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>4,364</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar6">
+                                                            <span class="model">그랜드 카니발 하이리무진 GLX 프리미엄 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>4,579</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar7">
+                                                            <span class="model">뉴카니발 리무진 GLX 최고급형 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,024</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar8">
+                                                            <span class="model">뉴카니발 리무진 President  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,513</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar9">
+                                                            <span class="model">카니발 리무진 가솔린 프레지던트  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,363</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+											</ul>
+											<!-- 개별 -->
+											
+												<div id="newcar0" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> 파워트레인 </b> : R2.2 디젤엔진(유로5), 6단 수동변속기
+<br><br>▶<b> 안전 </b> : 에어백(운전석, 동승석, 1열 사이드), 차체자세제어장치 (VDC), 디스크브레이크(전륜,후륜), 후방 주차 보조 시스템, 1열 액티브 헤드레스트, 운전석 세이프티 파워 윈도우, 유아용 시트 고정장치, 소화기
+<br><br>▶<b> 외관 </b> : 235/60R17 타이어 &amp; 럭셔리 알로이휠, 프로젝션헤드램프, 안개등, LED 리피터 일체형 아웃사이드 미러(전동조절, 전동접이, 히팅기능), 보조제동등, 틴티드 글라스, 머드가드, 루프랙, 크롬 아웃 사이드 도어 핸들, 크롬 웨이스트라인 몰딩, 크롬 리어가니쉬
+<br><br>▶<b> 내장 </b> : 인테리어 칼라(그레이 / 베이지 중 택1) - ※ 단, 베이지는 스노우화이트 펄, 오로라 블랙 펄 외장칼라 선택시 가능, 가죽스티어링 휠 &amp; 변속기 노브, 슈퍼비전 클러스터, D/N 룸미러, 컨버세이션 미러, 선바이저(거울), 선글라스케이스
+<br><br>▶<b> 시트 </b> : 인조가죽시트, 1열 히티드 시트, 1열 시트백 포켓, 1~2열 암레스트, 1열 시트 사이드 테이블, 운전석시트(슬라이딩, 리클라이닝, 수동식 허리지지대), 동승석시트(슬라이딩, 리클라이닝), 2열 시트(슬라이딩, 리클라이닝, 센터점프시트), 3열 시트(슬라이딩, 리클라이닝, 시트백폴딩, 사이드 점프 시트), 4열 시트(슬라이딩, 쿠션팁업, 시트백폴딩)
+<br><br>▶<b> 편의 </b> : 히티드 스티어링 휠, 회전반경제어장치(VRS), 파워스티어링, 템포러리 스페어 타이어 &amp; 휠, 파워 도어록, 파워 윈도우(1열, 2열), 무선 도어 리모컨키, PTC 히터, 시가라이터, 파워아웃렛, 클러스터 조명 조절장치, 에스코트 헤드램프, 원터치 트리플 턴 시그널, 매뉴얼 에어컨
+<br><br>▶<b> 멀티미디어 </b> : CDP 오디오(MP3재생), AUX &amp; USB(iPod) 단자, 6스피커</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶ 스노우 화이트 펄  80,000
+<br><br>▶ 6단 자동변속기  2,340,000
+<br> - 수동겸용, 가죽변속기 노브포함
+<br> - 액티브 에코시스템, 크루즈컨트롤(정속주행 장치) 포함</p>
+												</div>
+											
+												<div id="newcar1" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> 그랜드 카니발 GLX 고급형 기본품목 외 
+<br></b>
+<br>ㆍ<b> 파워트레인 </b> : 6단 자동변속기(수동겸용, 액티브 에코 시스템)
+
+<br><br>ㆍ<b> 내장 </b> : 크롬 인사이드 도어 핸들, 전자식룸미러(ECM), 자동요금징수시스템(ETCS), 선바이저 조명, 2열 스텝램프, 키홀조명
+
+<br><br>ㆍ<b> 시트 </b> : 1열 틸트 헤드레스트
+
+<br><br>ㆍ<b> 편의 </b> : 파워쿼터글라스, 크루즈 컨트롤 (정속주행장치), 와이퍼 결빙 방지장치, 오토라이트 컨트롤 헤드램프, 독립 제어 풀오토 에어컨(운전석, 동승석), 클러스터 이오나이저
+
+<br><br>ㆍ<b> 멀티미디어 </b> : 음성인식 블루투스 핸즈프리, 스티어링휠 오디오 리모컨</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶ 스노우 화이트 펄  80,000
+<br><br>▶ 선루프  510,000
+<br><br>▶ 오토슬라이딩 도어  770,000
+<br><br>▶ 오토팩(오토슬라이딩 도어+오토테일게이트)  1,050,000
+<br><br>▶ 내비게이션(6.5인치, 후방카메라) &amp; JBL사운드(8스피커, 외장앰프)  1,540,000</p>
+												</div>
+											
+												<div id="newcar2" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> 그랜드 카니발 GLX 최고급형 기본품목 외 
+<br></b>
+<br>ㆍ<b> 외관 </b> : 선루프
+
+<br><br>ㆍ<b> 편의 </b> : 오토 슬라이딩 도어, 멀티 통합 전자식 룸미러(자동요금징수시스템, 후방디스플레이)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶ 스노우 화이트 펄  80,000
+<br><br>▶ 오토테일게이트  300,000
+<br><br>▶ 내비게이션(6.5인치, 후방카메라) &amp; JBL사운드(8스피커, 외장앰프) &amp; 전자식 룸미러(ECM) &amp; 자동요금징수시스템(ETCS)  1,060,000</p>
+												</div>
+											
+												<div id="newcar3" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> 그랜드 카니발 GLX 프리미엄 기본품목 외 
+<br></b>
+<br>ㆍ<b> 내장 </b> : 스테인리스 도어스커프(1열,2열)
+
+<br><br>ㆍ<b> 시트 </b> : 1열 파워시트
+
+<br><br>ㆍ<b> 편의 </b> : 오토 테일 게이트, 운전자세메모리시스템(운전석시트, 아웃사이드미러, 페달&amp;브레이크), 전동조절 페달 &amp; 브레이크, 후진연동 자동하향아웃사이드 미러, 우적감지 와이퍼, 주행정보시스템</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶ 스노우 화이트 펄  80,000
+<br><br>▶ 내비게이션(6.5인치, 후방카메라) &amp; JBL사운드(8스피커, 외장앰프) &amp; 전자식 룸미러(ECM) &amp; 자동요금징수시스템(ETCS)  1,060,000</p>
+												</div>
+											
+												<div id="newcar4" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> 그랜드 카니발 GLX 프리미엄 기본품목 외 
+<br></b>
+<br>ㆍ<b> 파워트레인 </b> : V6 람다 Ⅱ 3.5 가솔린 엔진
+
+<br><br> ※ PTC 히터, 액티브 에코시스템 미적용</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶ 스노우 화이트 펄  80,000
+<br><br>▶ 내비게이션(6.5인치, 후방카메라) &amp; JBL사운드(8스피커, 외장앰프) &amp; 전자식 룸미러(ECM) &amp; 자동요금징수시스템(ETCS)  1,060,000</p>
+												</div>
+											
+												<div id="newcar5" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> 기본차 사양 
+<br></b>
+<br>ㆍ<b> 그랜드 카니발 GLX 최고급형 기본품목과 동일 
+<br></b>
+<br> ※ 루프랙, AUX단자, 1열 시트 사이드 테이블 미적용
+<br> ※ 인테리어 칼라 : 베이지
+<br><br>▶<b> 하이리무진 사양 
+<br></b>
+<br>ㆍ<b> 외관 </b> : 하이루프(스틸), 하이리무진 전용 범퍼가드(전, 후) &amp; 사이드 에어댐, 하이리무진 전용 바디라인
+
+<br><br>ㆍ<b> 내장 </b> : 하이리무진 전용 우드그레인, 센터콘솔(암레스트, 음료보관함, 디지털시계 포함), 주름식 커튼(슬라이딩 도어 글라스, 쿼터 글라스, 테일게이트 글라스 적용), 무드램프, 간접조명, 독서등
+
+<br><br>ㆍ<b> 멀티미디어 </b> : 전동 접이식 DVD콤보 12”LCD 모니터(동영상 및 음악 재생용 USB단자), 지상파 DMB 수신기, 후석 전용 스피커</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶ 스노우 화이트 펄  80,000</p>
+												</div>
+											
+												<div id="newcar6" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> 기본차 사양 
+<br></b>
+<br>ㆍ<b> 그랜드 카니발 GLX 프리미엄 기본품목 외 
+<br></b>
+<br> 운전석 파워시트, 오토 테일 게이트, 운전자세메모리시스템(운전석시트, 아웃사이드미러, 페달&amp;브레이크), 전동조절 페달 &amp; 브레이크, 후진연동 자동하향아웃사이드 미러, 주행정보시스템
+<br> ※ 루프랙, 선루프, AUX단자, 1열 시트 사이드 테이블 미적용
+<br><br>▶<b> 하이리무진 사양 
+<br></b>
+<br>ㆍ<b> 그랜드 카니발 하이리무진 GLX 최고급형 사양과 동일 </b></p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 스노우 화이트 펄 </b> 80,000</p>
+												</div>
+											
+												<div id="newcar7" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> 파워트레인 </b> : R2.2 디젤엔진(유로5), 6단 자동 변속기(수동겸용, 액티브 에코 시스템)
+<br><br>▶<b> 안전 </b> : 에어백(운전석, 동승석, 1~2열 커튼), 차체자세제어장치(VDC), 디스크브레이크(전륜, 후륜), 후방주차보조시스템, 1열 액티브 헤드레스트, 운전석 세이프티 파워윈도우, 유아용 시트 고정창치, 소화기
+<br><br>▶<b> 외관 </b> : 235/60R17 타이어 &amp; 럭셔리 알로이휠, 프로젝션 헤드램프, 프로젝션 안개등, 리어스포일러(보조제동등 내장), LED 리피터 일체형 아웃사이드 미러(전동접이, 전동조절, 히팅기능), 틴티드 글라스, 루프랙, 크롬 아웃사이드 도어 핸들, 크롬 웨이스트라인 몰딩, 크롬리어가니쉬, 리무진 엠블렘
+<br><br>▶<b> 내장 </b> : 인테리어 칼라(그레이/베이지 중 택1) ※단, 베이지는 스노우화이트펄, 오로라 블랙 펄 외장칼라 선택시 가능, 블랙 우드 그레인, 슈퍼비전 클러스터, 가죽 스티어링 휠 &amp; 변속기 노브, 크롬 인사이드 도어 핸들, 컨버세이션 미러, 선바이저(거울, 조명), 선글라스케이스, 무드램프, 키홀조명, 2열 스텝램프
+<br><br>▶<b> 시트 </b> : 인조가죽시트, 1열 히티드 시트, 1열 시트백 포켓, 1열 틸트 헤드레스트, 운전석시트(슬라이딩, 리클라이닝, 수동식 허리지지대, 암레스트), 동승석시트(슬라이딩, 리클라이닝), 1열 센터 점프 시트, 2열 시트(3인독립탈착시트, 슬라이딩, 리클라이닝, 원터치 더블 폴딩), 3열시트 (6:4 분할 싱킹 시트, 리클라이닝)
+<br><br>▶<b> 편의 </b> : 멀티통합 전자식 룸미러(자동요금징수시스템, 후방디스플레이), 파워쿼터글라스, 회전반경 제어장치(VRS), 히티드 스티어링 휠, 템포러리 스페어 타이어&amp;휠, 크루즈 컨트롤(정속주행장치), 와이퍼 결빙 장치, 오토라이트 컨트롤 헤드램프, 에스코트 헤드램프, 원터치 트리플 턴 시그널, 파워스티어링, 파워 도어록, 파워 윈도우(1열, 2열), 무선 도어 리모컨키, PTC히터, 시가라이터, 파워아웃렛, 클러스터 조명 조절장치, 독립제어 풀오토 에어컨(운전석, 동승석), 클러스터 이오나이저
+<br><br>▶<b> 멀티미디어 </b> : CDP 오디오(MP3재생), AUX&amp;USB(iPod) 단자, 6스피커, 음성인식 블루투스 핸즈프리, 스티어링 휠 오디오 리모컨</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶ 스노우 화이트 펄  80,000
+<br><br>▶ 선루프  510,000
+<br><br>▶ 오토슬라이딩 도어  770,000
+<br><br>▶ 오토팩(오토슬라이딩 도어+오토테일게이트)  1,050,000
+<br><br>▶ 내비게이션(6.5인치, 후방카메라) &amp; JBL사운드(8스피커, 외장앰프) &amp; 전자식 룸미러(ECM) &amp; 자동요금징수시스템(ETCS)  1,060,000</p>
+												</div>
+											
+												<div id="newcar8" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> 뉴카니발 리무진 GLX 최고급형 기본품목 외 
+<br></b>
+<br>ㆍ<b> 외관 </b> : 선루프, 프라이버시 글라스(2열, 3열 측면)
+
+<br><br>ㆍ<b> 내장 </b> : 스테인리스 도어스커프(1열,2열)
+
+<br><br>ㆍ<b> 시트 </b> : 운전석 파워시트
+
+<br><br>ㆍ<b> 편의 </b> : 오토 슬라이딩 도어, 오토 테일게이트, 운전자세메모리시스템(운전석시트, 아웃사이드미러, 페달&amp;브레이크), 전동조절 페달 &amp; 브레이크, 우적감지 와이퍼, 주행정보시스템</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶ 스노우 화이트 펄  80,000
+<br><br>▶ 내비게이션(6.5인치, 후방카메라) &amp; JBL사운드(8스피커, 외장앰프) &amp; 전자식 룸미러(ECM) &amp; 자동요금징수시스템(ETCS)  1,060,000</p>
+												</div>
+											
+												<div id="newcar9" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> 뉴카니발 리무진 President 기본품목 외 
+<br></b>
+<br>ㆍ<b> 파워트레인 </b> : V6 람다 Ⅱ 3.5 가솔린 엔진
+
+<br><br> ※ PTC 히터, 액티브 에코시스템 미적용</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶ 스노우 화이트 펄  80,000
+<br><br>▶ 내비게이션(6.5인치, 후방카메라) &amp; JBL사운드(8스피커, 외장앰프) &amp; 전자식 룸미러(ECM) &amp; 자동요금징수시스템(ETCS)  1,060,000</p>
+												</div>
+											
+										</div>
+										<script type="text/javascript">
+											newcarFolder(0);//초기값
+											function newcarFolder(target) {
+												var conElId = "newcar"//아이디 설정
+												var conElMenu = document.getElementById("newcarList");
+												var conElMenuLink = conElMenu.getElementsByTagName("a");
+												if (target != null) {
+													conElMenuLink[target].parentNode.className = "on";
+													document.getElementById(
+														conElId + target).style.display = "";
+												}
+												for (i = 0; i <= (conElMenuLink.length - 1); i++) {
+													conElMenuLink[i].onclick = function () {
+														for (x = 0; x <= (conElMenuLink.length - 1); x++) {
+															conElMenuLink[x].parentNode.className = "";
+															document.getElementById(
+																conElId + x).style.display = "none";
+														}
+														this.parentNode.className = "on";
+														document.getElementById(this.getAttribute('href')
+																					.split(
+																						'#')[1]).style.display =
+															"";
+														return false;
+													}
+												}
+											}
+										</script>
+									</div>
+									
+										<ul class="more">
+												▶<b> 그랜드 카니발 &amp; 뉴카니발 리무진 </b>
+<br>&nbsp; - 내비게이션 선택시 음성인식 블루투스 핸즈프리, 멀티통합 전자식 룸미러 미적용
+<br><br>▶<b> 하이리무진 </b>
+<br>&nbsp; - 하이리무진 전차종의 기본차 사양은 GLX 최고급형 및 GLX 프리미엄 트림으로 구성되어 있으니 주요 기본품목의 기본차 사양을 정확히 확인하시기 바랍니다
+<br>&nbsp; - 하이리무진 전차종의 시트는 그랜드 카니발 일반차와 재질 및 구조가 동일합니다. (단 운전석 및 동승석 암레스트, 시트 사이드 테이블 제외)
+<br>&nbsp; - 음료보관함 : 차갑거나 뜨거운 음료를 일정시간동안 보냉/보온하는 기능
+<br>&nbsp; - 외장색상 : 스노우화이트 펄(SWP), 오로라 블랙 펄(ABP) 만 선택가능
+<br><br>▶<b> 공통 참조사항 </b> 
+<br>▶ 내비게이션 : 6.5인치 모니터, 후방카메라, 지상파 DMB, 라디오, DVD&amp;CD(MP3)재생, 실시간 교통정보(TPEG), 신주소 검색기능 미적용
+<br>&nbsp; - 내비게이션 선택시 음성인식 블루투스 핸즈프리, 멀티통합 전자식 룸미러 미적용
+<br>&nbsp; - 주요 기본 품목 및 선택 품목의 스피커 개수는 사운드 시스템 총 스피커 수량 기준임
+<br>▶ AUX&amp;USB (iPod) 단자 사용을 위한 케이블은 별도 구매
+<br>▶ 내장칼라 : 그레이 선택시 메탈그레인 적용, 베이지 선택시 블랙우드 그레인 적용 (단 카니발 리무진은 모두 블랙 우드그레인적용)
+<br>▶ 자동요금징수시스템(ETCS)은 장애인 등 통행료 자동할인 기능이 없음
+<br>▶ 선택품목 가격은 트림별 적용 사양에 따라 가격 차이가 있음
+										</ul>
+									
+									<p class="desc_more">위 신차가격표는 단순 참고자료이며, 정확한 내용은 각 제조사에서 제공하는 자료를 통해확인하실 수 있습니다.</p><!-- 2016/10/12 [장] 등급 등록/수정 개선 : 추가 디자인 변경 -->
+									<p class="toTop"><a href="#main_title" class="sp toTop db_ir" title="페이지 위로"><u>페이지 위로</u></a></p><!-- [시세개편] class db_ir 추가 -->
+								</div>
+
+
+							</div>
+							<!-- body end -->
+						</td>
+					</tr>
+				</table>
+
+
+			
+			
+		
+    </div>
+
+    <!-- container end -->
+</form>
+</div>
+
+</body>
+<script language="javascript">
+
+
+    var strCompanyUrl = "/common/combo/cardbcompany.json?method=carList";
+    var strModelGroupUrl = "/common/combo/modelgroupfordb.json?method=carList";
+    var strModelUrl = "/common/combo/cardbmodel.json?method=carList";
+    var strYrJatoUrl = "/common/combo/jatoYr.json?method=carList";
+
+    var companyid = "mnfccd";
+    var modelgroupid = "mdlgroupcd";
+    var modelid = "mdlcd";
+    var yearid = "caryear";
+
+    function initGnb() {
+        var paramCompany = $("paramMnfccd").value;
+        var paramModelGroup = $("paramMdlgroupcd").value;
+        var paramModel = $("paramMdlcd").value;
+        var paramYr = $("paramYear").value;
+
+        // 제조사
+        if (paramModel != "") {
+            $("mdlcd").show();
+        }
+
+        //console.log("companyid :: " + companyid)
+        //console.log("paramCompany :: " + paramCompany)
+		if($('foldYn').value != 0){
+            foldingYN('f_fold');
+		}
+
+        setCompany(strCompanyUrl, companyid, "제조사", paramCompany);
+
+        // 제조사 값이 있으면 모델 검색
+        if (paramCompany >= '010') {
+            if (paramCompany != "") {
+                if (paramModel == "") {
+                    paramModel = paramModelGroup;
+                }
+                setModel(strModelUrl, modelid, paramCompany, "모델", paramModel)
+                $("mdlgroupcd").hide();
+
+            }
+        } else {
+            $("mdlgroupcd").show();
+            if (paramCompany != "") {
+                setModelGroup(strModelGroupUrl, modelgroupid, paramCompany, "모델", paramModelGroup);
+                if (paramModelGroup != "") {
+                    setModel_New(strModelUrl, modelid, paramCompany, paramModelGroup, "세부모델", paramModel);
+                }
+            }
+
+        }
+        if (paramCompany != "" && paramModel != "") {
+            setCarYear(strYrJatoUrl, yearid, paramCompany, paramModel, "형식연도", paramYr);
+        }
+
+        waitTime = 1;
+    }
+
+    function changeModel_jato(mnfccd, mdlgroupcd) {
+        setModel_New(strModelUrl, modelid, mnfccd, mdlgroupcd, "세부모델", "");
+        //모델그룹선택시 기본 세부모델선택
+        if ($("mdlcd") != null) {
+            $("mdlcd").selectedIndex = 1;
+            var mdlcd = $("mdlcd").options[$("mdlcd").selectedIndex].value;
+            changeYearJato(mnfccd, mdlcd);
+        }
+    }
+
+    function changeYearJato(mnfccd,mdlcd) {
+        setCarYear(strYrJatoUrl, yearid, mnfccd, mdlcd, "형식연도", "");
+        $(yearid).options[1].selected = true;
+    }
+
+
+
+    //덧글 리스트
+    function viewForm(index) {
+
+        var object = $("default" + index);
+        var objectSum = $("defaultSum" + index);
+        var selectSum = $("choiceSum" + index);
+        var object1 = $("choice" + index);
+        if (object != null) {
+            if (object.style.display == 'none') {
+                objectSum.hide();
+                selectSum.hide();
+                object.style.display = "block";
+                object1.style.display = "block";
+
+            } else {
+                object.hide();
+                object1.hide();
+                objectSum.style.display = "block";
+                selectSum.style.display = "block";
+            }
+        }
+    }
+
+    function viewAll() {
+        for (var i = 1; i <=10; i++) {
+            $("default" + i).style.display = "block";
+            $("defaultSum" + i).style.display = "none";
+            $("choice" + i).style.display = "block";
+            $("choiceSum" + i).style.display = "none";
+        }
+    }
+
+    function closeAll() {
+        for (var i = 1; i <=10; i++) {
+            $("default" + i).style.display = "none";
+            $("defaultSum" + i).style.display = "block";
+            $("choice" + i).style.display = "none";
+            $("choiceSum" + i).style.display = "block";
+        }
+    }
+
+    function firstLayerOpen() {
+        //viewForm(1);
+    }
+
+    function foldingYN(param) {
+        if (param == "f_fold") {
+            document.getElementById("folding").innerHTML ="<a href=\"javascript:foldingYN('f_unfold')\" class='folding f_unfold'>전체등급 펼쳐보기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "none";
+            document.getElementById("f_fold").style.display = "";
+        } else {
+            document.getElementById("folding").innerHTML = "<a href=\"javascript:foldingYN('f_fold')\" class='folding f_fold'>접기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "";
+            document.getElementById("f_fold").style.display = "none";
+        }
+    }
+
+    function onSubmit() {
+        jQuery("#searchForm").submit();
+
+    }
+    window.onload = initGnb;
+
+</script>
+</html>
+

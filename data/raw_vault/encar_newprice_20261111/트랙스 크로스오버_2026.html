@@ -1,0 +1,859 @@
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>차량DB - 차량정보 - 신차가격표</title>
+    <link type="text/css" rel="stylesheet" href="/css/common.css?v=1793835891525"/>
+    <link type="text/css" rel="stylesheet" href="/css/db.css?v=1793835891525"/>
+
+    <script type="text/javascript" src="/js/encarapp/lib/jquery/jquery-1.11.3.min.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/common/ui.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/prototype.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/util.js?v=1793835894199"></script>
+
+    <script type="text/javascript" src="/js/common/db_common.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/commonCombo.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/carSearchCombo.js?v=1793835894199"></script>
+	<script>
+		window.enlogInitJson = {
+			"dataTalkView": {
+				"screenName": "신차가격표"
+			}
+		}
+
+	</script>
+
+
+</head>
+
+
+
+
+
+
+
+    <!-- 등급 체크박스  -->
+    <div style="display:none">
+        
+    </div>
+
+    <!-- 세부등급 체크박스 -->
+    <div style="display:none">
+        
+    </div>
+
+
+
+<body class="db db_newdetailview db_basicTemplate">
+
+
+
+
+	
+	
+	
+	
+
+
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-W9QQ2T"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W9QQ2T');</script>
+<!-- End Google Tag Manager -->
+
+<!-- container begin -->
+<div class="container" id="containerDIV">
+<input type="hidden" id = "foldYn" name="searchtype" value="4"/>
+<form id ="searchForm" name="searchForm">
+
+    <input type="hidden" id = "method" name="method" value="newpricePopV2"/>
+    <input type="hidden" id = "dimensiontype" name="dimensiontype" value="null"/>
+    <input type="hidden" id = "paramMnfccd" name="paramMnfccd" value="003"/>
+    <input type="hidden" id = "paramMdlgroupcd" name="paramMdlgroupcd" value="048"/>
+    <input type="hidden" id = "paramMdlcd" name="paramMdlcd" value="108"/>
+    <input type="hidden" id = "paramYear" name="paramYear" value="2026"/>
+    <input type="hidden" id = "model" name="model" value="">
+    <input type="hidden" id = "paramCaryear" name="paramCaryear" value="2026"/>
+    <input type="hidden" id = "clsheadcd" name="clsheadcd" class="checkbox" value="null"/>
+    <input type="hidden" id = "paramGradeHead" name="paramGradeHead" value="null"/>
+	<input type="hidden" id = "searchtype" name="searchtype" value="check"/>
+	<input type="hidden" id = "pageAccessToken" name="pageAccessToken" value="AgV4q880UWqxFVnrfGgRR2VhDD9OQgZPLtkBP0tL3j+GWu0AcQACAAdFbmNhckNrAAdFbmNhckN2ABVhd3MtY3J5cHRvLXB1YmxpYy1rZXkAREFreHQvZlJZTHNTQVZaWDVwZEl4RGh1SC9GL2tOTkdVK1BwcTQ4SytJSGp4VGsrdCs2QjFYZXNwL1J0UkwwV0RCQT09AAEAB2F3cy1rbXMAUGFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjI3MjM2MjQ4NzY1MzprZXkvbXJrLWRmZWEyNmY3NTVhMzQ3MjliNjkwMjRkZWZmM2M1MWFjALgBAgEAeAuqQuSJvQ+Ra4FSj55FZzS0sk+00amsb3yoAFiEYn4PAes9DaF8LgWu3aCpe6gSdakAAAB+MHwGCSqGSIb3DQEHBqBvMG0CAQAwaAYJKoZIhvcNAQcBMB4GCWCGSAFlAwQBLjARBAzMzmGYt4KY7x97xkUCARCAO/x4BTluj36iH4kyu6NgRyHHj2J0sUTpreRIo74Zm9J6xYSHXIU9bZJFRdqib74V3ihYJRRCm18+oNs9AgAAEAB2rSGS7SijPn4wgSgZ5IKXlmqMnhe+0EmtQxXm4IxGy3LuB+mxbQrJRIHiJhnyUz7/////AAAAAQAAAAAAAAAAAAAAAQAAAKMhgCxOKAdjPPv9ai40AneCeNZZVs7ne3ceBNRVaV9OjlTXd7C8TsbGwQ7TMAosUsxK1DIcJxRiDU3NPmL2NgnXi6H4SslrphDauoo1dwTegbihYCz0hwVtkS1/AdhAZOA3qrSN/qodHC7QoGi4ygesEe+z3Ait/3kNv9EZyMP7KK83Hdl5+v139ZA53N9xzYl0PE7Vg5LUHp1Hbyr0QpzST8lVramsXYAp7esa3mHSC+U4sQBnMGUCMG8Je2HooSK3ffPVqKkAabOudOK4Ssvd3u8uxH7iO9egnfwXcqlaqoL6Riz0mIoevQIxAPkfw7aXOdkPpUkNhVrH85V3iK9yVtJlrDANNJnPHrV3dsEJJeMXYQtyU7zcrDxAGg=="/>
+    <div class="header">
+        <h1 class="blind">SK엔카</h1>
+        <h2 class="tit_carprice" id="main_title">신차가격표</h2>
+        <p class="quickSearch">
+
+
+
+            <select title="제조사" class="opt_select" id="mnfccd" name="mnfccd" onChange="javascript:changeModelGroup(this.value);">
+                <option value="">제조사</option>
+            </select>
+
+            <select class="opt_select" title="모델" id="mdlgroupcd" name="mdlgroupcd" onChange="javascript:changeModel_jato($('mnfccd').value, this.value);">
+                <option>모델</option>
+            </select>
+
+            <select class="opt_select" title="세부모델" id="mdlcd" name="mdlcd" onChange="javascript:changeYearJato($('mnfccd').value, $('mdlcd').value);">
+                <option>세부모델</option>
+            </select>
+
+            <select class="opt_select" title="연식" id="caryear" name="caryear">
+                <option>연식</option>
+            </select>
+
+            <button type="button" class="btn_search" onclick="javascript:onSubmit();"/>검색</button>
+
+
+
+        </p>
+    </div>
+    <!-- body begin -->
+    <div class="body" id="bodydiv">
+		
+			
+				<table class="layout">
+					<col class="contents"/>
+					<tr>
+						<td class="contentsMenu">
+							<!-- contentsMenu begin -->
+							<div class="contentsMenu">
+								<h3 class="title">쉐보레(GM대우) 트랙스 크로스오버 2026년형</h3>
+							</div>
+							<!-- contentsMenu end -->
+						</td>
+					</tr>
+
+					<tr>
+						<td class="contentsMain">
+							<!-- contents begin -->
+							<div class="contents">
+
+								<div class="carCompare">
+									<div class="dbHead">
+										
+											<div id="folding"><a href="javascript:foldingYN('f_fold')"
+																 class="folding f_fold">전체등급 펼쳐보기<em class="db_ir"></em></a></div>
+
+											<!-- 2013/04/03 [서] 매물탭 개선 : 기능 버튼 추가 --><!--<a href="#" class="folding f_unfold">펼치기</a>-->
+										
+									</div>
+									
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+									<div id="f_unfold">
+										
+
+
+										<!-- case2 : 세부등급이 있는경우 -->
+										
+											<table class="carCompare sellcase2">
+												<colgroup>
+													<col class="grade">
+													<col class="detailgrd">
+													<col class="mission">
+													<col class="price">
+													<col class="uprice">
+													<col class="item">
+													<col class="option">
+												</colgroup>
+												<thead class="compare">
+												<tr>
+													<th class="grade bgn" colspan="3"><b>구분</b></th>
+													<th class="price"><b>판매가격</b></th>
+													<th class="uprice"><b>중고차시세</b></th><!-- [시세개편] 중고차시세 추가 -->
+													<th class="item"><b>기본사양 품목</b></th>
+													<th class="option end"><b>선택사양 품목</b></th>
+												</tr>
+												</thead>
+												<tbody class="new">
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>1.2 LS</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,155</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>● 파워트레인/성능 :</b> E-Turbo Prime 1.2 가솔린 엔진, GENⅢ 6단 자동변속기, 전자식 파워 스티어링, 후드 인슐레이션<br><br><b>● 안전 사양 :</b> StabiliTrak® 차체 자세 제어 시스템(힐스타트 어시스트 포함), 6 에어백(운전석 &amp; 동반석, 사이드, 커튼),
+디지털 후방 카메라, 저속 자동 긴급 제동시스템, 전방충돌 경고시스템, 헤드업 LED 경고등(RLAD), 전방거리 감지시스템,
+차선이탈 경고 및 차선유지 보조시스템, 전방 보행자 감지 및 제동시스템, 차선 변경 및 사각지대 경고 시스템,
+후측방 경고 시스템, 스피드 리미터, 뒷좌석 승객 리마인더, 소화기<br><br><b>● 외관 사양 :</b> 17" 스틸 휠 및 휠 커버, 블랙 스키드 플레이트, LED 프로젝션 헤드램프, LED 주간주행등, LED 테일램프,
+LED 보조 제동등, LED 방향지시등 일체형 아웃사이드 미러(전동조절, 열선내장, 전동 접이식), 바디컬러 샤크핀 안테나<br><br><b>● 내장 사양 :</b> 3.5" 모노 LCD 클러스터, 젯 블랙 &amp; 블루 포인트 인테리어, 블랙 &amp; 그레이 직물 시트,
+매트 실버 IP 및 프론트 도어 데코 패널, 뒷좌석 6:4 폴딩시트, 뒷좌석 센터 암레스트 및 컵홀더, 맵램프 &amp; 룸램프,
+쉐보레 로고 플로어매트, 카고 네트<br><br><b>● 편의 사양 :</b> 오토홀드, 전자식 주차 브레이크(EPB), 리모트키, 매뉴얼 에어컨, 운전석 세이프티 파워윈도우,
+동반석/뒷좌석 원터치 다운 파워윈도우, 크루즈 컨트롤, 캡리스 퓨얼시스템, 액티브 노이즈 캔슬레이션(ANC),
+틸트 &amp; 텔레스코픽 스티어링 휠, 오토라이트 컨트롤, 헤드램프 레벨링, 리어와이퍼, 12V 파워 아웃렛<br><br><b>● 멀티미디어 :</b> 8" 컬러 터치스크린, 폰 프로젝션, 블루투스 핸즈프리 &amp; 오디오 스트리밍, 스티어링 휠 오디오 리모트 컨트롤,
+일루미네이팅 듀얼 USB 포트, 4 스피커
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>● 어댑티브 크루즈 컨트롤 :</b> 440,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+													
+														
+													
+													
+														
+															
+															
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>1.2 레드라인</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,565</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>LS 기본 품목 및<br></b><br><b>● 안전 사양 :</b> 후방주차 보조시스템<br><br><b>● 외관 사양 :</b> 17" 글로스 블랙 레드라인 알로이 휠 및 블랙 휠 캡, 레드라인 스트라이프 그릴 및 아웃사이드 미러,
+글로스 블랙 외장(그릴, 그릴바, 아웃사이드 미러, 스키드 플레이트 인서트), 루프랙, 쉐보레 블랙 보타이(앞/뒤),
+레드 아웃라인 블랙 트랙스 레터링<br><br><b>● 내장 사양 :</b> 젯 블랙 &amp; 레드 포인트 쿨 그레이 인조가죽 시트, 글로스 블랙 IP 및 프론트 도어 데코 패널,
+쉐보레 블랙 보타이(스티어링휠), 동반석 시트백 포켓, 인조가죽 스티어링 휠<br><br><b>● 편의 사양 :</b> 앞좌석 3단 열선시트, 열선 스티어링 휠, 풀오토 에어컨, 뒷좌석 에어벤트, 버튼시동 &amp; 스마트키 시스템,
+2열 일루미네이팅 듀얼 USB 포트(충전 전용), 러기지 보드
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>● 어댑티브 크루즈 컨트롤 :</b> 440,000<br><br><b>● 11" 디스플레이 패키지 :</b> 690,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+													
+														
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>1.2 ACTIV</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,793</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>Redline 기본 품목 및<br></b><br><b>● 안전 사양 :</b>  IntelliBeam® (스마트 하이빔)<br><br><b>● 외관 사양 :</b> 18" 글로스 블랙 알로이 휠 및 블랙 휠 캡, ACTIV 전용 티타늄 크롬 외장(그릴 인서트, 스키드 플레이트 인서트),
+글로스 블랙 외장(그릴, 아웃사이드 미러), 블랙 트랙스 &amp; 액티브 레터링<br><br><b>● 내장 사양 :</b> 젯 블랙 &amp; 아르테미스 포인트 ACTIV 인조가죽 시트, 글로스 그레이 IP 및 프론트 도어 데코 패널, 8" 컬러 클러스터
+* 옐로우 포인트 인테리어 선택 가능(글로스 블랙 IP 및 프론트 도어 데코 패널 적용)<br><br><b>● 편의 사양 :</b> 앞좌석 3단 통풍시트, 운전석 8 way 전동시트 &amp; 전동 요추 받침, ECM 룸미러,
+톨게이트 자동 결제 시스템(ETCS), 스마트폰 무선충전 시스템<br><br><b>● 멀티미디어 :</b> 11" 컬러 터치 스크린, 무선 폰 프로젝션, 6 스피커, 온스타, 무선 소프트웨어 업데이트(OTA)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>● 테크놀로지 패키지 :</b> 790,000<br><br><b>● 선루프 :</b> 690,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+													
+														
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>1.2 RS</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,851</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>Redline 기본 품목 및<br></b><br><b>● 안전 사양 :</b> IntelliBeam® (스마트 하이빔)<br><br><b>● 외관 사양 :</b> 19" 카본 플래시 머신드 알로이 휠 및 블랙 휠 캡, RS 전용 외장(트리탄 크롬 그릴바, 블랙 루프 &amp; 샤크핀 안테나,
+블랙 트랙스 레터링, RS 뱃지), 글로스 블랙 외장(그릴, 아웃사이드 미러, 스키드 플레이트 인서트)<br><br><b>● 내장 사양 :</b> 젯 블랙 &amp; 레드 포인트 RS 인조가죽 시트, 글로스 블랙 IP(RS로고) 및 프론트 도어 데코 패널,
+D컷 스티어링 휠, 프론트 도어 실 플레이트, 블랙 헤드라이너, 8" 컬러 클러스터<br><br><b>● 편의 사양 :</b> 앞좌석 3단 통풍시트, 운전석 8 way 전동시트 &amp; 전동 요추 받침, ECM 룸미러,
+톨게이트 자동 결제 시스템(ETCS), 스마트폰 무선충전 시스템<br><br><b>● 멀티미디어 :</b> 11" 컬러 터치 스크린, 무선 폰 프로젝션, 6 스피커, 온스타, 무선 소프트웨어 업데이트(OTA)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>●&nbsp;NEW 이그나이트 에디션 (지엠 순정 액세서리 적용)
+:</b> 350,000
+<br><b><b><br></b>● 미드나잇 에디션 :</b> 790,000<br><br><b>● 테크놀로지 패키지 :</b> 790,000<br><br><b>● 선루프 :</b> 690,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+												</tbody>
+											</table>
+										
+									</div>
+									<!-- 신차가격표(폴더형) -->
+									<div id="f_fold" style="display:none;">
+										<div class="newcar_folder">
+											<ul class="nf_list" id="newcarList">
+												
+													<li>
+														<a href="#newcar0">
+                                                            <span class="model">1.2 LS  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,155</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar1">
+                                                            <span class="model">1.2 레드라인  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,565</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar2">
+                                                            <span class="model">1.2 ACTIV  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,793</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar3">
+                                                            <span class="model">1.2 RS  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,851</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+											</ul>
+											<!-- 개별 -->
+											
+												<div id="newcar0" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>● 파워트레인/성능 :</b> E-Turbo Prime 1.2 가솔린 엔진, GENⅢ 6단 자동변속기, 전자식 파워 스티어링, 후드 인슐레이션<br><br><b>● 안전 사양 :</b> StabiliTrak® 차체 자세 제어 시스템(힐스타트 어시스트 포함), 6 에어백(운전석 &amp; 동반석, 사이드, 커튼),
+디지털 후방 카메라, 저속 자동 긴급 제동시스템, 전방충돌 경고시스템, 헤드업 LED 경고등(RLAD), 전방거리 감지시스템,
+차선이탈 경고 및 차선유지 보조시스템, 전방 보행자 감지 및 제동시스템, 차선 변경 및 사각지대 경고 시스템,
+후측방 경고 시스템, 스피드 리미터, 뒷좌석 승객 리마인더, 소화기<br><br><b>● 외관 사양 :</b> 17" 스틸 휠 및 휠 커버, 블랙 스키드 플레이트, LED 프로젝션 헤드램프, LED 주간주행등, LED 테일램프,
+LED 보조 제동등, LED 방향지시등 일체형 아웃사이드 미러(전동조절, 열선내장, 전동 접이식), 바디컬러 샤크핀 안테나<br><br><b>● 내장 사양 :</b> 3.5" 모노 LCD 클러스터, 젯 블랙 &amp; 블루 포인트 인테리어, 블랙 &amp; 그레이 직물 시트,
+매트 실버 IP 및 프론트 도어 데코 패널, 뒷좌석 6:4 폴딩시트, 뒷좌석 센터 암레스트 및 컵홀더, 맵램프 &amp; 룸램프,
+쉐보레 로고 플로어매트, 카고 네트<br><br><b>● 편의 사양 :</b> 오토홀드, 전자식 주차 브레이크(EPB), 리모트키, 매뉴얼 에어컨, 운전석 세이프티 파워윈도우,
+동반석/뒷좌석 원터치 다운 파워윈도우, 크루즈 컨트롤, 캡리스 퓨얼시스템, 액티브 노이즈 캔슬레이션(ANC),
+틸트 &amp; 텔레스코픽 스티어링 휠, 오토라이트 컨트롤, 헤드램프 레벨링, 리어와이퍼, 12V 파워 아웃렛<br><br><b>● 멀티미디어 :</b> 8" 컬러 터치스크린, 폰 프로젝션, 블루투스 핸즈프리 &amp; 오디오 스트리밍, 스티어링 휠 오디오 리모트 컨트롤,
+일루미네이팅 듀얼 USB 포트, 4 스피커</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>● 어댑티브 크루즈 컨트롤 :</b> 440,000</p>
+												</div>
+											
+												<div id="newcar1" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>LS 기본 품목 및<br></b><br><b>● 안전 사양 :</b> 후방주차 보조시스템<br><br><b>● 외관 사양 :</b> 17" 글로스 블랙 레드라인 알로이 휠 및 블랙 휠 캡, 레드라인 스트라이프 그릴 및 아웃사이드 미러,
+글로스 블랙 외장(그릴, 그릴바, 아웃사이드 미러, 스키드 플레이트 인서트), 루프랙, 쉐보레 블랙 보타이(앞/뒤),
+레드 아웃라인 블랙 트랙스 레터링<br><br><b>● 내장 사양 :</b> 젯 블랙 &amp; 레드 포인트 쿨 그레이 인조가죽 시트, 글로스 블랙 IP 및 프론트 도어 데코 패널,
+쉐보레 블랙 보타이(스티어링휠), 동반석 시트백 포켓, 인조가죽 스티어링 휠<br><br><b>● 편의 사양 :</b> 앞좌석 3단 열선시트, 열선 스티어링 휠, 풀오토 에어컨, 뒷좌석 에어벤트, 버튼시동 &amp; 스마트키 시스템,
+2열 일루미네이팅 듀얼 USB 포트(충전 전용), 러기지 보드</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>● 어댑티브 크루즈 컨트롤 :</b> 440,000<br><br><b>● 11" 디스플레이 패키지 :</b> 690,000</p>
+												</div>
+											
+												<div id="newcar2" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>Redline 기본 품목 및<br></b><br><b>● 안전 사양 :</b>  IntelliBeam® (스마트 하이빔)<br><br><b>● 외관 사양 :</b> 18" 글로스 블랙 알로이 휠 및 블랙 휠 캡, ACTIV 전용 티타늄 크롬 외장(그릴 인서트, 스키드 플레이트 인서트),
+글로스 블랙 외장(그릴, 아웃사이드 미러), 블랙 트랙스 &amp; 액티브 레터링<br><br><b>● 내장 사양 :</b> 젯 블랙 &amp; 아르테미스 포인트 ACTIV 인조가죽 시트, 글로스 그레이 IP 및 프론트 도어 데코 패널, 8" 컬러 클러스터
+* 옐로우 포인트 인테리어 선택 가능(글로스 블랙 IP 및 프론트 도어 데코 패널 적용)<br><br><b>● 편의 사양 :</b> 앞좌석 3단 통풍시트, 운전석 8 way 전동시트 &amp; 전동 요추 받침, ECM 룸미러,
+톨게이트 자동 결제 시스템(ETCS), 스마트폰 무선충전 시스템<br><br><b>● 멀티미디어 :</b> 11" 컬러 터치 스크린, 무선 폰 프로젝션, 6 스피커, 온스타, 무선 소프트웨어 업데이트(OTA)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>● 테크놀로지 패키지 :</b> 790,000<br><br><b>● 선루프 :</b> 690,000</p>
+												</div>
+											
+												<div id="newcar3" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>Redline 기본 품목 및<br></b><br><b>● 안전 사양 :</b> IntelliBeam® (스마트 하이빔)<br><br><b>● 외관 사양 :</b> 19" 카본 플래시 머신드 알로이 휠 및 블랙 휠 캡, RS 전용 외장(트리탄 크롬 그릴바, 블랙 루프 &amp; 샤크핀 안테나,
+블랙 트랙스 레터링, RS 뱃지), 글로스 블랙 외장(그릴, 아웃사이드 미러, 스키드 플레이트 인서트)<br><br><b>● 내장 사양 :</b> 젯 블랙 &amp; 레드 포인트 RS 인조가죽 시트, 글로스 블랙 IP(RS로고) 및 프론트 도어 데코 패널,
+D컷 스티어링 휠, 프론트 도어 실 플레이트, 블랙 헤드라이너, 8" 컬러 클러스터<br><br><b>● 편의 사양 :</b> 앞좌석 3단 통풍시트, 운전석 8 way 전동시트 &amp; 전동 요추 받침, ECM 룸미러,
+톨게이트 자동 결제 시스템(ETCS), 스마트폰 무선충전 시스템<br><br><b>● 멀티미디어 :</b> 11" 컬러 터치 스크린, 무선 폰 프로젝션, 6 스피커, 온스타, 무선 소프트웨어 업데이트(OTA)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>●&nbsp;NEW 이그나이트 에디션 (지엠 순정 액세서리 적용)
+:</b> 350,000
+<br><b><b><br></b>● 미드나잇 에디션 :</b> 790,000<br><br><b>● 테크놀로지 패키지 :</b> 790,000<br><br><b>● 선루프 :</b> 690,000</p>
+												</div>
+											
+										</div>
+										<script type="text/javascript">
+											newcarFolder(0);//초기값
+											function newcarFolder(target) {
+												var conElId = "newcar"//아이디 설정
+												var conElMenu = document.getElementById("newcarList");
+												var conElMenuLink = conElMenu.getElementsByTagName("a");
+												if (target != null) {
+													conElMenuLink[target].parentNode.className = "on";
+													document.getElementById(
+														conElId + target).style.display = "";
+												}
+												for (i = 0; i <= (conElMenuLink.length - 1); i++) {
+													conElMenuLink[i].onclick = function () {
+														for (x = 0; x <= (conElMenuLink.length - 1); x++) {
+															conElMenuLink[x].parentNode.className = "";
+															document.getElementById(
+																conElId + x).style.display = "none";
+														}
+														this.parentNode.className = "on";
+														document.getElementById(this.getAttribute('href')
+																					.split(
+																						'#')[1]).style.display =
+															"";
+														return false;
+													}
+												}
+											}
+										</script>
+									</div>
+									
+										<ul class="more">
+												<b>※ 선택품목 상세
+<br>
+●&nbsp;이그나이트 에디션 (지엠 순정 액세서리 적용)
+<br>*&nbsp;RS</b> -&nbsp;카본룩 프론트 스키드 플레이트 인서트, 카본룩 아웃사이드 미러 커버, 리어 레드 LED 블랙 보타이, 올웨더 카고 라이너,
+올웨더 플로어 라이너 (1열 &amp; 2열), 스포츠 페달 커버<b><br></b><b><br>● 미드나잇 에디션<br>* RS</b> <b>-</b> 18" 글로스 블랙 알로이 휠 및 블랙 휠 캡, 글로스 블랙 그릴바, 모던 블랙 외장 컬러, 어댑티브 크루즈 컨트롤, 파워 리프트게이트
+<br><b><br>● 테크놀로지 패키지<br>* ACTIV/RS - </b>어댑티브 크루즈 컨트롤, 파워 리프트게이트<br><b><br></b><b>● 11” 디스플레이 패키지</b><br><b>* Redline - </b>8" 컬러 클러스터, 11" 컬러 터치 스크린, 6 스피커
+										</ul>
+									
+									<p class="desc_more">위 신차가격표는 단순 참고자료이며, 정확한 내용은 각 제조사에서 제공하는 자료를 통해확인하실 수 있습니다.</p><!-- 2016/10/12 [장] 등급 등록/수정 개선 : 추가 디자인 변경 -->
+									<p class="toTop"><a href="#main_title" class="sp toTop db_ir" title="페이지 위로"><u>페이지 위로</u></a></p><!-- [시세개편] class db_ir 추가 -->
+								</div>
+
+
+							</div>
+							<!-- body end -->
+						</td>
+					</tr>
+				</table>
+
+
+			
+			
+		
+    </div>
+
+    <!-- container end -->
+</form>
+</div>
+
+</body>
+<script language="javascript">
+
+
+    var strCompanyUrl = "/common/combo/cardbcompany.json?method=carList";
+    var strModelGroupUrl = "/common/combo/modelgroupfordb.json?method=carList";
+    var strModelUrl = "/common/combo/cardbmodel.json?method=carList";
+    var strYrJatoUrl = "/common/combo/jatoYr.json?method=carList";
+
+    var companyid = "mnfccd";
+    var modelgroupid = "mdlgroupcd";
+    var modelid = "mdlcd";
+    var yearid = "caryear";
+
+    function initGnb() {
+        var paramCompany = $("paramMnfccd").value;
+        var paramModelGroup = $("paramMdlgroupcd").value;
+        var paramModel = $("paramMdlcd").value;
+        var paramYr = $("paramYear").value;
+
+        // 제조사
+        if (paramModel != "") {
+            $("mdlcd").show();
+        }
+
+        //console.log("companyid :: " + companyid)
+        //console.log("paramCompany :: " + paramCompany)
+		if($('foldYn').value != 0){
+            foldingYN('f_fold');
+		}
+
+        setCompany(strCompanyUrl, companyid, "제조사", paramCompany);
+
+        // 제조사 값이 있으면 모델 검색
+        if (paramCompany >= '010') {
+            if (paramCompany != "") {
+                if (paramModel == "") {
+                    paramModel = paramModelGroup;
+                }
+                setModel(strModelUrl, modelid, paramCompany, "모델", paramModel)
+                $("mdlgroupcd").hide();
+
+            }
+        } else {
+            $("mdlgroupcd").show();
+            if (paramCompany != "") {
+                setModelGroup(strModelGroupUrl, modelgroupid, paramCompany, "모델", paramModelGroup);
+                if (paramModelGroup != "") {
+                    setModel_New(strModelUrl, modelid, paramCompany, paramModelGroup, "세부모델", paramModel);
+                }
+            }
+
+        }
+        if (paramCompany != "" && paramModel != "") {
+            setCarYear(strYrJatoUrl, yearid, paramCompany, paramModel, "형식연도", paramYr);
+        }
+
+        waitTime = 1;
+    }
+
+    function changeModel_jato(mnfccd, mdlgroupcd) {
+        setModel_New(strModelUrl, modelid, mnfccd, mdlgroupcd, "세부모델", "");
+        //모델그룹선택시 기본 세부모델선택
+        if ($("mdlcd") != null) {
+            $("mdlcd").selectedIndex = 1;
+            var mdlcd = $("mdlcd").options[$("mdlcd").selectedIndex].value;
+            changeYearJato(mnfccd, mdlcd);
+        }
+    }
+
+    function changeYearJato(mnfccd,mdlcd) {
+        setCarYear(strYrJatoUrl, yearid, mnfccd, mdlcd, "형식연도", "");
+        $(yearid).options[1].selected = true;
+    }
+
+
+
+    //덧글 리스트
+    function viewForm(index) {
+
+        var object = $("default" + index);
+        var objectSum = $("defaultSum" + index);
+        var selectSum = $("choiceSum" + index);
+        var object1 = $("choice" + index);
+        if (object != null) {
+            if (object.style.display == 'none') {
+                objectSum.hide();
+                selectSum.hide();
+                object.style.display = "block";
+                object1.style.display = "block";
+
+            } else {
+                object.hide();
+                object1.hide();
+                objectSum.style.display = "block";
+                selectSum.style.display = "block";
+            }
+        }
+    }
+
+    function viewAll() {
+        for (var i = 1; i <=4; i++) {
+            $("default" + i).style.display = "block";
+            $("defaultSum" + i).style.display = "none";
+            $("choice" + i).style.display = "block";
+            $("choiceSum" + i).style.display = "none";
+        }
+    }
+
+    function closeAll() {
+        for (var i = 1; i <=4; i++) {
+            $("default" + i).style.display = "none";
+            $("defaultSum" + i).style.display = "block";
+            $("choice" + i).style.display = "none";
+            $("choiceSum" + i).style.display = "block";
+        }
+    }
+
+    function firstLayerOpen() {
+        //viewForm(1);
+    }
+
+    function foldingYN(param) {
+        if (param == "f_fold") {
+            document.getElementById("folding").innerHTML ="<a href=\"javascript:foldingYN('f_unfold')\" class='folding f_unfold'>전체등급 펼쳐보기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "none";
+            document.getElementById("f_fold").style.display = "";
+        } else {
+            document.getElementById("folding").innerHTML = "<a href=\"javascript:foldingYN('f_fold')\" class='folding f_fold'>접기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "";
+            document.getElementById("f_fold").style.display = "none";
+        }
+    }
+
+    function onSubmit() {
+        jQuery("#searchForm").submit();
+
+    }
+    window.onload = initGnb;
+
+</script>
+</html>
+

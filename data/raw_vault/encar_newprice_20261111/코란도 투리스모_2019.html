@@ -1,0 +1,1769 @@
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>차량DB - 차량정보 - 신차가격표</title>
+    <link type="text/css" rel="stylesheet" href="/css/common.css?v=1793835891525"/>
+    <link type="text/css" rel="stylesheet" href="/css/db.css?v=1793835891525"/>
+
+    <script type="text/javascript" src="/js/encarapp/lib/jquery/jquery-1.11.3.min.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/common/ui.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/prototype.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/util.js?v=1793835894199"></script>
+
+    <script type="text/javascript" src="/js/common/db_common.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/commonCombo.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/carSearchCombo.js?v=1793835894199"></script>
+	<script>
+		window.enlogInitJson = {
+			"dataTalkView": {
+				"screenName": "신차가격표"
+			}
+		}
+
+	</script>
+
+
+</head>
+
+
+
+
+
+
+
+    <!-- 등급 체크박스  -->
+    <div style="display:none">
+        
+    </div>
+
+    <!-- 세부등급 체크박스 -->
+    <div style="display:none">
+        
+    </div>
+
+
+
+<body class="db db_newdetailview db_basicTemplate">
+
+
+
+
+	
+	
+	
+	
+
+
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-W9QQ2T"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W9QQ2T');</script>
+<!-- End Google Tag Manager -->
+
+<!-- container begin -->
+<div class="container" id="containerDIV">
+<input type="hidden" id = "foldYn" name="searchtype" value="10"/>
+<form id ="searchForm" name="searchForm">
+
+    <input type="hidden" id = "method" name="method" value="newpricePopV2"/>
+    <input type="hidden" id = "dimensiontype" name="dimensiontype" value="null"/>
+    <input type="hidden" id = "paramMnfccd" name="paramMnfccd" value="004"/>
+    <input type="hidden" id = "paramMdlgroupcd" name="paramMdlgroupcd" value="011"/>
+    <input type="hidden" id = "paramMdlcd" name="paramMdlcd" value="105"/>
+    <input type="hidden" id = "paramYear" name="paramYear" value="2019"/>
+    <input type="hidden" id = "model" name="model" value="">
+    <input type="hidden" id = "paramCaryear" name="paramCaryear" value="2019"/>
+    <input type="hidden" id = "clsheadcd" name="clsheadcd" class="checkbox" value="null"/>
+    <input type="hidden" id = "paramGradeHead" name="paramGradeHead" value="null"/>
+	<input type="hidden" id = "searchtype" name="searchtype" value="check"/>
+	<input type="hidden" id = "pageAccessToken" name="pageAccessToken" value="AgV4feem9QjqmEq4ioKJEHqXi4KGwFMy5glbuQq1B80A5hIAcQACAAdFbmNhckNrAAdFbmNhckN2ABVhd3MtY3J5cHRvLXB1YmxpYy1rZXkAREFtd25BNGhNZXFyVDFFTTdYVTZ3NnE0blI3RnVTdVFkVmJ5OGY0YmkvYUxXNnF0Ky83eTdheVh4MHBVcWhmb2RRQT09AAEAB2F3cy1rbXMAUGFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjI3MjM2MjQ4NzY1MzprZXkvbXJrLWRmZWEyNmY3NTVhMzQ3MjliNjkwMjRkZWZmM2M1MWFjALgBAgEAeAuqQuSJvQ+Ra4FSj55FZzS0sk+00amsb3yoAFiEYn4PAU13HU8WvCp60G5McrhHU7kAAAB+MHwGCSqGSIb3DQEHBqBvMG0CAQAwaAYJKoZIhvcNAQcBMB4GCWCGSAFlAwQBLjARBAwHY+uOiz4aKrp5odECARCAO+DqqjrhgO5C0VdZoNctrirTtNDeP9THYD0objLig46nJa+FDIOJEHAqIB87EfRcnUWHrH9aRzRZRsuLAgAAEADUg5qZpb1ram/cOIj5XYl+VK+a9FkM+kG+CsdkS+BIzOdKeCe8mrw54BNUH73ogkD/////AAAAAQAAAAAAAAAAAAAAAQAAAKM6H+G3UBKKQLvLLEl/2P3aP/pB0wNfa0SJOMBXNyOYYuqAAL1oI6uSUAMpfORvzLFE1Oc3rdkpHNWj7/zeYszm4mqL83mkwaYrdFEDl0cxTcyucCdI+UREMwMQWuu2Cn101ATtohQRfEeLVHuo7MVIB5mzTKc4oHnn+G06hw/ADDPTEqaX77vkFLrgKnf5qbkWuNmT4BqjtnCfU6jJKNUBKPxDZbuD/YViJLqCNJC4iMcW3QBnMGUCMQDCYbCV1RnjIZTAQPABXBjEKUae9cQI1ML6DTA88Z7+cdCf6+EOVReNop+5oAJxgU8CMBPCSzslQ6g7nJhdSswQnyTkVg4s2Qrd4nAtTIhIe9bh4fPAZR8o/dnwRKIqXoOiBw=="/>
+    <div class="header">
+        <h1 class="blind">SK엔카</h1>
+        <h2 class="tit_carprice" id="main_title">신차가격표</h2>
+        <p class="quickSearch">
+
+
+
+            <select title="제조사" class="opt_select" id="mnfccd" name="mnfccd" onChange="javascript:changeModelGroup(this.value);">
+                <option value="">제조사</option>
+            </select>
+
+            <select class="opt_select" title="모델" id="mdlgroupcd" name="mdlgroupcd" onChange="javascript:changeModel_jato($('mnfccd').value, this.value);">
+                <option>모델</option>
+            </select>
+
+            <select class="opt_select" title="세부모델" id="mdlcd" name="mdlcd" onChange="javascript:changeYearJato($('mnfccd').value, $('mdlcd').value);">
+                <option>세부모델</option>
+            </select>
+
+            <select class="opt_select" title="연식" id="caryear" name="caryear">
+                <option>연식</option>
+            </select>
+
+            <button type="button" class="btn_search" onclick="javascript:onSubmit();"/>검색</button>
+
+
+
+        </p>
+    </div>
+    <!-- body begin -->
+    <div class="body" id="bodydiv">
+		
+			
+				<table class="layout">
+					<col class="contents"/>
+					<tr>
+						<td class="contentsMenu">
+							<!-- contentsMenu begin -->
+							<div class="contentsMenu">
+								<h3 class="title">KG모빌리티(쌍용) 코란도 투리스모 2019년형</h3>
+							</div>
+							<!-- contentsMenu end -->
+						</td>
+					</tr>
+
+					<tr>
+						<td class="contentsMain">
+							<!-- contents begin -->
+							<div class="contents">
+
+								<div class="carCompare">
+									<div class="dbHead">
+										
+											<div id="folding"><a href="javascript:foldingYN('f_fold')"
+																 class="folding f_fold">전체등급 펼쳐보기<em class="db_ir"></em></a></div>
+
+											<!-- 2013/04/03 [서] 매물탭 개선 : 기능 버튼 추가 --><!--<a href="#" class="folding f_unfold">펼치기</a>-->
+										
+									</div>
+									
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+											
+										
+									
+										
+									
+										
+									
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+									<div id="f_unfold">
+										
+
+
+										<!-- case2 : 세부등급이 있는경우 -->
+										
+											<table class="carCompare sellcase2">
+												<colgroup>
+													<col class="grade">
+													<col class="detailgrd">
+													<col class="mission">
+													<col class="price">
+													<col class="uprice">
+													<col class="item">
+													<col class="option">
+												</colgroup>
+												<thead class="compare">
+												<tr>
+													<th class="grade bgn" colspan="3"><b>구분</b></th>
+													<th class="price"><b>판매가격</b></th>
+													<th class="uprice"><b>중고차시세</b></th><!-- [시세개편] 중고차시세 추가 -->
+													<th class="item"><b>기본사양 품목</b></th>
+													<th class="option end"><b>선택사양 품목</b></th>
+												</tr>
+												</thead>
+												<tbody class="new">
+												
+													
+														
+													
+													
+													
+														
+													
+													
+														
+															
+															
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>2WD KX 11인승</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,838</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>●&nbsp;엔진/성능 :</b> LET 220 디젤엔진, E-TRONIC 벤츠 7단 자동변속기, LNT &amp; DPF(배기가스 저감장치),&nbsp;EURO 6, 엔진커버, 더블위시본 &amp; 멀티링크 서스펜션(독립현가), 가스쇽업소버, 전후륜 벤틀레이티드 디스크 브레이크
+<br><br><b>●&nbsp;외관 사양 : </b>솔라컨트롤 글래스(윈드실드), 패션 루프랙, LED 포지셔닝 램프, 뉴 라디에이터 그릴, 16인치 알로이 휠, P225/65R16 타이어, 와이드 사이드 리피터, 머드가드, 전동접이식 아웃사이드미러( 전동조절/열선내장), 안개등, 후방보조제동등, 리어스포일러, 바디컬러 그립타입 도어핸들, 블랙베젤 프로젝션 헤드램프, 크롬 웨이스트라인몰딩, 투리스모 T뱃지, 도어 벨트 브라이트 몰딩&nbsp;<br><br><b>●&nbsp;내장 사양 :</b> 듀얼 플렉스 시트 &amp; 블랙 인테리어, 운전석 디지털 클러스터 &amp; 슈퍼비전 클러스터, 인조 가죽 시트, 기어노브(메탈그레인+가죽커버), 뉴 블랙 인테리어 디자인, 뉴 메탈 그레인, 3열 오픈트레이, Day &amp; Night 룸미러, 디럭스 센터콘솔(컵홀더 &amp; 스마트폰 트레이 &amp; USB 차져 &amp; 파워아웃렛 포함) &amp; IP 하단 트레이(USB 차져 포함), 1열 프리텐셔너 시트벨트(높낮이 조절장치), 1열 헤드레스트, 운전석시트(듀얼높이 조절장치) ,2:3:3:3시트 배열, 1열 시트(Pullmaflex, 이경도 패드, 히팅시트, 맵포켓, 뉴 시트백 포켓, 슬라이딩, 리클라이닝), 2열 시트(이경도 패드, 뉴 헤드레스트, 풀플랫쇼, 핑백걸이, 접이식센터시트, 롱슬라이딩, 리클라이닝), 3열 시트(롱슬라이딩, 리클라이닝, 접이식센터시트), 4열 시트(더블폴딩), 고급 카매트, 키홀조명, 파워 &amp; 틸트 스티어링, 티켓 홀더, 가죽커버 기어노브, 컬랩서블 컬럼타입 스티어링, 가죽커버 스티어링 휠, 오버헤드 콘솔(디지털시계 내장), 스테인레스 도어스커프, 선바이저(운전석 티켓 홀더 &amp; 운전석/동반석 조명내장 화장 거울), 도어 커티쉬램프, 듀얼혼, 파워 아웃렛(3개), 크롬도금 인사이드 도어핸들, 어시스트 그립, 풋파킹 브레이크, 3/4열 시트벨트 고정장치<br><br><b>●&nbsp;편의 사양 :</b> ETCS(하이패스 시스템) &amp; ECM 룸미러, 스마트키 시스템, 후방장애물 감지시스템, 이모빌라이저, 1열 슬라이딩 헤드레스트, 와이퍼결빙방지장치, 우적감지 와이퍼, 오토라이트 컨트롤 시스템, 에코크루즈 컨트롤 시스템, 열선 스티어링 휠, 다기능 리모컨키, 운전석오버라이더, 뒷열선유리, 배터리세이버, 플라스틱 커버 리어와이퍼, 래피드 히터(PTC), 듀얼 에어컨, 에어필터, 가스식 후드 리프터, 운전석 세이프티 파워 윈도우<br><b><br></b><b>●&nbsp;안전 사양 :</b> 운전석 &amp; 동반석 에어백, ESP(BAS &amp; ARP &amp; HSA), TPMS, 타이어 리페어킷, 파킹브레이크 워닝 시그널, 이동식 비상삼각대, 속도감응식 오토도어록(이머전시언락포함), 소화기, 도난경보 장치
+<br><br><b>●&nbsp;멀티미디어 : </b>고급 오디오(CDP MP3, USB) &amp; 6스피커, 블루투스 핸즈프리, 스티어링휠 오디오리모컨, 폴 안테나
+<br><br><b>※&nbsp;커스터마이징 기본 적용 품목 :</b>&nbsp;SUS 스키드 플레이트(전/후), 테일게이트 크롬 가니쉬
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>●&nbsp;HID 헤드램프 &amp; LED 룸램프</b> 400,000<br><br><b>●&nbsp;지오닉 패턴 시트(Black only)</b> 100,000<br><br><b>●&nbsp;세이프티 선루프</b> 500,000<br><br><b>●&nbsp;사이드 에어백</b> 300,000<br><br><b>●&nbsp;18인치 다이아몬드 커팅 휠</b><b>(4TRONIC 시스템 선택불가)</b> 300,000
+<br><b><br></b><b>●&nbsp;스마트 미러링 패키지</b> 600,000
+<br>
+<br>
+<b>※무료옵션&nbsp;</b><br><b>●&nbsp;</b>듀얼 플렉스 시트 &amp; 라이트 그레이 인테리어</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+													
+														
+													
+													
+														
+															
+															
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>4WD KX 11인승</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,008</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>●&nbsp;엔진/성능 :</b>&nbsp;LET 220 디젤엔진, E-TRONIC 벤츠 7단 자동변속기, LNT &amp; DPF(배기가스 저감장치),&nbsp;EURO 6, 엔진커버, 더블위시본 &amp; 멀티링크 서스펜션(독립현가), 가스쇽업소버, 전후륜 벤틀레이티드 디스크 브레이크,&nbsp;4TRONIC 시스템<br><br><b>●&nbsp;외관 사양 :&nbsp;</b>솔라컨트롤 글래스(윈드실드), 패션 루프랙, LED 포지셔닝 램프, 뉴 라디에이터 그릴, 16인치 알로이 휠, P225/65R16 타이어, 와이드 사이드 리피터, 머드가드, 전동접이식 아웃사이드미러( 전동조절/열선내장), 안개등, 후방보조제동등, 리어스포일러, 바디컬러 그립타입 도어핸들, 블랙베젤 프로젝션 헤드램프, 크롬 웨이스트라인몰딩, 투리스모 T뱃지, 도어 벨트 브라이트 몰딩&nbsp;<br><br><b>●&nbsp;내장 사양 :</b>&nbsp;듀얼 플렉스 시트 &amp; 블랙 인테리어, 운전석 디지털 클러스터 &amp; 슈퍼비전 클러스터, 인조 가죽 시트, 기어노브(메탈그레인+가죽커버), 뉴 블랙 인테리어 디자인, 뉴 메탈 그레인, 3열 오픈트레이, Day &amp; Night 룸미러, 디럭스 센터콘솔(컵홀더 &amp; 스마트폰 트레이 &amp; USB 차져 &amp; 파워아웃렛 포함) &amp; IP 하단 트레이(USB 차져 포함), 1열 프리텐셔너 시트벨트(높낮이 조절장치), 1열 헤드레스트, 운전석시트(듀얼높이 조절장치) ,2:3:3:3시트 배열, 1열 시트(Pullmaflex, 이경도 패드, 히팅시트, 맵포켓, 뉴 시트백 포켓, 슬라이딩, 리클라이닝), 2열 시트(이경도 패드, 뉴 헤드레스트, 풀플랫쇼, 핑백걸이, 접이식센터시트, 롱슬라이딩, 리클라이닝), 3열 시트(롱슬라이딩, 리클라이닝, 접이식센터시트), 4열 시트(더블폴딩), 고급 카매트, 키홀조명, 파워 &amp; 틸트 스티어링, 티켓 홀더, 가죽커버 기어노브, 컬랩서블 컬럼타입 스티어링, 가죽커버 스티어링 휠, 오버헤드 콘솔(디지털시계 내장), 스테인레스 도어스커프, 선바이저(운전석 티켓 홀더 &amp; 운전석/동반석 조명내장 화장 거울), 도어 커티쉬램프, 듀얼혼, 파워 아웃렛(3개), 크롬도금 인사이드 도어핸들, 어시스트 그립, 풋파킹 브레이크, 3/4열 시트벨트 고정장치<br><br><b>●&nbsp;편의 사양 :</b>&nbsp;ETCS(하이패스 시스템) &amp; ECM 룸미러, 스마트키 시스템, 후방장애물 감지시스템, 이모빌라이저, 1열 슬라이딩 헤드레스트, 와이퍼결빙방지장치, 우적감지 와이퍼, 오토라이트 컨트롤 시스템, 에코크루즈 컨트롤 시스템, 열선 스티어링 휠, 다기능 리모컨키, 운전석오버라이더, 뒷열선유리, 배터리세이버, 플라스틱 커버 리어와이퍼, 래피드 히터(PTC), 듀얼 에어컨, 에어필터, 가스식 후드 리프터, 운전석 세이프티 파워 윈도우<br><b><br></b><b>●&nbsp;안전 사양 :</b>&nbsp;운전석 &amp; 동반석 에어백, ESP(BAS &amp; ARP &amp; HSA), TPMS, 타이어 리페어킷, 파킹브레이크 워닝 시그널, 이동식 비상삼각대, 속도감응식 오토도어록(이머전시언락포함), 소화기, 도난경보 장치<br><br><b>●&nbsp;멀티미디어 :&nbsp;</b>고급 오디오(CDP MP3, USB) &amp; 6스피커, 블루투스 핸즈프리, 스티어링휠 오디오리모컨, 폴 안테나
+<br><br><b>※&nbsp;커스터마이징 기본 적용 품목 :</b>&nbsp;SUS 스키드 플레이트(전/후), 테일게이트 크롬 가니쉬
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>●&nbsp;HID 헤드램프 &amp; LED 룸램프</b>&nbsp;400,000<br><br><b>●&nbsp;지오닉 패턴 시트(Black only)</b>&nbsp;100,000<br><br><b>●&nbsp;세이프티 선루프</b>&nbsp;500,000<br><br><b>●&nbsp;사이드 에어백</b>&nbsp;300,000<br><b><br></b><b>●&nbsp;스마트 미러링 패키지</b>&nbsp;600,000<br><br><b>※무료옵션&nbsp;</b><br><b>●&nbsp;</b>듀얼 플렉스 시트 &amp; 라이트 그레이 인테리어</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+													
+														
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>4WD TX 11인승</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,041</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>KX 2WD 기본품목 외</b><b><br></b><b><br></b><b>●&nbsp;엔진/성능 :</b> 4TRONIC 시스템<br><br><b>●&nbsp;외관 사양 : </b>LED 주간 주행등(DRL)<br><br><b>●&nbsp;편의 사양 :</b> 운전석 &amp; 동승석 통풍시트, 전방 장애물 감지시스템
+<br><br><b>※&nbsp;커스터마이징 기본 적용 품목 :</b>&nbsp;SUS 스키드 플레이트(전/후), 테일게이트 크롬 가니쉬
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>●&nbsp;HID 헤드램프 &amp; LED 룸램프</b> 400,000<br><br><b>●&nbsp;지오닉 패턴 시트(Black only) </b>100,000<br><b><br></b><b>●&nbsp;세이프티 선루프</b> 500,000<br><br><b>●&nbsp;사이드 에어백 </b>300,000<br><br><b>●&nbsp;18인치 스퍼터링 휠</b> 600,000<br><br><b>●&nbsp;LED 안개등</b> 150,000<br><br><b>●&nbsp;스마트 미러링 패키지</b> 600,000
+<br><br><b>※무료옵션&nbsp;</b><br><b>●&nbsp;</b>듀얼 플렉스 시트 &amp; 라이트 그레이 인테리어</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+													
+														
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>4WD RX 11인승</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,524</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>TX 4WD 기본품목 외</b><b><br></b><b><br></b><b>●&nbsp;외관 사양 :</b> HID 헤드램프, 솔라컨트롤 글래스(1열), 발수 유리(1열), 프라이버시 글래스, LED 안개등<br><br><b>●&nbsp;내장 사양 :</b> 운전석 파워시트<br><b><br></b><b>●&nbsp;편의 사양 : </b>전자동 에어컨, 외기 유해 가스 차단 장치(AQS), 스피드센싱 파워스티어링, 전방 세이프티 카메라, LED 룸램프<br><br><b>●&nbsp;안전 사양 : </b>사이드 에어백<br><br><b>●&nbsp;멀티미디어 : </b>스마트 미러링 패키지
+<br><br><b>※&nbsp;커스터마이징 기본 적용 품목 :</b>&nbsp;SUS 스키드 플레이트(전/후), 테일게이트 크롬 가니쉬
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>●&nbsp;세이프티 선루프</b> 500,000<br><br><b>●&nbsp;천연가죽시트</b> 1,200,000<br><br><b>●&nbsp;지오닉 패턴 시트(Black only) </b>100,000<br><br><b>●&nbsp;실키 화이트 펄 컬러</b> 80,000<br><br><b>●&nbsp;18인치 스퍼터링 휠</b> 600,000<br><br><b>●&nbsp;내비게이션 패키지</b> 600,000
+<br><br><b>※무료옵션&nbsp;</b><br><b>●&nbsp;</b>듀얼 플렉스 시트 &amp; 라이트 그레이 인테리어</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>4WD 샤토 11인승</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>하이 루프</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>4,036</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>11인승 TX 4WD 기본품목 외(패션 루프랙 제외)</b><b><br></b><b><br></b><b>●&nbsp;외관 사양 :</b> 하이루프, 샤토 전용 데칼, HID 헤드램프, 18인치 스퍼터링 휠, 235/55R18 타이어, 솔라컨트롤 글래스(1열), 발수 유리(1열), 프라이버시 글래스(2열), 난연처리 주름식커튼(2열, 쿼터글래스, 테일게이트 글래스), 리어범퍼 커버, 사이드 스텝, LED 안개등<br><b><br></b><b>●&nbsp;편의 사양 :</b> LED 램프 내장형 도어 스커프(1열 &amp; 2열), LED 사이드 무드램프(우드그레인), LED 룸램프, LED 센터 룸램프(우드그레인)<br><br><b>●&nbsp;안전 사양 : </b>풀사이즈 스페어 타이어<br><br><b>●&nbsp;멀티미디어 : </b>스마트 미러링 패키지
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>●&nbsp;사이드 에어백</b> 300,000<br><br><b>●&nbsp;지오닉 패턴 시트(Black only)</b> 100,000<br><br><b>●&nbsp;내비게이션 패키지</b> 600,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>4WD TX 9인승</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,076</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>●&nbsp;엔진/성능 :</b> LET 220 디젤엔진, E-TRONIC 벤츠 7단 자동변속기, LNT &amp; DPF(배기가스 저감장치),&nbsp;EURO 6, 엔진커버, 더블위시본 &amp; 멀티링크 서스펜션(독립현가), 가스쇽업소버, 전후륜 벤틀레이티드 디스크 브레이크<br>
+<br><b>●&nbsp;외관 사양 :</b> LED 주간 주행등(DRL), LED 포지셔닝 램프, 솔라컨트롤 글래스(윈드실드), 패션 루프랙, 뉴 라디에이터 그릴, 16인치 알로이 휠, P225/65R16 타이어, 와이드 사이드 리피터, 머드가드, 전동접이식 아웃사이드미러( 전동조절/열선내장), 안개등, 후방보조제동등, 리어스포일러, 바디컬러 그립타입 도어핸들, 블랙베젤 프로젝션 헤드램프, 크롬 웨이스트라인몰딩, 투리스모 T뱃지, 도어 벨트 브라이트 몰딩
+
+<br><br><b>●&nbsp;내장 사양 : </b>듀얼 플렉스 시트 &amp; 블랙 인테리어, 운전석 파워시트, 운전석 디지털 클러스터 &amp; 슈퍼비전 클러스터, 인조 가죽 시트, 기어노브(메탈그레인+가죽커버), 뉴 블랙 인테리어 디자인, 뉴 메탈 그레인, 3열 오픈트레이, Day &amp; Night 룸미러, 디럭스 센터콘솔(컵홀더 &amp; 스마트폰 트레이 &amp; USB 차져 &amp; 파워아웃렛 포함) &amp; IP 하단 트레이(USB 차져 포함), 1열 프리텐셔너 시트벨트(높낮이 조절장치), 1열 헤드레스트, 운전석시트(듀얼높이 조절장치) ,2:2:3:2시트 배열, 1열 시트(Pullmaflex, 이경도 패드, 히팅시트, 뉴 시트백 포켓, 맵포켓, 슬라이딩, 리클라이닝), 2열 시트(이경도 패드, 뉴 헤드레스트, 풀플랫쇼, 핑백걸이, 롱슬라이딩, 리클라이닝), 3열 시트(롱슬라이딩, 리클라이닝, 접이식센터시트), 4열 시트(더블폴딩), 고급 카매트, 키홀조명, 파워 &amp; 틸트 스티어링, 티켓 홀더, 가죽커버기 어노브, 컬랩서블 컬럼타입 스티어링, 가죽커버 스티어링 휠, 오버헤드 콘솔(디지털시계 내장), 스테인레스 도어스커프, 선바이저(운전석 티켓 홀더 &amp; 운전석/동반석 조명내장 화장 거울), 도어 커티쉬램프, 듀얼혼, 파워 아웃렛(3개), 크롬도금 인사이드도어핸들, 어시스트 그립, 풋파킹 브레이크, 3/4열 시트벨트 고정장치&nbsp;
+
+<br><b><br></b><b>●&nbsp;편의 사양 : </b>ETCS(하이패스시스템) &amp; ECM룸미러, 전자동 에어컨, 외기유해가스차단장치(AQS), 운전석 &amp; 동승석 통풍시트, 전방/후방 장애물감지시스템, 스마트키 시스템, 이모빌라이저, 1열 슬라이딩 헤드레스트, 와이퍼결빙방지장치, 우적감지 와이퍼, 오토라이트 컨트롤 시스템, 에코크루즈 컨트롤 시스템, 열선 스티어링 휠, 다기능 리모컨키, 운전석오버라이더, 뒷열선유리, 배터리세이버, 플라스틱 커버 리어와이퍼, 래피드 히터(PTC), 듀얼 에어컨, 에어필터, 가스식 후드 리프터, 운전석 세이프티 파워 윈도우
+
+<br><br><b>●&nbsp;안전 사양 :</b> 운전석 &amp; 동반석 에어백, ESP(BAS &amp; ARP &amp; HSA), TPMS,&nbsp;타이어 리페어킷, 파킹브레이크 워닝 시그널, 이동식 비상삼각대, 속도감응식 오토도어록(이머전시언락포함), 소화기, 도난경보 장치, ISO-FIX(유아용시트 고정장치)&nbsp;
+<br>
+<br><b>●&nbsp;멀티미디어 : </b>고급 오디오(CDP MP3, USB) &amp; 6스피커, 블루투스 핸즈프리, 스티어링휠 오디오리모컨, 폴 안테나
+<br>
+<b><br>
+※&nbsp;커스터마이징 기본 적용 품목 :</b>&nbsp;SUS 스키드 플레이트(전/후), 테일게이트 크롬 가니쉬
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>●&nbsp;HID 헤드램프 &amp; LED 룸램프</b> 400,000
+<br>
+<br><b>●&nbsp;지오닉 패턴 시트(Black only)</b> 100,000
+<br>
+<b><br></b><b>●&nbsp;세이프티 선루프</b> 500,000
+<br>
+<br><b>●&nbsp;사이드 에어백</b> 300,000
+<br>
+<br><b>●&nbsp;18인치 스퍼터링 휠</b> 600,000
+<br>
+<br><b>●&nbsp;LED 안개등</b> 150,000
+<br>
+<br><b>●&nbsp;스마트 미러링 패키지</b> 600,000
+
+<br>
+<br><b>※무료옵션
+</b><br><b>●&nbsp;</b>듀얼 플렉스 시트 &amp; 라이트 그레이 인테리어</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+													
+														
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>4WD RX 9인승</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,524</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>TX 4WD 기본품목 외</b><b><br></b><b><br></b><b>●&nbsp;외관 사양 :</b> LED 안개등, 솔라컨트롤 글래스(1열), 발수 유리(1열), HID 헤드램프, 프라이버시 글래스<br><br><b>●&nbsp;편의 사양 :</b> 스피드센싱 파워스티어링, 전방 세이프티 카메라, LED 룸램프<br><br><b>●&nbsp;안전 사양 :</b> 사이드 에어백<br><br><b>●&nbsp;멀티미디어 : </b>스마트 미러링 패키지<br><br><b>※&nbsp;커스터마이징 기본 적용 품목 :</b>&nbsp;SUS 스키드 플레이트(전/후), 테일게이트 크롬 가니쉬
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>●&nbsp;세이프티 선루프</b> 500,000<br><br><b>●&nbsp;천연가죽시트 </b>1,200,000<br><b><br></b><b>●&nbsp;지오닉 패턴 시트(Black only) </b>100,000<br><b><br></b><b>●&nbsp;실키 화이트 펄 컬러</b> 80,000<br><br><b>●&nbsp;18인치 스퍼터링 휠</b> 600,000<br><br><b>●&nbsp;내비게이션 패키지</b> 600,000
+<br>
+<br>
+<b>※무료옵션&nbsp;</b><br><b>●&nbsp;</b>듀얼 플렉스 시트 &amp; 라이트 그레이 인테리어</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+													
+														
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>4WD 익스트림 스포츠 9인승</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,249</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>9인승 TX 4WD 기본품목 외</b><b><br></b><b><br></b><b>●&nbsp;외관 사양 :</b> HID 헤드램프, LED 안개등<br><br><b>●&nbsp;편의 사양 :</b> LED 룸램프<br><br><b>●&nbsp;안전 사양 : </b>사이드 에어백<br><br><b>※&nbsp;커스터마이징 기본 적용 품목 : </b>SUS 스키드 플레이트(전/후), 사이드 스텝, 테일게이트 LED 램프, 커스터마이징 기본 적용 품목 테일게이트 크롬 가니쉬, 리어 범퍼 커버, 난연 처리 주름식 커튼(2열)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>●&nbsp;지오닉 패턴 시트(Black only)</b> 100,000<br><br><b>●&nbsp;실키 화이트펄 컬러</b> 80,000<br><br><b>●&nbsp;18인치 스퍼터링 휠 </b>600,000<br><br><b>●&nbsp;스마트 미러링 패키지 </b>600,000<br><br><b>●&nbsp;일체형루프박스(블랙/화이트) </b>1,350,000
+<br><br>
+<b>※무료옵션&nbsp;</b><br><b>●&nbsp;</b>듀얼 플렉스 시트 &amp; 라이트 그레이 인테리어</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="2">
+																<p>4WD 샤토 9인승</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>하이 루프</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>4,069</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>샤토 하이루프 11인승 기본품목 외</b><b><br></b><b><br></b><b>●&nbsp;내장 사양 :</b> 2:2:3:2 시트배열, 2열 암레스트, 운전석 파워시트<br><br><b>●&nbsp;편의 사양 : </b>전자동 에어컨, 외기 유해 가스 차단 장치(AQS)<br><br><b>●&nbsp;안전 사양 :</b> ISO-FIX (유아용시트 고정장치)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>●&nbsp;사이드 에어백 </b>300,000<br><br><b>●&nbsp;지오닉 패턴 시트(Black only)</b> 100,000<br><br><b>●&nbsp;내비게이션 패키지 </b>600,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>하이 리무진</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>5,220</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>샤토 하이루프 9인승 기본품목 외</b><b><br></b><b><br></b><b>●&nbsp;외관 사양 :</b> 프라이버시 글래스(2열 &amp; 쿼터)<br><br><b>●&nbsp;내장 사양 :</b> 듀얼 플렉스 시트 &amp; 라이트 그레이 인테리어<br><br><b>●&nbsp;편의 사양 : </b>어라운드 뷰 모니터링 시스템, 스피드센싱 파워스티어링, 전방 세이프티 카메라, Luxury 센터콘솔(화장품 냉온장고, 스마트키 키홀더, 실내등 컨트롤 스위치, 트레이 포함), 220V 인버터(220W), LED 무드램프(3단 조절), LED 램프 내장형 도어 스커프(1열 &amp; 2열), LED 룸램프(3단 조절), LED 간접조명, USB 충전기(2ea), 최고급 스웨이드 내장재<br><br><b>●&nbsp;안전 사양 :</b> 사이드 에어백<br><br><b>●&nbsp;멀티미디어 :</b> 22인치 와이드 Full HD LED 모니터(DMB, 미러링크 기능, USB, HDMI단자 포함) &amp; 관련 AV시스템(JBL 4채널 스피커, USB단자, 리모컨 등)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>●&nbsp;천연가죽시트</b> 1,200,000<br><br><b>●&nbsp;내비게이션 패키지</b> 600,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+												</tbody>
+											</table>
+										
+									</div>
+									<!-- 신차가격표(폴더형) -->
+									<div id="f_fold" style="display:none;">
+										<div class="newcar_folder">
+											<ul class="nf_list" id="newcarList">
+												
+													<li>
+														<a href="#newcar0">
+                                                            <span class="model">2WD KX 11인승  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,838</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar1">
+                                                            <span class="model">4WD KX 11인승  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,008</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar2">
+                                                            <span class="model">4WD TX 11인승  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,041</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar3">
+                                                            <span class="model">4WD RX 11인승  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,524</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar4">
+                                                            <span class="model">4WD 샤토 11인승 하이 루프 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>4,036</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar5">
+                                                            <span class="model">4WD TX 9인승  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,076</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar6">
+                                                            <span class="model">4WD RX 9인승  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,524</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar7">
+                                                            <span class="model">4WD 익스트림 스포츠 9인승  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,249</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar8">
+                                                            <span class="model">4WD 샤토 9인승 하이 루프 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>4,069</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar9">
+                                                            <span class="model">4WD 샤토 9인승 하이 리무진 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>5,220</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+											</ul>
+											<!-- 개별 -->
+											
+												<div id="newcar0" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>●&nbsp;엔진/성능 :</b> LET 220 디젤엔진, E-TRONIC 벤츠 7단 자동변속기, LNT &amp; DPF(배기가스 저감장치),&nbsp;EURO 6, 엔진커버, 더블위시본 &amp; 멀티링크 서스펜션(독립현가), 가스쇽업소버, 전후륜 벤틀레이티드 디스크 브레이크
+<br><br><b>●&nbsp;외관 사양 : </b>솔라컨트롤 글래스(윈드실드), 패션 루프랙, LED 포지셔닝 램프, 뉴 라디에이터 그릴, 16인치 알로이 휠, P225/65R16 타이어, 와이드 사이드 리피터, 머드가드, 전동접이식 아웃사이드미러( 전동조절/열선내장), 안개등, 후방보조제동등, 리어스포일러, 바디컬러 그립타입 도어핸들, 블랙베젤 프로젝션 헤드램프, 크롬 웨이스트라인몰딩, 투리스모 T뱃지, 도어 벨트 브라이트 몰딩&nbsp;<br><br><b>●&nbsp;내장 사양 :</b> 듀얼 플렉스 시트 &amp; 블랙 인테리어, 운전석 디지털 클러스터 &amp; 슈퍼비전 클러스터, 인조 가죽 시트, 기어노브(메탈그레인+가죽커버), 뉴 블랙 인테리어 디자인, 뉴 메탈 그레인, 3열 오픈트레이, Day &amp; Night 룸미러, 디럭스 센터콘솔(컵홀더 &amp; 스마트폰 트레이 &amp; USB 차져 &amp; 파워아웃렛 포함) &amp; IP 하단 트레이(USB 차져 포함), 1열 프리텐셔너 시트벨트(높낮이 조절장치), 1열 헤드레스트, 운전석시트(듀얼높이 조절장치) ,2:3:3:3시트 배열, 1열 시트(Pullmaflex, 이경도 패드, 히팅시트, 맵포켓, 뉴 시트백 포켓, 슬라이딩, 리클라이닝), 2열 시트(이경도 패드, 뉴 헤드레스트, 풀플랫쇼, 핑백걸이, 접이식센터시트, 롱슬라이딩, 리클라이닝), 3열 시트(롱슬라이딩, 리클라이닝, 접이식센터시트), 4열 시트(더블폴딩), 고급 카매트, 키홀조명, 파워 &amp; 틸트 스티어링, 티켓 홀더, 가죽커버 기어노브, 컬랩서블 컬럼타입 스티어링, 가죽커버 스티어링 휠, 오버헤드 콘솔(디지털시계 내장), 스테인레스 도어스커프, 선바이저(운전석 티켓 홀더 &amp; 운전석/동반석 조명내장 화장 거울), 도어 커티쉬램프, 듀얼혼, 파워 아웃렛(3개), 크롬도금 인사이드 도어핸들, 어시스트 그립, 풋파킹 브레이크, 3/4열 시트벨트 고정장치<br><br><b>●&nbsp;편의 사양 :</b> ETCS(하이패스 시스템) &amp; ECM 룸미러, 스마트키 시스템, 후방장애물 감지시스템, 이모빌라이저, 1열 슬라이딩 헤드레스트, 와이퍼결빙방지장치, 우적감지 와이퍼, 오토라이트 컨트롤 시스템, 에코크루즈 컨트롤 시스템, 열선 스티어링 휠, 다기능 리모컨키, 운전석오버라이더, 뒷열선유리, 배터리세이버, 플라스틱 커버 리어와이퍼, 래피드 히터(PTC), 듀얼 에어컨, 에어필터, 가스식 후드 리프터, 운전석 세이프티 파워 윈도우<br><b><br></b><b>●&nbsp;안전 사양 :</b> 운전석 &amp; 동반석 에어백, ESP(BAS &amp; ARP &amp; HSA), TPMS, 타이어 리페어킷, 파킹브레이크 워닝 시그널, 이동식 비상삼각대, 속도감응식 오토도어록(이머전시언락포함), 소화기, 도난경보 장치
+<br><br><b>●&nbsp;멀티미디어 : </b>고급 오디오(CDP MP3, USB) &amp; 6스피커, 블루투스 핸즈프리, 스티어링휠 오디오리모컨, 폴 안테나
+<br><br><b>※&nbsp;커스터마이징 기본 적용 품목 :</b>&nbsp;SUS 스키드 플레이트(전/후), 테일게이트 크롬 가니쉬</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>●&nbsp;HID 헤드램프 &amp; LED 룸램프</b> 400,000<br><br><b>●&nbsp;지오닉 패턴 시트(Black only)</b> 100,000<br><br><b>●&nbsp;세이프티 선루프</b> 500,000<br><br><b>●&nbsp;사이드 에어백</b> 300,000<br><br><b>●&nbsp;18인치 다이아몬드 커팅 휠</b><b>(4TRONIC 시스템 선택불가)</b> 300,000
+<br><b><br></b><b>●&nbsp;스마트 미러링 패키지</b> 600,000
+<br>
+<br>
+<b>※무료옵션&nbsp;</b><br><b>●&nbsp;</b>듀얼 플렉스 시트 &amp; 라이트 그레이 인테리어</p>
+												</div>
+											
+												<div id="newcar1" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>●&nbsp;엔진/성능 :</b>&nbsp;LET 220 디젤엔진, E-TRONIC 벤츠 7단 자동변속기, LNT &amp; DPF(배기가스 저감장치),&nbsp;EURO 6, 엔진커버, 더블위시본 &amp; 멀티링크 서스펜션(독립현가), 가스쇽업소버, 전후륜 벤틀레이티드 디스크 브레이크,&nbsp;4TRONIC 시스템<br><br><b>●&nbsp;외관 사양 :&nbsp;</b>솔라컨트롤 글래스(윈드실드), 패션 루프랙, LED 포지셔닝 램프, 뉴 라디에이터 그릴, 16인치 알로이 휠, P225/65R16 타이어, 와이드 사이드 리피터, 머드가드, 전동접이식 아웃사이드미러( 전동조절/열선내장), 안개등, 후방보조제동등, 리어스포일러, 바디컬러 그립타입 도어핸들, 블랙베젤 프로젝션 헤드램프, 크롬 웨이스트라인몰딩, 투리스모 T뱃지, 도어 벨트 브라이트 몰딩&nbsp;<br><br><b>●&nbsp;내장 사양 :</b>&nbsp;듀얼 플렉스 시트 &amp; 블랙 인테리어, 운전석 디지털 클러스터 &amp; 슈퍼비전 클러스터, 인조 가죽 시트, 기어노브(메탈그레인+가죽커버), 뉴 블랙 인테리어 디자인, 뉴 메탈 그레인, 3열 오픈트레이, Day &amp; Night 룸미러, 디럭스 센터콘솔(컵홀더 &amp; 스마트폰 트레이 &amp; USB 차져 &amp; 파워아웃렛 포함) &amp; IP 하단 트레이(USB 차져 포함), 1열 프리텐셔너 시트벨트(높낮이 조절장치), 1열 헤드레스트, 운전석시트(듀얼높이 조절장치) ,2:3:3:3시트 배열, 1열 시트(Pullmaflex, 이경도 패드, 히팅시트, 맵포켓, 뉴 시트백 포켓, 슬라이딩, 리클라이닝), 2열 시트(이경도 패드, 뉴 헤드레스트, 풀플랫쇼, 핑백걸이, 접이식센터시트, 롱슬라이딩, 리클라이닝), 3열 시트(롱슬라이딩, 리클라이닝, 접이식센터시트), 4열 시트(더블폴딩), 고급 카매트, 키홀조명, 파워 &amp; 틸트 스티어링, 티켓 홀더, 가죽커버 기어노브, 컬랩서블 컬럼타입 스티어링, 가죽커버 스티어링 휠, 오버헤드 콘솔(디지털시계 내장), 스테인레스 도어스커프, 선바이저(운전석 티켓 홀더 &amp; 운전석/동반석 조명내장 화장 거울), 도어 커티쉬램프, 듀얼혼, 파워 아웃렛(3개), 크롬도금 인사이드 도어핸들, 어시스트 그립, 풋파킹 브레이크, 3/4열 시트벨트 고정장치<br><br><b>●&nbsp;편의 사양 :</b>&nbsp;ETCS(하이패스 시스템) &amp; ECM 룸미러, 스마트키 시스템, 후방장애물 감지시스템, 이모빌라이저, 1열 슬라이딩 헤드레스트, 와이퍼결빙방지장치, 우적감지 와이퍼, 오토라이트 컨트롤 시스템, 에코크루즈 컨트롤 시스템, 열선 스티어링 휠, 다기능 리모컨키, 운전석오버라이더, 뒷열선유리, 배터리세이버, 플라스틱 커버 리어와이퍼, 래피드 히터(PTC), 듀얼 에어컨, 에어필터, 가스식 후드 리프터, 운전석 세이프티 파워 윈도우<br><b><br></b><b>●&nbsp;안전 사양 :</b>&nbsp;운전석 &amp; 동반석 에어백, ESP(BAS &amp; ARP &amp; HSA), TPMS, 타이어 리페어킷, 파킹브레이크 워닝 시그널, 이동식 비상삼각대, 속도감응식 오토도어록(이머전시언락포함), 소화기, 도난경보 장치<br><br><b>●&nbsp;멀티미디어 :&nbsp;</b>고급 오디오(CDP MP3, USB) &amp; 6스피커, 블루투스 핸즈프리, 스티어링휠 오디오리모컨, 폴 안테나
+<br><br><b>※&nbsp;커스터마이징 기본 적용 품목 :</b>&nbsp;SUS 스키드 플레이트(전/후), 테일게이트 크롬 가니쉬</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>●&nbsp;HID 헤드램프 &amp; LED 룸램프</b>&nbsp;400,000<br><br><b>●&nbsp;지오닉 패턴 시트(Black only)</b>&nbsp;100,000<br><br><b>●&nbsp;세이프티 선루프</b>&nbsp;500,000<br><br><b>●&nbsp;사이드 에어백</b>&nbsp;300,000<br><b><br></b><b>●&nbsp;스마트 미러링 패키지</b>&nbsp;600,000<br><br><b>※무료옵션&nbsp;</b><br><b>●&nbsp;</b>듀얼 플렉스 시트 &amp; 라이트 그레이 인테리어</p>
+												</div>
+											
+												<div id="newcar2" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>KX 2WD 기본품목 외</b><b><br></b><b><br></b><b>●&nbsp;엔진/성능 :</b> 4TRONIC 시스템<br><br><b>●&nbsp;외관 사양 : </b>LED 주간 주행등(DRL)<br><br><b>●&nbsp;편의 사양 :</b> 운전석 &amp; 동승석 통풍시트, 전방 장애물 감지시스템
+<br><br><b>※&nbsp;커스터마이징 기본 적용 품목 :</b>&nbsp;SUS 스키드 플레이트(전/후), 테일게이트 크롬 가니쉬</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>●&nbsp;HID 헤드램프 &amp; LED 룸램프</b> 400,000<br><br><b>●&nbsp;지오닉 패턴 시트(Black only) </b>100,000<br><b><br></b><b>●&nbsp;세이프티 선루프</b> 500,000<br><br><b>●&nbsp;사이드 에어백 </b>300,000<br><br><b>●&nbsp;18인치 스퍼터링 휠</b> 600,000<br><br><b>●&nbsp;LED 안개등</b> 150,000<br><br><b>●&nbsp;스마트 미러링 패키지</b> 600,000
+<br><br><b>※무료옵션&nbsp;</b><br><b>●&nbsp;</b>듀얼 플렉스 시트 &amp; 라이트 그레이 인테리어</p>
+												</div>
+											
+												<div id="newcar3" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>TX 4WD 기본품목 외</b><b><br></b><b><br></b><b>●&nbsp;외관 사양 :</b> HID 헤드램프, 솔라컨트롤 글래스(1열), 발수 유리(1열), 프라이버시 글래스, LED 안개등<br><br><b>●&nbsp;내장 사양 :</b> 운전석 파워시트<br><b><br></b><b>●&nbsp;편의 사양 : </b>전자동 에어컨, 외기 유해 가스 차단 장치(AQS), 스피드센싱 파워스티어링, 전방 세이프티 카메라, LED 룸램프<br><br><b>●&nbsp;안전 사양 : </b>사이드 에어백<br><br><b>●&nbsp;멀티미디어 : </b>스마트 미러링 패키지
+<br><br><b>※&nbsp;커스터마이징 기본 적용 품목 :</b>&nbsp;SUS 스키드 플레이트(전/후), 테일게이트 크롬 가니쉬</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>●&nbsp;세이프티 선루프</b> 500,000<br><br><b>●&nbsp;천연가죽시트</b> 1,200,000<br><br><b>●&nbsp;지오닉 패턴 시트(Black only) </b>100,000<br><br><b>●&nbsp;실키 화이트 펄 컬러</b> 80,000<br><br><b>●&nbsp;18인치 스퍼터링 휠</b> 600,000<br><br><b>●&nbsp;내비게이션 패키지</b> 600,000
+<br><br><b>※무료옵션&nbsp;</b><br><b>●&nbsp;</b>듀얼 플렉스 시트 &amp; 라이트 그레이 인테리어</p>
+												</div>
+											
+												<div id="newcar4" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>11인승 TX 4WD 기본품목 외(패션 루프랙 제외)</b><b><br></b><b><br></b><b>●&nbsp;외관 사양 :</b> 하이루프, 샤토 전용 데칼, HID 헤드램프, 18인치 스퍼터링 휠, 235/55R18 타이어, 솔라컨트롤 글래스(1열), 발수 유리(1열), 프라이버시 글래스(2열), 난연처리 주름식커튼(2열, 쿼터글래스, 테일게이트 글래스), 리어범퍼 커버, 사이드 스텝, LED 안개등<br><b><br></b><b>●&nbsp;편의 사양 :</b> LED 램프 내장형 도어 스커프(1열 &amp; 2열), LED 사이드 무드램프(우드그레인), LED 룸램프, LED 센터 룸램프(우드그레인)<br><br><b>●&nbsp;안전 사양 : </b>풀사이즈 스페어 타이어<br><br><b>●&nbsp;멀티미디어 : </b>스마트 미러링 패키지</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>●&nbsp;사이드 에어백</b> 300,000<br><br><b>●&nbsp;지오닉 패턴 시트(Black only)</b> 100,000<br><br><b>●&nbsp;내비게이션 패키지</b> 600,000</p>
+												</div>
+											
+												<div id="newcar5" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>●&nbsp;엔진/성능 :</b> LET 220 디젤엔진, E-TRONIC 벤츠 7단 자동변속기, LNT &amp; DPF(배기가스 저감장치),&nbsp;EURO 6, 엔진커버, 더블위시본 &amp; 멀티링크 서스펜션(독립현가), 가스쇽업소버, 전후륜 벤틀레이티드 디스크 브레이크<br>
+<br><b>●&nbsp;외관 사양 :</b> LED 주간 주행등(DRL), LED 포지셔닝 램프, 솔라컨트롤 글래스(윈드실드), 패션 루프랙, 뉴 라디에이터 그릴, 16인치 알로이 휠, P225/65R16 타이어, 와이드 사이드 리피터, 머드가드, 전동접이식 아웃사이드미러( 전동조절/열선내장), 안개등, 후방보조제동등, 리어스포일러, 바디컬러 그립타입 도어핸들, 블랙베젤 프로젝션 헤드램프, 크롬 웨이스트라인몰딩, 투리스모 T뱃지, 도어 벨트 브라이트 몰딩
+
+<br><br><b>●&nbsp;내장 사양 : </b>듀얼 플렉스 시트 &amp; 블랙 인테리어, 운전석 파워시트, 운전석 디지털 클러스터 &amp; 슈퍼비전 클러스터, 인조 가죽 시트, 기어노브(메탈그레인+가죽커버), 뉴 블랙 인테리어 디자인, 뉴 메탈 그레인, 3열 오픈트레이, Day &amp; Night 룸미러, 디럭스 센터콘솔(컵홀더 &amp; 스마트폰 트레이 &amp; USB 차져 &amp; 파워아웃렛 포함) &amp; IP 하단 트레이(USB 차져 포함), 1열 프리텐셔너 시트벨트(높낮이 조절장치), 1열 헤드레스트, 운전석시트(듀얼높이 조절장치) ,2:2:3:2시트 배열, 1열 시트(Pullmaflex, 이경도 패드, 히팅시트, 뉴 시트백 포켓, 맵포켓, 슬라이딩, 리클라이닝), 2열 시트(이경도 패드, 뉴 헤드레스트, 풀플랫쇼, 핑백걸이, 롱슬라이딩, 리클라이닝), 3열 시트(롱슬라이딩, 리클라이닝, 접이식센터시트), 4열 시트(더블폴딩), 고급 카매트, 키홀조명, 파워 &amp; 틸트 스티어링, 티켓 홀더, 가죽커버기 어노브, 컬랩서블 컬럼타입 스티어링, 가죽커버 스티어링 휠, 오버헤드 콘솔(디지털시계 내장), 스테인레스 도어스커프, 선바이저(운전석 티켓 홀더 &amp; 운전석/동반석 조명내장 화장 거울), 도어 커티쉬램프, 듀얼혼, 파워 아웃렛(3개), 크롬도금 인사이드도어핸들, 어시스트 그립, 풋파킹 브레이크, 3/4열 시트벨트 고정장치&nbsp;
+
+<br><b><br></b><b>●&nbsp;편의 사양 : </b>ETCS(하이패스시스템) &amp; ECM룸미러, 전자동 에어컨, 외기유해가스차단장치(AQS), 운전석 &amp; 동승석 통풍시트, 전방/후방 장애물감지시스템, 스마트키 시스템, 이모빌라이저, 1열 슬라이딩 헤드레스트, 와이퍼결빙방지장치, 우적감지 와이퍼, 오토라이트 컨트롤 시스템, 에코크루즈 컨트롤 시스템, 열선 스티어링 휠, 다기능 리모컨키, 운전석오버라이더, 뒷열선유리, 배터리세이버, 플라스틱 커버 리어와이퍼, 래피드 히터(PTC), 듀얼 에어컨, 에어필터, 가스식 후드 리프터, 운전석 세이프티 파워 윈도우
+
+<br><br><b>●&nbsp;안전 사양 :</b> 운전석 &amp; 동반석 에어백, ESP(BAS &amp; ARP &amp; HSA), TPMS,&nbsp;타이어 리페어킷, 파킹브레이크 워닝 시그널, 이동식 비상삼각대, 속도감응식 오토도어록(이머전시언락포함), 소화기, 도난경보 장치, ISO-FIX(유아용시트 고정장치)&nbsp;
+<br>
+<br><b>●&nbsp;멀티미디어 : </b>고급 오디오(CDP MP3, USB) &amp; 6스피커, 블루투스 핸즈프리, 스티어링휠 오디오리모컨, 폴 안테나
+<br>
+<b><br>
+※&nbsp;커스터마이징 기본 적용 품목 :</b>&nbsp;SUS 스키드 플레이트(전/후), 테일게이트 크롬 가니쉬</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>●&nbsp;HID 헤드램프 &amp; LED 룸램프</b> 400,000
+<br>
+<br><b>●&nbsp;지오닉 패턴 시트(Black only)</b> 100,000
+<br>
+<b><br></b><b>●&nbsp;세이프티 선루프</b> 500,000
+<br>
+<br><b>●&nbsp;사이드 에어백</b> 300,000
+<br>
+<br><b>●&nbsp;18인치 스퍼터링 휠</b> 600,000
+<br>
+<br><b>●&nbsp;LED 안개등</b> 150,000
+<br>
+<br><b>●&nbsp;스마트 미러링 패키지</b> 600,000
+
+<br>
+<br><b>※무료옵션
+</b><br><b>●&nbsp;</b>듀얼 플렉스 시트 &amp; 라이트 그레이 인테리어</p>
+												</div>
+											
+												<div id="newcar6" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>TX 4WD 기본품목 외</b><b><br></b><b><br></b><b>●&nbsp;외관 사양 :</b> LED 안개등, 솔라컨트롤 글래스(1열), 발수 유리(1열), HID 헤드램프, 프라이버시 글래스<br><br><b>●&nbsp;편의 사양 :</b> 스피드센싱 파워스티어링, 전방 세이프티 카메라, LED 룸램프<br><br><b>●&nbsp;안전 사양 :</b> 사이드 에어백<br><br><b>●&nbsp;멀티미디어 : </b>스마트 미러링 패키지<br><br><b>※&nbsp;커스터마이징 기본 적용 품목 :</b>&nbsp;SUS 스키드 플레이트(전/후), 테일게이트 크롬 가니쉬</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>●&nbsp;세이프티 선루프</b> 500,000<br><br><b>●&nbsp;천연가죽시트 </b>1,200,000<br><b><br></b><b>●&nbsp;지오닉 패턴 시트(Black only) </b>100,000<br><b><br></b><b>●&nbsp;실키 화이트 펄 컬러</b> 80,000<br><br><b>●&nbsp;18인치 스퍼터링 휠</b> 600,000<br><br><b>●&nbsp;내비게이션 패키지</b> 600,000
+<br>
+<br>
+<b>※무료옵션&nbsp;</b><br><b>●&nbsp;</b>듀얼 플렉스 시트 &amp; 라이트 그레이 인테리어</p>
+												</div>
+											
+												<div id="newcar7" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>9인승 TX 4WD 기본품목 외</b><b><br></b><b><br></b><b>●&nbsp;외관 사양 :</b> HID 헤드램프, LED 안개등<br><br><b>●&nbsp;편의 사양 :</b> LED 룸램프<br><br><b>●&nbsp;안전 사양 : </b>사이드 에어백<br><br><b>※&nbsp;커스터마이징 기본 적용 품목 : </b>SUS 스키드 플레이트(전/후), 사이드 스텝, 테일게이트 LED 램프, 커스터마이징 기본 적용 품목 테일게이트 크롬 가니쉬, 리어 범퍼 커버, 난연 처리 주름식 커튼(2열)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>●&nbsp;지오닉 패턴 시트(Black only)</b> 100,000<br><br><b>●&nbsp;실키 화이트펄 컬러</b> 80,000<br><br><b>●&nbsp;18인치 스퍼터링 휠 </b>600,000<br><br><b>●&nbsp;스마트 미러링 패키지 </b>600,000<br><br><b>●&nbsp;일체형루프박스(블랙/화이트) </b>1,350,000
+<br><br>
+<b>※무료옵션&nbsp;</b><br><b>●&nbsp;</b>듀얼 플렉스 시트 &amp; 라이트 그레이 인테리어</p>
+												</div>
+											
+												<div id="newcar8" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>샤토 하이루프 11인승 기본품목 외</b><b><br></b><b><br></b><b>●&nbsp;내장 사양 :</b> 2:2:3:2 시트배열, 2열 암레스트, 운전석 파워시트<br><br><b>●&nbsp;편의 사양 : </b>전자동 에어컨, 외기 유해 가스 차단 장치(AQS)<br><br><b>●&nbsp;안전 사양 :</b> ISO-FIX (유아용시트 고정장치)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>●&nbsp;사이드 에어백 </b>300,000<br><br><b>●&nbsp;지오닉 패턴 시트(Black only)</b> 100,000<br><br><b>●&nbsp;내비게이션 패키지 </b>600,000</p>
+												</div>
+											
+												<div id="newcar9" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>샤토 하이루프 9인승 기본품목 외</b><b><br></b><b><br></b><b>●&nbsp;외관 사양 :</b> 프라이버시 글래스(2열 &amp; 쿼터)<br><br><b>●&nbsp;내장 사양 :</b> 듀얼 플렉스 시트 &amp; 라이트 그레이 인테리어<br><br><b>●&nbsp;편의 사양 : </b>어라운드 뷰 모니터링 시스템, 스피드센싱 파워스티어링, 전방 세이프티 카메라, Luxury 센터콘솔(화장품 냉온장고, 스마트키 키홀더, 실내등 컨트롤 스위치, 트레이 포함), 220V 인버터(220W), LED 무드램프(3단 조절), LED 램프 내장형 도어 스커프(1열 &amp; 2열), LED 룸램프(3단 조절), LED 간접조명, USB 충전기(2ea), 최고급 스웨이드 내장재<br><br><b>●&nbsp;안전 사양 :</b> 사이드 에어백<br><br><b>●&nbsp;멀티미디어 :</b> 22인치 와이드 Full HD LED 모니터(DMB, 미러링크 기능, USB, HDMI단자 포함) &amp; 관련 AV시스템(JBL 4채널 스피커, USB단자, 리모컨 등)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>●&nbsp;천연가죽시트</b> 1,200,000<br><br><b>●&nbsp;내비게이션 패키지</b> 600,000</p>
+												</div>
+											
+										</div>
+										<script type="text/javascript">
+											newcarFolder(0);//초기값
+											function newcarFolder(target) {
+												var conElId = "newcar"//아이디 설정
+												var conElMenu = document.getElementById("newcarList");
+												var conElMenuLink = conElMenu.getElementsByTagName("a");
+												if (target != null) {
+													conElMenuLink[target].parentNode.className = "on";
+													document.getElementById(
+														conElId + target).style.display = "";
+												}
+												for (i = 0; i <= (conElMenuLink.length - 1); i++) {
+													conElMenuLink[i].onclick = function () {
+														for (x = 0; x <= (conElMenuLink.length - 1); x++) {
+															conElMenuLink[x].parentNode.className = "";
+															document.getElementById(
+																conElId + x).style.display = "none";
+														}
+														this.parentNode.className = "on";
+														document.getElementById(this.getAttribute('href')
+																					.split(
+																						'#')[1]).style.display =
+															"";
+														return false;
+													}
+												}
+											}
+										</script>
+									</div>
+									
+										<ul class="more">
+												<b>※ 9인승 옵션설명</b>
+<br>
+<b>● 운전석 디지털 클러스터 - </b>스피드미터 + 트립 컴퓨터 기능
+<br><b>●&nbsp;스마트 미러링 패키지 - </b>와이파이 양방향 풀 미러링(안드로이드 운영체제 기반 전용) + 애플 카플레이 + 7인치 터치스크린 + 후방카메라 + 라디오 자동주파수 변경 + 음성인식 + 실시간 음원 저장 + AM/FM 라디오 + AUX &amp; USB 단자
+<br><b>●&nbsp;내비게이션 패키지 -</b> 7인치 터치스크린 + 후방카메라 + 3D 지니맵 + AM/FM + TPEG서비스 + 지상파 DMB + 블루투스 핸즈프리 + USB, CD데크 없음
+<br>
+<br>
+<b>※ 11인승 옵션설명
+<br></b><b>●&nbsp;운전석 디지털 클러스터 -</b> 스피드미터 + 트립 컴퓨터 기능
+<br><b>●&nbsp;스마트 미러링 패키지 -</b> 와이파이 양방향 풀 미러링(안드로이드 운영체제 기반 전용) + 애플 카플레이 + 7인치 터치스크린 + 후방카메라 + 라디오 자동주파수 변경 + 음성인식 + 실시간 음원 저장 + AM/FM 라디오 + AUX &amp; USB 단자
+<br><b>●&nbsp;내비게이션 패키지 -</b> 7인치 터치스크린 + 후방카메라 + 3D 지니맵 + AM/FM + TPEG서비스 + 지상파 DMB + 블루투스 핸즈프리 + USB, CD데크 없음
+										</ul>
+									
+									<p class="desc_more">위 신차가격표는 단순 참고자료이며, 정확한 내용은 각 제조사에서 제공하는 자료를 통해확인하실 수 있습니다.</p><!-- 2016/10/12 [장] 등급 등록/수정 개선 : 추가 디자인 변경 -->
+									<p class="toTop"><a href="#main_title" class="sp toTop db_ir" title="페이지 위로"><u>페이지 위로</u></a></p><!-- [시세개편] class db_ir 추가 -->
+								</div>
+
+
+							</div>
+							<!-- body end -->
+						</td>
+					</tr>
+				</table>
+
+
+			
+			
+		
+    </div>
+
+    <!-- container end -->
+</form>
+</div>
+
+</body>
+<script language="javascript">
+
+
+    var strCompanyUrl = "/common/combo/cardbcompany.json?method=carList";
+    var strModelGroupUrl = "/common/combo/modelgroupfordb.json?method=carList";
+    var strModelUrl = "/common/combo/cardbmodel.json?method=carList";
+    var strYrJatoUrl = "/common/combo/jatoYr.json?method=carList";
+
+    var companyid = "mnfccd";
+    var modelgroupid = "mdlgroupcd";
+    var modelid = "mdlcd";
+    var yearid = "caryear";
+
+    function initGnb() {
+        var paramCompany = $("paramMnfccd").value;
+        var paramModelGroup = $("paramMdlgroupcd").value;
+        var paramModel = $("paramMdlcd").value;
+        var paramYr = $("paramYear").value;
+
+        // 제조사
+        if (paramModel != "") {
+            $("mdlcd").show();
+        }
+
+        //console.log("companyid :: " + companyid)
+        //console.log("paramCompany :: " + paramCompany)
+		if($('foldYn').value != 0){
+            foldingYN('f_fold');
+		}
+
+        setCompany(strCompanyUrl, companyid, "제조사", paramCompany);
+
+        // 제조사 값이 있으면 모델 검색
+        if (paramCompany >= '010') {
+            if (paramCompany != "") {
+                if (paramModel == "") {
+                    paramModel = paramModelGroup;
+                }
+                setModel(strModelUrl, modelid, paramCompany, "모델", paramModel)
+                $("mdlgroupcd").hide();
+
+            }
+        } else {
+            $("mdlgroupcd").show();
+            if (paramCompany != "") {
+                setModelGroup(strModelGroupUrl, modelgroupid, paramCompany, "모델", paramModelGroup);
+                if (paramModelGroup != "") {
+                    setModel_New(strModelUrl, modelid, paramCompany, paramModelGroup, "세부모델", paramModel);
+                }
+            }
+
+        }
+        if (paramCompany != "" && paramModel != "") {
+            setCarYear(strYrJatoUrl, yearid, paramCompany, paramModel, "형식연도", paramYr);
+        }
+
+        waitTime = 1;
+    }
+
+    function changeModel_jato(mnfccd, mdlgroupcd) {
+        setModel_New(strModelUrl, modelid, mnfccd, mdlgroupcd, "세부모델", "");
+        //모델그룹선택시 기본 세부모델선택
+        if ($("mdlcd") != null) {
+            $("mdlcd").selectedIndex = 1;
+            var mdlcd = $("mdlcd").options[$("mdlcd").selectedIndex].value;
+            changeYearJato(mnfccd, mdlcd);
+        }
+    }
+
+    function changeYearJato(mnfccd,mdlcd) {
+        setCarYear(strYrJatoUrl, yearid, mnfccd, mdlcd, "형식연도", "");
+        $(yearid).options[1].selected = true;
+    }
+
+
+
+    //덧글 리스트
+    function viewForm(index) {
+
+        var object = $("default" + index);
+        var objectSum = $("defaultSum" + index);
+        var selectSum = $("choiceSum" + index);
+        var object1 = $("choice" + index);
+        if (object != null) {
+            if (object.style.display == 'none') {
+                objectSum.hide();
+                selectSum.hide();
+                object.style.display = "block";
+                object1.style.display = "block";
+
+            } else {
+                object.hide();
+                object1.hide();
+                objectSum.style.display = "block";
+                selectSum.style.display = "block";
+            }
+        }
+    }
+
+    function viewAll() {
+        for (var i = 1; i <=10; i++) {
+            $("default" + i).style.display = "block";
+            $("defaultSum" + i).style.display = "none";
+            $("choice" + i).style.display = "block";
+            $("choiceSum" + i).style.display = "none";
+        }
+    }
+
+    function closeAll() {
+        for (var i = 1; i <=10; i++) {
+            $("default" + i).style.display = "none";
+            $("defaultSum" + i).style.display = "block";
+            $("choice" + i).style.display = "none";
+            $("choiceSum" + i).style.display = "block";
+        }
+    }
+
+    function firstLayerOpen() {
+        //viewForm(1);
+    }
+
+    function foldingYN(param) {
+        if (param == "f_fold") {
+            document.getElementById("folding").innerHTML ="<a href=\"javascript:foldingYN('f_unfold')\" class='folding f_unfold'>전체등급 펼쳐보기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "none";
+            document.getElementById("f_fold").style.display = "";
+        } else {
+            document.getElementById("folding").innerHTML = "<a href=\"javascript:foldingYN('f_fold')\" class='folding f_fold'>접기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "";
+            document.getElementById("f_fold").style.display = "none";
+        }
+    }
+
+    function onSubmit() {
+        jQuery("#searchForm").submit();
+
+    }
+    window.onload = initGnb;
+
+</script>
+</html>
+

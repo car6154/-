@@ -1,0 +1,824 @@
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>차량DB - 차량정보 - 신차가격표</title>
+    <link type="text/css" rel="stylesheet" href="/css/common.css?v=1793835891525"/>
+    <link type="text/css" rel="stylesheet" href="/css/db.css?v=1793835891525"/>
+
+    <script type="text/javascript" src="/js/encarapp/lib/jquery/jquery-1.11.3.min.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/common/ui.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/prototype.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/util.js?v=1793835894199"></script>
+
+    <script type="text/javascript" src="/js/common/db_common.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/commonCombo.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/carSearchCombo.js?v=1793835894199"></script>
+	<script>
+		window.enlogInitJson = {
+			"dataTalkView": {
+				"screenName": "신차가격표"
+			}
+		}
+
+	</script>
+
+
+</head>
+
+
+
+
+
+
+
+    <!-- 등급 체크박스  -->
+    <div style="display:none">
+        
+    </div>
+
+    <!-- 세부등급 체크박스 -->
+    <div style="display:none">
+        
+    </div>
+
+
+
+<body class="db db_newdetailview db_basicTemplate">
+
+
+
+
+	
+	
+	
+	
+
+
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-W9QQ2T"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W9QQ2T');</script>
+<!-- End Google Tag Manager -->
+
+<!-- container begin -->
+<div class="container" id="containerDIV">
+<input type="hidden" id = "foldYn" name="searchtype" value="4"/>
+<form id ="searchForm" name="searchForm">
+
+    <input type="hidden" id = "method" name="method" value="newpricePopV2"/>
+    <input type="hidden" id = "dimensiontype" name="dimensiontype" value="null"/>
+    <input type="hidden" id = "paramMnfccd" name="paramMnfccd" value="003"/>
+    <input type="hidden" id = "paramMdlgroupcd" name="paramMdlgroupcd" value="004"/>
+    <input type="hidden" id = "paramMdlcd" name="paramMdlcd" value="070"/>
+    <input type="hidden" id = "paramYear" name="paramYear" value="2014"/>
+    <input type="hidden" id = "model" name="model" value="">
+    <input type="hidden" id = "paramCaryear" name="paramCaryear" value="2014"/>
+    <input type="hidden" id = "clsheadcd" name="clsheadcd" class="checkbox" value="null"/>
+    <input type="hidden" id = "paramGradeHead" name="paramGradeHead" value="null"/>
+	<input type="hidden" id = "searchtype" name="searchtype" value="check"/>
+	<input type="hidden" id = "pageAccessToken" name="pageAccessToken" value="AgV4NYqxY4hz9KqAemOa/DafX/eKknuXoKzbmmKd1lHrsIsAcQACAAdFbmNhckNrAAdFbmNhckN2ABVhd3MtY3J5cHRvLXB1YmxpYy1rZXkAREE5T0lRK0FyMm1IQjVlQmxmbkRjTXdodEdSOCs2ZU93UVpZdFZNMHlpaDFkeG52Ky8yUUI1YnBFdU1iVmYwL3NhUT09AAEAB2F3cy1rbXMAUGFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjI3MjM2MjQ4NzY1MzprZXkvbXJrLWRmZWEyNmY3NTVhMzQ3MjliNjkwMjRkZWZmM2M1MWFjALgBAgEAeAuqQuSJvQ+Ra4FSj55FZzS0sk+00amsb3yoAFiEYn4PAb8iNEI2NRP4/Ddfhsh54LIAAAB+MHwGCSqGSIb3DQEHBqBvMG0CAQAwaAYJKoZIhvcNAQcBMB4GCWCGSAFlAwQBLjARBAy2tiuYbnOHdIwbEnQCARCAOy3qUg2QEsq6ONgVMUa7XujnFRwTxpUSlFfJdf7/7h8C6Gz9cnQBrl98eCWD8h9IsuoGjLZH1bldkYzmAgAAEABYgrYaz7q8Lof3o4HSIFXPs18qsDaN1RD3LMPztrt7FTUIDC0DiVEo4yhOtFAgpy7/////AAAAAQAAAAAAAAAAAAAAAQAAAKNS4HXUjdWymiLD/2IJQxo9/kxr0TT//3F8CVEK4kqyRBJ/8Kh44U0UJXTGr7NM668bcm12YpXCaGF/KCNGvzqXCeTrZx4Im+SL/AM9UhZUrZjGgmG7YXvMt7lLkY2xqTfy7EGvnbLNvGecLO18l5Ekni6KqRz01fjh3svadsD110WcDkSLVfhYVQudlWG0dE+PL+xooxtaltjkfS5Uh7POyiisZ0ijZlX3Ju28V8JEvgILrwBnMGUCMBN8pYM40SB0efLy7SBtkigun9XFgv6hjpRdSxXbp+2iCA8kJ8FZyKKA2CeKNlHvNwIxAPM1Umm8B2Yd/xY+7UyDZMA02bU3iVS/5Fp2IDoj0ILh0ztyILfdiGJR70nYZ5L/Cg=="/>
+    <div class="header">
+        <h1 class="blind">SK엔카</h1>
+        <h2 class="tit_carprice" id="main_title">신차가격표</h2>
+        <p class="quickSearch">
+
+
+
+            <select title="제조사" class="opt_select" id="mnfccd" name="mnfccd" onChange="javascript:changeModelGroup(this.value);">
+                <option value="">제조사</option>
+            </select>
+
+            <select class="opt_select" title="모델" id="mdlgroupcd" name="mdlgroupcd" onChange="javascript:changeModel_jato($('mnfccd').value, this.value);">
+                <option>모델</option>
+            </select>
+
+            <select class="opt_select" title="세부모델" id="mdlcd" name="mdlcd" onChange="javascript:changeYearJato($('mnfccd').value, $('mdlcd').value);">
+                <option>세부모델</option>
+            </select>
+
+            <select class="opt_select" title="연식" id="caryear" name="caryear">
+                <option>연식</option>
+            </select>
+
+            <button type="button" class="btn_search" onclick="javascript:onSubmit();"/>검색</button>
+
+
+
+        </p>
+    </div>
+    <!-- body begin -->
+    <div class="body" id="bodydiv">
+		
+			
+				<table class="layout">
+					<col class="contents"/>
+					<tr>
+						<td class="contentsMenu">
+							<!-- contentsMenu begin -->
+							<div class="contentsMenu">
+								<h3 class="title">쉐보레(GM대우) 뉴 다마스 2014년형</h3>
+							</div>
+							<!-- contentsMenu end -->
+						</td>
+					</tr>
+
+					<tr>
+						<td class="contentsMain">
+							<!-- contents begin -->
+							<div class="contents">
+
+								<div class="carCompare">
+									<div class="dbHead">
+										
+											<div id="folding"><a href="javascript:foldingYN('f_fold')"
+																 class="folding f_fold">전체등급 펼쳐보기<em class="db_ir"></em></a></div>
+
+											<!-- 2013/04/03 [서] 매물탭 개선 : 기능 버튼 추가 --><!--<a href="#" class="folding f_unfold">펼치기</a>-->
+										
+									</div>
+									
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+									<div id="f_unfold">
+										
+
+
+										<!-- case2 : 세부등급이 있는경우 -->
+										
+											<table class="carCompare sellcase2">
+												<colgroup>
+													<col class="grade">
+													<col class="detailgrd">
+													<col class="mission">
+													<col class="price">
+													<col class="uprice">
+													<col class="item">
+													<col class="option">
+												</colgroup>
+												<thead class="compare">
+												<tr>
+													<th class="grade bgn" colspan="3"><b>구분</b></th>
+													<th class="price"><b>판매가격</b></th>
+													<th class="uprice"><b>중고차시세</b></th><!-- [시세개편] 중고차시세 추가 -->
+													<th class="item"><b>기본사양 품목</b></th>
+													<th class="option end"><b>선택사양 품목</b></th>
+												</tr>
+												</thead>
+												<tbody class="new">
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="2">
+																<p>2인승 판넬밴</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>DLX</p></td>
+														
+														<td class="mission"><p>M/T</p></td>
+														<td class="price">
+															<p>
+																<strong>958</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> 기본 사양품목 
+<br></b>
+<br> 0.8 LPGi 엔진, 5단 수동변속기, 연료탱크(48L), 155/80R 12타이어 &amp; 휠커버, 안개등, 스테레오 라디오 &amp; 2스피커, 시가라이터, 간헐식와이퍼 &amp; 워셔, 대형아웃사이드미러, 격벽, 파워윈도우, 3점식룸램프
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 에어컨 </b> 550,000
+<br>
+<br>▶<b> 인조가죽(시트, 스티어링휠 커버, 도어트림) </b> 120,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>슈퍼</p></td>
+														
+														<td class="mission"><p>M/T</p></td>
+														<td class="price">
+															<p>
+																<strong>983</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> 2인승 판넬밴 DLX 기본 사양품목 및 
+<br></b>
+<br> 바디컬러범퍼, 사이드데칼, Day &amp; Night 룸미러
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 에어컨 </b> 550,000
+&nbsp;<br><br>▶<b> 인조가죽(시트, 스티어링휠 커버, 도어트림) </b> 120,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="2">
+																<p>5인승 코치</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>리빅</p></td>
+														
+														<td class="mission"><p>M/T</p></td>
+														<td class="price">
+															<p>
+																<strong>964</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> 기본 사양품목 
+<br></b>
+<br> 0.8 LPGi 엔진, 5단 수동변속기, 연료탱크(48L), 155/80R12 타이어 &amp; 휠커버, 간헐식와이퍼 &amp; 워셔, 뒷열선유리, 안개등, 리어와이퍼 &amp; 워셔, 시가라이터, 대형아웃사이드미러, 직물시트 &amp; 도어트림, 카페트, 스테레오 라디오 &amp; 2스피커, 파워윈도우, 운전석슬라이딩기능, 3점식룸램프, 2열 격납시트
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 에어컨 </b> 550,000
+<br><br>▶<b> 인조가죽(시트, 스티어링휠 커버, 도어트림) </b> 180,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>슈퍼</p></td>
+														
+														<td class="mission"><p>M/T</p></td>
+														<td class="price">
+															<p>
+																<strong>1,000</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> 5인승 코치 리빅 기본 사양품목 및 
+<br></b>
+<br> 바디 컬러범퍼, 4스피커, 사이드 데칼, 고급직물시트 &amp; 도어트림, Day &amp; Night 룸미러, 컬러유리
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 에어컨 </b> 550,000
+<br><br>▶<b> 인조가죽(시트, 스티어링휠 커버, 도어트림) </b> 180,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+												</tbody>
+											</table>
+										
+									</div>
+									<!-- 신차가격표(폴더형) -->
+									<div id="f_fold" style="display:none;">
+										<div class="newcar_folder">
+											<ul class="nf_list" id="newcarList">
+												
+													<li>
+														<a href="#newcar0">
+                                                            <span class="model">2인승 판넬밴 DLX M/T</span>
+                                                            <span class="prc">
+                                                                <strong>958</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar1">
+                                                            <span class="model">2인승 판넬밴 슈퍼 M/T</span>
+                                                            <span class="prc">
+                                                                <strong>983</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar2">
+                                                            <span class="model">5인승 코치 리빅 M/T</span>
+                                                            <span class="prc">
+                                                                <strong>964</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar3">
+                                                            <span class="model">5인승 코치 슈퍼 M/T</span>
+                                                            <span class="prc">
+                                                                <strong>1,000</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+											</ul>
+											<!-- 개별 -->
+											
+												<div id="newcar0" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> 기본 사양품목 
+<br></b>
+<br> 0.8 LPGi 엔진, 5단 수동변속기, 연료탱크(48L), 155/80R 12타이어 &amp; 휠커버, 안개등, 스테레오 라디오 &amp; 2스피커, 시가라이터, 간헐식와이퍼 &amp; 워셔, 대형아웃사이드미러, 격벽, 파워윈도우, 3점식룸램프</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 에어컨 </b> 550,000
+<br>
+<br>▶<b> 인조가죽(시트, 스티어링휠 커버, 도어트림) </b> 120,000</p>
+												</div>
+											
+												<div id="newcar1" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> 2인승 판넬밴 DLX 기본 사양품목 및 
+<br></b>
+<br> 바디컬러범퍼, 사이드데칼, Day &amp; Night 룸미러</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 에어컨 </b> 550,000
+&nbsp;<br><br>▶<b> 인조가죽(시트, 스티어링휠 커버, 도어트림) </b> 120,000</p>
+												</div>
+											
+												<div id="newcar2" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> 기본 사양품목 
+<br></b>
+<br> 0.8 LPGi 엔진, 5단 수동변속기, 연료탱크(48L), 155/80R12 타이어 &amp; 휠커버, 간헐식와이퍼 &amp; 워셔, 뒷열선유리, 안개등, 리어와이퍼 &amp; 워셔, 시가라이터, 대형아웃사이드미러, 직물시트 &amp; 도어트림, 카페트, 스테레오 라디오 &amp; 2스피커, 파워윈도우, 운전석슬라이딩기능, 3점식룸램프, 2열 격납시트</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 에어컨 </b> 550,000
+<br><br>▶<b> 인조가죽(시트, 스티어링휠 커버, 도어트림) </b> 180,000</p>
+												</div>
+											
+												<div id="newcar3" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> 5인승 코치 리빅 기본 사양품목 및 
+<br></b>
+<br> 바디 컬러범퍼, 4스피커, 사이드 데칼, 고급직물시트 &amp; 도어트림, Day &amp; Night 룸미러, 컬러유리</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 에어컨 </b> 550,000
+<br><br>▶<b> 인조가죽(시트, 스티어링휠 커버, 도어트림) </b> 180,000</p>
+												</div>
+											
+										</div>
+										<script type="text/javascript">
+											newcarFolder(0);//초기값
+											function newcarFolder(target) {
+												var conElId = "newcar"//아이디 설정
+												var conElMenu = document.getElementById("newcarList");
+												var conElMenuLink = conElMenu.getElementsByTagName("a");
+												if (target != null) {
+													conElMenuLink[target].parentNode.className = "on";
+													document.getElementById(
+														conElId + target).style.display = "";
+												}
+												for (i = 0; i <= (conElMenuLink.length - 1); i++) {
+													conElMenuLink[i].onclick = function () {
+														for (x = 0; x <= (conElMenuLink.length - 1); x++) {
+															conElMenuLink[x].parentNode.className = "";
+															document.getElementById(
+																conElId + x).style.display = "none";
+														}
+														this.parentNode.className = "on";
+														document.getElementById(this.getAttribute('href')
+																					.split(
+																						'#')[1]).style.display =
+															"";
+														return false;
+													}
+												}
+											}
+										</script>
+									</div>
+									
+									<p class="desc_more">위 신차가격표는 단순 참고자료이며, 정확한 내용은 각 제조사에서 제공하는 자료를 통해확인하실 수 있습니다.</p><!-- 2016/10/12 [장] 등급 등록/수정 개선 : 추가 디자인 변경 -->
+									<p class="toTop"><a href="#main_title" class="sp toTop db_ir" title="페이지 위로"><u>페이지 위로</u></a></p><!-- [시세개편] class db_ir 추가 -->
+								</div>
+
+
+							</div>
+							<!-- body end -->
+						</td>
+					</tr>
+				</table>
+
+
+			
+			
+		
+    </div>
+
+    <!-- container end -->
+</form>
+</div>
+
+</body>
+<script language="javascript">
+
+
+    var strCompanyUrl = "/common/combo/cardbcompany.json?method=carList";
+    var strModelGroupUrl = "/common/combo/modelgroupfordb.json?method=carList";
+    var strModelUrl = "/common/combo/cardbmodel.json?method=carList";
+    var strYrJatoUrl = "/common/combo/jatoYr.json?method=carList";
+
+    var companyid = "mnfccd";
+    var modelgroupid = "mdlgroupcd";
+    var modelid = "mdlcd";
+    var yearid = "caryear";
+
+    function initGnb() {
+        var paramCompany = $("paramMnfccd").value;
+        var paramModelGroup = $("paramMdlgroupcd").value;
+        var paramModel = $("paramMdlcd").value;
+        var paramYr = $("paramYear").value;
+
+        // 제조사
+        if (paramModel != "") {
+            $("mdlcd").show();
+        }
+
+        //console.log("companyid :: " + companyid)
+        //console.log("paramCompany :: " + paramCompany)
+		if($('foldYn').value != 0){
+            foldingYN('f_fold');
+		}
+
+        setCompany(strCompanyUrl, companyid, "제조사", paramCompany);
+
+        // 제조사 값이 있으면 모델 검색
+        if (paramCompany >= '010') {
+            if (paramCompany != "") {
+                if (paramModel == "") {
+                    paramModel = paramModelGroup;
+                }
+                setModel(strModelUrl, modelid, paramCompany, "모델", paramModel)
+                $("mdlgroupcd").hide();
+
+            }
+        } else {
+            $("mdlgroupcd").show();
+            if (paramCompany != "") {
+                setModelGroup(strModelGroupUrl, modelgroupid, paramCompany, "모델", paramModelGroup);
+                if (paramModelGroup != "") {
+                    setModel_New(strModelUrl, modelid, paramCompany, paramModelGroup, "세부모델", paramModel);
+                }
+            }
+
+        }
+        if (paramCompany != "" && paramModel != "") {
+            setCarYear(strYrJatoUrl, yearid, paramCompany, paramModel, "형식연도", paramYr);
+        }
+
+        waitTime = 1;
+    }
+
+    function changeModel_jato(mnfccd, mdlgroupcd) {
+        setModel_New(strModelUrl, modelid, mnfccd, mdlgroupcd, "세부모델", "");
+        //모델그룹선택시 기본 세부모델선택
+        if ($("mdlcd") != null) {
+            $("mdlcd").selectedIndex = 1;
+            var mdlcd = $("mdlcd").options[$("mdlcd").selectedIndex].value;
+            changeYearJato(mnfccd, mdlcd);
+        }
+    }
+
+    function changeYearJato(mnfccd,mdlcd) {
+        setCarYear(strYrJatoUrl, yearid, mnfccd, mdlcd, "형식연도", "");
+        $(yearid).options[1].selected = true;
+    }
+
+
+
+    //덧글 리스트
+    function viewForm(index) {
+
+        var object = $("default" + index);
+        var objectSum = $("defaultSum" + index);
+        var selectSum = $("choiceSum" + index);
+        var object1 = $("choice" + index);
+        if (object != null) {
+            if (object.style.display == 'none') {
+                objectSum.hide();
+                selectSum.hide();
+                object.style.display = "block";
+                object1.style.display = "block";
+
+            } else {
+                object.hide();
+                object1.hide();
+                objectSum.style.display = "block";
+                selectSum.style.display = "block";
+            }
+        }
+    }
+
+    function viewAll() {
+        for (var i = 1; i <=4; i++) {
+            $("default" + i).style.display = "block";
+            $("defaultSum" + i).style.display = "none";
+            $("choice" + i).style.display = "block";
+            $("choiceSum" + i).style.display = "none";
+        }
+    }
+
+    function closeAll() {
+        for (var i = 1; i <=4; i++) {
+            $("default" + i).style.display = "none";
+            $("defaultSum" + i).style.display = "block";
+            $("choice" + i).style.display = "none";
+            $("choiceSum" + i).style.display = "block";
+        }
+    }
+
+    function firstLayerOpen() {
+        //viewForm(1);
+    }
+
+    function foldingYN(param) {
+        if (param == "f_fold") {
+            document.getElementById("folding").innerHTML ="<a href=\"javascript:foldingYN('f_unfold')\" class='folding f_unfold'>전체등급 펼쳐보기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "none";
+            document.getElementById("f_fold").style.display = "";
+        } else {
+            document.getElementById("folding").innerHTML = "<a href=\"javascript:foldingYN('f_fold')\" class='folding f_fold'>접기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "";
+            document.getElementById("f_fold").style.display = "none";
+        }
+    }
+
+    function onSubmit() {
+        jQuery("#searchForm").submit();
+
+    }
+    window.onload = initGnb;
+
+</script>
+</html>
+

@@ -1,0 +1,1308 @@
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>차량DB - 차량정보 - 신차가격표</title>
+    <link type="text/css" rel="stylesheet" href="/css/common.css?v=1793835891525"/>
+    <link type="text/css" rel="stylesheet" href="/css/db.css?v=1793835891525"/>
+
+    <script type="text/javascript" src="/js/encarapp/lib/jquery/jquery-1.11.3.min.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/common/ui.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/prototype.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/util.js?v=1793835894199"></script>
+
+    <script type="text/javascript" src="/js/common/db_common.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/commonCombo.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/carSearchCombo.js?v=1793835894199"></script>
+	<script>
+		window.enlogInitJson = {
+			"dataTalkView": {
+				"screenName": "신차가격표"
+			}
+		}
+
+	</script>
+
+
+</head>
+
+
+
+
+
+
+
+    <!-- 등급 체크박스  -->
+    <div style="display:none">
+        
+    </div>
+
+    <!-- 세부등급 체크박스 -->
+    <div style="display:none">
+        
+    </div>
+
+
+
+<body class="db db_newdetailview db_basicTemplate">
+
+
+
+
+	
+	
+	
+	
+
+
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-W9QQ2T"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W9QQ2T');</script>
+<!-- End Google Tag Manager -->
+
+<!-- container begin -->
+<div class="container" id="containerDIV">
+<input type="hidden" id = "foldYn" name="searchtype" value="7"/>
+<form id ="searchForm" name="searchForm">
+
+    <input type="hidden" id = "method" name="method" value="newpricePopV2"/>
+    <input type="hidden" id = "dimensiontype" name="dimensiontype" value="null"/>
+    <input type="hidden" id = "paramMnfccd" name="paramMnfccd" value="007"/>
+    <input type="hidden" id = "paramMdlgroupcd" name="paramMdlgroupcd" value="001"/>
+    <input type="hidden" id = "paramMdlcd" name="paramMdlcd" value="001"/>
+    <input type="hidden" id = "paramYear" name="paramYear" value="2015"/>
+    <input type="hidden" id = "model" name="model" value="">
+    <input type="hidden" id = "paramCaryear" name="paramCaryear" value="2015"/>
+    <input type="hidden" id = "clsheadcd" name="clsheadcd" class="checkbox" value="null"/>
+    <input type="hidden" id = "paramGradeHead" name="paramGradeHead" value="null"/>
+	<input type="hidden" id = "searchtype" name="searchtype" value="check"/>
+	<input type="hidden" id = "pageAccessToken" name="pageAccessToken" value="AgV4XJO9Q2VnvpBAI8hCYVcMbHRkCd1tujvWneZqan69tEsAcQACAAdFbmNhckNrAAdFbmNhckN2ABVhd3MtY3J5cHRvLXB1YmxpYy1rZXkAREF2L0Z0bWtVdHBXdGRtSER6RTZFTFM2dEsybnZkczU5NlNLNWlRNjM1b0Z3UWk4UUh1bGNYWXFzd2RxZ1h5clBjZz09AAEAB2F3cy1rbXMAUGFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjI3MjM2MjQ4NzY1MzprZXkvbXJrLWRmZWEyNmY3NTVhMzQ3MjliNjkwMjRkZWZmM2M1MWFjALgBAgEAeAuqQuSJvQ+Ra4FSj55FZzS0sk+00amsb3yoAFiEYn4PAQ6HujAeniVLohRFXKeRyMgAAAB+MHwGCSqGSIb3DQEHBqBvMG0CAQAwaAYJKoZIhvcNAQcBMB4GCWCGSAFlAwQBLjARBAwkEpxGKQK3QvIPXsQCARCAO7QlrSal4lZJG0/31nNNUV6ze+nPh5ju2wkan7YN25VEk/apuQ/Syc0XoOa3xlSJNbohagps+GixuGS3AgAAEAByv/AeZ+1aQqFcVe+YIcgYzB1de3CPh81uLSxXMh1bNcEJr8dJKEiO9e6bD+PSlZn/////AAAAAQAAAAAAAAAAAAAAAQAAAKO9X4RVhc+sy4ooQs3ZrxKnPkA9tsIcac34n/BbD6yXV72qLpn4h6Yb28SNLneb0RGWl3TOhyZ1ofaLaagU7/qLglB0QZY4gCQJeHQ7uOGdm16MiPHSqboIYjcIljlCeE2GPtxpPb4RG7XJWCJAk5EjCz5jwRDYLqcOSTI1gG9qHlyCcuZRzrqsGZuxKdP66jGp8brLucz95Lk2Yl+5vGTVE5l3yDCFmSWbmI6pDVSljHajRwBnMGUCMQC2VxIAaAJHDisocLA2b2y3Pmd0wCoTxICacfWqDhT+9G6brhDMy6OvvTVBugH2GyUCMD+uNi/xp+ACsk1THVwI6KFMtyltYaE+/HvyN+03lzfhg3KDPefvq7vA4pYLj/h5Kw=="/>
+    <div class="header">
+        <h1 class="blind">SK엔카</h1>
+        <h2 class="tit_carprice" id="main_title">신차가격표</h2>
+        <p class="quickSearch">
+
+
+
+            <select title="제조사" class="opt_select" id="mnfccd" name="mnfccd" onChange="javascript:changeModelGroup(this.value);">
+                <option value="">제조사</option>
+            </select>
+
+            <select class="opt_select" title="모델" id="mdlgroupcd" name="mdlgroupcd" onChange="javascript:changeModel_jato($('mnfccd').value, this.value);">
+                <option>모델</option>
+            </select>
+
+            <select class="opt_select" title="세부모델" id="mdlcd" name="mdlcd" onChange="javascript:changeYearJato($('mnfccd').value, $('mdlcd').value);">
+                <option>세부모델</option>
+            </select>
+
+            <select class="opt_select" title="연식" id="caryear" name="caryear">
+                <option>연식</option>
+            </select>
+
+            <button type="button" class="btn_search" onclick="javascript:onSubmit();"/>검색</button>
+
+
+
+        </p>
+    </div>
+    <!-- body begin -->
+    <div class="body" id="bodydiv">
+		
+			
+				<table class="layout">
+					<col class="contents"/>
+					<tr>
+						<td class="contentsMenu">
+							<!-- contentsMenu begin -->
+							<div class="contentsMenu">
+								<h3 class="title">제네시스 EQ900 2015년형</h3>
+							</div>
+							<!-- contentsMenu end -->
+						</td>
+					</tr>
+
+					<tr>
+						<td class="contentsMain">
+							<!-- contents begin -->
+							<div class="contents">
+
+								<div class="carCompare">
+									<div class="dbHead">
+										
+											<div id="folding"><a href="javascript:foldingYN('f_fold')"
+																 class="folding f_fold">전체등급 펼쳐보기<em class="db_ir"></em></a></div>
+
+											<!-- 2013/04/03 [서] 매물탭 개선 : 기능 버튼 추가 --><!--<a href="#" class="folding f_unfold">펼치기</a>-->
+										
+									</div>
+									
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+									<div id="f_unfold">
+										
+
+
+										<!-- case2 : 세부등급이 있는경우 -->
+										
+											<table class="carCompare sellcase2">
+												<colgroup>
+													<col class="grade">
+													<col class="detailgrd">
+													<col class="mission">
+													<col class="price">
+													<col class="uprice">
+													<col class="item">
+													<col class="option">
+												</colgroup>
+												<thead class="compare">
+												<tr>
+													<th class="grade bgn" colspan="3"><b>구분</b></th>
+													<th class="price"><b>판매가격</b></th>
+													<th class="uprice"><b>중고차시세</b></th><!-- [시세개편] 중고차시세 추가 -->
+													<th class="item"><b>기본사양 품목</b></th>
+													<th class="option end"><b>선택사양 품목</b></th>
+												</tr>
+												</thead>
+												<tbody class="new">
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>3.3 T-GDI</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>럭셔리</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>7,560</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> 3.8GDi 럭셔리 기본 사양 대비 </b>
+<br>람다 3.3 V6 터보 GDi 엔진, 제네시스 어댑티브 컨트롤 서스펜션
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶ HTRAC(전자식 AWD) :&nbsp;2,450,000
+<br><br>▶ 세이프티 썬루프&nbsp;:&nbsp;790,000
+<br><br>▶ 제네시스 스마트 센스 패키지&nbsp;:&nbsp;2,950,000
+<br><br>▶ 컨비니언스 패키지&nbsp;:&nbsp;1,960,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="2">
+																<p>3.3 T-GDI AWD</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>프리미엄 럭셔리</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>9,130</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> 3.8GDi 프리미엄 럭셔리 기본 사양 대비 </b>
+<br>람다 3.3 V6 터보 GDi 엔진, 제네시스 어댑티브 컨트롤 서스펜션
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶ 세이프티 썬루프&nbsp;:&nbsp;790,000
+<br><br>▶ 시그니쳐 디자인 셀렉션&nbsp;:&nbsp;3,730,000
+<br><br>▶ 뒷좌석 듀얼 모니터&nbsp;:&nbsp;2,450,000
+<br><br>▶ 뒷좌석 컴포트 패키지&nbsp;:&nbsp;2,450,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>프레스티지</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>10,900</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> 3.8GDi 프레스티지 기본 사양 대비 </b>
+<br>람다 3.3 V6 터보 GDi 엔진, 제네시스 어댑티브 컨트롤 서스펜션
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶&nbsp;세이프티 썬루프&nbsp;:&nbsp;790,000
+<br><br>▶ 퍼스트 클래스 VIP 시트&nbsp;:&nbsp;2,950,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>3.8 GDI</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>럭셔리</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>7,170</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> 파워트레인 </b> : 람다 3.8 V6 GDi 엔진, 8단 자동변속기, 다이렉트 스티어링 시스템(랙 구동형 전동식 파워 스티어링, 가변 기어비 스티어링),통합 주행 모드(스마트/에코/스포트/인디비쥬얼)
+<br><br>▶<b> 외관 </b> : HID 헤드램프(2등식, 바이펑션, 다이나믹 벤딩 기능 포함), LED 주간전조등(DRL), Full LED 리어 콤비 램프, 245/50R18 미쉐린 타이어 &amp; 알로이 휠,자외선 차단 글래스, 이중접합 차음 글래스, 범퍼 일체형 듀얼 머플러, 아웃사이드 미러(사이트 리피터, 퍼들램프, 열선, 오토 언폴딩 포함)
+<br><br>▶<b> 내장 </b> : 7인치 TFT LCD 클러스터, 아날로그 시계, 전자식 변속레버(SBW), 패들쉬프트, 룸미러(ECM, 하이패스), LED 크리스탈 룸램프,우드그레인 내장재, 메탈 도어스커프, 뒷좌석 화장 거울
+<br><br>▶<b> 안전 </b> : 9에어백(운전석/동승석 어드밴스드 에어백, 운전석 무릎, 앞/뒤 사이드, 커튼 *롤오버 대응)
+<br><br>▶<b> 편의 </b> : 앞좌석 스마트폰 무선 충전 패드, 카드타입 스마트키, 터치타입 아웃사이드 도어핸들, 3존 독립제어 풀오토 에어컨(운전석/동승석/뒷좌석 개별제어 기능), 전자식 파킹 브레이크(Auto Hold 기능 포함), 후방 카메라, 전후방 주차보조시스템, 스마트 트렁크 시스템, 템퍼러리 스페어 타이어
+<br><br>▶<b> 시트 </b> : 운전석 전동시트(럼버써포트, 쿠션 익스텐션 포함), 동승석 전동시트(워크인 스위치, 높이조절 포함), 앞좌석 전동식 헤드레스트(4방향),앞좌석 통풍/열선 시트, 뒷좌석 열선 시트, 앞좌석 운전자세 메모리 시스템(운전석 스마트 자세제어 시스템 포함), 뒷좌석 암레스트 리모컨,천연 가죽 시트, 뒷좌석 스키쓰루
+<br><br>▶<b> 멀티미디어 </b> : DIS(블루링크2.0, 12.3인치 파노라믹 디스플레이), 렉시콘 프리미엄 사운드(14스피커)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶ HTRAC(전자식 AWD)&nbsp;:&nbsp;2,450,000
+<br><br>▶ 세이프티 썬루프&nbsp;:&nbsp;790,000
+<br><br>▶ 제네시스 스마트 센스 패키지&nbsp;:&nbsp;2,950,000
+<br><br>▶ 컨비니언스 패키지&nbsp;:&nbsp;1,960,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="2">
+																<p>3.8 GDI AWD</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>프리미엄 럭셔리</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>8,740</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> 3.8GDi 럭셔리 기본 사양 대비 </b>
+<br><br>HTRAC(전자식 AWD), 어댑티브 Full LED 헤드램프, 제네시스 스마트 센스 패키지(고속도로 주행지원 시스템, 부주의 운전 경보 시스템, 후측방 충돌 회피 지원 시스템,
+어드밴스드 스마트 크루즈 컨트롤, 주행 조향보조 시스템, 자동 긴급제동 시스템, 진동경고 스티어링 휠, 스마트 하이빔, 앞좌석 프리액티브 시트벨트 포함),
+운전석 모던 에르고 시트(22방향 전동 조절식), 동승석 럼버써포트, 전동식 트렁크, 고스트 도어 클로징, 헤드업 디스플레이, 어라운드 뷰 모니터링 시스템,
+스마트 공조 시스템(실내 CO2 조절, 유해가스 차단장치 포함)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶ 세이프티 썬루프&nbsp;:&nbsp;790,000
+<br><br>▶ 시그니쳐 디자인 셀렉션&nbsp;:&nbsp;3,730,000
+<br><br>▶ 뒷좌석 듀얼 모니터&nbsp;:&nbsp;2,450,000
+<br><br>▶ 뒷좌석 컴포트 패키지&nbsp;:&nbsp;2,450,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>프레스티지</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>10,500</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> 3.8GDi 프리미엄 럭셔리 기본 사양 대비 </b>
+<br>245/45R19(앞) &amp; 275/40R19(뒤) 콘티넨탈 타이어 &amp; 반광 스퍼터링 휠, 뒷좌석 프라이버시 글래스, 프라임 나파 가죽 시트(파이핑 적용), 프라임 나파 가죽 내장재
+(도어트림, 센터콘솔), 리얼우드 내장재(패턴 선택 가능), 럭셔리 스웨이드 내장재(헤드라이닝, 썬바이저, 필라 트림, 뒷좌석 패키지 트레이), 엠비언트 무드램프
+(7개 칼라), 어드밴스드 3존 에어컨(뒷좌석 전용 블로어, B필라 송풍구 포함), 뒷좌석 듀얼모니터(9.2인치), 뒷좌석 모던 에르고 시트(14방향 전동 조절식, 4:2:4 분할),
+뒷좌석 윙아웃 헤드레스트, 뒷좌석 착좌자세 메모리 시스템, 뒷좌석 통풍/열선 시트, 뒷좌석 전동식 사이드 커튼, 전동식 뒷면 유리 커튼
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶ 세이프티 썬루프&nbsp;:&nbsp;790,000
+<br><br>▶ 퍼스트 클래스 VIP 시트&nbsp;:&nbsp;2,950,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>5.0 GDI AWD</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>프레스티지</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>11,490</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> 파워트레인 </b> : 타우 5.0 V8 GDi 엔진, 8단 자동변속기, HTRAC(전자식 AWD), 제네시스 어댑티브 컨트롤 서스펜션,다이렉트 스티어링 시스템(랙 구동형 전동식 파워 스티어링, 가변 기어비 스티어링), 통합 주행 모드(스마트/에코/스포트/인디비쥬얼)
+<br><br>▶<b> 외관 </b> : 어댑티브 Full LED 헤드램프, LED 주간전조등(DRL), Full LED 리어 콤비 램프, 245/45R19(앞) &amp; 275/40R19(뒤) 콘티넨탈 타이어 &amp; 반광 스퍼터링 휠,자외선 차단 글래스, 이중접합 차음 글래스, 뒷좌석 프라이버시 글래스, 범퍼 일체형 듀얼 머플러, 아웃사이드 미러(사이트 리피터, 로고 패턴 퍼들램프,열선, 오토 언폴딩 포함)
+<br><br>▶<b> 내장 </b> : 7인치 TFT LCD 클러스터, 아날로그 시계, 전자식 변속레버(SBW), 패들쉬프트, 룸미러(ECM, 하이패스), LED 크리스탈 룸램프, 프라임 나파 가죽 내장재(도어트림, 센터콘솔, 센터페시아), 리얼우드 내장재(패턴 선택 가능), 럭셔리 스웨이드 내장재(헤드라이닝, 썬바이저, 필라트림, 뒷좌석 패키지 트레이),
+리얼 메탈 내장재(도어 스피커 그릴, 트렁크 메탈 플레이트, 도어스커프), 엠비언트 무드램프(7개 칼라), 뒷좌석 화장 거울, 뒷좌석 전동식 사이드 커튼,전동식 뒷면 유리 커튼
+<br><br>▶<b> 안전 </b> : 9에어백(운전석/동승석 어드밴스드 에어백, 운전석 무릎, 앞/뒤 사이드, 커튼 *롤오버 대응)
+<br><br>▶<b> 편의 </b> : 제네시스 스마트 센스 패키지(고속도로 주행지원 시스템, 부주의 운전 경보 시스템, 후측방 충돌 회피 지원 시스템, 어드밴스드 스마트 크루즈 컨트롤,주행 조향보조 시스템, 자동 긴급제동 시스템, 진동경고 스티어링 휠, 스마트 하이빔, 앞좌석 프리액티브 시트벨트 포함), 앞좌석 스마트폰 무선 충전 패드,전동식 트렁크, 고스트 도어 클로징, 헤드업 디스플레이, 어라운드 뷰 모니터링 시스템, 카드타입 스마트키, 터치타입 아웃사이드 도어핸들,스마트 공조 시스템(실내 CO2 조절, 유해가스 차단장치 포함), 어드밴스드 3존 에어컨(뒷좌석 전용 블로어 및 B필라 송풍구 포함), 전자식 파킹 브레이크(EPB; Auto Hold 기능 포함), 전후방 주차보조시스템, 템퍼러리 스페어 타이어
+<br><br>▶<b> 시트 </b> : 운전석 모던 에르고 시트(22방향 전동 조절식), 동승석 전동시트(전동식 헤드레스트, 럼버써포트, 워크인 스위치, 높이조절 포함), 앞좌석 통풍/열선 시트, 앞좌석 운전자세 메모리 시스템(운전석 스마트 자세제어 시스템 포함), 뒷좌석 모던 에르고 시트(14방향 전동 조절식, 4:2:4 분할),뒷좌석 윙아웃 헤드레스트, 뒷좌석 착좌자세 메모리 시스템, 뒷좌석 통풍/열선시트, 뒷좌석 암레스트 리모컨, 프라임 나파 가죽 시트, 뒷좌석 스키쓰루
+<br><br>▶<b> 멀티미디어 </b> : DIS(블루링크2.0, 12.3인치 파노라믹 디스플레이), 렉시콘 프리미엄 사운드(17스피커), 뒷좌석 듀얼모니터(9.2인치)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶ 세이프티 썬루프&nbsp;:&nbsp;790,000
+<br><br>▶ 퍼스트 클래스 VIP 시트&nbsp;:&nbsp;2,950,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+												</tbody>
+											</table>
+										
+									</div>
+									<!-- 신차가격표(폴더형) -->
+									<div id="f_fold" style="display:none;">
+										<div class="newcar_folder">
+											<ul class="nf_list" id="newcarList">
+												
+													<li>
+														<a href="#newcar0">
+                                                            <span class="model">3.3 T-GDI 럭셔리 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>7,560</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar1">
+                                                            <span class="model">3.3 T-GDI AWD 프리미엄 럭셔리 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>9,130</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar2">
+                                                            <span class="model">3.3 T-GDI AWD 프레스티지 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>10,900</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar3">
+                                                            <span class="model">3.8 GDI 럭셔리 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>7,170</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar4">
+                                                            <span class="model">3.8 GDI AWD 프리미엄 럭셔리 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>8,740</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar5">
+                                                            <span class="model">3.8 GDI AWD 프레스티지 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>10,500</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar6">
+                                                            <span class="model">5.0 GDI AWD 프레스티지 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>11,490</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+											</ul>
+											<!-- 개별 -->
+											
+												<div id="newcar0" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> 3.8GDi 럭셔리 기본 사양 대비 </b>
+<br>람다 3.3 V6 터보 GDi 엔진, 제네시스 어댑티브 컨트롤 서스펜션</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶ HTRAC(전자식 AWD) :&nbsp;2,450,000
+<br><br>▶ 세이프티 썬루프&nbsp;:&nbsp;790,000
+<br><br>▶ 제네시스 스마트 센스 패키지&nbsp;:&nbsp;2,950,000
+<br><br>▶ 컨비니언스 패키지&nbsp;:&nbsp;1,960,000</p>
+												</div>
+											
+												<div id="newcar1" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> 3.8GDi 프리미엄 럭셔리 기본 사양 대비 </b>
+<br>람다 3.3 V6 터보 GDi 엔진, 제네시스 어댑티브 컨트롤 서스펜션</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶ 세이프티 썬루프&nbsp;:&nbsp;790,000
+<br><br>▶ 시그니쳐 디자인 셀렉션&nbsp;:&nbsp;3,730,000
+<br><br>▶ 뒷좌석 듀얼 모니터&nbsp;:&nbsp;2,450,000
+<br><br>▶ 뒷좌석 컴포트 패키지&nbsp;:&nbsp;2,450,000</p>
+												</div>
+											
+												<div id="newcar2" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> 3.8GDi 프레스티지 기본 사양 대비 </b>
+<br>람다 3.3 V6 터보 GDi 엔진, 제네시스 어댑티브 컨트롤 서스펜션</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶&nbsp;세이프티 썬루프&nbsp;:&nbsp;790,000
+<br><br>▶ 퍼스트 클래스 VIP 시트&nbsp;:&nbsp;2,950,000</p>
+												</div>
+											
+												<div id="newcar3" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> 파워트레인 </b> : 람다 3.8 V6 GDi 엔진, 8단 자동변속기, 다이렉트 스티어링 시스템(랙 구동형 전동식 파워 스티어링, 가변 기어비 스티어링),통합 주행 모드(스마트/에코/스포트/인디비쥬얼)
+<br><br>▶<b> 외관 </b> : HID 헤드램프(2등식, 바이펑션, 다이나믹 벤딩 기능 포함), LED 주간전조등(DRL), Full LED 리어 콤비 램프, 245/50R18 미쉐린 타이어 &amp; 알로이 휠,자외선 차단 글래스, 이중접합 차음 글래스, 범퍼 일체형 듀얼 머플러, 아웃사이드 미러(사이트 리피터, 퍼들램프, 열선, 오토 언폴딩 포함)
+<br><br>▶<b> 내장 </b> : 7인치 TFT LCD 클러스터, 아날로그 시계, 전자식 변속레버(SBW), 패들쉬프트, 룸미러(ECM, 하이패스), LED 크리스탈 룸램프,우드그레인 내장재, 메탈 도어스커프, 뒷좌석 화장 거울
+<br><br>▶<b> 안전 </b> : 9에어백(운전석/동승석 어드밴스드 에어백, 운전석 무릎, 앞/뒤 사이드, 커튼 *롤오버 대응)
+<br><br>▶<b> 편의 </b> : 앞좌석 스마트폰 무선 충전 패드, 카드타입 스마트키, 터치타입 아웃사이드 도어핸들, 3존 독립제어 풀오토 에어컨(운전석/동승석/뒷좌석 개별제어 기능), 전자식 파킹 브레이크(Auto Hold 기능 포함), 후방 카메라, 전후방 주차보조시스템, 스마트 트렁크 시스템, 템퍼러리 스페어 타이어
+<br><br>▶<b> 시트 </b> : 운전석 전동시트(럼버써포트, 쿠션 익스텐션 포함), 동승석 전동시트(워크인 스위치, 높이조절 포함), 앞좌석 전동식 헤드레스트(4방향),앞좌석 통풍/열선 시트, 뒷좌석 열선 시트, 앞좌석 운전자세 메모리 시스템(운전석 스마트 자세제어 시스템 포함), 뒷좌석 암레스트 리모컨,천연 가죽 시트, 뒷좌석 스키쓰루
+<br><br>▶<b> 멀티미디어 </b> : DIS(블루링크2.0, 12.3인치 파노라믹 디스플레이), 렉시콘 프리미엄 사운드(14스피커)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶ HTRAC(전자식 AWD)&nbsp;:&nbsp;2,450,000
+<br><br>▶ 세이프티 썬루프&nbsp;:&nbsp;790,000
+<br><br>▶ 제네시스 스마트 센스 패키지&nbsp;:&nbsp;2,950,000
+<br><br>▶ 컨비니언스 패키지&nbsp;:&nbsp;1,960,000</p>
+												</div>
+											
+												<div id="newcar4" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> 3.8GDi 럭셔리 기본 사양 대비 </b>
+<br><br>HTRAC(전자식 AWD), 어댑티브 Full LED 헤드램프, 제네시스 스마트 센스 패키지(고속도로 주행지원 시스템, 부주의 운전 경보 시스템, 후측방 충돌 회피 지원 시스템,
+어드밴스드 스마트 크루즈 컨트롤, 주행 조향보조 시스템, 자동 긴급제동 시스템, 진동경고 스티어링 휠, 스마트 하이빔, 앞좌석 프리액티브 시트벨트 포함),
+운전석 모던 에르고 시트(22방향 전동 조절식), 동승석 럼버써포트, 전동식 트렁크, 고스트 도어 클로징, 헤드업 디스플레이, 어라운드 뷰 모니터링 시스템,
+스마트 공조 시스템(실내 CO2 조절, 유해가스 차단장치 포함)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶ 세이프티 썬루프&nbsp;:&nbsp;790,000
+<br><br>▶ 시그니쳐 디자인 셀렉션&nbsp;:&nbsp;3,730,000
+<br><br>▶ 뒷좌석 듀얼 모니터&nbsp;:&nbsp;2,450,000
+<br><br>▶ 뒷좌석 컴포트 패키지&nbsp;:&nbsp;2,450,000</p>
+												</div>
+											
+												<div id="newcar5" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> 3.8GDi 프리미엄 럭셔리 기본 사양 대비 </b>
+<br>245/45R19(앞) &amp; 275/40R19(뒤) 콘티넨탈 타이어 &amp; 반광 스퍼터링 휠, 뒷좌석 프라이버시 글래스, 프라임 나파 가죽 시트(파이핑 적용), 프라임 나파 가죽 내장재
+(도어트림, 센터콘솔), 리얼우드 내장재(패턴 선택 가능), 럭셔리 스웨이드 내장재(헤드라이닝, 썬바이저, 필라 트림, 뒷좌석 패키지 트레이), 엠비언트 무드램프
+(7개 칼라), 어드밴스드 3존 에어컨(뒷좌석 전용 블로어, B필라 송풍구 포함), 뒷좌석 듀얼모니터(9.2인치), 뒷좌석 모던 에르고 시트(14방향 전동 조절식, 4:2:4 분할),
+뒷좌석 윙아웃 헤드레스트, 뒷좌석 착좌자세 메모리 시스템, 뒷좌석 통풍/열선 시트, 뒷좌석 전동식 사이드 커튼, 전동식 뒷면 유리 커튼</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶ 세이프티 썬루프&nbsp;:&nbsp;790,000
+<br><br>▶ 퍼스트 클래스 VIP 시트&nbsp;:&nbsp;2,950,000</p>
+												</div>
+											
+												<div id="newcar6" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> 파워트레인 </b> : 타우 5.0 V8 GDi 엔진, 8단 자동변속기, HTRAC(전자식 AWD), 제네시스 어댑티브 컨트롤 서스펜션,다이렉트 스티어링 시스템(랙 구동형 전동식 파워 스티어링, 가변 기어비 스티어링), 통합 주행 모드(스마트/에코/스포트/인디비쥬얼)
+<br><br>▶<b> 외관 </b> : 어댑티브 Full LED 헤드램프, LED 주간전조등(DRL), Full LED 리어 콤비 램프, 245/45R19(앞) &amp; 275/40R19(뒤) 콘티넨탈 타이어 &amp; 반광 스퍼터링 휠,자외선 차단 글래스, 이중접합 차음 글래스, 뒷좌석 프라이버시 글래스, 범퍼 일체형 듀얼 머플러, 아웃사이드 미러(사이트 리피터, 로고 패턴 퍼들램프,열선, 오토 언폴딩 포함)
+<br><br>▶<b> 내장 </b> : 7인치 TFT LCD 클러스터, 아날로그 시계, 전자식 변속레버(SBW), 패들쉬프트, 룸미러(ECM, 하이패스), LED 크리스탈 룸램프, 프라임 나파 가죽 내장재(도어트림, 센터콘솔, 센터페시아), 리얼우드 내장재(패턴 선택 가능), 럭셔리 스웨이드 내장재(헤드라이닝, 썬바이저, 필라트림, 뒷좌석 패키지 트레이),
+리얼 메탈 내장재(도어 스피커 그릴, 트렁크 메탈 플레이트, 도어스커프), 엠비언트 무드램프(7개 칼라), 뒷좌석 화장 거울, 뒷좌석 전동식 사이드 커튼,전동식 뒷면 유리 커튼
+<br><br>▶<b> 안전 </b> : 9에어백(운전석/동승석 어드밴스드 에어백, 운전석 무릎, 앞/뒤 사이드, 커튼 *롤오버 대응)
+<br><br>▶<b> 편의 </b> : 제네시스 스마트 센스 패키지(고속도로 주행지원 시스템, 부주의 운전 경보 시스템, 후측방 충돌 회피 지원 시스템, 어드밴스드 스마트 크루즈 컨트롤,주행 조향보조 시스템, 자동 긴급제동 시스템, 진동경고 스티어링 휠, 스마트 하이빔, 앞좌석 프리액티브 시트벨트 포함), 앞좌석 스마트폰 무선 충전 패드,전동식 트렁크, 고스트 도어 클로징, 헤드업 디스플레이, 어라운드 뷰 모니터링 시스템, 카드타입 스마트키, 터치타입 아웃사이드 도어핸들,스마트 공조 시스템(실내 CO2 조절, 유해가스 차단장치 포함), 어드밴스드 3존 에어컨(뒷좌석 전용 블로어 및 B필라 송풍구 포함), 전자식 파킹 브레이크(EPB; Auto Hold 기능 포함), 전후방 주차보조시스템, 템퍼러리 스페어 타이어
+<br><br>▶<b> 시트 </b> : 운전석 모던 에르고 시트(22방향 전동 조절식), 동승석 전동시트(전동식 헤드레스트, 럼버써포트, 워크인 스위치, 높이조절 포함), 앞좌석 통풍/열선 시트, 앞좌석 운전자세 메모리 시스템(운전석 스마트 자세제어 시스템 포함), 뒷좌석 모던 에르고 시트(14방향 전동 조절식, 4:2:4 분할),뒷좌석 윙아웃 헤드레스트, 뒷좌석 착좌자세 메모리 시스템, 뒷좌석 통풍/열선시트, 뒷좌석 암레스트 리모컨, 프라임 나파 가죽 시트, 뒷좌석 스키쓰루
+<br><br>▶<b> 멀티미디어 </b> : DIS(블루링크2.0, 12.3인치 파노라믹 디스플레이), 렉시콘 프리미엄 사운드(17스피커), 뒷좌석 듀얼모니터(9.2인치)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶ 세이프티 썬루프&nbsp;:&nbsp;790,000
+<br><br>▶ 퍼스트 클래스 VIP 시트&nbsp;:&nbsp;2,950,000</p>
+												</div>
+											
+										</div>
+										<script type="text/javascript">
+											newcarFolder(0);//초기값
+											function newcarFolder(target) {
+												var conElId = "newcar"//아이디 설정
+												var conElMenu = document.getElementById("newcarList");
+												var conElMenuLink = conElMenu.getElementsByTagName("a");
+												if (target != null) {
+													conElMenuLink[target].parentNode.className = "on";
+													document.getElementById(
+														conElId + target).style.display = "";
+												}
+												for (i = 0; i <= (conElMenuLink.length - 1); i++) {
+													conElMenuLink[i].onclick = function () {
+														for (x = 0; x <= (conElMenuLink.length - 1); x++) {
+															conElMenuLink[x].parentNode.className = "";
+															document.getElementById(
+																conElId + x).style.display = "none";
+														}
+														this.parentNode.className = "on";
+														document.getElementById(this.getAttribute('href')
+																					.split(
+																						'#')[1]).style.display =
+															"";
+														return false;
+													}
+												}
+											}
+										</script>
+									</div>
+									
+										<ul class="more">
+												<b>▶&nbsp;제네시스 스마트 센스 패키지</b> : 고속도로 주행지원 시스템, 부주의 운전 경보 시스템, 후측방 충돌 회피 지원 시스템, 어드밴스드 스마트 크루즈 컨트롤, 주행 조향보조 시스템, 자동 긴급제동 시스템,
+진동경고 스티어링 휠, 스마트 하이빔, 앞좌석 프리액티브 시트벨트
+
+<br><b>▶&nbsp;컨비니언스 패키지 </b>: 헤드업 디스플레이, 어라운드 뷰 모니터링 시스템
+
+<br>뒷좌석 컴포트 패키지 : 뒷좌석 전동시트(4:2:4분할), 뒷좌석 윙아웃 헤드레스트, 뒷좌석 전동식 헤드레스트(2방향), 뒷좌석 통풍시트, 뒷좌석 프라이버시 글래스, 전동식 뒷면 유리 커튼
+
+<br><b>▶&nbsp;시그니쳐 디자인 셀렉션 </b>: 프라임 나파 가죽 시트(파이핑 적용), 프라임 나파 가죽 내장재(도어트림/센터콘솔), 리얼우드 내장재, 245/45R19(앞) &amp; 275/40R19(뒤) 콘티넨탈 타이어 &amp; 반광 스퍼터링 휠
+
+<br><b>▶&nbsp;퍼스트 클래스 VIP 시트 </b>: 타워 콘솔, 뒷좌석 무선충전 패드, 뒷좌석 전동시트(5:5분할)
+<br>
+<br>
+※ 타이어별 성능 차이가 있으니 선택 시 확인 바라며, 안전한 운전을 위해 타이어
+교체 시는 취급설명서를 참조 바랍니다.
+
+<br>※ 하이패스 시스템에는 장애인 통행료 자동할인 기능이 없습니다.
+
+<br>※ 프라임 나파 가죽은 명품백이나 고급 소파에서 사용하는 풀 그레인 가죽으로
+천연 원피의 디테일을 그대로 살리는 가공법을 통해 부드러운 촉감과 안락한
+ 착좌감을 제공합니다.
+
+<br>※ 기본 천연가죽 시트는 부분적으로 인조 가죽이 적용되어 있습니다.
+<br>
+※ 본 가격표 상의 품목(사양, 컬러 등) 및 가격은 차량의 외관 및 성능 개선이나 관련법규에
+따라 예고없이 변경될 수 있습니다.
+
+<br>※ 후석 목베개는 현대자동차의 보증대상에서 제외되며, 선택 시(20만원) 별도로 배송되는 제품입니다.
+										</ul>
+									
+									<p class="desc_more">위 신차가격표는 단순 참고자료이며, 정확한 내용은 각 제조사에서 제공하는 자료를 통해확인하실 수 있습니다.</p><!-- 2016/10/12 [장] 등급 등록/수정 개선 : 추가 디자인 변경 -->
+									<p class="toTop"><a href="#main_title" class="sp toTop db_ir" title="페이지 위로"><u>페이지 위로</u></a></p><!-- [시세개편] class db_ir 추가 -->
+								</div>
+
+
+							</div>
+							<!-- body end -->
+						</td>
+					</tr>
+				</table>
+
+
+			
+			
+		
+    </div>
+
+    <!-- container end -->
+</form>
+</div>
+
+</body>
+<script language="javascript">
+
+
+    var strCompanyUrl = "/common/combo/cardbcompany.json?method=carList";
+    var strModelGroupUrl = "/common/combo/modelgroupfordb.json?method=carList";
+    var strModelUrl = "/common/combo/cardbmodel.json?method=carList";
+    var strYrJatoUrl = "/common/combo/jatoYr.json?method=carList";
+
+    var companyid = "mnfccd";
+    var modelgroupid = "mdlgroupcd";
+    var modelid = "mdlcd";
+    var yearid = "caryear";
+
+    function initGnb() {
+        var paramCompany = $("paramMnfccd").value;
+        var paramModelGroup = $("paramMdlgroupcd").value;
+        var paramModel = $("paramMdlcd").value;
+        var paramYr = $("paramYear").value;
+
+        // 제조사
+        if (paramModel != "") {
+            $("mdlcd").show();
+        }
+
+        //console.log("companyid :: " + companyid)
+        //console.log("paramCompany :: " + paramCompany)
+		if($('foldYn').value != 0){
+            foldingYN('f_fold');
+		}
+
+        setCompany(strCompanyUrl, companyid, "제조사", paramCompany);
+
+        // 제조사 값이 있으면 모델 검색
+        if (paramCompany >= '010') {
+            if (paramCompany != "") {
+                if (paramModel == "") {
+                    paramModel = paramModelGroup;
+                }
+                setModel(strModelUrl, modelid, paramCompany, "모델", paramModel)
+                $("mdlgroupcd").hide();
+
+            }
+        } else {
+            $("mdlgroupcd").show();
+            if (paramCompany != "") {
+                setModelGroup(strModelGroupUrl, modelgroupid, paramCompany, "모델", paramModelGroup);
+                if (paramModelGroup != "") {
+                    setModel_New(strModelUrl, modelid, paramCompany, paramModelGroup, "세부모델", paramModel);
+                }
+            }
+
+        }
+        if (paramCompany != "" && paramModel != "") {
+            setCarYear(strYrJatoUrl, yearid, paramCompany, paramModel, "형식연도", paramYr);
+        }
+
+        waitTime = 1;
+    }
+
+    function changeModel_jato(mnfccd, mdlgroupcd) {
+        setModel_New(strModelUrl, modelid, mnfccd, mdlgroupcd, "세부모델", "");
+        //모델그룹선택시 기본 세부모델선택
+        if ($("mdlcd") != null) {
+            $("mdlcd").selectedIndex = 1;
+            var mdlcd = $("mdlcd").options[$("mdlcd").selectedIndex].value;
+            changeYearJato(mnfccd, mdlcd);
+        }
+    }
+
+    function changeYearJato(mnfccd,mdlcd) {
+        setCarYear(strYrJatoUrl, yearid, mnfccd, mdlcd, "형식연도", "");
+        $(yearid).options[1].selected = true;
+    }
+
+
+
+    //덧글 리스트
+    function viewForm(index) {
+
+        var object = $("default" + index);
+        var objectSum = $("defaultSum" + index);
+        var selectSum = $("choiceSum" + index);
+        var object1 = $("choice" + index);
+        if (object != null) {
+            if (object.style.display == 'none') {
+                objectSum.hide();
+                selectSum.hide();
+                object.style.display = "block";
+                object1.style.display = "block";
+
+            } else {
+                object.hide();
+                object1.hide();
+                objectSum.style.display = "block";
+                selectSum.style.display = "block";
+            }
+        }
+    }
+
+    function viewAll() {
+        for (var i = 1; i <=7; i++) {
+            $("default" + i).style.display = "block";
+            $("defaultSum" + i).style.display = "none";
+            $("choice" + i).style.display = "block";
+            $("choiceSum" + i).style.display = "none";
+        }
+    }
+
+    function closeAll() {
+        for (var i = 1; i <=7; i++) {
+            $("default" + i).style.display = "none";
+            $("defaultSum" + i).style.display = "block";
+            $("choice" + i).style.display = "none";
+            $("choiceSum" + i).style.display = "block";
+        }
+    }
+
+    function firstLayerOpen() {
+        //viewForm(1);
+    }
+
+    function foldingYN(param) {
+        if (param == "f_fold") {
+            document.getElementById("folding").innerHTML ="<a href=\"javascript:foldingYN('f_unfold')\" class='folding f_unfold'>전체등급 펼쳐보기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "none";
+            document.getElementById("f_fold").style.display = "";
+        } else {
+            document.getElementById("folding").innerHTML = "<a href=\"javascript:foldingYN('f_fold')\" class='folding f_fold'>접기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "";
+            document.getElementById("f_fold").style.display = "none";
+        }
+    }
+
+    function onSubmit() {
+        jQuery("#searchForm").submit();
+
+    }
+    window.onload = initGnb;
+
+</script>
+</html>
+

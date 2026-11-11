@@ -1,0 +1,789 @@
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>차량DB - 차량정보 - 신차가격표</title>
+    <link type="text/css" rel="stylesheet" href="/css/common.css?v=1793835891525"/>
+    <link type="text/css" rel="stylesheet" href="/css/db.css?v=1793835891525"/>
+
+    <script type="text/javascript" src="/js/encarapp/lib/jquery/jquery-1.11.3.min.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/common/ui.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/prototype.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/util.js?v=1793835894199"></script>
+
+    <script type="text/javascript" src="/js/common/db_common.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/commonCombo.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/carSearchCombo.js?v=1793835894199"></script>
+	<script>
+		window.enlogInitJson = {
+			"dataTalkView": {
+				"screenName": "신차가격표"
+			}
+		}
+
+	</script>
+
+
+</head>
+
+
+
+
+
+
+
+    <!-- 등급 체크박스  -->
+    <div style="display:none">
+        
+    </div>
+
+    <!-- 세부등급 체크박스 -->
+    <div style="display:none">
+        
+    </div>
+
+
+
+<body class="db db_newdetailview db_basicTemplate">
+
+
+
+
+	
+	
+	
+	
+
+
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-W9QQ2T"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W9QQ2T');</script>
+<!-- End Google Tag Manager -->
+
+<!-- container begin -->
+<div class="container" id="containerDIV">
+<input type="hidden" id = "foldYn" name="searchtype" value="4"/>
+<form id ="searchForm" name="searchForm">
+
+    <input type="hidden" id = "method" name="method" value="newpricePopV2"/>
+    <input type="hidden" id = "dimensiontype" name="dimensiontype" value="null"/>
+    <input type="hidden" id = "paramMnfccd" name="paramMnfccd" value="005"/>
+    <input type="hidden" id = "paramMdlgroupcd" name="paramMdlgroupcd" value="009"/>
+    <input type="hidden" id = "paramMdlcd" name="paramMdlcd" value="059"/>
+    <input type="hidden" id = "paramYear" name="paramYear" value="2015"/>
+    <input type="hidden" id = "model" name="model" value="">
+    <input type="hidden" id = "paramCaryear" name="paramCaryear" value="2015"/>
+    <input type="hidden" id = "clsheadcd" name="clsheadcd" class="checkbox" value="null"/>
+    <input type="hidden" id = "paramGradeHead" name="paramGradeHead" value="null"/>
+	<input type="hidden" id = "searchtype" name="searchtype" value="check"/>
+	<input type="hidden" id = "pageAccessToken" name="pageAccessToken" value="AgV4YXwyHeDfSWtJwt8obk5VI0Ex0j2jnoXp+iVVTZkHDfEAcQACAAdFbmNhckNrAAdFbmNhckN2ABVhd3MtY3J5cHRvLXB1YmxpYy1rZXkAREF3T0RsNU9WdjZjd3J4NmpYa2tpUjhwQkY1Vzlkd3pNOUoralJ1WGIxZnlYdFN3bmpsZjZxNlhHS3ZzQnBJTkhTQT09AAEAB2F3cy1rbXMAUGFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjI3MjM2MjQ4NzY1MzprZXkvbXJrLWRmZWEyNmY3NTVhMzQ3MjliNjkwMjRkZWZmM2M1MWFjALgBAgEAeAuqQuSJvQ+Ra4FSj55FZzS0sk+00amsb3yoAFiEYn4PAXC4ytYPwa+gIc2G23M4DqoAAAB+MHwGCSqGSIb3DQEHBqBvMG0CAQAwaAYJKoZIhvcNAQcBMB4GCWCGSAFlAwQBLjARBAzk6d5KeUa+UUAHnj4CARCAOwbXWNiB53fMfbZ/yRuo4BBD+PFOm3xfNuKUsafmhCK4i/hqVtCjZwltzW5zdN1Pszlfos917OOBeKvAAgAAEABekIZvLmH4pq3tmVbg/pxmTLpnVhRbqHTf097u/wz63ChaUXTjxUU4lS0Q76VjaTb/////AAAAAQAAAAAAAAAAAAAAAQAAAKPq4MKrvYDNHK/G+F/em3xXuUZ/kxROGEcKfg3tmwEoaq4XXSuguHKyGefcfGtEKTRkW94gKAN62Mqn4Yzj2fWHX+XzQRC76hoq4H4rpwuCVpwV/PiTnCutgbpmwWt21kl9ab6HPtqu8qg1l8I1iWFcmIjlbdt1i1uSWgGEWsODu8aslfGp+kv//DBdop9oCn1iTT1pvSMqbkdKdPfCu3Whs7PT8aF5AUWr7Aighu2ABn9vpwBnMGUCMDzB/0gJYkNb0ynYMVy8L/ftOgDxW6b1U1LqTSRf98VmRCkmncVUp9izTG7qyhT/GwIxAK9InJ04kl6ob+XiZ5DSDUmaYJQnxtsVqjMC23GPhvPw0WPMObB/D13bpR6Sd7YGZA=="/>
+    <div class="header">
+        <h1 class="blind">SK엔카</h1>
+        <h2 class="tit_carprice" id="main_title">신차가격표</h2>
+        <p class="quickSearch">
+
+
+
+            <select title="제조사" class="opt_select" id="mnfccd" name="mnfccd" onChange="javascript:changeModelGroup(this.value);">
+                <option value="">제조사</option>
+            </select>
+
+            <select class="opt_select" title="모델" id="mdlgroupcd" name="mdlgroupcd" onChange="javascript:changeModel_jato($('mnfccd').value, this.value);">
+                <option>모델</option>
+            </select>
+
+            <select class="opt_select" title="세부모델" id="mdlcd" name="mdlcd" onChange="javascript:changeYearJato($('mnfccd').value, $('mdlcd').value);">
+                <option>세부모델</option>
+            </select>
+
+            <select class="opt_select" title="연식" id="caryear" name="caryear">
+                <option>연식</option>
+            </select>
+
+            <button type="button" class="btn_search" onclick="javascript:onSubmit();"/>검색</button>
+
+
+
+        </p>
+    </div>
+    <!-- body begin -->
+    <div class="body" id="bodydiv">
+		
+			
+				<table class="layout">
+					<col class="contents"/>
+					<tr>
+						<td class="contentsMenu">
+							<!-- contentsMenu begin -->
+							<div class="contentsMenu">
+								<h3 class="title">르노코리아(삼성) QM3 2015년형</h3>
+							</div>
+							<!-- contentsMenu end -->
+						</td>
+					</tr>
+
+					<tr>
+						<td class="contentsMain">
+							<!-- contents begin -->
+							<div class="contents">
+
+								<div class="carCompare">
+									<div class="dbHead">
+										
+											<div id="folding"><a href="javascript:foldingYN('f_fold')"
+																 class="folding f_fold">전체등급 펼쳐보기<em class="db_ir"></em></a></div>
+
+											<!-- 2013/04/03 [서] 매물탭 개선 : 기능 버튼 추가 --><!--<a href="#" class="folding f_unfold">펼치기</a>-->
+										
+									</div>
+									
+									
+										
+									
+										
+									
+										
+									
+										
+									
+									<div id="f_unfold">
+										
+											<!-- case1 : 세부등급과 미션분리 -->
+											<table class="carCompare sellcase1">
+												<colgroup>
+													<col class="grade">
+													<col class="mission">
+													<col class="price">
+												    <col class="uprice"><!-- [시세개편] 중고차시세 추가 uprice -->
+													<col class="item">
+													<col class="option">
+												</colgroup>
+												<thead class="compare">
+												<tr>
+													<th class="grade" colspan="2"><b>구분</b></th>
+													<th class="price"><b>판매가격</b></th>
+													<th class="uprice"><b>중고차시세</b></th><!-- [시세개편] 중고차시세 추가 -->
+													<th class="item"><b>기본사양 품목</b></th>
+													<th class="option end"><b>선택사양 품목</b></th>
+												</tr>
+												</thead>
+												<tbody class="new">
+												
+													
+														
+													
+													
+														
+															
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>SE</p></td>
+														
+														<td class="mission"><p>DCT</p></td>
+														<td class="price">
+															<p>
+																<strong>2,280</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	▶<b> 파워트레인 </b> : 1.5 dCi 엔진, 독일 게트락 파워시프트 DCT, 에코모드
+<br><br>▶<b> 안전 </b> : 차체자세 제어장치(ESC), 경사로 밀림방지장치(HSA), 타이어 공기압 자동감지 시스템(TPMS), 급제동경보시스템(ESS), EBD-ABS(BAS 내장), 앞좌석 에어백(운전석/동승석), 앞좌석 사이드 에어백(머리보호 기능 포함), ISOFIX 유아용 시트고정장치, 전륜 벤틸레이티드 디스크 브레이크/후륜 드럼 브레이크, 충돌감지 도어록 해제장치, 앞좌석 3점식 시트벨트(프리텐셔너/로드리미터/리마인드 버저기능/높이조절장치 포함), 뒷좌석 3점식 시트벨트(로드리미터기능 포함), 중앙집중식 도어록, 차속 감응 오토 도어록
+<br><br>▶<b> 외관 </b> : 프로젝션 헤드램프, LED 주간 주행등(DRL), LED 보조제동등, 17" 알로이 휠 &amp; 205/55R 17 타이어,
+후방 안개등(1개)/후진등(1개), 리어 콤비네이션 램프, 리어 와이퍼(후진기어 연동), 블랙 그레인 아웃사이드 미러, 방향지시등 일체형 아웃사이드 미러(열선 기능 포함), 블랙 아웃사이드 도어 핸들, 루프 스포일러
+<br><br>▶<b> 내장 </b> : 리어 슬라이딩 벤치 시트(6:4 폴딩기능 포함), 매직 드로어(슬라이딩 글로브박스), 대시보드 상단 수납함, 다크 인테리어(블루 데코) &amp; 블루 시트, 쉘(조개형)시트, 직물시트, 운전석 시트 높이 조절장치, 미터 클러스터(디지털 속도계/HMI 디스플레이 포함), 운전석/동승석 선바이저(거울 포함), 헤드램프 각도조절 장치/계기판 조명 조절장치/후방 경보장치 해제버튼, 앞좌석/뒷좌석 컵홀더, 룸램프, 이동식 트렁크 플로어, 러기지 스크린
+<br><br>▶<b> 편의 </b> : 스마트 카드 시스템(도어 열림/잠김, 트렁크 열림, 실내등 일시 점등 기능, 카드리더 포함), 엔진 START/STOP 버튼, 크루즈 컨트롤/스피드 리미터, 전자식 차속감응 파워 스티어링(SSEPS), 전동접이 아웃사이드 미러, 후방경보장치, 원터치 세이프티 파워 윈도우(운전석), 수동식 틸트/텔레스코픽 스티어링, 앞좌석 및 뒷좌석 파워 윈도우, 원터치 트리플 턴 시그널, 트립 컴퓨터, 가스식 후드 리프터, 타이어 리페어 키트
+<br><br>▶<b> 멀티미디어 </b> : 6.5" 디스플레이 A/V 시스템(라디오/AUX/USB/iPod 연결단자/DMB), 블루투스 핸즈프리(오디오 스트리밍 기능 포함), 스티어링 휠 오디오 리모컨, 4 스피커, 폴 안테나
+<br><br>▶<b> 공조 시스템 </b> : 매뉴얼 에어컨
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 스마트 커넥트 라이트 (T-map 내비게이션) </b> 300,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>LE</p></td>
+														
+														<td class="mission"><p>DCT</p></td>
+														<td class="price">
+															<p>
+																<strong>2,380</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	▶<b> SE 기본 품목 및 
+<br></b>
+<br>ㆍ<b> 외관 </b> : 외관 투톤 컬러, 17" 블랙 투톤 알로이 휠 &amp; 205/55R 17 타이어, 바디컬러 아웃사이드 도어 핸들, 루프컬러 아웃사이드 미러, 전방 안개등, 라디에이터 그릴 하단 크롬바/크롬 사이드 몰딩/주간주행등 크롬 베젤
+
+<br><br>ㆍ<b> 내장 </b> : 탈착식 직물 시트 커버, 다크 인테리어(그레이 데코) &amp; 그레이 투톤 시트, 가죽 스티어링 휠/변속기 노브,
+앞좌석 열선시트(운전석/동승석), 매직드로어 무드라이팅, 맵램프
+
+<br><br>ㆍ<b> 편의 </b> : 인텔리전트 스마트 카드 시스템(키리스 엔진시동/오토클로징/리퀘스트 버튼), 후방 카메라, 레인센싱 와이퍼, 오토라이팅 헤드램프
+
+<br><br>ㆍ<b> 공조 시스템 </b> : 풀오토 에어컨(클리어 뷰 기능 포함), 유해가스 유입 차단 장치(AQS)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 스마트 커넥트 라이트 (T-map 내비게이션) </b> 300,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>RE</p></td>
+														
+														<td class="mission"><p>DCT</p></td>
+														<td class="price">
+															<p>
+																<strong>2,495</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	▶<b> LE 기본 품목 및 
+<br></b>
+<br>ㆍ<b> 외관 </b> : 데칼(블랙/레드 중 택 1), 헤드램프 크롬 데코, 트렁크리드 크롬 가니시
+
+<br><br>ㆍ<b> 내장 </b> : 탈착식 가죽 시트 커버, 다크 인테리어(오렌지 데코 &amp; 오렌지 포인트 시트/크롬 데코 &amp; 블루 포인트 시트/크롬 데코 &amp; 블랙 시트), 시트백 스트링, 하이글로시 도어 암레스트
+
+<br><br>ㆍ<b> 편의 </b> : 전방 안개등 코너링 기능
+
+<br><br>ㆍ<b> 멀티 미디어 </b> : 스마트 커넥트 라이트(T-map 내비게이션)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"></li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>RE 시그니처</p></td>
+														
+														<td class="mission"><p>DCT</p></td>
+														<td class="price">
+															<p>
+																<strong>2,570</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	▶&nbsp;<b>RE 기본 품목 및
+</b><br><br><b>ㆍ외관 :</b> RE Signature 전용 소닉 레드 바디 &amp; 블랙 루프, 실버 스키드(앞/뒤)
+<br><br><b>ㆍ내장 :</b> RE Signature 전용 천연가죽 시트, 다크 인테리어(레드 데코 &amp; 실버 포인트 가죽 시트)
+<br><br><b>ㆍ편의 :</b> 그립 컨트롤(로드/소프트 그라운드/익스퍼트 모드)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"></li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+												</tbody>
+											</table>
+										
+
+
+										<!-- case2 : 세부등급이 있는경우 -->
+										
+									</div>
+									<!-- 신차가격표(폴더형) -->
+									<div id="f_fold" style="display:none;">
+										<div class="newcar_folder">
+											<ul class="nf_list" id="newcarList">
+												
+													<li>
+														<a href="#newcar0">
+                                                            <span class="model">SE  DCT</span>
+                                                            <span class="prc">
+                                                                <strong>2,280</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar1">
+                                                            <span class="model">LE  DCT</span>
+                                                            <span class="prc">
+                                                                <strong>2,380</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar2">
+                                                            <span class="model">RE  DCT</span>
+                                                            <span class="prc">
+                                                                <strong>2,495</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar3">
+                                                            <span class="model">RE 시그니처  DCT</span>
+                                                            <span class="prc">
+                                                                <strong>2,570</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+											</ul>
+											<!-- 개별 -->
+											
+												<div id="newcar0" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> 파워트레인 </b> : 1.5 dCi 엔진, 독일 게트락 파워시프트 DCT, 에코모드
+<br><br>▶<b> 안전 </b> : 차체자세 제어장치(ESC), 경사로 밀림방지장치(HSA), 타이어 공기압 자동감지 시스템(TPMS), 급제동경보시스템(ESS), EBD-ABS(BAS 내장), 앞좌석 에어백(운전석/동승석), 앞좌석 사이드 에어백(머리보호 기능 포함), ISOFIX 유아용 시트고정장치, 전륜 벤틸레이티드 디스크 브레이크/후륜 드럼 브레이크, 충돌감지 도어록 해제장치, 앞좌석 3점식 시트벨트(프리텐셔너/로드리미터/리마인드 버저기능/높이조절장치 포함), 뒷좌석 3점식 시트벨트(로드리미터기능 포함), 중앙집중식 도어록, 차속 감응 오토 도어록
+<br><br>▶<b> 외관 </b> : 프로젝션 헤드램프, LED 주간 주행등(DRL), LED 보조제동등, 17" 알로이 휠 &amp; 205/55R 17 타이어,
+후방 안개등(1개)/후진등(1개), 리어 콤비네이션 램프, 리어 와이퍼(후진기어 연동), 블랙 그레인 아웃사이드 미러, 방향지시등 일체형 아웃사이드 미러(열선 기능 포함), 블랙 아웃사이드 도어 핸들, 루프 스포일러
+<br><br>▶<b> 내장 </b> : 리어 슬라이딩 벤치 시트(6:4 폴딩기능 포함), 매직 드로어(슬라이딩 글로브박스), 대시보드 상단 수납함, 다크 인테리어(블루 데코) &amp; 블루 시트, 쉘(조개형)시트, 직물시트, 운전석 시트 높이 조절장치, 미터 클러스터(디지털 속도계/HMI 디스플레이 포함), 운전석/동승석 선바이저(거울 포함), 헤드램프 각도조절 장치/계기판 조명 조절장치/후방 경보장치 해제버튼, 앞좌석/뒷좌석 컵홀더, 룸램프, 이동식 트렁크 플로어, 러기지 스크린
+<br><br>▶<b> 편의 </b> : 스마트 카드 시스템(도어 열림/잠김, 트렁크 열림, 실내등 일시 점등 기능, 카드리더 포함), 엔진 START/STOP 버튼, 크루즈 컨트롤/스피드 리미터, 전자식 차속감응 파워 스티어링(SSEPS), 전동접이 아웃사이드 미러, 후방경보장치, 원터치 세이프티 파워 윈도우(운전석), 수동식 틸트/텔레스코픽 스티어링, 앞좌석 및 뒷좌석 파워 윈도우, 원터치 트리플 턴 시그널, 트립 컴퓨터, 가스식 후드 리프터, 타이어 리페어 키트
+<br><br>▶<b> 멀티미디어 </b> : 6.5" 디스플레이 A/V 시스템(라디오/AUX/USB/iPod 연결단자/DMB), 블루투스 핸즈프리(오디오 스트리밍 기능 포함), 스티어링 휠 오디오 리모컨, 4 스피커, 폴 안테나
+<br><br>▶<b> 공조 시스템 </b> : 매뉴얼 에어컨</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 스마트 커넥트 라이트 (T-map 내비게이션) </b> 300,000</p>
+												</div>
+											
+												<div id="newcar1" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> SE 기본 품목 및 
+<br></b>
+<br>ㆍ<b> 외관 </b> : 외관 투톤 컬러, 17" 블랙 투톤 알로이 휠 &amp; 205/55R 17 타이어, 바디컬러 아웃사이드 도어 핸들, 루프컬러 아웃사이드 미러, 전방 안개등, 라디에이터 그릴 하단 크롬바/크롬 사이드 몰딩/주간주행등 크롬 베젤
+
+<br><br>ㆍ<b> 내장 </b> : 탈착식 직물 시트 커버, 다크 인테리어(그레이 데코) &amp; 그레이 투톤 시트, 가죽 스티어링 휠/변속기 노브,
+앞좌석 열선시트(운전석/동승석), 매직드로어 무드라이팅, 맵램프
+
+<br><br>ㆍ<b> 편의 </b> : 인텔리전트 스마트 카드 시스템(키리스 엔진시동/오토클로징/리퀘스트 버튼), 후방 카메라, 레인센싱 와이퍼, 오토라이팅 헤드램프
+
+<br><br>ㆍ<b> 공조 시스템 </b> : 풀오토 에어컨(클리어 뷰 기능 포함), 유해가스 유입 차단 장치(AQS)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 스마트 커넥트 라이트 (T-map 내비게이션) </b> 300,000</p>
+												</div>
+											
+												<div id="newcar2" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> LE 기본 품목 및 
+<br></b>
+<br>ㆍ<b> 외관 </b> : 데칼(블랙/레드 중 택 1), 헤드램프 크롬 데코, 트렁크리드 크롬 가니시
+
+<br><br>ㆍ<b> 내장 </b> : 탈착식 가죽 시트 커버, 다크 인테리어(오렌지 데코 &amp; 오렌지 포인트 시트/크롬 데코 &amp; 블루 포인트 시트/크롬 데코 &amp; 블랙 시트), 시트백 스트링, 하이글로시 도어 암레스트
+
+<br><br>ㆍ<b> 편의 </b> : 전방 안개등 코너링 기능
+
+<br><br>ㆍ<b> 멀티 미디어 </b> : 스마트 커넥트 라이트(T-map 내비게이션)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"></p>
+												</div>
+											
+												<div id="newcar3" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶&nbsp;<b>RE 기본 품목 및
+</b><br><br><b>ㆍ외관 :</b> RE Signature 전용 소닉 레드 바디 &amp; 블랙 루프, 실버 스키드(앞/뒤)
+<br><br><b>ㆍ내장 :</b> RE Signature 전용 천연가죽 시트, 다크 인테리어(레드 데코 &amp; 실버 포인트 가죽 시트)
+<br><br><b>ㆍ편의 :</b> 그립 컨트롤(로드/소프트 그라운드/익스퍼트 모드)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"></p>
+												</div>
+											
+										</div>
+										<script type="text/javascript">
+											newcarFolder(0);//초기값
+											function newcarFolder(target) {
+												var conElId = "newcar"//아이디 설정
+												var conElMenu = document.getElementById("newcarList");
+												var conElMenuLink = conElMenu.getElementsByTagName("a");
+												if (target != null) {
+													conElMenuLink[target].parentNode.className = "on";
+													document.getElementById(
+														conElId + target).style.display = "";
+												}
+												for (i = 0; i <= (conElMenuLink.length - 1); i++) {
+													conElMenuLink[i].onclick = function () {
+														for (x = 0; x <= (conElMenuLink.length - 1); x++) {
+															conElMenuLink[x].parentNode.className = "";
+															document.getElementById(
+																conElId + x).style.display = "none";
+														}
+														this.parentNode.className = "on";
+														document.getElementById(this.getAttribute('href')
+																					.split(
+																						'#')[1]).style.display =
+															"";
+														return false;
+													}
+												}
+											}
+										</script>
+									</div>
+									
+										<ul class="more">
+												▶ QM3는 르노 유럽공장에서 생산된 차량을 수입해서 판매하는 차량으로, 국내상황에 맞게 일부 용품사양들이 기본 장착되었습니다.
+<br>▶ 센터 콘솔 및 카매트는 출고 사은품으로 지급됩니다.
+<br><b><br>▶ 스마트 커넥트 라이트(T-map 내비게이션)
+</b><br>&nbsp; - 스마트 커넥트 라이트(T-map 내비게이션)의 경우 와이파이(Wi-Fi) 기능은 지원되지 않습니다. 따라서 SD 카드 업데이트를 통해 최신 버전을 다운로드 받을 수 있습니다.
+<br>&nbsp; - 모든 트림에 6.5" 디스플레이 A/V 시스템이 기본 장착되어 있어서 "라디오, 지상파 DMB, 블루투스, 멀티미디어(USB/AUX/iPod)"등이 지원 됩니다.
+<br>&nbsp; - 스마트 커넥트 라이트(T-map 내비게이션) 옵션은 T-map 내비게이션 기능이 추가되는 사양입니다.
+<br><b><br>▶ RE 트림
+</b><br>&nbsp; - 데칼은 2가지 컬러(블랙/레드) 중 선택 가능하며, 용품으로 개발되어 1년 또는 2만km의 용품 보증이 적용됩니다. (아이보리 바디/그레이 바디 적용)
+<br>&nbsp; - 탈착식 가죽 시트는 제품의 특성상 일부 주름이 생길 수 있습니다.
+<br>&nbsp; - 오렌지 루프 &amp; 블랙 바디 차량의 경우, 외관 크롬 데코 또는 오렌지 데코가 적용됩니다.
+<br>&nbsp; - 아이보리 루프 &amp; 마린 블루 바디 차량의 경우, 외관 크롬 데코 대신 아이보리 데코가 적용됩니다.
+<br>
+<br><b>▶&nbsp;RE Signature 트림</b>
+<br>
+&nbsp;- 가죽 시트 적용 시 인조가죽이 혼용되어 있습니다.&nbsp;
+<br>&nbsp;- 데칼과 탈착식 가죽 시트는 RE 전용으로 해당 트림에는 적용되지 않습니다.
+										</ul>
+									
+									<p class="desc_more">위 신차가격표는 단순 참고자료이며, 정확한 내용은 각 제조사에서 제공하는 자료를 통해확인하실 수 있습니다.</p><!-- 2016/10/12 [장] 등급 등록/수정 개선 : 추가 디자인 변경 -->
+									<p class="toTop"><a href="#main_title" class="sp toTop db_ir" title="페이지 위로"><u>페이지 위로</u></a></p><!-- [시세개편] class db_ir 추가 -->
+								</div>
+
+
+							</div>
+							<!-- body end -->
+						</td>
+					</tr>
+				</table>
+
+
+			
+			
+		
+    </div>
+
+    <!-- container end -->
+</form>
+</div>
+
+</body>
+<script language="javascript">
+
+
+    var strCompanyUrl = "/common/combo/cardbcompany.json?method=carList";
+    var strModelGroupUrl = "/common/combo/modelgroupfordb.json?method=carList";
+    var strModelUrl = "/common/combo/cardbmodel.json?method=carList";
+    var strYrJatoUrl = "/common/combo/jatoYr.json?method=carList";
+
+    var companyid = "mnfccd";
+    var modelgroupid = "mdlgroupcd";
+    var modelid = "mdlcd";
+    var yearid = "caryear";
+
+    function initGnb() {
+        var paramCompany = $("paramMnfccd").value;
+        var paramModelGroup = $("paramMdlgroupcd").value;
+        var paramModel = $("paramMdlcd").value;
+        var paramYr = $("paramYear").value;
+
+        // 제조사
+        if (paramModel != "") {
+            $("mdlcd").show();
+        }
+
+        //console.log("companyid :: " + companyid)
+        //console.log("paramCompany :: " + paramCompany)
+		if($('foldYn').value != 0){
+            foldingYN('f_fold');
+		}
+
+        setCompany(strCompanyUrl, companyid, "제조사", paramCompany);
+
+        // 제조사 값이 있으면 모델 검색
+        if (paramCompany >= '010') {
+            if (paramCompany != "") {
+                if (paramModel == "") {
+                    paramModel = paramModelGroup;
+                }
+                setModel(strModelUrl, modelid, paramCompany, "모델", paramModel)
+                $("mdlgroupcd").hide();
+
+            }
+        } else {
+            $("mdlgroupcd").show();
+            if (paramCompany != "") {
+                setModelGroup(strModelGroupUrl, modelgroupid, paramCompany, "모델", paramModelGroup);
+                if (paramModelGroup != "") {
+                    setModel_New(strModelUrl, modelid, paramCompany, paramModelGroup, "세부모델", paramModel);
+                }
+            }
+
+        }
+        if (paramCompany != "" && paramModel != "") {
+            setCarYear(strYrJatoUrl, yearid, paramCompany, paramModel, "형식연도", paramYr);
+        }
+
+        waitTime = 1;
+    }
+
+    function changeModel_jato(mnfccd, mdlgroupcd) {
+        setModel_New(strModelUrl, modelid, mnfccd, mdlgroupcd, "세부모델", "");
+        //모델그룹선택시 기본 세부모델선택
+        if ($("mdlcd") != null) {
+            $("mdlcd").selectedIndex = 1;
+            var mdlcd = $("mdlcd").options[$("mdlcd").selectedIndex].value;
+            changeYearJato(mnfccd, mdlcd);
+        }
+    }
+
+    function changeYearJato(mnfccd,mdlcd) {
+        setCarYear(strYrJatoUrl, yearid, mnfccd, mdlcd, "형식연도", "");
+        $(yearid).options[1].selected = true;
+    }
+
+
+
+    //덧글 리스트
+    function viewForm(index) {
+
+        var object = $("default" + index);
+        var objectSum = $("defaultSum" + index);
+        var selectSum = $("choiceSum" + index);
+        var object1 = $("choice" + index);
+        if (object != null) {
+            if (object.style.display == 'none') {
+                objectSum.hide();
+                selectSum.hide();
+                object.style.display = "block";
+                object1.style.display = "block";
+
+            } else {
+                object.hide();
+                object1.hide();
+                objectSum.style.display = "block";
+                selectSum.style.display = "block";
+            }
+        }
+    }
+
+    function viewAll() {
+        for (var i = 1; i <=4; i++) {
+            $("default" + i).style.display = "block";
+            $("defaultSum" + i).style.display = "none";
+            $("choice" + i).style.display = "block";
+            $("choiceSum" + i).style.display = "none";
+        }
+    }
+
+    function closeAll() {
+        for (var i = 1; i <=4; i++) {
+            $("default" + i).style.display = "none";
+            $("defaultSum" + i).style.display = "block";
+            $("choice" + i).style.display = "none";
+            $("choiceSum" + i).style.display = "block";
+        }
+    }
+
+    function firstLayerOpen() {
+        //viewForm(1);
+    }
+
+    function foldingYN(param) {
+        if (param == "f_fold") {
+            document.getElementById("folding").innerHTML ="<a href=\"javascript:foldingYN('f_unfold')\" class='folding f_unfold'>전체등급 펼쳐보기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "none";
+            document.getElementById("f_fold").style.display = "";
+        } else {
+            document.getElementById("folding").innerHTML = "<a href=\"javascript:foldingYN('f_fold')\" class='folding f_fold'>접기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "";
+            document.getElementById("f_fold").style.display = "none";
+        }
+    }
+
+    function onSubmit() {
+        jQuery("#searchForm").submit();
+
+    }
+    window.onload = initGnb;
+
+</script>
+</html>
+

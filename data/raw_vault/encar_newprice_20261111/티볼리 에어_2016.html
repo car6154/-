@@ -1,0 +1,1087 @@
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>차량DB - 차량정보 - 신차가격표</title>
+    <link type="text/css" rel="stylesheet" href="/css/common.css?v=1793835891525"/>
+    <link type="text/css" rel="stylesheet" href="/css/db.css?v=1793835891525"/>
+
+    <script type="text/javascript" src="/js/encarapp/lib/jquery/jquery-1.11.3.min.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/common/ui.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/prototype.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/util.js?v=1793835894199"></script>
+
+    <script type="text/javascript" src="/js/common/db_common.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/commonCombo.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/carSearchCombo.js?v=1793835894199"></script>
+	<script>
+		window.enlogInitJson = {
+			"dataTalkView": {
+				"screenName": "신차가격표"
+			}
+		}
+
+	</script>
+
+
+</head>
+
+
+
+
+
+
+
+    <!-- 등급 체크박스  -->
+    <div style="display:none">
+        
+    </div>
+
+    <!-- 세부등급 체크박스 -->
+    <div style="display:none">
+        
+    </div>
+
+
+
+<body class="db db_newdetailview db_basicTemplate">
+
+
+
+
+	
+	
+	
+	
+
+
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-W9QQ2T"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W9QQ2T');</script>
+<!-- End Google Tag Manager -->
+
+<!-- container begin -->
+<div class="container" id="containerDIV">
+<input type="hidden" id = "foldYn" name="searchtype" value="7"/>
+<form id ="searchForm" name="searchForm">
+
+    <input type="hidden" id = "method" name="method" value="newpricePopV2"/>
+    <input type="hidden" id = "dimensiontype" name="dimensiontype" value="null"/>
+    <input type="hidden" id = "paramMnfccd" name="paramMnfccd" value="004"/>
+    <input type="hidden" id = "paramMdlgroupcd" name="paramMdlgroupcd" value="012"/>
+    <input type="hidden" id = "paramMdlcd" name="paramMdlcd" value="108"/>
+    <input type="hidden" id = "paramYear" name="paramYear" value="2016"/>
+    <input type="hidden" id = "model" name="model" value="">
+    <input type="hidden" id = "paramCaryear" name="paramCaryear" value="2016"/>
+    <input type="hidden" id = "clsheadcd" name="clsheadcd" class="checkbox" value="null"/>
+    <input type="hidden" id = "paramGradeHead" name="paramGradeHead" value="null"/>
+	<input type="hidden" id = "searchtype" name="searchtype" value="check"/>
+	<input type="hidden" id = "pageAccessToken" name="pageAccessToken" value="AgV4qidjnqZE0FF2cPKUn+6fW7ucUmGcNgc0XP7cQg3PxUUAcQACAAdFbmNhckNrAAdFbmNhckN2ABVhd3MtY3J5cHRvLXB1YmxpYy1rZXkAREFsN0t5L09JN1dtKzRid0s4NUtYZ2lKQjFCa2hkeFJ1dUdUYWNYSktuNUdYY0FRai9KMCtUaktMYTdpOUxxeWxOZz09AAEAB2F3cy1rbXMAUGFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjI3MjM2MjQ4NzY1MzprZXkvbXJrLWRmZWEyNmY3NTVhMzQ3MjliNjkwMjRkZWZmM2M1MWFjALgBAgEAeAuqQuSJvQ+Ra4FSj55FZzS0sk+00amsb3yoAFiEYn4PATH8xOBPE8ORk88Ho6mYzfkAAAB+MHwGCSqGSIb3DQEHBqBvMG0CAQAwaAYJKoZIhvcNAQcBMB4GCWCGSAFlAwQBLjARBAww3tHR1RUR6PKRg40CARCAO/J7RqUieEq+X4pP2MeNfPVEegNrsoU4R3SS9fSVbFBwsooyL3g+LxqPBhbXALstMl3C1rU/kBk+D9BcAgAAEAAeIn5OGicPGQB+W+vQ/6YSB9Nw4XR3+C/qqhMpNF/LN9LN+fKGypOdsLLYS8nU0Oz/////AAAAAQAAAAAAAAAAAAAAAQAAAKOP6Ax4FSxy8z0wfG5BHulA+7Vx0K79hVybpqDGGj6eUgtDvjujJvqwIg4vV7VZWdX+OQRKezbY0D+zauGj6yc7eYiCuZBesayM3OEDJ/F8RxWC8j724bxkFJJ5IVzHK0SQ86CCseI/Fue/1axm6qlIcS7OUDbTnxzCHGgnsFP4vY3IuUIYz2PNRxECOtgDd8xLyOxUu/j2ZKtd/eSyO/fSYudWEF3qtTGgfopfF4KJPyc9bQBnMGUCMCvDiIxkcb7N2fWz8sJKCtam9MxDavmqgO2DRcU4gWzUtb/p5Qn+KRWfanJ+QedTNQIxAO+HgK9NG0bytfDqDXyrUsiW9FvN8RwIHoeIhMT+YBNQ6/8TzDVFkqT4pi/XDcZpKw=="/>
+    <div class="header">
+        <h1 class="blind">SK엔카</h1>
+        <h2 class="tit_carprice" id="main_title">신차가격표</h2>
+        <p class="quickSearch">
+
+
+
+            <select title="제조사" class="opt_select" id="mnfccd" name="mnfccd" onChange="javascript:changeModelGroup(this.value);">
+                <option value="">제조사</option>
+            </select>
+
+            <select class="opt_select" title="모델" id="mdlgroupcd" name="mdlgroupcd" onChange="javascript:changeModel_jato($('mnfccd').value, this.value);">
+                <option>모델</option>
+            </select>
+
+            <select class="opt_select" title="세부모델" id="mdlcd" name="mdlcd" onChange="javascript:changeYearJato($('mnfccd').value, $('mdlcd').value);">
+                <option>세부모델</option>
+            </select>
+
+            <select class="opt_select" title="연식" id="caryear" name="caryear">
+                <option>연식</option>
+            </select>
+
+            <button type="button" class="btn_search" onclick="javascript:onSubmit();"/>검색</button>
+
+
+
+        </p>
+    </div>
+    <!-- body begin -->
+    <div class="body" id="bodydiv">
+		
+			
+				<table class="layout">
+					<col class="contents"/>
+					<tr>
+						<td class="contentsMenu">
+							<!-- contentsMenu begin -->
+							<div class="contentsMenu">
+								<h3 class="title">KG모빌리티(쌍용) 티볼리 에어 2016년형</h3>
+							</div>
+							<!-- contentsMenu end -->
+						</td>
+					</tr>
+
+					<tr>
+						<td class="contentsMain">
+							<!-- contents begin -->
+							<div class="contents">
+
+								<div class="carCompare">
+									<div class="dbHead">
+										
+											<div id="folding"><a href="javascript:foldingYN('f_fold')"
+																 class="folding f_fold">전체등급 펼쳐보기<em class="db_ir"></em></a></div>
+
+											<!-- 2013/04/03 [서] 매물탭 개선 : 기능 버튼 추가 --><!--<a href="#" class="folding f_unfold">펼치기</a>-->
+										
+									</div>
+									
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+									<div id="f_unfold">
+										
+											<!-- case1 : 세부등급과 미션분리 -->
+											<table class="carCompare sellcase1">
+												<colgroup>
+													<col class="grade">
+													<col class="mission">
+													<col class="price">
+												    <col class="uprice"><!-- [시세개편] 중고차시세 추가 uprice -->
+													<col class="item">
+													<col class="option">
+												</colgroup>
+												<thead class="compare">
+												<tr>
+													<th class="grade" colspan="2"><b>구분</b></th>
+													<th class="price"><b>판매가격</b></th>
+													<th class="uprice"><b>중고차시세</b></th><!-- [시세개편] 중고차시세 추가 -->
+													<th class="item"><b>기본사양 품목</b></th>
+													<th class="option end"><b>선택사양 품목</b></th>
+												</tr>
+												</thead>
+												<tbody class="new">
+												
+													
+														
+													
+													
+														
+															
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="2">
+																<p>디젤 AX 2WD</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,106</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	▶<b> AX(M/T) 기본품목 외 </b>
+<br><br>·<b> 엔진/성능 </b> :  AISIN 6단 자동변속기 + 기어 노브(메탈 그레인 + 인조가죽커버)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 운전석 무릎 에어백 </b>200,000
+<br><br>▶<b> 지오닉 패턴 인조가죽시트 패키지 </b>500,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														<td class="mission"><p>M/T</p></td>
+														<td class="price">
+															<p>
+																<strong>1,949</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	▶<b> 엔진/성능  </b> : 1.6ℓ 디젤 엔진, 6단 수동변속기, 엔진커버, 맥퍼슨 스트럿&amp;토션빔 서스펜션
+<br><br>▶<b> 안전 사양  </b> : 6 에어백(운전석, 동승석, 사이드, 커튼), 1열 시트벨트 듀얼 프리텐셔너 &amp; CLT, ESP &amp; BAS &amp; ARP &amp; HSA, TPMS(타이어 공기압 경보 시스템), ESS(급제동 알림시스템), 이모빌라이저, 타이어 리페어킷, ISO-FIX(유아용 시트 고정장치)
+<br><br>▶<b> 외관 사양  </b> : 16인치 알로이 휠, 205/60R16 타이어, LED 리어 콤비네이션 램프,
+후드 &amp; 벨트라인 크롬 몰딩, 전방안개등, 패션 루프랙, 투톤 루프, 프로젝션 헤드램프, LED 보조 제동등, 전동접이식 아웃사이드미러(전동조절/열선내장), 윈드쉴드 글래스 쉐이드 밴드
+<br><br>▶<b> 내장 사양 </b> : 고급 직물시트, 2열 리클라이닝 시트, 2열 센터 암레스트, 
+스포티 D-cut 스티어링 휠, 1열 시트 슬라이딩 헤드레스트, 2열 6:4 풀플랫 폴딩시트, 2열 센터 헤드레스트, 오르간타입 가속페달, 선글라스 케이스, 센터 콘솔 암레스트, 도어 암레스트 소프트 패드, Day&amp;Night 룸미러, 실버 인사이드 도어핸들, 글로브박스 조명, 글로브박스 상단 트레이, 수동식 틸트 스티어링, 러기지 보드, 러기지 네트
+<br><br>▶<b> 편의 사양 </b> : EPS(전자식 속도감응형 파워스티어링), 리모트 폴딩 키, 매뉴얼 에어컨, 스마트 스티어, 속도감응식 오토도어록, 운전석 세이프티 파워 윈도우, 12V 파워아울렛, 시거라이터&amp;이동식 재떨이, 원터치 트리플 턴 시그널, 클러스터 조명조절장치, 배터리 세이버
+<br><br>▶<b> 오 디 오 </b> : MP3 고급 오디오, AUX &amp; USB(i-Pod)단자,  6스피커, 스티어링 휠 오디오 리모컨, 블루투스 핸즈프리&amp;오디오 스트리밍
+<br>
+<b><br></b><b>▶&nbsp;기본제공 스타일 &amp; 주요사양 : </b>LED 리어 콤비네이션 램프, 후드 &amp; 벨트라인 크롬 몰딩, 스포티 D-cut 스티어링 휠, 스마트 스티어, 전방 안개등, 1열 시트벨트 듀얼 프리텐셔너 &amp; 상해저감장치(CLT), 패션루프랙, 투톤루프
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 운전석 무릎 에어백</b>&nbsp;200,000
+<br><br>▶<b> 지오닉 패턴 인조가죽시트 패키지</b>&nbsp;500,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>디젤 IX 2WD</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,253</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	▶<b> AX(A/T) 기본품목 외 </b>
+<br><br>·<b> 외관 사양  </b> :  18인치 알로이 휠, 215/45R18 타이어, 리어 스포일러, LED 사이드 리피터 일체형 아웃사이드미러
+<br><br>·<b> 내장 사양 </b> :  가죽 스티어링 휠, 크롬 인사이드 도어핸들, 화장거울 조명, 
+도어 커티쉬 램프
+<br><br>·<b> 편의 사양 </b> :  크루즈컨트롤 시스템, 오토라이트 컨트롤, 우적감지 와이퍼, 
+열선 스티어링 휠, 후방 장애물 감지시스템, 220V 인버터
+<br>
+<br>
+<b>※ IX 플러스 패키지 :</b> LED 주간 주행등(DRL) &amp; 포지셔닝 램프, 후방 안개등, 고급 지오닉 패턴 인조가죽시트, 1열 히팅시트 (운전석/동승석), 2열 히팅시트, 운전석 시트높이 조절장치, 스마트키 시스템
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> ETCS + ECM룸미러 </b>250,000
+<br><br>▶<b> 7인치 컬러 디스플레이 최고급 오디오 &amp; 후방 카메라&nbsp;</b>540,000
+<br><br>▶<b> 운전석 무릎 에어백</b>&nbsp;200,000
+<br><br>▶<b> IX 플러스 패키지 </b>990,000
+<br><br>▶<b>&nbsp;세이프티 선루프(무료옵션)</b></li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>디젤 RX 2WD</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,449</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	▶<b> IX 기본품목 외 </b>
+<br><br>·<b> 안전 사양  </b> :  운전석 무릎 에어백
+<br><br>·<b> 외관 사양  </b> :   LED 주간 주행등(DRL) &amp; 포지셔닝 램프, 18인치 다이아몬드 커팅휠, 
+하이브리드 블레이드 와이퍼, HID 헤드램프, 헤드램프 각도 조절장치
+<br><br>·<b> 내장 사양 </b> :   슈퍼비전 클러스터(6 Color 조절기능 포함), 
+고급 지오닉 패턴 인조가죽시트, 운전석 시트높이 조절장치
+<br><br>·<b> 편의 사양 </b> :   듀얼존 풀오토 에어컨, 스마트키 시스템, 전방 장애물 감지시스템,
+솔라컨트롤 글래스(윈드쉴드), 1열 히팅시트(운전석/동승석)
+<br>
+<br><b>
+※ RX 플러스 패키지 :</b> 후방 안개등, SUS 도어스커프(1열), LED 룸램프, LED 무드램프, 운전석 통풍시트, 2열 히팅시트, 2열 프라이버시 글래스, 러기지 스크린
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> ETCS + ECM룸미러</b>&nbsp;250,000
+<br><br>▶<b> 7인치 AVN 시스템</b>&nbsp;1,080,000
+<br><br>▶<b> 프리미엄 시트 패키지 </b>690,000
+<br><br>▶<b> RX 플러스 패키지 </b>790,000
+<br>
+<br>▶<b>&nbsp;세이프티 선루프(무료옵션)</b></li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>디젤 AX 4WD</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,283</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	▶<b>&nbsp;2WD AX(M/T) 기본품목 외</b><br><br>·<b>&nbsp;엔진/성능&nbsp;</b>: AISIN 6단 자동변속기 + 기어 노브(메탈 그레인 + 인조가죽커버), 4WD &amp; 후륜 독립현가 멀티링크 서스펜션
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b>&nbsp;운전석 무릎 에어백&nbsp;</b>200,000<br><br>▶<b>&nbsp;지오닉 패턴 인조가죽시트 패키지&nbsp;</b>500,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>디젤 IX 4WD</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,430</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	▶<b>&nbsp;4WD AX(A/T) 기본품목 외</b><br><br>·<b>&nbsp;외관 사양&nbsp;</b>: 18인치 알로이 휠, 215/45R18 타이어, 리어 스포일러, LED 사이드 리피터 일체형 아웃사이드미러<br><br>·<b>&nbsp;내장 사양&nbsp;</b>: 가죽 스티어링 휠, 크롬 인사이드 도어핸들, 화장거울 조명, 도어 커티쉬 램프<br><br>·<b>&nbsp;편의 사양&nbsp;</b>: 크루즈컨트롤 시스템, 오토라이트 컨트롤, 우적감지 와이퍼, 열선 스티어링 휠, 후방 장애물 감지시스템, 220V 인버터<br><br><b>※ IX 플러스 패키지 :</b>&nbsp;LED 주간 주행등(DRL) &amp; 포지셔닝 램프, 후방 안개등, 고급 지오닉 패턴 인조가죽시트, 1열 히팅시트 (운전석/동승석), 2열 히팅시트, 운전석 시트높이 조절장치, 스마트키 시스템
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b>&nbsp;ETCS + ECM룸미러&nbsp;</b>250,000<br><br>▶<b>&nbsp;7인치 컬러 디스플레이 최고급 오디오 &amp; 후방 카메라&nbsp;</b>540,000<br><br>▶<b>&nbsp;운전석 무릎 에어백</b>&nbsp;200,000<br><br>▶<b>&nbsp;IX 플러스 패키지&nbsp;</b>990,000<br><br>▶<b>&nbsp;세이프티 선루프(무료옵션)</b></li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>디젤 RX 4WD</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,626</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	▶<b>&nbsp;4WD IX 기본품목 외</b><br><br>·<b>&nbsp;안전 사양&nbsp;</b>: 운전석 무릎 에어백<br><br>·<b>&nbsp;외관 사양&nbsp;</b>: LED 주간 주행등(DRL) &amp; 포지셔닝 램프, 18인치 다이아몬드 커팅휠, 하이브리드 블레이드 와이퍼, HID 헤드램프, 헤드램프 각도 조절장치<br><br>·<b>&nbsp;내장 사양&nbsp;</b>: 슈퍼비전 클러스터(6 Color 조절기능 포함), 고급 지오닉 패턴 인조가죽시트, 운전석 시트높이 조절장치<br><br>·<b>&nbsp;편의 사양&nbsp;</b>: 듀얼존 풀오토 에어컨, 스마트키 시스템, 전방 장애물 감지시스템, 솔라컨트롤 글래스(윈드쉴드), 1열 히팅시트(운전석/동승석)<br><br><b>※ RX 플러스 패키지 :</b>&nbsp;후방 안개등, SUS 도어스커프(1열), LED 룸램프, LED 무드램프, 운전석 통풍시트, 2열 히팅시트, 2열 프라이버시 글래스, 러기지 스크린
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b>&nbsp;ETCS + ECM룸미러</b>&nbsp;250,000<br><br>▶<b>&nbsp;7인치 AVN 시스템</b>&nbsp;1,080,000<br><br>▶<b>&nbsp;프리미엄 시트 패키지&nbsp;</b>690,000<br><br>▶<b>&nbsp;RX 플러스 패키지&nbsp;</b>790,000<br><br>▶<b>&nbsp;세이프티 선루프(무료옵션)</b></li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+												</tbody>
+											</table>
+										
+
+
+										<!-- case2 : 세부등급이 있는경우 -->
+										
+									</div>
+									<!-- 신차가격표(폴더형) -->
+									<div id="f_fold" style="display:none;">
+										<div class="newcar_folder">
+											<ul class="nf_list" id="newcarList">
+												
+													<li>
+														<a href="#newcar0">
+                                                            <span class="model">디젤 AX 2WD  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,106</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar1">
+                                                            <span class="model">디젤 AX 2WD  M/T</span>
+                                                            <span class="prc">
+                                                                <strong>1,949</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar2">
+                                                            <span class="model">디젤 IX 2WD  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,253</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar3">
+                                                            <span class="model">디젤 RX 2WD  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,449</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar4">
+                                                            <span class="model">디젤 AX 4WD  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,283</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar5">
+                                                            <span class="model">디젤 IX 4WD  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,430</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar6">
+                                                            <span class="model">디젤 RX 4WD  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,626</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+											</ul>
+											<!-- 개별 -->
+											
+												<div id="newcar0" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> AX(M/T) 기본품목 외 </b>
+<br><br>·<b> 엔진/성능 </b> :  AISIN 6단 자동변속기 + 기어 노브(메탈 그레인 + 인조가죽커버)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 운전석 무릎 에어백 </b>200,000
+<br><br>▶<b> 지오닉 패턴 인조가죽시트 패키지 </b>500,000</p>
+												</div>
+											
+												<div id="newcar1" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> 엔진/성능  </b> : 1.6ℓ 디젤 엔진, 6단 수동변속기, 엔진커버, 맥퍼슨 스트럿&amp;토션빔 서스펜션
+<br><br>▶<b> 안전 사양  </b> : 6 에어백(운전석, 동승석, 사이드, 커튼), 1열 시트벨트 듀얼 프리텐셔너 &amp; CLT, ESP &amp; BAS &amp; ARP &amp; HSA, TPMS(타이어 공기압 경보 시스템), ESS(급제동 알림시스템), 이모빌라이저, 타이어 리페어킷, ISO-FIX(유아용 시트 고정장치)
+<br><br>▶<b> 외관 사양  </b> : 16인치 알로이 휠, 205/60R16 타이어, LED 리어 콤비네이션 램프,
+후드 &amp; 벨트라인 크롬 몰딩, 전방안개등, 패션 루프랙, 투톤 루프, 프로젝션 헤드램프, LED 보조 제동등, 전동접이식 아웃사이드미러(전동조절/열선내장), 윈드쉴드 글래스 쉐이드 밴드
+<br><br>▶<b> 내장 사양 </b> : 고급 직물시트, 2열 리클라이닝 시트, 2열 센터 암레스트, 
+스포티 D-cut 스티어링 휠, 1열 시트 슬라이딩 헤드레스트, 2열 6:4 풀플랫 폴딩시트, 2열 센터 헤드레스트, 오르간타입 가속페달, 선글라스 케이스, 센터 콘솔 암레스트, 도어 암레스트 소프트 패드, Day&amp;Night 룸미러, 실버 인사이드 도어핸들, 글로브박스 조명, 글로브박스 상단 트레이, 수동식 틸트 스티어링, 러기지 보드, 러기지 네트
+<br><br>▶<b> 편의 사양 </b> : EPS(전자식 속도감응형 파워스티어링), 리모트 폴딩 키, 매뉴얼 에어컨, 스마트 스티어, 속도감응식 오토도어록, 운전석 세이프티 파워 윈도우, 12V 파워아울렛, 시거라이터&amp;이동식 재떨이, 원터치 트리플 턴 시그널, 클러스터 조명조절장치, 배터리 세이버
+<br><br>▶<b> 오 디 오 </b> : MP3 고급 오디오, AUX &amp; USB(i-Pod)단자,  6스피커, 스티어링 휠 오디오 리모컨, 블루투스 핸즈프리&amp;오디오 스트리밍
+<br>
+<b><br></b><b>▶&nbsp;기본제공 스타일 &amp; 주요사양 : </b>LED 리어 콤비네이션 램프, 후드 &amp; 벨트라인 크롬 몰딩, 스포티 D-cut 스티어링 휠, 스마트 스티어, 전방 안개등, 1열 시트벨트 듀얼 프리텐셔너 &amp; 상해저감장치(CLT), 패션루프랙, 투톤루프</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 운전석 무릎 에어백</b>&nbsp;200,000
+<br><br>▶<b> 지오닉 패턴 인조가죽시트 패키지</b>&nbsp;500,000</p>
+												</div>
+											
+												<div id="newcar2" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> AX(A/T) 기본품목 외 </b>
+<br><br>·<b> 외관 사양  </b> :  18인치 알로이 휠, 215/45R18 타이어, 리어 스포일러, LED 사이드 리피터 일체형 아웃사이드미러
+<br><br>·<b> 내장 사양 </b> :  가죽 스티어링 휠, 크롬 인사이드 도어핸들, 화장거울 조명, 
+도어 커티쉬 램프
+<br><br>·<b> 편의 사양 </b> :  크루즈컨트롤 시스템, 오토라이트 컨트롤, 우적감지 와이퍼, 
+열선 스티어링 휠, 후방 장애물 감지시스템, 220V 인버터
+<br>
+<br>
+<b>※ IX 플러스 패키지 :</b> LED 주간 주행등(DRL) &amp; 포지셔닝 램프, 후방 안개등, 고급 지오닉 패턴 인조가죽시트, 1열 히팅시트 (운전석/동승석), 2열 히팅시트, 운전석 시트높이 조절장치, 스마트키 시스템</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> ETCS + ECM룸미러 </b>250,000
+<br><br>▶<b> 7인치 컬러 디스플레이 최고급 오디오 &amp; 후방 카메라&nbsp;</b>540,000
+<br><br>▶<b> 운전석 무릎 에어백</b>&nbsp;200,000
+<br><br>▶<b> IX 플러스 패키지 </b>990,000
+<br><br>▶<b>&nbsp;세이프티 선루프(무료옵션)</b></p>
+												</div>
+											
+												<div id="newcar3" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> IX 기본품목 외 </b>
+<br><br>·<b> 안전 사양  </b> :  운전석 무릎 에어백
+<br><br>·<b> 외관 사양  </b> :   LED 주간 주행등(DRL) &amp; 포지셔닝 램프, 18인치 다이아몬드 커팅휠, 
+하이브리드 블레이드 와이퍼, HID 헤드램프, 헤드램프 각도 조절장치
+<br><br>·<b> 내장 사양 </b> :   슈퍼비전 클러스터(6 Color 조절기능 포함), 
+고급 지오닉 패턴 인조가죽시트, 운전석 시트높이 조절장치
+<br><br>·<b> 편의 사양 </b> :   듀얼존 풀오토 에어컨, 스마트키 시스템, 전방 장애물 감지시스템,
+솔라컨트롤 글래스(윈드쉴드), 1열 히팅시트(운전석/동승석)
+<br>
+<br><b>
+※ RX 플러스 패키지 :</b> 후방 안개등, SUS 도어스커프(1열), LED 룸램프, LED 무드램프, 운전석 통풍시트, 2열 히팅시트, 2열 프라이버시 글래스, 러기지 스크린</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> ETCS + ECM룸미러</b>&nbsp;250,000
+<br><br>▶<b> 7인치 AVN 시스템</b>&nbsp;1,080,000
+<br><br>▶<b> 프리미엄 시트 패키지 </b>690,000
+<br><br>▶<b> RX 플러스 패키지 </b>790,000
+<br>
+<br>▶<b>&nbsp;세이프티 선루프(무료옵션)</b></p>
+												</div>
+											
+												<div id="newcar4" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b>&nbsp;2WD AX(M/T) 기본품목 외</b><br><br>·<b>&nbsp;엔진/성능&nbsp;</b>: AISIN 6단 자동변속기 + 기어 노브(메탈 그레인 + 인조가죽커버), 4WD &amp; 후륜 독립현가 멀티링크 서스펜션</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b>&nbsp;운전석 무릎 에어백&nbsp;</b>200,000<br><br>▶<b>&nbsp;지오닉 패턴 인조가죽시트 패키지&nbsp;</b>500,000</p>
+												</div>
+											
+												<div id="newcar5" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b>&nbsp;4WD AX(A/T) 기본품목 외</b><br><br>·<b>&nbsp;외관 사양&nbsp;</b>: 18인치 알로이 휠, 215/45R18 타이어, 리어 스포일러, LED 사이드 리피터 일체형 아웃사이드미러<br><br>·<b>&nbsp;내장 사양&nbsp;</b>: 가죽 스티어링 휠, 크롬 인사이드 도어핸들, 화장거울 조명, 도어 커티쉬 램프<br><br>·<b>&nbsp;편의 사양&nbsp;</b>: 크루즈컨트롤 시스템, 오토라이트 컨트롤, 우적감지 와이퍼, 열선 스티어링 휠, 후방 장애물 감지시스템, 220V 인버터<br><br><b>※ IX 플러스 패키지 :</b>&nbsp;LED 주간 주행등(DRL) &amp; 포지셔닝 램프, 후방 안개등, 고급 지오닉 패턴 인조가죽시트, 1열 히팅시트 (운전석/동승석), 2열 히팅시트, 운전석 시트높이 조절장치, 스마트키 시스템</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b>&nbsp;ETCS + ECM룸미러&nbsp;</b>250,000<br><br>▶<b>&nbsp;7인치 컬러 디스플레이 최고급 오디오 &amp; 후방 카메라&nbsp;</b>540,000<br><br>▶<b>&nbsp;운전석 무릎 에어백</b>&nbsp;200,000<br><br>▶<b>&nbsp;IX 플러스 패키지&nbsp;</b>990,000<br><br>▶<b>&nbsp;세이프티 선루프(무료옵션)</b></p>
+												</div>
+											
+												<div id="newcar6" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b>&nbsp;4WD IX 기본품목 외</b><br><br>·<b>&nbsp;안전 사양&nbsp;</b>: 운전석 무릎 에어백<br><br>·<b>&nbsp;외관 사양&nbsp;</b>: LED 주간 주행등(DRL) &amp; 포지셔닝 램프, 18인치 다이아몬드 커팅휠, 하이브리드 블레이드 와이퍼, HID 헤드램프, 헤드램프 각도 조절장치<br><br>·<b>&nbsp;내장 사양&nbsp;</b>: 슈퍼비전 클러스터(6 Color 조절기능 포함), 고급 지오닉 패턴 인조가죽시트, 운전석 시트높이 조절장치<br><br>·<b>&nbsp;편의 사양&nbsp;</b>: 듀얼존 풀오토 에어컨, 스마트키 시스템, 전방 장애물 감지시스템, 솔라컨트롤 글래스(윈드쉴드), 1열 히팅시트(운전석/동승석)<br><br><b>※ RX 플러스 패키지 :</b>&nbsp;후방 안개등, SUS 도어스커프(1열), LED 룸램프, LED 무드램프, 운전석 통풍시트, 2열 히팅시트, 2열 프라이버시 글래스, 러기지 스크린</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b>&nbsp;ETCS + ECM룸미러</b>&nbsp;250,000<br><br>▶<b>&nbsp;7인치 AVN 시스템</b>&nbsp;1,080,000<br><br>▶<b>&nbsp;프리미엄 시트 패키지&nbsp;</b>690,000<br><br>▶<b>&nbsp;RX 플러스 패키지&nbsp;</b>790,000<br><br>▶<b>&nbsp;세이프티 선루프(무료옵션)</b></p>
+												</div>
+											
+										</div>
+										<script type="text/javascript">
+											newcarFolder(0);//초기값
+											function newcarFolder(target) {
+												var conElId = "newcar"//아이디 설정
+												var conElMenu = document.getElementById("newcarList");
+												var conElMenuLink = conElMenu.getElementsByTagName("a");
+												if (target != null) {
+													conElMenuLink[target].parentNode.className = "on";
+													document.getElementById(
+														conElId + target).style.display = "";
+												}
+												for (i = 0; i <= (conElMenuLink.length - 1); i++) {
+													conElMenuLink[i].onclick = function () {
+														for (x = 0; x <= (conElMenuLink.length - 1); x++) {
+															conElMenuLink[x].parentNode.className = "";
+															document.getElementById(
+																conElId + x).style.display = "none";
+														}
+														this.parentNode.className = "on";
+														document.getElementById(this.getAttribute('href')
+																					.split(
+																						'#')[1]).style.display =
+															"";
+														return false;
+													}
+												}
+											}
+										</script>
+									</div>
+									
+										<ul class="more">
+												▶&nbsp;<b>티볼리 에어</b><br><b>* 프리미엄 시트 패키지 :</b> 최고급 가죽시트, 운전석 파워시트
+<br><b>* 지오닉 패턴 인조가죽시트 패키지 :</b> 고급 지오닉 패턴 인조가죽시트, 운전석 시트높이 조절장치, 1열 히팅시트 (운전석/동승석)
+<br><b>* 7인치 AVN 시스템 :</b> 터치 스크린, 3D 지니맵, 지상파 DMB, TPEG, 후방 카메라, AM/FM라디오, 블루투스 핸즈프리 &amp; 오디오 스트리밍, HDMI &amp; USB단자, 스마트폰 연동 가능
+<br><b>* 7인치 컬러디스플레이 최고급 오디오 &amp; 후방카메라 : </b>터치 스크린 + AM/FM라디오, 블루투스 핸즈프리 &amp; 오디오 스트리밍, HDMI &amp; USB단자, 스마트폰 연동
+										</ul>
+									
+									<p class="desc_more">위 신차가격표는 단순 참고자료이며, 정확한 내용은 각 제조사에서 제공하는 자료를 통해확인하실 수 있습니다.</p><!-- 2016/10/12 [장] 등급 등록/수정 개선 : 추가 디자인 변경 -->
+									<p class="toTop"><a href="#main_title" class="sp toTop db_ir" title="페이지 위로"><u>페이지 위로</u></a></p><!-- [시세개편] class db_ir 추가 -->
+								</div>
+
+
+							</div>
+							<!-- body end -->
+						</td>
+					</tr>
+				</table>
+
+
+			
+			
+		
+    </div>
+
+    <!-- container end -->
+</form>
+</div>
+
+</body>
+<script language="javascript">
+
+
+    var strCompanyUrl = "/common/combo/cardbcompany.json?method=carList";
+    var strModelGroupUrl = "/common/combo/modelgroupfordb.json?method=carList";
+    var strModelUrl = "/common/combo/cardbmodel.json?method=carList";
+    var strYrJatoUrl = "/common/combo/jatoYr.json?method=carList";
+
+    var companyid = "mnfccd";
+    var modelgroupid = "mdlgroupcd";
+    var modelid = "mdlcd";
+    var yearid = "caryear";
+
+    function initGnb() {
+        var paramCompany = $("paramMnfccd").value;
+        var paramModelGroup = $("paramMdlgroupcd").value;
+        var paramModel = $("paramMdlcd").value;
+        var paramYr = $("paramYear").value;
+
+        // 제조사
+        if (paramModel != "") {
+            $("mdlcd").show();
+        }
+
+        //console.log("companyid :: " + companyid)
+        //console.log("paramCompany :: " + paramCompany)
+		if($('foldYn').value != 0){
+            foldingYN('f_fold');
+		}
+
+        setCompany(strCompanyUrl, companyid, "제조사", paramCompany);
+
+        // 제조사 값이 있으면 모델 검색
+        if (paramCompany >= '010') {
+            if (paramCompany != "") {
+                if (paramModel == "") {
+                    paramModel = paramModelGroup;
+                }
+                setModel(strModelUrl, modelid, paramCompany, "모델", paramModel)
+                $("mdlgroupcd").hide();
+
+            }
+        } else {
+            $("mdlgroupcd").show();
+            if (paramCompany != "") {
+                setModelGroup(strModelGroupUrl, modelgroupid, paramCompany, "모델", paramModelGroup);
+                if (paramModelGroup != "") {
+                    setModel_New(strModelUrl, modelid, paramCompany, paramModelGroup, "세부모델", paramModel);
+                }
+            }
+
+        }
+        if (paramCompany != "" && paramModel != "") {
+            setCarYear(strYrJatoUrl, yearid, paramCompany, paramModel, "형식연도", paramYr);
+        }
+
+        waitTime = 1;
+    }
+
+    function changeModel_jato(mnfccd, mdlgroupcd) {
+        setModel_New(strModelUrl, modelid, mnfccd, mdlgroupcd, "세부모델", "");
+        //모델그룹선택시 기본 세부모델선택
+        if ($("mdlcd") != null) {
+            $("mdlcd").selectedIndex = 1;
+            var mdlcd = $("mdlcd").options[$("mdlcd").selectedIndex].value;
+            changeYearJato(mnfccd, mdlcd);
+        }
+    }
+
+    function changeYearJato(mnfccd,mdlcd) {
+        setCarYear(strYrJatoUrl, yearid, mnfccd, mdlcd, "형식연도", "");
+        $(yearid).options[1].selected = true;
+    }
+
+
+
+    //덧글 리스트
+    function viewForm(index) {
+
+        var object = $("default" + index);
+        var objectSum = $("defaultSum" + index);
+        var selectSum = $("choiceSum" + index);
+        var object1 = $("choice" + index);
+        if (object != null) {
+            if (object.style.display == 'none') {
+                objectSum.hide();
+                selectSum.hide();
+                object.style.display = "block";
+                object1.style.display = "block";
+
+            } else {
+                object.hide();
+                object1.hide();
+                objectSum.style.display = "block";
+                selectSum.style.display = "block";
+            }
+        }
+    }
+
+    function viewAll() {
+        for (var i = 1; i <=7; i++) {
+            $("default" + i).style.display = "block";
+            $("defaultSum" + i).style.display = "none";
+            $("choice" + i).style.display = "block";
+            $("choiceSum" + i).style.display = "none";
+        }
+    }
+
+    function closeAll() {
+        for (var i = 1; i <=7; i++) {
+            $("default" + i).style.display = "none";
+            $("defaultSum" + i).style.display = "block";
+            $("choice" + i).style.display = "none";
+            $("choiceSum" + i).style.display = "block";
+        }
+    }
+
+    function firstLayerOpen() {
+        //viewForm(1);
+    }
+
+    function foldingYN(param) {
+        if (param == "f_fold") {
+            document.getElementById("folding").innerHTML ="<a href=\"javascript:foldingYN('f_unfold')\" class='folding f_unfold'>전체등급 펼쳐보기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "none";
+            document.getElementById("f_fold").style.display = "";
+        } else {
+            document.getElementById("folding").innerHTML = "<a href=\"javascript:foldingYN('f_fold')\" class='folding f_fold'>접기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "";
+            document.getElementById("f_fold").style.display = "none";
+        }
+    }
+
+    function onSubmit() {
+        jQuery("#searchForm").submit();
+
+    }
+    window.onload = initGnb;
+
+</script>
+</html>
+

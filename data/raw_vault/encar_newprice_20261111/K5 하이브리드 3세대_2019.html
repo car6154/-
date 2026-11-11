@@ -1,0 +1,789 @@
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>차량DB - 차량정보 - 신차가격표</title>
+    <link type="text/css" rel="stylesheet" href="/css/common.css?v=1793835891525"/>
+    <link type="text/css" rel="stylesheet" href="/css/db.css?v=1793835891525"/>
+
+    <script type="text/javascript" src="/js/encarapp/lib/jquery/jquery-1.11.3.min.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/common/ui.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/prototype.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/util.js?v=1793835894199"></script>
+
+    <script type="text/javascript" src="/js/common/db_common.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/commonCombo.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/carSearchCombo.js?v=1793835894199"></script>
+	<script>
+		window.enlogInitJson = {
+			"dataTalkView": {
+				"screenName": "신차가격표"
+			}
+		}
+
+	</script>
+
+
+</head>
+
+
+
+
+
+
+
+    <!-- 등급 체크박스  -->
+    <div style="display:none">
+        
+    </div>
+
+    <!-- 세부등급 체크박스 -->
+    <div style="display:none">
+        
+    </div>
+
+
+
+<body class="db db_newdetailview db_basicTemplate">
+
+
+
+
+	
+	
+	
+	
+
+
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-W9QQ2T"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W9QQ2T');</script>
+<!-- End Google Tag Manager -->
+
+<!-- container begin -->
+<div class="container" id="containerDIV">
+<input type="hidden" id = "foldYn" name="searchtype" value="4"/>
+<form id ="searchForm" name="searchForm">
+
+    <input type="hidden" id = "method" name="method" value="newpricePopV2"/>
+    <input type="hidden" id = "dimensiontype" name="dimensiontype" value="null"/>
+    <input type="hidden" id = "paramMnfccd" name="paramMnfccd" value="002"/>
+    <input type="hidden" id = "paramMdlgroupcd" name="paramMdlgroupcd" value="001"/>
+    <input type="hidden" id = "paramMdlcd" name="paramMdlcd" value="150"/>
+    <input type="hidden" id = "paramYear" name="paramYear" value="2019"/>
+    <input type="hidden" id = "model" name="model" value="">
+    <input type="hidden" id = "paramCaryear" name="paramCaryear" value="2019"/>
+    <input type="hidden" id = "clsheadcd" name="clsheadcd" class="checkbox" value="null"/>
+    <input type="hidden" id = "paramGradeHead" name="paramGradeHead" value="null"/>
+	<input type="hidden" id = "searchtype" name="searchtype" value="check"/>
+	<input type="hidden" id = "pageAccessToken" name="pageAccessToken" value="AgV4ZkZ+IcuMOOImzZwCv9bSDZmJwoV7pPBo002A2Fh+K0IAcQACAAdFbmNhckNrAAdFbmNhckN2ABVhd3MtY3J5cHRvLXB1YmxpYy1rZXkAREFtb1VicUNBNVhlSEE3SlRVaHdvS0JmdlFGY1g2RThhVnZEU21KUFM1S1ExY0hCOTZDRDhoTlc0VHk3dDllb1RKUT09AAEAB2F3cy1rbXMAUGFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjI3MjM2MjQ4NzY1MzprZXkvbXJrLWRmZWEyNmY3NTVhMzQ3MjliNjkwMjRkZWZmM2M1MWFjALgBAgEAeAuqQuSJvQ+Ra4FSj55FZzS0sk+00amsb3yoAFiEYn4PARtjxW8b4ek9O0MZoA5ZpugAAAB+MHwGCSqGSIb3DQEHBqBvMG0CAQAwaAYJKoZIhvcNAQcBMB4GCWCGSAFlAwQBLjARBAytybCgXLQrAhb8T9YCARCAOyyhJGqICc0xxYUerSEAgNIxJaJn0QZbjWxLJ6Em+i01OuouK90g2XUK2JehtR2EY5sUD+yG+DNybzNDAgAAEACAglkmrHKlX3o/dwLhhooQuKll/bTF63PMVQA7ZKxJ9COwPQRFThSsnq8McpgQdQz/////AAAAAQAAAAAAAAAAAAAAAQAAAKPmrGhakv8wrpv3fIFFautvCA/8mwOjQM0F6DMfYi81/n8tlED1+x/k9pRA7Mw15W+c4GR3sIyewrnY6TQLlslwNnlGoONa2hMktV/Z580EwsbpWIb2/SMPCfQDwOfG+mja+Tqse0UkJLXYgK/RgHasn8ICPZQCtT1Kz5E1rzTyO1qzZD9XsMAOO0cGFeB3oYGb9znHGT2MXMIB11off6Xu+gLv0/zhxqJrhOjL6LcP7l6noQBnMGUCMFiwtorHLWXnb1hY8p8DC6KM5FJT3Y9C8W4pwbeLhWO/0DhBFxwQzWRB1Z+AoUb46AIxAMPhmN8oI2ysCpolU2jVN+Y4GGm8AiB5writaDzvyttVflhGZ8FEn0+RrqaTSxL5MA=="/>
+    <div class="header">
+        <h1 class="blind">SK엔카</h1>
+        <h2 class="tit_carprice" id="main_title">신차가격표</h2>
+        <p class="quickSearch">
+
+
+
+            <select title="제조사" class="opt_select" id="mnfccd" name="mnfccd" onChange="javascript:changeModelGroup(this.value);">
+                <option value="">제조사</option>
+            </select>
+
+            <select class="opt_select" title="모델" id="mdlgroupcd" name="mdlgroupcd" onChange="javascript:changeModel_jato($('mnfccd').value, this.value);">
+                <option>모델</option>
+            </select>
+
+            <select class="opt_select" title="세부모델" id="mdlcd" name="mdlcd" onChange="javascript:changeYearJato($('mnfccd').value, $('mdlcd').value);">
+                <option>세부모델</option>
+            </select>
+
+            <select class="opt_select" title="연식" id="caryear" name="caryear">
+                <option>연식</option>
+            </select>
+
+            <button type="button" class="btn_search" onclick="javascript:onSubmit();"/>검색</button>
+
+
+
+        </p>
+    </div>
+    <!-- body begin -->
+    <div class="body" id="bodydiv">
+		
+			
+				<table class="layout">
+					<col class="contents"/>
+					<tr>
+						<td class="contentsMenu">
+							<!-- contentsMenu begin -->
+							<div class="contentsMenu">
+								<h3 class="title">기아 K5 하이브리드 3세대 2019년형</h3>
+							</div>
+							<!-- contentsMenu end -->
+						</td>
+					</tr>
+
+					<tr>
+						<td class="contentsMain">
+							<!-- contents begin -->
+							<div class="contents">
+
+								<div class="carCompare">
+									<div class="dbHead">
+										
+											<div id="folding"><a href="javascript:foldingYN('f_fold')"
+																 class="folding f_fold">전체등급 펼쳐보기<em class="db_ir"></em></a></div>
+
+											<!-- 2013/04/03 [서] 매물탭 개선 : 기능 버튼 추가 --><!--<a href="#" class="folding f_unfold">펼치기</a>-->
+										
+									</div>
+									
+									
+										
+									
+										
+									
+										
+									
+										
+									
+									<div id="f_unfold">
+										
+											<!-- case1 : 세부등급과 미션분리 -->
+											<table class="carCompare sellcase1">
+												<colgroup>
+													<col class="grade">
+													<col class="mission">
+													<col class="price">
+												    <col class="uprice"><!-- [시세개편] 중고차시세 추가 uprice -->
+													<col class="item">
+													<col class="option">
+												</colgroup>
+												<thead class="compare">
+												<tr>
+													<th class="grade" colspan="2"><b>구분</b></th>
+													<th class="price"><b>판매가격</b></th>
+													<th class="uprice"><b>중고차시세</b></th><!-- [시세개편] 중고차시세 추가 -->
+													<th class="item"><b>기본사양 품목</b></th>
+													<th class="option end"><b>선택사양 품목</b></th>
+												</tr>
+												</thead>
+												<tbody class="new">
+												
+													
+														
+													
+													
+														
+															
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>트렌디</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,749</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>▶ 2.0 가솔린 트렌디 기본품목 외
+</b><br>
+<br><b>&nbsp;·&nbsp;파워트레인</b> : 스마트스트림 G2.0 하이브리드 엔진, 하이브리드 모터, 차세대 회생제동 브레이크 시스템,
+리튬이온 폴리머 배터리 시스템, 하이브리드 전력제어 유니트, 가상엔진 사운드 시스템 ※ 고급형 ISG 미적용
+
+<br>
+<br><b>&nbsp;·&nbsp;외관</b> : 205/65R16 굿이어 타이어 &amp; 하이브리드 전용 전면가공 휠, 하이브리드 전용 라디에이터 그릴 &amp; 프론트 범퍼,
+크롬 아웃사이드 도어 핸들, 도어손잡이 조명(프론트 도어)
+
+<br>
+<br><b>&nbsp;·&nbsp;내장</b> : 블랙 / 새들브라운 인테리어 中 선택
+<br>
+<br><b>&nbsp;·&nbsp;편의</b> : 버튼시동 스마트키 시스템(원격시동 포함), 스마트 트렁크, 터치타입 독립제어 풀오토 에어컨(운전석 / 동승석)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>컴포트 : 930,000
+<br>
+<br><b>▶&nbsp;</b>드라이브 와이즈 : 740,000
+<br>
+<br><b>▶&nbsp;</b>10.25인치
+UVO 내비게이션 : 1,620,000&nbsp;<br>
+<br><b>▶&nbsp;</b>헤드업 디스플레이 : 740,000 ※&nbsp;10.25인치 UVO 내비게이션 적용시 선택 가능<br>
+<br><b>▶&nbsp;</b>KRELL
+프리미엄 사운드 : 590,000 ※&nbsp;10.25인치 UVO 내비게이션 적용시 선택 가능<br>
+<br><b>▶&nbsp;</b>스마트 커넥트 : 590,000 ※&nbsp;10.25인치 UVO 내비게이션 적용시 선택 가능</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>프레스티지</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,937</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>▶&nbsp;</b><b>2.0 가솔린 프레스티지 기본품목 외&nbsp;
+<br></b><br><b>&nbsp;·&nbsp;파워트레인 </b>: 스마트스트림 G2.0 하이브리드 엔진, 하이브리드 모터, 차세대 회생제동 브레이크 시스템,
+리튬이온 폴리머 배터리 시스템, 하이브리드 전력제어 유니트, 가상엔진 사운드 시스템 ※ 고급형 ISG 미적용&nbsp;
+<br><br><b>&nbsp;·&nbsp;외관 </b>: 하이브리드 전용 전면가공 휠(215/55R17 국산 타이어 적용), 하이브리드 전용 라디에이터 그릴 &amp; 프론트 범퍼,
+LED 리어 콤비네이션 램프&nbsp;
+<br><br><b>&nbsp;·&nbsp;</b><b>내장 </b>: 블랙 / 새들브라운 인테리어 中 선택
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>컴포트 : 740,000<br><br><b>▶&nbsp;</b>드라이브 와이즈 : 740,000<br><br><b>▶&nbsp;</b>10.25인치 UVO 내비게이션 : 930,000<br><br><b>▶&nbsp;</b>헤드업 디스플레이 : 740,000 ※&nbsp;10.25인치 UVO 내비게이션 적용시 선택 가능<br><br><b>▶&nbsp;</b>KRELL 프리미엄 사운드 : 590,000 ※&nbsp;10.25인치 UVO 내비게이션 적용시 선택 가능<br><br><b>▶&nbsp;</b>스마트 커넥트 : 590,000 ※&nbsp;10.25인치 UVO 내비게이션 적용시 선택 가능<br><br><b>▶&nbsp;</b>파노라마 선루프 : 1,180,000<br></li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>노블레스</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,129</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>▶ 2.0 가솔린 노블레스 기본품목 외&nbsp;
+<br></b><br><b>&nbsp;·&nbsp;파워트레인 </b>: 스마트스트림 G2.0 하이브리드 엔진, 하이브리드 모터, 차세대 회생제동 브레이크 시스템,
+리튬이온 폴리머 배터리 시스템, 하이브리드 전력제어 유니트, 가상엔진 사운드 시스템 ※ 고급형 ISG 미적용&nbsp;
+<br><br><b>&nbsp;·&nbsp;외관 </b>: 하이브리드 전용 전면가공 휠(215/55R17 국산 타이어 적용), 하이브리드 전용 라디에이터 그릴 &amp; 프론트 범퍼,
+프로젝션 LED 헤드램프(LED 방향지시등 포함)&nbsp;
+<br><br><b>&nbsp;·&nbsp;내장 </b>: 블랙 / 새들브라운 인테리어 中 선택
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>컴포트 : 740,000<br><br><b>▶&nbsp;</b>드라이브 와이즈 : 740,000<br><br><b>▶&nbsp;</b>10.25인치 UVO 내비게이션 : 930,000<br><br><b>▶&nbsp;</b>헤드업 디스플레이 : 740,000 ※&nbsp;10.25인치 UVO 내비게이션 적용시 선택 가능<br><br><b>▶&nbsp;</b>KRELL 프리미엄 사운드 : 590,000 ※&nbsp;10.25인치 UVO 내비게이션 적용시 선택 가능<br><br><b>▶&nbsp;</b>스마트 커넥트 : 590,000 ※&nbsp;10.25인치 UVO 내비게이션 적용시 선택 가능<br><br><b>▶&nbsp;</b>파노라마 선루프 : 1,180,000<br><br><b>▶&nbsp;</b>솔라 루프 : 1,280,000<br><br>※ 파노라마 선루프와 솔라 루프는 중복 선택 불가</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>시그니처</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,335</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>▶ 2.0 가솔린 시그니처 기본품목 외</b>&nbsp;※ 원격 스마트 주차 보조(RSPA) 미적용
+<br><br><b>&nbsp;·&nbsp;파워트레인</b> : 스마트스트림 G2.0 하이브리드 엔진, 하이브리드 모터, 차세대 회생제동 브레이크 시스템,
+리튬이온 폴리머 배터리 시스템, 하이브리드 전력제어 유니트, 가상엔진 사운드 시스템 ※ 고급형 ISG 미적용&nbsp;
+<br><b><br></b><b>&nbsp;·&nbsp;외관</b> : 215/55R17 피렐리 타이어 &amp; 하이브리드 전용 전면가공 휠, 하이브리드 전용 라디에이터 그릴 &amp; 프론트 범퍼&nbsp;
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>드라이브 와이즈 : 740,000<br><br><b>▶&nbsp;</b>10.25인치 UVO 내비게이션 : 930,000<br><br><b>▶&nbsp;</b>헤드업 디스플레이 : 740,000 ※&nbsp;10.25인치 UVO 내비게이션 적용시 선택 가능<br><br><b>▶&nbsp;</b>KRELL 프리미엄 사운드 : 590,000 ※&nbsp;10.25인치 UVO 내비게이션 적용시 선택 가능<br><br><b>▶&nbsp;</b>스마트 커넥트 : 590,000 ※&nbsp;10.25인치 UVO 내비게이션 적용시 선택 가능<br><br><b>▶&nbsp;</b>파노라마 선루프 : 1,180,000<br><br><b>▶&nbsp;</b>솔라 루프 : 1,280,000<br><br>※ 파노라마 선루프와 솔라 루프는 중복 선택 불가</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+												</tbody>
+											</table>
+										
+
+
+										<!-- case2 : 세부등급이 있는경우 -->
+										
+									</div>
+									<!-- 신차가격표(폴더형) -->
+									<div id="f_fold" style="display:none;">
+										<div class="newcar_folder">
+											<ul class="nf_list" id="newcarList">
+												
+													<li>
+														<a href="#newcar0">
+                                                            <span class="model">트렌디  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,749</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar1">
+                                                            <span class="model">프레스티지  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,937</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar2">
+                                                            <span class="model">노블레스  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,129</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar3">
+                                                            <span class="model">시그니처  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,335</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+											</ul>
+											<!-- 개별 -->
+											
+												<div id="newcar0" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 2.0 가솔린 트렌디 기본품목 외
+</b><br>
+<br><b>&nbsp;·&nbsp;파워트레인</b> : 스마트스트림 G2.0 하이브리드 엔진, 하이브리드 모터, 차세대 회생제동 브레이크 시스템,
+리튬이온 폴리머 배터리 시스템, 하이브리드 전력제어 유니트, 가상엔진 사운드 시스템 ※ 고급형 ISG 미적용
+
+<br>
+<br><b>&nbsp;·&nbsp;외관</b> : 205/65R16 굿이어 타이어 &amp; 하이브리드 전용 전면가공 휠, 하이브리드 전용 라디에이터 그릴 &amp; 프론트 범퍼,
+크롬 아웃사이드 도어 핸들, 도어손잡이 조명(프론트 도어)
+
+<br>
+<br><b>&nbsp;·&nbsp;내장</b> : 블랙 / 새들브라운 인테리어 中 선택
+<br>
+<br><b>&nbsp;·&nbsp;편의</b> : 버튼시동 스마트키 시스템(원격시동 포함), 스마트 트렁크, 터치타입 독립제어 풀오토 에어컨(운전석 / 동승석)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>컴포트 : 930,000
+<br>
+<br><b>▶&nbsp;</b>드라이브 와이즈 : 740,000
+<br>
+<br><b>▶&nbsp;</b>10.25인치
+UVO 내비게이션 : 1,620,000&nbsp;<br>
+<br><b>▶&nbsp;</b>헤드업 디스플레이 : 740,000 ※&nbsp;10.25인치 UVO 내비게이션 적용시 선택 가능<br>
+<br><b>▶&nbsp;</b>KRELL
+프리미엄 사운드 : 590,000 ※&nbsp;10.25인치 UVO 내비게이션 적용시 선택 가능<br>
+<br><b>▶&nbsp;</b>스마트 커넥트 : 590,000 ※&nbsp;10.25인치 UVO 내비게이션 적용시 선택 가능</p>
+												</div>
+											
+												<div id="newcar1" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶&nbsp;</b><b>2.0 가솔린 프레스티지 기본품목 외&nbsp;
+<br></b><br><b>&nbsp;·&nbsp;파워트레인 </b>: 스마트스트림 G2.0 하이브리드 엔진, 하이브리드 모터, 차세대 회생제동 브레이크 시스템,
+리튬이온 폴리머 배터리 시스템, 하이브리드 전력제어 유니트, 가상엔진 사운드 시스템 ※ 고급형 ISG 미적용&nbsp;
+<br><br><b>&nbsp;·&nbsp;외관 </b>: 하이브리드 전용 전면가공 휠(215/55R17 국산 타이어 적용), 하이브리드 전용 라디에이터 그릴 &amp; 프론트 범퍼,
+LED 리어 콤비네이션 램프&nbsp;
+<br><br><b>&nbsp;·&nbsp;</b><b>내장 </b>: 블랙 / 새들브라운 인테리어 中 선택</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>컴포트 : 740,000<br><br><b>▶&nbsp;</b>드라이브 와이즈 : 740,000<br><br><b>▶&nbsp;</b>10.25인치 UVO 내비게이션 : 930,000<br><br><b>▶&nbsp;</b>헤드업 디스플레이 : 740,000 ※&nbsp;10.25인치 UVO 내비게이션 적용시 선택 가능<br><br><b>▶&nbsp;</b>KRELL 프리미엄 사운드 : 590,000 ※&nbsp;10.25인치 UVO 내비게이션 적용시 선택 가능<br><br><b>▶&nbsp;</b>스마트 커넥트 : 590,000 ※&nbsp;10.25인치 UVO 내비게이션 적용시 선택 가능<br><br><b>▶&nbsp;</b>파노라마 선루프 : 1,180,000<br></p>
+												</div>
+											
+												<div id="newcar2" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 2.0 가솔린 노블레스 기본품목 외&nbsp;
+<br></b><br><b>&nbsp;·&nbsp;파워트레인 </b>: 스마트스트림 G2.0 하이브리드 엔진, 하이브리드 모터, 차세대 회생제동 브레이크 시스템,
+리튬이온 폴리머 배터리 시스템, 하이브리드 전력제어 유니트, 가상엔진 사운드 시스템 ※ 고급형 ISG 미적용&nbsp;
+<br><br><b>&nbsp;·&nbsp;외관 </b>: 하이브리드 전용 전면가공 휠(215/55R17 국산 타이어 적용), 하이브리드 전용 라디에이터 그릴 &amp; 프론트 범퍼,
+프로젝션 LED 헤드램프(LED 방향지시등 포함)&nbsp;
+<br><br><b>&nbsp;·&nbsp;내장 </b>: 블랙 / 새들브라운 인테리어 中 선택</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>컴포트 : 740,000<br><br><b>▶&nbsp;</b>드라이브 와이즈 : 740,000<br><br><b>▶&nbsp;</b>10.25인치 UVO 내비게이션 : 930,000<br><br><b>▶&nbsp;</b>헤드업 디스플레이 : 740,000 ※&nbsp;10.25인치 UVO 내비게이션 적용시 선택 가능<br><br><b>▶&nbsp;</b>KRELL 프리미엄 사운드 : 590,000 ※&nbsp;10.25인치 UVO 내비게이션 적용시 선택 가능<br><br><b>▶&nbsp;</b>스마트 커넥트 : 590,000 ※&nbsp;10.25인치 UVO 내비게이션 적용시 선택 가능<br><br><b>▶&nbsp;</b>파노라마 선루프 : 1,180,000<br><br><b>▶&nbsp;</b>솔라 루프 : 1,280,000<br><br>※ 파노라마 선루프와 솔라 루프는 중복 선택 불가</p>
+												</div>
+											
+												<div id="newcar3" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 2.0 가솔린 시그니처 기본품목 외</b>&nbsp;※ 원격 스마트 주차 보조(RSPA) 미적용
+<br><br><b>&nbsp;·&nbsp;파워트레인</b> : 스마트스트림 G2.0 하이브리드 엔진, 하이브리드 모터, 차세대 회생제동 브레이크 시스템,
+리튬이온 폴리머 배터리 시스템, 하이브리드 전력제어 유니트, 가상엔진 사운드 시스템 ※ 고급형 ISG 미적용&nbsp;
+<br><b><br></b><b>&nbsp;·&nbsp;외관</b> : 215/55R17 피렐리 타이어 &amp; 하이브리드 전용 전면가공 휠, 하이브리드 전용 라디에이터 그릴 &amp; 프론트 범퍼&nbsp;</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>드라이브 와이즈 : 740,000<br><br><b>▶&nbsp;</b>10.25인치 UVO 내비게이션 : 930,000<br><br><b>▶&nbsp;</b>헤드업 디스플레이 : 740,000 ※&nbsp;10.25인치 UVO 내비게이션 적용시 선택 가능<br><br><b>▶&nbsp;</b>KRELL 프리미엄 사운드 : 590,000 ※&nbsp;10.25인치 UVO 내비게이션 적용시 선택 가능<br><br><b>▶&nbsp;</b>스마트 커넥트 : 590,000 ※&nbsp;10.25인치 UVO 내비게이션 적용시 선택 가능<br><br><b>▶&nbsp;</b>파노라마 선루프 : 1,180,000<br><br><b>▶&nbsp;</b>솔라 루프 : 1,280,000<br><br>※ 파노라마 선루프와 솔라 루프는 중복 선택 불가</p>
+												</div>
+											
+										</div>
+										<script type="text/javascript">
+											newcarFolder(0);//초기값
+											function newcarFolder(target) {
+												var conElId = "newcar"//아이디 설정
+												var conElMenu = document.getElementById("newcarList");
+												var conElMenuLink = conElMenu.getElementsByTagName("a");
+												if (target != null) {
+													conElMenuLink[target].parentNode.className = "on";
+													document.getElementById(
+														conElId + target).style.display = "";
+												}
+												for (i = 0; i <= (conElMenuLink.length - 1); i++) {
+													conElMenuLink[i].onclick = function () {
+														for (x = 0; x <= (conElMenuLink.length - 1); x++) {
+															conElMenuLink[x].parentNode.className = "";
+															document.getElementById(
+																conElId + x).style.display = "none";
+														}
+														this.parentNode.className = "on";
+														document.getElementById(this.getAttribute('href')
+																					.split(
+																						'#')[1]).style.display =
+															"";
+														return false;
+													}
+												}
+											}
+										</script>
+									</div>
+									
+										<ul class="more">
+												▶&nbsp;<b>선 택 품 목[하이브리드]&nbsp;
+<br>-&nbsp;컴포트[</b>트렌디<b>]&nbsp;:&nbsp;</b>앞좌석 파워시트, 앞좌석 전동식 허리지지대, 동승석 워크인 디바이스, 동승석 릴렉션 컴포트시트, 뒷좌석 열선시트, 뒷좌석 높이조절식 헤드레스트, 뒷좌석 센터 암레스트, 스키쓰루, 뒷좌석 USB 포트(급속충전용), 앞좌석 윈도우 이중접합 차음 글라스<br><b>-&nbsp;컴포트[</b>프레스티지| 노블레스<b>]&nbsp;:&nbsp;</b>동승석 파워시트, 동승석 전동식 허리지지대, 동승석 워크인 디바이스, 동승석 릴렉션 컴포트시트, 뒷좌석 열선시트, 뒷좌석 높이조절식 헤드레스트, 뒷좌석 센터 암레스트, 스키쓰루, 뒷좌석 USB 포트(급속충전용), 앞좌석 윈도우 이중접합 차음 글라스&nbsp;<br><b>- 드라이브 와이즈 :</b>&nbsp;스마트 크루즈 컨트롤(정차 &amp; 재출발), 전방 충돌방지 보조 (교차로 대향차, 사이클리스트), 후측방 충돌방지 보조, 안전 하차 보조 , 후방교차 충돌방지 보조<br>※ 내비게이션 동시 적용 시 고속도로 주행 보조, 고속도로 &amp; 자동차 전용도로 內 내비게이션 기반 스마트 크루즈 컨트롤 (안전구간 / 곡선로) 기능 지원&nbsp;<br><b>-&nbsp;10.25인치 UVO 내비게이션[</b>트렌디<b>]</b>&nbsp;:&nbsp;10.25인치 UVO 내비게이션, 내비게이션 자동 무선 업데이트, 전좌석 음성인식 세이프티 파워윈도우, 샤크핀 안테나, 후방 모니터, 주행 중 후방영상 디스플레이, 터치타입 독립제어 풀오토 에어컨(운전석/동승석), 공기청정 시스템(미세먼지 센서 포함)<br><b>-&nbsp;10.25인치 UVO 내비게이션[</b>프레스티지 | 노블레스 | 시그니처<b>]</b>&nbsp;:&nbsp;10.25인치 UVO 내비게이션, 내비게이션 자동 무선 업데이트, 전좌석 음성인식 세이프티 파워윈도우&nbsp;<br><b>- KRELL 프리미엄 사운드 :&nbsp;</b>KRELL 프리미엄 사운드 시스템(12스피커, 외장앰프)&nbsp;<br><b>-&nbsp;스마트 커넥트</b>&nbsp;:&nbsp;기아 디지털 키, 터치 타입 아웃사이드 도어 핸들, 스마트폰 무선충전 시스템, 빌트인 캠 (주행 중 영상기록 장치) ※ 보조배터리 장착 시 주차 중 녹화 기능 지원 (최대 10시간)&nbsp;<br>
+										</ul>
+									
+									<p class="desc_more">위 신차가격표는 단순 참고자료이며, 정확한 내용은 각 제조사에서 제공하는 자료를 통해확인하실 수 있습니다.</p><!-- 2016/10/12 [장] 등급 등록/수정 개선 : 추가 디자인 변경 -->
+									<p class="toTop"><a href="#main_title" class="sp toTop db_ir" title="페이지 위로"><u>페이지 위로</u></a></p><!-- [시세개편] class db_ir 추가 -->
+								</div>
+
+
+							</div>
+							<!-- body end -->
+						</td>
+					</tr>
+				</table>
+
+
+			
+			
+		
+    </div>
+
+    <!-- container end -->
+</form>
+</div>
+
+</body>
+<script language="javascript">
+
+
+    var strCompanyUrl = "/common/combo/cardbcompany.json?method=carList";
+    var strModelGroupUrl = "/common/combo/modelgroupfordb.json?method=carList";
+    var strModelUrl = "/common/combo/cardbmodel.json?method=carList";
+    var strYrJatoUrl = "/common/combo/jatoYr.json?method=carList";
+
+    var companyid = "mnfccd";
+    var modelgroupid = "mdlgroupcd";
+    var modelid = "mdlcd";
+    var yearid = "caryear";
+
+    function initGnb() {
+        var paramCompany = $("paramMnfccd").value;
+        var paramModelGroup = $("paramMdlgroupcd").value;
+        var paramModel = $("paramMdlcd").value;
+        var paramYr = $("paramYear").value;
+
+        // 제조사
+        if (paramModel != "") {
+            $("mdlcd").show();
+        }
+
+        //console.log("companyid :: " + companyid)
+        //console.log("paramCompany :: " + paramCompany)
+		if($('foldYn').value != 0){
+            foldingYN('f_fold');
+		}
+
+        setCompany(strCompanyUrl, companyid, "제조사", paramCompany);
+
+        // 제조사 값이 있으면 모델 검색
+        if (paramCompany >= '010') {
+            if (paramCompany != "") {
+                if (paramModel == "") {
+                    paramModel = paramModelGroup;
+                }
+                setModel(strModelUrl, modelid, paramCompany, "모델", paramModel)
+                $("mdlgroupcd").hide();
+
+            }
+        } else {
+            $("mdlgroupcd").show();
+            if (paramCompany != "") {
+                setModelGroup(strModelGroupUrl, modelgroupid, paramCompany, "모델", paramModelGroup);
+                if (paramModelGroup != "") {
+                    setModel_New(strModelUrl, modelid, paramCompany, paramModelGroup, "세부모델", paramModel);
+                }
+            }
+
+        }
+        if (paramCompany != "" && paramModel != "") {
+            setCarYear(strYrJatoUrl, yearid, paramCompany, paramModel, "형식연도", paramYr);
+        }
+
+        waitTime = 1;
+    }
+
+    function changeModel_jato(mnfccd, mdlgroupcd) {
+        setModel_New(strModelUrl, modelid, mnfccd, mdlgroupcd, "세부모델", "");
+        //모델그룹선택시 기본 세부모델선택
+        if ($("mdlcd") != null) {
+            $("mdlcd").selectedIndex = 1;
+            var mdlcd = $("mdlcd").options[$("mdlcd").selectedIndex].value;
+            changeYearJato(mnfccd, mdlcd);
+        }
+    }
+
+    function changeYearJato(mnfccd,mdlcd) {
+        setCarYear(strYrJatoUrl, yearid, mnfccd, mdlcd, "형식연도", "");
+        $(yearid).options[1].selected = true;
+    }
+
+
+
+    //덧글 리스트
+    function viewForm(index) {
+
+        var object = $("default" + index);
+        var objectSum = $("defaultSum" + index);
+        var selectSum = $("choiceSum" + index);
+        var object1 = $("choice" + index);
+        if (object != null) {
+            if (object.style.display == 'none') {
+                objectSum.hide();
+                selectSum.hide();
+                object.style.display = "block";
+                object1.style.display = "block";
+
+            } else {
+                object.hide();
+                object1.hide();
+                objectSum.style.display = "block";
+                selectSum.style.display = "block";
+            }
+        }
+    }
+
+    function viewAll() {
+        for (var i = 1; i <=4; i++) {
+            $("default" + i).style.display = "block";
+            $("defaultSum" + i).style.display = "none";
+            $("choice" + i).style.display = "block";
+            $("choiceSum" + i).style.display = "none";
+        }
+    }
+
+    function closeAll() {
+        for (var i = 1; i <=4; i++) {
+            $("default" + i).style.display = "none";
+            $("defaultSum" + i).style.display = "block";
+            $("choice" + i).style.display = "none";
+            $("choiceSum" + i).style.display = "block";
+        }
+    }
+
+    function firstLayerOpen() {
+        //viewForm(1);
+    }
+
+    function foldingYN(param) {
+        if (param == "f_fold") {
+            document.getElementById("folding").innerHTML ="<a href=\"javascript:foldingYN('f_unfold')\" class='folding f_unfold'>전체등급 펼쳐보기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "none";
+            document.getElementById("f_fold").style.display = "";
+        } else {
+            document.getElementById("folding").innerHTML = "<a href=\"javascript:foldingYN('f_fold')\" class='folding f_fold'>접기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "";
+            document.getElementById("f_fold").style.display = "none";
+        }
+    }
+
+    function onSubmit() {
+        jQuery("#searchForm").submit();
+
+    }
+    window.onload = initGnb;
+
+</script>
+</html>
+

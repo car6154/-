@@ -1,0 +1,955 @@
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>차량DB - 차량정보 - 신차가격표</title>
+    <link type="text/css" rel="stylesheet" href="/css/common.css?v=1793835891525"/>
+    <link type="text/css" rel="stylesheet" href="/css/db.css?v=1793835891525"/>
+
+    <script type="text/javascript" src="/js/encarapp/lib/jquery/jquery-1.11.3.min.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/common/ui.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/prototype.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/util.js?v=1793835894199"></script>
+
+    <script type="text/javascript" src="/js/common/db_common.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/commonCombo.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/carSearchCombo.js?v=1793835894199"></script>
+	<script>
+		window.enlogInitJson = {
+			"dataTalkView": {
+				"screenName": "신차가격표"
+			}
+		}
+
+	</script>
+
+
+</head>
+
+
+
+
+
+
+
+    <!-- 등급 체크박스  -->
+    <div style="display:none">
+        
+    </div>
+
+    <!-- 세부등급 체크박스 -->
+    <div style="display:none">
+        
+    </div>
+
+
+
+<body class="db db_newdetailview db_basicTemplate">
+
+
+
+
+	
+	
+	
+	
+
+
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-W9QQ2T"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W9QQ2T');</script>
+<!-- End Google Tag Manager -->
+
+<!-- container begin -->
+<div class="container" id="containerDIV">
+<input type="hidden" id = "foldYn" name="searchtype" value="4"/>
+<form id ="searchForm" name="searchForm">
+
+    <input type="hidden" id = "method" name="method" value="newpricePopV2"/>
+    <input type="hidden" id = "dimensiontype" name="dimensiontype" value="null"/>
+    <input type="hidden" id = "paramMnfccd" name="paramMnfccd" value="004"/>
+    <input type="hidden" id = "paramMdlgroupcd" name="paramMdlgroupcd" value="005"/>
+    <input type="hidden" id = "paramMdlcd" name="paramMdlcd" value="129"/>
+    <input type="hidden" id = "paramYear" name="paramYear" value="2025"/>
+    <input type="hidden" id = "model" name="model" value="">
+    <input type="hidden" id = "paramCaryear" name="paramCaryear" value="2025"/>
+    <input type="hidden" id = "clsheadcd" name="clsheadcd" class="checkbox" value="null"/>
+    <input type="hidden" id = "paramGradeHead" name="paramGradeHead" value="null"/>
+	<input type="hidden" id = "searchtype" name="searchtype" value="check"/>
+	<input type="hidden" id = "pageAccessToken" name="pageAccessToken" value="AgV4OPes5dIedmEXWO0T/vo3fmmyAOMzvnRirzgOQeaqcUAAcQACAAdFbmNhckNrAAdFbmNhckN2ABVhd3MtY3J5cHRvLXB1YmxpYy1rZXkAREE5WUxqTmFtOFBZNGZXb3cwMHl1amlJY2NYL2djaUN5bkRCMTZmY2JkTHJKblF4ZnZNL3FKREh5SWF1WUJ6Z093UT09AAEAB2F3cy1rbXMAUGFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjI3MjM2MjQ4NzY1MzprZXkvbXJrLWRmZWEyNmY3NTVhMzQ3MjliNjkwMjRkZWZmM2M1MWFjALgBAgEAeAuqQuSJvQ+Ra4FSj55FZzS0sk+00amsb3yoAFiEYn4PAdqinKoMGeMzxKogX+36ZjIAAAB+MHwGCSqGSIb3DQEHBqBvMG0CAQAwaAYJKoZIhvcNAQcBMB4GCWCGSAFlAwQBLjARBAzkZbDwLsSDgd1+EnACARCAOxQngyF3JHu62ZTItYhVSvVZmOubFelibWmJkXAC7PI7/mw09Cm998moLikG0aEmG5omd1Wyo8pYmozSAgAAEABVz1bsv44PZ8hZrtR0rzTnhBgOD7bj2Ke/diTV+epFLFchCZ2Ffr2w+j2cr/LHuW7/////AAAAAQAAAAAAAAAAAAAAAQAAAKO0f6ggoBuAWlAlRSm4s06qB0QuvH05Ch1dqTiNC/RxewQRIj60IfPANFOQSqE+Pb55DczHEzN0zt6RBMTCjUyubc12ZOKMMfu2E20kiPl32TrYYPNE55Mq0o4vF6Q4ZcNCxZ7Wy5auAvARz7GyA0KmiGGldBIq2mjRGZkfOo9GtVgSmgWGW1v2HEFqoupRPxJoLGRHQlmi8PkcoqStjik8wH5NuzxcVcfxSTjCSsy8cmMwwQBnMGUCMA96VN2pY5eyneBQ9jxoNduhsB+YELl/ukOipunslXA5JJJZWZm2SkoOPmJ8Hhu1vgIxAPFDchFc1rCkOdrORAZm+QgSRobKNOA38Hiokej/9Dhbz1ZleABH2B6FyrVT0nIacg=="/>
+    <div class="header">
+        <h1 class="blind">SK엔카</h1>
+        <h2 class="tit_carprice" id="main_title">신차가격표</h2>
+        <p class="quickSearch">
+
+
+
+            <select title="제조사" class="opt_select" id="mnfccd" name="mnfccd" onChange="javascript:changeModelGroup(this.value);">
+                <option value="">제조사</option>
+            </select>
+
+            <select class="opt_select" title="모델" id="mdlgroupcd" name="mdlgroupcd" onChange="javascript:changeModel_jato($('mnfccd').value, this.value);">
+                <option>모델</option>
+            </select>
+
+            <select class="opt_select" title="세부모델" id="mdlcd" name="mdlcd" onChange="javascript:changeYearJato($('mnfccd').value, $('mdlcd').value);">
+                <option>세부모델</option>
+            </select>
+
+            <select class="opt_select" title="연식" id="caryear" name="caryear">
+                <option>연식</option>
+            </select>
+
+            <button type="button" class="btn_search" onclick="javascript:onSubmit();"/>검색</button>
+
+
+
+        </p>
+    </div>
+    <!-- body begin -->
+    <div class="body" id="bodydiv">
+		
+			
+				<table class="layout">
+					<col class="contents"/>
+					<tr>
+						<td class="contentsMenu">
+							<!-- contentsMenu begin -->
+							<div class="contentsMenu">
+								<h3 class="title">KG모빌리티(쌍용) 무쏘 스포츠 (Q260) 2025년형</h3>
+							</div>
+							<!-- contentsMenu end -->
+						</td>
+					</tr>
+
+					<tr>
+						<td class="contentsMain">
+							<!-- contents begin -->
+							<div class="contents">
+
+								<div class="carCompare">
+									<div class="dbHead">
+										
+											<div id="folding"><a href="javascript:foldingYN('f_fold')"
+																 class="folding f_fold">전체등급 펼쳐보기<em class="db_ir"></em></a></div>
+
+											<!-- 2013/04/03 [서] 매물탭 개선 : 기능 버튼 추가 --><!--<a href="#" class="folding f_unfold">펼치기</a>-->
+										
+									</div>
+									
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+									<div id="f_unfold">
+										
+
+
+										<!-- case2 : 세부등급이 있는경우 -->
+										
+											<table class="carCompare sellcase2">
+												<colgroup>
+													<col class="grade">
+													<col class="detailgrd">
+													<col class="mission">
+													<col class="price">
+													<col class="uprice">
+													<col class="item">
+													<col class="option">
+												</colgroup>
+												<thead class="compare">
+												<tr>
+													<th class="grade bgn" colspan="3"><b>구분</b></th>
+													<th class="price"><b>판매가격</b></th>
+													<th class="uprice"><b>중고차시세</b></th><!-- [시세개편] 중고차시세 추가 -->
+													<th class="item"><b>기본사양 품목</b></th>
+													<th class="option end"><b>선택사양 품목</b></th>
+												</tr>
+												</thead>
+												<tbody class="new">
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="2">
+																<p>디젤 2.2 2WD</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>와일드</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,952</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>● 파워트레인 :</b> 디젤 2.2 LET 엔진, AISIN 6단 자동 변속기, 랙구동형 전동식 파워 스티어링(R-EPS),
+드라이브 모드 시스템, 언더 커버, 전륜 더블 위시본 &amp; 후륜 5링크 서스펜션,
+전륜 벤틸레이티드 디스크 &amp; 후륜 디스크 브레이크
+<br>
+<br><b>●&nbsp;외관 사양 :</b> 18인치 알로이 휠 &amp; 255/60R18 타이어, LED 주간 주행등, LED 안개등 &amp; 코너링 램프,
+Full LED 프로젝션 헤드램프(4구 점등, 상향등, 하향등, 다이내믹 턴시그널 램프),
+아웃사이드 미러(LED 턴시그널 램프, 오토폴딩, 열선, 전동조절), 유틸리티 루프랙,
+머드가드, 에어로 블레이드 와이퍼, 폴 안테나, 클린실 도어, C필러 무쏘 엠블럼
+<br>
+<b><br>●&nbsp;내장 사양 :</b> 슈퍼비전 클러스터(3.5인치 모노 LCD), 인조가죽 시트, 가죽기어노브,
+LED 룸램프(오버헤드 콘솔, 센터), 블랙 인테리어, 블랙 헤드라이닝, 2열 센터 암레스트 &amp; 컵홀더,
+우레탄 스티어링 휠, 핸드파킹 브레이크, 운전석/동승석 A필러 그립핸들, B필러 어시스트 그립,
+선바이저(거울, 램프), 펌핑식 높이 조절장치(운전석), 헤드램프 각도 조절장치,
+도어 커티쉬 램프(1열), 센터콘솔 트레이, 2열 벤치 시트(폴딩), 1열 시트 슬라이딩 헤드레스트,
+Day &amp; Night 룸미러, 마이크로 에어컨 필터
+<br>
+<br><b>●&nbsp;편의 사양 :</b> 매뉴얼 에어컨, 스마트키 시스템(오토 클로징 기능 포함), 크루즈 컨트롤, 2열 에어벤트,
+운전석 &amp; 동승석 히팅시트, 테일게이트 이지 오픈 클로즈, USB 충전기(소켓타입),
+원터치 트리플 턴시그널, 래피드 히터(PTC), 글로브 박스 램프, 12V 파워 아웃렛, 오토 비상등 스위치,
+가스식 후드 리프터, 수동식 틸트 스티어링 휠, USB C타입 단자(1열 : 충전1개, 데이터 &amp; 충전 1개),
+운전석 원터치 오토다운 파워윈도우
+<br>
+<br><b>●&nbsp;안전 사양 :</b> 소화기, 6에어백(운전석, 동승석, 1열 사이드, 커튼), ESC(가변형 HDC, BAS, ARP, HSA, ESS,
+트레일러 스웨이 컨트롤), 전방 &amp; 후방 주차보조 경고, 타이어 공기압 경보 시스템(TPMS),
+1열 시트벨트 프리텐셔너 &amp; 로드리미터, 2열 센터 2점식 시트벨트, 유아용 시트 고정장치(ISOFIX),
+시트벨트 리마인더(전좌석), 스피드센싱 오토도어록(이머전시 언락포함), 이동식 비상삼각대,
+도난경보장치, 파킹브레이크 워닝 시그널
+<br>
+<br><b>●&nbsp;멀티미디어 :</b> 플로팅 타입 MP3 오디오, 6스피커, 스티어링 휠 오디오 리모컨, 블루투스 핸즈프리
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>●&nbsp;세이프티 선루프</b> 500,000
+<br><br><b>●&nbsp;어드벤처 패키지</b> 1,750,000
+<br>
+<br><b>●&nbsp;오프로드 사이드 스텝&nbsp;</b>550,000
+<br>
+<br><b>●&nbsp;LD 시스템</b> 300,000
+<br>
+<br><b>● 12.3인치 KGM 링크 내비게이션 패키지</b> 1,600,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>프레스티지</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,479</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>디젤 2.2 2WD 와일드 기본 품목 외
+<br></b><br><b>●&nbsp;외관 사양 :</b> LED 리어 콤비램프, 샤크핀 통합 안테나
+<br><br><b>●&nbsp;내장 사양 :</b> 12.3인치 디지털 클러스터, 가죽커버 스티어링 휠, 하이글로시 윈도우 스위치 베젤,
+SUS 도어스커프(1열)
+<br><br><b>●&nbsp;편의 사양 :</b> 인텔리전트 어댑티브 크루즈 컨트롤(IACC), 하이패스 시스템(ETCS), ECM 룸미러, 열선 스티어링 휠,
+운전석 8way 전동시트 &amp; 전동식 2way 럼버서포트, 운전석 &amp; 동승석 통풍시트, 듀얼존 풀오토 에어컨,
+터치식 공조 컨트롤러, 오토라이트 컨트롤, 우적감지 와이퍼, 오토 디포그, 2열 히팅시트,
+운전석 세이프티 파워 윈도우(오토 업 &amp; 다운), 동승석 6way 전동시트
+<br><br><b>●&nbsp;안전 사양 :</b> 긴급 제동보조(AEB), 전방 추돌 경고(FCW), 차선이탈경고(LDW), 차선 유지보조(LKA),
+중앙 차선 유지 보조(CLKA), 스마트 하이빔(SHB), 앞차 출발 경고(FVSW), 안전 거리 경고(SDW),
+부주의 운전 경고(DAW)
+<br><b><br></b><b>●&nbsp;멀티미디어 :</b> 12.3인치 KGM 링크 내비게이션 패키지
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>●&nbsp;세이프티 선루프</b>&nbsp;500,000<br><br><b>●&nbsp;어드벤처 패키지</b>&nbsp;1,750,000<br><br><b>●&nbsp;오프로드 사이드 스텝&nbsp;</b>550,000<br><br><b>●&nbsp;LD 시스템</b>&nbsp;300,000
+<br><br><b>●&nbsp;블랙 엣지</b> 650,000
+<br><br><b>●&nbsp;실키 화이트 펄 컬러</b> 80,000
+<br><br><b>●&nbsp;3D 어라운드 뷰 모니터링 시스템</b> 1,000,000
+<br><br><b>●&nbsp;럭셔리 패키지</b> 900,000
+<br><br><b>●&nbsp;스마트 드라이빙 패키지</b> 600,000
+<br><br><b>●&nbsp;나파 가죽시트</b> 650,000<br><br><b>●&nbsp;카키 인테리어 패키지</b> 300,000
+<br>※&nbsp;카키 인테리어 패키지, 블랙 스웨이드 퀼팅 패키지는 나파 가죽시트 선택 시 적용 가능<br><br><b>●&nbsp;블랙 스웨이드 퀼팅 패키지</b> 500,000
+<br>
+※&nbsp;카키 인테리어 패키지, 블랙 스웨이드 퀼팅 패키지는 나파 가죽시트 선택 시 적용 가능</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="2">
+																<p>디젤 2.2 4WD</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>와일드</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,162</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>● 파워트레인 :&nbsp;</b>4WD 시스템, ISG 시스템(공회전 제한 장치), 디젤 2.2 LET 엔진, AISIN 6단 자동 변속기, 랙구동형 전동식 파워 스티어링(R-EPS), 드라이브 모드 시스템, 언더 커버, 전륜 더블 위시본 &amp; 후륜 5링크 서스펜션, 전륜 벤틸레이티드 디스크 &amp; 후륜 디스크 브레이크<br><br><b>●&nbsp;외관 사양 :</b>&nbsp;18인치 알로이 휠 &amp; 255/60R18 타이어, LED 주간 주행등, LED 안개등 &amp; 코너링 램프, Full LED 프로젝션 헤드램프(4구 점등, 상향등, 하향등, 다이내믹 턴시그널 램프), 아웃사이드 미러(LED 턴시그널 램프, 오토폴딩, 열선, 전동조절), 유틸리티 루프랙, 머드가드, 에어로 블레이드 와이퍼, 폴 안테나, 클린실 도어, C필러 무쏘 엠블럼<br><b><br>●&nbsp;내장 사양&nbsp;:</b>&nbsp;슈퍼비전 클러스터(3.5인치 모노 LCD), 인조가죽 시트, 가죽기어노브, LED 룸램프(오버헤드 콘솔, 센터), 블랙 인테리어, 블랙 헤드라이닝, 2열 센터 암레스트 &amp; 컵홀더, 우레탄 스티어링 휠, 핸드파킹 브레이크, 운전석/동승석 A필러 그립핸들, B필러 어시스트 그립, 선바이저(거울, 램프), 펌핑식 높이 조절장치(운전석), 헤드램프 각도 조절장치, 도어 커티쉬 램프(1열), 센터콘솔 트레이, 2열 벤치 시트(폴딩), 1열 시트 슬라이딩 헤드레스트, Day &amp; Night 룸미러, 마이크로 에어컨 필터<br><br><b>●&nbsp;편의 사양 :</b>&nbsp;매뉴얼 에어컨, 스마트키 시스템(오토 클로징 기능 포함), 크루즈 컨트롤, 2열 에어벤트, 운전석 &amp; 동승석 히팅시트, 테일게이트 이지 오픈 클로즈, USB 충전기(소켓타입), 원터치 트리플 턴시그널, 래피드 히터(PTC), 글로브 박스 램프, 12V 파워 아웃렛, 오토 비상등 스위치, 가스식 후드 리프터, 수동식 틸트 스티어링 휠, USB C타입 단자(1열 : 충전1개, 데이터 &amp; 충전 1개), 운전석 원터치 오토다운 파워윈도우<br><br><b>●&nbsp;안전 사양 :</b>&nbsp;소화기, 6에어백(운전석, 동승석, 1열 사이드, 커튼), ESC(가변형 HDC, BAS, ARP, HSA, ESS, 트레일러 스웨이 컨트롤), 전방 &amp; 후방 주차보조 경고, 타이어 공기압 경보 시스템(TPMS), 1열 시트벨트 프리텐셔너 &amp; 로드리미터, 2열 센터 2점식 시트벨트, 유아용 시트 고정장치(ISOFIX), 시트벨트 리마인더(전좌석), 스피드센싱 오토도어록(이머전시 언락포함), 이동식 비상삼각대, 도난경보장치, 파킹브레이크 워닝 시그널<br><br><b>●&nbsp;멀티미디어 :</b>&nbsp;플로팅 타입 MP3 오디오, 6스피커, 스티어링 휠 오디오 리모컨, 블루투스 핸즈프리
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>●&nbsp;세이프티 선루프</b>&nbsp;500,000<br><br><b>●&nbsp;어드벤처 패키지</b>&nbsp;1,750,000<br><br><b>●&nbsp;오프로드 사이드 스텝&nbsp;</b>550,000<br><br><b>●&nbsp;LD 시스템</b>&nbsp;300,000<br><br><b>● 12.3인치 KGM 링크 내비게이션 패키지</b>&nbsp;1,600,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>프레스티지</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,689</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>디젤 2.2 4WD 와일드 기본 품목 외
+<br></b><br><b>●&nbsp;외관 사양 :</b>&nbsp;LED 리어 콤비램프, 샤크핀 통합 안테나
+<br><br><b>●&nbsp;내장 사양 :</b>&nbsp;12.3인치 디지털 클러스터, 가죽커버 스티어링 휠, 하이글로시 윈도우 스위치 베젤, SUS 도어스커프(1열)
+<br><br><b>●&nbsp;편의 사양&nbsp;:</b>&nbsp;인텔리전트 어댑티브 크루즈 컨트롤(IACC), 하이패스 시스템(ETCS), ECM 룸미러, 열선 스티어링 휠, 운전석 8way 전동시트 &amp; 전동식 2way 럼버서포트, 운전석 &amp; 동승석 통풍시트, 듀얼존 풀오토 에어컨, 터치식 공조 컨트롤러, 오토라이트 컨트롤, 우적감지 와이퍼, 오토 디포그, 2열 히팅시트, 운전석 세이프티 파워 윈도우(오토 업 &amp; 다운), 동승석 6way 전동시트
+<br><br><b>●&nbsp;안전 사양 :</b>&nbsp;긴급 제동보조(AEB), 전방 추돌 경고(FCW), 차선이탈경고(LDW), 차선 유지보조(LKA), 중앙 차선 유지 보조(CLKA), 스마트 하이빔(SHB), 앞차 출발 경고(FVSW), 안전 거리 경고(SDW), 부주의 운전 경고(DAW)
+<br><b><br></b><b>●&nbsp;멀티미디어 :</b>&nbsp;12.3인치 KGM 링크 내비게이션 패키지
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>●&nbsp;세이프티 선루프</b>&nbsp;500,000<br><br><b>●&nbsp;어드벤처 패키지</b>&nbsp;1,750,000<br><br><b>●&nbsp;오프로드 사이드 스텝&nbsp;</b>550,000<br><br><b>●&nbsp;LD 시스템</b>&nbsp;300,000
+<br><br><b>●&nbsp;블랙 엣지</b>&nbsp;650,000
+<br><br><b>●&nbsp;실키 화이트 펄 컬러</b>&nbsp;80,000
+<br><br><b>●&nbsp;3D 어라운드 뷰 모니터링 시스템</b>&nbsp;1,000,000
+<br><br><b>●&nbsp;럭셔리 패키지</b>&nbsp;900,000
+<br><br><b>●&nbsp;스마트 드라이빙 패키지</b>&nbsp;600,000
+<br><br><b>●&nbsp;나파 가죽시트</b>&nbsp;650,000<br><br><b>●&nbsp;카키 인테리어 패키지</b>&nbsp;300,000
+<br>
+※&nbsp;카키 인테리어 패키지, 블랙 스웨이드 퀼팅 패키지는 나파 가죽시트 선택 시 적용 가능<br><br><b>●&nbsp;블랙 스웨이드 퀼팅 패키지</b>&nbsp;500,000
+<br>
+※&nbsp;카키 인테리어 패키지, 블랙 스웨이드 퀼팅 패키지는 나파 가죽시트 선택 시 적용 가능</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+												</tbody>
+											</table>
+										
+									</div>
+									<!-- 신차가격표(폴더형) -->
+									<div id="f_fold" style="display:none;">
+										<div class="newcar_folder">
+											<ul class="nf_list" id="newcarList">
+												
+													<li>
+														<a href="#newcar0">
+                                                            <span class="model">디젤 2.2 2WD 와일드 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,952</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar1">
+                                                            <span class="model">디젤 2.2 2WD 프레스티지 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,479</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar2">
+                                                            <span class="model">디젤 2.2 4WD 와일드 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,162</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar3">
+                                                            <span class="model">디젤 2.2 4WD 프레스티지 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,689</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+											</ul>
+											<!-- 개별 -->
+											
+												<div id="newcar0" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>● 파워트레인 :</b> 디젤 2.2 LET 엔진, AISIN 6단 자동 변속기, 랙구동형 전동식 파워 스티어링(R-EPS),
+드라이브 모드 시스템, 언더 커버, 전륜 더블 위시본 &amp; 후륜 5링크 서스펜션,
+전륜 벤틸레이티드 디스크 &amp; 후륜 디스크 브레이크
+<br>
+<br><b>●&nbsp;외관 사양 :</b> 18인치 알로이 휠 &amp; 255/60R18 타이어, LED 주간 주행등, LED 안개등 &amp; 코너링 램프,
+Full LED 프로젝션 헤드램프(4구 점등, 상향등, 하향등, 다이내믹 턴시그널 램프),
+아웃사이드 미러(LED 턴시그널 램프, 오토폴딩, 열선, 전동조절), 유틸리티 루프랙,
+머드가드, 에어로 블레이드 와이퍼, 폴 안테나, 클린실 도어, C필러 무쏘 엠블럼
+<br>
+<b><br>●&nbsp;내장 사양 :</b> 슈퍼비전 클러스터(3.5인치 모노 LCD), 인조가죽 시트, 가죽기어노브,
+LED 룸램프(오버헤드 콘솔, 센터), 블랙 인테리어, 블랙 헤드라이닝, 2열 센터 암레스트 &amp; 컵홀더,
+우레탄 스티어링 휠, 핸드파킹 브레이크, 운전석/동승석 A필러 그립핸들, B필러 어시스트 그립,
+선바이저(거울, 램프), 펌핑식 높이 조절장치(운전석), 헤드램프 각도 조절장치,
+도어 커티쉬 램프(1열), 센터콘솔 트레이, 2열 벤치 시트(폴딩), 1열 시트 슬라이딩 헤드레스트,
+Day &amp; Night 룸미러, 마이크로 에어컨 필터
+<br>
+<br><b>●&nbsp;편의 사양 :</b> 매뉴얼 에어컨, 스마트키 시스템(오토 클로징 기능 포함), 크루즈 컨트롤, 2열 에어벤트,
+운전석 &amp; 동승석 히팅시트, 테일게이트 이지 오픈 클로즈, USB 충전기(소켓타입),
+원터치 트리플 턴시그널, 래피드 히터(PTC), 글로브 박스 램프, 12V 파워 아웃렛, 오토 비상등 스위치,
+가스식 후드 리프터, 수동식 틸트 스티어링 휠, USB C타입 단자(1열 : 충전1개, 데이터 &amp; 충전 1개),
+운전석 원터치 오토다운 파워윈도우
+<br>
+<br><b>●&nbsp;안전 사양 :</b> 소화기, 6에어백(운전석, 동승석, 1열 사이드, 커튼), ESC(가변형 HDC, BAS, ARP, HSA, ESS,
+트레일러 스웨이 컨트롤), 전방 &amp; 후방 주차보조 경고, 타이어 공기압 경보 시스템(TPMS),
+1열 시트벨트 프리텐셔너 &amp; 로드리미터, 2열 센터 2점식 시트벨트, 유아용 시트 고정장치(ISOFIX),
+시트벨트 리마인더(전좌석), 스피드센싱 오토도어록(이머전시 언락포함), 이동식 비상삼각대,
+도난경보장치, 파킹브레이크 워닝 시그널
+<br>
+<br><b>●&nbsp;멀티미디어 :</b> 플로팅 타입 MP3 오디오, 6스피커, 스티어링 휠 오디오 리모컨, 블루투스 핸즈프리</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>●&nbsp;세이프티 선루프</b> 500,000
+<br><br><b>●&nbsp;어드벤처 패키지</b> 1,750,000
+<br>
+<br><b>●&nbsp;오프로드 사이드 스텝&nbsp;</b>550,000
+<br>
+<br><b>●&nbsp;LD 시스템</b> 300,000
+<br>
+<br><b>● 12.3인치 KGM 링크 내비게이션 패키지</b> 1,600,000</p>
+												</div>
+											
+												<div id="newcar1" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>디젤 2.2 2WD 와일드 기본 품목 외
+<br></b><br><b>●&nbsp;외관 사양 :</b> LED 리어 콤비램프, 샤크핀 통합 안테나
+<br><br><b>●&nbsp;내장 사양 :</b> 12.3인치 디지털 클러스터, 가죽커버 스티어링 휠, 하이글로시 윈도우 스위치 베젤,
+SUS 도어스커프(1열)
+<br><br><b>●&nbsp;편의 사양 :</b> 인텔리전트 어댑티브 크루즈 컨트롤(IACC), 하이패스 시스템(ETCS), ECM 룸미러, 열선 스티어링 휠,
+운전석 8way 전동시트 &amp; 전동식 2way 럼버서포트, 운전석 &amp; 동승석 통풍시트, 듀얼존 풀오토 에어컨,
+터치식 공조 컨트롤러, 오토라이트 컨트롤, 우적감지 와이퍼, 오토 디포그, 2열 히팅시트,
+운전석 세이프티 파워 윈도우(오토 업 &amp; 다운), 동승석 6way 전동시트
+<br><br><b>●&nbsp;안전 사양 :</b> 긴급 제동보조(AEB), 전방 추돌 경고(FCW), 차선이탈경고(LDW), 차선 유지보조(LKA),
+중앙 차선 유지 보조(CLKA), 스마트 하이빔(SHB), 앞차 출발 경고(FVSW), 안전 거리 경고(SDW),
+부주의 운전 경고(DAW)
+<br><b><br></b><b>●&nbsp;멀티미디어 :</b> 12.3인치 KGM 링크 내비게이션 패키지</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>●&nbsp;세이프티 선루프</b>&nbsp;500,000<br><br><b>●&nbsp;어드벤처 패키지</b>&nbsp;1,750,000<br><br><b>●&nbsp;오프로드 사이드 스텝&nbsp;</b>550,000<br><br><b>●&nbsp;LD 시스템</b>&nbsp;300,000
+<br><br><b>●&nbsp;블랙 엣지</b> 650,000
+<br><br><b>●&nbsp;실키 화이트 펄 컬러</b> 80,000
+<br><br><b>●&nbsp;3D 어라운드 뷰 모니터링 시스템</b> 1,000,000
+<br><br><b>●&nbsp;럭셔리 패키지</b> 900,000
+<br><br><b>●&nbsp;스마트 드라이빙 패키지</b> 600,000
+<br><br><b>●&nbsp;나파 가죽시트</b> 650,000<br><br><b>●&nbsp;카키 인테리어 패키지</b> 300,000
+<br>※&nbsp;카키 인테리어 패키지, 블랙 스웨이드 퀼팅 패키지는 나파 가죽시트 선택 시 적용 가능<br><br><b>●&nbsp;블랙 스웨이드 퀼팅 패키지</b> 500,000
+<br>
+※&nbsp;카키 인테리어 패키지, 블랙 스웨이드 퀼팅 패키지는 나파 가죽시트 선택 시 적용 가능</p>
+												</div>
+											
+												<div id="newcar2" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>● 파워트레인 :&nbsp;</b>4WD 시스템, ISG 시스템(공회전 제한 장치), 디젤 2.2 LET 엔진, AISIN 6단 자동 변속기, 랙구동형 전동식 파워 스티어링(R-EPS), 드라이브 모드 시스템, 언더 커버, 전륜 더블 위시본 &amp; 후륜 5링크 서스펜션, 전륜 벤틸레이티드 디스크 &amp; 후륜 디스크 브레이크<br><br><b>●&nbsp;외관 사양 :</b>&nbsp;18인치 알로이 휠 &amp; 255/60R18 타이어, LED 주간 주행등, LED 안개등 &amp; 코너링 램프, Full LED 프로젝션 헤드램프(4구 점등, 상향등, 하향등, 다이내믹 턴시그널 램프), 아웃사이드 미러(LED 턴시그널 램프, 오토폴딩, 열선, 전동조절), 유틸리티 루프랙, 머드가드, 에어로 블레이드 와이퍼, 폴 안테나, 클린실 도어, C필러 무쏘 엠블럼<br><b><br>●&nbsp;내장 사양&nbsp;:</b>&nbsp;슈퍼비전 클러스터(3.5인치 모노 LCD), 인조가죽 시트, 가죽기어노브, LED 룸램프(오버헤드 콘솔, 센터), 블랙 인테리어, 블랙 헤드라이닝, 2열 센터 암레스트 &amp; 컵홀더, 우레탄 스티어링 휠, 핸드파킹 브레이크, 운전석/동승석 A필러 그립핸들, B필러 어시스트 그립, 선바이저(거울, 램프), 펌핑식 높이 조절장치(운전석), 헤드램프 각도 조절장치, 도어 커티쉬 램프(1열), 센터콘솔 트레이, 2열 벤치 시트(폴딩), 1열 시트 슬라이딩 헤드레스트, Day &amp; Night 룸미러, 마이크로 에어컨 필터<br><br><b>●&nbsp;편의 사양 :</b>&nbsp;매뉴얼 에어컨, 스마트키 시스템(오토 클로징 기능 포함), 크루즈 컨트롤, 2열 에어벤트, 운전석 &amp; 동승석 히팅시트, 테일게이트 이지 오픈 클로즈, USB 충전기(소켓타입), 원터치 트리플 턴시그널, 래피드 히터(PTC), 글로브 박스 램프, 12V 파워 아웃렛, 오토 비상등 스위치, 가스식 후드 리프터, 수동식 틸트 스티어링 휠, USB C타입 단자(1열 : 충전1개, 데이터 &amp; 충전 1개), 운전석 원터치 오토다운 파워윈도우<br><br><b>●&nbsp;안전 사양 :</b>&nbsp;소화기, 6에어백(운전석, 동승석, 1열 사이드, 커튼), ESC(가변형 HDC, BAS, ARP, HSA, ESS, 트레일러 스웨이 컨트롤), 전방 &amp; 후방 주차보조 경고, 타이어 공기압 경보 시스템(TPMS), 1열 시트벨트 프리텐셔너 &amp; 로드리미터, 2열 센터 2점식 시트벨트, 유아용 시트 고정장치(ISOFIX), 시트벨트 리마인더(전좌석), 스피드센싱 오토도어록(이머전시 언락포함), 이동식 비상삼각대, 도난경보장치, 파킹브레이크 워닝 시그널<br><br><b>●&nbsp;멀티미디어 :</b>&nbsp;플로팅 타입 MP3 오디오, 6스피커, 스티어링 휠 오디오 리모컨, 블루투스 핸즈프리</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>●&nbsp;세이프티 선루프</b>&nbsp;500,000<br><br><b>●&nbsp;어드벤처 패키지</b>&nbsp;1,750,000<br><br><b>●&nbsp;오프로드 사이드 스텝&nbsp;</b>550,000<br><br><b>●&nbsp;LD 시스템</b>&nbsp;300,000<br><br><b>● 12.3인치 KGM 링크 내비게이션 패키지</b>&nbsp;1,600,000</p>
+												</div>
+											
+												<div id="newcar3" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>디젤 2.2 4WD 와일드 기본 품목 외
+<br></b><br><b>●&nbsp;외관 사양 :</b>&nbsp;LED 리어 콤비램프, 샤크핀 통합 안테나
+<br><br><b>●&nbsp;내장 사양 :</b>&nbsp;12.3인치 디지털 클러스터, 가죽커버 스티어링 휠, 하이글로시 윈도우 스위치 베젤, SUS 도어스커프(1열)
+<br><br><b>●&nbsp;편의 사양&nbsp;:</b>&nbsp;인텔리전트 어댑티브 크루즈 컨트롤(IACC), 하이패스 시스템(ETCS), ECM 룸미러, 열선 스티어링 휠, 운전석 8way 전동시트 &amp; 전동식 2way 럼버서포트, 운전석 &amp; 동승석 통풍시트, 듀얼존 풀오토 에어컨, 터치식 공조 컨트롤러, 오토라이트 컨트롤, 우적감지 와이퍼, 오토 디포그, 2열 히팅시트, 운전석 세이프티 파워 윈도우(오토 업 &amp; 다운), 동승석 6way 전동시트
+<br><br><b>●&nbsp;안전 사양 :</b>&nbsp;긴급 제동보조(AEB), 전방 추돌 경고(FCW), 차선이탈경고(LDW), 차선 유지보조(LKA), 중앙 차선 유지 보조(CLKA), 스마트 하이빔(SHB), 앞차 출발 경고(FVSW), 안전 거리 경고(SDW), 부주의 운전 경고(DAW)
+<br><b><br></b><b>●&nbsp;멀티미디어 :</b>&nbsp;12.3인치 KGM 링크 내비게이션 패키지</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>●&nbsp;세이프티 선루프</b>&nbsp;500,000<br><br><b>●&nbsp;어드벤처 패키지</b>&nbsp;1,750,000<br><br><b>●&nbsp;오프로드 사이드 스텝&nbsp;</b>550,000<br><br><b>●&nbsp;LD 시스템</b>&nbsp;300,000
+<br><br><b>●&nbsp;블랙 엣지</b>&nbsp;650,000
+<br><br><b>●&nbsp;실키 화이트 펄 컬러</b>&nbsp;80,000
+<br><br><b>●&nbsp;3D 어라운드 뷰 모니터링 시스템</b>&nbsp;1,000,000
+<br><br><b>●&nbsp;럭셔리 패키지</b>&nbsp;900,000
+<br><br><b>●&nbsp;스마트 드라이빙 패키지</b>&nbsp;600,000
+<br><br><b>●&nbsp;나파 가죽시트</b>&nbsp;650,000<br><br><b>●&nbsp;카키 인테리어 패키지</b>&nbsp;300,000
+<br>
+※&nbsp;카키 인테리어 패키지, 블랙 스웨이드 퀼팅 패키지는 나파 가죽시트 선택 시 적용 가능<br><br><b>●&nbsp;블랙 스웨이드 퀼팅 패키지</b>&nbsp;500,000
+<br>
+※&nbsp;카키 인테리어 패키지, 블랙 스웨이드 퀼팅 패키지는 나파 가죽시트 선택 시 적용 가능</p>
+												</div>
+											
+										</div>
+										<script type="text/javascript">
+											newcarFolder(0);//초기값
+											function newcarFolder(target) {
+												var conElId = "newcar"//아이디 설정
+												var conElMenu = document.getElementById("newcarList");
+												var conElMenuLink = conElMenu.getElementsByTagName("a");
+												if (target != null) {
+													conElMenuLink[target].parentNode.className = "on";
+													document.getElementById(
+														conElId + target).style.display = "";
+												}
+												for (i = 0; i <= (conElMenuLink.length - 1); i++) {
+													conElMenuLink[i].onclick = function () {
+														for (x = 0; x <= (conElMenuLink.length - 1); x++) {
+															conElMenuLink[x].parentNode.className = "";
+															document.getElementById(
+																conElId + x).style.display = "none";
+														}
+														this.parentNode.className = "on";
+														document.getElementById(this.getAttribute('href')
+																					.split(
+																						'#')[1]).style.display =
+															"";
+														return false;
+													}
+												}
+											}
+										</script>
+									</div>
+									
+										<ul class="more">
+												<b>※ 선택 품목</b><br><b>●&nbsp;블랙 엣지
+<br> -&nbsp;외관 블랙 포인트 :</b> 라디에이터 크릴, 아웃사이드 미러, 유틸리티 루프랙, 전면 범퍼 하부 가니쉬, 18인치 블랙 알로이 휠(프레스티지 선택시),
+20인치 다크 스퍼터링 휠(럭셔리 패키지 선택시), 전면 윙로고, 테일게이트 레터링, C필러 무쏘 엠블럼
+
+<br><b>- 내장 블랙 포인트 :</b> 터치식 공조 컨트롤러 가니쉬, 대쉬보드 수평형 가니쉬, 엔진 시동/정지 버튼 스위치 링 가니쉬
+<br>※ 커스터마이징 사양 : 휠 아치 &amp; 도어 가니쉬
+
+<br>* 외장 컬러는 마블그레이, 샌드스톤 베이지, 아마조니아 그린, 그랜드 화이트, 스페이스 블랙만 선택 가능 / 블랙 엣지 옵션 선택 시 어드벤처 패키지, 카키 나파가죽시트 패키지 선택 불가<br><b>●&nbsp;어드벤처 패키지 -&nbsp;</b>블랙 휠(18인치 휠→18인치 블랙 휠, 20인치 스퍼터링 휠→20인치 다크 스퍼터링 휠), 다이내믹 서스펜션, ※ 커스터마이징 사양 : 언더커버, 오프로드 사이드 스텝, 플로팅 센터 스피커, 리어스텝, 3D 매쉬매트, 휠 아치 &amp; 도어 가니쉬<b><br>●&nbsp;블랙 스웨이드 퀼팅 패키지 -&nbsp;</b>나파 가죽 퀼팅 시트, 인스트루먼트 패널 퀼팅(블랙 스웨이드 적용부위 : 시트 숄더부, 인스트루먼트 패널)<b><br>●&nbsp;럭셔리 패키지 -&nbsp;</b>20인치 스퍼터링 휠, 앰비언트 라이트, 터치센싱 아웃사이드 도어핸들(1열), 아웃사이드 도어 핸들 램프(1열),
+바디컬러 &amp; 크롬 아웃사이드 도어 핸들(1열), 솔라 컨트롤 글래스(윈드쉴드), 아웃사이드 미러 퍼들램프, 수동식 텔레스코픽 스티어링 휠<b><br>●&nbsp;4WD 시스템 -&nbsp;</b>4WD 시스템, ISG 시스템(공회전 제한 장치)<b><br>●&nbsp;12.3인치 KGM 링크
+내비게이션 패키지 -&nbsp;</b>12.3인치 터치스크린 내비게이션, 내비게이션 무선 맵 업데이트, 안드로이드 오토, 애플 카플레이, 음성인식 기능,
+후방 카메라(조향연동 다이내믹 주차 가이드), AM/FM 라디오, 샤크핀 통합 안테나, USB 미디어, 블루투스 뮤직, 양방향 공조제어,
+후석 취침 모드, 자동 내기 순환 장치, 안전제일 서비스(에어백 전개 알림), 올인원 서비스(차량 원격 제어 등),
+프리미엄 서비스(지니뮤직, 팟캐스트 등) * 매뉴얼 에어컨 기본 적용시 자동 내기 순환 기능은 미작동함<b><br>●&nbsp;스마트 드라이빙 패키지 -&nbsp;</b>후측방 경고(BSW), 후측방 접근 경고(RCTW), 차선 변경 경고(LCW), 안전 하차 경고(SEW), 후측방 충돌 보조(BSA),
+후측방 접근 충돌 보조(RCTA)&nbsp;
+										</ul>
+									
+									<p class="desc_more">위 신차가격표는 단순 참고자료이며, 정확한 내용은 각 제조사에서 제공하는 자료를 통해확인하실 수 있습니다.</p><!-- 2016/10/12 [장] 등급 등록/수정 개선 : 추가 디자인 변경 -->
+									<p class="toTop"><a href="#main_title" class="sp toTop db_ir" title="페이지 위로"><u>페이지 위로</u></a></p><!-- [시세개편] class db_ir 추가 -->
+								</div>
+
+
+							</div>
+							<!-- body end -->
+						</td>
+					</tr>
+				</table>
+
+
+			
+			
+		
+    </div>
+
+    <!-- container end -->
+</form>
+</div>
+
+</body>
+<script language="javascript">
+
+
+    var strCompanyUrl = "/common/combo/cardbcompany.json?method=carList";
+    var strModelGroupUrl = "/common/combo/modelgroupfordb.json?method=carList";
+    var strModelUrl = "/common/combo/cardbmodel.json?method=carList";
+    var strYrJatoUrl = "/common/combo/jatoYr.json?method=carList";
+
+    var companyid = "mnfccd";
+    var modelgroupid = "mdlgroupcd";
+    var modelid = "mdlcd";
+    var yearid = "caryear";
+
+    function initGnb() {
+        var paramCompany = $("paramMnfccd").value;
+        var paramModelGroup = $("paramMdlgroupcd").value;
+        var paramModel = $("paramMdlcd").value;
+        var paramYr = $("paramYear").value;
+
+        // 제조사
+        if (paramModel != "") {
+            $("mdlcd").show();
+        }
+
+        //console.log("companyid :: " + companyid)
+        //console.log("paramCompany :: " + paramCompany)
+		if($('foldYn').value != 0){
+            foldingYN('f_fold');
+		}
+
+        setCompany(strCompanyUrl, companyid, "제조사", paramCompany);
+
+        // 제조사 값이 있으면 모델 검색
+        if (paramCompany >= '010') {
+            if (paramCompany != "") {
+                if (paramModel == "") {
+                    paramModel = paramModelGroup;
+                }
+                setModel(strModelUrl, modelid, paramCompany, "모델", paramModel)
+                $("mdlgroupcd").hide();
+
+            }
+        } else {
+            $("mdlgroupcd").show();
+            if (paramCompany != "") {
+                setModelGroup(strModelGroupUrl, modelgroupid, paramCompany, "모델", paramModelGroup);
+                if (paramModelGroup != "") {
+                    setModel_New(strModelUrl, modelid, paramCompany, paramModelGroup, "세부모델", paramModel);
+                }
+            }
+
+        }
+        if (paramCompany != "" && paramModel != "") {
+            setCarYear(strYrJatoUrl, yearid, paramCompany, paramModel, "형식연도", paramYr);
+        }
+
+        waitTime = 1;
+    }
+
+    function changeModel_jato(mnfccd, mdlgroupcd) {
+        setModel_New(strModelUrl, modelid, mnfccd, mdlgroupcd, "세부모델", "");
+        //모델그룹선택시 기본 세부모델선택
+        if ($("mdlcd") != null) {
+            $("mdlcd").selectedIndex = 1;
+            var mdlcd = $("mdlcd").options[$("mdlcd").selectedIndex].value;
+            changeYearJato(mnfccd, mdlcd);
+        }
+    }
+
+    function changeYearJato(mnfccd,mdlcd) {
+        setCarYear(strYrJatoUrl, yearid, mnfccd, mdlcd, "형식연도", "");
+        $(yearid).options[1].selected = true;
+    }
+
+
+
+    //덧글 리스트
+    function viewForm(index) {
+
+        var object = $("default" + index);
+        var objectSum = $("defaultSum" + index);
+        var selectSum = $("choiceSum" + index);
+        var object1 = $("choice" + index);
+        if (object != null) {
+            if (object.style.display == 'none') {
+                objectSum.hide();
+                selectSum.hide();
+                object.style.display = "block";
+                object1.style.display = "block";
+
+            } else {
+                object.hide();
+                object1.hide();
+                objectSum.style.display = "block";
+                selectSum.style.display = "block";
+            }
+        }
+    }
+
+    function viewAll() {
+        for (var i = 1; i <=4; i++) {
+            $("default" + i).style.display = "block";
+            $("defaultSum" + i).style.display = "none";
+            $("choice" + i).style.display = "block";
+            $("choiceSum" + i).style.display = "none";
+        }
+    }
+
+    function closeAll() {
+        for (var i = 1; i <=4; i++) {
+            $("default" + i).style.display = "none";
+            $("defaultSum" + i).style.display = "block";
+            $("choice" + i).style.display = "none";
+            $("choiceSum" + i).style.display = "block";
+        }
+    }
+
+    function firstLayerOpen() {
+        //viewForm(1);
+    }
+
+    function foldingYN(param) {
+        if (param == "f_fold") {
+            document.getElementById("folding").innerHTML ="<a href=\"javascript:foldingYN('f_unfold')\" class='folding f_unfold'>전체등급 펼쳐보기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "none";
+            document.getElementById("f_fold").style.display = "";
+        } else {
+            document.getElementById("folding").innerHTML = "<a href=\"javascript:foldingYN('f_fold')\" class='folding f_fold'>접기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "";
+            document.getElementById("f_fold").style.display = "none";
+        }
+    }
+
+    function onSubmit() {
+        jQuery("#searchForm").submit();
+
+    }
+    window.onload = initGnb;
+
+</script>
+</html>
+

@@ -1,0 +1,782 @@
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>차량DB - 차량정보 - 신차가격표</title>
+    <link type="text/css" rel="stylesheet" href="/css/common.css?v=1793835891525"/>
+    <link type="text/css" rel="stylesheet" href="/css/db.css?v=1793835891525"/>
+
+    <script type="text/javascript" src="/js/encarapp/lib/jquery/jquery-1.11.3.min.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/common/ui.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/prototype.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/util.js?v=1793835894199"></script>
+
+    <script type="text/javascript" src="/js/common/db_common.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/commonCombo.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/carSearchCombo.js?v=1793835894199"></script>
+	<script>
+		window.enlogInitJson = {
+			"dataTalkView": {
+				"screenName": "신차가격표"
+			}
+		}
+
+	</script>
+
+
+</head>
+
+
+
+
+
+
+
+    <!-- 등급 체크박스  -->
+    <div style="display:none">
+        
+    </div>
+
+    <!-- 세부등급 체크박스 -->
+    <div style="display:none">
+        
+    </div>
+
+
+
+<body class="db db_newdetailview db_basicTemplate">
+
+
+
+
+	
+	
+	
+	
+
+
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-W9QQ2T"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W9QQ2T');</script>
+<!-- End Google Tag Manager -->
+
+<!-- container begin -->
+<div class="container" id="containerDIV">
+<input type="hidden" id = "foldYn" name="searchtype" value="4"/>
+<form id ="searchForm" name="searchForm">
+
+    <input type="hidden" id = "method" name="method" value="newpricePopV2"/>
+    <input type="hidden" id = "dimensiontype" name="dimensiontype" value="null"/>
+    <input type="hidden" id = "paramMnfccd" name="paramMnfccd" value="005"/>
+    <input type="hidden" id = "paramMdlgroupcd" name="paramMdlgroupcd" value="016"/>
+    <input type="hidden" id = "paramMdlcd" name="paramMdlcd" value="073"/>
+    <input type="hidden" id = "paramYear" name="paramYear" value="2020"/>
+    <input type="hidden" id = "model" name="model" value="">
+    <input type="hidden" id = "paramCaryear" name="paramCaryear" value="2020"/>
+    <input type="hidden" id = "clsheadcd" name="clsheadcd" class="checkbox" value="null"/>
+    <input type="hidden" id = "paramGradeHead" name="paramGradeHead" value="null"/>
+	<input type="hidden" id = "searchtype" name="searchtype" value="check"/>
+	<input type="hidden" id = "pageAccessToken" name="pageAccessToken" value="AgV4t+JakZDC2elSmr9vL3a/6J4lnJyOt7HciH/sPesVIhsAcQACAAdFbmNhckNrAAdFbmNhckN2ABVhd3MtY3J5cHRvLXB1YmxpYy1rZXkAREF1M1BSbDdRQko4TmFCYnJNYXkweVcydHhyN1J5UUNGSWNqTHhEM3FVMWxXTk8xamFQY0dsWkJBRTFHd2x4T1lsUT09AAEAB2F3cy1rbXMAUGFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjI3MjM2MjQ4NzY1MzprZXkvbXJrLWRmZWEyNmY3NTVhMzQ3MjliNjkwMjRkZWZmM2M1MWFjALgBAgEAeAuqQuSJvQ+Ra4FSj55FZzS0sk+00amsb3yoAFiEYn4PAULqy4icdwAz2Wg9gn/oip8AAAB+MHwGCSqGSIb3DQEHBqBvMG0CAQAwaAYJKoZIhvcNAQcBMB4GCWCGSAFlAwQBLjARBAwG5ajdotNaFSKCyn4CARCAO9lMyEzxqYtRQLop4TE36l70/wvPh3YYfedFkeyfzGawHUE5ZOphqcXieG00fnzK1KvTg40gN9Lxmo6lAgAAEADB2uhRxFTgtp2hMjkB9TA8zPoTVD9FtNeOvhfqa4rhcnIzB9njoFGBn95Oiwxq2AH/////AAAAAQAAAAAAAAAAAAAAAQAAAKNBTV0I+R3LVx76owaj8yMgtucAyje1qOEhjDcEgnRmbkkgwcv7fZt7fsvgClLdc7DO4E0NCcfos8VMJRF6S38ajsj2qcJWFG29KdOJqmydFBXcbffLAIrbRX68DWhxldbIBiH9wXqzq3GIWX3LcTlMSvG/XV2SBsq7lVpkMOAA3vwyATBgrD86yoToo8Bk28BkTMnJpI1jJQkKQZqT2XGZyJvgq2aaFv3Z07/EX8TMWPS9kgBnMGUCMQDL1ZjvL1ggqgM5hP7dykD0+iKcULxdCDFBu1IFs94MX9KGa42q1fIQ/+iV26+yc2MCMA9TbiCvjhr0yKSLRDB6E7+9rwYls/32FXnjPjmK5bkm88FhzYEHr8IbXqVm3iciTA=="/>
+    <div class="header">
+        <h1 class="blind">SK엔카</h1>
+        <h2 class="tit_carprice" id="main_title">신차가격표</h2>
+        <p class="quickSearch">
+
+
+
+            <select title="제조사" class="opt_select" id="mnfccd" name="mnfccd" onChange="javascript:changeModelGroup(this.value);">
+                <option value="">제조사</option>
+            </select>
+
+            <select class="opt_select" title="모델" id="mdlgroupcd" name="mdlgroupcd" onChange="javascript:changeModel_jato($('mnfccd').value, this.value);">
+                <option>모델</option>
+            </select>
+
+            <select class="opt_select" title="세부모델" id="mdlcd" name="mdlcd" onChange="javascript:changeYearJato($('mnfccd').value, $('mdlcd').value);">
+                <option>세부모델</option>
+            </select>
+
+            <select class="opt_select" title="연식" id="caryear" name="caryear">
+                <option>연식</option>
+            </select>
+
+            <button type="button" class="btn_search" onclick="javascript:onSubmit();"/>검색</button>
+
+
+
+        </p>
+    </div>
+    <!-- body begin -->
+    <div class="body" id="bodydiv">
+		
+			
+				<table class="layout">
+					<col class="contents"/>
+					<tr>
+						<td class="contentsMenu">
+							<!-- contentsMenu begin -->
+							<div class="contentsMenu">
+								<h3 class="title">르노코리아(삼성) 캡처 2020년형</h3>
+							</div>
+							<!-- contentsMenu end -->
+						</td>
+					</tr>
+
+					<tr>
+						<td class="contentsMain">
+							<!-- contents begin -->
+							<div class="contents">
+
+								<div class="carCompare">
+									<div class="dbHead">
+										
+											<div id="folding"><a href="javascript:foldingYN('f_fold')"
+																 class="folding f_fold">전체등급 펼쳐보기<em class="db_ir"></em></a></div>
+
+											<!-- 2013/04/03 [서] 매물탭 개선 : 기능 버튼 추가 --><!--<a href="#" class="folding f_unfold">펼치기</a>-->
+										
+									</div>
+									
+									
+										
+									
+										
+									
+										
+									
+										
+									
+									<div id="f_unfold">
+										
+											<!-- case1 : 세부등급과 미션분리 -->
+											<table class="carCompare sellcase1">
+												<colgroup>
+													<col class="grade">
+													<col class="mission">
+													<col class="price">
+												    <col class="uprice"><!-- [시세개편] 중고차시세 추가 uprice -->
+													<col class="item">
+													<col class="option">
+												</colgroup>
+												<thead class="compare">
+												<tr>
+													<th class="grade" colspan="2"><b>구분</b></th>
+													<th class="price"><b>판매가격</b></th>
+													<th class="uprice"><b>중고차시세</b></th><!-- [시세개편] 중고차시세 추가 -->
+													<th class="item"><b>기본사양 품목</b></th>
+													<th class="option end"><b>선택사양 품목</b></th>
+												</tr>
+												</thead>
+												<tbody class="new">
+												
+													
+														
+													
+													
+														
+															
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>1.3 TCe 인텐스</p></td>
+														
+														<td class="mission"><p>DCT</p></td>
+														<td class="price">
+															<p>
+																<strong>2,465</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>● 파워 트레인 :&nbsp;</b>TCe 260(터보 직분사 가솔린) 엔진, 게트락 7단 EDC 변속기(습식), 오토 스탑/스타트 시스템&nbsp;
+<br><br><b>● 안전 :&nbsp;</b>앞좌석(운전석/동승석)/사이드(앞)/커튼 에어백, 타이어 공기압 자동감지 시스템, ISOFIX 유아용 시트 고정 장치, 전 좌석 시트벨트 리마인드 기능, 전륜 벤틸레이티드 디스크/후륜 디스크 브레이크, 원터치 트리플 턴 시그널, 크루즈 컨트롤/스피드 리미터&nbsp;<br><br><b>● 주행 보조 시스템 :</b>&nbsp;긴급제동 보조 시스템(AEBS, 차량/보행자/자전거탑승자 감지), 차간거리 경보 시스템, 차선이탈 경보 시스템(LDW), 차선이탈 방지 보조 시스템(LKA), 사각지대 경보 시스템(BSW),&nbsp;어댑티브 크루즈 컨트롤(정차 및 재출발), 오토매틱 하이빔(AHL)
+<br><br><b>● 외관 :&nbsp;</b>LED PURE VISION 헤드램프(LED 주간 주행등/LED 방향지시등 포함, 라이트 시그니처), LED 방향지시등 일체형 아웃사이드 미러, LED 리어 콤비네이션 램프(방향지시등 벌브, 라이트 시그니처), 17" 알로이 휠 &amp; 215/60 R17 타이어(투톤),&nbsp;프런트/리어 스키드(그레이), 크롬 데코(프런트 에어 커튼, 펜더 엠블리셔, 벨트라인, 리어 범퍼), 노출형 크롬 머플러<br><br><b>● 내장 :</b>&nbsp;컬러 TFT 클러스터(7"), 리어 슬라이딩 벤치 시트(6:4 폴딩 기능 포함),&nbsp;브러쉬드 메탈 그레인 IP 데코,&nbsp;블랙 가죽시트, 운전석 6WAY 파워시트(매뉴얼 럼버 서포트 포함), 가죽 스티어링 휠(열선 기능 포함), 매직 드로어(슬라이딩 글러브 박스), 패들 시프트, LED 룸/맵 램프, 앰비언트 라이트(8색상 : 클러스터, 프런트 도어),&nbsp;더블 트렁크 플로어&nbsp;
+<br><br><b>● 멀티미디어 :</b>&nbsp;EASY CONNECT 7" 디스플레이 오디오(어시스트 콜 포함),&nbsp;오디오 사운드 시스템(6스피커)&nbsp;
+<br><br><b>● 공조시스템 :</b>&nbsp;오토 에어컨,&nbsp;리어 에어벤트,&nbsp;컴바인드 에어필터&nbsp;
+<br><br><b>● 편의 :&nbsp;</b>인텔리전트 스마트 카드 시스템(버튼 시동/오토 클로징 &amp; 오프닝/리퀘스트 버튼), 앞좌석 열선시트(운전석/동승석), 전자식 파킹 브레이크, 오토홀드, 전자식 룸미러(ECM)/하이패스(ETCS), 후방 카메라, 전방/후방 경보 시스템, 후방 교차 충돌 경보 시스템(RCTA), 오토 라이팅 헤드램프/레인센싱 와이퍼, 아웃사이드 미러(전동 조절/열선 기능/자동접이 기능 포함), 뒷좌석 12V 아울렛, 뒷좌석 USB(2개), ECO 모드, Multi-Sense(드라이빙 모드 통합 제어 시스템, 3모드 - ECO, SPORT, MY SENSE),&nbsp;원터치 세이프티 파워 윈도우(전좌석), 타이어 리페어 키트<br>
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"></li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>1.3 TCe 에디션 파리</p></td>
+														
+														<td class="mission"><p>DCT</p></td>
+														<td class="price">
+															<p>
+																<strong>2,748</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>● 파워 트레인 :&nbsp;</b>TCe 260(터보 직분사 가솔린) 엔진, 게트락 7단 EDC 변속기(습식), 오토 스탑/스타트 시스템&nbsp;<br><br><b>● 안전 :&nbsp;</b>앞좌석(운전석/동승석)/사이드(앞)/커튼 에어백, 타이어 공기압 자동감지 시스템, ISOFIX 유아용 시트 고정 장치, 전 좌석 시트벨트 리마인드 기능, 전륜 벤틸레이티드 디스크/후륜 디스크 브레이크, 원터치 트리플 턴 시그널, 크루즈 컨트롤/스피드 리미터&nbsp;
+<br><br><b>● 주행 보조 시스템 :</b>&nbsp;긴급제동 보조 시스템(AEBS, 차량/보행자/자전거탑승자 감지), 차간거리 경보 시스템, 차선이탈 경보 시스템(LDW), 차선이탈 방지 보조 시스템(LKA), 사각지대 경보 시스템(BSW),&nbsp;어댑티브 크루즈 컨트롤(정차 및 재출발), 오토매틱 하이빔(AHL)
+<br><br><b>● 외관 :&nbsp;</b>LED PURE VISION 헤드램프(LED 주간 주행등/LED 방향지시등 포함, 라이트 시그니처), LED 방향지시등 일체형 아웃사이드 미러, LED 리어 콤비네이션 램프(방향지시등 벌브, 라이트 시그니처), 18" 투톤 알로이 휠 &amp; 215/55 R18 타이어, 프런트/리어 스키드(에르베 그레이), 크롬 데코(프런트 에어 커튼, 펜더 엠블리셔, 벨트라인, 리어 범퍼), 노출형 크롬 머플러<br><br><b>● 내장 :</b>&nbsp;컬러 TFT 클러스터(10.25"), 리어 슬라이딩 벤치 시트(6:4 폴딩 기능 포함),&nbsp;우드 그레인 IP 데코, EDITION PARIS 전용 블랙 또는 그레이 인테리어/다이아몬드 퀼팅 블랙 또는 그레이 가죽시트 (외장 컬러와 연동), 운전석 6WAY 파워시트(매뉴얼 럼버 서포트 포함), 가죽 스티어링 휠(열선 기능 포함), 매직 드로어(슬라이딩 글러브 박스), 패들 시프트, e-시프터(전자식 기어 변속기) &amp; 플라잉 콘솔, LED 룸/맵 램프, 앰비언트 라이트(8색상 : 클러스터, 프런트 도어, 리어 도어, 플라잉 콘솔 하단),&nbsp;더블 트렁크 플로어&nbsp;
+<br><br><b>● 멀티미디어 :</b>&nbsp;EASY CONNECT 9.3" 내비게이션(어시스트 콜 포함),&nbsp;BOSE 서라운드 사운드 시스템(9스피커)
+<br><br><b>● 공조시스템 :</b>&nbsp;오토 에어컨,&nbsp;리어 에어벤트,&nbsp;컴바인드 에어필터&nbsp;
+<br><br><b>● 편의 :&nbsp;</b>인텔리전트 스마트 카드 시스템(버튼 시동/오토 클로징 &amp; 오프닝/리퀘스트 버튼), 앞좌석 열선시트(운전석/동승석), 전자식 파킹 브레이크, 오토홀드, 전자식 룸미러(ECM)/하이패스(ETCS), 후방 카메라, 전방/후방 경보 시스템, 360° 주차 보조 시스템(전방/측방/후방 경보), 주차 조향 보조 시스템(EPA), 어라운드 뷰 모니터 시스템 (AVM), 후방 교차 충돌 경보 시스템(RCTA), 오토 라이팅 헤드램프/레인센싱 와이퍼, 아웃사이드 미러(전동 조절/열선 기능/자동접이 기능 포함), 뒷좌석 12V 아울렛, 뒷좌석 USB(2개), 스마트폰 무선 충전 시스템, ECO 모드, Multi-Sense(드라이빙 모드 통합 제어 시스템, 3모드 - ECO, SPORT, MY SENSE),&nbsp;원터치 세이프티 파워 윈도우(전좌석), 타이어 리페어 키트
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"></li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>1.5 dCi 젠</p></td>
+														
+														<td class="mission"><p>DCT</p></td>
+														<td class="price">
+															<p>
+																<strong>2,413</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>● 파워 트레인 :</b> 1.5 dCi(터보 직분사 디젤) 엔진, 게트락 7단 EDC 변속기(습식), 오토 스탑/스타트 시스템
+<br>
+<br><b>
+● 안전 : </b>앞좌석(운전석/동승석)/사이드(앞)/커튼 에어백, 타이어 공기압 자동감지 시스템, ISOFIX 유아용 시트 고정 장치, 전 좌석 시트벨트 리마인드 기능, 전륜 벤틸레이티드 디스크/후륜 디스크 브레이크, 원터치 트리플 턴 시그널, 크루즈 컨트롤/스피드 리미터
+<br>
+
+<br><b>● 주행 보조 시스템 :</b> 긴급제동 보조 시스템(AEBS, 차량/보행자/자전거탑승자 감지), 차간거리 경보 시스템, 차선이탈 경보 시스템(LDW), 차선이탈 방지 보조 시스템(LKA), 사각지대 경보 시스템(BSW)
+<br>
+<br><b>● 외관 : </b>LED PURE VISION 헤드램프(LED 주간 주행등/LED 방향지시등 포함), LED 방향지시등 일체형 아웃사이드 미러, LED 리어 콤비네이션 램프(방향지시등 벌브), 17" 알로이 휠 &amp; 215/60 R17 타이어,&nbsp;프런트/리어 스키드(그레이)
+<br>
+<br><b>● 내장 :</b> 컬러 TFT 클러스터(4.2"), 리어 슬라이딩 벤치 시트(6:4 폴딩 기능 포함),&nbsp;직물 시트(블랙 &amp; 그레이), 패들 시프트,&nbsp;더블 트렁크 플로어
+<br>
+<br>
+<b>● 멀티미디어 :</b>&nbsp;EASY CONNECT 7" 디스플레이 오디오(어시스트 콜 포함),&nbsp;오디오 사운드 시스템(6스피커)
+<br>
+<br>
+<b>● 공조시스템 :</b>&nbsp;오토 에어컨, 리어 에어벤트, 컴바인드 에어필터
+<br>
+<br><b>● 편의 : </b>인텔리전트 스마트 카드 시스템(버튼 시동/오토 클로징 &amp; 오프닝/리퀘스트 버튼), 앞좌석 열선시트(운전석/동승석), 전자식 파킹 브레이크, 후방 카메라, 전방/후방 경보 시스템, 후방 교차 충돌 경보 시스템(RCTA), 오토 라이팅 헤드램프/레인센싱 와이퍼, 아웃사이드 미러(전동 조절/열선 기능/자동접이 기능 포함), 뒷좌석 12V 아울렛,&nbsp;ECO 모드, 원터치 세이프티 파워 윈도우(전좌석), 타이어 리페어 키트
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"></li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>1.5 dCi 인텐스</p></td>
+														
+														<td class="mission"><p>DCT</p></td>
+														<td class="price">
+															<p>
+																<strong>2,662</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>● 파워 트레인 :</b>&nbsp;1.5 dCi(터보 직분사 디젤) 엔진, 게트락 7단 EDC 변속기(습식), 오토 스탑/스타트 시스템&nbsp;
+<br><br><b>● 안전 :&nbsp;</b>앞좌석(운전석/동승석)/사이드(앞)/커튼 에어백, 타이어 공기압 자동감지 시스템, ISOFIX 유아용 시트 고정 장치, 전 좌석 시트벨트 리마인드 기능, 전륜 벤틸레이티드 디스크/후륜 디스크 브레이크, 원터치 트리플 턴 시그널, 크루즈 컨트롤/스피드 리미터&nbsp;
+<br><br><b>● 주행 보조 시스템 :</b>&nbsp;긴급제동 보조 시스템(AEBS, 차량/보행자/자전거탑승자 감지), 차간거리 경보 시스템, 차선이탈 경보 시스템(LDW), 차선이탈 방지 보조 시스템(LKA), 사각지대 경보 시스템(BSW),&nbsp;오토매틱 하이빔(AHL)
+<br><br><b>● 외관 :&nbsp;</b>LED PURE VISION 헤드램프(LED 주간 주행등/LED 방향지시등 포함, 라이트 시그니처), LED 방향지시등 일체형 아웃사이드 미러, LED 리어 콤비네이션 램프(방향지시등 벌브, 라이트 시그니처), 17" 알로이 휠 &amp; 215/60 R17 타이어(투톤),&nbsp;프런트/리어 스키드(그레이), 크롬 데코(프런트 에어 커튼, 펜더 엠블리셔, 벨트라인, 리어 범퍼), 노출형 크롬 머플러<br><br><b>● 내장 :</b>&nbsp;컬러 TFT 클러스터(7"), 리어 슬라이딩 벤치 시트(6:4 폴딩 기능 포함),&nbsp;브러쉬드 메탈 그레인 IP 데코,&nbsp;블랙 가죽시트, 운전석 6WAY 파워시트(매뉴얼 럼버 서포트 포함), 가죽 스티어링 휠(열선 기능 포함), 매직 드로어(슬라이딩 글러브 박스), 패들 시프트, LED 룸/맵 램프, 앰비언트 라이트(8색상 : 클러스터, 프런트 도어), 더블 트렁크 플로어&nbsp;<br><br><b>● 멀티미디어 :</b>&nbsp;EASY CONNECT 7" 디스플레이 오디오(어시스트 콜 포함),&nbsp;오디오 사운드 시스템(6스피커)&nbsp;
+<br><br><b>● 공조시스템 :</b>&nbsp;오토 에어컨,&nbsp;리어 에어벤트,&nbsp;컴바인드 에어필터&nbsp;
+<br><br><b>● 편의 :&nbsp;</b>인텔리전트 스마트 카드 시스템(버튼 시동/오토 클로징 &amp; 오프닝/리퀘스트 버튼), 앞좌석 열선시트(운전석/동승석), 전자식 파킹 브레이크, 오토홀드, 전자식 룸미러(ECM)/하이패스(ETCS), 후방 카메라, 전방/후방 경보 시스템, 후방 교차 충돌 경보 시스템(RCTA), 오토 라이팅 헤드램프/레인센싱 와이퍼, 아웃사이드 미러(전동 조절/열선 기능/자동접이 기능 포함), 뒷좌석 12V 아울렛, 뒷좌석 USB(2개), 스마트폰 무선 충전 시스템, ECO 모드, Multi-Sense(드라이빙 모드 통합 제어 시스템, 3모드 - ECO, SPORT, MY SENSE), 원터치 세이프티 파워 윈도우(전좌석), 타이어 리페어 키트
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"></li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+												</tbody>
+											</table>
+										
+
+
+										<!-- case2 : 세부등급이 있는경우 -->
+										
+									</div>
+									<!-- 신차가격표(폴더형) -->
+									<div id="f_fold" style="display:none;">
+										<div class="newcar_folder">
+											<ul class="nf_list" id="newcarList">
+												
+													<li>
+														<a href="#newcar0">
+                                                            <span class="model">1.3 TCe 인텐스  DCT</span>
+                                                            <span class="prc">
+                                                                <strong>2,465</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar1">
+                                                            <span class="model">1.3 TCe 에디션 파리  DCT</span>
+                                                            <span class="prc">
+                                                                <strong>2,748</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar2">
+                                                            <span class="model">1.5 dCi 젠  DCT</span>
+                                                            <span class="prc">
+                                                                <strong>2,413</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar3">
+                                                            <span class="model">1.5 dCi 인텐스  DCT</span>
+                                                            <span class="prc">
+                                                                <strong>2,662</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+											</ul>
+											<!-- 개별 -->
+											
+												<div id="newcar0" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>● 파워 트레인 :&nbsp;</b>TCe 260(터보 직분사 가솔린) 엔진, 게트락 7단 EDC 변속기(습식), 오토 스탑/스타트 시스템&nbsp;
+<br><br><b>● 안전 :&nbsp;</b>앞좌석(운전석/동승석)/사이드(앞)/커튼 에어백, 타이어 공기압 자동감지 시스템, ISOFIX 유아용 시트 고정 장치, 전 좌석 시트벨트 리마인드 기능, 전륜 벤틸레이티드 디스크/후륜 디스크 브레이크, 원터치 트리플 턴 시그널, 크루즈 컨트롤/스피드 리미터&nbsp;<br><br><b>● 주행 보조 시스템 :</b>&nbsp;긴급제동 보조 시스템(AEBS, 차량/보행자/자전거탑승자 감지), 차간거리 경보 시스템, 차선이탈 경보 시스템(LDW), 차선이탈 방지 보조 시스템(LKA), 사각지대 경보 시스템(BSW),&nbsp;어댑티브 크루즈 컨트롤(정차 및 재출발), 오토매틱 하이빔(AHL)
+<br><br><b>● 외관 :&nbsp;</b>LED PURE VISION 헤드램프(LED 주간 주행등/LED 방향지시등 포함, 라이트 시그니처), LED 방향지시등 일체형 아웃사이드 미러, LED 리어 콤비네이션 램프(방향지시등 벌브, 라이트 시그니처), 17" 알로이 휠 &amp; 215/60 R17 타이어(투톤),&nbsp;프런트/리어 스키드(그레이), 크롬 데코(프런트 에어 커튼, 펜더 엠블리셔, 벨트라인, 리어 범퍼), 노출형 크롬 머플러<br><br><b>● 내장 :</b>&nbsp;컬러 TFT 클러스터(7"), 리어 슬라이딩 벤치 시트(6:4 폴딩 기능 포함),&nbsp;브러쉬드 메탈 그레인 IP 데코,&nbsp;블랙 가죽시트, 운전석 6WAY 파워시트(매뉴얼 럼버 서포트 포함), 가죽 스티어링 휠(열선 기능 포함), 매직 드로어(슬라이딩 글러브 박스), 패들 시프트, LED 룸/맵 램프, 앰비언트 라이트(8색상 : 클러스터, 프런트 도어),&nbsp;더블 트렁크 플로어&nbsp;
+<br><br><b>● 멀티미디어 :</b>&nbsp;EASY CONNECT 7" 디스플레이 오디오(어시스트 콜 포함),&nbsp;오디오 사운드 시스템(6스피커)&nbsp;
+<br><br><b>● 공조시스템 :</b>&nbsp;오토 에어컨,&nbsp;리어 에어벤트,&nbsp;컴바인드 에어필터&nbsp;
+<br><br><b>● 편의 :&nbsp;</b>인텔리전트 스마트 카드 시스템(버튼 시동/오토 클로징 &amp; 오프닝/리퀘스트 버튼), 앞좌석 열선시트(운전석/동승석), 전자식 파킹 브레이크, 오토홀드, 전자식 룸미러(ECM)/하이패스(ETCS), 후방 카메라, 전방/후방 경보 시스템, 후방 교차 충돌 경보 시스템(RCTA), 오토 라이팅 헤드램프/레인센싱 와이퍼, 아웃사이드 미러(전동 조절/열선 기능/자동접이 기능 포함), 뒷좌석 12V 아울렛, 뒷좌석 USB(2개), ECO 모드, Multi-Sense(드라이빙 모드 통합 제어 시스템, 3모드 - ECO, SPORT, MY SENSE),&nbsp;원터치 세이프티 파워 윈도우(전좌석), 타이어 리페어 키트<br></p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"></p>
+												</div>
+											
+												<div id="newcar1" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>● 파워 트레인 :&nbsp;</b>TCe 260(터보 직분사 가솔린) 엔진, 게트락 7단 EDC 변속기(습식), 오토 스탑/스타트 시스템&nbsp;<br><br><b>● 안전 :&nbsp;</b>앞좌석(운전석/동승석)/사이드(앞)/커튼 에어백, 타이어 공기압 자동감지 시스템, ISOFIX 유아용 시트 고정 장치, 전 좌석 시트벨트 리마인드 기능, 전륜 벤틸레이티드 디스크/후륜 디스크 브레이크, 원터치 트리플 턴 시그널, 크루즈 컨트롤/스피드 리미터&nbsp;
+<br><br><b>● 주행 보조 시스템 :</b>&nbsp;긴급제동 보조 시스템(AEBS, 차량/보행자/자전거탑승자 감지), 차간거리 경보 시스템, 차선이탈 경보 시스템(LDW), 차선이탈 방지 보조 시스템(LKA), 사각지대 경보 시스템(BSW),&nbsp;어댑티브 크루즈 컨트롤(정차 및 재출발), 오토매틱 하이빔(AHL)
+<br><br><b>● 외관 :&nbsp;</b>LED PURE VISION 헤드램프(LED 주간 주행등/LED 방향지시등 포함, 라이트 시그니처), LED 방향지시등 일체형 아웃사이드 미러, LED 리어 콤비네이션 램프(방향지시등 벌브, 라이트 시그니처), 18" 투톤 알로이 휠 &amp; 215/55 R18 타이어, 프런트/리어 스키드(에르베 그레이), 크롬 데코(프런트 에어 커튼, 펜더 엠블리셔, 벨트라인, 리어 범퍼), 노출형 크롬 머플러<br><br><b>● 내장 :</b>&nbsp;컬러 TFT 클러스터(10.25"), 리어 슬라이딩 벤치 시트(6:4 폴딩 기능 포함),&nbsp;우드 그레인 IP 데코, EDITION PARIS 전용 블랙 또는 그레이 인테리어/다이아몬드 퀼팅 블랙 또는 그레이 가죽시트 (외장 컬러와 연동), 운전석 6WAY 파워시트(매뉴얼 럼버 서포트 포함), 가죽 스티어링 휠(열선 기능 포함), 매직 드로어(슬라이딩 글러브 박스), 패들 시프트, e-시프터(전자식 기어 변속기) &amp; 플라잉 콘솔, LED 룸/맵 램프, 앰비언트 라이트(8색상 : 클러스터, 프런트 도어, 리어 도어, 플라잉 콘솔 하단),&nbsp;더블 트렁크 플로어&nbsp;
+<br><br><b>● 멀티미디어 :</b>&nbsp;EASY CONNECT 9.3" 내비게이션(어시스트 콜 포함),&nbsp;BOSE 서라운드 사운드 시스템(9스피커)
+<br><br><b>● 공조시스템 :</b>&nbsp;오토 에어컨,&nbsp;리어 에어벤트,&nbsp;컴바인드 에어필터&nbsp;
+<br><br><b>● 편의 :&nbsp;</b>인텔리전트 스마트 카드 시스템(버튼 시동/오토 클로징 &amp; 오프닝/리퀘스트 버튼), 앞좌석 열선시트(운전석/동승석), 전자식 파킹 브레이크, 오토홀드, 전자식 룸미러(ECM)/하이패스(ETCS), 후방 카메라, 전방/후방 경보 시스템, 360° 주차 보조 시스템(전방/측방/후방 경보), 주차 조향 보조 시스템(EPA), 어라운드 뷰 모니터 시스템 (AVM), 후방 교차 충돌 경보 시스템(RCTA), 오토 라이팅 헤드램프/레인센싱 와이퍼, 아웃사이드 미러(전동 조절/열선 기능/자동접이 기능 포함), 뒷좌석 12V 아울렛, 뒷좌석 USB(2개), 스마트폰 무선 충전 시스템, ECO 모드, Multi-Sense(드라이빙 모드 통합 제어 시스템, 3모드 - ECO, SPORT, MY SENSE),&nbsp;원터치 세이프티 파워 윈도우(전좌석), 타이어 리페어 키트</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"></p>
+												</div>
+											
+												<div id="newcar2" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>● 파워 트레인 :</b> 1.5 dCi(터보 직분사 디젤) 엔진, 게트락 7단 EDC 변속기(습식), 오토 스탑/스타트 시스템
+<br>
+<br><b>
+● 안전 : </b>앞좌석(운전석/동승석)/사이드(앞)/커튼 에어백, 타이어 공기압 자동감지 시스템, ISOFIX 유아용 시트 고정 장치, 전 좌석 시트벨트 리마인드 기능, 전륜 벤틸레이티드 디스크/후륜 디스크 브레이크, 원터치 트리플 턴 시그널, 크루즈 컨트롤/스피드 리미터
+<br>
+
+<br><b>● 주행 보조 시스템 :</b> 긴급제동 보조 시스템(AEBS, 차량/보행자/자전거탑승자 감지), 차간거리 경보 시스템, 차선이탈 경보 시스템(LDW), 차선이탈 방지 보조 시스템(LKA), 사각지대 경보 시스템(BSW)
+<br>
+<br><b>● 외관 : </b>LED PURE VISION 헤드램프(LED 주간 주행등/LED 방향지시등 포함), LED 방향지시등 일체형 아웃사이드 미러, LED 리어 콤비네이션 램프(방향지시등 벌브), 17" 알로이 휠 &amp; 215/60 R17 타이어,&nbsp;프런트/리어 스키드(그레이)
+<br>
+<br><b>● 내장 :</b> 컬러 TFT 클러스터(4.2"), 리어 슬라이딩 벤치 시트(6:4 폴딩 기능 포함),&nbsp;직물 시트(블랙 &amp; 그레이), 패들 시프트,&nbsp;더블 트렁크 플로어
+<br>
+<br>
+<b>● 멀티미디어 :</b>&nbsp;EASY CONNECT 7" 디스플레이 오디오(어시스트 콜 포함),&nbsp;오디오 사운드 시스템(6스피커)
+<br>
+<br>
+<b>● 공조시스템 :</b>&nbsp;오토 에어컨, 리어 에어벤트, 컴바인드 에어필터
+<br>
+<br><b>● 편의 : </b>인텔리전트 스마트 카드 시스템(버튼 시동/오토 클로징 &amp; 오프닝/리퀘스트 버튼), 앞좌석 열선시트(운전석/동승석), 전자식 파킹 브레이크, 후방 카메라, 전방/후방 경보 시스템, 후방 교차 충돌 경보 시스템(RCTA), 오토 라이팅 헤드램프/레인센싱 와이퍼, 아웃사이드 미러(전동 조절/열선 기능/자동접이 기능 포함), 뒷좌석 12V 아울렛,&nbsp;ECO 모드, 원터치 세이프티 파워 윈도우(전좌석), 타이어 리페어 키트</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"></p>
+												</div>
+											
+												<div id="newcar3" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>● 파워 트레인 :</b>&nbsp;1.5 dCi(터보 직분사 디젤) 엔진, 게트락 7단 EDC 변속기(습식), 오토 스탑/스타트 시스템&nbsp;
+<br><br><b>● 안전 :&nbsp;</b>앞좌석(운전석/동승석)/사이드(앞)/커튼 에어백, 타이어 공기압 자동감지 시스템, ISOFIX 유아용 시트 고정 장치, 전 좌석 시트벨트 리마인드 기능, 전륜 벤틸레이티드 디스크/후륜 디스크 브레이크, 원터치 트리플 턴 시그널, 크루즈 컨트롤/스피드 리미터&nbsp;
+<br><br><b>● 주행 보조 시스템 :</b>&nbsp;긴급제동 보조 시스템(AEBS, 차량/보행자/자전거탑승자 감지), 차간거리 경보 시스템, 차선이탈 경보 시스템(LDW), 차선이탈 방지 보조 시스템(LKA), 사각지대 경보 시스템(BSW),&nbsp;오토매틱 하이빔(AHL)
+<br><br><b>● 외관 :&nbsp;</b>LED PURE VISION 헤드램프(LED 주간 주행등/LED 방향지시등 포함, 라이트 시그니처), LED 방향지시등 일체형 아웃사이드 미러, LED 리어 콤비네이션 램프(방향지시등 벌브, 라이트 시그니처), 17" 알로이 휠 &amp; 215/60 R17 타이어(투톤),&nbsp;프런트/리어 스키드(그레이), 크롬 데코(프런트 에어 커튼, 펜더 엠블리셔, 벨트라인, 리어 범퍼), 노출형 크롬 머플러<br><br><b>● 내장 :</b>&nbsp;컬러 TFT 클러스터(7"), 리어 슬라이딩 벤치 시트(6:4 폴딩 기능 포함),&nbsp;브러쉬드 메탈 그레인 IP 데코,&nbsp;블랙 가죽시트, 운전석 6WAY 파워시트(매뉴얼 럼버 서포트 포함), 가죽 스티어링 휠(열선 기능 포함), 매직 드로어(슬라이딩 글러브 박스), 패들 시프트, LED 룸/맵 램프, 앰비언트 라이트(8색상 : 클러스터, 프런트 도어), 더블 트렁크 플로어&nbsp;<br><br><b>● 멀티미디어 :</b>&nbsp;EASY CONNECT 7" 디스플레이 오디오(어시스트 콜 포함),&nbsp;오디오 사운드 시스템(6스피커)&nbsp;
+<br><br><b>● 공조시스템 :</b>&nbsp;오토 에어컨,&nbsp;리어 에어벤트,&nbsp;컴바인드 에어필터&nbsp;
+<br><br><b>● 편의 :&nbsp;</b>인텔리전트 스마트 카드 시스템(버튼 시동/오토 클로징 &amp; 오프닝/리퀘스트 버튼), 앞좌석 열선시트(운전석/동승석), 전자식 파킹 브레이크, 오토홀드, 전자식 룸미러(ECM)/하이패스(ETCS), 후방 카메라, 전방/후방 경보 시스템, 후방 교차 충돌 경보 시스템(RCTA), 오토 라이팅 헤드램프/레인센싱 와이퍼, 아웃사이드 미러(전동 조절/열선 기능/자동접이 기능 포함), 뒷좌석 12V 아울렛, 뒷좌석 USB(2개), 스마트폰 무선 충전 시스템, ECO 모드, Multi-Sense(드라이빙 모드 통합 제어 시스템, 3모드 - ECO, SPORT, MY SENSE), 원터치 세이프티 파워 윈도우(전좌석), 타이어 리페어 키트</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"></p>
+												</div>
+											
+										</div>
+										<script type="text/javascript">
+											newcarFolder(0);//초기값
+											function newcarFolder(target) {
+												var conElId = "newcar"//아이디 설정
+												var conElMenu = document.getElementById("newcarList");
+												var conElMenuLink = conElMenu.getElementsByTagName("a");
+												if (target != null) {
+													conElMenuLink[target].parentNode.className = "on";
+													document.getElementById(
+														conElId + target).style.display = "";
+												}
+												for (i = 0; i <= (conElMenuLink.length - 1); i++) {
+													conElMenuLink[i].onclick = function () {
+														for (x = 0; x <= (conElMenuLink.length - 1); x++) {
+															conElMenuLink[x].parentNode.className = "";
+															document.getElementById(
+																conElId + x).style.display = "none";
+														}
+														this.parentNode.className = "on";
+														document.getElementById(this.getAttribute('href')
+																					.split(
+																						'#')[1]).style.display =
+															"";
+														return false;
+													}
+												}
+											}
+										</script>
+									</div>
+									
+									<p class="desc_more">위 신차가격표는 단순 참고자료이며, 정확한 내용은 각 제조사에서 제공하는 자료를 통해확인하실 수 있습니다.</p><!-- 2016/10/12 [장] 등급 등록/수정 개선 : 추가 디자인 변경 -->
+									<p class="toTop"><a href="#main_title" class="sp toTop db_ir" title="페이지 위로"><u>페이지 위로</u></a></p><!-- [시세개편] class db_ir 추가 -->
+								</div>
+
+
+							</div>
+							<!-- body end -->
+						</td>
+					</tr>
+				</table>
+
+
+			
+			
+		
+    </div>
+
+    <!-- container end -->
+</form>
+</div>
+
+</body>
+<script language="javascript">
+
+
+    var strCompanyUrl = "/common/combo/cardbcompany.json?method=carList";
+    var strModelGroupUrl = "/common/combo/modelgroupfordb.json?method=carList";
+    var strModelUrl = "/common/combo/cardbmodel.json?method=carList";
+    var strYrJatoUrl = "/common/combo/jatoYr.json?method=carList";
+
+    var companyid = "mnfccd";
+    var modelgroupid = "mdlgroupcd";
+    var modelid = "mdlcd";
+    var yearid = "caryear";
+
+    function initGnb() {
+        var paramCompany = $("paramMnfccd").value;
+        var paramModelGroup = $("paramMdlgroupcd").value;
+        var paramModel = $("paramMdlcd").value;
+        var paramYr = $("paramYear").value;
+
+        // 제조사
+        if (paramModel != "") {
+            $("mdlcd").show();
+        }
+
+        //console.log("companyid :: " + companyid)
+        //console.log("paramCompany :: " + paramCompany)
+		if($('foldYn').value != 0){
+            foldingYN('f_fold');
+		}
+
+        setCompany(strCompanyUrl, companyid, "제조사", paramCompany);
+
+        // 제조사 값이 있으면 모델 검색
+        if (paramCompany >= '010') {
+            if (paramCompany != "") {
+                if (paramModel == "") {
+                    paramModel = paramModelGroup;
+                }
+                setModel(strModelUrl, modelid, paramCompany, "모델", paramModel)
+                $("mdlgroupcd").hide();
+
+            }
+        } else {
+            $("mdlgroupcd").show();
+            if (paramCompany != "") {
+                setModelGroup(strModelGroupUrl, modelgroupid, paramCompany, "모델", paramModelGroup);
+                if (paramModelGroup != "") {
+                    setModel_New(strModelUrl, modelid, paramCompany, paramModelGroup, "세부모델", paramModel);
+                }
+            }
+
+        }
+        if (paramCompany != "" && paramModel != "") {
+            setCarYear(strYrJatoUrl, yearid, paramCompany, paramModel, "형식연도", paramYr);
+        }
+
+        waitTime = 1;
+    }
+
+    function changeModel_jato(mnfccd, mdlgroupcd) {
+        setModel_New(strModelUrl, modelid, mnfccd, mdlgroupcd, "세부모델", "");
+        //모델그룹선택시 기본 세부모델선택
+        if ($("mdlcd") != null) {
+            $("mdlcd").selectedIndex = 1;
+            var mdlcd = $("mdlcd").options[$("mdlcd").selectedIndex].value;
+            changeYearJato(mnfccd, mdlcd);
+        }
+    }
+
+    function changeYearJato(mnfccd,mdlcd) {
+        setCarYear(strYrJatoUrl, yearid, mnfccd, mdlcd, "형식연도", "");
+        $(yearid).options[1].selected = true;
+    }
+
+
+
+    //덧글 리스트
+    function viewForm(index) {
+
+        var object = $("default" + index);
+        var objectSum = $("defaultSum" + index);
+        var selectSum = $("choiceSum" + index);
+        var object1 = $("choice" + index);
+        if (object != null) {
+            if (object.style.display == 'none') {
+                objectSum.hide();
+                selectSum.hide();
+                object.style.display = "block";
+                object1.style.display = "block";
+
+            } else {
+                object.hide();
+                object1.hide();
+                objectSum.style.display = "block";
+                selectSum.style.display = "block";
+            }
+        }
+    }
+
+    function viewAll() {
+        for (var i = 1; i <=4; i++) {
+            $("default" + i).style.display = "block";
+            $("defaultSum" + i).style.display = "none";
+            $("choice" + i).style.display = "block";
+            $("choiceSum" + i).style.display = "none";
+        }
+    }
+
+    function closeAll() {
+        for (var i = 1; i <=4; i++) {
+            $("default" + i).style.display = "none";
+            $("defaultSum" + i).style.display = "block";
+            $("choice" + i).style.display = "none";
+            $("choiceSum" + i).style.display = "block";
+        }
+    }
+
+    function firstLayerOpen() {
+        //viewForm(1);
+    }
+
+    function foldingYN(param) {
+        if (param == "f_fold") {
+            document.getElementById("folding").innerHTML ="<a href=\"javascript:foldingYN('f_unfold')\" class='folding f_unfold'>전체등급 펼쳐보기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "none";
+            document.getElementById("f_fold").style.display = "";
+        } else {
+            document.getElementById("folding").innerHTML = "<a href=\"javascript:foldingYN('f_fold')\" class='folding f_fold'>접기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "";
+            document.getElementById("f_fold").style.display = "none";
+        }
+    }
+
+    function onSubmit() {
+        jQuery("#searchForm").submit();
+
+    }
+    window.onload = initGnb;
+
+</script>
+</html>
+

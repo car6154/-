@@ -1,0 +1,1350 @@
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>차량DB - 차량정보 - 신차가격표</title>
+    <link type="text/css" rel="stylesheet" href="/css/common.css?v=1793835891525"/>
+    <link type="text/css" rel="stylesheet" href="/css/db.css?v=1793835891525"/>
+
+    <script type="text/javascript" src="/js/encarapp/lib/jquery/jquery-1.11.3.min.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/common/ui.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/prototype.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/util.js?v=1793835894199"></script>
+
+    <script type="text/javascript" src="/js/common/db_common.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/commonCombo.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/carSearchCombo.js?v=1793835894199"></script>
+	<script>
+		window.enlogInitJson = {
+			"dataTalkView": {
+				"screenName": "신차가격표"
+			}
+		}
+
+	</script>
+
+
+</head>
+
+
+
+
+
+
+
+    <!-- 등급 체크박스  -->
+    <div style="display:none">
+        
+    </div>
+
+    <!-- 세부등급 체크박스 -->
+    <div style="display:none">
+        
+    </div>
+
+
+
+<body class="db db_newdetailview db_basicTemplate">
+
+
+
+
+	
+	
+	
+	
+
+
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-W9QQ2T"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W9QQ2T');</script>
+<!-- End Google Tag Manager -->
+
+<!-- container begin -->
+<div class="container" id="containerDIV">
+<input type="hidden" id = "foldYn" name="searchtype" value="7"/>
+<form id ="searchForm" name="searchForm">
+
+    <input type="hidden" id = "method" name="method" value="newpricePopV2"/>
+    <input type="hidden" id = "dimensiontype" name="dimensiontype" value="null"/>
+    <input type="hidden" id = "paramMnfccd" name="paramMnfccd" value="003"/>
+    <input type="hidden" id = "paramMdlgroupcd" name="paramMdlgroupcd" value="043"/>
+    <input type="hidden" id = "paramMdlcd" name="paramMdlcd" value="086"/>
+    <input type="hidden" id = "paramYear" name="paramYear" value="2015"/>
+    <input type="hidden" id = "model" name="model" value="">
+    <input type="hidden" id = "paramCaryear" name="paramCaryear" value="2015"/>
+    <input type="hidden" id = "clsheadcd" name="clsheadcd" class="checkbox" value="null"/>
+    <input type="hidden" id = "paramGradeHead" name="paramGradeHead" value="null"/>
+	<input type="hidden" id = "searchtype" name="searchtype" value="check"/>
+	<input type="hidden" id = "pageAccessToken" name="pageAccessToken" value="AgV4TCSkhcUin6IxbxsicRMskNDkM4l8leNw12HLFTfQ2igAcQACAAdFbmNhckNrAAdFbmNhckN2ABVhd3MtY3J5cHRvLXB1YmxpYy1rZXkAREFyNUN3QnNBUElZYXU0cVlhM2NEVGFnMW0zeUU5YitDRHo1cERWK2Vwd2YycHNVYXZyM1o4RzhBTGRXWXZocVJ1UT09AAEAB2F3cy1rbXMAUGFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjI3MjM2MjQ4NzY1MzprZXkvbXJrLWRmZWEyNmY3NTVhMzQ3MjliNjkwMjRkZWZmM2M1MWFjALgBAgEAeAuqQuSJvQ+Ra4FSj55FZzS0sk+00amsb3yoAFiEYn4PARBlcJhhOx7QT6/ZpGq2YZAAAAB+MHwGCSqGSIb3DQEHBqBvMG0CAQAwaAYJKoZIhvcNAQcBMB4GCWCGSAFlAwQBLjARBAwVe+mTRgSw9f/SKnsCARCAO8NLJ+ZcESnnE+rR1OcM3nWDqpqg7QBblTekz7gB0hd1/hdTkj7dzML3hamJj77kveHfqdbCEDl5RMdSAgAAEAA9O6DTE2CtrO5H/ueJ7lI44LoTGKD/sQ1iClm5ao37hy292R+yDqC8JUFFnJOfD1P/////AAAAAQAAAAAAAAAAAAAAAQAAAKOgT0sHXFsVXeXh/xIGgEKXTCZy01o7LuhgHvL8FF7lxqAmOwtduITkyVDOpFwpWGEMPC5XBOzIH4EclG+6Y7dsWC+ndFqoUgiIDPY1r9ygvc8Vb+9KL6Rg2DpfXJ9X38D4ChgQOBG7RMSzpoMPRYgxMVdlQ/bJ83dpM4j+6CuU7yh0Seuq/emR584c/ZF/yjOTDm+uReZanQ3UUygzgvkspOhO8BGznk3GcIGNMZJHMQwdqQBnMGUCMAcA1eytjRm3ZsCgOPO2abpkXDD5GEEQ/bghVyjMDfqHSIGmTcefVfsehLVsthIx8wIxAMNcuie3v/M869P4eomUIC6ykJdUtWOGxArRppRRk84AY5vubMsk7hG+HN3VWU3FAg=="/>
+    <div class="header">
+        <h1 class="blind">SK엔카</h1>
+        <h2 class="tit_carprice" id="main_title">신차가격표</h2>
+        <p class="quickSearch">
+
+
+
+            <select title="제조사" class="opt_select" id="mnfccd" name="mnfccd" onChange="javascript:changeModelGroup(this.value);">
+                <option value="">제조사</option>
+            </select>
+
+            <select class="opt_select" title="모델" id="mdlgroupcd" name="mdlgroupcd" onChange="javascript:changeModel_jato($('mnfccd').value, this.value);">
+                <option>모델</option>
+            </select>
+
+            <select class="opt_select" title="세부모델" id="mdlcd" name="mdlcd" onChange="javascript:changeYearJato($('mnfccd').value, $('mdlcd').value);">
+                <option>세부모델</option>
+            </select>
+
+            <select class="opt_select" title="연식" id="caryear" name="caryear">
+                <option>연식</option>
+            </select>
+
+            <button type="button" class="btn_search" onclick="javascript:onSubmit();"/>검색</button>
+
+
+
+        </p>
+    </div>
+    <!-- body begin -->
+    <div class="body" id="bodydiv">
+		
+			
+				<table class="layout">
+					<col class="contents"/>
+					<tr>
+						<td class="contentsMenu">
+							<!-- contentsMenu begin -->
+							<div class="contentsMenu">
+								<h3 class="title">쉐보레(GM대우) 더 넥스트 스파크 2015년형</h3>
+							</div>
+							<!-- contentsMenu end -->
+						</td>
+					</tr>
+
+					<tr>
+						<td class="contentsMain">
+							<!-- contents begin -->
+							<div class="contents">
+
+								<div class="carCompare">
+									<div class="dbHead">
+										
+											<div id="folding"><a href="javascript:foldingYN('f_fold')"
+																 class="folding f_fold">전체등급 펼쳐보기<em class="db_ir"></em></a></div>
+
+											<!-- 2013/04/03 [서] 매물탭 개선 : 기능 버튼 추가 --><!--<a href="#" class="folding f_unfold">펼치기</a>-->
+										
+									</div>
+									
+									
+										
+									
+										
+									
+										
+											
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+									<div id="f_unfold">
+										
+
+
+										<!-- case2 : 세부등급이 있는경우 -->
+										
+											<table class="carCompare sellcase2">
+												<colgroup>
+													<col class="grade">
+													<col class="detailgrd">
+													<col class="mission">
+													<col class="price">
+													<col class="uprice">
+													<col class="item">
+													<col class="option">
+												</colgroup>
+												<thead class="compare">
+												<tr>
+													<th class="grade bgn" colspan="3"><b>구분</b></th>
+													<th class="price"><b>판매가격</b></th>
+													<th class="uprice"><b>중고차시세</b></th><!-- [시세개편] 중고차시세 추가 -->
+													<th class="item"><b>기본사양 품목</b></th>
+													<th class="option end"><b>선택사양 품목</b></th>
+												</tr>
+												</thead>
+												<tbody class="new">
+												
+													
+														
+													
+													
+													
+														
+													
+													
+														
+															
+															
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>LS</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>M/T</p></td>
+														<td class="price">
+															<p>
+																<strong>1,036</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> 엔진/성능 </b> : ALL NEW 1.0 SGE ECOTEC 엔진, 5단 수동변속기, 사일런트 타이밍체인, 속도 감응형 전자식 파워 스티어링(EPS), 쉬프트 인디케이터
+
+<br><br>▶<b> 안전 사양 </b> : ESC(HSA 기능 포함), 타이어 공기압 모니터링 시스템(TPMS), 6 에어백(운전석, 동반석, 사이드, 커튼), 앞좌석 시트벨트 듀얼 프리텐셔너 &amp; 로드리미터, 속도감응형 오토도어록, 충격감지 도어잠금 해제장치, 3점식 리어시트벨트, ISOFIX(국제규격 유아용 시트고정장치), 급제동경보시스템(ESS), 앞좌석 4-way 헤드레스트, 이모빌라이저, 진공 펌프
+
+<br><br>▶<b> 외관 사양 </b> : 14"(165/65R14) 타이어 &amp; 스틸 휠, 할로겐 헤드램프, 아웃사이드 미러(블랙/레버조절식), 주간주행등
+
+<br><br>▶<b> 내장 사양 </b> : 세그먼트 디스플레이 클러스터, 블랙 직물시트, 시크릿 포켓박스, 트렁크 룸램프
+
+<br><br>▶<b> 편의 사양 </b> : 매뉴얼 에어컨, 틸트 스티어링휠, 운전석 원터치 업다운 파워윈도우, 파워윈도우(동반석, 뒷좌석), 리어와이퍼 &amp; 워셔, 뒷유리열선(타이머 포함), 타이어 리페어킷, 배터리세이버, Day &amp; light 룸미러, 무선폴딩리모컨키, 원터치 트리플 턴시그널 램프, 리어 폴딩 시트, 엔진오일 수명 시스템
+
+<br><br>▶<b> 오디오 </b> : 라디오, AUX / USB(iPod 연결단자 포함), 블루투스(핸즈프리 &amp; 오디오 스트리밍), 2스피커(앞), 루프안테나
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> C-TECH Package :&nbsp;</b>1,630,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+													
+														
+													
+													
+														
+															
+															
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="2">
+																<p>LT</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>M/T</p></td>
+														<td class="price">
+															<p>
+																<strong>1,136</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>LS M/T 기본사양 품목 및
+</b>
+<br><br>▶<b> 안전 사양 </b> : 후방주차 보조시스템
+
+<br><br>▶<b> 외관 사양 </b> : 크롬 라디에이터그릴, 바디컬러 아웃사이드 도어핸들, LED 턴시그널 전동접이식 아웃사이드 미러(열선내장), 안개등, LED 보조제동등
+
+<br><br>▶<b> 내장 사양 </b> : 고급형 직물시트, 시크릿 포켓박스(매트 포함)
+
+<br><br>▶<b> 편의 사양 </b> : 선바이저 화장거울(운전석), 시트백포켓(동반석), 운전석 시트 높이 조절장치, 속도조절 간헐식 와이퍼, 암레스트(운전석)
+
+<br><br>▶<b> 오디오 </b> : 6 스피커, 스티어링휠 오디오 리모트 컨트롤
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> C-TECH Package :</b>1,630,000
+<br><br>▶<b> 컨비니언스 패키지 </b>-톨게이트 자동결제 시스템 (ETCS), 전자동 에어컨(콤비 필터 포함), 열선 스티어링휠<b> :&nbsp;</b>510,000
+<br><br>▶<b> 마이링크 &amp; 세이프티 패키지 </b>-마이링크, 후방카메라, 사각지대경고시스템(SBSA)<b> </b> 700,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>플러스</p></td>
+														
+														<td class="mission"><p>M/T</p></td>
+														<td class="price">
+															<p>
+																<strong>1,209</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>LT M/T 기본사양 품목 및
+<br></b><b><br></b><b>● 외관 사양 : </b>14"(165/65R14) 타이어 &amp; 알로이 휠
+<br><br><b>● 내장 사양 : </b>인조가죽 시트, 가죽 스티어링휠
+<br><br><b>● 편의 사양 :</b> 시트히팅기능(운전석/동반석), 6:4 리어 폴딩 시트(높이 조절식 헤드레스트 포함)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>●</b><b>&nbsp;C-TECH Package :</b>1,630,000
+<br>&nbsp;<br><b>● 컨비니언스 패키지</b> -톨게이트 자동결제 시스템(ETCS), 전자동 에어컨(콤비필터 포함), 열선 스티어링휠 <b>:</b> 510,000
+<br><br><b>●마이링크 &amp; 세이프티 패키지</b> -마이링크, 후방카메라, 사각지대경고시스템(SBSA)<b> :</b> 700,000
+<br><br><b>●스마트 크롬 패키지</b> -버튼타입 스마트키, 크롬데코*<b> :</b>&nbsp;580,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>LTZ</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>M/T</p></td>
+														<td class="price">
+															<p>
+																<strong>1,308</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>LT Plus M/T 기본사양 품목 및</b>
+
+<br><br>▶<b> 안전 사양 </b> : 전방충돌 경고시스템(FCA, RLAD* 포함), 사각지대 경고시스템(SBSA), 차선이탈 경고시스템(LDWS)
+
+<br><br>▶<b> 외관 사양 </b> : 15"(185/55R15) 타이어 &amp; 알로이휠, 크롬 데코*, 듀얼 그래픽 LED 테일램프
+
+<br><br>▶<b> 내장 사양 </b> : 컬러 센터페시아(블랙, 베이지, 화이트, 블루 4개 컬러 중 선택가능), 디지털 그래픽 디스플레이 클러스터
+<br>
+<br>▶<b> 편의 사양 </b> : 선바이저 화장거울(운전석/동반석), 크루즈 컨트롤(정속주행장치)
+
+<br><br>▶<b> 오 디 오 </b> : 마이링크
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> C-TECH Package :</b>1,630,000
+<br><br>▶<b> 컨비니언스 패키지 -</b>톨게이트 자동결제 시스템 (ETCS), 전자동 에어컨(콤비 필터 포함), 열선 스티어링휠<b> :</b>&nbsp;510,000
+<br><br>▶<b> 스마트 패키지 -</b>버튼타입 스마트키, 후방카메라<b>&nbsp;:&nbsp;</b>600,000
+<br><br>▶<b> 선루프 :&nbsp;</b>350,000
+<br><br>▶<b> 스타일 패키지 </b>-프로젝션 헤드램프(크리스탈 LED 포지셔닝 &amp;
+주간주행 램프 포함), 16" 알로이휠 , 오토매틱 헤드램프 (에스코트 기능 포함) <b>:</b>&nbsp;530,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+													
+														
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>에코 LS</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>CVT</p></td>
+														<td class="price">
+															<p>
+																<strong>1,227</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> 엔진/성능 </b> : ALL NEW 1.0 SGE ECOTEC 엔진, C-TECH 패키지, Stop &amp; Start 시스템, 사일런트 타이밍체인,
+속도 감응형 전자식 파워 스티어링(EPS)
+
+<br><br>▶<b> 안전 사양 </b> : ESC(HSA 기능 포함), 타이어 공기압 모니터링 시스템(TPMS), 6 에어백(운전석, 동반석, 사이드, 커튼), 앞좌석 시트벨트 듀얼 프리텐셔너 &amp; 로드리미터, 속도감응형 오토도어록, 충격감지 도어잠금 해제장치, 3점식 리어시트벨트, ISOFIX(국제규격 유아용 시트고정장치), 급제동 경보시스템(ESS), 브레이크 오버라이드 시스템, 앞좌석 4-way 헤드레스트, 이모빌라이저, 진공 펌프
+
+<br><br>▶<b> 외관 사양 </b> : 14" (165/65R14) 컨티넨탈 저 구름 저항 타이어 &amp; 스틸 휠, 할로겐 헤드램프, 아웃사이드 미러(블랙/레버조절식), 프런트 에어댐, 블랙 에어로 스포일러, LED 보조제동등, 주간주행등
+
+<br><br>▶<b> 내장 사양 </b> : 세그먼트 디스플레이 클러스터, 블랙 직물시트, 시크릿 포켓박스, 트렁크 룸램프
+
+<br><br>▶<b> 편의 사양 </b> : 매뉴얼 에어컨, 운전석 원터치 업다운 파워윈도우, 파워윈도우(동반석, 뒷좌석), 리어와이퍼 &amp; 워셔, 뒷유리열선(타이머포함), 타이어 리페어킷, 배터리세이버, Day &amp; Night 룸미러, 무선폴딩리모컨키, 리어 폴딩 시트, 원터치 트리플 턴시그널 램프, 엔진오일 수명 시스템
+
+<br><br>▶<b> 오디오 </b> : 라디오, AUX / USB(iPod 연결단자 포함), 블루투스(핸즈프리 &amp; 오디오 스트리밍), 2스피커(앞), 루프안테나, *LS-ECO에는 플로어매트가 제공되지 않음
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"></li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+													
+														
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>에코 LTZ</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>CVT</p></td>
+														<td class="price">
+															<p>
+																<strong>1,499</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>LS-ECO 기본사양 품목 및</b>
+
+<br><br>▶<b> 안전 사양 </b> : 후방주차 보조시스템, 전방충돌 경고시스템(FCA, RLAD* 포함), 사각지대 경고시스템(SBSA), 차선이탈 경고시스템(LDWS)
+
+<br><br>▶<b> 외관 사양 </b> : 크롬 라디에이터그릴, LED 턴시그널 전동접이식 아웃사이드 미러(열선내장), 안개등, 15"(185/55R15) 컨티넨탈 저 구름 저항 타이어 &amp; 알로이 휠, 크롬 데코*, 듀얼 그래픽 LED 테일램프
+
+<br><br>▶<b> 내장 사양 </b> : 인조가죽 시트, 가죽 스티어링휠, 컬러 센터페시아(블랙, 베이지, 화이트, 블루 4개 컬러 중 선택가능), 디지털 그래픽 디스플레이 클러스터, 시크릿 포켓박스(매트 포함), 트렁크 룸램프
+
+<br><br>▶<b> 편의 사양 </b> : 시트히팅기능(운전석, 동반석), 6:4 리어 폴딩 시트(높이 조절식 헤드레스트 포함), 선바이저 화장거울(운전석, 동반석), 크루즈 컨트롤(정속주행장치), 시트백포켓(동반석), 운전석 시트 높이 조절장치, 속도조절 간헐식 와이퍼, 암레스트(운전석), 틸트 스티어링휠
+
+<br><br>▶<b> 오디오 </b> : 마이링크, 6 스피커, 스티어링휠 오디오 리모트 컨트롤
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 컨비니언스 패키지</b> -톨게이트 자동결제 시스템 (ETCS), 전자동 에어컨(콤비 필터 포함), 열선 스티어링휠<b>&nbsp;:&nbsp;</b>510,000
+<br><br>▶<b> 스마트 패키지</b> -버튼타입 스마트키, 후방카메라<b>&nbsp;:&nbsp;</b>600,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+													
+														
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>밴</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>M/T</p></td>
+														<td class="price">
+															<p>
+																<strong>1,015</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> 엔진/성능 </b> : ALL NEW 1.0 SGE ECOTEC 엔진, 5단 수동변속기, 사일런트 타이밍체인, 속도 감응형 전자식 파워 스티어링(EPS), 쉬프트 인디케이터
+
+<br><br>▶<b> 안전 사양 </b> : ESC(HSA 기능 포함), 타이어 공기압 모니터링 시스템(TPMS), 운전석 에어백, 앞좌석 시트벨트 프리텐셔너, 속도감응형 오토도어록, 충격감지 도어잠금 해제장치, 급제동경보시스템(ESS), 앞좌석 4-way 헤드레스트, 이모빌라이저, 진공 펌프
+
+<br><br>▶<b> 외관 사양 </b> : 14"(165/65R14) 타이어 &amp; 스틸 휠, 할로겐 헤드램프, 시크릿 리어도어, 아웃사이드 미러(블랙/레버조절식), 주간주행등
+
+<br><br>▶<b> 내장 사양 </b> : 세그먼트 디스플레이 클러스터, 블랙 직물시트, 시크릿 포켓박스, 트렁크 룸램프
+
+<br><br>▶<b> 편의 사양 </b> : 매뉴얼 에어컨, 틸트 스티어링휠, 파워윈도우(앞), 리어와이퍼 &amp; 워셔, 뒷유리열선(타이머 포함), 타이어 리페어킷, 배터리세이버, 격벽, 보호봉, Day &amp; Night 룸미러, 무선폴딩리모컨키, 원터치 트리플 턴시그널 램프, 엔진오일 수명 시스템
+
+<br><br>▶<b> 오디오 </b> : 라디오, AUX / USB(iPod 연결단자 포함), 블루투스(핸즈프리 &amp; 오디오 스트리밍), 2스피커(앞), 루프안테나
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> C-TECH Package :&nbsp;</b>1,630,000
+<br><br>▶<b> 동반석 에어백 :&nbsp;</b>200,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+												</tbody>
+											</table>
+										
+									</div>
+									<!-- 신차가격표(폴더형) -->
+									<div id="f_fold" style="display:none;">
+										<div class="newcar_folder">
+											<ul class="nf_list" id="newcarList">
+												
+													<li>
+														<a href="#newcar0">
+                                                            <span class="model">LS  M/T</span>
+                                                            <span class="prc">
+                                                                <strong>1,036</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar1">
+                                                            <span class="model">LT  M/T</span>
+                                                            <span class="prc">
+                                                                <strong>1,136</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar2">
+                                                            <span class="model">LT 플러스 M/T</span>
+                                                            <span class="prc">
+                                                                <strong>1,209</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar3">
+                                                            <span class="model">LTZ  M/T</span>
+                                                            <span class="prc">
+                                                                <strong>1,308</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar4">
+                                                            <span class="model">에코 LS  CVT</span>
+                                                            <span class="prc">
+                                                                <strong>1,227</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar5">
+                                                            <span class="model">에코 LTZ  CVT</span>
+                                                            <span class="prc">
+                                                                <strong>1,499</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar6">
+                                                            <span class="model">밴  M/T</span>
+                                                            <span class="prc">
+                                                                <strong>1,015</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+											</ul>
+											<!-- 개별 -->
+											
+												<div id="newcar0" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> 엔진/성능 </b> : ALL NEW 1.0 SGE ECOTEC 엔진, 5단 수동변속기, 사일런트 타이밍체인, 속도 감응형 전자식 파워 스티어링(EPS), 쉬프트 인디케이터
+
+<br><br>▶<b> 안전 사양 </b> : ESC(HSA 기능 포함), 타이어 공기압 모니터링 시스템(TPMS), 6 에어백(운전석, 동반석, 사이드, 커튼), 앞좌석 시트벨트 듀얼 프리텐셔너 &amp; 로드리미터, 속도감응형 오토도어록, 충격감지 도어잠금 해제장치, 3점식 리어시트벨트, ISOFIX(국제규격 유아용 시트고정장치), 급제동경보시스템(ESS), 앞좌석 4-way 헤드레스트, 이모빌라이저, 진공 펌프
+
+<br><br>▶<b> 외관 사양 </b> : 14"(165/65R14) 타이어 &amp; 스틸 휠, 할로겐 헤드램프, 아웃사이드 미러(블랙/레버조절식), 주간주행등
+
+<br><br>▶<b> 내장 사양 </b> : 세그먼트 디스플레이 클러스터, 블랙 직물시트, 시크릿 포켓박스, 트렁크 룸램프
+
+<br><br>▶<b> 편의 사양 </b> : 매뉴얼 에어컨, 틸트 스티어링휠, 운전석 원터치 업다운 파워윈도우, 파워윈도우(동반석, 뒷좌석), 리어와이퍼 &amp; 워셔, 뒷유리열선(타이머 포함), 타이어 리페어킷, 배터리세이버, Day &amp; light 룸미러, 무선폴딩리모컨키, 원터치 트리플 턴시그널 램프, 리어 폴딩 시트, 엔진오일 수명 시스템
+
+<br><br>▶<b> 오디오 </b> : 라디오, AUX / USB(iPod 연결단자 포함), 블루투스(핸즈프리 &amp; 오디오 스트리밍), 2스피커(앞), 루프안테나</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> C-TECH Package :&nbsp;</b>1,630,000</p>
+												</div>
+											
+												<div id="newcar1" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>LS M/T 기본사양 품목 및
+</b>
+<br><br>▶<b> 안전 사양 </b> : 후방주차 보조시스템
+
+<br><br>▶<b> 외관 사양 </b> : 크롬 라디에이터그릴, 바디컬러 아웃사이드 도어핸들, LED 턴시그널 전동접이식 아웃사이드 미러(열선내장), 안개등, LED 보조제동등
+
+<br><br>▶<b> 내장 사양 </b> : 고급형 직물시트, 시크릿 포켓박스(매트 포함)
+
+<br><br>▶<b> 편의 사양 </b> : 선바이저 화장거울(운전석), 시트백포켓(동반석), 운전석 시트 높이 조절장치, 속도조절 간헐식 와이퍼, 암레스트(운전석)
+
+<br><br>▶<b> 오디오 </b> : 6 스피커, 스티어링휠 오디오 리모트 컨트롤</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> C-TECH Package :</b>1,630,000
+<br><br>▶<b> 컨비니언스 패키지 </b>-톨게이트 자동결제 시스템 (ETCS), 전자동 에어컨(콤비 필터 포함), 열선 스티어링휠<b> :&nbsp;</b>510,000
+<br><br>▶<b> 마이링크 &amp; 세이프티 패키지 </b>-마이링크, 후방카메라, 사각지대경고시스템(SBSA)<b> </b> 700,000</p>
+												</div>
+											
+												<div id="newcar2" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>LT M/T 기본사양 품목 및
+<br></b><b><br></b><b>● 외관 사양 : </b>14"(165/65R14) 타이어 &amp; 알로이 휠
+<br><br><b>● 내장 사양 : </b>인조가죽 시트, 가죽 스티어링휠
+<br><br><b>● 편의 사양 :</b> 시트히팅기능(운전석/동반석), 6:4 리어 폴딩 시트(높이 조절식 헤드레스트 포함)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>●</b><b>&nbsp;C-TECH Package :</b>1,630,000
+<br>&nbsp;<br><b>● 컨비니언스 패키지</b> -톨게이트 자동결제 시스템(ETCS), 전자동 에어컨(콤비필터 포함), 열선 스티어링휠 <b>:</b> 510,000
+<br><br><b>●마이링크 &amp; 세이프티 패키지</b> -마이링크, 후방카메라, 사각지대경고시스템(SBSA)<b> :</b> 700,000
+<br><br><b>●스마트 크롬 패키지</b> -버튼타입 스마트키, 크롬데코*<b> :</b>&nbsp;580,000</p>
+												</div>
+											
+												<div id="newcar3" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>LT Plus M/T 기본사양 품목 및</b>
+
+<br><br>▶<b> 안전 사양 </b> : 전방충돌 경고시스템(FCA, RLAD* 포함), 사각지대 경고시스템(SBSA), 차선이탈 경고시스템(LDWS)
+
+<br><br>▶<b> 외관 사양 </b> : 15"(185/55R15) 타이어 &amp; 알로이휠, 크롬 데코*, 듀얼 그래픽 LED 테일램프
+
+<br><br>▶<b> 내장 사양 </b> : 컬러 센터페시아(블랙, 베이지, 화이트, 블루 4개 컬러 중 선택가능), 디지털 그래픽 디스플레이 클러스터
+<br>
+<br>▶<b> 편의 사양 </b> : 선바이저 화장거울(운전석/동반석), 크루즈 컨트롤(정속주행장치)
+
+<br><br>▶<b> 오 디 오 </b> : 마이링크</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> C-TECH Package :</b>1,630,000
+<br><br>▶<b> 컨비니언스 패키지 -</b>톨게이트 자동결제 시스템 (ETCS), 전자동 에어컨(콤비 필터 포함), 열선 스티어링휠<b> :</b>&nbsp;510,000
+<br><br>▶<b> 스마트 패키지 -</b>버튼타입 스마트키, 후방카메라<b>&nbsp;:&nbsp;</b>600,000
+<br><br>▶<b> 선루프 :&nbsp;</b>350,000
+<br><br>▶<b> 스타일 패키지 </b>-프로젝션 헤드램프(크리스탈 LED 포지셔닝 &amp;
+주간주행 램프 포함), 16" 알로이휠 , 오토매틱 헤드램프 (에스코트 기능 포함) <b>:</b>&nbsp;530,000</p>
+												</div>
+											
+												<div id="newcar4" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> 엔진/성능 </b> : ALL NEW 1.0 SGE ECOTEC 엔진, C-TECH 패키지, Stop &amp; Start 시스템, 사일런트 타이밍체인,
+속도 감응형 전자식 파워 스티어링(EPS)
+
+<br><br>▶<b> 안전 사양 </b> : ESC(HSA 기능 포함), 타이어 공기압 모니터링 시스템(TPMS), 6 에어백(운전석, 동반석, 사이드, 커튼), 앞좌석 시트벨트 듀얼 프리텐셔너 &amp; 로드리미터, 속도감응형 오토도어록, 충격감지 도어잠금 해제장치, 3점식 리어시트벨트, ISOFIX(국제규격 유아용 시트고정장치), 급제동 경보시스템(ESS), 브레이크 오버라이드 시스템, 앞좌석 4-way 헤드레스트, 이모빌라이저, 진공 펌프
+
+<br><br>▶<b> 외관 사양 </b> : 14" (165/65R14) 컨티넨탈 저 구름 저항 타이어 &amp; 스틸 휠, 할로겐 헤드램프, 아웃사이드 미러(블랙/레버조절식), 프런트 에어댐, 블랙 에어로 스포일러, LED 보조제동등, 주간주행등
+
+<br><br>▶<b> 내장 사양 </b> : 세그먼트 디스플레이 클러스터, 블랙 직물시트, 시크릿 포켓박스, 트렁크 룸램프
+
+<br><br>▶<b> 편의 사양 </b> : 매뉴얼 에어컨, 운전석 원터치 업다운 파워윈도우, 파워윈도우(동반석, 뒷좌석), 리어와이퍼 &amp; 워셔, 뒷유리열선(타이머포함), 타이어 리페어킷, 배터리세이버, Day &amp; Night 룸미러, 무선폴딩리모컨키, 리어 폴딩 시트, 원터치 트리플 턴시그널 램프, 엔진오일 수명 시스템
+
+<br><br>▶<b> 오디오 </b> : 라디오, AUX / USB(iPod 연결단자 포함), 블루투스(핸즈프리 &amp; 오디오 스트리밍), 2스피커(앞), 루프안테나, *LS-ECO에는 플로어매트가 제공되지 않음</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"></p>
+												</div>
+											
+												<div id="newcar5" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>LS-ECO 기본사양 품목 및</b>
+
+<br><br>▶<b> 안전 사양 </b> : 후방주차 보조시스템, 전방충돌 경고시스템(FCA, RLAD* 포함), 사각지대 경고시스템(SBSA), 차선이탈 경고시스템(LDWS)
+
+<br><br>▶<b> 외관 사양 </b> : 크롬 라디에이터그릴, LED 턴시그널 전동접이식 아웃사이드 미러(열선내장), 안개등, 15"(185/55R15) 컨티넨탈 저 구름 저항 타이어 &amp; 알로이 휠, 크롬 데코*, 듀얼 그래픽 LED 테일램프
+
+<br><br>▶<b> 내장 사양 </b> : 인조가죽 시트, 가죽 스티어링휠, 컬러 센터페시아(블랙, 베이지, 화이트, 블루 4개 컬러 중 선택가능), 디지털 그래픽 디스플레이 클러스터, 시크릿 포켓박스(매트 포함), 트렁크 룸램프
+
+<br><br>▶<b> 편의 사양 </b> : 시트히팅기능(운전석, 동반석), 6:4 리어 폴딩 시트(높이 조절식 헤드레스트 포함), 선바이저 화장거울(운전석, 동반석), 크루즈 컨트롤(정속주행장치), 시트백포켓(동반석), 운전석 시트 높이 조절장치, 속도조절 간헐식 와이퍼, 암레스트(운전석), 틸트 스티어링휠
+
+<br><br>▶<b> 오디오 </b> : 마이링크, 6 스피커, 스티어링휠 오디오 리모트 컨트롤</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 컨비니언스 패키지</b> -톨게이트 자동결제 시스템 (ETCS), 전자동 에어컨(콤비 필터 포함), 열선 스티어링휠<b>&nbsp;:&nbsp;</b>510,000
+<br><br>▶<b> 스마트 패키지</b> -버튼타입 스마트키, 후방카메라<b>&nbsp;:&nbsp;</b>600,000</p>
+												</div>
+											
+												<div id="newcar6" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> 엔진/성능 </b> : ALL NEW 1.0 SGE ECOTEC 엔진, 5단 수동변속기, 사일런트 타이밍체인, 속도 감응형 전자식 파워 스티어링(EPS), 쉬프트 인디케이터
+
+<br><br>▶<b> 안전 사양 </b> : ESC(HSA 기능 포함), 타이어 공기압 모니터링 시스템(TPMS), 운전석 에어백, 앞좌석 시트벨트 프리텐셔너, 속도감응형 오토도어록, 충격감지 도어잠금 해제장치, 급제동경보시스템(ESS), 앞좌석 4-way 헤드레스트, 이모빌라이저, 진공 펌프
+
+<br><br>▶<b> 외관 사양 </b> : 14"(165/65R14) 타이어 &amp; 스틸 휠, 할로겐 헤드램프, 시크릿 리어도어, 아웃사이드 미러(블랙/레버조절식), 주간주행등
+
+<br><br>▶<b> 내장 사양 </b> : 세그먼트 디스플레이 클러스터, 블랙 직물시트, 시크릿 포켓박스, 트렁크 룸램프
+
+<br><br>▶<b> 편의 사양 </b> : 매뉴얼 에어컨, 틸트 스티어링휠, 파워윈도우(앞), 리어와이퍼 &amp; 워셔, 뒷유리열선(타이머 포함), 타이어 리페어킷, 배터리세이버, 격벽, 보호봉, Day &amp; Night 룸미러, 무선폴딩리모컨키, 원터치 트리플 턴시그널 램프, 엔진오일 수명 시스템
+
+<br><br>▶<b> 오디오 </b> : 라디오, AUX / USB(iPod 연결단자 포함), 블루투스(핸즈프리 &amp; 오디오 스트리밍), 2스피커(앞), 루프안테나</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> C-TECH Package :&nbsp;</b>1,630,000
+<br><br>▶<b> 동반석 에어백 :&nbsp;</b>200,000</p>
+												</div>
+											
+										</div>
+										<script type="text/javascript">
+											newcarFolder(0);//초기값
+											function newcarFolder(target) {
+												var conElId = "newcar"//아이디 설정
+												var conElMenu = document.getElementById("newcarList");
+												var conElMenuLink = conElMenu.getElementsByTagName("a");
+												if (target != null) {
+													conElMenuLink[target].parentNode.className = "on";
+													document.getElementById(
+														conElId + target).style.display = "";
+												}
+												for (i = 0; i <= (conElMenuLink.length - 1); i++) {
+													conElMenuLink[i].onclick = function () {
+														for (x = 0; x <= (conElMenuLink.length - 1); x++) {
+															conElMenuLink[x].parentNode.className = "";
+															document.getElementById(
+																conElId + x).style.display = "none";
+														}
+														this.parentNode.className = "on";
+														document.getElementById(this.getAttribute('href')
+																					.split(
+																						'#')[1]).style.display =
+															"";
+														return false;
+													}
+												}
+											}
+										</script>
+									</div>
+									
+										<ul class="more">
+												※ <b> 가솔린/에코(ECO) 공통 </b><br><b>▶ C-TECH Package :</b> Next Gen C-TECH, 변속기 레버위치 표시, 브레이크 오버라이드 시스템, 시티모드(시속 60킬로미터 이내에서 스티어링 휠의 조작력을 추가로 감소시켜 주어, 도심주행시 더욱 부드러운 조향감을 제공하는 기능)
+<br><br>
+										</ul>
+									
+									<p class="desc_more">위 신차가격표는 단순 참고자료이며, 정확한 내용은 각 제조사에서 제공하는 자료를 통해확인하실 수 있습니다.</p><!-- 2016/10/12 [장] 등급 등록/수정 개선 : 추가 디자인 변경 -->
+									<p class="toTop"><a href="#main_title" class="sp toTop db_ir" title="페이지 위로"><u>페이지 위로</u></a></p><!-- [시세개편] class db_ir 추가 -->
+								</div>
+
+
+							</div>
+							<!-- body end -->
+						</td>
+					</tr>
+				</table>
+
+
+			
+			
+		
+    </div>
+
+    <!-- container end -->
+</form>
+</div>
+
+</body>
+<script language="javascript">
+
+
+    var strCompanyUrl = "/common/combo/cardbcompany.json?method=carList";
+    var strModelGroupUrl = "/common/combo/modelgroupfordb.json?method=carList";
+    var strModelUrl = "/common/combo/cardbmodel.json?method=carList";
+    var strYrJatoUrl = "/common/combo/jatoYr.json?method=carList";
+
+    var companyid = "mnfccd";
+    var modelgroupid = "mdlgroupcd";
+    var modelid = "mdlcd";
+    var yearid = "caryear";
+
+    function initGnb() {
+        var paramCompany = $("paramMnfccd").value;
+        var paramModelGroup = $("paramMdlgroupcd").value;
+        var paramModel = $("paramMdlcd").value;
+        var paramYr = $("paramYear").value;
+
+        // 제조사
+        if (paramModel != "") {
+            $("mdlcd").show();
+        }
+
+        //console.log("companyid :: " + companyid)
+        //console.log("paramCompany :: " + paramCompany)
+		if($('foldYn').value != 0){
+            foldingYN('f_fold');
+		}
+
+        setCompany(strCompanyUrl, companyid, "제조사", paramCompany);
+
+        // 제조사 값이 있으면 모델 검색
+        if (paramCompany >= '010') {
+            if (paramCompany != "") {
+                if (paramModel == "") {
+                    paramModel = paramModelGroup;
+                }
+                setModel(strModelUrl, modelid, paramCompany, "모델", paramModel)
+                $("mdlgroupcd").hide();
+
+            }
+        } else {
+            $("mdlgroupcd").show();
+            if (paramCompany != "") {
+                setModelGroup(strModelGroupUrl, modelgroupid, paramCompany, "모델", paramModelGroup);
+                if (paramModelGroup != "") {
+                    setModel_New(strModelUrl, modelid, paramCompany, paramModelGroup, "세부모델", paramModel);
+                }
+            }
+
+        }
+        if (paramCompany != "" && paramModel != "") {
+            setCarYear(strYrJatoUrl, yearid, paramCompany, paramModel, "형식연도", paramYr);
+        }
+
+        waitTime = 1;
+    }
+
+    function changeModel_jato(mnfccd, mdlgroupcd) {
+        setModel_New(strModelUrl, modelid, mnfccd, mdlgroupcd, "세부모델", "");
+        //모델그룹선택시 기본 세부모델선택
+        if ($("mdlcd") != null) {
+            $("mdlcd").selectedIndex = 1;
+            var mdlcd = $("mdlcd").options[$("mdlcd").selectedIndex].value;
+            changeYearJato(mnfccd, mdlcd);
+        }
+    }
+
+    function changeYearJato(mnfccd,mdlcd) {
+        setCarYear(strYrJatoUrl, yearid, mnfccd, mdlcd, "형식연도", "");
+        $(yearid).options[1].selected = true;
+    }
+
+
+
+    //덧글 리스트
+    function viewForm(index) {
+
+        var object = $("default" + index);
+        var objectSum = $("defaultSum" + index);
+        var selectSum = $("choiceSum" + index);
+        var object1 = $("choice" + index);
+        if (object != null) {
+            if (object.style.display == 'none') {
+                objectSum.hide();
+                selectSum.hide();
+                object.style.display = "block";
+                object1.style.display = "block";
+
+            } else {
+                object.hide();
+                object1.hide();
+                objectSum.style.display = "block";
+                selectSum.style.display = "block";
+            }
+        }
+    }
+
+    function viewAll() {
+        for (var i = 1; i <=7; i++) {
+            $("default" + i).style.display = "block";
+            $("defaultSum" + i).style.display = "none";
+            $("choice" + i).style.display = "block";
+            $("choiceSum" + i).style.display = "none";
+        }
+    }
+
+    function closeAll() {
+        for (var i = 1; i <=7; i++) {
+            $("default" + i).style.display = "none";
+            $("defaultSum" + i).style.display = "block";
+            $("choice" + i).style.display = "none";
+            $("choiceSum" + i).style.display = "block";
+        }
+    }
+
+    function firstLayerOpen() {
+        //viewForm(1);
+    }
+
+    function foldingYN(param) {
+        if (param == "f_fold") {
+            document.getElementById("folding").innerHTML ="<a href=\"javascript:foldingYN('f_unfold')\" class='folding f_unfold'>전체등급 펼쳐보기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "none";
+            document.getElementById("f_fold").style.display = "";
+        } else {
+            document.getElementById("folding").innerHTML = "<a href=\"javascript:foldingYN('f_fold')\" class='folding f_fold'>접기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "";
+            document.getElementById("f_fold").style.display = "none";
+        }
+    }
+
+    function onSubmit() {
+        jQuery("#searchForm").submit();
+
+    }
+    window.onload = initGnb;
+
+</script>
+</html>
+

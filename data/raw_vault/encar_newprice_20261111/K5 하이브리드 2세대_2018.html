@@ -1,0 +1,602 @@
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>차량DB - 차량정보 - 신차가격표</title>
+    <link type="text/css" rel="stylesheet" href="/css/common.css?v=1793835891525"/>
+    <link type="text/css" rel="stylesheet" href="/css/db.css?v=1793835891525"/>
+
+    <script type="text/javascript" src="/js/encarapp/lib/jquery/jquery-1.11.3.min.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/common/ui.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/prototype.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/util.js?v=1793835894199"></script>
+
+    <script type="text/javascript" src="/js/common/db_common.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/commonCombo.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/carSearchCombo.js?v=1793835894199"></script>
+	<script>
+		window.enlogInitJson = {
+			"dataTalkView": {
+				"screenName": "신차가격표"
+			}
+		}
+
+	</script>
+
+
+</head>
+
+
+
+
+
+
+
+    <!-- 등급 체크박스  -->
+    <div style="display:none">
+        
+    </div>
+
+    <!-- 세부등급 체크박스 -->
+    <div style="display:none">
+        
+    </div>
+
+
+
+<body class="db db_newdetailview db_basicTemplate">
+
+
+
+
+	
+	
+	
+	
+
+
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-W9QQ2T"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W9QQ2T');</script>
+<!-- End Google Tag Manager -->
+
+<!-- container begin -->
+<div class="container" id="containerDIV">
+<input type="hidden" id = "foldYn" name="searchtype" value="1"/>
+<form id ="searchForm" name="searchForm">
+
+    <input type="hidden" id = "method" name="method" value="newpricePopV2"/>
+    <input type="hidden" id = "dimensiontype" name="dimensiontype" value="null"/>
+    <input type="hidden" id = "paramMnfccd" name="paramMnfccd" value="002"/>
+    <input type="hidden" id = "paramMdlgroupcd" name="paramMdlgroupcd" value="001"/>
+    <input type="hidden" id = "paramMdlcd" name="paramMdlcd" value="121"/>
+    <input type="hidden" id = "paramYear" name="paramYear" value="2018"/>
+    <input type="hidden" id = "model" name="model" value="">
+    <input type="hidden" id = "paramCaryear" name="paramCaryear" value="2018"/>
+    <input type="hidden" id = "clsheadcd" name="clsheadcd" class="checkbox" value="null"/>
+    <input type="hidden" id = "paramGradeHead" name="paramGradeHead" value="null"/>
+	<input type="hidden" id = "searchtype" name="searchtype" value="check"/>
+	<input type="hidden" id = "pageAccessToken" name="pageAccessToken" value="AgV40q9cmHNWnWoFVevHPTZzeVGkvGZFQ0xm5iciQYtTEMoAcQACAAdFbmNhckNrAAdFbmNhckN2ABVhd3MtY3J5cHRvLXB1YmxpYy1rZXkAREE0SGZRZE1CTnpuQS9WcFJsZm4yTHM5Q0doWUFkSEl6QWZvUndnYzluSVJFMkx2aHR6VGtCZ1NlTisydENsYVFlQT09AAEAB2F3cy1rbXMAUGFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjI3MjM2MjQ4NzY1MzprZXkvbXJrLWRmZWEyNmY3NTVhMzQ3MjliNjkwMjRkZWZmM2M1MWFjALgBAgEAeAuqQuSJvQ+Ra4FSj55FZzS0sk+00amsb3yoAFiEYn4PAWnxP05jk4hk5894xRGNR6EAAAB+MHwGCSqGSIb3DQEHBqBvMG0CAQAwaAYJKoZIhvcNAQcBMB4GCWCGSAFlAwQBLjARBAyLAgCQ7zR6jYYAFsgCARCAO3do7sTm3ky/1OcMC3nZwgZv0T4UcGAkA07Y/RnARihhoQnw8VeqD7Vl4+naTD2sfAgkOt1eXY5uXGi8AgAAEACLDScoaBLsT2PQaCw1vXUi/DXqHqOGUToTPUUpFHGU6T0m1r5EdXYh4QwgGBu77wH/////AAAAAQAAAAAAAAAAAAAAAQAAAKMdKY4AsyJIg4WvjlBKm+OPMMvIGaXt8g7gREGbLDJk2Xy76TsHfR10rfMBvr8jLKDQ490m5KTPYymfHZkkyun8VRlF21LZ3QbT+zmkdYxK291H0iEJpKoToDO7Qzac2OSTbf6V4uYIUCgIO2stbi75UkV+VHzwAcoJoIlTEQNj7K/F5BSm018EDUPrE4SjG4tu8Qb64Ekdi+TQ9VFoSzzdocZpusYMamGtM+q495chqJk0LQBnMGUCMQC5dQY59MjabIpsPlJj/htsdPxUxrCVew6HkeK5YfAxsyxcF8DIpWdadTdvQ1iLjGUCMGrpBNGW20C3FI9kTRSCW55Owp+g3JwxsRLEwgbus22G32vVtgKhGU+bMXQoOsxatA=="/>
+    <div class="header">
+        <h1 class="blind">SK엔카</h1>
+        <h2 class="tit_carprice" id="main_title">신차가격표</h2>
+        <p class="quickSearch">
+
+
+
+            <select title="제조사" class="opt_select" id="mnfccd" name="mnfccd" onChange="javascript:changeModelGroup(this.value);">
+                <option value="">제조사</option>
+            </select>
+
+            <select class="opt_select" title="모델" id="mdlgroupcd" name="mdlgroupcd" onChange="javascript:changeModel_jato($('mnfccd').value, this.value);">
+                <option>모델</option>
+            </select>
+
+            <select class="opt_select" title="세부모델" id="mdlcd" name="mdlcd" onChange="javascript:changeYearJato($('mnfccd').value, $('mdlcd').value);">
+                <option>세부모델</option>
+            </select>
+
+            <select class="opt_select" title="연식" id="caryear" name="caryear">
+                <option>연식</option>
+            </select>
+
+            <button type="button" class="btn_search" onclick="javascript:onSubmit();"/>검색</button>
+
+
+
+        </p>
+    </div>
+    <!-- body begin -->
+    <div class="body" id="bodydiv">
+		
+			
+				<table class="layout">
+					<col class="contents"/>
+					<tr>
+						<td class="contentsMenu">
+							<!-- contentsMenu begin -->
+							<div class="contentsMenu">
+								<h3 class="title">기아 K5 하이브리드 2세대 2018년형</h3>
+							</div>
+							<!-- contentsMenu end -->
+						</td>
+					</tr>
+
+					<tr>
+						<td class="contentsMain">
+							<!-- contents begin -->
+							<div class="contents">
+
+								<div class="carCompare">
+									<div class="dbHead">
+										
+											<div id="folding"><a href="javascript:foldingYN('f_fold')"
+																 class="folding f_fold">전체등급 펼쳐보기<em class="db_ir"></em></a></div>
+
+											<!-- 2013/04/03 [서] 매물탭 개선 : 기능 버튼 추가 --><!--<a href="#" class="folding f_unfold">펼치기</a>-->
+										
+									</div>
+									
+									
+										
+											
+										
+									
+									<div id="f_unfold">
+										
+
+
+										<!-- case2 : 세부등급이 있는경우 -->
+										
+											<table class="carCompare sellcase2">
+												<colgroup>
+													<col class="grade">
+													<col class="detailgrd">
+													<col class="mission">
+													<col class="price">
+													<col class="uprice">
+													<col class="item">
+													<col class="option">
+												</colgroup>
+												<thead class="compare">
+												<tr>
+													<th class="grade bgn" colspan="3"><b>구분</b></th>
+													<th class="price"><b>판매가격</b></th>
+													<th class="uprice"><b>중고차시세</b></th><!-- [시세개편] 중고차시세 추가 -->
+													<th class="item"><b>기본사양 품목</b></th>
+													<th class="option end"><b>선택사양 품목</b></th>
+												</tr>
+												</thead>
+												<tbody class="new">
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+																	
+																	
+																
+															
+															
+																
+																	
+																	
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>2.0 플러그인 HEV</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>노블레스 스페셜</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>4,028</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶&nbsp;플러그인 하이브리드 시스템 </b>: 50kW 플러그인 하이브리드 모터, 3.3kW급 충전시스템,
+차세대 회생제동 브레이크 시스템, 대용량 리튬이온 폴리머 배터리 시스템, 플러그인 하이브리드
+전력제어 유니트, 가상엔진 사운드 시스템, 완속충전용 케이블
+<br>
+<br>▶<b>&nbsp;파워트레인 </b>: 누우(v) 2.0 GDI PHEV 가솔린 엔진, 6단 자동변속기(수동겸용, 부츠타입, 액티브에코)
+<br><br>▶<b>&nbsp;안전 </b>: 에어백(운전석, 동승석, 운전석 무릎, 전복감지 커튼, 사이드), VSM(차세대 ESC),
+경사로 밀림 방지장치(HAC), 개별 타이어 공기압 경보시스템(TPMS), 급제동 경보시스템(ESS),
+전/후방 주차보조 시스템, 앞좌석 세이프티 파워윈도우, 디스크 브레이크(전륜, 후륜),
+유아용 시트 고정장치, 후방 충격저감 시트 시스템, 앞좌석 하체 상해저감 장치
+
+<br>
+<br>▶<b>&nbsp;외관 </b>: 215/55R17 타이어 &amp; 에어로 다이나믹 알로이 휠, PHEV 전용 외장형 액티브 에어플랩
+라디에이터 그릴(칼라포인트), 프로젝션 헤드램프, LED DRL(헤드램프), 안개등, LED 리피터 일체형
+아웃사이드 미러(히팅기능, 전동조절, 전동접이), LED 보조제동등, 자외선 차단글라스 &amp; 선쉐이드
+밴드(윈드쉴드), 무광 크롬 실루엣 몰딩, 사이드실 무광 크롬 몰딩, 무광 크롬 아웃사이드 도어 핸들,
+도어손잡이 조명(프론트 도어), 에어로 타입 와이퍼
+
+<br>
+<br>▶<b>&nbsp;내장 </b>: 블랙 원톤 인테리어, PHEV 전용 슈퍼비전 클러스터(4.3인치 칼라 TFT LCD), 크래쉬패드
+인몰드 스티치, 가죽 스티어링 휠, 인조가죽 감싸기(도어 센터트림, 도어 암레스트 측면부),
+크래쉬패드 무광 크롬 가니쉬, 알루미늄 콘솔 어퍼 커버, 블랙 하이그로시 파워윈도우 스위치,
+크롬 인사이드 도어 핸들, 슬라이딩 선바이저(거울, 조명), 선글라스 케이스,
+오르간 타입 액셀 페달, 스테인리스 도어스커프
+
+<br>
+<br>▶<b>&nbsp;시트 </b>: 인조가죽시트, 앞좌석ㆍ뒷좌석 히티드시트, 운전석 파워시트, 운전석 전동식 허리지지대,
+앞좌석 시트벨트 높이 조절 장치, 뒷좌석 높이조절 헤드레스트, 뒷좌석 센터 암레스트, 시트백 판넬 &amp; 포켓
+
+<br>
+<br>▶<b>&nbsp;편의 </b>: 버튼시동 스마트키 시스템, 웰컴 시스템, 크루즈 컨트롤(정속주행장치), 운전자세 메모리
+시스템(운전석 시트, 아웃사이드 미러), 운전석 이지억세스, 후진연동 자동하향 아웃사이드미러,
+전자식 파킹브레이크(EPB, AUTO 홀드 기능 포함), 히티드 스티어링 휠, 휴대폰 무선 충전 시스템,
+전자식 룸미러(ECM), 자동 요금징수 시스템(ETCS), 오토라이트 컨트롤 헤드램프, 스마트 트렁크,
+진폭감응형 댐퍼, 속도감응형 전동식 파워스티어링(MDPS), 수동식 틸트 &amp; 텔레스코픽 스티어링,
+원터치 트리플 턴시그널, 파워윈도우(앞좌석, 뒷좌석), 파워아웃렛 (앞좌석, 뒷좌석), 파워도어록,
+글로브박스 조명, 타이어 임시 수리장치, USB 충전기, 풋램프, 독립제어 풀오토 에어컨(운전석,
+동승석), 뒷좌석 에어 벤틸레이션, 고성능 에어컨 필터, 클러스터 이오나이저
+
+<br>
+<br>▶<b>&nbsp;멀티미디어 </b>: PHEV 전용 내비게이션 UVO 2.0(8인치), 후방카메라, 7스피커, 외장앰프,
+AUX &amp; USB(iPod) 단자, 음성인식 블루투스 핸즈프리, 스티어링 휠 오디오 리모컨
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b>&nbsp;</b>스노우화이트 펄 : 80,000
+
+<br>
+<br>▶<b>&nbsp;</b>와이드 파노라마 선루프
+(LED 룸램프 포함) : 1,130,000
+
+<br>
+<br>▶<b>&nbsp;</b>PHEV 스타일 UP : 930,000
+
+<br>
+<br>▶<b>&nbsp;</b>컴포트 : 1,770,000
+
+<br>
+<br>▶<b>&nbsp;</b>220V 휴대용 충전케이블 : 490,000
+<br>
+<br>▶<b>&nbsp;</b>드라이브 와이즈 : 1,820,000
+※&nbsp;PHEV 스타일 UP 선택시적용가능</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+												</tbody>
+											</table>
+										
+									</div>
+									<!-- 신차가격표(폴더형) -->
+									<div id="f_fold" style="display:none;">
+										<div class="newcar_folder">
+											<ul class="nf_list" id="newcarList">
+												
+													<li>
+														<a href="#newcar0">
+                                                            <span class="model">2.0 플러그인 HEV 노블레스 스페셜 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>4,028</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+											</ul>
+											<!-- 개별 -->
+											
+												<div id="newcar0" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶&nbsp;플러그인 하이브리드 시스템 </b>: 50kW 플러그인 하이브리드 모터, 3.3kW급 충전시스템,
+차세대 회생제동 브레이크 시스템, 대용량 리튬이온 폴리머 배터리 시스템, 플러그인 하이브리드
+전력제어 유니트, 가상엔진 사운드 시스템, 완속충전용 케이블
+<br>
+<br>▶<b>&nbsp;파워트레인 </b>: 누우(v) 2.0 GDI PHEV 가솔린 엔진, 6단 자동변속기(수동겸용, 부츠타입, 액티브에코)
+<br><br>▶<b>&nbsp;안전 </b>: 에어백(운전석, 동승석, 운전석 무릎, 전복감지 커튼, 사이드), VSM(차세대 ESC),
+경사로 밀림 방지장치(HAC), 개별 타이어 공기압 경보시스템(TPMS), 급제동 경보시스템(ESS),
+전/후방 주차보조 시스템, 앞좌석 세이프티 파워윈도우, 디스크 브레이크(전륜, 후륜),
+유아용 시트 고정장치, 후방 충격저감 시트 시스템, 앞좌석 하체 상해저감 장치
+
+<br>
+<br>▶<b>&nbsp;외관 </b>: 215/55R17 타이어 &amp; 에어로 다이나믹 알로이 휠, PHEV 전용 외장형 액티브 에어플랩
+라디에이터 그릴(칼라포인트), 프로젝션 헤드램프, LED DRL(헤드램프), 안개등, LED 리피터 일체형
+아웃사이드 미러(히팅기능, 전동조절, 전동접이), LED 보조제동등, 자외선 차단글라스 &amp; 선쉐이드
+밴드(윈드쉴드), 무광 크롬 실루엣 몰딩, 사이드실 무광 크롬 몰딩, 무광 크롬 아웃사이드 도어 핸들,
+도어손잡이 조명(프론트 도어), 에어로 타입 와이퍼
+
+<br>
+<br>▶<b>&nbsp;내장 </b>: 블랙 원톤 인테리어, PHEV 전용 슈퍼비전 클러스터(4.3인치 칼라 TFT LCD), 크래쉬패드
+인몰드 스티치, 가죽 스티어링 휠, 인조가죽 감싸기(도어 센터트림, 도어 암레스트 측면부),
+크래쉬패드 무광 크롬 가니쉬, 알루미늄 콘솔 어퍼 커버, 블랙 하이그로시 파워윈도우 스위치,
+크롬 인사이드 도어 핸들, 슬라이딩 선바이저(거울, 조명), 선글라스 케이스,
+오르간 타입 액셀 페달, 스테인리스 도어스커프
+
+<br>
+<br>▶<b>&nbsp;시트 </b>: 인조가죽시트, 앞좌석ㆍ뒷좌석 히티드시트, 운전석 파워시트, 운전석 전동식 허리지지대,
+앞좌석 시트벨트 높이 조절 장치, 뒷좌석 높이조절 헤드레스트, 뒷좌석 센터 암레스트, 시트백 판넬 &amp; 포켓
+
+<br>
+<br>▶<b>&nbsp;편의 </b>: 버튼시동 스마트키 시스템, 웰컴 시스템, 크루즈 컨트롤(정속주행장치), 운전자세 메모리
+시스템(운전석 시트, 아웃사이드 미러), 운전석 이지억세스, 후진연동 자동하향 아웃사이드미러,
+전자식 파킹브레이크(EPB, AUTO 홀드 기능 포함), 히티드 스티어링 휠, 휴대폰 무선 충전 시스템,
+전자식 룸미러(ECM), 자동 요금징수 시스템(ETCS), 오토라이트 컨트롤 헤드램프, 스마트 트렁크,
+진폭감응형 댐퍼, 속도감응형 전동식 파워스티어링(MDPS), 수동식 틸트 &amp; 텔레스코픽 스티어링,
+원터치 트리플 턴시그널, 파워윈도우(앞좌석, 뒷좌석), 파워아웃렛 (앞좌석, 뒷좌석), 파워도어록,
+글로브박스 조명, 타이어 임시 수리장치, USB 충전기, 풋램프, 독립제어 풀오토 에어컨(운전석,
+동승석), 뒷좌석 에어 벤틸레이션, 고성능 에어컨 필터, 클러스터 이오나이저
+
+<br>
+<br>▶<b>&nbsp;멀티미디어 </b>: PHEV 전용 내비게이션 UVO 2.0(8인치), 후방카메라, 7스피커, 외장앰프,
+AUX &amp; USB(iPod) 단자, 음성인식 블루투스 핸즈프리, 스티어링 휠 오디오 리모컨</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b>&nbsp;</b>스노우화이트 펄 : 80,000
+
+<br>
+<br>▶<b>&nbsp;</b>와이드 파노라마 선루프
+(LED 룸램프 포함) : 1,130,000
+
+<br>
+<br>▶<b>&nbsp;</b>PHEV 스타일 UP : 930,000
+
+<br>
+<br>▶<b>&nbsp;</b>컴포트 : 1,770,000
+
+<br>
+<br>▶<b>&nbsp;</b>220V 휴대용 충전케이블 : 490,000
+<br>
+<br>▶<b>&nbsp;</b>드라이브 와이즈 : 1,820,000
+※&nbsp;PHEV 스타일 UP 선택시적용가능</p>
+												</div>
+											
+										</div>
+										<script type="text/javascript">
+											newcarFolder(0);//초기값
+											function newcarFolder(target) {
+												var conElId = "newcar"//아이디 설정
+												var conElMenu = document.getElementById("newcarList");
+												var conElMenuLink = conElMenu.getElementsByTagName("a");
+												if (target != null) {
+													conElMenuLink[target].parentNode.className = "on";
+													document.getElementById(
+														conElId + target).style.display = "";
+												}
+												for (i = 0; i <= (conElMenuLink.length - 1); i++) {
+													conElMenuLink[i].onclick = function () {
+														for (x = 0; x <= (conElMenuLink.length - 1); x++) {
+															conElMenuLink[x].parentNode.className = "";
+															document.getElementById(
+																conElId + x).style.display = "none";
+														}
+														this.parentNode.className = "on";
+														document.getElementById(this.getAttribute('href')
+																					.split(
+																						'#')[1]).style.display =
+															"";
+														return false;
+													}
+												}
+											}
+										</script>
+									</div>
+									
+										<ul class="more">
+												<b>▶&nbsp;PhEV 스타일 UP : </b>LED 헤드램프, LED 안개등, 블랙베젤 LED 리어콤비네이션램프
+
+<br><b>▶&nbsp;컴포트 :</b> 가죽시트, 앞좌석 통풍시트, 동승석 파워시트, 동승석 전동식 허리지지대, 동승석 워크인 디바이스, 뒷좌석 수동 선커튼, 후측방 모니터링 시스템,
+JBL 사운드 시스템(10스피커, 외장앰프) 
+<br>※ 브라운 칼라 패키지 선택 가능
+
+<br><b>▶&nbsp;드라이브 와이즈 : </b>긴급 제동 보조 시스템, 어드밴스드 스마트 크루즈 컨트롤, 차선이탈 경보 시스템, 후측방 경보시스템
+
+<br>※ LED 헤드램프 적용 시 하이빔 어시스트 기능 지원
+										</ul>
+									
+									<p class="desc_more">위 신차가격표는 단순 참고자료이며, 정확한 내용은 각 제조사에서 제공하는 자료를 통해확인하실 수 있습니다.</p><!-- 2016/10/12 [장] 등급 등록/수정 개선 : 추가 디자인 변경 -->
+									<p class="toTop"><a href="#main_title" class="sp toTop db_ir" title="페이지 위로"><u>페이지 위로</u></a></p><!-- [시세개편] class db_ir 추가 -->
+								</div>
+
+
+							</div>
+							<!-- body end -->
+						</td>
+					</tr>
+				</table>
+
+
+			
+			
+		
+    </div>
+
+    <!-- container end -->
+</form>
+</div>
+
+</body>
+<script language="javascript">
+
+
+    var strCompanyUrl = "/common/combo/cardbcompany.json?method=carList";
+    var strModelGroupUrl = "/common/combo/modelgroupfordb.json?method=carList";
+    var strModelUrl = "/common/combo/cardbmodel.json?method=carList";
+    var strYrJatoUrl = "/common/combo/jatoYr.json?method=carList";
+
+    var companyid = "mnfccd";
+    var modelgroupid = "mdlgroupcd";
+    var modelid = "mdlcd";
+    var yearid = "caryear";
+
+    function initGnb() {
+        var paramCompany = $("paramMnfccd").value;
+        var paramModelGroup = $("paramMdlgroupcd").value;
+        var paramModel = $("paramMdlcd").value;
+        var paramYr = $("paramYear").value;
+
+        // 제조사
+        if (paramModel != "") {
+            $("mdlcd").show();
+        }
+
+        //console.log("companyid :: " + companyid)
+        //console.log("paramCompany :: " + paramCompany)
+		if($('foldYn').value != 0){
+            foldingYN('f_fold');
+		}
+
+        setCompany(strCompanyUrl, companyid, "제조사", paramCompany);
+
+        // 제조사 값이 있으면 모델 검색
+        if (paramCompany >= '010') {
+            if (paramCompany != "") {
+                if (paramModel == "") {
+                    paramModel = paramModelGroup;
+                }
+                setModel(strModelUrl, modelid, paramCompany, "모델", paramModel)
+                $("mdlgroupcd").hide();
+
+            }
+        } else {
+            $("mdlgroupcd").show();
+            if (paramCompany != "") {
+                setModelGroup(strModelGroupUrl, modelgroupid, paramCompany, "모델", paramModelGroup);
+                if (paramModelGroup != "") {
+                    setModel_New(strModelUrl, modelid, paramCompany, paramModelGroup, "세부모델", paramModel);
+                }
+            }
+
+        }
+        if (paramCompany != "" && paramModel != "") {
+            setCarYear(strYrJatoUrl, yearid, paramCompany, paramModel, "형식연도", paramYr);
+        }
+
+        waitTime = 1;
+    }
+
+    function changeModel_jato(mnfccd, mdlgroupcd) {
+        setModel_New(strModelUrl, modelid, mnfccd, mdlgroupcd, "세부모델", "");
+        //모델그룹선택시 기본 세부모델선택
+        if ($("mdlcd") != null) {
+            $("mdlcd").selectedIndex = 1;
+            var mdlcd = $("mdlcd").options[$("mdlcd").selectedIndex].value;
+            changeYearJato(mnfccd, mdlcd);
+        }
+    }
+
+    function changeYearJato(mnfccd,mdlcd) {
+        setCarYear(strYrJatoUrl, yearid, mnfccd, mdlcd, "형식연도", "");
+        $(yearid).options[1].selected = true;
+    }
+
+
+
+    //덧글 리스트
+    function viewForm(index) {
+
+        var object = $("default" + index);
+        var objectSum = $("defaultSum" + index);
+        var selectSum = $("choiceSum" + index);
+        var object1 = $("choice" + index);
+        if (object != null) {
+            if (object.style.display == 'none') {
+                objectSum.hide();
+                selectSum.hide();
+                object.style.display = "block";
+                object1.style.display = "block";
+
+            } else {
+                object.hide();
+                object1.hide();
+                objectSum.style.display = "block";
+                selectSum.style.display = "block";
+            }
+        }
+    }
+
+    function viewAll() {
+        for (var i = 1; i <=1; i++) {
+            $("default" + i).style.display = "block";
+            $("defaultSum" + i).style.display = "none";
+            $("choice" + i).style.display = "block";
+            $("choiceSum" + i).style.display = "none";
+        }
+    }
+
+    function closeAll() {
+        for (var i = 1; i <=1; i++) {
+            $("default" + i).style.display = "none";
+            $("defaultSum" + i).style.display = "block";
+            $("choice" + i).style.display = "none";
+            $("choiceSum" + i).style.display = "block";
+        }
+    }
+
+    function firstLayerOpen() {
+        //viewForm(1);
+    }
+
+    function foldingYN(param) {
+        if (param == "f_fold") {
+            document.getElementById("folding").innerHTML ="<a href=\"javascript:foldingYN('f_unfold')\" class='folding f_unfold'>전체등급 펼쳐보기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "none";
+            document.getElementById("f_fold").style.display = "";
+        } else {
+            document.getElementById("folding").innerHTML = "<a href=\"javascript:foldingYN('f_fold')\" class='folding f_fold'>접기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "";
+            document.getElementById("f_fold").style.display = "none";
+        }
+    }
+
+    function onSubmit() {
+        jQuery("#searchForm").submit();
+
+    }
+    window.onload = initGnb;
+
+</script>
+</html>
+

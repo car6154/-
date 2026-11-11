@@ -1,0 +1,1291 @@
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>차량DB - 차량정보 - 신차가격표</title>
+    <link type="text/css" rel="stylesheet" href="/css/common.css?v=1793835891525"/>
+    <link type="text/css" rel="stylesheet" href="/css/db.css?v=1793835891525"/>
+
+    <script type="text/javascript" src="/js/encarapp/lib/jquery/jquery-1.11.3.min.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/common/ui.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/prototype.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/util.js?v=1793835894199"></script>
+
+    <script type="text/javascript" src="/js/common/db_common.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/commonCombo.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/carSearchCombo.js?v=1793835894199"></script>
+	<script>
+		window.enlogInitJson = {
+			"dataTalkView": {
+				"screenName": "신차가격표"
+			}
+		}
+
+	</script>
+
+
+</head>
+
+
+
+
+
+
+
+    <!-- 등급 체크박스  -->
+    <div style="display:none">
+        
+    </div>
+
+    <!-- 세부등급 체크박스 -->
+    <div style="display:none">
+        
+    </div>
+
+
+
+<body class="db db_newdetailview db_basicTemplate">
+
+
+
+
+	
+	
+	
+	
+
+
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-W9QQ2T"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W9QQ2T');</script>
+<!-- End Google Tag Manager -->
+
+<!-- container begin -->
+<div class="container" id="containerDIV">
+<input type="hidden" id = "foldYn" name="searchtype" value="7"/>
+<form id ="searchForm" name="searchForm">
+
+    <input type="hidden" id = "method" name="method" value="newpricePopV2"/>
+    <input type="hidden" id = "dimensiontype" name="dimensiontype" value="null"/>
+    <input type="hidden" id = "paramMnfccd" name="paramMnfccd" value="004"/>
+    <input type="hidden" id = "paramMdlgroupcd" name="paramMdlgroupcd" value="011"/>
+    <input type="hidden" id = "paramMdlcd" name="paramMdlcd" value="102"/>
+    <input type="hidden" id = "paramYear" name="paramYear" value="2013"/>
+    <input type="hidden" id = "model" name="model" value="">
+    <input type="hidden" id = "paramCaryear" name="paramCaryear" value="2013"/>
+    <input type="hidden" id = "clsheadcd" name="clsheadcd" class="checkbox" value="null"/>
+    <input type="hidden" id = "paramGradeHead" name="paramGradeHead" value="null"/>
+	<input type="hidden" id = "searchtype" name="searchtype" value="check"/>
+	<input type="hidden" id = "pageAccessToken" name="pageAccessToken" value="AgV4qidjnqZE0FF2cPKUn+6fW7ucUmGcNgc0XP7cQg3PxUUAcQACAAdFbmNhckNrAAdFbmNhckN2ABVhd3MtY3J5cHRvLXB1YmxpYy1rZXkAREFsN0t5L09JN1dtKzRid0s4NUtYZ2lKQjFCa2hkeFJ1dUdUYWNYSktuNUdYY0FRai9KMCtUaktMYTdpOUxxeWxOZz09AAEAB2F3cy1rbXMAUGFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjI3MjM2MjQ4NzY1MzprZXkvbXJrLWRmZWEyNmY3NTVhMzQ3MjliNjkwMjRkZWZmM2M1MWFjALgBAgEAeAuqQuSJvQ+Ra4FSj55FZzS0sk+00amsb3yoAFiEYn4PATH8xOBPE8ORk88Ho6mYzfkAAAB+MHwGCSqGSIb3DQEHBqBvMG0CAQAwaAYJKoZIhvcNAQcBMB4GCWCGSAFlAwQBLjARBAww3tHR1RUR6PKRg40CARCAO/J7RqUieEq+X4pP2MeNfPVEegNrsoU4R3SS9fSVbFBwsooyL3g+LxqPBhbXALstMl3C1rU/kBk+D9BcAgAAEAAeIn5OGicPGQB+W+vQ/6YSB9Nw4XR3+C/qqhMpNF/LN9LN+fKGypOdsLLYS8nU0Oz/////AAAAAQAAAAAAAAAAAAAAAQAAAKOP6Ax4FSxy8z0wfG5BHulA+7Vx0K79hVybpqDGGj6eUgtDvjujJvqwIg4vV7VZWdX+OQRKezbY0D+zauGj6yc7eYiCuZBesayM3OEDJ/F8RxWC8j724bxkFJJ5IVzHK0SQ86CCseI/Fue/1axm6qlIcS7OUDbTnxzCHGgnsFP4vY3IuUIYz2PNRxECOtgDd8xLyOxUu/j2ZKtd/eSyO/fSYudWEF3qtTGgfopfF4KJPyc9bQBnMGUCMCvDiIxkcb7N2fWz8sJKCtam9MxDavmqgO2DRcU4gWzUtb/p5Qn+KRWfanJ+QedTNQIxAO+HgK9NG0bytfDqDXyrUsiW9FvN8RwIHoeIhMT+YBNQ6/8TzDVFkqT4pi/XDcZpKw=="/>
+    <div class="header">
+        <h1 class="blind">SK엔카</h1>
+        <h2 class="tit_carprice" id="main_title">신차가격표</h2>
+        <p class="quickSearch">
+
+
+
+            <select title="제조사" class="opt_select" id="mnfccd" name="mnfccd" onChange="javascript:changeModelGroup(this.value);">
+                <option value="">제조사</option>
+            </select>
+
+            <select class="opt_select" title="모델" id="mdlgroupcd" name="mdlgroupcd" onChange="javascript:changeModel_jato($('mnfccd').value, this.value);">
+                <option>모델</option>
+            </select>
+
+            <select class="opt_select" title="세부모델" id="mdlcd" name="mdlcd" onChange="javascript:changeYearJato($('mnfccd').value, $('mdlcd').value);">
+                <option>세부모델</option>
+            </select>
+
+            <select class="opt_select" title="연식" id="caryear" name="caryear">
+                <option>연식</option>
+            </select>
+
+            <button type="button" class="btn_search" onclick="javascript:onSubmit();"/>검색</button>
+
+
+
+        </p>
+    </div>
+    <!-- body begin -->
+    <div class="body" id="bodydiv">
+		
+			
+				<table class="layout">
+					<col class="contents"/>
+					<tr>
+						<td class="contentsMenu">
+							<!-- contentsMenu begin -->
+							<div class="contentsMenu">
+								<h3 class="title">KG모빌리티(쌍용) 코란도 스포츠 2013년형</h3>
+							</div>
+							<!-- contentsMenu end -->
+						</td>
+					</tr>
+
+					<tr>
+						<td class="contentsMain">
+							<!-- contents begin -->
+							<div class="contents">
+
+								<div class="carCompare">
+									<div class="dbHead">
+										
+											<div id="folding"><a href="javascript:foldingYN('f_fold')"
+																 class="folding f_fold">전체등급 펼쳐보기<em class="db_ir"></em></a></div>
+
+											<!-- 2013/04/03 [서] 매물탭 개선 : 기능 버튼 추가 --><!--<a href="#" class="folding f_unfold">펼치기</a>-->
+										
+									</div>
+									
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+									<div id="f_unfold">
+										
+
+
+										<!-- case2 : 세부등급이 있는경우 -->
+										
+											<table class="carCompare sellcase2">
+												<colgroup>
+													<col class="grade">
+													<col class="detailgrd">
+													<col class="mission">
+													<col class="price">
+													<col class="uprice">
+													<col class="item">
+													<col class="option">
+												</colgroup>
+												<thead class="compare">
+												<tr>
+													<th class="grade bgn" colspan="3"><b>구분</b></th>
+													<th class="price"><b>판매가격</b></th>
+													<th class="uprice"><b>중고차시세</b></th><!-- [시세개편] 중고차시세 추가 -->
+													<th class="item"><b>기본사양 품목</b></th>
+													<th class="option end"><b>선택사양 품목</b></th>
+												</tr>
+												</thead>
+												<tbody class="new">
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="3">
+																<p>CX5 2WD</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>에코</p></td>
+														
+														<td class="mission"><p>M/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,041</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> 엔진/성능 </b> : 155마력 e-XDi200 LET 한국형 디젤엔진, CDPF(배기가스 저감장치), EUROⅤ, 6단 수동변속기, 엔진커버, 가스쇽업소버, 더블위시본 &amp; 5링크코일스프링 서스펜션
+<br><br>▶<b> 안전사양 </b> : EBD ABS, 운전석 &amp; 동반석 에어백, 스페어타이어(175템퍼러리), 파킹브레이크 워닝 시그널, 속도감응식 오토도어록(이머전시 언락포함), 이동식 비상삼각대, 도난경보장치
+<br><br>▶<b> 외관사양 </b> : P225/75R16타이어 &amp; 16인치 알루미늄 휠, LED 턴시그널 사이드리피터, 전동접이식 아웃사이드미러(열선내장,전동조절), 웨이스트라인몰딩, 그립타입 도어핸들(바디컬러), 전방안개등, 컬러유리
+<br><br>▶<b> 내장사양 </b> : 1열 히팅시트, 고급직물시트, 운전석시트(듀얼높이조절장치), 러기지 트레이, 1열 프리텐셔너 시트벨트(높낮이 조절장치), 2열시트(센터 암레스트), 고급카매트, 파워&amp;틸트스티어링휠, 컬랩서블 컬럼타입 스티어링휠, 선글라스 케이스, 디지털시계, 키홀조명, 선바이저(운전석 티켓홀더 &amp; 운전석/동반석 화장거울), 도어커티쉬램프, 이동식재떨이, 듀얼혼, 파워 아웃렛(1개), 어시스트 그립(코트후크 포함), 핸드파킹 브레이크, 스테인레스 도어스커프(1열), 쇼핑백 후크
+<br><br>▶<b> 편의사양 </b> : 에코 크루즈컨트롤 시스템, 후방 장애물 감지 시스템, 운전석오버라이더, 뒷열선유리, 운전석 원터치 오토다운 파워윈도우, 와이퍼 결빙방지장치, PTC히터, 매뉴얼에어컨, 에어필터, 트립컴퓨터, 이모빌라이저리모콘키(충전식, 배터리 각 1개), 배터리세이버
+<br><br>▶<b> 오디오 </b> : 블루투스 MP3 CDP(FM/AM, MP3 CDP, USB &amp; AUX 단자, 블루투스 핸즈프리), 6스피커, 스티어링휠 오디오리모콘
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> E-TRONIC 6단 자동변속기 </b>:&nbsp;1,700,000
+<br><br>▶<b> ESP &amp; BAS &amp; ARP &amp; HAS </b> : 400,000
+<br><br>▶<b> 선루프 </b> : 450,000
+<br><br>▶<b> 오디오 마이너스 옵션 </b> : -300,000
+<br><br>▶<b> 6.5인치 내비게이션 + 후방카메라 </b> : 1,200,000
+<br><br>▶<b> 패션데크랙 </b> : 300,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>클럽</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,261</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> CX5 Eco 기본품목 외 </b>
+<br><br>▶<b> 엔진/성능 </b> : E-TRONIC 6단 자동변속기
+<br><br>▶<b> 외관사양 </b> : P255/60R18 타이어 &amp; 18인치 알루미늄 휠
+<br><br>▶<b> 내장사양 </b> : 가죽커버 스티어링 휠
+<br><br>▶<b> 편의사양 </b> : 오토라이트컨트롤 시스템, 우적감지와이퍼, 운전석 세이프티 파워윈도우, ETCS(하이패스 시스템) &amp; ECM룸미러
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> ESP &amp; BAS &amp; ARP &amp; HAS </b> : 400,000
+<br><br>▶<b> 선루프 </b> : 450,000
+<br><br>▶<b> 오디오 마이너스 옵션 </b> : -300,000
+<br><br>▶<b> 6.5인치 내비게이션 + 후방카메라 </b> : 1,200,000
+<br><br>▶<b> 패션데크랙 </b> : 300,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>패션</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,327</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> CX5 Club 기본품목 외 </b>
+<br><br>▶<b> 외관사양 </b> : 솔라컨트롤글래스(윈드쉴드)
+<br><br>▶<b> 내장사양 </b> : 대형화장거울, 램프내장 운전석 선바이저, 인조가죽 &amp; 고급직물시트, 고급 전사 센터페시아 그레인, 전자동에어컨
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> ESP &amp; BAS &amp; ARP &amp; HAS </b> : 400,000
+<br><br>▶<b> 선루프 </b> : 450,000
+<br><br>▶<b> 오디오 마이너스 옵션 </b> : -300,000
+<br><br>▶<b> 6.5인치 내비게이션 + 후방카메라 </b> : 1,200,000
+<br><br>▶<b> 패션데크랙 </b> : 300,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="4">
+																<p>CX7 4WD</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>매니아</p></td>
+														
+														<td class="mission"><p>M/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,336</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> CX5 Club 기본품목 외 </b>
+<br><br>▶<b> 엔진/성능 </b> : 6단 수동변속기, 전자식 4WD 시스템
+<br><br>▶<b> 안전사양 </b> : ESP &amp; BAS &amp; ARP &amp; HSA
+<br><br>▶<b> 내장사양 </b> : 인조가죽 &amp; 고급직물시트, 전자동 에어컨
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 선루프 </b> : 450,000
+<br><br>▶<b> 오디오 마이너스 옵션 </b> : -300,000
+<br><br>▶<b> 6.5인치 내비게이션 + 후방카메라 </b> : 1,200,000
+<br><br>▶<b> 패션데크랙 </b> : 300,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>클럽</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,431</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> CX5 Club 기본품목 외 </b>
+<br><br>▶<b> 엔진/성능 </b> : 전자식 4WD 시스템
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> ESP &amp; BAS &amp; ARP &amp; HAS </b> : 400,000
+<br><br>▶<b> 선루프 </b> : 450,000
+<br><br>▶<b> 오디오 마이너스 옵션 </b> : -300,000
+<br><br>▶<b> 6.5인치 내비게이션 + 후방카메라 </b> : 1,200,000
+<br><br>▶<b> 패션데크랙 </b> : 300,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>패션</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,497</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> CX5 Passion 기본품목 외 </b>
+<br><br>▶<b> 엔진/성능 </b> : 전자식 4WD 시스템
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> ESP &amp; BAS &amp; ARP &amp; HAS </b> : 400,000
+<br><br>▶<b> 선루프 </b> : 450,000
+<br><br>▶<b> 오디오 마이너스 옵션 </b> : -300,000
+<br><br>▶<b> 6.5인치 내비게이션 + 후방카메라 </b> : 1,200,000
+<br><br>▶<b> 패션데크랙 </b> : 300,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>비전</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,723</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> CX7 Passion 기본품목 외 </b>
+<br><br>▶<b> 안전사양 </b> : ESP&amp;BAS&amp;ARP&amp;HSA
+<br><br>▶<b> 내장사양 </b> : 1열 틸팅 헤드레스트, 가죽시트, 운전석 &amp; 동반석 파워시트
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 선루프 </b> : 450,000
+<br><br>▶<b> 오디오 마이너스 옵션 </b> : -300,000
+<br><br>▶<b> 6.5인치 내비게이션 + 후방카메라 </b> : 1,200,000
+<br><br>▶<b> 패션데크랙 </b> : 300,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+												</tbody>
+											</table>
+										
+									</div>
+									<!-- 신차가격표(폴더형) -->
+									<div id="f_fold" style="display:none;">
+										<div class="newcar_folder">
+											<ul class="nf_list" id="newcarList">
+												
+													<li>
+														<a href="#newcar0">
+                                                            <span class="model">CX5 2WD 에코 M/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,041</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar1">
+                                                            <span class="model">CX5 2WD 클럽 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,261</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar2">
+                                                            <span class="model">CX5 2WD 패션 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,327</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar3">
+                                                            <span class="model">CX7 4WD 매니아 M/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,336</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar4">
+                                                            <span class="model">CX7 4WD 클럽 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,431</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar5">
+                                                            <span class="model">CX7 4WD 패션 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,497</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar6">
+                                                            <span class="model">CX7 4WD 비전 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,723</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+											</ul>
+											<!-- 개별 -->
+											
+												<div id="newcar0" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> 엔진/성능 </b> : 155마력 e-XDi200 LET 한국형 디젤엔진, CDPF(배기가스 저감장치), EUROⅤ, 6단 수동변속기, 엔진커버, 가스쇽업소버, 더블위시본 &amp; 5링크코일스프링 서스펜션
+<br><br>▶<b> 안전사양 </b> : EBD ABS, 운전석 &amp; 동반석 에어백, 스페어타이어(175템퍼러리), 파킹브레이크 워닝 시그널, 속도감응식 오토도어록(이머전시 언락포함), 이동식 비상삼각대, 도난경보장치
+<br><br>▶<b> 외관사양 </b> : P225/75R16타이어 &amp; 16인치 알루미늄 휠, LED 턴시그널 사이드리피터, 전동접이식 아웃사이드미러(열선내장,전동조절), 웨이스트라인몰딩, 그립타입 도어핸들(바디컬러), 전방안개등, 컬러유리
+<br><br>▶<b> 내장사양 </b> : 1열 히팅시트, 고급직물시트, 운전석시트(듀얼높이조절장치), 러기지 트레이, 1열 프리텐셔너 시트벨트(높낮이 조절장치), 2열시트(센터 암레스트), 고급카매트, 파워&amp;틸트스티어링휠, 컬랩서블 컬럼타입 스티어링휠, 선글라스 케이스, 디지털시계, 키홀조명, 선바이저(운전석 티켓홀더 &amp; 운전석/동반석 화장거울), 도어커티쉬램프, 이동식재떨이, 듀얼혼, 파워 아웃렛(1개), 어시스트 그립(코트후크 포함), 핸드파킹 브레이크, 스테인레스 도어스커프(1열), 쇼핑백 후크
+<br><br>▶<b> 편의사양 </b> : 에코 크루즈컨트롤 시스템, 후방 장애물 감지 시스템, 운전석오버라이더, 뒷열선유리, 운전석 원터치 오토다운 파워윈도우, 와이퍼 결빙방지장치, PTC히터, 매뉴얼에어컨, 에어필터, 트립컴퓨터, 이모빌라이저리모콘키(충전식, 배터리 각 1개), 배터리세이버
+<br><br>▶<b> 오디오 </b> : 블루투스 MP3 CDP(FM/AM, MP3 CDP, USB &amp; AUX 단자, 블루투스 핸즈프리), 6스피커, 스티어링휠 오디오리모콘</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> E-TRONIC 6단 자동변속기 </b>:&nbsp;1,700,000
+<br><br>▶<b> ESP &amp; BAS &amp; ARP &amp; HAS </b> : 400,000
+<br><br>▶<b> 선루프 </b> : 450,000
+<br><br>▶<b> 오디오 마이너스 옵션 </b> : -300,000
+<br><br>▶<b> 6.5인치 내비게이션 + 후방카메라 </b> : 1,200,000
+<br><br>▶<b> 패션데크랙 </b> : 300,000</p>
+												</div>
+											
+												<div id="newcar1" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> CX5 Eco 기본품목 외 </b>
+<br><br>▶<b> 엔진/성능 </b> : E-TRONIC 6단 자동변속기
+<br><br>▶<b> 외관사양 </b> : P255/60R18 타이어 &amp; 18인치 알루미늄 휠
+<br><br>▶<b> 내장사양 </b> : 가죽커버 스티어링 휠
+<br><br>▶<b> 편의사양 </b> : 오토라이트컨트롤 시스템, 우적감지와이퍼, 운전석 세이프티 파워윈도우, ETCS(하이패스 시스템) &amp; ECM룸미러</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> ESP &amp; BAS &amp; ARP &amp; HAS </b> : 400,000
+<br><br>▶<b> 선루프 </b> : 450,000
+<br><br>▶<b> 오디오 마이너스 옵션 </b> : -300,000
+<br><br>▶<b> 6.5인치 내비게이션 + 후방카메라 </b> : 1,200,000
+<br><br>▶<b> 패션데크랙 </b> : 300,000</p>
+												</div>
+											
+												<div id="newcar2" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> CX5 Club 기본품목 외 </b>
+<br><br>▶<b> 외관사양 </b> : 솔라컨트롤글래스(윈드쉴드)
+<br><br>▶<b> 내장사양 </b> : 대형화장거울, 램프내장 운전석 선바이저, 인조가죽 &amp; 고급직물시트, 고급 전사 센터페시아 그레인, 전자동에어컨</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> ESP &amp; BAS &amp; ARP &amp; HAS </b> : 400,000
+<br><br>▶<b> 선루프 </b> : 450,000
+<br><br>▶<b> 오디오 마이너스 옵션 </b> : -300,000
+<br><br>▶<b> 6.5인치 내비게이션 + 후방카메라 </b> : 1,200,000
+<br><br>▶<b> 패션데크랙 </b> : 300,000</p>
+												</div>
+											
+												<div id="newcar3" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> CX5 Club 기본품목 외 </b>
+<br><br>▶<b> 엔진/성능 </b> : 6단 수동변속기, 전자식 4WD 시스템
+<br><br>▶<b> 안전사양 </b> : ESP &amp; BAS &amp; ARP &amp; HSA
+<br><br>▶<b> 내장사양 </b> : 인조가죽 &amp; 고급직물시트, 전자동 에어컨</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 선루프 </b> : 450,000
+<br><br>▶<b> 오디오 마이너스 옵션 </b> : -300,000
+<br><br>▶<b> 6.5인치 내비게이션 + 후방카메라 </b> : 1,200,000
+<br><br>▶<b> 패션데크랙 </b> : 300,000</p>
+												</div>
+											
+												<div id="newcar4" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> CX5 Club 기본품목 외 </b>
+<br><br>▶<b> 엔진/성능 </b> : 전자식 4WD 시스템</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> ESP &amp; BAS &amp; ARP &amp; HAS </b> : 400,000
+<br><br>▶<b> 선루프 </b> : 450,000
+<br><br>▶<b> 오디오 마이너스 옵션 </b> : -300,000
+<br><br>▶<b> 6.5인치 내비게이션 + 후방카메라 </b> : 1,200,000
+<br><br>▶<b> 패션데크랙 </b> : 300,000</p>
+												</div>
+											
+												<div id="newcar5" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> CX5 Passion 기본품목 외 </b>
+<br><br>▶<b> 엔진/성능 </b> : 전자식 4WD 시스템</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> ESP &amp; BAS &amp; ARP &amp; HAS </b> : 400,000
+<br><br>▶<b> 선루프 </b> : 450,000
+<br><br>▶<b> 오디오 마이너스 옵션 </b> : -300,000
+<br><br>▶<b> 6.5인치 내비게이션 + 후방카메라 </b> : 1,200,000
+<br><br>▶<b> 패션데크랙 </b> : 300,000</p>
+												</div>
+											
+												<div id="newcar6" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> CX7 Passion 기본품목 외 </b>
+<br><br>▶<b> 안전사양 </b> : ESP&amp;BAS&amp;ARP&amp;HSA
+<br><br>▶<b> 내장사양 </b> : 1열 틸팅 헤드레스트, 가죽시트, 운전석 &amp; 동반석 파워시트</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 선루프 </b> : 450,000
+<br><br>▶<b> 오디오 마이너스 옵션 </b> : -300,000
+<br><br>▶<b> 6.5인치 내비게이션 + 후방카메라 </b> : 1,200,000
+<br><br>▶<b> 패션데크랙 </b> : 300,000</p>
+												</div>
+											
+										</div>
+										<script type="text/javascript">
+											newcarFolder(0);//초기값
+											function newcarFolder(target) {
+												var conElId = "newcar"//아이디 설정
+												var conElMenu = document.getElementById("newcarList");
+												var conElMenuLink = conElMenu.getElementsByTagName("a");
+												if (target != null) {
+													conElMenuLink[target].parentNode.className = "on";
+													document.getElementById(
+														conElId + target).style.display = "";
+												}
+												for (i = 0; i <= (conElMenuLink.length - 1); i++) {
+													conElMenuLink[i].onclick = function () {
+														for (x = 0; x <= (conElMenuLink.length - 1); x++) {
+															conElMenuLink[x].parentNode.className = "";
+															document.getElementById(
+																conElId + x).style.display = "none";
+														}
+														this.parentNode.className = "on";
+														document.getElementById(this.getAttribute('href')
+																					.split(
+																						'#')[1]).style.display =
+															"";
+														return false;
+													}
+												}
+											}
+										</script>
+									</div>
+									
+										<ul class="more">
+												▶ 오디오 마이너스 옵션 선택시 6.5인치 내비게이션 선택 필수
+<br>▶ 리모콘키는 패닉알람, 에스코트, 도난경보장치 기능포함
+<br>▶ 가죽시트는 부분적으로 인조가죽이 포함되어 있음
+<br>▶ 오디오 마이너스 옵션 : 오디오 블루투스 MP3 CDP 삭제 : [통합형 안테나] 추가
+<br>▶ 본 차량은 운수사업용으로 등록할 수 없음
+<br>▶ 6.5인치 내비게이션 + 후방카메라 : 6.5인치 터치 스크린, 내비게이션, FM/AM, 지상파DMB, 후방카메라, TPEG, USB, 블루투스
+<br>&nbsp; - 상기 품목은 당사 직접보증에서 제외 되며, 제품별 보증서에 따라 보증 받을 수 있습니다.
+<br><br>▶<b> 커스터마이징 선택품목 (부가세포함) </b>
+<br>&nbsp; <b> 트레일링 히치 </b> [770,000] / <b> 데크탑 (Full Top) </b> [990,000] / <b> 데크탑 (Half Top) </b> [1,045,000] / <b> 사이드스텝 </b> [286,000] / <b> 블랙박스 </b> [176,000] / <b> 스키드플레이트(앞/뒤) </b> [198,000] / <b> 넛지바 </b> [187,000]
+<br>&nbsp; -  트레일링 히치 품목은 4WD시스템 선택시 장착 가능
+<br>&nbsp; -  트레일링 히치 선택시 : 서비스키트 추가, 스페어타이어 삭제(스키드플레이트 장착 불가)
+<br>&nbsp; - 데크탑 선택시 구조변경 필요
+<br>&nbsp; - 상기 품목은 당사 직접보증에서 제외 되며, 제품별 보증서에 따라 보증 받을 수 있습니다.
+										</ul>
+									
+									<p class="desc_more">위 신차가격표는 단순 참고자료이며, 정확한 내용은 각 제조사에서 제공하는 자료를 통해확인하실 수 있습니다.</p><!-- 2016/10/12 [장] 등급 등록/수정 개선 : 추가 디자인 변경 -->
+									<p class="toTop"><a href="#main_title" class="sp toTop db_ir" title="페이지 위로"><u>페이지 위로</u></a></p><!-- [시세개편] class db_ir 추가 -->
+								</div>
+
+
+							</div>
+							<!-- body end -->
+						</td>
+					</tr>
+				</table>
+
+
+			
+			
+		
+    </div>
+
+    <!-- container end -->
+</form>
+</div>
+
+</body>
+<script language="javascript">
+
+
+    var strCompanyUrl = "/common/combo/cardbcompany.json?method=carList";
+    var strModelGroupUrl = "/common/combo/modelgroupfordb.json?method=carList";
+    var strModelUrl = "/common/combo/cardbmodel.json?method=carList";
+    var strYrJatoUrl = "/common/combo/jatoYr.json?method=carList";
+
+    var companyid = "mnfccd";
+    var modelgroupid = "mdlgroupcd";
+    var modelid = "mdlcd";
+    var yearid = "caryear";
+
+    function initGnb() {
+        var paramCompany = $("paramMnfccd").value;
+        var paramModelGroup = $("paramMdlgroupcd").value;
+        var paramModel = $("paramMdlcd").value;
+        var paramYr = $("paramYear").value;
+
+        // 제조사
+        if (paramModel != "") {
+            $("mdlcd").show();
+        }
+
+        //console.log("companyid :: " + companyid)
+        //console.log("paramCompany :: " + paramCompany)
+		if($('foldYn').value != 0){
+            foldingYN('f_fold');
+		}
+
+        setCompany(strCompanyUrl, companyid, "제조사", paramCompany);
+
+        // 제조사 값이 있으면 모델 검색
+        if (paramCompany >= '010') {
+            if (paramCompany != "") {
+                if (paramModel == "") {
+                    paramModel = paramModelGroup;
+                }
+                setModel(strModelUrl, modelid, paramCompany, "모델", paramModel)
+                $("mdlgroupcd").hide();
+
+            }
+        } else {
+            $("mdlgroupcd").show();
+            if (paramCompany != "") {
+                setModelGroup(strModelGroupUrl, modelgroupid, paramCompany, "모델", paramModelGroup);
+                if (paramModelGroup != "") {
+                    setModel_New(strModelUrl, modelid, paramCompany, paramModelGroup, "세부모델", paramModel);
+                }
+            }
+
+        }
+        if (paramCompany != "" && paramModel != "") {
+            setCarYear(strYrJatoUrl, yearid, paramCompany, paramModel, "형식연도", paramYr);
+        }
+
+        waitTime = 1;
+    }
+
+    function changeModel_jato(mnfccd, mdlgroupcd) {
+        setModel_New(strModelUrl, modelid, mnfccd, mdlgroupcd, "세부모델", "");
+        //모델그룹선택시 기본 세부모델선택
+        if ($("mdlcd") != null) {
+            $("mdlcd").selectedIndex = 1;
+            var mdlcd = $("mdlcd").options[$("mdlcd").selectedIndex].value;
+            changeYearJato(mnfccd, mdlcd);
+        }
+    }
+
+    function changeYearJato(mnfccd,mdlcd) {
+        setCarYear(strYrJatoUrl, yearid, mnfccd, mdlcd, "형식연도", "");
+        $(yearid).options[1].selected = true;
+    }
+
+
+
+    //덧글 리스트
+    function viewForm(index) {
+
+        var object = $("default" + index);
+        var objectSum = $("defaultSum" + index);
+        var selectSum = $("choiceSum" + index);
+        var object1 = $("choice" + index);
+        if (object != null) {
+            if (object.style.display == 'none') {
+                objectSum.hide();
+                selectSum.hide();
+                object.style.display = "block";
+                object1.style.display = "block";
+
+            } else {
+                object.hide();
+                object1.hide();
+                objectSum.style.display = "block";
+                selectSum.style.display = "block";
+            }
+        }
+    }
+
+    function viewAll() {
+        for (var i = 1; i <=7; i++) {
+            $("default" + i).style.display = "block";
+            $("defaultSum" + i).style.display = "none";
+            $("choice" + i).style.display = "block";
+            $("choiceSum" + i).style.display = "none";
+        }
+    }
+
+    function closeAll() {
+        for (var i = 1; i <=7; i++) {
+            $("default" + i).style.display = "none";
+            $("defaultSum" + i).style.display = "block";
+            $("choice" + i).style.display = "none";
+            $("choiceSum" + i).style.display = "block";
+        }
+    }
+
+    function firstLayerOpen() {
+        //viewForm(1);
+    }
+
+    function foldingYN(param) {
+        if (param == "f_fold") {
+            document.getElementById("folding").innerHTML ="<a href=\"javascript:foldingYN('f_unfold')\" class='folding f_unfold'>전체등급 펼쳐보기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "none";
+            document.getElementById("f_fold").style.display = "";
+        } else {
+            document.getElementById("folding").innerHTML = "<a href=\"javascript:foldingYN('f_fold')\" class='folding f_fold'>접기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "";
+            document.getElementById("f_fold").style.display = "none";
+        }
+    }
+
+    function onSubmit() {
+        jQuery("#searchForm").submit();
+
+    }
+    window.onload = initGnb;
+
+</script>
+</html>
+

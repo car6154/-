@@ -1,0 +1,1964 @@
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>차량DB - 차량정보 - 신차가격표</title>
+    <link type="text/css" rel="stylesheet" href="/css/common.css?v=1793835891525"/>
+    <link type="text/css" rel="stylesheet" href="/css/db.css?v=1793835891525"/>
+
+    <script type="text/javascript" src="/js/encarapp/lib/jquery/jquery-1.11.3.min.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/common/ui.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/prototype.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/util.js?v=1793835894199"></script>
+
+    <script type="text/javascript" src="/js/common/db_common.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/commonCombo.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/carSearchCombo.js?v=1793835894199"></script>
+	<script>
+		window.enlogInitJson = {
+			"dataTalkView": {
+				"screenName": "신차가격표"
+			}
+		}
+
+	</script>
+
+
+</head>
+
+
+
+
+
+
+
+    <!-- 등급 체크박스  -->
+    <div style="display:none">
+        
+    </div>
+
+    <!-- 세부등급 체크박스 -->
+    <div style="display:none">
+        
+    </div>
+
+
+
+<body class="db db_newdetailview db_basicTemplate">
+
+
+
+
+	
+	
+	
+	
+
+
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-W9QQ2T"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W9QQ2T');</script>
+<!-- End Google Tag Manager -->
+
+<!-- container begin -->
+<div class="container" id="containerDIV">
+<input type="hidden" id = "foldYn" name="searchtype" value="11"/>
+<form id ="searchForm" name="searchForm">
+
+    <input type="hidden" id = "method" name="method" value="newpricePopV2"/>
+    <input type="hidden" id = "dimensiontype" name="dimensiontype" value="null"/>
+    <input type="hidden" id = "paramMnfccd" name="paramMnfccd" value="003"/>
+    <input type="hidden" id = "paramMdlgroupcd" name="paramMdlgroupcd" value="046"/>
+    <input type="hidden" id = "paramMdlcd" name="paramMdlcd" value="088"/>
+    <input type="hidden" id = "paramYear" name="paramYear" value="2018"/>
+    <input type="hidden" id = "model" name="model" value="">
+    <input type="hidden" id = "paramCaryear" name="paramCaryear" value="2018"/>
+    <input type="hidden" id = "clsheadcd" name="clsheadcd" class="checkbox" value="null"/>
+    <input type="hidden" id = "paramGradeHead" name="paramGradeHead" value="null"/>
+	<input type="hidden" id = "searchtype" name="searchtype" value="check"/>
+	<input type="hidden" id = "pageAccessToken" name="pageAccessToken" value="AgV4NYqxY4hz9KqAemOa/DafX/eKknuXoKzbmmKd1lHrsIsAcQACAAdFbmNhckNrAAdFbmNhckN2ABVhd3MtY3J5cHRvLXB1YmxpYy1rZXkAREE5T0lRK0FyMm1IQjVlQmxmbkRjTXdodEdSOCs2ZU93UVpZdFZNMHlpaDFkeG52Ky8yUUI1YnBFdU1iVmYwL3NhUT09AAEAB2F3cy1rbXMAUGFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjI3MjM2MjQ4NzY1MzprZXkvbXJrLWRmZWEyNmY3NTVhMzQ3MjliNjkwMjRkZWZmM2M1MWFjALgBAgEAeAuqQuSJvQ+Ra4FSj55FZzS0sk+00amsb3yoAFiEYn4PAb8iNEI2NRP4/Ddfhsh54LIAAAB+MHwGCSqGSIb3DQEHBqBvMG0CAQAwaAYJKoZIhvcNAQcBMB4GCWCGSAFlAwQBLjARBAy2tiuYbnOHdIwbEnQCARCAOy3qUg2QEsq6ONgVMUa7XujnFRwTxpUSlFfJdf7/7h8C6Gz9cnQBrl98eCWD8h9IsuoGjLZH1bldkYzmAgAAEABYgrYaz7q8Lof3o4HSIFXPs18qsDaN1RD3LMPztrt7FTUIDC0DiVEo4yhOtFAgpy7/////AAAAAQAAAAAAAAAAAAAAAQAAAKNS4HXUjdWymiLD/2IJQxo9/kxr0TT//3F8CVEK4kqyRBJ/8Kh44U0UJXTGr7NM668bcm12YpXCaGF/KCNGvzqXCeTrZx4Im+SL/AM9UhZUrZjGgmG7YXvMt7lLkY2xqTfy7EGvnbLNvGecLO18l5Ekni6KqRz01fjh3svadsD110WcDkSLVfhYVQudlWG0dE+PL+xooxtaltjkfS5Uh7POyiisZ0ijZlX3Ju28V8JEvgILrwBnMGUCMBN8pYM40SB0efLy7SBtkigun9XFgv6hjpRdSxXbp+2iCA8kJ8FZyKKA2CeKNlHvNwIxAPM1Umm8B2Yd/xY+7UyDZMA02bU3iVS/5Fp2IDoj0ILh0ztyILfdiGJR70nYZ5L/Cg=="/>
+    <div class="header">
+        <h1 class="blind">SK엔카</h1>
+        <h2 class="tit_carprice" id="main_title">신차가격표</h2>
+        <p class="quickSearch">
+
+
+
+            <select title="제조사" class="opt_select" id="mnfccd" name="mnfccd" onChange="javascript:changeModelGroup(this.value);">
+                <option value="">제조사</option>
+            </select>
+
+            <select class="opt_select" title="모델" id="mdlgroupcd" name="mdlgroupcd" onChange="javascript:changeModel_jato($('mnfccd').value, this.value);">
+                <option>모델</option>
+            </select>
+
+            <select class="opt_select" title="세부모델" id="mdlcd" name="mdlcd" onChange="javascript:changeYearJato($('mnfccd').value, $('mdlcd').value);">
+                <option>세부모델</option>
+            </select>
+
+            <select class="opt_select" title="연식" id="caryear" name="caryear">
+                <option>연식</option>
+            </select>
+
+            <button type="button" class="btn_search" onclick="javascript:onSubmit();"/>검색</button>
+
+
+
+        </p>
+    </div>
+    <!-- body begin -->
+    <div class="body" id="bodydiv">
+		
+			
+				<table class="layout">
+					<col class="contents"/>
+					<tr>
+						<td class="contentsMenu">
+							<!-- contentsMenu begin -->
+							<div class="contentsMenu">
+								<h3 class="title">쉐보레(GM대우) 올 뉴 말리부 2018년형</h3>
+							</div>
+							<!-- contentsMenu end -->
+						</td>
+					</tr>
+
+					<tr>
+						<td class="contentsMain">
+							<!-- contents begin -->
+							<div class="contents">
+
+								<div class="carCompare">
+									<div class="dbHead">
+										
+											<div id="folding"><a href="javascript:foldingYN('f_fold')"
+																 class="folding f_fold">전체등급 펼쳐보기<em class="db_ir"></em></a></div>
+
+											<!-- 2013/04/03 [서] 매물탭 개선 : 기능 버튼 추가 --><!--<a href="#" class="folding f_unfold">펼치기</a>-->
+										
+									</div>
+									
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+									<div id="f_unfold">
+										
+
+
+										<!-- case2 : 세부등급이 있는경우 -->
+										
+											<table class="carCompare sellcase2">
+												<colgroup>
+													<col class="grade">
+													<col class="detailgrd">
+													<col class="mission">
+													<col class="price">
+													<col class="uprice">
+													<col class="item">
+													<col class="option">
+												</colgroup>
+												<thead class="compare">
+												<tr>
+													<th class="grade bgn" colspan="3"><b>구분</b></th>
+													<th class="price"><b>판매가격</b></th>
+													<th class="uprice"><b>중고차시세</b></th><!-- [시세개편] 중고차시세 추가 -->
+													<th class="item"><b>기본사양 품목</b></th>
+													<th class="option end"><b>선택사양 품목</b></th>
+												</tr>
+												</thead>
+												<tbody class="new">
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="2">
+																<p>1.5 터보 LS</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,388</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>● 파워트레인/성능 : </b>1.5 TURBO 직분사 가솔린 엔진, 차세대 GENⅢ 6단 자동변속기(수동겸용 토글 시프트), 속도 감응형 전자식 파워 스티어링(R-EPS), Stop &amp; Start 시스템, 액티브 에어로 셔터, 연료탱크(62ℓ)
+<br><b><br>● 안전 사양 :</b> ESC(BAS &amp; HSA 기능 포함), 8 에어백(운전석 &amp; 동반석, 앞좌석 &amp; 뒷좌석 사이드 &amp; 커튼 에어백), 후방주차 보조시스템, 디스크 브레이크(전륜/후륜), 앞좌석 시트벨트(듀얼 프리텐셔너 적용), 차량 전방 충돌시 페달 분리 시스템, 트렁크 비상탈출장치, 유아용 시트 고정장치(ISOFIX), 이모빌라이저, 비상 삼각대, 급제동 경고시스템(ESS), 타이어 공기압 모니터링 시스템(TPMS)
+<br><br><b>● 외관 사양 :</b> 16"(205/65 R16) 타이어 &amp; 알로이 휠, 프로젝션 헤드램프, 어쿠스틱 소음 차단 윈드실드, 자외선 차단 글래스(앞면, 뒷면, 전체도어), LED 주간주행등, 윈도우 크롬 벨트라인, LED 보조제동등
+<br><br><b>● 내장 사양 :</b> 그레이톤 인테리어 컬러, 직물시트, 3.5"클러스터, 크롬 도어핸들, 센터 컵홀더, 센터콘솔 암레스트, 2열 에어벤트, 뒷좌석 암레스트(컵홀더 포함), 고급 LED 맵램프, 룸램프
+<br>
+<br><b>● 편의 사양 : </b>전자식주차브레이크(EPB), 매뉴얼 에어컨, 전동접이식 아웃사이드 미러(LED 방향 지시등 일체형), 타이어 리페어 킷, 운전석/동반석 6 way 매뉴얼시트, 원터치 트리플 턴시그널, 히든 고압 분무식 윈드실드 워셔 &amp; 레벨링 시스템, 헤드램프 에스코트, 틸트 &amp; 텔레스코픽 스티어링 휠, 버튼시동 &amp; 스마트키 시스템, 운전석/동반석 선바이저 화장거울, 운전석/동반석/뒷좌석 원터치 다운 파워윈도우, 스티어링 휠 오디오 리모트 컨트롤, 12V 파워 아웃렛(1열 &amp; 2열), 계기판 조명 조절장치, 오토라이트 컨트롤, 3단 헤드램프 레벨링 시스템, 액티브 노이즈 캔슬레이션(ANC), 뒷좌석 분리형 헤드레스트, 2열 6:4 폴딩시트, 운전석/동반석 시트백 포켓
+<br>
+<br><b>● 멀티미디어 :</b> 마이링크(7"터치 스크린, 음성인식 기능, 애플 카플레이 지원, 브링고 내비게이션 앱), 라디오,속도 감응형 사운드 컨트롤, 블루투스 핸즈프리 &amp; 오디오 스트리밍, USB 포트(1개, iPod 지원), 6 스피커
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>● 파노라마 선루프&nbsp;</b><b>: </b>900,000
+<br>
+<br>
+<b>●&nbsp;</b><b>스노우 화이트 펄 :&nbsp;</b>120,000&nbsp;</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>디럭스</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,506</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>LS 기본 사양 품목 및</b><b><br></b><b><br></b><b>● 안전 사양 :</b> 전방 주차 보조 시스템(전방 &amp; 후방 거리 감지 영역 표시 : 클러스터)<br><br><b>● 외관 사양 :</b> 17"(225/55 R17) 타이어 &amp; 알로이 휠<br><br><b>● 편의 사양 : </b>ECM 룸미러 &amp; 톨게이트 자동 결제 시스템(ETCS)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>● 파노라마 선루프&nbsp;</b><b>:&nbsp;</b>900,000
+<br>
+<br>
+<b>●&nbsp;</b><b>스노우 화이트 펄 :&nbsp;</b>120,000&nbsp;</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="2">
+																<p>1.5 터보 LT</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,715</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>LS 기본 사양 품목 및</b><b><br></b><b><br></b><b>● 안전 사양 :</b> 후방카메라<br><br><b>● 외관 사양 : </b>17"(225/55 R17) 타이어 &amp; 알로이 휠<br><br><b>● 내장 사양 : </b>가죽 기어 노브, 가죽 스티어링 휠, 아이스블루 앰비언트 라이팅 &amp; 인사이드 도어 핸들 핀 조명(전체 도어)<br><br><b>● 편의 사양 :</b> 크루즈 컨트롤, 좌우독립식 전자동 에어컨, 터널 디텍션 시스템, 운전석/동반석 선바이저 화장거울(조명내장), 이오나이징 시스템, 레인 센싱 와이퍼, ECM 룸미러 &amp; 톨게이트 자동 결제 시스템(ETCS), 운전석 세이프티 파워윈도우
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>● 파노라마 선루프&nbsp;</b><b>:&nbsp;</b>900,000
+<br><br><b>● 19”(245/40 R19)&nbsp;</b><b>메탈릭 알로이 휠&nbsp;</b><b>:</b> 560,000
+<br><br><b>● 스마트 씨티 드라이빙 팩&nbsp;</b><b>: </b>1,150,000
+<br>
+<br>
+<b>●&nbsp;</b><b>스노우 화이트 펄 :&nbsp;</b>120,000&nbsp;</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>디럭스</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,883</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>LT 기본 사양 품목 및</b><b><br></b><b><br></b><b>● 안전 사양 : </b>전방 주차 보조 시스템(전방 &amp; 후방 거리 감지 영역 표시 : 클러스터)<br><br><b>● 내장 사양 : </b>프리미엄 가죽시트(블랙 또는 브라운 색상 중 선택)<br><br><b>● 편의 사양 :</b> 열선내장 스티어링 휠, 운전석 8 way 전동시트, 동반석 6 way 전동시트, 운전석 &amp; 동반석 파워 요추 받침,통합메모리기능(운전석시트, 아웃사이드 미러), 후진 시 미러 자동기울임, 리모트 아웃사이드 미러 폴딩 &amp; 언폴딩 기능,운전석 이지 억세스, 운전석/동반석 3단 열선시트, 스마트폰 무선충전 시스템
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>● 파노라마 선루프&nbsp;</b><b>:&nbsp;</b>900,000
+<br><br><b>● 19”(245/40 R19)&nbsp;</b><b>메탈릭 알로이 휠&nbsp;</b><b>: </b>560,000
+<br><br><b>● 내비게이션 팩&nbsp;</b><b>(제스쳐 UI 기능 포함)&nbsp;</b><b>:</b> 1,000,000
+<br><b><br></b><b>● 스마트 씨티 드라이빙 팩&nbsp;</b><b>:</b> 1,150,000
+<br>
+<br>
+<b>●&nbsp;</b><b>스노우 화이트 펄 :&nbsp;</b>120,000&nbsp;</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="2">
+																<p>1.5 터보 LTZ</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,999</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>LT 기본 사양 품목 및</b><b><br></b><b><br></b><b>● 안전 사양 : </b>전방 주차 보조 시스템(전방 &amp; 후방 거리 감지 영역 표시 : 클러스터)<br><br><b>● 외관 사양 :</b> 크롬 도어핸들, LED 리어 콤비네이션 램프<br><br><b>● 내장 사양 : </b>프리미엄 천공 가죽시트(블랙 또는 브라운 색상 중 선택), 슈퍼비전 4.2"컬러 클러스터, 우드그레인 패키지(도어 데코, 기어 판넬)<br><br><b>● 편의 사양 : </b>열선내장 스티어링 휠, 운전석 8 way 전동시트, 동반석 6 way 전동시트, 운전석 &amp; 동반석 파워 요추 받침,통합메모리기능(운전석시트, 아웃사이드 미러), 후진 시 미러 자동기울임, 리모트 아웃사이드 미러 폴딩 &amp; 언폴딩 기능,운전석 이지 억세스, 운전석/동반석 3단 열선시트, 운전석/동반석 3단 통풍시트, 동반석 세이프티 파워윈도우, 발렛 모드(트렁크 &amp; 차량설정 잠금), 뒷좌석 열선시트<br><br><b>● 멀티미디어 :</b> New 마이링크(8"컬러 터치 스크린, 음성인식 기능, 애플 카플레이 지원),USB 포트(4개, 1열 2개 : MYLINK와 연동 및 충전가능, 2열 2개 : 충전만 가능)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>● 파노라마 선루프&nbsp;</b><b>:&nbsp;</b>900,000
+<br><br><b>● 19”(245/40 R19)&nbsp;</b><b>메탈릭 알로이 휠&nbsp;</b><b>: </b>560,000
+<br><br><b>● 내비게이션 팩</b><b>(제스쳐 UI 기능 포함)&nbsp;</b><b>:</b> 800,000
+<br><br><b>● HID 헤드램프&nbsp;</b><b>:</b> 500,000
+<br><br><b>● 스마트 씨티 드라이빙 팩&nbsp;</b><b>:</b> 1,250,000
+<br>
+<br>
+<b>●&nbsp;</b><b>스노우 화이트 펄 :&nbsp;</b>120,000&nbsp;</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>프리미엄 세이프티</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,284</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>LTZ 기본 사양 품목 및</b><b><br></b><b><br></b><b>● 안전 사양 :</b> 자동주차 보조시스템, 차선이탈 경고 및 차선유지 보조시스템, 전방거리 감지시스템, 전방충돌 경고시스템, 헤드업 LED 경고등(RLAD), 스마트 하이빔, 지능형 어댑티브 크루즈 컨트롤, 자동긴급 제동시스템(씨티 브레이킹 시스템 포함), 차선변경 경고시스템, 사각지대 경고시스템, 후측방 경고시스템, 전방보행자 감지 및 제동시스템, 롱 레이더 전용 프론트 그릴<br><br>●<b> 편의 사양 :</b> 스마트폰 무선충전 시스템
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>● 파노라마 선루프&nbsp;</b><b>:&nbsp;</b>900,000&nbsp;<br><br><b>● 19”(245/40 R19)&nbsp;</b><b>메탈릭 알로이 휠&nbsp;</b><b>: </b>560,000<br><br><b>● 내비게이션 팩&nbsp;</b><b>(제스쳐 UI 기능 포함)&nbsp;</b><b>:</b> 800,000<br><br><b>● HID 헤드램프&nbsp;</b><b>:</b> 500,000
+<br>
+<br>
+<b>●&nbsp;</b><b>스노우 화이트 펄 :&nbsp;</b>120,000&nbsp;</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>2.0 터보 LT</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>프리미엄</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,077</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>1.5 LT 기본 사양 품목 및</b><b><br></b><b><br></b><b>● 파워트레인/성능 : </b>2.0 TURBO 직분사 가솔린 엔진, 차세대 GENⅢ 6단 자동변속기(수동겸용 토글 시프트)<br><br><b>● 안전 사양 :</b> 전방 주차 보조 시스템(전방 &amp; 후방 거리 감지 영역 표시 : 클러스터)<br><br><b>● 외관 사양 : </b>19"(245/40 R19) 메탈릭 알로이 휠, 듀얼 브라이트 머플러 팁<br><br><b>● 내장 사양 :</b> 프리미엄 가죽시트(블랙 또는 브라운 색상 중 선택), 슈퍼비전 4.2"컬러 클러스터<br><br><b>● 편의 사양 : </b>열선내장 스티어링 휠, 운전석 8 way 전동시트, 동반석 6 way 전동시트, 운전석 &amp; 동반석 파워 요추 받침, 통합메모리기능(운전석시트, 아웃사이드 미러), 후진 시 미러 자동기울임, 리모트 아웃사이드 미러 폴딩 &amp; 언폴딩 기능, 운전석 이지 억세스, 운전석/동반석 3단 열선시트, 스마트폰 무선충전 시스템, 발렛 모드(트렁크, 차량설정 잠금)<br><br><b>● 멀티미디어 : </b>New 마이링크(8"컬러 터치 스크린, 음성인식 기능, 애플 카플레이 지원), USB 포트(4개, 1열 2개 : MYLINK와 연동 및 충전가능, 2열 2개 : 충전만 가능)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>● 파노라마 선루프&nbsp;</b><b>:</b> 900,000<br><br><b>● 내비게이션 팩&nbsp;</b><b>(제스쳐 UI 기능 포함)&nbsp;</b><b>:</b> 800,000<br><br><b>● 스마트 씨티 드라이빙 팩&nbsp;</b><b>: </b>1,150,000
+<br>
+<br>
+<b>●&nbsp;</b><b>스노우 화이트 펄 :&nbsp;</b>120,000&nbsp;</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+													
+														
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>2.0 터보 LTZ</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>프리미엄</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,308</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>2.0 LT 프리미엄 팩 기본 사양 품목 및</b><b><br></b><b><br></b><b>● 안전 사양 :</b> 자동주차 보조시스템, 씨티 브레이킹 시스템(저속 자동긴급 제동시스템), 차선이탈 경고 및 차선유지 보조시스템, 전방거리 감지시스템, 전방충돌 경고시스템, 전방보행자 감지 및 제동시스템, 헤드업 LED 경고등(RLAD), 스마트 하이빔<br><br><b>● 외관 사양 :</b> 크롬 도어핸들, LED 리어 콤비네이션 램프<b><br></b><b><br></b><b>● 내장 사양 : </b>프리미엄 천공 가죽시트(블랙 또는 브라운 색상 중 선택), 우드그레인 패키지(도어 데코, 기어 판넬)<b><br></b><b><br></b><b>● 편의 사양 :</b> 운전석/동반석 3단 통풍시트, 동반석 세이프티 파워윈도우, 뒷좌석 열선시트
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>● 파노라마 선루프&nbsp;</b><b>:</b>&nbsp;900,000<br><br><b>● 내비게이션 팩&nbsp;</b><b>(제스쳐 UI 기능 포함)&nbsp;</b><b>:</b>&nbsp;800,000
+<br><b><br></b><b>● HID 헤드램프&nbsp;</b><b>: </b>500,000
+<br><br><b>● 스마트 드라이빙 팩&nbsp;</b><b>: </b>1,600,000
+<br>
+<br>
+<b>●&nbsp;</b><b>스노우 화이트 펄 :&nbsp;</b>120,000&nbsp;</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>2.0 터보 퍼펙트 블랙</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,340</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>2.0 LTZ 프리미엄 기본 사양 품목 및 (※ 모던블랙 외장컬러 전용)</b><b><br></b><b><br></b><b>● 외관 사양 :</b> 쉐보레 블랙 보타이(전면, 후면), 19"딥블랙 알로이 휠, 퍼펙트 블랙 전용 휠 캡, 퍼펙트 블랙 스페셜 데칼<b><br></b><b><br></b><b>● 내장 사양 :</b> 블랙 프리미엄 천공 가죽시트
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>● 파노라마 선루프&nbsp;</b><b>:</b> 900,000<br><br><b>● 내비게이션 팩&nbsp;</b><b>(제스쳐 UI 기능 포함)&nbsp;</b><b>:</b> 800,000<br><br><b>● HID 헤드램프&nbsp;</b><b>:</b> 500,000<br><br><b>● 스마트 드라이빙 팩&nbsp;</b><b>:</b> 1,600,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="2">
+																<p>1.8 하이브리드 LT</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,200</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>LS 기본 사양 품목 및</b><b><br></b><b><br></b><b>● 파워트레인/성능 :</b> 1.8 SIDI 가솔린 엔진, 전기모터 드라이브 유닛(Drive Unit), 연료탱크(49.2ℓ), 하이브리드 시스템, 고성능 리튬이온 배터리, 회생제동 브레이크 시스템, EGHR 시스템(Exhaust Gas Heat Recovery system)<br><br><b>● 안전 사양 : </b>후방카메라&nbsp;<br><br>● <b>외관 사양 : </b>17"(225/55 R17) 타이어 &amp; 알로이 휠<br><br><b>● 내장 사양 :</b> 가죽 기어노브, 가죽 스티어링 휠, 아이스블루 앰비언트 라이팅 &amp; 인사이드 도어 핸들 핀 조명(전체 도어)<b><br></b><b><br></b><b>● 편의 사양 :</b> 크루즈 컨트롤, 좌우독립식 전자동 에어컨, 터널 디텍션 시스템, 운전석/동반석 선바이저 화장거울(조명내장), 이오나이징 시스템, 레인 센싱 와이퍼, ECM 룸미러 &amp; 톨게이트 자동 결제 시스템(ETCS), 운전석 세이프티 파워윈도우, 캡리스 퓨얼 시스템<br><br><b>● 멀티미디어 : </b>하이브리드 전용 창(클러스터 &amp; 인포테인먼트), 8 스피커
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>● 파노라마 선루프&nbsp;</b><b>: </b>900,000<br><br><b>● 스마트&nbsp;</b><b>씨티 드라이빙 팩&nbsp;</b><b>:</b> 1,150,000
+<br>
+<br>
+<b>●&nbsp;</b><b>스노우 화이트 펄 :&nbsp;</b>120,000&nbsp;</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>디럭스</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,368</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>LT 기본 사양 품목 및</b><b><br></b><b><br></b><b>● 안전 사양 : </b>전방주차 보조시스템(전방 &amp; 후방 거리 감지 영역 표시 : 클러스터)<br><br><b>● 내장 사양 :</b> 프리미엄 가죽시트(블랙 또는 브라운 색상 중 선택)<br><br><b>● 편의 사양 : </b>열선내장 스티어링 휠, 운전석 8 way 전동시트, 동반석 6 way 전동시트, 운전석 &amp; 동반석 파워 요추 받침,통합메모리기능(운전석시트, 아웃사이드 미러), 후진 시 미러 자동기울임, 리모트 아웃사이드 미러 폴딩 &amp; 언폴딩 기능,운전석 이지 억세스, 운전석/동반석 3단 열선시트, 스마트폰 무선충전 시스템
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>● 파노라마 선루프&nbsp;</b><b>:&nbsp;</b>900,000<br><br><b>● 스마트&nbsp;</b><b>씨티 드라이빙 팩&nbsp;</b><b>:</b>&nbsp;1,150,000<b><br></b><b><br></b><b>● 내비게이션 팩&nbsp;</b><b>(제스쳐 UI 기능 포함)&nbsp;</b><b>: </b>1,000,000
+<br>
+<br>
+<b>●&nbsp;</b><b>스노우 화이트 펄 :&nbsp;</b>120,000&nbsp;</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+												</tbody>
+											</table>
+										
+									</div>
+									<!-- 신차가격표(폴더형) -->
+									<div id="f_fold" style="display:none;">
+										<div class="newcar_folder">
+											<ul class="nf_list" id="newcarList">
+												
+													<li>
+														<a href="#newcar0">
+                                                            <span class="model">1.5 터보 LS  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,388</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar1">
+                                                            <span class="model">1.5 터보 LS 디럭스 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,506</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar2">
+                                                            <span class="model">1.5 터보 LT  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,715</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar3">
+                                                            <span class="model">1.5 터보 LT 디럭스 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,883</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar4">
+                                                            <span class="model">1.5 터보 LTZ  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,999</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar5">
+                                                            <span class="model">1.5 터보 LTZ 프리미엄 세이프티 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,284</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar6">
+                                                            <span class="model">2.0 터보 LT 프리미엄 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,077</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar7">
+                                                            <span class="model">2.0 터보 LTZ 프리미엄 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,308</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar8">
+                                                            <span class="model">2.0 터보 퍼펙트 블랙  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,340</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar9">
+                                                            <span class="model">1.8 하이브리드 LT  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,200</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar10">
+                                                            <span class="model">1.8 하이브리드 LT 디럭스 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,368</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+											</ul>
+											<!-- 개별 -->
+											
+												<div id="newcar0" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>● 파워트레인/성능 : </b>1.5 TURBO 직분사 가솔린 엔진, 차세대 GENⅢ 6단 자동변속기(수동겸용 토글 시프트), 속도 감응형 전자식 파워 스티어링(R-EPS), Stop &amp; Start 시스템, 액티브 에어로 셔터, 연료탱크(62ℓ)
+<br><b><br>● 안전 사양 :</b> ESC(BAS &amp; HSA 기능 포함), 8 에어백(운전석 &amp; 동반석, 앞좌석 &amp; 뒷좌석 사이드 &amp; 커튼 에어백), 후방주차 보조시스템, 디스크 브레이크(전륜/후륜), 앞좌석 시트벨트(듀얼 프리텐셔너 적용), 차량 전방 충돌시 페달 분리 시스템, 트렁크 비상탈출장치, 유아용 시트 고정장치(ISOFIX), 이모빌라이저, 비상 삼각대, 급제동 경고시스템(ESS), 타이어 공기압 모니터링 시스템(TPMS)
+<br><br><b>● 외관 사양 :</b> 16"(205/65 R16) 타이어 &amp; 알로이 휠, 프로젝션 헤드램프, 어쿠스틱 소음 차단 윈드실드, 자외선 차단 글래스(앞면, 뒷면, 전체도어), LED 주간주행등, 윈도우 크롬 벨트라인, LED 보조제동등
+<br><br><b>● 내장 사양 :</b> 그레이톤 인테리어 컬러, 직물시트, 3.5"클러스터, 크롬 도어핸들, 센터 컵홀더, 센터콘솔 암레스트, 2열 에어벤트, 뒷좌석 암레스트(컵홀더 포함), 고급 LED 맵램프, 룸램프
+<br>
+<br><b>● 편의 사양 : </b>전자식주차브레이크(EPB), 매뉴얼 에어컨, 전동접이식 아웃사이드 미러(LED 방향 지시등 일체형), 타이어 리페어 킷, 운전석/동반석 6 way 매뉴얼시트, 원터치 트리플 턴시그널, 히든 고압 분무식 윈드실드 워셔 &amp; 레벨링 시스템, 헤드램프 에스코트, 틸트 &amp; 텔레스코픽 스티어링 휠, 버튼시동 &amp; 스마트키 시스템, 운전석/동반석 선바이저 화장거울, 운전석/동반석/뒷좌석 원터치 다운 파워윈도우, 스티어링 휠 오디오 리모트 컨트롤, 12V 파워 아웃렛(1열 &amp; 2열), 계기판 조명 조절장치, 오토라이트 컨트롤, 3단 헤드램프 레벨링 시스템, 액티브 노이즈 캔슬레이션(ANC), 뒷좌석 분리형 헤드레스트, 2열 6:4 폴딩시트, 운전석/동반석 시트백 포켓
+<br>
+<br><b>● 멀티미디어 :</b> 마이링크(7"터치 스크린, 음성인식 기능, 애플 카플레이 지원, 브링고 내비게이션 앱), 라디오,속도 감응형 사운드 컨트롤, 블루투스 핸즈프리 &amp; 오디오 스트리밍, USB 포트(1개, iPod 지원), 6 스피커</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>● 파노라마 선루프&nbsp;</b><b>: </b>900,000
+<br>
+<br>
+<b>●&nbsp;</b><b>스노우 화이트 펄 :&nbsp;</b>120,000&nbsp;</p>
+												</div>
+											
+												<div id="newcar1" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>LS 기본 사양 품목 및</b><b><br></b><b><br></b><b>● 안전 사양 :</b> 전방 주차 보조 시스템(전방 &amp; 후방 거리 감지 영역 표시 : 클러스터)<br><br><b>● 외관 사양 :</b> 17"(225/55 R17) 타이어 &amp; 알로이 휠<br><br><b>● 편의 사양 : </b>ECM 룸미러 &amp; 톨게이트 자동 결제 시스템(ETCS)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>● 파노라마 선루프&nbsp;</b><b>:&nbsp;</b>900,000
+<br>
+<br>
+<b>●&nbsp;</b><b>스노우 화이트 펄 :&nbsp;</b>120,000&nbsp;</p>
+												</div>
+											
+												<div id="newcar2" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>LS 기본 사양 품목 및</b><b><br></b><b><br></b><b>● 안전 사양 :</b> 후방카메라<br><br><b>● 외관 사양 : </b>17"(225/55 R17) 타이어 &amp; 알로이 휠<br><br><b>● 내장 사양 : </b>가죽 기어 노브, 가죽 스티어링 휠, 아이스블루 앰비언트 라이팅 &amp; 인사이드 도어 핸들 핀 조명(전체 도어)<br><br><b>● 편의 사양 :</b> 크루즈 컨트롤, 좌우독립식 전자동 에어컨, 터널 디텍션 시스템, 운전석/동반석 선바이저 화장거울(조명내장), 이오나이징 시스템, 레인 센싱 와이퍼, ECM 룸미러 &amp; 톨게이트 자동 결제 시스템(ETCS), 운전석 세이프티 파워윈도우</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>● 파노라마 선루프&nbsp;</b><b>:&nbsp;</b>900,000
+<br><br><b>● 19”(245/40 R19)&nbsp;</b><b>메탈릭 알로이 휠&nbsp;</b><b>:</b> 560,000
+<br><br><b>● 스마트 씨티 드라이빙 팩&nbsp;</b><b>: </b>1,150,000
+<br>
+<br>
+<b>●&nbsp;</b><b>스노우 화이트 펄 :&nbsp;</b>120,000&nbsp;</p>
+												</div>
+											
+												<div id="newcar3" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>LT 기본 사양 품목 및</b><b><br></b><b><br></b><b>● 안전 사양 : </b>전방 주차 보조 시스템(전방 &amp; 후방 거리 감지 영역 표시 : 클러스터)<br><br><b>● 내장 사양 : </b>프리미엄 가죽시트(블랙 또는 브라운 색상 중 선택)<br><br><b>● 편의 사양 :</b> 열선내장 스티어링 휠, 운전석 8 way 전동시트, 동반석 6 way 전동시트, 운전석 &amp; 동반석 파워 요추 받침,통합메모리기능(운전석시트, 아웃사이드 미러), 후진 시 미러 자동기울임, 리모트 아웃사이드 미러 폴딩 &amp; 언폴딩 기능,운전석 이지 억세스, 운전석/동반석 3단 열선시트, 스마트폰 무선충전 시스템</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>● 파노라마 선루프&nbsp;</b><b>:&nbsp;</b>900,000
+<br><br><b>● 19”(245/40 R19)&nbsp;</b><b>메탈릭 알로이 휠&nbsp;</b><b>: </b>560,000
+<br><br><b>● 내비게이션 팩&nbsp;</b><b>(제스쳐 UI 기능 포함)&nbsp;</b><b>:</b> 1,000,000
+<br><b><br></b><b>● 스마트 씨티 드라이빙 팩&nbsp;</b><b>:</b> 1,150,000
+<br>
+<br>
+<b>●&nbsp;</b><b>스노우 화이트 펄 :&nbsp;</b>120,000&nbsp;</p>
+												</div>
+											
+												<div id="newcar4" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>LT 기본 사양 품목 및</b><b><br></b><b><br></b><b>● 안전 사양 : </b>전방 주차 보조 시스템(전방 &amp; 후방 거리 감지 영역 표시 : 클러스터)<br><br><b>● 외관 사양 :</b> 크롬 도어핸들, LED 리어 콤비네이션 램프<br><br><b>● 내장 사양 : </b>프리미엄 천공 가죽시트(블랙 또는 브라운 색상 중 선택), 슈퍼비전 4.2"컬러 클러스터, 우드그레인 패키지(도어 데코, 기어 판넬)<br><br><b>● 편의 사양 : </b>열선내장 스티어링 휠, 운전석 8 way 전동시트, 동반석 6 way 전동시트, 운전석 &amp; 동반석 파워 요추 받침,통합메모리기능(운전석시트, 아웃사이드 미러), 후진 시 미러 자동기울임, 리모트 아웃사이드 미러 폴딩 &amp; 언폴딩 기능,운전석 이지 억세스, 운전석/동반석 3단 열선시트, 운전석/동반석 3단 통풍시트, 동반석 세이프티 파워윈도우, 발렛 모드(트렁크 &amp; 차량설정 잠금), 뒷좌석 열선시트<br><br><b>● 멀티미디어 :</b> New 마이링크(8"컬러 터치 스크린, 음성인식 기능, 애플 카플레이 지원),USB 포트(4개, 1열 2개 : MYLINK와 연동 및 충전가능, 2열 2개 : 충전만 가능)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>● 파노라마 선루프&nbsp;</b><b>:&nbsp;</b>900,000
+<br><br><b>● 19”(245/40 R19)&nbsp;</b><b>메탈릭 알로이 휠&nbsp;</b><b>: </b>560,000
+<br><br><b>● 내비게이션 팩</b><b>(제스쳐 UI 기능 포함)&nbsp;</b><b>:</b> 800,000
+<br><br><b>● HID 헤드램프&nbsp;</b><b>:</b> 500,000
+<br><br><b>● 스마트 씨티 드라이빙 팩&nbsp;</b><b>:</b> 1,250,000
+<br>
+<br>
+<b>●&nbsp;</b><b>스노우 화이트 펄 :&nbsp;</b>120,000&nbsp;</p>
+												</div>
+											
+												<div id="newcar5" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>LTZ 기본 사양 품목 및</b><b><br></b><b><br></b><b>● 안전 사양 :</b> 자동주차 보조시스템, 차선이탈 경고 및 차선유지 보조시스템, 전방거리 감지시스템, 전방충돌 경고시스템, 헤드업 LED 경고등(RLAD), 스마트 하이빔, 지능형 어댑티브 크루즈 컨트롤, 자동긴급 제동시스템(씨티 브레이킹 시스템 포함), 차선변경 경고시스템, 사각지대 경고시스템, 후측방 경고시스템, 전방보행자 감지 및 제동시스템, 롱 레이더 전용 프론트 그릴<br><br>●<b> 편의 사양 :</b> 스마트폰 무선충전 시스템</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>● 파노라마 선루프&nbsp;</b><b>:&nbsp;</b>900,000&nbsp;<br><br><b>● 19”(245/40 R19)&nbsp;</b><b>메탈릭 알로이 휠&nbsp;</b><b>: </b>560,000<br><br><b>● 내비게이션 팩&nbsp;</b><b>(제스쳐 UI 기능 포함)&nbsp;</b><b>:</b> 800,000<br><br><b>● HID 헤드램프&nbsp;</b><b>:</b> 500,000
+<br>
+<br>
+<b>●&nbsp;</b><b>스노우 화이트 펄 :&nbsp;</b>120,000&nbsp;</p>
+												</div>
+											
+												<div id="newcar6" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>1.5 LT 기본 사양 품목 및</b><b><br></b><b><br></b><b>● 파워트레인/성능 : </b>2.0 TURBO 직분사 가솔린 엔진, 차세대 GENⅢ 6단 자동변속기(수동겸용 토글 시프트)<br><br><b>● 안전 사양 :</b> 전방 주차 보조 시스템(전방 &amp; 후방 거리 감지 영역 표시 : 클러스터)<br><br><b>● 외관 사양 : </b>19"(245/40 R19) 메탈릭 알로이 휠, 듀얼 브라이트 머플러 팁<br><br><b>● 내장 사양 :</b> 프리미엄 가죽시트(블랙 또는 브라운 색상 중 선택), 슈퍼비전 4.2"컬러 클러스터<br><br><b>● 편의 사양 : </b>열선내장 스티어링 휠, 운전석 8 way 전동시트, 동반석 6 way 전동시트, 운전석 &amp; 동반석 파워 요추 받침, 통합메모리기능(운전석시트, 아웃사이드 미러), 후진 시 미러 자동기울임, 리모트 아웃사이드 미러 폴딩 &amp; 언폴딩 기능, 운전석 이지 억세스, 운전석/동반석 3단 열선시트, 스마트폰 무선충전 시스템, 발렛 모드(트렁크, 차량설정 잠금)<br><br><b>● 멀티미디어 : </b>New 마이링크(8"컬러 터치 스크린, 음성인식 기능, 애플 카플레이 지원), USB 포트(4개, 1열 2개 : MYLINK와 연동 및 충전가능, 2열 2개 : 충전만 가능)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>● 파노라마 선루프&nbsp;</b><b>:</b> 900,000<br><br><b>● 내비게이션 팩&nbsp;</b><b>(제스쳐 UI 기능 포함)&nbsp;</b><b>:</b> 800,000<br><br><b>● 스마트 씨티 드라이빙 팩&nbsp;</b><b>: </b>1,150,000
+<br>
+<br>
+<b>●&nbsp;</b><b>스노우 화이트 펄 :&nbsp;</b>120,000&nbsp;</p>
+												</div>
+											
+												<div id="newcar7" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>2.0 LT 프리미엄 팩 기본 사양 품목 및</b><b><br></b><b><br></b><b>● 안전 사양 :</b> 자동주차 보조시스템, 씨티 브레이킹 시스템(저속 자동긴급 제동시스템), 차선이탈 경고 및 차선유지 보조시스템, 전방거리 감지시스템, 전방충돌 경고시스템, 전방보행자 감지 및 제동시스템, 헤드업 LED 경고등(RLAD), 스마트 하이빔<br><br><b>● 외관 사양 :</b> 크롬 도어핸들, LED 리어 콤비네이션 램프<b><br></b><b><br></b><b>● 내장 사양 : </b>프리미엄 천공 가죽시트(블랙 또는 브라운 색상 중 선택), 우드그레인 패키지(도어 데코, 기어 판넬)<b><br></b><b><br></b><b>● 편의 사양 :</b> 운전석/동반석 3단 통풍시트, 동반석 세이프티 파워윈도우, 뒷좌석 열선시트</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>● 파노라마 선루프&nbsp;</b><b>:</b>&nbsp;900,000<br><br><b>● 내비게이션 팩&nbsp;</b><b>(제스쳐 UI 기능 포함)&nbsp;</b><b>:</b>&nbsp;800,000
+<br><b><br></b><b>● HID 헤드램프&nbsp;</b><b>: </b>500,000
+<br><br><b>● 스마트 드라이빙 팩&nbsp;</b><b>: </b>1,600,000
+<br>
+<br>
+<b>●&nbsp;</b><b>스노우 화이트 펄 :&nbsp;</b>120,000&nbsp;</p>
+												</div>
+											
+												<div id="newcar8" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>2.0 LTZ 프리미엄 기본 사양 품목 및 (※ 모던블랙 외장컬러 전용)</b><b><br></b><b><br></b><b>● 외관 사양 :</b> 쉐보레 블랙 보타이(전면, 후면), 19"딥블랙 알로이 휠, 퍼펙트 블랙 전용 휠 캡, 퍼펙트 블랙 스페셜 데칼<b><br></b><b><br></b><b>● 내장 사양 :</b> 블랙 프리미엄 천공 가죽시트</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>● 파노라마 선루프&nbsp;</b><b>:</b> 900,000<br><br><b>● 내비게이션 팩&nbsp;</b><b>(제스쳐 UI 기능 포함)&nbsp;</b><b>:</b> 800,000<br><br><b>● HID 헤드램프&nbsp;</b><b>:</b> 500,000<br><br><b>● 스마트 드라이빙 팩&nbsp;</b><b>:</b> 1,600,000</p>
+												</div>
+											
+												<div id="newcar9" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>LS 기본 사양 품목 및</b><b><br></b><b><br></b><b>● 파워트레인/성능 :</b> 1.8 SIDI 가솔린 엔진, 전기모터 드라이브 유닛(Drive Unit), 연료탱크(49.2ℓ), 하이브리드 시스템, 고성능 리튬이온 배터리, 회생제동 브레이크 시스템, EGHR 시스템(Exhaust Gas Heat Recovery system)<br><br><b>● 안전 사양 : </b>후방카메라&nbsp;<br><br>● <b>외관 사양 : </b>17"(225/55 R17) 타이어 &amp; 알로이 휠<br><br><b>● 내장 사양 :</b> 가죽 기어노브, 가죽 스티어링 휠, 아이스블루 앰비언트 라이팅 &amp; 인사이드 도어 핸들 핀 조명(전체 도어)<b><br></b><b><br></b><b>● 편의 사양 :</b> 크루즈 컨트롤, 좌우독립식 전자동 에어컨, 터널 디텍션 시스템, 운전석/동반석 선바이저 화장거울(조명내장), 이오나이징 시스템, 레인 센싱 와이퍼, ECM 룸미러 &amp; 톨게이트 자동 결제 시스템(ETCS), 운전석 세이프티 파워윈도우, 캡리스 퓨얼 시스템<br><br><b>● 멀티미디어 : </b>하이브리드 전용 창(클러스터 &amp; 인포테인먼트), 8 스피커</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>● 파노라마 선루프&nbsp;</b><b>: </b>900,000<br><br><b>● 스마트&nbsp;</b><b>씨티 드라이빙 팩&nbsp;</b><b>:</b> 1,150,000
+<br>
+<br>
+<b>●&nbsp;</b><b>스노우 화이트 펄 :&nbsp;</b>120,000&nbsp;</p>
+												</div>
+											
+												<div id="newcar10" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>LT 기본 사양 품목 및</b><b><br></b><b><br></b><b>● 안전 사양 : </b>전방주차 보조시스템(전방 &amp; 후방 거리 감지 영역 표시 : 클러스터)<br><br><b>● 내장 사양 :</b> 프리미엄 가죽시트(블랙 또는 브라운 색상 중 선택)<br><br><b>● 편의 사양 : </b>열선내장 스티어링 휠, 운전석 8 way 전동시트, 동반석 6 way 전동시트, 운전석 &amp; 동반석 파워 요추 받침,통합메모리기능(운전석시트, 아웃사이드 미러), 후진 시 미러 자동기울임, 리모트 아웃사이드 미러 폴딩 &amp; 언폴딩 기능,운전석 이지 억세스, 운전석/동반석 3단 열선시트, 스마트폰 무선충전 시스템</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>● 파노라마 선루프&nbsp;</b><b>:&nbsp;</b>900,000<br><br><b>● 스마트&nbsp;</b><b>씨티 드라이빙 팩&nbsp;</b><b>:</b>&nbsp;1,150,000<b><br></b><b><br></b><b>● 내비게이션 팩&nbsp;</b><b>(제스쳐 UI 기능 포함)&nbsp;</b><b>: </b>1,000,000
+<br>
+<br>
+<b>●&nbsp;</b><b>스노우 화이트 펄 :&nbsp;</b>120,000&nbsp;</p>
+												</div>
+											
+										</div>
+										<script type="text/javascript">
+											newcarFolder(0);//초기값
+											function newcarFolder(target) {
+												var conElId = "newcar"//아이디 설정
+												var conElMenu = document.getElementById("newcarList");
+												var conElMenuLink = conElMenu.getElementsByTagName("a");
+												if (target != null) {
+													conElMenuLink[target].parentNode.className = "on";
+													document.getElementById(
+														conElId + target).style.display = "";
+												}
+												for (i = 0; i <= (conElMenuLink.length - 1); i++) {
+													conElMenuLink[i].onclick = function () {
+														for (x = 0; x <= (conElMenuLink.length - 1); x++) {
+															conElMenuLink[x].parentNode.className = "";
+															document.getElementById(
+																conElId + x).style.display = "none";
+														}
+														this.parentNode.className = "on";
+														document.getElementById(this.getAttribute('href')
+																					.split(
+																						'#')[1]).style.display =
+															"";
+														return false;
+													}
+												}
+											}
+										</script>
+									</div>
+									
+										<ul class="more">
+												<b>●&nbsp;1.5 터보
+</b><br><b>* 스노우 화이트 펄(GP5) 외장컬러 선택 시 추가비용 12만원
+</b><br><b>* 스마트 씨티 드라이빙 팩
+<br></b><b>LT :</b> 자동주차 보조시스템, 씨티 브레이킹 시스템(저속 자동긴급 제동시스템), 차선이탈 경고 및 차선유지 보조시스템, 전방거리 감지시스템, 전방충돌 경고시스템, 전방보행자 감지 및 제동시스템, 헤드업 LED 경고등(RLAD), 스마트 하이빔<b>LTZ :</b> 자동주차 보조시스템, 씨티 브레이킹 시스템(저속 자동긴급 제동시스템), 차선이탈 경고 및 차선유지 보조시스템, 전방거리 감지시스템, 전방충돌 경고시스템, 전방보행자 감지 및 제동시스템, 헤드업 LED 경고등(RLAD), 스마트 하이빔, 스마트폰 무선충전 시스템
+<br>
+<br><b>* 내비게이션 팩 (제스쳐 UI 기능 포함)
+<br></b><b>LT :</b> 내비게이션 &amp; New 마이링크, 8"컬러 터치 스크린 &amp; 프리미엄 BOSE 서라운드 사운드 시스템(9 스피커), 슈퍼비전 4.2"컬러 클러스터, USB 포트(4개, 1열 2개 : New MYLINK와 연동 및 충전가능, 2열 2개 : 충전만 가능)
+<br><b>LTZ :</b> 내비게이션 &amp; 프리미엄 BOSE? 서라운드 사운드 시스템(9 스피커)* 마이링크 : CDP 지원되지 않음, 브링고 내비게이션 앱은 별매 <br>
+<br><b>●&nbsp;2.0 터보&nbsp;
+</b><br><b>
+* 스노우 화이트 펄(GP5) 외장컬러 선택 시 추가비용 12만원</b>
+<br>
+<b>* 스마트 씨티 드라이빙 팩
+<br></b><b>LT : </b>자동주차 보조시스템, 씨티 브레이킹 시스템(저속 자동긴급 제동시스템), 차선이탈 경고 및 차선유지 보조시스템, 전방거리 감지시스템, 전방충돌 경고시스템, 전방보행자 감지 및 제동시스템, 헤드업 LED 경고등(RLAD), 스마트 하이빔
+<br><b>* 스마트 드라이빙 팩
+<br></b><b>LTZ : </b>지능형 어댑티브 크루즈 컨트롤, 자동긴급 제동시스템(씨티 브레이킹 시스템 포함), 차선변경 경고시스템, 사각지대 경고시스템, 후측방 경고시스템, 롱 레이더 전용 프론트 그릴
+
+<br><b><br>* 내비게이션 팩 (제스쳐 UI 기능 포함) : </b>내비게이션 &amp; 프리미엄 BOSE 서라운드 사운드 시스템(9 스피커) 
+<br><b>* 2.0 TURBO 엔진 :</b> 액티브 노이즈 캔슬레이션(ANC) 및 Stop &amp; Start 시스템 미적용
+<br>
+<br><b>●&nbsp;1.8 하이브리드&nbsp;
+
+</b><br><b>* 스노우 화이트 펄(GP5) 외장컬러 선택 시 추가비용 12만원
+</b><b><br>* 스마트 씨티 드라이빙 팩
+<br></b><b>LT :</b> 자동주차 보조시스템, 씨티 브레이킹 시스템(저속 자동긴급 제동시스템), 차선이탈 경고 및 차선유지 보조시스템, 전방거리 감지시스템, 전방충돌 경고시스템, 전방보행자 감지 및 제동시스템, 헤드업 LED 경고등(RLAD), 스마트 하이빔
+<br>
+<br><b>* 내비게이션 팩 (제스쳐 UI 기능 포함)
+<br></b><b>LT : </b>내비게이션 &amp; New 마이링크, 8"컬러 터치 스크린 &amp; 프리미엄 BOSE 서라운드 사운드 시스템(9 스피커), 슈퍼비전 4.2"컬러 클러스터, USB 포트(4개, 1열 2개 : New MYLINK와 연동 및 충전가능, 2열 2개 : 충전만 가능)
+<b><br></b>
+										</ul>
+									
+									<p class="desc_more">위 신차가격표는 단순 참고자료이며, 정확한 내용은 각 제조사에서 제공하는 자료를 통해확인하실 수 있습니다.</p><!-- 2016/10/12 [장] 등급 등록/수정 개선 : 추가 디자인 변경 -->
+									<p class="toTop"><a href="#main_title" class="sp toTop db_ir" title="페이지 위로"><u>페이지 위로</u></a></p><!-- [시세개편] class db_ir 추가 -->
+								</div>
+
+
+							</div>
+							<!-- body end -->
+						</td>
+					</tr>
+				</table>
+
+
+			
+			
+		
+    </div>
+
+    <!-- container end -->
+</form>
+</div>
+
+</body>
+<script language="javascript">
+
+
+    var strCompanyUrl = "/common/combo/cardbcompany.json?method=carList";
+    var strModelGroupUrl = "/common/combo/modelgroupfordb.json?method=carList";
+    var strModelUrl = "/common/combo/cardbmodel.json?method=carList";
+    var strYrJatoUrl = "/common/combo/jatoYr.json?method=carList";
+
+    var companyid = "mnfccd";
+    var modelgroupid = "mdlgroupcd";
+    var modelid = "mdlcd";
+    var yearid = "caryear";
+
+    function initGnb() {
+        var paramCompany = $("paramMnfccd").value;
+        var paramModelGroup = $("paramMdlgroupcd").value;
+        var paramModel = $("paramMdlcd").value;
+        var paramYr = $("paramYear").value;
+
+        // 제조사
+        if (paramModel != "") {
+            $("mdlcd").show();
+        }
+
+        //console.log("companyid :: " + companyid)
+        //console.log("paramCompany :: " + paramCompany)
+		if($('foldYn').value != 0){
+            foldingYN('f_fold');
+		}
+
+        setCompany(strCompanyUrl, companyid, "제조사", paramCompany);
+
+        // 제조사 값이 있으면 모델 검색
+        if (paramCompany >= '010') {
+            if (paramCompany != "") {
+                if (paramModel == "") {
+                    paramModel = paramModelGroup;
+                }
+                setModel(strModelUrl, modelid, paramCompany, "모델", paramModel)
+                $("mdlgroupcd").hide();
+
+            }
+        } else {
+            $("mdlgroupcd").show();
+            if (paramCompany != "") {
+                setModelGroup(strModelGroupUrl, modelgroupid, paramCompany, "모델", paramModelGroup);
+                if (paramModelGroup != "") {
+                    setModel_New(strModelUrl, modelid, paramCompany, paramModelGroup, "세부모델", paramModel);
+                }
+            }
+
+        }
+        if (paramCompany != "" && paramModel != "") {
+            setCarYear(strYrJatoUrl, yearid, paramCompany, paramModel, "형식연도", paramYr);
+        }
+
+        waitTime = 1;
+    }
+
+    function changeModel_jato(mnfccd, mdlgroupcd) {
+        setModel_New(strModelUrl, modelid, mnfccd, mdlgroupcd, "세부모델", "");
+        //모델그룹선택시 기본 세부모델선택
+        if ($("mdlcd") != null) {
+            $("mdlcd").selectedIndex = 1;
+            var mdlcd = $("mdlcd").options[$("mdlcd").selectedIndex].value;
+            changeYearJato(mnfccd, mdlcd);
+        }
+    }
+
+    function changeYearJato(mnfccd,mdlcd) {
+        setCarYear(strYrJatoUrl, yearid, mnfccd, mdlcd, "형식연도", "");
+        $(yearid).options[1].selected = true;
+    }
+
+
+
+    //덧글 리스트
+    function viewForm(index) {
+
+        var object = $("default" + index);
+        var objectSum = $("defaultSum" + index);
+        var selectSum = $("choiceSum" + index);
+        var object1 = $("choice" + index);
+        if (object != null) {
+            if (object.style.display == 'none') {
+                objectSum.hide();
+                selectSum.hide();
+                object.style.display = "block";
+                object1.style.display = "block";
+
+            } else {
+                object.hide();
+                object1.hide();
+                objectSum.style.display = "block";
+                selectSum.style.display = "block";
+            }
+        }
+    }
+
+    function viewAll() {
+        for (var i = 1; i <=11; i++) {
+            $("default" + i).style.display = "block";
+            $("defaultSum" + i).style.display = "none";
+            $("choice" + i).style.display = "block";
+            $("choiceSum" + i).style.display = "none";
+        }
+    }
+
+    function closeAll() {
+        for (var i = 1; i <=11; i++) {
+            $("default" + i).style.display = "none";
+            $("defaultSum" + i).style.display = "block";
+            $("choice" + i).style.display = "none";
+            $("choiceSum" + i).style.display = "block";
+        }
+    }
+
+    function firstLayerOpen() {
+        //viewForm(1);
+    }
+
+    function foldingYN(param) {
+        if (param == "f_fold") {
+            document.getElementById("folding").innerHTML ="<a href=\"javascript:foldingYN('f_unfold')\" class='folding f_unfold'>전체등급 펼쳐보기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "none";
+            document.getElementById("f_fold").style.display = "";
+        } else {
+            document.getElementById("folding").innerHTML = "<a href=\"javascript:foldingYN('f_fold')\" class='folding f_fold'>접기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "";
+            document.getElementById("f_fold").style.display = "none";
+        }
+    }
+
+    function onSubmit() {
+        jQuery("#searchForm").submit();
+
+    }
+    window.onload = initGnb;
+
+</script>
+</html>
+

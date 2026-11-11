@@ -1,0 +1,810 @@
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>차량DB - 차량정보 - 신차가격표</title>
+    <link type="text/css" rel="stylesheet" href="/css/common.css?v=1793835891525"/>
+    <link type="text/css" rel="stylesheet" href="/css/db.css?v=1793835891525"/>
+
+    <script type="text/javascript" src="/js/encarapp/lib/jquery/jquery-1.11.3.min.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/common/ui.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/prototype.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/util.js?v=1793835894199"></script>
+
+    <script type="text/javascript" src="/js/common/db_common.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/commonCombo.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/carSearchCombo.js?v=1793835894199"></script>
+	<script>
+		window.enlogInitJson = {
+			"dataTalkView": {
+				"screenName": "신차가격표"
+			}
+		}
+
+	</script>
+
+
+</head>
+
+
+
+
+
+
+
+    <!-- 등급 체크박스  -->
+    <div style="display:none">
+        
+    </div>
+
+    <!-- 세부등급 체크박스 -->
+    <div style="display:none">
+        
+    </div>
+
+
+
+<body class="db db_newdetailview db_basicTemplate">
+
+
+
+
+	
+	
+	
+	
+
+
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-W9QQ2T"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W9QQ2T');</script>
+<!-- End Google Tag Manager -->
+
+<!-- container begin -->
+<div class="container" id="containerDIV">
+<input type="hidden" id = "foldYn" name="searchtype" value="4"/>
+<form id ="searchForm" name="searchForm">
+
+    <input type="hidden" id = "method" name="method" value="newpricePopV2"/>
+    <input type="hidden" id = "dimensiontype" name="dimensiontype" value="null"/>
+    <input type="hidden" id = "paramMnfccd" name="paramMnfccd" value="001"/>
+    <input type="hidden" id = "paramMdlgroupcd" name="paramMdlgroupcd" value="004"/>
+    <input type="hidden" id = "paramMdlcd" name="paramMdlcd" value="179"/>
+    <input type="hidden" id = "paramYear" name="paramYear" value="2026"/>
+    <input type="hidden" id = "model" name="model" value="">
+    <input type="hidden" id = "paramCaryear" name="paramCaryear" value="2026"/>
+    <input type="hidden" id = "clsheadcd" name="clsheadcd" class="checkbox" value="null"/>
+    <input type="hidden" id = "paramGradeHead" name="paramGradeHead" value="null"/>
+	<input type="hidden" id = "searchtype" name="searchtype" value="check"/>
+	<input type="hidden" id = "pageAccessToken" name="pageAccessToken" value="AgV4eiA+HGYz2QJUymtIPBFkARfOntP0kqR5HrIPiWHfFu0AcQACAAdFbmNhckNrAAdFbmNhckN2ABVhd3MtY3J5cHRvLXB1YmxpYy1rZXkAREEyMGJENE90YWNpVGVTN044STdnMHpMcTJVWE1xN1ZoVXc0cE45QlBhMm4wejVZclV4K2Z6WmVEeFdmMlJyaTVFUT09AAEAB2F3cy1rbXMAUGFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjI3MjM2MjQ4NzY1MzprZXkvbXJrLWRmZWEyNmY3NTVhMzQ3MjliNjkwMjRkZWZmM2M1MWFjALgBAgEAeAuqQuSJvQ+Ra4FSj55FZzS0sk+00amsb3yoAFiEYn4PAatEeIMwJbuMGh3VaDWjnG4AAAB+MHwGCSqGSIb3DQEHBqBvMG0CAQAwaAYJKoZIhvcNAQcBMB4GCWCGSAFlAwQBLjARBAxTSVvnEYvLKPvIFygCARCAO5prPTaW0GWUyGfcQ3fd2BnIkTmI/XTdpp7qg0rMfrJhwls+eyGYhQ0zu0UilaGOP1AwUAs+kc54E9/aAgAAEAD+pG24lr5ug6u8zzNIGYBuyeZAZNB1jsFaA2p1icRyQEJAYTZg3ZcjPLjbXNpuPjv/////AAAAAQAAAAAAAAAAAAAAAQAAAKMmlIg6aizfFc4jefAEmF1TJ9TZilyWmmdvmW+LgyorOzGWQpLsyYYwVEkacib+DNm96LX2lnDakY99mqg5ZPQhsHYHDmDmCN8BgtQIwktjYjoZt/uBrSBhNcMupc9/OAkG+1IOfC1G0OjxEFKL4v53Q8NQ2T8rD2ge70cbbL+H3m1HS5Jwdh62Zg87Bp2lvcDiNVg1aCTBcOgHPQHMk4ujBxYzFU2WIQpIeAvZVYGXmvUulABnMGUCMFIJXhufJ2NVfe39gM32EDkZ7/WA4x/US4AvMdb1xK1yiGWj7sWIDhmt05YZDGlQ/QIxAPYVwG9jf24/Z6XRPcDqzXyx/VfBimv6aWY2GfCzSQ8wqeieu63AMgOXpWDiBtaO+w=="/>
+    <div class="header">
+        <h1 class="blind">SK엔카</h1>
+        <h2 class="tit_carprice" id="main_title">신차가격표</h2>
+        <p class="quickSearch">
+
+
+
+            <select title="제조사" class="opt_select" id="mnfccd" name="mnfccd" onChange="javascript:changeModelGroup(this.value);">
+                <option value="">제조사</option>
+            </select>
+
+            <select class="opt_select" title="모델" id="mdlgroupcd" name="mdlgroupcd" onChange="javascript:changeModel_jato($('mnfccd').value, this.value);">
+                <option>모델</option>
+            </select>
+
+            <select class="opt_select" title="세부모델" id="mdlcd" name="mdlcd" onChange="javascript:changeYearJato($('mnfccd').value, $('mdlcd').value);">
+                <option>세부모델</option>
+            </select>
+
+            <select class="opt_select" title="연식" id="caryear" name="caryear">
+                <option>연식</option>
+            </select>
+
+            <button type="button" class="btn_search" onclick="javascript:onSubmit();"/>검색</button>
+
+
+
+        </p>
+    </div>
+    <!-- body begin -->
+    <div class="body" id="bodydiv">
+		
+			
+				<table class="layout">
+					<col class="contents"/>
+					<tr>
+						<td class="contentsMenu">
+							<!-- contentsMenu begin -->
+							<div class="contentsMenu">
+								<h3 class="title">현대 그랜저 하이브리드 (GN7) 2026년형</h3>
+							</div>
+							<!-- contentsMenu end -->
+						</td>
+					</tr>
+
+					<tr>
+						<td class="contentsMain">
+							<!-- contents begin -->
+							<div class="contents">
+
+								<div class="carCompare">
+									<div class="dbHead">
+										
+											<div id="folding"><a href="javascript:foldingYN('f_fold')"
+																 class="folding f_fold">전체등급 펼쳐보기<em class="db_ir"></em></a></div>
+
+											<!-- 2013/04/03 [서] 매물탭 개선 : 기능 버튼 추가 --><!--<a href="#" class="folding f_unfold">펼치기</a>-->
+										
+									</div>
+									
+									
+										
+									
+										
+									
+										
+									
+										
+									
+									<div id="f_unfold">
+										
+											<!-- case1 : 세부등급과 미션분리 -->
+											<table class="carCompare sellcase1">
+												<colgroup>
+													<col class="grade">
+													<col class="mission">
+													<col class="price">
+												    <col class="uprice"><!-- [시세개편] 중고차시세 추가 uprice -->
+													<col class="item">
+													<col class="option">
+												</colgroup>
+												<thead class="compare">
+												<tr>
+													<th class="grade" colspan="2"><b>구분</b></th>
+													<th class="price"><b>판매가격</b></th>
+													<th class="uprice"><b>중고차시세</b></th><!-- [시세개편] 중고차시세 추가 -->
+													<th class="item"><b>기본사양 품목</b></th>
+													<th class="option end"><b>선택사양 품목</b></th>
+												</tr>
+												</thead>
+												<tbody class="new">
+												
+													
+														
+													
+													
+														
+															
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>프리미엄</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>4,354</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>▶ 파워트레인/성능 :</b> 스마트스트림 가솔린 1.6 터보 하이브리드 엔진, 하이브리드 시스템
+(44.2kW 모터, 리튬이온 배터리, 회생제동 시스템), 6단 자동변속기,
+하이브리드 전용 e-Motion Drive 시스템(e-Dynamic Drive, e-Comfort Drive),
+랙구동형 전동식 파워 스티어링(R-MDPS), 통합 주행 모드, 정체 구간 특화 제어,
+전자식 변속 칼럼(진동 경고)<br><br><b>▶ 안전 :</b> 10에어백 시스템(1열 어드밴스드/센터사이드, 1/2열 사이드, 운전석 무릎, 전복대응 커튼),
+유아용 시트 고정 장치(2열 2개), 다중 충돌방지 자동 제동 시스템, 실내 소화기, 트렁크 리드 조명,
+시트 벨트 프리텐셔너(1/2열)<br><br><b>▶ 지능형 안전 기술 :</b> 전방 충돌방지 보조(차량/보행자/자전거 탑승자/교차로 대향차/정면 대향차),
+차로 이탈방지 보조, 차로 유지 보조 2, 지능형 속도 제한 보조, 운전자 주의 경고, 하이빔 보조,
+스마트 크루즈 컨트롤(스탑앤고 기능 포함), 후석 승객 알림,
+내비게이션 기반 스마트 크루즈 컨트롤(안전구간/곡선로), 고속도로 주행 보조,
+스티어링 휠 그립감지, 전방 차량 출발 알림<br><br><b>▶ 외관 :</b> 18인치 알로이 휠 &amp; 타이어, 수평형 LED 램프(심리스 호라이즌 램프 - 주간주행등,
+방향지시등, 포지셔닝 램프), Full LED 헤드램프(프로젝션 타입), LED 리어콤비램프,
+LED 보조제동등, LED 방향지시등(뒤), 프레임리스 도어, 오토 플러시 도어 핸들,
+이중접합 차음유리(윈드쉴드, 1/2열 도어, 리어 쿼터), 자외선 차단유리(윈드쉴드),
+아웃사이드미러(열선, 전동접이, 전동조절, LED 방향지시등)<br><br><b>▶ 내장 :</b> 클러스터(12.3인치 컬러 LCD),
+원스포크 타입 가죽 스티어링 휠(열선, 인터랙티브 픽셀 라이트 포함),
+베젤리스 인사이드미러, 실내 항균 처리 소재(센터콘솔, 도어트림, 도어 암레스트, 시트 주요 부분),
+LED 실내등(맵램프, 룸램프, 선바이저램프, 러기지램프)<br><br><b>▶ 시트 : </b>천연 가죽 시트, 1열 통풍시트, 운전석 전동시트(8way, 럼버 서포트),
+동승석 전동시트(4way), 전좌석 열선시트, 2열 암레스트<br><br><b>▶ 편의 :</b> 버튼 시동 &amp; 스마트 키, 패들쉬프트, 수동식 틸트 &amp; 텔레스코픽 스티어링 휠, 스마트 파워 트렁크,
+듀얼 풀오토 에어컨(마이크로 에어필터/오토 디포그/미세먼지 센서/공기청정모드/애프터 블로우),
+에어컨 광촉매 살균 시스템, 레인센서, 세이프티 파워 윈도우(전좌석),
+전동식 파킹 브레이크(오토홀드 포함), 하이패스, 전방/후방 주차 거리 경고, 후방 모니터,
+USB C타입 단자(1열 충전 1개/충전·데이터 스위치 타입 1개, 2열 충전 2개), 파워아웃렛(센터콘솔),
+워크 어웨이 락, 2열 시트 벨트 조명<br><br><b>▶ 인포테인먼트 :</b> 12.3인치 내비게이션(블루링크, 폰 프로젝션, 블루투스 핸즈프리, 인카페이먼트/
+e hi-pass), 일반 오디오 시스템(8스피커), 무선 소프트웨어 업데이트(OTA Software Update)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶ 파노라마 선루프</b> 1,190,000<br><br><b>▶ 헤드업 디스플레이</b> 990,000<br><br><b>▶ 파킹 어시스트</b> 1,430,000<br><br><b>▶ 현대 스마트센스 I</b> 840,000<br><br><b>▶ 컨비니언스</b> 600,000<br><br><b>▶ 플래티넘</b> 1,290,000<br><br><b>▶ 세레니티 화이트 펄(W6H) 외장컬러</b> 100,000<br><br><b>▶ 녹턴 그레이 매트(T9M) 외장컬러</b> 200,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>익스클루시브</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>4,843</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>▶ 프리미엄 기본 품목 및</b>&nbsp;<br><br><b>ㆍ지능형 안전 기술 :</b> 후측방 충돌 경고(주행), 후측방 충돌방지 보조(전진 출차),
+후방 교차 충돌방지 보조, 후방 주차 충돌방지 보조, 안전 하차 보조, 진동경고 스티어링 휠&nbsp;<br><br><b>ㆍ외관 :</b> 자외선 차단유리(1/2열 도어, 뒷면유리)<br><br><b>ㆍ내장 : </b>뒷면 전동식 커튼, 10.25인치 풀터치 공조 컨트롤러(햅틱 기능 포함),
+인터랙티브 앰비언트 무드 램프(순차 점등, 주행 상황 연동 기능 등)<br><br><b>ㆍ시트 : </b>운전석 에르고 모션 시트(18way, 4way 럼버 서포트, 쿠션 익스텐션, 릴렉션 컴포트,
+자세 메모리 시스템, 스트레칭 모드), 동승석 전동시트(8way, 럼버 서포트, 릴렉션 컴포트,
+워크인 디바이스)&nbsp;<br><br><b>ㆍ편의 :</b> 디지털 키 2, 스마트폰 무선 충전, 전동식 틸트 &amp; 텔레스코픽 스티어링 휠,
+실내 지문 인증 시스템(개인화, 시동, 결제 등), 서라운드 뷰 모니터, 후측방 모니터,
+측방 주차 거리 경고, 원격 스마트 주차 보조, 후진 가이드 램프
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶ 파노라마 선루프</b> 1,190,000<br><br><b>▶ 헤드업 디스플레이</b> 990,000<br><br><b>▶ 현대 스마트센스Ⅱ 플러스</b> 1,350,000&nbsp;<br><br><b>▶ BOSE 프리미엄 사운드 패키지</b> 1,190,000&nbsp;<br><br><b>▶ 프리뷰 전자제어 서스펜션Ⅰ</b> 1,290,000&nbsp;<br>※ ‘19인치 알로이 휠 &amp; 타이어’ 중복 선택 불가&nbsp;<br><br><b>▶ 19인치 알로이 휠 &amp; 타이어</b> 250,000<br><br><b>▶ 세레니티 화이트 펄(W6H) 외장컬러</b> 100,000<br><br><b>▶ 녹턴 그레이 매트(T9M) 외장컬러</b> 200,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>아너스</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>5,069</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>▶ 익스클루시브 기본 품목 및</b>&nbsp;<br><br><b>ㆍ지능형 안전 기술 :</b> 전방 충돌방지 보조(교차 차량/추월 시 대향차/측방 접근차/회피 조향 보조),
+고속도로 주행 보조 2, 어드밴스드 후석 승객 알림, 후측방 충돌방지 보조(주행),
+내비게이션 기반 스마트 크루즈 컨트롤(진출입로)&nbsp;<br><br><b>ㆍ외관 :</b> 블랙 잉크 전용 블랙 외관 디자인(라디에이터 그릴, 범퍼 그릴, 범퍼 몰딩, 램프 몰딩, 사이드 가니시,
+O/S 핸들 데코, DLO 몰딩, 엠블럼), 19인치 캘리그래피 전용 알로이 휠 &amp; 타이어,
+순차 점등 방향지시등(앞/뒤), 다이내믹 웰컴/에스코트 라이트&nbsp;<br><br><b>ㆍ시트 : </b>2열 고급형 암레스트(오디오 컨트롤러 포함)<br><br><b>ㆍ편의 : </b>빌트인 캠 2, 증강현실 내비게이션&nbsp;<br><br><b>ㆍ인포테인먼트 :</b> BOSE 프리미엄 사운드(14 스피커, 외장앰프), 액티브 로드 노이즈 컨트롤<br>※ 외장 색상 : 어비스 블랙 펄, 세레니티 화이트 펄 중 선택 가능&nbsp;<br>※ 내장 색상 : 블랙 모노톤, 인디고/브라운 투톤, 블랙/브라운 투톤, 다크 그레이/라이트 그레이
+투톤 중 선택 가능
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶ 파노라마 선루프</b> 1,190,000<br><br><b>▶ 헤드업 디스플레이</b> 990,000<br><br><b>▶ 프리뷰 전자제어 서스펜션Ⅱ </b>1,290,000<br><br><b>▶ 세레니티 화이트 펄(W6H) 외장컬러</b> 100,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>캘리그래피</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>5,266</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>▶ 익스클루시브 기본 품목 및</b>&nbsp;<br><br><b>ㆍ지능형 안전 기술 :</b> 전방 충돌방지 보조(교차 차량/추월 시 대향차/측방 접근차/회피 조향 보조),
+고속도로 주행 보조 2, 어드밴스드 후석 승객 알림, 후측방 충돌방지 보조(주행),
+내비게이션 기반 스마트 크루즈 컨트롤(진출입로)&nbsp;<br><br><b>ㆍ외관 :</b> 캘리그래피 전용 그릴 &amp; 전용 19인치 알로이 휠 &amp; 타이어, 순차 점등 방향지시등(앞/뒤),
+다이내믹 웰컴/에스코트 라이트, 발수 적용 1열 유리&nbsp;<br><br><b>ㆍ내장 :</b> 캘리그래피 전용 디자인 [나파 가죽 감싸기 스티어링 휠(혼커버 포함, 리얼 스티치 적용, 투톤 컬러),
+인조 가죽 내장재(PU소재 크래시패드, 도어어퍼트림 적용), 인조 가죽 감싸기(3D 엠보 도어센터트림,
+콘솔사이드), 리얼 우드(크래시패드 가니시, 콘솔 어퍼 커버) 또는 리얼 알루미늄 내장재
+(크래시패드 가니시), 스웨이드 내장재(헤드라이닝, 필라트림, 패키지트레이, 선바이저),
+스웨이드 목베개, 고급 카매트]<br><br><b>ㆍ시트 : </b>나파 가죽 시트(퀼팅, 파이핑 적용), 2열 고급형 암레스트(오디오 컨트롤러 포함),
+모노포스트 헤드레스트<br><br><b>ㆍ편의 : </b>빌트인 캠 2, 증강현실 내비게이션, 자외선 살균 시스템(센터콘솔), 헤드업 디스플레이&nbsp;<br><br><b>ㆍ인포테인먼트 :</b> BOSE 프리미엄 사운드(14스피커, 외장앰프), 액티브 로드 노이즈 컨트롤
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶ 파노라마 선루프</b> 1,190,000&nbsp;<br><br><b>▶ 프리뷰 전자제어 서스펜션Ⅱ</b> 1,290,000&nbsp;<br><br><b>▶ 2열 전동식 도어커튼</b> 490,000<br><br><b>▶ 블랙 익스테리어</b> 0<br><b><b><br></b>▶ 블랙 잉크 </b>1,270,000&nbsp;&nbsp;<br>※ 프리뷰 전자제어 서스펜션 II 중복 선택 불가<br><br><b>▶ 세레니티 화이트 펄(W6H) 외장컬러</b> 100,000<br><br><b>▶ 녹턴 그레이 매트(T9M) 외장컬러</b> 200,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+												</tbody>
+											</table>
+										
+
+
+										<!-- case2 : 세부등급이 있는경우 -->
+										
+									</div>
+									<!-- 신차가격표(폴더형) -->
+									<div id="f_fold" style="display:none;">
+										<div class="newcar_folder">
+											<ul class="nf_list" id="newcarList">
+												
+													<li>
+														<a href="#newcar0">
+                                                            <span class="model">프리미엄  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>4,354</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar1">
+                                                            <span class="model">익스클루시브  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>4,843</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar2">
+                                                            <span class="model">아너스  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>5,069</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar3">
+                                                            <span class="model">캘리그래피  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>5,266</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+											</ul>
+											<!-- 개별 -->
+											
+												<div id="newcar0" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 파워트레인/성능 :</b> 스마트스트림 가솔린 1.6 터보 하이브리드 엔진, 하이브리드 시스템
+(44.2kW 모터, 리튬이온 배터리, 회생제동 시스템), 6단 자동변속기,
+하이브리드 전용 e-Motion Drive 시스템(e-Dynamic Drive, e-Comfort Drive),
+랙구동형 전동식 파워 스티어링(R-MDPS), 통합 주행 모드, 정체 구간 특화 제어,
+전자식 변속 칼럼(진동 경고)<br><br><b>▶ 안전 :</b> 10에어백 시스템(1열 어드밴스드/센터사이드, 1/2열 사이드, 운전석 무릎, 전복대응 커튼),
+유아용 시트 고정 장치(2열 2개), 다중 충돌방지 자동 제동 시스템, 실내 소화기, 트렁크 리드 조명,
+시트 벨트 프리텐셔너(1/2열)<br><br><b>▶ 지능형 안전 기술 :</b> 전방 충돌방지 보조(차량/보행자/자전거 탑승자/교차로 대향차/정면 대향차),
+차로 이탈방지 보조, 차로 유지 보조 2, 지능형 속도 제한 보조, 운전자 주의 경고, 하이빔 보조,
+스마트 크루즈 컨트롤(스탑앤고 기능 포함), 후석 승객 알림,
+내비게이션 기반 스마트 크루즈 컨트롤(안전구간/곡선로), 고속도로 주행 보조,
+스티어링 휠 그립감지, 전방 차량 출발 알림<br><br><b>▶ 외관 :</b> 18인치 알로이 휠 &amp; 타이어, 수평형 LED 램프(심리스 호라이즌 램프 - 주간주행등,
+방향지시등, 포지셔닝 램프), Full LED 헤드램프(프로젝션 타입), LED 리어콤비램프,
+LED 보조제동등, LED 방향지시등(뒤), 프레임리스 도어, 오토 플러시 도어 핸들,
+이중접합 차음유리(윈드쉴드, 1/2열 도어, 리어 쿼터), 자외선 차단유리(윈드쉴드),
+아웃사이드미러(열선, 전동접이, 전동조절, LED 방향지시등)<br><br><b>▶ 내장 :</b> 클러스터(12.3인치 컬러 LCD),
+원스포크 타입 가죽 스티어링 휠(열선, 인터랙티브 픽셀 라이트 포함),
+베젤리스 인사이드미러, 실내 항균 처리 소재(센터콘솔, 도어트림, 도어 암레스트, 시트 주요 부분),
+LED 실내등(맵램프, 룸램프, 선바이저램프, 러기지램프)<br><br><b>▶ 시트 : </b>천연 가죽 시트, 1열 통풍시트, 운전석 전동시트(8way, 럼버 서포트),
+동승석 전동시트(4way), 전좌석 열선시트, 2열 암레스트<br><br><b>▶ 편의 :</b> 버튼 시동 &amp; 스마트 키, 패들쉬프트, 수동식 틸트 &amp; 텔레스코픽 스티어링 휠, 스마트 파워 트렁크,
+듀얼 풀오토 에어컨(마이크로 에어필터/오토 디포그/미세먼지 센서/공기청정모드/애프터 블로우),
+에어컨 광촉매 살균 시스템, 레인센서, 세이프티 파워 윈도우(전좌석),
+전동식 파킹 브레이크(오토홀드 포함), 하이패스, 전방/후방 주차 거리 경고, 후방 모니터,
+USB C타입 단자(1열 충전 1개/충전·데이터 스위치 타입 1개, 2열 충전 2개), 파워아웃렛(센터콘솔),
+워크 어웨이 락, 2열 시트 벨트 조명<br><br><b>▶ 인포테인먼트 :</b> 12.3인치 내비게이션(블루링크, 폰 프로젝션, 블루투스 핸즈프리, 인카페이먼트/
+e hi-pass), 일반 오디오 시스템(8스피커), 무선 소프트웨어 업데이트(OTA Software Update)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶ 파노라마 선루프</b> 1,190,000<br><br><b>▶ 헤드업 디스플레이</b> 990,000<br><br><b>▶ 파킹 어시스트</b> 1,430,000<br><br><b>▶ 현대 스마트센스 I</b> 840,000<br><br><b>▶ 컨비니언스</b> 600,000<br><br><b>▶ 플래티넘</b> 1,290,000<br><br><b>▶ 세레니티 화이트 펄(W6H) 외장컬러</b> 100,000<br><br><b>▶ 녹턴 그레이 매트(T9M) 외장컬러</b> 200,000</p>
+												</div>
+											
+												<div id="newcar1" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 프리미엄 기본 품목 및</b>&nbsp;<br><br><b>ㆍ지능형 안전 기술 :</b> 후측방 충돌 경고(주행), 후측방 충돌방지 보조(전진 출차),
+후방 교차 충돌방지 보조, 후방 주차 충돌방지 보조, 안전 하차 보조, 진동경고 스티어링 휠&nbsp;<br><br><b>ㆍ외관 :</b> 자외선 차단유리(1/2열 도어, 뒷면유리)<br><br><b>ㆍ내장 : </b>뒷면 전동식 커튼, 10.25인치 풀터치 공조 컨트롤러(햅틱 기능 포함),
+인터랙티브 앰비언트 무드 램프(순차 점등, 주행 상황 연동 기능 등)<br><br><b>ㆍ시트 : </b>운전석 에르고 모션 시트(18way, 4way 럼버 서포트, 쿠션 익스텐션, 릴렉션 컴포트,
+자세 메모리 시스템, 스트레칭 모드), 동승석 전동시트(8way, 럼버 서포트, 릴렉션 컴포트,
+워크인 디바이스)&nbsp;<br><br><b>ㆍ편의 :</b> 디지털 키 2, 스마트폰 무선 충전, 전동식 틸트 &amp; 텔레스코픽 스티어링 휠,
+실내 지문 인증 시스템(개인화, 시동, 결제 등), 서라운드 뷰 모니터, 후측방 모니터,
+측방 주차 거리 경고, 원격 스마트 주차 보조, 후진 가이드 램프</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶ 파노라마 선루프</b> 1,190,000<br><br><b>▶ 헤드업 디스플레이</b> 990,000<br><br><b>▶ 현대 스마트센스Ⅱ 플러스</b> 1,350,000&nbsp;<br><br><b>▶ BOSE 프리미엄 사운드 패키지</b> 1,190,000&nbsp;<br><br><b>▶ 프리뷰 전자제어 서스펜션Ⅰ</b> 1,290,000&nbsp;<br>※ ‘19인치 알로이 휠 &amp; 타이어’ 중복 선택 불가&nbsp;<br><br><b>▶ 19인치 알로이 휠 &amp; 타이어</b> 250,000<br><br><b>▶ 세레니티 화이트 펄(W6H) 외장컬러</b> 100,000<br><br><b>▶ 녹턴 그레이 매트(T9M) 외장컬러</b> 200,000</p>
+												</div>
+											
+												<div id="newcar2" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 익스클루시브 기본 품목 및</b>&nbsp;<br><br><b>ㆍ지능형 안전 기술 :</b> 전방 충돌방지 보조(교차 차량/추월 시 대향차/측방 접근차/회피 조향 보조),
+고속도로 주행 보조 2, 어드밴스드 후석 승객 알림, 후측방 충돌방지 보조(주행),
+내비게이션 기반 스마트 크루즈 컨트롤(진출입로)&nbsp;<br><br><b>ㆍ외관 :</b> 블랙 잉크 전용 블랙 외관 디자인(라디에이터 그릴, 범퍼 그릴, 범퍼 몰딩, 램프 몰딩, 사이드 가니시,
+O/S 핸들 데코, DLO 몰딩, 엠블럼), 19인치 캘리그래피 전용 알로이 휠 &amp; 타이어,
+순차 점등 방향지시등(앞/뒤), 다이내믹 웰컴/에스코트 라이트&nbsp;<br><br><b>ㆍ시트 : </b>2열 고급형 암레스트(오디오 컨트롤러 포함)<br><br><b>ㆍ편의 : </b>빌트인 캠 2, 증강현실 내비게이션&nbsp;<br><br><b>ㆍ인포테인먼트 :</b> BOSE 프리미엄 사운드(14 스피커, 외장앰프), 액티브 로드 노이즈 컨트롤<br>※ 외장 색상 : 어비스 블랙 펄, 세레니티 화이트 펄 중 선택 가능&nbsp;<br>※ 내장 색상 : 블랙 모노톤, 인디고/브라운 투톤, 블랙/브라운 투톤, 다크 그레이/라이트 그레이
+투톤 중 선택 가능</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶ 파노라마 선루프</b> 1,190,000<br><br><b>▶ 헤드업 디스플레이</b> 990,000<br><br><b>▶ 프리뷰 전자제어 서스펜션Ⅱ </b>1,290,000<br><br><b>▶ 세레니티 화이트 펄(W6H) 외장컬러</b> 100,000</p>
+												</div>
+											
+												<div id="newcar3" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 익스클루시브 기본 품목 및</b>&nbsp;<br><br><b>ㆍ지능형 안전 기술 :</b> 전방 충돌방지 보조(교차 차량/추월 시 대향차/측방 접근차/회피 조향 보조),
+고속도로 주행 보조 2, 어드밴스드 후석 승객 알림, 후측방 충돌방지 보조(주행),
+내비게이션 기반 스마트 크루즈 컨트롤(진출입로)&nbsp;<br><br><b>ㆍ외관 :</b> 캘리그래피 전용 그릴 &amp; 전용 19인치 알로이 휠 &amp; 타이어, 순차 점등 방향지시등(앞/뒤),
+다이내믹 웰컴/에스코트 라이트, 발수 적용 1열 유리&nbsp;<br><br><b>ㆍ내장 :</b> 캘리그래피 전용 디자인 [나파 가죽 감싸기 스티어링 휠(혼커버 포함, 리얼 스티치 적용, 투톤 컬러),
+인조 가죽 내장재(PU소재 크래시패드, 도어어퍼트림 적용), 인조 가죽 감싸기(3D 엠보 도어센터트림,
+콘솔사이드), 리얼 우드(크래시패드 가니시, 콘솔 어퍼 커버) 또는 리얼 알루미늄 내장재
+(크래시패드 가니시), 스웨이드 내장재(헤드라이닝, 필라트림, 패키지트레이, 선바이저),
+스웨이드 목베개, 고급 카매트]<br><br><b>ㆍ시트 : </b>나파 가죽 시트(퀼팅, 파이핑 적용), 2열 고급형 암레스트(오디오 컨트롤러 포함),
+모노포스트 헤드레스트<br><br><b>ㆍ편의 : </b>빌트인 캠 2, 증강현실 내비게이션, 자외선 살균 시스템(센터콘솔), 헤드업 디스플레이&nbsp;<br><br><b>ㆍ인포테인먼트 :</b> BOSE 프리미엄 사운드(14스피커, 외장앰프), 액티브 로드 노이즈 컨트롤</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶ 파노라마 선루프</b> 1,190,000&nbsp;<br><br><b>▶ 프리뷰 전자제어 서스펜션Ⅱ</b> 1,290,000&nbsp;<br><br><b>▶ 2열 전동식 도어커튼</b> 490,000<br><br><b>▶ 블랙 익스테리어</b> 0<br><b><b><br></b>▶ 블랙 잉크 </b>1,270,000&nbsp;&nbsp;<br>※ 프리뷰 전자제어 서스펜션 II 중복 선택 불가<br><br><b>▶ 세레니티 화이트 펄(W6H) 외장컬러</b> 100,000<br><br><b>▶ 녹턴 그레이 매트(T9M) 외장컬러</b> 200,000</p>
+												</div>
+											
+										</div>
+										<script type="text/javascript">
+											newcarFolder(0);//초기값
+											function newcarFolder(target) {
+												var conElId = "newcar"//아이디 설정
+												var conElMenu = document.getElementById("newcarList");
+												var conElMenuLink = conElMenu.getElementsByTagName("a");
+												if (target != null) {
+													conElMenuLink[target].parentNode.className = "on";
+													document.getElementById(
+														conElId + target).style.display = "";
+												}
+												for (i = 0; i <= (conElMenuLink.length - 1); i++) {
+													conElMenuLink[i].onclick = function () {
+														for (x = 0; x <= (conElMenuLink.length - 1); x++) {
+															conElMenuLink[x].parentNode.className = "";
+															document.getElementById(
+																conElId + x).style.display = "none";
+														}
+														this.parentNode.className = "on";
+														document.getElementById(this.getAttribute('href')
+																					.split(
+																						'#')[1]).style.display =
+															"";
+														return false;
+													}
+												}
+											}
+										</script>
+									</div>
+									
+										<ul class="more">
+												<b>▶ 패키지 선택품목<br>현대 스마트센스Ⅰ -</b> 후측방 충돌 경고(주행), 후측방 충돌방지 보조(전진 출차), 후방 교차 충돌방지 보조, 안전 하차 보조<b><br>현대 스마트센스Ⅱ 플러스</b> - 전방 충돌방지 보조(교차 차량/추월 시 대향차/측방 접근차/회피 조향 보조), 고속도로 주행 보조 2, 어드밴스드 후석 승객 알림,
+후측방 충돌방지 보조(주행), 내비게이션 기반 스마트 크루즈 컨트롤(진출입로), 빌트인 캠 2, 증강현실 내비게이션&nbsp;<b><br>컨비니언스 -</b> 디지털 키 2, 스마트폰 무선 충전, 실내 지문 인증 시스템(개인화, 시동, 결제 등)<br><b>BOSE 프리미엄 사운드 패키지 -</b> BOSE 프리미엄 사운드(14스피커, 외장앰프), 액티브 로드 노이즈 컨트롤, 2열 고급형 암레스트(오디오 컨트롤러 포함)<br><b>플래티넘 -</b> 10.25인치 풀터치 공조 컨트롤러(햅틱 기능 포함), 인터랙티브 앰비언트 무드 램프(순차 점등, 주행 상황 연동 기능 등), 빌트인 캠 2, 증강현실 내비게이션,
+19인치 알로이 휠 &amp; 타이어<b><br>파킹 어시스트 -</b> 서라운드 뷰 모니터, 후측방 모니터, 측방 주차 거리 경고, 후방 주차 충돌방지 보조, 원격 스마트 주차 보조<b><br>프리뷰 전자제어 서스펜션Ⅰ -</b> (‘19인치 알로이 휠 &amp; 타이어’ 중복 선택 불가) 20인치 알로이 휠 &amp; 타이어, 프리뷰 전자제어 서스펜션<br><b>프리뷰 전자제어 서스펜션Ⅱ -</b> 20인치 캘리그래피 전용 알로이 휠 &amp; 피렐리 타이어, 프리뷰 전자제어 서스펜션<br><b>블랙 익스테리어 - </b>블랙 잉크 전용 블랙 외관 디자인(라디에이터 그릴, 범퍼 그릴, 범퍼 몰딩, 램프 몰딩,
+사이드 가니시, O/S 핸들 데코, DLO 몰딩, 엠블럼) ※ 외장 색상 : 어비스 블랙 펄, 세레니티 화이트 펄 중 선택 가능
+※ 내장 색상 : 인디고/브라운 투톤, 인디고/라이트 그레이 투톤, 브라운/베이지 투톤 중 선택 가능<br><b>블랙 잉크 -</b> 20인치 블랙 잉크 전용 알로이 휠 &amp; 피렐리 타이어, 프리뷰 전자제어 서스펜션, 블랙 잉크 전용 블랙 내장 디자인(블랙 컬러 리얼 알루미늄 내장재, 블랙 컬러 인조 가죽 감싸기 및 스웨이드 내장재, 블랙 컬러 도어스텝, 스피커 그릴 등) ※ 프리뷰 전자제어 서스펜션Ⅱ 선택 불가
+										</ul>
+									
+									<p class="desc_more">위 신차가격표는 단순 참고자료이며, 정확한 내용은 각 제조사에서 제공하는 자료를 통해확인하실 수 있습니다.</p><!-- 2016/10/12 [장] 등급 등록/수정 개선 : 추가 디자인 변경 -->
+									<p class="toTop"><a href="#main_title" class="sp toTop db_ir" title="페이지 위로"><u>페이지 위로</u></a></p><!-- [시세개편] class db_ir 추가 -->
+								</div>
+
+
+							</div>
+							<!-- body end -->
+						</td>
+					</tr>
+				</table>
+
+
+			
+			
+		
+    </div>
+
+    <!-- container end -->
+</form>
+</div>
+
+</body>
+<script language="javascript">
+
+
+    var strCompanyUrl = "/common/combo/cardbcompany.json?method=carList";
+    var strModelGroupUrl = "/common/combo/modelgroupfordb.json?method=carList";
+    var strModelUrl = "/common/combo/cardbmodel.json?method=carList";
+    var strYrJatoUrl = "/common/combo/jatoYr.json?method=carList";
+
+    var companyid = "mnfccd";
+    var modelgroupid = "mdlgroupcd";
+    var modelid = "mdlcd";
+    var yearid = "caryear";
+
+    function initGnb() {
+        var paramCompany = $("paramMnfccd").value;
+        var paramModelGroup = $("paramMdlgroupcd").value;
+        var paramModel = $("paramMdlcd").value;
+        var paramYr = $("paramYear").value;
+
+        // 제조사
+        if (paramModel != "") {
+            $("mdlcd").show();
+        }
+
+        //console.log("companyid :: " + companyid)
+        //console.log("paramCompany :: " + paramCompany)
+		if($('foldYn').value != 0){
+            foldingYN('f_fold');
+		}
+
+        setCompany(strCompanyUrl, companyid, "제조사", paramCompany);
+
+        // 제조사 값이 있으면 모델 검색
+        if (paramCompany >= '010') {
+            if (paramCompany != "") {
+                if (paramModel == "") {
+                    paramModel = paramModelGroup;
+                }
+                setModel(strModelUrl, modelid, paramCompany, "모델", paramModel)
+                $("mdlgroupcd").hide();
+
+            }
+        } else {
+            $("mdlgroupcd").show();
+            if (paramCompany != "") {
+                setModelGroup(strModelGroupUrl, modelgroupid, paramCompany, "모델", paramModelGroup);
+                if (paramModelGroup != "") {
+                    setModel_New(strModelUrl, modelid, paramCompany, paramModelGroup, "세부모델", paramModel);
+                }
+            }
+
+        }
+        if (paramCompany != "" && paramModel != "") {
+            setCarYear(strYrJatoUrl, yearid, paramCompany, paramModel, "형식연도", paramYr);
+        }
+
+        waitTime = 1;
+    }
+
+    function changeModel_jato(mnfccd, mdlgroupcd) {
+        setModel_New(strModelUrl, modelid, mnfccd, mdlgroupcd, "세부모델", "");
+        //모델그룹선택시 기본 세부모델선택
+        if ($("mdlcd") != null) {
+            $("mdlcd").selectedIndex = 1;
+            var mdlcd = $("mdlcd").options[$("mdlcd").selectedIndex].value;
+            changeYearJato(mnfccd, mdlcd);
+        }
+    }
+
+    function changeYearJato(mnfccd,mdlcd) {
+        setCarYear(strYrJatoUrl, yearid, mnfccd, mdlcd, "형식연도", "");
+        $(yearid).options[1].selected = true;
+    }
+
+
+
+    //덧글 리스트
+    function viewForm(index) {
+
+        var object = $("default" + index);
+        var objectSum = $("defaultSum" + index);
+        var selectSum = $("choiceSum" + index);
+        var object1 = $("choice" + index);
+        if (object != null) {
+            if (object.style.display == 'none') {
+                objectSum.hide();
+                selectSum.hide();
+                object.style.display = "block";
+                object1.style.display = "block";
+
+            } else {
+                object.hide();
+                object1.hide();
+                objectSum.style.display = "block";
+                selectSum.style.display = "block";
+            }
+        }
+    }
+
+    function viewAll() {
+        for (var i = 1; i <=4; i++) {
+            $("default" + i).style.display = "block";
+            $("defaultSum" + i).style.display = "none";
+            $("choice" + i).style.display = "block";
+            $("choiceSum" + i).style.display = "none";
+        }
+    }
+
+    function closeAll() {
+        for (var i = 1; i <=4; i++) {
+            $("default" + i).style.display = "none";
+            $("defaultSum" + i).style.display = "block";
+            $("choice" + i).style.display = "none";
+            $("choiceSum" + i).style.display = "block";
+        }
+    }
+
+    function firstLayerOpen() {
+        //viewForm(1);
+    }
+
+    function foldingYN(param) {
+        if (param == "f_fold") {
+            document.getElementById("folding").innerHTML ="<a href=\"javascript:foldingYN('f_unfold')\" class='folding f_unfold'>전체등급 펼쳐보기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "none";
+            document.getElementById("f_fold").style.display = "";
+        } else {
+            document.getElementById("folding").innerHTML = "<a href=\"javascript:foldingYN('f_fold')\" class='folding f_fold'>접기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "";
+            document.getElementById("f_fold").style.display = "none";
+        }
+    }
+
+    function onSubmit() {
+        jQuery("#searchForm").submit();
+
+    }
+    window.onload = initGnb;
+
+</script>
+</html>
+

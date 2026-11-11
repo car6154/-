@@ -1,0 +1,1080 @@
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>차량DB - 차량정보 - 신차가격표</title>
+    <link type="text/css" rel="stylesheet" href="/css/common.css?v=1793835891525"/>
+    <link type="text/css" rel="stylesheet" href="/css/db.css?v=1793835891525"/>
+
+    <script type="text/javascript" src="/js/encarapp/lib/jquery/jquery-1.11.3.min.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/common/ui.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/prototype.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/util.js?v=1793835894199"></script>
+
+    <script type="text/javascript" src="/js/common/db_common.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/commonCombo.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/carSearchCombo.js?v=1793835894199"></script>
+	<script>
+		window.enlogInitJson = {
+			"dataTalkView": {
+				"screenName": "신차가격표"
+			}
+		}
+
+	</script>
+
+
+</head>
+
+
+
+
+
+
+
+    <!-- 등급 체크박스  -->
+    <div style="display:none">
+        
+    </div>
+
+    <!-- 세부등급 체크박스 -->
+    <div style="display:none">
+        
+    </div>
+
+
+
+<body class="db db_newdetailview db_basicTemplate">
+
+
+
+
+	
+	
+	
+	
+
+
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-W9QQ2T"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W9QQ2T');</script>
+<!-- End Google Tag Manager -->
+
+<!-- container begin -->
+<div class="container" id="containerDIV">
+<input type="hidden" id = "foldYn" name="searchtype" value="6"/>
+<form id ="searchForm" name="searchForm">
+
+    <input type="hidden" id = "method" name="method" value="newpricePopV2"/>
+    <input type="hidden" id = "dimensiontype" name="dimensiontype" value="null"/>
+    <input type="hidden" id = "paramMnfccd" name="paramMnfccd" value="001"/>
+    <input type="hidden" id = "paramMdlgroupcd" name="paramMdlgroupcd" value="049"/>
+    <input type="hidden" id = "paramMdlcd" name="paramMdlcd" value="110"/>
+    <input type="hidden" id = "paramYear" name="paramYear" value="2013"/>
+    <input type="hidden" id = "model" name="model" value="">
+    <input type="hidden" id = "paramCaryear" name="paramCaryear" value="2013"/>
+    <input type="hidden" id = "clsheadcd" name="clsheadcd" class="checkbox" value="null"/>
+    <input type="hidden" id = "paramGradeHead" name="paramGradeHead" value="null"/>
+	<input type="hidden" id = "searchtype" name="searchtype" value="check"/>
+	<input type="hidden" id = "pageAccessToken" name="pageAccessToken" value="AgV4RH/snc08K3/akQy014Q40cRZiJFIIKanOvW+JT1j/T4AcQACAAdFbmNhckNrAAdFbmNhckN2ABVhd3MtY3J5cHRvLXB1YmxpYy1rZXkAREF5dHJDMEZVN1JpeklaWGhaQkliZHlkNk1YSzJPUXM2RWViSi9rOVdRZklwdzk3MzVsUkpHUURTc0F3cGdGMGEyQT09AAEAB2F3cy1rbXMAUGFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjI3MjM2MjQ4NzY1MzprZXkvbXJrLWRmZWEyNmY3NTVhMzQ3MjliNjkwMjRkZWZmM2M1MWFjALgBAgEAeAuqQuSJvQ+Ra4FSj55FZzS0sk+00amsb3yoAFiEYn4PAebq+/nr3LmwqavpY5PAiWQAAAB+MHwGCSqGSIb3DQEHBqBvMG0CAQAwaAYJKoZIhvcNAQcBMB4GCWCGSAFlAwQBLjARBAwh2RYCKOuatsdES2ECARCAO/GgCIGSWRpSOTQYgKdarAz3s1IRl+WxperQuxnxsHZ/BAaKfse4jSdoozjKwDr/oJQKP/J1unkmALUVAgAAEACSAldF43z+dvubNskYa9D7BvKsOkGmlYUAEcNKkH5U+fFvPqDUQtgAJx1HLRmM76D/////AAAAAQAAAAAAAAAAAAAAAQAAAKNJCHJKe//X7Amclcxu6aFkSdvQ3SgZATYMxxG63KjpyBLvzEluvu41tlY3lwi1cl6Szq79iat610dqgl6lRb/nbvbtoS91BOAVYaUTYOyRUTwf8BurbWT2NLDNnUvoOIXPUbX3KYNeMgens7QCh5plrmaa0Z64BqZIM2WCBNliGGd6nJwifclmepkbsNXh1oUKxqaKSDgOx/0c1J0q554sV5LClQ4dJZoxCOEsTagDovYf+QBnMGUCMCdYxNMW5Dww1QBj8fpWwZAbis0ZLrPnpauaUE4Yxxn+PbW+FOLYrAuOu+HDjqubgwIxAPzHkgS4DpVzDx/sOBZ5MZ40q5KRZ9f4c/jW0CMO4W5u1Ce7r9vnGPsA922o2S8p3w=="/>
+    <div class="header">
+        <h1 class="blind">SK엔카</h1>
+        <h2 class="tit_carprice" id="main_title">신차가격표</h2>
+        <p class="quickSearch">
+
+
+
+            <select title="제조사" class="opt_select" id="mnfccd" name="mnfccd" onChange="javascript:changeModelGroup(this.value);">
+                <option value="">제조사</option>
+            </select>
+
+            <select class="opt_select" title="모델" id="mdlgroupcd" name="mdlgroupcd" onChange="javascript:changeModel_jato($('mnfccd').value, this.value);">
+                <option>모델</option>
+            </select>
+
+            <select class="opt_select" title="세부모델" id="mdlcd" name="mdlcd" onChange="javascript:changeYearJato($('mnfccd').value, $('mdlcd').value);">
+                <option>세부모델</option>
+            </select>
+
+            <select class="opt_select" title="연식" id="caryear" name="caryear">
+                <option>연식</option>
+            </select>
+
+            <button type="button" class="btn_search" onclick="javascript:onSubmit();"/>검색</button>
+
+
+
+        </p>
+    </div>
+    <!-- body begin -->
+    <div class="body" id="bodydiv">
+		
+			
+				<table class="layout">
+					<col class="contents"/>
+					<tr>
+						<td class="contentsMenu">
+							<!-- contentsMenu begin -->
+							<div class="contentsMenu">
+								<h3 class="title">현대 i40 살룬 2013년형</h3>
+							</div>
+							<!-- contentsMenu end -->
+						</td>
+					</tr>
+
+					<tr>
+						<td class="contentsMain">
+							<!-- contents begin -->
+							<div class="contents">
+
+								<div class="carCompare">
+									<div class="dbHead">
+										
+											<div id="folding"><a href="javascript:foldingYN('f_fold')"
+																 class="folding f_fold">전체등급 펼쳐보기<em class="db_ir"></em></a></div>
+
+											<!-- 2013/04/03 [서] 매물탭 개선 : 기능 버튼 추가 --><!--<a href="#" class="folding f_unfold">펼치기</a>-->
+										
+									</div>
+									
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+									<div id="f_unfold">
+										
+
+
+										<!-- case2 : 세부등급이 있는경우 -->
+										
+											<table class="carCompare sellcase2">
+												<colgroup>
+													<col class="grade">
+													<col class="detailgrd">
+													<col class="mission">
+													<col class="price">
+													<col class="uprice">
+													<col class="item">
+													<col class="option">
+												</colgroup>
+												<thead class="compare">
+												<tr>
+													<th class="grade bgn" colspan="3"><b>구분</b></th>
+													<th class="price"><b>판매가격</b></th>
+													<th class="uprice"><b>중고차시세</b></th><!-- [시세개편] 중고차시세 추가 -->
+													<th class="item"><b>기본사양 품목</b></th>
+													<th class="option end"><b>선택사양 품목</b></th>
+												</tr>
+												</thead>
+												<tbody class="new">
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="3">
+																<p>1.7 VGT</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>스마트</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,695</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶ 가솔린 스마트 기본 품목 및</b>&nbsp;<br><br>디젤 1.7 VGT 엔진(140마력, 스포츠 모드 미적용)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b>&nbsp;와이드 파노라마 썬루프</b>&nbsp;1,200,000&nbsp;&nbsp;<br><br>▶&nbsp;<b>스마트 내비게이션 + 후방카메라 + 주차 가이드 시스템(PGS) + 외장앰프/서브우퍼 + 듀얼 풀오토 에어컨</b>&nbsp; 1,350,000&nbsp;<br><br><b>▶ 플러스 패키지</b>&nbsp;800,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>모던</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,925</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶ 가솔린 모던 기본 품목 및</b>&nbsp;<br><br>디젤 1.7 VGT 엔진(140마력, 스포츠 모드 미적용)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b>&nbsp;와이드 파노라마 썬루프</b>&nbsp;1,200,000&nbsp;&nbsp;&nbsp;<br><br>▶&nbsp;<b>스마트 내비게이션 + 후방카메라 + 주차 가이드 시스템(PGS) + JBL 프리미엄 사운드</b>&nbsp;1,550,000&nbsp;<br><br>▶<b>&nbsp;225/45R18 타이어 &amp; 하이퍼실버 휠&nbsp;</b>350,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>프리미엄</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,155</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶ 가솔린 프리미엄 기본 품목 및</b>&nbsp;<br><br>디젤 1.7 VGT 엔진(140마력, 스포츠 모드 미적용)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b>&nbsp;와이드 파노라마 썬루프</b>&nbsp;1,200,000&nbsp;&nbsp;&nbsp;<br><br>▶<b>&nbsp;스마트 내비게이션 + 후방카메라 + 주차 가이드 시스템(PGS) + JBL 프리미엄 사운드</b>&nbsp;1,100,000&nbsp;<br><br>▶<b>&nbsp;주차 조향 보조 시스템(SPAS)</b>&nbsp;300,000&nbsp;<br><br><b>▶ 유로 패키지</b>&nbsp;300,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="3">
+																<p>2.0 GDi</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>스마트</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,525</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶&nbsp;파워트레인&nbsp;: </b>가솔린 2.0 GDi 엔진(178마력), 6단 자동변속기(스포츠 모드), 속도 감응형 전동식 파워 스티어링
+(MDPS), 엑티브 에코 시스템, 진폭 감응형 댐퍼(ASD)&nbsp;<br><br><b>▶&nbsp;외관&nbsp;: </b>듀얼 머플러, 215/50R17 타이어 &amp; 알루미늄 휠, 프로젝션 헤드램프(코너링 램프 포함), LED 주간전조등
+(DRL), 안개등, LED 리어 콤비네이션 램프, 아웃사이드 미러(방향 지시등, 퍼들램프, 열선, 전동 접이 기능 포함),
+크롬 아웃사이드 도어 핸들, LED 보조제동등, 이중접합 차음유리(앞면 유리)&nbsp;<br><br><b>▶&nbsp;내장&nbsp;:</b> 스티어링 휠(가죽, 수동식 틸트 &amp; 텔레스코픽 포함), 가죽 변속기 노브, 무드램프, 크롬 인사이드 도어 핸들,
+룸미러(ECM), 직물트림(A/B 필라), 센터 콘솔(인조가죽, 암레스트 포함), 뒷좌석 에어벤트, 템퍼러리 스페어 타이어&nbsp;<br><br><b>▶&nbsp;시트&nbsp;:</b> 직물시트, 앞좌석 열선시트, 뒷좌석 6:4 분할 폴딩 시트&nbsp;<br><br><b>▶&nbsp;안전&nbsp;: </b> 7 에어백 시스템(운전석/동승석, 앞좌석 사이드, 커튼, 운전석 무릎), 차체 자세 제어 장치(VDC),
+샤시 통합 제어 시스템(VSM), 급제동 경보 시스템(ESS), 뒷좌석 센터 3점식 시트 벨트, 유아용 시트 고정장치,
+세이프티 파워윈도우(운전석)&nbsp;<br><br><b>▶&nbsp;편의&nbsp;:</b> 전자식 파킹 브레이크(EPB: Auto Hold 기능 포함), 버튼시동 &amp; 스마트키 시스템, 전후방 주차 보조시스템
+(PAS), 글러브 박스 쿨링, 오토라이트 컨트롤 시스템, 헤드램프 에스코트 기능, 매뉴얼 에어컨, 크루즈 컨트롤,
+포켓 라이팅, 웰컴 기능(클러스터, 퍼들램프, 포켓 라이팅), 트립컴퓨터, 스티어링 휠 리모컨&nbsp;<br><br><b>▶&nbsp;멀티미디어&nbsp;:</b> CDP 오디오(라디오, MP3, AUX/USB, iPod단자 포함), 블루투스 핸즈프리, 일반 사운드 시스템(6스피커)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b>&nbsp;와이드 파노라마 썬루프</b>&nbsp;1,200,000&nbsp;<br><br>▶<b>&nbsp;스마트 내비게이션 + 후방카메라 + 주차 가이드 시스템(PGS) + 외장앰프/서브우퍼 + 듀얼 풀오토 에어컨</b>&nbsp;&nbsp;<br>1,350,000&nbsp;<br><br>▶<b>&nbsp;플러스 패키지</b>&nbsp;800,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>모던</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,755</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶ 가솔린 스마트 기본 품목 및</b>&nbsp;<br><br>천연 가죽 시트, 운전석/동승석 10way 전동시트(전동 럼버 써포트 포함), 뒷좌석 열선 시트, 인조가죽 도어 트림,
+인서트 필름 내장재(크래쉬 패드, 도어 트림), 풋램프, 메탈 도어스커프, 러기지 네트, 뒷좌석 하단 수납 네트,
+세이프티 파워 윈도우(동승석, 뒷좌석), 타이어 공기압 경보장치(TPMS), 듀얼 풀오토 에어컨, 슈퍼비전 클러스터
+(4.2인치 TFT LCD), 열선 스티어링 휠, 하이패스 시스템, 솔라 글라스(앞면 유리), 와이퍼 결빙 방지 장치,
+클러스터 이오나이저
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b>&nbsp;와이드 파노라마 썬루프</b>&nbsp;1,200,000&nbsp;&nbsp;<br><br>▶<b>&nbsp;스마트 내비게이션 + 후방카메라 + 주차 가이드 시스템(PGS) + JBL 프리미엄 사운드</b>&nbsp;1,550,000&nbsp;<br><br>▶<b>&nbsp;225/45R18 타이어 &amp; 하이퍼실버 휠</b>&nbsp;350,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>프리미엄</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,985</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶ 가솔린 모던 기본 품목 및</b>&nbsp;<br><br>풀 어댑티브 HID 헤드램프, 225/45R18 타이어 &amp; 하이퍼실버 휠, 고급 반광 크롬 몰딩, 앞좌석 통풍시트,
+운전석 메모리 시트, 패들 쉬프트, 전동식 리어 커튼, 레인 센서, 오토 디포그, 6CDC 오디오(라디오, MP3,
+AUX/USB, iPod단자 포함), 외장앰프 &amp; 서브우퍼
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b>&nbsp;와이드 파노라마 썬루프</b>&nbsp;1,200,000&nbsp;&nbsp;<br><br>▶&nbsp;<b>스마트 내비게이션 + 후방카메라 + 주차 가이드 시스템(PGS) + JBL 프리미엄 사운드</b>&nbsp;1,100,000&nbsp;<br><br>▶<b>&nbsp;주차 조향 보조 시스템(SPAS)</b>&nbsp;300,000&nbsp;<br><br><b>▶ 유로 패키지</b>&nbsp;300,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+												</tbody>
+											</table>
+										
+									</div>
+									<!-- 신차가격표(폴더형) -->
+									<div id="f_fold" style="display:none;">
+										<div class="newcar_folder">
+											<ul class="nf_list" id="newcarList">
+												
+													<li>
+														<a href="#newcar0">
+                                                            <span class="model">1.7 VGT 스마트 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,695</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar1">
+                                                            <span class="model">1.7 VGT 모던 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,925</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar2">
+                                                            <span class="model">1.7 VGT 프리미엄 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,155</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar3">
+                                                            <span class="model">2.0 GDi 스마트 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,525</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar4">
+                                                            <span class="model">2.0 GDi 모던 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,755</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar5">
+                                                            <span class="model">2.0 GDi 프리미엄 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,985</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+											</ul>
+											<!-- 개별 -->
+											
+												<div id="newcar0" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 가솔린 스마트 기본 품목 및</b>&nbsp;<br><br>디젤 1.7 VGT 엔진(140마력, 스포츠 모드 미적용)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b>&nbsp;와이드 파노라마 썬루프</b>&nbsp;1,200,000&nbsp;&nbsp;<br><br>▶&nbsp;<b>스마트 내비게이션 + 후방카메라 + 주차 가이드 시스템(PGS) + 외장앰프/서브우퍼 + 듀얼 풀오토 에어컨</b>&nbsp; 1,350,000&nbsp;<br><br><b>▶ 플러스 패키지</b>&nbsp;800,000</p>
+												</div>
+											
+												<div id="newcar1" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 가솔린 모던 기본 품목 및</b>&nbsp;<br><br>디젤 1.7 VGT 엔진(140마력, 스포츠 모드 미적용)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b>&nbsp;와이드 파노라마 썬루프</b>&nbsp;1,200,000&nbsp;&nbsp;&nbsp;<br><br>▶&nbsp;<b>스마트 내비게이션 + 후방카메라 + 주차 가이드 시스템(PGS) + JBL 프리미엄 사운드</b>&nbsp;1,550,000&nbsp;<br><br>▶<b>&nbsp;225/45R18 타이어 &amp; 하이퍼실버 휠&nbsp;</b>350,000</p>
+												</div>
+											
+												<div id="newcar2" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 가솔린 프리미엄 기본 품목 및</b>&nbsp;<br><br>디젤 1.7 VGT 엔진(140마력, 스포츠 모드 미적용)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b>&nbsp;와이드 파노라마 썬루프</b>&nbsp;1,200,000&nbsp;&nbsp;&nbsp;<br><br>▶<b>&nbsp;스마트 내비게이션 + 후방카메라 + 주차 가이드 시스템(PGS) + JBL 프리미엄 사운드</b>&nbsp;1,100,000&nbsp;<br><br>▶<b>&nbsp;주차 조향 보조 시스템(SPAS)</b>&nbsp;300,000&nbsp;<br><br><b>▶ 유로 패키지</b>&nbsp;300,000</p>
+												</div>
+											
+												<div id="newcar3" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶&nbsp;파워트레인&nbsp;: </b>가솔린 2.0 GDi 엔진(178마력), 6단 자동변속기(스포츠 모드), 속도 감응형 전동식 파워 스티어링
+(MDPS), 엑티브 에코 시스템, 진폭 감응형 댐퍼(ASD)&nbsp;<br><br><b>▶&nbsp;외관&nbsp;: </b>듀얼 머플러, 215/50R17 타이어 &amp; 알루미늄 휠, 프로젝션 헤드램프(코너링 램프 포함), LED 주간전조등
+(DRL), 안개등, LED 리어 콤비네이션 램프, 아웃사이드 미러(방향 지시등, 퍼들램프, 열선, 전동 접이 기능 포함),
+크롬 아웃사이드 도어 핸들, LED 보조제동등, 이중접합 차음유리(앞면 유리)&nbsp;<br><br><b>▶&nbsp;내장&nbsp;:</b> 스티어링 휠(가죽, 수동식 틸트 &amp; 텔레스코픽 포함), 가죽 변속기 노브, 무드램프, 크롬 인사이드 도어 핸들,
+룸미러(ECM), 직물트림(A/B 필라), 센터 콘솔(인조가죽, 암레스트 포함), 뒷좌석 에어벤트, 템퍼러리 스페어 타이어&nbsp;<br><br><b>▶&nbsp;시트&nbsp;:</b> 직물시트, 앞좌석 열선시트, 뒷좌석 6:4 분할 폴딩 시트&nbsp;<br><br><b>▶&nbsp;안전&nbsp;: </b> 7 에어백 시스템(운전석/동승석, 앞좌석 사이드, 커튼, 운전석 무릎), 차체 자세 제어 장치(VDC),
+샤시 통합 제어 시스템(VSM), 급제동 경보 시스템(ESS), 뒷좌석 센터 3점식 시트 벨트, 유아용 시트 고정장치,
+세이프티 파워윈도우(운전석)&nbsp;<br><br><b>▶&nbsp;편의&nbsp;:</b> 전자식 파킹 브레이크(EPB: Auto Hold 기능 포함), 버튼시동 &amp; 스마트키 시스템, 전후방 주차 보조시스템
+(PAS), 글러브 박스 쿨링, 오토라이트 컨트롤 시스템, 헤드램프 에스코트 기능, 매뉴얼 에어컨, 크루즈 컨트롤,
+포켓 라이팅, 웰컴 기능(클러스터, 퍼들램프, 포켓 라이팅), 트립컴퓨터, 스티어링 휠 리모컨&nbsp;<br><br><b>▶&nbsp;멀티미디어&nbsp;:</b> CDP 오디오(라디오, MP3, AUX/USB, iPod단자 포함), 블루투스 핸즈프리, 일반 사운드 시스템(6스피커)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b>&nbsp;와이드 파노라마 썬루프</b>&nbsp;1,200,000&nbsp;<br><br>▶<b>&nbsp;스마트 내비게이션 + 후방카메라 + 주차 가이드 시스템(PGS) + 외장앰프/서브우퍼 + 듀얼 풀오토 에어컨</b>&nbsp;&nbsp;<br>1,350,000&nbsp;<br><br>▶<b>&nbsp;플러스 패키지</b>&nbsp;800,000</p>
+												</div>
+											
+												<div id="newcar4" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 가솔린 스마트 기본 품목 및</b>&nbsp;<br><br>천연 가죽 시트, 운전석/동승석 10way 전동시트(전동 럼버 써포트 포함), 뒷좌석 열선 시트, 인조가죽 도어 트림,
+인서트 필름 내장재(크래쉬 패드, 도어 트림), 풋램프, 메탈 도어스커프, 러기지 네트, 뒷좌석 하단 수납 네트,
+세이프티 파워 윈도우(동승석, 뒷좌석), 타이어 공기압 경보장치(TPMS), 듀얼 풀오토 에어컨, 슈퍼비전 클러스터
+(4.2인치 TFT LCD), 열선 스티어링 휠, 하이패스 시스템, 솔라 글라스(앞면 유리), 와이퍼 결빙 방지 장치,
+클러스터 이오나이저</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b>&nbsp;와이드 파노라마 썬루프</b>&nbsp;1,200,000&nbsp;&nbsp;<br><br>▶<b>&nbsp;스마트 내비게이션 + 후방카메라 + 주차 가이드 시스템(PGS) + JBL 프리미엄 사운드</b>&nbsp;1,550,000&nbsp;<br><br>▶<b>&nbsp;225/45R18 타이어 &amp; 하이퍼실버 휠</b>&nbsp;350,000</p>
+												</div>
+											
+												<div id="newcar5" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 가솔린 모던 기본 품목 및</b>&nbsp;<br><br>풀 어댑티브 HID 헤드램프, 225/45R18 타이어 &amp; 하이퍼실버 휠, 고급 반광 크롬 몰딩, 앞좌석 통풍시트,
+운전석 메모리 시트, 패들 쉬프트, 전동식 리어 커튼, 레인 센서, 오토 디포그, 6CDC 오디오(라디오, MP3,
+AUX/USB, iPod단자 포함), 외장앰프 &amp; 서브우퍼</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b>&nbsp;와이드 파노라마 썬루프</b>&nbsp;1,200,000&nbsp;&nbsp;<br><br>▶&nbsp;<b>스마트 내비게이션 + 후방카메라 + 주차 가이드 시스템(PGS) + JBL 프리미엄 사운드</b>&nbsp;1,100,000&nbsp;<br><br>▶<b>&nbsp;주차 조향 보조 시스템(SPAS)</b>&nbsp;300,000&nbsp;<br><br><b>▶ 유로 패키지</b>&nbsp;300,000</p>
+												</div>
+											
+										</div>
+										<script type="text/javascript">
+											newcarFolder(0);//초기값
+											function newcarFolder(target) {
+												var conElId = "newcar"//아이디 설정
+												var conElMenu = document.getElementById("newcarList");
+												var conElMenuLink = conElMenu.getElementsByTagName("a");
+												if (target != null) {
+													conElMenuLink[target].parentNode.className = "on";
+													document.getElementById(
+														conElId + target).style.display = "";
+												}
+												for (i = 0; i <= (conElMenuLink.length - 1); i++) {
+													conElMenuLink[i].onclick = function () {
+														for (x = 0; x <= (conElMenuLink.length - 1); x++) {
+															conElMenuLink[x].parentNode.className = "";
+															document.getElementById(
+																conElId + x).style.display = "none";
+														}
+														this.parentNode.className = "on";
+														document.getElementById(this.getAttribute('href')
+																					.split(
+																						'#')[1]).style.display =
+															"";
+														return false;
+													}
+												}
+											}
+										</script>
+									</div>
+									
+										<ul class="more">
+												<b>▶ 패키지 선택품목</b><br><b>플러스 패키지&nbsp;</b>- 천연 가죽시트, 하이패스, 뒷좌석 열선시트, 솔라글라스(앞면 유리), 러기지네트<br><b>유로 패키지</b>&nbsp;-&nbsp; 하드 서스펜션, 스포츠 버킷시트, 썸머 타이어, 메탈페달(블랙 인테리어 적용됨)
+										</ul>
+									
+									<p class="desc_more">위 신차가격표는 단순 참고자료이며, 정확한 내용은 각 제조사에서 제공하는 자료를 통해확인하실 수 있습니다.</p><!-- 2016/10/12 [장] 등급 등록/수정 개선 : 추가 디자인 변경 -->
+									<p class="toTop"><a href="#main_title" class="sp toTop db_ir" title="페이지 위로"><u>페이지 위로</u></a></p><!-- [시세개편] class db_ir 추가 -->
+								</div>
+
+
+							</div>
+							<!-- body end -->
+						</td>
+					</tr>
+				</table>
+
+
+			
+			
+		
+    </div>
+
+    <!-- container end -->
+</form>
+</div>
+
+</body>
+<script language="javascript">
+
+
+    var strCompanyUrl = "/common/combo/cardbcompany.json?method=carList";
+    var strModelGroupUrl = "/common/combo/modelgroupfordb.json?method=carList";
+    var strModelUrl = "/common/combo/cardbmodel.json?method=carList";
+    var strYrJatoUrl = "/common/combo/jatoYr.json?method=carList";
+
+    var companyid = "mnfccd";
+    var modelgroupid = "mdlgroupcd";
+    var modelid = "mdlcd";
+    var yearid = "caryear";
+
+    function initGnb() {
+        var paramCompany = $("paramMnfccd").value;
+        var paramModelGroup = $("paramMdlgroupcd").value;
+        var paramModel = $("paramMdlcd").value;
+        var paramYr = $("paramYear").value;
+
+        // 제조사
+        if (paramModel != "") {
+            $("mdlcd").show();
+        }
+
+        //console.log("companyid :: " + companyid)
+        //console.log("paramCompany :: " + paramCompany)
+		if($('foldYn').value != 0){
+            foldingYN('f_fold');
+		}
+
+        setCompany(strCompanyUrl, companyid, "제조사", paramCompany);
+
+        // 제조사 값이 있으면 모델 검색
+        if (paramCompany >= '010') {
+            if (paramCompany != "") {
+                if (paramModel == "") {
+                    paramModel = paramModelGroup;
+                }
+                setModel(strModelUrl, modelid, paramCompany, "모델", paramModel)
+                $("mdlgroupcd").hide();
+
+            }
+        } else {
+            $("mdlgroupcd").show();
+            if (paramCompany != "") {
+                setModelGroup(strModelGroupUrl, modelgroupid, paramCompany, "모델", paramModelGroup);
+                if (paramModelGroup != "") {
+                    setModel_New(strModelUrl, modelid, paramCompany, paramModelGroup, "세부모델", paramModel);
+                }
+            }
+
+        }
+        if (paramCompany != "" && paramModel != "") {
+            setCarYear(strYrJatoUrl, yearid, paramCompany, paramModel, "형식연도", paramYr);
+        }
+
+        waitTime = 1;
+    }
+
+    function changeModel_jato(mnfccd, mdlgroupcd) {
+        setModel_New(strModelUrl, modelid, mnfccd, mdlgroupcd, "세부모델", "");
+        //모델그룹선택시 기본 세부모델선택
+        if ($("mdlcd") != null) {
+            $("mdlcd").selectedIndex = 1;
+            var mdlcd = $("mdlcd").options[$("mdlcd").selectedIndex].value;
+            changeYearJato(mnfccd, mdlcd);
+        }
+    }
+
+    function changeYearJato(mnfccd,mdlcd) {
+        setCarYear(strYrJatoUrl, yearid, mnfccd, mdlcd, "형식연도", "");
+        $(yearid).options[1].selected = true;
+    }
+
+
+
+    //덧글 리스트
+    function viewForm(index) {
+
+        var object = $("default" + index);
+        var objectSum = $("defaultSum" + index);
+        var selectSum = $("choiceSum" + index);
+        var object1 = $("choice" + index);
+        if (object != null) {
+            if (object.style.display == 'none') {
+                objectSum.hide();
+                selectSum.hide();
+                object.style.display = "block";
+                object1.style.display = "block";
+
+            } else {
+                object.hide();
+                object1.hide();
+                objectSum.style.display = "block";
+                selectSum.style.display = "block";
+            }
+        }
+    }
+
+    function viewAll() {
+        for (var i = 1; i <=6; i++) {
+            $("default" + i).style.display = "block";
+            $("defaultSum" + i).style.display = "none";
+            $("choice" + i).style.display = "block";
+            $("choiceSum" + i).style.display = "none";
+        }
+    }
+
+    function closeAll() {
+        for (var i = 1; i <=6; i++) {
+            $("default" + i).style.display = "none";
+            $("defaultSum" + i).style.display = "block";
+            $("choice" + i).style.display = "none";
+            $("choiceSum" + i).style.display = "block";
+        }
+    }
+
+    function firstLayerOpen() {
+        //viewForm(1);
+    }
+
+    function foldingYN(param) {
+        if (param == "f_fold") {
+            document.getElementById("folding").innerHTML ="<a href=\"javascript:foldingYN('f_unfold')\" class='folding f_unfold'>전체등급 펼쳐보기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "none";
+            document.getElementById("f_fold").style.display = "";
+        } else {
+            document.getElementById("folding").innerHTML = "<a href=\"javascript:foldingYN('f_fold')\" class='folding f_fold'>접기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "";
+            document.getElementById("f_fold").style.display = "none";
+        }
+    }
+
+    function onSubmit() {
+        jQuery("#searchForm").submit();
+
+    }
+    window.onload = initGnb;
+
+</script>
+</html>
+

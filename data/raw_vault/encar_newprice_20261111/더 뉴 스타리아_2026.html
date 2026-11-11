@@ -1,0 +1,4428 @@
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>차량DB - 차량정보 - 신차가격표</title>
+    <link type="text/css" rel="stylesheet" href="/css/common.css?v=1793835891525"/>
+    <link type="text/css" rel="stylesheet" href="/css/db.css?v=1793835891525"/>
+
+    <script type="text/javascript" src="/js/encarapp/lib/jquery/jquery-1.11.3.min.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/common/ui.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/prototype.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/util.js?v=1793835894199"></script>
+
+    <script type="text/javascript" src="/js/common/db_common.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/commonCombo.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/carSearchCombo.js?v=1793835894199"></script>
+	<script>
+		window.enlogInitJson = {
+			"dataTalkView": {
+				"screenName": "신차가격표"
+			}
+		}
+
+	</script>
+
+
+</head>
+
+
+
+
+
+
+
+    <!-- 등급 체크박스  -->
+    <div style="display:none">
+        
+    </div>
+
+    <!-- 세부등급 체크박스 -->
+    <div style="display:none">
+        
+    </div>
+
+
+
+<body class="db db_newdetailview db_basicTemplate">
+
+
+
+
+	
+	
+	
+	
+
+
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-W9QQ2T"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W9QQ2T');</script>
+<!-- End Google Tag Manager -->
+
+<!-- container begin -->
+<div class="container" id="containerDIV">
+<input type="hidden" id = "foldYn" name="searchtype" value="21"/>
+<form id ="searchForm" name="searchForm">
+
+    <input type="hidden" id = "method" name="method" value="newpricePopV2"/>
+    <input type="hidden" id = "dimensiontype" name="dimensiontype" value="null"/>
+    <input type="hidden" id = "paramMnfccd" name="paramMnfccd" value="001"/>
+    <input type="hidden" id = "paramMdlgroupcd" name="paramMdlgroupcd" value="060"/>
+    <input type="hidden" id = "paramMdlcd" name="paramMdlcd" value="198"/>
+    <input type="hidden" id = "paramYear" name="paramYear" value="2026"/>
+    <input type="hidden" id = "model" name="model" value="">
+    <input type="hidden" id = "paramCaryear" name="paramCaryear" value="2026"/>
+    <input type="hidden" id = "clsheadcd" name="clsheadcd" class="checkbox" value="null"/>
+    <input type="hidden" id = "paramGradeHead" name="paramGradeHead" value="null"/>
+	<input type="hidden" id = "searchtype" name="searchtype" value="check"/>
+	<input type="hidden" id = "pageAccessToken" name="pageAccessToken" value="AgV4v95hO1votNeBIUR9psypWtu2l2wHWk2nmV6lr820264AcQACAAdFbmNhckNrAAdFbmNhckN2ABVhd3MtY3J5cHRvLXB1YmxpYy1rZXkAREE3M2g2dytKblZFb2VST2dnekRhd1FPYWFuZHAyT2tBRDhJaVZnNnU2elVkaldkZmIxY0UzTXl5R0UwVWIxejJJUT09AAEAB2F3cy1rbXMAUGFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjI3MjM2MjQ4NzY1MzprZXkvbXJrLWRmZWEyNmY3NTVhMzQ3MjliNjkwMjRkZWZmM2M1MWFjALgBAgEAeAuqQuSJvQ+Ra4FSj55FZzS0sk+00amsb3yoAFiEYn4PAdo6MBdvC3c2iCHb3mdTLVkAAAB+MHwGCSqGSIb3DQEHBqBvMG0CAQAwaAYJKoZIhvcNAQcBMB4GCWCGSAFlAwQBLjARBAyB6RjFlKRXoSkt0hoCARCAO7Z9o9FrN0noYS6hzz+MqluOoMSEVlJY3F+gp2/VQMovuZpTOSvrllp3liYDM/E4oalQRWhrLDRuBG+vAgAAEACy7XK8y5YEQHHKjzb1zdHvKhxHrx67xRMwiVTxZDVm0K/LwhkrdN3siHXrIp82FeP/////AAAAAQAAAAAAAAAAAAAAAQAAAKO4EBb+1IoGhtGOn2iEY3t8tpRKsnXjlqiARsLxYP6ACGB+cbIVHnurzIdnZz2jRI9E/EpKxrg+nr0rDUY2YJg/xo3hwp2FNp95dnJl5qPe5Lv05PI0RGkBg/mEdArmxtqlMKU+2tXpAhhkaywVlwaAwgbHDwEZl1ivZcLB1Ilh9SQbkUddZh78oyJs5qY0qwftcLdu8Tl0qY1Xxdx4D+CPGXA+zBSXn6dWSmD7TZB2st8gpQBnMGUCMDL3HyXCy06AiZXuaplHf7+qzUg3AgOQBkRnZAxyB8/VWsoUSdhF0a8t5kxHqkIZjQIxAMaXT52BSkA3ifDePULYXGY7adh9V1PDvm4yb4tnq4BENA8kwz1n9wzZ25NteLWILg=="/>
+    <div class="header">
+        <h1 class="blind">SK엔카</h1>
+        <h2 class="tit_carprice" id="main_title">신차가격표</h2>
+        <p class="quickSearch">
+
+
+
+            <select title="제조사" class="opt_select" id="mnfccd" name="mnfccd" onChange="javascript:changeModelGroup(this.value);">
+                <option value="">제조사</option>
+            </select>
+
+            <select class="opt_select" title="모델" id="mdlgroupcd" name="mdlgroupcd" onChange="javascript:changeModel_jato($('mnfccd').value, this.value);">
+                <option>모델</option>
+            </select>
+
+            <select class="opt_select" title="세부모델" id="mdlcd" name="mdlcd" onChange="javascript:changeYearJato($('mnfccd').value, $('mdlcd').value);">
+                <option>세부모델</option>
+            </select>
+
+            <select class="opt_select" title="연식" id="caryear" name="caryear">
+                <option>연식</option>
+            </select>
+
+            <button type="button" class="btn_search" onclick="javascript:onSubmit();"/>검색</button>
+
+
+
+        </p>
+    </div>
+    <!-- body begin -->
+    <div class="body" id="bodydiv">
+		
+			
+				<table class="layout">
+					<col class="contents"/>
+					<tr>
+						<td class="contentsMenu">
+							<!-- contentsMenu begin -->
+							<div class="contentsMenu">
+								<h3 class="title">현대 더 뉴 스타리아 2026년형</h3>
+							</div>
+							<!-- contentsMenu end -->
+						</td>
+					</tr>
+
+					<tr>
+						<td class="contentsMain">
+							<!-- contents begin -->
+							<div class="contents">
+
+								<div class="carCompare">
+									<div class="dbHead">
+										
+											<div id="folding"><a href="javascript:foldingYN('f_fold')"
+																 class="folding f_fold">전체등급 펼쳐보기<em class="db_ir"></em></a></div>
+
+											<!-- 2013/04/03 [서] 매물탭 개선 : 기능 버튼 추가 --><!--<a href="#" class="folding f_unfold">펼치기</a>-->
+										
+									</div>
+									
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+									<div id="f_unfold">
+										
+
+
+										<!-- case2 : 세부등급이 있는경우 -->
+										
+											<table class="carCompare sellcase2">
+												<colgroup>
+													<col class="grade">
+													<col class="detailgrd">
+													<col class="mission">
+													<col class="price">
+													<col class="uprice">
+													<col class="item">
+													<col class="option">
+												</colgroup>
+												<thead class="compare">
+												<tr>
+													<th class="grade bgn" colspan="3"><b>구분</b></th>
+													<th class="price"><b>판매가격</b></th>
+													<th class="uprice"><b>중고차시세</b></th><!-- [시세개편] 중고차시세 추가 -->
+													<th class="item"><b>기본사양 품목</b></th>
+													<th class="option end"><b>선택사양 품목</b></th>
+												</tr>
+												</thead>
+												<tbody class="new">
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="2">
+																<p>L3.5 투어러 11인승</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>스마트</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,502</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶ 파워트레인/성능 :</b> 스마트스트림 LPG 3.5엔진, 8단 자동변속기, 통합 주행 모드, 후륜 멀티 링크 서스펜션<br><br><b>▶ 안전 :</b> 7에어백 시스템(1열 에어백/사이드, 운전석 무릎, 전복대응 커튼), 전좌석 3점식 시트벨트, 전좌석 헤드레스트,
+세이프티 파워 윈도우(운전석), 다중 충돌방지 자동 제동 시스템, 횡풍안정제어, 개별 타이어 공기압 경보 장치,
+타이어 응급처치 키트, 유아용 시트 고정장치(2열 2개), 실내 소화기<br><br><b>▶ 지능형 안전 기술 :</b> 전방 충돌방지 보조(차량/보행자/자전거 탑승자/교차로 대향차/정면 대향차), 차로 이탈방지 보조,
+차로 유지 보조, 후측방 충돌방지 경고(주행), 후측방 충돌방지 보조(전진 출차), 후방 교차 충돌방지 보조,
+스마트 크루즈 컨트롤(스탑앤고 기능 포함), 하이빔 보조, 지능형 속도 제한 보조, 운전자 주의 경고, 전방 차량 출발 알림,
+후석 승객 알림<br><br><b>▶ 외관 :</b> 17인치 스틸 휠 &amp; 타이어, 리어 스포일러, LED 보조제동등, 리어글래스 열선, 바디 컬러 아웃사이드 도어 핸들,
+아웃사이드 미러(전동접이, 전동조절), 후석 파노라믹 윈도우, 전/후륜 디스크 브레이크<br><br><b>▶ 내장 :</b> 클러스터(4.2인치 컬러 LCD), D&amp;N 룸미러, 수동식 틸트 &amp; 텔레스코픽 스티어링 휠, 리놀륨 플로어 카페트<br><br><b>▶ 시트 :</b> 직물 시트, 1열 열선시트, 운전석 수동 높이 조절, 동승석 슬라이딩 &amp; 리클라이닝 시트, 2~4열 롱 슬라이딩 시트,
+2~4열 풀 플랫 시트, 2열 6:4 분할 시트(리클라이닝/폴딩), 3열 독립시트(리클라이닝/폴딩), 4열 쿠션 팁업 시트(폴딩)<br><br><b>▶ 편의 : </b>버튼시동 &amp; 스마트키, 스마트키 원격시동, 전동식 파킹 브레이크(오토홀드 포함), USB C타입 단자(1열 충전 2개/
+2열 충전 2개/3열 충전 2개), 전방/후방 주차 거리 경고, 후방 모니터, 오토라이트 컨트롤, 매뉴얼 에어컨,
+후석 루프 에어 벤트, 마이크로 에어 필터, 파워 아웃렛(1열 1개), 애프터블로우, 워크 어웨이 락<br><br><b>▶ 인포테인먼트 :</b> 12.3인치 디스플레이 오디오(블루링크, 폰 프로젝션, 블루투스 핸즈프리, 6스피커),
+무선 소프트웨어 업데이트(OTA Software Update), 샤크핀 안테나
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶ 멀티미디어 내비플러스Ⅰ</b> 1,900,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>모던</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,659</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶ L3.5 투어러 11인승 스마트 기본품목 및</b>&nbsp;<br><br><b>ㆍ외관 :</b> 17인치 알로이 휠 &amp; 타이어, 바디 컬러 아웃사이드 미러(열선, LED 방향지시등), 유광 필라 가니쉬,
+자외선 차단 유리(윈드실드)<br><br><b>ㆍ내장 :</b> 슬라이딩 선바이저 &amp; 거울 &amp; 조명, 가죽 스티어링 휠(열선포함), 가죽 변속기 노브,
+루프트레이(운전석/동승석 상단 수납함)&nbsp;<br><br><b>ㆍ시트 :</b> 인조가죽 시트(블랙/베이지)&nbsp;<br><br><b>ㆍ편의 :</b> USB C타입 단자(4열 충전 2개), 레인센서, ECM 룸미러, 하이패스&nbsp;&nbsp;
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶ 빌트인 캠 2 PLUS, 증강현실 내비게이션</b> 670,000&nbsp;<br>※ 멀티미디어 내비플러스Ⅱ 선택 시&nbsp;<br><br><b>▶ 듀얼 와이드 선루프 + LED 실내등(맵램프, 룸램프)</b> 900,000&nbsp;<br>※ 선루프 선택 시 루프 트레이 미적용&nbsp;<br><br><b>▶ 멀티미디어 내비플러스Ⅱ </b>1,700,000&nbsp;<br><br><b>▶ 익스테리어 디자인(11인승)</b> 1,050,000&nbsp;<br><br><b>▶ 컴포트</b> 550,000&nbsp;<br><br><b>▶ 테크Ⅰ</b> 1,350,000&nbsp;<br>※ 멀티미디어 내비플러스Ⅱ 선택 시 선택 가능&nbsp;<br><br><b>▶ 테크Ⅱ</b> 1,250,000<br><br><b>▶ H Genuine Accessories</b> <b>트레일러 패키지(토우히치 &amp; LED 테일게이트 램프)</b> 1,270,000&nbsp;&nbsp;<br>※ 멀티미디어 내비플러스 II 선택 시 선택 가능</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="2">
+																<p>L3.5 라운지 7인승</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>모빌리티</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>4,467</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶ 커스터마이징(H Genuine Accessories) 모빌리티 패키지 :</b> 후석 전동식 사이드 스텝(우측)&nbsp;<br><br><b>▶ 파워트레인/성능 : </b>스마트스트림 LPG 3.5 엔진, 8단 자동변속기, 통합 주행 모드, 전자식 변속 칼럼,
+후륜 멀티 링크 서스펜션&nbsp;<br><br><b>▶ 안전 :</b> 7에어백 시스템(1열 에어백/사이드, 운전석 무릎/전복대응 커튼), 전좌석 3점식 시트벨트, 전좌석 헤드레스트,
+세이프티 파워 윈도우(1열), 다중 충돌방지 자동 제동 시스템, 횡풍안정제어, 개별 타이어 공기압 경보 장치,
+타이어 응급처치 키트, 유아용 시트 고정장치(2열 2개), 실내 소화기&nbsp;<br><br><b>▶ 지능형 안전 기술 :</b> 전방 충돌방지 보조(차량/보행자/자전거탑승자/교차로 대향차/정면 대향차), 차로 이탈방지 보조,
+차로 유지 보조, 후측방 충돌방지 경고(주행), 후측방 충돌방지 보조(전진 출차), 후방 교차 충돌 방지 보조,
+스마트 크루즈 컨트롤(스탑앤고 기능 포함), 고속도로 주행 보조, 내비게이션 기반 스마트 크루즈 컨트롤(안전구간,
+곡선로), 안전 하차보조, 하이빔 보조, 지능형 속도 제한 보조, 운전자 주의 경고, 전방 차량 출발 알림, 후석 승객 알림&nbsp;<br><br><b>▶ 외관 :</b> 라운지 전용 디자인(크롬 라디에이터 그릴/범퍼/아웃사이드 도어핸들), 라운지 전용 18인치 알로이 휠,
+Full LED 헤드램프(프로젝션), LED 주간주행등, LED 포지셔닝 램프, LED 방향지시등(앞), LED 리어콤비램프,
+순차 점등 방향지시등(뒤), 다이나믹 웰컴 라이트, 리어 스포일러, LED 보조제동등, 바디 컬러 아웃사이드 미러(열선,
+전동접이, 전동조절, LED 방향지시등), 리어글래스 열선, 에어로 타입 와이퍼, 자외선 차단 유리(윈드실드),
+후석 파노라믹 윈도우, 유광 필라 가니쉬, 전/후륜 디스크 브레이크&nbsp;<br><br><b>▶ 내장 :</b> 라운지 전용 디자인(스웨이드 내장재, 풀사이즈 센터 콘솔, 앰비언트 무드램프, 메탈 도어 스커프, 메탈 페달,
+반펀칭 가죽 스티어링 휠), 클러스터(12.3인치 컬러 LCD), LED 실내등(맵램프, 룸램프, 선바이저),
+수동식 틸트 &amp; 텔레스코픽 스티어링 휠, 슬라이딩 선바이저 &amp; 거울, 러기지 네트
+※ 스웨이드 내장재 적용 범위 : 헤드라이닝, 필라, 선바이저&nbsp;<br><br><b>▶ 시트 : </b>2열 프리미엄 릴렉션 시트(원터치 릴렉션, 전동 리클라이닝/쿠션 틸팅/4way 레그서포트, 윙타입 헤드레스트,
+워크인 스위치), 천연가죽 시트(블랙/엔트러사이트 브라운), 운전석 전동시트(8way, 4way 럼버서포트),
+1/2열 열선/통풍시트, 동승석 전동시트(4way, 워크인 디바이스), 2열~3열 슬라이딩 시트, 3열 쿠션 팁업 시트(폴딩)&nbsp;<br><br><b>▶ 편의 : </b>스마트 파워 슬라이딩 도어, 스마트 파워 테일게이트, 버튼시동 &amp; 스마트키, 스마트키 원격시동,
+전동식 파킹 브레이크(오토홀드 포함), 열선 스티어링 휠(진동경고), 풀오토 에어컨(미세먼지 센서/공기청정모드/
+애프터블로우), 후석 루프 에어 벤트, 마이크로 에어 필터, ECM 룸미러, 하이패스, 패들쉬프트, 220V 인버터,
+파워 아웃렛(1열 1개), USB C타입 단자(1열 충전 2개/2열 충전 2개/3열 충전 2개), 전방/후방 주차 거리 경고,
+후방 모니터, 오토라이트 컨트롤, 레인센서, 워크 어웨이 락&nbsp;<br><br><b>▶ 인포테인먼트 : </b>12.3인치 내비게이션(블루링크, 폰 프로젝션, 블루투스 핸즈프리, 인카페이먼트, e hi-pass, 6스피커),
+무선 소프트웨어 업데이트(OTA Software Update), 샤크핀 안테나
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶ BOSE 프리미엄 사운드(12스피커, 외장앰프) </b>600,000&nbsp;&nbsp;<br>※ 컴포트, 테크 선택 시&nbsp;<br><br><b>▶ 듀얼 와이드 선루프</b> 850,000&nbsp;<br>※ 듀얼 와이드 선루프 선택 시 루프 모니터 선택 불가&nbsp;<br><br><b>▶ 스마트</b> 1,160,000&nbsp;<br><br><b>▶ 컴포트</b> 500,000&nbsp;<br><br><b>▶ 테크</b> 1,050,000<br><br><b>▶ H Genuine Accessories 17.3인치 루프 모니터(전동폴딩, 블루투스, HDMI, USB 멀티미디어 재생)</b> 1,070,000&nbsp;&nbsp;<br>※ 루프 모니터 선택 시 듀얼 와이드 선루프 선택 불가</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>인스퍼레이션</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>4,705</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶ 파워트레인/성능 :</b> 스마트스트림 LPG 3.5엔진, 8단 자동변속기, 통합 주행 모드, 전자식 변속 칼럼, 후륜 멀티 링크 서스펜션<br><br><b>▶ 안전 : </b>7에어백 시스템(1열 에어백/사이드, 운전석 무릎, 전복대응 커튼), 전좌석 3점식 시트벨트, 전좌석 헤드레스트,
+세이프티 파워 윈도우(1열), 다중 충돌방지 자동 제동시스템, 횡풍안정제어, 개별 타이어 공기압 경보 장치,
+타이어 응급처치 키트, 유아용 시트 고정장치(2열 2개), 실내 소화기&nbsp;<br><br><b>▶ 지능형 안전 기술 : </b>전방 충돌 방지 보조(차량/보행자/자전거 탑승자/교차로 대향차/정면 대향차), 차로 이탈방지 보조,
+차로 유지 보조, 후측방 충돌방지 경고(주행), 후측방 충돌방지 보조(전진 출차), 후방 교차 충돌방지 보조,
+스마트 크루즈 컨트롤(스탑앤고 기능 포함), 고속도로 주행 보조, 내비게이션 기반 스마트 크루즈 컨트롤(안전구간, 곡선로),
+어드밴스드 후석 승객 알림, 하이빔 보조, 지능형 속도 제한 보조, 운전자 주의 경고, 전방 차량 출발 알림, 안전 하차 보조&nbsp;<br><br><b>▶ 외관 :</b> 라운지 전용 디자인(크롬 라디에이터 그릴, 범퍼, 아웃사이드 도어 핸들), 라운지 전용 18인치 알로이 휠,
+Full LED 헤드램프(프로젝션), LED 주간주행등, LED 포지셔닝 램프, LED 방향지시등(앞), LED 리어콤비램프,
+순차 점등 방향 지시등(뒤), 다이나믹 웰컴 라이트, 리어 스포일러, LED 보조제동등, 바디 컬러 아웃사이드 미러
+(열선, 전동접이, 전동조절, LED방향지시등), 자외선 차단 유리(윈드실드), 이중접합 차음유리(윈드실드, 1열 도어),
+리어글래스 열선, 에어로 타입 와이퍼, 후석 파노라믹 윈도우, 유광 필라 가니쉬, 전/후륜 디스크 브레이크&nbsp;<br><br><b>▶ 내장 :</b> 라운지 전용 디자인(스웨이드 내장재, 풀사이즈 센터 콘솔, 앰비언트 무드램프, 메탈 도어 스커프, 메탈 페달,
+반펀칭 가죽 스티어링 휠), 클러스터(12.3인치 컬러 LCD), LED실내등(맵램프, 룸램프, 선바이저),
+수동식 틸트 &amp; 텔레스코픽 스티어링 휠, 슬라이딩 선바이저 &amp; 거울, 러기지 네트
+※ 스웨이드 내장재 적용 부위 : 헤드라이닝, 필라, 선바이저<br><br><b>▶ 시트 : </b>2열 프리미엄 릴렉션 시트(원터치 릴렉션, 전동 리클라이닝/쿠션 틸팅/4way 레그서포트, 윙타입 헤드레스트,
+워크인 스위치), 나파가죽 시트(블랙/엔트러사이트 브라운/보르도 브라운/로토루아 크림), 1/2열 통풍/열선시트,
+운전석 전동시트(8way, 4way 럼버서포트), 동승석 전동 시트(4way, 워크인 디바이스), 2열~3열 슬라이딩 시트,
+3열 쿠션 팁업 시트(폴딩)&nbsp;<br><br><b>▶ 편의 : </b>스마트 파워 슬라이딩 도어, 스마트 파워 테일게이트, 버튼시동 &amp; 스마트키, 스마트키 원격시동, 디지털 키 2,
+전동식 파킹 브레이크(오토홀드 포함), 열선 스티어링 휠(진동 경고), 풀오토 에어컨(미세먼지 센서/공기청정모드/
+애프터블로우), 후석 루프 에어 벤트, 마이크로 에어 필터, 하이패스, ECM 룸미러, 패들쉬프트, 220V 인버터,
+파워 아웃렛(1열 1개), USB C타입 단자(1열 충전 2개/2열 충전 2개/3열 충전 2개), 전방/후방/측방 주차 거리 경고,
+오토라이트 컨트롤, 서라운드 뷰 모니터, 후측방 모니터, 터치타입 아웃사이드 도어 핸들, 스마트폰 무선충전, 후석 뷰,
+후석 음성 인식, 레인센서, 후방 모니터, 워크 어웨이 락&nbsp;<br><br><b>▶ 인포테인먼트 :</b>  12.3인치 내비게이션(블루링크, 폰 프로젝션, 블루투스 핸즈프리, 인카페이먼트, e hi-pass, 6스피커),
+무선 소프트웨어 업데이트(OTA Software Update), 샤크핀 안테나
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶ 듀얼 와이드 선루프</b> 890,000&nbsp;<br><br><b>▶ BOSE 프리미엄 사운드(12스피커, 외장앰프)</b> 640,000&nbsp;&nbsp;<br>※ 컴포트 선택 시&nbsp;<br><br><b>▶ 빌트인 캠 2 PLUS, 증강현실 내비게이션</b> 700,000&nbsp;<br><br><b>▶ 컴포트</b> 520,000<br><br><b>▶ H Genuine Accessories 트레일러 패키지(토우히치 &amp; LED 테일게이트 램프)</b> 1,340,000&nbsp;&nbsp;<br><br><b>▶ H Genuine Accessories 빌트인 공기청정기</b> 420,000&nbsp;<br><br><b>▶ H Genuine Accessories 후석 전동식 사이드 스텝(우측)</b> 680,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="2">
+																<p>L3.5 카고 3인승</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>스마트</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,259</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶ 파워트레인/성능 :</b> 스마트스트림 LPG 3.5엔진, 8단 자동변속기, 통합 주행 모드, 후륜 리지드 엑슬 서스펜션<br><br><b>▶ 안전 :</b> 7에어백 시스템(1열 에어백/사이드, 운전석 무릎, 전복대응 커튼), 전좌석 3점식 시트벨트, 전좌석 헤드레스트,
+세이프티 파워 윈도우(운전석), 다중 충돌방지 자동 제동 시스템, 횡풍안정제어, 개별 타이어 공기압 경보 장치,
+타이어 응급처치 키트, 실내 소화기<br><br><b>▶ 지능형 안전 기술 :</b> 전방 충돌방지 보조(차량/보행자/자전거 탑승자/교차로 대향차/정면 대향차), 차로 이탈방지 보조,
+차로 유지 보조, 후측방 충돌방지 경고(주행), 후측방 충돌방지 보조(전진 출차), 후방 교차 충돌방지 보조,
+스마트 크루즈 컨트롤(스탑앤고 기능 포함), 하이빔 보조, 지능형 속도 제한 보조, 운전자 주의경고, 전방 차량 출발 알림<br><br><b>▶ 외관 :</b> 17인치 스틸 휠 &amp; 타이어, 리어 스포일러, LED 보조제동등, 리어글래스 열선, 바디 컬러 아웃사이드 도어 핸들,
+아웃사이드 미러(전동접이, 전동조절), 전/후륜 디스크 브레이크<br><br><b>▶ 내장 :</b> 클러스터(4.2인치 컬러 LCD), D&amp;N 룸미러, 수동식 틸트 &amp; 텔레스코픽 스티어링 휠, 리놀륨 플로어 카페트, 카고 램프<br><br><b>▶ 시트 :</b> 직물시트, 1열 열선시트, 운전석 수동 높이 조절, 동승석 슬라이딩 &amp; 리클라이닝 시트
+<br><br><b>▶ 편의 : </b>버튼시동 &amp; 스마트키, 스마트키 원격시동, 전동식 파킹 브레이크(오토홀드 포함), USB C타입 단자(1열 충전 2개),
+전방/후방 주차 거리 경고, 후방 모니터, 오토라이트 컨트롤, 매뉴얼 에어컨,
+마이크로 에어 필터, 파워 아웃렛(1열 1개), 애프터블로우, 워크 어웨이 락<br><br><b>▶ 인포테인먼트 :</b> 12.3인치 디스플레이 오디오(블루링크, 폰 프로젝션, 블루투스 핸즈프리, 4스피커),
+무선 소프트웨어 업데이트(OTA Software Update), 샤크핀 안테나
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶ 트윈 스윙 도어</b> 400,000<br><br><b>▶ 멀티미디어 내비플러스Ⅰ</b> 1,850,000<br><br><b>▶ H Genuine Accessories 슬라이딩 카고 베드</b> 1,330,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>모던</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,412</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶ L3.5 카고 3인승 스마트 기본품목 및</b>&nbsp;<br><br><b>ㆍ외관 :</b> 17인치 알로이 휠 &amp; 타이어, 바디 컬러 아웃사이드 미러(열선, LED 방향지시등), 자외선 차단 유리(윈드실드)&nbsp;<br><br><b>ㆍ내장 : </b>슬라이딩 선바이저 &amp; 거울 &amp; 조명, 가죽 스티어링 휠(열선포함), 가죽 변속기 노브,
+루프 트레이(운전석/동승석 상단 수납함)&nbsp;<br><br><b>ㆍ시트 : </b>인조가죽 시트(블랙/베이지)&nbsp;<br><br><b>ㆍ편의 :</b> 레인센서, ECM 룸미러, 하이패스
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶ 트윈 스윙 도어</b> 400,000<br><br><b>▶ 빌트인 캠 2 PLUS, 증강현실 내비게이션</b> 670,000&nbsp;<br>※ 트윈 스윙 도어와 중복 선택 불가&nbsp;<br>※ 멀티미디어 내비플러스Ⅱ 선택 시 선택 가능&nbsp;<b><br></b><b><br></b><b>▶ 윈도우 밴(3인승)</b> 300,000&nbsp;<b><br></b><b><br></b><b>▶ 멀티미디어 내비플러스Ⅱ </b>1,650,000&nbsp;<b><br></b><b><br></b><b>▶ 익스테리어 디자인(3인승)</b> 550,000&nbsp;<b><br></b><b><br></b><b>▶ 컴포트(3인승) </b>800,000&nbsp;<br>※ 트윈 스윙 도어와 중복 선택 불가&nbsp;<b><br></b><b><br></b><b>▶ 테크</b> 1,200,000&nbsp;<br>※ 트윈 스윙 도어와 중복 선택 불가&nbsp;<br>※ 멀티미디어 내비플러스Ⅱ 선택 시 선택 가능<br><br><b>▶ H Genuine Accessories 슬라이딩 카고 베드</b> 1,330,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="2">
+																<p>L3.5 카고 5인승</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>스마트</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,346</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶ 파워트레인/성능 :</b> 스마트스트림 LPG 3.5엔진, 8단 자동변속기, 통합 주행 모드, 후륜 리지드 엑슬 서스펜션<br><br><b>▶ 안전 :</b> 7에어백 시스템(1열 에어백/사이드, 운전석 무릎, 전복대응 커튼), 전좌석 3점식 시트벨트, 전좌석 헤드레스트,
+세이프티 파워 윈도우(운전석), 다중 충돌방지 자동 제동 시스템, 횡풍안정제어, 개별 타이어 공기압 경보 장치,
+타이어 응급처치 키트, 실내 소화기<br><br><b>▶ 지능형 안전 기술 :</b> 전방 충돌방지 보조(차량/보행자/자전거 탑승자/교차로 대향차/정면 대향차), 차로 이탈방지 보조,
+차로 유지 보조, 후측방 충돌방지 경고(주행), 후측방 충돌방지 보조(전진 출차), 후방 교차 충돌방지 보조,
+스마트 크루즈 컨트롤(스탑앤고 기능 포함), 하이빔 보조, 지능형 속도 제한 보조, 운전자 주의경고, 전방 차량 출발 알림,
+후석 승객 알림<br><br><b>▶ 외관 :</b> 17인치 스틸 휠 &amp; 타이어, 리어 스포일러, LED 보조제동등, 리어글래스 열선, 바디 컬러 아웃사이드 도어 핸들,
+아웃사이드 미러(전동접이, 전동조절), 전/후륜 디스크 브레이크, 2열 파노라믹 윈도우<br><br><b>▶ 내장 :</b> 클러스터(4.2인치 컬러 LCD), D&amp;N 룸미러, 수동식 틸트 &amp; 텔레스코픽 스티어링 휠, 센터콘솔,
+리놀륨 플로어 카페트, 카고 램프<br><br><b>▶ 시트 :</b> 직물시트, 1열 열선시트, 운전석 수동 높이 조절, 동승석 슬라이딩 &amp; 리클라이닝 시트, 2열 시트(고정식, 수납함 내장)
+※ 미적용 : 1열 센터 시트<br><br><b>▶ 편의 : </b>버튼시동 &amp; 스마트키, 스마트키 원격시동, 전동식 파킹 브레이크(오토홀드 포함),
+USB C타입 단자(1열 충전 2개/2열 충전 2개), 전방/후방 주차 거리 경고, 후방 모니터, 오토라이트 컨트롤,
+매뉴얼 에어컨, 마이크로 에어 필터, 파워 아웃렛(1열 1개), 애프터블로우, 워크 어웨이 락<br><br><b>▶ 인포테인먼트 :</b>  12.3인치 디스플레이 오디오(블루링크, 폰 프로젝션, 블루투스 핸즈프리, 4스피커),
+무선 소프트웨어 업데이트(OTA Software Update), 샤크핀 안테나
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶ 트윈 스윙 도어</b> 400,000<br><br><b>▶ 멀티미디어 내비플러스Ⅰ</b> 1,850,000<br><br><b>▶ H Genuine Accessories 슬라이딩 카고 베드</b> 1,330,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>모던</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,490</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶ L3.5 카고 5인승 스마트 기본품목 및</b>&nbsp;<br><br><b>ㆍ외관 :</b> 17인치 알로이 휠 &amp; 타이어, 바디 컬러 아웃사이드 미러(열선, LED 방향지시등), 자외선 차단 유리(윈드실드)&nbsp;<br><br><b>ㆍ내장 : </b>슬라이딩 선바이저 &amp; 거울 &amp; 조명, 가죽 스티어링 휠(열선포함), 가죽 변속기 노브,
+루프 트레이(운전석/동승석 상단 수납함)<br><br><b>ㆍ시트 : </b>인조가죽 시트(블랙/베이지)<br><br><b>ㆍ편의 :</b> 레인센서, ECM 룸미러, 하이패스
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶ 트윈 스윙 도어</b> 400,000<br><br><b>▶ 빌트인 캠 2 PLUS, 증강현실 내비게이션</b> 670,000&nbsp;<br>※ 트윈 스윙 도어와 중복 선택 불가&nbsp;<br>※ 멀티미디어 내비플러스Ⅱ 선택 시 선택 가능&nbsp;<b><br></b><b><br></b><b>▶ 윈도우 밴(5인승)</b> 200,000&nbsp;<b><br></b><b><br></b><b>▶ 멀티미디어 내비플러스Ⅱ </b>1,650,000&nbsp;<b><br></b><b><br></b><b>▶ 익스테리어 디자인(5인승)</b> 850,000&nbsp;<b><br></b><b><br></b><b>▶ 컴포트(5인승) </b>1,050,000&nbsp;<br>※ 트윈 스윙 도어와 중복 선택 불가&nbsp;<b><br></b><b><br></b><b>▶ 테크</b> 1,200,000&nbsp;<br>※ 트윈 스윙 도어와 중복 선택 불가&nbsp;<br>※ 멀티미디어 내비플러스Ⅱ 선택 시 선택 가능<br><br><b>▶ H Genuine Accessories 슬라이딩 카고 베드</b> 1,330,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="2">
+																<p>HEV 1.6T 투어러 9인승</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>스마트</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,876</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶ 파워트레인/성능 :</b> 스마트스트림 가솔린 1.6 터보 하이브리드, 6단 자동변속기, 통합 주행 모드, 후륜 멀티 링크 서스펜션<br><br><b>▶ 안전 :</b> 7에어백 시스템(1열 에어백/사이드, 운전석 무릎, 전복대응 커튼), 전좌석 3점식 시트벨트, 전좌석 헤드레스트,
+다중 충돌방지 자동 제동 시스템, 횡풍안정제어, 개별 타이어 공기압 경보 장치, 타이어 응급처치 키트,
+유아용 시트 고정장치(2열 2개), 세이프티 파워 윈도우(운전석), 실내 소화기<br><br><b>▶ 지능형 안전 기술 :</b> 전방 충돌방지 보조(차량/보행자/자전거 탑승자/교차로 대향차/정면 대향차), 차로 이탈방지 보조,
+차로 유지 보조, 후측방 충돌방지 경고(주행), 후측방 충돌방지 보조(전진 출차), 후방 교차 충돌방지 보조,
+스마트 크루즈 컨트롤(스탑앤고 기능 포함), 하이빔 보조, 지능형 속도 제한 보조, 운전자 주의 경고, 전방 차량 출발 알림,
+후석 승객 알림<br><br><b>▶ 외관 :</b> 17인치 알로이 휠 &amp; 타이어, 리어 스포일러, LED 보조제동등, 리어글래스 열선, 바디 컬러 아웃사이드 도어 핸들,
+아웃사이드 미러(전동접이, 전동조절), 후석 파노라믹 윈도우, 전/후륜 디스크 브레이크,
+이중접합 차음유리(윈드실드, 1열 도어), 자외선 차단 유리(윈드실드)<br><br><b>▶ 내장 :</b> 클러스터(4.2인치 컬러 LCD), D&amp;N 룸미러, 수동식 틸트 &amp; 텔레스코픽 스티어링 휠, 리놀륨 플로어 카페트<br><br><b>▶ 시트 :</b> 직물 시트, 1열 열선시트, 운전석 수동 높이 조절, 동승석 슬라이딩 &amp; 리클라이닝 시트, 2~3열 슬라이딩 시트,
+2~3열 풀 플랫 시트, 2열 6:4 분할 시트(리클라이닝/폴딩), 3열 쿠션 팁업 시트(폴딩)<br><br><b>▶ 편의 : </b>버튼시동 &amp; 스마트키, 스마트키 원격시동, 전동식 파킹 브레이크(오토홀드 포함), USB C타입 단자(1열 충전 2개/
+2열 충전 2개/3열 충전 2개), 전방/후방 주차 거리 경고, 후방 모니터, 오토라이트 컨트롤, 풀오토 에어컨(미세먼지 센서/
+공기청정모드/오토 디포그/애프터블로우), 후석 루프 에어 벤트, 마이크로 에어 필터, 파워 아웃렛(1열 1개), 워크 어웨이 락<br><br><b>▶ 인포테인먼트 :</b> 12.3인치 디스플레이 오디오(블루링크, 폰 프로젝션, 블루투스 핸즈프리, 6스피커),
+무선 소프트웨어 업데이트(OTA Software Update), 샤크핀 안테나
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶ 멀티미디어 내비플러스Ⅰ</b> 1,700,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>모던</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,999</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶ HEV 1.6T 투어러 9인승 스마트 기본품목 및</b>&nbsp;<br><br><b>ㆍ외관 :</b> 바디 컬러 아웃사이드 미러(열선, LED 방향지시등), 유광 필라 가니쉬&nbsp;<br><br><b>ㆍ내장 :</b> 슬라이딩 선바이저 &amp; 거울 &amp; 조명, 가죽 스티어링 휠(열선포함), 가죽 변속기 노브,
+루프트레이(운전석/동승석 상단 수납함)<br><br><b>ㆍ시트 :</b> 인조가죽 시트(블랙/베이지)&nbsp;<br><br><b>ㆍ편의 :</b> 레인센서, ECM 룸미러, 하이패스&nbsp;&nbsp;
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶ 빌트인 캠 2 PLUS, 증강현실 내비게이션</b> 670,000&nbsp;<br>※ 멀티미디어 내비플러스Ⅱ 선택 시&nbsp;<br><br><b>▶ 듀얼 와이드 선루프 + LED 실내등(맵램프, 룸램프)</b> 900,000&nbsp;<br>※ 선루프 선택 시 루프 트레이 미적용&nbsp;<br><br><b>▶ 멀티미디어 내비플러스Ⅱ </b>1,500,000&nbsp;<br><br><b>▶ 익스테리어 디자인(9인승)</b> 1,100,000&nbsp;<br><br><b>▶ 컴포트</b> 550,000&nbsp;<br><br><b>▶ 테크Ⅰ</b> 1,350,000&nbsp;<br>※ 멀티미디어 내비플러스Ⅱ 선택 시 선택 가능&nbsp;<br><br><b>▶ 테크Ⅱ</b> 1,250,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="2">
+																<p>HEV 1.6T 투어러 11인승</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>스마트</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,870</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶ 파워트레인/성능 :</b> 스마트스트림 가솔린 1.6 터보 하이브리드, 6단 자동변속기, 통합 주행 모드, 후륜 멀티 링크 서스펜션<br><br><b>▶ 안전 :</b> 7에어백 시스템(1열 에어백/사이드, 운전석 무릎, 전복대응 커튼), 전좌석 3점식 시트벨트, 전좌석 헤드레스트,
+다중 충돌방지 자동 제동 시스템, 횡풍안정제어, 개별 타이어 공기압 경보 장치, 타이어 응급처치 키트,
+유아용 시트 고정장치(2열 2개), 세이프티 파워 윈도우(운전석), 실내 소화기<br><br><b>▶ 지능형 안전 기술 :</b> 전방 충돌방지 보조(차량/보행자/자전거 탑승자/교차로 대향차/정면 대향차), 차로 이탈방지 보조,
+차로 유지 보조, 후측방 충돌방지 경고(주행), 후측방 충돌방지 보조(전진 출차), 후방 교차 충돌방지 보조,
+스마트 크루즈 컨트롤(스탑앤고 기능 포함), 하이빔 보조, 지능형 속도 제한 보조, 운전자 주의 경고, 전방 차량 출발 알림,
+후석 승객 알림<br><br><b>▶ 외관 :</b> 17인치 알로이 휠 &amp; 타이어, 리어 스포일러, LED 보조제동등, 리어글래스 열선, 바디 컬러 아웃사이드 도어 핸들,
+아웃사이드 미러(전동접이, 전동조절), 후석 파노라믹 윈도우, 전/후륜 디스크 브레이크,
+이중접합 차음유리(윈드실드, 1열 도어), 자외선 차단 유리(윈드실드)<br><br><b>▶ 내장 :</b> 클러스터(4.2인치 컬러 LCD), D&amp;N 룸미러, 수동식 틸트 &amp; 텔레스코픽 스티어링 휠, 리놀륨 플로어 카페트<br><br><b>▶ 시트 :</b> 직물 시트, 1열 열선시트, 운전석 수동 높이 조절, 동승석 슬라이딩 &amp; 리클라이닝 시트, 2~4열 롱 슬라이딩 시트,
+2~4열 풀 플랫 시트, 2열 6:4 분할 시트(리클라이닝/폴딩), 3열 독립시트(리클라이닝/폴딩), 4열 쿠션 팁업 시트(폴딩)<br><br><b>▶ 편의 : </b>버튼시동 &amp; 스마트키, 스마트키 원격시동, 전동식 파킹 브레이크(오토홀드 포함), USB C타입 단자(1열 충전 2개/
+2열 충전 2개/3열 충전 2개), 전방/후방 주차 거리 경고, 후방 모니터, 오토라이트 컨트롤, 풀오토 에어컨(미세먼지 센서/
+공기청정모드/오토 디포그/애프터블로우), 후석 루프 에어 벤트, 마이크로 에어 필터, 파워 아웃렛(1열 1개), 워크 어웨이 락<br><br><b>▶ 인포테인먼트 :</b> 12.3인치 디스플레이 오디오(블루링크, 폰 프로젝션, 블루투스 핸즈프리, 6스피커),
+무선 소프트웨어 업데이트(OTA Software Update), 샤크핀 안테나
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶ 멀티미디어 내비플러스Ⅰ</b> 1,700,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>모던</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,999</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶ HEV 1.6T 투어러 11인승 스마트 기본품목 및</b>&nbsp;<br><br><b>ㆍ외관 :</b> 바디 컬러 아웃사이드 미러(열선, LED 방향지시등), 유광 필라 가니쉬&nbsp;<br><br><b>ㆍ내장 :</b> 슬라이딩 선바이저 &amp; 거울 &amp; 조명, 가죽 스티어링 휠(열선포함), 가죽 변속기 노브,
+루프트레이(운전석/동승석 상단 수납함)&nbsp;<br><br><b>ㆍ시트 :</b> 인조가죽 시트(블랙/베이지)&nbsp;<br><br><b>ㆍ편의 :</b> USB C타입 단자(4열 충전 2개), 레인센서, ECM 룸미러, 하이패스 
+&nbsp;&nbsp;
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶ 빌트인 캠 2 PLUS, 증강현실 내비게이션</b> 670,000&nbsp;<br>※ 멀티미디어 내비플러스Ⅱ 선택 시&nbsp;<br><br><b>▶ 듀얼 와이드 선루프 + LED 실내등(맵램프, 룸램프)</b> 900,000&nbsp;<br>※ 선루프 선택 시 루프 트레이 미적용&nbsp;<br><br><b>▶ 멀티미디어 내비플러스Ⅱ </b>1,500,000&nbsp;<br><br><b>▶ 익스테리어 디자인(11인승)</b> 1,050,000&nbsp;<br><br><b>▶ 컴포트</b> 550,000&nbsp;<br><br><b>▶ 테크Ⅰ</b> 1,350,000&nbsp;<br>※ 멀티미디어 내비플러스Ⅱ 선택 시 선택 가능&nbsp;<br><br><b>▶ 테크Ⅱ</b> 1,250,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="2">
+																<p>HEV 1.6T 라운지 7인승</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>모빌리티</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>4,787</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶ 커스터마이징(H Genuine Accessories) 모빌리티 패키지 :</b> 후석 전동식 사이드 스텝(우측)&nbsp;<br><br><b>▶ 파워트레인/성능 :</b> 스마트스트림 가솔린 1.6T 하이브리드, 6단 자동변속기, 통합 주행 모드, 전자식 변속 칼럼,
+후륜 멀티 링크 서스펜션<br><br><b>▶ 안전 :</b> 7에어백 시스템(1열 에어백/사이드, 운전석 무릎, 전복대응 커튼), 전좌석 3점식 시트벨트, 전좌석 헤드레스트,
+세이프티 파워 윈도우(1열), 다중 충돌방지 자동 제동 시스템, 횡풍안정제어, 개별 타이어 공기압 경보 장치,
+타이어 응급처치 키트, 유아용 시트 고정장치(2열 2개), 실내 소화기&nbsp;<br><br><b>▶ 지능형 안전 기술 :</b> 전방 충돌 방지 보조(차량/보행자/자전거 탑승자/교차로 대향차/정면 대향차),
+차로 이탈방지 보조, 차로 유지 보조, 후측방 충돌방지 경고(주행), 후측방 충돌방지 보조(전진 출차),
+후방 교차 충돌 방지 보조, 스마트 크루즈 컨트롤(스탑앤고 기능 포함), 고속도로 주행 보조, 후석 승객 알림,
+내비게이션 기반 스마트 크루즈 컨트롤(안전구간, 곡선로), 안전 하차보조, 하이빔 보조, 지능형 속도 제한 보조,
+운전자 주의 경고, 전방 차량 출발 알림&nbsp;<br><br><b>▶ 외관 :</b> 라운지 전용 디자인(크롬 라디에이터 그릴/범퍼/아웃사이드 도어핸들), 라운지 전용 18인치 알로이 휠,
+Full LED 헤드램프(프로젝션), LED 주간주행등, LED 포지셔닝 램프, LED 방향지시등(앞), LED 리어콤비램프,
+순차 점등 방향지시등(뒤), 다이나믹 웰컴 라이트, 리어 스포일러, LED 보조제동등, 바디 컬러 아웃사이드 미러(열선,
+전동접이, 전동조절, LED 방향지시등), 리어글래스 열선, 에어로 타입 와이퍼, 자외선 차단 유리(윈드실드),
+이중접합 차음유리(윈드실드, 1열 도어), 후석 파노라믹 윈도우, 유광 필라 가니쉬, 전/후륜 디스크 브레이크&nbsp;<br><br><b>▶ 내장 :</b> 라운지 전용 디자인(스웨이드 내장재, 풀사이즈 센터 콘솔, 앰비언트 무드램프, 메탈 도어 스커프, 메탈 페달,
+반펀칭 가죽 스티어링 휠), 클러스터(12.3인치 컬러 LCD), LED 실내등(맵램프, 룸램프, 선바이저),
+수동식 틸트 &amp; 텔레스코픽 스티어링 휠, 슬라이딩 선바이저 &amp; 거울, 러기지 네트
+※ 스웨이드 내장재 적용 범위 : 헤드라이닝, 필라, 선바이저&nbsp;<br><br><b>▶ 시트 :</b> 2열 프리미엄 릴렉션 시트(원터치 릴렉션, 전동 리클라이닝/쿠션 틸팅/4way 레그서포트, 윙타입 헤드레스트,
+워크인 스위치), 천연가죽 시트(블랙/엔트러사이트 브라운), 운전석 전동시트(8way, 4way 럼버서포트),
+1열 열선/통풍시트, 2열 열선/통풍시트, 동승석 전동시트(4way, 워크인 디바이스), 2열~3열 슬라이딩 시트,
+3열 쿠션 팁업 시트(폴딩)<br><br><b>▶ 편의 :</b> 스마트 파워 슬라이딩 도어, 스마트 파워 테일게이트, 버튼시동 &amp; 스마트키, 스마트키 원격시동,
+전동식 파킹 브레이크(오토홀드 포함), 열선 스티어링 휠(진동경고), 풀오토 에어컨(미세먼지 센서/공기청정모드/
+오토 디포그/애프터블로우), 후석 루프 에어 벤트, 마이크로 에어 필터, ECM 룸미러, 하이패스, 패들쉬프트,
+220V 인버터, 파워 아웃렛(1열 1개), USB C타입 단자(1열 충전 2개/2열 충전 2개/3열 충전 2개),
+전방/후방 주차거리 경고, 오토라이트 컨트롤, 레인센서, 후방 모니터, 워크 어웨이 락<br><br><b>▶ 인포테인먼트 :</b> 12.3인치 내비게이션(블루링크, 폰 프로젝션, 블루투스 핸즈프리, 인카페이먼트, e hi-pass, 6스피커),
+무선 소프트웨어 업데이트(OTA Software Update), 샤크핀 안테나
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶ BOSE 프리미엄 사운드(12스피커, 외장앰프)</b> 600,000&nbsp;&nbsp;<br>※ 컴포트Ⅱ, 테크 선택 시&nbsp;<br><br><b>▶ 듀얼 와이드 선루프</b> 850,000&nbsp;<br>※ 듀얼 와이드 선루프 선택 시 루프 모니터 선택 불가&nbsp;<br><br><b>▶ 스마트</b> 1,160,000&nbsp;<br><br><b>▶ 컴포트Ⅱ</b> 500,000&nbsp;<br><br><b>▶ 테크</b> 1,050,000<br><br><b>▶ H Genuine Accessories 17.3인치 루프 모니터(전동폴딩, 블루투스, HDMI, USB 멀티미디어 재생)</b> 1,070,000&nbsp;&nbsp;<br>※ 루프 모니터 선택 시 듀얼 와이드 선루프 선택 불가</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>인스퍼레이션</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>5,021</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶ 파워트레인/성능 :</b> 스마트스트림 가솔린 1.6T 하이브리드, 6단 자동변속기, 통합 주행 모드, 전자식 변속 칼럼,
+후륜 멀티 링크 서스펜션<br><br><b>▶ 안전 :</b> 7에어백 시스템(1열 에어백/사이드, 운전석 무릎, 전복대응 커튼), 전좌석 3점식 시트벨트, 전좌석 헤드레스트,
+세이프티 파워 윈도우(1열), 다중 충돌방지 자동 제동시스템, 횡풍안정제어, 개별 타이어 공기압 경보 장치,
+타이어 응급처치 키트, 유아용 시트 고정장치(2열 2개), 실내 소화기<br><br><b>▶ 지능형 안전 기술 :</b> 전방 충돌 방지 보조(차량/보행자/자전거 탑승자/교차로 대향차/정면 대향차), 차로 이탈방지 보조,
+차로 유지 보조, 후측방 충돌방지 경고(주행), 후측방 충돌방지 보조(전진 출차), 후방 교차 충돌방지 보조,
+스마트 크루즈 컨트롤(스탑앤고 기능 포함), 고속도로 주행 보조, 내비게이션 기반 스마트 크루즈 컨트롤
+(안전구간, 곡선로), 어드밴스드 후석 승객 알림, 하이빔 보조, 지능형 속도 제한 보조, 운전자 주의 경고,
+전방 차량 출발 알림, 안전 하차 보조&nbsp;<br><br><b>▶ 외관 :</b> 라운지 전용 디자인(크롬 라디에이터 그릴, 범퍼, 아웃사이드 도어 핸들), 라운지 전용 18인치 알로이 휠,
+Full LED 헤드램프(프로젝션), LED 주간주행등, LED 포지셔닝 램프, LED 방향지시등(앞), LED 리어콤비램프,
+순차 점등 방향지시등(뒤), 다이나믹 웰컴 라이트, 리어 스포일러, LED 보조제동등, 바디 컬러 아웃사이드 미러
+(열선, 전동접이, 전동조절, LED방향지시등), 자외선 차단 유리(윈드실드), 이중접합 차음유리(윈드실드, 1열 도어),
+리어글래스 열선, 에어로 타입 와이퍼, 후석 파노라믹 윈도우, 유광 필라 가니쉬, 전/후륜 디스크 브레이크
+&nbsp;<br><br><b>▶ 내장 :</b> 라운지 전용 디자인(스웨이드 내장재, 풀사이즈 센터 콘솔, 앰비언트 무드램프, 메탈 도어 스커프, 메탈 페달,
+반펀칭 가죽 스티어링 휠), 클러스터(12.3인치 컬러 LCD), LED실내등(맵램프, 룸램프, 선바이저),
+수동식 틸트 &amp; 텔레스코픽 스티어링 휠, 슬라이딩 선바이저 &amp; 거울, 러기지 네트
+※ 스웨이드 내장재 적용 부위 : 헤드라이닝, 필라, 선바이저&nbsp;<br><br><b>▶ 시트 :</b> 2열 프리미엄 릴렉션 시트(원터치 릴렉션, 전동 리클라이닝/쿠션 틸팅/4way 레그서포트, 윙타입 헤드레스트,
+워크인 스위치), 나파가죽 시트(블랙/엔트러사이트 브라운/보르도 브라운/로토루아 크림), 1/2열 통풍/열선시트,
+운전석 전동시트(8way, 4way 럼버서포트), 동승석 전동 시트(4way, 워크인 디바이스), 2열~3열 슬라이딩 시트,
+3열 쿠션 팁업 시트(폴딩)<br><br><b>▶ 편의 :</b> 스마트 파워 슬라이딩 도어, 스마트 파워 테일게이트, 버튼시동 &amp; 스마트키, 스마트키 원격시동, 디지털 키 2,
+전동식 파킹 브레이크(오토홀드 포함), 열선 스티어링 휠(진동 경고), 풀오토 에어컨(미세먼지 센서/공기청정모드/
+오토 디포그/애프터블로우), 후석 루프 에어 벤트, 마이크로 에어 필터, 하이패스, ECM 룸미러, 패들쉬프트,
+220V 인버터, 파워 아웃렛(1열 1개), USB C타입 단자(1열 충전 2개/2열 충전 2개/3열 충전 2개),
+전방/후방/측방 주차거리 경고, 오토라이트 컨트롤, 서라운드 뷰 모니터, 후측방 모니터, 터치타입 아웃사이드 도어 핸들,
+스마트폰 무선충전, 후석 뷰, 후석 음성 인식, 레인센서, 후방 모니터, 워크 어웨이 락&nbsp;<br><br><b>▶ 인포테인먼트 :</b> 12.3인치 내비게이션(블루링크, 폰 프로젝션, 블루투스 핸즈프리, 인카페이먼트, e hi-pass, 6스피커),
+무선 소프트웨어 업데이트(OTA Software Update), 샤크핀 안테나
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶ 듀얼 와이드 선루프</b> 890,000&nbsp;<br><br><b>▶ BOSE 프리미엄 사운드(12스피커, 외장앰프)</b> 640,000&nbsp;&nbsp;<br>※ 컴포트Ⅱ 선택 시&nbsp;<br><br><b>▶ 빌트인 캠 2 PLUS, 증강현실 내비게이션</b> 700,000&nbsp;<br><br><b>▶ 컴포트Ⅱ</b> 520,000<br><br><b>▶ H Genuine Accessories 빌트인 공기청정기</b> 420,000&nbsp;<br><br><b>▶ H Genuine Accessories 후석 전동식 사이드 스텝(우측)</b> 680,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="3">
+																<p>HEV 1.6T 라운지 9인승</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>모빌리티</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>4,706</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶ 커스터마이징(H Genuine Accessories) 모빌리티 패키지 :</b> 후석 전동식 사이드 스텝(우측)&nbsp;<br><br><b>▶ 파워트레인/성능 :</b> 스마트스트림 가솔린 1.6T 하이브리드, 6단 자동변속기, 통합 주행 모드, 전자식 변속 칼럼,
+후륜 멀티 링크 서스펜션<br><br><b>▶ 안전 : </b>7에어백 시스템(1열 에어백/사이드, 운전석 무릎, 전복대응 커튼), 전좌석 3점식 시트벨트, 전좌석 헤드레스트,
+세이프티 파워 윈도우(1열), 다중 충돌방지 자동 제동 시스템, 횡풍안정제어, 개별 타이어 공기압 경보 장치,
+타이어 응급처치 키트, 유아용 시트 고정장치(2열 2개, 3열 2개), 실내 소화기&nbsp;<br><br><b>▶ 지능형 안전 기술 :</b> 전방 충돌 방지 보조(차량/보행자/자전거 탑승자/교차로 대향차/정면 대향차),
+차로 이탈방지 보조, 차로 유지 보조, 후측방 충돌방지 경고(주행), 후측방 충돌방지 보조(전진 출차),
+후방 교차 충돌 방지 보조, 스마트 크루즈 컨트롤(스탑앤고 기능 포함), 고속도로 주행 보조, 후석 승객 알림,
+내비게이션 기반 스마트 크루즈 컨트롤(안전구간, 곡선로), 안전 하차보조, 하이빔 보조, 지능형 속도 제한 보조,
+운전자 주의 경고, 전방 차량 출발 알림&nbsp;<br><br><b>▶ 외관 : </b>라운지 전용 디자인(크롬 라디에이터 그릴/범퍼/아웃사이드 도어핸들), 라운지 전용 18인치 알로이 휠,
+Full LED 헤드램프(프로젝션), LED 주간주행등, LED 포지셔닝 램프, LED 방향지시등(앞), LED 리어콤비램프,
+순차 점등 방향지시등(뒤), 다이나믹 웰컴 라이트, 리어 스포일러, LED 보조제동등, 바디 컬러 아웃사이드 미러(열선,
+전동접이, 전동조절, LED 방향지시등), 리어글래스 열선, 에어로 타입 와이퍼, 자외선 차단 유리(윈드실드),
+이중접합 차음유리(윈드실드, 1열 도어), 후석 파노라믹 윈도우, 유광 필라 가니쉬, 전/후륜 디스크 브레이크&nbsp;<br><br><b>▶ 내장 :</b> 라운지 전용 디자인(스웨이드 내장재, 풀사이즈 센터 콘솔, 앰비언트 무드램프, 메탈 도어 스커프, 메탈 페달,
+반펀칭 가죽 스티어링 휠), 클러스터(12.3인치 컬러 LCD), LED 실내등(맵램프, 룸램프, 선바이저),
+수동식 틸트 &amp; 텔레스코픽 스티어링 휠, 슬라이딩 선바이저 &amp; 거울, 러기지 네트
+※ 스웨이드 내장재 적용 범위 : 헤드라이닝, 필라, 선바이저<br><br><b>▶ 시트 :</b> 인조가죽 시트(블랙/엔트러사이트 브라운), 운전석 전동시트(8way/4way 럼버서포트), 1열 열선/통풍시트,
+2열 열선시트, 동승석 슬라이딩 &amp; 리클라이닝 시트, 2~4열 롱 슬라이딩 시트, 2열 스위블링 독립 시트(리클라이닝),
+3열 독립 시트(리클라이닝), 4열 쿠션 팁업 시트(폴딩)&nbsp;<br><br><b>▶ 편의 :</b> 스마트 파워 슬라이딩 도어, 스마트 파워 테일게이트, 버튼시동 &amp; 스마트키, 스마트키 원격시동,
+전동식 파킹 브레이크(오토홀드 포함), 열선 스티어링 휠(진동경고), 풀오토 에어컨(미세먼지 센서/공기청정모드/
+오토 디포그/애프터블로우), 후석 루프 에어 벤트, 마이크로 에어 필터, ECM 룸미러, 하이패스, 패들쉬프트,
+220V 인버터, 파워 아웃렛(1열 1개), USB C타입 단자(1열 충전 2개/2열 충전 2개/3열 충전 2개/4열 충전 2개),
+전방/후방 주차거리 경고, 오토라이트 컨트롤, 레인센서, 후방 모니터, 워크 어웨이 락&nbsp;<br><br><b>▶ 인포테인먼트 :</b> 12.3인치 내비게이션(블루링크, 폰 프로젝션, 블루투스 핸즈프리, 인카페이먼트, e hi-pass, 6스피커),
+무선 소프트웨어 업데이트(OTA Software Update), 샤크핀 안테나
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶ BOSE 프리미엄 사운드(12스피커, 외장앰프)</b> 600,000&nbsp;&nbsp;<br>※ 컴포트Ⅱ, 테크 선택 시&nbsp;<br><br><b>▶ 듀얼 와이드 선루프</b> 850,000&nbsp;<br>※ 듀얼 와이드 선루프 선택 시 루프 모니터 선택 불가&nbsp;<br><br><b>▶ 스마트</b> 1,160,000&nbsp;<br><br><b>▶ 컴포트Ⅰ</b> 1,100,000&nbsp;<br><br><b>▶ 컴포트Ⅱ</b> 500,000&nbsp;<br><br><b>▶ 테크</b> 1,050,000<br><br><b>▶ H Genuine Accessories 17.3인치 루프 모니터(전동폴딩, 블루투스, HDMI, USB 멀티미디어 재생)</b> 1,070,000&nbsp;&nbsp;<br>※ 루프 모니터 선택 시 듀얼 와이드 선루프 선택 불가</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>프레스티지</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>4,499</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶ 파워트레인/성능 :</b> 스마트스트림 가솔린 1.6T 하이브리드, 6단 자동변속기, 통합 주행 모드, 전자식 변속 칼럼,
+후륜 멀티 링크 서스펜션<br><br><b>▶ 안전 :</b> 7에어백 시스템(1열 에어백/사이드, 운전석 무릎, 전복대응 커튼), 전좌석 3점식 시트벨트, 전좌석 헤드레스트,
+세이프티 파워 윈도우(1열), 다중 충돌방지 자동 제동 시스템, 횡풍안정제어, 개별 타이어 공기압 경보 장치,
+타이어 응급처치 키트, 유아용 시트 고정장치(2열 2개, 3열 2개), 실내 소화기&nbsp;<br><br><b>▶ 지능형 안전 기술 :</b> 전방 충돌방지 보조(차량/보행자/자전거 탑승자/교차로 대향차/정면 대향차), 차로 이탈방지 보조,
+차로 유지 보조, 후측방 충돌방지 경고(주행), 후측방 충돌방지 보조(전진 출차), 후방 교차 충돌방지 보조,
+스마트 크루즈 컨트롤(스탑앤고 기능 포함), 고속도로 주행 보조, 내비게이션 기반 스마트 크루즈 컨트롤(안전구간,
+곡선로), 어드밴스드 후석 승객 알림, 하이빔 보조, 지능형 속도 제한 보조, 운전자 주의 경고, 전방 차량 출발 알림&nbsp;<br><br><b>▶ 외관 :</b> 라운지 전용 디자인(크롬 라디에이터 그릴/범퍼/아웃사이드 도어 핸들), 라운지 전용 18인치 알로이 휠,
+Full LED 헤드램프(프로젝션), LED 주간주행등, LED 포지셔닝 램프, LED 방향지시등(앞), LED 리어콤비램프,
+순차 점등 방향지시등(뒤), 다이나믹 웰컴 라이트, 리어 스포일러, LED 보조제동등, 바디 컬러 아웃사이드 미러
+(열선, 전동접이, 전동조절, LED방향지시등), 자외선 차단 유리(윈드실드), 이중접합 차음유리(윈드실드, 1열 도어),
+리어글래스 열선, 에어로 타입 와이퍼, 후석 파노라믹 윈도우, 유광 필라 가니쉬, 전/후륜 디스크 브레이크&nbsp;<br><br><b>▶ 내장 :</b> 라운지 전용 디자인(스웨이드 내장재, 풀사이즈 센터 콘솔, 앰비언트 무드램프, 메탈 도어 스커프, 메탈 페달,
+반펀칭 가죽 스티어링 휠), 클러스터(12.3인치 컬러 LCD), LED실내등(맵램프, 룸램프, 선바이저),
+수동식 틸트 &amp; 텔레스코픽 스티어링 휠, 슬라이딩 선바이저 &amp; 거울, 러기지 네트
+※ 스웨이드 내장재 적용 부위 : 헤드라이닝, 필라, 선바이저&nbsp;<br><br><b>▶ 시트 :</b> 인조가죽 시트(블랙/엔트러사이트 브라운), 운전석 전동시트(8way, 4way 럼버서포트), 1열 열선/통풍시트,
+동승석 슬라이딩 &amp; 리클라이닝 시트, 2~4열 롱 슬라이딩 시트, 2열 스위블링 독립 시트(리클라이닝),
+3열 독립 시트(리클라이닝), 4열 쿠션 팁업 시트(폴딩)<br><br><b>▶ 편의 :</b> 버튼시동 &amp; 스마트키, 스마트키 원격시동, 전동식 파킹 브레이크(오토홀드 포함), 열선 스티어링 휠(진동경고),
+풀오토 에어컨(미세먼지 센서/공기청정모드/오토 디포그,애프터블로우), 후석 루프 에어벤트, 마이크로 에어 필터,
+ECM 룸미러, 하이패스, 패들쉬프트, 220V 인버터, 파워 아웃렛(1열 1개), USB C타입 단자(1열 충전 2개/2열 충전 2개/
+3열 충전 2개/4열 충전 2개), 전방/후방 주차거리 경고, 오토라이트 컨트롤, 레인센서, 후방 모니터, 워크 어웨이 락<br><br><b>▶ 인포테인먼트 :</b> 12.3인치 내비게이션(블루링크, 폰 프로젝션, 블루투스 핸즈프리, 인카페이먼트, e hi-pass, 6스피커),
+무선 소프트웨어 업데이트(OTA Software Update), 샤크핀 안테나
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶ 듀얼 와이드 선루프</b> 850,000&nbsp;<br><br><b>▶ 스마트</b> 1,410,000&nbsp;<br><br><b>▶ 컴포트Ⅰ</b> 1,200,000&nbsp;<br><br><b>▶ 컴포트Ⅱ</b> 500,000&nbsp;<br><br><b>▶ 테크Ⅰ</b> 1,900,000&nbsp;<br>※ 컴포트Ⅱ 선택 시&nbsp;<br><br><b>▶ 테크Ⅱ</b> 1,250,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>인스퍼레이션</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>4,876</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶ HEV 1.6 라운지 9인승 프레스티지 기본품목 및</b>&nbsp;<br><br><b>ㆍ지능형 안전 기술 :</b> 안전 하차 보조&nbsp;<br><br><b>ㆍ내장/시트 :</b> 나파가죽 시트(블랙/엔트러사이트 브라운/보르도 브라운/로토루아 크림), 2열 열선/통풍 시트, 동승석 전동 시트(4way, 워크인 디바이스)&nbsp;<br><br><b>ㆍ편의 :</b> 스마트 파워 슬라이딩 도어, 스마트 파워 테일게이트, 서라운드 뷰 모니터, 측방 주차거리 경고, 후측방 모니터, 디지털 키 2, 터치타입 아웃사이드 도어 핸들, 스마트폰 무선충전, 후석 뷰, 후석 음성 인식
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶ 듀얼 와이드 선루프</b> 850,000&nbsp;<br><br><b>▶ BOSE 프리미엄 사운드(12스피커, 외장앰프)</b> 600,000&nbsp;&nbsp;<br>※ 컴포트Ⅱ 선택 시<br><br><b>▶ 빌트인 캠 2 PLUS, 증강현실 내비게이션</b> 670,000&nbsp;<br><br><b>▶ 컴포트Ⅱ</b> 500,000&nbsp;<br><br><b>▶ H Genuine Accessories 빌트인 공기청정기</b> 400,000&nbsp;<br><br><b>▶ H Genuine Accessories 후석 전동식 사이드 스텝(우측)</b> 650,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="2">
+																<p>HEV 1.6T 카고 2인승</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>스마트</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,625</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶ 파워트레인/성능 :</b> 스마트스트림 가솔린 1.6T 하이브리드, 6단 자동변속기, 통합 주행 모드, 후륜 리지드 엑슬 서스펜션<br><br><b>▶ 안전 :</b> 7에어백 시스템(1열 에어백/사이드, 운전석 무릎, 전복대응 커튼), 전좌석 3점식 시트벨트, 전좌석 헤드레스트,
+다중 충돌방지 자동 제동 시스템, 횡풍안정제어, 개별 타이어 공기압 경보 장치, 세이프티 파워 윈도우(운전석),
+타이어 응급처치 키트, 실내 소화기&nbsp;<br><br><b>▶ 지능형 안전 기술 : </b>전방 충돌방지 보조(차량/보행자/자전거 탑승자/교차로 대향차/정면 대향차), 차로 이탈방지 보조,
+차로 유지 보조, 후측방 충돌방지 경고(주행), 후측방 충돌방지 보조(전진 출차), 후방 교차 충돌방지 보조,
+스마트 크루즈 컨트롤(스탑앤고 기능 포함), 하이빔 보조, 지능형 속도 제한 보조, 운전자 주의경고, 전방 차량 출발 알림&nbsp;<br><br><b>▶ 외관 :</b>  17인치 알로이 휠 &amp; 타이어, 리어 스포일러, LED 보조제동등, 리어글래스 열선, 바디 컬러 아웃사이드 도어 핸들,
+아웃사이드 미러(전동접이, 전동조절), 전/후륜 디스크 브레이크, 자외선 차단 유리(윈드실드)<br><br><b>▶ 내장 : </b>클러스터(4.2인치 컬러 LCD), D&amp;N 룸미러, 수동식 틸트 &amp; 텔레스코픽 스티어링 휠, 센터 콘솔,
+리놀륨 플로어 카페트, 카고 램프<br><br><b>▶ 시트 : </b>직물시트, 1열 열선시트, 운전석 수동 높이 조절, 동승석 슬라이딩 &amp; 리클라이닝 시트&nbsp;<br><br><b>▶ 편의 :</b> 버튼시동 &amp; 스마트키, 스마트키 원격시동, 전동식 파킹 브레이크(오토홀드 포함), USB C타입 단자(1열 충전 2개),
+전방/후방 주차 거리 경고, 후방 모니터, 오토라이트 컨트롤, 풀오토 에어컨(미세먼지 센서/공기청정모드/오토 디포그/
+애프터블로우), 마이크로 에어 필터, 파워 아웃렛(1열 1개), 워크 어웨이 락&nbsp;<br><br><b>▶ 인포테인먼트 :</b> 12.3인치 디스플레이 오디오(블루링크, 폰 프로젝션, 블루투스 핸즈프리, 4스피커),
+무선 소프트웨어 업데이트(OTA Software Update), 샤크핀 안테나
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶ 트윈 스윙 도어</b> 400,000<br><br><b>▶ 멀티미디어 내비플러스Ⅰ</b> 1,650,000<br><br><b>▶ H Genuine Accessories 슬라이딩 카고 베드</b> 1,330,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>모던</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,745</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶ HEV 1.6T 카고 2인승 스마트 기본품목 및</b>&nbsp;<br><br><b>ㆍ외관 :</b> 바디 컬러 아웃사이드 미러(열선, LED 방향지시등) &nbsp;<br><br><b>ㆍ내장 : </b>슬라이딩 선바이저 &amp; 거울 &amp; 조명, 가죽 스티어링 휠(열선포함), 가죽 변속기 노브,
+루프 트레이(운전석/동승석 상단 수납함)<br><br><b>ㆍ시트 : </b>인조가죽 시트(블랙/베이지)&nbsp;<br><br><b>ㆍ편의 :</b> 레인센서, ECM 룸미러, 하이패스
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶ 트윈 스윙 도어</b> 400,000<br><br><b>▶ 빌트인 캠 2 PLUS, 증강현실 내비게이션</b> 670,000&nbsp;<br>※ 트윈 스윙 도어와 중복 선택 불가&nbsp;<br>※ 멀티미디어 내비플러스Ⅱ 선택 시 선택 가능&nbsp;<b><br></b><b><br></b><b>▶ 윈도우 밴(2인승)</b> 300,000&nbsp;<b><br></b><b><br></b><b>▶ 멀티미디어 내비플러스Ⅱ </b>1,450,000&nbsp;<b><br></b><b><br></b><b>▶ 익스테리어 디자인(2인승)</b> 550,000&nbsp;<b><br></b><b><br></b><b>▶ 컴포트(2인승) </b>800,000&nbsp;<br>※ 트윈 스윙 도어와 중복 선택 불가&nbsp;<b><br></b><b><br></b><b>▶ 테크</b> 1,200,000&nbsp;<br>※ 트윈 스윙 도어와 중복 선택 불가&nbsp;<br>※ 멀티미디어 내비플러스Ⅱ 선택 시 선택 가능<br><br><b>▶ H Genuine Accessories 슬라이딩 카고 베드</b> 1,330,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="2">
+																<p>HEV 1.6T 카고 5인승</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>스마트</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,699</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶ 파워트레인/성능 :</b> 스마트스트림 가솔린 1.6T 하이브리드, 6단 자동변속기, 통합 주행 모드, 후륜 리지드 엑슬 서스펜션<br><br><b>▶ 안전 :</b> 7에어백 시스템(1열 에어백/사이드, 운전석 무릎, 전복대응 커튼), 전좌석 3점식 시트벨트, 전좌석 헤드레스트,
+다중 충돌방지 자동 제동 시스템, 횡풍안정제어, 개별 타이어 공기압 경보 장치, 세이프티 파워 윈도우(운전석),
+타이어 응급처치 키트, 실내 소화기<br><br><b>▶ 지능형 안전 기술 :</b> 전방 충돌방지 보조(차량/보행자/자전거 탑승자/교차로 대향차/정면 대향차), 차로 이탈방지 보조,
+차로 유지 보조, 후측방 충돌방지 경고(주행), 후측방 충돌방지 보조(전진 출차), 후방 교차 충돌방지 보조,
+스마트 크루즈 컨트롤(스탑앤고 기능 포함), 하이빔 보조, 지능형 속도 제한 보조, 운전자 주의경고, 전방 차량 출발 알림,
+후석 승객 알림<br><br><b>▶ 외관 :</b> 17인치 알로이 휠 &amp; 타이어, 리어 스포일러, LED 보조제동등, 리어글래스 열선, 바디 컬러 아웃사이드 도어 핸들,
+아웃사이드 미러(전동접이, 전동조절), 전/후륜 디스크 브레이크, 2열 파노라믹 윈도우, 자외선 차단 유리(윈드실드)<br><br><b>▶ 내장 :</b> 클러스터(4.2인치 컬러 LCD), D&amp;N 룸미러, 수동식 틸트 &amp; 텔레스코픽 스티어링 휠, 센터콘솔,
+리놀륨 플로어 카페트, 카고 램프<br><br><b>▶ 시트 :</b> 직물시트, 1열 열선시트, 운전석 수동 높이 조절, 동승석 슬라이딩 &amp; 리클라이닝 시트, 2열 시트(고정식, 수납함 내장)<br><br><b>▶ 편의 : </b>버튼시동 &amp; 스마트키, 스마트키 원격시동, 전동식 파킹 브레이크(오토홀드 포함),
+USB C타입 단자(1열 충전 2개/2열 충전 2개), 전방/후방 주차 거리 경고, 후방 모니터, 오토라이트 컨트롤, 풀오토 에어컨
+(미세먼지 센서/공기청정모드/오토 디포그/애프터블로우), 마이크로 에어 필터, 파워 아웃렛(1열 1개), 워크 어웨이 락<br><br><b>▶ 인포테인먼트 :</b> 12.3인치 디스플레이 오디오(블루링크, 폰 프로젝션, 블루투스 핸즈프리, 4스피커),
+무선 소프트웨어 업데이트(OTA Software Update), 샤크핀 안테나
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶ 트윈 스윙 도어</b> 400,000<br><br><b>▶ 멀티미디어 내비플러스Ⅰ</b> 1,650,000<br><br><b>▶ H Genuine Accessories 슬라이딩 카고 베드</b> 1,330,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>모던</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,820</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶ HEV 1.6T 카고 5인승 스마트 기본품목 및</b>&nbsp;<br><br><b>ㆍ외관 :</b> 바디 컬러 아웃사이드 미러(열선, LED 방향지시등)&nbsp;<br><br><b>ㆍ내장 : </b>슬라이딩 선바이저 &amp; 거울 &amp; 조명, 가죽 스티어링 휠(열선포함), 가죽 변속기 노브,
+루프 트레이(운전석/동승석 상단 수납함)<br><br><b>ㆍ시트 : </b>인조가죽 시트(블랙/베이지)<br><br><b>ㆍ편의 :</b> 레인센서, ECM 룸미러, 하이패스
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶ 트윈 스윙 도어</b> 400,000<br><br><b>▶ 빌트인 캠 2 PLUS, 증강현실 내비게이션</b> 670,000&nbsp;<br>※ 트윈 스윙 도어와 중복 선택 불가&nbsp;<br>※ 멀티미디어 내비플러스Ⅱ 선택 시 선택 가능&nbsp;<b><br></b><b><br></b><b>▶ 윈도우 밴(5인승)</b> 200,000&nbsp;<b><br></b><b><br></b><b>▶ 멀티미디어 내비플러스Ⅱ </b>1,450,000&nbsp;<b><br></b><b><br></b><b>▶ 익스테리어 디자인(5인승)</b> 850,000&nbsp;<b><br></b><b><br></b><b>▶ 컴포트(5인승) </b>1,050,000&nbsp;<br>※ 트윈 스윙 도어와 중복 선택 불가&nbsp;<b><br></b><b><br></b><b>▶ 테크</b> 1,200,000&nbsp;<br>※ 트윈 스윙 도어와 중복 선택 불가&nbsp;<br>※ 멀티미디어 내비플러스Ⅱ 선택 시 선택 가능<br><br><b>▶ H Genuine Accessories 슬라이딩 카고 베드</b> 1,330,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+												</tbody>
+											</table>
+										
+									</div>
+									<!-- 신차가격표(폴더형) -->
+									<div id="f_fold" style="display:none;">
+										<div class="newcar_folder">
+											<ul class="nf_list" id="newcarList">
+												
+													<li>
+														<a href="#newcar0">
+                                                            <span class="model">L3.5 투어러 11인승 스마트 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,502</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar1">
+                                                            <span class="model">L3.5 투어러 11인승 모던 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,659</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar2">
+                                                            <span class="model">L3.5 라운지 7인승 모빌리티 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>4,467</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar3">
+                                                            <span class="model">L3.5 라운지 7인승 인스퍼레이션 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>4,705</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar4">
+                                                            <span class="model">L3.5 카고 3인승 스마트 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,259</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar5">
+                                                            <span class="model">L3.5 카고 3인승 모던 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,412</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar6">
+                                                            <span class="model">L3.5 카고 5인승 스마트 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,346</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar7">
+                                                            <span class="model">L3.5 카고 5인승 모던 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,490</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar8">
+                                                            <span class="model">HEV 1.6T 투어러 9인승 스마트 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,876</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar9">
+                                                            <span class="model">HEV 1.6T 투어러 9인승 모던 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,999</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar10">
+                                                            <span class="model">HEV 1.6T 투어러 11인승 스마트 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,870</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar11">
+                                                            <span class="model">HEV 1.6T 투어러 11인승 모던 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,999</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar12">
+                                                            <span class="model">HEV 1.6T 라운지 7인승 모빌리티 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>4,787</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar13">
+                                                            <span class="model">HEV 1.6T 라운지 7인승 인스퍼레이션 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>5,021</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar14">
+                                                            <span class="model">HEV 1.6T 라운지 9인승 모빌리티 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>4,706</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar15">
+                                                            <span class="model">HEV 1.6T 라운지 9인승 프레스티지 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>4,499</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar16">
+                                                            <span class="model">HEV 1.6T 라운지 9인승 인스퍼레이션 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>4,876</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar17">
+                                                            <span class="model">HEV 1.6T 카고 2인승 스마트 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,625</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar18">
+                                                            <span class="model">HEV 1.6T 카고 2인승 모던 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,745</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar19">
+                                                            <span class="model">HEV 1.6T 카고 5인승 스마트 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,699</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar20">
+                                                            <span class="model">HEV 1.6T 카고 5인승 모던 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,820</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+											</ul>
+											<!-- 개별 -->
+											
+												<div id="newcar0" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 파워트레인/성능 :</b> 스마트스트림 LPG 3.5엔진, 8단 자동변속기, 통합 주행 모드, 후륜 멀티 링크 서스펜션<br><br><b>▶ 안전 :</b> 7에어백 시스템(1열 에어백/사이드, 운전석 무릎, 전복대응 커튼), 전좌석 3점식 시트벨트, 전좌석 헤드레스트,
+세이프티 파워 윈도우(운전석), 다중 충돌방지 자동 제동 시스템, 횡풍안정제어, 개별 타이어 공기압 경보 장치,
+타이어 응급처치 키트, 유아용 시트 고정장치(2열 2개), 실내 소화기<br><br><b>▶ 지능형 안전 기술 :</b> 전방 충돌방지 보조(차량/보행자/자전거 탑승자/교차로 대향차/정면 대향차), 차로 이탈방지 보조,
+차로 유지 보조, 후측방 충돌방지 경고(주행), 후측방 충돌방지 보조(전진 출차), 후방 교차 충돌방지 보조,
+스마트 크루즈 컨트롤(스탑앤고 기능 포함), 하이빔 보조, 지능형 속도 제한 보조, 운전자 주의 경고, 전방 차량 출발 알림,
+후석 승객 알림<br><br><b>▶ 외관 :</b> 17인치 스틸 휠 &amp; 타이어, 리어 스포일러, LED 보조제동등, 리어글래스 열선, 바디 컬러 아웃사이드 도어 핸들,
+아웃사이드 미러(전동접이, 전동조절), 후석 파노라믹 윈도우, 전/후륜 디스크 브레이크<br><br><b>▶ 내장 :</b> 클러스터(4.2인치 컬러 LCD), D&amp;N 룸미러, 수동식 틸트 &amp; 텔레스코픽 스티어링 휠, 리놀륨 플로어 카페트<br><br><b>▶ 시트 :</b> 직물 시트, 1열 열선시트, 운전석 수동 높이 조절, 동승석 슬라이딩 &amp; 리클라이닝 시트, 2~4열 롱 슬라이딩 시트,
+2~4열 풀 플랫 시트, 2열 6:4 분할 시트(리클라이닝/폴딩), 3열 독립시트(리클라이닝/폴딩), 4열 쿠션 팁업 시트(폴딩)<br><br><b>▶ 편의 : </b>버튼시동 &amp; 스마트키, 스마트키 원격시동, 전동식 파킹 브레이크(오토홀드 포함), USB C타입 단자(1열 충전 2개/
+2열 충전 2개/3열 충전 2개), 전방/후방 주차 거리 경고, 후방 모니터, 오토라이트 컨트롤, 매뉴얼 에어컨,
+후석 루프 에어 벤트, 마이크로 에어 필터, 파워 아웃렛(1열 1개), 애프터블로우, 워크 어웨이 락<br><br><b>▶ 인포테인먼트 :</b> 12.3인치 디스플레이 오디오(블루링크, 폰 프로젝션, 블루투스 핸즈프리, 6스피커),
+무선 소프트웨어 업데이트(OTA Software Update), 샤크핀 안테나</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶ 멀티미디어 내비플러스Ⅰ</b> 1,900,000</p>
+												</div>
+											
+												<div id="newcar1" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ L3.5 투어러 11인승 스마트 기본품목 및</b>&nbsp;<br><br><b>ㆍ외관 :</b> 17인치 알로이 휠 &amp; 타이어, 바디 컬러 아웃사이드 미러(열선, LED 방향지시등), 유광 필라 가니쉬,
+자외선 차단 유리(윈드실드)<br><br><b>ㆍ내장 :</b> 슬라이딩 선바이저 &amp; 거울 &amp; 조명, 가죽 스티어링 휠(열선포함), 가죽 변속기 노브,
+루프트레이(운전석/동승석 상단 수납함)&nbsp;<br><br><b>ㆍ시트 :</b> 인조가죽 시트(블랙/베이지)&nbsp;<br><br><b>ㆍ편의 :</b> USB C타입 단자(4열 충전 2개), 레인센서, ECM 룸미러, 하이패스&nbsp;&nbsp;</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶ 빌트인 캠 2 PLUS, 증강현실 내비게이션</b> 670,000&nbsp;<br>※ 멀티미디어 내비플러스Ⅱ 선택 시&nbsp;<br><br><b>▶ 듀얼 와이드 선루프 + LED 실내등(맵램프, 룸램프)</b> 900,000&nbsp;<br>※ 선루프 선택 시 루프 트레이 미적용&nbsp;<br><br><b>▶ 멀티미디어 내비플러스Ⅱ </b>1,700,000&nbsp;<br><br><b>▶ 익스테리어 디자인(11인승)</b> 1,050,000&nbsp;<br><br><b>▶ 컴포트</b> 550,000&nbsp;<br><br><b>▶ 테크Ⅰ</b> 1,350,000&nbsp;<br>※ 멀티미디어 내비플러스Ⅱ 선택 시 선택 가능&nbsp;<br><br><b>▶ 테크Ⅱ</b> 1,250,000<br><br><b>▶ H Genuine Accessories</b> <b>트레일러 패키지(토우히치 &amp; LED 테일게이트 램프)</b> 1,270,000&nbsp;&nbsp;<br>※ 멀티미디어 내비플러스 II 선택 시 선택 가능</p>
+												</div>
+											
+												<div id="newcar2" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 커스터마이징(H Genuine Accessories) 모빌리티 패키지 :</b> 후석 전동식 사이드 스텝(우측)&nbsp;<br><br><b>▶ 파워트레인/성능 : </b>스마트스트림 LPG 3.5 엔진, 8단 자동변속기, 통합 주행 모드, 전자식 변속 칼럼,
+후륜 멀티 링크 서스펜션&nbsp;<br><br><b>▶ 안전 :</b> 7에어백 시스템(1열 에어백/사이드, 운전석 무릎/전복대응 커튼), 전좌석 3점식 시트벨트, 전좌석 헤드레스트,
+세이프티 파워 윈도우(1열), 다중 충돌방지 자동 제동 시스템, 횡풍안정제어, 개별 타이어 공기압 경보 장치,
+타이어 응급처치 키트, 유아용 시트 고정장치(2열 2개), 실내 소화기&nbsp;<br><br><b>▶ 지능형 안전 기술 :</b> 전방 충돌방지 보조(차량/보행자/자전거탑승자/교차로 대향차/정면 대향차), 차로 이탈방지 보조,
+차로 유지 보조, 후측방 충돌방지 경고(주행), 후측방 충돌방지 보조(전진 출차), 후방 교차 충돌 방지 보조,
+스마트 크루즈 컨트롤(스탑앤고 기능 포함), 고속도로 주행 보조, 내비게이션 기반 스마트 크루즈 컨트롤(안전구간,
+곡선로), 안전 하차보조, 하이빔 보조, 지능형 속도 제한 보조, 운전자 주의 경고, 전방 차량 출발 알림, 후석 승객 알림&nbsp;<br><br><b>▶ 외관 :</b> 라운지 전용 디자인(크롬 라디에이터 그릴/범퍼/아웃사이드 도어핸들), 라운지 전용 18인치 알로이 휠,
+Full LED 헤드램프(프로젝션), LED 주간주행등, LED 포지셔닝 램프, LED 방향지시등(앞), LED 리어콤비램프,
+순차 점등 방향지시등(뒤), 다이나믹 웰컴 라이트, 리어 스포일러, LED 보조제동등, 바디 컬러 아웃사이드 미러(열선,
+전동접이, 전동조절, LED 방향지시등), 리어글래스 열선, 에어로 타입 와이퍼, 자외선 차단 유리(윈드실드),
+후석 파노라믹 윈도우, 유광 필라 가니쉬, 전/후륜 디스크 브레이크&nbsp;<br><br><b>▶ 내장 :</b> 라운지 전용 디자인(스웨이드 내장재, 풀사이즈 센터 콘솔, 앰비언트 무드램프, 메탈 도어 스커프, 메탈 페달,
+반펀칭 가죽 스티어링 휠), 클러스터(12.3인치 컬러 LCD), LED 실내등(맵램프, 룸램프, 선바이저),
+수동식 틸트 &amp; 텔레스코픽 스티어링 휠, 슬라이딩 선바이저 &amp; 거울, 러기지 네트
+※ 스웨이드 내장재 적용 범위 : 헤드라이닝, 필라, 선바이저&nbsp;<br><br><b>▶ 시트 : </b>2열 프리미엄 릴렉션 시트(원터치 릴렉션, 전동 리클라이닝/쿠션 틸팅/4way 레그서포트, 윙타입 헤드레스트,
+워크인 스위치), 천연가죽 시트(블랙/엔트러사이트 브라운), 운전석 전동시트(8way, 4way 럼버서포트),
+1/2열 열선/통풍시트, 동승석 전동시트(4way, 워크인 디바이스), 2열~3열 슬라이딩 시트, 3열 쿠션 팁업 시트(폴딩)&nbsp;<br><br><b>▶ 편의 : </b>스마트 파워 슬라이딩 도어, 스마트 파워 테일게이트, 버튼시동 &amp; 스마트키, 스마트키 원격시동,
+전동식 파킹 브레이크(오토홀드 포함), 열선 스티어링 휠(진동경고), 풀오토 에어컨(미세먼지 센서/공기청정모드/
+애프터블로우), 후석 루프 에어 벤트, 마이크로 에어 필터, ECM 룸미러, 하이패스, 패들쉬프트, 220V 인버터,
+파워 아웃렛(1열 1개), USB C타입 단자(1열 충전 2개/2열 충전 2개/3열 충전 2개), 전방/후방 주차 거리 경고,
+후방 모니터, 오토라이트 컨트롤, 레인센서, 워크 어웨이 락&nbsp;<br><br><b>▶ 인포테인먼트 : </b>12.3인치 내비게이션(블루링크, 폰 프로젝션, 블루투스 핸즈프리, 인카페이먼트, e hi-pass, 6스피커),
+무선 소프트웨어 업데이트(OTA Software Update), 샤크핀 안테나</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶ BOSE 프리미엄 사운드(12스피커, 외장앰프) </b>600,000&nbsp;&nbsp;<br>※ 컴포트, 테크 선택 시&nbsp;<br><br><b>▶ 듀얼 와이드 선루프</b> 850,000&nbsp;<br>※ 듀얼 와이드 선루프 선택 시 루프 모니터 선택 불가&nbsp;<br><br><b>▶ 스마트</b> 1,160,000&nbsp;<br><br><b>▶ 컴포트</b> 500,000&nbsp;<br><br><b>▶ 테크</b> 1,050,000<br><br><b>▶ H Genuine Accessories 17.3인치 루프 모니터(전동폴딩, 블루투스, HDMI, USB 멀티미디어 재생)</b> 1,070,000&nbsp;&nbsp;<br>※ 루프 모니터 선택 시 듀얼 와이드 선루프 선택 불가</p>
+												</div>
+											
+												<div id="newcar3" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 파워트레인/성능 :</b> 스마트스트림 LPG 3.5엔진, 8단 자동변속기, 통합 주행 모드, 전자식 변속 칼럼, 후륜 멀티 링크 서스펜션<br><br><b>▶ 안전 : </b>7에어백 시스템(1열 에어백/사이드, 운전석 무릎, 전복대응 커튼), 전좌석 3점식 시트벨트, 전좌석 헤드레스트,
+세이프티 파워 윈도우(1열), 다중 충돌방지 자동 제동시스템, 횡풍안정제어, 개별 타이어 공기압 경보 장치,
+타이어 응급처치 키트, 유아용 시트 고정장치(2열 2개), 실내 소화기&nbsp;<br><br><b>▶ 지능형 안전 기술 : </b>전방 충돌 방지 보조(차량/보행자/자전거 탑승자/교차로 대향차/정면 대향차), 차로 이탈방지 보조,
+차로 유지 보조, 후측방 충돌방지 경고(주행), 후측방 충돌방지 보조(전진 출차), 후방 교차 충돌방지 보조,
+스마트 크루즈 컨트롤(스탑앤고 기능 포함), 고속도로 주행 보조, 내비게이션 기반 스마트 크루즈 컨트롤(안전구간, 곡선로),
+어드밴스드 후석 승객 알림, 하이빔 보조, 지능형 속도 제한 보조, 운전자 주의 경고, 전방 차량 출발 알림, 안전 하차 보조&nbsp;<br><br><b>▶ 외관 :</b> 라운지 전용 디자인(크롬 라디에이터 그릴, 범퍼, 아웃사이드 도어 핸들), 라운지 전용 18인치 알로이 휠,
+Full LED 헤드램프(프로젝션), LED 주간주행등, LED 포지셔닝 램프, LED 방향지시등(앞), LED 리어콤비램프,
+순차 점등 방향 지시등(뒤), 다이나믹 웰컴 라이트, 리어 스포일러, LED 보조제동등, 바디 컬러 아웃사이드 미러
+(열선, 전동접이, 전동조절, LED방향지시등), 자외선 차단 유리(윈드실드), 이중접합 차음유리(윈드실드, 1열 도어),
+리어글래스 열선, 에어로 타입 와이퍼, 후석 파노라믹 윈도우, 유광 필라 가니쉬, 전/후륜 디스크 브레이크&nbsp;<br><br><b>▶ 내장 :</b> 라운지 전용 디자인(스웨이드 내장재, 풀사이즈 센터 콘솔, 앰비언트 무드램프, 메탈 도어 스커프, 메탈 페달,
+반펀칭 가죽 스티어링 휠), 클러스터(12.3인치 컬러 LCD), LED실내등(맵램프, 룸램프, 선바이저),
+수동식 틸트 &amp; 텔레스코픽 스티어링 휠, 슬라이딩 선바이저 &amp; 거울, 러기지 네트
+※ 스웨이드 내장재 적용 부위 : 헤드라이닝, 필라, 선바이저<br><br><b>▶ 시트 : </b>2열 프리미엄 릴렉션 시트(원터치 릴렉션, 전동 리클라이닝/쿠션 틸팅/4way 레그서포트, 윙타입 헤드레스트,
+워크인 스위치), 나파가죽 시트(블랙/엔트러사이트 브라운/보르도 브라운/로토루아 크림), 1/2열 통풍/열선시트,
+운전석 전동시트(8way, 4way 럼버서포트), 동승석 전동 시트(4way, 워크인 디바이스), 2열~3열 슬라이딩 시트,
+3열 쿠션 팁업 시트(폴딩)&nbsp;<br><br><b>▶ 편의 : </b>스마트 파워 슬라이딩 도어, 스마트 파워 테일게이트, 버튼시동 &amp; 스마트키, 스마트키 원격시동, 디지털 키 2,
+전동식 파킹 브레이크(오토홀드 포함), 열선 스티어링 휠(진동 경고), 풀오토 에어컨(미세먼지 센서/공기청정모드/
+애프터블로우), 후석 루프 에어 벤트, 마이크로 에어 필터, 하이패스, ECM 룸미러, 패들쉬프트, 220V 인버터,
+파워 아웃렛(1열 1개), USB C타입 단자(1열 충전 2개/2열 충전 2개/3열 충전 2개), 전방/후방/측방 주차 거리 경고,
+오토라이트 컨트롤, 서라운드 뷰 모니터, 후측방 모니터, 터치타입 아웃사이드 도어 핸들, 스마트폰 무선충전, 후석 뷰,
+후석 음성 인식, 레인센서, 후방 모니터, 워크 어웨이 락&nbsp;<br><br><b>▶ 인포테인먼트 :</b>  12.3인치 내비게이션(블루링크, 폰 프로젝션, 블루투스 핸즈프리, 인카페이먼트, e hi-pass, 6스피커),
+무선 소프트웨어 업데이트(OTA Software Update), 샤크핀 안테나</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶ 듀얼 와이드 선루프</b> 890,000&nbsp;<br><br><b>▶ BOSE 프리미엄 사운드(12스피커, 외장앰프)</b> 640,000&nbsp;&nbsp;<br>※ 컴포트 선택 시&nbsp;<br><br><b>▶ 빌트인 캠 2 PLUS, 증강현실 내비게이션</b> 700,000&nbsp;<br><br><b>▶ 컴포트</b> 520,000<br><br><b>▶ H Genuine Accessories 트레일러 패키지(토우히치 &amp; LED 테일게이트 램프)</b> 1,340,000&nbsp;&nbsp;<br><br><b>▶ H Genuine Accessories 빌트인 공기청정기</b> 420,000&nbsp;<br><br><b>▶ H Genuine Accessories 후석 전동식 사이드 스텝(우측)</b> 680,000</p>
+												</div>
+											
+												<div id="newcar4" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 파워트레인/성능 :</b> 스마트스트림 LPG 3.5엔진, 8단 자동변속기, 통합 주행 모드, 후륜 리지드 엑슬 서스펜션<br><br><b>▶ 안전 :</b> 7에어백 시스템(1열 에어백/사이드, 운전석 무릎, 전복대응 커튼), 전좌석 3점식 시트벨트, 전좌석 헤드레스트,
+세이프티 파워 윈도우(운전석), 다중 충돌방지 자동 제동 시스템, 횡풍안정제어, 개별 타이어 공기압 경보 장치,
+타이어 응급처치 키트, 실내 소화기<br><br><b>▶ 지능형 안전 기술 :</b> 전방 충돌방지 보조(차량/보행자/자전거 탑승자/교차로 대향차/정면 대향차), 차로 이탈방지 보조,
+차로 유지 보조, 후측방 충돌방지 경고(주행), 후측방 충돌방지 보조(전진 출차), 후방 교차 충돌방지 보조,
+스마트 크루즈 컨트롤(스탑앤고 기능 포함), 하이빔 보조, 지능형 속도 제한 보조, 운전자 주의경고, 전방 차량 출발 알림<br><br><b>▶ 외관 :</b> 17인치 스틸 휠 &amp; 타이어, 리어 스포일러, LED 보조제동등, 리어글래스 열선, 바디 컬러 아웃사이드 도어 핸들,
+아웃사이드 미러(전동접이, 전동조절), 전/후륜 디스크 브레이크<br><br><b>▶ 내장 :</b> 클러스터(4.2인치 컬러 LCD), D&amp;N 룸미러, 수동식 틸트 &amp; 텔레스코픽 스티어링 휠, 리놀륨 플로어 카페트, 카고 램프<br><br><b>▶ 시트 :</b> 직물시트, 1열 열선시트, 운전석 수동 높이 조절, 동승석 슬라이딩 &amp; 리클라이닝 시트
+<br><br><b>▶ 편의 : </b>버튼시동 &amp; 스마트키, 스마트키 원격시동, 전동식 파킹 브레이크(오토홀드 포함), USB C타입 단자(1열 충전 2개),
+전방/후방 주차 거리 경고, 후방 모니터, 오토라이트 컨트롤, 매뉴얼 에어컨,
+마이크로 에어 필터, 파워 아웃렛(1열 1개), 애프터블로우, 워크 어웨이 락<br><br><b>▶ 인포테인먼트 :</b> 12.3인치 디스플레이 오디오(블루링크, 폰 프로젝션, 블루투스 핸즈프리, 4스피커),
+무선 소프트웨어 업데이트(OTA Software Update), 샤크핀 안테나</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶ 트윈 스윙 도어</b> 400,000<br><br><b>▶ 멀티미디어 내비플러스Ⅰ</b> 1,850,000<br><br><b>▶ H Genuine Accessories 슬라이딩 카고 베드</b> 1,330,000</p>
+												</div>
+											
+												<div id="newcar5" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ L3.5 카고 3인승 스마트 기본품목 및</b>&nbsp;<br><br><b>ㆍ외관 :</b> 17인치 알로이 휠 &amp; 타이어, 바디 컬러 아웃사이드 미러(열선, LED 방향지시등), 자외선 차단 유리(윈드실드)&nbsp;<br><br><b>ㆍ내장 : </b>슬라이딩 선바이저 &amp; 거울 &amp; 조명, 가죽 스티어링 휠(열선포함), 가죽 변속기 노브,
+루프 트레이(운전석/동승석 상단 수납함)&nbsp;<br><br><b>ㆍ시트 : </b>인조가죽 시트(블랙/베이지)&nbsp;<br><br><b>ㆍ편의 :</b> 레인센서, ECM 룸미러, 하이패스</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶ 트윈 스윙 도어</b> 400,000<br><br><b>▶ 빌트인 캠 2 PLUS, 증강현실 내비게이션</b> 670,000&nbsp;<br>※ 트윈 스윙 도어와 중복 선택 불가&nbsp;<br>※ 멀티미디어 내비플러스Ⅱ 선택 시 선택 가능&nbsp;<b><br></b><b><br></b><b>▶ 윈도우 밴(3인승)</b> 300,000&nbsp;<b><br></b><b><br></b><b>▶ 멀티미디어 내비플러스Ⅱ </b>1,650,000&nbsp;<b><br></b><b><br></b><b>▶ 익스테리어 디자인(3인승)</b> 550,000&nbsp;<b><br></b><b><br></b><b>▶ 컴포트(3인승) </b>800,000&nbsp;<br>※ 트윈 스윙 도어와 중복 선택 불가&nbsp;<b><br></b><b><br></b><b>▶ 테크</b> 1,200,000&nbsp;<br>※ 트윈 스윙 도어와 중복 선택 불가&nbsp;<br>※ 멀티미디어 내비플러스Ⅱ 선택 시 선택 가능<br><br><b>▶ H Genuine Accessories 슬라이딩 카고 베드</b> 1,330,000</p>
+												</div>
+											
+												<div id="newcar6" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 파워트레인/성능 :</b> 스마트스트림 LPG 3.5엔진, 8단 자동변속기, 통합 주행 모드, 후륜 리지드 엑슬 서스펜션<br><br><b>▶ 안전 :</b> 7에어백 시스템(1열 에어백/사이드, 운전석 무릎, 전복대응 커튼), 전좌석 3점식 시트벨트, 전좌석 헤드레스트,
+세이프티 파워 윈도우(운전석), 다중 충돌방지 자동 제동 시스템, 횡풍안정제어, 개별 타이어 공기압 경보 장치,
+타이어 응급처치 키트, 실내 소화기<br><br><b>▶ 지능형 안전 기술 :</b> 전방 충돌방지 보조(차량/보행자/자전거 탑승자/교차로 대향차/정면 대향차), 차로 이탈방지 보조,
+차로 유지 보조, 후측방 충돌방지 경고(주행), 후측방 충돌방지 보조(전진 출차), 후방 교차 충돌방지 보조,
+스마트 크루즈 컨트롤(스탑앤고 기능 포함), 하이빔 보조, 지능형 속도 제한 보조, 운전자 주의경고, 전방 차량 출발 알림,
+후석 승객 알림<br><br><b>▶ 외관 :</b> 17인치 스틸 휠 &amp; 타이어, 리어 스포일러, LED 보조제동등, 리어글래스 열선, 바디 컬러 아웃사이드 도어 핸들,
+아웃사이드 미러(전동접이, 전동조절), 전/후륜 디스크 브레이크, 2열 파노라믹 윈도우<br><br><b>▶ 내장 :</b> 클러스터(4.2인치 컬러 LCD), D&amp;N 룸미러, 수동식 틸트 &amp; 텔레스코픽 스티어링 휠, 센터콘솔,
+리놀륨 플로어 카페트, 카고 램프<br><br><b>▶ 시트 :</b> 직물시트, 1열 열선시트, 운전석 수동 높이 조절, 동승석 슬라이딩 &amp; 리클라이닝 시트, 2열 시트(고정식, 수납함 내장)
+※ 미적용 : 1열 센터 시트<br><br><b>▶ 편의 : </b>버튼시동 &amp; 스마트키, 스마트키 원격시동, 전동식 파킹 브레이크(오토홀드 포함),
+USB C타입 단자(1열 충전 2개/2열 충전 2개), 전방/후방 주차 거리 경고, 후방 모니터, 오토라이트 컨트롤,
+매뉴얼 에어컨, 마이크로 에어 필터, 파워 아웃렛(1열 1개), 애프터블로우, 워크 어웨이 락<br><br><b>▶ 인포테인먼트 :</b>  12.3인치 디스플레이 오디오(블루링크, 폰 프로젝션, 블루투스 핸즈프리, 4스피커),
+무선 소프트웨어 업데이트(OTA Software Update), 샤크핀 안테나</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶ 트윈 스윙 도어</b> 400,000<br><br><b>▶ 멀티미디어 내비플러스Ⅰ</b> 1,850,000<br><br><b>▶ H Genuine Accessories 슬라이딩 카고 베드</b> 1,330,000</p>
+												</div>
+											
+												<div id="newcar7" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ L3.5 카고 5인승 스마트 기본품목 및</b>&nbsp;<br><br><b>ㆍ외관 :</b> 17인치 알로이 휠 &amp; 타이어, 바디 컬러 아웃사이드 미러(열선, LED 방향지시등), 자외선 차단 유리(윈드실드)&nbsp;<br><br><b>ㆍ내장 : </b>슬라이딩 선바이저 &amp; 거울 &amp; 조명, 가죽 스티어링 휠(열선포함), 가죽 변속기 노브,
+루프 트레이(운전석/동승석 상단 수납함)<br><br><b>ㆍ시트 : </b>인조가죽 시트(블랙/베이지)<br><br><b>ㆍ편의 :</b> 레인센서, ECM 룸미러, 하이패스</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶ 트윈 스윙 도어</b> 400,000<br><br><b>▶ 빌트인 캠 2 PLUS, 증강현실 내비게이션</b> 670,000&nbsp;<br>※ 트윈 스윙 도어와 중복 선택 불가&nbsp;<br>※ 멀티미디어 내비플러스Ⅱ 선택 시 선택 가능&nbsp;<b><br></b><b><br></b><b>▶ 윈도우 밴(5인승)</b> 200,000&nbsp;<b><br></b><b><br></b><b>▶ 멀티미디어 내비플러스Ⅱ </b>1,650,000&nbsp;<b><br></b><b><br></b><b>▶ 익스테리어 디자인(5인승)</b> 850,000&nbsp;<b><br></b><b><br></b><b>▶ 컴포트(5인승) </b>1,050,000&nbsp;<br>※ 트윈 스윙 도어와 중복 선택 불가&nbsp;<b><br></b><b><br></b><b>▶ 테크</b> 1,200,000&nbsp;<br>※ 트윈 스윙 도어와 중복 선택 불가&nbsp;<br>※ 멀티미디어 내비플러스Ⅱ 선택 시 선택 가능<br><br><b>▶ H Genuine Accessories 슬라이딩 카고 베드</b> 1,330,000</p>
+												</div>
+											
+												<div id="newcar8" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 파워트레인/성능 :</b> 스마트스트림 가솔린 1.6 터보 하이브리드, 6단 자동변속기, 통합 주행 모드, 후륜 멀티 링크 서스펜션<br><br><b>▶ 안전 :</b> 7에어백 시스템(1열 에어백/사이드, 운전석 무릎, 전복대응 커튼), 전좌석 3점식 시트벨트, 전좌석 헤드레스트,
+다중 충돌방지 자동 제동 시스템, 횡풍안정제어, 개별 타이어 공기압 경보 장치, 타이어 응급처치 키트,
+유아용 시트 고정장치(2열 2개), 세이프티 파워 윈도우(운전석), 실내 소화기<br><br><b>▶ 지능형 안전 기술 :</b> 전방 충돌방지 보조(차량/보행자/자전거 탑승자/교차로 대향차/정면 대향차), 차로 이탈방지 보조,
+차로 유지 보조, 후측방 충돌방지 경고(주행), 후측방 충돌방지 보조(전진 출차), 후방 교차 충돌방지 보조,
+스마트 크루즈 컨트롤(스탑앤고 기능 포함), 하이빔 보조, 지능형 속도 제한 보조, 운전자 주의 경고, 전방 차량 출발 알림,
+후석 승객 알림<br><br><b>▶ 외관 :</b> 17인치 알로이 휠 &amp; 타이어, 리어 스포일러, LED 보조제동등, 리어글래스 열선, 바디 컬러 아웃사이드 도어 핸들,
+아웃사이드 미러(전동접이, 전동조절), 후석 파노라믹 윈도우, 전/후륜 디스크 브레이크,
+이중접합 차음유리(윈드실드, 1열 도어), 자외선 차단 유리(윈드실드)<br><br><b>▶ 내장 :</b> 클러스터(4.2인치 컬러 LCD), D&amp;N 룸미러, 수동식 틸트 &amp; 텔레스코픽 스티어링 휠, 리놀륨 플로어 카페트<br><br><b>▶ 시트 :</b> 직물 시트, 1열 열선시트, 운전석 수동 높이 조절, 동승석 슬라이딩 &amp; 리클라이닝 시트, 2~3열 슬라이딩 시트,
+2~3열 풀 플랫 시트, 2열 6:4 분할 시트(리클라이닝/폴딩), 3열 쿠션 팁업 시트(폴딩)<br><br><b>▶ 편의 : </b>버튼시동 &amp; 스마트키, 스마트키 원격시동, 전동식 파킹 브레이크(오토홀드 포함), USB C타입 단자(1열 충전 2개/
+2열 충전 2개/3열 충전 2개), 전방/후방 주차 거리 경고, 후방 모니터, 오토라이트 컨트롤, 풀오토 에어컨(미세먼지 센서/
+공기청정모드/오토 디포그/애프터블로우), 후석 루프 에어 벤트, 마이크로 에어 필터, 파워 아웃렛(1열 1개), 워크 어웨이 락<br><br><b>▶ 인포테인먼트 :</b> 12.3인치 디스플레이 오디오(블루링크, 폰 프로젝션, 블루투스 핸즈프리, 6스피커),
+무선 소프트웨어 업데이트(OTA Software Update), 샤크핀 안테나</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶ 멀티미디어 내비플러스Ⅰ</b> 1,700,000</p>
+												</div>
+											
+												<div id="newcar9" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ HEV 1.6T 투어러 9인승 스마트 기본품목 및</b>&nbsp;<br><br><b>ㆍ외관 :</b> 바디 컬러 아웃사이드 미러(열선, LED 방향지시등), 유광 필라 가니쉬&nbsp;<br><br><b>ㆍ내장 :</b> 슬라이딩 선바이저 &amp; 거울 &amp; 조명, 가죽 스티어링 휠(열선포함), 가죽 변속기 노브,
+루프트레이(운전석/동승석 상단 수납함)<br><br><b>ㆍ시트 :</b> 인조가죽 시트(블랙/베이지)&nbsp;<br><br><b>ㆍ편의 :</b> 레인센서, ECM 룸미러, 하이패스&nbsp;&nbsp;</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶ 빌트인 캠 2 PLUS, 증강현실 내비게이션</b> 670,000&nbsp;<br>※ 멀티미디어 내비플러스Ⅱ 선택 시&nbsp;<br><br><b>▶ 듀얼 와이드 선루프 + LED 실내등(맵램프, 룸램프)</b> 900,000&nbsp;<br>※ 선루프 선택 시 루프 트레이 미적용&nbsp;<br><br><b>▶ 멀티미디어 내비플러스Ⅱ </b>1,500,000&nbsp;<br><br><b>▶ 익스테리어 디자인(9인승)</b> 1,100,000&nbsp;<br><br><b>▶ 컴포트</b> 550,000&nbsp;<br><br><b>▶ 테크Ⅰ</b> 1,350,000&nbsp;<br>※ 멀티미디어 내비플러스Ⅱ 선택 시 선택 가능&nbsp;<br><br><b>▶ 테크Ⅱ</b> 1,250,000</p>
+												</div>
+											
+												<div id="newcar10" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 파워트레인/성능 :</b> 스마트스트림 가솔린 1.6 터보 하이브리드, 6단 자동변속기, 통합 주행 모드, 후륜 멀티 링크 서스펜션<br><br><b>▶ 안전 :</b> 7에어백 시스템(1열 에어백/사이드, 운전석 무릎, 전복대응 커튼), 전좌석 3점식 시트벨트, 전좌석 헤드레스트,
+다중 충돌방지 자동 제동 시스템, 횡풍안정제어, 개별 타이어 공기압 경보 장치, 타이어 응급처치 키트,
+유아용 시트 고정장치(2열 2개), 세이프티 파워 윈도우(운전석), 실내 소화기<br><br><b>▶ 지능형 안전 기술 :</b> 전방 충돌방지 보조(차량/보행자/자전거 탑승자/교차로 대향차/정면 대향차), 차로 이탈방지 보조,
+차로 유지 보조, 후측방 충돌방지 경고(주행), 후측방 충돌방지 보조(전진 출차), 후방 교차 충돌방지 보조,
+스마트 크루즈 컨트롤(스탑앤고 기능 포함), 하이빔 보조, 지능형 속도 제한 보조, 운전자 주의 경고, 전방 차량 출발 알림,
+후석 승객 알림<br><br><b>▶ 외관 :</b> 17인치 알로이 휠 &amp; 타이어, 리어 스포일러, LED 보조제동등, 리어글래스 열선, 바디 컬러 아웃사이드 도어 핸들,
+아웃사이드 미러(전동접이, 전동조절), 후석 파노라믹 윈도우, 전/후륜 디스크 브레이크,
+이중접합 차음유리(윈드실드, 1열 도어), 자외선 차단 유리(윈드실드)<br><br><b>▶ 내장 :</b> 클러스터(4.2인치 컬러 LCD), D&amp;N 룸미러, 수동식 틸트 &amp; 텔레스코픽 스티어링 휠, 리놀륨 플로어 카페트<br><br><b>▶ 시트 :</b> 직물 시트, 1열 열선시트, 운전석 수동 높이 조절, 동승석 슬라이딩 &amp; 리클라이닝 시트, 2~4열 롱 슬라이딩 시트,
+2~4열 풀 플랫 시트, 2열 6:4 분할 시트(리클라이닝/폴딩), 3열 독립시트(리클라이닝/폴딩), 4열 쿠션 팁업 시트(폴딩)<br><br><b>▶ 편의 : </b>버튼시동 &amp; 스마트키, 스마트키 원격시동, 전동식 파킹 브레이크(오토홀드 포함), USB C타입 단자(1열 충전 2개/
+2열 충전 2개/3열 충전 2개), 전방/후방 주차 거리 경고, 후방 모니터, 오토라이트 컨트롤, 풀오토 에어컨(미세먼지 센서/
+공기청정모드/오토 디포그/애프터블로우), 후석 루프 에어 벤트, 마이크로 에어 필터, 파워 아웃렛(1열 1개), 워크 어웨이 락<br><br><b>▶ 인포테인먼트 :</b> 12.3인치 디스플레이 오디오(블루링크, 폰 프로젝션, 블루투스 핸즈프리, 6스피커),
+무선 소프트웨어 업데이트(OTA Software Update), 샤크핀 안테나</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶ 멀티미디어 내비플러스Ⅰ</b> 1,700,000</p>
+												</div>
+											
+												<div id="newcar11" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ HEV 1.6T 투어러 11인승 스마트 기본품목 및</b>&nbsp;<br><br><b>ㆍ외관 :</b> 바디 컬러 아웃사이드 미러(열선, LED 방향지시등), 유광 필라 가니쉬&nbsp;<br><br><b>ㆍ내장 :</b> 슬라이딩 선바이저 &amp; 거울 &amp; 조명, 가죽 스티어링 휠(열선포함), 가죽 변속기 노브,
+루프트레이(운전석/동승석 상단 수납함)&nbsp;<br><br><b>ㆍ시트 :</b> 인조가죽 시트(블랙/베이지)&nbsp;<br><br><b>ㆍ편의 :</b> USB C타입 단자(4열 충전 2개), 레인센서, ECM 룸미러, 하이패스 
+&nbsp;&nbsp;</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶ 빌트인 캠 2 PLUS, 증강현실 내비게이션</b> 670,000&nbsp;<br>※ 멀티미디어 내비플러스Ⅱ 선택 시&nbsp;<br><br><b>▶ 듀얼 와이드 선루프 + LED 실내등(맵램프, 룸램프)</b> 900,000&nbsp;<br>※ 선루프 선택 시 루프 트레이 미적용&nbsp;<br><br><b>▶ 멀티미디어 내비플러스Ⅱ </b>1,500,000&nbsp;<br><br><b>▶ 익스테리어 디자인(11인승)</b> 1,050,000&nbsp;<br><br><b>▶ 컴포트</b> 550,000&nbsp;<br><br><b>▶ 테크Ⅰ</b> 1,350,000&nbsp;<br>※ 멀티미디어 내비플러스Ⅱ 선택 시 선택 가능&nbsp;<br><br><b>▶ 테크Ⅱ</b> 1,250,000</p>
+												</div>
+											
+												<div id="newcar12" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 커스터마이징(H Genuine Accessories) 모빌리티 패키지 :</b> 후석 전동식 사이드 스텝(우측)&nbsp;<br><br><b>▶ 파워트레인/성능 :</b> 스마트스트림 가솔린 1.6T 하이브리드, 6단 자동변속기, 통합 주행 모드, 전자식 변속 칼럼,
+후륜 멀티 링크 서스펜션<br><br><b>▶ 안전 :</b> 7에어백 시스템(1열 에어백/사이드, 운전석 무릎, 전복대응 커튼), 전좌석 3점식 시트벨트, 전좌석 헤드레스트,
+세이프티 파워 윈도우(1열), 다중 충돌방지 자동 제동 시스템, 횡풍안정제어, 개별 타이어 공기압 경보 장치,
+타이어 응급처치 키트, 유아용 시트 고정장치(2열 2개), 실내 소화기&nbsp;<br><br><b>▶ 지능형 안전 기술 :</b> 전방 충돌 방지 보조(차량/보행자/자전거 탑승자/교차로 대향차/정면 대향차),
+차로 이탈방지 보조, 차로 유지 보조, 후측방 충돌방지 경고(주행), 후측방 충돌방지 보조(전진 출차),
+후방 교차 충돌 방지 보조, 스마트 크루즈 컨트롤(스탑앤고 기능 포함), 고속도로 주행 보조, 후석 승객 알림,
+내비게이션 기반 스마트 크루즈 컨트롤(안전구간, 곡선로), 안전 하차보조, 하이빔 보조, 지능형 속도 제한 보조,
+운전자 주의 경고, 전방 차량 출발 알림&nbsp;<br><br><b>▶ 외관 :</b> 라운지 전용 디자인(크롬 라디에이터 그릴/범퍼/아웃사이드 도어핸들), 라운지 전용 18인치 알로이 휠,
+Full LED 헤드램프(프로젝션), LED 주간주행등, LED 포지셔닝 램프, LED 방향지시등(앞), LED 리어콤비램프,
+순차 점등 방향지시등(뒤), 다이나믹 웰컴 라이트, 리어 스포일러, LED 보조제동등, 바디 컬러 아웃사이드 미러(열선,
+전동접이, 전동조절, LED 방향지시등), 리어글래스 열선, 에어로 타입 와이퍼, 자외선 차단 유리(윈드실드),
+이중접합 차음유리(윈드실드, 1열 도어), 후석 파노라믹 윈도우, 유광 필라 가니쉬, 전/후륜 디스크 브레이크&nbsp;<br><br><b>▶ 내장 :</b> 라운지 전용 디자인(스웨이드 내장재, 풀사이즈 센터 콘솔, 앰비언트 무드램프, 메탈 도어 스커프, 메탈 페달,
+반펀칭 가죽 스티어링 휠), 클러스터(12.3인치 컬러 LCD), LED 실내등(맵램프, 룸램프, 선바이저),
+수동식 틸트 &amp; 텔레스코픽 스티어링 휠, 슬라이딩 선바이저 &amp; 거울, 러기지 네트
+※ 스웨이드 내장재 적용 범위 : 헤드라이닝, 필라, 선바이저&nbsp;<br><br><b>▶ 시트 :</b> 2열 프리미엄 릴렉션 시트(원터치 릴렉션, 전동 리클라이닝/쿠션 틸팅/4way 레그서포트, 윙타입 헤드레스트,
+워크인 스위치), 천연가죽 시트(블랙/엔트러사이트 브라운), 운전석 전동시트(8way, 4way 럼버서포트),
+1열 열선/통풍시트, 2열 열선/통풍시트, 동승석 전동시트(4way, 워크인 디바이스), 2열~3열 슬라이딩 시트,
+3열 쿠션 팁업 시트(폴딩)<br><br><b>▶ 편의 :</b> 스마트 파워 슬라이딩 도어, 스마트 파워 테일게이트, 버튼시동 &amp; 스마트키, 스마트키 원격시동,
+전동식 파킹 브레이크(오토홀드 포함), 열선 스티어링 휠(진동경고), 풀오토 에어컨(미세먼지 센서/공기청정모드/
+오토 디포그/애프터블로우), 후석 루프 에어 벤트, 마이크로 에어 필터, ECM 룸미러, 하이패스, 패들쉬프트,
+220V 인버터, 파워 아웃렛(1열 1개), USB C타입 단자(1열 충전 2개/2열 충전 2개/3열 충전 2개),
+전방/후방 주차거리 경고, 오토라이트 컨트롤, 레인센서, 후방 모니터, 워크 어웨이 락<br><br><b>▶ 인포테인먼트 :</b> 12.3인치 내비게이션(블루링크, 폰 프로젝션, 블루투스 핸즈프리, 인카페이먼트, e hi-pass, 6스피커),
+무선 소프트웨어 업데이트(OTA Software Update), 샤크핀 안테나</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶ BOSE 프리미엄 사운드(12스피커, 외장앰프)</b> 600,000&nbsp;&nbsp;<br>※ 컴포트Ⅱ, 테크 선택 시&nbsp;<br><br><b>▶ 듀얼 와이드 선루프</b> 850,000&nbsp;<br>※ 듀얼 와이드 선루프 선택 시 루프 모니터 선택 불가&nbsp;<br><br><b>▶ 스마트</b> 1,160,000&nbsp;<br><br><b>▶ 컴포트Ⅱ</b> 500,000&nbsp;<br><br><b>▶ 테크</b> 1,050,000<br><br><b>▶ H Genuine Accessories 17.3인치 루프 모니터(전동폴딩, 블루투스, HDMI, USB 멀티미디어 재생)</b> 1,070,000&nbsp;&nbsp;<br>※ 루프 모니터 선택 시 듀얼 와이드 선루프 선택 불가</p>
+												</div>
+											
+												<div id="newcar13" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 파워트레인/성능 :</b> 스마트스트림 가솔린 1.6T 하이브리드, 6단 자동변속기, 통합 주행 모드, 전자식 변속 칼럼,
+후륜 멀티 링크 서스펜션<br><br><b>▶ 안전 :</b> 7에어백 시스템(1열 에어백/사이드, 운전석 무릎, 전복대응 커튼), 전좌석 3점식 시트벨트, 전좌석 헤드레스트,
+세이프티 파워 윈도우(1열), 다중 충돌방지 자동 제동시스템, 횡풍안정제어, 개별 타이어 공기압 경보 장치,
+타이어 응급처치 키트, 유아용 시트 고정장치(2열 2개), 실내 소화기<br><br><b>▶ 지능형 안전 기술 :</b> 전방 충돌 방지 보조(차량/보행자/자전거 탑승자/교차로 대향차/정면 대향차), 차로 이탈방지 보조,
+차로 유지 보조, 후측방 충돌방지 경고(주행), 후측방 충돌방지 보조(전진 출차), 후방 교차 충돌방지 보조,
+스마트 크루즈 컨트롤(스탑앤고 기능 포함), 고속도로 주행 보조, 내비게이션 기반 스마트 크루즈 컨트롤
+(안전구간, 곡선로), 어드밴스드 후석 승객 알림, 하이빔 보조, 지능형 속도 제한 보조, 운전자 주의 경고,
+전방 차량 출발 알림, 안전 하차 보조&nbsp;<br><br><b>▶ 외관 :</b> 라운지 전용 디자인(크롬 라디에이터 그릴, 범퍼, 아웃사이드 도어 핸들), 라운지 전용 18인치 알로이 휠,
+Full LED 헤드램프(프로젝션), LED 주간주행등, LED 포지셔닝 램프, LED 방향지시등(앞), LED 리어콤비램프,
+순차 점등 방향지시등(뒤), 다이나믹 웰컴 라이트, 리어 스포일러, LED 보조제동등, 바디 컬러 아웃사이드 미러
+(열선, 전동접이, 전동조절, LED방향지시등), 자외선 차단 유리(윈드실드), 이중접합 차음유리(윈드실드, 1열 도어),
+리어글래스 열선, 에어로 타입 와이퍼, 후석 파노라믹 윈도우, 유광 필라 가니쉬, 전/후륜 디스크 브레이크
+&nbsp;<br><br><b>▶ 내장 :</b> 라운지 전용 디자인(스웨이드 내장재, 풀사이즈 센터 콘솔, 앰비언트 무드램프, 메탈 도어 스커프, 메탈 페달,
+반펀칭 가죽 스티어링 휠), 클러스터(12.3인치 컬러 LCD), LED실내등(맵램프, 룸램프, 선바이저),
+수동식 틸트 &amp; 텔레스코픽 스티어링 휠, 슬라이딩 선바이저 &amp; 거울, 러기지 네트
+※ 스웨이드 내장재 적용 부위 : 헤드라이닝, 필라, 선바이저&nbsp;<br><br><b>▶ 시트 :</b> 2열 프리미엄 릴렉션 시트(원터치 릴렉션, 전동 리클라이닝/쿠션 틸팅/4way 레그서포트, 윙타입 헤드레스트,
+워크인 스위치), 나파가죽 시트(블랙/엔트러사이트 브라운/보르도 브라운/로토루아 크림), 1/2열 통풍/열선시트,
+운전석 전동시트(8way, 4way 럼버서포트), 동승석 전동 시트(4way, 워크인 디바이스), 2열~3열 슬라이딩 시트,
+3열 쿠션 팁업 시트(폴딩)<br><br><b>▶ 편의 :</b> 스마트 파워 슬라이딩 도어, 스마트 파워 테일게이트, 버튼시동 &amp; 스마트키, 스마트키 원격시동, 디지털 키 2,
+전동식 파킹 브레이크(오토홀드 포함), 열선 스티어링 휠(진동 경고), 풀오토 에어컨(미세먼지 센서/공기청정모드/
+오토 디포그/애프터블로우), 후석 루프 에어 벤트, 마이크로 에어 필터, 하이패스, ECM 룸미러, 패들쉬프트,
+220V 인버터, 파워 아웃렛(1열 1개), USB C타입 단자(1열 충전 2개/2열 충전 2개/3열 충전 2개),
+전방/후방/측방 주차거리 경고, 오토라이트 컨트롤, 서라운드 뷰 모니터, 후측방 모니터, 터치타입 아웃사이드 도어 핸들,
+스마트폰 무선충전, 후석 뷰, 후석 음성 인식, 레인센서, 후방 모니터, 워크 어웨이 락&nbsp;<br><br><b>▶ 인포테인먼트 :</b> 12.3인치 내비게이션(블루링크, 폰 프로젝션, 블루투스 핸즈프리, 인카페이먼트, e hi-pass, 6스피커),
+무선 소프트웨어 업데이트(OTA Software Update), 샤크핀 안테나</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶ 듀얼 와이드 선루프</b> 890,000&nbsp;<br><br><b>▶ BOSE 프리미엄 사운드(12스피커, 외장앰프)</b> 640,000&nbsp;&nbsp;<br>※ 컴포트Ⅱ 선택 시&nbsp;<br><br><b>▶ 빌트인 캠 2 PLUS, 증강현실 내비게이션</b> 700,000&nbsp;<br><br><b>▶ 컴포트Ⅱ</b> 520,000<br><br><b>▶ H Genuine Accessories 빌트인 공기청정기</b> 420,000&nbsp;<br><br><b>▶ H Genuine Accessories 후석 전동식 사이드 스텝(우측)</b> 680,000</p>
+												</div>
+											
+												<div id="newcar14" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 커스터마이징(H Genuine Accessories) 모빌리티 패키지 :</b> 후석 전동식 사이드 스텝(우측)&nbsp;<br><br><b>▶ 파워트레인/성능 :</b> 스마트스트림 가솔린 1.6T 하이브리드, 6단 자동변속기, 통합 주행 모드, 전자식 변속 칼럼,
+후륜 멀티 링크 서스펜션<br><br><b>▶ 안전 : </b>7에어백 시스템(1열 에어백/사이드, 운전석 무릎, 전복대응 커튼), 전좌석 3점식 시트벨트, 전좌석 헤드레스트,
+세이프티 파워 윈도우(1열), 다중 충돌방지 자동 제동 시스템, 횡풍안정제어, 개별 타이어 공기압 경보 장치,
+타이어 응급처치 키트, 유아용 시트 고정장치(2열 2개, 3열 2개), 실내 소화기&nbsp;<br><br><b>▶ 지능형 안전 기술 :</b> 전방 충돌 방지 보조(차량/보행자/자전거 탑승자/교차로 대향차/정면 대향차),
+차로 이탈방지 보조, 차로 유지 보조, 후측방 충돌방지 경고(주행), 후측방 충돌방지 보조(전진 출차),
+후방 교차 충돌 방지 보조, 스마트 크루즈 컨트롤(스탑앤고 기능 포함), 고속도로 주행 보조, 후석 승객 알림,
+내비게이션 기반 스마트 크루즈 컨트롤(안전구간, 곡선로), 안전 하차보조, 하이빔 보조, 지능형 속도 제한 보조,
+운전자 주의 경고, 전방 차량 출발 알림&nbsp;<br><br><b>▶ 외관 : </b>라운지 전용 디자인(크롬 라디에이터 그릴/범퍼/아웃사이드 도어핸들), 라운지 전용 18인치 알로이 휠,
+Full LED 헤드램프(프로젝션), LED 주간주행등, LED 포지셔닝 램프, LED 방향지시등(앞), LED 리어콤비램프,
+순차 점등 방향지시등(뒤), 다이나믹 웰컴 라이트, 리어 스포일러, LED 보조제동등, 바디 컬러 아웃사이드 미러(열선,
+전동접이, 전동조절, LED 방향지시등), 리어글래스 열선, 에어로 타입 와이퍼, 자외선 차단 유리(윈드실드),
+이중접합 차음유리(윈드실드, 1열 도어), 후석 파노라믹 윈도우, 유광 필라 가니쉬, 전/후륜 디스크 브레이크&nbsp;<br><br><b>▶ 내장 :</b> 라운지 전용 디자인(스웨이드 내장재, 풀사이즈 센터 콘솔, 앰비언트 무드램프, 메탈 도어 스커프, 메탈 페달,
+반펀칭 가죽 스티어링 휠), 클러스터(12.3인치 컬러 LCD), LED 실내등(맵램프, 룸램프, 선바이저),
+수동식 틸트 &amp; 텔레스코픽 스티어링 휠, 슬라이딩 선바이저 &amp; 거울, 러기지 네트
+※ 스웨이드 내장재 적용 범위 : 헤드라이닝, 필라, 선바이저<br><br><b>▶ 시트 :</b> 인조가죽 시트(블랙/엔트러사이트 브라운), 운전석 전동시트(8way/4way 럼버서포트), 1열 열선/통풍시트,
+2열 열선시트, 동승석 슬라이딩 &amp; 리클라이닝 시트, 2~4열 롱 슬라이딩 시트, 2열 스위블링 독립 시트(리클라이닝),
+3열 독립 시트(리클라이닝), 4열 쿠션 팁업 시트(폴딩)&nbsp;<br><br><b>▶ 편의 :</b> 스마트 파워 슬라이딩 도어, 스마트 파워 테일게이트, 버튼시동 &amp; 스마트키, 스마트키 원격시동,
+전동식 파킹 브레이크(오토홀드 포함), 열선 스티어링 휠(진동경고), 풀오토 에어컨(미세먼지 센서/공기청정모드/
+오토 디포그/애프터블로우), 후석 루프 에어 벤트, 마이크로 에어 필터, ECM 룸미러, 하이패스, 패들쉬프트,
+220V 인버터, 파워 아웃렛(1열 1개), USB C타입 단자(1열 충전 2개/2열 충전 2개/3열 충전 2개/4열 충전 2개),
+전방/후방 주차거리 경고, 오토라이트 컨트롤, 레인센서, 후방 모니터, 워크 어웨이 락&nbsp;<br><br><b>▶ 인포테인먼트 :</b> 12.3인치 내비게이션(블루링크, 폰 프로젝션, 블루투스 핸즈프리, 인카페이먼트, e hi-pass, 6스피커),
+무선 소프트웨어 업데이트(OTA Software Update), 샤크핀 안테나</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶ BOSE 프리미엄 사운드(12스피커, 외장앰프)</b> 600,000&nbsp;&nbsp;<br>※ 컴포트Ⅱ, 테크 선택 시&nbsp;<br><br><b>▶ 듀얼 와이드 선루프</b> 850,000&nbsp;<br>※ 듀얼 와이드 선루프 선택 시 루프 모니터 선택 불가&nbsp;<br><br><b>▶ 스마트</b> 1,160,000&nbsp;<br><br><b>▶ 컴포트Ⅰ</b> 1,100,000&nbsp;<br><br><b>▶ 컴포트Ⅱ</b> 500,000&nbsp;<br><br><b>▶ 테크</b> 1,050,000<br><br><b>▶ H Genuine Accessories 17.3인치 루프 모니터(전동폴딩, 블루투스, HDMI, USB 멀티미디어 재생)</b> 1,070,000&nbsp;&nbsp;<br>※ 루프 모니터 선택 시 듀얼 와이드 선루프 선택 불가</p>
+												</div>
+											
+												<div id="newcar15" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 파워트레인/성능 :</b> 스마트스트림 가솔린 1.6T 하이브리드, 6단 자동변속기, 통합 주행 모드, 전자식 변속 칼럼,
+후륜 멀티 링크 서스펜션<br><br><b>▶ 안전 :</b> 7에어백 시스템(1열 에어백/사이드, 운전석 무릎, 전복대응 커튼), 전좌석 3점식 시트벨트, 전좌석 헤드레스트,
+세이프티 파워 윈도우(1열), 다중 충돌방지 자동 제동 시스템, 횡풍안정제어, 개별 타이어 공기압 경보 장치,
+타이어 응급처치 키트, 유아용 시트 고정장치(2열 2개, 3열 2개), 실내 소화기&nbsp;<br><br><b>▶ 지능형 안전 기술 :</b> 전방 충돌방지 보조(차량/보행자/자전거 탑승자/교차로 대향차/정면 대향차), 차로 이탈방지 보조,
+차로 유지 보조, 후측방 충돌방지 경고(주행), 후측방 충돌방지 보조(전진 출차), 후방 교차 충돌방지 보조,
+스마트 크루즈 컨트롤(스탑앤고 기능 포함), 고속도로 주행 보조, 내비게이션 기반 스마트 크루즈 컨트롤(안전구간,
+곡선로), 어드밴스드 후석 승객 알림, 하이빔 보조, 지능형 속도 제한 보조, 운전자 주의 경고, 전방 차량 출발 알림&nbsp;<br><br><b>▶ 외관 :</b> 라운지 전용 디자인(크롬 라디에이터 그릴/범퍼/아웃사이드 도어 핸들), 라운지 전용 18인치 알로이 휠,
+Full LED 헤드램프(프로젝션), LED 주간주행등, LED 포지셔닝 램프, LED 방향지시등(앞), LED 리어콤비램프,
+순차 점등 방향지시등(뒤), 다이나믹 웰컴 라이트, 리어 스포일러, LED 보조제동등, 바디 컬러 아웃사이드 미러
+(열선, 전동접이, 전동조절, LED방향지시등), 자외선 차단 유리(윈드실드), 이중접합 차음유리(윈드실드, 1열 도어),
+리어글래스 열선, 에어로 타입 와이퍼, 후석 파노라믹 윈도우, 유광 필라 가니쉬, 전/후륜 디스크 브레이크&nbsp;<br><br><b>▶ 내장 :</b> 라운지 전용 디자인(스웨이드 내장재, 풀사이즈 센터 콘솔, 앰비언트 무드램프, 메탈 도어 스커프, 메탈 페달,
+반펀칭 가죽 스티어링 휠), 클러스터(12.3인치 컬러 LCD), LED실내등(맵램프, 룸램프, 선바이저),
+수동식 틸트 &amp; 텔레스코픽 스티어링 휠, 슬라이딩 선바이저 &amp; 거울, 러기지 네트
+※ 스웨이드 내장재 적용 부위 : 헤드라이닝, 필라, 선바이저&nbsp;<br><br><b>▶ 시트 :</b> 인조가죽 시트(블랙/엔트러사이트 브라운), 운전석 전동시트(8way, 4way 럼버서포트), 1열 열선/통풍시트,
+동승석 슬라이딩 &amp; 리클라이닝 시트, 2~4열 롱 슬라이딩 시트, 2열 스위블링 독립 시트(리클라이닝),
+3열 독립 시트(리클라이닝), 4열 쿠션 팁업 시트(폴딩)<br><br><b>▶ 편의 :</b> 버튼시동 &amp; 스마트키, 스마트키 원격시동, 전동식 파킹 브레이크(오토홀드 포함), 열선 스티어링 휠(진동경고),
+풀오토 에어컨(미세먼지 센서/공기청정모드/오토 디포그,애프터블로우), 후석 루프 에어벤트, 마이크로 에어 필터,
+ECM 룸미러, 하이패스, 패들쉬프트, 220V 인버터, 파워 아웃렛(1열 1개), USB C타입 단자(1열 충전 2개/2열 충전 2개/
+3열 충전 2개/4열 충전 2개), 전방/후방 주차거리 경고, 오토라이트 컨트롤, 레인센서, 후방 모니터, 워크 어웨이 락<br><br><b>▶ 인포테인먼트 :</b> 12.3인치 내비게이션(블루링크, 폰 프로젝션, 블루투스 핸즈프리, 인카페이먼트, e hi-pass, 6스피커),
+무선 소프트웨어 업데이트(OTA Software Update), 샤크핀 안테나</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶ 듀얼 와이드 선루프</b> 850,000&nbsp;<br><br><b>▶ 스마트</b> 1,410,000&nbsp;<br><br><b>▶ 컴포트Ⅰ</b> 1,200,000&nbsp;<br><br><b>▶ 컴포트Ⅱ</b> 500,000&nbsp;<br><br><b>▶ 테크Ⅰ</b> 1,900,000&nbsp;<br>※ 컴포트Ⅱ 선택 시&nbsp;<br><br><b>▶ 테크Ⅱ</b> 1,250,000</p>
+												</div>
+											
+												<div id="newcar16" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ HEV 1.6 라운지 9인승 프레스티지 기본품목 및</b>&nbsp;<br><br><b>ㆍ지능형 안전 기술 :</b> 안전 하차 보조&nbsp;<br><br><b>ㆍ내장/시트 :</b> 나파가죽 시트(블랙/엔트러사이트 브라운/보르도 브라운/로토루아 크림), 2열 열선/통풍 시트, 동승석 전동 시트(4way, 워크인 디바이스)&nbsp;<br><br><b>ㆍ편의 :</b> 스마트 파워 슬라이딩 도어, 스마트 파워 테일게이트, 서라운드 뷰 모니터, 측방 주차거리 경고, 후측방 모니터, 디지털 키 2, 터치타입 아웃사이드 도어 핸들, 스마트폰 무선충전, 후석 뷰, 후석 음성 인식</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶ 듀얼 와이드 선루프</b> 850,000&nbsp;<br><br><b>▶ BOSE 프리미엄 사운드(12스피커, 외장앰프)</b> 600,000&nbsp;&nbsp;<br>※ 컴포트Ⅱ 선택 시<br><br><b>▶ 빌트인 캠 2 PLUS, 증강현실 내비게이션</b> 670,000&nbsp;<br><br><b>▶ 컴포트Ⅱ</b> 500,000&nbsp;<br><br><b>▶ H Genuine Accessories 빌트인 공기청정기</b> 400,000&nbsp;<br><br><b>▶ H Genuine Accessories 후석 전동식 사이드 스텝(우측)</b> 650,000</p>
+												</div>
+											
+												<div id="newcar17" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 파워트레인/성능 :</b> 스마트스트림 가솔린 1.6T 하이브리드, 6단 자동변속기, 통합 주행 모드, 후륜 리지드 엑슬 서스펜션<br><br><b>▶ 안전 :</b> 7에어백 시스템(1열 에어백/사이드, 운전석 무릎, 전복대응 커튼), 전좌석 3점식 시트벨트, 전좌석 헤드레스트,
+다중 충돌방지 자동 제동 시스템, 횡풍안정제어, 개별 타이어 공기압 경보 장치, 세이프티 파워 윈도우(운전석),
+타이어 응급처치 키트, 실내 소화기&nbsp;<br><br><b>▶ 지능형 안전 기술 : </b>전방 충돌방지 보조(차량/보행자/자전거 탑승자/교차로 대향차/정면 대향차), 차로 이탈방지 보조,
+차로 유지 보조, 후측방 충돌방지 경고(주행), 후측방 충돌방지 보조(전진 출차), 후방 교차 충돌방지 보조,
+스마트 크루즈 컨트롤(스탑앤고 기능 포함), 하이빔 보조, 지능형 속도 제한 보조, 운전자 주의경고, 전방 차량 출발 알림&nbsp;<br><br><b>▶ 외관 :</b>  17인치 알로이 휠 &amp; 타이어, 리어 스포일러, LED 보조제동등, 리어글래스 열선, 바디 컬러 아웃사이드 도어 핸들,
+아웃사이드 미러(전동접이, 전동조절), 전/후륜 디스크 브레이크, 자외선 차단 유리(윈드실드)<br><br><b>▶ 내장 : </b>클러스터(4.2인치 컬러 LCD), D&amp;N 룸미러, 수동식 틸트 &amp; 텔레스코픽 스티어링 휠, 센터 콘솔,
+리놀륨 플로어 카페트, 카고 램프<br><br><b>▶ 시트 : </b>직물시트, 1열 열선시트, 운전석 수동 높이 조절, 동승석 슬라이딩 &amp; 리클라이닝 시트&nbsp;<br><br><b>▶ 편의 :</b> 버튼시동 &amp; 스마트키, 스마트키 원격시동, 전동식 파킹 브레이크(오토홀드 포함), USB C타입 단자(1열 충전 2개),
+전방/후방 주차 거리 경고, 후방 모니터, 오토라이트 컨트롤, 풀오토 에어컨(미세먼지 센서/공기청정모드/오토 디포그/
+애프터블로우), 마이크로 에어 필터, 파워 아웃렛(1열 1개), 워크 어웨이 락&nbsp;<br><br><b>▶ 인포테인먼트 :</b> 12.3인치 디스플레이 오디오(블루링크, 폰 프로젝션, 블루투스 핸즈프리, 4스피커),
+무선 소프트웨어 업데이트(OTA Software Update), 샤크핀 안테나</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶ 트윈 스윙 도어</b> 400,000<br><br><b>▶ 멀티미디어 내비플러스Ⅰ</b> 1,650,000<br><br><b>▶ H Genuine Accessories 슬라이딩 카고 베드</b> 1,330,000</p>
+												</div>
+											
+												<div id="newcar18" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ HEV 1.6T 카고 2인승 스마트 기본품목 및</b>&nbsp;<br><br><b>ㆍ외관 :</b> 바디 컬러 아웃사이드 미러(열선, LED 방향지시등) &nbsp;<br><br><b>ㆍ내장 : </b>슬라이딩 선바이저 &amp; 거울 &amp; 조명, 가죽 스티어링 휠(열선포함), 가죽 변속기 노브,
+루프 트레이(운전석/동승석 상단 수납함)<br><br><b>ㆍ시트 : </b>인조가죽 시트(블랙/베이지)&nbsp;<br><br><b>ㆍ편의 :</b> 레인센서, ECM 룸미러, 하이패스</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶ 트윈 스윙 도어</b> 400,000<br><br><b>▶ 빌트인 캠 2 PLUS, 증강현실 내비게이션</b> 670,000&nbsp;<br>※ 트윈 스윙 도어와 중복 선택 불가&nbsp;<br>※ 멀티미디어 내비플러스Ⅱ 선택 시 선택 가능&nbsp;<b><br></b><b><br></b><b>▶ 윈도우 밴(2인승)</b> 300,000&nbsp;<b><br></b><b><br></b><b>▶ 멀티미디어 내비플러스Ⅱ </b>1,450,000&nbsp;<b><br></b><b><br></b><b>▶ 익스테리어 디자인(2인승)</b> 550,000&nbsp;<b><br></b><b><br></b><b>▶ 컴포트(2인승) </b>800,000&nbsp;<br>※ 트윈 스윙 도어와 중복 선택 불가&nbsp;<b><br></b><b><br></b><b>▶ 테크</b> 1,200,000&nbsp;<br>※ 트윈 스윙 도어와 중복 선택 불가&nbsp;<br>※ 멀티미디어 내비플러스Ⅱ 선택 시 선택 가능<br><br><b>▶ H Genuine Accessories 슬라이딩 카고 베드</b> 1,330,000</p>
+												</div>
+											
+												<div id="newcar19" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 파워트레인/성능 :</b> 스마트스트림 가솔린 1.6T 하이브리드, 6단 자동변속기, 통합 주행 모드, 후륜 리지드 엑슬 서스펜션<br><br><b>▶ 안전 :</b> 7에어백 시스템(1열 에어백/사이드, 운전석 무릎, 전복대응 커튼), 전좌석 3점식 시트벨트, 전좌석 헤드레스트,
+다중 충돌방지 자동 제동 시스템, 횡풍안정제어, 개별 타이어 공기압 경보 장치, 세이프티 파워 윈도우(운전석),
+타이어 응급처치 키트, 실내 소화기<br><br><b>▶ 지능형 안전 기술 :</b> 전방 충돌방지 보조(차량/보행자/자전거 탑승자/교차로 대향차/정면 대향차), 차로 이탈방지 보조,
+차로 유지 보조, 후측방 충돌방지 경고(주행), 후측방 충돌방지 보조(전진 출차), 후방 교차 충돌방지 보조,
+스마트 크루즈 컨트롤(스탑앤고 기능 포함), 하이빔 보조, 지능형 속도 제한 보조, 운전자 주의경고, 전방 차량 출발 알림,
+후석 승객 알림<br><br><b>▶ 외관 :</b> 17인치 알로이 휠 &amp; 타이어, 리어 스포일러, LED 보조제동등, 리어글래스 열선, 바디 컬러 아웃사이드 도어 핸들,
+아웃사이드 미러(전동접이, 전동조절), 전/후륜 디스크 브레이크, 2열 파노라믹 윈도우, 자외선 차단 유리(윈드실드)<br><br><b>▶ 내장 :</b> 클러스터(4.2인치 컬러 LCD), D&amp;N 룸미러, 수동식 틸트 &amp; 텔레스코픽 스티어링 휠, 센터콘솔,
+리놀륨 플로어 카페트, 카고 램프<br><br><b>▶ 시트 :</b> 직물시트, 1열 열선시트, 운전석 수동 높이 조절, 동승석 슬라이딩 &amp; 리클라이닝 시트, 2열 시트(고정식, 수납함 내장)<br><br><b>▶ 편의 : </b>버튼시동 &amp; 스마트키, 스마트키 원격시동, 전동식 파킹 브레이크(오토홀드 포함),
+USB C타입 단자(1열 충전 2개/2열 충전 2개), 전방/후방 주차 거리 경고, 후방 모니터, 오토라이트 컨트롤, 풀오토 에어컨
+(미세먼지 센서/공기청정모드/오토 디포그/애프터블로우), 마이크로 에어 필터, 파워 아웃렛(1열 1개), 워크 어웨이 락<br><br><b>▶ 인포테인먼트 :</b> 12.3인치 디스플레이 오디오(블루링크, 폰 프로젝션, 블루투스 핸즈프리, 4스피커),
+무선 소프트웨어 업데이트(OTA Software Update), 샤크핀 안테나</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶ 트윈 스윙 도어</b> 400,000<br><br><b>▶ 멀티미디어 내비플러스Ⅰ</b> 1,650,000<br><br><b>▶ H Genuine Accessories 슬라이딩 카고 베드</b> 1,330,000</p>
+												</div>
+											
+												<div id="newcar20" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ HEV 1.6T 카고 5인승 스마트 기본품목 및</b>&nbsp;<br><br><b>ㆍ외관 :</b> 바디 컬러 아웃사이드 미러(열선, LED 방향지시등)&nbsp;<br><br><b>ㆍ내장 : </b>슬라이딩 선바이저 &amp; 거울 &amp; 조명, 가죽 스티어링 휠(열선포함), 가죽 변속기 노브,
+루프 트레이(운전석/동승석 상단 수납함)<br><br><b>ㆍ시트 : </b>인조가죽 시트(블랙/베이지)<br><br><b>ㆍ편의 :</b> 레인센서, ECM 룸미러, 하이패스</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶ 트윈 스윙 도어</b> 400,000<br><br><b>▶ 빌트인 캠 2 PLUS, 증강현실 내비게이션</b> 670,000&nbsp;<br>※ 트윈 스윙 도어와 중복 선택 불가&nbsp;<br>※ 멀티미디어 내비플러스Ⅱ 선택 시 선택 가능&nbsp;<b><br></b><b><br></b><b>▶ 윈도우 밴(5인승)</b> 200,000&nbsp;<b><br></b><b><br></b><b>▶ 멀티미디어 내비플러스Ⅱ </b>1,450,000&nbsp;<b><br></b><b><br></b><b>▶ 익스테리어 디자인(5인승)</b> 850,000&nbsp;<b><br></b><b><br></b><b>▶ 컴포트(5인승) </b>1,050,000&nbsp;<br>※ 트윈 스윙 도어와 중복 선택 불가&nbsp;<b><br></b><b><br></b><b>▶ 테크</b> 1,200,000&nbsp;<br>※ 트윈 스윙 도어와 중복 선택 불가&nbsp;<br>※ 멀티미디어 내비플러스Ⅱ 선택 시 선택 가능<br><br><b>▶ H Genuine Accessories 슬라이딩 카고 베드</b> 1,330,000</p>
+												</div>
+											
+										</div>
+										<script type="text/javascript">
+											newcarFolder(0);//초기값
+											function newcarFolder(target) {
+												var conElId = "newcar"//아이디 설정
+												var conElMenu = document.getElementById("newcarList");
+												var conElMenuLink = conElMenu.getElementsByTagName("a");
+												if (target != null) {
+													conElMenuLink[target].parentNode.className = "on";
+													document.getElementById(
+														conElId + target).style.display = "";
+												}
+												for (i = 0; i <= (conElMenuLink.length - 1); i++) {
+													conElMenuLink[i].onclick = function () {
+														for (x = 0; x <= (conElMenuLink.length - 1); x++) {
+															conElMenuLink[x].parentNode.className = "";
+															document.getElementById(
+																conElId + x).style.display = "none";
+														}
+														this.parentNode.className = "on";
+														document.getElementById(this.getAttribute('href')
+																					.split(
+																						'#')[1]).style.display =
+															"";
+														return false;
+													}
+												}
+											}
+										</script>
+									</div>
+									
+										<ul class="more">
+												<b>▶ 투어러 11인승 패키지 선택폼목<br>멀티미디어 내비플러스 Ⅰ -</b> 클러스터(12.3인치 컬러 LCD), 12.3인치 내비게이션(인카페이먼트, e hi-pass), 고속도로 주행 보조, 내비게이션 기반 스마트 크루즈 컨트롤(안전구간, 곡선로),
+하이패스, 어드밴스드 후석 승객 알림, 풀오토 에어컨(미세먼지 센서/공기청정모드)<br><b>멀티미디어 내비플러스 Ⅱ -</b> 클러스터(12.3인치 컬러 LCD), 12.3인치 내비게이션(인카페이먼트, e hi-pass), 고속도로 주행 보조, 내비게이션 기반 스마트 크루즈 컨트롤(안전구간, 곡선로),
+어드밴스드 후석 승객 알림, 풀오토 에어컨(미세먼지 센서/공기청정모드)<br><b>익스테리어 디자인(11인승) -</b> LED 헤드램프(MFR 타입), LED 주간주행등, LED 포지셔닝 램프, 18인치 알로이 휠 &amp; 타이어, 2열 플러쉬 글래스
+※ 11인승은 자동차 안전기준의 등화장치 설치기준에 따라 차량 앞면 중앙부 LED 포지셔닝 램프 미적용<br><b>컴포트 -</b> 1열 통풍시트, 운전석 전동시트(8way, 4way 럼버서포트)<br><b>테크 Ⅰ -</b> 서라운드 뷰 모니터, 측방 주차 거리 경고, 후측방 모니터, 스마트폰 무선충전, 후석 뷰, 후석 음성 인식
+※ 멀티미디어 내비플러스Ⅱ 선택 시 선택 가능<br><b>테크 Ⅱ -</b> 스마트 파워 슬라이딩 도어, 스마트 파워 테일게이트, 안전 하차 보조
+<br>
+<br>
+<b>▶ 하이브리드 투어러 9/11인승 패키지 선택폼목&nbsp;<br></b><b>멀티미디어 내비플러스 Ⅰ -</b> 클러스터(12.3인치 컬러 LCD), 12.3인치 내비게이션(인카페이먼트, e hi-pass), 고속도로 주행 보조,
+내비게이션 기반 스마트 크루즈 컨트롤(안전구간, 곡선로), 하이패스, 어드밴스드 후석 승객 알림<br><b>멀티미디어 내비플러스 Ⅱ -</b> 클러스터(12.3인치 컬러 LCD), 12.3인치 내비게이션(인카페이먼트, e hi-pass), 고속도로 주행 보조,
+내비게이션 기반 스마트 크루즈 컨트롤(안전구간, 곡선로), 어드밴스드 후석 승객 알림<br><b>익스테리어 디자인(11인승) -</b> LED 헤드램프(MFR 타입), LED 주간주행등, LED 포지셔닝 램프, 18인치 알로이 휠 &amp; 타이어, 2열 플러쉬 글래스
+※ 11인승은 자동차 안전기준의 등화장치 설치기준에 따라 차량 앞면 중앙부 LED 포지셔닝 램프 미적용<br><b>익스테리어 디자인(9인승) -</b> LED 헤드램프(MFR 타입), LED 주간주행등, LED 포지셔닝 램프, 18인치 알로이 휠 &amp; 타이어, 2열 플러쉬 글래스<br><b>컴포트 -</b> 1열 통풍시트, 운전석 전동시트(8way, 4way 럼버서포트)<br><b>테크 Ⅰ -</b> 서라운드 뷰 모니터, 측방 주차 거리 경고, 후측방 모니터, 스마트폰 무선충전, 후석 뷰, 후석 음성 인식
+※ 멀티미디어 내비플러스Ⅱ 선택 시 선택 가능<br><b>테크 Ⅱ -</b> 스마트 파워 슬라이딩 도어, 스마트 파워 테일게이트, 안전 하차 보조<br>
+<br>
+<b>▶ 라운지 7인승 패키지 선택폼목<br>컴포트 -</b> 2열 플러쉬 글래스, 2/3열 수동 선커튼
+<br>
+<br>
+<b>▶ 하이브리드 라운지 7/9인승 패키지 선택폼목<br>스마트 -</b> 디지털 키 2, 터치타입 아웃사이드 도어 핸들, 스마트폰 무선충전, 후석 뷰, 후석 음성 인식, 빌트인 캠 2 PLUS, 증강현실 내비게이션<br><b>컴포트 Ⅰ -</b> 천연가죽 시트(블랙/엔트러사이트 브라운), 2열 열선/통풍 시트, 동승석 전동 시트(4way, 워크인 디바이스)<br><b>컴포트 Ⅱ -</b> 2열 플러쉬 글래스, 2/3열 수동 선커튼<br><b>테크 Ⅰ -</b> 서라운드 뷰 모니터, 측방 주차 거리 경고, 후측방 모니터, BOSE 프리미엄 사운드(12스피커, 외장앰프)
+※ 컴포트Ⅱ 선택 시<br><b>테크 Ⅱ -</b> 스마트 파워 슬라이딩 도어, 스마트 파워 테일게이트, 안전 하차 보조<br>
+<br><b>▶ 라운지 7인승 모빌리티 패키지 선택품목(영업용)<br>스마트 -</b> 디지털 키 2, 터치타입 아웃사이드 도어 핸들, 스마트폰 무선충전, 빌트인 캠 2 PLUS, 증강현실 내비게이션<br><b>컴포트 -</b> 2열 플러쉬 글래스, 2/3열 수동 선커튼<br><b>테크 -</b> 서라운드 뷰 모니터, 측방 주차거리 경고, 후측방 모니터
+<br>
+<br><b>▶ 하이브리드 라운지 7/9인승 모빌리티 패키지 선택폼목</b><b>(영업용)<br>스마트 -</b> 디지털 키 2, 터치타입 아웃사이드 도어 핸들, 스마트폰 무선충전, 빌트인 캠 2 PLUS, 증강현실 내비게이션<br><b>컴포트 Ⅰ -</b> 천연가죽 시트(블랙/엔트러사이트 브라운), 2열 통풍시트, 동승석 전동 시트(4way, 워크인 디바이스)<br><b>컴포트 Ⅱ -</b> 2열 플러쉬 글래스, 2/3열 수동 선커튼<br><b>테크 -</b> 서라운드 뷰 모니터, 측방 주차거리 경고, 후측방 모니터<br>
+<br>
+<b>▶ 카고 3/5인승 패키지 선택폼목<br></b><b>멀티미디어 내비플러스 Ⅰ -</b> 클러스터(12.3인치 컬러 LCD), 12.3인치 내비게이션(인카페이먼트, e hi-pass), 고속도로 주행 보조, 내비게이션 기반 스마트 크루즈 컨트롤(안전구간, 곡선로),
+하이패스, 풀오토 에어컨(미세먼지 센서/공기청정모드)<br><b>멀티미디어 내비플러스 Ⅱ -</b> 클러스터(12.3인치 컬러 LCD), 12.3인치 내비게이션(인카페이먼트, e hi-pass), 고속도로 주행 보조, 내비게이션 기반 스마트 크루즈 컨트롤(안전구간, 곡선로),
+풀오토 에어컨(미세먼지 센서/공기청정모드)<br><b>익스테리어 디자인(3인승) -</b> LED 헤드램프(MFR 타입), LED 주간주행등, LED 포지셔닝 램프<br><b>익스테리어 디자인(5인승) -</b> LED 헤드램프(MFR 타입), LED 주간주행등, LED 포지셔닝 램프, 2열 플러쉬 글래스<br><b>컴포트(3인승) -</b> 스마트 파워 테일게이트, 1열 통풍시트 ※ 트윈 스윙 도어와 중복 선택 불가<br><b>컴포트(5인승) -</b> 스마트 파워 테일게이트, 1열 통풍시트, 운전석 전동시트(8way, 4way 럼버서포트) ※ 트윈 스윙 도어와 중복 선택 불가<br><b>테크 -</b> 서라운드 뷰 모니터, 측방 주차 거리 경고, 후측방 모니터, 스마트폰 무선충전 ※ 트윈 스윙 도어와 중복 선택 불가 ※ 멀티미디어 내비플러스Ⅱ 선택 시 선택 가능
+<br>
+<br>
+<b>▶ 하이브리드 카고 2/5인승 패키지 선택폼목<br></b><b>멀티미디어 내비플러스 Ⅰ -</b> 클러스터(12.3인치 컬러 LCD), 12.3인치 내비게이션(인카페이먼트, e hi-pass), 고속도로 주행 보조, 내비게이션 기반 스마트 크루즈 컨트롤(안전구간, 곡선로), 하이패스<br><b>멀티미디어 내비플러스 Ⅱ -</b> 클러스터(12.3인치 컬러 LCD), 12.3인치 내비게이션(인카페이먼트, e hi-pass), 고속도로 주행 보조, 내비게이션 기반 스마트 크루즈 컨트롤(안전구간, 곡선로)<br><b>익스테리어 디자인(2인승) -</b> LED 헤드램프(MFR 타입), LED 주간주행등, LED 포지셔닝 램프<br><b>익스테리어 디자인(5인승) -</b> LED 헤드램프(MFR 타입), LED 주간주행등, LED 포지셔닝 램프, 2열 플러쉬 글래스<br><b>컴포트(2인승) -</b> 스마트 파워 테일게이트, 1열 통풍시트 ※ 트윈 스윙 도어와 중복 선택 불가<br><b>컴포트(5인승) -</b> 스마트 파워 테일게이트, 1열 통풍시트, 운전석 전동시트(8way, 4way 럼버서포트) ※ 트윈 스윙 도어와 중복 선택 불가<br><b>테크 -</b> 서라운드 뷰 모니터, 측방 주차 거리 경고, 후측방 모니터, 스마트폰 무선충전 ※ 트윈 스윙 도어와 중복 선택 불가 ※ 멀티미디어 내비플러스Ⅱ 선택 시 선택 가능
+										</ul>
+									
+									<p class="desc_more">위 신차가격표는 단순 참고자료이며, 정확한 내용은 각 제조사에서 제공하는 자료를 통해확인하실 수 있습니다.</p><!-- 2016/10/12 [장] 등급 등록/수정 개선 : 추가 디자인 변경 -->
+									<p class="toTop"><a href="#main_title" class="sp toTop db_ir" title="페이지 위로"><u>페이지 위로</u></a></p><!-- [시세개편] class db_ir 추가 -->
+								</div>
+
+
+							</div>
+							<!-- body end -->
+						</td>
+					</tr>
+				</table>
+
+
+			
+			
+		
+    </div>
+
+    <!-- container end -->
+</form>
+</div>
+
+</body>
+<script language="javascript">
+
+
+    var strCompanyUrl = "/common/combo/cardbcompany.json?method=carList";
+    var strModelGroupUrl = "/common/combo/modelgroupfordb.json?method=carList";
+    var strModelUrl = "/common/combo/cardbmodel.json?method=carList";
+    var strYrJatoUrl = "/common/combo/jatoYr.json?method=carList";
+
+    var companyid = "mnfccd";
+    var modelgroupid = "mdlgroupcd";
+    var modelid = "mdlcd";
+    var yearid = "caryear";
+
+    function initGnb() {
+        var paramCompany = $("paramMnfccd").value;
+        var paramModelGroup = $("paramMdlgroupcd").value;
+        var paramModel = $("paramMdlcd").value;
+        var paramYr = $("paramYear").value;
+
+        // 제조사
+        if (paramModel != "") {
+            $("mdlcd").show();
+        }
+
+        //console.log("companyid :: " + companyid)
+        //console.log("paramCompany :: " + paramCompany)
+		if($('foldYn').value != 0){
+            foldingYN('f_fold');
+		}
+
+        setCompany(strCompanyUrl, companyid, "제조사", paramCompany);
+
+        // 제조사 값이 있으면 모델 검색
+        if (paramCompany >= '010') {
+            if (paramCompany != "") {
+                if (paramModel == "") {
+                    paramModel = paramModelGroup;
+                }
+                setModel(strModelUrl, modelid, paramCompany, "모델", paramModel)
+                $("mdlgroupcd").hide();
+
+            }
+        } else {
+            $("mdlgroupcd").show();
+            if (paramCompany != "") {
+                setModelGroup(strModelGroupUrl, modelgroupid, paramCompany, "모델", paramModelGroup);
+                if (paramModelGroup != "") {
+                    setModel_New(strModelUrl, modelid, paramCompany, paramModelGroup, "세부모델", paramModel);
+                }
+            }
+
+        }
+        if (paramCompany != "" && paramModel != "") {
+            setCarYear(strYrJatoUrl, yearid, paramCompany, paramModel, "형식연도", paramYr);
+        }
+
+        waitTime = 1;
+    }
+
+    function changeModel_jato(mnfccd, mdlgroupcd) {
+        setModel_New(strModelUrl, modelid, mnfccd, mdlgroupcd, "세부모델", "");
+        //모델그룹선택시 기본 세부모델선택
+        if ($("mdlcd") != null) {
+            $("mdlcd").selectedIndex = 1;
+            var mdlcd = $("mdlcd").options[$("mdlcd").selectedIndex].value;
+            changeYearJato(mnfccd, mdlcd);
+        }
+    }
+
+    function changeYearJato(mnfccd,mdlcd) {
+        setCarYear(strYrJatoUrl, yearid, mnfccd, mdlcd, "형식연도", "");
+        $(yearid).options[1].selected = true;
+    }
+
+
+
+    //덧글 리스트
+    function viewForm(index) {
+
+        var object = $("default" + index);
+        var objectSum = $("defaultSum" + index);
+        var selectSum = $("choiceSum" + index);
+        var object1 = $("choice" + index);
+        if (object != null) {
+            if (object.style.display == 'none') {
+                objectSum.hide();
+                selectSum.hide();
+                object.style.display = "block";
+                object1.style.display = "block";
+
+            } else {
+                object.hide();
+                object1.hide();
+                objectSum.style.display = "block";
+                selectSum.style.display = "block";
+            }
+        }
+    }
+
+    function viewAll() {
+        for (var i = 1; i <=21; i++) {
+            $("default" + i).style.display = "block";
+            $("defaultSum" + i).style.display = "none";
+            $("choice" + i).style.display = "block";
+            $("choiceSum" + i).style.display = "none";
+        }
+    }
+
+    function closeAll() {
+        for (var i = 1; i <=21; i++) {
+            $("default" + i).style.display = "none";
+            $("defaultSum" + i).style.display = "block";
+            $("choice" + i).style.display = "none";
+            $("choiceSum" + i).style.display = "block";
+        }
+    }
+
+    function firstLayerOpen() {
+        //viewForm(1);
+    }
+
+    function foldingYN(param) {
+        if (param == "f_fold") {
+            document.getElementById("folding").innerHTML ="<a href=\"javascript:foldingYN('f_unfold')\" class='folding f_unfold'>전체등급 펼쳐보기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "none";
+            document.getElementById("f_fold").style.display = "";
+        } else {
+            document.getElementById("folding").innerHTML = "<a href=\"javascript:foldingYN('f_fold')\" class='folding f_fold'>접기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "";
+            document.getElementById("f_fold").style.display = "none";
+        }
+    }
+
+    function onSubmit() {
+        jQuery("#searchForm").submit();
+
+    }
+    window.onload = initGnb;
+
+</script>
+</html>
+

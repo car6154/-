@@ -1,0 +1,1423 @@
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>차량DB - 차량정보 - 신차가격표</title>
+    <link type="text/css" rel="stylesheet" href="/css/common.css?v=1793835891525"/>
+    <link type="text/css" rel="stylesheet" href="/css/db.css?v=1793835891525"/>
+
+    <script type="text/javascript" src="/js/encarapp/lib/jquery/jquery-1.11.3.min.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/common/ui.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/prototype.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/util.js?v=1793835894199"></script>
+
+    <script type="text/javascript" src="/js/common/db_common.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/commonCombo.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/carSearchCombo.js?v=1793835894199"></script>
+	<script>
+		window.enlogInitJson = {
+			"dataTalkView": {
+				"screenName": "신차가격표"
+			}
+		}
+
+	</script>
+
+
+</head>
+
+
+
+
+
+
+
+    <!-- 등급 체크박스  -->
+    <div style="display:none">
+        
+    </div>
+
+    <!-- 세부등급 체크박스 -->
+    <div style="display:none">
+        
+    </div>
+
+
+
+<body class="db db_newdetailview db_basicTemplate">
+
+
+
+
+	
+	
+	
+	
+
+
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-W9QQ2T"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W9QQ2T');</script>
+<!-- End Google Tag Manager -->
+
+<!-- container begin -->
+<div class="container" id="containerDIV">
+<input type="hidden" id = "foldYn" name="searchtype" value="10"/>
+<form id ="searchForm" name="searchForm">
+
+    <input type="hidden" id = "method" name="method" value="newpricePopV2"/>
+    <input type="hidden" id = "dimensiontype" name="dimensiontype" value="null"/>
+    <input type="hidden" id = "paramMnfccd" name="paramMnfccd" value="001"/>
+    <input type="hidden" id = "paramMdlgroupcd" name="paramMdlgroupcd" value="025"/>
+    <input type="hidden" id = "paramMdlcd" name="paramMdlcd" value="124"/>
+    <input type="hidden" id = "paramYear" name="paramYear" value="2016"/>
+    <input type="hidden" id = "model" name="model" value="">
+    <input type="hidden" id = "paramCaryear" name="paramCaryear" value="2016"/>
+    <input type="hidden" id = "clsheadcd" name="clsheadcd" class="checkbox" value="null"/>
+    <input type="hidden" id = "paramGradeHead" name="paramGradeHead" value="null"/>
+	<input type="hidden" id = "searchtype" name="searchtype" value="check"/>
+	<input type="hidden" id = "pageAccessToken" name="pageAccessToken" value="AgV4nQIA7fplQK4EIhncwnW13wGJSrLOwfGDeId278simOYAcQACAAdFbmNhckNrAAdFbmNhckN2ABVhd3MtY3J5cHRvLXB1YmxpYy1rZXkAREE1TDl0Y29zUkVYV0ovWlE4SG90Z2pzMHltUWR6QUxlc1FXdXJWajRLSlptcUNLN3FDcC83bHgreGtOZHZXaTlBQT09AAEAB2F3cy1rbXMAUGFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjI3MjM2MjQ4NzY1MzprZXkvbXJrLWRmZWEyNmY3NTVhMzQ3MjliNjkwMjRkZWZmM2M1MWFjALgBAgEAeAuqQuSJvQ+Ra4FSj55FZzS0sk+00amsb3yoAFiEYn4PAeMUj0vx6L3NqzYmJqKIbwQAAAB+MHwGCSqGSIb3DQEHBqBvMG0CAQAwaAYJKoZIhvcNAQcBMB4GCWCGSAFlAwQBLjARBAwnfq1kyqI9mOUBHvoCARCAOyuR3V9uXXKjqIIc0mZgimiytiBcBZ941aaIu08oNcFGF4XhOKaWApAeR+35I1wOGHkWvNUgX74NX+yuAgAAEABYmiBvu+/h3dttwKXCjjipAaxji51UnSF7uM0DcIwMNHVlRTAxO53d/2r3R1uWOGP/////AAAAAQAAAAAAAAAAAAAAAQAAAKN85Zs7uVMMiBN5eVB547nDSb2IsBcUpZnlG73Ub+zOv8LsOTuga8gj61aSrv+NYECCSv+Vx+YwKeJuaXFNSZrD1eJvEDHRnC8IYTfq/0sV6fjj4UzpRGmniSg+1ZS3Bw9seNuvE1g5P2mTh+ZF/W6swfFZXPP1K9wiw+YwR6a9Txo2EL2h1zG0Tvp18AhVEl/bubi6kaYLIa1nnMuBVys87J0bX3J/+9J3NtitRonkETgy7wBnMGUCMEZ7KaXHHrphQPEwl5b+Rljt+tQg8TMuwJ57UF4n/gvEhDYmksxEx9Xi2Q33Z0DDWwIxAM0WKYnNyxlWEVUoPYC6vG4P8hG+Xos61E/RLW69EFkG6uiWP9hQToMHI43PSLmoZQ=="/>
+    <div class="header">
+        <h1 class="blind">SK엔카</h1>
+        <h2 class="tit_carprice" id="main_title">신차가격표</h2>
+        <p class="quickSearch">
+
+
+
+            <select title="제조사" class="opt_select" id="mnfccd" name="mnfccd" onChange="javascript:changeModelGroup(this.value);">
+                <option value="">제조사</option>
+            </select>
+
+            <select class="opt_select" title="모델" id="mdlgroupcd" name="mdlgroupcd" onChange="javascript:changeModel_jato($('mnfccd').value, this.value);">
+                <option>모델</option>
+            </select>
+
+            <select class="opt_select" title="세부모델" id="mdlcd" name="mdlcd" onChange="javascript:changeYearJato($('mnfccd').value, $('mdlcd').value);">
+                <option>세부모델</option>
+            </select>
+
+            <select class="opt_select" title="연식" id="caryear" name="caryear">
+                <option>연식</option>
+            </select>
+
+            <button type="button" class="btn_search" onclick="javascript:onSubmit();"/>검색</button>
+
+
+
+        </p>
+    </div>
+    <!-- body begin -->
+    <div class="body" id="bodydiv">
+		
+			
+				<table class="layout">
+					<col class="contents"/>
+					<tr>
+						<td class="contentsMenu">
+							<!-- contentsMenu begin -->
+							<div class="contentsMenu">
+								<h3 class="title">현대 제네시스 DH 2016년형</h3>
+							</div>
+							<!-- contentsMenu end -->
+						</td>
+					</tr>
+
+					<tr>
+						<td class="contentsMain">
+							<!-- contents begin -->
+							<div class="contents">
+
+								<div class="carCompare">
+									<div class="dbHead">
+										
+											<div id="folding"><a href="javascript:foldingYN('f_fold')"
+																 class="folding f_fold">전체등급 펼쳐보기<em class="db_ir"></em></a></div>
+
+											<!-- 2013/04/03 [서] 매물탭 개선 : 기능 버튼 추가 --><!--<a href="#" class="folding f_unfold">펼치기</a>-->
+										
+									</div>
+									
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+									<div id="f_unfold">
+										
+											<!-- case1 : 세부등급과 미션분리 -->
+											<table class="carCompare sellcase1">
+												<colgroup>
+													<col class="grade">
+													<col class="mission">
+													<col class="price">
+												    <col class="uprice"><!-- [시세개편] 중고차시세 추가 uprice -->
+													<col class="item">
+													<col class="option">
+												</colgroup>
+												<thead class="compare">
+												<tr>
+													<th class="grade" colspan="2"><b>구분</b></th>
+													<th class="price"><b>판매가격</b></th>
+													<th class="uprice"><b>중고차시세</b></th><!-- [시세개편] 중고차시세 추가 -->
+													<th class="item"><b>기본사양 품목</b></th>
+													<th class="option end"><b>선택사양 품목</b></th>
+												</tr>
+												</thead>
+												<tbody class="new">
+												
+													
+														
+													
+													
+														
+															
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>G330 모던</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>4,650</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>▶&nbsp;파워트레인 및 성능 :</b> 람다 3.3 V6 GDi엔진, 8단 자동변속기, 진폭감응형 댐퍼, 통합 주행 모드(노말/스포츠/에코/스노우),
+ 다이렉트 스티어링 시스템(랙 구동형 전동식 파워 스티어링, 가변 기어비 스티어링), 구동선회 제어시스템(ATCC) <br><br><b>▶&nbsp;외관 : </b>HID 헤드램프(2등식, 바이펑션), LED 안개등, LED 주간전조등(DRL), LED 리어 콤비 램프(제동등, 후미등 적용), 245/45R18 미쉐린 타이어 &amp; 휠,
+ 자외선 차단글래스(앞면, 뒷면, 전체도어), 아웃사이드 미러(사이드 리피터, 퍼들램프, 열선, 오토 언폴딩 포함), 범퍼 일체형 듀얼 머플러
+<br><br>▶<b>&nbsp;내장 :</b> 4.3인치 TFT LCD 클러스터, 아날로그 시계, 패들쉬프트, 룸미러(ECM, 하이패스), 우드그레인 가니쉬/리얼 알루미늄 트림, 풋램프(앞좌석), 메탈 도어스커프<br><br><b>▶&nbsp;안전 :</b>  9에어백(운전석/동승석 어드밴스드 에어백, 운전석 무릎, 앞/뒤 사이드, 커튼 *롤오버 대응), 차체자세 제어장치(ESC), 액티브 후드 시스템,
+ 타이어 공기압경보장치(개별 공기압 정보 표시 기능), 앞좌석 하체상해 저감 장치 내장 시트벨트(EFD), 충격저감 시트(앞좌석), 급제동 경보시스템,
+ 뒷좌석 센터 3점식 시트벨트, 유아용 시트 고정장치
+<br><br><b>▶&nbsp;편의 :</b> 웰컴 시스템, 버튼시동 &amp; 스마트키 시스템, 레인센서, 크루즈 컨트롤, 스티어링 휠(가죽, 열선, 매뉴얼 틸트 &amp; 텔레스코픽), 3존 독립제어 풀오토 에어컨(운전석/동승석 듀얼 풍향모드 제어 포함), 스마트 공조 시스템(실내 CO2 조절, 상시 오토 디포깅), 프리미엄 카본 필터, 경사로 밀림방지 기능(HAC),
+ 전자식 파킹 브레이크(EPB : Auto Hold 기능 포함), 세이프티 파워윈도우(앞좌석/뒷좌석), 후방 카메라(주차가이드 시스템), 전후방 주차보조시스템(PAS),
+ 스마트 트렁크 시스템, 템퍼러리 스페어 타이어, USB 충전기
+<br><br><b>▶&nbsp;시트 : </b>운전석 전동 시트(럼버써포트 포함), 동승석 전동 시트(높이조절 포함), 운전석/동승석 냉난방 통풍시트, 뒷좌석 열선시트, 뒷좌석 암레스트 리모콘,
+ 천연가죽 시트, 뒷좌석 스키쓰루 기능
+<br><b><br>▶&nbsp;멀티미디어 : </b>내비게이션(블루링크2.0, 8인치), 7스피커, CDP<br>※ 내비게이션 : 광시야각/정전식 터치 디스플레이, 음성인식 기능, MY MUSIC, 부분 3D 지도, SD카드 외장 메모리, 블루투스 핸즈프리, iPod 단자 등
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶ <b>파노라마 썬루프</b> 1,190,000
+<br><br>▶ <b>헤드업 디스플레이</b> 1,190,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>G330 프리미엄</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>5,255</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	▶&nbsp;<b>G330 모던 2WD 기본사양 외
+<br></b>
+<br>245/40R19(앞) &amp; 275/35R19(뒤) 컨티넨탈 타이어 &amp; 휠, DIS(블루링크2.0, HD급 9.2인치), DVDP, 렉시콘 프리미엄 사운드(17스피커), 헤드업 디스플레이,
+ 카드타입 스마트키, 인텔리전트 운전석 시트(쿠션 익스텐션/시트백 볼스터 전동 조절), 스티어링 휠(전동식 틸트 &amp; 텔레스코픽), 전동식 뒷면 유리 커튼,
+ 매뉴얼 사이드 커튼(뒷좌석), 운전석 운전자세 메모리 시스템(시트, 스티어링 휠, 아웃사이드 미러 연동), 동승석 워크인 스위치<br>※ DIS : 고해상도/광시야각/정전식 터치 디스플레이, 음성인식 기능, 주크박스, 그레이스 노트, 3D 정밀지도, SD카드 외장 메모리 , 블루투스 핸즈프리, iPod 단자 등
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶ <b>파노라마 썬루프</b> 1,190,000
+<br><br>▶ <b>드라이빙 어시스트 패키지 l</b> 2,080,000
+<br><br>▶ <b>컨비니언스 패키지</b> 1,200,000
+<br><br>▶ <b>럭셔리 스타일 패키지</b> 1,980,000
+<br><br>▶ <b>뒷좌석 컴포트 패키지</b> 1,780,000
+<br><br>▶ <b>뒷좌석 듀얼모니터</b> 2,470,000
+<br>※ 뒷좌석 충전/데이터 리딩 USB 단자</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>G380 익스클루시브</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>5,463</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	▶&nbsp;<b>G330 프리미엄&nbsp;</b><b>2WD</b><b>&nbsp;기본사양 외</b>
+
+<br><br>람다 3.8 V6 GDi엔진, 어라운드뷰 모니터링 시스템
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶ <b>파노라마 썬루프</b> 1,190,000
+<br><br>▶ <b>드라이빙 어시스트 패키지 l</b> 2,080,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>G380 프레스티지</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>6,070</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	▶&nbsp;<b>G380 익스클루시브&nbsp;</b><b>2WD</b><b>&nbsp;기본사양 외</b>
+
+<br><br>전자제어 서스펜션, 듀얼 HID 헤드램프(4등식, 블랙베젤, LED 턴시그널), LED 리어 콤비 램프(제동등, 후미등, 방향 지시등 적용), 7인치 TFT LCD 클러스터,
+ 앞좌석 프리세이프 시트벨트, 스마트 후측방 경보 시스템, 진동경고 스티어링 휠, 어드밴스드 주차조향 보조시스템(ASPAS), 전동식 트렁크,
+ 고스트 도어 클로징, 클러스터 이오나이저, 도어스커프 램프(앞도어), 이중접합 차음유리(전체 도어)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶ <b>파노라마 썬루프</b> 1,190,000
+<br><br>▶ <b>드라이빙 어시스트 패키지 ll</b> 1,980,000
+<br><br>▶ <b>럭셔리 스타일 패키지</b> 1,980,000
+<br><br>▶ <b>뒷좌석 컴포트 패키지</b> 1,780,000
+<br><br>▶ <b>뒷좌석 듀얼모니터</b> 2,470,000
+<br>※ 뒷좌석 충전/데이터 리딩 USB 단자</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>G380 파이니스트 에디션</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>6,920</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	▶&nbsp;<b>G380 프레스티지&nbsp;</b><b>2WD</b><b>&nbsp;기본사양 외</b>
+
+<br><br>파이니스트 에디션 전용 컬러(외장 : 블랙 퍼플/탠 브라운, 내장 : 블랙크림/브라운투톤 인테리어), 로고 패턴 퍼들램프, 내장 무드 램프(인사이드 핸들), 럭셔리 스웨이드
+ 내장재(헤드라이닝, 선바이저, 필라 트림, 뒷좌석 패키지 트레이), 오픈포어 리얼우드/지오메트리 패턴 리얼 알루미늄 트림, 프라임 나파 가죽 시트(파이핑 적용),
+ 콘솔부 고급화(스티치, 암레스트 천연가죽 감싸기 등), 어드밴스드 스마트 크루즈 컨트롤(고속도로 과속위험지역 자동 감속 기능 포함), 자동 긴급제동 시스템,
+ 주행 조향보조 시스템(LKAS), 스마트 하이빔, 뒷좌석 전동 시트(6:4분할, 스키쓰루 미적용), 뒷좌석 냉난방 통풍시트, 뒷좌석 듀얼 모니터(뒷좌석 충전/데이터 리딩 USB 단자 포함)<br>※ 파이니스트 에디션의 외장 컬러는 블랙 퍼플/탠 브라운/오닉스 블랙/폴리시드 메탈 중 선택 가능
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶ <b>파노라마 썬루프</b> 1,190,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>G330 모던 AWD</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>4,897</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>▶&nbsp;파워트레인 및 성능 :</b>&nbsp;람다 3.3 V6 GDi엔진, 8단 자동변속기, 진폭감응형 댐퍼, 통합 주행 모드(노말/스포츠/에코/스노우), 다이렉트 스티어링 시스템(랙 구동형 전동식 파워 스티어링, 가변 기어비 스티어링), 구동선회 제어시스템(ATCC),&nbsp;HTRAC(전자식 AWD)<br><br><b>▶&nbsp;외관 :&nbsp;</b>HID 헤드램프(2등식, 바이펑션), LED 안개등, LED 주간전조등(DRL), LED 리어 콤비 램프(제동등, 후미등 적용), 245/45R18 미쉐린 타이어 &amp; 휠, 자외선 차단글래스(앞면, 뒷면, 전체도어), 아웃사이드 미러(사이드 리피터, 퍼들램프, 열선, 오토 언폴딩 포함), 범퍼 일체형 듀얼 머플러<br><br>▶<b>&nbsp;내장 :</b>&nbsp;4.3인치 TFT LCD 클러스터, 아날로그 시계, 패들쉬프트, 룸미러(ECM, 하이패스), 우드그레인 가니쉬/리얼 알루미늄 트림, 풋램프(앞좌석), 메탈 도어스커프<br><br><b>▶&nbsp;안전 :</b>&nbsp;9에어백(운전석/동승석 어드밴스드 에어백, 운전석 무릎, 앞/뒤 사이드, 커튼 *롤오버 대응), 차체자세 제어장치(ESC), 액티브 후드 시스템, 타이어 공기압경보장치(개별 공기압 정보 표시 기능), 앞좌석 하체상해 저감 장치 내장 시트벨트(EFD), 충격저감 시트(앞좌석), 급제동 경보시스템, 뒷좌석 센터 3점식 시트벨트, 유아용 시트 고정장치<br><br><b>▶&nbsp;편의 :</b>&nbsp;웰컴 시스템, 버튼시동 &amp; 스마트키 시스템, 레인센서, 크루즈 컨트롤, 스티어링 휠(가죽, 열선, 매뉴얼 틸트 &amp; 텔레스코픽), 3존 독립제어 풀오토 에어컨(운전석/동승석 듀얼 풍향모드 제어 포함), 스마트 공조 시스템(실내 CO2 조절, 상시 오토 디포깅), 프리미엄 카본 필터, 경사로 밀림방지 기능(HAC), 전자식 파킹 브레이크(EPB : Auto Hold 기능 포함), 세이프티 파워윈도우(앞좌석/뒷좌석), 후방 카메라(주차가이드 시스템), 전후방 주차보조시스템(PAS), 스마트 트렁크 시스템, 템퍼러리 스페어 타이어, USB 충전기<br><br><b>▶&nbsp;시트 :&nbsp;</b>운전석 전동 시트(럼버써포트 포함), 동승석 전동 시트(높이조절 포함), 운전석/동승석 냉난방 통풍시트, 뒷좌석 열선시트, 뒷좌석 암레스트 리모콘, 천연가죽 시트, 뒷좌석 스키쓰루 기능<br><b><br>▶&nbsp;멀티미디어 :&nbsp;</b>내비게이션(블루링크2.0, 8인치), 7스피커, CDP<br>※ 내비게이션 : 광시야각/정전식 터치 디스플레이, 음성인식 기능, MY MUSIC, 부분 3D 지도, SD카드 외장 메모리, 블루투스 핸즈프리, iPod 단자 등
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶&nbsp;<b>파노라마 썬루프</b>&nbsp;1,190,000<br><br>▶&nbsp;<b>헤드업 디스플레이</b>&nbsp;1,190,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>G330 프리미엄 AWD</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>5,502</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	▶&nbsp;<b>G330 모던 AWD 기본사양 외<br></b><br>245/40R19(앞) &amp; 275/35R19(뒤) 컨티넨탈 타이어 &amp; 휠, DIS(블루링크2.0, HD급 9.2인치), DVDP, 렉시콘 프리미엄 사운드(17스피커), 헤드업 디스플레이, 카드타입 스마트키, 인텔리전트 운전석 시트(쿠션 익스텐션/시트백 볼스터 전동 조절), 스티어링 휠(전동식 틸트 &amp; 텔레스코픽), 전동식 뒷면 유리 커튼, 매뉴얼 사이드 커튼(뒷좌석), 운전석 운전자세 메모리 시스템(시트, 스티어링 휠, 아웃사이드 미러 연동), 동승석 워크인 스위치<br>※ DIS : 고해상도/광시야각/정전식 터치 디스플레이, 음성인식 기능, 주크박스, 그레이스 노트, 3D 정밀지도, SD카드 외장 메모리 , 블루투스 핸즈프리, iPod 단자 등
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶&nbsp;<b>파노라마 썬루프</b>&nbsp;1,190,000<br><br>▶&nbsp;<b>드라이빙 어시스트 패키지 l</b>&nbsp;2,080,000<br><br>▶&nbsp;<b>컨비니언스 패키지</b>&nbsp;1,200,000<br><br>▶&nbsp;<b>럭셔리 스타일 패키지</b>&nbsp;1,980,000<br><br>▶&nbsp;<b>뒷좌석 컴포트 패키지</b>&nbsp;1,780,000<br><br>▶&nbsp;<b>뒷좌석 듀얼모니터</b>&nbsp;2,470,000<br>※ 뒷좌석 충전/데이터 리딩 USB 단자</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>G380 익스클루시브 AWD</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>5,710</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	▶&nbsp;<b>G330 프리미엄 A</b><b>WD</b><b>&nbsp;기본사양 외</b><br><br>람다 3.8 V6 GDi엔진, 어라운드뷰 모니터링 시스템
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶&nbsp;<b>파노라마 썬루프</b>&nbsp;1,190,000<br><br>▶&nbsp;<b>드라이빙 어시스트 패키지 l</b>&nbsp;2,080,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>G380 프레스티지 AWD</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>6,317</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	▶&nbsp;<b>G380 익스클루시브 A</b><b>WD</b><b>&nbsp;기본사양 외</b><br><br>전자제어 서스펜션, 듀얼 HID 헤드램프(4등식, 블랙베젤, LED 턴시그널), LED 리어 콤비 램프(제동등, 후미등, 방향 지시등 적용), 7인치 TFT LCD 클러스터, 앞좌석 프리세이프 시트벨트, 스마트 후측방 경보 시스템, 진동경고 스티어링 휠, 어드밴스드 주차조향 보조시스템(ASPAS), 전동식 트렁크, 고스트 도어 클로징, 클러스터 이오나이저, 도어스커프 램프(앞도어), 이중접합 차음유리(전체 도어)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶&nbsp;<b>파노라마 썬루프</b>&nbsp;1,190,000<br><br>▶&nbsp;<b>드라이빙 어시스트 패키지 ll</b>&nbsp;1,980,000<br><br>▶&nbsp;<b>럭셔리 스타일 패키지</b>&nbsp;1,980,000<br><br>▶&nbsp;<b>뒷좌석 컴포트 패키지</b>&nbsp;1,780,000<br><br>▶&nbsp;<b>뒷좌석 듀얼모니터</b>&nbsp;2,470,000<br>※ 뒷좌석 충전/데이터 리딩 USB 단자</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>G380 파이니스트 에디션 AWD</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>7,167</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	▶&nbsp;<b>G380 프레스티지 A</b><b>WD</b><b>&nbsp;기본사양 외</b><br><br>파이니스트 에디션 전용 컬러(외장 : 블랙 퍼플/탠 브라운, 내장 : 블랙크림/브라운투톤 인테리어), 로고 패턴 퍼들램프, 내장 무드 램프(인사이드 핸들), 럭셔리 스웨이드 내장재(헤드라이닝, 선바이저, 필라 트림, 뒷좌석 패키지 트레이), 오픈포어 리얼우드/지오메트리 패턴 리얼 알루미늄 트림, 프라임 나파 가죽 시트(파이핑 적용), 콘솔부 고급화(스티치, 암레스트 천연가죽 감싸기 등), 어드밴스드 스마트 크루즈 컨트롤(고속도로 과속위험지역 자동 감속 기능 포함), 자동 긴급제동 시스템, 주행 조향보조 시스템(LKAS), 스마트 하이빔, 뒷좌석 전동 시트(6:4분할, 스키쓰루 미적용), 뒷좌석 냉난방 통풍시트, 뒷좌석 듀얼 모니터(뒷좌석 충전/데이터 리딩 USB 단자 포함)<br>※ 파이니스트 에디션의 외장 컬러는 블랙 퍼플/탠 브라운/오닉스 블랙/폴리시드 메탈 중 선택 가능
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶&nbsp;<b>파노라마 썬루프</b>&nbsp;1,190,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+												</tbody>
+											</table>
+										
+
+
+										<!-- case2 : 세부등급이 있는경우 -->
+										
+									</div>
+									<!-- 신차가격표(폴더형) -->
+									<div id="f_fold" style="display:none;">
+										<div class="newcar_folder">
+											<ul class="nf_list" id="newcarList">
+												
+													<li>
+														<a href="#newcar0">
+                                                            <span class="model">G330 모던  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>4,650</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar1">
+                                                            <span class="model">G330 프리미엄  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>5,255</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar2">
+                                                            <span class="model">G380 익스클루시브  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>5,463</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar3">
+                                                            <span class="model">G380 프레스티지  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>6,070</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar4">
+                                                            <span class="model">G380 파이니스트 에디션  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>6,920</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar5">
+                                                            <span class="model">G330 모던 AWD  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>4,897</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar6">
+                                                            <span class="model">G330 프리미엄 AWD  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>5,502</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar7">
+                                                            <span class="model">G380 익스클루시브 AWD  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>5,710</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar8">
+                                                            <span class="model">G380 프레스티지 AWD  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>6,317</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar9">
+                                                            <span class="model">G380 파이니스트 에디션 AWD  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>7,167</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+											</ul>
+											<!-- 개별 -->
+											
+												<div id="newcar0" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶&nbsp;파워트레인 및 성능 :</b> 람다 3.3 V6 GDi엔진, 8단 자동변속기, 진폭감응형 댐퍼, 통합 주행 모드(노말/스포츠/에코/스노우),
+ 다이렉트 스티어링 시스템(랙 구동형 전동식 파워 스티어링, 가변 기어비 스티어링), 구동선회 제어시스템(ATCC) <br><br><b>▶&nbsp;외관 : </b>HID 헤드램프(2등식, 바이펑션), LED 안개등, LED 주간전조등(DRL), LED 리어 콤비 램프(제동등, 후미등 적용), 245/45R18 미쉐린 타이어 &amp; 휠,
+ 자외선 차단글래스(앞면, 뒷면, 전체도어), 아웃사이드 미러(사이드 리피터, 퍼들램프, 열선, 오토 언폴딩 포함), 범퍼 일체형 듀얼 머플러
+<br><br>▶<b>&nbsp;내장 :</b> 4.3인치 TFT LCD 클러스터, 아날로그 시계, 패들쉬프트, 룸미러(ECM, 하이패스), 우드그레인 가니쉬/리얼 알루미늄 트림, 풋램프(앞좌석), 메탈 도어스커프<br><br><b>▶&nbsp;안전 :</b>  9에어백(운전석/동승석 어드밴스드 에어백, 운전석 무릎, 앞/뒤 사이드, 커튼 *롤오버 대응), 차체자세 제어장치(ESC), 액티브 후드 시스템,
+ 타이어 공기압경보장치(개별 공기압 정보 표시 기능), 앞좌석 하체상해 저감 장치 내장 시트벨트(EFD), 충격저감 시트(앞좌석), 급제동 경보시스템,
+ 뒷좌석 센터 3점식 시트벨트, 유아용 시트 고정장치
+<br><br><b>▶&nbsp;편의 :</b> 웰컴 시스템, 버튼시동 &amp; 스마트키 시스템, 레인센서, 크루즈 컨트롤, 스티어링 휠(가죽, 열선, 매뉴얼 틸트 &amp; 텔레스코픽), 3존 독립제어 풀오토 에어컨(운전석/동승석 듀얼 풍향모드 제어 포함), 스마트 공조 시스템(실내 CO2 조절, 상시 오토 디포깅), 프리미엄 카본 필터, 경사로 밀림방지 기능(HAC),
+ 전자식 파킹 브레이크(EPB : Auto Hold 기능 포함), 세이프티 파워윈도우(앞좌석/뒷좌석), 후방 카메라(주차가이드 시스템), 전후방 주차보조시스템(PAS),
+ 스마트 트렁크 시스템, 템퍼러리 스페어 타이어, USB 충전기
+<br><br><b>▶&nbsp;시트 : </b>운전석 전동 시트(럼버써포트 포함), 동승석 전동 시트(높이조절 포함), 운전석/동승석 냉난방 통풍시트, 뒷좌석 열선시트, 뒷좌석 암레스트 리모콘,
+ 천연가죽 시트, 뒷좌석 스키쓰루 기능
+<br><b><br>▶&nbsp;멀티미디어 : </b>내비게이션(블루링크2.0, 8인치), 7스피커, CDP<br>※ 내비게이션 : 광시야각/정전식 터치 디스플레이, 음성인식 기능, MY MUSIC, 부분 3D 지도, SD카드 외장 메모리, 블루투스 핸즈프리, iPod 단자 등</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶ <b>파노라마 썬루프</b> 1,190,000
+<br><br>▶ <b>헤드업 디스플레이</b> 1,190,000</p>
+												</div>
+											
+												<div id="newcar1" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶&nbsp;<b>G330 모던 2WD 기본사양 외
+<br></b>
+<br>245/40R19(앞) &amp; 275/35R19(뒤) 컨티넨탈 타이어 &amp; 휠, DIS(블루링크2.0, HD급 9.2인치), DVDP, 렉시콘 프리미엄 사운드(17스피커), 헤드업 디스플레이,
+ 카드타입 스마트키, 인텔리전트 운전석 시트(쿠션 익스텐션/시트백 볼스터 전동 조절), 스티어링 휠(전동식 틸트 &amp; 텔레스코픽), 전동식 뒷면 유리 커튼,
+ 매뉴얼 사이드 커튼(뒷좌석), 운전석 운전자세 메모리 시스템(시트, 스티어링 휠, 아웃사이드 미러 연동), 동승석 워크인 스위치<br>※ DIS : 고해상도/광시야각/정전식 터치 디스플레이, 음성인식 기능, 주크박스, 그레이스 노트, 3D 정밀지도, SD카드 외장 메모리 , 블루투스 핸즈프리, iPod 단자 등</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶ <b>파노라마 썬루프</b> 1,190,000
+<br><br>▶ <b>드라이빙 어시스트 패키지 l</b> 2,080,000
+<br><br>▶ <b>컨비니언스 패키지</b> 1,200,000
+<br><br>▶ <b>럭셔리 스타일 패키지</b> 1,980,000
+<br><br>▶ <b>뒷좌석 컴포트 패키지</b> 1,780,000
+<br><br>▶ <b>뒷좌석 듀얼모니터</b> 2,470,000
+<br>※ 뒷좌석 충전/데이터 리딩 USB 단자</p>
+												</div>
+											
+												<div id="newcar2" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶&nbsp;<b>G330 프리미엄&nbsp;</b><b>2WD</b><b>&nbsp;기본사양 외</b>
+
+<br><br>람다 3.8 V6 GDi엔진, 어라운드뷰 모니터링 시스템</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶ <b>파노라마 썬루프</b> 1,190,000
+<br><br>▶ <b>드라이빙 어시스트 패키지 l</b> 2,080,000</p>
+												</div>
+											
+												<div id="newcar3" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶&nbsp;<b>G380 익스클루시브&nbsp;</b><b>2WD</b><b>&nbsp;기본사양 외</b>
+
+<br><br>전자제어 서스펜션, 듀얼 HID 헤드램프(4등식, 블랙베젤, LED 턴시그널), LED 리어 콤비 램프(제동등, 후미등, 방향 지시등 적용), 7인치 TFT LCD 클러스터,
+ 앞좌석 프리세이프 시트벨트, 스마트 후측방 경보 시스템, 진동경고 스티어링 휠, 어드밴스드 주차조향 보조시스템(ASPAS), 전동식 트렁크,
+ 고스트 도어 클로징, 클러스터 이오나이저, 도어스커프 램프(앞도어), 이중접합 차음유리(전체 도어)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶ <b>파노라마 썬루프</b> 1,190,000
+<br><br>▶ <b>드라이빙 어시스트 패키지 ll</b> 1,980,000
+<br><br>▶ <b>럭셔리 스타일 패키지</b> 1,980,000
+<br><br>▶ <b>뒷좌석 컴포트 패키지</b> 1,780,000
+<br><br>▶ <b>뒷좌석 듀얼모니터</b> 2,470,000
+<br>※ 뒷좌석 충전/데이터 리딩 USB 단자</p>
+												</div>
+											
+												<div id="newcar4" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶&nbsp;<b>G380 프레스티지&nbsp;</b><b>2WD</b><b>&nbsp;기본사양 외</b>
+
+<br><br>파이니스트 에디션 전용 컬러(외장 : 블랙 퍼플/탠 브라운, 내장 : 블랙크림/브라운투톤 인테리어), 로고 패턴 퍼들램프, 내장 무드 램프(인사이드 핸들), 럭셔리 스웨이드
+ 내장재(헤드라이닝, 선바이저, 필라 트림, 뒷좌석 패키지 트레이), 오픈포어 리얼우드/지오메트리 패턴 리얼 알루미늄 트림, 프라임 나파 가죽 시트(파이핑 적용),
+ 콘솔부 고급화(스티치, 암레스트 천연가죽 감싸기 등), 어드밴스드 스마트 크루즈 컨트롤(고속도로 과속위험지역 자동 감속 기능 포함), 자동 긴급제동 시스템,
+ 주행 조향보조 시스템(LKAS), 스마트 하이빔, 뒷좌석 전동 시트(6:4분할, 스키쓰루 미적용), 뒷좌석 냉난방 통풍시트, 뒷좌석 듀얼 모니터(뒷좌석 충전/데이터 리딩 USB 단자 포함)<br>※ 파이니스트 에디션의 외장 컬러는 블랙 퍼플/탠 브라운/오닉스 블랙/폴리시드 메탈 중 선택 가능</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶ <b>파노라마 썬루프</b> 1,190,000</p>
+												</div>
+											
+												<div id="newcar5" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶&nbsp;파워트레인 및 성능 :</b>&nbsp;람다 3.3 V6 GDi엔진, 8단 자동변속기, 진폭감응형 댐퍼, 통합 주행 모드(노말/스포츠/에코/스노우), 다이렉트 스티어링 시스템(랙 구동형 전동식 파워 스티어링, 가변 기어비 스티어링), 구동선회 제어시스템(ATCC),&nbsp;HTRAC(전자식 AWD)<br><br><b>▶&nbsp;외관 :&nbsp;</b>HID 헤드램프(2등식, 바이펑션), LED 안개등, LED 주간전조등(DRL), LED 리어 콤비 램프(제동등, 후미등 적용), 245/45R18 미쉐린 타이어 &amp; 휠, 자외선 차단글래스(앞면, 뒷면, 전체도어), 아웃사이드 미러(사이드 리피터, 퍼들램프, 열선, 오토 언폴딩 포함), 범퍼 일체형 듀얼 머플러<br><br>▶<b>&nbsp;내장 :</b>&nbsp;4.3인치 TFT LCD 클러스터, 아날로그 시계, 패들쉬프트, 룸미러(ECM, 하이패스), 우드그레인 가니쉬/리얼 알루미늄 트림, 풋램프(앞좌석), 메탈 도어스커프<br><br><b>▶&nbsp;안전 :</b>&nbsp;9에어백(운전석/동승석 어드밴스드 에어백, 운전석 무릎, 앞/뒤 사이드, 커튼 *롤오버 대응), 차체자세 제어장치(ESC), 액티브 후드 시스템, 타이어 공기압경보장치(개별 공기압 정보 표시 기능), 앞좌석 하체상해 저감 장치 내장 시트벨트(EFD), 충격저감 시트(앞좌석), 급제동 경보시스템, 뒷좌석 센터 3점식 시트벨트, 유아용 시트 고정장치<br><br><b>▶&nbsp;편의 :</b>&nbsp;웰컴 시스템, 버튼시동 &amp; 스마트키 시스템, 레인센서, 크루즈 컨트롤, 스티어링 휠(가죽, 열선, 매뉴얼 틸트 &amp; 텔레스코픽), 3존 독립제어 풀오토 에어컨(운전석/동승석 듀얼 풍향모드 제어 포함), 스마트 공조 시스템(실내 CO2 조절, 상시 오토 디포깅), 프리미엄 카본 필터, 경사로 밀림방지 기능(HAC), 전자식 파킹 브레이크(EPB : Auto Hold 기능 포함), 세이프티 파워윈도우(앞좌석/뒷좌석), 후방 카메라(주차가이드 시스템), 전후방 주차보조시스템(PAS), 스마트 트렁크 시스템, 템퍼러리 스페어 타이어, USB 충전기<br><br><b>▶&nbsp;시트 :&nbsp;</b>운전석 전동 시트(럼버써포트 포함), 동승석 전동 시트(높이조절 포함), 운전석/동승석 냉난방 통풍시트, 뒷좌석 열선시트, 뒷좌석 암레스트 리모콘, 천연가죽 시트, 뒷좌석 스키쓰루 기능<br><b><br>▶&nbsp;멀티미디어 :&nbsp;</b>내비게이션(블루링크2.0, 8인치), 7스피커, CDP<br>※ 내비게이션 : 광시야각/정전식 터치 디스플레이, 음성인식 기능, MY MUSIC, 부분 3D 지도, SD카드 외장 메모리, 블루투스 핸즈프리, iPod 단자 등</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶&nbsp;<b>파노라마 썬루프</b>&nbsp;1,190,000<br><br>▶&nbsp;<b>헤드업 디스플레이</b>&nbsp;1,190,000</p>
+												</div>
+											
+												<div id="newcar6" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶&nbsp;<b>G330 모던 AWD 기본사양 외<br></b><br>245/40R19(앞) &amp; 275/35R19(뒤) 컨티넨탈 타이어 &amp; 휠, DIS(블루링크2.0, HD급 9.2인치), DVDP, 렉시콘 프리미엄 사운드(17스피커), 헤드업 디스플레이, 카드타입 스마트키, 인텔리전트 운전석 시트(쿠션 익스텐션/시트백 볼스터 전동 조절), 스티어링 휠(전동식 틸트 &amp; 텔레스코픽), 전동식 뒷면 유리 커튼, 매뉴얼 사이드 커튼(뒷좌석), 운전석 운전자세 메모리 시스템(시트, 스티어링 휠, 아웃사이드 미러 연동), 동승석 워크인 스위치<br>※ DIS : 고해상도/광시야각/정전식 터치 디스플레이, 음성인식 기능, 주크박스, 그레이스 노트, 3D 정밀지도, SD카드 외장 메모리 , 블루투스 핸즈프리, iPod 단자 등</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶&nbsp;<b>파노라마 썬루프</b>&nbsp;1,190,000<br><br>▶&nbsp;<b>드라이빙 어시스트 패키지 l</b>&nbsp;2,080,000<br><br>▶&nbsp;<b>컨비니언스 패키지</b>&nbsp;1,200,000<br><br>▶&nbsp;<b>럭셔리 스타일 패키지</b>&nbsp;1,980,000<br><br>▶&nbsp;<b>뒷좌석 컴포트 패키지</b>&nbsp;1,780,000<br><br>▶&nbsp;<b>뒷좌석 듀얼모니터</b>&nbsp;2,470,000<br>※ 뒷좌석 충전/데이터 리딩 USB 단자</p>
+												</div>
+											
+												<div id="newcar7" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶&nbsp;<b>G330 프리미엄 A</b><b>WD</b><b>&nbsp;기본사양 외</b><br><br>람다 3.8 V6 GDi엔진, 어라운드뷰 모니터링 시스템</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶&nbsp;<b>파노라마 썬루프</b>&nbsp;1,190,000<br><br>▶&nbsp;<b>드라이빙 어시스트 패키지 l</b>&nbsp;2,080,000</p>
+												</div>
+											
+												<div id="newcar8" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶&nbsp;<b>G380 익스클루시브 A</b><b>WD</b><b>&nbsp;기본사양 외</b><br><br>전자제어 서스펜션, 듀얼 HID 헤드램프(4등식, 블랙베젤, LED 턴시그널), LED 리어 콤비 램프(제동등, 후미등, 방향 지시등 적용), 7인치 TFT LCD 클러스터, 앞좌석 프리세이프 시트벨트, 스마트 후측방 경보 시스템, 진동경고 스티어링 휠, 어드밴스드 주차조향 보조시스템(ASPAS), 전동식 트렁크, 고스트 도어 클로징, 클러스터 이오나이저, 도어스커프 램프(앞도어), 이중접합 차음유리(전체 도어)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶&nbsp;<b>파노라마 썬루프</b>&nbsp;1,190,000<br><br>▶&nbsp;<b>드라이빙 어시스트 패키지 ll</b>&nbsp;1,980,000<br><br>▶&nbsp;<b>럭셔리 스타일 패키지</b>&nbsp;1,980,000<br><br>▶&nbsp;<b>뒷좌석 컴포트 패키지</b>&nbsp;1,780,000<br><br>▶&nbsp;<b>뒷좌석 듀얼모니터</b>&nbsp;2,470,000<br>※ 뒷좌석 충전/데이터 리딩 USB 단자</p>
+												</div>
+											
+												<div id="newcar9" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶&nbsp;<b>G380 프레스티지 A</b><b>WD</b><b>&nbsp;기본사양 외</b><br><br>파이니스트 에디션 전용 컬러(외장 : 블랙 퍼플/탠 브라운, 내장 : 블랙크림/브라운투톤 인테리어), 로고 패턴 퍼들램프, 내장 무드 램프(인사이드 핸들), 럭셔리 스웨이드 내장재(헤드라이닝, 선바이저, 필라 트림, 뒷좌석 패키지 트레이), 오픈포어 리얼우드/지오메트리 패턴 리얼 알루미늄 트림, 프라임 나파 가죽 시트(파이핑 적용), 콘솔부 고급화(스티치, 암레스트 천연가죽 감싸기 등), 어드밴스드 스마트 크루즈 컨트롤(고속도로 과속위험지역 자동 감속 기능 포함), 자동 긴급제동 시스템, 주행 조향보조 시스템(LKAS), 스마트 하이빔, 뒷좌석 전동 시트(6:4분할, 스키쓰루 미적용), 뒷좌석 냉난방 통풍시트, 뒷좌석 듀얼 모니터(뒷좌석 충전/데이터 리딩 USB 단자 포함)<br>※ 파이니스트 에디션의 외장 컬러는 블랙 퍼플/탠 브라운/오닉스 블랙/폴리시드 메탈 중 선택 가능</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶&nbsp;<b>파노라마 썬루프</b>&nbsp;1,190,000</p>
+												</div>
+											
+										</div>
+										<script type="text/javascript">
+											newcarFolder(0);//초기값
+											function newcarFolder(target) {
+												var conElId = "newcar"//아이디 설정
+												var conElMenu = document.getElementById("newcarList");
+												var conElMenuLink = conElMenu.getElementsByTagName("a");
+												if (target != null) {
+													conElMenuLink[target].parentNode.className = "on";
+													document.getElementById(
+														conElId + target).style.display = "";
+												}
+												for (i = 0; i <= (conElMenuLink.length - 1); i++) {
+													conElMenuLink[i].onclick = function () {
+														for (x = 0; x <= (conElMenuLink.length - 1); x++) {
+															conElMenuLink[x].parentNode.className = "";
+															document.getElementById(
+																conElId + x).style.display = "none";
+														}
+														this.parentNode.className = "on";
+														document.getElementById(this.getAttribute('href')
+																					.split(
+																						'#')[1]).style.display =
+															"";
+														return false;
+													}
+												}
+											}
+										</script>
+									</div>
+									
+										<ul class="more">
+												▶&nbsp;<b>패키지 선택품목</b>
+<br><b>드라이빙 어시스트 패키지 l</b>&nbsp;- 어드밴스드 스마트 크루즈 컨트롤(고속도로 과속위험지역 자동 감속 기능 포함), 자동 긴급제동 시스템, 주행 조향보조 시스템(LKAS), 스마트 하이빔, 진동경고 스티어링 휠
+<br><b>드라이빙 어시스트 패키지 ll</b>&nbsp;- 어드밴스드 스마트 크루즈 컨트롤(고속도로 과속위험지역 자동 감속 기능 포함), 자동 긴급제동 시스템, 주행 조향보조 시스템(LKAS), 스마트 하이빔
+<br><b>컨비니언스 패키지</b>&nbsp;- 어라운드뷰 모니터링 시스템, 전동식 트렁크
+<br><b>럭셔리 스타일 패키지</b>&nbsp;- 오픈포어 리얼우드/지오메트리 패턴 리얼 알루미늄 트림, 프라임 나파 가죽 시트(파이핑 적용), 콘솔부 고급화(스티치, 암레스트 천연가죽 감싸기 등) 
+
+<br>※ 파이니스트 에디션 컬러 스페셜 (탠브라운 외장 / 브라운투톤 인테리어) 선택 가능 : 컬러 대금 추가 30만원<br><b>뒷좌석 컴포트 패키지</b>&nbsp;- 뒷좌석 전동 시트(6:4분할, 스키쓰루 미적용), 뒷좌석 냉난방 통풍시트
+
+										</ul>
+									
+									<p class="desc_more">위 신차가격표는 단순 참고자료이며, 정확한 내용은 각 제조사에서 제공하는 자료를 통해확인하실 수 있습니다.</p><!-- 2016/10/12 [장] 등급 등록/수정 개선 : 추가 디자인 변경 -->
+									<p class="toTop"><a href="#main_title" class="sp toTop db_ir" title="페이지 위로"><u>페이지 위로</u></a></p><!-- [시세개편] class db_ir 추가 -->
+								</div>
+
+
+							</div>
+							<!-- body end -->
+						</td>
+					</tr>
+				</table>
+
+
+			
+			
+		
+    </div>
+
+    <!-- container end -->
+</form>
+</div>
+
+</body>
+<script language="javascript">
+
+
+    var strCompanyUrl = "/common/combo/cardbcompany.json?method=carList";
+    var strModelGroupUrl = "/common/combo/modelgroupfordb.json?method=carList";
+    var strModelUrl = "/common/combo/cardbmodel.json?method=carList";
+    var strYrJatoUrl = "/common/combo/jatoYr.json?method=carList";
+
+    var companyid = "mnfccd";
+    var modelgroupid = "mdlgroupcd";
+    var modelid = "mdlcd";
+    var yearid = "caryear";
+
+    function initGnb() {
+        var paramCompany = $("paramMnfccd").value;
+        var paramModelGroup = $("paramMdlgroupcd").value;
+        var paramModel = $("paramMdlcd").value;
+        var paramYr = $("paramYear").value;
+
+        // 제조사
+        if (paramModel != "") {
+            $("mdlcd").show();
+        }
+
+        //console.log("companyid :: " + companyid)
+        //console.log("paramCompany :: " + paramCompany)
+		if($('foldYn').value != 0){
+            foldingYN('f_fold');
+		}
+
+        setCompany(strCompanyUrl, companyid, "제조사", paramCompany);
+
+        // 제조사 값이 있으면 모델 검색
+        if (paramCompany >= '010') {
+            if (paramCompany != "") {
+                if (paramModel == "") {
+                    paramModel = paramModelGroup;
+                }
+                setModel(strModelUrl, modelid, paramCompany, "모델", paramModel)
+                $("mdlgroupcd").hide();
+
+            }
+        } else {
+            $("mdlgroupcd").show();
+            if (paramCompany != "") {
+                setModelGroup(strModelGroupUrl, modelgroupid, paramCompany, "모델", paramModelGroup);
+                if (paramModelGroup != "") {
+                    setModel_New(strModelUrl, modelid, paramCompany, paramModelGroup, "세부모델", paramModel);
+                }
+            }
+
+        }
+        if (paramCompany != "" && paramModel != "") {
+            setCarYear(strYrJatoUrl, yearid, paramCompany, paramModel, "형식연도", paramYr);
+        }
+
+        waitTime = 1;
+    }
+
+    function changeModel_jato(mnfccd, mdlgroupcd) {
+        setModel_New(strModelUrl, modelid, mnfccd, mdlgroupcd, "세부모델", "");
+        //모델그룹선택시 기본 세부모델선택
+        if ($("mdlcd") != null) {
+            $("mdlcd").selectedIndex = 1;
+            var mdlcd = $("mdlcd").options[$("mdlcd").selectedIndex].value;
+            changeYearJato(mnfccd, mdlcd);
+        }
+    }
+
+    function changeYearJato(mnfccd,mdlcd) {
+        setCarYear(strYrJatoUrl, yearid, mnfccd, mdlcd, "형식연도", "");
+        $(yearid).options[1].selected = true;
+    }
+
+
+
+    //덧글 리스트
+    function viewForm(index) {
+
+        var object = $("default" + index);
+        var objectSum = $("defaultSum" + index);
+        var selectSum = $("choiceSum" + index);
+        var object1 = $("choice" + index);
+        if (object != null) {
+            if (object.style.display == 'none') {
+                objectSum.hide();
+                selectSum.hide();
+                object.style.display = "block";
+                object1.style.display = "block";
+
+            } else {
+                object.hide();
+                object1.hide();
+                objectSum.style.display = "block";
+                selectSum.style.display = "block";
+            }
+        }
+    }
+
+    function viewAll() {
+        for (var i = 1; i <=10; i++) {
+            $("default" + i).style.display = "block";
+            $("defaultSum" + i).style.display = "none";
+            $("choice" + i).style.display = "block";
+            $("choiceSum" + i).style.display = "none";
+        }
+    }
+
+    function closeAll() {
+        for (var i = 1; i <=10; i++) {
+            $("default" + i).style.display = "none";
+            $("defaultSum" + i).style.display = "block";
+            $("choice" + i).style.display = "none";
+            $("choiceSum" + i).style.display = "block";
+        }
+    }
+
+    function firstLayerOpen() {
+        //viewForm(1);
+    }
+
+    function foldingYN(param) {
+        if (param == "f_fold") {
+            document.getElementById("folding").innerHTML ="<a href=\"javascript:foldingYN('f_unfold')\" class='folding f_unfold'>전체등급 펼쳐보기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "none";
+            document.getElementById("f_fold").style.display = "";
+        } else {
+            document.getElementById("folding").innerHTML = "<a href=\"javascript:foldingYN('f_fold')\" class='folding f_fold'>접기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "";
+            document.getElementById("f_fold").style.display = "none";
+        }
+    }
+
+    function onSubmit() {
+        jQuery("#searchForm").submit();
+
+    }
+    window.onload = initGnb;
+
+</script>
+</html>
+

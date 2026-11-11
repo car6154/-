@@ -1,0 +1,2515 @@
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>차량DB - 차량정보 - 신차가격표</title>
+    <link type="text/css" rel="stylesheet" href="/css/common.css?v=1793835891525"/>
+    <link type="text/css" rel="stylesheet" href="/css/db.css?v=1793835891525"/>
+
+    <script type="text/javascript" src="/js/encarapp/lib/jquery/jquery-1.11.3.min.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/common/ui.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/prototype.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/util.js?v=1793835894199"></script>
+
+    <script type="text/javascript" src="/js/common/db_common.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/commonCombo.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/carSearchCombo.js?v=1793835894199"></script>
+	<script>
+		window.enlogInitJson = {
+			"dataTalkView": {
+				"screenName": "신차가격표"
+			}
+		}
+
+	</script>
+
+
+</head>
+
+
+
+
+
+
+
+    <!-- 등급 체크박스  -->
+    <div style="display:none">
+        
+    </div>
+
+    <!-- 세부등급 체크박스 -->
+    <div style="display:none">
+        
+    </div>
+
+
+
+<body class="db db_newdetailview db_basicTemplate">
+
+
+
+
+	
+	
+	
+	
+
+
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-W9QQ2T"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W9QQ2T');</script>
+<!-- End Google Tag Manager -->
+
+<!-- container begin -->
+<div class="container" id="containerDIV">
+<input type="hidden" id = "foldYn" name="searchtype" value="14"/>
+<form id ="searchForm" name="searchForm">
+
+    <input type="hidden" id = "method" name="method" value="newpricePopV2"/>
+    <input type="hidden" id = "dimensiontype" name="dimensiontype" value="null"/>
+    <input type="hidden" id = "paramMnfccd" name="paramMnfccd" value="002"/>
+    <input type="hidden" id = "paramMdlgroupcd" name="paramMdlgroupcd" value="002"/>
+    <input type="hidden" id = "paramMdlcd" name="paramMdlcd" value="145"/>
+    <input type="hidden" id = "paramYear" name="paramYear" value="2021"/>
+    <input type="hidden" id = "model" name="model" value="">
+    <input type="hidden" id = "paramCaryear" name="paramCaryear" value="2021"/>
+    <input type="hidden" id = "clsheadcd" name="clsheadcd" class="checkbox" value="null"/>
+    <input type="hidden" id = "paramGradeHead" name="paramGradeHead" value="null"/>
+	<input type="hidden" id = "searchtype" name="searchtype" value="check"/>
+	<input type="hidden" id = "pageAccessToken" name="pageAccessToken" value="AgV40q9cmHNWnWoFVevHPTZzeVGkvGZFQ0xm5iciQYtTEMoAcQACAAdFbmNhckNrAAdFbmNhckN2ABVhd3MtY3J5cHRvLXB1YmxpYy1rZXkAREE0SGZRZE1CTnpuQS9WcFJsZm4yTHM5Q0doWUFkSEl6QWZvUndnYzluSVJFMkx2aHR6VGtCZ1NlTisydENsYVFlQT09AAEAB2F3cy1rbXMAUGFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjI3MjM2MjQ4NzY1MzprZXkvbXJrLWRmZWEyNmY3NTVhMzQ3MjliNjkwMjRkZWZmM2M1MWFjALgBAgEAeAuqQuSJvQ+Ra4FSj55FZzS0sk+00amsb3yoAFiEYn4PAWnxP05jk4hk5894xRGNR6EAAAB+MHwGCSqGSIb3DQEHBqBvMG0CAQAwaAYJKoZIhvcNAQcBMB4GCWCGSAFlAwQBLjARBAyLAgCQ7zR6jYYAFsgCARCAO3do7sTm3ky/1OcMC3nZwgZv0T4UcGAkA07Y/RnARihhoQnw8VeqD7Vl4+naTD2sfAgkOt1eXY5uXGi8AgAAEACLDScoaBLsT2PQaCw1vXUi/DXqHqOGUToTPUUpFHGU6T0m1r5EdXYh4QwgGBu77wH/////AAAAAQAAAAAAAAAAAAAAAQAAAKMdKY4AsyJIg4WvjlBKm+OPMMvIGaXt8g7gREGbLDJk2Xy76TsHfR10rfMBvr8jLKDQ490m5KTPYymfHZkkyun8VRlF21LZ3QbT+zmkdYxK291H0iEJpKoToDO7Qzac2OSTbf6V4uYIUCgIO2stbi75UkV+VHzwAcoJoIlTEQNj7K/F5BSm018EDUPrE4SjG4tu8Qb64Ekdi+TQ9VFoSzzdocZpusYMamGtM+q495chqJk0LQBnMGUCMQC5dQY59MjabIpsPlJj/htsdPxUxrCVew6HkeK5YfAxsyxcF8DIpWdadTdvQ1iLjGUCMGrpBNGW20C3FI9kTRSCW55Owp+g3JwxsRLEwgbus22G32vVtgKhGU+bMXQoOsxatA=="/>
+    <div class="header">
+        <h1 class="blind">SK엔카</h1>
+        <h2 class="tit_carprice" id="main_title">신차가격표</h2>
+        <p class="quickSearch">
+
+
+
+            <select title="제조사" class="opt_select" id="mnfccd" name="mnfccd" onChange="javascript:changeModelGroup(this.value);">
+                <option value="">제조사</option>
+            </select>
+
+            <select class="opt_select" title="모델" id="mdlgroupcd" name="mdlgroupcd" onChange="javascript:changeModel_jato($('mnfccd').value, this.value);">
+                <option>모델</option>
+            </select>
+
+            <select class="opt_select" title="세부모델" id="mdlcd" name="mdlcd" onChange="javascript:changeYearJato($('mnfccd').value, $('mdlcd').value);">
+                <option>세부모델</option>
+            </select>
+
+            <select class="opt_select" title="연식" id="caryear" name="caryear">
+                <option>연식</option>
+            </select>
+
+            <button type="button" class="btn_search" onclick="javascript:onSubmit();"/>검색</button>
+
+
+
+        </p>
+    </div>
+    <!-- body begin -->
+    <div class="body" id="bodydiv">
+		
+			
+				<table class="layout">
+					<col class="contents"/>
+					<tr>
+						<td class="contentsMenu">
+							<!-- contentsMenu begin -->
+							<div class="contentsMenu">
+								<h3 class="title">기아 K7 프리미어 2021년형</h3>
+							</div>
+							<!-- contentsMenu end -->
+						</td>
+					</tr>
+
+					<tr>
+						<td class="contentsMain">
+							<!-- contents begin -->
+							<div class="contents">
+
+								<div class="carCompare">
+									<div class="dbHead">
+										
+											<div id="folding"><a href="javascript:foldingYN('f_fold')"
+																 class="folding f_fold">전체등급 펼쳐보기<em class="db_ir"></em></a></div>
+
+											<!-- 2013/04/03 [서] 매물탭 개선 : 기능 버튼 추가 --><!--<a href="#" class="folding f_unfold">펼치기</a>-->
+										
+									</div>
+									
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+									<div id="f_unfold">
+										
+
+
+										<!-- case2 : 세부등급이 있는경우 -->
+										
+											<table class="carCompare sellcase2">
+												<colgroup>
+													<col class="grade">
+													<col class="detailgrd">
+													<col class="mission">
+													<col class="price">
+													<col class="uprice">
+													<col class="item">
+													<col class="option">
+												</colgroup>
+												<thead class="compare">
+												<tr>
+													<th class="grade bgn" colspan="3"><b>구분</b></th>
+													<th class="price"><b>판매가격</b></th>
+													<th class="uprice"><b>중고차시세</b></th><!-- [시세개편] 중고차시세 추가 -->
+													<th class="item"><b>기본사양 품목</b></th>
+													<th class="option end"><b>선택사양 품목</b></th>
+												</tr>
+												</thead>
+												<tbody class="new">
+												
+													
+														
+													
+													
+													
+														
+													
+													
+														
+															
+															
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>2.5 GDI 프레스티지</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,244</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶&nbsp;파워트레인&nbsp;</b>: 스마트스트림 G2.5 GDI 엔진, 8단 자동변속기(수동겸용, 부츠 타입), 속도감응형 전동식 파워스티어링 (MDPS),주행모드 통합제어 시스템<br><br><b>▶&nbsp;드라이브 와이즈</b>&nbsp;: 전방 충돌방지 보조(차량/보행자), 차로 이탈방지 보조, 운전자 주의 경고(전방 차량 출발 알림기능 포함), 하이빔 보조, 차로 유지 보조<br><br><b>▶&nbsp;안전 :</b>&nbsp;9에어백(운전석/동승석 어드밴스드, 운전석 무릎, 전복감지 커튼, 앞좌석/뒷좌석 사이드), 전/후방 주차 거리 경고, VSM, 경사로 밀림방지장치, 급제동 경보 시스템, 개별 타이어 공기압 경보 시스템, 유아용 시트 고정 장치, 타이어 임시 수리장치, 후방 충격저감 시트 시스템<br><br><b>▶&nbsp;외장 :</b>&nbsp;225/55 R17 타이어&amp;알로이 휠, LED 헤드램프, LED DRL, LED 리어 콤비네이션램프, LED 보조제동등, LED 리피터 일체형 크롬 아웃사이드 미러(전동접이, 전동조절, 열선, 퍼들램프), 도어손잡이 조명(프론트), 에어로타입 와이퍼, 윈드쉴드/앞좌석 이중접합 차음 글라스, 윈드쉴드 자외선차단 글라스<br><br><b>▶&nbsp;내장 :</b>&nbsp;블랙 인테리어 또는 새들 브라운 인테리어 선택 가능, 슈퍼비전 클러스터(4.2인치 칼라 TFT LCD), 가죽 스티어링 휠, 가죽 변속기 노브, LED 실내등(맵램프, 룸램프, 러기지램프), 전자식 룸미러(ECM), 선글라스 케이스, 슬라이딩 선바이저(거울, LED조명), 도어스커프<br><br><b>▶&nbsp;시트 :</b>&nbsp;가죽시트, 앞좌석 파워시트, 동승석 워크인 디바이스, 앞좌석/뒷좌석 열선시트, 운전석 통풍시트, 앞좌석 전동식 허리지지대, 앞좌석 슬라이딩 헤드레스트, 뒷좌석 높이조절식 헤드레스트, 뒷좌석 센터 암레스트, 스키쓰루, 앞좌석 시트벨트 높이조절장치<br><br><b>▶&nbsp;편의</b>&nbsp;: 버튼시동 스마트키 시스템(원격시동 포함), 스마트 트렁크, 하이패스 자동결제 시스템, 풋파킹 브레이크, 후방 모니터, 크루즈 컨트롤, 오토 라이트 컨트롤, 레인센서, 진폭감응형 댐퍼, 열선 스티어링 휠, 수동식 틸트&amp;텔레스코픽 스티어링 휠, 독립제어 풀오토 에어컨(운전석, 동승석), 고성능 에어컨 필터, 공기청정 모드, 뒷좌석 에어벤트, 앞좌석/뒷좌석 세이프티 파워윈도우, 파워 도어록, 뒷좌석 USB 단자(충전용), 파워아웃렛<br><br><b>▶&nbsp;인포테인먼트 :</b>&nbsp;12.3인치 UVO 내비게이션, 내비게이션 자동 무선 업데이트, 8스피커, 스티어링 휠 오디오 리모컨, 블루투스 핸즈프리, USB 단자(데이터리딩용)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>컴포트&nbsp;: 900,000<br><br><b>▶&nbsp;</b>스타일 : 1,250,000&nbsp;<br><br><b>▶&nbsp;</b>HUD팩 : 1,300,000&nbsp;<br><br><b>▶&nbsp;</b>모니터링팩 라이트 : 800,000&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>모니터링팩 : 1,150,000 ※&nbsp;드라이브 와이즈 적용시 선택 가능&nbsp;<br><br><b>▶&nbsp;</b>드라이브 와이즈 : 600,000&nbsp;<br><br><b>▶&nbsp;</b>파노라마 선루프 : 1,100,000&nbsp;
+<br>
+<br>
+<b>▶&nbsp;</b>[TUON] 후석
+엔터테인먼트 시스템 : 1,280,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+													
+														
+													
+													
+														
+															
+															
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>2.5 GDI 노블레스</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,387</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶ 프레스티지 기본품목 외&nbsp;<br></b><br><b>&nbsp;·&nbsp;외장&nbsp;</b>: 245/45 R18 타이어&amp;전면가공 휠, 프론트 LED 턴시그널 램프, 뒷좌석 이중접합 차음 글라스&nbsp;<br><br><b>&nbsp;·&nbsp;드라이브 와이즈</b>&nbsp;: 후측방 충돌 경고, 후방 교차 충돌방지 보조,안전 하차 경고&nbsp;<br><br><b>&nbsp;·&nbsp;시트&nbsp;</b>: 동승석 통풍시트&nbsp;<br><br><b>&nbsp;·&nbsp;편의&nbsp;</b>: 전자식 변속 레버(SBW), 패들 쉬프트, 전자식 파킹브레이크(EPB, 오토홀드), 스마트 파워트렁크
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>컴포트&nbsp;: 900,000<br><br><b>▶&nbsp;</b>스타일 : 1,250,000&nbsp;<br><br><b>▶&nbsp;</b>HUD팩 : 1,300,000&nbsp;<br><br><b>▶&nbsp;</b>모니터링팩 라이트 : 800,000&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>모니터링팩 : 1,150,000 ※&nbsp;드라이브 와이즈 적용시 선택 가능&nbsp;<br><br><b>▶&nbsp;</b>드라이브 와이즈 : 600,000&nbsp;<br><br><b>▶&nbsp;</b>파노라마 선루프 : 1,100,000&nbsp;<br><br><b>▶&nbsp;</b>[TUON] 후석 엔터테인먼트 시스템 : 1,280,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+													
+														
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>2.5 GDI X 에디션</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,524</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶ 노블레스 기본품목 외&nbsp;<br></b><b><br></b><b>&nbsp;·&nbsp;내장</b>&nbsp;: 슈퍼비전 클러스터(12.3인치 풀사이즈 칼라 TFT LCD), 스웨이드 내장재, 콘솔 사이드 가니쉬 인조가죽 감싸기<br><b>&nbsp;·&nbsp;시트</b>&nbsp;: 퀼팅 나파가죽시트, 양문형 콘솔 암레스트&nbsp;<br><b><br></b><b>&nbsp;·&nbsp;편의</b>&nbsp;: 스마트폰 무선충전 시스템, 전동식 틸트&amp;텔레스코픽 스티어링 휠, 운전자세 메모리 시스템(운전석 시트, 스티어링 휠, 아웃사이드 미러, 스마트 자세제어 포함), 운전석 이지 억세스, 후진연동 자동하향 아웃사이드 미러, 뒷좌석 측면 수동 선커튼
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>HUD팩 : 1,300,000&nbsp;<br><br><b>▶&nbsp;</b>모니터링팩 라이트 : 800,000&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>모니터링팩 : 1,150,000 ※&nbsp;드라이브 와이즈 적용시 선택 가능&nbsp;<br><br><b>▶&nbsp;</b>드라이브 와이즈 : 600,000&nbsp;<br><br><b>▶&nbsp;</b>파노라마 선루프 : 1,100,000&nbsp;<br><br><b>▶&nbsp;</b>[TUON] 후석 엔터테인먼트 시스템 : 1,280,000<br><br><b>▶&nbsp;</b>245/40R19 미쉐린 타이어 &amp; 크롬 스퍼터링 휠, 인테리어 무드램프 : 590,000&nbsp;<br><br><b>▶&nbsp;</b>KRELL 프리미엄 사운드 (12스피커, 외장앰프) : 690,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+													
+														
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>3.0 GDI 노블레스</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,613</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶ 2.5 가솔린 노블레스 기본품목 외<br></b><br><b>&nbsp;·&nbsp;파워트레인&nbsp;</b>: V6 람다Ⅱ 개선 3.0 GDI 가솔 린 엔진, 랙 구동형 전동식 파워스티어링(R-MDPS)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>컴포트&nbsp;: 900,000<br><br><b>▶&nbsp;</b>모니터링팩 라이트 : 800,000&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>스타일 : 1,250,000&nbsp;<br><br><b>▶&nbsp;</b>HUD팩 : 1,300,000&nbsp;<br><br><b>▶&nbsp;</b>모니터링팩 라이트 : 790,000&nbsp;<br><br><b>▶&nbsp;</b>모니터링팩 : 1,150,000 ※&nbsp;드라이브 와이즈 적용시 선택 가능&nbsp;<br><br><b>▶&nbsp;</b>드라이브 와이즈 : 600,000&nbsp;<br><br><b>▶&nbsp;</b>파노라마 선루프 : 1,100,000&nbsp;<br><br><b>▶&nbsp;</b>[TUON] 후석 엔터테인먼트 시스템 : 1,280,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+													
+														
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>3.0 GDI 시그니처</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,819</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶ 노블레스 기본품목 외&nbsp;<br></b><br><b>&nbsp;·&nbsp;내장&nbsp;</b>: 스웨이드 내장재&nbsp;<br><br><b>&nbsp;·&nbsp;시트</b>&nbsp;: 퀼팅 나파가죽시트, 운전석 전동 익스텐션 시트, 운전석 4WAY 전동식 허리지지대&nbsp;<br><br><b>&nbsp;·&nbsp;편의</b>&nbsp;: 카드타입 스마트키, 오토 디포그&nbsp;<br><b><br></b><b>&nbsp;·&nbsp;인포테인먼트</b>&nbsp;: KRELL 프리미엄 사운드(12스피커, 외장앰프)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>컴포트&nbsp;: 900,000<br><br><b>▶&nbsp;</b>모니터링팩 라이트 : 800,000&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>스타일 : 1,250,000&nbsp;<br><br><b>▶&nbsp;</b>HUD팩 : 1,250,000&nbsp;<br><br><b>▶&nbsp;</b>모니터링팩 라이트 : 790,000&nbsp;<br><br><b>▶&nbsp;</b>모니터링팩 : 1,150,000 ※&nbsp;드라이브 와이즈 적용시 선택 가능&nbsp;<br><br><b>▶&nbsp;</b>드라이브 와이즈 : 600,000&nbsp;<br><br><b>▶&nbsp;</b>파노라마 선루프 : 1,100,000&nbsp;<br><br><b>▶&nbsp;</b>[TUON] 후석 엔터테인먼트 시스템 : 1,280,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+													
+														
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>3.0 LPI 프레스티지</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,137</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶&nbsp;파워트레인&nbsp;</b>: : V6 람다Ⅱ 3.0 LPI 엔진, 6단 자동변속기, 속도감응형 전동식 파워스티어링(MDPS),
+주행모드 통합제어 시스템<br><br><b>▶&nbsp;안전</b>&nbsp;:  9에어백(운전석/동승석 어드밴스드, 운전석 무릎, 전복감지 커튼, 앞좌석/뒷좌석 사이드),
+전/후방 주차 거리 경고, VSM, 경사로 밀림방지장치, 급제동 경보 시스템, 개별 타이어 공기압 경보 시스템,
+유아용 시트 고정 장치, 타이어 임시 수리장치, 후방 충격저감 시트 시스템&nbsp;<br><b><br></b><b>▶&nbsp;외장</b>&nbsp;: 225/55 R17 타이어&amp;알로이휠, LED 헤드램프, LED DRL, LED 리어 콤비네이션램프, LED 보조제동등,
+LED 리피터 일체형 크롬 아웃사이드 미러(전동접이, 전동조절, 열선, 퍼들램프), 도어손잡이 조명(프론트),
+에어로타입 와이퍼, 윈드쉴드/앞좌석 이중접합 차음 글라스, 윈드쉴드 자외선차단 글라스
+<br><b><br></b><b>▶&nbsp;내장&nbsp;</b>: : 블랙 인테리어, 슈퍼비전 클러스터(4.2인치 칼라 TFT LCD), 가죽 스티어링 휠,
+LED 실내등(맵램프, 룸램프, 러기지램프), 전자식 룸미러(ECM), 선글라스 케이스,
+슬라이딩 선바이저(거울, LED조명), 도어스커프
+<br><br><b>▶&nbsp;시트&nbsp;</b>:  가죽시트, 앞좌석 파워시트, 앞좌석/뒷좌석 열선시트, 운전석 통풍시트, 운전석 전동식 허리지지대,
+앞좌석 슬라이딩 헤드레스트, 뒷좌석 높이조절식 헤드레스트, 뒷좌석 센터 암레스트, 앞좌석 시트벨트 높이조절 장치&nbsp;<br><br><b>▶&nbsp;편의&nbsp;</b>: : 버튼시동 스마트키 시스템(원격시동 포함), 스마트 트렁크, 하이패스 자동 결제시스템,
+전자식 변속 레버(SBW), 패들 쉬프트, 전자식 파킹브레이크(EPB, 오토홀드), 후방 모니터, 크루즈 컨트롤,
+오토 라이트 컨트롤, 레인센서, 진폭감응형 댐퍼, 열선 스티어링 휠, 수동식 틸트&amp;텔레스코픽 스티어링 휠,
+독립제어 풀오토 에어컨(운전석, 동승석), 고성능 에어컨 필터, 공기청정 모드, 뒷좌석 에어벤트,
+앞좌석/뒷좌석 세이프티 파워 윈도우, 파워도어록, 파워아웃렛, LPG 시동시간 단축 시스템(LSTR)<br><br><b>▶&nbsp;인포테인먼트&nbsp;</b>: 12.3인치 UVO 내비게이션, 내비게이션 무선 업데이트, 8스피커, 스티어링 휠 오디오 리모컨,
+블루투스 핸즈프리, USB 단자(데이터리딩용)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>파노라마 선루프 : 1,100,000&nbsp;<br><br><b>▶&nbsp;</b>컴포트 : 1,150,000&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>245/45 R18 타이어 &amp;
+전면가공 휠 : 300,000
+<br><br><b>▶&nbsp;</b>드라이브 와이즈 : 1,600,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+													
+														
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>3.0 LPI 노블레스</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,607</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶ 프레스티지 기본품목 외&nbsp;<br></b><br><b>&nbsp;·&nbsp;외장&nbsp;</b>: 245/45 R18 타이어&amp;전면가공 휠, 프론트 LED 턴시그널램프&nbsp;<br><br><b>&nbsp;·&nbsp;내장&nbsp;</b>: 슈퍼비전 클러스터(12.3인치 풀사이즈 칼라 TFT LCD)<br><br><b>&nbsp;·&nbsp;시트&nbsp;</b>: 동승석 통풍시트, 동승석 워크인 디바이스, 동승석 전동식 허리지지대
+<br><br><b>&nbsp;·&nbsp;편의&nbsp;</b>: 스마트폰 무선충전 시스템, 전동식 틸트&amp;텔레스코픽 스티어링 휠,
+운전자세 메모리 시스템(운전석 시트, 스티어링 휠, 아웃사이드 미러, 스마트 자세제어 포함),
+운전석 이지 억세스, 후진연동 자동하향 아웃사이드 미러, 뒷좌석 측면 수동 선커튼, 후면 전동 선커튼,
+오토 디포그, 뒷좌석 다기능 센터 암레스트, 뒷좌석 USB 단자(충전용)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>파노라마 선루프 : 1,100,000&nbsp;<br><b><b><br></b>▶&nbsp;</b>헤드업 디스플레이 : 860,000&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>서라운드뷰 모니터 + 후측방 모니터 : 800,000&nbsp;<br><br><b>▶&nbsp;</b>KRELL 프리미엄 사운드 (12스피커, 외장앰프) : 700,000&nbsp;<br><br><b>▶&nbsp;</b>드라이브 와이즈 : 1,600,000&nbsp;</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+													
+														
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>3.0 LPI 스탠다드(렌터카)</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,710</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶&nbsp;파워트레인&nbsp;</b>: V6 람다Ⅱ 3.0 LPi 엔진, 6단 자동변속기 (수동겸용, 부츠타입)&nbsp;&nbsp;<br><br><b>▶&nbsp;안전&nbsp;</b>: 에어백 (운전석/동승석 어드밴스드 에어백, 운전석 무릎, 전복감지 사이드 &amp; 커튼), VSM (차세대 ESC), 경사로 밀림 방지장치 (HAC), 급제동 경보 시스템 (ESS), 디스크 브레이크 (전륜/후륜), 전/후방 주차보조 시스템, 유아용 시트 고정 장치, 개별 타이어 공기압 경보시스템 (TPMS), 후방 충격저감 시트 시스템, 앞좌석/뒷좌석 세이프티 파워 윈도우&nbsp;<br><br><b>▶&nbsp;외관&nbsp;</b>: 225/55 R17 타이어 &amp; 알로이휠, LED 헤드램프, LED DRL, LED 리어 콤비네이션램프, LED 보조제동등,
+LED 리피터 일체형 크롬 아웃사이드 미러(전동접이, 전동조절, 열선, 퍼들램프), 에어로타입 와이퍼,
+윈드쉴드/앞좌석 이중접합 차음 글라스, 윈드쉴드 자외선차단 글라스, 도어 손잡이 조명(프론트)&nbsp;<br><br><b>▶&nbsp;내장&nbsp;</b>: 블랙 인테리어, 가죽 스티어링휠 &amp; 기어노브, 슈퍼비전 클러스터 (4.2인치 칼라 TFTLCD), D/N 룸미러, 선글라스 케이스, 도어 스커프, 슬라이딩 선바이저 (거울, LED조명), LED 룸램프&nbsp;&nbsp;<br><br><b>▶&nbsp;시트&nbsp;</b>: 인조가죽 시트, 운전석 파워 시트, 운전석 2WAY 전동식 허리지지대, 앞좌석 스마트 히티드 시트, 앞좌석 슬라이딩 헤드레스트, 앞좌석 시트벨트 높이조절 장치, 뒷좌석 센터 암레스트, 뒷좌석 높이 조절식 헤드레스트&nbsp;<br><br><b>▶&nbsp;편의&nbsp;</b>: 버튼시동 스마트키 시스템(원격시동 포함), 스마트 트렁크, 풋파킹 브레이크, 후방 모니터, 크루즈 컨트롤, 오토 라이트 컨트롤,
+레인센서, 진폭감응형 댐퍼, 수동식 틸트&amp;텔레스코픽 스티어링 휠, 독립제어 풀오토 에어컨(운전석, 동승석), 고성능 에어컨 필터,
+공기청정 모드, 뒷좌석 에어벤트, 앞좌석/뒷좌석 세이프티 파워 윈도우, 파워도어록, 파워아웃렛, LPG 시동시간 단축 시스템(LSTR)&nbsp;&nbsp;<br><br><b>▶&nbsp;인포테인먼트&nbsp;</b>: 8인치 디스플레이 오디오, 8스피커,USB단자, 스티어링 휠 오디오 리모컨, 블루투스 핸즈프리
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>파노라마 선루프 : 1,030,000&nbsp;<br><br><b>▶&nbsp;</b>12.3인치 UVO 내비게이션
+: 850,000<br><br><b>▶&nbsp;</b>가죽시트 + 운전석 통풍 시트 + 동승석 파워시트 : 600,000&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>전자식 룸미러(ECM) +
+하이패스 자동 결제 시스템 : 240,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+													
+														
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>3.0 LPI 트렌디(렌터카)</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,855</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶ 스탠다드 기본품목 외&nbsp;&nbsp;<br></b><br><b>&nbsp;·&nbsp;외장 </b>: 245/45R18 타이어 &amp; 전면가공 휠
+
+<br>
+<br><b>&nbsp;·&nbsp;시트 </b>: 가죽시트, 동승석 파워시트, 운전석 통풍시트, 뒷좌석 열선시트
+<br>
+<br><b>&nbsp;·&nbsp;편의 </b>: 전자식 변속레버 (SBW), 패들 쉬프트, 전자식 파킹브레이크 (EPB, 오토홀드), 열선 스티어링 휠
+
+<br>&nbsp; &nbsp; ※ 드라이브 와이즈는 12.3인치 UVO 내비게이션 적용시에만 선택 가능
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>파노라마 선루프 : 1,030,000&nbsp;<br><br><b>▶&nbsp;</b>2.3인치 UVO 내비게이션 : 850,000&nbsp;<br><br><b>▶&nbsp;</b>컴포트 : 1,080,000&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>드라이브 와이즈 : 1,500,000&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>전자식 룸미러(ECM) +
+하이패스 자동 결제 시스템 : 240,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+													
+														
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>3.0 LPI 프레스티지(렌터카)</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,410</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶ 트렌디 기본품목 외&nbsp;&nbsp;<br></b><br><b>&nbsp;·&nbsp;외장 </b>: 프론트 LED 턴시그널램프
+
+<br>
+<br><b>&nbsp;·&nbsp;내장 </b>: 슈퍼비전 클러스터(12.3인치 풀사이즈 칼라 TFT LCD), 전자식 룸미러(ECM)
+
+<br>
+<br><b>&nbsp;·&nbsp;시트 </b>: 동승석 통풍시트, 동승석 워크인 디바이스, 동승석 전동식 허리지지대
+<br>
+<br><b>&nbsp;·&nbsp;편의 </b>: 하이패스 자동 결제 시스템, 스마트폰 무선충전 시스템, 전동식 틸트&amp;텔레스코픽 스티어링 휠,
+운전자세 메모리 시스템(운전석 시트, 스티어링 휠, 아웃사이드 미러, 스마트 자세제어 포함), 운전석 이지 억세스,
+후진연동 자동하향 아웃사이드 미러, 뒷좌석 다기능 센터 암레스트, 뒷좌석 측면 수동 선커튼, 후면 전동 선커튼, 오토 디포그,
+뒷좌석 USB 단자(충전용)
+
+<br>
+<br><b>&nbsp;·&nbsp;인포테인먼트 </b>: 12.3인치 UVO 내비게이션, 내비게이션 무선 업데이트
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>파노라마 선루프 : 1,030,000&nbsp;<br><br><b>▶&nbsp;</b>헤드업 디스플레이 : 800,000&nbsp;<br><br><b>▶&nbsp;</b>서라운드뷰 모니터 + 후측방 모니터 : 750,000&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>드라이브 와이즈 : 1,500,000&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>KRELL 프리미엄 사운드 (12스피커, 외장앰프) : 660,000&nbsp;&nbsp;<br></li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+													
+														
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>3.0 LPI 프레스티지(장애인용)</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,989</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶ 파워트레인 :</b>&nbsp;V6 람다Ⅱ 3.0LPi 엔진, 6단 자동변속기<br><br><b>▶ 안전&nbsp;</b>:&nbsp; 에어백[운전석/동승석어드밴스드,운전석무릎(왼발/왼손왼발/오른손장애만적용),전복감지커튼, 앞좌석/뒷좌석사이드],전/후방주차거리경고,VSM,경사로밀림방지장치,급제동 경보 시스템, 개별 타이어 공기압 경보 시스템, 유아용 시트 고정장치, 타이어 임시 수리장치, 후방 충격저감 시트 시스템<br><br><b>▶ 외장&nbsp;</b>: 225/55R17타이어&amp;알로이휠,LED헤드램프,LEDDRL,LED리어콤비네이션램프, LED 보조제동등, LED 리피터 일체형 크롬 아웃사이드 미러(전동접이, 전동조절, 열선, 퍼들램프), 도어손잡이 조명(프론트), 에어로타입 와이퍼, 윈드쉴드/앞좌석 이중접합 차음 글라스, 윈드쉴드 자외선차단 글라스&nbsp;<br><br><b>▶ 내장&nbsp;</b>: 블랙 인테리어, 슈퍼비전 클러스터(4.2인치 칼라 TFTLCD), 가죽 스티어링 휠, LED실내등(맵램프,룸램프,러기지램프),전자식룸미러(ECM),선글라스케이스, 슬라이딩선바이저(거울, LED조명),도어스커프<br><br><b>▶ 시트 :&nbsp;</b>가죽시트, 앞좌석 파워시트, 앞좌석/뒷좌석 열선시트, 운전석 통풍시트, 운전석전동식허리지지대, 앞좌석슬라이딩헤드레스트,뒷좌석높이조절식헤드레스트,뒷좌석 센터 암레스트, 앞좌석 시트벨트 높이조절 장치<br><br><b>▶ 편의 :</b>&nbsp;버튼시동스마트키시스템(원격시동포함),스마트트렁크,하이패스자동결제시스템, 전자식변속레버(SBW),패들 쉬프트, 전자식 파킹브레이크(EPB, 오토홀드), 후방 모니터, 크루즈 컨트롤, 오토라이트컨트롤,레인센서,진폭감응형댐퍼,열선스티어링휠(왼발/오른발장애만적용), 수동식 틸트&amp;텔레스코픽 스티어링 휠, 독립제어 풀오토 에어컨(운전석, 동승석), 고성능에어컨필터, 공기청정모드,뒷좌석에어벤트,앞좌석/뒷좌석세이프티파워윈도우,파워도어록, 파워아웃렛, LPG 시동시간 단축 시스템(LSTR)<br><b><br></b><b>▶ 멀티미디어 :&nbsp;</b>12.3인치 UVO 내비게이션, 내비게이션 무선 업데이트, 8스피커, 스티어링 휠 오디오 리모컨, 블루투스 핸즈프리,USB 단자(데이터리딩용)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶&nbsp;와이드 파노라마 선루프 : 1,030,000<br><br>▶ 컴포트 : 1,080,000 (양발장애 :930,000)<br><br>▶ 245/45R18타이어&amp; 전면가공휠 : 280,000&nbsp;<br><br>▶ 드라이브 와이즈 : 1,500,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+													
+														
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>3.0 LPI 노블레스(장애인용)</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,419</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶&nbsp;장애인 3.0 LPI 프레스티지 기본품목 외<br></b><br><b>ㆍ 외관</b>&nbsp;: 245/45R18 타이어&amp;전면가공 휠, 프론트 LED 턴시그널램프<br><br><b>ㆍ&nbsp;내장</b>&nbsp;: 슈퍼비전 클러스터(12.3인치 풀사이즈 칼라 TFTLCD)<br><br><b>ㆍ 시트</b>&nbsp;: 동승석 통풍시트, 동승석 워크인 디바이스, 동승석 전동식 허리지지대<br><br><b>ㆍ 편의</b>&nbsp;: 스마트폰 무선충전 시스템, 전동식 틸트&amp;텔레스코픽 스티어링 휠(양발 장애는 수동식 틸트&amp;텔레스코픽 스티어링 휠 적용), 운전자세 메모리 시스템(운전석 시트, 스티어링 휠, 아웃사이드 미러, 스마트 자세제어 포함), 운전석 이지 억세스, 후진연동 자동하향 아웃사이드 미러, 뒷좌석 다기능 센터 암레스트, 뒷좌석 측면 수동 선커튼, 후면 전동 선커튼, 오토 디포그, 뒷좌석 USB 단자(충전용)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶&nbsp;와이드 파노라마 선루프 : 1,030,000<br><br>▶ 헤드업 디스플레이 : 800,000<br>&nbsp;<br>▶ 서라운드뷰 모니터 + 후측방 모니터 : 750,000&nbsp;<br><br>▶ 드라이브 와이즈 : 1,500,000&nbsp;<br><br>▶ KRELL 프리미엄 사운드 (12스피커, 외장앰프) : 660,000&nbsp;</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="2">
+																<p>3.0 LPI 택시형</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>스탠다드</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,615</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶ 파워트레인&nbsp;</b>: V6 람다Ⅱ 3.0 LPI 엔진, 6단 자동변속기(수동겸용, 부츠타입)&nbsp;<br><br><b>▶ 안전</b>&nbsp;: 에어백 (운전석/동승석 스마트 에어백, 운전석 무릎), VSM (차세대 ESC), 경사로 밀림 방지장치 (HAC), 급제동 경보 시스템 (ESS), 디스크 브레이크 (전륜/후륜), 전/후방 주차보조 시스템, 유아용 시트 고정 장치, 개별 타이어 공기압 경보시스템 (TPMS), 후방 충격저감 시트 시스템, 앞좌석/뒷좌석 세이프티 파워 윈도우<br><br><b>▶ 외관&nbsp;</b>: 225/55R17 타이어 &amp; 알로이휠, 크롬 라디에이터 그릴, Full LED 헤드램프 (LED DRL, LED 포지션, 오토라이트 컨트롤, 에스코트 기능 포함), LED 리어 콤비네이션 램프, LED 보조제동등, LED 리피터 일체형 크롬 아웃사이드 미러 (히팅기능, 전동조절, 전동접이, 퍼들램프), 이중접합 차음 글라스 (윈드쉴드, 앞좌석 도어), 자외선 차단 글라스 (윈드쉴드), 크롬범퍼 가니쉬, 에어로 타입 와이퍼 (우적감지 기능 포함)&nbsp;<br><br><b>▶ 내장</b>&nbsp;: 블랙 인테리어, 가죽 스티어링휠 &amp; 기어노브, 슈퍼비전 클러스터 (4.2인치 칼라 TFT LCD), D/N 룸미러, 선글라스 케이스, 도어 스커프, 슬라이딩 선바이저 (거울, LED조명), LED 룸램프<br><br><b>▶ 시트</b>&nbsp;: 인조 가죽 시트, 운전석 파워 시트, 운전석 2WAY 전동식 허리지지대, 앞좌석 스마트 히티드 시트, 앞좌석 슬라이딩 헤드레스트, 앞좌석 시트벨트 높이조절 장치, 뒷좌석 센터 암레스트, 뒷좌석 높이 조절식 헤드레스트&nbsp;<br><br><b>▶ 편의</b>&nbsp;: 폴딩타입 무선도어 리모컨 키, 풋파킹 브레이크, 주행모드 통합제어 시스템, 속도감응형 전동식 파워스티어링 (MDPS), 수동식 틸트 &amp; 텔레스코픽 스티어링, 크루즈 컨트롤 (정속주행장치), 진폭감응형 댐퍼, 파워도어록, 앞좌석 파워아웃렛, 풀사이즈 스페어 휠 &amp; 타이어, 독립제어 풀오토 에어컨 (운전석, 동승석), 고성능 에어컨 필터, 뒷좌석 에어 벤틸레이션, LPI 시동시간 단축 시스템 (LSTR), 후방 모니터, 공기 청정 모드<br><br><b>▶ 멀티미디어</b>&nbsp;: 8인치 디스플레이 오디오, 8스피커, USB단자, 스티어링 휠 오디오 리모컨, 블루투스 핸즈프리
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>전복감지 사이드 &amp; 커튼 에어백 : 550,000<b><br><br>▶&nbsp;</b>12.3인치 내비게이션 + UVO + 버튼시동 스마트키 : 1,170,000<br><br><b>▶&nbsp;</b>전자식 룸미러 (ECM) &amp; 자동 요금징수 시스템 (ETCS) : 240,000<br><br><b>▶&nbsp;</b>운전석 컨비니언스 : 800,000<br><br><b>▶&nbsp;</b>드라이브 와이즈 + 전자식 파킹 브레이크(EPB, 오토홀드) : 1,700,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>트렌디</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,870</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶&nbsp;택시 3.0 LPi 스탠다드 기본품목 외<br></b><br><b>ㆍ&nbsp;외관</b>&nbsp;: 도어 손잡이 조명 (프론트 도어)&nbsp;<br><br><b>ㆍ&nbsp;시트</b>&nbsp;: 가죽 시트, 운전석 통풍 시트, 운전석 4WAY 전동식 허리지지대, 운전석 전동 익스텐션 시트<br><br><b>ㆍ&nbsp;편의</b>&nbsp;: 버튼시동 스마트키 시스템 (원격시동 포함), 스마트 트렁크 (풀오픈 시스템), 전자식 파킹 브레이크 (EPB, 오토홀드 기능 포함), 히티드 스티어링 휠, 전자식 룸미러 (ECM), 자동요금 징수 시스템 (ETCS)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>전복감지 사이드 &amp; 커튼 에어백 : 550,000<br><br><b>▶&nbsp;</b>12.3인치 내비게이션 + UVO : 850,000&nbsp;<br><br><b>▶&nbsp;</b>동승석 컨비니언스 : 500,000&nbsp;<br><br><b>▶&nbsp;</b>뒷좌석 컨비니언스 : 550,000<br><br><b>▶&nbsp;</b>드라이브 와이즈&nbsp; : 1,500,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+												</tbody>
+											</table>
+										
+									</div>
+									<!-- 신차가격표(폴더형) -->
+									<div id="f_fold" style="display:none;">
+										<div class="newcar_folder">
+											<ul class="nf_list" id="newcarList">
+												
+													<li>
+														<a href="#newcar0">
+                                                            <span class="model">2.5 GDI 프레스티지  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,244</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar1">
+                                                            <span class="model">2.5 GDI 노블레스  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,387</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar2">
+                                                            <span class="model">2.5 GDI X 에디션  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,524</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar3">
+                                                            <span class="model">3.0 GDI 노블레스  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,613</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar4">
+                                                            <span class="model">3.0 GDI 시그니처  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,819</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar5">
+                                                            <span class="model">3.0 LPI 프레스티지  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,137</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar6">
+                                                            <span class="model">3.0 LPI 노블레스  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,607</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar7">
+                                                            <span class="model">3.0 LPI 스탠다드(렌터카)  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,710</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar8">
+                                                            <span class="model">3.0 LPI 트렌디(렌터카)  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,855</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar9">
+                                                            <span class="model">3.0 LPI 프레스티지(렌터카)  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,410</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar10">
+                                                            <span class="model">3.0 LPI 프레스티지(장애인용)  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,989</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar11">
+                                                            <span class="model">3.0 LPI 노블레스(장애인용)  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,419</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar12">
+                                                            <span class="model">3.0 LPI 택시형 스탠다드 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,615</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar13">
+                                                            <span class="model">3.0 LPI 택시형 트렌디 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,870</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+											</ul>
+											<!-- 개별 -->
+											
+												<div id="newcar0" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶&nbsp;파워트레인&nbsp;</b>: 스마트스트림 G2.5 GDI 엔진, 8단 자동변속기(수동겸용, 부츠 타입), 속도감응형 전동식 파워스티어링 (MDPS),주행모드 통합제어 시스템<br><br><b>▶&nbsp;드라이브 와이즈</b>&nbsp;: 전방 충돌방지 보조(차량/보행자), 차로 이탈방지 보조, 운전자 주의 경고(전방 차량 출발 알림기능 포함), 하이빔 보조, 차로 유지 보조<br><br><b>▶&nbsp;안전 :</b>&nbsp;9에어백(운전석/동승석 어드밴스드, 운전석 무릎, 전복감지 커튼, 앞좌석/뒷좌석 사이드), 전/후방 주차 거리 경고, VSM, 경사로 밀림방지장치, 급제동 경보 시스템, 개별 타이어 공기압 경보 시스템, 유아용 시트 고정 장치, 타이어 임시 수리장치, 후방 충격저감 시트 시스템<br><br><b>▶&nbsp;외장 :</b>&nbsp;225/55 R17 타이어&amp;알로이 휠, LED 헤드램프, LED DRL, LED 리어 콤비네이션램프, LED 보조제동등, LED 리피터 일체형 크롬 아웃사이드 미러(전동접이, 전동조절, 열선, 퍼들램프), 도어손잡이 조명(프론트), 에어로타입 와이퍼, 윈드쉴드/앞좌석 이중접합 차음 글라스, 윈드쉴드 자외선차단 글라스<br><br><b>▶&nbsp;내장 :</b>&nbsp;블랙 인테리어 또는 새들 브라운 인테리어 선택 가능, 슈퍼비전 클러스터(4.2인치 칼라 TFT LCD), 가죽 스티어링 휠, 가죽 변속기 노브, LED 실내등(맵램프, 룸램프, 러기지램프), 전자식 룸미러(ECM), 선글라스 케이스, 슬라이딩 선바이저(거울, LED조명), 도어스커프<br><br><b>▶&nbsp;시트 :</b>&nbsp;가죽시트, 앞좌석 파워시트, 동승석 워크인 디바이스, 앞좌석/뒷좌석 열선시트, 운전석 통풍시트, 앞좌석 전동식 허리지지대, 앞좌석 슬라이딩 헤드레스트, 뒷좌석 높이조절식 헤드레스트, 뒷좌석 센터 암레스트, 스키쓰루, 앞좌석 시트벨트 높이조절장치<br><br><b>▶&nbsp;편의</b>&nbsp;: 버튼시동 스마트키 시스템(원격시동 포함), 스마트 트렁크, 하이패스 자동결제 시스템, 풋파킹 브레이크, 후방 모니터, 크루즈 컨트롤, 오토 라이트 컨트롤, 레인센서, 진폭감응형 댐퍼, 열선 스티어링 휠, 수동식 틸트&amp;텔레스코픽 스티어링 휠, 독립제어 풀오토 에어컨(운전석, 동승석), 고성능 에어컨 필터, 공기청정 모드, 뒷좌석 에어벤트, 앞좌석/뒷좌석 세이프티 파워윈도우, 파워 도어록, 뒷좌석 USB 단자(충전용), 파워아웃렛<br><br><b>▶&nbsp;인포테인먼트 :</b>&nbsp;12.3인치 UVO 내비게이션, 내비게이션 자동 무선 업데이트, 8스피커, 스티어링 휠 오디오 리모컨, 블루투스 핸즈프리, USB 단자(데이터리딩용)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>컴포트&nbsp;: 900,000<br><br><b>▶&nbsp;</b>스타일 : 1,250,000&nbsp;<br><br><b>▶&nbsp;</b>HUD팩 : 1,300,000&nbsp;<br><br><b>▶&nbsp;</b>모니터링팩 라이트 : 800,000&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>모니터링팩 : 1,150,000 ※&nbsp;드라이브 와이즈 적용시 선택 가능&nbsp;<br><br><b>▶&nbsp;</b>드라이브 와이즈 : 600,000&nbsp;<br><br><b>▶&nbsp;</b>파노라마 선루프 : 1,100,000&nbsp;
+<br>
+<br>
+<b>▶&nbsp;</b>[TUON] 후석
+엔터테인먼트 시스템 : 1,280,000</p>
+												</div>
+											
+												<div id="newcar1" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 프레스티지 기본품목 외&nbsp;<br></b><br><b>&nbsp;·&nbsp;외장&nbsp;</b>: 245/45 R18 타이어&amp;전면가공 휠, 프론트 LED 턴시그널 램프, 뒷좌석 이중접합 차음 글라스&nbsp;<br><br><b>&nbsp;·&nbsp;드라이브 와이즈</b>&nbsp;: 후측방 충돌 경고, 후방 교차 충돌방지 보조,안전 하차 경고&nbsp;<br><br><b>&nbsp;·&nbsp;시트&nbsp;</b>: 동승석 통풍시트&nbsp;<br><br><b>&nbsp;·&nbsp;편의&nbsp;</b>: 전자식 변속 레버(SBW), 패들 쉬프트, 전자식 파킹브레이크(EPB, 오토홀드), 스마트 파워트렁크</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>컴포트&nbsp;: 900,000<br><br><b>▶&nbsp;</b>스타일 : 1,250,000&nbsp;<br><br><b>▶&nbsp;</b>HUD팩 : 1,300,000&nbsp;<br><br><b>▶&nbsp;</b>모니터링팩 라이트 : 800,000&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>모니터링팩 : 1,150,000 ※&nbsp;드라이브 와이즈 적용시 선택 가능&nbsp;<br><br><b>▶&nbsp;</b>드라이브 와이즈 : 600,000&nbsp;<br><br><b>▶&nbsp;</b>파노라마 선루프 : 1,100,000&nbsp;<br><br><b>▶&nbsp;</b>[TUON] 후석 엔터테인먼트 시스템 : 1,280,000</p>
+												</div>
+											
+												<div id="newcar2" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 노블레스 기본품목 외&nbsp;<br></b><b><br></b><b>&nbsp;·&nbsp;내장</b>&nbsp;: 슈퍼비전 클러스터(12.3인치 풀사이즈 칼라 TFT LCD), 스웨이드 내장재, 콘솔 사이드 가니쉬 인조가죽 감싸기<br><b>&nbsp;·&nbsp;시트</b>&nbsp;: 퀼팅 나파가죽시트, 양문형 콘솔 암레스트&nbsp;<br><b><br></b><b>&nbsp;·&nbsp;편의</b>&nbsp;: 스마트폰 무선충전 시스템, 전동식 틸트&amp;텔레스코픽 스티어링 휠, 운전자세 메모리 시스템(운전석 시트, 스티어링 휠, 아웃사이드 미러, 스마트 자세제어 포함), 운전석 이지 억세스, 후진연동 자동하향 아웃사이드 미러, 뒷좌석 측면 수동 선커튼</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>HUD팩 : 1,300,000&nbsp;<br><br><b>▶&nbsp;</b>모니터링팩 라이트 : 800,000&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>모니터링팩 : 1,150,000 ※&nbsp;드라이브 와이즈 적용시 선택 가능&nbsp;<br><br><b>▶&nbsp;</b>드라이브 와이즈 : 600,000&nbsp;<br><br><b>▶&nbsp;</b>파노라마 선루프 : 1,100,000&nbsp;<br><br><b>▶&nbsp;</b>[TUON] 후석 엔터테인먼트 시스템 : 1,280,000<br><br><b>▶&nbsp;</b>245/40R19 미쉐린 타이어 &amp; 크롬 스퍼터링 휠, 인테리어 무드램프 : 590,000&nbsp;<br><br><b>▶&nbsp;</b>KRELL 프리미엄 사운드 (12스피커, 외장앰프) : 690,000</p>
+												</div>
+											
+												<div id="newcar3" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 2.5 가솔린 노블레스 기본품목 외<br></b><br><b>&nbsp;·&nbsp;파워트레인&nbsp;</b>: V6 람다Ⅱ 개선 3.0 GDI 가솔 린 엔진, 랙 구동형 전동식 파워스티어링(R-MDPS)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>컴포트&nbsp;: 900,000<br><br><b>▶&nbsp;</b>모니터링팩 라이트 : 800,000&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>스타일 : 1,250,000&nbsp;<br><br><b>▶&nbsp;</b>HUD팩 : 1,300,000&nbsp;<br><br><b>▶&nbsp;</b>모니터링팩 라이트 : 790,000&nbsp;<br><br><b>▶&nbsp;</b>모니터링팩 : 1,150,000 ※&nbsp;드라이브 와이즈 적용시 선택 가능&nbsp;<br><br><b>▶&nbsp;</b>드라이브 와이즈 : 600,000&nbsp;<br><br><b>▶&nbsp;</b>파노라마 선루프 : 1,100,000&nbsp;<br><br><b>▶&nbsp;</b>[TUON] 후석 엔터테인먼트 시스템 : 1,280,000</p>
+												</div>
+											
+												<div id="newcar4" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 노블레스 기본품목 외&nbsp;<br></b><br><b>&nbsp;·&nbsp;내장&nbsp;</b>: 스웨이드 내장재&nbsp;<br><br><b>&nbsp;·&nbsp;시트</b>&nbsp;: 퀼팅 나파가죽시트, 운전석 전동 익스텐션 시트, 운전석 4WAY 전동식 허리지지대&nbsp;<br><br><b>&nbsp;·&nbsp;편의</b>&nbsp;: 카드타입 스마트키, 오토 디포그&nbsp;<br><b><br></b><b>&nbsp;·&nbsp;인포테인먼트</b>&nbsp;: KRELL 프리미엄 사운드(12스피커, 외장앰프)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>컴포트&nbsp;: 900,000<br><br><b>▶&nbsp;</b>모니터링팩 라이트 : 800,000&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>스타일 : 1,250,000&nbsp;<br><br><b>▶&nbsp;</b>HUD팩 : 1,250,000&nbsp;<br><br><b>▶&nbsp;</b>모니터링팩 라이트 : 790,000&nbsp;<br><br><b>▶&nbsp;</b>모니터링팩 : 1,150,000 ※&nbsp;드라이브 와이즈 적용시 선택 가능&nbsp;<br><br><b>▶&nbsp;</b>드라이브 와이즈 : 600,000&nbsp;<br><br><b>▶&nbsp;</b>파노라마 선루프 : 1,100,000&nbsp;<br><br><b>▶&nbsp;</b>[TUON] 후석 엔터테인먼트 시스템 : 1,280,000</p>
+												</div>
+											
+												<div id="newcar5" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶&nbsp;파워트레인&nbsp;</b>: : V6 람다Ⅱ 3.0 LPI 엔진, 6단 자동변속기, 속도감응형 전동식 파워스티어링(MDPS),
+주행모드 통합제어 시스템<br><br><b>▶&nbsp;안전</b>&nbsp;:  9에어백(운전석/동승석 어드밴스드, 운전석 무릎, 전복감지 커튼, 앞좌석/뒷좌석 사이드),
+전/후방 주차 거리 경고, VSM, 경사로 밀림방지장치, 급제동 경보 시스템, 개별 타이어 공기압 경보 시스템,
+유아용 시트 고정 장치, 타이어 임시 수리장치, 후방 충격저감 시트 시스템&nbsp;<br><b><br></b><b>▶&nbsp;외장</b>&nbsp;: 225/55 R17 타이어&amp;알로이휠, LED 헤드램프, LED DRL, LED 리어 콤비네이션램프, LED 보조제동등,
+LED 리피터 일체형 크롬 아웃사이드 미러(전동접이, 전동조절, 열선, 퍼들램프), 도어손잡이 조명(프론트),
+에어로타입 와이퍼, 윈드쉴드/앞좌석 이중접합 차음 글라스, 윈드쉴드 자외선차단 글라스
+<br><b><br></b><b>▶&nbsp;내장&nbsp;</b>: : 블랙 인테리어, 슈퍼비전 클러스터(4.2인치 칼라 TFT LCD), 가죽 스티어링 휠,
+LED 실내등(맵램프, 룸램프, 러기지램프), 전자식 룸미러(ECM), 선글라스 케이스,
+슬라이딩 선바이저(거울, LED조명), 도어스커프
+<br><br><b>▶&nbsp;시트&nbsp;</b>:  가죽시트, 앞좌석 파워시트, 앞좌석/뒷좌석 열선시트, 운전석 통풍시트, 운전석 전동식 허리지지대,
+앞좌석 슬라이딩 헤드레스트, 뒷좌석 높이조절식 헤드레스트, 뒷좌석 센터 암레스트, 앞좌석 시트벨트 높이조절 장치&nbsp;<br><br><b>▶&nbsp;편의&nbsp;</b>: : 버튼시동 스마트키 시스템(원격시동 포함), 스마트 트렁크, 하이패스 자동 결제시스템,
+전자식 변속 레버(SBW), 패들 쉬프트, 전자식 파킹브레이크(EPB, 오토홀드), 후방 모니터, 크루즈 컨트롤,
+오토 라이트 컨트롤, 레인센서, 진폭감응형 댐퍼, 열선 스티어링 휠, 수동식 틸트&amp;텔레스코픽 스티어링 휠,
+독립제어 풀오토 에어컨(운전석, 동승석), 고성능 에어컨 필터, 공기청정 모드, 뒷좌석 에어벤트,
+앞좌석/뒷좌석 세이프티 파워 윈도우, 파워도어록, 파워아웃렛, LPG 시동시간 단축 시스템(LSTR)<br><br><b>▶&nbsp;인포테인먼트&nbsp;</b>: 12.3인치 UVO 내비게이션, 내비게이션 무선 업데이트, 8스피커, 스티어링 휠 오디오 리모컨,
+블루투스 핸즈프리, USB 단자(데이터리딩용)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>파노라마 선루프 : 1,100,000&nbsp;<br><br><b>▶&nbsp;</b>컴포트 : 1,150,000&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>245/45 R18 타이어 &amp;
+전면가공 휠 : 300,000
+<br><br><b>▶&nbsp;</b>드라이브 와이즈 : 1,600,000</p>
+												</div>
+											
+												<div id="newcar6" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 프레스티지 기본품목 외&nbsp;<br></b><br><b>&nbsp;·&nbsp;외장&nbsp;</b>: 245/45 R18 타이어&amp;전면가공 휠, 프론트 LED 턴시그널램프&nbsp;<br><br><b>&nbsp;·&nbsp;내장&nbsp;</b>: 슈퍼비전 클러스터(12.3인치 풀사이즈 칼라 TFT LCD)<br><br><b>&nbsp;·&nbsp;시트&nbsp;</b>: 동승석 통풍시트, 동승석 워크인 디바이스, 동승석 전동식 허리지지대
+<br><br><b>&nbsp;·&nbsp;편의&nbsp;</b>: 스마트폰 무선충전 시스템, 전동식 틸트&amp;텔레스코픽 스티어링 휠,
+운전자세 메모리 시스템(운전석 시트, 스티어링 휠, 아웃사이드 미러, 스마트 자세제어 포함),
+운전석 이지 억세스, 후진연동 자동하향 아웃사이드 미러, 뒷좌석 측면 수동 선커튼, 후면 전동 선커튼,
+오토 디포그, 뒷좌석 다기능 센터 암레스트, 뒷좌석 USB 단자(충전용)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>파노라마 선루프 : 1,100,000&nbsp;<br><b><b><br></b>▶&nbsp;</b>헤드업 디스플레이 : 860,000&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>서라운드뷰 모니터 + 후측방 모니터 : 800,000&nbsp;<br><br><b>▶&nbsp;</b>KRELL 프리미엄 사운드 (12스피커, 외장앰프) : 700,000&nbsp;<br><br><b>▶&nbsp;</b>드라이브 와이즈 : 1,600,000&nbsp;</p>
+												</div>
+											
+												<div id="newcar7" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶&nbsp;파워트레인&nbsp;</b>: V6 람다Ⅱ 3.0 LPi 엔진, 6단 자동변속기 (수동겸용, 부츠타입)&nbsp;&nbsp;<br><br><b>▶&nbsp;안전&nbsp;</b>: 에어백 (운전석/동승석 어드밴스드 에어백, 운전석 무릎, 전복감지 사이드 &amp; 커튼), VSM (차세대 ESC), 경사로 밀림 방지장치 (HAC), 급제동 경보 시스템 (ESS), 디스크 브레이크 (전륜/후륜), 전/후방 주차보조 시스템, 유아용 시트 고정 장치, 개별 타이어 공기압 경보시스템 (TPMS), 후방 충격저감 시트 시스템, 앞좌석/뒷좌석 세이프티 파워 윈도우&nbsp;<br><br><b>▶&nbsp;외관&nbsp;</b>: 225/55 R17 타이어 &amp; 알로이휠, LED 헤드램프, LED DRL, LED 리어 콤비네이션램프, LED 보조제동등,
+LED 리피터 일체형 크롬 아웃사이드 미러(전동접이, 전동조절, 열선, 퍼들램프), 에어로타입 와이퍼,
+윈드쉴드/앞좌석 이중접합 차음 글라스, 윈드쉴드 자외선차단 글라스, 도어 손잡이 조명(프론트)&nbsp;<br><br><b>▶&nbsp;내장&nbsp;</b>: 블랙 인테리어, 가죽 스티어링휠 &amp; 기어노브, 슈퍼비전 클러스터 (4.2인치 칼라 TFTLCD), D/N 룸미러, 선글라스 케이스, 도어 스커프, 슬라이딩 선바이저 (거울, LED조명), LED 룸램프&nbsp;&nbsp;<br><br><b>▶&nbsp;시트&nbsp;</b>: 인조가죽 시트, 운전석 파워 시트, 운전석 2WAY 전동식 허리지지대, 앞좌석 스마트 히티드 시트, 앞좌석 슬라이딩 헤드레스트, 앞좌석 시트벨트 높이조절 장치, 뒷좌석 센터 암레스트, 뒷좌석 높이 조절식 헤드레스트&nbsp;<br><br><b>▶&nbsp;편의&nbsp;</b>: 버튼시동 스마트키 시스템(원격시동 포함), 스마트 트렁크, 풋파킹 브레이크, 후방 모니터, 크루즈 컨트롤, 오토 라이트 컨트롤,
+레인센서, 진폭감응형 댐퍼, 수동식 틸트&amp;텔레스코픽 스티어링 휠, 독립제어 풀오토 에어컨(운전석, 동승석), 고성능 에어컨 필터,
+공기청정 모드, 뒷좌석 에어벤트, 앞좌석/뒷좌석 세이프티 파워 윈도우, 파워도어록, 파워아웃렛, LPG 시동시간 단축 시스템(LSTR)&nbsp;&nbsp;<br><br><b>▶&nbsp;인포테인먼트&nbsp;</b>: 8인치 디스플레이 오디오, 8스피커,USB단자, 스티어링 휠 오디오 리모컨, 블루투스 핸즈프리</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>파노라마 선루프 : 1,030,000&nbsp;<br><br><b>▶&nbsp;</b>12.3인치 UVO 내비게이션
+: 850,000<br><br><b>▶&nbsp;</b>가죽시트 + 운전석 통풍 시트 + 동승석 파워시트 : 600,000&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>전자식 룸미러(ECM) +
+하이패스 자동 결제 시스템 : 240,000</p>
+												</div>
+											
+												<div id="newcar8" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 스탠다드 기본품목 외&nbsp;&nbsp;<br></b><br><b>&nbsp;·&nbsp;외장 </b>: 245/45R18 타이어 &amp; 전면가공 휠
+
+<br>
+<br><b>&nbsp;·&nbsp;시트 </b>: 가죽시트, 동승석 파워시트, 운전석 통풍시트, 뒷좌석 열선시트
+<br>
+<br><b>&nbsp;·&nbsp;편의 </b>: 전자식 변속레버 (SBW), 패들 쉬프트, 전자식 파킹브레이크 (EPB, 오토홀드), 열선 스티어링 휠
+
+<br>&nbsp; &nbsp; ※ 드라이브 와이즈는 12.3인치 UVO 내비게이션 적용시에만 선택 가능</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>파노라마 선루프 : 1,030,000&nbsp;<br><br><b>▶&nbsp;</b>2.3인치 UVO 내비게이션 : 850,000&nbsp;<br><br><b>▶&nbsp;</b>컴포트 : 1,080,000&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>드라이브 와이즈 : 1,500,000&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>전자식 룸미러(ECM) +
+하이패스 자동 결제 시스템 : 240,000</p>
+												</div>
+											
+												<div id="newcar9" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 트렌디 기본품목 외&nbsp;&nbsp;<br></b><br><b>&nbsp;·&nbsp;외장 </b>: 프론트 LED 턴시그널램프
+
+<br>
+<br><b>&nbsp;·&nbsp;내장 </b>: 슈퍼비전 클러스터(12.3인치 풀사이즈 칼라 TFT LCD), 전자식 룸미러(ECM)
+
+<br>
+<br><b>&nbsp;·&nbsp;시트 </b>: 동승석 통풍시트, 동승석 워크인 디바이스, 동승석 전동식 허리지지대
+<br>
+<br><b>&nbsp;·&nbsp;편의 </b>: 하이패스 자동 결제 시스템, 스마트폰 무선충전 시스템, 전동식 틸트&amp;텔레스코픽 스티어링 휠,
+운전자세 메모리 시스템(운전석 시트, 스티어링 휠, 아웃사이드 미러, 스마트 자세제어 포함), 운전석 이지 억세스,
+후진연동 자동하향 아웃사이드 미러, 뒷좌석 다기능 센터 암레스트, 뒷좌석 측면 수동 선커튼, 후면 전동 선커튼, 오토 디포그,
+뒷좌석 USB 단자(충전용)
+
+<br>
+<br><b>&nbsp;·&nbsp;인포테인먼트 </b>: 12.3인치 UVO 내비게이션, 내비게이션 무선 업데이트</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>파노라마 선루프 : 1,030,000&nbsp;<br><br><b>▶&nbsp;</b>헤드업 디스플레이 : 800,000&nbsp;<br><br><b>▶&nbsp;</b>서라운드뷰 모니터 + 후측방 모니터 : 750,000&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>드라이브 와이즈 : 1,500,000&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>KRELL 프리미엄 사운드 (12스피커, 외장앰프) : 660,000&nbsp;&nbsp;<br></p>
+												</div>
+											
+												<div id="newcar10" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 파워트레인 :</b>&nbsp;V6 람다Ⅱ 3.0LPi 엔진, 6단 자동변속기<br><br><b>▶ 안전&nbsp;</b>:&nbsp; 에어백[운전석/동승석어드밴스드,운전석무릎(왼발/왼손왼발/오른손장애만적용),전복감지커튼, 앞좌석/뒷좌석사이드],전/후방주차거리경고,VSM,경사로밀림방지장치,급제동 경보 시스템, 개별 타이어 공기압 경보 시스템, 유아용 시트 고정장치, 타이어 임시 수리장치, 후방 충격저감 시트 시스템<br><br><b>▶ 외장&nbsp;</b>: 225/55R17타이어&amp;알로이휠,LED헤드램프,LEDDRL,LED리어콤비네이션램프, LED 보조제동등, LED 리피터 일체형 크롬 아웃사이드 미러(전동접이, 전동조절, 열선, 퍼들램프), 도어손잡이 조명(프론트), 에어로타입 와이퍼, 윈드쉴드/앞좌석 이중접합 차음 글라스, 윈드쉴드 자외선차단 글라스&nbsp;<br><br><b>▶ 내장&nbsp;</b>: 블랙 인테리어, 슈퍼비전 클러스터(4.2인치 칼라 TFTLCD), 가죽 스티어링 휠, LED실내등(맵램프,룸램프,러기지램프),전자식룸미러(ECM),선글라스케이스, 슬라이딩선바이저(거울, LED조명),도어스커프<br><br><b>▶ 시트 :&nbsp;</b>가죽시트, 앞좌석 파워시트, 앞좌석/뒷좌석 열선시트, 운전석 통풍시트, 운전석전동식허리지지대, 앞좌석슬라이딩헤드레스트,뒷좌석높이조절식헤드레스트,뒷좌석 센터 암레스트, 앞좌석 시트벨트 높이조절 장치<br><br><b>▶ 편의 :</b>&nbsp;버튼시동스마트키시스템(원격시동포함),스마트트렁크,하이패스자동결제시스템, 전자식변속레버(SBW),패들 쉬프트, 전자식 파킹브레이크(EPB, 오토홀드), 후방 모니터, 크루즈 컨트롤, 오토라이트컨트롤,레인센서,진폭감응형댐퍼,열선스티어링휠(왼발/오른발장애만적용), 수동식 틸트&amp;텔레스코픽 스티어링 휠, 독립제어 풀오토 에어컨(운전석, 동승석), 고성능에어컨필터, 공기청정모드,뒷좌석에어벤트,앞좌석/뒷좌석세이프티파워윈도우,파워도어록, 파워아웃렛, LPG 시동시간 단축 시스템(LSTR)<br><b><br></b><b>▶ 멀티미디어 :&nbsp;</b>12.3인치 UVO 내비게이션, 내비게이션 무선 업데이트, 8스피커, 스티어링 휠 오디오 리모컨, 블루투스 핸즈프리,USB 단자(데이터리딩용)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶&nbsp;와이드 파노라마 선루프 : 1,030,000<br><br>▶ 컴포트 : 1,080,000 (양발장애 :930,000)<br><br>▶ 245/45R18타이어&amp; 전면가공휠 : 280,000&nbsp;<br><br>▶ 드라이브 와이즈 : 1,500,000</p>
+												</div>
+											
+												<div id="newcar11" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶&nbsp;장애인 3.0 LPI 프레스티지 기본품목 외<br></b><br><b>ㆍ 외관</b>&nbsp;: 245/45R18 타이어&amp;전면가공 휠, 프론트 LED 턴시그널램프<br><br><b>ㆍ&nbsp;내장</b>&nbsp;: 슈퍼비전 클러스터(12.3인치 풀사이즈 칼라 TFTLCD)<br><br><b>ㆍ 시트</b>&nbsp;: 동승석 통풍시트, 동승석 워크인 디바이스, 동승석 전동식 허리지지대<br><br><b>ㆍ 편의</b>&nbsp;: 스마트폰 무선충전 시스템, 전동식 틸트&amp;텔레스코픽 스티어링 휠(양발 장애는 수동식 틸트&amp;텔레스코픽 스티어링 휠 적용), 운전자세 메모리 시스템(운전석 시트, 스티어링 휠, 아웃사이드 미러, 스마트 자세제어 포함), 운전석 이지 억세스, 후진연동 자동하향 아웃사이드 미러, 뒷좌석 다기능 센터 암레스트, 뒷좌석 측면 수동 선커튼, 후면 전동 선커튼, 오토 디포그, 뒷좌석 USB 단자(충전용)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶&nbsp;와이드 파노라마 선루프 : 1,030,000<br><br>▶ 헤드업 디스플레이 : 800,000<br>&nbsp;<br>▶ 서라운드뷰 모니터 + 후측방 모니터 : 750,000&nbsp;<br><br>▶ 드라이브 와이즈 : 1,500,000&nbsp;<br><br>▶ KRELL 프리미엄 사운드 (12스피커, 외장앰프) : 660,000&nbsp;</p>
+												</div>
+											
+												<div id="newcar12" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 파워트레인&nbsp;</b>: V6 람다Ⅱ 3.0 LPI 엔진, 6단 자동변속기(수동겸용, 부츠타입)&nbsp;<br><br><b>▶ 안전</b>&nbsp;: 에어백 (운전석/동승석 스마트 에어백, 운전석 무릎), VSM (차세대 ESC), 경사로 밀림 방지장치 (HAC), 급제동 경보 시스템 (ESS), 디스크 브레이크 (전륜/후륜), 전/후방 주차보조 시스템, 유아용 시트 고정 장치, 개별 타이어 공기압 경보시스템 (TPMS), 후방 충격저감 시트 시스템, 앞좌석/뒷좌석 세이프티 파워 윈도우<br><br><b>▶ 외관&nbsp;</b>: 225/55R17 타이어 &amp; 알로이휠, 크롬 라디에이터 그릴, Full LED 헤드램프 (LED DRL, LED 포지션, 오토라이트 컨트롤, 에스코트 기능 포함), LED 리어 콤비네이션 램프, LED 보조제동등, LED 리피터 일체형 크롬 아웃사이드 미러 (히팅기능, 전동조절, 전동접이, 퍼들램프), 이중접합 차음 글라스 (윈드쉴드, 앞좌석 도어), 자외선 차단 글라스 (윈드쉴드), 크롬범퍼 가니쉬, 에어로 타입 와이퍼 (우적감지 기능 포함)&nbsp;<br><br><b>▶ 내장</b>&nbsp;: 블랙 인테리어, 가죽 스티어링휠 &amp; 기어노브, 슈퍼비전 클러스터 (4.2인치 칼라 TFT LCD), D/N 룸미러, 선글라스 케이스, 도어 스커프, 슬라이딩 선바이저 (거울, LED조명), LED 룸램프<br><br><b>▶ 시트</b>&nbsp;: 인조 가죽 시트, 운전석 파워 시트, 운전석 2WAY 전동식 허리지지대, 앞좌석 스마트 히티드 시트, 앞좌석 슬라이딩 헤드레스트, 앞좌석 시트벨트 높이조절 장치, 뒷좌석 센터 암레스트, 뒷좌석 높이 조절식 헤드레스트&nbsp;<br><br><b>▶ 편의</b>&nbsp;: 폴딩타입 무선도어 리모컨 키, 풋파킹 브레이크, 주행모드 통합제어 시스템, 속도감응형 전동식 파워스티어링 (MDPS), 수동식 틸트 &amp; 텔레스코픽 스티어링, 크루즈 컨트롤 (정속주행장치), 진폭감응형 댐퍼, 파워도어록, 앞좌석 파워아웃렛, 풀사이즈 스페어 휠 &amp; 타이어, 독립제어 풀오토 에어컨 (운전석, 동승석), 고성능 에어컨 필터, 뒷좌석 에어 벤틸레이션, LPI 시동시간 단축 시스템 (LSTR), 후방 모니터, 공기 청정 모드<br><br><b>▶ 멀티미디어</b>&nbsp;: 8인치 디스플레이 오디오, 8스피커, USB단자, 스티어링 휠 오디오 리모컨, 블루투스 핸즈프리</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>전복감지 사이드 &amp; 커튼 에어백 : 550,000<b><br><br>▶&nbsp;</b>12.3인치 내비게이션 + UVO + 버튼시동 스마트키 : 1,170,000<br><br><b>▶&nbsp;</b>전자식 룸미러 (ECM) &amp; 자동 요금징수 시스템 (ETCS) : 240,000<br><br><b>▶&nbsp;</b>운전석 컨비니언스 : 800,000<br><br><b>▶&nbsp;</b>드라이브 와이즈 + 전자식 파킹 브레이크(EPB, 오토홀드) : 1,700,000</p>
+												</div>
+											
+												<div id="newcar13" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶&nbsp;택시 3.0 LPi 스탠다드 기본품목 외<br></b><br><b>ㆍ&nbsp;외관</b>&nbsp;: 도어 손잡이 조명 (프론트 도어)&nbsp;<br><br><b>ㆍ&nbsp;시트</b>&nbsp;: 가죽 시트, 운전석 통풍 시트, 운전석 4WAY 전동식 허리지지대, 운전석 전동 익스텐션 시트<br><br><b>ㆍ&nbsp;편의</b>&nbsp;: 버튼시동 스마트키 시스템 (원격시동 포함), 스마트 트렁크 (풀오픈 시스템), 전자식 파킹 브레이크 (EPB, 오토홀드 기능 포함), 히티드 스티어링 휠, 전자식 룸미러 (ECM), 자동요금 징수 시스템 (ETCS)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>전복감지 사이드 &amp; 커튼 에어백 : 550,000<br><br><b>▶&nbsp;</b>12.3인치 내비게이션 + UVO : 850,000&nbsp;<br><br><b>▶&nbsp;</b>동승석 컨비니언스 : 500,000&nbsp;<br><br><b>▶&nbsp;</b>뒷좌석 컨비니언스 : 550,000<br><br><b>▶&nbsp;</b>드라이브 와이즈&nbsp; : 1,500,000</p>
+												</div>
+											
+										</div>
+										<script type="text/javascript">
+											newcarFolder(0);//초기값
+											function newcarFolder(target) {
+												var conElId = "newcar"//아이디 설정
+												var conElMenu = document.getElementById("newcarList");
+												var conElMenuLink = conElMenu.getElementsByTagName("a");
+												if (target != null) {
+													conElMenuLink[target].parentNode.className = "on";
+													document.getElementById(
+														conElId + target).style.display = "";
+												}
+												for (i = 0; i <= (conElMenuLink.length - 1); i++) {
+													conElMenuLink[i].onclick = function () {
+														for (x = 0; x <= (conElMenuLink.length - 1); x++) {
+															conElMenuLink[x].parentNode.className = "";
+															document.getElementById(
+																conElId + x).style.display = "none";
+														}
+														this.parentNode.className = "on";
+														document.getElementById(this.getAttribute('href')
+																					.split(
+																						'#')[1]).style.display =
+															"";
+														return false;
+													}
+												}
+											}
+										</script>
+									</div>
+									
+										<ul class="more">
+												<b>▶&nbsp;선택품목 세부안내 (가솔린/디젤)</b><br><b>- 컴포트&nbsp;</b>: 운전자세 메모리 시스템 (운전석 시트, 스티어링 휠, 아웃사이드 미러, 스마트 자세제어, 운전석 이지억세스 포함), 후진연동 자동하향 아웃사이드 미러, 전동식 틸트 &amp; 텔레스코픽 스티어링, 동승석 전동식 높이 조절장치, 뒷좌석 측면 수동 선커튼, 후면 전동 선커튼, 뒷좌석 다기능 센터 암레스트, 휴대폰 무선충전 시스템&nbsp;<br><b>-&nbsp;스타일 라이트&nbsp;</b>: 슈퍼비전 클러스터 (12.3인치 풀사이즈 칼라 TFTLCD), 인테리어 무드램프, 양문형 콘솔 암레스트(콘솔 사이드 가니쉬 감싸기 포함&nbsp;<br><b>-&nbsp;스타일 [프레스티지]</b>&nbsp;: 슈퍼비전 클러스터 (12.3인치 풀사이즈 칼라 TFTLCD), 인테리어 무드램프, 양문형 콘솔 암레스트(콘솔 사이드 가니쉬 감싸기 포함) 245/45R18 타이어 &amp; 전면가공 알로이 휠&nbsp;<br><b>-&nbsp;스타일 [노블레스 / 시그니처]</b>&nbsp;: 슈퍼비전 클러스터 (12.3인치 풀사이즈 칼라 TFTLCD), 인테리어 무드램프, 양문형 콘솔 암레스트(콘솔 사이드 가니쉬 감싸기 포함) 245/40R19 미쉐린 타이어 &amp; 크롬 스퍼터링 휠&nbsp;<br><b>-&nbsp;HUD팩 [프레스티지 / 노블레스 / X 에디션]</b>&nbsp;: 헤드업 디스플레이, 빌트인 캠 (주행중 영상 기록 장치), 오토 디포그&nbsp;<br>※ TUON 보조배터리 28만원 → 보조 배터리 장착시 빌트인캠 주차중 녹화 기능 지원(최대 10시간)&nbsp;<br><b>-&nbsp;HUD팩 [시그니처]</b>&nbsp;: 헤드업 디스플레이, 빌트인 캠 (주행중 영상 기록 장치)&nbsp;<br>※ TUON 보조배터리 28만원 → 보조 배터리 장착시 빌트인캠 주차중 녹화 기능 지원(최대 10시간)&nbsp;<br><b>- 모니터링팩&nbsp;라이트</b>&nbsp;: 서라운드 뷰 모니터, 후측방 모니터&nbsp;<br><b>- 모니터링팩</b>&nbsp;: 서라운드 뷰 모니터, 후측방 모니터, 후방 주차 충돌 방지 보조&nbsp;<br><b>- 드라이브 와이즈 [프레스티지]</b>&nbsp;: 전방 충돌방지 보조 (사이클리스트), 고속도로 주행 보조, 스마트 크루즈 컨트롤 (정차 &amp; 재출발, 고속도로/자동차 전용도로 내비게이션 기반 곡선로 및 안전구간 자동 감속 포함), 전자식 파킹 브레이크 (EPB, 오토홀드 기능포함)&nbsp;<br><b>- 드라이브 와이즈 [노블레스 / X 에디션 / 시그니처]</b>&nbsp;:&nbsp;전방 충돌방지 보조 (사이클리스트), 고속도로 주행 보조, 스마트 크루즈 컨트롤 (정차 &amp; 재출발, 고속도로/자동차 전용도로內&nbsp;내비게이션 기반 곡선로 및 안전구간 자동 감속 포함), 후측방 충돌방지 보조&nbsp;<br><br><b>▶&nbsp;선택품목 세부안내 (LPi/렌터카)&nbsp;<br>-&nbsp;컴포트</b>&nbsp;: 운전자세 메모리 시스템(운전석 시트, 스티어링 휠, 아웃사이드 미러, 스마트 자세제어 포함), 운전석 이지 억세스, 후진연동 자동하향 아웃사이드 미러,
+전동식 틸트&amp;텔레스코픽 스티어링 휠, 동승석 통풍시트, 동승석 워크인 디바이스, 동승석 전동식 허리지지대, 뒷좌석 측면 수동 선커튼, 후면 전동 선커튼,
+뒷좌석 다기능 센터 암레스트, 뒷좌석 USB 단자(충전용), 스마트폰 무선충전 시스템&nbsp;<br><b>- 드라이브 와이즈</b>&nbsp;: 전방 충돌방지 보조(차량/보행자/사이클리스트/교차로 대향차), 차로 이탈방지 보조, 후측방 충돌방지 보조, 후방 교차 충돌방지 보조,
+운전자 주의 경고(전방 차량 출발 알림 기능 포함), 하이빔 보조, 스마트 크루즈 컨트롤(정차&amp;재출발),
+내비게이션 기반 스마트 크루즈 컨트롤(고속도로/자동차 전용도로 안전구간/곡선로), 차로 유지 보조, 고속도로 주행 보조, 안전 하차 경고
+<br>
+<br><b>▶&nbsp;선택품목 세부안내 (장애인 전용 &lt;장애 KIT 장착차량&gt;)<br></b><b>-&nbsp;컴포트&nbsp;</b>: 운전자세 메모리 시스템(운전석 시트, 스티어링 휠, 아웃사이드 미러, 스마트 자세제어 포함), 운전석 이지 억세스, 후진연동 자동하향 아웃사이드 미러, 전동식 틸트&amp;텔레스코픽 스티어링 휠, 동승석 통풍시트, 동승석 워크인 디바이스, 동승석 전동식 허리지지대, 뒷좌석 측면 수동 선커튼, 후면 전동 선커튼, 뒷좌석 다기능 센터 암레스트, 뒷좌석 USB 단자(충전용), 스마트폰 무선충전 시스템<br>※ 양발장애는 수동식 틸트&amp;텔레스코픽 스티어링 휠 적용<br><b>-&nbsp;드라이브 와이즈</b>&nbsp;:&nbsp;전방 충돌방지 보조(차량/보행자/사이클리스트/교차로 대향차), 차로 이탈방지 보조, 후측방 충돌방지 보조, 후방 교차 충돌방지 보조, 운전자 주의 경고(전방 차량 출발 알림 기능 포함), 하이빔 보조, 스마트 크루즈 컨트롤(정차&amp;재출발), 내비게이션 기반 스마트 크루즈 컨트롤(고속도로/자동차 전용도로 안전구간/곡선로), 차로 유지 보조, 고속도로 주행 보조, 안전 하차 경고<br><br><b>▶&nbsp;선택품목 세부안내 (LPi 3.0 택시)<br>-&nbsp;운전석 컨비니언스</b>&nbsp;: 가죽 시트, 운전석 통풍 시트, 운전석 4WAY 전동식 허리지지대, 운전석 전동 익스텐션 시트<br><b>-&nbsp;동승석 컨비니언스</b>&nbsp;: 동승석 통풍 시트, 동승석 파워 시트, 동승석 2WAY 전동식 허리지지대, 동승석 워크인 디바이스<br><b>-&nbsp;뒷좌석 컨비니언스&nbsp;</b>: 뒷좌석 스마트 히티드 시트, 뒷좌석 측면 수동 선커튼, 후면 전동 선커튼, 뒷좌석 다기능 센터 암레스트&nbsp;<br><b>-&nbsp;드라이브 와이즈</b>&nbsp;:&nbsp;전방 충돌방지 보조(차량/보행자/사이클리스트/교차로 대향차), 차로 이탈방지 보조, 후측방 충돌방지 보조, 후방 교차 충돌방지 보조, 운전자 주의 경고(전방 차량 출발 알림 기능 포함), 하이빔 보조, 스마트 크루즈 컨트롤(정차&amp;재출발), 내비게이션 기반 스마트 크루즈 컨트롤(고속도로/자동차 전용도로 內 안전구간/곡선로), 차로 유지 보조, 고속도로 주행 보조, 안전 하차 경고
+										</ul>
+									
+									<p class="desc_more">위 신차가격표는 단순 참고자료이며, 정확한 내용은 각 제조사에서 제공하는 자료를 통해확인하실 수 있습니다.</p><!-- 2016/10/12 [장] 등급 등록/수정 개선 : 추가 디자인 변경 -->
+									<p class="toTop"><a href="#main_title" class="sp toTop db_ir" title="페이지 위로"><u>페이지 위로</u></a></p><!-- [시세개편] class db_ir 추가 -->
+								</div>
+
+
+							</div>
+							<!-- body end -->
+						</td>
+					</tr>
+				</table>
+
+
+			
+			
+		
+    </div>
+
+    <!-- container end -->
+</form>
+</div>
+
+</body>
+<script language="javascript">
+
+
+    var strCompanyUrl = "/common/combo/cardbcompany.json?method=carList";
+    var strModelGroupUrl = "/common/combo/modelgroupfordb.json?method=carList";
+    var strModelUrl = "/common/combo/cardbmodel.json?method=carList";
+    var strYrJatoUrl = "/common/combo/jatoYr.json?method=carList";
+
+    var companyid = "mnfccd";
+    var modelgroupid = "mdlgroupcd";
+    var modelid = "mdlcd";
+    var yearid = "caryear";
+
+    function initGnb() {
+        var paramCompany = $("paramMnfccd").value;
+        var paramModelGroup = $("paramMdlgroupcd").value;
+        var paramModel = $("paramMdlcd").value;
+        var paramYr = $("paramYear").value;
+
+        // 제조사
+        if (paramModel != "") {
+            $("mdlcd").show();
+        }
+
+        //console.log("companyid :: " + companyid)
+        //console.log("paramCompany :: " + paramCompany)
+		if($('foldYn').value != 0){
+            foldingYN('f_fold');
+		}
+
+        setCompany(strCompanyUrl, companyid, "제조사", paramCompany);
+
+        // 제조사 값이 있으면 모델 검색
+        if (paramCompany >= '010') {
+            if (paramCompany != "") {
+                if (paramModel == "") {
+                    paramModel = paramModelGroup;
+                }
+                setModel(strModelUrl, modelid, paramCompany, "모델", paramModel)
+                $("mdlgroupcd").hide();
+
+            }
+        } else {
+            $("mdlgroupcd").show();
+            if (paramCompany != "") {
+                setModelGroup(strModelGroupUrl, modelgroupid, paramCompany, "모델", paramModelGroup);
+                if (paramModelGroup != "") {
+                    setModel_New(strModelUrl, modelid, paramCompany, paramModelGroup, "세부모델", paramModel);
+                }
+            }
+
+        }
+        if (paramCompany != "" && paramModel != "") {
+            setCarYear(strYrJatoUrl, yearid, paramCompany, paramModel, "형식연도", paramYr);
+        }
+
+        waitTime = 1;
+    }
+
+    function changeModel_jato(mnfccd, mdlgroupcd) {
+        setModel_New(strModelUrl, modelid, mnfccd, mdlgroupcd, "세부모델", "");
+        //모델그룹선택시 기본 세부모델선택
+        if ($("mdlcd") != null) {
+            $("mdlcd").selectedIndex = 1;
+            var mdlcd = $("mdlcd").options[$("mdlcd").selectedIndex].value;
+            changeYearJato(mnfccd, mdlcd);
+        }
+    }
+
+    function changeYearJato(mnfccd,mdlcd) {
+        setCarYear(strYrJatoUrl, yearid, mnfccd, mdlcd, "형식연도", "");
+        $(yearid).options[1].selected = true;
+    }
+
+
+
+    //덧글 리스트
+    function viewForm(index) {
+
+        var object = $("default" + index);
+        var objectSum = $("defaultSum" + index);
+        var selectSum = $("choiceSum" + index);
+        var object1 = $("choice" + index);
+        if (object != null) {
+            if (object.style.display == 'none') {
+                objectSum.hide();
+                selectSum.hide();
+                object.style.display = "block";
+                object1.style.display = "block";
+
+            } else {
+                object.hide();
+                object1.hide();
+                objectSum.style.display = "block";
+                selectSum.style.display = "block";
+            }
+        }
+    }
+
+    function viewAll() {
+        for (var i = 1; i <=14; i++) {
+            $("default" + i).style.display = "block";
+            $("defaultSum" + i).style.display = "none";
+            $("choice" + i).style.display = "block";
+            $("choiceSum" + i).style.display = "none";
+        }
+    }
+
+    function closeAll() {
+        for (var i = 1; i <=14; i++) {
+            $("default" + i).style.display = "none";
+            $("defaultSum" + i).style.display = "block";
+            $("choice" + i).style.display = "none";
+            $("choiceSum" + i).style.display = "block";
+        }
+    }
+
+    function firstLayerOpen() {
+        //viewForm(1);
+    }
+
+    function foldingYN(param) {
+        if (param == "f_fold") {
+            document.getElementById("folding").innerHTML ="<a href=\"javascript:foldingYN('f_unfold')\" class='folding f_unfold'>전체등급 펼쳐보기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "none";
+            document.getElementById("f_fold").style.display = "";
+        } else {
+            document.getElementById("folding").innerHTML = "<a href=\"javascript:foldingYN('f_fold')\" class='folding f_fold'>접기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "";
+            document.getElementById("f_fold").style.display = "none";
+        }
+    }
+
+    function onSubmit() {
+        jQuery("#searchForm").submit();
+
+    }
+    window.onload = initGnb;
+
+</script>
+</html>
+

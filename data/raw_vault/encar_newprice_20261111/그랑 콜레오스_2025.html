@@ -1,0 +1,1241 @@
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>차량DB - 차량정보 - 신차가격표</title>
+    <link type="text/css" rel="stylesheet" href="/css/common.css?v=1793835891525"/>
+    <link type="text/css" rel="stylesheet" href="/css/db.css?v=1793835891525"/>
+
+    <script type="text/javascript" src="/js/encarapp/lib/jquery/jquery-1.11.3.min.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/common/ui.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/prototype.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/util.js?v=1793835894199"></script>
+
+    <script type="text/javascript" src="/js/common/db_common.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/commonCombo.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/carSearchCombo.js?v=1793835894199"></script>
+	<script>
+		window.enlogInitJson = {
+			"dataTalkView": {
+				"screenName": "신차가격표"
+			}
+		}
+
+	</script>
+
+
+</head>
+
+
+
+
+
+
+
+    <!-- 등급 체크박스  -->
+    <div style="display:none">
+        
+    </div>
+
+    <!-- 세부등급 체크박스 -->
+    <div style="display:none">
+        
+    </div>
+
+
+
+<body class="db db_newdetailview db_basicTemplate">
+
+
+
+
+	
+	
+	
+	
+
+
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-W9QQ2T"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W9QQ2T');</script>
+<!-- End Google Tag Manager -->
+
+<!-- container begin -->
+<div class="container" id="containerDIV">
+<input type="hidden" id = "foldYn" name="searchtype" value="7"/>
+<form id ="searchForm" name="searchForm">
+
+    <input type="hidden" id = "method" name="method" value="newpricePopV2"/>
+    <input type="hidden" id = "dimensiontype" name="dimensiontype" value="null"/>
+    <input type="hidden" id = "paramMnfccd" name="paramMnfccd" value="005"/>
+    <input type="hidden" id = "paramMdlgroupcd" name="paramMdlgroupcd" value="019"/>
+    <input type="hidden" id = "paramMdlcd" name="paramMdlcd" value="077"/>
+    <input type="hidden" id = "paramYear" name="paramYear" value="2025"/>
+    <input type="hidden" id = "model" name="model" value="">
+    <input type="hidden" id = "paramCaryear" name="paramCaryear" value="2025"/>
+    <input type="hidden" id = "clsheadcd" name="clsheadcd" class="checkbox" value="null"/>
+    <input type="hidden" id = "paramGradeHead" name="paramGradeHead" value="null"/>
+	<input type="hidden" id = "searchtype" name="searchtype" value="check"/>
+	<input type="hidden" id = "pageAccessToken" name="pageAccessToken" value="AgV4+pzwWbp3AxJe5gnx40IoPB4P4sbICVxkZC8/UxpGA+YAcQACAAdFbmNhckNrAAdFbmNhckN2ABVhd3MtY3J5cHRvLXB1YmxpYy1rZXkAREFuMzhQY2I4VnFSVWVvMU1UQnFPeVNWc016UDViR1liSTh0M2dQSEo4L0dmbEdKTjVKNEpSclVsbXhPTi9QRmwzZz09AAEAB2F3cy1rbXMAUGFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjI3MjM2MjQ4NzY1MzprZXkvbXJrLWRmZWEyNmY3NTVhMzQ3MjliNjkwMjRkZWZmM2M1MWFjALgBAgEAeAuqQuSJvQ+Ra4FSj55FZzS0sk+00amsb3yoAFiEYn4PAdl+E92+4P1bqJfv8NpfuYMAAAB+MHwGCSqGSIb3DQEHBqBvMG0CAQAwaAYJKoZIhvcNAQcBMB4GCWCGSAFlAwQBLjARBAwCnDFJMkWWC+NrDuQCARCAO3U2RWP9kPCRO3SwEdjtLM+vQYaCjIyRvg4SZE6ZLV7/CXWD/BJt2efGY3XjiNRNxZLF59zcmyVDqdaVAgAAEACYFelEjnAyBgA9LaM85eMbfKfIdnHrBB+SuSvdiiM+DXnMnIV7d4m4z0d3WkVb3Jr/////AAAAAQAAAAAAAAAAAAAAAQAAAKPWjHGVQdy3aD3Up+55ARJsTV5thJpnQLpBN+BpeJhDLxQAFFFQs8j/9Zu41roF0N9a0c6OCirweaF1KQ7Id4Htmmu/jt+65aDCqfhT4ak2hkmi6d9PGwtwR/XZW1nkih7pViOW6pkkro40p97VSTFKFyQGoPJkBCbJF/5sDsCGyFbH4wJF0OGZVY6NLrCtmLks3oCrRTBSjljvrCIwPZ9TjOy/4DUhlsTopnOoD4aGIi6NUgBnMGUCMQClEY9EMJ2gjdlgS+yDxgDzGh2RTqnV5mF5XbWsZ095VgU6WKcZXHVlKxzo0VnGk2sCMChm16sM96vFTjnkGxOIfOACy1Pop+fALCq4QjvZjzq1SUndTV1Ol6U5In6TZ+nw+g=="/>
+    <div class="header">
+        <h1 class="blind">SK엔카</h1>
+        <h2 class="tit_carprice" id="main_title">신차가격표</h2>
+        <p class="quickSearch">
+
+
+
+            <select title="제조사" class="opt_select" id="mnfccd" name="mnfccd" onChange="javascript:changeModelGroup(this.value);">
+                <option value="">제조사</option>
+            </select>
+
+            <select class="opt_select" title="모델" id="mdlgroupcd" name="mdlgroupcd" onChange="javascript:changeModel_jato($('mnfccd').value, this.value);">
+                <option>모델</option>
+            </select>
+
+            <select class="opt_select" title="세부모델" id="mdlcd" name="mdlcd" onChange="javascript:changeYearJato($('mnfccd').value, $('mdlcd').value);">
+                <option>세부모델</option>
+            </select>
+
+            <select class="opt_select" title="연식" id="caryear" name="caryear">
+                <option>연식</option>
+            </select>
+
+            <button type="button" class="btn_search" onclick="javascript:onSubmit();"/>검색</button>
+
+
+
+        </p>
+    </div>
+    <!-- body begin -->
+    <div class="body" id="bodydiv">
+		
+			
+				<table class="layout">
+					<col class="contents"/>
+					<tr>
+						<td class="contentsMenu">
+							<!-- contentsMenu begin -->
+							<div class="contentsMenu">
+								<h3 class="title">르노코리아(삼성) 그랑 콜레오스 2025년형</h3>
+							</div>
+							<!-- contentsMenu end -->
+						</td>
+					</tr>
+
+					<tr>
+						<td class="contentsMain">
+							<!-- contents begin -->
+							<div class="contents">
+
+								<div class="carCompare">
+									<div class="dbHead">
+										
+											<div id="folding"><a href="javascript:foldingYN('f_fold')"
+																 class="folding f_fold">전체등급 펼쳐보기<em class="db_ir"></em></a></div>
+
+											<!-- 2013/04/03 [서] 매물탭 개선 : 기능 버튼 추가 --><!--<a href="#" class="folding f_unfold">펼치기</a>-->
+										
+									</div>
+									
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+									<div id="f_unfold">
+										
+											<!-- case1 : 세부등급과 미션분리 -->
+											<table class="carCompare sellcase1">
+												<colgroup>
+													<col class="grade">
+													<col class="mission">
+													<col class="price">
+												    <col class="uprice"><!-- [시세개편] 중고차시세 추가 uprice -->
+													<col class="item">
+													<col class="option">
+												</colgroup>
+												<thead class="compare">
+												<tr>
+													<th class="grade" colspan="2"><b>구분</b></th>
+													<th class="price"><b>판매가격</b></th>
+													<th class="uprice"><b>중고차시세</b></th><!-- [시세개편] 중고차시세 추가 -->
+													<th class="item"><b>기본사양 품목</b></th>
+													<th class="option end"><b>선택사양 품목</b></th>
+												</tr>
+												</thead>
+												<tbody class="new">
+												
+													
+														
+													
+													
+														
+															
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>2.0 테크노 2WD</p></td>
+														
+														<td class="mission"><p>DCT</p></td>
+														<td class="price">
+															<p>
+																<strong>3,442</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>E-tech 하이브리드 techno 기본 품목 및&nbsp;
+<br></b><b><br></b><b>●&nbsp;파워트레인 :</b> 가솔린 2.0 터보 엔진, 7단 DCT(습식), 드라이브 모드(Eco/Comfort/Sport/AI/Snow),
+ 전자식 변속 노브(SBW), 오토 스탑/스타트 시스템, 2WD
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>●&nbsp;</b><b>클라우드 펄 외장컬러</b>&nbsp;300,000<br><br><b>● 미네랄 코퍼&nbsp;외장컬러</b>&nbsp;200,000
+<br><b><b><br></b>●&nbsp;12.3” 동승석 디스플레이(cinema(OTT),
+음악 스트리밍, 웹브라우저, 앱스토어, 포토링크) +
+FULL 오토 파킹 보조 + 후방 긴급 제동 보조 + 8 스피커</b>
+ 1,630,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>2.0 아이코닉 2WD</p></td>
+														
+														<td class="mission"><p>DCT</p></td>
+														<td class="price">
+															<p>
+																<strong>3,827</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>E-tech 하이브리드 iconic 기본 품목 및</b>&nbsp;
+<br><br><b>●&nbsp;파워트레인 :</b> 가솔린 2.0 터보 엔진, 7단 DCT(습식), 드라이브 모드(Eco/Comfort/Sport/AI/Snow),
+ 전자식 변속 노브(SBW), 오토 스탑/스타트 시스템, 2WD
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>●&nbsp;</b><b>클라우드 펄 외장컬러</b>&nbsp;300,000<br><br><b>● 미네랄 코퍼&nbsp;외장컬러</b>&nbsp;200,000
+<br><b><b><br></b>●&nbsp;BOSE 서라운드 사운드 시스템(10 스피커)
+ + 액티브 노이즈 캔슬레이션</b>
+ 1,290,000<br><br><b>●&nbsp;증강현실 헤드업 디스플레이(AR-HUD)
+ + 차음 윈드 쉴드 글라스</b>
+ 1,140,000<br><br><b>●&nbsp;20” 투톤 하이랜드 알로이 휠 &amp;
+ 245/45 R20 저소음 폼 타이어</b>
+ 400,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>2.0 에스프리 알핀 2WD</p></td>
+														
+														<td class="mission"><p>DCT</p></td>
+														<td class="price">
+															<p>
+																<strong>4,038</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>E-tech 하이브리드 esprit Alpine 기본 품목 및<br></b><br><b>●&nbsp;파워트레인 :</b> 가솔린 2.0 터보 엔진, 7단 DCT(습식), 드라이브 모드(Eco/Comfort/Sport/AI/Snow),
+ 전자식 변속 노브(SBW), 오토 스탑/스타트 시스템, 2WD
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>●&nbsp;</b><b>클라우드 펄 외장컬러</b>&nbsp;300,000<br><br><b>●&nbsp;새틴 어반 그레이</b>&nbsp;<b>외장컬러&nbsp;</b>500,000
+<br><b><b><br></b>●&nbsp;BOSE 서라운드 사운드 시스템(10 스피커)
++ 액티브 노이즈 캔슬레이션</b>
+ 1,290,000<br><br><b>●&nbsp;증강현실 헤드업 디스플레이(AR-HUD)
+ + 차음 윈드 쉴드 글라스</b>
+ 1,140,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>2.0 에스프리 알핀 4WD</p></td>
+														
+														<td class="mission"><p>DCT</p></td>
+														<td class="price">
+															<p>
+																<strong>4,304</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>가솔린 esprit Alpine 2WD 기본 품목 및<br></b><br><b>●&nbsp;</b><b>파워 트레인 :</b> 가솔린 2.0 터보 엔진, 8AT, 드라이브 모드(Eco/Comfort/Sport/AI/Snow/Off Road),
+ 전자식 변속 노브(SBW), 오토 스탑/스타트 시스템, 4WD
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>●&nbsp;</b><b>클라우드 펄 외장컬러</b>&nbsp;300,000<br><br><b>●&nbsp;새틴 어반 그레이</b>&nbsp;<b>외장컬러&nbsp;</b>500,000
+<br><b><br>●&nbsp;BOSE 서라운드 사운드 시스템(10 스피커)
+ + 액티브 노이즈 캔슬레이션</b>
+ 1,290,000<br><br><b>●&nbsp;증강현실 헤드업 디스플레이(AR-HUD)
+ +&nbsp;차음 윈드 쉴드 글라스&nbsp;</b>1,140,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>1.5 E-TECH 테크노 2WD</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,760.9</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>● 파워트레인 :</b> E-Tech 하이브리드(가솔린 1.5 터보 엔진, 멀티모드 오토, 듀얼 모터 시스템 (100kW 구동모터, 60kW 보조모터),
+ 배터리 용량 1.64kWh), 드라이브 모드(Eco/Comfort/Sport/AI/Snow), 전자식 변속 노브(SBW), 2WD
+
+<br>
+<br><b>●&nbsp;첨단 주행 보조 :</b> 인텔리전트 크루즈 컨트롤(정차 및 재출발), active driver assist(차선 유지 보조/자동 차로 변경 보조/
+ 자동 속도 제한 보조/차로 내 편향 주행), 클리어뷰 트랜스페어런트 섀시, 회피 조향 보조, 긴급 제동 보조(차량/보행자/
+ 자전거 탑승자/오토바이 탑승자/교차로 대향차), 차선이탈경보/차선이탈방지 보조, 전방 교차 충돌 경보,후방 교차 충돌 경보/
+ 후방 교차 충돌 방지 보조, 전방차량 대응/후방차량 대응 차선 이탈 방지 보조, 후방충돌경보, 사각지대 경보, 안전 하차 경보,
+ 차간 거리 경보, 오토매틱 하이빔
+
+<br>
+<br><b>●&nbsp;안전 :</b> QRescue 코드, 다중충돌방지제동보조, 앞좌석 에어백(운전석/동승석 듀얼 스테이지), 파사이드 에어백(앞),
+ 사이드(앞)/커튼 에어백, 경사로 밀림방지장치(HSA), 경사로 저속 주행장치(HDC), 차체자세 제어장치(ESC),
+ 타이어 공기압 자동감지 시스템, EBD-ABS(BAS 내장), 급제동 경보 시스템(ESS), 전/후륜 디스크 브레이크
+ (전륜 벤틸레이티드), 충돌감지도어록 해제장치, 차속감응 오토도어록, 앞좌석 3점식 시트벨트(듀얼프리텐셔너/
+ 가변 듀얼레벨 로드리미터/리마인드경고기능), 뒷좌석 3점식 시트벨트(리마인드 경고 기능,
+ 좌/우 측면 좌석 프리텐셔너 포함), ISOFIX 유아용 시트 고정 장치, 차량용 소화기
+
+<br>
+<br><b>●&nbsp;외관 :</b> 로장주 패턴 라디에이터 그릴, 19” 투톤 레이크 알로이 휠 &amp; 235/50 R19 타이어, FULL LED 헤드램프(프로젝션 타입),
+ 크리스탈 3D 타입 FULL LED 리어콤비네이션 램프, LED 주간 주행등, LED 방향 지시등(전방), 글로시 블랙 루프랙,
+ 글로시 블랙 사이드 가니시, 글로시 블랙 샤크핀 안테나, 글로시 블랙 아웃사이드 미러 커버, 바디컬러 아웃사이드 도어 핸들
+
+<br>
+<br><b>●&nbsp;내장 :</b> 블랙 인조가죽 시트, 멜란지 패브릭 내장재(앞좌석/뒷좌석 시트 숄더, 앞좌석/뒷좌석 시트 볼스터, 도어 인서트,
+ IP 센터, 헤드라이닝, A 필라), 6:4 폴딩 2열 시트(리클라이닝, 암레스트, 컵홀더 포함),
+ 나파 인조가죽 스티어링 휠, D/N 룸미러, 운전석/동승석 선바이저(거울, 조명 포함), 브러시드 알루미늄 페인팅 데코,
+ 글로시 블랙 데코 콘솔
+
+<br>
+<br><b>●&nbsp;편의 :</b> 360° 3D 어라운드 뷰(후방카메라 포함), 파워테일게이트(anti-pinch 기능), 인텔리전트 스마트 키(버튼시동,
+ 원격시동, 오토 클로징 &amp; 오프닝, 내 차 위치 찾기, 창문 오픈 &amp; 클로징), 디지털 키, 운전석 파워시트(6way, 이지액세스,
+ 메모리 포함), 동승석 파워시트(6way), 앞좌석 통풍시트, 전좌석 원터치 세이프티 파워 윈도우, 웰컴 시스템,
+ 앞좌석 열선시트, 전자식 파킹 브레이크, 오토 홀드, 주차보조시스템(전방/후방 경보), 스피드 리미터,
+ 열선 스티어링 휠, 오토라이팅 헤드램프, 레인센싱 와이퍼, 12V 아웃렛(앞좌석, 트렁크)
+
+<br>
+<br><b>●&nbsp;멀티미디어 :</b> openR 파노라마 스크린(12.3” TFT 클러스터 + 12.3” 센터 디스플레이, 무제한 5G 데이터(구매 후 5년간),
+ 통신형 TMAP 내비게이션, 무선 애플 카플레이 &amp; 무선 안드로이드 오토, 음악스트리밍, 웹브라우저, 앱스토어,
+ 음성인식 NUGU auto, 포토링크, 어시스트 콜), 무선 소프트웨어 업데이트(FOTA), 6 스피커,
+ 앞좌석 2 USB 단자(A 타입 데이터 전송, 충전/C 타입 충전), 뒷좌석 2 USB 단자(C 타입 충전)
+
+<br>
+<br><b>●&nbsp;공조시스템 :</b> 3-zone 독립 풀 오토 에어컨(운전석, 동승석, 뒷좌석), PM2.5+카본 필터, 에어퀄리티 시스템(AQS),
+ 애프터 블로우
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>●&nbsp;</b><b>클라우드 펄 외장컬러</b>&nbsp;300,000
+<br>
+<br><b>● 미네랄 코퍼&nbsp;외장컬러</b> 200,000<br>
+&nbsp;<br><b>●&nbsp;12.3” 동승석 디스플레이
+ (cinema(OTT),
+ 음악스트리밍, 웹브라우저,
+ 앱스토어, 포토링크)
+ + FULL 오토 파킹 보조
+ + 후방 긴급 제동 보조
+ + 8 스피커</b>
+ 1,630,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>1.5 E-TECH 아이코닉 2WD</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>4,154.9</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>1.5 E-TECH techno 기본 품목 및&nbsp;
+<br></b><br><b>●&nbsp;멀티미디어 :</b> openR 파노라마 스크린&amp;동승석 디스플레이
+ (12.3” TFT 클러스터 + 12. 3” 센터 디스플레이 + 12.3” 동승석 디스플레이, 파노라마 스크린 보호 필름,
+ 무제한 5G 데이터(구매 후 5년간), 통신형 TMAP 내비게이션, 무선 애플 카플레이 &amp; 무선 안드로이드 오토, cinema(OTT),
+ 음악스트리밍, 웹브라우저, 앱스토어, 음성인식 NUGU auto, 포토링크 , 어시스트 콜), 8 스피커
+<br><br><b>●&nbsp;안전 :</b> 후방 긴급 제동 보조<br><br><b>●&nbsp;외관 :</b> 이중접합 차음 글래스(1열 사이드 윈도우), 퍼들 램프
+<br><br><b>●&nbsp;내장 :</b> 나파 인조가죽 시트(다크 블루 또는 퀼팅 라이트 브라운 중 선택), 멜란지 패브릭 내장재(헤드라이닝, A 필라),
+ 프레임리스 룸미러, 컬러 가변형 앰비언트 라이트(앞좌석 도어), 브러시드 알루미늄 필름 데코, 브러시드 알루미늄 데코 콘솔,
+ 카매트
+<br><br><b>●&nbsp;편의 :</b> FULL 오토 파킹 보조, 운전석 파워시트(8way), 전동식 요추 받침 장치(4way), 뒷좌석 열선 시트,
+ 하이패스 시스템(ETCS), 전자식 룸미러(ECM), 주차보조시스템(전방/후방/측방 경보), 스마트폰 무선 충전
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>●&nbsp;</b><b>클라우드 펄 외장컬러</b>&nbsp;300,000<br><br><b>● 미네랄 코퍼&nbsp;외장컬러</b>&nbsp;200,000
+<br><br><b>●&nbsp;BOSE 서라운드 사운드 시스템
+(10 스피커) + 액티브 노이즈
+캔슬레이션</b>
+ 1,290,000<br><br><b>●&nbsp;증강현실 헤드업 디스플레이
+ (AR-HUD)
+ + 차음 윈드 쉴드 글라스</b>
+ 1,140,000
+<br><br><b>●&nbsp;20” 투톤 하이랜드 알로이 휠 &amp;
+ 245/45 R20 저소음 폼 타이어</b>
+ 400,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>1.5 E-TECH 에스프리 알핀 2WD</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>4,351.9</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>1.5 E-TECH&nbsp;iconic 기본 품목 및&nbsp;
+<br></b><br><b>●&nbsp;외관 :</b> esprit Alpine 전용 20” 다크 틴티드 투톤 피크 알로이 휠 &amp; 245/45 R20 저소음 폼 타이어, esprit Alpine 전용 로고
+ (사이드 엠블리셔), esprit Alpine 전용 라디에이터 그릴(핫스탬핑, 블루 로장주 패턴), 다크 틴티드 로장주 로고 &amp;
+ 모델명 엠블렘, esprit Alpine 전용 블루 그라데이션 디자인(전면/후면 범퍼, 사이드 가니시), 메탈릭 블랙 루프
+<br><br><b>●&nbsp;내장 :</b> esprit Alpine 전용 로고(앞좌석 시트 상단), 블랙나파 인조가죽 시트, 블랙알칸타라 내장재(앞좌석 시트 볼스터,
+ 도어 인서트, IP 센터), 블랙스웨이드 내장재(앞좌석&amp;뒷좌석 시트 숄더, 헤드레스트), 블랙 메탈 데코, 글로시 블랙 데코 콘솔,
+ esprit Alpine 전용 블루 스티치(시트, 도어 암레스트, IP 데코, 콘솔 그립핸들),
+ esprit Alpine 전용 블루 안전벨트 사이드 라인, 프랑스 플래그 라벨(운전석),
+ 레드/화이트/블루 스티치 스티어링 휠 &amp; 앞좌석 센터 암레스트/리어시트 암레스트
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>●&nbsp;</b><b>클라우드 펄 외장컬러</b>&nbsp;300,000
+<br><br><b>●&nbsp;새틴 어반 그레이</b>&nbsp;<b>외장컬러&nbsp;</b>500,000<br><br><b>●&nbsp;BOSE 서라운드 사운드 시스템
+(10 스피커) + 액티브 노이즈
+캔슬레이션</b>
+ 1,290,000<br><br><b>●&nbsp;증강현실 헤드업 디스플레이
+ (AR-HUD)
+ + 차음 윈드 쉴드 글라스</b>
+ 1,140,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+												</tbody>
+											</table>
+										
+
+
+										<!-- case2 : 세부등급이 있는경우 -->
+										
+									</div>
+									<!-- 신차가격표(폴더형) -->
+									<div id="f_fold" style="display:none;">
+										<div class="newcar_folder">
+											<ul class="nf_list" id="newcarList">
+												
+													<li>
+														<a href="#newcar0">
+                                                            <span class="model">2.0 테크노 2WD  DCT</span>
+                                                            <span class="prc">
+                                                                <strong>3,442</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar1">
+                                                            <span class="model">2.0 아이코닉 2WD  DCT</span>
+                                                            <span class="prc">
+                                                                <strong>3,827</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar2">
+                                                            <span class="model">2.0 에스프리 알핀 2WD  DCT</span>
+                                                            <span class="prc">
+                                                                <strong>4,038</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar3">
+                                                            <span class="model">2.0 에스프리 알핀 4WD  DCT</span>
+                                                            <span class="prc">
+                                                                <strong>4,304</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar4">
+                                                            <span class="model">1.5 E-TECH 테크노 2WD  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,760.9</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar5">
+                                                            <span class="model">1.5 E-TECH 아이코닉 2WD  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>4,154.9</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar6">
+                                                            <span class="model">1.5 E-TECH 에스프리 알핀 2WD  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>4,351.9</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+											</ul>
+											<!-- 개별 -->
+											
+												<div id="newcar0" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>E-tech 하이브리드 techno 기본 품목 및&nbsp;
+<br></b><b><br></b><b>●&nbsp;파워트레인 :</b> 가솔린 2.0 터보 엔진, 7단 DCT(습식), 드라이브 모드(Eco/Comfort/Sport/AI/Snow),
+ 전자식 변속 노브(SBW), 오토 스탑/스타트 시스템, 2WD</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>●&nbsp;</b><b>클라우드 펄 외장컬러</b>&nbsp;300,000<br><br><b>● 미네랄 코퍼&nbsp;외장컬러</b>&nbsp;200,000
+<br><b><b><br></b>●&nbsp;12.3” 동승석 디스플레이(cinema(OTT),
+음악 스트리밍, 웹브라우저, 앱스토어, 포토링크) +
+FULL 오토 파킹 보조 + 후방 긴급 제동 보조 + 8 스피커</b>
+ 1,630,000</p>
+												</div>
+											
+												<div id="newcar1" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>E-tech 하이브리드 iconic 기본 품목 및</b>&nbsp;
+<br><br><b>●&nbsp;파워트레인 :</b> 가솔린 2.0 터보 엔진, 7단 DCT(습식), 드라이브 모드(Eco/Comfort/Sport/AI/Snow),
+ 전자식 변속 노브(SBW), 오토 스탑/스타트 시스템, 2WD</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>●&nbsp;</b><b>클라우드 펄 외장컬러</b>&nbsp;300,000<br><br><b>● 미네랄 코퍼&nbsp;외장컬러</b>&nbsp;200,000
+<br><b><b><br></b>●&nbsp;BOSE 서라운드 사운드 시스템(10 스피커)
+ + 액티브 노이즈 캔슬레이션</b>
+ 1,290,000<br><br><b>●&nbsp;증강현실 헤드업 디스플레이(AR-HUD)
+ + 차음 윈드 쉴드 글라스</b>
+ 1,140,000<br><br><b>●&nbsp;20” 투톤 하이랜드 알로이 휠 &amp;
+ 245/45 R20 저소음 폼 타이어</b>
+ 400,000</p>
+												</div>
+											
+												<div id="newcar2" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>E-tech 하이브리드 esprit Alpine 기본 품목 및<br></b><br><b>●&nbsp;파워트레인 :</b> 가솔린 2.0 터보 엔진, 7단 DCT(습식), 드라이브 모드(Eco/Comfort/Sport/AI/Snow),
+ 전자식 변속 노브(SBW), 오토 스탑/스타트 시스템, 2WD</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>●&nbsp;</b><b>클라우드 펄 외장컬러</b>&nbsp;300,000<br><br><b>●&nbsp;새틴 어반 그레이</b>&nbsp;<b>외장컬러&nbsp;</b>500,000
+<br><b><b><br></b>●&nbsp;BOSE 서라운드 사운드 시스템(10 스피커)
++ 액티브 노이즈 캔슬레이션</b>
+ 1,290,000<br><br><b>●&nbsp;증강현실 헤드업 디스플레이(AR-HUD)
+ + 차음 윈드 쉴드 글라스</b>
+ 1,140,000</p>
+												</div>
+											
+												<div id="newcar3" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>가솔린 esprit Alpine 2WD 기본 품목 및<br></b><br><b>●&nbsp;</b><b>파워 트레인 :</b> 가솔린 2.0 터보 엔진, 8AT, 드라이브 모드(Eco/Comfort/Sport/AI/Snow/Off Road),
+ 전자식 변속 노브(SBW), 오토 스탑/스타트 시스템, 4WD</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>●&nbsp;</b><b>클라우드 펄 외장컬러</b>&nbsp;300,000<br><br><b>●&nbsp;새틴 어반 그레이</b>&nbsp;<b>외장컬러&nbsp;</b>500,000
+<br><b><br>●&nbsp;BOSE 서라운드 사운드 시스템(10 스피커)
+ + 액티브 노이즈 캔슬레이션</b>
+ 1,290,000<br><br><b>●&nbsp;증강현실 헤드업 디스플레이(AR-HUD)
+ +&nbsp;차음 윈드 쉴드 글라스&nbsp;</b>1,140,000</p>
+												</div>
+											
+												<div id="newcar4" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>● 파워트레인 :</b> E-Tech 하이브리드(가솔린 1.5 터보 엔진, 멀티모드 오토, 듀얼 모터 시스템 (100kW 구동모터, 60kW 보조모터),
+ 배터리 용량 1.64kWh), 드라이브 모드(Eco/Comfort/Sport/AI/Snow), 전자식 변속 노브(SBW), 2WD
+
+<br>
+<br><b>●&nbsp;첨단 주행 보조 :</b> 인텔리전트 크루즈 컨트롤(정차 및 재출발), active driver assist(차선 유지 보조/자동 차로 변경 보조/
+ 자동 속도 제한 보조/차로 내 편향 주행), 클리어뷰 트랜스페어런트 섀시, 회피 조향 보조, 긴급 제동 보조(차량/보행자/
+ 자전거 탑승자/오토바이 탑승자/교차로 대향차), 차선이탈경보/차선이탈방지 보조, 전방 교차 충돌 경보,후방 교차 충돌 경보/
+ 후방 교차 충돌 방지 보조, 전방차량 대응/후방차량 대응 차선 이탈 방지 보조, 후방충돌경보, 사각지대 경보, 안전 하차 경보,
+ 차간 거리 경보, 오토매틱 하이빔
+
+<br>
+<br><b>●&nbsp;안전 :</b> QRescue 코드, 다중충돌방지제동보조, 앞좌석 에어백(운전석/동승석 듀얼 스테이지), 파사이드 에어백(앞),
+ 사이드(앞)/커튼 에어백, 경사로 밀림방지장치(HSA), 경사로 저속 주행장치(HDC), 차체자세 제어장치(ESC),
+ 타이어 공기압 자동감지 시스템, EBD-ABS(BAS 내장), 급제동 경보 시스템(ESS), 전/후륜 디스크 브레이크
+ (전륜 벤틸레이티드), 충돌감지도어록 해제장치, 차속감응 오토도어록, 앞좌석 3점식 시트벨트(듀얼프리텐셔너/
+ 가변 듀얼레벨 로드리미터/리마인드경고기능), 뒷좌석 3점식 시트벨트(리마인드 경고 기능,
+ 좌/우 측면 좌석 프리텐셔너 포함), ISOFIX 유아용 시트 고정 장치, 차량용 소화기
+
+<br>
+<br><b>●&nbsp;외관 :</b> 로장주 패턴 라디에이터 그릴, 19” 투톤 레이크 알로이 휠 &amp; 235/50 R19 타이어, FULL LED 헤드램프(프로젝션 타입),
+ 크리스탈 3D 타입 FULL LED 리어콤비네이션 램프, LED 주간 주행등, LED 방향 지시등(전방), 글로시 블랙 루프랙,
+ 글로시 블랙 사이드 가니시, 글로시 블랙 샤크핀 안테나, 글로시 블랙 아웃사이드 미러 커버, 바디컬러 아웃사이드 도어 핸들
+
+<br>
+<br><b>●&nbsp;내장 :</b> 블랙 인조가죽 시트, 멜란지 패브릭 내장재(앞좌석/뒷좌석 시트 숄더, 앞좌석/뒷좌석 시트 볼스터, 도어 인서트,
+ IP 센터, 헤드라이닝, A 필라), 6:4 폴딩 2열 시트(리클라이닝, 암레스트, 컵홀더 포함),
+ 나파 인조가죽 스티어링 휠, D/N 룸미러, 운전석/동승석 선바이저(거울, 조명 포함), 브러시드 알루미늄 페인팅 데코,
+ 글로시 블랙 데코 콘솔
+
+<br>
+<br><b>●&nbsp;편의 :</b> 360° 3D 어라운드 뷰(후방카메라 포함), 파워테일게이트(anti-pinch 기능), 인텔리전트 스마트 키(버튼시동,
+ 원격시동, 오토 클로징 &amp; 오프닝, 내 차 위치 찾기, 창문 오픈 &amp; 클로징), 디지털 키, 운전석 파워시트(6way, 이지액세스,
+ 메모리 포함), 동승석 파워시트(6way), 앞좌석 통풍시트, 전좌석 원터치 세이프티 파워 윈도우, 웰컴 시스템,
+ 앞좌석 열선시트, 전자식 파킹 브레이크, 오토 홀드, 주차보조시스템(전방/후방 경보), 스피드 리미터,
+ 열선 스티어링 휠, 오토라이팅 헤드램프, 레인센싱 와이퍼, 12V 아웃렛(앞좌석, 트렁크)
+
+<br>
+<br><b>●&nbsp;멀티미디어 :</b> openR 파노라마 스크린(12.3” TFT 클러스터 + 12.3” 센터 디스플레이, 무제한 5G 데이터(구매 후 5년간),
+ 통신형 TMAP 내비게이션, 무선 애플 카플레이 &amp; 무선 안드로이드 오토, 음악스트리밍, 웹브라우저, 앱스토어,
+ 음성인식 NUGU auto, 포토링크, 어시스트 콜), 무선 소프트웨어 업데이트(FOTA), 6 스피커,
+ 앞좌석 2 USB 단자(A 타입 데이터 전송, 충전/C 타입 충전), 뒷좌석 2 USB 단자(C 타입 충전)
+
+<br>
+<br><b>●&nbsp;공조시스템 :</b> 3-zone 독립 풀 오토 에어컨(운전석, 동승석, 뒷좌석), PM2.5+카본 필터, 에어퀄리티 시스템(AQS),
+ 애프터 블로우</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>●&nbsp;</b><b>클라우드 펄 외장컬러</b>&nbsp;300,000
+<br>
+<br><b>● 미네랄 코퍼&nbsp;외장컬러</b> 200,000<br>
+&nbsp;<br><b>●&nbsp;12.3” 동승석 디스플레이
+ (cinema(OTT),
+ 음악스트리밍, 웹브라우저,
+ 앱스토어, 포토링크)
+ + FULL 오토 파킹 보조
+ + 후방 긴급 제동 보조
+ + 8 스피커</b>
+ 1,630,000</p>
+												</div>
+											
+												<div id="newcar5" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>1.5 E-TECH techno 기본 품목 및&nbsp;
+<br></b><br><b>●&nbsp;멀티미디어 :</b> openR 파노라마 스크린&amp;동승석 디스플레이
+ (12.3” TFT 클러스터 + 12. 3” 센터 디스플레이 + 12.3” 동승석 디스플레이, 파노라마 스크린 보호 필름,
+ 무제한 5G 데이터(구매 후 5년간), 통신형 TMAP 내비게이션, 무선 애플 카플레이 &amp; 무선 안드로이드 오토, cinema(OTT),
+ 음악스트리밍, 웹브라우저, 앱스토어, 음성인식 NUGU auto, 포토링크 , 어시스트 콜), 8 스피커
+<br><br><b>●&nbsp;안전 :</b> 후방 긴급 제동 보조<br><br><b>●&nbsp;외관 :</b> 이중접합 차음 글래스(1열 사이드 윈도우), 퍼들 램프
+<br><br><b>●&nbsp;내장 :</b> 나파 인조가죽 시트(다크 블루 또는 퀼팅 라이트 브라운 중 선택), 멜란지 패브릭 내장재(헤드라이닝, A 필라),
+ 프레임리스 룸미러, 컬러 가변형 앰비언트 라이트(앞좌석 도어), 브러시드 알루미늄 필름 데코, 브러시드 알루미늄 데코 콘솔,
+ 카매트
+<br><br><b>●&nbsp;편의 :</b> FULL 오토 파킹 보조, 운전석 파워시트(8way), 전동식 요추 받침 장치(4way), 뒷좌석 열선 시트,
+ 하이패스 시스템(ETCS), 전자식 룸미러(ECM), 주차보조시스템(전방/후방/측방 경보), 스마트폰 무선 충전</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>●&nbsp;</b><b>클라우드 펄 외장컬러</b>&nbsp;300,000<br><br><b>● 미네랄 코퍼&nbsp;외장컬러</b>&nbsp;200,000
+<br><br><b>●&nbsp;BOSE 서라운드 사운드 시스템
+(10 스피커) + 액티브 노이즈
+캔슬레이션</b>
+ 1,290,000<br><br><b>●&nbsp;증강현실 헤드업 디스플레이
+ (AR-HUD)
+ + 차음 윈드 쉴드 글라스</b>
+ 1,140,000
+<br><br><b>●&nbsp;20” 투톤 하이랜드 알로이 휠 &amp;
+ 245/45 R20 저소음 폼 타이어</b>
+ 400,000</p>
+												</div>
+											
+												<div id="newcar6" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>1.5 E-TECH&nbsp;iconic 기본 품목 및&nbsp;
+<br></b><br><b>●&nbsp;외관 :</b> esprit Alpine 전용 20” 다크 틴티드 투톤 피크 알로이 휠 &amp; 245/45 R20 저소음 폼 타이어, esprit Alpine 전용 로고
+ (사이드 엠블리셔), esprit Alpine 전용 라디에이터 그릴(핫스탬핑, 블루 로장주 패턴), 다크 틴티드 로장주 로고 &amp;
+ 모델명 엠블렘, esprit Alpine 전용 블루 그라데이션 디자인(전면/후면 범퍼, 사이드 가니시), 메탈릭 블랙 루프
+<br><br><b>●&nbsp;내장 :</b> esprit Alpine 전용 로고(앞좌석 시트 상단), 블랙나파 인조가죽 시트, 블랙알칸타라 내장재(앞좌석 시트 볼스터,
+ 도어 인서트, IP 센터), 블랙스웨이드 내장재(앞좌석&amp;뒷좌석 시트 숄더, 헤드레스트), 블랙 메탈 데코, 글로시 블랙 데코 콘솔,
+ esprit Alpine 전용 블루 스티치(시트, 도어 암레스트, IP 데코, 콘솔 그립핸들),
+ esprit Alpine 전용 블루 안전벨트 사이드 라인, 프랑스 플래그 라벨(운전석),
+ 레드/화이트/블루 스티치 스티어링 휠 &amp; 앞좌석 센터 암레스트/리어시트 암레스트</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>●&nbsp;</b><b>클라우드 펄 외장컬러</b>&nbsp;300,000
+<br><br><b>●&nbsp;새틴 어반 그레이</b>&nbsp;<b>외장컬러&nbsp;</b>500,000<br><br><b>●&nbsp;BOSE 서라운드 사운드 시스템
+(10 스피커) + 액티브 노이즈
+캔슬레이션</b>
+ 1,290,000<br><br><b>●&nbsp;증강현실 헤드업 디스플레이
+ (AR-HUD)
+ + 차음 윈드 쉴드 글라스</b>
+ 1,140,000</p>
+												</div>
+											
+										</div>
+										<script type="text/javascript">
+											newcarFolder(0);//초기값
+											function newcarFolder(target) {
+												var conElId = "newcar"//아이디 설정
+												var conElMenu = document.getElementById("newcarList");
+												var conElMenuLink = conElMenu.getElementsByTagName("a");
+												if (target != null) {
+													conElMenuLink[target].parentNode.className = "on";
+													document.getElementById(
+														conElId + target).style.display = "";
+												}
+												for (i = 0; i <= (conElMenuLink.length - 1); i++) {
+													conElMenuLink[i].onclick = function () {
+														for (x = 0; x <= (conElMenuLink.length - 1); x++) {
+															conElMenuLink[x].parentNode.className = "";
+															document.getElementById(
+																conElId + x).style.display = "none";
+														}
+														this.parentNode.className = "on";
+														document.getElementById(this.getAttribute('href')
+																					.split(
+																						'#')[1]).style.display =
+															"";
+														return false;
+													}
+												}
+											}
+										</script>
+									</div>
+									
+										<ul class="more">
+												<b>▶ 외장컬러 추가비용</b><br><b>●&nbsp;클라우드 펄</b><br>*&nbsp;esprit Alpine / iconic / techno - 추가비용&nbsp;300,000원<br><b>●&nbsp;미네랄 코퍼</b><br>*&nbsp;iconic / techno&nbsp;-&nbsp;추가비용&nbsp;200,000원<br><b>●&nbsp;새틴 어반 그레이</b><br>* esprit Alpine -&nbsp;추가비용&nbsp;500,000원
+										</ul>
+									
+									<p class="desc_more">위 신차가격표는 단순 참고자료이며, 정확한 내용은 각 제조사에서 제공하는 자료를 통해확인하실 수 있습니다.</p><!-- 2016/10/12 [장] 등급 등록/수정 개선 : 추가 디자인 변경 -->
+									<p class="toTop"><a href="#main_title" class="sp toTop db_ir" title="페이지 위로"><u>페이지 위로</u></a></p><!-- [시세개편] class db_ir 추가 -->
+								</div>
+
+
+							</div>
+							<!-- body end -->
+						</td>
+					</tr>
+				</table>
+
+
+			
+			
+		
+    </div>
+
+    <!-- container end -->
+</form>
+</div>
+
+</body>
+<script language="javascript">
+
+
+    var strCompanyUrl = "/common/combo/cardbcompany.json?method=carList";
+    var strModelGroupUrl = "/common/combo/modelgroupfordb.json?method=carList";
+    var strModelUrl = "/common/combo/cardbmodel.json?method=carList";
+    var strYrJatoUrl = "/common/combo/jatoYr.json?method=carList";
+
+    var companyid = "mnfccd";
+    var modelgroupid = "mdlgroupcd";
+    var modelid = "mdlcd";
+    var yearid = "caryear";
+
+    function initGnb() {
+        var paramCompany = $("paramMnfccd").value;
+        var paramModelGroup = $("paramMdlgroupcd").value;
+        var paramModel = $("paramMdlcd").value;
+        var paramYr = $("paramYear").value;
+
+        // 제조사
+        if (paramModel != "") {
+            $("mdlcd").show();
+        }
+
+        //console.log("companyid :: " + companyid)
+        //console.log("paramCompany :: " + paramCompany)
+		if($('foldYn').value != 0){
+            foldingYN('f_fold');
+		}
+
+        setCompany(strCompanyUrl, companyid, "제조사", paramCompany);
+
+        // 제조사 값이 있으면 모델 검색
+        if (paramCompany >= '010') {
+            if (paramCompany != "") {
+                if (paramModel == "") {
+                    paramModel = paramModelGroup;
+                }
+                setModel(strModelUrl, modelid, paramCompany, "모델", paramModel)
+                $("mdlgroupcd").hide();
+
+            }
+        } else {
+            $("mdlgroupcd").show();
+            if (paramCompany != "") {
+                setModelGroup(strModelGroupUrl, modelgroupid, paramCompany, "모델", paramModelGroup);
+                if (paramModelGroup != "") {
+                    setModel_New(strModelUrl, modelid, paramCompany, paramModelGroup, "세부모델", paramModel);
+                }
+            }
+
+        }
+        if (paramCompany != "" && paramModel != "") {
+            setCarYear(strYrJatoUrl, yearid, paramCompany, paramModel, "형식연도", paramYr);
+        }
+
+        waitTime = 1;
+    }
+
+    function changeModel_jato(mnfccd, mdlgroupcd) {
+        setModel_New(strModelUrl, modelid, mnfccd, mdlgroupcd, "세부모델", "");
+        //모델그룹선택시 기본 세부모델선택
+        if ($("mdlcd") != null) {
+            $("mdlcd").selectedIndex = 1;
+            var mdlcd = $("mdlcd").options[$("mdlcd").selectedIndex].value;
+            changeYearJato(mnfccd, mdlcd);
+        }
+    }
+
+    function changeYearJato(mnfccd,mdlcd) {
+        setCarYear(strYrJatoUrl, yearid, mnfccd, mdlcd, "형식연도", "");
+        $(yearid).options[1].selected = true;
+    }
+
+
+
+    //덧글 리스트
+    function viewForm(index) {
+
+        var object = $("default" + index);
+        var objectSum = $("defaultSum" + index);
+        var selectSum = $("choiceSum" + index);
+        var object1 = $("choice" + index);
+        if (object != null) {
+            if (object.style.display == 'none') {
+                objectSum.hide();
+                selectSum.hide();
+                object.style.display = "block";
+                object1.style.display = "block";
+
+            } else {
+                object.hide();
+                object1.hide();
+                objectSum.style.display = "block";
+                selectSum.style.display = "block";
+            }
+        }
+    }
+
+    function viewAll() {
+        for (var i = 1; i <=7; i++) {
+            $("default" + i).style.display = "block";
+            $("defaultSum" + i).style.display = "none";
+            $("choice" + i).style.display = "block";
+            $("choiceSum" + i).style.display = "none";
+        }
+    }
+
+    function closeAll() {
+        for (var i = 1; i <=7; i++) {
+            $("default" + i).style.display = "none";
+            $("defaultSum" + i).style.display = "block";
+            $("choice" + i).style.display = "none";
+            $("choiceSum" + i).style.display = "block";
+        }
+    }
+
+    function firstLayerOpen() {
+        //viewForm(1);
+    }
+
+    function foldingYN(param) {
+        if (param == "f_fold") {
+            document.getElementById("folding").innerHTML ="<a href=\"javascript:foldingYN('f_unfold')\" class='folding f_unfold'>전체등급 펼쳐보기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "none";
+            document.getElementById("f_fold").style.display = "";
+        } else {
+            document.getElementById("folding").innerHTML = "<a href=\"javascript:foldingYN('f_fold')\" class='folding f_fold'>접기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "";
+            document.getElementById("f_fold").style.display = "none";
+        }
+    }
+
+    function onSubmit() {
+        jQuery("#searchForm").submit();
+
+    }
+    window.onload = initGnb;
+
+</script>
+</html>
+

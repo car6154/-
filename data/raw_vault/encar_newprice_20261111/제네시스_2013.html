@@ -1,0 +1,1536 @@
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>차량DB - 차량정보 - 신차가격표</title>
+    <link type="text/css" rel="stylesheet" href="/css/common.css?v=1793835891525"/>
+    <link type="text/css" rel="stylesheet" href="/css/db.css?v=1793835891525"/>
+
+    <script type="text/javascript" src="/js/encarapp/lib/jquery/jquery-1.11.3.min.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/common/ui.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/prototype.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/util.js?v=1793835894199"></script>
+
+    <script type="text/javascript" src="/js/common/db_common.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/commonCombo.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/carSearchCombo.js?v=1793835894199"></script>
+	<script>
+		window.enlogInitJson = {
+			"dataTalkView": {
+				"screenName": "신차가격표"
+			}
+		}
+
+	</script>
+
+
+</head>
+
+
+
+
+
+
+
+    <!-- 등급 체크박스  -->
+    <div style="display:none">
+        
+    </div>
+
+    <!-- 세부등급 체크박스 -->
+    <div style="display:none">
+        
+    </div>
+
+
+
+<body class="db db_newdetailview db_basicTemplate">
+
+
+
+
+	
+	
+	
+	
+
+
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-W9QQ2T"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W9QQ2T');</script>
+<!-- End Google Tag Manager -->
+
+<!-- container begin -->
+<div class="container" id="containerDIV">
+<input type="hidden" id = "foldYn" name="searchtype" value="9"/>
+<form id ="searchForm" name="searchForm">
+
+    <input type="hidden" id = "method" name="method" value="newpricePopV2"/>
+    <input type="hidden" id = "dimensiontype" name="dimensiontype" value="null"/>
+    <input type="hidden" id = "paramMnfccd" name="paramMnfccd" value="001"/>
+    <input type="hidden" id = "paramMdlgroupcd" name="paramMdlgroupcd" value="025"/>
+    <input type="hidden" id = "paramMdlcd" name="paramMdlcd" value="088"/>
+    <input type="hidden" id = "paramYear" name="paramYear" value="2013"/>
+    <input type="hidden" id = "model" name="model" value="">
+    <input type="hidden" id = "paramCaryear" name="paramCaryear" value="2013"/>
+    <input type="hidden" id = "clsheadcd" name="clsheadcd" class="checkbox" value="null"/>
+    <input type="hidden" id = "paramGradeHead" name="paramGradeHead" value="null"/>
+	<input type="hidden" id = "searchtype" name="searchtype" value="check"/>
+	<input type="hidden" id = "pageAccessToken" name="pageAccessToken" value="AgV4XnX7MRKRXWCAK7kQREJUvcQ2Ib+IlvFLYTbNi1th+GkAcQACAAdFbmNhckNrAAdFbmNhckN2ABVhd3MtY3J5cHRvLXB1YmxpYy1rZXkAREEwSVYzQ0xNY0ZTeHQ1ekZYQytOdWZuMHBBcFBLekhqMW9MbTlKcWNKZXZQeGhYSktnMml3OW1qNWJ3ZmxlQm1nQT09AAEAB2F3cy1rbXMAUGFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjI3MjM2MjQ4NzY1MzprZXkvbXJrLWRmZWEyNmY3NTVhMzQ3MjliNjkwMjRkZWZmM2M1MWFjALgBAgEAeAuqQuSJvQ+Ra4FSj55FZzS0sk+00amsb3yoAFiEYn4PAUSWMIuDWXGLxHoXsbBfXFMAAAB+MHwGCSqGSIb3DQEHBqBvMG0CAQAwaAYJKoZIhvcNAQcBMB4GCWCGSAFlAwQBLjARBAzaK/BIY6jluqXxGKkCARCAO6EuZQzc/NqFcECj2NaOry+J4aphJ7gpP5K6W28xzn2FGwjZqLyeFU2IymgdXgl/bBbTcnDyIvA3E+bcAgAAEACWETsgxDrHEqq7w7eqWonsnFNi7t2BYcFh+aPnYNvtLhEq16v3HzX0SQCKxbazIKL/////AAAAAQAAAAAAAAAAAAAAAQAAAKOCwN9iViH1vqxR6GDBqXOorPN2wtfmrB6ywPp2nonsaPVscU4CGrPMPjq6NvbSC1W88o4lhIN3ejcJwYVaWB9emdk9kRaUN77X4/OP4nCTnjqk6v9k9DOzGHLwEDlPzogoylx8UKtOT/vT/AuNUDT1fkoGUbtw6Z1HJdjJUkl3aU61oreL6DFlRiY6CXoIJaKKS54c82T6TUwGXkn+2vZpMd4OVoeMpxDApHFQGHyXBJsvggBnMGUCMQCOCOwy3RFf4Ay4KjquHnjUkyfHuXiSF6DKTCLhtaj7sD+QqPKSJeOMno3N6n0Jun0CMHzXIyEMnVfv4vO+9cqqk3yFA4L/Fk3WeWMS9qnkdBhjrkh5OvmX0bQTdyZKnVgv6A=="/>
+    <div class="header">
+        <h1 class="blind">SK엔카</h1>
+        <h2 class="tit_carprice" id="main_title">신차가격표</h2>
+        <p class="quickSearch">
+
+
+
+            <select title="제조사" class="opt_select" id="mnfccd" name="mnfccd" onChange="javascript:changeModelGroup(this.value);">
+                <option value="">제조사</option>
+            </select>
+
+            <select class="opt_select" title="모델" id="mdlgroupcd" name="mdlgroupcd" onChange="javascript:changeModel_jato($('mnfccd').value, this.value);">
+                <option>모델</option>
+            </select>
+
+            <select class="opt_select" title="세부모델" id="mdlcd" name="mdlcd" onChange="javascript:changeYearJato($('mnfccd').value, $('mdlcd').value);">
+                <option>세부모델</option>
+            </select>
+
+            <select class="opt_select" title="연식" id="caryear" name="caryear">
+                <option>연식</option>
+            </select>
+
+            <button type="button" class="btn_search" onclick="javascript:onSubmit();"/>검색</button>
+
+
+
+        </p>
+    </div>
+    <!-- body begin -->
+    <div class="body" id="bodydiv">
+		
+			
+				<table class="layout">
+					<col class="contents"/>
+					<tr>
+						<td class="contentsMenu">
+							<!-- contentsMenu begin -->
+							<div class="contentsMenu">
+								<h3 class="title">현대 제네시스 2013년형</h3>
+							</div>
+							<!-- contentsMenu end -->
+						</td>
+					</tr>
+
+					<tr>
+						<td class="contentsMain">
+							<!-- contents begin -->
+							<div class="contents">
+
+								<div class="carCompare">
+									<div class="dbHead">
+										
+											<div id="folding"><a href="javascript:foldingYN('f_fold')"
+																 class="folding f_fold">전체등급 펼쳐보기<em class="db_ir"></em></a></div>
+
+											<!-- 2013/04/03 [서] 매물탭 개선 : 기능 버튼 추가 --><!--<a href="#" class="folding f_unfold">펼치기</a>-->
+										
+									</div>
+									
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+									<div id="f_unfold">
+										
+
+
+										<!-- case2 : 세부등급이 있는경우 -->
+										
+											<table class="carCompare sellcase2">
+												<colgroup>
+													<col class="grade">
+													<col class="detailgrd">
+													<col class="mission">
+													<col class="price">
+													<col class="uprice">
+													<col class="item">
+													<col class="option">
+												</colgroup>
+												<thead class="compare">
+												<tr>
+													<th class="grade bgn" colspan="3"><b>구분</b></th>
+													<th class="price"><b>판매가격</b></th>
+													<th class="uprice"><b>중고차시세</b></th><!-- [시세개편] 중고차시세 추가 -->
+													<th class="item"><b>기본사양 품목</b></th>
+													<th class="option end"><b>선택사양 품목</b></th>
+												</tr>
+												</thead>
+												<tbody class="new">
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="2">
+																<p>BH330 모던</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>기본형</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>4,338</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> 파워트레인/성능</b> : 후륜구동형 람다(λ) 3.3 GDi엔진(출력 300ps), 후륜구동형 8단 자동변속기,진폭감응형 댐퍼(ASD), 풋파킹 브레이크, 엔진 및 엔진룸커버, 통합주행모드
+<br><br>▶<b> 외관</b> : 듀얼머플러, 헤드램프 라이트가이드, 225/55R17타이어 &amp; 알로이 휠, LED 리어 콤비 램프, LED 보조제동등, (방향지시등 내장) 아웃사이드 미러, 고급크롬 서라운드 몰딩 및 블랙유광 B필라
+<br><br>▶<b> 내장</b> : 도난방지시스템 내장 키, 천연 가죽시트, 뒷좌석 전용 에어벤트(B필라), 도어 커티쉬 램프, 풋램프, 퍼들램프, 후석용 독서등, (듀얼)풀오토 에어컨, 슈퍼비전 클러스터(모노톤 정보표시창), 후석센터 보조매트
+<br><br>▶<b> 안전</b> : (전자식) 액티브 헤드레스트(앞좌석), 세이프티 파워윈도우(앞좌석), 8 에어백 시스템(운전석/동승석, 앞/뒷좌석 사이드, 커튼), 차체 자세 제어 장치(VDC; ABS, EBD, TCS, CBC, BAS 기능 포함), 유아용 시트 고정장치, 뒷좌석 센터 3점식 시트 벨트, 급제동 경보시스템(ESS)
+<br><br>▶<b> 기타/편의사양</b> : 버튼시동장치 &amp; 스마트키 시스템, 전후방 주차보조시스템(PAS), 뒷좌석 암레스트 오디오 리모컨, 하이패스 시스템(ECM룸미러 포함), 앞좌석 열선 파워시트, 뒷좌석 열선 시트, 스티어링 휠(전기유압식 파워, 수동식 틸트 조절, 가죽), 충격감지 도어잠금 해제장치, 원터치 업다운 파워윈도우(앞좌석), (이중접합)차음 유리(앞면 유리), 경제운전안내시스템, 후석 고정형(Bench-fixed) 시트(후석 스키쓰루 기능 적용), 스티어링 휠 내장 리모컨, 오르간타입 가속페달, 무선도어잠금 및 도난경보장치, 크루즈 컨트롤, 원터치 트리플 턴시그널 기능, 헤드램프 에스코트 기능, 웰컴라이팅 기능, 러기지네트, 후방카메라
+<br><br>▶<b> 멀티미디어</b> : 인텔리전트 내비게이션, 일반 사운드 시스템(앰프, 7스피커)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 세이프티 썬루프</b> 490,000
+<br><br>▶<b> 235/50R18타이어 &amp; 전면가공 휠</b> 400,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>스페셜</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>4,665</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> BH330 모던 기본 품목 및</b>&nbsp;<br><br>스티어링 휠(열선, 우드그레인 추가), 슈퍼비전 클러스터(컬러 정보표시창), 웰컴사운드 &amp; 고급음원 기능, 운전석/동승석 냉난방 기능 통풍시트, 클러스터 이오나이저, 오토디포깅 시스템, 레인센서, 크롬몰딩(사이드)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 세이프티 썬루프</b> 490,000
+<br><br>▶<b> 235/50R18타이어 &amp; 전면가공 휠</b> 400,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="2">
+																<p>BH330 프리미엄</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>기본형</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>5,030</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> BH330 모던 기본 품목 및</b>&nbsp;<br><br>DISⅡ(블루링크 서비스 지원), Lexicon LOGIC7™프리미엄&nbsp;사운드 시스템(앰프, 17스피커), 주차 가이드 시스템(PGS), 235/50R18타이어 &amp; 전면가공 휠, 전자식 파킹브레이크(EPB, Auto Hold 기능 포함), 타이어공기압 경보장치(TPMS), 스티어링 휠(전동식 틸트 &amp; 텔레스코픽 조절, 열선, 우드그레인 추가), 슈퍼비전클러스터(컬러 정보표시창), 클러스터 이오나이저, 웰컴사운드 &amp; 고급음원 기능, 운전석/동승석 냉난방 기능 통풍시트, 도어스커프램프, 원터치 업다운 파워윈도우(뒷좌석), 세이프티 파워윈도우(뒷좌석), 오토디포깅 시스템, 레인센서, HID 헤드램프(LED 포지션 램프), 크롬몰딩(사이드), 운전석 통합 메모리 시스템(IMS, 시트/스티어링 휠/아웃사이드 미러), 아웃사이드미러(후진 연동 하향조절 기능), 인텔리전트 가속 페달(ECO-P 기능)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 세이프티 썬루프</b> 490,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>스페셜</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>5,424</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> BH330 프리미엄 기본 품목 및</b>&nbsp;<br><br>뒷좌석 전동 시트(6:4 분할, 스키쓰루 미적용), 뒷좌석 암레스트 다기능리모컨(오디오, 시트조절, 전동커튼 스위치 등), 전동식 뒷면 유리 커튼, 천연가죽감싸기(크래쉬패드 플레이트, 클러스터 페시아판넬, 도어트림 어퍼가니쉬), 이중접합 차음유리(전도어), 차선이탈경보시스템(LDWS), 전방카메라, 동승석 워크-인 스위치, 발수글래스(앞좌석 도어), 아웃사이드 미러(ECM)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 세이프티 썬루프</b> 490,000
+<br><br>▶<b> 리어 모니터</b> 1,160,000
+<br><br>▶<b> 스마트 크루즈 컨트롤(SCC)</b> 1,160,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+													
+														
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>BH380 익스클루시브</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>기본형</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>5,178</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> BH330 모던 기본 품목 및</b>&nbsp;<br><br> 후륜구동형 람다(λ) 3.8 GDi엔진(출력 334ps), DISⅡ(블루링크 서비스 지원), Lexicon LOGIC7™ 프리미엄 사운드 시스템(앰프, 17스피커), 주차 가이드 시스템(PGS), 235/50R18 타이어 &amp; 전면가공 휠, 전자식 파킹브레이크(EPB, Auto Hold 기능 포함), 스티어링 휠(열선, 우드그레인 추가), 전륜 4피스톤 캘리퍼 브레이크, 크롬몰딩(사이드), 우드그레인 스티어링 휠, 슈퍼비전 클러스터(컬러 정보표시창), 웰컴사운드 &amp; 고급음원 기능, 클러스터 이오나이저, 발수 글래스(앞좌석 도어), 아웃사이드 미러(ECM), 도어 스커프 램프, 원터치 업다운 파워윈도우(뒷좌석), 세이프티 파워윈도우(뒷좌석), 오토디포깅 시스템, 레인센서
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 세이프티 썬루프</b> 490,000
+<br><br>▶<b> 리어 모니터</b> 1,160,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="2">
+																<p>BH380 프레스티지</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>기본형</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>5,790</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> BH380 익스클루시브 기본 품목 및</b>&nbsp;<br><br>235/45R19 컨티넨탈 타이어 &amp; 전면가공 휠, HID 헤드램프(LED 포지션 램프), 세이프티 썬루프, 운전석/동승석 냉난방 기능 통풍시트, 운전석 통합 메모리 시스템(IMS, 시트/스티어링 휠/아웃사이드 미러), 아웃사이드미러(후진 연동 하향조절 기능), 동승석 워크-인 스위치, 스티어링 휠(전동식 틸트 &amp; 텔레스코픽 추가), 이중접합 차음유리(전도어), 전동식 뒷면 유리 커튼, 타이어공기압 경보장치(TPMS), 차선이탈경보 시스템(LDWS), 인텔리전트 가속 페달(ECO-P 기능), 전방카메라
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 리어 모니터</b> 1,160,000
+<br><br>▶<b> 스마트 크루즈 컨트롤(SCC)</b> 1,160,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>스페셜</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>6,394</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> BH380 프레스티지 기본 품목 및</b>&nbsp;<br><br>전동식 트렁크, 뒷좌석 전동 시트 (6:4 분할, 스키쓰루 미적용), 전자제어 에어서스펜션(EAS), 천연가죽감싸기(크래쉬패드 플레이트, 클러스터 페시아판넬, 도어트림 어퍼가니쉬), 뒷좌석 암레스트 다기능리모컨(오디오, 시트조절, 전동커튼 스위치 등), 풀 어댑티브(Full AFLS) LED 헤드램프, LED 프런트 방향지시등, 프리 세이프 시트벨트(운전석/동승석)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 리어 모니터</b> 1,160,000
+<br><br>▶<b> 스마트 크루즈 컨트롤(SCC)</b> 1,160,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="2">
+																<p>프라다</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>GP380</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>7,017</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> BH380 프레스티지 스페셜 기본 품목 및</b>&nbsp;<br><br><b>ㆍ</b><b>파워트레인/성능</b> : 후륜구동형 람다(λ)3.8 GDi엔진(출력334ps), 후륜구동형 8단 자동변속기, 진폭감응형 댐퍼(ASD)
+<br><br><b>ㆍ</b><b>외관</b> : 프라다 디자인 19인치 휠, 프라다 디자인 외장 안테나, 고급크롬 서라운드 몰딩 및 블랙유광 B필라, 다크크롬 베젤 풀어댑티브 LED 헤드램프, 다크크롬 도금 외장(라디에이터 그릴, 몰딩 등), GENESIS PRADA 사이드 / 리어 엠블럼, GP380 후면 엠블럼, 레드메탈릭 컬러 엔진커버
+<br><br><b>ㆍ</b><b>내장</b> : 사피아노 패턴 천연 가죽시트, 사피아노 패턴 가죽감싸기(크러쉬패드 플레이트, 클러스터 페시아판넬, 도어트림 어퍼가니쉬), 알칸타라 브랜드 고급재질(헤드라이닝, 필라, 뒷좌석 패키지 트레이), GENESIS PRADA 로고 도어 스커프 램프, 다크크롬 도금 내장, 화이트 블루 내장 조명
+<br><br><b>ㆍ</b><b>기타/편의사양</b> : DIS Ⅱ(블루링크 서비스 지원), 뒷좌석 모니터, 스마트 크루즈 컨트롤(SCC), 차량 고유번호가 새겨진 시리얼 넘버 플레이트, GENESIS PRADA 인트로 로고(클러스터, DIS II 모니터), 사피아노 패턴 천연가죽 웰컴 패키지(스마트키 홀더, 매뉴얼 케이스)
+<br>* 전자제어에어서스펜션 미적용
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"></li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>GP500</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>7,708</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> GP380 기본품목 포함</b>
+<br><br>후륜구동형 타우(τ)5.0 GDi엔진(출력430ps), GP500 후면 엠블럼
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"></li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+												</tbody>
+											</table>
+										
+									</div>
+									<!-- 신차가격표(폴더형) -->
+									<div id="f_fold" style="display:none;">
+										<div class="newcar_folder">
+											<ul class="nf_list" id="newcarList">
+												
+													<li>
+														<a href="#newcar0">
+                                                            <span class="model">BH330 모던 기본형 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>4,338</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar1">
+                                                            <span class="model">BH330 모던 스페셜 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>4,665</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar2">
+                                                            <span class="model">BH330 프리미엄 기본형 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>5,030</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar3">
+                                                            <span class="model">BH330 프리미엄 스페셜 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>5,424</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar4">
+                                                            <span class="model">BH380 익스클루시브 기본형 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>5,178</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar5">
+                                                            <span class="model">BH380 프레스티지 기본형 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>5,790</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar6">
+                                                            <span class="model">BH380 프레스티지 스페셜 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>6,394</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar7">
+                                                            <span class="model">프라다 GP380 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>7,017</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar8">
+                                                            <span class="model">프라다 GP500 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>7,708</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+											</ul>
+											<!-- 개별 -->
+											
+												<div id="newcar0" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> 파워트레인/성능</b> : 후륜구동형 람다(λ) 3.3 GDi엔진(출력 300ps), 후륜구동형 8단 자동변속기,진폭감응형 댐퍼(ASD), 풋파킹 브레이크, 엔진 및 엔진룸커버, 통합주행모드
+<br><br>▶<b> 외관</b> : 듀얼머플러, 헤드램프 라이트가이드, 225/55R17타이어 &amp; 알로이 휠, LED 리어 콤비 램프, LED 보조제동등, (방향지시등 내장) 아웃사이드 미러, 고급크롬 서라운드 몰딩 및 블랙유광 B필라
+<br><br>▶<b> 내장</b> : 도난방지시스템 내장 키, 천연 가죽시트, 뒷좌석 전용 에어벤트(B필라), 도어 커티쉬 램프, 풋램프, 퍼들램프, 후석용 독서등, (듀얼)풀오토 에어컨, 슈퍼비전 클러스터(모노톤 정보표시창), 후석센터 보조매트
+<br><br>▶<b> 안전</b> : (전자식) 액티브 헤드레스트(앞좌석), 세이프티 파워윈도우(앞좌석), 8 에어백 시스템(운전석/동승석, 앞/뒷좌석 사이드, 커튼), 차체 자세 제어 장치(VDC; ABS, EBD, TCS, CBC, BAS 기능 포함), 유아용 시트 고정장치, 뒷좌석 센터 3점식 시트 벨트, 급제동 경보시스템(ESS)
+<br><br>▶<b> 기타/편의사양</b> : 버튼시동장치 &amp; 스마트키 시스템, 전후방 주차보조시스템(PAS), 뒷좌석 암레스트 오디오 리모컨, 하이패스 시스템(ECM룸미러 포함), 앞좌석 열선 파워시트, 뒷좌석 열선 시트, 스티어링 휠(전기유압식 파워, 수동식 틸트 조절, 가죽), 충격감지 도어잠금 해제장치, 원터치 업다운 파워윈도우(앞좌석), (이중접합)차음 유리(앞면 유리), 경제운전안내시스템, 후석 고정형(Bench-fixed) 시트(후석 스키쓰루 기능 적용), 스티어링 휠 내장 리모컨, 오르간타입 가속페달, 무선도어잠금 및 도난경보장치, 크루즈 컨트롤, 원터치 트리플 턴시그널 기능, 헤드램프 에스코트 기능, 웰컴라이팅 기능, 러기지네트, 후방카메라
+<br><br>▶<b> 멀티미디어</b> : 인텔리전트 내비게이션, 일반 사운드 시스템(앰프, 7스피커)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 세이프티 썬루프</b> 490,000
+<br><br>▶<b> 235/50R18타이어 &amp; 전면가공 휠</b> 400,000</p>
+												</div>
+											
+												<div id="newcar1" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> BH330 모던 기본 품목 및</b>&nbsp;<br><br>스티어링 휠(열선, 우드그레인 추가), 슈퍼비전 클러스터(컬러 정보표시창), 웰컴사운드 &amp; 고급음원 기능, 운전석/동승석 냉난방 기능 통풍시트, 클러스터 이오나이저, 오토디포깅 시스템, 레인센서, 크롬몰딩(사이드)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 세이프티 썬루프</b> 490,000
+<br><br>▶<b> 235/50R18타이어 &amp; 전면가공 휠</b> 400,000</p>
+												</div>
+											
+												<div id="newcar2" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> BH330 모던 기본 품목 및</b>&nbsp;<br><br>DISⅡ(블루링크 서비스 지원), Lexicon LOGIC7™프리미엄&nbsp;사운드 시스템(앰프, 17스피커), 주차 가이드 시스템(PGS), 235/50R18타이어 &amp; 전면가공 휠, 전자식 파킹브레이크(EPB, Auto Hold 기능 포함), 타이어공기압 경보장치(TPMS), 스티어링 휠(전동식 틸트 &amp; 텔레스코픽 조절, 열선, 우드그레인 추가), 슈퍼비전클러스터(컬러 정보표시창), 클러스터 이오나이저, 웰컴사운드 &amp; 고급음원 기능, 운전석/동승석 냉난방 기능 통풍시트, 도어스커프램프, 원터치 업다운 파워윈도우(뒷좌석), 세이프티 파워윈도우(뒷좌석), 오토디포깅 시스템, 레인센서, HID 헤드램프(LED 포지션 램프), 크롬몰딩(사이드), 운전석 통합 메모리 시스템(IMS, 시트/스티어링 휠/아웃사이드 미러), 아웃사이드미러(후진 연동 하향조절 기능), 인텔리전트 가속 페달(ECO-P 기능)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 세이프티 썬루프</b> 490,000</p>
+												</div>
+											
+												<div id="newcar3" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> BH330 프리미엄 기본 품목 및</b>&nbsp;<br><br>뒷좌석 전동 시트(6:4 분할, 스키쓰루 미적용), 뒷좌석 암레스트 다기능리모컨(오디오, 시트조절, 전동커튼 스위치 등), 전동식 뒷면 유리 커튼, 천연가죽감싸기(크래쉬패드 플레이트, 클러스터 페시아판넬, 도어트림 어퍼가니쉬), 이중접합 차음유리(전도어), 차선이탈경보시스템(LDWS), 전방카메라, 동승석 워크-인 스위치, 발수글래스(앞좌석 도어), 아웃사이드 미러(ECM)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 세이프티 썬루프</b> 490,000
+<br><br>▶<b> 리어 모니터</b> 1,160,000
+<br><br>▶<b> 스마트 크루즈 컨트롤(SCC)</b> 1,160,000</p>
+												</div>
+											
+												<div id="newcar4" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> BH330 모던 기본 품목 및</b>&nbsp;<br><br> 후륜구동형 람다(λ) 3.8 GDi엔진(출력 334ps), DISⅡ(블루링크 서비스 지원), Lexicon LOGIC7™ 프리미엄 사운드 시스템(앰프, 17스피커), 주차 가이드 시스템(PGS), 235/50R18 타이어 &amp; 전면가공 휠, 전자식 파킹브레이크(EPB, Auto Hold 기능 포함), 스티어링 휠(열선, 우드그레인 추가), 전륜 4피스톤 캘리퍼 브레이크, 크롬몰딩(사이드), 우드그레인 스티어링 휠, 슈퍼비전 클러스터(컬러 정보표시창), 웰컴사운드 &amp; 고급음원 기능, 클러스터 이오나이저, 발수 글래스(앞좌석 도어), 아웃사이드 미러(ECM), 도어 스커프 램프, 원터치 업다운 파워윈도우(뒷좌석), 세이프티 파워윈도우(뒷좌석), 오토디포깅 시스템, 레인센서</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 세이프티 썬루프</b> 490,000
+<br><br>▶<b> 리어 모니터</b> 1,160,000</p>
+												</div>
+											
+												<div id="newcar5" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> BH380 익스클루시브 기본 품목 및</b>&nbsp;<br><br>235/45R19 컨티넨탈 타이어 &amp; 전면가공 휠, HID 헤드램프(LED 포지션 램프), 세이프티 썬루프, 운전석/동승석 냉난방 기능 통풍시트, 운전석 통합 메모리 시스템(IMS, 시트/스티어링 휠/아웃사이드 미러), 아웃사이드미러(후진 연동 하향조절 기능), 동승석 워크-인 스위치, 스티어링 휠(전동식 틸트 &amp; 텔레스코픽 추가), 이중접합 차음유리(전도어), 전동식 뒷면 유리 커튼, 타이어공기압 경보장치(TPMS), 차선이탈경보 시스템(LDWS), 인텔리전트 가속 페달(ECO-P 기능), 전방카메라</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 리어 모니터</b> 1,160,000
+<br><br>▶<b> 스마트 크루즈 컨트롤(SCC)</b> 1,160,000</p>
+												</div>
+											
+												<div id="newcar6" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> BH380 프레스티지 기본 품목 및</b>&nbsp;<br><br>전동식 트렁크, 뒷좌석 전동 시트 (6:4 분할, 스키쓰루 미적용), 전자제어 에어서스펜션(EAS), 천연가죽감싸기(크래쉬패드 플레이트, 클러스터 페시아판넬, 도어트림 어퍼가니쉬), 뒷좌석 암레스트 다기능리모컨(오디오, 시트조절, 전동커튼 스위치 등), 풀 어댑티브(Full AFLS) LED 헤드램프, LED 프런트 방향지시등, 프리 세이프 시트벨트(운전석/동승석)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 리어 모니터</b> 1,160,000
+<br><br>▶<b> 스마트 크루즈 컨트롤(SCC)</b> 1,160,000</p>
+												</div>
+											
+												<div id="newcar7" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> BH380 프레스티지 스페셜 기본 품목 및</b>&nbsp;<br><br><b>ㆍ</b><b>파워트레인/성능</b> : 후륜구동형 람다(λ)3.8 GDi엔진(출력334ps), 후륜구동형 8단 자동변속기, 진폭감응형 댐퍼(ASD)
+<br><br><b>ㆍ</b><b>외관</b> : 프라다 디자인 19인치 휠, 프라다 디자인 외장 안테나, 고급크롬 서라운드 몰딩 및 블랙유광 B필라, 다크크롬 베젤 풀어댑티브 LED 헤드램프, 다크크롬 도금 외장(라디에이터 그릴, 몰딩 등), GENESIS PRADA 사이드 / 리어 엠블럼, GP380 후면 엠블럼, 레드메탈릭 컬러 엔진커버
+<br><br><b>ㆍ</b><b>내장</b> : 사피아노 패턴 천연 가죽시트, 사피아노 패턴 가죽감싸기(크러쉬패드 플레이트, 클러스터 페시아판넬, 도어트림 어퍼가니쉬), 알칸타라 브랜드 고급재질(헤드라이닝, 필라, 뒷좌석 패키지 트레이), GENESIS PRADA 로고 도어 스커프 램프, 다크크롬 도금 내장, 화이트 블루 내장 조명
+<br><br><b>ㆍ</b><b>기타/편의사양</b> : DIS Ⅱ(블루링크 서비스 지원), 뒷좌석 모니터, 스마트 크루즈 컨트롤(SCC), 차량 고유번호가 새겨진 시리얼 넘버 플레이트, GENESIS PRADA 인트로 로고(클러스터, DIS II 모니터), 사피아노 패턴 천연가죽 웰컴 패키지(스마트키 홀더, 매뉴얼 케이스)
+<br>* 전자제어에어서스펜션 미적용</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"></p>
+												</div>
+											
+												<div id="newcar8" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> GP380 기본품목 포함</b>
+<br><br>후륜구동형 타우(τ)5.0 GDi엔진(출력430ps), GP500 후면 엠블럼</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"></p>
+												</div>
+											
+										</div>
+										<script type="text/javascript">
+											newcarFolder(0);//초기값
+											function newcarFolder(target) {
+												var conElId = "newcar"//아이디 설정
+												var conElMenu = document.getElementById("newcarList");
+												var conElMenuLink = conElMenu.getElementsByTagName("a");
+												if (target != null) {
+													conElMenuLink[target].parentNode.className = "on";
+													document.getElementById(
+														conElId + target).style.display = "";
+												}
+												for (i = 0; i <= (conElMenuLink.length - 1); i++) {
+													conElMenuLink[i].onclick = function () {
+														for (x = 0; x <= (conElMenuLink.length - 1); x++) {
+															conElMenuLink[x].parentNode.className = "";
+															document.getElementById(
+																conElId + x).style.display = "none";
+														}
+														this.parentNode.className = "on";
+														document.getElementById(this.getAttribute('href')
+																					.split(
+																						'#')[1]).style.display =
+															"";
+														return false;
+													}
+												}
+											}
+										</script>
+									</div>
+									
+										<ul class="more">
+												▶ 통합 주행모드 기능 중 서스펜션 감쇄력 조절은 에어서스펜션 적용 시에만 가능함&nbsp;<br>▶ 가죽시트는 부분적으로 인조 가죽이 적용되어 있음&nbsp;<br>▶&nbsp;<b>인텔리전트 내비게이션 구성 사양</b>&nbsp;<br>&nbsp; - 7인치 모니터(터치스크린), 내비게이션(TPEG 서비스 제공), 지상파 DMB, 라디오, CD &amp; DVD &amp; MP3 재생 기능, 음성 인식 지원, 블루투스 핸즈프리(오디오 스트리밍 기능 포함)&nbsp;<br>▶&nbsp;<b>DIS Ⅱ구성 사양</b>&nbsp;<br>&nbsp; - 8인치 모니터(문자입력 시 터치 기능 지원), 내비게이션(3D지도 표시, TPEG 서비스 제공), 통합조작키, 클러스터 Turn by Turn 기능, 지상파DMB, 라디오, CD &amp; DVD &amp; MP3 재생 기능, 음성 인식 지원.&nbsp;음악/이미지/동영상 저장 및 재생 기능, 그레이스 노트(음악 정보 자동으로 표시), 블루투스 핸즈프리(오디오 스트리밍 기능 포함), iPod 번들케이블 사용 가능&nbsp;<br>&nbsp; * 그레이스 노트 기능 : USB Jukebox, Audio CD 파일 재생 시 적용&nbsp;<br>▶&nbsp;<b>블루링크 서비스</b>&nbsp;<br>&nbsp; - 스마트 컨트롤(원격시동/공조, 원격 문열림/문잠김, 주차위치 확인, 목적지 전송), 세이프티(에어백 전개 자동 통보, SOS긴급 출동, 도난추적, 도난 경보 알림), 카 케어(차량진단, 소모품 관리, 정기점검 리포트, 에코 드라이브 코치), 인포(블루링크 핫스팟), 어시스트(블루링크 폰, 컨시어지 서비스, ARS음성정보)&nbsp;<br>&nbsp; * 스마트 컨트롤/세이프티/ 카 케어는 2년간 무료, 블루링크 부가서비스(인포/어시스트)별도 유료 이용 가능&nbsp;<br>&nbsp; * 문의 : 블루링크 센터(1899-0606), 업무시간 : 평일 오전 9시~오후6시(토/일요일, 공휴일 휴무)&nbsp;<br>▶&nbsp;<b>렉시콘(Lexicon)브랜드란?</b>&nbsp;<br>&nbsp; - 하만베커社의 최고급 하이엔드 브랜드로, 프로페셔널 오디오 부문은 물론, 자동차 오디오에 이르기까지 하이엔드 디지털 오디오 기술을 선도하는 프리미엄 브랜드&nbsp;<br>▶&nbsp;<b>LOGIC7™이란?</b>&nbsp;<br>&nbsp; - 모든 음역이 효과적으로 전달되는 스위트 스폿을 차량 실내 전역으로 확대시켜 재생하는 진보된 사운드 시스템&nbsp;<br>▶&nbsp;<b>DISCRETE LOGIC7™이란?</b>&nbsp;<br>&nbsp; - 5.1 또는 6.1채널로 인코딩된 음원을 7.1 채널로 리프로듀싱하여 차량 내에서 현장음을 완벽하게 재현하는 첨단 사운드 시스템
+										</ul>
+									
+									<p class="desc_more">위 신차가격표는 단순 참고자료이며, 정확한 내용은 각 제조사에서 제공하는 자료를 통해확인하실 수 있습니다.</p><!-- 2016/10/12 [장] 등급 등록/수정 개선 : 추가 디자인 변경 -->
+									<p class="toTop"><a href="#main_title" class="sp toTop db_ir" title="페이지 위로"><u>페이지 위로</u></a></p><!-- [시세개편] class db_ir 추가 -->
+								</div>
+
+
+							</div>
+							<!-- body end -->
+						</td>
+					</tr>
+				</table>
+
+
+			
+			
+		
+    </div>
+
+    <!-- container end -->
+</form>
+</div>
+
+</body>
+<script language="javascript">
+
+
+    var strCompanyUrl = "/common/combo/cardbcompany.json?method=carList";
+    var strModelGroupUrl = "/common/combo/modelgroupfordb.json?method=carList";
+    var strModelUrl = "/common/combo/cardbmodel.json?method=carList";
+    var strYrJatoUrl = "/common/combo/jatoYr.json?method=carList";
+
+    var companyid = "mnfccd";
+    var modelgroupid = "mdlgroupcd";
+    var modelid = "mdlcd";
+    var yearid = "caryear";
+
+    function initGnb() {
+        var paramCompany = $("paramMnfccd").value;
+        var paramModelGroup = $("paramMdlgroupcd").value;
+        var paramModel = $("paramMdlcd").value;
+        var paramYr = $("paramYear").value;
+
+        // 제조사
+        if (paramModel != "") {
+            $("mdlcd").show();
+        }
+
+        //console.log("companyid :: " + companyid)
+        //console.log("paramCompany :: " + paramCompany)
+		if($('foldYn').value != 0){
+            foldingYN('f_fold');
+		}
+
+        setCompany(strCompanyUrl, companyid, "제조사", paramCompany);
+
+        // 제조사 값이 있으면 모델 검색
+        if (paramCompany >= '010') {
+            if (paramCompany != "") {
+                if (paramModel == "") {
+                    paramModel = paramModelGroup;
+                }
+                setModel(strModelUrl, modelid, paramCompany, "모델", paramModel)
+                $("mdlgroupcd").hide();
+
+            }
+        } else {
+            $("mdlgroupcd").show();
+            if (paramCompany != "") {
+                setModelGroup(strModelGroupUrl, modelgroupid, paramCompany, "모델", paramModelGroup);
+                if (paramModelGroup != "") {
+                    setModel_New(strModelUrl, modelid, paramCompany, paramModelGroup, "세부모델", paramModel);
+                }
+            }
+
+        }
+        if (paramCompany != "" && paramModel != "") {
+            setCarYear(strYrJatoUrl, yearid, paramCompany, paramModel, "형식연도", paramYr);
+        }
+
+        waitTime = 1;
+    }
+
+    function changeModel_jato(mnfccd, mdlgroupcd) {
+        setModel_New(strModelUrl, modelid, mnfccd, mdlgroupcd, "세부모델", "");
+        //모델그룹선택시 기본 세부모델선택
+        if ($("mdlcd") != null) {
+            $("mdlcd").selectedIndex = 1;
+            var mdlcd = $("mdlcd").options[$("mdlcd").selectedIndex].value;
+            changeYearJato(mnfccd, mdlcd);
+        }
+    }
+
+    function changeYearJato(mnfccd,mdlcd) {
+        setCarYear(strYrJatoUrl, yearid, mnfccd, mdlcd, "형식연도", "");
+        $(yearid).options[1].selected = true;
+    }
+
+
+
+    //덧글 리스트
+    function viewForm(index) {
+
+        var object = $("default" + index);
+        var objectSum = $("defaultSum" + index);
+        var selectSum = $("choiceSum" + index);
+        var object1 = $("choice" + index);
+        if (object != null) {
+            if (object.style.display == 'none') {
+                objectSum.hide();
+                selectSum.hide();
+                object.style.display = "block";
+                object1.style.display = "block";
+
+            } else {
+                object.hide();
+                object1.hide();
+                objectSum.style.display = "block";
+                selectSum.style.display = "block";
+            }
+        }
+    }
+
+    function viewAll() {
+        for (var i = 1; i <=9; i++) {
+            $("default" + i).style.display = "block";
+            $("defaultSum" + i).style.display = "none";
+            $("choice" + i).style.display = "block";
+            $("choiceSum" + i).style.display = "none";
+        }
+    }
+
+    function closeAll() {
+        for (var i = 1; i <=9; i++) {
+            $("default" + i).style.display = "none";
+            $("defaultSum" + i).style.display = "block";
+            $("choice" + i).style.display = "none";
+            $("choiceSum" + i).style.display = "block";
+        }
+    }
+
+    function firstLayerOpen() {
+        //viewForm(1);
+    }
+
+    function foldingYN(param) {
+        if (param == "f_fold") {
+            document.getElementById("folding").innerHTML ="<a href=\"javascript:foldingYN('f_unfold')\" class='folding f_unfold'>전체등급 펼쳐보기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "none";
+            document.getElementById("f_fold").style.display = "";
+        } else {
+            document.getElementById("folding").innerHTML = "<a href=\"javascript:foldingYN('f_fold')\" class='folding f_fold'>접기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "";
+            document.getElementById("f_fold").style.display = "none";
+        }
+    }
+
+    function onSubmit() {
+        jQuery("#searchForm").submit();
+
+    }
+    window.onload = initGnb;
+
+</script>
+</html>
+

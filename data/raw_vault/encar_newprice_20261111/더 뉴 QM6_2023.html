@@ -1,0 +1,1011 @@
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>차량DB - 차량정보 - 신차가격표</title>
+    <link type="text/css" rel="stylesheet" href="/css/common.css?v=1793835891525"/>
+    <link type="text/css" rel="stylesheet" href="/css/db.css?v=1793835891525"/>
+
+    <script type="text/javascript" src="/js/encarapp/lib/jquery/jquery-1.11.3.min.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/common/ui.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/prototype.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/util.js?v=1793835894199"></script>
+
+    <script type="text/javascript" src="/js/common/db_common.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/commonCombo.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/carSearchCombo.js?v=1793835894199"></script>
+	<script>
+		window.enlogInitJson = {
+			"dataTalkView": {
+				"screenName": "신차가격표"
+			}
+		}
+
+	</script>
+
+
+</head>
+
+
+
+
+
+
+
+    <!-- 등급 체크박스  -->
+    <div style="display:none">
+        
+    </div>
+
+    <!-- 세부등급 체크박스 -->
+    <div style="display:none">
+        
+    </div>
+
+
+
+<body class="db db_newdetailview db_basicTemplate">
+
+
+
+
+	
+	
+	
+	
+
+
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-W9QQ2T"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W9QQ2T');</script>
+<!-- End Google Tag Manager -->
+
+<!-- container begin -->
+<div class="container" id="containerDIV">
+<input type="hidden" id = "foldYn" name="searchtype" value="7"/>
+<form id ="searchForm" name="searchForm">
+
+    <input type="hidden" id = "method" name="method" value="newpricePopV2"/>
+    <input type="hidden" id = "dimensiontype" name="dimensiontype" value="null"/>
+    <input type="hidden" id = "paramMnfccd" name="paramMnfccd" value="005"/>
+    <input type="hidden" id = "paramMdlgroupcd" name="paramMdlgroupcd" value="011"/>
+    <input type="hidden" id = "paramMdlcd" name="paramMdlcd" value="071"/>
+    <input type="hidden" id = "paramYear" name="paramYear" value="2023"/>
+    <input type="hidden" id = "model" name="model" value="">
+    <input type="hidden" id = "paramCaryear" name="paramCaryear" value="2023"/>
+    <input type="hidden" id = "clsheadcd" name="clsheadcd" class="checkbox" value="null"/>
+    <input type="hidden" id = "paramGradeHead" name="paramGradeHead" value="null"/>
+	<input type="hidden" id = "searchtype" name="searchtype" value="check"/>
+	<input type="hidden" id = "pageAccessToken" name="pageAccessToken" value="AgV4MIKMIrQpCz/CIfQhIYRbI0J1T2Y+OmA0LZiSSZf6SqEAcQACAAdFbmNhckNrAAdFbmNhckN2ABVhd3MtY3J5cHRvLXB1YmxpYy1rZXkAREF5bFI5QzZTT0EzdkxUT2NYL1FzNkoydlVTaWdXa2R0UTk0TThKc3ltOGJmSUs2K1lLRytLMEdZWmFsdm1obHNKdz09AAEAB2F3cy1rbXMAUGFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjI3MjM2MjQ4NzY1MzprZXkvbXJrLWRmZWEyNmY3NTVhMzQ3MjliNjkwMjRkZWZmM2M1MWFjALgBAgEAeAuqQuSJvQ+Ra4FSj55FZzS0sk+00amsb3yoAFiEYn4PAUQXJMkPt/SSCh0CTapMQg0AAAB+MHwGCSqGSIb3DQEHBqBvMG0CAQAwaAYJKoZIhvcNAQcBMB4GCWCGSAFlAwQBLjARBAxrIyAJeTIcSqe7KOMCARCAO5ggrBw16Rfu4LYUvCuVOy/dVDM0uXGOtVvna85b/yjUuOHcPGWyQxAzr9iCK2Gsp57Rf/CrrKPzlYcmAgAAEACZONdEJsbxle6FMY5fDIxJOWmXEYIiS1Z5O0239Z3OpJJlxHXIs+/vqihmDTM9JmX/////AAAAAQAAAAAAAAAAAAAAAQAAAKPGgNiWifIkAtYdUoaTNo8oV4AAUeYCSutgMg6gtS72Ma7XZRU3CjGmOGN8IbEmPyxz+qFGlO6uIDR9cMCrBy/+pkjaw3mewSmfMPR75nEmVRG4H/9MG94pnUOmoJpuJRUmKmwSDvixCfKUMmlOGhOgMnqg9UoyLGrKZlV08FcV1MULu+OLEw09Zp+Ce7D2dyk/XHYLgtyExcdcV4o1/8JxhHdSmHTCy2sBEWwz93OCMe+A+QBnMGUCMFQdQYbeu1t7Vnt253Zph6x8uL1AeHWDkwlgVS54YhmLW/z6Hj398TYFU1pkUzF1TAIxAM8Qdg0BS3VRhWUePVk6iwx4Q1fPURVKd21Y/FzRHy3q4rkrlNGnHuUE99OR6tRiLw=="/>
+    <div class="header">
+        <h1 class="blind">SK엔카</h1>
+        <h2 class="tit_carprice" id="main_title">신차가격표</h2>
+        <p class="quickSearch">
+
+
+
+            <select title="제조사" class="opt_select" id="mnfccd" name="mnfccd" onChange="javascript:changeModelGroup(this.value);">
+                <option value="">제조사</option>
+            </select>
+
+            <select class="opt_select" title="모델" id="mdlgroupcd" name="mdlgroupcd" onChange="javascript:changeModel_jato($('mnfccd').value, this.value);">
+                <option>모델</option>
+            </select>
+
+            <select class="opt_select" title="세부모델" id="mdlcd" name="mdlcd" onChange="javascript:changeYearJato($('mnfccd').value, $('mdlcd').value);">
+                <option>세부모델</option>
+            </select>
+
+            <select class="opt_select" title="연식" id="caryear" name="caryear">
+                <option>연식</option>
+            </select>
+
+            <button type="button" class="btn_search" onclick="javascript:onSubmit();"/>검색</button>
+
+
+
+        </p>
+    </div>
+    <!-- body begin -->
+    <div class="body" id="bodydiv">
+		
+			
+				<table class="layout">
+					<col class="contents"/>
+					<tr>
+						<td class="contentsMenu">
+							<!-- contentsMenu begin -->
+							<div class="contentsMenu">
+								<h3 class="title">르노코리아(삼성) 더 뉴 QM6 2023년형</h3>
+							</div>
+							<!-- contentsMenu end -->
+						</td>
+					</tr>
+
+					<tr>
+						<td class="contentsMain">
+							<!-- contents begin -->
+							<div class="contents">
+
+								<div class="carCompare">
+									<div class="dbHead">
+										
+											<div id="folding"><a href="javascript:foldingYN('f_fold')"
+																 class="folding f_fold">전체등급 펼쳐보기<em class="db_ir"></em></a></div>
+
+											<!-- 2013/04/03 [서] 매물탭 개선 : 기능 버튼 추가 --><!--<a href="#" class="folding f_unfold">펼치기</a>-->
+										
+									</div>
+									
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+									<div id="f_unfold">
+										
+											<!-- case1 : 세부등급과 미션분리 -->
+											<table class="carCompare sellcase1">
+												<colgroup>
+													<col class="grade">
+													<col class="mission">
+													<col class="price">
+												    <col class="uprice"><!-- [시세개편] 중고차시세 추가 uprice -->
+													<col class="item">
+													<col class="option">
+												</colgroup>
+												<thead class="compare">
+												<tr>
+													<th class="grade" colspan="2"><b>구분</b></th>
+													<th class="price"><b>판매가격</b></th>
+													<th class="uprice"><b>중고차시세</b></th><!-- [시세개편] 중고차시세 추가 -->
+													<th class="item"><b>기본사양 품목</b></th>
+													<th class="option end"><b>선택사양 품목</b></th>
+												</tr>
+												</thead>
+												<tbody class="new">
+												
+													
+														
+													
+													
+														
+															
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>2.0 GDe LE 2WD</p></td>
+														
+														<td class="mission"><p>CVT</p></td>
+														<td class="price">
+															<p>
+																<strong>2,749</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>LPe LE 기본 품목 및</b><b><br></b><b><br></b><b>●&nbsp;파워트레인 :</b>&nbsp;2.0 GDe(가솔린) 엔진, 엑스트로닉(Xtronic) 무단변속기(7단 수동모드 지원), 2WD&nbsp;<br><br><b>●&nbsp;내장 :&nbsp;</b>폴딩 플로어 보드
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>●&nbsp;파노라마 선루프&nbsp;</b>1,080,000<br><b><br>●&nbsp;매직 테일게이트</b>&nbsp;700,000<br><b><br>●&nbsp;S-Link 패키지Ⅰ</b>&nbsp;1,130,000<br><br><b>●&nbsp;S-Link 패키지Ⅲ&nbsp;</b>1,910,000<br><br><b>●&nbsp;운전석파워시트(전동식 요추 받침장치 포함) + 동승석 파워시트 + 앞좌석 통풍 시트 + 뒷좌석 열선시트&nbsp;</b>980,000<br><br><b>● 클라우드 펄 외장 컬러</b>&nbsp;190,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>2.0 GDe RE 시그니처 2WD</p></td>
+														
+														<td class="mission"><p>CVT</p></td>
+														<td class="price">
+															<p>
+																<strong>3,157</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>LPe RE Signature 기본 품목 및&nbsp;</b><b><br></b><b><br></b><b>●&nbsp;파워트레인 :</b>&nbsp;2.0 GDe(가솔린) 엔진, 엑스트로닉(Xtronic) 무단변속기(7단 수동모드 지원), 2WD&nbsp;<br><br><b>●&nbsp;내장 :&nbsp;</b>폴딩 플로어 보드
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>●&nbsp;파노라마 선루프</b>&nbsp;1,080,000<br><br><b>●&nbsp;매직 테일게이트</b>&nbsp;700,000<br><b><br></b><b>●&nbsp;S-Link 8.7" 내비게이션&nbsp;</b>740,000<br><br><b>●&nbsp;프레임리스 룸미러(하이패스 심카드 전용)※ 선불 충전 불가, 하이패스 심 카드 발행 카드사 확인 필요</b>&nbsp;70,000<br><b><br></b><b>●&nbsp;PREMIERE 전용 19" 투톤 알로이 휠&nbsp;</b>150,000<br><br><b>● 클라우드 펄 외장 컬러</b>&nbsp;190,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>2.0 GDe 프리미에르 2WD</p></td>
+														
+														<td class="mission"><p>CVT</p></td>
+														<td class="price">
+															<p>
+																<strong>3,505</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>LPe PREMIERE 기본 품목 및&nbsp;</b><b><br></b><b><br></b><b>●&nbsp;파워트레인 :&nbsp;</b>2.0 GDe(가솔린) 엔진, 엑스트로닉(Xtronic) 무단변속기(7단 수동모드 지원), 2WD&nbsp;<br><br><b>●&nbsp;내장 :&nbsp;</b>폴딩 플로어 보드
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>●&nbsp;파노라마 선루프&nbsp;</b>1,080,000<br><br><b>●&nbsp;프레임리스 룸미러(하이패스 심카드 전용)※ 선불 충전 불가, 하이패스 심 카드 발행 카드사 확인 필요</b>&nbsp;70,000<br><br><b>● 클라우드 펄 외장 컬러</b>&nbsp;190,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>2.0 LPe LE 2WD</p></td>
+														
+														<td class="mission"><p>CVT</p></td>
+														<td class="price">
+															<p>
+																<strong>2,749</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>●&nbsp;파워트레인 :</b>&nbsp;2.0 LPe(LPG) 엔진, 도넛 탱크, 엑스트로닉(Xtronic) 무단변속기(7단 수동모드 지원), 2WD<br><br><b>●&nbsp;안전 :&nbsp;</b>앞좌석 에어백(운전석/동승석 듀얼 스테이지 스마트 에어백 시스템), 사이드(앞)/커튼 에어백, 차체자세 제어장치(ESC), 경사로 밀림방지장치(HSA), 타이어공기압자동감지시스템, EBD-ABS(BAS 내장), 급제동 경보시스템(ESS), 운전피로도경보시스템(UTA), 전/후륜 벤틸레이티드 디스크 브레이크, 충돌감지도어록 해제 장치, 차속감응 오토도어록, 앞좌석 3점식 시트벨트(듀얼프리텐셔너/로드리미터/리마인드경고기능/높이조절장치 포함), 뒷좌석 3점식 시트벨트(리마인드 경고 기능 포함), ISOFIX 유아용 시트 고정 장치<br><b><br>●&nbsp;외관 :</b>&nbsp;LED PURE VISION 헤드램프, 퀀텀 윙 라디에이터 그릴, 루프랙, 듀얼 디퓨저 형상 리어 크롬 가니시, 18" 투톤 알로이 휠 &amp; 225/60 R18 타이어, LED 방향지시등(전방), 주간 주행등(LED 타입), 프런트/리어 스키드, 3D 타입 LED 리어 콤비네이션 램프(제동등, 후미등, 수평 후미등 적용), LED 방향 지시등 일체형 아웃사이드 미러(전동 조절/자동접이/열선 기능 포함), 크롬 아웃사이드 도어 핸들, 리어스포일러(LED 보조제동등 포함), 비노출형 머플러, 차음윈드쉴드 글라스<br><b><br>●&nbsp;내장 :</b>&nbsp;블랙 인테리어, 블랙인조가죽시트, 풀플랫 2열시트(6:4폴딩/리클라이닝/암레스트/컵홀더 포함), 원터치 이지 폴딩 2열 시트, 고급형 클러스터(7"/컬러TFT LCD/디스 플레이 가변형), 앞좌석 슬라이딩 암레스트, 실버 페인팅 데코, 맵 램프, 뒷좌석 LED 퍼스널 램프(좌/우), 운전석/동승석 선바이저(거울/조명 포함), 가죽스티어링 휠/변속기 노브, 뒷좌석 분리형 헤드레스트<br><br><b>●&nbsp;편의 :</b>&nbsp;인텔리전트 스마트 카드 시스템(버튼 시동/오토 클로징/리퀘스트 버튼), 열선 스티어링 휠, 하이패스 시스템(ETCS), 전자식 룸미러(ECM), 전자식 파킹 브레이크(E-PKB), 오토라이팅 헤드램프, 에코모드 시스템, 후방경보 시스템, 웰컴 시스템, 레인센싱 와이퍼, 크루즈 컨트롤/스피드 리미터, 앞좌석 원터치 세이프티 파워 윈도우, 운전석 매뉴얼 시트 높이 조절 장치, 앞좌석 열선 시트, 원터치 트리플 턴 시그널, 수동식 틸트/텔레스코픽 스티어링 휠, 전자식 차속 감응 파워 스티어링(SSEPS), 트립 컴퓨터, 센터콘솔 쿨링 컵홀더, 타이어 리페어 키트, 12V 파워 아웃렛(앞좌석, 뒷좌석, 트렁크)<br><b><br>●&nbsp;멀티미디어 :</b>&nbsp;기본형 MP3 오디오, 6 스피커, 샤크 안테나, AUX &amp; USB(iPod)단자, 블루투스 핸즈프리(오디오 스트리밍 기능), 스티어링 휠 오디오 리모컨<br><br><b>●&nbsp;공조시스템 :&nbsp;</b>좌/우 독립 풀 오토 에어컨, 리어 에어벤트
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>●&nbsp;파노라마 선루프&nbsp;</b>1,080,000<br><b><br>●&nbsp;매직 테일게이트</b>&nbsp;700,000<br><b><br>●&nbsp;S-Link 패키지Ⅰ</b>&nbsp;1,130,000<br><br><b>●&nbsp;S-Link 패키지Ⅲ&nbsp;</b>1,910,000<br><br><b>●&nbsp;운전석파워시트(전동식 요추 받침장치 포함) + 동승석 파워시트 + 앞좌석 통풍 시트 + 뒷좌석 열선시트&nbsp;</b>980,000<br><br><b>● 클라우드 펄 외장 컬러</b>&nbsp;190,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>2.0 LPe RE 시그니처 2WD</p></td>
+														
+														<td class="mission"><p>CVT</p></td>
+														<td class="price">
+															<p>
+																<strong>3,157</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>LE 기본 품목 및&nbsp;</b><b><br></b><b><br></b><b>●&nbsp;안전 :&nbsp;</b>사각지대 경보 시스템(BSW), 긴급제동 보조시스템(AEBS, 보행자 감지 포함), 차간거리 경보시스템(DW), 전방추돌 경보시스템(FCW), 어댑티브 크루즈 컨트롤(ACC), 차선이탈경보시스템(LDW), 오토매틱하이빔(AHL)&nbsp;<br><br><b>●&nbsp;외관 :&nbsp;</b>FULL LED 리어콤비네이션 램프, 다이내믹 턴 시그널(후방), 19" 투톤 알로이 휠 &amp; 225/55 R19 타이어, 사이드 크롬 가니시&nbsp;<br><b><br></b><b>●&nbsp;내장 :</b>&nbsp;가죽시트(블랙 또는 모던 브라운 중 선택), 컬러 가변형 앰비언트 라이트(앞좌석), 알루미늄 키킹 플레이트, 풋 램프, 스트라이프햅틱 우드 그레인, 소프트 클러스터 캡/스티치, 앞좌석 틸트 헤드레스트, 리어에어벤트 크롬베젤&nbsp;<br><br><b>●&nbsp;편의 :&nbsp;</b>운전석 파워시트(이지 액세스/메모리/마사지 기능, 전동식 요추 받침장치 포함), 동승석 파워시트, 앞좌석 통풍 시트, 아웃사이드 미러(메모리, 후진 자동 각도 조절 포함), 후방 카메라, 360° 주차보조 시스템(전방/측방/후방 경보), 주차조향 보조시스템(EPA), 뒷좌석 열선시트&nbsp;<br><br><b>●&nbsp;멀티미디어 :&nbsp;</b>S-Link 7" 미러링 시스템(7"/컬러/TFT LCD/정전식 터치스크린/ 애플 카플레이 &amp; 구글 안드로이드 오토 지원), ARKAMYS 3D 사운드 시스템(8 스피커), 2포트 USB(iPod)단자, 뒷좌석 AUX 및 2포트 충전 전용 USB단자&nbsp;<br><br><b>●&nbsp;공조시스템 :</b>&nbsp;컴바인드 에어필터, 실내 자동탈취 기능
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>●&nbsp;파노라마 선루프</b>&nbsp;1,080,000<br><br><b>●&nbsp;매직 테일게이트</b>&nbsp;700,000<br><b><br></b><b>●&nbsp;S-Link 8.7" 내비게이션&nbsp;</b>740,000<br><br><b>●&nbsp;프레임리스룸미러(하이패스 심카드 전용)※ 선불 충전 불가, 하이패스 심 카드 발행 카드사 확인 필요</b>&nbsp;70,000<br><b><br></b><b>●&nbsp;PREMIERE 전용 19" 투톤 알로이 휠&nbsp;</b>150,000<br><br><b>● 클라우드 펄 외장 컬러</b>&nbsp;190,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>2.0 LPe 프리미에르 2WD</p></td>
+														
+														<td class="mission"><p>CVT</p></td>
+														<td class="price">
+															<p>
+																<strong>3,505</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>RE Signature 기본 품목 및&nbsp;</b><b><br></b><b><br></b><b>●&nbsp;외관 :</b>&nbsp;PREMIERE 전용 19" 투톤 알로이 휠 &amp; 225/55 R19타이어, PREMIERE 전용 스키드(프런트/리어), PREMIERE 전용 로고(라디에이트 그릴/사이드 엠블리셔), 이중접합 차음 글라스(1열/2열 사이드 윈도우), 핫스탬핑 라디에이터 그릴&nbsp;<br><br><b>●&nbsp;내장 :&nbsp;</b>블랙 퀼팅 나파 가죽시트, 블랙 알칸타라 내장재(앞좌석, 뒷좌석 시트 숄더/앞좌석, 뒷좌석 시트 볼스터 /센터 암레스트/도어 암레스트), 앞좌석 프레스티지 헤드레스트, 인조가죽 커버 및 브라운 스티치(대시보드 하단/글러브 박스), 소프트 콘솔 그립핸들, 도어 커티시 램프(앞), PREMIERE 전용 로고(알루미늄 키킹 플레이트/앞좌석 프레스티지 헤드레스트 후면), PREMIERE 전용 블랙 우드 그레인, 컬러 가변형 앰비언트 라이트(앞좌석/뒷좌석)&nbsp;<br><b><br></b><b>●&nbsp;편의 :</b>&nbsp;매직 테일 게이트, 운전석 매뉴얼 쿠션 익스텐션&nbsp;<br><b><br></b><b>●&nbsp;멀티미디어 :&nbsp;</b>S-Link 8.7" 내비게이션&nbsp;<br><br><b>●&nbsp;공조시스템 :&nbsp;</b>이오나이저
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>●&nbsp;파노라마 선루프&nbsp;</b>1,080,000<br><br><b>●&nbsp;프레임리스 룸미러(하이패스 심카드 전용)※ 선불 충전 불가, 하이패스 심 카드 발행 카드사 확인 필요</b>&nbsp;70,000<br><br><b>● 클라우드 펄 외장 컬러</b>&nbsp;190,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>2.0 dCi 프리미에르 4WD</p></td>
+														
+														<td class="mission"><p>CVT</p></td>
+														<td class="price">
+															<p>
+																<strong>4,075</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>LPe PREMIERE 기본 품목 및&nbsp;</b><b><br></b><b><br></b><b>● 파워트레인 :</b>&nbsp;2.0 dCi(디젤) 엔진, 엑스트로닉(Xtronic) 무단 변속기(7단 수동 모드 지원), 4WD(ALL MODE 4X4-i),오토 스탑/스타트 시스템&nbsp;<br><br><b>● 내장 :&nbsp;</b>폴딩 플로어 보드<br><b><br></b><b>● 멀티미디어 :</b>&nbsp;S-Link 7" 미러링 시스템(7"/컬러 TFT LCD/정전식 터치스크린/ 애플 카플레이 &amp; 구글 안드로이드 오토 지원), 8 스피커 (3D 사운드 시스템 포함)&nbsp;<br><b><br></b><b>● 편의 :&nbsp;</b>매직 테일 게이트 미적용
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>●&nbsp;파노라마 선루프</b>&nbsp;1,080,000<br><br><b>●&nbsp;매직 테일게이트</b>&nbsp;700,000<br><b><br></b><b>●&nbsp;S-Link 8.7" 내비게이션 +&nbsp;</b><b>프레임리스 룸미러(하이패스 심카드 전용)※ 선불 충전 불가, 하이패스 심 카드 발행 카드사 확인 필요&nbsp;</b>800,000<br><br><b>● 클라우드 펄 외장 컬러</b>&nbsp;190,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+												</tbody>
+											</table>
+										
+
+
+										<!-- case2 : 세부등급이 있는경우 -->
+										
+									</div>
+									<!-- 신차가격표(폴더형) -->
+									<div id="f_fold" style="display:none;">
+										<div class="newcar_folder">
+											<ul class="nf_list" id="newcarList">
+												
+													<li>
+														<a href="#newcar0">
+                                                            <span class="model">2.0 GDe LE 2WD  CVT</span>
+                                                            <span class="prc">
+                                                                <strong>2,749</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar1">
+                                                            <span class="model">2.0 GDe RE 시그니처 2WD  CVT</span>
+                                                            <span class="prc">
+                                                                <strong>3,157</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar2">
+                                                            <span class="model">2.0 GDe 프리미에르 2WD  CVT</span>
+                                                            <span class="prc">
+                                                                <strong>3,505</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar3">
+                                                            <span class="model">2.0 LPe LE 2WD  CVT</span>
+                                                            <span class="prc">
+                                                                <strong>2,749</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar4">
+                                                            <span class="model">2.0 LPe RE 시그니처 2WD  CVT</span>
+                                                            <span class="prc">
+                                                                <strong>3,157</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar5">
+                                                            <span class="model">2.0 LPe 프리미에르 2WD  CVT</span>
+                                                            <span class="prc">
+                                                                <strong>3,505</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar6">
+                                                            <span class="model">2.0 dCi 프리미에르 4WD  CVT</span>
+                                                            <span class="prc">
+                                                                <strong>4,075</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+											</ul>
+											<!-- 개별 -->
+											
+												<div id="newcar0" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>LPe LE 기본 품목 및</b><b><br></b><b><br></b><b>●&nbsp;파워트레인 :</b>&nbsp;2.0 GDe(가솔린) 엔진, 엑스트로닉(Xtronic) 무단변속기(7단 수동모드 지원), 2WD&nbsp;<br><br><b>●&nbsp;내장 :&nbsp;</b>폴딩 플로어 보드</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>●&nbsp;파노라마 선루프&nbsp;</b>1,080,000<br><b><br>●&nbsp;매직 테일게이트</b>&nbsp;700,000<br><b><br>●&nbsp;S-Link 패키지Ⅰ</b>&nbsp;1,130,000<br><br><b>●&nbsp;S-Link 패키지Ⅲ&nbsp;</b>1,910,000<br><br><b>●&nbsp;운전석파워시트(전동식 요추 받침장치 포함) + 동승석 파워시트 + 앞좌석 통풍 시트 + 뒷좌석 열선시트&nbsp;</b>980,000<br><br><b>● 클라우드 펄 외장 컬러</b>&nbsp;190,000</p>
+												</div>
+											
+												<div id="newcar1" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>LPe RE Signature 기본 품목 및&nbsp;</b><b><br></b><b><br></b><b>●&nbsp;파워트레인 :</b>&nbsp;2.0 GDe(가솔린) 엔진, 엑스트로닉(Xtronic) 무단변속기(7단 수동모드 지원), 2WD&nbsp;<br><br><b>●&nbsp;내장 :&nbsp;</b>폴딩 플로어 보드</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>●&nbsp;파노라마 선루프</b>&nbsp;1,080,000<br><br><b>●&nbsp;매직 테일게이트</b>&nbsp;700,000<br><b><br></b><b>●&nbsp;S-Link 8.7" 내비게이션&nbsp;</b>740,000<br><br><b>●&nbsp;프레임리스 룸미러(하이패스 심카드 전용)※ 선불 충전 불가, 하이패스 심 카드 발행 카드사 확인 필요</b>&nbsp;70,000<br><b><br></b><b>●&nbsp;PREMIERE 전용 19" 투톤 알로이 휠&nbsp;</b>150,000<br><br><b>● 클라우드 펄 외장 컬러</b>&nbsp;190,000</p>
+												</div>
+											
+												<div id="newcar2" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>LPe PREMIERE 기본 품목 및&nbsp;</b><b><br></b><b><br></b><b>●&nbsp;파워트레인 :&nbsp;</b>2.0 GDe(가솔린) 엔진, 엑스트로닉(Xtronic) 무단변속기(7단 수동모드 지원), 2WD&nbsp;<br><br><b>●&nbsp;내장 :&nbsp;</b>폴딩 플로어 보드</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>●&nbsp;파노라마 선루프&nbsp;</b>1,080,000<br><br><b>●&nbsp;프레임리스 룸미러(하이패스 심카드 전용)※ 선불 충전 불가, 하이패스 심 카드 발행 카드사 확인 필요</b>&nbsp;70,000<br><br><b>● 클라우드 펄 외장 컬러</b>&nbsp;190,000</p>
+												</div>
+											
+												<div id="newcar3" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>●&nbsp;파워트레인 :</b>&nbsp;2.0 LPe(LPG) 엔진, 도넛 탱크, 엑스트로닉(Xtronic) 무단변속기(7단 수동모드 지원), 2WD<br><br><b>●&nbsp;안전 :&nbsp;</b>앞좌석 에어백(운전석/동승석 듀얼 스테이지 스마트 에어백 시스템), 사이드(앞)/커튼 에어백, 차체자세 제어장치(ESC), 경사로 밀림방지장치(HSA), 타이어공기압자동감지시스템, EBD-ABS(BAS 내장), 급제동 경보시스템(ESS), 운전피로도경보시스템(UTA), 전/후륜 벤틸레이티드 디스크 브레이크, 충돌감지도어록 해제 장치, 차속감응 오토도어록, 앞좌석 3점식 시트벨트(듀얼프리텐셔너/로드리미터/리마인드경고기능/높이조절장치 포함), 뒷좌석 3점식 시트벨트(리마인드 경고 기능 포함), ISOFIX 유아용 시트 고정 장치<br><b><br>●&nbsp;외관 :</b>&nbsp;LED PURE VISION 헤드램프, 퀀텀 윙 라디에이터 그릴, 루프랙, 듀얼 디퓨저 형상 리어 크롬 가니시, 18" 투톤 알로이 휠 &amp; 225/60 R18 타이어, LED 방향지시등(전방), 주간 주행등(LED 타입), 프런트/리어 스키드, 3D 타입 LED 리어 콤비네이션 램프(제동등, 후미등, 수평 후미등 적용), LED 방향 지시등 일체형 아웃사이드 미러(전동 조절/자동접이/열선 기능 포함), 크롬 아웃사이드 도어 핸들, 리어스포일러(LED 보조제동등 포함), 비노출형 머플러, 차음윈드쉴드 글라스<br><b><br>●&nbsp;내장 :</b>&nbsp;블랙 인테리어, 블랙인조가죽시트, 풀플랫 2열시트(6:4폴딩/리클라이닝/암레스트/컵홀더 포함), 원터치 이지 폴딩 2열 시트, 고급형 클러스터(7"/컬러TFT LCD/디스 플레이 가변형), 앞좌석 슬라이딩 암레스트, 실버 페인팅 데코, 맵 램프, 뒷좌석 LED 퍼스널 램프(좌/우), 운전석/동승석 선바이저(거울/조명 포함), 가죽스티어링 휠/변속기 노브, 뒷좌석 분리형 헤드레스트<br><br><b>●&nbsp;편의 :</b>&nbsp;인텔리전트 스마트 카드 시스템(버튼 시동/오토 클로징/리퀘스트 버튼), 열선 스티어링 휠, 하이패스 시스템(ETCS), 전자식 룸미러(ECM), 전자식 파킹 브레이크(E-PKB), 오토라이팅 헤드램프, 에코모드 시스템, 후방경보 시스템, 웰컴 시스템, 레인센싱 와이퍼, 크루즈 컨트롤/스피드 리미터, 앞좌석 원터치 세이프티 파워 윈도우, 운전석 매뉴얼 시트 높이 조절 장치, 앞좌석 열선 시트, 원터치 트리플 턴 시그널, 수동식 틸트/텔레스코픽 스티어링 휠, 전자식 차속 감응 파워 스티어링(SSEPS), 트립 컴퓨터, 센터콘솔 쿨링 컵홀더, 타이어 리페어 키트, 12V 파워 아웃렛(앞좌석, 뒷좌석, 트렁크)<br><b><br>●&nbsp;멀티미디어 :</b>&nbsp;기본형 MP3 오디오, 6 스피커, 샤크 안테나, AUX &amp; USB(iPod)단자, 블루투스 핸즈프리(오디오 스트리밍 기능), 스티어링 휠 오디오 리모컨<br><br><b>●&nbsp;공조시스템 :&nbsp;</b>좌/우 독립 풀 오토 에어컨, 리어 에어벤트</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>●&nbsp;파노라마 선루프&nbsp;</b>1,080,000<br><b><br>●&nbsp;매직 테일게이트</b>&nbsp;700,000<br><b><br>●&nbsp;S-Link 패키지Ⅰ</b>&nbsp;1,130,000<br><br><b>●&nbsp;S-Link 패키지Ⅲ&nbsp;</b>1,910,000<br><br><b>●&nbsp;운전석파워시트(전동식 요추 받침장치 포함) + 동승석 파워시트 + 앞좌석 통풍 시트 + 뒷좌석 열선시트&nbsp;</b>980,000<br><br><b>● 클라우드 펄 외장 컬러</b>&nbsp;190,000</p>
+												</div>
+											
+												<div id="newcar4" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>LE 기본 품목 및&nbsp;</b><b><br></b><b><br></b><b>●&nbsp;안전 :&nbsp;</b>사각지대 경보 시스템(BSW), 긴급제동 보조시스템(AEBS, 보행자 감지 포함), 차간거리 경보시스템(DW), 전방추돌 경보시스템(FCW), 어댑티브 크루즈 컨트롤(ACC), 차선이탈경보시스템(LDW), 오토매틱하이빔(AHL)&nbsp;<br><br><b>●&nbsp;외관 :&nbsp;</b>FULL LED 리어콤비네이션 램프, 다이내믹 턴 시그널(후방), 19" 투톤 알로이 휠 &amp; 225/55 R19 타이어, 사이드 크롬 가니시&nbsp;<br><b><br></b><b>●&nbsp;내장 :</b>&nbsp;가죽시트(블랙 또는 모던 브라운 중 선택), 컬러 가변형 앰비언트 라이트(앞좌석), 알루미늄 키킹 플레이트, 풋 램프, 스트라이프햅틱 우드 그레인, 소프트 클러스터 캡/스티치, 앞좌석 틸트 헤드레스트, 리어에어벤트 크롬베젤&nbsp;<br><br><b>●&nbsp;편의 :&nbsp;</b>운전석 파워시트(이지 액세스/메모리/마사지 기능, 전동식 요추 받침장치 포함), 동승석 파워시트, 앞좌석 통풍 시트, 아웃사이드 미러(메모리, 후진 자동 각도 조절 포함), 후방 카메라, 360° 주차보조 시스템(전방/측방/후방 경보), 주차조향 보조시스템(EPA), 뒷좌석 열선시트&nbsp;<br><br><b>●&nbsp;멀티미디어 :&nbsp;</b>S-Link 7" 미러링 시스템(7"/컬러/TFT LCD/정전식 터치스크린/ 애플 카플레이 &amp; 구글 안드로이드 오토 지원), ARKAMYS 3D 사운드 시스템(8 스피커), 2포트 USB(iPod)단자, 뒷좌석 AUX 및 2포트 충전 전용 USB단자&nbsp;<br><br><b>●&nbsp;공조시스템 :</b>&nbsp;컴바인드 에어필터, 실내 자동탈취 기능</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>●&nbsp;파노라마 선루프</b>&nbsp;1,080,000<br><br><b>●&nbsp;매직 테일게이트</b>&nbsp;700,000<br><b><br></b><b>●&nbsp;S-Link 8.7" 내비게이션&nbsp;</b>740,000<br><br><b>●&nbsp;프레임리스룸미러(하이패스 심카드 전용)※ 선불 충전 불가, 하이패스 심 카드 발행 카드사 확인 필요</b>&nbsp;70,000<br><b><br></b><b>●&nbsp;PREMIERE 전용 19" 투톤 알로이 휠&nbsp;</b>150,000<br><br><b>● 클라우드 펄 외장 컬러</b>&nbsp;190,000</p>
+												</div>
+											
+												<div id="newcar5" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>RE Signature 기본 품목 및&nbsp;</b><b><br></b><b><br></b><b>●&nbsp;외관 :</b>&nbsp;PREMIERE 전용 19" 투톤 알로이 휠 &amp; 225/55 R19타이어, PREMIERE 전용 스키드(프런트/리어), PREMIERE 전용 로고(라디에이트 그릴/사이드 엠블리셔), 이중접합 차음 글라스(1열/2열 사이드 윈도우), 핫스탬핑 라디에이터 그릴&nbsp;<br><br><b>●&nbsp;내장 :&nbsp;</b>블랙 퀼팅 나파 가죽시트, 블랙 알칸타라 내장재(앞좌석, 뒷좌석 시트 숄더/앞좌석, 뒷좌석 시트 볼스터 /센터 암레스트/도어 암레스트), 앞좌석 프레스티지 헤드레스트, 인조가죽 커버 및 브라운 스티치(대시보드 하단/글러브 박스), 소프트 콘솔 그립핸들, 도어 커티시 램프(앞), PREMIERE 전용 로고(알루미늄 키킹 플레이트/앞좌석 프레스티지 헤드레스트 후면), PREMIERE 전용 블랙 우드 그레인, 컬러 가변형 앰비언트 라이트(앞좌석/뒷좌석)&nbsp;<br><b><br></b><b>●&nbsp;편의 :</b>&nbsp;매직 테일 게이트, 운전석 매뉴얼 쿠션 익스텐션&nbsp;<br><b><br></b><b>●&nbsp;멀티미디어 :&nbsp;</b>S-Link 8.7" 내비게이션&nbsp;<br><br><b>●&nbsp;공조시스템 :&nbsp;</b>이오나이저</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>●&nbsp;파노라마 선루프&nbsp;</b>1,080,000<br><br><b>●&nbsp;프레임리스 룸미러(하이패스 심카드 전용)※ 선불 충전 불가, 하이패스 심 카드 발행 카드사 확인 필요</b>&nbsp;70,000<br><br><b>● 클라우드 펄 외장 컬러</b>&nbsp;190,000</p>
+												</div>
+											
+												<div id="newcar6" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>LPe PREMIERE 기본 품목 및&nbsp;</b><b><br></b><b><br></b><b>● 파워트레인 :</b>&nbsp;2.0 dCi(디젤) 엔진, 엑스트로닉(Xtronic) 무단 변속기(7단 수동 모드 지원), 4WD(ALL MODE 4X4-i),오토 스탑/스타트 시스템&nbsp;<br><br><b>● 내장 :&nbsp;</b>폴딩 플로어 보드<br><b><br></b><b>● 멀티미디어 :</b>&nbsp;S-Link 7" 미러링 시스템(7"/컬러 TFT LCD/정전식 터치스크린/ 애플 카플레이 &amp; 구글 안드로이드 오토 지원), 8 스피커 (3D 사운드 시스템 포함)&nbsp;<br><b><br></b><b>● 편의 :&nbsp;</b>매직 테일 게이트 미적용</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>●&nbsp;파노라마 선루프</b>&nbsp;1,080,000<br><br><b>●&nbsp;매직 테일게이트</b>&nbsp;700,000<br><b><br></b><b>●&nbsp;S-Link 8.7" 내비게이션 +&nbsp;</b><b>프레임리스 룸미러(하이패스 심카드 전용)※ 선불 충전 불가, 하이패스 심 카드 발행 카드사 확인 필요&nbsp;</b>800,000<br><br><b>● 클라우드 펄 외장 컬러</b>&nbsp;190,000</p>
+												</div>
+											
+										</div>
+										<script type="text/javascript">
+											newcarFolder(0);//초기값
+											function newcarFolder(target) {
+												var conElId = "newcar"//아이디 설정
+												var conElMenu = document.getElementById("newcarList");
+												var conElMenuLink = conElMenu.getElementsByTagName("a");
+												if (target != null) {
+													conElMenuLink[target].parentNode.className = "on";
+													document.getElementById(
+														conElId + target).style.display = "";
+												}
+												for (i = 0; i <= (conElMenuLink.length - 1); i++) {
+													conElMenuLink[i].onclick = function () {
+														for (x = 0; x <= (conElMenuLink.length - 1); x++) {
+															conElMenuLink[x].parentNode.className = "";
+															document.getElementById(
+																conElId + x).style.display = "none";
+														}
+														this.parentNode.className = "on";
+														document.getElementById(this.getAttribute('href')
+																					.split(
+																						'#')[1]).style.display =
+															"";
+														return false;
+													}
+												}
+											}
+										</script>
+									</div>
+									
+										<ul class="more">
+												<b>※ 2.0 LPe / 2.0 GDe / 2.0 dCi 공통사항<br></b><b>● 클라우드 펄 외장 컬러 선택 시 추가 비용 190,000원&nbsp;</b><b><br>● S-Link 패키지</b><br>* S-Link 패키지Ⅰ - S-Link 8.7" 내비게이션 + 후방 카메라 + 사각지대 경보 시스템(BSW) + 전방 경보 시스템 + 주차조향 보조 시스템(EPA) + 컴바인드 에어필터 + 자동탈취 기능<br>* S-Link 패키지Ⅲ - S-Link 8.7" 내비게이션 + 후방 카메라 + 사각지대 경보 시스템(BSW) + 전방 경보 시스템 + 긴급제동 보조 시스템(AEBS, 보행자 감지 포함) + 차간거리 경보 시스템(DW) + 전방추돌 경보 시스템(FCW) + 어댑티브 크루즈 컨트롤(ACC) + 차선 이탈 경보 시스템(LDW) + 오토매틱 하이빔(AHL) + 주차조향 보조 시스템(EPA) + 컴바인드 에어필터 + 자동 탈취 기능
+										</ul>
+									
+									<p class="desc_more">위 신차가격표는 단순 참고자료이며, 정확한 내용은 각 제조사에서 제공하는 자료를 통해확인하실 수 있습니다.</p><!-- 2016/10/12 [장] 등급 등록/수정 개선 : 추가 디자인 변경 -->
+									<p class="toTop"><a href="#main_title" class="sp toTop db_ir" title="페이지 위로"><u>페이지 위로</u></a></p><!-- [시세개편] class db_ir 추가 -->
+								</div>
+
+
+							</div>
+							<!-- body end -->
+						</td>
+					</tr>
+				</table>
+
+
+			
+			
+		
+    </div>
+
+    <!-- container end -->
+</form>
+</div>
+
+</body>
+<script language="javascript">
+
+
+    var strCompanyUrl = "/common/combo/cardbcompany.json?method=carList";
+    var strModelGroupUrl = "/common/combo/modelgroupfordb.json?method=carList";
+    var strModelUrl = "/common/combo/cardbmodel.json?method=carList";
+    var strYrJatoUrl = "/common/combo/jatoYr.json?method=carList";
+
+    var companyid = "mnfccd";
+    var modelgroupid = "mdlgroupcd";
+    var modelid = "mdlcd";
+    var yearid = "caryear";
+
+    function initGnb() {
+        var paramCompany = $("paramMnfccd").value;
+        var paramModelGroup = $("paramMdlgroupcd").value;
+        var paramModel = $("paramMdlcd").value;
+        var paramYr = $("paramYear").value;
+
+        // 제조사
+        if (paramModel != "") {
+            $("mdlcd").show();
+        }
+
+        //console.log("companyid :: " + companyid)
+        //console.log("paramCompany :: " + paramCompany)
+		if($('foldYn').value != 0){
+            foldingYN('f_fold');
+		}
+
+        setCompany(strCompanyUrl, companyid, "제조사", paramCompany);
+
+        // 제조사 값이 있으면 모델 검색
+        if (paramCompany >= '010') {
+            if (paramCompany != "") {
+                if (paramModel == "") {
+                    paramModel = paramModelGroup;
+                }
+                setModel(strModelUrl, modelid, paramCompany, "모델", paramModel)
+                $("mdlgroupcd").hide();
+
+            }
+        } else {
+            $("mdlgroupcd").show();
+            if (paramCompany != "") {
+                setModelGroup(strModelGroupUrl, modelgroupid, paramCompany, "모델", paramModelGroup);
+                if (paramModelGroup != "") {
+                    setModel_New(strModelUrl, modelid, paramCompany, paramModelGroup, "세부모델", paramModel);
+                }
+            }
+
+        }
+        if (paramCompany != "" && paramModel != "") {
+            setCarYear(strYrJatoUrl, yearid, paramCompany, paramModel, "형식연도", paramYr);
+        }
+
+        waitTime = 1;
+    }
+
+    function changeModel_jato(mnfccd, mdlgroupcd) {
+        setModel_New(strModelUrl, modelid, mnfccd, mdlgroupcd, "세부모델", "");
+        //모델그룹선택시 기본 세부모델선택
+        if ($("mdlcd") != null) {
+            $("mdlcd").selectedIndex = 1;
+            var mdlcd = $("mdlcd").options[$("mdlcd").selectedIndex].value;
+            changeYearJato(mnfccd, mdlcd);
+        }
+    }
+
+    function changeYearJato(mnfccd,mdlcd) {
+        setCarYear(strYrJatoUrl, yearid, mnfccd, mdlcd, "형식연도", "");
+        $(yearid).options[1].selected = true;
+    }
+
+
+
+    //덧글 리스트
+    function viewForm(index) {
+
+        var object = $("default" + index);
+        var objectSum = $("defaultSum" + index);
+        var selectSum = $("choiceSum" + index);
+        var object1 = $("choice" + index);
+        if (object != null) {
+            if (object.style.display == 'none') {
+                objectSum.hide();
+                selectSum.hide();
+                object.style.display = "block";
+                object1.style.display = "block";
+
+            } else {
+                object.hide();
+                object1.hide();
+                objectSum.style.display = "block";
+                selectSum.style.display = "block";
+            }
+        }
+    }
+
+    function viewAll() {
+        for (var i = 1; i <=7; i++) {
+            $("default" + i).style.display = "block";
+            $("defaultSum" + i).style.display = "none";
+            $("choice" + i).style.display = "block";
+            $("choiceSum" + i).style.display = "none";
+        }
+    }
+
+    function closeAll() {
+        for (var i = 1; i <=7; i++) {
+            $("default" + i).style.display = "none";
+            $("defaultSum" + i).style.display = "block";
+            $("choice" + i).style.display = "none";
+            $("choiceSum" + i).style.display = "block";
+        }
+    }
+
+    function firstLayerOpen() {
+        //viewForm(1);
+    }
+
+    function foldingYN(param) {
+        if (param == "f_fold") {
+            document.getElementById("folding").innerHTML ="<a href=\"javascript:foldingYN('f_unfold')\" class='folding f_unfold'>전체등급 펼쳐보기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "none";
+            document.getElementById("f_fold").style.display = "";
+        } else {
+            document.getElementById("folding").innerHTML = "<a href=\"javascript:foldingYN('f_fold')\" class='folding f_fold'>접기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "";
+            document.getElementById("f_fold").style.display = "none";
+        }
+    }
+
+    function onSubmit() {
+        jQuery("#searchForm").submit();
+
+    }
+    window.onload = initGnb;
+
+</script>
+</html>
+

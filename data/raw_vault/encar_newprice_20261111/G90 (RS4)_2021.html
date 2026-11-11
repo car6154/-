@@ -1,0 +1,856 @@
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>차량DB - 차량정보 - 신차가격표</title>
+    <link type="text/css" rel="stylesheet" href="/css/common.css?v=1793835891525"/>
+    <link type="text/css" rel="stylesheet" href="/css/db.css?v=1793835891525"/>
+
+    <script type="text/javascript" src="/js/encarapp/lib/jquery/jquery-1.11.3.min.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/common/ui.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/prototype.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/util.js?v=1793835894199"></script>
+
+    <script type="text/javascript" src="/js/common/db_common.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/commonCombo.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/carSearchCombo.js?v=1793835894199"></script>
+	<script>
+		window.enlogInitJson = {
+			"dataTalkView": {
+				"screenName": "신차가격표"
+			}
+		}
+
+	</script>
+
+
+</head>
+
+
+
+
+
+
+
+    <!-- 등급 체크박스  -->
+    <div style="display:none">
+        
+    </div>
+
+    <!-- 세부등급 체크박스 -->
+    <div style="display:none">
+        
+    </div>
+
+
+
+<body class="db db_newdetailview db_basicTemplate">
+
+
+
+
+	
+	
+	
+	
+
+
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-W9QQ2T"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W9QQ2T');</script>
+<!-- End Google Tag Manager -->
+
+<!-- container begin -->
+<div class="container" id="containerDIV">
+<input type="hidden" id = "foldYn" name="searchtype" value="3"/>
+<form id ="searchForm" name="searchForm">
+
+    <input type="hidden" id = "method" name="method" value="newpricePopV2"/>
+    <input type="hidden" id = "dimensiontype" name="dimensiontype" value="null"/>
+    <input type="hidden" id = "paramMnfccd" name="paramMnfccd" value="007"/>
+    <input type="hidden" id = "paramMdlgroupcd" name="paramMdlgroupcd" value="004"/>
+    <input type="hidden" id = "paramMdlcd" name="paramMdlcd" value="011"/>
+    <input type="hidden" id = "paramYear" name="paramYear" value="2021"/>
+    <input type="hidden" id = "model" name="model" value="">
+    <input type="hidden" id = "paramCaryear" name="paramCaryear" value="2021"/>
+    <input type="hidden" id = "clsheadcd" name="clsheadcd" class="checkbox" value="null"/>
+    <input type="hidden" id = "paramGradeHead" name="paramGradeHead" value="null"/>
+	<input type="hidden" id = "searchtype" name="searchtype" value="check"/>
+	<input type="hidden" id = "pageAccessToken" name="pageAccessToken" value="AgV4ZFRfkOuT0crs8dzV6C979UulFfpFCcLj/Uf2A+Yz8t0AcQACAAdFbmNhckNrAAdFbmNhckN2ABVhd3MtY3J5cHRvLXB1YmxpYy1rZXkAREFzU1pnejVtNTE2Q0FIK3pQd2hqWmZsVGNzNFBRUGp1bUVaOXZVYjNOcjNXbGVXb2NuOTZ0Ynl5QVZxOEYwQ09ydz09AAEAB2F3cy1rbXMAUGFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjI3MjM2MjQ4NzY1MzprZXkvbXJrLWRmZWEyNmY3NTVhMzQ3MjliNjkwMjRkZWZmM2M1MWFjALgBAgEAeAuqQuSJvQ+Ra4FSj55FZzS0sk+00amsb3yoAFiEYn4PAfJaUv5lF7lwbt/mPu2JQRYAAAB+MHwGCSqGSIb3DQEHBqBvMG0CAQAwaAYJKoZIhvcNAQcBMB4GCWCGSAFlAwQBLjARBAzVScfLTjOWa7ybwfcCARCAO8agv3GUis7/3d91oUc0geaXIOsYy9Euj6xh3T8VVV3NCVciJVl72AXguz4mIkUTng1Tm8MeTFNlPStfAgAAEABIfnyMEGLnN458tht9pcddqn/r2QnjNY9ivY89lm2DyrLx+UCsOiHCzOorLzFClYz/////AAAAAQAAAAAAAAAAAAAAAQAAAKP7e5Kw3B5QSIup8pLzc93pYnen8bPn77tU0O/BjBlv2hfGIYC6jTD/rCssf/ATyWhKNKGf9pe/0GduLRG4uUoDVa+tlWMUr0YHK9BwGe+bt4Eu0jpnq3t5dVDixvPAFufDg/cZlALpA3jJyMGzOKsQC/L4O6Os5F7Kk4J8n+fUQ7lROv3Q2RCcA4abPdnkl78uIhFppzVn7OZTODFN+cbe87PEeUMKv6Nb1bQZoDk++bvhrwBnMGUCMD4wy3g37/C9Xo6sL68s9sM9Qx9WVKkafc4329NXn3N+7+JhE41FivTIlfhZrzGVDQIxAICJCvAi+U5LYQ2V3tUg5e/pWBaEJ1GvuyvhBZrVkl2piWlsqWilbS8XiGohxYpX1w=="/>
+    <div class="header">
+        <h1 class="blind">SK엔카</h1>
+        <h2 class="tit_carprice" id="main_title">신차가격표</h2>
+        <p class="quickSearch">
+
+
+
+            <select title="제조사" class="opt_select" id="mnfccd" name="mnfccd" onChange="javascript:changeModelGroup(this.value);">
+                <option value="">제조사</option>
+            </select>
+
+            <select class="opt_select" title="모델" id="mdlgroupcd" name="mdlgroupcd" onChange="javascript:changeModel_jato($('mnfccd').value, this.value);">
+                <option>모델</option>
+            </select>
+
+            <select class="opt_select" title="세부모델" id="mdlcd" name="mdlcd" onChange="javascript:changeYearJato($('mnfccd').value, $('mdlcd').value);">
+                <option>세부모델</option>
+            </select>
+
+            <select class="opt_select" title="연식" id="caryear" name="caryear">
+                <option>연식</option>
+            </select>
+
+            <button type="button" class="btn_search" onclick="javascript:onSubmit();"/>검색</button>
+
+
+
+        </p>
+    </div>
+    <!-- body begin -->
+    <div class="body" id="bodydiv">
+		
+			
+				<table class="layout">
+					<col class="contents"/>
+					<tr>
+						<td class="contentsMenu">
+							<!-- contentsMenu begin -->
+							<div class="contentsMenu">
+								<h3 class="title">제네시스 G90 (RS4) 2021년형</h3>
+							</div>
+							<!-- contentsMenu end -->
+						</td>
+					</tr>
+
+					<tr>
+						<td class="contentsMain">
+							<!-- contents begin -->
+							<div class="contents">
+
+								<div class="carCompare">
+									<div class="dbHead">
+										
+											<div id="folding"><a href="javascript:foldingYN('f_fold')"
+																 class="folding f_fold">전체등급 펼쳐보기<em class="db_ir"></em></a></div>
+
+											<!-- 2013/04/03 [서] 매물탭 개선 : 기능 버튼 추가 --><!--<a href="#" class="folding f_unfold">펼치기</a>-->
+										
+									</div>
+									
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+									<div id="f_unfold">
+										
+
+
+										<!-- case2 : 세부등급이 있는경우 -->
+										
+											<table class="carCompare sellcase2">
+												<colgroup>
+													<col class="grade">
+													<col class="detailgrd">
+													<col class="mission">
+													<col class="price">
+													<col class="uprice">
+													<col class="item">
+													<col class="option">
+												</colgroup>
+												<thead class="compare">
+												<tr>
+													<th class="grade bgn" colspan="3"><b>구분</b></th>
+													<th class="price"><b>판매가격</b></th>
+													<th class="uprice"><b>중고차시세</b></th><!-- [시세개편] 중고차시세 추가 -->
+													<th class="item"><b>기본사양 품목</b></th>
+													<th class="option end"><b>선택사양 품목</b></th>
+												</tr>
+												</thead>
+												<tbody class="new">
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>가솔린 3.5 터보 2WD</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>8,957</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶ 파워트레인 및 성능 : </b>가솔린 3.5 터보 엔진, 8단 자동변속기, 프리뷰 전자제어 서스펜션, 전동식 파워 스티어링(R-MDPS), ISG 시스템, 통합 주행 모드
+<br>
+
+<br><b>▶&nbsp;외관 :</b> MLA 헤드램프(Micro Lens Array), LED 방향지시등, LED 주간주행등, Full LED 리어 콤비 램프, 245/50R19 피렐리 타이어 &amp; 다이아몬드 컷팅 휠, 이중 접합 차음 유리(앞면, 뒷면, 전체 도어), 
+자외선 차단 유리(앞면, 뒷면, 전체 도어), 아웃사이드 미러(로고 패턴 퍼들램프, 열선, 오토 언폴딩), 듀얼 머플러, 다이내믹 웰컴 라이트
+내장 12.3인치 TFT LCD 클러스터, 전자식 변속 다이얼(SBW), 제네시스 통합 컨트롤러, 패들쉬프트, 하이패스 시스템, 프레임리스 룸미러(ECM), 인서트 필름, 터치타입 공조 패널, 앰비언트 무드램프, 
+메탈 도어스커프, 뒷좌석 화장거울
+<br>
+
+<br><b>▶&nbsp;안전 :</b> 10 에어백 시스템(앞좌석 어드밴스드, 운전석 무릎, 앞좌석 센터 사이드, 앞 &amp; 뒤 사이드, 전복 대응 커튼), 차체자세 제어기능, 경사로 밀림방지 기능, 개별 타이어 공기압 경보장치, 급제동 경보 기능, 뒷좌석 유아용 시트 고정장치,
+뒷좌석 센터 3점식 시트벨트, 차로 이탈방지 보조, 진동경고 스티어링 휠, 하이빔 보조, 운전자 주의 경고, 전방 충돌방지 보조(차량, 보행자, 자전거 탑승자, 교차로 대향차, 교차로 교차 차량, 정면 대향차, 추월 시 대향차, 
+측방 접근차, 회피 조향 보조 기능 포함), 후측방 충돌방지 보조, 후방 교차 충돌방지 보조, 지능형 속도제한 보조, 후진 가이드 램프, 안전 하차 보조, 어드밴스드 후석 승객 알림, 다중 충돌방지 자동제동 시스템
+<br>
+
+<br><b>▶&nbsp;편의 :</b> 앞좌석 스마트폰 무선 충전, 버튼시동 &amp; 스마트 키, 제네시스 디지털 키 2, 오토 플러시 도어 핸들, 전자식 파워 차일드 락, 레인 센서, 열선 &amp; 전동식 조절 스티어링 휠, 실내 지문 인증 시스템(개인화, 시동, 결제 등),
+3존 공조(오토디포그, 외부공기 유입 방지 제어, 애프터 블로우 포함), 공기 청정 시스템(미세먼지 센서, 엔진룸 프리필터, 고성능 항균 &amp; 콤비 필터), 고속도로 주행 보조 2(차로 변경 보조 제어 기능 포함),
+스마트 크루즈 컨트롤(정차 및 재출발 기능, 운전 스타일 연동 포함), 내비게이션 기반 스마트 크루즈 컨트롤(안전구간, 곡선로, 진출입로), 차로 유지 보조, 액티브 로드 노이즈 컨트롤, 
+항균 패키지(뒷좌석 암레스트 수납함 자외선 살균 기능, 항균 소재 적용 등), 조향 연동 후방 모니터, 전동식 파킹 브레이크(오토홀드 포함), 앞좌석 &amp; 뒷좌석 파워 세이프티 윈도우, 전방/후방 주차 거리 경고, 
+스마트 전동식 트렁크, 뒷좌석 전동식 도어커튼, 뒷면 전동식 커튼, 타이어 응급 처치 키트, 전자식 도어 래치
+<br>
+
+<br><b>▶&nbsp;시트 : </b>천연 가죽 시트, 운전석 전동시트(18방향, 전동식 헤드레스트, 럼버서포트, 쿠션 익스텐션 포함), 동승석(16방향, 전동식 헤드레스트, 럼버서포트 포함), 동승석 워크인 디바이스, 
+운전석 자세 메모리 시스템(스마트 자세제어 시스템 포함), 동승석 자세 메모리 시스템, 앞좌석 통풍 &amp; 열선 시트, 뒷좌석 열선 시트, 뒷좌석 스키쓰루, 뒷좌석 암레스트 수납함
+<br>
+
+<br><b>▶&nbsp;인포테인먼트 :</b> 제네시스 인포테인먼트 시스템(차세대 인포테인먼트 시스템(ccIC), 12.3인치 디스플레이, Genesis Connected Services, 폰 프로젝션, 도로파손/미끄럼 지역 알림, 블루투스 멀티커넥션, 제네시스 카페이, 발레 모드, 
+뮤직 스트리밍 서비스), 무선 소프트웨어 업데이트(OTA Software Update), 뱅앤올룹슨 사운드 시스템(15스피커), 앞좌석 &amp; 뒷좌석 USB 단자, 8인치 뒷좌석 암레스트 터치 디스플레이
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>매트 컬러(무광, 2종 중 선택: 베르비에 화이트, 마칼루 그레이) : 800,000<br>
+<br><b>▶&nbsp;</b>245/45R20(앞), 275/40R20(뒤) 미쉐린 타이어 &amp; 다이아몬드 컷팅 휠 : 1,000,000<br>
+
+<br><b>▶&nbsp;</b>245/45R20(앞), 275/40R20(뒤) 미쉐린 타이어 &amp; 다크 하이퍼 실버 휠 : 1,000,000<br>
+<br><b>▶&nbsp;</b>시그니쳐 디자인 셀렉션 : 5,500,000<br>- 프라임 나파 가죽 시트(퀼팅 적용), 프라임 나파 가죽 내장재(센터콘솔 암레스트, 
+도어 센터 트림, 도어 암레스트), 오픈포어 리얼우드 내장재, 럭셔리 스웨이드 내장재(헤드라이닝, 
+필라 트림 등), 천연 가죽 내장재(스티어링 휠 혼 커버, 크래쉬패드 어퍼 스킨 등), 인조 가죽 내장재 
+(프론트 콘솔 가니쉬 사이드 몰딩 등), 인조 실크 카매트
+
+<br>※ 메탈 G-MATRIX 패턴 내장재(오픈포어 리얼우드 대체) [+1,000,000]&nbsp;
+<br>
+<br><b>▶&nbsp;</b>프리미엄 컬렉션 : 11,000,000<br>- 하이테크 패키지, 컨비니언스 패키지, 드라이빙 어시스턴스 패키지, 뒷좌석 컴포트 패키지Ⅰ
+프레스티지 컬렉션<br>
+<br> ▶ 프리미엄 컬렉션 : 23,000,000<br>- 시그니쳐 디자인 셀렉션, 이지 클로즈 시스템, 전동식 뒷좌석 듀얼 모니터, 뒷좌석 컴포트 패키지Ⅱ<br>※ 추천 사양은 최고급 세단의 품격에 맞춰 제안하는 사양의 조합으로, 일부 가격적인 혜택도 포함되어 있습니다.&nbsp;
+<br>
+<br>▶&nbsp;멀티 챔버 에어 서스펜션 : 3,500,000<br>
+<br>▶ 능동형 후륜 조향(RWS) : 1,500,000<br>※ 멀티 챔버 에어 서스펜션 선택 시 선택 가능
+<br>
+
+<br>▶ 이지 클로즈 시스템 : 1,500,000<br>※ 컨비니언스 패키지 선택 시 선택 가능
+<br>
+
+<br>▶ 파노라마 선루프 : 2,000,000<br><br>▶ 전동식 뒷좌석 듀얼 모니터(좌/우 독립제어, USB 단자(충전/데이터 리딩)) : 3,000,000<br>
+<br>▶&nbsp;하이테크 패키지&nbsp;: 2,000,000&nbsp;&nbsp;<br>- 헤드업 디스플레이, 지능형 헤드램프<br><br>▶&nbsp;컨비니언스 패키지 : 3,500,000<br> - (운전석 에르고 릴렉싱 시트(22방향, 마사지, 볼스터 포함), 동승석 에르고 릴렉싱 시트(20방향, 마사지, 볼스터 포함), 고스트 도어 클로징, 무드 큐레이터(향기 카트리지 3EA 포함)<br> 
+<br>▶ 드라이빙 어시스턴스 패키지&nbsp;: 2,500,000<br>- 서라운드 뷰 모니터, 후측방 모니터, 원격 스마트 주차 보조(광각 카메라 기반 주차 및 사선 주차 포함), 주차 충돌방지 보조(전/측/후방), 증강현실 내비게이션, 앞좌석 프리 액티브 시트벨트<br> 
+<br>▶&nbsp;뒷좌석 컴포트 패키지Ⅰ : 3,500,000<br>- 뒷좌석 전동 시트(16방향), VIP 좌석 레그레스트(2방향, 토퍼 1EA 포함), 뒷좌석 통풍 시트, 어드밴스드 3존 공조(B필라 에어벤트), 뒷좌석 목베개(2EA), 뒷좌석 윙아웃 헤드레스트, 뒷좌석 스마트폰 무선 충전<br> 
+<br>▶ 뒷좌석 컴포트 패키지Ⅱ&nbsp;: 3,000,000<br>- 뒷좌석 에르고 릴렉싱 시트(뒷좌석 마사지, VIP 좌석 발 마사지), VIP 좌석 풋레스트(2방향, 통풍/열선/토퍼 1EA 포함), 뒷좌석 프라이버시 글라스
+
+<br>※ 뒷좌석 컴포트 패키지Ⅰ 선택 시 선택 가능
+<br> ※ 뒷좌석 컴포트 패키지Ⅱ 선택 시 동승석 럼버서포트 미적용 
+<br>※ 뒷좌석 컴포트 패키지Ⅱ와 컨비니언스 패키지 동시 선택 시 동승석 일부 기능(럼버 서포트, 볼스터, 마사지, 쿠션 지지 조절) 미적용(뒷좌석 컴포트 패키지Ⅱ 판매 가격 2,500,000)<br> 
+<br>▶ 뱅앤올룹슨 사운드 패키지&nbsp; : 4,000,000<br>- 뱅앤올룹슨 프리미어 3D 사운드 시스템(23스피커), 버추얼 베뉴<br>
+
+<br>▶ 빌트인 캠 패키지&nbsp; 
+<br>- 빌트인 캠, 보조배터리 
+<br>※ 주차 후 최대 12시간 녹화 가능 : 800,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+													
+														
+													
+													
+														
+															
+															
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>가솔린 3.5 터보 AWD</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>9,307</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶ 파워트레인 및 성능 :&nbsp;</b>가솔린 3.5 터보 엔진, 8단 자동변속기, 프리뷰 전자제어 서스펜션, 전동식 파워 스티어링(R-MDPS), ISG 시스템, 통합 주행 모드,&nbsp;HTRAC(전자식 AWD)<br><br><b>▶&nbsp;외관 :</b>&nbsp;MLA 헤드램프(Micro Lens Array), LED 방향지시등, LED 주간주행등, Full LED 리어 콤비 램프, 245/50R19 피렐리 타이어 &amp; 다이아몬드 컷팅 휠, 이중 접합 차음 유리(앞면, 뒷면, 전체 도어), 자외선 차단 유리(앞면, 뒷면, 전체 도어), 아웃사이드 미러(로고 패턴 퍼들램프, 열선, 오토 언폴딩), 듀얼 머플러, 다이내믹 웰컴 라이트 내장 12.3인치 TFT LCD 클러스터, 전자식 변속 다이얼(SBW), 제네시스 통합 컨트롤러, 패들쉬프트, 하이패스 시스템, 프레임리스 룸미러(ECM), 인서트 필름, 터치타입 공조 패널, 앰비언트 무드램프, 메탈 도어스커프, 뒷좌석 화장거울<br><br><b>▶&nbsp;안전 :</b>&nbsp;10 에어백 시스템(앞좌석 어드밴스드, 운전석 무릎, 앞좌석 센터 사이드, 앞 &amp; 뒤 사이드, 전복 대응 커튼), 차체자세 제어기능, 경사로 밀림방지 기능, 개별 타이어 공기압 경보장치, 급제동 경보 기능, 뒷좌석 유아용 시트 고정장치, 뒷좌석 센터 3점식 시트벨트, 차로 이탈방지 보조, 진동경고 스티어링 휠, 하이빔 보조, 운전자 주의 경고, 전방 충돌방지 보조(차량, 보행자, 자전거 탑승자, 교차로 대향차, 교차로 교차 차량, 정면 대향차, 추월 시 대향차, 측방 접근차, 회피 조향 보조 기능 포함), 후측방 충돌방지 보조, 후방 교차 충돌방지 보조, 지능형 속도제한 보조, 후진 가이드 램프, 안전 하차 보조, 어드밴스드 후석 승객 알림, 다중 충돌방지 자동제동 시스템<br><br><b>▶&nbsp;편의 :</b>&nbsp;앞좌석 스마트폰 무선 충전, 버튼시동 &amp; 스마트 키, 제네시스 디지털 키 2, 오토 플러시 도어 핸들, 전자식 파워 차일드 락, 레인 센서, 열선 &amp; 전동식 조절 스티어링 휠, 실내 지문 인증 시스템(개인화, 시동, 결제 등), 3존 공조(오토디포그, 외부공기 유입 방지 제어, 애프터 블로우 포함), 공기 청정 시스템(미세먼지 센서, 엔진룸 프리필터, 고성능 항균 &amp; 콤비 필터), 고속도로 주행 보조 2(차로 변경 보조 제어 기능 포함), 스마트 크루즈 컨트롤(정차 및 재출발 기능, 운전 스타일 연동 포함), 내비게이션 기반 스마트 크루즈 컨트롤(안전구간, 곡선로, 진출입로), 차로 유지 보조, 액티브 로드 노이즈 컨트롤, 항균 패키지(뒷좌석 암레스트 수납함 자외선 살균 기능, 항균 소재 적용 등), 조향 연동 후방 모니터, 전동식 파킹 브레이크(오토홀드 포함), 앞좌석 &amp; 뒷좌석 파워 세이프티 윈도우, 전방/후방 주차 거리 경고, 스마트 전동식 트렁크, 뒷좌석 전동식 도어커튼, 뒷면 전동식 커튼, 타이어 응급 처치 키트, 전자식 도어 래치<br><br><b>▶&nbsp;시트 :&nbsp;</b>천연 가죽 시트, 운전석 전동시트(18방향, 전동식 헤드레스트, 럼버서포트, 쿠션 익스텐션 포함), 동승석(16방향, 전동식 헤드레스트, 럼버서포트 포함), 동승석 워크인 디바이스, 운전석 자세 메모리 시스템(스마트 자세제어 시스템 포함), 동승석 자세 메모리 시스템, 앞좌석 통풍 &amp; 열선 시트, 뒷좌석 열선 시트, 뒷좌석 스키쓰루, 뒷좌석 암레스트 수납함<br><br><b>▶&nbsp;인포테인먼트 :</b>&nbsp;제네시스 인포테인먼트 시스템(차세대 인포테인먼트 시스템(ccIC), 12.3인치 디스플레이, Genesis Connected Services, 폰 프로젝션, 도로파손/미끄럼 지역 알림, 블루투스 멀티커넥션, 제네시스 카페이, 발레 모드, 뮤직 스트리밍 서비스), 무선 소프트웨어 업데이트(OTA Software Update), 뱅앤올룹슨 사운드 시스템(15스피커), 앞좌석 &amp; 뒷좌석 USB 단자, 8인치 뒷좌석 암레스트 터치 디스플레이
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>매트 컬러(무광, 2종 중 선택: 베르비에 화이트, 마칼루 그레이) : 800,000<br><br><b>▶&nbsp;</b>245/45R20(앞), 275/40R20(뒤) 미쉐린 타이어 &amp; 다이아몬드 컷팅 휠 : 1,000,000<br><br><b>▶&nbsp;</b>245/45R20(앞), 275/40R20(뒤) 미쉐린 타이어 &amp; 다크 하이퍼 실버 휠 : 1,000,000<br><br><b>▶&nbsp;</b>시그니쳐 디자인 셀렉션 : 5,500,000<br>- 프라임 나파 가죽 시트(퀼팅 적용), 프라임 나파 가죽 내장재(센터콘솔 암레스트, 도어 센터 트림, 도어 암레스트), 오픈포어 리얼우드 내장재, 럭셔리 스웨이드 내장재(헤드라이닝, 필라 트림 등), 천연 가죽 내장재(스티어링 휠 혼 커버, 크래쉬패드 어퍼 스킨 등), 인조 가죽 내장재 (프론트 콘솔 가니쉬 사이드 몰딩 등), 인조 실크 카매트<br>※ 메탈 G-MATRIX 패턴 내장재(오픈포어 리얼우드 대체) [+1,000,000]&nbsp;<br><br><b>▶&nbsp;</b>프리미엄 컬렉션 : 11,000,000<br>- 하이테크 패키지, 컨비니언스 패키지, 드라이빙 어시스턴스 패키지, 뒷좌석 컴포트 패키지Ⅰ 프레스티지 컬렉션<br><br>▶ 프리미엄 컬렉션 : 23,000,000<br>- 시그니쳐 디자인 셀렉션, 이지 클로즈 시스템, 전동식 뒷좌석 듀얼 모니터, 뒷좌석 컴포트 패키지Ⅱ<br>※ 추천 사양은 최고급 세단의 품격에 맞춰 제안하는 사양의 조합으로, 일부 가격적인 혜택도 포함되어 있습니다.&nbsp;<br><br>▶&nbsp;멀티 챔버 에어 서스펜션 : 3,500,000<br><br>▶ 능동형 후륜 조향(RWS) : 1,500,000<br>※ 멀티 챔버 에어 서스펜션 선택 시 선택 가능<br><br>▶ 이지 클로즈 시스템 : 1,500,000<br>※ 컨비니언스 패키지 선택 시 선택 가능<br><br>▶ 파노라마 선루프 : 2,000,000<br><br>▶ 전동식 뒷좌석 듀얼 모니터(좌/우 독립제어, USB 단자(충전/데이터 리딩)) : 3,000,000<br><br>▶&nbsp;하이테크 패키지&nbsp;: 2,000,000&nbsp;<br> - 헤드업 디스플레이, 지능형 헤드램프<br><br>▶&nbsp;컨비니언스 패키지 : 3,500,000<br>- (운전석 에르고 릴렉싱 시트(22방향, 마사지, 볼스터 포함), 동승석 에르고 릴렉싱 시트(20방향, 마사지, 볼스터 포함), 고스트 도어 클로징, 무드 큐레이터(향기 카트리지 3EA 포함)<br><br>▶ 드라이빙 어시스턴스 패키지&nbsp;: 2,500,000<br>- 서라운드 뷰 모니터, 후측방 모니터, 원격 스마트 주차 보조(광각 카메라 기반 주차 및 사선 주차 포함), 주차 충돌방지 보조(전/측/후방), 증강현실 내비게이션, 앞좌석 프리 액티브 시트벨트<br><br>▶&nbsp;뒷좌석 컴포트 패키지Ⅰ : 3,500,000<br>- 뒷좌석 전동 시트(16방향), VIP 좌석 레그레스트(2방향, 토퍼 1EA 포함), 뒷좌석 통풍 시트, 어드밴스드 3존 공조(B필라 에어벤트), 뒷좌석 목베개(2EA), 뒷좌석 윙아웃 헤드레스트, 뒷좌석 스마트폰 무선 충전<br><br>▶ 뒷좌석 컴포트 패키지Ⅱ&nbsp;: 3,000,000<br>- 뒷좌석 에르고 릴렉싱 시트(뒷좌석 마사지, VIP 좌석 발 마사지), VIP 좌석 풋레스트(2방향, 통풍/열선/토퍼 1EA 포함), 뒷좌석 프라이버시 글라스<br>※ 뒷좌석 컴포트 패키지Ⅰ 선택 시 선택 가능<br>※ 뒷좌석 컴포트 패키지Ⅱ 선택 시 동승석 럼버서포트 미적용<br>※ 뒷좌석 컴포트 패키지Ⅱ와 컨비니언스 패키지 동시 선택 시 동승석 일부 기능(럼버 서포트, 볼스터, 마사지, 쿠션 지지 조절) 미적용(뒷좌석 컴포트 패키지Ⅱ 판매 가격 2,500,000)<br><br>▶ 뱅앤올룹슨 사운드 패키지&nbsp; : 4,000,000<br>- 뱅앤올룹슨 프리미어 3D 사운드 시스템(23스피커), 버추얼 베뉴<br><br>▶ 빌트인 캠 패키지&nbsp;<br>- 빌트인 캠, 보조배터리<br>※ 주차 후 최대 12시간 녹화 가능 : 800,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+													
+														
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>가솔린 3.5 터보 e-S/C AWD LWB</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>16,557</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>GENESIS G90 AWD 기본 사양 외&nbsp;
+<br></b><b><br></b><b>[파워트레인 및 성능</b>] 가솔린 3.5 터보 48V 일렉트릭 슈퍼차저, AWD, 멀티 챔버 에어 서스펜션, 능동형 후륜 조향(RWS)&nbsp;
+<br><br><b>[외관]</b> 245/45R20(앞), 275/40R20(뒤) 미쉐린 타이어 &amp; 다이아몬드 컷팅 G90 LONG WHEEL BASE 전용 휠, 프론트 범퍼 인테이크 그릴 크롬 몰딩, 리어 범퍼 하단부 크롬 몰딩, B필라 알루미늄 아노다이징&nbsp;
+<br><br><b>[편의] </b>헤드업 디스플레이, 지능형 헤드램프, 서라운드 뷰 모니터, 후측방 모니터, 원격 스마트 주차 보조(광각 카메라 기반 주차 및 사선 주차 포함), 주차 충돌방지 보조(전/측/후방), 증강현실 내비게이션, 고스트 도어 클로징
+앞좌석 프리 액티브 시트벨트, 어드밴스드 3존 공조(B필라 에어벤트), 뒷좌석 목베개(2EA), 이지 클로즈 시스템, 무드 큐레이터(향기 카트리지 3EA 포함)&nbsp;
+<br><br><b>[시트]</b> 세미 애닐린 가죽 시트(세미 애닐린 가죽 전용 퀼팅), 운전석 에르고 릴렉싱 시트(22방향, 마사지, 볼스터 포함), 동승석 에르고 릴렉싱 시트(20방향, 마사지, 볼스터 포함), 뒷좌석 통풍 시트
+<br><br><b>[인포테인먼트]</b> 뱅앤올룹슨 프리미어 3D 사운드 시스템(23스피커), 버추얼 베뉴
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶&nbsp;퍼스트 클래스 VIP 시트(4인승)&nbsp;: 4,000,000&nbsp;
+<br>※뒷좌석 컴포트 패키지 선택 시 선택 가능
+<br><br>▶ 매트 컬러(무광, 2종 중 선택: 베르비에 화이트, 마칼루 그레이) : 800,000
+<br><br>▶ 파노라마 선루프 : 2,500,000
+<br><br>▶ 전동식 뒷좌석 듀얼 모니터(좌/우 독립제어, USB 단자(충전/데이터 리딩)) : 3,000,000&nbsp;
+<br>
+<br>▶ 뒷좌석 컴포트 패키지 : 5,000,000
+<br>- 뒷좌석 에르고 릴렉싱 시트(16방향, 뒷좌석 마사지, VIP 좌석 발 마사지), 
+뒷좌석 레그레스트(4방향, 토퍼 2EA 포함), 
+VIP 좌석 풋레스트(2방향, 통풍/열선/토퍼 1EA 포함), 뒷좌석 윙아웃 헤드레스트, 
+뒷좌석 스마트폰 무선 충전, 뒷좌석 프라이버시 글라스&nbsp;
+<br>※ 뒷좌석 컴포트 패키지 적용 시 동승석 일부 기능(럼버 서포트, 볼스터, 마사지, 쿠션 지지 조절) 미적용
+<br><br>▶ 빌트인 캠 패키지 : 800,000
+<br>- 빌트인 캠, 보조배터리
+<br>&nbsp;※ 주차 후 최대 12시간 녹화 가능</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+												</tbody>
+											</table>
+										
+									</div>
+									<!-- 신차가격표(폴더형) -->
+									<div id="f_fold" style="display:none;">
+										<div class="newcar_folder">
+											<ul class="nf_list" id="newcarList">
+												
+													<li>
+														<a href="#newcar0">
+                                                            <span class="model">가솔린 3.5 터보 2WD  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>8,957</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar1">
+                                                            <span class="model">가솔린 3.5 터보 AWD  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>9,307</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar2">
+                                                            <span class="model">가솔린 3.5 터보 e-S/C AWD LWB  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>16,557</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+											</ul>
+											<!-- 개별 -->
+											
+												<div id="newcar0" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 파워트레인 및 성능 : </b>가솔린 3.5 터보 엔진, 8단 자동변속기, 프리뷰 전자제어 서스펜션, 전동식 파워 스티어링(R-MDPS), ISG 시스템, 통합 주행 모드
+<br>
+
+<br><b>▶&nbsp;외관 :</b> MLA 헤드램프(Micro Lens Array), LED 방향지시등, LED 주간주행등, Full LED 리어 콤비 램프, 245/50R19 피렐리 타이어 &amp; 다이아몬드 컷팅 휠, 이중 접합 차음 유리(앞면, 뒷면, 전체 도어), 
+자외선 차단 유리(앞면, 뒷면, 전체 도어), 아웃사이드 미러(로고 패턴 퍼들램프, 열선, 오토 언폴딩), 듀얼 머플러, 다이내믹 웰컴 라이트
+내장 12.3인치 TFT LCD 클러스터, 전자식 변속 다이얼(SBW), 제네시스 통합 컨트롤러, 패들쉬프트, 하이패스 시스템, 프레임리스 룸미러(ECM), 인서트 필름, 터치타입 공조 패널, 앰비언트 무드램프, 
+메탈 도어스커프, 뒷좌석 화장거울
+<br>
+
+<br><b>▶&nbsp;안전 :</b> 10 에어백 시스템(앞좌석 어드밴스드, 운전석 무릎, 앞좌석 센터 사이드, 앞 &amp; 뒤 사이드, 전복 대응 커튼), 차체자세 제어기능, 경사로 밀림방지 기능, 개별 타이어 공기압 경보장치, 급제동 경보 기능, 뒷좌석 유아용 시트 고정장치,
+뒷좌석 센터 3점식 시트벨트, 차로 이탈방지 보조, 진동경고 스티어링 휠, 하이빔 보조, 운전자 주의 경고, 전방 충돌방지 보조(차량, 보행자, 자전거 탑승자, 교차로 대향차, 교차로 교차 차량, 정면 대향차, 추월 시 대향차, 
+측방 접근차, 회피 조향 보조 기능 포함), 후측방 충돌방지 보조, 후방 교차 충돌방지 보조, 지능형 속도제한 보조, 후진 가이드 램프, 안전 하차 보조, 어드밴스드 후석 승객 알림, 다중 충돌방지 자동제동 시스템
+<br>
+
+<br><b>▶&nbsp;편의 :</b> 앞좌석 스마트폰 무선 충전, 버튼시동 &amp; 스마트 키, 제네시스 디지털 키 2, 오토 플러시 도어 핸들, 전자식 파워 차일드 락, 레인 센서, 열선 &amp; 전동식 조절 스티어링 휠, 실내 지문 인증 시스템(개인화, 시동, 결제 등),
+3존 공조(오토디포그, 외부공기 유입 방지 제어, 애프터 블로우 포함), 공기 청정 시스템(미세먼지 센서, 엔진룸 프리필터, 고성능 항균 &amp; 콤비 필터), 고속도로 주행 보조 2(차로 변경 보조 제어 기능 포함),
+스마트 크루즈 컨트롤(정차 및 재출발 기능, 운전 스타일 연동 포함), 내비게이션 기반 스마트 크루즈 컨트롤(안전구간, 곡선로, 진출입로), 차로 유지 보조, 액티브 로드 노이즈 컨트롤, 
+항균 패키지(뒷좌석 암레스트 수납함 자외선 살균 기능, 항균 소재 적용 등), 조향 연동 후방 모니터, 전동식 파킹 브레이크(오토홀드 포함), 앞좌석 &amp; 뒷좌석 파워 세이프티 윈도우, 전방/후방 주차 거리 경고, 
+스마트 전동식 트렁크, 뒷좌석 전동식 도어커튼, 뒷면 전동식 커튼, 타이어 응급 처치 키트, 전자식 도어 래치
+<br>
+
+<br><b>▶&nbsp;시트 : </b>천연 가죽 시트, 운전석 전동시트(18방향, 전동식 헤드레스트, 럼버서포트, 쿠션 익스텐션 포함), 동승석(16방향, 전동식 헤드레스트, 럼버서포트 포함), 동승석 워크인 디바이스, 
+운전석 자세 메모리 시스템(스마트 자세제어 시스템 포함), 동승석 자세 메모리 시스템, 앞좌석 통풍 &amp; 열선 시트, 뒷좌석 열선 시트, 뒷좌석 스키쓰루, 뒷좌석 암레스트 수납함
+<br>
+
+<br><b>▶&nbsp;인포테인먼트 :</b> 제네시스 인포테인먼트 시스템(차세대 인포테인먼트 시스템(ccIC), 12.3인치 디스플레이, Genesis Connected Services, 폰 프로젝션, 도로파손/미끄럼 지역 알림, 블루투스 멀티커넥션, 제네시스 카페이, 발레 모드, 
+뮤직 스트리밍 서비스), 무선 소프트웨어 업데이트(OTA Software Update), 뱅앤올룹슨 사운드 시스템(15스피커), 앞좌석 &amp; 뒷좌석 USB 단자, 8인치 뒷좌석 암레스트 터치 디스플레이</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>매트 컬러(무광, 2종 중 선택: 베르비에 화이트, 마칼루 그레이) : 800,000<br>
+<br><b>▶&nbsp;</b>245/45R20(앞), 275/40R20(뒤) 미쉐린 타이어 &amp; 다이아몬드 컷팅 휠 : 1,000,000<br>
+
+<br><b>▶&nbsp;</b>245/45R20(앞), 275/40R20(뒤) 미쉐린 타이어 &amp; 다크 하이퍼 실버 휠 : 1,000,000<br>
+<br><b>▶&nbsp;</b>시그니쳐 디자인 셀렉션 : 5,500,000<br>- 프라임 나파 가죽 시트(퀼팅 적용), 프라임 나파 가죽 내장재(센터콘솔 암레스트, 
+도어 센터 트림, 도어 암레스트), 오픈포어 리얼우드 내장재, 럭셔리 스웨이드 내장재(헤드라이닝, 
+필라 트림 등), 천연 가죽 내장재(스티어링 휠 혼 커버, 크래쉬패드 어퍼 스킨 등), 인조 가죽 내장재 
+(프론트 콘솔 가니쉬 사이드 몰딩 등), 인조 실크 카매트
+
+<br>※ 메탈 G-MATRIX 패턴 내장재(오픈포어 리얼우드 대체) [+1,000,000]&nbsp;
+<br>
+<br><b>▶&nbsp;</b>프리미엄 컬렉션 : 11,000,000<br>- 하이테크 패키지, 컨비니언스 패키지, 드라이빙 어시스턴스 패키지, 뒷좌석 컴포트 패키지Ⅰ
+프레스티지 컬렉션<br>
+<br> ▶ 프리미엄 컬렉션 : 23,000,000<br>- 시그니쳐 디자인 셀렉션, 이지 클로즈 시스템, 전동식 뒷좌석 듀얼 모니터, 뒷좌석 컴포트 패키지Ⅱ<br>※ 추천 사양은 최고급 세단의 품격에 맞춰 제안하는 사양의 조합으로, 일부 가격적인 혜택도 포함되어 있습니다.&nbsp;
+<br>
+<br>▶&nbsp;멀티 챔버 에어 서스펜션 : 3,500,000<br>
+<br>▶ 능동형 후륜 조향(RWS) : 1,500,000<br>※ 멀티 챔버 에어 서스펜션 선택 시 선택 가능
+<br>
+
+<br>▶ 이지 클로즈 시스템 : 1,500,000<br>※ 컨비니언스 패키지 선택 시 선택 가능
+<br>
+
+<br>▶ 파노라마 선루프 : 2,000,000<br><br>▶ 전동식 뒷좌석 듀얼 모니터(좌/우 독립제어, USB 단자(충전/데이터 리딩)) : 3,000,000<br>
+<br>▶&nbsp;하이테크 패키지&nbsp;: 2,000,000&nbsp;&nbsp;<br>- 헤드업 디스플레이, 지능형 헤드램프<br><br>▶&nbsp;컨비니언스 패키지 : 3,500,000<br> - (운전석 에르고 릴렉싱 시트(22방향, 마사지, 볼스터 포함), 동승석 에르고 릴렉싱 시트(20방향, 마사지, 볼스터 포함), 고스트 도어 클로징, 무드 큐레이터(향기 카트리지 3EA 포함)<br> 
+<br>▶ 드라이빙 어시스턴스 패키지&nbsp;: 2,500,000<br>- 서라운드 뷰 모니터, 후측방 모니터, 원격 스마트 주차 보조(광각 카메라 기반 주차 및 사선 주차 포함), 주차 충돌방지 보조(전/측/후방), 증강현실 내비게이션, 앞좌석 프리 액티브 시트벨트<br> 
+<br>▶&nbsp;뒷좌석 컴포트 패키지Ⅰ : 3,500,000<br>- 뒷좌석 전동 시트(16방향), VIP 좌석 레그레스트(2방향, 토퍼 1EA 포함), 뒷좌석 통풍 시트, 어드밴스드 3존 공조(B필라 에어벤트), 뒷좌석 목베개(2EA), 뒷좌석 윙아웃 헤드레스트, 뒷좌석 스마트폰 무선 충전<br> 
+<br>▶ 뒷좌석 컴포트 패키지Ⅱ&nbsp;: 3,000,000<br>- 뒷좌석 에르고 릴렉싱 시트(뒷좌석 마사지, VIP 좌석 발 마사지), VIP 좌석 풋레스트(2방향, 통풍/열선/토퍼 1EA 포함), 뒷좌석 프라이버시 글라스
+
+<br>※ 뒷좌석 컴포트 패키지Ⅰ 선택 시 선택 가능
+<br> ※ 뒷좌석 컴포트 패키지Ⅱ 선택 시 동승석 럼버서포트 미적용 
+<br>※ 뒷좌석 컴포트 패키지Ⅱ와 컨비니언스 패키지 동시 선택 시 동승석 일부 기능(럼버 서포트, 볼스터, 마사지, 쿠션 지지 조절) 미적용(뒷좌석 컴포트 패키지Ⅱ 판매 가격 2,500,000)<br> 
+<br>▶ 뱅앤올룹슨 사운드 패키지&nbsp; : 4,000,000<br>- 뱅앤올룹슨 프리미어 3D 사운드 시스템(23스피커), 버추얼 베뉴<br>
+
+<br>▶ 빌트인 캠 패키지&nbsp; 
+<br>- 빌트인 캠, 보조배터리 
+<br>※ 주차 후 최대 12시간 녹화 가능 : 800,000</p>
+												</div>
+											
+												<div id="newcar1" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 파워트레인 및 성능 :&nbsp;</b>가솔린 3.5 터보 엔진, 8단 자동변속기, 프리뷰 전자제어 서스펜션, 전동식 파워 스티어링(R-MDPS), ISG 시스템, 통합 주행 모드,&nbsp;HTRAC(전자식 AWD)<br><br><b>▶&nbsp;외관 :</b>&nbsp;MLA 헤드램프(Micro Lens Array), LED 방향지시등, LED 주간주행등, Full LED 리어 콤비 램프, 245/50R19 피렐리 타이어 &amp; 다이아몬드 컷팅 휠, 이중 접합 차음 유리(앞면, 뒷면, 전체 도어), 자외선 차단 유리(앞면, 뒷면, 전체 도어), 아웃사이드 미러(로고 패턴 퍼들램프, 열선, 오토 언폴딩), 듀얼 머플러, 다이내믹 웰컴 라이트 내장 12.3인치 TFT LCD 클러스터, 전자식 변속 다이얼(SBW), 제네시스 통합 컨트롤러, 패들쉬프트, 하이패스 시스템, 프레임리스 룸미러(ECM), 인서트 필름, 터치타입 공조 패널, 앰비언트 무드램프, 메탈 도어스커프, 뒷좌석 화장거울<br><br><b>▶&nbsp;안전 :</b>&nbsp;10 에어백 시스템(앞좌석 어드밴스드, 운전석 무릎, 앞좌석 센터 사이드, 앞 &amp; 뒤 사이드, 전복 대응 커튼), 차체자세 제어기능, 경사로 밀림방지 기능, 개별 타이어 공기압 경보장치, 급제동 경보 기능, 뒷좌석 유아용 시트 고정장치, 뒷좌석 센터 3점식 시트벨트, 차로 이탈방지 보조, 진동경고 스티어링 휠, 하이빔 보조, 운전자 주의 경고, 전방 충돌방지 보조(차량, 보행자, 자전거 탑승자, 교차로 대향차, 교차로 교차 차량, 정면 대향차, 추월 시 대향차, 측방 접근차, 회피 조향 보조 기능 포함), 후측방 충돌방지 보조, 후방 교차 충돌방지 보조, 지능형 속도제한 보조, 후진 가이드 램프, 안전 하차 보조, 어드밴스드 후석 승객 알림, 다중 충돌방지 자동제동 시스템<br><br><b>▶&nbsp;편의 :</b>&nbsp;앞좌석 스마트폰 무선 충전, 버튼시동 &amp; 스마트 키, 제네시스 디지털 키 2, 오토 플러시 도어 핸들, 전자식 파워 차일드 락, 레인 센서, 열선 &amp; 전동식 조절 스티어링 휠, 실내 지문 인증 시스템(개인화, 시동, 결제 등), 3존 공조(오토디포그, 외부공기 유입 방지 제어, 애프터 블로우 포함), 공기 청정 시스템(미세먼지 센서, 엔진룸 프리필터, 고성능 항균 &amp; 콤비 필터), 고속도로 주행 보조 2(차로 변경 보조 제어 기능 포함), 스마트 크루즈 컨트롤(정차 및 재출발 기능, 운전 스타일 연동 포함), 내비게이션 기반 스마트 크루즈 컨트롤(안전구간, 곡선로, 진출입로), 차로 유지 보조, 액티브 로드 노이즈 컨트롤, 항균 패키지(뒷좌석 암레스트 수납함 자외선 살균 기능, 항균 소재 적용 등), 조향 연동 후방 모니터, 전동식 파킹 브레이크(오토홀드 포함), 앞좌석 &amp; 뒷좌석 파워 세이프티 윈도우, 전방/후방 주차 거리 경고, 스마트 전동식 트렁크, 뒷좌석 전동식 도어커튼, 뒷면 전동식 커튼, 타이어 응급 처치 키트, 전자식 도어 래치<br><br><b>▶&nbsp;시트 :&nbsp;</b>천연 가죽 시트, 운전석 전동시트(18방향, 전동식 헤드레스트, 럼버서포트, 쿠션 익스텐션 포함), 동승석(16방향, 전동식 헤드레스트, 럼버서포트 포함), 동승석 워크인 디바이스, 운전석 자세 메모리 시스템(스마트 자세제어 시스템 포함), 동승석 자세 메모리 시스템, 앞좌석 통풍 &amp; 열선 시트, 뒷좌석 열선 시트, 뒷좌석 스키쓰루, 뒷좌석 암레스트 수납함<br><br><b>▶&nbsp;인포테인먼트 :</b>&nbsp;제네시스 인포테인먼트 시스템(차세대 인포테인먼트 시스템(ccIC), 12.3인치 디스플레이, Genesis Connected Services, 폰 프로젝션, 도로파손/미끄럼 지역 알림, 블루투스 멀티커넥션, 제네시스 카페이, 발레 모드, 뮤직 스트리밍 서비스), 무선 소프트웨어 업데이트(OTA Software Update), 뱅앤올룹슨 사운드 시스템(15스피커), 앞좌석 &amp; 뒷좌석 USB 단자, 8인치 뒷좌석 암레스트 터치 디스플레이</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>매트 컬러(무광, 2종 중 선택: 베르비에 화이트, 마칼루 그레이) : 800,000<br><br><b>▶&nbsp;</b>245/45R20(앞), 275/40R20(뒤) 미쉐린 타이어 &amp; 다이아몬드 컷팅 휠 : 1,000,000<br><br><b>▶&nbsp;</b>245/45R20(앞), 275/40R20(뒤) 미쉐린 타이어 &amp; 다크 하이퍼 실버 휠 : 1,000,000<br><br><b>▶&nbsp;</b>시그니쳐 디자인 셀렉션 : 5,500,000<br>- 프라임 나파 가죽 시트(퀼팅 적용), 프라임 나파 가죽 내장재(센터콘솔 암레스트, 도어 센터 트림, 도어 암레스트), 오픈포어 리얼우드 내장재, 럭셔리 스웨이드 내장재(헤드라이닝, 필라 트림 등), 천연 가죽 내장재(스티어링 휠 혼 커버, 크래쉬패드 어퍼 스킨 등), 인조 가죽 내장재 (프론트 콘솔 가니쉬 사이드 몰딩 등), 인조 실크 카매트<br>※ 메탈 G-MATRIX 패턴 내장재(오픈포어 리얼우드 대체) [+1,000,000]&nbsp;<br><br><b>▶&nbsp;</b>프리미엄 컬렉션 : 11,000,000<br>- 하이테크 패키지, 컨비니언스 패키지, 드라이빙 어시스턴스 패키지, 뒷좌석 컴포트 패키지Ⅰ 프레스티지 컬렉션<br><br>▶ 프리미엄 컬렉션 : 23,000,000<br>- 시그니쳐 디자인 셀렉션, 이지 클로즈 시스템, 전동식 뒷좌석 듀얼 모니터, 뒷좌석 컴포트 패키지Ⅱ<br>※ 추천 사양은 최고급 세단의 품격에 맞춰 제안하는 사양의 조합으로, 일부 가격적인 혜택도 포함되어 있습니다.&nbsp;<br><br>▶&nbsp;멀티 챔버 에어 서스펜션 : 3,500,000<br><br>▶ 능동형 후륜 조향(RWS) : 1,500,000<br>※ 멀티 챔버 에어 서스펜션 선택 시 선택 가능<br><br>▶ 이지 클로즈 시스템 : 1,500,000<br>※ 컨비니언스 패키지 선택 시 선택 가능<br><br>▶ 파노라마 선루프 : 2,000,000<br><br>▶ 전동식 뒷좌석 듀얼 모니터(좌/우 독립제어, USB 단자(충전/데이터 리딩)) : 3,000,000<br><br>▶&nbsp;하이테크 패키지&nbsp;: 2,000,000&nbsp;<br> - 헤드업 디스플레이, 지능형 헤드램프<br><br>▶&nbsp;컨비니언스 패키지 : 3,500,000<br>- (운전석 에르고 릴렉싱 시트(22방향, 마사지, 볼스터 포함), 동승석 에르고 릴렉싱 시트(20방향, 마사지, 볼스터 포함), 고스트 도어 클로징, 무드 큐레이터(향기 카트리지 3EA 포함)<br><br>▶ 드라이빙 어시스턴스 패키지&nbsp;: 2,500,000<br>- 서라운드 뷰 모니터, 후측방 모니터, 원격 스마트 주차 보조(광각 카메라 기반 주차 및 사선 주차 포함), 주차 충돌방지 보조(전/측/후방), 증강현실 내비게이션, 앞좌석 프리 액티브 시트벨트<br><br>▶&nbsp;뒷좌석 컴포트 패키지Ⅰ : 3,500,000<br>- 뒷좌석 전동 시트(16방향), VIP 좌석 레그레스트(2방향, 토퍼 1EA 포함), 뒷좌석 통풍 시트, 어드밴스드 3존 공조(B필라 에어벤트), 뒷좌석 목베개(2EA), 뒷좌석 윙아웃 헤드레스트, 뒷좌석 스마트폰 무선 충전<br><br>▶ 뒷좌석 컴포트 패키지Ⅱ&nbsp;: 3,000,000<br>- 뒷좌석 에르고 릴렉싱 시트(뒷좌석 마사지, VIP 좌석 발 마사지), VIP 좌석 풋레스트(2방향, 통풍/열선/토퍼 1EA 포함), 뒷좌석 프라이버시 글라스<br>※ 뒷좌석 컴포트 패키지Ⅰ 선택 시 선택 가능<br>※ 뒷좌석 컴포트 패키지Ⅱ 선택 시 동승석 럼버서포트 미적용<br>※ 뒷좌석 컴포트 패키지Ⅱ와 컨비니언스 패키지 동시 선택 시 동승석 일부 기능(럼버 서포트, 볼스터, 마사지, 쿠션 지지 조절) 미적용(뒷좌석 컴포트 패키지Ⅱ 판매 가격 2,500,000)<br><br>▶ 뱅앤올룹슨 사운드 패키지&nbsp; : 4,000,000<br>- 뱅앤올룹슨 프리미어 3D 사운드 시스템(23스피커), 버추얼 베뉴<br><br>▶ 빌트인 캠 패키지&nbsp;<br>- 빌트인 캠, 보조배터리<br>※ 주차 후 최대 12시간 녹화 가능 : 800,000</p>
+												</div>
+											
+												<div id="newcar2" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>GENESIS G90 AWD 기본 사양 외&nbsp;
+<br></b><b><br></b><b>[파워트레인 및 성능</b>] 가솔린 3.5 터보 48V 일렉트릭 슈퍼차저, AWD, 멀티 챔버 에어 서스펜션, 능동형 후륜 조향(RWS)&nbsp;
+<br><br><b>[외관]</b> 245/45R20(앞), 275/40R20(뒤) 미쉐린 타이어 &amp; 다이아몬드 컷팅 G90 LONG WHEEL BASE 전용 휠, 프론트 범퍼 인테이크 그릴 크롬 몰딩, 리어 범퍼 하단부 크롬 몰딩, B필라 알루미늄 아노다이징&nbsp;
+<br><br><b>[편의] </b>헤드업 디스플레이, 지능형 헤드램프, 서라운드 뷰 모니터, 후측방 모니터, 원격 스마트 주차 보조(광각 카메라 기반 주차 및 사선 주차 포함), 주차 충돌방지 보조(전/측/후방), 증강현실 내비게이션, 고스트 도어 클로징
+앞좌석 프리 액티브 시트벨트, 어드밴스드 3존 공조(B필라 에어벤트), 뒷좌석 목베개(2EA), 이지 클로즈 시스템, 무드 큐레이터(향기 카트리지 3EA 포함)&nbsp;
+<br><br><b>[시트]</b> 세미 애닐린 가죽 시트(세미 애닐린 가죽 전용 퀼팅), 운전석 에르고 릴렉싱 시트(22방향, 마사지, 볼스터 포함), 동승석 에르고 릴렉싱 시트(20방향, 마사지, 볼스터 포함), 뒷좌석 통풍 시트
+<br><br><b>[인포테인먼트]</b> 뱅앤올룹슨 프리미어 3D 사운드 시스템(23스피커), 버추얼 베뉴</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶&nbsp;퍼스트 클래스 VIP 시트(4인승)&nbsp;: 4,000,000&nbsp;
+<br>※뒷좌석 컴포트 패키지 선택 시 선택 가능
+<br><br>▶ 매트 컬러(무광, 2종 중 선택: 베르비에 화이트, 마칼루 그레이) : 800,000
+<br><br>▶ 파노라마 선루프 : 2,500,000
+<br><br>▶ 전동식 뒷좌석 듀얼 모니터(좌/우 독립제어, USB 단자(충전/데이터 리딩)) : 3,000,000&nbsp;
+<br>
+<br>▶ 뒷좌석 컴포트 패키지 : 5,000,000
+<br>- 뒷좌석 에르고 릴렉싱 시트(16방향, 뒷좌석 마사지, VIP 좌석 발 마사지), 
+뒷좌석 레그레스트(4방향, 토퍼 2EA 포함), 
+VIP 좌석 풋레스트(2방향, 통풍/열선/토퍼 1EA 포함), 뒷좌석 윙아웃 헤드레스트, 
+뒷좌석 스마트폰 무선 충전, 뒷좌석 프라이버시 글라스&nbsp;
+<br>※ 뒷좌석 컴포트 패키지 적용 시 동승석 일부 기능(럼버 서포트, 볼스터, 마사지, 쿠션 지지 조절) 미적용
+<br><br>▶ 빌트인 캠 패키지 : 800,000
+<br>- 빌트인 캠, 보조배터리
+<br>&nbsp;※ 주차 후 최대 12시간 녹화 가능</p>
+												</div>
+											
+										</div>
+										<script type="text/javascript">
+											newcarFolder(0);//초기값
+											function newcarFolder(target) {
+												var conElId = "newcar"//아이디 설정
+												var conElMenu = document.getElementById("newcarList");
+												var conElMenuLink = conElMenu.getElementsByTagName("a");
+												if (target != null) {
+													conElMenuLink[target].parentNode.className = "on";
+													document.getElementById(
+														conElId + target).style.display = "";
+												}
+												for (i = 0; i <= (conElMenuLink.length - 1); i++) {
+													conElMenuLink[i].onclick = function () {
+														for (x = 0; x <= (conElMenuLink.length - 1); x++) {
+															conElMenuLink[x].parentNode.className = "";
+															document.getElementById(
+																conElId + x).style.display = "none";
+														}
+														this.parentNode.className = "on";
+														document.getElementById(this.getAttribute('href')
+																					.split(
+																						'#')[1]).style.display =
+															"";
+														return false;
+													}
+												}
+											}
+										</script>
+									</div>
+									
+										<ul class="more">
+												※ 본 가격표 상의 품목(사양, 컬러 등) 및 가격은 차량의 외관 및 성능 개선이나 관련 법규에 따라 예고 없이 변경될 수 있습니다.<br>※ 인쇄물의 사진에는 선택 사양이 적용된 경우가 있으므로, 실제 구입 차량과는 다른 점이 있을 수도 있습니다.<br>※ 인쇄물의 차량 컬러는 인쇄된 것이므로 실제 차량의 컬러와는 다소 차이가 있습니다.<br>※ 항균 소재는 일부 인조 가죽에 항균 코팅 적용이 되어 세균 및 미생물 성장을 억제하며, 선택 사양에 따라 적용 부위가 달라질 수 있습니다. - 적용 부위: 컵홀더 커버, 센터 암레스트 커버 등<br>※ 나파 가죽은 명품백이나 고급 소파에 사용하는 풀 그레인 가죽으로 천연 원피의 디테일을 그대로 살리는 가공법을 통해 부드러운 촉감과 안락한 착좌감을 제공합니다.<br>※ 가죽 및 나파 가죽 사양(시트, 가죽 감싸기 등)은 부분적으로 인조 가죽 및 직물 등 기타 소재가 적용되어 있습니다.<br>※ 하이패스 시스템에는 장애인 통행료 자동할인 기능이 없습니다.<br>※ 주행 보조 사양(전방 충돌방지 보조 등)은 위험도가 높은 특정 주행상황에서 운전자를 보조하는 기능입니다. 상세 작동 조건은 취급설명서를 참조하시기 바랍니다.<br>※ 빌트인 캠 보조배터리(빌트인 캠 패키지에 포함): 주행 시간이 보조배터리를 충전하기에 충분하지 않거나 보조배터리의 노후화 또는동절기 등 작동 환경에 따라 설정한 시간만큼 주차 녹화가 작동하지 않을 수 있습니다.<br>※ 빌트인 캠 패키지의 보조배터리는 제조원 별도 보증 품목이며, 자세한 내용은 별도 제공되는 보증서를 참고하시기 바랍니다. (보증기간: 3년/6만km)<br>※ 스마트폰 무선 충전은 무선 충전 기능이 내장된 스마트폰 또는 무선 충전 전용 커버를 장착 후 사용하시기 바랍니다.<br>※ 차세대 인포테인먼트 시스템(ccIC, connected car Integrated Cockpit): 12.3인치 클러스터와 내비게이션이 파노라믹 디스플레이로 연결돼 하이테크한 이미지를 연출하며, 클러스터-내비게이션-헤드업 디스플레이(사양 적용 시) 간 콘텐츠 연동 기능을 제공합니다.<br>※ 무선 소프트웨어 업데이트(OTA Software Update): 차량 내 제어기의 소프트웨어를 무선으로 업데이트하는 기능으로, 하이테크센터 방문 없이도 차량의 소프트웨어를 최신 상태로 유지합니다.<br>※ 뮤직 스트리밍 서비스를 이용하기 위해서는 지니/멜론 계정 내에서 별도 유료가입이 필요합니다.<br>※ 지상파 DMB는 320X240(표준화질) 및 1,280X720(고해상도) 해상도를 지원하나, 전파 수신 환경, DMB 방송 정책, DMB 사업자의 송출 방식 변경 등에 따라 수신이 불가할 수 있습니다.<br>※ 폰 프로젝션 기능 적용(Google Android Auto, Apple CarPlay) / 상세한 내용은 제네시스 홈페이지 참조<br>- 디스플레이 터치 또는 음성을 통한 제어 가능<br>- 작동 스마트폰 기종: [Google Android Auto] 기종 상관 없음(Android 5.0 이상) / [Apple CarPlay] 아이폰5 이상(iOS 8.0 이상)<br>※ 타이어별 성능 차이가 있으니 선택 시 확인 바라며, 안전한 운전을 위해 타이어 교체 시에는 취급설명서를 참조 바랍니다.<br>※ 3존 공조 사양은 뒷좌석에서 모드와 온도를 독립적으로 조절 가능하며, 풍량 조절 시 앞좌석과 연동됩니다. 어드밴스드 3존 공조 사양은 운전석, 동승석, 뒷좌석의 온도/모드/풍량 모두 개별 조절이 가능합니다.<br>※ 제네시스 디지털 키 2는 기존 디지털 키 대비 초광대역 무선통신(UWB) 기능 추가로, 스마트폰을 소지한 채 도어 핸들 터치만으로 차량 출입 후 시동이 가능합니다.<br>※ 제네시스 디지털 키 2 작동 스마트폰 기종<br>- NFC: [Android] Galaxy S20 / S20+ / S20 Ultra / Note 20 / S21 / Z Flip / Z Flip 3 [iOS] iPhone XR / XS / XS Max, Apple Watch Series 5 / SE - NFC/BLE/UWB: [Android] Galaxy Note 20 Ultra / S21+ / S21 Ultra / Z Fold 2 / Z Fold 3 [iOS] iPhone 11 / 11 Pro / 11 Pro Max / 12 mini / 12 / 12 Pro / 12 Pro Max / 13 mini / 13 / 13 Pro / 13 Pro Max, Apple Watch Series 6 / 7<br>- 지원 여부에 대한 자세한 내용은 제네시스 홈페이지 및 스마트폰 제조사 홈페이지를 통해 확인 가능합니다.<br>- 스마트폰 무선 충전 패드 거치 후 시동 시, 스마트폰 내부에 포함된 자석 성분으로 인해 NFC 인증에 오류가 발생할 수 있습니다. 이 경우, 스마트폰을 무선 충전 패드의 좌측으로 밀착시켜서 인증 진행해야 하며, 자세한 내용은 취급설명서를 참조하시기 바랍니다.
+										</ul>
+									
+									<p class="desc_more">위 신차가격표는 단순 참고자료이며, 정확한 내용은 각 제조사에서 제공하는 자료를 통해확인하실 수 있습니다.</p><!-- 2016/10/12 [장] 등급 등록/수정 개선 : 추가 디자인 변경 -->
+									<p class="toTop"><a href="#main_title" class="sp toTop db_ir" title="페이지 위로"><u>페이지 위로</u></a></p><!-- [시세개편] class db_ir 추가 -->
+								</div>
+
+
+							</div>
+							<!-- body end -->
+						</td>
+					</tr>
+				</table>
+
+
+			
+			
+		
+    </div>
+
+    <!-- container end -->
+</form>
+</div>
+
+</body>
+<script language="javascript">
+
+
+    var strCompanyUrl = "/common/combo/cardbcompany.json?method=carList";
+    var strModelGroupUrl = "/common/combo/modelgroupfordb.json?method=carList";
+    var strModelUrl = "/common/combo/cardbmodel.json?method=carList";
+    var strYrJatoUrl = "/common/combo/jatoYr.json?method=carList";
+
+    var companyid = "mnfccd";
+    var modelgroupid = "mdlgroupcd";
+    var modelid = "mdlcd";
+    var yearid = "caryear";
+
+    function initGnb() {
+        var paramCompany = $("paramMnfccd").value;
+        var paramModelGroup = $("paramMdlgroupcd").value;
+        var paramModel = $("paramMdlcd").value;
+        var paramYr = $("paramYear").value;
+
+        // 제조사
+        if (paramModel != "") {
+            $("mdlcd").show();
+        }
+
+        //console.log("companyid :: " + companyid)
+        //console.log("paramCompany :: " + paramCompany)
+		if($('foldYn').value != 0){
+            foldingYN('f_fold');
+		}
+
+        setCompany(strCompanyUrl, companyid, "제조사", paramCompany);
+
+        // 제조사 값이 있으면 모델 검색
+        if (paramCompany >= '010') {
+            if (paramCompany != "") {
+                if (paramModel == "") {
+                    paramModel = paramModelGroup;
+                }
+                setModel(strModelUrl, modelid, paramCompany, "모델", paramModel)
+                $("mdlgroupcd").hide();
+
+            }
+        } else {
+            $("mdlgroupcd").show();
+            if (paramCompany != "") {
+                setModelGroup(strModelGroupUrl, modelgroupid, paramCompany, "모델", paramModelGroup);
+                if (paramModelGroup != "") {
+                    setModel_New(strModelUrl, modelid, paramCompany, paramModelGroup, "세부모델", paramModel);
+                }
+            }
+
+        }
+        if (paramCompany != "" && paramModel != "") {
+            setCarYear(strYrJatoUrl, yearid, paramCompany, paramModel, "형식연도", paramYr);
+        }
+
+        waitTime = 1;
+    }
+
+    function changeModel_jato(mnfccd, mdlgroupcd) {
+        setModel_New(strModelUrl, modelid, mnfccd, mdlgroupcd, "세부모델", "");
+        //모델그룹선택시 기본 세부모델선택
+        if ($("mdlcd") != null) {
+            $("mdlcd").selectedIndex = 1;
+            var mdlcd = $("mdlcd").options[$("mdlcd").selectedIndex].value;
+            changeYearJato(mnfccd, mdlcd);
+        }
+    }
+
+    function changeYearJato(mnfccd,mdlcd) {
+        setCarYear(strYrJatoUrl, yearid, mnfccd, mdlcd, "형식연도", "");
+        $(yearid).options[1].selected = true;
+    }
+
+
+
+    //덧글 리스트
+    function viewForm(index) {
+
+        var object = $("default" + index);
+        var objectSum = $("defaultSum" + index);
+        var selectSum = $("choiceSum" + index);
+        var object1 = $("choice" + index);
+        if (object != null) {
+            if (object.style.display == 'none') {
+                objectSum.hide();
+                selectSum.hide();
+                object.style.display = "block";
+                object1.style.display = "block";
+
+            } else {
+                object.hide();
+                object1.hide();
+                objectSum.style.display = "block";
+                selectSum.style.display = "block";
+            }
+        }
+    }
+
+    function viewAll() {
+        for (var i = 1; i <=3; i++) {
+            $("default" + i).style.display = "block";
+            $("defaultSum" + i).style.display = "none";
+            $("choice" + i).style.display = "block";
+            $("choiceSum" + i).style.display = "none";
+        }
+    }
+
+    function closeAll() {
+        for (var i = 1; i <=3; i++) {
+            $("default" + i).style.display = "none";
+            $("defaultSum" + i).style.display = "block";
+            $("choice" + i).style.display = "none";
+            $("choiceSum" + i).style.display = "block";
+        }
+    }
+
+    function firstLayerOpen() {
+        //viewForm(1);
+    }
+
+    function foldingYN(param) {
+        if (param == "f_fold") {
+            document.getElementById("folding").innerHTML ="<a href=\"javascript:foldingYN('f_unfold')\" class='folding f_unfold'>전체등급 펼쳐보기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "none";
+            document.getElementById("f_fold").style.display = "";
+        } else {
+            document.getElementById("folding").innerHTML = "<a href=\"javascript:foldingYN('f_fold')\" class='folding f_fold'>접기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "";
+            document.getElementById("f_fold").style.display = "none";
+        }
+    }
+
+    function onSubmit() {
+        jQuery("#searchForm").submit();
+
+    }
+    window.onload = initGnb;
+
+</script>
+</html>
+

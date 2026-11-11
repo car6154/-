@@ -1,0 +1,1362 @@
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>차량DB - 차량정보 - 신차가격표</title>
+    <link type="text/css" rel="stylesheet" href="/css/common.css?v=1793835891525"/>
+    <link type="text/css" rel="stylesheet" href="/css/db.css?v=1793835891525"/>
+
+    <script type="text/javascript" src="/js/encarapp/lib/jquery/jquery-1.11.3.min.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/common/ui.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/prototype.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/util.js?v=1793835894199"></script>
+
+    <script type="text/javascript" src="/js/common/db_common.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/commonCombo.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/carSearchCombo.js?v=1793835894199"></script>
+	<script>
+		window.enlogInitJson = {
+			"dataTalkView": {
+				"screenName": "신차가격표"
+			}
+		}
+
+	</script>
+
+
+</head>
+
+
+
+
+
+
+
+    <!-- 등급 체크박스  -->
+    <div style="display:none">
+        
+    </div>
+
+    <!-- 세부등급 체크박스 -->
+    <div style="display:none">
+        
+    </div>
+
+
+
+<body class="db db_newdetailview db_basicTemplate">
+
+
+
+
+	
+	
+	
+	
+
+
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-W9QQ2T"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W9QQ2T');</script>
+<!-- End Google Tag Manager -->
+
+<!-- container begin -->
+<div class="container" id="containerDIV">
+<input type="hidden" id = "foldYn" name="searchtype" value="8"/>
+<form id ="searchForm" name="searchForm">
+
+    <input type="hidden" id = "method" name="method" value="newpricePopV2"/>
+    <input type="hidden" id = "dimensiontype" name="dimensiontype" value="null"/>
+    <input type="hidden" id = "paramMnfccd" name="paramMnfccd" value="002"/>
+    <input type="hidden" id = "paramMdlgroupcd" name="paramMdlgroupcd" value="064"/>
+    <input type="hidden" id = "paramMdlcd" name="paramMdlcd" value="147"/>
+    <input type="hidden" id = "paramYear" name="paramYear" value="2022"/>
+    <input type="hidden" id = "model" name="model" value="">
+    <input type="hidden" id = "paramCaryear" name="paramCaryear" value="2022"/>
+    <input type="hidden" id = "clsheadcd" name="clsheadcd" class="checkbox" value="null"/>
+    <input type="hidden" id = "paramGradeHead" name="paramGradeHead" value="null"/>
+	<input type="hidden" id = "searchtype" name="searchtype" value="check"/>
+	<input type="hidden" id = "pageAccessToken" name="pageAccessToken" value="AgV4Suue4smwrwnCXfniKTiYjAQkMGE7nLIUB5cuxPujj+8AcQACAAdFbmNhckNrAAdFbmNhckN2ABVhd3MtY3J5cHRvLXB1YmxpYy1rZXkAREFneUhjalVkdWlLMnRxS3pjY1dhMmtxeDZ2UTI1dG9KR3VPaGxTS0ZrZE5vK2xUa3o5UC9UTkx5bUlIS1BBZ3c5dz09AAEAB2F3cy1rbXMAUGFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjI3MjM2MjQ4NzY1MzprZXkvbXJrLWRmZWEyNmY3NTVhMzQ3MjliNjkwMjRkZWZmM2M1MWFjALgBAgEAeAuqQuSJvQ+Ra4FSj55FZzS0sk+00amsb3yoAFiEYn4PAaU1NB21SGzvEEw3wxAKII8AAAB+MHwGCSqGSIb3DQEHBqBvMG0CAQAwaAYJKoZIhvcNAQcBMB4GCWCGSAFlAwQBLjARBAxp/voRH/2pgb8qOtYCARCAOx/CHemybRBPaw4aqoufqt8d8yMrtQh+TGiSUygZzDCMNy8xfhETK9cuIfdZSrWLdU7dR6nOKTN0Cg8gAgAAEADjnMrkjCzSB9AeA5kn/nDXNRJa1zgrtT1Z/dx0KizTPhmdfEhBILxxC0sIuHi9J2//////AAAAAQAAAAAAAAAAAAAAAQAAAKNr7ux48GF39adm8713PmIYZu44KAY7lw5wcuF+FhLBxYVVyyQK8kiif9n64UCeiIcbFNN5Qp8cd8QIUeske94XCuJmvHIM+FhMTJHfwDAwWqxItfQbdHNMIOpmkYFT+afGeE/rHgUYiZRXgq2y5mhnZU6yMAEcOYtcvqTC4MPsRVJTMCi4p9cAB+dopbmw2/E3OdLpvqwR33hhOxIWRA5M6v2hWnQfXkFQ84guMct1KRW9NwBnMGUCMCZ6E1bXRm1I9VBtLwJw6SfcP50m3gRcHj3+7p0Fkqa8NbvvjEz2eF1qh6ysCYh2GwIxAP49Ev8vxyScD1C6zm+FktRiaa91BavTQs/VHD/557M3MN/eq090UOOvqc82zjYk6g=="/>
+    <div class="header">
+        <h1 class="blind">SK엔카</h1>
+        <h2 class="tit_carprice" id="main_title">신차가격표</h2>
+        <p class="quickSearch">
+
+
+
+            <select title="제조사" class="opt_select" id="mnfccd" name="mnfccd" onChange="javascript:changeModelGroup(this.value);">
+                <option value="">제조사</option>
+            </select>
+
+            <select class="opt_select" title="모델" id="mdlgroupcd" name="mdlgroupcd" onChange="javascript:changeModel_jato($('mnfccd').value, this.value);">
+                <option>모델</option>
+            </select>
+
+            <select class="opt_select" title="세부모델" id="mdlcd" name="mdlcd" onChange="javascript:changeYearJato($('mnfccd').value, $('mdlcd').value);">
+                <option>세부모델</option>
+            </select>
+
+            <select class="opt_select" title="연식" id="caryear" name="caryear">
+                <option>연식</option>
+            </select>
+
+            <button type="button" class="btn_search" onclick="javascript:onSubmit();"/>검색</button>
+
+
+
+        </p>
+    </div>
+    <!-- body begin -->
+    <div class="body" id="bodydiv">
+		
+			
+				<table class="layout">
+					<col class="contents"/>
+					<tr>
+						<td class="contentsMenu">
+							<!-- contentsMenu begin -->
+							<div class="contentsMenu">
+								<h3 class="title">기아 셀토스 2022년형</h3>
+							</div>
+							<!-- contentsMenu end -->
+						</td>
+					</tr>
+
+					<tr>
+						<td class="contentsMain">
+							<!-- contents begin -->
+							<div class="contents">
+
+								<div class="carCompare">
+									<div class="dbHead">
+										
+											<div id="folding"><a href="javascript:foldingYN('f_fold')"
+																 class="folding f_fold">전체등급 펼쳐보기<em class="db_ir"></em></a></div>
+
+											<!-- 2013/04/03 [서] 매물탭 개선 : 기능 버튼 추가 --><!--<a href="#" class="folding f_unfold">펼치기</a>-->
+										
+									</div>
+									
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+									<div id="f_unfold">
+										
+
+
+										<!-- case2 : 세부등급이 있는경우 -->
+										
+											<table class="carCompare sellcase2">
+												<colgroup>
+													<col class="grade">
+													<col class="detailgrd">
+													<col class="mission">
+													<col class="price">
+													<col class="uprice">
+													<col class="item">
+													<col class="option">
+												</colgroup>
+												<thead class="compare">
+												<tr>
+													<th class="grade bgn" colspan="3"><b>구분</b></th>
+													<th class="price"><b>판매가격</b></th>
+													<th class="uprice"><b>중고차시세</b></th><!-- [시세개편] 중고차시세 추가 -->
+													<th class="item"><b>기본사양 품목</b></th>
+													<th class="option end"><b>선택사양 품목</b></th>
+												</tr>
+												</thead>
+												<tbody class="new">
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="4">
+																<p>가솔린 1.6 터보 2WD</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>트렌디</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>1,944</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶&nbsp;파워트레인</b>&nbsp;: 감마 1.6 T-GDI 가솔린 엔진, 스마트스트림 7DCT(수동겸용, 부츠타입), 속도감응형 전동식 파워스티어링(MDPS), 주행모드 통합제어 시스템, 트랙션 모드(스노우/머드/샌드)<br><br><b>▶&nbsp;첨단 운전자 보조 (ADAS)</b>&nbsp;: 전방 충돌방지 보조(차량/보행자), 차로 이탈방지 보조, 운전자 주의 경고(전방 차량 출발 알림 기능 포함), 하이빔 보조, 차로 유지 보조<br><br><b>▶&nbsp;안전&nbsp;</b>: 6에어백(운전석/동승석 어드밴스드, 전복감지 커튼, 1열 사이드), 후방 주차 거리 경고, VSM, 경사로 밀림방지장치, 경사로 저속주행장치, 급제동 경보 시스템, 개별 타이어 공기압 경보 시스템, 1열/2열 시트벨트 리마인더, 유아용 시트 고정 장치, 타이어 임시 수리장치, 후석 승객 알림<br><br><b>▶&nbsp;외장&nbsp;</b>: 205/60 R16 타이어&amp;스틸 휠, 풀사이즈 휠커버, 프로젝션 헤드램프, LED DRL, 바디칼라 아웃사이드 미러(전동접이, 전동조절, 열선), 리어스포일러, LED 보조제동등<br><br><b>▶&nbsp;내장&nbsp;</b>: 블랙 인테리어, 고급형 클러스터(3.5인치 MONO TFT LCD), D/N 룸미러, 선바이저 거울, 러기지 보드<br><br><b>▶&nbsp;시트</b>&nbsp;: 직물시트, 2열 6:4 폴딩시트(리클라이닝), 운전석 시트 높이조절장치<br><br><b>▶&nbsp;편의&nbsp;</b>: 폴딩타입 무선 도어 리모컨키, 크루즈 컨트롤, 오토 라이트 컨트롤, 수동식 틸트&amp;텔레스코픽 스티어링 휠, 1열/2열 파워윈도우, 파워 도어록, 매뉴얼 에어컨, 고성능 에어컨 필터, 파워아웃렛, 1열 USB 단자(급속충전용)<br><br><b>▶&nbsp;인포테인먼트&nbsp;</b>: 컴팩트 오디오, 6스피커, 스티어링 휠 오디오 리모컨, 블루투스 핸즈프리, USB 단자(데이터 리딩용)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶&nbsp;전자식 4WD 시스템 : 1,800,000&nbsp;<br><br>▶&nbsp;드라이브 와이즈 : 1,350,000&nbsp;<br><br>▶&nbsp;컨비니언스 : 800,000&nbsp;<br><br>▶ 스타일&nbsp; : 1,180,000 
+<br>※&nbsp;컨비니언스 적용 시 선택가능<br><br>▶&nbsp;하이패스 자동결제 시스템 : 200,000&nbsp;<br><br>▶ 10.25 인치 내비게이션 : 1,450,000
+<br> ※ 컨비니언스 적용 시 선택 가능</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>프레스티지</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,278</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶ 1.6 가솔린 터보 트렌디 기본품목 외&nbsp;<br></b><br><b>&nbsp;ㆍ&nbsp;안전&nbsp;</b>: 전방 주차 거리 경고&nbsp;<br><br><b>&nbsp;ㆍ&nbsp;외장&nbsp;</b>: 215/55 R17 타이어&amp;알로이 휠, 시그니처 LED 라이팅 그릴, LED 리피터 일체형 아웃사이드미러, 크롬 테일게이트 가니쉬, 크롬 리어범퍼 가니쉬&nbsp;<br><br><b>&nbsp;ㆍ&nbsp;내장&nbsp;</b>: 가죽 스티어링 휠, 가죽 변속기 노브, LED 실내등(맵램프, 룸램프), 슬라이딩 선바이저(조명), 헤어라인 패턴 크래쉬패드 가니쉬, 블랙하이그로시 콘솔 어퍼커버, 인조가죽 슬라이딩 센터 콘솔암레스트&nbsp;<br><br><b>&nbsp;ㆍ&nbsp;시트</b>&nbsp;: 인조가죽시트, 1열 열선시트, 1열 통풍시트, 동승석 시트백 포켓&nbsp;<br><br><b>&nbsp;ㆍ&nbsp;편의&nbsp;</b>: 버튼시동 스마트키 시스템(원격시동 포함), 열선 스티어링 휠, 운전석 세이프티 파워윈도우
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶&nbsp;전자식 4WD 시스템 : 1,800,000&nbsp;<br><br>▶&nbsp;드라이브 와이즈 : 1,150,000&nbsp;<br><br>▶ 스타일 : 1,100,000&nbsp;&nbsp;&nbsp;<br><br>▶ 컴포트 I : 850,000&nbsp;<br><br>▶ 하이패스 자동결제 시스템 : 200,000&nbsp;&nbsp;<br><br>▶ 10.25 인치 내비게이션 : 1,450,000&nbsp;&nbsp;<br><br>▶ 하이테크 : 600,000 
+<br>※ 10.25인치 내비게이션 적용 시 선택가능<br><br>▶ Bose 프리미엄 사운드 팩 : 630,000 
+<br>※ 스타일 적용 시 선택가능 
+<br>※ 10.25인치 내비게이션 적용 시 선택가능</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>시그니처</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,489</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶ 1.6 가솔린 터보 프레스티지 기본품목 외&nbsp;<br></b><br><b>&nbsp;ㆍ&nbsp;외장&nbsp;</b>: 235/45 R18 타이어&amp;전면가공 휠, LED 헤드램프, 프론트 LED 턴시그널램프, LED 포그램프, LED 리어 콤비네이션램프, 크롬 벨트라인 몰딩, 크롬 아웃사이드 도어핸들, 루프랙, 샤크핀 안테나&nbsp;<br><br><b>&nbsp;ㆍ&nbsp;내장&nbsp;</b>: 블랙 인테리어 또는 플럼 인테리어 선택가능, 인조가죽 감싸기(1열 도어 센터트림, 1열/2열 도어 암레스트), 크롬 인사이드 도어핸들&nbsp;<br><br><b>&nbsp;ㆍ&nbsp;시트&nbsp;</b>: 운전석 파워시트, 운전석 전동식 허리지지대, 2열 열선시트, 2열 센터 암레스트<br><br><b>&nbsp;ㆍ&nbsp;편의&nbsp;</b>: 하이패스 자동결제 시스템, 후방 모니터, 2열 에어벤트, 2열 USB 단자(급속충전용), 전자식 룸미러(ECM)<br>&nbsp;<br><b>&nbsp;ㆍ&nbsp;인포테인먼트&nbsp;</b>: 8인치 디스플레이 오디오
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶&nbsp;전자식 4WD 시스템 : 1,800,000&nbsp;<br><br>▶&nbsp;드라이브 와이즈 : 1,150,000&nbsp;<br><br>▶ 컴포트 II : 550,000<br><br>▶ 컴포트 II + 가죽시트 + 브라운 인테리어 : 900,000<br><br>▶ 10.25 인치 내비게이션 : 870,000<br><br>▶ 하이테크 : 600,000 
+<br>※ 10.25인치 내비게이션 적용 시 선택가능<br><br>▶ Bose 프리미엄 사운드 팩 : 630,000 
+<br>※ 10.25인치 내비게이션 적용 시 선택가능<br><br>▶ 투톤 루프 : 300,000
+<br>※ 선루프 중복 선택 불가<br><br>▶ 선루프 : 400,000
+<br>
+※ 투톤 루프&nbsp;중복 선택 불가</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>그래비티</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,562</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶&nbsp;</b><b>1.6 가솔린 터보&nbsp;</b><b>시그니처 기본품목 외&nbsp;<br></b>※ 시그니처 그래비티 트림 전용 사양은 Kia Genuine Accessories 품목이며 외장 원톤 칼라 한정 적용 가능 (원톤 스틸 그레이, 투톤 루프 선택 불가)<br><br><b>&nbsp;ㆍ&nbsp;외장&nbsp;</b>: 그래비티 전용 라디에이터 그릴&amp;리어스키드 플레이트, 235/45 R18 타이어&amp;블랙 전면가공 휠, 메탈릭 실버 칼라 아웃사이드 미러 커버&amp;도어 가니쉬&nbsp;<br><br><b>&nbsp;ㆍ&nbsp;내장</b>&nbsp;: 그레이 인테리어(블랙/플럼 인테리어 선택 불가)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶&nbsp;전자식 4WD 시스템 : 1,800,000&nbsp;<br><br>▶&nbsp;드라이브 와이즈 : 1,150,000&nbsp;<br><br>▶ 컴포트 II : 550,000<br><br>▶ 컴포트 II + 가죽시트 + 브라운 인테리어 : 900,000<br><br>▶ 10.25 인치 내비게이션 : 870,000<br><br>▶ 하이테크 : 600,000<br>※ 10.25인치 내비게이션 적용 시 선택가능<br><br>▶ Bose 프리미엄 사운드 팩 : 630,000<br>※ 10.25인치 내비게이션 적용 시 선택가능<br><br>▶ 선루프 : 400,000<br></li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="4">
+																<p>가솔린 1.6 터보 4WD</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>트렌디</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,124</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶&nbsp;파워트레인</b>&nbsp;: 감마 1.6 T-GDI 가솔린 엔진, 스마트스트림 7DCT(수동겸용, 부츠타입), 속도감응형 전동식 파워스티어링(MDPS), 주행모드 통합제어 시스템, 트랙션 모드(스노우/머드/샌드),전자식 4WD 시스템, 후륜 멀티링크 서스펜션&nbsp;<br>※ 4WD 적용시 트랙션 모드 미적용<br><br><b>▶&nbsp;첨단 운전자 보조 (ADAS)</b>&nbsp;: 전방 충돌방지 보조(차량/보행자), 차로 이탈방지 보조, 운전자 주의 경고(전방 차량 출발 알림 기능 포함), 하이빔 보조, 차로 유지 보조<br><br><b>▶&nbsp;안전&nbsp;</b>: 6에어백(운전석/동승석 어드밴스드, 전복감지 커튼, 1열 사이드), 후방 주차 거리 경고, VSM, 경사로 밀림방지장치, 경사로 저속주행장치, 급제동 경보 시스템, 개별 타이어 공기압 경보 시스템, 1열/2열 시트벨트 리마인더, 유아용 시트 고정 장치, 타이어 임시 수리장치, 후석 승객 알림<br><br><b>▶&nbsp;외장&nbsp;</b>: 205/60 R16 타이어&amp;스틸 휠, 풀사이즈 휠커버, 프로젝션 헤드램프, LED DRL, 바디칼라 아웃사이드 미러(전동접이, 전동조절, 열선), 리어스포일러, LED 보조제동등<br><br><b>▶&nbsp;내장&nbsp;</b>: 블랙 인테리어, 고급형 클러스터(3.5인치 MONO TFT LCD), D/N 룸미러, 선바이저 거울, 러기지 보드<br><br><b>▶&nbsp;시트</b>&nbsp;: 직물시트, 2열 6:4 폴딩시트(리클라이닝), 운전석 시트 높이조절장치<br><br><b>▶&nbsp;편의&nbsp;</b>: 폴딩타입 무선 도어 리모컨키, 크루즈 컨트롤, 오토 라이트 컨트롤, 수동식 틸트&amp;텔레스코픽 스티어링 휠, 1열/2열 파워윈도우, 파워 도어록, 매뉴얼 에어컨, 고성능 에어컨 필터, 파워아웃렛, 1열 USB 단자(급속충전용)<br><br><b>▶&nbsp;인포테인먼트&nbsp;</b>: 컴팩트 오디오, 6스피커, 스티어링 휠 오디오 리모컨, 블루투스 핸즈프리, USB 단자(데이터 리딩용)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶&nbsp;드라이브 와이즈 : 1,350,000&nbsp;<br><br>▶&nbsp;컨비니언스 : 800,000&nbsp;<br><br>▶ 스타일&nbsp; : 1,180,000<br>※&nbsp;컨비니언스 적용 시 선택가능<br><br>▶&nbsp;하이패스 자동결제 시스템 : 200,000&nbsp;<br><br>▶ 10.25 인치 내비게이션 : 1,450,000<br>※ 컨비니언스 적용 시 선택 가능</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>프레스티지</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,124</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶ 1.6 가솔린 터보 트렌디 기본품목 외&nbsp;전자식 4WD 시스템, 후륜 멀티링크 서스펜션
+<br></b>※ 4WD 적용시 트랙션 모드 미적용&nbsp;<b>&nbsp;</b><b><br></b><br><b>&nbsp;ㆍ&nbsp;안전&nbsp;</b>: 전방 주차 거리 경고&nbsp;<br><br><b>&nbsp;ㆍ&nbsp;외장&nbsp;</b>: 215/55 R17 타이어&amp;알로이 휠, 시그니처 LED 라이팅 그릴, LED 리피터 일체형 아웃사이드미러, 크롬 테일게이트 가니쉬, 크롬 리어범퍼 가니쉬&nbsp;<br><br><b>&nbsp;ㆍ&nbsp;내장&nbsp;</b>: 가죽 스티어링 휠, 가죽 변속기 노브, LED 실내등(맵램프, 룸램프), 슬라이딩 선바이저(조명), 헤어라인 패턴 크래쉬패드 가니쉬, 블랙하이그로시 콘솔 어퍼커버, 인조가죽 슬라이딩 센터 콘솔암레스트&nbsp;<br><br><b>&nbsp;ㆍ&nbsp;시트</b>&nbsp;: 인조가죽시트, 1열 열선시트, 1열 통풍시트, 동승석 시트백 포켓&nbsp;<br><br><b>&nbsp;ㆍ&nbsp;편의&nbsp;</b>: 버튼시동 스마트키 시스템(원격시동 포함), 열선 스티어링 휠, 운전석 세이프티 파워윈도우
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶&nbsp;드라이브 와이즈 : 1,150,000&nbsp;<br><br>▶ 스타일 : 1,100,000&nbsp;&nbsp;&nbsp;<br><br>▶ 컴포트 I : 850,000&nbsp;<br><br>▶ 하이패스 자동결제 시스템 : 200,000&nbsp;&nbsp;<br><br>▶ 10.25 인치 내비게이션 : 1,450,000&nbsp;&nbsp;<br><br>▶ 하이테크 : 600,000<br>※ 10.25인치 내비게이션 적용 시 선택가능<br><br>▶ Bose 프리미엄 사운드 팩 : 630,000<br>※ 스타일 적용 시 선택가능<br>※ 10.25인치 내비게이션 적용 시 선택가능</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>시그니처</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,669</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶ 1.6 가솔린 터보 프레스티지 기본품목 외&nbsp;</b><b>전자식 4WD 시스템, 후륜 멀티링크 서스펜션
+<br></b>※ 4WD 적용시 트랙션 모드 미적용&nbsp;<b>&nbsp;
+<br></b><br><b>&nbsp;ㆍ&nbsp;외장&nbsp;</b>: 235/45 R18 타이어&amp;전면가공 휠, LED 헤드램프, 프론트 LED 턴시그널램프, LED 포그램프, LED 리어 콤비네이션램프, 크롬 벨트라인 몰딩, 크롬 아웃사이드 도어핸들, 루프랙, 샤크핀 안테나&nbsp;<br><br><b>&nbsp;ㆍ&nbsp;내장&nbsp;</b>: 블랙 인테리어 또는 플럼 인테리어 선택가능, 인조가죽 감싸기(1열 도어 센터트림, 1열/2열 도어 암레스트), 크롬 인사이드 도어핸들&nbsp;<br><br><b>&nbsp;ㆍ&nbsp;시트&nbsp;</b>: 운전석 파워시트, 운전석 전동식 허리지지대, 2열 열선시트, 2열 센터 암레스트<br><br><b>&nbsp;ㆍ&nbsp;편의&nbsp;</b>: 하이패스 자동결제 시스템, 후방 모니터, 2열 에어벤트, 2열 USB 단자(급속충전용), 전자식 룸미러(ECM)<br>&nbsp;<br><b>&nbsp;ㆍ&nbsp;인포테인먼트&nbsp;</b>: 8인치 디스플레이 오디오
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶&nbsp;드라이브 와이즈 : 1,150,000&nbsp;<br><br>▶ 컴포트 II : 550,000<br><br>▶ 컴포트 II + 가죽시트 + 브라운 인테리어 : 900,000<br><br>▶ 10.25 인치 내비게이션 : 870,000<br><br>▶ 하이테크 : 600,000<br>※ 10.25인치 내비게이션 적용 시 선택가능<br><br>▶ Bose 프리미엄 사운드 팩 : 630,000<br>※ 10.25인치 내비게이션 적용 시 선택가능<br><br>▶ 투톤 루프 : 300,000<br>※ 선루프 중복 선택 불가<br><br>▶ 선루프 : 400,000<br>※ 투톤 루프&nbsp;중복 선택 불가</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>그래비티</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,742</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶&nbsp;</b><b>1.6 가솔린 터보&nbsp;</b><b>시그니처 기본품목 외</b><b>&nbsp;</b><b>전자식 4WD 시스템, 후륜 멀티링크 서스펜션<br></b>※ 4WD 적용시 트랙션 모드 미적용&nbsp;<b>&nbsp;</b><b>&nbsp;<br></b>※ 시그니처 그래비티 트림 전용 사양은 Kia Genuine Accessories 품목이며 외장 원톤 칼라 한정 적용 가능 (원톤 스틸 그레이, 투톤 루프 선택 불가)
+<br><br><b>&nbsp;ㆍ&nbsp;외장&nbsp;</b>: 그래비티 전용 라디에이터 그릴&amp;리어스키드 플레이트, 235/45 R18 타이어&amp;블랙 전면가공 휠, 메탈릭 실버 칼라 아웃사이드 미러 커버&amp;도어 가니쉬&nbsp;<br><br><b>&nbsp;ㆍ&nbsp;내장</b>&nbsp;: 그레이 인테리어(블랙/플럼 인테리어 선택 불가)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶&nbsp;전자식 4WD 시스템 : 1,800,000&nbsp;<br><br>▶&nbsp;드라이브 와이즈 : 1,150,000&nbsp;<br><br>▶ 컴포트 II : 550,000<br><br>▶ 컴포트 II + 가죽시트 + 브라운 인테리어 : 900,000<br><br>▶ 10.25 인치 내비게이션 : 870,000<br><br>▶ 하이테크 : 600,000<br>※ 10.25인치 내비게이션 적용 시 선택가능<br><br>▶ Bose 프리미엄 사운드 팩 : 630,000<br>※ 10.25인치 내비게이션 적용 시 선택가능<br><br>▶ 선루프 : 400,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+												</tbody>
+											</table>
+										
+									</div>
+									<!-- 신차가격표(폴더형) -->
+									<div id="f_fold" style="display:none;">
+										<div class="newcar_folder">
+											<ul class="nf_list" id="newcarList">
+												
+													<li>
+														<a href="#newcar0">
+                                                            <span class="model">가솔린 1.6 터보 2WD 트렌디 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>1,944</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar1">
+                                                            <span class="model">가솔린 1.6 터보 2WD 프레스티지 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,278</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar2">
+                                                            <span class="model">가솔린 1.6 터보 2WD 시그니처 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,489</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar3">
+                                                            <span class="model">가솔린 1.6 터보 2WD 그래비티 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,562</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar4">
+                                                            <span class="model">가솔린 1.6 터보 4WD 트렌디 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,124</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar5">
+                                                            <span class="model">가솔린 1.6 터보 4WD 프레스티지 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,124</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar6">
+                                                            <span class="model">가솔린 1.6 터보 4WD 시그니처 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,669</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar7">
+                                                            <span class="model">가솔린 1.6 터보 4WD 그래비티 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,742</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+											</ul>
+											<!-- 개별 -->
+											
+												<div id="newcar0" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶&nbsp;파워트레인</b>&nbsp;: 감마 1.6 T-GDI 가솔린 엔진, 스마트스트림 7DCT(수동겸용, 부츠타입), 속도감응형 전동식 파워스티어링(MDPS), 주행모드 통합제어 시스템, 트랙션 모드(스노우/머드/샌드)<br><br><b>▶&nbsp;첨단 운전자 보조 (ADAS)</b>&nbsp;: 전방 충돌방지 보조(차량/보행자), 차로 이탈방지 보조, 운전자 주의 경고(전방 차량 출발 알림 기능 포함), 하이빔 보조, 차로 유지 보조<br><br><b>▶&nbsp;안전&nbsp;</b>: 6에어백(운전석/동승석 어드밴스드, 전복감지 커튼, 1열 사이드), 후방 주차 거리 경고, VSM, 경사로 밀림방지장치, 경사로 저속주행장치, 급제동 경보 시스템, 개별 타이어 공기압 경보 시스템, 1열/2열 시트벨트 리마인더, 유아용 시트 고정 장치, 타이어 임시 수리장치, 후석 승객 알림<br><br><b>▶&nbsp;외장&nbsp;</b>: 205/60 R16 타이어&amp;스틸 휠, 풀사이즈 휠커버, 프로젝션 헤드램프, LED DRL, 바디칼라 아웃사이드 미러(전동접이, 전동조절, 열선), 리어스포일러, LED 보조제동등<br><br><b>▶&nbsp;내장&nbsp;</b>: 블랙 인테리어, 고급형 클러스터(3.5인치 MONO TFT LCD), D/N 룸미러, 선바이저 거울, 러기지 보드<br><br><b>▶&nbsp;시트</b>&nbsp;: 직물시트, 2열 6:4 폴딩시트(리클라이닝), 운전석 시트 높이조절장치<br><br><b>▶&nbsp;편의&nbsp;</b>: 폴딩타입 무선 도어 리모컨키, 크루즈 컨트롤, 오토 라이트 컨트롤, 수동식 틸트&amp;텔레스코픽 스티어링 휠, 1열/2열 파워윈도우, 파워 도어록, 매뉴얼 에어컨, 고성능 에어컨 필터, 파워아웃렛, 1열 USB 단자(급속충전용)<br><br><b>▶&nbsp;인포테인먼트&nbsp;</b>: 컴팩트 오디오, 6스피커, 스티어링 휠 오디오 리모컨, 블루투스 핸즈프리, USB 단자(데이터 리딩용)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶&nbsp;전자식 4WD 시스템 : 1,800,000&nbsp;<br><br>▶&nbsp;드라이브 와이즈 : 1,350,000&nbsp;<br><br>▶&nbsp;컨비니언스 : 800,000&nbsp;<br><br>▶ 스타일&nbsp; : 1,180,000 
+<br>※&nbsp;컨비니언스 적용 시 선택가능<br><br>▶&nbsp;하이패스 자동결제 시스템 : 200,000&nbsp;<br><br>▶ 10.25 인치 내비게이션 : 1,450,000
+<br> ※ 컨비니언스 적용 시 선택 가능</p>
+												</div>
+											
+												<div id="newcar1" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 1.6 가솔린 터보 트렌디 기본품목 외&nbsp;<br></b><br><b>&nbsp;ㆍ&nbsp;안전&nbsp;</b>: 전방 주차 거리 경고&nbsp;<br><br><b>&nbsp;ㆍ&nbsp;외장&nbsp;</b>: 215/55 R17 타이어&amp;알로이 휠, 시그니처 LED 라이팅 그릴, LED 리피터 일체형 아웃사이드미러, 크롬 테일게이트 가니쉬, 크롬 리어범퍼 가니쉬&nbsp;<br><br><b>&nbsp;ㆍ&nbsp;내장&nbsp;</b>: 가죽 스티어링 휠, 가죽 변속기 노브, LED 실내등(맵램프, 룸램프), 슬라이딩 선바이저(조명), 헤어라인 패턴 크래쉬패드 가니쉬, 블랙하이그로시 콘솔 어퍼커버, 인조가죽 슬라이딩 센터 콘솔암레스트&nbsp;<br><br><b>&nbsp;ㆍ&nbsp;시트</b>&nbsp;: 인조가죽시트, 1열 열선시트, 1열 통풍시트, 동승석 시트백 포켓&nbsp;<br><br><b>&nbsp;ㆍ&nbsp;편의&nbsp;</b>: 버튼시동 스마트키 시스템(원격시동 포함), 열선 스티어링 휠, 운전석 세이프티 파워윈도우</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶&nbsp;전자식 4WD 시스템 : 1,800,000&nbsp;<br><br>▶&nbsp;드라이브 와이즈 : 1,150,000&nbsp;<br><br>▶ 스타일 : 1,100,000&nbsp;&nbsp;&nbsp;<br><br>▶ 컴포트 I : 850,000&nbsp;<br><br>▶ 하이패스 자동결제 시스템 : 200,000&nbsp;&nbsp;<br><br>▶ 10.25 인치 내비게이션 : 1,450,000&nbsp;&nbsp;<br><br>▶ 하이테크 : 600,000 
+<br>※ 10.25인치 내비게이션 적용 시 선택가능<br><br>▶ Bose 프리미엄 사운드 팩 : 630,000 
+<br>※ 스타일 적용 시 선택가능 
+<br>※ 10.25인치 내비게이션 적용 시 선택가능</p>
+												</div>
+											
+												<div id="newcar2" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 1.6 가솔린 터보 프레스티지 기본품목 외&nbsp;<br></b><br><b>&nbsp;ㆍ&nbsp;외장&nbsp;</b>: 235/45 R18 타이어&amp;전면가공 휠, LED 헤드램프, 프론트 LED 턴시그널램프, LED 포그램프, LED 리어 콤비네이션램프, 크롬 벨트라인 몰딩, 크롬 아웃사이드 도어핸들, 루프랙, 샤크핀 안테나&nbsp;<br><br><b>&nbsp;ㆍ&nbsp;내장&nbsp;</b>: 블랙 인테리어 또는 플럼 인테리어 선택가능, 인조가죽 감싸기(1열 도어 센터트림, 1열/2열 도어 암레스트), 크롬 인사이드 도어핸들&nbsp;<br><br><b>&nbsp;ㆍ&nbsp;시트&nbsp;</b>: 운전석 파워시트, 운전석 전동식 허리지지대, 2열 열선시트, 2열 센터 암레스트<br><br><b>&nbsp;ㆍ&nbsp;편의&nbsp;</b>: 하이패스 자동결제 시스템, 후방 모니터, 2열 에어벤트, 2열 USB 단자(급속충전용), 전자식 룸미러(ECM)<br>&nbsp;<br><b>&nbsp;ㆍ&nbsp;인포테인먼트&nbsp;</b>: 8인치 디스플레이 오디오</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶&nbsp;전자식 4WD 시스템 : 1,800,000&nbsp;<br><br>▶&nbsp;드라이브 와이즈 : 1,150,000&nbsp;<br><br>▶ 컴포트 II : 550,000<br><br>▶ 컴포트 II + 가죽시트 + 브라운 인테리어 : 900,000<br><br>▶ 10.25 인치 내비게이션 : 870,000<br><br>▶ 하이테크 : 600,000 
+<br>※ 10.25인치 내비게이션 적용 시 선택가능<br><br>▶ Bose 프리미엄 사운드 팩 : 630,000 
+<br>※ 10.25인치 내비게이션 적용 시 선택가능<br><br>▶ 투톤 루프 : 300,000
+<br>※ 선루프 중복 선택 불가<br><br>▶ 선루프 : 400,000
+<br>
+※ 투톤 루프&nbsp;중복 선택 불가</p>
+												</div>
+											
+												<div id="newcar3" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶&nbsp;</b><b>1.6 가솔린 터보&nbsp;</b><b>시그니처 기본품목 외&nbsp;<br></b>※ 시그니처 그래비티 트림 전용 사양은 Kia Genuine Accessories 품목이며 외장 원톤 칼라 한정 적용 가능 (원톤 스틸 그레이, 투톤 루프 선택 불가)<br><br><b>&nbsp;ㆍ&nbsp;외장&nbsp;</b>: 그래비티 전용 라디에이터 그릴&amp;리어스키드 플레이트, 235/45 R18 타이어&amp;블랙 전면가공 휠, 메탈릭 실버 칼라 아웃사이드 미러 커버&amp;도어 가니쉬&nbsp;<br><br><b>&nbsp;ㆍ&nbsp;내장</b>&nbsp;: 그레이 인테리어(블랙/플럼 인테리어 선택 불가)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶&nbsp;전자식 4WD 시스템 : 1,800,000&nbsp;<br><br>▶&nbsp;드라이브 와이즈 : 1,150,000&nbsp;<br><br>▶ 컴포트 II : 550,000<br><br>▶ 컴포트 II + 가죽시트 + 브라운 인테리어 : 900,000<br><br>▶ 10.25 인치 내비게이션 : 870,000<br><br>▶ 하이테크 : 600,000<br>※ 10.25인치 내비게이션 적용 시 선택가능<br><br>▶ Bose 프리미엄 사운드 팩 : 630,000<br>※ 10.25인치 내비게이션 적용 시 선택가능<br><br>▶ 선루프 : 400,000<br></p>
+												</div>
+											
+												<div id="newcar4" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶&nbsp;파워트레인</b>&nbsp;: 감마 1.6 T-GDI 가솔린 엔진, 스마트스트림 7DCT(수동겸용, 부츠타입), 속도감응형 전동식 파워스티어링(MDPS), 주행모드 통합제어 시스템, 트랙션 모드(스노우/머드/샌드),전자식 4WD 시스템, 후륜 멀티링크 서스펜션&nbsp;<br>※ 4WD 적용시 트랙션 모드 미적용<br><br><b>▶&nbsp;첨단 운전자 보조 (ADAS)</b>&nbsp;: 전방 충돌방지 보조(차량/보행자), 차로 이탈방지 보조, 운전자 주의 경고(전방 차량 출발 알림 기능 포함), 하이빔 보조, 차로 유지 보조<br><br><b>▶&nbsp;안전&nbsp;</b>: 6에어백(운전석/동승석 어드밴스드, 전복감지 커튼, 1열 사이드), 후방 주차 거리 경고, VSM, 경사로 밀림방지장치, 경사로 저속주행장치, 급제동 경보 시스템, 개별 타이어 공기압 경보 시스템, 1열/2열 시트벨트 리마인더, 유아용 시트 고정 장치, 타이어 임시 수리장치, 후석 승객 알림<br><br><b>▶&nbsp;외장&nbsp;</b>: 205/60 R16 타이어&amp;스틸 휠, 풀사이즈 휠커버, 프로젝션 헤드램프, LED DRL, 바디칼라 아웃사이드 미러(전동접이, 전동조절, 열선), 리어스포일러, LED 보조제동등<br><br><b>▶&nbsp;내장&nbsp;</b>: 블랙 인테리어, 고급형 클러스터(3.5인치 MONO TFT LCD), D/N 룸미러, 선바이저 거울, 러기지 보드<br><br><b>▶&nbsp;시트</b>&nbsp;: 직물시트, 2열 6:4 폴딩시트(리클라이닝), 운전석 시트 높이조절장치<br><br><b>▶&nbsp;편의&nbsp;</b>: 폴딩타입 무선 도어 리모컨키, 크루즈 컨트롤, 오토 라이트 컨트롤, 수동식 틸트&amp;텔레스코픽 스티어링 휠, 1열/2열 파워윈도우, 파워 도어록, 매뉴얼 에어컨, 고성능 에어컨 필터, 파워아웃렛, 1열 USB 단자(급속충전용)<br><br><b>▶&nbsp;인포테인먼트&nbsp;</b>: 컴팩트 오디오, 6스피커, 스티어링 휠 오디오 리모컨, 블루투스 핸즈프리, USB 단자(데이터 리딩용)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶&nbsp;드라이브 와이즈 : 1,350,000&nbsp;<br><br>▶&nbsp;컨비니언스 : 800,000&nbsp;<br><br>▶ 스타일&nbsp; : 1,180,000<br>※&nbsp;컨비니언스 적용 시 선택가능<br><br>▶&nbsp;하이패스 자동결제 시스템 : 200,000&nbsp;<br><br>▶ 10.25 인치 내비게이션 : 1,450,000<br>※ 컨비니언스 적용 시 선택 가능</p>
+												</div>
+											
+												<div id="newcar5" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 1.6 가솔린 터보 트렌디 기본품목 외&nbsp;전자식 4WD 시스템, 후륜 멀티링크 서스펜션
+<br></b>※ 4WD 적용시 트랙션 모드 미적용&nbsp;<b>&nbsp;</b><b><br></b><br><b>&nbsp;ㆍ&nbsp;안전&nbsp;</b>: 전방 주차 거리 경고&nbsp;<br><br><b>&nbsp;ㆍ&nbsp;외장&nbsp;</b>: 215/55 R17 타이어&amp;알로이 휠, 시그니처 LED 라이팅 그릴, LED 리피터 일체형 아웃사이드미러, 크롬 테일게이트 가니쉬, 크롬 리어범퍼 가니쉬&nbsp;<br><br><b>&nbsp;ㆍ&nbsp;내장&nbsp;</b>: 가죽 스티어링 휠, 가죽 변속기 노브, LED 실내등(맵램프, 룸램프), 슬라이딩 선바이저(조명), 헤어라인 패턴 크래쉬패드 가니쉬, 블랙하이그로시 콘솔 어퍼커버, 인조가죽 슬라이딩 센터 콘솔암레스트&nbsp;<br><br><b>&nbsp;ㆍ&nbsp;시트</b>&nbsp;: 인조가죽시트, 1열 열선시트, 1열 통풍시트, 동승석 시트백 포켓&nbsp;<br><br><b>&nbsp;ㆍ&nbsp;편의&nbsp;</b>: 버튼시동 스마트키 시스템(원격시동 포함), 열선 스티어링 휠, 운전석 세이프티 파워윈도우</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶&nbsp;드라이브 와이즈 : 1,150,000&nbsp;<br><br>▶ 스타일 : 1,100,000&nbsp;&nbsp;&nbsp;<br><br>▶ 컴포트 I : 850,000&nbsp;<br><br>▶ 하이패스 자동결제 시스템 : 200,000&nbsp;&nbsp;<br><br>▶ 10.25 인치 내비게이션 : 1,450,000&nbsp;&nbsp;<br><br>▶ 하이테크 : 600,000<br>※ 10.25인치 내비게이션 적용 시 선택가능<br><br>▶ Bose 프리미엄 사운드 팩 : 630,000<br>※ 스타일 적용 시 선택가능<br>※ 10.25인치 내비게이션 적용 시 선택가능</p>
+												</div>
+											
+												<div id="newcar6" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 1.6 가솔린 터보 프레스티지 기본품목 외&nbsp;</b><b>전자식 4WD 시스템, 후륜 멀티링크 서스펜션
+<br></b>※ 4WD 적용시 트랙션 모드 미적용&nbsp;<b>&nbsp;
+<br></b><br><b>&nbsp;ㆍ&nbsp;외장&nbsp;</b>: 235/45 R18 타이어&amp;전면가공 휠, LED 헤드램프, 프론트 LED 턴시그널램프, LED 포그램프, LED 리어 콤비네이션램프, 크롬 벨트라인 몰딩, 크롬 아웃사이드 도어핸들, 루프랙, 샤크핀 안테나&nbsp;<br><br><b>&nbsp;ㆍ&nbsp;내장&nbsp;</b>: 블랙 인테리어 또는 플럼 인테리어 선택가능, 인조가죽 감싸기(1열 도어 센터트림, 1열/2열 도어 암레스트), 크롬 인사이드 도어핸들&nbsp;<br><br><b>&nbsp;ㆍ&nbsp;시트&nbsp;</b>: 운전석 파워시트, 운전석 전동식 허리지지대, 2열 열선시트, 2열 센터 암레스트<br><br><b>&nbsp;ㆍ&nbsp;편의&nbsp;</b>: 하이패스 자동결제 시스템, 후방 모니터, 2열 에어벤트, 2열 USB 단자(급속충전용), 전자식 룸미러(ECM)<br>&nbsp;<br><b>&nbsp;ㆍ&nbsp;인포테인먼트&nbsp;</b>: 8인치 디스플레이 오디오</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶&nbsp;드라이브 와이즈 : 1,150,000&nbsp;<br><br>▶ 컴포트 II : 550,000<br><br>▶ 컴포트 II + 가죽시트 + 브라운 인테리어 : 900,000<br><br>▶ 10.25 인치 내비게이션 : 870,000<br><br>▶ 하이테크 : 600,000<br>※ 10.25인치 내비게이션 적용 시 선택가능<br><br>▶ Bose 프리미엄 사운드 팩 : 630,000<br>※ 10.25인치 내비게이션 적용 시 선택가능<br><br>▶ 투톤 루프 : 300,000<br>※ 선루프 중복 선택 불가<br><br>▶ 선루프 : 400,000<br>※ 투톤 루프&nbsp;중복 선택 불가</p>
+												</div>
+											
+												<div id="newcar7" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶&nbsp;</b><b>1.6 가솔린 터보&nbsp;</b><b>시그니처 기본품목 외</b><b>&nbsp;</b><b>전자식 4WD 시스템, 후륜 멀티링크 서스펜션<br></b>※ 4WD 적용시 트랙션 모드 미적용&nbsp;<b>&nbsp;</b><b>&nbsp;<br></b>※ 시그니처 그래비티 트림 전용 사양은 Kia Genuine Accessories 품목이며 외장 원톤 칼라 한정 적용 가능 (원톤 스틸 그레이, 투톤 루프 선택 불가)
+<br><br><b>&nbsp;ㆍ&nbsp;외장&nbsp;</b>: 그래비티 전용 라디에이터 그릴&amp;리어스키드 플레이트, 235/45 R18 타이어&amp;블랙 전면가공 휠, 메탈릭 실버 칼라 아웃사이드 미러 커버&amp;도어 가니쉬&nbsp;<br><br><b>&nbsp;ㆍ&nbsp;내장</b>&nbsp;: 그레이 인테리어(블랙/플럼 인테리어 선택 불가)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶&nbsp;전자식 4WD 시스템 : 1,800,000&nbsp;<br><br>▶&nbsp;드라이브 와이즈 : 1,150,000&nbsp;<br><br>▶ 컴포트 II : 550,000<br><br>▶ 컴포트 II + 가죽시트 + 브라운 인테리어 : 900,000<br><br>▶ 10.25 인치 내비게이션 : 870,000<br><br>▶ 하이테크 : 600,000<br>※ 10.25인치 내비게이션 적용 시 선택가능<br><br>▶ Bose 프리미엄 사운드 팩 : 630,000<br>※ 10.25인치 내비게이션 적용 시 선택가능<br><br>▶ 선루프 : 400,000</p>
+												</div>
+											
+										</div>
+										<script type="text/javascript">
+											newcarFolder(0);//초기값
+											function newcarFolder(target) {
+												var conElId = "newcar"//아이디 설정
+												var conElMenu = document.getElementById("newcarList");
+												var conElMenuLink = conElMenu.getElementsByTagName("a");
+												if (target != null) {
+													conElMenuLink[target].parentNode.className = "on";
+													document.getElementById(
+														conElId + target).style.display = "";
+												}
+												for (i = 0; i <= (conElMenuLink.length - 1); i++) {
+													conElMenuLink[i].onclick = function () {
+														for (x = 0; x <= (conElMenuLink.length - 1); x++) {
+															conElMenuLink[x].parentNode.className = "";
+															document.getElementById(
+																conElId + x).style.display = "none";
+														}
+														this.parentNode.className = "on";
+														document.getElementById(this.getAttribute('href')
+																					.split(
+																						'#')[1]).style.display =
+															"";
+														return false;
+													}
+												}
+											}
+										</script>
+									</div>
+									
+										<ul class="more">
+												<b>▶&nbsp;1.6 가솔린 터보선택품목 세부안내&nbsp;<br>&nbsp;- 전자식 4WD 시스템</b>&nbsp;: 전자식 4WD 시스템, 후륜 멀티링크 서스펜션 ※ 4WD 적용시 트랙션 모드 미적용&nbsp;<br><b>&nbsp;- 드라이브 와이즈</b>&nbsp;: 스마트 크루즈 컨트롤(정차&amp;재출발), 전자식 파킹브레이크(EPB, 오토홀드), 전방 충돌방지 보조(사이클리스트/교차로 대향차), 후측방 충돌방지 보조, 후방 교차 충돌방지 보조<br>※ 내비게이션 적용 시 내비게이션 기반 스마트 크루즈 컨트롤(고속도로/자동차 전용도로 內 안전구간/곡선로), 고속도로 주행 보조 기능 지원<br>※ 7인치 슈퍼비전 클러스터 적용 시 안전 하차 경고 기능 지원&nbsp;<br><b>&nbsp;- 컨비니언스</b>&nbsp;: 인조가죽시트, 버튼시동 스마트키 시스템(원격시동 포함), 1열 열선시트, 열선 스티어링 휠, 가죽 스티어링 휠, 가죽 변속기 노브, 인조가죽 슬라이딩 센터 콘솔 암레스트, 블랙하이그로시 콘솔 어퍼커버<br><b>&nbsp;- 스타일<br>&nbsp;[트렌디]</b>&nbsp;: 235/45 R18 타이어&amp;전면가공 휠, LED 헤드램프, 프론트 LED 턴시그널램프, LED 포그램프, LED 리어 콤비네이션램프, 루프랙, 크롬 벨트라인 몰딩, 크롬 아웃사이드 도어핸들, 인조가죽 감싸기(1열 도어 센터트림, 1열/2열 도어 암레스트), 크롬 인사이드 도어핸들<br><b>&nbsp;[프레스티지]</b>&nbsp;:&nbsp;235/45 R18 타이어&amp;전면가공 휠, LED 헤드램프, 프론트 LED 턴시그널램프, LED 포그램프, LED 리어 콤비네이션램프, 루프랙, 크롬 벨트라인 몰딩, 크롬 아웃사이드 도어핸들, 인조가죽 감싸기(1열 도어 센터트림, 1열/2열 도어 암레스트), 크롬 인사이드 도어핸들<br><b>&nbsp;-&nbsp;컴포트 I&nbsp;</b>: 운전석/동승석 파워시트, 운전석 전동식 허리지지대, 2열 에어벤트, 2열 USB단자(급속충전용), 2열 열선시트, 2열 센터 암레스트, ECM, 스마트폰 무선충전 시스템<br><b>&nbsp;-&nbsp;컴포트 II&nbsp;</b>:&nbsp;동승석 파워시트, 스마트폰 무선충전 시스템, 크래쉬패드 인몰드 스티치, 앰비언트 라이트(사운드 연동 가능)<br><b>&nbsp;- 하이테크</b>&nbsp;: 컴바이너 헤드업 디스플레이, 슈퍼비전 클러스터(7인치 칼라 TFT LCD), 레인센서, 에어로타입 와이퍼<br><b>&nbsp;- 10.25인치 내비게이션&nbsp;<br>&nbsp;[트렌디 /프레스티지]</b>&nbsp;: 10.25인치 내비게이션(기아 커넥트, 폰 프로젝션, 기아 페이), 주행 중 후방 뷰, 내비게이션 무선 업데이트, 풀오토 에어컨, 오토 디포그, 공기청정 모드, 후방 모니터, 샤크핀 안테나&nbsp;<br><b>&nbsp;[시그니처 / 그래비티]&nbsp;</b>: 10.25인치 내비게이션(기아 커넥트, 폰 프로젝션, 기아 페이), 주행 중 후방 뷰, 내비게이션 무선 업데이트, 풀오토 에어컨, 오토 디포그, 공기청정 모드<br><b>- Bose 프리미엄 사운드 팩</b>&nbsp;: Bose 프리미엄 사운드(8스피커, 외장앰프), 러기지 커버링 쉘프
+										</ul>
+									
+									<p class="desc_more">위 신차가격표는 단순 참고자료이며, 정확한 내용은 각 제조사에서 제공하는 자료를 통해확인하실 수 있습니다.</p><!-- 2016/10/12 [장] 등급 등록/수정 개선 : 추가 디자인 변경 -->
+									<p class="toTop"><a href="#main_title" class="sp toTop db_ir" title="페이지 위로"><u>페이지 위로</u></a></p><!-- [시세개편] class db_ir 추가 -->
+								</div>
+
+
+							</div>
+							<!-- body end -->
+						</td>
+					</tr>
+				</table>
+
+
+			
+			
+		
+    </div>
+
+    <!-- container end -->
+</form>
+</div>
+
+</body>
+<script language="javascript">
+
+
+    var strCompanyUrl = "/common/combo/cardbcompany.json?method=carList";
+    var strModelGroupUrl = "/common/combo/modelgroupfordb.json?method=carList";
+    var strModelUrl = "/common/combo/cardbmodel.json?method=carList";
+    var strYrJatoUrl = "/common/combo/jatoYr.json?method=carList";
+
+    var companyid = "mnfccd";
+    var modelgroupid = "mdlgroupcd";
+    var modelid = "mdlcd";
+    var yearid = "caryear";
+
+    function initGnb() {
+        var paramCompany = $("paramMnfccd").value;
+        var paramModelGroup = $("paramMdlgroupcd").value;
+        var paramModel = $("paramMdlcd").value;
+        var paramYr = $("paramYear").value;
+
+        // 제조사
+        if (paramModel != "") {
+            $("mdlcd").show();
+        }
+
+        //console.log("companyid :: " + companyid)
+        //console.log("paramCompany :: " + paramCompany)
+		if($('foldYn').value != 0){
+            foldingYN('f_fold');
+		}
+
+        setCompany(strCompanyUrl, companyid, "제조사", paramCompany);
+
+        // 제조사 값이 있으면 모델 검색
+        if (paramCompany >= '010') {
+            if (paramCompany != "") {
+                if (paramModel == "") {
+                    paramModel = paramModelGroup;
+                }
+                setModel(strModelUrl, modelid, paramCompany, "모델", paramModel)
+                $("mdlgroupcd").hide();
+
+            }
+        } else {
+            $("mdlgroupcd").show();
+            if (paramCompany != "") {
+                setModelGroup(strModelGroupUrl, modelgroupid, paramCompany, "모델", paramModelGroup);
+                if (paramModelGroup != "") {
+                    setModel_New(strModelUrl, modelid, paramCompany, paramModelGroup, "세부모델", paramModel);
+                }
+            }
+
+        }
+        if (paramCompany != "" && paramModel != "") {
+            setCarYear(strYrJatoUrl, yearid, paramCompany, paramModel, "형식연도", paramYr);
+        }
+
+        waitTime = 1;
+    }
+
+    function changeModel_jato(mnfccd, mdlgroupcd) {
+        setModel_New(strModelUrl, modelid, mnfccd, mdlgroupcd, "세부모델", "");
+        //모델그룹선택시 기본 세부모델선택
+        if ($("mdlcd") != null) {
+            $("mdlcd").selectedIndex = 1;
+            var mdlcd = $("mdlcd").options[$("mdlcd").selectedIndex].value;
+            changeYearJato(mnfccd, mdlcd);
+        }
+    }
+
+    function changeYearJato(mnfccd,mdlcd) {
+        setCarYear(strYrJatoUrl, yearid, mnfccd, mdlcd, "형식연도", "");
+        $(yearid).options[1].selected = true;
+    }
+
+
+
+    //덧글 리스트
+    function viewForm(index) {
+
+        var object = $("default" + index);
+        var objectSum = $("defaultSum" + index);
+        var selectSum = $("choiceSum" + index);
+        var object1 = $("choice" + index);
+        if (object != null) {
+            if (object.style.display == 'none') {
+                objectSum.hide();
+                selectSum.hide();
+                object.style.display = "block";
+                object1.style.display = "block";
+
+            } else {
+                object.hide();
+                object1.hide();
+                objectSum.style.display = "block";
+                selectSum.style.display = "block";
+            }
+        }
+    }
+
+    function viewAll() {
+        for (var i = 1; i <=8; i++) {
+            $("default" + i).style.display = "block";
+            $("defaultSum" + i).style.display = "none";
+            $("choice" + i).style.display = "block";
+            $("choiceSum" + i).style.display = "none";
+        }
+    }
+
+    function closeAll() {
+        for (var i = 1; i <=8; i++) {
+            $("default" + i).style.display = "none";
+            $("defaultSum" + i).style.display = "block";
+            $("choice" + i).style.display = "none";
+            $("choiceSum" + i).style.display = "block";
+        }
+    }
+
+    function firstLayerOpen() {
+        //viewForm(1);
+    }
+
+    function foldingYN(param) {
+        if (param == "f_fold") {
+            document.getElementById("folding").innerHTML ="<a href=\"javascript:foldingYN('f_unfold')\" class='folding f_unfold'>전체등급 펼쳐보기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "none";
+            document.getElementById("f_fold").style.display = "";
+        } else {
+            document.getElementById("folding").innerHTML = "<a href=\"javascript:foldingYN('f_fold')\" class='folding f_fold'>접기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "";
+            document.getElementById("f_fold").style.display = "none";
+        }
+    }
+
+    function onSubmit() {
+        jQuery("#searchForm").submit();
+
+    }
+    window.onload = initGnb;
+
+</script>
+</html>
+

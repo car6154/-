@@ -1,0 +1,1963 @@
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>차량DB - 차량정보 - 신차가격표</title>
+    <link type="text/css" rel="stylesheet" href="/css/common.css?v=1793835891525"/>
+    <link type="text/css" rel="stylesheet" href="/css/db.css?v=1793835891525"/>
+
+    <script type="text/javascript" src="/js/encarapp/lib/jquery/jquery-1.11.3.min.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/common/ui.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/prototype.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/util.js?v=1793835894199"></script>
+
+    <script type="text/javascript" src="/js/common/db_common.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/commonCombo.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/carSearchCombo.js?v=1793835894199"></script>
+	<script>
+		window.enlogInitJson = {
+			"dataTalkView": {
+				"screenName": "신차가격표"
+			}
+		}
+
+	</script>
+
+
+</head>
+
+
+
+
+
+
+
+    <!-- 등급 체크박스  -->
+    <div style="display:none">
+        
+    </div>
+
+    <!-- 세부등급 체크박스 -->
+    <div style="display:none">
+        
+    </div>
+
+
+
+<body class="db db_newdetailview db_basicTemplate">
+
+
+
+
+	
+	
+	
+	
+
+
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-W9QQ2T"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W9QQ2T');</script>
+<!-- End Google Tag Manager -->
+
+<!-- container begin -->
+<div class="container" id="containerDIV">
+<input type="hidden" id = "foldYn" name="searchtype" value="15"/>
+<form id ="searchForm" name="searchForm">
+
+    <input type="hidden" id = "method" name="method" value="newpricePopV2"/>
+    <input type="hidden" id = "dimensiontype" name="dimensiontype" value="null"/>
+    <input type="hidden" id = "paramMnfccd" name="paramMnfccd" value="005"/>
+    <input type="hidden" id = "paramMdlgroupcd" name="paramMdlgroupcd" value="010"/>
+    <input type="hidden" id = "paramMdlcd" name="paramMdlcd" value="065"/>
+    <input type="hidden" id = "paramYear" name="paramYear" value="2018"/>
+    <input type="hidden" id = "model" name="model" value="">
+    <input type="hidden" id = "paramCaryear" name="paramCaryear" value="2018"/>
+    <input type="hidden" id = "clsheadcd" name="clsheadcd" class="checkbox" value="null"/>
+    <input type="hidden" id = "paramGradeHead" name="paramGradeHead" value="null"/>
+	<input type="hidden" id = "searchtype" name="searchtype" value="check"/>
+	<input type="hidden" id = "pageAccessToken" name="pageAccessToken" value="AgV4M0yPLiLfF+i9PLX8QVtXgsSf9Rg3wP5pbGx0VvpY9SYAcQACAAdFbmNhckNrAAdFbmNhckN2ABVhd3MtY3J5cHRvLXB1YmxpYy1rZXkAREFtM1JIelIvRk1tYkIwYVliWm9zU3FudUVTWWFqVG8xZWw5a0FzTVE1cHE3a2ZjZWJzbytobldQS0RUajU1d0NVUT09AAEAB2F3cy1rbXMAUGFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjI3MjM2MjQ4NzY1MzprZXkvbXJrLWRmZWEyNmY3NTVhMzQ3MjliNjkwMjRkZWZmM2M1MWFjALgBAgEAeAuqQuSJvQ+Ra4FSj55FZzS0sk+00amsb3yoAFiEYn4PATk8mQ9bgtNhypyhoBnKjn4AAAB+MHwGCSqGSIb3DQEHBqBvMG0CAQAwaAYJKoZIhvcNAQcBMB4GCWCGSAFlAwQBLjARBAxgAmDoCCDz+YKVd0ICARCAO8//P50qOzxdzhglS3nFKbWr5DbTa14fqTDKAr9kmYgbrLt/KKE5yZwOojbIveWfpngIKRPTngoGMB6LAgAAEAA43haTYyCcFjw61b3DSTfo24/CX2w973Mn/25/riMdwdRsouAiehUzbhqTQqTHEbf/////AAAAAQAAAAAAAAAAAAAAAQAAAKN/89Ocw2HsDdWY+A3nExb+/fV2odn2LBZ7MLvX/CFhl1qqzNPjja6ph8TtgMheslLuNX/XJ4f2xzdXawqGp0WumLAO8l/GZGLTaEoQV/lPRrOdUMbIUWSX/eiE0vO0X33s4gJCymXq8mBx5pcNmm05D6UlhhVT/whoVJz0pH1sRwl77SoeSS1JzN5kStBXcp4BN8qGy35ramz7rURccV+VZSL+59bxXZA7zCRFHcDtVnxOKABnMGUCMQCY39iH7BcO5fEJI8UAMReFs1gHFSSqHDBilTpDyrk5b03BfRBDmvmGC2R8tScAjQECMHOn8ou5otJiA473UIBcRCTyqE0cKi08tw6ScVZn8cbOr4ZWZLjt8EO6Y7F9y2g9zQ=="/>
+    <div class="header">
+        <h1 class="blind">SK엔카</h1>
+        <h2 class="tit_carprice" id="main_title">신차가격표</h2>
+        <p class="quickSearch">
+
+
+
+            <select title="제조사" class="opt_select" id="mnfccd" name="mnfccd" onChange="javascript:changeModelGroup(this.value);">
+                <option value="">제조사</option>
+            </select>
+
+            <select class="opt_select" title="모델" id="mdlgroupcd" name="mdlgroupcd" onChange="javascript:changeModel_jato($('mnfccd').value, this.value);">
+                <option>모델</option>
+            </select>
+
+            <select class="opt_select" title="세부모델" id="mdlcd" name="mdlcd" onChange="javascript:changeYearJato($('mnfccd').value, $('mdlcd').value);">
+                <option>세부모델</option>
+            </select>
+
+            <select class="opt_select" title="연식" id="caryear" name="caryear">
+                <option>연식</option>
+            </select>
+
+            <button type="button" class="btn_search" onclick="javascript:onSubmit();"/>검색</button>
+
+
+
+        </p>
+    </div>
+    <!-- body begin -->
+    <div class="body" id="bodydiv">
+		
+			
+				<table class="layout">
+					<col class="contents"/>
+					<tr>
+						<td class="contentsMenu">
+							<!-- contentsMenu begin -->
+							<div class="contentsMenu">
+								<h3 class="title">르노코리아(삼성) SM6 2018년형</h3>
+							</div>
+							<!-- contentsMenu end -->
+						</td>
+					</tr>
+
+					<tr>
+						<td class="contentsMain">
+							<!-- contents begin -->
+							<div class="contents">
+
+								<div class="carCompare">
+									<div class="dbHead">
+										
+											<div id="folding"><a href="javascript:foldingYN('f_fold')"
+																 class="folding f_fold">전체등급 펼쳐보기<em class="db_ir"></em></a></div>
+
+											<!-- 2013/04/03 [서] 매물탭 개선 : 기능 버튼 추가 --><!--<a href="#" class="folding f_unfold">펼치기</a>-->
+										
+									</div>
+									
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+									<div id="f_unfold">
+										
+											<!-- case1 : 세부등급과 미션분리 -->
+											<table class="carCompare sellcase1">
+												<colgroup>
+													<col class="grade">
+													<col class="mission">
+													<col class="price">
+												    <col class="uprice"><!-- [시세개편] 중고차시세 추가 uprice -->
+													<col class="item">
+													<col class="option">
+												</colgroup>
+												<thead class="compare">
+												<tr>
+													<th class="grade" colspan="2"><b>구분</b></th>
+													<th class="price"><b>판매가격</b></th>
+													<th class="uprice"><b>중고차시세</b></th><!-- [시세개편] 중고차시세 추가 -->
+													<th class="item"><b>기본사양 품목</b></th>
+													<th class="option end"><b>선택사양 품목</b></th>
+												</tr>
+												</thead>
+												<tbody class="new">
+												
+													
+														
+													
+													
+														
+															
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>2.0 GDe PE</p></td>
+														
+														<td class="mission"><p>DCT</p></td>
+														<td class="price">
+															<p>
+																<strong>2,440</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>● 파워트레인 :&nbsp;</b>2.0 GDe 엔진, 7단 EDC 변속기(수동모드 지원), 오토 스탑/스타트 시스템&nbsp;<br><br><b>● 안전 :&nbsp;</b>앞좌석 에어백(운전석/동승석 듀얼 스테이지 스마트 에어백 시스템), 사이드(앞)/커튼 에어백, 차체자세 제어장치(ESC), 경사로 밀림방지장치(HSA), 타이어 공기압 자동감지 시스템, EBD-ABS(BAS 내장), 급제동 경보 시스템(ESS), 매뉴얼 파킹 브레이크, 4륜 디스크 브레이크(프런트 벤틸레이티드), 충돌감지 도어록 해제장치, 차속감응 오토도어록, 앞좌석 3점식 시트벨트(듀얼 프리텐셔너/로드리미터/리마인드 경고 기능/높이 조절장치 포함), 뒷좌석 3점식 시트벨트, ISOFIX 유아용 시트 고정장치<br><br><b>● 외관 :&nbsp;</b>16" 알로이 휠 &amp; 205/65R 16 타이어, 크롬 라디에이터 그릴, LED 주간주행등, LED 방향 지시등(전방), 프로젝션 헤드 램프, LED 리어 콤비네이션 램프(차폭등 적용), LED 보조제동등, LED 방향지시등 일체형 아웃사이드 미러, 그립타입 아웃사이드 도어핸들(바디컬러), 비노출형 머플러<br><b><br>● 내장 :</b>&nbsp;블랙 인테리어, 기본형 클러스터(3.5"/모노 TFT LCD), 실버 페인팅 데코, 블랙 직물시트, 뒷좌석 시트 일체형 헤드레스트, 맵 램프/룸 램프, 선바이저(거울/조명), 가죽 변속기 노브, 글러브 박스, 센터콘솔 박스, 도어포켓(앞/뒤), 선글라스 케이스, 카매트<br><b><br></b><b>● 편의 :</b>&nbsp;구동형 전자식 파워 스티어링(R-EPS), 에코 모드 시스템, 후방 경보 시스템, 헤드 램프 에스코트 기능, 오토라이팅 헤드 램프, 레인센싱 와이퍼, 아웃사이드 미러(전동조절/자동접이/열선 기능 포함), 앞좌석 원터치 세이프티 파워 윈도우, 운전석 매뉴얼 시트 높이 조절장치, 앞좌석 열선시트, 원터치 트리플 턴 시그널, 수동식 틸트/텔레스코픽 스티어링 휠, 전자식 트렁크/연료주입구 열림장치, 트립 컴퓨터, 폴딩타입 무선 리모컨 키, 타이어 리페어 키트<br><br><b>● 멀티미디어 :</b>&nbsp;기본형 MP3 오디오, 6 스피커, AUX &amp; USB(iPod)단자, 블루투스 핸즈프리(오디오 스트리밍 기능), 스마트폰 음성인식 기능, 스티어링 휠 오디오 리모컨&nbsp;<br><b><br></b><b>● 공조 시스템 :&nbsp;</b>좌/우 독립 풀오토 에어컨(상시 습도조절 기능), 컴바인드 에어 필터, 리어 에어 벤트
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>●&nbsp;</b><b>클라우드 펄 외장컬러&nbsp;</b>170,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>2.0 GDe SE</p></td>
+														
+														<td class="mission"><p>DCT</p></td>
+														<td class="price">
+															<p>
+																<strong>2,675</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>PE 기본 품목 및</b><b><br></b><b><br></b><b>● 안전 :</b>&nbsp;전자식 파킹 브레이크(E-PKB)<br><b><br></b><b>● 외관 :&nbsp;</b>17" 알로이 휠 &amp; 225/55R 17 타이어, 그립타입 아웃사이드 도어핸들(크롬&amp;바디컬러), 차음 윈드쉴드 글라스<br><br><b>● 내장 :&nbsp;</b>블랙 인조가죽시트, 가죽 스티어링 휠, 알루미늄 키킹 플레이트, 뒷좌석 분리형 헤드레스트, 뒷좌석 암레스트(스키스루 포함)<br><b><br></b><b>● 편의 :&nbsp;</b>인텔리전트 스마트카드 시스템(버튼 시동/1열 매직핸들/오토 클로징/정전식 터치 잠금), 크루즈 컨트롤/스피드 리미터, 운전석 파워 시트(매뉴얼 요추 받침장치 포함), 전자식 룸미러(ECM), 센터콘솔 내부 냉장 스토리지, 뒷좌석 12V 파워 아웃렛
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>● 파노라마 선루프 + 동승석 매뉴얼 시트 높이 조절장치</b>&nbsp;990,000<br><b><br></b><b>● 컨비니언스 패키지</b>&nbsp;630,000<br><b><br></b><b>● S-Link 패키지Ⅰ</b>&nbsp;1,100,000<br><br><b>●&nbsp;</b><b>클라우드 펄 외장컬러&nbsp;</b>170,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>2.0 GDe LE</p></td>
+														
+														<td class="mission"><p>DCT</p></td>
+														<td class="price">
+															<p>
+																<strong>2,860</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>SE 기본 품목 및</b><b><br></b><b><br></b><b>● 외관 :&nbsp;</b>18" 투톤 알로이 휠 &amp; 245/45R 18 타이어, 퍼들 램프<br><br><b>● 내장 :&nbsp;</b>고급형 클러스터(7"/컬러 TFT LCD/디스플레이 가변형), 카본룩/글로시 블랙 그레인, 블랙 가죽시트, 앰비언트 라이트, LED 룸램프<br><br><b>● 편의 :</b>&nbsp;Multi-Sense(드라이빙 모드 통합 제어 시스템, 5 모드 : Comfort/Sport/Eco/Neutral/Personal), 웰컴 시스템, 운전석 파워 시트(이지 액세스/메모리/마사지 기능, 전동식 요추 받침장치 포함), 동승석 매뉴얼 시트 높이 조절장치, 뒷좌석 열선시트, 아웃사이드 미러(메모리/후진 자동각도조절 기능 포함), 후방 카메라, 하이패스 시스템(ETCS), 열선 스티어링 휠, 매직 트렁크<br><br><b>● 멀티미디어 :&nbsp;</b>S-Link 7" 미러링 시스템(7"/컬러 TFT LCD/정전식 터치스크린), 8 스피커(3D 사운드 시스템 포함), 2포트 USB(iPod) 단자
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>● 파노라마 선루프</b>&nbsp;950,000<br><br><b>● S-Link 패키지Ⅱ&nbsp;</b>1,200,000<br><br><b>●&nbsp;LED 라이팅 패키지Ⅱ</b>&nbsp;600,000&nbsp;<br><br><b>● 프리미엄 시트 패키지Ⅰ</b>&nbsp;800,000<br><b><br></b><b>● 드라이빙 어시스트 패키지Ⅰ</b>&nbsp;1,450,000&nbsp;<br><br><b>●&nbsp;</b><b>클라우드 펄 외장컬러&nbsp;</b>170,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>2.0 GDe RE</p></td>
+														
+														<td class="mission"><p>DCT</p></td>
+														<td class="price">
+															<p>
+																<strong>3,060</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>LE 기본 품목 및</b><b><br></b><b><br></b><b>● 안전 :&nbsp;</b>사각지대 경보 시스템(BSW)<br><br><b>● 외관 :&nbsp;</b>3D 타입 LED 리어 콤비네이션 램프(차폭등, 제동등, 방향지시등 적용)<br><br><b>● 내장 :&nbsp;</b>앞좌석 프레스티지 헤드레스트, 퀼팅(시트), 다크 우드/글로시 블랙 그레인, 앞좌석 풋웰 램프<br><br><b>● 편의 :</b>&nbsp;앞좌석 통풍시트, 운전석 파워 시트(틸팅 기능/매뉴얼 쿠션 익스텐션 포함), 동승석 파워 시트(마사지 기능, 전동식 요추 받침장치 포함), 전방/측방 경보 시스템, 주차 조향보조 시스템(EPA)<br><b><br></b><b>● 공조 시스템 :&nbsp;</b>이오나이저, 실내 자동탈취 기능
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>● 파노라마 선루프&nbsp;</b>950,000<br><br><b>● 19" 투톤 알로이 휠 &amp; 245/40R 19타이어 + 액티브 댐핑 컨트롤(ADC)</b>&nbsp;650,000<br><b><br></b><b>● S-Link 패키지Ⅱ&nbsp;</b>1,200,000<br><b><br></b><b>● LED 라이팅 패키지Ⅰ</b>&nbsp;450,000<br><b><br></b><b>● 프리미엄 시트 패키지Ⅱ&nbsp;</b>700,000<br><b><br></b><b>● 드라이빙 어시스트 패키지Ⅰ</b>&nbsp;1,450,000&nbsp;<br><br><b>●&nbsp;</b><b>클라우드 펄 외장컬러&nbsp;</b>170,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>1.6 TCe SE</p></td>
+														
+														<td class="mission"><p>DCT</p></td>
+														<td class="price">
+															<p>
+																<strong>2,830</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>2.0 GDe PE 기본 품목 및</b><b><br></b><b><br></b><b>● 파워트레인 :&nbsp;</b>1.6 TCe 엔진, 7단 EDC 변속기(수동모드 지원), 오토 스탑/스타트 시스템<br><br><b>● 안전 :&nbsp;</b>전자식 파킹 브레이크(E-PKB)<br><br><b>● 외관 :</b>&nbsp;17" 알로이 휠 &amp; 225/55R 17 타이어, 그립타입 아웃사이드 도어핸들(크롬&amp;바디컬러), 차음 윈드쉴드 글라스, 트윈 머플러 데코 피니셔<br><br><b>● 내장 :&nbsp;</b>블랙 인조가죽시트, 가죽 스티어링 휠, 알루미늄 키킹 플레이트, 뒷좌석 분리형 헤드레스트, 뒷좌석 암레스트(스키스루 포함)<br><br><b>● 편의 :</b>&nbsp;인텔리전트 스마트카드 시스템(버튼 시동/1열 매직핸들/오토 클로징/정전식 터치 잠금), 크루즈 컨트롤/스피드 리미터, 운전석 파워 시트(매뉴얼 요추 받침장치 포함), 전자식 룸미러(ECM), 센터콘솔 내부 냉장 스토리지, 뒷좌석 12V 파워 아웃렛
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>● 파노라마 선루프 + 동승석 매뉴얼 시트 높이 조절장치</b>&nbsp;990,000<br><b><br></b><b>● 컨비니언스 패키지</b>&nbsp;630,000<br><b><br></b><b>● S-Link 패키지Ⅰ</b>&nbsp;1,100,000<br><br><b>●&nbsp;</b><b>클라우드 펄 외장컬러&nbsp;</b>170,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>1.6 TCe LE</p></td>
+														
+														<td class="mission"><p>DCT</p></td>
+														<td class="price">
+															<p>
+																<strong>3,015</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>SE 기본 품목 및</b><b><br></b><b><br></b><b>● 외관 :</b>&nbsp;18" 투톤 알로이 휠 &amp; 245/45R 18 타이어, 퍼들 램프<br><br><b>● 내장 :&nbsp;</b>고급형 클러스터(7"/컬러 TFT LCD/디스플레이 가변형), 카본룩/글로시 블랙 그레인, 블랙 가죽시트, 앰비언트 라이트, LED 룸 램프<br><b><br></b><b>● 편의 :</b>&nbsp;Multi-Sense(드라이빙 모드 통합 제어 시스템, 5 모드 : Comfort/Sport/Eco/Neutral/Personal), 웰컴 시스템, 운전석 파워 시트(이지 액세스/메모리/마사지 기능, 전동식 요추 받침장치 포함), 동승석 매뉴얼 시트 높이 조절장치, 뒷좌석 열선시트, 아웃사이드 미러(메모리/후진 자동각도조절 기능 포함), 후방 카메라, 하이패스 시스템(ETCS), 열선 스티어링 휠, 매직 트렁크<br><b><br></b><b>● 멀티미디어 :&nbsp;</b>S-Link 7" 미러링 시스템(7"/컬러 TFT LCD/정전식 터치스크린), 8 스피커(3D 사운드 시스템 포함), 2포트 USB(iPod) 단자
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>● 파노라마 선루프&nbsp;</b>950,000<br><br><b>● S-Link 패키지Ⅱ</b>&nbsp;1,200,000&nbsp;<br><br><b>●&nbsp;LED 라이팅 패키지Ⅱ</b>&nbsp;600,000<br><br><b>● 프리미엄 시트 패키지Ⅰ</b>&nbsp;800,000<br><b><br></b><b>● 드라이빙 어시스트 패키지Ⅰ</b>&nbsp;1,450,000<br><br><b>●&nbsp;</b><b>클라우드 펄 외장컬러&nbsp;</b>170,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>1.6 TCe RE</p></td>
+														
+														<td class="mission"><p>DCT</p></td>
+														<td class="price">
+															<p>
+																<strong>3,260</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>LE 기본 품목 및</b><b><br></b><b><br></b><b>● 안전 :&nbsp;</b>사각지대 경보 시스템(BSW)<br><br><b>● 외관 :&nbsp;</b>19" 투톤 알로이 휠 &amp; 245/40R 19 타이어, LED PURE VISION 헤드 램프, 전방 안개등(코너링 기능 포함), 3D 타입 LED 리어 콤비네이션 램프(차폭등, 제동등, 방향지시등 적용)<br><br><b>● 내장 :</b>&nbsp;센터 컨트롤러(Multi-Sense 크롬 스위치), 앞좌석 프레스티지 헤드레스트, 퀼팅(시트), 다크 우드/글로시 블랙 그레인, 앞좌석 풋웰 램프<br><b><br></b><b>● 편의 :&nbsp;</b>액티브 댐핑 컨트롤(ADC), 앞좌석 통풍시트, 운전석 파워 시트(틸팅 기능/매뉴얼 쿠션익스텐션 포함), 동승석 파워 시트(마사지 기능, 전동식 요추 받침장치 포함), 전방/측방 경보 시스템, 주차 조향보조 시스템(EPA)<br><br><b>● 공조 시스템 :</b>&nbsp;이오나이저, 실내 자동탈취 기능
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>● 파노라마 선루프&nbsp;</b>950,000<br><br><b>● S-Link 패키지Ⅱ&nbsp;</b>1,200,000<br><br><b>● 프리미엄 시트 패키지Ⅱ</b>&nbsp;700,000<br><br><b>● 드라이빙 어시스트 패키지Ⅰ</b>&nbsp;1,450,000<br><br><b>●&nbsp;</b><b>클라우드 펄 외장컬러&nbsp;</b>170,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>1.5 dCi PE</p></td>
+														
+														<td class="mission"><p>DCT</p></td>
+														<td class="price">
+															<p>
+																<strong>2,595</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>2.0 GDe PE 기본 품목 및</b><b><br></b><b><br></b><b>● 파워트레인 :&nbsp;</b>1.5 dCi 엔진(유로6), 6단 EDC 변속기(수동모드 지원), 오토 스탑/스타트 시스템<br><br><b>● 외관 :&nbsp;</b>차음 윈드쉴드 글라스
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>●&nbsp;</b><b>클라우드 펄 외장컬러&nbsp;</b>170,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>1.5 dCi SE</p></td>
+														
+														<td class="mission"><p>DCT</p></td>
+														<td class="price">
+															<p>
+																<strong>2,825</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>PE 기본 품목 및</b><b><br></b><b><br></b><b>● 안전 :&nbsp;</b>전자식 파킹 브레이크(E-PKB)<br><b><br></b><b>● 외관 :</b>&nbsp;17” 알로이 휠 &amp; 225/55R 17 타이어, 그립타입 아웃사이드 도어핸들(크롬&amp;바디컬러)<br><br><b>● 내장 :</b>&nbsp;블랙 인조가죽시트, 가죽 스티어링 휠, 알루미늄 키킹 플레이트, 뒷좌석 분리형 헤드레스트, 뒷좌석 암레스트(스키스루 포함)<br><b><br></b><b>● 편의 :</b>&nbsp;인텔리전트 스마트카드 시스템(버튼 시동/1열 매직핸들/오토 클로징/정전식 터치 잠금), 크루즈 컨트롤/스피드 리미터, 운전석 파워 시트(매뉴얼 요추 받침장치 포함), 전자식 룸미러(ECM), 센터콘솔 내부 냉장 스토리지, 뒷좌석 12V 파워 아웃렛
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>● 파노라마 선루프 + 동승석 매뉴얼 시트높이 조절장치</b>&nbsp;990,000<br><b><br></b><b>● 컨비니언스 패키지&nbsp;</b>630,000<br><br><b>● S-Link 패키지Ⅰ</b>&nbsp;1,100,000<br><br><b>●&nbsp;</b><b>클라우드 펄 외장컬러&nbsp;</b>170,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>1.5 dCi LE</p></td>
+														
+														<td class="mission"><p>DCT</p></td>
+														<td class="price">
+															<p>
+																<strong>3,010</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>SE 기본 품목 및</b><b><br></b><b><br></b><b>● 외관 :&nbsp;</b>18” 투톤 알로이 휠 &amp; 245/45R 18 타이어, 퍼들 램프<br><b><br></b><b>● 내장 :&nbsp;</b>고급형 클러스터(7”/컬러 TFT LCD/디스플레이 가변형), 카본룩/글로시 블랙 그레인, 블랙 가죽시트, 앰비언트 라이트, LED 룸램프<br><br><b>● 편의 :&nbsp;</b>Multi-Sense (드라이빙 모드 통합 제어 시스템, 5 모드 : Comfort/Sport/Eco/Neutral/Personal), 웰컴 시스템, 운전석 파워 시트(이지 액세스/메모리/마사지 기능, 전동식 요추 받침장치 포함), 동승석 매뉴얼 시트높이 조절장치, 뒷좌석 열선시트, 아웃사이드 미러(메모리, 후진 자동각도조절 기능 포함), 후방 카메라, 하이패스 시스템(ETCS), 열선 스티어링 휠, 매직 트렁크<br><br><b>● 멀티미디어 :</b>&nbsp;S-Link 7" 미러링 시스템(7"/컬러 TFT LCD/정전식 터치스크린), 8 스피커(3D 사운드 시스템 포함), 2포트 USB(iPod) 단자
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>● 파노라마 선루프</b>&nbsp;950,000<br><b><br></b><b>● 19" 투톤 알로이 휠 &amp; 245/40R 19타이어 + 액티브 댐핑 컨트롤(ADC)&nbsp;</b>650,000<br><br><b>● S-Link 패키지Ⅱ</b>&nbsp;1,200,000<br><b><br></b><b>● LED 라이팅 패키지Ⅱ&nbsp;</b>600,000<br><br><b>● 프리미엄 시트 패키지Ⅰ</b>&nbsp;800,000<br><br><b>● 드라이빙 어시스트 패키지Ⅱ&nbsp;</b>1,900,000<br><br><b>●&nbsp;</b><b>클라우드 펄 외장컬러&nbsp;</b>170,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>2.0 LPe SE (장애인용)</p></td>
+														
+														<td class="mission"><p>CVT</p></td>
+														<td class="price">
+															<p>
+																<strong>2,360</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>2.0 GDe PE 기본 품목 및 ※ 오토 스탑/스타트 시스템 제외</b><b><br></b><b><br></b><b>● 파워트레인 :</b>&nbsp;2.0 LPe 엔진, 도넛 탱크, 엑스트로닉(Xtronic) 무단 변속기(7단 수동모드 지원)<br><br><b>● 안전 :&nbsp;</b>전자식 파킹 브레이크(E-PKB)<br><br><b>● 외관 :</b>&nbsp;17" 알로이 휠 &amp; 225/55R 17 타이어, 그립타입 아웃사이드 도어핸들(크롬&amp;바디컬러), 차음 윈드쉴드 글라스<br><br><b>● 내장 :</b>&nbsp;블랙 인조가죽시트, 가죽 스티어링 휠, 알루미늄 키킹 플레이트, 뒷좌석 분리형 헤드레스트, 뒷좌석 암레스트(스키스루 포함)<br><br><b>● 편의 :</b>&nbsp;인텔리전트 스마트카드 시스템(버튼 시동/1열 매직핸들/오토 클로징/정전식 터치 잠금), 크루즈 컨트롤/스피드 리미터, 운전석 파워 시트(매뉴얼 요추 받침장치 포함), 전자식 룸미러(ECM), 센터콘솔 내부 냉장 스토리지, 뒷좌석 12V 파워 아웃렛
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>● 파노라마 선루프 + 동승석 매뉴얼 시트 높이 조절장치</b>&nbsp;930,000<br><br><b>● 컨비니언스 패키지</b>&nbsp;600,000<br><br><b>● S-Link 패키지Ⅰ&nbsp;</b>1,030,000<br><br><b>●&nbsp;</b><b>클라우드 펄 외장컬러&nbsp;</b>160,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>2.0 LPe LE (장애인용)</p></td>
+														
+														<td class="mission"><p>CVT</p></td>
+														<td class="price">
+															<p>
+																<strong>2,545</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>SE 기본 품목 및</b><b><br></b><b><br></b><b>● 외관 :&nbsp;</b>18" 투톤 알로이 휠 &amp; 245/45R 18 타이어, 퍼들 램프<br><br><b>● 내장 :&nbsp;</b>고급형 클러스터(7"/컬러 TFT LCD/디스플레이 가변형), 카본룩/글로시 블랙 그레인, 블랙 가죽시트, 앰비언트 라이트, LED 룸램프<br><br><b>● 편의 :</b>&nbsp;Multi-Sense(드라이빙 모드 통합 제어 시스템, 5 모드 : Comfort/Sport/Eco/Neutral/Personal), 웰컴 시스템, 운전석 파워 시트(이지 액세스/메모리/마사지 기능, 전동식 요추 받침장치 포함), 동승석 매뉴얼 시트 높이 조절장치, 뒷좌석 열선시트, 아웃사이드 미러(메모리/후진 자동각도조절 기능 포함), 후방 카메라, 하이패스 시스템(ETCS), 열선 스티어링 휠, 매직 트렁크<br><br><b>● 멀티미디어 :</b>&nbsp;S-Link 7" 미러링 시스템(7"/컬러 TFT LCD/정전식 터치스크린), 8 스피커(3D 사운드 시스템 포함), 2포트 USB(iPod) 단자
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>● 파노라마 선루프</b>&nbsp;900,000<br><b><br></b><b>● S-Link 패키지Ⅱ</b>&nbsp;1,130,000&nbsp;<br><b><br></b><b>●&nbsp;LED 라이팅 패키지Ⅱ&nbsp;</b>570,000<br><b><br></b><b>● 프리미엄 시트 패키지Ⅰ</b>&nbsp;760,000<br><br><b>● 드라이빙 어시스트 패키지Ⅲ</b>&nbsp;660,000<br><br><b>●&nbsp;</b><b>클라우드 펄 외장컬러&nbsp;</b>160,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>2.0 LPe RE (장애인용)</p></td>
+														
+														<td class="mission"><p>CVT</p></td>
+														<td class="price">
+															<p>
+																<strong>2,745</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>LE 기본 품목 및</b><b><br></b><b><br></b><b>● 안전 :&nbsp;</b>사각지대 경보 시스템(BSW)&nbsp;<br><br><b>● 외관 :&nbsp;</b>3D 타입 LED 리어 콤비네이션 램프(차폭등, 제동등, 방향지시등 적용)<br><br><b>● 내장 :&nbsp;</b>앞좌석 프레스티지 헤드레스트, 퀼팅(시트), 다크 우드/글로시 블랙 그레인, 앞좌석 풋웰 램프<br><br><b>● 편의 :</b>&nbsp;앞좌석 통풍시트, 운전석 파워시트(틸팅기능/매뉴얼 쿠션 익스텐션 포함), 동승석 파워 시트(마사지 기능,전동식 요추 받침장치 포함), 전방/측방 경보 시스템, 주차 조향보조 시스템(EPA)<br><br><b>● 공조 시스템 :&nbsp;</b>이오나이저, 실내 자동탈취 기능
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>● 파노라마 선루프&nbsp;</b>900,000<br><br><b>● S-Link 패키지Ⅱ</b>&nbsp;1,130,000<br><br><b>● LED 라이팅 패키지Ⅰ</b>&nbsp;430,000<br><br><b>● 프리미엄 시트 패키지Ⅱ&nbsp;</b>660,000<br><b><br></b><b>● 드라이빙 어시스트 패키지Ⅲ&nbsp;</b>660,000<b><br></b><b><br></b><b>●&nbsp;</b><b>클라우드 펄 외장컬러&nbsp;</b>160,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>2.0 LPe PE (렌터카)</p></td>
+														
+														<td class="mission"><p>CVT</p></td>
+														<td class="price">
+															<p>
+																<strong>2,040</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>● 파워트레인 :</b>&nbsp;2.0 LPe 엔진, 도넛 탱크, 엑스트로닉(Xtronic) 무단 변속기(7단 수동모드 지원)<br><br><b>● 안전 :&nbsp;</b>앞좌석 에어백(운전석/동승석 듀얼 스테이지 스마트 에어백 시스템), 차체자세 제어장치(ESC), 경사로 밀림방지장치(HSA), 타이어 공기압 자동감지 시스템(TPMS), EBD-ABS(BAS 내장), 급제동 경보 시스템(ESS), 매뉴얼 파킹 브레이크, 4륜 디스크 브레이크(프런트 벤틸레이티드), 충돌감지 도어록 해제장치, 차속감응 오토도어록,앞좌석 3점식 시트벨트(싱글 프리텐셔너/로드리미터/리마인드 경고 기능/높이 조절장치 포함), 뒷좌석 3점식 시트벨트, ISOFIX 유아용 시트 고정장치&nbsp;<br><br><b>● 외관 :</b>&nbsp;16” 스틸 휠 &amp; 205/65R 16 타이어, 크롬 라디에이터 그릴, LED 주간주행등, LED 방향지시등(전방), 프로젝션 헤드 램프, LED 리어 콤비네이션 램프(차폭등 적용), LED 보조제동등, LED 방향지시등 일체형 아웃사이드 미러, 그립타입 아웃사이드 도어핸들(바디컬러), 비노출형 머플러<br><br><b>● 내장 :&nbsp;</b>블랙 인테리어, 기본형 클러스터(3.5"/모노 TFT LCD), 실버 페인팅 데코, 블랙 PVC 인조가죽시트, 뒷좌석 시트 일체형 헤드레스트, 맵 램프/룸 램프, 선바이저(거울/운전석 조명), 가죽 변속기 노브, 글로브 박스, 센터콘솔 박스, 도어포켓(앞/뒤), 선글라스 케이스, 카매트<br><b><br></b><b>● 편의 :</b>&nbsp;랙 구동형 전자식 파워 스티어링(R-EPS), 에코 모드 시스템, 후방 경보 시스템, 헤드 램프 에스코트 기능, 오토라이팅 헤드 램프, 레인센싱 와이퍼, 아웃사이드 미러(전동조절/자동접이/열선 기능 포함), 앞좌석 원터치 세이프티 파워 윈도우, 운전석 매뉴얼 시트높이 조절장치, 앞좌석 열선시트, 원터치 트리플 턴 시그널, 수동식 틸트/텔레스코픽 스티어링 휠, 전자식 트렁크/연료주입구 열림장치, 트립 컴퓨터, 폴딩타입 무선 리모컨 키, 타이어 리페어 키트<br><br><b>● 멀티미디어 :&nbsp;</b>기본형 MP3 오디오, 6 스피커, AUX &amp; USB(iPod)단자, 블루투스 핸즈프리(오디오 스트리밍 기능), 스마트폰 음성인식 기능, 스티어링 휠 오디오 리모컨<br><br><b>● 공조 시스템 :</b>&nbsp;좌/우 독립 풀오토 에어컨(상시 습도조절 기능), 컴바인드 에어 필터, 리어 에어 벤트<br><br><b>※&nbsp;렌터카 : 솔리드 화이트, 울트라 실버, 메탈릭 블랙 3종 운영</b>
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>● 17” 알로이 휠 &amp; 225/55R 17 타이어 + 사이드(앞)/커튼 에어백</b>&nbsp;660,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>2.0 LPe SE (렌터카)</p></td>
+														
+														<td class="mission"><p>CVT</p></td>
+														<td class="price">
+															<p>
+																<strong>2,285</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>PE 기본 품목 및</b><b><br></b><b><br></b><b>● 안전 :</b>&nbsp;사이드(앞)/커튼 에어백&nbsp;<br><br><b>● 외관 :</b>&nbsp;16” 알로이 휠, 그립타입 아웃사이드 도어핸들(크롬&amp;바디컬러)<br><b><br></b><b>● 내장 :&nbsp;</b>블랙 인조가죽시트, 가죽 스티어링 휠, 뒷좌석 분리형 헤드레스트, 뒷좌석 암레스트(스키스루 포함), 선바이저(동승석 조명)<br><br><b>● 편의 :&nbsp;</b>인텔리전트 스마트카드 시스템(버튼 시동/1열 매직핸들/오토 클로징/정전식 터치 잠금), 운전석 파워 시트(매뉴얼 요추 받침장치 포함)<br><br><b>※&nbsp;렌터카 : 솔리드 화이트, 울트라 실버, 메탈릭 블랙 3종 운영</b>
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>● 파노라마 선루프 + 동승석 매뉴얼 시트 높이 조절장치</b>&nbsp;930,000<br><br><b>● 17” 알로이 휠 &amp; 225/55R 17 타이어 + 열선 스티어링 휠 + 전자식 룸미러(ECM) + 하이패스 시스템(ETCS)&nbsp;</b>520,000<br><br><b>● S-Link 패키지Ⅰ</b>&nbsp;1,030,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+												</tbody>
+											</table>
+										
+
+
+										<!-- case2 : 세부등급이 있는경우 -->
+										
+									</div>
+									<!-- 신차가격표(폴더형) -->
+									<div id="f_fold" style="display:none;">
+										<div class="newcar_folder">
+											<ul class="nf_list" id="newcarList">
+												
+													<li>
+														<a href="#newcar0">
+                                                            <span class="model">2.0 GDe PE  DCT</span>
+                                                            <span class="prc">
+                                                                <strong>2,440</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar1">
+                                                            <span class="model">2.0 GDe SE  DCT</span>
+                                                            <span class="prc">
+                                                                <strong>2,675</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar2">
+                                                            <span class="model">2.0 GDe LE  DCT</span>
+                                                            <span class="prc">
+                                                                <strong>2,860</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar3">
+                                                            <span class="model">2.0 GDe RE  DCT</span>
+                                                            <span class="prc">
+                                                                <strong>3,060</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar4">
+                                                            <span class="model">1.6 TCe SE  DCT</span>
+                                                            <span class="prc">
+                                                                <strong>2,830</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar5">
+                                                            <span class="model">1.6 TCe LE  DCT</span>
+                                                            <span class="prc">
+                                                                <strong>3,015</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar6">
+                                                            <span class="model">1.6 TCe RE  DCT</span>
+                                                            <span class="prc">
+                                                                <strong>3,260</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar7">
+                                                            <span class="model">1.5 dCi PE  DCT</span>
+                                                            <span class="prc">
+                                                                <strong>2,595</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar8">
+                                                            <span class="model">1.5 dCi SE  DCT</span>
+                                                            <span class="prc">
+                                                                <strong>2,825</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar9">
+                                                            <span class="model">1.5 dCi LE  DCT</span>
+                                                            <span class="prc">
+                                                                <strong>3,010</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar10">
+                                                            <span class="model">2.0 LPe SE (장애인용)  CVT</span>
+                                                            <span class="prc">
+                                                                <strong>2,360</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar11">
+                                                            <span class="model">2.0 LPe LE (장애인용)  CVT</span>
+                                                            <span class="prc">
+                                                                <strong>2,545</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar12">
+                                                            <span class="model">2.0 LPe RE (장애인용)  CVT</span>
+                                                            <span class="prc">
+                                                                <strong>2,745</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar13">
+                                                            <span class="model">2.0 LPe PE (렌터카)  CVT</span>
+                                                            <span class="prc">
+                                                                <strong>2,040</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar14">
+                                                            <span class="model">2.0 LPe SE (렌터카)  CVT</span>
+                                                            <span class="prc">
+                                                                <strong>2,285</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+											</ul>
+											<!-- 개별 -->
+											
+												<div id="newcar0" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>● 파워트레인 :&nbsp;</b>2.0 GDe 엔진, 7단 EDC 변속기(수동모드 지원), 오토 스탑/스타트 시스템&nbsp;<br><br><b>● 안전 :&nbsp;</b>앞좌석 에어백(운전석/동승석 듀얼 스테이지 스마트 에어백 시스템), 사이드(앞)/커튼 에어백, 차체자세 제어장치(ESC), 경사로 밀림방지장치(HSA), 타이어 공기압 자동감지 시스템, EBD-ABS(BAS 내장), 급제동 경보 시스템(ESS), 매뉴얼 파킹 브레이크, 4륜 디스크 브레이크(프런트 벤틸레이티드), 충돌감지 도어록 해제장치, 차속감응 오토도어록, 앞좌석 3점식 시트벨트(듀얼 프리텐셔너/로드리미터/리마인드 경고 기능/높이 조절장치 포함), 뒷좌석 3점식 시트벨트, ISOFIX 유아용 시트 고정장치<br><br><b>● 외관 :&nbsp;</b>16" 알로이 휠 &amp; 205/65R 16 타이어, 크롬 라디에이터 그릴, LED 주간주행등, LED 방향 지시등(전방), 프로젝션 헤드 램프, LED 리어 콤비네이션 램프(차폭등 적용), LED 보조제동등, LED 방향지시등 일체형 아웃사이드 미러, 그립타입 아웃사이드 도어핸들(바디컬러), 비노출형 머플러<br><b><br>● 내장 :</b>&nbsp;블랙 인테리어, 기본형 클러스터(3.5"/모노 TFT LCD), 실버 페인팅 데코, 블랙 직물시트, 뒷좌석 시트 일체형 헤드레스트, 맵 램프/룸 램프, 선바이저(거울/조명), 가죽 변속기 노브, 글러브 박스, 센터콘솔 박스, 도어포켓(앞/뒤), 선글라스 케이스, 카매트<br><b><br></b><b>● 편의 :</b>&nbsp;구동형 전자식 파워 스티어링(R-EPS), 에코 모드 시스템, 후방 경보 시스템, 헤드 램프 에스코트 기능, 오토라이팅 헤드 램프, 레인센싱 와이퍼, 아웃사이드 미러(전동조절/자동접이/열선 기능 포함), 앞좌석 원터치 세이프티 파워 윈도우, 운전석 매뉴얼 시트 높이 조절장치, 앞좌석 열선시트, 원터치 트리플 턴 시그널, 수동식 틸트/텔레스코픽 스티어링 휠, 전자식 트렁크/연료주입구 열림장치, 트립 컴퓨터, 폴딩타입 무선 리모컨 키, 타이어 리페어 키트<br><br><b>● 멀티미디어 :</b>&nbsp;기본형 MP3 오디오, 6 스피커, AUX &amp; USB(iPod)단자, 블루투스 핸즈프리(오디오 스트리밍 기능), 스마트폰 음성인식 기능, 스티어링 휠 오디오 리모컨&nbsp;<br><b><br></b><b>● 공조 시스템 :&nbsp;</b>좌/우 독립 풀오토 에어컨(상시 습도조절 기능), 컴바인드 에어 필터, 리어 에어 벤트</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>●&nbsp;</b><b>클라우드 펄 외장컬러&nbsp;</b>170,000</p>
+												</div>
+											
+												<div id="newcar1" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>PE 기본 품목 및</b><b><br></b><b><br></b><b>● 안전 :</b>&nbsp;전자식 파킹 브레이크(E-PKB)<br><b><br></b><b>● 외관 :&nbsp;</b>17" 알로이 휠 &amp; 225/55R 17 타이어, 그립타입 아웃사이드 도어핸들(크롬&amp;바디컬러), 차음 윈드쉴드 글라스<br><br><b>● 내장 :&nbsp;</b>블랙 인조가죽시트, 가죽 스티어링 휠, 알루미늄 키킹 플레이트, 뒷좌석 분리형 헤드레스트, 뒷좌석 암레스트(스키스루 포함)<br><b><br></b><b>● 편의 :&nbsp;</b>인텔리전트 스마트카드 시스템(버튼 시동/1열 매직핸들/오토 클로징/정전식 터치 잠금), 크루즈 컨트롤/스피드 리미터, 운전석 파워 시트(매뉴얼 요추 받침장치 포함), 전자식 룸미러(ECM), 센터콘솔 내부 냉장 스토리지, 뒷좌석 12V 파워 아웃렛</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>● 파노라마 선루프 + 동승석 매뉴얼 시트 높이 조절장치</b>&nbsp;990,000<br><b><br></b><b>● 컨비니언스 패키지</b>&nbsp;630,000<br><b><br></b><b>● S-Link 패키지Ⅰ</b>&nbsp;1,100,000<br><br><b>●&nbsp;</b><b>클라우드 펄 외장컬러&nbsp;</b>170,000</p>
+												</div>
+											
+												<div id="newcar2" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>SE 기본 품목 및</b><b><br></b><b><br></b><b>● 외관 :&nbsp;</b>18" 투톤 알로이 휠 &amp; 245/45R 18 타이어, 퍼들 램프<br><br><b>● 내장 :&nbsp;</b>고급형 클러스터(7"/컬러 TFT LCD/디스플레이 가변형), 카본룩/글로시 블랙 그레인, 블랙 가죽시트, 앰비언트 라이트, LED 룸램프<br><br><b>● 편의 :</b>&nbsp;Multi-Sense(드라이빙 모드 통합 제어 시스템, 5 모드 : Comfort/Sport/Eco/Neutral/Personal), 웰컴 시스템, 운전석 파워 시트(이지 액세스/메모리/마사지 기능, 전동식 요추 받침장치 포함), 동승석 매뉴얼 시트 높이 조절장치, 뒷좌석 열선시트, 아웃사이드 미러(메모리/후진 자동각도조절 기능 포함), 후방 카메라, 하이패스 시스템(ETCS), 열선 스티어링 휠, 매직 트렁크<br><br><b>● 멀티미디어 :&nbsp;</b>S-Link 7" 미러링 시스템(7"/컬러 TFT LCD/정전식 터치스크린), 8 스피커(3D 사운드 시스템 포함), 2포트 USB(iPod) 단자</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>● 파노라마 선루프</b>&nbsp;950,000<br><br><b>● S-Link 패키지Ⅱ&nbsp;</b>1,200,000<br><br><b>●&nbsp;LED 라이팅 패키지Ⅱ</b>&nbsp;600,000&nbsp;<br><br><b>● 프리미엄 시트 패키지Ⅰ</b>&nbsp;800,000<br><b><br></b><b>● 드라이빙 어시스트 패키지Ⅰ</b>&nbsp;1,450,000&nbsp;<br><br><b>●&nbsp;</b><b>클라우드 펄 외장컬러&nbsp;</b>170,000</p>
+												</div>
+											
+												<div id="newcar3" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>LE 기본 품목 및</b><b><br></b><b><br></b><b>● 안전 :&nbsp;</b>사각지대 경보 시스템(BSW)<br><br><b>● 외관 :&nbsp;</b>3D 타입 LED 리어 콤비네이션 램프(차폭등, 제동등, 방향지시등 적용)<br><br><b>● 내장 :&nbsp;</b>앞좌석 프레스티지 헤드레스트, 퀼팅(시트), 다크 우드/글로시 블랙 그레인, 앞좌석 풋웰 램프<br><br><b>● 편의 :</b>&nbsp;앞좌석 통풍시트, 운전석 파워 시트(틸팅 기능/매뉴얼 쿠션 익스텐션 포함), 동승석 파워 시트(마사지 기능, 전동식 요추 받침장치 포함), 전방/측방 경보 시스템, 주차 조향보조 시스템(EPA)<br><b><br></b><b>● 공조 시스템 :&nbsp;</b>이오나이저, 실내 자동탈취 기능</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>● 파노라마 선루프&nbsp;</b>950,000<br><br><b>● 19" 투톤 알로이 휠 &amp; 245/40R 19타이어 + 액티브 댐핑 컨트롤(ADC)</b>&nbsp;650,000<br><b><br></b><b>● S-Link 패키지Ⅱ&nbsp;</b>1,200,000<br><b><br></b><b>● LED 라이팅 패키지Ⅰ</b>&nbsp;450,000<br><b><br></b><b>● 프리미엄 시트 패키지Ⅱ&nbsp;</b>700,000<br><b><br></b><b>● 드라이빙 어시스트 패키지Ⅰ</b>&nbsp;1,450,000&nbsp;<br><br><b>●&nbsp;</b><b>클라우드 펄 외장컬러&nbsp;</b>170,000</p>
+												</div>
+											
+												<div id="newcar4" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>2.0 GDe PE 기본 품목 및</b><b><br></b><b><br></b><b>● 파워트레인 :&nbsp;</b>1.6 TCe 엔진, 7단 EDC 변속기(수동모드 지원), 오토 스탑/스타트 시스템<br><br><b>● 안전 :&nbsp;</b>전자식 파킹 브레이크(E-PKB)<br><br><b>● 외관 :</b>&nbsp;17" 알로이 휠 &amp; 225/55R 17 타이어, 그립타입 아웃사이드 도어핸들(크롬&amp;바디컬러), 차음 윈드쉴드 글라스, 트윈 머플러 데코 피니셔<br><br><b>● 내장 :&nbsp;</b>블랙 인조가죽시트, 가죽 스티어링 휠, 알루미늄 키킹 플레이트, 뒷좌석 분리형 헤드레스트, 뒷좌석 암레스트(스키스루 포함)<br><br><b>● 편의 :</b>&nbsp;인텔리전트 스마트카드 시스템(버튼 시동/1열 매직핸들/오토 클로징/정전식 터치 잠금), 크루즈 컨트롤/스피드 리미터, 운전석 파워 시트(매뉴얼 요추 받침장치 포함), 전자식 룸미러(ECM), 센터콘솔 내부 냉장 스토리지, 뒷좌석 12V 파워 아웃렛</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>● 파노라마 선루프 + 동승석 매뉴얼 시트 높이 조절장치</b>&nbsp;990,000<br><b><br></b><b>● 컨비니언스 패키지</b>&nbsp;630,000<br><b><br></b><b>● S-Link 패키지Ⅰ</b>&nbsp;1,100,000<br><br><b>●&nbsp;</b><b>클라우드 펄 외장컬러&nbsp;</b>170,000</p>
+												</div>
+											
+												<div id="newcar5" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>SE 기본 품목 및</b><b><br></b><b><br></b><b>● 외관 :</b>&nbsp;18" 투톤 알로이 휠 &amp; 245/45R 18 타이어, 퍼들 램프<br><br><b>● 내장 :&nbsp;</b>고급형 클러스터(7"/컬러 TFT LCD/디스플레이 가변형), 카본룩/글로시 블랙 그레인, 블랙 가죽시트, 앰비언트 라이트, LED 룸 램프<br><b><br></b><b>● 편의 :</b>&nbsp;Multi-Sense(드라이빙 모드 통합 제어 시스템, 5 모드 : Comfort/Sport/Eco/Neutral/Personal), 웰컴 시스템, 운전석 파워 시트(이지 액세스/메모리/마사지 기능, 전동식 요추 받침장치 포함), 동승석 매뉴얼 시트 높이 조절장치, 뒷좌석 열선시트, 아웃사이드 미러(메모리/후진 자동각도조절 기능 포함), 후방 카메라, 하이패스 시스템(ETCS), 열선 스티어링 휠, 매직 트렁크<br><b><br></b><b>● 멀티미디어 :&nbsp;</b>S-Link 7" 미러링 시스템(7"/컬러 TFT LCD/정전식 터치스크린), 8 스피커(3D 사운드 시스템 포함), 2포트 USB(iPod) 단자</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>● 파노라마 선루프&nbsp;</b>950,000<br><br><b>● S-Link 패키지Ⅱ</b>&nbsp;1,200,000&nbsp;<br><br><b>●&nbsp;LED 라이팅 패키지Ⅱ</b>&nbsp;600,000<br><br><b>● 프리미엄 시트 패키지Ⅰ</b>&nbsp;800,000<br><b><br></b><b>● 드라이빙 어시스트 패키지Ⅰ</b>&nbsp;1,450,000<br><br><b>●&nbsp;</b><b>클라우드 펄 외장컬러&nbsp;</b>170,000</p>
+												</div>
+											
+												<div id="newcar6" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>LE 기본 품목 및</b><b><br></b><b><br></b><b>● 안전 :&nbsp;</b>사각지대 경보 시스템(BSW)<br><br><b>● 외관 :&nbsp;</b>19" 투톤 알로이 휠 &amp; 245/40R 19 타이어, LED PURE VISION 헤드 램프, 전방 안개등(코너링 기능 포함), 3D 타입 LED 리어 콤비네이션 램프(차폭등, 제동등, 방향지시등 적용)<br><br><b>● 내장 :</b>&nbsp;센터 컨트롤러(Multi-Sense 크롬 스위치), 앞좌석 프레스티지 헤드레스트, 퀼팅(시트), 다크 우드/글로시 블랙 그레인, 앞좌석 풋웰 램프<br><b><br></b><b>● 편의 :&nbsp;</b>액티브 댐핑 컨트롤(ADC), 앞좌석 통풍시트, 운전석 파워 시트(틸팅 기능/매뉴얼 쿠션익스텐션 포함), 동승석 파워 시트(마사지 기능, 전동식 요추 받침장치 포함), 전방/측방 경보 시스템, 주차 조향보조 시스템(EPA)<br><br><b>● 공조 시스템 :</b>&nbsp;이오나이저, 실내 자동탈취 기능</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>● 파노라마 선루프&nbsp;</b>950,000<br><br><b>● S-Link 패키지Ⅱ&nbsp;</b>1,200,000<br><br><b>● 프리미엄 시트 패키지Ⅱ</b>&nbsp;700,000<br><br><b>● 드라이빙 어시스트 패키지Ⅰ</b>&nbsp;1,450,000<br><br><b>●&nbsp;</b><b>클라우드 펄 외장컬러&nbsp;</b>170,000</p>
+												</div>
+											
+												<div id="newcar7" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>2.0 GDe PE 기본 품목 및</b><b><br></b><b><br></b><b>● 파워트레인 :&nbsp;</b>1.5 dCi 엔진(유로6), 6단 EDC 변속기(수동모드 지원), 오토 스탑/스타트 시스템<br><br><b>● 외관 :&nbsp;</b>차음 윈드쉴드 글라스</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>●&nbsp;</b><b>클라우드 펄 외장컬러&nbsp;</b>170,000</p>
+												</div>
+											
+												<div id="newcar8" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>PE 기본 품목 및</b><b><br></b><b><br></b><b>● 안전 :&nbsp;</b>전자식 파킹 브레이크(E-PKB)<br><b><br></b><b>● 외관 :</b>&nbsp;17” 알로이 휠 &amp; 225/55R 17 타이어, 그립타입 아웃사이드 도어핸들(크롬&amp;바디컬러)<br><br><b>● 내장 :</b>&nbsp;블랙 인조가죽시트, 가죽 스티어링 휠, 알루미늄 키킹 플레이트, 뒷좌석 분리형 헤드레스트, 뒷좌석 암레스트(스키스루 포함)<br><b><br></b><b>● 편의 :</b>&nbsp;인텔리전트 스마트카드 시스템(버튼 시동/1열 매직핸들/오토 클로징/정전식 터치 잠금), 크루즈 컨트롤/스피드 리미터, 운전석 파워 시트(매뉴얼 요추 받침장치 포함), 전자식 룸미러(ECM), 센터콘솔 내부 냉장 스토리지, 뒷좌석 12V 파워 아웃렛</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>● 파노라마 선루프 + 동승석 매뉴얼 시트높이 조절장치</b>&nbsp;990,000<br><b><br></b><b>● 컨비니언스 패키지&nbsp;</b>630,000<br><br><b>● S-Link 패키지Ⅰ</b>&nbsp;1,100,000<br><br><b>●&nbsp;</b><b>클라우드 펄 외장컬러&nbsp;</b>170,000</p>
+												</div>
+											
+												<div id="newcar9" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>SE 기본 품목 및</b><b><br></b><b><br></b><b>● 외관 :&nbsp;</b>18” 투톤 알로이 휠 &amp; 245/45R 18 타이어, 퍼들 램프<br><b><br></b><b>● 내장 :&nbsp;</b>고급형 클러스터(7”/컬러 TFT LCD/디스플레이 가변형), 카본룩/글로시 블랙 그레인, 블랙 가죽시트, 앰비언트 라이트, LED 룸램프<br><br><b>● 편의 :&nbsp;</b>Multi-Sense (드라이빙 모드 통합 제어 시스템, 5 모드 : Comfort/Sport/Eco/Neutral/Personal), 웰컴 시스템, 운전석 파워 시트(이지 액세스/메모리/마사지 기능, 전동식 요추 받침장치 포함), 동승석 매뉴얼 시트높이 조절장치, 뒷좌석 열선시트, 아웃사이드 미러(메모리, 후진 자동각도조절 기능 포함), 후방 카메라, 하이패스 시스템(ETCS), 열선 스티어링 휠, 매직 트렁크<br><br><b>● 멀티미디어 :</b>&nbsp;S-Link 7" 미러링 시스템(7"/컬러 TFT LCD/정전식 터치스크린), 8 스피커(3D 사운드 시스템 포함), 2포트 USB(iPod) 단자</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>● 파노라마 선루프</b>&nbsp;950,000<br><b><br></b><b>● 19" 투톤 알로이 휠 &amp; 245/40R 19타이어 + 액티브 댐핑 컨트롤(ADC)&nbsp;</b>650,000<br><br><b>● S-Link 패키지Ⅱ</b>&nbsp;1,200,000<br><b><br></b><b>● LED 라이팅 패키지Ⅱ&nbsp;</b>600,000<br><br><b>● 프리미엄 시트 패키지Ⅰ</b>&nbsp;800,000<br><br><b>● 드라이빙 어시스트 패키지Ⅱ&nbsp;</b>1,900,000<br><br><b>●&nbsp;</b><b>클라우드 펄 외장컬러&nbsp;</b>170,000</p>
+												</div>
+											
+												<div id="newcar10" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>2.0 GDe PE 기본 품목 및 ※ 오토 스탑/스타트 시스템 제외</b><b><br></b><b><br></b><b>● 파워트레인 :</b>&nbsp;2.0 LPe 엔진, 도넛 탱크, 엑스트로닉(Xtronic) 무단 변속기(7단 수동모드 지원)<br><br><b>● 안전 :&nbsp;</b>전자식 파킹 브레이크(E-PKB)<br><br><b>● 외관 :</b>&nbsp;17" 알로이 휠 &amp; 225/55R 17 타이어, 그립타입 아웃사이드 도어핸들(크롬&amp;바디컬러), 차음 윈드쉴드 글라스<br><br><b>● 내장 :</b>&nbsp;블랙 인조가죽시트, 가죽 스티어링 휠, 알루미늄 키킹 플레이트, 뒷좌석 분리형 헤드레스트, 뒷좌석 암레스트(스키스루 포함)<br><br><b>● 편의 :</b>&nbsp;인텔리전트 스마트카드 시스템(버튼 시동/1열 매직핸들/오토 클로징/정전식 터치 잠금), 크루즈 컨트롤/스피드 리미터, 운전석 파워 시트(매뉴얼 요추 받침장치 포함), 전자식 룸미러(ECM), 센터콘솔 내부 냉장 스토리지, 뒷좌석 12V 파워 아웃렛</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>● 파노라마 선루프 + 동승석 매뉴얼 시트 높이 조절장치</b>&nbsp;930,000<br><br><b>● 컨비니언스 패키지</b>&nbsp;600,000<br><br><b>● S-Link 패키지Ⅰ&nbsp;</b>1,030,000<br><br><b>●&nbsp;</b><b>클라우드 펄 외장컬러&nbsp;</b>160,000</p>
+												</div>
+											
+												<div id="newcar11" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>SE 기본 품목 및</b><b><br></b><b><br></b><b>● 외관 :&nbsp;</b>18" 투톤 알로이 휠 &amp; 245/45R 18 타이어, 퍼들 램프<br><br><b>● 내장 :&nbsp;</b>고급형 클러스터(7"/컬러 TFT LCD/디스플레이 가변형), 카본룩/글로시 블랙 그레인, 블랙 가죽시트, 앰비언트 라이트, LED 룸램프<br><br><b>● 편의 :</b>&nbsp;Multi-Sense(드라이빙 모드 통합 제어 시스템, 5 모드 : Comfort/Sport/Eco/Neutral/Personal), 웰컴 시스템, 운전석 파워 시트(이지 액세스/메모리/마사지 기능, 전동식 요추 받침장치 포함), 동승석 매뉴얼 시트 높이 조절장치, 뒷좌석 열선시트, 아웃사이드 미러(메모리/후진 자동각도조절 기능 포함), 후방 카메라, 하이패스 시스템(ETCS), 열선 스티어링 휠, 매직 트렁크<br><br><b>● 멀티미디어 :</b>&nbsp;S-Link 7" 미러링 시스템(7"/컬러 TFT LCD/정전식 터치스크린), 8 스피커(3D 사운드 시스템 포함), 2포트 USB(iPod) 단자</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>● 파노라마 선루프</b>&nbsp;900,000<br><b><br></b><b>● S-Link 패키지Ⅱ</b>&nbsp;1,130,000&nbsp;<br><b><br></b><b>●&nbsp;LED 라이팅 패키지Ⅱ&nbsp;</b>570,000<br><b><br></b><b>● 프리미엄 시트 패키지Ⅰ</b>&nbsp;760,000<br><br><b>● 드라이빙 어시스트 패키지Ⅲ</b>&nbsp;660,000<br><br><b>●&nbsp;</b><b>클라우드 펄 외장컬러&nbsp;</b>160,000</p>
+												</div>
+											
+												<div id="newcar12" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>LE 기본 품목 및</b><b><br></b><b><br></b><b>● 안전 :&nbsp;</b>사각지대 경보 시스템(BSW)&nbsp;<br><br><b>● 외관 :&nbsp;</b>3D 타입 LED 리어 콤비네이션 램프(차폭등, 제동등, 방향지시등 적용)<br><br><b>● 내장 :&nbsp;</b>앞좌석 프레스티지 헤드레스트, 퀼팅(시트), 다크 우드/글로시 블랙 그레인, 앞좌석 풋웰 램프<br><br><b>● 편의 :</b>&nbsp;앞좌석 통풍시트, 운전석 파워시트(틸팅기능/매뉴얼 쿠션 익스텐션 포함), 동승석 파워 시트(마사지 기능,전동식 요추 받침장치 포함), 전방/측방 경보 시스템, 주차 조향보조 시스템(EPA)<br><br><b>● 공조 시스템 :&nbsp;</b>이오나이저, 실내 자동탈취 기능</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>● 파노라마 선루프&nbsp;</b>900,000<br><br><b>● S-Link 패키지Ⅱ</b>&nbsp;1,130,000<br><br><b>● LED 라이팅 패키지Ⅰ</b>&nbsp;430,000<br><br><b>● 프리미엄 시트 패키지Ⅱ&nbsp;</b>660,000<br><b><br></b><b>● 드라이빙 어시스트 패키지Ⅲ&nbsp;</b>660,000<b><br></b><b><br></b><b>●&nbsp;</b><b>클라우드 펄 외장컬러&nbsp;</b>160,000</p>
+												</div>
+											
+												<div id="newcar13" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>● 파워트레인 :</b>&nbsp;2.0 LPe 엔진, 도넛 탱크, 엑스트로닉(Xtronic) 무단 변속기(7단 수동모드 지원)<br><br><b>● 안전 :&nbsp;</b>앞좌석 에어백(운전석/동승석 듀얼 스테이지 스마트 에어백 시스템), 차체자세 제어장치(ESC), 경사로 밀림방지장치(HSA), 타이어 공기압 자동감지 시스템(TPMS), EBD-ABS(BAS 내장), 급제동 경보 시스템(ESS), 매뉴얼 파킹 브레이크, 4륜 디스크 브레이크(프런트 벤틸레이티드), 충돌감지 도어록 해제장치, 차속감응 오토도어록,앞좌석 3점식 시트벨트(싱글 프리텐셔너/로드리미터/리마인드 경고 기능/높이 조절장치 포함), 뒷좌석 3점식 시트벨트, ISOFIX 유아용 시트 고정장치&nbsp;<br><br><b>● 외관 :</b>&nbsp;16” 스틸 휠 &amp; 205/65R 16 타이어, 크롬 라디에이터 그릴, LED 주간주행등, LED 방향지시등(전방), 프로젝션 헤드 램프, LED 리어 콤비네이션 램프(차폭등 적용), LED 보조제동등, LED 방향지시등 일체형 아웃사이드 미러, 그립타입 아웃사이드 도어핸들(바디컬러), 비노출형 머플러<br><br><b>● 내장 :&nbsp;</b>블랙 인테리어, 기본형 클러스터(3.5"/모노 TFT LCD), 실버 페인팅 데코, 블랙 PVC 인조가죽시트, 뒷좌석 시트 일체형 헤드레스트, 맵 램프/룸 램프, 선바이저(거울/운전석 조명), 가죽 변속기 노브, 글로브 박스, 센터콘솔 박스, 도어포켓(앞/뒤), 선글라스 케이스, 카매트<br><b><br></b><b>● 편의 :</b>&nbsp;랙 구동형 전자식 파워 스티어링(R-EPS), 에코 모드 시스템, 후방 경보 시스템, 헤드 램프 에스코트 기능, 오토라이팅 헤드 램프, 레인센싱 와이퍼, 아웃사이드 미러(전동조절/자동접이/열선 기능 포함), 앞좌석 원터치 세이프티 파워 윈도우, 운전석 매뉴얼 시트높이 조절장치, 앞좌석 열선시트, 원터치 트리플 턴 시그널, 수동식 틸트/텔레스코픽 스티어링 휠, 전자식 트렁크/연료주입구 열림장치, 트립 컴퓨터, 폴딩타입 무선 리모컨 키, 타이어 리페어 키트<br><br><b>● 멀티미디어 :&nbsp;</b>기본형 MP3 오디오, 6 스피커, AUX &amp; USB(iPod)단자, 블루투스 핸즈프리(오디오 스트리밍 기능), 스마트폰 음성인식 기능, 스티어링 휠 오디오 리모컨<br><br><b>● 공조 시스템 :</b>&nbsp;좌/우 독립 풀오토 에어컨(상시 습도조절 기능), 컴바인드 에어 필터, 리어 에어 벤트<br><br><b>※&nbsp;렌터카 : 솔리드 화이트, 울트라 실버, 메탈릭 블랙 3종 운영</b></p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>● 17” 알로이 휠 &amp; 225/55R 17 타이어 + 사이드(앞)/커튼 에어백</b>&nbsp;660,000</p>
+												</div>
+											
+												<div id="newcar14" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>PE 기본 품목 및</b><b><br></b><b><br></b><b>● 안전 :</b>&nbsp;사이드(앞)/커튼 에어백&nbsp;<br><br><b>● 외관 :</b>&nbsp;16” 알로이 휠, 그립타입 아웃사이드 도어핸들(크롬&amp;바디컬러)<br><b><br></b><b>● 내장 :&nbsp;</b>블랙 인조가죽시트, 가죽 스티어링 휠, 뒷좌석 분리형 헤드레스트, 뒷좌석 암레스트(스키스루 포함), 선바이저(동승석 조명)<br><br><b>● 편의 :&nbsp;</b>인텔리전트 스마트카드 시스템(버튼 시동/1열 매직핸들/오토 클로징/정전식 터치 잠금), 운전석 파워 시트(매뉴얼 요추 받침장치 포함)<br><br><b>※&nbsp;렌터카 : 솔리드 화이트, 울트라 실버, 메탈릭 블랙 3종 운영</b></p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>● 파노라마 선루프 + 동승석 매뉴얼 시트 높이 조절장치</b>&nbsp;930,000<br><br><b>● 17” 알로이 휠 &amp; 225/55R 17 타이어 + 열선 스티어링 휠 + 전자식 룸미러(ECM) + 하이패스 시스템(ETCS)&nbsp;</b>520,000<br><br><b>● S-Link 패키지Ⅰ</b>&nbsp;1,030,000</p>
+												</div>
+											
+										</div>
+										<script type="text/javascript">
+											newcarFolder(0);//초기값
+											function newcarFolder(target) {
+												var conElId = "newcar"//아이디 설정
+												var conElMenu = document.getElementById("newcarList");
+												var conElMenuLink = conElMenu.getElementsByTagName("a");
+												if (target != null) {
+													conElMenuLink[target].parentNode.className = "on";
+													document.getElementById(
+														conElId + target).style.display = "";
+												}
+												for (i = 0; i <= (conElMenuLink.length - 1); i++) {
+													conElMenuLink[i].onclick = function () {
+														for (x = 0; x <= (conElMenuLink.length - 1); x++) {
+															conElMenuLink[x].parentNode.className = "";
+															document.getElementById(
+																conElId + x).style.display = "none";
+														}
+														this.parentNode.className = "on";
+														document.getElementById(this.getAttribute('href')
+																					.split(
+																						'#')[1]).style.display =
+															"";
+														return false;
+													}
+												}
+											}
+										</script>
+									</div>
+									
+										<ul class="more">
+												<b>※ 2.0 GDe&nbsp;<br>● 클라우드 펄 외장컬러 선택 시 추가비용 ￦ 170,000<br></b><b>●&nbsp;컨비니언스 패키지 -</b>&nbsp;18" 투톤 알로이 휠 &amp; 245/45R 18 타이어 + 열선 스티어링 휠 + 하이패스 시스템(ETCS) + 매직 트렁크&nbsp;<br><b>●&nbsp;S-Link 패키지&nbsp;<br></b>* S-Link 패키지Ⅰ - S-Link 8.7" 내비게이션 라이트 + 후방 카메라 + CD 플레이어 + 운전석 이지 액세스&nbsp;<br>* S-Link 패키지Ⅱ - S-Link 8.7" 내비게이션 + BOSE 서라운드 사운드 시스템(13 스피커) + CD 플레이어 + 뒷유리 매뉴얼 선블라인드&nbsp;<br><b>●&nbsp;LED 라이팅 패키지&nbsp;</b>&nbsp;<br>* LED 라이팅 패키지Ⅰ&nbsp;-&nbsp;LED PURE VISION 헤드 램프 + 전방 안개등(코너링 기능 포함)&nbsp;&nbsp;<br>* LED 라이팅 패키지Ⅱ -&nbsp;LED PURE VISION 헤드 램프 + 3D 타입 LED 리어 콤비네이션 램프 + 전방 안개등(코너링 기능 포함)&nbsp;<br><b>●&nbsp;프리미엄 시트 패키지&nbsp;</b><br>* 프리미엄 시트 패키지Ⅰ - 퀼팅(시트) + 앞좌석 통풍시트 + 운전석 파워 시트(틸팅 기능/매뉴얼 쿠션 익스텐션 포함) + 동승석 파워 시트(마사지 기능/전동식 요추 받침장치 포함) + 앞좌석 프레스티지 헤드레스트 + 이오나이저&nbsp;<br>* 프리미엄 시트 패키지 Ⅱ - 라이트 그레이 나파가죽시트 + 퀼팅(시트/대시보드/도어트림) + 뒷좌석 프레스티지 헤드레스트&nbsp;<br><b>●&nbsp;드라이빙 어시스트 패키지 Ⅰ -</b>&nbsp;자동 긴급제동 시스템(AEBS) + 차간거리 경보 시스템(DW) + 어댑티브 크루즈 컨트롤(ACC) + 차선이탈 경보 시스템(LDW) + 오토매틱 하이빔(AHL) + 헤드업 디스플레이(HUD)&nbsp;&nbsp;&nbsp;<br><br><b>※ 1.6 TCe&nbsp;</b><br><b>● 클라우드 펄 외장컬러 선택 시 추가비용 ￦ 170,000&nbsp;</b><br><b>●&nbsp;컨비니언스 패키지 -&nbsp;</b>18" 투톤 알로이 휠 &amp; 245/45R 18 타이어 + 열선 스티어링 휠 + 하이패스 시스템(ETCS) + 매직 트렁크&nbsp;<br><b>●&nbsp;S-Link 패키지&nbsp;<br></b>* S-Link 패키지Ⅰ - S-Link 8.7" 내비게이션 라이트 + 후방 카메라 + CD 플레이어 + 운전석 이지 액세스&nbsp;<br>* S-Link 패키지Ⅱ - S-Link 8.7" 내비게이션 + BOSE 서라운드 사운드 시스템(13 스피커) + CD 플레이어 + 뒷유리 매뉴얼 선블라인드&nbsp;&nbsp;<br><b>●&nbsp;LED 라이팅 패키지Ⅱ -</b>&nbsp;LED PURE VISION 헤드 램프 + 3D 타입 LED 리어 콤비네이션 램프 + 전방 안개등(코너링 기능 포함)&nbsp;<br><b>●&nbsp;프리미엄 시트 패키지&nbsp;<br></b>* 프리미엄 시트 패키지Ⅰ - 퀼팅(시트) + 앞좌석 통풍시트 + 운전석 파워 시트(틸팅 기능/매뉴얼 쿠션 익스텐션 포함) + 동승석 파워 시트(마사지 기능/전동식 요추 받침장치 포함) + 앞좌석 프레스티지 헤드레스트 + 이오나이저&nbsp;<br>* 프리미엄 시트 패키지 Ⅱ - 라이트 그레이 나파가죽시트 + 퀼팅(시트/대시보드/도어트림) + 뒷좌석 프레스티지 헤드레스트&nbsp;<br><b>●&nbsp;드라이빙 어시스트 패키지 Ⅰ -&nbsp;</b>자동 긴급제동 시스템(AEBS) + 차간거리 경보 시스템(DW) + 어댑티브 크루즈 컨트롤(ACC) + 차선이탈 경보 시스템(LDW) + 오토매틱 하이빔(AHL) + 헤드업 디스플레이(HUD)&nbsp;&nbsp;<br><br><b>※ 1.5 dCi&nbsp;</b><br><b>● 클라우드 펄 외장컬러 선택 시 추가비용 ￦ 170,000&nbsp;</b>&nbsp;<br><b>●&nbsp;컨비니언스 패키지 -</b>&nbsp;18" 투톤 알로이 휠 &amp; 245/45R 18 타이어 + 열선 스티어링 휠 + 하이패스 시스템(ETCS) + 매직 트렁크&nbsp;<br><b>●&nbsp;S-Link 패키지&nbsp;<br></b>* S-Link 패키지Ⅰ - S-Link 8.7" 내비게이션 라이트 + 후방 카메라 + CD 플레이어 + 운전석 이지 액세스&nbsp;<br>* S-Link 패키지Ⅱ - S-Link 8.7" 내비게이션 + BOSE 서라운드 사운드 시스템(13 스피커) + CD 플레이어 + 뒷유리 매뉴얼 선블라인드&nbsp;<br><b>●&nbsp;LED 라이팅 패키지 Ⅱ -&nbsp;</b>LED PURE VISION 헤드 램프 + 3D 타입 LED 리어 콤비네이션 램프 + 전방 안개등(코너링 기능 포함)&nbsp;<br><b>●&nbsp;프리미엄 시트 패키지 Ⅰ-</b>&nbsp;퀼팅(시트) + 앞좌석 통풍시트 + 운전석 파워 시트(틸팅 기능/매뉴얼 쿠션 익스텐션 포함) + 동승석 파워 시트(마사지 기능/전동식 요추 받침장치 포함) + 앞좌석 프레스티지 헤드레스트 + 이오나이저&nbsp;<br><b>●&nbsp;드라이빙 어시스트 패키지 Ⅱ -&nbsp;</b>자동 긴급제동 시스템(AEBS) + 차간거리 경보 시스템(DW) + 어댑티브 크루즈 컨트롤(ACC) + 차선이탈 경보 시스템(LDW) + 오토매틱 하이빔(AHL) + 헤드업 디스플레이(HUD) + 사각지대 경보 시스템(BSW) + 전방/측방 경보 시스템 + 주차 조향보조 시스템(EPA)&nbsp;&nbsp;&nbsp;&nbsp;<br><br><b>※ 2.0 LPe(장애인용)&nbsp;<br>● 클라우드 펄 외장컬러 선택 시 추가비용 ￦ 160,000&nbsp;</b><br><b>●&nbsp;컨비니언스 패키지 -&nbsp;</b>18" 투톤 알로이 휠 &amp; 245/45R 18 타이어 + 열선 스티어링 휠 + 하이패스 시스템(ETCS) + 매직 트렁크&nbsp;<br><b>●&nbsp;S-Link 패키지&nbsp;<br></b>* S-Link 패키지Ⅰ - S-Link 8.7" 내비게이션 라이트 + 후방 카메라 + CD 플레이어 + 운전석 이지 액세스&nbsp;<br>* S-Link 패키지Ⅱ - S-Link 8.7" 내비게이션 + BOSE 서라운드 사운드 시스템(13 스피커) + CD 플레이어 + 뒷유리 매뉴얼 선블라인드&nbsp;<br><b>●&nbsp;LED 라이팅 패키지&nbsp;<br></b>* LED 라이팅 패키지Ⅰ -<b>&nbsp;</b>LED PURE VISION 헤드 램프 + 전방 안개등(코너링 기능 포함)&nbsp;&nbsp;<br>* LED 라이팅 패키지Ⅱ - LED PURE VISION 헤드 램프 + 3D 타입 LED 리어 콤비네이션 램프 + 전방 안개등(코너링 기능 포함)<br><b>●&nbsp;프리미엄 시트 패키지&nbsp;</b><br>* 프리미엄 시트 패키지Ⅰ- 퀼팅(시트) + 앞좌석 통풍시트 + 운전석 파워 시트(틸팅 기능/매뉴얼 쿠션 익스텐션 포함) + 동승석 파워 시트(마사지 기능/전동식 요추 받침장치 포함) + 앞좌석 프레스티지 헤드레스트 + 이오나이저&nbsp;<br>* 프리미엄 시트 패키지Ⅱ - 라이트 그레이 나파가죽시트 + 퀼팅(시트/대시보드/도어트림) + 뒷좌석 프레스티지 헤드레스트&nbsp;<br><b>●&nbsp;드라이빙 어시스트 패키지Ⅲ -&nbsp;</b>차선이탈 경보 시스템(LDW) + 오토매틱 하이빔(AHL) + 액티브 댐핑 컨트롤(ADC)&nbsp;<br><br><b>※ 2.0 LPe(렌터카)&nbsp;<br></b><b>●&nbsp;S-Link 패키지Ⅰ&nbsp;-&nbsp;</b>S-Link 8.7" 내비게이션 라이트 + 후방 카메라 + CD 플레이어 + 운전석 이지 액세스
+										</ul>
+									
+									<p class="desc_more">위 신차가격표는 단순 참고자료이며, 정확한 내용은 각 제조사에서 제공하는 자료를 통해확인하실 수 있습니다.</p><!-- 2016/10/12 [장] 등급 등록/수정 개선 : 추가 디자인 변경 -->
+									<p class="toTop"><a href="#main_title" class="sp toTop db_ir" title="페이지 위로"><u>페이지 위로</u></a></p><!-- [시세개편] class db_ir 추가 -->
+								</div>
+
+
+							</div>
+							<!-- body end -->
+						</td>
+					</tr>
+				</table>
+
+
+			
+			
+		
+    </div>
+
+    <!-- container end -->
+</form>
+</div>
+
+</body>
+<script language="javascript">
+
+
+    var strCompanyUrl = "/common/combo/cardbcompany.json?method=carList";
+    var strModelGroupUrl = "/common/combo/modelgroupfordb.json?method=carList";
+    var strModelUrl = "/common/combo/cardbmodel.json?method=carList";
+    var strYrJatoUrl = "/common/combo/jatoYr.json?method=carList";
+
+    var companyid = "mnfccd";
+    var modelgroupid = "mdlgroupcd";
+    var modelid = "mdlcd";
+    var yearid = "caryear";
+
+    function initGnb() {
+        var paramCompany = $("paramMnfccd").value;
+        var paramModelGroup = $("paramMdlgroupcd").value;
+        var paramModel = $("paramMdlcd").value;
+        var paramYr = $("paramYear").value;
+
+        // 제조사
+        if (paramModel != "") {
+            $("mdlcd").show();
+        }
+
+        //console.log("companyid :: " + companyid)
+        //console.log("paramCompany :: " + paramCompany)
+		if($('foldYn').value != 0){
+            foldingYN('f_fold');
+		}
+
+        setCompany(strCompanyUrl, companyid, "제조사", paramCompany);
+
+        // 제조사 값이 있으면 모델 검색
+        if (paramCompany >= '010') {
+            if (paramCompany != "") {
+                if (paramModel == "") {
+                    paramModel = paramModelGroup;
+                }
+                setModel(strModelUrl, modelid, paramCompany, "모델", paramModel)
+                $("mdlgroupcd").hide();
+
+            }
+        } else {
+            $("mdlgroupcd").show();
+            if (paramCompany != "") {
+                setModelGroup(strModelGroupUrl, modelgroupid, paramCompany, "모델", paramModelGroup);
+                if (paramModelGroup != "") {
+                    setModel_New(strModelUrl, modelid, paramCompany, paramModelGroup, "세부모델", paramModel);
+                }
+            }
+
+        }
+        if (paramCompany != "" && paramModel != "") {
+            setCarYear(strYrJatoUrl, yearid, paramCompany, paramModel, "형식연도", paramYr);
+        }
+
+        waitTime = 1;
+    }
+
+    function changeModel_jato(mnfccd, mdlgroupcd) {
+        setModel_New(strModelUrl, modelid, mnfccd, mdlgroupcd, "세부모델", "");
+        //모델그룹선택시 기본 세부모델선택
+        if ($("mdlcd") != null) {
+            $("mdlcd").selectedIndex = 1;
+            var mdlcd = $("mdlcd").options[$("mdlcd").selectedIndex].value;
+            changeYearJato(mnfccd, mdlcd);
+        }
+    }
+
+    function changeYearJato(mnfccd,mdlcd) {
+        setCarYear(strYrJatoUrl, yearid, mnfccd, mdlcd, "형식연도", "");
+        $(yearid).options[1].selected = true;
+    }
+
+
+
+    //덧글 리스트
+    function viewForm(index) {
+
+        var object = $("default" + index);
+        var objectSum = $("defaultSum" + index);
+        var selectSum = $("choiceSum" + index);
+        var object1 = $("choice" + index);
+        if (object != null) {
+            if (object.style.display == 'none') {
+                objectSum.hide();
+                selectSum.hide();
+                object.style.display = "block";
+                object1.style.display = "block";
+
+            } else {
+                object.hide();
+                object1.hide();
+                objectSum.style.display = "block";
+                selectSum.style.display = "block";
+            }
+        }
+    }
+
+    function viewAll() {
+        for (var i = 1; i <=15; i++) {
+            $("default" + i).style.display = "block";
+            $("defaultSum" + i).style.display = "none";
+            $("choice" + i).style.display = "block";
+            $("choiceSum" + i).style.display = "none";
+        }
+    }
+
+    function closeAll() {
+        for (var i = 1; i <=15; i++) {
+            $("default" + i).style.display = "none";
+            $("defaultSum" + i).style.display = "block";
+            $("choice" + i).style.display = "none";
+            $("choiceSum" + i).style.display = "block";
+        }
+    }
+
+    function firstLayerOpen() {
+        //viewForm(1);
+    }
+
+    function foldingYN(param) {
+        if (param == "f_fold") {
+            document.getElementById("folding").innerHTML ="<a href=\"javascript:foldingYN('f_unfold')\" class='folding f_unfold'>전체등급 펼쳐보기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "none";
+            document.getElementById("f_fold").style.display = "";
+        } else {
+            document.getElementById("folding").innerHTML = "<a href=\"javascript:foldingYN('f_fold')\" class='folding f_fold'>접기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "";
+            document.getElementById("f_fold").style.display = "none";
+        }
+    }
+
+    function onSubmit() {
+        jQuery("#searchForm").submit();
+
+    }
+    window.onload = initGnb;
+
+</script>
+</html>
+

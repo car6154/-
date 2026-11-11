@@ -1,0 +1,1132 @@
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>차량DB - 차량정보 - 신차가격표</title>
+    <link type="text/css" rel="stylesheet" href="/css/common.css?v=1793835891525"/>
+    <link type="text/css" rel="stylesheet" href="/css/db.css?v=1793835891525"/>
+
+    <script type="text/javascript" src="/js/encarapp/lib/jquery/jquery-1.11.3.min.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/common/ui.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/prototype.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/util.js?v=1793835894199"></script>
+
+    <script type="text/javascript" src="/js/common/db_common.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/commonCombo.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/carSearchCombo.js?v=1793835894199"></script>
+	<script>
+		window.enlogInitJson = {
+			"dataTalkView": {
+				"screenName": "신차가격표"
+			}
+		}
+
+	</script>
+
+
+</head>
+
+
+
+
+
+
+
+    <!-- 등급 체크박스  -->
+    <div style="display:none">
+        
+    </div>
+
+    <!-- 세부등급 체크박스 -->
+    <div style="display:none">
+        
+    </div>
+
+
+
+<body class="db db_newdetailview db_basicTemplate">
+
+
+
+
+	
+	
+	
+	
+
+
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-W9QQ2T"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W9QQ2T');</script>
+<!-- End Google Tag Manager -->
+
+<!-- container begin -->
+<div class="container" id="containerDIV">
+<input type="hidden" id = "foldYn" name="searchtype" value="8"/>
+<form id ="searchForm" name="searchForm">
+
+    <input type="hidden" id = "method" name="method" value="newpricePopV2"/>
+    <input type="hidden" id = "dimensiontype" name="dimensiontype" value="null"/>
+    <input type="hidden" id = "paramMnfccd" name="paramMnfccd" value="002"/>
+    <input type="hidden" id = "paramMdlgroupcd" name="paramMdlgroupcd" value="062"/>
+    <input type="hidden" id = "paramMdlcd" name="paramMdlcd" value="155"/>
+    <input type="hidden" id = "paramYear" name="paramYear" value="2022"/>
+    <input type="hidden" id = "model" name="model" value="">
+    <input type="hidden" id = "paramCaryear" name="paramCaryear" value="2022"/>
+    <input type="hidden" id = "clsheadcd" name="clsheadcd" class="checkbox" value="null"/>
+    <input type="hidden" id = "paramGradeHead" name="paramGradeHead" value="null"/>
+	<input type="hidden" id = "searchtype" name="searchtype" value="check"/>
+	<input type="hidden" id = "pageAccessToken" name="pageAccessToken" value="AgV4Suue4smwrwnCXfniKTiYjAQkMGE7nLIUB5cuxPujj+8AcQACAAdFbmNhckNrAAdFbmNhckN2ABVhd3MtY3J5cHRvLXB1YmxpYy1rZXkAREFneUhjalVkdWlLMnRxS3pjY1dhMmtxeDZ2UTI1dG9KR3VPaGxTS0ZrZE5vK2xUa3o5UC9UTkx5bUlIS1BBZ3c5dz09AAEAB2F3cy1rbXMAUGFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjI3MjM2MjQ4NzY1MzprZXkvbXJrLWRmZWEyNmY3NTVhMzQ3MjliNjkwMjRkZWZmM2M1MWFjALgBAgEAeAuqQuSJvQ+Ra4FSj55FZzS0sk+00amsb3yoAFiEYn4PAaU1NB21SGzvEEw3wxAKII8AAAB+MHwGCSqGSIb3DQEHBqBvMG0CAQAwaAYJKoZIhvcNAQcBMB4GCWCGSAFlAwQBLjARBAxp/voRH/2pgb8qOtYCARCAOx/CHemybRBPaw4aqoufqt8d8yMrtQh+TGiSUygZzDCMNy8xfhETK9cuIfdZSrWLdU7dR6nOKTN0Cg8gAgAAEADjnMrkjCzSB9AeA5kn/nDXNRJa1zgrtT1Z/dx0KizTPhmdfEhBILxxC0sIuHi9J2//////AAAAAQAAAAAAAAAAAAAAAQAAAKNr7ux48GF39adm8713PmIYZu44KAY7lw5wcuF+FhLBxYVVyyQK8kiif9n64UCeiIcbFNN5Qp8cd8QIUeske94XCuJmvHIM+FhMTJHfwDAwWqxItfQbdHNMIOpmkYFT+afGeE/rHgUYiZRXgq2y5mhnZU6yMAEcOYtcvqTC4MPsRVJTMCi4p9cAB+dopbmw2/E3OdLpvqwR33hhOxIWRA5M6v2hWnQfXkFQ84guMct1KRW9NwBnMGUCMCZ6E1bXRm1I9VBtLwJw6SfcP50m3gRcHj3+7p0Fkqa8NbvvjEz2eF1qh6ysCYh2GwIxAP49Ev8vxyScD1C6zm+FktRiaa91BavTQs/VHD/557M3MN/eq090UOOvqc82zjYk6g=="/>
+    <div class="header">
+        <h1 class="blind">SK엔카</h1>
+        <h2 class="tit_carprice" id="main_title">신차가격표</h2>
+        <p class="quickSearch">
+
+
+
+            <select title="제조사" class="opt_select" id="mnfccd" name="mnfccd" onChange="javascript:changeModelGroup(this.value);">
+                <option value="">제조사</option>
+            </select>
+
+            <select class="opt_select" title="모델" id="mdlgroupcd" name="mdlgroupcd" onChange="javascript:changeModel_jato($('mnfccd').value, this.value);">
+                <option>모델</option>
+            </select>
+
+            <select class="opt_select" title="세부모델" id="mdlcd" name="mdlcd" onChange="javascript:changeYearJato($('mnfccd').value, $('mdlcd').value);">
+                <option>세부모델</option>
+            </select>
+
+            <select class="opt_select" title="연식" id="caryear" name="caryear">
+                <option>연식</option>
+            </select>
+
+            <button type="button" class="btn_search" onclick="javascript:onSubmit();"/>검색</button>
+
+
+
+        </p>
+    </div>
+    <!-- body begin -->
+    <div class="body" id="bodydiv">
+		
+			
+				<table class="layout">
+					<col class="contents"/>
+					<tr>
+						<td class="contentsMenu">
+							<!-- contentsMenu begin -->
+							<div class="contentsMenu">
+								<h3 class="title">기아 스팅어 마이스터 2022년형</h3>
+							</div>
+							<!-- contentsMenu end -->
+						</td>
+					</tr>
+
+					<tr>
+						<td class="contentsMain">
+							<!-- contents begin -->
+							<div class="contents">
+
+								<div class="carCompare">
+									<div class="dbHead">
+										
+											<div id="folding"><a href="javascript:foldingYN('f_fold')"
+																 class="folding f_fold">전체등급 펼쳐보기<em class="db_ir"></em></a></div>
+
+											<!-- 2013/04/03 [서] 매물탭 개선 : 기능 버튼 추가 --><!--<a href="#" class="folding f_unfold">펼치기</a>-->
+										
+									</div>
+									
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+									<div id="f_unfold">
+										
+											<!-- case1 : 세부등급과 미션분리 -->
+											<table class="carCompare sellcase1">
+												<colgroup>
+													<col class="grade">
+													<col class="mission">
+													<col class="price">
+												    <col class="uprice"><!-- [시세개편] 중고차시세 추가 uprice -->
+													<col class="item">
+													<col class="option">
+												</colgroup>
+												<thead class="compare">
+												<tr>
+													<th class="grade" colspan="2"><b>구분</b></th>
+													<th class="price"><b>판매가격</b></th>
+													<th class="uprice"><b>중고차시세</b></th><!-- [시세개편] 중고차시세 추가 -->
+													<th class="item"><b>기본사양 품목</b></th>
+													<th class="option end"><b>선택사양 품목</b></th>
+												</tr>
+												</thead>
+												<tbody class="new">
+												
+													
+														
+													
+													
+														
+															
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>2.5 플래티넘</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,878</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>▶&nbsp;파워트레인 :&nbsp;</b>스마트스트림 G2.5 T-GDI 엔진, 8단 자동변속기, 랙 구동형 전동식 파워스티어링(R-MDPS), 주행모드 통합제어 시스템, 고급형 ISG, 차동 제한장치(M-LSD)<br><br><b>▶&nbsp;첨단 운전자 보조(ADAS) :&nbsp;</b>전방 충돌방지 보조(차량/보행자/사이클리스트/교차로 대향차), 차로 이탈방지 보조, 후측방 충돌방지 보조, 후방 교차 충돌방지 보조, 운전자 주의 경고(전방 차량 출발 알림 기능 포함), 하이빔 보조, 스마트 크루즈 컨트롤(정차&amp;재출발), 내비게이션 기반 스마트 크루즈 컨트롤(고속도로/자동차 전용도로 안전구간/곡선로), 차로 유지 보조, 고속도로 주행 보조, 안전 하차 경고<br><br><b>▶&nbsp;안전 :&nbsp;</b>7에어백(운전석/동승석 어드밴스드, 운전석 무릎, 전복감지 커튼, 앞좌석 사이드), 전/후방 주차 거리 경고, 액티브 후드, VSM, 급제동 경보 시스템, 개별 타이어 공기압 경보 시스템, 유아용 시트 고정장치, 경사로 밀림 방지장치, 타이어 임시수리장치<br><br><b>▶&nbsp;외장 : 2</b>25/45 R18 브릿지스톤 올시즌 타이어&amp;전면가공 휠, LED 헤드램프, LED DRL, LED 리어 콤비네이션램프, LED 보조제동등, LED 리피터 일체형 아웃사이드미러(전동접이, 전동조절, 열선, 퍼들램프), 윈드쉴드/앞좌석 이중접합 차 음 글라스, 윈드쉴드 자외선차단 글라스, 후드가니시, 크롬 실루엣 몰딩, 크롬 휀더 가니쉬, 듀얼/트윈 머플러<br><br><b>▶&nbsp;내장 :</b>&nbsp;블랙 인테리어, 슈퍼비전 클러스터(4.2인치 칼라 TFT LCD), D컷 가죽 스티어링 휠, LED 실내등(맵램프, 룸램프, 러기지램프), 전자식 룸미러(ECM), 슬라이딩 선바이저(거울, 조명), 메탈 페달&amp;풋레스트, 메탈 도어스커프, 도어 센터트림 인조가죽감싸기<br><br><b>▶&nbsp;시트 :&nbsp;</b>가죽시트, 운전석 파워시트, 앞좌석 열선시트, 앞좌석 통풍시트, 운전석 4WAY 전동식 허리지지대, 뒷좌석 6:4 폴딩시트, 앞좌석 슬라이딩 헤드레스트, 뒷좌석 높이조절식 헤드레스트, 앞좌석 시트벨트 높이조절 장치, 뒷좌석 센터 암레스트<br><br><b>▶&nbsp;편의 :</b>&nbsp;버튼시동 스마트키 시스템, 하이패스 자동결제 시스템, 전자식 변속 레버(SBW), 패들 쉬프트, 전자식 파킹 브레이크(EPB, 오토홀드), 후방 모니터, 오토 라이트 컨트롤, 열선 스티어링 휠, 앞좌석/뒷좌석 세이프티 파워윈도우, 파워도어록, 3존 독립제어 에어컨(운전석&amp;동승석 풀오토에어컨 포함), 공기청정 시스템(미세먼지 센서 포함), 레인센서, 오토디포그, 외부공기 유입방지 제어, 뒷좌석 에어벤트, 앞좌석 USB 단자(급속충전용), 뒷좌석 USB 단자(충전용), 앞좌석/뒷좌석 파워아웃렛<br><br><b>▶&nbsp;인포테인먼트 :</b>&nbsp;10.25인치 내비게이션(기아 커넥트, 폰 프로젝션, 기아 페이), 내비게이션 무선 업데이트, 6스피커, 스티어링 휠 오디오 리모컨, 블루투스 핸즈프리, USB 단자(데이터리딩용
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>컴포트 :&nbsp;130만<br><br><b>▶&nbsp;</b>스타일 : 90만<br><br><b>▶&nbsp;</b>퍼포먼스&nbsp;:&nbsp;195만 ※&nbsp;스타일 적용시 선택가능<br><br><b>▶&nbsp;</b>모니터링&nbsp;:&nbsp;175만<br><br><b>▶&nbsp;</b>Lexicon 프리미엄 사운드&nbsp;:&nbsp;120만<br><br><b>▶&nbsp;</b>AWD :&nbsp;230만<br><br><b>▶&nbsp;</b>와이드 선루프 : 80만</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>2.5 마스터즈</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>4,275</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>▶ 플래티넘 기본 품목 외&nbsp;<br></b><br><b>&nbsp;·&nbsp;외장&nbsp;</b>: 앞225/40 R19&amp;뒤255/35 R19 미쉐린 올시즌 타이어&amp;전면가공 휠, 프로젝션 LED헤드램프, 리어 LED 순차점등 턴시그널램프, 크롬 아웃사이드미러&nbsp;<br><br><b>&nbsp;·&nbsp;내장</b>&nbsp;: 블랙 또는 브라운 인테리어 선택 가능, 슈퍼비전 클러스터(7인치 칼라 TFT LCD), 센터페시아 인조가죽감싸기, 크래쉬패드 리얼 스티치, 앰비언트 라이트, 리얼 알루미늄 콘솔 어퍼커버, 메탈 인서트필름 도어 가니쉬, 메탈 트랜스버스 트림&nbsp;<br><br><b>&nbsp;·&nbsp;시트</b>&nbsp;: 퀼팅 나파가죽시트, 동승석 파워시트, 동승석 워크인 디바이스, 뒷좌석 열선시트, 운전석 전동 익스텐션시트, 동승석 4WAY 전동식 허리지지대&nbsp;<br><br><b>&nbsp;·&nbsp;편의</b>&nbsp;: 다이나믹 밴딩 라이트, 스마트폰 무선충전 시스템(앞좌석 USB 단자(급속충전용) 대체), 전동식 틸트&amp;텔레스코픽 스티어링 휠, 스마트 파워테일게이트, 운전자세 메모리 시스템(운전석 시트, 스티어링 휠, 아웃사이드 미러, 스마트 자세제어 포함), 운전석 이지 억세스, 후진연동 자동하향 아웃사이드미러
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>퍼포먼스&nbsp;:&nbsp;195만&nbsp;<br><br><b>▶&nbsp;</b>모니터링&nbsp;:&nbsp;150만 &nbsp;<br><br><b>▶&nbsp;</b>Lexicon 프리미엄 사운드&nbsp;:&nbsp;120만&nbsp;<br><br><b>▶&nbsp;</b>AWD :&nbsp;230만&nbsp;<br><br><b>▶&nbsp;</b>와이드 선루프 : 80만&nbsp;</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>3.3 GT</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>4,678</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>▶ 마스터즈 기본 품목 외&nbsp;<br></b><br><b>&nbsp;·&nbsp;파워트레인&nbsp;</b>:V6 람다 Ⅱ 3.3 T-GDI 가솔린 엔진, 전자식 가변 배기밸브&nbsp;<br><br><b>&nbsp;·&nbsp;외장</b>&nbsp;: GT 전용 엠블럼, GT 전용 머플러&nbsp;<br><br><b>&nbsp;·&nbsp;내장</b>&nbsp;: 블랙 스웨이드 헤드라이닝&nbsp;<br><br><b>&nbsp;·&nbsp;시트</b>&nbsp;: 운전석 에어셀타입 허리지지대, 운전석 시트백 볼스터 전동조절장치(스포츠 모드 연계 작동)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>퍼포먼스&nbsp;:&nbsp;195만&nbsp;<br><br><b>▶&nbsp;</b>모니터링&nbsp;:&nbsp;150만 &nbsp;<br><br><b>▶&nbsp;</b>Lexicon 프리미엄 사운드&nbsp;:&nbsp;120만&nbsp;<br><br><b>▶&nbsp;</b>AWD :&nbsp;250만&nbsp;<br><br><b>▶&nbsp;</b>와이드 선루프 : 80만&nbsp;</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>3.3 GT 트리뷰트 에디션</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>4,825</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>▶ GT 기본 품목 외
+<br></b><br><b>&nbsp;·&nbsp;</b><b>외장</b> : 19인치 유광 블랙 디자인 휠, 블랙 아웃사이드 미러
+<br><br>※ 트리뷰트 에디션은 애스코트 그린 또는 문스케이프 매트 그레이限 적용 가능
+<br><br><b>&nbsp;·&nbsp;</b><b>내장</b> : 트리뷰트 에디션 전용 테라코타 브라운 인테리어 , 카본 인서트 필름(콘솔 어퍼커버, 도어 가니쉬), 트리뷰트 에디션 전용 도어 스커프
+<br><b><br></b><b>&nbsp;·&nbsp;</b><b>시트</b> : 체인볼륨 패턴 브라운 나파가죽 시트
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>퍼포먼스&nbsp;:&nbsp;195만&nbsp;<br><br><b>▶&nbsp;</b>모니터링&nbsp;:&nbsp;150만 &nbsp;<br><br><b>▶&nbsp;</b>Lexicon 프리미엄 사운드&nbsp;:&nbsp;120만&nbsp;<br><br><b>▶&nbsp;</b>AWD :&nbsp;250만&nbsp;<br><br><b>▶&nbsp;</b>와이드 선루프 : 80만&nbsp;</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>2.5 AWD 플래티넘</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>4,108</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>▶&nbsp;파워트레인 :&nbsp;</b>스마트스트림 G2.5 T-GDI 엔진, 8단 자동변속기, 랙 구동형 전동식 파워스티어링(R-MDPS), 주행모드 통합제어 시스템, 고급형 ISG, 차동 제한장치(M-LSD)<br><br><b>▶&nbsp;첨단 운전자 보조(ADAS) :&nbsp;</b>전방 충돌방지 보조(차량/보행자/사이클리스트/교차로 대향차), 차로 이탈방지 보조, 후측방 충돌방지 보조, 후방 교차 충돌방지 보조, 운전자 주의 경고(전방 차량 출발 알림 기능 포함), 하이빔 보조, 스마트 크루즈 컨트롤(정차&amp;재출발), 내비게이션 기반 스마트 크루즈 컨트롤(고속도로/자동차 전용도로 안전구간/곡선로), 차로 유지 보조, 고속도로 주행 보조, 안전 하차 경고<br><br><b>▶&nbsp;안전 :&nbsp;</b>7에어백(운전석/동승석 어드밴스드, 운전석 무릎, 전복감지 커튼, 앞좌석 사이드), 전/후방 주차 거리 경고, 액티브 후드, VSM, 급제동 경보 시스템, 개별 타이어 공기압 경보 시스템, 유아용 시트 고정장치, 경사로 밀림 방지장치, 타이어 임시수리장치<br><br><b>▶&nbsp;외장 : 2</b>25/45 R18 브릿지스톤 올시즌 타이어&amp;전면가공 휠, LED 헤드램프, LED DRL, LED 리어 콤비네이션램프, LED 보조제동등, LED 리피터 일체형 아웃사이드미러(전동접이, 전동조절, 열선, 퍼들램프), 윈드쉴드/앞좌석 이중접합 차 음 글라스, 윈드쉴드 자외선차단 글라스, 후드가니시, 크롬 실루엣 몰딩, 크롬 휀더 가니쉬, 듀얼/트윈 머플러<br><br><b>▶&nbsp;내장 :</b>&nbsp;블랙 인테리어, 슈퍼비전 클러스터(4.2인치 칼라 TFT LCD), D컷 가죽 스티어링 휠, LED 실내등(맵램프, 룸램프, 러기지램프), 전자식 룸미러(ECM), 슬라이딩 선바이저(거울, 조명), 메탈 페달&amp;풋레스트, 메탈 도어스커프, 도어 센터트림 인조가죽감싸기<br><br><b>▶&nbsp;시트 :&nbsp;</b>가죽시트, 운전석 파워시트, 앞좌석 열선시트, 앞좌석 통풍시트, 운전석 4WAY 전동식 허리지지대, 뒷좌석 6:4 폴딩시트, 앞좌석 슬라이딩 헤드레스트, 뒷좌석 높이조절식 헤드레스트, 앞좌석 시트벨트 높이조절 장치, 뒷좌석 센터 암레스트<br><br><b>▶&nbsp;편의 :</b>&nbsp;버튼시동 스마트키 시스템, 하이패스 자동결제 시스템, 전자식 변속 레버(SBW), 패들 쉬프트, 전자식 파킹 브레이크(EPB, 오토홀드), 후방 모니터, 오토 라이트 컨트롤, 열선 스티어링 휠, 앞좌석/뒷좌석 세이프티 파워윈도우, 파워도어록, 3존 독립제어 에어컨(운전석&amp;동승석 풀오토에어컨 포함), 공기청정 시스템(미세먼지 센서 포함), 레인센서, 오토디포그, 외부공기 유입방지 제어, 뒷좌석 에어벤트, 앞좌석 USB 단자(급속충전용), 뒷좌석 USB 단자(충전용), 앞좌석/뒷좌석 파워아웃렛<br><br><b>▶&nbsp;인포테인먼트 :</b>&nbsp;10.25인치 내비게이션(기아 커넥트, 폰 프로젝션, 기아 페이), 내비게이션 무선 업데이트, 6스피커, 스티어링 휠 오디오 리모컨, 블루투스 핸즈프리, USB 단자(데이터리딩용
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>컴포트 :&nbsp;130만<br><br><b>▶&nbsp;</b>스타일 : 90만<br><br><b>▶&nbsp;</b>퍼포먼스&nbsp;:&nbsp;195만 ※&nbsp;스타일 적용시 선택가능<br><br><b>▶&nbsp;</b>모니터링&nbsp;:&nbsp;175만<br><br><b>▶&nbsp;</b>Lexicon 프리미엄 사운드&nbsp;:&nbsp;120만<br><br><b>▶&nbsp;</b>와이드 선루프 : 80만</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>2.5 AWD 마스터즈</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>4,505</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>▶ 4WD 플래티넘 기본 품목 외&nbsp;<br></b><br><b>&nbsp;·&nbsp;외장&nbsp;</b>: 앞225/40 R19&amp;뒤255/35 R19 미쉐린 올시즌 타이어&amp;전면가공 휠, 프로젝션 LED헤드램프, 리어 LED 순차점등 턴시그널램프, 크롬 아웃사이드미러&nbsp;<br><br><b>&nbsp;·&nbsp;내장</b>&nbsp;: 블랙 또는 브라운 인테리어 선택 가능, 슈퍼비전 클러스터(7인치 칼라 TFT LCD), 센터페시아 인조가죽감싸기, 크래쉬패드 리얼 스티치, 앰비언트 라이트, 리얼 알루미늄 콘솔 어퍼커버, 메탈 인서트필름 도어 가니쉬, 메탈 트랜스버스 트림&nbsp;<br><br><b>&nbsp;·&nbsp;시트</b>&nbsp;: 퀼팅 나파가죽시트, 동승석 파워시트, 동승석 워크인 디바이스, 뒷좌석 열선시트, 운전석 전동 익스텐션시트, 동승석 4WAY 전동식 허리지지대&nbsp;<br><br><b>&nbsp;·&nbsp;편의</b>&nbsp;: 다이나믹 밴딩 라이트, 스마트폰 무선충전 시스템(앞좌석 USB 단자(급속충전용) 대체), 전동식 틸트&amp;텔레스코픽 스티어링 휠, 스마트 파워테일게이트, 운전자세 메모리 시스템(운전석 시트, 스티어링 휠, 아웃사이드 미러, 스마트 자세제어 포함), 운전석 이지 억세스, 후진연동 자동하향 아웃사이드미러
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>퍼포먼스&nbsp;:&nbsp;195만&nbsp;<br><br><b>▶&nbsp;</b>모니터링&nbsp;:&nbsp;150만 &nbsp;<br><br><b>▶&nbsp;</b>Lexicon 프리미엄 사운드&nbsp;:&nbsp;120만&nbsp;<br><br><b>▶&nbsp;</b>와이드 선루프 : 80만&nbsp;</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>3.3 GT AWD</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>4,928</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>▶ 4WD 마스터즈 기본 품목 외&nbsp;<br></b><br><b>&nbsp;·&nbsp;파워트레인</b>: V6 람다 Ⅱ 3.3 T-GDI 가솔린 엔진, 전자식 가변 배기밸브&nbsp;<br><br><b>&nbsp;·&nbsp;외장</b>&nbsp;: GT 전용 엠블럼, GT 전용 머플러&nbsp;<br><br><b>&nbsp;·&nbsp;내장</b>&nbsp;: 블랙 스웨이드 헤드라이닝&nbsp;<br><br><b>&nbsp;·&nbsp;시트</b>&nbsp;: 운전석 에어셀타입 허리지지대, 운전석 시트백 볼스터 전동조절장치(스포츠 모드 연계 작동)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>퍼포먼스&nbsp;:&nbsp;195만&nbsp;<br><br><b>▶&nbsp;</b>모니터링&nbsp;:&nbsp;150만 &nbsp;<br><br><b>▶&nbsp;</b>Lexicon 프리미엄 사운드&nbsp;:&nbsp;120만&nbsp;<br><b>▶&nbsp;</b>와이드 선루프 : 80만&nbsp;</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>3.3 GT AWD 트리뷰트 에디션</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>5,075</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>▶ 4WD GT 기본 품목 외
+<br></b><b><br>&nbsp;·&nbsp;</b><b>외장</b>&nbsp;: 19인치 유광 블랙 디자인 휠, 블랙 아웃사이드 미러
+<br><br>※ 트리뷰트 에디션은 애스코트 그린 또는 문스케이프 매트 그레이限 적용 가능
+<br><br><b>&nbsp;·&nbsp;</b><b>내장</b>&nbsp;: 트리뷰트 에디션 전용 테라코타 브라운 인테리어 , 카본 인서트 필름(콘솔 어퍼커버, 도어 가니쉬), 트리뷰트 에디션 전용 도어 스커프
+<br><br><b>&nbsp;·&nbsp;</b><b>시트</b>&nbsp;: 체인볼륨 패턴 브라운 나파가죽 시트
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>퍼포먼스&nbsp;:&nbsp;195만&nbsp;<br><br><b>▶&nbsp;</b>모니터링&nbsp;:&nbsp;150만 &nbsp;<br><br><b>▶&nbsp;</b>Lexicon 프리미엄 사운드&nbsp;:&nbsp;120만&nbsp;<br><br><b>▶&nbsp;</b>와이드 선루프 : 80만&nbsp;</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+												</tbody>
+											</table>
+										
+
+
+										<!-- case2 : 세부등급이 있는경우 -->
+										
+									</div>
+									<!-- 신차가격표(폴더형) -->
+									<div id="f_fold" style="display:none;">
+										<div class="newcar_folder">
+											<ul class="nf_list" id="newcarList">
+												
+													<li>
+														<a href="#newcar0">
+                                                            <span class="model">2.5 플래티넘  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,878</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar1">
+                                                            <span class="model">2.5 마스터즈  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>4,275</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar2">
+                                                            <span class="model">3.3 GT  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>4,678</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar3">
+                                                            <span class="model">3.3 GT 트리뷰트 에디션  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>4,825</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar4">
+                                                            <span class="model">2.5 AWD 플래티넘  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>4,108</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar5">
+                                                            <span class="model">2.5 AWD 마스터즈  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>4,505</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar6">
+                                                            <span class="model">3.3 GT AWD  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>4,928</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar7">
+                                                            <span class="model">3.3 GT AWD 트리뷰트 에디션  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>5,075</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+											</ul>
+											<!-- 개별 -->
+											
+												<div id="newcar0" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶&nbsp;파워트레인 :&nbsp;</b>스마트스트림 G2.5 T-GDI 엔진, 8단 자동변속기, 랙 구동형 전동식 파워스티어링(R-MDPS), 주행모드 통합제어 시스템, 고급형 ISG, 차동 제한장치(M-LSD)<br><br><b>▶&nbsp;첨단 운전자 보조(ADAS) :&nbsp;</b>전방 충돌방지 보조(차량/보행자/사이클리스트/교차로 대향차), 차로 이탈방지 보조, 후측방 충돌방지 보조, 후방 교차 충돌방지 보조, 운전자 주의 경고(전방 차량 출발 알림 기능 포함), 하이빔 보조, 스마트 크루즈 컨트롤(정차&amp;재출발), 내비게이션 기반 스마트 크루즈 컨트롤(고속도로/자동차 전용도로 안전구간/곡선로), 차로 유지 보조, 고속도로 주행 보조, 안전 하차 경고<br><br><b>▶&nbsp;안전 :&nbsp;</b>7에어백(운전석/동승석 어드밴스드, 운전석 무릎, 전복감지 커튼, 앞좌석 사이드), 전/후방 주차 거리 경고, 액티브 후드, VSM, 급제동 경보 시스템, 개별 타이어 공기압 경보 시스템, 유아용 시트 고정장치, 경사로 밀림 방지장치, 타이어 임시수리장치<br><br><b>▶&nbsp;외장 : 2</b>25/45 R18 브릿지스톤 올시즌 타이어&amp;전면가공 휠, LED 헤드램프, LED DRL, LED 리어 콤비네이션램프, LED 보조제동등, LED 리피터 일체형 아웃사이드미러(전동접이, 전동조절, 열선, 퍼들램프), 윈드쉴드/앞좌석 이중접합 차 음 글라스, 윈드쉴드 자외선차단 글라스, 후드가니시, 크롬 실루엣 몰딩, 크롬 휀더 가니쉬, 듀얼/트윈 머플러<br><br><b>▶&nbsp;내장 :</b>&nbsp;블랙 인테리어, 슈퍼비전 클러스터(4.2인치 칼라 TFT LCD), D컷 가죽 스티어링 휠, LED 실내등(맵램프, 룸램프, 러기지램프), 전자식 룸미러(ECM), 슬라이딩 선바이저(거울, 조명), 메탈 페달&amp;풋레스트, 메탈 도어스커프, 도어 센터트림 인조가죽감싸기<br><br><b>▶&nbsp;시트 :&nbsp;</b>가죽시트, 운전석 파워시트, 앞좌석 열선시트, 앞좌석 통풍시트, 운전석 4WAY 전동식 허리지지대, 뒷좌석 6:4 폴딩시트, 앞좌석 슬라이딩 헤드레스트, 뒷좌석 높이조절식 헤드레스트, 앞좌석 시트벨트 높이조절 장치, 뒷좌석 센터 암레스트<br><br><b>▶&nbsp;편의 :</b>&nbsp;버튼시동 스마트키 시스템, 하이패스 자동결제 시스템, 전자식 변속 레버(SBW), 패들 쉬프트, 전자식 파킹 브레이크(EPB, 오토홀드), 후방 모니터, 오토 라이트 컨트롤, 열선 스티어링 휠, 앞좌석/뒷좌석 세이프티 파워윈도우, 파워도어록, 3존 독립제어 에어컨(운전석&amp;동승석 풀오토에어컨 포함), 공기청정 시스템(미세먼지 센서 포함), 레인센서, 오토디포그, 외부공기 유입방지 제어, 뒷좌석 에어벤트, 앞좌석 USB 단자(급속충전용), 뒷좌석 USB 단자(충전용), 앞좌석/뒷좌석 파워아웃렛<br><br><b>▶&nbsp;인포테인먼트 :</b>&nbsp;10.25인치 내비게이션(기아 커넥트, 폰 프로젝션, 기아 페이), 내비게이션 무선 업데이트, 6스피커, 스티어링 휠 오디오 리모컨, 블루투스 핸즈프리, USB 단자(데이터리딩용</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>컴포트 :&nbsp;130만<br><br><b>▶&nbsp;</b>스타일 : 90만<br><br><b>▶&nbsp;</b>퍼포먼스&nbsp;:&nbsp;195만 ※&nbsp;스타일 적용시 선택가능<br><br><b>▶&nbsp;</b>모니터링&nbsp;:&nbsp;175만<br><br><b>▶&nbsp;</b>Lexicon 프리미엄 사운드&nbsp;:&nbsp;120만<br><br><b>▶&nbsp;</b>AWD :&nbsp;230만<br><br><b>▶&nbsp;</b>와이드 선루프 : 80만</p>
+												</div>
+											
+												<div id="newcar1" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 플래티넘 기본 품목 외&nbsp;<br></b><br><b>&nbsp;·&nbsp;외장&nbsp;</b>: 앞225/40 R19&amp;뒤255/35 R19 미쉐린 올시즌 타이어&amp;전면가공 휠, 프로젝션 LED헤드램프, 리어 LED 순차점등 턴시그널램프, 크롬 아웃사이드미러&nbsp;<br><br><b>&nbsp;·&nbsp;내장</b>&nbsp;: 블랙 또는 브라운 인테리어 선택 가능, 슈퍼비전 클러스터(7인치 칼라 TFT LCD), 센터페시아 인조가죽감싸기, 크래쉬패드 리얼 스티치, 앰비언트 라이트, 리얼 알루미늄 콘솔 어퍼커버, 메탈 인서트필름 도어 가니쉬, 메탈 트랜스버스 트림&nbsp;<br><br><b>&nbsp;·&nbsp;시트</b>&nbsp;: 퀼팅 나파가죽시트, 동승석 파워시트, 동승석 워크인 디바이스, 뒷좌석 열선시트, 운전석 전동 익스텐션시트, 동승석 4WAY 전동식 허리지지대&nbsp;<br><br><b>&nbsp;·&nbsp;편의</b>&nbsp;: 다이나믹 밴딩 라이트, 스마트폰 무선충전 시스템(앞좌석 USB 단자(급속충전용) 대체), 전동식 틸트&amp;텔레스코픽 스티어링 휠, 스마트 파워테일게이트, 운전자세 메모리 시스템(운전석 시트, 스티어링 휠, 아웃사이드 미러, 스마트 자세제어 포함), 운전석 이지 억세스, 후진연동 자동하향 아웃사이드미러</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>퍼포먼스&nbsp;:&nbsp;195만&nbsp;<br><br><b>▶&nbsp;</b>모니터링&nbsp;:&nbsp;150만 &nbsp;<br><br><b>▶&nbsp;</b>Lexicon 프리미엄 사운드&nbsp;:&nbsp;120만&nbsp;<br><br><b>▶&nbsp;</b>AWD :&nbsp;230만&nbsp;<br><br><b>▶&nbsp;</b>와이드 선루프 : 80만&nbsp;</p>
+												</div>
+											
+												<div id="newcar2" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 마스터즈 기본 품목 외&nbsp;<br></b><br><b>&nbsp;·&nbsp;파워트레인&nbsp;</b>:V6 람다 Ⅱ 3.3 T-GDI 가솔린 엔진, 전자식 가변 배기밸브&nbsp;<br><br><b>&nbsp;·&nbsp;외장</b>&nbsp;: GT 전용 엠블럼, GT 전용 머플러&nbsp;<br><br><b>&nbsp;·&nbsp;내장</b>&nbsp;: 블랙 스웨이드 헤드라이닝&nbsp;<br><br><b>&nbsp;·&nbsp;시트</b>&nbsp;: 운전석 에어셀타입 허리지지대, 운전석 시트백 볼스터 전동조절장치(스포츠 모드 연계 작동)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>퍼포먼스&nbsp;:&nbsp;195만&nbsp;<br><br><b>▶&nbsp;</b>모니터링&nbsp;:&nbsp;150만 &nbsp;<br><br><b>▶&nbsp;</b>Lexicon 프리미엄 사운드&nbsp;:&nbsp;120만&nbsp;<br><br><b>▶&nbsp;</b>AWD :&nbsp;250만&nbsp;<br><br><b>▶&nbsp;</b>와이드 선루프 : 80만&nbsp;</p>
+												</div>
+											
+												<div id="newcar3" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ GT 기본 품목 외
+<br></b><br><b>&nbsp;·&nbsp;</b><b>외장</b> : 19인치 유광 블랙 디자인 휠, 블랙 아웃사이드 미러
+<br><br>※ 트리뷰트 에디션은 애스코트 그린 또는 문스케이프 매트 그레이限 적용 가능
+<br><br><b>&nbsp;·&nbsp;</b><b>내장</b> : 트리뷰트 에디션 전용 테라코타 브라운 인테리어 , 카본 인서트 필름(콘솔 어퍼커버, 도어 가니쉬), 트리뷰트 에디션 전용 도어 스커프
+<br><b><br></b><b>&nbsp;·&nbsp;</b><b>시트</b> : 체인볼륨 패턴 브라운 나파가죽 시트</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>퍼포먼스&nbsp;:&nbsp;195만&nbsp;<br><br><b>▶&nbsp;</b>모니터링&nbsp;:&nbsp;150만 &nbsp;<br><br><b>▶&nbsp;</b>Lexicon 프리미엄 사운드&nbsp;:&nbsp;120만&nbsp;<br><br><b>▶&nbsp;</b>AWD :&nbsp;250만&nbsp;<br><br><b>▶&nbsp;</b>와이드 선루프 : 80만&nbsp;</p>
+												</div>
+											
+												<div id="newcar4" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶&nbsp;파워트레인 :&nbsp;</b>스마트스트림 G2.5 T-GDI 엔진, 8단 자동변속기, 랙 구동형 전동식 파워스티어링(R-MDPS), 주행모드 통합제어 시스템, 고급형 ISG, 차동 제한장치(M-LSD)<br><br><b>▶&nbsp;첨단 운전자 보조(ADAS) :&nbsp;</b>전방 충돌방지 보조(차량/보행자/사이클리스트/교차로 대향차), 차로 이탈방지 보조, 후측방 충돌방지 보조, 후방 교차 충돌방지 보조, 운전자 주의 경고(전방 차량 출발 알림 기능 포함), 하이빔 보조, 스마트 크루즈 컨트롤(정차&amp;재출발), 내비게이션 기반 스마트 크루즈 컨트롤(고속도로/자동차 전용도로 안전구간/곡선로), 차로 유지 보조, 고속도로 주행 보조, 안전 하차 경고<br><br><b>▶&nbsp;안전 :&nbsp;</b>7에어백(운전석/동승석 어드밴스드, 운전석 무릎, 전복감지 커튼, 앞좌석 사이드), 전/후방 주차 거리 경고, 액티브 후드, VSM, 급제동 경보 시스템, 개별 타이어 공기압 경보 시스템, 유아용 시트 고정장치, 경사로 밀림 방지장치, 타이어 임시수리장치<br><br><b>▶&nbsp;외장 : 2</b>25/45 R18 브릿지스톤 올시즌 타이어&amp;전면가공 휠, LED 헤드램프, LED DRL, LED 리어 콤비네이션램프, LED 보조제동등, LED 리피터 일체형 아웃사이드미러(전동접이, 전동조절, 열선, 퍼들램프), 윈드쉴드/앞좌석 이중접합 차 음 글라스, 윈드쉴드 자외선차단 글라스, 후드가니시, 크롬 실루엣 몰딩, 크롬 휀더 가니쉬, 듀얼/트윈 머플러<br><br><b>▶&nbsp;내장 :</b>&nbsp;블랙 인테리어, 슈퍼비전 클러스터(4.2인치 칼라 TFT LCD), D컷 가죽 스티어링 휠, LED 실내등(맵램프, 룸램프, 러기지램프), 전자식 룸미러(ECM), 슬라이딩 선바이저(거울, 조명), 메탈 페달&amp;풋레스트, 메탈 도어스커프, 도어 센터트림 인조가죽감싸기<br><br><b>▶&nbsp;시트 :&nbsp;</b>가죽시트, 운전석 파워시트, 앞좌석 열선시트, 앞좌석 통풍시트, 운전석 4WAY 전동식 허리지지대, 뒷좌석 6:4 폴딩시트, 앞좌석 슬라이딩 헤드레스트, 뒷좌석 높이조절식 헤드레스트, 앞좌석 시트벨트 높이조절 장치, 뒷좌석 센터 암레스트<br><br><b>▶&nbsp;편의 :</b>&nbsp;버튼시동 스마트키 시스템, 하이패스 자동결제 시스템, 전자식 변속 레버(SBW), 패들 쉬프트, 전자식 파킹 브레이크(EPB, 오토홀드), 후방 모니터, 오토 라이트 컨트롤, 열선 스티어링 휠, 앞좌석/뒷좌석 세이프티 파워윈도우, 파워도어록, 3존 독립제어 에어컨(운전석&amp;동승석 풀오토에어컨 포함), 공기청정 시스템(미세먼지 센서 포함), 레인센서, 오토디포그, 외부공기 유입방지 제어, 뒷좌석 에어벤트, 앞좌석 USB 단자(급속충전용), 뒷좌석 USB 단자(충전용), 앞좌석/뒷좌석 파워아웃렛<br><br><b>▶&nbsp;인포테인먼트 :</b>&nbsp;10.25인치 내비게이션(기아 커넥트, 폰 프로젝션, 기아 페이), 내비게이션 무선 업데이트, 6스피커, 스티어링 휠 오디오 리모컨, 블루투스 핸즈프리, USB 단자(데이터리딩용</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>컴포트 :&nbsp;130만<br><br><b>▶&nbsp;</b>스타일 : 90만<br><br><b>▶&nbsp;</b>퍼포먼스&nbsp;:&nbsp;195만 ※&nbsp;스타일 적용시 선택가능<br><br><b>▶&nbsp;</b>모니터링&nbsp;:&nbsp;175만<br><br><b>▶&nbsp;</b>Lexicon 프리미엄 사운드&nbsp;:&nbsp;120만<br><br><b>▶&nbsp;</b>와이드 선루프 : 80만</p>
+												</div>
+											
+												<div id="newcar5" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 4WD 플래티넘 기본 품목 외&nbsp;<br></b><br><b>&nbsp;·&nbsp;외장&nbsp;</b>: 앞225/40 R19&amp;뒤255/35 R19 미쉐린 올시즌 타이어&amp;전면가공 휠, 프로젝션 LED헤드램프, 리어 LED 순차점등 턴시그널램프, 크롬 아웃사이드미러&nbsp;<br><br><b>&nbsp;·&nbsp;내장</b>&nbsp;: 블랙 또는 브라운 인테리어 선택 가능, 슈퍼비전 클러스터(7인치 칼라 TFT LCD), 센터페시아 인조가죽감싸기, 크래쉬패드 리얼 스티치, 앰비언트 라이트, 리얼 알루미늄 콘솔 어퍼커버, 메탈 인서트필름 도어 가니쉬, 메탈 트랜스버스 트림&nbsp;<br><br><b>&nbsp;·&nbsp;시트</b>&nbsp;: 퀼팅 나파가죽시트, 동승석 파워시트, 동승석 워크인 디바이스, 뒷좌석 열선시트, 운전석 전동 익스텐션시트, 동승석 4WAY 전동식 허리지지대&nbsp;<br><br><b>&nbsp;·&nbsp;편의</b>&nbsp;: 다이나믹 밴딩 라이트, 스마트폰 무선충전 시스템(앞좌석 USB 단자(급속충전용) 대체), 전동식 틸트&amp;텔레스코픽 스티어링 휠, 스마트 파워테일게이트, 운전자세 메모리 시스템(운전석 시트, 스티어링 휠, 아웃사이드 미러, 스마트 자세제어 포함), 운전석 이지 억세스, 후진연동 자동하향 아웃사이드미러</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>퍼포먼스&nbsp;:&nbsp;195만&nbsp;<br><br><b>▶&nbsp;</b>모니터링&nbsp;:&nbsp;150만 &nbsp;<br><br><b>▶&nbsp;</b>Lexicon 프리미엄 사운드&nbsp;:&nbsp;120만&nbsp;<br><br><b>▶&nbsp;</b>와이드 선루프 : 80만&nbsp;</p>
+												</div>
+											
+												<div id="newcar6" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 4WD 마스터즈 기본 품목 외&nbsp;<br></b><br><b>&nbsp;·&nbsp;파워트레인</b>: V6 람다 Ⅱ 3.3 T-GDI 가솔린 엔진, 전자식 가변 배기밸브&nbsp;<br><br><b>&nbsp;·&nbsp;외장</b>&nbsp;: GT 전용 엠블럼, GT 전용 머플러&nbsp;<br><br><b>&nbsp;·&nbsp;내장</b>&nbsp;: 블랙 스웨이드 헤드라이닝&nbsp;<br><br><b>&nbsp;·&nbsp;시트</b>&nbsp;: 운전석 에어셀타입 허리지지대, 운전석 시트백 볼스터 전동조절장치(스포츠 모드 연계 작동)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>퍼포먼스&nbsp;:&nbsp;195만&nbsp;<br><br><b>▶&nbsp;</b>모니터링&nbsp;:&nbsp;150만 &nbsp;<br><br><b>▶&nbsp;</b>Lexicon 프리미엄 사운드&nbsp;:&nbsp;120만&nbsp;<br><b>▶&nbsp;</b>와이드 선루프 : 80만&nbsp;</p>
+												</div>
+											
+												<div id="newcar7" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 4WD GT 기본 품목 외
+<br></b><b><br>&nbsp;·&nbsp;</b><b>외장</b>&nbsp;: 19인치 유광 블랙 디자인 휠, 블랙 아웃사이드 미러
+<br><br>※ 트리뷰트 에디션은 애스코트 그린 또는 문스케이프 매트 그레이限 적용 가능
+<br><br><b>&nbsp;·&nbsp;</b><b>내장</b>&nbsp;: 트리뷰트 에디션 전용 테라코타 브라운 인테리어 , 카본 인서트 필름(콘솔 어퍼커버, 도어 가니쉬), 트리뷰트 에디션 전용 도어 스커프
+<br><br><b>&nbsp;·&nbsp;</b><b>시트</b>&nbsp;: 체인볼륨 패턴 브라운 나파가죽 시트</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>퍼포먼스&nbsp;:&nbsp;195만&nbsp;<br><br><b>▶&nbsp;</b>모니터링&nbsp;:&nbsp;150만 &nbsp;<br><br><b>▶&nbsp;</b>Lexicon 프리미엄 사운드&nbsp;:&nbsp;120만&nbsp;<br><br><b>▶&nbsp;</b>와이드 선루프 : 80만&nbsp;</p>
+												</div>
+											
+										</div>
+										<script type="text/javascript">
+											newcarFolder(0);//초기값
+											function newcarFolder(target) {
+												var conElId = "newcar"//아이디 설정
+												var conElMenu = document.getElementById("newcarList");
+												var conElMenuLink = conElMenu.getElementsByTagName("a");
+												if (target != null) {
+													conElMenuLink[target].parentNode.className = "on";
+													document.getElementById(
+														conElId + target).style.display = "";
+												}
+												for (i = 0; i <= (conElMenuLink.length - 1); i++) {
+													conElMenuLink[i].onclick = function () {
+														for (x = 0; x <= (conElMenuLink.length - 1); x++) {
+															conElMenuLink[x].parentNode.className = "";
+															document.getElementById(
+																conElId + x).style.display = "none";
+														}
+														this.parentNode.className = "on";
+														document.getElementById(this.getAttribute('href')
+																					.split(
+																						'#')[1]).style.display =
+															"";
+														return false;
+													}
+												}
+											}
+										</script>
+									</div>
+									
+										<ul class="more">
+												<b>▶&nbsp;선택품목<br></b>&nbsp;-&nbsp;<b>컴포트&nbsp;</b>: 동승석 파워시트, 동승석 워크인 디바이스, 뒷좌석 열선시트, 동승석 4WAY 전동식 허리지지대, 스마트폰 무선충전 시스템(앞좌석 USB 단자(급속충전용) 대체), 전동식 틸트&amp;텔레스코픽 스티어링 휠, 스마트 파워테일게이트, 운전자세 메모리 시스템(운전석 시트, 스티어링 휠, 아웃사이드 미러, 스마트 자세제어 포함), 운전석 이지 억세스, 후진연동 자동하향 아웃사이드미러<br>&nbsp;-&nbsp;<b>스타일&nbsp;</b>: 앞225/40 R19&amp;뒤255/35 R19 미쉐린 올시즌 타이어&amp;전면가공 휠, 리어 LED 순차점등 턴시그널램프<br>&nbsp;-&nbsp;<b>퍼포먼스&nbsp;</b>: 전자제어 서스펜션, 레드 캘리퍼 브렘보 브레이크<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ※ GT 3.3 터보 패키지 동시 선택시 미쉐린 퍼포먼스 썸머 타이어 및 다크레드 인테리어 선택 가능<br>&nbsp;-&nbsp;<b>모니터링</b><br>&nbsp; [<b>플래티넘</b>] :&nbsp;헤드업 디스플레이, 서라운드 뷰 모니터, 후측방 모니터, 리모트 360도 뷰(내 차 주변 영상), 슈퍼비전 클러스터(7인치 칼라 TFT LCD)<br>&nbsp; [<b>마스터즈/GT</b>] : 헤드업 디스플레이, 서라운드 뷰 모니터, 후측방 모니터, 리모트 360도 뷰(내 차 주변 영상)<br>&nbsp;-&nbsp;<b>Lexicon 프리미엄 사운드 :&nbsp;</b>Lexicon 프리미엄 사운드(15스피커, 외장앰프), 액티브 엔진 사운드
+										</ul>
+									
+									<p class="desc_more">위 신차가격표는 단순 참고자료이며, 정확한 내용은 각 제조사에서 제공하는 자료를 통해확인하실 수 있습니다.</p><!-- 2016/10/12 [장] 등급 등록/수정 개선 : 추가 디자인 변경 -->
+									<p class="toTop"><a href="#main_title" class="sp toTop db_ir" title="페이지 위로"><u>페이지 위로</u></a></p><!-- [시세개편] class db_ir 추가 -->
+								</div>
+
+
+							</div>
+							<!-- body end -->
+						</td>
+					</tr>
+				</table>
+
+
+			
+			
+		
+    </div>
+
+    <!-- container end -->
+</form>
+</div>
+
+</body>
+<script language="javascript">
+
+
+    var strCompanyUrl = "/common/combo/cardbcompany.json?method=carList";
+    var strModelGroupUrl = "/common/combo/modelgroupfordb.json?method=carList";
+    var strModelUrl = "/common/combo/cardbmodel.json?method=carList";
+    var strYrJatoUrl = "/common/combo/jatoYr.json?method=carList";
+
+    var companyid = "mnfccd";
+    var modelgroupid = "mdlgroupcd";
+    var modelid = "mdlcd";
+    var yearid = "caryear";
+
+    function initGnb() {
+        var paramCompany = $("paramMnfccd").value;
+        var paramModelGroup = $("paramMdlgroupcd").value;
+        var paramModel = $("paramMdlcd").value;
+        var paramYr = $("paramYear").value;
+
+        // 제조사
+        if (paramModel != "") {
+            $("mdlcd").show();
+        }
+
+        //console.log("companyid :: " + companyid)
+        //console.log("paramCompany :: " + paramCompany)
+		if($('foldYn').value != 0){
+            foldingYN('f_fold');
+		}
+
+        setCompany(strCompanyUrl, companyid, "제조사", paramCompany);
+
+        // 제조사 값이 있으면 모델 검색
+        if (paramCompany >= '010') {
+            if (paramCompany != "") {
+                if (paramModel == "") {
+                    paramModel = paramModelGroup;
+                }
+                setModel(strModelUrl, modelid, paramCompany, "모델", paramModel)
+                $("mdlgroupcd").hide();
+
+            }
+        } else {
+            $("mdlgroupcd").show();
+            if (paramCompany != "") {
+                setModelGroup(strModelGroupUrl, modelgroupid, paramCompany, "모델", paramModelGroup);
+                if (paramModelGroup != "") {
+                    setModel_New(strModelUrl, modelid, paramCompany, paramModelGroup, "세부모델", paramModel);
+                }
+            }
+
+        }
+        if (paramCompany != "" && paramModel != "") {
+            setCarYear(strYrJatoUrl, yearid, paramCompany, paramModel, "형식연도", paramYr);
+        }
+
+        waitTime = 1;
+    }
+
+    function changeModel_jato(mnfccd, mdlgroupcd) {
+        setModel_New(strModelUrl, modelid, mnfccd, mdlgroupcd, "세부모델", "");
+        //모델그룹선택시 기본 세부모델선택
+        if ($("mdlcd") != null) {
+            $("mdlcd").selectedIndex = 1;
+            var mdlcd = $("mdlcd").options[$("mdlcd").selectedIndex].value;
+            changeYearJato(mnfccd, mdlcd);
+        }
+    }
+
+    function changeYearJato(mnfccd,mdlcd) {
+        setCarYear(strYrJatoUrl, yearid, mnfccd, mdlcd, "형식연도", "");
+        $(yearid).options[1].selected = true;
+    }
+
+
+
+    //덧글 리스트
+    function viewForm(index) {
+
+        var object = $("default" + index);
+        var objectSum = $("defaultSum" + index);
+        var selectSum = $("choiceSum" + index);
+        var object1 = $("choice" + index);
+        if (object != null) {
+            if (object.style.display == 'none') {
+                objectSum.hide();
+                selectSum.hide();
+                object.style.display = "block";
+                object1.style.display = "block";
+
+            } else {
+                object.hide();
+                object1.hide();
+                objectSum.style.display = "block";
+                selectSum.style.display = "block";
+            }
+        }
+    }
+
+    function viewAll() {
+        for (var i = 1; i <=8; i++) {
+            $("default" + i).style.display = "block";
+            $("defaultSum" + i).style.display = "none";
+            $("choice" + i).style.display = "block";
+            $("choiceSum" + i).style.display = "none";
+        }
+    }
+
+    function closeAll() {
+        for (var i = 1; i <=8; i++) {
+            $("default" + i).style.display = "none";
+            $("defaultSum" + i).style.display = "block";
+            $("choice" + i).style.display = "none";
+            $("choiceSum" + i).style.display = "block";
+        }
+    }
+
+    function firstLayerOpen() {
+        //viewForm(1);
+    }
+
+    function foldingYN(param) {
+        if (param == "f_fold") {
+            document.getElementById("folding").innerHTML ="<a href=\"javascript:foldingYN('f_unfold')\" class='folding f_unfold'>전체등급 펼쳐보기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "none";
+            document.getElementById("f_fold").style.display = "";
+        } else {
+            document.getElementById("folding").innerHTML = "<a href=\"javascript:foldingYN('f_fold')\" class='folding f_fold'>접기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "";
+            document.getElementById("f_fold").style.display = "none";
+        }
+    }
+
+    function onSubmit() {
+        jQuery("#searchForm").submit();
+
+    }
+    window.onload = initGnb;
+
+</script>
+</html>
+

@@ -1,0 +1,1417 @@
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>차량DB - 차량정보 - 신차가격표</title>
+    <link type="text/css" rel="stylesheet" href="/css/common.css?v=1793835891525"/>
+    <link type="text/css" rel="stylesheet" href="/css/db.css?v=1793835891525"/>
+
+    <script type="text/javascript" src="/js/encarapp/lib/jquery/jquery-1.11.3.min.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/common/ui.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/prototype.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/util.js?v=1793835894199"></script>
+
+    <script type="text/javascript" src="/js/common/db_common.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/commonCombo.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/carSearchCombo.js?v=1793835894199"></script>
+	<script>
+		window.enlogInitJson = {
+			"dataTalkView": {
+				"screenName": "신차가격표"
+			}
+		}
+
+	</script>
+
+
+</head>
+
+
+
+
+
+
+
+    <!-- 등급 체크박스  -->
+    <div style="display:none">
+        
+    </div>
+
+    <!-- 세부등급 체크박스 -->
+    <div style="display:none">
+        
+    </div>
+
+
+
+<body class="db db_newdetailview db_basicTemplate">
+
+
+
+
+	
+	
+	
+	
+
+
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-W9QQ2T"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W9QQ2T');</script>
+<!-- End Google Tag Manager -->
+
+<!-- container begin -->
+<div class="container" id="containerDIV">
+<input type="hidden" id = "foldYn" name="searchtype" value="8"/>
+<form id ="searchForm" name="searchForm">
+
+    <input type="hidden" id = "method" name="method" value="newpricePopV2"/>
+    <input type="hidden" id = "dimensiontype" name="dimensiontype" value="null"/>
+    <input type="hidden" id = "paramMnfccd" name="paramMnfccd" value="001"/>
+    <input type="hidden" id = "paramMdlgroupcd" name="paramMdlgroupcd" value="032"/>
+    <input type="hidden" id = "paramMdlcd" name="paramMdlcd" value="096"/>
+    <input type="hidden" id = "paramYear" name="paramYear" value="2013"/>
+    <input type="hidden" id = "model" name="model" value="">
+    <input type="hidden" id = "paramCaryear" name="paramCaryear" value="2013"/>
+    <input type="hidden" id = "clsheadcd" name="clsheadcd" class="checkbox" value="null"/>
+    <input type="hidden" id = "paramGradeHead" name="paramGradeHead" value="null"/>
+	<input type="hidden" id = "searchtype" name="searchtype" value="check"/>
+	<input type="hidden" id = "pageAccessToken" name="pageAccessToken" value="AgV4xB7RYQA+9du0gQRpg1hsXhZ5rX00eedDX5c/K8SiQIUAcQACAAdFbmNhckNrAAdFbmNhckN2ABVhd3MtY3J5cHRvLXB1YmxpYy1rZXkAREF0YkVVVitoMzdSaUFMOUFFZTU5dDBkam5Bc2Njb25qOEhnU3M4czYwN2VUZTU3dEZDQjhoQVJYTWdzR1ArQ3QzZz09AAEAB2F3cy1rbXMAUGFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjI3MjM2MjQ4NzY1MzprZXkvbXJrLWRmZWEyNmY3NTVhMzQ3MjliNjkwMjRkZWZmM2M1MWFjALgBAgEAeAuqQuSJvQ+Ra4FSj55FZzS0sk+00amsb3yoAFiEYn4PAdymrLVahTqNQJmjcsNESjgAAAB+MHwGCSqGSIb3DQEHBqBvMG0CAQAwaAYJKoZIhvcNAQcBMB4GCWCGSAFlAwQBLjARBAyrw2k7BkGThQo4BdoCARCAO/htPD9t8jr6+T+bkartB1wFQ2wTEpCpDcUv/pVzRGHOBeoXgVwIAirJVc36hoL2kLbm8s32TJTRfjQqAgAAEADnHV1T0pYCZ6D34A6soCls1GjHBaVmao7dg2BVgkkldS8ajYye2ttmPT1Dq6a0/Lb/////AAAAAQAAAAAAAAAAAAAAAQAAAKPEChY4GCgwJTNN6Rv9Apx99+8JD9VNJ3u8kfG4IqADBc20F4eriWhhnqrbriyoZ138vOSJ/LUdz5ONI5reR7rbzg5/ZwdTQ98tRHjwVjX6aNHK1LhB01mxZ+JNSxULCrvVRenAmahPsokENwBCZ2JOxEDhMolkKSjE197o0lunKINP8xZcvPhQqvWfCvwruZAgFJQ2E8kzPc+/ICzu5oEx83RsqzhgC44ocu6pA3ZBQRJ5ngBnMGUCMQCDE6CFi4FyyvzDKifBNiS7XdUlaBbj3vbwaRUgrkLHpGi2ymt8Byxv/2dFZ0aZs5YCMA96yXKgbal5Z9reRLsmaZJ3G8JKF9sgPX/fM4HHVsr+pmKAtLf2RCt7PPxrVFoIpQ=="/>
+    <div class="header">
+        <h1 class="blind">SK엔카</h1>
+        <h2 class="tit_carprice" id="main_title">신차가격표</h2>
+        <p class="quickSearch">
+
+
+
+            <select title="제조사" class="opt_select" id="mnfccd" name="mnfccd" onChange="javascript:changeModelGroup(this.value);">
+                <option value="">제조사</option>
+            </select>
+
+            <select class="opt_select" title="모델" id="mdlgroupcd" name="mdlgroupcd" onChange="javascript:changeModel_jato($('mnfccd').value, this.value);">
+                <option>모델</option>
+            </select>
+
+            <select class="opt_select" title="세부모델" id="mdlcd" name="mdlcd" onChange="javascript:changeYearJato($('mnfccd').value, $('mdlcd').value);">
+                <option>세부모델</option>
+            </select>
+
+            <select class="opt_select" title="연식" id="caryear" name="caryear">
+                <option>연식</option>
+            </select>
+
+            <button type="button" class="btn_search" onclick="javascript:onSubmit();"/>검색</button>
+
+
+
+        </p>
+    </div>
+    <!-- body begin -->
+    <div class="body" id="bodydiv">
+		
+			
+				<table class="layout">
+					<col class="contents"/>
+					<tr>
+						<td class="contentsMenu">
+							<!-- contentsMenu begin -->
+							<div class="contentsMenu">
+								<h3 class="title">현대 투싼 ix 2013년형</h3>
+							</div>
+							<!-- contentsMenu end -->
+						</td>
+					</tr>
+
+					<tr>
+						<td class="contentsMain">
+							<!-- contents begin -->
+							<div class="contents">
+
+								<div class="carCompare">
+									<div class="dbHead">
+										
+											<div id="folding"><a href="javascript:foldingYN('f_fold')"
+																 class="folding f_fold">전체등급 펼쳐보기<em class="db_ir"></em></a></div>
+
+											<!-- 2013/04/03 [서] 매물탭 개선 : 기능 버튼 추가 --><!--<a href="#" class="folding f_unfold">펼치기</a>-->
+										
+									</div>
+									
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+									<div id="f_unfold">
+										
+
+
+										<!-- case2 : 세부등급이 있는경우 -->
+										
+											<table class="carCompare sellcase2">
+												<colgroup>
+													<col class="grade">
+													<col class="detailgrd">
+													<col class="mission">
+													<col class="price">
+													<col class="uprice">
+													<col class="item">
+													<col class="option">
+												</colgroup>
+												<thead class="compare">
+												<tr>
+													<th class="grade bgn" colspan="3"><b>구분</b></th>
+													<th class="price"><b>판매가격</b></th>
+													<th class="uprice"><b>중고차시세</b></th><!-- [시세개편] 중고차시세 추가 -->
+													<th class="item"><b>기본사양 품목</b></th>
+													<th class="option end"><b>선택사양 품목</b></th>
+												</tr>
+												</thead>
+												<tbody class="new">
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="2">
+																<p>디젤 2WD X20</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>스타일</p></td>
+														
+														<td class="mission"><p>M/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,085</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶ 엔진/서스펜션 :</b> 디젤 e -VGT R 2.0엔진(유로5), 진폭감응형 댐퍼(승차감 향상), 6단 수동변속기(쉬프트 인디케이터 포함), 맥퍼슨 스트럿 전륜 서스펜션, 멀티링크 후륜 서스펜션, 연비패키지(발전제어/실리카 타이어/가변컴프레서)
+<br><br><b>▶ 안전 :</b> 6 에어백 시스템(운전석/동승석, 앞좌석 사이드, 커튼, 전복감지센서 포함), 디스크 브레이크, 차체자세제어장치(ABS, TCS, HAC, DBC포함) , 급제동 경보시스템(ESS), 1열 액티브 헤드레스트, 차일드시트앵커(유아용시트 고정장치), 시트벨트 프리텐셔너, 2열 센터시트 3점식 시트벨트, 샤시통합제어시스템
+<br><br><b>▶ 외관 :</b> 프로젝션 헤드램프, 17인치 알로이 휠, 225/60R17 타이어, 리어스포일러(보조제동등 포함), 틴티드 글라스, 열선내장 전동조절식 아웃사이드 미러(바디컬러), 리어 와이퍼 &amp; 와셔, 루프안테나, 안개등
+<br><br><b>▶ 내장 : </b>운전석 파워 럼버 서포트, 핸드파킹 주차브레이크, 썬바이저(티켓홀더, 거울커버/조명포함), 1단 대용량 플로어콘솔, 파워아웃렛, 2열 센터 암레스트 &amp; 컵홀더, 오버헤드콘솔, 오르간타입 가속페달
+<br><br><b>▶ 편의 :</b> 전동식 파워스티어링(MDPS), 수동식 틸트 스티어링, 트립컴퓨터, 매뉴얼 에어컨, 파워윈도우 오토다운, 공기가열식 보조히터, 중앙집중식 &amp; 차속감응형 오토 도어락, 폴딩타입 무선도어잠금 장치(패닉기능 포함), 템퍼러리 스페어 타이어, 헤드램프 에스코트 기능, 웰컴기능(미등), 러기지네트, 후방주차보조시스템
+<br><br><b>▶ 시트 : </b>인조가죽시트, 시트변환기능(1/2열 시트 펼침, 2열 6:4 분할 폴딩, 2열 폴딩), 운전석 높이조절 장치
+<br><br><b>▶ 오디오 :</b> CDP &amp; MP3 오디오(라디오, CDP, MP3, AUX, USB, iPod 연결단자), 스피커 6개
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b>&nbsp;게이트타입 6단 자동변속기(H-MATIC, 액티브 에코 시스템, 풋파킹 주차브레이크 포함)</b>&nbsp;1,670,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>스마트</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,360</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b>&nbsp;디젤 2WD</b>&nbsp;<b>X20 스타일 기본 품목 및</b>
+<br><br>게이트타입 6단 자동변속기(H-MATIC, 액티브 에코 시스템, 풋파킹 브레이크 포함), 전동접이식 아웃사이드 미러, 이모빌라이저 시동키, 계기판 조명조절 장치, 1열 시트열선(운전석/동승석), 웰컴기능(리모컨키 작동시 아웃사이드 미러 폴딩 &amp; 언폴딩), 버튼 시동장치 &amp; 스마트키 시스템, 열선 스티어링 휠, 가죽 변속기 노브 &amp; 가죽스티어링 휠, 오토크루즈 컨트롤, 오토라이트 컨트롤 헤드램프, 음성인식 블루투스 핸즈프리, 스티어링 휠 오디오 리모컨, 듀얼 풀오토 에어컨, 클러스터 이오나이저
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶ <b>파노라마 썬루프(열림 경보 포함)</b> 850,000
+<br><br>▶ <b>스타일 패키지</b> 500,000
+<br><br>▶ <b>럭셔리 시트 패키지</b> 800,000
+<br><br>▶ <b>ECM 룸미러 &amp; 하이패스 시스템</b> 250,000
+<br><br>▶ <b>인텔리전트 내비게이션 + 후방카메라(외장형 앰프, 서브우퍼 포함)</b> 1,620,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+													
+														
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>디젤 2WD LX20</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>모던</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,560</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b>&nbsp;디젤 2WD</b>&nbsp;<b>X20 스마트 기본 품목 및</b>
+<br><br>18인치 알로이 휠 &amp; 225/55R 18타이어, 사이드리피터 내장 아웃사이드 미러, 루프랙, 도어가니쉬,
+2열 시트열선, 운전석 세이프티 윈도우, 확장식 썬바이저, 러기지스크린, 와이퍼 결빙방지 장치, 러기지언더트레이, ECM 룸미러 &amp; 하이패스 시스템, 슈퍼비전 클러스터, 타이어 공기압 경보장치(TPMS)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶ <b>파노라마 썬루프(열림 경보 포함)</b> 850,000
+<br><br>▶ <b>럭셔리 시트 패키지</b> 800,000
+<br><br>▶ <b>인텔리전트 내비게이션 + 후방카메라(외장형 앰프, 서브우퍼 포함)</b> 1,620,000
+<br><br>▶<b>&nbsp;주차조향 보조 시스템(SPAS)</b>&nbsp;300,000
+<br><b>※&nbsp;음성안내기능 포함</b></li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>디젤 2WD LMX20</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>프리미엄</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,690</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b>&nbsp;디젤 2WD</b>&nbsp;<b>LX20 모던 기본 품목 및</b>
+<br><br>운전석 통풍시트, 가죽시트, 운전석 파워시트, 스테인레스 도어스커프, 솔라 &amp; 프라이버시 글라스,
+레인센서, 크롬 아웃사이드 도어핸들
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶ <b>파노라마 썬루프(열림 경보 포함)</b> 850,000
+<br><br>▶ <b>인텔리전트 내비게이션 + 후방카메라(외장형 앰프, 서브우퍼 포함)</b> 1,620,000
+<br><br>▶<b>&nbsp;주차조향 보조 시스템(SPAS)</b>&nbsp;300,000
+<br>
+<b>※&nbsp;음성안내기능 포함</b><br><br>▶ <b>후방 디스플레이 룸미러(후방카메라 포함)</b> 400,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="2">
+																<p>디젤 4WD X20</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>스타일</p></td>
+														
+														<td class="mission"><p>M/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,263</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶&nbsp;<b>디젤 e-VGT R2.0 엔진 2WD X20 스타일 기본 품목 및</b> <br><br>전자식 4WD
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b>&nbsp;게이트타입 6단 자동변속기(H-MATIC, 액티브 에코 시스템, 풋파킹 주차브레이크 포함)</b>&nbsp;1,670,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>스마트</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,538</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶&nbsp;<b>디젤 e-VGT R2.0 엔진 2WD X20 스마트 기본 품목 및</b> <br><br>전자식 4WD
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶ <b>파노라마 썬루프(열림 경보 포함)</b> 850,000
+<br><br>▶ <b>인텔리전트 내비게이션 + 후방카메라(외장형 앰프, 서브우퍼 포함)</b> 1,620,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>디젤 4WD LX20</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>모던</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,738</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶&nbsp;<b>디젤 e-VGT R2.0 엔진 2WD LX20 모던 기본 품목 및</b> <br><br>전자식 4WD
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶ <b>파노라마 썬루프(열림 경보 포함)</b> 850,000
+<br><br>▶ <b>인텔리전트 내비게이션 + 후방카메라(외장형 앰프, 서브우퍼 포함)</b> 1,620,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>디젤 4WD LMX20</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>프리미엄</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,868</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶&nbsp;<b>디젤 e-VGT R 2.0 엔진 2WD LMX20 프리미엄 기본 품목 및</b> <br><br>전자식 4WD
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶ <b>파노라마 썬루프(열림 경보 포함)</b> 850,000
+<br><br>▶ <b>인텔리전트 내비게이션 + 후방카메라(외장형 앰프, 서브우퍼 포함)</b> 1,620,000
+<br><br>▶<b>&nbsp;주차조향 보조 시스템(SPAS)</b>&nbsp;300,000
+<br>
+<b>※&nbsp;음성안내기능 포함</b></li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+												</tbody>
+											</table>
+										
+									</div>
+									<!-- 신차가격표(폴더형) -->
+									<div id="f_fold" style="display:none;">
+										<div class="newcar_folder">
+											<ul class="nf_list" id="newcarList">
+												
+													<li>
+														<a href="#newcar0">
+                                                            <span class="model">디젤 2WD X20 스타일 M/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,085</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar1">
+                                                            <span class="model">디젤 2WD X20 스마트 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,360</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar2">
+                                                            <span class="model">디젤 2WD LX20 모던 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,560</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar3">
+                                                            <span class="model">디젤 2WD LMX20 프리미엄 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,690</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar4">
+                                                            <span class="model">디젤 4WD X20 스타일 M/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,263</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar5">
+                                                            <span class="model">디젤 4WD X20 스마트 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,538</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar6">
+                                                            <span class="model">디젤 4WD LX20 모던 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,738</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar7">
+                                                            <span class="model">디젤 4WD LMX20 프리미엄 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,868</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+											</ul>
+											<!-- 개별 -->
+											
+												<div id="newcar0" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 엔진/서스펜션 :</b> 디젤 e -VGT R 2.0엔진(유로5), 진폭감응형 댐퍼(승차감 향상), 6단 수동변속기(쉬프트 인디케이터 포함), 맥퍼슨 스트럿 전륜 서스펜션, 멀티링크 후륜 서스펜션, 연비패키지(발전제어/실리카 타이어/가변컴프레서)
+<br><br><b>▶ 안전 :</b> 6 에어백 시스템(운전석/동승석, 앞좌석 사이드, 커튼, 전복감지센서 포함), 디스크 브레이크, 차체자세제어장치(ABS, TCS, HAC, DBC포함) , 급제동 경보시스템(ESS), 1열 액티브 헤드레스트, 차일드시트앵커(유아용시트 고정장치), 시트벨트 프리텐셔너, 2열 센터시트 3점식 시트벨트, 샤시통합제어시스템
+<br><br><b>▶ 외관 :</b> 프로젝션 헤드램프, 17인치 알로이 휠, 225/60R17 타이어, 리어스포일러(보조제동등 포함), 틴티드 글라스, 열선내장 전동조절식 아웃사이드 미러(바디컬러), 리어 와이퍼 &amp; 와셔, 루프안테나, 안개등
+<br><br><b>▶ 내장 : </b>운전석 파워 럼버 서포트, 핸드파킹 주차브레이크, 썬바이저(티켓홀더, 거울커버/조명포함), 1단 대용량 플로어콘솔, 파워아웃렛, 2열 센터 암레스트 &amp; 컵홀더, 오버헤드콘솔, 오르간타입 가속페달
+<br><br><b>▶ 편의 :</b> 전동식 파워스티어링(MDPS), 수동식 틸트 스티어링, 트립컴퓨터, 매뉴얼 에어컨, 파워윈도우 오토다운, 공기가열식 보조히터, 중앙집중식 &amp; 차속감응형 오토 도어락, 폴딩타입 무선도어잠금 장치(패닉기능 포함), 템퍼러리 스페어 타이어, 헤드램프 에스코트 기능, 웰컴기능(미등), 러기지네트, 후방주차보조시스템
+<br><br><b>▶ 시트 : </b>인조가죽시트, 시트변환기능(1/2열 시트 펼침, 2열 6:4 분할 폴딩, 2열 폴딩), 운전석 높이조절 장치
+<br><br><b>▶ 오디오 :</b> CDP &amp; MP3 오디오(라디오, CDP, MP3, AUX, USB, iPod 연결단자), 스피커 6개</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b>&nbsp;게이트타입 6단 자동변속기(H-MATIC, 액티브 에코 시스템, 풋파킹 주차브레이크 포함)</b>&nbsp;1,670,000</p>
+												</div>
+											
+												<div id="newcar1" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b>&nbsp;디젤 2WD</b>&nbsp;<b>X20 스타일 기본 품목 및</b>
+<br><br>게이트타입 6단 자동변속기(H-MATIC, 액티브 에코 시스템, 풋파킹 브레이크 포함), 전동접이식 아웃사이드 미러, 이모빌라이저 시동키, 계기판 조명조절 장치, 1열 시트열선(운전석/동승석), 웰컴기능(리모컨키 작동시 아웃사이드 미러 폴딩 &amp; 언폴딩), 버튼 시동장치 &amp; 스마트키 시스템, 열선 스티어링 휠, 가죽 변속기 노브 &amp; 가죽스티어링 휠, 오토크루즈 컨트롤, 오토라이트 컨트롤 헤드램프, 음성인식 블루투스 핸즈프리, 스티어링 휠 오디오 리모컨, 듀얼 풀오토 에어컨, 클러스터 이오나이저</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶ <b>파노라마 썬루프(열림 경보 포함)</b> 850,000
+<br><br>▶ <b>스타일 패키지</b> 500,000
+<br><br>▶ <b>럭셔리 시트 패키지</b> 800,000
+<br><br>▶ <b>ECM 룸미러 &amp; 하이패스 시스템</b> 250,000
+<br><br>▶ <b>인텔리전트 내비게이션 + 후방카메라(외장형 앰프, 서브우퍼 포함)</b> 1,620,000</p>
+												</div>
+											
+												<div id="newcar2" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b>&nbsp;디젤 2WD</b>&nbsp;<b>X20 스마트 기본 품목 및</b>
+<br><br>18인치 알로이 휠 &amp; 225/55R 18타이어, 사이드리피터 내장 아웃사이드 미러, 루프랙, 도어가니쉬,
+2열 시트열선, 운전석 세이프티 윈도우, 확장식 썬바이저, 러기지스크린, 와이퍼 결빙방지 장치, 러기지언더트레이, ECM 룸미러 &amp; 하이패스 시스템, 슈퍼비전 클러스터, 타이어 공기압 경보장치(TPMS)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶ <b>파노라마 썬루프(열림 경보 포함)</b> 850,000
+<br><br>▶ <b>럭셔리 시트 패키지</b> 800,000
+<br><br>▶ <b>인텔리전트 내비게이션 + 후방카메라(외장형 앰프, 서브우퍼 포함)</b> 1,620,000
+<br><br>▶<b>&nbsp;주차조향 보조 시스템(SPAS)</b>&nbsp;300,000
+<br><b>※&nbsp;음성안내기능 포함</b></p>
+												</div>
+											
+												<div id="newcar3" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b>&nbsp;디젤 2WD</b>&nbsp;<b>LX20 모던 기본 품목 및</b>
+<br><br>운전석 통풍시트, 가죽시트, 운전석 파워시트, 스테인레스 도어스커프, 솔라 &amp; 프라이버시 글라스,
+레인센서, 크롬 아웃사이드 도어핸들</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶ <b>파노라마 썬루프(열림 경보 포함)</b> 850,000
+<br><br>▶ <b>인텔리전트 내비게이션 + 후방카메라(외장형 앰프, 서브우퍼 포함)</b> 1,620,000
+<br><br>▶<b>&nbsp;주차조향 보조 시스템(SPAS)</b>&nbsp;300,000
+<br>
+<b>※&nbsp;음성안내기능 포함</b><br><br>▶ <b>후방 디스플레이 룸미러(후방카메라 포함)</b> 400,000</p>
+												</div>
+											
+												<div id="newcar4" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶&nbsp;<b>디젤 e-VGT R2.0 엔진 2WD X20 스타일 기본 품목 및</b> <br><br>전자식 4WD</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b>&nbsp;게이트타입 6단 자동변속기(H-MATIC, 액티브 에코 시스템, 풋파킹 주차브레이크 포함)</b>&nbsp;1,670,000</p>
+												</div>
+											
+												<div id="newcar5" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶&nbsp;<b>디젤 e-VGT R2.0 엔진 2WD X20 스마트 기본 품목 및</b> <br><br>전자식 4WD</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶ <b>파노라마 썬루프(열림 경보 포함)</b> 850,000
+<br><br>▶ <b>인텔리전트 내비게이션 + 후방카메라(외장형 앰프, 서브우퍼 포함)</b> 1,620,000</p>
+												</div>
+											
+												<div id="newcar6" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶&nbsp;<b>디젤 e-VGT R2.0 엔진 2WD LX20 모던 기본 품목 및</b> <br><br>전자식 4WD</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶ <b>파노라마 썬루프(열림 경보 포함)</b> 850,000
+<br><br>▶ <b>인텔리전트 내비게이션 + 후방카메라(외장형 앰프, 서브우퍼 포함)</b> 1,620,000</p>
+												</div>
+											
+												<div id="newcar7" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶&nbsp;<b>디젤 e-VGT R 2.0 엔진 2WD LMX20 프리미엄 기본 품목 및</b> <br><br>전자식 4WD</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶ <b>파노라마 썬루프(열림 경보 포함)</b> 850,000
+<br><br>▶ <b>인텔리전트 내비게이션 + 후방카메라(외장형 앰프, 서브우퍼 포함)</b> 1,620,000
+<br><br>▶<b>&nbsp;주차조향 보조 시스템(SPAS)</b>&nbsp;300,000
+<br>
+<b>※&nbsp;음성안내기능 포함</b></p>
+												</div>
+											
+										</div>
+										<script type="text/javascript">
+											newcarFolder(0);//초기값
+											function newcarFolder(target) {
+												var conElId = "newcar"//아이디 설정
+												var conElMenu = document.getElementById("newcarList");
+												var conElMenuLink = conElMenu.getElementsByTagName("a");
+												if (target != null) {
+													conElMenuLink[target].parentNode.className = "on";
+													document.getElementById(
+														conElId + target).style.display = "";
+												}
+												for (i = 0; i <= (conElMenuLink.length - 1); i++) {
+													conElMenuLink[i].onclick = function () {
+														for (x = 0; x <= (conElMenuLink.length - 1); x++) {
+															conElMenuLink[x].parentNode.className = "";
+															document.getElementById(
+																conElId + x).style.display = "none";
+														}
+														this.parentNode.className = "on";
+														document.getElementById(this.getAttribute('href')
+																					.split(
+																						'#')[1]).style.display =
+															"";
+														return false;
+													}
+												}
+											}
+										</script>
+									</div>
+									
+										<ul class="more">
+												<b>▶ 패키지 선택품목</b>
+<br><b>스타일 패키지</b>&nbsp;- 18인치 알로이 휠 &amp; 225/55R18타이어, 루프랙, 도어가니쉬
+<br><b>럭셔리 시트 패키지</b>&nbsp;- 운전석 통풍시트, 가죽시트, 운전석 파워시트
+<br>
+<br>
+▶&nbsp;인텔리전트 내비게이션 선택시 앞좌석 와이드 VGA 6.5 인치 터치스크린, 멀티플레이 내비게이션, 지상파 DMB, 위험지역알림기능, 외장형 통합안테나(GPS + DMB), DVD &amp; MP3 &amp; CD 재생기능, TPEG 서비스 제공<br>- 멀티플레이 내비게이션 : 내비게이션 기능과 DVD/MP3/CD/지상파 DMB 등 타 기능 동시구현 가능<br>- TPEG 서비스 : 당사와 KBS가 공동으로 지상파 DMB 방송채널을 이용하여 교통정보 등을 제공하는 TT(Traffic &amp; Information) 서비스임<br>▶ 후방 디스플레이 룸미러/인텔리전트 내비게이션&nbsp;중복 적용 불가<br>▶ 수동변속기는 쉬프트 인디케이터 동시 적용, 자동변속기는 액티브 에코시스템 동시 적용됨<br>▶ 템퍼러리 스페어 타이어 : 연비개선 효과를 위해 설계된 타이어로서 가까운 정비업체까지 주행할 수 있도록 제작<br>▶ 가죽시트(천연 + 인조)는 부분적으로 인조가죽 적용<br>
+										</ul>
+									
+									<p class="desc_more">위 신차가격표는 단순 참고자료이며, 정확한 내용은 각 제조사에서 제공하는 자료를 통해확인하실 수 있습니다.</p><!-- 2016/10/12 [장] 등급 등록/수정 개선 : 추가 디자인 변경 -->
+									<p class="toTop"><a href="#main_title" class="sp toTop db_ir" title="페이지 위로"><u>페이지 위로</u></a></p><!-- [시세개편] class db_ir 추가 -->
+								</div>
+
+
+							</div>
+							<!-- body end -->
+						</td>
+					</tr>
+				</table>
+
+
+			
+			
+		
+    </div>
+
+    <!-- container end -->
+</form>
+</div>
+
+</body>
+<script language="javascript">
+
+
+    var strCompanyUrl = "/common/combo/cardbcompany.json?method=carList";
+    var strModelGroupUrl = "/common/combo/modelgroupfordb.json?method=carList";
+    var strModelUrl = "/common/combo/cardbmodel.json?method=carList";
+    var strYrJatoUrl = "/common/combo/jatoYr.json?method=carList";
+
+    var companyid = "mnfccd";
+    var modelgroupid = "mdlgroupcd";
+    var modelid = "mdlcd";
+    var yearid = "caryear";
+
+    function initGnb() {
+        var paramCompany = $("paramMnfccd").value;
+        var paramModelGroup = $("paramMdlgroupcd").value;
+        var paramModel = $("paramMdlcd").value;
+        var paramYr = $("paramYear").value;
+
+        // 제조사
+        if (paramModel != "") {
+            $("mdlcd").show();
+        }
+
+        //console.log("companyid :: " + companyid)
+        //console.log("paramCompany :: " + paramCompany)
+		if($('foldYn').value != 0){
+            foldingYN('f_fold');
+		}
+
+        setCompany(strCompanyUrl, companyid, "제조사", paramCompany);
+
+        // 제조사 값이 있으면 모델 검색
+        if (paramCompany >= '010') {
+            if (paramCompany != "") {
+                if (paramModel == "") {
+                    paramModel = paramModelGroup;
+                }
+                setModel(strModelUrl, modelid, paramCompany, "모델", paramModel)
+                $("mdlgroupcd").hide();
+
+            }
+        } else {
+            $("mdlgroupcd").show();
+            if (paramCompany != "") {
+                setModelGroup(strModelGroupUrl, modelgroupid, paramCompany, "모델", paramModelGroup);
+                if (paramModelGroup != "") {
+                    setModel_New(strModelUrl, modelid, paramCompany, paramModelGroup, "세부모델", paramModel);
+                }
+            }
+
+        }
+        if (paramCompany != "" && paramModel != "") {
+            setCarYear(strYrJatoUrl, yearid, paramCompany, paramModel, "형식연도", paramYr);
+        }
+
+        waitTime = 1;
+    }
+
+    function changeModel_jato(mnfccd, mdlgroupcd) {
+        setModel_New(strModelUrl, modelid, mnfccd, mdlgroupcd, "세부모델", "");
+        //모델그룹선택시 기본 세부모델선택
+        if ($("mdlcd") != null) {
+            $("mdlcd").selectedIndex = 1;
+            var mdlcd = $("mdlcd").options[$("mdlcd").selectedIndex].value;
+            changeYearJato(mnfccd, mdlcd);
+        }
+    }
+
+    function changeYearJato(mnfccd,mdlcd) {
+        setCarYear(strYrJatoUrl, yearid, mnfccd, mdlcd, "형식연도", "");
+        $(yearid).options[1].selected = true;
+    }
+
+
+
+    //덧글 리스트
+    function viewForm(index) {
+
+        var object = $("default" + index);
+        var objectSum = $("defaultSum" + index);
+        var selectSum = $("choiceSum" + index);
+        var object1 = $("choice" + index);
+        if (object != null) {
+            if (object.style.display == 'none') {
+                objectSum.hide();
+                selectSum.hide();
+                object.style.display = "block";
+                object1.style.display = "block";
+
+            } else {
+                object.hide();
+                object1.hide();
+                objectSum.style.display = "block";
+                selectSum.style.display = "block";
+            }
+        }
+    }
+
+    function viewAll() {
+        for (var i = 1; i <=8; i++) {
+            $("default" + i).style.display = "block";
+            $("defaultSum" + i).style.display = "none";
+            $("choice" + i).style.display = "block";
+            $("choiceSum" + i).style.display = "none";
+        }
+    }
+
+    function closeAll() {
+        for (var i = 1; i <=8; i++) {
+            $("default" + i).style.display = "none";
+            $("defaultSum" + i).style.display = "block";
+            $("choice" + i).style.display = "none";
+            $("choiceSum" + i).style.display = "block";
+        }
+    }
+
+    function firstLayerOpen() {
+        //viewForm(1);
+    }
+
+    function foldingYN(param) {
+        if (param == "f_fold") {
+            document.getElementById("folding").innerHTML ="<a href=\"javascript:foldingYN('f_unfold')\" class='folding f_unfold'>전체등급 펼쳐보기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "none";
+            document.getElementById("f_fold").style.display = "";
+        } else {
+            document.getElementById("folding").innerHTML = "<a href=\"javascript:foldingYN('f_fold')\" class='folding f_fold'>접기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "";
+            document.getElementById("f_fold").style.display = "none";
+        }
+    }
+
+    function onSubmit() {
+        jQuery("#searchForm").submit();
+
+    }
+    window.onload = initGnb;
+
+</script>
+</html>
+

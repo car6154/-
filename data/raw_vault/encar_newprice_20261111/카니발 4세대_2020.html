@@ -1,0 +1,2483 @@
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>차량DB - 차량정보 - 신차가격표</title>
+    <link type="text/css" rel="stylesheet" href="/css/common.css?v=1793835891525"/>
+    <link type="text/css" rel="stylesheet" href="/css/db.css?v=1793835891525"/>
+
+    <script type="text/javascript" src="/js/encarapp/lib/jquery/jquery-1.11.3.min.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/common/ui.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/prototype.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/util.js?v=1793835894199"></script>
+
+    <script type="text/javascript" src="/js/common/db_common.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/commonCombo.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/carSearchCombo.js?v=1793835894199"></script>
+	<script>
+		window.enlogInitJson = {
+			"dataTalkView": {
+				"screenName": "신차가격표"
+			}
+		}
+
+	</script>
+
+
+</head>
+
+
+
+
+
+
+
+    <!-- 등급 체크박스  -->
+    <div style="display:none">
+        
+    </div>
+
+    <!-- 세부등급 체크박스 -->
+    <div style="display:none">
+        
+    </div>
+
+
+
+<body class="db db_newdetailview db_basicTemplate">
+
+
+
+
+	
+	
+	
+	
+
+
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-W9QQ2T"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W9QQ2T');</script>
+<!-- End Google Tag Manager -->
+
+<!-- container begin -->
+<div class="container" id="containerDIV">
+<input type="hidden" id = "foldYn" name="searchtype" value="16"/>
+<form id ="searchForm" name="searchForm">
+
+    <input type="hidden" id = "method" name="method" value="newpricePopV2"/>
+    <input type="hidden" id = "dimensiontype" name="dimensiontype" value="null"/>
+    <input type="hidden" id = "paramMnfccd" name="paramMnfccd" value="002"/>
+    <input type="hidden" id = "paramMdlgroupcd" name="paramMdlgroupcd" value="036"/>
+    <input type="hidden" id = "paramMdlcd" name="paramMdlcd" value="154"/>
+    <input type="hidden" id = "paramYear" name="paramYear" value="2020"/>
+    <input type="hidden" id = "model" name="model" value="">
+    <input type="hidden" id = "paramCaryear" name="paramCaryear" value="2020"/>
+    <input type="hidden" id = "clsheadcd" name="clsheadcd" class="checkbox" value="null"/>
+    <input type="hidden" id = "paramGradeHead" name="paramGradeHead" value="null"/>
+	<input type="hidden" id = "searchtype" name="searchtype" value="check"/>
+	<input type="hidden" id = "pageAccessToken" name="pageAccessToken" value="AgV4So6CXb4EcxycMFP8DnwQRK/4zVkrp70PyYGZ4HSeQzQAcQACAAdFbmNhckNrAAdFbmNhckN2ABVhd3MtY3J5cHRvLXB1YmxpYy1rZXkAREEvRHFNcTcyLzgrdWNkRjBieVd4WjhSRzA1UVNTa2Jrd0c2RW9QaEtGT2VlUGNoZVhyS3FCTVB5eENVNzYwL0RtZz09AAEAB2F3cy1rbXMAUGFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjI3MjM2MjQ4NzY1MzprZXkvbXJrLWRmZWEyNmY3NTVhMzQ3MjliNjkwMjRkZWZmM2M1MWFjALgBAgEAeAuqQuSJvQ+Ra4FSj55FZzS0sk+00amsb3yoAFiEYn4PAWBQmvIwblmUg3bxPL2IbBEAAAB+MHwGCSqGSIb3DQEHBqBvMG0CAQAwaAYJKoZIhvcNAQcBMB4GCWCGSAFlAwQBLjARBAxRRboMXyCmziIbkCICARCAOxNnz8X153YavaTB+ZCZDT2iIKEgGG7yDOVDY5b9p9h6NHkNdXbEV98Iyry6KEIrSkMcQiual9WNy5tRAgAAEAC42Eabz8tFai78aO8ZsrXT48u8uYOcXYJvkiClS6cVCPFQWxBGufwFNgirB94CmZP/////AAAAAQAAAAAAAAAAAAAAAQAAAKP8B7JO5oeRufFrUBLOg8gckpYqpN1JURwoz56AXZb2Ia8ciLnumK/FMKl+oOm8kpxoRw+i6nFETftJfNfq+ePv7110LIzpCVD2u2qOzViFipR7Uk77YtM8SIPb+0M7rS8bU1SgVY7Uty7HV52+YB0T8TGf3cjvY9WJs34d6nIhzc0Db7/8prWLLuVz/ZtmJcIMmUTrapCu8BTEktsRbkFIIZBSHlZLuZ2p9H7/c7I7ZNGiRQBnMGUCMQCkHAeELckxrpyBUzCH7S8oGjj8u7hztJDVx1hWp3751BoWNgkomxaUlH1m9R7iOSMCMG2BShX+oSh6U6bFx+JH703Cx8y9WOh3HdFLf3ADJCa58Y0fVMDzxcx5sUdQ8vwukg=="/>
+    <div class="header">
+        <h1 class="blind">SK엔카</h1>
+        <h2 class="tit_carprice" id="main_title">신차가격표</h2>
+        <p class="quickSearch">
+
+
+
+            <select title="제조사" class="opt_select" id="mnfccd" name="mnfccd" onChange="javascript:changeModelGroup(this.value);">
+                <option value="">제조사</option>
+            </select>
+
+            <select class="opt_select" title="모델" id="mdlgroupcd" name="mdlgroupcd" onChange="javascript:changeModel_jato($('mnfccd').value, this.value);">
+                <option>모델</option>
+            </select>
+
+            <select class="opt_select" title="세부모델" id="mdlcd" name="mdlcd" onChange="javascript:changeYearJato($('mnfccd').value, $('mdlcd').value);">
+                <option>세부모델</option>
+            </select>
+
+            <select class="opt_select" title="연식" id="caryear" name="caryear">
+                <option>연식</option>
+            </select>
+
+            <button type="button" class="btn_search" onclick="javascript:onSubmit();"/>검색</button>
+
+
+
+        </p>
+    </div>
+    <!-- body begin -->
+    <div class="body" id="bodydiv">
+		
+			
+				<table class="layout">
+					<col class="contents"/>
+					<tr>
+						<td class="contentsMenu">
+							<!-- contentsMenu begin -->
+							<div class="contentsMenu">
+								<h3 class="title">기아 카니발 4세대 2020년형</h3>
+							</div>
+							<!-- contentsMenu end -->
+						</td>
+					</tr>
+
+					<tr>
+						<td class="contentsMain">
+							<!-- contents begin -->
+							<div class="contents">
+
+								<div class="carCompare">
+									<div class="dbHead">
+										
+											<div id="folding"><a href="javascript:foldingYN('f_fold')"
+																 class="folding f_fold">전체등급 펼쳐보기<em class="db_ir"></em></a></div>
+
+											<!-- 2013/04/03 [서] 매물탭 개선 : 기능 버튼 추가 --><!--<a href="#" class="folding f_unfold">펼치기</a>-->
+										
+									</div>
+									
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+									<div id="f_unfold">
+										
+											<!-- case1 : 세부등급과 미션분리 -->
+											<table class="carCompare sellcase1">
+												<colgroup>
+													<col class="grade">
+													<col class="mission">
+													<col class="price">
+												    <col class="uprice"><!-- [시세개편] 중고차시세 추가 uprice -->
+													<col class="item">
+													<col class="option">
+												</colgroup>
+												<thead class="compare">
+												<tr>
+													<th class="grade" colspan="2"><b>구분</b></th>
+													<th class="price"><b>판매가격</b></th>
+													<th class="uprice"><b>중고차시세</b></th><!-- [시세개편] 중고차시세 추가 -->
+													<th class="item"><b>기본사양 품목</b></th>
+													<th class="option end"><b>선택사양 품목</b></th>
+												</tr>
+												</thead>
+												<tbody class="new">
+												
+													
+														
+													
+													
+														
+															
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>디젤 7인승 노블레스</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,942</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>▶&nbsp;2.2 디젤&nbsp;9인승 노블레스 기본 품목 대비&nbsp;</b><br><br><b>&nbsp;·&nbsp;외관&nbsp;</b>: 235/55 R19 굿이어 타이어&amp;전면가공 휠, 리무진 엠블렘&nbsp;<br><br><b>&nbsp;·&nbsp;시트&nbsp;</b>: 가죽시트, 2열 프리미엄 릴렉션 시트(원터치 릴렉션 모드, 파워 리클라이닝, 파워 레그서포트, 윙아웃 헤드레스트, 전/후/좌/우 슬라이딩), 2열 통풍시트, 3열 6:4 싱킹시트&nbsp;<br><br><b>&nbsp;·&nbsp;편의&nbsp;</b>: 도어타입 러기지 트레이, 확장형 센터콘솔, 3열 USB 단자(충전용) 
+<br>※ 미적용 : 2열 시트 워크인, 3열 쿠션 팁업&amp;슬라이딩, 4열 시트
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>스타일 :&nbsp;69만&nbsp;
+<br>※ 11인승 미적용<br><br><b>▶&nbsp;</b>드라이브 와이즈 :&nbsp;63만&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>12.3인치 UVO 내비게이션 : 131만<br><br><b>▶&nbsp;</b>모니터링 팩 :&nbsp;135만&nbsp;
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>스마트 커넥트&nbsp;:&nbsp;94만 
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>KRELL 프리미엄 사운드 :&nbsp;63만 
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>듀얼 선루프 :&nbsp;89만<br><br><b>▶&nbsp;</b>스노우 화이트 펄 : 8만</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>디젤 7인승 시그니처</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>4,354</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>▶&nbsp;</b><b>2.2 디젤&nbsp;</b><b>9인승 시그니처 기본 품목 대비</b><b><br></b><br><b>&nbsp;·&nbsp;외관&nbsp;</b>: 235/55 R19 컨티넨탈 타이어&amp;전면가공 휠, 리무진 엠블렘&nbsp;<br><br><b>&nbsp;·&nbsp;시트&nbsp;</b>: 나파가죽시트, 2열 프리미엄 릴렉션 시트(원터치 릴렉션 모드, 파워 리클라이닝, 파워 레그서포트, 윙아웃 헤드레스트, 전/후/좌/우 슬라이딩) , 2열 통풍시트, 3열 6:4 싱킹시트&nbsp;<br><br><b>&nbsp;·&nbsp;편의&nbsp;</b>: 도어타입 러기지 트레이, 확장형 센터콘솔, 3열 USB 단자(충전용)&nbsp;<br>※ 미적용 : 2열 시트 워크인, 3열 쿠션 팁업&amp;슬라이딩, 4열 시트
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>스타일 :&nbsp;69만 
+<br>※ 11인승 미적용<br><br><b>▶&nbsp;</b>드라이브 와이즈 :&nbsp;63만&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>모니터링 팩 :&nbsp;68만 
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>스마트 커넥트&nbsp;:&nbsp;94만 
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>KRELL 프리미엄 사운드 : 63만
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능&nbsp;<br><br><b>▶&nbsp;</b>듀얼 선루프 :&nbsp;89만&nbsp;<br><br><b>▶&nbsp;</b>[TUON] 후석 엔터테인먼트 시스템 :&nbsp;126만<br><br><b>▶&nbsp;</b>스노우 화이트 펄 : 8만</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>디젤 9인승 프레스티지</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,280</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>▶&nbsp;파워트레인&nbsp;</b>: 스마트스트림 D2.2 엔진, 고급형 ISG, 8단 자동변속기, 속도감응형 전동식 파워스티어링(MDPS), 주행모드 통합제어 시스템<br><br><b>▶&nbsp;첨단 운전자 보조&nbsp;</b>(<b>ADAS</b>) : 전방 충돌방지 보조(차량/보행자/사이클리스트/교차로 대향차), 차로 이탈방지 보조, 운전자 주의 경고(전방 차량 출발 알림 기능 포함), 하이빔 보조, 스마트 크루즈 컨트롤(정차&amp;재출발), 차로 유지 보조<br><br><b>▶&nbsp;안전&nbsp;</b>: 7에어백(운전석/동승석 어드밴스드, 운전석 무릎, 전복감지 커튼, 1열 사이드), 전/후방 주차 거리 경고, VSM, 다중 충돌방지 자동 제동 시스템, 경사로 밀림방지장치, 급제동 경보 시스템, 개별 타이어 공기압 경보 시스템, 1열/2열/3열/4열 시트벨트 리마인더, 2열/3열 유아용 시트 고정 장치, 타이어 임시수리장치, 소화기<br><br><b>▶&nbsp;외관&nbsp;</b>: 235/60 R18 굿이어 타이어&amp;전면가공 휠, LED 헤드램프, LED DRL, LED 리피터 일체형 아웃사이드 미러(전동접이, 전동조절, 열선), 크롬 아웃사이드 도어핸들, 도어손잡이 조명(프론트), 에어로타입 와이퍼, 윈드쉴드 이중접합 차음 글라스, 루프랙, 샤크핀 안테나<br><br><b>▶&nbsp;내장&nbsp;</b>: 슈퍼비전 클러스터(4.2인치 칼라 TFT LCD), 가죽 스티어링 휠, 가죽 변속기 노브, D/N 룸미러, 슬라이딩 선바이저(거울, 조명)<br><br><b>▶&nbsp;시트&nbsp;</b>: 인조가죽시트, 1열 열선시트, 1열 통풍시트, 운전석 전동식 허리지지대, 2열 열선시트, 2열 독립시트(전/후 슬라이딩, 리클라이닝, 워크인), 3열 독립시트(쿠션 팁업&amp;전/후 슬라이딩, 리클라이닝), 4열 팝업 싱킹 시트<br><br><b>▶&nbsp;편의&nbsp;</b>: 버튼시동 스마트키 시스템(원격시동 포함), 전자식 파킹브레이크(EPB, 오토홀드), 후방 모니터, 오토 라이트 컨트롤, 열선 스티어링 휠, 수동식 틸트&amp;텔레스코픽 스티어링 휠, 운전석 세이프티 파워윈도우, 동승석/2열 파워윈도우, 승하차 스팟램프, 매뉴얼 에어컨, 고성능 에어컨 필터, 후석 보조 에어컨 필터, 1열/2열 USB 단자(충전용), 파워아웃렛,PTC 보조 히터<br><br><b>▶&nbsp;인포테인먼트&nbsp;</b>: 8인치 디스플레이 오디오, 6스피커, 스티어링 휠 오디오 리모컨, 블루투스 핸즈프리, USB 단자(데이터리딩용)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>스마트 파워 슬라이딩 도어 :&nbsp;80만<br><br><b>▶&nbsp;</b>스타일 :&nbsp;90만&nbsp;
+<br>※ 11인승 미적용<br><br><b>▶&nbsp;</b>컴포트 :&nbsp;110만&nbsp;
+<br>※ 11인승 미적용<br><br><b>▶&nbsp;</b>드라이브 와이즈 :&nbsp;60만<br><br><b>▶&nbsp;</b>12.3인치 UVO 내비게이션 :&nbsp;185만<br><br><b>▶&nbsp;</b>모니터링 팩 :&nbsp;130만&nbsp;
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>스마트 커넥트&nbsp;:&nbsp;115만 
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>KRELL 프리미엄 사운드 :&nbsp;60만&nbsp;
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>스노우 화이트 펄 : 8만</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>디젤 9인승 노블레스</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,710</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>▶&nbsp;</b><b>2.2 디젤&nbsp;</b><b>9인승 프레스티지 기본 품목 외&nbsp;<br></b><br><b>&nbsp;·&nbsp;외관&nbsp;</b>: 1열 도어 이중접합 차음 글라스, 크롬 몰딩(범퍼, 도어 하단), 크롬 가니쉬(C필라, 테일게이트), 블랙 하이그로시 도어 프레임 가니쉬<br>&nbsp;<br><b>&nbsp;·&nbsp;내장&nbsp;</b>: 전자식 룸미러(ECM), 블랙하이그로시 내장재(콘솔 어퍼커버, 도어 스위치 판넬), 1열 크롬 인사이드 도어핸들&nbsp;<br><b>&nbsp;·&nbsp;시트&nbsp;</b>: 1열 파워시트, 동승석 워크인 디바이스, 운전석 4WAY 전동식 허리지지대&nbsp;<br><br><b>&nbsp;·&nbsp;편의&nbsp;</b>: 하이패스 자동결제 시스템, 전자식 변속 다이얼(SBW), 패들 쉬프트, 스마트 파워테일게이트, 스마트 파워 슬라이딩 도어, 2열/3열 측면 수동 선커튼, 동승석/2열 세이프티 파워 윈도우, 독립제어 풀오토 에어컨(운전석/동승석/후석), 공기청정 시스템(미세먼지 센서 포함), 오토디포그
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>스타일 :&nbsp;90만&nbsp;
+<br>※ 11인승 미적용<br><br><b>▶&nbsp;</b>컴포트 :&nbsp;110만&nbsp;
+<br>※ 11인승 미적용<br><br><b>▶&nbsp;</b>드라이브 와이즈 :&nbsp;60만 &nbsp;<br><br><b>▶&nbsp;</b>12.3인치 UVO 내비게이션 : 125만<br><br><b>▶&nbsp;</b>모니터링 팩 :&nbsp;130만&nbsp;
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>스마트 커넥트&nbsp;:&nbsp;90만 
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>KRELL 프리미엄 사운드 :&nbsp;60만&nbsp;
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>듀얼 선루프 :&nbsp;85만<br><br><b>▶&nbsp;</b>스노우 화이트 펄 : 8만</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>디젤 9인승 시그니처</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>4,105</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>▶&nbsp;</b><b>2.2 디젤&nbsp;</b><b>9인승 노블레스 기본 품목 외&nbsp;<br></b><br><b>&nbsp;·&nbsp;첨단 운전자 보조&nbsp;</b>(<b>ADAS</b>) : 내비게이션 기반 스마트 크루즈 컨트롤(고속도로/자동차 전용도로 內 안전구간/곡선로), 고속도로 주행 보조&nbsp;<br><br><b>&nbsp;·&nbsp;외관&nbsp;</b>: 235/60 R18 컨티넨탈 타이어&amp;전면가공 휠&nbsp;<br><br><b>&nbsp;·&nbsp;내장&nbsp;</b>: 슈퍼비전 클러스터(12.3인치 풀사이즈 칼라 TFT LCD), 앰비언트 라이트, 1열 도어 센터트림 스티치&nbsp;<br><br><b>&nbsp;·&nbsp;시트&nbsp;</b>: 가죽시트&nbsp;<br><br><b>&nbsp;·&nbsp;편의&nbsp;</b>: 기아 페이(차량내 간편 결제), 운전자세 메모리 시스템(운전석 시트, 아웃사이드 미러), 운전석 이지 억세스, 후진연동 자동하향 아웃사이드미러, 외부공기 유입방지 제어, 220V 인버터&nbsp;<br><br><b>&nbsp;·&nbsp;인포테인먼트&nbsp;</b>: 12.3인치 UVO 내비게이션, 내비게이션 무선 업데이트, 8스피커, 후석 음성인식, 후석 대화모드
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>스타일 :&nbsp;90만&nbsp;
+<br>※ 11인승 미적용<br><br><b>▶&nbsp;</b>컴포트 :&nbsp;110만&nbsp;
+<br>※ 11인승 미적용<br><br><b>▶&nbsp;</b>드라이브 와이즈 :&nbsp;60만 &nbsp;<br><br><b>▶&nbsp;</b>모니터링 팩 :&nbsp;65만 
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>스마트 커넥트&nbsp;:&nbsp;90만 
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>KRELL 프리미엄 사운드 :&nbsp;60만
+<br>&nbsp;※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능&nbsp;<br><br><b>▶&nbsp;</b>듀얼 선루프 :&nbsp;85만&nbsp;<br><br><b>▶&nbsp;</b>[TUON] 후석 엔터테인먼트 시스템 :&nbsp;120만 
+<br>※ 11인승 미적용<br><br><b>▶&nbsp;</b>스노우 화이트 펄 : 8만</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>디젤 11인승 프레스티지</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,280</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>▶&nbsp;</b><b>2.2 디젤&nbsp;</b><b>9인승 프레스티지 기본 품목 대비 </b>
+<br>※ 최고 속도 110km/h 제한&nbsp;<br><br><b>&nbsp;·&nbsp;외관&nbsp;</b>: 머드가드<br><br><b>&nbsp;·&nbsp;시트&nbsp;</b>: 2/3열 센터 점프시트&nbsp;<br>※ 미적용 : 3열 쿠션 팁업, 3열 유아용 시트 고정 장치, 2열/3열/4열 시트벨트 리마인더&nbsp;<br>※ 11인승 2/3열 센터 좌석에는 열선 및 유아용 시트 고정 장치 미적용
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>스마트 파워 슬라이딩 도어 :&nbsp;80만&nbsp;<br><br><b>▶&nbsp;</b>드라이브 와이즈 :&nbsp;60만&nbsp;<br><br><b>▶&nbsp;</b>12.3인치 UVO 내비게이션 :&nbsp;185만&nbsp;<br><br><b>▶&nbsp;</b>모니터링 팩 :&nbsp;130만&nbsp;
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>스마트 커넥트&nbsp;:&nbsp;115만 
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>KRELL 프리미엄 사운드 :&nbsp;60만&nbsp;
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>스노우 화이트 펄 : 8만</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>디젤 11인승 노블레스</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,710</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>▶&nbsp;</b><b>2.2 디젤&nbsp;</b><b>9인승 노블레스 기본 품목 대비&nbsp;
+<br></b>※ 최고 속도 110km/h 제한&nbsp;<br><br><b>&nbsp;·&nbsp;외장&nbsp;</b>: 머드가드&nbsp;<br><br><b>&nbsp;·&nbsp;시트&nbsp;</b>: 2/3열 센터 점프시트&nbsp;<br>※ 미적용 : 3열 쿠션 팁업, 3열 유아용 시트 고정 장치, 2열/3열/4열 시트벨트 리마인더&nbsp;<br>※ 11인승 2/3열 센터 좌석에는 열선 및 유아용 시트 고정 장치 미적용
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>드라이브 와이즈 :&nbsp;60만&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>12.3인치 UVO 내비게이션 : 125만<br><br><b>▶&nbsp;</b>모니터링 팩 :&nbsp;130만&nbsp;
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>스마트 커넥트&nbsp;:&nbsp;90만 
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>KRELL 프리미엄 사운드 :&nbsp;60만&nbsp;
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>듀얼 선루프 :&nbsp;85만<br><br><b>▶&nbsp;</b>스노우 화이트 펄 : 8만</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>디젤 11인승 시그니처</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>4,105</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>▶&nbsp;</b><b>2.2 디젤&nbsp;</b><b>9인승 시그니처 기본 품목 대비</b>&nbsp;
+<br>※ 최고 속도 110km/h 제한&nbsp;<br><br><b>&nbsp;·&nbsp;외관&nbsp;</b>: 머드가드&nbsp;<br><br><b>&nbsp;·&nbsp;시트&nbsp;</b>: 2/3열 센터 점프시트&nbsp;<br>※ 미적용 : 3열 쿠션 팁업, 3열 유아용 시트 고정 장치, 2열/3열/4열 시트벨트 리마인더&nbsp;<br>※ 11인승 2/3열 센터 좌석에는 열선 및 유아용 시트 고정 장치 미적용
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>드라이브 와이즈 :&nbsp;60만 &nbsp;<br><br><b>▶&nbsp;</b>모니터링 팩 :&nbsp;65만 
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>스마트 커넥트&nbsp;:&nbsp;90만 
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>KRELL 프리미엄 사운드 :&nbsp;60만&nbsp;
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능&nbsp;<br><br><b>▶&nbsp;</b>듀얼 선루프 :&nbsp;85만&nbsp;<br><br><b>▶&nbsp;</b>스노우 화이트 펄 : 8만</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>가솔린 7인승 노블레스</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,824</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>▶ 9인승 노블레스 기본 품목 대비&nbsp;
+<br></b><br><b>&nbsp;·&nbsp;외관 </b>: 235/55 R19 굿이어 타이어&amp;전면가공 휠, 리무진 엠블렘&nbsp;
+<br><br><b>&nbsp;·&nbsp;시트 </b>: 가죽시트, 2열 프리미엄 릴렉션 시트(원터치 릴렉션 모드, 파워 리클라이닝, 파워 레그서포트, 윙아웃 헤드레스트,
+전/후/좌/우 슬라이딩), 2열 통풍시트, 3열 6:4 싱킹시트&nbsp;
+<br><br><b>&nbsp;·&nbsp;편의 </b>: 도어타입 러기지 트레이, 확장형 센터콘솔, 3열 USB 단자(충전용)
+※ 미적용 : 2열 시트 워크인, 3열 쿠션 팁업&amp;슬라이딩, 4열 시트&nbsp;
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>스타일 :&nbsp;69만&nbsp;
+<br>※ 11인승 미적용<br><br><b>▶&nbsp;</b>드라이브 와이즈 :&nbsp;63만&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>12.3인치 UVO 내비게이션 : 131만<br><br><b>▶&nbsp;</b>모니터링 팩 :&nbsp;135만&nbsp;
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>스마트 커넥트&nbsp;:&nbsp;94만
+<br> ※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>KRELL 프리미엄 사운드 :&nbsp;63만 
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능
+<br><br><b>▶&nbsp;</b>듀얼 선루프 :&nbsp;89만
+
+<br>
+<br><b>▶&nbsp;</b>스노우 화이트 펄 : 8만</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>가솔린 7인승 시그니처</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>4,236</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>▶ 9인승 시그니처 기본 품목 대비
+<br></b><br><b>&nbsp;·&nbsp;외관 </b>: 235/55 R19 컨티넨탈 타이어&amp;전면가공 휠, 리무진 엠블렘&nbsp;
+<br><br><b>&nbsp;·&nbsp;시트 </b>: 나파가죽시트, 2열 프리미엄 릴렉션 시트(원터치 릴렉션 모드, 파워 리클라이닝, 파워 레그서포트, 윙아웃 헤드레스트,
+전/후/좌/우 슬라이딩) , 2열 통풍시트, 3열 6:4 싱킹시트&nbsp;
+<br><br><b>&nbsp;·&nbsp;편의 </b>: 도어타입 러기지 트레이, 확장형 센터콘솔, 3열 USB 단자(충전용)&nbsp;<br>※ 미적용 : 2열 시트 워크인, 3열 쿠션 팁업&amp;슬라이딩, 4열 시트
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>스타일 :&nbsp;69만 
+<br>※ 11인승 미적용<br><br><b>▶&nbsp;</b>드라이브 와이즈 :&nbsp;63만&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>모니터링 팩 :&nbsp;68만 
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>스마트 커넥트&nbsp;:&nbsp;94만 
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>KRELL 프리미엄 사운드 : 63만
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능&nbsp;<br><br><b>▶&nbsp;</b>듀얼 선루프 :&nbsp;89만&nbsp;
+<br><br><b>▶&nbsp;</b>[TUON] 후석 엔터테인먼트 시스템 :&nbsp;126만
+<br>
+<br>
+<b>▶&nbsp;</b>스노우 화이트 펄 : 8만</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>가솔린 9인승 프레스티지</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,160</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>▶&nbsp;파워트레인 </b>: 스마트스트림 G3.5 GDI 엔진, 8단 자동변속기, 속도감응형 전동식 파워스티어링(MDPS), 주행모드 통합제어 시스템
+<br>
+<br><b>▶&nbsp;첨단 운전자 보조 </b>(<b>ADAS</b>) : 전방 충돌방지 보조(차량/보행자/사이클리스트/교차로 대향차), 차로 이탈방지 보조,
+운전자 주의 경고(전방 차량 출발 알림 기능 포함), 하이빔 보조, 스마트 크루즈 컨트롤(정차&amp;재출발), 차로 유지 보조
+
+<br>
+<br><b>▶&nbsp;안전 </b>: 7에어백(운전석/동승석 어드밴스드, 운전석 무릎, 전복감지 커튼, 1열 사이드), 전/후방 주차 거리 경고, VSM,
+다중 충돌방지 자동 제동 시스템, 경사로 밀림방지장치, 급제동 경보 시스템, 개별 타이어 공기압 경보 시스템,
+1열/2열/3열/4열 시트벨트 리마인더, 2열/3열 유아용 시트 고정 장치, 타이어 임시수리장치, 소화기
+
+<br>
+<br><b>▶&nbsp;외관 </b>: 235/60 R18 굿이어 타이어&amp;전면가공 휠, LED 헤드램프, LED DRL,
+LED 리피터 일체형 아웃사이드 미러(전동접이, 전동조절, 열선), 크롬 아웃사이드 도어핸들, 도어손잡이 조명(프론트),
+에어로타입 와이퍼, 윈드쉴드 이중접합 차음 글라스, 루프랙, 샤크핀 안테나
+<br>
+<br><b>▶&nbsp;내장 </b>: 슈퍼비전 클러스터(4.2인치 칼라 TFT LCD), 가죽 스티어링 휠, 가죽 변속기 노브, D/N 룸미러, 슬라이딩 선바이저(거울, 조명)
+
+<br>
+<br><b>▶&nbsp;시트 </b>: 인조가죽시트, 1열 열선시트, 1열 통풍시트, 운전석 전동식 허리지지대, 2열 열선시트,
+2열 독립시트(전/후 슬라이딩, 리클라이닝, 워크인), 3열 독립시트(쿠션 팁업&amp;전/후 슬라이딩, 리클라이닝), 4열 팝업 싱킹 시트
+
+<br>
+<br><b>▶&nbsp;편의 </b>: 버튼시동 스마트키 시스템(원격시동 포함), 전자식 파킹브레이크(EPB, 오토홀드), 후방 모니터, 오토 라이트 컨트롤,
+열선 스티어링 휠, 수동식 틸트&amp;텔레스코픽 스티어링 휠, 운전석 세이프티 파워윈도우, 동승석/2열 파워윈도우, 승하차 스팟램프,
+매뉴얼 에어컨, 고성능 에어컨 필터, 후석 보조 에어컨 필터, 1열/2열 USB 단자(충전용), 파워아웃렛
+
+<br>
+<br><b>▶&nbsp;인포테인먼트 </b>: 8인치 디스플레이 오디오, 6스피커, 스티어링 휠 오디오 리모컨, 블루투스 핸즈프리, USB 단자(데이터리딩용)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>스마트 파워 슬라이딩 도어 :&nbsp;80만
+<br>
+<br><b>▶&nbsp;</b>스타일 :&nbsp;90만&nbsp;
+<br>※ 11인승 미적용<br>
+<br><b>▶&nbsp;</b>컴포트 :&nbsp;110만
+<br>※ 11인승 미적용<br>
+<br><b>▶&nbsp;</b>드라이브 와이즈 :&nbsp;60만
+<br>
+<br><b>▶&nbsp;</b>12.3인치 UVO 내비게이션 :&nbsp;185만
+<br>
+<br><b>▶&nbsp;</b>모니터링 팩 :&nbsp;130만&nbsp;
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br>
+<br><b>▶&nbsp;</b>스마트 커넥트&nbsp;:&nbsp;115만 
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br>
+<br><b>▶&nbsp;</b>KRELL 프리미엄 사운드 :&nbsp;60만&nbsp;
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능
+<br>
+<br><b>▶&nbsp;</b>스노우 화이트 펄 : 8만</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>가솔린 9인승 시그니처</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,985</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>▶ 9인승 노블레스 기본 품목 외&nbsp;
+<br></b><br><b>&nbsp;·&nbsp;첨단 운전자 보조 </b>(<b>ADAS</b>) : 내비게이션 기반 스마트 크루즈 컨트롤(고속도로/자동차 전용도로 內 안전구간/곡선로),
+고속도로 주행 보조&nbsp;
+<br><br><b>&nbsp;·&nbsp;외관 </b>: 235/60 R18 컨티넨탈 타이어&amp;전면가공 휠&nbsp;
+<br><br><b>&nbsp;·&nbsp;내장 </b>: 슈퍼비전 클러스터(12.3인치 풀사이즈 칼라 TFT LCD), 앰비언트 라이트, 1열 도어 센터트림 스티치&nbsp;
+<br><br><b>&nbsp;·&nbsp;시트 </b>: 가죽시트&nbsp;
+<br><br><b>&nbsp;·&nbsp;편의 </b>: 기아 페이(차량내 간편 결제), 운전자세 메모리 시스템(운전석 시트, 아웃사이드 미러), 운전석 이지 억세스,
+후진연동 자동하향 아웃사이드미러, 외부공기 유입방지 제어, 220V 인버터&nbsp;
+<br><br><b>&nbsp;·&nbsp;인포테인먼트 </b>: 12.3인치 UVO 내비게이션, 내비게이션 무선 업데이트, 8스피커, 후석 음성인식, 후석 대화모드
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>스타일 :&nbsp;90만&nbsp;
+<br>※ 11인승 미적용<br><br><b>▶&nbsp;</b>컴포트 :&nbsp;110만&nbsp;
+<br>※ 11인승 미적용<br><br><b>▶&nbsp;</b>드라이브 와이즈 :&nbsp;60만 &nbsp;<br><br><b>▶&nbsp;</b>모니터링 팩 :&nbsp;65만 
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>스마트 커넥트&nbsp;:&nbsp;90만 
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>KRELL 프리미엄 사운드 :&nbsp;60만&nbsp;
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능&nbsp;<br><br><b>▶&nbsp;</b>듀얼 선루프 :&nbsp;85만&nbsp;
+<br><br><b>▶&nbsp;</b>[TUON] 후석
+엔터테인먼트
+시스템 :&nbsp;120만 
+<br>※ 11인승 미적용
+<br>
+<br>
+<b>▶&nbsp;</b>스노우 화이트 펄 : 8만</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>가솔린 9인승 노블레스</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,590</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>▶ 9인승 프레스티지 기본 품목 외&nbsp;
+<br></b><br><b>&nbsp;·&nbsp;외관 </b>: 1열 도어 이중접합 차음 글라스, 크롬 몰딩(범퍼, 도어 하단), 크롬 가니쉬(C필라, 테일게이트),
+블랙 하이그로시 도어 프레임 가니쉬
+<br>&nbsp;<br><b>&nbsp;·&nbsp;내장 </b>: 전자식 룸미러(ECM), 블랙하이그로시 내장재(콘솔 어퍼커버, 도어 스위치 판넬), 1열 크롬 인사이드 도어핸들&nbsp;<br><b>&nbsp;·&nbsp;시트 </b>: 1열 파워시트, 동승석 워크인 디바이스, 운전석 4WAY 전동식 허리지지대&nbsp;
+<br><br><b>&nbsp;·&nbsp;편의 </b>: 하이패스 자동결제 시스템, 전자식 변속 다이얼(SBW), 패들 쉬프트, 스마트 파워테일게이트, 스마트 파워 슬라이딩 도어,
+2열/3열 측면 수동 선커튼, 동승석/2열 세이프티 파워 윈도우, 독립제어 풀오토 에어컨(운전석/동승석/후석),
+공기청정 시스템(미세먼지 센서 포함), 오토디포그&nbsp;
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>스타일 :&nbsp;90만&nbsp;
+<br>※ 11인승 미적용<br><br><b>▶&nbsp;</b>컴포트 :&nbsp;110만&nbsp;
+<br>※ 11인승 미적용<br><br><b>▶&nbsp;</b>드라이브 와이즈 :&nbsp;60만 &nbsp;<br><br><b>▶&nbsp;</b>12.3인치 UVO 내비게이션 : 125만<br><br><b>▶&nbsp;</b>모니터링 팩 :&nbsp;130만&nbsp;
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>스마트 커넥트&nbsp;:&nbsp;90만 
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>KRELL 프리미엄 사운드 :&nbsp;60만&nbsp;
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능
+<br><br><b>▶&nbsp;</b>듀얼 선루프 :&nbsp;85만
+
+<br>
+<br><b>▶&nbsp;</b>스노우 화이트 펄 : 8만</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>가솔린 11인승 프레스티지</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,160</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>▶ 9인승 프레스티지 기본 품목 대</b>비 
+<br>※ 최고 속도 110km/h 제한&nbsp;
+<br><br><b>&nbsp;·&nbsp;외관 </b>: 머드가드
+<br><br><b>&nbsp;·&nbsp;시트 </b>: 2/3열 센터 점프시트&nbsp;
+<br>※ 미적용 : 3열 쿠션 팁업, 3열 유아용 시트 고정 장치, 2열/3열/4열 시트벨트 리마인더&nbsp;
+<br>※ 11인승 2/3열 센터 좌석에는 열선 및 유아용 시트 고정 장치 미적용
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>스마트 파워 슬라이딩 도어 :&nbsp;80만&nbsp;<br><br><b>▶&nbsp;</b>드라이브 와이즈 :&nbsp;60만&nbsp;<br><br><b>▶&nbsp;</b>12.3인치 UVO 내비게이션 :&nbsp;185만&nbsp;<br><br><b>▶&nbsp;</b>모니터링 팩 :&nbsp;130만&nbsp;
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>스마트 커넥트&nbsp;:&nbsp;115만 
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>KRELL 프리미엄 사운드 :&nbsp;60만&nbsp;
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능
+<br>
+<br>
+<b>▶&nbsp;</b>스노우 화이트 펄 : 8만</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>가솔린 11인승 노블레스</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,590</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>▶ 9인승 노블레스 기본 품목 대비 
+<br></b>※ 최고 속도 110km/h 제한&nbsp;
+<br><br><b>&nbsp;·&nbsp;외장 </b>: 머드가드&nbsp;
+<br><br><b>&nbsp;·&nbsp;시트 </b>: 2/3열 센터 점프시트&nbsp;
+<br>※ 미적용 : 3열 쿠션 팁업, 3열 유아용 시트 고정 장치, 2열/3열/4열 시트벨트 리마인더&nbsp;
+<br>※ 11인승 2/3열 센터 좌석에는 열선 및 유아용 시트 고정 장치 미적용
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>드라이브 와이즈 :&nbsp;60만&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>12.3인치 UVO 내비게이션 : 125만<br><br><b>▶&nbsp;</b>모니터링 팩 :&nbsp;130만&nbsp;
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>스마트 커넥트&nbsp;:&nbsp;90만 
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>KRELL 프리미엄 사운드 :&nbsp;60만&nbsp;
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능
+<br><br><b>▶&nbsp;</b>듀얼 선루프 :&nbsp;85만
+<br>
+<br>
+<b>▶&nbsp;</b>스노우 화이트 펄 : 8만</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>가솔린 11인승 시그니처</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,985</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>▶ 9인승 시그니처 기본 품목 대비</b> 
+<br>※ 최고 속도 110km/h 제한&nbsp;
+<br><br><b>&nbsp;·&nbsp;외관 </b>: 머드가드&nbsp;
+<br><br><b>&nbsp;·&nbsp;시트 </b>: 2/3열 센터 점프시트&nbsp;
+<br>※ 미적용 : 3열 쿠션 팁업, 3열 유아용 시트 고정 장치, 2열/3열/4열 시트벨트 리마인더&nbsp;<br>※ 11인승 2/3열 센터 좌석에는 열선 및 유아용 시트 고정 장치 미적용
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>2.2 디젤(9/11인승) :&nbsp;120만&nbsp;&nbsp;<br>※&nbsp;3.5 가솔린 기본 품목 외 (파워 트레인 : 스마트스트림 D2.2 엔진, 고급형 ISG , 편의 : PTC 보조 히터)&nbsp;<br><br><b>▶&nbsp;</b>2.2 디젤(7인승) :&nbsp;118만<br>※&nbsp;3.5 가솔린 기본 품목 외 (파워 트레인 : 스마트스트림 D2.2 엔진, 고급형 ISG , 편의 : PTC 보조 히터)&nbsp;&nbsp;
+<br><br><b>▶&nbsp;</b>드라이브 와이즈 :&nbsp;60만 &nbsp;<br><br><b>▶&nbsp;</b>모니터링 팩 :&nbsp;65만 
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>스마트 커넥트&nbsp;:&nbsp;90만 
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>KRELL 프리미엄 사운드 :&nbsp;60만
+<br>&nbsp;※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능&nbsp;<br><br><b>▶&nbsp;</b>듀얼 선루프 :&nbsp;85만&nbsp;
+<br>
+<br>
+<b>▶&nbsp;</b>스노우 화이트 펄 : 8만</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+												</tbody>
+											</table>
+										
+
+
+										<!-- case2 : 세부등급이 있는경우 -->
+										
+									</div>
+									<!-- 신차가격표(폴더형) -->
+									<div id="f_fold" style="display:none;">
+										<div class="newcar_folder">
+											<ul class="nf_list" id="newcarList">
+												
+													<li>
+														<a href="#newcar0">
+                                                            <span class="model">디젤 7인승 노블레스  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,942</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar1">
+                                                            <span class="model">디젤 7인승 시그니처  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>4,354</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar2">
+                                                            <span class="model">디젤 9인승 프레스티지  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,280</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar3">
+                                                            <span class="model">디젤 9인승 노블레스  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,710</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar4">
+                                                            <span class="model">디젤 9인승 시그니처  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>4,105</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar5">
+                                                            <span class="model">디젤 11인승 프레스티지  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,280</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar6">
+                                                            <span class="model">디젤 11인승 노블레스  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,710</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar7">
+                                                            <span class="model">디젤 11인승 시그니처  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>4,105</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar8">
+                                                            <span class="model">가솔린 7인승 노블레스  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,824</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar9">
+                                                            <span class="model">가솔린 7인승 시그니처  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>4,236</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar10">
+                                                            <span class="model">가솔린 9인승 프레스티지  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,160</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar11">
+                                                            <span class="model">가솔린 9인승 시그니처  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,985</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar12">
+                                                            <span class="model">가솔린 9인승 노블레스  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,590</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar13">
+                                                            <span class="model">가솔린 11인승 프레스티지  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,160</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar14">
+                                                            <span class="model">가솔린 11인승 노블레스  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,590</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar15">
+                                                            <span class="model">가솔린 11인승 시그니처  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,985</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+											</ul>
+											<!-- 개별 -->
+											
+												<div id="newcar0" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶&nbsp;2.2 디젤&nbsp;9인승 노블레스 기본 품목 대비&nbsp;</b><br><br><b>&nbsp;·&nbsp;외관&nbsp;</b>: 235/55 R19 굿이어 타이어&amp;전면가공 휠, 리무진 엠블렘&nbsp;<br><br><b>&nbsp;·&nbsp;시트&nbsp;</b>: 가죽시트, 2열 프리미엄 릴렉션 시트(원터치 릴렉션 모드, 파워 리클라이닝, 파워 레그서포트, 윙아웃 헤드레스트, 전/후/좌/우 슬라이딩), 2열 통풍시트, 3열 6:4 싱킹시트&nbsp;<br><br><b>&nbsp;·&nbsp;편의&nbsp;</b>: 도어타입 러기지 트레이, 확장형 센터콘솔, 3열 USB 단자(충전용) 
+<br>※ 미적용 : 2열 시트 워크인, 3열 쿠션 팁업&amp;슬라이딩, 4열 시트</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>스타일 :&nbsp;69만&nbsp;
+<br>※ 11인승 미적용<br><br><b>▶&nbsp;</b>드라이브 와이즈 :&nbsp;63만&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>12.3인치 UVO 내비게이션 : 131만<br><br><b>▶&nbsp;</b>모니터링 팩 :&nbsp;135만&nbsp;
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>스마트 커넥트&nbsp;:&nbsp;94만 
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>KRELL 프리미엄 사운드 :&nbsp;63만 
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>듀얼 선루프 :&nbsp;89만<br><br><b>▶&nbsp;</b>스노우 화이트 펄 : 8만</p>
+												</div>
+											
+												<div id="newcar1" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶&nbsp;</b><b>2.2 디젤&nbsp;</b><b>9인승 시그니처 기본 품목 대비</b><b><br></b><br><b>&nbsp;·&nbsp;외관&nbsp;</b>: 235/55 R19 컨티넨탈 타이어&amp;전면가공 휠, 리무진 엠블렘&nbsp;<br><br><b>&nbsp;·&nbsp;시트&nbsp;</b>: 나파가죽시트, 2열 프리미엄 릴렉션 시트(원터치 릴렉션 모드, 파워 리클라이닝, 파워 레그서포트, 윙아웃 헤드레스트, 전/후/좌/우 슬라이딩) , 2열 통풍시트, 3열 6:4 싱킹시트&nbsp;<br><br><b>&nbsp;·&nbsp;편의&nbsp;</b>: 도어타입 러기지 트레이, 확장형 센터콘솔, 3열 USB 단자(충전용)&nbsp;<br>※ 미적용 : 2열 시트 워크인, 3열 쿠션 팁업&amp;슬라이딩, 4열 시트</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>스타일 :&nbsp;69만 
+<br>※ 11인승 미적용<br><br><b>▶&nbsp;</b>드라이브 와이즈 :&nbsp;63만&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>모니터링 팩 :&nbsp;68만 
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>스마트 커넥트&nbsp;:&nbsp;94만 
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>KRELL 프리미엄 사운드 : 63만
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능&nbsp;<br><br><b>▶&nbsp;</b>듀얼 선루프 :&nbsp;89만&nbsp;<br><br><b>▶&nbsp;</b>[TUON] 후석 엔터테인먼트 시스템 :&nbsp;126만<br><br><b>▶&nbsp;</b>스노우 화이트 펄 : 8만</p>
+												</div>
+											
+												<div id="newcar2" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶&nbsp;파워트레인&nbsp;</b>: 스마트스트림 D2.2 엔진, 고급형 ISG, 8단 자동변속기, 속도감응형 전동식 파워스티어링(MDPS), 주행모드 통합제어 시스템<br><br><b>▶&nbsp;첨단 운전자 보조&nbsp;</b>(<b>ADAS</b>) : 전방 충돌방지 보조(차량/보행자/사이클리스트/교차로 대향차), 차로 이탈방지 보조, 운전자 주의 경고(전방 차량 출발 알림 기능 포함), 하이빔 보조, 스마트 크루즈 컨트롤(정차&amp;재출발), 차로 유지 보조<br><br><b>▶&nbsp;안전&nbsp;</b>: 7에어백(운전석/동승석 어드밴스드, 운전석 무릎, 전복감지 커튼, 1열 사이드), 전/후방 주차 거리 경고, VSM, 다중 충돌방지 자동 제동 시스템, 경사로 밀림방지장치, 급제동 경보 시스템, 개별 타이어 공기압 경보 시스템, 1열/2열/3열/4열 시트벨트 리마인더, 2열/3열 유아용 시트 고정 장치, 타이어 임시수리장치, 소화기<br><br><b>▶&nbsp;외관&nbsp;</b>: 235/60 R18 굿이어 타이어&amp;전면가공 휠, LED 헤드램프, LED DRL, LED 리피터 일체형 아웃사이드 미러(전동접이, 전동조절, 열선), 크롬 아웃사이드 도어핸들, 도어손잡이 조명(프론트), 에어로타입 와이퍼, 윈드쉴드 이중접합 차음 글라스, 루프랙, 샤크핀 안테나<br><br><b>▶&nbsp;내장&nbsp;</b>: 슈퍼비전 클러스터(4.2인치 칼라 TFT LCD), 가죽 스티어링 휠, 가죽 변속기 노브, D/N 룸미러, 슬라이딩 선바이저(거울, 조명)<br><br><b>▶&nbsp;시트&nbsp;</b>: 인조가죽시트, 1열 열선시트, 1열 통풍시트, 운전석 전동식 허리지지대, 2열 열선시트, 2열 독립시트(전/후 슬라이딩, 리클라이닝, 워크인), 3열 독립시트(쿠션 팁업&amp;전/후 슬라이딩, 리클라이닝), 4열 팝업 싱킹 시트<br><br><b>▶&nbsp;편의&nbsp;</b>: 버튼시동 스마트키 시스템(원격시동 포함), 전자식 파킹브레이크(EPB, 오토홀드), 후방 모니터, 오토 라이트 컨트롤, 열선 스티어링 휠, 수동식 틸트&amp;텔레스코픽 스티어링 휠, 운전석 세이프티 파워윈도우, 동승석/2열 파워윈도우, 승하차 스팟램프, 매뉴얼 에어컨, 고성능 에어컨 필터, 후석 보조 에어컨 필터, 1열/2열 USB 단자(충전용), 파워아웃렛,PTC 보조 히터<br><br><b>▶&nbsp;인포테인먼트&nbsp;</b>: 8인치 디스플레이 오디오, 6스피커, 스티어링 휠 오디오 리모컨, 블루투스 핸즈프리, USB 단자(데이터리딩용)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>스마트 파워 슬라이딩 도어 :&nbsp;80만<br><br><b>▶&nbsp;</b>스타일 :&nbsp;90만&nbsp;
+<br>※ 11인승 미적용<br><br><b>▶&nbsp;</b>컴포트 :&nbsp;110만&nbsp;
+<br>※ 11인승 미적용<br><br><b>▶&nbsp;</b>드라이브 와이즈 :&nbsp;60만<br><br><b>▶&nbsp;</b>12.3인치 UVO 내비게이션 :&nbsp;185만<br><br><b>▶&nbsp;</b>모니터링 팩 :&nbsp;130만&nbsp;
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>스마트 커넥트&nbsp;:&nbsp;115만 
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>KRELL 프리미엄 사운드 :&nbsp;60만&nbsp;
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>스노우 화이트 펄 : 8만</p>
+												</div>
+											
+												<div id="newcar3" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶&nbsp;</b><b>2.2 디젤&nbsp;</b><b>9인승 프레스티지 기본 품목 외&nbsp;<br></b><br><b>&nbsp;·&nbsp;외관&nbsp;</b>: 1열 도어 이중접합 차음 글라스, 크롬 몰딩(범퍼, 도어 하단), 크롬 가니쉬(C필라, 테일게이트), 블랙 하이그로시 도어 프레임 가니쉬<br>&nbsp;<br><b>&nbsp;·&nbsp;내장&nbsp;</b>: 전자식 룸미러(ECM), 블랙하이그로시 내장재(콘솔 어퍼커버, 도어 스위치 판넬), 1열 크롬 인사이드 도어핸들&nbsp;<br><b>&nbsp;·&nbsp;시트&nbsp;</b>: 1열 파워시트, 동승석 워크인 디바이스, 운전석 4WAY 전동식 허리지지대&nbsp;<br><br><b>&nbsp;·&nbsp;편의&nbsp;</b>: 하이패스 자동결제 시스템, 전자식 변속 다이얼(SBW), 패들 쉬프트, 스마트 파워테일게이트, 스마트 파워 슬라이딩 도어, 2열/3열 측면 수동 선커튼, 동승석/2열 세이프티 파워 윈도우, 독립제어 풀오토 에어컨(운전석/동승석/후석), 공기청정 시스템(미세먼지 센서 포함), 오토디포그</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>스타일 :&nbsp;90만&nbsp;
+<br>※ 11인승 미적용<br><br><b>▶&nbsp;</b>컴포트 :&nbsp;110만&nbsp;
+<br>※ 11인승 미적용<br><br><b>▶&nbsp;</b>드라이브 와이즈 :&nbsp;60만 &nbsp;<br><br><b>▶&nbsp;</b>12.3인치 UVO 내비게이션 : 125만<br><br><b>▶&nbsp;</b>모니터링 팩 :&nbsp;130만&nbsp;
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>스마트 커넥트&nbsp;:&nbsp;90만 
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>KRELL 프리미엄 사운드 :&nbsp;60만&nbsp;
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>듀얼 선루프 :&nbsp;85만<br><br><b>▶&nbsp;</b>스노우 화이트 펄 : 8만</p>
+												</div>
+											
+												<div id="newcar4" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶&nbsp;</b><b>2.2 디젤&nbsp;</b><b>9인승 노블레스 기본 품목 외&nbsp;<br></b><br><b>&nbsp;·&nbsp;첨단 운전자 보조&nbsp;</b>(<b>ADAS</b>) : 내비게이션 기반 스마트 크루즈 컨트롤(고속도로/자동차 전용도로 內 안전구간/곡선로), 고속도로 주행 보조&nbsp;<br><br><b>&nbsp;·&nbsp;외관&nbsp;</b>: 235/60 R18 컨티넨탈 타이어&amp;전면가공 휠&nbsp;<br><br><b>&nbsp;·&nbsp;내장&nbsp;</b>: 슈퍼비전 클러스터(12.3인치 풀사이즈 칼라 TFT LCD), 앰비언트 라이트, 1열 도어 센터트림 스티치&nbsp;<br><br><b>&nbsp;·&nbsp;시트&nbsp;</b>: 가죽시트&nbsp;<br><br><b>&nbsp;·&nbsp;편의&nbsp;</b>: 기아 페이(차량내 간편 결제), 운전자세 메모리 시스템(운전석 시트, 아웃사이드 미러), 운전석 이지 억세스, 후진연동 자동하향 아웃사이드미러, 외부공기 유입방지 제어, 220V 인버터&nbsp;<br><br><b>&nbsp;·&nbsp;인포테인먼트&nbsp;</b>: 12.3인치 UVO 내비게이션, 내비게이션 무선 업데이트, 8스피커, 후석 음성인식, 후석 대화모드</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>스타일 :&nbsp;90만&nbsp;
+<br>※ 11인승 미적용<br><br><b>▶&nbsp;</b>컴포트 :&nbsp;110만&nbsp;
+<br>※ 11인승 미적용<br><br><b>▶&nbsp;</b>드라이브 와이즈 :&nbsp;60만 &nbsp;<br><br><b>▶&nbsp;</b>모니터링 팩 :&nbsp;65만 
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>스마트 커넥트&nbsp;:&nbsp;90만 
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>KRELL 프리미엄 사운드 :&nbsp;60만
+<br>&nbsp;※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능&nbsp;<br><br><b>▶&nbsp;</b>듀얼 선루프 :&nbsp;85만&nbsp;<br><br><b>▶&nbsp;</b>[TUON] 후석 엔터테인먼트 시스템 :&nbsp;120만 
+<br>※ 11인승 미적용<br><br><b>▶&nbsp;</b>스노우 화이트 펄 : 8만</p>
+												</div>
+											
+												<div id="newcar5" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶&nbsp;</b><b>2.2 디젤&nbsp;</b><b>9인승 프레스티지 기본 품목 대비 </b>
+<br>※ 최고 속도 110km/h 제한&nbsp;<br><br><b>&nbsp;·&nbsp;외관&nbsp;</b>: 머드가드<br><br><b>&nbsp;·&nbsp;시트&nbsp;</b>: 2/3열 센터 점프시트&nbsp;<br>※ 미적용 : 3열 쿠션 팁업, 3열 유아용 시트 고정 장치, 2열/3열/4열 시트벨트 리마인더&nbsp;<br>※ 11인승 2/3열 센터 좌석에는 열선 및 유아용 시트 고정 장치 미적용</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>스마트 파워 슬라이딩 도어 :&nbsp;80만&nbsp;<br><br><b>▶&nbsp;</b>드라이브 와이즈 :&nbsp;60만&nbsp;<br><br><b>▶&nbsp;</b>12.3인치 UVO 내비게이션 :&nbsp;185만&nbsp;<br><br><b>▶&nbsp;</b>모니터링 팩 :&nbsp;130만&nbsp;
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>스마트 커넥트&nbsp;:&nbsp;115만 
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>KRELL 프리미엄 사운드 :&nbsp;60만&nbsp;
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>스노우 화이트 펄 : 8만</p>
+												</div>
+											
+												<div id="newcar6" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶&nbsp;</b><b>2.2 디젤&nbsp;</b><b>9인승 노블레스 기본 품목 대비&nbsp;
+<br></b>※ 최고 속도 110km/h 제한&nbsp;<br><br><b>&nbsp;·&nbsp;외장&nbsp;</b>: 머드가드&nbsp;<br><br><b>&nbsp;·&nbsp;시트&nbsp;</b>: 2/3열 센터 점프시트&nbsp;<br>※ 미적용 : 3열 쿠션 팁업, 3열 유아용 시트 고정 장치, 2열/3열/4열 시트벨트 리마인더&nbsp;<br>※ 11인승 2/3열 센터 좌석에는 열선 및 유아용 시트 고정 장치 미적용</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>드라이브 와이즈 :&nbsp;60만&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>12.3인치 UVO 내비게이션 : 125만<br><br><b>▶&nbsp;</b>모니터링 팩 :&nbsp;130만&nbsp;
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>스마트 커넥트&nbsp;:&nbsp;90만 
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>KRELL 프리미엄 사운드 :&nbsp;60만&nbsp;
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>듀얼 선루프 :&nbsp;85만<br><br><b>▶&nbsp;</b>스노우 화이트 펄 : 8만</p>
+												</div>
+											
+												<div id="newcar7" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶&nbsp;</b><b>2.2 디젤&nbsp;</b><b>9인승 시그니처 기본 품목 대비</b>&nbsp;
+<br>※ 최고 속도 110km/h 제한&nbsp;<br><br><b>&nbsp;·&nbsp;외관&nbsp;</b>: 머드가드&nbsp;<br><br><b>&nbsp;·&nbsp;시트&nbsp;</b>: 2/3열 센터 점프시트&nbsp;<br>※ 미적용 : 3열 쿠션 팁업, 3열 유아용 시트 고정 장치, 2열/3열/4열 시트벨트 리마인더&nbsp;<br>※ 11인승 2/3열 센터 좌석에는 열선 및 유아용 시트 고정 장치 미적용</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>드라이브 와이즈 :&nbsp;60만 &nbsp;<br><br><b>▶&nbsp;</b>모니터링 팩 :&nbsp;65만 
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>스마트 커넥트&nbsp;:&nbsp;90만 
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>KRELL 프리미엄 사운드 :&nbsp;60만&nbsp;
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능&nbsp;<br><br><b>▶&nbsp;</b>듀얼 선루프 :&nbsp;85만&nbsp;<br><br><b>▶&nbsp;</b>스노우 화이트 펄 : 8만</p>
+												</div>
+											
+												<div id="newcar8" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 9인승 노블레스 기본 품목 대비&nbsp;
+<br></b><br><b>&nbsp;·&nbsp;외관 </b>: 235/55 R19 굿이어 타이어&amp;전면가공 휠, 리무진 엠블렘&nbsp;
+<br><br><b>&nbsp;·&nbsp;시트 </b>: 가죽시트, 2열 프리미엄 릴렉션 시트(원터치 릴렉션 모드, 파워 리클라이닝, 파워 레그서포트, 윙아웃 헤드레스트,
+전/후/좌/우 슬라이딩), 2열 통풍시트, 3열 6:4 싱킹시트&nbsp;
+<br><br><b>&nbsp;·&nbsp;편의 </b>: 도어타입 러기지 트레이, 확장형 센터콘솔, 3열 USB 단자(충전용)
+※ 미적용 : 2열 시트 워크인, 3열 쿠션 팁업&amp;슬라이딩, 4열 시트&nbsp;</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>스타일 :&nbsp;69만&nbsp;
+<br>※ 11인승 미적용<br><br><b>▶&nbsp;</b>드라이브 와이즈 :&nbsp;63만&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>12.3인치 UVO 내비게이션 : 131만<br><br><b>▶&nbsp;</b>모니터링 팩 :&nbsp;135만&nbsp;
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>스마트 커넥트&nbsp;:&nbsp;94만
+<br> ※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>KRELL 프리미엄 사운드 :&nbsp;63만 
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능
+<br><br><b>▶&nbsp;</b>듀얼 선루프 :&nbsp;89만
+
+<br>
+<br><b>▶&nbsp;</b>스노우 화이트 펄 : 8만</p>
+												</div>
+											
+												<div id="newcar9" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 9인승 시그니처 기본 품목 대비
+<br></b><br><b>&nbsp;·&nbsp;외관 </b>: 235/55 R19 컨티넨탈 타이어&amp;전면가공 휠, 리무진 엠블렘&nbsp;
+<br><br><b>&nbsp;·&nbsp;시트 </b>: 나파가죽시트, 2열 프리미엄 릴렉션 시트(원터치 릴렉션 모드, 파워 리클라이닝, 파워 레그서포트, 윙아웃 헤드레스트,
+전/후/좌/우 슬라이딩) , 2열 통풍시트, 3열 6:4 싱킹시트&nbsp;
+<br><br><b>&nbsp;·&nbsp;편의 </b>: 도어타입 러기지 트레이, 확장형 센터콘솔, 3열 USB 단자(충전용)&nbsp;<br>※ 미적용 : 2열 시트 워크인, 3열 쿠션 팁업&amp;슬라이딩, 4열 시트</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>스타일 :&nbsp;69만 
+<br>※ 11인승 미적용<br><br><b>▶&nbsp;</b>드라이브 와이즈 :&nbsp;63만&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>모니터링 팩 :&nbsp;68만 
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>스마트 커넥트&nbsp;:&nbsp;94만 
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>KRELL 프리미엄 사운드 : 63만
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능&nbsp;<br><br><b>▶&nbsp;</b>듀얼 선루프 :&nbsp;89만&nbsp;
+<br><br><b>▶&nbsp;</b>[TUON] 후석 엔터테인먼트 시스템 :&nbsp;126만
+<br>
+<br>
+<b>▶&nbsp;</b>스노우 화이트 펄 : 8만</p>
+												</div>
+											
+												<div id="newcar10" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶&nbsp;파워트레인 </b>: 스마트스트림 G3.5 GDI 엔진, 8단 자동변속기, 속도감응형 전동식 파워스티어링(MDPS), 주행모드 통합제어 시스템
+<br>
+<br><b>▶&nbsp;첨단 운전자 보조 </b>(<b>ADAS</b>) : 전방 충돌방지 보조(차량/보행자/사이클리스트/교차로 대향차), 차로 이탈방지 보조,
+운전자 주의 경고(전방 차량 출발 알림 기능 포함), 하이빔 보조, 스마트 크루즈 컨트롤(정차&amp;재출발), 차로 유지 보조
+
+<br>
+<br><b>▶&nbsp;안전 </b>: 7에어백(운전석/동승석 어드밴스드, 운전석 무릎, 전복감지 커튼, 1열 사이드), 전/후방 주차 거리 경고, VSM,
+다중 충돌방지 자동 제동 시스템, 경사로 밀림방지장치, 급제동 경보 시스템, 개별 타이어 공기압 경보 시스템,
+1열/2열/3열/4열 시트벨트 리마인더, 2열/3열 유아용 시트 고정 장치, 타이어 임시수리장치, 소화기
+
+<br>
+<br><b>▶&nbsp;외관 </b>: 235/60 R18 굿이어 타이어&amp;전면가공 휠, LED 헤드램프, LED DRL,
+LED 리피터 일체형 아웃사이드 미러(전동접이, 전동조절, 열선), 크롬 아웃사이드 도어핸들, 도어손잡이 조명(프론트),
+에어로타입 와이퍼, 윈드쉴드 이중접합 차음 글라스, 루프랙, 샤크핀 안테나
+<br>
+<br><b>▶&nbsp;내장 </b>: 슈퍼비전 클러스터(4.2인치 칼라 TFT LCD), 가죽 스티어링 휠, 가죽 변속기 노브, D/N 룸미러, 슬라이딩 선바이저(거울, 조명)
+
+<br>
+<br><b>▶&nbsp;시트 </b>: 인조가죽시트, 1열 열선시트, 1열 통풍시트, 운전석 전동식 허리지지대, 2열 열선시트,
+2열 독립시트(전/후 슬라이딩, 리클라이닝, 워크인), 3열 독립시트(쿠션 팁업&amp;전/후 슬라이딩, 리클라이닝), 4열 팝업 싱킹 시트
+
+<br>
+<br><b>▶&nbsp;편의 </b>: 버튼시동 스마트키 시스템(원격시동 포함), 전자식 파킹브레이크(EPB, 오토홀드), 후방 모니터, 오토 라이트 컨트롤,
+열선 스티어링 휠, 수동식 틸트&amp;텔레스코픽 스티어링 휠, 운전석 세이프티 파워윈도우, 동승석/2열 파워윈도우, 승하차 스팟램프,
+매뉴얼 에어컨, 고성능 에어컨 필터, 후석 보조 에어컨 필터, 1열/2열 USB 단자(충전용), 파워아웃렛
+
+<br>
+<br><b>▶&nbsp;인포테인먼트 </b>: 8인치 디스플레이 오디오, 6스피커, 스티어링 휠 오디오 리모컨, 블루투스 핸즈프리, USB 단자(데이터리딩용)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>스마트 파워 슬라이딩 도어 :&nbsp;80만
+<br>
+<br><b>▶&nbsp;</b>스타일 :&nbsp;90만&nbsp;
+<br>※ 11인승 미적용<br>
+<br><b>▶&nbsp;</b>컴포트 :&nbsp;110만
+<br>※ 11인승 미적용<br>
+<br><b>▶&nbsp;</b>드라이브 와이즈 :&nbsp;60만
+<br>
+<br><b>▶&nbsp;</b>12.3인치 UVO 내비게이션 :&nbsp;185만
+<br>
+<br><b>▶&nbsp;</b>모니터링 팩 :&nbsp;130만&nbsp;
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br>
+<br><b>▶&nbsp;</b>스마트 커넥트&nbsp;:&nbsp;115만 
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br>
+<br><b>▶&nbsp;</b>KRELL 프리미엄 사운드 :&nbsp;60만&nbsp;
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능
+<br>
+<br><b>▶&nbsp;</b>스노우 화이트 펄 : 8만</p>
+												</div>
+											
+												<div id="newcar11" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 9인승 노블레스 기본 품목 외&nbsp;
+<br></b><br><b>&nbsp;·&nbsp;첨단 운전자 보조 </b>(<b>ADAS</b>) : 내비게이션 기반 스마트 크루즈 컨트롤(고속도로/자동차 전용도로 內 안전구간/곡선로),
+고속도로 주행 보조&nbsp;
+<br><br><b>&nbsp;·&nbsp;외관 </b>: 235/60 R18 컨티넨탈 타이어&amp;전면가공 휠&nbsp;
+<br><br><b>&nbsp;·&nbsp;내장 </b>: 슈퍼비전 클러스터(12.3인치 풀사이즈 칼라 TFT LCD), 앰비언트 라이트, 1열 도어 센터트림 스티치&nbsp;
+<br><br><b>&nbsp;·&nbsp;시트 </b>: 가죽시트&nbsp;
+<br><br><b>&nbsp;·&nbsp;편의 </b>: 기아 페이(차량내 간편 결제), 운전자세 메모리 시스템(운전석 시트, 아웃사이드 미러), 운전석 이지 억세스,
+후진연동 자동하향 아웃사이드미러, 외부공기 유입방지 제어, 220V 인버터&nbsp;
+<br><br><b>&nbsp;·&nbsp;인포테인먼트 </b>: 12.3인치 UVO 내비게이션, 내비게이션 무선 업데이트, 8스피커, 후석 음성인식, 후석 대화모드</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>스타일 :&nbsp;90만&nbsp;
+<br>※ 11인승 미적용<br><br><b>▶&nbsp;</b>컴포트 :&nbsp;110만&nbsp;
+<br>※ 11인승 미적용<br><br><b>▶&nbsp;</b>드라이브 와이즈 :&nbsp;60만 &nbsp;<br><br><b>▶&nbsp;</b>모니터링 팩 :&nbsp;65만 
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>스마트 커넥트&nbsp;:&nbsp;90만 
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>KRELL 프리미엄 사운드 :&nbsp;60만&nbsp;
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능&nbsp;<br><br><b>▶&nbsp;</b>듀얼 선루프 :&nbsp;85만&nbsp;
+<br><br><b>▶&nbsp;</b>[TUON] 후석
+엔터테인먼트
+시스템 :&nbsp;120만 
+<br>※ 11인승 미적용
+<br>
+<br>
+<b>▶&nbsp;</b>스노우 화이트 펄 : 8만</p>
+												</div>
+											
+												<div id="newcar12" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 9인승 프레스티지 기본 품목 외&nbsp;
+<br></b><br><b>&nbsp;·&nbsp;외관 </b>: 1열 도어 이중접합 차음 글라스, 크롬 몰딩(범퍼, 도어 하단), 크롬 가니쉬(C필라, 테일게이트),
+블랙 하이그로시 도어 프레임 가니쉬
+<br>&nbsp;<br><b>&nbsp;·&nbsp;내장 </b>: 전자식 룸미러(ECM), 블랙하이그로시 내장재(콘솔 어퍼커버, 도어 스위치 판넬), 1열 크롬 인사이드 도어핸들&nbsp;<br><b>&nbsp;·&nbsp;시트 </b>: 1열 파워시트, 동승석 워크인 디바이스, 운전석 4WAY 전동식 허리지지대&nbsp;
+<br><br><b>&nbsp;·&nbsp;편의 </b>: 하이패스 자동결제 시스템, 전자식 변속 다이얼(SBW), 패들 쉬프트, 스마트 파워테일게이트, 스마트 파워 슬라이딩 도어,
+2열/3열 측면 수동 선커튼, 동승석/2열 세이프티 파워 윈도우, 독립제어 풀오토 에어컨(운전석/동승석/후석),
+공기청정 시스템(미세먼지 센서 포함), 오토디포그&nbsp;</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>스타일 :&nbsp;90만&nbsp;
+<br>※ 11인승 미적용<br><br><b>▶&nbsp;</b>컴포트 :&nbsp;110만&nbsp;
+<br>※ 11인승 미적용<br><br><b>▶&nbsp;</b>드라이브 와이즈 :&nbsp;60만 &nbsp;<br><br><b>▶&nbsp;</b>12.3인치 UVO 내비게이션 : 125만<br><br><b>▶&nbsp;</b>모니터링 팩 :&nbsp;130만&nbsp;
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>스마트 커넥트&nbsp;:&nbsp;90만 
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>KRELL 프리미엄 사운드 :&nbsp;60만&nbsp;
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능
+<br><br><b>▶&nbsp;</b>듀얼 선루프 :&nbsp;85만
+
+<br>
+<br><b>▶&nbsp;</b>스노우 화이트 펄 : 8만</p>
+												</div>
+											
+												<div id="newcar13" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 9인승 프레스티지 기본 품목 대</b>비 
+<br>※ 최고 속도 110km/h 제한&nbsp;
+<br><br><b>&nbsp;·&nbsp;외관 </b>: 머드가드
+<br><br><b>&nbsp;·&nbsp;시트 </b>: 2/3열 센터 점프시트&nbsp;
+<br>※ 미적용 : 3열 쿠션 팁업, 3열 유아용 시트 고정 장치, 2열/3열/4열 시트벨트 리마인더&nbsp;
+<br>※ 11인승 2/3열 센터 좌석에는 열선 및 유아용 시트 고정 장치 미적용</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>스마트 파워 슬라이딩 도어 :&nbsp;80만&nbsp;<br><br><b>▶&nbsp;</b>드라이브 와이즈 :&nbsp;60만&nbsp;<br><br><b>▶&nbsp;</b>12.3인치 UVO 내비게이션 :&nbsp;185만&nbsp;<br><br><b>▶&nbsp;</b>모니터링 팩 :&nbsp;130만&nbsp;
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>스마트 커넥트&nbsp;:&nbsp;115만 
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>KRELL 프리미엄 사운드 :&nbsp;60만&nbsp;
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능
+<br>
+<br>
+<b>▶&nbsp;</b>스노우 화이트 펄 : 8만</p>
+												</div>
+											
+												<div id="newcar14" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 9인승 노블레스 기본 품목 대비 
+<br></b>※ 최고 속도 110km/h 제한&nbsp;
+<br><br><b>&nbsp;·&nbsp;외장 </b>: 머드가드&nbsp;
+<br><br><b>&nbsp;·&nbsp;시트 </b>: 2/3열 센터 점프시트&nbsp;
+<br>※ 미적용 : 3열 쿠션 팁업, 3열 유아용 시트 고정 장치, 2열/3열/4열 시트벨트 리마인더&nbsp;
+<br>※ 11인승 2/3열 센터 좌석에는 열선 및 유아용 시트 고정 장치 미적용</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>드라이브 와이즈 :&nbsp;60만&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>12.3인치 UVO 내비게이션 : 125만<br><br><b>▶&nbsp;</b>모니터링 팩 :&nbsp;130만&nbsp;
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>스마트 커넥트&nbsp;:&nbsp;90만 
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>KRELL 프리미엄 사운드 :&nbsp;60만&nbsp;
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능
+<br><br><b>▶&nbsp;</b>듀얼 선루프 :&nbsp;85만
+<br>
+<br>
+<b>▶&nbsp;</b>스노우 화이트 펄 : 8만</p>
+												</div>
+											
+												<div id="newcar15" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 9인승 시그니처 기본 품목 대비</b> 
+<br>※ 최고 속도 110km/h 제한&nbsp;
+<br><br><b>&nbsp;·&nbsp;외관 </b>: 머드가드&nbsp;
+<br><br><b>&nbsp;·&nbsp;시트 </b>: 2/3열 센터 점프시트&nbsp;
+<br>※ 미적용 : 3열 쿠션 팁업, 3열 유아용 시트 고정 장치, 2열/3열/4열 시트벨트 리마인더&nbsp;<br>※ 11인승 2/3열 센터 좌석에는 열선 및 유아용 시트 고정 장치 미적용</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>2.2 디젤(9/11인승) :&nbsp;120만&nbsp;&nbsp;<br>※&nbsp;3.5 가솔린 기본 품목 외 (파워 트레인 : 스마트스트림 D2.2 엔진, 고급형 ISG , 편의 : PTC 보조 히터)&nbsp;<br><br><b>▶&nbsp;</b>2.2 디젤(7인승) :&nbsp;118만<br>※&nbsp;3.5 가솔린 기본 품목 외 (파워 트레인 : 스마트스트림 D2.2 엔진, 고급형 ISG , 편의 : PTC 보조 히터)&nbsp;&nbsp;
+<br><br><b>▶&nbsp;</b>드라이브 와이즈 :&nbsp;60만 &nbsp;<br><br><b>▶&nbsp;</b>모니터링 팩 :&nbsp;65만 
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>스마트 커넥트&nbsp;:&nbsp;90만 
+<br>※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능<br><br><b>▶&nbsp;</b>KRELL 프리미엄 사운드 :&nbsp;60만
+<br>&nbsp;※&nbsp;12.3인치 UVO 내비게이션 적용 시 선택가능&nbsp;<br><br><b>▶&nbsp;</b>듀얼 선루프 :&nbsp;85만&nbsp;
+<br>
+<br>
+<b>▶&nbsp;</b>스노우 화이트 펄 : 8만</p>
+												</div>
+											
+										</div>
+										<script type="text/javascript">
+											newcarFolder(0);//초기값
+											function newcarFolder(target) {
+												var conElId = "newcar"//아이디 설정
+												var conElMenu = document.getElementById("newcarList");
+												var conElMenuLink = conElMenu.getElementsByTagName("a");
+												if (target != null) {
+													conElMenuLink[target].parentNode.className = "on";
+													document.getElementById(
+														conElId + target).style.display = "";
+												}
+												for (i = 0; i <= (conElMenuLink.length - 1); i++) {
+													conElMenuLink[i].onclick = function () {
+														for (x = 0; x <= (conElMenuLink.length - 1); x++) {
+															conElMenuLink[x].parentNode.className = "";
+															document.getElementById(
+																conElId + x).style.display = "none";
+														}
+														this.parentNode.className = "on";
+														document.getElementById(this.getAttribute('href')
+																					.split(
+																						'#')[1]).style.display =
+															"";
+														return false;
+													}
+												}
+											}
+										</script>
+									</div>
+									
+										<ul class="more">
+												<b>▶&nbsp;선택품목 세부안내&nbsp;
+<br>
+&nbsp;- 스타일 (7인승)</b> : 프로젝션 LED 헤드램프, 프론트 LED 턴시그널램프, LED 포그램프, LED 리어 콤비네이션램프
+<br><b>&nbsp;- 스타일
+(9인승)
+</b><br><b>&nbsp;[프레스티지 · 노블레스]</b> :프로젝션 LED 헤드램프, 프론트 LED 턴시그널램프, LED 포그램프, LED 리어 콤비네이션램프, 235/55 R19 굿이어 타이어&amp;전면가공 휠
+<b><br>
+&nbsp;[시그니처] </b>:프로젝션 LED 헤드램프, 프론트 LED 턴시그널램프, LED 포그램프, LED 리어 콤비네이션램프, 235/55 R19 컨티넨탈 타이어&amp;전면가공 휠
+<br><b>&nbsp;- 컴포트
+(9인승)
+</b><br>&nbsp;<b>[프레스티지 · 노블레스]</b> :&nbsp;2열 통풍시트, 2열 파워 리클라이닝 시트 (워크인 기능 미적용), 확장형 센터콘솔 , 3열 USB 단자 (충전용), 가죽시트
+<br><b>&nbsp;[시그니처]</b> :&nbsp;2열 통풍시트, 2열 파워 리클라이닝 시트 (워크인 기능 미적용), 확장형 센터콘솔 , 3열 USB 단자 (충전용), 나파가죽시트
+<br><b>&nbsp;-&nbsp;드라이브 와이즈</b> :&nbsp;후측방 충돌방지 보조, 후방 교차 충돌방지 보조, 후석 승객 알림, 안전 하차 경고
+※ 스마트 파워 슬라이딩 도어 동시 적용 시, 안전 하차 보조 기능 지원
+<br><b>- 12.3인치
+UVO
+내비게이션</b><br><b>&nbsp; [프레스티지]</b> :&nbsp;12.3인치 UVO 내비게이션, 내비게이션 무선 업데이트, 8스피커, 후석 음성인식, 후석 대화모드, 내비게이션 기반 스마트 크루즈 컨트롤
+(고속도로/자동차 전용도로 內 안전구간/곡선로), 고속도로 주행 보조,기아 페이(차량내 간편 결제), 하이패스 자동결제 시스템,
+독립제어 풀오토 에어컨(운전석/동승석/후석), 공기청정 시스템(미세먼지 센서 포함), 오토 디포그&nbsp;&nbsp;
+<br><b>&nbsp;[노블레스]</b> :&nbsp;12.3인치 UVO 내비게이션, 내비게이션 무선 업데이트, 8스피커, 후석 음성인식, 후석 대화모드,내비게이션 기반 스마트 크루즈 컨트롤
+(고속도로/자동차 전용도로 內 안전구간/곡선로), 고속도로 주행 보조, 기아 페이(차량내 간편 결제), 외부공기 유입방지 제어
+<br>
+<b>&nbsp;-&nbsp;모니터링팩
+</b><br>
+<b>&nbsp;[프레스티지 · 노블레스]</b> : 서라운드 뷰 모니터, 후측방 모니터, 슈퍼비전 클러스터 (12.3인치 풀사이즈 칼라 TFT LCD)
+<br><b>&nbsp;[시그니처]</b> : 서라운드 뷰 모니터, 후측방 모니터
+<br><b>- 스마트
+커넥트
+</b><br><b>&nbsp;[프레스티지]</b> : 스마트폰 무선충전 시스템, 기아 디지털 키, 터치타입 아웃사이드 도어핸들(1열), 빌트인 캠(주행 중 영상기록 장치), 보조배터리,
+전자식 변속 다이얼(SBW), 패들 쉬프트
+<br><b>&nbsp;[노블레스·시그니처</b>] : 스마트폰 무선충전 시스템, 기아 디지털 키, 터치타입 아웃사이드 도어핸들(1열), 빌트인 캠(주행 중 영상기록 장치), 보조배터리
+<br><b>- KRELL 프리미엄 사운드</b>&nbsp;: KRELL 프리미엄 사운드 (12 스피커, 외장앰프) ※ 7인승 선택시 도어타입 러기지 트레이 미적용
+
+<br><b>&nbsp;- 듀얼 선루프 :</b> 듀얼 선루프, LED 실내등(맵램프, 룸램프, 러기지램프)
+										</ul>
+									
+									<p class="desc_more">위 신차가격표는 단순 참고자료이며, 정확한 내용은 각 제조사에서 제공하는 자료를 통해확인하실 수 있습니다.</p><!-- 2016/10/12 [장] 등급 등록/수정 개선 : 추가 디자인 변경 -->
+									<p class="toTop"><a href="#main_title" class="sp toTop db_ir" title="페이지 위로"><u>페이지 위로</u></a></p><!-- [시세개편] class db_ir 추가 -->
+								</div>
+
+
+							</div>
+							<!-- body end -->
+						</td>
+					</tr>
+				</table>
+
+
+			
+			
+		
+    </div>
+
+    <!-- container end -->
+</form>
+</div>
+
+</body>
+<script language="javascript">
+
+
+    var strCompanyUrl = "/common/combo/cardbcompany.json?method=carList";
+    var strModelGroupUrl = "/common/combo/modelgroupfordb.json?method=carList";
+    var strModelUrl = "/common/combo/cardbmodel.json?method=carList";
+    var strYrJatoUrl = "/common/combo/jatoYr.json?method=carList";
+
+    var companyid = "mnfccd";
+    var modelgroupid = "mdlgroupcd";
+    var modelid = "mdlcd";
+    var yearid = "caryear";
+
+    function initGnb() {
+        var paramCompany = $("paramMnfccd").value;
+        var paramModelGroup = $("paramMdlgroupcd").value;
+        var paramModel = $("paramMdlcd").value;
+        var paramYr = $("paramYear").value;
+
+        // 제조사
+        if (paramModel != "") {
+            $("mdlcd").show();
+        }
+
+        //console.log("companyid :: " + companyid)
+        //console.log("paramCompany :: " + paramCompany)
+		if($('foldYn').value != 0){
+            foldingYN('f_fold');
+		}
+
+        setCompany(strCompanyUrl, companyid, "제조사", paramCompany);
+
+        // 제조사 값이 있으면 모델 검색
+        if (paramCompany >= '010') {
+            if (paramCompany != "") {
+                if (paramModel == "") {
+                    paramModel = paramModelGroup;
+                }
+                setModel(strModelUrl, modelid, paramCompany, "모델", paramModel)
+                $("mdlgroupcd").hide();
+
+            }
+        } else {
+            $("mdlgroupcd").show();
+            if (paramCompany != "") {
+                setModelGroup(strModelGroupUrl, modelgroupid, paramCompany, "모델", paramModelGroup);
+                if (paramModelGroup != "") {
+                    setModel_New(strModelUrl, modelid, paramCompany, paramModelGroup, "세부모델", paramModel);
+                }
+            }
+
+        }
+        if (paramCompany != "" && paramModel != "") {
+            setCarYear(strYrJatoUrl, yearid, paramCompany, paramModel, "형식연도", paramYr);
+        }
+
+        waitTime = 1;
+    }
+
+    function changeModel_jato(mnfccd, mdlgroupcd) {
+        setModel_New(strModelUrl, modelid, mnfccd, mdlgroupcd, "세부모델", "");
+        //모델그룹선택시 기본 세부모델선택
+        if ($("mdlcd") != null) {
+            $("mdlcd").selectedIndex = 1;
+            var mdlcd = $("mdlcd").options[$("mdlcd").selectedIndex].value;
+            changeYearJato(mnfccd, mdlcd);
+        }
+    }
+
+    function changeYearJato(mnfccd,mdlcd) {
+        setCarYear(strYrJatoUrl, yearid, mnfccd, mdlcd, "형식연도", "");
+        $(yearid).options[1].selected = true;
+    }
+
+
+
+    //덧글 리스트
+    function viewForm(index) {
+
+        var object = $("default" + index);
+        var objectSum = $("defaultSum" + index);
+        var selectSum = $("choiceSum" + index);
+        var object1 = $("choice" + index);
+        if (object != null) {
+            if (object.style.display == 'none') {
+                objectSum.hide();
+                selectSum.hide();
+                object.style.display = "block";
+                object1.style.display = "block";
+
+            } else {
+                object.hide();
+                object1.hide();
+                objectSum.style.display = "block";
+                selectSum.style.display = "block";
+            }
+        }
+    }
+
+    function viewAll() {
+        for (var i = 1; i <=16; i++) {
+            $("default" + i).style.display = "block";
+            $("defaultSum" + i).style.display = "none";
+            $("choice" + i).style.display = "block";
+            $("choiceSum" + i).style.display = "none";
+        }
+    }
+
+    function closeAll() {
+        for (var i = 1; i <=16; i++) {
+            $("default" + i).style.display = "none";
+            $("defaultSum" + i).style.display = "block";
+            $("choice" + i).style.display = "none";
+            $("choiceSum" + i).style.display = "block";
+        }
+    }
+
+    function firstLayerOpen() {
+        //viewForm(1);
+    }
+
+    function foldingYN(param) {
+        if (param == "f_fold") {
+            document.getElementById("folding").innerHTML ="<a href=\"javascript:foldingYN('f_unfold')\" class='folding f_unfold'>전체등급 펼쳐보기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "none";
+            document.getElementById("f_fold").style.display = "";
+        } else {
+            document.getElementById("folding").innerHTML = "<a href=\"javascript:foldingYN('f_fold')\" class='folding f_fold'>접기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "";
+            document.getElementById("f_fold").style.display = "none";
+        }
+    }
+
+    function onSubmit() {
+        jQuery("#searchForm").submit();
+
+    }
+    window.onload = initGnb;
+
+</script>
+</html>
+

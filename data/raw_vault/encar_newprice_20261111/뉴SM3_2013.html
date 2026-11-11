@@ -1,0 +1,903 @@
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>차량DB - 차량정보 - 신차가격표</title>
+    <link type="text/css" rel="stylesheet" href="/css/common.css?v=1793835891525"/>
+    <link type="text/css" rel="stylesheet" href="/css/db.css?v=1793835891525"/>
+
+    <script type="text/javascript" src="/js/encarapp/lib/jquery/jquery-1.11.3.min.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/common/ui.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/prototype.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/util.js?v=1793835894199"></script>
+
+    <script type="text/javascript" src="/js/common/db_common.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/commonCombo.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/carSearchCombo.js?v=1793835894199"></script>
+	<script>
+		window.enlogInitJson = {
+			"dataTalkView": {
+				"screenName": "신차가격표"
+			}
+		}
+
+	</script>
+
+
+</head>
+
+
+
+
+
+
+
+    <!-- 등급 체크박스  -->
+    <div style="display:none">
+        
+    </div>
+
+    <!-- 세부등급 체크박스 -->
+    <div style="display:none">
+        
+    </div>
+
+
+
+<body class="db db_newdetailview db_basicTemplate">
+
+
+
+
+	
+	
+	
+	
+
+
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-W9QQ2T"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W9QQ2T');</script>
+<!-- End Google Tag Manager -->
+
+<!-- container begin -->
+<div class="container" id="containerDIV">
+<input type="hidden" id = "foldYn" name="searchtype" value="5"/>
+<form id ="searchForm" name="searchForm">
+
+    <input type="hidden" id = "method" name="method" value="newpricePopV2"/>
+    <input type="hidden" id = "dimensiontype" name="dimensiontype" value="null"/>
+    <input type="hidden" id = "paramMnfccd" name="paramMnfccd" value="005"/>
+    <input type="hidden" id = "paramMdlgroupcd" name="paramMdlgroupcd" value="001"/>
+    <input type="hidden" id = "paramMdlcd" name="paramMdlcd" value="054"/>
+    <input type="hidden" id = "paramYear" name="paramYear" value="2013"/>
+    <input type="hidden" id = "model" name="model" value="">
+    <input type="hidden" id = "paramCaryear" name="paramCaryear" value="2013"/>
+    <input type="hidden" id = "clsheadcd" name="clsheadcd" class="checkbox" value="null"/>
+    <input type="hidden" id = "paramGradeHead" name="paramGradeHead" value="null"/>
+	<input type="hidden" id = "searchtype" name="searchtype" value="check"/>
+	<input type="hidden" id = "pageAccessToken" name="pageAccessToken" value="AgV4M0yPLiLfF+i9PLX8QVtXgsSf9Rg3wP5pbGx0VvpY9SYAcQACAAdFbmNhckNrAAdFbmNhckN2ABVhd3MtY3J5cHRvLXB1YmxpYy1rZXkAREFtM1JIelIvRk1tYkIwYVliWm9zU3FudUVTWWFqVG8xZWw5a0FzTVE1cHE3a2ZjZWJzbytobldQS0RUajU1d0NVUT09AAEAB2F3cy1rbXMAUGFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjI3MjM2MjQ4NzY1MzprZXkvbXJrLWRmZWEyNmY3NTVhMzQ3MjliNjkwMjRkZWZmM2M1MWFjALgBAgEAeAuqQuSJvQ+Ra4FSj55FZzS0sk+00amsb3yoAFiEYn4PATk8mQ9bgtNhypyhoBnKjn4AAAB+MHwGCSqGSIb3DQEHBqBvMG0CAQAwaAYJKoZIhvcNAQcBMB4GCWCGSAFlAwQBLjARBAxgAmDoCCDz+YKVd0ICARCAO8//P50qOzxdzhglS3nFKbWr5DbTa14fqTDKAr9kmYgbrLt/KKE5yZwOojbIveWfpngIKRPTngoGMB6LAgAAEAA43haTYyCcFjw61b3DSTfo24/CX2w973Mn/25/riMdwdRsouAiehUzbhqTQqTHEbf/////AAAAAQAAAAAAAAAAAAAAAQAAAKN/89Ocw2HsDdWY+A3nExb+/fV2odn2LBZ7MLvX/CFhl1qqzNPjja6ph8TtgMheslLuNX/XJ4f2xzdXawqGp0WumLAO8l/GZGLTaEoQV/lPRrOdUMbIUWSX/eiE0vO0X33s4gJCymXq8mBx5pcNmm05D6UlhhVT/whoVJz0pH1sRwl77SoeSS1JzN5kStBXcp4BN8qGy35ramz7rURccV+VZSL+59bxXZA7zCRFHcDtVnxOKABnMGUCMQCY39iH7BcO5fEJI8UAMReFs1gHFSSqHDBilTpDyrk5b03BfRBDmvmGC2R8tScAjQECMHOn8ou5otJiA473UIBcRCTyqE0cKi08tw6ScVZn8cbOr4ZWZLjt8EO6Y7F9y2g9zQ=="/>
+    <div class="header">
+        <h1 class="blind">SK엔카</h1>
+        <h2 class="tit_carprice" id="main_title">신차가격표</h2>
+        <p class="quickSearch">
+
+
+
+            <select title="제조사" class="opt_select" id="mnfccd" name="mnfccd" onChange="javascript:changeModelGroup(this.value);">
+                <option value="">제조사</option>
+            </select>
+
+            <select class="opt_select" title="모델" id="mdlgroupcd" name="mdlgroupcd" onChange="javascript:changeModel_jato($('mnfccd').value, this.value);">
+                <option>모델</option>
+            </select>
+
+            <select class="opt_select" title="세부모델" id="mdlcd" name="mdlcd" onChange="javascript:changeYearJato($('mnfccd').value, $('mdlcd').value);">
+                <option>세부모델</option>
+            </select>
+
+            <select class="opt_select" title="연식" id="caryear" name="caryear">
+                <option>연식</option>
+            </select>
+
+            <button type="button" class="btn_search" onclick="javascript:onSubmit();"/>검색</button>
+
+
+
+        </p>
+    </div>
+    <!-- body begin -->
+    <div class="body" id="bodydiv">
+		
+			
+				<table class="layout">
+					<col class="contents"/>
+					<tr>
+						<td class="contentsMenu">
+							<!-- contentsMenu begin -->
+							<div class="contentsMenu">
+								<h3 class="title">르노코리아(삼성) 뉴SM3 2013년형</h3>
+							</div>
+							<!-- contentsMenu end -->
+						</td>
+					</tr>
+
+					<tr>
+						<td class="contentsMain">
+							<!-- contents begin -->
+							<div class="contents">
+
+								<div class="carCompare">
+									<div class="dbHead">
+										
+											<div id="folding"><a href="javascript:foldingYN('f_fold')"
+																 class="folding f_fold">전체등급 펼쳐보기<em class="db_ir"></em></a></div>
+
+											<!-- 2013/04/03 [서] 매물탭 개선 : 기능 버튼 추가 --><!--<a href="#" class="folding f_unfold">펼치기</a>-->
+										
+									</div>
+									
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+									<div id="f_unfold">
+										
+											<!-- case1 : 세부등급과 미션분리 -->
+											<table class="carCompare sellcase1">
+												<colgroup>
+													<col class="grade">
+													<col class="mission">
+													<col class="price">
+												    <col class="uprice"><!-- [시세개편] 중고차시세 추가 uprice -->
+													<col class="item">
+													<col class="option">
+												</colgroup>
+												<thead class="compare">
+												<tr>
+													<th class="grade" colspan="2"><b>구분</b></th>
+													<th class="price"><b>판매가격</b></th>
+													<th class="uprice"><b>중고차시세</b></th><!-- [시세개편] 중고차시세 추가 -->
+													<th class="item"><b>기본사양 품목</b></th>
+													<th class="option end"><b>선택사양 품목</b></th>
+												</tr>
+												</thead>
+												<tbody class="new">
+												
+													
+														
+													
+													
+														
+															
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>PE</p></td>
+														
+														<td class="mission"><p>CVT</p></td>
+														<td class="price">
+															<p>
+																<strong>1,538</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	▶<b> 엔진/성능 </b> : 117마력, 16.1 kg.m, 15.0 km/ℓ(복합 연비 기준) 1.6 듀얼 CVTC 엔진, X-CVT 신개념 무단 변속기(6단 수동모드 지원), 스로틀 밸브 전자제어장치(ETC), 백금 점화 플러그, 사일런트 타이밍 체인, 엔진 이모빌라이저, 가스식 쇽업소버
+<br><br>▶<b> 안전 사양 </b> : EBD-ABS(BAS 내장), 듀얼 에어백(운전석/동승석), 사이드 &amp; 커튼 에어백, 전자식 차속감응 파워 스티어링(SSEPS), ISOFIX 유아용 시트 고정장치, 앞좌석 시트벨트 프리텐셔너(로드리미터 내장형), 시트벨트 높이 조절장치, 충돌감지 도어록 해제장치, 차속 감응 오토 도어록, 후륜 디스크 브레이크, 트렁크 비상탈출 장치, 타이어 리페어 키트, 급제동 경보시스템(ESS)<br><br>▶<b> 외관 사양 </b> : 블랙베젤 헤드램프, 신가교 내스크래치 클리어 도장, 15˝스틸 휠, 205/65R 15 타이어, LED 보조제동등(HMSL), 크롬도금 머플러 디퓨저, 바디컬러 사이드 몰딩, 틴티드 글라스, 원톤 리어 범퍼, 방향 지시등 일체형 아웃사이드 미러(벌브 타입)&nbsp;<br><br>▶<b> 내장 사양 </b> : 다이내믹 컬러 디지털 클러스터, 웰컴 애니메이션, 통합스마트 경보시스템(각 도어 및 트렁크 개폐 알림), HMI 디스플레이, 계기판 크롬 클러스터 링, 계기판 상시 조명, 트립 컴퓨터, 계기판 조명 조절 장치, 고급 직물시트, 시트백 포켓(운전석/동승석), 뒷좌석 분리형 헤드레스트, 글로시 실버 페인팅(대시보드 데코), 3스포크 스티어링 휠, 스티어링 휠 크롬 엠블럼, 맵 램프, 룸 램프(타이머 내장), 운전석 선바이저 화장거울 &amp; 커버(티켓 홀더 포함), 1단 센터콘솔박스, 앞좌석 컵홀더, 고급 카 매트, 트렁크 리드 방음재, 트렁크 공구함, 앞좌석 도어 풀컵 핸들<br><br>▶<b> 편의 사양 </b> : 원터치 세이프티 파워 윈도우(운전석/동승석), 전원 일시 잔류기능 파워 윈도우, 파워 윈도우 스위치 조명(앞좌석), 전동조절 아웃사이드 미러, 아웃사이드 미러 열선기능, 차속 감응 와이퍼, 폴딩 타입 무선 리모컨 키, 틸트 스티어링, 도난 방지 시스템, 전자식 연료 주입구/트렁크 열림 장치, 중앙 집중식 오토 도어록, 배터리 세이버
+<br><br>▶<b> 오 디 오 </b> : 오디오(라디오/MP3 CDP/AUX/USB/iPod 연결단자), 블루투스 핸즈프리(오디오 스트리밍 기능), 스티어링 휠 오디오 리모트 컨트롤, 4 스피커, 글라스 안테나<br><br>▶<b> 공조시스템 </b> : 다이얼 타입 매뉴얼 에어컨(에어필터 포함)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 차체자세 제어장치(ESC)</b> 400,000
+<br>
+<br>
+<b>▶&nbsp;White Pearl(백진주색)&nbsp;</b>150,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>SE</p></td>
+														
+														<td class="mission"><p>CVT</p></td>
+														<td class="price">
+															<p>
+																<strong>1,668</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	▶<b> PE A/T 기본사양 및 </b>
+<br><br>▶<b> 외관 사양 </b> : 블랙베젤 프로젝션 헤드램프, 방향 지시등 일체형 아웃사이드 미러(LED 타입), 16˝알로이 휠, 205/60R 16 타이어, 안개등(블랙 글로시 하우징)&nbsp;
+<br><br>▶<b> 내장 사양 </b> : 통합스마트 경보시스템(후방 경보장치 방향 및 거리 알림 포함), 운전석 시트 높이 조절장치(펌핑 타입), 동승석 선바이저 화장거울 &amp; 커버, 에어벤트 크롬 핸들<br><br>▶<b> 편의 사양 </b> : 후방 경보장치<br><br>▶<b> 오 디 오 </b> : 6 스피커
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 차체자세 제어장치(ESC)</b> 400,000
+
+<br><br>
+<b>▶&nbsp;White Pearl(백진주색)&nbsp;</b>150,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>SE 플러스</p></td>
+														
+														<td class="mission"><p>CVT</p></td>
+														<td class="price">
+															<p>
+																<strong>1,768</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	▶<b> SE A/T 기본사양 및 </b>
+<br><br>▶<b> 엔진/성능 </b> : 엔진커버, 후드 인슐레이션 패드 
+<br><br>▶<b> 외관 사양 </b> : 프런트 하단 듀얼 크롬바
+<br><br>▶<b> 내장 사양 </b> : 최고급 직물 시트, 앞좌석 열선시트, 가죽커버 스티어링 휠, 가죽커버 변속기 손잡이, 인사이드 크롬 도어핸들, 스피커 그릴 실버 페인팅, 글로시 골드 메탈 그레인(대시보드 데코), 트렁크 인사이드 핸들<br>
+<br>▶<b> 편의 사양 </b> : 오토라이팅 헤드램프, 레인 센싱 와이퍼, 글로브박스 댐퍼, 전동접이 아웃사이드 미러(전원 일시 잔류기능 포함), 아웃사이드 미러 자동접이 기능<br><br>▶<b> 오 디 오 </b> : 오디오(알카미스 (Arkamys) 3D 사운드 시스템, 분리형 오디오 디스플레이), 차속 감응 볼륨 조절 시스템<br><br>▶<b> 공조시스템 </b> : 좌/우 독립 풀오토 에어컨, 유해가스 유입 차단장치(AQS), 리어 에어 벤틸레이션(뒷좌석 공조 기능)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 차체자세 제어장치(ESC)</b> 400,000
+<br><br>▶<b> 전자동 선루프(원터치 세이프티 기능 포함)</b> 500,000
+<br><br>▶<b> 스페셜 가죽시트 패키지(최고급 블랙가죽시트 &amp; 도어트림 + 6:4 더블 폴딩 시트 + 뒷좌석암레스트 &amp; 컵홀더 + 플라스틱시트백 가니시)</b> (680,000
+<br><br>▶<b> 하이패스 시스템(ETCS) &amp; 전자식 룸미러(ECM)</b>&nbsp;270,000<br><br>▶<b> SMart Connect(T-map 내비게이션) (바디 컬러 샤크 핀 안테나, 전용 후방카메라 포함)</b>&nbsp;1,050,000<br>
+<br>
+<b>▶&nbsp;White Pearl(백진주색)&nbsp;</b>150,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>LE</p></td>
+														
+														<td class="mission"><p>CVT</p></td>
+														<td class="price">
+															<p>
+																<strong>1,888</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	▶<b> SE Plus A/T 기본사양 및 </b>
+<br><br>▶<b> 안전 사양 </b> : 전자식 파킹브레이크(E-PKB)
+<br><br>▶<b> 외관 사양 </b> : 17˝알로이 휠, 205/55R 17 타이어, 크롬도금 웨이스트 라인 몰딩(윈도우 하단), 트렁크 리드 크롬 가니시
+<br><br>▶<b> 내장 사양 </b> : 6:4 더블 폴딩 시트(더블 폴딩 기능 대신 스키 쓰루 기능 선택 가능), 뒷좌석 암레스트 &amp; 컵홀더, 파킹 브레이크 스위치 크롬 데코, 선바이저 조명(운전석/동승석), 글로브박스 조명, 플라스틱 시트백 가니시, 선글라스 케이스
+<br><br>▶<b> 편의 사양 </b> : 크루즈 컨트롤 &amp; 스피드 리미터, 인텔리전트 스마트 카드 시스템(오토 클로징 (Auto Closing) &amp; 버튼 시동), 수동식 텔레스코픽 스티어링, 헤드램프 에스코트 기능
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 차체자세 제어장치(ESC)</b> 400,000
+<br><br>▶<b> 전자동 선루프(원터치 세이프티 기능 포함)</b> 500,000
+<br><br>▶<b> 가죽시트 패키지(시트+도어트림)</b> 580,000
+<br><br>▶<b> 하이패스 시스템(ETCS)&amp;전자식 룸미러(ECM)</b> 270,000
+<br><br>▶<b> BOSE 사운드 시스템</b> 650,000
+<br><br>▶<b> SMart Connect(T-map 내비게이션) (바디 컬러 샤크 핀 안테나, 전용 후방카메라 포함)</b>1,050,000
+<br>
+<br>
+<b>▶&nbsp;White Pearl(백진주색)&nbsp;</b>150,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>RE</p></td>
+														
+														<td class="mission"><p>CVT</p></td>
+														<td class="price">
+															<p>
+																<strong>1,978</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	▶<b> LE A/T 기본사양 및 </b>
+<br><br>▶<b> 외관 사양 </b> : 솔라컨트롤 글라스(앞면)
+<br><br>▶<b> 내장 사양 </b> : 최고급 블랙 가죽시트 &amp; 도어트림, 요추받침장치
+<br><br>▶<b> 편의 사양 </b> : 운전석 파워 시트, 하이패스 시스템(ETCS) &amp; 전자식 룸미러(ECM), 인텔리전트 스마트 카드 시스템(매직핸들 포함)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 차체자세 제어장치(ESC)</b> 400,000
+<br><br>▶<b> 전자동 선루프(원터치 세이프티 기능 포함)</b> 500,000
+<br><br>▶<b> BOSE 사운드 시스템</b> 650,000
+<br><br>▶<b> SMart Connect(T-map 내비게이션) (바디 컬러 샤크 핀 안테나, 전용 후방카메라 포함)&nbsp;</b>1,050,000
+<br>
+<br>
+<b>▶&nbsp;White Pearl(백진주색)&nbsp;</b>150,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+												</tbody>
+											</table>
+										
+
+
+										<!-- case2 : 세부등급이 있는경우 -->
+										
+									</div>
+									<!-- 신차가격표(폴더형) -->
+									<div id="f_fold" style="display:none;">
+										<div class="newcar_folder">
+											<ul class="nf_list" id="newcarList">
+												
+													<li>
+														<a href="#newcar0">
+                                                            <span class="model">PE  CVT</span>
+                                                            <span class="prc">
+                                                                <strong>1,538</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar1">
+                                                            <span class="model">SE  CVT</span>
+                                                            <span class="prc">
+                                                                <strong>1,668</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar2">
+                                                            <span class="model">SE 플러스  CVT</span>
+                                                            <span class="prc">
+                                                                <strong>1,768</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar3">
+                                                            <span class="model">LE  CVT</span>
+                                                            <span class="prc">
+                                                                <strong>1,888</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar4">
+                                                            <span class="model">RE  CVT</span>
+                                                            <span class="prc">
+                                                                <strong>1,978</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+											</ul>
+											<!-- 개별 -->
+											
+												<div id="newcar0" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> 엔진/성능 </b> : 117마력, 16.1 kg.m, 15.0 km/ℓ(복합 연비 기준) 1.6 듀얼 CVTC 엔진, X-CVT 신개념 무단 변속기(6단 수동모드 지원), 스로틀 밸브 전자제어장치(ETC), 백금 점화 플러그, 사일런트 타이밍 체인, 엔진 이모빌라이저, 가스식 쇽업소버
+<br><br>▶<b> 안전 사양 </b> : EBD-ABS(BAS 내장), 듀얼 에어백(운전석/동승석), 사이드 &amp; 커튼 에어백, 전자식 차속감응 파워 스티어링(SSEPS), ISOFIX 유아용 시트 고정장치, 앞좌석 시트벨트 프리텐셔너(로드리미터 내장형), 시트벨트 높이 조절장치, 충돌감지 도어록 해제장치, 차속 감응 오토 도어록, 후륜 디스크 브레이크, 트렁크 비상탈출 장치, 타이어 리페어 키트, 급제동 경보시스템(ESS)<br><br>▶<b> 외관 사양 </b> : 블랙베젤 헤드램프, 신가교 내스크래치 클리어 도장, 15˝스틸 휠, 205/65R 15 타이어, LED 보조제동등(HMSL), 크롬도금 머플러 디퓨저, 바디컬러 사이드 몰딩, 틴티드 글라스, 원톤 리어 범퍼, 방향 지시등 일체형 아웃사이드 미러(벌브 타입)&nbsp;<br><br>▶<b> 내장 사양 </b> : 다이내믹 컬러 디지털 클러스터, 웰컴 애니메이션, 통합스마트 경보시스템(각 도어 및 트렁크 개폐 알림), HMI 디스플레이, 계기판 크롬 클러스터 링, 계기판 상시 조명, 트립 컴퓨터, 계기판 조명 조절 장치, 고급 직물시트, 시트백 포켓(운전석/동승석), 뒷좌석 분리형 헤드레스트, 글로시 실버 페인팅(대시보드 데코), 3스포크 스티어링 휠, 스티어링 휠 크롬 엠블럼, 맵 램프, 룸 램프(타이머 내장), 운전석 선바이저 화장거울 &amp; 커버(티켓 홀더 포함), 1단 센터콘솔박스, 앞좌석 컵홀더, 고급 카 매트, 트렁크 리드 방음재, 트렁크 공구함, 앞좌석 도어 풀컵 핸들<br><br>▶<b> 편의 사양 </b> : 원터치 세이프티 파워 윈도우(운전석/동승석), 전원 일시 잔류기능 파워 윈도우, 파워 윈도우 스위치 조명(앞좌석), 전동조절 아웃사이드 미러, 아웃사이드 미러 열선기능, 차속 감응 와이퍼, 폴딩 타입 무선 리모컨 키, 틸트 스티어링, 도난 방지 시스템, 전자식 연료 주입구/트렁크 열림 장치, 중앙 집중식 오토 도어록, 배터리 세이버
+<br><br>▶<b> 오 디 오 </b> : 오디오(라디오/MP3 CDP/AUX/USB/iPod 연결단자), 블루투스 핸즈프리(오디오 스트리밍 기능), 스티어링 휠 오디오 리모트 컨트롤, 4 스피커, 글라스 안테나<br><br>▶<b> 공조시스템 </b> : 다이얼 타입 매뉴얼 에어컨(에어필터 포함)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 차체자세 제어장치(ESC)</b> 400,000
+<br>
+<br>
+<b>▶&nbsp;White Pearl(백진주색)&nbsp;</b>150,000</p>
+												</div>
+											
+												<div id="newcar1" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> PE A/T 기본사양 및 </b>
+<br><br>▶<b> 외관 사양 </b> : 블랙베젤 프로젝션 헤드램프, 방향 지시등 일체형 아웃사이드 미러(LED 타입), 16˝알로이 휠, 205/60R 16 타이어, 안개등(블랙 글로시 하우징)&nbsp;
+<br><br>▶<b> 내장 사양 </b> : 통합스마트 경보시스템(후방 경보장치 방향 및 거리 알림 포함), 운전석 시트 높이 조절장치(펌핑 타입), 동승석 선바이저 화장거울 &amp; 커버, 에어벤트 크롬 핸들<br><br>▶<b> 편의 사양 </b> : 후방 경보장치<br><br>▶<b> 오 디 오 </b> : 6 스피커</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 차체자세 제어장치(ESC)</b> 400,000
+
+<br><br>
+<b>▶&nbsp;White Pearl(백진주색)&nbsp;</b>150,000</p>
+												</div>
+											
+												<div id="newcar2" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> SE A/T 기본사양 및 </b>
+<br><br>▶<b> 엔진/성능 </b> : 엔진커버, 후드 인슐레이션 패드 
+<br><br>▶<b> 외관 사양 </b> : 프런트 하단 듀얼 크롬바
+<br><br>▶<b> 내장 사양 </b> : 최고급 직물 시트, 앞좌석 열선시트, 가죽커버 스티어링 휠, 가죽커버 변속기 손잡이, 인사이드 크롬 도어핸들, 스피커 그릴 실버 페인팅, 글로시 골드 메탈 그레인(대시보드 데코), 트렁크 인사이드 핸들<br>
+<br>▶<b> 편의 사양 </b> : 오토라이팅 헤드램프, 레인 센싱 와이퍼, 글로브박스 댐퍼, 전동접이 아웃사이드 미러(전원 일시 잔류기능 포함), 아웃사이드 미러 자동접이 기능<br><br>▶<b> 오 디 오 </b> : 오디오(알카미스 (Arkamys) 3D 사운드 시스템, 분리형 오디오 디스플레이), 차속 감응 볼륨 조절 시스템<br><br>▶<b> 공조시스템 </b> : 좌/우 독립 풀오토 에어컨, 유해가스 유입 차단장치(AQS), 리어 에어 벤틸레이션(뒷좌석 공조 기능)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 차체자세 제어장치(ESC)</b> 400,000
+<br><br>▶<b> 전자동 선루프(원터치 세이프티 기능 포함)</b> 500,000
+<br><br>▶<b> 스페셜 가죽시트 패키지(최고급 블랙가죽시트 &amp; 도어트림 + 6:4 더블 폴딩 시트 + 뒷좌석암레스트 &amp; 컵홀더 + 플라스틱시트백 가니시)</b> (680,000
+<br><br>▶<b> 하이패스 시스템(ETCS) &amp; 전자식 룸미러(ECM)</b>&nbsp;270,000<br><br>▶<b> SMart Connect(T-map 내비게이션) (바디 컬러 샤크 핀 안테나, 전용 후방카메라 포함)</b>&nbsp;1,050,000<br>
+<br>
+<b>▶&nbsp;White Pearl(백진주색)&nbsp;</b>150,000</p>
+												</div>
+											
+												<div id="newcar3" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> SE Plus A/T 기본사양 및 </b>
+<br><br>▶<b> 안전 사양 </b> : 전자식 파킹브레이크(E-PKB)
+<br><br>▶<b> 외관 사양 </b> : 17˝알로이 휠, 205/55R 17 타이어, 크롬도금 웨이스트 라인 몰딩(윈도우 하단), 트렁크 리드 크롬 가니시
+<br><br>▶<b> 내장 사양 </b> : 6:4 더블 폴딩 시트(더블 폴딩 기능 대신 스키 쓰루 기능 선택 가능), 뒷좌석 암레스트 &amp; 컵홀더, 파킹 브레이크 스위치 크롬 데코, 선바이저 조명(운전석/동승석), 글로브박스 조명, 플라스틱 시트백 가니시, 선글라스 케이스
+<br><br>▶<b> 편의 사양 </b> : 크루즈 컨트롤 &amp; 스피드 리미터, 인텔리전트 스마트 카드 시스템(오토 클로징 (Auto Closing) &amp; 버튼 시동), 수동식 텔레스코픽 스티어링, 헤드램프 에스코트 기능</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 차체자세 제어장치(ESC)</b> 400,000
+<br><br>▶<b> 전자동 선루프(원터치 세이프티 기능 포함)</b> 500,000
+<br><br>▶<b> 가죽시트 패키지(시트+도어트림)</b> 580,000
+<br><br>▶<b> 하이패스 시스템(ETCS)&amp;전자식 룸미러(ECM)</b> 270,000
+<br><br>▶<b> BOSE 사운드 시스템</b> 650,000
+<br><br>▶<b> SMart Connect(T-map 내비게이션) (바디 컬러 샤크 핀 안테나, 전용 후방카메라 포함)</b>1,050,000
+<br>
+<br>
+<b>▶&nbsp;White Pearl(백진주색)&nbsp;</b>150,000</p>
+												</div>
+											
+												<div id="newcar4" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> LE A/T 기본사양 및 </b>
+<br><br>▶<b> 외관 사양 </b> : 솔라컨트롤 글라스(앞면)
+<br><br>▶<b> 내장 사양 </b> : 최고급 블랙 가죽시트 &amp; 도어트림, 요추받침장치
+<br><br>▶<b> 편의 사양 </b> : 운전석 파워 시트, 하이패스 시스템(ETCS) &amp; 전자식 룸미러(ECM), 인텔리전트 스마트 카드 시스템(매직핸들 포함)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 차체자세 제어장치(ESC)</b> 400,000
+<br><br>▶<b> 전자동 선루프(원터치 세이프티 기능 포함)</b> 500,000
+<br><br>▶<b> BOSE 사운드 시스템</b> 650,000
+<br><br>▶<b> SMart Connect(T-map 내비게이션) (바디 컬러 샤크 핀 안테나, 전용 후방카메라 포함)&nbsp;</b>1,050,000
+<br>
+<br>
+<b>▶&nbsp;White Pearl(백진주색)&nbsp;</b>150,000</p>
+												</div>
+											
+										</div>
+										<script type="text/javascript">
+											newcarFolder(0);//초기값
+											function newcarFolder(target) {
+												var conElId = "newcar"//아이디 설정
+												var conElMenu = document.getElementById("newcarList");
+												var conElMenuLink = conElMenu.getElementsByTagName("a");
+												if (target != null) {
+													conElMenuLink[target].parentNode.className = "on";
+													document.getElementById(
+														conElId + target).style.display = "";
+												}
+												for (i = 0; i <= (conElMenuLink.length - 1); i++) {
+													conElMenuLink[i].onclick = function () {
+														for (x = 0; x <= (conElMenuLink.length - 1); x++) {
+															conElMenuLink[x].parentNode.className = "";
+															document.getElementById(
+																conElId + x).style.display = "none";
+														}
+														this.parentNode.className = "on";
+														document.getElementById(this.getAttribute('href')
+																					.split(
+																						'#')[1]).style.display =
+															"";
+														return false;
+													}
+												}
+											}
+										</script>
+									</div>
+									
+										<ul class="more">
+												▶ White Pearl(백진주색) 선택 시 추가비용 \ 150,000
+<br>▶ X-CVT (neXt generation CVT), 신개념 무단변속기, 6단 수동모드 지원
+<br>▶ 가죽시트 적용 시, 일부 인조가죽이 포함되어 있습니다. 
+<br>▶ SE Plus에서 스페셜 가죽시트 패키지 옵션 선택 시 트렁크 키홀이 삭제됩니다. (비상시 트렁크 개폐는 6:4 폴딩 기능을 이용, 트렁크 접근이 가능합니다.) 
+<br>▶ SE Plus에서 선루프 선택 시, 선바이저 조명 (운전석/동승석) 및 선글라스 케이스가 추가됩니다.
+<br>▶ SE Plus에서 SMart Connect T-map 내비게이션 선택 시, 트렁크 리드 크롬 가니시가 추가됩니다.
+<br>▶ SMart Connect T-map 내비게이션 : 고해상도 7˝터치 스크린, SK T-map, 16GB 내장 메모리, 후방 모니터링 시스템, SK 멜론(Melon), SK P2C (Phone to Car), SK 디지털 허브 맵 업데이트, 최첨단 음성인식 기능, 폰북 다운로드 기능, 지상파 DMB &amp; 동영상 재생기능
+<br>▶ SMart Connect T-map 내비게이션의 TPEG (DMB 교통정보) 기능을 통하여 경로 탐색이 가능하며, SK T- map 을 사용하여 경로를 탐색할 경우 별도의 데이터 통신료가 발생할 수 있습니다.
+<br>▶ SMart Connect T-map 내비게이션의 SK 멜론(Melon) 관련 무료 음악 이용권을 차량 구매 후 최초 3개월 동안 제공합니다.
+<br>▶ 후방 모니터링 시스템 : 차량 이동의 예상궤적을 표시해 주는 후방 주차가이드 시스템을 통하여 편의성을 향상시켜 줍니다. (단, 후방 주차가이드 시스템은 차체자세 제어장치(ESC) 선택 시에만 적용됩니다.)
+<br>▶ BOSE 사운드 시스템 : BOSE 스피커 엠블럼 / 전용 9 스피커 - 트위터 (앞/뒤), 도어 스피커 (앞/뒤), 서브 우퍼 / 디지털 외장앰프
+										</ul>
+									
+									<p class="desc_more">위 신차가격표는 단순 참고자료이며, 정확한 내용은 각 제조사에서 제공하는 자료를 통해확인하실 수 있습니다.</p><!-- 2016/10/12 [장] 등급 등록/수정 개선 : 추가 디자인 변경 -->
+									<p class="toTop"><a href="#main_title" class="sp toTop db_ir" title="페이지 위로"><u>페이지 위로</u></a></p><!-- [시세개편] class db_ir 추가 -->
+								</div>
+
+
+							</div>
+							<!-- body end -->
+						</td>
+					</tr>
+				</table>
+
+
+			
+			
+		
+    </div>
+
+    <!-- container end -->
+</form>
+</div>
+
+</body>
+<script language="javascript">
+
+
+    var strCompanyUrl = "/common/combo/cardbcompany.json?method=carList";
+    var strModelGroupUrl = "/common/combo/modelgroupfordb.json?method=carList";
+    var strModelUrl = "/common/combo/cardbmodel.json?method=carList";
+    var strYrJatoUrl = "/common/combo/jatoYr.json?method=carList";
+
+    var companyid = "mnfccd";
+    var modelgroupid = "mdlgroupcd";
+    var modelid = "mdlcd";
+    var yearid = "caryear";
+
+    function initGnb() {
+        var paramCompany = $("paramMnfccd").value;
+        var paramModelGroup = $("paramMdlgroupcd").value;
+        var paramModel = $("paramMdlcd").value;
+        var paramYr = $("paramYear").value;
+
+        // 제조사
+        if (paramModel != "") {
+            $("mdlcd").show();
+        }
+
+        //console.log("companyid :: " + companyid)
+        //console.log("paramCompany :: " + paramCompany)
+		if($('foldYn').value != 0){
+            foldingYN('f_fold');
+		}
+
+        setCompany(strCompanyUrl, companyid, "제조사", paramCompany);
+
+        // 제조사 값이 있으면 모델 검색
+        if (paramCompany >= '010') {
+            if (paramCompany != "") {
+                if (paramModel == "") {
+                    paramModel = paramModelGroup;
+                }
+                setModel(strModelUrl, modelid, paramCompany, "모델", paramModel)
+                $("mdlgroupcd").hide();
+
+            }
+        } else {
+            $("mdlgroupcd").show();
+            if (paramCompany != "") {
+                setModelGroup(strModelGroupUrl, modelgroupid, paramCompany, "모델", paramModelGroup);
+                if (paramModelGroup != "") {
+                    setModel_New(strModelUrl, modelid, paramCompany, paramModelGroup, "세부모델", paramModel);
+                }
+            }
+
+        }
+        if (paramCompany != "" && paramModel != "") {
+            setCarYear(strYrJatoUrl, yearid, paramCompany, paramModel, "형식연도", paramYr);
+        }
+
+        waitTime = 1;
+    }
+
+    function changeModel_jato(mnfccd, mdlgroupcd) {
+        setModel_New(strModelUrl, modelid, mnfccd, mdlgroupcd, "세부모델", "");
+        //모델그룹선택시 기본 세부모델선택
+        if ($("mdlcd") != null) {
+            $("mdlcd").selectedIndex = 1;
+            var mdlcd = $("mdlcd").options[$("mdlcd").selectedIndex].value;
+            changeYearJato(mnfccd, mdlcd);
+        }
+    }
+
+    function changeYearJato(mnfccd,mdlcd) {
+        setCarYear(strYrJatoUrl, yearid, mnfccd, mdlcd, "형식연도", "");
+        $(yearid).options[1].selected = true;
+    }
+
+
+
+    //덧글 리스트
+    function viewForm(index) {
+
+        var object = $("default" + index);
+        var objectSum = $("defaultSum" + index);
+        var selectSum = $("choiceSum" + index);
+        var object1 = $("choice" + index);
+        if (object != null) {
+            if (object.style.display == 'none') {
+                objectSum.hide();
+                selectSum.hide();
+                object.style.display = "block";
+                object1.style.display = "block";
+
+            } else {
+                object.hide();
+                object1.hide();
+                objectSum.style.display = "block";
+                selectSum.style.display = "block";
+            }
+        }
+    }
+
+    function viewAll() {
+        for (var i = 1; i <=5; i++) {
+            $("default" + i).style.display = "block";
+            $("defaultSum" + i).style.display = "none";
+            $("choice" + i).style.display = "block";
+            $("choiceSum" + i).style.display = "none";
+        }
+    }
+
+    function closeAll() {
+        for (var i = 1; i <=5; i++) {
+            $("default" + i).style.display = "none";
+            $("defaultSum" + i).style.display = "block";
+            $("choice" + i).style.display = "none";
+            $("choiceSum" + i).style.display = "block";
+        }
+    }
+
+    function firstLayerOpen() {
+        //viewForm(1);
+    }
+
+    function foldingYN(param) {
+        if (param == "f_fold") {
+            document.getElementById("folding").innerHTML ="<a href=\"javascript:foldingYN('f_unfold')\" class='folding f_unfold'>전체등급 펼쳐보기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "none";
+            document.getElementById("f_fold").style.display = "";
+        } else {
+            document.getElementById("folding").innerHTML = "<a href=\"javascript:foldingYN('f_fold')\" class='folding f_fold'>접기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "";
+            document.getElementById("f_fold").style.display = "none";
+        }
+    }
+
+    function onSubmit() {
+        jQuery("#searchForm").submit();
+
+    }
+    window.onload = initGnb;
+
+</script>
+</html>
+

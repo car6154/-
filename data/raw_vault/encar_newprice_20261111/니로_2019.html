@@ -1,0 +1,927 @@
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>차량DB - 차량정보 - 신차가격표</title>
+    <link type="text/css" rel="stylesheet" href="/css/common.css?v=1793835891525"/>
+    <link type="text/css" rel="stylesheet" href="/css/db.css?v=1793835891525"/>
+
+    <script type="text/javascript" src="/js/encarapp/lib/jquery/jquery-1.11.3.min.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/common/ui.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/prototype.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/util.js?v=1793835894199"></script>
+
+    <script type="text/javascript" src="/js/common/db_common.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/commonCombo.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/carSearchCombo.js?v=1793835894199"></script>
+	<script>
+		window.enlogInitJson = {
+			"dataTalkView": {
+				"screenName": "신차가격표"
+			}
+		}
+
+	</script>
+
+
+</head>
+
+
+
+
+
+
+
+    <!-- 등급 체크박스  -->
+    <div style="display:none">
+        
+    </div>
+
+    <!-- 세부등급 체크박스 -->
+    <div style="display:none">
+        
+    </div>
+
+
+
+<body class="db db_newdetailview db_basicTemplate">
+
+
+
+
+	
+	
+	
+	
+
+
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-W9QQ2T"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W9QQ2T');</script>
+<!-- End Google Tag Manager -->
+
+<!-- container begin -->
+<div class="container" id="containerDIV">
+<input type="hidden" id = "foldYn" name="searchtype" value="5"/>
+<form id ="searchForm" name="searchForm">
+
+    <input type="hidden" id = "method" name="method" value="newpricePopV2"/>
+    <input type="hidden" id = "dimensiontype" name="dimensiontype" value="null"/>
+    <input type="hidden" id = "paramMnfccd" name="paramMnfccd" value="002"/>
+    <input type="hidden" id = "paramMdlgroupcd" name="paramMdlgroupcd" value="061"/>
+    <input type="hidden" id = "paramMdlcd" name="paramMdlcd" value="126"/>
+    <input type="hidden" id = "paramYear" name="paramYear" value="2019"/>
+    <input type="hidden" id = "model" name="model" value="">
+    <input type="hidden" id = "paramCaryear" name="paramCaryear" value="2019"/>
+    <input type="hidden" id = "clsheadcd" name="clsheadcd" class="checkbox" value="null"/>
+    <input type="hidden" id = "paramGradeHead" name="paramGradeHead" value="null"/>
+	<input type="hidden" id = "searchtype" name="searchtype" value="check"/>
+	<input type="hidden" id = "pageAccessToken" name="pageAccessToken" value="AgV4UZ047XbbjQskBKvP+YiXnM5nr0zX/HJaeF/7dOfQ+owAcQACAAdFbmNhckNrAAdFbmNhckN2ABVhd3MtY3J5cHRvLXB1YmxpYy1rZXkAREFnQ2VxWng2aG9OU2FvMms3V09zV2ZpcXpUM1FnVURydXBsLzk3MDNiNUtjYXYyZC9qODl1b3BRcnpkOVhRU1A5dz09AAEAB2F3cy1rbXMAUGFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjI3MjM2MjQ4NzY1MzprZXkvbXJrLWRmZWEyNmY3NTVhMzQ3MjliNjkwMjRkZWZmM2M1MWFjALgBAgEAeAuqQuSJvQ+Ra4FSj55FZzS0sk+00amsb3yoAFiEYn4PAZfWcKhnX0eC8BfJ3H7QhlQAAAB+MHwGCSqGSIb3DQEHBqBvMG0CAQAwaAYJKoZIhvcNAQcBMB4GCWCGSAFlAwQBLjARBAwC6bxngk7N13ekkskCARCAO2ZSIl8e8zT0geyn7+O7o8t32dPpP/Gg1bbwaacbyrU7v3RkqUnDDSQ99SJp2+nPwzsnDvfEWRK8GQ8KAgAAEAD+rbenqC3x3D7wGS5UDWcrszR3FOkUtKdFOtE19Szwj4i4Ulw171sABA8Tzh1Vpbn/////AAAAAQAAAAAAAAAAAAAAAQAAAKNX21aao46hx+T2R0LOQw0lNUZ1etM66MlzCQD3wWPUFJgTquYgGvh/k8SDQaFzrvOh81s/eNRmF19d2OfPyQqCux0gWRoveOGj47Hswt1k+yjiQV8m0/FJ5IR9+J8BDx4mdH9Eej6PTOYjXmSbetApL50cbvYr7kwv2bncwdWs6EY9dVj8GWG7Dg/vfWFJbcGAC0lzP2ineIwwYwOYE1uItFwmIZyfve3QkqUaBdQ76nDbhQBnMGUCMAjISPlAlYqDz0PxXGXDKDEpWWqGpt2s4SMu2TNluicrxSJKJfFjb6Q0ZxOCPenQZgIxAKaa0Zg6KgPOeegpKYktNiRJ6pCjZEd7D58n2dzCbxGwnH28uvvIPCjfdV3zeDiXZQ=="/>
+    <div class="header">
+        <h1 class="blind">SK엔카</h1>
+        <h2 class="tit_carprice" id="main_title">신차가격표</h2>
+        <p class="quickSearch">
+
+
+
+            <select title="제조사" class="opt_select" id="mnfccd" name="mnfccd" onChange="javascript:changeModelGroup(this.value);">
+                <option value="">제조사</option>
+            </select>
+
+            <select class="opt_select" title="모델" id="mdlgroupcd" name="mdlgroupcd" onChange="javascript:changeModel_jato($('mnfccd').value, this.value);">
+                <option>모델</option>
+            </select>
+
+            <select class="opt_select" title="세부모델" id="mdlcd" name="mdlcd" onChange="javascript:changeYearJato($('mnfccd').value, $('mdlcd').value);">
+                <option>세부모델</option>
+            </select>
+
+            <select class="opt_select" title="연식" id="caryear" name="caryear">
+                <option>연식</option>
+            </select>
+
+            <button type="button" class="btn_search" onclick="javascript:onSubmit();"/>검색</button>
+
+
+
+        </p>
+    </div>
+    <!-- body begin -->
+    <div class="body" id="bodydiv">
+		
+			
+				<table class="layout">
+					<col class="contents"/>
+					<tr>
+						<td class="contentsMenu">
+							<!-- contentsMenu begin -->
+							<div class="contentsMenu">
+								<h3 class="title">기아 니로 2019년형</h3>
+							</div>
+							<!-- contentsMenu end -->
+						</td>
+					</tr>
+
+					<tr>
+						<td class="contentsMain">
+							<!-- contents begin -->
+							<div class="contents">
+
+								<div class="carCompare">
+									<div class="dbHead">
+										
+											<div id="folding"><a href="javascript:foldingYN('f_fold')"
+																 class="folding f_fold">전체등급 펼쳐보기<em class="db_ir"></em></a></div>
+
+											<!-- 2013/04/03 [서] 매물탭 개선 : 기능 버튼 추가 --><!--<a href="#" class="folding f_unfold">펼치기</a>-->
+										
+									</div>
+									
+									
+										
+									
+										
+									
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+									<div id="f_unfold">
+										
+
+
+										<!-- case2 : 세부등급이 있는경우 -->
+										
+											<table class="carCompare sellcase2">
+												<colgroup>
+													<col class="grade">
+													<col class="detailgrd">
+													<col class="mission">
+													<col class="price">
+													<col class="uprice">
+													<col class="item">
+													<col class="option">
+												</colgroup>
+												<thead class="compare">
+												<tr>
+													<th class="grade bgn" colspan="3"><b>구분</b></th>
+													<th class="price"><b>판매가격</b></th>
+													<th class="uprice"><b>중고차시세</b></th><!-- [시세개편] 중고차시세 추가 -->
+													<th class="item"><b>기본사양 품목</b></th>
+													<th class="option end"><b>선택사양 품목</b></th>
+												</tr>
+												</thead>
+												<tbody class="new">
+												
+													
+														
+													
+													
+													
+														
+													
+													
+														
+															
+															
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>럭셔리</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>DCT</p></td>
+														<td class="price">
+															<p>
+																<strong>2,452</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶&nbsp;파워 트레인 :&nbsp;</b>카파1.6GDI가솔린엔진,32kW전기모터,리튬이온폴리머배터리,6단DCT(수동겸용, 부츠타입),회생제동브레이크,후륜멀티링크서스펜션,주행모드통합제어시스템(Eco/Sports)&nbsp;<br><br><b>▶ 안전 :</b>&nbsp;에어백 (운전석/동승석 어드밴스드 에어백, 운전석 무릎, 전복감지 사이드 &amp; 커튼), VSM (차세대ESC),경사로밀림방지 장치 (HAC),급제동 경보 시스템 (ESS),디스크브레이크(전,후륜), 가상 엔진사운드 시스템 (VESS), 유아용시트 고정 장치, 개별 타이어 공기압 경보시스템 (TPMS), 타이어 임시수리 장치 (TMK), 후방 주차보조 시스템&nbsp;<br><br><b>▶ 외관 :</b>&nbsp;205/60R16미쉐린타이어&amp;에어로휠,프로젝션헤드램프(에스코트기능포함),LED라이트가이드, LEDDRL,안개등,리피터 일체형 아웃사이드 미러 (열선내장,전동조절,전동접이),리어스포일러, LED 보조제동등, 리어 와이퍼 &amp; 와셔 노즐, 공력 아이템 (액티브 에어플랩, 에어커튼, 언더커버), 알루미늄 차체 (후드, 테일게이트, 전방 백빔), 루프랙&nbsp;<br><br><b>▶ 내장 :&nbsp;</b>블랙 원톤 인테리어, 고급형 클러스터 (3.5인치 모노 TFT LCD 클러스터), 선바이저 거울, D/N 룸미러, 맵램프, 선글라스 케이스, 룸램프&nbsp;<br><br><b>▶ 시트 :</b>&nbsp;인조가죽시트, 운전석시트 높이조절 장치, 1열 히티드시트, 1열 슬라이딩 헤드레스트, 1열 시트백 포켓, 1열 시트벨트 높이조절 장치, 2열 6:4 분할 폴딩시트, 2열 헤드레스트 높이조절 장치&nbsp;<br><br><b>▶ 편의 :</b>&nbsp;폴딩타입무선도어리모컨키,원터치트리플턴시그널,풋파킹브레이크,파워윈도우(1열,2열), 파워 도어록, 속도감응형 도어잠금 장치, 속도감응형 전동식 파워 스티어링 (MDPS), 오토 라이트 컨트롤,수동식틸트 &amp;텔레스코픽스티어링휠,파워아웃렛,별물형 USB충전기,독립제어 풀오토 에어컨 (운전석, 동승석), PTC 보조히터, 오토 디포그, 램프단선 진단 시스템&nbsp;<br><br><b>▶ 멀티미디어 :&nbsp;</b>고급형 오디오 (5인치 칼라 TFTLCD), 6 스피커,AUX&amp;USB(iPod) 단자, 스티어링 휠 오디오 리모컨, 블루투스 핸즈프리
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶ 스노우 화이트 펄 :70,000&nbsp;<br><br>▶ 선루프(LED룸램프포함) : 440,000&nbsp;<br><br>▶ 전자식 룸미러 (ECM) + 자동 요금징수 시스템 (ETCS) : 250,000&nbsp;<br><br>▶ 버튼시동 스마트키 시스템 : 290,000&nbsp;<br><br>▶ 스마트 내비게이션 (7인치, 후방 카메라) : 830,000&nbsp;<br><br>▶ 후측방 경보 시스템(BSD) : 390,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+													
+														
+													
+													
+														
+															
+															
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>프레스티지</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>DCT</p></td>
+														<td class="price">
+															<p>
+																<strong>2,658</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶&nbsp;<b>럭셔리 기본품목 외</b><br><br>ㆍ<b>안전 :&nbsp;</b>운전석 세이프티 파워 윈도우&nbsp;<br><br>ㆍ<b>외관 :&nbsp;</b>크롬 아웃사이드 도어핸들, 도어손잡이 조명(프런트 도어), LED 리어콤비네이션 램프&nbsp;<br><br>ㆍ<b>내장 :&nbsp;</b>가죽스티어링휠&amp;변속기노브,선바이저조명,크롬인사이드도어핸들, 1열도어트림인조가죽감싸기,파워윈도우스위치크롬데코,도어암레스트스티치, 블랙하이그로시(도어트림가니쉬,스티어링휠베젤,변속기노브판넬,크래쉬패드가니쉬)&nbsp;<br><br>ㆍ<b>시트 :</b>&nbsp;1열 통풍시트, 2열 센터 암레스트&nbsp;<br><br>ㆍ<b>편의 :</b>&nbsp;버튼시동 스마트키 시스템, 웰컴 시스템, 히티드 스티어링 휠, 크루즈 컨트롤, 후방 카메라, 2열 에어벤트
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶ 스노우 화이트 펄 : 70,000&nbsp;<br><br>▶ 선루프(LED룸램프포함) : 440,000&nbsp;<br><br>▶ 전자식 룸미러 (ECM) + 자동 요금징수 시스템 (ETCS) : 250,000<br><br>▶ 225/45 R18 미쉐린 타이어 &amp; 알로이 휠 : 290,000&nbsp;<br><br>▶ 스마트내비게이션(7인치) : 640,000<br><br>▶ 드라이브 와이즈 : 1,420,000&nbsp;<br><br>▶ 후측방경보시스템(BSD) : 390,000&nbsp;<br><br>▶ IT 컨비니언스 패키지 : 290,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+													
+														
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>노블레스</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>DCT</p></td>
+														<td class="price">
+															<p>
+																<strong>2,874</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶&nbsp;<b>프레스티지 기본품목 외&nbsp;&nbsp;<br></b><br>ㆍ<b>안전 :</b>&nbsp;전방 주차보조 시스템, 동승석 세이프티 파워 윈도우&nbsp;<br><br>ㆍ<b>외관 :</b>&nbsp;LED 헤드램프, 에어로타입 와이퍼&nbsp;<br><br>ㆍ<b>내장 :</b>&nbsp;슈퍼비전클러스터(4.2인치칼라TFTLCD),블랙원톤/그레이투톤인테리어中선택가능, 알로이 페달, 스테인리스 도어스커프&nbsp;<br><br>ㆍ<b>시트 :&nbsp;</b>가죽시트,운전석파워시트,운전석전동식허리지지대,동승석시트높이조절장치,2열히티드시트&nbsp;<br><br>ㆍ<b>편의 :&nbsp;</b>러기지 스크린, 러기지 네트, 러기지 언더 트레이, 운전자세메모리시스템(운전석시트, 아웃사이드미러),운전석이지억세스,후진연동자동하향아웃사이드미러
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶&nbsp;스노우 화이트 펄 : 70,000&nbsp;<br><br>▶ 선루프(LED룸램프포함) : 440,000&nbsp;<br><br>▶ 전자식 룸미러 (ECM) + 자동 요금징수 시스템 (ETCS) : 250,000&nbsp;<br><br>▶&nbsp;225/45 R18 미쉐린 타이어 &amp; 알로이 휠 : 290,000<br><br>▶ 스마트내비게이션(7인치) : 640,000&nbsp;<br><br>▶ 드라이브와이즈 + 후측방경보시스템(BSD) : 1,820,000&nbsp;<br><br>▶ IT 컨비니언스 패키지 : 290,000&nbsp;<br><br>▶ 내비게이션 UVO2.0 (8인치) + KRELL프리미엄 사운드시스템(8스피커,외장앰프포함) + 전자식 룸미러(ECM) + 자동 요금징수 시스템(ETCS) : 1,720,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="2">
+																<p>1.6 플러그인 HEV</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>프레스티지</p></td>
+														
+														<td class="mission"><p>DCT</p></td>
+														<td class="price">
+															<p>
+																<strong>3,385</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶&nbsp;파워 트레인</b>&nbsp;: 카파 1.6 GDI 가솔린 엔진, 플러그인 하이브리드 시스템(44.5kW 전기모터, 8.9kWh 리튬이온 폴리머 배터리), 6단 DCT(수동겸용, 부츠타입), 회생제동 브레이크, 후륜 멀티 링크 서스펜션, 주행모드 통합제어 시스템 (Eco / Sports)&nbsp;<br><br><b>▶&nbsp;안전</b>&nbsp;: 에어백 (운전석/동승석 어드밴스드 에어백, 운전석 무릎, 전복감지 사이드 &amp; 커튼), VSM (차세대ESC),경사로밀림방지장치(HAC),급제동경보시스템(ESS),디스크브레이크(전,후륜), 가상 엔진사운드시스템(VESS),유아용시트 고정장치,개별타이어공기압 경보시스템(TPMS), 타이어임시수리장치(TMK),후방주차보조시스템,운전석세이프티파워윈도우,후측방경보시스템(BSD)<br><br><b>▶&nbsp;외관</b>&nbsp;: 205/60 R16 미쉐린 타이어 &amp; 에어로 휠, HID 헤드램프(에스코트 기능포함), LED 라이트 가이드, LED DRL, 안개등, 리피터 일체형 아웃사이드 미러 (열선내장, 전동조절, 전동접이), 리어 스포일러, LED 보조제동등, 리어 와이퍼 &amp; 와셔 노즐, 공력 아이템 (액티브 에어플랩, 에어커튼, 언더커버), 알루미늄 차체 (후드, 테일게이트, 전방 백빔), 루프랙, 크롬 아웃사이드 도어 핸들, 도어손잡이 조명 (프런트 도어), LED 리어콤비네이션 램프&nbsp;<br><br><b>▶&nbsp;내장</b>&nbsp;: 블랙 원톤 인테리어, 슈퍼비전 클러스터 (4.2인치 칼라 TFT LCD), 선바이저 거울, 맵램프, 선글라스케이스,룸램프,가죽스티어링휠&amp;변속기노브,선바이저조명,크롬인사이드도어핸들, 1열 도어트림 인조가죽 감싸기, 파워 윈도우 스위치 크롬 데코, 도어 암레스트 스티치, 블랙 하이 그로시 (도어트림 가니쉬, 스티어링 휠 베젤, 변속기 노브 판넬, 크래쉬 패드 가니쉬)&nbsp;<br><br><b>▶&nbsp;시트</b>&nbsp;: 인조가죽시트, 운전석시트 높이조절 장치, 1열 히티드시트, 1열 통풍시트, 1열 슬라이딩 헤드레스트, 1열 시트백 포켓, 1열 시트벨트 높이조절장치, 2열 6:4분할 폴딩시트, 2열헤드레스트 높이조절 장치, 2열 센터 암레스트&nbsp;<br><br><b>▶&nbsp;편의</b>&nbsp;: 버튼시동 스마트키 시스템, 웰컴 시스템, 원터치 트리플 턴 시그널, 풋파킹 브레이크, 파워 윈도우 (1열,2열), 파워 도어록, 속도감응형 도어잠금 장치, 속도감응형 전동식 파워 스티어링 (MDPS), 오토 라이트 컨트롤, 수동식 틸트 &amp; 텔레스코픽 스티어링 휠, 파워 아웃렛, 별물형 USB 충전기,독립제어풀오토에어컨(운전석,동승석),PTC보조히터,오토디포그,램프단선진단시스템, 히티드 스티어링 휠, 크루즈 컨트롤, 후방 카메라, 2열 에어벤트, 전자식 룸미러(ECM), 자동 요금 징수 시스템 (ETCS), 러기지 언더 트레이&nbsp;<br><br><b>▶&nbsp;멀티미디어&nbsp;</b>: 고급형 오디오 (5인치 칼라 TFTLCD), 6 스피커,AUX&amp;USB(iPod) 단자, 스티어링 휠 오디오 리모컨, 블루투스 핸즈프리
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>스노우 화이트 펄 :70,000&nbsp;<br><br><b>▶&nbsp;</b>선루프(LED룸램프포함):440,000&nbsp;<br><br><b>▶&nbsp;</b>IT컨비니언스패키지 :290,000&nbsp;<br><br><b>▶&nbsp;</b>220V 휴대용 충전케이블 :490,000&nbsp;<br><br><b>▶&nbsp;</b>드라이브 와이즈 : 1,420,000&nbsp;<br><br><b>▶&nbsp;</b>내비게이션&nbsp;UVO&nbsp;2.0 (8인치)+KRELL 프리미엄사운드 시스템(8스피커, 외장앰프포함) : 1,370,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>노블레스</p></td>
+														
+														<td class="mission"><p>DCT</p></td>
+														<td class="price">
+															<p>
+																<strong>3,611</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶&nbsp;프레스티지 기본품목 외<br></b><br><b>ㆍ 안전</b>&nbsp;: 전방 주차보조 시스템, 동승석 세이프티 파워 윈도우&nbsp;<br><br><b>ㆍ 외관</b>&nbsp;: LED 헤드램프, 에어로타입 와이퍼<br><br><b>ㆍ 내장</b>&nbsp;: 슈퍼비전클러스터(7인치칼라TFTLCD),블랙원톤/그레이투톤인테리어中선택가능, 알로이 페달, 스테인리스 도어스커프<br><b><br></b><b>ㆍ 시트</b>&nbsp;: 가죽시트,운전석파워시트,운전석전동식허리지지대,동승석시트높이조절장치,2열히티드시트&nbsp;<br><br><b>ㆍ 편의</b>&nbsp;: 러기지 스크린, 러기지 네트, 운전자세메모리시스템(운전석시트,아웃사이드미러), 운전석이지억세스,후진연동자동하향아웃사이드미러
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>스노우 화이트 펄 :70,000&nbsp;<br><br><b>▶&nbsp;</b>선루프(LED룸램프포함):440,000&nbsp;<br><br><b>▶&nbsp;</b>IT컨비니언스패키지 :290,000&nbsp;<br><br><b>▶&nbsp;</b>220V 휴대용 충전케이블 :490,000&nbsp;<br><br><b>▶&nbsp;</b>드라이브 와이즈 : 1,420,000&nbsp;<br><br><b>▶&nbsp;</b>내비게이션 UVO 2.0 (8인치)+KRELL 프리미엄사운드 시스템(8스피커, 외장앰프포함) : 1,370,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+												</tbody>
+											</table>
+										
+									</div>
+									<!-- 신차가격표(폴더형) -->
+									<div id="f_fold" style="display:none;">
+										<div class="newcar_folder">
+											<ul class="nf_list" id="newcarList">
+												
+													<li>
+														<a href="#newcar0">
+                                                            <span class="model">럭셔리  DCT</span>
+                                                            <span class="prc">
+                                                                <strong>2,452</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar1">
+                                                            <span class="model">프레스티지  DCT</span>
+                                                            <span class="prc">
+                                                                <strong>2,658</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar2">
+                                                            <span class="model">노블레스  DCT</span>
+                                                            <span class="prc">
+                                                                <strong>2,874</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar3">
+                                                            <span class="model">1.6 플러그인 HEV 프레스티지 DCT</span>
+                                                            <span class="prc">
+                                                                <strong>3,385</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar4">
+                                                            <span class="model">1.6 플러그인 HEV 노블레스 DCT</span>
+                                                            <span class="prc">
+                                                                <strong>3,611</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+											</ul>
+											<!-- 개별 -->
+											
+												<div id="newcar0" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶&nbsp;파워 트레인 :&nbsp;</b>카파1.6GDI가솔린엔진,32kW전기모터,리튬이온폴리머배터리,6단DCT(수동겸용, 부츠타입),회생제동브레이크,후륜멀티링크서스펜션,주행모드통합제어시스템(Eco/Sports)&nbsp;<br><br><b>▶ 안전 :</b>&nbsp;에어백 (운전석/동승석 어드밴스드 에어백, 운전석 무릎, 전복감지 사이드 &amp; 커튼), VSM (차세대ESC),경사로밀림방지 장치 (HAC),급제동 경보 시스템 (ESS),디스크브레이크(전,후륜), 가상 엔진사운드 시스템 (VESS), 유아용시트 고정 장치, 개별 타이어 공기압 경보시스템 (TPMS), 타이어 임시수리 장치 (TMK), 후방 주차보조 시스템&nbsp;<br><br><b>▶ 외관 :</b>&nbsp;205/60R16미쉐린타이어&amp;에어로휠,프로젝션헤드램프(에스코트기능포함),LED라이트가이드, LEDDRL,안개등,리피터 일체형 아웃사이드 미러 (열선내장,전동조절,전동접이),리어스포일러, LED 보조제동등, 리어 와이퍼 &amp; 와셔 노즐, 공력 아이템 (액티브 에어플랩, 에어커튼, 언더커버), 알루미늄 차체 (후드, 테일게이트, 전방 백빔), 루프랙&nbsp;<br><br><b>▶ 내장 :&nbsp;</b>블랙 원톤 인테리어, 고급형 클러스터 (3.5인치 모노 TFT LCD 클러스터), 선바이저 거울, D/N 룸미러, 맵램프, 선글라스 케이스, 룸램프&nbsp;<br><br><b>▶ 시트 :</b>&nbsp;인조가죽시트, 운전석시트 높이조절 장치, 1열 히티드시트, 1열 슬라이딩 헤드레스트, 1열 시트백 포켓, 1열 시트벨트 높이조절 장치, 2열 6:4 분할 폴딩시트, 2열 헤드레스트 높이조절 장치&nbsp;<br><br><b>▶ 편의 :</b>&nbsp;폴딩타입무선도어리모컨키,원터치트리플턴시그널,풋파킹브레이크,파워윈도우(1열,2열), 파워 도어록, 속도감응형 도어잠금 장치, 속도감응형 전동식 파워 스티어링 (MDPS), 오토 라이트 컨트롤,수동식틸트 &amp;텔레스코픽스티어링휠,파워아웃렛,별물형 USB충전기,독립제어 풀오토 에어컨 (운전석, 동승석), PTC 보조히터, 오토 디포그, 램프단선 진단 시스템&nbsp;<br><br><b>▶ 멀티미디어 :&nbsp;</b>고급형 오디오 (5인치 칼라 TFTLCD), 6 스피커,AUX&amp;USB(iPod) 단자, 스티어링 휠 오디오 리모컨, 블루투스 핸즈프리</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶ 스노우 화이트 펄 :70,000&nbsp;<br><br>▶ 선루프(LED룸램프포함) : 440,000&nbsp;<br><br>▶ 전자식 룸미러 (ECM) + 자동 요금징수 시스템 (ETCS) : 250,000&nbsp;<br><br>▶ 버튼시동 스마트키 시스템 : 290,000&nbsp;<br><br>▶ 스마트 내비게이션 (7인치, 후방 카메라) : 830,000&nbsp;<br><br>▶ 후측방 경보 시스템(BSD) : 390,000</p>
+												</div>
+											
+												<div id="newcar1" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶&nbsp;<b>럭셔리 기본품목 외</b><br><br>ㆍ<b>안전 :&nbsp;</b>운전석 세이프티 파워 윈도우&nbsp;<br><br>ㆍ<b>외관 :&nbsp;</b>크롬 아웃사이드 도어핸들, 도어손잡이 조명(프런트 도어), LED 리어콤비네이션 램프&nbsp;<br><br>ㆍ<b>내장 :&nbsp;</b>가죽스티어링휠&amp;변속기노브,선바이저조명,크롬인사이드도어핸들, 1열도어트림인조가죽감싸기,파워윈도우스위치크롬데코,도어암레스트스티치, 블랙하이그로시(도어트림가니쉬,스티어링휠베젤,변속기노브판넬,크래쉬패드가니쉬)&nbsp;<br><br>ㆍ<b>시트 :</b>&nbsp;1열 통풍시트, 2열 센터 암레스트&nbsp;<br><br>ㆍ<b>편의 :</b>&nbsp;버튼시동 스마트키 시스템, 웰컴 시스템, 히티드 스티어링 휠, 크루즈 컨트롤, 후방 카메라, 2열 에어벤트</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶ 스노우 화이트 펄 : 70,000&nbsp;<br><br>▶ 선루프(LED룸램프포함) : 440,000&nbsp;<br><br>▶ 전자식 룸미러 (ECM) + 자동 요금징수 시스템 (ETCS) : 250,000<br><br>▶ 225/45 R18 미쉐린 타이어 &amp; 알로이 휠 : 290,000&nbsp;<br><br>▶ 스마트내비게이션(7인치) : 640,000<br><br>▶ 드라이브 와이즈 : 1,420,000&nbsp;<br><br>▶ 후측방경보시스템(BSD) : 390,000&nbsp;<br><br>▶ IT 컨비니언스 패키지 : 290,000</p>
+												</div>
+											
+												<div id="newcar2" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶&nbsp;<b>프레스티지 기본품목 외&nbsp;&nbsp;<br></b><br>ㆍ<b>안전 :</b>&nbsp;전방 주차보조 시스템, 동승석 세이프티 파워 윈도우&nbsp;<br><br>ㆍ<b>외관 :</b>&nbsp;LED 헤드램프, 에어로타입 와이퍼&nbsp;<br><br>ㆍ<b>내장 :</b>&nbsp;슈퍼비전클러스터(4.2인치칼라TFTLCD),블랙원톤/그레이투톤인테리어中선택가능, 알로이 페달, 스테인리스 도어스커프&nbsp;<br><br>ㆍ<b>시트 :&nbsp;</b>가죽시트,운전석파워시트,운전석전동식허리지지대,동승석시트높이조절장치,2열히티드시트&nbsp;<br><br>ㆍ<b>편의 :&nbsp;</b>러기지 스크린, 러기지 네트, 러기지 언더 트레이, 운전자세메모리시스템(운전석시트, 아웃사이드미러),운전석이지억세스,후진연동자동하향아웃사이드미러</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶&nbsp;스노우 화이트 펄 : 70,000&nbsp;<br><br>▶ 선루프(LED룸램프포함) : 440,000&nbsp;<br><br>▶ 전자식 룸미러 (ECM) + 자동 요금징수 시스템 (ETCS) : 250,000&nbsp;<br><br>▶&nbsp;225/45 R18 미쉐린 타이어 &amp; 알로이 휠 : 290,000<br><br>▶ 스마트내비게이션(7인치) : 640,000&nbsp;<br><br>▶ 드라이브와이즈 + 후측방경보시스템(BSD) : 1,820,000&nbsp;<br><br>▶ IT 컨비니언스 패키지 : 290,000&nbsp;<br><br>▶ 내비게이션 UVO2.0 (8인치) + KRELL프리미엄 사운드시스템(8스피커,외장앰프포함) + 전자식 룸미러(ECM) + 자동 요금징수 시스템(ETCS) : 1,720,000</p>
+												</div>
+											
+												<div id="newcar3" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶&nbsp;파워 트레인</b>&nbsp;: 카파 1.6 GDI 가솔린 엔진, 플러그인 하이브리드 시스템(44.5kW 전기모터, 8.9kWh 리튬이온 폴리머 배터리), 6단 DCT(수동겸용, 부츠타입), 회생제동 브레이크, 후륜 멀티 링크 서스펜션, 주행모드 통합제어 시스템 (Eco / Sports)&nbsp;<br><br><b>▶&nbsp;안전</b>&nbsp;: 에어백 (운전석/동승석 어드밴스드 에어백, 운전석 무릎, 전복감지 사이드 &amp; 커튼), VSM (차세대ESC),경사로밀림방지장치(HAC),급제동경보시스템(ESS),디스크브레이크(전,후륜), 가상 엔진사운드시스템(VESS),유아용시트 고정장치,개별타이어공기압 경보시스템(TPMS), 타이어임시수리장치(TMK),후방주차보조시스템,운전석세이프티파워윈도우,후측방경보시스템(BSD)<br><br><b>▶&nbsp;외관</b>&nbsp;: 205/60 R16 미쉐린 타이어 &amp; 에어로 휠, HID 헤드램프(에스코트 기능포함), LED 라이트 가이드, LED DRL, 안개등, 리피터 일체형 아웃사이드 미러 (열선내장, 전동조절, 전동접이), 리어 스포일러, LED 보조제동등, 리어 와이퍼 &amp; 와셔 노즐, 공력 아이템 (액티브 에어플랩, 에어커튼, 언더커버), 알루미늄 차체 (후드, 테일게이트, 전방 백빔), 루프랙, 크롬 아웃사이드 도어 핸들, 도어손잡이 조명 (프런트 도어), LED 리어콤비네이션 램프&nbsp;<br><br><b>▶&nbsp;내장</b>&nbsp;: 블랙 원톤 인테리어, 슈퍼비전 클러스터 (4.2인치 칼라 TFT LCD), 선바이저 거울, 맵램프, 선글라스케이스,룸램프,가죽스티어링휠&amp;변속기노브,선바이저조명,크롬인사이드도어핸들, 1열 도어트림 인조가죽 감싸기, 파워 윈도우 스위치 크롬 데코, 도어 암레스트 스티치, 블랙 하이 그로시 (도어트림 가니쉬, 스티어링 휠 베젤, 변속기 노브 판넬, 크래쉬 패드 가니쉬)&nbsp;<br><br><b>▶&nbsp;시트</b>&nbsp;: 인조가죽시트, 운전석시트 높이조절 장치, 1열 히티드시트, 1열 통풍시트, 1열 슬라이딩 헤드레스트, 1열 시트백 포켓, 1열 시트벨트 높이조절장치, 2열 6:4분할 폴딩시트, 2열헤드레스트 높이조절 장치, 2열 센터 암레스트&nbsp;<br><br><b>▶&nbsp;편의</b>&nbsp;: 버튼시동 스마트키 시스템, 웰컴 시스템, 원터치 트리플 턴 시그널, 풋파킹 브레이크, 파워 윈도우 (1열,2열), 파워 도어록, 속도감응형 도어잠금 장치, 속도감응형 전동식 파워 스티어링 (MDPS), 오토 라이트 컨트롤, 수동식 틸트 &amp; 텔레스코픽 스티어링 휠, 파워 아웃렛, 별물형 USB 충전기,독립제어풀오토에어컨(운전석,동승석),PTC보조히터,오토디포그,램프단선진단시스템, 히티드 스티어링 휠, 크루즈 컨트롤, 후방 카메라, 2열 에어벤트, 전자식 룸미러(ECM), 자동 요금 징수 시스템 (ETCS), 러기지 언더 트레이&nbsp;<br><br><b>▶&nbsp;멀티미디어&nbsp;</b>: 고급형 오디오 (5인치 칼라 TFTLCD), 6 스피커,AUX&amp;USB(iPod) 단자, 스티어링 휠 오디오 리모컨, 블루투스 핸즈프리</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>스노우 화이트 펄 :70,000&nbsp;<br><br><b>▶&nbsp;</b>선루프(LED룸램프포함):440,000&nbsp;<br><br><b>▶&nbsp;</b>IT컨비니언스패키지 :290,000&nbsp;<br><br><b>▶&nbsp;</b>220V 휴대용 충전케이블 :490,000&nbsp;<br><br><b>▶&nbsp;</b>드라이브 와이즈 : 1,420,000&nbsp;<br><br><b>▶&nbsp;</b>내비게이션&nbsp;UVO&nbsp;2.0 (8인치)+KRELL 프리미엄사운드 시스템(8스피커, 외장앰프포함) : 1,370,000</p>
+												</div>
+											
+												<div id="newcar4" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶&nbsp;프레스티지 기본품목 외<br></b><br><b>ㆍ 안전</b>&nbsp;: 전방 주차보조 시스템, 동승석 세이프티 파워 윈도우&nbsp;<br><br><b>ㆍ 외관</b>&nbsp;: LED 헤드램프, 에어로타입 와이퍼<br><br><b>ㆍ 내장</b>&nbsp;: 슈퍼비전클러스터(7인치칼라TFTLCD),블랙원톤/그레이투톤인테리어中선택가능, 알로이 페달, 스테인리스 도어스커프<br><b><br></b><b>ㆍ 시트</b>&nbsp;: 가죽시트,운전석파워시트,운전석전동식허리지지대,동승석시트높이조절장치,2열히티드시트&nbsp;<br><br><b>ㆍ 편의</b>&nbsp;: 러기지 스크린, 러기지 네트, 운전자세메모리시스템(운전석시트,아웃사이드미러), 운전석이지억세스,후진연동자동하향아웃사이드미러</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>스노우 화이트 펄 :70,000&nbsp;<br><br><b>▶&nbsp;</b>선루프(LED룸램프포함):440,000&nbsp;<br><br><b>▶&nbsp;</b>IT컨비니언스패키지 :290,000&nbsp;<br><br><b>▶&nbsp;</b>220V 휴대용 충전케이블 :490,000&nbsp;<br><br><b>▶&nbsp;</b>드라이브 와이즈 : 1,420,000&nbsp;<br><br><b>▶&nbsp;</b>내비게이션 UVO 2.0 (8인치)+KRELL 프리미엄사운드 시스템(8스피커, 외장앰프포함) : 1,370,000</p>
+												</div>
+											
+										</div>
+										<script type="text/javascript">
+											newcarFolder(0);//초기값
+											function newcarFolder(target) {
+												var conElId = "newcar"//아이디 설정
+												var conElMenu = document.getElementById("newcarList");
+												var conElMenuLink = conElMenu.getElementsByTagName("a");
+												if (target != null) {
+													conElMenuLink[target].parentNode.className = "on";
+													document.getElementById(
+														conElId + target).style.display = "";
+												}
+												for (i = 0; i <= (conElMenuLink.length - 1); i++) {
+													conElMenuLink[i].onclick = function () {
+														for (x = 0; x <= (conElMenuLink.length - 1); x++) {
+															conElMenuLink[x].parentNode.className = "";
+															document.getElementById(
+																conElId + x).style.display = "none";
+														}
+														this.parentNode.className = "on";
+														document.getElementById(this.getAttribute('href')
+																					.split(
+																						'#')[1]).style.display =
+															"";
+														return false;
+													}
+												}
+											}
+										</script>
+									</div>
+									
+										<ul class="more">
+												<b>▶ 선택품목 세부안내</b><br>-&nbsp;<b>버튼시동 스마트키시스템 :&nbsp;&nbsp;</b>버튼시동 스마트키 시스템, 웰컴 시스템, 크롬 아웃사이드 도어핸들, 도어손잡이 조명 (프런트 도어)&nbsp;<br><b>- IT컨비니언스패키지 :&nbsp;</b>휴대폰 무선충전 시스템, 센터콘솔 내장형 USB 충전포트, 2열 220V 인버터&nbsp;<br>-&nbsp;<b>드라이브와이즈 :&nbsp;</b>긴급 제동보조 시스템 (AEB), 스마트 크루즈 컨트롤 (SCC), 주행조향 보조 시스템 (LKAS), 부주의 운전 경보 시스템 (DAA)
+										</ul>
+									
+									<p class="desc_more">위 신차가격표는 단순 참고자료이며, 정확한 내용은 각 제조사에서 제공하는 자료를 통해확인하실 수 있습니다.</p><!-- 2016/10/12 [장] 등급 등록/수정 개선 : 추가 디자인 변경 -->
+									<p class="toTop"><a href="#main_title" class="sp toTop db_ir" title="페이지 위로"><u>페이지 위로</u></a></p><!-- [시세개편] class db_ir 추가 -->
+								</div>
+
+
+							</div>
+							<!-- body end -->
+						</td>
+					</tr>
+				</table>
+
+
+			
+			
+		
+    </div>
+
+    <!-- container end -->
+</form>
+</div>
+
+</body>
+<script language="javascript">
+
+
+    var strCompanyUrl = "/common/combo/cardbcompany.json?method=carList";
+    var strModelGroupUrl = "/common/combo/modelgroupfordb.json?method=carList";
+    var strModelUrl = "/common/combo/cardbmodel.json?method=carList";
+    var strYrJatoUrl = "/common/combo/jatoYr.json?method=carList";
+
+    var companyid = "mnfccd";
+    var modelgroupid = "mdlgroupcd";
+    var modelid = "mdlcd";
+    var yearid = "caryear";
+
+    function initGnb() {
+        var paramCompany = $("paramMnfccd").value;
+        var paramModelGroup = $("paramMdlgroupcd").value;
+        var paramModel = $("paramMdlcd").value;
+        var paramYr = $("paramYear").value;
+
+        // 제조사
+        if (paramModel != "") {
+            $("mdlcd").show();
+        }
+
+        //console.log("companyid :: " + companyid)
+        //console.log("paramCompany :: " + paramCompany)
+		if($('foldYn').value != 0){
+            foldingYN('f_fold');
+		}
+
+        setCompany(strCompanyUrl, companyid, "제조사", paramCompany);
+
+        // 제조사 값이 있으면 모델 검색
+        if (paramCompany >= '010') {
+            if (paramCompany != "") {
+                if (paramModel == "") {
+                    paramModel = paramModelGroup;
+                }
+                setModel(strModelUrl, modelid, paramCompany, "모델", paramModel)
+                $("mdlgroupcd").hide();
+
+            }
+        } else {
+            $("mdlgroupcd").show();
+            if (paramCompany != "") {
+                setModelGroup(strModelGroupUrl, modelgroupid, paramCompany, "모델", paramModelGroup);
+                if (paramModelGroup != "") {
+                    setModel_New(strModelUrl, modelid, paramCompany, paramModelGroup, "세부모델", paramModel);
+                }
+            }
+
+        }
+        if (paramCompany != "" && paramModel != "") {
+            setCarYear(strYrJatoUrl, yearid, paramCompany, paramModel, "형식연도", paramYr);
+        }
+
+        waitTime = 1;
+    }
+
+    function changeModel_jato(mnfccd, mdlgroupcd) {
+        setModel_New(strModelUrl, modelid, mnfccd, mdlgroupcd, "세부모델", "");
+        //모델그룹선택시 기본 세부모델선택
+        if ($("mdlcd") != null) {
+            $("mdlcd").selectedIndex = 1;
+            var mdlcd = $("mdlcd").options[$("mdlcd").selectedIndex].value;
+            changeYearJato(mnfccd, mdlcd);
+        }
+    }
+
+    function changeYearJato(mnfccd,mdlcd) {
+        setCarYear(strYrJatoUrl, yearid, mnfccd, mdlcd, "형식연도", "");
+        $(yearid).options[1].selected = true;
+    }
+
+
+
+    //덧글 리스트
+    function viewForm(index) {
+
+        var object = $("default" + index);
+        var objectSum = $("defaultSum" + index);
+        var selectSum = $("choiceSum" + index);
+        var object1 = $("choice" + index);
+        if (object != null) {
+            if (object.style.display == 'none') {
+                objectSum.hide();
+                selectSum.hide();
+                object.style.display = "block";
+                object1.style.display = "block";
+
+            } else {
+                object.hide();
+                object1.hide();
+                objectSum.style.display = "block";
+                selectSum.style.display = "block";
+            }
+        }
+    }
+
+    function viewAll() {
+        for (var i = 1; i <=5; i++) {
+            $("default" + i).style.display = "block";
+            $("defaultSum" + i).style.display = "none";
+            $("choice" + i).style.display = "block";
+            $("choiceSum" + i).style.display = "none";
+        }
+    }
+
+    function closeAll() {
+        for (var i = 1; i <=5; i++) {
+            $("default" + i).style.display = "none";
+            $("defaultSum" + i).style.display = "block";
+            $("choice" + i).style.display = "none";
+            $("choiceSum" + i).style.display = "block";
+        }
+    }
+
+    function firstLayerOpen() {
+        //viewForm(1);
+    }
+
+    function foldingYN(param) {
+        if (param == "f_fold") {
+            document.getElementById("folding").innerHTML ="<a href=\"javascript:foldingYN('f_unfold')\" class='folding f_unfold'>전체등급 펼쳐보기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "none";
+            document.getElementById("f_fold").style.display = "";
+        } else {
+            document.getElementById("folding").innerHTML = "<a href=\"javascript:foldingYN('f_fold')\" class='folding f_fold'>접기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "";
+            document.getElementById("f_fold").style.display = "none";
+        }
+    }
+
+    function onSubmit() {
+        jQuery("#searchForm").submit();
+
+    }
+    window.onload = initGnb;
+
+</script>
+</html>
+

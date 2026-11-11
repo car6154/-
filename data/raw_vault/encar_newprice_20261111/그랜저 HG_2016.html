@@ -1,0 +1,1665 @@
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>차량DB - 차량정보 - 신차가격표</title>
+    <link type="text/css" rel="stylesheet" href="/css/common.css?v=1793835891525"/>
+    <link type="text/css" rel="stylesheet" href="/css/db.css?v=1793835891525"/>
+
+    <script type="text/javascript" src="/js/encarapp/lib/jquery/jquery-1.11.3.min.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/common/ui.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/prototype.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/util.js?v=1793835894199"></script>
+
+    <script type="text/javascript" src="/js/common/db_common.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/commonCombo.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/carSearchCombo.js?v=1793835894199"></script>
+	<script>
+		window.enlogInitJson = {
+			"dataTalkView": {
+				"screenName": "신차가격표"
+			}
+		}
+
+	</script>
+
+
+</head>
+
+
+
+
+
+
+
+    <!-- 등급 체크박스  -->
+    <div style="display:none">
+        
+    </div>
+
+    <!-- 세부등급 체크박스 -->
+    <div style="display:none">
+        
+    </div>
+
+
+
+<body class="db db_newdetailview db_basicTemplate">
+
+
+
+
+	
+	
+	
+	
+
+
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-W9QQ2T"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W9QQ2T');</script>
+<!-- End Google Tag Manager -->
+
+<!-- container begin -->
+<div class="container" id="containerDIV">
+<input type="hidden" id = "foldYn" name="searchtype" value="11"/>
+<form id ="searchForm" name="searchForm">
+
+    <input type="hidden" id = "method" name="method" value="newpricePopV2"/>
+    <input type="hidden" id = "dimensiontype" name="dimensiontype" value="null"/>
+    <input type="hidden" id = "paramMnfccd" name="paramMnfccd" value="001"/>
+    <input type="hidden" id = "paramMdlgroupcd" name="paramMdlgroupcd" value="004"/>
+    <input type="hidden" id = "paramMdlcd" name="paramMdlcd" value="106"/>
+    <input type="hidden" id = "paramYear" name="paramYear" value="2016"/>
+    <input type="hidden" id = "model" name="model" value="">
+    <input type="hidden" id = "paramCaryear" name="paramCaryear" value="2016"/>
+    <input type="hidden" id = "clsheadcd" name="clsheadcd" class="checkbox" value="null"/>
+    <input type="hidden" id = "paramGradeHead" name="paramGradeHead" value="null"/>
+	<input type="hidden" id = "searchtype" name="searchtype" value="check"/>
+	<input type="hidden" id = "pageAccessToken" name="pageAccessToken" value="AgV49g0CD96aPTlycEIHqTmxuaKh7yl5/w/hiH/3x8QRZiIAcQACAAdFbmNhckNrAAdFbmNhckN2ABVhd3MtY3J5cHRvLXB1YmxpYy1rZXkAREFtODdUUzdPYUxWRVdEMmRsWjBnUHBoUUE5T3hVb1NRamh6N3VVc1dqMFhYMURORjhNN1VDT01QT2ZzKytVSjZwUT09AAEAB2F3cy1rbXMAUGFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjI3MjM2MjQ4NzY1MzprZXkvbXJrLWRmZWEyNmY3NTVhMzQ3MjliNjkwMjRkZWZmM2M1MWFjALgBAgEAeAuqQuSJvQ+Ra4FSj55FZzS0sk+00amsb3yoAFiEYn4PAWo1dxoWCFxAfIknn0BPCS8AAAB+MHwGCSqGSIb3DQEHBqBvMG0CAQAwaAYJKoZIhvcNAQcBMB4GCWCGSAFlAwQBLjARBAy+2450VGPoAUvDdogCARCAO7FgSUob8uBfZa51eXBNUCPh973fx37gEoGSFCNCkW4HJ+k+ZMQRlshxd6LW+GOz9G+J9bjmNGXd4zZfAgAAEACpcbNE+GxBRaevV13QPeoILDG8BFvjjeXzuYcpjy/42zvKQYbvnd5zmGR0CEroOu7/////AAAAAQAAAAAAAAAAAAAAAQAAAKOxr40dS0yAiwT9Vr12ILT98fOJQ9HqGOPWa3vpfel80mpHWEUEm5P0h9+DEgZpe7FisCPWjYJba2wsW6b9bQTHOv7LDyhhVSHRAfTA29Tmy02d+mRdQ9U5xb9O0O1qmEJl2GBTLg1pCTgzcMl8tdRa4/PAtTDUXHn576j1dxJCb5XUbQSX3qY6XBXgQFp6bcTAzHaHipLn3uzMGiQKoXsZeiEVJU2Zw7DrczPI658QiDCb7QBnMGUCMDifVB8TLEsuQXAu+tOE5orKCbA+ktiiy2pIoDMB6KmM4uFiuC2MhZIrlBjH70OI0wIxAMR06bNstdbDs1e+rLMaSY4Iuk9vANdmvRSJqiLxJcjxuVHJ5zKFV79NkIPcobphzQ=="/>
+    <div class="header">
+        <h1 class="blind">SK엔카</h1>
+        <h2 class="tit_carprice" id="main_title">신차가격표</h2>
+        <p class="quickSearch">
+
+
+
+            <select title="제조사" class="opt_select" id="mnfccd" name="mnfccd" onChange="javascript:changeModelGroup(this.value);">
+                <option value="">제조사</option>
+            </select>
+
+            <select class="opt_select" title="모델" id="mdlgroupcd" name="mdlgroupcd" onChange="javascript:changeModel_jato($('mnfccd').value, this.value);">
+                <option>모델</option>
+            </select>
+
+            <select class="opt_select" title="세부모델" id="mdlcd" name="mdlcd" onChange="javascript:changeYearJato($('mnfccd').value, $('mdlcd').value);">
+                <option>세부모델</option>
+            </select>
+
+            <select class="opt_select" title="연식" id="caryear" name="caryear">
+                <option>연식</option>
+            </select>
+
+            <button type="button" class="btn_search" onclick="javascript:onSubmit();"/>검색</button>
+
+
+
+        </p>
+    </div>
+    <!-- body begin -->
+    <div class="body" id="bodydiv">
+		
+			
+				<table class="layout">
+					<col class="contents"/>
+					<tr>
+						<td class="contentsMenu">
+							<!-- contentsMenu begin -->
+							<div class="contentsMenu">
+								<h3 class="title">현대 그랜저 HG 2016년형</h3>
+							</div>
+							<!-- contentsMenu end -->
+						</td>
+					</tr>
+
+					<tr>
+						<td class="contentsMain">
+							<!-- contents begin -->
+							<div class="contents">
+
+								<div class="carCompare">
+									<div class="dbHead">
+										
+											<div id="folding"><a href="javascript:foldingYN('f_fold')"
+																 class="folding f_fold">전체등급 펼쳐보기<em class="db_ir"></em></a></div>
+
+											<!-- 2013/04/03 [서] 매물탭 개선 : 기능 버튼 추가 --><!--<a href="#" class="folding f_unfold">펼치기</a>-->
+										
+									</div>
+									
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+									<div id="f_unfold">
+										
+											<!-- case1 : 세부등급과 미션분리 -->
+											<table class="carCompare sellcase1">
+												<colgroup>
+													<col class="grade">
+													<col class="mission">
+													<col class="price">
+												    <col class="uprice"><!-- [시세개편] 중고차시세 추가 uprice -->
+													<col class="item">
+													<col class="option">
+												</colgroup>
+												<thead class="compare">
+												<tr>
+													<th class="grade" colspan="2"><b>구분</b></th>
+													<th class="price"><b>판매가격</b></th>
+													<th class="uprice"><b>중고차시세</b></th><!-- [시세개편] 중고차시세 추가 -->
+													<th class="item"><b>기본사양 품목</b></th>
+													<th class="option end"><b>선택사양 품목</b></th>
+												</tr>
+												</thead>
+												<tbody class="new">
+												
+													
+														
+													
+													
+														
+															
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>HG220 디젤 모던</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,215</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>▶ 파워트레인  : </b>디젤 R 2.2 엔진, 6단 자동변속기
+<br><br><b>▶ 외관  : </b>225/55 R17 타이어 &amp; 17인치 알로이 휠, 듀얼머플러(머플러 테일트림), 프로젝션 헤드램프, 프로젝션 안개등(다크크롬 가니쉬 몰딩), LED 보조제동등, LED 리어콤비램프(제동등, 후미등 적용), 사이드리피터 일체형 아웃사이드미러, 글래스 안테나
+<br><br><b>▶ 내장  :</b> 가죽 &amp; 하이그로시 변속기 노브, 가죽 &amp; 우드그레인 스티어링 휠, 스웨이드(트리코트) 내장, 앞좌석 독서등, 룸램프, 도어스커프(메탈), 일반형 클러스터(단색 LCD), 헬스케어 내장재, 우드그레인, 직물 카매트
+<br><br><b>▶ 안전  :</b> 9에어백 시스템(운전석/동승석, 앞/뒤좌석 사이드, 커튼, 운전석 무릎), 롤오버센서, 차체자세제어장치(ESC), 경사로 밀림 방지장치(HAC), 타이어공기압 경보 장치(TPMS), 샤시통합제어시스템(VSM), 급제동경보시스템(ESS), 후방 충격저감 시트시스템, 운전석/동승석 세이프티 파워윈도우, 유아용 시트 고정장치, 뒷좌석 센터 3점식 시트벨트, 타이어 리페어킷(템퍼러리 스페어 타이어 &amp; 휠 대체)
+<br><br><b>▶ 편의  :</b> 열선 스티어링 휠, 버튼시동 스마트키 시스템, 전/후방 주차보조 시스템, 듀얼 풀오토 에어컨, 오토 디포그, 속도감응형 전동식 파워스티어링(MDPS, 수동식 틸트 &amp; 텔레스코픽), 진폭 감응형 댐퍼(ASD), 풋파킹 브레이크, 와이퍼 결빙 방지장치, 크루즈 컨트롤, 글로브 박스 쿨링, 웰컴시스템, 후방카메라, 아웃사이드 미러 퍼들램프, 도어 손잡이 조명(운전석/동승석), 열선내장 전동접이식 아웃사이드 미러, 스티어링 휠 리모컨, 트립 컴퓨터, 통합주행모드, 하이패스 시스템(ECM 룸미러 포함), 후석 파워 아웃렛, USB충전기, 스마트 트렁크, 스마트키 가죽 커버
+<br><br><b>▶ 시트  : </b>최고급 나파 가죽시트, 운전석/동승석 전동시트, 운전석 전동식 익스텐션 시트, 앞/뒷좌석 열선시트, 운전석 전동식 럼버 서포트(2way), 뒷좌석 센터 헤드레스트, 뒷좌석 일반형 암레스트(컵홀더 &amp; 커버)
+<br><br><b>▶ 멀티미디어  :</b> 최고급형 CDP &amp; MP3 오디오(6인치 컬러 TFT LCD), 6스피커, 블루투스 핸즈프리(오디오 스트리밍 가능, 음성인식 가능), AUX &amp; USB 입력 단자
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 와이드 파노라마 썬루프  </b> 1,090,000
+<br><br>▶<b> 내비게이션 패키지Ⅰ </b> 1,080,000
+<br><br>▶<b> 내비게이션 패키지Ⅱ </b> 1,420,000
+<br><br>▶<b> 드라이버 패키지 </b> 680,000
+<br>
+<br><b>▶ 아이스 화이트(WW7) 외장 컬러</b> 100,000&nbsp;</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>HG220 디젤 프리미엄</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,452</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	▶&nbsp;<b>2.2 디젤 모던 기본 품목 및</b>
+<br><br>245/45 R18 타이어 &amp; 18인치 알로이 휠, 블랙베젤 HID 헤드램프, LED 안개등(다크크롬 가니쉬 몰딩), 조명 도어스커프, 슈퍼비전 클러스터(4.6인치 컬러 TFT LCD), 전자 파킹브레이크(EPB : Auto Hold 기능 포함), 운전자세 메모리시스템 (IMS : 시트/스티어링 휠/후진연동 하향조정 아웃사이드미러, 클러스터 밝기, 전동식 틸트 &amp; 텔레스코픽 포함), 운전석/동승석 통풍시트
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 와이드 파노라마 썬루프  </b> 1,090,000
+<br><br>▶<b> 내비게이션 패키지Ⅰ </b> 1,080,000
+<br><br>▶<b> 내비게이션 패키지Ⅱ </b> 1,420,000
+<br><br>▶<b> 드라이빙 어시스트 패키지Ⅱ </b> 790,000
+<br>
+<br>
+<b>▶ 아이스 화이트(WW7) 외장 컬러</b>&nbsp;100,000&nbsp;</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>HG240 모던</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,988</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>▶ 파워트레인  : </b>개선 세타 2.4 GDi 엔진(초저공해 배기 규제 대응), 6단 자동변속기
+
+<br><br><b>▶ 외관  : </b>225/55 R17 타이어 &amp; 17인치 알로이 휠, 듀얼머플러(머플러 테일트림), 프로젝션 헤드램프, LED 안개등(다크크롬 가니쉬 몰딩), LED 보조제동등, LED 리어콤비램프(제동등, 후미등 적용), 사이드리피터 일체형 아웃사이드미러, 글래스 안테나
+<br><br><b>▶ 내장  :</b> 가죽 &amp; 하이그로시 변속기 노브, 가죽 &amp; 우드그레인 스티어링휠, 스웨이드(트리코트) 내장, 앞좌석 독서등, 룸램프, 도어스커프(메탈), 일반형 클러스터(단색 LCD), 헬스케어 내장재, 우드그레인, 직물 카매트
+<br><br><b>▶ 안전  :</b> 9에어백 시스템(운전석/동승석, 앞/뒤좌석 사이드, 커튼, 운전석 무릎), 롤오버센서, 차체자세제어장치(ESC), 경사로 밀림 방지장치(HAC), 타이어공기압 경보 장치(TPMS), 샤시통합제어시스템(VSM), 급제동경보시스템(ESS), 후방 충격저감 시트시스템, 운전석/동승석 세이프티 파워윈도우, 유아용 시트 고정장치, 뒷좌석 센터 3점식 시트벨트, 타이어 리페어킷(템퍼러리 스페어 타이어 &amp; 휠 대체)
+<br><br><b>▶ 편의  :</b> 열선 스티어링 휠, 버튼시동 스마트키 시스템, 전/후방 주차보조 시스템, 듀얼 풀오토 에어컨, 오토 디포그, 속도감응형 전동식 파워스티어링(MDPS, 수동식 틸트 &amp; 텔레스코픽), 진폭 감응형 댐퍼(ASD), 풋파킹 브레이크, 와이퍼 결빙 방지장치, 크루즈 컨트롤, 글로브 박스 쿨링, 웰컴시스템, 후방카메라, 아웃사이드 미러 퍼들램프, 도어 손잡이 조명(운전석/동승석), 열선내장 전동접이식 아웃사이드 미러, 스티어링 휠 리모컨, 트립 컴퓨터, 통합주행모드, 하이패스 시스템(ECM 룸미러 포함), 후석 파워 아웃렛, USB충전기, 스마트 트렁크, 스마트키 가죽 커버
+<br><br><b>▶ 시트  :</b> 최고급 나파 가죽시트, 운전석/동승석 전동시트, 운전석 전동식 익스텐션 시트, 앞/뒷좌석 열선시트, 운전석 전동식 럼버 서포트(2way), 뒷좌석 센터 헤드레스트, 뒷좌석 일반형 암레스트(컵홀더 &amp; 커버)
+<br><br><b>▶ 멀티미디어  : </b>최고급형 CDP &amp; MP3 오디오(6인치 컬러 TFT LCD), 6스피커, 블루투스 핸즈프리(오디오 스트리밍 가능, 음성인식 가능), AUX &amp; USB 입력 단자
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 와이드 파노라마 썬루프  </b> 1,090,000
+<br><br>▶<b> 내비게이션 패키지Ⅰ </b> 1,080,000
+<br><br>▶<b> 내비게이션 패키지Ⅱ </b> 1,420,000
+<br><br>▶<b> 프리미엄 패키지Ⅰ </b> 990,000 
+<br><br>▶<b> 스타일링 패키지 </b> 990,000 
+<br><br>▶<b> 드라이빙 어시스트 패키지Ⅰ </b> 1,090,000
+<br>
+<br>
+<b>▶ 아이스 화이트(WW7) 외장 컬러</b>&nbsp;100,000&nbsp;</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>HG300 프리미엄</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,320</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	▶&nbsp;<b>2.4 가솔린 모던 기본 품목 및</b>
+<br><br>3.0 V6 GDi 엔진, 245/45 R18 타이어 &amp; 18인치 알로이 휠, 슈퍼비전 클러스터(4.6인치 컬러 TFT LCD), 카드형 스마트키, 운전석 전동식 4way 럼버 서포트, 운전석/동승석 통풍시트
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 와이드 파노라마 썬루프  </b> 1,090,000
+<br><br>▶<b> 내비게이션 패키지Ⅰ </b> 1,080,000
+<br><br>▶<b> AVM 패키지Ⅰ </b> 2,210,000
+<br><br>▶<b> 프리미엄 패키지Ⅱ </b> 1,090,000 
+<br><br>▶<b> 드라이빙 어시스트 패키지Ⅱ </b> 790,000
+<br>
+<br>
+<b>▶ 아이스 화이트(WW7) 외장 컬러</b>&nbsp;100,000&nbsp;</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>HG300 익스클루시브</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,552</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	▶&nbsp;<b>3.0 가솔린 프리미엄 기본 품목 및</b>
+<br><br> 블랙베젤 HID 헤드램프, 조명 도어스커프, 3D 카본그레인, 무드조명(크래쉬패드/도어트림), 가죽 &amp; 하이그로시 스티어링 휠, 전자 파킹브레이크(EPB : Auto Hold 기능 포함), 뒷좌석 후방 커튼(전동), 뒷좌석 도어 커튼(수동), 운전자세 메모리시스템 (IMS : 시트/스티어링 휠/후진연동 하향조정 아웃사이드미러, 클러스터 밝기, 전동식 틸트 &amp; 텔레스코픽 포함), 클러스터 이오나이저, 뒷좌석 다기능 암레스트(오디오 컨트롤, 수납함, 파워아웃렛), ACTUNE 프리미엄 사운드 시스템(12스피커)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 와이드 파노라마 썬루프  </b> 1,090,000
+<br><br>▶<b> 내비게이션 패키지Ⅲ </b> 1,370,000
+<br><br>▶<b> AVM 패키지Ⅱ </b> 2,510,000
+<br><br>▶<b> 드라이빙 어시스트 패키지Ⅱ </b> 790,000
+<br>
+<br>
+<b>▶ 아이스 화이트(WW7) 외장 컬러</b>&nbsp;100,000&nbsp;</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>HG300 익스클루시브 스페셜</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,828</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	▶&nbsp;<b>3.0 가솔린 익스클루시브 기본 품목 및</b>
+<br><br> 전자제어 서스펜션(ECS), 고급(반광) 크롬몰딩, 고급 카매트, 쏠라글래스, 도어 발수글래스(앞), 레인센서, 차선이탈 경보 시스템(LDWS), 오토하이빔, 스마트 후측방 경보시스템(BSD), ECM 아웃사이드 미러, 어드밴스드 주차조향 보조 시스템 (Advanced SPAS, 직각주차/평행주차/평행출차), 동승석 8way 전동시트
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 와이드 파노라마 썬루프  </b> 1,090,000
+<br><br>▶<b> 내비게이션 패키지Ⅲ </b> 1,370,000
+<br><br>▶<b> AVM 패키지Ⅱ </b> 2,510,000
+<br><br>▶<b> 어드밴스드 스마트 크루즈 컨트롤(ASCC) </b> 1,500,000
+<br>
+<br>
+<b>▶ 아이스 화이트(WW7) 외장 컬러</b>&nbsp;100,000&nbsp;</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>LPG HG300 모던</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,645</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>▶ 파워트레인  : </b>3.0 LPi 엔진, 6단 자동변속기
+<br><br><b>▶ 외관  : </b>225/55 R17 타이어 &amp; 17인치 알로이 휠, 듀얼머플러(머플러 테일트림), 프로젝션 헤드램프, 프로젝션 안개등(다크크롬 가니쉬몰딩), LED 보조제동등, LED 리어콤비램프(제동등, 후미등 적용), 사이드리피터 일체형 아웃사이드미러, 글래스 안테나
+<br><br><b>▶ 내장  : </b>가죽 &amp; 하이그로시 변속기 노브, 가죽 &amp; 우드그레인 스티어링 휠, 스웨이드(트리코트) 내장, 앞좌석 독서등, 룸램프, 도어스커프(메탈), 일반형 클러스터(단색 LCD), 헬스케어 내장재, 우드그레인, 직물카매트
+<br><br><b>▶ 안전  :</b> 9에어백시스템(운전석/동승석, 앞/뒤좌석 사이드, 커튼, 운전석 무릎), 롤오버센서, 차체자세제어장치(ESC), 경사로 밀림 방지장치(HAC), 타이어공기압 경보 장치(TPMS), 샤시통합제어시스템(VSM), 급제동경보시스템(ESS), 후방 충격저감 시트시스템, 운전석/동승석 세이프티 파워윈도우, 유아용 시트 고정장치, 뒷좌석 센터 3점식 시트벨트, 타이어 리페어 킷(템퍼러리 스페어 타이어 &amp; 휠 대체)
+<br><br><b>▶ 편의  : </b>열선 스티어링 휠, 버튼시동 스마트키 시스템, 전/후방 주차보조 시스템, 듀얼 풀오토 에어컨, 오토 디포그, 속도감응형 전동식 파워스티어링(MDPS, 수동식 틸트 &amp; 텔레스코픽), 진폭 감응형 댐퍼(ASD), 풋파킹 브레이크, 와이퍼 결빙 방지장치, 크루즈 컨트롤, 글로브 박스 쿨링, 웰컴시스템, 후방카메라, 아웃사이드 미러 퍼들램프, 도어 손잡이 조명(운전석/동승석), 열선내장 전동접이식 아웃사이드 미러, 스티어링 휠 리모컨, 트립 컴퓨터, 통합주행모드, 스마트 트렁크, 후석 파워 아웃렛
+<br><br><b>▶ 시트  :</b> 최고급 나파 가죽시트, 운전석/동승석 전동시트, 운전석 전동식 익스텐션 시트, 앞/뒷좌석 열선시트, 운전석 전동식 럼버 서포트(2way), 뒷좌석 센터 헤드레스트, 뒷좌석 일반형 암레스트(컵홀더 &amp; 커버)
+<br><br><b>▶ 멀티미디어  : </b>최고급형 CDP &amp; MP3 오디오(6인치 컬러 TFT LCD), 6스피커, 블루투스 핸즈프리(오디오 스트리밍 가능, 음성인식 가능), AUX &amp; USB 입력 단자
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 와이드 파노라마 썬루프  </b> 1,020,000
+<br><br>▶<b> 8인치 개선 스마트 내비게이션 + ACTUNE 프리미엄 사운드 시스템(12스피커) </b> 1,010,000
+<br><br>▶<b> 8인치 개선 스마트 내비게이션 + 블루링크 2.0 + ACTUNE 프리미엄 사운드 시스템(12스피커)
++ 하이패스(ECM 룸미러) </b> 1,570,000
+<br><br>▶<b> 하이패스(ECM 룸미러) </b> 240,000
+<br>
+<br>
+<b>▶ 아이스 화이트(WW7) 외장 컬러</b>&nbsp;100,000&nbsp;</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>LPG HG300 익스클루시브</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,086</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	▶&nbsp;<b>3.0 LPi 모던 기본품목 및</b>
+<br><br>245/45 R18 타이어 &amp; 신규디자인 18인치 알로이 휠, 크롬베젤 HID 헤드램프, LED 안개등(다크크롬 가니쉬 몰딩), 3D 카본그레인, 가죽 &amp; 하이그로시 스티어링 휠 , 무드조명(크래쉬패드/도어트림), 조명 도어스커프, 슈퍼비전 클러스터(4.6인치 컬러 TFT LCD), 하이패스 시스템(ECM 룸미러 포함), 클러스터 이오나이저, 전자파킹브레이크(EPB : Auto Hold 기능 포함), 뒷좌석 후방 커튼(전동), 뒷좌석 도어 커튼(수동), 레인센서, 운전자세 메모리시스템(IMS : 시트/스티어링 휠/후진연동 하향조정 아웃사이드미러, 클러스터 밝기, 전동식 틸트 &amp; 텔레스코픽 포함), 어드밴스드 주차조향 보조 시스템 (Advanced SPAS, 직각/평행주차/평행출차),
+운전석/동승석 통풍시트, 뒷좌석 다기능 암레스트(오디오 컨트롤, 수납함, 파워아웃렛), ACTUNE 프리미엄 사운드 시스템(12스피커)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 와이드 파노라마 썬루프  </b> 1,020,000
+<br><br>▶<b> 8인치 개선 스마트 내비게이션 + JBL Logic 7 사운드(12스피커) </b> 1,290,000
+<br><br>▶<b> 8인치 개선 스마트 내비게이션 + JBL Logic 7 사운드(12스피커) + 어라운드 뷰 모니터(AVM) </b> 2,350,000
+<br><br>▶<b> 어드밴스드 스마트 크루즈 컨트롤(ASCC) </b> 1,420,000
+<br><br>▶<b> 차선이탈경보시스템 + 오토하이빔 + 스마트 후측방 경보시스템(BSD)</b> 740,000
+<br>
+<br>
+<b>▶ 아이스 화이트(WW7) 외장 컬러</b>&nbsp;100,000&nbsp;</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>LPG HG300 장애인용</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,900</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>▶ 파워트레인 :</b>&nbsp;3.0 LPi 엔진, 6단 자동변속기&nbsp;<br><br><b>▶ 외관 :&nbsp;</b>225/55 R17 타이어 &amp; 17인치 알로이 휠, 듀얼머플러(머플러 테일트림 적용), 프로젝션 헤드램프, 프로젝션 안개등(다크크롬 가니쉬몰딩), LED 보조제동등, LED 리어 콤비네이션 램프, 사이드리피터 일체형 아웃사이드미러, 글래스 안테나&nbsp;<br><br><b>▶ 내장 :</b>&nbsp;가죽 &amp; 하이그로시 변속기 노브, 가죽 &amp; 우드그레인 스티어링 휠, 스웨이드(트리코트) 내장, 앞좌석 독서등, 룸램프, 도어스커프(메탈), 일반형 클러스터(단색 LCD), 헬스케어 내장재, 우드그레인, 직물 카매트&nbsp;<br><br><b>▶ 안전 :</b>&nbsp;9에어백시스템(운전석/동승석, 앞/뒷좌석 사이드, 커튼, 운전석 무릎), 롤오버센서, 차체자세제어장치(ESC), 경사로 밀림 방지장치(HAC), 타이어공기압 경보 장치(TPMS), 샤시통합제어시스템(VSM), 급제동경보시스템(ESS), 후방 충격저감 시트시스템, 운전석/동승석 세이프티 파워윈도우, 유아용 시트 고정장치, 뒷좌석 센터 3점식 시트벨트, 타이어 리페어 킷(템퍼러리 스페어 타이어 &amp; 휠 대체)&nbsp;<br><br><b>▶ 편의 :&nbsp;</b>버튼시동 스마트키 시스템, 전/후방 주차보조 시스템, 듀얼 풀오토 에어컨, 오토 디포그, 레인센서, 속도감응형 전동식 파워스티어링(MDPS, 전동식 틸트 &amp; 텔레스코픽), 진폭 감응형 댐퍼(ASD), 전자 파킹브레이크(EPB : Auto Hold 기능 포함), 와이퍼 결빙 방지장치, 크루즈 컨트롤, 글로브 박스 쿨링, 웰컴시스템, 후방카메라, 아웃사이드 미러 퍼들램프, 도어 손잡이 조명(운전석/동승석), 열선내장 전동접이식 아웃사이드 미러, 스티어링 휠 리모컨, 트립 컴퓨터, 통합주행모드, 운전자세 메모리 시스템(IMS : 시트/스티어링 휠/후진연동 하향조정 아웃사이드미러, 클러스터 밝기, 전동식 틸트 &amp; 텔레스코픽 포함), 하이패스 시스템(ECM 룸미러 포함), USB충전기, 후석 파워 아웃렛, 스마트 트렁크, 스마트키 가죽커버, 어드밴스드 주차조향 보조 시스템(Advanced SPAS, 직각주차/평행주차/평행출차)&nbsp;<br><br><b>▶ 시트 :&nbsp;</b>최고급 나파 가죽시트, 운전석/동승석 전동시트, 운전석 전동식 익스텐션 시트, 앞/뒷좌석 열선시트, 운전석 전동식 럼버 서포트(2way), 운전석/동승석 통풍시트, 뒷좌석 센터 헤드레스트, 뒷좌석 일반형 암레스트(컵홀더 &amp; 커버)<br><br><b>▶ 멀티미디어 :</b>&nbsp;최고급형 CDP &amp; MP3 오디오(6인치 컬러 TFT LCD), ACTUNE 프리미엄 사운드 시스템 (12스피커), 블루투스 핸즈프리(오디오 스트리밍 가능, 음성인식 가능), AUX &amp; USB 입력 단자
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶ 와이드 파노라마 썬루프</b>&nbsp;1,020,000&nbsp;<br><br><b>▶ 내비게이션 패키지Ⅲ(8인치 개선 스마트 내비게이션 + JBL Logic 7 사운드(12스피커))</b>&nbsp;1,290,000&nbsp;<br><br><b>▶ AVM 패키지Ⅱ(8인치 개선 스마트 내비게이션 + 블루링크 2.0 + JBL Logic 7 사운드(12스피커) + 어라운드 뷰 모니터(AVM))</b>&nbsp;2,350,000&nbsp;&nbsp;<br><br><b>▶ 라이팅 패키지(크롬베젤 HID 헤드램프 + LED 안개등(다크크롬 가니쉬몰딩) + 조명 도어스커프)</b>&nbsp;740,000&nbsp;<br><br><b>▶ 아이스 화이트(WW7) 외장 컬러</b>&nbsp;100,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>LPG HG300 개인형</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,470</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>▶ 파워트레인 :</b>&nbsp;3.0 LPi 엔진, 6단 자동변속기<br><br><b>▶ 외관 :</b>&nbsp;225/55 R17 타이어 &amp; 17인치 알로이 휠, 듀얼머플러(머플러 테일트림), 프로젝션 헤드램프,
+프로젝션 안개등(다크크롬 가니쉬 몰딩), LED 보조제동등, LED 리어 콤비 램프(제동등, 후미등
+적용), 사이드리피터 일체형 아웃사이드미러, 글래스 안테나<br><br><b>▶ 내장 :&nbsp;</b>가죽 &amp; 하이그로시 변속기 노브, 가죽 스티어링 휠, 스웨이드(트리코트) 내장, 앞좌석 독서등,
+룸램프, 도어스커프(메탈), 일반형 클러스터(단색LCD), 헬스케어 내장재, 우드그레인, 고무 매트&nbsp;<br><br><b>▶ 안전 :&nbsp;</b>운전석/동승석 에어백, 운전석 무릎 에어백, EBD-ABS, 급제동경보시스템(ESS), 후방 충격저감
+ 시트시스템, 운전석/동승석 세이프티 파워윈도우, 유아용 시트 고정장치,
+ 뒷좌석 센터 3점식 시트벨트, 차체자세제어장치(ESC), 타이어 공기압 경보 장치(TPMS),
+ 경사로 밀림 방지장치(HAC), 샤시통합제어시스템(VSM)
+ &nbsp;<br><br><b>▶ 편의 :</b>&nbsp;전/후방 주차보조 시스템, 속도감응형 전동식 파워스티어링(MDPS, 수동식 틸트 &amp; 텔레스코픽),
+진폭 감응형 댐퍼(ASD), 풋파킹 브레이크, 와이퍼 결빙 방지장치, 크루즈 컨트롤, 글로브 박스 쿨링,
+후방카메라, 열선내장 전동접이식 아웃사이드 미러, 스티어링 휠 리모컨, 트립 컴퓨터, 통합주행모드,
+폴딩키 타입 무선도어 잠금장치, 매뉴얼 에어컨, 풀사이즈 스페어 휠 &amp; 타이어 &nbsp;<br><br><b>▶ 시트 :</b>&nbsp;인조가죽시트, 운전석 전동식 럼버 서포트(2WAY), 운전석 높이 조절장치,
+뒷좌석 센터 헤드레스트, 뒷좌석 일반형 암레스트(컵홀더 &amp; 커버)<br><br><b>▶ 멀티미디어 :</b>&nbsp;최고급형 CDP &amp; MP3 오디오(6인치 컬러 TFT LCD), 6스피커,
+블루투스 핸즈프리(오디오 스트리밍 가능, 음성인식 가능), AUX &amp; USB 입력 단자
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶ 시트 패키지</b>&nbsp;1,270,000&nbsp;<br><br><b>▶ 내비게이션 패키지 Ⅳ</b>&nbsp;1,270,000&nbsp;<br><br><b>▶ 하이패스 시스템(ECM 룸미러 포함)&nbsp;</b>240,000<br><br><b>▶ 세이프티 패키지</b>&nbsp;550,000&nbsp;<br><br><b>▶ 아이스 화이트(WW7) 외장 컬러</b>&nbsp;100,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>LPG HG300 모범형</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,735</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>▶ 3.0 LPi 개인형 기본품목 및</b>&nbsp;<br><br><b>ㆍ외관 :</b>&nbsp;LED 안개등(다크크롬 가니쉬 몰딩)<br><br><b>ㆍ내장 :</b>&nbsp;가죽/우드그레인 스티어링 휠&nbsp;<br><br><b>ㆍ편의 :</b>&nbsp;열선 스티어링 휠, ECM 룸미러, 버튼시동 스마트키, 듀얼 풀오토 에어컨, 오토 디포그, 도어손잡이
+조명(운전석/동승석), 아웃사이드미러 퍼들램프, 웰컴시스템, 전자 파킹브레이크
+(EPB : Auto Hold 기능 포함), 스마트 트렁크&nbsp;<br><br><b>ㆍ시트 :&nbsp;</b>최고급 나파가죽시트, 운전석 전동시트(전동식 익스텐션 포함), 운전석 통풍시트,
+앞좌석 열선시트, 운전석 전동식 4WAY 럼버서포트
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶ 내비게이션 패키지Ⅰ</b>&nbsp;1,010,000&nbsp;<br><br><b>▶ 하이패스 시스템</b>&nbsp;190,000<br><br><b>▶ 세이프티 패키지</b>&nbsp;550,000<br><br><b>▶ 아이스 화이트(WW7) 외장 컬러</b>&nbsp;100,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+												</tbody>
+											</table>
+										
+
+
+										<!-- case2 : 세부등급이 있는경우 -->
+										
+									</div>
+									<!-- 신차가격표(폴더형) -->
+									<div id="f_fold" style="display:none;">
+										<div class="newcar_folder">
+											<ul class="nf_list" id="newcarList">
+												
+													<li>
+														<a href="#newcar0">
+                                                            <span class="model">HG220 디젤 모던  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,215</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar1">
+                                                            <span class="model">HG220 디젤 프리미엄  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,452</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar2">
+                                                            <span class="model">HG240 모던  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,988</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar3">
+                                                            <span class="model">HG300 프리미엄  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,320</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar4">
+                                                            <span class="model">HG300 익스클루시브  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,552</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar5">
+                                                            <span class="model">HG300 익스클루시브 스페셜  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,828</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar6">
+                                                            <span class="model">LPG HG300 모던  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,645</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar7">
+                                                            <span class="model">LPG HG300 익스클루시브  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,086</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar8">
+                                                            <span class="model">LPG HG300 장애인용  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,900</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar9">
+                                                            <span class="model">LPG HG300 개인형  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,470</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar10">
+                                                            <span class="model">LPG HG300 모범형  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,735</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+											</ul>
+											<!-- 개별 -->
+											
+												<div id="newcar0" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 파워트레인  : </b>디젤 R 2.2 엔진, 6단 자동변속기
+<br><br><b>▶ 외관  : </b>225/55 R17 타이어 &amp; 17인치 알로이 휠, 듀얼머플러(머플러 테일트림), 프로젝션 헤드램프, 프로젝션 안개등(다크크롬 가니쉬 몰딩), LED 보조제동등, LED 리어콤비램프(제동등, 후미등 적용), 사이드리피터 일체형 아웃사이드미러, 글래스 안테나
+<br><br><b>▶ 내장  :</b> 가죽 &amp; 하이그로시 변속기 노브, 가죽 &amp; 우드그레인 스티어링 휠, 스웨이드(트리코트) 내장, 앞좌석 독서등, 룸램프, 도어스커프(메탈), 일반형 클러스터(단색 LCD), 헬스케어 내장재, 우드그레인, 직물 카매트
+<br><br><b>▶ 안전  :</b> 9에어백 시스템(운전석/동승석, 앞/뒤좌석 사이드, 커튼, 운전석 무릎), 롤오버센서, 차체자세제어장치(ESC), 경사로 밀림 방지장치(HAC), 타이어공기압 경보 장치(TPMS), 샤시통합제어시스템(VSM), 급제동경보시스템(ESS), 후방 충격저감 시트시스템, 운전석/동승석 세이프티 파워윈도우, 유아용 시트 고정장치, 뒷좌석 센터 3점식 시트벨트, 타이어 리페어킷(템퍼러리 스페어 타이어 &amp; 휠 대체)
+<br><br><b>▶ 편의  :</b> 열선 스티어링 휠, 버튼시동 스마트키 시스템, 전/후방 주차보조 시스템, 듀얼 풀오토 에어컨, 오토 디포그, 속도감응형 전동식 파워스티어링(MDPS, 수동식 틸트 &amp; 텔레스코픽), 진폭 감응형 댐퍼(ASD), 풋파킹 브레이크, 와이퍼 결빙 방지장치, 크루즈 컨트롤, 글로브 박스 쿨링, 웰컴시스템, 후방카메라, 아웃사이드 미러 퍼들램프, 도어 손잡이 조명(운전석/동승석), 열선내장 전동접이식 아웃사이드 미러, 스티어링 휠 리모컨, 트립 컴퓨터, 통합주행모드, 하이패스 시스템(ECM 룸미러 포함), 후석 파워 아웃렛, USB충전기, 스마트 트렁크, 스마트키 가죽 커버
+<br><br><b>▶ 시트  : </b>최고급 나파 가죽시트, 운전석/동승석 전동시트, 운전석 전동식 익스텐션 시트, 앞/뒷좌석 열선시트, 운전석 전동식 럼버 서포트(2way), 뒷좌석 센터 헤드레스트, 뒷좌석 일반형 암레스트(컵홀더 &amp; 커버)
+<br><br><b>▶ 멀티미디어  :</b> 최고급형 CDP &amp; MP3 오디오(6인치 컬러 TFT LCD), 6스피커, 블루투스 핸즈프리(오디오 스트리밍 가능, 음성인식 가능), AUX &amp; USB 입력 단자</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 와이드 파노라마 썬루프  </b> 1,090,000
+<br><br>▶<b> 내비게이션 패키지Ⅰ </b> 1,080,000
+<br><br>▶<b> 내비게이션 패키지Ⅱ </b> 1,420,000
+<br><br>▶<b> 드라이버 패키지 </b> 680,000
+<br>
+<br><b>▶ 아이스 화이트(WW7) 외장 컬러</b> 100,000&nbsp;</p>
+												</div>
+											
+												<div id="newcar1" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶&nbsp;<b>2.2 디젤 모던 기본 품목 및</b>
+<br><br>245/45 R18 타이어 &amp; 18인치 알로이 휠, 블랙베젤 HID 헤드램프, LED 안개등(다크크롬 가니쉬 몰딩), 조명 도어스커프, 슈퍼비전 클러스터(4.6인치 컬러 TFT LCD), 전자 파킹브레이크(EPB : Auto Hold 기능 포함), 운전자세 메모리시스템 (IMS : 시트/스티어링 휠/후진연동 하향조정 아웃사이드미러, 클러스터 밝기, 전동식 틸트 &amp; 텔레스코픽 포함), 운전석/동승석 통풍시트</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 와이드 파노라마 썬루프  </b> 1,090,000
+<br><br>▶<b> 내비게이션 패키지Ⅰ </b> 1,080,000
+<br><br>▶<b> 내비게이션 패키지Ⅱ </b> 1,420,000
+<br><br>▶<b> 드라이빙 어시스트 패키지Ⅱ </b> 790,000
+<br>
+<br>
+<b>▶ 아이스 화이트(WW7) 외장 컬러</b>&nbsp;100,000&nbsp;</p>
+												</div>
+											
+												<div id="newcar2" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 파워트레인  : </b>개선 세타 2.4 GDi 엔진(초저공해 배기 규제 대응), 6단 자동변속기
+
+<br><br><b>▶ 외관  : </b>225/55 R17 타이어 &amp; 17인치 알로이 휠, 듀얼머플러(머플러 테일트림), 프로젝션 헤드램프, LED 안개등(다크크롬 가니쉬 몰딩), LED 보조제동등, LED 리어콤비램프(제동등, 후미등 적용), 사이드리피터 일체형 아웃사이드미러, 글래스 안테나
+<br><br><b>▶ 내장  :</b> 가죽 &amp; 하이그로시 변속기 노브, 가죽 &amp; 우드그레인 스티어링휠, 스웨이드(트리코트) 내장, 앞좌석 독서등, 룸램프, 도어스커프(메탈), 일반형 클러스터(단색 LCD), 헬스케어 내장재, 우드그레인, 직물 카매트
+<br><br><b>▶ 안전  :</b> 9에어백 시스템(운전석/동승석, 앞/뒤좌석 사이드, 커튼, 운전석 무릎), 롤오버센서, 차체자세제어장치(ESC), 경사로 밀림 방지장치(HAC), 타이어공기압 경보 장치(TPMS), 샤시통합제어시스템(VSM), 급제동경보시스템(ESS), 후방 충격저감 시트시스템, 운전석/동승석 세이프티 파워윈도우, 유아용 시트 고정장치, 뒷좌석 센터 3점식 시트벨트, 타이어 리페어킷(템퍼러리 스페어 타이어 &amp; 휠 대체)
+<br><br><b>▶ 편의  :</b> 열선 스티어링 휠, 버튼시동 스마트키 시스템, 전/후방 주차보조 시스템, 듀얼 풀오토 에어컨, 오토 디포그, 속도감응형 전동식 파워스티어링(MDPS, 수동식 틸트 &amp; 텔레스코픽), 진폭 감응형 댐퍼(ASD), 풋파킹 브레이크, 와이퍼 결빙 방지장치, 크루즈 컨트롤, 글로브 박스 쿨링, 웰컴시스템, 후방카메라, 아웃사이드 미러 퍼들램프, 도어 손잡이 조명(운전석/동승석), 열선내장 전동접이식 아웃사이드 미러, 스티어링 휠 리모컨, 트립 컴퓨터, 통합주행모드, 하이패스 시스템(ECM 룸미러 포함), 후석 파워 아웃렛, USB충전기, 스마트 트렁크, 스마트키 가죽 커버
+<br><br><b>▶ 시트  :</b> 최고급 나파 가죽시트, 운전석/동승석 전동시트, 운전석 전동식 익스텐션 시트, 앞/뒷좌석 열선시트, 운전석 전동식 럼버 서포트(2way), 뒷좌석 센터 헤드레스트, 뒷좌석 일반형 암레스트(컵홀더 &amp; 커버)
+<br><br><b>▶ 멀티미디어  : </b>최고급형 CDP &amp; MP3 오디오(6인치 컬러 TFT LCD), 6스피커, 블루투스 핸즈프리(오디오 스트리밍 가능, 음성인식 가능), AUX &amp; USB 입력 단자</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 와이드 파노라마 썬루프  </b> 1,090,000
+<br><br>▶<b> 내비게이션 패키지Ⅰ </b> 1,080,000
+<br><br>▶<b> 내비게이션 패키지Ⅱ </b> 1,420,000
+<br><br>▶<b> 프리미엄 패키지Ⅰ </b> 990,000 
+<br><br>▶<b> 스타일링 패키지 </b> 990,000 
+<br><br>▶<b> 드라이빙 어시스트 패키지Ⅰ </b> 1,090,000
+<br>
+<br>
+<b>▶ 아이스 화이트(WW7) 외장 컬러</b>&nbsp;100,000&nbsp;</p>
+												</div>
+											
+												<div id="newcar3" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶&nbsp;<b>2.4 가솔린 모던 기본 품목 및</b>
+<br><br>3.0 V6 GDi 엔진, 245/45 R18 타이어 &amp; 18인치 알로이 휠, 슈퍼비전 클러스터(4.6인치 컬러 TFT LCD), 카드형 스마트키, 운전석 전동식 4way 럼버 서포트, 운전석/동승석 통풍시트</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 와이드 파노라마 썬루프  </b> 1,090,000
+<br><br>▶<b> 내비게이션 패키지Ⅰ </b> 1,080,000
+<br><br>▶<b> AVM 패키지Ⅰ </b> 2,210,000
+<br><br>▶<b> 프리미엄 패키지Ⅱ </b> 1,090,000 
+<br><br>▶<b> 드라이빙 어시스트 패키지Ⅱ </b> 790,000
+<br>
+<br>
+<b>▶ 아이스 화이트(WW7) 외장 컬러</b>&nbsp;100,000&nbsp;</p>
+												</div>
+											
+												<div id="newcar4" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶&nbsp;<b>3.0 가솔린 프리미엄 기본 품목 및</b>
+<br><br> 블랙베젤 HID 헤드램프, 조명 도어스커프, 3D 카본그레인, 무드조명(크래쉬패드/도어트림), 가죽 &amp; 하이그로시 스티어링 휠, 전자 파킹브레이크(EPB : Auto Hold 기능 포함), 뒷좌석 후방 커튼(전동), 뒷좌석 도어 커튼(수동), 운전자세 메모리시스템 (IMS : 시트/스티어링 휠/후진연동 하향조정 아웃사이드미러, 클러스터 밝기, 전동식 틸트 &amp; 텔레스코픽 포함), 클러스터 이오나이저, 뒷좌석 다기능 암레스트(오디오 컨트롤, 수납함, 파워아웃렛), ACTUNE 프리미엄 사운드 시스템(12스피커)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 와이드 파노라마 썬루프  </b> 1,090,000
+<br><br>▶<b> 내비게이션 패키지Ⅲ </b> 1,370,000
+<br><br>▶<b> AVM 패키지Ⅱ </b> 2,510,000
+<br><br>▶<b> 드라이빙 어시스트 패키지Ⅱ </b> 790,000
+<br>
+<br>
+<b>▶ 아이스 화이트(WW7) 외장 컬러</b>&nbsp;100,000&nbsp;</p>
+												</div>
+											
+												<div id="newcar5" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶&nbsp;<b>3.0 가솔린 익스클루시브 기본 품목 및</b>
+<br><br> 전자제어 서스펜션(ECS), 고급(반광) 크롬몰딩, 고급 카매트, 쏠라글래스, 도어 발수글래스(앞), 레인센서, 차선이탈 경보 시스템(LDWS), 오토하이빔, 스마트 후측방 경보시스템(BSD), ECM 아웃사이드 미러, 어드밴스드 주차조향 보조 시스템 (Advanced SPAS, 직각주차/평행주차/평행출차), 동승석 8way 전동시트</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 와이드 파노라마 썬루프  </b> 1,090,000
+<br><br>▶<b> 내비게이션 패키지Ⅲ </b> 1,370,000
+<br><br>▶<b> AVM 패키지Ⅱ </b> 2,510,000
+<br><br>▶<b> 어드밴스드 스마트 크루즈 컨트롤(ASCC) </b> 1,500,000
+<br>
+<br>
+<b>▶ 아이스 화이트(WW7) 외장 컬러</b>&nbsp;100,000&nbsp;</p>
+												</div>
+											
+												<div id="newcar6" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 파워트레인  : </b>3.0 LPi 엔진, 6단 자동변속기
+<br><br><b>▶ 외관  : </b>225/55 R17 타이어 &amp; 17인치 알로이 휠, 듀얼머플러(머플러 테일트림), 프로젝션 헤드램프, 프로젝션 안개등(다크크롬 가니쉬몰딩), LED 보조제동등, LED 리어콤비램프(제동등, 후미등 적용), 사이드리피터 일체형 아웃사이드미러, 글래스 안테나
+<br><br><b>▶ 내장  : </b>가죽 &amp; 하이그로시 변속기 노브, 가죽 &amp; 우드그레인 스티어링 휠, 스웨이드(트리코트) 내장, 앞좌석 독서등, 룸램프, 도어스커프(메탈), 일반형 클러스터(단색 LCD), 헬스케어 내장재, 우드그레인, 직물카매트
+<br><br><b>▶ 안전  :</b> 9에어백시스템(운전석/동승석, 앞/뒤좌석 사이드, 커튼, 운전석 무릎), 롤오버센서, 차체자세제어장치(ESC), 경사로 밀림 방지장치(HAC), 타이어공기압 경보 장치(TPMS), 샤시통합제어시스템(VSM), 급제동경보시스템(ESS), 후방 충격저감 시트시스템, 운전석/동승석 세이프티 파워윈도우, 유아용 시트 고정장치, 뒷좌석 센터 3점식 시트벨트, 타이어 리페어 킷(템퍼러리 스페어 타이어 &amp; 휠 대체)
+<br><br><b>▶ 편의  : </b>열선 스티어링 휠, 버튼시동 스마트키 시스템, 전/후방 주차보조 시스템, 듀얼 풀오토 에어컨, 오토 디포그, 속도감응형 전동식 파워스티어링(MDPS, 수동식 틸트 &amp; 텔레스코픽), 진폭 감응형 댐퍼(ASD), 풋파킹 브레이크, 와이퍼 결빙 방지장치, 크루즈 컨트롤, 글로브 박스 쿨링, 웰컴시스템, 후방카메라, 아웃사이드 미러 퍼들램프, 도어 손잡이 조명(운전석/동승석), 열선내장 전동접이식 아웃사이드 미러, 스티어링 휠 리모컨, 트립 컴퓨터, 통합주행모드, 스마트 트렁크, 후석 파워 아웃렛
+<br><br><b>▶ 시트  :</b> 최고급 나파 가죽시트, 운전석/동승석 전동시트, 운전석 전동식 익스텐션 시트, 앞/뒷좌석 열선시트, 운전석 전동식 럼버 서포트(2way), 뒷좌석 센터 헤드레스트, 뒷좌석 일반형 암레스트(컵홀더 &amp; 커버)
+<br><br><b>▶ 멀티미디어  : </b>최고급형 CDP &amp; MP3 오디오(6인치 컬러 TFT LCD), 6스피커, 블루투스 핸즈프리(오디오 스트리밍 가능, 음성인식 가능), AUX &amp; USB 입력 단자</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 와이드 파노라마 썬루프  </b> 1,020,000
+<br><br>▶<b> 8인치 개선 스마트 내비게이션 + ACTUNE 프리미엄 사운드 시스템(12스피커) </b> 1,010,000
+<br><br>▶<b> 8인치 개선 스마트 내비게이션 + 블루링크 2.0 + ACTUNE 프리미엄 사운드 시스템(12스피커)
++ 하이패스(ECM 룸미러) </b> 1,570,000
+<br><br>▶<b> 하이패스(ECM 룸미러) </b> 240,000
+<br>
+<br>
+<b>▶ 아이스 화이트(WW7) 외장 컬러</b>&nbsp;100,000&nbsp;</p>
+												</div>
+											
+												<div id="newcar7" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶&nbsp;<b>3.0 LPi 모던 기본품목 및</b>
+<br><br>245/45 R18 타이어 &amp; 신규디자인 18인치 알로이 휠, 크롬베젤 HID 헤드램프, LED 안개등(다크크롬 가니쉬 몰딩), 3D 카본그레인, 가죽 &amp; 하이그로시 스티어링 휠 , 무드조명(크래쉬패드/도어트림), 조명 도어스커프, 슈퍼비전 클러스터(4.6인치 컬러 TFT LCD), 하이패스 시스템(ECM 룸미러 포함), 클러스터 이오나이저, 전자파킹브레이크(EPB : Auto Hold 기능 포함), 뒷좌석 후방 커튼(전동), 뒷좌석 도어 커튼(수동), 레인센서, 운전자세 메모리시스템(IMS : 시트/스티어링 휠/후진연동 하향조정 아웃사이드미러, 클러스터 밝기, 전동식 틸트 &amp; 텔레스코픽 포함), 어드밴스드 주차조향 보조 시스템 (Advanced SPAS, 직각/평행주차/평행출차),
+운전석/동승석 통풍시트, 뒷좌석 다기능 암레스트(오디오 컨트롤, 수납함, 파워아웃렛), ACTUNE 프리미엄 사운드 시스템(12스피커)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 와이드 파노라마 썬루프  </b> 1,020,000
+<br><br>▶<b> 8인치 개선 스마트 내비게이션 + JBL Logic 7 사운드(12스피커) </b> 1,290,000
+<br><br>▶<b> 8인치 개선 스마트 내비게이션 + JBL Logic 7 사운드(12스피커) + 어라운드 뷰 모니터(AVM) </b> 2,350,000
+<br><br>▶<b> 어드밴스드 스마트 크루즈 컨트롤(ASCC) </b> 1,420,000
+<br><br>▶<b> 차선이탈경보시스템 + 오토하이빔 + 스마트 후측방 경보시스템(BSD)</b> 740,000
+<br>
+<br>
+<b>▶ 아이스 화이트(WW7) 외장 컬러</b>&nbsp;100,000&nbsp;</p>
+												</div>
+											
+												<div id="newcar8" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 파워트레인 :</b>&nbsp;3.0 LPi 엔진, 6단 자동변속기&nbsp;<br><br><b>▶ 외관 :&nbsp;</b>225/55 R17 타이어 &amp; 17인치 알로이 휠, 듀얼머플러(머플러 테일트림 적용), 프로젝션 헤드램프, 프로젝션 안개등(다크크롬 가니쉬몰딩), LED 보조제동등, LED 리어 콤비네이션 램프, 사이드리피터 일체형 아웃사이드미러, 글래스 안테나&nbsp;<br><br><b>▶ 내장 :</b>&nbsp;가죽 &amp; 하이그로시 변속기 노브, 가죽 &amp; 우드그레인 스티어링 휠, 스웨이드(트리코트) 내장, 앞좌석 독서등, 룸램프, 도어스커프(메탈), 일반형 클러스터(단색 LCD), 헬스케어 내장재, 우드그레인, 직물 카매트&nbsp;<br><br><b>▶ 안전 :</b>&nbsp;9에어백시스템(운전석/동승석, 앞/뒷좌석 사이드, 커튼, 운전석 무릎), 롤오버센서, 차체자세제어장치(ESC), 경사로 밀림 방지장치(HAC), 타이어공기압 경보 장치(TPMS), 샤시통합제어시스템(VSM), 급제동경보시스템(ESS), 후방 충격저감 시트시스템, 운전석/동승석 세이프티 파워윈도우, 유아용 시트 고정장치, 뒷좌석 센터 3점식 시트벨트, 타이어 리페어 킷(템퍼러리 스페어 타이어 &amp; 휠 대체)&nbsp;<br><br><b>▶ 편의 :&nbsp;</b>버튼시동 스마트키 시스템, 전/후방 주차보조 시스템, 듀얼 풀오토 에어컨, 오토 디포그, 레인센서, 속도감응형 전동식 파워스티어링(MDPS, 전동식 틸트 &amp; 텔레스코픽), 진폭 감응형 댐퍼(ASD), 전자 파킹브레이크(EPB : Auto Hold 기능 포함), 와이퍼 결빙 방지장치, 크루즈 컨트롤, 글로브 박스 쿨링, 웰컴시스템, 후방카메라, 아웃사이드 미러 퍼들램프, 도어 손잡이 조명(운전석/동승석), 열선내장 전동접이식 아웃사이드 미러, 스티어링 휠 리모컨, 트립 컴퓨터, 통합주행모드, 운전자세 메모리 시스템(IMS : 시트/스티어링 휠/후진연동 하향조정 아웃사이드미러, 클러스터 밝기, 전동식 틸트 &amp; 텔레스코픽 포함), 하이패스 시스템(ECM 룸미러 포함), USB충전기, 후석 파워 아웃렛, 스마트 트렁크, 스마트키 가죽커버, 어드밴스드 주차조향 보조 시스템(Advanced SPAS, 직각주차/평행주차/평행출차)&nbsp;<br><br><b>▶ 시트 :&nbsp;</b>최고급 나파 가죽시트, 운전석/동승석 전동시트, 운전석 전동식 익스텐션 시트, 앞/뒷좌석 열선시트, 운전석 전동식 럼버 서포트(2way), 운전석/동승석 통풍시트, 뒷좌석 센터 헤드레스트, 뒷좌석 일반형 암레스트(컵홀더 &amp; 커버)<br><br><b>▶ 멀티미디어 :</b>&nbsp;최고급형 CDP &amp; MP3 오디오(6인치 컬러 TFT LCD), ACTUNE 프리미엄 사운드 시스템 (12스피커), 블루투스 핸즈프리(오디오 스트리밍 가능, 음성인식 가능), AUX &amp; USB 입력 단자</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶ 와이드 파노라마 썬루프</b>&nbsp;1,020,000&nbsp;<br><br><b>▶ 내비게이션 패키지Ⅲ(8인치 개선 스마트 내비게이션 + JBL Logic 7 사운드(12스피커))</b>&nbsp;1,290,000&nbsp;<br><br><b>▶ AVM 패키지Ⅱ(8인치 개선 스마트 내비게이션 + 블루링크 2.0 + JBL Logic 7 사운드(12스피커) + 어라운드 뷰 모니터(AVM))</b>&nbsp;2,350,000&nbsp;&nbsp;<br><br><b>▶ 라이팅 패키지(크롬베젤 HID 헤드램프 + LED 안개등(다크크롬 가니쉬몰딩) + 조명 도어스커프)</b>&nbsp;740,000&nbsp;<br><br><b>▶ 아이스 화이트(WW7) 외장 컬러</b>&nbsp;100,000</p>
+												</div>
+											
+												<div id="newcar9" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 파워트레인 :</b>&nbsp;3.0 LPi 엔진, 6단 자동변속기<br><br><b>▶ 외관 :</b>&nbsp;225/55 R17 타이어 &amp; 17인치 알로이 휠, 듀얼머플러(머플러 테일트림), 프로젝션 헤드램프,
+프로젝션 안개등(다크크롬 가니쉬 몰딩), LED 보조제동등, LED 리어 콤비 램프(제동등, 후미등
+적용), 사이드리피터 일체형 아웃사이드미러, 글래스 안테나<br><br><b>▶ 내장 :&nbsp;</b>가죽 &amp; 하이그로시 변속기 노브, 가죽 스티어링 휠, 스웨이드(트리코트) 내장, 앞좌석 독서등,
+룸램프, 도어스커프(메탈), 일반형 클러스터(단색LCD), 헬스케어 내장재, 우드그레인, 고무 매트&nbsp;<br><br><b>▶ 안전 :&nbsp;</b>운전석/동승석 에어백, 운전석 무릎 에어백, EBD-ABS, 급제동경보시스템(ESS), 후방 충격저감
+ 시트시스템, 운전석/동승석 세이프티 파워윈도우, 유아용 시트 고정장치,
+ 뒷좌석 센터 3점식 시트벨트, 차체자세제어장치(ESC), 타이어 공기압 경보 장치(TPMS),
+ 경사로 밀림 방지장치(HAC), 샤시통합제어시스템(VSM)
+ &nbsp;<br><br><b>▶ 편의 :</b>&nbsp;전/후방 주차보조 시스템, 속도감응형 전동식 파워스티어링(MDPS, 수동식 틸트 &amp; 텔레스코픽),
+진폭 감응형 댐퍼(ASD), 풋파킹 브레이크, 와이퍼 결빙 방지장치, 크루즈 컨트롤, 글로브 박스 쿨링,
+후방카메라, 열선내장 전동접이식 아웃사이드 미러, 스티어링 휠 리모컨, 트립 컴퓨터, 통합주행모드,
+폴딩키 타입 무선도어 잠금장치, 매뉴얼 에어컨, 풀사이즈 스페어 휠 &amp; 타이어 &nbsp;<br><br><b>▶ 시트 :</b>&nbsp;인조가죽시트, 운전석 전동식 럼버 서포트(2WAY), 운전석 높이 조절장치,
+뒷좌석 센터 헤드레스트, 뒷좌석 일반형 암레스트(컵홀더 &amp; 커버)<br><br><b>▶ 멀티미디어 :</b>&nbsp;최고급형 CDP &amp; MP3 오디오(6인치 컬러 TFT LCD), 6스피커,
+블루투스 핸즈프리(오디오 스트리밍 가능, 음성인식 가능), AUX &amp; USB 입력 단자</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶ 시트 패키지</b>&nbsp;1,270,000&nbsp;<br><br><b>▶ 내비게이션 패키지 Ⅳ</b>&nbsp;1,270,000&nbsp;<br><br><b>▶ 하이패스 시스템(ECM 룸미러 포함)&nbsp;</b>240,000<br><br><b>▶ 세이프티 패키지</b>&nbsp;550,000&nbsp;<br><br><b>▶ 아이스 화이트(WW7) 외장 컬러</b>&nbsp;100,000</p>
+												</div>
+											
+												<div id="newcar10" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 3.0 LPi 개인형 기본품목 및</b>&nbsp;<br><br><b>ㆍ외관 :</b>&nbsp;LED 안개등(다크크롬 가니쉬 몰딩)<br><br><b>ㆍ내장 :</b>&nbsp;가죽/우드그레인 스티어링 휠&nbsp;<br><br><b>ㆍ편의 :</b>&nbsp;열선 스티어링 휠, ECM 룸미러, 버튼시동 스마트키, 듀얼 풀오토 에어컨, 오토 디포그, 도어손잡이
+조명(운전석/동승석), 아웃사이드미러 퍼들램프, 웰컴시스템, 전자 파킹브레이크
+(EPB : Auto Hold 기능 포함), 스마트 트렁크&nbsp;<br><br><b>ㆍ시트 :&nbsp;</b>최고급 나파가죽시트, 운전석 전동시트(전동식 익스텐션 포함), 운전석 통풍시트,
+앞좌석 열선시트, 운전석 전동식 4WAY 럼버서포트</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶ 내비게이션 패키지Ⅰ</b>&nbsp;1,010,000&nbsp;<br><br><b>▶ 하이패스 시스템</b>&nbsp;190,000<br><br><b>▶ 세이프티 패키지</b>&nbsp;550,000<br><br><b>▶ 아이스 화이트(WW7) 외장 컬러</b>&nbsp;100,000</p>
+												</div>
+											
+										</div>
+										<script type="text/javascript">
+											newcarFolder(0);//초기값
+											function newcarFolder(target) {
+												var conElId = "newcar"//아이디 설정
+												var conElMenu = document.getElementById("newcarList");
+												var conElMenuLink = conElMenu.getElementsByTagName("a");
+												if (target != null) {
+													conElMenuLink[target].parentNode.className = "on";
+													document.getElementById(
+														conElId + target).style.display = "";
+												}
+												for (i = 0; i <= (conElMenuLink.length - 1); i++) {
+													conElMenuLink[i].onclick = function () {
+														for (x = 0; x <= (conElMenuLink.length - 1); x++) {
+															conElMenuLink[x].parentNode.className = "";
+															document.getElementById(
+																conElId + x).style.display = "none";
+														}
+														this.parentNode.className = "on";
+														document.getElementById(this.getAttribute('href')
+																					.split(
+																						'#')[1]).style.display =
+															"";
+														return false;
+													}
+												}
+											}
+										</script>
+									</div>
+									
+										<ul class="more">
+												<b>▶ 2.4 가솔린/3.0 가솔린/2.2 디젤 패키지 선택품목</b><b><br></b><b>내비게이션 패키지Ⅰ-</b> 8인치 개선 스마트 내비게이션 + ACTUNE 프리미엄 사운드 시스템(12스피커)
+ 
+<br><b>내비게이션 패키지Ⅱ -</b> 8인치 개선 스마트 내비게이션 + 블루링크 2.0 + ACTUNE 프리미엄 사운드 시스템(12스피커)
+ 
+<br><b>내비게이션 패키지Ⅲ</b>&nbsp;- 8인치 개선 스마트 내비게이션 + JBL Logic 7 사운드 시스템(12스피커)
+
+<br><b> 드라이버 패키지</b>&nbsp;- 운전자세 메모리시스템(IMS : 시트/스티어링 휠/후진연동 하향조정 아웃사이드미러, 클러스터 밝기, 전동식 틸트 &amp; 텔레스코픽 포함) + 운전석/동승석 통풍시트
+
+<br><b> 드라이빙 어시스트 패키지Ⅰ</b>- 차선이탈 경보 시스템(LDWS) + 오토하이빔 + 스마트 후측방 경보시스템(BSD) + 슈퍼비전 클러스터 4.6인치(컬러 TFT LCD)
+ 
+<br><b>드라이빙 어시스트 패키지Ⅱ -</b> 차선이탈 경보 시스템(LDWS) + 오토하이빔 + 스마트 후측방 경보시스템(BSD)
+
+<br><b> AVM 패키지</b><b>Ⅰ</b><b>-</b> 8인치 개선 스마트 내비게이션 + 블루링크 2.0 + ACTUNE 프리미엄 사운드 시스템(12스피커) + 어라운드 뷰 모니터(AVM)
+
+<br><b> AVM 패키지Ⅱ -&nbsp;</b>8인치 개선 스마트 내비게이션 + 블루링크 2.0 + JBL Logic 7 사운드 시스템(12스피커) + 어라운드 뷰 모니터(AVM)
+
+<br><b> 스타일링 패키지</b>&nbsp;- 245/45 R18 타이어 &amp; 18인치 알로이 휠 + 블랙베젤 HID 헤드램프 + 조명 도어스커프
+ 
+<br><b>프리미엄 패키지Ⅰ -</b> 운전자세 메모리시스템(IMS : 시트/스티어링 휠/후진연동 하향조정 아웃사이드미러, 클러스터 밝기, 전동식 틸트 &amp; 텔레스코픽 포함)
++ 전자 파킹브레이크(EPB : Auto Hold 기능 포함) + 운전석/동승석 통풍시트
+
+<br><b> 프리미엄 패키지Ⅱ</b>&nbsp;- 운전자세 메모리시스템(IMS : 시트/스티어링 휠/후진연동 하향조정 아웃사이드미러, 클러스터 밝기, 전동식 틸트 &amp; 텔레스코픽 포함)
++ 전자 파킹브레이크(EPB : Auto Hold 기능 포함) + 블랙베젤 HID 헤드램프 + 조명 도어스커프
+<br>
+<br>
+<b>▶ 3.0 LPi</b><b>(택시)</b><b>&nbsp;패키지 선택품목</b>&nbsp;<br><b>시트 패키지 -</b>&nbsp;최고급 나파가죽시트 + 운전석 통풍시트 + 운전석 전동시트(전동식 익스텐션) + 운전석 4WAY 럼버서포트 + 앞좌석 열선시트<br><b>내비게이션 패키지 Ⅰ -</b>&nbsp;8인치 개선 스마트 내비게이션 + ACTUNE 프리미엄 사운드 시스템(12스피커)&nbsp;<br><b>내비게이션 패키지 Ⅳ -</b>&nbsp;8인치 개선 스마트 내비게이션 + ACTUNE 프리미엄 사운드 시스템(12스피커) + 듀얼 풀 오토 에어컨<br><b>세이프티 패키지 -</b>&nbsp;사이드 &amp; 커튼 에어백 + 롤오버센서
+
+										</ul>
+									
+									<p class="desc_more">위 신차가격표는 단순 참고자료이며, 정확한 내용은 각 제조사에서 제공하는 자료를 통해확인하실 수 있습니다.</p><!-- 2016/10/12 [장] 등급 등록/수정 개선 : 추가 디자인 변경 -->
+									<p class="toTop"><a href="#main_title" class="sp toTop db_ir" title="페이지 위로"><u>페이지 위로</u></a></p><!-- [시세개편] class db_ir 추가 -->
+								</div>
+
+
+							</div>
+							<!-- body end -->
+						</td>
+					</tr>
+				</table>
+
+
+			
+			
+		
+    </div>
+
+    <!-- container end -->
+</form>
+</div>
+
+</body>
+<script language="javascript">
+
+
+    var strCompanyUrl = "/common/combo/cardbcompany.json?method=carList";
+    var strModelGroupUrl = "/common/combo/modelgroupfordb.json?method=carList";
+    var strModelUrl = "/common/combo/cardbmodel.json?method=carList";
+    var strYrJatoUrl = "/common/combo/jatoYr.json?method=carList";
+
+    var companyid = "mnfccd";
+    var modelgroupid = "mdlgroupcd";
+    var modelid = "mdlcd";
+    var yearid = "caryear";
+
+    function initGnb() {
+        var paramCompany = $("paramMnfccd").value;
+        var paramModelGroup = $("paramMdlgroupcd").value;
+        var paramModel = $("paramMdlcd").value;
+        var paramYr = $("paramYear").value;
+
+        // 제조사
+        if (paramModel != "") {
+            $("mdlcd").show();
+        }
+
+        //console.log("companyid :: " + companyid)
+        //console.log("paramCompany :: " + paramCompany)
+		if($('foldYn').value != 0){
+            foldingYN('f_fold');
+		}
+
+        setCompany(strCompanyUrl, companyid, "제조사", paramCompany);
+
+        // 제조사 값이 있으면 모델 검색
+        if (paramCompany >= '010') {
+            if (paramCompany != "") {
+                if (paramModel == "") {
+                    paramModel = paramModelGroup;
+                }
+                setModel(strModelUrl, modelid, paramCompany, "모델", paramModel)
+                $("mdlgroupcd").hide();
+
+            }
+        } else {
+            $("mdlgroupcd").show();
+            if (paramCompany != "") {
+                setModelGroup(strModelGroupUrl, modelgroupid, paramCompany, "모델", paramModelGroup);
+                if (paramModelGroup != "") {
+                    setModel_New(strModelUrl, modelid, paramCompany, paramModelGroup, "세부모델", paramModel);
+                }
+            }
+
+        }
+        if (paramCompany != "" && paramModel != "") {
+            setCarYear(strYrJatoUrl, yearid, paramCompany, paramModel, "형식연도", paramYr);
+        }
+
+        waitTime = 1;
+    }
+
+    function changeModel_jato(mnfccd, mdlgroupcd) {
+        setModel_New(strModelUrl, modelid, mnfccd, mdlgroupcd, "세부모델", "");
+        //모델그룹선택시 기본 세부모델선택
+        if ($("mdlcd") != null) {
+            $("mdlcd").selectedIndex = 1;
+            var mdlcd = $("mdlcd").options[$("mdlcd").selectedIndex].value;
+            changeYearJato(mnfccd, mdlcd);
+        }
+    }
+
+    function changeYearJato(mnfccd,mdlcd) {
+        setCarYear(strYrJatoUrl, yearid, mnfccd, mdlcd, "형식연도", "");
+        $(yearid).options[1].selected = true;
+    }
+
+
+
+    //덧글 리스트
+    function viewForm(index) {
+
+        var object = $("default" + index);
+        var objectSum = $("defaultSum" + index);
+        var selectSum = $("choiceSum" + index);
+        var object1 = $("choice" + index);
+        if (object != null) {
+            if (object.style.display == 'none') {
+                objectSum.hide();
+                selectSum.hide();
+                object.style.display = "block";
+                object1.style.display = "block";
+
+            } else {
+                object.hide();
+                object1.hide();
+                objectSum.style.display = "block";
+                selectSum.style.display = "block";
+            }
+        }
+    }
+
+    function viewAll() {
+        for (var i = 1; i <=11; i++) {
+            $("default" + i).style.display = "block";
+            $("defaultSum" + i).style.display = "none";
+            $("choice" + i).style.display = "block";
+            $("choiceSum" + i).style.display = "none";
+        }
+    }
+
+    function closeAll() {
+        for (var i = 1; i <=11; i++) {
+            $("default" + i).style.display = "none";
+            $("defaultSum" + i).style.display = "block";
+            $("choice" + i).style.display = "none";
+            $("choiceSum" + i).style.display = "block";
+        }
+    }
+
+    function firstLayerOpen() {
+        //viewForm(1);
+    }
+
+    function foldingYN(param) {
+        if (param == "f_fold") {
+            document.getElementById("folding").innerHTML ="<a href=\"javascript:foldingYN('f_unfold')\" class='folding f_unfold'>전체등급 펼쳐보기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "none";
+            document.getElementById("f_fold").style.display = "";
+        } else {
+            document.getElementById("folding").innerHTML = "<a href=\"javascript:foldingYN('f_fold')\" class='folding f_fold'>접기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "";
+            document.getElementById("f_fold").style.display = "none";
+        }
+    }
+
+    function onSubmit() {
+        jQuery("#searchForm").submit();
+
+    }
+    window.onload = initGnb;
+
+</script>
+</html>
+

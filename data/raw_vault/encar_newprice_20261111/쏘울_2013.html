@@ -1,0 +1,1576 @@
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>차량DB - 차량정보 - 신차가격표</title>
+    <link type="text/css" rel="stylesheet" href="/css/common.css?v=1793835891525"/>
+    <link type="text/css" rel="stylesheet" href="/css/db.css?v=1793835891525"/>
+
+    <script type="text/javascript" src="/js/encarapp/lib/jquery/jquery-1.11.3.min.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/common/ui.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/prototype.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/util.js?v=1793835894199"></script>
+
+    <script type="text/javascript" src="/js/common/db_common.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/commonCombo.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/carSearchCombo.js?v=1793835894199"></script>
+	<script>
+		window.enlogInitJson = {
+			"dataTalkView": {
+				"screenName": "신차가격표"
+			}
+		}
+
+	</script>
+
+
+</head>
+
+
+
+
+
+
+
+    <!-- 등급 체크박스  -->
+    <div style="display:none">
+        
+    </div>
+
+    <!-- 세부등급 체크박스 -->
+    <div style="display:none">
+        
+    </div>
+
+
+
+<body class="db db_newdetailview db_basicTemplate">
+
+
+
+
+	
+	
+	
+	
+
+
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-W9QQ2T"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W9QQ2T');</script>
+<!-- End Google Tag Manager -->
+
+<!-- container begin -->
+<div class="container" id="containerDIV">
+<input type="hidden" id = "foldYn" name="searchtype" value="9"/>
+<form id ="searchForm" name="searchForm">
+
+    <input type="hidden" id = "method" name="method" value="newpricePopV2"/>
+    <input type="hidden" id = "dimensiontype" name="dimensiontype" value="null"/>
+    <input type="hidden" id = "paramMnfccd" name="paramMnfccd" value="002"/>
+    <input type="hidden" id = "paramMdlgroupcd" name="paramMdlgroupcd" value="028"/>
+    <input type="hidden" id = "paramMdlcd" name="paramMdlcd" value="086"/>
+    <input type="hidden" id = "paramYear" name="paramYear" value="2013"/>
+    <input type="hidden" id = "model" name="model" value="">
+    <input type="hidden" id = "paramCaryear" name="paramCaryear" value="2013"/>
+    <input type="hidden" id = "clsheadcd" name="clsheadcd" class="checkbox" value="null"/>
+    <input type="hidden" id = "paramGradeHead" name="paramGradeHead" value="null"/>
+	<input type="hidden" id = "searchtype" name="searchtype" value="check"/>
+	<input type="hidden" id = "pageAccessToken" name="pageAccessToken" value="AgV4S/XRvzBAcdJLAqjMAOCDanh1DMmpeSn3TtuHaLrLwWEAcQACAAdFbmNhckNrAAdFbmNhckN2ABVhd3MtY3J5cHRvLXB1YmxpYy1rZXkAREFwMjlOS2cwSVpUSzBkMHJqeTl1UEZKRTArcjh1K0pTNVYweWltVk05YVNEMTJYTzhFaHl2bFNRRFhZcmpITjRFdz09AAEAB2F3cy1rbXMAUGFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjI3MjM2MjQ4NzY1MzprZXkvbXJrLWRmZWEyNmY3NTVhMzQ3MjliNjkwMjRkZWZmM2M1MWFjALgBAgEAeAuqQuSJvQ+Ra4FSj55FZzS0sk+00amsb3yoAFiEYn4PAQlqLNHSueFAezh/H5pWT8AAAAB+MHwGCSqGSIb3DQEHBqBvMG0CAQAwaAYJKoZIhvcNAQcBMB4GCWCGSAFlAwQBLjARBAy9+8erL7zlCQQfcakCARCAO6NmOTei3xCptK+3NSyZ51qjMhy9yf9shxnw9FcTmcLPlMMvHfGEU8Dl4WAi8rFfzObE0do89d1jTn4lAgAAEACtbQQ8a9D8ZNla+//lJP3TLpdO5hBwYif4nfqu7EhcN17SmTWTmZHcqrAF+0n0437/////AAAAAQAAAAAAAAAAAAAAAQAAAKM9mPUgLyRlMJUfpLT5xgXQrFlWUnqeiLQDcKVbyExBpYUHGodhAX/fFo08b5Vb/PFoNDmpZAuKm6Tqn7hCLqg3vCZyvco7F9YdTsUtLuQaqLRCSiQCdUWm+ZQkmv/qxv0cBSOcAOrMuBZdJfoy5r/15T4cOmKilEyMY7/Kn/Vw30fr6K4Y2IGKlhlnCP+hepet6tAa+xkZaYpLp/7/i+yYpIVZxBjGOe9ifn49CdqxYcj5OQBnMGUCMHHUOqqlTaO0akIvND4KbYJAxAI0e3OBhLZU6flwfB/qO7o7bYl62qXjSo2kycuw/wIxAJ5yyprs96NiBbJILYP4YYbky7x7hJl0D4zZvA+Z8wkmMm4ZXwYIFvWTcLnfLM1/CQ=="/>
+    <div class="header">
+        <h1 class="blind">SK엔카</h1>
+        <h2 class="tit_carprice" id="main_title">신차가격표</h2>
+        <p class="quickSearch">
+
+
+
+            <select title="제조사" class="opt_select" id="mnfccd" name="mnfccd" onChange="javascript:changeModelGroup(this.value);">
+                <option value="">제조사</option>
+            </select>
+
+            <select class="opt_select" title="모델" id="mdlgroupcd" name="mdlgroupcd" onChange="javascript:changeModel_jato($('mnfccd').value, this.value);">
+                <option>모델</option>
+            </select>
+
+            <select class="opt_select" title="세부모델" id="mdlcd" name="mdlcd" onChange="javascript:changeYearJato($('mnfccd').value, $('mdlcd').value);">
+                <option>세부모델</option>
+            </select>
+
+            <select class="opt_select" title="연식" id="caryear" name="caryear">
+                <option>연식</option>
+            </select>
+
+            <button type="button" class="btn_search" onclick="javascript:onSubmit();"/>검색</button>
+
+
+
+        </p>
+    </div>
+    <!-- body begin -->
+    <div class="body" id="bodydiv">
+		
+			
+				<table class="layout">
+					<col class="contents"/>
+					<tr>
+						<td class="contentsMenu">
+							<!-- contentsMenu begin -->
+							<div class="contentsMenu">
+								<h3 class="title">기아 쏘울 2013년형</h3>
+							</div>
+							<!-- contentsMenu end -->
+						</td>
+					</tr>
+
+					<tr>
+						<td class="contentsMain">
+							<!-- contents begin -->
+							<div class="contents">
+
+								<div class="carCompare">
+									<div class="dbHead">
+										
+											<div id="folding"><a href="javascript:foldingYN('f_fold')"
+																 class="folding f_fold">전체등급 펼쳐보기<em class="db_ir"></em></a></div>
+
+											<!-- 2013/04/03 [서] 매물탭 개선 : 기능 버튼 추가 --><!--<a href="#" class="folding f_unfold">펼치기</a>-->
+										
+									</div>
+									
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+									
+										
+									
+									<div id="f_unfold">
+										
+
+
+										<!-- case2 : 세부등급이 있는경우 -->
+										
+											<table class="carCompare sellcase2">
+												<colgroup>
+													<col class="grade">
+													<col class="detailgrd">
+													<col class="mission">
+													<col class="price">
+													<col class="uprice">
+													<col class="item">
+													<col class="option">
+												</colgroup>
+												<thead class="compare">
+												<tr>
+													<th class="grade bgn" colspan="3"><b>구분</b></th>
+													<th class="price"><b>판매가격</b></th>
+													<th class="uprice"><b>중고차시세</b></th><!-- [시세개편] 중고차시세 추가 -->
+													<th class="item"><b>기본사양 품목</b></th>
+													<th class="option end"><b>선택사양 품목</b></th>
+												</tr>
+												</thead>
+												<tbody class="new">
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>1.6 GDI 디럭스</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>기본형</p></td>
+														
+														<td class="mission"><p>M/T</p></td>
+														<td class="price">
+															<p>
+																<strong>1,360</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> 파워트레인 </b> : 감마 1.6 GDI 가솔린 엔진, 6단 수동 변속기
+<br><br>▶<b> 외관사양 </b> : 195/65R15 타이어 &amp; 스틸 휠, 풀사이즈 휠커버, 측면 방향지시등, 보조제동등, 터스크 범퍼(프런트&amp;리어)
+<br><br>▶<b> 내장사양 </b> : 블랙 원톤 내장, 파워아웃렛, D/N 룸미러, 선바이저(거울, 조명), 글로브박스 조명, SOUL 라이팅 시트(도어 센터부 감싸기 포함)
+<br><br>▶<b> 안전/편의사양 </b> : ABS, 에어백(운전석/동승석/사이드&amp;커튼), 속도감응형 전동식 파워 스티어링(MDPS), 급제동 경보 시스템(ESS), 매뉴얼 에어컨, 파워윈도우(앞좌석,뒷좌석), 파워도어록, 템포러리 스페어 타이어 &amp; 휠, 앞좌석 시트벨트 높이조절장치, 주행정보 시스템, 뒷유리 와이퍼 &amp; 와셔 노즐, 뒷좌석 시트(6:4 폴딩,분리형 헤드레스트), 센터페시아 사물함, 유아용 시트 고정장치, 뒷좌석 센터부 3점식 안전벨트, 폴딩타입 무선도어 리모컨키
+<br><br>▶<b> 오디오 </b> : CDP 오디오(MP3 재생), 6스피커, AUX&amp;USB(iPod)단자, 스티어링 휠 오디오 리모컨
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶ 6단 자동변속기(수동겸용, 암레스트형 콘솔 박스, 액티브 에코 시스템 포함)  : 1,500,000
+<br><br>▶ 205/55R16 타이어&amp;알로이 휠  : 300,000
+<br><br>▶ VSM(차세대 VDC) &amp; 후륜디스크 브레이크 : 520,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+													
+														
+													
+													
+														
+															
+															
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="2">
+																<p>1.6 GDI 프랜드</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>기본형</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>1,580</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> 디럭스 기본품목 외 </b>
+<br><br> 6단 자동변속기(수동겸용, 암레스트형 콘솔 박스, 액티브 에코 시스템, 인디케이터판넬 SUS 포함), 205/55R16 타이어 &amp; 플라워 휠, 틴티드 글라스, 선셰이드 밴드, 후방주차보조 시스템, 메탈페인트 &amp; 무광크롬 엑센트 내장, 무광크롬 인사이드 도어 핸들, 전동조절 아웃사이드미러(히팅기능,전동접이), 안개등, 앞좌석 히티드 시트(2단 조절), 크루즈 컨트롤(정속 주행장치), 러기지 언더 트레이
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶ 선루프  : 400,000
+<br><br>▶ VSM(차세대 VDC) &amp; 후륜디스크 브레이크 : 520,000
+<br><br>▶ 버튼시동 스마트키 시스템  : 450,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>에코 플러스</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>1,660</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> 프렌드 기본품목 외 </b>
+<br><br> 고급형 ISG 시스템, VSM(차세대 VDC) &amp; 후륜 디스크 브레이크, 슈퍼비전 클러스터(하이테크 정보표시 시스템)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶ 선루프  : 400,000
+<br><br>▶ 버튼시동 스마트키 시스템  : 450,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="3">
+																<p>1.6 GDI 럭셔리</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>기본형</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>1,700</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> 프렌드 기본품목 외 </b>
+<br><br> 인조가죽시트(도어 센터부 감싸기 포함), 버튼시동 스마트키 시스템, 풀오토 에어컨, 블루투스 핸즈프리, 운전석 시트높이 조절장치, 앞좌석 시트백 포켓, 슬라이딩 선바이저, 이동식 재떨이 &amp; 시가라이터, 앞좌석 슬라이딩 &amp; 액티브 헤드레스트, 오토라이트 컨트롤 헤드램프
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶ 선루프  : 400,000
+<br><br>▶ 내비게이션(7인치, 후방카메라, 외장앰프, 써브우퍼, 센터스피커 포함)  : 1,400,000
+<br><br>▶ VSM(차세대 VDC) &amp; 후륜디스크 브레이크 : 520,000
+<br><br>▶ 스마트 패키지  : 400,000
+<br><br>▶ 라이팅 패키지  : 370,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>스타일팩</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>1,790</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> 럭셔리 기본품목 외 </b>
+<br><br> 프로젝션 &amp; LED 포지셔닝 헤드램프, LED 리어 콤비네이션 램프, 사이드리피터 일체형 아웃사이드미러, 전자식 룸미러(ECM), 자동요금징수시스템(ETCS), 히티드 스티어링 휠, 가죽 스티어링 휠 &amp; 변속기 노브, 225/45R18 타이어 &amp; 화이트 휠, 화이트 아웃사이드미러
+<br> ※ 외장칼라 선택시, 순백색(UD)적용 불가
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶ 선루프  : 400,000
+<br><br>▶ 내비게이션(7인치, 후방카메라, 외장앰프, 써브우퍼, 센터스피커 포함)  : 1,400,000
+<br><br>▶ VSM(차세대 VDC) &amp; 후륜디스크 브레이크 : 520,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>에코플러스</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>1,780</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> 럭셔리 기본품목 외 </b>
+<br><br> 고급형 ISG 시스템, VSM(차세대 VDC) &amp; 후륜 디스크 브레이크 슈퍼비전 클러스터(하이테크 정보표시 시스템)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶ 선루프  : 400,000
+<br><br>▶ 내비게이션(7인치, 후방카메라, 외장앰프, 써브우퍼, 센터스피커 포함)  : 1,400,000
+<br><br>▶ 스마트 패키지  : 400,000
+<br><br>▶ 라이팅 패키지  : 370,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>1.6 GDI 프리미엄</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>기본형</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>1,910</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> 럭셔리 기본품목 외 </b>
+<br><br> 프로젝션 &amp; LED 포지셔닝 헤드램프, LED 리어 콤비네이션 램프, 사이드리피터 일체형 아웃사이드미러, 슈퍼비전 클러스터(하이테크 정보표시 시스템), 전자식 룸미러(ECM), 자동요금징수시스템(ETCS), 히티드 스티어링 휠, 가죽 스티어링 휠 &amp; 변속기 노브, 자외선 차단 글라스 (앞유리), 크롬 아웃사이드 도어핸들, 전방주차 보조 시스템, 블랙 하이그로시 (아웃사이드미러, 리어가니시), 선글라스 케이스, 러기지 네트, 타이어 공기압 경보장치(TPMS), 내장(블랙원톤/베이지투톤/레드투톤 중 선택)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶ 선루프  : 400,000
+<br><br>▶ 내비게이션(7인치, 후방카메라, 외장앰프, 써브우퍼, 센터스피커 포함)  : 1,400,000
+<br><br>▶ 225/45 R18 타이어&amp;플라워 휠  : 300,000
+<br><br>▶ VSM(차세대 VDC) &amp; 후륜디스크 브레이크  : 520,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>디젤 1.6 프랜드</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>1,840</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> 1.6 GDI 가솔린 프렌드 기본품목 외 </b>
+<br><br> U Ⅱ 1.6 디젤 엔진 (유로Ⅴ), VSM(차세대 VDC) &amp; 후륜 디스크 브레이크, PTC 히터
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶ 선루프  : 400,000
+<br><br>▶ 버튼시동 스마트키 시스템 : 450,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+													
+														
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>디젤 1.6 럭셔리</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>1,960</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> 1.6 GDI 가솔린 럭셔리 기본품목 외 </b>
+<br><br> U Ⅱ 1.6 디젤 엔진(유로Ⅴ), VSM(차세대 VDC) &amp; 후륜 디스크 브레이크, PTC 히터
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶ 선루프  : 400,000
+<br><br>▶ 내비게이션(7인치, 후방카메라, 외장앰프, 써브우퍼, 센터스피커 포함)  : 1,400,000
+<br><br>▶ 225/45 R18 타이어&amp;플라워 휠  : 300,000
+<br><br>▶ 스마트 패키지  : 400,000
+<br><br>▶ 라이팅 패키지  : 370,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+												</tbody>
+											</table>
+										
+									</div>
+									<!-- 신차가격표(폴더형) -->
+									<div id="f_fold" style="display:none;">
+										<div class="newcar_folder">
+											<ul class="nf_list" id="newcarList">
+												
+													<li>
+														<a href="#newcar0">
+                                                            <span class="model">1.6 GDI 디럭스 기본형 M/T</span>
+                                                            <span class="prc">
+                                                                <strong>1,360</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar1">
+                                                            <span class="model">1.6 GDI 프랜드 기본형 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>1,580</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar2">
+                                                            <span class="model">1.6 GDI 프랜드 에코 플러스 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>1,660</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar3">
+                                                            <span class="model">1.6 GDI 럭셔리 기본형 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>1,700</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar4">
+                                                            <span class="model">1.6 GDI 럭셔리 스타일팩 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>1,790</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar5">
+                                                            <span class="model">1.6 GDI 럭셔리 에코플러스 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>1,780</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar6">
+                                                            <span class="model">1.6 GDI 프리미엄 기본형 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>1,910</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar7">
+                                                            <span class="model">디젤 1.6 프랜드  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>1,840</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar8">
+                                                            <span class="model">디젤 1.6 럭셔리  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>1,960</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+											</ul>
+											<!-- 개별 -->
+											
+												<div id="newcar0" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> 파워트레인 </b> : 감마 1.6 GDI 가솔린 엔진, 6단 수동 변속기
+<br><br>▶<b> 외관사양 </b> : 195/65R15 타이어 &amp; 스틸 휠, 풀사이즈 휠커버, 측면 방향지시등, 보조제동등, 터스크 범퍼(프런트&amp;리어)
+<br><br>▶<b> 내장사양 </b> : 블랙 원톤 내장, 파워아웃렛, D/N 룸미러, 선바이저(거울, 조명), 글로브박스 조명, SOUL 라이팅 시트(도어 센터부 감싸기 포함)
+<br><br>▶<b> 안전/편의사양 </b> : ABS, 에어백(운전석/동승석/사이드&amp;커튼), 속도감응형 전동식 파워 스티어링(MDPS), 급제동 경보 시스템(ESS), 매뉴얼 에어컨, 파워윈도우(앞좌석,뒷좌석), 파워도어록, 템포러리 스페어 타이어 &amp; 휠, 앞좌석 시트벨트 높이조절장치, 주행정보 시스템, 뒷유리 와이퍼 &amp; 와셔 노즐, 뒷좌석 시트(6:4 폴딩,분리형 헤드레스트), 센터페시아 사물함, 유아용 시트 고정장치, 뒷좌석 센터부 3점식 안전벨트, 폴딩타입 무선도어 리모컨키
+<br><br>▶<b> 오디오 </b> : CDP 오디오(MP3 재생), 6스피커, AUX&amp;USB(iPod)단자, 스티어링 휠 오디오 리모컨</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶ 6단 자동변속기(수동겸용, 암레스트형 콘솔 박스, 액티브 에코 시스템 포함)  : 1,500,000
+<br><br>▶ 205/55R16 타이어&amp;알로이 휠  : 300,000
+<br><br>▶ VSM(차세대 VDC) &amp; 후륜디스크 브레이크 : 520,000</p>
+												</div>
+											
+												<div id="newcar1" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> 디럭스 기본품목 외 </b>
+<br><br> 6단 자동변속기(수동겸용, 암레스트형 콘솔 박스, 액티브 에코 시스템, 인디케이터판넬 SUS 포함), 205/55R16 타이어 &amp; 플라워 휠, 틴티드 글라스, 선셰이드 밴드, 후방주차보조 시스템, 메탈페인트 &amp; 무광크롬 엑센트 내장, 무광크롬 인사이드 도어 핸들, 전동조절 아웃사이드미러(히팅기능,전동접이), 안개등, 앞좌석 히티드 시트(2단 조절), 크루즈 컨트롤(정속 주행장치), 러기지 언더 트레이</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶ 선루프  : 400,000
+<br><br>▶ VSM(차세대 VDC) &amp; 후륜디스크 브레이크 : 520,000
+<br><br>▶ 버튼시동 스마트키 시스템  : 450,000</p>
+												</div>
+											
+												<div id="newcar2" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> 프렌드 기본품목 외 </b>
+<br><br> 고급형 ISG 시스템, VSM(차세대 VDC) &amp; 후륜 디스크 브레이크, 슈퍼비전 클러스터(하이테크 정보표시 시스템)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶ 선루프  : 400,000
+<br><br>▶ 버튼시동 스마트키 시스템  : 450,000</p>
+												</div>
+											
+												<div id="newcar3" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> 프렌드 기본품목 외 </b>
+<br><br> 인조가죽시트(도어 센터부 감싸기 포함), 버튼시동 스마트키 시스템, 풀오토 에어컨, 블루투스 핸즈프리, 운전석 시트높이 조절장치, 앞좌석 시트백 포켓, 슬라이딩 선바이저, 이동식 재떨이 &amp; 시가라이터, 앞좌석 슬라이딩 &amp; 액티브 헤드레스트, 오토라이트 컨트롤 헤드램프</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶ 선루프  : 400,000
+<br><br>▶ 내비게이션(7인치, 후방카메라, 외장앰프, 써브우퍼, 센터스피커 포함)  : 1,400,000
+<br><br>▶ VSM(차세대 VDC) &amp; 후륜디스크 브레이크 : 520,000
+<br><br>▶ 스마트 패키지  : 400,000
+<br><br>▶ 라이팅 패키지  : 370,000</p>
+												</div>
+											
+												<div id="newcar4" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> 럭셔리 기본품목 외 </b>
+<br><br> 프로젝션 &amp; LED 포지셔닝 헤드램프, LED 리어 콤비네이션 램프, 사이드리피터 일체형 아웃사이드미러, 전자식 룸미러(ECM), 자동요금징수시스템(ETCS), 히티드 스티어링 휠, 가죽 스티어링 휠 &amp; 변속기 노브, 225/45R18 타이어 &amp; 화이트 휠, 화이트 아웃사이드미러
+<br> ※ 외장칼라 선택시, 순백색(UD)적용 불가</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶ 선루프  : 400,000
+<br><br>▶ 내비게이션(7인치, 후방카메라, 외장앰프, 써브우퍼, 센터스피커 포함)  : 1,400,000
+<br><br>▶ VSM(차세대 VDC) &amp; 후륜디스크 브레이크 : 520,000</p>
+												</div>
+											
+												<div id="newcar5" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> 럭셔리 기본품목 외 </b>
+<br><br> 고급형 ISG 시스템, VSM(차세대 VDC) &amp; 후륜 디스크 브레이크 슈퍼비전 클러스터(하이테크 정보표시 시스템)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶ 선루프  : 400,000
+<br><br>▶ 내비게이션(7인치, 후방카메라, 외장앰프, 써브우퍼, 센터스피커 포함)  : 1,400,000
+<br><br>▶ 스마트 패키지  : 400,000
+<br><br>▶ 라이팅 패키지  : 370,000</p>
+												</div>
+											
+												<div id="newcar6" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> 럭셔리 기본품목 외 </b>
+<br><br> 프로젝션 &amp; LED 포지셔닝 헤드램프, LED 리어 콤비네이션 램프, 사이드리피터 일체형 아웃사이드미러, 슈퍼비전 클러스터(하이테크 정보표시 시스템), 전자식 룸미러(ECM), 자동요금징수시스템(ETCS), 히티드 스티어링 휠, 가죽 스티어링 휠 &amp; 변속기 노브, 자외선 차단 글라스 (앞유리), 크롬 아웃사이드 도어핸들, 전방주차 보조 시스템, 블랙 하이그로시 (아웃사이드미러, 리어가니시), 선글라스 케이스, 러기지 네트, 타이어 공기압 경보장치(TPMS), 내장(블랙원톤/베이지투톤/레드투톤 중 선택)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶ 선루프  : 400,000
+<br><br>▶ 내비게이션(7인치, 후방카메라, 외장앰프, 써브우퍼, 센터스피커 포함)  : 1,400,000
+<br><br>▶ 225/45 R18 타이어&amp;플라워 휠  : 300,000
+<br><br>▶ VSM(차세대 VDC) &amp; 후륜디스크 브레이크  : 520,000</p>
+												</div>
+											
+												<div id="newcar7" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> 1.6 GDI 가솔린 프렌드 기본품목 외 </b>
+<br><br> U Ⅱ 1.6 디젤 엔진 (유로Ⅴ), VSM(차세대 VDC) &amp; 후륜 디스크 브레이크, PTC 히터</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶ 선루프  : 400,000
+<br><br>▶ 버튼시동 스마트키 시스템 : 450,000</p>
+												</div>
+											
+												<div id="newcar8" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> 1.6 GDI 가솔린 럭셔리 기본품목 외 </b>
+<br><br> U Ⅱ 1.6 디젤 엔진(유로Ⅴ), VSM(차세대 VDC) &amp; 후륜 디스크 브레이크, PTC 히터</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶ 선루프  : 400,000
+<br><br>▶ 내비게이션(7인치, 후방카메라, 외장앰프, 써브우퍼, 센터스피커 포함)  : 1,400,000
+<br><br>▶ 225/45 R18 타이어&amp;플라워 휠  : 300,000
+<br><br>▶ 스마트 패키지  : 400,000
+<br><br>▶ 라이팅 패키지  : 370,000</p>
+												</div>
+											
+										</div>
+										<script type="text/javascript">
+											newcarFolder(0);//초기값
+											function newcarFolder(target) {
+												var conElId = "newcar"//아이디 설정
+												var conElMenu = document.getElementById("newcarList");
+												var conElMenuLink = conElMenu.getElementsByTagName("a");
+												if (target != null) {
+													conElMenuLink[target].parentNode.className = "on";
+													document.getElementById(
+														conElId + target).style.display = "";
+												}
+												for (i = 0; i <= (conElMenuLink.length - 1); i++) {
+													conElMenuLink[i].onclick = function () {
+														for (x = 0; x <= (conElMenuLink.length - 1); x++) {
+															conElMenuLink[x].parentNode.className = "";
+															document.getElementById(
+																conElId + x).style.display = "none";
+														}
+														this.parentNode.className = "on";
+														document.getElementById(this.getAttribute('href')
+																					.split(
+																						'#')[1]).style.display =
+															"";
+														return false;
+													}
+												}
+											}
+										</script>
+									</div>
+									
+										<ul class="more">
+												▶<b> 선택품목 세부안내 </b>
+<br>- <b> 스마트 패키지 </b> : 전자식 룸미러(ECM), 자동요금징수 시스템(ETCS), 히티드 스티어링 휠, 가죽 스티어링 휠 &amp; 변속기 노브
+<br>- <b> 라이팅 패키지 </b> : 프로젝션&amp;LED 포지셔닝 헤드램프, LED 리어 콤비네이션 램프, 사이드 리피터 일체형 아웃사이드 미러
+<br>
+										</ul>
+									
+									<p class="desc_more">위 신차가격표는 단순 참고자료이며, 정확한 내용은 각 제조사에서 제공하는 자료를 통해확인하실 수 있습니다.</p><!-- 2016/10/12 [장] 등급 등록/수정 개선 : 추가 디자인 변경 -->
+									<p class="toTop"><a href="#main_title" class="sp toTop db_ir" title="페이지 위로"><u>페이지 위로</u></a></p><!-- [시세개편] class db_ir 추가 -->
+								</div>
+
+
+							</div>
+							<!-- body end -->
+						</td>
+					</tr>
+				</table>
+
+
+			
+			
+		
+    </div>
+
+    <!-- container end -->
+</form>
+</div>
+
+</body>
+<script language="javascript">
+
+
+    var strCompanyUrl = "/common/combo/cardbcompany.json?method=carList";
+    var strModelGroupUrl = "/common/combo/modelgroupfordb.json?method=carList";
+    var strModelUrl = "/common/combo/cardbmodel.json?method=carList";
+    var strYrJatoUrl = "/common/combo/jatoYr.json?method=carList";
+
+    var companyid = "mnfccd";
+    var modelgroupid = "mdlgroupcd";
+    var modelid = "mdlcd";
+    var yearid = "caryear";
+
+    function initGnb() {
+        var paramCompany = $("paramMnfccd").value;
+        var paramModelGroup = $("paramMdlgroupcd").value;
+        var paramModel = $("paramMdlcd").value;
+        var paramYr = $("paramYear").value;
+
+        // 제조사
+        if (paramModel != "") {
+            $("mdlcd").show();
+        }
+
+        //console.log("companyid :: " + companyid)
+        //console.log("paramCompany :: " + paramCompany)
+		if($('foldYn').value != 0){
+            foldingYN('f_fold');
+		}
+
+        setCompany(strCompanyUrl, companyid, "제조사", paramCompany);
+
+        // 제조사 값이 있으면 모델 검색
+        if (paramCompany >= '010') {
+            if (paramCompany != "") {
+                if (paramModel == "") {
+                    paramModel = paramModelGroup;
+                }
+                setModel(strModelUrl, modelid, paramCompany, "모델", paramModel)
+                $("mdlgroupcd").hide();
+
+            }
+        } else {
+            $("mdlgroupcd").show();
+            if (paramCompany != "") {
+                setModelGroup(strModelGroupUrl, modelgroupid, paramCompany, "모델", paramModelGroup);
+                if (paramModelGroup != "") {
+                    setModel_New(strModelUrl, modelid, paramCompany, paramModelGroup, "세부모델", paramModel);
+                }
+            }
+
+        }
+        if (paramCompany != "" && paramModel != "") {
+            setCarYear(strYrJatoUrl, yearid, paramCompany, paramModel, "형식연도", paramYr);
+        }
+
+        waitTime = 1;
+    }
+
+    function changeModel_jato(mnfccd, mdlgroupcd) {
+        setModel_New(strModelUrl, modelid, mnfccd, mdlgroupcd, "세부모델", "");
+        //모델그룹선택시 기본 세부모델선택
+        if ($("mdlcd") != null) {
+            $("mdlcd").selectedIndex = 1;
+            var mdlcd = $("mdlcd").options[$("mdlcd").selectedIndex].value;
+            changeYearJato(mnfccd, mdlcd);
+        }
+    }
+
+    function changeYearJato(mnfccd,mdlcd) {
+        setCarYear(strYrJatoUrl, yearid, mnfccd, mdlcd, "형식연도", "");
+        $(yearid).options[1].selected = true;
+    }
+
+
+
+    //덧글 리스트
+    function viewForm(index) {
+
+        var object = $("default" + index);
+        var objectSum = $("defaultSum" + index);
+        var selectSum = $("choiceSum" + index);
+        var object1 = $("choice" + index);
+        if (object != null) {
+            if (object.style.display == 'none') {
+                objectSum.hide();
+                selectSum.hide();
+                object.style.display = "block";
+                object1.style.display = "block";
+
+            } else {
+                object.hide();
+                object1.hide();
+                objectSum.style.display = "block";
+                selectSum.style.display = "block";
+            }
+        }
+    }
+
+    function viewAll() {
+        for (var i = 1; i <=9; i++) {
+            $("default" + i).style.display = "block";
+            $("defaultSum" + i).style.display = "none";
+            $("choice" + i).style.display = "block";
+            $("choiceSum" + i).style.display = "none";
+        }
+    }
+
+    function closeAll() {
+        for (var i = 1; i <=9; i++) {
+            $("default" + i).style.display = "none";
+            $("defaultSum" + i).style.display = "block";
+            $("choice" + i).style.display = "none";
+            $("choiceSum" + i).style.display = "block";
+        }
+    }
+
+    function firstLayerOpen() {
+        //viewForm(1);
+    }
+
+    function foldingYN(param) {
+        if (param == "f_fold") {
+            document.getElementById("folding").innerHTML ="<a href=\"javascript:foldingYN('f_unfold')\" class='folding f_unfold'>전체등급 펼쳐보기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "none";
+            document.getElementById("f_fold").style.display = "";
+        } else {
+            document.getElementById("folding").innerHTML = "<a href=\"javascript:foldingYN('f_fold')\" class='folding f_fold'>접기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "";
+            document.getElementById("f_fold").style.display = "none";
+        }
+    }
+
+    function onSubmit() {
+        jQuery("#searchForm").submit();
+
+    }
+    window.onload = initGnb;
+
+</script>
+</html>
+

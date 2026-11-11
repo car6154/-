@@ -1,0 +1,876 @@
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>차량DB - 차량정보 - 신차가격표</title>
+    <link type="text/css" rel="stylesheet" href="/css/common.css?v=1793835891525"/>
+    <link type="text/css" rel="stylesheet" href="/css/db.css?v=1793835891525"/>
+
+    <script type="text/javascript" src="/js/encarapp/lib/jquery/jquery-1.11.3.min.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/common/ui.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/prototype.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/util.js?v=1793835894199"></script>
+
+    <script type="text/javascript" src="/js/common/db_common.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/commonCombo.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/carSearchCombo.js?v=1793835894199"></script>
+	<script>
+		window.enlogInitJson = {
+			"dataTalkView": {
+				"screenName": "신차가격표"
+			}
+		}
+
+	</script>
+
+
+</head>
+
+
+
+
+
+
+
+    <!-- 등급 체크박스  -->
+    <div style="display:none">
+        
+    </div>
+
+    <!-- 세부등급 체크박스 -->
+    <div style="display:none">
+        
+    </div>
+
+
+
+<body class="db db_newdetailview db_basicTemplate">
+
+
+
+
+	
+	
+	
+	
+
+
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-W9QQ2T"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W9QQ2T');</script>
+<!-- End Google Tag Manager -->
+
+<!-- container begin -->
+<div class="container" id="containerDIV">
+<input type="hidden" id = "foldYn" name="searchtype" value="4"/>
+<form id ="searchForm" name="searchForm">
+
+    <input type="hidden" id = "method" name="method" value="newpricePopV2"/>
+    <input type="hidden" id = "dimensiontype" name="dimensiontype" value="null"/>
+    <input type="hidden" id = "paramMnfccd" name="paramMnfccd" value="001"/>
+    <input type="hidden" id = "paramMdlgroupcd" name="paramMdlgroupcd" value="011"/>
+    <input type="hidden" id = "paramMdlcd" name="paramMdlcd" value="082"/>
+    <input type="hidden" id = "paramYear" name="paramYear" value="2015"/>
+    <input type="hidden" id = "model" name="model" value="">
+    <input type="hidden" id = "paramCaryear" name="paramCaryear" value="2015"/>
+    <input type="hidden" id = "clsheadcd" name="clsheadcd" class="checkbox" value="null"/>
+    <input type="hidden" id = "paramGradeHead" name="paramGradeHead" value="null"/>
+	<input type="hidden" id = "searchtype" name="searchtype" value="check"/>
+	<input type="hidden" id = "pageAccessToken" name="pageAccessToken" value="AgV4XRatT8vZKmadaoOtggVmjC+4Dv3WtIuuo+9H5R8nC5cAcQACAAdFbmNhckNrAAdFbmNhckN2ABVhd3MtY3J5cHRvLXB1YmxpYy1rZXkAREFpSmx6T0gvSXV3M2NuQ3RtOHNqK0h6bWdXdzhsZHRqOTBmYTdPb1NqeFVkWFJxU2NQcTk2WldRbTY5WlUrWHVDdz09AAEAB2F3cy1rbXMAUGFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjI3MjM2MjQ4NzY1MzprZXkvbXJrLWRmZWEyNmY3NTVhMzQ3MjliNjkwMjRkZWZmM2M1MWFjALgBAgEAeAuqQuSJvQ+Ra4FSj55FZzS0sk+00amsb3yoAFiEYn4PAWlqbulwdIt3wN2aRNjCRB4AAAB+MHwGCSqGSIb3DQEHBqBvMG0CAQAwaAYJKoZIhvcNAQcBMB4GCWCGSAFlAwQBLjARBAxSYyfDnXzhBruTyEcCARCAO+hxEsJXUaAns8r0uOUanFTaKfhO2Wz3AyoH3AfumpT69awVez98Ice0nl/521UY/hYENXp8tn5uRyAzAgAAEAAKcxlti/CZgAMhxbaQyEFOAPn4cCdhr7deRL5PlI8el/RE8C/iJ1Zg5rKe6aja6ab/////AAAAAQAAAAAAAAAAAAAAAQAAAKOBXUD/v54V8THpwbN8+47J1cqoeCbtKS5eBDyLqJWI+9Lb3huzMGRu/1EwAUkM2MayPAv2WZZ8NWR2SSkj56vqX3ELg2A9Lq/vNJlub+PtRckU7JgyRp9jzMbQvRGRx7OKqoHCUxft810BfqtKvoqcI5pRzNJEfvFIUy5pHSQSKkkOelXvTCxRN2DrKeUHfipnuIFQLBlPECFA13HL5nhEmwD6PzV6zKkURfSaYA/iH5yCzgBnMGUCMAHOPIdM5D81kpSr6plCuccqy2d7cWaTIiZImzUWvOwNHY0nl7UOVbn3E2OyENmVRwIxAM/tCRXmS8ykEKFvF5HRvchnBp9mt01xz+ATABZqSKGyutOo1zVH4xHF3bLzkxQj4A=="/>
+    <div class="header">
+        <h1 class="blind">SK엔카</h1>
+        <h2 class="tit_carprice" id="main_title">신차가격표</h2>
+        <p class="quickSearch">
+
+
+
+            <select title="제조사" class="opt_select" id="mnfccd" name="mnfccd" onChange="javascript:changeModelGroup(this.value);">
+                <option value="">제조사</option>
+            </select>
+
+            <select class="opt_select" title="모델" id="mdlgroupcd" name="mdlgroupcd" onChange="javascript:changeModel_jato($('mnfccd').value, this.value);">
+                <option>모델</option>
+            </select>
+
+            <select class="opt_select" title="세부모델" id="mdlcd" name="mdlcd" onChange="javascript:changeYearJato($('mnfccd').value, $('mdlcd').value);">
+                <option>세부모델</option>
+            </select>
+
+            <select class="opt_select" title="연식" id="caryear" name="caryear">
+                <option>연식</option>
+            </select>
+
+            <button type="button" class="btn_search" onclick="javascript:onSubmit();"/>검색</button>
+
+
+
+        </p>
+    </div>
+    <!-- body begin -->
+    <div class="body" id="bodydiv">
+		
+			
+				<table class="layout">
+					<col class="contents"/>
+					<tr>
+						<td class="contentsMenu">
+							<!-- contentsMenu begin -->
+							<div class="contentsMenu">
+								<h3 class="title">현대 베라크루즈 2015년형</h3>
+							</div>
+							<!-- contentsMenu end -->
+						</td>
+					</tr>
+
+					<tr>
+						<td class="contentsMain">
+							<!-- contents begin -->
+							<div class="contents">
+
+								<div class="carCompare">
+									<div class="dbHead">
+										
+											<div id="folding"><a href="javascript:foldingYN('f_fold')"
+																 class="folding f_fold">전체등급 펼쳐보기<em class="db_ir"></em></a></div>
+
+											<!-- 2013/04/03 [서] 매물탭 개선 : 기능 버튼 추가 --><!--<a href="#" class="folding f_unfold">펼치기</a>-->
+										
+									</div>
+									
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+									<div id="f_unfold">
+										
+
+
+										<!-- case2 : 세부등급이 있는경우 -->
+										
+											<table class="carCompare sellcase2">
+												<colgroup>
+													<col class="grade">
+													<col class="detailgrd">
+													<col class="mission">
+													<col class="price">
+													<col class="uprice">
+													<col class="item">
+													<col class="option">
+												</colgroup>
+												<thead class="compare">
+												<tr>
+													<th class="grade bgn" colspan="3"><b>구분</b></th>
+													<th class="price"><b>판매가격</b></th>
+													<th class="uprice"><b>중고차시세</b></th><!-- [시세개편] 중고차시세 추가 -->
+													<th class="item"><b>기본사양 품목</b></th>
+													<th class="option end"><b>선택사양 품목</b></th>
+												</tr>
+												</thead>
+												<tbody class="new">
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="2">
+																<p>디젤 2WD 익스클루시브</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>기본형</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,792</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶ 파워트레인/성능  :</b> 디젤 V6 e-VGT SⅡ 3.0 디젤엔진(유로5, 255마력), 6단 자동변속기,
+ 속도 감응형 파워스티어링, 압력감응형 댐퍼, 풋파킹 브레이크, 액티브 에코시스템
+<br><br><b>▶ 외관  :</b>  245/60R18 타이어 &amp; 다이아몬드 커팅 알로이 휠, LED 리어콤비램프, LED 방향지시등
+ 내장 아웃사이드 미러, 프로젝션 안개등, 유광 블랙 리어 스포일러(보조제동등 내장),
+ 언더 스키드 플레이트, 솔라글래스 &amp; 선쉐이드밴드(윈드쉴드글래스), 사이드 가니쉬 &amp;
+ 휠아치 몰딩, 블랙 유광 가니쉬 &amp; 크롬 서라운드 몰딩, 투톤컬러 범퍼, 루프 안테나, 크롬
+ 아웃사이드 도어 핸들, 리어 와이퍼 &amp; 와셔, 가변식 듀얼 머플러, HID 헤드램프(자동 높이 조절 장치 포함)<br><br><b>▶ 내장  :</b> 썬바이저(조명, 거울 포함), 계기판 조명조절장치, 오버헤드 콘솔(맵램프, 선글라스 케이스,
+ 무드 램프 포함), 메탈 도어스커프, 스티어링 휠(가죽, 수동식 틸트 &amp; 텔레스코픽 포함),
+ 가죽 변속기 노브, 1열 센터 암레스트 &amp; 쿨박스, 플립타입 맵포켓, 2열 암레스트(컵홀더/콘솔박스).
+ 파워아울렛, 러기지 플로어 박스, 러기지 네트, 템퍼러리 스페어 타이어 &amp; 휠
+<br><br><b>▶ 안전  :</b>  6에어백 시스템(운전석/동승석, 앞좌석 사이드, 커튼), 타이어 공기압 경보장치(TPMS), 차체자세제어장치(ESC), 급제동 경보시스템(ESS), 1열 액티브 헤드레스트,
+ 후방주차 보조시스템, 전/후륜 디스크 브레이크, 유아용 시트 고정장치, 뒷좌석 3점식 시트벨트,
+ 세이프티 파워윈도우(운전석), 이모빌라이저, 소화기
+<br><br><b>▶ 시트  :</b>  가죽시트, 운전석/동승석 통풍시트, 운전석/동승석 전동시트, 1열/2열 열선시트(시트백 &amp; 쿠션부), 1열 틸트 헤드레스트, 운전석 럼버써포트(전동), 2열 시트(6:4 분할 폴딩,
+ 롱슬라이딩, 리클라이닝, 좌우 워크인 디바이스), 3열 시트(5:5 분할 폴딩), 2/3열 러기지 플랫
+<br><br><b>▶ 편의  : </b>파워 테일 게이트, 스마트키 가죽 키 홀더, 버튼 시동 &amp; 스마트키 시스템, 퍼들램프,
+ 웰컴 시스템, 루프랙, 사이드 스텝, 열선내장 전동 접이식 아웃사이드 미러, 슈퍼비전 클러스터,
+ 트립 컴퓨터, 하이패스 시스템, 열선 스티어링 휠, 듀얼 풀 오토 에어컨, 클러스터 이오나이저,
+ 풋램프, 리어 히터 &amp; 에어컨, 와이퍼 결빙방지 장치, 중앙집중식 &amp; 속도감응식 도어 잠금 장치,
+ 원터치 트리플 턴시그널, 오토라이트컨트롤 헤드램프, 컨버세이션 미러,
+ 헤드램프 에스코트 기능, 공기 가열식 보조히터, USB 충전기
+<br><br><b>▶ 멀티미디어  : </b>CDP &amp; MP3 오디오(라디오, CDP, MP3, AUX, USB, iPod 연결단자), 6스피커,
+ 블루투스 핸즈프리, 스티어링 휠 오디오 리모컨
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 세이프티 썬루프 </b> 410,000
+<br><br>▶<b> 가죽시트(브라운 투톤 컬러) </b> 200,000
+<br><br>▶<b> TUIX 내비게이션 + JBL 8스피커 (서브 우퍼/센터 스피커/ 외장 앰프 포함) </b> 1,470,000
+<br>
+<br>
+<b>▶ 화이트 크리스탈(PW6) 외장컬러</b>&nbsp;80,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>스페셜</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,898</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶ 디젤 2WD Exclusive 기본 품목 및
+<br></b><br><b>ㆍ내장  :</b> 블랙 내장 &amp; 시트, 3D 카본 그레인(크러쉬패드 &amp; 도어가니쉬)
+<br>
+<br><b>ㆍ편의  : </b>알로이 페달, 운전석 통합 메모리 시스템(운전석 시트, 아웃사이드 미러, 스티어링 휠 연동),
+ 1열 도어스커프 램프, 셀프 레벨라이저, 전동식 틸트 &amp; 텔레스코픽, 레인센서
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 세이프티 썬루프 </b> 410,000
+<br><br>▶<b> 가죽시트(브라운 투톤 컬러) </b> 200,000
+<br><br>▶<b> TUIX 내비게이션 + JBL Logic 7 사운드 시스템 </b> 1,570,000
+<br>
+<br><b>▶ 화이트 크리스탈(PW6) 외장컬러</b>&nbsp;80,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="2">
+																<p>디젤 4WD 익스클루시브</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>기본형</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>4,009</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶ 파워트레인/성능 :</b>&nbsp;디젤 V6 e-VGT SⅡ 3.0 디젤엔진(유로5, 255마력), 전자식 4WD, 6단 자동변속기, 속도 감응형 파워스티어링, 압력감응형 댐퍼, 풋파킹 브레이크, 액티브 에코시스템<br><br><b>▶ 외관 :</b>&nbsp;245/60R18 타이어 &amp; 다이아몬드 커팅 알로이 휠, LED 리어콤비램프, LED 방향지시등 내장 아웃사이드 미러, 프로젝션 안개등, 유광 블랙 리어 스포일러(보조제동등 내장), 언더 스키드 플레이트, 솔라글래스 &amp; 선쉐이드밴드(윈드쉴드글래스), 사이드 가니쉬 &amp; 휠아치 몰딩, 블랙 유광 가니쉬 &amp; 크롬 서라운드 몰딩, 투톤컬러 범퍼, 루프 안테나, 크롬 아웃사이드 도어 핸들, 리어 와이퍼 &amp; 와셔, 가변식 듀얼 머플러, HID 헤드램프(자동 높이 조절 장치 포함)<br><br><b>▶ 내장 :</b>&nbsp;썬바이저(조명, 거울 포함), 계기판 조명조절장치, 오버헤드 콘솔(맵램프, 선글라스 케이스, 무드 램프 포함), 메탈 도어스커프, 스티어링 휠(가죽, 수동식 틸트 &amp; 텔레스코픽 포함), 가죽 변속기 노브, 1열 센터 암레스트 &amp; 쿨박스, 플립타입 맵포켓, 2열 암레스트(컵홀더/콘솔박스). 파워아울렛, 러기지 플로어 박스, 러기지 네트, 템퍼러리 스페어 타이어 &amp; 휠<br><br><b>▶ 안전 :</b>&nbsp;6에어백 시스템(운전석/동승석, 앞좌석 사이드, 커튼), 타이어 공기압 경보장치(TPMS), 차체자세제어장치(ESC), 급제동 경보시스템(ESS), 1열 액티브 헤드레스트, 후방주차 보조시스템, 전/후륜 디스크 브레이크, 유아용 시트 고정장치, 뒷좌석 3점식 시트벨트, 세이프티 파워윈도우(운전석), 이모빌라이저, 소화기<br><br><b>▶ 시트 :</b>&nbsp;가죽시트, 운전석/동승석 통풍시트, 운전석/동승석 전동시트, 1열/2열 열선시트(시트백 &amp; 쿠션부), 1열 틸트 헤드레스트, 운전석 럼버써포트(전동), 2열 시트(6:4 분할 폴딩, 롱슬라이딩, 리클라이닝, 좌우 워크인 디바이스), 3열 시트(5:5 분할 폴딩), 2/3열 러기지 플랫<br><br><b>▶ 편의 :&nbsp;</b>파워 테일 게이트, 스마트키 가죽 키 홀더, 버튼 시동 &amp; 스마트키 시스템, 퍼들램프, 웰컴 시스템, 루프랙, 사이드 스텝, 열선내장 전동 접이식 아웃사이드 미러, 슈퍼비전 클러스터, 트립 컴퓨터, 하이패스 시스템, 열선 스티어링 휠, 듀얼 풀 오토 에어컨, 클러스터 이오나이저, 풋램프, 리어 히터 &amp; 에어컨, 와이퍼 결빙방지 장치, 중앙집중식 &amp; 속도감응식 도어 잠금 장치, 원터치 트리플 턴시그널, 오토라이트컨트롤 헤드램프, 컨버세이션 미러, 헤드램프 에스코트 기능, 공기 가열식 보조히터, USB 충전기<br><br><b>▶ 멀티미디어 :&nbsp;</b>CDP &amp; MP3 오디오(라디오, CDP, MP3, AUX, USB, iPod 연결단자), 6스피커, 블루투스 핸즈프리, 스티어링 휠 오디오 리모컨
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b>&nbsp;세이프티 썬루프&nbsp;</b>410,000<br><br>▶<b>&nbsp;가죽시트(브라운 투톤 컬러)&nbsp;</b>200,000<br><br>▶<b>&nbsp;TUIX 내비게이션 + JBL 8스피커 (서브 우퍼/센터 스피커/ 외장 앰프 포함)&nbsp;</b>1,470,000<br><br><b>▶ 화이트 크리스탈(PW6) 외장컬러</b>&nbsp;80,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>스페셜</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>4,115</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶ 디젤 4WD Exclusive 기본 품목 및<br></b><br><b>ㆍ내장 :</b>&nbsp;블랙 내장 &amp; 시트, 3D 카본 그레인(크러쉬패드 &amp; 도어가니쉬)<br><br><b>ㆍ편의 :&nbsp;</b>알로이 페달, 운전석 통합 메모리 시스템(운전석 시트, 아웃사이드 미러, 스티어링 휠 연동), 1열 도어스커프 램프, 셀프 레벨라이저, 전동식 틸트 &amp; 텔레스코픽, 레인센서
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b>&nbsp;세이프티 썬루프&nbsp;</b>410,000<br><br>▶<b>&nbsp;가죽시트(브라운 투톤 컬러)&nbsp;</b>200,000<br><br>▶<b>&nbsp;TUIX 내비게이션 + JBL Logic 7 사운드 시스템&nbsp;</b>1,570,000<br><br><b>▶ 화이트 크리스탈(PW6) 외장컬러</b>&nbsp;80,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+												</tbody>
+											</table>
+										
+									</div>
+									<!-- 신차가격표(폴더형) -->
+									<div id="f_fold" style="display:none;">
+										<div class="newcar_folder">
+											<ul class="nf_list" id="newcarList">
+												
+													<li>
+														<a href="#newcar0">
+                                                            <span class="model">디젤 2WD 익스클루시브 기본형 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,792</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar1">
+                                                            <span class="model">디젤 2WD 익스클루시브 스페셜 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,898</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar2">
+                                                            <span class="model">디젤 4WD 익스클루시브 기본형 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>4,009</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar3">
+                                                            <span class="model">디젤 4WD 익스클루시브 스페셜 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>4,115</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+											</ul>
+											<!-- 개별 -->
+											
+												<div id="newcar0" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 파워트레인/성능  :</b> 디젤 V6 e-VGT SⅡ 3.0 디젤엔진(유로5, 255마력), 6단 자동변속기,
+ 속도 감응형 파워스티어링, 압력감응형 댐퍼, 풋파킹 브레이크, 액티브 에코시스템
+<br><br><b>▶ 외관  :</b>  245/60R18 타이어 &amp; 다이아몬드 커팅 알로이 휠, LED 리어콤비램프, LED 방향지시등
+ 내장 아웃사이드 미러, 프로젝션 안개등, 유광 블랙 리어 스포일러(보조제동등 내장),
+ 언더 스키드 플레이트, 솔라글래스 &amp; 선쉐이드밴드(윈드쉴드글래스), 사이드 가니쉬 &amp;
+ 휠아치 몰딩, 블랙 유광 가니쉬 &amp; 크롬 서라운드 몰딩, 투톤컬러 범퍼, 루프 안테나, 크롬
+ 아웃사이드 도어 핸들, 리어 와이퍼 &amp; 와셔, 가변식 듀얼 머플러, HID 헤드램프(자동 높이 조절 장치 포함)<br><br><b>▶ 내장  :</b> 썬바이저(조명, 거울 포함), 계기판 조명조절장치, 오버헤드 콘솔(맵램프, 선글라스 케이스,
+ 무드 램프 포함), 메탈 도어스커프, 스티어링 휠(가죽, 수동식 틸트 &amp; 텔레스코픽 포함),
+ 가죽 변속기 노브, 1열 센터 암레스트 &amp; 쿨박스, 플립타입 맵포켓, 2열 암레스트(컵홀더/콘솔박스).
+ 파워아울렛, 러기지 플로어 박스, 러기지 네트, 템퍼러리 스페어 타이어 &amp; 휠
+<br><br><b>▶ 안전  :</b>  6에어백 시스템(운전석/동승석, 앞좌석 사이드, 커튼), 타이어 공기압 경보장치(TPMS), 차체자세제어장치(ESC), 급제동 경보시스템(ESS), 1열 액티브 헤드레스트,
+ 후방주차 보조시스템, 전/후륜 디스크 브레이크, 유아용 시트 고정장치, 뒷좌석 3점식 시트벨트,
+ 세이프티 파워윈도우(운전석), 이모빌라이저, 소화기
+<br><br><b>▶ 시트  :</b>  가죽시트, 운전석/동승석 통풍시트, 운전석/동승석 전동시트, 1열/2열 열선시트(시트백 &amp; 쿠션부), 1열 틸트 헤드레스트, 운전석 럼버써포트(전동), 2열 시트(6:4 분할 폴딩,
+ 롱슬라이딩, 리클라이닝, 좌우 워크인 디바이스), 3열 시트(5:5 분할 폴딩), 2/3열 러기지 플랫
+<br><br><b>▶ 편의  : </b>파워 테일 게이트, 스마트키 가죽 키 홀더, 버튼 시동 &amp; 스마트키 시스템, 퍼들램프,
+ 웰컴 시스템, 루프랙, 사이드 스텝, 열선내장 전동 접이식 아웃사이드 미러, 슈퍼비전 클러스터,
+ 트립 컴퓨터, 하이패스 시스템, 열선 스티어링 휠, 듀얼 풀 오토 에어컨, 클러스터 이오나이저,
+ 풋램프, 리어 히터 &amp; 에어컨, 와이퍼 결빙방지 장치, 중앙집중식 &amp; 속도감응식 도어 잠금 장치,
+ 원터치 트리플 턴시그널, 오토라이트컨트롤 헤드램프, 컨버세이션 미러,
+ 헤드램프 에스코트 기능, 공기 가열식 보조히터, USB 충전기
+<br><br><b>▶ 멀티미디어  : </b>CDP &amp; MP3 오디오(라디오, CDP, MP3, AUX, USB, iPod 연결단자), 6스피커,
+ 블루투스 핸즈프리, 스티어링 휠 오디오 리모컨</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 세이프티 썬루프 </b> 410,000
+<br><br>▶<b> 가죽시트(브라운 투톤 컬러) </b> 200,000
+<br><br>▶<b> TUIX 내비게이션 + JBL 8스피커 (서브 우퍼/센터 스피커/ 외장 앰프 포함) </b> 1,470,000
+<br>
+<br>
+<b>▶ 화이트 크리스탈(PW6) 외장컬러</b>&nbsp;80,000</p>
+												</div>
+											
+												<div id="newcar1" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 디젤 2WD Exclusive 기본 품목 및
+<br></b><br><b>ㆍ내장  :</b> 블랙 내장 &amp; 시트, 3D 카본 그레인(크러쉬패드 &amp; 도어가니쉬)
+<br>
+<br><b>ㆍ편의  : </b>알로이 페달, 운전석 통합 메모리 시스템(운전석 시트, 아웃사이드 미러, 스티어링 휠 연동),
+ 1열 도어스커프 램프, 셀프 레벨라이저, 전동식 틸트 &amp; 텔레스코픽, 레인센서</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 세이프티 썬루프 </b> 410,000
+<br><br>▶<b> 가죽시트(브라운 투톤 컬러) </b> 200,000
+<br><br>▶<b> TUIX 내비게이션 + JBL Logic 7 사운드 시스템 </b> 1,570,000
+<br>
+<br><b>▶ 화이트 크리스탈(PW6) 외장컬러</b>&nbsp;80,000</p>
+												</div>
+											
+												<div id="newcar2" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 파워트레인/성능 :</b>&nbsp;디젤 V6 e-VGT SⅡ 3.0 디젤엔진(유로5, 255마력), 전자식 4WD, 6단 자동변속기, 속도 감응형 파워스티어링, 압력감응형 댐퍼, 풋파킹 브레이크, 액티브 에코시스템<br><br><b>▶ 외관 :</b>&nbsp;245/60R18 타이어 &amp; 다이아몬드 커팅 알로이 휠, LED 리어콤비램프, LED 방향지시등 내장 아웃사이드 미러, 프로젝션 안개등, 유광 블랙 리어 스포일러(보조제동등 내장), 언더 스키드 플레이트, 솔라글래스 &amp; 선쉐이드밴드(윈드쉴드글래스), 사이드 가니쉬 &amp; 휠아치 몰딩, 블랙 유광 가니쉬 &amp; 크롬 서라운드 몰딩, 투톤컬러 범퍼, 루프 안테나, 크롬 아웃사이드 도어 핸들, 리어 와이퍼 &amp; 와셔, 가변식 듀얼 머플러, HID 헤드램프(자동 높이 조절 장치 포함)<br><br><b>▶ 내장 :</b>&nbsp;썬바이저(조명, 거울 포함), 계기판 조명조절장치, 오버헤드 콘솔(맵램프, 선글라스 케이스, 무드 램프 포함), 메탈 도어스커프, 스티어링 휠(가죽, 수동식 틸트 &amp; 텔레스코픽 포함), 가죽 변속기 노브, 1열 센터 암레스트 &amp; 쿨박스, 플립타입 맵포켓, 2열 암레스트(컵홀더/콘솔박스). 파워아울렛, 러기지 플로어 박스, 러기지 네트, 템퍼러리 스페어 타이어 &amp; 휠<br><br><b>▶ 안전 :</b>&nbsp;6에어백 시스템(운전석/동승석, 앞좌석 사이드, 커튼), 타이어 공기압 경보장치(TPMS), 차체자세제어장치(ESC), 급제동 경보시스템(ESS), 1열 액티브 헤드레스트, 후방주차 보조시스템, 전/후륜 디스크 브레이크, 유아용 시트 고정장치, 뒷좌석 3점식 시트벨트, 세이프티 파워윈도우(운전석), 이모빌라이저, 소화기<br><br><b>▶ 시트 :</b>&nbsp;가죽시트, 운전석/동승석 통풍시트, 운전석/동승석 전동시트, 1열/2열 열선시트(시트백 &amp; 쿠션부), 1열 틸트 헤드레스트, 운전석 럼버써포트(전동), 2열 시트(6:4 분할 폴딩, 롱슬라이딩, 리클라이닝, 좌우 워크인 디바이스), 3열 시트(5:5 분할 폴딩), 2/3열 러기지 플랫<br><br><b>▶ 편의 :&nbsp;</b>파워 테일 게이트, 스마트키 가죽 키 홀더, 버튼 시동 &amp; 스마트키 시스템, 퍼들램프, 웰컴 시스템, 루프랙, 사이드 스텝, 열선내장 전동 접이식 아웃사이드 미러, 슈퍼비전 클러스터, 트립 컴퓨터, 하이패스 시스템, 열선 스티어링 휠, 듀얼 풀 오토 에어컨, 클러스터 이오나이저, 풋램프, 리어 히터 &amp; 에어컨, 와이퍼 결빙방지 장치, 중앙집중식 &amp; 속도감응식 도어 잠금 장치, 원터치 트리플 턴시그널, 오토라이트컨트롤 헤드램프, 컨버세이션 미러, 헤드램프 에스코트 기능, 공기 가열식 보조히터, USB 충전기<br><br><b>▶ 멀티미디어 :&nbsp;</b>CDP &amp; MP3 오디오(라디오, CDP, MP3, AUX, USB, iPod 연결단자), 6스피커, 블루투스 핸즈프리, 스티어링 휠 오디오 리모컨</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b>&nbsp;세이프티 썬루프&nbsp;</b>410,000<br><br>▶<b>&nbsp;가죽시트(브라운 투톤 컬러)&nbsp;</b>200,000<br><br>▶<b>&nbsp;TUIX 내비게이션 + JBL 8스피커 (서브 우퍼/센터 스피커/ 외장 앰프 포함)&nbsp;</b>1,470,000<br><br><b>▶ 화이트 크리스탈(PW6) 외장컬러</b>&nbsp;80,000</p>
+												</div>
+											
+												<div id="newcar3" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶ 디젤 4WD Exclusive 기본 품목 및<br></b><br><b>ㆍ내장 :</b>&nbsp;블랙 내장 &amp; 시트, 3D 카본 그레인(크러쉬패드 &amp; 도어가니쉬)<br><br><b>ㆍ편의 :&nbsp;</b>알로이 페달, 운전석 통합 메모리 시스템(운전석 시트, 아웃사이드 미러, 스티어링 휠 연동), 1열 도어스커프 램프, 셀프 레벨라이저, 전동식 틸트 &amp; 텔레스코픽, 레인센서</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b>&nbsp;세이프티 썬루프&nbsp;</b>410,000<br><br>▶<b>&nbsp;가죽시트(브라운 투톤 컬러)&nbsp;</b>200,000<br><br>▶<b>&nbsp;TUIX 내비게이션 + JBL Logic 7 사운드 시스템&nbsp;</b>1,570,000<br><br><b>▶ 화이트 크리스탈(PW6) 외장컬러</b>&nbsp;80,000</p>
+												</div>
+											
+										</div>
+										<script type="text/javascript">
+											newcarFolder(0);//초기값
+											function newcarFolder(target) {
+												var conElId = "newcar"//아이디 설정
+												var conElMenu = document.getElementById("newcarList");
+												var conElMenuLink = conElMenu.getElementsByTagName("a");
+												if (target != null) {
+													conElMenuLink[target].parentNode.className = "on";
+													document.getElementById(
+														conElId + target).style.display = "";
+												}
+												for (i = 0; i <= (conElMenuLink.length - 1); i++) {
+													conElMenuLink[i].onclick = function () {
+														for (x = 0; x <= (conElMenuLink.length - 1); x++) {
+															conElMenuLink[x].parentNode.className = "";
+															document.getElementById(
+																conElId + x).style.display = "none";
+														}
+														this.parentNode.className = "on";
+														document.getElementById(this.getAttribute('href')
+																					.split(
+																						'#')[1]).style.display =
+															"";
+														return false;
+													}
+												}
+											}
+										</script>
+									</div>
+									
+										<ul class="more">
+												<b>▶&nbsp;</b>TUIX 내비게이션<br>-&nbsp;고해상도 6.5인치 터치 스크린, 후방 카메라, 지상파 DMB, 라디오, MP3 &amp; USB 동영상 재생 기능,
+ TPEG(DMB 교통정보), 블루투스 핸즈프리(오디오 스트리밍 기능 포함), AUX, iPod,
+ 다국어 지원(한국어/영어), 3D 시가 지도용 외장 16GB SD 카드 적용, CDP, DVDP 기능 미적용<br>-&nbsp;TUIX 내비게이션 선택시 별도 탁송금액 추가, 클러스터 이오나이저 삭제
+<br>
+-&nbsp;내비게이션 업데이트 안내는 블루멤버스 홈페이지 또는 튜익스몰(www.tuixmall.com) 참조<br><b>▶&nbsp;</b>JBL Logic 7 사운드 시스템 (10스피커) : 서브우퍼, 센터스피커, 외장앰프, 서라운드 스피커 포함<br><b>▶&nbsp;</b>가죽시트는 부분적으로 인조가죽 적용<br><b>▶&nbsp;</b>컬러 운영<br>-&nbsp;화이트크리스탈(PW6) 외장컬러 선택 시 컬러 대금 추가(8만원)<br>-&nbsp;팬텀블랙, 오션뷰, 화이트크리스탈, 슬릭실버 : 전 트림 블랙내장과 함께 적용<br>- 티타늄실버 : Exclusive 그레이 내장과 함께 적용, Exclusive Special은 블랙내장과 함께 적용<br>-&nbsp;아라비안모카 : Exclusive 베이지 내장과 함께 적용, Exclusive Special은 블랙내장과 함께 적용<br>-&nbsp;브라운 가죽시트 선택시 블랙 내장과 함께 적용<br><b>▶&nbsp;</b>운전석 통합 메모리 시스템 적용 시 : 후진 시 Auto Down 기능 아웃사이드 미러 포함<b><br></b><b>▶&nbsp;</b>하이패스 시스템에는 장애인 통행료 자동할인 기능이 없습니다.
+										</ul>
+									
+									<p class="desc_more">위 신차가격표는 단순 참고자료이며, 정확한 내용은 각 제조사에서 제공하는 자료를 통해확인하실 수 있습니다.</p><!-- 2016/10/12 [장] 등급 등록/수정 개선 : 추가 디자인 변경 -->
+									<p class="toTop"><a href="#main_title" class="sp toTop db_ir" title="페이지 위로"><u>페이지 위로</u></a></p><!-- [시세개편] class db_ir 추가 -->
+								</div>
+
+
+							</div>
+							<!-- body end -->
+						</td>
+					</tr>
+				</table>
+
+
+			
+			
+		
+    </div>
+
+    <!-- container end -->
+</form>
+</div>
+
+</body>
+<script language="javascript">
+
+
+    var strCompanyUrl = "/common/combo/cardbcompany.json?method=carList";
+    var strModelGroupUrl = "/common/combo/modelgroupfordb.json?method=carList";
+    var strModelUrl = "/common/combo/cardbmodel.json?method=carList";
+    var strYrJatoUrl = "/common/combo/jatoYr.json?method=carList";
+
+    var companyid = "mnfccd";
+    var modelgroupid = "mdlgroupcd";
+    var modelid = "mdlcd";
+    var yearid = "caryear";
+
+    function initGnb() {
+        var paramCompany = $("paramMnfccd").value;
+        var paramModelGroup = $("paramMdlgroupcd").value;
+        var paramModel = $("paramMdlcd").value;
+        var paramYr = $("paramYear").value;
+
+        // 제조사
+        if (paramModel != "") {
+            $("mdlcd").show();
+        }
+
+        //console.log("companyid :: " + companyid)
+        //console.log("paramCompany :: " + paramCompany)
+		if($('foldYn').value != 0){
+            foldingYN('f_fold');
+		}
+
+        setCompany(strCompanyUrl, companyid, "제조사", paramCompany);
+
+        // 제조사 값이 있으면 모델 검색
+        if (paramCompany >= '010') {
+            if (paramCompany != "") {
+                if (paramModel == "") {
+                    paramModel = paramModelGroup;
+                }
+                setModel(strModelUrl, modelid, paramCompany, "모델", paramModel)
+                $("mdlgroupcd").hide();
+
+            }
+        } else {
+            $("mdlgroupcd").show();
+            if (paramCompany != "") {
+                setModelGroup(strModelGroupUrl, modelgroupid, paramCompany, "모델", paramModelGroup);
+                if (paramModelGroup != "") {
+                    setModel_New(strModelUrl, modelid, paramCompany, paramModelGroup, "세부모델", paramModel);
+                }
+            }
+
+        }
+        if (paramCompany != "" && paramModel != "") {
+            setCarYear(strYrJatoUrl, yearid, paramCompany, paramModel, "형식연도", paramYr);
+        }
+
+        waitTime = 1;
+    }
+
+    function changeModel_jato(mnfccd, mdlgroupcd) {
+        setModel_New(strModelUrl, modelid, mnfccd, mdlgroupcd, "세부모델", "");
+        //모델그룹선택시 기본 세부모델선택
+        if ($("mdlcd") != null) {
+            $("mdlcd").selectedIndex = 1;
+            var mdlcd = $("mdlcd").options[$("mdlcd").selectedIndex].value;
+            changeYearJato(mnfccd, mdlcd);
+        }
+    }
+
+    function changeYearJato(mnfccd,mdlcd) {
+        setCarYear(strYrJatoUrl, yearid, mnfccd, mdlcd, "형식연도", "");
+        $(yearid).options[1].selected = true;
+    }
+
+
+
+    //덧글 리스트
+    function viewForm(index) {
+
+        var object = $("default" + index);
+        var objectSum = $("defaultSum" + index);
+        var selectSum = $("choiceSum" + index);
+        var object1 = $("choice" + index);
+        if (object != null) {
+            if (object.style.display == 'none') {
+                objectSum.hide();
+                selectSum.hide();
+                object.style.display = "block";
+                object1.style.display = "block";
+
+            } else {
+                object.hide();
+                object1.hide();
+                objectSum.style.display = "block";
+                selectSum.style.display = "block";
+            }
+        }
+    }
+
+    function viewAll() {
+        for (var i = 1; i <=4; i++) {
+            $("default" + i).style.display = "block";
+            $("defaultSum" + i).style.display = "none";
+            $("choice" + i).style.display = "block";
+            $("choiceSum" + i).style.display = "none";
+        }
+    }
+
+    function closeAll() {
+        for (var i = 1; i <=4; i++) {
+            $("default" + i).style.display = "none";
+            $("defaultSum" + i).style.display = "block";
+            $("choice" + i).style.display = "none";
+            $("choiceSum" + i).style.display = "block";
+        }
+    }
+
+    function firstLayerOpen() {
+        //viewForm(1);
+    }
+
+    function foldingYN(param) {
+        if (param == "f_fold") {
+            document.getElementById("folding").innerHTML ="<a href=\"javascript:foldingYN('f_unfold')\" class='folding f_unfold'>전체등급 펼쳐보기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "none";
+            document.getElementById("f_fold").style.display = "";
+        } else {
+            document.getElementById("folding").innerHTML = "<a href=\"javascript:foldingYN('f_fold')\" class='folding f_fold'>접기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "";
+            document.getElementById("f_fold").style.display = "none";
+        }
+    }
+
+    function onSubmit() {
+        jQuery("#searchForm").submit();
+
+    }
+    window.onload = initGnb;
+
+</script>
+</html>
+

@@ -1,0 +1,622 @@
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>차량DB - 차량정보 - 신차가격표</title>
+    <link type="text/css" rel="stylesheet" href="/css/common.css?v=1793835891525"/>
+    <link type="text/css" rel="stylesheet" href="/css/db.css?v=1793835891525"/>
+
+    <script type="text/javascript" src="/js/encarapp/lib/jquery/jquery-1.11.3.min.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/common/ui.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/prototype.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/util.js?v=1793835894199"></script>
+
+    <script type="text/javascript" src="/js/common/db_common.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/commonCombo.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/carSearchCombo.js?v=1793835894199"></script>
+	<script>
+		window.enlogInitJson = {
+			"dataTalkView": {
+				"screenName": "신차가격표"
+			}
+		}
+
+	</script>
+
+
+</head>
+
+
+
+
+
+
+
+    <!-- 등급 체크박스  -->
+    <div style="display:none">
+        
+    </div>
+
+    <!-- 세부등급 체크박스 -->
+    <div style="display:none">
+        
+    </div>
+
+
+
+<body class="db db_newdetailview db_basicTemplate">
+
+
+
+
+	
+	
+	
+	
+
+
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-W9QQ2T"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W9QQ2T');</script>
+<!-- End Google Tag Manager -->
+
+<!-- container begin -->
+<div class="container" id="containerDIV">
+<input type="hidden" id = "foldYn" name="searchtype" value="2"/>
+<form id ="searchForm" name="searchForm">
+
+    <input type="hidden" id = "method" name="method" value="newpricePopV2"/>
+    <input type="hidden" id = "dimensiontype" name="dimensiontype" value="null"/>
+    <input type="hidden" id = "paramMnfccd" name="paramMnfccd" value="005"/>
+    <input type="hidden" id = "paramMdlgroupcd" name="paramMdlgroupcd" value="014"/>
+    <input type="hidden" id = "paramMdlcd" name="paramMdlcd" value="070"/>
+    <input type="hidden" id = "paramYear" name="paramYear" value="2023"/>
+    <input type="hidden" id = "model" name="model" value="">
+    <input type="hidden" id = "paramCaryear" name="paramCaryear" value="2023"/>
+    <input type="hidden" id = "clsheadcd" name="clsheadcd" class="checkbox" value="null"/>
+    <input type="hidden" id = "paramGradeHead" name="paramGradeHead" value="null"/>
+	<input type="hidden" id = "searchtype" name="searchtype" value="check"/>
+	<input type="hidden" id = "pageAccessToken" name="pageAccessToken" value="AgV4+pzwWbp3AxJe5gnx40IoPB4P4sbICVxkZC8/UxpGA+YAcQACAAdFbmNhckNrAAdFbmNhckN2ABVhd3MtY3J5cHRvLXB1YmxpYy1rZXkAREFuMzhQY2I4VnFSVWVvMU1UQnFPeVNWc016UDViR1liSTh0M2dQSEo4L0dmbEdKTjVKNEpSclVsbXhPTi9QRmwzZz09AAEAB2F3cy1rbXMAUGFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjI3MjM2MjQ4NzY1MzprZXkvbXJrLWRmZWEyNmY3NTVhMzQ3MjliNjkwMjRkZWZmM2M1MWFjALgBAgEAeAuqQuSJvQ+Ra4FSj55FZzS0sk+00amsb3yoAFiEYn4PAdl+E92+4P1bqJfv8NpfuYMAAAB+MHwGCSqGSIb3DQEHBqBvMG0CAQAwaAYJKoZIhvcNAQcBMB4GCWCGSAFlAwQBLjARBAwCnDFJMkWWC+NrDuQCARCAO3U2RWP9kPCRO3SwEdjtLM+vQYaCjIyRvg4SZE6ZLV7/CXWD/BJt2efGY3XjiNRNxZLF59zcmyVDqdaVAgAAEACYFelEjnAyBgA9LaM85eMbfKfIdnHrBB+SuSvdiiM+DXnMnIV7d4m4z0d3WkVb3Jr/////AAAAAQAAAAAAAAAAAAAAAQAAAKPWjHGVQdy3aD3Up+55ARJsTV5thJpnQLpBN+BpeJhDLxQAFFFQs8j/9Zu41roF0N9a0c6OCirweaF1KQ7Id4Htmmu/jt+65aDCqfhT4ak2hkmi6d9PGwtwR/XZW1nkih7pViOW6pkkro40p97VSTFKFyQGoPJkBCbJF/5sDsCGyFbH4wJF0OGZVY6NLrCtmLks3oCrRTBSjljvrCIwPZ9TjOy/4DUhlsTopnOoD4aGIi6NUgBnMGUCMQClEY9EMJ2gjdlgS+yDxgDzGh2RTqnV5mF5XbWsZ095VgU6WKcZXHVlKxzo0VnGk2sCMChm16sM96vFTjnkGxOIfOACy1Pop+fALCq4QjvZjzq1SUndTV1Ol6U5In6TZ+nw+g=="/>
+    <div class="header">
+        <h1 class="blind">SK엔카</h1>
+        <h2 class="tit_carprice" id="main_title">신차가격표</h2>
+        <p class="quickSearch">
+
+
+
+            <select title="제조사" class="opt_select" id="mnfccd" name="mnfccd" onChange="javascript:changeModelGroup(this.value);">
+                <option value="">제조사</option>
+            </select>
+
+            <select class="opt_select" title="모델" id="mdlgroupcd" name="mdlgroupcd" onChange="javascript:changeModel_jato($('mnfccd').value, this.value);">
+                <option>모델</option>
+            </select>
+
+            <select class="opt_select" title="세부모델" id="mdlcd" name="mdlcd" onChange="javascript:changeYearJato($('mnfccd').value, $('mdlcd').value);">
+                <option>세부모델</option>
+            </select>
+
+            <select class="opt_select" title="연식" id="caryear" name="caryear">
+                <option>연식</option>
+            </select>
+
+            <button type="button" class="btn_search" onclick="javascript:onSubmit();"/>검색</button>
+
+
+
+        </p>
+    </div>
+    <!-- body begin -->
+    <div class="body" id="bodydiv">
+		
+			
+				<table class="layout">
+					<col class="contents"/>
+					<tr>
+						<td class="contentsMenu">
+							<!-- contentsMenu begin -->
+							<div class="contentsMenu">
+								<h3 class="title">르노코리아(삼성) 마스터 2023년형</h3>
+							</div>
+							<!-- contentsMenu end -->
+						</td>
+					</tr>
+
+					<tr>
+						<td class="contentsMain">
+							<!-- contents begin -->
+							<div class="contents">
+
+								<div class="carCompare">
+									<div class="dbHead">
+										
+											<div id="folding"><a href="javascript:foldingYN('f_fold')"
+																 class="folding f_fold">전체등급 펼쳐보기<em class="db_ir"></em></a></div>
+
+											<!-- 2013/04/03 [서] 매물탭 개선 : 기능 버튼 추가 --><!--<a href="#" class="folding f_unfold">펼치기</a>-->
+										
+									</div>
+									
+									
+										
+									
+										
+									
+									<div id="f_unfold">
+										
+											<!-- case1 : 세부등급과 미션분리 -->
+											<table class="carCompare sellcase1">
+												<colgroup>
+													<col class="grade">
+													<col class="mission">
+													<col class="price">
+												    <col class="uprice"><!-- [시세개편] 중고차시세 추가 uprice -->
+													<col class="item">
+													<col class="option">
+												</colgroup>
+												<thead class="compare">
+												<tr>
+													<th class="grade" colspan="2"><b>구분</b></th>
+													<th class="price"><b>판매가격</b></th>
+													<th class="uprice"><b>중고차시세</b></th><!-- [시세개편] 중고차시세 추가 -->
+													<th class="item"><b>기본사양 품목</b></th>
+													<th class="option end"><b>선택사양 품목</b></th>
+												</tr>
+												</thead>
+												<tbody class="new">
+												
+													
+														
+													
+													
+														
+															
+															
+																
+																	
+																	
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>2.3 밴 S</p></td>
+														
+														<td class="mission"><p>M/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,685</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>● 파워트레인 :</b> 2.3 dCi 엔진(150ps, 유로6), 6단 수동변속기,
+오토 스탑/스타트 시스템, 에코모드, ESM(Energy Smart Management)
+
+<br>
+<br><b>● 안전 :</b> 운전석 에어백, 차체자세 제어장치(ESC), 경사로 밀림방지장치(HSA),
+타이어 공기압 자동감지 시스템(TPMS), 차선 이탈 경보 시스템(LDW),
+측풍영향 보정 기능, 익스텐디드 그립 컨트롤, 와이드 뷰 미러(동승석 사각지대
+미러), 트레일러 흔들림 보정 기능, EBD-ABS (BAS 내장), 4륜 디스크
+브레이크, 차속감응 오토도어록, 앞좌석 3점식 시트벨트(리마인드경고기능,
+운전석 프리텐셔너/로드리미터/높이 조절장치 포함)
+
+<br>
+<br><b>● 외관 :</b> 16" 스틸휠, 휠커버 &amp; 225/65R 16 타이어(콘티넨탈),
+크롬 라디에이터 그릴, C자형 주간주행등, 리어 콤비네이션 램프,
+후방 안개등, 방향지시등 일체형 아웃사이드 미러,
+그립타입 아웃사이드 도어핸들, 우측 슬라이딩 도어,
+리어 트윈 스윙 도어(밴 S: 180°, 밴 L: 270°), 앞/뒷바퀴 머드 가드
+
+<br>
+<br><b>● 내장 :</b> 그레이 인테리어, 클러스터(3.5" TFT 스크린), 인조가죽시트,
+맵 램프/룸 램프, 선바이저(운전석/동승석), 6 way 운전석 시트,
+슬라이딩 글로브 박스, 헤드레스트,오버헤드 콘솔,
+동승석 벤치 시트(폴딩 기능, 회전 테이블 &amp; 컵홀더),
+적재함 내부 화물고정 고리
+
+<br>
+<br><b>● 편의 :</b> 디지털 룸미러&amp;후방카메라&amp;분리형 무선 하이패스(전용 액세서리),
+앞좌석 파워 윈도우, 아웃사이드 미러(전동조절/하단 보조 사각미러/열선
+기능 포함), 후방 경보 시스템, 무선 리모컨 키(무선 리어 트윈 스윙 도어 잠금
+기능 포함), 트립 컴퓨터(주행거리, 연료소비량, 연비(순간, 평균), 주행가능거리
+표시, 평균 주행속도), 12V 파워 아웃렛(앞좌석), 타이어 리페어 키트,
+이모빌라이저, 수동식 틸트 스티어링 휠
+
+<br>
+<b><br>● 멀티미디어 :</b> 8" 스마트 내비게이션 (8” 스크린, 내장형 T-map (테더링
+업데이트/미러링 기능 포함), 음성인식 SKT NUGU기능 지원, HD 후방 카메라,
+라디오/MP3/AUX/USB 연결단자, 블루투스 핸즈프리, 스티어링휠 오디오
+리모컨)
+
+<br>
+<br><b>● 공조시스템 :</b> 매뉴얼 에어컨, 앞좌석 PTC 히터
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"></li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+																	
+																	
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>2.3 밴 L</p></td>
+														
+														<td class="mission"><p>M/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,845</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	<b>● 파워트레인 :</b>&nbsp;2.3 dCi 엔진(150ps, 유로6), 6단 수동변속기, 오토 스탑/스타트 시스템, 에코모드, ESM(Energy Smart Management)<br><br><b>● 안전 :</b>&nbsp;운전석 에어백, 차체자세 제어장치(ESC), 경사로 밀림방지장치(HSA), 타이어 공기압 자동감지 시스템(TPMS), 차선 이탈 경보 시스템(LDW), 측풍영향 보정 기능, 익스텐디드 그립 컨트롤, 와이드 뷰 미러(동승석 사각지대 미러), 트레일러 흔들림 보정 기능, EBD-ABS (BAS 내장), 4륜 디스크 브레이크, 차속감응 오토도어록, 앞좌석 3점식 시트벨트(리마인드경고기능, 운전석 프리텐셔너/로드리미터/높이 조절장치 포함)<br><br><b>● 외관 :</b>&nbsp;16" 스틸휠, 휠커버 &amp; 225/65R 16 타이어(콘티넨탈), 크롬 라디에이터 그릴, C자형 주간주행등, 리어 콤비네이션 램프, 후방 안개등, 방향지시등 일체형 아웃사이드 미러, 그립타입 아웃사이드 도어핸들, 우측 슬라이딩 도어, 리어 트윈 스윙 도어(밴 S: 180°, 밴 L: 270°), 앞/뒷바퀴 머드 가드<br><br><b>● 내장 :</b>&nbsp;그레이 인테리어, 클러스터(3.5" TFT 스크린), 인조가죽시트, 맵 램프/룸 램프, 선바이저(운전석/동승석), 6 way 운전석 시트, 슬라이딩 글로브 박스, 헤드레스트,오버헤드 콘솔, 동승석 벤치 시트(폴딩 기능, 회전 테이블 &amp; 컵홀더), 적재함 내부 화물고정 고리<br><br><b>● 편의 :</b>&nbsp;디지털 룸미러&amp;후방카메라&amp;분리형 무선 하이패스(전용 액세서리), 앞좌석 파워 윈도우, 아웃사이드 미러(전동조절/하단 보조 사각미러/열선 기능 포함), 후방 경보 시스템, 무선 리모컨 키(무선 리어 트윈 스윙 도어 잠금 기능 포함), 트립 컴퓨터(주행거리, 연료소비량, 연비(순간, 평균), 주행가능거리 표시, 평균 주행속도), 12V 파워 아웃렛(앞좌석), 타이어 리페어 키트, 이모빌라이저, 수동식 틸트 스티어링 휠<br><b><br>● 멀티미디어 :</b>&nbsp;8" 스마트 내비게이션 (8” 스크린, 내장형 T-map (테더링 업데이트/미러링 기능 포함), 음성인식 SKT NUGU기능 지원, HD 후방 카메라, 라디오/MP3/AUX/USB 연결단자, 블루투스 핸즈프리, 스티어링휠 오디오 리모컨)<br><br><b>● 공조시스템 :</b>&nbsp;매뉴얼 에어컨, 앞좌석 PTC 히터
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"></li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+												</tbody>
+											</table>
+										
+
+
+										<!-- case2 : 세부등급이 있는경우 -->
+										
+									</div>
+									<!-- 신차가격표(폴더형) -->
+									<div id="f_fold" style="display:none;">
+										<div class="newcar_folder">
+											<ul class="nf_list" id="newcarList">
+												
+													<li>
+														<a href="#newcar0">
+                                                            <span class="model">2.3 밴 S  M/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,685</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar1">
+                                                            <span class="model">2.3 밴 L  M/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,845</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+											</ul>
+											<!-- 개별 -->
+											
+												<div id="newcar0" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>● 파워트레인 :</b> 2.3 dCi 엔진(150ps, 유로6), 6단 수동변속기,
+오토 스탑/스타트 시스템, 에코모드, ESM(Energy Smart Management)
+
+<br>
+<br><b>● 안전 :</b> 운전석 에어백, 차체자세 제어장치(ESC), 경사로 밀림방지장치(HSA),
+타이어 공기압 자동감지 시스템(TPMS), 차선 이탈 경보 시스템(LDW),
+측풍영향 보정 기능, 익스텐디드 그립 컨트롤, 와이드 뷰 미러(동승석 사각지대
+미러), 트레일러 흔들림 보정 기능, EBD-ABS (BAS 내장), 4륜 디스크
+브레이크, 차속감응 오토도어록, 앞좌석 3점식 시트벨트(리마인드경고기능,
+운전석 프리텐셔너/로드리미터/높이 조절장치 포함)
+
+<br>
+<br><b>● 외관 :</b> 16" 스틸휠, 휠커버 &amp; 225/65R 16 타이어(콘티넨탈),
+크롬 라디에이터 그릴, C자형 주간주행등, 리어 콤비네이션 램프,
+후방 안개등, 방향지시등 일체형 아웃사이드 미러,
+그립타입 아웃사이드 도어핸들, 우측 슬라이딩 도어,
+리어 트윈 스윙 도어(밴 S: 180°, 밴 L: 270°), 앞/뒷바퀴 머드 가드
+
+<br>
+<br><b>● 내장 :</b> 그레이 인테리어, 클러스터(3.5" TFT 스크린), 인조가죽시트,
+맵 램프/룸 램프, 선바이저(운전석/동승석), 6 way 운전석 시트,
+슬라이딩 글로브 박스, 헤드레스트,오버헤드 콘솔,
+동승석 벤치 시트(폴딩 기능, 회전 테이블 &amp; 컵홀더),
+적재함 내부 화물고정 고리
+
+<br>
+<br><b>● 편의 :</b> 디지털 룸미러&amp;후방카메라&amp;분리형 무선 하이패스(전용 액세서리),
+앞좌석 파워 윈도우, 아웃사이드 미러(전동조절/하단 보조 사각미러/열선
+기능 포함), 후방 경보 시스템, 무선 리모컨 키(무선 리어 트윈 스윙 도어 잠금
+기능 포함), 트립 컴퓨터(주행거리, 연료소비량, 연비(순간, 평균), 주행가능거리
+표시, 평균 주행속도), 12V 파워 아웃렛(앞좌석), 타이어 리페어 키트,
+이모빌라이저, 수동식 틸트 스티어링 휠
+
+<br>
+<b><br>● 멀티미디어 :</b> 8" 스마트 내비게이션 (8” 스크린, 내장형 T-map (테더링
+업데이트/미러링 기능 포함), 음성인식 SKT NUGU기능 지원, HD 후방 카메라,
+라디오/MP3/AUX/USB 연결단자, 블루투스 핸즈프리, 스티어링휠 오디오
+리모컨)
+
+<br>
+<br><b>● 공조시스템 :</b> 매뉴얼 에어컨, 앞좌석 PTC 히터</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"></p>
+												</div>
+											
+												<div id="newcar1" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>● 파워트레인 :</b>&nbsp;2.3 dCi 엔진(150ps, 유로6), 6단 수동변속기, 오토 스탑/스타트 시스템, 에코모드, ESM(Energy Smart Management)<br><br><b>● 안전 :</b>&nbsp;운전석 에어백, 차체자세 제어장치(ESC), 경사로 밀림방지장치(HSA), 타이어 공기압 자동감지 시스템(TPMS), 차선 이탈 경보 시스템(LDW), 측풍영향 보정 기능, 익스텐디드 그립 컨트롤, 와이드 뷰 미러(동승석 사각지대 미러), 트레일러 흔들림 보정 기능, EBD-ABS (BAS 내장), 4륜 디스크 브레이크, 차속감응 오토도어록, 앞좌석 3점식 시트벨트(리마인드경고기능, 운전석 프리텐셔너/로드리미터/높이 조절장치 포함)<br><br><b>● 외관 :</b>&nbsp;16" 스틸휠, 휠커버 &amp; 225/65R 16 타이어(콘티넨탈), 크롬 라디에이터 그릴, C자형 주간주행등, 리어 콤비네이션 램프, 후방 안개등, 방향지시등 일체형 아웃사이드 미러, 그립타입 아웃사이드 도어핸들, 우측 슬라이딩 도어, 리어 트윈 스윙 도어(밴 S: 180°, 밴 L: 270°), 앞/뒷바퀴 머드 가드<br><br><b>● 내장 :</b>&nbsp;그레이 인테리어, 클러스터(3.5" TFT 스크린), 인조가죽시트, 맵 램프/룸 램프, 선바이저(운전석/동승석), 6 way 운전석 시트, 슬라이딩 글로브 박스, 헤드레스트,오버헤드 콘솔, 동승석 벤치 시트(폴딩 기능, 회전 테이블 &amp; 컵홀더), 적재함 내부 화물고정 고리<br><br><b>● 편의 :</b>&nbsp;디지털 룸미러&amp;후방카메라&amp;분리형 무선 하이패스(전용 액세서리), 앞좌석 파워 윈도우, 아웃사이드 미러(전동조절/하단 보조 사각미러/열선 기능 포함), 후방 경보 시스템, 무선 리모컨 키(무선 리어 트윈 스윙 도어 잠금 기능 포함), 트립 컴퓨터(주행거리, 연료소비량, 연비(순간, 평균), 주행가능거리 표시, 평균 주행속도), 12V 파워 아웃렛(앞좌석), 타이어 리페어 키트, 이모빌라이저, 수동식 틸트 스티어링 휠<br><b><br>● 멀티미디어 :</b>&nbsp;8" 스마트 내비게이션 (8” 스크린, 내장형 T-map (테더링 업데이트/미러링 기능 포함), 음성인식 SKT NUGU기능 지원, HD 후방 카메라, 라디오/MP3/AUX/USB 연결단자, 블루투스 핸즈프리, 스티어링휠 오디오 리모컨)<br><br><b>● 공조시스템 :</b>&nbsp;매뉴얼 에어컨, 앞좌석 PTC 히터</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"></p>
+												</div>
+											
+										</div>
+										<script type="text/javascript">
+											newcarFolder(0);//초기값
+											function newcarFolder(target) {
+												var conElId = "newcar"//아이디 설정
+												var conElMenu = document.getElementById("newcarList");
+												var conElMenuLink = conElMenu.getElementsByTagName("a");
+												if (target != null) {
+													conElMenuLink[target].parentNode.className = "on";
+													document.getElementById(
+														conElId + target).style.display = "";
+												}
+												for (i = 0; i <= (conElMenuLink.length - 1); i++) {
+													conElMenuLink[i].onclick = function () {
+														for (x = 0; x <= (conElMenuLink.length - 1); x++) {
+															conElMenuLink[x].parentNode.className = "";
+															document.getElementById(
+																conElId + x).style.display = "none";
+														}
+														this.parentNode.className = "on";
+														document.getElementById(this.getAttribute('href')
+																					.split(
+																						'#')[1]).style.display =
+															"";
+														return false;
+													}
+												}
+											}
+										</script>
+									</div>
+									
+									<p class="desc_more">위 신차가격표는 단순 참고자료이며, 정확한 내용은 각 제조사에서 제공하는 자료를 통해확인하실 수 있습니다.</p><!-- 2016/10/12 [장] 등급 등록/수정 개선 : 추가 디자인 변경 -->
+									<p class="toTop"><a href="#main_title" class="sp toTop db_ir" title="페이지 위로"><u>페이지 위로</u></a></p><!-- [시세개편] class db_ir 추가 -->
+								</div>
+
+
+							</div>
+							<!-- body end -->
+						</td>
+					</tr>
+				</table>
+
+
+			
+			
+		
+    </div>
+
+    <!-- container end -->
+</form>
+</div>
+
+</body>
+<script language="javascript">
+
+
+    var strCompanyUrl = "/common/combo/cardbcompany.json?method=carList";
+    var strModelGroupUrl = "/common/combo/modelgroupfordb.json?method=carList";
+    var strModelUrl = "/common/combo/cardbmodel.json?method=carList";
+    var strYrJatoUrl = "/common/combo/jatoYr.json?method=carList";
+
+    var companyid = "mnfccd";
+    var modelgroupid = "mdlgroupcd";
+    var modelid = "mdlcd";
+    var yearid = "caryear";
+
+    function initGnb() {
+        var paramCompany = $("paramMnfccd").value;
+        var paramModelGroup = $("paramMdlgroupcd").value;
+        var paramModel = $("paramMdlcd").value;
+        var paramYr = $("paramYear").value;
+
+        // 제조사
+        if (paramModel != "") {
+            $("mdlcd").show();
+        }
+
+        //console.log("companyid :: " + companyid)
+        //console.log("paramCompany :: " + paramCompany)
+		if($('foldYn').value != 0){
+            foldingYN('f_fold');
+		}
+
+        setCompany(strCompanyUrl, companyid, "제조사", paramCompany);
+
+        // 제조사 값이 있으면 모델 검색
+        if (paramCompany >= '010') {
+            if (paramCompany != "") {
+                if (paramModel == "") {
+                    paramModel = paramModelGroup;
+                }
+                setModel(strModelUrl, modelid, paramCompany, "모델", paramModel)
+                $("mdlgroupcd").hide();
+
+            }
+        } else {
+            $("mdlgroupcd").show();
+            if (paramCompany != "") {
+                setModelGroup(strModelGroupUrl, modelgroupid, paramCompany, "모델", paramModelGroup);
+                if (paramModelGroup != "") {
+                    setModel_New(strModelUrl, modelid, paramCompany, paramModelGroup, "세부모델", paramModel);
+                }
+            }
+
+        }
+        if (paramCompany != "" && paramModel != "") {
+            setCarYear(strYrJatoUrl, yearid, paramCompany, paramModel, "형식연도", paramYr);
+        }
+
+        waitTime = 1;
+    }
+
+    function changeModel_jato(mnfccd, mdlgroupcd) {
+        setModel_New(strModelUrl, modelid, mnfccd, mdlgroupcd, "세부모델", "");
+        //모델그룹선택시 기본 세부모델선택
+        if ($("mdlcd") != null) {
+            $("mdlcd").selectedIndex = 1;
+            var mdlcd = $("mdlcd").options[$("mdlcd").selectedIndex].value;
+            changeYearJato(mnfccd, mdlcd);
+        }
+    }
+
+    function changeYearJato(mnfccd,mdlcd) {
+        setCarYear(strYrJatoUrl, yearid, mnfccd, mdlcd, "형식연도", "");
+        $(yearid).options[1].selected = true;
+    }
+
+
+
+    //덧글 리스트
+    function viewForm(index) {
+
+        var object = $("default" + index);
+        var objectSum = $("defaultSum" + index);
+        var selectSum = $("choiceSum" + index);
+        var object1 = $("choice" + index);
+        if (object != null) {
+            if (object.style.display == 'none') {
+                objectSum.hide();
+                selectSum.hide();
+                object.style.display = "block";
+                object1.style.display = "block";
+
+            } else {
+                object.hide();
+                object1.hide();
+                objectSum.style.display = "block";
+                selectSum.style.display = "block";
+            }
+        }
+    }
+
+    function viewAll() {
+        for (var i = 1; i <=2; i++) {
+            $("default" + i).style.display = "block";
+            $("defaultSum" + i).style.display = "none";
+            $("choice" + i).style.display = "block";
+            $("choiceSum" + i).style.display = "none";
+        }
+    }
+
+    function closeAll() {
+        for (var i = 1; i <=2; i++) {
+            $("default" + i).style.display = "none";
+            $("defaultSum" + i).style.display = "block";
+            $("choice" + i).style.display = "none";
+            $("choiceSum" + i).style.display = "block";
+        }
+    }
+
+    function firstLayerOpen() {
+        //viewForm(1);
+    }
+
+    function foldingYN(param) {
+        if (param == "f_fold") {
+            document.getElementById("folding").innerHTML ="<a href=\"javascript:foldingYN('f_unfold')\" class='folding f_unfold'>전체등급 펼쳐보기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "none";
+            document.getElementById("f_fold").style.display = "";
+        } else {
+            document.getElementById("folding").innerHTML = "<a href=\"javascript:foldingYN('f_fold')\" class='folding f_fold'>접기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "";
+            document.getElementById("f_fold").style.display = "none";
+        }
+    }
+
+    function onSubmit() {
+        jQuery("#searchForm").submit();
+
+    }
+    window.onload = initGnb;
+
+</script>
+</html>
+

@@ -1,0 +1,1220 @@
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>차량DB - 차량정보 - 신차가격표</title>
+    <link type="text/css" rel="stylesheet" href="/css/common.css?v=1793835891525"/>
+    <link type="text/css" rel="stylesheet" href="/css/db.css?v=1793835891525"/>
+
+    <script type="text/javascript" src="/js/encarapp/lib/jquery/jquery-1.11.3.min.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/common/ui.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/prototype.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/util.js?v=1793835894199"></script>
+
+    <script type="text/javascript" src="/js/common/db_common.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/commonCombo.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/carSearchCombo.js?v=1793835894199"></script>
+	<script>
+		window.enlogInitJson = {
+			"dataTalkView": {
+				"screenName": "신차가격표"
+			}
+		}
+
+	</script>
+
+
+</head>
+
+
+
+
+
+
+
+    <!-- 등급 체크박스  -->
+    <div style="display:none">
+        
+    </div>
+
+    <!-- 세부등급 체크박스 -->
+    <div style="display:none">
+        
+    </div>
+
+
+
+<body class="db db_newdetailview db_basicTemplate">
+
+
+
+
+	
+	
+	
+	
+
+
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-W9QQ2T"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W9QQ2T');</script>
+<!-- End Google Tag Manager -->
+
+<!-- container begin -->
+<div class="container" id="containerDIV">
+<input type="hidden" id = "foldYn" name="searchtype" value="8"/>
+<form id ="searchForm" name="searchForm">
+
+    <input type="hidden" id = "method" name="method" value="newpricePopV2"/>
+    <input type="hidden" id = "dimensiontype" name="dimensiontype" value="null"/>
+    <input type="hidden" id = "paramMnfccd" name="paramMnfccd" value="005"/>
+    <input type="hidden" id = "paramMdlgroupcd" name="paramMdlgroupcd" value="004"/>
+    <input type="hidden" id = "paramMdlcd" name="paramMdlcd" value="056"/>
+    <input type="hidden" id = "paramYear" name="paramYear" value="2014"/>
+    <input type="hidden" id = "model" name="model" value="">
+    <input type="hidden" id = "paramCaryear" name="paramCaryear" value="2014"/>
+    <input type="hidden" id = "clsheadcd" name="clsheadcd" class="checkbox" value="null"/>
+    <input type="hidden" id = "paramGradeHead" name="paramGradeHead" value="null"/>
+	<input type="hidden" id = "searchtype" name="searchtype" value="check"/>
+	<input type="hidden" id = "pageAccessToken" name="pageAccessToken" value="AgV4YXwyHeDfSWtJwt8obk5VI0Ex0j2jnoXp+iVVTZkHDfEAcQACAAdFbmNhckNrAAdFbmNhckN2ABVhd3MtY3J5cHRvLXB1YmxpYy1rZXkAREF3T0RsNU9WdjZjd3J4NmpYa2tpUjhwQkY1Vzlkd3pNOUoralJ1WGIxZnlYdFN3bmpsZjZxNlhHS3ZzQnBJTkhTQT09AAEAB2F3cy1rbXMAUGFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjI3MjM2MjQ4NzY1MzprZXkvbXJrLWRmZWEyNmY3NTVhMzQ3MjliNjkwMjRkZWZmM2M1MWFjALgBAgEAeAuqQuSJvQ+Ra4FSj55FZzS0sk+00amsb3yoAFiEYn4PAXC4ytYPwa+gIc2G23M4DqoAAAB+MHwGCSqGSIb3DQEHBqBvMG0CAQAwaAYJKoZIhvcNAQcBMB4GCWCGSAFlAwQBLjARBAzk6d5KeUa+UUAHnj4CARCAOwbXWNiB53fMfbZ/yRuo4BBD+PFOm3xfNuKUsafmhCK4i/hqVtCjZwltzW5zdN1Pszlfos917OOBeKvAAgAAEABekIZvLmH4pq3tmVbg/pxmTLpnVhRbqHTf097u/wz63ChaUXTjxUU4lS0Q76VjaTb/////AAAAAQAAAAAAAAAAAAAAAQAAAKPq4MKrvYDNHK/G+F/em3xXuUZ/kxROGEcKfg3tmwEoaq4XXSuguHKyGefcfGtEKTRkW94gKAN62Mqn4Yzj2fWHX+XzQRC76hoq4H4rpwuCVpwV/PiTnCutgbpmwWt21kl9ab6HPtqu8qg1l8I1iWFcmIjlbdt1i1uSWgGEWsODu8aslfGp+kv//DBdop9oCn1iTT1pvSMqbkdKdPfCu3Whs7PT8aF5AUWr7Aighu2ABn9vpwBnMGUCMDzB/0gJYkNb0ynYMVy8L/ftOgDxW6b1U1LqTSRf98VmRCkmncVUp9izTG7qyhT/GwIxAK9InJ04kl6ob+XiZ5DSDUmaYJQnxtsVqjMC23GPhvPw0WPMObB/D13bpR6Sd7YGZA=="/>
+    <div class="header">
+        <h1 class="blind">SK엔카</h1>
+        <h2 class="tit_carprice" id="main_title">신차가격표</h2>
+        <p class="quickSearch">
+
+
+
+            <select title="제조사" class="opt_select" id="mnfccd" name="mnfccd" onChange="javascript:changeModelGroup(this.value);">
+                <option value="">제조사</option>
+            </select>
+
+            <select class="opt_select" title="모델" id="mdlgroupcd" name="mdlgroupcd" onChange="javascript:changeModel_jato($('mnfccd').value, this.value);">
+                <option>모델</option>
+            </select>
+
+            <select class="opt_select" title="세부모델" id="mdlcd" name="mdlcd" onChange="javascript:changeYearJato($('mnfccd').value, $('mdlcd').value);">
+                <option>세부모델</option>
+            </select>
+
+            <select class="opt_select" title="연식" id="caryear" name="caryear">
+                <option>연식</option>
+            </select>
+
+            <button type="button" class="btn_search" onclick="javascript:onSubmit();"/>검색</button>
+
+
+
+        </p>
+    </div>
+    <!-- body begin -->
+    <div class="body" id="bodydiv">
+		
+			
+				<table class="layout">
+					<col class="contents"/>
+					<tr>
+						<td class="contentsMenu">
+							<!-- contentsMenu begin -->
+							<div class="contentsMenu">
+								<h3 class="title">르노코리아(삼성) 뉴QM5 2014년형</h3>
+							</div>
+							<!-- contentsMenu end -->
+						</td>
+					</tr>
+
+					<tr>
+						<td class="contentsMain">
+							<!-- contents begin -->
+							<div class="contents">
+
+								<div class="carCompare">
+									<div class="dbHead">
+										
+											<div id="folding"><a href="javascript:foldingYN('f_fold')"
+																 class="folding f_fold">전체등급 펼쳐보기<em class="db_ir"></em></a></div>
+
+											<!-- 2013/04/03 [서] 매물탭 개선 : 기능 버튼 추가 --><!--<a href="#" class="folding f_unfold">펼치기</a>-->
+										
+									</div>
+									
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+									<div id="f_unfold">
+										
+											<!-- case1 : 세부등급과 미션분리 -->
+											<table class="carCompare sellcase1">
+												<colgroup>
+													<col class="grade">
+													<col class="mission">
+													<col class="price">
+												    <col class="uprice"><!-- [시세개편] 중고차시세 추가 uprice -->
+													<col class="item">
+													<col class="option">
+												</colgroup>
+												<thead class="compare">
+												<tr>
+													<th class="grade" colspan="2"><b>구분</b></th>
+													<th class="price"><b>판매가격</b></th>
+													<th class="uprice"><b>중고차시세</b></th><!-- [시세개편] 중고차시세 추가 -->
+													<th class="item"><b>기본사양 품목</b></th>
+													<th class="option end"><b>선택사양 품목</b></th>
+												</tr>
+												</thead>
+												<tbody class="new">
+												
+													
+														
+													
+													
+														
+															
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>디젤 2WD SE</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,650</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	▶<b> 엔진/성능 </b> : 2.0 dCi 엔진(VGT디젤/1,600bar 커먼레일/피에조 인젝터/DPF &amp; 유로5), 수동겸용 6단 자동변속기, 타이밍체인, 엔진 이모빌라이저, 엔진룸 후드 인슐레이션 패드, 가스식 쇽업소버
+<br><br>▶<b> 안전 사양 </b> : EBD-ABS(BAS내장), 차체자세 제어장치(ESC), 급제동경보시스템(ESS), 운전석/동승석 에어백, 전/후륜 벤틸레이티드 디스크브레이크, 매뉴얼 파킹브레이크, 앞좌석 3점식 시트벨트(프리텐셔너 &amp; 로드리미터/높이조절장치 포함), 뒷좌석 3점식 시트벨트, ISOFIX 유아용시트 고정장치, 중앙집중식 오토도어록, 차속감응 오토도어록, 충돌감지 도어록 해제장치
+<br><br>▶<b> 외관 사양 </b> : 신가교 내스크래치 클리어도장, 루프 스포일러, 클램셸 테일게이트(LED 보조제동등 포함), 크롬 &amp; 글로시 블랙 라디에이터 그릴, 17″알로이 휠, 225/60 R17 타이어, 바디컬러 프런트 &amp; 리어범퍼, 바디컬러 사이드가니시 &amp; 사이드실, 실버페인트 아웃사이드 도어핸들, 프로젝션 헤드램프, LED 방향지시등 일체형 아웃사이드 미러(전동접이식/열선내장), 리어 콤비네이션램프, 리어범퍼 리플렉터, 틴티드 글라스, 플랫 블레이드 프런트 와이퍼(차속감응), 리어 와이퍼(후진기어 연동)
+<br><br>▶<b> 내장 사양 </b> : 풀 플랫 2열시트(6:4폴딩/암레스트 &amp; 스키스루/각도조절 포함), 고급 직물시트, 앞좌석 열선시트, 운전석 리프트식 매뉴얼시트, 운전석 요추받침장치, 시트백 포켓, 3스포크 스티어링 휠, 듀얼 혼, 최고급 계기판(화이트조명, 웰컴기능, 조명조절장치), 맵램프, 뒷좌석 퍼스널램프(좌/우), 도어커티시램프(앞), 선바이저(화장거울 &amp; 커버/티켓홀더), 기본형 센터콘솔박스(12V 파워아웃렛/컵홀더/코인홀더/휴대폰홀더), 글로브박스(조명), 도어포켓(앞/뒤), 선글라스 케이스, 어시스트그립, 코트걸이, 시거잭, 카매트, 트렁크 수납함, 트렁크 공구함, 트렁크 조명, 비상삼각대
+<br><br>▶<b> 편의 사양 </b> : 원터치 트리플 턴 시그널, 일반형 스마트카드(무선 도어잠금장치), 엔진 START/STOP 버튼, HMI 시스템, 크루즈 컨트롤 &amp; 스피드 리미터, 전자식 차속 감응 파워스티어링(SSEPS), 운전석 세이프티 파워 윈도우, 헤드램프 에스코트기능, 도어 개별 열림표시(4도어 &amp; 테일게이트), 카드리더, 도난경보장치, 틸트 스티어링, 운전석 오버라이드, 배터리 세이버, 경사로 밀림 방지장치(HSA), 템포러리 스페어 타이어
+<br><br>▶<b> 오 디 오 </b> : 최고급 오디오(라디오/MP3/CDP/알카미스(Arkamys) 3D 사운드 시스템/블루투스 핸즈프리(오디오 스트리밍 기능)), 6스피커, USB/iPod 연결단자(AUX 포함), 스티어링 휠 오디오 리모콘 스위치, 듀얼안테나(루프&amp;글라스)
+<br><br>▶<b> 공조시스템 </b> : 매뉴얼 에어컨, PTC 히터
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 사이드/커튼 에어백 </b> 400,000
+<br>
+<br><b>▶ White Pearl(백진주색)</b>&nbsp;170,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>디젤 2WD LE</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,885</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	▶<b> SE 기본사양 및 
+<br></b>
+<br>ㆍ<b> 안전 사양 </b> : 전자식 파킹브레이크(E-PKB), 사이드/커튼 에어백
+<br>
+<br>ㆍ<b> 외관 사양 </b> : 실버페인트 루프랙, 실버 스키드(앞)
+<br>
+<br>ㆍ<b> 내장 사양 </b> : 최고급 가죽시트, 가죽커버(스티어링 휠/변속기 노브), 크롬도금 인사이드 도어핸들, 12V 파워아웃렛(트렁크), 이동식 재떨이, 다기능 센터콘솔박스(분리형 바스켓/티슈트레이 포함)
+<br>
+<br>ㆍ<b> 편의 사양 </b> : 후방 경보장치, 운전석 파워시트, 텔레스코픽 스티어링, 오토라이팅 헤드램프, 레인센싱 와이퍼, 인텔리전트 스마트카드 시스템(매직핸들 &amp; 리퀘스트 버튼/키리스 엔진시동)
+<br>
+<br>ㆍ<b> 공조시스템 </b> : 좌/우 독립 풀오토 에어컨
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 파노라마 선루프 </b> 860,000
+<br>
+<br><b>▶ White Pearl(백진주색)</b>&nbsp;170,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>디젤 2WD RE</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,090</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	▶<b> LE 기본사양 및 
+<br></b>
+<br>ㆍ<b> 안전 사양 </b> : 타이어공기압 자동감지 시스템(TPMS)
+<br>
+<br>ㆍ<b> 외관 사양 </b> : 17″럭셔리 알로이 휠(투톤컬러), 바이-제논 헤드램프(코너링램프 포함)
+<br>
+<br>ㆍ<b> 내장 사양 </b> : 메시 우드그레인, 브러시크롬 &amp; 글로시 블랙 데코레이션, 키킹플레이트(PVC필름)
+<br>
+<br>ㆍ<b> 편의 사양 </b> : 전방 경보장치, 동승석 파워시트, 원-액션 더블폴딩 2열시트(암레스트 수납함 &amp; 컵홀더 포함), 전자식 룸
+<br>미러(ECM), 하이패스 시스템(ETCS), 사각지대 정보 시스템(BSW)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 파노라마 선루프 </b> 860,000
+<br><br>▶<b> SMart Connect(T-map 내비게이션 + 프리미엄 오디오) </b> 1,200,000
+<br><br><b>▶ White Pearl(백진주색)</b>&nbsp;170,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>디젤 4WD SE</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>2,840</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	▶ <b>디젤 2.0 2WD SE 기본사양 및</b>
+<br><br>ALL-MODE 4WD(AUTO/2WD/4WD LOCK), 경사로 저속주행장치(HDC)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 사이드/커튼 에어백 </b> 400,000
+<br>
+<br><b>▶ White Pearl(백진주색)</b>&nbsp;170,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>디젤 4WD LE</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,075</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	▶ <b>디젤 2.0 2WD LE 기본사양 및</b>
+<br><br>ALL-MODE 4WD(AUTO/2WD/4WD LOCK), 경사로 저속주행장치(HDC)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 파노라마 선루프 </b> 860,000
+<br><br><b>▶ White Pearl(백진주색)</b>&nbsp;170,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>디젤 4WD RE</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>3,280</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	▶ <b>디젤 2.0 2WD RE 기본사양 및</b>
+<br><br>ALL-MODE 4WD(AUTO/2WD/4WD LOCK), 경사로 저속주행장치(HDC)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 파노라마 선루프 </b> 860,000
+<br><br>▶<b> SMart Connect(T-map 내비게이션 + 프리미엄 오디오) </b> 1,200,000
+<br><br>▶<b> 18″알로이 휠(투톤컬러) + 컨티넨탈 고성능 타이어 </b> 600,000
+<br><br>▶<b>BOSE 사운드시스템 </b> 750,000
+<br>
+<br><b>▶ White Pearl(백진주색)</b>&nbsp;170,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>가솔린 2WD 2.0 SE</p></td>
+														
+														<td class="mission"><p>CVT</p></td>
+														<td class="price">
+															<p>
+																<strong>2,250</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	▶ <b>디젤 2.0 2WD SE 기본사양 및</b>
+<br><br>(*2.0 dCi 엔진, 수동겸용 6단 자동변속기, PTC 히터는 제외), 2.0 CVTC 가솔린엔진, 스로틀밸브 전자제어장치(ETC), 엑스트로닉(Xtronic) 무단 변속기(6단 수동모드 지원)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 사이드/커튼 에어백 </b> 400,000
+<br>
+<br>
+<br><b>▶ White Pearl(백진주색)</b>&nbsp;170,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+													
+														
+													
+													
+														
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>가솔린 2WD 2.0 LE</p></td>
+														
+														<td class="mission"><p>CVT</p></td>
+														<td class="price">
+															<p>
+																<strong>2,485</strong> 만원
+															</p>
+														</td>
+														
+															
+															
+																<td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																	<p>
+																		<strong>미제공</strong>
+																	</p>
+																</td>
+															
+														
+														
+														<td class="item">
+															<div class="item">
+																	▶ <b>디젤 2.0 2WD LE 기본사양 및</b>
+<br><br>(*2.0 dCi 엔진, 수동겸용 6단 자동변속기, PTC 히터는 제외), 2.0 CVTC 가솔린엔진, 스로틀밸브 전자제어장치(ETC), 엑스트로닉(Xtronic) 무단 변속기(6단 수동모드 지원)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 파노라마 선루프 </b> 860,000
+<br>
+<br><b>
+▶ White Pearl(백진주색)</b> 170,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+												
+												</tbody>
+											</table>
+										
+
+
+										<!-- case2 : 세부등급이 있는경우 -->
+										
+									</div>
+									<!-- 신차가격표(폴더형) -->
+									<div id="f_fold" style="display:none;">
+										<div class="newcar_folder">
+											<ul class="nf_list" id="newcarList">
+												
+													<li>
+														<a href="#newcar0">
+                                                            <span class="model">디젤 2WD SE  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,650</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar1">
+                                                            <span class="model">디젤 2WD LE  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,885</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar2">
+                                                            <span class="model">디젤 2WD RE  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,090</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar3">
+                                                            <span class="model">디젤 4WD SE  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>2,840</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar4">
+                                                            <span class="model">디젤 4WD LE  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,075</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar5">
+                                                            <span class="model">디젤 4WD RE  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>3,280</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar6">
+                                                            <span class="model">가솔린 2WD 2.0 SE  CVT</span>
+                                                            <span class="prc">
+                                                                <strong>2,250</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar7">
+                                                            <span class="model">가솔린 2WD 2.0 LE  CVT</span>
+                                                            <span class="prc">
+                                                                <strong>2,485</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+											</ul>
+											<!-- 개별 -->
+											
+												<div id="newcar0" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> 엔진/성능 </b> : 2.0 dCi 엔진(VGT디젤/1,600bar 커먼레일/피에조 인젝터/DPF &amp; 유로5), 수동겸용 6단 자동변속기, 타이밍체인, 엔진 이모빌라이저, 엔진룸 후드 인슐레이션 패드, 가스식 쇽업소버
+<br><br>▶<b> 안전 사양 </b> : EBD-ABS(BAS내장), 차체자세 제어장치(ESC), 급제동경보시스템(ESS), 운전석/동승석 에어백, 전/후륜 벤틸레이티드 디스크브레이크, 매뉴얼 파킹브레이크, 앞좌석 3점식 시트벨트(프리텐셔너 &amp; 로드리미터/높이조절장치 포함), 뒷좌석 3점식 시트벨트, ISOFIX 유아용시트 고정장치, 중앙집중식 오토도어록, 차속감응 오토도어록, 충돌감지 도어록 해제장치
+<br><br>▶<b> 외관 사양 </b> : 신가교 내스크래치 클리어도장, 루프 스포일러, 클램셸 테일게이트(LED 보조제동등 포함), 크롬 &amp; 글로시 블랙 라디에이터 그릴, 17″알로이 휠, 225/60 R17 타이어, 바디컬러 프런트 &amp; 리어범퍼, 바디컬러 사이드가니시 &amp; 사이드실, 실버페인트 아웃사이드 도어핸들, 프로젝션 헤드램프, LED 방향지시등 일체형 아웃사이드 미러(전동접이식/열선내장), 리어 콤비네이션램프, 리어범퍼 리플렉터, 틴티드 글라스, 플랫 블레이드 프런트 와이퍼(차속감응), 리어 와이퍼(후진기어 연동)
+<br><br>▶<b> 내장 사양 </b> : 풀 플랫 2열시트(6:4폴딩/암레스트 &amp; 스키스루/각도조절 포함), 고급 직물시트, 앞좌석 열선시트, 운전석 리프트식 매뉴얼시트, 운전석 요추받침장치, 시트백 포켓, 3스포크 스티어링 휠, 듀얼 혼, 최고급 계기판(화이트조명, 웰컴기능, 조명조절장치), 맵램프, 뒷좌석 퍼스널램프(좌/우), 도어커티시램프(앞), 선바이저(화장거울 &amp; 커버/티켓홀더), 기본형 센터콘솔박스(12V 파워아웃렛/컵홀더/코인홀더/휴대폰홀더), 글로브박스(조명), 도어포켓(앞/뒤), 선글라스 케이스, 어시스트그립, 코트걸이, 시거잭, 카매트, 트렁크 수납함, 트렁크 공구함, 트렁크 조명, 비상삼각대
+<br><br>▶<b> 편의 사양 </b> : 원터치 트리플 턴 시그널, 일반형 스마트카드(무선 도어잠금장치), 엔진 START/STOP 버튼, HMI 시스템, 크루즈 컨트롤 &amp; 스피드 리미터, 전자식 차속 감응 파워스티어링(SSEPS), 운전석 세이프티 파워 윈도우, 헤드램프 에스코트기능, 도어 개별 열림표시(4도어 &amp; 테일게이트), 카드리더, 도난경보장치, 틸트 스티어링, 운전석 오버라이드, 배터리 세이버, 경사로 밀림 방지장치(HSA), 템포러리 스페어 타이어
+<br><br>▶<b> 오 디 오 </b> : 최고급 오디오(라디오/MP3/CDP/알카미스(Arkamys) 3D 사운드 시스템/블루투스 핸즈프리(오디오 스트리밍 기능)), 6스피커, USB/iPod 연결단자(AUX 포함), 스티어링 휠 오디오 리모콘 스위치, 듀얼안테나(루프&amp;글라스)
+<br><br>▶<b> 공조시스템 </b> : 매뉴얼 에어컨, PTC 히터</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 사이드/커튼 에어백 </b> 400,000
+<br>
+<br><b>▶ White Pearl(백진주색)</b>&nbsp;170,000</p>
+												</div>
+											
+												<div id="newcar1" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> SE 기본사양 및 
+<br></b>
+<br>ㆍ<b> 안전 사양 </b> : 전자식 파킹브레이크(E-PKB), 사이드/커튼 에어백
+<br>
+<br>ㆍ<b> 외관 사양 </b> : 실버페인트 루프랙, 실버 스키드(앞)
+<br>
+<br>ㆍ<b> 내장 사양 </b> : 최고급 가죽시트, 가죽커버(스티어링 휠/변속기 노브), 크롬도금 인사이드 도어핸들, 12V 파워아웃렛(트렁크), 이동식 재떨이, 다기능 센터콘솔박스(분리형 바스켓/티슈트레이 포함)
+<br>
+<br>ㆍ<b> 편의 사양 </b> : 후방 경보장치, 운전석 파워시트, 텔레스코픽 스티어링, 오토라이팅 헤드램프, 레인센싱 와이퍼, 인텔리전트 스마트카드 시스템(매직핸들 &amp; 리퀘스트 버튼/키리스 엔진시동)
+<br>
+<br>ㆍ<b> 공조시스템 </b> : 좌/우 독립 풀오토 에어컨</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 파노라마 선루프 </b> 860,000
+<br>
+<br><b>▶ White Pearl(백진주색)</b>&nbsp;170,000</p>
+												</div>
+											
+												<div id="newcar2" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> LE 기본사양 및 
+<br></b>
+<br>ㆍ<b> 안전 사양 </b> : 타이어공기압 자동감지 시스템(TPMS)
+<br>
+<br>ㆍ<b> 외관 사양 </b> : 17″럭셔리 알로이 휠(투톤컬러), 바이-제논 헤드램프(코너링램프 포함)
+<br>
+<br>ㆍ<b> 내장 사양 </b> : 메시 우드그레인, 브러시크롬 &amp; 글로시 블랙 데코레이션, 키킹플레이트(PVC필름)
+<br>
+<br>ㆍ<b> 편의 사양 </b> : 전방 경보장치, 동승석 파워시트, 원-액션 더블폴딩 2열시트(암레스트 수납함 &amp; 컵홀더 포함), 전자식 룸
+<br>미러(ECM), 하이패스 시스템(ETCS), 사각지대 정보 시스템(BSW)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 파노라마 선루프 </b> 860,000
+<br><br>▶<b> SMart Connect(T-map 내비게이션 + 프리미엄 오디오) </b> 1,200,000
+<br><br><b>▶ White Pearl(백진주색)</b>&nbsp;170,000</p>
+												</div>
+											
+												<div id="newcar3" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶ <b>디젤 2.0 2WD SE 기본사양 및</b>
+<br><br>ALL-MODE 4WD(AUTO/2WD/4WD LOCK), 경사로 저속주행장치(HDC)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 사이드/커튼 에어백 </b> 400,000
+<br>
+<br><b>▶ White Pearl(백진주색)</b>&nbsp;170,000</p>
+												</div>
+											
+												<div id="newcar4" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶ <b>디젤 2.0 2WD LE 기본사양 및</b>
+<br><br>ALL-MODE 4WD(AUTO/2WD/4WD LOCK), 경사로 저속주행장치(HDC)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 파노라마 선루프 </b> 860,000
+<br><br><b>▶ White Pearl(백진주색)</b>&nbsp;170,000</p>
+												</div>
+											
+												<div id="newcar5" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶ <b>디젤 2.0 2WD RE 기본사양 및</b>
+<br><br>ALL-MODE 4WD(AUTO/2WD/4WD LOCK), 경사로 저속주행장치(HDC)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 파노라마 선루프 </b> 860,000
+<br><br>▶<b> SMart Connect(T-map 내비게이션 + 프리미엄 오디오) </b> 1,200,000
+<br><br>▶<b> 18″알로이 휠(투톤컬러) + 컨티넨탈 고성능 타이어 </b> 600,000
+<br><br>▶<b>BOSE 사운드시스템 </b> 750,000
+<br>
+<br><b>▶ White Pearl(백진주색)</b>&nbsp;170,000</p>
+												</div>
+											
+												<div id="newcar6" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶ <b>디젤 2.0 2WD SE 기본사양 및</b>
+<br><br>(*2.0 dCi 엔진, 수동겸용 6단 자동변속기, PTC 히터는 제외), 2.0 CVTC 가솔린엔진, 스로틀밸브 전자제어장치(ETC), 엑스트로닉(Xtronic) 무단 변속기(6단 수동모드 지원)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 사이드/커튼 에어백 </b> 400,000
+<br>
+<br>
+<br><b>▶ White Pearl(백진주색)</b>&nbsp;170,000</p>
+												</div>
+											
+												<div id="newcar7" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶ <b>디젤 2.0 2WD LE 기본사양 및</b>
+<br><br>(*2.0 dCi 엔진, 수동겸용 6단 자동변속기, PTC 히터는 제외), 2.0 CVTC 가솔린엔진, 스로틀밸브 전자제어장치(ETC), 엑스트로닉(Xtronic) 무단 변속기(6단 수동모드 지원)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 파노라마 선루프 </b> 860,000
+<br>
+<br><b>
+▶ White Pearl(백진주색)</b> 170,000</p>
+												</div>
+											
+										</div>
+										<script type="text/javascript">
+											newcarFolder(0);//초기값
+											function newcarFolder(target) {
+												var conElId = "newcar"//아이디 설정
+												var conElMenu = document.getElementById("newcarList");
+												var conElMenuLink = conElMenu.getElementsByTagName("a");
+												if (target != null) {
+													conElMenuLink[target].parentNode.className = "on";
+													document.getElementById(
+														conElId + target).style.display = "";
+												}
+												for (i = 0; i <= (conElMenuLink.length - 1); i++) {
+													conElMenuLink[i].onclick = function () {
+														for (x = 0; x <= (conElMenuLink.length - 1); x++) {
+															conElMenuLink[x].parentNode.className = "";
+															document.getElementById(
+																conElId + x).style.display = "none";
+														}
+														this.parentNode.className = "on";
+														document.getElementById(this.getAttribute('href')
+																					.split(
+																						'#')[1]).style.display =
+															"";
+														return false;
+													}
+												}
+											}
+										</script>
+									</div>
+									
+										<ul class="more">
+												
+<b>※ 2.0디젤, 2.0가솔린 공통사항</b><br><b>▶ White Pearl(백진주색) 선택시 추가비용 \170,000&nbsp; &nbsp;</b><br>.
+<br><b>▶BOSE 사운드시스템 -</b> (BOSE 엠블럼/ 8스피커 - 센터스피커/ 트위터/ 도어스피커(앞/뒤)/ 서브우퍼 &amp; 디지털 외장앰프)
+<br><b>▶ SMart Connect T- map 내비게이션 - </b>고해상도 7″터치 스크린, 16GB 내장형 SD 메모리 카드, SK T- map, SK 멜론(Melon), SK P2C(Phone to Car), SK 디지털 허브 맵 업데이트, 최첨단 음성인식 기능, 폰북 다운로드 기능, 지상파 DMB &amp; 동영상 재생 기능, 후방 모니터링 시스템, 조이스틱 컨트롤러
+<br><br><br>
+										</ul>
+									
+									<p class="desc_more">위 신차가격표는 단순 참고자료이며, 정확한 내용은 각 제조사에서 제공하는 자료를 통해확인하실 수 있습니다.</p><!-- 2016/10/12 [장] 등급 등록/수정 개선 : 추가 디자인 변경 -->
+									<p class="toTop"><a href="#main_title" class="sp toTop db_ir" title="페이지 위로"><u>페이지 위로</u></a></p><!-- [시세개편] class db_ir 추가 -->
+								</div>
+
+
+							</div>
+							<!-- body end -->
+						</td>
+					</tr>
+				</table>
+
+
+			
+			
+		
+    </div>
+
+    <!-- container end -->
+</form>
+</div>
+
+</body>
+<script language="javascript">
+
+
+    var strCompanyUrl = "/common/combo/cardbcompany.json?method=carList";
+    var strModelGroupUrl = "/common/combo/modelgroupfordb.json?method=carList";
+    var strModelUrl = "/common/combo/cardbmodel.json?method=carList";
+    var strYrJatoUrl = "/common/combo/jatoYr.json?method=carList";
+
+    var companyid = "mnfccd";
+    var modelgroupid = "mdlgroupcd";
+    var modelid = "mdlcd";
+    var yearid = "caryear";
+
+    function initGnb() {
+        var paramCompany = $("paramMnfccd").value;
+        var paramModelGroup = $("paramMdlgroupcd").value;
+        var paramModel = $("paramMdlcd").value;
+        var paramYr = $("paramYear").value;
+
+        // 제조사
+        if (paramModel != "") {
+            $("mdlcd").show();
+        }
+
+        //console.log("companyid :: " + companyid)
+        //console.log("paramCompany :: " + paramCompany)
+		if($('foldYn').value != 0){
+            foldingYN('f_fold');
+		}
+
+        setCompany(strCompanyUrl, companyid, "제조사", paramCompany);
+
+        // 제조사 값이 있으면 모델 검색
+        if (paramCompany >= '010') {
+            if (paramCompany != "") {
+                if (paramModel == "") {
+                    paramModel = paramModelGroup;
+                }
+                setModel(strModelUrl, modelid, paramCompany, "모델", paramModel)
+                $("mdlgroupcd").hide();
+
+            }
+        } else {
+            $("mdlgroupcd").show();
+            if (paramCompany != "") {
+                setModelGroup(strModelGroupUrl, modelgroupid, paramCompany, "모델", paramModelGroup);
+                if (paramModelGroup != "") {
+                    setModel_New(strModelUrl, modelid, paramCompany, paramModelGroup, "세부모델", paramModel);
+                }
+            }
+
+        }
+        if (paramCompany != "" && paramModel != "") {
+            setCarYear(strYrJatoUrl, yearid, paramCompany, paramModel, "형식연도", paramYr);
+        }
+
+        waitTime = 1;
+    }
+
+    function changeModel_jato(mnfccd, mdlgroupcd) {
+        setModel_New(strModelUrl, modelid, mnfccd, mdlgroupcd, "세부모델", "");
+        //모델그룹선택시 기본 세부모델선택
+        if ($("mdlcd") != null) {
+            $("mdlcd").selectedIndex = 1;
+            var mdlcd = $("mdlcd").options[$("mdlcd").selectedIndex].value;
+            changeYearJato(mnfccd, mdlcd);
+        }
+    }
+
+    function changeYearJato(mnfccd,mdlcd) {
+        setCarYear(strYrJatoUrl, yearid, mnfccd, mdlcd, "형식연도", "");
+        $(yearid).options[1].selected = true;
+    }
+
+
+
+    //덧글 리스트
+    function viewForm(index) {
+
+        var object = $("default" + index);
+        var objectSum = $("defaultSum" + index);
+        var selectSum = $("choiceSum" + index);
+        var object1 = $("choice" + index);
+        if (object != null) {
+            if (object.style.display == 'none') {
+                objectSum.hide();
+                selectSum.hide();
+                object.style.display = "block";
+                object1.style.display = "block";
+
+            } else {
+                object.hide();
+                object1.hide();
+                objectSum.style.display = "block";
+                selectSum.style.display = "block";
+            }
+        }
+    }
+
+    function viewAll() {
+        for (var i = 1; i <=8; i++) {
+            $("default" + i).style.display = "block";
+            $("defaultSum" + i).style.display = "none";
+            $("choice" + i).style.display = "block";
+            $("choiceSum" + i).style.display = "none";
+        }
+    }
+
+    function closeAll() {
+        for (var i = 1; i <=8; i++) {
+            $("default" + i).style.display = "none";
+            $("defaultSum" + i).style.display = "block";
+            $("choice" + i).style.display = "none";
+            $("choiceSum" + i).style.display = "block";
+        }
+    }
+
+    function firstLayerOpen() {
+        //viewForm(1);
+    }
+
+    function foldingYN(param) {
+        if (param == "f_fold") {
+            document.getElementById("folding").innerHTML ="<a href=\"javascript:foldingYN('f_unfold')\" class='folding f_unfold'>전체등급 펼쳐보기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "none";
+            document.getElementById("f_fold").style.display = "";
+        } else {
+            document.getElementById("folding").innerHTML = "<a href=\"javascript:foldingYN('f_fold')\" class='folding f_fold'>접기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "";
+            document.getElementById("f_fold").style.display = "none";
+        }
+    }
+
+    function onSubmit() {
+        jQuery("#searchForm").submit();
+
+    }
+    window.onload = initGnb;
+
+</script>
+</html>
+

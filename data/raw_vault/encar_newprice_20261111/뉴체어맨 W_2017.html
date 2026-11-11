@@ -1,0 +1,2668 @@
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>차량DB - 차량정보 - 신차가격표</title>
+    <link type="text/css" rel="stylesheet" href="/css/common.css?v=1793835891525"/>
+    <link type="text/css" rel="stylesheet" href="/css/db.css?v=1793835891525"/>
+
+    <script type="text/javascript" src="/js/encarapp/lib/jquery/jquery-1.11.3.min.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/common/ui.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/prototype.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/util.js?v=1793835894199"></script>
+
+    <script type="text/javascript" src="/js/common/db_common.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/commonCombo.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/carSearchCombo.js?v=1793835894199"></script>
+	<script>
+		window.enlogInitJson = {
+			"dataTalkView": {
+				"screenName": "신차가격표"
+			}
+		}
+
+	</script>
+
+
+</head>
+
+
+
+
+
+
+
+    <!-- 등급 체크박스  -->
+    <div style="display:none">
+        
+    </div>
+
+    <!-- 세부등급 체크박스 -->
+    <div style="display:none">
+        
+    </div>
+
+
+
+<body class="db db_newdetailview db_basicTemplate">
+
+
+
+
+	
+	
+	
+	
+
+
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-W9QQ2T"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W9QQ2T');</script>
+<!-- End Google Tag Manager -->
+
+<!-- container begin -->
+<div class="container" id="containerDIV">
+<input type="hidden" id = "foldYn" name="searchtype" value="14"/>
+<form id ="searchForm" name="searchForm">
+
+    <input type="hidden" id = "method" name="method" value="newpricePopV2"/>
+    <input type="hidden" id = "dimensiontype" name="dimensiontype" value="null"/>
+    <input type="hidden" id = "paramMnfccd" name="paramMnfccd" value="004"/>
+    <input type="hidden" id = "paramMdlgroupcd" name="paramMdlgroupcd" value="008"/>
+    <input type="hidden" id = "paramMdlcd" name="paramMdlcd" value="100"/>
+    <input type="hidden" id = "paramYear" name="paramYear" value="2017"/>
+    <input type="hidden" id = "model" name="model" value="">
+    <input type="hidden" id = "paramCaryear" name="paramCaryear" value="2017"/>
+    <input type="hidden" id = "clsheadcd" name="clsheadcd" class="checkbox" value="null"/>
+    <input type="hidden" id = "paramGradeHead" name="paramGradeHead" value="null"/>
+	<input type="hidden" id = "searchtype" name="searchtype" value="check"/>
+	<input type="hidden" id = "pageAccessToken" name="pageAccessToken" value="AgV4feem9QjqmEq4ioKJEHqXi4KGwFMy5glbuQq1B80A5hIAcQACAAdFbmNhckNrAAdFbmNhckN2ABVhd3MtY3J5cHRvLXB1YmxpYy1rZXkAREFtd25BNGhNZXFyVDFFTTdYVTZ3NnE0blI3RnVTdVFkVmJ5OGY0YmkvYUxXNnF0Ky83eTdheVh4MHBVcWhmb2RRQT09AAEAB2F3cy1rbXMAUGFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjI3MjM2MjQ4NzY1MzprZXkvbXJrLWRmZWEyNmY3NTVhMzQ3MjliNjkwMjRkZWZmM2M1MWFjALgBAgEAeAuqQuSJvQ+Ra4FSj55FZzS0sk+00amsb3yoAFiEYn4PAU13HU8WvCp60G5McrhHU7kAAAB+MHwGCSqGSIb3DQEHBqBvMG0CAQAwaAYJKoZIhvcNAQcBMB4GCWCGSAFlAwQBLjARBAwHY+uOiz4aKrp5odECARCAO+DqqjrhgO5C0VdZoNctrirTtNDeP9THYD0objLig46nJa+FDIOJEHAqIB87EfRcnUWHrH9aRzRZRsuLAgAAEADUg5qZpb1ram/cOIj5XYl+VK+a9FkM+kG+CsdkS+BIzOdKeCe8mrw54BNUH73ogkD/////AAAAAQAAAAAAAAAAAAAAAQAAAKM6H+G3UBKKQLvLLEl/2P3aP/pB0wNfa0SJOMBXNyOYYuqAAL1oI6uSUAMpfORvzLFE1Oc3rdkpHNWj7/zeYszm4mqL83mkwaYrdFEDl0cxTcyucCdI+UREMwMQWuu2Cn101ATtohQRfEeLVHuo7MVIB5mzTKc4oHnn+G06hw/ADDPTEqaX77vkFLrgKnf5qbkWuNmT4BqjtnCfU6jJKNUBKPxDZbuD/YViJLqCNJC4iMcW3QBnMGUCMQDCYbCV1RnjIZTAQPABXBjEKUae9cQI1ML6DTA88Z7+cdCf6+EOVReNop+5oAJxgU8CMBPCSzslQ6g7nJhdSswQnyTkVg4s2Qrd4nAtTIhIe9bh4fPAZR8o/dnwRKIqXoOiBw=="/>
+    <div class="header">
+        <h1 class="blind">SK엔카</h1>
+        <h2 class="tit_carprice" id="main_title">신차가격표</h2>
+        <p class="quickSearch">
+
+
+
+            <select title="제조사" class="opt_select" id="mnfccd" name="mnfccd" onChange="javascript:changeModelGroup(this.value);">
+                <option value="">제조사</option>
+            </select>
+
+            <select class="opt_select" title="모델" id="mdlgroupcd" name="mdlgroupcd" onChange="javascript:changeModel_jato($('mnfccd').value, this.value);">
+                <option>모델</option>
+            </select>
+
+            <select class="opt_select" title="세부모델" id="mdlcd" name="mdlcd" onChange="javascript:changeYearJato($('mnfccd').value, $('mdlcd').value);">
+                <option>세부모델</option>
+            </select>
+
+            <select class="opt_select" title="연식" id="caryear" name="caryear">
+                <option>연식</option>
+            </select>
+
+            <button type="button" class="btn_search" onclick="javascript:onSubmit();"/>검색</button>
+
+
+
+        </p>
+    </div>
+    <!-- body begin -->
+    <div class="body" id="bodydiv">
+		
+			
+				<table class="layout">
+					<col class="contents"/>
+					<tr>
+						<td class="contentsMenu">
+							<!-- contentsMenu begin -->
+							<div class="contentsMenu">
+								<h3 class="title">KG모빌리티(쌍용) 뉴체어맨 W 2017년형</h3>
+							</div>
+							<!-- contentsMenu end -->
+						</td>
+					</tr>
+
+					<tr>
+						<td class="contentsMain">
+							<!-- contents begin -->
+							<div class="contents">
+
+								<div class="carCompare">
+									<div class="dbHead">
+										
+											<div id="folding"><a href="javascript:foldingYN('f_fold')"
+																 class="folding f_fold">전체등급 펼쳐보기<em class="db_ir"></em></a></div>
+
+											<!-- 2013/04/03 [서] 매물탭 개선 : 기능 버튼 추가 --><!--<a href="#" class="folding f_unfold">펼치기</a>-->
+										
+									</div>
+									
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+									
+									<div id="f_unfold">
+										
+
+
+										<!-- case2 : 세부등급이 있는경우 -->
+										
+											<table class="carCompare sellcase2">
+												<colgroup>
+													<col class="grade">
+													<col class="detailgrd">
+													<col class="mission">
+													<col class="price">
+													<col class="uprice">
+													<col class="item">
+													<col class="option">
+												</colgroup>
+												<thead class="compare">
+												<tr>
+													<th class="grade bgn" colspan="3"><b>구분</b></th>
+													<th class="price"><b>판매가격</b></th>
+													<th class="uprice"><b>중고차시세</b></th><!-- [시세개편] 중고차시세 추가 -->
+													<th class="item"><b>기본사양 품목</b></th>
+													<th class="option end"><b>선택사양 품목</b></th>
+												</tr>
+												</thead>
+												<tbody class="new">
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="2">
+																<p>CW600</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>럭셔리</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>5,634</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> 엔진/성능 </b> : IL6 3,200 엔진, E-TRONIC 벤츠 7단 자동변속기, 엔진커버, 버튼시동장치, 이모빌라이저, 전후륜 멀티링크(독립현가)서스펜션, 듀얼머플러
+<br>
+<br>▶<b> 안전 사양 </b> : 세이프티 전방 카메라, 유아용 시트 고정장치(ISO FIX),
+ESS(급제동 경보시스템), TPMS(타이어공기압 자동감지 시스템), ESP &amp; BAS &amp; HSA, 세이프티 후방카메라, 전후방장애물감지시스템, 스마트 에어백(운전석/동반석), 무릎보호 에어백(운전석/동반석), 앞좌석 사이드 에어백(운전석/동반석),
+커튼에어백(좌/우), 전자식 액티브 헤드레스트(앞좌석), 풀사이즈 스페어타이어, 2열 센터 3점식 시트벨트
+<br>
+<br>▶<b> 외관 사양 </b> : 카이저엠블럼(트렁크, 휠캡), 신규디자인 도어스커프,
+이중접합 차음유리(프런트도어 &amp; 리어도어), 19인치 하이퍼 실버 휠, P245/45R19W타이어, 프로젝션 헤드램프, LED 리어콤비네이션 램프, LED 아웃사이드 미러 턴시그널 램프, 퍼들램프, LED 후방보조제동등, 세로형 라디에이터 그릴
+<br>
+<br>▶<b> 내장 사양 </b> : 퀼팅가죽시트(1열/2열 시트, 도어트림), 뉴 글로시 우드그레인,
+앞좌석 3단 통풍시트, 열선 스티어링휠, 동반석 폴딩 시트,
+DOT Matrix 디스플레이, 운전석/동반석 파워시트, 트렁크 보조 손잡이, 앞좌석 &amp; 뒷좌석 3단 열선시트, LED 블랙페이스 계기판, 계기판 조명 조절장치, ECM 룸미러,
+우드그레인 스티어링 휠(전동틸트 &amp; 텔레스코픽 기능포함), 램프 &amp; 거울 내장 선바이저, 실내독서등, 뒷좌석 화장거울, 도어커티시 램프, 램프내장형 도어스커프,
+운전석 &amp; 동반석 풋램프, 이동식 재떨이, SUS도금 인사이드 도어핸들, 가죽 도어트림, 가죽 기어노브, 우산 수납 트렁크 홀더
+<br>
+<br>▶<b> 편의 사양 </b> : EPB(전자동 파킹브레이크), 음성인식 내비게이션,
+DIS(운전자 통합 정보 시스템), 터치센싱 스마트키 시스템,
+ETCS(하이패스 시스템), 크루즈컨트롤 시스템, 가죽키홀더, 전/후석 충전용 USB 단자, 메모리기능 리모콘키(2개), 좌우독립 풀오토 에어컨, AQS, 트립컴퓨터, 에어샤워벤트, B필라 에어벤트, 운전자세 메모리시스템(운전석 시트, 스티어링 휠,
+아웃사이드미러, 전동 조절식 페달), 운전석 이지억세스, 속도감응형 파워스티어링, 전동 조절식 페달, 오토라이트컨 트롤 시스템, 와이퍼 결빙방지 장치,
+레인 &amp; 스노우 센싱 에어로 블레이드 와이퍼, 세이프티 파워윈도우(전도어), 소음차단 &amp; 솔라컨트롤 윈드쉴드 글래스, 솔라컨트롤 글래스(전 도어), 블루투스 핸즈프리
+<br>
+<br>▶<b> 오디오 </b> : TPEG(교통정보시스템), 하만카돈 엔터테인먼트 시스템(8인치 VGA급 와이드 터치스크린, 지상파 DMB, USB(i-pod)단자, 7.1채널 17개 하만카돈 스피커),
+스티어링 휠 오디오 리모콘, 통합형 안테나
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 세이프티 선루프 </b> 790,000<br></li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>프레스티지</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>6,354</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> CW600 Luxury 기본품목 외 </b> : 
+<br>
+<br>·<b> 엔진/성능 </b> : IECS(무단 전자제어 서스펜션), EAS(전자제어 에어서스펜션)
+<br>
+<br>·<b> 안전 사양 </b> : 뒷좌석 사이드 에어백(좌/우)
+<br>
+<br>·<b> 외관 사양 </b> : 발수 유리(프런트도어), 솔라컨트롤 글래스(리어글래스),
+오토레벨링 HID 헤드램프
+<br>
+<br>·<b> 내장 사양 </b> : 운전석 요추 마사지시트, 운전석 파워 럼버서포트, 럭셔리 스웨이드 트림,
+TFT LCD 디스플레이, 동반석 컨트롤 스위치
+<br>
+<br>·<b> 편의 사양 </b> : 전동식 세이프티 파워트렁크, 전동식 파워도어 시스템,
+뒷좌석 파워시트 &amp; 이지억세스
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 세이프티 선루프 </b> 790,000
+<br><br>▶<b> 디럭스 컴포트(뒷좌석 좌우머리받침 헤드레스트, 뒷좌석 3단 통풍시트, VVIP 마사지시트)&nbsp;</b>1,500,000<br></li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="2">
+																<p>CW600 4TRONIC</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>럭셔리</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>6,099</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b>&nbsp;엔진/성능&nbsp;</b>: IL6 3,200 엔진, E-TRONIC 벤츠 7단 자동변속기, 엔진커버, 버튼시동장치, 이모빌라이저, 전후륜 멀티링크(독립현가)서스펜션, 듀얼머플러,&nbsp;4-Tronic Comfort &amp; Safety 시스템(AWD시스템 + IECS + EAS)<br><br>▶<b>&nbsp;안전 사양&nbsp;</b>: 세이프티 전방 카메라, 유아용 시트 고정장치(ISO FIX), ESS(급제동 경보시스템), TPMS(타이어공기압 자동감지 시스템), ESP &amp; BAS &amp; HSA, 세이프티 후방카메라, 전후방장애물감지시스템, 스마트 에어백(운전석/동반석), 무릎보호 에어백(운전석/동반석), 앞좌석 사이드 에어백(운전석/동반석), 커튼에어백(좌/우), 전자식 액티브 헤드레스트(앞좌석), 풀사이즈 스페어타이어, 2열 센터 3점식 시트벨트<br><br>▶<b>&nbsp;외관 사양&nbsp;</b>: 카이저엠블럼(트렁크, 휠캡), 신규디자인 도어스커프, 이중접합 차음유리(프런트도어 &amp; 리어도어), 19인치 하이퍼 실버 휠, P245/45R19W타이어, 프로젝션 헤드램프, LED 리어콤비네이션 램프, LED 아웃사이드 미러 턴시그널 램프, 퍼들램프, LED 후방보조제동등, 세로형 라디에이터 그릴<br><br>▶<b>&nbsp;내장 사양&nbsp;</b>: 퀼팅가죽시트(1열/2열 시트, 도어트림), 뉴 글로시 우드그레인, 앞좌석 3단 통풍시트, 열선 스티어링휠, 동반석 폴딩 시트, DOT Matrix 디스플레이, 운전석/동반석 파워시트, 트렁크 보조 손잡이, 앞좌석 &amp; 뒷좌석 3단 열선시트, LED 블랙페이스 계기판, 계기판 조명 조절장치, ECM 룸미러, 우드그레인 스티어링 휠(전동틸트 &amp; 텔레스코픽 기능포함), 램프 &amp; 거울 내장 선바이저, 실내독서등, 뒷좌석 화장거울, 도어커티시 램프, 램프내장형 도어스커프, 운전석 &amp; 동반석 풋램프, 이동식 재떨이, SUS도금 인사이드 도어핸들, 가죽 도어트림, 가죽 기어노브, 우산 수납 트렁크 홀더<br><br>▶<b>&nbsp;편의 사양&nbsp;</b>: EPB(전자동 파킹브레이크), 음성인식 내비게이션, DIS(운전자 통합 정보 시스템), 터치센싱 스마트키 시스템, ETCS(하이패스 시스템), 크루즈컨트롤 시스템, 가죽키홀더, 전/후석 충전용 USB 단자, 메모리기능 리모콘키(2개), 좌우독립 풀오토 에어컨, AQS, 트립컴퓨터, 에어샤워벤트, B필라 에어벤트, 운전자세 메모리시스템(운전석 시트, 스티어링 휠, 아웃사이드미러, 전동 조절식 페달), 운전석 이지억세스, 속도감응형 파워스티어링, 전동 조절식 페달, 오토라이트컨 트롤 시스템, 와이퍼 결빙방지 장치, 레인 &amp; 스노우 센싱 에어로 블레이드 와이퍼, 세이프티 파워윈도우(전도어), 소음차단 &amp; 솔라컨트롤 윈드쉴드 글래스, 솔라컨트롤 글래스(전 도어), 블루투스 핸즈프리<br><br>▶<b>&nbsp;오디오&nbsp;</b>: TPEG(교통정보시스템), 하만카돈 엔터테인먼트 시스템(8인치 VGA급 와이드 터치스크린, 지상파 DMB, USB(i-pod)단자, 7.1채널 17개 하만카돈 스피커), 스티어링 휠 오디오 리모콘, 통합형 안테나
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b>&nbsp;세이프티 선루프&nbsp;</b>790,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>프레스티지</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>6,628</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b>&nbsp;4WD CW600 Luxury 기본품목 외&nbsp;</b>:<br><br>·<b>&nbsp;안전 사양&nbsp;</b>: 뒷좌석 사이드 에어백(좌/우)<br><br>·<b>&nbsp;외관 사양&nbsp;</b>: 발수 유리(프런트도어), 솔라컨트롤 글래스(리어글래스), 오토레벨링 HID 헤드램프<br><br>·<b>&nbsp;내장 사양&nbsp;</b>: 운전석 요추 마사지시트, 운전석 파워 럼버서포트, 럭셔리 스웨이드 트림, TFT LCD 디스플레이, 동반석 컨트롤 스위치<br><br>·<b>&nbsp;편의 사양&nbsp;</b>: 전동식 세이프티 파워트렁크, 전동식 파워도어 시스템, 뒷좌석 파워시트 &amp; 이지억세스
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b>&nbsp;세이프티 선루프&nbsp;</b>790,000<br><br>▶<b>&nbsp;디럭스 컴포트(뒷좌석 좌우머리받침 헤드레스트, 뒷좌석 3단 통풍시트, VVIP 마사지시트)&nbsp;</b>1,500,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="3">
+																<p>CW700</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>익스큐티브</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>6,236</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> 엔진/성능 </b> : IL6 3,600 엔진, E-TRONIC 벤츠 7단 자동변속기, 엔진커버, 버튼시동장치, 이모빌라이저, 전후륜 멀티링크(독립현가)서스펜션, 듀얼머플러
+<br>
+<br>▶<b> 안전 사양 </b> : 세이프티 전방 카메라, 유아용 시트 고정장치(ISO FIX), ESS(급제동 경보시스템) ,
+TPMS(타이어공기압 자동감지 시스템), ESP &amp; BAS &amp; HSA, 세이프티 후방카메라, 전후방장애물감지시스템, 스마트 에어백(운전석/동반석), 무릎보호 에어백(운전석/동반석), 앞좌석 사이드 에어백(운전석/동반석),
+뒷좌석 사이드 에어백(좌/우), 커튼에어백(좌/우), 전자식 액티브 헤드레스트(앞좌석), 풀사이즈 스페어타이어, 2열 센터 3점식 시트벨트
+<br>
+<br>▶<b> 외관 사양 </b> : 카이저엠블럼(트렁크, 휠캡), 신규디자인 도어스커프, 이중접합 차음유리
+(프런트도어 &amp; 리어도어), 19인치 스퍼터링 휠, P245/45R19W타이어, 프로젝션 헤드램프, LED 리어콤비네이션 램프, LED 아웃사이드 미러 턴시그널 램프, 퍼들램프, LED 후방보조제동등, 세로형 라디에이터 그릴
+<br>
+<br>▶<b> 내장 사양 </b> : 퀼팅 가죽시트(1열/2열 시트, 도어트림), 뉴 글로시 우드그레인,
+열선 스티어링휠, 동반석 폴딩 시트, DOT Matrix 디스플레이, 운전석/동반석 파워시트, 트렁크 보조 손잡이, 앞좌석 &amp; 뒷좌석 3단 열선시트, LED 블랙페이스 계기판, 계기판 조명 조절장치, ECM 룸미러,
+우드그레인 스티어링 휠(전동틸트 &amp; 텔레스코픽 기능포함), 램프&amp;거울 내장 선바이저, 실내독서등, 뒷좌석 화장거울, 도어커티시 램프,램 프내장형 도어스커프,
+운전석 &amp; 동반석 풋램프, 이동식 재떨이, SUS도금 인사이드 도어핸들, 가죽 도어트림, 가죽 기어노브, 우산 수납 트렁크 홀더
+<br>
+<br>▶<b> 편의 사양 </b> : EPB(전자동 파킹브레이크), 음성인식 내비게이션, DIS(운전자 통합 정보 시스템),
+터치센싱 스마트키 시스템, ETCS(하이패스 시스템), 크루즈컨트롤 시스템,
+가죽키홀더, 앞좌석 3단통풍시트, 운전석요추 마사지시트,
+운전석 파워럼버서포트, 뒷좌석 파워시트 &amp; 이지억세스, 전동식 롤러브라인드
+(리어도어 &amp; 리어글래스), 전동식 파워도어 시스템, 전동식 세이프티 파워 트렁크, 전/후석 충전용 USB 단자, 메모리기능 리모콘키(2개), 좌우독립 풀오토 에어컨, AQS, 트립컴퓨터, 에어샤워벤트, B필라 에어벤트, 운전자세 메모리시스템(운전석 시트,
+스티어링휠, 아웃사이드미러, 전동 조절식 페달), 운전석 이지억세스, 속도감응형 파워스티어링, 전동 조절식 페달 ,오토라이트 컨트롤 시스템, 와이퍼 결빙방지 장치,
+레인 &amp; 스노우 센싱 에어로 블레이드 와이퍼, 세이프티 파워윈도우(전도어), 소음차단 &amp; 솔라컨트롤 윈드쉴드 글래스, 솔라컨트롤 글래스(전 도어), 블루투스 핸즈프리
+<br>
+<br>▶<b> 오디오 </b> : TPEG(교통정보시스템), 하만카돈 엔터테인먼트 시스템(8인치 VGA급 와이드 터치스크린, 지상파 DMB, USB(i-pod)단자, 7.1채널 17개 하만카돈 스피커),
+스티어링휠 오디오 리모콘, 통합형 안테나
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 세이프티 선루프 </b> 790,000<br></li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>VIP</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>6,799</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> CW 700 Executive 기본품목 외 </b> : 
+<br>
+<br>·<b> 엔진/성능 </b> : IECS(무단 전자제어 서스펜션), EAS(전자제어 에어서스펜션)
+<br>
+<br>·<b> 외관 사양 </b> : 프라이버시 글라스(리어도어), 발수 유리(프런트도어),
+솔라컨트롤 글래스(리어글래스), 오토레벨링 HID 헤드램프
+<br>
+<br>·<b> 내장 사양 </b> : TFT LCD 디스플레이, 동반석 컨트롤 스위치, 럭셔리 스웨이드 트림
+<br>
+<br>·<b> 편의 사양 </b> : ACC(액티브 크루즈컨트롤 시스템)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 세이프티 선루프 </b> 790,000
+<br><br>▶<b> 디럭스 컴포트(뒷좌석 좌우머리받침 헤드레스트, 뒷좌석 3단 통풍시트, VVIP 마사지시트)&nbsp;</b>1,500,000<br></li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>리무진</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>9,143</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> CW700 VIP 기본품목 외 [단, 4-Tronic(AWD 시스템) 제외] </b> : 
+<br>
+<br>·<b> 외관 사양 </b> : 리무진 바디 &amp; 엠블럼, ECM 아웃사이드미러
+<br>
+<br>·<b> 내장 사양 </b> : W-CLASS시트, B필라 무드램프, 리무진 전용 카매트, 뒷좌석 좌우머리받침
+헤드레스트, 뒷좌석 3단 통풍시트, VVIP 마사지시트
+<br>
+<br>·<b> 편의 사양 </b> : VIP석 2단 전동식 레그레스트, VVIP 엔터테인먼트 시스템
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"></li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="4">
+																<p>CW700 4TRONIC</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>익스큐티브</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>6,701</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b>&nbsp;엔진/성능&nbsp;</b>: IL6 3,600 엔진, E-TRONIC 벤츠 7단 자동변속기, 엔진커버, 버튼시동장치, 이모빌라이저, 전후륜 멀티링크(독립현가)서스펜션, 듀얼머플러, 4-Tronic Comfort &amp; Safety 시스템(AWD시스템 + IECS + EAS)<br><br>▶<b>&nbsp;안전 사양&nbsp;</b>: 세이프티 전방 카메라, 유아용 시트 고정장치(ISO FIX), ESS(급제동 경보시스템) , TPMS(타이어공기압 자동감지 시스템), ESP &amp; BAS &amp; HSA, 세이프티 후방카메라, 전후방장애물감지시스템, 스마트 에어백(운전석/동반석), 무릎보호 에어백(운전석/동반석), 앞좌석 사이드 에어백(운전석/동반석), 뒷좌석 사이드 에어백(좌/우), 커튼에어백(좌/우), 전자식 액티브 헤드레스트(앞좌석), 풀사이즈 스페어타이어, 2열 센터 3점식 시트벨트<br><br>▶<b>&nbsp;외관 사양&nbsp;</b>: 카이저엠블럼(트렁크, 휠캡), 신규디자인 도어스커프, 이중접합 차음유리 (프런트도어 &amp; 리어도어), 19인치 스퍼터링 휠, P245/45R19W타이어, 프로젝션 헤드램프, LED 리어콤비네이션 램프, LED 아웃사이드 미러 턴시그널 램프, 퍼들램프, LED 후방보조제동등, 세로형 라디에이터 그릴<br><br>▶<b>&nbsp;내장 사양&nbsp;</b>: 퀼팅 가죽시트(1열/2열 시트, 도어트림), 뉴 글로시 우드그레인, 열선 스티어링휠, 동반석 폴딩 시트, DOT Matrix 디스플레이, 운전석/동반석 파워시트, 트렁크 보조 손잡이, 앞좌석 &amp; 뒷좌석 3단 열선시트, LED 블랙페이스 계기판, 계기판 조명 조절장치, ECM 룸미러, 우드그레인 스티어링 휠(전동틸트 &amp; 텔레스코픽 기능포함), 램프&amp;거울 내장 선바이저, 실내독서등, 뒷좌석 화장거울, 도어커티시 램프,램 프내장형 도어스커프, 운전석 &amp; 동반석 풋램프, 이동식 재떨이, SUS도금 인사이드 도어핸들, 가죽 도어트림, 가죽 기어노브, 우산 수납 트렁크 홀더<br><br>▶<b>&nbsp;편의 사양&nbsp;</b>: EPB(전자동 파킹브레이크), 음성인식 내비게이션, DIS(운전자 통합 정보 시스템), 터치센싱 스마트키 시스템, ETCS(하이패스 시스템), 크루즈컨트롤 시스템, 가죽키홀더, 앞좌석 3단통풍시트, 운전석요추 마사지시트, 운전석 파워럼버서포트, 뒷좌석 파워시트 &amp; 이지억세스, 전동식 롤러브라인드 (리어도어 &amp; 리어글래스), 전동식 파워도어 시스템, 전동식 세이프티 파워 트렁크, 전/후석 충전용 USB 단자, 메모리기능 리모콘키(2개), 좌우독립 풀오토 에어컨, AQS, 트립컴퓨터, 에어샤워벤트, B필라 에어벤트, 운전자세 메모리시스템(운전석 시트, 스티어링휠, 아웃사이드미러, 전동 조절식 페달), 운전석 이지억세스, 속도감응형 파워스티어링, 전동 조절식 페달 ,오토라이트 컨트롤 시스템, 와이퍼 결빙방지 장치, 레인 &amp; 스노우 센싱 에어로 블레이드 와이퍼, 세이프티 파워윈도우(전도어), 소음차단 &amp; 솔라컨트롤 윈드쉴드 글래스, 솔라컨트롤 글래스(전 도어), 블루투스 핸즈프리<br><br>▶<b>&nbsp;오디오&nbsp;</b>: TPEG(교통정보시스템), 하만카돈 엔터테인먼트 시스템(8인치 VGA급 와이드 터치스크린, 지상파 DMB, USB(i-pod)단자, 7.1채널 17개 하만카돈 스피커), 스티어링휠 오디오 리모콘, 통합형 안테나
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b>&nbsp;세이프티 선루프&nbsp;</b>790,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>VIP</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>7,073</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b>&nbsp;4WD CW 700 Executive 기본품목 외&nbsp;</b>:<br><br>·<b>&nbsp;외관 사양&nbsp;</b>: 프라이버시 글라스(리어도어), 발수 유리(프런트도어), 솔라컨트롤 글래스(리어글래스), 오토레벨링 HID 헤드램프<br><br>·<b>&nbsp;내장 사양&nbsp;</b>: TFT LCD 디스플레이, 동반석 컨트롤 스위치, 럭셔리 스웨이드 트림<br><br>·<b>&nbsp;편의 사양&nbsp;</b>: ACC(액티브 크루즈컨트롤 시스템)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b>&nbsp;세이프티 선루프&nbsp;</b>790,000<br><br>▶<b>&nbsp;디럭스 컴포트(뒷좌석 좌우머리받침 헤드레스트, 뒷좌석 3단 통풍시트, VVIP 마사지시트)</b>&nbsp;1,500,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>VVIP</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>7,924</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b>&nbsp;4WD CW700 VIP 기본품목 외 </b> :<br>
+<br>·<b> 외관 사양 </b> : ECM 아웃사이드미러
+<br>
+<br>·<b> 내장 사양 </b> : 2열 2인승 파워시트, 프리미엄 콘솔, 뒷좌석 좌우머리받침 헤드레스트,
+뒷좌석 3단 통풍시트, VVIP 마
+<br>사지시트
+<br>
+<br>·<b> 편의 사양 </b> : VVIP 엔터테인먼트 시스템, 헤드레스트 필로우, 공기청정기
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 세이프티 선루프 </b> 790,000</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>리무진</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>9,417</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b>&nbsp;4WD CW700 VIP 기본품목 외</b><br><br>·<b>&nbsp;외관 사양&nbsp;</b>: 리무진 바디 &amp; 엠블럼, ECM 아웃사이드미러<br><br>·<b>&nbsp;내장 사양&nbsp;</b>: W-CLASS시트, B필라 무드램프, 리무진 전용 카매트, 뒷좌석 좌우머리받침 헤드레스트, 뒷좌석 3단 통풍시트, VVIP 마사지시트<br><br>·<b>&nbsp;편의 사양&nbsp;</b>: VIP석 2단 전동식 레그레스트, VVIP 엔터테인먼트 시스템
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"></li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="2">
+																<p>V8 5000</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p>스페셜 에디션</p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>7,604</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> V8 5000 기본품목 외 </b> :
+<br>
+<br>·<b> 엔진/성능 </b> : V8 5,000 엔진, E-TRONIC(벤츠 7단 자동변속기), EAS(전자제어 에어서스펜션)
+<br>
+<br>·<b> 안전 사양 </b> : 세이프티 전방 카메라, ISO-FIX(유아용 시트고정장치), TPMS(타이어공기압 자동감지 시스템), ESS(급제동경보시스템)
+<br>
+<br>·<b> 외관 사양 </b> : 카이저엠블럼(트렁크, 휠캡), 신규디자인 도어스커프, 이중접합 차음유리(프런트 &amp; 리어도어),
+오토레벨링 HID헤드램프, 19인치 스퍼터링 휠
+<br>
+<br>·<b> 내장 사양 </b> : 퀼팅 가죽시트(1열/2열 시트, 도어트림), 뉴 글로시 우드그레인, 운전석 요추 마사지 시트, 앞좌석 &amp; 뒷좌석 파워시트,
+앞좌석 &amp; 뒷좌석 3단 통풍시트, VVIP마사지시트, 동반석 폴딩시트, 뒷좌석 좌우머리받침 헤드레스트,
+TFT LCD 디스플레이, 럭셔리 스웨이드 트림
+<br>
+<br>·<b> 편의 사양 </b> : EPB(전자동 파킹브레이크), 음성인식 내비게이션, DIS(운전자 통합정보 시스템), 터치센싱스마트키,
+ETCS(하이패스 시스템), 전동식 파워도어 시스템, 전동식 세이프티 파워트렁크, VVIP 엔터테인먼트 시스템,
+ACC(액티브 크루즈 컨트롤), 가죽키홀더
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"></li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>9,212</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> 엔진/성능 </b> : V8 5,000 엔진, E-TRONIC(벤츠 7단 자동변속기), EAS(전자제어 에어서스펜션), 엔진커버, 버튼시동장치, 이모빌라이저, IECS(무단 전자제어 서스펜션), 전후륜 멀티링크(독립현가) 서스펜션, 듀얼머플러
+<br>
+<br>▶<b> 안전 사양 </b> : 세이프티 전방 카메라, ISO-FIX(유아용 시트고정장치),
+TPMS(타이어공기압 자동감지 시스템), ESS(급제동경보시스템), ESP &amp; BAS &amp; HSA, 세이프티 후방카메라, 전후방장애물감지시스템, 스마트 에어백(운전석/동반석), 무릎보호 에어백(운전석/동반석), 앞좌석 사이드 에어백(운전석/동반석),
+뒷좌석 사이드 에어백(좌/우), 커튼에어백(좌/우), 전자식 액티브 헤드레스트(앞좌석), 풀사이즈 스페어타이어, 2열 센터 3점식 시트벨트
+<br><br>▶<b> 외관 사양 </b> : 카이저엠블럼(트렁크, 휠캡), 신규디자인 도어스커프, 오토레벨링 HID헤드램프,
+이중접합 차음유리(프런트 &amp; 리어도어), 19인치 스퍼터링 휠, P245/45R19W타이어, LED 리어콤비네이션 램프, LED 아웃사이드 미러 턴시그널 램프, 퍼들램프, LED 후방보조제동등, ECM 아웃사이드 미러, 세로형 라디에이터 그릴
+<br>
+<br>▶<b> 내장 사양 </b> : 퀼팅 가죽시트(1열/2열 시트, 도어트림), 뉴 글로시 우드그레인,
+운전석 요추 마사지 시트, 앞좌석 &amp; 뒷좌석 파워시트, 앞좌석 &amp; 뒷좌석 3단
+통풍시트, VVIP마사지시트, 동반석 폴딩시트, 뒷좌석 좌우머리받침 헤드레스트,
+TFT LCD 디스플레이, 럭셔리 스웨이드 트림, 운전석 파워럼버서포터, 동반석 컨트롤 스위치, 트렁크 보조 손잡이, 앞좌석 &amp; 뒷좌석 3단 열선시트, LED 블랙페이스 계기판, 계기판 조명 조절장치, ECM 룸미러,
+우드그레인 열선 스티어링 휠(전동틸트 &amp; 텔레스코픽 기능포함), 램프 &amp; 거울 내장 선바이저, 실내독서등, 뒷좌석 화장거울, 도어커티시 램프, 가죽 기어노브,램프내장형 도어스커프,
+운전석 &amp; 동반석 풋램프, 이동식 재떨이, SUS도금 인사이드 도어핸들, 가죽 도어트림, 우산 수납 트렁크 홀
+
+<br><br>▶<b> 편의 사양 </b> : EPB(전자동 파킹브레이크), 음성인식 내비게이션, DIS(운전자 통합정보 시스템),
+터치센싱스마트키, ETCS(하이패스 시스템), 전동식 파워도어 시스템,
+전동식 세이프티 파워트렁크, VVIP 엔터테인먼트 시스템,
+ACC(액티브 크루즈 컨트롤), 가죽키홀더, 전/후석 충전용 USB 단자, 메모리기능 리모콘키(2개), 좌우독립 풀오토 에어컨, AQS, 트립컴퓨터, 에어샤워벤트, B필라 에어벤트, 운전자세 메모리시스템(운전석 시트, 스티어링휠,
+아웃사이드미러, 전동 조절식 페달), 이지억세스(운전석/뒷좌석), 속도감응형 파워스티어링, 전동 조절식 페달, 오토라이트 컨트롤시스템, 와이퍼 결빙방지 장치,
+레인 &amp; 스노우 센싱 에어로 블레이드 와이퍼, 세이프티 파워윈도우(전도어), 소음차단 &amp; 솔라컨트롤 윈드쉴드 글래스, 솔라컨트롤 글래스(전 도어), 블루투스 핸즈프리,
+전동식 롤러블라인드(리어도어 &amp; 리어글래스), 발수유리(프런트 도어), 프라이버시 글래스(리어도어)
+
+<br><br>▶<b> 오디오 </b> : TPEG(교통정보시스템), 하만카돈 엔터테인먼트 시스템(8인치 VGA급 와이드 터치스크린, 지상파 DMB, USB(i-pod)단자, 7.1채널 17개 하만카돈 스피커),
+스티어링 휠 오디오 리모콘, 통합형 안테나
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">▶<b> 프리미엄 시트 </b> 3,200,000
+<br><br>▶<b> 세이프티 선루프 </b> 790,000
+<br>
+<br><b>※ 무료옵션</b><br>▶ 스플렌더 베이지 인테리어 </li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>서밋</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>11,143</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	▶<b> V8 5000 기본품목 외 </b> : 
+<br>
+<br>·<b> 외관 사양 </b> : 리무진 엠블럼, Summit 엠블럼(B필라)
+<br>
+<br>·<b> 내장 사양 </b> : 퀼팅 가죽시트(1열/2열 시트, 도어 트림), 2열 2인승 파워시트,
+프리미엄 확장형콘솔, Summit 엠블럼(IP 우드그레인), B필라 무드램프,
+리무진 전용 카매트
+<br>
+<br>·<b> 편의 사양 </b> : VIP석 3단 전동식 레그레스트 &amp; 풋레스트, 헤드레스트 필로우,
+태블릿 PC트레이, 공기청정기
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods">
+<b>※ 무료옵션</b><br>▶ 스플렌더 베이지 인테리어 </li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+												</tbody>
+											</table>
+										
+									</div>
+									<!-- 신차가격표(폴더형) -->
+									<div id="f_fold" style="display:none;">
+										<div class="newcar_folder">
+											<ul class="nf_list" id="newcarList">
+												
+													<li>
+														<a href="#newcar0">
+                                                            <span class="model">CW600 럭셔리 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>5,634</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar1">
+                                                            <span class="model">CW600 프레스티지 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>6,354</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar2">
+                                                            <span class="model">CW600 4TRONIC 럭셔리 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>6,099</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar3">
+                                                            <span class="model">CW600 4TRONIC 프레스티지 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>6,628</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar4">
+                                                            <span class="model">CW700 익스큐티브 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>6,236</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar5">
+                                                            <span class="model">CW700 VIP A/T</span>
+                                                            <span class="prc">
+                                                                <strong>6,799</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar6">
+                                                            <span class="model">CW700 리무진 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>9,143</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar7">
+                                                            <span class="model">CW700 4TRONIC 익스큐티브 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>6,701</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar8">
+                                                            <span class="model">CW700 4TRONIC VIP A/T</span>
+                                                            <span class="prc">
+                                                                <strong>7,073</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar9">
+                                                            <span class="model">CW700 4TRONIC VVIP A/T</span>
+                                                            <span class="prc">
+                                                                <strong>7,924</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar10">
+                                                            <span class="model">CW700 4TRONIC 리무진 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>9,417</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar11">
+                                                            <span class="model">V8 5000 스페셜 에디션 A/T</span>
+                                                            <span class="prc">
+                                                                <strong>7,604</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar12">
+                                                            <span class="model">V8 5000  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>9,212</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar13">
+                                                            <span class="model">서밋  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>11,143</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+											</ul>
+											<!-- 개별 -->
+											
+												<div id="newcar0" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> 엔진/성능 </b> : IL6 3,200 엔진, E-TRONIC 벤츠 7단 자동변속기, 엔진커버, 버튼시동장치, 이모빌라이저, 전후륜 멀티링크(독립현가)서스펜션, 듀얼머플러
+<br>
+<br>▶<b> 안전 사양 </b> : 세이프티 전방 카메라, 유아용 시트 고정장치(ISO FIX),
+ESS(급제동 경보시스템), TPMS(타이어공기압 자동감지 시스템), ESP &amp; BAS &amp; HSA, 세이프티 후방카메라, 전후방장애물감지시스템, 스마트 에어백(운전석/동반석), 무릎보호 에어백(운전석/동반석), 앞좌석 사이드 에어백(운전석/동반석),
+커튼에어백(좌/우), 전자식 액티브 헤드레스트(앞좌석), 풀사이즈 스페어타이어, 2열 센터 3점식 시트벨트
+<br>
+<br>▶<b> 외관 사양 </b> : 카이저엠블럼(트렁크, 휠캡), 신규디자인 도어스커프,
+이중접합 차음유리(프런트도어 &amp; 리어도어), 19인치 하이퍼 실버 휠, P245/45R19W타이어, 프로젝션 헤드램프, LED 리어콤비네이션 램프, LED 아웃사이드 미러 턴시그널 램프, 퍼들램프, LED 후방보조제동등, 세로형 라디에이터 그릴
+<br>
+<br>▶<b> 내장 사양 </b> : 퀼팅가죽시트(1열/2열 시트, 도어트림), 뉴 글로시 우드그레인,
+앞좌석 3단 통풍시트, 열선 스티어링휠, 동반석 폴딩 시트,
+DOT Matrix 디스플레이, 운전석/동반석 파워시트, 트렁크 보조 손잡이, 앞좌석 &amp; 뒷좌석 3단 열선시트, LED 블랙페이스 계기판, 계기판 조명 조절장치, ECM 룸미러,
+우드그레인 스티어링 휠(전동틸트 &amp; 텔레스코픽 기능포함), 램프 &amp; 거울 내장 선바이저, 실내독서등, 뒷좌석 화장거울, 도어커티시 램프, 램프내장형 도어스커프,
+운전석 &amp; 동반석 풋램프, 이동식 재떨이, SUS도금 인사이드 도어핸들, 가죽 도어트림, 가죽 기어노브, 우산 수납 트렁크 홀더
+<br>
+<br>▶<b> 편의 사양 </b> : EPB(전자동 파킹브레이크), 음성인식 내비게이션,
+DIS(운전자 통합 정보 시스템), 터치센싱 스마트키 시스템,
+ETCS(하이패스 시스템), 크루즈컨트롤 시스템, 가죽키홀더, 전/후석 충전용 USB 단자, 메모리기능 리모콘키(2개), 좌우독립 풀오토 에어컨, AQS, 트립컴퓨터, 에어샤워벤트, B필라 에어벤트, 운전자세 메모리시스템(운전석 시트, 스티어링 휠,
+아웃사이드미러, 전동 조절식 페달), 운전석 이지억세스, 속도감응형 파워스티어링, 전동 조절식 페달, 오토라이트컨 트롤 시스템, 와이퍼 결빙방지 장치,
+레인 &amp; 스노우 센싱 에어로 블레이드 와이퍼, 세이프티 파워윈도우(전도어), 소음차단 &amp; 솔라컨트롤 윈드쉴드 글래스, 솔라컨트롤 글래스(전 도어), 블루투스 핸즈프리
+<br>
+<br>▶<b> 오디오 </b> : TPEG(교통정보시스템), 하만카돈 엔터테인먼트 시스템(8인치 VGA급 와이드 터치스크린, 지상파 DMB, USB(i-pod)단자, 7.1채널 17개 하만카돈 스피커),
+스티어링 휠 오디오 리모콘, 통합형 안테나</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 세이프티 선루프 </b> 790,000<br></p>
+												</div>
+											
+												<div id="newcar1" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> CW600 Luxury 기본품목 외 </b> : 
+<br>
+<br>·<b> 엔진/성능 </b> : IECS(무단 전자제어 서스펜션), EAS(전자제어 에어서스펜션)
+<br>
+<br>·<b> 안전 사양 </b> : 뒷좌석 사이드 에어백(좌/우)
+<br>
+<br>·<b> 외관 사양 </b> : 발수 유리(프런트도어), 솔라컨트롤 글래스(리어글래스),
+오토레벨링 HID 헤드램프
+<br>
+<br>·<b> 내장 사양 </b> : 운전석 요추 마사지시트, 운전석 파워 럼버서포트, 럭셔리 스웨이드 트림,
+TFT LCD 디스플레이, 동반석 컨트롤 스위치
+<br>
+<br>·<b> 편의 사양 </b> : 전동식 세이프티 파워트렁크, 전동식 파워도어 시스템,
+뒷좌석 파워시트 &amp; 이지억세스</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 세이프티 선루프 </b> 790,000
+<br><br>▶<b> 디럭스 컴포트(뒷좌석 좌우머리받침 헤드레스트, 뒷좌석 3단 통풍시트, VVIP 마사지시트)&nbsp;</b>1,500,000<br></p>
+												</div>
+											
+												<div id="newcar2" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b>&nbsp;엔진/성능&nbsp;</b>: IL6 3,200 엔진, E-TRONIC 벤츠 7단 자동변속기, 엔진커버, 버튼시동장치, 이모빌라이저, 전후륜 멀티링크(독립현가)서스펜션, 듀얼머플러,&nbsp;4-Tronic Comfort &amp; Safety 시스템(AWD시스템 + IECS + EAS)<br><br>▶<b>&nbsp;안전 사양&nbsp;</b>: 세이프티 전방 카메라, 유아용 시트 고정장치(ISO FIX), ESS(급제동 경보시스템), TPMS(타이어공기압 자동감지 시스템), ESP &amp; BAS &amp; HSA, 세이프티 후방카메라, 전후방장애물감지시스템, 스마트 에어백(운전석/동반석), 무릎보호 에어백(운전석/동반석), 앞좌석 사이드 에어백(운전석/동반석), 커튼에어백(좌/우), 전자식 액티브 헤드레스트(앞좌석), 풀사이즈 스페어타이어, 2열 센터 3점식 시트벨트<br><br>▶<b>&nbsp;외관 사양&nbsp;</b>: 카이저엠블럼(트렁크, 휠캡), 신규디자인 도어스커프, 이중접합 차음유리(프런트도어 &amp; 리어도어), 19인치 하이퍼 실버 휠, P245/45R19W타이어, 프로젝션 헤드램프, LED 리어콤비네이션 램프, LED 아웃사이드 미러 턴시그널 램프, 퍼들램프, LED 후방보조제동등, 세로형 라디에이터 그릴<br><br>▶<b>&nbsp;내장 사양&nbsp;</b>: 퀼팅가죽시트(1열/2열 시트, 도어트림), 뉴 글로시 우드그레인, 앞좌석 3단 통풍시트, 열선 스티어링휠, 동반석 폴딩 시트, DOT Matrix 디스플레이, 운전석/동반석 파워시트, 트렁크 보조 손잡이, 앞좌석 &amp; 뒷좌석 3단 열선시트, LED 블랙페이스 계기판, 계기판 조명 조절장치, ECM 룸미러, 우드그레인 스티어링 휠(전동틸트 &amp; 텔레스코픽 기능포함), 램프 &amp; 거울 내장 선바이저, 실내독서등, 뒷좌석 화장거울, 도어커티시 램프, 램프내장형 도어스커프, 운전석 &amp; 동반석 풋램프, 이동식 재떨이, SUS도금 인사이드 도어핸들, 가죽 도어트림, 가죽 기어노브, 우산 수납 트렁크 홀더<br><br>▶<b>&nbsp;편의 사양&nbsp;</b>: EPB(전자동 파킹브레이크), 음성인식 내비게이션, DIS(운전자 통합 정보 시스템), 터치센싱 스마트키 시스템, ETCS(하이패스 시스템), 크루즈컨트롤 시스템, 가죽키홀더, 전/후석 충전용 USB 단자, 메모리기능 리모콘키(2개), 좌우독립 풀오토 에어컨, AQS, 트립컴퓨터, 에어샤워벤트, B필라 에어벤트, 운전자세 메모리시스템(운전석 시트, 스티어링 휠, 아웃사이드미러, 전동 조절식 페달), 운전석 이지억세스, 속도감응형 파워스티어링, 전동 조절식 페달, 오토라이트컨 트롤 시스템, 와이퍼 결빙방지 장치, 레인 &amp; 스노우 센싱 에어로 블레이드 와이퍼, 세이프티 파워윈도우(전도어), 소음차단 &amp; 솔라컨트롤 윈드쉴드 글래스, 솔라컨트롤 글래스(전 도어), 블루투스 핸즈프리<br><br>▶<b>&nbsp;오디오&nbsp;</b>: TPEG(교통정보시스템), 하만카돈 엔터테인먼트 시스템(8인치 VGA급 와이드 터치스크린, 지상파 DMB, USB(i-pod)단자, 7.1채널 17개 하만카돈 스피커), 스티어링 휠 오디오 리모콘, 통합형 안테나</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b>&nbsp;세이프티 선루프&nbsp;</b>790,000</p>
+												</div>
+											
+												<div id="newcar3" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b>&nbsp;4WD CW600 Luxury 기본품목 외&nbsp;</b>:<br><br>·<b>&nbsp;안전 사양&nbsp;</b>: 뒷좌석 사이드 에어백(좌/우)<br><br>·<b>&nbsp;외관 사양&nbsp;</b>: 발수 유리(프런트도어), 솔라컨트롤 글래스(리어글래스), 오토레벨링 HID 헤드램프<br><br>·<b>&nbsp;내장 사양&nbsp;</b>: 운전석 요추 마사지시트, 운전석 파워 럼버서포트, 럭셔리 스웨이드 트림, TFT LCD 디스플레이, 동반석 컨트롤 스위치<br><br>·<b>&nbsp;편의 사양&nbsp;</b>: 전동식 세이프티 파워트렁크, 전동식 파워도어 시스템, 뒷좌석 파워시트 &amp; 이지억세스</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b>&nbsp;세이프티 선루프&nbsp;</b>790,000<br><br>▶<b>&nbsp;디럭스 컴포트(뒷좌석 좌우머리받침 헤드레스트, 뒷좌석 3단 통풍시트, VVIP 마사지시트)&nbsp;</b>1,500,000</p>
+												</div>
+											
+												<div id="newcar4" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> 엔진/성능 </b> : IL6 3,600 엔진, E-TRONIC 벤츠 7단 자동변속기, 엔진커버, 버튼시동장치, 이모빌라이저, 전후륜 멀티링크(독립현가)서스펜션, 듀얼머플러
+<br>
+<br>▶<b> 안전 사양 </b> : 세이프티 전방 카메라, 유아용 시트 고정장치(ISO FIX), ESS(급제동 경보시스템) ,
+TPMS(타이어공기압 자동감지 시스템), ESP &amp; BAS &amp; HSA, 세이프티 후방카메라, 전후방장애물감지시스템, 스마트 에어백(운전석/동반석), 무릎보호 에어백(운전석/동반석), 앞좌석 사이드 에어백(운전석/동반석),
+뒷좌석 사이드 에어백(좌/우), 커튼에어백(좌/우), 전자식 액티브 헤드레스트(앞좌석), 풀사이즈 스페어타이어, 2열 센터 3점식 시트벨트
+<br>
+<br>▶<b> 외관 사양 </b> : 카이저엠블럼(트렁크, 휠캡), 신규디자인 도어스커프, 이중접합 차음유리
+(프런트도어 &amp; 리어도어), 19인치 스퍼터링 휠, P245/45R19W타이어, 프로젝션 헤드램프, LED 리어콤비네이션 램프, LED 아웃사이드 미러 턴시그널 램프, 퍼들램프, LED 후방보조제동등, 세로형 라디에이터 그릴
+<br>
+<br>▶<b> 내장 사양 </b> : 퀼팅 가죽시트(1열/2열 시트, 도어트림), 뉴 글로시 우드그레인,
+열선 스티어링휠, 동반석 폴딩 시트, DOT Matrix 디스플레이, 운전석/동반석 파워시트, 트렁크 보조 손잡이, 앞좌석 &amp; 뒷좌석 3단 열선시트, LED 블랙페이스 계기판, 계기판 조명 조절장치, ECM 룸미러,
+우드그레인 스티어링 휠(전동틸트 &amp; 텔레스코픽 기능포함), 램프&amp;거울 내장 선바이저, 실내독서등, 뒷좌석 화장거울, 도어커티시 램프,램 프내장형 도어스커프,
+운전석 &amp; 동반석 풋램프, 이동식 재떨이, SUS도금 인사이드 도어핸들, 가죽 도어트림, 가죽 기어노브, 우산 수납 트렁크 홀더
+<br>
+<br>▶<b> 편의 사양 </b> : EPB(전자동 파킹브레이크), 음성인식 내비게이션, DIS(운전자 통합 정보 시스템),
+터치센싱 스마트키 시스템, ETCS(하이패스 시스템), 크루즈컨트롤 시스템,
+가죽키홀더, 앞좌석 3단통풍시트, 운전석요추 마사지시트,
+운전석 파워럼버서포트, 뒷좌석 파워시트 &amp; 이지억세스, 전동식 롤러브라인드
+(리어도어 &amp; 리어글래스), 전동식 파워도어 시스템, 전동식 세이프티 파워 트렁크, 전/후석 충전용 USB 단자, 메모리기능 리모콘키(2개), 좌우독립 풀오토 에어컨, AQS, 트립컴퓨터, 에어샤워벤트, B필라 에어벤트, 운전자세 메모리시스템(운전석 시트,
+스티어링휠, 아웃사이드미러, 전동 조절식 페달), 운전석 이지억세스, 속도감응형 파워스티어링, 전동 조절식 페달 ,오토라이트 컨트롤 시스템, 와이퍼 결빙방지 장치,
+레인 &amp; 스노우 센싱 에어로 블레이드 와이퍼, 세이프티 파워윈도우(전도어), 소음차단 &amp; 솔라컨트롤 윈드쉴드 글래스, 솔라컨트롤 글래스(전 도어), 블루투스 핸즈프리
+<br>
+<br>▶<b> 오디오 </b> : TPEG(교통정보시스템), 하만카돈 엔터테인먼트 시스템(8인치 VGA급 와이드 터치스크린, 지상파 DMB, USB(i-pod)단자, 7.1채널 17개 하만카돈 스피커),
+스티어링휠 오디오 리모콘, 통합형 안테나</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 세이프티 선루프 </b> 790,000<br></p>
+												</div>
+											
+												<div id="newcar5" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> CW 700 Executive 기본품목 외 </b> : 
+<br>
+<br>·<b> 엔진/성능 </b> : IECS(무단 전자제어 서스펜션), EAS(전자제어 에어서스펜션)
+<br>
+<br>·<b> 외관 사양 </b> : 프라이버시 글라스(리어도어), 발수 유리(프런트도어),
+솔라컨트롤 글래스(리어글래스), 오토레벨링 HID 헤드램프
+<br>
+<br>·<b> 내장 사양 </b> : TFT LCD 디스플레이, 동반석 컨트롤 스위치, 럭셔리 스웨이드 트림
+<br>
+<br>·<b> 편의 사양 </b> : ACC(액티브 크루즈컨트롤 시스템)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 세이프티 선루프 </b> 790,000
+<br><br>▶<b> 디럭스 컴포트(뒷좌석 좌우머리받침 헤드레스트, 뒷좌석 3단 통풍시트, VVIP 마사지시트)&nbsp;</b>1,500,000<br></p>
+												</div>
+											
+												<div id="newcar6" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> CW700 VIP 기본품목 외 [단, 4-Tronic(AWD 시스템) 제외] </b> : 
+<br>
+<br>·<b> 외관 사양 </b> : 리무진 바디 &amp; 엠블럼, ECM 아웃사이드미러
+<br>
+<br>·<b> 내장 사양 </b> : W-CLASS시트, B필라 무드램프, 리무진 전용 카매트, 뒷좌석 좌우머리받침
+헤드레스트, 뒷좌석 3단 통풍시트, VVIP 마사지시트
+<br>
+<br>·<b> 편의 사양 </b> : VIP석 2단 전동식 레그레스트, VVIP 엔터테인먼트 시스템</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"></p>
+												</div>
+											
+												<div id="newcar7" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b>&nbsp;엔진/성능&nbsp;</b>: IL6 3,600 엔진, E-TRONIC 벤츠 7단 자동변속기, 엔진커버, 버튼시동장치, 이모빌라이저, 전후륜 멀티링크(독립현가)서스펜션, 듀얼머플러, 4-Tronic Comfort &amp; Safety 시스템(AWD시스템 + IECS + EAS)<br><br>▶<b>&nbsp;안전 사양&nbsp;</b>: 세이프티 전방 카메라, 유아용 시트 고정장치(ISO FIX), ESS(급제동 경보시스템) , TPMS(타이어공기압 자동감지 시스템), ESP &amp; BAS &amp; HSA, 세이프티 후방카메라, 전후방장애물감지시스템, 스마트 에어백(운전석/동반석), 무릎보호 에어백(운전석/동반석), 앞좌석 사이드 에어백(운전석/동반석), 뒷좌석 사이드 에어백(좌/우), 커튼에어백(좌/우), 전자식 액티브 헤드레스트(앞좌석), 풀사이즈 스페어타이어, 2열 센터 3점식 시트벨트<br><br>▶<b>&nbsp;외관 사양&nbsp;</b>: 카이저엠블럼(트렁크, 휠캡), 신규디자인 도어스커프, 이중접합 차음유리 (프런트도어 &amp; 리어도어), 19인치 스퍼터링 휠, P245/45R19W타이어, 프로젝션 헤드램프, LED 리어콤비네이션 램프, LED 아웃사이드 미러 턴시그널 램프, 퍼들램프, LED 후방보조제동등, 세로형 라디에이터 그릴<br><br>▶<b>&nbsp;내장 사양&nbsp;</b>: 퀼팅 가죽시트(1열/2열 시트, 도어트림), 뉴 글로시 우드그레인, 열선 스티어링휠, 동반석 폴딩 시트, DOT Matrix 디스플레이, 운전석/동반석 파워시트, 트렁크 보조 손잡이, 앞좌석 &amp; 뒷좌석 3단 열선시트, LED 블랙페이스 계기판, 계기판 조명 조절장치, ECM 룸미러, 우드그레인 스티어링 휠(전동틸트 &amp; 텔레스코픽 기능포함), 램프&amp;거울 내장 선바이저, 실내독서등, 뒷좌석 화장거울, 도어커티시 램프,램 프내장형 도어스커프, 운전석 &amp; 동반석 풋램프, 이동식 재떨이, SUS도금 인사이드 도어핸들, 가죽 도어트림, 가죽 기어노브, 우산 수납 트렁크 홀더<br><br>▶<b>&nbsp;편의 사양&nbsp;</b>: EPB(전자동 파킹브레이크), 음성인식 내비게이션, DIS(운전자 통합 정보 시스템), 터치센싱 스마트키 시스템, ETCS(하이패스 시스템), 크루즈컨트롤 시스템, 가죽키홀더, 앞좌석 3단통풍시트, 운전석요추 마사지시트, 운전석 파워럼버서포트, 뒷좌석 파워시트 &amp; 이지억세스, 전동식 롤러브라인드 (리어도어 &amp; 리어글래스), 전동식 파워도어 시스템, 전동식 세이프티 파워 트렁크, 전/후석 충전용 USB 단자, 메모리기능 리모콘키(2개), 좌우독립 풀오토 에어컨, AQS, 트립컴퓨터, 에어샤워벤트, B필라 에어벤트, 운전자세 메모리시스템(운전석 시트, 스티어링휠, 아웃사이드미러, 전동 조절식 페달), 운전석 이지억세스, 속도감응형 파워스티어링, 전동 조절식 페달 ,오토라이트 컨트롤 시스템, 와이퍼 결빙방지 장치, 레인 &amp; 스노우 센싱 에어로 블레이드 와이퍼, 세이프티 파워윈도우(전도어), 소음차단 &amp; 솔라컨트롤 윈드쉴드 글래스, 솔라컨트롤 글래스(전 도어), 블루투스 핸즈프리<br><br>▶<b>&nbsp;오디오&nbsp;</b>: TPEG(교통정보시스템), 하만카돈 엔터테인먼트 시스템(8인치 VGA급 와이드 터치스크린, 지상파 DMB, USB(i-pod)단자, 7.1채널 17개 하만카돈 스피커), 스티어링휠 오디오 리모콘, 통합형 안테나</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b>&nbsp;세이프티 선루프&nbsp;</b>790,000</p>
+												</div>
+											
+												<div id="newcar8" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b>&nbsp;4WD CW 700 Executive 기본품목 외&nbsp;</b>:<br><br>·<b>&nbsp;외관 사양&nbsp;</b>: 프라이버시 글라스(리어도어), 발수 유리(프런트도어), 솔라컨트롤 글래스(리어글래스), 오토레벨링 HID 헤드램프<br><br>·<b>&nbsp;내장 사양&nbsp;</b>: TFT LCD 디스플레이, 동반석 컨트롤 스위치, 럭셔리 스웨이드 트림<br><br>·<b>&nbsp;편의 사양&nbsp;</b>: ACC(액티브 크루즈컨트롤 시스템)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b>&nbsp;세이프티 선루프&nbsp;</b>790,000<br><br>▶<b>&nbsp;디럭스 컴포트(뒷좌석 좌우머리받침 헤드레스트, 뒷좌석 3단 통풍시트, VVIP 마사지시트)</b>&nbsp;1,500,000</p>
+												</div>
+											
+												<div id="newcar9" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b>&nbsp;4WD CW700 VIP 기본품목 외 </b> :<br>
+<br>·<b> 외관 사양 </b> : ECM 아웃사이드미러
+<br>
+<br>·<b> 내장 사양 </b> : 2열 2인승 파워시트, 프리미엄 콘솔, 뒷좌석 좌우머리받침 헤드레스트,
+뒷좌석 3단 통풍시트, VVIP 마
+<br>사지시트
+<br>
+<br>·<b> 편의 사양 </b> : VVIP 엔터테인먼트 시스템, 헤드레스트 필로우, 공기청정기</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 세이프티 선루프 </b> 790,000</p>
+												</div>
+											
+												<div id="newcar10" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b>&nbsp;4WD CW700 VIP 기본품목 외</b><br><br>·<b>&nbsp;외관 사양&nbsp;</b>: 리무진 바디 &amp; 엠블럼, ECM 아웃사이드미러<br><br>·<b>&nbsp;내장 사양&nbsp;</b>: W-CLASS시트, B필라 무드램프, 리무진 전용 카매트, 뒷좌석 좌우머리받침 헤드레스트, 뒷좌석 3단 통풍시트, VVIP 마사지시트<br><br>·<b>&nbsp;편의 사양&nbsp;</b>: VIP석 2단 전동식 레그레스트, VVIP 엔터테인먼트 시스템</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"></p>
+												</div>
+											
+												<div id="newcar11" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> V8 5000 기본품목 외 </b> :
+<br>
+<br>·<b> 엔진/성능 </b> : V8 5,000 엔진, E-TRONIC(벤츠 7단 자동변속기), EAS(전자제어 에어서스펜션)
+<br>
+<br>·<b> 안전 사양 </b> : 세이프티 전방 카메라, ISO-FIX(유아용 시트고정장치), TPMS(타이어공기압 자동감지 시스템), ESS(급제동경보시스템)
+<br>
+<br>·<b> 외관 사양 </b> : 카이저엠블럼(트렁크, 휠캡), 신규디자인 도어스커프, 이중접합 차음유리(프런트 &amp; 리어도어),
+오토레벨링 HID헤드램프, 19인치 스퍼터링 휠
+<br>
+<br>·<b> 내장 사양 </b> : 퀼팅 가죽시트(1열/2열 시트, 도어트림), 뉴 글로시 우드그레인, 운전석 요추 마사지 시트, 앞좌석 &amp; 뒷좌석 파워시트,
+앞좌석 &amp; 뒷좌석 3단 통풍시트, VVIP마사지시트, 동반석 폴딩시트, 뒷좌석 좌우머리받침 헤드레스트,
+TFT LCD 디스플레이, 럭셔리 스웨이드 트림
+<br>
+<br>·<b> 편의 사양 </b> : EPB(전자동 파킹브레이크), 음성인식 내비게이션, DIS(운전자 통합정보 시스템), 터치센싱스마트키,
+ETCS(하이패스 시스템), 전동식 파워도어 시스템, 전동식 세이프티 파워트렁크, VVIP 엔터테인먼트 시스템,
+ACC(액티브 크루즈 컨트롤), 가죽키홀더</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"></p>
+												</div>
+											
+												<div id="newcar12" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> 엔진/성능 </b> : V8 5,000 엔진, E-TRONIC(벤츠 7단 자동변속기), EAS(전자제어 에어서스펜션), 엔진커버, 버튼시동장치, 이모빌라이저, IECS(무단 전자제어 서스펜션), 전후륜 멀티링크(독립현가) 서스펜션, 듀얼머플러
+<br>
+<br>▶<b> 안전 사양 </b> : 세이프티 전방 카메라, ISO-FIX(유아용 시트고정장치),
+TPMS(타이어공기압 자동감지 시스템), ESS(급제동경보시스템), ESP &amp; BAS &amp; HSA, 세이프티 후방카메라, 전후방장애물감지시스템, 스마트 에어백(운전석/동반석), 무릎보호 에어백(운전석/동반석), 앞좌석 사이드 에어백(운전석/동반석),
+뒷좌석 사이드 에어백(좌/우), 커튼에어백(좌/우), 전자식 액티브 헤드레스트(앞좌석), 풀사이즈 스페어타이어, 2열 센터 3점식 시트벨트
+<br><br>▶<b> 외관 사양 </b> : 카이저엠블럼(트렁크, 휠캡), 신규디자인 도어스커프, 오토레벨링 HID헤드램프,
+이중접합 차음유리(프런트 &amp; 리어도어), 19인치 스퍼터링 휠, P245/45R19W타이어, LED 리어콤비네이션 램프, LED 아웃사이드 미러 턴시그널 램프, 퍼들램프, LED 후방보조제동등, ECM 아웃사이드 미러, 세로형 라디에이터 그릴
+<br>
+<br>▶<b> 내장 사양 </b> : 퀼팅 가죽시트(1열/2열 시트, 도어트림), 뉴 글로시 우드그레인,
+운전석 요추 마사지 시트, 앞좌석 &amp; 뒷좌석 파워시트, 앞좌석 &amp; 뒷좌석 3단
+통풍시트, VVIP마사지시트, 동반석 폴딩시트, 뒷좌석 좌우머리받침 헤드레스트,
+TFT LCD 디스플레이, 럭셔리 스웨이드 트림, 운전석 파워럼버서포터, 동반석 컨트롤 스위치, 트렁크 보조 손잡이, 앞좌석 &amp; 뒷좌석 3단 열선시트, LED 블랙페이스 계기판, 계기판 조명 조절장치, ECM 룸미러,
+우드그레인 열선 스티어링 휠(전동틸트 &amp; 텔레스코픽 기능포함), 램프 &amp; 거울 내장 선바이저, 실내독서등, 뒷좌석 화장거울, 도어커티시 램프, 가죽 기어노브,램프내장형 도어스커프,
+운전석 &amp; 동반석 풋램프, 이동식 재떨이, SUS도금 인사이드 도어핸들, 가죽 도어트림, 우산 수납 트렁크 홀
+
+<br><br>▶<b> 편의 사양 </b> : EPB(전자동 파킹브레이크), 음성인식 내비게이션, DIS(운전자 통합정보 시스템),
+터치센싱스마트키, ETCS(하이패스 시스템), 전동식 파워도어 시스템,
+전동식 세이프티 파워트렁크, VVIP 엔터테인먼트 시스템,
+ACC(액티브 크루즈 컨트롤), 가죽키홀더, 전/후석 충전용 USB 단자, 메모리기능 리모콘키(2개), 좌우독립 풀오토 에어컨, AQS, 트립컴퓨터, 에어샤워벤트, B필라 에어벤트, 운전자세 메모리시스템(운전석 시트, 스티어링휠,
+아웃사이드미러, 전동 조절식 페달), 이지억세스(운전석/뒷좌석), 속도감응형 파워스티어링, 전동 조절식 페달, 오토라이트 컨트롤시스템, 와이퍼 결빙방지 장치,
+레인 &amp; 스노우 센싱 에어로 블레이드 와이퍼, 세이프티 파워윈도우(전도어), 소음차단 &amp; 솔라컨트롤 윈드쉴드 글래스, 솔라컨트롤 글래스(전 도어), 블루투스 핸즈프리,
+전동식 롤러블라인드(리어도어 &amp; 리어글래스), 발수유리(프런트 도어), 프라이버시 글래스(리어도어)
+
+<br><br>▶<b> 오디오 </b> : TPEG(교통정보시스템), 하만카돈 엔터테인먼트 시스템(8인치 VGA급 와이드 터치스크린, 지상파 DMB, USB(i-pod)단자, 7.1채널 17개 하만카돈 스피커),
+스티어링 휠 오디오 리모콘, 통합형 안테나</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">▶<b> 프리미엄 시트 </b> 3,200,000
+<br><br>▶<b> 세이프티 선루프 </b> 790,000
+<br>
+<br><b>※ 무료옵션</b><br>▶ 스플렌더 베이지 인테리어 </p>
+												</div>
+											
+												<div id="newcar13" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic">▶<b> V8 5000 기본품목 외 </b> : 
+<br>
+<br>·<b> 외관 사양 </b> : 리무진 엠블럼, Summit 엠블럼(B필라)
+<br>
+<br>·<b> 내장 사양 </b> : 퀼팅 가죽시트(1열/2열 시트, 도어 트림), 2열 2인승 파워시트,
+프리미엄 확장형콘솔, Summit 엠블럼(IP 우드그레인), B필라 무드램프,
+리무진 전용 카매트
+<br>
+<br>·<b> 편의 사양 </b> : VIP석 3단 전동식 레그레스트 &amp; 풋레스트, 헤드레스트 필로우,
+태블릿 PC트레이, 공기청정기</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option">
+<b>※ 무료옵션</b><br>▶ 스플렌더 베이지 인테리어 </p>
+												</div>
+											
+										</div>
+										<script type="text/javascript">
+											newcarFolder(0);//초기값
+											function newcarFolder(target) {
+												var conElId = "newcar"//아이디 설정
+												var conElMenu = document.getElementById("newcarList");
+												var conElMenuLink = conElMenu.getElementsByTagName("a");
+												if (target != null) {
+													conElMenuLink[target].parentNode.className = "on";
+													document.getElementById(
+														conElId + target).style.display = "";
+												}
+												for (i = 0; i <= (conElMenuLink.length - 1); i++) {
+													conElMenuLink[i].onclick = function () {
+														for (x = 0; x <= (conElMenuLink.length - 1); x++) {
+															conElMenuLink[x].parentNode.className = "";
+															document.getElementById(
+																conElId + x).style.display = "none";
+														}
+														this.parentNode.className = "on";
+														document.getElementById(this.getAttribute('href')
+																					.split(
+																						'#')[1]).style.display =
+															"";
+														return false;
+													}
+												}
+											}
+										</script>
+									</div>
+									
+										<ul class="more">
+												▶<b> CW600/ CW700 선택품목 </b>
+<br>· 디럭스 컴포트 : 뒷좌석 좌우머리받침 헤드레스트, 뒷좌석 3단 통풍시트, VVIP 마사지시트
+
+<br>·<b>&nbsp;</b>VVIP 엔터테인먼트 시스템 : 뒷좌석 전동조절 8인치 VGA급 LCD 모니터, 리어암레스트 Haptic 컨트롤러, 뒷좌석 에어컨 조절기능 포함
+<br>·<b>&nbsp;</b>럭셔리 스웨이드 트림 : 헤드라이닝, 도어트림, 필라트림, 선바이저
+<br><br>▶<b> V8 5000/SUMMIT 선택품목 
+<br></b>·<b>&nbsp;</b>VVIP 엔터테인먼트 시스템 : 뒷좌석 전동조절 8인치 VGA급 LCD 모니터, 리어암레스트 Haptic 컨트롤러, 뒷좌석 에어컨 조절기능 포함
+<br>·<b>&nbsp;</b>럭셔리 스웨이드 트림 : 헤드라이닝, 도어트림, 필라트림, 선바이저
+<br>· 프리미엄 시트 : 2열 2인승 파워시트, 프리미엄콘솔, 헤드레스트필로우, 공기청정기
+										</ul>
+									
+									<p class="desc_more">위 신차가격표는 단순 참고자료이며, 정확한 내용은 각 제조사에서 제공하는 자료를 통해확인하실 수 있습니다.</p><!-- 2016/10/12 [장] 등급 등록/수정 개선 : 추가 디자인 변경 -->
+									<p class="toTop"><a href="#main_title" class="sp toTop db_ir" title="페이지 위로"><u>페이지 위로</u></a></p><!-- [시세개편] class db_ir 추가 -->
+								</div>
+
+
+							</div>
+							<!-- body end -->
+						</td>
+					</tr>
+				</table>
+
+
+			
+			
+		
+    </div>
+
+    <!-- container end -->
+</form>
+</div>
+
+</body>
+<script language="javascript">
+
+
+    var strCompanyUrl = "/common/combo/cardbcompany.json?method=carList";
+    var strModelGroupUrl = "/common/combo/modelgroupfordb.json?method=carList";
+    var strModelUrl = "/common/combo/cardbmodel.json?method=carList";
+    var strYrJatoUrl = "/common/combo/jatoYr.json?method=carList";
+
+    var companyid = "mnfccd";
+    var modelgroupid = "mdlgroupcd";
+    var modelid = "mdlcd";
+    var yearid = "caryear";
+
+    function initGnb() {
+        var paramCompany = $("paramMnfccd").value;
+        var paramModelGroup = $("paramMdlgroupcd").value;
+        var paramModel = $("paramMdlcd").value;
+        var paramYr = $("paramYear").value;
+
+        // 제조사
+        if (paramModel != "") {
+            $("mdlcd").show();
+        }
+
+        //console.log("companyid :: " + companyid)
+        //console.log("paramCompany :: " + paramCompany)
+		if($('foldYn').value != 0){
+            foldingYN('f_fold');
+		}
+
+        setCompany(strCompanyUrl, companyid, "제조사", paramCompany);
+
+        // 제조사 값이 있으면 모델 검색
+        if (paramCompany >= '010') {
+            if (paramCompany != "") {
+                if (paramModel == "") {
+                    paramModel = paramModelGroup;
+                }
+                setModel(strModelUrl, modelid, paramCompany, "모델", paramModel)
+                $("mdlgroupcd").hide();
+
+            }
+        } else {
+            $("mdlgroupcd").show();
+            if (paramCompany != "") {
+                setModelGroup(strModelGroupUrl, modelgroupid, paramCompany, "모델", paramModelGroup);
+                if (paramModelGroup != "") {
+                    setModel_New(strModelUrl, modelid, paramCompany, paramModelGroup, "세부모델", paramModel);
+                }
+            }
+
+        }
+        if (paramCompany != "" && paramModel != "") {
+            setCarYear(strYrJatoUrl, yearid, paramCompany, paramModel, "형식연도", paramYr);
+        }
+
+        waitTime = 1;
+    }
+
+    function changeModel_jato(mnfccd, mdlgroupcd) {
+        setModel_New(strModelUrl, modelid, mnfccd, mdlgroupcd, "세부모델", "");
+        //모델그룹선택시 기본 세부모델선택
+        if ($("mdlcd") != null) {
+            $("mdlcd").selectedIndex = 1;
+            var mdlcd = $("mdlcd").options[$("mdlcd").selectedIndex].value;
+            changeYearJato(mnfccd, mdlcd);
+        }
+    }
+
+    function changeYearJato(mnfccd,mdlcd) {
+        setCarYear(strYrJatoUrl, yearid, mnfccd, mdlcd, "형식연도", "");
+        $(yearid).options[1].selected = true;
+    }
+
+
+
+    //덧글 리스트
+    function viewForm(index) {
+
+        var object = $("default" + index);
+        var objectSum = $("defaultSum" + index);
+        var selectSum = $("choiceSum" + index);
+        var object1 = $("choice" + index);
+        if (object != null) {
+            if (object.style.display == 'none') {
+                objectSum.hide();
+                selectSum.hide();
+                object.style.display = "block";
+                object1.style.display = "block";
+
+            } else {
+                object.hide();
+                object1.hide();
+                objectSum.style.display = "block";
+                selectSum.style.display = "block";
+            }
+        }
+    }
+
+    function viewAll() {
+        for (var i = 1; i <=14; i++) {
+            $("default" + i).style.display = "block";
+            $("defaultSum" + i).style.display = "none";
+            $("choice" + i).style.display = "block";
+            $("choiceSum" + i).style.display = "none";
+        }
+    }
+
+    function closeAll() {
+        for (var i = 1; i <=14; i++) {
+            $("default" + i).style.display = "none";
+            $("defaultSum" + i).style.display = "block";
+            $("choice" + i).style.display = "none";
+            $("choiceSum" + i).style.display = "block";
+        }
+    }
+
+    function firstLayerOpen() {
+        //viewForm(1);
+    }
+
+    function foldingYN(param) {
+        if (param == "f_fold") {
+            document.getElementById("folding").innerHTML ="<a href=\"javascript:foldingYN('f_unfold')\" class='folding f_unfold'>전체등급 펼쳐보기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "none";
+            document.getElementById("f_fold").style.display = "";
+        } else {
+            document.getElementById("folding").innerHTML = "<a href=\"javascript:foldingYN('f_fold')\" class='folding f_fold'>접기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "";
+            document.getElementById("f_fold").style.display = "none";
+        }
+    }
+
+    function onSubmit() {
+        jQuery("#searchForm").submit();
+
+    }
+    window.onload = initGnb;
+
+</script>
+</html>
+

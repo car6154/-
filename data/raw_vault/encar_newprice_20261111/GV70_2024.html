@@ -1,0 +1,936 @@
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>차량DB - 차량정보 - 신차가격표</title>
+    <link type="text/css" rel="stylesheet" href="/css/common.css?v=1793835891525"/>
+    <link type="text/css" rel="stylesheet" href="/css/db.css?v=1793835891525"/>
+
+    <script type="text/javascript" src="/js/encarapp/lib/jquery/jquery-1.11.3.min.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/common/ui.js?v=1793835894199"></script>
+    <script type="text/javascript" language="javascript" src="/js/prototype.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/util.js?v=1793835894199"></script>
+
+    <script type="text/javascript" src="/js/common/db_common.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/commonCombo.js?v=1793835894199"></script>
+    <script type="text/javascript" src="/js/common/carSearchCombo.js?v=1793835894199"></script>
+	<script>
+		window.enlogInitJson = {
+			"dataTalkView": {
+				"screenName": "신차가격표"
+			}
+		}
+
+	</script>
+
+
+</head>
+
+
+
+
+
+
+
+    <!-- 등급 체크박스  -->
+    <div style="display:none">
+        
+    </div>
+
+    <!-- 세부등급 체크박스 -->
+    <div style="display:none">
+        
+    </div>
+
+
+
+<body class="db db_newdetailview db_basicTemplate">
+
+
+
+
+	
+	
+	
+	
+
+
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-W9QQ2T"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W9QQ2T');</script>
+<!-- End Google Tag Manager -->
+
+<!-- container begin -->
+<div class="container" id="containerDIV">
+<input type="hidden" id = "foldYn" name="searchtype" value="4"/>
+<form id ="searchForm" name="searchForm">
+
+    <input type="hidden" id = "method" name="method" value="newpricePopV2"/>
+    <input type="hidden" id = "dimensiontype" name="dimensiontype" value="null"/>
+    <input type="hidden" id = "paramMnfccd" name="paramMnfccd" value="007"/>
+    <input type="hidden" id = "paramMdlgroupcd" name="paramMdlgroupcd" value="006"/>
+    <input type="hidden" id = "paramMdlcd" name="paramMdlcd" value="008"/>
+    <input type="hidden" id = "paramYear" name="paramYear" value="2024"/>
+    <input type="hidden" id = "model" name="model" value="">
+    <input type="hidden" id = "paramCaryear" name="paramCaryear" value="2024"/>
+    <input type="hidden" id = "clsheadcd" name="clsheadcd" class="checkbox" value="null"/>
+    <input type="hidden" id = "paramGradeHead" name="paramGradeHead" value="null"/>
+	<input type="hidden" id = "searchtype" name="searchtype" value="check"/>
+	<input type="hidden" id = "pageAccessToken" name="pageAccessToken" value="AgV4ZFRfkOuT0crs8dzV6C979UulFfpFCcLj/Uf2A+Yz8t0AcQACAAdFbmNhckNrAAdFbmNhckN2ABVhd3MtY3J5cHRvLXB1YmxpYy1rZXkAREFzU1pnejVtNTE2Q0FIK3pQd2hqWmZsVGNzNFBRUGp1bUVaOXZVYjNOcjNXbGVXb2NuOTZ0Ynl5QVZxOEYwQ09ydz09AAEAB2F3cy1rbXMAUGFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjI3MjM2MjQ4NzY1MzprZXkvbXJrLWRmZWEyNmY3NTVhMzQ3MjliNjkwMjRkZWZmM2M1MWFjALgBAgEAeAuqQuSJvQ+Ra4FSj55FZzS0sk+00amsb3yoAFiEYn4PAfJaUv5lF7lwbt/mPu2JQRYAAAB+MHwGCSqGSIb3DQEHBqBvMG0CAQAwaAYJKoZIhvcNAQcBMB4GCWCGSAFlAwQBLjARBAzVScfLTjOWa7ybwfcCARCAO8agv3GUis7/3d91oUc0geaXIOsYy9Euj6xh3T8VVV3NCVciJVl72AXguz4mIkUTng1Tm8MeTFNlPStfAgAAEABIfnyMEGLnN458tht9pcddqn/r2QnjNY9ivY89lm2DyrLx+UCsOiHCzOorLzFClYz/////AAAAAQAAAAAAAAAAAAAAAQAAAKP7e5Kw3B5QSIup8pLzc93pYnen8bPn77tU0O/BjBlv2hfGIYC6jTD/rCssf/ATyWhKNKGf9pe/0GduLRG4uUoDVa+tlWMUr0YHK9BwGe+bt4Eu0jpnq3t5dVDixvPAFufDg/cZlALpA3jJyMGzOKsQC/L4O6Os5F7Kk4J8n+fUQ7lROv3Q2RCcA4abPdnkl78uIhFppzVn7OZTODFN+cbe87PEeUMKv6Nb1bQZoDk++bvhrwBnMGUCMD4wy3g37/C9Xo6sL68s9sM9Qx9WVKkafc4329NXn3N+7+JhE41FivTIlfhZrzGVDQIxAICJCvAi+U5LYQ2V3tUg5e/pWBaEJ1GvuyvhBZrVkl2piWlsqWilbS8XiGohxYpX1w=="/>
+    <div class="header">
+        <h1 class="blind">SK엔카</h1>
+        <h2 class="tit_carprice" id="main_title">신차가격표</h2>
+        <p class="quickSearch">
+
+
+
+            <select title="제조사" class="opt_select" id="mnfccd" name="mnfccd" onChange="javascript:changeModelGroup(this.value);">
+                <option value="">제조사</option>
+            </select>
+
+            <select class="opt_select" title="모델" id="mdlgroupcd" name="mdlgroupcd" onChange="javascript:changeModel_jato($('mnfccd').value, this.value);">
+                <option>모델</option>
+            </select>
+
+            <select class="opt_select" title="세부모델" id="mdlcd" name="mdlcd" onChange="javascript:changeYearJato($('mnfccd').value, $('mdlcd').value);">
+                <option>세부모델</option>
+            </select>
+
+            <select class="opt_select" title="연식" id="caryear" name="caryear">
+                <option>연식</option>
+            </select>
+
+            <button type="button" class="btn_search" onclick="javascript:onSubmit();"/>검색</button>
+
+
+
+        </p>
+    </div>
+    <!-- body begin -->
+    <div class="body" id="bodydiv">
+		
+			
+				<table class="layout">
+					<col class="contents"/>
+					<tr>
+						<td class="contentsMenu">
+							<!-- contentsMenu begin -->
+							<div class="contentsMenu">
+								<h3 class="title">제네시스 GV70 2024년형</h3>
+							</div>
+							<!-- contentsMenu end -->
+						</td>
+					</tr>
+
+					<tr>
+						<td class="contentsMain">
+							<!-- contents begin -->
+							<div class="contents">
+
+								<div class="carCompare">
+									<div class="dbHead">
+										
+											<div id="folding"><a href="javascript:foldingYN('f_fold')"
+																 class="folding f_fold">전체등급 펼쳐보기<em class="db_ir"></em></a></div>
+
+											<!-- 2013/04/03 [서] 매물탭 개선 : 기능 버튼 추가 --><!--<a href="#" class="folding f_unfold">펼치기</a>-->
+										
+									</div>
+									
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+											
+										
+									
+										
+									
+									<div id="f_unfold">
+										
+
+
+										<!-- case2 : 세부등급이 있는경우 -->
+										
+											<table class="carCompare sellcase2">
+												<colgroup>
+													<col class="grade">
+													<col class="detailgrd">
+													<col class="mission">
+													<col class="price">
+													<col class="uprice">
+													<col class="item">
+													<col class="option">
+												</colgroup>
+												<thead class="compare">
+												<tr>
+													<th class="grade bgn" colspan="3"><b>구분</b></th>
+													<th class="price"><b>판매가격</b></th>
+													<th class="uprice"><b>중고차시세</b></th><!-- [시세개편] 중고차시세 추가 -->
+													<th class="item"><b>기본사양 품목</b></th>
+													<th class="option end"><b>선택사양 품목</b></th>
+												</tr>
+												</thead>
+												<tbody class="new">
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>2.5T 가솔린 2WD</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>5,380</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶&nbsp;파워트레인 및 성능 :</b>&nbsp; 가솔린 2.5 터보 엔진, 8단 자동변속기, ISG 시스템, 통합 주행 모드, 런치 컨트롤, 전륜 아노다이징 실버 모노블럭(4P) 브레이크<br><br><b>▶&nbsp;외관 :</b>&nbsp;MLA 헤드램프(Micro Lens Array), Full LED 리어 콤비 램프, 235/60R18 브리지스톤 타이어 &amp; 휠, 이중 접합 차음 유리(앞면, 전체 도어), 자외선 차단 유리(앞면, 뒷면, 전체 도어), 
+루프랙, 다이내믹 웰컴 라이트(전면), 후륜 스타일링 커버, 히든 머플러<br><br><b>▶&nbsp;내장 :</b>&nbsp;MLA 헤드램프(Micro Lens Array), Full LED 리어 콤비 램프, 235/60R18 브리지스톤 타이어 &amp; 휠, 이중 접합 차음 유리(앞면, 전체 도어), 자외선 차단 유리(앞면, 뒷면, 전체 도어), 
+루프랙, 다이내믹 웰컴 라이트(전면), 후륜 스타일링 커버, 히든 머플러<br><br><b>▶&nbsp;안전 :&nbsp;</b>MLA 헤드램프(Micro Lens Array), Full LED 리어 콤비 램프, 235/60R18 브리지스톤 타이어 &amp; 휠, 이중 접합 차음 유리(앞면, 전체 도어), 자외선 차단 유리(앞면, 뒷면, 전체 도어), 
+루프랙, 다이내믹 웰컴 라이트(전면), 후륜 스타일링 커버, 히든 머플러
+<br><br><b>▶&nbsp;편의 :</b>&nbsp;앞좌석 스마트폰 무선 충전, 제네시스 디지털 키 2, 터치타입 아웃사이드 도어 핸들, 전자식 파워 차일드 락, 레인 센서, 열선 &amp; 전동식 조절 스티어링 휠, 
+실내 지문 인증 시스템(개인화, 시동, 결제 등), 독립제어 풀오토 에어컨(운전석 &amp; 동승석 듀얼 온도 제어, 후석 공조 전석 제어, 오토디포그, 외부공기 유입 방지 제어, 
+애프터 블로우 포함), 공기 청정 시스템(미세먼지 센서, 엔진룸 프리 필터, 항균 처리 고성능 콤비 필터), 고속도로 주행 보조, 스마트 크루즈 컨트롤(Stop &amp; Go 포함), 
+내비게이션 기반 스마트 크루즈 컨트롤(안전구간, 곡선로), 차로 유지 보조, 조향 연동 후방 모니터, 전동식 파킹 브레이크(오토홀드 포함), 앞좌석 &amp; 뒷좌석 파워 세이프티 윈도우, 
+전방/후방 주차 거리 경고, 스마트 파워 테일게이트
+<br><br><b>▶&nbsp;시트 :&nbsp;</b>인조 가죽 시트, 운전석 전동시트(12방향, 럼버서포트 포함), 동승석 전동시트(8방향, 높이조절 포함), 동승석 워크인 디바이스, 
+운전석 자세 메모리 시스템(스마트 자세제어 시스템 포함), 앞좌석 통풍 &amp; 열선 시트, 뒷좌석 열선 시트, 뒷좌석 수동 리클라이닝, 뒷좌석 6:4 폴딩<br><br><b>▶&nbsp;인포테인먼트&nbsp;</b>: 제네시스 인포테인먼트 시스템(ccIC), Genesis Connected Services(5년 무료), 제네시스 카페이, 발레 모드, 스트리밍 서비스(스트리밍 플러스 요금제 5년 무료 포함), 
+무선 소프트웨어 업데이트(OTA Software Update), 제네시스 레퍼런스 사운드 시스템(9스피커)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>매트 컬러 무광 3종 중 선택 : 700,000<br>※ 바로사 버건디(무광), 브런즈윅 그린, 마테호른 화이트, 멜버른 그레이<br><br><b>▶&nbsp;</b>가솔린 2.5 터보 235/55R19 미쉐린 타이어 &amp; 휠 : 1,100,000<br>※ 전륜 모노블럭(4P) 브레이크, 후륜 스타일링 커버 포함
+<br><br><b>▶&nbsp;</b>가솔린 2.5 터보 255/40R21 미쉐린 타이어 &amp; 휠 : 3,300,000<br>※ 프리뷰 전자제어 서스펜션 포함<br><br><b>▶&nbsp;</b>시그니쳐 디자인 셀렉션Ⅰ:&nbsp;1,700,000<br>-&nbsp;  천연 가죽 시트(파이핑 적용), 헤어라인 브러쉬드 패턴 알루미늄 내장재, 인조 가죽 
+내장재(크래쉬패드, 도어 트림 상단, 콘솔 가니쉬, 리어 에어벤트 베젤부 등)<br><br>▶&nbsp;시그니쳐 디자인 셀렉션Ⅱ : 3,000,000<br>-&nbsp; 프라임 나파 가죽 시트(퀼팅, 파이핑 적용), 엘레강스 라인 무드라이팅 내장재, 
+인조 가죽 내장재(크래쉬패드, 도어 트림 상단, 콘솔 가니쉬, 리어 에어벤트 베젤부 
+등), 럭셔리 스웨이드 내장재(헤드라이닝, 필라 트림 등), 투톤 가죽 스티어링 휠<br><br>▶&nbsp;스포츠 패키지&nbsp;가솔린 2.5 터보 : 3,150,000<br>- 전자식 차동제한장치(e-LSD), 19인치 미쉐린 타이어 &amp; 스포츠 전용 휠, 
+전륜 블랙도장 모노블럭(4P) 브레이크, 스포츠+ 모드, 스포츠 내외장 포함
+(전용 천연 가죽 시트, 전용 스티어링 휠, 메탈 페달 등) <br>※ 스포츠 외장<br>[공통] 스포츠 전용 프론트/리어 범퍼, 스포츠 전용 라디에이터 그릴, 다크 루프랙/DLO 몰딩/헤드램프 베젤부, 스포츠 전용 실린더 타입 듀얼 싱글 머플러 등<br><br><b>▶&nbsp;</b>스포츠 패키지 가솔린 2.5 터보 255/40R21 미쉐린 타이어 &amp; 스포츠 전용 휠 : 3,300,000<br>※ 프리뷰 전자제어 서스펜션 포함<br><br><b>▶&nbsp;</b>스포츠 디자인 셀렉션 : 2,300,000<br>- 프라임 나파 가죽 시트(스웨이드, 파이핑 적용), 자카드 패턴 리얼 카본 내장재, 인조 가죽 내장재(크래쉬패드, 도어 트림 상단, 
+콘솔 가니쉬, 리어 에어벤트 베젤부 등), 럭셔리 스웨이드 내장재(헤드라이닝, 필라 트림 등)<br><br><b>▶&nbsp;</b>스포츠 디자인 셀렉션Ⅱ : 2,300,000<br>- 프라임 나파 가죽 시트(퀼팅, 파이핑 적용), 레이어드 엣지 무드라이팅 내장재, 인조 가죽 내장재(크래쉬 패드, 도어트림 상단, 콘솔 가니쉬, 리어에어벤트 베젤부 등), 럭셔리 스웨이드 내장재(헤드라이닝, 필라트림 등)<br><br><b>▶&nbsp;</b>파퓰러 패키지 l&nbsp;: 3,600,000<br>※ 헤드업 디스플레이, 드라이빙 어시스턴스 패키지Ⅰ, 2열 컴포트 패키지<br>※ 파퓰러 패키지는 고객들이 가장 선호하는 사양들에 가격적인 혜택을 더하여 제공하는 옵션 패키지입니다.&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>파퓰러 패키지Ⅱ : 7,700,000<br>※ 파퓰러 패키지Ⅰ, 컨비니언스 패키지, 드라이빙 어시스턴스 패키지Ⅱ<br>※ 파퓰러 패키지는 고객들이 가장 선호하는 사양들에 가격적인 혜택을 더하여 제공하는 옵션 패키지입니다.&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>프리뷰 전자제어 서스펜션 : 1,100,000<br> ※ 가솔린 2.5 터보 기본/스포츠 19인치 휠 &amp; 타이어 선택 시 선택 가능<br><br><b>▶&nbsp;</b>파노라마 선루프 : 1,400,000<br><br><b>▶&nbsp;</b>헤드업 디스플레이 : 1,300,000<br><br><b>▶&nbsp;</b>컨비니언스 패키지 : 2,600,000<br>- 운전석 &amp; 동승석 에르고 모션 시트(18방향, 쿠션 익스텐션, 볼스터 전동 조절 적용, 스트레칭 모드 포함), 동승석 자세 메모리 시스템
+무드 큐레이터(향기 카트리지 3EA 포함), 앞좌석 콘솔 암레스트 수납함 자외선 살균 기능, 디지털 센터 미러<br><br><b>▶&nbsp;</b>드라이빙 어시스턴스 패키지Ⅰ : 1,950,000<br>-  서라운드 뷰 모니터, 후측방 모니터, 원격 스마트 주차 보조(주차 구획선 인식 및 사선 주차 포함), 주차 충돌방지 보조(전/측/후방), 주차 거리 경고(측방)<br><br><b>▶&nbsp;</b>드라이빙 어시스턴스 패키지Ⅱ : 2,000,000<br>-&nbsp; 서라운드 뷰 모니터, 후측방 모니터, 원격 스마트 주차 보조(주차 구획선 인식 및 사선 주차 포함), 주차 충돌방지 보조(전/측/후방), 주차 거리 경고(측방)
+<br><br><b>▶&nbsp;</b>2열 컴포트 패키지 : 700,000<br>-  뒷좌석 수동식 도어커튼, 3존 공조(운전석 &amp; 동승석 듀얼 풍향모드 제어, 뒷좌석 LCD 터치 공조 조절 장치), 뒷좌석 통풍 시트<br><br><b>▶&nbsp;</b>아웃도어 패키지 : 400,000<br>- 러기지 매트, 러기지 스크린, 뒷좌석 220V 파워아웃렛
+<br><br><b>▶&nbsp;</b>뱅앤올룹슨 사운드 패키지&nbsp;: 1,700,000<br>- 뱅앤올룹슨 고해상도 사운드 시스템(16스피커), 액티브 로드 노이즈 컨트롤<br><br><b>▶&nbsp;</b>빌트인 캠 패키지 : 850,000<br>- 빌트인 캠 2, 보조배터리, 증강현실 내비게이션 
+<br>※ QHD급 고화질 녹화 및 음성 녹음 지원, Micro SD 외장 메모리 적용, 주차 후 최대 20시간 녹화 가능</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+													
+														
+													
+													
+														
+															
+															
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>2.5T 가솔린 AWD</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>5,680</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶&nbsp;파워트레인 및 성능 :</b>&nbsp; 가솔린 2.5 터보 엔진, 8단 자동변속기, ISG 시스템, 통합 주행 모드, 런치 컨트롤, 전륜 아노다이징 실버 모노블럭(4P) 브레이크,&nbsp;AWD(오토 터레인 모드 포함)<br><br><b>▶&nbsp;외관 :</b>&nbsp;MLA 헤드램프(Micro Lens Array), Full LED 리어 콤비 램프, 235/60R18 브리지스톤 타이어 &amp; 휠, 이중 접합 차음 유리(앞면, 전체 도어), 자외선 차단 유리(앞면, 뒷면, 전체 도어), 루프랙, 다이내믹 웰컴 라이트(전면), 후륜 스타일링 커버, 히든 머플러<br><br><b>▶&nbsp;내장 :</b>&nbsp;MLA 헤드램프(Micro Lens Array), Full LED 리어 콤비 램프, 235/60R18 브리지스톤 타이어 &amp; 휠, 이중 접합 차음 유리(앞면, 전체 도어), 자외선 차단 유리(앞면, 뒷면, 전체 도어), 루프랙, 다이내믹 웰컴 라이트(전면), 후륜 스타일링 커버, 히든 머플러<br><br><b>▶&nbsp;안전 :&nbsp;</b>MLA 헤드램프(Micro Lens Array), Full LED 리어 콤비 램프, 235/60R18 브리지스톤 타이어 &amp; 휠, 이중 접합 차음 유리(앞면, 전체 도어), 자외선 차단 유리(앞면, 뒷면, 전체 도어), 루프랙, 다이내믹 웰컴 라이트(전면), 후륜 스타일링 커버, 히든 머플러<br><br><b>▶&nbsp;편의 :</b>&nbsp;앞좌석 스마트폰 무선 충전, 제네시스 디지털 키 2, 터치타입 아웃사이드 도어 핸들, 전자식 파워 차일드 락, 레인 센서, 열선 &amp; 전동식 조절 스티어링 휠, 실내 지문 인증 시스템(개인화, 시동, 결제 등), 독립제어 풀오토 에어컨(운전석 &amp; 동승석 듀얼 온도 제어, 후석 공조 전석 제어, 오토디포그, 외부공기 유입 방지 제어, 애프터 블로우 포함), 공기 청정 시스템(미세먼지 센서, 엔진룸 프리 필터, 항균 처리 고성능 콤비 필터), 고속도로 주행 보조, 스마트 크루즈 컨트롤(Stop &amp; Go 포함), 내비게이션 기반 스마트 크루즈 컨트롤(안전구간, 곡선로), 차로 유지 보조, 조향 연동 후방 모니터, 전동식 파킹 브레이크(오토홀드 포함), 앞좌석 &amp; 뒷좌석 파워 세이프티 윈도우, 전방/후방 주차 거리 경고, 스마트 파워 테일게이트<br><br><b>▶&nbsp;시트 :&nbsp;</b>인조 가죽 시트, 운전석 전동시트(12방향, 럼버서포트 포함), 동승석 전동시트(8방향, 높이조절 포함), 동승석 워크인 디바이스, 운전석 자세 메모리 시스템(스마트 자세제어 시스템 포함), 앞좌석 통풍 &amp; 열선 시트, 뒷좌석 열선 시트, 뒷좌석 수동 리클라이닝, 뒷좌석 6:4 폴딩<br><br><b>▶&nbsp;인포테인먼트&nbsp;</b>: 제네시스 인포테인먼트 시스템(ccIC), Genesis Connected Services(5년 무료), 제네시스 카페이, 발레 모드, 스트리밍 서비스(스트리밍 플러스 요금제 5년 무료 포함), 무선 소프트웨어 업데이트(OTA Software Update), 제네시스 레퍼런스 사운드 시스템(9스피커)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>매트 컬러 무광 3종 중 선택 : 700,000<br>※ 바로사 버건디(무광), 브런즈윅 그린, 마테호른 화이트, 멜버른 그레이<br><br><b>▶&nbsp;</b>가솔린 2.5 터보 235/55R19 미쉐린 타이어 &amp; 휠 : 1,100,000<br>※ 전륜 모노블럭(4P) 브레이크, 후륜 스타일링 커버 포함<br><br><b>▶&nbsp;</b>가솔린 2.5 터보 255/40R21 미쉐린 타이어 &amp; 휠 : 3,300,000<br>※ 프리뷰 전자제어 서스펜션 포함<br><br><b>▶&nbsp;</b>시그니쳐 디자인 셀렉션Ⅰ:&nbsp;1,700,000<br>-&nbsp; 천연 가죽 시트(파이핑 적용), 헤어라인 브러쉬드 패턴 알루미늄 내장재, 인조 가죽 내장재(크래쉬패드, 도어 트림 상단, 콘솔 가니쉬, 리어 에어벤트 베젤부 등)<br><br>▶&nbsp;시그니쳐 디자인 셀렉션Ⅱ : 3,000,000<br>-&nbsp; 프라임 나파 가죽 시트(퀼팅, 파이핑 적용), 엘레강스 라인 무드라이팅 내장재, 인조 가죽 내장재(크래쉬패드, 도어 트림 상단, 콘솔 가니쉬, 리어 에어벤트 베젤부 등), 럭셔리 스웨이드 내장재(헤드라이닝, 필라 트림 등), 투톤 가죽 스티어링 휠<br><br>▶&nbsp;스포츠 패키지&nbsp;가솔린 2.5 터보 : 3,150,000<br>- 전자식 차동제한장치(e-LSD), 19인치 미쉐린 타이어 &amp; 스포츠 전용 휠, 전륜 블랙도장 모노블럭(4P) 브레이크, 스포츠+ 모드, 스포츠 내외장 포함 (전용 천연 가죽 시트, 전용 스티어링 휠, 메탈 페달 등)<br>※ 스포츠 외장<br>[공통] 스포츠 전용 프론트/리어 범퍼, 스포츠 전용 라디에이터 그릴, 다크 루프랙/DLO 몰딩/헤드램프 베젤부, 스포츠 전용 실린더 타입 듀얼 싱글 머플러 등<br><br><b>▶&nbsp;</b>스포츠 패키지 가솔린 2.5 터보 255/40R21 미쉐린 타이어 &amp; 스포츠 전용 휠 : 3,300,000<br>※ 프리뷰 전자제어 서스펜션 포함<br><br><b>▶&nbsp;</b>스포츠 디자인 셀렉션 : 2,300,000<br>- 프라임 나파 가죽 시트(스웨이드, 파이핑 적용), 자카드 패턴 리얼 카본 내장재, 인조 가죽 내장재(크래쉬패드, 도어 트림 상단, 콘솔 가니쉬, 리어 에어벤트 베젤부 등), 럭셔리 스웨이드 내장재(헤드라이닝, 필라 트림 등)<br><br><b>▶&nbsp;</b>스포츠 디자인 셀렉션Ⅱ : 2,300,000<br>- 프라임 나파 가죽 시트(퀼팅, 파이핑 적용), 레이어드 엣지 무드라이팅 내장재, 인조 가죽 내장재(크래쉬 패드, 도어트림 상단, 콘솔 가니쉬, 리어에어벤트 베젤부 등), 럭셔리 스웨이드 내장재(헤드라이닝, 필라트림 등)<br><br><b>▶&nbsp;</b>파퓰러 패키지 l&nbsp;: 3,600,000<br>※ 헤드업 디스플레이, 드라이빙 어시스턴스 패키지Ⅰ, 2열 컴포트 패키지<br>※ 파퓰러 패키지는 고객들이 가장 선호하는 사양들에 가격적인 혜택을 더하여 제공하는 옵션 패키지입니다.&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>파퓰러 패키지Ⅱ : 7,700,000<br>※ 파퓰러 패키지Ⅰ, 컨비니언스 패키지, 드라이빙 어시스턴스 패키지Ⅱ<br>※ 파퓰러 패키지는 고객들이 가장 선호하는 사양들에 가격적인 혜택을 더하여 제공하는 옵션 패키지입니다.&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>프리뷰 전자제어 서스펜션 : 1,100,000<br>※ 가솔린 2.5 터보 기본/스포츠 19인치 휠 &amp; 타이어 선택 시 선택 가능<br><br><b>▶&nbsp;</b>파노라마 선루프 : 1,400,000<br><br><b>▶&nbsp;</b>헤드업 디스플레이 : 1,300,000<br><br><b>▶&nbsp;</b>컨비니언스 패키지 : 2,600,000<br>- 운전석 &amp; 동승석 에르고 모션 시트(18방향, 쿠션 익스텐션, 볼스터 전동 조절 적용, 스트레칭 모드 포함), 동승석 자세 메모리 시스템 무드 큐레이터(향기 카트리지 3EA 포함), 앞좌석 콘솔 암레스트 수납함 자외선 살균 기능, 디지털 센터 미러<br><br><b>▶&nbsp;</b>드라이빙 어시스턴스 패키지Ⅰ : 1,950,000<br>- 서라운드 뷰 모니터, 후측방 모니터, 원격 스마트 주차 보조(주차 구획선 인식 및 사선 주차 포함), 주차 충돌방지 보조(전/측/후방), 주차 거리 경고(측방)<br><br><b>▶&nbsp;</b>드라이빙 어시스턴스 패키지Ⅱ : 2,000,000<br>-&nbsp; 서라운드 뷰 모니터, 후측방 모니터, 원격 스마트 주차 보조(주차 구획선 인식 및 사선 주차 포함), 주차 충돌방지 보조(전/측/후방), 주차 거리 경고(측방)<br><br><b>▶&nbsp;</b>2열 컴포트 패키지 : 700,000<br>- 뒷좌석 수동식 도어커튼, 3존 공조(운전석 &amp; 동승석 듀얼 풍향모드 제어, 뒷좌석 LCD 터치 공조 조절 장치), 뒷좌석 통풍 시트<br><br><b>▶&nbsp;</b>아웃도어 패키지 : 400,000<br>- 러기지 매트, 러기지 스크린, 뒷좌석 220V 파워아웃렛<br><br><b>▶&nbsp;</b>뱅앤올룹슨 사운드 패키지&nbsp;: 1,700,000<br>- 뱅앤올룹슨 고해상도 사운드 시스템(16스피커), 액티브 로드 노이즈 컨트롤<br><br><b>▶&nbsp;</b>빌트인 캠 패키지 : 850,000<br>- 빌트인 캠 2, 보조배터리, 증강현실 내비게이션<br>※ QHD급 고화질 녹화 및 음성 녹음 지원, Micro SD 외장 메모리 적용, 주차 후 최대 20시간 녹화 가능</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+													
+														
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>3.5T 가솔린 2WD</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>5,930</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶&nbsp;파워트레인 및 성능 :</b>&nbsp; 가솔린 3.5 터보 엔진, 8단 자동변속기, ISG 시스템, 통합 주행 모드, 런치 컨트롤, 전륜 아노다이징 실버 모노블럭(4P) 브레이크<br>※ 프리뷰 전자제어 서스펜션, 19인치 미쉐린 타이어 &amp; 휠, 전륜 코퍼도장 모노블럭(4P) 브레이크 및 후륜 스타일링 커버 기본 적용<br><br><b>▶&nbsp;외관 :</b>&nbsp;MLA 헤드램프(Micro Lens Array), Full LED 리어 콤비 램프, 235/60R18 브리지스톤 타이어 &amp; 휠, 이중 접합 차음 유리(앞면, 전체 도어), 자외선 차단 유리(앞면, 뒷면, 전체 도어), 루프랙, 다이내믹 웰컴 라이트(전면), 후륜 스타일링 커버, 히든 머플러<br><br><b>▶&nbsp;내장 :</b>&nbsp;MLA 헤드램프(Micro Lens Array), Full LED 리어 콤비 램프, 235/60R18 브리지스톤 타이어 &amp; 휠, 이중 접합 차음 유리(앞면, 전체 도어), 자외선 차단 유리(앞면, 뒷면, 전체 도어), 루프랙, 다이내믹 웰컴 라이트(전면), 후륜 스타일링 커버, 히든 머플러<br><br><b>▶&nbsp;안전 :&nbsp;</b>MLA 헤드램프(Micro Lens Array), Full LED 리어 콤비 램프, 235/60R18 브리지스톤 타이어 &amp; 휠, 이중 접합 차음 유리(앞면, 전체 도어), 자외선 차단 유리(앞면, 뒷면, 전체 도어), 루프랙, 다이내믹 웰컴 라이트(전면), 후륜 스타일링 커버, 히든 머플러<br><br><b>▶&nbsp;편의 :</b>&nbsp;앞좌석 스마트폰 무선 충전, 제네시스 디지털 키 2, 터치타입 아웃사이드 도어 핸들, 전자식 파워 차일드 락, 레인 센서, 열선 &amp; 전동식 조절 스티어링 휠, 실내 지문 인증 시스템(개인화, 시동, 결제 등), 독립제어 풀오토 에어컨(운전석 &amp; 동승석 듀얼 온도 제어, 후석 공조 전석 제어, 오토디포그, 외부공기 유입 방지 제어, 애프터 블로우 포함), 공기 청정 시스템(미세먼지 센서, 엔진룸 프리 필터, 항균 처리 고성능 콤비 필터), 고속도로 주행 보조, 스마트 크루즈 컨트롤(Stop &amp; Go 포함), 내비게이션 기반 스마트 크루즈 컨트롤(안전구간, 곡선로), 차로 유지 보조, 조향 연동 후방 모니터, 전동식 파킹 브레이크(오토홀드 포함), 앞좌석 &amp; 뒷좌석 파워 세이프티 윈도우, 전방/후방 주차 거리 경고, 스마트 파워 테일게이트<br><br><b>▶&nbsp;시트 :&nbsp;</b>인조 가죽 시트, 운전석 전동시트(12방향, 럼버서포트 포함), 동승석 전동시트(8방향, 높이조절 포함), 동승석 워크인 디바이스, 운전석 자세 메모리 시스템(스마트 자세제어 시스템 포함), 앞좌석 통풍 &amp; 열선 시트, 뒷좌석 열선 시트, 뒷좌석 수동 리클라이닝, 뒷좌석 6:4 폴딩<br><br><b>▶&nbsp;인포테인먼트&nbsp;</b>: 제네시스 인포테인먼트 시스템(ccIC), Genesis Connected Services(5년 무료), 제네시스 카페이, 발레 모드, 스트리밍 서비스(스트리밍 플러스 요금제 5년 무료 포함), 무선 소프트웨어 업데이트(OTA Software Update), 제네시스 레퍼런스 사운드 시스템(9스피커)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>매트 컬러 무광 3종 중 선택 : 700,000<br>※ 바로사 버건디(무광), 브런즈윅 그린, 마테호른 화이트, 멜버른 그레이<br><br><b>▶&nbsp;</b>가솔린 2.5 터보&nbsp;&nbsp;235/55R19 미쉐린 타이어 &amp; 휠 : 1,100,000<br>※ 전륜 모노블럭(4P) 브레이크, 후륜 스타일링 커버 포함<br><br><b>▶&nbsp;</b>가솔린 3.5 터보&nbsp;&nbsp;255/40R21 미쉐린 타이어 &amp; 휠 : 1,200,000<br>※ 프리뷰 전자제어 서스펜션 포함<br><br><b>▶&nbsp;</b>시그니쳐 디자인 셀렉션Ⅰ:&nbsp;1,700,000<br>-&nbsp; 천연 가죽 시트(파이핑 적용), 헤어라인 브러쉬드 패턴 알루미늄 내장재, 인조 가죽 내장재(크래쉬패드, 도어 트림 상단, 콘솔 가니쉬, 리어 에어벤트 베젤부 등)<br><br>▶&nbsp;시그니쳐 디자인 셀렉션Ⅱ : 3,000,000<br>-&nbsp; 프라임 나파 가죽 시트(퀼팅, 파이핑 적용), 엘레강스 라인 무드라이팅 내장재, 인조 가죽 내장재(크래쉬패드, 도어 트림 상단, 콘솔 가니쉬, 리어 에어벤트 베젤부 등), 럭셔리 스웨이드 내장재(헤드라이닝, 필라 트림 등), 투톤 가죽 스티어링 휠<br><br>▶&nbsp;스포츠 패키지&nbsp;가솔린 3.5 터보: 3,350,000<br>- 전자식 차동제한장치(e-LSD), 21인치 미쉐린 타이어 &amp; 스포츠 전용 휠, 전륜 레드도장 모노블럭(4P) 브레이크, 스포츠+ 모드, 스포츠 내외장 포함 (전용 천연 가죽 시트, 전용 스티어링 휠, 메탈 페달 등)<br>※ 스포츠 외장<br>[공통] 스포츠 전용 프론트/리어 범퍼, 스포츠 전용 라디에이터 그릴, 다크 루프랙/DLO 몰딩/헤드램프 베젤부, 스포츠 전용 실린더 타입 듀얼 싱글 머플러 등<br><br><b>▶&nbsp;</b>스포츠 패키지 가솔린 3.5 터보 255/40R21 미쉐린 썸머 타이어 &amp; 스포츠 전용 휠 : 추가 비용 없음※ 프리뷰 전자제어 서스펜션 포함&nbsp;<br><br><b>▶&nbsp;</b>스포츠 디자인 셀렉션 : 2,300,000<br>- 프라임 나파 가죽 시트(스웨이드, 파이핑 적용), 자카드 패턴 리얼 카본 내장재, 인조 가죽 내장재(크래쉬패드, 도어 트림 상단, 콘솔 가니쉬, 리어 에어벤트 베젤부 등), 럭셔리 스웨이드 내장재(헤드라이닝, 필라 트림 등)<br><br><b>▶&nbsp;</b>스포츠 디자인 셀렉션Ⅱ : 2,300,000<br>- 프라임 나파 가죽 시트(퀼팅, 파이핑 적용), 레이어드 엣지 무드라이팅 내장재, 인조 가죽 내장재(크래쉬 패드, 도어트림 상단, 콘솔 가니쉬, 리어에어벤트 베젤부 등), 럭셔리 스웨이드 내장재(헤드라이닝, 필라트림 등)<br><br><b>▶&nbsp;</b>파퓰러 패키지 l&nbsp;: 3,600,000<br>※ 헤드업 디스플레이, 드라이빙 어시스턴스 패키지Ⅰ, 2열 컴포트 패키지<br>※ 파퓰러 패키지는 고객들이 가장 선호하는 사양들에 가격적인 혜택을 더하여 제공하는 옵션 패키지입니다.&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>파퓰러 패키지Ⅱ : 7,700,000<br>※ 파퓰러 패키지Ⅰ, 컨비니언스 패키지, 드라이빙 어시스턴스 패키지Ⅱ<br>※ 파퓰러 패키지는 고객들이 가장 선호하는 사양들에 가격적인 혜택을 더하여 제공하는 옵션 패키지입니다.&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>프리뷰 전자제어 서스펜션 : 1,100,000<br>※ 가솔린 2.5 터보 기본/스포츠 19인치 휠 &amp; 타이어 선택 시 선택 가능<br><br><b>▶&nbsp;</b>파노라마 선루프 : 1,400,000<br><br><b>▶&nbsp;</b>헤드업 디스플레이 : 1,300,000<br><br><b>▶&nbsp;</b>컨비니언스 패키지 : 2,600,000<br>- 운전석 &amp; 동승석 에르고 모션 시트(18방향, 쿠션 익스텐션, 볼스터 전동 조절 적용, 스트레칭 모드 포함), 동승석 자세 메모리 시스템 무드 큐레이터(향기 카트리지 3EA 포함), 앞좌석 콘솔 암레스트 수납함 자외선 살균 기능, 디지털 센터 미러<br><br><b>▶&nbsp;</b>드라이빙 어시스턴스 패키지Ⅰ : 1,950,000<br>- 서라운드 뷰 모니터, 후측방 모니터, 원격 스마트 주차 보조(주차 구획선 인식 및 사선 주차 포함), 주차 충돌방지 보조(전/측/후방), 주차 거리 경고(측방)<br><br><b>▶&nbsp;</b>드라이빙 어시스턴스 패키지Ⅱ : 2,000,000<br>-&nbsp; 서라운드 뷰 모니터, 후측방 모니터, 원격 스마트 주차 보조(주차 구획선 인식 및 사선 주차 포함), 주차 충돌방지 보조(전/측/후방), 주차 거리 경고(측방)<br><br><b>▶&nbsp;</b>2열 컴포트 패키지 : 700,000<br>- 뒷좌석 수동식 도어커튼, 3존 공조(운전석 &amp; 동승석 듀얼 풍향모드 제어, 뒷좌석 LCD 터치 공조 조절 장치), 뒷좌석 통풍 시트<br><br><b>▶&nbsp;</b>아웃도어 패키지 : 400,000<br>- 러기지 매트, 러기지 스크린, 뒷좌석 220V 파워아웃렛<br><br><b>▶&nbsp;</b>뱅앤올룹슨 사운드 패키지&nbsp;: 1,700,000<br>- 뱅앤올룹슨 고해상도 사운드 시스템(16스피커), 액티브 로드 노이즈 컨트롤<br><br><b>▶&nbsp;</b>빌트인 캠 패키지 : 850,000<br>- 빌트인 캠 2, 보조배터리, 증강현실 내비게이션<br>※ QHD급 고화질 녹화 및 음성 녹음 지원, Micro SD 외장 메모리 적용, 주차 후 최대 20시간 녹화 가능</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+													
+														
+													
+													
+														
+													
+													
+													
+														
+															
+															
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+															
+																
+															
+																
+															
+																
+															
+																
+																	
+																	
+																
+															
+														
+													
+													<tr>
+														
+															<td class="grade" rowspan="1">
+																<p>3.5T 가솔린 AWD</p></td>
+														
+														
+															<td class="detailgrd" rowspan="1">
+																<p></p></td>
+														
+														<td class="mission"><p>A/T</p></td>
+														<td class="price">
+															<p>
+																<strong>6,230</strong> 만원
+															</p>
+														</td>
+                                                        
+                                                            
+                                                            
+                                                                <td class="uprice none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+                                                                    <p>
+                                                                        <strong>미제공</strong>
+                                                                    </p>
+                                                                </td>
+                                                            
+                                                        
+														<td class="item">
+															<div class="item">
+																	<b>▶&nbsp;파워트레인 및 성능 :</b>&nbsp; 가솔린 3.5 터보 엔진, 8단 자동변속기, ISG 시스템, 통합 주행 모드, 런치 컨트롤, 전륜 아노다이징 실버 모노블럭(4P) 브레이크,&nbsp;AWD(오토 터레인 모드 포함)
+<br>※ 프리뷰 전자제어 서스펜션, 
+19인치 미쉐린 타이어 &amp; 휠, 
+전륜 코퍼도장 모노블럭(4P) 브레이크 
+및 후륜 스타일링 커버 기본 적용
+<br><br><b>▶&nbsp;외관 :</b>&nbsp;MLA 헤드램프(Micro Lens Array), Full LED 리어 콤비 램프, 235/60R18 브리지스톤 타이어 &amp; 휠, 이중 접합 차음 유리(앞면, 전체 도어), 자외선 차단 유리(앞면, 뒷면, 전체 도어), 루프랙, 다이내믹 웰컴 라이트(전면), 후륜 스타일링 커버, 히든 머플러<br><br><b>▶&nbsp;내장 :</b>&nbsp;MLA 헤드램프(Micro Lens Array), Full LED 리어 콤비 램프, 235/60R18 브리지스톤 타이어 &amp; 휠, 이중 접합 차음 유리(앞면, 전체 도어), 자외선 차단 유리(앞면, 뒷면, 전체 도어), 루프랙, 다이내믹 웰컴 라이트(전면), 후륜 스타일링 커버, 히든 머플러<br><br><b>▶&nbsp;안전 :&nbsp;</b>MLA 헤드램프(Micro Lens Array), Full LED 리어 콤비 램프, 235/60R18 브리지스톤 타이어 &amp; 휠, 이중 접합 차음 유리(앞면, 전체 도어), 자외선 차단 유리(앞면, 뒷면, 전체 도어), 루프랙, 다이내믹 웰컴 라이트(전면), 후륜 스타일링 커버, 히든 머플러<br><br><b>▶&nbsp;편의 :</b>&nbsp;앞좌석 스마트폰 무선 충전, 제네시스 디지털 키 2, 터치타입 아웃사이드 도어 핸들, 전자식 파워 차일드 락, 레인 센서, 열선 &amp; 전동식 조절 스티어링 휠, 실내 지문 인증 시스템(개인화, 시동, 결제 등), 독립제어 풀오토 에어컨(운전석 &amp; 동승석 듀얼 온도 제어, 후석 공조 전석 제어, 오토디포그, 외부공기 유입 방지 제어, 애프터 블로우 포함), 공기 청정 시스템(미세먼지 센서, 엔진룸 프리 필터, 항균 처리 고성능 콤비 필터), 고속도로 주행 보조, 스마트 크루즈 컨트롤(Stop &amp; Go 포함), 내비게이션 기반 스마트 크루즈 컨트롤(안전구간, 곡선로), 차로 유지 보조, 조향 연동 후방 모니터, 전동식 파킹 브레이크(오토홀드 포함), 앞좌석 &amp; 뒷좌석 파워 세이프티 윈도우, 전방/후방 주차 거리 경고, 스마트 파워 테일게이트<br><br><b>▶&nbsp;시트 :&nbsp;</b>인조 가죽 시트, 운전석 전동시트(12방향, 럼버서포트 포함), 동승석 전동시트(8방향, 높이조절 포함), 동승석 워크인 디바이스, 운전석 자세 메모리 시스템(스마트 자세제어 시스템 포함), 앞좌석 통풍 &amp; 열선 시트, 뒷좌석 열선 시트, 뒷좌석 수동 리클라이닝, 뒷좌석 6:4 폴딩<br><br><b>▶&nbsp;인포테인먼트&nbsp;</b>: 제네시스 인포테인먼트 시스템(ccIC), Genesis Connected Services(5년 무료), 제네시스 카페이, 발레 모드, 스트리밍 서비스(스트리밍 플러스 요금제 5년 무료 포함), 무선 소프트웨어 업데이트(OTA Software Update), 제네시스 레퍼런스 사운드 시스템(9스피커)
+															</div>
+														</td>
+														<td class="option">
+															<ul class="item">
+																<li class="goods"><b>▶&nbsp;</b>매트 컬러 무광 3종 중 선택 : 700,000<br>※ 바로사 버건디(무광), 브런즈윅 그린, 마테호른 화이트, 멜버른 그레이<br><br><b>▶&nbsp;</b>가솔린 2.5 터보&nbsp;&nbsp;235/55R19 미쉐린 타이어 &amp; 휠 : 1,100,000<br>※ 전륜 모노블럭(4P) 브레이크, 후륜 스타일링 커버 포함<br><br><b>▶&nbsp;</b>가솔린 3.5 터보&nbsp;&nbsp;255/40R21 미쉐린 타이어 &amp; 휠 : 1,200,000<br>※ 프리뷰 전자제어 서스펜션 포함<br><br><b>▶&nbsp;</b>시그니쳐 디자인 셀렉션Ⅰ:&nbsp;1,700,000<br>-&nbsp; 천연 가죽 시트(파이핑 적용), 헤어라인 브러쉬드 패턴 알루미늄 내장재, 인조 가죽 내장재(크래쉬패드, 도어 트림 상단, 콘솔 가니쉬, 리어 에어벤트 베젤부 등)<br><br>▶&nbsp;시그니쳐 디자인 셀렉션Ⅱ : 3,000,000<br>-&nbsp; 프라임 나파 가죽 시트(퀼팅, 파이핑 적용), 엘레강스 라인 무드라이팅 내장재, 인조 가죽 내장재(크래쉬패드, 도어 트림 상단, 콘솔 가니쉬, 리어 에어벤트 베젤부 등), 럭셔리 스웨이드 내장재(헤드라이닝, 필라 트림 등), 투톤 가죽 스티어링 휠<br><br>▶&nbsp;스포츠 패키지&nbsp;가솔린 3.5 터보: 3,350,000<br>- 전자식 차동제한장치(e-LSD), 21인치 미쉐린 타이어 &amp; 스포츠 전용 휠,
+전륜 레드도장 모노블럭(4P) 브레이크, 스포츠+ 모드, 스포츠 내외장 포함
+(전용 천연 가죽 시트, 전용 스티어링 휠, 메탈 페달 등)<br>※ 스포츠 외장<br>[공통] 스포츠 전용 프론트/리어 범퍼, 스포츠 전용 라디에이터 그릴, 다크 루프랙/DLO 몰딩/헤드램프 베젤부, 
+스포츠 전용 실린더 타입 듀얼 싱글 머플러 등<br><br><b>▶&nbsp;</b>스포츠 패키지 가솔린 3.5 터보 255/40R21 미쉐린 썸머 타이어 &amp; 스포츠 전용 휠 : 추가 비용 없음※ 프리뷰 전자제어 서스펜션 포함&nbsp;<br><br><b>▶&nbsp;</b>스포츠 디자인 셀렉션 : 2,300,000<br>- 프라임 나파 가죽 시트(스웨이드, 파이핑 적용), 자카드 패턴 리얼 카본 내장재, 인조 가죽 내장재(크래쉬패드, 도어 트림 상단, 콘솔 가니쉬, 리어 에어벤트 베젤부 등), 럭셔리 스웨이드 내장재(헤드라이닝, 필라 트림 등)<br><br><b>▶&nbsp;</b>스포츠 디자인 셀렉션Ⅱ : 2,300,000<br>- 프라임 나파 가죽 시트(퀼팅, 파이핑 적용), 레이어드 엣지 무드라이팅 내장재, 인조 가죽 내장재(크래쉬 패드, 도어트림 상단, 콘솔 가니쉬, 리어에어벤트 베젤부 등), 럭셔리 스웨이드 내장재(헤드라이닝, 필라트림 등)<br><br><b>▶&nbsp;</b>파퓰러 패키지 l&nbsp;: 3,600,000<br>※ 헤드업 디스플레이, 드라이빙 어시스턴스 패키지Ⅰ, 2열 컴포트 패키지<br>※ 파퓰러 패키지는 고객들이 가장 선호하는 사양들에 가격적인 혜택을 더하여 제공하는 옵션 패키지입니다.&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>파퓰러 패키지Ⅱ : 7,700,000<br>※ 파퓰러 패키지Ⅰ, 컨비니언스 패키지, 드라이빙 어시스턴스 패키지Ⅱ<br>※ 파퓰러 패키지는 고객들이 가장 선호하는 사양들에 가격적인 혜택을 더하여 제공하는 옵션 패키지입니다.&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>프리뷰 전자제어 서스펜션 : 1,100,000<br>※ 가솔린 2.5 터보 기본/스포츠 19인치 휠 &amp; 타이어 선택 시 선택 가능<br><br><b>▶&nbsp;</b>파노라마 선루프 : 1,400,000<br><br><b>▶&nbsp;</b>헤드업 디스플레이 : 1,300,000<br><br><b>▶&nbsp;</b>컨비니언스 패키지 : 2,600,000<br>- 운전석 &amp; 동승석 에르고 모션 시트(18방향, 쿠션 익스텐션, 볼스터 전동 조절 적용, 스트레칭 모드 포함), 동승석 자세 메모리 시스템 무드 큐레이터(향기 카트리지 3EA 포함), 앞좌석 콘솔 암레스트 수납함 자외선 살균 기능, 디지털 센터 미러<br><br><b>▶&nbsp;</b>드라이빙 어시스턴스 패키지Ⅰ : 1,950,000<br>- 서라운드 뷰 모니터, 후측방 모니터, 원격 스마트 주차 보조(주차 구획선 인식 및 사선 주차 포함), 주차 충돌방지 보조(전/측/후방), 주차 거리 경고(측방)<br><br><b>▶&nbsp;</b>드라이빙 어시스턴스 패키지Ⅱ : 2,000,000<br>-&nbsp; 서라운드 뷰 모니터, 후측방 모니터, 원격 스마트 주차 보조(주차 구획선 인식 및 사선 주차 포함), 주차 충돌방지 보조(전/측/후방), 주차 거리 경고(측방)<br><br><b>▶&nbsp;</b>2열 컴포트 패키지 : 700,000<br>- 뒷좌석 수동식 도어커튼, 3존 공조(운전석 &amp; 동승석 듀얼 풍향모드 제어, 뒷좌석 LCD 터치 공조 조절 장치), 뒷좌석 통풍 시트<br><br><b>▶&nbsp;</b>아웃도어 패키지 : 400,000<br>- 러기지 매트, 러기지 스크린, 뒷좌석 220V 파워아웃렛<br><br><b>▶&nbsp;</b>뱅앤올룹슨 사운드 패키지&nbsp;: 1,700,000<br>- 뱅앤올룹슨 고해상도 사운드 시스템(16스피커), 액티브 로드 노이즈 컨트롤<br><br><b>▶&nbsp;</b>빌트인 캠 패키지 : 850,000<br>- 빌트인 캠 2, 보조배터리, 증강현실 내비게이션<br>※ QHD급 고화질 녹화 및 음성 녹음 지원, Micro SD 외장 메모리 적용, 주차 후 최대 20시간 녹화 가능</li>
+															</ul>
+														</td>
+													</tr>
+													
+													
+												
+												</tbody>
+											</table>
+										
+									</div>
+									<!-- 신차가격표(폴더형) -->
+									<div id="f_fold" style="display:none;">
+										<div class="newcar_folder">
+											<ul class="nf_list" id="newcarList">
+												
+													<li>
+														<a href="#newcar0">
+                                                            <span class="model">2.5T 가솔린 2WD  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>5,380</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar1">
+                                                            <span class="model">2.5T 가솔린 AWD  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>5,680</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar2">
+                                                            <span class="model">3.5T 가솔린 2WD  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>5,930</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+													<li>
+														<a href="#newcar3">
+                                                            <span class="model">3.5T 가솔린 AWD  A/T</span>
+                                                            <span class="prc">
+                                                                <strong>6,230</strong>만원
+                                                            </span>
+
+															
+															
+														     <span class="pr none" onclick="alert('거래량이 적어 현재 시세를 제공하지 않습니다.')">
+																<strong>미제공</strong>
+															  </span>
+															
+
+													    </a>
+													</li>
+												
+											</ul>
+											<!-- 개별 -->
+											
+												<div id="newcar0" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶&nbsp;파워트레인 및 성능 :</b>&nbsp; 가솔린 2.5 터보 엔진, 8단 자동변속기, ISG 시스템, 통합 주행 모드, 런치 컨트롤, 전륜 아노다이징 실버 모노블럭(4P) 브레이크<br><br><b>▶&nbsp;외관 :</b>&nbsp;MLA 헤드램프(Micro Lens Array), Full LED 리어 콤비 램프, 235/60R18 브리지스톤 타이어 &amp; 휠, 이중 접합 차음 유리(앞면, 전체 도어), 자외선 차단 유리(앞면, 뒷면, 전체 도어), 
+루프랙, 다이내믹 웰컴 라이트(전면), 후륜 스타일링 커버, 히든 머플러<br><br><b>▶&nbsp;내장 :</b>&nbsp;MLA 헤드램프(Micro Lens Array), Full LED 리어 콤비 램프, 235/60R18 브리지스톤 타이어 &amp; 휠, 이중 접합 차음 유리(앞면, 전체 도어), 자외선 차단 유리(앞면, 뒷면, 전체 도어), 
+루프랙, 다이내믹 웰컴 라이트(전면), 후륜 스타일링 커버, 히든 머플러<br><br><b>▶&nbsp;안전 :&nbsp;</b>MLA 헤드램프(Micro Lens Array), Full LED 리어 콤비 램프, 235/60R18 브리지스톤 타이어 &amp; 휠, 이중 접합 차음 유리(앞면, 전체 도어), 자외선 차단 유리(앞면, 뒷면, 전체 도어), 
+루프랙, 다이내믹 웰컴 라이트(전면), 후륜 스타일링 커버, 히든 머플러
+<br><br><b>▶&nbsp;편의 :</b>&nbsp;앞좌석 스마트폰 무선 충전, 제네시스 디지털 키 2, 터치타입 아웃사이드 도어 핸들, 전자식 파워 차일드 락, 레인 센서, 열선 &amp; 전동식 조절 스티어링 휠, 
+실내 지문 인증 시스템(개인화, 시동, 결제 등), 독립제어 풀오토 에어컨(운전석 &amp; 동승석 듀얼 온도 제어, 후석 공조 전석 제어, 오토디포그, 외부공기 유입 방지 제어, 
+애프터 블로우 포함), 공기 청정 시스템(미세먼지 센서, 엔진룸 프리 필터, 항균 처리 고성능 콤비 필터), 고속도로 주행 보조, 스마트 크루즈 컨트롤(Stop &amp; Go 포함), 
+내비게이션 기반 스마트 크루즈 컨트롤(안전구간, 곡선로), 차로 유지 보조, 조향 연동 후방 모니터, 전동식 파킹 브레이크(오토홀드 포함), 앞좌석 &amp; 뒷좌석 파워 세이프티 윈도우, 
+전방/후방 주차 거리 경고, 스마트 파워 테일게이트
+<br><br><b>▶&nbsp;시트 :&nbsp;</b>인조 가죽 시트, 운전석 전동시트(12방향, 럼버서포트 포함), 동승석 전동시트(8방향, 높이조절 포함), 동승석 워크인 디바이스, 
+운전석 자세 메모리 시스템(스마트 자세제어 시스템 포함), 앞좌석 통풍 &amp; 열선 시트, 뒷좌석 열선 시트, 뒷좌석 수동 리클라이닝, 뒷좌석 6:4 폴딩<br><br><b>▶&nbsp;인포테인먼트&nbsp;</b>: 제네시스 인포테인먼트 시스템(ccIC), Genesis Connected Services(5년 무료), 제네시스 카페이, 발레 모드, 스트리밍 서비스(스트리밍 플러스 요금제 5년 무료 포함), 
+무선 소프트웨어 업데이트(OTA Software Update), 제네시스 레퍼런스 사운드 시스템(9스피커)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>매트 컬러 무광 3종 중 선택 : 700,000<br>※ 바로사 버건디(무광), 브런즈윅 그린, 마테호른 화이트, 멜버른 그레이<br><br><b>▶&nbsp;</b>가솔린 2.5 터보 235/55R19 미쉐린 타이어 &amp; 휠 : 1,100,000<br>※ 전륜 모노블럭(4P) 브레이크, 후륜 스타일링 커버 포함
+<br><br><b>▶&nbsp;</b>가솔린 2.5 터보 255/40R21 미쉐린 타이어 &amp; 휠 : 3,300,000<br>※ 프리뷰 전자제어 서스펜션 포함<br><br><b>▶&nbsp;</b>시그니쳐 디자인 셀렉션Ⅰ:&nbsp;1,700,000<br>-&nbsp;  천연 가죽 시트(파이핑 적용), 헤어라인 브러쉬드 패턴 알루미늄 내장재, 인조 가죽 
+내장재(크래쉬패드, 도어 트림 상단, 콘솔 가니쉬, 리어 에어벤트 베젤부 등)<br><br>▶&nbsp;시그니쳐 디자인 셀렉션Ⅱ : 3,000,000<br>-&nbsp; 프라임 나파 가죽 시트(퀼팅, 파이핑 적용), 엘레강스 라인 무드라이팅 내장재, 
+인조 가죽 내장재(크래쉬패드, 도어 트림 상단, 콘솔 가니쉬, 리어 에어벤트 베젤부 
+등), 럭셔리 스웨이드 내장재(헤드라이닝, 필라 트림 등), 투톤 가죽 스티어링 휠<br><br>▶&nbsp;스포츠 패키지&nbsp;가솔린 2.5 터보 : 3,150,000<br>- 전자식 차동제한장치(e-LSD), 19인치 미쉐린 타이어 &amp; 스포츠 전용 휠, 
+전륜 블랙도장 모노블럭(4P) 브레이크, 스포츠+ 모드, 스포츠 내외장 포함
+(전용 천연 가죽 시트, 전용 스티어링 휠, 메탈 페달 등) <br>※ 스포츠 외장<br>[공통] 스포츠 전용 프론트/리어 범퍼, 스포츠 전용 라디에이터 그릴, 다크 루프랙/DLO 몰딩/헤드램프 베젤부, 스포츠 전용 실린더 타입 듀얼 싱글 머플러 등<br><br><b>▶&nbsp;</b>스포츠 패키지 가솔린 2.5 터보 255/40R21 미쉐린 타이어 &amp; 스포츠 전용 휠 : 3,300,000<br>※ 프리뷰 전자제어 서스펜션 포함<br><br><b>▶&nbsp;</b>스포츠 디자인 셀렉션 : 2,300,000<br>- 프라임 나파 가죽 시트(스웨이드, 파이핑 적용), 자카드 패턴 리얼 카본 내장재, 인조 가죽 내장재(크래쉬패드, 도어 트림 상단, 
+콘솔 가니쉬, 리어 에어벤트 베젤부 등), 럭셔리 스웨이드 내장재(헤드라이닝, 필라 트림 등)<br><br><b>▶&nbsp;</b>스포츠 디자인 셀렉션Ⅱ : 2,300,000<br>- 프라임 나파 가죽 시트(퀼팅, 파이핑 적용), 레이어드 엣지 무드라이팅 내장재, 인조 가죽 내장재(크래쉬 패드, 도어트림 상단, 콘솔 가니쉬, 리어에어벤트 베젤부 등), 럭셔리 스웨이드 내장재(헤드라이닝, 필라트림 등)<br><br><b>▶&nbsp;</b>파퓰러 패키지 l&nbsp;: 3,600,000<br>※ 헤드업 디스플레이, 드라이빙 어시스턴스 패키지Ⅰ, 2열 컴포트 패키지<br>※ 파퓰러 패키지는 고객들이 가장 선호하는 사양들에 가격적인 혜택을 더하여 제공하는 옵션 패키지입니다.&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>파퓰러 패키지Ⅱ : 7,700,000<br>※ 파퓰러 패키지Ⅰ, 컨비니언스 패키지, 드라이빙 어시스턴스 패키지Ⅱ<br>※ 파퓰러 패키지는 고객들이 가장 선호하는 사양들에 가격적인 혜택을 더하여 제공하는 옵션 패키지입니다.&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>프리뷰 전자제어 서스펜션 : 1,100,000<br> ※ 가솔린 2.5 터보 기본/스포츠 19인치 휠 &amp; 타이어 선택 시 선택 가능<br><br><b>▶&nbsp;</b>파노라마 선루프 : 1,400,000<br><br><b>▶&nbsp;</b>헤드업 디스플레이 : 1,300,000<br><br><b>▶&nbsp;</b>컨비니언스 패키지 : 2,600,000<br>- 운전석 &amp; 동승석 에르고 모션 시트(18방향, 쿠션 익스텐션, 볼스터 전동 조절 적용, 스트레칭 모드 포함), 동승석 자세 메모리 시스템
+무드 큐레이터(향기 카트리지 3EA 포함), 앞좌석 콘솔 암레스트 수납함 자외선 살균 기능, 디지털 센터 미러<br><br><b>▶&nbsp;</b>드라이빙 어시스턴스 패키지Ⅰ : 1,950,000<br>-  서라운드 뷰 모니터, 후측방 모니터, 원격 스마트 주차 보조(주차 구획선 인식 및 사선 주차 포함), 주차 충돌방지 보조(전/측/후방), 주차 거리 경고(측방)<br><br><b>▶&nbsp;</b>드라이빙 어시스턴스 패키지Ⅱ : 2,000,000<br>-&nbsp; 서라운드 뷰 모니터, 후측방 모니터, 원격 스마트 주차 보조(주차 구획선 인식 및 사선 주차 포함), 주차 충돌방지 보조(전/측/후방), 주차 거리 경고(측방)
+<br><br><b>▶&nbsp;</b>2열 컴포트 패키지 : 700,000<br>-  뒷좌석 수동식 도어커튼, 3존 공조(운전석 &amp; 동승석 듀얼 풍향모드 제어, 뒷좌석 LCD 터치 공조 조절 장치), 뒷좌석 통풍 시트<br><br><b>▶&nbsp;</b>아웃도어 패키지 : 400,000<br>- 러기지 매트, 러기지 스크린, 뒷좌석 220V 파워아웃렛
+<br><br><b>▶&nbsp;</b>뱅앤올룹슨 사운드 패키지&nbsp;: 1,700,000<br>- 뱅앤올룹슨 고해상도 사운드 시스템(16스피커), 액티브 로드 노이즈 컨트롤<br><br><b>▶&nbsp;</b>빌트인 캠 패키지 : 850,000<br>- 빌트인 캠 2, 보조배터리, 증강현실 내비게이션 
+<br>※ QHD급 고화질 녹화 및 음성 녹음 지원, Micro SD 외장 메모리 적용, 주차 후 최대 20시간 녹화 가능</p>
+												</div>
+											
+												<div id="newcar1" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶&nbsp;파워트레인 및 성능 :</b>&nbsp; 가솔린 2.5 터보 엔진, 8단 자동변속기, ISG 시스템, 통합 주행 모드, 런치 컨트롤, 전륜 아노다이징 실버 모노블럭(4P) 브레이크,&nbsp;AWD(오토 터레인 모드 포함)<br><br><b>▶&nbsp;외관 :</b>&nbsp;MLA 헤드램프(Micro Lens Array), Full LED 리어 콤비 램프, 235/60R18 브리지스톤 타이어 &amp; 휠, 이중 접합 차음 유리(앞면, 전체 도어), 자외선 차단 유리(앞면, 뒷면, 전체 도어), 루프랙, 다이내믹 웰컴 라이트(전면), 후륜 스타일링 커버, 히든 머플러<br><br><b>▶&nbsp;내장 :</b>&nbsp;MLA 헤드램프(Micro Lens Array), Full LED 리어 콤비 램프, 235/60R18 브리지스톤 타이어 &amp; 휠, 이중 접합 차음 유리(앞면, 전체 도어), 자외선 차단 유리(앞면, 뒷면, 전체 도어), 루프랙, 다이내믹 웰컴 라이트(전면), 후륜 스타일링 커버, 히든 머플러<br><br><b>▶&nbsp;안전 :&nbsp;</b>MLA 헤드램프(Micro Lens Array), Full LED 리어 콤비 램프, 235/60R18 브리지스톤 타이어 &amp; 휠, 이중 접합 차음 유리(앞면, 전체 도어), 자외선 차단 유리(앞면, 뒷면, 전체 도어), 루프랙, 다이내믹 웰컴 라이트(전면), 후륜 스타일링 커버, 히든 머플러<br><br><b>▶&nbsp;편의 :</b>&nbsp;앞좌석 스마트폰 무선 충전, 제네시스 디지털 키 2, 터치타입 아웃사이드 도어 핸들, 전자식 파워 차일드 락, 레인 센서, 열선 &amp; 전동식 조절 스티어링 휠, 실내 지문 인증 시스템(개인화, 시동, 결제 등), 독립제어 풀오토 에어컨(운전석 &amp; 동승석 듀얼 온도 제어, 후석 공조 전석 제어, 오토디포그, 외부공기 유입 방지 제어, 애프터 블로우 포함), 공기 청정 시스템(미세먼지 센서, 엔진룸 프리 필터, 항균 처리 고성능 콤비 필터), 고속도로 주행 보조, 스마트 크루즈 컨트롤(Stop &amp; Go 포함), 내비게이션 기반 스마트 크루즈 컨트롤(안전구간, 곡선로), 차로 유지 보조, 조향 연동 후방 모니터, 전동식 파킹 브레이크(오토홀드 포함), 앞좌석 &amp; 뒷좌석 파워 세이프티 윈도우, 전방/후방 주차 거리 경고, 스마트 파워 테일게이트<br><br><b>▶&nbsp;시트 :&nbsp;</b>인조 가죽 시트, 운전석 전동시트(12방향, 럼버서포트 포함), 동승석 전동시트(8방향, 높이조절 포함), 동승석 워크인 디바이스, 운전석 자세 메모리 시스템(스마트 자세제어 시스템 포함), 앞좌석 통풍 &amp; 열선 시트, 뒷좌석 열선 시트, 뒷좌석 수동 리클라이닝, 뒷좌석 6:4 폴딩<br><br><b>▶&nbsp;인포테인먼트&nbsp;</b>: 제네시스 인포테인먼트 시스템(ccIC), Genesis Connected Services(5년 무료), 제네시스 카페이, 발레 모드, 스트리밍 서비스(스트리밍 플러스 요금제 5년 무료 포함), 무선 소프트웨어 업데이트(OTA Software Update), 제네시스 레퍼런스 사운드 시스템(9스피커)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>매트 컬러 무광 3종 중 선택 : 700,000<br>※ 바로사 버건디(무광), 브런즈윅 그린, 마테호른 화이트, 멜버른 그레이<br><br><b>▶&nbsp;</b>가솔린 2.5 터보 235/55R19 미쉐린 타이어 &amp; 휠 : 1,100,000<br>※ 전륜 모노블럭(4P) 브레이크, 후륜 스타일링 커버 포함<br><br><b>▶&nbsp;</b>가솔린 2.5 터보 255/40R21 미쉐린 타이어 &amp; 휠 : 3,300,000<br>※ 프리뷰 전자제어 서스펜션 포함<br><br><b>▶&nbsp;</b>시그니쳐 디자인 셀렉션Ⅰ:&nbsp;1,700,000<br>-&nbsp; 천연 가죽 시트(파이핑 적용), 헤어라인 브러쉬드 패턴 알루미늄 내장재, 인조 가죽 내장재(크래쉬패드, 도어 트림 상단, 콘솔 가니쉬, 리어 에어벤트 베젤부 등)<br><br>▶&nbsp;시그니쳐 디자인 셀렉션Ⅱ : 3,000,000<br>-&nbsp; 프라임 나파 가죽 시트(퀼팅, 파이핑 적용), 엘레강스 라인 무드라이팅 내장재, 인조 가죽 내장재(크래쉬패드, 도어 트림 상단, 콘솔 가니쉬, 리어 에어벤트 베젤부 등), 럭셔리 스웨이드 내장재(헤드라이닝, 필라 트림 등), 투톤 가죽 스티어링 휠<br><br>▶&nbsp;스포츠 패키지&nbsp;가솔린 2.5 터보 : 3,150,000<br>- 전자식 차동제한장치(e-LSD), 19인치 미쉐린 타이어 &amp; 스포츠 전용 휠, 전륜 블랙도장 모노블럭(4P) 브레이크, 스포츠+ 모드, 스포츠 내외장 포함 (전용 천연 가죽 시트, 전용 스티어링 휠, 메탈 페달 등)<br>※ 스포츠 외장<br>[공통] 스포츠 전용 프론트/리어 범퍼, 스포츠 전용 라디에이터 그릴, 다크 루프랙/DLO 몰딩/헤드램프 베젤부, 스포츠 전용 실린더 타입 듀얼 싱글 머플러 등<br><br><b>▶&nbsp;</b>스포츠 패키지 가솔린 2.5 터보 255/40R21 미쉐린 타이어 &amp; 스포츠 전용 휠 : 3,300,000<br>※ 프리뷰 전자제어 서스펜션 포함<br><br><b>▶&nbsp;</b>스포츠 디자인 셀렉션 : 2,300,000<br>- 프라임 나파 가죽 시트(스웨이드, 파이핑 적용), 자카드 패턴 리얼 카본 내장재, 인조 가죽 내장재(크래쉬패드, 도어 트림 상단, 콘솔 가니쉬, 리어 에어벤트 베젤부 등), 럭셔리 스웨이드 내장재(헤드라이닝, 필라 트림 등)<br><br><b>▶&nbsp;</b>스포츠 디자인 셀렉션Ⅱ : 2,300,000<br>- 프라임 나파 가죽 시트(퀼팅, 파이핑 적용), 레이어드 엣지 무드라이팅 내장재, 인조 가죽 내장재(크래쉬 패드, 도어트림 상단, 콘솔 가니쉬, 리어에어벤트 베젤부 등), 럭셔리 스웨이드 내장재(헤드라이닝, 필라트림 등)<br><br><b>▶&nbsp;</b>파퓰러 패키지 l&nbsp;: 3,600,000<br>※ 헤드업 디스플레이, 드라이빙 어시스턴스 패키지Ⅰ, 2열 컴포트 패키지<br>※ 파퓰러 패키지는 고객들이 가장 선호하는 사양들에 가격적인 혜택을 더하여 제공하는 옵션 패키지입니다.&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>파퓰러 패키지Ⅱ : 7,700,000<br>※ 파퓰러 패키지Ⅰ, 컨비니언스 패키지, 드라이빙 어시스턴스 패키지Ⅱ<br>※ 파퓰러 패키지는 고객들이 가장 선호하는 사양들에 가격적인 혜택을 더하여 제공하는 옵션 패키지입니다.&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>프리뷰 전자제어 서스펜션 : 1,100,000<br>※ 가솔린 2.5 터보 기본/스포츠 19인치 휠 &amp; 타이어 선택 시 선택 가능<br><br><b>▶&nbsp;</b>파노라마 선루프 : 1,400,000<br><br><b>▶&nbsp;</b>헤드업 디스플레이 : 1,300,000<br><br><b>▶&nbsp;</b>컨비니언스 패키지 : 2,600,000<br>- 운전석 &amp; 동승석 에르고 모션 시트(18방향, 쿠션 익스텐션, 볼스터 전동 조절 적용, 스트레칭 모드 포함), 동승석 자세 메모리 시스템 무드 큐레이터(향기 카트리지 3EA 포함), 앞좌석 콘솔 암레스트 수납함 자외선 살균 기능, 디지털 센터 미러<br><br><b>▶&nbsp;</b>드라이빙 어시스턴스 패키지Ⅰ : 1,950,000<br>- 서라운드 뷰 모니터, 후측방 모니터, 원격 스마트 주차 보조(주차 구획선 인식 및 사선 주차 포함), 주차 충돌방지 보조(전/측/후방), 주차 거리 경고(측방)<br><br><b>▶&nbsp;</b>드라이빙 어시스턴스 패키지Ⅱ : 2,000,000<br>-&nbsp; 서라운드 뷰 모니터, 후측방 모니터, 원격 스마트 주차 보조(주차 구획선 인식 및 사선 주차 포함), 주차 충돌방지 보조(전/측/후방), 주차 거리 경고(측방)<br><br><b>▶&nbsp;</b>2열 컴포트 패키지 : 700,000<br>- 뒷좌석 수동식 도어커튼, 3존 공조(운전석 &amp; 동승석 듀얼 풍향모드 제어, 뒷좌석 LCD 터치 공조 조절 장치), 뒷좌석 통풍 시트<br><br><b>▶&nbsp;</b>아웃도어 패키지 : 400,000<br>- 러기지 매트, 러기지 스크린, 뒷좌석 220V 파워아웃렛<br><br><b>▶&nbsp;</b>뱅앤올룹슨 사운드 패키지&nbsp;: 1,700,000<br>- 뱅앤올룹슨 고해상도 사운드 시스템(16스피커), 액티브 로드 노이즈 컨트롤<br><br><b>▶&nbsp;</b>빌트인 캠 패키지 : 850,000<br>- 빌트인 캠 2, 보조배터리, 증강현실 내비게이션<br>※ QHD급 고화질 녹화 및 음성 녹음 지원, Micro SD 외장 메모리 적용, 주차 후 최대 20시간 녹화 가능</p>
+												</div>
+											
+												<div id="newcar2" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶&nbsp;파워트레인 및 성능 :</b>&nbsp; 가솔린 3.5 터보 엔진, 8단 자동변속기, ISG 시스템, 통합 주행 모드, 런치 컨트롤, 전륜 아노다이징 실버 모노블럭(4P) 브레이크<br>※ 프리뷰 전자제어 서스펜션, 19인치 미쉐린 타이어 &amp; 휠, 전륜 코퍼도장 모노블럭(4P) 브레이크 및 후륜 스타일링 커버 기본 적용<br><br><b>▶&nbsp;외관 :</b>&nbsp;MLA 헤드램프(Micro Lens Array), Full LED 리어 콤비 램프, 235/60R18 브리지스톤 타이어 &amp; 휠, 이중 접합 차음 유리(앞면, 전체 도어), 자외선 차단 유리(앞면, 뒷면, 전체 도어), 루프랙, 다이내믹 웰컴 라이트(전면), 후륜 스타일링 커버, 히든 머플러<br><br><b>▶&nbsp;내장 :</b>&nbsp;MLA 헤드램프(Micro Lens Array), Full LED 리어 콤비 램프, 235/60R18 브리지스톤 타이어 &amp; 휠, 이중 접합 차음 유리(앞면, 전체 도어), 자외선 차단 유리(앞면, 뒷면, 전체 도어), 루프랙, 다이내믹 웰컴 라이트(전면), 후륜 스타일링 커버, 히든 머플러<br><br><b>▶&nbsp;안전 :&nbsp;</b>MLA 헤드램프(Micro Lens Array), Full LED 리어 콤비 램프, 235/60R18 브리지스톤 타이어 &amp; 휠, 이중 접합 차음 유리(앞면, 전체 도어), 자외선 차단 유리(앞면, 뒷면, 전체 도어), 루프랙, 다이내믹 웰컴 라이트(전면), 후륜 스타일링 커버, 히든 머플러<br><br><b>▶&nbsp;편의 :</b>&nbsp;앞좌석 스마트폰 무선 충전, 제네시스 디지털 키 2, 터치타입 아웃사이드 도어 핸들, 전자식 파워 차일드 락, 레인 센서, 열선 &amp; 전동식 조절 스티어링 휠, 실내 지문 인증 시스템(개인화, 시동, 결제 등), 독립제어 풀오토 에어컨(운전석 &amp; 동승석 듀얼 온도 제어, 후석 공조 전석 제어, 오토디포그, 외부공기 유입 방지 제어, 애프터 블로우 포함), 공기 청정 시스템(미세먼지 센서, 엔진룸 프리 필터, 항균 처리 고성능 콤비 필터), 고속도로 주행 보조, 스마트 크루즈 컨트롤(Stop &amp; Go 포함), 내비게이션 기반 스마트 크루즈 컨트롤(안전구간, 곡선로), 차로 유지 보조, 조향 연동 후방 모니터, 전동식 파킹 브레이크(오토홀드 포함), 앞좌석 &amp; 뒷좌석 파워 세이프티 윈도우, 전방/후방 주차 거리 경고, 스마트 파워 테일게이트<br><br><b>▶&nbsp;시트 :&nbsp;</b>인조 가죽 시트, 운전석 전동시트(12방향, 럼버서포트 포함), 동승석 전동시트(8방향, 높이조절 포함), 동승석 워크인 디바이스, 운전석 자세 메모리 시스템(스마트 자세제어 시스템 포함), 앞좌석 통풍 &amp; 열선 시트, 뒷좌석 열선 시트, 뒷좌석 수동 리클라이닝, 뒷좌석 6:4 폴딩<br><br><b>▶&nbsp;인포테인먼트&nbsp;</b>: 제네시스 인포테인먼트 시스템(ccIC), Genesis Connected Services(5년 무료), 제네시스 카페이, 발레 모드, 스트리밍 서비스(스트리밍 플러스 요금제 5년 무료 포함), 무선 소프트웨어 업데이트(OTA Software Update), 제네시스 레퍼런스 사운드 시스템(9스피커)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>매트 컬러 무광 3종 중 선택 : 700,000<br>※ 바로사 버건디(무광), 브런즈윅 그린, 마테호른 화이트, 멜버른 그레이<br><br><b>▶&nbsp;</b>가솔린 2.5 터보&nbsp;&nbsp;235/55R19 미쉐린 타이어 &amp; 휠 : 1,100,000<br>※ 전륜 모노블럭(4P) 브레이크, 후륜 스타일링 커버 포함<br><br><b>▶&nbsp;</b>가솔린 3.5 터보&nbsp;&nbsp;255/40R21 미쉐린 타이어 &amp; 휠 : 1,200,000<br>※ 프리뷰 전자제어 서스펜션 포함<br><br><b>▶&nbsp;</b>시그니쳐 디자인 셀렉션Ⅰ:&nbsp;1,700,000<br>-&nbsp; 천연 가죽 시트(파이핑 적용), 헤어라인 브러쉬드 패턴 알루미늄 내장재, 인조 가죽 내장재(크래쉬패드, 도어 트림 상단, 콘솔 가니쉬, 리어 에어벤트 베젤부 등)<br><br>▶&nbsp;시그니쳐 디자인 셀렉션Ⅱ : 3,000,000<br>-&nbsp; 프라임 나파 가죽 시트(퀼팅, 파이핑 적용), 엘레강스 라인 무드라이팅 내장재, 인조 가죽 내장재(크래쉬패드, 도어 트림 상단, 콘솔 가니쉬, 리어 에어벤트 베젤부 등), 럭셔리 스웨이드 내장재(헤드라이닝, 필라 트림 등), 투톤 가죽 스티어링 휠<br><br>▶&nbsp;스포츠 패키지&nbsp;가솔린 3.5 터보: 3,350,000<br>- 전자식 차동제한장치(e-LSD), 21인치 미쉐린 타이어 &amp; 스포츠 전용 휠, 전륜 레드도장 모노블럭(4P) 브레이크, 스포츠+ 모드, 스포츠 내외장 포함 (전용 천연 가죽 시트, 전용 스티어링 휠, 메탈 페달 등)<br>※ 스포츠 외장<br>[공통] 스포츠 전용 프론트/리어 범퍼, 스포츠 전용 라디에이터 그릴, 다크 루프랙/DLO 몰딩/헤드램프 베젤부, 스포츠 전용 실린더 타입 듀얼 싱글 머플러 등<br><br><b>▶&nbsp;</b>스포츠 패키지 가솔린 3.5 터보 255/40R21 미쉐린 썸머 타이어 &amp; 스포츠 전용 휠 : 추가 비용 없음※ 프리뷰 전자제어 서스펜션 포함&nbsp;<br><br><b>▶&nbsp;</b>스포츠 디자인 셀렉션 : 2,300,000<br>- 프라임 나파 가죽 시트(스웨이드, 파이핑 적용), 자카드 패턴 리얼 카본 내장재, 인조 가죽 내장재(크래쉬패드, 도어 트림 상단, 콘솔 가니쉬, 리어 에어벤트 베젤부 등), 럭셔리 스웨이드 내장재(헤드라이닝, 필라 트림 등)<br><br><b>▶&nbsp;</b>스포츠 디자인 셀렉션Ⅱ : 2,300,000<br>- 프라임 나파 가죽 시트(퀼팅, 파이핑 적용), 레이어드 엣지 무드라이팅 내장재, 인조 가죽 내장재(크래쉬 패드, 도어트림 상단, 콘솔 가니쉬, 리어에어벤트 베젤부 등), 럭셔리 스웨이드 내장재(헤드라이닝, 필라트림 등)<br><br><b>▶&nbsp;</b>파퓰러 패키지 l&nbsp;: 3,600,000<br>※ 헤드업 디스플레이, 드라이빙 어시스턴스 패키지Ⅰ, 2열 컴포트 패키지<br>※ 파퓰러 패키지는 고객들이 가장 선호하는 사양들에 가격적인 혜택을 더하여 제공하는 옵션 패키지입니다.&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>파퓰러 패키지Ⅱ : 7,700,000<br>※ 파퓰러 패키지Ⅰ, 컨비니언스 패키지, 드라이빙 어시스턴스 패키지Ⅱ<br>※ 파퓰러 패키지는 고객들이 가장 선호하는 사양들에 가격적인 혜택을 더하여 제공하는 옵션 패키지입니다.&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>프리뷰 전자제어 서스펜션 : 1,100,000<br>※ 가솔린 2.5 터보 기본/스포츠 19인치 휠 &amp; 타이어 선택 시 선택 가능<br><br><b>▶&nbsp;</b>파노라마 선루프 : 1,400,000<br><br><b>▶&nbsp;</b>헤드업 디스플레이 : 1,300,000<br><br><b>▶&nbsp;</b>컨비니언스 패키지 : 2,600,000<br>- 운전석 &amp; 동승석 에르고 모션 시트(18방향, 쿠션 익스텐션, 볼스터 전동 조절 적용, 스트레칭 모드 포함), 동승석 자세 메모리 시스템 무드 큐레이터(향기 카트리지 3EA 포함), 앞좌석 콘솔 암레스트 수납함 자외선 살균 기능, 디지털 센터 미러<br><br><b>▶&nbsp;</b>드라이빙 어시스턴스 패키지Ⅰ : 1,950,000<br>- 서라운드 뷰 모니터, 후측방 모니터, 원격 스마트 주차 보조(주차 구획선 인식 및 사선 주차 포함), 주차 충돌방지 보조(전/측/후방), 주차 거리 경고(측방)<br><br><b>▶&nbsp;</b>드라이빙 어시스턴스 패키지Ⅱ : 2,000,000<br>-&nbsp; 서라운드 뷰 모니터, 후측방 모니터, 원격 스마트 주차 보조(주차 구획선 인식 및 사선 주차 포함), 주차 충돌방지 보조(전/측/후방), 주차 거리 경고(측방)<br><br><b>▶&nbsp;</b>2열 컴포트 패키지 : 700,000<br>- 뒷좌석 수동식 도어커튼, 3존 공조(운전석 &amp; 동승석 듀얼 풍향모드 제어, 뒷좌석 LCD 터치 공조 조절 장치), 뒷좌석 통풍 시트<br><br><b>▶&nbsp;</b>아웃도어 패키지 : 400,000<br>- 러기지 매트, 러기지 스크린, 뒷좌석 220V 파워아웃렛<br><br><b>▶&nbsp;</b>뱅앤올룹슨 사운드 패키지&nbsp;: 1,700,000<br>- 뱅앤올룹슨 고해상도 사운드 시스템(16스피커), 액티브 로드 노이즈 컨트롤<br><br><b>▶&nbsp;</b>빌트인 캠 패키지 : 850,000<br>- 빌트인 캠 2, 보조배터리, 증강현실 내비게이션<br>※ QHD급 고화질 녹화 및 음성 녹음 지원, Micro SD 외장 메모리 적용, 주차 후 최대 20시간 녹화 가능</p>
+												</div>
+											
+												<div id="newcar3" class="nf_con"
+													 style="display:none;">
+													<h5 class="blind">CVVL 그랜드 M/T</h5>
+													<h6 class="blind">기본사양 품목</h6>
+													<p class="basic"><b>▶&nbsp;파워트레인 및 성능 :</b>&nbsp; 가솔린 3.5 터보 엔진, 8단 자동변속기, ISG 시스템, 통합 주행 모드, 런치 컨트롤, 전륜 아노다이징 실버 모노블럭(4P) 브레이크,&nbsp;AWD(오토 터레인 모드 포함)
+<br>※ 프리뷰 전자제어 서스펜션, 
+19인치 미쉐린 타이어 &amp; 휠, 
+전륜 코퍼도장 모노블럭(4P) 브레이크 
+및 후륜 스타일링 커버 기본 적용
+<br><br><b>▶&nbsp;외관 :</b>&nbsp;MLA 헤드램프(Micro Lens Array), Full LED 리어 콤비 램프, 235/60R18 브리지스톤 타이어 &amp; 휠, 이중 접합 차음 유리(앞면, 전체 도어), 자외선 차단 유리(앞면, 뒷면, 전체 도어), 루프랙, 다이내믹 웰컴 라이트(전면), 후륜 스타일링 커버, 히든 머플러<br><br><b>▶&nbsp;내장 :</b>&nbsp;MLA 헤드램프(Micro Lens Array), Full LED 리어 콤비 램프, 235/60R18 브리지스톤 타이어 &amp; 휠, 이중 접합 차음 유리(앞면, 전체 도어), 자외선 차단 유리(앞면, 뒷면, 전체 도어), 루프랙, 다이내믹 웰컴 라이트(전면), 후륜 스타일링 커버, 히든 머플러<br><br><b>▶&nbsp;안전 :&nbsp;</b>MLA 헤드램프(Micro Lens Array), Full LED 리어 콤비 램프, 235/60R18 브리지스톤 타이어 &amp; 휠, 이중 접합 차음 유리(앞면, 전체 도어), 자외선 차단 유리(앞면, 뒷면, 전체 도어), 루프랙, 다이내믹 웰컴 라이트(전면), 후륜 스타일링 커버, 히든 머플러<br><br><b>▶&nbsp;편의 :</b>&nbsp;앞좌석 스마트폰 무선 충전, 제네시스 디지털 키 2, 터치타입 아웃사이드 도어 핸들, 전자식 파워 차일드 락, 레인 센서, 열선 &amp; 전동식 조절 스티어링 휠, 실내 지문 인증 시스템(개인화, 시동, 결제 등), 독립제어 풀오토 에어컨(운전석 &amp; 동승석 듀얼 온도 제어, 후석 공조 전석 제어, 오토디포그, 외부공기 유입 방지 제어, 애프터 블로우 포함), 공기 청정 시스템(미세먼지 센서, 엔진룸 프리 필터, 항균 처리 고성능 콤비 필터), 고속도로 주행 보조, 스마트 크루즈 컨트롤(Stop &amp; Go 포함), 내비게이션 기반 스마트 크루즈 컨트롤(안전구간, 곡선로), 차로 유지 보조, 조향 연동 후방 모니터, 전동식 파킹 브레이크(오토홀드 포함), 앞좌석 &amp; 뒷좌석 파워 세이프티 윈도우, 전방/후방 주차 거리 경고, 스마트 파워 테일게이트<br><br><b>▶&nbsp;시트 :&nbsp;</b>인조 가죽 시트, 운전석 전동시트(12방향, 럼버서포트 포함), 동승석 전동시트(8방향, 높이조절 포함), 동승석 워크인 디바이스, 운전석 자세 메모리 시스템(스마트 자세제어 시스템 포함), 앞좌석 통풍 &amp; 열선 시트, 뒷좌석 열선 시트, 뒷좌석 수동 리클라이닝, 뒷좌석 6:4 폴딩<br><br><b>▶&nbsp;인포테인먼트&nbsp;</b>: 제네시스 인포테인먼트 시스템(ccIC), Genesis Connected Services(5년 무료), 제네시스 카페이, 발레 모드, 스트리밍 서비스(스트리밍 플러스 요금제 5년 무료 포함), 무선 소프트웨어 업데이트(OTA Software Update), 제네시스 레퍼런스 사운드 시스템(9스피커)</p>
+													<h6 class="blind">선택사양 품목</h6>
+													<p class="option"><b>▶&nbsp;</b>매트 컬러 무광 3종 중 선택 : 700,000<br>※ 바로사 버건디(무광), 브런즈윅 그린, 마테호른 화이트, 멜버른 그레이<br><br><b>▶&nbsp;</b>가솔린 2.5 터보&nbsp;&nbsp;235/55R19 미쉐린 타이어 &amp; 휠 : 1,100,000<br>※ 전륜 모노블럭(4P) 브레이크, 후륜 스타일링 커버 포함<br><br><b>▶&nbsp;</b>가솔린 3.5 터보&nbsp;&nbsp;255/40R21 미쉐린 타이어 &amp; 휠 : 1,200,000<br>※ 프리뷰 전자제어 서스펜션 포함<br><br><b>▶&nbsp;</b>시그니쳐 디자인 셀렉션Ⅰ:&nbsp;1,700,000<br>-&nbsp; 천연 가죽 시트(파이핑 적용), 헤어라인 브러쉬드 패턴 알루미늄 내장재, 인조 가죽 내장재(크래쉬패드, 도어 트림 상단, 콘솔 가니쉬, 리어 에어벤트 베젤부 등)<br><br>▶&nbsp;시그니쳐 디자인 셀렉션Ⅱ : 3,000,000<br>-&nbsp; 프라임 나파 가죽 시트(퀼팅, 파이핑 적용), 엘레강스 라인 무드라이팅 내장재, 인조 가죽 내장재(크래쉬패드, 도어 트림 상단, 콘솔 가니쉬, 리어 에어벤트 베젤부 등), 럭셔리 스웨이드 내장재(헤드라이닝, 필라 트림 등), 투톤 가죽 스티어링 휠<br><br>▶&nbsp;스포츠 패키지&nbsp;가솔린 3.5 터보: 3,350,000<br>- 전자식 차동제한장치(e-LSD), 21인치 미쉐린 타이어 &amp; 스포츠 전용 휠,
+전륜 레드도장 모노블럭(4P) 브레이크, 스포츠+ 모드, 스포츠 내외장 포함
+(전용 천연 가죽 시트, 전용 스티어링 휠, 메탈 페달 등)<br>※ 스포츠 외장<br>[공통] 스포츠 전용 프론트/리어 범퍼, 스포츠 전용 라디에이터 그릴, 다크 루프랙/DLO 몰딩/헤드램프 베젤부, 
+스포츠 전용 실린더 타입 듀얼 싱글 머플러 등<br><br><b>▶&nbsp;</b>스포츠 패키지 가솔린 3.5 터보 255/40R21 미쉐린 썸머 타이어 &amp; 스포츠 전용 휠 : 추가 비용 없음※ 프리뷰 전자제어 서스펜션 포함&nbsp;<br><br><b>▶&nbsp;</b>스포츠 디자인 셀렉션 : 2,300,000<br>- 프라임 나파 가죽 시트(스웨이드, 파이핑 적용), 자카드 패턴 리얼 카본 내장재, 인조 가죽 내장재(크래쉬패드, 도어 트림 상단, 콘솔 가니쉬, 리어 에어벤트 베젤부 등), 럭셔리 스웨이드 내장재(헤드라이닝, 필라 트림 등)<br><br><b>▶&nbsp;</b>스포츠 디자인 셀렉션Ⅱ : 2,300,000<br>- 프라임 나파 가죽 시트(퀼팅, 파이핑 적용), 레이어드 엣지 무드라이팅 내장재, 인조 가죽 내장재(크래쉬 패드, 도어트림 상단, 콘솔 가니쉬, 리어에어벤트 베젤부 등), 럭셔리 스웨이드 내장재(헤드라이닝, 필라트림 등)<br><br><b>▶&nbsp;</b>파퓰러 패키지 l&nbsp;: 3,600,000<br>※ 헤드업 디스플레이, 드라이빙 어시스턴스 패키지Ⅰ, 2열 컴포트 패키지<br>※ 파퓰러 패키지는 고객들이 가장 선호하는 사양들에 가격적인 혜택을 더하여 제공하는 옵션 패키지입니다.&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>파퓰러 패키지Ⅱ : 7,700,000<br>※ 파퓰러 패키지Ⅰ, 컨비니언스 패키지, 드라이빙 어시스턴스 패키지Ⅱ<br>※ 파퓰러 패키지는 고객들이 가장 선호하는 사양들에 가격적인 혜택을 더하여 제공하는 옵션 패키지입니다.&nbsp;&nbsp;<br><br><b>▶&nbsp;</b>프리뷰 전자제어 서스펜션 : 1,100,000<br>※ 가솔린 2.5 터보 기본/스포츠 19인치 휠 &amp; 타이어 선택 시 선택 가능<br><br><b>▶&nbsp;</b>파노라마 선루프 : 1,400,000<br><br><b>▶&nbsp;</b>헤드업 디스플레이 : 1,300,000<br><br><b>▶&nbsp;</b>컨비니언스 패키지 : 2,600,000<br>- 운전석 &amp; 동승석 에르고 모션 시트(18방향, 쿠션 익스텐션, 볼스터 전동 조절 적용, 스트레칭 모드 포함), 동승석 자세 메모리 시스템 무드 큐레이터(향기 카트리지 3EA 포함), 앞좌석 콘솔 암레스트 수납함 자외선 살균 기능, 디지털 센터 미러<br><br><b>▶&nbsp;</b>드라이빙 어시스턴스 패키지Ⅰ : 1,950,000<br>- 서라운드 뷰 모니터, 후측방 모니터, 원격 스마트 주차 보조(주차 구획선 인식 및 사선 주차 포함), 주차 충돌방지 보조(전/측/후방), 주차 거리 경고(측방)<br><br><b>▶&nbsp;</b>드라이빙 어시스턴스 패키지Ⅱ : 2,000,000<br>-&nbsp; 서라운드 뷰 모니터, 후측방 모니터, 원격 스마트 주차 보조(주차 구획선 인식 및 사선 주차 포함), 주차 충돌방지 보조(전/측/후방), 주차 거리 경고(측방)<br><br><b>▶&nbsp;</b>2열 컴포트 패키지 : 700,000<br>- 뒷좌석 수동식 도어커튼, 3존 공조(운전석 &amp; 동승석 듀얼 풍향모드 제어, 뒷좌석 LCD 터치 공조 조절 장치), 뒷좌석 통풍 시트<br><br><b>▶&nbsp;</b>아웃도어 패키지 : 400,000<br>- 러기지 매트, 러기지 스크린, 뒷좌석 220V 파워아웃렛<br><br><b>▶&nbsp;</b>뱅앤올룹슨 사운드 패키지&nbsp;: 1,700,000<br>- 뱅앤올룹슨 고해상도 사운드 시스템(16스피커), 액티브 로드 노이즈 컨트롤<br><br><b>▶&nbsp;</b>빌트인 캠 패키지 : 850,000<br>- 빌트인 캠 2, 보조배터리, 증강현실 내비게이션<br>※ QHD급 고화질 녹화 및 음성 녹음 지원, Micro SD 외장 메모리 적용, 주차 후 최대 20시간 녹화 가능</p>
+												</div>
+											
+										</div>
+										<script type="text/javascript">
+											newcarFolder(0);//초기값
+											function newcarFolder(target) {
+												var conElId = "newcar"//아이디 설정
+												var conElMenu = document.getElementById("newcarList");
+												var conElMenuLink = conElMenu.getElementsByTagName("a");
+												if (target != null) {
+													conElMenuLink[target].parentNode.className = "on";
+													document.getElementById(
+														conElId + target).style.display = "";
+												}
+												for (i = 0; i <= (conElMenuLink.length - 1); i++) {
+													conElMenuLink[i].onclick = function () {
+														for (x = 0; x <= (conElMenuLink.length - 1); x++) {
+															conElMenuLink[x].parentNode.className = "";
+															document.getElementById(
+																conElId + x).style.display = "none";
+														}
+														this.parentNode.className = "on";
+														document.getElementById(this.getAttribute('href')
+																					.split(
+																						'#')[1]).style.display =
+															"";
+														return false;
+													}
+												}
+											}
+										</script>
+									</div>
+									
+										<ul class="more">
+												※ 본 가격표 상의 품목(사양, 컬러 등) 및 가격은 차량의 외관 및 성능 개선이나 관련 법규에 따라 예고 없이 변경될 수 있습니다.
+
+<br>※ 인쇄물의 차량 컬러는 인쇄된 것이므로 실제 차량의 컬러와는 다소 차이가 있습니다.
+
+<br>※ 인쇄물의 사진에는 선택 사양이 적용된 경우가 있으므로, 실제 구입 차량과는 다른 점이 있을 수도 있습니다. 
+<br>
+※ 나파 가죽은 명품백이나 고급 소파에 사용하는 풀 그레인 가죽으로 천연 원피의 디테일을 그대로 살리는 가공법을 통해 
+부드러운 촉감과 안락한 착좌감을 제공합니다.
+
+<br>※ 가죽 및 나파 가죽 사양(시트, 가죽 감싸기 등)은 부분적으로 인조 가죽 및 직물 등 기타 소재가 적용되어 있습니다. 
+스포츠 패키지 선택 시, 쿠션과 백 부위가 스탠다드 디자인은 메쉬 소재, 스포츠 디자인 셀렉션Ⅰ은 스웨이드로 적용됩니다.
+※ 타이어별 성능 차이가 있으니 선택 시 확인 바라며, 안전한 운전을 위해 타이어 교체 시는 취급설명서를 참조 바랍니다.
+
+<br>※ 하이패스 시스템에는 장애인 통행료 자동할인 기능이 없습니다.
+
+<br>※ 스마트폰 무선 충전은 무선 충전 기능이 내장된 휴대폰 혹은 무선 충전 전용 커버를 장착 후 사용하시기 바랍니다.
+
+<br>※ 3존 공조(뒷좌석 LCD 터치 공조 조절 장치 포함) 사양은 뒷좌석에서 모드와 온도를 독립적으로 조절 가능하며 풍량 조절 시 
+앞좌석과 연동됩니다.
+
+<br>※ 빌트인 캠 보조배터리(빌트인 캠 패키지에 포함): 주행시간이 보조배터리를 충전하기에 충분하지 않거나 보조배터리의 노후화 
+또는 동절기 등 작동 환경에 따라 설정한 시간만큼 주차 녹화가 작동하지 않을 수 있습니다.
+
+<br>※ 제네시스 디지털 키 2는 기존 디지털 키 대비 초광대역 무선통신(UWB) 기능 추가로, 스마트폰을 소지한 채 도어핸들 
+터치만으로 차량 출입 후 시동이 가능합니다.<br>※ 제네시스 디지털 키 2 작동 스마트폰 기종
+<br> 
+- NFC: [Android] Galaxy S20 / S20+ / S20 Ultra / Note 20 / S21 / S22 / S23 / S24 / Z Flip / Z Flip 3 / Z Flip 4 / Z Flip 5
+[iOS] iPhone SE 2세대 / SE 3세대 / XR / XS / XS Max, Apple Watch Series 5 / SE / SE 2세대
+
+<br>- NFC/BLE/UWB: [Android] Galaxy Note 20 Ultra / S21+ / S21 Ultra / S22+ /S22 Ultra / S23+ / S23 Ultra / S24+ / 
+S24 Ultra / Z Fold 2 / Z Fold 3 / Z Fold 4 / Z Fold 5
+[iOS] iPhone 11 / 11 Pro / 11 Pro Max / 12 mini / 12 / 12 Pro / 12 Pro Max / 13 mini / 13 / 13 Pro / 13 Pro Max 
+14 / 14 Pro / 14 Pro Max / 15 / 15 Plus / 15 Pro Max, Apple Watch Series 6 / 7 / 8 / 9 / Ultra / Ultra 2
+<br>
+- 지원 여부에 대한 자세한 내용은 제네시스 홈페이지 및 스마트폰 제조사 홈페이지를 통해 확인 가능합니다.
+
+<br>- 스마트폰 무선 충전 패드 거치 후 시동 시, 스마트폰 내부에 포함된 자석 성분으로 인해 NFC 인증에 오류가 발생할 수 
+있습니다. 이 경우, 스마트폰을 무선 충전 패드의 좌측으로 밀착시켜서 인증 진행해야 하며, 자세한 내용은 취급설명서를 
+참조하시기 바랍니다.
+
+<br>※ 폰 프로젝션 기능 적용(Google Android Auto, Apple CarPlay) / 상세 내용은 제네시스 홈페이지 참조
+
+<br>- 디스플레이 터치 또는 음성을 통한 제어 가능 
+<br>
+- 작동 스마트폰 기종: [Google Android Auto] 기종 상관 없음(Android 5.0 이상), [Apple CarPlay] 아이폰5 이상(iOS 8.0 이상)
+
+<br>※ 스트리밍 서비스 사용을 위해서는 각 콘텐츠 플랫폼사의 계정 내에서 별도 유료 가입이 필요합니다.
+
+<br>※ 지상파 DMB는 320X240(표준화질) 및 1,280X720(고화질) 해상도를 지원하나, 전파 수신 환경, DMB 방송 정책, 
+DMB 사업자의 송출 방식 변경 등에 따라 수신이 불가할 수 있습니다.
+
+<br>※ 앰비언트 무드램프는 적용 부위에 따라 직접광(도어 센터 가니쉬) / 간접광(콘솔, 인사이드 도어 핸들, 도어 어퍼 가니쉬, 
+크래쉬패드)으로 적용됩니다. 선택한 내장 컬러와 설정한 조명 컬러에 따라 일부 환경에서는 다른 색으로 보여질 수도 
+있습니다.
+
+<br>※ 리어 쿼터 글라스에는 이중 접합 차음 유리가 적용되지 않습니다.
+
+<br>※ 첨단 운전자 보조 시스템은 운전자의 조작을 보조하는 기능이므로, 항상 주의를 기울여 운전하시기 바랍니다. 주변 환경 및 
+주행, 작동 조건에 따라 기능이 원활히 작동하지 않을 수 있습니다. 세부 사항은 취급설명서를 참조하시기 바랍니다. 
+<br>
+※ 상기 사양 구성은 선택 사양에 따라 다르게 적용됩니다.
+
+<br>※ 스포츠 외장: [공통] 스포츠 전용 프론트/리어 범퍼, 스포츠 전용 라디에이터 그릴, 다크 루프랙/DLO 몰딩/헤드램프 베젤부, 
+스포츠 전용 실린더 타입 듀얼 싱글 머플러 등
+
+<br>※ 썸머 타이어의 경우 겨울철 운행 시 미끄러운 노면에서 접지력이 저하되므로, 안전운행을 위해 동절기용 타이어로 교체가 
+필요합니다.
+										</ul>
+									
+									<p class="desc_more">위 신차가격표는 단순 참고자료이며, 정확한 내용은 각 제조사에서 제공하는 자료를 통해확인하실 수 있습니다.</p><!-- 2016/10/12 [장] 등급 등록/수정 개선 : 추가 디자인 변경 -->
+									<p class="toTop"><a href="#main_title" class="sp toTop db_ir" title="페이지 위로"><u>페이지 위로</u></a></p><!-- [시세개편] class db_ir 추가 -->
+								</div>
+
+
+							</div>
+							<!-- body end -->
+						</td>
+					</tr>
+				</table>
+
+
+			
+			
+		
+    </div>
+
+    <!-- container end -->
+</form>
+</div>
+
+</body>
+<script language="javascript">
+
+
+    var strCompanyUrl = "/common/combo/cardbcompany.json?method=carList";
+    var strModelGroupUrl = "/common/combo/modelgroupfordb.json?method=carList";
+    var strModelUrl = "/common/combo/cardbmodel.json?method=carList";
+    var strYrJatoUrl = "/common/combo/jatoYr.json?method=carList";
+
+    var companyid = "mnfccd";
+    var modelgroupid = "mdlgroupcd";
+    var modelid = "mdlcd";
+    var yearid = "caryear";
+
+    function initGnb() {
+        var paramCompany = $("paramMnfccd").value;
+        var paramModelGroup = $("paramMdlgroupcd").value;
+        var paramModel = $("paramMdlcd").value;
+        var paramYr = $("paramYear").value;
+
+        // 제조사
+        if (paramModel != "") {
+            $("mdlcd").show();
+        }
+
+        //console.log("companyid :: " + companyid)
+        //console.log("paramCompany :: " + paramCompany)
+		if($('foldYn').value != 0){
+            foldingYN('f_fold');
+		}
+
+        setCompany(strCompanyUrl, companyid, "제조사", paramCompany);
+
+        // 제조사 값이 있으면 모델 검색
+        if (paramCompany >= '010') {
+            if (paramCompany != "") {
+                if (paramModel == "") {
+                    paramModel = paramModelGroup;
+                }
+                setModel(strModelUrl, modelid, paramCompany, "모델", paramModel)
+                $("mdlgroupcd").hide();
+
+            }
+        } else {
+            $("mdlgroupcd").show();
+            if (paramCompany != "") {
+                setModelGroup(strModelGroupUrl, modelgroupid, paramCompany, "모델", paramModelGroup);
+                if (paramModelGroup != "") {
+                    setModel_New(strModelUrl, modelid, paramCompany, paramModelGroup, "세부모델", paramModel);
+                }
+            }
+
+        }
+        if (paramCompany != "" && paramModel != "") {
+            setCarYear(strYrJatoUrl, yearid, paramCompany, paramModel, "형식연도", paramYr);
+        }
+
+        waitTime = 1;
+    }
+
+    function changeModel_jato(mnfccd, mdlgroupcd) {
+        setModel_New(strModelUrl, modelid, mnfccd, mdlgroupcd, "세부모델", "");
+        //모델그룹선택시 기본 세부모델선택
+        if ($("mdlcd") != null) {
+            $("mdlcd").selectedIndex = 1;
+            var mdlcd = $("mdlcd").options[$("mdlcd").selectedIndex].value;
+            changeYearJato(mnfccd, mdlcd);
+        }
+    }
+
+    function changeYearJato(mnfccd,mdlcd) {
+        setCarYear(strYrJatoUrl, yearid, mnfccd, mdlcd, "형식연도", "");
+        $(yearid).options[1].selected = true;
+    }
+
+
+
+    //덧글 리스트
+    function viewForm(index) {
+
+        var object = $("default" + index);
+        var objectSum = $("defaultSum" + index);
+        var selectSum = $("choiceSum" + index);
+        var object1 = $("choice" + index);
+        if (object != null) {
+            if (object.style.display == 'none') {
+                objectSum.hide();
+                selectSum.hide();
+                object.style.display = "block";
+                object1.style.display = "block";
+
+            } else {
+                object.hide();
+                object1.hide();
+                objectSum.style.display = "block";
+                selectSum.style.display = "block";
+            }
+        }
+    }
+
+    function viewAll() {
+        for (var i = 1; i <=4; i++) {
+            $("default" + i).style.display = "block";
+            $("defaultSum" + i).style.display = "none";
+            $("choice" + i).style.display = "block";
+            $("choiceSum" + i).style.display = "none";
+        }
+    }
+
+    function closeAll() {
+        for (var i = 1; i <=4; i++) {
+            $("default" + i).style.display = "none";
+            $("defaultSum" + i).style.display = "block";
+            $("choice" + i).style.display = "none";
+            $("choiceSum" + i).style.display = "block";
+        }
+    }
+
+    function firstLayerOpen() {
+        //viewForm(1);
+    }
+
+    function foldingYN(param) {
+        if (param == "f_fold") {
+            document.getElementById("folding").innerHTML ="<a href=\"javascript:foldingYN('f_unfold')\" class='folding f_unfold'>전체등급 펼쳐보기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "none";
+            document.getElementById("f_fold").style.display = "";
+        } else {
+            document.getElementById("folding").innerHTML = "<a href=\"javascript:foldingYN('f_fold')\" class='folding f_fold'>접기<em class='db_ir'></em></a>";
+            document.getElementById("f_unfold").style.display = "";
+            document.getElementById("f_fold").style.display = "none";
+        }
+    }
+
+    function onSubmit() {
+        jQuery("#searchForm").submit();
+
+    }
+    window.onload = initGnb;
+
+</script>
+</html>
+
