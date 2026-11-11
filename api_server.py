@@ -927,23 +927,14 @@ def _search_encar_market_core(req: EncarSearchRequest, target_options_getter: Op
         mileage_num = req.mileage if req.mileage is not None else 0
         car_no = req.carNumber or ""
 
-        encar_url = req.url
-        if encar_url and str(encar_url).strip() and year_num > 0:
-            full_target_yr = (year_num + 2000) if year_num < 100 else year_num
-            norm_range = f"Year.range({full_target_yr - 1}01..{full_target_yr + 1}12)"
-            encar_url = re.sub(r'Year\.range\((?:%28|\()?\d{6}\.\.\d{6}(?:%29|\))?\)', norm_range, str(encar_url))
-            encar_url = re.sub(r'Year\.range%28\d{6}\.\.\d{6}%29', f"Year.range%28{full_target_yr - 1}01..{full_target_yr + 1}12%29", encar_url)
-            # 💡 [10-29-17]: 외부 URL 주행거리 검증 및 ±30,000km 강제 (우회 차단)
-            if mileage_num and mileage_num > 0:
-                encar_url = enforce_encar_mileage_band(encar_url, target_mileage=mileage_num, band_range=30000, max_allowed_spread=100000)
-        elif not encar_url or not str(encar_url).strip():
-            encar_url = MasterMappingService.generate_smart_encar_url(
-                car_name=car_name,
-                sub_model=detail_model,
-                year=year_num,
-                mileage=mileage_num,
-                car_number=car_no
-            )
+        # 💡 [11-11-04]: 엔카 검색 URL 생성 일원화 (외부 URL 우회 제거 -> MasterMappingService.generate_smart_encar_url 단일 공급)
+        encar_url = MasterMappingService.generate_smart_encar_url(
+            car_name=car_name,
+            sub_model=detail_model,
+            year=year_num,
+            mileage=mileage_num,
+            car_number=car_no
+        )
 
         # 💡 [10-30-01]: 표시용 바로가기 URL(원래 엄격 URL)을 내부 수집/확장용 URL과 분리 보존
         initial_strict_url = encar_url
@@ -2395,6 +2386,44 @@ class CockpitSearchRequest(BaseModel):
     encarUrl: Optional[str] = ""
 
 
+def _extract_year_from_dict(res_dict):
+    """
+    차얼마 응답/스펙 딕셔너리에서 형식연도와 최초등록연도 중 더 오래된 쪽 연식(min) 추출 (2026-10-31 제이 확정 규칙)
+    """
+    if not isinstance(res_dict, dict):
+        return 0
+    ch_my = res_dict.get("model_year") or res_dict.get("year")
+    ch_ry = (
+        res_dict.get("reg_year")
+        or res_dict.get("release_date")
+        or res_dict.get("reg_ym")
+        or res_dict.get("initial_registration_date")
+    )
+    y_m = 0
+    y_r = 0
+    if ch_my:
+        m_match = re.search(r"(\d{4})", str(ch_my))
+        if not m_match:
+            m_match = re.search(r"\d+", str(ch_my))
+        if m_match:
+            y = int(m_match.group(0))
+            y_m = (y - 2000) if y > 2000 else y
+    if ch_ry:
+        r_match = re.search(r"(\d{4})", str(ch_ry))
+        if not r_match:
+            r_match = re.search(r"\d+", str(ch_ry))
+        if r_match:
+            y = int(r_match.group(0))
+            y_r = (y - 2000) if y > 2000 else y
+    if y_m > 0 and y_r > 0:
+        return min(y_m, y_r)
+    elif y_m > 0:
+        return y_m
+    elif y_r > 0:
+        return y_r
+    return 0
+
+
 @app.post("/api/cockpit/search")
 def search_cockpit_unified(req: CockpitSearchRequest):
     """
@@ -2422,31 +2451,6 @@ def search_cockpit_unified(req: CockpitSearchRequest):
     need_chaolma = "chaolma" in sources_set and bool(car_no)
     need_encar = "encar" in sources_set
     need_kcar = "kcar" in sources_set
-
-    def _extract_year_from_dict(res_dict):
-        if not isinstance(res_dict, dict):
-            return 0
-        ch_my = res_dict.get("model_year") or res_dict.get("year")
-        ch_ry = res_dict.get("reg_year")
-        y_m = 0
-        y_r = 0
-        if ch_my:
-            m_match = re.search(r"\d+", str(ch_my))
-            if m_match:
-                y = int(m_match.group(0))
-                y_m = (y - 2000) if y > 2000 else y
-        if ch_ry:
-            r_match = re.search(r"\d+", str(ch_ry))
-            if r_match:
-                y = int(r_match.group(0))
-                y_r = (y - 2000) if y > 2000 else y
-        if y_m > 0 and y_r > 0:
-            return min(y_m, y_r)
-        elif y_m > 0:
-            return y_m
-        elif y_r > 0:
-            return y_r
-        return 0
 
     def _enrich_chaolma_dict(ch_res, y_val):
         if not ch_res or not isinstance(ch_res, dict):
@@ -2560,8 +2564,12 @@ def search_cockpit_unified(req: CockpitSearchRequest):
                             raw_gd = str(chaolma_res.get("grade_detail_name") or "").strip()
                         if not manufacturer and chaolma_res.get("maker"):
                             manufacturer = chaolma_res.get("maker")
-                        if not year:
-                            year = _extract_year_from_dict(chaolma_res)
+                        # 💡 [11-11-04]: 차얼마 응답 기반으로 형식연도/등록연도 중 더 오래된 쪽 연식으로 통일
+                        extracted_yr = _extract_year_from_dict(chaolma_res)
+                        if extracted_yr > 0:
+                            year = extracted_yr
+                        elif not year:
+                            year = extracted_yr
 
                         _enrich_chaolma_dict(chaolma_res, year)
 
@@ -2637,8 +2645,12 @@ def search_cockpit_unified(req: CockpitSearchRequest):
                             raw_gd = str(quick_spec.get("grade_detail_name") or "").strip()
                         if not manufacturer and quick_spec.get("maker"):
                             manufacturer = quick_spec.get("maker")
-                        if not year:
-                            year = _extract_year_from_dict(quick_spec)
+                        # 💡 [11-11-04]: 1차 quick_spec 기반으로도 형식연도/등록연도 중 더 오래된 쪽 연식으로 통일
+                        extracted_yr = _extract_year_from_dict(quick_spec)
+                        if extracted_yr > 0:
+                            year = extracted_yr
+                        elif not year:
+                            year = extracted_yr
 
                         t_spec_done = datetime.now().strftime('%H:%M:%S.%f')[:-3]
                         print(f"[{t_spec_done}] 📋 [차얼마 1차 제원 확보] car_name='{car_name}', year={year}, grade='{raw_g}' '{raw_gd}'", flush=True)

@@ -193,12 +193,21 @@ class ChaolmaService:
                 reg_year = m_my.group(1)
 
         year_num = 0
+        y_m = 0
+        y_r = 0
         if m_year and m_year.isdigit():
             y_val = int(m_year)
-            year_num = (y_val - 2000) if y_val > 2000 else y_val
-        elif reg_year and reg_year.isdigit():
+            y_m = (y_val - 2000) if y_val > 2000 else y_val
+        if reg_year and reg_year.isdigit():
             y_val = int(reg_year)
-            year_num = (y_val - 2000) if y_val > 2000 else y_val
+            y_r = (y_val - 2000) if y_val > 2000 else y_val
+
+        if y_m > 0 and y_r > 0:
+            year_num = min(y_m, y_r)
+        elif y_m > 0:
+            year_num = y_m
+        elif y_r > 0:
+            year_num = y_r
 
         return {
             "car_name": model_detail or model_name or "",
