@@ -444,10 +444,16 @@ class ChaolmaService:
         full_grade = f"{grade_name} {grade_detail}".strip()
         if target_car and full_grade:
             try:
-                from services.catalog_by_source_service import get_pilot_catalog_spec
+                from services.catalog_by_source_service import (
+                    get_pilot_catalog_spec,
+                    merge_options_and_accessories,
+                )
                 v2_spec = get_pilot_catalog_spec(source="danawa", car_name=target_car, year=target_year, grade=full_grade)
                 if v2_spec and v2_spec.get("found"):
-                    catalog_data = v2_spec.get("options") or {}
+                    catalog_data = merge_options_and_accessories(
+                        v2_spec.get("options", {}),
+                        v2_spec.get("accessories", {})
+                    )
             except Exception:
                 catalog_data = None
 

@@ -734,10 +734,18 @@ export const fetchNewCarCatalog = async (
             };
           }
         }
-        // [11-06-75] 커스터마이징 액세서리도 mappedOptions에 함께 병합
+        // [11-06-75 & 11-11-02] 커스터마이징 액세서리도 mappedOptions에 함께 병합 (단, options에 이미 있는 정상 가격은 accessories의 0원/null로 덮어쓰지 않음)
         if (data.accessories && typeof data.accessories === 'object') {
           for (const [k, v] of Object.entries(data.accessories)) {
             const val = v as any;
+            if (mappedOptions[k]) {
+              const existingPrice = mappedOptions[k].price;
+              const newPrice = val?.price ?? null;
+              // options에 이미 유효한 가격(>0)이 있으면 accessories의 0원/null로 덮어쓰기 방지
+              if (existingPrice && existingPrice > 0 && (!newPrice || newPrice <= 0)) {
+                continue;
+              }
+            }
             mappedOptions[k] = {
               price: val?.price ?? null,
               desc: val?.desc ?? '',

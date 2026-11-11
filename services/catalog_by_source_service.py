@@ -553,6 +553,39 @@ def get_pilot_catalog_spec(
     }
 
 
+def merge_options_and_accessories(options: Optional[dict], accessories: Optional[dict]) -> dict:
+    """
+    신차 선택 옵션(options)과 커스터마이징 액세서리(accessories)를 안전하게 단일 풀로 병합.
+    - options(출고 정규 옵션)가 최우선 순위이며, accessories의 0원/None 가격이 options의 정상 유효 가격(>0)을 덮어쓰지 않는다.
+    - 동일 키가 양쪽에 존재할 때:
+      1) options에 유효한 가격(>0)이 있으면 options 보존 (accessories의 0원 덮어쓰기 원천 차단)
+      2) options 가격이 0/None이고 accessories에 유효한 가격(>0)이 있으면 accessories 가격 채택
+      3) options에 없는 신규 액세서리는 그대로 풀에 추가
+    """
+    merged: Dict[str, Any] = {}
+    if isinstance(options, dict):
+        for k, v in options.items():
+            merged[k] = dict(v) if isinstance(v, dict) else v
+
+    if isinstance(accessories, dict):
+        for k, v in accessories.items():
+            if k not in merged:
+                merged[k] = dict(v) if isinstance(v, dict) else v
+            else:
+                cur_item = merged[k]
+                cur_p = cur_item.get("price") if isinstance(cur_item, dict) else cur_item
+                new_p = v.get("price") if isinstance(v, dict) else v
+
+                cur_valid = cur_p is not None and isinstance(cur_p, (int, float)) and cur_p > 0
+                new_valid = new_p is not None and isinstance(new_p, (int, float)) and new_p > 0
+
+                # options에 유효 가격이 없는데 accessories에 유효 가격이 있으면 갱신
+                if not cur_valid and new_valid:
+                    merged[k] = dict(v) if isinstance(v, dict) else v
+
+    return merged
+
+
 def get_pilot_option_price(
     source: Optional[str],
     car_name: Optional[str],
@@ -585,10 +618,8 @@ def get_pilot_option_price(
             "reason": "옵션명 누락"
         }
 
-    # [11-06-75] options와 accessories를 모두 탐색 대상에 포함
-    items_pool = {}
-    items_pool.update(spec.get("options", {}))
-    items_pool.update(spec.get("accessories", {}))
+    # [11-06-75] options와 accessories를 안전하게 단일 풀로 병합 (0원 accessories의 options 가격 덮어쓰기 방어)
+    items_pool = merge_options_and_accessories(spec.get("options", {}), spec.get("accessories", {}))
 
     # 1. 직접 일치
     if opt_key in items_pool:

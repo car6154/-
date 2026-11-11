@@ -1302,9 +1302,12 @@ def match_car_options_detail(car_name: str, year: Any, options_text_or_list: Any
 
     v2_options = {}
     if v2_spec and v2_spec.get("found"):
-        v2_options.update(v2_spec.get("options", {}))
-        # [11-06-75] 커스터마이징 액세서리(Kia Genuine, HGA, TUON, N퍼포먼스 등)도 옵션 매칭 풀에 통합
-        v2_options.update(v2_spec.get("accessories", {}))
+        from services.catalog_by_source_service import merge_options_and_accessories
+        # [11-06-75 & 11-11-02] options와 accessories를 안전하게 병합 (accessories의 0원이 options의 정상 가격을 덮어쓰지 않음)
+        v2_options = merge_options_and_accessories(
+            v2_spec.get("options", {}),
+            v2_spec.get("accessories", {})
+        )
 
     # 💡 [11-06-34]: 등급 인승 모호(get_pilot_catalog_spec found: False) 시 등급 패밀리(인승 제외 6개 키 일치) 옵션 합집합 폴백
     # 옵션은 트림 단위라 인승이 달라도 이름·가격이 동일하므로, 인승 누락/모호 등급도 옵션 매칭은 정상 수행
@@ -1365,16 +1368,21 @@ def match_car_options_detail(car_name: str, year: Any, options_text_or_list: Any
                                 is_matched_grade = True
 
                             if is_matched_grade:
+                                from services.catalog_by_source_service import merge_options_and_accessories
                                 cand_opts = cand_g_spec.get("options", {})
-                                if isinstance(cand_opts, dict):
-                                    for opt_k, opt_v in cand_opts.items():
-                                        if opt_k not in v2_options:
-                                            v2_options[opt_k] = opt_v
                                 cand_accs = cand_g_spec.get("accessories", {})
-                                if isinstance(cand_accs, dict):
-                                    for acc_k, acc_v in cand_accs.items():
-                                        if acc_k not in v2_options:
-                                            v2_options[acc_k] = acc_v
+                                cand_merged = merge_options_and_accessories(cand_opts, cand_accs)
+                                for opt_k, opt_v in cand_merged.items():
+                                    if opt_k not in v2_options:
+                                        v2_options[opt_k] = opt_v
+                                    else:
+                                        # 이미 있는 경우에도 0원이 유효한 가격을 덮지 않도록 안전 병합
+                                        cur_p = v2_options[opt_k].get("price") if isinstance(v2_options[opt_k], dict) else v2_options[opt_k]
+                                        new_p = opt_v.get("price") if isinstance(opt_v, dict) else opt_v
+                                        cur_valid = cur_p is not None and isinstance(cur_p, (int, float)) and cur_p > 0
+                                        new_valid = new_p is not None and isinstance(new_p, (int, float)) and new_p > 0
+                                        if not cur_valid and new_valid:
+                                            v2_options[opt_k] = opt_v
         except Exception:
             pass
 
@@ -1390,11 +1398,19 @@ def match_car_options_detail(car_name: str, year: Any, options_text_or_list: Any
 
         if matched_v2:
             v2_k, v2_val, v2_match_type = matched_v2
+            p_val = v2_val.get("price") if isinstance(v2_val, dict) else v2_val
+            p_man = v2_val.get("price_man") if isinstance(v2_val, dict) else None
+            if p_man is None and p_val is not None:
+                try:
+                    p_man = round(int(p_val) / 10000)
+                except Exception:
+                    p_man = None
             results.append({
                 "raw_name": raw,
                 "clean_name": clean,
                 "official_name": v2_k,
-                "price": v2_val.get("price") if isinstance(v2_val, dict) else v2_val,
+                "price": p_val,
+                "price_man": p_man,
                 "desc": v2_val.get("desc", "") if isinstance(v2_val, dict) else "",
                 "match_type": v2_match_type,
                 "source": "danawa",
@@ -1408,6 +1424,7 @@ def match_car_options_detail(car_name: str, year: Any, options_text_or_list: Any
             "clean_name": clean,
             "official_name": raw,
             "price": None,
+            "price_man": None,
             "desc": "",
             "match_type": "none",
             "source": "none",
@@ -1427,11 +1444,11 @@ def find_official_catalog_option(opt_name: str, catalog_data_or_options: Any = N
 
     if isinstance(catalog_data_or_options, dict):
         if "options" in catalog_data_or_options or "accessories" in catalog_data_or_options:
-            options_dict = {}
-            if "options" in catalog_data_or_options:
-                options_dict.update(catalog_data_or_options.get("options", {}))
-            if "accessories" in catalog_data_or_options:
-                options_dict.update(catalog_data_or_options.get("accessories", {}))
+            from services.catalog_by_source_service import merge_options_and_accessories
+            options_dict = merge_options_and_accessories(
+                catalog_data_or_options.get("options", {}),
+                catalog_data_or_options.get("accessories", {})
+            )
         else:
             options_dict = catalog_data_or_options
     else:
