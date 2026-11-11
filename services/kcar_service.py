@@ -487,25 +487,97 @@ def fetch_kcar_car_detail(car_cd: str, include_3d: bool = True) -> Optional[Dict
         return None
 
 
-def fallback_calc_comp_opt_from_optnnm(optn_nm: str, catalog_map: Dict[str, int]) -> int:
-    """상세 API 통신 실패 시 비상 격리 폴백: optnNm 파이프 파싱 + 부분문자열 매칭"""
+def fallback_calc_comp_opt_from_optnnm(
+    optn_nm: str,
+    car_name: str = "",
+    year: Any = 0,
+    grade: str = ""
+) -> int:
+    """상세 API 통신 실패 시 비상 격리 카탈로그 V2 책 매칭 (하드코딩 사전 완전 제거)"""
     if not optn_nm:
         return 0
-    tokens = [t.strip() for t in optn_nm.split('|') if t.strip()]
-    raw_sum = 0
-    for t in tokens:
-        if is_color_option(t):
-            continue
-        t_norm = norm_opt_name(t)
-        matched_p = catalog_map.get(t_norm, 0)
-        if matched_p == 0:
-            for cn_norm, cp in catalog_map.items():
-                if (t_norm in cn_norm and len(t_norm) >= 2) or (cn_norm in t_norm and len(cn_norm) >= 2):
-                    matched_p = cp
-                    break
-        if matched_p > 0:
-            raw_sum += matched_p
-    return raw_sum
+    tokens = [t.strip() for t in optn_nm.split('|') if t.strip() and not is_color_option(t.strip())]
+    if not tokens:
+        return 0
+    from services.option_package_service import match_car_options_detail
+    book_matched = match_car_options_detail(
+        car_name=car_name,
+        year=year,
+        options_text_or_list=tokens,
+        grade=grade
+    )
+    total_man = 0
+    matched_keys = set()
+    for bm in book_matched:
+        p_m = bm.get("price_man")
+        off_n = bm.get("clean_name") or bm.get("raw_name")
+        norm_n = norm_opt_name(off_n)
+        if p_m and p_m > 0 and norm_n not in matched_keys:
+            total_man += p_m
+            matched_keys.add(norm_n)
+    return total_man
+
+
+def _calc_kcar_comp_opt_price(
+    comp_car: Dict[str, Any],
+    jato_opts: Optional[List[Dict[str, Any]]],
+    car_name: str = "",
+    year: Any = 0,
+    detail_model: str = ""
+) -> int:
+    """
+    비교군 케이카 매물의 추가 옵션 총 출고가(만원) 산출:
+    1) JATO 상세 API 옵션 목록이 있는 경우:
+       - optPrc가 유효한 값(> 0)이면 그 가격(만원) 반영
+       - optPrc가 0이거나 미기재인 경우 V2 책(match_car_options_detail)으로 매칭하여 가격 책정
+    2) JATO 상세 API 실패(None) 시:
+       - optnNm 파이프 파싱 목록을 V2 책(match_car_options_detail)으로 매칭하여 가격 책정
+    ※ 하드코딩 사전(선루프 80만 등)은 일절 사용하지 않으며, V2 책에 없으면 0원(매칭 불가)으로 처리
+    """
+    c_year = comp_car.get("year") or year
+    c_model = comp_car.get("modelName") or car_name
+    c_grade = comp_car.get("gradeFullName") or detail_model
+
+    from services.option_package_service import match_car_options_detail
+
+    total_price_man = 0
+    if jato_opts is not None:
+        matched_keys = set()
+        unpriced_names = []
+        for opt in jato_opts:
+            opt_nm = str(opt.get("optNm") or "").strip()
+            if not opt_nm or is_color_option(opt_nm):
+                continue
+            opt_prc = opt.get("optPrc") or 0
+            p_val = int(opt_prc) // 10000 if int(opt_prc) >= 10000 else int(opt_prc)
+            if p_val > 0:
+                total_price_man += p_val
+                matched_keys.add(norm_opt_name(opt_nm))
+            else:
+                unpriced_names.append(opt_nm)
+
+        if unpriced_names:
+            book_matched = match_car_options_detail(
+                car_name=c_model,
+                year=c_year,
+                options_text_or_list=unpriced_names,
+                grade=c_grade
+            )
+            for bm in book_matched:
+                p_m = bm.get("price_man")
+                off_n = bm.get("clean_name") or bm.get("raw_name")
+                norm_n = norm_opt_name(off_n)
+                if p_m and p_m > 0 and norm_n not in matched_keys:
+                    total_price_man += p_m
+                    matched_keys.add(norm_n)
+        return total_price_man
+    else:
+        return fallback_calc_comp_opt_from_optnnm(
+            optn_nm=comp_car.get("optnNm") or "",
+            car_name=c_model,
+            year=c_year,
+            grade=c_grade
+        )
 
 # KCar 제조사 및 모델 코드 매핑 테이블 (https://market-api.kcar.com/api/v1/ds/getModelListCount 공식 전수 기준)
 # [필수 규칙] 하이브리드 모델 등록 시 양방향 어순 등록:
@@ -4463,47 +4535,22 @@ def fetch_kcar_market_stats(
                         target_opt_items.append({"name": n, "price": p_val})
             target_opt_raw = sum(item["price"] for item in target_opt_items)
 
-    # 기본 카탈로그 옵션가 사전 (만원 단위) - 비상 폴백용
-    DEFAULT_CATALOG_PRICES = {
-        "선루프": 80,
-        "와이드선루프": 79,
-        "듀얼선루프": 80,
-        "파노라마선루프": 115,
-        "hud": 120,
-        "헤드업디스플레이": 120,
-        "드라이브와이즈": 110,
-        "스마트센스": 105,
-        "현대스마트센스": 105,
-        "서라운드뷰": 80,
-        "어라운드뷰": 80,
-        "모니터링": 70,
-        "모니터링팩": 70,
-        "스타일": 85,
-        "컴포트": 60,
-        "컴포트시트": 60,
-        "컨비니언스": 100,
-        "크렐": 60,
-        "jbl": 60,
-        "보스": 60,
-        "렉시콘": 120,
-        "프리미엄사운드": 60,
-        "빌트인캠": 65,
-        "스마트커넥트": 60,
-        "후측방경보": 45,
-        "후측방": 45,
-    }
-
-    catalog_price_map = dict(DEFAULT_CATALOG_PRICES)
-    for item in target_opt_items:
-        n_norm = norm_opt_name(item["name"])
-        if n_norm and item["price"] > 0:
-            catalog_price_map[n_norm] = item["price"]
-            if "헤드업" in n_norm or "hud" in n_norm:
-                catalog_price_map["hud"] = item["price"]
-                catalog_price_map["헤드업디스플레이"] = item["price"]
-            if "선루프" in n_norm:
-                catalog_price_map["선루프"] = item["price"]
-                catalog_price_map["파노라마선루프"] = item["price"]
+        # 💡 [11-11-07]: 괄호 내 명시 가격이 없거나 0인 경우 V2 카탈로그(새 책)로 옵션가 매칭
+        if target_opt_raw == 0 and target_options:
+            from services.option_package_service import match_car_options_detail
+            matched_target = match_car_options_detail(
+                car_name=car_name,
+                year=year,
+                options_text_or_list=target_options,
+                grade=detail_model
+            )
+            for m_item in matched_target:
+                p_man = m_item.get("price_man")
+                n_str = m_item.get("clean_name") or m_item.get("raw_name")
+                if p_man and p_man > 0:
+                    target_opt_items.append({"name": n_str, "price": p_man})
+            if target_opt_items:
+                target_opt_raw = sum(item["price"] for item in target_opt_items)
 
     # 연식 잔가율 계산 헬퍼 (chaolma_service.calculate_option_depreciation 기준)
     def _get_residual_rate(yr_val: int) -> float:
@@ -4566,24 +4613,11 @@ def fetch_kcar_market_stats(
             else:
                 mil_adj_p = c_price
 
-            # (2) 옵션 델타 보정 (옵션 잔존가 차액 100% 반영, 비율·캡 없음, 상세 API 공인 가격)
+            # (2) 옵션 델타 보정 (옵션 잔존가 차액 100% 반영, 비율·캡 없음, V2 책 + 상세 API 공인 가격)
             c_cd = c.get("carCd") or ""
             c_jato = jato_results.get(c_cd)
 
-            if c_jato is not None:
-                # 정상 상세 API 응답 (빈 배열 []이면 옵션 없는 기본 사양으로 0원 정상 처리)
-                comp_opt_raw = 0
-                for opt in c_jato:
-                    opt_nm = str(opt.get("optNm") or "").strip()
-                    if is_color_option(opt_nm):
-                        print(f"[K-Car 비교군 옵션 제외] carCd='{c_cd}', 유상 컬러='{opt_nm}' 제외됨", flush=True)
-                        continue
-                    opt_prc = opt.get("optPrc") or 0
-                    p_val = int(opt_prc) // 10000 if int(opt_prc) >= 10000 else int(opt_prc)
-                    comp_opt_raw += p_val
-            else:
-                # 상세 API 통신 실패 (None) 시에만 비상 격리 카탈로그 폴백 (부분문자열 포함)
-                comp_opt_raw = fallback_calc_comp_opt_from_optnnm(c.get("optnNm") or "", catalog_price_map)
+            comp_opt_raw = _calc_kcar_comp_opt_price(c, c_jato, car_name=car_name, year=year, detail_model=detail_model)
 
             comp_rate = _get_residual_rate(c["year"])
             comp_opt_deprec = int(round(comp_opt_raw * comp_rate))

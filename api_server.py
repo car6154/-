@@ -1871,12 +1871,23 @@ class KcarMarketRequest(BaseModel):
 
 
 @app.post("/api/kcar/market")
-def get_kcar_market_stats_post(req: KcarMarketRequest):
+def get_kcar_market_stats_post(req: KcarMarketRequest, target_options_getter: Optional[Callable[[], Optional[str]]] = None):
     try:
         from services.kcar_service import fetch_kcar_market_stats
         raw_g = (req.gradeName or "").strip()
         raw_gd = (req.gradeDetailName or "").strip()
         detail_model = _assemble_target_detail_model(raw_g, raw_gd, req.detailModel or "")
+
+        # 💡 [11-11-07]: target_options_getter가 전달된 경우, 케이카 통계 산출 직전에 평가하여 req.targetOptions에 반영
+        target_opts = req.targetOptions or ""
+        if target_options_getter is not None:
+            try:
+                resolved_opts = target_options_getter()
+                if resolved_opts:
+                    target_opts = str(resolved_opts)
+                    print(f"[get_kcar_market_stats_post] target_options_getter 반영 완료: '{target_opts}'", flush=True)
+            except Exception as e_tog:
+                print(f"[get_kcar_market_stats_post] target_options_getter 실패 (기존 targetOptions 유지): {e_tog}", flush=True)
 
         return fetch_kcar_market_stats(
             car_name=req.carName or "",
@@ -1885,7 +1896,7 @@ def get_kcar_market_stats_post(req: KcarMarketRequest):
             mileage=req.mileage or 0,
             manufacturer=req.manufacturer or "",
             accident=req.accident or "PERFECT",
-            target_options=req.targetOptions or ""
+            target_options=target_opts
         )
     except Exception as e:
         return {"success": False, "error": str(e), "count": 0, "cars": [], "yearStats": [], "priceBins": []}
@@ -2532,7 +2543,7 @@ def search_cockpit_unified(req: CockpitSearchRequest):
                     mileage=mileage,
                     targetOptions=req.targetOptions or ""
                 )
-                kcar_future = executor.submit(get_kcar_market_stats_post, kcar_req)
+                kcar_future = executor.submit(get_kcar_market_stats_post, kcar_req, _get_target_opts_a)
 
         else:
             # [시나리오 2]: 모델명 또는 연식이 없는 경우 -> 차량번호로 차얼마 1차(0.08s) 호출 후 즉시 엔카 발주
@@ -2602,7 +2613,7 @@ def search_cockpit_unified(req: CockpitSearchRequest):
                                 manufacturer=manufacturer,
                                 year=year,
                                 mileage=mileage,
-                                targetOptions=req.targetOptions or ""
+                                targetOptions=encar_opts_str
                             )
                             kcar_future = executor.submit(get_kcar_market_stats_post, kcar_req)
 
@@ -2705,9 +2716,9 @@ def search_cockpit_unified(req: CockpitSearchRequest):
                                 manufacturer=manufacturer,
                                 year=year,
                                 mileage=mileage,
-                                targetOptions=req.targetOptions or ""
+                                targetOptions=str(req.targetOptions or "")
                             )
-                            kcar_future = executor.submit(get_kcar_market_stats_post, kcar_req)
+                            kcar_future = executor.submit(get_kcar_market_stats_post, kcar_req, _get_target_opts_b)
 
                 except Exception as e_carmart:
                     fail_reasons["chaolma"] = str(e_carmart)
