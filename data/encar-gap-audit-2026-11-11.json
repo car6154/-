@@ -1,0 +1,7565 @@
+{
+  "summary": {
+    "audit_date": "2026-11-11",
+    "coverage": {
+      "model_coverage_pct": 76.38,
+      "year_coverage_pct": 79.39,
+      "grade_coverage_pct": 1.4,
+      "option_coverage_pct": 52.45
+    },
+    "totals": {
+      "encar_models": 307,
+      "danawa_models": 309,
+      "matched_models": 236,
+      "encar_unmatched_models": 71,
+      "danawa_unmatched_models": 73,
+      "danawa_years_compared": 791,
+      "overlap_years": 628,
+      "danawa_grades_compared": 8516,
+      "encar_grades_compared": 4510,
+      "matched_grades": 119,
+      "danawa_options_compared": 7092,
+      "encar_options_compared": 7538,
+      "matched_options": 3720
+    },
+    "encar_data_quality": {
+      "total_all_grades": 7871,
+      "grades_with_base_price": 0,
+      "grades_missing_base_price": 7871,
+      "grades_missing_base_price_pct": 100.0,
+      "total_all_options": 13759,
+      "options_valid_price": 9723,
+      "options_missing_price": 4036,
+      "options_zero_price": 0,
+      "options_price_fill_rate_pct": 70.67,
+      "total_all_packages": 6997
+    }
+  },
+  "alias_table": {
+    "더 뉴 i30": {
+      "encar_model": "더 뉴 i30",
+      "danawa_model": "더 뉴 i30",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2015"
+      ],
+      "encar_years": [
+        "2015",
+        "2016"
+      ],
+      "danawa_years": [
+        "2015"
+      ]
+    },
+    "더 뉴 i40": {
+      "encar_model": "더 뉴 i40",
+      "danawa_model": "더 뉴 i40",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2015",
+        "2016",
+        "2017",
+        "2018"
+      ],
+      "encar_years": [
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019"
+      ],
+      "danawa_years": [
+        "2015",
+        "2016",
+        "2017",
+        "2018"
+      ]
+    },
+    "i40": {
+      "encar_model": "i40",
+      "danawa_model": "i40",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2013",
+        "2014"
+      ],
+      "encar_years": [
+        "2013",
+        "2014",
+        "2015"
+      ],
+      "danawa_years": [
+        "2012",
+        "2013",
+        "2014"
+      ]
+    },
+    "ST1": {
+      "encar_model": "ST1",
+      "danawa_model": "ST1",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2025",
+        "2026"
+      ],
+      "encar_years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2025",
+        "2026",
+        "2027"
+      ]
+    },
+    "넥쏘": {
+      "encar_model": "넥쏘",
+      "danawa_model": "넥쏘",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2018",
+        "2021",
+        "2024"
+      ],
+      "encar_years": [
+        "2018",
+        "2019",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "2025"
+      ],
+      "danawa_years": [
+        "2018",
+        "2021",
+        "2024",
+        "2026",
+        "2027"
+      ]
+    },
+    "더 뉴 맥스크루즈": {
+      "encar_model": "더 뉴 맥스크루즈",
+      "danawa_model": "더 뉴 맥스크루즈",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2016",
+        "2017",
+        "2018"
+      ],
+      "encar_years": [
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019"
+      ],
+      "danawa_years": [
+        "2016",
+        "2017",
+        "2018"
+      ]
+    },
+    "맥스크루즈": {
+      "encar_model": "맥스크루즈",
+      "danawa_model": "맥스크루즈",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2013",
+        "2014",
+        "2015"
+      ],
+      "encar_years": [
+        "2013",
+        "2014",
+        "2015"
+      ],
+      "danawa_years": [
+        "2013",
+        "2014",
+        "2015"
+      ]
+    },
+    "베뉴": {
+      "encar_model": "베뉴",
+      "danawa_model": "베뉴",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2019",
+        "2021",
+        "2022",
+        "2023",
+        "2025"
+      ],
+      "encar_years": [
+        "2019",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2019",
+        "2021",
+        "2022",
+        "2023",
+        "2025",
+        "2027"
+      ]
+    },
+    "베라크루즈": {
+      "encar_model": "베라크루즈",
+      "danawa_model": "베라크루즈",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2013",
+        "2014",
+        "2015"
+      ],
+      "encar_years": [
+        "2013",
+        "2014",
+        "2015"
+      ],
+      "danawa_years": [
+        "2012",
+        "2013",
+        "2014",
+        "2015"
+      ]
+    },
+    "더 뉴 벨로스터": {
+      "encar_model": "더 뉴 벨로스터",
+      "danawa_model": "더 뉴 벨로스터",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2015",
+        "2016"
+      ],
+      "encar_years": [
+        "2015",
+        "2016",
+        "2017",
+        "2018"
+      ],
+      "danawa_years": [
+        "2015",
+        "2016"
+      ]
+    },
+    "벨로스터": {
+      "encar_model": "벨로스터",
+      "danawa_model": "벨로스터",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2013"
+      ],
+      "encar_years": [
+        "2013",
+        "2014",
+        "2015"
+      ],
+      "danawa_years": [
+        "2012",
+        "2013",
+        "2018"
+      ]
+    },
+    "더 뉴 그랜드 스타렉스": {
+      "encar_model": "더 뉴 그랜드 스타렉스",
+      "danawa_model": "더 뉴 그랜드 스타렉스",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2018",
+        "2020"
+      ],
+      "encar_years": [
+        "2017",
+        "2018",
+        "2019",
+        "2020",
+        "2021"
+      ],
+      "danawa_years": [
+        "2018",
+        "2020"
+      ]
+    },
+    "더 뉴 스타리아": {
+      "encar_model": "더 뉴 스타리아",
+      "danawa_model": "더 뉴 스타리아",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2026"
+      ],
+      "encar_years": [
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2026"
+      ]
+    },
+    "스타리아": {
+      "encar_model": "스타리아",
+      "danawa_model": "스타리아",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2021",
+        "2023",
+        "2024"
+      ],
+      "encar_years": [
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "2025"
+      ],
+      "danawa_years": [
+        "2021",
+        "2023",
+        "2024"
+      ]
+    },
+    "더 뉴 싼타페": {
+      "encar_model": "더 뉴 싼타페",
+      "danawa_model": "더 뉴 싼타페",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2020",
+        "2021",
+        "2022",
+        "2023"
+      ],
+      "encar_years": [
+        "2020",
+        "2021",
+        "2022",
+        "2023"
+      ],
+      "danawa_years": [
+        "2020",
+        "2021",
+        "2022",
+        "2023"
+      ]
+    },
+    "싼타페 더 프라임": {
+      "encar_model": "싼타페 더 프라임",
+      "danawa_model": "싼타페 더 프라임",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2016",
+        "2017",
+        "2018"
+      ],
+      "encar_years": [
+        "2015",
+        "2016",
+        "2017",
+        "2018"
+      ],
+      "danawa_years": [
+        "2016",
+        "2017",
+        "2018"
+      ]
+    },
+    "더 뉴 아반떼": {
+      "encar_model": "더 뉴 아반떼",
+      "danawa_model": "더 뉴 아반떼",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2014",
+        "2015"
+      ],
+      "encar_years": [
+        "2013",
+        "2014",
+        "2015"
+      ],
+      "danawa_years": [
+        "2014",
+        "2015",
+        "2018",
+        "2019",
+        "2023",
+        "2025",
+        "2026"
+      ]
+    },
+    "아반떼 쿠페": {
+      "encar_model": "아반떼 쿠페",
+      "danawa_model": "아반떼 쿠페",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2013",
+        "2014",
+        "2015"
+      ],
+      "encar_years": [
+        "2013",
+        "2014",
+        "2015"
+      ],
+      "danawa_years": [
+        "2013",
+        "2014",
+        "2015"
+      ]
+    },
+    "아슬란": {
+      "encar_model": "아슬란",
+      "danawa_model": "아슬란",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2015",
+        "2016",
+        "2017"
+      ],
+      "encar_years": [
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018"
+      ],
+      "danawa_years": [
+        "2015",
+        "2016",
+        "2017"
+      ]
+    },
+    "더 뉴 제네시스 쿠페": {
+      "encar_model": "더 뉴 제네시스 쿠페",
+      "danawa_model": "더 뉴 제네시스 쿠페",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2014",
+        "2015"
+      ],
+      "encar_years": [
+        "2013",
+        "2014",
+        "2015",
+        "2016"
+      ],
+      "danawa_years": [
+        "2012",
+        "2014",
+        "2015"
+      ]
+    },
+    "제네시스": {
+      "encar_model": "제네시스",
+      "danawa_model": "제네시스",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2013"
+      ],
+      "encar_years": [
+        "2013"
+      ],
+      "danawa_years": [
+        "2013",
+        "2014",
+        "2015"
+      ]
+    },
+    "더 뉴 캐스퍼": {
+      "encar_model": "더 뉴 캐스퍼",
+      "danawa_model": "더 뉴 캐스퍼",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2025",
+        "2026"
+      ],
+      "encar_years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2025",
+        "2026",
+        "2027"
+      ]
+    },
+    "캐스퍼": {
+      "encar_model": "캐스퍼",
+      "danawa_model": "캐스퍼",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2022",
+        "2023"
+      ],
+      "encar_years": [
+        "2021",
+        "2022",
+        "2023",
+        "2024"
+      ],
+      "danawa_years": [
+        "2022",
+        "2023"
+      ]
+    },
+    "더 뉴 코나": {
+      "encar_model": "더 뉴 코나",
+      "danawa_model": "더 뉴 코나",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2021",
+        "2022"
+      ],
+      "encar_years": [
+        "2020",
+        "2021",
+        "2022",
+        "2023"
+      ],
+      "danawa_years": [
+        "2021",
+        "2022"
+      ]
+    },
+    "코나": {
+      "encar_model": "코나",
+      "danawa_model": "코나",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2018",
+        "2020"
+      ],
+      "encar_years": [
+        "2017",
+        "2018",
+        "2019",
+        "2020"
+      ],
+      "danawa_years": [
+        "2018",
+        "2020",
+        "2023",
+        "2024",
+        "2025",
+        "2027"
+      ]
+    },
+    "투싼 ix": {
+      "encar_model": "투싼 ix",
+      "danawa_model": "투싼 ix",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2013"
+      ],
+      "encar_years": [
+        "2013"
+      ],
+      "danawa_years": [
+        "2012",
+        "2013"
+      ]
+    },
+    "더 뉴 팰리세이드": {
+      "encar_model": "더 뉴 팰리세이드",
+      "danawa_model": "더 뉴 팰리세이드",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2022",
+        "2024"
+      ],
+      "encar_years": [
+        "2022",
+        "2023",
+        "2024",
+        "2025"
+      ],
+      "danawa_years": [
+        "2022",
+        "2024"
+      ]
+    },
+    "팰리세이드": {
+      "encar_model": "팰리세이드",
+      "danawa_model": "팰리세이드",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2019",
+        "2020",
+        "2021",
+        "2022"
+      ],
+      "encar_years": [
+        "2018",
+        "2019",
+        "2020",
+        "2021",
+        "2022"
+      ],
+      "danawa_years": [
+        "2019",
+        "2020",
+        "2021",
+        "2022"
+      ]
+    },
+    "EQ900": {
+      "encar_model": "EQ900",
+      "danawa_model": "EQ900",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2016",
+        "2017"
+      ],
+      "encar_years": [
+        "2015",
+        "2016",
+        "2017",
+        "2018"
+      ],
+      "danawa_years": [
+        "2016",
+        "2017"
+      ]
+    },
+    "더 뉴 G70": {
+      "encar_model": "더 뉴 G70",
+      "danawa_model": "더 뉴 G70",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "2026"
+      ],
+      "encar_years": [
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "2026"
+      ]
+    },
+    "G70": {
+      "encar_model": "G70",
+      "danawa_model": "G70",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2018",
+        "2019",
+        "2020"
+      ],
+      "encar_years": [
+        "2017",
+        "2018",
+        "2019",
+        "2020"
+      ],
+      "danawa_years": [
+        "2018",
+        "2019",
+        "2020"
+      ]
+    },
+    "G80": {
+      "encar_model": "G80",
+      "danawa_model": "G80",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2017",
+        "2018",
+        "2019",
+        "2020"
+      ],
+      "encar_years": [
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2020"
+      ],
+      "danawa_years": [
+        "2017",
+        "2018",
+        "2019",
+        "2020",
+        "2022",
+        "2023"
+      ]
+    },
+    "G90": {
+      "encar_model": "G90",
+      "danawa_model": "G90",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2019",
+        "2021"
+      ],
+      "encar_years": [
+        "2018",
+        "2019",
+        "2020",
+        "2021"
+      ],
+      "danawa_years": [
+        "2019",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "2025"
+      ]
+    },
+    "GV60": {
+      "encar_model": "GV60",
+      "danawa_model": "GV60",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2022",
+        "2023",
+        "2024",
+        "2025"
+      ],
+      "encar_years": [
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2022",
+        "2023",
+        "2024",
+        "2025",
+        "2027"
+      ]
+    },
+    "GV70": {
+      "encar_model": "GV70",
+      "danawa_model": "GV70",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2021",
+        "2022",
+        "2024"
+      ],
+      "encar_years": [
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2021",
+        "2022",
+        "2024"
+      ]
+    },
+    "GV80": {
+      "encar_model": "GV80",
+      "danawa_model": "GV80",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2020",
+        "2022",
+        "2023"
+      ],
+      "encar_years": [
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2020",
+        "2022",
+        "2023"
+      ]
+    },
+    "올 뉴 K3": {
+      "encar_model": "올 뉴 K3",
+      "danawa_model": "올 뉴 K3",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2018",
+        "2019",
+        "2021"
+      ],
+      "encar_years": [
+        "2018",
+        "2019",
+        "2020",
+        "2021"
+      ],
+      "danawa_years": [
+        "2018",
+        "2019",
+        "2021"
+      ]
+    },
+    "더 뉴 K3": {
+      "encar_model": "더 뉴 K3",
+      "danawa_model": "더 뉴 K3",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2016",
+        "2017",
+        "2018"
+      ],
+      "encar_years": [
+        "2015",
+        "2016",
+        "2017",
+        "2018"
+      ],
+      "danawa_years": [
+        "2016",
+        "2017",
+        "2018"
+      ]
+    },
+    "K3 쿱": {
+      "encar_model": "K3 쿱",
+      "danawa_model": "K3 쿱",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2014",
+        "2015"
+      ],
+      "encar_years": [
+        "2013",
+        "2014",
+        "2015",
+        "2016"
+      ],
+      "danawa_years": [
+        "2014",
+        "2015"
+      ]
+    },
+    "K3": {
+      "encar_model": "K3",
+      "danawa_model": "K3",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2013",
+        "2014",
+        "2015"
+      ],
+      "encar_years": [
+        "2013",
+        "2014",
+        "2015"
+      ],
+      "danawa_years": [
+        "2013",
+        "2014",
+        "2015"
+      ]
+    },
+    "K5 3세대": {
+      "encar_model": "K5 3세대",
+      "danawa_model": "K5 3세대",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2020",
+        "2021",
+        "2022",
+        "2023"
+      ],
+      "encar_years": [
+        "2019",
+        "2020",
+        "2021",
+        "2022",
+        "2023"
+      ],
+      "danawa_years": [
+        "2020",
+        "2021",
+        "2022",
+        "2023"
+      ]
+    },
+    "더 뉴 K5 2세대": {
+      "encar_model": "더 뉴 K5 2세대",
+      "danawa_model": "더 뉴 K5 2세대",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2018",
+        "2019",
+        "2020"
+      ],
+      "encar_years": [
+        "2018",
+        "2019",
+        "2020",
+        "2021"
+      ],
+      "danawa_years": [
+        "2018",
+        "2019",
+        "2020"
+      ]
+    },
+    "K5 2세대": {
+      "encar_model": "K5 2세대",
+      "danawa_model": "K5 2세대",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2016",
+        "2017",
+        "2018"
+      ],
+      "encar_years": [
+        "2015",
+        "2016",
+        "2017",
+        "2018"
+      ],
+      "danawa_years": [
+        "2016",
+        "2017",
+        "2018"
+      ]
+    },
+    "더 뉴 K5": {
+      "encar_model": "더 뉴 K5",
+      "danawa_model": "더 뉴 K5",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2014",
+        "2015"
+      ],
+      "encar_years": [
+        "2013",
+        "2014",
+        "2015"
+      ],
+      "danawa_years": [
+        "2014",
+        "2015",
+        "2024",
+        "2025",
+        "2026",
+        "2027"
+      ]
+    },
+    "K5": {
+      "encar_model": "K5",
+      "danawa_model": "K5",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2013"
+      ],
+      "encar_years": [
+        "2013"
+      ],
+      "danawa_years": [
+        "2013",
+        "2018",
+        "2020",
+        "2021",
+        "2022",
+        "2023"
+      ]
+    },
+    "K7 프리미어": {
+      "encar_model": "K7 프리미어",
+      "danawa_model": "K7 프리미어",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2020",
+        "2021"
+      ],
+      "encar_years": [
+        "2019",
+        "2020",
+        "2021"
+      ],
+      "danawa_years": [
+        "2020",
+        "2021"
+      ]
+    },
+    "올 뉴 K7": {
+      "encar_model": "올 뉴 K7",
+      "danawa_model": "올 뉴 K7",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2016",
+        "2017",
+        "2018",
+        "2019"
+      ],
+      "encar_years": [
+        "2016",
+        "2017",
+        "2018",
+        "2019"
+      ],
+      "danawa_years": [
+        "2016",
+        "2017",
+        "2018",
+        "2019"
+      ]
+    },
+    "K7 하이브리드": {
+      "encar_model": "K7 하이브리드",
+      "danawa_model": "K7 하이브리드",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2014",
+        "2015",
+        "2016"
+      ],
+      "encar_years": [
+        "2013",
+        "2014",
+        "2015",
+        "2016"
+      ],
+      "danawa_years": [
+        "2014",
+        "2015",
+        "2016"
+      ]
+    },
+    "더 뉴 K7": {
+      "encar_model": "더 뉴 K7",
+      "danawa_model": "더 뉴 K7",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2013",
+        "2015",
+        "2016"
+      ],
+      "encar_years": [
+        "2013",
+        "2014",
+        "2015",
+        "2016"
+      ],
+      "danawa_years": [
+        "2013",
+        "2015",
+        "2016"
+      ]
+    },
+    "더 뉴 K8": {
+      "encar_model": "더 뉴 K8",
+      "danawa_model": "더 뉴 K8",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2025",
+        "2026"
+      ],
+      "encar_years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2025",
+        "2026",
+        "2027"
+      ]
+    },
+    "K8": {
+      "encar_model": "K8",
+      "danawa_model": "K8",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2022",
+        "2023",
+        "2024"
+      ],
+      "encar_years": [
+        "2021",
+        "2022",
+        "2023",
+        "2024"
+      ],
+      "danawa_years": [
+        "2022",
+        "2023",
+        "2024",
+        "2025",
+        "2026",
+        "2027"
+      ]
+    },
+    "더 K9": {
+      "encar_model": "더 K9",
+      "danawa_model": "더 K9",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2018",
+        "2020",
+        "2021"
+      ],
+      "encar_years": [
+        "2018",
+        "2019",
+        "2020",
+        "2021"
+      ],
+      "danawa_years": [
+        "2018",
+        "2020",
+        "2021"
+      ]
+    },
+    "K9": {
+      "encar_model": "K9",
+      "danawa_model": "K9",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2013",
+        "2014"
+      ],
+      "encar_years": [
+        "2013",
+        "2014"
+      ],
+      "danawa_years": [
+        "2012",
+        "2013",
+        "2014"
+      ]
+    },
+    "EV3": {
+      "encar_model": "EV3",
+      "danawa_model": "EV3",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "encar_years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2024",
+        "2025",
+        "2026"
+      ]
+    },
+    "EV4": {
+      "encar_model": "EV4",
+      "danawa_model": "EV4",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2025",
+        "2026"
+      ],
+      "encar_years": [
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2025",
+        "2026"
+      ]
+    },
+    "EV5": {
+      "encar_model": "EV5",
+      "danawa_model": "EV5",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2026"
+      ],
+      "encar_years": [
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2026",
+        "2027"
+      ]
+    },
+    "더 뉴 EV6": {
+      "encar_model": "더 뉴 EV6",
+      "danawa_model": "더 뉴 EV6",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2025",
+        "2026"
+      ],
+      "encar_years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2025",
+        "2026",
+        "2027"
+      ]
+    },
+    "EV6": {
+      "encar_model": "EV6",
+      "danawa_model": "EV6",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2022",
+        "2023"
+      ],
+      "encar_years": [
+        "2021",
+        "2022",
+        "2023",
+        "2024"
+      ],
+      "danawa_years": [
+        "2022",
+        "2023"
+      ]
+    },
+    "EV9": {
+      "encar_model": "EV9",
+      "danawa_model": "EV9",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "encar_years": [
+        "2023",
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2024",
+        "2025",
+        "2026"
+      ]
+    },
+    "PV5": {
+      "encar_model": "PV5",
+      "danawa_model": "PV5",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2026"
+      ],
+      "encar_years": [
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2026",
+        "2027"
+      ]
+    },
+    "디 올 뉴 니로 EV": {
+      "encar_model": "디 올 뉴 니로 EV",
+      "danawa_model": "디 올 뉴 니로 EV",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2023",
+        "2024",
+        "2025"
+      ],
+      "encar_years": [
+        "2022",
+        "2023",
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2023",
+        "2024",
+        "2025"
+      ]
+    },
+    "니로 플러스": {
+      "encar_model": "니로 플러스",
+      "danawa_model": "니로 플러스",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2023",
+        "2024"
+      ],
+      "encar_years": [
+        "2022",
+        "2023",
+        "2024"
+      ],
+      "danawa_years": [
+        "2023",
+        "2024"
+      ]
+    },
+    "디 올 뉴 니로": {
+      "encar_model": "디 올 뉴 니로",
+      "danawa_model": "디 올 뉴 니로",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2023",
+        "2024",
+        "2025"
+      ],
+      "encar_years": [
+        "2022",
+        "2023",
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2023",
+        "2024",
+        "2025"
+      ]
+    },
+    "니로 EV": {
+      "encar_model": "니로 EV",
+      "danawa_model": "니로 EV",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2018",
+        "2019",
+        "2021"
+      ],
+      "encar_years": [
+        "2018",
+        "2019",
+        "2020",
+        "2021",
+        "2022"
+      ],
+      "danawa_years": [
+        "2018",
+        "2019",
+        "2021"
+      ]
+    },
+    "니로": {
+      "encar_model": "니로",
+      "danawa_model": "니로",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2016",
+        "2018",
+        "2019"
+      ],
+      "encar_years": [
+        "2016",
+        "2017",
+        "2018",
+        "2019"
+      ],
+      "danawa_years": [
+        "2016",
+        "2018",
+        "2019"
+      ]
+    },
+    "더 뉴 레이": {
+      "encar_model": "더 뉴 레이",
+      "danawa_model": "더 뉴 레이",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2018",
+        "2019",
+        "2020",
+        "2022"
+      ],
+      "encar_years": [
+        "2017",
+        "2018",
+        "2019",
+        "2020",
+        "2021",
+        "2022"
+      ],
+      "danawa_years": [
+        "2018",
+        "2019",
+        "2020",
+        "2022",
+        "2023",
+        "2024",
+        "2025",
+        "2026",
+        "2027"
+      ]
+    },
+    "레이": {
+      "encar_model": "레이",
+      "danawa_model": "레이",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2013",
+        "2014",
+        "2015"
+      ],
+      "encar_years": [
+        "2013",
+        "2014",
+        "2015",
+        "2016",
+        "2017"
+      ],
+      "danawa_years": [
+        "2012",
+        "2013",
+        "2014",
+        "2015",
+        "2015각자",
+        "2020"
+      ]
+    },
+    "더 뉴 모닝": {
+      "encar_model": "더 뉴 모닝",
+      "danawa_model": "더 뉴 모닝",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2015",
+        "2016"
+      ],
+      "encar_years": [
+        "2015",
+        "2016",
+        "2017"
+      ],
+      "danawa_years": [
+        "2015",
+        "2016",
+        "2023",
+        "2024",
+        "2025",
+        "2027"
+      ]
+    },
+    "올 뉴 모닝": {
+      "encar_model": "올 뉴 모닝",
+      "danawa_model": "올 뉴 모닝",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2013",
+        "2014",
+        "2015"
+      ],
+      "encar_years": [
+        "2013",
+        "2014",
+        "2015"
+      ],
+      "danawa_years": [
+        "2013",
+        "2014",
+        "2015"
+      ]
+    },
+    "모하비 더 마스터": {
+      "encar_model": "모하비 더 마스터",
+      "danawa_model": "모하비 더 마스터",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2020",
+        "2021",
+        "2023",
+        "2024"
+      ],
+      "encar_years": [
+        "2019",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "2025"
+      ],
+      "danawa_years": [
+        "2020",
+        "2021",
+        "2023",
+        "2024"
+      ]
+    },
+    "더 뉴 모하비": {
+      "encar_model": "더 뉴 모하비",
+      "danawa_model": "더 뉴 모하비",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2016",
+        "2018",
+        "2019"
+      ],
+      "encar_years": [
+        "2016",
+        "2017",
+        "2018",
+        "2019"
+      ],
+      "danawa_years": [
+        "2016",
+        "2018",
+        "2019"
+      ]
+    },
+    "모하비": {
+      "encar_model": "모하비",
+      "danawa_model": "모하비",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2013",
+        "2014"
+      ],
+      "encar_years": [
+        "2013",
+        "2014",
+        "2015",
+        "2016"
+      ],
+      "danawa_years": [
+        "2011",
+        "2012",
+        "2013",
+        "2014"
+      ]
+    },
+    "더 뉴 셀토스": {
+      "encar_model": "더 뉴 셀토스",
+      "danawa_model": "더 뉴 셀토스",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2023",
+        "2024",
+        "2025"
+      ],
+      "encar_years": [
+        "2022",
+        "2023",
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2023",
+        "2024",
+        "2025"
+      ]
+    },
+    "셀토스": {
+      "encar_model": "셀토스",
+      "danawa_model": "셀토스",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2019",
+        "2020",
+        "2021",
+        "2022"
+      ],
+      "encar_years": [
+        "2019",
+        "2020",
+        "2021",
+        "2022"
+      ],
+      "danawa_years": [
+        "2019",
+        "2020",
+        "2021",
+        "2022"
+      ]
+    },
+    "스토닉": {
+      "encar_model": "스토닉",
+      "danawa_model": "스토닉",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2018",
+        "2019",
+        "2020"
+      ],
+      "encar_years": [
+        "2017",
+        "2018",
+        "2019",
+        "2020",
+        "2021"
+      ],
+      "danawa_years": [
+        "2018",
+        "2019",
+        "2020"
+      ]
+    },
+    "스팅어 마이스터": {
+      "encar_model": "스팅어 마이스터",
+      "danawa_model": "스팅어 마이스터",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2021",
+        "2022"
+      ],
+      "encar_years": [
+        "2020",
+        "2021",
+        "2022",
+        "2023"
+      ],
+      "danawa_years": [
+        "2021",
+        "2022"
+      ]
+    },
+    "스팅어": {
+      "encar_model": "스팅어",
+      "danawa_model": "스팅어",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2018",
+        "2019",
+        "2020"
+      ],
+      "encar_years": [
+        "2017",
+        "2018",
+        "2019",
+        "2020"
+      ],
+      "danawa_years": [
+        "2018",
+        "2019",
+        "2020"
+      ]
+    },
+    "스포티지 5세대": {
+      "encar_model": "스포티지 5세대",
+      "danawa_model": "스포티지 5세대",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2022",
+        "2023",
+        "2024",
+        "2025"
+      ],
+      "encar_years": [
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "2025"
+      ],
+      "danawa_years": [
+        "2022",
+        "2023",
+        "2024",
+        "2025"
+      ]
+    },
+    "스포티지 더 볼드": {
+      "encar_model": "스포티지 더 볼드",
+      "danawa_model": "스포티지 더 볼드",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2019",
+        "2020",
+        "2021"
+      ],
+      "encar_years": [
+        "2018",
+        "2019",
+        "2020",
+        "2021"
+      ],
+      "danawa_years": [
+        "2019",
+        "2020",
+        "2021"
+      ]
+    },
+    "더 뉴 스포티지 R": {
+      "encar_model": "더 뉴 스포티지 R",
+      "danawa_model": "더 뉴 스포티지 R",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2014",
+        "2015"
+      ],
+      "encar_years": [
+        "2013",
+        "2014",
+        "2015"
+      ],
+      "danawa_years": [
+        "2014",
+        "2015"
+      ]
+    },
+    "스포티지 R": {
+      "encar_model": "스포티지 R",
+      "danawa_model": "스포티지 R",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2013"
+      ],
+      "encar_years": [
+        "2013"
+      ],
+      "danawa_years": [
+        "2011",
+        "2013"
+      ]
+    },
+    "더 뉴 쏘렌토 4세대": {
+      "encar_model": "더 뉴 쏘렌토 4세대",
+      "danawa_model": "더 뉴 쏘렌토 4세대",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "encar_years": [
+        "2023",
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2024",
+        "2025",
+        "2026",
+        "2027"
+      ]
+    },
+    "쏘렌토 4세대": {
+      "encar_model": "쏘렌토 4세대",
+      "danawa_model": "쏘렌토 4세대",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2020",
+        "2022",
+        "2023"
+      ],
+      "encar_years": [
+        "2020",
+        "2021",
+        "2022",
+        "2023"
+      ],
+      "danawa_years": [
+        "2020",
+        "2022",
+        "2023"
+      ]
+    },
+    "더 뉴 쏘렌토": {
+      "encar_model": "더 뉴 쏘렌토",
+      "danawa_model": "더 뉴 쏘렌토",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2018",
+        "2019",
+        "2020"
+      ],
+      "encar_years": [
+        "2017",
+        "2018",
+        "2019",
+        "2020"
+      ],
+      "danawa_years": [
+        "2018",
+        "2019",
+        "2020"
+      ]
+    },
+    "올 뉴 쏘렌토": {
+      "encar_model": "올 뉴 쏘렌토",
+      "danawa_model": "올 뉴 쏘렌토",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2015",
+        "2016",
+        "2017"
+      ],
+      "encar_years": [
+        "2014",
+        "2015",
+        "2016",
+        "2017"
+      ],
+      "danawa_years": [
+        "2015",
+        "2016",
+        "2017"
+      ]
+    },
+    "뉴 쏘렌토 R": {
+      "encar_model": "뉴 쏘렌토 R",
+      "danawa_model": "뉴 쏘렌토 R",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2013",
+        "2014"
+      ],
+      "encar_years": [
+        "2013",
+        "2014"
+      ],
+      "danawa_years": [
+        "2013",
+        "2014"
+      ]
+    },
+    "쏘울 부스터 EV": {
+      "encar_model": "쏘울 부스터 EV",
+      "danawa_model": "쏘울 부스터 EV",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2019",
+        "2021"
+      ],
+      "encar_years": [
+        "2019",
+        "2020",
+        "2021"
+      ],
+      "danawa_years": [
+        "2019",
+        "2021"
+      ]
+    },
+    "쏘울 부스터": {
+      "encar_model": "쏘울 부스터",
+      "danawa_model": "쏘울 부스터",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2019",
+        "2021"
+      ],
+      "encar_years": [
+        "2019",
+        "2020",
+        "2021"
+      ],
+      "danawa_years": [
+        "2019",
+        "2021"
+      ]
+    },
+    "더 뉴 쏘울": {
+      "encar_model": "더 뉴 쏘울",
+      "danawa_model": "더 뉴 쏘울",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2017"
+      ],
+      "encar_years": [
+        "2016",
+        "2017",
+        "2018",
+        "2019"
+      ],
+      "danawa_years": [
+        "2017"
+      ]
+    },
+    "쏘울 EV": {
+      "encar_model": "쏘울 EV",
+      "danawa_model": "쏘울 EV",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2014",
+        "2017",
+        "2018"
+      ],
+      "encar_years": [
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018"
+      ],
+      "danawa_years": [
+        "2014",
+        "2017",
+        "2018"
+      ]
+    },
+    "올 뉴 쏘울": {
+      "encar_model": "올 뉴 쏘울",
+      "danawa_model": "올 뉴 쏘울",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2014",
+        "2015",
+        "2016"
+      ],
+      "encar_years": [
+        "2013",
+        "2014",
+        "2015",
+        "2016"
+      ],
+      "danawa_years": [
+        "2014",
+        "2015",
+        "2016"
+      ]
+    },
+    "쏘울": {
+      "encar_model": "쏘울",
+      "danawa_model": "쏘울",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2013"
+      ],
+      "encar_years": [
+        "2013"
+      ],
+      "danawa_years": [
+        "2012",
+        "2013"
+      ]
+    },
+    "카니발 4세대": {
+      "encar_model": "카니발 4세대",
+      "danawa_model": "카니발 4세대",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2020",
+        "2022"
+      ],
+      "encar_years": [
+        "2020",
+        "2021",
+        "2022",
+        "2023"
+      ],
+      "danawa_years": [
+        "2020",
+        "2022",
+        "2024",
+        "2025",
+        "2026",
+        "2027"
+      ]
+    },
+    "더 뉴 카니발": {
+      "encar_model": "더 뉴 카니발",
+      "danawa_model": "더 뉴 카니발",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2019",
+        "2020"
+      ],
+      "encar_years": [
+        "2018",
+        "2019",
+        "2020"
+      ],
+      "danawa_years": [
+        "2019",
+        "2020",
+        "2024",
+        "2025",
+        "2026",
+        "2027"
+      ]
+    },
+    "올 뉴 카니발": {
+      "encar_model": "올 뉴 카니발",
+      "danawa_model": "올 뉴 카니발",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018"
+      ],
+      "encar_years": [
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018"
+      ],
+      "danawa_years": [
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018"
+      ]
+    },
+    "카니발 R": {
+      "encar_model": "카니발 R",
+      "danawa_model": "카니발 R",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2013",
+        "2014"
+      ],
+      "encar_years": [
+        "2013",
+        "2014"
+      ],
+      "danawa_years": [
+        "2012",
+        "2013",
+        "2014"
+      ]
+    },
+    "더 뉴 카렌스": {
+      "encar_model": "더 뉴 카렌스",
+      "danawa_model": "더 뉴 카렌스",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2017"
+      ],
+      "encar_years": [
+        "2016",
+        "2017",
+        "2018"
+      ],
+      "danawa_years": [
+        "2017"
+      ]
+    },
+    "올 뉴 카렌스": {
+      "encar_model": "올 뉴 카렌스",
+      "danawa_model": "올 뉴 카렌스",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2013",
+        "2014",
+        "2015",
+        "2016"
+      ],
+      "encar_years": [
+        "2013",
+        "2014",
+        "2015",
+        "2016"
+      ],
+      "danawa_years": [
+        "2013",
+        "2014",
+        "2015",
+        "2016"
+      ]
+    },
+    "타스만": {
+      "encar_model": "타스만",
+      "danawa_model": "타스만",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2026"
+      ],
+      "encar_years": [
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2026",
+        "2027"
+      ]
+    },
+    "포르테": {
+      "encar_model": "포르테",
+      "danawa_model": "포르테",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2013"
+      ],
+      "encar_years": [
+        "2013"
+      ],
+      "danawa_years": [
+        "2013"
+      ]
+    },
+    "더 뉴 프라이드": {
+      "encar_model": "더 뉴 프라이드",
+      "danawa_model": "더 뉴 프라이드",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2015"
+      ],
+      "encar_years": [
+        "2014",
+        "2015",
+        "2016",
+        "2017"
+      ],
+      "danawa_years": [
+        "2015"
+      ]
+    },
+    "올 뉴 프라이드": {
+      "encar_model": "올 뉴 프라이드",
+      "danawa_model": "올 뉴 프라이드",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2013",
+        "2014"
+      ],
+      "encar_years": [
+        "2013",
+        "2014"
+      ],
+      "danawa_years": [
+        "2012",
+        "2013",
+        "2014"
+      ]
+    },
+    "뉴 다마스": {
+      "encar_model": "뉴 다마스",
+      "danawa_model": "뉴 다마스",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2013",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2020",
+        "2021"
+      ],
+      "encar_years": [
+        "2013",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2020",
+        "2021"
+      ],
+      "danawa_years": [
+        "2012",
+        "2013",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2020",
+        "2021"
+      ]
+    },
+    "뉴 라보": {
+      "encar_model": "뉴 라보",
+      "danawa_model": "뉴 라보",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2013",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2020",
+        "2021"
+      ],
+      "encar_years": [
+        "2013",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2020",
+        "2021"
+      ],
+      "danawa_years": [
+        "2012",
+        "2013",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2020",
+        "2021"
+      ]
+    },
+    "더 뉴 말리부": {
+      "encar_model": "더 뉴 말리부",
+      "danawa_model": "더 뉴 말리부",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2019",
+        "2020",
+        "2021",
+        "2022"
+      ],
+      "encar_years": [
+        "2018",
+        "2019",
+        "2020",
+        "2021",
+        "2022",
+        "2023"
+      ],
+      "danawa_years": [
+        "2019",
+        "2020",
+        "2021",
+        "2022"
+      ]
+    },
+    "올 뉴 말리부": {
+      "encar_model": "올 뉴 말리부",
+      "danawa_model": "올 뉴 말리부",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2017",
+        "2018"
+      ],
+      "encar_years": [
+        "2016",
+        "2017",
+        "2018"
+      ],
+      "danawa_years": [
+        "2017",
+        "2018"
+      ]
+    },
+    "말리부": {
+      "encar_model": "말리부",
+      "danawa_model": "말리부",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2013",
+        "2014",
+        "2015",
+        "2016"
+      ],
+      "encar_years": [
+        "2013",
+        "2014",
+        "2015",
+        "2016"
+      ],
+      "danawa_years": [
+        "2012",
+        "2013",
+        "2014",
+        "2015",
+        "2016"
+      ]
+    },
+    "뉴 볼트 EV": {
+      "encar_model": "뉴 볼트 EV",
+      "danawa_model": "뉴 볼트 EV",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2022",
+        "2023"
+      ],
+      "encar_years": [
+        "2021",
+        "2022",
+        "2023",
+        "2024"
+      ],
+      "danawa_years": [
+        "2022",
+        "2023"
+      ]
+    },
+    "볼트 EV": {
+      "encar_model": "볼트 EV",
+      "danawa_model": "볼트 EV",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2017",
+        "2018",
+        "2019",
+        "2020",
+        "2021"
+      ],
+      "encar_years": [
+        "2017",
+        "2018",
+        "2019",
+        "2020",
+        "2021"
+      ],
+      "danawa_years": [
+        "2017",
+        "2018",
+        "2019",
+        "2020",
+        "2021"
+      ]
+    },
+    "볼트 EUV": {
+      "encar_model": "볼트 EUV",
+      "danawa_model": "볼트 EUV",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2022",
+        "2023"
+      ],
+      "encar_years": [
+        "2021",
+        "2022",
+        "2023",
+        "2024"
+      ],
+      "danawa_years": [
+        "2022",
+        "2023"
+      ]
+    },
+    "더 뉴 스파크": {
+      "encar_model": "더 뉴 스파크",
+      "danawa_model": "더 뉴 스파크",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2019",
+        "2020",
+        "2021",
+        "2022"
+      ],
+      "encar_years": [
+        "2018",
+        "2019",
+        "2020",
+        "2021",
+        "2022",
+        "2023"
+      ],
+      "danawa_years": [
+        "2019",
+        "2020",
+        "2021",
+        "2022"
+      ]
+    },
+    "더 넥스트 스파크": {
+      "encar_model": "더 넥스트 스파크",
+      "danawa_model": "더 넥스트 스파크",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2016",
+        "2017",
+        "2018"
+      ],
+      "encar_years": [
+        "2015",
+        "2016",
+        "2017",
+        "2018"
+      ],
+      "danawa_years": [
+        "2016",
+        "2017",
+        "2018"
+      ]
+    },
+    "스파크 EV": {
+      "encar_model": "스파크 EV",
+      "danawa_model": "스파크 EV",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2014",
+        "2015",
+        "2016"
+      ],
+      "encar_years": [
+        "2013",
+        "2014",
+        "2015",
+        "2016"
+      ],
+      "danawa_years": [
+        "2014",
+        "2015",
+        "2016"
+      ]
+    },
+    "스파크": {
+      "encar_model": "스파크",
+      "danawa_model": "스파크",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2013",
+        "2014",
+        "2015"
+      ],
+      "encar_years": [
+        "2013",
+        "2014",
+        "2015"
+      ],
+      "danawa_years": [
+        "2012",
+        "2013",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018"
+      ]
+    },
+    "알페온": {
+      "encar_model": "알페온",
+      "danawa_model": "알페온",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2013",
+        "2014",
+        "2015"
+      ],
+      "encar_years": [
+        "2013",
+        "2014",
+        "2015"
+      ],
+      "danawa_years": [
+        "2012",
+        "2013",
+        "2014",
+        "2015"
+      ]
+    },
+    "올란도": {
+      "encar_model": "올란도",
+      "danawa_model": "올란도",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2013",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018"
+      ],
+      "encar_years": [
+        "2013",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018"
+      ],
+      "danawa_years": [
+        "2012",
+        "2013",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018"
+      ]
+    },
+    "더 넥스트 이쿼녹스": {
+      "encar_model": "더 넥스트 이쿼녹스",
+      "danawa_model": "더 넥스트 이쿼녹스",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2022"
+      ],
+      "encar_years": [
+        "2022",
+        "2023",
+        "2024"
+      ],
+      "danawa_years": [
+        "2022"
+      ]
+    },
+    "이쿼녹스": {
+      "encar_model": "이쿼녹스",
+      "danawa_model": "이쿼녹스",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2018",
+        "2019",
+        "2020"
+      ],
+      "encar_years": [
+        "2018",
+        "2019",
+        "2020",
+        "2021"
+      ],
+      "danawa_years": [
+        "2018",
+        "2019",
+        "2020"
+      ]
+    },
+    "임팔라": {
+      "encar_model": "임팔라",
+      "danawa_model": "임팔라",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2016",
+        "2017",
+        "2018",
+        "2019"
+      ],
+      "encar_years": [
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2020"
+      ],
+      "danawa_years": [
+        "2016",
+        "2017",
+        "2018",
+        "2019"
+      ]
+    },
+    "카마로": {
+      "encar_model": "카마로",
+      "danawa_model": "카마로",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2014",
+        "2015"
+      ],
+      "encar_years": [
+        "2013",
+        "2014",
+        "2015",
+        "2016"
+      ],
+      "danawa_years": [
+        "2011",
+        "2012",
+        "2014",
+        "2015"
+      ]
+    },
+    "캡티바": {
+      "encar_model": "캡티바",
+      "danawa_model": "캡티바",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2013",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018"
+      ],
+      "encar_years": [
+        "2013",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018"
+      ],
+      "danawa_years": [
+        "2011",
+        "2012",
+        "2013",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018"
+      ]
+    },
+    "올 뉴 콜로라도": {
+      "encar_model": "올 뉴 콜로라도",
+      "danawa_model": "올 뉴 콜로라도",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2024"
+      ],
+      "encar_years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2024"
+      ]
+    },
+    "리얼 뉴 콜로라도": {
+      "encar_model": "리얼 뉴 콜로라도",
+      "danawa_model": "리얼 뉴 콜로라도",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2021"
+      ],
+      "encar_years": [
+        "2020",
+        "2021"
+      ],
+      "danawa_years": [
+        "2021",
+        "2022"
+      ]
+    },
+    "콜벳": {
+      "encar_model": "콜벳",
+      "danawa_model": "콜벳",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2013"
+      ],
+      "encar_years": [
+        "2013"
+      ],
+      "danawa_years": [
+        "2012",
+        "2013"
+      ]
+    },
+    "올 뉴 크루즈": {
+      "encar_model": "올 뉴 크루즈",
+      "danawa_model": "올 뉴 크루즈",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2017",
+        "2018"
+      ],
+      "encar_years": [
+        "2017",
+        "2018"
+      ],
+      "danawa_years": [
+        "2017",
+        "2018"
+      ]
+    },
+    "어메이징 뉴 크루즈": {
+      "encar_model": "어메이징 뉴 크루즈",
+      "danawa_model": "어메이징 뉴 크루즈",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2015",
+        "2016"
+      ],
+      "encar_years": [
+        "2015",
+        "2016",
+        "2017"
+      ],
+      "danawa_years": [
+        "2015",
+        "2016"
+      ]
+    },
+    "크루즈": {
+      "encar_model": "크루즈",
+      "danawa_model": "크루즈",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2013",
+        "2014"
+      ],
+      "encar_years": [
+        "2013",
+        "2014",
+        "2015"
+      ],
+      "danawa_years": [
+        "2012",
+        "2013",
+        "2014"
+      ]
+    },
+    "트래버스": {
+      "encar_model": "트래버스",
+      "danawa_model": "트래버스",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2020",
+        "2021"
+      ],
+      "encar_years": [
+        "2019",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "2025"
+      ],
+      "danawa_years": [
+        "2020",
+        "2021"
+      ]
+    },
+    "트랙스 크로스오버": {
+      "encar_model": "트랙스 크로스오버",
+      "danawa_model": "트랙스 크로스오버",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "encar_years": [
+        "2023",
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2024",
+        "2024.5",
+        "2025",
+        "2026"
+      ]
+    },
+    "더 뉴 트랙스": {
+      "encar_model": "더 뉴 트랙스",
+      "danawa_model": "더 뉴 트랙스",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2017",
+        "2018",
+        "2019",
+        "2020",
+        "2021",
+        "2022"
+      ],
+      "encar_years": [
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2020",
+        "2021",
+        "2022"
+      ],
+      "danawa_years": [
+        "2017",
+        "2018",
+        "2019",
+        "2020",
+        "2020.5",
+        "2021",
+        "2021.5",
+        "2022"
+      ]
+    },
+    "트랙스": {
+      "encar_model": "트랙스",
+      "danawa_model": "트랙스",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2013",
+        "2014",
+        "2015",
+        "2016"
+      ],
+      "encar_years": [
+        "2013",
+        "2014",
+        "2015",
+        "2016"
+      ],
+      "danawa_years": [
+        "2013",
+        "2014",
+        "2015",
+        "2016"
+      ]
+    },
+    "더 뉴 트레일블레이저": {
+      "encar_model": "더 뉴 트레일블레이저",
+      "danawa_model": "더 뉴 트레일블레이저",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "encar_years": [
+        "2023",
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2024",
+        "2025",
+        "2026"
+      ]
+    },
+    "트레일블레이저": {
+      "encar_model": "트레일블레이저",
+      "danawa_model": "트레일블레이저",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2021",
+        "2022",
+        "2023"
+      ],
+      "encar_years": [
+        "2020",
+        "2021",
+        "2022",
+        "2023"
+      ],
+      "danawa_years": [
+        "2021",
+        "2022",
+        "2023"
+      ]
+    },
+    "타호": {
+      "encar_model": "타호",
+      "danawa_model": "타호",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2022",
+        "2023"
+      ],
+      "encar_years": [
+        "2022",
+        "2023",
+        "2024",
+        "2025"
+      ],
+      "danawa_years": [
+        "2022",
+        "2023"
+      ]
+    },
+    "QM3": {
+      "encar_model": "QM3",
+      "danawa_model": "QM3",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2014",
+        "2015",
+        "2016",
+        "2017"
+      ],
+      "encar_years": [
+        "2013",
+        "2014",
+        "2015",
+        "2016",
+        "2017"
+      ],
+      "danawa_years": [
+        "2014",
+        "2015",
+        "2016",
+        "2017"
+      ]
+    },
+    "QM5 네오": {
+      "encar_model": "QM5 네오",
+      "danawa_model": "QM5 네오",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2014",
+        "2015",
+        "2016"
+      ],
+      "encar_years": [
+        "2014",
+        "2015",
+        "2016"
+      ],
+      "danawa_years": [
+        "2014",
+        "2015",
+        "2016"
+      ]
+    },
+    "더 뉴 QM6": {
+      "encar_model": "더 뉴 QM6",
+      "danawa_model": "더 뉴 QM6",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2019",
+        "2020",
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "encar_years": [
+        "2019",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2019",
+        "2020",
+        "2024",
+        "2025",
+        "2026"
+      ]
+    },
+    "QM6": {
+      "encar_model": "QM6",
+      "danawa_model": "QM6",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2017",
+        "2018",
+        "2019"
+      ],
+      "encar_years": [
+        "2016",
+        "2017",
+        "2018",
+        "2019"
+      ],
+      "danawa_years": [
+        "2017",
+        "2018",
+        "2019",
+        "2021",
+        "2022",
+        "2023"
+      ]
+    },
+    "SM3 네오": {
+      "encar_model": "SM3 네오",
+      "danawa_model": "SM3 네오",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019"
+      ],
+      "encar_years": [
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019"
+      ],
+      "danawa_years": [
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019"
+      ]
+    },
+    "SM3 Z.E.": {
+      "encar_model": "SM3 Z.E.",
+      "danawa_model": "SM3 Z.E.",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019"
+      ],
+      "encar_years": [
+        "2013",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2020",
+        "2021"
+      ],
+      "danawa_years": [
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019"
+      ]
+    },
+    "SM5 노바": {
+      "encar_model": "SM5 노바",
+      "danawa_model": "SM5 노바",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019"
+      ],
+      "encar_years": [
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019"
+      ],
+      "danawa_years": [
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019"
+      ]
+    },
+    "더 뉴 SM6": {
+      "encar_model": "더 뉴 SM6",
+      "danawa_model": "더 뉴 SM6",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "2025"
+      ],
+      "encar_years": [
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "2025"
+      ],
+      "danawa_years": [
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "2025"
+      ]
+    },
+    "SM6": {
+      "encar_model": "SM6",
+      "danawa_model": "SM6",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2016",
+        "2017",
+        "2019",
+        "2020"
+      ],
+      "encar_years": [
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2020"
+      ],
+      "danawa_years": [
+        "2016",
+        "2017",
+        "2019",
+        "2020"
+      ]
+    },
+    "SM7 노바": {
+      "encar_model": "SM7 노바",
+      "danawa_model": "SM7 노바",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019"
+      ],
+      "encar_years": [
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019"
+      ],
+      "danawa_years": [
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019"
+      ]
+    },
+    "XM3": {
+      "encar_model": "XM3",
+      "danawa_model": "XM3",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024"
+      ],
+      "encar_years": [
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024"
+      ],
+      "danawa_years": [
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024"
+      ]
+    },
+    "그랑 콜레오스": {
+      "encar_model": "그랑 콜레오스",
+      "danawa_model": "그랑 콜레오스",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2025",
+        "2026"
+      ],
+      "encar_years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2025",
+        "2026",
+        "2027"
+      ]
+    },
+    "마스터": {
+      "encar_model": "마스터",
+      "danawa_model": "마스터",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2018",
+        "2019"
+      ],
+      "encar_years": [
+        "2018",
+        "2019",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "2025"
+      ],
+      "danawa_years": [
+        "2018",
+        "2019"
+      ]
+    },
+    "아르카나": {
+      "encar_model": "아르카나",
+      "danawa_model": "아르카나",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2025",
+        "2026"
+      ],
+      "encar_years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2025",
+        "2026",
+        "2027"
+      ]
+    },
+    "조에": {
+      "encar_model": "조에",
+      "danawa_model": "조에",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2021"
+      ],
+      "encar_years": [
+        "2020",
+        "2021",
+        "2022"
+      ],
+      "danawa_years": [
+        "2021"
+      ]
+    },
+    "캡처": {
+      "encar_model": "캡처",
+      "danawa_model": "캡처",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2020"
+      ],
+      "encar_years": [
+        "2020",
+        "2021"
+      ],
+      "danawa_years": [
+        "2020"
+      ]
+    },
+    "클리오": {
+      "encar_model": "클리오",
+      "danawa_model": "클리오",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2018",
+        "2019"
+      ],
+      "encar_years": [
+        "2018",
+        "2019"
+      ],
+      "danawa_years": [
+        "2018",
+        "2019"
+      ]
+    },
+    "렉스턴 뉴 아레나": {
+      "encar_model": "렉스턴 뉴 아레나",
+      "danawa_model": "렉스턴 뉴 아레나",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "encar_years": [
+        "2023",
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2024",
+        "2025",
+        "2026"
+      ]
+    },
+    "올 뉴 렉스턴": {
+      "encar_model": "올 뉴 렉스턴",
+      "danawa_model": "올 뉴 렉스턴",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2021",
+        "2023"
+      ],
+      "encar_years": [
+        "2020",
+        "2021",
+        "2022",
+        "2023"
+      ],
+      "danawa_years": [
+        "2021",
+        "2023"
+      ]
+    },
+    "렉스턴 스포츠 칸": {
+      "encar_model": "렉스턴 스포츠 칸",
+      "danawa_model": "렉스턴 스포츠 칸",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2019",
+        "2020"
+      ],
+      "encar_years": [
+        "2019",
+        "2020",
+        "2021"
+      ],
+      "danawa_years": [
+        "2019",
+        "2020"
+      ]
+    },
+    "렉스턴 스포츠": {
+      "encar_model": "렉스턴 스포츠",
+      "danawa_model": "렉스턴 스포츠",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2018",
+        "2019",
+        "2020",
+        "2021"
+      ],
+      "encar_years": [
+        "2018",
+        "2019",
+        "2020",
+        "2021"
+      ],
+      "danawa_years": [
+        "2018",
+        "2019",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "2025"
+      ]
+    },
+    "G4 렉스턴": {
+      "encar_model": "G4 렉스턴",
+      "danawa_model": "G4 렉스턴",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2018",
+        "2019",
+        "2020"
+      ],
+      "encar_years": [
+        "2017",
+        "2018",
+        "2019",
+        "2020"
+      ],
+      "danawa_years": [
+        "2018",
+        "2019",
+        "2020"
+      ]
+    },
+    "렉스턴 W": {
+      "encar_model": "렉스턴 W",
+      "danawa_model": "렉스턴 W",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2013",
+        "2014",
+        "2015",
+        "2016"
+      ],
+      "encar_years": [
+        "2013",
+        "2014",
+        "2015",
+        "2016",
+        "2017"
+      ],
+      "danawa_years": [
+        "2012",
+        "2013",
+        "2014",
+        "2015",
+        "2016"
+      ]
+    },
+    "체어맨 H 뉴 클래식": {
+      "encar_model": "체어맨 H 뉴 클래식",
+      "danawa_model": "체어맨 H 뉴 클래식",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2014"
+      ],
+      "encar_years": [
+        "2013",
+        "2014"
+      ],
+      "danawa_years": [
+        "2014"
+      ]
+    },
+    "뉴 스타일 코란도 C": {
+      "encar_model": "뉴 스타일 코란도 C",
+      "danawa_model": "뉴 스타일 코란도 C",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2017"
+      ],
+      "encar_years": [
+        "2017",
+        "2018",
+        "2019"
+      ],
+      "danawa_years": [
+        "2017"
+      ]
+    },
+    "코란도 투리스모": {
+      "encar_model": "코란도 투리스모",
+      "danawa_model": "코란도 투리스모",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2013",
+        "2014",
+        "2015",
+        "2016",
+        "2017"
+      ],
+      "encar_years": [
+        "2013",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019"
+      ],
+      "danawa_years": [
+        "2013",
+        "2014",
+        "2015",
+        "2016",
+        "2017"
+      ]
+    },
+    "코란도 스포츠": {
+      "encar_model": "코란도 스포츠",
+      "danawa_model": "코란도 스포츠",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2014",
+        "2015",
+        "2016"
+      ],
+      "encar_years": [
+        "2013",
+        "2014",
+        "2015",
+        "2016"
+      ],
+      "danawa_years": [
+        "2012",
+        "2014",
+        "2015",
+        "2016"
+      ]
+    },
+    "코란도 C": {
+      "encar_model": "코란도 C",
+      "danawa_model": "코란도 C",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2013"
+      ],
+      "encar_years": [
+        "2013"
+      ],
+      "danawa_years": [
+        "2012",
+        "2013",
+        "2014",
+        "2015",
+        "2016",
+        "2017"
+      ]
+    },
+    "더 뉴 토레스": {
+      "encar_model": "더 뉴 토레스",
+      "danawa_model": "더 뉴 토레스",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2025"
+      ],
+      "encar_years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2025"
+      ]
+    },
+    "토레스 EVX": {
+      "encar_model": "토레스 EVX",
+      "danawa_model": "토레스 EVX",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "encar_years": [
+        "2023",
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2024",
+        "2025",
+        "2026",
+        "2027"
+      ]
+    },
+    "토레스": {
+      "encar_model": "토레스",
+      "danawa_model": "토레스",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2023",
+        "2024"
+      ],
+      "encar_years": [
+        "2022",
+        "2023",
+        "2024"
+      ],
+      "danawa_years": [
+        "2023",
+        "2024"
+      ]
+    },
+    "더 뉴 티볼리": {
+      "encar_model": "더 뉴 티볼리",
+      "danawa_model": "더 뉴 티볼리",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "encar_years": [
+        "2023",
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2024",
+        "2025",
+        "2026"
+      ]
+    },
+    "더 뉴 티볼리 에어": {
+      "encar_model": "더 뉴 티볼리 에어",
+      "danawa_model": "더 뉴 티볼리 에어",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2024"
+      ],
+      "encar_years": [
+        "2023",
+        "2024"
+      ],
+      "danawa_years": [
+        "2024"
+      ]
+    },
+    "베리 뉴 티볼리": {
+      "encar_model": "베리 뉴 티볼리",
+      "danawa_model": "베리 뉴 티볼리",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2019",
+        "2020",
+        "2021",
+        "2022",
+        "2023"
+      ],
+      "encar_years": [
+        "2019",
+        "2020",
+        "2021",
+        "2022",
+        "2023"
+      ],
+      "danawa_years": [
+        "2019",
+        "2020",
+        "2021",
+        "2022",
+        "2023"
+      ]
+    },
+    "티볼리 아머": {
+      "encar_model": "티볼리 아머",
+      "danawa_model": "티볼리 아머",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2018",
+        "2019"
+      ],
+      "encar_years": [
+        "2017",
+        "2018",
+        "2019"
+      ],
+      "danawa_years": [
+        "2018",
+        "2019"
+      ]
+    },
+    "티볼리 에어": {
+      "encar_model": "티볼리 에어",
+      "danawa_model": "티볼리 에어",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2016",
+        "2017",
+        "2018",
+        "2019"
+      ],
+      "encar_years": [
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2020",
+        "2021",
+        "2022",
+        "2023"
+      ],
+      "danawa_years": [
+        "2016",
+        "2017",
+        "2018",
+        "2019"
+      ]
+    },
+    "티볼리": {
+      "encar_model": "티볼리",
+      "danawa_model": "티볼리",
+      "match_type": "EXACT",
+      "confidence": 1.0,
+      "overlap_years": [
+        "2015",
+        "2016",
+        "2017"
+      ],
+      "encar_years": [
+        "2015",
+        "2016",
+        "2017"
+      ],
+      "danawa_years": [
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019"
+      ]
+    },
+    "i30 (PD)": {
+      "encar_model": "i30 (PD)",
+      "danawa_model": "i30",
+      "match_type": "CODE_STRIPPED_EXACT",
+      "code": "PD",
+      "confidence": 0.95,
+      "overlap_years": [
+        "2016",
+        "2017",
+        "2019",
+        "2020"
+      ],
+      "encar_years": [
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2020"
+      ],
+      "danawa_years": [
+        "2012",
+        "2013",
+        "2014",
+        "2016",
+        "2017",
+        "2019",
+        "2020"
+      ]
+    },
+    "싼타페 (MX5)": {
+      "encar_model": "싼타페 (MX5)",
+      "danawa_model": "싼타페",
+      "match_type": "CODE_STRIPPED_EXACT",
+      "code": "MX5",
+      "confidence": 0.95,
+      "overlap_years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "encar_years": [
+        "2023",
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2012",
+        "2013",
+        "2014",
+        "2015",
+        "2018",
+        "2019",
+        "2024",
+        "2025",
+        "2026"
+      ]
+    },
+    "쏘나타 디 엣지(DN8)": {
+      "encar_model": "쏘나타 디 엣지(DN8)",
+      "danawa_model": "쏘나타 디 엣지",
+      "match_type": "CODE_STRIPPED_EXACT",
+      "code": "DN8",
+      "confidence": 0.95,
+      "overlap_years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "encar_years": [
+        "2023",
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2024",
+        "2025",
+        "2026",
+        "2027"
+      ]
+    },
+    "쏘나타 (DN8)": {
+      "encar_model": "쏘나타 (DN8)",
+      "danawa_model": "쏘나타",
+      "match_type": "CODE_STRIPPED_EXACT",
+      "code": "DN8",
+      "confidence": 0.95,
+      "overlap_years": [
+        "2019",
+        "2020",
+        "2021",
+        "2023"
+      ],
+      "encar_years": [
+        "2019",
+        "2020",
+        "2021",
+        "2022",
+        "2023"
+      ],
+      "danawa_years": [
+        "2019",
+        "2020",
+        "2021",
+        "2023"
+      ]
+    },
+    "아반떼 (CN7)": {
+      "encar_model": "아반떼 (CN7)",
+      "danawa_model": "아반떼",
+      "match_type": "CODE_STRIPPED_EXACT",
+      "code": "CN7",
+      "confidence": 0.95,
+      "overlap_years": [
+        "2020",
+        "2021",
+        "2022"
+      ],
+      "encar_years": [
+        "2020",
+        "2021",
+        "2022",
+        "2023"
+      ],
+      "danawa_years": [
+        "2011",
+        "2013",
+        "2016",
+        "2017",
+        "2020",
+        "2021",
+        "2022"
+      ]
+    },
+    "에쿠스(신형)": {
+      "encar_model": "에쿠스(신형)",
+      "danawa_model": "에쿠스",
+      "match_type": "CODE_STRIPPED_EXACT",
+      "code": "신형",
+      "confidence": 0.95,
+      "overlap_years": [
+        "2013",
+        "2015"
+      ],
+      "encar_years": [
+        "2013",
+        "2014",
+        "2015"
+      ],
+      "danawa_years": [
+        "2012",
+        "2013",
+        "2015"
+      ]
+    },
+    "엑센트(신형)": {
+      "encar_model": "엑센트(신형)",
+      "danawa_model": "엑센트",
+      "match_type": "CODE_STRIPPED_EXACT",
+      "code": "신형",
+      "confidence": 0.95,
+      "overlap_years": [
+        "2013",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018"
+      ],
+      "encar_years": [
+        "2013",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019"
+      ],
+      "danawa_years": [
+        "2012",
+        "2013",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018"
+      ]
+    },
+    "코나 일렉트릭 (SX2)": {
+      "encar_model": "코나 일렉트릭 (SX2)",
+      "danawa_model": "코나 일렉트릭",
+      "match_type": "CODE_STRIPPED_EXACT",
+      "code": "SX2",
+      "confidence": 0.95,
+      "overlap_years": [
+        "2023",
+        "2024",
+        "2025"
+      ],
+      "encar_years": [
+        "2023",
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2023",
+        "2024",
+        "2025"
+      ]
+    },
+    "더 뉴 투싼 (NX4)": {
+      "encar_model": "더 뉴 투싼 (NX4)",
+      "danawa_model": "더 뉴 투싼",
+      "match_type": "CODE_STRIPPED_EXACT",
+      "code": "NX4",
+      "confidence": 0.95,
+      "overlap_years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "encar_years": [
+        "2023",
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2018",
+        "2020",
+        "2024",
+        "2025",
+        "2026"
+      ]
+    },
+    "모닝 어반 (JA)": {
+      "encar_model": "모닝 어반 (JA)",
+      "danawa_model": "모닝 어반",
+      "match_type": "CODE_STRIPPED_EXACT",
+      "code": "JA",
+      "confidence": 0.95,
+      "overlap_years": [
+        "2020",
+        "2022",
+        "2023"
+      ],
+      "encar_years": [
+        "2020",
+        "2021",
+        "2022",
+        "2023"
+      ],
+      "danawa_years": [
+        "2020",
+        "2022",
+        "2023"
+      ]
+    },
+    "무쏘 (Q300)": {
+      "encar_model": "무쏘 (Q300)",
+      "danawa_model": "무쏘",
+      "match_type": "CODE_STRIPPED_EXACT",
+      "code": "Q300",
+      "confidence": 0.95,
+      "overlap_years": [
+        "2026"
+      ],
+      "encar_years": [
+        "2026"
+      ],
+      "danawa_years": [
+        "2026"
+      ]
+    },
+    "무쏘 스포츠 (Q260)": {
+      "encar_model": "무쏘 스포츠 (Q260)",
+      "danawa_model": "무쏘 스포츠",
+      "match_type": "CODE_STRIPPED_EXACT",
+      "code": "Q260",
+      "confidence": 0.95,
+      "overlap_years": [
+        "2025",
+        "2026"
+      ],
+      "encar_years": [
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2025",
+        "2026"
+      ]
+    },
+    "무쏘 EV (O100)": {
+      "encar_model": "무쏘 EV (O100)",
+      "danawa_model": "무쏘 EV",
+      "match_type": "CODE_STRIPPED_EXACT",
+      "code": "O100",
+      "confidence": 0.95,
+      "overlap_years": [
+        "2025"
+      ],
+      "encar_years": [
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2025",
+        "2027"
+      ]
+    },
+    "코란도 EV (이모션)": {
+      "encar_model": "코란도 EV (이모션)",
+      "danawa_model": "코란도 EV",
+      "match_type": "CODE_STRIPPED_EXACT",
+      "code": "이모션",
+      "confidence": 0.95,
+      "overlap_years": [
+        "2024"
+      ],
+      "encar_years": [
+        "2022",
+        "2023",
+        "2024",
+        "2025"
+      ],
+      "danawa_years": [
+        "2024"
+      ]
+    },
+    "더 뉴 그랜저 (GN7)": {
+      "encar_model": "더 뉴 그랜저 (GN7)",
+      "danawa_model": "디 올 뉴 그랜저",
+      "match_type": "CODENAME_MAP",
+      "code": "GN7",
+      "confidence": 0.9,
+      "overlap_years": [
+        "2026"
+      ],
+      "encar_years": [
+        "2026"
+      ],
+      "danawa_years": [
+        "2023",
+        "2025",
+        "2026"
+      ]
+    },
+    "코나 (SX2)": {
+      "encar_model": "코나 (SX2)",
+      "danawa_model": "디 올 뉴 코나",
+      "match_type": "CODENAME_MAP",
+      "code": "SX2",
+      "confidence": 0.9,
+      "overlap_years": [
+        "2023",
+        "2024",
+        "2025"
+      ],
+      "encar_years": [
+        "2023",
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2023",
+        "2024",
+        "2025",
+        "2027"
+      ]
+    },
+    "더 뉴 투싼 하이브리드 (NX4)": {
+      "encar_model": "더 뉴 투싼 하이브리드 (NX4)",
+      "danawa_model": "디 올 뉴 투싼",
+      "match_type": "CODENAME_MAP",
+      "code": "NX4",
+      "confidence": 0.9,
+      "overlap_years": [
+        "2023"
+      ],
+      "encar_years": [
+        "2023",
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2021",
+        "2023",
+        "2027"
+      ]
+    },
+    "그랜저 (GN7)": {
+      "encar_model": "그랜저 (GN7)",
+      "danawa_model": "더 뉴 그랜저",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "GN7",
+      "confidence": 0.65,
+      "overlap_years": [
+        "2022"
+      ],
+      "encar_years": [
+        "2022",
+        "2023",
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2020",
+        "2021",
+        "2022",
+        "2027"
+      ]
+    },
+    "더 뉴 그랜저 IG": {
+      "encar_model": "더 뉴 그랜저 IG",
+      "danawa_model": "더 뉴 그랜저IG",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "",
+      "confidence": 0.8,
+      "overlap_years": [
+        "2020",
+        "2021",
+        "2022"
+      ],
+      "encar_years": [
+        "2019",
+        "2020",
+        "2021",
+        "2022"
+      ],
+      "danawa_years": [
+        "2020",
+        "2021",
+        "2022"
+      ]
+    },
+    "더 뉴 그랜저 IG 하이브리드": {
+      "encar_model": "더 뉴 그랜저 IG 하이브리드",
+      "danawa_model": "그랜저",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "",
+      "confidence": 0.65,
+      "overlap_years": [
+        "2019"
+      ],
+      "encar_years": [
+        "2019",
+        "2020",
+        "2021",
+        "2022"
+      ],
+      "danawa_years": [
+        "2017",
+        "2018",
+        "2019"
+      ]
+    },
+    "그랜저 IG 하이브리드": {
+      "encar_model": "그랜저 IG 하이브리드",
+      "danawa_model": "그랜저IG",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "",
+      "confidence": 0.8,
+      "overlap_years": [
+        "2017",
+        "2018",
+        "2019"
+      ],
+      "encar_years": [
+        "2017",
+        "2018",
+        "2019"
+      ],
+      "danawa_years": [
+        "2017",
+        "2018",
+        "2019"
+      ]
+    },
+    "그랜저 HG 하이브리드": {
+      "encar_model": "그랜저 HG 하이브리드",
+      "danawa_model": "그랜저HG",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "",
+      "confidence": 0.8,
+      "overlap_years": [
+        "2013",
+        "2015",
+        "2016"
+      ],
+      "encar_years": [
+        "2013",
+        "2014",
+        "2015",
+        "2016",
+        "2017"
+      ],
+      "danawa_years": [
+        "2012",
+        "2013",
+        "2015",
+        "2016"
+      ]
+    },
+    "벨로스터 (JS)": {
+      "encar_model": "벨로스터 (JS)",
+      "danawa_model": "벨로스터 N",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "JS",
+      "confidence": 0.8,
+      "overlap_years": [
+        "2018",
+        "2020"
+      ],
+      "encar_years": [
+        "2018",
+        "2019",
+        "2020",
+        "2021",
+        "2022"
+      ],
+      "danawa_years": [
+        "2018",
+        "2020"
+      ]
+    },
+    "그랜드 스타렉스": {
+      "encar_model": "그랜드 스타렉스",
+      "danawa_model": "스타렉스",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "",
+      "confidence": 0.8,
+      "overlap_years": [
+        "2014",
+        "2015",
+        "2016",
+        "2017"
+      ],
+      "encar_years": [
+        "2013",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018"
+      ],
+      "danawa_years": [
+        "2012",
+        "2014",
+        "2015",
+        "2016",
+        "2017"
+      ]
+    },
+    "쏘나타 뉴 라이즈": {
+      "encar_model": "쏘나타 뉴 라이즈",
+      "danawa_model": "LF쏘나타 뉴 라이즈 HEV",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "",
+      "confidence": 0.8,
+      "overlap_years": [
+        "2017",
+        "2018"
+      ],
+      "encar_years": [
+        "2017",
+        "2018",
+        "2019",
+        "2020",
+        "2021",
+        "2022",
+        "2023"
+      ],
+      "danawa_years": [
+        "2017",
+        "2018"
+      ]
+    },
+    "LF 쏘나타 하이브리드": {
+      "encar_model": "LF 쏘나타 하이브리드",
+      "danawa_model": "LF쏘나타",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "",
+      "confidence": 0.8,
+      "overlap_years": [
+        "2014",
+        "2015",
+        "2016",
+        "2017"
+      ],
+      "encar_years": [
+        "2014",
+        "2015",
+        "2016",
+        "2017"
+      ],
+      "danawa_years": [
+        "2014",
+        "2015",
+        "2016",
+        "2017"
+      ]
+    },
+    "아이오닉5": {
+      "encar_model": "아이오닉5",
+      "danawa_model": "아이오닉 5",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "",
+      "confidence": 0.8,
+      "overlap_years": [
+        "2021",
+        "2023"
+      ],
+      "encar_years": [
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2021",
+        "2023"
+      ]
+    },
+    "아이오닉6": {
+      "encar_model": "아이오닉6",
+      "danawa_model": "아이오닉 6",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "",
+      "confidence": 0.8,
+      "overlap_years": [
+        "2023",
+        "2024"
+      ],
+      "encar_years": [
+        "2022",
+        "2023",
+        "2024",
+        "2025"
+      ],
+      "danawa_years": [
+        "2023",
+        "2024"
+      ]
+    },
+    "아이오닉9": {
+      "encar_model": "아이오닉9",
+      "danawa_model": "아이오닉 9",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "",
+      "confidence": 0.65,
+      "overlap_years": [
+        "2025"
+      ],
+      "encar_years": [
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2025",
+        "2027"
+      ]
+    },
+    "올 뉴 투싼": {
+      "encar_model": "올 뉴 투싼",
+      "danawa_model": "투싼",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "",
+      "confidence": 0.8,
+      "overlap_years": [
+        "2015",
+        "2016",
+        "2017"
+      ],
+      "encar_years": [
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2020"
+      ],
+      "danawa_years": [
+        "2015",
+        "2016",
+        "2017"
+      ]
+    },
+    "뉴 투싼 ix": {
+      "encar_model": "뉴 투싼 ix",
+      "danawa_model": "투싼 ix F/L",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "",
+      "confidence": 0.8,
+      "overlap_years": [
+        "2014",
+        "2015"
+      ],
+      "encar_years": [
+        "2013",
+        "2014",
+        "2015"
+      ],
+      "danawa_years": [
+        "2014",
+        "2015"
+      ]
+    },
+    "팰리세이드 (LX3)": {
+      "encar_model": "팰리세이드 (LX3)",
+      "danawa_model": "디 올 뉴 팰리세이드",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "LX3",
+      "confidence": 0.65,
+      "overlap_years": [
+        "2025"
+      ],
+      "encar_years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2025",
+        "2027"
+      ]
+    },
+    "일렉트리파이드 G80 (RG3)": {
+      "encar_model": "일렉트리파이드 G80 (RG3)",
+      "danawa_model": "더 뉴 G80",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "RG3",
+      "confidence": 0.8,
+      "overlap_years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "encar_years": [
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2024",
+        "2025",
+        "2026"
+      ]
+    },
+    "일렉트리파이드 GV70": {
+      "encar_model": "일렉트리파이드 GV70",
+      "danawa_model": "더 뉴 GV70",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "",
+      "confidence": 0.8,
+      "overlap_years": [
+        "2025",
+        "2026"
+      ],
+      "encar_years": [
+        "2022",
+        "2023",
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2025",
+        "2026",
+        "2027"
+      ]
+    },
+    "GV80 쿠페": {
+      "encar_model": "GV80 쿠페",
+      "danawa_model": "더 뉴 GV80",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "",
+      "confidence": 0.8,
+      "overlap_years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "encar_years": [
+        "2023",
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2024",
+        "2025",
+        "2026",
+        "2027"
+      ]
+    },
+    "더 뉴 K3 2세대": {
+      "encar_model": "더 뉴 K3 2세대",
+      "danawa_model": "K3 GT",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "",
+      "confidence": 0.65,
+      "overlap_years": [
+        "2021"
+      ],
+      "encar_years": [
+        "2021",
+        "2022",
+        "2023",
+        "2024"
+      ],
+      "danawa_years": [
+        "2019",
+        "2021"
+      ]
+    },
+    "K5 하이브리드 2세대": {
+      "encar_model": "K5 하이브리드 2세대",
+      "danawa_model": "더 뉴 K5 1세대",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "",
+      "confidence": 0.65,
+      "overlap_years": [
+        "2015"
+      ],
+      "encar_years": [
+        "2015",
+        "2016",
+        "2017",
+        "2018"
+      ],
+      "danawa_years": [
+        "2014",
+        "2015"
+      ]
+    },
+    "K5 하이브리드": {
+      "encar_model": "K5 하이브리드",
+      "danawa_model": "K5 1세대",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "",
+      "confidence": 0.65,
+      "overlap_years": [
+        "2013"
+      ],
+      "encar_years": [
+        "2013",
+        "2014",
+        "2015"
+      ],
+      "danawa_years": [
+        "2013"
+      ]
+    },
+    "K7 프리미어 하이브리드": {
+      "encar_model": "K7 프리미어 하이브리드",
+      "danawa_model": "K7",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "",
+      "confidence": 0.65,
+      "overlap_years": [
+        "2019"
+      ],
+      "encar_years": [
+        "2019",
+        "2020",
+        "2021"
+      ],
+      "danawa_years": [
+        "2012",
+        "2016",
+        "2017",
+        "2018",
+        "2019"
+      ]
+    },
+    "더 뉴 K9 2세대": {
+      "encar_model": "더 뉴 K9 2세대",
+      "danawa_model": "더 뉴 K9",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "",
+      "confidence": 0.8,
+      "overlap_years": [
+        "2022",
+        "2023",
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "encar_years": [
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2022",
+        "2023",
+        "2024",
+        "2025",
+        "2026"
+      ]
+    },
+    "더 뉴 니로 2세대": {
+      "encar_model": "더 뉴 니로 2세대",
+      "danawa_model": "더 뉴 니로",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "",
+      "confidence": 0.65,
+      "overlap_years": [
+        "2026"
+      ],
+      "encar_years": [
+        "2026"
+      ],
+      "danawa_years": [
+        "2026"
+      ]
+    },
+    "올 뉴 모닝 (JA)": {
+      "encar_model": "올 뉴 모닝 (JA)",
+      "danawa_model": "모닝",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "JA",
+      "confidence": 0.8,
+      "overlap_years": [
+        "2017",
+        "2018",
+        "2019"
+      ],
+      "encar_years": [
+        "2017",
+        "2018",
+        "2019",
+        "2020"
+      ],
+      "danawa_years": [
+        "2017",
+        "2018",
+        "2019"
+      ]
+    },
+    "셀토스 2세대": {
+      "encar_model": "셀토스 2세대",
+      "danawa_model": "디 올 뉴 셀토스",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "",
+      "confidence": 0.65,
+      "overlap_years": [
+        "2026"
+      ],
+      "encar_years": [
+        "2026"
+      ],
+      "danawa_years": [
+        "2026",
+        "2027"
+      ]
+    },
+    "더 뉴 스포티지 5세대": {
+      "encar_model": "더 뉴 스포티지 5세대",
+      "danawa_model": "더 뉴 스포티지",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "",
+      "confidence": 0.8,
+      "overlap_years": [
+        "2025",
+        "2026"
+      ],
+      "encar_years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2025",
+        "2026",
+        "2027"
+      ]
+    },
+    "더 뉴 스포티지 5세대 하이브리드": {
+      "encar_model": "더 뉴 스포티지 5세대 하이브리드",
+      "danawa_model": "디 올 뉴 스포티지",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "",
+      "confidence": 0.65,
+      "overlap_years": [
+        "2024"
+      ],
+      "encar_years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2022",
+        "2023",
+        "2024"
+      ]
+    },
+    "스포티지 4세대": {
+      "encar_model": "스포티지 4세대",
+      "danawa_model": "더 SUV 스포티지",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "",
+      "confidence": 0.8,
+      "overlap_years": [
+        "2016",
+        "2017",
+        "2018"
+      ],
+      "encar_years": [
+        "2015",
+        "2016",
+        "2017",
+        "2018"
+      ],
+      "danawa_years": [
+        "2016",
+        "2017",
+        "2018"
+      ]
+    },
+    "뉴카렌스": {
+      "encar_model": "뉴카렌스",
+      "danawa_model": "뉴 카렌스",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "",
+      "confidence": 0.65,
+      "overlap_years": [
+        "2013"
+      ],
+      "encar_years": [
+        "2013"
+      ],
+      "danawa_years": [
+        "2012",
+        "2013"
+      ]
+    },
+    "볼트(Volt)": {
+      "encar_model": "볼트(Volt)",
+      "danawa_model": "볼트 PHEV",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "Volt",
+      "confidence": 0.8,
+      "overlap_years": [
+        "2017",
+        "2018"
+      ],
+      "encar_years": [
+        "2017",
+        "2018",
+        "2019"
+      ],
+      "danawa_years": [
+        "2017",
+        "2018"
+      ]
+    },
+    "더 뉴 아베오 세단": {
+      "encar_model": "더 뉴 아베오 세단",
+      "danawa_model": "더 뉴 아베오",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "",
+      "confidence": 0.8,
+      "overlap_years": [
+        "2017",
+        "2018",
+        "2019"
+      ],
+      "encar_years": [
+        "2016",
+        "2017",
+        "2018",
+        "2019"
+      ],
+      "danawa_years": [
+        "2017",
+        "2018",
+        "2019"
+      ]
+    },
+    "더 뉴 아베오 해치백": {
+      "encar_model": "더 뉴 아베오 해치백",
+      "danawa_model": "아베오",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "",
+      "confidence": 0.65,
+      "overlap_years": [
+        "2016"
+      ],
+      "encar_years": [
+        "2016",
+        "2017",
+        "2018",
+        "2019"
+      ],
+      "danawa_years": [
+        "2013",
+        "2014",
+        "2015",
+        "2016"
+      ]
+    },
+    "더 뉴 카마로": {
+      "encar_model": "더 뉴 카마로",
+      "danawa_model": "더 뉴 카마로 SS",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "",
+      "confidence": 0.8,
+      "overlap_years": [
+        "2019",
+        "2021"
+      ],
+      "encar_years": [
+        "2018",
+        "2019",
+        "2020",
+        "2021",
+        "2022"
+      ],
+      "danawa_years": [
+        "2019",
+        "2021"
+      ]
+    },
+    "올 뉴 카마로": {
+      "encar_model": "올 뉴 카마로",
+      "danawa_model": "카마로 SS",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "",
+      "confidence": 0.65,
+      "overlap_years": [
+        "2017"
+      ],
+      "encar_years": [
+        "2016",
+        "2017",
+        "2018"
+      ],
+      "danawa_years": [
+        "2017"
+      ]
+    },
+    "뉴QM3": {
+      "encar_model": "뉴QM3",
+      "danawa_model": "뉴 QM3",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "",
+      "confidence": 0.8,
+      "overlap_years": [
+        "2018",
+        "2019"
+      ],
+      "encar_years": [
+        "2017",
+        "2018",
+        "2019"
+      ],
+      "danawa_years": [
+        "2018",
+        "2019"
+      ]
+    },
+    "뉴QM5": {
+      "encar_model": "뉴QM5",
+      "danawa_model": "뉴 QM5",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "",
+      "confidence": 0.8,
+      "overlap_years": [
+        "2013",
+        "2014"
+      ],
+      "encar_years": [
+        "2013",
+        "2014"
+      ],
+      "danawa_years": [
+        "2012",
+        "2013",
+        "2014"
+      ]
+    },
+    "뉴SM3": {
+      "encar_model": "뉴SM3",
+      "danawa_model": "뉴 SM3 F/L",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "",
+      "confidence": 0.8,
+      "overlap_years": [
+        "2013",
+        "2014"
+      ],
+      "encar_years": [
+        "2013",
+        "2014"
+      ],
+      "danawa_years": [
+        "2013",
+        "2014"
+      ]
+    },
+    "뉴SM5 플래티넘": {
+      "encar_model": "뉴SM5 플래티넘",
+      "danawa_model": "뉴 SM5 플래티넘",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "",
+      "confidence": 0.8,
+      "overlap_years": [
+        "2013",
+        "2014"
+      ],
+      "encar_years": [
+        "2013",
+        "2014",
+        "2015"
+      ],
+      "danawa_years": [
+        "2013",
+        "2014"
+      ]
+    },
+    "All New SM7": {
+      "encar_model": "All New SM7",
+      "danawa_model": "올 뉴 SM7",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "",
+      "confidence": 0.8,
+      "overlap_years": [
+        "2013",
+        "2014"
+      ],
+      "encar_years": [
+        "2013",
+        "2014"
+      ],
+      "danawa_years": [
+        "2013",
+        "2014"
+      ]
+    },
+    "세닉": {
+      "encar_model": "세닉",
+      "danawa_model": "세닉 E-테크 일렉트릭",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "",
+      "confidence": 0.65,
+      "overlap_years": [
+        "2025"
+      ],
+      "encar_years": [
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2025"
+      ]
+    },
+    "더 뉴 렉스턴 스포츠": {
+      "encar_model": "더 뉴 렉스턴 스포츠",
+      "danawa_model": "뉴 렉스턴 스포츠",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "",
+      "confidence": 0.8,
+      "overlap_years": [
+        "2024",
+        "2025"
+      ],
+      "encar_years": [
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "2025"
+      ],
+      "danawa_years": [
+        "2024",
+        "2025"
+      ]
+    },
+    "더 뉴 렉스턴 스포츠 칸": {
+      "encar_model": "더 뉴 렉스턴 스포츠 칸",
+      "danawa_model": "뉴 렉스턴 스포츠 칸",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "",
+      "confidence": 0.8,
+      "overlap_years": [
+        "2024",
+        "2025"
+      ],
+      "encar_years": [
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "2025"
+      ],
+      "danawa_years": [
+        "2024",
+        "2025"
+      ]
+    },
+    "액티언 2세대": {
+      "encar_model": "액티언 2세대",
+      "danawa_model": "액티언",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "",
+      "confidence": 0.8,
+      "overlap_years": [
+        "2025",
+        "2026"
+      ],
+      "encar_years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "danawa_years": [
+        "2025",
+        "2026",
+        "2027"
+      ]
+    },
+    "뉴체어맨 W": {
+      "encar_model": "뉴체어맨 W",
+      "danawa_model": "뉴 체어맨 W",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "",
+      "confidence": 0.8,
+      "overlap_years": [
+        "2013",
+        "2014",
+        "2015",
+        "2016"
+      ],
+      "encar_years": [
+        "2013",
+        "2014",
+        "2015",
+        "2016",
+        "2017"
+      ],
+      "danawa_years": [
+        "2013",
+        "2014",
+        "2015",
+        "2016"
+      ]
+    },
+    "뷰티풀 코란도": {
+      "encar_model": "뷰티풀 코란도",
+      "danawa_model": "코란도",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "",
+      "confidence": 0.8,
+      "overlap_years": [
+        "2019",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024"
+      ],
+      "encar_years": [
+        "2019",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "2025"
+      ],
+      "danawa_years": [
+        "2019",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024"
+      ]
+    },
+    "더 뉴 코란도 스포츠": {
+      "encar_model": "더 뉴 코란도 스포츠",
+      "danawa_model": "더 뉴코란도 스포츠",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "",
+      "confidence": 0.65,
+      "overlap_years": [
+        "2017"
+      ],
+      "encar_years": [
+        "2016",
+        "2017",
+        "2018"
+      ],
+      "danawa_years": [
+        "2017"
+      ]
+    },
+    "뉴코란도 C": {
+      "encar_model": "뉴코란도 C",
+      "danawa_model": "뉴 코란도 C",
+      "match_type": "NORMALIZED_YEAR_OVERLAP",
+      "code": "",
+      "confidence": 0.8,
+      "overlap_years": [
+        "2014",
+        "2015",
+        "2016"
+      ],
+      "encar_years": [
+        "2013",
+        "2014",
+        "2015",
+        "2016",
+        "2017"
+      ],
+      "danawa_years": [
+        "2014",
+        "2015",
+        "2016"
+      ]
+    }
+  },
+  "unmatched_models": {
+    "encar_unmatched": [
+      "G80 (RG3)",
+      "G90 (RS4)",
+      "K3 유로",
+      "K5 하이브리드 3세대",
+      "K8 하이브리드",
+      "LF 쏘나타",
+      "i30(신형)",
+      "i40 살룬",
+      "그랜저 HG",
+      "그랜저 IG",
+      "그랜저 하이브리드 (GN7)",
+      "넥쏘 (NH2)",
+      "뉴 토레스",
+      "더 뉴 G70 슈팅브레이크",
+      "더 뉴 K3 유로",
+      "더 뉴 K3 쿱",
+      "더 뉴 K5 3세대",
+      "더 뉴 K5 하이브리드 2세대",
+      "더 뉴 K5 하이브리드 3세대",
+      "더 뉴 K8 하이브리드",
+      "더 뉴 K9",
+      "더 뉴 i40 살룬",
+      "더 뉴 그랜저 하이브리드 (GN7)",
+      "더 뉴 기아 레이",
+      "더 뉴 기아 레이 EV",
+      "더 뉴 니로",
+      "더 뉴 모닝 (JA)",
+      "더 뉴 아반떼 (CN7)",
+      "더 뉴 아반떼 AD",
+      "더 뉴 아반떼 하이브리드 (CN7)",
+      "더 뉴 아이오닉 일렉트릭",
+      "더 뉴 아이오닉 하이브리드",
+      "더 뉴 아이오닉5",
+      "더 뉴 아이오닉6",
+      "더 뉴 카니발 4세대",
+      "더 뉴 코나 하이브리드",
+      "로디우스 유로",
+      "무쏘 스포츠 칸 (Q261)",
+      "스포티지 5세대 하이브리드",
+      "싼타페 DM",
+      "싼타페 TM",
+      "쏘나타 뉴 라이즈 하이브리드",
+      "쏘나타 더 브릴리언트",
+      "쏘나타 디 엣지 하이브리드(DN8)",
+      "쏘나타 하이브리드",
+      "쏘나타 하이브리드 (DN8)",
+      "아반떼 (CN8)",
+      "아반떼 AD",
+      "아반떼 MD",
+      "아반떼 하이브리드",
+      "아반떼 하이브리드 (CN7)",
+      "아반떼 하이브리드 (CN8)",
+      "아베오 세단",
+      "아베오 해치백",
+      "아이오닉 일렉트릭",
+      "아이오닉 하이브리드",
+      "어메이징 뉴 크루즈5",
+      "올 뉴 K7 하이브리드",
+      "제네시스 DH",
+      "캐스퍼 일렉트릭",
+      "코나 일렉트릭",
+      "코나 하이브리드",
+      "코나 하이브리드 (SX2)",
+      "콜로라도",
+      "크루즈5",
+      "타스만 오픈베드",
+      "투싼 (NX4)",
+      "투싼 하이브리드 (NX4)",
+      "포르테 쿱",
+      "포르테 해치백",
+      "필랑트"
+    ],
+    "danawa_unmatched": [
+      "G80 EV",
+      "G80 EV F/L",
+      "GV60 MAGMA",
+      "GV70 EV",
+      "GV70 EV F/L",
+      "K5 HEV",
+      "K5 PHEV",
+      "K7 HEV",
+      "LF쏘나타 HEV",
+      "LF쏘나타 PHEV",
+      "LF쏘나타 뉴 라이즈",
+      "LF쏘나타 뉴 라이즈PHEV",
+      "YF쏘나타",
+      "YF쏘나타 HEV",
+      "그랜저HG HEV",
+      "그랜저IG HEV",
+      "뉴 QM6",
+      "뉴 SM5",
+      "뉴 로디우스",
+      "뉴 마스터",
+      "뉴 스포티지",
+      "뉴 아반떼XD",
+      "뉴 토레스",
+      "니로 PHEV",
+      "더 뉴 K5 HEV",
+      "더 뉴 봉고 3",
+      "더 뉴 아반떼 N",
+      "더 뉴 트래버스",
+      "더 레이 EV",
+      "디 올 뉴 싼타페",
+      "디 올 뉴 아반떼",
+      "레이 EV",
+      "로디우스 유로",
+      "마이티",
+      "메가트럭",
+      "무쏘 칸",
+      "봉고 3",
+      "봉고 3 EV",
+      "슈퍼 렉스턴",
+      "스타리아 EV",
+      "스타리아 F/L",
+      "스파크 (M300)",
+      "쏘렌토 R",
+      "쏠라티",
+      "아반떼 N",
+      "아반떼 하이브리드",
+      "아반떼HD",
+      "아이오닉 5 F/L",
+      "아이오닉 5 N",
+      "아이오닉 6 F/L",
+      "아이오닉 6 N",
+      "아이오닉 EV",
+      "아이오닉 EV F/L",
+      "아이오닉 F/L",
+      "아이오닉 HEV",
+      "아이오닉 PHEV",
+      "올 뉴 K7 HEV",
+      "카니발 3세대",
+      "카운티",
+      "카운티 EV",
+      "캐스퍼 EV",
+      "캐스퍼 F/L",
+      "코나 EV",
+      "코나 N",
+      "코란도 이모션",
+      "콜로라도",
+      "트위지",
+      "파비스",
+      "포레스트",
+      "포르테 HEV",
+      "포터2",
+      "포터2 EV",
+      "필랑트"
+    ]
+  },
+  "year_gaps_sample": {
+    "더 뉴 i30": {
+      "danawa_model": "더 뉴 i30",
+      "overlap_years": [
+        "2015"
+      ],
+      "encar_only_years": [
+        "2016"
+      ],
+      "danawa_only_years": [],
+      "coverage_pct": 100.0
+    },
+    "더 뉴 i40": {
+      "danawa_model": "더 뉴 i40",
+      "overlap_years": [
+        "2015",
+        "2016",
+        "2017",
+        "2018"
+      ],
+      "encar_only_years": [
+        "2019"
+      ],
+      "danawa_only_years": [],
+      "coverage_pct": 100.0
+    },
+    "i40": {
+      "danawa_model": "i40",
+      "overlap_years": [
+        "2013",
+        "2014"
+      ],
+      "encar_only_years": [
+        "2015"
+      ],
+      "danawa_only_years": [
+        "2012"
+      ],
+      "coverage_pct": 66.7
+    },
+    "ST1": {
+      "danawa_model": "ST1",
+      "overlap_years": [
+        "2025",
+        "2026"
+      ],
+      "encar_only_years": [
+        "2024"
+      ],
+      "danawa_only_years": [
+        "2027"
+      ],
+      "coverage_pct": 66.7
+    },
+    "넥쏘": {
+      "danawa_model": "넥쏘",
+      "overlap_years": [
+        "2018",
+        "2021",
+        "2024"
+      ],
+      "encar_only_years": [
+        "2019",
+        "2020",
+        "2022",
+        "2023",
+        "2025"
+      ],
+      "danawa_only_years": [
+        "2026",
+        "2027"
+      ],
+      "coverage_pct": 60.0
+    },
+    "더 뉴 맥스크루즈": {
+      "danawa_model": "더 뉴 맥스크루즈",
+      "overlap_years": [
+        "2016",
+        "2017",
+        "2018"
+      ],
+      "encar_only_years": [
+        "2015",
+        "2019"
+      ],
+      "danawa_only_years": [],
+      "coverage_pct": 100.0
+    },
+    "맥스크루즈": {
+      "danawa_model": "맥스크루즈",
+      "overlap_years": [
+        "2013",
+        "2014",
+        "2015"
+      ],
+      "encar_only_years": [],
+      "danawa_only_years": [],
+      "coverage_pct": 100.0
+    },
+    "베뉴": {
+      "danawa_model": "베뉴",
+      "overlap_years": [
+        "2019",
+        "2021",
+        "2022",
+        "2023",
+        "2025"
+      ],
+      "encar_only_years": [
+        "2020",
+        "2024",
+        "2026"
+      ],
+      "danawa_only_years": [
+        "2027"
+      ],
+      "coverage_pct": 83.3
+    },
+    "베라크루즈": {
+      "danawa_model": "베라크루즈",
+      "overlap_years": [
+        "2013",
+        "2014",
+        "2015"
+      ],
+      "encar_only_years": [],
+      "danawa_only_years": [
+        "2012"
+      ],
+      "coverage_pct": 75.0
+    },
+    "더 뉴 벨로스터": {
+      "danawa_model": "더 뉴 벨로스터",
+      "overlap_years": [
+        "2015",
+        "2016"
+      ],
+      "encar_only_years": [
+        "2017",
+        "2018"
+      ],
+      "danawa_only_years": [],
+      "coverage_pct": 100.0
+    },
+    "벨로스터": {
+      "danawa_model": "벨로스터",
+      "overlap_years": [
+        "2013"
+      ],
+      "encar_only_years": [
+        "2014",
+        "2015"
+      ],
+      "danawa_only_years": [
+        "2012",
+        "2018"
+      ],
+      "coverage_pct": 33.3
+    },
+    "더 뉴 그랜드 스타렉스": {
+      "danawa_model": "더 뉴 그랜드 스타렉스",
+      "overlap_years": [
+        "2018",
+        "2020"
+      ],
+      "encar_only_years": [
+        "2017",
+        "2019",
+        "2021"
+      ],
+      "danawa_only_years": [],
+      "coverage_pct": 100.0
+    },
+    "더 뉴 스타리아": {
+      "danawa_model": "더 뉴 스타리아",
+      "overlap_years": [
+        "2026"
+      ],
+      "encar_only_years": [
+        "2025"
+      ],
+      "danawa_only_years": [],
+      "coverage_pct": 100.0
+    },
+    "스타리아": {
+      "danawa_model": "스타리아",
+      "overlap_years": [
+        "2021",
+        "2023",
+        "2024"
+      ],
+      "encar_only_years": [
+        "2022",
+        "2025"
+      ],
+      "danawa_only_years": [],
+      "coverage_pct": 100.0
+    },
+    "더 뉴 싼타페": {
+      "danawa_model": "더 뉴 싼타페",
+      "overlap_years": [
+        "2020",
+        "2021",
+        "2022",
+        "2023"
+      ],
+      "encar_only_years": [],
+      "danawa_only_years": [],
+      "coverage_pct": 100.0
+    },
+    "싼타페 더 프라임": {
+      "danawa_model": "싼타페 더 프라임",
+      "overlap_years": [
+        "2016",
+        "2017",
+        "2018"
+      ],
+      "encar_only_years": [
+        "2015"
+      ],
+      "danawa_only_years": [],
+      "coverage_pct": 100.0
+    },
+    "더 뉴 아반떼": {
+      "danawa_model": "더 뉴 아반떼",
+      "overlap_years": [
+        "2014",
+        "2015"
+      ],
+      "encar_only_years": [
+        "2013"
+      ],
+      "danawa_only_years": [
+        "2018",
+        "2019",
+        "2023",
+        "2025",
+        "2026"
+      ],
+      "coverage_pct": 28.6
+    },
+    "아반떼 쿠페": {
+      "danawa_model": "아반떼 쿠페",
+      "overlap_years": [
+        "2013",
+        "2014",
+        "2015"
+      ],
+      "encar_only_years": [],
+      "danawa_only_years": [],
+      "coverage_pct": 100.0
+    },
+    "아슬란": {
+      "danawa_model": "아슬란",
+      "overlap_years": [
+        "2015",
+        "2016",
+        "2017"
+      ],
+      "encar_only_years": [
+        "2014",
+        "2018"
+      ],
+      "danawa_only_years": [],
+      "coverage_pct": 100.0
+    },
+    "더 뉴 제네시스 쿠페": {
+      "danawa_model": "더 뉴 제네시스 쿠페",
+      "overlap_years": [
+        "2014",
+        "2015"
+      ],
+      "encar_only_years": [
+        "2013",
+        "2016"
+      ],
+      "danawa_only_years": [
+        "2012"
+      ],
+      "coverage_pct": 66.7
+    }
+  },
+  "grade_and_option_gaps_sample": [
+    {
+      "encar_model": "더 뉴 i30",
+      "danawa_model": "더 뉴 i30",
+      "year": "2015",
+      "encar_grade_count": 8,
+      "danawa_grade_count": 9,
+      "common_grade_count": 0,
+      "danawa_only_grades": [
+        "디젤 2WD TUIXBlackLight",
+        "가솔린 2WD Dspec",
+        "디젤 1.6 2WD 1.6VGT",
+        "가솔린 2WD TUIXBlackLight",
+        "디젤 2WD PYL",
+        "가솔린 2.0 2WD 2.0GDi",
+        "가솔린 2WD PYL",
+        "_notices"
+      ],
+      "encar_only_grades": [
+        "디젤 1.6 유니크",
+        "2.0 TUIX",
+        "디젤 1.6 PYL",
+        "2.0 디 스펙",
+        "2.0 PYL",
+        "디젤 1.6 TUIX",
+        "2.0 유니크",
+        "구분"
+      ],
+      "encar_option_count": 7,
+      "danawa_option_count": 8,
+      "common_option_count": 7,
+      "danawa_only_options": [
+        "인포테인먼트 패키지(하이패스 시스템(ECM 룸미러 포함) 선택 시)"
+      ],
+      "encar_only_options": []
+    },
+    {
+      "encar_model": "더 뉴 i40",
+      "danawa_model": "더 뉴 i40",
+      "year": "2015",
+      "encar_grade_count": 3,
+      "danawa_grade_count": 5,
+      "common_grade_count": 0,
+      "danawa_only_grades": [
+        "가솔린 2WD DSPEC(디스펙)",
+        "가솔린 2.0 2WD 2.0GDi",
+        "디젤 1.7 2WD 1.7e-VGT",
+        "가솔린 2WD PYL",
+        "_notices"
+      ],
+      "encar_only_grades": [
+        "2.0 GDi",
+        "1.7 VGT",
+        "구분"
+      ],
+      "encar_option_count": 9,
+      "danawa_option_count": 10,
+      "common_option_count": 9,
+      "danawa_only_options": [
+        "하이패스 시스템"
+      ],
+      "encar_only_options": []
+    },
+    {
+      "encar_model": "더 뉴 i40",
+      "danawa_model": "더 뉴 i40",
+      "year": "2016",
+      "encar_grade_count": 3,
+      "danawa_grade_count": 5,
+      "common_grade_count": 0,
+      "danawa_only_grades": [
+        "가솔린 2WD DSPEC(디스펙)",
+        "가솔린 2.0 2WD 2.0GDi",
+        "디젤 1.7 2WD 1.7e-VGT",
+        "가솔린 2WD PYL",
+        "_notices"
+      ],
+      "encar_only_grades": [
+        "2.0 GDi",
+        "1.7 VGT",
+        "구분"
+      ],
+      "encar_option_count": 9,
+      "danawa_option_count": 10,
+      "common_option_count": 9,
+      "danawa_only_options": [
+        "하이패스 시스템"
+      ],
+      "encar_only_options": []
+    },
+    {
+      "encar_model": "더 뉴 i40",
+      "danawa_model": "더 뉴 i40",
+      "year": "2017",
+      "encar_grade_count": 5,
+      "danawa_grade_count": 5,
+      "common_grade_count": 0,
+      "danawa_only_grades": [
+        "디젤 1.7 2WD 스마트",
+        "가솔린 2.0 2WD 스마트",
+        "디젤 1.7 2WD 프리미엄",
+        "가솔린 2.0 2WD 프리미엄",
+        "_notices"
+      ],
+      "encar_only_grades": [
+        "스마트",
+        "1.7 VGT",
+        "2.0 GDi",
+        "프리미엄",
+        "구분"
+      ],
+      "encar_option_count": 9,
+      "danawa_option_count": 9,
+      "common_option_count": 8,
+      "danawa_only_options": [
+        "17인치 알로이 휠"
+      ],
+      "encar_only_options": [
+        "17인치 휠 & 타이어"
+      ]
+    },
+    {
+      "encar_model": "더 뉴 i40",
+      "danawa_model": "더 뉴 i40",
+      "year": "2018",
+      "encar_grade_count": 5,
+      "danawa_grade_count": 3,
+      "common_grade_count": 0,
+      "danawa_only_grades": [
+        "가솔린 2.0 2WD 스마트",
+        "_notices",
+        "가솔린 2.0 2WD 프리미엄"
+      ],
+      "encar_only_grades": [
+        "스마트",
+        "1.7 VGT",
+        "2.0 GDi",
+        "프리미엄",
+        "구분"
+      ],
+      "encar_option_count": 9,
+      "danawa_option_count": 7,
+      "common_option_count": 3,
+      "danawa_only_options": [
+        "파노라마 선루프",
+        "인포테인먼트 패키지Ⅱ",
+        "스타일 패키지",
+        "인포테인먼트 패키지Ⅰ"
+      ],
+      "encar_only_options": [
+        "스마트 패키지",
+        "17인치 알로이 휠 & 타이어",
+        "스포츠 패키지",
+        "천연 가죽시트",
+        "와이드 파노라마 썬루프",
+        "인포테인먼트 패키지"
+      ]
+    },
+    {
+      "encar_model": "i40",
+      "danawa_model": "i40",
+      "year": "2013",
+      "encar_grade_count": 6,
+      "danawa_grade_count": 5,
+      "common_grade_count": 0,
+      "danawa_only_grades": [
+        "가솔린 2WD Dspec",
+        "_notices",
+        "가솔린 2.0 2WD 2.0GDi",
+        "가솔린 2WD PYL",
+        "디젤 1.7 2WD 1.7VGT"
+      ],
+      "encar_only_grades": [
+        "스마트",
+        "1.7 VGT",
+        "2.0 GDi",
+        "프리미엄",
+        "모던",
+        "구분"
+      ],
+      "encar_option_count": 8,
+      "danawa_option_count": 8,
+      "common_option_count": 2,
+      "danawa_only_options": [
+        "컴포트 패키지",
+        "멀티미디어 패키지",
+        "하이패스 시스템",
+        "JBL 프리미엄 사운드",
+        "러기지 패키지",
+        "스타일 패키지"
+      ],
+      "encar_only_options": [
+        "스마트 내비게이션 + 후방카메라 + 주차 가이드 시스템(PGS) + JBL 프리미엄 사운드",
+        "조차 조향 보조 시스템(SPAS)",
+        "컨피니언스 패키지",
+        "유로 패키지",
+        "플러스 패키지",
+        "225/45R18 타이어 & 하이퍼실버 휠"
+      ]
+    },
+    {
+      "encar_model": "i40",
+      "danawa_model": "i40",
+      "year": "2014",
+      "encar_grade_count": 3,
+      "danawa_grade_count": 4,
+      "common_grade_count": 0,
+      "danawa_only_grades": [
+        "가솔린 2WD Dspec",
+        "디젤 1.7 2WD 1.7VGT",
+        "가솔린 2.0 2WD 2.0GDi",
+        "_notices"
+      ],
+      "encar_only_grades": [
+        "2.0 GDi",
+        "1.7 VGT",
+        "구분"
+      ],
+      "encar_option_count": 7,
+      "danawa_option_count": 8,
+      "common_option_count": 7,
+      "danawa_only_options": [
+        "하이패스 시스템"
+      ],
+      "encar_only_options": []
+    },
+    {
+      "encar_model": "ST1",
+      "danawa_model": "ST1",
+      "year": "2025",
+      "encar_grade_count": 8,
+      "danawa_grade_count": 3,
+      "common_grade_count": 0,
+      "danawa_only_grades": [
+        "_notices",
+        "전기 2WD 스마트",
+        "전기 2WD 프리미엄"
+      ],
+      "encar_only_grades": [
+        "스마트",
+        "샤시캡",
+        "프리미엄",
+        "카고",
+        "특장 하이탑",
+        "스타일",
+        "카고 냉동",
+        "구분"
+      ],
+      "encar_option_count": 7,
+      "danawa_option_count": 4,
+      "common_option_count": 4,
+      "danawa_only_options": [],
+      "encar_only_options": [
+        "하이패스",
+        "컨비니언스Ⅰ",
+        "컨비니언스Ⅱ"
+      ]
+    },
+    {
+      "encar_model": "ST1",
+      "danawa_model": "ST1",
+      "year": "2026",
+      "encar_grade_count": 0,
+      "danawa_grade_count": 4,
+      "common_grade_count": 0,
+      "danawa_only_grades": [
+        "전기 2WD 스타일",
+        "_notices",
+        "전기 2WD 스마트",
+        "전기 2WD 프리미엄"
+      ],
+      "encar_only_grades": [],
+      "encar_option_count": 0,
+      "danawa_option_count": 6,
+      "common_option_count": 0,
+      "danawa_only_options": [
+        "빌트인 캠",
+        "하이패스",
+        "컨비니언스Ⅰ",
+        "하이루프용 루프 브라켓",
+        "테크",
+        "컨비니언스Ⅱ"
+      ],
+      "encar_only_options": []
+    },
+    {
+      "encar_model": "넥쏘",
+      "danawa_model": "넥쏘",
+      "year": "2018",
+      "encar_grade_count": 3,
+      "danawa_grade_count": 3,
+      "common_grade_count": 0,
+      "danawa_only_grades": [
+        "수소 2WD 모던",
+        "_notices",
+        "수소 2WD 프리미엄"
+      ],
+      "encar_only_grades": [
+        "프리미엄",
+        "모던",
+        "구분"
+      ],
+      "encar_option_count": 7,
+      "danawa_option_count": 0,
+      "common_option_count": 0,
+      "danawa_only_options": [],
+      "encar_only_options": [
+        "미러링크",
+        "지자체보조금",
+        "정부보조",
+        "무광 칼라(티타늄 그레이)",
+        "세제혜택 후 판매가격",
+        "KRELL 프리미엄 사운드 시스템",
+        "Apple CarPlay"
+      ]
+    },
+    {
+      "encar_model": "넥쏘",
+      "danawa_model": "넥쏘",
+      "year": "2021",
+      "encar_grade_count": 3,
+      "danawa_grade_count": 3,
+      "common_grade_count": 0,
+      "danawa_only_grades": [
+        "수소 2WD 모던",
+        "_notices",
+        "수소 2WD 프리미엄"
+      ],
+      "encar_only_grades": [
+        "프리미엄",
+        "모던",
+        "구분"
+      ],
+      "encar_option_count": 2,
+      "danawa_option_count": 0,
+      "common_option_count": 0,
+      "danawa_only_options": [],
+      "encar_only_options": [
+        "KRELL 프리미엄 사운드 시스템",
+        "작동 스마트폰 기종"
+      ]
+    },
+    {
+      "encar_model": "넥쏘",
+      "danawa_model": "넥쏘",
+      "year": "2024",
+      "encar_grade_count": 2,
+      "danawa_grade_count": 2,
+      "common_grade_count": 0,
+      "danawa_only_grades": [
+        "_notices",
+        "수소 2WD 프리미엄"
+      ],
+      "encar_only_grades": [
+        "프리미엄",
+        "구분"
+      ],
+      "encar_option_count": 5,
+      "danawa_option_count": 2,
+      "common_option_count": 1,
+      "danawa_only_options": [
+        "19인치 알로이 휠 + 미쉐린 타이어"
+      ],
+      "encar_only_options": [
+        "KRELL 프리미엄 사운드 시스템",
+        "USB",
+        "19인치 알로이 휠 & 미쉐린 타이어",
+        "작동 스마트폰 기종"
+      ]
+    },
+    {
+      "encar_model": "더 뉴 맥스크루즈",
+      "danawa_model": "더 뉴 맥스크루즈",
+      "year": "2016",
+      "encar_grade_count": 8,
+      "danawa_grade_count": 15,
+      "common_grade_count": 0,
+      "danawa_only_grades": [
+        "디젤 2.2 2WD Prestige(프레스티지)",
+        "디젤 2.2 2WD Exclusive(익스클루시브)",
+        "디젤 2.2 2WD FinestEdition(파이니스트에디션)",
+        "디젤 2.2 4WD FinestEdition(파이니스트에디션)",
+        "가솔린 3.3 2WD Prestige(프레스티지)",
+        "디젤 2.2 4WD Prestige(프레스티지)",
+        "가솔린 3.3 2WD 7인승",
+        "디젤 2.2 4WD Exclusive(익스클루시브)",
+        "디젤 2.2 2WD ExclusiveSpecial(익스클루시브스페셜)",
+        "가솔린 3.3 4WD Prestige(프레스티지)"
+      ],
+      "encar_only_grades": [
+        "프레스티지",
+        "가솔린 3.3 2WD",
+        "익스클루시브",
+        "가솔린 3.3 4WD",
+        "디젤 2.2 2WD",
+        "익스클루시브 스페셜",
+        "디젤 2.2 4WD",
+        "구분"
+      ],
+      "encar_option_count": 10,
+      "danawa_option_count": 10,
+      "common_option_count": 9,
+      "danawa_only_options": [
+        "블루링크 2.0 서비스 + JBL사운드 시스템"
+      ],
+      "encar_only_options": [
+        "7인승 + 러기지 스크린(2열 컵홀더 미포함)"
+      ]
+    },
+    {
+      "encar_model": "더 뉴 맥스크루즈",
+      "danawa_model": "더 뉴 맥스크루즈",
+      "year": "2017",
+      "encar_grade_count": 7,
+      "danawa_grade_count": 21,
+      "common_grade_count": 0,
+      "danawa_only_grades": [
+        "디젤 2.2 2WD 파이니스트에디션(7인승)",
+        "디젤 2.2 2WD 프레스티지(7인승)",
+        "디젤 2.2 2WD 익스클루시브(7인승)",
+        "가솔린 3.3 2WD 파이니스트에디션(7인승)",
+        "가솔린 3.3 4WD 익스클루시브(7인승)",
+        "디젤 2.2 4WD 프레스티지(7인승)",
+        "디젤 2.2 4WD 파이니스트에디션(7인승)",
+        "디젤 2.2 4WD 익스클루시브(7인승)",
+        "가솔린 3.3 2WD 익스클루시브(7인승)",
+        "_notices"
+      ],
+      "encar_only_grades": [
+        "프레스티지",
+        "익스클루시브",
+        "가솔린 3.3 4WD",
+        "디젤 2.2 2WD",
+        "가솔린 3.3 2WD",
+        "디젤 2.2 4WD",
+        "구분"
+      ],
+      "encar_option_count": 10,
+      "danawa_option_count": 8,
+      "common_option_count": 6,
+      "danawa_only_options": [
+        "(8인치) 스마트 내비게이션 + 블루링크 2.0 서비스 + JBL사운드 시스템 + 어라운드 뷰 모니터링 시스템(AVM)",
+        "블루링크 2.0 서비스 + JBL사운드 시스템 + 어라운드 뷰 모니터링 시스템(AVM)"
+      ],
+      "encar_only_options": [
+        "7인승+러기지 스크린(2열 컵홀더 미포함)"
+      ]
+    },
+    {
+      "encar_model": "더 뉴 맥스크루즈",
+      "danawa_model": "더 뉴 맥스크루즈",
+      "year": "2018",
+      "encar_grade_count": 8,
+      "danawa_grade_count": 29,
+      "common_grade_count": 0,
+      "danawa_only_grades": [
+        "디젤 2.2 2WD 파이니스트에디션(7인승)",
+        "디젤 2.2 2WD 프레스티지(7인승)",
+        "디젤 2.2 2WD 익스클루시브(7인승)",
+        "가솔린 3.3 2WD 파이니스트에디션(7인승)",
+        "가솔린 3.3 4WD 익스클루시브(7인승)",
+        "가솔린 3.3 2WD 익스클루시브스페셜(7인승)",
+        "디젤 2.2 4WD 익스클루시브스페셜(7인승)",
+        "디젤 2.2 2WD 익스클루시브스페셜(7인승)",
+        "디젤 2.2 4WD 프레스티지(7인승)",
+        "가솔린 3.3 4WD 익스클루시브스페셜(7인승)"
+      ],
+      "encar_only_grades": [
+        "프레스티지",
+        "가솔린 3.3 2WD",
+        "익스클루시브",
+        "가솔린 3.3 4WD",
+        "디젤 2.2 2WD",
+        "익스클루시브 스페셜",
+        "디젤 2.2 4WD",
+        "구분"
+      ],
+      "encar_option_count": 14,
+      "danawa_option_count": 9,
+      "common_option_count": 8,
+      "danawa_only_options": [
+        "와이드 파노라마 썬루프(블랙유광 루프랙 포함)"
+      ],
+      "encar_only_options": [
+        "현대 스마트 센스 Ⅱ",
+        "현대 스마트 센스 Ⅲ",
+        "7인승 + 러기지 스크린(2열 컵홀더 미포함)",
+        "현대 스마트 센스Ⅰ",
+        "와이드 파노라마 선루프(블랙유광 루프랙 포함)"
+      ]
+    },
+    {
+      "encar_model": "맥스크루즈",
+      "danawa_model": "맥스크루즈",
+      "year": "2013",
+      "encar_grade_count": 4,
+      "danawa_grade_count": 9,
+      "common_grade_count": 2,
+      "danawa_only_grades": [
+        "디젤 2.2 4WD Special(7인승)",
+        "디젤 2.2 2WD Special(7인승)",
+        "_notices"
+      ],
+      "encar_only_grades": [
+        "스페셜",
+        "구분"
+      ],
+      "encar_option_count": 7,
+      "danawa_option_count": 6,
+      "common_option_count": 4,
+      "danawa_only_options": [
+        "슈퍼비전 클러스터 + 전자식 파킹 브레이크"
+      ],
+      "encar_only_options": [
+        "디젤(e",
+        "7인승(러기지 스크린 포함)"
+      ]
+    },
+    {
+      "encar_model": "맥스크루즈",
+      "danawa_model": "맥스크루즈",
+      "year": "2014",
+      "encar_grade_count": 4,
+      "danawa_grade_count": 9,
+      "common_grade_count": 2,
+      "danawa_only_grades": [
+        "디젤 2.2 4WD Special(7인승)",
+        "디젤 2.2 2WD Special(7인승)",
+        "_notices"
+      ],
+      "encar_only_grades": [
+        "스페셜",
+        "구분"
+      ],
+      "encar_option_count": 7,
+      "danawa_option_count": 6,
+      "common_option_count": 4,
+      "danawa_only_options": [
+        "슈퍼비전 클러스터 + 전자식 파킹 브레이크"
+      ],
+      "encar_only_options": [
+        "디젤(e",
+        "7인승(러기지 스크린 포함)"
+      ]
+    },
+    {
+      "encar_model": "맥스크루즈",
+      "danawa_model": "맥스크루즈",
+      "year": "2015",
+      "encar_grade_count": 6,
+      "danawa_grade_count": 13,
+      "common_grade_count": 4,
+      "danawa_only_grades": [
+        "가솔린 3.3 4WD Special(7인승)",
+        "가솔린 3.3 2WD Special(7인승)",
+        "디젤 2.2 2WD Special(7인승)",
+        "디젤 2.2 2WD (7인승)",
+        "디젤 2.2 4WD Special(7인승)",
+        "_notices",
+        "디젤 2.2 4WD (7인승)"
+      ],
+      "encar_only_grades": [
+        "스페셜",
+        "구분"
+      ],
+      "encar_option_count": 11,
+      "danawa_option_count": 9,
+      "common_option_count": 8,
+      "danawa_only_options": [
+        "8인치 신형 스마트 내비게이션(블루링크 2.0 서비스 지원) + ACTUNE 프리미엄 사운드 시스템"
+      ],
+      "encar_only_options": [
+        "트레일러 패키지(TUIX)",
+        "디젤(e",
+        "7인승(러기지 스크린 포함)"
+      ]
+    },
+    {
+      "encar_model": "베뉴",
+      "danawa_model": "베뉴",
+      "year": "2019",
+      "encar_grade_count": 4,
+      "danawa_grade_count": 5,
+      "common_grade_count": 0,
+      "danawa_only_grades": [
+        "가솔린 1.6 2WD 모던",
+        "가솔린 1.6 2WD 플럭스",
+        "_notices",
+        "가솔린 1.6 2WD 스마트"
+      ],
+      "encar_only_grades": [
+        "1.6 스마트",
+        "1.6 모던",
+        "1.6 플럭스",
+        "구분"
+      ],
+      "encar_option_count": 13,
+      "danawa_option_count": 12,
+      "common_option_count": 11,
+      "danawa_only_options": [
+        "멀티미디어 내비"
+      ],
+      "encar_only_options": [
+        "스마트스트림 IVT(무단변속기) + 통합 주행모드",
+        "커스터마이징(TUIX) 파츠 적용부"
+      ]
+    },
+    {
+      "encar_model": "베뉴",
+      "danawa_model": "베뉴",
+      "year": "2021",
+      "encar_grade_count": 4,
+      "danawa_grade_count": 4,
+      "common_grade_count": 0,
+      "danawa_only_grades": [
+        "가솔린 1.6 2WD 모던",
+        "가솔린 1.6 2WD 플럭스",
+        "_notices",
+        "가솔린 1.6 2WD 스마트"
+      ],
+      "encar_only_grades": [
+        "1.6 스마트",
+        "1.6 모던",
+        "1.6 플럭스",
+        "구분"
+      ],
+      "encar_option_count": 13,
+      "danawa_option_count": 13,
+      "common_option_count": 11,
+      "danawa_only_options": [
+        "8인치 디스플레이 오디오 + 후방 모니터",
+        "멀티미디어 내비 (8인치 내비게이션, 블루링크)"
+      ],
+      "encar_only_options": [
+        "+ 후방 모니터"
+      ]
+    },
+    {
+      "encar_model": "베뉴",
+      "danawa_model": "베뉴",
+      "year": "2022",
+      "encar_grade_count": 5,
+      "danawa_grade_count": 5,
+      "common_grade_count": 0,
+      "danawa_only_grades": [
+        "가솔린 1.6 2WD 플럭스",
+        "가솔린 1.6 2WD 모던플러스",
+        "가솔린 1.6 2WD 모던",
+        "_notices",
+        "가솔린 1.6 2WD 스마트"
+      ],
+      "encar_only_grades": [
+        "1.6 스마트",
+        "1.6 모던",
+        "1.6 플럭스",
+        "1.6 모던 플러스",
+        "구분"
+      ],
+      "encar_option_count": 8,
+      "danawa_option_count": 8,
+      "common_option_count": 7,
+      "danawa_only_options": [
+        "투톤 컬러 루프 (선루프와 동시 적용 불가)"
+      ],
+      "encar_only_options": []
+    },
+    {
+      "encar_model": "베뉴",
+      "danawa_model": "베뉴",
+      "year": "2023",
+      "encar_grade_count": 6,
+      "danawa_grade_count": 3,
+      "common_grade_count": 0,
+      "danawa_only_grades": [
+        "가솔린 1.6 2WD 프리미엄",
+        "_notices",
+        "가솔린 1.6 2WD 플럭스"
+      ],
+      "encar_only_grades": [
+        "1.6 스마트(렌터카)",
+        "▶ 모던 초이스 I450,000▶ 하이패스200,000",
+        "1.6 운전교습용",
+        "1.6 프리미엄",
+        "1.6 플럭스",
+        "구분"
+      ],
+      "encar_option_count": 8,
+      "danawa_option_count": 5,
+      "common_option_count": 4,
+      "danawa_only_options": [
+        "투톤 컬러 루프 (선루프와 동시 적용 불가)"
+      ],
+      "encar_only_options": [
+        "모던 초이스 I",
+        "하이패스",
+        "인조가죽시트 + 1열 열선시트",
+        "커스터마이징(H Accesaries) 파츠 적용부"
+      ]
+    },
+    {
+      "encar_model": "베뉴",
+      "danawa_model": "베뉴",
+      "year": "2025",
+      "encar_grade_count": 6,
+      "danawa_grade_count": 4,
+      "common_grade_count": 0,
+      "danawa_only_grades": [
+        "가솔린 1.6 2WD 프리미엄",
+        "_notices",
+        "가솔린 1.6 2WD 플럭스",
+        "가솔린 1.6 2WD 스마트"
+      ],
+      "encar_only_grades": [
+        "1.6 스마트(렌터카)",
+        "▶ 모던 초이스 I450,000▶ 하이패스200,000",
+        "1.6 운전교습용",
+        "1.6 프리미엄",
+        "1.6 플럭스",
+        "구분"
+      ],
+      "encar_option_count": 7,
+      "danawa_option_count": 6,
+      "common_option_count": 4,
+      "danawa_only_options": [
+        "15인치 알로이 휠 & 타이어",
+        "투톤 컬러 루프 (선루프와 동시 적용 불가)"
+      ],
+      "encar_only_options": [
+        "모던 초이스 I",
+        "인조가죽시트 + 1열 열선시트",
+        "현대 스마트센스"
+      ]
+    },
+    {
+      "encar_model": "베라크루즈",
+      "danawa_model": "베라크루즈",
+      "year": "2013",
+      "encar_grade_count": 7,
+      "danawa_grade_count": 6,
+      "common_grade_count": 5,
+      "danawa_only_grades": [
+        "_notices"
+      ],
+      "encar_only_grades": [
+        "구분",
+        "40주년 스페셜팩"
+      ],
+      "encar_option_count": 5,
+      "danawa_option_count": 5,
+      "common_option_count": 2,
+      "danawa_only_options": [
+        "가죽시트(브라운 투톤컬러)",
+        "파워 테일게이트",
+        "모젠 프리미엄 내비게이션 + 후방카메라 + JBL 8스피커"
+      ],
+      "encar_only_options": [
+        "모젠 프리미엄 Navigation + 후방카메라 + JBL 8스피커(써브우퍼/센터스피커/외장앰프 포함)(클러스터 이오나이저 삭제)",
+        "스톤그레이",
+        "블루벨벳"
+      ]
+    },
+    {
+      "encar_model": "베라크루즈",
+      "danawa_model": "베라크루즈",
+      "year": "2014",
+      "encar_grade_count": 6,
+      "danawa_grade_count": 5,
+      "common_grade_count": 4,
+      "danawa_only_grades": [
+        "_notices"
+      ],
+      "encar_only_grades": [
+        "구분",
+        "40주년 스페셜팩"
+      ],
+      "encar_option_count": 6,
+      "danawa_option_count": 6,
+      "common_option_count": 4,
+      "danawa_only_options": [
+        "가죽시트(브라운 투톤컬러)"
+      ],
+      "encar_only_options": [
+        "오션뷰",
+        "스톤그레이"
+      ]
+    },
+    {
+      "encar_model": "베라크루즈",
+      "danawa_model": "베라크루즈",
+      "year": "2015",
+      "encar_grade_count": 4,
+      "danawa_grade_count": 5,
+      "common_grade_count": 2,
+      "danawa_only_grades": [
+        "디젤 4WD Special",
+        "_notices",
+        "디젤 2WD Special"
+      ],
+      "encar_only_grades": [
+        "스페셜",
+        "구분"
+      ],
+      "encar_option_count": 4,
+      "danawa_option_count": 2,
+      "common_option_count": 1,
+      "danawa_only_options": [
+        "가죽시트(브라운 투톤 컬러)"
+      ],
+      "encar_only_options": [
+        "TUIX 내비게이션 + JBL Logic 7 사운드 시스템",
+        "아라비안모카",
+        "티타늄실버"
+      ]
+    },
+    {
+      "encar_model": "더 뉴 벨로스터",
+      "danawa_model": "더 뉴 벨로스터",
+      "year": "2015",
+      "encar_grade_count": 5,
+      "danawa_grade_count": 7,
+      "common_grade_count": 0,
+      "danawa_only_grades": [
+        "가솔린 2WD D-Spec(디스펙) (M/T)",
+        "가솔린 2WD PYLDCT",
+        "가솔린 2WD Younique(유니크)",
+        "가솔린 2WD DCT",
+        "가솔린 2WD PYL",
+        "_notices"
+      ],
+      "encar_only_grades": [
+        "1.6 터보 디 스펙",
+        "1.6 유니크",
+        "1.6 PYL",
+        "1.6 PYL DCT",
+        "구분"
+      ],
+      "encar_option_count": 9,
+      "danawa_option_count": 8,
+      "common_option_count": 6,
+      "danawa_only_options": [
+        "파노라마 썬루프"
+      ],
+      "encar_only_options": [
+        "6단 자동변속기(액티브 에코 시스템 포함)",
+        "파노라마 선루프"
+      ]
+    },
+    {
+      "encar_model": "더 뉴 벨로스터",
+      "danawa_model": "더 뉴 벨로스터",
+      "year": "2016",
+      "encar_grade_count": 5,
+      "danawa_grade_count": 4,
+      "common_grade_count": 0,
+      "danawa_only_grades": [
+        "가솔린 1.6 2WD 디스펙DCT",
+        "가솔린 1.6 2WD PYLDCT",
+        "_notices",
+        "가솔린 1.6 2WD PYL"
+      ],
+      "encar_only_grades": [
+        "1.6 터보 디 스펙",
+        "1.6 유니크",
+        "1.6 PYL",
+        "1.6 PYL DCT",
+        "구분"
+      ],
+      "encar_option_count": 9,
+      "danawa_option_count": 7,
+      "common_option_count": 4,
+      "danawa_only_options": [
+        "파노라마 썬루프",
+        "HID 헤드램프 + 18인치 다크 스퍼터링 알로이 휠"
+      ],
+      "encar_only_options": [
+        "6단 자동변속기(액티브 에코 시스템 포함)",
+        "신규 콤비시트",
+        "HID 헤드램프 + 18인치 다크 스퍼터링 알루미늄 휠",
+        "파노라마 선루프"
+      ]
+    },
+    {
+      "encar_model": "벨로스터",
+      "danawa_model": "벨로스터",
+      "year": "2013",
+      "encar_grade_count": 5,
+      "danawa_grade_count": 8,
+      "common_grade_count": 0,
+      "danawa_only_grades": [
+        "가솔린 2WD D-Spec",
+        "가솔린 2WD Younique",
+        "가솔린 2WD TUIXRACINGPACKAGE",
+        "가솔린 2WD PYL",
+        "_notices"
+      ],
+      "encar_only_grades": [
+        "익스트림",
+        "터보 GDi 익스트림",
+        "DCT팩",
+        "유니크",
+        "구분"
+      ],
+      "encar_option_count": 7,
+      "danawa_option_count": 8,
+      "common_option_count": 2,
+      "danawa_only_options": [
+        "DCT 패키지",
+        "컴포트 패키지",
+        "RAYS Black 18인치 휠",
+        "HID 헤드램프",
+        "스타일 패키지",
+        "전륜 Red 도색 캘리퍼"
+      ],
+      "encar_only_options": [
+        "가죽시트",
+        "18인치 칼라 인써트 하이퍼실버 알로이 휠",
+        "6단 자동변속기(액티브 에코 시스템 포함)",
+        "가죽 버켓시트",
+        "6단 자동변속기 + 패들쉬프트"
+      ]
+    },
+    {
+      "encar_model": "더 뉴 그랜드 스타렉스",
+      "danawa_model": "더 뉴 그랜드 스타렉스",
+      "year": "2018",
+      "encar_grade_count": 18,
+      "danawa_grade_count": 53,
+      "common_grade_count": 0,
+      "danawa_only_grades": [
+        "디젤 2.5 2WD 소방형특수구급차(6인승)",
+        "디젤 2.5 2WD 어린이버스(15인승)",
+        "디젤 2.5 4WD 휠체어리프트(7인승)",
+        "디젤 2.5 2WD 특수구급차(6인승)",
+        "디젤 2.5 2WD 어린이보호차(12인승)",
+        "디젤 2.5 2WD 프리미엄스페셜",
+        "디젤 2.5 2WD 스마트(5인승)",
+        "lpg 2.4 2WD 왜건스마트(12인승)",
+        "디젤 2.5 4WD 프리미엄",
+        "디젤 2.5 2WD 익스클루시브(9인승)"
+      ],
+      "encar_only_grades": [
+        "밴 3인승 LPi",
+        "스마트",
+        "밴 5인승",
+        "4WD 어반 9인승",
+        "웨건 11인승",
+        "스타일",
+        "4WD 웨건 12인승",
+        "밴 3인승",
+        "밴 5인승 LPi",
+        "웨건 12인승"
+      ],
+      "encar_option_count": 21,
+      "danawa_option_count": 38,
+      "common_option_count": 15,
+      "danawa_only_options": [
+        "구급 패키지 4",
+        "구급 패키지 2",
+        "구급 패키지 1",
+        "구급충전 패키지",
+        "구급 패키지 5",
+        "캠핑충전 패키지",
+        "캠핑 패키지",
+        "어린이 안전 패키지",
+        "구급 패키지 6",
+        "17.3인치 접이식 TV (전용 리모컨 포함)"
+      ],
+      "encar_only_options": [
+        "듀얼 썬루프"
+      ]
+    },
+    {
+      "encar_model": "더 뉴 그랜드 스타렉스",
+      "danawa_model": "더 뉴 그랜드 스타렉스",
+      "year": "2020",
+      "encar_grade_count": 16,
+      "danawa_grade_count": 54,
+      "common_grade_count": 0,
+      "danawa_only_grades": [
+        "디젤 2.5 2WD 소방형특수구급차(6인승)",
+        "디젤 2.5 2WD 어린이버스(15인승)",
+        "디젤 2.5 4WD 휠체어리프트(7인승)",
+        "디젤 2.5 2WD 특수구급차(6인승)",
+        "디젤 2.5 2WD 어린이보호차(12인승)",
+        "디젤 2.5 2WD 프리미엄스페셜",
+        "디젤 2.5 2WD 스마트(5인승)",
+        "디젤 2.5 4WD 프리미엄",
+        "디젤 2.5 2WD 익스클루시브(9인승)",
+        "디젤 2.5 4WD 특수구급차(6인승)"
+      ],
+      "encar_only_grades": [
+        "스마트",
+        "밴 5인승",
+        "4WD 어반 9인승",
+        "웨건 11인승",
+        "스타일",
+        "4WD 웨건 12인승",
+        "밴 3인승",
+        "웨건 12인승",
+        "프리미엄",
+        "4WD 웨건 11인승"
+      ],
+      "encar_option_count": 20,
+      "danawa_option_count": 37,
+      "common_option_count": 16,
+      "danawa_only_options": [
+        "구급 패키지 4",
+        "구급 패키지 2",
+        "구급 패키지 1",
+        "구급충전 패키지",
+        "구급 패키지 5",
+        "캠핑충전 패키지",
+        "캠핑 패키지",
+        "구급 패키지 6",
+        "17.3인치 접이식 TV (전용 리모컨 포함)",
+        "헤드앤백레스트"
+      ],
+      "encar_only_options": [
+        "트윈 스윙 도어"
+      ]
+    },
+    {
+      "encar_model": "더 뉴 스타리아",
+      "danawa_model": "더 뉴 스타리아",
+      "year": "2026",
+      "encar_grade_count": 15,
+      "danawa_grade_count": 32,
+      "common_grade_count": 0,
+      "danawa_only_grades": [
+        "LPG 3.5 2WD 투어러 모던 11인승",
+        "HEV 1.6 2WD 킨더 15인승",
+        "LPG 3.5 2WD 카고 모던 5인승",
+        "HEV 1.6 2WD 특장차 특수 구급 6인승",
+        "LPG 3.5 2WD 킨더 11인승",
+        "HEV 1.6 2WD 라운지 모빌리티7 7인승",
+        "HEV 1.6 2WD 투어러 스마트 9인승",
+        "HEV 1.6 2WD 라운지 모빌리티9 9인승",
+        "HEV 1.6 2WD 라운지 리무진 인스퍼레이션 6인승",
+        "LPG 3.5 2WD 카고 모던 3인승"
+      ],
+      "encar_only_grades": [
+        "스마트",
+        "프레스티지",
+        "HEV 1.6T 카고 2인승",
+        "L3.5 카고 3인승",
+        "HEV 1.6T 라운지 7인승",
+        "HEV 1.6T 카고 5인승",
+        "HEV 1.6T 라운지 9인승",
+        "L3.5 라운지 7인승",
+        "인스퍼레이션",
+        "모던"
+      ],
+      "encar_option_count": 35,
+      "danawa_option_count": 33,
+      "common_option_count": 13,
+      "danawa_only_options": [
+        "빌트인 캠",
+        "선루프",
+        "선루프 패키지",
+        "내비플러스Ⅱ",
+        "빌트인 캠 2 PLUS + 증강현실 내비게이션",
+        "사이드 스텝",
+        "구급 패키지Ⅲ",
+        "트레일러 패키지",
+        "듀얼 와이드 선루프 + LED 실내등 (맵램프/룸램프)",
+        "2열 플러쉬 글래스"
+      ],
+      "encar_only_options": [
+        "H Genuine Accessories 후석 전동식 사이드 스텝(우측)",
+        "스웨이드 내장재 적용 범위",
+        "H Genuine Accessories 빌트인 공기청정기",
+        "H Genuine Accessories 슬라이딩 카고 베드",
+        "스웨이드 내장재 적용 부위",
+        "미적용",
+        "H Genuine Accessories 트레일러 패키지(토우히치 & LED 테일게이트 램프)"
+      ]
+    },
+    {
+      "encar_model": "스타리아",
+      "danawa_model": "스타리아",
+      "year": "2021",
+      "encar_grade_count": 21,
+      "danawa_grade_count": 93,
+      "common_grade_count": 0,
+      "danawa_only_grades": [
+        "디젤 2.2 2WD 카고 모던 3인승",
+        "디젤 2.2 2WD 4인승프레스티지",
+        "lpg 3.5 2WD 11인승모던",
+        "디젤 2.2 2WD 11인승",
+        "디젤 2.2 2WD 9인승인스퍼레이션",
+        "lpg 3.5 2WD 9인승인스퍼레이션",
+        "디젤 2.2 2WD 3인승스마트",
+        "디젤 2.2 AWD 투어러 모던 11인승",
+        "LPG 3.5 2WD 카고 모던 5인승",
+        "디젤 2.2 2WD 라운지 인스퍼레이션 9인승"
+      ],
+      "encar_only_grades": [
+        "4WD 투어러 9인승",
+        "스마트",
+        "투어러 11인승",
+        "카고 5인승",
+        "모던",
+        "L3.5 투어러 9인승",
+        "구분",
+        "L3.5 카고 3인승",
+        "L3.5 카고 5인승",
+        "4WD 라운지 7인승"
+      ],
+      "encar_option_count": 28,
+      "danawa_option_count": 62,
+      "common_option_count": 15,
+      "danawa_only_options": [
+        "소방 패키지Ⅲ",
+        "스태리 스카이",
+        "듀얼 선루프 + LED 룸램프",
+        "선루프",
+        "구급 패키지Ⅲ",
+        "컴포트 II + 테크 I + BOSE 프리미엄 사운드(12스피커, 외장앰프)",
+        "소방 패키지Ⅰ",
+        "서라운드 뷰 모니터",
+        "BOSE 사운드 시스템",
+        "어닝 패키지"
+      ],
+      "encar_only_options": [
+        "듀얼 와이드 선루프(9인승)",
+        "미적용",
+        "스웨이드 내장재 적용 부위"
+      ]
+    },
+    {
+      "encar_model": "스타리아",
+      "danawa_model": "스타리아",
+      "year": "2023",
+      "encar_grade_count": 26,
+      "danawa_grade_count": 95,
+      "common_grade_count": 0,
+      "danawa_only_grades": [
+        "디젤 2.2 2WD 11인승",
+        "lpg 3.5 2WD 9인승인스퍼레이션",
+        "LPG 3.5 2WD 라운지 프레스티지 9인승",
+        "디젤 2.2 2WD 5인승모던",
+        "LPG 3.5 2WD 킨더 11인승",
+        "lpg 3.5 2WD 5인승모던",
+        "디젤 2.2 4WD 7인승인스퍼레이션",
+        "lpg 3.5 2WD 15인승",
+        "디젤 2.2 4WD 7인승리무진",
+        "디젤 2.2 4WD 11인승"
+      ],
+      "encar_only_grades": [
+        "4WD 투어러 9인승",
+        "스마트",
+        "투어러 11인승",
+        "카고 5인승",
+        "모던",
+        "L3.5 투어러 9인승",
+        "프레스티지 캠퍼 11인승",
+        "구분",
+        "L3.5 카고 3인승",
+        "L3.5 카고 5인승"
+      ],
+      "encar_option_count": 51,
+      "danawa_option_count": 68,
+      "common_option_count": 28,
+      "danawa_only_options": [
+        "루프 모니터",
+        "소방 패키지Ⅲ",
+        "내비플러스Ⅱ + 테크Ⅰ",
+        "듀얼 선루프 + LED 룸램프",
+        "선루프",
+        "17.3 인치 루프모니터(전동폴딩,블루투스,HDMI, USB 멀티미디어 재생)",
+        "구급 패키지Ⅲ",
+        "컴포트 II + 테크 I + BOSE 프리미엄 사운드(12스피커, 외장앰프)",
+        "소방 패키지Ⅰ",
+        "서라운드 뷰 모니터"
+      ],
+      "encar_only_options": [
+        "스웨이드 내장재 적용 부위",
+        "내장 칼라",
+        "미적용",
+        "외장 칼라",
+        "H Genuine Accessories 트레일러 패키지"
+      ]
+    },
+    {
+      "encar_model": "스타리아",
+      "danawa_model": "스타리아",
+      "year": "2024",
+      "encar_grade_count": 31,
+      "danawa_grade_count": 119,
+      "common_grade_count": 0,
+      "danawa_only_grades": [
+        "하이브리드 1.6 2WD 11인승모던",
+        "lpg 3.5 2WD 9인승인스퍼레이션",
+        "디젤 2.2 4WD 6인승특수구급",
+        "LPG 3.5 2WD 라운지 프레스티지 9인승",
+        "디젤 2.2 2WD 5인승모던",
+        "LPG 3.5 2WD 킨더 11인승",
+        "lpg 3.5 2WD 5인승모던",
+        "디젤 2.2 4WD 7인승인스퍼레이션",
+        "lpg 3.5 2WD 15인승",
+        "HEV 1.6 2WD 라운지 리무진 9인승"
+      ],
+      "encar_only_grades": [
+        "4WD 투어러 9인승",
+        "스마트",
+        "투어러 11인승",
+        "카고 5인승",
+        "HEV 1.6 카고 3인승",
+        "모던",
+        "L3.5 투어러 9인승",
+        "HEV 1.6 투어러 11인승",
+        "구분",
+        "L3.5 카고 3인승"
+      ],
+      "encar_option_count": 54,
+      "danawa_option_count": 71,
+      "common_option_count": 26,
+      "danawa_only_options": [
+        "소방 패키지Ⅲ",
+        "선루프",
+        "구급 패키지Ⅲ",
+        "소방 패키지Ⅰ",
+        "구급 패키지 l",
+        "서라운드 뷰 모니터",
+        "BOSE 사운드 시스템",
+        "BOSE 사운드 시스템 + 컴포트Ⅱ + 테크Ⅰ",
+        "멀티미디어 내비플러스 ll",
+        "구급 패키지 ll"
+      ],
+      "encar_only_options": [
+        "H Genuine Accessories 후석 전동식 사이드 스텝(우측)",
+        "스웨이드 내장재 적용 범위",
+        "H Genuine Accessories 빌트인 공기청정기",
+        "서라운드 뷰 모니터 + 전방 주차 거리 경고",
+        "멀티미디어 내비플러스 Ⅰ",
+        "H Genuine Accessories 슬라이딩 카고 베드",
+        "스웨이드 내장재 적용 부위",
+        "미적용",
+        "H Genuine Accessories 트레일러 패키지(토우히치 & LED 테일게이트 램프)"
+      ]
+    },
+    {
+      "encar_model": "더 뉴 싼타페",
+      "danawa_model": "더 뉴 싼타페",
+      "year": "2020",
+      "encar_grade_count": 7,
+      "danawa_grade_count": 33,
+      "common_grade_count": 0,
+      "danawa_only_grades": [
+        "가솔린 2.5 2WD 프리미엄초이스(7인승)",
+        "디젤 2.2 2WD 프레스티지(7인승)",
+        "디젤 2.2 4WD 프리미엄초이스(7인승)",
+        "가솔린 2.5 4WD 캘리그래피(7인승)",
+        "가솔린 2.5 4WD 프리미엄초이스(7인승)",
+        "가솔린 2.5 2WD 캘리그래피(7인승)",
+        "가솔린 2.5 2WD 프레스티지(7인승)",
+        "가솔린 2.5 4WD 프리미엄(7인승)",
+        "디젤 2.2 4WD 프레스티지(7인승)",
+        "디젤 2.2 2WD 프리미엄초이스(7인승)"
+      ],
+      "encar_only_grades": [
+        "프레스티지",
+        "프리미엄",
+        "프리미엄 초이스",
+        "캘리그래피",
+        "디젤 2.2 2WD",
+        "디젤 2.2 4WD",
+        "구분"
+      ],
+      "encar_option_count": 25,
+      "danawa_option_count": 14,
+      "common_option_count": 14,
+      "danawa_only_options": [],
+      "encar_only_options": [
+        "7인승 + 3열 에어컨 + 스마트 원터치 워크인 & 폴딩",
+        "7인승 + 3열 에어컨",
+        "+ LED 실내등",
+        "+ 스마트 원터치 워크인 & 폴딩"
+      ]
+    },
+    {
+      "encar_model": "더 뉴 싼타페",
+      "danawa_model": "더 뉴 싼타페",
+      "year": "2021",
+      "encar_grade_count": 9,
+      "danawa_grade_count": 13,
+      "common_grade_count": 0,
+      "danawa_only_grades": [
+        "하이브리드 1.6 2WD 익스클루시브(7인승)",
+        "하이브리드 1.6 2WD 프레스티지(7인승)",
+        "하이브리드 1.6 4WD 캘리그래피(7인승)",
+        "하이브리드 1.6 2WD 캘리그래피(7인승)",
+        "하이브리드 1.6 4WD 익스클루시브(7인승)",
+        "하이브리드 1.6 4WD 프레스티지(7인승)",
+        "_notices"
+      ],
+      "encar_only_grades": [
+        "프레스티지",
+        "프리미엄",
+        "프리미엄 초이스",
+        "가솔린 2.5T 4WD",
+        "캘리그래피",
+        "디젤 2.2 2WD",
+        "가솔린 2.5T 2WD",
+        "디젤 2.2 4WD",
+        "구분"
+      ],
+      "encar_option_count": 26,
+      "danawa_option_count": 13,
+      "common_option_count": 6,
+      "danawa_only_options": [
+        "시트플러스Ⅰ",
+        "KRELL 프리미엄 사운드 시스템(10스피커, 외장앰프)",
+        "파노라마 선루프 + 루프랙 + LED 룸램프",
+        "헤드업 디스플레이",
+        "파노라마 선루프 + LED 룸램프",
+        "시트플러스Ⅱ",
+        "디자인 플러스Ⅱ"
+      ],
+      "encar_only_options": [
+        "디자인 플러스",
+        "플래티넘 Ⅰ",
+        "7인승 + 3열 에어컨 + 스마트 원터치 워크인",
+        "KRELL 사운드 시스템",
+        "+ LED 실내등",
+        "현대 스마트센스 Ⅱ",
+        "파노라마 선루프 + 루프랙 + LED 실내등",
+        "멀티미디어 내비 플러스",
+        "스마트 원터치 워크인",
+        "컴포트"
+      ]
+    },
+    {
+      "encar_model": "더 뉴 싼타페",
+      "danawa_model": "더 뉴 싼타페",
+      "year": "2022",
+      "encar_grade_count": 11,
+      "danawa_grade_count": 55,
+      "common_grade_count": 0,
+      "danawa_only_grades": [
+        "디젤 2.2 2WD 프레스티지(7인승)",
+        "하이브리드 1.6 2WD 익스클루시브(7인승)",
+        "가솔린 2.5 4WD 캘리그래피(7인승)",
+        "디젤 2.2 4WD 프레스티지(7인승)",
+        "디젤 2.2 4WD 캘리그래피(7인승)",
+        "디젤 2.2 2WD 익스클루시브(7인승)",
+        "하이브리드 1.6 4WD 캘리그래피(7인승)",
+        "가솔린 2.5 2WD 프레스티지(7인승)",
+        "하이브리드 1.6 4WD 익스클루시브(7인승)",
+        "가솔린 2.5 4WD 프레스티지(7인승)"
+      ],
+      "encar_only_grades": [
+        "프레스티지",
+        "HEV 1.6 2WD",
+        "가솔린 2.5T 4WD",
+        "캘리그래피",
+        "익스클루시브",
+        "프레스티지 초이스",
+        "디젤 2.2 2WD",
+        "가솔린 2.5T 2WD",
+        "HEV 1.6 4WD",
+        "디젤 2.2 4WD"
+      ],
+      "encar_option_count": 31,
+      "danawa_option_count": 14,
+      "common_option_count": 9,
+      "danawa_only_options": [
+        "KRELL 프리미엄 사운드 시스템(10스피커, 외장앰프)",
+        "파노라마 선루프 + 루프랙 + LED 실내등",
+        "현대 스마트센스Ⅰ",
+        "파노라마 선루프 + LED 룸램프",
+        "디자인 플러스Ⅱ"
+      ],
+      "encar_only_options": [
+        "파노라마 선루프",
+        "6인승 + 3열 에어컨 + 스마트 원터치 워크인",
+        "7인승 + 3열 에어컨 + 스마트 원터치 워크인",
+        "파노라마 선루프 + 루프랙",
+        "파킹 어시스트 플러스 Ⅲ",
+        "현대 스마트센스 Ⅲ",
+        "디자인 플러스Ⅲ",
+        "6인승 + 3열 에어컨 + 스마트 원터치 워크인 & 폴딩",
+        "디자인 플러스 Ⅳ",
+        "7인승 + 3열 에어컨 + 스마트 원터치 워크인 & 폴딩"
+      ]
+    },
+    {
+      "encar_model": "더 뉴 싼타페",
+      "danawa_model": "더 뉴 싼타페",
+      "year": "2023",
+      "encar_grade_count": 11,
+      "danawa_grade_count": 73,
+      "common_grade_count": 0,
+      "danawa_only_grades": [
+        "디젤 2.2 2WD 프레스티지(7인승)",
+        "하이브리드 1.6 2WD 익스클루시브(7인승)",
+        "가솔린 2.5 4WD 캘리그래피(7인승)",
+        "디젤 2.2 4WD 프레스티지(7인승)",
+        "하이브리드 1.6 4WD 프레스티지초이스(7인승)",
+        "디젤 2.2 4WD 캘리그래피(7인승)",
+        "디젤 2.2 2WD 익스클루시브(7인승)",
+        "하이브리드 1.6 4WD 캘리그래피(7인승)",
+        "가솔린 2.5 2WD 프레스티지(7인승)",
+        "하이브리드 1.6 4WD 익스클루시브(7인승)"
+      ],
+      "encar_only_grades": [
+        "프레스티지",
+        "HEV 1.6 2WD",
+        "가솔린 2.5T 4WD",
+        "캘리그래피",
+        "익스클루시브",
+        "프레스티지 초이스",
+        "디젤 2.2 2WD",
+        "가솔린 2.5T 2WD",
+        "HEV 1.6 4WD",
+        "디젤 2.2 4WD"
+      ],
+      "encar_option_count": 28,
+      "danawa_option_count": 15,
+      "common_option_count": 14,
+      "danawa_only_options": [
+        "KRELL 프리미엄 사운드 시스템(10스피커, 외장앰프)"
+      ],
+      "encar_only_options": [
+        "6인승 + 3열 에어컨 + 스마트 원터치 워크인",
+        "7인승 + 3열 에어컨 + 스마트 원터치 워크인",
+        "+ 스마트 원터치 워크인",
+        "6인승 + 3열 에어컨 + 스마트 원터치 워크인 & 폴딩",
+        "랙구동형 전동식 파워 스티어링(R",
+        "7인승 + 3열 에어컨 + 스마트 원터치 워크인 & 폴딩",
+        "+ 스마트 원터치 워크인 & 폴딩"
+      ]
+    },
+    {
+      "encar_model": "싼타페 더 프라임",
+      "danawa_model": "싼타페 더 프라임",
+      "year": "2016",
+      "encar_grade_count": 10,
+      "danawa_grade_count": 23,
+      "common_grade_count": 4,
+      "danawa_only_grades": [
+        "디젤 2.0 2WD Special(7인승)",
+        "디젤 2.2 2WD Exclusive",
+        "_notices",
+        "디젤 2.0 2WD Exclusive",
+        "디젤 2.0 4WD Exclusive",
+        "디젤 2.0 2WD Modern",
+        "디젤 2.0 2WD Smart",
+        "디젤 2.0 2WD Premium",
+        "디젤 2.0 4WD Premium",
+        "디젤 2.2 4WD Premium"
+      ],
+      "encar_only_grades": [
+        "스마트",
+        "프리미엄",
+        "익스클루시브",
+        "모던",
+        "익스클루시브 스페셜",
+        "구분"
+      ],
+      "encar_option_count": 18,
+      "danawa_option_count": 16,
+      "common_option_count": 10,
+      "danawa_only_options": [
+        "8인치 내비게이션 + 후방 카메라",
+        "운전석 전동시트(12WAY) + 운전석 통풍시트 + 동승석 통풍시트",
+        "8인치 내비게이션",
+        "8인치 스마트 내비게이션 + 후방카메라 + (듀얼)풀오토 에어컨",
+        "8인치 스마트 내비게이션(블루링크 2.0 서비스 지원) + JBL 사운드 시스템 + 어라운드 뷰 모니터링 시스템(AVM)",
+        "브라운 패키지"
+      ],
+      "encar_only_options": [
+        "동승석 통풍시트",
+        "(8인치) 스마트 내비게이션 + 후방카메라 + (듀얼) 풀오토 에어컨",
+        "(8인치) 스마트 내비게이션 + 후방 카메라",
+        "JBL 사운드 시스템 + 어라운드 뷰 모니터링 시스템(AVM)",
+        "어라운드 뷰 모니터링 시스템(AVM)",
+        "드라이빙 어시스트Ⅱ",
+        "(8인치) 스마트 내비게이션",
+        "3열 시트(7인승) + 리어 에어컨"
+      ]
+    },
+    {
+      "encar_model": "싼타페 더 프라임",
+      "danawa_model": "싼타페 더 프라임",
+      "year": "2017",
+      "encar_grade_count": 9,
+      "danawa_grade_count": 20,
+      "common_grade_count": 4,
+      "danawa_only_grades": [
+        "디젤 2.0 4WD ExclusiveSpecial",
+        "디젤 2.2 2WD Exclusive",
+        "디젤 2.0 4WD 1Million",
+        "디젤 2.0 2WD Exclusive",
+        "디젤 2.0 2WD ExclusiveSpecial",
+        "디젤 2.0 2WD 1Million",
+        "디젤 2.0 4WD Exclusive",
+        "디젤 2.0 2WD Smart",
+        "디젤 2.0 2WD Premium",
+        "디젤 2.0 4WD Premium"
+      ],
+      "encar_only_grades": [
+        "스마트",
+        "프리미엄",
+        "1 밀리언 스타일",
+        "익스클루시브 스페셜",
+        "구분"
+      ],
+      "encar_option_count": 16,
+      "danawa_option_count": 17,
+      "common_option_count": 3,
+      "danawa_only_options": [
+        "스포츠 패키지Ⅱ",
+        "스포츠 패키지Ⅰ",
+        "컨비니언스 패키지Ⅱ",
+        "블루링크 2.0 서비스 + JBL 사운드 시스템 + 어라운드 뷰 모니터링 시스템(AVM)",
+        "(8인치) 스마트 내비게이션(블루링크 2.0 서비스 지원) + JBL 사운드 시스템 + 후방카메라",
+        "파이니스트 패키지",
+        "스포츠 패키지Ⅲ",
+        "(8인치) 스마트 내비게이션 + 후방카메라 + (듀얼) 풀오토 에어컨 + 클러스터 이오나이저 + 오토라이트컨트롤",
+        "브라운 컬러 패키지",
+        "블루링크 2.0 서비스 + JBL 사운드 시스템"
+      ],
+      "encar_only_options": [
+        "파이니스트 패키지 Ⅱ",
+        "스포츠 패키지",
+        "파이니스트 패키지 Ⅰ",
+        "외장 컬러",
+        "현대 스마트 센스 패키지 Ⅱ",
+        "(8인치) 스마트 내비게이션 + 후방카메라 + (듀얼) 풀오토 에어컨 + 클러스터 이오나이저",
+        "현대 스마트 센스 패키지Ⅰ",
+        "어라운드 뷰 모니터링 시스템(AVM)",
+        "컨비니언스 패키지",
+        "3열시트(7인승) + 리어 에어컨"
+      ]
+    },
+    {
+      "encar_model": "싼타페 더 프라임",
+      "danawa_model": "싼타페 더 프라임",
+      "year": "2018",
+      "encar_grade_count": 11,
+      "danawa_grade_count": 39,
+      "common_grade_count": 0,
+      "danawa_only_grades": [
+        "가솔린 2.0 2WD 밸류플러스(7인승)",
+        "디젤 2.0 2WD 익스클루시브스페셜(7인승)",
+        "디젤 2.2 4WD 원밀리언얼티밋(7인승)",
+        "디젤 2.2 4WD 익스클루시브스페셜(7인승)",
+        "디젤 2.0 2WD 원밀리언스타일(7인승)",
+        "디젤 2.0 4WD 밸류플러스(7인승)",
+        "디젤 2.0 4WD 원밀리언스타일(7인승)",
+        "디젤 2.2 2WD 원밀리언얼티밋(7인승)",
+        "가솔린 2.0 2WD 스마트(5인승)",
+        "디젤 2.0 2WD 스마트(5인승)"
+      ],
+      "encar_only_grades": [
+        "디젤 2.0 4WD",
+        "스마트",
+        "프리미엄",
+        "디젤 2.0 2WD",
+        "구분",
+        "가솔린 2.0 터보 2WD",
+        "가솔린 2.0 터보 4WD",
+        "디젤 2.2 2WD",
+        "익스클루시브 스페셜",
+        "디젤 2.2 4WD"
+      ],
+      "encar_option_count": 24,
+      "danawa_option_count": 17,
+      "common_option_count": 13,
+      "danawa_only_options": [
+        "블루링크 2.0 서비스 + JBL 사운드 시스템",
+        "가죽시트 + 브라운 컬러 패키지",
+        "(8인치) 스마트 내비게이션 (블루링크 2.0 서비스 지원) + JBL 사운드 시스템 + 어라운드 뷰 모니터링 시스템(AVM)",
+        "블루링크 2.0 서비스 + JBL 사운드 시스템 + 어라운드 뷰 모니터링 시스템(AVM)"
+      ],
+      "encar_only_options": [
+        "블루링크 + JBL 사운드 시스템 + 어라운드 뷰 모니터링 시스템(AVM)",
+        "블루링크 + JBL 사운드 시스템",
+        "외장 컬러",
+        "와이드 파노라마 선루프(블랙 유광 루프랙 포함)",
+        "3열 시트(7인승) + 리어 에어컨"
+      ]
+    },
+    {
+      "encar_model": "더 뉴 아반떼",
+      "danawa_model": "더 뉴 아반떼",
+      "year": "2014",
+      "encar_grade_count": 12,
+      "danawa_grade_count": 19,
+      "common_grade_count": 0,
+      "danawa_only_grades": [
+        "가솔린 1.6 2WD 1.6GDi",
+        "디젤 2WD Smart",
+        "가솔린 2WD Premium",
+        "디젤 1.6 2WD 1.6VGT",
+        "디젤 2WD TUIXEditionII",
+        "가솔린 2WD Modern",
+        "가솔린 2WD",
+        "디젤 2WD Premium",
+        "가솔린 2WD TUIXEditionI",
+        "디젤 2WD"
+      ],
+      "encar_only_grades": [
+        "1.6 VGT 모던",
+        "1.6 GDi 프리미엄",
+        "1.6 LPi 모던",
+        "1.6 VGT 스마트",
+        "1.6 VGT 프리미엄",
+        "1.6 LPi 스마트",
+        "1.6 LPi 스타일",
+        "1.6 GDi 스타일",
+        "1.6 VGT 스타일",
+        "1.6 GDi 스마트"
+      ],
+      "encar_option_count": 19,
+      "danawa_option_count": 17,
+      "common_option_count": 15,
+      "danawa_only_options": [
+        "컨비니언스 패키지-내비 선택 시(고급형 오디오 제외)"
+      ],
+      "encar_only_options": [
+        "부츠타입 6단 자동 변속기(고급형 ISG 시스템 및 액티브 에코 시스템 포함)",
+        "차체자세제어장치(VDC) + 경사로 밀림 방지장치(HAC)",
+        "EBD"
+      ]
+    },
+    {
+      "encar_model": "더 뉴 아반떼",
+      "danawa_model": "더 뉴 아반떼",
+      "year": "2015",
+      "encar_grade_count": 12,
+      "danawa_grade_count": 16,
+      "common_grade_count": 0,
+      "danawa_only_grades": [
+        "가솔린 1.6 2WD 1.6GDi",
+        "디젤 2WD Smart",
+        "디젤 1.6 2WD 1.6VGT",
+        "디젤 2WD TUIXEditionII",
+        "가솔린 2WD Modern",
+        "디젤 2WD 10millionLimited",
+        "가솔린 2WD 10millionLimited",
+        "가솔린 2WD TUIXEditionI",
+        "가솔린 2WD TUIXEditionII",
+        "디젤 2WD TUIXEditionI"
+      ],
+      "encar_only_grades": [
+        "1.6 VGT 모던",
+        "1.6 LPi 모던",
+        "1.6 GDi 텐밀리언 리미티드",
+        "1.6 VGT 스마트",
+        "1.6 LPi 스마트",
+        "1.6 LPi 스타일",
+        "1.6 GDi 스타일",
+        "1.6 VGT 스타일",
+        "1.6 GDi 스마트",
+        "1.6 VGT 텐밀리언 리미티드"
+      ],
+      "encar_option_count": 19,
+      "danawa_option_count": 14,
+      "common_option_count": 11,
+      "danawa_only_options": [
+        "215/45R17 타이어 & 신규17인치 다이아몬드 커팅 알로이 휠",
+        "205/55R16 타이어 & 신규 16인치 알로이 휠"
+      ],
+      "encar_only_options": [
+        "215/45R17 타이어 & 17인치 다이아몬드 커팅 알로이 휠",
+        "205/55R16 타이어 & 16인치 알로이 휠",
+        "부츠 타입 6단 자동변속기(고급형 ISG 시스템 및 액티브 에코 시스템 포함)",
+        "사이드 & 커튼 에어백",
+        "스마트 내비게이션 + 후방카메라 포함"
+      ]
+    },
+    {
+      "encar_model": "아반떼 쿠페",
+      "danawa_model": "아반떼 쿠페",
+      "year": "2013",
+      "encar_grade_count": 3,
+      "danawa_grade_count": 5,
+      "common_grade_count": 0,
+      "danawa_only_grades": [
+        "가솔린 2WD PREMIUM",
+        "_notices",
+        "가솔린 2.0 2WD 2.0GDi",
+        "가솔린 2WD TUIXWhitePackage"
+      ],
+      "encar_only_grades": [
+        "2.0 GDi 스마트",
+        "2.0 GDi 프리미엄",
+        "구분"
+      ],
+      "encar_option_count": 8,
+      "danawa_option_count": 7,
+      "common_option_count": 6,
+      "danawa_only_options": [],
+      "encar_only_options": [
+        "EBD"
+      ]
+    },
+    {
+      "encar_model": "아반떼 쿠페",
+      "danawa_model": "아반떼 쿠페",
+      "year": "2014",
+      "encar_grade_count": 3,
+      "danawa_grade_count": 5,
+      "common_grade_count": 0,
+      "danawa_only_grades": [
+        "가솔린 2WD PREMIUM",
+        "_notices",
+        "가솔린 2.0 2WD 2.0GDi",
+        "가솔린 2WD TUIXWhitePackage"
+      ],
+      "encar_only_grades": [
+        "2.0 GDi 스마트",
+        "2.0 GDi 프리미엄",
+        "구분"
+      ],
+      "encar_option_count": 8,
+      "danawa_option_count": 7,
+      "common_option_count": 6,
+      "danawa_only_options": [],
+      "encar_only_options": [
+        "17인치 TUIX 블랙크롬 휠"
+      ]
+    },
+    {
+      "encar_model": "아반떼 쿠페",
+      "danawa_model": "아반떼 쿠페",
+      "year": "2015",
+      "encar_grade_count": 3,
+      "danawa_grade_count": 5,
+      "common_grade_count": 0,
+      "danawa_only_grades": [
+        "가솔린 2WD PREMIUM",
+        "_notices",
+        "가솔린 2.0 2WD 2.0GDi",
+        "가솔린 2WD TUIXWhitePackage"
+      ],
+      "encar_only_grades": [
+        "2.0 GDi 스마트",
+        "2.0 GDi 프리미엄",
+        "구분"
+      ],
+      "encar_option_count": 9,
+      "danawa_option_count": 7,
+      "common_option_count": 6,
+      "danawa_only_options": [],
+      "encar_only_options": [
+        "17인치 TUIX 블랙크롬 휠",
+        "EBD"
+      ]
+    },
+    {
+      "encar_model": "아슬란",
+      "danawa_model": "아슬란",
+      "year": "2015",
+      "encar_grade_count": 4,
+      "danawa_grade_count": 4,
+      "common_grade_count": 0,
+      "danawa_only_grades": [
+        "가솔린 2WD G300",
+        "가솔린 2WD G330",
+        "가솔린 2WD Exclusive",
+        "_notices"
+      ],
+      "encar_only_grades": [
+        "G330 익스클루시브",
+        "G300 모던",
+        "G330 프리미엄",
+        "구분"
+      ],
+      "encar_option_count": 9,
+      "danawa_option_count": 8,
+      "common_option_count": 6,
+      "danawa_only_options": [
+        "드라이빙 어시스턴스 패키지Ⅱ",
+        "드라이빙 어시스턴스 패키지Ⅰ"
+      ],
+      "encar_only_options": [
+        "드라이빙 어시스트 패키지 Ⅱ",
+        "드라이빙 어시스트 패키지Ⅰ"
+      ]
+    },
+    {
+      "encar_model": "아슬란",
+      "danawa_model": "아슬란",
+      "year": "2016",
+      "encar_grade_count": 5,
+      "danawa_grade_count": 4,
+      "common_grade_count": 0,
+      "danawa_only_grades": [
+        "가솔린 2WD G300",
+        "가솔린 2WD G330",
+        "가솔린 2WD Exclusive",
+        "_notices"
+      ],
+      "encar_only_grades": [
+        "G330 익스클루시브",
+        "G330 모던",
+        "G300 모던",
+        "G300 익스클루시브",
+        "구분"
+      ],
+      "encar_option_count": 11,
+      "danawa_option_count": 9,
+      "common_option_count": 9,
+      "danawa_only_options": [],
+      "encar_only_options": [
+        "휠 패키지Ⅰ"
+      ]
+    },
+    {
+      "encar_model": "아슬란",
+      "danawa_model": "아슬란",
+      "year": "2017",
+      "encar_grade_count": 5,
+      "danawa_grade_count": 4,
+      "common_grade_count": 0,
+      "danawa_only_grades": [
+        "가솔린 3.0 2WD 3.0",
+        "가솔린 2WD Exclusive(익스클루시브)",
+        "_notices",
+        "가솔린 3.3 2WD 3.3"
+      ],
+      "encar_only_grades": [
+        "G330 익스클루시브",
+        "G330 모던",
+        "G300 모던",
+        "G300 익스클루시브",
+        "구분"
+      ],
+      "encar_option_count": 12,
+      "danawa_option_count": 8,
+      "common_option_count": 8,
+      "danawa_only_options": [],
+      "encar_only_options": [
+        "휠 패키지Ⅰ",
+        "어라운드 뷰 모니터(AVM)"
+      ]
+    }
+  ]
+}
