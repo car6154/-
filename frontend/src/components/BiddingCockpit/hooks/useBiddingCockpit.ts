@@ -1227,90 +1227,15 @@ export function useBiddingCockpit({
   };
 
   // 💡 [2026-11-01 제이 확정 규칙]: [응답 지연 재검색] 버튼 핸들러
-  // - 차얼마만 단독 재조회 (엔카·케이카 검색은 호출하지 않음)
-  // - 검색 입력(차명/등급/연식/주행)이 바뀌지 않았으면 엔카·케이카 검색을 다시 출발하지 않음
-  // - 차얼마 재조회 성공 뒤 검색 입력이 바뀌었을 때만 자동 출발 효과에 의해 1회 다시 출발
+  // 💡 [11-11-08]: 차얼마 재조회 버튼 문 1개로 통일 (handleLookupCarNumber 단일 진입점 호출)
+  // 재조회 버튼은 "현재 차량번호와 주행거리로 동일한 단일 문을 다시 타는 것"이므로
+  // 별도의 중복/구형 분기 로직(4자리 연도, setTargetCarOptions 오타, optionsTag 누락)을 없애고
+  // handleLookupCarNumber를 호출하여 일관된 제원·연식·옵션 처리를 보장한다.
   const handleRetryChaolma = useCallback(async () => {
     const targetNo = (carNumber || '').replace(/\s+/g, '').trim();
     if (!targetNo) return;
-
-    startChaolmaTimer();
-    setIsSearchingCar(true);
-    setSearchStatus({
-      type: 'info',
-      message: `🔄 [${targetNo}] 차얼마 단독 재조회 중...`
-    });
-
-    try {
-      const unifiedRes = await searchCockpitUnified({
-        carNumber: targetNo,
-        mileage: mileageKm || 50000,
-        sources: ['chaolma'],
-      });
-
-      const res = unifiedRes?.chaolma;
-      if (res && res.success) {
-        stopChaolmaTimer(true);
-        if (res.maker) setManufacturer(res.maker);
-        const foundCarName = res.model_detail_name || res.model_name || '';
-        if (foundCarName) setCarName(foundCarName);
-        const gName = String(res.grade_name || '').trim();
-        const gdName = String(res.grade_detail_name || '').trim();
-        if (gName) rawGradeNameRef.current = gName;
-        if (gdName) rawGradeDetailNameRef.current = gdName;
-        setTargetGrade(assembleFullGradeName(gName, gdName));
-        if (res.reg_ym) {
-          setRegYm(res.reg_ym);
-        }
-
-        const cleanGradeText = (txt: string): string => {
-          if (!txt) return '';
-          let s = txt.replace(/\[[^\]]*\]/g, ' ');
-          for (let i = 0; i < 3; i++) {
-            s = s.replace(/\([^\(\)]*\)/g, ' ');
-          }
-          return s.replace(/[\(\)\[\]]/g, ' ').replace(/\s+/g, ' ').trim();
-        };
-
-        const cleanG = cleanGradeText(res.grade_name || '');
-        const cleanGd = cleanGradeText(res.grade_detail_name || '');
-        let resolvedG = '';
-        if (cleanG && cleanGd) {
-          resolvedG = cleanGd.includes(cleanG) ? cleanGd : `${cleanG} ${cleanGd}`.trim();
-        } else {
-          resolvedG = cleanG || cleanGd;
-        }
-        if (resolvedG) setDetailModel(resolvedG);
-
-        const parsedYear = parseInt(String(res.model_year || res.year || '').replace(/[^\d]/g, ''), 10);
-        if (!isNaN(parsedYear) && parsedYear > 1990) setYearModel(parsedYear);
-
-        if (res.options && Array.isArray(res.options)) {
-          setTargetCarOptions(res.options);
-          const optSummary = res.options.map((o: any) => o.name).filter(Boolean).join(', ');
-          if (optSummary) setOptionsTag(optSummary);
-        }
-
-        setSearchStatus({
-          type: 'success',
-          message: `✅ [${targetNo}] 차얼마 제원 재조회 성공`
-        });
-      } else {
-        stopChaolmaTimer(false);
-        setSearchStatus({
-          type: 'warning',
-          message: `⚠️ [${targetNo}] ${res?.message || '차얼마 데이터 재조회 실패'}`
-        });
-      }
-    } catch (err: any) {
-      stopChaolmaTimer(false);
-      console.error('[handleRetryChaolma] 오류:', err);
-      setSearchStatus({
-        type: 'error',
-        message: `❌ [${targetNo}] 차얼마 재조회 실패: ${err?.message || err}`
-      });
-    }
-  }, [carNumber, mileageKm, startChaolmaTimer, stopChaolmaTimer]);
+    return handleLookupCarNumber(targetNo, mileageKm, false, false, true);
+  }, [carNumber, mileageKm, handleLookupCarNumber]);
 
   // 3. 헤이딜러 URL [AI 견적 산출] 실제 실행 핸들러 (실제 백엔드 프록시 호출)
   const handleHeydealerAiEstimate = async () => {
