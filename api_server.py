@@ -552,6 +552,27 @@ def get_catalog_v2_tree_endpoint():
 
 
 # ----------------------------------------------------
+# 0-2-3. [11-11-15] 제이책(C) 신차 공식 카탈로그 조회 API (엔카 v2 + 다나와 병합본)
+# ----------------------------------------------------
+@app.get("/api/catalog-c/tree")
+def get_catalog_c_tree_endpoint():
+    """
+    제이책(C) 6대 브랜드 -> 차종 -> 연식 목록 계층 트리 조회
+    """
+    from services.catalog_c_service import get_catalog_c_tree
+    return get_catalog_c_tree()
+
+
+@app.get("/api/catalog-c/spec")
+def get_catalog_c_spec_endpoint(car_name: str = "", year: str = "", grade: str = ""):
+    """
+    제이책(C) 차종·연식 기준 전체 등급 스펙 및 지정 등급 조회
+    """
+    from services.catalog_c_service import get_catalog_c_spec
+    return get_catalog_c_spec(car_name=car_name, year=year, grade=grade)
+
+
+# ----------------------------------------------------
 # 0-3. 엔카 최근 완판(팔린매물) 실거래 스냅샷 통계 API (Streamlit 8501 100% 동일 로직)
 # ----------------------------------------------------
 @app.get("/api/sold_out_cars")

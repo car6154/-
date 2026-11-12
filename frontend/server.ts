@@ -93,6 +93,30 @@ async function startServer() {
     }
   });
 
+  // 2-0-0-3. [11-11-15] 제이책(C) 신차 공식 카탈로그 API 프록시 (Python 백엔드 8000 직결)
+  app.all('/api/catalog-c*', async (req, res) => {
+    const startTime = Date.now();
+    try {
+      const targetUrl = `http://127.0.0.1:8000${req.originalUrl}`;
+      const pyRes = await fetch(targetUrl, {
+        method: req.method,
+        headers: { 'Content-Type': 'application/json' },
+        body: req.method !== 'GET' && req.method !== 'HEAD' ? JSON.stringify(req.body) : undefined,
+        signal: AbortSignal.timeout(60000)
+      });
+      const data = await pyRes.json();
+      const duration = Date.now() - startTime;
+      console.info(`[CatalogCProxy] ${req.method} ${req.originalUrl} -> 8000, status=${pyRes.status}, time=${duration}ms`);
+      logEvent('CATALOG_C_PROXY', `${req.method} ${req.originalUrl} -> 8000, status=${pyRes.status}`);
+      return res.status(pyRes.status).json(data);
+    } catch (e: any) {
+      const duration = Date.now() - startTime;
+      console.error(`[CatalogCProxy] ${req.method} ${req.originalUrl} -> 8000 FAILED, time=${duration}ms:`, e.message);
+      logEvent('CATALOG_C_PROXY_ERR', `${req.method} ${req.originalUrl} failed: ${e.message}`);
+      return res.status(500).json({ error: `제이책(C) 카탈로그 API 프록시 실패: ${e.message}` });
+    }
+  });
+
   // 2-0-0. 매입 장부 관리 API 프록시 (Python 백엔드 8000 직결)
   app.all('/api/ledger*', async (req, res) => {
     try {
