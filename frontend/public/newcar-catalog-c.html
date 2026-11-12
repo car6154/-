@@ -999,7 +999,7 @@
               ${gdata.is_conflict && gdata.conflict_info ? renderConflictBox(gdata.conflict_info) : ''}
               
               <div style="font-size: 12px; font-weight: 700; color: #a1a1aa; margin-bottom: 6px;">
-                추가 선택 옵션 (${gdata.options_count}개)
+                추가 선택 옵션 (${getOptionalOptionsCount(gdata.options)}개)
               </div>
               ${renderOptionsTable(gdata.options)}
             </div>
@@ -1043,54 +1043,118 @@
       `;
     }
 
+    function getOptionalOptionsCount(options) {
+      if (!options) return 0;
+      return Object.keys(options).filter(k => {
+        const knd = (options[k].kind || 'optional').toLowerCase();
+        return knd !== 'package_ref' && knd !== 'condition';
+      }).length;
+    }
+
     function renderOptionsTable(options) {
       const optKeys = Object.keys(options || {});
       if (optKeys.length === 0) {
         return `<div style="color: #71717a; padding: 12px 0; font-size: 12px;">등록된 추가 선택 옵션이 없습니다.</div>`;
       }
 
-      let rows = optKeys.map((oname, idx) => {
-        const item = options[oname];
-        const pMan = item.price_man != null ? Number(item.price_man).toLocaleString() : (item.price != null ? Math.round(item.price / 10000).toLocaleString() : '-');
-        const pWon = item.price != null ? Number(item.price).toLocaleString() : '-';
-        const src = (item.source || 'encar').toLowerCase();
-        const srcClass = src === 'danawa' ? 'source-danawa' : 'source-encar';
-        const srcLabel = src === 'danawa' ? 'danawa' : 'encar';
+      // 1. optional 옵션과 package_ref / condition 분리
+      const optionalKeys = optKeys.filter(k => {
+        const knd = (options[k].kind || 'optional').toLowerCase();
+        return knd !== 'package_ref' && knd !== 'condition';
+      });
 
-        return `
-          <tr>
-            <td style="width: 32px; color: #52525b; font-size: 11px;">${idx + 1}</td>
-            <td>
-              <div class="opt-name">${escapeHtml(oname)}</div>
-              ${item.desc ? `<div class="opt-desc">${escapeHtml(item.desc)}</div>` : ''}
-            </td>
-            <td class="opt-price">
-              ${pMan}만원 <span style="font-size: 11px; color: #71717a; font-weight: normal;">(${pWon}원)</span>
-            </td>
-            <td class="opt-kind" style="width: 80px;">${escapeHtml(item.kind || '선택옵션')}</td>
-            <td style="width: 70px;">
-              <span class="source-badge ${srcClass}">${srcLabel}</span>
-            </td>
-          </tr>
-        `;
-      }).join('');
+      const pkgOrCondKeys = optKeys.filter(k => {
+        const knd = (options[k].kind || 'optional').toLowerCase();
+        return knd === 'package_ref' || knd === 'condition';
+      });
 
-      return `
-        <table class="options-table">
-          <thead>
+      let tableHtml = '';
+      if (optionalKeys.length === 0) {
+        tableHtml = `<div style="color: #71717a; padding: 8px 0; font-size: 12px;">등록된 선택 옵션이 없습니다.</div>`;
+      } else {
+        const rows = optionalKeys.map((oname, idx) => {
+          const item = options[oname];
+          let priceDisplay = '';
+          if (item.price === 0) {
+            priceDisplay = `<span style="color: #71717a; font-size: 11px;">가격 없음</span>`;
+          } else {
+            const pMan = item.price_man != null ? Number(item.price_man).toLocaleString() : (item.price != null ? Math.round(item.price / 10000).toLocaleString() : '-');
+            const pWon = item.price != null ? Number(item.price).toLocaleString() : '-';
+            priceDisplay = `${pMan}만원 <span style="font-size: 11px; color: #71717a; font-weight: normal;">(${pWon}원)</span>`;
+          }
+
+          const src = (item.source || 'encar').toLowerCase();
+          const srcClass = src === 'danawa' ? 'source-danawa' : 'source-encar';
+          const srcLabel = src === 'danawa' ? 'danawa' : 'encar';
+
+          return `
             <tr>
-              <th>#</th>
-              <th>옵션명 / 패키지 구성</th>
-              <th>가격</th>
-              <th>구분</th>
-              <th>출처</th>
+              <td style="width: 32px; color: #52525b; font-size: 11px;">${idx + 1}</td>
+              <td>
+                <div class="opt-name">${escapeHtml(oname)}</div>
+                ${item.desc ? `<div class="opt-desc">${escapeHtml(item.desc)}</div>` : ''}
+              </td>
+              <td class="opt-price">
+                ${priceDisplay}
+              </td>
+              <td class="opt-kind" style="width: 80px;">${escapeHtml(item.kind || '선택옵션')}</td>
+              <td style="width: 70px;">
+                <span class="source-badge ${srcClass}">${srcLabel}</span>
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            ${rows}
-          </tbody>
-        </table>
-      `;
+          `;
+        }).join('');
+
+        tableHtml = `
+          <table class="options-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>옵션명 / 패키지 구성</th>
+                <th>가격</th>
+                <th>구분</th>
+                <th>출처</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${rows}
+            </tbody>
+          </table>
+        `;
+      }
+
+      // 2. package_ref / condition 은 표 아래 접힌 칸으로 분리
+      let pkgHtml = '';
+      if (pkgOrCondKeys.length > 0) {
+        const pkgRows = pkgOrCondKeys.map(oname => {
+          const item = options[oname];
+          const knd = (item.kind || '').toLowerCase();
+          const badgeLabel = knd === 'package_ref' ? '패키지구성' : '조건/사양';
+          const badgeColor = knd === 'package_ref' ? '#38bdf8' : '#fb923c';
+          return `
+            <div style="font-size: 11px; padding: 5px 0; border-bottom: 1px dashed #27272a; color: #a1a1aa; display: flex; align-items: baseline; gap: 8px;">
+              <span style="color: ${badgeColor}; font-weight: 600; font-size: 10px; flex-shrink: 0;">[${badgeLabel}]</span>
+              <div>
+                <strong style="color: #e4e4e7;">${escapeHtml(oname)}</strong>
+                ${item.desc ? `<span style="color: #71717a; margin-left: 6px;">${escapeHtml(item.desc)}</span>` : ''}
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        pkgHtml = `
+          <details style="margin-top: 10px; background: #141416; border: 1px solid #27272a; border-radius: 6px; padding: 8px 12px;">
+            <summary style="font-size: 11px; color: #a1a1aa; cursor: pointer; font-weight: 600; user-select: none;">
+              📦 패키지 구성 / 조건 세부 안내 (${pkgOrCondKeys.length}개)
+            </summary>
+            <div style="margin-top: 8px; max-height: 220px; overflow-y: auto;">
+              ${pkgRows}
+            </div>
+          </details>
+        `;
+      }
+
+      return tableHtml + pkgHtml;
     }
 
     function renderAccessoriesTable(accessories) {
