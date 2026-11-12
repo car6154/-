@@ -1,0 +1,1651 @@
+[
+  {
+    "model": "맥스크루즈",
+    "year": "2014",
+    "grade": "디젤 2.2 2WD Exclusive",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 2WD Exclusive(6인승)",
+      "디젤 2.2 2WD Exclusive(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "맥스크루즈",
+    "year": "2014",
+    "grade": "디젤 2.2 4WD Exclusive",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 4WD Exclusive(6인승)",
+      "디젤 2.2 4WD Exclusive(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "맥스크루즈",
+    "year": "2013",
+    "grade": "디젤 2.2 2WD Exclusive",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 2WD Exclusive(6인승)",
+      "디젤 2.2 2WD Exclusive(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "맥스크루즈",
+    "year": "2013",
+    "grade": "디젤 2.2 4WD Exclusive",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 4WD Exclusive(6인승)",
+      "디젤 2.2 4WD Exclusive(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2020",
+    "grade": "디젤 2.5 2WD 스타일 (M/T)",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.5 2WD 스타일(3인승) (M/T)",
+      "디젤 2.5 2WD 스타일(5인승) (M/T)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2020",
+    "grade": "디젤 2.5 2WD 스타일",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.5 2WD 스타일(3인승)",
+      "디젤 2.5 2WD 스타일(5인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2020",
+    "grade": "디젤 2.5 2WD 스마트 (M/T)",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.5 2WD 스마트(3인승) (M/T)",
+      "디젤 2.5 2WD 스마트(5인승) (M/T)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2020",
+    "grade": "디젤 2.5 2WD 스마트",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.5 2WD 스마트(3인승)",
+      "디젤 2.5 2WD 스마트(5인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2020",
+    "grade": "디젤 2.5 2WD 모던",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.5 2WD 모던(5인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2020",
+    "grade": "디젤 2.5 2WD 익스클루시브",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.5 2WD 익스클루시브(6인승)",
+      "디젤 2.5 2WD 익스클루시브(9인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2020",
+    "grade": "디젤 2.5 4WD 익스클루시브",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.5 4WD 익스클루시브(6인승)",
+      "디젤 2.5 4WD 익스클루시브(9인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2018",
+    "grade": "디젤 2.5 2WD 익스클루시브",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.5 2WD 익스클루시브(6인승)",
+      "디젤 2.5 2WD 익스클루시브(9인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2018",
+    "grade": "디젤 2.5 2WD 스타일 (M/T)",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.5 2WD 스타일(3인승) (M/T)",
+      "디젤 2.5 2WD 스타일(5인승) (M/T)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2018",
+    "grade": "디젤 2.5 2WD 스타일",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.5 2WD 스타일(3인승)",
+      "디젤 2.5 2WD 스타일(5인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2018",
+    "grade": "디젤 2.5 2WD 스마트 (M/T)",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.5 2WD 스마트(3인승) (M/T)",
+      "디젤 2.5 2WD 스마트(5인승) (M/T)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2018",
+    "grade": "디젤 2.5 2WD 스마트",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.5 2WD 스마트(3인승)",
+      "디젤 2.5 2WD 스마트(5인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2018",
+    "grade": "디젤 2.5 2WD 모던",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.5 2WD 모던(5인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "grade": "가솔린 3.8 2WD 익스클루시브",
+    "conflict_with_original": true,
+    "items": [
+      "가솔린 3.8 2WD 익스클루시브(7인승)",
+      "가솔린 3.8 2WD 익스클루시브(8인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "grade": "가솔린 3.8 2WD 르블랑",
+    "conflict_with_original": true,
+    "items": [
+      "가솔린 3.8 2WD 르블랑(7인승)",
+      "가솔린 3.8 2WD 르블랑(8인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "grade": "가솔린 3.8 2WD 프레스티지",
+    "conflict_with_original": true,
+    "items": [
+      "가솔린 3.8 2WD 프레스티지(7인승)",
+      "가솔린 3.8 2WD 프레스티지(8인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "grade": "가솔린 3.8 2WD 캘리그래피",
+    "conflict_with_original": true,
+    "items": [
+      "가솔린 3.8 2WD 캘리그래피(7인승)",
+      "가솔린 3.8 2WD 캘리그래피(8인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "grade": "가솔린 3.8 2WD 블랙에디션",
+    "conflict_with_original": true,
+    "items": [
+      "가솔린 3.8 2WD 블랙에디션(7인승)",
+      "가솔린 3.8 2WD 블랙에디션(8인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "grade": "가솔린 3.8 4WD 익스클루시브",
+    "conflict_with_original": true,
+    "items": [
+      "가솔린 3.8 4WD 익스클루시브(7인승)",
+      "가솔린 3.8 4WD 익스클루시브(8인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "grade": "가솔린 3.8 4WD 르블랑",
+    "conflict_with_original": true,
+    "items": [
+      "가솔린 3.8 4WD 르블랑(7인승)",
+      "가솔린 3.8 4WD 르블랑(8인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "grade": "가솔린 3.8 4WD 프레스티지",
+    "conflict_with_original": true,
+    "items": [
+      "가솔린 3.8 4WD 프레스티지(7인승)",
+      "가솔린 3.8 4WD 프레스티지(8인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "grade": "가솔린 3.8 4WD 캘리그래피",
+    "conflict_with_original": true,
+    "items": [
+      "가솔린 3.8 4WD 캘리그래피(7인승)",
+      "가솔린 3.8 4WD 캘리그래피(8인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "grade": "가솔린 3.8 4WD 블랙에디션",
+    "conflict_with_original": true,
+    "items": [
+      "가솔린 3.8 4WD 블랙에디션(7인승)",
+      "가솔린 3.8 4WD 블랙에디션(8인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "grade": "디젤 2.2 2WD 익스클루시브",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 2WD 익스클루시브(7인승)",
+      "디젤 2.2 2WD 익스클루시브(8인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "grade": "디젤 2.2 2WD 르블랑",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 2WD 르블랑(7인승)",
+      "디젤 2.2 2WD 르블랑(8인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "grade": "디젤 2.2 2WD 프레스티지",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 2WD 프레스티지(7인승)",
+      "디젤 2.2 2WD 프레스티지(8인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "grade": "디젤 2.2 2WD 캘리그래피",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 2WD 캘리그래피(7인승)",
+      "디젤 2.2 2WD 캘리그래피(8인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "grade": "디젤 2.2 2WD 블랙에디션",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 2WD 블랙에디션(7인승)",
+      "디젤 2.2 2WD 블랙에디션(8인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "grade": "디젤 2.2 4WD 익스클루시브",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 4WD 익스클루시브(7인승)",
+      "디젤 2.2 4WD 익스클루시브(8인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "grade": "디젤 2.2 4WD 르블랑",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 4WD 르블랑(7인승)",
+      "디젤 2.2 4WD 르블랑(8인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "grade": "디젤 2.2 4WD 프레스티지",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 4WD 프레스티지(7인승)",
+      "디젤 2.2 4WD 프레스티지(8인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "grade": "디젤 2.2 4WD 캘리그래피",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 4WD 캘리그래피(7인승)",
+      "디젤 2.2 4WD 캘리그래피(8인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "grade": "디젤 2.2 4WD 블랙에디션",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 4WD 블랙에디션(7인승)",
+      "디젤 2.2 4WD 블랙에디션(8인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "grade": "가솔린 3.8 2WD 익스클루시브",
+    "conflict_with_original": true,
+    "items": [
+      "가솔린 3.8 2WD 익스클루시브(7인승)",
+      "가솔린 3.8 2WD 익스클루시브(8인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "grade": "가솔린 3.8 2WD 프레스티지",
+    "conflict_with_original": true,
+    "items": [
+      "가솔린 3.8 2WD 프레스티지(7인승)",
+      "가솔린 3.8 2WD 프레스티지(8인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "grade": "가솔린 3.8 2WD 캘리그래피",
+    "conflict_with_original": true,
+    "items": [
+      "가솔린 3.8 2WD 캘리그래피(7인승)",
+      "가솔린 3.8 2WD 캘리그래피(8인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "grade": "가솔린 3.8 2WD VIP",
+    "conflict_with_original": true,
+    "items": [
+      "가솔린 3.8 2WD VIP(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "grade": "가솔린 3.8 4WD 익스클루시브",
+    "conflict_with_original": true,
+    "items": [
+      "가솔린 3.8 4WD 익스클루시브(7인승)",
+      "가솔린 3.8 4WD 익스클루시브(8인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "grade": "가솔린 3.8 4WD 프레스티지",
+    "conflict_with_original": true,
+    "items": [
+      "가솔린 3.8 4WD 프레스티지(7인승)",
+      "가솔린 3.8 4WD 프레스티지(8인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "grade": "가솔린 3.8 4WD 캘리그래피",
+    "conflict_with_original": true,
+    "items": [
+      "가솔린 3.8 4WD 캘리그래피(7인승)",
+      "가솔린 3.8 4WD 캘리그래피(8인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "grade": "가솔린 3.8 4WD VIP",
+    "conflict_with_original": true,
+    "items": [
+      "가솔린 3.8 4WD VIP(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "grade": "디젤 2.2 2WD 익스클루시브",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 2WD 익스클루시브(7인승)",
+      "디젤 2.2 2WD 익스클루시브(8인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "grade": "디젤 2.2 2WD 프레스티지",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 2WD 프레스티지(7인승)",
+      "디젤 2.2 2WD 프레스티지(8인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "grade": "디젤 2.2 2WD 캘리그래피",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 2WD 캘리그래피(7인승)",
+      "디젤 2.2 2WD 캘리그래피(8인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "grade": "디젤 2.2 2WD VIP",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 2WD VIP(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "grade": "디젤 2.2 4WD 익스클루시브",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 4WD 익스클루시브(7인승)",
+      "디젤 2.2 4WD 익스클루시브(8인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "grade": "디젤 2.2 4WD 프레스티지",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 4WD 프레스티지(7인승)",
+      "디젤 2.2 4WD 프레스티지(8인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "grade": "디젤 2.2 4WD 캘리그래피",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 4WD 캘리그래피(7인승)",
+      "디젤 2.2 4WD 캘리그래피(8인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "grade": "디젤 2.2 4WD VIP",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 4WD VIP(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2022",
+    "grade": "가솔린 3.8 2WD 익스클루시브",
+    "conflict_with_original": true,
+    "items": [
+      "가솔린 3.8 2WD 익스클루시브(8인승)",
+      "가솔린 3.8 2WD 익스클루시브(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2022",
+    "grade": "가솔린 3.8 2WD 프레스티지",
+    "conflict_with_original": true,
+    "items": [
+      "가솔린 3.8 2WD 프레스티지(8인승)",
+      "가솔린 3.8 2WD 프레스티지(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2022",
+    "grade": "가솔린 3.8 2WD 캘리그래피",
+    "conflict_with_original": true,
+    "items": [
+      "가솔린 3.8 2WD 캘리그래피(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2022",
+    "grade": "가솔린 3.8 2WD VIP",
+    "conflict_with_original": true,
+    "items": [
+      "가솔린 3.8 2WD VIP(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2022",
+    "grade": "가솔린 3.8 4WD 익스클루시브",
+    "conflict_with_original": true,
+    "items": [
+      "가솔린 3.8 4WD 익스클루시브(8인승)",
+      "가솔린 3.8 4WD 익스클루시브(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2022",
+    "grade": "가솔린 3.8 4WD 프레스티지",
+    "conflict_with_original": true,
+    "items": [
+      "가솔린 3.8 4WD 프레스티지(8인승)",
+      "가솔린 3.8 4WD 프레스티지(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2022",
+    "grade": "가솔린 3.8 4WD 캘리그래피",
+    "conflict_with_original": true,
+    "items": [
+      "가솔린 3.8 4WD 캘리그래피(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2022",
+    "grade": "가솔린 3.8 4WD VIP",
+    "conflict_with_original": true,
+    "items": [
+      "가솔린 3.8 4WD VIP(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2022",
+    "grade": "디젤 2.2 2WD 익스클루시브",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 2WD 익스클루시브(8인승)",
+      "디젤 2.2 2WD 익스클루시브(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2022",
+    "grade": "디젤 2.2 2WD 프레스티지",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 2WD 프레스티지(8인승)",
+      "디젤 2.2 2WD 프레스티지(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2022",
+    "grade": "디젤 2.2 2WD 캘리그래피",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 2WD 캘리그래피(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2022",
+    "grade": "디젤 2.2 2WD VIP",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 2WD VIP(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2022",
+    "grade": "디젤 2.2 4WD 익스클루시브",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 4WD 익스클루시브(8인승)",
+      "디젤 2.2 4WD 익스클루시브(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2022",
+    "grade": "디젤 2.2 4WD 프레스티지",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 4WD 프레스티지(8인승)",
+      "디젤 2.2 4WD 프레스티지(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2022",
+    "grade": "디젤 2.2 4WD 캘리그래피",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 4WD 캘리그래피(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2022",
+    "grade": "디젤 2.2 4WD VIP",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 4WD VIP(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2021",
+    "grade": "가솔린 3.8 2WD 익스클루시브",
+    "conflict_with_original": true,
+    "items": [
+      "가솔린 3.8 2WD 익스클루시브(8인승)",
+      "가솔린 3.8 2WD 익스클루시브(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2021",
+    "grade": "가솔린 3.8 2WD 프레스티지",
+    "conflict_with_original": true,
+    "items": [
+      "가솔린 3.8 2WD 프레스티지(8인승)",
+      "가솔린 3.8 2WD 프레스티지(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2021",
+    "grade": "가솔린 3.8 2WD 캘리그래피",
+    "conflict_with_original": true,
+    "items": [
+      "가솔린 3.8 2WD 캘리그래피(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2021",
+    "grade": "가솔린 3.8 2WD VIP",
+    "conflict_with_original": true,
+    "items": [
+      "가솔린 3.8 2WD VIP(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2021",
+    "grade": "가솔린 3.8 4WD 익스클루시브",
+    "conflict_with_original": true,
+    "items": [
+      "가솔린 3.8 4WD 익스클루시브(8인승)",
+      "가솔린 3.8 4WD 익스클루시브(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2021",
+    "grade": "가솔린 3.8 4WD 프레스티지",
+    "conflict_with_original": true,
+    "items": [
+      "가솔린 3.8 4WD 프레스티지(8인승)",
+      "가솔린 3.8 4WD 프레스티지(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2021",
+    "grade": "가솔린 3.8 4WD 캘리그래피",
+    "conflict_with_original": true,
+    "items": [
+      "가솔린 3.8 4WD 캘리그래피(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2021",
+    "grade": "가솔린 3.8 4WD VIP",
+    "conflict_with_original": true,
+    "items": [
+      "가솔린 3.8 4WD VIP(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2021",
+    "grade": "디젤 2.2 2WD 익스클루시브",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 2WD 익스클루시브(8인승)",
+      "디젤 2.2 2WD 익스클루시브(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2021",
+    "grade": "디젤 2.2 2WD 프레스티지",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 2WD 프레스티지(8인승)",
+      "디젤 2.2 2WD 프레스티지(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2021",
+    "grade": "디젤 2.2 2WD 캘리그래피",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 2WD 캘리그래피(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2021",
+    "grade": "디젤 2.2 2WD VIP",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 2WD VIP(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2021",
+    "grade": "디젤 2.2 4WD 익스클루시브",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 4WD 익스클루시브(8인승)",
+      "디젤 2.2 4WD 익스클루시브(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2021",
+    "grade": "디젤 2.2 4WD 프레스티지",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 4WD 프레스티지(8인승)",
+      "디젤 2.2 4WD 프레스티지(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2021",
+    "grade": "디젤 2.2 4WD 캘리그래피",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 4WD 캘리그래피(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2021",
+    "grade": "디젤 2.2 4WD VIP",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 4WD VIP(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2020",
+    "grade": "가솔린 3.8 2WD 익스클루시브",
+    "conflict_with_original": true,
+    "items": [
+      "가솔린 3.8 2WD 익스클루시브(8인승)",
+      "가솔린 3.8 2WD 익스클루시브(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2020",
+    "grade": "가솔린 3.8 2WD 프레스티지",
+    "conflict_with_original": true,
+    "items": [
+      "가솔린 3.8 2WD 프레스티지(8인승)",
+      "가솔린 3.8 2WD 프레스티지(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2020",
+    "grade": "가솔린 3.8 2WD 캘리그래피",
+    "conflict_with_original": true,
+    "items": [
+      "가솔린 3.8 2WD 캘리그래피(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2020",
+    "grade": "가솔린 3.8 2WD VIP",
+    "conflict_with_original": true,
+    "items": [
+      "가솔린 3.8 2WD VIP(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2020",
+    "grade": "가솔린 3.8 4WD 익스클루시브",
+    "conflict_with_original": true,
+    "items": [
+      "가솔린 3.8 4WD 익스클루시브(8인승)",
+      "가솔린 3.8 4WD 익스클루시브(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2020",
+    "grade": "가솔린 3.8 4WD 프레스티지",
+    "conflict_with_original": true,
+    "items": [
+      "가솔린 3.8 4WD 프레스티지(8인승)",
+      "가솔린 3.8 4WD 프레스티지(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2020",
+    "grade": "가솔린 3.8 4WD 캘리그래피",
+    "conflict_with_original": true,
+    "items": [
+      "가솔린 3.8 4WD 캘리그래피(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2020",
+    "grade": "가솔린 3.8 4WD VIP",
+    "conflict_with_original": true,
+    "items": [
+      "가솔린 3.8 4WD VIP(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2020",
+    "grade": "디젤 2.2 2WD 익스클루시브",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 2WD 익스클루시브(8인승)",
+      "디젤 2.2 2WD 익스클루시브(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2020",
+    "grade": "디젤 2.2 2WD 프레스티지",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 2WD 프레스티지(8인승)",
+      "디젤 2.2 2WD 프레스티지(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2020",
+    "grade": "디젤 2.2 2WD 캘리그래피",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 2WD 캘리그래피(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2020",
+    "grade": "디젤 2.2 2WD VIP",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 2WD VIP(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2020",
+    "grade": "디젤 2.2 4WD 익스클루시브",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 4WD 익스클루시브(8인승)",
+      "디젤 2.2 4WD 익스클루시브(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2020",
+    "grade": "디젤 2.2 4WD 프레스티지",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 4WD 프레스티지(8인승)",
+      "디젤 2.2 4WD 프레스티지(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2020",
+    "grade": "디젤 2.2 4WD 캘리그래피",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 4WD 캘리그래피(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2020",
+    "grade": "디젤 2.2 4WD VIP",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 4WD VIP(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2019",
+    "grade": "가솔린 3.8 2WD 익스클루시브",
+    "conflict_with_original": true,
+    "items": [
+      "가솔린 3.8 2WD 익스클루시브(8인승)",
+      "가솔린 3.8 2WD 익스클루시브(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2019",
+    "grade": "가솔린 3.8 2WD 프레스티지",
+    "conflict_with_original": true,
+    "items": [
+      "가솔린 3.8 2WD 프레스티지(8인승)",
+      "가솔린 3.8 2WD 프레스티지(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2019",
+    "grade": "가솔린 3.8 4WD 익스클루시브",
+    "conflict_with_original": true,
+    "items": [
+      "가솔린 3.8 4WD 익스클루시브(8인승)",
+      "가솔린 3.8 4WD 익스클루시브(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2019",
+    "grade": "가솔린 3.8 4WD 프레스티지",
+    "conflict_with_original": true,
+    "items": [
+      "가솔린 3.8 4WD 프레스티지(8인승)",
+      "가솔린 3.8 4WD 프레스티지(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2019",
+    "grade": "디젤 2.2 2WD 익스클루시브",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 2WD 익스클루시브(8인승)",
+      "디젤 2.2 2WD 익스클루시브(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2019",
+    "grade": "디젤 2.2 2WD 프레스티지",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 2WD 프레스티지(8인승)",
+      "디젤 2.2 2WD 프레스티지(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2019",
+    "grade": "디젤 2.2 4WD 익스클루시브",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 4WD 익스클루시브(8인승)",
+      "디젤 2.2 4WD 익스클루시브(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2019",
+    "grade": "디젤 2.2 4WD 프레스티지",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 4WD 프레스티지(8인승)",
+      "디젤 2.2 4WD 프레스티지(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "grade": "HEV 1.6 2WD 프레스티지",
+    "conflict_with_original": true,
+    "items": [
+      "HEV 1.6 2WD 프레스티지(5인승)",
+      "HEV 1.6 2WD 프레스티지(6인승)",
+      "HEV 1.6 2WD 프레스티지(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "grade": "HEV 1.6 2WD 노블레스",
+    "conflict_with_original": true,
+    "items": [
+      "HEV 1.6 2WD 노블레스(5인승)",
+      "HEV 1.6 2WD 노블레스(6인승)",
+      "HEV 1.6 2WD 노블레스(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "grade": "HEV 1.6 2WD 시그니처",
+    "conflict_with_original": true,
+    "items": [
+      "HEV 1.6 2WD 시그니처(5인승)",
+      "HEV 1.6 2WD 시그니처(6인승)",
+      "HEV 1.6 2WD 시그니처(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "grade": "HEV 1.6 2WD 그래비티",
+    "conflict_with_original": true,
+    "items": [
+      "HEV 1.6 2WD 그래비티(5인승)",
+      "HEV 1.6 2WD 그래비티(6인승)",
+      "HEV 1.6 2WD 그래비티(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "grade": "HEV 1.6 4WD 프레스티지",
+    "conflict_with_original": true,
+    "items": [
+      "HEV 1.6 4WD 프레스티지(5인승)",
+      "HEV 1.6 4WD 프레스티지(6인승)",
+      "HEV 1.6 4WD 프레스티지(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "grade": "HEV 1.6 4WD 노블레스",
+    "conflict_with_original": true,
+    "items": [
+      "HEV 1.6 4WD 노블레스(5인승)",
+      "HEV 1.6 4WD 노블레스(6인승)",
+      "HEV 1.6 4WD 노블레스(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "grade": "HEV 1.6 4WD 시그니처",
+    "conflict_with_original": true,
+    "items": [
+      "HEV 1.6 4WD 시그니처(5인승)",
+      "HEV 1.6 4WD 시그니처(6인승)",
+      "HEV 1.6 4WD 시그니처(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "grade": "HEV 1.6 4WD 그래비티",
+    "conflict_with_original": true,
+    "items": [
+      "HEV 1.6 4WD 그래비티(5인승)",
+      "HEV 1.6 4WD 그래비티(6인승)",
+      "HEV 1.6 4WD 그래비티(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "grade": "디젤 2.2 2WD 트렌디",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 2WD 트렌디(5인승)",
+      "디젤 2.2 2WD 트렌디(6인승)",
+      "디젤 2.2 2WD 트렌디(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "grade": "디젤 2.2 2WD 프레스티지",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 2WD 프레스티지(5인승)",
+      "디젤 2.2 2WD 프레스티지(6인승)",
+      "디젤 2.2 2WD 프레스티지(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "grade": "디젤 2.2 2WD 노블레스",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 2WD 노블레스(5인승)",
+      "디젤 2.2 2WD 노블레스(6인승)",
+      "디젤 2.2 2WD 노블레스(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "grade": "디젤 2.2 2WD 시그니처",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 2WD 시그니처(5인승)",
+      "디젤 2.2 2WD 시그니처(6인승)",
+      "디젤 2.2 2WD 시그니처(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "grade": "디젤 2.2 2WD 그래비티",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 2WD 그래비티(5인승)",
+      "디젤 2.2 2WD 그래비티(6인승)",
+      "디젤 2.2 2WD 그래비티(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "grade": "디젤 2.2 4WD 트렌디",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 4WD 트렌디(5인승)",
+      "디젤 2.2 4WD 트렌디(6인승)",
+      "디젤 2.2 4WD 트렌디(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "grade": "디젤 2.2 4WD 프레스티지",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 4WD 프레스티지(5인승)",
+      "디젤 2.2 4WD 프레스티지(6인승)",
+      "디젤 2.2 4WD 프레스티지(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "grade": "디젤 2.2 4WD 노블레스",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 4WD 노블레스(5인승)",
+      "디젤 2.2 4WD 노블레스(6인승)",
+      "디젤 2.2 4WD 노블레스(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "grade": "디젤 2.2 4WD 시그니처",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 4WD 시그니처(5인승)",
+      "디젤 2.2 4WD 시그니처(6인승)",
+      "디젤 2.2 4WD 시그니처(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "grade": "디젤 2.2 4WD 그래비티",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 4WD 그래비티(5인승)",
+      "디젤 2.2 4WD 그래비티(6인승)",
+      "디젤 2.2 4WD 그래비티(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "grade": "HEV 1.6 2WD 프레스티지",
+    "conflict_with_original": true,
+    "items": [
+      "HEV 1.6 2WD 프레스티지(5인승)",
+      "HEV 1.6 2WD 프레스티지(6인승)",
+      "HEV 1.6 2WD 프레스티지(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "grade": "HEV 1.6 2WD 노블레스",
+    "conflict_with_original": true,
+    "items": [
+      "HEV 1.6 2WD 노블레스(5인승)",
+      "HEV 1.6 2WD 노블레스(6인승)",
+      "HEV 1.6 2WD 노블레스(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "grade": "HEV 1.6 2WD 시그니처",
+    "conflict_with_original": true,
+    "items": [
+      "HEV 1.6 2WD 시그니처(5인승)",
+      "HEV 1.6 2WD 시그니처(6인승)",
+      "HEV 1.6 2WD 시그니처(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "grade": "HEV 1.6 2WD 그래비티",
+    "conflict_with_original": true,
+    "items": [
+      "HEV 1.6 2WD 그래비티(5인승)",
+      "HEV 1.6 2WD 그래비티(6인승)",
+      "HEV 1.6 2WD 그래비티(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "grade": "HEV 1.6 4WD 프레스티지",
+    "conflict_with_original": true,
+    "items": [
+      "HEV 1.6 4WD 프레스티지(5인승)",
+      "HEV 1.6 4WD 프레스티지(6인승)",
+      "HEV 1.6 4WD 프레스티지(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "grade": "HEV 1.6 4WD 노블레스",
+    "conflict_with_original": true,
+    "items": [
+      "HEV 1.6 4WD 노블레스(5인승)",
+      "HEV 1.6 4WD 노블레스(6인승)",
+      "HEV 1.6 4WD 노블레스(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "grade": "HEV 1.6 4WD 시그니처",
+    "conflict_with_original": true,
+    "items": [
+      "HEV 1.6 4WD 시그니처(5인승)",
+      "HEV 1.6 4WD 시그니처(6인승)",
+      "HEV 1.6 4WD 시그니처(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "grade": "HEV 1.6 4WD 그래비티",
+    "conflict_with_original": true,
+    "items": [
+      "HEV 1.6 4WD 그래비티(5인승)",
+      "HEV 1.6 4WD 그래비티(6인승)",
+      "HEV 1.6 4WD 그래비티(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "grade": "디젤 2.2 2WD 트렌디",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 2WD 트렌디(5인승)",
+      "디젤 2.2 2WD 트렌디(6인승)",
+      "디젤 2.2 2WD 트렌디(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "grade": "디젤 2.2 2WD 프레스티지",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 2WD 프레스티지(5인승)",
+      "디젤 2.2 2WD 프레스티지(6인승)",
+      "디젤 2.2 2WD 프레스티지(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "grade": "디젤 2.2 2WD 노블레스",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 2WD 노블레스(5인승)",
+      "디젤 2.2 2WD 노블레스(6인승)",
+      "디젤 2.2 2WD 노블레스(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "grade": "디젤 2.2 2WD 시그니처",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 2WD 시그니처(5인승)",
+      "디젤 2.2 2WD 시그니처(6인승)",
+      "디젤 2.2 2WD 시그니처(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "grade": "디젤 2.2 2WD 그래비티",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 2WD 그래비티(5인승)",
+      "디젤 2.2 2WD 그래비티(6인승)",
+      "디젤 2.2 2WD 그래비티(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "grade": "디젤 2.2 4WD 트렌디",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 4WD 트렌디(5인승)",
+      "디젤 2.2 4WD 트렌디(6인승)",
+      "디젤 2.2 4WD 트렌디(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "grade": "디젤 2.2 4WD 프레스티지",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 4WD 프레스티지(5인승)",
+      "디젤 2.2 4WD 프레스티지(6인승)",
+      "디젤 2.2 4WD 프레스티지(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "grade": "디젤 2.2 4WD 노블레스",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 4WD 노블레스(5인승)",
+      "디젤 2.2 4WD 노블레스(6인승)",
+      "디젤 2.2 4WD 노블레스(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "grade": "디젤 2.2 4WD 시그니처",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 4WD 시그니처(5인승)",
+      "디젤 2.2 4WD 시그니처(6인승)",
+      "디젤 2.2 4WD 시그니처(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "grade": "디젤 2.2 4WD 그래비티",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 4WD 그래비티(5인승)",
+      "디젤 2.2 4WD 그래비티(6인승)",
+      "디젤 2.2 4WD 그래비티(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2020",
+    "grade": "디젤 2.2 2WD 트렌디",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 2WD 트렌디(5인승)",
+      "디젤 2.2 2WD 트렌디(6인승)",
+      "디젤 2.2 2WD 트렌디(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2020",
+    "grade": "디젤 2.2 2WD 프레스티지",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 2WD 프레스티지(5인승)",
+      "디젤 2.2 2WD 프레스티지(6인승)",
+      "디젤 2.2 2WD 프레스티지(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2020",
+    "grade": "디젤 2.2 2WD 노블레스",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 2WD 노블레스(5인승)",
+      "디젤 2.2 2WD 노블레스(6인승)",
+      "디젤 2.2 2WD 노블레스(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2020",
+    "grade": "디젤 2.2 2WD 시그니처",
+    "conflict_with_original": true,
+    "items": [
+      "디젤 2.2 2WD 시그니처(5인승)",
+      "디젤 2.2 2WD 시그니처(6인승)",
+      "디젤 2.2 2WD 시그니처(7인승)"
+    ],
+    "reason": "인승 표기 제거 시 기존 비인승 등급명과 충돌하여 개별 보존함"
+  }
+]

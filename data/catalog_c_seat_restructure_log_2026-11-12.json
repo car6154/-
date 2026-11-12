@@ -1,0 +1,8296 @@
+[
+  {
+    "model": "더 뉴 맥스크루즈",
+    "year": "2018",
+    "new_grade": "디젤 2.2 2WD 익스클루시브",
+    "merged_seats": [
+      6,
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 맥스크루즈",
+    "year": "2018",
+    "new_grade": "디젤 2.2 2WD 익스클루시브스페셜",
+    "merged_seats": [
+      6,
+      7
+    ],
+    "seat_options": {
+      "7인승": 180000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 맥스크루즈",
+    "year": "2018",
+    "new_grade": "디젤 2.2 2WD 프레스티지",
+    "merged_seats": [
+      6,
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 맥스크루즈",
+    "year": "2018",
+    "new_grade": "디젤 2.2 2WD 파이니스트에디션",
+    "merged_seats": [
+      6,
+      7
+    ],
+    "seat_options": {
+      "7인승": 200000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 맥스크루즈",
+    "year": "2018",
+    "new_grade": "디젤 2.2 4WD 익스클루시브",
+    "merged_seats": [
+      6,
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 맥스크루즈",
+    "year": "2018",
+    "new_grade": "디젤 2.2 4WD 익스클루시브스페셜",
+    "merged_seats": [
+      6,
+      7
+    ],
+    "seat_options": {
+      "7인승": 200000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 맥스크루즈",
+    "year": "2018",
+    "new_grade": "디젤 2.2 4WD 프레스티지",
+    "merged_seats": [
+      6,
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 맥스크루즈",
+    "year": "2018",
+    "new_grade": "디젤 2.2 4WD 파이니스트에디션",
+    "merged_seats": [
+      6,
+      7
+    ],
+    "seat_options": {
+      "7인승": 200000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 맥스크루즈",
+    "year": "2018",
+    "new_grade": "가솔린 3.3 2WD 익스클루시브",
+    "merged_seats": [
+      6,
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 맥스크루즈",
+    "year": "2018",
+    "new_grade": "가솔린 3.3 2WD 익스클루시브스페셜",
+    "merged_seats": [
+      6,
+      7
+    ],
+    "seat_options": {
+      "7인승": 200000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 맥스크루즈",
+    "year": "2018",
+    "new_grade": "가솔린 3.3 2WD 파이니스트에디션",
+    "merged_seats": [
+      6,
+      7
+    ],
+    "seat_options": {
+      "7인승": 200000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 맥스크루즈",
+    "year": "2018",
+    "new_grade": "가솔린 3.3 4WD 익스클루시브",
+    "merged_seats": [
+      6,
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 맥스크루즈",
+    "year": "2018",
+    "new_grade": "가솔린 3.3 4WD 익스클루시브스페셜",
+    "merged_seats": [
+      6,
+      7
+    ],
+    "seat_options": {
+      "7인승": 200000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 맥스크루즈",
+    "year": "2018",
+    "new_grade": "가솔린 3.3 4WD 파이니스트에디션",
+    "merged_seats": [
+      6,
+      7
+    ],
+    "seat_options": {
+      "7인승": 200000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 맥스크루즈",
+    "year": "2017",
+    "new_grade": "디젤 2.2 2WD 익스클루시브",
+    "merged_seats": [
+      6,
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 13
+  },
+  {
+    "model": "더 뉴 맥스크루즈",
+    "year": "2017",
+    "new_grade": "디젤 2.2 2WD 프레스티지",
+    "merged_seats": [
+      6,
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 13
+  },
+  {
+    "model": "더 뉴 맥스크루즈",
+    "year": "2017",
+    "new_grade": "디젤 2.2 2WD 파이니스트에디션",
+    "merged_seats": [
+      6,
+      7
+    ],
+    "seat_options": {
+      "7인승": 200000
+    },
+    "accessories_count": 13
+  },
+  {
+    "model": "더 뉴 맥스크루즈",
+    "year": "2017",
+    "new_grade": "디젤 2.2 4WD 익스클루시브",
+    "merged_seats": [
+      6,
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 13
+  },
+  {
+    "model": "더 뉴 맥스크루즈",
+    "year": "2017",
+    "new_grade": "디젤 2.2 4WD 프레스티지",
+    "merged_seats": [
+      6,
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 13
+  },
+  {
+    "model": "더 뉴 맥스크루즈",
+    "year": "2017",
+    "new_grade": "디젤 2.2 4WD 파이니스트에디션",
+    "merged_seats": [
+      6,
+      7
+    ],
+    "seat_options": {
+      "7인승": 200000
+    },
+    "accessories_count": 13
+  },
+  {
+    "model": "더 뉴 맥스크루즈",
+    "year": "2017",
+    "new_grade": "가솔린 3.3 2WD 익스클루시브",
+    "merged_seats": [
+      6,
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 13
+  },
+  {
+    "model": "더 뉴 맥스크루즈",
+    "year": "2017",
+    "new_grade": "가솔린 3.3 2WD 파이니스트에디션",
+    "merged_seats": [
+      6,
+      7
+    ],
+    "seat_options": {
+      "7인승": 200000
+    },
+    "accessories_count": 13
+  },
+  {
+    "model": "더 뉴 맥스크루즈",
+    "year": "2017",
+    "new_grade": "가솔린 3.3 4WD 익스클루시브",
+    "merged_seats": [
+      6,
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 13
+  },
+  {
+    "model": "더 뉴 맥스크루즈",
+    "year": "2017",
+    "new_grade": "가솔린 3.3 4WD 파이니스트에디션",
+    "merged_seats": [
+      6,
+      7
+    ],
+    "seat_options": {
+      "7인승": 200000
+    },
+    "accessories_count": 13
+  },
+  {
+    "model": "맥스크루즈",
+    "year": "2015",
+    "new_grade": "디젤 2.2 2WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 9
+  },
+  {
+    "model": "맥스크루즈",
+    "year": "2015",
+    "new_grade": "디젤 2.2 2WD Special",
+    "merged_seats": [
+      6,
+      7
+    ],
+    "seat_options": {
+      "7인승": 200000
+    },
+    "accessories_count": 9
+  },
+  {
+    "model": "맥스크루즈",
+    "year": "2015",
+    "new_grade": "디젤 2.2 4WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 9
+  },
+  {
+    "model": "맥스크루즈",
+    "year": "2015",
+    "new_grade": "디젤 2.2 4WD Special",
+    "merged_seats": [
+      6,
+      7
+    ],
+    "seat_options": {
+      "7인승": 200000
+    },
+    "accessories_count": 9
+  },
+  {
+    "model": "맥스크루즈",
+    "year": "2015",
+    "new_grade": "가솔린 3.3 2WD Special",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 9
+  },
+  {
+    "model": "맥스크루즈",
+    "year": "2015",
+    "new_grade": "가솔린 3.3 4WD Special",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 9
+  },
+  {
+    "model": "맥스크루즈",
+    "year": "2014",
+    "new_grade": "디젤 2.2 2WD Special",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 4
+  },
+  {
+    "model": "맥스크루즈",
+    "year": "2014",
+    "new_grade": "디젤 2.2 4WD Special",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 4
+  },
+  {
+    "model": "맥스크루즈",
+    "year": "2013",
+    "new_grade": "디젤 2.2 2WD Special",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "맥스크루즈",
+    "year": "2013",
+    "new_grade": "디젤 2.2 4WD Special",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2020",
+    "new_grade": "디젤 2.5 2WD 익스클루시브듀얼선루프",
+    "merged_seats": [
+      6,
+      9
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2020",
+    "new_grade": "디젤 2.5 4WD 익스클루시브듀얼선루프",
+    "merged_seats": [
+      6,
+      9
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2020",
+    "new_grade": "디젤 2.5 2WD 구급차",
+    "merged_seats": [
+      5
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2020",
+    "new_grade": "디젤 2.5 2WD 특수구급차",
+    "merged_seats": [
+      5,
+      6
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2020",
+    "new_grade": "디젤 2.5 4WD 특수구급차",
+    "merged_seats": [
+      5,
+      6
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2020",
+    "new_grade": "디젤 2.5 2WD 소방형특수구급차",
+    "merged_seats": [
+      5,
+      6
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2020",
+    "new_grade": "디젤 2.5 4WD 소방형특수구급차",
+    "merged_seats": [
+      5,
+      6
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2020",
+    "new_grade": "디젤 2.5 2WD 휠체어슬로프",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2020",
+    "new_grade": "디젤 2.5 2WD 휠체어리프트",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2020",
+    "new_grade": "디젤 2.5 4WD 휠체어리프트",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2020",
+    "new_grade": "디젤 2.5 2WD 하이루프",
+    "merged_seats": [
+      12
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2020",
+    "new_grade": "디젤 2.5 2WD 캠핑카(개별소비세인하)",
+    "merged_seats": [
+      4
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2020",
+    "new_grade": "디젤 2.5 4WD 캠핑카(개별소비세인하)",
+    "merged_seats": [
+      4
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2020",
+    "new_grade": "디젤 2.5 2WD 3밴냉동",
+    "merged_seats": [
+      3
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2020",
+    "new_grade": "디젤 2.5 2WD 어린이보호차",
+    "merged_seats": [
+      12
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2020",
+    "new_grade": "디젤 2.5 4WD 어린이보호차",
+    "merged_seats": [
+      12
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2020",
+    "new_grade": "디젤 2.5 2WD 어린이버스",
+    "merged_seats": [
+      15
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2020",
+    "new_grade": "디젤 2.5 4WD 어린이버스",
+    "merged_seats": [
+      15
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2020",
+    "new_grade": "lpg 2.4 2WD 어린이보호차",
+    "merged_seats": [
+      12
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2020",
+    "new_grade": "lpg 2.4 2WD 어린이버스",
+    "merged_seats": [
+      15
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2018",
+    "new_grade": "디젤 2.5 2WD 익스클루시브듀얼선루프",
+    "merged_seats": [
+      6,
+      9
+    ],
+    "seat_options": {},
+    "accessories_count": 15
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2018",
+    "new_grade": "lpg 2.4 2WD 왜건스마트",
+    "merged_seats": [
+      12
+    ],
+    "seat_options": {},
+    "accessories_count": 15
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2018",
+    "new_grade": "lpg 2.4 2WD 밴스마트",
+    "merged_seats": [
+      3,
+      5
+    ],
+    "seat_options": {},
+    "accessories_count": 15
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2018",
+    "new_grade": "lpg 2.4 2WD 스마트",
+    "merged_seats": [
+      12
+    ],
+    "seat_options": {},
+    "accessories_count": 15
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2018",
+    "new_grade": "디젤 2.5 2WD 구급차",
+    "merged_seats": [
+      5
+    ],
+    "seat_options": {},
+    "accessories_count": 15
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2018",
+    "new_grade": "디젤 2.5 2WD 특수구급차",
+    "merged_seats": [
+      5,
+      6
+    ],
+    "seat_options": {},
+    "accessories_count": 15
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2018",
+    "new_grade": "디젤 2.5 4WD 특수구급차",
+    "merged_seats": [
+      5,
+      6
+    ],
+    "seat_options": {},
+    "accessories_count": 15
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2018",
+    "new_grade": "디젤 2.5 2WD 소방형특수구급차",
+    "merged_seats": [
+      5,
+      6
+    ],
+    "seat_options": {},
+    "accessories_count": 15
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2018",
+    "new_grade": "디젤 2.5 4WD 소방형특수구급차",
+    "merged_seats": [
+      5,
+      6
+    ],
+    "seat_options": {},
+    "accessories_count": 15
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2018",
+    "new_grade": "디젤 2.5 2WD 휠체어슬로프",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 15
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2018",
+    "new_grade": "디젤 2.5 2WD 휠체어리프트",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 15
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2018",
+    "new_grade": "디젤 2.5 4WD 휠체어리프트",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 15
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2018",
+    "new_grade": "디젤 2.5 2WD 하이루프",
+    "merged_seats": [
+      12
+    ],
+    "seat_options": {},
+    "accessories_count": 15
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2018",
+    "new_grade": "디젤 2.5 2WD 캠핑카(개별소비세인하)",
+    "merged_seats": [
+      4
+    ],
+    "seat_options": {},
+    "accessories_count": 15
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2018",
+    "new_grade": "디젤 2.5 4WD 캠핑카(개별소비세인하)",
+    "merged_seats": [
+      4
+    ],
+    "seat_options": {},
+    "accessories_count": 15
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2018",
+    "new_grade": "디젤 2.5 2WD 어린이보호차",
+    "merged_seats": [
+      12
+    ],
+    "seat_options": {},
+    "accessories_count": 15
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2018",
+    "new_grade": "디젤 2.5 4WD 어린이보호차",
+    "merged_seats": [
+      12
+    ],
+    "seat_options": {},
+    "accessories_count": 15
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2018",
+    "new_grade": "디젤 2.5 2WD 어린이버스",
+    "merged_seats": [
+      15
+    ],
+    "seat_options": {},
+    "accessories_count": 15
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2018",
+    "new_grade": "디젤 2.5 4WD 어린이버스",
+    "merged_seats": [
+      15
+    ],
+    "seat_options": {},
+    "accessories_count": 15
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2018",
+    "new_grade": "디젤 2.5 2WD 3밴냉동",
+    "merged_seats": [
+      3
+    ],
+    "seat_options": {},
+    "accessories_count": 15
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2018",
+    "new_grade": "lpg 2.4 2WD 어린이보호차",
+    "merged_seats": [
+      12
+    ],
+    "seat_options": {},
+    "accessories_count": 15
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2018",
+    "new_grade": "lpg 2.4 2WD 어린이버스",
+    "merged_seats": [
+      15
+    ],
+    "seat_options": {},
+    "accessories_count": 15
+  },
+  {
+    "model": "그랜드 스타렉스",
+    "year": "2017",
+    "new_grade": "디젤 2.5 2WD 구급차",
+    "merged_seats": [
+      5
+    ],
+    "seat_options": {},
+    "accessories_count": 16
+  },
+  {
+    "model": "그랜드 스타렉스",
+    "year": "2017",
+    "new_grade": "디젤 2.5 2WD 특수구급차",
+    "merged_seats": [
+      5,
+      6
+    ],
+    "seat_options": {},
+    "accessories_count": 16
+  },
+  {
+    "model": "그랜드 스타렉스",
+    "year": "2017",
+    "new_grade": "디젤 2.5 2WD 소방형특수구급차",
+    "merged_seats": [
+      5,
+      6
+    ],
+    "seat_options": {},
+    "accessories_count": 16
+  },
+  {
+    "model": "그랜드 스타렉스",
+    "year": "2017",
+    "new_grade": "디젤 2.5 2WD 캠핑카",
+    "merged_seats": [
+      4
+    ],
+    "seat_options": {},
+    "accessories_count": 16
+  },
+  {
+    "model": "그랜드 스타렉스",
+    "year": "2017",
+    "new_grade": "디젤 2.5 2WD 휠체어슬로프",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 16
+  },
+  {
+    "model": "그랜드 스타렉스",
+    "year": "2017",
+    "new_grade": "디젤 2.5 2WD 휠체어리프트",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 16
+  },
+  {
+    "model": "그랜드 스타렉스",
+    "year": "2017",
+    "new_grade": "디젤 2.5 2WD 하이루프",
+    "merged_seats": [
+      12
+    ],
+    "seat_options": {},
+    "accessories_count": 16
+  },
+  {
+    "model": "그랜드 스타렉스",
+    "year": "2017",
+    "new_grade": "디젤 2.5 2WD 리무진",
+    "merged_seats": [
+      11
+    ],
+    "seat_options": {},
+    "accessories_count": 16
+  },
+  {
+    "model": "그랜드 스타렉스",
+    "year": "2017",
+    "new_grade": "디젤 2.5 2WD 어린이보호차",
+    "merged_seats": [
+      12
+    ],
+    "seat_options": {},
+    "accessories_count": 16
+  },
+  {
+    "model": "그랜드 스타렉스",
+    "year": "2017",
+    "new_grade": "디젤 2.5 2WD 어린이버스",
+    "merged_seats": [
+      15
+    ],
+    "seat_options": {},
+    "accessories_count": 16
+  },
+  {
+    "model": "그랜드 스타렉스",
+    "year": "2017",
+    "new_grade": "lpg 2.5 2WD 어린이보호차(LPi)",
+    "merged_seats": [
+      12
+    ],
+    "seat_options": {},
+    "accessories_count": 16
+  },
+  {
+    "model": "그랜드 스타렉스",
+    "year": "2017",
+    "new_grade": "lpg 2.5 2WD 어린이버스(LPi)",
+    "merged_seats": [
+      15
+    ],
+    "seat_options": {},
+    "accessories_count": 16
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2026",
+    "new_grade": "HEV 1.6 2WD 익스클루시브",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 2040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2026",
+    "new_grade": "HEV 1.6 2WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2026",
+    "new_grade": "HEV 1.6 2WD H-Pick",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2026",
+    "new_grade": "HEV 1.6 2WD 블랙익스테리어",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2026",
+    "new_grade": "HEV 1.6 2WD 캘리그래피",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2026",
+    "new_grade": "HEV 1.6 2WD 블랙잉크",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2026",
+    "new_grade": "HEV 1.6 4WD 익스클루시브",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2026",
+    "new_grade": "HEV 1.6 4WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2026",
+    "new_grade": "HEV 1.6 4WD H-Pick",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2026",
+    "new_grade": "HEV 1.6 4WD 블랙익스테리어",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2026",
+    "new_grade": "HEV 1.6 4WD 캘리그래피",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2026",
+    "new_grade": "HEV 1.6 4WD 블랙잉크",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2026",
+    "new_grade": "가솔린 2.5T 2WD 익스클루시브",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2026",
+    "new_grade": "가솔린 2.5T 2WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2026",
+    "new_grade": "가솔린 2.5T 2WD H-Pick",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2026",
+    "new_grade": "가솔린 2.5T 2WD 블랙익스테리어",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2026",
+    "new_grade": "가솔린 2.5T 2WD 캘리그래피",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2026",
+    "new_grade": "가솔린 2.5T 2WD 블랙잉크",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2026",
+    "new_grade": "가솔린 2.5T 4WD 익스클루시브",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2026",
+    "new_grade": "가솔린 2.5T 4WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2026",
+    "new_grade": "가솔린 2.5T 4WD H-Pick",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2026",
+    "new_grade": "가솔린 2.5T 4WD 블랙익스테리어",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2026",
+    "new_grade": "가솔린 2.5T 4WD 캘리그래피",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2026",
+    "new_grade": "가솔린 2.5T 4WD 블랙잉크",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2025",
+    "new_grade": "HEV 1.6 2WD 익스클루시브",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 2650000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2025",
+    "new_grade": "HEV 1.6 2WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2025",
+    "new_grade": "HEV 1.6 2WD 프레스티지플러스",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2025",
+    "new_grade": "HEV 1.6 2WD 캘리그래피",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2025",
+    "new_grade": "HEV 1.6 2WD 캘리그래피블랙잉크",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2025",
+    "new_grade": "HEV 1.6 4WD 익스클루시브",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1690000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2025",
+    "new_grade": "HEV 1.6 4WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2025",
+    "new_grade": "HEV 1.6 4WD 프레스티지플러스",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2025",
+    "new_grade": "HEV 1.6 4WD 캘리그래피",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2025",
+    "new_grade": "HEV 1.6 4WD 캘리그래피블랙잉크",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2025",
+    "new_grade": "가솔린 2.5T 2WD 익스클루시브",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1580000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2025",
+    "new_grade": "가솔린 2.5T 2WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2025",
+    "new_grade": "가솔린 2.5T 2WD 프레스티지플러스",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2025",
+    "new_grade": "가솔린 2.5T 2WD 캘리그래피",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2025",
+    "new_grade": "가솔린 2.5T 2WD 캘리그래피블랙잉크",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2025",
+    "new_grade": "가솔린 2.5T 4WD 익스클루시브",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1580000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2025",
+    "new_grade": "가솔린 2.5T 4WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2025",
+    "new_grade": "가솔린 2.5T 4WD 프레스티지플러스",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2025",
+    "new_grade": "가솔린 2.5T 4WD 캘리그래피",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2025",
+    "new_grade": "가솔린 2.5T 4WD 캘리그래피블랙잉크",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2024",
+    "new_grade": "HEV 1.6 2WD 익스클루시브",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 2470000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2024",
+    "new_grade": "HEV 1.6 2WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2024",
+    "new_grade": "HEV 1.6 2WD 캘리그래피",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2024",
+    "new_grade": "HEV 1.6 4WD 익스클루시브",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2024",
+    "new_grade": "HEV 1.6 4WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2024",
+    "new_grade": "HEV 1.6 4WD 캘리그래피",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2024",
+    "new_grade": "가솔린 2.5T 2WD 익스클루시브",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2024",
+    "new_grade": "가솔린 2.5T 2WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2024",
+    "new_grade": "가솔린 2.5T 2WD 캘리그래피",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2024",
+    "new_grade": "가솔린 2.5T 4WD 익스클루시브",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2024",
+    "new_grade": "가솔린 2.5T 4WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2024",
+    "new_grade": "가솔린 2.5T 4WD 캘리그래피",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2012",
+    "new_grade": "디젤 2.0 2WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2013",
+    "new_grade": "디젤 2.0 2WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2014",
+    "new_grade": "디젤 2.0 2WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2014",
+    "new_grade": "디젤 2.0 2WD Special",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2014",
+    "new_grade": "디젤 2.0 4WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2014",
+    "new_grade": "디젤 2.0 4WD Special",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2015",
+    "new_grade": "디젤 2.0 2WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2015",
+    "new_grade": "디젤 2.0 2WD Special",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2015",
+    "new_grade": "디젤 2.0 4WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2015",
+    "new_grade": "디젤 2.0 4WD Special",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2015",
+    "new_grade": "디젤 2.2 2WD (M/T)",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2015",
+    "new_grade": "디젤 2.2 2WD",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 2790000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2015",
+    "new_grade": "디젤 2.2 2WD Special",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 660000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2015",
+    "new_grade": "디젤 2.2 4WD (M/T)",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2015",
+    "new_grade": "디젤 2.2 4WD",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 2790000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2015",
+    "new_grade": "디젤 2.2 4WD Special",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 660000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2018",
+    "new_grade": "디젤 2.0 2WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2018",
+    "new_grade": "디젤 2.0 4WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2018",
+    "new_grade": "디젤 2.2 2WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2018",
+    "new_grade": "디젤 2.2 4WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2018",
+    "new_grade": "가솔린 2.0 2WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2018",
+    "new_grade": "가솔린 2.0 4WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2019",
+    "new_grade": "디젤 2.0 2WD 프리미엄",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 640000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2019",
+    "new_grade": "디젤 2.0 2WD 익스클루시브",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 640000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2019",
+    "new_grade": "디젤 2.0 2WD 프레스티지",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 640000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2019",
+    "new_grade": "디젤 2.0 2WD 인스퍼레이션",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 640000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2019",
+    "new_grade": "디젤 2.0 4WD 프리미엄",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 640000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2019",
+    "new_grade": "디젤 2.0 4WD 익스클루시브",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 640000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2019",
+    "new_grade": "디젤 2.0 4WD 프레스티지",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 640000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2019",
+    "new_grade": "디젤 2.0 4WD 인스퍼레이션",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 640000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2019",
+    "new_grade": "디젤 2.2 2WD 프리미엄",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 640000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2019",
+    "new_grade": "디젤 2.2 2WD 익스클루시브",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 640000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2019",
+    "new_grade": "디젤 2.2 2WD 프레스티지",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 640000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2019",
+    "new_grade": "디젤 2.2 2WD 인스퍼레이션",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 640000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2019",
+    "new_grade": "디젤 2.2 4WD 프리미엄",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 640000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2019",
+    "new_grade": "디젤 2.2 4WD 익스클루시브",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 640000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2019",
+    "new_grade": "디젤 2.2 4WD 프레스티지",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 640000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2019",
+    "new_grade": "디젤 2.2 4WD 인스퍼레이션",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 640000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2019",
+    "new_grade": "가솔린 2.0 2WD 프리미엄",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 640000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2019",
+    "new_grade": "가솔린 2.0 2WD 익스클루시브",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 640000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2019",
+    "new_grade": "가솔린 2.0 2WD 프레스티지",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 640000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2019",
+    "new_grade": "가솔린 2.0 2WD 인스퍼레이션",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 640000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2019",
+    "new_grade": "가솔린 2.0 4WD 프리미엄",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 640000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2019",
+    "new_grade": "가솔린 2.0 4WD 익스클루시브",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 640000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2019",
+    "new_grade": "가솔린 2.0 4WD 프레스티지",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 640000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 (MX5)",
+    "year": "2019",
+    "new_grade": "가솔린 2.0 4WD 인스퍼레이션",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 640000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2023",
+    "new_grade": "HEV 1.6 2WD 익스클루시브",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2023",
+    "new_grade": "HEV 1.6 2WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2023",
+    "new_grade": "HEV 1.6 2WD 프레스티지초이스",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2023",
+    "new_grade": "HEV 1.6 2WD 캘리그래피",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 740000,
+      "7인승": 640000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2023",
+    "new_grade": "HEV 1.6 4WD 익스클루시브",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2023",
+    "new_grade": "HEV 1.6 4WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2023",
+    "new_grade": "HEV 1.6 4WD 프레스티지초이스",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2023",
+    "new_grade": "HEV 1.6 4WD 캘리그래피",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 740000,
+      "7인승": 640000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2023",
+    "new_grade": "가솔린 2.5T 2WD 익스클루시브",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2023",
+    "new_grade": "가솔린 2.5T 2WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2023",
+    "new_grade": "가솔린 2.5T 2WD 프레스티지초이스",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2023",
+    "new_grade": "가솔린 2.5T 2WD 캘리그래피",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 740000,
+      "7인승": 640000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2023",
+    "new_grade": "가솔린 2.5T 4WD 익스클루시브",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2023",
+    "new_grade": "가솔린 2.5T 4WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2023",
+    "new_grade": "가솔린 2.5T 4WD 프레스티지초이스",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2023",
+    "new_grade": "가솔린 2.5T 4WD 캘리그래피",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 740000,
+      "7인승": 640000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2023",
+    "new_grade": "디젤 2.2 2WD 익스클루시브",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2023",
+    "new_grade": "디젤 2.2 2WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2023",
+    "new_grade": "디젤 2.2 2WD 프레스티지초이스",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2023",
+    "new_grade": "디젤 2.2 2WD 캘리그래피",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 740000,
+      "7인승": 640000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2023",
+    "new_grade": "디젤 2.2 4WD 익스클루시브",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2023",
+    "new_grade": "디젤 2.2 4WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2023",
+    "new_grade": "디젤 2.2 4WD 프레스티지초이스",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2023",
+    "new_grade": "디젤 2.2 4WD 캘리그래피",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 740000,
+      "7인승": 640000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2022",
+    "new_grade": "HEV 1.6 2WD 익스클루시브",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2022",
+    "new_grade": "HEV 1.6 2WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2022",
+    "new_grade": "HEV 1.6 2WD 캘리그래피",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 750000,
+      "7인승": 650000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2022",
+    "new_grade": "HEV 1.6 4WD 익스클루시브",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2022",
+    "new_grade": "HEV 1.6 4WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2022",
+    "new_grade": "HEV 1.6 4WD 캘리그래피",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 750000,
+      "7인승": 650000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2022",
+    "new_grade": "가솔린 2.5T 2WD 익스클루시브",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2022",
+    "new_grade": "가솔린 2.5T 2WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2022",
+    "new_grade": "가솔린 2.5T 2WD 캘리그래피",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 750000,
+      "7인승": 650000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2022",
+    "new_grade": "가솔린 2.5T 4WD 익스클루시브",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2022",
+    "new_grade": "가솔린 2.5T 4WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2022",
+    "new_grade": "가솔린 2.5T 4WD 캘리그래피",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 750000,
+      "7인승": 650000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2022",
+    "new_grade": "디젤 2.2 2WD 익스클루시브",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2022",
+    "new_grade": "디젤 2.2 2WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2022",
+    "new_grade": "디젤 2.2 2WD 캘리그래피",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 750000,
+      "7인승": 650000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2022",
+    "new_grade": "디젤 2.2 4WD 익스클루시브",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2022",
+    "new_grade": "디젤 2.2 4WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2022",
+    "new_grade": "디젤 2.2 4WD 캘리그래피",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 750000,
+      "7인승": 650000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2021",
+    "new_grade": "HEV 1.6 2WD 익스클루시브",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2021",
+    "new_grade": "HEV 1.6 2WD 프레스티지",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2021",
+    "new_grade": "HEV 1.6 2WD 캘리그래피",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2021",
+    "new_grade": "HEV 1.6 4WD 익스클루시브",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2021",
+    "new_grade": "HEV 1.6 4WD 프레스티지",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2021",
+    "new_grade": "HEV 1.6 4WD 캘리그래피",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2020",
+    "new_grade": "가솔린 2.5T 2WD 프리미엄",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2020",
+    "new_grade": "가솔린 2.5T 2WD 프리미엄초이스",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2020",
+    "new_grade": "가솔린 2.5T 2WD 프레스티지",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2020",
+    "new_grade": "가솔린 2.5T 2WD 캘리그래피",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2020",
+    "new_grade": "가솔린 2.5T 4WD 프리미엄",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2020",
+    "new_grade": "가솔린 2.5T 4WD 프리미엄초이스",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2020",
+    "new_grade": "가솔린 2.5T 4WD 프레스티지",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2020",
+    "new_grade": "가솔린 2.5T 4WD 캘리그래피",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2020",
+    "new_grade": "디젤 2.2 2WD 프리미엄",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 690000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2020",
+    "new_grade": "디젤 2.2 2WD 프리미엄초이스",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 2080000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2020",
+    "new_grade": "디젤 2.2 2WD 프레스티지",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 690000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2020",
+    "new_grade": "디젤 2.2 2WD 캘리그래피",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2020",
+    "new_grade": "디젤 2.2 4WD 프리미엄",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 690000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2020",
+    "new_grade": "디젤 2.2 4WD 프리미엄초이스",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 2120000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2020",
+    "new_grade": "디젤 2.2 4WD 프레스티지",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 690000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "더 뉴 싼타페",
+    "year": "2020",
+    "new_grade": "디젤 2.2 4WD 캘리그래피",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 8
+  },
+  {
+    "model": "싼타페 더 프라임",
+    "year": "2018",
+    "new_grade": "디젤 2.0 2WD 스마트",
+    "merged_seats": [
+      5
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 더 프라임",
+    "year": "2018",
+    "new_grade": "디젤 2.0 2WD 프리미엄",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 더 프라임",
+    "year": "2018",
+    "new_grade": "디젤 2.0 2WD 밸류플러스",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 더 프라임",
+    "year": "2018",
+    "new_grade": "디젤 2.0 2WD 익스클루시브스페셜",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 더 프라임",
+    "year": "2018",
+    "new_grade": "디젤 2.0 2WD 원밀리언스타일",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 더 프라임",
+    "year": "2018",
+    "new_grade": "디젤 2.0 2WD 원밀리언",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 더 프라임",
+    "year": "2018",
+    "new_grade": "디젤 2.0 4WD 프리미엄",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 더 프라임",
+    "year": "2018",
+    "new_grade": "디젤 2.0 4WD 밸류플러스",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 더 프라임",
+    "year": "2018",
+    "new_grade": "디젤 2.0 4WD 익스클루시브스페셜",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 더 프라임",
+    "year": "2018",
+    "new_grade": "디젤 2.0 4WD 원밀리언스타일",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 더 프라임",
+    "year": "2018",
+    "new_grade": "디젤 2.0 4WD 원밀리언",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 더 프라임",
+    "year": "2018",
+    "new_grade": "디젤 2.2 2WD 익스클루시브스페셜",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 더 프라임",
+    "year": "2018",
+    "new_grade": "디젤 2.2 2WD 원밀리언얼티밋",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 더 프라임",
+    "year": "2018",
+    "new_grade": "디젤 2.2 4WD 익스클루시브스페셜",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 더 프라임",
+    "year": "2018",
+    "new_grade": "디젤 2.2 4WD 원밀리언얼티밋",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 더 프라임",
+    "year": "2018",
+    "new_grade": "가솔린 2.0 2WD 스마트",
+    "merged_seats": [
+      5
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 더 프라임",
+    "year": "2018",
+    "new_grade": "가솔린 2.0 2WD 프리미엄",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 더 프라임",
+    "year": "2018",
+    "new_grade": "가솔린 2.0 2WD 밸류플러스",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 더 프라임",
+    "year": "2018",
+    "new_grade": "가솔린 2.0 4WD 프리미엄",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 더 프라임",
+    "year": "2018",
+    "new_grade": "가솔린 2.0 4WD 밸류플러스",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 더 프라임",
+    "year": "2017",
+    "new_grade": "디젤 2.0 2WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 더 프라임",
+    "year": "2017",
+    "new_grade": "디젤 2.0 4WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 더 프라임",
+    "year": "2017",
+    "new_grade": "디젤 2.2 2WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 더 프라임",
+    "year": "2017",
+    "new_grade": "디젤 2.2 2WD Special",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 더 프라임",
+    "year": "2017",
+    "new_grade": "디젤 2.2 4WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 더 프라임",
+    "year": "2017",
+    "new_grade": "디젤 2.2 4WD Special",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 더 프라임",
+    "year": "2016",
+    "new_grade": "디젤 2.0 2WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 더 프라임",
+    "year": "2016",
+    "new_grade": "디젤 2.0 2WD Special",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 더 프라임",
+    "year": "2016",
+    "new_grade": "디젤 2.2 2WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 더 프라임",
+    "year": "2016",
+    "new_grade": "디젤 2.2 2WD Special",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 더 프라임",
+    "year": "2016",
+    "new_grade": "디젤 2.0 4WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 더 프라임",
+    "year": "2016",
+    "new_grade": "디젤 2.0 4WD Special",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 더 프라임",
+    "year": "2016",
+    "new_grade": "디젤 2.2 4WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "싼타페 더 프라임",
+    "year": "2016",
+    "new_grade": "디젤 2.2 4WD Special",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "EV9",
+    "year": "2026",
+    "new_grade": "전기 2WD 라이트스탠다드",
+    "merged_seats": [
+      7,
+      6
+    ],
+    "seat_options": {},
+    "accessories_count": 10
+  },
+  {
+    "model": "EV9",
+    "year": "2026",
+    "new_grade": "전기 2WD 라이트롱레인지",
+    "merged_seats": [
+      7,
+      6
+    ],
+    "seat_options": {},
+    "accessories_count": 10
+  },
+  {
+    "model": "EV9",
+    "year": "2026",
+    "new_grade": "전기 2WD 에어스탠다드",
+    "merged_seats": [
+      7,
+      6
+    ],
+    "seat_options": {},
+    "accessories_count": 10
+  },
+  {
+    "model": "EV9",
+    "year": "2026",
+    "new_grade": "전기 2WD 에어롱레인지",
+    "merged_seats": [
+      7,
+      6
+    ],
+    "seat_options": {},
+    "accessories_count": 10
+  },
+  {
+    "model": "EV9",
+    "year": "2026",
+    "new_grade": "전기 2WD 어스스탠다드",
+    "merged_seats": [
+      7,
+      6
+    ],
+    "seat_options": {},
+    "accessories_count": 10
+  },
+  {
+    "model": "EV9",
+    "year": "2026",
+    "new_grade": "전기 2WD 어스롱레인지",
+    "merged_seats": [
+      7,
+      6
+    ],
+    "seat_options": {},
+    "accessories_count": 10
+  },
+  {
+    "model": "EV9",
+    "year": "2026",
+    "new_grade": "전기 4WD 라이트롱레인지",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 10
+  },
+  {
+    "model": "EV9",
+    "year": "2026",
+    "new_grade": "전기 4WD 에어롱레인지",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 10
+  },
+  {
+    "model": "EV9",
+    "year": "2026",
+    "new_grade": "전기 4WD 어스롱레인지",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 10
+  },
+  {
+    "model": "EV9",
+    "year": "2026",
+    "new_grade": "전기 4WD GT-Line롱레인지",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 10
+  },
+  {
+    "model": "EV9",
+    "year": "2025",
+    "new_grade": "전기 2WD 에어",
+    "merged_seats": [
+      7,
+      6
+    ],
+    "seat_options": {},
+    "accessories_count": 10
+  },
+  {
+    "model": "EV9",
+    "year": "2025",
+    "new_grade": "전기 2WD 어스",
+    "merged_seats": [
+      7,
+      6
+    ],
+    "seat_options": {},
+    "accessories_count": 10
+  },
+  {
+    "model": "EV9",
+    "year": "2025",
+    "new_grade": "전기 4WD 에어",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 10
+  },
+  {
+    "model": "EV9",
+    "year": "2025",
+    "new_grade": "전기 4WD 어스",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 10
+  },
+  {
+    "model": "EV9",
+    "year": "2025",
+    "new_grade": "전기 4WD GT-line",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 10
+  },
+  {
+    "model": "EV9",
+    "year": "2024",
+    "new_grade": "전기 2WD 에어",
+    "merged_seats": [
+      7,
+      6
+    ],
+    "seat_options": {},
+    "accessories_count": 10
+  },
+  {
+    "model": "EV9",
+    "year": "2024",
+    "new_grade": "전기 2WD 어스",
+    "merged_seats": [
+      7,
+      6
+    ],
+    "seat_options": {},
+    "accessories_count": 10
+  },
+  {
+    "model": "EV9",
+    "year": "2024",
+    "new_grade": "전기 4WD 에어",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 10
+  },
+  {
+    "model": "EV9",
+    "year": "2024",
+    "new_grade": "전기 4WD 어스",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 10
+  },
+  {
+    "model": "EV9",
+    "year": "2024",
+    "new_grade": "전기 4WD GT-line",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 10
+  },
+  {
+    "model": "모하비 더 마스터",
+    "year": "2024",
+    "new_grade": "디젤 3.0 4WD 플래티넘",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 640000
+    },
+    "accessories_count": 3
+  },
+  {
+    "model": "모하비 더 마스터",
+    "year": "2024",
+    "new_grade": "디젤 3.0 4WD 플래티넘그래비티",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 640000
+    },
+    "accessories_count": 3
+  },
+  {
+    "model": "모하비 더 마스터",
+    "year": "2024",
+    "new_grade": "디젤 3.0 4WD 마스터즈",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 640000
+    },
+    "accessories_count": 3
+  },
+  {
+    "model": "모하비 더 마스터",
+    "year": "2024",
+    "new_grade": "디젤 3.0 4WD 마스터즈그래비티",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1040000,
+      "7인승": 640000
+    },
+    "accessories_count": 3
+  },
+  {
+    "model": "모하비 더 마스터",
+    "year": "2023",
+    "new_grade": "디젤 3.0 4WD 플래티넘",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1030000,
+      "7인승": 650000
+    },
+    "accessories_count": 3
+  },
+  {
+    "model": "모하비 더 마스터",
+    "year": "2023",
+    "new_grade": "디젤 3.0 4WD 마스터즈",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1030000,
+      "7인승": 640000
+    },
+    "accessories_count": 3
+  },
+  {
+    "model": "모하비 더 마스터",
+    "year": "2023",
+    "new_grade": "디젤 3.0 4WD 그래비티",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1030000,
+      "7인승": 640000
+    },
+    "accessories_count": 3
+  },
+  {
+    "model": "모하비 더 마스터",
+    "year": "2021",
+    "new_grade": "디젤 3.0 4WD 플래티넘",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1030000,
+      "7인승": 650000
+    },
+    "accessories_count": 2
+  },
+  {
+    "model": "모하비 더 마스터",
+    "year": "2021",
+    "new_grade": "디젤 3.0 4WD 마스터즈",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1030000,
+      "7인승": 640000
+    },
+    "accessories_count": 2
+  },
+  {
+    "model": "모하비 더 마스터",
+    "year": "2021",
+    "new_grade": "디젤 3.0 4WD 마스터즈그래비티",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1030000,
+      "7인승": 640000
+    },
+    "accessories_count": 2
+  },
+  {
+    "model": "모하비 더 마스터",
+    "year": "2020",
+    "new_grade": "디젤 3.0 4WD 플래티넘",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 2
+  },
+  {
+    "model": "모하비 더 마스터",
+    "year": "2020",
+    "new_grade": "디젤 3.0 4WD 마스터즈",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 930000,
+      "7인승": 640000
+    },
+    "accessories_count": 2
+  },
+  {
+    "model": "모하비 더 마스터",
+    "year": "2020",
+    "new_grade": "디젤 3.0 4WD 마스터즈그래비티",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1050000,
+      "7인승": 650000
+    },
+    "accessories_count": 2
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2026",
+    "new_grade": "HEV 1.6 2WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 5
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2026",
+    "new_grade": "HEV 1.6 2WD 노블레스",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 5
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2026",
+    "new_grade": "HEV 1.6 2WD 시그니처",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 5
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2026",
+    "new_grade": "HEV 1.6 2WD X-Line",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 5
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2026",
+    "new_grade": "HEV 1.6 4WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 5
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2026",
+    "new_grade": "HEV 1.6 4WD 노블레스",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 5
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2026",
+    "new_grade": "HEV 1.6 4WD 시그니처",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 5
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2026",
+    "new_grade": "HEV 1.6 4WD X-Line",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 5
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2026",
+    "new_grade": "가솔린 2.5T 2WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 5
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2026",
+    "new_grade": "가솔린 2.5T 2WD 노블레스",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 5
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2026",
+    "new_grade": "가솔린 2.5T 2WD 시그니처",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 5
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2026",
+    "new_grade": "가솔린 2.5T 2WD X-Line",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 5
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2026",
+    "new_grade": "가솔린 2.5T 4WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 5
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2026",
+    "new_grade": "가솔린 2.5T 4WD 노블레스",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 5
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2026",
+    "new_grade": "가솔린 2.5T 4WD 시그니처",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 5
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2026",
+    "new_grade": "가솔린 2.5T 4WD X-Line",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 5
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2026",
+    "new_grade": "디젤 2.2 2WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 5
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2026",
+    "new_grade": "디젤 2.2 2WD 노블레스",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 5
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2026",
+    "new_grade": "디젤 2.2 2WD 시그니처",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 5
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2026",
+    "new_grade": "디젤 2.2 2WD X-Line",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 5
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2026",
+    "new_grade": "디젤 2.2 4WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 5
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2026",
+    "new_grade": "디젤 2.2 4WD 노블레스",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 5
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2026",
+    "new_grade": "디젤 2.2 4WD 시그니처",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 5
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2026",
+    "new_grade": "디젤 2.2 4WD X-Line",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 5
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2025",
+    "new_grade": "HEV 1.6 2WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 4
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2025",
+    "new_grade": "HEV 1.6 2WD 노블레스",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 4
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2025",
+    "new_grade": "HEV 1.6 2WD 시그니처",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 4
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2025",
+    "new_grade": "HEV 1.6 2WD 그래비티",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 4
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2025",
+    "new_grade": "HEV 1.6 4WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 4
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2025",
+    "new_grade": "HEV 1.6 4WD 노블레스",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 4
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2025",
+    "new_grade": "HEV 1.6 4WD 시그니처",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 4
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2025",
+    "new_grade": "HEV 1.6 4WD 그래비티",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 4
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2025",
+    "new_grade": "가솔린 2.5T 2WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 4
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2025",
+    "new_grade": "가솔린 2.5T 2WD 노블레스",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 4
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2025",
+    "new_grade": "가솔린 2.5T 2WD 시그니처",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 4
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2025",
+    "new_grade": "가솔린 2.5T 2WD 그래비티",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 4
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2025",
+    "new_grade": "가솔린 2.5T 4WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 4
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2025",
+    "new_grade": "가솔린 2.5T 4WD 노블레스",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 4
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2025",
+    "new_grade": "가솔린 2.5T 4WD 시그니처",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 4
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2025",
+    "new_grade": "가솔린 2.5T 4WD 그래비티",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 4
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2025",
+    "new_grade": "디젤 2.2 2WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 4
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2025",
+    "new_grade": "디젤 2.2 2WD 노블레스",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 4
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2025",
+    "new_grade": "디젤 2.2 2WD 시그니처",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 4
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2025",
+    "new_grade": "디젤 2.2 2WD 그래비티",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 4
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2025",
+    "new_grade": "디젤 2.2 4WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 4
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2025",
+    "new_grade": "디젤 2.2 4WD 노블레스",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 4
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2025",
+    "new_grade": "디젤 2.2 4WD 시그니처",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 4
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2025",
+    "new_grade": "디젤 2.2 4WD 그래비티",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 4
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2024",
+    "new_grade": "HEV 1.6 2WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 7
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2024",
+    "new_grade": "HEV 1.6 2WD 노블레스",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 7
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2024",
+    "new_grade": "HEV 1.6 2WD 시그니처",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 7
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2024",
+    "new_grade": "HEV 1.6 2WD 그래비티",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 7
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2024",
+    "new_grade": "HEV 1.6 4WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 7
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2024",
+    "new_grade": "HEV 1.6 4WD 노블레스",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 7
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2024",
+    "new_grade": "HEV 1.6 4WD 시그니처",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 7
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2024",
+    "new_grade": "HEV 1.6 4WD 그래비티",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 7
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2024",
+    "new_grade": "가솔린 2.5T 2WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 7
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2024",
+    "new_grade": "가솔린 2.5T 2WD 노블레스",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 7
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2024",
+    "new_grade": "가솔린 2.5T 2WD 시그니처",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 7
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2024",
+    "new_grade": "가솔린 2.5T 2WD 그래비티",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 7
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2024",
+    "new_grade": "가솔린 2.5T 4WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 7
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2024",
+    "new_grade": "가솔린 2.5T 4WD 노블레스",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 7
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2024",
+    "new_grade": "가솔린 2.5T 4WD 시그니처",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 7
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2024",
+    "new_grade": "가솔린 2.5T 4WD 그래비티",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 7
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2024",
+    "new_grade": "디젤 2.2 2WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 7
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2024",
+    "new_grade": "디젤 2.2 2WD 노블레스",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 7
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2024",
+    "new_grade": "디젤 2.2 2WD 시그니처",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 7
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2024",
+    "new_grade": "디젤 2.2 2WD 그래비티",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 7
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2024",
+    "new_grade": "디젤 2.2 4WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 7
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2024",
+    "new_grade": "디젤 2.2 4WD 노블레스",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 7
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2024",
+    "new_grade": "디젤 2.2 4WD 시그니처",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 7
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2024",
+    "new_grade": "디젤 2.2 4WD 그래비티",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 7
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2027",
+    "new_grade": "HEV 1.6 2WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 5
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2027",
+    "new_grade": "HEV 1.6 2WD 노블레스",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 5
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2027",
+    "new_grade": "HEV 1.6 2WD 시그니처",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 5
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2027",
+    "new_grade": "HEV 1.6 2WD X-Line",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 5
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2027",
+    "new_grade": "HEV 1.6 2WD 블랙에디션",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 5
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2027",
+    "new_grade": "HEV 1.6 4WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 5
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2027",
+    "new_grade": "HEV 1.6 4WD 노블레스",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 5
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2027",
+    "new_grade": "HEV 1.6 4WD 시그니처",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 5
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2027",
+    "new_grade": "HEV 1.6 4WD X-Line",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 5
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2027",
+    "new_grade": "HEV 1.6 4WD 블랙에디션",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 5
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2027",
+    "new_grade": "가솔린 2.5T 2WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 5
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2027",
+    "new_grade": "가솔린 2.5T 2WD 노블레스",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 5
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2027",
+    "new_grade": "가솔린 2.5T 2WD 시그니처",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 5
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2027",
+    "new_grade": "가솔린 2.5T 2WD X-Line",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 5
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2027",
+    "new_grade": "가솔린 2.5T 2WD 블랙에디션",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 5
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2027",
+    "new_grade": "가솔린 2.5T 4WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 5
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2027",
+    "new_grade": "가솔린 2.5T 4WD 노블레스",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 5
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2027",
+    "new_grade": "가솔린 2.5T 4WD 시그니처",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 5
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2027",
+    "new_grade": "가솔린 2.5T 4WD X-Line",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 5
+  },
+  {
+    "model": "더 뉴 쏘렌토 4세대",
+    "year": "2027",
+    "new_grade": "가솔린 2.5T 4WD 블랙에디션",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 840000,
+      "7인승": 690000
+    },
+    "accessories_count": 5
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "new_grade": "가솔린 2.5T 2WD 트렌디",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 750000,
+      "7인승": 700000
+    },
+    "accessories_count": 7
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "new_grade": "가솔린 2.5T 2WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 750000,
+      "7인승": 700000
+    },
+    "accessories_count": 7
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "new_grade": "가솔린 2.5T 2WD 노블레스",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1140000,
+      "7인승": 690000
+    },
+    "accessories_count": 7
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "new_grade": "가솔린 2.5T 2WD 시그니처",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 740000,
+      "7인승": 690000
+    },
+    "accessories_count": 7
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "new_grade": "가솔린 2.5T 2WD 그래비티",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 740000,
+      "7인승": 690000
+    },
+    "accessories_count": 7
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "new_grade": "가솔린 2.5T 4WD 트렌디",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 750000,
+      "7인승": 700000
+    },
+    "accessories_count": 7
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "new_grade": "가솔린 2.5T 4WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 750000,
+      "7인승": 700000
+    },
+    "accessories_count": 7
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "new_grade": "가솔린 2.5T 4WD 노블레스",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1140000,
+      "7인승": 690000
+    },
+    "accessories_count": 7
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "new_grade": "가솔린 2.5T 4WD 시그니처",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 740000,
+      "7인승": 690000
+    },
+    "accessories_count": 7
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "new_grade": "가솔린 2.5T 4WD 그래비티",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 740000,
+      "7인승": 690000
+    },
+    "accessories_count": 7
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "new_grade": "가솔린 2.5T 2WD 트렌디",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 750000,
+      "7인승": 700000
+    },
+    "accessories_count": 7
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "new_grade": "가솔린 2.5T 2WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 750000,
+      "7인승": 700000
+    },
+    "accessories_count": 7
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "new_grade": "가솔린 2.5T 2WD 노블레스",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1130000,
+      "7인승": 690000
+    },
+    "accessories_count": 7
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "new_grade": "가솔린 2.5T 2WD 시그니처",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 740000,
+      "7인승": 690000
+    },
+    "accessories_count": 7
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "new_grade": "가솔린 2.5T 2WD 그래비티",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 740000,
+      "7인승": 690000
+    },
+    "accessories_count": 7
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "new_grade": "가솔린 2.5T 4WD 트렌디",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 750000,
+      "7인승": 700000
+    },
+    "accessories_count": 7
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "new_grade": "가솔린 2.5T 4WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 750000,
+      "7인승": 700000
+    },
+    "accessories_count": 7
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "new_grade": "가솔린 2.5T 4WD 노블레스",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1130000,
+      "7인승": 690000
+    },
+    "accessories_count": 7
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "new_grade": "가솔린 2.5T 4WD 시그니처",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 740000,
+      "7인승": 690000
+    },
+    "accessories_count": 7
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "new_grade": "가솔린 2.5T 4WD 그래비티",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 740000,
+      "7인승": 690000
+    },
+    "accessories_count": 7
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2020",
+    "new_grade": "HEV 1.6 2WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 800000,
+      "7인승": 700000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2020",
+    "new_grade": "HEV 1.6 2WD 노블레스",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1200000,
+      "7인승": 700000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2020",
+    "new_grade": "HEV 1.6 2WD 시그니처",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 800000,
+      "7인승": 700000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2020",
+    "new_grade": "HEV 1.6 4WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 800000,
+      "7인승": 700000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2020",
+    "new_grade": "HEV 1.6 4WD 노블레스",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1200000,
+      "7인승": 700000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2020",
+    "new_grade": "HEV 1.6 4WD 시그니처",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 800000,
+      "7인승": 700000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2020",
+    "new_grade": "가솔린 2.5T 2WD 트렌디",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 790000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2020",
+    "new_grade": "가솔린 2.5T 2WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 790000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2020",
+    "new_grade": "가솔린 2.5T 2WD 노블레스",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1180000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2020",
+    "new_grade": "가솔린 2.5T 2WD 시그니처",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 790000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2020",
+    "new_grade": "가솔린 2.5T 2WD 그래비티",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 790000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2020",
+    "new_grade": "가솔린 2.5T 4WD 트렌디",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 790000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2020",
+    "new_grade": "가솔린 2.5T 4WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 790000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2020",
+    "new_grade": "가솔린 2.5T 4WD 노블레스",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1180000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2020",
+    "new_grade": "가솔린 2.5T 4WD 시그니처",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 790000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2020",
+    "new_grade": "가솔린 2.5T 4WD 그래비티",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 790000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2020",
+    "new_grade": "디젤 2.2 4WD 트렌디",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 800000,
+      "7인승": 700000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2020",
+    "new_grade": "디젤 2.2 4WD 프레스티지",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 800000,
+      "7인승": 700000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2020",
+    "new_grade": "디젤 2.2 4WD 노블레스",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1200000,
+      "7인승": 700000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2020",
+    "new_grade": "디젤 2.2 4WD 시그니처",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 800000,
+      "7인승": 700000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 쏘렌토",
+    "year": "2020",
+    "new_grade": "가솔린 2.0 2WD 프레스티지",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 쏘렌토",
+    "year": "2020",
+    "new_grade": "가솔린 2.0 2WD 노블레스",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 640000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 쏘렌토",
+    "year": "2020",
+    "new_grade": "가솔린 2.0 2WD 마스터스페셜",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 640000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 쏘렌토",
+    "year": "2020",
+    "new_grade": "가솔린 2.0 4WD 프레스티지",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 쏘렌토",
+    "year": "2020",
+    "new_grade": "가솔린 2.0 4WD 노블레스",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 640000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 쏘렌토",
+    "year": "2020",
+    "new_grade": "가솔린 2.0 4WD 마스터스페셜",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 640000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 쏘렌토",
+    "year": "2020",
+    "new_grade": "디젤 2.0 2WD 럭셔리",
+    "merged_seats": [
+      5
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 쏘렌토",
+    "year": "2020",
+    "new_grade": "디젤 2.0 2WD 프레스티지",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 쏘렌토",
+    "year": "2020",
+    "new_grade": "디젤 2.0 2WD 노블레스",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 640000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 쏘렌토",
+    "year": "2020",
+    "new_grade": "디젤 2.0 2WD 마스터",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 640000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 쏘렌토",
+    "year": "2020",
+    "new_grade": "디젤 2.0 2WD 마스터스페셜",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 640000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 쏘렌토",
+    "year": "2020",
+    "new_grade": "디젤 2.0 4WD 프레스티지",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 쏘렌토",
+    "year": "2020",
+    "new_grade": "디젤 2.0 4WD 노블레스",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 640000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 쏘렌토",
+    "year": "2020",
+    "new_grade": "디젤 2.0 4WD 마스터",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 640000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 쏘렌토",
+    "year": "2020",
+    "new_grade": "디젤 2.0 4WD 마스터스페셜",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 640000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 쏘렌토",
+    "year": "2020",
+    "new_grade": "디젤 2.2 2WD 럭셔리",
+    "merged_seats": [
+      5
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 쏘렌토",
+    "year": "2020",
+    "new_grade": "디젤 2.2 2WD 프레스티지",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 쏘렌토",
+    "year": "2020",
+    "new_grade": "디젤 2.2 2WD 노블레스",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 640000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 쏘렌토",
+    "year": "2020",
+    "new_grade": "디젤 2.2 2WD 마스터",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 640000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 쏘렌토",
+    "year": "2020",
+    "new_grade": "디젤 2.2 2WD 마스터스페셜",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 640000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 쏘렌토",
+    "year": "2020",
+    "new_grade": "디젤 2.2 4WD 프레스티지",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 쏘렌토",
+    "year": "2020",
+    "new_grade": "디젤 2.2 4WD 노블레스",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 640000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 쏘렌토",
+    "year": "2020",
+    "new_grade": "디젤 2.2 4WD 마스터",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 640000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 쏘렌토",
+    "year": "2020",
+    "new_grade": "디젤 2.2 4WD 마스터스페셜",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 640000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 쏘렌토",
+    "year": "2019",
+    "new_grade": "가솔린 2.0 2WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 쏘렌토",
+    "year": "2019",
+    "new_grade": "가솔린 2.0 4WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 쏘렌토",
+    "year": "2019",
+    "new_grade": "디젤 2.0 2WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 쏘렌토",
+    "year": "2019",
+    "new_grade": "디젤 2.0 2WD 스페셜",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 쏘렌토",
+    "year": "2019",
+    "new_grade": "디젤 2.0 4WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 쏘렌토",
+    "year": "2019",
+    "new_grade": "디젤 2.0 4WD 스페셜",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 쏘렌토",
+    "year": "2019",
+    "new_grade": "디젤 2.2 2WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 쏘렌토",
+    "year": "2019",
+    "new_grade": "디젤 2.2 2WD 스페셜",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 쏘렌토",
+    "year": "2019",
+    "new_grade": "디젤 2.2 4WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 쏘렌토",
+    "year": "2019",
+    "new_grade": "디젤 2.2 4WD 스페셜",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 쏘렌토",
+    "year": "2018",
+    "new_grade": "가솔린 2.0 2WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 쏘렌토",
+    "year": "2018",
+    "new_grade": "가솔린 2.0 4WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 쏘렌토",
+    "year": "2018",
+    "new_grade": "디젤 2.0 2WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 쏘렌토",
+    "year": "2018",
+    "new_grade": "디젤 2.0 2WD 스페셜",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 쏘렌토",
+    "year": "2018",
+    "new_grade": "디젤 2.0 4WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 쏘렌토",
+    "year": "2018",
+    "new_grade": "디젤 2.0 4WD 스페셜",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 쏘렌토",
+    "year": "2018",
+    "new_grade": "디젤 2.2 2WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 쏘렌토",
+    "year": "2018",
+    "new_grade": "디젤 2.2 2WD No.1에디션",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 쏘렌토",
+    "year": "2018",
+    "new_grade": "디젤 2.2 2WD 스페셜",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 쏘렌토",
+    "year": "2018",
+    "new_grade": "디젤 2.2 4WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 쏘렌토",
+    "year": "2018",
+    "new_grade": "디젤 2.2 4WD No.1에디션",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "더 뉴 쏘렌토",
+    "year": "2018",
+    "new_grade": "디젤 2.2 4WD 스페셜",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "올 뉴 쏘렌토",
+    "year": "2017",
+    "new_grade": "가솔린 2.0 2WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "올 뉴 쏘렌토",
+    "year": "2017",
+    "new_grade": "가솔린 2.0 4WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "올 뉴 쏘렌토",
+    "year": "2017",
+    "new_grade": "디젤 2.0 2WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "올 뉴 쏘렌토",
+    "year": "2017",
+    "new_grade": "디젤 2.0 2WD 스페셜",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "올 뉴 쏘렌토",
+    "year": "2017",
+    "new_grade": "디젤 2.0 4WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "올 뉴 쏘렌토",
+    "year": "2017",
+    "new_grade": "디젤 2.0 4WD 스페셜",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "올 뉴 쏘렌토",
+    "year": "2017",
+    "new_grade": "디젤 2.2 2WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "올 뉴 쏘렌토",
+    "year": "2017",
+    "new_grade": "디젤 2.2 2WD 스페셜",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "올 뉴 쏘렌토",
+    "year": "2017",
+    "new_grade": "디젤 2.2 4WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "올 뉴 쏘렌토",
+    "year": "2017",
+    "new_grade": "디젤 2.2 4WD 스페셜",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "올 뉴 쏘렌토",
+    "year": "2016",
+    "new_grade": "디젤 2.0 2WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "올 뉴 쏘렌토",
+    "year": "2016",
+    "new_grade": "디젤 2.0 2WD 스페셜",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "올 뉴 쏘렌토",
+    "year": "2016",
+    "new_grade": "디젤 2.0 4WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "올 뉴 쏘렌토",
+    "year": "2016",
+    "new_grade": "디젤 2.0 4WD 스페셜",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "올 뉴 쏘렌토",
+    "year": "2016",
+    "new_grade": "디젤 2.2 2WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "올 뉴 쏘렌토",
+    "year": "2016",
+    "new_grade": "디젤 2.2 2WD 스페셜",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "올 뉴 쏘렌토",
+    "year": "2016",
+    "new_grade": "디젤 2.2 4WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "올 뉴 쏘렌토",
+    "year": "2016",
+    "new_grade": "디젤 2.2 4WD 스페셜",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "올 뉴 쏘렌토",
+    "year": "2015",
+    "new_grade": "디젤 2.0 2WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "올 뉴 쏘렌토",
+    "year": "2015",
+    "new_grade": "디젤 2.0 2WD 스페셜",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "올 뉴 쏘렌토",
+    "year": "2015",
+    "new_grade": "디젤 2.0 4WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "올 뉴 쏘렌토",
+    "year": "2015",
+    "new_grade": "디젤 2.0 4WD 스페셜",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 650000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "올 뉴 쏘렌토",
+    "year": "2015",
+    "new_grade": "디젤 2.2 2WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "올 뉴 쏘렌토",
+    "year": "2015",
+    "new_grade": "디젤 2.2 2WD 스페셜",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 660000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "올 뉴 쏘렌토",
+    "year": "2015",
+    "new_grade": "디젤 2.2 4WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "올 뉴 쏘렌토",
+    "year": "2015",
+    "new_grade": "디젤 2.2 4WD 스페셜",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 660000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "뉴 쏘렌토 R",
+    "year": "2014",
+    "new_grade": "디젤 2.0 2WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "뉴 쏘렌토 R",
+    "year": "2014",
+    "new_grade": "디젤 2.0 4WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "뉴 쏘렌토 R",
+    "year": "2014",
+    "new_grade": "디젤 2.2 2WD 트렌디",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "뉴 쏘렌토 R",
+    "year": "2014",
+    "new_grade": "디젤 2.2 2WD 프레스티지",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "뉴 쏘렌토 R",
+    "year": "2014",
+    "new_grade": "디젤 2.2 2WD 노블레스",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "뉴 쏘렌토 R",
+    "year": "2014",
+    "new_grade": "디젤 2.2 4WD 트렌디",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "뉴 쏘렌토 R",
+    "year": "2014",
+    "new_grade": "디젤 2.2 4WD 프레스티지",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "뉴 쏘렌토 R",
+    "year": "2014",
+    "new_grade": "디젤 2.2 4WD 노블레스",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "뉴 쏘렌토 R",
+    "year": "2013",
+    "new_grade": "디젤 2.0 2WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "뉴 쏘렌토 R",
+    "year": "2013",
+    "new_grade": "디젤 2.0 2WD 스페셜",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 5550000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "뉴 쏘렌토 R",
+    "year": "2013",
+    "new_grade": "디젤 2.0 4WD",
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "뉴 쏘렌토 R",
+    "year": "2013",
+    "new_grade": "디젤 2.0 4WD 스페셜",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 5550000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2025",
+    "new_grade": "가솔린 3.5 터보 2WD",
+    "merged_seats": [
+      5
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2025",
+    "new_grade": "가솔린 3.5 터보 AWD",
+    "merged_seats": [
+      5
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2025",
+    "new_grade": "가솔린 3.5 터보 2WD + 뒷좌석 컴포트 패키지Ⅰ",
+    "merged_seats": [
+      4
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2025",
+    "new_grade": "가솔린 3.5 터보 AWD + 뒷좌석 컴포트 패키지Ⅰ",
+    "merged_seats": [
+      4
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2025",
+    "new_grade": "가솔린 3.5 터보 BLACK AWD",
+    "merged_seats": [
+      5,
+      4
+    ],
+    "seat_options": {
+      "4인승": 3400000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2025",
+    "new_grade": "가솔린 3.5 터보 48V 2WD",
+    "merged_seats": [
+      5
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2025",
+    "new_grade": "가솔린 3.5 터보 48V AWD",
+    "merged_seats": [
+      5
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2025",
+    "new_grade": "가솔린 3.5 터보 48V 2WD + 뒷좌석 컴포트 패키지Ⅰ",
+    "merged_seats": [
+      4
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2025",
+    "new_grade": "가솔린 3.5 터보 48V AWD + 뒷좌석 컴포트 패키지Ⅰ",
+    "merged_seats": [
+      4
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2025",
+    "new_grade": "가솔린 3.5 터보 48V BLACK AWD",
+    "merged_seats": [
+      5,
+      4
+    ],
+    "seat_options": {
+      "4인승": 3400000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2025",
+    "new_grade": "가솔린 3.5 터보 48V 롱휠베이스 AWD",
+    "merged_seats": [
+      5
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2025",
+    "new_grade": "가솔린 3.5 터보 48V 롱휠베이스 AWD + 뒷좌석 컴포트 패키지",
+    "merged_seats": [
+      4
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2025",
+    "new_grade": "가솔린 3.5 터보 48V 롱휠베이스 BLACK AWD",
+    "merged_seats": [
+      5,
+      4
+    ],
+    "seat_options": {
+      "4인승": 3900000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2025",
+    "new_grade": "가솔린 3.5 2WD",
+    "merged_seats": [
+      5
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2025",
+    "new_grade": "가솔린 3.5 4WD",
+    "merged_seats": [
+      5
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2025",
+    "new_grade": "가솔린 3.5 2WD+뒷좌석컴포트패키지Ⅰ",
+    "merged_seats": [
+      4
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2025",
+    "new_grade": "가솔린 3.5 4WD+뒷좌석컴포트패키지Ⅰ",
+    "merged_seats": [
+      4
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2025",
+    "new_grade": "가솔린 3.5 4WD BLACK",
+    "merged_seats": [
+      5,
+      4
+    ],
+    "seat_options": {
+      "4인승": 3400000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2024",
+    "new_grade": "가솔린 3.5 터보 2WD",
+    "merged_seats": [
+      5
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2024",
+    "new_grade": "가솔린 3.5 터보 AWD",
+    "merged_seats": [
+      5
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2024",
+    "new_grade": "가솔린 3.5 터보 2WD + 뒷좌석 컴포트 패키지Ⅰ",
+    "merged_seats": [
+      4
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2024",
+    "new_grade": "가솔린 3.5 터보 AWD + 뒷좌석 컴포트 패키지Ⅰ",
+    "merged_seats": [
+      4
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2024",
+    "new_grade": "가솔린 3.5 터보 48V 2WD",
+    "merged_seats": [
+      5
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2024",
+    "new_grade": "가솔린 3.5 터보 48V AWD",
+    "merged_seats": [
+      5
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2024",
+    "new_grade": "가솔린 3.5 터보 48V 2WD + 뒷좌석 컴포트 패키지Ⅰ",
+    "merged_seats": [
+      4
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2024",
+    "new_grade": "가솔린 3.5 터보 48V AWD + 뒷좌석 컴포트 패키지Ⅰ",
+    "merged_seats": [
+      4
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2024",
+    "new_grade": "가솔린 3.5 터보 48V BLACK AWD",
+    "merged_seats": [
+      5,
+      4
+    ],
+    "seat_options": {
+      "4인승": 3400000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2024",
+    "new_grade": "가솔린 3.5 터보 48V 롱휠베이스 AWD",
+    "merged_seats": [
+      5
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2024",
+    "new_grade": "가솔린 3.5 터보 48V 롱휠베이스 AWD + 뒷좌석 컴포트 패키지",
+    "merged_seats": [
+      4
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2024",
+    "new_grade": "가솔린 3.5 2WD",
+    "merged_seats": [
+      5
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2024",
+    "new_grade": "가솔린 3.5 4WD",
+    "merged_seats": [
+      5
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2024",
+    "new_grade": "가솔린 3.5 2WD+뒷좌석컴포트패키지Ⅰ",
+    "merged_seats": [
+      4
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2024",
+    "new_grade": "가솔린 3.5 4WD+뒷좌석컴포트패키지Ⅰ",
+    "merged_seats": [
+      4
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2024",
+    "new_grade": "가솔린 3.5 4WD BLACK",
+    "merged_seats": [
+      5,
+      4
+    ],
+    "seat_options": {
+      "4인승": 3400000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2023",
+    "new_grade": "가솔린 3.5 터보 2WD",
+    "merged_seats": [
+      5
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2023",
+    "new_grade": "가솔린 3.5 터보 AWD",
+    "merged_seats": [
+      5
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2023",
+    "new_grade": "가솔린 3.5 터보 2WD + 뒷좌석 컴포트 패키지Ⅰ",
+    "merged_seats": [
+      4
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2023",
+    "new_grade": "가솔린 3.5 터보 AWD + 뒷좌석 컴포트 패키지Ⅰ",
+    "merged_seats": [
+      4
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2023",
+    "new_grade": "가솔린 3.5 터보 48V 2WD",
+    "merged_seats": [
+      5
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2023",
+    "new_grade": "가솔린 3.5 터보 48V AWD",
+    "merged_seats": [
+      5
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2023",
+    "new_grade": "가솔린 3.5 터보 48V 2WD + 뒷좌석 컴포트 패키지Ⅰ",
+    "merged_seats": [
+      4
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2023",
+    "new_grade": "가솔린 3.5 터보 48V AWD + 뒷좌석 컴포트 패키지Ⅰ",
+    "merged_seats": [
+      4
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2023",
+    "new_grade": "가솔린 3.5 터보 48V 롱휠베이스 AWD",
+    "merged_seats": [
+      5
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2023",
+    "new_grade": "가솔린 3.5 터보 48V 롱휠베이스 AWD + 뒷좌석 컴포트 패키지Ⅰ",
+    "merged_seats": [
+      4
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2023",
+    "new_grade": "가솔린 3.5 2WD",
+    "merged_seats": [
+      5
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2023",
+    "new_grade": "가솔린 3.5 4WD",
+    "merged_seats": [
+      5
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2023",
+    "new_grade": "가솔린 3.5 2WD+뒷좌석컴포트패키지Ⅰ",
+    "merged_seats": [
+      4
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2023",
+    "new_grade": "가솔린 3.5 4WD+뒷좌석컴포트패키지Ⅰ",
+    "merged_seats": [
+      4
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2022",
+    "new_grade": "가솔린 3.5 터보 2WD",
+    "merged_seats": [
+      5,
+      4
+    ],
+    "seat_options": {
+      "4인승": 7000000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2022",
+    "new_grade": "가솔린 3.5 터보 AWD",
+    "merged_seats": [
+      5,
+      4
+    ],
+    "seat_options": {
+      "4인승": 7000000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2022",
+    "new_grade": "가솔린 3.5 터보 48V 롱휠베이스 AWD",
+    "merged_seats": [
+      5,
+      4
+    ],
+    "seat_options": {
+      "4인승": 9000000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2022",
+    "new_grade": "가솔린 3.5 2WD",
+    "merged_seats": [
+      5,
+      4
+    ],
+    "seat_options": {
+      "4인승": 7000000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2022",
+    "new_grade": "가솔린 3.5 2WD+프리미엄컬렉션",
+    "merged_seats": [
+      5,
+      4
+    ],
+    "seat_options": {
+      "4인승": 3500000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2022",
+    "new_grade": "가솔린 3.5 2WD+프레스티지컬렉션",
+    "merged_seats": [
+      5,
+      4
+    ],
+    "seat_options": {
+      "4인승": 3500000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2022",
+    "new_grade": "가솔린 3.5 4WD",
+    "merged_seats": [
+      5,
+      4
+    ],
+    "seat_options": {
+      "4인승": 7000000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2022",
+    "new_grade": "가솔린 3.5 4WD+프리미엄컬렉션",
+    "merged_seats": [
+      5,
+      4
+    ],
+    "seat_options": {
+      "4인승": 3500000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "G90",
+    "year": "2022",
+    "new_grade": "가솔린 3.5 4WD+프레스티지컬렉션",
+    "merged_seats": [
+      5,
+      4
+    ],
+    "seat_options": {
+      "4인승": 3500000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80 쿠페",
+    "year": "2026",
+    "new_grade": "가솔린 2.5T 2WD",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 2500000,
+      "7인승": 1000000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80 쿠페",
+    "year": "2026",
+    "new_grade": "가솔린 2.5T 4WD",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80 쿠페",
+    "year": "2026",
+    "new_grade": "가솔린 2.5T 4WD BLACK",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 2500000,
+      "7인승": 1000000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80 쿠페",
+    "year": "2026",
+    "new_grade": "가솔린 3.5T 2WD",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 2500000,
+      "7인승": 1000000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80 쿠페",
+    "year": "2026",
+    "new_grade": "가솔린 3.5T 4WD",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80 쿠페",
+    "year": "2026",
+    "new_grade": "가솔린 3.5T 4WD BLACK",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 2500000,
+      "7인승": 1000000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80 쿠페",
+    "year": "2026",
+    "new_grade": "가솔린 2.5T 4WDCoupe",
+    "merged_seats": [
+      5
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80 쿠페",
+    "year": "2026",
+    "new_grade": "가솔린 2.5T 4WD BLACKCoupe",
+    "merged_seats": [
+      5
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80 쿠페",
+    "year": "2026",
+    "new_grade": "가솔린 3.5T 4WDCoupe",
+    "merged_seats": [
+      5
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80 쿠페",
+    "year": "2026",
+    "new_grade": "가솔린 3.5T 4WD BLACKCoupe",
+    "merged_seats": [
+      5
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80 쿠페",
+    "year": "2025",
+    "new_grade": "가솔린 2.5T 2WD",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 2500000,
+      "7인승": 1000000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80 쿠페",
+    "year": "2025",
+    "new_grade": "가솔린 2.5T 4WD",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80 쿠페",
+    "year": "2025",
+    "new_grade": "가솔린 2.5T 4WD BLACK",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 2500000,
+      "7인승": 1000000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80 쿠페",
+    "year": "2025",
+    "new_grade": "가솔린 3.5T 2WD",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 2500000,
+      "7인승": 1000000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80 쿠페",
+    "year": "2025",
+    "new_grade": "가솔린 3.5T 4WD",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80 쿠페",
+    "year": "2025",
+    "new_grade": "가솔린 3.5T 4WD BLACK",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 2500000,
+      "7인승": 1000000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80 쿠페",
+    "year": "2025",
+    "new_grade": "가솔린 2.5T 4WDCoupe",
+    "merged_seats": [
+      5
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80 쿠페",
+    "year": "2025",
+    "new_grade": "가솔린 2.5T 4WD BLACKCoupe",
+    "merged_seats": [
+      5
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80 쿠페",
+    "year": "2025",
+    "new_grade": "가솔린 3.5T 4WDCoupe",
+    "merged_seats": [
+      5
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80 쿠페",
+    "year": "2025",
+    "new_grade": "가솔린 3.5T 4WD BLACKCoupe",
+    "merged_seats": [
+      5
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80 쿠페",
+    "year": "2024",
+    "new_grade": "가솔린 2.5T 2WD",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 2500000,
+      "7인승": 1000000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80 쿠페",
+    "year": "2024",
+    "new_grade": "가솔린 2.5T 4WD",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80 쿠페",
+    "year": "2024",
+    "new_grade": "가솔린 3.5T 2WD",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 2500000,
+      "7인승": 1000000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80 쿠페",
+    "year": "2024",
+    "new_grade": "가솔린 3.5T 4WD",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80 쿠페",
+    "year": "2024",
+    "new_grade": "가솔린 2.5T 4WDCoupe",
+    "merged_seats": [
+      5
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80 쿠페",
+    "year": "2024",
+    "new_grade": "가솔린 3.5T 4WDCoupe",
+    "merged_seats": [
+      5
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80 쿠페",
+    "year": "2027",
+    "new_grade": "가솔린 2.5T 2WD",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 2500000,
+      "7인승": 1000000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80 쿠페",
+    "year": "2027",
+    "new_grade": "가솔린 2.5T 4WD",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 2500000,
+      "7인승": 1000000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80 쿠페",
+    "year": "2027",
+    "new_grade": "가솔린 2.5T 4WD BLACK",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 2500000,
+      "7인승": 1000000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80 쿠페",
+    "year": "2027",
+    "new_grade": "가솔린 3.5T 4WD",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 2500000,
+      "7인승": 1000000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80 쿠페",
+    "year": "2027",
+    "new_grade": "가솔린 3.5T 4WD BLACK",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 2500000,
+      "7인승": 1000000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80 쿠페",
+    "year": "2027",
+    "new_grade": "가솔린 2.5T 4WDCoupe",
+    "merged_seats": [
+      5
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80 쿠페",
+    "year": "2027",
+    "new_grade": "가솔린 2.5T 4WD BLACKCoupe",
+    "merged_seats": [
+      5
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80 쿠페",
+    "year": "2027",
+    "new_grade": "가솔린 3.5T 4WDCoupe",
+    "merged_seats": [
+      5
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80 쿠페",
+    "year": "2027",
+    "new_grade": "가솔린 3.5T 4WD BLACKCoupe",
+    "merged_seats": [
+      5
+    ],
+    "seat_options": {},
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80",
+    "year": "2023",
+    "new_grade": "가솔린 2.5T 2WD",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 2470000,
+      "7인승": 990000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80",
+    "year": "2023",
+    "new_grade": "가솔린 2.5T 4WD",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 2470000,
+      "7인승": 990000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80",
+    "year": "2023",
+    "new_grade": "가솔린 3.5T 2WD",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 2470000,
+      "7인승": 990000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80",
+    "year": "2023",
+    "new_grade": "가솔린 3.5T 4WD",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 2470000,
+      "7인승": 990000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80",
+    "year": "2022",
+    "new_grade": "가솔린 2.5T 2WD",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 700000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80",
+    "year": "2022",
+    "new_grade": "가솔린 2.5T 4WD",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 2500000,
+      "7인승": 1000000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80",
+    "year": "2022",
+    "new_grade": "가솔린 3.5T 2WD",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 6400000,
+      "7인승": 690000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80",
+    "year": "2022",
+    "new_grade": "가솔린 3.5T 4WD",
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 2500000,
+      "7인승": 1000000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80",
+    "year": "2020",
+    "new_grade": "가솔린 2.5T 2WD",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 1000000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80",
+    "year": "2020",
+    "new_grade": "가솔린 2.5T 4WD",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 1000000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80",
+    "year": "2020",
+    "new_grade": "가솔린 3.5T 2WD",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 1000000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "GV80",
+    "year": "2020",
+    "new_grade": "가솔린 3.5T 4WD",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 1000000
+    },
+    "accessories_count": 0
+  },
+  {
+    "model": "렉스턴 뉴 아레나",
+    "year": "2024",
+    "new_grade": "디젤 2.2 2WD 노블레스",
+    "merged_seats": [
+      5,
+      7
+    ],
+    "seat_options": {
+      "7인승": 420000
+    },
+    "accessories_count": 32
+  },
+  {
+    "model": "렉스턴 뉴 아레나",
+    "year": "2024",
+    "new_grade": "디젤 2.2 2WD 더블랙",
+    "merged_seats": [
+      5
+    ],
+    "seat_options": {},
+    "accessories_count": 32
+  }
+]
