@@ -83,21 +83,21 @@ def run_cockpit_verification():
     assert spec_qm6_re.get('source') == 'encar'
 
     # 3. 쏘렌토 2022 시그니처 3개 파워트레인 확인
-    print("\n--- [검증 3] 쏘렌토 4세대 2022 시그니처 (가솔린 38,460,000원 / 디젤 40,210,000원 / HEV 41,320,000원) ---")
+    print("\n--- [검증 3] 쏘렌토 4세대 2022 시그니처 (가솔린 38,460,000원 / 디젤 39,440,000원 / HEV 42,320,000원) ---")
     # 3-1. 가솔린
     spec_sor_gas = get_pilot_catalog_spec(source="danawa", car_name="쏘렌토 4세대", year="2022", grade="가솔린 2.5 2WD 시그니처")
     print(f"가솔린 시그니처: {spec_sor_gas.get('grade')} -> {spec_sor_gas.get('base_price'):,}원")
     assert spec_sor_gas.get('base_price') == 38460000, f"Expected 38,460,000원, got {spec_sor_gas.get('base_price')}"
 
-    # 3-2. 디젤
+    # 3-2. 디젤 (5인승 기준 정가: 39,440,000원)
     spec_sor_dsl = get_pilot_catalog_spec(source="danawa", car_name="쏘렌토 4세대", year="2022", grade="디젤 2.2 2WD 시그니처")
     print(f"디젤 시그니처: {spec_sor_dsl.get('grade')} -> {spec_sor_dsl.get('base_price'):,}원")
-    assert spec_sor_dsl.get('base_price') == 40210000, f"Expected 40,210,000원, got {spec_sor_dsl.get('base_price')}"
+    assert spec_sor_dsl.get('base_price') == 39440000, f"Expected 39,440,000원, got {spec_sor_dsl.get('base_price')}"
 
-    # 3-3. 하이브리드
+    # 3-3. 하이브리드 (5인승 기준 정가: 42,320,000원)
     spec_sor_hev = get_pilot_catalog_spec(source="danawa", car_name="쏘렌토 4세대", year="2022", grade="HEV 1.6 2WD 시그니처")
     print(f"하이브리드 시그니처: {spec_sor_hev.get('grade')} -> {spec_sor_hev.get('base_price'):,}원")
-    assert spec_sor_hev.get('base_price') == 41320000, f"Expected 41,320,000원, got {spec_sor_hev.get('base_price')}"
+    assert spec_sor_hev.get('base_price') == 42320000, f"Expected 42,320,000원, got {spec_sor_hev.get('base_price')}"
 
     # 4. 폴백 안전장치 검증 (catalog_c 파일이 없을 때 catalog_by_source_v2.json으로 폴백되는지)
     print("\n--- [검증 4] 폴백 안전장치 검증 ---")

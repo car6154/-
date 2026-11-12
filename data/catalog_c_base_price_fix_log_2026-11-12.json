@@ -1,0 +1,443 @@
+[
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "grade": "가솔린 3.8 2WD 익스클루시브",
+    "base_seat_num": 8,
+    "old_base_price": 38670000,
+    "new_base_price": 38960000,
+    "diff": 290000,
+    "verification": {
+      "7인승": {
+        "base_price": 38960000,
+        "opt_price": 400000,
+        "sum": 39360000,
+        "actual_v12_price": 39360000,
+        "is_exact_match": true
+      }
+    }
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "grade": "가솔린 3.8 4WD 익스클루시브",
+    "base_seat_num": 8,
+    "old_base_price": 41070000,
+    "new_base_price": 41330000,
+    "diff": 260000,
+    "verification": {
+      "7인승": {
+        "base_price": 41330000,
+        "opt_price": 430000,
+        "sum": 41760000,
+        "actual_v12_price": 41760000,
+        "is_exact_match": true
+      }
+    }
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "grade": "디젤 2.2 2WD 익스클루시브",
+    "base_seat_num": 8,
+    "old_base_price": 40170000,
+    "new_base_price": 40440000,
+    "diff": 270000,
+    "verification": {
+      "7인승": {
+        "base_price": 40440000,
+        "opt_price": 420000,
+        "sum": 40860000,
+        "actual_v12_price": 40860000,
+        "is_exact_match": true
+      }
+    }
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "grade": "디젤 2.2 4WD 익스클루시브",
+    "base_seat_num": 8,
+    "old_base_price": 42570000,
+    "new_base_price": 42810000,
+    "diff": 240000,
+    "verification": {
+      "7인승": {
+        "base_price": 42810000,
+        "opt_price": 450000,
+        "sum": 43260000,
+        "actual_v12_price": 43260000,
+        "is_exact_match": true
+      }
+    }
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2022",
+    "grade": "가솔린 3.8 4WD 익스클루시브",
+    "base_seat_num": 8,
+    "old_base_price": 38410000,
+    "new_base_price": 38750000,
+    "diff": 340000,
+    "verification": {
+      "7인승": {
+        "base_price": 38750000,
+        "opt_price": 350000,
+        "sum": 39100000,
+        "actual_v12_price": 39100000,
+        "is_exact_match": true
+      }
+    }
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2022",
+    "grade": "가솔린 3.8 2WD 익스클루시브",
+    "base_seat_num": 8,
+    "old_base_price": 36060000,
+    "new_base_price": 36400000,
+    "diff": 340000,
+    "verification": {
+      "7인승": {
+        "base_price": 36400000,
+        "opt_price": 350000,
+        "sum": 36750000,
+        "actual_v12_price": 36750000,
+        "is_exact_match": true
+      }
+    }
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2022",
+    "grade": "디젤 2.2 2WD 익스클루시브",
+    "base_seat_num": 8,
+    "old_base_price": 37560000,
+    "new_base_price": 37900000,
+    "diff": 340000,
+    "verification": {
+      "7인승": {
+        "base_price": 37900000,
+        "opt_price": 350000,
+        "sum": 38250000,
+        "actual_v12_price": 38250000,
+        "is_exact_match": true
+      }
+    }
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2022",
+    "grade": "디젤 2.2 4WD 익스클루시브",
+    "base_seat_num": 8,
+    "old_base_price": 39910000,
+    "new_base_price": 40250000,
+    "diff": 340000,
+    "verification": {
+      "7인승": {
+        "base_price": 40250000,
+        "opt_price": 350000,
+        "sum": 40600000,
+        "actual_v12_price": 40600000,
+        "is_exact_match": true
+      }
+    }
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2021",
+    "grade": "가솔린 3.8 4WD 익스클루시브",
+    "base_seat_num": 8,
+    "old_base_price": 38080000,
+    "new_base_price": 38750000,
+    "diff": 670000,
+    "verification": {
+      "7인승": {
+        "base_price": 38750000,
+        "opt_price": 20000,
+        "sum": 38770000,
+        "actual_v12_price": 38770000,
+        "is_exact_match": true
+      }
+    }
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2021",
+    "grade": "가솔린 3.8 2WD 익스클루시브",
+    "base_seat_num": 8,
+    "old_base_price": 35730000,
+    "new_base_price": 36400000,
+    "diff": 670000,
+    "verification": {
+      "7인승": {
+        "base_price": 36400000,
+        "opt_price": 20000,
+        "sum": 36420000,
+        "actual_v12_price": 36420000,
+        "is_exact_match": true
+      }
+    }
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2021",
+    "grade": "디젤 2.2 2WD 익스클루시브",
+    "base_seat_num": 8,
+    "old_base_price": 37230000,
+    "new_base_price": 37900000,
+    "diff": 670000,
+    "verification": {
+      "7인승": {
+        "base_price": 37900000,
+        "opt_price": 20000,
+        "sum": 37920000,
+        "actual_v12_price": 37920000,
+        "is_exact_match": true
+      }
+    }
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2021",
+    "grade": "디젤 2.2 4WD 익스클루시브",
+    "base_seat_num": 8,
+    "old_base_price": 39580000,
+    "new_base_price": 40250000,
+    "diff": 670000,
+    "verification": {
+      "7인승": {
+        "base_price": 40250000,
+        "opt_price": 20000,
+        "sum": 40270000,
+        "actual_v12_price": 40270000,
+        "is_exact_match": true
+      }
+    }
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "grade": "HEV 1.6 2WD 그래비티",
+    "base_seat_num": 5,
+    "old_base_price": 43410000,
+    "new_base_price": 44410000,
+    "diff": 1000000,
+    "verification": {
+      "6인승": {
+        "base_price": 44410000,
+        "opt_price": 740000,
+        "sum": 45150000,
+        "actual_v12_price": 45150000,
+        "is_exact_match": true
+      },
+      "7인승": {
+        "base_price": 44410000,
+        "opt_price": 690000,
+        "sum": 45100000,
+        "actual_v12_price": 45100000,
+        "is_exact_match": true
+      }
+    }
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "grade": "HEV 1.6 2WD 노블레스",
+    "base_seat_num": 5,
+    "old_base_price": 39550000,
+    "new_base_price": 40550000,
+    "diff": 1000000,
+    "verification": {
+      "6인승": {
+        "base_price": 40550000,
+        "opt_price": 1140000,
+        "sum": 41690000,
+        "actual_v12_price": 41690000,
+        "is_exact_match": true
+      },
+      "7인승": {
+        "base_price": 40550000,
+        "opt_price": 690000,
+        "sum": 41240000,
+        "actual_v12_price": 41240000,
+        "is_exact_match": true
+      }
+    }
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "grade": "HEV 1.6 2WD 시그니처",
+    "base_seat_num": 5,
+    "old_base_price": 42520000,
+    "new_base_price": 43520000,
+    "diff": 1000000,
+    "verification": {
+      "6인승": {
+        "base_price": 43520000,
+        "opt_price": 740000,
+        "sum": 44260000,
+        "actual_v12_price": 44260000,
+        "is_exact_match": true
+      },
+      "7인승": {
+        "base_price": 43520000,
+        "opt_price": 690000,
+        "sum": 44210000,
+        "actual_v12_price": 44210000,
+        "is_exact_match": true
+      }
+    }
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "grade": "디젤 2.2 2WD 시그니처",
+    "base_seat_num": 5,
+    "old_base_price": 40210000,
+    "new_base_price": 39440000,
+    "diff": -770000,
+    "verification": {
+      "6인승": {
+        "base_price": 39440000,
+        "opt_price": 740000,
+        "sum": 40180000,
+        "actual_v12_price": 40180000,
+        "is_exact_match": true
+      },
+      "7인승": {
+        "base_price": 39440000,
+        "opt_price": 690000,
+        "sum": 40130000,
+        "actual_v12_price": 40130000,
+        "is_exact_match": true
+      }
+    }
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "grade": "HEV 1.6 2WD 노블레스",
+    "base_seat_num": 5,
+    "old_base_price": 38380000,
+    "new_base_price": 39380000,
+    "diff": 1000000,
+    "verification": {
+      "6인승": {
+        "base_price": 39380000,
+        "opt_price": 1130000,
+        "sum": 40510000,
+        "actual_v12_price": 40510000,
+        "is_exact_match": true
+      },
+      "7인승": {
+        "base_price": 39380000,
+        "opt_price": 690000,
+        "sum": 40070000,
+        "actual_v12_price": 40070000,
+        "is_exact_match": true
+      }
+    }
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "grade": "HEV 1.6 2WD 시그니처",
+    "base_seat_num": 5,
+    "old_base_price": 41320000,
+    "new_base_price": 42320000,
+    "diff": 1000000,
+    "verification": {
+      "6인승": {
+        "base_price": 42320000,
+        "opt_price": 740000,
+        "sum": 43060000,
+        "actual_v12_price": 43060000,
+        "is_exact_match": true
+      },
+      "7인승": {
+        "base_price": 42320000,
+        "opt_price": 690000,
+        "sum": 43010000,
+        "actual_v12_price": 43010000,
+        "is_exact_match": true
+      }
+    }
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "grade": "HEV 1.6 2WD 그래비티",
+    "base_seat_num": 5,
+    "old_base_price": 42200000,
+    "new_base_price": 43200000,
+    "diff": 1000000,
+    "verification": {
+      "6인승": {
+        "base_price": 43200000,
+        "opt_price": 740000,
+        "sum": 43940000,
+        "actual_v12_price": 43940000,
+        "is_exact_match": true
+      },
+      "7인승": {
+        "base_price": 43200000,
+        "opt_price": 690000,
+        "sum": 43890000,
+        "actual_v12_price": 43890000,
+        "is_exact_match": true
+      }
+    }
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2020",
+    "grade": "디젤 2.2 2WD 노블레스",
+    "base_seat_num": 5,
+    "old_base_price": 36600000,
+    "new_base_price": 36700000,
+    "diff": 100000,
+    "verification": {
+      "6인승": {
+        "base_price": 36700000,
+        "opt_price": 1200000,
+        "sum": 37900000,
+        "actual_v12_price": 37900000,
+        "is_exact_match": true
+      },
+      "7인승": {
+        "base_price": 36700000,
+        "opt_price": 700000,
+        "sum": 37400000,
+        "actual_v12_price": 37400000,
+        "is_exact_match": true
+      }
+    }
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2020",
+    "grade": "디젤 2.2 2WD 시그니처",
+    "base_seat_num": 5,
+    "old_base_price": 39500000,
+    "new_base_price": 39600000,
+    "diff": 100000,
+    "verification": {
+      "6인승": {
+        "base_price": 39600000,
+        "opt_price": 800000,
+        "sum": 40400000,
+        "actual_v12_price": 40400000,
+        "is_exact_match": true
+      },
+      "7인승": {
+        "base_price": 39600000,
+        "opt_price": 700000,
+        "sum": 40300000,
+        "actual_v12_price": 40300000,
+        "is_exact_match": true
+      }
+    }
+  }
+]
