@@ -1,0 +1,3266 @@
+[
+  {
+    "model": "더 뉴 그랜저 (GN7)",
+    "year": "2025",
+    "grade": "가솔린 2.5 2WD 캘리그래피 (블랙익스테리어)",
+    "chosen_name": "빌트인 캠2, 증강현실 내비게이션",
+    "price": 450000,
+    "merged_names": [
+      "빌트인 캠2, 증강현실 내비게이션",
+      "빌트인 캠 2, 증강현실 내비게이션"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 그랜저 (GN7)",
+    "year": "2025",
+    "grade": "가솔린 2.5 2WD 캘리그래피 (블랙잉크)",
+    "chosen_name": "빌트인 캠2, 증강현실 내비게이션",
+    "price": 450000,
+    "merged_names": [
+      "빌트인 캠2, 증강현실 내비게이션",
+      "빌트인 캠 2, 증강현실 내비게이션"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 그랜저 (GN7)",
+    "year": "2025",
+    "grade": "가솔린 3.5 2WD 캘리그래피 (블랙익스테리어)",
+    "chosen_name": "빌트인 캠2, 증강현실 내비게이션",
+    "price": 450000,
+    "merged_names": [
+      "빌트인 캠2, 증강현실 내비게이션",
+      "빌트인 캠 2, 증강현실 내비게이션"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 그랜저 (GN7)",
+    "year": "2025",
+    "grade": "가솔린 3.5 2WD 캘리그래피 (블랙잉크)",
+    "chosen_name": "빌트인 캠2, 증강현실 내비게이션",
+    "price": 450000,
+    "merged_names": [
+      "빌트인 캠2, 증강현실 내비게이션",
+      "빌트인 캠 2, 증강현실 내비게이션"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "그랜드 스타렉스",
+    "year": "2017",
+    "grade": "디젤 2.5 2WD 스마트 (M/T)",
+    "chosen_name": "하이패스 시스템(ECM 룸미러 포함)",
+    "price": 200000,
+    "merged_names": [
+      "하이패스 시스템(ECM 룸미러 포함)",
+      "하이패스 시스템 (ECM 룸미러 포함)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "그랜드 스타렉스",
+    "year": "2017",
+    "grade": "디젤 2.5 2WD 스마트",
+    "chosen_name": "하이패스 시스템(ECM 룸미러 포함)",
+    "price": 200000,
+    "merged_names": [
+      "하이패스 시스템(ECM 룸미러 포함)",
+      "하이패스 시스템 (ECM 룸미러 포함)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "그랜드 스타렉스",
+    "year": "2017",
+    "grade": "디젤 2.5 2WD 모던",
+    "chosen_name": "하이패스 시스템 (ECM 룸미러포함)",
+    "price": 200000,
+    "merged_names": [
+      "하이패스 시스템 (ECM 룸미러포함)",
+      "하이패스 시스템(ECM 룸미러 포함)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "스타리아",
+    "year": "2025",
+    "grade": "투어러 9인승",
+    "chosen_name": "멀티미디어 내비플러스Ⅱ 선택 시",
+    "price": null,
+    "merged_names": [
+      "멀티미디어 내비플러스Ⅱ 선택 시",
+      "멀티미디어 내비플러스 II 선택 시"
+    ],
+    "sources": [
+      "encar",
+      "encar"
+    ],
+    "has_desc": false
+  },
+  {
+    "model": "스타리아",
+    "year": "2025",
+    "grade": "4WD 투어러 9인승",
+    "chosen_name": "멀티미디어 내비플러스Ⅱ 선택 시",
+    "price": null,
+    "merged_names": [
+      "멀티미디어 내비플러스Ⅱ 선택 시",
+      "멀티미디어 내비플러스 II 선택 시"
+    ],
+    "sources": [
+      "encar",
+      "encar"
+    ],
+    "has_desc": false
+  },
+  {
+    "model": "스타리아",
+    "year": "2025",
+    "grade": "L3.5 투어러 9인승",
+    "chosen_name": "멀티미디어 내비플러스Ⅱ 선택 시",
+    "price": null,
+    "merged_names": [
+      "멀티미디어 내비플러스Ⅱ 선택 시",
+      "멀티미디어 내비플러스 II 선택 시"
+    ],
+    "sources": [
+      "encar",
+      "encar"
+    ],
+    "has_desc": false
+  },
+  {
+    "model": "스타리아",
+    "year": "2025",
+    "grade": "L3.5 투어러 11인승",
+    "chosen_name": "멀티미디어 내비플러스Ⅱ 선택 시",
+    "price": null,
+    "merged_names": [
+      "멀티미디어 내비플러스Ⅱ 선택 시",
+      "멀티미디어 내비플러스 II 선택 시"
+    ],
+    "sources": [
+      "encar",
+      "encar"
+    ],
+    "has_desc": false
+  },
+  {
+    "model": "스타리아",
+    "year": "2024",
+    "grade": "투어러 9인승",
+    "chosen_name": "멀티미디어 내비플러스Ⅱ 선택 시",
+    "price": null,
+    "merged_names": [
+      "멀티미디어 내비플러스Ⅱ 선택 시",
+      "멀티미디어 내비플러스 II 선택 시"
+    ],
+    "sources": [
+      "encar",
+      "encar"
+    ],
+    "has_desc": false
+  },
+  {
+    "model": "스타리아",
+    "year": "2024",
+    "grade": "4WD 투어러 9인승",
+    "chosen_name": "멀티미디어 내비플러스Ⅱ 선택 시",
+    "price": null,
+    "merged_names": [
+      "멀티미디어 내비플러스Ⅱ 선택 시",
+      "멀티미디어 내비플러스 II 선택 시"
+    ],
+    "sources": [
+      "encar",
+      "encar"
+    ],
+    "has_desc": false
+  },
+  {
+    "model": "스타리아",
+    "year": "2024",
+    "grade": "L3.5 투어러 9인승",
+    "chosen_name": "멀티미디어 내비플러스Ⅱ 선택 시",
+    "price": null,
+    "merged_names": [
+      "멀티미디어 내비플러스Ⅱ 선택 시",
+      "멀티미디어 내비플러스 II 선택 시"
+    ],
+    "sources": [
+      "encar",
+      "encar"
+    ],
+    "has_desc": false
+  },
+  {
+    "model": "스타리아",
+    "year": "2024",
+    "grade": "L3.5 투어러 11인승",
+    "chosen_name": "멀티미디어 내비플러스Ⅱ 선택 시",
+    "price": null,
+    "merged_names": [
+      "멀티미디어 내비플러스Ⅱ 선택 시",
+      "멀티미디어 내비플러스 II 선택 시"
+    ],
+    "sources": [
+      "encar",
+      "encar"
+    ],
+    "has_desc": false
+  },
+  {
+    "model": "스타리아",
+    "year": "2023",
+    "grade": "투어러 9인승",
+    "chosen_name": "멀티미디어 내비플러스Ⅱ 선택 시",
+    "price": null,
+    "merged_names": [
+      "멀티미디어 내비플러스Ⅱ 선택 시",
+      "멀티미디어 내비플러스 II 선택 시"
+    ],
+    "sources": [
+      "encar",
+      "encar"
+    ],
+    "has_desc": false
+  },
+  {
+    "model": "스타리아",
+    "year": "2023",
+    "grade": "4WD 투어러 9인승",
+    "chosen_name": "멀티미디어 내비플러스Ⅱ 선택 시",
+    "price": null,
+    "merged_names": [
+      "멀티미디어 내비플러스Ⅱ 선택 시",
+      "멀티미디어 내비플러스 II 선택 시"
+    ],
+    "sources": [
+      "encar",
+      "encar"
+    ],
+    "has_desc": false
+  },
+  {
+    "model": "스타리아",
+    "year": "2023",
+    "grade": "L3.5 투어러 9인승",
+    "chosen_name": "멀티미디어 내비플러스Ⅱ 선택 시",
+    "price": null,
+    "merged_names": [
+      "멀티미디어 내비플러스Ⅱ 선택 시",
+      "멀티미디어 내비플러스 II 선택 시"
+    ],
+    "sources": [
+      "encar",
+      "encar"
+    ],
+    "has_desc": false
+  },
+  {
+    "model": "쏘나타 디 엣지(DN8)",
+    "year": "2025",
+    "grade": "lpg 2.0 2WD 프리미엄",
+    "chosen_name": "빌트인 캠 2, 증강현실 내비게이션",
+    "price": 450000,
+    "merged_names": [
+      "빌트인 캠 2, 증강현실 내비게이션",
+      "빌트인 캠 2 + 증강현실 내비게이션"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "쏘나타 디 엣지(DN8)",
+    "year": "2025",
+    "grade": "lpg 2.0 2WD 프리미엄",
+    "chosen_name": "현대스마트센스",
+    "price": 770000,
+    "merged_names": [
+      "현대스마트센스",
+      "현대 스마트센스"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "쏘나타 디 엣지(DN8)",
+    "year": "2027",
+    "grade": "lpg 2.0 2WD 프리미엄",
+    "chosen_name": "현대스마트센스Ⅰ",
+    "price": 450000,
+    "merged_names": [
+      "현대스마트센스Ⅰ",
+      "현대 스마트센스Ⅰ"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "쏘나타 (DN8)",
+    "year": "2023",
+    "grade": "lpg 2.0 2WD 모던",
+    "chosen_name": "인포테인먼트 내비Ⅰ",
+    "price": 1380000,
+    "merged_names": [
+      "인포테인먼트 내비Ⅰ",
+      "인포테인먼트 내비 I"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "쏘나타 (DN8)",
+    "year": "2020",
+    "grade": "가솔린 2.0 2WD 프리미엄 패밀리",
+    "chosen_name": "현대 스마트센스Ⅱ",
+    "price": 650000,
+    "merged_names": [
+      "현대 스마트센스Ⅱ",
+      "현대 스마트 센스Ⅱ"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "쏘나타 (DN8)",
+    "year": "2020",
+    "grade": "가솔린 2.0 2WD 프리미엄 밀레니얼",
+    "chosen_name": "현대 스마트센스Ⅲ",
+    "price": 1050000,
+    "merged_names": [
+      "현대 스마트센스Ⅲ",
+      "현대 스마트 센스Ⅲ"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "쏘나타 (DN8)",
+    "year": "2020",
+    "grade": "lpg 2.0 2WD 프리미엄",
+    "chosen_name": "현대 스마트센스Ⅰ",
+    "price": 650000,
+    "merged_names": [
+      "현대 스마트센스Ⅰ",
+      "현대 스마트 센스Ⅰ"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "쏘나타 (DN8)",
+    "year": "2020",
+    "grade": "lpg 2.0 2WD 프리미엄",
+    "chosen_name": "현대 스마트 센스Ⅰ(내비게이션 선택 시)",
+    "price": 750000,
+    "merged_names": [
+      "현대 스마트 센스Ⅰ(내비게이션 선택 시)",
+      "현대 스마트센스Ⅰ (내비게이션 선택 시)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "쏘나타 (DN8)",
+    "year": "2019",
+    "grade": "lpg 2.0 2WD 스마트",
+    "chosen_name": "멀티미디어 내비 플러스Ⅲ",
+    "price": 1550000,
+    "merged_names": [
+      "멀티미디어 내비 플러스Ⅲ",
+      "멀티미디어 내비 플러스 Ⅲ"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "쏘나타 (DN8)",
+    "year": "2019",
+    "grade": "lpg 2.0 2WD 스마트",
+    "chosen_name": "익스테리어 디자인Ⅱ",
+    "price": 690000,
+    "merged_names": [
+      "익스테리어 디자인Ⅱ",
+      "익스테리어 디자인 Ⅱ"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "쏘나타 (DN8)",
+    "year": "2019",
+    "grade": "lpg 2.0 2WD 스마트",
+    "chosen_name": "현대 스마트센스Ⅰ",
+    "price": 640000,
+    "merged_names": [
+      "현대 스마트센스Ⅰ",
+      "현대 스마트 센스Ⅰ"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "쏘나타 (DN8)",
+    "year": "2019",
+    "grade": "lpg 2.0 2WD 스마트",
+    "chosen_name": "현대 스마트센스Ⅰ (내비게이션 선택 시)",
+    "price": 740000,
+    "merged_names": [
+      "현대 스마트센스Ⅰ (내비게이션 선택 시)",
+      "현대 스마트 센스Ⅰ (내비게이션 선택 시)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "쏘나타 (DN8)",
+    "year": "2019",
+    "grade": "lpg 2.0 2WD 프리미엄",
+    "chosen_name": "18인치 알로이 휠&타이어",
+    "price": 250000,
+    "merged_names": [
+      "18인치 알로이 휠&타이어",
+      "18인치 알로이 휠 & 타이어"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 아반떼",
+    "year": "2019",
+    "grade": "lpg 1.6 2WD 스타일",
+    "chosen_name": "15인치 알로이 휠&타이어",
+    "price": 290000,
+    "merged_names": [
+      "15인치 알로이 휠&타이어",
+      "15인치 알로이 휠 & 타이어"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 아반떼",
+    "year": "2019",
+    "grade": "lpg 1.6 2WD 스타일",
+    "chosen_name": "현대스마트센스 패키지 I",
+    "price": 490000,
+    "merged_names": [
+      "현대스마트센스 패키지 I",
+      "현대 스마트 센스 패키지Ⅰ"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 아반떼",
+    "year": "2019",
+    "grade": "lpg 1.6 2WD 모던",
+    "chosen_name": "내비게이션 패키지Ⅳ",
+    "price": 1230000,
+    "merged_names": [
+      "내비게이션 패키지Ⅳ",
+      "내비게이션 패키지 IV"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 아반떼",
+    "year": "2019",
+    "grade": "lpg 1.6 2WD 모던",
+    "chosen_name": "컴포트 패키지Ⅰ",
+    "price": 690000,
+    "merged_names": [
+      "컴포트 패키지Ⅰ",
+      "컴포트 패키지 I"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 아반떼",
+    "year": "2018",
+    "grade": "가솔린 1.6 2WD 프리미엄",
+    "chosen_name": "내비게이션 패키지Ⅲ",
+    "price": 980000,
+    "merged_names": [
+      "내비게이션 패키지Ⅲ",
+      "내비게이션 패키지 III"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "엑센트(신형)",
+    "year": "2018",
+    "grade": "가솔린 1.4 2WD 모던",
+    "chosen_name": "16인치 알로이휠 & 타이어",
+    "price": 200000,
+    "merged_names": [
+      "16인치 알로이휠 & 타이어",
+      "16인치 알로이 휠 & 타이어"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "엑센트(신형)",
+    "year": "2018",
+    "grade": "디젤 1.6 2WD 모던",
+    "chosen_name": "16인치 알로이휠 & 타이어",
+    "price": 200000,
+    "merged_names": [
+      "16인치 알로이휠 & 타이어",
+      "16인치 알로이 휠 & 타이어"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "엑센트(신형)",
+    "year": "2016",
+    "grade": "가솔린 2WD Modern",
+    "chosen_name": "내비게이션 패키지Ⅰ(CDP미적용)",
+    "price": 1400000,
+    "merged_names": [
+      "내비게이션 패키지Ⅰ(CDP미적용)",
+      "내비게이션 패키지 Ⅰ(CDP미적용)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "엑센트(신형)",
+    "year": "2016",
+    "grade": "가솔린 2WD Premium",
+    "chosen_name": "내비게이션 패키지Ⅱ(CDP미적용)",
+    "price": 800000,
+    "merged_names": [
+      "내비게이션 패키지Ⅱ(CDP미적용)",
+      "내비게이션 패키지 Ⅱ(CDP미적용)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "엑센트(신형)",
+    "year": "2016",
+    "grade": "가솔린 2WD BlueSaver",
+    "chosen_name": "내비게이션 패키지Ⅱ(CDP미적용)",
+    "price": 800000,
+    "merged_names": [
+      "내비게이션 패키지Ⅱ(CDP미적용)",
+      "내비게이션 패키지 Ⅱ(CDP미적용)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "엑센트(신형)",
+    "year": "2016",
+    "grade": "디젤 2WD Modern",
+    "chosen_name": "내비게이션 패키지Ⅰ(CDP미적용)",
+    "price": 1300000,
+    "merged_names": [
+      "내비게이션 패키지Ⅰ(CDP미적용)",
+      "내비게이션 패키지 Ⅰ(CDP미적용)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "엑센트(신형)",
+    "year": "2016",
+    "grade": "디젤 2WD Premium",
+    "chosen_name": "내비게이션 패키지Ⅱ(CDP미적용)",
+    "price": 800000,
+    "merged_names": [
+      "내비게이션 패키지Ⅱ(CDP미적용)",
+      "내비게이션 패키지 Ⅱ(CDP미적용)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 코나 하이브리드",
+    "year": "2021",
+    "grade": "모던",
+    "chosen_name": "내비게이션Ⅱ 선택 시 선택 가능",
+    "price": null,
+    "merged_names": [
+      "내비게이션Ⅱ 선택 시 선택 가능",
+      "내비게이션 Ⅱ 선택 시 선택 가능"
+    ],
+    "sources": [
+      "encar",
+      "encar"
+    ],
+    "has_desc": false
+  },
+  {
+    "model": "K7 프리미어",
+    "year": "2020",
+    "grade": "lpg 3.0 2WD 노블레스",
+    "chosen_name": "서라운드뷰 모니터 + 후측방 모니터",
+    "price": 930000,
+    "merged_names": [
+      "서라운드뷰 모니터 + 후측방 모니터",
+      "서라운드 뷰 모니터 + 후측방 모니터"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "올 뉴 K7",
+    "year": "2019",
+    "grade": "2.2 디젤 프레스티지",
+    "chosen_name": "드라이브 와이즈 Ⅱ + 전방 주차보조 시스템",
+    "price": 1620000,
+    "merged_names": [
+      "드라이브 와이즈 Ⅱ + 전방 주차보조 시스템",
+      "드라이브 와이즈 II + 전방 주차보조시스템"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "올 뉴 K7",
+    "year": "2019",
+    "grade": "2.2 디젤 프레스티지",
+    "chosen_name": "스타일 I",
+    "price": 1130000,
+    "merged_names": [
+      "스타일 I",
+      "스타일Ⅰ"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "올 뉴 K7",
+    "year": "2019",
+    "grade": "2.2 디젤 프레스티지",
+    "chosen_name": "컴포트 I",
+    "price": 980000,
+    "merged_names": [
+      "컴포트 I",
+      "컴포트Ⅰ"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "올 뉴 K7",
+    "year": "2019",
+    "grade": "2.2 디젤 노블레스",
+    "chosen_name": "드라이브 와이즈 Ⅱ + 전방 주차보조 시스템",
+    "price": 1620000,
+    "merged_names": [
+      "드라이브 와이즈 Ⅱ + 전방 주차보조 시스템",
+      "드라이브 와이즈 II + 전방 주차보조 시스템"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "올 뉴 K7",
+    "year": "2019",
+    "grade": "2.4 GDI 프레스티지",
+    "chosen_name": "컴포트 I",
+    "price": 980000,
+    "merged_names": [
+      "컴포트 I",
+      "컴포트Ⅰ"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "올 뉴 K7",
+    "year": "2019",
+    "grade": "3.0 GDI 프레스티지",
+    "chosen_name": "컴포트 I",
+    "price": 980000,
+    "merged_names": [
+      "컴포트 I",
+      "컴포트Ⅰ"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "레이",
+    "year": "2013",
+    "grade": "가솔린 2WD 럭셔리",
+    "chosen_name": "175/50R15 타이어 & 블랙 럭셔리 알로이 휠",
+    "price": 300000,
+    "merged_names": [
+      "175/50R15 타이어 & 블랙 럭셔리 알로이 휠",
+      "175/50 R15 타이어 & 블랙 럭셔리 알로이 휠"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "올 뉴 모닝",
+    "year": "2015",
+    "grade": "가솔린 2WD 트렌디",
+    "chosen_name": "버튼시동 스마트키시스템",
+    "price": 350000,
+    "merged_names": [
+      "버튼시동 스마트키시스템",
+      "버튼시동 스마트키 시스템"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "올 뉴 모닝",
+    "year": "2014",
+    "grade": "가솔린 2WD 트렌디",
+    "chosen_name": "버튼시동 스마트키시스템",
+    "price": 350000,
+    "merged_names": [
+      "버튼시동 스마트키시스템",
+      "버튼시동 스마트키 시스템"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "셀토스",
+    "year": "2022",
+    "grade": "가솔린 1.6 터보 2WD",
+    "chosen_name": "컨비니언스 적용 시 선택가능",
+    "price": null,
+    "merged_names": [
+      "컨비니언스 적용 시 선택가능",
+      "컨비니언스 적용 시 선택 가능"
+    ],
+    "sources": [
+      "encar",
+      "encar"
+    ],
+    "has_desc": false
+  },
+  {
+    "model": "셀토스",
+    "year": "2022",
+    "grade": "가솔린 1.6 터보 4WD",
+    "chosen_name": "컨비니언스 적용 시 선택가능",
+    "price": null,
+    "merged_names": [
+      "컨비니언스 적용 시 선택가능",
+      "컨비니언스 적용 시 선택 가능"
+    ],
+    "sources": [
+      "encar",
+      "encar"
+    ],
+    "has_desc": false
+  },
+  {
+    "model": "스포티지 4세대",
+    "year": "2016",
+    "grade": "디젤 2.0 2WD 프레스티지",
+    "chosen_name": "운전석 통풍시트 + 전자식 룸미러(ECM) & 자동요금 징수 시스템(ETCS)",
+    "price": 450000,
+    "merged_names": [
+      "운전석 통풍시트 + 전자식 룸미러(ECM) & 자동요금 징수 시스템(ETCS)",
+      "운전석통풍시트 + 전자식룸미러(ECM & 자동요금 징수 시스템ETCS)"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "스포티지 4세대",
+    "year": "2016",
+    "grade": "디젤 2.0 4WD 프레스티지",
+    "chosen_name": "운전석 통풍시트 + 전자식 룸미러(ECM) & 자동요금 징수 시스템(ETCS)",
+    "price": 450000,
+    "merged_names": [
+      "운전석 통풍시트 + 전자식 룸미러(ECM) & 자동요금 징수 시스템(ETCS)",
+      "운전석통풍시트 + 전자식룸미러(ECM & 자동요금 징수 시스템ETCS)"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "올 뉴 쏘울",
+    "year": "2016",
+    "grade": "1.6 디젤 노블레스 스페셜",
+    "chosen_name": "컴포트 II",
+    "price": 700000,
+    "merged_names": [
+      "컴포트 II",
+      "컴포트Ⅱ"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "올 뉴 카니발",
+    "year": "2017",
+    "grade": "디젤 2WD 프레스티지",
+    "chosen_name": "내비게이션(8인치,후방카메라)",
+    "price": 850000,
+    "merged_names": [
+      "내비게이션(8인치,후방카메라)",
+      "내비게이션 (8인치, 후방카메라)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "올 뉴 카니발",
+    "year": "2014",
+    "grade": "가솔린 2WD 럭셔리",
+    "chosen_name": "내비게이션(8인치,후방카메라) + 독립제어 풀오토 에어컨(운전석,동승석,후석) + 클러스터 이오나이저, 오토디포그",
+    "price": 1200000,
+    "merged_names": [
+      "내비게이션(8인치,후방카메라) + 독립제어 풀오토 에어컨(운전석,동승석,후석) + 클러스터 이오나이저, 오토디포그",
+      "내비게이션(8인치, 후방카메라) + 독립제어 풀오토 에어컨(운전석, 동승석, 후석) + 클러스터 이오나이저, 오토 디포그"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "올 뉴 카니발",
+    "year": "2014",
+    "grade": "가솔린 2WD 노블레스",
+    "chosen_name": "스마트 테일게이트 제외시",
+    "price": 500000,
+    "merged_names": [
+      "스마트 테일게이트 제외시",
+      "스마트 테일 게이트 제외시"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": false
+  },
+  {
+    "model": "G90 (RS4)",
+    "year": "2025",
+    "grade": "가솔린 3.5 터보 2WD",
+    "chosen_name": "뒷좌석 컴포트 패키지Ⅰ선택 시 선택 가능",
+    "price": null,
+    "merged_names": [
+      "뒷좌석 컴포트 패키지Ⅰ선택 시 선택 가능",
+      "뒷좌석 컴포트 패키지Ⅰ 선택 시 선택 가능"
+    ],
+    "sources": [
+      "encar",
+      "encar"
+    ],
+    "has_desc": false
+  },
+  {
+    "model": "G90 (RS4)",
+    "year": "2025",
+    "grade": "가솔린 3.5 터보 AWD",
+    "chosen_name": "뒷좌석 컴포트 패키지Ⅰ선택 시 선택 가능",
+    "price": null,
+    "merged_names": [
+      "뒷좌석 컴포트 패키지Ⅰ선택 시 선택 가능",
+      "뒷좌석 컴포트 패키지Ⅰ 선택 시 선택 가능"
+    ],
+    "sources": [
+      "encar",
+      "encar"
+    ],
+    "has_desc": false
+  },
+  {
+    "model": "G90 (RS4)",
+    "year": "2025",
+    "grade": "가솔린 3.5 터보 e-S/C 2WD",
+    "chosen_name": "뒷좌석 컴포트 패키지Ⅰ선택 시 선택 가능",
+    "price": null,
+    "merged_names": [
+      "뒷좌석 컴포트 패키지Ⅰ선택 시 선택 가능",
+      "뒷좌석 컴포트 패키지Ⅰ 선택 시 선택 가능"
+    ],
+    "sources": [
+      "encar",
+      "encar"
+    ],
+    "has_desc": false
+  },
+  {
+    "model": "G90 (RS4)",
+    "year": "2025",
+    "grade": "가솔린 3.5 터보 e-S/C AWD",
+    "chosen_name": "뒷좌석 컴포트 패키지Ⅰ선택 시 선택 가능",
+    "price": null,
+    "merged_names": [
+      "뒷좌석 컴포트 패키지Ⅰ선택 시 선택 가능",
+      "뒷좌석 컴포트 패키지Ⅰ 선택 시 선택 가능"
+    ],
+    "sources": [
+      "encar",
+      "encar"
+    ],
+    "has_desc": false
+  },
+  {
+    "model": "G90 (RS4)",
+    "year": "2024",
+    "grade": "가솔린 3.5 터보 2WD",
+    "chosen_name": "뒷좌석 컴포트 패키지Ⅰ선택 시 선택 가능",
+    "price": null,
+    "merged_names": [
+      "뒷좌석 컴포트 패키지Ⅰ선택 시 선택 가능",
+      "뒷좌석 컴포트 패키지Ⅰ 선택 시 선택 가능"
+    ],
+    "sources": [
+      "encar",
+      "encar"
+    ],
+    "has_desc": false
+  },
+  {
+    "model": "G90 (RS4)",
+    "year": "2024",
+    "grade": "가솔린 3.5 터보 AWD",
+    "chosen_name": "뒷좌석 컴포트 패키지Ⅰ선택 시 선택 가능",
+    "price": null,
+    "merged_names": [
+      "뒷좌석 컴포트 패키지Ⅰ선택 시 선택 가능",
+      "뒷좌석 컴포트 패키지Ⅰ 선택 시 선택 가능"
+    ],
+    "sources": [
+      "encar",
+      "encar"
+    ],
+    "has_desc": false
+  },
+  {
+    "model": "G90 (RS4)",
+    "year": "2024",
+    "grade": "가솔린 3.5 터보 e-S/C 2WD",
+    "chosen_name": "뒷좌석 컴포트 패키지Ⅰ선택 시 선택 가능",
+    "price": null,
+    "merged_names": [
+      "뒷좌석 컴포트 패키지Ⅰ선택 시 선택 가능",
+      "뒷좌석 컴포트 패키지Ⅰ 선택 시 선택 가능"
+    ],
+    "sources": [
+      "encar",
+      "encar"
+    ],
+    "has_desc": false
+  },
+  {
+    "model": "G90 (RS4)",
+    "year": "2024",
+    "grade": "가솔린 3.5 터보 e-S/C AWD",
+    "chosen_name": "뒷좌석 컴포트 패키지Ⅰ선택 시 선택 가능",
+    "price": null,
+    "merged_names": [
+      "뒷좌석 컴포트 패키지Ⅰ선택 시 선택 가능",
+      "뒷좌석 컴포트 패키지Ⅰ 선택 시 선택 가능"
+    ],
+    "sources": [
+      "encar",
+      "encar"
+    ],
+    "has_desc": false
+  },
+  {
+    "model": "G90 (RS4)",
+    "year": "2023",
+    "grade": "가솔린 3.5 터보 2WD",
+    "chosen_name": "뒷좌석 컴포트 패키지Ⅰ선택 시 선택 가능",
+    "price": null,
+    "merged_names": [
+      "뒷좌석 컴포트 패키지Ⅰ선택 시 선택 가능",
+      "뒷좌석 컴포트 패키지Ⅰ 선택 시 선택 가능"
+    ],
+    "sources": [
+      "encar",
+      "encar"
+    ],
+    "has_desc": false
+  },
+  {
+    "model": "G90 (RS4)",
+    "year": "2023",
+    "grade": "가솔린 3.5 터보 AWD",
+    "chosen_name": "뒷좌석 컴포트 패키지Ⅰ선택 시 선택 가능",
+    "price": null,
+    "merged_names": [
+      "뒷좌석 컴포트 패키지Ⅰ선택 시 선택 가능",
+      "뒷좌석 컴포트 패키지Ⅰ 선택 시 선택 가능"
+    ],
+    "sources": [
+      "encar",
+      "encar"
+    ],
+    "has_desc": false
+  },
+  {
+    "model": "G90 (RS4)",
+    "year": "2023",
+    "grade": "가솔린 3.5 터보 e-S/C 2WD",
+    "chosen_name": "뒷좌석 컴포트 패키지Ⅰ선택 시 선택 가능",
+    "price": null,
+    "merged_names": [
+      "뒷좌석 컴포트 패키지Ⅰ선택 시 선택 가능",
+      "뒷좌석 컴포트 패키지Ⅰ 선택 시 선택 가능"
+    ],
+    "sources": [
+      "encar",
+      "encar"
+    ],
+    "has_desc": false
+  },
+  {
+    "model": "G90 (RS4)",
+    "year": "2023",
+    "grade": "가솔린 3.5 터보 e-S/C AWD",
+    "chosen_name": "뒷좌석 컴포트 패키지Ⅰ선택 시 선택 가능",
+    "price": null,
+    "merged_names": [
+      "뒷좌석 컴포트 패키지Ⅰ선택 시 선택 가능",
+      "뒷좌석 컴포트 패키지Ⅰ 선택 시 선택 가능"
+    ],
+    "sources": [
+      "encar",
+      "encar"
+    ],
+    "has_desc": false
+  },
+  {
+    "model": "G90 (RS4)",
+    "year": "2022",
+    "grade": "가솔린 3.5 터보 2WD",
+    "chosen_name": "뒷좌석 컴포트 패키지Ⅰ선택 시 선택 가능",
+    "price": null,
+    "merged_names": [
+      "뒷좌석 컴포트 패키지Ⅰ선택 시 선택 가능",
+      "뒷좌석 컴포트 패키지Ⅰ 선택 시 선택 가능"
+    ],
+    "sources": [
+      "encar",
+      "encar"
+    ],
+    "has_desc": false
+  },
+  {
+    "model": "G90 (RS4)",
+    "year": "2022",
+    "grade": "가솔린 3.5 터보 AWD",
+    "chosen_name": "뒷좌석 컴포트 패키지Ⅰ선택 시 선택 가능",
+    "price": null,
+    "merged_names": [
+      "뒷좌석 컴포트 패키지Ⅰ선택 시 선택 가능",
+      "뒷좌석 컴포트 패키지Ⅰ 선택 시 선택 가능"
+    ],
+    "sources": [
+      "encar",
+      "encar"
+    ],
+    "has_desc": false
+  },
+  {
+    "model": "더 뉴 QM6",
+    "year": "2025",
+    "grade": "2.0 GDe RE 2WD",
+    "chosen_name": "EASY LIFE 인포테인먼트 팩Ⅱ + BOSE 서라운드 사운드 시스템 (12 스피커)",
+    "price": 1520000,
+    "merged_names": [
+      "EASY LIFE 인포테인먼트 팩Ⅱ + BOSE 서라운드 사운드 시스템 (12 스피커)",
+      "EASY LIFE 인포테인먼트 팩 II + BOSE 서라운드 사운드 시스템(12 스피커)"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 QM6",
+    "year": "2020",
+    "grade": "2.0 GDe 2WD LE",
+    "chosen_name": "S-Link 패키지Ⅰ",
+    "price": 1080000,
+    "merged_names": [
+      "S-Link 패키지Ⅰ",
+      "S-Link 패키지 I"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 QM6",
+    "year": "2020",
+    "grade": "2.0 GDe 2WD LE",
+    "chosen_name": "S-Link 패키지Ⅲ",
+    "price": 1920000,
+    "merged_names": [
+      "S-Link 패키지Ⅲ",
+      "S-Link 패키지 III"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 QM6",
+    "year": "2020",
+    "grade": "2.0 GDe 2WD RE",
+    "chosen_name": "S-Link 패키지Ⅱ",
+    "price": 1080000,
+    "merged_names": [
+      "S-Link 패키지Ⅱ",
+      "S-Link 패키지 II"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 QM6",
+    "year": "2020",
+    "grade": "가솔린 2.0 2WD RE시그니처",
+    "chosen_name": "S-Link 패키지Ⅱ",
+    "price": 1080000,
+    "merged_names": [
+      "S-Link 패키지Ⅱ",
+      "S-Link 패키지 II"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 QM6",
+    "year": "2020",
+    "grade": "1.7 디젤 2WD RE",
+    "chosen_name": "S-Link 패키지Ⅳ",
+    "price": 1380000,
+    "merged_names": [
+      "S-Link 패키지Ⅳ",
+      "S-Link 패키지 IV"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 QM6",
+    "year": "2020",
+    "grade": "디젤 1.7 2WD RE시그니처",
+    "chosen_name": "드라이빙 어시스트 패키지Ⅱ",
+    "price": 1040000,
+    "merged_names": [
+      "드라이빙 어시스트 패키지Ⅱ",
+      "드라이빙 어시스트 패키지 II"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 QM6",
+    "year": "2020",
+    "grade": "2.0 디젤 4WD RE",
+    "chosen_name": "S-Link 패키지Ⅳ",
+    "price": 1380000,
+    "merged_names": [
+      "S-Link 패키지Ⅳ",
+      "S-Link 패키지 IV"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 QM6",
+    "year": "2020",
+    "grade": "디젤 2.0 4WD RE시그니처",
+    "chosen_name": "드라이빙 어시스트 패키지Ⅱ",
+    "price": 1040000,
+    "merged_names": [
+      "드라이빙 어시스트 패키지Ⅱ",
+      "드라이빙 어시스트 패키지 II"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 QM6",
+    "year": "2020",
+    "grade": "2.0 디젤 4WD 프리미에르",
+    "chosen_name": "드라이빙 어시스트 패키지Ⅱ",
+    "price": 1040000,
+    "merged_names": [
+      "드라이빙 어시스트 패키지Ⅱ",
+      "드라이빙 어시스트 패키지 II"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 QM6",
+    "year": "2020",
+    "grade": "2.0 LPG 2WD LE",
+    "chosen_name": "S-Link 패키지Ⅰ",
+    "price": 1080000,
+    "merged_names": [
+      "S-Link 패키지Ⅰ",
+      "S-Link 패키지 I"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 QM6",
+    "year": "2020",
+    "grade": "2.0 LPG 2WD LE",
+    "chosen_name": "S-Link 패키지Ⅲ",
+    "price": 1920000,
+    "merged_names": [
+      "S-Link 패키지Ⅲ",
+      "S-Link 패키지 III"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 QM6",
+    "year": "2019",
+    "grade": "2.0 LPe LE 2WD",
+    "chosen_name": "S-Link 패키지Ⅰ",
+    "price": 1080000,
+    "merged_names": [
+      "S-Link 패키지Ⅰ",
+      "S-Link 패키지 I"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 QM6",
+    "year": "2019",
+    "grade": "2.0 LPe LE 2WD",
+    "chosen_name": "S-Link 패키지Ⅲ",
+    "price": 1920000,
+    "merged_names": [
+      "S-Link 패키지Ⅲ",
+      "S-Link 패키지 III"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 QM6",
+    "year": "2019",
+    "grade": "2.0 LPe RE 2WD",
+    "chosen_name": "S-Link 8.7\" 내비게이션",
+    "price": 690000,
+    "merged_names": [
+      "S-Link 8.7\" 내비게이션",
+      "S-Link 8.7인치 내비게이션"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 QM6",
+    "year": "2019",
+    "grade": "2.0 LPe RE 2WD",
+    "chosen_name": "19\" 투톤 알로이 휠 & 225/55R 19 타이어",
+    "price": 300000,
+    "merged_names": [
+      "19\" 투톤 알로이 휠 & 225/55R 19 타이어",
+      "19인치 투톤 알로이 휠 & 225/55R 19 타이어"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 QM6",
+    "year": "2019",
+    "grade": "2.0 LPe RE 시그니처 2WD",
+    "chosen_name": "S-Link 8.7\" 내비게이션",
+    "price": 690000,
+    "merged_names": [
+      "S-Link 8.7\" 내비게이션",
+      "S-Link 8.7인치 내비게이션"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "QM6",
+    "year": "2019",
+    "grade": "2.0 GDe 2WD LE",
+    "chosen_name": "S-Link 패키지Ⅰ",
+    "price": 1600000,
+    "merged_names": [
+      "S-Link 패키지Ⅰ",
+      "S-Link 패키지 I"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "QM6",
+    "year": "2019",
+    "grade": "2.0 GDe 2WD RE",
+    "chosen_name": "S-Link 패키지Ⅱ",
+    "price": 1100000,
+    "merged_names": [
+      "S-Link 패키지Ⅱ",
+      "S-Link 패키지 II"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "QM6",
+    "year": "2019",
+    "grade": "가솔린 2.0 2WD RE시그니처",
+    "chosen_name": "S-Link 패키지Ⅱ",
+    "price": 1100000,
+    "merged_names": [
+      "S-Link 패키지Ⅱ",
+      "S-Link 패키지 II"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "QM6",
+    "year": "2019",
+    "grade": "2.0 디젤 2WD LE",
+    "chosen_name": "S-Link 패키지Ⅰ",
+    "price": 1600000,
+    "merged_names": [
+      "S-Link 패키지Ⅰ",
+      "S-Link 패키지 I"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "QM6",
+    "year": "2019",
+    "grade": "2.0 디젤 2WD RE",
+    "chosen_name": "S-Link 패키지Ⅱ",
+    "price": 1200000,
+    "merged_names": [
+      "S-Link 패키지Ⅱ",
+      "S-Link 패키지 II"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "QM6",
+    "year": "2019",
+    "grade": "디젤 2.0 2WD RE시그니처",
+    "chosen_name": "S-Link 패키지Ⅱ",
+    "price": 1200000,
+    "merged_names": [
+      "S-Link 패키지Ⅱ",
+      "S-Link 패키지 II"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "QM6",
+    "year": "2019",
+    "grade": "2.0 디젤 4WD LE",
+    "chosen_name": "S-Link 패키지Ⅰ",
+    "price": 1600000,
+    "merged_names": [
+      "S-Link 패키지Ⅰ",
+      "S-Link 패키지 I"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "QM6",
+    "year": "2019",
+    "grade": "2.0 디젤 4WD RE",
+    "chosen_name": "S-Link 패키지Ⅱ",
+    "price": 1200000,
+    "merged_names": [
+      "S-Link 패키지Ⅱ",
+      "S-Link 패키지 II"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "QM6",
+    "year": "2019",
+    "grade": "디젤 2.0 4WD RE시그니처",
+    "chosen_name": "S-Link 패키지Ⅱ",
+    "price": 1200000,
+    "merged_names": [
+      "S-Link 패키지Ⅱ",
+      "S-Link 패키지 II"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "QM6",
+    "year": "2019",
+    "grade": "2.0 LPG 2WD LE",
+    "chosen_name": "S-Link 패키지Ⅰ",
+    "price": 1080000,
+    "merged_names": [
+      "S-Link 패키지Ⅰ",
+      "S-Link 패키지 I"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "QM6",
+    "year": "2019",
+    "grade": "2.0 LPG 2WD LE",
+    "chosen_name": "S-Link 패키지Ⅲ",
+    "price": 1920000,
+    "merged_names": [
+      "S-Link 패키지Ⅲ",
+      "S-Link 패키지 III"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "QM6",
+    "year": "2018",
+    "grade": "2.0 GDe 2WD LE",
+    "chosen_name": "S-Link 패키지Ⅰ",
+    "price": 1100000,
+    "merged_names": [
+      "S-Link 패키지Ⅰ",
+      "S-Link 패키지 I"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "QM6",
+    "year": "2018",
+    "grade": "2.0 GDe 2WD RE",
+    "chosen_name": "S-Link 패키지Ⅱ",
+    "price": 1100000,
+    "merged_names": [
+      "S-Link 패키지Ⅱ",
+      "S-Link 패키지 II"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "QM6",
+    "year": "2018",
+    "grade": "2.0 디젤 2WD LE",
+    "chosen_name": "S-Link 패키지Ⅰ",
+    "price": 1100000,
+    "merged_names": [
+      "S-Link 패키지Ⅰ",
+      "S-Link 패키지 I"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "QM6",
+    "year": "2018",
+    "grade": "2.0 디젤 2WD RE",
+    "chosen_name": "S-Link 패키지Ⅱ",
+    "price": 1200000,
+    "merged_names": [
+      "S-Link 패키지Ⅱ",
+      "S-Link 패키지 II"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "QM6",
+    "year": "2018",
+    "grade": "2.0 디젤 2WD 시그니처",
+    "chosen_name": "S-Link 패키지Ⅱ",
+    "price": 1200000,
+    "merged_names": [
+      "S-Link 패키지Ⅱ",
+      "S-Link 패키지 II"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "QM6",
+    "year": "2018",
+    "grade": "2.0 디젤 4WD LE",
+    "chosen_name": "S-Link 패키지Ⅰ",
+    "price": 1100000,
+    "merged_names": [
+      "S-Link 패키지Ⅰ",
+      "S-Link 패키지 I"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "QM6",
+    "year": "2018",
+    "grade": "2.0 디젤 4WD RE",
+    "chosen_name": "S-Link 패키지Ⅱ",
+    "price": 1200000,
+    "merged_names": [
+      "S-Link 패키지Ⅱ",
+      "S-Link 패키지 II"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "QM6",
+    "year": "2018",
+    "grade": "2.0 디젤 4WD 시그니처",
+    "chosen_name": "S-Link 패키지Ⅱ",
+    "price": 1200000,
+    "merged_names": [
+      "S-Link 패키지Ⅱ",
+      "S-Link 패키지 II"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "SM3 네오",
+    "year": "2016",
+    "grade": "SE",
+    "chosen_name": "17\" 블랙슈 투톤 알로이 휠 & 205/55R 17 타이어",
+    "price": 150000,
+    "merged_names": [
+      "17\" 블랙슈 투톤 알로이 휠 & 205/55R 17 타이어",
+      "17인치 블랙슈 투톤 알로이 휠 & 205/55R 17 타이어"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": false
+  },
+  {
+    "model": "SM3 네오",
+    "year": "2016",
+    "grade": "디젤 SE",
+    "chosen_name": "17\" 블랙슈 투톤 알로이 휠 & 205/55R 17 타이어",
+    "price": 150000,
+    "merged_names": [
+      "17\" 블랙슈 투톤 알로이 휠 & 205/55R 17 타이어",
+      "17인치 블랙슈 투톤 알로이 휠 & 205/55R 17 타이어"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": false
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2025",
+    "grade": "1.3 TCe 필",
+    "chosen_name": "드라이빙 어시스트 패키지Ⅰ",
+    "price": 780000,
+    "merged_names": [
+      "드라이빙 어시스트 패키지Ⅰ",
+      "드라이빙 어시스트 패키지 I"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2025",
+    "grade": "1.3 TCe 필",
+    "chosen_name": "openR link 패키지 Ⅰ",
+    "price": 1230000,
+    "merged_names": [
+      "openR link 패키지 Ⅰ",
+      "openR link 패키지 I"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2025",
+    "grade": "1.8 TCe 인스파이어",
+    "chosen_name": "드라이빙 어시스트 패키지 Ⅱ",
+    "price": 610000,
+    "merged_names": [
+      "드라이빙 어시스트 패키지 Ⅱ",
+      "드라이빙 어시스트 패키지 II"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2025",
+    "grade": "1.8 TCe 인스파이어",
+    "chosen_name": "openR link 패키지 Ⅳ",
+    "price": 1610000,
+    "merged_names": [
+      "openR link 패키지 Ⅳ",
+      "openR link 패키지 IV"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2025",
+    "grade": "2.0 LPe 필",
+    "chosen_name": "드라이빙 어시스트 패키지Ⅲ",
+    "price": 680000,
+    "merged_names": [
+      "드라이빙 어시스트 패키지Ⅲ",
+      "드라이빙 어시스트 패키지 III"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2025",
+    "grade": "2.0 LPe 필",
+    "chosen_name": "openR link 패키지 Ⅲ",
+    "price": 1180000,
+    "merged_names": [
+      "openR link 패키지 Ⅲ",
+      "openR link 패키지 III"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2023",
+    "grade": "1.3 TCe RE",
+    "chosen_name": "EASY CONNECT 패키지Ⅱ",
+    "price": 1620000,
+    "merged_names": [
+      "EASY CONNECT 패키지Ⅱ",
+      "EASY CONNECT 패키지 II"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2023",
+    "grade": "1.3 TCe RE",
+    "chosen_name": "드라이빙 어시스트 패키지Ⅱ",
+    "price": 610000,
+    "merged_names": [
+      "드라이빙 어시스트 패키지Ⅱ",
+      "드라이빙 어시스트 패키지 II"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2023",
+    "grade": "2.0 LPe RE",
+    "chosen_name": "EASY CONNECT 패키지Ⅱ",
+    "price": 1620000,
+    "merged_names": [
+      "EASY CONNECT 패키지Ⅱ",
+      "EASY CONNECT 패키지 II"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2023",
+    "grade": "2.0 LPe RE",
+    "chosen_name": "드라이빙 어시스트 패키지Ⅱ",
+    "price": 610000,
+    "merged_names": [
+      "드라이빙 어시스트 패키지Ⅱ",
+      "드라이빙 어시스트 패키지 II"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2021",
+    "grade": "1.3 TCe SE",
+    "chosen_name": "17\" 투톤 알로이 휠 & 225/55 R17 타이어",
+    "price": 200000,
+    "merged_names": [
+      "17\" 투톤 알로이 휠 & 225/55 R17 타이어",
+      "17인치 투톤 알로이 휠 & 225/55 R17 타이어"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2021",
+    "grade": "1.3 TCe SE Plus",
+    "chosen_name": "EASY CONNECT 패키지Ⅰ",
+    "price": 1580000,
+    "merged_names": [
+      "EASY CONNECT 패키지Ⅰ",
+      "EASY CONNECT 패키지 I"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2021",
+    "grade": "1.3 TCe SE Plus",
+    "chosen_name": "드라이빙 어시스트 패키지Ⅰ",
+    "price": 790000,
+    "merged_names": [
+      "드라이빙 어시스트 패키지Ⅰ",
+      "드라이빙 어시스트 패키지 I"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2021",
+    "grade": "1.3 TCe SE Plus",
+    "chosen_name": "18\" 투톤 알로이 휠 & 245/45 R18 타이어",
+    "price": 250000,
+    "merged_names": [
+      "18\" 투톤 알로이 휠 & 245/45 R18 타이어",
+      "18인치 투톤 알로이 휠 & 245/45 R18 타이어"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2021",
+    "grade": "1.3 TCe LE",
+    "chosen_name": "EASY CONNECT 패키지Ⅱ",
+    "price": 1620000,
+    "merged_names": [
+      "EASY CONNECT 패키지Ⅱ",
+      "EASY CONNECT 패키지 II"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2021",
+    "grade": "1.3 TCe LE",
+    "chosen_name": "드라이빙 어시스트 패키지Ⅱ",
+    "price": 1130000,
+    "merged_names": [
+      "드라이빙 어시스트 패키지Ⅱ",
+      "드라이빙 어시스트 패키지 II"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2021",
+    "grade": "1.3 TCe RE",
+    "chosen_name": "EASY CONNECT 패키지Ⅲ",
+    "price": 1380000,
+    "merged_names": [
+      "EASY CONNECT 패키지Ⅲ",
+      "EASY CONNECT 패키지 III"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2021",
+    "grade": "1.3 TCe RE",
+    "chosen_name": "드라이빙 어시스트 패키지Ⅲ",
+    "price": 940000,
+    "merged_names": [
+      "드라이빙 어시스트 패키지Ⅲ",
+      "드라이빙 어시스트 패키지 III"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2021",
+    "grade": "1.3 TCe RE",
+    "chosen_name": "19\" 투톤 알로이 휠 & 245/40 R19 타이어 + 액티브 댐핑 컨트롤",
+    "price": 690000,
+    "merged_names": [
+      "19\" 투톤 알로이 휠 & 245/40 R19 타이어 + 액티브 댐핑 컨트롤",
+      "19인치 투톤 알로이 휠 & 245/40 R19 타이어 + 액티브 댐핑 컨트롤"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2021",
+    "grade": "1.3 TCe 프리미에르",
+    "chosen_name": "EASY CONNECT 패키지Ⅲ",
+    "price": 1380000,
+    "merged_names": [
+      "EASY CONNECT 패키지Ⅲ",
+      "EASY CONNECT 패키지 III"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2021",
+    "grade": "1.3 TCe 프리미에르",
+    "chosen_name": "드라이빙 어시스트 패키지Ⅲ",
+    "price": 940000,
+    "merged_names": [
+      "드라이빙 어시스트 패키지Ⅲ",
+      "드라이빙 어시스트 패키지 III"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2021",
+    "grade": "1.8 TCe LE",
+    "chosen_name": "EASY CONNECT 패키지Ⅱ",
+    "price": 1620000,
+    "merged_names": [
+      "EASY CONNECT 패키지Ⅱ",
+      "EASY CONNECT 패키지 II"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2021",
+    "grade": "1.8 TCe LE",
+    "chosen_name": "드라이빙 어시스트 패키지Ⅱ",
+    "price": 1130000,
+    "merged_names": [
+      "드라이빙 어시스트 패키지Ⅱ",
+      "드라이빙 어시스트 패키지 II"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2021",
+    "grade": "1.8 TCe 프리미에르",
+    "chosen_name": "EASY CONNECT 패키지Ⅲ",
+    "price": 1380000,
+    "merged_names": [
+      "EASY CONNECT 패키지Ⅲ",
+      "EASY CONNECT 패키지 III"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2021",
+    "grade": "1.8 TCe 프리미에르",
+    "chosen_name": "드라이빙 어시스트 패키지Ⅲ",
+    "price": 940000,
+    "merged_names": [
+      "드라이빙 어시스트 패키지Ⅲ",
+      "드라이빙 어시스트 패키지 III"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2021",
+    "grade": "2.0 LPe SE",
+    "chosen_name": "17\" 투톤 알로이 휠 & 225/55R 17 타이어",
+    "price": 200000,
+    "merged_names": [
+      "17\" 투톤 알로이 휠 & 225/55R 17 타이어",
+      "17인치 투톤 알로이 휠 & 225/55 R17 타이어"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2021",
+    "grade": "2.0 LPe SE Plus",
+    "chosen_name": "EASY CONNECT 패키지Ⅰ",
+    "price": 1580000,
+    "merged_names": [
+      "EASY CONNECT 패키지Ⅰ",
+      "EASY CONNECT 패키지 I"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2021",
+    "grade": "2.0 LPe SE Plus",
+    "chosen_name": "LPe 드라이빙 어시스트 패키지Ⅰ",
+    "price": 590000,
+    "merged_names": [
+      "LPe 드라이빙 어시스트 패키지Ⅰ",
+      "LPe 드라이빙 어시스트 패키지 I"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2021",
+    "grade": "2.0 LPe SE Plus",
+    "chosen_name": "18\" 투톤 알로이 휠 & 245/45R 18 타이어",
+    "price": 250000,
+    "merged_names": [
+      "18\" 투톤 알로이 휠 & 245/45R 18 타이어",
+      "18인치 투톤 알로이 휠 & 245/45 R18 타이어"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2021",
+    "grade": "2.0 LPe LE",
+    "chosen_name": "EASY CONNECT 패키지Ⅱ",
+    "price": 1620000,
+    "merged_names": [
+      "EASY CONNECT 패키지Ⅱ",
+      "EASY CONNECT 패키지 II"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2021",
+    "grade": "2.0 LPe LE",
+    "chosen_name": "LPe 드라이빙 어시스트 패키지Ⅱ",
+    "price": 790000,
+    "merged_names": [
+      "LPe 드라이빙 어시스트 패키지Ⅱ",
+      "LPe 드라이빙 어시스트 패키지 II"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2021",
+    "grade": "2.0 LPe RE",
+    "chosen_name": "EASY CONNECT 패키지Ⅲ",
+    "price": 1380000,
+    "merged_names": [
+      "EASY CONNECT 패키지Ⅲ",
+      "EASY CONNECT 패키지 III"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2021",
+    "grade": "2.0 LPe RE",
+    "chosen_name": "LPe 드라이빙 어시스트 패키지Ⅲ",
+    "price": 790000,
+    "merged_names": [
+      "LPe 드라이빙 어시스트 패키지Ⅲ",
+      "LPe 드라이빙 어시스트 패키지 III"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 SM6",
+    "year": "2021",
+    "grade": "2.0 LPe RE",
+    "chosen_name": "19\" 투톤 알로이 휠 & 245/40R 19 타이어 + 액티브 댐핑 컨트롤",
+    "price": 690000,
+    "merged_names": [
+      "19\" 투톤 알로이 휠 & 245/40R 19 타이어 + 액티브 댐핑 컨트롤",
+      "19인치 투톤 알로이 휠 & 245/40 R19 타이어 + 액티브 댐핑 컨트롤"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "SM6",
+    "year": "2016",
+    "grade": "1.6 TCe RE",
+    "chosen_name": "프리미엄 시트 패키지 III",
+    "price": 490000,
+    "merged_names": [
+      "프리미엄 시트 패키지 III",
+      "프리미엄 시트 패키지 Ⅲ"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "SM6",
+    "year": "2016",
+    "grade": "1.6 TCe RE",
+    "chosen_name": "드라이빙 어시스트 패키지 II",
+    "price": 690000,
+    "merged_names": [
+      "드라이빙 어시스트 패키지 II",
+      "드라이빙 어시스트 패키지 Ⅱ"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "XM3",
+    "year": "2024",
+    "grade": "1.3 TCe RE",
+    "chosen_name": "18\" 블랙 투톤 알로이 휠 & 215/55 R18 타이어",
+    "price": 400000,
+    "merged_names": [
+      "18\" 블랙 투톤 알로이 휠 & 215/55 R18 타이어",
+      "18인치 블랙 투톤 알로이 휠 & 215/55 R18 타이어"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "XM3",
+    "year": "2024",
+    "grade": "1.3 TCe RE",
+    "chosen_name": "시그니처 패키지Ⅱ",
+    "price": 1900000,
+    "merged_names": [
+      "시그니처 패키지Ⅱ",
+      "시그니처 패키지 II"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "XM3",
+    "year": "2024",
+    "grade": "1.3 TCe RE",
+    "chosen_name": "블랙 가죽시트 패키지Ⅰ",
+    "price": 1410000,
+    "merged_names": [
+      "블랙 가죽시트 패키지Ⅰ",
+      "블랙 가죽시트 패키지 I"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "XM3",
+    "year": "2024",
+    "grade": "1.6 GTe RE",
+    "chosen_name": "시그니처 패키지Ⅰ",
+    "price": 1800000,
+    "merged_names": [
+      "시그니처 패키지Ⅰ",
+      "시그니처 패키지 I"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "XM3",
+    "year": "2024",
+    "grade": "1.6 GTe RE",
+    "chosen_name": "블랙 가죽시트 패키지Ⅰ",
+    "price": 1410000,
+    "merged_names": [
+      "블랙 가죽시트 패키지Ⅰ",
+      "블랙 가죽시트 패키지 I"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "XM3",
+    "year": "2023",
+    "grade": "1.3 TCe RE",
+    "chosen_name": "시그니처 패키지Ⅱ",
+    "price": 2160000,
+    "merged_names": [
+      "시그니처 패키지Ⅱ",
+      "시그니처 패키지 II"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "XM3",
+    "year": "2023",
+    "grade": "1.3 TCe RE",
+    "chosen_name": "블랙 가죽시트 패키지Ⅰ",
+    "price": 1400000,
+    "merged_names": [
+      "블랙 가죽시트 패키지Ⅰ",
+      "블랙 가죽시트 패키지 I"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "XM3",
+    "year": "2023",
+    "grade": "1.3 TCe RE",
+    "chosen_name": "18\" 블랙 투톤 알로이 휠 & 215/55 R18 타이어",
+    "price": 390000,
+    "merged_names": [
+      "18\" 블랙 투톤 알로이 휠 & 215/55 R18 타이어",
+      "18인치 블랙 투톤 알로이 휠 & 215/55 R18 타이어"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "XM3",
+    "year": "2023",
+    "grade": "1.3 TCe RE",
+    "chosen_name": "클라우드 펄 외장컬러",
+    "price": 150000,
+    "merged_names": [
+      "클라우드 펄 외장컬러",
+      "클라우드 펄"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "XM3",
+    "year": "2023",
+    "grade": "1.3 TCe RE",
+    "chosen_name": "소닉 레드 외장컬러",
+    "price": 150000,
+    "merged_names": [
+      "소닉 레드 외장컬러",
+      "소닉 레드"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "XM3",
+    "year": "2021",
+    "grade": "1.3 TCe LE",
+    "chosen_name": "17\" 알로이 휠 & 215/60 R17 타이어",
+    "price": 250000,
+    "merged_names": [
+      "17\" 알로이 휠 & 215/60 R17 타이어",
+      "17인치 알로이 휠 & 215/60 R17 타이어"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "XM3",
+    "year": "2021",
+    "grade": "1.3 TCe LE",
+    "chosen_name": "클라우드 펄 외장컬러",
+    "price": 150000,
+    "merged_names": [
+      "클라우드 펄 외장컬러",
+      "클라우드 펄"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "XM3",
+    "year": "2021",
+    "grade": "1.3 TCe RE",
+    "chosen_name": "18\" 투톤 알로이 휠 & 215/55 R18 타이어 + 듀얼 디퓨저 형상 리어 크롬 가니시",
+    "price": 400000,
+    "merged_names": [
+      "18\" 투톤 알로이 휠 & 215/55 R18 타이어 + 듀얼 디퓨저 형상 리어 크롬 가니시",
+      "18인치 투톤 알로이 휠 & 215/55 R18타이어 + 듀얼 디퓨저 형상 리어크롬가니시"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "XM3",
+    "year": "2021",
+    "grade": "1.3 TCe RE",
+    "chosen_name": "블랙 가죽시트 패키지Ⅰ",
+    "price": 740000,
+    "merged_names": [
+      "블랙 가죽시트 패키지Ⅰ",
+      "블랙 가죽시트 패키지 I"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "XM3",
+    "year": "2021",
+    "grade": "1.3 TCe RE",
+    "chosen_name": "블랙 가죽시트 패키지Ⅲ",
+    "price": 1080000,
+    "merged_names": [
+      "블랙 가죽시트 패키지Ⅲ",
+      "블랙 가죽시트 패키지 III"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "XM3",
+    "year": "2021",
+    "grade": "1.3 TCe RE",
+    "chosen_name": "클라우드 펄 외장컬러",
+    "price": 150000,
+    "merged_names": [
+      "클라우드 펄 외장컬러",
+      "클라우드 펄"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "XM3",
+    "year": "2021",
+    "grade": "1.3 TCe RE 시그니처",
+    "chosen_name": "블랙 가죽시트 패키지Ⅱ",
+    "price": 740000,
+    "merged_names": [
+      "블랙 가죽시트 패키지Ⅱ",
+      "블랙 가죽시트 패키지 II"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "XM3",
+    "year": "2021",
+    "grade": "1.3 TCe RE 시그니처",
+    "chosen_name": "클라우드 펄 외장컬러",
+    "price": 150000,
+    "merged_names": [
+      "클라우드 펄 외장컬러",
+      "클라우드 펄"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "XM3",
+    "year": "2021",
+    "grade": "1.6 GTe LE Plus",
+    "chosen_name": "시그니처 패키지Ⅰ",
+    "price": 1580000,
+    "merged_names": [
+      "시그니처 패키지Ⅰ",
+      "시그니처 패키지 I"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "XM3",
+    "year": "2020",
+    "grade": "가솔린 1.3 2WD RE",
+    "chosen_name": "시그니처 패키지Ⅱ",
+    "price": 1630000,
+    "merged_names": [
+      "시그니처 패키지Ⅱ",
+      "시그니처 패키지 II"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "XM3",
+    "year": "2020",
+    "grade": "가솔린 1.3 2WD RE",
+    "chosen_name": "블랙 가죽시트 패키지Ⅰ",
+    "price": 720000,
+    "merged_names": [
+      "블랙 가죽시트 패키지Ⅰ",
+      "블랙 가죽시트 패키지 I"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "XM3",
+    "year": "2020",
+    "grade": "가솔린 1.3 2WD RE",
+    "chosen_name": "블랙 가죽시트 패키지Ⅲ",
+    "price": 1060000,
+    "merged_names": [
+      "블랙 가죽시트 패키지Ⅲ",
+      "블랙 가죽시트 패키지 III"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "XM3",
+    "year": "2020",
+    "grade": "가솔린 1.3 TCe 2WD RE 시그니처",
+    "chosen_name": "블랙 가죽시트 패키지Ⅱ",
+    "price": 720000,
+    "merged_names": [
+      "블랙 가죽시트 패키지Ⅱ",
+      "블랙 가죽시트 패키지 II"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "올란도",
+    "year": "2018",
+    "grade": "1.6 디젤 LTZ",
+    "chosen_name": "7\"DMB 통합형 스마트 내비게이션(후방카메라 포함)",
+    "price": 1270000,
+    "merged_names": [
+      "7\"DMB 통합형 스마트 내비게이션(후방카메라 포함)",
+      "7인치 DMB 통합형 스마트 내비게이션 (후방카메라 포함)"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "올란도",
+    "year": "2018",
+    "grade": "1.6 디젤 LTZ",
+    "chosen_name": "18\" (235/45 R18)블랙 포인트 알로이 휠",
+    "price": 300000,
+    "merged_names": [
+      "18\" (235/45 R18)블랙 포인트 알로이 휠",
+      "18인치 (235/45 R18) 블랙 포인트 알로이 휠"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "올란도",
+    "year": "2018",
+    "grade": "1.6 디젤 퍼펙트 블랙",
+    "chosen_name": "7\"DMB 통합형 스마트 내비게이션(후방카메라 포함)",
+    "price": 1270000,
+    "merged_names": [
+      "7\"DMB 통합형 스마트 내비게이션(후방카메라 포함)",
+      "7인치 DMB 통합형 스마트 내비게이션 (후방카메라 포함)"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "올란도",
+    "year": "2014",
+    "grade": "2.0 디젤 LTZ",
+    "chosen_name": "18\" 블랙 포인트 알로이 휠",
+    "price": 300000,
+    "merged_names": [
+      "18\" 블랙 포인트 알로이 휠",
+      "18인치 블랙 포인트 알로이 휠"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": false
+  },
+  {
+    "model": "올란도",
+    "year": "2013",
+    "grade": "2.0 디젤 LTZ",
+    "chosen_name": "18\" 알로이 휠",
+    "price": 300000,
+    "merged_names": [
+      "18\" 알로이 휠",
+      "18인치 알로이 휠"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": false
+  },
+  {
+    "model": "크루즈",
+    "year": "2013",
+    "grade": "가솔린 2WD LT",
+    "chosen_name": "마이링크(후방카메라 포함)",
+    "price": 550000,
+    "merged_names": [
+      "마이링크(후방카메라 포함)",
+      "마이링크 (후방카메라 포함)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": false
+  },
+  {
+    "model": "크루즈",
+    "year": "2013",
+    "grade": "가솔린 2WD LT+",
+    "chosen_name": "마이링크(후방카메라 포함)",
+    "price": 550000,
+    "merged_names": [
+      "마이링크(후방카메라 포함)",
+      "마이링크 (후방카메라 포함)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": false
+  },
+  {
+    "model": "크루즈",
+    "year": "2013",
+    "grade": "가솔린 2WD LTZ+",
+    "chosen_name": "마이링크(후방카메라 포함)",
+    "price": 550000,
+    "merged_names": [
+      "마이링크(후방카메라 포함)",
+      "마이링크 (후방카메라 포함)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": false
+  },
+  {
+    "model": "크루즈",
+    "year": "2013",
+    "grade": "가솔린 2WD ThePerfectBlackLTZ+",
+    "chosen_name": "마이링크(후방카메라 포함)",
+    "price": 550000,
+    "merged_names": [
+      "마이링크(후방카메라 포함)",
+      "마이링크 (후방카메라 포함)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": false
+  },
+  {
+    "model": "크루즈",
+    "year": "2013",
+    "grade": "디젤 2WD LTZ+",
+    "chosen_name": "마이링크(후방카메라 포함)",
+    "price": 550000,
+    "merged_names": [
+      "마이링크(후방카메라 포함)",
+      "마이링크 (후방카메라 포함)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": false
+  },
+  {
+    "model": "크루즈",
+    "year": "2013",
+    "grade": "디젤 2WD ThePerfectBlackLTZ+",
+    "chosen_name": "마이링크(후방카메라 포함)",
+    "price": 550000,
+    "merged_names": [
+      "마이링크(후방카메라 포함)",
+      "마이링크 (후방카메라 포함)"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": false
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2022",
+    "grade": "1.4 프리미어",
+    "chosen_name": "세이프티 패키지Ⅱ",
+    "price": 400000,
+    "merged_names": [
+      "세이프티 패키지Ⅱ",
+      "세이프티 패키지 II"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2022",
+    "grade": "1.4 프리미어",
+    "chosen_name": "18\"블랙 알로이 휠",
+    "price": 150000,
+    "merged_names": [
+      "18\"블랙 알로이 휠",
+      "18인치 블랙 알로이 휠"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": false
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2021",
+    "grade": "1.4 LT",
+    "chosen_name": "세이프티 패키지Ⅰ",
+    "price": 400000,
+    "merged_names": [
+      "세이프티 패키지Ⅰ",
+      "세이프티 패키지 I"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2021",
+    "grade": "1.4 LT",
+    "chosen_name": "18\" 블랙 알로이 휠",
+    "price": 450000,
+    "merged_names": [
+      "18\" 블랙 알로이 휠",
+      "18인치 블랙 알로이 휠"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": false
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2021",
+    "grade": "1.4 프리미어",
+    "chosen_name": "세이프티 패키지Ⅱ",
+    "price": 400000,
+    "merged_names": [
+      "세이프티 패키지Ⅱ",
+      "세이프티 패키지 II"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2021",
+    "grade": "1.4 프리미어",
+    "chosen_name": "18\" 블랙 알로이 휠",
+    "price": 150000,
+    "merged_names": [
+      "18\" 블랙 알로이 휠",
+      "18인치 블랙 알로이 휠"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": false
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2021",
+    "grade": "1.6 디젤 프리미어",
+    "chosen_name": "세이프티 패키지Ⅰ",
+    "price": 400000,
+    "merged_names": [
+      "세이프티 패키지Ⅰ",
+      "세이프티 패키지 I"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2021",
+    "grade": "1.6 디젤 프리미어",
+    "chosen_name": "세이프티 패키지Ⅱ",
+    "price": 800000,
+    "merged_names": [
+      "세이프티 패키지Ⅱ",
+      "세이프티 패키지 II"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2019",
+    "grade": "디젤 1.6 2WD 퍼펙트 블랙",
+    "chosen_name": "세이프티 패키지Ⅰ",
+    "price": 400000,
+    "merged_names": [
+      "세이프티 패키지Ⅰ",
+      "세이프티 패키지 I"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2019",
+    "grade": "디젤 1.6 2WD 퍼펙트 블랙",
+    "chosen_name": "세이프티 패키지Ⅱ",
+    "price": 800000,
+    "merged_names": [
+      "세이프티 패키지Ⅱ",
+      "세이프티 패키지 II"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2019",
+    "grade": "디젤 1.6 2WD 레드라인 프리미어",
+    "chosen_name": "세이프티 패키지Ⅰ",
+    "price": 400000,
+    "merged_names": [
+      "세이프티 패키지Ⅰ",
+      "세이프티 패키지 I"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2019",
+    "grade": "디젤 1.6 2WD 레드라인 프리미어",
+    "chosen_name": "세이프티 패키지Ⅱ",
+    "price": 800000,
+    "merged_names": [
+      "세이프티 패키지Ⅱ",
+      "세이프티 패키지 II"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2018",
+    "grade": "1.6 디젤 프리미어",
+    "chosen_name": "세이프티 패키지Ⅰ",
+    "price": 400000,
+    "merged_names": [
+      "세이프티 패키지Ⅰ",
+      "세이프티 패키지 I"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2018",
+    "grade": "1.6 디젤 프리미어",
+    "chosen_name": "세이프티 패키지Ⅱ",
+    "price": 800000,
+    "merged_names": [
+      "세이프티 패키지Ⅱ",
+      "세이프티 패키지 II"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2018",
+    "grade": "1.6 디젤 퍼펙트 블랙",
+    "chosen_name": "세이프티 패키지Ⅰ",
+    "price": 400000,
+    "merged_names": [
+      "세이프티 패키지Ⅰ",
+      "세이프티 패키지 I"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2018",
+    "grade": "1.6 디젤 퍼펙트 블랙",
+    "chosen_name": "세이프티 패키지Ⅱ",
+    "price": 800000,
+    "merged_names": [
+      "세이프티 패키지Ⅱ",
+      "세이프티 패키지 II"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2017",
+    "grade": "1.6 디젤 LTZ",
+    "chosen_name": "세이프티 패키지Ⅰ",
+    "price": 400000,
+    "merged_names": [
+      "세이프티 패키지Ⅰ",
+      "세이프티 패키지 I"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2017",
+    "grade": "1.6 디젤 LTZ",
+    "chosen_name": "세이프티 패키지Ⅱ",
+    "price": 800000,
+    "merged_names": [
+      "세이프티 패키지Ⅱ",
+      "세이프티 패키지 II"
+    ],
+    "sources": [
+      "encar",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2017",
+    "grade": "디젤 1.6 2WD 퍼펙트 블랙",
+    "chosen_name": "세이프티 패키지Ⅰ",
+    "price": 400000,
+    "merged_names": [
+      "세이프티 패키지Ⅰ",
+      "세이프티 패키지 I"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2017",
+    "grade": "디젤 1.6 2WD 퍼펙트 블랙",
+    "chosen_name": "세이프티 패키지Ⅱ",
+    "price": 800000,
+    "merged_names": [
+      "세이프티 패키지Ⅱ",
+      "세이프티 패키지 II"
+    ],
+    "sources": [
+      "danawa",
+      "danawa"
+    ],
+    "has_desc": true
+  }
+]

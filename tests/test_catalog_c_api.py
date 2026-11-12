@@ -34,6 +34,8 @@ def run_tests():
     re_grade = d_xm3["grades"]["1.3 TCe RE"]
     print(f"Target grade: {d_xm3['target_grade']}")
     print(f"RE base_price: {re_grade['base_price']:,}원 ({re_grade['base_price_man']}만원), source: {re_grade['source']}")
+    print(f"RE options count: {re_grade['options_count']}개")
+    assert re_grade["options_count"] == 7, f"Expected 7 options for XM3 2021 RE after merge, got {re_grade['options_count']}"
     print("All 6 grades for XM3 2021:")
     for gname, ginfo in d_xm3["grades"].items():
         is_target = (gname == d_xm3["target_grade"])
