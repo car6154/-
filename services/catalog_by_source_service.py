@@ -8,6 +8,7 @@ from typing import Dict, Any, Optional
 
 from services.data_processor import DataProcessor
 
+CATALOG_C_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "catalog_c.json")
 CATALOG_V2_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "catalog_by_source_v2.json")
 
 _CATALOG_V2_CACHE: Optional[Dict[str, Any]] = None
@@ -357,6 +358,14 @@ def match_catalog_grade(query_grade: str, year_book: dict):
     elif len(two_wd_cands) > 1:
         final_cands = two_wd_cands
 
+    # 💡 [11-11-17]: 엔카(encar) 출처 우선 선택 (11-11-13 규칙)
+    # 복수 후보(예: QM6 RE 엔카 32,200,000원 vs 다나와 32,900,000원/33,400,000원) 중 엔카 공식 출처 우선 확정
+    encar_cands = [item for item in final_cands if item[1].get('source') == 'encar']
+    if len(encar_cands) == 1:
+        return encar_cands[0][0], encar_cands[0][1]
+    elif len(encar_cands) > 1:
+        final_cands = encar_cands
+
     # [11-06-59] 동일 트림 연식변경/신차가격 개정 등으로 동일 규격 내 복수 가격 공존 시 첫 번째 유효 후보 확정
     if final_cands:
         return final_cands[0][0], final_cands[0][1]
@@ -365,21 +374,44 @@ def match_catalog_grade(query_grade: str, year_book: dict):
 
 
 def load_catalog_by_source_v2() -> Dict[str, Any]:
-    """로컬 catalog_by_source_v2.json 로드 (네트워크 요청 없음)"""
+    """
+    [11-11-17] 제이책(C) 로드 (우선) 및 구형 V2 책 폴백 (안전장치)
+    - data/catalog_c.json 우선 로드하여 danawa/encar/c 키 및 모델 직접 접근 딕셔너리로 제공
+    - data/catalog_c.json 로드 실패 시 기존 data/catalog_by_source_v2.json으로 폴백
+    """
     global _CATALOG_V2_CACHE
     if _CATALOG_V2_CACHE is not None:
         return _CATALOG_V2_CACHE
 
-    if not os.path.exists(CATALOG_V2_PATH):
-        return {}
+    # 1. 제이책(C) 우선 로드 시도
+    if os.path.exists(CATALOG_C_PATH):
+        try:
+            with open(CATALOG_C_PATH, "r", encoding="utf-8") as f:
+                cat_c = json.load(f)
+            if cat_c and isinstance(cat_c, dict):
+                # 기존 코드가 .get("danawa") 또는 .get("encar") 또는 .get(source)를 호출하므로 모두 제이책 C로 연결
+                wrapped = {
+                    "c": cat_c,
+                    "danawa": cat_c,
+                    "encar": cat_c,
+                    **cat_c
+                }
+                _CATALOG_V2_CACHE = wrapped
+                return _CATALOG_V2_CACHE
+        except Exception as e:
+            print(f"[catalog_by_source_service] 제이책(C) 로드 실패: {e}, 구형 V2 책으로 폴백합니다.")
 
-    try:
-        with open(CATALOG_V2_PATH, "r", encoding="utf-8") as f:
-            _CATALOG_V2_CACHE = json.load(f)
-            return _CATALOG_V2_CACHE
-    except Exception as e:
-        print(f"[catalog_by_source_service] JSON 로드 오류: {e}")
-        return {}
+    # 2. 폴백: 기존 catalog_by_source_v2.json
+    if os.path.exists(CATALOG_V2_PATH):
+        try:
+            with open(CATALOG_V2_PATH, "r", encoding="utf-8") as f:
+                _CATALOG_V2_CACHE = json.load(f)
+                return _CATALOG_V2_CACHE
+        except Exception as e:
+            print(f"[catalog_by_source_service] 구형 V2 책 JSON 로드 오류: {e}")
+            return {}
+
+    return {}
 
 
 def get_pilot_catalog_spec(
@@ -534,11 +566,30 @@ def get_pilot_catalog_spec(
     # 일치 확인: 해당 등급의 기본가와 선택옵션, 액세서리, 안내문구 목록 반환
     base_price = grade_spec.get("base_price") or grade_spec.get("price")
     base_price_man = grade_spec.get("base_price_man") or grade_spec.get("price_man")
+    if base_price_man is None and base_price is not None:
+        base_price_man = round(base_price / 10000)
     standard_features = grade_spec.get("standard_features") or grade_spec.get("standard_specs", [])
+
+    # [11-11-17] 옵션별 price_man 자동 보충 (UI 표시 보장)
+    raw_options = grade_spec.get("options", {})
+    cleaned_options = {}
+    if isinstance(raw_options, dict):
+        for ok, ov in raw_options.items():
+            if isinstance(ov, dict):
+                op = ov.get("price")
+                op_man = ov.get("price_man")
+                if op_man is None and op is not None:
+                    op_man = round(op / 10000)
+                cleaned_options[ok] = {
+                    **ov,
+                    "price_man": op_man
+                }
+            else:
+                cleaned_options[ok] = ov
 
     return {
         "found": True,
-        "source": s_source,
+        "source": grade_spec.get("source", s_source),
         "car_name": matched_car_key,
         "query_car_name": s_car,
         "year": norm_year,
@@ -546,7 +597,7 @@ def get_pilot_catalog_spec(
         "query_grade": s_grade,
         "base_price": base_price,
         "base_price_man": base_price_man,
-        "options": grade_spec.get("options", {}),
+        "options": cleaned_options,
         "standard_features": standard_features,
         "accessories": grade_spec.get("accessories", {}),
         "notices": grade_spec.get("notices") or (year_book.get("_notices") if isinstance(year_book, dict) else []) or []
