@@ -1,0 +1,68 @@
+[
+  {
+    "target_model": "더 뉴 카니발 4세대",
+    "year": "2025",
+    "filled_grades_count": 33,
+    "sources": [
+      "카니발 4세대 2025 (32개)",
+      "더 뉴 카니발 2025 (12개)"
+    ]
+  },
+  {
+    "target_model": "더 뉴 카니발 4세대",
+    "year": "2026",
+    "filled_grades_count": 28,
+    "sources": [
+      "카니발 4세대 2026 (28개)",
+      "더 뉴 카니발 2026 (16개)"
+    ]
+  },
+  {
+    "target_model": "K5 하이브리드 3세대",
+    "year": "2021",
+    "filled_grades_count": 4,
+    "sources": [
+      "K5 3세대 2021 (하이브리드 등급)"
+    ]
+  },
+  {
+    "target_model": "디 올 뉴 니로",
+    "year": "2026",
+    "filled_grades_count": 3,
+    "sources": [
+      "더 뉴 니로 2세대 2026 (3개)"
+    ]
+  },
+  {
+    "target_model": "더 뉴 기아 레이",
+    "year": "2026",
+    "filled_grades_count": 10,
+    "sources": [
+      "더 뉴 레이 2026 (10개)"
+    ]
+  },
+  {
+    "target_model": "더 뉴 셀토스",
+    "year": "2026",
+    "filled_grades_count": 20,
+    "sources": [
+      "셀토스 2세대 2026 (20개)"
+    ]
+  },
+  {
+    "target_model": "더 뉴 스포티지 5세대 하이브리드",
+    "year": "2025",
+    "filled_grades_count": 8,
+    "sources": [
+      "더 뉴 스포티지 5세대 2025 (하이브리드 등급)"
+    ]
+  },
+  {
+    "target_model": "더 뉴 스포티지 5세대 하이브리드",
+    "year": "2026",
+    "filled_grades_count": 8,
+    "sources": [
+      "더 뉴 스포티지 5세대 2026 (하이브리드 등급)"
+    ]
+  }
+]
