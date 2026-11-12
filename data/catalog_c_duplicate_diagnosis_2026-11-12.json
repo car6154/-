@@ -1,0 +1,3926 @@
+[
+  {
+    "model": "맥스크루즈",
+    "year": "2014",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 2WD Exclusive",
+    "base_price": 38730000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.2 2WD Exclusive(6인승)": {
+        "base_price": 34580000,
+        "source": "danawa",
+        "options_count": 5
+      },
+      "디젤 2.2 2WD Exclusive(7인승)": {
+        "base_price": 34780000,
+        "source": "danawa",
+        "options_count": 5
+      }
+    },
+    "encar_price": null,
+    "correct_price": 34580000,
+    "wrong_price": 38730000,
+    "reason": "SUV 차종으로 인승은 옵션 사양임. 무표기 디젤 2.2 2WD Exclusive(38,730,000원)는 다나와에서 상위 트림인 'Special (6인승)'을 Exclusive로 잘못 표기한 데이터 오기로 판명됨. 엔카 공식 정가는 익스클루시브 34,580,000원(6인승 기본) + 7인승 옵션(200,000원)임."
+  },
+  {
+    "model": "맥스크루즈",
+    "year": "2014",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 4WD Exclusive",
+    "base_price": 40850000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.2 4WD Exclusive(6인승)": {
+        "base_price": 36700000,
+        "source": "danawa",
+        "options_count": 5
+      },
+      "디젤 2.2 4WD Exclusive(7인승)": {
+        "base_price": 36900000,
+        "source": "danawa",
+        "options_count": 5
+      }
+    },
+    "encar_price": null,
+    "correct_price": 34580000,
+    "wrong_price": 40850000,
+    "reason": "SUV 차종으로 인승은 옵션 사양임. 무표기 디젤 2.2 4WD Exclusive(40,850,000원)는 다나와에서 상위 트림인 'Special (6인승)'을 Exclusive로 잘못 표기한 데이터 오기로 판명됨. 엔카 공식 정가는 익스클루시브 34,580,000원(6인승 기본) + 7인승 옵션(200,000원)임."
+  },
+  {
+    "model": "맥스크루즈",
+    "year": "2013",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 2WD Exclusive",
+    "base_price": 39200000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.2 2WD Exclusive(6인승)": {
+        "base_price": 35000000,
+        "source": "danawa",
+        "options_count": 5
+      },
+      "디젤 2.2 2WD Exclusive(7인승)": {
+        "base_price": 35200000,
+        "source": "danawa",
+        "options_count": 5
+      }
+    },
+    "encar_price": null,
+    "correct_price": "엔카 공식 기본가",
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "맥스크루즈",
+    "year": "2013",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 4WD Exclusive",
+    "base_price": 41350000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.2 4WD Exclusive(6인승)": {
+        "base_price": 37150000,
+        "source": "danawa",
+        "options_count": 5
+      },
+      "디젤 2.2 4WD Exclusive(7인승)": {
+        "base_price": 37350000,
+        "source": "danawa",
+        "options_count": 5
+      }
+    },
+    "encar_price": null,
+    "correct_price": "엔카 공식 기본가",
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2020",
+    "category": "B",
+    "vehicle_type": "RV",
+    "vehicle_classification": "승합/상용/MPV",
+    "base_grade": "디젤 2.5 2WD 스타일 (M/T)",
+    "base_price": 23750000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.5 2WD 스타일(3인승) (M/T)": {
+        "base_price": 22090000,
+        "source": "danawa",
+        "options_count": 4
+      },
+      "디젤 2.5 2WD 스타일(5인승) (M/T)": {
+        "base_price": 22540000,
+        "source": "danawa",
+        "options_count": 4
+      }
+    },
+    "encar_price": null,
+    "correct_price": "인승별 다나와/엔카 정가 유지",
+    "wrong_price": "무표기 등급(웨건 11인승 표기 누락)",
+    "reason": "RV/승합(승합/상용/MPV) 차종으로, 3·5인승(화물), 9인승(승용), 11·12인승(승합) 간에 세제(개소세/취득세), 자동차세, 번호판, 면허체계(1종/2종), 최고속도제한(110km/h)이 갈리므로 인승별 등급 유지가 정당함 (부류 B). 무표기 등급은 11·12인승 웨건의 인승 표기 누락분임."
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2020",
+    "category": "B",
+    "vehicle_type": "RV",
+    "vehicle_classification": "승합/상용/MPV",
+    "base_grade": "디젤 2.5 2WD 스타일",
+    "base_price": 25600000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.5 2WD 스타일(3인승)": {
+        "base_price": 23940000,
+        "source": "danawa",
+        "options_count": 4
+      },
+      "디젤 2.5 2WD 스타일(5인승)": {
+        "base_price": 24390000,
+        "source": "danawa",
+        "options_count": 4
+      }
+    },
+    "encar_price": null,
+    "correct_price": "인승별 다나와/엔카 정가 유지",
+    "wrong_price": "무표기 등급(웨건 11인승 표기 누락)",
+    "reason": "RV/승합(승합/상용/MPV) 차종으로, 3·5인승(화물), 9인승(승용), 11·12인승(승합) 간에 세제(개소세/취득세), 자동차세, 번호판, 면허체계(1종/2종), 최고속도제한(110km/h)이 갈리므로 인승별 등급 유지가 정당함 (부류 B). 무표기 등급은 11·12인승 웨건의 인승 표기 누락분임."
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2020",
+    "category": "B",
+    "vehicle_type": "RV",
+    "vehicle_classification": "승합/상용/MPV",
+    "base_grade": "디젤 2.5 2WD 스마트 (M/T)",
+    "base_price": 24500000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.5 2WD 스마트(3인승) (M/T)": {
+        "base_price": 22940000,
+        "source": "danawa",
+        "options_count": 4
+      },
+      "디젤 2.5 2WD 스마트(5인승) (M/T)": {
+        "base_price": 23190000,
+        "source": "danawa",
+        "options_count": 5
+      }
+    },
+    "encar_price": null,
+    "correct_price": "인승별 다나와/엔카 정가 유지",
+    "wrong_price": "무표기 등급(웨건 11인승 표기 누락)",
+    "reason": "RV/승합(승합/상용/MPV) 차종으로, 3·5인승(화물), 9인승(승용), 11·12인승(승합) 간에 세제(개소세/취득세), 자동차세, 번호판, 면허체계(1종/2종), 최고속도제한(110km/h)이 갈리므로 인승별 등급 유지가 정당함 (부류 B). 무표기 등급은 11·12인승 웨건의 인승 표기 누락분임."
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2020",
+    "category": "B",
+    "vehicle_type": "RV",
+    "vehicle_classification": "승합/상용/MPV",
+    "base_grade": "디젤 2.5 2WD 스마트",
+    "base_price": 26350000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.5 2WD 스마트(3인승)": {
+        "base_price": 24790000,
+        "source": "danawa",
+        "options_count": 4
+      },
+      "디젤 2.5 2WD 스마트(5인승)": {
+        "base_price": 25040000,
+        "source": "danawa",
+        "options_count": 5
+      }
+    },
+    "encar_price": null,
+    "correct_price": "인승별 다나와/엔카 정가 유지",
+    "wrong_price": "무표기 등급(웨건 11인승 표기 누락)",
+    "reason": "RV/승합(승합/상용/MPV) 차종으로, 3·5인승(화물), 9인승(승용), 11·12인승(승합) 간에 세제(개소세/취득세), 자동차세, 번호판, 면허체계(1종/2종), 최고속도제한(110km/h)이 갈리므로 인승별 등급 유지가 정당함 (부류 B). 무표기 등급은 11·12인승 웨건의 인승 표기 누락분임."
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2020",
+    "category": "B",
+    "vehicle_type": "RV",
+    "vehicle_classification": "승합/상용/MPV",
+    "base_grade": "디젤 2.5 2WD 모던",
+    "base_price": 27600000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.5 2WD 모던(5인승)": {
+        "base_price": 25940000,
+        "source": "danawa",
+        "options_count": 5
+      }
+    },
+    "encar_price": null,
+    "correct_price": "인승별 다나와/엔카 정가 유지",
+    "wrong_price": "무표기 등급(웨건 11인승 표기 누락)",
+    "reason": "RV/승합(승합/상용/MPV) 차종으로, 3·5인승(화물), 9인승(승용), 11·12인승(승합) 간에 세제(개소세/취득세), 자동차세, 번호판, 면허체계(1종/2종), 최고속도제한(110km/h)이 갈리므로 인승별 등급 유지가 정당함 (부류 B). 무표기 등급은 11·12인승 웨건의 인승 표기 누락분임."
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2020",
+    "category": "B",
+    "vehicle_type": "RV",
+    "vehicle_classification": "승합/상용/MPV",
+    "base_grade": "디젤 2.5 2WD 익스클루시브",
+    "base_price": 30900000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.5 2WD 익스클루시브(6인승)": {
+        "base_price": 59420000,
+        "source": "danawa",
+        "options_count": 0
+      },
+      "디젤 2.5 2WD 익스클루시브(9인승)": {
+        "base_price": 46450000,
+        "source": "danawa",
+        "options_count": 1
+      }
+    },
+    "encar_price": null,
+    "correct_price": "인승별 다나와/엔카 정가 유지",
+    "wrong_price": "무표기 등급(웨건 11인승 표기 누락)",
+    "reason": "RV/승합(승합/상용/MPV) 차종으로, 3·5인승(화물), 9인승(승용), 11·12인승(승합) 간에 세제(개소세/취득세), 자동차세, 번호판, 면허체계(1종/2종), 최고속도제한(110km/h)이 갈리므로 인승별 등급 유지가 정당함 (부류 B). 무표기 등급은 11·12인승 웨건의 인승 표기 누락분임."
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2020",
+    "category": "B",
+    "vehicle_type": "RV",
+    "vehicle_classification": "승합/상용/MPV",
+    "base_grade": "디젤 2.5 4WD 익스클루시브",
+    "base_price": 32800000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.5 4WD 익스클루시브(6인승)": {
+        "base_price": 61290000,
+        "source": "danawa",
+        "options_count": 0
+      },
+      "디젤 2.5 4WD 익스클루시브(9인승)": {
+        "base_price": 48350000,
+        "source": "danawa",
+        "options_count": 1
+      }
+    },
+    "encar_price": null,
+    "correct_price": "인승별 다나와/엔카 정가 유지",
+    "wrong_price": "무표기 등급(웨건 11인승 표기 누락)",
+    "reason": "RV/승합(승합/상용/MPV) 차종으로, 3·5인승(화물), 9인승(승용), 11·12인승(승합) 간에 세제(개소세/취득세), 자동차세, 번호판, 면허체계(1종/2종), 최고속도제한(110km/h)이 갈리므로 인승별 등급 유지가 정당함 (부류 B). 무표기 등급은 11·12인승 웨건의 인승 표기 누락분임."
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2018",
+    "category": "B",
+    "vehicle_type": "RV",
+    "vehicle_classification": "승합/상용/MPV",
+    "base_grade": "디젤 2.5 2WD 익스클루시브",
+    "base_price": 30150000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.5 2WD 익스클루시브(6인승)": {
+        "base_price": 59500000,
+        "source": "danawa",
+        "options_count": 1
+      },
+      "디젤 2.5 2WD 익스클루시브(9인승)": {
+        "base_price": 45300000,
+        "source": "danawa",
+        "options_count": 2
+      }
+    },
+    "encar_price": null,
+    "correct_price": "인승별 다나와/엔카 정가 유지",
+    "wrong_price": "무표기 등급(웨건 11인승 표기 누락)",
+    "reason": "RV/승합(승합/상용/MPV) 차종으로, 3·5인승(화물), 9인승(승용), 11·12인승(승합) 간에 세제(개소세/취득세), 자동차세, 번호판, 면허체계(1종/2종), 최고속도제한(110km/h)이 갈리므로 인승별 등급 유지가 정당함 (부류 B). 무표기 등급은 11·12인승 웨건의 인승 표기 누락분임."
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2018",
+    "category": "B",
+    "vehicle_type": "RV",
+    "vehicle_classification": "승합/상용/MPV",
+    "base_grade": "디젤 2.5 2WD 스타일 (M/T)",
+    "base_price": 23750000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.5 2WD 스타일(3인승) (M/T)": {
+        "base_price": 21100000,
+        "source": "danawa",
+        "options_count": 4
+      },
+      "디젤 2.5 2WD 스타일(5인승) (M/T)": {
+        "base_price": 21550000,
+        "source": "danawa",
+        "options_count": 4
+      }
+    },
+    "encar_price": null,
+    "correct_price": "인승별 다나와/엔카 정가 유지",
+    "wrong_price": "무표기 등급(웨건 11인승 표기 누락)",
+    "reason": "RV/승합(승합/상용/MPV) 차종으로, 3·5인승(화물), 9인승(승용), 11·12인승(승합) 간에 세제(개소세/취득세), 자동차세, 번호판, 면허체계(1종/2종), 최고속도제한(110km/h)이 갈리므로 인승별 등급 유지가 정당함 (부류 B). 무표기 등급은 11·12인승 웨건의 인승 표기 누락분임."
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2018",
+    "category": "B",
+    "vehicle_type": "RV",
+    "vehicle_classification": "승합/상용/MPV",
+    "base_grade": "디젤 2.5 2WD 스타일",
+    "base_price": 25600000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.5 2WD 스타일(3인승)": {
+        "base_price": 22950000,
+        "source": "danawa",
+        "options_count": 4
+      },
+      "디젤 2.5 2WD 스타일(5인승)": {
+        "base_price": 23400000,
+        "source": "danawa",
+        "options_count": 4
+      }
+    },
+    "encar_price": null,
+    "correct_price": "인승별 다나와/엔카 정가 유지",
+    "wrong_price": "무표기 등급(웨건 11인승 표기 누락)",
+    "reason": "RV/승합(승합/상용/MPV) 차종으로, 3·5인승(화물), 9인승(승용), 11·12인승(승합) 간에 세제(개소세/취득세), 자동차세, 번호판, 면허체계(1종/2종), 최고속도제한(110km/h)이 갈리므로 인승별 등급 유지가 정당함 (부류 B). 무표기 등급은 11·12인승 웨건의 인승 표기 누락분임."
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2018",
+    "category": "B",
+    "vehicle_type": "RV",
+    "vehicle_classification": "승합/상용/MPV",
+    "base_grade": "디젤 2.5 2WD 스마트 (M/T)",
+    "base_price": 24500000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.5 2WD 스마트(3인승) (M/T)": {
+        "base_price": 21950000,
+        "source": "danawa",
+        "options_count": 5
+      },
+      "디젤 2.5 2WD 스마트(5인승) (M/T)": {
+        "base_price": 22200000,
+        "source": "danawa",
+        "options_count": 5
+      }
+    },
+    "encar_price": null,
+    "correct_price": "인승별 다나와/엔카 정가 유지",
+    "wrong_price": "무표기 등급(웨건 11인승 표기 누락)",
+    "reason": "RV/승합(승합/상용/MPV) 차종으로, 3·5인승(화물), 9인승(승용), 11·12인승(승합) 간에 세제(개소세/취득세), 자동차세, 번호판, 면허체계(1종/2종), 최고속도제한(110km/h)이 갈리므로 인승별 등급 유지가 정당함 (부류 B). 무표기 등급은 11·12인승 웨건의 인승 표기 누락분임."
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2018",
+    "category": "B",
+    "vehicle_type": "RV",
+    "vehicle_classification": "승합/상용/MPV",
+    "base_grade": "디젤 2.5 2WD 스마트",
+    "base_price": 26350000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.5 2WD 스마트(3인승)": {
+        "base_price": 23800000,
+        "source": "danawa",
+        "options_count": 5
+      },
+      "디젤 2.5 2WD 스마트(5인승)": {
+        "base_price": 24050000,
+        "source": "danawa",
+        "options_count": 5
+      }
+    },
+    "encar_price": null,
+    "correct_price": "인승별 다나와/엔카 정가 유지",
+    "wrong_price": "무표기 등급(웨건 11인승 표기 누락)",
+    "reason": "RV/승합(승합/상용/MPV) 차종으로, 3·5인승(화물), 9인승(승용), 11·12인승(승합) 간에 세제(개소세/취득세), 자동차세, 번호판, 면허체계(1종/2종), 최고속도제한(110km/h)이 갈리므로 인승별 등급 유지가 정당함 (부류 B). 무표기 등급은 11·12인승 웨건의 인승 표기 누락분임."
+  },
+  {
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2018",
+    "category": "B",
+    "vehicle_type": "RV",
+    "vehicle_classification": "승합/상용/MPV",
+    "base_grade": "디젤 2.5 2WD 모던",
+    "base_price": 27600000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.5 2WD 모던(5인승)": {
+        "base_price": 24950000,
+        "source": "danawa",
+        "options_count": 6
+      }
+    },
+    "encar_price": null,
+    "correct_price": "인승별 다나와/엔카 정가 유지",
+    "wrong_price": "무표기 등급(웨건 11인승 표기 누락)",
+    "reason": "RV/승합(승합/상용/MPV) 차종으로, 3·5인승(화물), 9인승(승용), 11·12인승(승합) 간에 세제(개소세/취득세), 자동차세, 번호판, 면허체계(1종/2종), 최고속도제한(110km/h)이 갈리므로 인승별 등급 유지가 정당함 (부류 B). 무표기 등급은 11·12인승 웨건의 인승 표기 누락분임."
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "가솔린 3.8 2WD 익스클루시브",
+    "base_price": 38960000,
+    "base_source": "unified",
+    "seat_items": {
+      "가솔린 3.8 2WD 익스클루시브(7인승)": {
+        "base_price": 39650000,
+        "source": "unified",
+        "options_count": 6
+      },
+      "가솔린 3.8 2WD 익스클루시브(8인승)": {
+        "base_price": 38960000,
+        "source": "unified",
+        "options_count": 6
+      }
+    },
+    "encar_price": 38960000,
+    "correct_price": 38960000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "가솔린 3.8 2WD 르블랑",
+    "base_price": 41340000,
+    "base_source": "danawa",
+    "seat_items": {
+      "가솔린 3.8 2WD 르블랑(7인승)": {
+        "base_price": 41980000,
+        "source": "danawa",
+        "options_count": 6
+      },
+      "가솔린 3.8 2WD 르블랑(8인승)": {
+        "base_price": 41980000,
+        "source": "danawa",
+        "options_count": 6
+      }
+    },
+    "encar_price": 38960000,
+    "correct_price": 38960000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "가솔린 3.8 2WD 프레스티지",
+    "base_price": 38960000,
+    "base_source": "unified",
+    "seat_items": {
+      "가솔린 3.8 2WD 프레스티지(7인승)": {
+        "base_price": 39650000,
+        "source": "unified",
+        "options_count": 6
+      },
+      "가솔린 3.8 2WD 프레스티지(8인승)": {
+        "base_price": 46240000,
+        "source": "unified",
+        "options_count": 6
+      }
+    },
+    "encar_price": 38960000,
+    "correct_price": 38960000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "가솔린 3.8 2WD 캘리그래피",
+    "base_price": 50280000,
+    "base_source": "danawa",
+    "seat_items": {
+      "가솔린 3.8 2WD 캘리그래피(7인승)": {
+        "base_price": 51060000,
+        "source": "danawa",
+        "options_count": 3
+      },
+      "가솔린 3.8 2WD 캘리그래피(8인승)": {
+        "base_price": 51060000,
+        "source": "danawa",
+        "options_count": 2
+      }
+    },
+    "encar_price": 38960000,
+    "correct_price": 38960000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "가솔린 3.8 2WD 블랙에디션",
+    "base_price": 50280000,
+    "base_source": "danawa",
+    "seat_items": {
+      "가솔린 3.8 2WD 블랙에디션(7인승)": {
+        "base_price": 51060000,
+        "source": "danawa",
+        "options_count": 2
+      },
+      "가솔린 3.8 2WD 블랙에디션(8인승)": {
+        "base_price": 51060000,
+        "source": "danawa",
+        "options_count": 2
+      }
+    },
+    "encar_price": 38960000,
+    "correct_price": 38960000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "가솔린 3.8 4WD 익스클루시브",
+    "base_price": 41330000,
+    "base_source": "unified",
+    "seat_items": {
+      "가솔린 3.8 4WD 익스클루시브(7인승)": {
+        "base_price": 42020000,
+        "source": "unified",
+        "options_count": 6
+      },
+      "가솔린 3.8 4WD 익스클루시브(8인승)": {
+        "base_price": 41330000,
+        "source": "unified",
+        "options_count": 6
+      }
+    },
+    "encar_price": 41330000,
+    "correct_price": 41330000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "가솔린 3.8 4WD 르블랑",
+    "base_price": 44040000,
+    "base_source": "danawa",
+    "seat_items": {
+      "가솔린 3.8 4WD 르블랑(7인승)": {
+        "base_price": 44350000,
+        "source": "danawa",
+        "options_count": 6
+      },
+      "가솔린 3.8 4WD 르블랑(8인승)": {
+        "base_price": 44350000,
+        "source": "danawa",
+        "options_count": 6
+      }
+    },
+    "encar_price": 41330000,
+    "correct_price": 41330000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "가솔린 3.8 4WD 프레스티지",
+    "base_price": 41330000,
+    "base_source": "unified",
+    "seat_items": {
+      "가솔린 3.8 4WD 프레스티지(7인승)": {
+        "base_price": 42020000,
+        "source": "unified",
+        "options_count": 6
+      },
+      "가솔린 3.8 4WD 프레스티지(8인승)": {
+        "base_price": 48610000,
+        "source": "unified",
+        "options_count": 6
+      }
+    },
+    "encar_price": 41330000,
+    "correct_price": 41330000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "가솔린 3.8 4WD 캘리그래피",
+    "base_price": 53050000,
+    "base_source": "danawa",
+    "seat_items": {
+      "가솔린 3.8 4WD 캘리그래피(7인승)": {
+        "base_price": 53430000,
+        "source": "danawa",
+        "options_count": 3
+      },
+      "가솔린 3.8 4WD 캘리그래피(8인승)": {
+        "base_price": 53430000,
+        "source": "danawa",
+        "options_count": 2
+      }
+    },
+    "encar_price": 41330000,
+    "correct_price": 41330000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "가솔린 3.8 4WD 블랙에디션",
+    "base_price": 53050000,
+    "base_source": "danawa",
+    "seat_items": {
+      "가솔린 3.8 4WD 블랙에디션(7인승)": {
+        "base_price": 53430000,
+        "source": "danawa",
+        "options_count": 2
+      },
+      "가솔린 3.8 4WD 블랙에디션(8인승)": {
+        "base_price": 53430000,
+        "source": "danawa",
+        "options_count": 2
+      }
+    },
+    "encar_price": 41330000,
+    "correct_price": 41330000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 2WD 익스클루시브",
+    "base_price": 40440000,
+    "base_source": "unified",
+    "seat_items": {
+      "디젤 2.2 2WD 익스클루시브(7인승)": {
+        "base_price": 41130000,
+        "source": "unified",
+        "options_count": 6
+      },
+      "디젤 2.2 2WD 익스클루시브(8인승)": {
+        "base_price": 40440000,
+        "source": "unified",
+        "options_count": 6
+      }
+    },
+    "encar_price": 40440000,
+    "correct_price": 40440000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 2WD 르블랑",
+    "base_price": 43150000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.2 2WD 르블랑(7인승)": {
+        "base_price": 43460000,
+        "source": "danawa",
+        "options_count": 6
+      },
+      "디젤 2.2 2WD 르블랑(8인승)": {
+        "base_price": 43460000,
+        "source": "danawa",
+        "options_count": 6
+      }
+    },
+    "encar_price": 40440000,
+    "correct_price": 40440000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 2WD 프레스티지",
+    "base_price": 40440000,
+    "base_source": "unified",
+    "seat_items": {
+      "디젤 2.2 2WD 프레스티지(7인승)": {
+        "base_price": 41130000,
+        "source": "unified",
+        "options_count": 6
+      },
+      "디젤 2.2 2WD 프레스티지(8인승)": {
+        "base_price": 47720000,
+        "source": "unified",
+        "options_count": 6
+      }
+    },
+    "encar_price": 40440000,
+    "correct_price": 40440000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 2WD 캘리그래피",
+    "base_price": 52160000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.2 2WD 캘리그래피(7인승)": {
+        "base_price": 52540000,
+        "source": "danawa",
+        "options_count": 3
+      },
+      "디젤 2.2 2WD 캘리그래피(8인승)": {
+        "base_price": 52540000,
+        "source": "danawa",
+        "options_count": 2
+      }
+    },
+    "encar_price": 40440000,
+    "correct_price": 40440000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 2WD 블랙에디션",
+    "base_price": 52160000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.2 2WD 블랙에디션(7인승)": {
+        "base_price": 52540000,
+        "source": "danawa",
+        "options_count": 2
+      },
+      "디젤 2.2 2WD 블랙에디션(8인승)": {
+        "base_price": 52540000,
+        "source": "danawa",
+        "options_count": 2
+      }
+    },
+    "encar_price": 40440000,
+    "correct_price": 40440000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 4WD 익스클루시브",
+    "base_price": 42810000,
+    "base_source": "unified",
+    "seat_items": {
+      "디젤 2.2 4WD 익스클루시브(7인승)": {
+        "base_price": 43500000,
+        "source": "unified",
+        "options_count": 6
+      },
+      "디젤 2.2 4WD 익스클루시브(8인승)": {
+        "base_price": 42810000,
+        "source": "unified",
+        "options_count": 6
+      }
+    },
+    "encar_price": 42810000,
+    "correct_price": 42810000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 4WD 르블랑",
+    "base_price": 45510000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.2 4WD 르블랑(7인승)": {
+        "base_price": 45830000,
+        "source": "danawa",
+        "options_count": 6
+      },
+      "디젤 2.2 4WD 르블랑(8인승)": {
+        "base_price": 45830000,
+        "source": "danawa",
+        "options_count": 6
+      }
+    },
+    "encar_price": 42810000,
+    "correct_price": 42810000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 4WD 프레스티지",
+    "base_price": 42810000,
+    "base_source": "unified",
+    "seat_items": {
+      "디젤 2.2 4WD 프레스티지(7인승)": {
+        "base_price": 43500000,
+        "source": "unified",
+        "options_count": 6
+      },
+      "디젤 2.2 4WD 프레스티지(8인승)": {
+        "base_price": 50090000,
+        "source": "unified",
+        "options_count": 6
+      }
+    },
+    "encar_price": 42810000,
+    "correct_price": 42810000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 4WD 캘리그래피",
+    "base_price": 54520000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.2 4WD 캘리그래피(7인승)": {
+        "base_price": 54910000,
+        "source": "danawa",
+        "options_count": 3
+      },
+      "디젤 2.2 4WD 캘리그래피(8인승)": {
+        "base_price": 54910000,
+        "source": "danawa",
+        "options_count": 2
+      }
+    },
+    "encar_price": 42810000,
+    "correct_price": 42810000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 4WD 블랙에디션",
+    "base_price": 54520000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.2 4WD 블랙에디션(7인승)": {
+        "base_price": 54910000,
+        "source": "danawa",
+        "options_count": 2
+      },
+      "디젤 2.2 4WD 블랙에디션(8인승)": {
+        "base_price": 54910000,
+        "source": "danawa",
+        "options_count": 2
+      }
+    },
+    "encar_price": 42810000,
+    "correct_price": 42810000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "가솔린 3.8 2WD 익스클루시브",
+    "base_price": 38670000,
+    "base_source": "unified",
+    "seat_items": {
+      "가솔린 3.8 2WD 익스클루시브(7인승)": {
+        "base_price": 39360000,
+        "source": "unified",
+        "options_count": 6
+      },
+      "가솔린 3.8 2WD 익스클루시브(8인승)": {
+        "base_price": 38960000,
+        "source": "unified",
+        "options_count": 6
+      }
+    },
+    "encar_price": 38670000,
+    "correct_price": 38670000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "가솔린 3.8 2WD 프레스티지",
+    "base_price": 38670000,
+    "base_source": "unified",
+    "seat_items": {
+      "가솔린 3.8 2WD 프레스티지(7인승)": {
+        "base_price": 39360000,
+        "source": "unified",
+        "options_count": 5
+      },
+      "가솔린 3.8 2WD 프레스티지(8인승)": {
+        "base_price": 44640000,
+        "source": "unified",
+        "options_count": 5
+      }
+    },
+    "encar_price": 38670000,
+    "correct_price": 38670000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "가솔린 3.8 2WD 캘리그래피",
+    "base_price": 50690000,
+    "base_source": "danawa",
+    "seat_items": {
+      "가솔린 3.8 2WD 캘리그래피(7인승)": {
+        "base_price": 51060000,
+        "source": "danawa",
+        "options_count": 2
+      },
+      "가솔린 3.8 2WD 캘리그래피(8인승)": {
+        "base_price": 51060000,
+        "source": "danawa",
+        "options_count": 2
+      }
+    },
+    "encar_price": 38670000,
+    "correct_price": 38670000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "가솔린 3.8 2WD VIP",
+    "base_price": 56380000,
+    "base_source": "danawa",
+    "seat_items": {
+      "가솔린 3.8 2WD VIP(7인승)": {
+        "base_price": 56800000,
+        "source": "danawa",
+        "options_count": 2
+      }
+    },
+    "encar_price": 38670000,
+    "correct_price": 38670000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "가솔린 3.8 4WD 익스클루시브",
+    "base_price": 41070000,
+    "base_source": "unified",
+    "seat_items": {
+      "가솔린 3.8 4WD 익스클루시브(7인승)": {
+        "base_price": 41760000,
+        "source": "unified",
+        "options_count": 6
+      },
+      "가솔린 3.8 4WD 익스클루시브(8인승)": {
+        "base_price": 41330000,
+        "source": "unified",
+        "options_count": 6
+      }
+    },
+    "encar_price": 41070000,
+    "correct_price": 41070000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "가솔린 3.8 4WD 프레스티지",
+    "base_price": 41070000,
+    "base_source": "unified",
+    "seat_items": {
+      "가솔린 3.8 4WD 프레스티지(7인승)": {
+        "base_price": 41760000,
+        "source": "unified",
+        "options_count": 5
+      },
+      "가솔린 3.8 4WD 프레스티지(8인승)": {
+        "base_price": 47010000,
+        "source": "unified",
+        "options_count": 5
+      }
+    },
+    "encar_price": 41070000,
+    "correct_price": 41070000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "가솔린 3.8 4WD 캘리그래피",
+    "base_price": 53050000,
+    "base_source": "danawa",
+    "seat_items": {
+      "가솔린 3.8 4WD 캘리그래피(7인승)": {
+        "base_price": 53430000,
+        "source": "danawa",
+        "options_count": 2
+      },
+      "가솔린 3.8 4WD 캘리그래피(8인승)": {
+        "base_price": 53430000,
+        "source": "danawa",
+        "options_count": 2
+      }
+    },
+    "encar_price": 41070000,
+    "correct_price": 41070000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "가솔린 3.8 4WD VIP",
+    "base_price": 58740000,
+    "base_source": "danawa",
+    "seat_items": {
+      "가솔린 3.8 4WD VIP(7인승)": {
+        "base_price": 59170000,
+        "source": "danawa",
+        "options_count": 2
+      }
+    },
+    "encar_price": 41070000,
+    "correct_price": 41070000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 2WD 익스클루시브",
+    "base_price": 40170000,
+    "base_source": "unified",
+    "seat_items": {
+      "디젤 2.2 2WD 익스클루시브(7인승)": {
+        "base_price": 40860000,
+        "source": "unified",
+        "options_count": 6
+      },
+      "디젤 2.2 2WD 익스클루시브(8인승)": {
+        "base_price": 40440000,
+        "source": "unified",
+        "options_count": 6
+      }
+    },
+    "encar_price": 40170000,
+    "correct_price": 40170000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 2WD 프레스티지",
+    "base_price": 40170000,
+    "base_source": "unified",
+    "seat_items": {
+      "디젤 2.2 2WD 프레스티지(7인승)": {
+        "base_price": 40860000,
+        "source": "unified",
+        "options_count": 5
+      },
+      "디젤 2.2 2WD 프레스티지(8인승)": {
+        "base_price": 46120000,
+        "source": "unified",
+        "options_count": 5
+      }
+    },
+    "encar_price": 40170000,
+    "correct_price": 40170000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 2WD 캘리그래피",
+    "base_price": 52160000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.2 2WD 캘리그래피(7인승)": {
+        "base_price": 52540000,
+        "source": "danawa",
+        "options_count": 2
+      },
+      "디젤 2.2 2WD 캘리그래피(8인승)": {
+        "base_price": 52540000,
+        "source": "danawa",
+        "options_count": 2
+      }
+    },
+    "encar_price": 40170000,
+    "correct_price": 40170000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 2WD VIP",
+    "base_price": 57850000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.2 2WD VIP(7인승)": {
+        "base_price": 58280000,
+        "source": "danawa",
+        "options_count": 2
+      }
+    },
+    "encar_price": 40170000,
+    "correct_price": 40170000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 4WD 익스클루시브",
+    "base_price": 42570000,
+    "base_source": "unified",
+    "seat_items": {
+      "디젤 2.2 4WD 익스클루시브(7인승)": {
+        "base_price": 43260000,
+        "source": "unified",
+        "options_count": 6
+      },
+      "디젤 2.2 4WD 익스클루시브(8인승)": {
+        "base_price": 42810000,
+        "source": "unified",
+        "options_count": 6
+      }
+    },
+    "encar_price": 42570000,
+    "correct_price": 42570000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 4WD 프레스티지",
+    "base_price": 42570000,
+    "base_source": "unified",
+    "seat_items": {
+      "디젤 2.2 4WD 프레스티지(7인승)": {
+        "base_price": 43260000,
+        "source": "unified",
+        "options_count": 5
+      },
+      "디젤 2.2 4WD 프레스티지(8인승)": {
+        "base_price": 48490000,
+        "source": "unified",
+        "options_count": 5
+      }
+    },
+    "encar_price": 42570000,
+    "correct_price": 42570000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 4WD 캘리그래피",
+    "base_price": 54520000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.2 4WD 캘리그래피(7인승)": {
+        "base_price": 54910000,
+        "source": "danawa",
+        "options_count": 2
+      },
+      "디젤 2.2 4WD 캘리그래피(8인승)": {
+        "base_price": 54910000,
+        "source": "danawa",
+        "options_count": 2
+      }
+    },
+    "encar_price": 42570000,
+    "correct_price": 42570000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 4WD VIP",
+    "base_price": 60210000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.2 4WD VIP(7인승)": {
+        "base_price": 60650000,
+        "source": "danawa",
+        "options_count": 2
+      }
+    },
+    "encar_price": 42570000,
+    "correct_price": 42570000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "가솔린 3.8 2WD 익스클루시브",
+    "base_price": 36060000,
+    "base_source": "unified",
+    "seat_items": {
+      "가솔린 3.8 2WD 익스클루시브(8인승)": {
+        "base_price": 36400000,
+        "source": "unified",
+        "options_count": 4
+      },
+      "가솔린 3.8 2WD 익스클루시브(7인승)": {
+        "base_price": 36750000,
+        "source": "unified",
+        "options_count": 4
+      }
+    },
+    "encar_price": 36060000,
+    "correct_price": 36060000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "가솔린 3.8 2WD 프레스티지",
+    "base_price": 36060000,
+    "base_source": "unified",
+    "seat_items": {
+      "가솔린 3.8 2WD 프레스티지(8인승)": {
+        "base_price": 41900000,
+        "source": "unified",
+        "options_count": 4
+      },
+      "가솔린 3.8 2WD 프레스티지(7인승)": {
+        "base_price": 36750000,
+        "source": "unified",
+        "options_count": 4
+      }
+    },
+    "encar_price": 36060000,
+    "correct_price": 36060000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "가솔린 3.8 2WD 캘리그래피",
+    "base_price": 47100000,
+    "base_source": "danawa",
+    "seat_items": {
+      "가솔린 3.8 2WD 캘리그래피(7인승)": {
+        "base_price": 47100000,
+        "source": "danawa",
+        "options_count": 1
+      }
+    },
+    "encar_price": 36060000,
+    "correct_price": 36060000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "가솔린 3.8 2WD VIP",
+    "base_price": 52800000,
+    "base_source": "danawa",
+    "seat_items": {
+      "가솔린 3.8 2WD VIP(7인승)": {
+        "base_price": 52800000,
+        "source": "danawa",
+        "options_count": 1
+      }
+    },
+    "encar_price": 36060000,
+    "correct_price": 36060000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "가솔린 3.8 4WD 익스클루시브",
+    "base_price": 38410000,
+    "base_source": "unified",
+    "seat_items": {
+      "가솔린 3.8 4WD 익스클루시브(8인승)": {
+        "base_price": 38750000,
+        "source": "unified",
+        "options_count": 4
+      },
+      "가솔린 3.8 4WD 익스클루시브(7인승)": {
+        "base_price": 39100000,
+        "source": "unified",
+        "options_count": 4
+      }
+    },
+    "encar_price": 38410000,
+    "correct_price": 38410000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "가솔린 3.8 4WD 프레스티지",
+    "base_price": 38410000,
+    "base_source": "unified",
+    "seat_items": {
+      "가솔린 3.8 4WD 프레스티지(8인승)": {
+        "base_price": 44250000,
+        "source": "unified",
+        "options_count": 4
+      },
+      "가솔린 3.8 4WD 프레스티지(7인승)": {
+        "base_price": 39100000,
+        "source": "unified",
+        "options_count": 4
+      }
+    },
+    "encar_price": 38410000,
+    "correct_price": 38410000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "가솔린 3.8 4WD 캘리그래피",
+    "base_price": 49450000,
+    "base_source": "danawa",
+    "seat_items": {
+      "가솔린 3.8 4WD 캘리그래피(7인승)": {
+        "base_price": 49450000,
+        "source": "danawa",
+        "options_count": 1
+      }
+    },
+    "encar_price": 38410000,
+    "correct_price": 38410000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "가솔린 3.8 4WD VIP",
+    "base_price": 55150000,
+    "base_source": "danawa",
+    "seat_items": {
+      "가솔린 3.8 4WD VIP(7인승)": {
+        "base_price": 55150000,
+        "source": "danawa",
+        "options_count": 1
+      }
+    },
+    "encar_price": 38410000,
+    "correct_price": 38410000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 2WD 익스클루시브",
+    "base_price": 37560000,
+    "base_source": "unified",
+    "seat_items": {
+      "디젤 2.2 2WD 익스클루시브(8인승)": {
+        "base_price": 37900000,
+        "source": "unified",
+        "options_count": 4
+      },
+      "디젤 2.2 2WD 익스클루시브(7인승)": {
+        "base_price": 38250000,
+        "source": "unified",
+        "options_count": 4
+      }
+    },
+    "encar_price": 37560000,
+    "correct_price": 37560000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 2WD 프레스티지",
+    "base_price": 37560000,
+    "base_source": "unified",
+    "seat_items": {
+      "디젤 2.2 2WD 프레스티지(8인승)": {
+        "base_price": 43400000,
+        "source": "unified",
+        "options_count": 4
+      },
+      "디젤 2.2 2WD 프레스티지(7인승)": {
+        "base_price": 38250000,
+        "source": "unified",
+        "options_count": 4
+      }
+    },
+    "encar_price": 37560000,
+    "correct_price": 37560000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 2WD 캘리그래피",
+    "base_price": 48600000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.2 2WD 캘리그래피(7인승)": {
+        "base_price": 48600000,
+        "source": "danawa",
+        "options_count": 1
+      }
+    },
+    "encar_price": 37560000,
+    "correct_price": 37560000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 2WD VIP",
+    "base_price": 54300000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.2 2WD VIP(7인승)": {
+        "base_price": 54300000,
+        "source": "danawa",
+        "options_count": 1
+      }
+    },
+    "encar_price": 37560000,
+    "correct_price": 37560000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 4WD 익스클루시브",
+    "base_price": 39910000,
+    "base_source": "unified",
+    "seat_items": {
+      "디젤 2.2 4WD 익스클루시브(8인승)": {
+        "base_price": 40250000,
+        "source": "unified",
+        "options_count": 4
+      },
+      "디젤 2.2 4WD 익스클루시브(7인승)": {
+        "base_price": 40600000,
+        "source": "unified",
+        "options_count": 4
+      }
+    },
+    "encar_price": 39910000,
+    "correct_price": 39910000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 4WD 프레스티지",
+    "base_price": 39910000,
+    "base_source": "unified",
+    "seat_items": {
+      "디젤 2.2 4WD 프레스티지(8인승)": {
+        "base_price": 45750000,
+        "source": "unified",
+        "options_count": 4
+      },
+      "디젤 2.2 4WD 프레스티지(7인승)": {
+        "base_price": 40600000,
+        "source": "unified",
+        "options_count": 4
+      }
+    },
+    "encar_price": 39910000,
+    "correct_price": 39910000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 4WD 캘리그래피",
+    "base_price": 50950000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.2 4WD 캘리그래피(7인승)": {
+        "base_price": 50950000,
+        "source": "danawa",
+        "options_count": 1
+      }
+    },
+    "encar_price": 39910000,
+    "correct_price": 39910000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 4WD VIP",
+    "base_price": 56650000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.2 4WD VIP(7인승)": {
+        "base_price": 56650000,
+        "source": "danawa",
+        "options_count": 1
+      }
+    },
+    "encar_price": 39910000,
+    "correct_price": 39910000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2021",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "가솔린 3.8 2WD 익스클루시브",
+    "base_price": 35730000,
+    "base_source": "unified",
+    "seat_items": {
+      "가솔린 3.8 2WD 익스클루시브(8인승)": {
+        "base_price": 36400000,
+        "source": "unified",
+        "options_count": 4
+      },
+      "가솔린 3.8 2WD 익스클루시브(7인승)": {
+        "base_price": 36420000,
+        "source": "unified",
+        "options_count": 4
+      }
+    },
+    "encar_price": 35730000,
+    "correct_price": 35730000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2021",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "가솔린 3.8 2WD 프레스티지",
+    "base_price": 35730000,
+    "base_source": "unified",
+    "seat_items": {
+      "가솔린 3.8 2WD 프레스티지(8인승)": {
+        "base_price": 41900000,
+        "source": "unified",
+        "options_count": 4
+      },
+      "가솔린 3.8 2WD 프레스티지(7인승)": {
+        "base_price": 36420000,
+        "source": "unified",
+        "options_count": 4
+      }
+    },
+    "encar_price": 35730000,
+    "correct_price": 35730000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2021",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "가솔린 3.8 2WD 캘리그래피",
+    "base_price": 47100000,
+    "base_source": "danawa",
+    "seat_items": {
+      "가솔린 3.8 2WD 캘리그래피(7인승)": {
+        "base_price": 47100000,
+        "source": "danawa",
+        "options_count": 1
+      }
+    },
+    "encar_price": 35730000,
+    "correct_price": 35730000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2021",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "가솔린 3.8 2WD VIP",
+    "base_price": 52800000,
+    "base_source": "danawa",
+    "seat_items": {
+      "가솔린 3.8 2WD VIP(7인승)": {
+        "base_price": 52800000,
+        "source": "danawa",
+        "options_count": 1
+      }
+    },
+    "encar_price": 35730000,
+    "correct_price": 35730000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2021",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "가솔린 3.8 4WD 익스클루시브",
+    "base_price": 38080000,
+    "base_source": "unified",
+    "seat_items": {
+      "가솔린 3.8 4WD 익스클루시브(8인승)": {
+        "base_price": 38750000,
+        "source": "unified",
+        "options_count": 4
+      },
+      "가솔린 3.8 4WD 익스클루시브(7인승)": {
+        "base_price": 38770000,
+        "source": "unified",
+        "options_count": 4
+      }
+    },
+    "encar_price": 38080000,
+    "correct_price": 38080000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2021",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "가솔린 3.8 4WD 프레스티지",
+    "base_price": 38080000,
+    "base_source": "unified",
+    "seat_items": {
+      "가솔린 3.8 4WD 프레스티지(8인승)": {
+        "base_price": 44250000,
+        "source": "unified",
+        "options_count": 4
+      },
+      "가솔린 3.8 4WD 프레스티지(7인승)": {
+        "base_price": 38770000,
+        "source": "unified",
+        "options_count": 4
+      }
+    },
+    "encar_price": 38080000,
+    "correct_price": 38080000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2021",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "가솔린 3.8 4WD 캘리그래피",
+    "base_price": 49450000,
+    "base_source": "danawa",
+    "seat_items": {
+      "가솔린 3.8 4WD 캘리그래피(7인승)": {
+        "base_price": 49450000,
+        "source": "danawa",
+        "options_count": 1
+      }
+    },
+    "encar_price": 38080000,
+    "correct_price": 38080000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2021",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "가솔린 3.8 4WD VIP",
+    "base_price": 55150000,
+    "base_source": "danawa",
+    "seat_items": {
+      "가솔린 3.8 4WD VIP(7인승)": {
+        "base_price": 55150000,
+        "source": "danawa",
+        "options_count": 1
+      }
+    },
+    "encar_price": 38080000,
+    "correct_price": 38080000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2021",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 2WD 익스클루시브",
+    "base_price": 37230000,
+    "base_source": "unified",
+    "seat_items": {
+      "디젤 2.2 2WD 익스클루시브(8인승)": {
+        "base_price": 37900000,
+        "source": "unified",
+        "options_count": 4
+      },
+      "디젤 2.2 2WD 익스클루시브(7인승)": {
+        "base_price": 37920000,
+        "source": "unified",
+        "options_count": 4
+      }
+    },
+    "encar_price": 37230000,
+    "correct_price": 37230000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2021",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 2WD 프레스티지",
+    "base_price": 37230000,
+    "base_source": "unified",
+    "seat_items": {
+      "디젤 2.2 2WD 프레스티지(8인승)": {
+        "base_price": 43400000,
+        "source": "unified",
+        "options_count": 4
+      },
+      "디젤 2.2 2WD 프레스티지(7인승)": {
+        "base_price": 37920000,
+        "source": "unified",
+        "options_count": 4
+      }
+    },
+    "encar_price": 37230000,
+    "correct_price": 37230000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2021",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 2WD 캘리그래피",
+    "base_price": 48600000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.2 2WD 캘리그래피(7인승)": {
+        "base_price": 48600000,
+        "source": "danawa",
+        "options_count": 1
+      }
+    },
+    "encar_price": 37230000,
+    "correct_price": 37230000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2021",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 2WD VIP",
+    "base_price": 54300000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.2 2WD VIP(7인승)": {
+        "base_price": 54300000,
+        "source": "danawa",
+        "options_count": 1
+      }
+    },
+    "encar_price": 37230000,
+    "correct_price": 37230000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2021",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 4WD 익스클루시브",
+    "base_price": 39580000,
+    "base_source": "unified",
+    "seat_items": {
+      "디젤 2.2 4WD 익스클루시브(8인승)": {
+        "base_price": 40250000,
+        "source": "unified",
+        "options_count": 4
+      },
+      "디젤 2.2 4WD 익스클루시브(7인승)": {
+        "base_price": 40270000,
+        "source": "unified",
+        "options_count": 4
+      }
+    },
+    "encar_price": 39580000,
+    "correct_price": 39580000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2021",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 4WD 프레스티지",
+    "base_price": 39580000,
+    "base_source": "unified",
+    "seat_items": {
+      "디젤 2.2 4WD 프레스티지(8인승)": {
+        "base_price": 45750000,
+        "source": "unified",
+        "options_count": 4
+      },
+      "디젤 2.2 4WD 프레스티지(7인승)": {
+        "base_price": 40270000,
+        "source": "unified",
+        "options_count": 4
+      }
+    },
+    "encar_price": 39580000,
+    "correct_price": 39580000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2021",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 4WD 캘리그래피",
+    "base_price": 50950000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.2 4WD 캘리그래피(7인승)": {
+        "base_price": 50950000,
+        "source": "danawa",
+        "options_count": 1
+      }
+    },
+    "encar_price": 39580000,
+    "correct_price": 39580000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2021",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 4WD VIP",
+    "base_price": 56650000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.2 4WD VIP(7인승)": {
+        "base_price": 56650000,
+        "source": "danawa",
+        "options_count": 1
+      }
+    },
+    "encar_price": 39580000,
+    "correct_price": 39580000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2020",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "가솔린 3.8 2WD 익스클루시브",
+    "base_price": 35400000,
+    "base_source": "unified",
+    "seat_items": {
+      "가솔린 3.8 2WD 익스클루시브(8인승)": {
+        "base_price": 36400000,
+        "source": "unified",
+        "options_count": 4
+      },
+      "가솔린 3.8 2WD 익스클루시브(7인승)": {
+        "base_price": 36090000,
+        "source": "unified",
+        "options_count": 4
+      }
+    },
+    "encar_price": 35400000,
+    "correct_price": 35400000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2020",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "가솔린 3.8 2WD 프레스티지",
+    "base_price": 35400000,
+    "base_source": "unified",
+    "seat_items": {
+      "가솔린 3.8 2WD 프레스티지(8인승)": {
+        "base_price": 41900000,
+        "source": "unified",
+        "options_count": 4
+      },
+      "가솔린 3.8 2WD 프레스티지(7인승)": {
+        "base_price": 36090000,
+        "source": "unified",
+        "options_count": 4
+      }
+    },
+    "encar_price": 35400000,
+    "correct_price": 35400000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2020",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "가솔린 3.8 2WD 캘리그래피",
+    "base_price": 47100000,
+    "base_source": "danawa",
+    "seat_items": {
+      "가솔린 3.8 2WD 캘리그래피(7인승)": {
+        "base_price": 47100000,
+        "source": "danawa",
+        "options_count": 1
+      }
+    },
+    "encar_price": 35400000,
+    "correct_price": 35400000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2020",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "가솔린 3.8 2WD VIP",
+    "base_price": 52800000,
+    "base_source": "danawa",
+    "seat_items": {
+      "가솔린 3.8 2WD VIP(7인승)": {
+        "base_price": 52800000,
+        "source": "danawa",
+        "options_count": 1
+      }
+    },
+    "encar_price": 35400000,
+    "correct_price": 35400000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2020",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "가솔린 3.8 4WD 익스클루시브",
+    "base_price": 37750000,
+    "base_source": "unified",
+    "seat_items": {
+      "가솔린 3.8 4WD 익스클루시브(8인승)": {
+        "base_price": 38750000,
+        "source": "unified",
+        "options_count": 4
+      },
+      "가솔린 3.8 4WD 익스클루시브(7인승)": {
+        "base_price": 38440000,
+        "source": "unified",
+        "options_count": 4
+      }
+    },
+    "encar_price": 37750000,
+    "correct_price": 37750000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2020",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "가솔린 3.8 4WD 프레스티지",
+    "base_price": 37750000,
+    "base_source": "unified",
+    "seat_items": {
+      "가솔린 3.8 4WD 프레스티지(8인승)": {
+        "base_price": 44250000,
+        "source": "unified",
+        "options_count": 4
+      },
+      "가솔린 3.8 4WD 프레스티지(7인승)": {
+        "base_price": 38440000,
+        "source": "unified",
+        "options_count": 4
+      }
+    },
+    "encar_price": 37750000,
+    "correct_price": 37750000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2020",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "가솔린 3.8 4WD 캘리그래피",
+    "base_price": 49450000,
+    "base_source": "danawa",
+    "seat_items": {
+      "가솔린 3.8 4WD 캘리그래피(7인승)": {
+        "base_price": 49450000,
+        "source": "danawa",
+        "options_count": 1
+      }
+    },
+    "encar_price": 37750000,
+    "correct_price": 37750000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2020",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "가솔린 3.8 4WD VIP",
+    "base_price": 55150000,
+    "base_source": "danawa",
+    "seat_items": {
+      "가솔린 3.8 4WD VIP(7인승)": {
+        "base_price": 55150000,
+        "source": "danawa",
+        "options_count": 1
+      }
+    },
+    "encar_price": 37750000,
+    "correct_price": 37750000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2020",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 2WD 익스클루시브",
+    "base_price": 36900000,
+    "base_source": "unified",
+    "seat_items": {
+      "디젤 2.2 2WD 익스클루시브(8인승)": {
+        "base_price": 37900000,
+        "source": "unified",
+        "options_count": 4
+      },
+      "디젤 2.2 2WD 익스클루시브(7인승)": {
+        "base_price": 37590000,
+        "source": "unified",
+        "options_count": 4
+      }
+    },
+    "encar_price": 36900000,
+    "correct_price": 36900000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2020",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 2WD 프레스티지",
+    "base_price": 36900000,
+    "base_source": "unified",
+    "seat_items": {
+      "디젤 2.2 2WD 프레스티지(8인승)": {
+        "base_price": 43400000,
+        "source": "unified",
+        "options_count": 4
+      },
+      "디젤 2.2 2WD 프레스티지(7인승)": {
+        "base_price": 37590000,
+        "source": "unified",
+        "options_count": 4
+      }
+    },
+    "encar_price": 36900000,
+    "correct_price": 36900000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2020",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 2WD 캘리그래피",
+    "base_price": 48600000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.2 2WD 캘리그래피(7인승)": {
+        "base_price": 48600000,
+        "source": "danawa",
+        "options_count": 1
+      }
+    },
+    "encar_price": 36900000,
+    "correct_price": 36900000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2020",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 2WD VIP",
+    "base_price": 54300000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.2 2WD VIP(7인승)": {
+        "base_price": 54300000,
+        "source": "danawa",
+        "options_count": 1
+      }
+    },
+    "encar_price": 36900000,
+    "correct_price": 36900000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2020",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 4WD 익스클루시브",
+    "base_price": 39250000,
+    "base_source": "unified",
+    "seat_items": {
+      "디젤 2.2 4WD 익스클루시브(8인승)": {
+        "base_price": 40250000,
+        "source": "unified",
+        "options_count": 4
+      },
+      "디젤 2.2 4WD 익스클루시브(7인승)": {
+        "base_price": 39940000,
+        "source": "unified",
+        "options_count": 4
+      }
+    },
+    "encar_price": 39250000,
+    "correct_price": 39250000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2020",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 4WD 프레스티지",
+    "base_price": 39250000,
+    "base_source": "unified",
+    "seat_items": {
+      "디젤 2.2 4WD 프레스티지(8인승)": {
+        "base_price": 45750000,
+        "source": "unified",
+        "options_count": 4
+      },
+      "디젤 2.2 4WD 프레스티지(7인승)": {
+        "base_price": 39940000,
+        "source": "unified",
+        "options_count": 4
+      }
+    },
+    "encar_price": 39250000,
+    "correct_price": 39250000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2020",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 4WD 캘리그래피",
+    "base_price": 50950000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.2 4WD 캘리그래피(7인승)": {
+        "base_price": 50950000,
+        "source": "danawa",
+        "options_count": 1
+      }
+    },
+    "encar_price": 39250000,
+    "correct_price": 39250000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2020",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 4WD VIP",
+    "base_price": 56650000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.2 4WD VIP(7인승)": {
+        "base_price": 56650000,
+        "source": "danawa",
+        "options_count": 1
+      }
+    },
+    "encar_price": 39250000,
+    "correct_price": 39250000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2019",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "가솔린 3.8 2WD 익스클루시브",
+    "base_price": 34750000,
+    "base_source": "unified",
+    "seat_items": {
+      "가솔린 3.8 2WD 익스클루시브(8인승)": {
+        "base_price": 34750000,
+        "source": "unified",
+        "options_count": 6
+      },
+      "가솔린 3.8 2WD 익스클루시브(7인승)": {
+        "base_price": 35440000,
+        "source": "unified",
+        "options_count": 6
+      }
+    },
+    "encar_price": 34750000,
+    "correct_price": 34750000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2019",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "가솔린 3.8 2WD 프레스티지",
+    "base_price": 34750000,
+    "base_source": "unified",
+    "seat_items": {
+      "가솔린 3.8 2WD 프레스티지(8인승)": {
+        "base_price": 40300000,
+        "source": "unified",
+        "options_count": 5
+      },
+      "가솔린 3.8 2WD 프레스티지(7인승)": {
+        "base_price": 35440000,
+        "source": "unified",
+        "options_count": 5
+      }
+    },
+    "encar_price": 34750000,
+    "correct_price": 34750000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2019",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "가솔린 3.8 4WD 익스클루시브",
+    "base_price": 37060000,
+    "base_source": "unified",
+    "seat_items": {
+      "가솔린 3.8 4WD 익스클루시브(8인승)": {
+        "base_price": 37060000,
+        "source": "unified",
+        "options_count": 6
+      },
+      "가솔린 3.8 4WD 익스클루시브(7인승)": {
+        "base_price": 37750000,
+        "source": "unified",
+        "options_count": 6
+      }
+    },
+    "encar_price": 37060000,
+    "correct_price": 37060000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2019",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "가솔린 3.8 4WD 프레스티지",
+    "base_price": 37060000,
+    "base_source": "unified",
+    "seat_items": {
+      "가솔린 3.8 4WD 프레스티지(8인승)": {
+        "base_price": 42610000,
+        "source": "unified",
+        "options_count": 5
+      },
+      "가솔린 3.8 4WD 프레스티지(7인승)": {
+        "base_price": 37750000,
+        "source": "unified",
+        "options_count": 5
+      }
+    },
+    "encar_price": 37060000,
+    "correct_price": 37060000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2019",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 2WD 익스클루시브",
+    "base_price": 36220000,
+    "base_source": "unified",
+    "seat_items": {
+      "디젤 2.2 2WD 익스클루시브(8인승)": {
+        "base_price": 36220000,
+        "source": "unified",
+        "options_count": 6
+      },
+      "디젤 2.2 2WD 익스클루시브(7인승)": {
+        "base_price": 36910000,
+        "source": "unified",
+        "options_count": 6
+      }
+    },
+    "encar_price": 36220000,
+    "correct_price": 36220000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2019",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 2WD 프레스티지",
+    "base_price": 36220000,
+    "base_source": "unified",
+    "seat_items": {
+      "디젤 2.2 2WD 프레스티지(8인승)": {
+        "base_price": 41770000,
+        "source": "unified",
+        "options_count": 5
+      },
+      "디젤 2.2 2WD 프레스티지(7인승)": {
+        "base_price": 36910000,
+        "source": "unified",
+        "options_count": 5
+      }
+    },
+    "encar_price": 36220000,
+    "correct_price": 36220000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2019",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 4WD 익스클루시브",
+    "base_price": 38530000,
+    "base_source": "unified",
+    "seat_items": {
+      "디젤 2.2 4WD 익스클루시브(8인승)": {
+        "base_price": 38530000,
+        "source": "unified",
+        "options_count": 6
+      },
+      "디젤 2.2 4WD 익스클루시브(7인승)": {
+        "base_price": 39220000,
+        "source": "unified",
+        "options_count": 6
+      }
+    },
+    "encar_price": 38530000,
+    "correct_price": 38530000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "팰리세이드",
+    "year": "2019",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "대형 SUV",
+    "base_grade": "디젤 2.2 4WD 프레스티지",
+    "base_price": 38530000,
+    "base_source": "unified",
+    "seat_items": {
+      "디젤 2.2 4WD 프레스티지(8인승)": {
+        "base_price": 44080000,
+        "source": "unified",
+        "options_count": 5
+      },
+      "디젤 2.2 4WD 프레스티지(7인승)": {
+        "base_price": 39220000,
+        "source": "unified",
+        "options_count": 5
+      }
+    },
+    "encar_price": 38530000,
+    "correct_price": 38530000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "중형 SUV",
+    "base_grade": "HEV 1.6 2WD 프레스티지",
+    "base_price": 37450000,
+    "base_source": "unified",
+    "seat_items": {
+      "HEV 1.6 2WD 프레스티지(5인승)": {
+        "base_price": 37450000,
+        "source": "unified",
+        "options_count": 5
+      },
+      "HEV 1.6 2WD 프레스티지(6인승)": {
+        "base_price": 38200000,
+        "source": "unified",
+        "options_count": 5
+      },
+      "HEV 1.6 2WD 프레스티지(7인승)": {
+        "base_price": 38150000,
+        "source": "unified",
+        "options_count": 5
+      }
+    },
+    "encar_price": 37450000,
+    "correct_price": 37450000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "중형 SUV",
+    "base_grade": "HEV 1.6 2WD 노블레스",
+    "base_price": 39550000,
+    "base_source": "danawa",
+    "seat_items": {
+      "HEV 1.6 2WD 노블레스(5인승)": {
+        "base_price": 40550000,
+        "source": "danawa",
+        "options_count": 7
+      },
+      "HEV 1.6 2WD 노블레스(6인승)": {
+        "base_price": 41690000,
+        "source": "danawa",
+        "options_count": 7
+      },
+      "HEV 1.6 2WD 노블레스(7인승)": {
+        "base_price": 41240000,
+        "source": "danawa",
+        "options_count": 7
+      }
+    },
+    "encar_price": 37450000,
+    "correct_price": 37450000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "중형 SUV",
+    "base_grade": "HEV 1.6 2WD 시그니처",
+    "base_price": 42520000,
+    "base_source": "danawa",
+    "seat_items": {
+      "HEV 1.6 2WD 시그니처(5인승)": {
+        "base_price": 43520000,
+        "source": "danawa",
+        "options_count": 6
+      },
+      "HEV 1.6 2WD 시그니처(6인승)": {
+        "base_price": 44260000,
+        "source": "danawa",
+        "options_count": 6
+      },
+      "HEV 1.6 2WD 시그니처(7인승)": {
+        "base_price": 44210000,
+        "source": "danawa",
+        "options_count": 6
+      }
+    },
+    "encar_price": 37450000,
+    "correct_price": 37450000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "중형 SUV",
+    "base_grade": "HEV 1.6 2WD 그래비티",
+    "base_price": 43410000,
+    "base_source": "danawa",
+    "seat_items": {
+      "HEV 1.6 2WD 그래비티(5인승)": {
+        "base_price": 44410000,
+        "source": "danawa",
+        "options_count": 5
+      },
+      "HEV 1.6 2WD 그래비티(6인승)": {
+        "base_price": 45150000,
+        "source": "danawa",
+        "options_count": 5
+      },
+      "HEV 1.6 2WD 그래비티(7인승)": {
+        "base_price": 45100000,
+        "source": "danawa",
+        "options_count": 5
+      }
+    },
+    "encar_price": 37450000,
+    "correct_price": 37450000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "중형 SUV",
+    "base_grade": "HEV 1.6 4WD 프레스티지",
+    "base_price": 39710000,
+    "base_source": "unified",
+    "seat_items": {
+      "HEV 1.6 4WD 프레스티지(5인승)": {
+        "base_price": 39710000,
+        "source": "unified",
+        "options_count": 5
+      },
+      "HEV 1.6 4WD 프레스티지(6인승)": {
+        "base_price": 40460000,
+        "source": "unified",
+        "options_count": 5
+      },
+      "HEV 1.6 4WD 프레스티지(7인승)": {
+        "base_price": 40410000,
+        "source": "unified",
+        "options_count": 5
+      }
+    },
+    "encar_price": 39710000,
+    "correct_price": 39710000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "중형 SUV",
+    "base_grade": "HEV 1.6 4WD 노블레스",
+    "base_price": 42820000,
+    "base_source": "danawa",
+    "seat_items": {
+      "HEV 1.6 4WD 노블레스(5인승)": {
+        "base_price": 42820000,
+        "source": "danawa",
+        "options_count": 7
+      },
+      "HEV 1.6 4WD 노블레스(6인승)": {
+        "base_price": 43960000,
+        "source": "danawa",
+        "options_count": 7
+      },
+      "HEV 1.6 4WD 노블레스(7인승)": {
+        "base_price": 43510000,
+        "source": "danawa",
+        "options_count": 7
+      }
+    },
+    "encar_price": 39710000,
+    "correct_price": 39710000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "중형 SUV",
+    "base_grade": "HEV 1.6 4WD 시그니처",
+    "base_price": 45790000,
+    "base_source": "danawa",
+    "seat_items": {
+      "HEV 1.6 4WD 시그니처(5인승)": {
+        "base_price": 45790000,
+        "source": "danawa",
+        "options_count": 6
+      },
+      "HEV 1.6 4WD 시그니처(6인승)": {
+        "base_price": 46530000,
+        "source": "danawa",
+        "options_count": 6
+      },
+      "HEV 1.6 4WD 시그니처(7인승)": {
+        "base_price": 46480000,
+        "source": "danawa",
+        "options_count": 6
+      }
+    },
+    "encar_price": 39710000,
+    "correct_price": 39710000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "중형 SUV",
+    "base_grade": "HEV 1.6 4WD 그래비티",
+    "base_price": 46680000,
+    "base_source": "danawa",
+    "seat_items": {
+      "HEV 1.6 4WD 그래비티(5인승)": {
+        "base_price": 46680000,
+        "source": "danawa",
+        "options_count": 5
+      },
+      "HEV 1.6 4WD 그래비티(6인승)": {
+        "base_price": 47420000,
+        "source": "danawa",
+        "options_count": 5
+      },
+      "HEV 1.6 4WD 그래비티(7인승)": {
+        "base_price": 47370000,
+        "source": "danawa",
+        "options_count": 5
+      }
+    },
+    "encar_price": 39710000,
+    "correct_price": 39710000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "중형 SUV",
+    "base_grade": "디젤 2.2 2WD 트렌디",
+    "base_price": 31970000,
+    "base_source": "unified",
+    "seat_items": {
+      "디젤 2.2 2WD 트렌디(5인승)": {
+        "base_price": 31970000,
+        "source": "unified",
+        "options_count": 3
+      },
+      "디젤 2.2 2WD 트렌디(6인승)": {
+        "base_price": 32720000,
+        "source": "unified",
+        "options_count": 3
+      },
+      "디젤 2.2 2WD 트렌디(7인승)": {
+        "base_price": 32670000,
+        "source": "unified",
+        "options_count": 3
+      }
+    },
+    "encar_price": 31970000,
+    "correct_price": 31970000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "중형 SUV",
+    "base_grade": "디젤 2.2 2WD 프레스티지",
+    "base_price": 31970000,
+    "base_source": "unified",
+    "seat_items": {
+      "디젤 2.2 2WD 프레스티지(5인승)": {
+        "base_price": 31970000,
+        "source": "unified",
+        "options_count": 5
+      },
+      "디젤 2.2 2WD 프레스티지(6인승)": {
+        "base_price": 32720000,
+        "source": "unified",
+        "options_count": 5
+      },
+      "디젤 2.2 2WD 프레스티지(7인승)": {
+        "base_price": 32670000,
+        "source": "unified",
+        "options_count": 5
+      }
+    },
+    "encar_price": 31970000,
+    "correct_price": 31970000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "중형 SUV",
+    "base_grade": "디젤 2.2 2WD 노블레스",
+    "base_price": 37960000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.2 2WD 노블레스(5인승)": {
+        "base_price": 37960000,
+        "source": "danawa",
+        "options_count": 7
+      },
+      "디젤 2.2 2WD 노블레스(6인승)": {
+        "base_price": 39100000,
+        "source": "danawa",
+        "options_count": 7
+      },
+      "디젤 2.2 2WD 노블레스(7인승)": {
+        "base_price": 38650000,
+        "source": "danawa",
+        "options_count": 7
+      }
+    },
+    "encar_price": 31970000,
+    "correct_price": 31970000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "중형 SUV",
+    "base_grade": "디젤 2.2 2WD 시그니처",
+    "base_price": 40920000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.2 2WD 시그니처(5인승)": {
+        "base_price": 40920000,
+        "source": "danawa",
+        "options_count": 6
+      },
+      "디젤 2.2 2WD 시그니처(6인승)": {
+        "base_price": 41660000,
+        "source": "danawa",
+        "options_count": 6
+      },
+      "디젤 2.2 2WD 시그니처(7인승)": {
+        "base_price": 41610000,
+        "source": "danawa",
+        "options_count": 6
+      }
+    },
+    "encar_price": 31970000,
+    "correct_price": 31970000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "중형 SUV",
+    "base_grade": "디젤 2.2 2WD 그래비티",
+    "base_price": 41910000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.2 2WD 그래비티(5인승)": {
+        "base_price": 41910000,
+        "source": "danawa",
+        "options_count": 5
+      },
+      "디젤 2.2 2WD 그래비티(6인승)": {
+        "base_price": 42650000,
+        "source": "danawa",
+        "options_count": 5
+      },
+      "디젤 2.2 2WD 그래비티(7인승)": {
+        "base_price": 42600000,
+        "source": "danawa",
+        "options_count": 5
+      }
+    },
+    "encar_price": 31970000,
+    "correct_price": 31970000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "중형 SUV",
+    "base_grade": "디젤 2.2 4WD 트렌디",
+    "base_price": 34240000,
+    "base_source": "unified",
+    "seat_items": {
+      "디젤 2.2 4WD 트렌디(5인승)": {
+        "base_price": 34240000,
+        "source": "unified",
+        "options_count": 3
+      },
+      "디젤 2.2 4WD 트렌디(6인승)": {
+        "base_price": 34990000,
+        "source": "unified",
+        "options_count": 3
+      },
+      "디젤 2.2 4WD 트렌디(7인승)": {
+        "base_price": 34940000,
+        "source": "unified",
+        "options_count": 3
+      }
+    },
+    "encar_price": 34240000,
+    "correct_price": 34240000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "중형 SUV",
+    "base_grade": "디젤 2.2 4WD 프레스티지",
+    "base_price": 34240000,
+    "base_source": "unified",
+    "seat_items": {
+      "디젤 2.2 4WD 프레스티지(5인승)": {
+        "base_price": 34240000,
+        "source": "unified",
+        "options_count": 5
+      },
+      "디젤 2.2 4WD 프레스티지(6인승)": {
+        "base_price": 34990000,
+        "source": "unified",
+        "options_count": 5
+      },
+      "디젤 2.2 4WD 프레스티지(7인승)": {
+        "base_price": 34940000,
+        "source": "unified",
+        "options_count": 5
+      }
+    },
+    "encar_price": 34240000,
+    "correct_price": 34240000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "중형 SUV",
+    "base_grade": "디젤 2.2 4WD 노블레스",
+    "base_price": 40230000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.2 4WD 노블레스(5인승)": {
+        "base_price": 40230000,
+        "source": "danawa",
+        "options_count": 7
+      },
+      "디젤 2.2 4WD 노블레스(6인승)": {
+        "base_price": 41370000,
+        "source": "danawa",
+        "options_count": 7
+      },
+      "디젤 2.2 4WD 노블레스(7인승)": {
+        "base_price": 40920000,
+        "source": "danawa",
+        "options_count": 7
+      }
+    },
+    "encar_price": 34240000,
+    "correct_price": 34240000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "중형 SUV",
+    "base_grade": "디젤 2.2 4WD 시그니처",
+    "base_price": 43190000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.2 4WD 시그니처(5인승)": {
+        "base_price": 43190000,
+        "source": "danawa",
+        "options_count": 6
+      },
+      "디젤 2.2 4WD 시그니처(6인승)": {
+        "base_price": 43930000,
+        "source": "danawa",
+        "options_count": 6
+      },
+      "디젤 2.2 4WD 시그니처(7인승)": {
+        "base_price": 43880000,
+        "source": "danawa",
+        "options_count": 6
+      }
+    },
+    "encar_price": 34240000,
+    "correct_price": 34240000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "중형 SUV",
+    "base_grade": "디젤 2.2 4WD 그래비티",
+    "base_price": 44180000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.2 4WD 그래비티(5인승)": {
+        "base_price": 44180000,
+        "source": "danawa",
+        "options_count": 5
+      },
+      "디젤 2.2 4WD 그래비티(6인승)": {
+        "base_price": 44920000,
+        "source": "danawa",
+        "options_count": 5
+      },
+      "디젤 2.2 4WD 그래비티(7인승)": {
+        "base_price": 44870000,
+        "source": "danawa",
+        "options_count": 5
+      }
+    },
+    "encar_price": 34240000,
+    "correct_price": 34240000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "중형 SUV",
+    "base_grade": "HEV 1.6 2WD 프레스티지",
+    "base_price": 36850000,
+    "base_source": "unified",
+    "seat_items": {
+      "HEV 1.6 2WD 프레스티지(5인승)": {
+        "base_price": 36850000,
+        "source": "unified",
+        "options_count": 5
+      },
+      "HEV 1.6 2WD 프레스티지(6인승)": {
+        "base_price": 37600000,
+        "source": "unified",
+        "options_count": 5
+      },
+      "HEV 1.6 2WD 프레스티지(7인승)": {
+        "base_price": 37550000,
+        "source": "unified",
+        "options_count": 5
+      }
+    },
+    "encar_price": 36850000,
+    "correct_price": 36850000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "중형 SUV",
+    "base_grade": "HEV 1.6 2WD 노블레스",
+    "base_price": 38380000,
+    "base_source": "danawa",
+    "seat_items": {
+      "HEV 1.6 2WD 노블레스(5인승)": {
+        "base_price": 39380000,
+        "source": "danawa",
+        "options_count": 7
+      },
+      "HEV 1.6 2WD 노블레스(6인승)": {
+        "base_price": 40510000,
+        "source": "danawa",
+        "options_count": 7
+      },
+      "HEV 1.6 2WD 노블레스(7인승)": {
+        "base_price": 40070000,
+        "source": "danawa",
+        "options_count": 7
+      }
+    },
+    "encar_price": 36850000,
+    "correct_price": 36850000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "중형 SUV",
+    "base_grade": "HEV 1.6 2WD 시그니처",
+    "base_price": 41320000,
+    "base_source": "danawa",
+    "seat_items": {
+      "HEV 1.6 2WD 시그니처(5인승)": {
+        "base_price": 42320000,
+        "source": "danawa",
+        "options_count": 6
+      },
+      "HEV 1.6 2WD 시그니처(6인승)": {
+        "base_price": 43060000,
+        "source": "danawa",
+        "options_count": 6
+      },
+      "HEV 1.6 2WD 시그니처(7인승)": {
+        "base_price": 43010000,
+        "source": "danawa",
+        "options_count": 6
+      }
+    },
+    "encar_price": 36850000,
+    "correct_price": 36850000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "중형 SUV",
+    "base_grade": "HEV 1.6 2WD 그래비티",
+    "base_price": 42200000,
+    "base_source": "danawa",
+    "seat_items": {
+      "HEV 1.6 2WD 그래비티(5인승)": {
+        "base_price": 43200000,
+        "source": "danawa",
+        "options_count": 5
+      },
+      "HEV 1.6 2WD 그래비티(6인승)": {
+        "base_price": 43940000,
+        "source": "danawa",
+        "options_count": 5
+      },
+      "HEV 1.6 2WD 그래비티(7인승)": {
+        "base_price": 43890000,
+        "source": "danawa",
+        "options_count": 5
+      }
+    },
+    "encar_price": 36850000,
+    "correct_price": 36850000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "중형 SUV",
+    "base_grade": "HEV 1.6 4WD 프레스티지",
+    "base_price": 38840000,
+    "base_source": "unified",
+    "seat_items": {
+      "HEV 1.6 4WD 프레스티지(5인승)": {
+        "base_price": 38840000,
+        "source": "unified",
+        "options_count": 5
+      },
+      "HEV 1.6 4WD 프레스티지(6인승)": {
+        "base_price": 39590000,
+        "source": "unified",
+        "options_count": 5
+      },
+      "HEV 1.6 4WD 프레스티지(7인승)": {
+        "base_price": 39540000,
+        "source": "unified",
+        "options_count": 5
+      }
+    },
+    "encar_price": 38840000,
+    "correct_price": 38840000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "중형 SUV",
+    "base_grade": "HEV 1.6 4WD 노블레스",
+    "base_price": 41630000,
+    "base_source": "danawa",
+    "seat_items": {
+      "HEV 1.6 4WD 노블레스(5인승)": {
+        "base_price": 41630000,
+        "source": "danawa",
+        "options_count": 7
+      },
+      "HEV 1.6 4WD 노블레스(6인승)": {
+        "base_price": 42760000,
+        "source": "danawa",
+        "options_count": 7
+      },
+      "HEV 1.6 4WD 노블레스(7인승)": {
+        "base_price": 42320000,
+        "source": "danawa",
+        "options_count": 7
+      }
+    },
+    "encar_price": 38840000,
+    "correct_price": 38840000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "중형 SUV",
+    "base_grade": "HEV 1.6 4WD 시그니처",
+    "base_price": 44580000,
+    "base_source": "danawa",
+    "seat_items": {
+      "HEV 1.6 4WD 시그니처(5인승)": {
+        "base_price": 44580000,
+        "source": "danawa",
+        "options_count": 6
+      },
+      "HEV 1.6 4WD 시그니처(6인승)": {
+        "base_price": 45320000,
+        "source": "danawa",
+        "options_count": 6
+      },
+      "HEV 1.6 4WD 시그니처(7인승)": {
+        "base_price": 45270000,
+        "source": "danawa",
+        "options_count": 6
+      }
+    },
+    "encar_price": 38840000,
+    "correct_price": 38840000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "중형 SUV",
+    "base_grade": "HEV 1.6 4WD 그래비티",
+    "base_price": 45460000,
+    "base_source": "danawa",
+    "seat_items": {
+      "HEV 1.6 4WD 그래비티(5인승)": {
+        "base_price": 45460000,
+        "source": "danawa",
+        "options_count": 5
+      },
+      "HEV 1.6 4WD 그래비티(6인승)": {
+        "base_price": 46200000,
+        "source": "danawa",
+        "options_count": 5
+      },
+      "HEV 1.6 4WD 그래비티(7인승)": {
+        "base_price": 46150000,
+        "source": "danawa",
+        "options_count": 5
+      }
+    },
+    "encar_price": 38840000,
+    "correct_price": 38840000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "중형 SUV",
+    "base_grade": "디젤 2.2 2WD 트렌디",
+    "base_price": 31330000,
+    "base_source": "unified",
+    "seat_items": {
+      "디젤 2.2 2WD 트렌디(5인승)": {
+        "base_price": 31330000,
+        "source": "unified",
+        "options_count": 3
+      },
+      "디젤 2.2 2WD 트렌디(6인승)": {
+        "base_price": 32080000,
+        "source": "unified",
+        "options_count": 3
+      },
+      "디젤 2.2 2WD 트렌디(7인승)": {
+        "base_price": 32030000,
+        "source": "unified",
+        "options_count": 3
+      }
+    },
+    "encar_price": 31330000,
+    "correct_price": 31330000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "중형 SUV",
+    "base_grade": "디젤 2.2 2WD 프레스티지",
+    "base_price": 31330000,
+    "base_source": "unified",
+    "seat_items": {
+      "디젤 2.2 2WD 프레스티지(5인승)": {
+        "base_price": 31330000,
+        "source": "unified",
+        "options_count": 5
+      },
+      "디젤 2.2 2WD 프레스티지(6인승)": {
+        "base_price": 32080000,
+        "source": "unified",
+        "options_count": 5
+      },
+      "디젤 2.2 2WD 프레스티지(7인승)": {
+        "base_price": 32030000,
+        "source": "unified",
+        "options_count": 5
+      }
+    },
+    "encar_price": 31330000,
+    "correct_price": 31330000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "중형 SUV",
+    "base_grade": "디젤 2.2 2WD 노블레스",
+    "base_price": 36500000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.2 2WD 노블레스(5인승)": {
+        "base_price": 36500000,
+        "source": "danawa",
+        "options_count": 7
+      },
+      "디젤 2.2 2WD 노블레스(6인승)": {
+        "base_price": 37630000,
+        "source": "danawa",
+        "options_count": 7
+      },
+      "디젤 2.2 2WD 노블레스(7인승)": {
+        "base_price": 37190000,
+        "source": "danawa",
+        "options_count": 7
+      }
+    },
+    "encar_price": 31330000,
+    "correct_price": 31330000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "중형 SUV",
+    "base_grade": "디젤 2.2 2WD 시그니처",
+    "base_price": 40210000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.2 2WD 시그니처(5인승)": {
+        "base_price": 39440000,
+        "source": "danawa",
+        "options_count": 6
+      },
+      "디젤 2.2 2WD 시그니처(6인승)": {
+        "base_price": 40180000,
+        "source": "danawa",
+        "options_count": 6
+      },
+      "디젤 2.2 2WD 시그니처(7인승)": {
+        "base_price": 40130000,
+        "source": "danawa",
+        "options_count": 6
+      }
+    },
+    "encar_price": 31330000,
+    "correct_price": 31330000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "중형 SUV",
+    "base_grade": "디젤 2.2 2WD 그래비티",
+    "base_price": 40430000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.2 2WD 그래비티(5인승)": {
+        "base_price": 40430000,
+        "source": "danawa",
+        "options_count": 5
+      },
+      "디젤 2.2 2WD 그래비티(6인승)": {
+        "base_price": 41170000,
+        "source": "danawa",
+        "options_count": 5
+      },
+      "디젤 2.2 2WD 그래비티(7인승)": {
+        "base_price": 41120000,
+        "source": "danawa",
+        "options_count": 5
+      }
+    },
+    "encar_price": 31330000,
+    "correct_price": 31330000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "중형 SUV",
+    "base_grade": "디젤 2.2 4WD 트렌디",
+    "base_price": 33630000,
+    "base_source": "unified",
+    "seat_items": {
+      "디젤 2.2 4WD 트렌디(5인승)": {
+        "base_price": 33630000,
+        "source": "unified",
+        "options_count": 3
+      },
+      "디젤 2.2 4WD 트렌디(6인승)": {
+        "base_price": 34380000,
+        "source": "unified",
+        "options_count": 3
+      },
+      "디젤 2.2 4WD 트렌디(7인승)": {
+        "base_price": 34330000,
+        "source": "unified",
+        "options_count": 3
+      }
+    },
+    "encar_price": 33630000,
+    "correct_price": 33630000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "중형 SUV",
+    "base_grade": "디젤 2.2 4WD 프레스티지",
+    "base_price": 33630000,
+    "base_source": "unified",
+    "seat_items": {
+      "디젤 2.2 4WD 프레스티지(5인승)": {
+        "base_price": 33630000,
+        "source": "unified",
+        "options_count": 5
+      },
+      "디젤 2.2 4WD 프레스티지(6인승)": {
+        "base_price": 34380000,
+        "source": "unified",
+        "options_count": 5
+      },
+      "디젤 2.2 4WD 프레스티지(7인승)": {
+        "base_price": 34330000,
+        "source": "unified",
+        "options_count": 5
+      }
+    },
+    "encar_price": 33630000,
+    "correct_price": 33630000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "중형 SUV",
+    "base_grade": "디젤 2.2 4WD 노블레스",
+    "base_price": 38760000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.2 4WD 노블레스(5인승)": {
+        "base_price": 38760000,
+        "source": "danawa",
+        "options_count": 7
+      },
+      "디젤 2.2 4WD 노블레스(6인승)": {
+        "base_price": 39890000,
+        "source": "danawa",
+        "options_count": 7
+      },
+      "디젤 2.2 4WD 노블레스(7인승)": {
+        "base_price": 39450000,
+        "source": "danawa",
+        "options_count": 7
+      }
+    },
+    "encar_price": 33630000,
+    "correct_price": 33630000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "중형 SUV",
+    "base_grade": "디젤 2.2 4WD 시그니처",
+    "base_price": 41700000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.2 4WD 시그니처(5인승)": {
+        "base_price": 41700000,
+        "source": "danawa",
+        "options_count": 6
+      },
+      "디젤 2.2 4WD 시그니처(6인승)": {
+        "base_price": 42440000,
+        "source": "danawa",
+        "options_count": 6
+      },
+      "디젤 2.2 4WD 시그니처(7인승)": {
+        "base_price": 42390000,
+        "source": "danawa",
+        "options_count": 6
+      }
+    },
+    "encar_price": 33630000,
+    "correct_price": 33630000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "중형 SUV",
+    "base_grade": "디젤 2.2 4WD 그래비티",
+    "base_price": 42690000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.2 4WD 그래비티(5인승)": {
+        "base_price": 42690000,
+        "source": "danawa",
+        "options_count": 5
+      },
+      "디젤 2.2 4WD 그래비티(6인승)": {
+        "base_price": 43430000,
+        "source": "danawa",
+        "options_count": 5
+      },
+      "디젤 2.2 4WD 그래비티(7인승)": {
+        "base_price": 43380000,
+        "source": "danawa",
+        "options_count": 5
+      }
+    },
+    "encar_price": 33630000,
+    "correct_price": 33630000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2020",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "중형 SUV",
+    "base_grade": "디젤 2.2 2WD 트렌디",
+    "base_price": 29480000,
+    "base_source": "unified",
+    "seat_items": {
+      "디젤 2.2 2WD 트렌디(5인승)": {
+        "base_price": 29480000,
+        "source": "unified",
+        "options_count": 3
+      },
+      "디젤 2.2 2WD 트렌디(6인승)": {
+        "base_price": 30280000,
+        "source": "unified",
+        "options_count": 3
+      },
+      "디젤 2.2 2WD 트렌디(7인승)": {
+        "base_price": 30180000,
+        "source": "unified",
+        "options_count": 3
+      }
+    },
+    "encar_price": 29480000,
+    "correct_price": 29480000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2020",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "중형 SUV",
+    "base_grade": "디젤 2.2 2WD 프레스티지",
+    "base_price": 29480000,
+    "base_source": "unified",
+    "seat_items": {
+      "디젤 2.2 2WD 프레스티지(5인승)": {
+        "base_price": 29480000,
+        "source": "unified",
+        "options_count": 5
+      },
+      "디젤 2.2 2WD 프레스티지(6인승)": {
+        "base_price": 30280000,
+        "source": "unified",
+        "options_count": 5
+      },
+      "디젤 2.2 2WD 프레스티지(7인승)": {
+        "base_price": 30180000,
+        "source": "unified",
+        "options_count": 5
+      }
+    },
+    "encar_price": 29480000,
+    "correct_price": 29480000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2020",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "중형 SUV",
+    "base_grade": "디젤 2.2 2WD 노블레스",
+    "base_price": 36600000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.2 2WD 노블레스(5인승)": {
+        "base_price": 36700000,
+        "source": "danawa",
+        "options_count": 7
+      },
+      "디젤 2.2 2WD 노블레스(6인승)": {
+        "base_price": 37900000,
+        "source": "danawa",
+        "options_count": 7
+      },
+      "디젤 2.2 2WD 노블레스(7인승)": {
+        "base_price": 37400000,
+        "source": "danawa",
+        "options_count": 7
+      }
+    },
+    "encar_price": 29480000,
+    "correct_price": 29480000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  },
+  {
+    "model": "쏘렌토 4세대",
+    "year": "2020",
+    "category": "A",
+    "vehicle_type": "SUV",
+    "vehicle_classification": "중형 SUV",
+    "base_grade": "디젤 2.2 2WD 시그니처",
+    "base_price": 39500000,
+    "base_source": "danawa",
+    "seat_items": {
+      "디젤 2.2 2WD 시그니처(5인승)": {
+        "base_price": 39600000,
+        "source": "danawa",
+        "options_count": 6
+      },
+      "디젤 2.2 2WD 시그니처(6인승)": {
+        "base_price": 40400000,
+        "source": "danawa",
+        "options_count": 6
+      },
+      "디젤 2.2 2WD 시그니처(7인승)": {
+        "base_price": 40300000,
+        "source": "danawa",
+        "options_count": 6
+      }
+    },
+    "encar_price": 29480000,
+    "correct_price": 29480000,
+    "wrong_price": "다나와 개별 인승 등급 분립",
+    "reason": "SUV 차종으로 인승은 시트 레이아웃 옵션 사양임. 엔카 가격표 기준 기본 등급에 인승 옵션(6인승/7인승)으로 단일화해야 할 중복 항목임 (부류 A)."
+  }
+]

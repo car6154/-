@@ -1,0 +1,2070 @@
+[
+  {
+    "type": "B_relabel",
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2018",
+    "old_name": "디젤 2.5 2WD 스타일 (M/T)",
+    "new_name": "디젤 2.5 2WD 스타일(11인승) (M/T)",
+    "base_price": 23750000
+  },
+  {
+    "type": "B_relabel",
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2018",
+    "old_name": "디젤 2.5 2WD 스타일",
+    "new_name": "디젤 2.5 2WD 스타일(11인승)",
+    "base_price": 25600000
+  },
+  {
+    "type": "B_relabel",
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2018",
+    "old_name": "디젤 2.5 2WD 스마트 (M/T)",
+    "new_name": "디젤 2.5 2WD 스마트(11인승) (M/T)",
+    "base_price": 24500000
+  },
+  {
+    "type": "B_relabel",
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2018",
+    "old_name": "디젤 2.5 2WD 스마트",
+    "new_name": "디젤 2.5 2WD 스마트(11인승)",
+    "base_price": 26350000
+  },
+  {
+    "type": "B_relabel",
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2018",
+    "old_name": "디젤 2.5 2WD 모던",
+    "new_name": "디젤 2.5 2WD 모던(11인승)",
+    "base_price": 27600000
+  },
+  {
+    "type": "B_relabel",
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2018",
+    "old_name": "디젤 2.5 2WD 익스클루시브",
+    "new_name": "디젤 2.5 2WD 어반 익스클루시브(9인승)",
+    "base_price": 30150000
+  },
+  {
+    "type": "B_relabel",
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2020",
+    "old_name": "디젤 2.5 2WD 스타일 (M/T)",
+    "new_name": "디젤 2.5 2WD 스타일(11인승) (M/T)",
+    "base_price": 23750000
+  },
+  {
+    "type": "B_relabel",
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2020",
+    "old_name": "디젤 2.5 2WD 스타일",
+    "new_name": "디젤 2.5 2WD 스타일(11인승)",
+    "base_price": 25600000
+  },
+  {
+    "type": "B_relabel",
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2020",
+    "old_name": "디젤 2.5 2WD 스마트 (M/T)",
+    "new_name": "디젤 2.5 2WD 스마트(11인승) (M/T)",
+    "base_price": 24500000
+  },
+  {
+    "type": "B_relabel",
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2020",
+    "old_name": "디젤 2.5 2WD 스마트",
+    "new_name": "디젤 2.5 2WD 스마트(11인승)",
+    "base_price": 26350000
+  },
+  {
+    "type": "B_relabel",
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2020",
+    "old_name": "디젤 2.5 2WD 모던",
+    "new_name": "디젤 2.5 2WD 모던(11인승)",
+    "base_price": 27600000
+  },
+  {
+    "type": "B_relabel",
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2020",
+    "old_name": "디젤 2.5 2WD 익스클루시브",
+    "new_name": "디젤 2.5 2WD 어반 익스클루시브(9인승)",
+    "base_price": 30900000
+  },
+  {
+    "type": "B_relabel",
+    "model": "더 뉴 그랜드 스타렉스",
+    "year": "2020",
+    "old_name": "디젤 2.5 4WD 익스클루시브",
+    "new_name": "디젤 2.5 4WD 어반 익스클루시브(9인승)",
+    "base_price": 32800000
+  },
+  {
+    "type": "A_maxcruz_fixed",
+    "model": "맥스크루즈",
+    "year": "2014",
+    "drivetrain": "2WD",
+    "exclusive_price": 34580000,
+    "special_price": 38730000
+  },
+  {
+    "type": "A_maxcruz_fixed",
+    "model": "맥스크루즈",
+    "year": "2014",
+    "drivetrain": "4WD",
+    "exclusive_price": 36700000,
+    "special_price": 40850000
+  },
+  {
+    "type": "A_maxcruz_fixed",
+    "model": "맥스크루즈",
+    "year": "2013",
+    "drivetrain": "2WD",
+    "exclusive_price": 35000000,
+    "special_price": 39200000
+  },
+  {
+    "type": "A_maxcruz_fixed",
+    "model": "맥스크루즈",
+    "year": "2013",
+    "drivetrain": "4WD",
+    "exclusive_price": 37150000,
+    "special_price": 41350000
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "grade": "가솔린 3.8 2WD 익스클루시브",
+    "base_price": 38960000,
+    "merged_seats": [
+      7,
+      8
+    ],
+    "seat_options": {
+      "7인승": 690000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "grade": "가솔린 3.8 2WD 르블랑",
+    "base_price": 41340000,
+    "merged_seats": [
+      7,
+      8
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "grade": "가솔린 3.8 2WD 프레스티지",
+    "base_price": 38960000,
+    "merged_seats": [
+      7,
+      8
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "grade": "가솔린 3.8 2WD 캘리그래피",
+    "base_price": 50280000,
+    "merged_seats": [
+      7,
+      8
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "grade": "가솔린 3.8 2WD 블랙에디션",
+    "base_price": 50280000,
+    "merged_seats": [
+      7,
+      8
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "grade": "가솔린 3.8 4WD 익스클루시브",
+    "base_price": 41330000,
+    "merged_seats": [
+      7,
+      8
+    ],
+    "seat_options": {
+      "7인승": 690000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "grade": "가솔린 3.8 4WD 르블랑",
+    "base_price": 44040000,
+    "merged_seats": [
+      7,
+      8
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "grade": "가솔린 3.8 4WD 프레스티지",
+    "base_price": 41330000,
+    "merged_seats": [
+      7,
+      8
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "grade": "가솔린 3.8 4WD 캘리그래피",
+    "base_price": 53050000,
+    "merged_seats": [
+      7,
+      8
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "grade": "가솔린 3.8 4WD 블랙에디션",
+    "base_price": 53050000,
+    "merged_seats": [
+      7,
+      8
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "grade": "디젤 2.2 2WD 익스클루시브",
+    "base_price": 40440000,
+    "merged_seats": [
+      7,
+      8
+    ],
+    "seat_options": {
+      "7인승": 690000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "grade": "디젤 2.2 2WD 르블랑",
+    "base_price": 43150000,
+    "merged_seats": [
+      7,
+      8
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "grade": "디젤 2.2 2WD 프레스티지",
+    "base_price": 40440000,
+    "merged_seats": [
+      7,
+      8
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "grade": "디젤 2.2 2WD 캘리그래피",
+    "base_price": 52160000,
+    "merged_seats": [
+      7,
+      8
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "grade": "디젤 2.2 2WD 블랙에디션",
+    "base_price": 52160000,
+    "merged_seats": [
+      7,
+      8
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "grade": "디젤 2.2 4WD 익스클루시브",
+    "base_price": 42810000,
+    "merged_seats": [
+      7,
+      8
+    ],
+    "seat_options": {
+      "7인승": 690000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "grade": "디젤 2.2 4WD 르블랑",
+    "base_price": 45510000,
+    "merged_seats": [
+      7,
+      8
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "grade": "디젤 2.2 4WD 프레스티지",
+    "base_price": 42810000,
+    "merged_seats": [
+      7,
+      8
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "grade": "디젤 2.2 4WD 캘리그래피",
+    "base_price": 54520000,
+    "merged_seats": [
+      7,
+      8
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "더 뉴 팰리세이드",
+    "year": "2024",
+    "grade": "디젤 2.2 4WD 블랙에디션",
+    "base_price": 54520000,
+    "merged_seats": [
+      7,
+      8
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "grade": "가솔린 3.8 2WD 익스클루시브",
+    "base_price": 38670000,
+    "merged_seats": [
+      7,
+      8
+    ],
+    "seat_options": {
+      "7인승": 400000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "grade": "가솔린 3.8 2WD 프레스티지",
+    "base_price": 38670000,
+    "merged_seats": [
+      7,
+      8
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "grade": "가솔린 3.8 2WD 캘리그래피",
+    "base_price": 50690000,
+    "merged_seats": [
+      7,
+      8
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "grade": "가솔린 3.8 2WD VIP",
+    "base_price": 56380000,
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "grade": "가솔린 3.8 4WD 익스클루시브",
+    "base_price": 41070000,
+    "merged_seats": [
+      7,
+      8
+    ],
+    "seat_options": {
+      "7인승": 430000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "grade": "가솔린 3.8 4WD 프레스티지",
+    "base_price": 41070000,
+    "merged_seats": [
+      7,
+      8
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "grade": "가솔린 3.8 4WD 캘리그래피",
+    "base_price": 53050000,
+    "merged_seats": [
+      7,
+      8
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "grade": "가솔린 3.8 4WD VIP",
+    "base_price": 58740000,
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "grade": "디젤 2.2 2WD 익스클루시브",
+    "base_price": 40170000,
+    "merged_seats": [
+      7,
+      8
+    ],
+    "seat_options": {
+      "7인승": 420000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "grade": "디젤 2.2 2WD 프레스티지",
+    "base_price": 40170000,
+    "merged_seats": [
+      7,
+      8
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "grade": "디젤 2.2 2WD 캘리그래피",
+    "base_price": 52160000,
+    "merged_seats": [
+      7,
+      8
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "grade": "디젤 2.2 2WD VIP",
+    "base_price": 57850000,
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "grade": "디젤 2.2 4WD 익스클루시브",
+    "base_price": 42570000,
+    "merged_seats": [
+      7,
+      8
+    ],
+    "seat_options": {
+      "7인승": 450000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "grade": "디젤 2.2 4WD 프레스티지",
+    "base_price": 42570000,
+    "merged_seats": [
+      7,
+      8
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "grade": "디젤 2.2 4WD 캘리그래피",
+    "base_price": 54520000,
+    "merged_seats": [
+      7,
+      8
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "더 뉴 팰리세이드",
+    "year": "2022",
+    "grade": "디젤 2.2 4WD VIP",
+    "base_price": 60210000,
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2022",
+    "grade": "가솔린 3.8 2WD 익스클루시브",
+    "base_price": 36060000,
+    "merged_seats": [
+      8,
+      7
+    ],
+    "seat_options": {
+      "7인승": 350000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2022",
+    "grade": "가솔린 3.8 2WD 프레스티지",
+    "base_price": 36060000,
+    "merged_seats": [
+      8,
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2022",
+    "grade": "가솔린 3.8 2WD 캘리그래피",
+    "base_price": 47100000,
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2022",
+    "grade": "가솔린 3.8 2WD VIP",
+    "base_price": 52800000,
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2022",
+    "grade": "가솔린 3.8 4WD 익스클루시브",
+    "base_price": 38410000,
+    "merged_seats": [
+      8,
+      7
+    ],
+    "seat_options": {
+      "7인승": 350000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2022",
+    "grade": "가솔린 3.8 4WD 프레스티지",
+    "base_price": 38410000,
+    "merged_seats": [
+      8,
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2022",
+    "grade": "가솔린 3.8 4WD 캘리그래피",
+    "base_price": 49450000,
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2022",
+    "grade": "가솔린 3.8 4WD VIP",
+    "base_price": 55150000,
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2022",
+    "grade": "디젤 2.2 2WD 익스클루시브",
+    "base_price": 37560000,
+    "merged_seats": [
+      8,
+      7
+    ],
+    "seat_options": {
+      "7인승": 350000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2022",
+    "grade": "디젤 2.2 2WD 프레스티지",
+    "base_price": 37560000,
+    "merged_seats": [
+      8,
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2022",
+    "grade": "디젤 2.2 2WD 캘리그래피",
+    "base_price": 48600000,
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2022",
+    "grade": "디젤 2.2 2WD VIP",
+    "base_price": 54300000,
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2022",
+    "grade": "디젤 2.2 4WD 익스클루시브",
+    "base_price": 39910000,
+    "merged_seats": [
+      8,
+      7
+    ],
+    "seat_options": {
+      "7인승": 350000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2022",
+    "grade": "디젤 2.2 4WD 프레스티지",
+    "base_price": 39910000,
+    "merged_seats": [
+      8,
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2022",
+    "grade": "디젤 2.2 4WD 캘리그래피",
+    "base_price": 50950000,
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2022",
+    "grade": "디젤 2.2 4WD VIP",
+    "base_price": 56650000,
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2021",
+    "grade": "가솔린 3.8 2WD 익스클루시브",
+    "base_price": 35730000,
+    "merged_seats": [
+      8,
+      7
+    ],
+    "seat_options": {
+      "7인승": 20000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2021",
+    "grade": "가솔린 3.8 2WD 프레스티지",
+    "base_price": 35730000,
+    "merged_seats": [
+      8,
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2021",
+    "grade": "가솔린 3.8 2WD 캘리그래피",
+    "base_price": 47100000,
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2021",
+    "grade": "가솔린 3.8 2WD VIP",
+    "base_price": 52800000,
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2021",
+    "grade": "가솔린 3.8 4WD 익스클루시브",
+    "base_price": 38080000,
+    "merged_seats": [
+      8,
+      7
+    ],
+    "seat_options": {
+      "7인승": 20000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2021",
+    "grade": "가솔린 3.8 4WD 프레스티지",
+    "base_price": 38080000,
+    "merged_seats": [
+      8,
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2021",
+    "grade": "가솔린 3.8 4WD 캘리그래피",
+    "base_price": 49450000,
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2021",
+    "grade": "가솔린 3.8 4WD VIP",
+    "base_price": 55150000,
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2021",
+    "grade": "디젤 2.2 2WD 익스클루시브",
+    "base_price": 37230000,
+    "merged_seats": [
+      8,
+      7
+    ],
+    "seat_options": {
+      "7인승": 20000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2021",
+    "grade": "디젤 2.2 2WD 프레스티지",
+    "base_price": 37230000,
+    "merged_seats": [
+      8,
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2021",
+    "grade": "디젤 2.2 2WD 캘리그래피",
+    "base_price": 48600000,
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2021",
+    "grade": "디젤 2.2 2WD VIP",
+    "base_price": 54300000,
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2021",
+    "grade": "디젤 2.2 4WD 익스클루시브",
+    "base_price": 39580000,
+    "merged_seats": [
+      8,
+      7
+    ],
+    "seat_options": {
+      "7인승": 20000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2021",
+    "grade": "디젤 2.2 4WD 프레스티지",
+    "base_price": 39580000,
+    "merged_seats": [
+      8,
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2021",
+    "grade": "디젤 2.2 4WD 캘리그래피",
+    "base_price": 50950000,
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2021",
+    "grade": "디젤 2.2 4WD VIP",
+    "base_price": 56650000,
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2020",
+    "grade": "가솔린 3.8 2WD 익스클루시브",
+    "base_price": 35400000,
+    "merged_seats": [
+      8,
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2020",
+    "grade": "가솔린 3.8 2WD 프레스티지",
+    "base_price": 35400000,
+    "merged_seats": [
+      8,
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2020",
+    "grade": "가솔린 3.8 2WD 캘리그래피",
+    "base_price": 47100000,
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2020",
+    "grade": "가솔린 3.8 2WD VIP",
+    "base_price": 52800000,
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2020",
+    "grade": "가솔린 3.8 4WD 익스클루시브",
+    "base_price": 37750000,
+    "merged_seats": [
+      8,
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2020",
+    "grade": "가솔린 3.8 4WD 프레스티지",
+    "base_price": 37750000,
+    "merged_seats": [
+      8,
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2020",
+    "grade": "가솔린 3.8 4WD 캘리그래피",
+    "base_price": 49450000,
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2020",
+    "grade": "가솔린 3.8 4WD VIP",
+    "base_price": 55150000,
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2020",
+    "grade": "디젤 2.2 2WD 익스클루시브",
+    "base_price": 36900000,
+    "merged_seats": [
+      8,
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2020",
+    "grade": "디젤 2.2 2WD 프레스티지",
+    "base_price": 36900000,
+    "merged_seats": [
+      8,
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2020",
+    "grade": "디젤 2.2 2WD 캘리그래피",
+    "base_price": 48600000,
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2020",
+    "grade": "디젤 2.2 2WD VIP",
+    "base_price": 54300000,
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2020",
+    "grade": "디젤 2.2 4WD 익스클루시브",
+    "base_price": 39250000,
+    "merged_seats": [
+      8,
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2020",
+    "grade": "디젤 2.2 4WD 프레스티지",
+    "base_price": 39250000,
+    "merged_seats": [
+      8,
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2020",
+    "grade": "디젤 2.2 4WD 캘리그래피",
+    "base_price": 50950000,
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2020",
+    "grade": "디젤 2.2 4WD VIP",
+    "base_price": 56650000,
+    "merged_seats": [
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2019",
+    "grade": "가솔린 3.8 2WD 익스클루시브",
+    "base_price": 34750000,
+    "merged_seats": [
+      8,
+      7
+    ],
+    "seat_options": {
+      "7인승": 690000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2019",
+    "grade": "가솔린 3.8 2WD 프레스티지",
+    "base_price": 34750000,
+    "merged_seats": [
+      8,
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2019",
+    "grade": "가솔린 3.8 4WD 익스클루시브",
+    "base_price": 37060000,
+    "merged_seats": [
+      8,
+      7
+    ],
+    "seat_options": {
+      "7인승": 690000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2019",
+    "grade": "가솔린 3.8 4WD 프레스티지",
+    "base_price": 37060000,
+    "merged_seats": [
+      8,
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2019",
+    "grade": "디젤 2.2 2WD 익스클루시브",
+    "base_price": 36220000,
+    "merged_seats": [
+      8,
+      7
+    ],
+    "seat_options": {
+      "7인승": 690000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2019",
+    "grade": "디젤 2.2 2WD 프레스티지",
+    "base_price": 36220000,
+    "merged_seats": [
+      8,
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2019",
+    "grade": "디젤 2.2 4WD 익스클루시브",
+    "base_price": 38530000,
+    "merged_seats": [
+      8,
+      7
+    ],
+    "seat_options": {
+      "7인승": 690000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "팰리세이드",
+    "year": "2019",
+    "grade": "디젤 2.2 4WD 프레스티지",
+    "base_price": 38530000,
+    "merged_seats": [
+      8,
+      7
+    ],
+    "seat_options": {}
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "grade": "HEV 1.6 2WD 프레스티지",
+    "base_price": 37450000,
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 750000,
+      "7인승": 700000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "grade": "HEV 1.6 2WD 노블레스",
+    "base_price": 39550000,
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1140000,
+      "7인승": 690000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "grade": "HEV 1.6 2WD 시그니처",
+    "base_price": 42520000,
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 740000,
+      "7인승": 690000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "grade": "HEV 1.6 2WD 그래비티",
+    "base_price": 43410000,
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 740000,
+      "7인승": 690000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "grade": "HEV 1.6 4WD 프레스티지",
+    "base_price": 39710000,
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 750000,
+      "7인승": 700000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "grade": "HEV 1.6 4WD 노블레스",
+    "base_price": 42820000,
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1140000,
+      "7인승": 690000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "grade": "HEV 1.6 4WD 시그니처",
+    "base_price": 45790000,
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 740000,
+      "7인승": 690000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "grade": "HEV 1.6 4WD 그래비티",
+    "base_price": 46680000,
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 740000,
+      "7인승": 690000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "grade": "디젤 2.2 2WD 트렌디",
+    "base_price": 31970000,
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 750000,
+      "7인승": 700000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "grade": "디젤 2.2 2WD 프레스티지",
+    "base_price": 31970000,
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 750000,
+      "7인승": 700000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "grade": "디젤 2.2 2WD 노블레스",
+    "base_price": 37960000,
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1140000,
+      "7인승": 690000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "grade": "디젤 2.2 2WD 시그니처",
+    "base_price": 40920000,
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 740000,
+      "7인승": 690000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "grade": "디젤 2.2 2WD 그래비티",
+    "base_price": 41910000,
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 740000,
+      "7인승": 690000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "grade": "디젤 2.2 4WD 트렌디",
+    "base_price": 34240000,
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 750000,
+      "7인승": 700000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "grade": "디젤 2.2 4WD 프레스티지",
+    "base_price": 34240000,
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 750000,
+      "7인승": 700000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "grade": "디젤 2.2 4WD 노블레스",
+    "base_price": 40230000,
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1140000,
+      "7인승": 690000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "grade": "디젤 2.2 4WD 시그니처",
+    "base_price": 43190000,
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 740000,
+      "7인승": 690000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "grade": "디젤 2.2 4WD 그래비티",
+    "base_price": 44180000,
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 740000,
+      "7인승": 690000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "grade": "HEV 1.6 2WD 프레스티지",
+    "base_price": 36850000,
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 750000,
+      "7인승": 700000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "grade": "HEV 1.6 2WD 노블레스",
+    "base_price": 38380000,
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1130000,
+      "7인승": 690000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "grade": "HEV 1.6 2WD 시그니처",
+    "base_price": 41320000,
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 740000,
+      "7인승": 690000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "grade": "HEV 1.6 2WD 그래비티",
+    "base_price": 42200000,
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 740000,
+      "7인승": 690000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "grade": "HEV 1.6 4WD 프레스티지",
+    "base_price": 38840000,
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 750000,
+      "7인승": 700000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "grade": "HEV 1.6 4WD 노블레스",
+    "base_price": 41630000,
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1130000,
+      "7인승": 690000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "grade": "HEV 1.6 4WD 시그니처",
+    "base_price": 44580000,
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 740000,
+      "7인승": 690000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "grade": "HEV 1.6 4WD 그래비티",
+    "base_price": 45460000,
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 740000,
+      "7인승": 690000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "grade": "디젤 2.2 2WD 트렌디",
+    "base_price": 31330000,
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 750000,
+      "7인승": 700000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "grade": "디젤 2.2 2WD 프레스티지",
+    "base_price": 31330000,
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 750000,
+      "7인승": 700000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "grade": "디젤 2.2 2WD 노블레스",
+    "base_price": 36500000,
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1130000,
+      "7인승": 690000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "grade": "디젤 2.2 2WD 시그니처",
+    "base_price": 40210000,
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 740000,
+      "7인승": 690000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "grade": "디젤 2.2 2WD 그래비티",
+    "base_price": 40430000,
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 740000,
+      "7인승": 690000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "grade": "디젤 2.2 4WD 트렌디",
+    "base_price": 33630000,
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 750000,
+      "7인승": 700000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "grade": "디젤 2.2 4WD 프레스티지",
+    "base_price": 33630000,
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 750000,
+      "7인승": 700000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "grade": "디젤 2.2 4WD 노블레스",
+    "base_price": 38760000,
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1130000,
+      "7인승": 690000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "grade": "디젤 2.2 4WD 시그니처",
+    "base_price": 41700000,
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 740000,
+      "7인승": 690000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "grade": "디젤 2.2 4WD 그래비티",
+    "base_price": 42690000,
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 740000,
+      "7인승": 690000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "쏘렌토 4세대",
+    "year": "2020",
+    "grade": "디젤 2.2 2WD 트렌디",
+    "base_price": 29480000,
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 800000,
+      "7인승": 700000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "쏘렌토 4세대",
+    "year": "2020",
+    "grade": "디젤 2.2 2WD 프레스티지",
+    "base_price": 29480000,
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 800000,
+      "7인승": 700000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "쏘렌토 4세대",
+    "year": "2020",
+    "grade": "디젤 2.2 2WD 노블레스",
+    "base_price": 36600000,
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 1200000,
+      "7인승": 700000
+    }
+  },
+  {
+    "type": "A_suv_resolved",
+    "model": "쏘렌토 4세대",
+    "year": "2020",
+    "grade": "디젤 2.2 2WD 시그니처",
+    "base_price": 39500000,
+    "merged_seats": [
+      5,
+      6,
+      7
+    ],
+    "seat_options": {
+      "6인승": 800000,
+      "7인승": 700000
+    }
+  },
+  {
+    "type": "turbo_merged",
+    "model": "올 뉴 모닝 (JA)",
+    "year": "2018",
+    "deleted": "가솔린 터보 1.0 2WD 프레스티지 A/T",
+    "kept": "가솔린 1.0 2WD 프레스티지 A/T",
+    "base_price": 9450000
+  },
+  {
+    "type": "turbo_merged",
+    "model": "올 뉴 모닝 (JA)",
+    "year": "2017",
+    "deleted": "가솔린 터보 1.0 2WD 프레스티지 A/T",
+    "kept": "가솔린 1.0 2WD 프레스티지 A/T",
+    "base_price": 12200000
+  },
+  {
+    "type": "turbo_merged",
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "deleted": "가솔린 터보 2.5T 2WD 트렌디",
+    "kept": "가솔린 2.5T 2WD 트렌디",
+    "base_price": 30240000
+  },
+  {
+    "type": "turbo_merged",
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "deleted": "가솔린 터보 2.5T 2WD 프레스티지",
+    "kept": "가솔린 2.5T 2WD 프레스티지",
+    "base_price": 30240000
+  },
+  {
+    "type": "turbo_merged",
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "deleted": "가솔린 터보 2.5T 2WD 노블레스",
+    "kept": "가솔린 2.5T 2WD 노블레스",
+    "base_price": 36230000
+  },
+  {
+    "type": "turbo_merged",
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "deleted": "가솔린 터보 2.5T 2WD 시그니처",
+    "kept": "가솔린 2.5T 2WD 시그니처",
+    "base_price": 39190000
+  },
+  {
+    "type": "turbo_merged",
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "deleted": "가솔린 터보 2.5T 2WD 그래비티",
+    "kept": "가솔린 2.5T 2WD 그래비티",
+    "base_price": 40180000
+  },
+  {
+    "type": "turbo_merged",
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "deleted": "가솔린 터보 2.5T 4WD 트렌디",
+    "kept": "가솔린 2.5T 4WD 트렌디",
+    "base_price": 32510000
+  },
+  {
+    "type": "turbo_merged",
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "deleted": "가솔린 터보 2.5T 4WD 프레스티지",
+    "kept": "가솔린 2.5T 4WD 프레스티지",
+    "base_price": 32510000
+  },
+  {
+    "type": "turbo_merged",
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "deleted": "가솔린 터보 2.5T 4WD 노블레스",
+    "kept": "가솔린 2.5T 4WD 노블레스",
+    "base_price": 38500000
+  },
+  {
+    "type": "turbo_merged",
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "deleted": "가솔린 터보 2.5T 4WD 시그니처",
+    "kept": "가솔린 2.5T 4WD 시그니처",
+    "base_price": 41460000
+  },
+  {
+    "type": "turbo_merged",
+    "model": "쏘렌토 4세대",
+    "year": "2023",
+    "deleted": "가솔린 터보 2.5T 4WD 그래비티",
+    "kept": "가솔린 2.5T 4WD 그래비티",
+    "base_price": 42450000
+  },
+  {
+    "type": "turbo_merged",
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "deleted": "가솔린 터보 2.5T 2WD 트렌디",
+    "kept": "가솔린 2.5T 2WD 트렌디",
+    "base_price": 29580000
+  },
+  {
+    "type": "turbo_merged",
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "deleted": "가솔린 터보 2.5T 2WD 프레스티지",
+    "kept": "가솔린 2.5T 2WD 프레스티지",
+    "base_price": 29580000
+  },
+  {
+    "type": "turbo_merged",
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "deleted": "가솔린 터보 2.5T 2WD 노블레스",
+    "kept": "가솔린 2.5T 2WD 노블레스",
+    "base_price": 35520000
+  },
+  {
+    "type": "turbo_merged",
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "deleted": "가솔린 터보 2.5T 2WD 시그니처",
+    "kept": "가솔린 2.5T 2WD 시그니처",
+    "base_price": 38460000
+  },
+  {
+    "type": "turbo_merged",
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "deleted": "가솔린 터보 2.5T 2WD 그래비티",
+    "kept": "가솔린 2.5T 2WD 그래비티",
+    "base_price": 39440000
+  },
+  {
+    "type": "turbo_merged",
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "deleted": "가솔린 터보 2.5T 4WD 트렌디",
+    "kept": "가솔린 2.5T 4WD 트렌디",
+    "base_price": 31880000
+  },
+  {
+    "type": "turbo_merged",
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "deleted": "가솔린 터보 2.5T 4WD 프레스티지",
+    "kept": "가솔린 2.5T 4WD 프레스티지",
+    "base_price": 31880000
+  },
+  {
+    "type": "turbo_merged",
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "deleted": "가솔린 터보 2.5T 4WD 노블레스",
+    "kept": "가솔린 2.5T 4WD 노블레스",
+    "base_price": 37780000
+  },
+  {
+    "type": "turbo_merged",
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "deleted": "가솔린 터보 2.5T 4WD 시그니처",
+    "kept": "가솔린 2.5T 4WD 시그니처",
+    "base_price": 40720000
+  },
+  {
+    "type": "turbo_merged",
+    "model": "쏘렌토 4세대",
+    "year": "2022",
+    "deleted": "가솔린 터보 2.5T 4WD 그래비티",
+    "kept": "가솔린 2.5T 4WD 그래비티",
+    "base_price": 41700000
+  }
+]
