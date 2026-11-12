@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>제이책(C) 신차 공식 카탈로그 뷰어 | J-PRO</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: #0b0c10;
+      color: #e4e4e7;
+      line-height: 1.5;
+      font-size: 13px;
+    }
+    header {
+      background-color: #14151b;
+      border-bottom: 1px solid #262833;
+      padding: 12px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .header-title-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .header-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #3b82f6;
+      letter-spacing: -0.02em;
+    }
+    .header-badge {
+      font-size: 11px;
+      background-color: #1e3a8a;
+      color: #93c5fd;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      border: 1px solid #2563eb;
+      font-weight: 600;
+    }
+    .header-subbadge {
+      font-size: 11px;
+      background-color: #14291f;
+      color: #6ee7b7;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      border: 1px solid #059669;
+      font-weight: 600;
+    }
+    .search-bar-container {
+      background-color: #121319;
+      border-bottom: 1px solid #20222b;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .input-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .input-label {
+      font-size: 11px;
+      color: #71717a;
+      font-weight: 600;
+    }
+    .select-input {
+      background-color: #0b0c10;
+      border: 1px solid #2a2d3d;
+      color: #f4f4f5;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      outline: none;
+      cursor: pointer;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    .select-input:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+    }
+    .select-input option {
+      background-color: #14151b;
+      color: #f4f4f5;
+    }
+    .btn {
+      font-weight: 700;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 0.15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .btn-search {
+      background-color: #3b82f6;
+      color: #ffffff;
+    }
+    .btn-search:hover {
+      background-color: #2563eb;
+    }
+    .btn-toggle {
+      background-color: #27272a;
+      color: #d4d4d8;
+    }
+    .btn-toggle:hover {
+      background-color: #3f3f46;
+    }
+    .main-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .summary-card {
+      background: linear-gradient(135deg, #141724 0%, #10121a 100%);
+      border: 1px solid #252a3d;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .summary-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .summary-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #ffffff;
+    }
+    .summary-year {
+      font-size: 14px;
+      color: #93c5fd;
+      background-color: #1e3a8a;
+      padding: 2px 10px;
+      border-radius: 6px;
+      font-weight: 700;
+    }
+    .summary-count {
+      font-size: 12px;
+      color: #a1a1aa;
+    }
+    .grades-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .grade-card {
+      background-color: #14151e;
+      border: 1px solid #262938;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    .grade-card.targeted {
+      border: 2px solid #eab308;
+      box-shadow: 0 0 15px rgba(234, 179, 8, 0.2);
+    }
+    .grade-header {
+      padding: 14px 18px;
+      background-color: #171924;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      user-select: none;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .grade-header:hover {
+      background-color: #1c1e2b;
+    }
+    .grade-title-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .grade-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: #f4f4f5;
+    }
+    .target-badge {
+      background-color: #ca8a04;
+      color: #fef08a;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 4px;
+      letter-spacing: -0.02em;
+    }
+    .source-badge {
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .source-encar {
+      background-color: #064e3b;
+      color: #6ee7b7;
+      border: 1px solid #059669;
+    }
+    .source-danawa {
+      background-color: #4c1d95;
+      color: #c4b5fd;
+      border: 1px solid #6d28d9;
+    }
+    .conflict-badge {
+      background-color: #7c2d12;
+      color: #fed7aa;
+      border: 1px solid #c2410c;
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 700;
+      cursor: help;
+    }
+    .grade-price-group {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+    .grade-price-man {
+      font-size: 16px;
+      font-weight: 800;
+      color: #38bdf8;
+    }
+    .grade-price-won {
+      font-size: 11px;
+      color: #71717a;
+    }
+    .accordion-icon {
+      font-size: 12px;
+      color: #a1a1aa;
+      transition: transform 0.2s ease;
+    }
+    .grade-card.open .accordion-icon {
+      transform: rotate(180deg);
+    }
+    .grade-body {
+      display: none;
+      padding: 16px 18px;
+      border-top: 1px solid #202331;
+      background-color: #111219;
+    }
+    .grade-card.open .grade-body {
+      display: block;
+    }
+    .conflict-box {
+      background-color: #231512;
+      border: 1px solid #571e11;
+      border-radius: 6px;
+      padding: 10px 14px;
+      margin-bottom: 14px;
+      font-size: 12px;
+      color: #fdba74;
+    }
+    .conflict-box-title {
+      font-weight: 700;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .options-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+    }
+    .options-table th {
+      background-color: #171821;
+      color: #a1a1aa;
+      text-align: left;
+      padding: 8px 12px;
+      font-size: 11px;
+      font-weight: 600;
+      border-bottom: 1px solid #272a3a;
+    }
+    .options-table td {
+      padding: 8px 12px;
+      border-bottom: 1px solid #1c1e2b;
+      vertical-align: middle;
+    }
+    .options-table tr:hover {
+      background-color: #161824;
+    }
+    .opt-name {
+      font-weight: 600;
+      color: #e4e4e7;
+    }
+    .opt-desc {
+      font-size: 11px;
+      color: #71717a;
+      margin-top: 3px;
+    }
+    .opt-price {
+      font-weight: 700;
+      color: #38bdf8;
+      white-space: nowrap;
+    }
+    .opt-kind {
+      font-size: 11px;
+      color: #94a3b8;
+    }
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: #71717a;
+      background-color: #12131a;
+      border: 1px dashed #262938;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+    .loading-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: #93c5fd;
+      font-size: 14px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-title-box">
+      <div class="header-title">제이책(C) 신차 공식 카탈로그</div>
+      <div class="header-badge">통합 뷰어</div>
+      <div class="header-subbadge">엔카 v2 + 다나와 병합본</div>
+    </div>
+    <div id="catalog-c-subtitle" style="font-size: 11px; color: #71717a;">
+      307개 차종 · 1,329개 연식 · 14,644개 등급 탑재
+    </div>
+  </header>
+
+  <div class="search-bar-container">
+    <div class="input-group">
+      <span class="input-label">제조사</span>
+      <select id="selectBrand" class="select-input" onchange="onBrandChange()">
+        <option value="">제조사 선택</option>
+      </select>
+    </div>
+
+    <div class="input-group">
+      <span class="input-label">차종</span>
+      <select id="selectModel" class="select-input" onchange="onModelChange()">
+        <option value="">차종 선택</option>
+      </select>
+    </div>
+
+    <div class="input-group">
+      <span class="input-label">연식</span>
+      <select id="selectYear" class="select-input" onchange="onYearChange()">
+        <option value="">연식 선택</option>
+      </select>
+    </div>
+
+    <button id="btnSearch" class="btn btn-search" onclick="loadSpecData()">조회</button>
+    <button id="btnExpandAll" class="btn btn-toggle" onclick="toggleAllCards(true)" style="display: none;">전체 펼치기</button>
+    <button id="btnCollapseAll" class="btn btn-toggle" onclick="toggleAllCards(false)" style="display: none;">전체 접기</button>
+  </div>
+
+  <div class="main-container">
+    <div id="loadingView" class="loading-state" style="display: none;">
+      카탈로그 데이터를 불러오는 중입니다...
+    </div>
+
+    <div id="contentView">
+      <div class="empty-state">
+        상단에서 제조사, 차종, 연식을 선택하고 [조회]를 누르세요.<br>
+        (콕핏에서 연결 시 차종·연식·등급이 자동 로드됩니다.)
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let catalogTree = {};
+    let currentSpecData = null;
+    let targetGradeParam = null;
+
+    // 1. 초기 트리 로드 및 파라미터 파싱
+    window.addEventListener('DOMContentLoaded', async () => {
+      loadCatalogStats();
+      await loadCatalogTree();
+      parseUrlParamsAndLoad();
+    });
+
+    async function loadCatalogStats() {
+      try {
+        const res = await fetch('/api/catalog-c/stats');
+        if (res.ok) {
+          const stats = await res.json();
+          if (stats && stats.summary_text) {
+            const el = document.getElementById('catalog-c-subtitle');
+            if (el) el.textContent = stats.summary_text;
+          }
+        }
+      } catch (e) {
+        // 네트워크 오류 시 기본 정적 HTML 텍스트 유지
+      }
+    }
+
+    window.addEventListener('hashchange', () => {
+      parseUrlParamsAndLoad();
+    });
+
+    function parseUrlParamsAndLoad() {
+      // 해시(#model=...&year=...&grade=...) 또는 쿼리(?model=...) 지원
+      const hashStr = window.location.hash ? window.location.hash.substring(1) : '';
+      const queryStr = window.location.search ? window.location.search.substring(1) : '';
+      const params = new URLSearchParams(hashStr || queryStr);
+
+      const model = params.get('model') || params.get('car_name') || '';
+      const year = params.get('year') || '';
+      const grade = params.get('grade') || '';
+      targetGradeParam = grade;
+
+      if (model && year) {
+        selectAndLoad(model, year, grade);
+      }
+    }
+
+    async function loadCatalogTree() {
+      try {
+        const res = await fetch('/api/catalog-c/tree');
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        catalogTree = await res.json();
+        populateBrands();
+      } catch (err) {
+        console.error('카탈로그 트리 로드 실패:', err);
+      }
+    }
+
+    function populateBrands() {
+      const el = document.getElementById('selectBrand');
+      el.innerHTML = '<option value="">제조사 선택</option>';
+      Object.keys(catalogTree).forEach(brand => {
+        const opt = document.createElement('option');
+        opt.value = brand;
+        opt.textContent = brand;
+        el.appendChild(opt);
+      });
+    }
+
+    function onBrandChange() {
+      const brand = document.getElementById('selectBrand').value;
+      populateModels(brand);
+      document.getElementById('selectYear').innerHTML = '<option value="">연식 선택</option>';
+    }
+
+    function populateModels(brand, selectedModel) {
+      const el = document.getElementById('selectModel');
+      el.innerHTML = '<option value="">차종 선택</option>';
+      if (!brand || !catalogTree[brand]) return;
+
+      const models = Object.keys(catalogTree[brand]).sort((a, b) => a.localeCompare(b, 'ko'));
+      models.forEach(m => {
+        const opt = document.createElement('option');
+        opt.value = m;
+        opt.textContent = m;
+        if (m === selectedModel) opt.selected = true;
+        el.appendChild(opt);
+      });
+    }
+
+    function onModelChange() {
+      const brand = document.getElementById('selectBrand').value;
+      const model = document.getElementById('selectModel').value;
+      populateYears(brand, model);
+    }
+
+    function populateYears(brand, model, selectedYear) {
+      const el = document.getElementById('selectYear');
+      el.innerHTML = '<option value="">연식 선택</option>';
+      if (!brand || !model || !catalogTree[brand] || !catalogTree[brand][model]) return;
+
+      const years = catalogTree[brand][model];
+      years.forEach(y => {
+        const opt = document.createElement('option');
+        opt.value = y;
+        opt.textContent = `${y}년형`;
+        if (String(y) === String(selectedYear)) opt.selected = true;
+        el.appendChild(opt);
+      });
+    }
+
+    function onYearChange() {
+      // 연식 선택 완료 시 자동 조회 편의 제공
+      loadSpecData();
+    }
+
+    function selectAndLoad(model, year, grade) {
+      // 트리에서 해당 모델이 속한 브랜드 찾기
+      let foundBrand = null;
+      let matchedModel = null;
+
+      // 1) 정확 일치
+      for (const brand in catalogTree) {
+        if (catalogTree[brand][model]) {
+          foundBrand = brand;
+          matchedModel = model;
+          break;
+        }
+      }
+
+      // 2) 부분 일치 (예: 괄호 코드 차이)
+      if (!foundBrand) {
+        const cleanM = model.replace(/[\s\(\)\-_]+/g, '').toLowerCase();
+        for (const brand in catalogTree) {
+          for (const m in catalogTree[brand]) {
+            const clean = m.replace(/[\s\(\)\-_]+/g, '').toLowerCase();
+            if (clean === cleanM || clean.includes(cleanM) || cleanM.includes(clean)) {
+              foundBrand = brand;
+              matchedModel = m;
+              break;
+            }
+          }
+          if (foundBrand) break;
+        }
+      }
+
+      if (foundBrand && matchedModel) {
+        document.getElementById('selectBrand').value = foundBrand;
+        populateModels(foundBrand, matchedModel);
+        
+        // 연식 숫자 정규화
+        const yDigits = year.match(/20\d{2}/) ? year.match(/20\d{2}/)[0] : year;
+        populateYears(foundBrand, matchedModel, yDigits);
+        document.getElementById('selectYear').value = yDigits;
+
+        targetGradeParam = grade;
+        loadSpecData();
+      } else {
+        // 브랜드 없이 직접 백엔드 호출 시도
+        targetGradeParam = grade;
+        fetchSpec(model, year, grade);
+      }
+    }
+
+    async function loadSpecData() {
+      const model = document.getElementById('selectModel').value;
+      const year = document.getElementById('selectYear').value;
+      if (!model || !year) {
+        alert('차종과 연식을 모두 선택해주세요.');
+        return;
+      }
+      fetchSpec(model, year, targetGradeParam);
+    }
+
+    async function fetchSpec(model, year, grade) {
+      const loading = document.getElementById('loadingView');
+      const content = document.getElementById('contentView');
+      loading.style.display = 'block';
+      content.style.display = 'none';
+
+      const url = `/api/catalog-c/spec?car_name=${encodeURIComponent(model)}&year=${encodeURIComponent(year)}&grade=${encodeURIComponent(grade || '')}`;
+
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+        currentSpecData = data;
+        renderResult(data, { model, year, grade });
+      } catch (err) {
+        content.innerHTML = `<div class="empty-state" style="color: #ef4444;">요청 중 오류가 발생했습니다: ${escapeHtml(err.message)}</div>`;
+      } finally {
+        loading.style.display = 'none';
+        content.style.display = 'block';
+      }
+    }
+
+    function renderResult(data, query) {
+      const content = document.getElementById('contentView');
+      const btnExpandAll = document.getElementById('btnExpandAll');
+      const btnCollapseAll = document.getElementById('btnCollapseAll');
+
+      if (!data || !data.found) {
+        btnExpandAll.style.display = 'none';
+        btnCollapseAll.style.display = 'none';
+        const reason = data ? (data.reason || '카탈로그 정보 없음') : '응답 데이터 없음';
+        content.innerHTML = `
+          <div class="empty-state">
+            <div style="font-size: 14px; font-weight: 700; color: #f87171; margin-bottom: 6px;">⚠️ 카탈로그 조회 실패</div>
+            <div>${escapeHtml(reason)}</div>
+            <div style="margin-top: 8px; font-size: 11px; color: #71717a;">
+              조회 조건: 차종=${escapeHtml(query.model || '-')}, 연식=${escapeHtml(query.year || '-')}, 등급=${escapeHtml(query.grade || '-')}
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      btnExpandAll.style.display = 'inline-flex';
+      btnCollapseAll.style.display = 'inline-flex';
+
+      const grades = data.grades || {};
+      const gradeKeys = Object.keys(grades);
+      const targetGrade = data.target_grade;
+
+      let html = '';
+
+      // 상단 요약 카드
+      html += `
+        <div class="summary-card">
+          <div class="summary-left">
+            <div class="summary-title">${escapeHtml(data.car_name)}</div>
+            <div class="summary-year">${escapeHtml(data.year)}년형</div>
+            <div class="summary-count">총 ${data.total_grades}개 등급</div>
+          </div>
+          <div style="font-size: 11px; color: #71717a;">
+            클릭하여 등급별 상세 옵션을 접거나 펼칠 수 있습니다.
+          </div>
+        </div>
+      `;
+
+      html += `<div class="grades-list">`;
+
+      gradeKeys.forEach((gname, idx) => {
+        const gdata = grades[gname];
+        const isTarget = Boolean(targetGrade && gname === targetGrade);
+        
+        // 요구사항: 불러온 차(targetGrade 존재 시)는 그 등급만 펼치고 나머지는 접음.
+        // 등급 지정이 없을 시에는 전부 접은 상태로 시작.
+        const shouldOpen = isTarget;
+
+        const bpMan = gdata.base_price_man ? Number(gdata.base_price_man).toLocaleString() : '-';
+        const bpWon = gdata.base_price ? Number(gdata.base_price).toLocaleString() : '-';
+        const src = (gdata.source || 'encar').toLowerCase();
+        const srcBadgeClass = src === 'danawa' ? 'source-danawa' : 'source-encar';
+        const srcBadgeLabel = src === 'danawa' ? '다나와' : '엔카공식';
+
+        html += `
+          <div class="grade-card ${isTarget ? 'targeted' : ''} ${shouldOpen ? 'open' : ''}" id="grade-card-${idx}">
+            <div class="grade-header" onclick="toggleCard(${idx})">
+              <div class="grade-title-group">
+                <span class="grade-name">${escapeHtml(gname)}</span>
+                ${isTarget ? `<span class="target-badge">🎯 불러온 목표 등급</span>` : ''}
+                <span class="source-badge ${srcBadgeClass}">기본가: ${srcBadgeLabel}</span>
+                ${gdata.mission ? `<span style="font-size: 11px; color: #71717a;">(${escapeHtml(gdata.mission)})</span>` : ''}
+                ${gdata.is_conflict ? `<span class="conflict-badge" title="다나와와 기본가가 일치하지 않아 엔카 공식가 유지 및 충돌 분리 기록">⚠️ 기본가 충돌 주의</span>` : ''}
+              </div>
+              <div style="display: flex; align-items: center; gap: 14px;">
+                <div class="grade-price-group">
+                  <span class="grade-price-man">${bpMan}만원</span>
+                  <span class="grade-price-won">(${bpWon}원)</span>
+                </div>
+                <div class="accordion-icon">▼</div>
+              </div>
+            </div>
+
+            <div class="grade-body">
+              ${gdata.is_conflict && gdata.conflict_info ? renderConflictBox(gdata.conflict_info) : ''}
+              
+              <div style="font-size: 12px; font-weight: 700; color: #a1a1aa; margin-bottom: 6px;">
+                추가 선택 옵션 (${gdata.options_count}개)
+              </div>
+              ${renderOptionsTable(gdata.options)}
+            </div>
+          </div>
+        `;
+      });
+
+      html += `</div>`;
+      content.innerHTML = html;
+
+      // 불러온 목표 등급이 있으면 부드럽게 스크롤 이동
+      if (targetGrade) {
+        setTimeout(() => {
+          const targetedCard = document.querySelector('.grade-card.targeted');
+          if (targetedCard) {
+            targetedCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }, 100);
+      }
+    }
+
+    function renderConflictBox(conflictInfo) {
+      const grades = conflictInfo.conflict_grades || [];
+      const listHtml = grades.map(g => {
+        const prc = g.base_price ? `${Number(Math.round(g.base_price / 10000)).toLocaleString()}만원 (${Number(g.base_price).toLocaleString()}원)` : '-';
+        return `<li><strong>[${escapeHtml(g.source)}]</strong> ${escapeHtml(g.name)}: ${prc}</li>`;
+      }).join('');
+
+      return `
+        <div class="conflict-box">
+          <div class="conflict-box-title">
+            ⚠️ <span>출처 간 기본가 상이 안내 (${escapeHtml(conflictInfo.trim || '')} 트림)</span>
+          </div>
+          <div style="font-size: 11px; margin-bottom: 6px; color: #fed7aa;">
+            엔카 공식 가격표를 대표 가격으로 우선 적용하였으며, 다나와에서 다르게 표기된 가격은 아래와 같습니다:
+          </div>
+          <ul style="padding-left: 18px; line-height: 1.6; font-size: 11px;">
+            ${listHtml}
+          </ul>
+        </div>
+      `;
+    }
+
+    function renderOptionsTable(options) {
+      const optKeys = Object.keys(options || {});
+      if (optKeys.length === 0) {
+        return `<div style="color: #71717a; padding: 12px 0; font-size: 12px;">등록된 추가 선택 옵션이 없습니다.</div>`;
+      }
+
+      let rows = optKeys.map((oname, idx) => {
+        const item = options[oname];
+        const pMan = item.price_man != null ? Number(item.price_man).toLocaleString() : (item.price != null ? Math.round(item.price / 10000).toLocaleString() : '-');
+        const pWon = item.price != null ? Number(item.price).toLocaleString() : '-';
+        const src = (item.source || 'encar').toLowerCase();
+        const srcClass = src === 'danawa' ? 'source-danawa' : 'source-encar';
+        const srcLabel = src === 'danawa' ? 'danawa' : 'encar';
+
+        return `
+          <tr>
+            <td style="width: 32px; color: #52525b; font-size: 11px;">${idx + 1}</td>
+            <td>
+              <div class="opt-name">${escapeHtml(oname)}</div>
+              ${item.desc ? `<div class="opt-desc">${escapeHtml(item.desc)}</div>` : ''}
+            </td>
+            <td class="opt-price">
+              ${pMan}만원 <span style="font-size: 11px; color: #71717a; font-weight: normal;">(${pWon}원)</span>
+            </td>
+            <td class="opt-kind" style="width: 80px;">${escapeHtml(item.kind || '선택옵션')}</td>
+            <td style="width: 70px;">
+              <span class="source-badge ${srcClass}">${srcLabel}</span>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      return `
+        <table class="options-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>옵션명 / 패키지 구성</th>
+              <th>가격</th>
+              <th>구분</th>
+              <th>출처</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rows}
+          </tbody>
+        </table>
+      `;
+    }
+
+    function toggleCard(idx) {
+      const card = document.getElementById(`grade-card-${idx}`);
+      if (card) {
+        card.classList.toggle('open');
+      }
+    }
+
+    function toggleAllCards(openState) {
+      const cards = document.querySelectorAll('.grade-card');
+      cards.forEach(card => {
+        if (openState) {
+          card.classList.add('open');
+        } else {
+          card.classList.remove('open');
+        }
+      });
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+  </script>
+</body>
+</html>

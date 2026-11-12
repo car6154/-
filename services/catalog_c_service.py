@@ -17,11 +17,13 @@ DATA_DIR = os.path.join(PROJECT_ROOT, "data")
 CATALOG_C_FILE = os.path.join(DATA_DIR, "catalog_c.json")
 CONFLICTS_FILE = os.path.join(DATA_DIR, "catalog_c_price_conflicts_v3_2026-11-12.json")
 TARGETS_INDEX_FILE = os.path.join(DATA_DIR, "encar_crawl_targets_index.json")
+MODEL_GROUPS_FILE = os.path.join(DATA_DIR, "catalog_c_model_groups_2026-11-12.json")
 
 _CATALOG_C_CACHE: Optional[Dict[str, Any]] = None
 _CONFLICTS_INDEX_CACHE: Optional[Dict[str, Any]] = None
 _CATALOG_C_TREE_CACHE: Optional[Dict[str, Any]] = None
 _CATALOG_C_STATS_CACHE: Optional[Dict[str, Any]] = None
+_CATALOG_C_HIERARCHY_CACHE: Optional[Dict[str, Any]] = None
 
 
 def load_catalog_c() -> Dict[str, Any]:
@@ -140,6 +142,68 @@ def get_catalog_c_tree() -> Dict[str, Any]:
     clean_tree = {b: tree[b] for b in ordered_brands if tree.get(b)}
     _CATALOG_C_TREE_CACHE = clean_tree
     return _CATALOG_C_TREE_CACHE
+
+
+def get_catalog_c_hierarchy() -> Dict[str, Any]:
+    """
+    [11-11-23] 제조사 -> 차종묶음 -> 세부모델 -> 연식 목록 4계층 반환
+    """
+    global _CATALOG_C_HIERARCHY_CACHE
+    if _CATALOG_C_HIERARCHY_CACHE is not None:
+        return _CATALOG_C_HIERARCHY_CACHE
+
+    catalog = load_catalog_c()
+    if not catalog:
+        return {}
+
+    ordered_brands = ["현대", "기아", "제네시스", "쉐보레", "KGM", "르노코리아"]
+    hierarchy: Dict[str, Dict[str, Dict[str, List[str]]]] = {b: {} for b in ordered_brands}
+
+    if os.path.exists(MODEL_GROUPS_FILE):
+        try:
+            with open(MODEL_GROUPS_FILE, "r", encoding="utf-8") as f:
+                group_data = json.load(f)
+            raw_hierarchy = group_data.get("hierarchy", {})
+            for b in ordered_brands:
+                b_groups = raw_hierarchy.get(b, {})
+                for gname, models in b_groups.items():
+                    hierarchy[b][gname] = {}
+                    for m in models:
+                        yrs = catalog.get(m, {})
+                        sorted_years = sorted(list(yrs.keys()), key=lambda x: int(re.sub(r'\D', '', x) or 0), reverse=True)
+                        hierarchy[b][gname][m] = sorted_years
+        except Exception as e:
+            print(f"[CatalogC] hierarchy 파일 로드 실패: {e}")
+
+    # 데이터가 비어있을 경우 폴백 (TARGETS_INDEX_FILE 기반)
+    if not any(hierarchy[b] for b in ordered_brands):
+        model_to_target = {}
+        if os.path.exists(TARGETS_INDEX_FILE):
+            try:
+                with open(TARGETS_INDEX_FILE, "r", encoding="utf-8") as f:
+                    targets = json.load(f)
+                for t in targets:
+                    m = t.get("model_name")
+                    if m and m not in model_to_target:
+                        model_to_target[m] = t
+            except Exception:
+                pass
+
+        for m, yrs in catalog.items():
+            t = model_to_target.get(m, {})
+            b = t.get("mfg_name", "현대")
+            g = t.get("group_name", m)
+            if b not in hierarchy:
+                hierarchy[b] = {}
+            if g not in hierarchy[b]:
+                hierarchy[b][g] = {}
+            sorted_years = sorted(list(yrs.keys()), key=lambda x: int(re.sub(r'\D', '', x) or 0), reverse=True)
+            hierarchy[b][g][m] = sorted_years
+
+    # 빈 브랜드 정리
+    clean_hierarchy = {b: hierarchy[b] for b in ordered_brands if hierarchy.get(b)}
+    _CATALOG_C_HIERARCHY_CACHE = clean_hierarchy
+    return _CATALOG_C_HIERARCHY_CACHE
 
 
 def get_catalog_c_spec(car_name: str = "", year: str = "", grade: str = "") -> Dict[str, Any]:

@@ -64,8 +64,75 @@
       border-bottom: 1px solid #20222b;
       padding: 12px 20px;
       display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .hierarchy-nav-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      width: 100%;
+    }
+    .hierarchy-step {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #181922;
+      padding: 4px 8px;
+      border-radius: 6px;
+      border: 1px solid #272a38;
+    }
+    .step-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 16px;
+      height: 16px;
+      background: #2563eb;
+      color: #ffffff;
+      border-radius: 50%;
+      font-size: 10px;
+      font-weight: 700;
+      line-height: 1;
+    }
+    .step-arrow {
+      color: #4b5563;
+      font-size: 16px;
+      font-weight: 700;
+      user-select: none;
+    }
+    .flat-search-details {
+      width: 100%;
+      border-top: 1px dashed #272a38;
+      padding-top: 6px;
+    }
+    .flat-search-summary {
+      font-size: 11px;
+      color: #9ca3af;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      user-select: none;
+      padding: 2px 0;
+    }
+    .flat-search-summary:hover {
+      color: #e5e7eb;
+    }
+    .flat-summary-hint {
+      font-size: 10px;
+      color: #6b7280;
+    }
+    .flat-search-row {
+      display: flex;
       align-items: center;
       gap: 12px;
+      padding: 8px 10px;
+      margin-top: 6px;
+      background: #0d0e12;
+      border-radius: 6px;
+      border: 1px solid #1f222e;
       flex-wrap: wrap;
     }
     .input-group {
@@ -357,30 +424,80 @@
   </header>
 
   <div class="search-bar-container">
-    <div class="input-group">
-      <span class="input-label">제조사</span>
-      <select id="selectBrand" class="select-input" onchange="onBrandChange()">
-        <option value="">제조사 선택</option>
-      </select>
+    <!-- [11-11-23] 4단 계층 탐색 바: 제조사 -> 차종묶음 -> 세부모델 -> 연식 -->
+    <div class="hierarchy-nav-box">
+      <div class="hierarchy-step">
+        <span class="step-num">1</span>
+        <span class="input-label">제조사</span>
+        <select id="selectStepBrand" class="select-input" onchange="onStepBrandChange()">
+          <option value="">제조사 선택</option>
+        </select>
+      </div>
+
+      <div class="step-arrow">›</div>
+
+      <div class="hierarchy-step">
+        <span class="step-num">2</span>
+        <span class="input-label">차종묶음</span>
+        <select id="selectStepGroup" class="select-input" onchange="onStepGroupChange()">
+          <option value="">차종묶음 선택</option>
+        </select>
+      </div>
+
+      <div class="step-arrow">›</div>
+
+      <div class="hierarchy-step">
+        <span class="step-num">3</span>
+        <span class="input-label">세부모델</span>
+        <select id="selectStepModel" class="select-input" onchange="onStepModelChange()">
+          <option value="">세부모델 선택</option>
+        </select>
+      </div>
+
+      <div class="step-arrow">›</div>
+
+      <div class="hierarchy-step">
+        <span class="step-num">4</span>
+        <span class="input-label">연식</span>
+        <select id="selectStepYear" class="select-input" onchange="onStepYearChange()">
+          <option value="">연식 선택</option>
+        </select>
+      </div>
+
+      <button id="btnSearch" class="btn btn-search" onclick="loadSpecData()">조회</button>
+      <button id="btnExpandAll" class="btn btn-toggle" onclick="toggleAllCards(true)" style="display: none;">전체 펼치기</button>
+      <button id="btnCollapseAll" class="btn btn-toggle" onclick="toggleAllCards(false)" style="display: none;">전체 접기</button>
     </div>
 
-    <div class="input-group">
-      <span class="input-label">차종</span>
-      <select id="selectModel" class="select-input" onchange="onModelChange()">
-        <option value="">차종 선택</option>
-      </select>
-    </div>
+    <!-- [11-11-23] 접을 수 있는 기존 평면 차종 목록 (307개 직렬 검색) -->
+    <details class="flat-search-details">
+      <summary class="flat-search-summary">
+        <span class="flat-summary-text">🔍 기존 전체 차종 목록으로 찾기 (307개 평면 리스트)</span>
+        <span class="flat-summary-hint">클릭하여 펼치기/접기</span>
+      </summary>
+      <div class="flat-search-row">
+        <div class="input-group">
+          <span class="input-label">제조사</span>
+          <select id="selectBrand" class="select-input" onchange="onBrandChange()">
+            <option value="">제조사 선택</option>
+          </select>
+        </div>
 
-    <div class="input-group">
-      <span class="input-label">연식</span>
-      <select id="selectYear" class="select-input" onchange="onYearChange()">
-        <option value="">연식 선택</option>
-      </select>
-    </div>
+        <div class="input-group">
+          <span class="input-label">차종</span>
+          <select id="selectModel" class="select-input" onchange="onModelChange()">
+            <option value="">차종 선택</option>
+          </select>
+        </div>
 
-    <button id="btnSearch" class="btn btn-search" onclick="loadSpecData()">조회</button>
-    <button id="btnExpandAll" class="btn btn-toggle" onclick="toggleAllCards(true)" style="display: none;">전체 펼치기</button>
-    <button id="btnCollapseAll" class="btn btn-toggle" onclick="toggleAllCards(false)" style="display: none;">전체 접기</button>
+        <div class="input-group">
+          <span class="input-label">연식</span>
+          <select id="selectYear" class="select-input" onchange="onYearChange()">
+            <option value="">연식 선택</option>
+          </select>
+        </div>
+      </div>
+    </details>
   </div>
 
   <div class="main-container">
@@ -398,13 +515,14 @@
 
   <script>
     let catalogTree = {};
+    let catalogHierarchy = {};
     let currentSpecData = null;
     let targetGradeParam = null;
 
-    // 1. 초기 트리 로드 및 파라미터 파싱
+    // 1. 초기 계층/트리 로드 및 파라미터 파싱
     window.addEventListener('DOMContentLoaded', async () => {
       loadCatalogStats();
-      await loadCatalogTree();
+      await Promise.all([loadCatalogHierarchy(), loadCatalogTree()]);
       parseUrlParamsAndLoad();
     });
 
@@ -420,6 +538,28 @@
         }
       } catch (e) {
         // 네트워크 오류 시 기본 정적 HTML 텍스트 유지
+      }
+    }
+
+    async function loadCatalogHierarchy() {
+      try {
+        const res = await fetch('/api/catalog-c/hierarchy');
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        catalogHierarchy = await res.json();
+        populateStepBrands();
+      } catch (err) {
+        console.error('카탈로그 계층 로드 실패:', err);
+      }
+    }
+
+    async function loadCatalogTree() {
+      try {
+        const res = await fetch('/api/catalog-c/tree');
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        catalogTree = await res.json();
+        populateBrands();
+      } catch (err) {
+        console.error('카탈로그 트리 로드 실패:', err);
       }
     }
 
@@ -443,19 +583,119 @@
       }
     }
 
-    async function loadCatalogTree() {
-      try {
-        const res = await fetch('/api/catalog-c/tree');
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        catalogTree = await res.json();
-        populateBrands();
-      } catch (err) {
-        console.error('카탈로그 트리 로드 실패:', err);
+    // ==========================================
+    // [11-11-23] 4단 계층 탐색 핸들러 및 헬퍼
+    // 제조사(1) -> 차종묶음(2) -> 세부모델(3) -> 연식(4)
+    // ==========================================
+    function populateStepBrands() {
+      const el = document.getElementById('selectStepBrand');
+      if (!el) return;
+      el.innerHTML = '<option value="">제조사 선택</option>';
+      Object.keys(catalogHierarchy).forEach(brand => {
+        const opt = document.createElement('option');
+        opt.value = brand;
+        opt.textContent = brand;
+        el.appendChild(opt);
+      });
+    }
+
+    function onStepBrandChange() {
+      const brand = document.getElementById('selectStepBrand').value;
+      populateStepGroups(brand);
+      document.getElementById('selectStepModel').innerHTML = '<option value="">세부모델 선택</option>';
+      document.getElementById('selectStepYear').innerHTML = '<option value="">연식 선택</option>';
+
+      // 평면 리스트 제조사 동기화
+      const flatBrand = document.getElementById('selectBrand');
+      if (flatBrand && flatBrand.value !== brand) {
+        flatBrand.value = brand;
+        populateModels(brand);
+        document.getElementById('selectYear').innerHTML = '<option value="">연식 선택</option>';
       }
     }
 
+    function populateStepGroups(brand, selectedGroup) {
+      const el = document.getElementById('selectStepGroup');
+      if (!el) return;
+      el.innerHTML = '<option value="">차종묶음 선택</option>';
+      if (!brand || !catalogHierarchy[brand]) return;
+
+      const groups = Object.keys(catalogHierarchy[brand]).sort((a, b) => a.localeCompare(b, 'ko'));
+      groups.forEach(g => {
+        const opt = document.createElement('option');
+        opt.value = g;
+        opt.textContent = g;
+        if (g === selectedGroup) opt.selected = true;
+        el.appendChild(opt);
+      });
+    }
+
+    function onStepGroupChange() {
+      const brand = document.getElementById('selectStepBrand').value;
+      const group = document.getElementById('selectStepGroup').value;
+      populateStepModels(brand, group);
+      document.getElementById('selectStepYear').innerHTML = '<option value="">연식 선택</option>';
+    }
+
+    function populateStepModels(brand, group, selectedModel) {
+      const el = document.getElementById('selectStepModel');
+      if (!el) return;
+      el.innerHTML = '<option value="">세부모델 선택</option>';
+      if (!brand || !group || !catalogHierarchy[brand] || !catalogHierarchy[brand][group]) return;
+
+      const models = Object.keys(catalogHierarchy[brand][group]);
+      models.forEach(m => {
+        const opt = document.createElement('option');
+        opt.value = m;
+        opt.textContent = m;
+        if (m === selectedModel) opt.selected = true;
+        el.appendChild(opt);
+      });
+    }
+
+    function onStepModelChange() {
+      const brand = document.getElementById('selectStepBrand').value;
+      const group = document.getElementById('selectStepGroup').value;
+      const model = document.getElementById('selectStepModel').value;
+      populateStepYears(brand, group, model);
+
+      // 평면 리스트 차종 동기화
+      const flatModel = document.getElementById('selectModel');
+      if (flatModel && flatModel.value !== model) {
+        flatModel.value = model;
+        populateYears(brand, model);
+      }
+    }
+
+    function populateStepYears(brand, group, model, selectedYear) {
+      const el = document.getElementById('selectStepYear');
+      if (!el) return;
+      el.innerHTML = '<option value="">연식 선택</option>';
+      if (!brand || !group || !model || !catalogHierarchy[brand] || !catalogHierarchy[brand][group] || !catalogHierarchy[brand][group][model]) return;
+
+      const years = catalogHierarchy[brand][group][model];
+      years.forEach(y => {
+        const opt = document.createElement('option');
+        opt.value = y;
+        opt.textContent = `${y}년형`;
+        if (String(y) === String(selectedYear)) opt.selected = true;
+        el.appendChild(opt);
+      });
+    }
+
+    function onStepYearChange() {
+      const y = document.getElementById('selectStepYear').value;
+      const flatYear = document.getElementById('selectYear');
+      if (flatYear) flatYear.value = y;
+      loadSpecData();
+    }
+
+    // ==========================================
+    // 기존 평면 리스트(전체 307개 차종) 핸들러
+    // ==========================================
     function populateBrands() {
       const el = document.getElementById('selectBrand');
+      if (!el) return;
       el.innerHTML = '<option value="">제조사 선택</option>';
       Object.keys(catalogTree).forEach(brand => {
         const opt = document.createElement('option');
@@ -469,10 +709,20 @@
       const brand = document.getElementById('selectBrand').value;
       populateModels(brand);
       document.getElementById('selectYear').innerHTML = '<option value="">연식 선택</option>';
+
+      // 4단 탐색 제조사 동기화
+      const stepBrand = document.getElementById('selectStepBrand');
+      if (stepBrand && stepBrand.value !== brand) {
+        stepBrand.value = brand;
+        populateStepGroups(brand);
+        document.getElementById('selectStepModel').innerHTML = '<option value="">세부모델 선택</option>';
+        document.getElementById('selectStepYear').innerHTML = '<option value="">연식 선택</option>';
+      }
     }
 
     function populateModels(brand, selectedModel) {
       const el = document.getElementById('selectModel');
+      if (!el) return;
       el.innerHTML = '<option value="">차종 선택</option>';
       if (!brand || !catalogTree[brand]) return;
 
@@ -490,10 +740,36 @@
       const brand = document.getElementById('selectBrand').value;
       const model = document.getElementById('selectModel').value;
       populateYears(brand, model);
+
+      // 4단 탐색 동기화 (계층 트리에서 차종묶음 역추적)
+      syncStepFromFlat(brand, model);
+    }
+
+    function syncStepFromFlat(brand, model, selectedYear) {
+      if (!brand || !model || !catalogHierarchy[brand]) return;
+      let matchedGroup = null;
+      for (const grp in catalogHierarchy[brand]) {
+        if (catalogHierarchy[brand][grp][model]) {
+          matchedGroup = grp;
+          break;
+        }
+      }
+      if (matchedGroup) {
+        const stepBrand = document.getElementById('selectStepBrand');
+        if (stepBrand) stepBrand.value = brand;
+        populateStepGroups(brand, matchedGroup);
+        populateStepModels(brand, matchedGroup, model);
+        if (selectedYear) {
+          populateStepYears(brand, matchedGroup, model, selectedYear);
+          const stepYear = document.getElementById('selectStepYear');
+          if (stepYear) stepYear.value = selectedYear;
+        }
+      }
     }
 
     function populateYears(brand, model, selectedYear) {
       const el = document.getElementById('selectYear');
+      if (!el) return;
       el.innerHTML = '<option value="">연식 선택</option>';
       if (!brand || !model || !catalogTree[brand] || !catalogTree[brand][model]) return;
 
@@ -508,65 +784,110 @@
     }
 
     function onYearChange() {
-      // 연식 선택 완료 시 자동 조회 편의 제공
+      const y = document.getElementById('selectYear').value;
+      const stepYear = document.getElementById('selectStepYear');
+      if (stepYear) stepYear.value = y;
       loadSpecData();
     }
 
+    // ==========================================
+    // 외부 해시/콕핏 연동 및 사양 조회
+    // ==========================================
     function selectAndLoad(model, year, grade) {
-      // 트리에서 해당 모델이 속한 브랜드 찾기
       let foundBrand = null;
+      let foundGroup = null;
       let matchedModel = null;
 
-      // 1) 정확 일치
-      for (const brand in catalogTree) {
-        if (catalogTree[brand][model]) {
-          foundBrand = brand;
-          matchedModel = model;
-          break;
+      // 1) 계층 트리에서 정확 일치 탐색
+      for (const b in catalogHierarchy) {
+        for (const g in catalogHierarchy[b]) {
+          if (catalogHierarchy[b][g][model]) {
+            foundBrand = b;
+            foundGroup = g;
+            matchedModel = model;
+            break;
+          }
         }
+        if (foundBrand) break;
       }
 
-      // 2) 부분 일치 (예: 괄호 코드 차이)
+      // 2) 부분 일치 탐색
       if (!foundBrand) {
         const cleanM = model.replace(/[\s\(\)\-_]+/g, '').toLowerCase();
-        for (const brand in catalogTree) {
-          for (const m in catalogTree[brand]) {
-            const clean = m.replace(/[\s\(\)\-_]+/g, '').toLowerCase();
-            if (clean === cleanM || clean.includes(cleanM) || cleanM.includes(clean)) {
-              foundBrand = brand;
-              matchedModel = m;
-              break;
+        for (const b in catalogHierarchy) {
+          for (const g in catalogHierarchy[b]) {
+            for (const m in catalogHierarchy[b][g]) {
+              const clean = m.replace(/[\s\(\)\-_]+/g, '').toLowerCase();
+              if (clean === cleanM || clean.includes(cleanM) || cleanM.includes(clean)) {
+                foundBrand = b;
+                foundGroup = g;
+                matchedModel = m;
+                break;
+              }
             }
+            if (foundBrand) break;
           }
           if (foundBrand) break;
         }
       }
 
+      // 3) 폴백: catalogTree에서 탐색
+      if (!foundBrand) {
+        for (const b in catalogTree) {
+          if (catalogTree[b][model]) {
+            foundBrand = b;
+            matchedModel = model;
+            break;
+          }
+        }
+      }
+
       if (foundBrand && matchedModel) {
-        document.getElementById('selectBrand').value = foundBrand;
-        populateModels(foundBrand, matchedModel);
-        
-        // 연식 숫자 정규화
         const yDigits = year.match(/20\d{2}/) ? year.match(/20\d{2}/)[0] : year;
+
+        // 4단 탐색 UI 세팅
+        const stepBrand = document.getElementById('selectStepBrand');
+        if (stepBrand) stepBrand.value = foundBrand;
+        if (foundGroup) {
+          populateStepGroups(foundBrand, foundGroup);
+          populateStepModels(foundBrand, foundGroup, matchedModel);
+          populateStepYears(foundBrand, foundGroup, matchedModel, yDigits);
+          const stepYear = document.getElementById('selectStepYear');
+          if (stepYear) stepYear.value = yDigits;
+        }
+
+        // 평면 검색 UI 세팅
+        const flatBrand = document.getElementById('selectBrand');
+        if (flatBrand) flatBrand.value = foundBrand;
+        populateModels(foundBrand, matchedModel);
         populateYears(foundBrand, matchedModel, yDigits);
-        document.getElementById('selectYear').value = yDigits;
+        const flatYear = document.getElementById('selectYear');
+        if (flatYear) flatYear.value = yDigits;
 
         targetGradeParam = grade;
         loadSpecData();
       } else {
-        // 브랜드 없이 직접 백엔드 호출 시도
+        // 브랜드 정보 미일치 시 백엔드 직접 호출
         targetGradeParam = grade;
         fetchSpec(model, year, grade);
       }
     }
 
     async function loadSpecData() {
-      const model = document.getElementById('selectModel').value;
-      const year = document.getElementById('selectYear').value;
+      const stepModel = document.getElementById('selectStepModel') ? document.getElementById('selectStepModel').value : '';
+      const flatModel = document.getElementById('selectModel') ? document.getElementById('selectModel').value : '';
+      const model = stepModel || flatModel;
+
+      const stepYear = document.getElementById('selectStepYear') ? document.getElementById('selectStepYear').value : '';
+      const flatYear = document.getElementById('selectYear') ? document.getElementById('selectYear').value : '';
+      const year = stepYear || flatYear;
+
       if (!model || !year) {
         alert('차종과 연식을 모두 선택해주세요.');
         return;
       }
+      fetchSpec(model, year, targetGradeParam);
+    }
       fetchSpec(model, year, targetGradeParam);
     }
 

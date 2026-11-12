@@ -581,6 +581,15 @@ def get_catalog_c_spec_endpoint(car_name: str = "", year: str = "", grade: str =
     return get_catalog_c_spec(car_name=car_name, year=year, grade=grade)
 
 
+@app.get("/api/catalog-c/hierarchy")
+def get_catalog_c_hierarchy_endpoint():
+    """
+    [11-11-23] 제이책(C) 계층 탐색 API (제조사 -> 차종묶음 -> 세부모델 -> 연식)
+    """
+    from services.catalog_c_service import get_catalog_c_hierarchy
+    return get_catalog_c_hierarchy()
+
+
 # ----------------------------------------------------
 # 0-3. 엔카 최근 완판(팔린매물) 실거래 스냅샷 통계 API (Streamlit 8501 100% 동일 로직)
 # ----------------------------------------------------
