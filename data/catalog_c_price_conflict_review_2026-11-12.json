@@ -1,0 +1,23 @@
+[
+  {
+    "model": "쏘울 EV",
+    "year": "2018",
+    "trim": "",
+    "trans": "auto",
+    "reason": "100만원 미만 비정상 기본가 존재로 검토 보존",
+    "grades": [
+      {
+        "name": "EV",
+        "base_price": 20000,
+        "source": "encar",
+        "mission": "A/T"
+      },
+      {
+        "name": "전기 2WD EV",
+        "base_price": 45580000,
+        "source": "danawa",
+        "mission": ""
+      }
+    ]
+  }
+]
