@@ -1,0 +1,211 @@
+[
+  {
+    "model": "쏘나타 디 엣지(DN8)",
+    "year": "2025",
+    "grade": "lpg 2.0 2WD 프리미엄",
+    "price": 250000,
+    "retained_name": "하이패스 + ECM 룸미러",
+    "removed_name": "하이패스 + ECM",
+    "retained_source": "danawa",
+    "removed_source": "danawa",
+    "reason": "약칭 vs 풀어쓴 형태 단일화 (긴 이름 유지)"
+  },
+  {
+    "model": "쏘나타 (DN8)",
+    "year": "2023",
+    "grade": "lpg 2.0 2WD 모던",
+    "price": 250000,
+    "retained_name": "하이패스 시스템 + ECM 룸미러",
+    "removed_name": "하이패스 + ECM",
+    "retained_source": "danawa",
+    "removed_source": "danawa",
+    "reason": "약칭 vs 풀어쓴 형태 단일화 (긴 이름 유지)"
+  },
+  {
+    "model": "더 뉴 아반떼",
+    "year": "2023",
+    "grade": "lpg 1.6 2WD 스마트",
+    "price": 250000,
+    "retained_name": "하이패스+ECM룸미러",
+    "removed_name": "하이패스 + ECM",
+    "retained_source": "danawa",
+    "removed_source": "danawa",
+    "reason": "약칭 vs 풀어쓴 형태 단일화 (긴 이름 유지)"
+  },
+  {
+    "model": "더 뉴 아반떼",
+    "year": "2023",
+    "grade": "lpg 1.6 2WD 모던",
+    "price": 250000,
+    "retained_name": "하이패스+ECM룸미러",
+    "removed_name": "하이패스 + ECM",
+    "retained_source": "danawa",
+    "removed_source": "danawa",
+    "reason": "약칭 vs 풀어쓴 형태 단일화 (긴 이름 유지)"
+  },
+  {
+    "model": "니로",
+    "year": "2016",
+    "grade": "프레스티지",
+    "price": 1620000,
+    "retained_name": "내비게이션 UVO 2.0 (8인치) + KRELL 프리미엄 사운드 시스템 (8 스피커, 외장앰프 포함) + 전자식 룸미러 (ECM) + 자동 요금징수 시스템 (ETCS)",
+    "removed_name": "내비게이션(8인치) + KRELL 프리미엄 사운드 시스템(8스피커, 외장앰프 포함) + 전자식 룸미러(ECM) + 자동 요금징수 시스템(ETCS)",
+    "retained_source": "encar",
+    "removed_source": "danawa",
+    "reason": "약칭 vs 풀어쓴 형태 단일화 (긴 이름 유지)"
+  },
+  {
+    "model": "니로",
+    "year": "2016",
+    "grade": "노블레스",
+    "price": 1620000,
+    "retained_name": "내비게이션 UVO 2.0 (8인치) + KRELL 프리미엄 사운드 시스템 (8 스피커, 외장앰프 포함) + 전자식 룸미러 (ECM) + 자동 요금징수 시스템 (ETCS)",
+    "removed_name": "내비게이션(8인치) + KRELL 프리미엄 사운드 시스템(8스피커, 외장앰프 포함) + 전자식 룸미러(ECM) + 자동 요금징수 시스템(ETCS)",
+    "retained_source": "encar",
+    "removed_source": "danawa",
+    "reason": "약칭 vs 풀어쓴 형태 단일화 (긴 이름 유지)"
+  },
+  {
+    "model": "스포티지 더 볼드",
+    "year": "2021",
+    "grade": "디젤 2.0 2WD 프레스티지 그래비티",
+    "price": 1330000,
+    "retained_name": "UVO 내비게이션 팩",
+    "removed_name": "내비게이션 팩",
+    "retained_source": "danawa",
+    "removed_source": "danawa",
+    "reason": "약칭 vs 풀어쓴 형태 단일화 (긴 이름 유지)"
+  },
+  {
+    "model": "스포티지 더 볼드",
+    "year": "2021",
+    "grade": "디젤 2.0 4WD 프레스티지 그래비티",
+    "price": 1330000,
+    "retained_name": "UVO 내비게이션 팩",
+    "removed_name": "내비게이션 팩",
+    "retained_source": "danawa",
+    "removed_source": "danawa",
+    "reason": "약칭 vs 풀어쓴 형태 단일화 (긴 이름 유지)"
+  },
+  {
+    "model": "스포티지 4세대",
+    "year": "2018",
+    "grade": "디젤 2.0 2WD 프레스티지",
+    "price": 440000,
+    "retained_name": "운전석 통풍시트 + 전자식 룸미러(ECM) & 자동요금 징수 시스템(ETCS)",
+    "removed_name": "운전석 통풍시트 + ECM & ETCS",
+    "retained_source": "encar",
+    "removed_source": "danawa",
+    "reason": "약칭 vs 풀어쓴 형태 단일화 (긴 이름 유지)"
+  },
+  {
+    "model": "스포티지 4세대",
+    "year": "2018",
+    "grade": "디젤 2.0 2WD 스타일 에디션",
+    "price": 250000,
+    "retained_name": "전자식 룸미러(ECM) & 자동요금 징수 시스템(ETCS)",
+    "removed_name": "ECM & ETCS",
+    "retained_source": "encar",
+    "removed_source": "danawa",
+    "reason": "약칭 vs 풀어쓴 형태 단일화 (긴 이름 유지)"
+  },
+  {
+    "model": "스포티지 4세대",
+    "year": "2018",
+    "grade": "디젤 2.0 4WD 트렌디",
+    "price": 250000,
+    "retained_name": "전자식 룸미러(ECM) & 자동요금 징수 시스템(ETCS)",
+    "removed_name": "ECM & ETCS",
+    "retained_source": "encar",
+    "removed_source": "danawa",
+    "reason": "약칭 vs 풀어쓴 형태 단일화 (긴 이름 유지)"
+  },
+  {
+    "model": "스포티지 4세대",
+    "year": "2018",
+    "grade": "디젤 2.0 4WD 프레스티지",
+    "price": 440000,
+    "retained_name": "운전석 통풍시트 + 전자식 룸미러(ECM) & 자동요금 징수 시스템(ETCS)",
+    "removed_name": "운전석 통풍시트 + ECM & ETCS",
+    "retained_source": "encar",
+    "removed_source": "danawa",
+    "reason": "약칭 vs 풀어쓴 형태 단일화 (긴 이름 유지)"
+  },
+  {
+    "model": "스포티지 4세대",
+    "year": "2018",
+    "grade": "디젤 2.0 4WD 스타일 에디션",
+    "price": 250000,
+    "retained_name": "전자식 룸미러(ECM) & 자동요금 징수 시스템(ETCS)",
+    "removed_name": "ECM & ETCS",
+    "retained_source": "encar",
+    "removed_source": "danawa",
+    "reason": "약칭 vs 풀어쓴 형태 단일화 (긴 이름 유지)"
+  },
+  {
+    "model": "스포티지 4세대",
+    "year": "2018",
+    "grade": "가솔린 2.0 2WD 노블레스",
+    "price": 250000,
+    "retained_name": "전자식 룸미러(ECM)&자동요금 징수 시스템(ETCS)",
+    "removed_name": "ECM & ETCS",
+    "retained_source": "encar",
+    "removed_source": "danawa",
+    "reason": "약칭 vs 풀어쓴 형태 단일화 (긴 이름 유지)"
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2021",
+    "grade": "디젤 1.6 2WD LS 디럭스",
+    "price": 250000,
+    "retained_name": "ECM룸미러 & 톨게이트 자동결제시스템(ETCS)",
+    "removed_name": "ECM 룸미러 + ETCS",
+    "retained_source": "danawa",
+    "removed_source": "danawa",
+    "reason": "약칭 vs 풀어쓴 형태 단일화 (긴 이름 유지)"
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2019",
+    "grade": "디젤 1.6 2WD LS 디럭스",
+    "price": 250000,
+    "retained_name": "ECM룸미러 & 톨게이트 자동결제시스템 (ETCS)",
+    "removed_name": "ECM 룸미러 + ETCS",
+    "retained_source": "danawa",
+    "removed_source": "danawa",
+    "reason": "약칭 vs 풀어쓴 형태 단일화 (긴 이름 유지)"
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2018",
+    "grade": "1.6 디젤 LS",
+    "price": 240000,
+    "retained_name": "ECM룸미러 & 톨게이트 자동결제시스템(ETCS)",
+    "removed_name": "ECM 룸미러 + ETCS",
+    "retained_source": "encar",
+    "removed_source": "danawa",
+    "reason": "약칭 vs 풀어쓴 형태 단일화 (긴 이름 유지)"
+  },
+  {
+    "model": "더 뉴 트랙스",
+    "year": "2017",
+    "grade": "1.6 디젤 LS",
+    "price": 240000,
+    "retained_name": "ECM룸미러 & 톨게이트 자동결제시스템(ETCS)",
+    "removed_name": "ECM 룸미러 + ETCS",
+    "retained_source": "encar",
+    "removed_source": "danawa",
+    "reason": "약칭 vs 풀어쓴 형태 단일화 (긴 이름 유지)"
+  },
+  {
+    "model": "트랙스",
+    "year": "2016",
+    "grade": "1.6 디젤 LS",
+    "price": 240000,
+    "retained_name": "ECM룸미러+톨게이트 자동결제시스템(ETCS)",
+    "removed_name": "ECM 룸미러 + ETCS",
+    "retained_source": "encar",
+    "removed_source": "danawa",
+    "reason": "약칭 vs 풀어쓴 형태 단일화 (긴 이름 유지)"
+  }
+]
