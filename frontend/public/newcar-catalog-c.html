@@ -954,6 +954,12 @@
         </div>
       `;
 
+      // 순정 악세사리 표 (연식당 한 번, 악세사리가 있을 때만 표시)
+      const accessories = data.accessories || {};
+      if (Object.keys(accessories).length > 0) {
+        html += renderAccessoriesTable(accessories);
+      }
+
       html += `<div class="grades-list">`;
 
       gradeKeys.forEach((gname, idx) => {
@@ -1084,6 +1090,60 @@
             ${rows}
           </tbody>
         </table>
+      `;
+    }
+
+    function renderAccessoriesTable(accessories) {
+      const accKeys = Object.keys(accessories || {});
+      if (accKeys.length === 0) return '';
+
+      let rows = accKeys.map((aname, idx) => {
+        const item = accessories[aname];
+        const pMan = item.price_man != null ? Number(item.price_man).toLocaleString() : (item.price != null ? Math.round(item.price / 10000).toLocaleString() : '-');
+        const pWon = item.price != null ? Number(item.price).toLocaleString() : '-';
+        const src = (item.source || 'danawa').toLowerCase();
+        const srcClass = src === 'danawa' ? 'source-danawa' : 'source-encar';
+        const srcLabel = src === 'danawa' ? '다나와' : '엔카공식';
+
+        return `
+          <tr>
+            <td style="width: 32px; color: #52525b; font-size: 11px;">${idx + 1}</td>
+            <td>
+              <div class="opt-name">${escapeHtml(aname)}</div>
+              ${item.desc ? `<div class="opt-desc">${escapeHtml(item.desc)}</div>` : ''}
+            </td>
+            <td class="opt-price">
+              ${pMan}만원 <span style="font-size: 11px; color: #71717a; font-weight: normal;">(${pWon}원)</span>
+            </td>
+            <td class="opt-kind" style="width: 80px;">순정 악세사리</td>
+            <td style="width: 70px;">
+              <span class="source-badge ${srcClass}">${srcLabel}</span>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      return `
+        <div class="accessories-section" style="margin-bottom: 20px; background: #18181b; border: 1px solid #27272a; border-radius: 8px; padding: 14px 16px;">
+          <div style="font-size: 13px; font-weight: 700; color: #e4e4e7; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+            <span>🧩 순정 악세사리</span>
+            <span style="font-size: 11px; font-weight: 400; color: #a1a1aa;">(${accKeys.length}개 - 연식 공통 적용)</span>
+          </div>
+          <table class="options-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>악세사리 품명</th>
+                <th>가격</th>
+                <th>구분</th>
+                <th>출처</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${rows}
+            </tbody>
+          </table>
+        </div>
       `;
     }
 

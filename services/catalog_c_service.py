@@ -274,14 +274,30 @@ def get_catalog_c_spec(car_name: str = "", year: str = "", grade: str = "") -> D
             "year": s_year,
             "available_years": list(model_data.keys()),
             "grades": {},
-            "total_grades": 0
+            "total_grades": 0,
+            "accessories": {}
         }
 
     grades_raw = model_data[matched_year]
 
-    # 3. 등급별 스펙 및 충돌 여부 가공
+    # 3. 연식 레벨 악세사리 가공
+    _accessories_raw = grades_raw.get('_accessories', {})
+    accessories_map = {}
+    for aname, ainfo in _accessories_raw.items():
+        aprc = ainfo.get("price")
+        aprc_man = round(aprc / 10000) if aprc is not None else None
+        accessories_map[aname] = {
+            "price": aprc,
+            "price_man": aprc_man,
+            "desc": ainfo.get("desc"),
+            "source": ainfo.get("source", "danawa")
+        }
+
+    # 4. 등급별 스펙 및 충돌 여부 가공
     enriched_grades = {}
     for gname, gdata in grades_raw.items():
+        if gname.startswith('_'):
+            continue
         bp = gdata.get("base_price")
         bp_man = round(bp / 10000) if bp is not None else None
         
@@ -332,5 +348,6 @@ def get_catalog_c_spec(car_name: str = "", year: str = "", grade: str = "") -> D
         "query_grade": s_grade or None,
         "target_grade": target_grade_match,
         "total_grades": len(enriched_grades),
-        "grades": enriched_grades
+        "grades": enriched_grades,
+        "accessories": accessories_map
     }
