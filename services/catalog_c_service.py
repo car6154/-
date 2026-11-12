@@ -15,12 +15,13 @@ from typing import Dict, Any, Optional, List
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_DIR = os.path.join(PROJECT_ROOT, "data")
 CATALOG_C_FILE = os.path.join(DATA_DIR, "catalog_c.json")
-CONFLICTS_FILE = os.path.join(DATA_DIR, "catalog_c_price_conflicts_v2_2026-11-12.json")
+CONFLICTS_FILE = os.path.join(DATA_DIR, "catalog_c_price_conflicts_v3_2026-11-12.json")
 TARGETS_INDEX_FILE = os.path.join(DATA_DIR, "encar_crawl_targets_index.json")
 
 _CATALOG_C_CACHE: Optional[Dict[str, Any]] = None
 _CONFLICTS_INDEX_CACHE: Optional[Dict[str, Any]] = None
 _CATALOG_C_TREE_CACHE: Optional[Dict[str, Any]] = None
+_CATALOG_C_STATS_CACHE: Optional[Dict[str, Any]] = None
 
 
 def load_catalog_c() -> Dict[str, Any]:
@@ -70,6 +71,33 @@ def load_conflicts_index() -> Dict[str, Any]:
     except Exception as e:
         print(f"[CatalogC] conflicts index 로드 실패: {e}")
         return {}
+
+
+def get_catalog_c_stats() -> Dict[str, Any]:
+    """
+    제이책(C) 실시간 요약 통계 (차종 수, 연식 수, 등급 수, 옵션 수)
+    """
+    global _CATALOG_C_STATS_CACHE
+    if _CATALOG_C_STATS_CACHE is not None:
+        return _CATALOG_C_STATS_CACHE
+
+    catalog = load_catalog_c()
+    if not catalog:
+        return {"total_models": 0, "total_years": 0, "total_grades": 0, "total_options": 0}
+
+    total_models = len(catalog)
+    total_years = sum(len(yrs) for yrs in catalog.values())
+    total_grades = sum(len(g) for yrs in catalog.values() for g in yrs.values())
+    total_options = sum(len(gdata.get("options", {})) for yrs in catalog.values() for grades in yrs.values() for gdata in grades.values())
+
+    _CATALOG_C_STATS_CACHE = {
+        "total_models": total_models,
+        "total_years": total_years,
+        "total_grades": total_grades,
+        "total_options": total_options,
+        "summary_text": f"{total_models:,}개 차종 · {total_years:,}개 연식 · {total_grades:,}개 등급 탑재"
+    }
+    return _CATALOG_C_STATS_CACHE
 
 
 def get_catalog_c_tree() -> Dict[str, Any]:

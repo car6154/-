@@ -53,9 +53,9 @@ def run_tests():
     print(f"Source: {qm6_re_data['source']}, is_conflict: {qm6_re_data['is_conflict']}")
     assert qm6_re_data["base_price"] == 32200000, f"Expected 32,200,000 won, got {qm6_re_data['base_price']}"
     assert qm6_re_data["source"] == "encar"
-    assert qm6_re_data["is_conflict"] is True
+    assert qm6_re_data["is_conflict"] is False, "QM6 2024 RE 다나와 등급 삭제 후 충돌 표시 소멸 확인"
 
-    print("\n✅ [11-11-15] 모든 필수 검증 100% 통과!")
+    print("\n✅ [11-11-20] 모든 필수 검증 100% 통과!")
 
 if __name__ == "__main__":
     run_tests()

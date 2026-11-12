@@ -563,6 +563,15 @@ def get_catalog_c_tree_endpoint():
     return get_catalog_c_tree()
 
 
+@app.get("/api/catalog-c/stats")
+def get_catalog_c_stats_endpoint():
+    """
+    제이책(C) 실시간 요약 통계 조회 (차종, 연식, 등급, 옵션 수)
+    """
+    from services.catalog_c_service import get_catalog_c_stats
+    return get_catalog_c_stats()
+
+
 @app.get("/api/catalog-c/spec")
 def get_catalog_c_spec_endpoint(car_name: str = "", year: str = "", grade: str = ""):
     """

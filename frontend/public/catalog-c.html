@@ -351,8 +351,8 @@
       <div class="header-badge">통합 뷰어</div>
       <div class="header-subbadge">엔카 v2 + 다나와 병합본</div>
     </div>
-    <div style="font-size: 11px; color: #71717a;">
-      307개 차종 · 1,329개 연식 · 15,216개 등급 탑재
+    <div id="catalog-c-subtitle" style="font-size: 11px; color: #71717a;">
+      307개 차종 · 1,329개 연식 · 14,644개 등급 탑재
     </div>
   </header>
 
@@ -403,9 +403,25 @@
 
     // 1. 초기 트리 로드 및 파라미터 파싱
     window.addEventListener('DOMContentLoaded', async () => {
+      loadCatalogStats();
       await loadCatalogTree();
       parseUrlParamsAndLoad();
     });
+
+    async function loadCatalogStats() {
+      try {
+        const res = await fetch('/api/catalog-c/stats');
+        if (res.ok) {
+          const stats = await res.json();
+          if (stats && stats.summary_text) {
+            const el = document.getElementById('catalog-c-subtitle');
+            if (el) el.textContent = stats.summary_text;
+          }
+        }
+      } catch (e) {
+        // 네트워크 오류 시 기본 정적 HTML 텍스트 유지
+      }
+    }
 
     window.addEventListener('hashchange', () => {
       parseUrlParamsAndLoad();
