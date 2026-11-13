@@ -196,6 +196,8 @@ def match_catalog_grade(query_grade: str, year_book: dict):
 
     candidates = []
     for book_key, book_spec in year_book.items():
+        if str(book_key).startswith("_"):
+            continue
         if isinstance(book_spec, dict):
             c = parse_grade_tokens(book_key)
             candidates.append((book_key, book_spec, c))
@@ -599,7 +601,7 @@ def get_pilot_catalog_spec(
         "base_price_man": base_price_man,
         "options": cleaned_options,
         "standard_features": standard_features,
-        "accessories": grade_spec.get("accessories", {}),
+        "accessories": grade_spec.get("accessories") or (year_book.get("_accessories", {}) if isinstance(year_book, dict) else {}) or {},
         "notices": grade_spec.get("notices") or (year_book.get("_notices") if isinstance(year_book, dict) else []) or []
     }
 
