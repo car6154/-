@@ -510275,6 +510275,32 @@
           }
         },
         "name": "LT"
+      },
+      "LS+": {
+        "base_price": 12210000,
+        "mission": "M/T",
+        "source": "encar",
+        "options": {
+          "C-TECH Package": {
+            "price": 1600000,
+            "kind": "optional",
+            "desc": null,
+            "source": "encar"
+          },
+          "14인치 알로이휠": {
+            "price": 200000,
+            "kind": "optional",
+            "desc": null,
+            "source": "encar"
+          },
+          "마이링크&후방카메라(C-TECH 선택 시)": {
+            "price": 500000,
+            "kind": "optional",
+            "desc": null,
+            "source": "encar"
+          }
+        },
+        "name": "LS+"
       }
     },
     "2014": {
