@@ -99,20 +99,24 @@ def run_cockpit_verification():
     print(f"하이브리드 시그니처: {spec_sor_hev.get('grade')} -> {spec_sor_hev.get('base_price'):,}원")
     assert spec_sor_hev.get('base_price') == 42320000, f"Expected 42,320,000원, got {spec_sor_hev.get('base_price')}"
 
-    # 4. 폴백 안전장치 검증 (catalog_c 파일이 없을 때 catalog_by_source_v2.json으로 폴백되는지)
-    print("\n--- [검증 4] 폴백 안전장치 검증 ---")
+    # 4. 새책(C) 로드 실패 시 예외 발생 검증 (폴백 없이 즉시 에러 감지)
+    print("\n--- [검증 4] 새책(C) 파일 누락 시 예외 발생 검증 ---")
     import services.catalog_by_source_service as c_srv
     orig_path = c_srv.CATALOG_C_PATH
     c_srv.CATALOG_C_PATH = "data/non_existent_catalog_c.json"
     c_srv._CATALOG_V2_CACHE = None
-    fallback_cat = c_srv.load_catalog_by_source_v2()
-    print(f"폴백 로드 결과 키: {list(fallback_cat.keys())[:3]}")
-    assert 'danawa' in fallback_cat, "폴백 catalog_by_source_v2.json 로드 실패!"
-    print("✅ 폴백 정상 작동 확인 완료!")
+    raised_exc = None
+    try:
+        c_srv.load_catalog_by_source_v2()
+    except Exception as e:
+        raised_exc = e
+    finally:
+        c_srv.CATALOG_C_PATH = orig_path
+        c_srv._CATALOG_V2_CACHE = None
 
-    # 원상 복구
-    c_srv.CATALOG_C_PATH = orig_path
-    c_srv._CATALOG_V2_CACHE = None
+    assert raised_exc is not None, "새책(C) 파일이 없을 때 예외가 발생해야 합니다!"
+    print(f"발생 예외 확인: {type(raised_exc).__name__}: {raised_exc}")
+    print("✅ 새책(C) 누락 시 예외 발생 검증 완료!")
 
     print("\n🎉 모든 콕핏 검증 100% 통과!")
 

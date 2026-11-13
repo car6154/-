@@ -9,7 +9,6 @@ from typing import Dict, Any, Optional
 from services.data_processor import DataProcessor
 
 CATALOG_C_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "catalog_c.json")
-CATALOG_V2_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "catalog_by_source_v2.json")
 
 _CATALOG_V2_CACHE: Optional[Dict[str, Any]] = None
 
@@ -377,43 +376,40 @@ def match_catalog_grade(query_grade: str, year_book: dict):
 
 def load_catalog_by_source_v2() -> Dict[str, Any]:
     """
-    [11-11-17] 제이책(C) 로드 (우선) 및 구형 V2 책 폴백 (안전장치)
-    - data/catalog_c.json 우선 로드하여 danawa/encar/c 키 및 모델 직접 접근 딕셔너리로 제공
-    - data/catalog_c.json 로드 실패 시 기존 data/catalog_by_source_v2.json으로 폴백
+    [11-12-13] 제이책(C) 전용 로드 (구형 V2 폴백 제거)
+    - data/catalog_c.json만 로드하여 danawa/encar/c 키 및 모델 직접 접근 딕셔너리로 제공
+    - 로드 실패 시 빈 딕셔너리를 반환하지 않고 명시적 예외(FileNotFoundError/RuntimeError)를 발생시킴
     """
     global _CATALOG_V2_CACHE
     if _CATALOG_V2_CACHE is not None:
         return _CATALOG_V2_CACHE
 
-    # 1. 제이책(C) 우선 로드 시도
-    if os.path.exists(CATALOG_C_PATH):
-        try:
-            with open(CATALOG_C_PATH, "r", encoding="utf-8") as f:
-                cat_c = json.load(f)
-            if cat_c and isinstance(cat_c, dict):
-                # 기존 코드가 .get("danawa") 또는 .get("encar") 또는 .get(source)를 호출하므로 모두 제이책 C로 연결
-                wrapped = {
-                    "c": cat_c,
-                    "danawa": cat_c,
-                    "encar": cat_c,
-                    **cat_c
-                }
-                _CATALOG_V2_CACHE = wrapped
-                return _CATALOG_V2_CACHE
-        except Exception as e:
-            print(f"[catalog_by_source_service] 제이책(C) 로드 실패: {e}, 구형 V2 책으로 폴백합니다.")
+    if not os.path.exists(CATALOG_C_PATH):
+        msg = f"[catalog_by_source_service] 제이책(C) 파일이 존재하지 않습니다: {CATALOG_C_PATH}"
+        print(msg)
+        raise FileNotFoundError(msg)
 
-    # 2. 폴백: 기존 catalog_by_source_v2.json
-    if os.path.exists(CATALOG_V2_PATH):
-        try:
-            with open(CATALOG_V2_PATH, "r", encoding="utf-8") as f:
-                _CATALOG_V2_CACHE = json.load(f)
-                return _CATALOG_V2_CACHE
-        except Exception as e:
-            print(f"[catalog_by_source_service] 구형 V2 책 JSON 로드 오류: {e}")
-            return {}
+    try:
+        with open(CATALOG_C_PATH, "r", encoding="utf-8") as f:
+            cat_c = json.load(f)
+    except Exception as e:
+        msg = f"[catalog_by_source_service] 제이책(C) JSON 로드 실패 ({CATALOG_C_PATH}): {e}"
+        print(msg)
+        raise RuntimeError(msg) from e
 
-    return {}
+    if not cat_c or not isinstance(cat_c, dict):
+        msg = f"[catalog_by_source_service] 제이책(C) 데이터가 비어 있거나 올바른 딕셔너리 형식이 아닙니다: {CATALOG_C_PATH}"
+        print(msg)
+        raise RuntimeError(msg)
+
+    wrapped = {
+        "c": cat_c,
+        "danawa": cat_c,
+        "encar": cat_c,
+        **cat_c
+    }
+    _CATALOG_V2_CACHE = wrapped
+    return _CATALOG_V2_CACHE
 
 
 def get_pilot_catalog_spec(
